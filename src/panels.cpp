@@ -2034,15 +2034,15 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                 if( !selected ) {
                     mvwprintz( w, row_indx.first + 1, 4, toggle_color, name );
                 } else {
-                    if( modified_index < row_indx.first ) {
+                    if( modified_index < row_indx.second ) {
                         vertical_offset = 2;
-                    } else if( modified_index == row_indx.first && row_indx.first < source_index ) {
+                    } else if( modified_index == row_indx.second && row_indx.second < source_index ) {
                         vertical_offset = 2;
                     } else {
                         vertical_offset = 1;
                     }
                     mvwprintz( w, row_indx.first + vertical_offset, 4, toggle_color, name );
-                    if( source_index == row_indx.first ) {
+                    if( source_index == row_indx.second ) {
                         if( modified_index < source_index ) {
                             selected_offset = 0;
                         } else {

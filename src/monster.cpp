@@ -16,6 +16,7 @@
 #include "field.h"
 #include "game.h"
 #include "item.h"
+#include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -233,6 +234,14 @@ monster::monster( const mtype_id &id ) : monster()
     if( monster::has_flag( MF_AQUATIC ) ) {
         fish_population = dice( 1, 20 );
     }
+    if( monster::has_flag( MF_RIDEABLE_MECH ) ) {
+        itype_id mech_bat = itype_id( type->mech_battery );
+        const itype &type = *item::find_type( mech_bat );
+        int max_charge = type.magazine->capacity;
+        item mech_bat_item = item( mech_bat, 0 );
+        mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero );
+        battery_item = mech_bat_item;
+    }
 }
 
 monster::monster( const mtype_id &id, const tripoint &p ) : monster( id )
@@ -349,7 +358,8 @@ void monster::try_upgrade( bool pin_time )
             upgrade_time += current_day;
         } else {
             // offset by starting season
-            upgrade_time += calendar::start_of_cataclysm;
+            // @todo revisit this and make it simpler
+            upgrade_time += to_turn<int>( calendar::start_of_cataclysm );
         }
     }
 
@@ -495,8 +505,7 @@ std::string monster::name( unsigned int quantity ) const
         return std::string();
     }
     if( !unique_name.empty() ) {
-        return string_format( "%s: %s",
-                              ( type->nname( quantity ) ), unique_name );
+        return string_format( "%s: %s", type->nname( quantity ), unique_name );
     }
     return type->nname( quantity );
 }
@@ -554,7 +563,7 @@ void monster::get_HP_Bar( nc_color &color, std::string &text ) const
 
 std::pair<std::string, nc_color> monster::get_attitude() const
 {
-    const auto att = attitude_names.at( attitude( &( g->u ) ) );
+    const auto att = attitude_names.at( attitude( &g->u ) );
     return {
         _( att.first ),
         all_colors.get( att.second )
@@ -745,7 +754,7 @@ nc_color monster::symbol_color() const
 
 bool monster::is_symbol_highlighted() const
 {
-    return ( friendly != 0 );
+    return friendly != 0;
 }
 
 nc_color monster::color_with_effects() const
@@ -823,8 +832,7 @@ int monster::sight_range( const int light_level ) const
         return 1;
     }
 
-    int range = ( light_level * type->vision_day ) +
-                ( ( DAYLIGHT_LEVEL - light_level ) * type->vision_night );
+    int range = light_level * type->vision_day + ( DAYLIGHT_LEVEL - light_level ) * type->vision_night;
     range /= DAYLIGHT_LEVEL;
 
     return range;
@@ -843,6 +851,11 @@ bool monster::made_of_any( const std::set<material_id> &ms ) const
 bool monster::made_of( phase_id p ) const
 {
     return type->phase == p;
+}
+
+void monster::set_goal( const tripoint &p )
+{
+    goal = p;
 }
 
 void monster::shift( int sx, int sy )
@@ -888,7 +901,7 @@ bool monster::is_fleeing( player &u ) const
         return false;
     }
     monster_attitude att = attitude( &u );
-    return ( att == MATT_FLEE || ( att == MATT_FOLLOW && rl_dist( pos(), u.pos() ) <= 4 ) );
+    return att == MATT_FLEE || ( att == MATT_FOLLOW && rl_dist( pos(), u.pos() ) <= 4 );
 }
 
 Creature::Attitude monster::attitude_to( const Creature &other ) const
@@ -1046,7 +1059,7 @@ monster_attitude monster::attitude( const Character *u ) const
 
 int monster::hp_percentage() const
 {
-    return ( get_hp( hp_torso ) * 100 ) / get_hp_max();
+    return get_hp( hp_torso ) * 100 / get_hp_max();
 }
 
 void monster::process_triggers()
@@ -1486,6 +1499,11 @@ void monster::die_in_explosion( Creature *source )
     die( source );
 }
 
+bool monster::movement_impaired()
+{
+    return effect_cache[MOVEMENT_IMPAIRED];
+}
+
 bool monster::move_effects( bool )
 {
     // This function is relatively expensive, we want that cached
@@ -1619,7 +1637,7 @@ bool monster::move_effects( bool )
         }
     }
     if( has_effect( effect_grabbed ) ) {
-        if( ( dice( type->melee_dice + type->melee_sides, 3 ) < get_effect_int( effect_grabbed ) ) ||
+        if( dice( type->melee_dice + type->melee_sides, 3 ) < get_effect_int( effect_grabbed ) ||
             !one_in( 4 ) ) {
             return false;
         } else {
@@ -1888,7 +1906,7 @@ void monster::normalize_ammo( const int old_ammo )
     // Previous code gave robots 100 rounds of ammo.
     // This reassigns whatever is left from that in the appropriate proportions.
     for( const auto &ammo_entry : type->starting_ammo ) {
-        ammo[ammo_entry.first] = ( old_ammo * ammo_entry.second ) / ( 100 * total_ammo );
+        ammo[ammo_entry.first] = old_ammo * ammo_entry.second / ( 100 * total_ammo );
     }
 }
 
@@ -2144,6 +2162,37 @@ void monster::die( Creature *nkiller )
             }
         }
     }
+}
+
+bool monster::use_mech_power( int amt )
+{
+    if( is_hallucination() || !has_flag( MF_RIDEABLE_MECH ) || !battery_item ) {
+        return false;
+    }
+    amt = -amt;
+    battery_item->ammo_consume( amt, pos() );
+    return battery_item->ammo_remaining() > 0;
+}
+
+int monster::mech_str_addition() const
+{
+    return type->mech_str_bonus;
+}
+
+bool monster::check_mech_powered() const
+{
+    if( is_hallucination() || !has_flag( MF_RIDEABLE_MECH ) || !battery_item ) {
+        return false;
+    }
+    if( battery_item->ammo_remaining() <= 0 ) {
+        return false;
+    }
+    const itype &type = *battery_item->type;
+    if( battery_item->ammo_remaining() <= type.magazine->capacity / 10 && one_in( 10 ) ) {
+        add_msg( m_bad, _( "Your %s emits a beeping noise as its batteries start to get low." ),
+                 get_name() );
+    }
+    return true;
 }
 
 void monster::drop_items_on_death()
@@ -2602,7 +2651,7 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
     }
 
     const bool goodhearing = has_flag( MF_GOODHEARING );
-    const int volume = goodhearing ? ( ( 2 * vol ) - dist ) : ( vol - dist );
+    const int volume = goodhearing ? 2 * vol - dist : vol - dist;
     // Error is based on volume, louder sound = less error
     if( volume <= 0 ) {
         return;

@@ -2028,7 +2028,7 @@
     "time": "20 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "bowl_plastic", 4 ] ] ]
+    "components": [ [ [ "bowl_plastic", 4 ], [ "plastic_chunk", 12 ] ] ]
   },
   {
     "type": "recipe",

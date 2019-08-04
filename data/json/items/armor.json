@@ -7811,13 +7811,13 @@
     "flags": [ "VARSIZE" ]
   },
   {
-    "id": "skinny_tie",
+    "id": "tie_skinny",
     "type": "ARMOR",
     "name": "skinny tie",
     "description": "A skinny black and white checkered necktie.",
     "weight": 12,
     "volume": 0,
-    "price": 1000,
+    "price": 750,
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -8976,6 +8976,45 @@
     "warmth": 20,
     "material_thickness": 2,
     "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "tie_bow",
+    "type": "ARMOR",
+    "name": "bow tie",
+    "description": "A simple black bow tie.  Best worn with a suit.",
+    "weight": 5,
+    "volume": 0,
+    "price": 1000,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "black",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "tie_clipon",
+    "type": "ARMOR",
+    "name": "clip-on tie",
+    "description": "A clip-on necktie, with blue and silver stripes.  It's quick and easy to put on, and much better than the necktie.",
+    "weight": 10,
+    "volume": 0,
+    "price": 500,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "blue",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "tie_necktie",
+    "type": "ARMOR",
+    "name": "necktie",
+    "description": "An ordinary, green necktie.  It's more difficult to put on, but it takes real skill to do so. Wearing a necktie is much better than wearing a clip-on tie.",
+    "weight": 15,
+    "volume": 0,
+    "price": 1000,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "green",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "tights",

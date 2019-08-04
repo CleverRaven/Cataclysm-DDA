@@ -420,7 +420,6 @@ void line_attack( const spell &sp, Creature &caster,
 void area_pull( const spell &sp, Creature &caster, const tripoint &target );
 void area_push( const spell &sp, Creature &caster, const tripoint &target );
 
-
 std::set<tripoint> spell_effect_blast( const spell &, const tripoint &, const tripoint &target,
                                        const int aoe_radius, const bool ignore_walls );
 std::set<tripoint> spell_effect_cone( const spell &sp, const tripoint &source,
@@ -434,6 +433,7 @@ void spawn_ethereal_item( const spell &sp, Creature &, const tripoint & );
 void recover_energy( const spell &sp, Creature &, const tripoint &target );
 void spawn_summoned_monster( const spell &sp, Creature &caster, const tripoint &target );
 void translocate( const spell &sp, Creature &caster, const tripoint &target );
+void transform_blast( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
 } // namespace spell_effect
 

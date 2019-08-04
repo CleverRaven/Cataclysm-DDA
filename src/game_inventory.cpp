@@ -453,7 +453,7 @@ item_location game_menus::inv::disassemble( player &p )
 class comestible_inventory_preset : public inventory_selector_preset
 {
     public:
-        comestible_inventory_preset( const player &p ) : inventory_selector_preset(), p( p ) {
+        comestible_inventory_preset( const player &p ) : p( p ) {
 
             append_cell( [ &p, this ]( const item_location & loc ) {
                 return good_bad_none( p.kcal_for( get_consumable_item( loc ) ) );
@@ -1194,7 +1194,7 @@ class salvage_inventory_preset: public inventory_selector_preset
 {
     public:
         salvage_inventory_preset( const salvage_actor *actor ) :
-            inventory_selector_preset(), actor( actor ) {
+            actor( actor ) {
 
             append_cell( [ actor ]( const item_location & loc ) {
                 return to_string_clipped( time_duration::from_turns( actor->time_to_cut_up(
@@ -1221,7 +1221,7 @@ class repair_inventory_preset: public inventory_selector_preset
 {
     public:
         repair_inventory_preset( const repair_item_actor *actor, const item *main_tool ) :
-            inventory_selector_preset(), actor( actor ), main_tool( main_tool ) {
+            actor( actor ), main_tool( main_tool ) {
         }
 
         bool is_shown( const item_location &loc ) const override {
@@ -1607,7 +1607,7 @@ class bionic_install_preset: public inventory_selector_preset
             } );
 
             if( b_filter.size() > 0 ) {
-                return string_format( _( "kit available" ) );// legacy
+                return  _( "kit available" );// legacy
             } else {
                 return string_format( _( "%i mL" ), amount );
             }
@@ -1802,7 +1802,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
             } );
 
             if( b_filter.size() > 0 ) {
-                return string_format( _( "kit available" ) ); // legacy
+                return  _( "kit available" ); // legacy
             } else {
                 return string_format( _( "%i mL" ), amount );
             }
@@ -1813,7 +1813,6 @@ item_location game_menus::inv::uninstall_bionic( player &p, player &patient )
 {
     return autodoc_internal( p, patient, bionic_uninstall_preset( p, patient ), 0, true );
 }
-
 
 // Menu used by autoclave when sterilizing a bionic
 class bionic_sterilize_preset : public inventory_selector_preset
@@ -1835,13 +1834,16 @@ class bionic_sterilize_preset : public inventory_selector_preset
             return loc->has_flag( "NO_STERILE" ) && loc->is_bionic();
         }
 
-        std::string get_denial( const item_location & ) const override {
+        std::string get_denial( const item_location &loc ) const override {
             auto reqs = *requirement_id( "autoclave_item" );
 
             if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
                 return pgettext( "volume of water", "2 L" );
             }
 
+            if( loc.get_item()->has_flag( "FILTHY" ) ) {
+                return  _( "CBM is filthy.  Wash it first." );
+            }
             return std::string();
         }
 

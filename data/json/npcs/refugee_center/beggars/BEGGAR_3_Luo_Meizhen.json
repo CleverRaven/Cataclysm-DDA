@@ -541,8 +541,10 @@
     "id": "TALK_REFUGEE_BEGGAR_3_MYCUS2",
     "dynamic_line": "Okay, you've got my attention.  Listen, do you think you could bring me some kind of sample of these things?",
     "responses": [
-      { "text": "It'd be dangerous, what's in it for me?", "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS3" },
-      { "text": "Sure, easy enough.  What do you need?", "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS3" },
+      {
+        "text": "It'd be dangerous.  What kind of benefit is there from taking a risk like that?",
+        "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS3"
+      },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]

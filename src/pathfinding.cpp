@@ -44,9 +44,9 @@ struct path_data_layer {
     std::array< int, MAPSIZE_X *MAPSIZE_Y > gscore;
     std::array< tripoint, MAPSIZE_X *MAPSIZE_Y > parent;
 
-    void init( const int minx, const int miny, const int maxx, const int maxy ) {
-        for( int x = minx; x <= maxx; x++ ) {
-            for( int y = miny; y <= maxy; y++ ) {
+    void init( const point &min, const point &max ) {
+        for( int x = min.x; x <= max.x; x++ ) {
+            for( int y = min.y; y <= max.y; y++ ) {
                 const int ind = flat_index( x, y );
                 state[ind] = ASL_NONE; // Mark as unvisited
             }
@@ -55,12 +55,10 @@ struct path_data_layer {
 };
 
 struct pathfinder {
-    int minx;
-    int miny;
-    int maxx;
-    int maxy;
+    point min;
+    point max;
     pathfinder( int _minx, int _miny, int _maxx, int _maxy ) :
-        minx( _minx ), miny( _miny ), maxx( _maxx ), maxy( _maxy ) {
+        min( _minx, _miny ), max( _maxx, _maxy ) {
     }
 
     std::priority_queue< std::pair<int, tripoint>, std::vector< std::pair<int, tripoint> >, pair_greater_cmp_first >
@@ -68,13 +66,13 @@ struct pathfinder {
     std::array< std::unique_ptr< path_data_layer >, OVERMAP_LAYERS > path_data;
 
     path_data_layer &get_layer( const int z ) {
-        auto &ptr = path_data[z + OVERMAP_DEPTH];
+        std::unique_ptr< path_data_layer > &ptr = path_data[z + OVERMAP_DEPTH];
         if( ptr != nullptr ) {
             return *ptr;
         }
 
         ptr = std::make_unique<path_data_layer>();
-        ptr->init( minx, miny, maxx, maxy );
+        ptr->init( min, max );
         return *ptr;
     }
 
