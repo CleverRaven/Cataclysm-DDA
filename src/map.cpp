@@ -7454,10 +7454,10 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
 
     submap *const current_submap = get_submap_at_grid( gp );
     for( auto &i : current_submap->spawns ) {
+        const tripoint center( i.pos.x + gp.x * SEEX, i.pos.y + gp.y * SEEX, gp.z );
+        const tripoint_range points = points_in_radius( center, 3 );
+
         for( int j = 0; j < i.count; j++ ) {
-            int tries = 0;
-            int mx = i.pos.x;
-            int my = i.pos.y;
             monster tmp( i.type );
             tmp.mission_id = i.mission_id;
             if( i.name != "NONE" ) {
@@ -7466,26 +7466,11 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             if( i.friendly ) {
                 tmp.friendly = -1;
             }
-            int fx = mx + gp.x * SEEX;
-            int fy = my + gp.y * SEEY;
-            tripoint pos( fx, fy, gp.z );
 
-            while( ( !g->is_empty( pos ) || !tmp.can_move_to( pos ) ) && tries < 10 ) {
-                mx = ( i.pos.x + rng( -3, 3 ) ) % SEEX;
-                my = ( i.pos.y + rng( -3, 3 ) ) % SEEY;
-                if( mx < 0 ) {
-                    mx += SEEX;
-                }
-                if( my < 0 ) {
-                    my += SEEY;
-                }
-                fx = mx + gp.x * SEEX;
-                fy = my + gp.y * SEEY;
-                tries++;
-                pos = tripoint( fx, fy, gp.z );
-            }
-            if( tries != 10 ) {
-                tmp.spawn( pos );
+            if( const cata::optional<tripoint> pos = random_point( points, [&]( const tripoint & p ) {
+            return g->is_empty( p ) && tmp.can_move_to( p );
+            } ) ) {
+                tmp.spawn( *pos );
                 g->add_zombie( tmp );
             }
         }
