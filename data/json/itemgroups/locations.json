@@ -222,6 +222,7 @@
       [ "birdfood", 15 ],
       [ "can_tuna", 15 ],
       [ "can_chicken", 15 ],
+      [ "petpack", 10 ],
       [ "kevlar_harness", 5 ],
       [ "leather_harness_dog", 5 ],
       [ "rubber_harness_dog", 5 ]
@@ -843,6 +844,7 @@
     "items": [
       [ "dog_whistle", 10 ],
       [ "pet_carrier", 30 ],
+      [ "petpack", 3 ],
       [ "dogfood_canned", 30 ],
       [ "catfood_canned", 30 ],
       [ "birdfood", 10 ],
@@ -886,6 +888,7 @@
       [ "scissors", 1 ],
       [ "phonebook", 2 ],
       [ "flashlight", 2 ],
+      [ "petpack", 1 ],
       [ "mag_comic", 5 ]
     ]
   },

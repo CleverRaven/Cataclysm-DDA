@@ -825,5 +825,71 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "rag", 6 ] ] ]
+  },
+  {
+    "result": "bigback",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "250 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 150 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [
+      [ [ "leather", 20 ], [ "tanned_hide", 4 ] ],
+      [ [ "sheet_metal_small", 8 ] ],
+      [ [ "cordage", 2, "LIST" ] ],
+      [ [ "leather_pouch", 2 ] ]
+    ]
+  },
+  {
+    "result": "travelpack",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "90 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 40 ] ],
+    "components": [ [ [ "rag", 5 ] ], [ [ "cordage", 1, "LIST" ] ] ]
+  },
+  {
+    "result": "petpack",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "100 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 100 ] ],
+    "components": [ [ [ "rag", 5 ] ], [ [ "plastic_chunk", 8 ] ] ]
+  },
+  {
+    "result": "backpack_tactical_large",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "160 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 100 ] ],
+    "components": [ [ [ "leather", 5 ], [ "tanned_pelt", 1 ] ], [ [ "cordage", 1, "LIST" ] ] ]
+  },
+  {
+    "result": "backpack_hiking",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "180 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 100 ] ],
+    "components": [ [ [ "leather", 5 ], [ "tanned_pelt", 1 ] ], [ [ "cordage", 1, "LIST" ] ] ]
   }
 ]
