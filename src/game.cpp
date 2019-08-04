@@ -4785,11 +4785,6 @@ bool game::spawn_hallucination( const tripoint &p )
     }
 }
 
-void game::rebuild_mon_at_cache()
-{
-    critter_tracker->rebuild_cache();
-}
-
 bool game::swap_critters( Creature &a, Creature &b )
 {
     if( &a == &b ) {
@@ -10968,7 +10963,7 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
     }
     // The order in which zombies are shifted may cause zombies to briefly exist on
     // the same square. This messes up the mon_at cache, so we need to rebuild it.
-    rebuild_mon_at_cache();
+    critter_tracker->rebuild_cache();
 }
 
 void game::perhaps_add_random_npc()
