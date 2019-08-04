@@ -10265,7 +10265,7 @@
     "name": "petpack",
     "description": "Before the Cataclysm this would allow your four-legged friend to see the world, now it's used to shield them from the world.",
     "weight": 1316,
-    "volume": 40,
+    "volume": "10 L",
     "price": 7900,
     "material": [ "cotton", "plastic" ],
     "symbol": "[",
