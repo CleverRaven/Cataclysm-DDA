@@ -38,7 +38,6 @@ readability-*,\
 -cert-msc51-cpp,\
 -misc-definitions-in-headers,\
 -misc-non-private-member-variables-in-classes,\
--misc-redundant-expression,\
 -modernize-avoid-c-arrays,\
 -modernize-deprecated-headers,\
 -modernize-pass-by-value,\
