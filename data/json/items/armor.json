@@ -10305,7 +10305,7 @@
     "name": "travelpack",
     "description": "A hiking pack used for short trips.",
     "weight": 636,
-    "volume": 12,
+    "volume": "3 L",
     "price": 7000,
     "material": [ "cotton" ],
     "symbol": "[",
