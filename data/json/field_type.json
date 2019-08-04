@@ -248,7 +248,15 @@
     "intensity_levels": [
       { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 10, "extra_radiation_max": 1 },
       { "name": "radioactive gas", "color": "light_green", "extra_radiation_max": 2 },
-      { "name": "thick radioactive gas", "color": "green", "transparent": false, "extra_radiation_max": 3 }
+      {
+        "name": "thick radioactive gas",
+        "color": "green",
+        "transparent": false,
+        "extra_radiation_max": 3,
+        "radiation_hurt_damage_min": 1,
+        "radiation_hurt_damage_max": 3,
+        "radiation_hurt_message": "This radioactive gas burns!"
+      }
     ],
     "decay_amount_factor": 5,
     "percent_spread": 15,

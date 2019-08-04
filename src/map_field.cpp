@@ -1559,16 +1559,16 @@ void map::player_in_field( player &u )
                 }
             }
         }
-        if( ft == fd_nuke_gas ) {
+
+        if( cur.extra_radiation_min() > 0 ) {
             // Get irradiated by the nuclear fallout.
-            // Changed to min of intensity, not 0.
-            const float rads = rng( cur.get_field_intensity(),
-                                    cur.get_field_intensity() * ( cur.get_field_intensity() + 1 ) );
+            const float rads = rng( cur.extra_radiation_min() + 1,
+                                    cur.extra_radiation_max() * ( cur.extra_radiation_max() + 1 ) );
             const bool rad_proof = !u.irradiate( rads );
             // TODO: Reduce damage for rad resistant?
-            if( cur.get_field_intensity() == 3 && !rad_proof ) {
-                u.add_msg_if_player( m_bad, _( "This radioactive gas burns!" ) );
-                u.hurtall( rng( 1, 3 ), nullptr );
+            if( cur.radiation_hurt_damage_min() > 0 && !rad_proof ) {
+                u.add_msg_if_player( m_bad, cur.radiation_hurt_message() );
+                u.hurtall( rng( cur.radiation_hurt_damage_min(), cur.radiation_hurt_damage_max() ), nullptr );
             }
         }
         if( ft == fd_flame_burst ) {

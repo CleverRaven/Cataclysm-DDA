@@ -29,6 +29,9 @@ class field_entry
 
         int extra_radiation_min() const;
         int extra_radiation_max() const;
+        int radiation_hurt_damage_min() const;
+        int radiation_hurt_damage_max() const;
+        std::string radiation_hurt_message() const;
 
         float light_emitted() const;
         float translucency() const;

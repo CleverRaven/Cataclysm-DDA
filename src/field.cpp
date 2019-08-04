@@ -20,6 +20,21 @@ int field_entry::extra_radiation_max() const
     return type.obj().get_extra_radiation_max( intensity - 1 );
 }
 
+int field_entry::radiation_hurt_damage_min() const
+{
+    return type.obj().get_radiation_hurt_damage_min( intensity - 1 );
+}
+
+int field_entry::radiation_hurt_damage_max() const
+{
+    return type.obj().get_radiation_hurt_damage_max( intensity - 1 );
+}
+
+std::string field_entry::radiation_hurt_message() const
+{
+    return type.obj().get_radiation_hurt_message( intensity - 1 );
+}
+
 float field_entry::light_emitted() const
 {
     return type.obj().get_light_emitted( intensity - 1 );
