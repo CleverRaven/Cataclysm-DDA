@@ -10,7 +10,7 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "460",
+    "ammo_type": [ "460", "45" ],
     "capacity": 6,
     "flags": [ "SPEEDLOADER" ]
   },
@@ -25,7 +25,7 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "460",
+    "ammo_type": [ "460", "45" ],
     "capacity": 12,
     "reliability": 10,
     "reload_time": 140,
