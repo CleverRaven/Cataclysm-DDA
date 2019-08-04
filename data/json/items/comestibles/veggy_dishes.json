@@ -610,7 +610,7 @@
     "copy-from": "salsify_raw",
     "spoils_in": "2 days",
     "healthy": 2,
-    "description": "When properly cooked, salsify tastes vaguely like oysters. Makes a great side dish.",
+    "description": "When properly cooked, salsify tastes vaguely like oysters.  Makes a great side dish.",
     "price": 90,
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
