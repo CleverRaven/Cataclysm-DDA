@@ -2,6 +2,7 @@
 #ifndef CATA_VARIANT_H
 #define CATA_VARIANT_H
 
+#include <array>
 #include <cassert>
 #include <utility>
 
@@ -49,7 +50,8 @@ template<typename T>
 constexpr cata_variant_type type_for()
 {
     constexpr size_t num_types = static_cast<size_t>( cata_variant_type::num_types );
-    return type_for_impl<T>( std::make_index_sequence<num_types> {} );
+    using SimpleT = std::remove_reference_t<T>;
+    return type_for_impl<SimpleT>( std::make_index_sequence<num_types> {} );
 }
 
 template<>
@@ -79,11 +81,27 @@ struct convert<cata_variant_type::mtype_id> {
 class cata_variant
 {
     public:
+        // Constructor that attempts to infer the type from the type of the
+        // value passed.
+        template < typename Value,
+                   typename = std::enable_if_t <(
+                           cata_variant_detail::type_for<Value>() < cata_variant_type::num_types )>>
+        explicit cata_variant( Value && value ) {
+            constexpr cata_variant_type Type = cata_variant_detail::type_for<Value>();
+            type_ = Type;
+            value_ =
+                cata_variant_detail::convert<Type>::to_string( std::forward<Value>( value ) );
+        }
+
+        // Call this function to unambiguously construct a cata_variant instance,
+        // pass the type as a template parameter.
+        // In cases where the value type alone is unambiguous, the above
+        // simpler constructor call can be used.
         template<cata_variant_type Type, typename Value>
         static cata_variant make( Value &&value ) {
             return cata_variant(
-                       Type, cata_variant_detail::convert<Type>::to_string(
-                           std::forward<Value>( value ) ) );
+                Type, cata_variant_detail::convert<Type>::to_string(
+                    std::forward<Value>( value ) ) );
         }
 
         cata_variant_type type() const {
