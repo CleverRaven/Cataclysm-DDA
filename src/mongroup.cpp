@@ -112,9 +112,9 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
         // There's a lot of conditions to work through to see if this spawn definition is valid
         bool valid_entry = true;
         //Insure that the time is not before the spawn first appears or after it stops appearing
-        valid_entry = valid_entry && ( calendar::turn_zero + it->starts < calendar::turn );
+        valid_entry = valid_entry && ( calendar::start_of_cataclysm + it->starts < calendar::turn );
         valid_entry = valid_entry && ( it->lasts_forever() ||
-                                       calendar::turn_zero + it->ends > calendar::turn );
+                                       calendar::start_of_cataclysm + it->ends > calendar::turn );
 
         std::vector<std::pair<time_point, time_point> > valid_times_of_day;
         bool season_limited = false;
