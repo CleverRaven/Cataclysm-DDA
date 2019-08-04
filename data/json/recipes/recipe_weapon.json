@@ -2051,6 +2051,24 @@
   },
   {
     "type": "recipe",
+    "result": "crash_axe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "360 m",
+    "book_learn": [ [ "textbook_fireman", 6 ] ],
+    "using": [ [ "forging_standard", 8 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ],
+      [ [ "filament", 100, "LIST" ] ],
+      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "machete",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",

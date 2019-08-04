@@ -444,6 +444,14 @@ class item : public visitable<item>
          */
         int price( bool practical ) const;
 
+        /**
+         * Whether two items should stack when displayed in a inventory menu.
+         * This is different from stacks_with, when two previously non-stackable
+         * items are now stackable and mergeable because, for example, they
+         * reaches the same temperature. This is necessary to avoid misleading
+         * stacks like "3 items-count-by-charge (5)".
+         */
+        bool display_stacked_with( const item &rhs, bool check_components = false ) const;
         bool stacks_with( const item &rhs, bool check_components = false ) const;
         /**
          * Merge charges of the other item into this item.

@@ -940,7 +940,7 @@ static itemstack i_stacked( T items )
             // check to see if it stacks with each item in a stack, not just front()
             for( auto &idx : iter->second ) {
                 for( auto &it : stacks[idx] ) {
-                    if( ( got_stacked = it->stacks_with( elem ) ) ) {
+                    if( ( got_stacked = it->display_stacked_with( elem ) ) ) {
                         stacks[idx].push_back( &elem );
                         break;
                     }

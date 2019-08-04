@@ -831,6 +831,193 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "airliner_1a",
+    "name": "field",
+    "sym": ".",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2a",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_3a",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_1b",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2b",
+    "name": "crashed airliner",
+    "sym": "A",
+    "color": "red",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_3b",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_1c",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2c",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_3c",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_1d",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2d",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_3d",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_1e",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2e",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_3e",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_1f",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2f",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_3f",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_1g",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2g",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_3g",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_1h",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2h",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_3h",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_1i",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2i",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_3i",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_1j",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2j",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_3j",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2a_1",
+    "name": "open air",
+    "sym": ".",
+    "color": "blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2b_1",
+    "copy-from": "airliner_2b"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2c_1",
+    "copy-from": "airliner_2a_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2b_-1",
+    "copy-from": "airliner_2b"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2c_-1",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "dark_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": "cground_1",
     "name": "campground",
     "sym": "┼",
