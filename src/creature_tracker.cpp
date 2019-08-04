@@ -82,7 +82,23 @@ bool Creature_tracker::add( monster &critter )
 
     monsters_list.emplace_back( std::make_shared<monster>( critter ) );
     monsters_by_location[critter.pos()] = monsters_list.back();
+    add_to_faction_map( monsters_list.back() );
     return true;
+}
+
+
+void Creature_tracker::add_to_faction_map( std::shared_ptr<monster> critter_ptr )
+{
+    assert( critter_ptr );
+    monster &critter = *critter_ptr;
+
+    // Only 1 faction per mon at the moment.
+    if( critter.friendly == 0 ) {
+        monster_faction_map_[ critter.faction ].insert( critter_ptr );
+    } else {
+        static const mfaction_str_id playerfaction( "player" );
+        monster_faction_map_[ playerfaction ].insert( critter_ptr );
+    }
 }
 
 size_t Creature_tracker::size() const
@@ -162,13 +178,16 @@ void Creature_tracker::clear()
 {
     monsters_list.clear();
     monsters_by_location.clear();
+    monster_faction_map_.clear();
 }
 
 void Creature_tracker::rebuild_cache()
 {
     monsters_by_location.clear();
+    monster_faction_map_.clear();
     for( const std::shared_ptr<monster> &mon_ptr : monsters_list ) {
         monsters_by_location[mon_ptr->pos()] = mon_ptr;
+        add_to_faction_map( mon_ptr );
     }
 }
 
