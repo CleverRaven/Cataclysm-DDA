@@ -37,6 +37,10 @@ struct field_intensity_level {
     std::string radiation_hurt_message;
     int intensity_upgrade_chance = 0;
     time_duration intensity_upgrade_duration = 0_turns;
+    int monster_spawn_chance = 0;
+    int monster_spawn_count = 0;
+    int monster_spawn_radius = 0;
+    mongroup_id monster_spawn_group;
     float light_emitted = 0.0f;
     float translucency = 0.0f;
     int convection_temperature_mod = 0.0f;
@@ -130,6 +134,18 @@ struct field_type {
         }
         time_duration get_intensity_upgrade_duration( int level = 0 ) const {
             return intensity_levels[level].intensity_upgrade_duration;
+        }
+        int get_monster_spawn_chance( int level = 0 ) const {
+            return intensity_levels[level].monster_spawn_chance;
+        }
+        int get_monster_spawn_count( int level = 0 ) const {
+            return intensity_levels[level].monster_spawn_count;
+        }
+        int get_monster_spawn_radius( int level = 0 ) const {
+            return intensity_levels[level].monster_spawn_radius;
+        }
+        mongroup_id get_monster_spawn_group( int level = 0 ) const {
+            return intensity_levels[level].monster_spawn_group;
         }
         float get_light_emitted( int level = 0 ) const {
             return intensity_levels[level].light_emitted;

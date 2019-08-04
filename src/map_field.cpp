@@ -56,6 +56,7 @@
 #include "game_constants.h"
 #include "point.h"
 #include "scent_block.h"
+#include "mongroup.h"
 
 const species_id FUNGUS( "FUNGUS" );
 
@@ -1065,19 +1066,22 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                     }
                 }
-                if( curtype == fd_fatigue ) {
-                    static const std::array<mtype_id, 9> monids = { {
-                            mtype_id( "mon_flying_polyp" ), mtype_id( "mon_hunting_horror" ),
-                            mtype_id( "mon_mi_go" ), mtype_id( "mon_yugg" ), mtype_id( "mon_gelatin" ),
-                            mtype_id( "mon_flaming_eye" ), mtype_id( "mon_kreck" ), mtype_id( "mon_gracke" ),
-                            mtype_id( "mon_blank" ),
+
+                int monster_spawn_chance = cur.monster_spawn_chance();
+                int monster_spawn_count = cur.monster_spawn_count();
+                if( monster_spawn_count > 0 && monster_spawn_chance > 0 && one_in( monster_spawn_chance ) ) {
+                    for( ; monster_spawn_count > 0; monster_spawn_count-- ) {
+                        MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
+                                                               cur.monster_spawn_group(), &monster_spawn_count );
+                        if( !spawn_details.name ) {
+                            continue;
                         }
-                    };
-                    if( cur.get_field_intensity() < 3 && calendar::once_every( 6_hours ) && one_in( 10 ) ) {
-                        cur.set_field_intensity( cur.get_field_intensity() + 1 );
-                        // Spawn nether creature!
-                    } else if( cur.get_field_intensity() == 3 && one_in( 600 ) ) {
-                        g->summon_mon( random_entry( monids ), p );
+                        if( const auto spawn_point = random_point( points_in_radius( p,
+                        cur.monster_spawn_radius() ), [this]( const tripoint & n ) {
+                        return passable( n );
+                        } ) ) {
+                            add_spawn( spawn_details.name, spawn_details.pack_size, spawn_point->x, spawn_point->y );
+                        }
                     }
                 }
 

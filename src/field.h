@@ -34,6 +34,10 @@ class field_entry
         std::string radiation_hurt_message() const;
         int intensity_upgrade_chance() const;
         time_duration intensity_upgrade_duration() const;
+        int monster_spawn_chance() const;
+        int monster_spawn_count() const;
+        int monster_spawn_radius() const;
+        mongroup_id monster_spawn_group() const;
 
         float light_emitted() const;
         float translucency() const;

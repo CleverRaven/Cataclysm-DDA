@@ -333,7 +333,15 @@
         "intensity_upgrade_duration": "6 hours"
       },
       { "name": "swirling air", "color": "dark_gray" },
-      { "name": "tear in reality", "color": "magenta", "transparent": false }
+      {
+        "name": "tear in reality",
+        "color": "magenta",
+        "transparent": false,
+        "monster_spawn_chance": 600,
+        "monster_spawn_count": 1,
+        "monster_spawn_radius": 1,
+        "monster_spawn_group": "GROUP_NETHER_FATIGUE_FIELD"
+      }
     ],
     "priority": 8,
     "display_items": false,
