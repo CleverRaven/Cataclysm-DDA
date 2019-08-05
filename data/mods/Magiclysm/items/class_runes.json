@@ -179,7 +179,7 @@
     "type": "GENERIC",
     "name": "Stormshaper axe",
     "plural": "Stormshaper axes",
-    "\\": "Equivalent to copper ax +1, with volume reduction so it can be sheathed like the other school weapons. Requires forging unlike copper axe to bind the metals(chosen for being two most conductive metals) + balancing reasons",
+    "\\": "Equivalent to copper ax +1, with volume reduction so it can be sheathed like the other school weapons. Metals chosen for being two most conductive metals + balancing reasons",
     "description": "A forged copper axe with silver trimmings and a wooden handle. There is a Stormshaper rune embedded in the eye.",
     "weight": 3330,
     "volume": "2 L",
@@ -215,7 +215,7 @@
     "color": "yellow",
     "name": "Druid composite bow",
     "\\": "Equivalent to composite bow +1 for dispersion/reload/weight/range/encumb/bash, with two mod slots added equivalent to other weapons getting techniques",
-    "description": "A bow made of multiple materials to maximize energy effiency. There are two Druid runes embedded at the tips.",
+    "description": "A bow made of multiple materials to maximize energy efficiency. There are two Druid runes embedded at the tips.",
     "price": 32000,
     "material": [ "wood", "bone" ],
     "flags": [
@@ -226,7 +226,8 @@
       "BELTED",
       "TRADER_AVOID",
       "MAGIC_FOCUS",
-      "DURABLE_MELEE"
+      "DURABLE_MELEE",
+      "WATER_FRIENDLY"
     ],
     "skill": "archery",
     "min_strength": 5,

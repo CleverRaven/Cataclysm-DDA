@@ -150,5 +150,85 @@
     ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "rune_kelvinist", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "animist_doll_zombie",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "tailoring",
+    "skills_required": [ [ "spellcraft", 4 ] ],
+    "difficulty": 4,
+    "time": "120 m",
+    "result_mult": 3,
+    "book_learn": [ [ "necro_basic", 3 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT_FINE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "tools": [ [ [ "rune_alchemist", -1 ], [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ] ] ],
+    "components": [
+      [ [ "brain", 1 ], [ "brain_cooked", 1 ] ],
+      [ [ "lung", 2 ], [ "lung_cooked", 2 ] ],
+      [ [ "stomach", 1 ], [ "hstomach", 1 ] ],
+      [ [ "liver", 1 ], [ "liver_cooked", 1 ] ],
+      [ [ "kidney", 2 ], [ "kidney_cooked", 2 ] ],
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
+      [ [ "sinew", 60 ] ],
+      [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_tainted", 2 ] ],
+      [ [ "bone_needle", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "animist_doll_skeleton",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "tailoring",
+    "skills_required": [ [ "spellcraft", 5 ] ],
+    "difficulty": 5,
+    "time": "180 m",
+    "result_mult": 3,
+    "book_learn": [ [ "necro_basic", 4 ] ],
+    "qualities": [
+      { "id": "SEW", "level": 1 },
+      { "id": "CUT_FINE", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 1 }
+    ],
+    "tools": [ [ [ "rune_alchemist", -1 ], [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ] ] ],
+    "components": [
+      [ [ "brain", 1 ], [ "brain_cooked", 1 ] ],
+      [ [ "lung", 2 ], [ "lung_cooked", 2 ] ],
+      [ [ "stomach", 1 ], [ "hstomach", 1 ] ],
+      [ [ "liver", 1 ], [ "liver_cooked", 1 ] ],
+      [ [ "kidney", 2 ], [ "kidney_cooked", 2 ] ],
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
+      [ [ "sinew", 60 ] ],
+      [ [ "bone", 4 ], [ "bone_human", 4 ], [ "bone_tainted", 8 ] ],
+      [ [ "bone_needle", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "animist_doll_decayed_pouncer",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "tailoring",
+    "skills_required": [ [ "spellcraft", 7 ] ],
+    "difficulty": 7,
+    "time": "210 m",
+    "result_mult": 3,
+    "book_learn": [ [ "necro_basic", 6 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT_FINE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "tools": [ [ [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ] ] ],
+    "components": [
+      [ [ "brain", 1 ], [ "brain_cooked", 1 ] ],
+      [ [ "lung", 2 ], [ "lung_cooked", 2 ] ],
+      [ [ "stomach", 1 ], [ "hstomach", 1 ] ],
+      [ [ "liver", 1 ], [ "liver_cooked", 1 ] ],
+      [ [ "kidney", 2 ], [ "kidney_cooked", 2 ] ],
+      [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
+      [ [ "sinew", 60 ] ],
+      [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_tainted", 2 ] ],
+      [ [ "bone_needle", 1 ] ]
+    ]
   }
 ]

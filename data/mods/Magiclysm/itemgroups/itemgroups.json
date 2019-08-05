@@ -28,12 +28,22 @@
   {
     "type": "item_group",
     "id": "lab_bookshelves",
-    "items": [ { "group": "spellbook_loot_1", "prob": 3 }, [ "alchemy_basic", 3 ], { "group": "dragon_books", "prob": 3 } ]
+    "items": [
+      { "group": "spellbook_loot_1", "prob": 3 },
+      [ "alchemy_basic", 3 ],
+      [ "necro_basic", 3 ],
+      { "group": "dragon_books", "prob": 3 }
+    ]
   },
   {
     "type": "item_group",
     "id": "mansion_books",
-    "items": [ { "group": "spellbook_loot_0", "prob": 6 }, [ "alchemy_basic", 10 ], { "group": "dragon_books", "prob": 5 } ]
+    "items": [
+      { "group": "spellbook_loot_0", "prob": 6 },
+      [ "alchemy_basic", 10 ],
+      [ "necro_basic", 10 ],
+      { "group": "dragon_books", "prob": 5 }
+    ]
   },
   {
     "type": "item_group",
