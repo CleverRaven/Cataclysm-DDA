@@ -1372,7 +1372,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                         string_format( "%s: %d", _( "Difficulty" ), sp.get_difficulty() ) );
 
     print_colored_text( w_menu, line, h_col1, gray, gray,
-                        string_format( "%s: %s", _( "to Next Level" ), colorize( to_string( sp.xp() ), light_green ) ) );
+                        string_format( "%s: %s", _( "Current EXP" ), colorize( to_string( sp.xp() ), light_green ) ) );
     print_colored_text( w_menu, line++, h_col2, gray, gray,
                         string_format( "%s: %s", _( "to Next Level" ), colorize( to_string( sp.exp_to_next_level() ),
                                        light_green ) ) );
