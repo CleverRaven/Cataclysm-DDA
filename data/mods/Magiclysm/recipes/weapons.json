@@ -72,9 +72,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "components": [
-      [ [ "stick", 3 ], [ "2x4", 2 ] ],
-      [ [ "bone", 3 ], [ "bone_human", 3 ] ],
-      [ [ "cordage", 2, "LIST" ], [ "filament", 200, "LIST" ] ],
+      [ [ "compositebow", 1 ] ],
       [ [ "rune_druid", 2 ] ]
     ]
   },
@@ -109,7 +107,7 @@
     "time": "360 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "MANA_INFUSE", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "using": [ [ "forging_standard", 5 ] ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "scrap_copper", 10 ], [ "copper", 1000 ] ],
@@ -226,6 +224,7 @@
       [ [ "liver", 1 ], [ "liver_cooked", 1 ] ],
       [ [ "kidney", 2 ], [ "kidney_cooked", 2 ] ],
       [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
+      [ [ "hairball", 2 ] ],
       [ [ "sinew", 60 ] ],
       [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_tainted", 2 ] ],
       [ [ "bone_needle", 1 ] ]

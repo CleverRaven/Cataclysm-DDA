@@ -30,8 +30,7 @@
     "id": "lab_bookshelves",
     "items": [
       { "group": "spellbook_loot_1", "prob": 3 },
-      [ "alchemy_basic", 3 ],
-      [ "necro_basic", 3 ],
+      { "group": "magic_recipe_basic", "prob": 3 },
       { "group": "dragon_books", "prob": 3 }
     ]
   },
@@ -40,8 +39,7 @@
     "id": "mansion_books",
     "items": [
       { "group": "spellbook_loot_0", "prob": 6 },
-      [ "alchemy_basic", 10 ],
-      [ "necro_basic", 10 ],
+      { "group": "magic_recipe_basic", "prob": 6 },
       { "group": "dragon_books", "prob": 5 }
     ]
   },
@@ -106,7 +104,7 @@
       { "group": "spellbook_tier_1", "prob": 50 },
       { "group": "spellbook_tier_2", "prob": 35 },
       { "group": "spellbook_tier_3", "prob": 20 },
-      [ "alchemy_basic", 30 ]
+      { "group": "magic_recipe_basic", "prob": 50 }
     ]
   },
   {

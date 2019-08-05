@@ -82,7 +82,7 @@
     "id": "rune_magus_weapon",
     "type": "GENERIC",
     "name": "Magus staff",
-    "plural": "Magi staves",
+    "plural": "Magus staves",
     "\\": "The classical vision of the wizard gets a classic weapon. DPS Stats are between the regular and ironshod versions. Stats are slightly worse than the QS+1 due to the glass weight slowing attack speed.",
     "description": "A quarterstaff with runes carved into it and two glass jars, heat-tempered and infused with mana for durability, to act as mana receptacles. There are two Magi runes embedded at the tips.",
     "weight": 1530,

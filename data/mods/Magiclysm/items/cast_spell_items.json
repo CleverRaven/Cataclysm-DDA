@@ -85,7 +85,7 @@
   {
     "id": "animist_doll_zombie",
     "name": "zombie voodoo doll",
-    "description": "A remarkably accurate effigy of an undead human, including pieces of bone and organs. Necromantic magic delays immediately rot, but it won't last forever. Piercing it with the attached needle could compel it to serve you.",
+    "description": "A remarkably accurate effigy of an undead human, including pieces of bone and organs. Necromantic magic delays immediate rot, but it won't last forever. Piercing it with the attached needle could compel it to serve you.",
     "use_action": { "type": "cast_spell", "spell_id": "summon_zombie", "no_fail": true, "level": 12 },
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
@@ -102,7 +102,7 @@
   {
     "id": "animist_doll_skeleton",
     "name": "ossified voodoo doll",
-    "description": "A remarkably accurate effigy of an undead human covered with bone, including pieces of organs. Necromantic magic delays immediately rot, but it won't last forever. Piercing it with the attached needle could compel it to serve you.",
+    "description": "A remarkably accurate effigy of an undead human covered with bone, including pieces of organs. Necromantic magic delays immediate rot, but it won't last forever. Piercing it with the attached needle could compel it to serve you.",
     "use_action": { "type": "cast_spell", "spell_id": "summon_skeleton", "no_fail": true, "level": 10 },
     "type": "TOOL",
     "category": "weapons",
@@ -111,7 +111,7 @@
   {
     "id": "animist_doll_decayed_pouncer",
     "name": "cougar voodoo doll",
-    "description": "A remarkably accurate effigy of an undead cougar, complete with fur, bones, and organs. Necromantic magic delays immediately rot, but it won't last forever. Piercing it with the attached needle could compel it to serve you.",
+    "description": "A remarkably accurate effigy of an undead cougar, complete with fur, bones, and organs. Necromantic magic delays immediate rot, but it won't last forever. Piercing it with the attached needle could compel it to serve you.",
     "use_action": { "type": "cast_spell", "spell_id": "summon_decayed_pouncer", "no_fail": true, "level": 13 },
     "type": "TOOL",
     "category": "weapons",
@@ -126,7 +126,7 @@
     "type": "COMESTIBLE",
     "weight": 265,
     "quench": -30,
-    "calories": -400,
+    "calories": 100,
     "volume": "250ml",
     "charges": 5,
     "fun": -5,
