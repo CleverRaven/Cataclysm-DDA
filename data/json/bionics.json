@@ -942,7 +942,15 @@
     "name": "Wire-Induced Stiffness",
     "description": "Improperly installed wires cause a physical stiffness in most of your body, causing increased encumbrance.",
     "occupied_bodyparts": [ [ "TORSO", 2 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ], [ "FOOT_L", 1 ], [ "FOOT_R", 1 ] ],
-    "encumbrance": [ [ "TORSO", 10 ], [ "ARM_L", 10 ], [ "ARM_R", 10 ], [ "LEG_L", 10 ], [ "LEG_R", 10 ], [ "FOOT_L", 10 ], [ "FOOT_R", 10 ] ],
+    "encumbrance": [
+      [ "TORSO", 10 ],
+      [ "ARM_L", 10 ],
+      [ "ARM_R", 10 ],
+      [ "LEG_L", 10 ],
+      [ "LEG_R", 10 ],
+      [ "FOOT_L", 10 ],
+      [ "FOOT_R", 10 ]
+    ],
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
