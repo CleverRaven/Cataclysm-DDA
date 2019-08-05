@@ -387,9 +387,8 @@
     "min_unarmed": 2,
     "unarmed_allowed": true,
     "crit_tec": true,
-    "knockback_dist": 1,
-    "knockback_spread": 1,
-    "mult_bonuses": [ [ "damage", "bash", 1.4 ] ]
+    "down_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.5 ] ]
   },
   {
     "type": "technique",
