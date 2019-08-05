@@ -1000,7 +1000,7 @@ static void draw_stats( avatar &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-nc_color move_mode_color( avatar &u )
+static nc_color move_mode_color( avatar &u )
 {
     if( u.movement_mode_is( PMM_RUN ) ) {
         return c_red;
@@ -1011,7 +1011,7 @@ nc_color move_mode_color( avatar &u )
     }
 }
 
-std::string move_mode_string( avatar &u )
+static std::string move_mode_string( avatar &u )
 {
     if( u.movement_mode_is( PMM_RUN ) ) {
         return pgettext( "movement-type", "R" );
