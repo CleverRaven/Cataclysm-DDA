@@ -238,7 +238,7 @@ struct oter_t {
         std::string get_mapgen_id() const;
         oter_id get_rotated( om_direction::type dir ) const;
 
-        const std::string get_name() const {
+        std::string get_name() const {
             return _( type->name );
         }
 
@@ -277,7 +277,7 @@ struct oter_t {
             return type->static_spawns;
         }
 
-        const overmap_land_use_code_id get_land_use_code() const {
+        overmap_land_use_code_id get_land_use_code() const {
             return type->land_use_code;
         }
 

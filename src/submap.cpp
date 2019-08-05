@@ -116,7 +116,7 @@ bool submap::has_signage( const point &p ) const
 
     return false;
 }
-const std::string submap::get_signage( const point &p ) const
+std::string submap::get_signage( const point &p ) const
 {
     if( frn[p.x][p.y].obj().has_flag( "SIGN" ) ) {
         const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );

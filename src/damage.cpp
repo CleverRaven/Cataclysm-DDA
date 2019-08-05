@@ -240,7 +240,7 @@ damage_type dt_by_name( const std::string &name )
     return iter->second;
 }
 
-const std::string name_by_dt( const damage_type &dt )
+std::string name_by_dt( const damage_type &dt )
 {
     auto iter = dt_map.cbegin();
     while( iter != dt_map.cend() ) {

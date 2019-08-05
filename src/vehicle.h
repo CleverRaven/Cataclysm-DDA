@@ -439,7 +439,7 @@ class turret_data
 
         /** Get base item location */
         item_location base();
-        const item_location base() const;
+        item_location base() const;
 
         /** Quantity of ammunition available for use */
         int ammo_remaining() const;
@@ -1357,10 +1357,10 @@ class vehicle
 
         /** Get firing data for a turret */
         turret_data turret_query( vehicle_part &pt );
-        const turret_data turret_query( const vehicle_part &pt ) const;
+        turret_data turret_query( const vehicle_part &pt ) const;
 
         turret_data turret_query( const tripoint &pos );
-        const turret_data turret_query( const tripoint &pos ) const;
+        turret_data turret_query( const tripoint &pos ) const;
 
         /** Set targeting mode for specific turrets */
         void turrets_set_targeting();
@@ -1528,7 +1528,7 @@ class vehicle
 
         void interact_with( const tripoint &pos, int interact_part );
 
-        const std::string disp_name() const;
+        std::string disp_name() const;
 
         /** Required strength to be able to successfully lift the vehicle unaided by equipment */
         int lift_strength() const;

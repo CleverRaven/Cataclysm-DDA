@@ -3089,7 +3089,7 @@ std::string Character::extended_description() const
     return replace_colors( ss.str() );
 }
 
-const social_modifiers Character::get_mutation_social_mods() const
+social_modifiers Character::get_mutation_social_mods() const
 {
     social_modifiers mods;
     for( const mutation_branch *mut : cached_mutations ) {

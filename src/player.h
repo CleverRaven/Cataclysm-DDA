@@ -1369,21 +1369,21 @@ class player : public Character
         /** Returns all known recipes. */
         const recipe_subset &get_learned_recipes() const;
         /** Returns all recipes that are known from the books (either in inventory or nearby). */
-        const recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
+        recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
         /**
           * Returns all available recipes (from books and npc companions)
           * @param crafting_inv Current available items to craft
           * @param helpers List of NPCs that could help with crafting.
           */
-        const recipe_subset get_available_recipes( const inventory &crafting_inv,
-                const std::vector<npc *> *helpers = nullptr ) const;
+        recipe_subset get_available_recipes( const inventory &crafting_inv,
+                                             const std::vector<npc *> *helpers = nullptr ) const;
         /**
           * Returns the set of book types in crafting_inv that provide the
           * given recipe.
           * @param crafting_inv Current available items that may contain readable books
           * @param r Recipe to search for in the available books
           */
-        const std::set<itype_id> get_books_for_recipe( const inventory &crafting_inv,
+        std::set<itype_id> get_books_for_recipe( const inventory &crafting_inv,
                 const recipe *r ) const;
 
         // crafting.cpp

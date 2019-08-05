@@ -438,7 +438,7 @@ point direction_XY( const direction dir )
 
 namespace
 {
-const std::string direction_name_impl( const direction dir, const bool short_name )
+std::string direction_name_impl( const direction dir, const bool short_name )
 {
     enum : int { size = 3 * 3 * 3 };
     static const auto names = [] {
@@ -487,12 +487,12 @@ const std::string direction_name_impl( const direction dir, const bool short_nam
 }
 } //namespace
 
-const std::string direction_name( const direction dir )
+std::string direction_name( const direction dir )
 {
     return direction_name_impl( dir, false );
 }
 
-const std::string direction_name_short( const direction dir )
+std::string direction_name_short( const direction dir )
 {
     return direction_name_impl( dir, true );
 }

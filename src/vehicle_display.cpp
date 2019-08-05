@@ -25,7 +25,7 @@
 static const std::string part_location_structure( "structure" );
 static const itype_id fuel_type_muscle( "muscle" );
 
-const std::string vehicle::disp_name() const
+std::string vehicle::disp_name() const
 {
     return string_format( _( "the %s" ), name );
 }

@@ -689,7 +689,7 @@ mission::mission_status string_to_enum<mission::mission_status>( const std::stri
 }
 
 template<>
-const std::string enum_to_string<mission::mission_status>( mission::mission_status data )
+std::string enum_to_string<mission::mission_status>( mission::mission_status data )
 {
     const auto iter = std::find_if( status_map.begin(), status_map.end(),
     [data]( const std::pair<std::string, mission::mission_status> &pr ) {
@@ -709,7 +709,7 @@ mission::mission_status mission::status_from_string( const std::string &s )
     return io::string_to_enum<mission::mission_status>( s );
 }
 
-const std::string mission::status_to_string( mission::mission_status st )
+std::string mission::status_to_string( mission::mission_status st )
 {
     return io::enum_to_string<mission::mission_status>( st );
 }

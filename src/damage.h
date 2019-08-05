@@ -104,7 +104,7 @@ struct resistances {
 };
 
 damage_type dt_by_name( const std::string &name );
-const std::string name_by_dt( const damage_type &dt );
+std::string name_by_dt( const damage_type &dt );
 
 const skill_id &skill_by_dt( damage_type dt );
 

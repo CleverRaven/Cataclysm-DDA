@@ -58,7 +58,7 @@ usage string_to_enum<usage>( const std::string &data )
 }
 
 template<>
-const std::string enum_to_string<usage>( usage data )
+std::string enum_to_string<usage>( usage data )
 {
     const auto iter = std::find_if( usage_map.begin(), usage_map.end(),
     [data]( const std::pair<std::string, usage> &kv ) {

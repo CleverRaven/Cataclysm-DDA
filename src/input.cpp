@@ -711,9 +711,9 @@ std::string input_context::get_available_single_char_hotkeys( std::string reques
     return requested_keys;
 }
 
-const std::string input_context::get_desc( const std::string &action_descriptor,
-        const unsigned int max_limit,
-        const std::function<bool( const input_event & )> evt_filter ) const
+std::string input_context::get_desc( const std::string &action_descriptor,
+                                     const unsigned int max_limit,
+                                     const std::function<bool( const input_event & )> evt_filter ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
         return "(*)"; // * for wildcard
@@ -763,9 +763,9 @@ const std::string input_context::get_desc( const std::string &action_descriptor,
     return rval.str();
 }
 
-const std::string input_context::get_desc( const std::string &action_descriptor,
-        const std::string &text,
-        const std::function<bool( const input_event & )> evt_filter ) const
+std::string input_context::get_desc( const std::string &action_descriptor,
+                                     const std::string &text,
+                                     const std::function<bool( const input_event & )> evt_filter ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
         //~ keybinding description for anykey
@@ -1279,7 +1279,7 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 }
 #endif
 
-const std::string input_context::get_action_name( const std::string &action_id ) const
+std::string input_context::get_action_name( const std::string &action_id ) const
 {
     // 1) Check action name overrides specific to this input_context
     const input_manager::t_string_string_map::const_iterator action_name_override =

@@ -104,7 +104,7 @@ class profession
         std::vector<addiction> addictions() const;
         std::vector<mtype_id> pets() const;
         std::vector<bionic_id> CBMs() const;
-        const StartingSkillList skills() const;
+        StartingSkillList skills() const;
 
         std::map<spell_id, int> spells() const;
         void learn_spells( avatar &you ) const;

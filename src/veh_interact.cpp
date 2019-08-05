@@ -61,11 +61,11 @@ const efftype_id effect_riding( "riding" );
 
 class player;
 
-static inline const std::string status_color( bool status )
+static inline std::string status_color( bool status )
 {
     return status ? "<color_green>" : "<color_red>";
 }
-static inline const std::string health_color( bool status )
+static inline std::string health_color( bool status )
 {
     return status ? "<color_light_green>" : "<color_light_red>";
 }

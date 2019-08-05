@@ -432,7 +432,7 @@ void inventory_column::set_filter( const std::string &filter )
     prepare_paging( filter );
 }
 
-const inventory_column::entry_cell_cache_t inventory_column::make_entry_cell_cache(
+inventory_column::entry_cell_cache_t inventory_column::make_entry_cell_cache(
     const inventory_entry &entry ) const
 {
     entry_cell_cache_t result;

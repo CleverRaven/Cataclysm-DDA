@@ -534,9 +534,9 @@ class input_context
          * @param evt_filter Only keys satisfying this function will be
          *                   described.
          */
-        const std::string get_desc( const std::string &action_descriptor,
-                                    const unsigned int max_limit = 0,
-                                    const std::function<bool( const input_event & )> evt_filter =
+        std::string get_desc( const std::string &action_descriptor,
+                              const unsigned int max_limit = 0,
+                              const std::function<bool( const input_event & )> evt_filter =
         []( const input_event & ) {
             return true;
         } ) const;
@@ -555,9 +555,9 @@ class input_context
          *
          * @param evt_filter Only keys satisfying this function will be considered
          */
-        const std::string get_desc( const std::string &action_descriptor,
-                                    const std::string &text,
-                                    const std::function<bool( const input_event & )> evt_filter =
+        std::string get_desc( const std::string &action_descriptor,
+                              const std::string &text,
+                              const std::function<bool( const input_event & )> evt_filter =
         []( const input_event & ) {
             return true;
         } ) const;
@@ -617,7 +617,7 @@ class input_context
         /**
          * Get the human-readable name for an action.
          */
-        const std::string get_action_name( const std::string &action_id ) const;
+        std::string get_action_name( const std::string &action_id ) const;
 
         /* For the future, something like this might be nice:
          * const std::string register_action(const std::string& action_descriptor, x, y, width, height);

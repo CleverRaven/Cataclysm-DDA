@@ -189,7 +189,7 @@ class overmap
         std::vector<point> find_terrain( const std::string &term, int zlevel );
 
         oter_id &ter( const tripoint &p );
-        const oter_id get_ter( const tripoint &p ) const;
+        oter_id get_ter( const tripoint &p ) const;
         bool &seen( const tripoint &p );
         bool seen( const tripoint &p ) const;
         bool &explored( const tripoint &p );

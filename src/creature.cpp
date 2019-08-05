@@ -1581,7 +1581,7 @@ void Creature::check_dead_state()
     }
 }
 
-const std::string Creature::attitude_raw_string( Attitude att )
+std::string Creature::attitude_raw_string( Attitude att )
 {
     switch( att ) {
         case Creature::A_HOSTILE:

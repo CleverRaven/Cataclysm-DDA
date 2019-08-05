@@ -119,7 +119,7 @@ static weather_datum weather_data_interal_localized( weather_type const type )
     return res.datum;
 }
 
-weather_datum const weather_data( weather_type const type )
+weather_datum weather_data( weather_type const type )
 {
     return weather_data_interal_localized( type );
 }

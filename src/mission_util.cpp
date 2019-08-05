@@ -25,7 +25,7 @@
 #include "type_id.h"
 #include "point.h"
 
-static const tripoint reveal_destination( const std::string &type )
+static tripoint reveal_destination( const std::string &type )
 {
     const tripoint your_pos = g->u.global_omt_location();
     const tripoint center_pos = overmap_buffer.find_random( your_pos, type, rng( 40, 80 ), false );

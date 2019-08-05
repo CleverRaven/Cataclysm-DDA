@@ -74,7 +74,7 @@ class panel_manager
         }
 
         std::vector<window_panel> &get_current_layout();
-        const std::string get_current_layout_id() const;
+        std::string get_current_layout_id() const;
         int get_width_right();
         int get_width_left();
 

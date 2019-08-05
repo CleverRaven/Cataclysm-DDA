@@ -274,7 +274,7 @@ void load_martial_art( JsonObject &jo, const std::string &src );
 void check_martialarts();
 void clear_techniques_and_martial_arts();
 void finialize_martial_arts();
-const std::string martialart_difficulty( matype_id mstyle );
+std::string martialart_difficulty( matype_id mstyle );
 
 std::vector<matype_id> all_martialart_types();
 std::vector<matype_id> autolearn_martialart_types();

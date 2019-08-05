@@ -70,7 +70,7 @@ class InvalidEnumString : public std::runtime_error
 template<typename E>
 E string_to_enum( const std::string &data );
 template<typename E>
-const std::string enum_to_string( E data );
+std::string enum_to_string( E data );
 
 // Helper function to do the lookup in a container (map or unordered_map)
 template<typename C, typename E = typename C::mapped_type>

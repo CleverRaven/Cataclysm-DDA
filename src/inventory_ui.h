@@ -351,7 +351,7 @@ class inventory_column
         /** Sum of the cell widths */
         size_t get_cells_width() const;
 
-        const entry_cell_cache_t make_entry_cell_cache( const inventory_entry &entry ) const;
+        entry_cell_cache_t make_entry_cell_cache( const inventory_entry &entry ) const;
         const entry_cell_cache_t &get_entry_cell_cache( size_t index ) const;
 
         const inventory_selector_preset &preset;

@@ -364,11 +364,11 @@ class map
         void clear_spawns();
         void clear_traps();
 
-        const maptile maptile_at( const tripoint &p ) const;
+        maptile maptile_at( const tripoint &p ) const;
         maptile maptile_at( const tripoint &p );
     private:
         // Versions of the above that don't do bounds checks
-        const maptile maptile_at_internal( const tripoint &p ) const;
+        maptile maptile_at_internal( const tripoint &p ) const;
         maptile maptile_at_internal( const tripoint &p );
         maptile maptile_has_bounds( const tripoint &p, const bool bounds_checked );
         std::array<maptile, 8> get_neighbors( const tripoint &p );
@@ -886,7 +886,7 @@ class map
         void decay_fields_and_scent( const time_duration &amount );
 
         // Signs
-        const std::string get_signage( const tripoint &p ) const;
+        std::string get_signage( const tripoint &p ) const;
         void set_signage( const tripoint &p, const std::string &message ) const;
         void delete_signage( const tripoint &p ) const;
 

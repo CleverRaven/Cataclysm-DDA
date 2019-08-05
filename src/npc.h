@@ -1002,7 +1002,7 @@ class npc : public player
         item &find_reloadable();
         /** Finds ammo the NPC could use to reload a given object */
         item_location find_usable_ammo( const item &weap );
-        const item_location find_usable_ammo( const item &weap ) const;
+        item_location find_usable_ammo( const item &weap ) const;
 
         bool dispose_item( item_location &&obj, const std::string &prompt = std::string() ) override;
 

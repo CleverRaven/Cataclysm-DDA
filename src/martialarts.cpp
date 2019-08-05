@@ -355,7 +355,7 @@ void finialize_martial_arts()
     }
 }
 
-const std::string martialart_difficulty( matype_id mstyle )
+std::string martialart_difficulty( matype_id mstyle )
 {
     std::string diff;
     if( mstyle->learn_difficulty <= 2 ) {

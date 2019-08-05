@@ -9269,7 +9269,7 @@ const recipe_subset &player::get_learned_recipes() const
     return *learned_recipes;
 }
 
-const recipe_subset player::get_recipes_from_books( const inventory &crafting_inv ) const
+recipe_subset player::get_recipes_from_books( const inventory &crafting_inv ) const
 {
     recipe_subset res;
 
@@ -9285,7 +9285,7 @@ const recipe_subset player::get_recipes_from_books( const inventory &crafting_in
     return res;
 }
 
-const std::set<itype_id> player::get_books_for_recipe( const inventory &crafting_inv,
+std::set<itype_id> player::get_books_for_recipe( const inventory &crafting_inv,
         const recipe *r ) const
 {
     std::set<itype_id> book_ids;
@@ -9305,7 +9305,7 @@ const std::set<itype_id> player::get_books_for_recipe( const inventory &crafting
     return book_ids;
 }
 
-const recipe_subset player::get_available_recipes( const inventory &crafting_inv,
+recipe_subset player::get_available_recipes( const inventory &crafting_inv,
         const std::vector<npc *> *helpers ) const
 {
     recipe_subset res( get_learned_recipes() );

@@ -769,7 +769,7 @@ class Character : public Creature, public visitable<Character>
         /**
          * Goes over all mutations, returning the sum of the social modifiers
          */
-        const social_modifiers get_mutation_social_mods() const;
+        social_modifiers get_mutation_social_mods() const;
 
         /** Color's character's tile's background */
         nc_color symbol_color() const override;

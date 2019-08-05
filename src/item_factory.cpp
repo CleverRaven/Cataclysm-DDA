@@ -59,7 +59,7 @@ static DynamicDataLoader::deferred_json deferred;
 
 std::unique_ptr<Item_factory> item_controller = std::make_unique<Item_factory>();
 
-static const std::string calc_category( const itype &obj );
+static std::string calc_category( const itype &obj );
 static void set_allergy_flags( itype &item_template );
 static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
@@ -2683,7 +2683,7 @@ phase_id string_to_enum<phase_id>( const std::string &data )
 }
 } // namespace io
 
-const std::string calc_category( const itype &obj )
+std::string calc_category( const itype &obj )
 {
     if( obj.artifact ) {
         return "artifacts";
