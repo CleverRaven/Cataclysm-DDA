@@ -8,6 +8,7 @@ Checks: "\
 bugprone-*,\
 cata-*,\
 cert-*,\
+-cert-dcl21-cpp,\
 -cert-err58-cpp,\
 clang-diagnostic-*,\
 cppcoreguidelines-slicing,\
@@ -25,7 +26,6 @@ readability-*,\
 -bugprone-undefined-memory-manipulation,\
 -bugprone-unused-return-value,\
 -bugprone-use-after-move,\
--cert-dcl21-cpp,\
 -cert-dcl50-cpp,\
 -cert-dcl58-cpp,\
 -cert-dcl59-cpp,\
@@ -60,7 +60,6 @@ readability-*,\
 -performance-unnecessary-value-param,\
 -readability-avoid-const-params-in-decls,\
 -readability-braces-around-statements,\
--readability-const-return-type,\
 -readability-else-after-return,\
 -readability-function-size,\
 -readability-implicit-bool-conversion,\

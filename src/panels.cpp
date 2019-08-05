@@ -1847,7 +1847,7 @@ std::vector<window_panel> &panel_manager::get_current_layout()
     return get_current_layout();
 }
 
-const std::string panel_manager::get_current_layout_id() const
+std::string panel_manager::get_current_layout_id() const
 {
     return current_layout_id;
 }

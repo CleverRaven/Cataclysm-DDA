@@ -825,7 +825,7 @@ const std::vector<efftype_id> &effect::get_removes_effects() const
 {
     return eff_type->removes_effects;
 }
-const std::vector<efftype_id> effect::get_blocks_effects() const
+std::vector<efftype_id> effect::get_blocks_effects() const
 {
     std::vector<efftype_id> ret = eff_type->removes_effects;
     ret.insert( ret.end(), eff_type->blocks_effects.begin(), eff_type->blocks_effects.end() );

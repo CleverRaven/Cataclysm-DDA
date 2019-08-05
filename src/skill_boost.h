@@ -25,7 +25,7 @@ class skill_boost
         static void reset();
 
         static const std::vector<skill_boost> &get_all();
-        static const cata::optional<skill_boost> get( const std::string &stat_str );
+        static cata::optional<skill_boost> get( const std::string &stat_str );
 
     private:
         friend class generic_factory<skill_boost>;

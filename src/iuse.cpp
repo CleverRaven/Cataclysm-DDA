@@ -279,8 +279,8 @@ static std::string colorized_feature_description_at( const tripoint &center_poin
 
 static std::string colorized_item_name( const item &item );
 static std::string colorized_item_description( const item &item );
-static const item get_top_item_at_point( const tripoint &point,
-        const units::volume min_visible_volume );
+static item get_top_item_at_point( const tripoint &point,
+                                   const units::volume min_visible_volume );
 
 static std::string effects_description_for_creature( Creature *const creature, std::string &pose,
         const std::string &pronoun_sex );
@@ -6486,8 +6486,8 @@ static std::string colorized_item_description( const item &item )
     return item.info( dummy, &query, 1 );
 }
 
-static const item get_top_item_at_point( const tripoint &point,
-        const units::volume min_visible_volume )
+static item get_top_item_at_point( const tripoint &point,
+                                   const units::volume min_visible_volume )
 {
     map_stack items = g->m.i_at( point );
     // iterate from topmost item down to ground

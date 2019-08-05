@@ -34,17 +34,17 @@
 #include "flat_set.h"
 #include "line.h"
 
-const std::string base_camps::faction_encode_short( const std::string &type )
+std::string base_camps::faction_encode_short( const std::string &type )
 {
     return prefix + type + "_";
 }
 
-const std::string base_camps::faction_encode_abs( const expansion_data &e, int number )
+std::string base_camps::faction_encode_abs( const expansion_data &e, int number )
 {
     return faction_encode_short( e.type ) + to_string( number );
 }
 
-const std::string base_camps::faction_decode( const std::string &full_type )
+std::string base_camps::faction_decode( const std::string &full_type )
 {
     if( full_type.size() < ( prefix_len + 2 ) ) {
         return "camp";
@@ -54,7 +54,7 @@ const std::string base_camps::faction_decode( const std::string &full_type )
     return full_type.substr( prefix_len, last_bar - prefix_len );
 }
 
-const time_duration base_camps::to_workdays( const time_duration &work_time )
+time_duration base_camps::to_workdays( const time_duration &work_time )
 {
     if( work_time < 11_hours ) {
         return work_time;
@@ -197,7 +197,7 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
 
 // upgrade levels
 // legacy next upgrade
-const std::string basecamp::next_upgrade( const std::string &dir, const int offset ) const
+std::string basecamp::next_upgrade( const std::string &dir, const int offset ) const
 {
     const auto &e = expansions.find( dir );
     if( e == expansions.end() ) {
@@ -252,7 +252,7 @@ bool basecamp::can_expand()
     return has_provides( "bed", base_camps::base_dir, directions.size() * 2 );
 }
 
-const std::vector<basecamp_upgrade> basecamp::available_upgrades( const std::string &dir )
+std::vector<basecamp_upgrade> basecamp::available_upgrades( const std::string &dir )
 {
     std::vector<basecamp_upgrade> ret_data;
     auto e = expansions.find( dir );
@@ -331,7 +331,7 @@ std::map<std::string, std::string> basecamp::recipe_deck( const std::string &dir
     return recipes;
 }
 
-const std::string basecamp::get_gatherlist() const
+std::string basecamp::get_gatherlist() const
 {
     const auto &e = expansions.find( base_camps::base_dir );
     if( e != expansions.end() ) {

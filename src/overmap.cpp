@@ -1164,7 +1164,7 @@ oter_id &overmap::ter( const tripoint &p )
     return layer[p.z + OVERMAP_DEPTH].terrain[p.x][p.y];
 }
 
-const oter_id overmap::get_ter( const tripoint &p ) const
+oter_id overmap::get_ter( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
         return ot_null;

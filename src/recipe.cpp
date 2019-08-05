@@ -489,7 +489,7 @@ std::string recipe::result_name() const
     return name;
 }
 
-const std::function<bool( const item & )> recipe::get_component_filter() const
+std::function<bool( const item & )> recipe::get_component_filter() const
 {
     const item result = create_result();
 

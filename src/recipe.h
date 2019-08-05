@@ -61,7 +61,7 @@ class recipe
             return requirements_.is_blacklisted();
         }
 
-        const std::function<bool( const item & )> get_component_filter() const;
+        std::function<bool( const item & )> get_component_filter() const;
 
         /** Prevent this recipe from ever being added to the player's learned recipies ( used for special NPC crafting ) */
         bool never_learn = false;

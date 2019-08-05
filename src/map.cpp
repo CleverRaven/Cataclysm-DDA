@@ -151,7 +151,7 @@ map::~map() = default;
 
 static submap null_submap;
 
-const maptile map::maptile_at( const tripoint &p ) const
+maptile map::maptile_at( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
         return maptile( &null_submap, 0, 0 );
@@ -169,7 +169,7 @@ maptile map::maptile_at( const tripoint &p )
     return maptile_at_internal( p );
 }
 
-const maptile map::maptile_at_internal( const tripoint &p ) const
+maptile map::maptile_at_internal( const tripoint &p ) const
 {
     point l;
     submap *const sm = get_submap_at( p, l );
@@ -3926,7 +3926,7 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
     return false;
 }
 
-const std::string map::get_signage( const tripoint &p ) const
+std::string map::get_signage( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
         return "";
