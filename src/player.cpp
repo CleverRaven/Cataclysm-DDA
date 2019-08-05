@@ -10316,27 +10316,6 @@ int player::shoe_type_count( const itype_id &it ) const
     return ret;
 }
 
-bool player::is_wearing_power_armor( bool *hasHelmet ) const
-{
-    bool result = false;
-    for( auto &elem : worn ) {
-        if( !elem.is_power_armor() ) {
-            continue;
-        }
-        if( hasHelmet == nullptr ) {
-            // found power armor, helmet not requested, cancel loop
-            return true;
-        }
-        // found power armor, continue search for helmet
-        result = true;
-        if( elem.covers( bp_head ) ) {
-            *hasHelmet = true;
-            return true;
-        }
-    }
-    return result;
-}
-
 int player::adjust_for_focus( int amount ) const
 {
     int effective_focus = focus_pool;

@@ -321,6 +321,8 @@ class Character : public Creature, public visitable<Character>
         /** Get encumbrance penalty per layer & body part */
         int extraEncumbrance( const layer_level level, const int bp ) const;
 
+        /** Returns true if the character is wearing power armor */
+        bool is_wearing_power_armor( bool *hasHelmet = nullptr ) const;
         /** Returns true if the character is wearing active power */
         bool is_wearing_active_power_armor() const;
 
