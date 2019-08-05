@@ -20,7 +20,7 @@
       "dispersion": 180,
       "durability": 10,
       "clip_size": 1
-    }
+    },
     "dispersion_modifier": 60,
     "min_skills": [ [ "weapon", 2 ], [ "archery", 1 ] ],
     "flags": [ "STR_RELOAD" ]
