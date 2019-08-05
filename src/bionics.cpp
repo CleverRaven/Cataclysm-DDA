@@ -1611,8 +1611,7 @@ void player::perform_install( bionic_id bid, bionic_id upbid, int difficulty, in
                 remove_mutation( tid );
             }
         }
-        //Update encumbrance that could have been affected by the new bionic
-        reset_encumbrance();
+
     } else {
         if( is_player() ) {
             add_memorial_log( pgettext( "memorial_male", "Failed install of bionic: %s." ),
