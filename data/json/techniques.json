@@ -422,6 +422,60 @@
   },
   {
     "type": "technique",
+    "id": "tec_capoeira_feint",
+    "name": "Feint",
+    "messages": [ "You fake a kick at %s", "<npcname> fakes a kick at %s" ],
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "miss_recovery": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_capoeira_pushkick",
+    "name": "Push Kick",
+    "messages": [ "You push kick %s", "<npcname> push kicks %s" ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_capoeira_circlekick",
+    "name": "Circle Kick",
+    "messages": [ "You circle kick %s", "<npcname> circle kicks %s" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.4 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_capoeira_sweepkick",
+    "name": "Sweep Kick",
+    "messages": [ "You sweep kick %s", "<npcname> sweep kicks %s" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "req_buffs": [ "buff_capoeira_onmove" ],
+    "weighting": 2,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.75 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_capoeira_spinkick",
+    "name": "Spin Kick",
+    "messages": [ "You spin kick %s", "<npcname> spin kicks %s" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "req_buffs": [ "buff_capoeira_onmove" ],
+    "weighting": 2,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.75 ], [ "damage", "bash", 1.4 ] ]
+  },
+  {
+    "type": "technique",
     "id": "tec_karate_rapid",
     "name": "quick punch",
     "min_unarmed": 0,
@@ -547,16 +601,6 @@
     "crit_tec": true,
     "stun_dur": 2,
     "messages": [ "You strike %s", "<npcname> strikes %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_capoeira_feint",
-    "name": "feint at",
-    "min_unarmed": 1,
-    "unarmed_allowed": true,
-    "defensive": true,
-    "miss_recovery": true,
-    "messages": [ "You feint at %s", "<npcname> feints at %s" ]
   },
   {
     "type": "technique",

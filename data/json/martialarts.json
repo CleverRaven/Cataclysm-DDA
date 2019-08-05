@@ -132,6 +132,55 @@
   },
   {
     "type": "martial_art",
+    "id": "style_capoeira",
+    "name": "Capoeira",
+    "description": "A dance-like style with its roots in Brazilian slavery, Capoeira is focused on fluid movement and sweeping kicks.  Moving briefly enables stronger techniques.  Missing an attack grants bonus damage for a short time.",
+    "initiate": [ "You begin performing the ginga.", "%s begins to rhythmically rock back and forth." ],
+    "learn_difficulty": 4,
+    "static_buffs": [
+      {
+        "id": "buff_capoeira_static",
+        "name": "Capoeira Stance",
+        "description": "You never stop moving while performing the ginga.  This makes you very mobile while fighting.\n\n+1.0 Dodge skill, +1 Dodge attempts.",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "bonus_dodges": 1,
+        "flat_bonuses": [ [ "dodge", 1.0 ] ]
+      }
+    ],
+    "onmiss_buffs": [
+      {
+        "id": "buff_capoeira_onmiss",
+        "name": "Capoeira Tempo",
+        "description": "You didn't miss, it's just part of the dance and the best part is about to start!\n\n+15%% Bash damage.\nLasts 2 turns.  Stacks 3 times.",
+        "unarmed_allowed": true,
+        "min_unarmed": 1,
+        "buff_duration": 2,
+        "max_stacks": 3,
+        "multi_bonuses": [ [ "damage", "bash", 1.15 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_capoeira_onmove",
+        "name": "Capoeira Momentum",
+        "description": "You can feel the rhythm as you move.  Not only are you harder to hit, but your kicks are even more amazing!\n\n+1.0 Dodge skill.\nEnables \"Spin Kick\" and \"Sweep Kick\" techniques.\nLasts 3 turns.",
+        "unarmed_allowed": true,
+        "min_unarmed": 2,
+        "buff_duration": 3,
+        "flat_bonuses": [ [ "dodge", 1.0 ] ]
+      }
+    ],
+    "techniques": [
+      "tec_capoeira_feint",
+      "tec_capoeira_pushkick",
+      "tec_capoeira_sweepkick",
+      "tec_capoeira_circlekick",
+      "tec_capoeira_spinkick"
+    ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_karate",
     "name": "Karate",
     "description": "Karate is a popular martial art, originating from Japan.  It focuses on rapid, precise attacks, blocks, and fluid movement.  A successful hit allows you an extra dodge and two extra blocks on the following round.",
@@ -197,42 +246,6 @@
       }
     ],
     "techniques": [ "tec_taichi_disarm", "tec_taichi_precise" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_capoeira",
-    "name": "Capoeira",
-    "description": "A dance-like style with its roots in Brazilian slavery, Capoeira is focused on fluid movement and sweeping kicks.  Moving a tile will boost attack and damage and attacking boosts dodge.  These bonuses stack up to three times each.",
-    "initiate": [ "You begin performing the ginga.", "%s begins to rhymically rock back and forth." ],
-    "learn_difficulty": 4,
-    "arm_block": 99,
-    "leg_block": 99,
-    "onhit_buffs": [
-      {
-        "id": "capoeira_hit_buff",
-        "name": "Capoeira Tempo",
-        "description": "+1 dodge and +1 blocks per stack",
-        "unarmed_allowed": true,
-        "min_unarmed": 3,
-        "buff_duration": 5,
-        "max_stacks": 3,
-        "bonus_blocks": 1,
-        "flat_bonuses": [ [ "dodge", 1.0 ] ]
-      }
-    ],
-    "onmove_buffs": [
-      {
-        "id": "capoeira_move_buff",
-        "name": "Capoeira Momentum",
-        "description": "+2 bash and +1 acc per stack",
-        "unarmed_allowed": true,
-        "min_unarmed": 2,
-        "buff_duration": 3,
-        "max_stacks": 3,
-        "flat_bonuses": [ [ "damage", "bash", 2.0 ], [ "hit", 1.0 ] ]
-      }
-    ],
-    "techniques": [ "tec_capoeira_feint" ]
   },
   {
     "type": "martial_art",
