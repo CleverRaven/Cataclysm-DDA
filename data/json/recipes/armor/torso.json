@@ -15,7 +15,7 @@
     "result": "armor_lamellar",
     "type": "recipe",
     "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
+    "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "240 m",
