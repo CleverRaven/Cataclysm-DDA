@@ -1059,6 +1059,7 @@ void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_type_
     }
     fmenu.entries[idx].text_color = fld != nullptr ? c_cyan : fmenu.text_color;
     fmenu.entries[idx].extratxt.color = ftype.get_color( field_intensity - 1 );
+    fmenu.entries[idx].extratxt.txt = ftype.get_symbol( field_intensity - 1 );
 }
 
 void editmap::setup_fmenu( uilist &fmenu )
@@ -1066,12 +1067,8 @@ void editmap::setup_fmenu( uilist &fmenu )
     fmenu.entries.clear();
     for( int i = 0; i < static_cast<int>( field_type::count() ); i++ ) {
         const field_type_id fid = static_cast<field_type_id>( i );
-        const field_type &ftype = fid.obj();
-        const int field_intensity = 1;
-        std::string fname = ftype.get_name( field_intensity - 1 );
-        fmenu.addentry( fid, true, -2, fname );
+        fmenu.addentry( fid, true, -2, "" );
         fmenu.entries[fid].extratxt.left = 1;
-        fmenu.entries[fid].extratxt.txt = string_format( "%s", ftype.get_symbol( field_intensity - 1 ) );
         update_fmenu_entry( fmenu, *cur_field, fid );
     }
     if( sel_field >= 0 ) {

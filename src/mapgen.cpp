@@ -3869,7 +3869,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                                 if( is_toxic ) {
                                     add_field( {i, j, abs_sub.z}, fd_gas_vent, 1 );
                                 } else {
-                                    add_field( {i, j, abs_sub.z}, fd_smoke_vent, 2 );
+                                    add_field( {i, j, abs_sub.z}, fd_smoke_vent, 1 );
                                 }
                             }
                         }
