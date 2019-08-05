@@ -10195,5 +10195,37 @@
       [ "schematics_antimateriel", 20 ],
       [ "schematics_searchlight", 50 ]
     ]
+  },
+  {
+    "id": "cyborg_harvest",
+    "type": "item_group",
+    "items": [
+      [ "bio_dis_shock", 1 ],
+      [ "bio_dis_acid", 1 ],
+      [ "bio_drain", 1 ],
+      [ "bio_noise", 1 ],
+      [ "bio_power_weakness", 1 ],
+      [ "bio_itchy", 1 ],
+      [ "bio_nostril", 1 ],
+      [ "bio_thumbs", 1 ],
+      [ "bio_spasm", 1 ],
+      [ "bio_shakes", 1 ],
+      [ "bio_leaky", 1 ],
+      [ "bio_sleepy", 1 ],
+      [ "bio_deformity", 1 ],
+      [ "bio_voice", 1 ],
+      [ "bio_pokedeye", 1 ],
+      [ "bio_ankles", 1 ],
+      [ "bio_trip", 1 ],
+      [ "bio_stiff", 1 ],
+      [ "bio_armor_head", 2 ],
+      [ "bio_armor_torso", 2 ],
+      [ "bio_armor_arms", 2 ],
+      [ "bio_armor_legs", 2 ],
+      [ "bio_armor_eyes", 2 ],
+      [ "bio_razors", 2 ],
+      [ "bio_power_storage", 1 ],
+      [ "bio_torsionratchet", 1 ]
+    ]
   }
 ]
