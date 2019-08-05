@@ -18,7 +18,7 @@
         ".| RRRRRRR    RRRRRRR |.",
         ".| RRRRRRR    RRRRRRR |.",
         ".|                    |.",
-        ".|^           RRRRRRR |.",
+        ".|^     mm    RRRRRRR |.",
         ".|####        RRRRRRR |.",
         ".|R  #    ^           |.",
         ".|R c#   B|-----------|.",
@@ -66,7 +66,8 @@
         "f": "f_fridge",
         "I": "f_desk",
         "Y": "f_trashcan",
-        "L": "f_locker"
+        "L": "f_locker",
+        "m": "f_mannequin"
       },
       "toilets": { "&": {  } },
       "items": {
@@ -79,7 +80,8 @@
         "X": { "item": "ammo_rifle_common", "chance": 80, "repeat": [ 4, 5 ] },
         "x": { "item": "ammo_shotgun_common", "chance": 80, "repeat": [ 4, 5 ] },
         "Y": { "item": "trash_cart", "chance": 70, "repeat": [ 1, 2 ] },
-        "I": { "item": "office_supplies", "chance": 50 }
+        "I": { "item": "office_supplies", "chance": 50 },
+        "m": { "item": "clothing_hunting", "chance": 80, "repeat": [ 2, 3 ] }
       },
       "place_loot": [
         { "group": "guns_rifle_common", "x": 2, "y": 13, "chance": 70, "repeat": [ 4, 5 ] },
