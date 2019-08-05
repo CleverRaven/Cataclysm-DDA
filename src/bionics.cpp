@@ -1983,6 +1983,7 @@ void load_bionic( JsonObject &jsobj )
     jsobj.read( "canceled_mutations", new_bionic.canceled_mutations );
     jsobj.read( "included_bionics", new_bionic.included_bionics );
     jsobj.read( "included", new_bionic.included );
+    jsobj.read( "env_protec", new_bionic.env_protec );
     jsobj.read( "upgraded_bionic", new_bionic.upgraded_bionic );
 
     JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );

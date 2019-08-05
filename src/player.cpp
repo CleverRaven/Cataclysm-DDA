@@ -10186,19 +10186,14 @@ int player::get_env_resist( body_part bp ) const
         }
     }
 
-    if( bp == bp_mouth && has_bionic( bio_purifier ) && ret < 5 ) {
-        ret += 2;
-        if( ret > 5 ) {
-            ret = 5;
+    for( const bionic &bio : *my_bionics ) {
+        for( const auto &part : bio.info().occupied_bodyparts ) {
+            if( part.first == bp || ( bp == bp_eyes && part.first == bp_head ) ) {
+                ret += bio.info().env_protec;
+            }
         }
     }
 
-    if( bp == bp_eyes && has_bionic( bio_armor_eyes ) && ret < 5 ) {
-        ret += 2;
-        if( ret > 5 ) {
-            ret = 5;
-        }
-    }
     if( bp == bp_eyes && has_trait( trait_SEESLEEP ) ) {
         ret += 8;
     }
