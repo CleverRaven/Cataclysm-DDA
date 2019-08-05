@@ -3677,7 +3677,7 @@
     "difficulty": 2,
     "time": "60 m",
     "autolearn": true,
-    "components": [ [ [ "birchbark", 12 ] ], [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "birchbark", 12 ] ], [ [ "adhesive", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
