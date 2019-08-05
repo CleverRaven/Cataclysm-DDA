@@ -44,6 +44,7 @@
   {
     "id": "clothing_hunting",
     "type": "item_group",
+    "//": "Clothes that hunters take on hunting trips.",
     "items": [
       [ "balclava", 50 ],
       [ "hat_cotton", 50 ],
