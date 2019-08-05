@@ -80,7 +80,7 @@
     "result": "ear_spool",
     "type": "uncraft",
     "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -178,91 +178,91 @@
     "result": "leather_collar",
     "type": "uncraft",
     "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 1 ] ] ]
   },
   {
     "result": "rad_badge",
     "type": "uncraft",
     "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "badge_doctor",
     "type": "uncraft",
     "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "badge_foodkid",
     "type": "uncraft",
     "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "fur_cat_ears",
     "type": "uncraft",
     "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "fur", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "faux_fur_cat_ears",
     "type": "uncraft",
     "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "faux_fur", 1 ] ] ]
   },
   {
     "result": "fur_cat_tail",
     "type": "uncraft",
     "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "fur", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "faux_fur_cat_tail",
     "type": "uncraft",
     "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "faux_fur", 1 ] ] ]
   },
   {
     "result": "fur_collar", 
     "type": "uncraft",
     "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "fur", 1 ] ] ]
   },
   {
     "result": "faux_fur_collar",
     "type": "uncraft",
     "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "faux_fur", 1 ] ] ]
   },
   {
     "result": "leather_belt",
     "type": "uncraft",
     "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 1 ] ] ]
   },
   {
     "result": "leather_cat_ears",
     "type": "uncraft",
     "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 1 ] ] ]
   },
   {
     "result": "leather_cat_tail",
     "type": "uncraft",
     "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 1 ] ] ]
   },
   {
