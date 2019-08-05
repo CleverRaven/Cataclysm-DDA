@@ -2291,11 +2291,19 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
         }
         if( rot_facing >= 0 ) {
             const auto ent_name = m->type->id;
+            std::string chosen_id = ent_name.str();
             if( m->has_effect( effect_ridden ) ) {
                 int pl_under_height = 6;
                 draw_entity_with_overlays( g->u, p, ll, pl_under_height );
+                const std::string prefix = "rid_";
+                std::string copy_id = chosen_id;
+                const std::string ridden_id = copy_id.insert( 0, prefix );
+                const tile_type *tt = tileset_ptr->find_tile_type( ridden_id );
+                if( tt ) {
+                    chosen_id = ridden_id;
+                }
             }
-            result = draw_from_id_string( ent_name.str(), ent_category, ent_subcategory, p, subtile, rot_facing,
+            result = draw_from_id_string( chosen_id, ent_category, ent_subcategory, p, subtile, rot_facing,
                                           ll, false, height_3d );
             sees_player = m->sees( g->u );
             attitude = m->attitude_to( g-> u );
