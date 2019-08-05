@@ -10186,9 +10186,9 @@ int player::get_env_resist( body_part bp ) const
     }
 
     for( const bionic &bio : *my_bionics ) {
-        for( const auto &part : bio.info().occupied_bodyparts ) {
-            if( part.first == bp || ( bp == bp_eyes && part.first == bp_head ) ) {
-                ret += bio.info().env_protec;
+        for( const auto &element : bio.info().env_protec ) {
+            if( element.first == bp || ( bp == bp_eyes && element.first == bp_head ) ) {
+                ret += element.second;
             }
         }
     }

@@ -1983,7 +1983,6 @@ void load_bionic( JsonObject &jsobj )
     jsobj.read( "canceled_mutations", new_bionic.canceled_mutations );
     jsobj.read( "included_bionics", new_bionic.included_bionics );
     jsobj.read( "included", new_bionic.included );
-    jsobj.read( "env_protec", new_bionic.env_protec );
     jsobj.read( "upgraded_bionic", new_bionic.upgraded_bionic );
 
     JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );
@@ -1992,6 +1991,15 @@ void load_bionic( JsonObject &jsobj )
             JsonArray ja = jsarr.next_array();
             new_bionic.occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
                                                    ja.get_int( 1 ) );
+        }
+    }
+
+    JsonArray json_arr = jsobj.get_array( "env_protec" );
+    if( !json_arr.empty() ) {
+        while( json_arr.has_more() ) {
+            JsonArray ja = json_arr.next_array();
+            new_bionic.env_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                           ja.get_int( 1 ) );
         }
     }
 

@@ -75,7 +75,7 @@ struct bionic_data {
     */
     bool included = false;
     /**Amount of environemental protection offered by this bionic*/
-    int env_protec;
+    std::map<body_part, size_t> env_protec;
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
