@@ -1611,7 +1611,8 @@ void player::perform_install( bionic_id bid, bionic_id upbid, int difficulty, in
                 remove_mutation( tid );
             }
         }
-
+        //Update encumbrance that could have been affected by the new bionic
+        reset_encumbrance();
     } else {
         if( is_player() ) {
             add_memorial_log( pgettext( "memorial_male", "Failed install of bionic: %s." ),
@@ -1984,6 +1985,15 @@ void load_bionic( JsonObject &jsobj )
     jsobj.read( "included_bionics", new_bionic.included_bionics );
     jsobj.read( "included", new_bionic.included );
     jsobj.read( "upgraded_bionic", new_bionic.upgraded_bionic );
+
+    JsonArray jsar = jsobj.get_array( "encumbrance" );
+    if( !jsar.empty() ) {
+        while( jsar.has_more() ) {
+            JsonArray ja = jsar.next_array();
+            new_bionic.encumbrance.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                            ja.get_int( 1 ) );
+        }
+    }
 
     JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );
     if( !jsarr.empty() ) {
