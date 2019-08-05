@@ -1632,7 +1632,7 @@ talk_trial::talk_trial( JsonObject jo )
         difficulty = jo.get_int( "difficulty" );
     }
 
-    read_dialogue_condition( jo, condition, false );
+    read_condition<dialogue>( jo, "condition", condition, false );
 
     if( jo.has_array( "mod" ) ) {
         JsonArray ja = jo.get_array( "mod" );
@@ -2449,7 +2449,7 @@ talk_response::talk_response( JsonObject jo )
 {
     if( jo.has_member( "truefalsetext" ) ) {
         JsonObject truefalse_jo = jo.get_object( "truefalsetext" );
-        read_dialogue_condition( truefalse_jo, truefalse_condition, true );
+        read_condition<dialogue>( truefalse_jo, "condition", truefalse_condition, true );
         truetext = _( truefalse_jo.get_string( "true" ) );
         falsetext = _( truefalse_jo.get_string( "false" ) );
     } else {
@@ -2523,26 +2523,26 @@ json_talk_response::json_talk_response( JsonObject jo )
     load_condition( jo );
 }
 
-void read_dialogue_condition( JsonObject &jo, std::function<bool( const dialogue & )> &condition,
-                              bool default_val )
+template<class T>
+void read_condition( JsonObject &jo, const std::string &member_name,
+                     std::function<bool( const T & )> &condition, bool default_val )
 {
-    const auto null_function = [default_val]( const dialogue & ) {
+    const auto null_function = [default_val]( const T & ) {
         return default_val;
     };
 
-    static const std::string member_name( "condition" );
     if( !jo.has_member( member_name ) ) {
         condition = null_function;
     } else if( jo.has_string( member_name ) ) {
         const std::string type = jo.get_string( member_name );
-        conditional_t sub_condition( type );
-        condition = [sub_condition]( const dialogue & d ) {
+        conditional_t<T> sub_condition( type );
+        condition = [sub_condition]( const T & d ) {
             return sub_condition( d );
         };
     } else if( jo.has_object( member_name ) ) {
         const JsonObject con_obj = jo.get_object( member_name );
-        conditional_t sub_condition( con_obj );
-        condition = [sub_condition]( const dialogue & d ) {
+        conditional_t<T> sub_condition( con_obj );
+        condition = [sub_condition]( const T & d ) {
             return sub_condition( d );
         };
     } else {
@@ -2550,13 +2550,14 @@ void read_dialogue_condition( JsonObject &jo, std::function<bool( const dialogue
     }
 }
 
-void conditional_t::set_has_any_trait( JsonObject &jo, const std::string &member, bool is_npc )
+template<class T>
+void conditional_t<T>::set_has_any_trait( JsonObject &jo, const std::string &member, bool is_npc )
 {
     std::vector<trait_id> traits_to_check;
-    for( auto &&f : jo.get_string_array( member ) ) { // *NOPAD*
+    for( auto&& f : jo.get_string_array( member ) ) { // *NOPAD*
         traits_to_check.emplace_back( f );
     }
-    condition = [traits_to_check, is_npc]( const dialogue & d ) {
+    condition = [traits_to_check, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
@@ -2570,10 +2571,11 @@ void conditional_t::set_has_any_trait( JsonObject &jo, const std::string &member
     };
 }
 
-void conditional_t::set_has_trait( JsonObject &jo, const std::string &member, bool is_npc )
+template<class T>
+void conditional_t<T>::set_has_trait( JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string &trait_to_check = jo.get_string( member );
-    condition = [trait_to_check, is_npc]( const dialogue & d ) {
+    condition = [trait_to_check, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
@@ -2582,10 +2584,11 @@ void conditional_t::set_has_trait( JsonObject &jo, const std::string &member, bo
     };
 }
 
-void conditional_t::set_has_trait_flag( JsonObject &jo, const std::string &member, bool is_npc )
+template<class T>
+void conditional_t<T>::set_has_trait_flag( JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string &trait_flag_to_check = jo.get_string( member );
-    condition = [trait_flag_to_check, is_npc]( const dialogue & d ) {
+    condition = [trait_flag_to_check, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
@@ -2597,9 +2600,10 @@ void conditional_t::set_has_trait_flag( JsonObject &jo, const std::string &membe
     };
 }
 
-void conditional_t::set_has_activity( bool is_npc )
+template<class T>
+void conditional_t<T>::set_has_activity( bool is_npc )
 {
-    condition = [is_npc]( const dialogue & d ) {
+    condition = [is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             return d.beta->has_activity();
@@ -2612,18 +2616,20 @@ void conditional_t::set_has_activity( bool is_npc )
     };
 }
 
-void conditional_t::set_npc_has_class( JsonObject &jo )
+template<class T>
+void conditional_t<T>::set_npc_has_class( JsonObject &jo )
 {
     const std::string &class_to_check = jo.get_string( "npc_has_class" );
-    condition = [class_to_check]( const dialogue & d ) {
+    condition = [class_to_check]( const T & d ) {
         return d.beta->myclass == npc_class_id( class_to_check );
     };
 }
 
-void conditional_t::set_u_has_mission( JsonObject &jo )
+template<class T>
+void conditional_t<T>::set_u_has_mission( JsonObject &jo )
 {
     const std::string &mission = jo.get_string( "u_has_mission" );
-    condition = [mission]( const dialogue & ) {
+    condition = [mission]( const T & ) {
         for( auto miss_it : g->u.get_active_missions() ) {
             if( miss_it->mission_id() == mission_type_id( mission ) ) {
                 return true;
@@ -2633,10 +2639,11 @@ void conditional_t::set_u_has_mission( JsonObject &jo )
     };
 }
 
-void conditional_t::set_has_strength( JsonObject &jo, const std::string &member, bool is_npc )
+template<class T>
+void conditional_t<T>::set_has_strength( JsonObject &jo, const std::string &member, bool is_npc )
 {
     const int min_strength = jo.get_int( member );
-    condition = [min_strength, is_npc]( const dialogue & d ) {
+    condition = [min_strength, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
@@ -2645,10 +2652,11 @@ void conditional_t::set_has_strength( JsonObject &jo, const std::string &member,
     };
 }
 
-void conditional_t::set_has_dexterity( JsonObject &jo, const std::string &member, bool is_npc )
+template<class T>
+void conditional_t<T>::set_has_dexterity( JsonObject &jo, const std::string &member, bool is_npc )
 {
     const int min_dexterity = jo.get_int( member );
-    condition = [min_dexterity, is_npc]( const dialogue & d ) {
+    condition = [min_dexterity, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
@@ -2657,10 +2665,12 @@ void conditional_t::set_has_dexterity( JsonObject &jo, const std::string &member
     };
 }
 
-void conditional_t::set_has_intelligence( JsonObject &jo, const std::string &member, bool is_npc )
+template<class T>
+void conditional_t<T>::set_has_intelligence( JsonObject &jo, const std::string &member,
+        bool is_npc )
 {
     const int min_intelligence = jo.get_int( member );
-    condition = [min_intelligence, is_npc]( const dialogue & d ) {
+    condition = [min_intelligence, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
@@ -2669,10 +2679,11 @@ void conditional_t::set_has_intelligence( JsonObject &jo, const std::string &mem
     };
 }
 
-void conditional_t::set_has_perception( JsonObject &jo, const std::string &member, bool is_npc )
+template<class T>
+void conditional_t<T>::set_has_perception( JsonObject &jo, const std::string &member, bool is_npc )
 {
     const int min_perception = jo.get_int( member );
-    condition = [min_perception, is_npc]( const dialogue & d ) {
+    condition = [min_perception, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
@@ -2681,10 +2692,11 @@ void conditional_t::set_has_perception( JsonObject &jo, const std::string &membe
     };
 }
 
-void conditional_t::set_is_wearing( JsonObject &jo, const std::string &member, bool is_npc )
+template<class T>
+void conditional_t<T>::set_is_wearing( JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string &item_id = jo.get_string( member );
-    condition = [item_id, is_npc]( const dialogue & d ) {
+    condition = [item_id, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
@@ -2693,10 +2705,11 @@ void conditional_t::set_is_wearing( JsonObject &jo, const std::string &member, b
     };
 }
 
-void conditional_t::set_has_item( JsonObject &jo, const std::string &member, bool is_npc )
+template<class T>
+void conditional_t<T>::set_has_item( JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string &item_id = jo.get_string( member );
-    condition = [item_id, is_npc]( const dialogue & d ) {
+    condition = [item_id, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
@@ -2705,17 +2718,18 @@ void conditional_t::set_has_item( JsonObject &jo, const std::string &member, boo
     };
 }
 
-void conditional_t::set_has_items( JsonObject &jo, const std::string &member, bool is_npc )
+template<class T>
+void conditional_t<T>::set_has_items( JsonObject &jo, const std::string &member, bool is_npc )
 {
     JsonObject has_items = jo.get_object( member );
     if( !has_items.has_string( "item" ) || !has_items.has_int( "count" ) ) {
-        condition = []( const dialogue & ) {
+        condition = []( const T & ) {
             return false;
         };
     } else {
         const std::string item_id = has_items.get_string( "item" );
         int count = has_items.get_int( "count" );
-        condition = [item_id, count, is_npc]( const dialogue & d ) {
+        condition = [item_id, count, is_npc]( const T & d ) {
             player *actor = d.alpha;
             if( is_npc ) {
                 actor = dynamic_cast<player *>( d.beta );
@@ -2725,7 +2739,9 @@ void conditional_t::set_has_items( JsonObject &jo, const std::string &member, bo
     }
 }
 
-void conditional_t::set_has_item_category( JsonObject &jo, const std::string &member, bool is_npc )
+template<class T>
+void conditional_t<T>::set_has_item_category( JsonObject &jo, const std::string &member,
+        bool is_npc )
 {
     const std::string category_id = jo.get_string( member );
 
@@ -2737,7 +2753,7 @@ void conditional_t::set_has_item_category( JsonObject &jo, const std::string &me
         }
     }
 
-    condition = [category_id, count, is_npc]( const dialogue & d ) {
+    condition = [category_id, count, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
@@ -2749,10 +2765,11 @@ void conditional_t::set_has_item_category( JsonObject &jo, const std::string &me
     };
 }
 
-void conditional_t::set_has_bionics( JsonObject &jo, const std::string &member, bool is_npc )
+template<class T>
+void conditional_t<T>::set_has_bionics( JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string bionics_id = jo.get_string( member );
-    condition = [bionics_id, is_npc]( const dialogue & d ) {
+    condition = [bionics_id, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
@@ -2763,10 +2780,13 @@ void conditional_t::set_has_bionics( JsonObject &jo, const std::string &member, 
         return actor->has_bionic( bionic_id( bionics_id ) );
     };
 }
-void conditional_t::set_has_effect( JsonObject &jo, const std::string &member, bool is_npc )
+
+
+template<class T>
+void conditional_t<T>::set_has_effect( JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string &effect_id = jo.get_string( member );
-    condition = [effect_id, is_npc]( const dialogue & d ) {
+    condition = [effect_id, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
@@ -2775,7 +2795,8 @@ void conditional_t::set_has_effect( JsonObject &jo, const std::string &member, b
     };
 }
 
-void conditional_t::set_need( JsonObject &jo, const std::string &member, bool is_npc )
+template<class T>
+void conditional_t<T>::set_need( JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string &need = jo.get_string( member );
     int amount = 0;
@@ -2788,7 +2809,7 @@ void conditional_t::set_need( JsonObject &jo, const std::string &member, bool is
             amount = static_cast<int>( flevel->second );
         }
     }
-    condition = [need, amount, is_npc]( const dialogue & d ) {
+    condition = [need, amount, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
@@ -2799,10 +2820,11 @@ void conditional_t::set_need( JsonObject &jo, const std::string &member, bool is
     };
 }
 
-void conditional_t::set_at_om_location( JsonObject &jo, const std::string &member, bool is_npc )
+template<class T>
+void conditional_t<T>::set_at_om_location( JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string &location = jo.get_string( member );
-    condition = [location, is_npc]( const dialogue & d ) {
+    condition = [location, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
@@ -2824,11 +2846,12 @@ void conditional_t::set_at_om_location( JsonObject &jo, const std::string &membe
     };
 }
 
-void conditional_t::set_has_var( JsonObject &jo, const std::string &member, bool is_npc )
+template<class T>
+void conditional_t<T>::set_has_var( JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string var_name = get_talk_varname( jo, member, false );
     const std::string &value = jo.get_string( "value" );
-    condition = [var_name, value, is_npc]( const dialogue & d ) {
+    condition = [var_name, value, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
@@ -2837,10 +2860,11 @@ void conditional_t::set_has_var( JsonObject &jo, const std::string &member, bool
     };
 }
 
-void conditional_t::set_npc_role_nearby( JsonObject &jo )
+template<class T>
+void conditional_t<T>::set_npc_role_nearby( JsonObject &jo )
 {
     const std::string &role = jo.get_string( "npc_role_nearby" );
-    condition = [role]( const dialogue & d ) {
+    condition = [role]( const T & d ) {
         const std::vector<npc *> available = g->get_npcs_if( [&]( const npc & guy ) {
             return d.alpha->posz() == guy.posz() && guy.companion_mission_role_id == role &&
                    ( rl_dist( d.alpha->pos(), guy.pos() ) <= 48 );
@@ -2849,34 +2873,38 @@ void conditional_t::set_npc_role_nearby( JsonObject &jo )
     };
 }
 
-void conditional_t::set_npc_allies( JsonObject &jo )
+template<class T>
+void conditional_t<T>::set_npc_allies( JsonObject &jo )
 {
     const unsigned int min_allies = jo.get_int( "npc_allies" );
-    condition = [min_allies]( const dialogue & ) {
+    condition = [min_allies]( const T & ) {
         return g->allies().size() >= min_allies;
     };
 }
 
-void conditional_t::set_u_has_cash( JsonObject &jo )
+template<class T>
+void conditional_t<T>::set_u_has_cash( JsonObject &jo )
 {
     const int min_cash = jo.get_int( "u_has_cash" );
-    condition = [min_cash]( const dialogue & d ) {
+    condition = [min_cash]( const T & d ) {
         return d.alpha->cash >= min_cash;
     };
 }
 
-void conditional_t::set_u_are_owed( JsonObject &jo )
+template<class T>
+void conditional_t<T>::set_u_are_owed( JsonObject &jo )
 {
     const int min_debt = jo.get_int( "u_are_owed" );
-    condition = [min_debt]( const dialogue & d ) {
+    condition = [min_debt]( const T & d ) {
         return d.beta->op_of_u.owed >= min_debt;
     };
 }
 
-void conditional_t::set_npc_aim_rule( JsonObject &jo )
+template<class T>
+void conditional_t<T>::set_npc_aim_rule( JsonObject &jo )
 {
     const std::string &setting = jo.get_string( "npc_aim_rule" );
-    condition = [setting]( const dialogue & d ) {
+    condition = [setting]( const T & d ) {
         auto rule = aim_rule_strs.find( setting );
         if( rule != aim_rule_strs.end() ) {
             return d.beta->rules.aim == rule->second;
@@ -2885,10 +2913,11 @@ void conditional_t::set_npc_aim_rule( JsonObject &jo )
     };
 }
 
-void conditional_t::set_npc_engagement_rule( JsonObject &jo )
+template<class T>
+void conditional_t<T>::set_npc_engagement_rule( JsonObject &jo )
 {
     const std::string &setting = jo.get_string( "npc_engagement_rule" );
-    condition = [setting]( const dialogue & d ) {
+    condition = [setting]( const T & d ) {
         auto rule = combat_engagement_strs.find( setting );
         if( rule != combat_engagement_strs.end() ) {
             return d.beta->rules.engagement == rule->second;
@@ -2897,10 +2926,11 @@ void conditional_t::set_npc_engagement_rule( JsonObject &jo )
     };
 }
 
-void conditional_t::set_npc_cbm_reserve_rule( JsonObject &jo )
+template<class T>
+void conditional_t<T>::set_npc_cbm_reserve_rule( JsonObject &jo )
 {
     const std::string &setting = jo.get_string( "npc_cbm_reserve_rule" );
-    condition = [setting]( const dialogue & d ) {
+    condition = [setting]( const T & d ) {
         auto rule = cbm_reserve_strs.find( setting );
         if( rule != cbm_reserve_strs.end() ) {
             return d.beta->rules.cbm_reserve == rule->second;
@@ -2909,10 +2939,11 @@ void conditional_t::set_npc_cbm_reserve_rule( JsonObject &jo )
     };
 }
 
-void conditional_t::set_npc_cbm_recharge_rule( JsonObject &jo )
+template<class T>
+void conditional_t<T>::set_npc_cbm_recharge_rule( JsonObject &jo )
 {
     const std::string &setting = jo.get_string( "npc_cbm_recharge_rule" );
-    condition = [setting]( const dialogue & d ) {
+    condition = [setting]( const T & d ) {
         auto rule = cbm_recharge_strs.find( setting );
         if( rule != cbm_recharge_strs.end() ) {
             return d.beta->rules.cbm_recharge == rule->second;
@@ -2921,10 +2952,11 @@ void conditional_t::set_npc_cbm_recharge_rule( JsonObject &jo )
     };
 }
 
-void conditional_t::set_npc_rule( JsonObject &jo )
+template<class T>
+void conditional_t<T>::set_npc_rule( JsonObject &jo )
 {
     std::string rule = jo.get_string( "npc_rule" );
-    condition = [rule]( const dialogue & d ) {
+    condition = [rule]( const T & d ) {
         auto flag = ally_rule_strs.find( rule );
         if( flag != ally_rule_strs.end() ) {
             return d.beta->rules.has_flag( flag->second.rule );
@@ -2933,10 +2965,11 @@ void conditional_t::set_npc_rule( JsonObject &jo )
     };
 }
 
-void conditional_t::set_npc_override( JsonObject &jo )
+template<class T>
+void conditional_t<T>::set_npc_override( JsonObject &jo )
 {
     std::string rule = jo.get_string( "npc_override" );
-    condition = [rule]( const dialogue & d ) {
+    condition = [rule]( const T & d ) {
         auto flag = ally_rule_strs.find( rule );
         if( flag != ally_rule_strs.end() ) {
             return d.beta->rules.has_override_enable( flag->second.rule );
@@ -2945,18 +2978,20 @@ void conditional_t::set_npc_override( JsonObject &jo )
     };
 }
 
-void conditional_t::set_days_since( JsonObject &jo )
+template<class T>
+void conditional_t<T>::set_days_since( JsonObject &jo )
 {
     const unsigned int days = jo.get_int( "days_since_cataclysm" );
-    condition = [days]( const dialogue & ) {
+    condition = [days]( const T & ) {
         return to_turn<int>( calendar::turn ) >= DAYS( days );
     };
 }
 
-void conditional_t::set_is_season( JsonObject &jo )
+template<class T>
+void conditional_t<T>::set_is_season( JsonObject &jo )
 {
     std::string season_name = jo.get_string( "is_season" );
-    condition = [season_name]( const dialogue & ) {
+    condition = [season_name]( const T & ) {
         const auto season = season_of_year( calendar::turn );
         return ( season == SPRING && season_name == "spring" ) ||
                ( season == SUMMER && season_name == "summer" ) ||
@@ -2965,10 +3000,11 @@ void conditional_t::set_is_season( JsonObject &jo )
     };
 }
 
-void conditional_t::set_mission_goal( JsonObject &jo )
+template<class T>
+void conditional_t<T>::set_mission_goal( JsonObject &jo )
 {
     std::string mission_goal_str = jo.get_string( "mission_goal" );
-    condition = [mission_goal_str]( const dialogue & d ) {
+    condition = [mission_goal_str]( const T & d ) {
         mission *miss = d.beta->chatbin.mission_selected;
         const auto mgoal = mission_goal_strs.find( mission_goal_str );
         if( !miss || mgoal == mission_goal_strs.end() ) {
@@ -2978,9 +3014,10 @@ void conditional_t::set_mission_goal( JsonObject &jo )
     };
 }
 
-void conditional_t::set_is_gender( bool is_male, bool is_npc )
+template<class T>
+void conditional_t<T>::set_is_gender( bool is_male, bool is_npc )
 {
-    condition = [is_male, is_npc]( const dialogue & d ) {
+    condition = [is_male, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
@@ -2989,51 +3026,58 @@ void conditional_t::set_is_gender( bool is_male, bool is_npc )
     };
 }
 
-void conditional_t::set_no_assigned_mission()
+template<class T>
+void conditional_t<T>::set_no_assigned_mission()
 {
-    condition = []( const dialogue & d ) {
+    condition = []( const T & d ) {
         return d.missions_assigned.empty();
     };
 }
 
-void conditional_t::set_has_assigned_mission()
+template<class T>
+void conditional_t<T>::set_has_assigned_mission()
 {
-    condition = []( const dialogue & d ) {
+    condition = []( const T & d ) {
         return d.missions_assigned.size() == 1;
     };
 }
 
-void conditional_t::set_has_many_assigned_missions()
+template<class T>
+void conditional_t<T>::set_has_many_assigned_missions()
 {
-    condition = []( const dialogue & d ) {
+    condition = []( const T & d ) {
         return d.missions_assigned.size() >= 2;
     };
 }
 
-void conditional_t::set_no_available_mission()
+template<class T>
+void conditional_t<T>::set_no_available_mission()
 {
-    condition = []( const dialogue & d ) {
+    condition = []( const T & d ) {
         return d.beta->chatbin.missions.empty();
     };
 }
 
-void conditional_t::set_has_available_mission()
+template<class T>
+void conditional_t<T>::set_has_available_mission()
 {
-    condition = []( const dialogue & d ) {
+    condition = []( const T & d ) {
         return d.beta->chatbin.missions.size() == 1;
     };
 }
 
-void conditional_t::set_has_many_available_missions()
+template<class T>
+void conditional_t<T>::set_has_many_available_missions()
 {
-    condition = []( const dialogue & d ) {
+    condition = []( const T & d ) {
         return d.beta->chatbin.missions.size() >= 2;
     };
 }
 
-void conditional_t::set_mission_complete()
+template<class T>
+void conditional_t<T>::set_mission_complete()
 {
-    condition = []( const dialogue & d ) {
+    condition = []( const T & d ) {
         mission *miss = d.beta->chatbin.mission_selected;
         if( !miss ) {
             return false;
@@ -3042,9 +3086,10 @@ void conditional_t::set_mission_complete()
     };
 }
 
-void conditional_t::set_mission_incomplete()
+template<class T>
+void conditional_t<T>::set_mission_incomplete()
 {
-    condition = []( const dialogue & d ) {
+    condition = []( const T & d ) {
         mission *miss = d.beta->chatbin.mission_selected;
         if( !miss ) {
             return false;
@@ -3053,58 +3098,66 @@ void conditional_t::set_mission_incomplete()
     };
 }
 
-void conditional_t::set_npc_available()
+template<class T>
+void conditional_t<T>::set_npc_available()
 {
-    condition = []( const dialogue & d ) {
+    condition = []( const T & d ) {
         return !d.beta->has_effect( effect_currently_busy );
     };
 }
 
-void conditional_t::set_npc_following()
+template<class T>
+void conditional_t<T>::set_npc_following()
 {
-    condition = []( const dialogue & d ) {
+    condition = []( const T & d ) {
         return d.beta->is_following();
     };
 }
 
-void conditional_t::set_npc_friend()
+template<class T>
+void conditional_t<T>::set_npc_friend()
 {
-    condition = []( const dialogue & d ) {
+    condition = []( const T & d ) {
         return d.beta->is_friendly( g->u );
     };
 }
 
-void conditional_t::set_npc_hostile()
+template<class T>
+void conditional_t<T>::set_npc_hostile()
 {
-    condition = []( const dialogue & d ) {
+    condition = []( const T & d ) {
         return d.beta->is_enemy();
     };
 }
 
-void conditional_t::set_npc_train_skills()
+template<class T>
+void conditional_t<T>::set_npc_train_skills()
 {
-    condition = []( const dialogue & d ) {
+    condition = []( const T & d ) {
         return !d.beta->skills_offered_to( *d.alpha ).empty();
     };
 }
 
-void conditional_t::set_npc_train_styles()
+template<class T>
+void conditional_t<T>::set_npc_train_styles()
 {
-    condition = []( const dialogue & d ) {
+    condition = []( const T & d ) {
         return !d.beta->styles_offered_to( *d.alpha ).empty();
     };
 }
 
-void conditional_t::set_at_safe_space()
+template<class T>
+void conditional_t<T>::set_at_safe_space()
 {
-    condition = []( const dialogue & d ) {
+    condition = []( const T & d ) {
         return overmap_buffer.is_safe( d.beta->global_omt_location() );
     };
 }
 
-void conditional_t::set_can_stow_weapon( bool is_npc )
+template<class T>
+void conditional_t<T>::set_can_stow_weapon( bool is_npc )
 {
-    condition = [is_npc]( const dialogue & d ) {
+    condition = [is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
@@ -3113,9 +3166,10 @@ void conditional_t::set_can_stow_weapon( bool is_npc )
     };
 }
 
-void conditional_t::set_has_weapon( bool is_npc )
+template<class T>
+void conditional_t<T>::set_has_weapon( bool is_npc )
 {
-    condition = [is_npc]( const dialogue & d ) {
+    condition = [is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
@@ -3124,9 +3178,10 @@ void conditional_t::set_has_weapon( bool is_npc )
     };
 }
 
-void conditional_t::set_is_driving( bool is_npc )
+template<class T>
+void conditional_t<T>::set_is_driving( bool is_npc )
 {
-    condition = [is_npc]( const dialogue & d ) {
+    condition = [is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
@@ -3138,10 +3193,11 @@ void conditional_t::set_is_driving( bool is_npc )
     };
 }
 
-void conditional_t::set_has_stolen_item( bool is_npc )
+template<class T>
+void conditional_t<T>::set_has_stolen_item( bool is_npc )
 {
     ( void )is_npc;
-    condition = []( const dialogue & d ) {
+    condition = []( const T & d ) {
         player *actor = d.alpha;
         npc &p = *d.beta;
         bool found_in_inv = false;
@@ -3156,50 +3212,57 @@ void conditional_t::set_has_stolen_item( bool is_npc )
     };
 }
 
-void conditional_t::set_is_day()
+template<class T>
+void conditional_t<T>::set_is_day()
 {
-    condition = []( const dialogue & ) {
+    condition = []( const T & ) {
         return !is_night( calendar::turn );
     };
 }
 
-void conditional_t::set_is_outside()
+template<class T>
+void conditional_t<T>::set_is_outside()
 {
-    condition = []( const dialogue & d ) {
+    condition = []( const T & d ) {
         const tripoint pos = g->m.getabs( d.beta->pos() );
         return !g->m.has_flag( TFLAG_INDOORS, pos );
     };
 }
 
-void conditional_t::set_u_has_camp()
+template<class T>
+void conditional_t<T>::set_u_has_camp()
 {
-    condition = []( const dialogue & ) {
+    condition = []( const T & ) {
         return !g->u.camps.empty();
     };
 }
 
-void conditional_t::set_has_pickup_list()
+template<class T>
+void conditional_t<T>::set_has_pickup_list()
 {
-    condition = []( const dialogue & d ) {
+    condition = []( const T & d ) {
         return !d.beta->rules.pickup_whitelist->empty();
     };
 }
 
-void conditional_t::set_is_by_radio()
+template<class T>
+void conditional_t<T>::set_is_by_radio()
 {
-    condition = []( const dialogue & d ) {
+    condition = []( const T & d ) {
         return d.by_radio;
     };
 }
 
-void conditional_t::set_has_reason()
+template<class T>
+void conditional_t<T>::set_has_reason()
 {
-    condition = []( const dialogue & d ) {
+    condition = []( const T & d ) {
         return !d.reason.empty();
     };
 }
 
-conditional_t::conditional_t( JsonObject jo )
+template<class T>
+conditional_t<T>::conditional_t( JsonObject jo )
 {
     // improve the clarity of NPC setter functions
     const bool is_npc = true;
@@ -3209,10 +3272,10 @@ conditional_t::conditional_t( JsonObject jo )
         JsonArray ja = jo.get_array( type );
         while( ja.has_more() ) {
             if( ja.test_string() ) {
-                conditional_t type_condition( ja.next_string() );
+                conditional_t<T> type_condition( ja.next_string() );
                 conditionals.emplace_back( type_condition );
             } else if( ja.test_object() ) {
-                conditional_t type_condition( ja.next_object() );
+                conditional_t<T> type_condition( ja.next_object() );
                 conditionals.emplace_back( type_condition );
             } else {
                 ja.skip_value();
@@ -3223,7 +3286,7 @@ conditional_t::conditional_t( JsonObject jo )
     if( jo.has_array( "and" ) ) {
         std::vector<conditional_t> and_conditionals = parse_array( jo, "and" );
         found_sub_member = true;
-        condition = [and_conditionals]( const dialogue & d ) {
+        condition = [and_conditionals]( const T & d ) {
             for( const auto &cond : and_conditionals ) {
                 if( !cond( d ) ) {
                     return false;
@@ -3234,7 +3297,7 @@ conditional_t::conditional_t( JsonObject jo )
     } else if( jo.has_array( "or" ) ) {
         std::vector<conditional_t> or_conditionals = parse_array( jo, "or" );
         found_sub_member = true;
-        condition = [or_conditionals]( const dialogue & d ) {
+        condition = [or_conditionals]( const T & d ) {
             for( const auto &cond : or_conditionals ) {
                 if( cond( d ) ) {
                     return true;
@@ -3243,15 +3306,15 @@ conditional_t::conditional_t( JsonObject jo )
             return false;
         };
     } else if( jo.has_object( "not" ) ) {
-        const conditional_t sub_condition = conditional_t( jo.get_object( "not" ) );
+        const conditional_t<T> sub_condition = conditional_t<T>( jo.get_object( "not" ) );
         found_sub_member = true;
-        condition = [sub_condition]( const dialogue & d ) {
+        condition = [sub_condition]( const T & d ) {
             return !sub_condition( d );
         };
     } else if( jo.has_string( "not" ) ) {
-        const conditional_t sub_condition = conditional_t( jo.get_string( "not" ) );
+        const conditional_t<T> sub_condition = conditional_t<T>( jo.get_string( "not" ) );
         found_sub_member = true;
-        condition = [sub_condition]( const dialogue & d ) {
+        condition = [sub_condition]( const T & d ) {
             return !sub_condition( d );
         };
     }
@@ -3364,8 +3427,8 @@ conditional_t::conditional_t( JsonObject jo )
     } else {
         for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
             if( jo.has_string( sub_member ) ) {
-                const conditional_t sub_condition( jo.get_string( sub_member ) );
-                condition = [sub_condition]( const dialogue & d ) {
+                const conditional_t<T> sub_condition( jo.get_string( sub_member ) );
+                condition = [sub_condition]( const T & d ) {
                     return sub_condition( d );
                 };
                 found_sub_member = true;
@@ -3378,7 +3441,8 @@ conditional_t::conditional_t( JsonObject jo )
     }
 }
 
-conditional_t::conditional_t( const std::string &type )
+template<class T>
+conditional_t<T>::conditional_t( const std::string &type )
 {
     const bool is_npc = true;
     if( type == "u_male" ) {
@@ -3448,17 +3512,21 @@ conditional_t::conditional_t( const std::string &type )
     } else if( type == "has_reason" ) {
         set_has_reason();
     } else {
-        condition = []( const dialogue & ) {
+        condition = []( const T & ) {
             return false;
         };
     }
 }
 
+template struct conditional_t<dialogue>;
+template void read_condition<dialogue>( JsonObject &jo, const std::string &member_name,
+                                        std::function<bool( const dialogue & )> &condition, bool default_val );
+
 void json_talk_response::load_condition( JsonObject &jo )
 {
     is_switch = jo.get_bool( "switch", false );
     is_default = jo.get_bool( "default", false );
-    read_dialogue_condition( jo, condition, true );
+    read_condition<dialogue>( jo, "condition", condition, true );
 }
 
 bool json_talk_response::test_condition( const dialogue &d ) const
@@ -3588,18 +3656,18 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
             return translate_gendered_line( line, relevant_genders, d );
         };
     } else {
-        conditional_t dcondition;
+        conditional_t<dialogue> dcondition;
         const dynamic_line_t yes = from_member( jo, "yes" );
         const dynamic_line_t no = from_member( jo, "no" );
         for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
             if( jo.has_bool( sub_member ) ) {
-                dcondition = conditional_t( sub_member );
+                dcondition = conditional_t<dialogue>( sub_member );
                 function = [dcondition, yes, no]( const dialogue & d ) {
                     return ( dcondition( d ) ? yes : no )( d );
                 };
                 return;
             } else if( jo.has_member( sub_member ) ) {
-                dcondition = conditional_t( sub_member );
+                dcondition = conditional_t<dialogue>( sub_member );
                 const dynamic_line_t yes_member = from_member( jo, sub_member );
                 function = [dcondition, yes_member, no]( const dialogue & d ) {
                     return ( dcondition( d ) ? yes_member : no )( d );
@@ -3609,7 +3677,7 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         }
         for( const std::string &sub_member : dialogue_data::complex_conds ) {
             if( jo.has_member( sub_member ) ) {
-                dcondition = conditional_t( jo );
+                dcondition = conditional_t<dialogue>( jo );
                 function = [dcondition, yes, no]( const dialogue & d ) {
                     return ( dcondition( d ) ? yes : no )( d );
                 };
@@ -3643,7 +3711,7 @@ dynamic_line_t::dynamic_line_t( JsonArray ja )
 json_dynamic_line_effect::json_dynamic_line_effect( JsonObject jo, const std::string &id )
 {
     std::function<bool( const dialogue & )> tmp_condition;
-    read_dialogue_condition( jo, tmp_condition, true );
+    read_condition<dialogue>( jo, "condition", tmp_condition, true );
     talk_effect_t tmp_effect = talk_effect_t( jo );
     // if the topic has a sentinel, it means implicitly add a check for the sentinel value
     // and do not run the effects if it is set.  if it is not set, run the effects and

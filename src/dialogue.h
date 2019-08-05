@@ -366,8 +366,10 @@ const std::unordered_set<std::string> complex_conds = { {
 } // namespace dialogue_data
 
 // the truly awful declaration for the conditional_t loading helper_function
-void read_dialogue_condition( JsonObject &jo, std::function<bool( const dialogue & )> &condition,
-                              bool default_val );
+template<class T>
+void read_condition( JsonObject &jo, const std::string &member_name,
+                     std::function<bool( const T & )> &condition, bool default_val );
+
 /**
  * A condition for a response spoken by the player.
  * This struct only adds the constructors which will load the data from json
@@ -375,9 +377,10 @@ void read_dialogue_condition( JsonObject &jo, std::function<bool( const dialogue
  * Invoking the function operator with a dialog reference (so the function can access the NPC)
  * returns whether the response is allowed.
  */
+template<class T>
 struct conditional_t {
     private:
-        std::function<bool ( const dialogue & )> condition;
+        std::function<bool( const T & )> condition;
 
     public:
         conditional_t() = default;
@@ -398,8 +401,7 @@ struct conditional_t {
         void set_is_wearing( JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_item( JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_items( JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_item_category( JsonObject &jo, const std::string &member,
-                                    bool is_npc = false );
+        void set_has_item_category( JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_bionics( JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_effect( JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_need( JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -444,7 +446,7 @@ struct conditional_t {
         void set_has_reason();
         void set_is_gender( bool is_male, bool is_npc = false );
 
-        bool operator()( const dialogue &d ) const {
+        bool operator()( const T &d ) const {
             if( !condition ) {
                 return false;
             }
