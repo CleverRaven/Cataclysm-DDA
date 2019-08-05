@@ -329,7 +329,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                                     filtered_recipes = filtered_recipes.intersection( temp_subset );
                                     break;
                                 }
-                                    
+
                                 default:
                                     current.clear();
                             }
