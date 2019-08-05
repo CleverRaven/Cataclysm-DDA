@@ -5058,7 +5058,7 @@
     "name": "wood saw",
     "description": "This is a thin saw, useful for cutting through wood objects.",
     "weight": 283,
-    "volume": 5,
+    "volume": "1 L",
     "price": 3000,
     "to_hit": -2,
     "cutting": 1,
