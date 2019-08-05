@@ -32,6 +32,18 @@ void XYCheck::registerMatchers( MatchFinder *Finder )
         ).bind( "xfield" ),
         this
     );
+    Finder->addMatcher(
+        parmVarDecl(
+            hasType( asString( "int" ) ),
+            matchesName( "x$" ),
+            hasAncestor(
+                functionDecl(
+                    hasAnyParameter( parmVarDecl( matchesName( "y$" ) ).bind( "yparam" ) )
+                ).bind( "function" )
+            )
+        ).bind( "xparam" ),
+        this
+    );
 }
 
 static void CheckField( XYCheck &Check, const MatchFinder::MatchResult &Result )
@@ -79,9 +91,62 @@ static void CheckField( XYCheck &Check, const MatchFinder::MatchResult &Result )
     }
 }
 
+static void CheckParam( XYCheck &Check, const MatchFinder::MatchResult &Result )
+{
+    const ParmVarDecl *XParam = Result.Nodes.getNodeAs<ParmVarDecl>( "xparam" );
+    const ParmVarDecl *YParam = Result.Nodes.getNodeAs<ParmVarDecl>( "yparam" );
+    const FunctionDecl *Function = Result.Nodes.getNodeAs<FunctionDecl>( "function" );
+    if( !XParam || !YParam || !Function ) {
+        return;
+    }
+    llvm::StringRef XPrefix = XParam->getName().drop_back();
+
+    const ParmVarDecl *ZParam = nullptr;
+    for( ParmVarDecl *Parameter : Function->parameters() ) {
+        StringRef Name = Parameter->getName();
+        if( Name.drop_back() == XPrefix ) {
+            if( Name.endswith( "z" ) ) {
+                ZParam = Parameter;
+            }
+            if( Name.endswith( "y" ) ) {
+                YParam = Parameter;
+            }
+        }
+    }
+
+    llvm::StringRef YPrefix = YParam->getName().drop_back();
+    if( XPrefix != YPrefix ) {
+        return;
+    }
+
+    TemplateSpecializationKind tsk = Function->getTemplateSpecializationKind();
+    if( tsk != TSK_Undeclared ) {
+        // Avoid duplicate warnings for specializations
+        return;
+    }
+
+    if( ZParam ) {
+        Check.diag(
+            Function->getLocation(),
+            "%0 has parameters %1, %2, and %3.  Consider combining into a single tripoint "
+            "parameter." ) << Function << XParam << YParam << ZParam;
+    } else {
+        Check.diag(
+            Function->getLocation(),
+            "%0 has parameters %1 and %2.  Consider combining into a single point "
+            "parameter." ) << Function << XParam << YParam;
+    }
+    Check.diag( XParam->getLocation(), "declaration of %0", DiagnosticIDs::Note ) << XParam;
+    Check.diag( YParam->getLocation(), "declaration of %0", DiagnosticIDs::Note ) << YParam;
+    if( ZParam ) {
+        Check.diag( ZParam->getLocation(), "declaration of %0", DiagnosticIDs::Note ) << ZParam;
+    }
+}
+
 void XYCheck::check( const MatchFinder::MatchResult &Result )
 {
     CheckField( *this, Result );
+    CheckParam( *this, Result );
 }
 
 } // namespace cata
