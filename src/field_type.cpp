@@ -139,7 +139,7 @@ void field_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "accelerated_decay", accelerated_decay, false );
     optional( jo, was_loaded, "display_items", display_items, true );
     optional( jo, was_loaded, "display_field", display_field, false );
-    optional( jo, was_loaded, "wandering_field_id", wandering_field_id, "fd_null" );
+    optional( jo, was_loaded, "wandering_field", wandering_field_id, "fd_null" );
 }
 
 void field_type::finalize()
@@ -176,6 +176,9 @@ void field_types::finalize_all()
 {
     set_field_type_ids();
     all_field_types.finalize();
+    for( const field_type &fd : all_field_types.get_all() ) {
+        const_cast<field_type &>( fd ).finalize();
+    }
 }
 
 void field_types::check_consistency()
