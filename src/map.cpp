@@ -6261,7 +6261,7 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
             0,      0,
             1,  1,  1
         };
-        // *INDENT-OFF*
+        // *INDENT-ON*
 
         int ex = elem.ndx % grid_dim;
         int ey = elem.ndx / grid_dim;
