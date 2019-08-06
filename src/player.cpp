@@ -230,7 +230,6 @@ static const bionic_id bio_metabolics( "bio_metabolics" );
 static const bionic_id bio_noise( "bio_noise" );
 static const bionic_id bio_plut_filter( "bio_plut_filter" );
 static const bionic_id bio_power_weakness( "bio_power_weakness" );
-static const bionic_id bio_purifier( "bio_purifier" );
 static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_recycler( "bio_recycler" );
 static const bionic_id bio_shakes( "bio_shakes" );
@@ -10186,19 +10185,14 @@ int player::get_env_resist( body_part bp ) const
         }
     }
 
-    if( bp == bp_mouth && has_bionic( bio_purifier ) && ret < 5 ) {
-        ret += 2;
-        if( ret > 5 ) {
-            ret = 5;
+    for( const bionic &bio : *my_bionics ) {
+        for( const auto &element : bio.info().env_protec ) {
+            if( element.first == bp || ( bp == bp_eyes && element.first == bp_head ) ) {
+                ret += element.second;
+            }
         }
     }
 
-    if( bp == bp_eyes && has_bionic( bio_armor_eyes ) && ret < 5 ) {
-        ret += 2;
-        if( ret > 5 ) {
-            ret = 5;
-        }
-    }
     if( bp == bp_eyes && has_trait( trait_SEESLEEP ) ) {
         ret += 8;
     }
