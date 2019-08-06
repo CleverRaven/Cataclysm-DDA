@@ -239,7 +239,7 @@
     "item": "material_sand",
     "count": 2000,
     "followup": "MISSION_ISHERWOOD_EDDIE_3",
-    "end": { "opinion": { "trust": 2, "value": 2 } },
+    "end": { "opinion": { "trust": 1, "value": 1 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I do have some resource gathering I could use help with.",
@@ -263,7 +263,11 @@
     "item": "clay_lump",
     "count": 1000,
     "end": { "opinion": { "trust": 2, "value": 2 } },
-    "effect": { "u_add_var": "u_did_eddie_missions", "type": "general", "context": "mission", "value": "yes" },
+    "effect": [
+      { "u_add_var": "u_did_eddie_missions", "type": "general", "context": "mission", "value": "yes" },
+      { "u_buy_item": "rope_6", "count": 1 },
+      { "u_buy_item": "cattlefodder", "count": 3 }
+    ],
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I do have some resource gathering I could use help if you have time.",
@@ -272,7 +276,7 @@
       "rejected": "Oh well.  I'll try to find time to get it myself, thanks.",
       "advice": "You can find it along river banks, or maybe look for deposits in the forest.",
       "inquire": "How is the search going?",
-      "success": "Thanks, now Luke can get started making jugs.",
+      "success": "Thanks, now Luke can get started making jugs, We'd like to give you a cow if you want it.  Here's a rope an some fodder, feel free to pick one out.",
       "success_lie": "What good does this do us?",
       "failure": "I wonder where all the sand went..."
     }

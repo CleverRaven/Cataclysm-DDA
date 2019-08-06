@@ -56,7 +56,7 @@
         "topic": "TALK_ISHERWOOD_LUKE_TALK1",
         "condition": { "u_has_var": "u_met_Eddie_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
       },
-      { "text": "Hey, What are you doing out here?", "topic": "TALK_ISHERWOOD_LUKE2`" },
+      { "text": "Hey, What are you doing out here?", "topic": "TALK_ISHERWOOD_LUKE2" },
       {
         "text": "Can I do anything for you?",
         "topic": "TALK_MISSION_LIST",
@@ -191,7 +191,7 @@
     "item": "textbook_fabrication",
     "count": 1,
     "end": { "opinion": { "trust": 2, "value": 2 } },
-    "effect": { "u_add_var": "u_did_luke_missions", "type": "general", "context": "mission", "value": "yes" },
+    "effect": { "u_add_var": "u_did_luke_missions", "type": "general", "context": "recruit", "value": "yes" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I need more knowledge to get better pottery.",

@@ -8,7 +8,7 @@
     "class": "NC_ISHERWOOD_CLAIRE",
     "attitude": 0,
     "mission": 7,
-    "chat": "TALK_ISHERWOOD_CLAIR",
+    "chat": "TALK_ISHERWOOD_CLAIRE",
     "mission_offered": "MISSION_ISHERWOOD_CLAIRE_1",
     "faction": "isherwood_family"
   },
@@ -20,10 +20,10 @@
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_per": { "one_in": 4 },
+    "shopkeeper_item_group": "NC_ISHERWOOD_CLAIRE_misc",
     "worn_override": "NC_Isherwood_worn",
     "carry_override": "NC_ISHERWOOD_rifle",
     "weapon_override": "NC_ISHERWOOD_archery",
-    "shopkeeper_item_group": "NC_ISHERWOOD_CLAIRE_misc",
     "skills": [
       {
         "skill": "ALL",
@@ -39,31 +39,36 @@
   },
   {
     "type": "item_group",
+    "id": "NC_ISHERWOOD_CLAIRE_hat",
+    "items": [ [ "null", 40 ], [ "cowboy_hat", 40 ], [ "hat_boonie", 20 ] ]
+  },
+  {
+    "type": "item_group",
     "id": "NC_ISHERWOOD_CLAIRE_misc",
     "items": [
-      [ "royal_jelly", 5 ],
-      [ "flavored_bonemeal_tablet", 15 ],
-      [ "bonemeal_tablet", 15 ],
-      [ "cattail_jelly", 15 ],
-      { "item": "thyme_oil", "prob": 8, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "mugwort_oil", "prob": 8, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "poppy_pain", "prob": 8, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "poppy_sleep", "prob": 8, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "poppysyrup", "prob": 8, "charges": 10, "container-item": "jar_glass_sealed" },
-      { "item": "bee_balm_tea", "prob": 8, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "chamomile_tea", "prob": 8, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "dandelion_tea", "prob": 8, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "herbal_tea", "prob": 8, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "pine_tea", "prob": 8, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "tea_bark", "prob": 8, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "hb_beer", "prob": 8, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "fruit_wine", "prob": 8, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "honey_bottled", "prob": 8, "charges": 2, "container-item": "jar_glass_sealed" }
+      [ "royal_jelly", 50 ],
+      [ "flavored_bonemeal_tablet", 55 ],
+      [ "bonemeal_tablet", 95 ],
+      [ "cattail_jelly", 95 ],
+      { "item": "thyme_oil", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "mugwort_oil", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "poppy_pain", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "poppy_sleep", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "poppysyrup", "prob": 80, "charges": 10, "container-item": "jar_glass_sealed" },
+      { "item": "bee_balm_tea", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "chamomile_tea", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "dandelion_tea", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "herbal_tea", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "pine_tea", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "tea_bark", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "hb_beer", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "fruit_wine", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "honey_bottled", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_ISHERWOOD_CLAIR",
+    "id": "TALK_ISHERWOOD_CLAIRE",
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
       "yes": "Is that a U.S. Marshal's badge you're wearing?",
@@ -103,8 +108,9 @@
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
       {
-        "text": "Have anything to trade?",
+        "text": "Let's trade.",
         "effect": "start_trade",
+        "topic": "TALK_ISHERWOOD_CLAIRE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
       {
@@ -141,7 +147,7 @@
     "responses": [
       { "text": "He did mention you make remedies, are they effective?", "topic": "TALK_CLAIRE_MEDICINE" },
       { "text": "Must be nice, to have the quiet place amid so much madness.", "topic": "TALK_CLAIRE_FARM" },
-      { "text": "I'd like to ask you something else ...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
+      { "text": "I'd like to ask you something else...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -185,7 +191,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CLAIRE_DAUGHTER",
-    "dynamic_line": "Jesse and her family live up at the horse farm. Her husband, Carlos, may have some jobs for you.",
+    "dynamic_line": "Jesse and her family live up at the horse farm. They may have some jobs for you.",
     "responses": [
       { "text": "I'd like to ask you something else...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -216,7 +222,7 @@
       { "text": "Where is your brother's place?", "topic": "TALK_CLAIRE_BROTHER" },
       { "text": "A farm must be a pretty safe place these days.", "topic": "TALK_CLAIRE_FARM" },
       { "text": "You are lucky to have your family still together.", "topic": "TALK_ISHERWOOD_CLAIRE2" },
-      { "text": "Let's trade items.", "topic": "TALK_ISHERWOOD_CLAIRE", "effect": "start_trade" },
+      { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_ISHERWOOD_CLAIRE" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -266,7 +272,7 @@
         { "u_buy_item": "pine_tea", "container": "jar_glass_sealed", "count": 2 },
         { "u_buy_item": "royal_jelly", "count": 1 },
         { "u_buy_item": "bee_balm_tea", "container": "jar_glass_sealed", "count": 2 },
-        { "u_add_var": "u_did_claire_missions", "type": "general", "context": "mission", "value": "yes" }
+        { "u_add_var": "u_did_claire_missions", "type": "general", "context": "recruit", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
