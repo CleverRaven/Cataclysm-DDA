@@ -235,7 +235,7 @@ static void draw_city_labels( const catacurses::window &w, const tripoint &cente
     const point screen_center_pos( win_x_max / 2, win_y_max / 2 );
 
     for( const auto &element : overmap_buffer.get_cities_near( omt_to_sm_copy( center ), sm_radius ) ) {
-        const point city_pos( sm_to_omt_copy( element.abs_sm_pos.x, element.abs_sm_pos.y ) );
+        const point city_pos( sm_to_omt_copy( point( element.abs_sm_pos.x, element.abs_sm_pos.y ) ) );
         const point screen_pos( city_pos - point( center.x, center.y ) + screen_center_pos );
 
         const int text_width = utf8_width( element.city->name, true );
