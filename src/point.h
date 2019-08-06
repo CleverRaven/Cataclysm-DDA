@@ -169,7 +169,7 @@ struct tripoint {
         return *this;
     }
 
-    point xy() const {
+    constexpr point xy() const {
         return point( x, y );
     }
 
