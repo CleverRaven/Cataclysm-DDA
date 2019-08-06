@@ -163,7 +163,9 @@
       [ "4570_pen", 20 ],
       [ "4570_low", 40 ],
       [ "762_m87", 25 ],
-      [ "8mm_civilian", 15 ]
+      [ "8mm_civilian", 15 ],
+      [ "300blk", 15 ],
+      [ "300blk_ss", 10 ]
     ]
   },
   {
@@ -185,7 +187,9 @@
       [ "8mm_fmj", 30 ],
       [ "8mm_hvp", 10 ],
       [ "8mm_inc", 20 ],
-      [ "8mm_jhp", 10 ]
+      [ "8mm_jhp", 10 ],
+      [ "300blk", 15 ],
+      [ "300blk_ss", 10 ]
     ]
   },
   {
@@ -217,7 +221,8 @@
       [ "reloaded_762_51", 10 ],
       [ "reloaded_762_51_incendiary", 5 ],
       [ "reloaded_762_54R", 40 ],
-      [ "reloaded_762_m43", 20 ]
+      [ "reloaded_762_m43", 20 ],
+      [ "reloaded_300blk", 10 ]
     ]
   },
   {
@@ -415,7 +420,8 @@
       [ "762R_casing", 60 ],
       [ "9mm_casing", 100 ],
       [ "9x18mm_casing", 80 ],
-      [ "shot_hull", 100 ]
+      [ "shot_hull", 100 ],
+      [ "300blk_casing", 80 ]
     ]
   },
   {
