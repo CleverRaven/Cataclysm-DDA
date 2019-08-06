@@ -4852,9 +4852,8 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "deployed_item": "alien_pod_resin",
-    "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "alien_pod_resin", "charges": [ 2, 6 ] } ] },
     "bash": { "str_min": 25, "str_max": 60, "sound": "splorch!", "sound_fail": "whump." }
   },
   {
