@@ -211,7 +211,13 @@
   {
     "id": "petstore_misc",
     "type": "item_group",
-      "items": [ { "item": "dogfood", "prob": 35, "container-item": "can_food" }, { "item": "catfood", "prob": 35, "container-item": "can_food" }, [ "birdfood", 15 ], [ "dog_whistle", 15 ], [ "flashlight", 5 ] ]
+    "items": [
+      { "item": "dogfood", "prob": 35, "container-item": "can_food" },
+      { "item": "catfood", "prob": 35, "container-item": "can_food" },
+      [ "birdfood", 15 ],
+      [ "dog_whistle", 15 ],
+      [ "flashlight", 5 ]
+    ]
   },
   {
     "id": "petstore_shelves",
@@ -1430,3 +1436,4 @@
     "items": [ [ "duffelbag", 5 ], [ "backpack", 5 ], [ "bag_plastic", 30 ], [ "basket_laundry", 30 ] ]
   }
 ]
+

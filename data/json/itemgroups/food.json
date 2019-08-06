@@ -57,7 +57,7 @@
       { "item": "catfood", "prob": 45, "container-item": "can_food" }
     ]
   },
-   {
+  {
     "type": "item_group",
     "id": "condiments",
     "ammo": 75,
@@ -102,3 +102,4 @@
     ]
   }
 ]
+
