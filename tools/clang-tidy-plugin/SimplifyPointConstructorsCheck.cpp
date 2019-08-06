@@ -41,16 +41,28 @@ void SimplifyPointConstructorsCheck::registerMatchers( MatchFinder *Finder )
             hasDeclaration( isPointConstructor().bind( "constructorDecl" ) ),
             hasArgument( 0, isMemberExpr( "point", "x", "xobj" ) ),
             hasArgument( 1, isMemberExpr( "point", "y", "yobj" ) )
-        ).bind( "constructorCall" ),
+        ).bind( "constructorCallFromPoint" ),
+        this
+    );
+    Finder->addMatcher(
+        cxxConstructExpr(
+            hasDeclaration( isPointConstructor().bind( "constructorDecl" ) ),
+            hasArgument( 0, isMemberExpr( "tripoint", "x", "xobj" ) ),
+            hasArgument( 1, isMemberExpr( "tripoint", "y", "yobj" ) ),
+            anyOf(
+                hasArgument( 2, isMemberExpr( "tripoint", "z", "zobj" ) ),
+                anything()
+            )
+        ).bind( "constructorCallFromTripoint" ),
         this
     );
 }
 
-static void CheckPointFromPoint( SimplifyPointConstructorsCheck &Check,
-                                 const MatchFinder::MatchResult &Result )
+static void CheckFromPoint( SimplifyPointConstructorsCheck &Check,
+                            const MatchFinder::MatchResult &Result )
 {
     const CXXConstructExpr *ConstructorCall =
-        Result.Nodes.getNodeAs<CXXConstructExpr>( "constructorCall" );
+        Result.Nodes.getNodeAs<CXXConstructExpr>( "constructorCallFromPoint" );
     const CXXConstructorDecl *ConstructorDecl =
         Result.Nodes.getNodeAs<CXXConstructorDecl>( "constructorDecl" );
     const Expr *XExpr = Result.Nodes.getNodeAs<Expr>( "xobj" );
@@ -83,17 +95,60 @@ static void CheckPointFromPoint( SimplifyPointConstructorsCheck &Check,
         ConstructorCall->getBeginLoc(),
         "Construction of point can be simplified." ) <<
                 FixItHint::CreateReplacement( CharRangeToReplace, ReplacementX );
-    /*Check.diag( YArg->getBeginLoc(), "y arg", DiagnosticIDs::Note );
-    Check.diag( YParam->getLocation(), "y param", DiagnosticIDs::Note );
-    if( ZParam ) {
-        Check.diag( ZArg->getBeginLoc(), "z arg", DiagnosticIDs::Note );
+}
+
+static void CheckFromTripoint( SimplifyPointConstructorsCheck &Check,
+                               const MatchFinder::MatchResult &Result )
+{
+    const CXXConstructExpr *ConstructorCall =
+        Result.Nodes.getNodeAs<CXXConstructExpr>( "constructorCallFromTripoint" );
+    const CXXConstructorDecl *ConstructorDecl =
+        Result.Nodes.getNodeAs<CXXConstructorDecl>( "constructorDecl" );
+    const Expr *XExpr = Result.Nodes.getNodeAs<Expr>( "xobj" );
+    const Expr *YExpr = Result.Nodes.getNodeAs<Expr>( "yobj" );
+    const Expr *ZExpr = Result.Nodes.getNodeAs<Expr>( "zobj" );
+    if( !ConstructorCall || !ConstructorDecl || !XExpr || !YExpr ) {
+        return;
     }
-    Check.diag( NewCallee->getLocation(), "alternate overload", DiagnosticIDs::Note );*/
+
+    std::string ReplacementX = getText( Result, XExpr );
+    std::string ReplacementY = getText( Result, YExpr );
+
+    if( ReplacementX != ReplacementY ) {
+        return;
+    }
+
+    std::string ReplacementZ;
+    unsigned int MaxArg = 1;
+
+    if( ZExpr ) {
+        ReplacementZ = getText( Result, ZExpr );
+        MaxArg = 2;
+    }
+
+    SourceRange SourceRangeToReplace( ConstructorCall->getArg( 0 )->getBeginLoc(),
+                                      ConstructorCall->getArg( MaxArg )->getEndLoc() );
+
+    if( const CXXTemporaryObjectExpr *T = dyn_cast<CXXTemporaryObjectExpr>( ConstructorCall ) ) {
+        if( ConstructorDecl->getNumParams() == MaxArg + 1 ) {
+            SourceRangeToReplace = T->getSourceRange();
+        }
+    }
+
+    CharSourceRange CharRangeToReplace = Lexer::makeFileCharRange(
+            CharSourceRange::getTokenRange( SourceRangeToReplace ), *Result.SourceManager,
+            Check.getLangOpts() );
+
+    Check.diag(
+        ConstructorCall->getBeginLoc(),
+        "Construction of point can be simplified." ) <<
+                FixItHint::CreateReplacement( CharRangeToReplace, ReplacementX );
 }
 
 void SimplifyPointConstructorsCheck::check( const MatchFinder::MatchResult &Result )
 {
-    CheckPointFromPoint( *this, Result );
+    CheckFromPoint( *this, Result );
+    CheckFromTripoint( *this, Result );
 }
 
 } // namespace cata
