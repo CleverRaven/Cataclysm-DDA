@@ -2099,6 +2099,16 @@ void talk_effect_fun_t::set_npc_gets_item( bool to_use )
     };
 }
 
+void talk_effect_fun_t::set_add_mission( const std::string mission_id )
+{
+    function = [mission_id]( const dialogue & d ) {
+        npc &p = *d.beta;
+        mission *miss = mission::reserve_new( mission_type_id( mission_id ), p.getID() );
+        miss->assign( g->u );
+        p.chatbin.missions_assigned.push_back( miss );
+    };
+}
+
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con )
 {
     effects.push_back( fun );
@@ -2252,6 +2262,9 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
     } else if( jo.has_string( "npc_change_class" ) ) {
         std::string class_name = jo.get_string( "npc_change_class" );
         subeffect_fun.set_npc_change_class( class_name );
+    } else if( jo.has_string( "add_mission" ) ) {
+        std::string mission_id = jo.get_string( "add_mission" );
+        subeffect_fun.set_add_mission( mission_id );
     } else if( jo.has_string( "npc_change_faction" ) ) {
         std::string faction_name = jo.get_string( "npc_change_faction" );
         subeffect_fun.set_npc_change_faction( faction_name );
