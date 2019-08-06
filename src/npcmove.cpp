@@ -665,7 +665,7 @@ void npc::move()
     regen_ai_cache();
     adjust_power_cbms();
 
-    if( has_effect( effect_under_op ) ) {
+    if( activity.id() == "ACT_OPERATION" ) {
         execute_action( npc_player_activity );
         return;// NPCs under operation should just stay still
     }
@@ -1502,7 +1502,7 @@ item_location npc::find_usable_ammo( const item &weap )
     return loc;
 }
 
-const item_location npc::find_usable_ammo( const item &weap ) const
+item_location npc::find_usable_ammo( const item &weap ) const
 {
     return const_cast<npc *>( this )->find_usable_ammo( weap );
 }

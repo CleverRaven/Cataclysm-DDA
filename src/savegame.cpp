@@ -1521,7 +1521,7 @@ void game::unserialize_master( std::istream &fin )
 {
     savegame_loading_version = 0;
     chkversion( fin );
-    if( savegame_loading_version != savegame_version && savegame_loading_version < 11 ) {
+    if( savegame_loading_version < 11 ) {
         popup_nowait(
             _( "Cannot find loader for save data in old version %d, attempting to load as current version %d." ),
             savegame_loading_version, savegame_version );

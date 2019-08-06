@@ -1708,6 +1708,16 @@ static void layer_item( std::array<encumbrance_data, num_bp> &vals,
     // For the purposes of layering penalty, set a min of 2 and a max of 10 per item.
     int layering_encumbrance = std::min( 10, std::max( 2, encumber_val ) );
 
+    /*
+     * Setting layering_encumbrance to 0 at this point makes the item cease to exist
+     * for the purposes of the layer penalty system. (normally an item has a minimum
+     * layering_encumbrance of 2 )
+     */
+    if( it.has_flag( "SEMITANGIBLE" ) ) {
+        encumber_val = 0;
+        layering_encumbrance = 0;
+    }
+
     const int armorenc = !power_armor || !it.is_power_armor() ?
                          encumber_val : std::max( 0, encumber_val - 40 );
 
@@ -1730,6 +1740,27 @@ static void layer_item( std::array<encumbrance_data, num_bp> &vals,
     }
 }
 
+bool Character::is_wearing_power_armor( bool *hasHelmet ) const
+{
+    bool result = false;
+    for( auto &elem : worn ) {
+        if( !elem.is_power_armor() ) {
+            continue;
+        }
+        if( hasHelmet == nullptr ) {
+            // found power armor, helmet not requested, cancel loop
+            return true;
+        }
+        // found power armor, continue search for helmet
+        result = true;
+        if( elem.covers( bp_head ) ) {
+            *hasHelmet = true;
+            return true;
+        }
+    }
+    return result;
+}
+
 bool Character::is_wearing_active_power_armor() const
 {
     for( const auto &w : worn ) {
@@ -1750,6 +1781,16 @@ void layer_details::reset()
 // So we add them together and then subtract out the highest.
 int layer_details::layer( const int encumbrance )
 {
+    /*
+     * We should only get to this point with an encumbrance value of 0
+     * if the item is 'semitangible'. A normal item has a minimum of
+     * 2 encumbrance for layer penalty purposes.
+     * ( even if normally its encumbrance is 0 )
+     */
+    if( encumbrance == 0 ) {
+        return total; // skip over the other logic because this item doesn't count
+    }
+
     pieces.push_back( encumbrance );
 
     int current = total;
@@ -1811,7 +1852,7 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
     // items
     std::array<layer_level, num_bp> highest_layer_so_far;
     std::fill( highest_layer_so_far.begin(), highest_layer_so_far.end(),
-               UNDERWEAR );
+               PERSONAL_LAYER );
 
     const bool power_armored = is_wearing_active_power_armor();
     for( auto w_it = worn.begin(); w_it != worn.end(); ++w_it ) {
@@ -1858,30 +1899,13 @@ static void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
 
 void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) const
 {
-    if( has_bionic( bionic_id( "bio_stiff" ) ) ) {
-        // All but head, mouth and eyes
-        for( auto &val : vals ) {
-            val.encumbrance += 10;
+
+    for( const bionic &bio : *my_bionics ) {
+        for( const auto &element : bio.info().encumbrance ) {
+            vals[element.first].encumbrance += element.second;
         }
-
-        vals[bp_head].encumbrance -= 10;
-        vals[bp_mouth].encumbrance -= 10;
-        vals[bp_eyes].encumbrance -= 10;
     }
 
-    if( has_bionic( bionic_id( "bio_nostril" ) ) ) {
-        vals[bp_mouth].encumbrance += 10;
-    }
-    if( has_bionic( bionic_id( "bio_shotgun" ) ) ) {
-        vals[bp_arm_l].encumbrance += 5;
-    }
-    if( has_bionic( bionic_id( "bio_thumbs" ) ) ) {
-        vals[bp_hand_l].encumbrance += 10;
-        vals[bp_hand_r].encumbrance += 10;
-    }
-    if( has_bionic( bionic_id( "bio_pokedeye" ) ) ) {
-        vals[bp_eyes].encumbrance += 10;
-    }
     if( has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
         for( auto &val : vals ) {
             val.encumbrance += 3; // Slight encumbrance to all parts except eyes
@@ -3069,7 +3093,7 @@ std::string Character::extended_description() const
     return replace_colors( ss.str() );
 }
 
-const social_modifiers Character::get_mutation_social_mods() const
+social_modifiers Character::get_mutation_social_mods() const
 {
     social_modifiers mods;
     for( const mutation_branch *mut : cached_mutations ) {
@@ -3500,7 +3524,7 @@ int Character::get_shout_volume() const
 void Character::shout( std::string msg, bool order )
 {
     int base = 10;
-    std::string shout = "";
+    std::string shout;
 
     // You can't shout without your face
     if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||

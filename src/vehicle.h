@@ -439,7 +439,7 @@ class turret_data
 
         /** Get base item location */
         item_location base();
-        const item_location base() const;
+        item_location base() const;
 
         /** Quantity of ammunition available for use */
         int ammo_remaining() const;
@@ -1357,10 +1357,10 @@ class vehicle
 
         /** Get firing data for a turret */
         turret_data turret_query( vehicle_part &pt );
-        const turret_data turret_query( const vehicle_part &pt ) const;
+        turret_data turret_query( const vehicle_part &pt ) const;
 
         turret_data turret_query( const tripoint &pos );
-        const turret_data turret_query( const tripoint &pos ) const;
+        turret_data turret_query( const tripoint &pos ) const;
 
         /** Set targeting mode for specific turrets */
         void turrets_set_targeting();
@@ -1519,14 +1519,16 @@ class vehicle
          * the map is just shifted (in the later case simply set smx/smy directly).
          */
         void set_submap_moved( int x, int y );
+        void use_autoclave( int p );
         void use_washing_machine( int p );
+        void use_dishwasher( int p );
         void use_monster_capture( int part, const tripoint &pos );
         void use_bike_rack( int part );
         void use_harness( int part, const tripoint &pos );
 
         void interact_with( const tripoint &pos, int interact_part );
 
-        const std::string disp_name() const;
+        std::string disp_name() const;
 
         /** Required strength to be able to successfully lift the vehicle unaided by equipment */
         int lift_strength() const;

@@ -351,9 +351,9 @@ class player : public Character
         void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
                               int pl_skill,
                               std::string cbm_name, std::string upcbm_name, std::string installer_name,
-                              std::vector<trait_id> trait_to_rem );
-        void bionics_install_failure( std::string installer, int difficulty, int success,
-                                      float adjusted_skill );
+                              std::vector<trait_id> trait_to_rem, tripoint patient_pos );
+        void bionics_install_failure( bionic_id bid, std::string installer, int difficulty, int success,
+                                      float adjusted_skill, tripoint patient_pos );
         /**Is The uninstallation possible*/
         bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                    int skill_level = -1 );
@@ -373,7 +373,7 @@ class player : public Character
         void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
                                         float adjusted_skill );
         /**Has enough anesthetic for surgery*/
-        bool has_enough_anesth( const itype *cbm );
+        bool has_enough_anesth( const itype *cbm, player &patient );
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power( int amount );
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -1229,8 +1229,6 @@ class player : public Character
         double armwear_factor() const;
         /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both, and zero if on neither */
         int shoe_type_count( const itype_id &it ) const;
-        /** Returns true if the player is wearing power armor */
-        bool is_wearing_power_armor( bool *hasHelmet = nullptr ) const;
         /** Returns wind resistance provided by armor, etc **/
         int get_wind_resistance( body_part bp ) const;
         /** Returns the effect of pain on stats */
@@ -1369,21 +1367,21 @@ class player : public Character
         /** Returns all known recipes. */
         const recipe_subset &get_learned_recipes() const;
         /** Returns all recipes that are known from the books (either in inventory or nearby). */
-        const recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
+        recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
         /**
           * Returns all available recipes (from books and npc companions)
           * @param crafting_inv Current available items to craft
           * @param helpers List of NPCs that could help with crafting.
           */
-        const recipe_subset get_available_recipes( const inventory &crafting_inv,
-                const std::vector<npc *> *helpers = nullptr ) const;
+        recipe_subset get_available_recipes( const inventory &crafting_inv,
+                                             const std::vector<npc *> *helpers = nullptr ) const;
         /**
           * Returns the set of book types in crafting_inv that provide the
           * given recipe.
           * @param crafting_inv Current available items that may contain readable books
           * @param r Recipe to search for in the available books
           */
-        const std::set<itype_id> get_books_for_recipe( const inventory &crafting_inv,
+        std::set<itype_id> get_books_for_recipe( const inventory &crafting_inv,
                 const recipe *r ) const;
 
         // crafting.cpp

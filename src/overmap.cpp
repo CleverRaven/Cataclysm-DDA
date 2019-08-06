@@ -1164,7 +1164,7 @@ oter_id &overmap::ter( const tripoint &p )
     return layer[p.z + OVERMAP_DEPTH].terrain[p.x][p.y];
 }
 
-const oter_id overmap::get_ter( const tripoint &p ) const
+oter_id overmap::get_ter( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
         return ot_null;
@@ -1574,6 +1574,7 @@ bool overmap::generate_sub( const int z )
                 ter( p ) = oter_id( "spiral_hub" );
                 add_mon_group( mongroup( mongroup_id( "GROUP_SPIRAL" ), i * 2, j * 2, z, 2, 200 ) );
             } else if( oter_above == "silo" ) {
+                // NOLINTNEXTLINE(misc-redundant-expression)
                 if( rng( 2, 7 ) < abs( z ) || rng( 2, 7 ) < abs( z ) ) {
                     ter( p ) = oter_id( "silo_finale" );
                 } else {

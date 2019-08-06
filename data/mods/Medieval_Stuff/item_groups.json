@@ -32,11 +32,6 @@
     ]
   },
   {
-    "id": "museum_melee",
-    "type": "item_group",
-    "items": [ [ "ji", 2 ], [ "dao", 3 ], [ "sword_xiphos", 4 ], [ "khopesh", 4 ], [ "spear_dory", 3 ] ]
-  },
-  {
     "id": "museum_guns",
     "type": "item_group",
     "items": [ [ "fire_lance", 20 ], [ "lance_charge", 10 ], [ "lance_charge_shot", 5 ] ]
@@ -45,11 +40,6 @@
     "id": "mansion_guns",
     "type": "item_group",
     "items": [ [ "fire_lance", 2 ], [ "lance_charge", 1 ], [ "lance_charge_shot", 1 ] ]
-  },
-  {
-    "id": "mansion_books",
-    "type": "item_group",
-    "items": [ [ "manual_swordsmanship", 3 ] ]
   },
   {
     "id": "museum_armor",

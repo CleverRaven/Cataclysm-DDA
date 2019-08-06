@@ -107,7 +107,6 @@ const efftype_id effect_mending( "mending" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_under_op( "under_operation" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -4366,9 +4365,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
             return;
         }
-    } else if( patient.has_effect( effect_under_op ) ) {
+    } else if( patient.activity.id() == "ACT_OPERATION" ) {
         popup( _( "Operation underway.  Please wait until the end of the current procedure.  Estimated time remaining: %s." ),
-               to_string( patient.get_effect_dur( effect_under_op ) ) );
+               to_string( time_duration::from_turns( patient.activity.moves_left / 100 ) ) );
         p.add_msg_if_player( m_info, _( "The autodoc is working on %s." ), patient.disp_name() );
         return;
     }
@@ -4424,7 +4423,10 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            const float volume_anesth = itemtype->bionic->difficulty * 20 * 2; // 2ml/min
+            const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
+            const int surgery_duration = itemtype->bionic->difficulty * 2;
+            const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+                                                surgery_duration * weight;
 
             if( patient.can_install_bionics( ( *itemtype ), installer, true ) ) {
                 const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
@@ -4433,7 +4435,13 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 if( needs_anesthesia ) {
                     // Consume obsolete anesthesia first
                     if( acomps.empty() ) {
-                        p.consume_tools( anesth_kit, volume_anesth );
+                        for( const auto &e : req_anesth.get_components() ) {
+                            p.consume_items( e, 1, is_crafting_component );
+                        }
+                        for( const auto &e : req_anesth.get_tools() ) {
+                            p.consume_tools( e );
+                        }
+                        p.invalidate_crafting_inventory();
                     } else {
                         // Legacy
                         p.consume_items( acomps, 1, is_crafting_component );
@@ -4441,7 +4449,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
                 }
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
-                patient.add_effect( effect_under_op, duration, num_bp );
                 patient.install_bionics( ( *itemtype ), installer, true );
             }
             break;
@@ -4506,7 +4513,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
                 }
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
-                patient.add_effect( effect_under_op, duration, num_bp );
                 patient.uninstall_bionic( bid, installer, true );
             }
             break;

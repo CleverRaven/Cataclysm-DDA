@@ -279,8 +279,8 @@ static std::string colorized_feature_description_at( const tripoint &center_poin
 
 static std::string colorized_item_name( const item &item );
 static std::string colorized_item_description( const item &item );
-static const item get_top_item_at_point( const tripoint &point,
-        const units::volume min_visible_volume );
+static item get_top_item_at_point( const tripoint &point,
+                                   const units::volume min_visible_volume );
 
 static std::string effects_description_for_creature( Creature *const creature, std::string &pose,
         const std::string &pronoun_sex );
@@ -1809,7 +1809,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
                     if( chosen_fish->fish_population <= 0 ) {
                         g->catch_a_monster( chosen_fish, pos, p, 300_hours ); //catch the fish!
                     } else {
-                        g->m.add_item_or_charges( p->pos(), item::make_corpse( chosen_fish->type->id,
+                        g->m.add_item_or_charges( pos, item::make_corpse( chosen_fish->type->id,
                                                   calendar::turn + rng( 0_turns,
                                                           3_hours ) ) );
                     }
@@ -6486,8 +6486,8 @@ static std::string colorized_item_description( const item &item )
     return item.info( dummy, &query, 1 );
 }
 
-static const item get_top_item_at_point( const tripoint &point,
-        const units::volume min_visible_volume )
+static item get_top_item_at_point( const tripoint &point,
+                                   const units::volume min_visible_volume )
 {
     map_stack items = g->m.i_at( point );
     // iterate from topmost item down to ground

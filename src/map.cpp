@@ -151,7 +151,7 @@ map::~map() = default;
 
 static submap null_submap;
 
-const maptile map::maptile_at( const tripoint &p ) const
+maptile map::maptile_at( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
         return maptile( &null_submap, 0, 0 );
@@ -169,7 +169,7 @@ maptile map::maptile_at( const tripoint &p )
     return maptile_at_internal( p );
 }
 
-const maptile map::maptile_at_internal( const tripoint &p ) const
+maptile map::maptile_at_internal( const tripoint &p ) const
 {
     point l;
     submap *const sm = get_submap_at( p, l );
@@ -690,10 +690,21 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         rl_vec2d final2 = collision_axis_y * vel2_y_a + collision_axis_x * vel2_x_a;
 
         veh.move.init( final1.x, final1.y );
-        veh.velocity = final1.magnitude();
+        if( final1.dot_product( veh.face_vec() ) < 0 ) {
+            // Car is being pushed backwards. Make it move backwards
+            veh.velocity = -final1.magnitude();
+        } else {
+            veh.velocity = final1.magnitude();
+        }
 
         veh2.move.init( final2.x, final2.y );
-        veh2.velocity = final2.magnitude();
+        if( final2.dot_product( veh2.face_vec() ) < 0 ) {
+            // Car is being pushed backwards. Make it move backwards
+            veh2.velocity = -final2.magnitude();
+        } else {
+            veh2.velocity = final2.magnitude();
+        }
+
         //give veh2 the initiative to proceed next before veh1
         float avg_of_turn = ( veh2.of_turn + veh.of_turn ) / 2;
         if( avg_of_turn < .1f ) {
@@ -3919,7 +3930,7 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
     return false;
 }
 
-const std::string map::get_signage( const tripoint &p ) const
+std::string map::get_signage( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
         return "";
@@ -4468,7 +4479,9 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     const bool washmachine_here = cur_veh.part_flag( part, VPFLAG_WASHING_MACHINE ) &&
                                   cur_veh.is_part_on( part );
     bool washing_machine_finished = false;
-    if( washmachine_here ) {
+    const bool dishwasher_here = cur_veh.part_flag( part, VPFLAG_DISHWASHER ) &&
+                                 cur_veh.is_part_on( part );
+    if( washmachine_here || dishwasher_here ) {
         for( auto &n : cur_veh.get_items( part ) ) {
             const time_duration washing_time = 90_minutes;
             const time_duration time_left = washing_time - n.age();
@@ -4484,7 +4497,34 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             }
         }
         if( washing_machine_finished ) {
-            add_msg( _( "The washing machine in the %s has finished washing." ), cur_veh.name );
+            if( washmachine_here ) {
+                add_msg( _( "The washing machine in the %s has finished washing." ), cur_veh.name );
+            } else if( dishwasher_here ) {
+                add_msg( _( "The dishwasher in the %s has finished washing." ), cur_veh.name );
+            }
+        }
+    }
+
+    const bool autoclave_here = cur_veh.part_flag( part, VPFLAG_AUTOCLAVE ) &&
+                                cur_veh.is_part_on( part );
+    bool autoclave_finished = false;
+    if( autoclave_here ) {
+        for( auto &n : cur_veh.get_items( part ) ) {
+            const time_duration cycle_time = 90_minutes;
+            const time_duration time_left = cycle_time - n.age();
+            static const std::string no_sterile( "NO_STERILE" );
+            if( time_left <= 0_turns ) {
+                n.item_tags.erase( no_sterile );
+                autoclave_finished = true;
+                cur_veh.parts[part].enabled = false;
+            } else if( calendar::once_every( 15_minutes ) ) {
+                add_msg( _( "It should take %d minutes to finish sterilising items in the %s." ),
+                         to_minutes<int>( time_left ) + 1, cur_veh.name );
+                break;
+            }
+        }
+        if( autoclave_finished ) {
+            add_msg( _( "The autoclave in the %s has finished washing." ), cur_veh.name );
         }
     }
 
@@ -6664,7 +6704,7 @@ void map::saven( const int gridx, const int gridy, const int gridz )
     dbg( D_INFO ) << "map::saven abs_x: " << abs_x << "  abs_y: " << abs_y << "  abs_z: " << abs_z
                   << "  gridn: " << gridn;
     submap_to_save->last_touched = calendar::turn;
-    MAPBUFFER.add_submap( abs_x, abs_y, abs_z, submap_to_save );
+    MAPBUFFER.add_submap( tripoint( abs_x, abs_y, abs_z ), submap_to_save );
 }
 
 // worldx & worldy specify where in the world this is;

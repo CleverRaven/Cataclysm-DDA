@@ -204,7 +204,6 @@ const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
-const efftype_id effect_under_op( "under_operation" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_ridden( "ridden" );
@@ -1505,7 +1504,7 @@ bool game::do_turn()
     // m.vehmove used to do this, but now it only give them moves instead.
     for( auto &elem : MAPBUFFER ) {
         tripoint sm_loc = elem.first;
-        point sm_topleft = sm_to_ms_copy( sm_loc.x, sm_loc.y );
+        point sm_topleft = sm_to_ms_copy( point( sm_loc.x, sm_loc.y ) );
         point in_reality = m.getlocal( sm_topleft );
 
         submap *sm = elem.second;
@@ -4274,7 +4273,7 @@ void game::monmove()
         int turns = 0;
         m.creature_in_field( guy );
         guy.process_turn();
-        while( !guy.is_dead() && ( !guy.in_sleep_state() || guy.has_effect( effect_under_op ) ) &&
+        while( !guy.is_dead() && ( !guy.in_sleep_state() || guy.activity.id() == "ACT_OPERATION" ) &&
                guy.moves > 0 && turns < 10 ) {
             int moves = guy.moves;
             guy.move();
@@ -5438,7 +5437,7 @@ void game::examine()
     u.manual_examine = false;
 }
 
-static const std::string get_fire_fuel_string( const tripoint &examp )
+static std::string get_fire_fuel_string( const tripoint &examp )
 {
     if( g->m.has_flag( TFLAG_FIRE_CONTAINER, examp ) ) {
         field_entry *fire = g->m.get_field( examp, fd_fire );
@@ -6344,7 +6343,7 @@ void game::zones_manager()
                 as_m.entries.emplace_back( 1, true, '1', _( "Edit name" ) );
                 as_m.entries.emplace_back( 2, true, '2', _( "Edit type" ) );
                 as_m.entries.emplace_back( 3, zone.get_options().has_options(), '3',
-                                           _( "Edit options" ) );
+                                           zone.get_type() == zone_type_id( "LOOT_CUSTOM" ) ? _( "Edit filter" ) : _( "Edit options" ) );
                 as_m.entries.emplace_back( 4, !zone.get_is_vehicle(), '4', _( "Edit position" ) );
                 as_m.query();
 
@@ -10189,6 +10188,9 @@ void game::vertical_move( int movez, bool force )
     // then despawn the remaining monsters. Because it's a vertical shift, all
     // monsters are out of the bounds of the map and will despawn.
     monster stored_mount;
+    if( u.is_mounted() ) {
+        stored_mount = *u.mounted_creature.get();
+    }
     if( !m.has_zlevels() ) {
         const int to_x = u.posx();
         const int to_y = u.posy();
@@ -10202,12 +10204,9 @@ void game::vertical_move( int movez, bool force )
                 remove_zombie( critter );
             }
         }
-        if( u.is_mounted() ) {
-            stored_mount = *u.mounted_creature.get();
-            auto mons = critter_tracker->find( g->u.pos() );
-            if( mons != nullptr ) {
-                critter_tracker->remove( *mons );
-            }
+        auto mons = critter_tracker->find( g->u.pos() );
+        if( mons != nullptr ) {
+            critter_tracker->remove( *mons );
         }
         shift_monsters( 0, 0, movez );
     }
@@ -10255,13 +10254,15 @@ void game::vertical_move( int movez, bool force )
         if( !m.has_zlevels() ) {
             stored_mount.spawn( g->u.pos() );
             if( add_zombie( stored_mount ) ) {
+                auto mons = critter_tracker->find( g->u.pos() );
+                if( mons ) {
+                    u.mounted_creature = mons;
+                }
+                stored_mount.setpos( g->u.pos() );
             }
-            auto mons = critter_tracker->find( g->u.pos() );
-            if( mons != nullptr ) {
-                u.mounted_creature = mons;
-            }
+        } else {
+            u.mounted_creature->setpos( g->u.pos() );
         }
-        stored_mount.setpos( g->u.pos() );
     }
 
     if( !npcs_to_bring.empty() ) {

@@ -136,6 +136,8 @@ const std::map<std::string, m_flag> flag_map = {
     { "PUSH_VEH", MF_PUSH_VEH },
     { "PATH_AVOID_DANGER_1", MF_AVOID_DANGER_1 },
     { "PATH_AVOID_DANGER_2", MF_AVOID_DANGER_2 },
+    { "PATH_AVOID_FALL", MF_AVOID_FALL },
+    { "PATH_AVOID_FIRE", MF_AVOID_FIRE },
     { "PRIORITIZE_TARGETS", MF_PRIORITIZE_TARGETS },
     { "NOT_HALLUCINATION", MF_NOT_HALLU },
     { "CATFOOD", MF_CATFOOD },
@@ -151,7 +153,8 @@ const std::map<std::string, m_flag> flag_map = {
     { "DRIPS_GASOLINE", MF_DRIPS_GASOLINE },
     { "ELECTRIC_FIELD", MF_ELECTRIC_FIELD },
     { "STUN_IMMUNE", MF_STUN_IMMUNE },
-    { "LOUDMOVES", MF_LOUDMOVES }
+    { "LOUDMOVES", MF_LOUDMOVES },
+    { "DROPS_AMMO", MF_DROPS_AMMO }
 };
 
 } // namespace

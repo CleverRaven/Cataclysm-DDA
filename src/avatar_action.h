@@ -23,7 +23,7 @@ inline bool move( avatar &you, map &m, const tripoint &d )
 }
 inline bool move( avatar &you, map &m, const point &d )
 {
-    return move( you, m, d.x, d.y );
+    return move( you, m, tripoint( d.x, d.y, 0 ) );
 }
 
 // Handle moving from a ramp

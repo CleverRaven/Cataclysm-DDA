@@ -151,6 +151,8 @@ enum m_flag : int {
     MF_NO_NECRO,            // This monster can't be revived by necros. It will still rise on its own.
     MF_AVOID_DANGER_1,      // This monster will path around some dangers instead of through them.
     MF_AVOID_DANGER_2,      // This monster will path around most dangers instead of through them.
+    MF_AVOID_FIRE,          // This monster will path around heat-related dangers instead of through them.
+    MF_AVOID_FALL,          // This monster will path around cliffs instead of off of them.
     MF_PRIORITIZE_TARGETS,  // This monster will prioritize targets depending on their danger levels
     MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
     MF_CATFOOD,             // This monster will become friendly when fed cat food.
@@ -168,6 +170,7 @@ enum m_flag : int {
     MF_LOUDMOVES,           // This monster makes move noises as if ~2 sizes louder, even if flying.
     MF_CAN_OPEN_DOORS,      // This monster can open doors.
     MF_STUN_IMMUNE,         // This monster is immune to the stun effect
+    MF_DROPS_AMMO,          // This monster drops ammo. Check to make sure starting_ammo paramter is present for this monster type!
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
