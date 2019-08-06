@@ -93,7 +93,7 @@ static void CheckFromPoint( SimplifyPointConstructorsCheck &Check,
 
     Check.diag(
         ConstructorCall->getBeginLoc(),
-        "Construction of point can be simplified." ) <<
+        "Construction of %0 can be simplified." ) << ConstructorDecl->getParent() <<
                 FixItHint::CreateReplacement( CharRangeToReplace, ReplacementX );
 }
 
@@ -149,7 +149,7 @@ static void CheckFromTripoint( SimplifyPointConstructorsCheck &Check,
 
     Check.diag(
         ConstructorCall->getBeginLoc(),
-        "Construction of point can be simplified." ) <<
+        "Construction of %0 can be simplified." ) << ConstructorDecl->getParent() <<
                 FixItHint::CreateReplacement( CharRangeToReplace, ReplacementX );
 }
 
