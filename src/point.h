@@ -119,7 +119,7 @@ struct tripoint {
     int z = 0;
     constexpr tripoint() = default;
     constexpr tripoint( int X, int Y, int Z ) : x( X ), y( Y ), z( Z ) {}
-    explicit constexpr tripoint( const point &p, int Z ) : x( p.x ), y( p.y ), z( Z ) {}
+    constexpr tripoint( const point &p, int Z ) : x( p.x ), y( p.y ), z( Z ) {}
 
     constexpr tripoint operator+( const tripoint &rhs ) const {
         return tripoint( x + rhs.x, y + rhs.y, z + rhs.z );
