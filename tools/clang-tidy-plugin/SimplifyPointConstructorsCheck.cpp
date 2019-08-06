@@ -39,6 +39,10 @@ void SimplifyPointConstructorsCheck::registerMatchers( MatchFinder *Finder )
     Finder->addMatcher(
         cxxConstructExpr(
             hasDeclaration( isPointConstructor().bind( "constructorDecl" ) ),
+            anyOf(
+                hasParent( materializeTemporaryExpr().bind( "temp" ) ),
+                anything()
+            ),
             hasArgument( 0, isMemberExpr( "point", "x", "xobj" ) ),
             hasArgument( 1, isMemberExpr( "point", "y", "yobj" ) )
         ).bind( "constructorCallFromPoint" ),
@@ -47,6 +51,10 @@ void SimplifyPointConstructorsCheck::registerMatchers( MatchFinder *Finder )
     Finder->addMatcher(
         cxxConstructExpr(
             hasDeclaration( isPointConstructor().bind( "constructorDecl" ) ),
+            anyOf(
+                hasParent( materializeTemporaryExpr().bind( "temp" ) ),
+                anything()
+            ),
             hasArgument( 0, isMemberExpr( "tripoint", "x", "xobj" ) ),
             hasArgument( 1, isMemberExpr( "tripoint", "y", "yobj" ) ),
             anyOf(
@@ -65,6 +73,8 @@ static void CheckFromPoint( SimplifyPointConstructorsCheck &Check,
         Result.Nodes.getNodeAs<CXXConstructExpr>( "constructorCallFromPoint" );
     const CXXConstructorDecl *ConstructorDecl =
         Result.Nodes.getNodeAs<CXXConstructorDecl>( "constructorDecl" );
+    const MaterializeTemporaryExpr *TempParent =
+        Result.Nodes.getNodeAs<MaterializeTemporaryExpr>( "temp" );
     const Expr *XExpr = Result.Nodes.getNodeAs<Expr>( "xobj" );
     const Expr *YExpr = Result.Nodes.getNodeAs<Expr>( "yobj" );
     if( !ConstructorCall || !ConstructorDecl || !XExpr || !YExpr ) {
@@ -81,9 +91,9 @@ static void CheckFromPoint( SimplifyPointConstructorsCheck &Check,
     SourceRange SourceRangeToReplace( ConstructorCall->getArg( 0 )->getBeginLoc(),
                                       ConstructorCall->getArg( 1 )->getEndLoc() );
 
-    if( const CXXTemporaryObjectExpr *T = dyn_cast<CXXTemporaryObjectExpr>( ConstructorCall ) ) {
+    if( TempParent ) {
         if( ConstructorDecl->getNumParams() == 2 ) {
-            SourceRangeToReplace = T->getSourceRange();
+            SourceRangeToReplace = ConstructorCall->getSourceRange();
         }
     }
 
@@ -104,6 +114,8 @@ static void CheckFromTripoint( SimplifyPointConstructorsCheck &Check,
         Result.Nodes.getNodeAs<CXXConstructExpr>( "constructorCallFromTripoint" );
     const CXXConstructorDecl *ConstructorDecl =
         Result.Nodes.getNodeAs<CXXConstructorDecl>( "constructorDecl" );
+    const MaterializeTemporaryExpr *TempParent =
+        Result.Nodes.getNodeAs<MaterializeTemporaryExpr>( "temp" );
     const Expr *XExpr = Result.Nodes.getNodeAs<Expr>( "xobj" );
     const Expr *YExpr = Result.Nodes.getNodeAs<Expr>( "yobj" );
     const Expr *ZExpr = Result.Nodes.getNodeAs<Expr>( "zobj" );
@@ -137,9 +149,9 @@ static void CheckFromTripoint( SimplifyPointConstructorsCheck &Check,
     SourceRange SourceRangeToReplace( ConstructorCall->getArg( 0 )->getBeginLoc(),
                                       ConstructorCall->getArg( MaxArg )->getEndLoc() );
 
-    if( const CXXTemporaryObjectExpr *T = dyn_cast<CXXTemporaryObjectExpr>( ConstructorCall ) ) {
+    if( TempParent ) {
         if( ConstructorDecl->getNumParams() == MaxArg + 1 ) {
-            SourceRangeToReplace = T->getSourceRange();
+            SourceRangeToReplace = ConstructorCall->getSourceRange();
         }
     }
 

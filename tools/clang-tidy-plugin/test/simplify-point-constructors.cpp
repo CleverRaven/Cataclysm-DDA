@@ -42,3 +42,25 @@ tripoint p4;
 point p4a = point( p4.x, p4.y );
 // CHECK-MESSAGES: warning: Construction of 'point' can be simplified. [cata-simplify-point-constructors]
 // CHECK-FIXES: point p4a = p4.xy();
+
+point p5;
+int f5( const point & );
+int i5 = f5( { p5.x, p5.y } );
+// CHECK-MESSAGES: warning: Construction of 'point' can be simplified. [cata-simplify-point-constructors]
+// CHECK-FIXES: int i5 = f5( p5 );
+
+tripoint p6;
+int f6( const tripoint & );
+int i6 = f6( { p6.x, p6.y, p6.z } );
+// CHECK-MESSAGES: warning: Construction of 'tripoint' can be simplified. [cata-simplify-point-constructors]
+// CHECK-FIXES: int i6 = f6( p6 );
+
+point p7;
+point p7a = { p7.x, p7.y };
+// CHECK-MESSAGES: warning: Construction of 'point' can be simplified. [cata-simplify-point-constructors]
+// CHECK-FIXES: point p7a = { p7 };
+
+point p8;
+point p8a{ p7.x, p7.y };
+// CHECK-MESSAGES: warning: Construction of 'point' can be simplified. [cata-simplify-point-constructors]
+// CHECK-FIXES: point p8a{ p7 };
