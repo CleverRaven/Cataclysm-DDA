@@ -1280,10 +1280,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         furn_set( p, f_null );
                     }
                 }
-                if( curtype == fd_insecticidal_gas ) {
-                    dirty_transparency_cache = true;
-                    spread_gas( cur, p, 120, 1_minutes, sblk );
-                }
 
                 cur.set_field_age( cur.get_field_age() + 1_turns );
                 auto &fdata = cur.get_field_type().obj();
