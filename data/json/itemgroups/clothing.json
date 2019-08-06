@@ -42,6 +42,37 @@
     ]
   },
   {
+    "id": "clothing_hunting",
+    "type": "item_group",
+    "//": "Clothes that hunters take on hunting trips.",
+    "items": [
+      [ "balclava", 50 ],
+      [ "hat_cotton", 50 ],
+      [ "hat_faux_fur", 25 ],
+      [ "hat_fur", 50 ],
+      [ "hat_hunting", 75 ],
+      [ "hat_knit", 25 ],
+      [ "army_top", 50 ],
+      [ "long_underpants", 50 ],
+      [ "long_undertop", 50 ],
+      [ "gloves_liner", 50 ],
+      [ "gloves_wool", 50 ],
+      [ "knit_scarf", 50 ],
+      [ "pants_cargo", 75 ],
+      [ "socks_wool", 50 ],
+      [ "coat_winter", 50 ],
+      [ "greatcoat", 25 ],
+      [ "jacket_flannel", 75 ],
+      [ "peacoat", 25 ],
+      [ "trenchcoat", 25 ],
+      [ "boots", 75 ],
+      [ "boots_winter", 50 ],
+      [ "boots_hiking", 50 ],
+      [ "boots_steel", 25 ],
+      [ "fishing_waders", 25 ]
+    ]
+  },
+  {
     "id": "clothing_outdoor_set",
     "type": "item_group",
     "subtype": "collection",

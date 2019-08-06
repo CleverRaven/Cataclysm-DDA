@@ -2713,5 +2713,21 @@
     "name": "empty commercial lot",
     "sym": "O",
     "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_hunting",
+    "copy-from": "generic_city_building",
+    "name": "hunting supply store",
+    "sym": "H",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_hunting_roof",
+    "copy-from": "generic_city_building",
+    "name": "hunting supply store roof",
+    "sym": "H",
+    "color": "brown"
   }
 ]

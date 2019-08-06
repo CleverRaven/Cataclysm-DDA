@@ -47,7 +47,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 180,
-      "terrain": [ "hiway", "road", "bridge", "s_pharm", "s_gun", "s_grocery", "mil_surplus", "s_gas" ],
+      "terrain": [ "hiway", "road", "bridge", "s_pharm", "s_gun", "s_grocery", "s_hunting", "mil_surplus", "s_gas" ],
       "message": "You add roads and possible supply points to your map."
     }
   },

@@ -2312,5 +2312,14 @@
       { "point": [ 0, 0, -1 ], "overmap": "pawn_pf_under_north" },
       { "point": [ 0, 0, 1 ], "overmap": "pawn_pf_roof_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_hunting",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_hunting_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_hunting_roof_north" }
+    ]
   }
 ]
