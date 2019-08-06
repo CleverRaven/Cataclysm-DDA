@@ -171,6 +171,7 @@ Currently, only effect names, item action names, and item category names support
 | cost               | How many PUs it costs to use the bionic. (default: `0`)
 | time               | How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
 | description        | In-game description.
+| encumbrance        | (_optional_) A list of body parts and how much this bionic encumber them.
 | canceled_mutations | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
 | included_bionics   | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 | included           | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
@@ -186,6 +187,7 @@ Currently, only effect names, item action names, and item category names support
     "faulty"       : false,
     "cost"         : 0,
     "time"         : 0,
+    "encumbrance"  : [ [ "TORSO", 10 ], [ "ARM_L", 10 ], [ "ARM_R", 10 ], [ "LEG_L", 10 ], [ "LEG_R", 10 ], [ "FOOT_L", 10 ], [ "FOOT_R", 10 ] ],
     "description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries. Use 'E' to consume batteries.",
     "canceled_mutations": ["HYPEROPIC"],
     "included_bionics": ["bio_blindfold"]

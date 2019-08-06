@@ -1899,30 +1899,13 @@ static void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
 
 void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) const
 {
-    if( has_bionic( bionic_id( "bio_stiff" ) ) ) {
-        // All but head, mouth and eyes
-        for( auto &val : vals ) {
-            val.encumbrance += 10;
+
+    for( const bionic &bio : *my_bionics ) {
+        for( const auto &element : bio.info().encumbrance ) {
+            vals[element.first].encumbrance += element.second;
         }
-
-        vals[bp_head].encumbrance -= 10;
-        vals[bp_mouth].encumbrance -= 10;
-        vals[bp_eyes].encumbrance -= 10;
     }
 
-    if( has_bionic( bionic_id( "bio_nostril" ) ) ) {
-        vals[bp_mouth].encumbrance += 10;
-    }
-    if( has_bionic( bionic_id( "bio_shotgun" ) ) ) {
-        vals[bp_arm_l].encumbrance += 5;
-    }
-    if( has_bionic( bionic_id( "bio_thumbs" ) ) ) {
-        vals[bp_hand_l].encumbrance += 10;
-        vals[bp_hand_r].encumbrance += 10;
-    }
-    if( has_bionic( bionic_id( "bio_pokedeye" ) ) ) {
-        vals[bp_eyes].encumbrance += 10;
-    }
     if( has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
         for( auto &val : vals ) {
             val.encumbrance += 3; // Slight encumbrance to all parts except eyes
