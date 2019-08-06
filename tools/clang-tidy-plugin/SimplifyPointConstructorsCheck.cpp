@@ -123,7 +123,15 @@ static void CheckFromTripoint( SimplifyPointConstructorsCheck &Check,
 
     if( ZExpr ) {
         ReplacementZ = getText( Result, ZExpr );
-        MaxArg = 2;
+        if( ReplacementZ == ReplacementX ) {
+            MaxArg = 2;
+        } else {
+            ReplacementZ.clear();
+        }
+    }
+
+    if( MaxArg == 1 ) {
+        ReplacementX += ".xy()";
     }
 
     SourceRange SourceRangeToReplace( ConstructorCall->getArg( 0 )->getBeginLoc(),
