@@ -3669,6 +3669,18 @@
   },
   {
     "type": "recipe",
+    "result": "birchbark_funnel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": "60 m",
+    "autolearn": true,
+    "components": [ [ [ "birchbark", 12 ] ], [ [ "adhesive", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "chem_sulphur",
     "result_mult": 5,
     "category": "CC_OTHER",
