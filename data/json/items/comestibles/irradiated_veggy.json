@@ -60,7 +60,7 @@
     "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic",
-    "flags": [ "FREEZERBURN" ]
+    "flags": [ "FREEZERBURN", "SMOKABLE" ]
   },
   {
     "type": "COMESTIBLE",
@@ -119,7 +119,7 @@
     "description": "An irradiated cucumber will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
     "price": 320,
     "material": "veggy",
-    "flags": [ "FREEZERBURN" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "volume": 1
   },
   {
