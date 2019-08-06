@@ -344,7 +344,7 @@ class update_mapgen_function_json : public mapgen_function_json_base
         bool update_map( const tripoint &omt_pos, const point &offset,
                          mission *miss, bool verify = false ) const;
         bool update_map( mapgendata &md, const point &offset = point_zero,
-                         mission *miss = nullptr, bool verify = false, int rotation = 0 ) const;
+                         mission *miss = nullptr, bool verify = false ) const;
 
     protected:
         bool setup_internal( JsonObject &/*jo*/ ) override;

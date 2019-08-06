@@ -8295,31 +8295,43 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, const poi
     mapgendata md( north, south, east, west, northeast, southeast, northwest, southwest,
                    above, below, omt_pos.z, rsettings, update_tmap );
 
+    // If the existing map is rotated, we need to rotate it back to the north
+    // orientation before applying our updates.
     int rotation = 0;
     if( map_id.size() > 7 ) {
         if( map_id.substr( map_id.size() - 6, 6 ) == "_south" ) {
             rotation = 2;
             md.m.rotate( rotation );
         } else if( map_id.substr( map_id.size() - 5, 5 ) == "_east" ) {
-            rotation = 1;
+            rotation = 3;
             md.m.rotate( rotation );
         } else if( map_id.substr( map_id.size() - 5, 5 ) == "_west" ) {
-            rotation = 3;
+            rotation = 1;
             md.m.rotate( rotation );
         }
     }
-    if( update_map( md, offset, miss, verify, rotation ) ) {
-        md.m.save();
-        g->load_npcs();
-        g->m.invalidate_map_cache( md.zlevel );
-        g->refresh_all();
-        return true;
+
+    const bool applied = update_map( md, offset, miss, verify );
+
+    // If we rotated the map before applying updates, we now need to rotate
+    // it back to where we found it.
+    if( rotation ) {
+        md.m.rotate( 4 - rotation );
     }
-    return false;
+
+    if( applied ) {
+        md.m.save();
+    }
+
+    g->load_npcs();
+    g->m.invalidate_map_cache( md.zlevel );
+    g->refresh_all();
+
+    return applied;
 }
 
 bool update_mapgen_function_json::update_map( mapgendata &md, const point &offset,
-        mission *miss, bool verify, int rotation ) const
+        mission *miss, bool verify ) const
 {
     for( auto &elem : setmap_points ) {
         if( verify && elem.has_vehicle_collision( md, offset ) ) {
@@ -8332,10 +8344,6 @@ bool update_mapgen_function_json::update_map( mapgendata &md, const point &offse
         return false;
     }
     objects.apply( md, offset, 0, miss );
-
-    if( rotation ) {
-        md.m.rotate( 4 - rotation );
-    }
 
     return true;
 }
