@@ -359,5 +359,14 @@
     "symbol": "=",
     "color": "red",
     "damage_states": [ 0, 0 ]
+  },
+  {
+    "id": "300blk_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".300BLK casing",
+    "description": "An empty casing from a .300BLK round.",
+    "weight": 6,
+    "volume": "9ml"
   }
 ]
