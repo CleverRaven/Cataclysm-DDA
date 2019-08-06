@@ -235,8 +235,8 @@ static void draw_city_labels( const catacurses::window &w, const tripoint &cente
     const point screen_center_pos( win_x_max / 2, win_y_max / 2 );
 
     for( const auto &element : overmap_buffer.get_cities_near( omt_to_sm_copy( center ), sm_radius ) ) {
-        const point city_pos( sm_to_omt_copy( point( element.abs_sm_pos.x, element.abs_sm_pos.y ) ) );
-        const point screen_pos( city_pos - point( center.x, center.y ) + screen_center_pos );
+        const point city_pos( sm_to_omt_copy( element.abs_sm_pos.xy() ) );
+        const point screen_pos( city_pos - center.xy() + screen_center_pos );
 
         const int text_width = utf8_width( element.city->name, true );
         const int text_x_min = screen_pos.x - text_width / 2;
@@ -274,8 +274,8 @@ static void draw_camp_labels( const catacurses::window &w, const tripoint &cente
     const point screen_center_pos( win_x_max / 2, win_y_max / 2 );
 
     for( const auto &element : overmap_buffer.get_camps_near( omt_to_sm_copy( center ), sm_radius ) ) {
-        const point camp_pos( element.camp->camp_omt_pos().x, element.camp->camp_omt_pos().y );
-        const point screen_pos( camp_pos - point( center.x, center.y ) + screen_center_pos );
+        const point camp_pos( element.camp->camp_omt_pos().xy() );
+        const point screen_pos( camp_pos - center.xy() + screen_center_pos );
         const int text_width = utf8_width( element.camp->name, true );
         const int text_x_min = screen_pos.x - text_width / 2;
         const int text_x_max = text_x_min + text_width;
@@ -313,7 +313,7 @@ class map_notes_callback : public uilist_callback
             return _notes[_selected].first;
         }
         tripoint note_location() {
-            return tripoint( point_selected().x, point_selected().y, _z );
+            return tripoint( point_selected(), _z );
         }
         std::string old_note() {
             return overmap_buffer.note( note_location() );
@@ -392,8 +392,8 @@ static point draw_notes( const tripoint &origin )
             const nc_color note_color = std::get<1>( om_symbol );
             const std::string note_symbol = std::string( 1, std::get<0>( om_symbol ) );
             const std::string note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
-            point p_omt( p.x, p.y );
-            const point p_player = point( g->u.global_omt_location().x, g->u.global_omt_location().y );
+            point p_omt( p );
+            const point p_player = g->u.global_omt_location().xy();
             const int distance_player = rl_dist( p_player, p_omt );
             const point sm_pos = omt_to_sm_copy( p_omt );
             const point p_om = omt_to_om_remain( p_omt );
@@ -512,7 +512,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     if( blink && uistate.place_special ) {
         for( const auto &s_ter : uistate.place_special->terrains ) {
             if( s_ter.p.z == 0 ) {
-                const point rp = om_direction::rotate( point( s_ter.p.x, s_ter.p.y ), uistate.omedit_rotation );
+                const point rp = om_direction::rotate( s_ter.p.xy(), uistate.omedit_rotation );
                 const oter_id oter = s_ter.terrain->get_rotated( uistate.omedit_rotation );
 
                 special_cache.insert( std::make_pair(
@@ -575,7 +575,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             }
         }
         for( auto &elem : g->u.omt_path ) {
-            tripoint tri_to_add = tripoint( elem.x, elem.y, g->u.posz() );
+            tripoint tri_to_add = tripoint( elem.xy(), g->u.posz() );
             player_path_route.push_back( tri_to_add );
         }
         for( const auto &np : followers ) {
@@ -584,7 +584,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             }
             if( !np->omt_path.empty() ) {
                 for( auto &elem : np->omt_path ) {
-                    tripoint tri_to_add = tripoint( elem.x, elem.y, np->posz() );
+                    tripoint tri_to_add = tripoint( elem.xy(), np->posz() );
                     path_route.push_back( tri_to_add );
                 }
             }
@@ -1391,7 +1391,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
         } else if( action == "LEVEL_UP" && curs.z < OVERMAP_HEIGHT ) {
             curs.z += 1;
         } else if( action == "CONFIRM" ) {
-            ret = tripoint( curs.x, curs.y, curs.z );
+            ret = curs;
         } else if( action == "QUIT" ) {
             ret = overmap::invalid_tripoint;
         } else if( action == "CREATE_NOTE" ) {

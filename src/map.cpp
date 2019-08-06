@@ -254,7 +254,7 @@ void map::update_vehicle_cache( vehicle *veh, const int old_zlevel )
             }
             ch.veh_cached_parts.erase( it++ );
             // If something was resting on vehicle, drop it
-            support_dirty( tripoint( p.x, p.y, old_zlevel + 1 ) );
+            support_dirty( tripoint( p.xy(), old_zlevel + 1 ) );
         } else {
             ++it;
         }
@@ -1295,7 +1295,7 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
 
     // Make sure the furniture falls if it needs to
     support_dirty( p );
-    tripoint above( p.x, p.y, p.z + 1 );
+    tripoint above( p.xy(), p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
     support_dirty( above );
 }
@@ -1561,7 +1561,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
     // TODO: Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
 
-    tripoint above( p.x, p.y, p.z + 1 );
+    tripoint above( p.xy(), p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
     support_dirty( above );
 
@@ -1817,7 +1817,7 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
         // Can't move from up to down
         if( abs( from.x - to.x ) == 1 || abs( from.y - to.y ) == 1 ) {
             // Break the move into two - vertical then horizontal
-            tripoint midpoint( down_p.x, down_p.y, up_p.z );
+            tripoint midpoint( down_p.xy(), up_p.z );
             return valid_move( down_p, midpoint, bash, flying ) &&
                    valid_move( midpoint, up_p, bash, flying );
         }
@@ -1940,7 +1940,7 @@ bool map::supports_above( const tripoint &p ) const
 
 bool map::has_floor_or_support( const tripoint &p ) const
 {
-    const tripoint below( p.x, p.y, p.z - 1 );
+    const tripoint below( p.xy(), p.z - 1 );
     return !valid_move( p, below, false, true );
 }
 
@@ -1981,7 +1981,7 @@ void map::drop_furniture( const tripoint &p )
             return SS_FLOOR;
         }
 
-        tripoint below_dest( pt.x, pt.y, pt.z - 1 );
+        tripoint below_dest( pt.xy(), pt.z - 1 );
         if( supports_above( below_dest ) ) {
             return SS_GOOD_SUPPORT;
         }
@@ -2003,7 +2003,7 @@ void map::drop_furniture( const tripoint &p )
         return SS_NO_SUPPORT;
     };
 
-    tripoint current( p.x, p.y, p.z + 1 );
+    tripoint current( p.xy(), p.z + 1 );
     support_state last_state = SS_NO_SUPPORT;
     while( last_state == SS_NO_SUPPORT ) {
         current.z--;
@@ -2056,12 +2056,12 @@ void map::drop_furniture( const tripoint &p )
         bash( current, dmg, false, false, true );
     } else if( last_state == SS_BAD_SUPPORT || last_state == SS_GOOD_SUPPORT ) {
         bash( current, dmg, false, false, false );
-        tripoint below( current.x, current.y, current.z - 1 );
+        tripoint below( current.xy(), current.z - 1 );
         bash( below, dmg, false, false, false );
     } else if( last_state == SS_CREATURE ) {
         const std::string &furn_name = frn_obj.name();
         bash( current, dmg, false, false, false );
-        tripoint below( current.x, current.y, current.z - 1 );
+        tripoint below( current.xy(), current.z - 1 );
         Creature *critter = g->critter_at( below );
         if( critter == nullptr ) {
             debugmsg( "drop_furniture couldn't find creature at %d,%d,%d",
@@ -3073,7 +3073,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         } else if( !bash->ter_set && zlevels ) {
             // A hack for destroy && !bash_floor
             // We have to check what would we create and cancel if it is what we have now
-            tripoint below( p.x, p.y, p.z - 1 );
+            tripoint below( p.xy(), p.z - 1 );
             const auto roof = get_roof( below, false );
             if( roof == ter( p ) ) {
                 smash_ter = false;
@@ -3096,7 +3096,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
                                    pgettext( "memorial_female", "Set off an alarm." ) );
             const point abs = ms_to_sm_copy( getabs( p.x, p.y ) );
             g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
-                                 tripoint( abs.x, abs.y, p.z ) );
+                                 tripoint( abs, p.z ) );
         }
     }
 
@@ -3132,7 +3132,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         }
 
         if( bash->str_min_supported != -1 || bash->str_max_supported != -1 ) {
-            tripoint below( p.x, p.y, p.z - 1 );
+            tripoint below( p.xy(), p.z - 1 );
             if( !zlevels || has_flag( "SUPPORTS_ROOF", below ) ) {
                 if( bash->str_min_supported != -1 ) {
                     smin = bash->str_min_supported;
@@ -3274,7 +3274,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         // If the terrain has a valid post-destroy terrain, set it
         ter_set( p, bash->ter_set );
     } else {
-        tripoint below( p.x, p.y, p.z - 1 );
+        tripoint below( p.xy(), p.z - 1 );
         const auto &ter_below = ter( below ).obj();
         if( bash->bash_below && ter_below.has_flag( "SUPPORTS_ROOF" ) ) {
             // When bashing the tile below, don't allow bashing the floor
@@ -3295,7 +3295,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
             // We destroyed something, so we aren't just "plugging" air with dirt here
             ter_set( p, t_dirt );
         } else {
-            tripoint below( p.x, p.y, p.z - 1 );
+            tripoint below( p.xy(), p.z - 1 );
             const auto roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
             ter_set( p, roof );
         }
@@ -5155,7 +5155,7 @@ partial_con *map::partial_con_at( const tripoint &p )
     }
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    auto it = current_submap->partial_constructions.find( tripoint( l.x, l.y, p.z ) );
+    auto it = current_submap->partial_constructions.find( tripoint( l, p.z ) );
     if( it != current_submap->partial_constructions.end() ) {
         return &it->second;
     }
@@ -5169,7 +5169,7 @@ void map::partial_con_remove( const tripoint &p )
     }
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    current_submap->partial_constructions.erase( tripoint( l.x, l.y, p.z ) );
+    current_submap->partial_constructions.erase( tripoint( l, p.z ) );
 }
 
 void map::partial_con_set( const tripoint &p, const partial_con &con )
@@ -5179,7 +5179,7 @@ void map::partial_con_set( const tripoint &p, const partial_con &con )
     }
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if( !current_submap->partial_constructions.emplace( tripoint( l.x, l.y, p.z ), con ).second ) {
+    if( !current_submap->partial_constructions.emplace( tripoint( l, p.z ), con ).second ) {
         debugmsg( "set partial con on top of terrain which already has a partial con" );
     }
 }
@@ -5726,7 +5726,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
         while( x < maxx ) {
             submap *cur_submap = get_submap_at( p, l );
             submap *sm_below = p.z > -OVERMAP_DEPTH ?
-                               get_submap_at( {p.x, p.y, p.z - 1}, l ) : cur_submap;
+                               get_submap_at( {p.xy(), p.z - 1}, l ) : cur_submap;
             while( l.x < SEEX && x < maxx )  {
                 const lit_level lighting = visibility_cache[x][y];
                 const visibility_type vis = get_visibility( lighting, cache );
@@ -5787,7 +5787,7 @@ void map::drawsq( const catacurses::window &w, player &u, const tripoint &p, con
     const bool done = draw_maptile( w, u, p, tile, invert_arg, show_items_arg,
                                     view_center, low_light, bright_light, inorder );
     if( !done ) {
-        tripoint below( p.x, p.y, p.z - 1 );
+        tripoint below( p.xy(), p.z - 1 );
         const maptile tile_below = maptile_at( below );
         draw_from_above( w, u, below, tile_below,
                          invert_arg, view_center,
@@ -6127,10 +6127,10 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
             }
         } else {
             const int max_z = std::max( new_point.z, last_point.z );
-            if( ( has_floor_or_support( {new_point.x, new_point.y, max_z} ) ||
-                  !trans( {new_point.x, new_point.y, last_point.z} ) ) &&
-                ( has_floor_or_support( {last_point.x, last_point.y, max_z} ) ||
-                  !trans( {last_point.x, last_point.y, new_point.z} ) ) ) {
+            if( ( has_floor_or_support( {new_point.xy(), max_z} ) ||
+                  !trans( {new_point.xy(), last_point.z} ) ) &&
+                ( has_floor_or_support( {last_point.xy(), max_z} ) ||
+                  !trans( {last_point.xy(), new_point.z} ) ) ) {
                 visible = false;
                 return false;
             }
@@ -6234,7 +6234,7 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
 
     // Fill positions that are visitable with initial_visit_distance
     for( const tripoint &p : points_in_radius( f, range ) ) {
-        const tripoint tp = { p.x, p.y, f.z };
+        const tripoint tp = { p.xy(), f.z };
         const int tp_cost = move_cost( tp );
         // rejection conditions
         if( tp_cost < cost_min || tp_cost > cost_max || !has_floor_or_support( tp ) ) {
@@ -6377,15 +6377,15 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
         } else {
             bool this_clear = false;
             const int max_z = std::max( new_point.z, last_point.z );
-            if( !has_floor_or_support( {new_point.x, new_point.y, max_z} ) ) {
-                const int cost = move_cost( {new_point.x, new_point.y, last_point.z} );
+            if( !has_floor_or_support( {new_point.xy(), max_z} ) ) {
+                const int cost = move_cost( {new_point.xy(), last_point.z} );
                 if( cost > cost_min && cost < cost_max ) {
                     this_clear = true;
                 }
             }
 
-            if( !this_clear && has_floor_or_support( {last_point.x, last_point.y, max_z} ) ) {
-                const int cost = move_cost( {last_point.x, last_point.y, new_point.z} );
+            if( !this_clear && has_floor_or_support( {last_point.xy(), max_z} ) ) {
+                const int cost = move_cost( {last_point.xy(), new_point.z} );
                 if( cost > cost_min && cost < cost_max ) {
                     this_clear = true;
                 }
@@ -7633,7 +7633,7 @@ bool map::has_graffiti_at( const tripoint &p ) const
 
 int map::determine_wall_corner( const tripoint &p ) const
 {
-    int test_connect_group = ter( tripoint( p.x, p.y, p.z ) ).obj().connect_group;
+    int test_connect_group = ter( p ).obj().connect_group;
     uint8_t connections = get_known_connections( p, test_connect_group );
     // The bits in connections are SEWN, whereas the characters in LINE_
     // constants are NESW, so we want values in 8 | 2 | 1 | 4 order.
@@ -8049,7 +8049,7 @@ submap *map::get_submap_at( const tripoint &p ) const
 
 submap *map::get_submap_at( const point &p, point &offset_p ) const
 {
-    return get_submap_at( { p.x, p.y, abs_sub.z }, offset_p );
+    return get_submap_at( { p, abs_sub.z }, offset_p );
 }
 
 submap *map::get_submap_at( const tripoint &p, point &offset_p ) const
@@ -8071,7 +8071,7 @@ submap *map::get_submap_at_grid( const tripoint &gridp ) const
 
 size_t map::get_nonant( const point &gridp ) const
 {
-    return get_nonant( { gridp.x, gridp.y, abs_sub.z } );
+    return get_nonant( { gridp, abs_sub.z } );
 }
 
 size_t map::get_nonant( const tripoint &gridp ) const

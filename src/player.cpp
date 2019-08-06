@@ -653,7 +653,7 @@ void player::process_turn()
     if( ( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) || has_trait( trait_NOMAD3 ) ) &&
         !has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
         const tripoint ompos = global_omt_location();
-        const point pos = point( ompos.x, ompos.y );
+        const point pos = ompos.xy();
         if( overmap_time.find( pos ) == overmap_time.end() ) {
             overmap_time[pos] = 1_turns;
         } else {
@@ -679,7 +679,7 @@ void player::process_turn()
                 continue;
             }
             // Find the amount of time passed since the player touched any of the overmap tile's submaps.
-            const tripoint tpt = tripoint( it->first.x, it->first.y, 0 );
+            const tripoint tpt = tripoint( it->first, 0 );
             const time_point last_touched = overmap_buffer.scent_at( tpt ).creation_time;
             const time_duration since_visit = now - last_touched;
             // If the player has spent little time in this overmap tile, let it decay after just an hour instead of the usual extended decay time.
