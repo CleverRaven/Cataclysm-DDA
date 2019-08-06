@@ -948,8 +948,7 @@ void player::process_bionic( int b )
     }
 }
 
-void player::bionics_uninstall_failure( int difficulty, int success,
-                                        float adjusted_skill )
+void player::bionics_uninstall_failure( int difficulty, int success, float adjusted_skill )
 {
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful removal.  We use this to determine consequences for failing.
@@ -968,7 +967,6 @@ void player::bionics_uninstall_failure( int difficulty, int success,
     }
 
     add_msg( m_neutral, _( "The removal is a failure." ) );
-
     switch( fail_type ) {
         case 1:
             if( !has_trait( trait_id( "NOPAIN" ) ) ) {
@@ -979,14 +977,25 @@ void player::bionics_uninstall_failure( int difficulty, int success,
 
         case 2:
         case 3:
-            add_msg( m_bad, _( "%s body is damaged!" ), disp_name( true ) );
-            hurtall( rng( failure_level, failure_level * 2 ), this ); // you hurt yourself
+            for( const body_part &bp : all_body_parts ) {
+                if( has_effect( effect_under_op, bp ) ) {
+                    apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
+                    add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
+                                           body_part_name_accusative( bp ) );
+                }
+            }
             break;
 
         case 4:
         case 5:
-            add_msg( m_bad, _( "%s body is severely damaged!" ), disp_name( true ) );
-            hurtall( rng( 30, 80 ), this ); // stop hurting yourself!
+            for( const body_part &bp : all_body_parts ) {
+                if( has_effect( effect_under_op, bp ) ) {
+                    apply_damage( this, bp, rng( 30, 80 ), true );
+                    add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
+                                           _( "<npcname>'s %s is severely damaged." ),
+                                           body_part_name_accusative( bp ) );
+                }
+            }
             break;
     }
 
@@ -1033,7 +1042,6 @@ void player::bionics_uninstall_failure( monster &installer, player &patient, int
                 break;
         }
     }
-
     switch( fail_type ) {
         case 1:
             if( !has_trait( trait_id( "NOPAIN" ) ) ) {
@@ -1044,21 +1052,31 @@ void player::bionics_uninstall_failure( monster &installer, player &patient, int
 
         case 2:
         case 3:
-            if( u_see ) {
-                add_msg( m_bad, _( "%s body is damaged!" ), patient.disp_name( true ) );
+            for( const body_part &bp : all_body_parts ) {
+                if( has_effect( effect_under_op, bp ) ) {
+                    patient.apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
+                    if( u_see ) {
+                        patient.add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
+                                                       body_part_name_accusative( bp ) );
+                    }
+                }
             }
-            patient.hurtall( rng( failure_level, failure_level * 2 ), this );
             break;
 
         case 4:
         case 5:
-            if( u_see ) {
-                add_msg( m_bad, _( "%s body is severely damaged!" ), patient.disp_name( true ) );
+            for( const body_part &bp : all_body_parts ) {
+                if( has_effect( effect_under_op, bp ) ) {
+                    patient.apply_damage( this, bp, rng( 30, 80 ), true );
+                    if( u_see ) {
+                        patient.add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
+                                                       _( "<npcname>'s %s is severely damaged." ),
+                                                       body_part_name_accusative( bp ) );
+                    }
+                }
             }
-            patient.hurtall( rng( 30, 80 ), this );
             break;
     }
-
 }
 
 bool player::has_enough_anesth( const itype *cbm, player &patient )
@@ -1623,8 +1641,7 @@ void player::perform_install( bionic_id bid, bionic_id upbid, int difficulty, in
 }
 
 void player::bionics_install_failure( bionic_id bid, std::string installer, int difficulty,
-                                      int success,
-                                      float adjusted_skill, tripoint patient_pos )
+                                      int success, float adjusted_skill, tripoint patient_pos )
 {
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful install.  We use this to determine consequences for failing.
@@ -1651,7 +1668,6 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
             fail_type = rng( 1, 3 );
         }
     }
-
     if( fail_type <= 0 ) {
         add_msg( m_neutral, _( "The installation fails without incident." ) );
         drop_cbm = true;
@@ -1668,8 +1684,13 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
 
             case 2:
             case 3:
-                add_msg( m_bad, _( "%s body is damaged!" ), disp_name( true ) );
-                hurtall( rng( failure_level, failure_level * 2 ), this ); // you hurt yourself
+                for( const body_part &bp : all_body_parts ) {
+                    if( has_effect( effect_under_op, bp ) ) {
+                        apply_damage( this, bp, rng( 30, 80 ), true );
+                        add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
+                                               body_part_name_accusative( bp ) );
+                    }
+                }
                 drop_cbm = true;
                 break;
 
