@@ -17,15 +17,15 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "character.h"
 #include "debug.h"
-#include "enums.h"
 #include "inventory.h"
 #include "line.h"
 #include "optional.h"
-#include "string_id.h"
 #include "visitable.h"
+#include "colony.h"
+#include "item_stack.h"
+#include "point.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -39,7 +39,6 @@
 #include <numeric>
 #include <sstream>
 #include <algorithm>
-#include <cassert>
 #include <iterator>
 #include <type_traits>
 
@@ -433,7 +432,7 @@ void inventory_column::set_filter( const std::string &filter )
     prepare_paging( filter );
 }
 
-const inventory_column::entry_cell_cache_t inventory_column::make_entry_cell_cache(
+inventory_column::entry_cell_cache_t inventory_column::make_entry_cell_cache(
     const inventory_entry &entry ) const
 {
     entry_cell_cache_t result;
@@ -1024,7 +1023,7 @@ static std::vector<std::list<item *>> restack_items( const std::list<item>::cons
     for( auto it = from; it != to; ++it ) {
         auto match = std::find_if( res.begin(), res.end(),
         [ &it, check_components ]( const std::list<item *> &e ) {
-            return it->stacks_with( *const_cast<item *>( e.back() ), check_components );
+            return it->display_stacked_with( *const_cast<item *>( e.back() ), check_components );
         } );
 
         if( match != res.end() ) {
@@ -1046,7 +1045,7 @@ static std::vector<std::list<item *>> restack_items( const item_stack::const_ite
     for( auto it = from; it != to; ++it ) {
         auto match = std::find_if( res.begin(), res.end(),
         [ &it, check_components ]( const std::list<item *> &e ) {
-            return it->stacks_with( *const_cast<item *>( e.back() ), check_components );
+            return it->display_stacked_with( *const_cast<item *>( e.back() ), check_components );
         } );
 
         if( match != res.end() ) {
@@ -1827,7 +1826,10 @@ item_location inventory_pick_selector::execute()
         } else if( input.action == "QUIT" ) {
             return item_location();
         } else if( input.action == "CONFIRM" ) {
-            return get_active_column().get_selected().any_item();
+            const inventory_entry &selected = get_active_column().get_selected();
+            if( selected ) {
+                return selected.any_item();
+            }
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
         } else {
@@ -2110,7 +2112,7 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
                 } );
 
                 // Otherwise, any favorite item to select?
-                const bool select_fav =  !select_nonfav && std::any_of( selected.begin(), selected.end(),
+                const bool select_fav = !select_nonfav && std::any_of( selected.begin(), selected.end(),
                 []( const inventory_entry * elem ) {
                     return elem->any_item()->is_favorite && elem->chosen_count == 0;
                 } );

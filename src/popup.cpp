@@ -227,7 +227,7 @@ void query_popup::show() const
     for( size_t ind = 0; ind < buttons.size(); ++ind ) {
         nc_color col = ind == cur ? hilite( c_white ) : c_white;
         const auto &btn = buttons[ind];
-        print_colored_text( win, border_width + btn.y, border_width + btn.x,
+        print_colored_text( win, border_width + btn.pos.y, border_width + btn.pos.x,
                             col, col, btn.text );
     }
 
@@ -367,6 +367,6 @@ query_popup::query_option::query_option(
 }
 
 query_popup::button::button( const std::string &text, const int x, const int y )
-    : text( text ), x( x ), y( y )
+    : text( text ), pos( x, y )
 {
 }

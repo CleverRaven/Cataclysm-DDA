@@ -9,6 +9,7 @@
 #include <functional>
 #include <memory>
 #include <utility>
+#include <list>
 
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -23,6 +24,7 @@
 #include "messages.h"
 #include "options.h"
 #include "output.h"
+#include "panels.h"
 #include "player.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -31,7 +33,6 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -42,9 +43,15 @@
 #include "optional.h"
 #include "player_activity.h"
 #include "ret_val.h"
-#include "string_id.h"
 #include "units.h"
 #include "type_id.h"
+#include "clzones.h"
+#include "colony.h"
+#include "faction.h"
+#include "item_stack.h"
+#include "map_selector.h"
+#include "pimpl.h"
+#include "point.h"
 
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
@@ -268,7 +275,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                 break;
             }
 
-            picked_up = newit.spill_contents( u );
+            picked_up = loc.get_item()->spill_contents( u );
             if( !picked_up ) {
                 break;
             }
@@ -317,7 +324,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
         quantities.pop_back();
 
         if( !target ) {
-            debugmsg( "lost target item of ACT_DROP" );
+            debugmsg( "lost target item of ACT_PICKUP" );
             continue;
         }
 
@@ -450,7 +457,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     for( item_stack::iterator it : here ) {
         bool found_stack = false;
         for( std::list<item_stack::iterator> &stack : stacked_here ) {
-            if( stack.front()->stacks_with( *it ) ) {
+            if( stack.front()->display_stacked_with( *it ) ) {
                 stack.push_back( it );
                 found_stack = true;
                 break;
@@ -503,9 +510,20 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
         int itemsW = pickupW;
 
-        catacurses::window w_pickup = catacurses::newwin( pickupH, pickupW, 0, 0 );
-        catacurses::window w_item_info = catacurses::newwin( TERMY - pickupH,
-                                         pickupW,  pickupH,  0 );
+        int pickupX = 0;
+        std::string position = get_option<std::string>( "PICKUP_POSITION" );
+        if( position == "left" ) {
+            pickupX = panel_manager::get_manager().get_width_left();
+        } else if( position == "right" ) {
+            pickupX = TERMX - panel_manager::get_manager().get_width_right() - pickupW;
+        } else if( position == "overlapping" ) {
+            if( get_option<std::string>( "SIDEBAR_POSITION" ) == "right" ) {
+                pickupX = TERMX - pickupW;
+            }
+        }
+
+        catacurses::window w_pickup = catacurses::newwin( pickupH, pickupW, 0, pickupX );
+        catacurses::window w_item_info = catacurses::newwin( TERMY - pickupH, pickupW, pickupH, pickupX );
 
         std::string action;
         int raw_input_char = ' ';

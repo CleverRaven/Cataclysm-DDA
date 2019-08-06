@@ -25,7 +25,6 @@
 #include "faction.h"
 #include "fault.h"
 #include "filesystem.h"
-#include "field_type.h"
 #include "flag.h"
 #include "gates.h"
 #include "harvest.h"
@@ -40,6 +39,7 @@
 #include "material.h"
 #include "mission.h"
 #include "magic.h"
+#include "magic_ter_furn_transform.h"
 #include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -76,6 +76,9 @@
 #include "bodypart.h"
 #include "translations.h"
 #include "type_id.h"
+#include "construction_category.h"
+#include "overmap.h"
+#include "clothing_mod.h"
 
 DynamicDataLoader::DynamicDataLoader()
 {
@@ -277,6 +280,9 @@ void DynamicDataLoader::initialize()
     add( "MAGAZINE", []( JsonObject & jo, const std::string & src ) {
         item_controller->load_magazine( jo, src );
     } );
+    add( "BATTERY", []( JsonObject & jo, const std::string & src ) {
+        item_controller->load_battery( jo, src );
+    } );
     add( "GENERIC", []( JsonObject & jo, const std::string & src ) {
         item_controller->load_generic( jo, src );
     } );
@@ -308,6 +314,7 @@ void DynamicDataLoader::initialize()
     add( "martial_art", &load_martial_art );
     add( "effect_type", &load_effect_type );
     add( "tutorial_messages", &load_tutorial_messages );
+    add( "obsolete_terrain", &overmap::load_obsolete_terrains );
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction_category", &construction_categories::load );
     add( "construction", &load_construction );
@@ -364,6 +371,8 @@ void DynamicDataLoader::initialize()
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
     add( "SPELL", &spell_type::load_spell );
+    add( "clothing_mod", &clothing_mods::load );
+    add( "ter_furn_transform", &ter_furn_transform::load_transform );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -527,6 +536,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     const std::vector<named_entry> entries = {{
             { _( "Body parts" ), &body_part_struct::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
+            { _( "Emissions" ), &emit::finalize },
             {
                 _( "Items" ), []()
                 {

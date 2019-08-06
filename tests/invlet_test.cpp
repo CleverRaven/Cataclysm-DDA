@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <sstream>
 #include <list>
 #include <map>
@@ -14,12 +15,14 @@
 #include "options.h"
 #include "player.h"
 #include "map_helpers.h"
-#include "enums.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_stack.h"
 #include "player_activity.h"
 #include "type_id.h"
+#include "item_location.h"
+#include "map_selector.h"
+#include "point.h"
+#include "visitable.h"
 
 const trait_id trait_debug_storage( "DEBUG_STORAGE" );
 

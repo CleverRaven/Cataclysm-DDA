@@ -1,7 +1,6 @@
 #include "mission_companion.h"
 
 #include <cstdlib>
-#include <cmath>
 #include <algorithm>
 #include <cassert>
 #include <vector>
@@ -9,6 +8,7 @@
 #include <list>
 #include <unordered_map>
 #include <utility>
+#include <set>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -45,13 +45,15 @@
 #include "optional.h"
 #include "output.h"
 #include "pimpl.h"
-#include "player.h"
 #include "pldata.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "ui.h"
 #include "weighted_list.h"
 #include "material.h"
+#include "colony.h"
+#include "point.h"
+#include "weather.h"
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );
@@ -376,8 +378,8 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
 
     camp_tab_mode tab_mode = TAB_MAIN;
 
-    size_t part_y = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
-    size_t part_x = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
+    size_t part_y = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
+    size_t part_x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
     size_t maxy = part_y ? TERMY - 2 * part_y : FULL_SCREEN_HEIGHT;
     size_t maxx = part_x ? TERMX - 2 * part_x : FULL_SCREEN_WIDTH;
 
@@ -931,7 +933,7 @@ void talk_function::field_build_2( npc &p )
 
 void talk_function::field_plant( npc &p, const std::string &place )
 {
-    if( g->weather.get_temperature( g->u.pos() ) < 50 ) {
+    if( !warm_enough_to_plant( g->u.pos() ) ) {
         popup( _( "It is too cold to plant anything now." ) );
         return;
     }
@@ -1480,7 +1482,7 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
         for( int y = 0; y < 2; y++ ) {
             point sm( ( om_tgt.x * 2 ) + x, ( om_tgt.x * 2 ) + y );
             const point omp = sm_to_om_remain( sm );
-            overmap &omi = overmap_buffer.get( omp.x, omp.y );
+            overmap &omi = overmap_buffer.get( omp );
 
             const tripoint current_submap_loc( om_tgt.x * 2 + x, om_tgt.y * 2 + y, om_tgt.z );
             auto monster_bucket = omi.monster_map.equal_range( current_submap_loc );
@@ -1879,8 +1881,7 @@ std::vector<comp_rank> talk_function::companion_rank( const std::vector<npc_ptr>
 npc_ptr talk_function::companion_choose( const std::string &skill_tested, int skill_level )
 {
     std::vector<npc_ptr> available;
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( g->u.global_omt_location().x,
-                                     g->u.global_omt_location().y );
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( g->u.global_omt_location().xy() );
 
     for( auto &elem : g->get_follower_list() ) {
         npc_ptr guy = overmap_buffer.find_npc( elem );
@@ -1890,6 +1891,7 @@ npc_ptr talk_function::companion_choose( const std::string &skill_tested, int sk
         npc_companion_mission c_mission = guy->get_companion_mission();
         // get non-assigned visible followers
         if( g->u.posz() == guy->posz() && !guy->has_companion_mission() &&
+            !guy->is_travelling() &&
             ( rl_dist( g->u.pos(), guy->pos() ) <= SEEX * 2 ) && g->u.sees( guy->pos() ) ) {
             available.push_back( guy );
         } else if( bcp ) {
@@ -1903,8 +1905,7 @@ npc_ptr talk_function::companion_choose( const std::string &skill_tested, int sk
             }
         } else {
             const tripoint &guy_omt_pos = guy->global_omt_location();
-            cata::optional<basecamp *> guy_camp = overmap_buffer.find_camp( guy_omt_pos.x,
-                                                  guy_omt_pos.y );
+            cata::optional<basecamp *> guy_camp = overmap_buffer.find_camp( guy_omt_pos.xy() );
             if( guy_camp ) {
                 // get NPCs assigned to guard a remote base
                 basecamp *temp_camp = *guy_camp;
@@ -2088,7 +2089,7 @@ void talk_function::loot_building( const tripoint &site )
         }
     }
     bay.save();
-    overmap_buffer.ter( site.x, site.y, site.z ) = oter_id( "looted_building" );
+    overmap_buffer.ter( site ) = oter_id( "looted_building" );
 }
 
 void mission_data::add( const std::string &id, const std::string &name_display,

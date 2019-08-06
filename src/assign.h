@@ -321,7 +321,7 @@ read_with_factor( JsonObject jo, const std::string &name, T &val, const T &facto
         return true;
     } else if( jo.has_string( name ) ) {
         // JSON contained a time duration string -> no factor
-        val = T::read_from_json_string( *jo.get_raw( name ) );
+        val = read_from_json_string<time_duration>( *jo.get_raw( name ), time_duration::units );
         return true;
     }
     return false;
@@ -337,7 +337,7 @@ inline typename
 std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value, bool>::type assign(
     JsonObject &jo, const std::string &name, T &val, bool strict, const T &factor )
 {
-    T out = 0;
+    T out{};
     double scalar;
 
     // Object via which to report errors which differs for proportional/relative values

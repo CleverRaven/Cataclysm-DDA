@@ -7,7 +7,6 @@
 #include <list>
 #include <map>
 #include <memory>
-#include <unordered_map>
 #include <set>
 #include <vector>
 #include <ctime>
@@ -15,22 +14,22 @@
 #include <iosfwd>
 #include <string>
 #include <chrono>
+#include <unordered_set>
 
 #include "calendar.h"
 #include "cursesdef.h"
 #include "enums.h"
-#include "explosion.h"
 #include "game_constants.h"
-#include "handle_liquid.h"
 #include "item_location.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "creature.h"
-#include "item.h"
 #include "type_id.h"
 #include "monster.h"
-#include "game_inventory.h"
 #include "weather.h"
+#include "point.h"
+
+class item;
 
 #define DEFAULT_TILESET_ZOOM 16
 
@@ -80,7 +79,6 @@ enum weather_type : int;
 enum action_id : int;
 enum target_mode : int;
 
-struct targeting_data;
 struct special_game;
 
 using itype_id = std::string;
@@ -99,14 +97,10 @@ class save_t;
 
 using WORLDPTR = WORLD *;
 class overmap;
-class event_manager;
+class timed_event_manager;
 
 enum event_type : int;
-class weather_generator;
-struct weather_printable;
 class live_view;
-class nc_color;
-struct w_point;
 struct visibility_variables;
 class scent_map;
 class loading_ui;
@@ -411,7 +405,7 @@ class game
          */
         bool revive_corpse( const tripoint &location, item &corpse );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
-        void save_cyborg( item *cyborg, const tripoint couch_pos, player &installer );
+        void save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer );
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
         bool cancel_activity_query( const std::string &message );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
@@ -470,13 +464,20 @@ class game
         void catch_a_monster( monster *fish, const tripoint &pos, player *p,
                               const time_duration &catch_duration );
         /**
-         * Get the fishable monsters within the contiguous fishable terrain starting at fish_pos,
-         * out to the specificed distance.
-         * @param distance Distance around the fish_pos to examine for contiguous fishable terrain.
+         * Get the contiguous fishable locations starting at fish_pos, out to the specificed distance.
+         * @param distance Distance around the fish_pos to examine for contiguous fishable locations.
          * @param fish_pos The location being fished.
-         * @return Fishable monsters within the specified contiguous fishable terrain.
+         * @return A set of locations representing the valid contiguous fishable locations.
          */
-        std::vector<monster *> get_fishable( int distance, const tripoint &fish_pos );
+        std::unordered_set<tripoint> get_fishable_locations( int distance, const tripoint &fish_pos );
+        /**
+         * Get the fishable monsters within the provided fishable locations.
+         * @param fishable_locations A set of locations which are valid fishable terrain. Any fishable monsters
+         * are filtered by this collection to determine those which can actually be caught.
+         * @return Fishable monsters within the specified fishable terrain.
+         */
+        std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint> &fishable_locations );
+
         /** Flings the input creature in the given direction. */
         void fling_creature( Creature *c, const int &dir, float flvel, bool controlled = false );
 
@@ -671,6 +672,8 @@ class game
         bool walk_move( const tripoint &dest );
         void on_move_effects();
 
+        // returns player's "kill xp" for monsters via STK
+        int kill_xp() const;
     private:
         // Game-start procedures
         void load( const save_t &name ); // Load a player-specific save file
@@ -858,6 +861,7 @@ class game
         tripoint mouse_edge_scrolling_terrain( input_context &ctxt );
         /** This variant is suitable for the overmap. */
         tripoint mouse_edge_scrolling_overmap( input_context &ctxt );
+        void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
     private:
         void quickload();        // Loads the previously saved game if it exists
 
@@ -869,12 +873,12 @@ class game
         void disp_kills();          // Display the player's kill counts
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings
-        void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
 
         // Debug functions
         void display_scent();   // Displays the scent map
         void display_temperature();    // Displays temperature map
         void display_visibility(); // Displays visibility map
+        void display_radiation(); // Displays radiation map
 
         Creature *is_hostile_within( int distance );
 
@@ -888,14 +892,14 @@ class game
         pimpl<live_view> liveview_ptr;
         live_view &liveview;
         pimpl<scent_map> scent_ptr;
-        pimpl<event_manager> event_manager_ptr;
+        pimpl<timed_event_manager> timed_event_manager_ptr;
 
     public:
         /** Make map a reference here, to avoid map.h in game.h */
         map &m;
         avatar &u;
         scent_map &scent;
-        event_manager &events;
+        timed_event_manager &timed_events;
 
         pimpl<Creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr;
@@ -910,9 +914,7 @@ class game
         std::vector<monster> coming_to_stairs;
         int monstairz;
 
-        int ter_view_x;
-        int ter_view_y;
-        int ter_view_z;
+        tripoint ter_view_p;
         catacurses::window w_terrain;
         catacurses::window w_overmap;
         catacurses::window w_omlegend;
@@ -936,6 +938,7 @@ class game
         bool displaying_visibility;
         /** Creature for which to display the visibility map */
         Creature *displaying_visibility_creature;
+        bool displaying_radiation;
 
         bool show_panel_adm;
         bool right_sidebar;

@@ -268,6 +268,7 @@
     "symbol": ".",
     "color": "white",
     "move_cost": 2,
+    "light_emitted": 120,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
@@ -278,7 +279,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "glass_shard", "count": [ 1, 2 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
     }
   },
   {
@@ -290,7 +291,7 @@
     "color": "dark_gray",
     "move_cost": 4,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "FLAT" ],
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES" ],
     "bash": {
       "sound": "SCRRRASH!",
       "ter_set": "t_null",
@@ -331,7 +332,7 @@
     "symbol": ".",
     "color": "dark_gray",
     "move_cost": 4,
-    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "FLAT" ],
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES" ],
     "bash": {
       "sound": "SCRRRASH!",
       "ter_set": "t_null",
@@ -619,7 +620,7 @@
     "color": "brown_green",
     "move_cost": 5,
     "coverage": 50,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
@@ -924,6 +925,7 @@
     "symbol": ".",
     "color": "white",
     "move_cost": 2,
+    "light_emitted": 240,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "MINEABLE" ],
     "bash": {
       "sound": "SMASH!",
@@ -1313,7 +1315,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_floor",
-      "items": [ { "item": "glass_shard", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },
   {
@@ -1335,7 +1337,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_floor",
-      "items": [ { "item": "glass_shard", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },
   {
@@ -1357,7 +1359,7 @@
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
-      "items": [ { "item": "glass_shard", "count": [ 5, 10 ] }, { "item": "wire", "prob": 20 } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "wire", "prob": 20 } ]
     }
   },
   {
@@ -1380,7 +1382,7 @@
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
       "items": [
-        { "item": "glass_shard", "count": [ 5, 10 ] },
+        { "item": "glass_shard", "count": [ 42, 84 ] },
         { "item": "wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
@@ -1406,7 +1408,7 @@
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
       "items": [
-        { "item": "glass_shard", "count": [ 5, 10 ] },
+        { "item": "glass_shard", "count": [ 42, 84 ] },
         { "item": "wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
@@ -1432,7 +1434,7 @@
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
       "items": [
-        { "item": "glass_shard", "count": [ 5, 10 ] },
+        { "item": "glass_shard", "count": [ 42, 84 ] },
         { "item": "wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
@@ -1458,7 +1460,7 @@
       "sound_fail_vol": 14,
       "ter_set": "t_thconc_floor",
       "items": [
-        { "item": "glass_shard", "count": [ 5, 10 ] },
+        { "item": "glass_shard", "count": [ 42, 84 ] },
         { "item": "wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
@@ -1484,7 +1486,7 @@
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
       "items": [
-        { "item": "glass_shard", "count": [ 5, 10 ] },
+        { "item": "glass_shard", "count": [ 42, 84 ] },
         { "item": "wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
@@ -1510,7 +1512,7 @@
       "sound_fail_vol": 14,
       "ter_set": "t_thconc_floor",
       "items": [
-        { "item": "glass_shard", "count": [ 5, 10 ] },
+        { "item": "glass_shard", "count": [ 42, 84 ] },
         { "item": "wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
@@ -2161,7 +2163,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_red_frame",
-      "items": [ { "item": "glass_shard", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },
   {
@@ -2184,7 +2186,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_green_frame",
-      "items": [ { "item": "glass_shard", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },
   {
@@ -2207,7 +2209,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_white_frame",
-      "items": [ { "item": "glass_shard", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },
   {
@@ -2230,7 +2232,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_gray_frame",
-      "items": [ { "item": "glass_shard", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },
   {
@@ -2253,7 +2255,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_red_frame",
-      "items": [ { "item": "glass_shard", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },
   {
@@ -2276,7 +2278,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_green_frame",
-      "items": [ { "item": "glass_shard", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },
   {
@@ -2299,7 +2301,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_white_frame",
-      "items": [ { "item": "glass_shard", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },
   {
@@ -2322,7 +2324,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_gray_frame",
-      "items": [ { "item": "glass_shard", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },
   {
@@ -3754,7 +3756,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_frame",
-      "items": [ { "item": "glass_shard", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },
   {
@@ -3777,7 +3779,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "glass_shard", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },
   {
@@ -3800,7 +3802,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_frame",
-      "items": [ { "item": "glass_shard", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },
   {
@@ -3823,7 +3825,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "glass_shard", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },
   {
@@ -3933,7 +3935,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": 5 } ]
+      "items": [ { "item": "glass_shard", "count": 42 } ]
     }
   },
   {
@@ -3955,7 +3957,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": 5 } ]
+      "items": [ { "item": "glass_shard", "count": 42 } ]
     }
   },
   {
@@ -4000,7 +4002,7 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
       "items": [
-        { "item": "glass_shard", "count": 3 },
+        { "item": "glass_shard", "count": 25 },
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
@@ -4038,7 +4040,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": 3 } ]
+      "items": [ { "item": "glass_shard", "count": 25 } ]
     }
   },
   {
@@ -4061,7 +4063,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": 3 } ]
+      "items": [ { "item": "glass_shard", "count": 25 } ]
     }
   },
   {
@@ -4084,7 +4086,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": 3 } ]
+      "items": [ { "item": "glass_shard", "count": 25 } ]
     }
   },
   {
@@ -4109,7 +4111,7 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
       "items": [
-        { "item": "glass_shard", "count": 3 },
+        { "item": "glass_shard", "count": 25 },
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
@@ -4138,7 +4140,7 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
       "items": [
-        { "item": "glass_shard", "count": 3 },
+        { "item": "glass_shard", "count": 25 },
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
@@ -4185,7 +4187,7 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
       "items": [
-        { "item": "glass_shard", "count": 3 },
+        { "item": "glass_shard", "count": 25 },
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
@@ -4240,7 +4242,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": 5 } ]
+      "items": [ { "item": "glass_shard", "count": 42 } ]
     }
   },
   {
@@ -4284,7 +4286,7 @@
       "sound_vol": 12,
       "sound_fail_vol": 8,
       "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_shard", "count": 1 } ]
+      "items": [ { "item": "glass_shard", "count": 8 } ]
     },
     "flags": [ "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "MOUNTABLE", "CONNECT_TO_WALL" ]
   },
@@ -4307,7 +4309,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "splinter", "count": [ 0, 2 ] }, { "item": "glass_shard", "count": [ 3, 5 ] } ]
+      "items": [ { "item": "splinter", "count": [ 0, 2 ] }, { "item": "glass_shard", "count": [ 25, 42 ] } ]
     }
   },
   {
@@ -4432,7 +4434,7 @@
         { "item": "steel_lump", "prob": 25 },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "glass_shard", "count": 3 }
+        { "item": "glass_shard", "count": 100 }
       ]
     }
   },
@@ -4454,7 +4456,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_bars",
-      "items": [ { "item": "glass_shard", "count": 5 } ]
+      "items": [ { "item": "glass_shard", "count": 42 } ]
     }
   },
   {
@@ -4473,7 +4475,7 @@
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "glass_shard", "count": [ 5, 8 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 67 ] } ]
     }
   },
   {
@@ -4492,7 +4494,7 @@
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "glass_shard", "count": [ 5, 8 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 67 ] } ]
     }
   },
   {
@@ -4511,7 +4513,7 @@
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "glass_shard", "count": [ 5, 8 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 67 ] } ]
     }
   },
   {
@@ -5386,7 +5388,7 @@
     "move_cost": 0,
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
-    "transforms_into": "t_tree_deadpine",
+    "transforms_into": "t_tree_pine_harvested",
     "examine_action": "harvest_ter",
     "harvest_by_season": [
       {
@@ -5405,9 +5407,21 @@
   },
   {
     "type": "terrain",
+    "id": "t_tree_pine_harvested",
+    "name": "pine tree",
+    "description": "A towering coniferous tree that belongs to the 'Pinus' genus, with the New England species varying from 'P. strobus', 'P. resinosa' and 'P. rigida'.  Some of the branches have been stripped away and many of the pinecones aren't developed fully yet, but given a season, it could be harvestable again.  Also, you could cut it down with the right tools.",
+    "symbol": "4",
+    "color": "green",
+    "copy-from": "t_tree_pine",
+    "looks_like": "t_tree_deadpine",
+    "transforms_into": "t_tree_pine",
+    "examine_action": "harvested_plant"
+  },
+  {
+    "type": "terrain",
     "id": "t_tree_deadpine",
     "name": "dead pine tree",
-    "description": "A towering coniferous tree that belongs to the 'Pinus' genus, with the New England species varying from 'P. strobus', 'P. resinosa' and 'P. rigida'.  Some of the branches have been stripped away and many of the pinecones aren't developed fully yet, but given a season, it could be harvestable again.  You could also cut it down with the right tools.",
+    "description": "A towering coniferous tree that belongs to the 'Pinus' genus, with the New England species varying from 'P. strobus', 'P. resinosa' and 'P. rigida'.  This trees branches are bare, and it appears to be dead.  You could cut it down with the right tools.",
     "symbol": "4",
     "color": "brown",
     "move_cost": 0,
@@ -6735,7 +6749,7 @@
       "sound_fail": "ker-rash!",
       "ter_set": "t_rock_floor",
       "items": [
-        { "item": "glass_shard", "count": [ 6, 20 ] },
+        { "item": "glass_shard", "count": [ 50, 164 ] },
         { "item": "pipe", "charges": [ 1, 2 ] },
         { "item": "scrap", "count": [ 1, 3 ] }
       ]
@@ -6910,11 +6924,12 @@
     "type": "terrain",
     "id": "t_gutter_downspout",
     "name": "downspout",
-    "description": "A length of gutter running from the roof to the ground, it looks flimsy. You may be able to climb down here.",
+    "description": "A length of gutter running from the roof to the ground, you could place a container underneath it to collect rainwater.  It looks flimsy. You may be able to climb down here.",
     "symbol": "|",
     "color": "white",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "UNSTABLE", "CLIMBABLE" ],
+    "trap": "tr_downspout_funnel",
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "UNSTABLE", "CLIMBABLE" ],
     "deconstruct": {
       "ter_set": "t_flat_roof",
       "items": [ { "item": "sheet_metal_small", "count": 2 }, { "item": "scrap", "count": [ 2, 3 ] } ]
@@ -7217,6 +7232,7 @@
     "symbol": "~",
     "color": "red",
     "move_cost": 4,
+    "light_emitted": 50,
     "trap": "tr_lava",
     "flags": [ "TRANSPARENT", "LIQUID", "DESTROY_ITEM", "USABLE_FIRE" ],
     "//": "lava-seared moose meat? yes, please"
@@ -7651,6 +7667,7 @@
     "color": "blue",
     "move_cost": 0,
     "coverage": 50,
+    "light_emitted": 10,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "CONSOLE", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
     "deconstruct": {
@@ -8129,7 +8146,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 12,
       "ter_set": "t_floor",
-      "items": [ { "item": "glass_shard", "count": [ 5, 10 ] }, { "item": "scrap", "count": [ 0, 2 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 0, 2 ] } ]
     }
   },
   {
@@ -11447,5 +11464,162 @@
       "items": [ { "item": "pointy_stick", "count": 4 }, { "item": "string_6", "count": 4 }, { "item": "tarp", "count": 1 } ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE", "EASY_DECONSTRUCT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_resin",
+    "name": "resin wall",
+    "description": "This wall is made of a glistening, nearly opaque, plastic-like substance.  Deep within the material making it up, you can barely see a network of pulsating green conduits, snaking like blood vessels through it.  The material is hard, warm to the touch, and slightly damp.",
+    "symbol": "LINE_OXOX",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_resin_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 250,
+      "str_max": 700,
+      "sound": "boom!",
+      "sound_fail": "whack!",
+      "ter_set": "t_resin_hole",
+      "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_resin_cage",
+    "name": "resin cage",
+    "description": "This resin wall opens into a series of small honeycomb-like hexagons, allowing the passage of air and light.  While still made of the same sturdy material, it is thinner and more delicate in appearance.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_resin_roof",
+    "flags": [ "NOITEM", "WALL", "TRANSPARENT", "INDOORS", "NONFLAMMABLE", "MINEABLE" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 300,
+      "sound": "boom!",
+      "sound_fail": "whack!",
+      "ter_set": "t_floor_resin",
+      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_floor_resin",
+    "name": "resin floor",
+    "description": "This nearly opaque, plastic-like floor has a gentle curve from wall to wall, but in the central areas is quite flat.  The material is hard, warm to the touch, and slightly damp.",
+    "symbol": "~",
+    "color": "dark_gray",
+    "move_cost": 1,
+    "roof": "t_resin_roof",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "NONFLAMMABLE" ],
+    "bash": {
+      "str_min": 250,
+      "str_max": 700,
+      "sound": "boom!",
+      "sound_fail": "whack!",
+      "ter_set": "t_null",
+      "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_platform_resin",
+    "name": "resin floor",
+    "description": "This nearly opaque, plastic-like floor is smooth and flat.  The material is hard, warm to the touch, and slightly damp.",
+    "symbol": "~",
+    "color": "light_gray",
+    "move_cost": 1,
+    "flags": [ "TRANSPARENT", "COLLAPSES", "FLAT", "ROAD", "NONFLAMMABLE" ],
+    "bash": {
+      "str_min": 250,
+      "str_max": 700,
+      "sound": "boom!",
+      "sound_fail": "whack!",
+      "ter_set": "t_null",
+      "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_resin_roof",
+    "name": "resin roof",
+    "description": "A wide, domed section of nearly opaque, plastic-like material.  When the light hits it, a network of multicolored conduits like blood vessels can be seen snaking through its glistening interior.",
+    "symbol": "~",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "NONFLAMMABLE" ],
+    "bash": {
+      "str_min": 250,
+      "str_max": 700,
+      "sound": "boom!",
+      "sound_fail": "whack!",
+      "ter_set": "t_open_air",
+      "bash_below": true
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_resin_hole_c",
+    "name": "closed resin portal",
+    "description": "A tricuspid hatch of some sort of damp, flexible, resinous material. This one is closed tightly, but it looks like a firm push would cause it to snap open.",
+    "symbol": "Y",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_resin_roof",
+    "flags": [ "DOOR", "NOITEM", "CONNECT_TO_WALL", "BLOCK_WIND", "NONFLAMMABLE" ],
+    "open": "t_resin_hole_o",
+    "deconstruct": { "ter_set": "t_resin_hole", "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ] },
+    "bash": {
+      "str_min": 90,
+      "str_max": 120,
+      "sound": "boom!",
+      "sound_fail": "whack!",
+      "ter_set": "t_resin_hole",
+      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_resin_hole_o",
+    "name": "open resin portal",
+    "description": "A tricuspid hatch of some sort of damp, flexible, resinous material. This one is open, the flaps held out by some sort of stringy mucus-like substance.",
+    "symbol": "D",
+    "color": "light_gray",
+    "move_cost": 2,
+    "roof": "t_resin_roof",
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "NONFLAMMABLE" ],
+    "deconstruct": { "ter_set": "t_resin_hole", "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ] },
+    "close": "t_resin_hole_c",
+    "bash": {
+      "str_min": 90,
+      "str_max": 120,
+      "sound": "boom!",
+      "sound_fail": "whack!",
+      "ter_set": "t_resin_hole",
+      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_resin_hole",
+    "name": "resin-lined hole",
+    "description": "An open hole in the resin wall, large enough to pass through.",
+    "symbol": "O",
+    "color": "light_gray",
+    "move_cost": 4,
+    "roof": "t_resin_roof",
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "NONFLAMMABLE" ],
+    "bash": {
+      "str_min": 100,
+      "str_max": 500,
+      "sound": "boom!",
+      "sound_fail": "whack!",
+      "ter_set": "t_floor_resin",
+      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
+    }
   }
 ]

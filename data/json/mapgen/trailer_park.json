@@ -71,6 +71,43 @@
     "weight": 100
   },
   {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "trailerparksmall0_roof",
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "      ................. ",
+        "     ...............&.. ",
+        "     ..........%....... ",
+        "     .................. ",
+        "     .............=.... ",
+        "      ................. ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      ................. ",
+        "     .................. ",
+        "     ...............&.. ",
+        "     .................. ",
+        "     ...=.....%........ ",
+        "     .................. ",
+        "      ................. ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tar_flat_roof" },
+      "furniture": { "%": "f_TV_antenna" }
+    }
+  },
+  {
     "method": "json",
     "object": {
       "place_item": [ { "item": "blanket", "repeat": 1, "x": 11, "y": 17 }, { "item": "corpse", "repeat": 1, "x": 7, "y": 19 } ],
@@ -92,6 +129,7 @@
         { "chance": 50, "density": 1, "monster": "GROUP_ZOMBIE", "x": 17, "y": 13 },
         { "chance": 20, "density": 1, "monster": "GROUP_DOGS", "x": 3, "y": 14 }
       ],
+      "place_loot": [ { "item": "television", "x": 20, "y": 6, "chance": 100 }, { "item": "stepladder", "x": 19, "y": 5, "chance": 100 } ],
       "place_toilets": [ { "x": 8, "y": 21 } ],
       "rows": [
         "_________.......________",
@@ -125,6 +163,43 @@
     "om_terrain": "trailerparksmall1",
     "type": "mapgen",
     "weight": 100
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "trailerparksmall1_roof",
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                ......  ",
+        "                ......  ",
+        "                ......  ",
+        "                ......  ",
+        "                ......  ",
+        "                ......  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      ................. ",
+        "     .................. ",
+        "     .........&........ ",
+        "     .................. ",
+        "     ......=........... ",
+        "     .............%.... ",
+        "      ................. ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "furniture": { "%": "f_TV_antenna" },
+      "terrain": { ".": "t_tar_flat_roof" }
+    }
   },
   {
     "method": "json",
@@ -196,5 +271,42 @@
     "om_terrain": "trailerparksmall2",
     "type": "mapgen",
     "weight": 100
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "trailerparksmall2_roof",
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "   .................    ",
+        "   ..................   ",
+        "   ..................   ",
+        "   ......&....=......   ",
+        "   ..................   ",
+        "   .......%..........   ",
+        "   .................    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      ................. ",
+        "     .................. ",
+        "     .............%.... ",
+        "     .......&.......... ",
+        "     ........=......... ",
+        "     .................. ",
+        "      ................. ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tar_flat_roof" },
+      "furniture": { "%": "f_TV_antenna" }
+    }
   }
 ]

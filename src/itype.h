@@ -27,14 +27,13 @@ class item_category;
 class Item_factory;
 class player;
 class item;
+struct tripoint;
 
 enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
 enum art_effect_passive : int;
 using itype_id = std::string;
-
-enum field_id : int;
 
 class gun_modifier_data
 {
@@ -89,7 +88,7 @@ class gunmod_location
 };
 
 struct islot_tool {
-    std::set<ammotype> ammo_id = {};
+    std::set<ammotype> ammo_id;
 
     cata::optional<itype_id> revert_to;
     std::string revert_msg;
@@ -359,7 +358,7 @@ struct islot_mod {
     std::set<ammotype> acceptable_ammo;
 
     /** If set modifies parent ammo to this type */
-    std::set<ammotype> ammo_modifier = {};
+    std::set<ammotype> ammo_modifier;
 
     /** If non-empty replaces the compatible magazines for the parent item */
     std::map< ammotype, std::set<itype_id> > magazine_adaptor;
@@ -440,7 +439,7 @@ struct islot_gun : common_ranged_data {
     /**
      * What type of ammo this gun uses.
      */
-    std::set<ammotype> ammo = {};
+    std::set<ammotype> ammo;
     /**
      * Gun durability, affects gun being damaged during shooting.
      */
@@ -592,7 +591,7 @@ struct islot_gunmod : common_ranged_data {
 
 struct islot_magazine {
     /** What type of ammo this magazine can be loaded with */
-    std::set<ammotype> type = {};
+    std::set<ammotype> type;
 
     /** Capacity of magazine (in equivalent units to ammo charges) */
     int capacity = 0;
@@ -617,6 +616,11 @@ struct islot_magazine {
 
     /** If false, ammo will cook off if this mag is affected by fire */
     bool protects_contents = false;
+};
+
+struct islot_battery {
+    /** Maximum energy the battery can store */
+    units::energy max_capacity;
 };
 
 struct islot_ammo : common_ranged_data {
@@ -763,11 +767,23 @@ struct itype {
         cata::optional<islot_gun> gun;
         cata::optional<islot_gunmod> gunmod;
         cata::optional<islot_magazine> magazine;
+        cata::optional<islot_battery> battery;
         cata::optional<islot_bionic> bionic;
         cata::optional<islot_ammo> ammo;
         cata::optional<islot_seed> seed;
         cata::optional<islot_artifact> artifact;
         /*@}*/
+
+    private:
+        /** Can item be combined with other identical items? */
+        bool stackable_ = false;
+
+        /** Minimum and maximum amount of damage to an item (state of maximum repair). */
+        // @todo create and use a MinMax class or similar to put both values into one object.
+        /// @{
+        int damage_min_ = -1000;
+        int damage_max_ = +4000;
+        /// @}
 
     protected:
         std::string id = "null"; /** unique string identifier for this type */
@@ -784,6 +800,13 @@ struct itype {
     public:
         itype() {
             melee.fill( 0 );
+        }
+
+        int damage_min() const {
+            return count_by_charges() ? 0 : damage_min_;
+        }
+        int damage_max() const {
+            return count_by_charges() ? 0 : damage_max_;
         }
 
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
@@ -828,9 +851,6 @@ struct itype {
         // Should the item explode when lit on fire
         bool explode_in_fire = false;
 
-        /** Can item be combined with other identical items? */
-        bool stackable = false;
-
         /** Is item destroyed after the countdown action is run? */
         bool countdown_destroy = false;
 
@@ -849,11 +869,11 @@ struct itype {
         /** Weight of item ( or each stack member ) */
         units::mass weight = 0_gram;
         /** Weight difference with the part it replaces for mods */
-        units::mass integral_weight = units::from_gram( -1 );
+        units::mass integral_weight = -1_gram;
 
         /**
          * Space occupied by items of this type
-         * CAUTION: value given is for a default-sized stack. Avoid using where @ref stackable items may be encountered; see @ref item::volume instead.
+         * CAUTION: value given is for a default-sized stack. Avoid using where @ref count_by_charges items may be encountered; see @ref item::volume instead.
          * To determine how many of an item can fit in a given space, use @ref charges_per_volume.
          */
         units::volume volume = 0_ml;
@@ -861,9 +881,9 @@ struct itype {
          * Space consumed when integrated as part of another item (defaults to volume)
          * CAUTION: value given is for a default-sized stack. Avoid using this. In general, see @ref item::volume instead.
          */
-        units::volume integral_volume = units::from_milliliter( -1 );
+        units::volume integral_volume = -1_ml;
 
-        /** Number of items per above volume for @ref stackable items */
+        /** Number of items per above volume for @ref count_by_charges items */
         int stack_size = 0;
 
         /** Value before cataclysm. Price given is for a default-sized stack. */
@@ -872,9 +892,8 @@ struct itype {
         int price_post = -1;
 
         /**@}*/
-
-        bool rigid =
-            true; // If non-rigid volume (and if worn encumbrance) increases proportional to contents
+        // If non-rigid volume (and if worn encumbrance) increases proportional to contents
+        bool rigid = true;
 
         /** Damage output in melee for zero or more damage types */
         std::array<int, NUM_DT> melee;
@@ -890,8 +909,6 @@ struct itype {
         std::string sym;
         nc_color color = c_white; // Color on the map (color.h)
 
-        int damage_min = -1000; /** Minimum amount of damage to an item (state of maximum repair) */
-        int damage_max =  4000; /** Maximum amount of damage to an item (state before destroyed) */
         static constexpr int damage_scale = 1000; /** Damage scale compared to the old float damage value */
 
         /** What items can be used to repair this item? @see Item_factory::finalize */
@@ -949,7 +966,7 @@ struct itype {
         }
 
         bool count_by_charges() const {
-            return stackable;
+            return stackable_ || ammo.has_value() || comestible.has_value();
         }
 
         int charges_default() const {
@@ -960,7 +977,7 @@ struct itype {
             } else if( ammo ) {
                 return ammo->def_charges;
             }
-            return stackable ? 1 : 0;
+            return count_by_charges() ? 1 : 0;
         }
 
         int charges_to_use() const {
@@ -981,6 +998,7 @@ struct itype {
             }
             return 1;
         }
+        bool can_have_charges() const;
 
         /**
          * Number of (charges of) this type of item that fit into the given volume.

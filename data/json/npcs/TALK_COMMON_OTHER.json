@@ -298,7 +298,7 @@
         "opinion": { "value": -1 }
       },
       {
-        "text": "Because I'm you're friend!",
+        "text": "Because I'm your friend!",
         "switch": true,
         "default": true,
         "trial": { "type": "PERSUADE", "difficulty": 10, "mod": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ] ] },

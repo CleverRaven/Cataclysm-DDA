@@ -2,10 +2,12 @@
 #ifndef CONSTRUCTION_CATEGORY_H
 #define CONSTRUCTION_CATEGORY_H
 
+#include <stddef.h>
 #include <string>
+#include <vector>
 
-#include "json.h"
 #include "type_id.h"
+#include "string_id.h"
 
 class JsonObject;
 

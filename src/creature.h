@@ -27,15 +27,16 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
+class avatar;
 class field;
 class field_entry;
 class JsonObject;
 class JsonOut;
 struct tripoint;
 class time_duration;
+class player;
 
 enum damage_type : int;
-enum field_id : int;
 enum m_flag : int;
 enum hp_part : int;
 struct damage_instance;
@@ -82,6 +83,18 @@ class Creature
         virtual bool is_monster() const {
             return false;
         }
+        virtual player *as_player() {
+            return nullptr;
+        }
+        virtual const player *as_player() const {
+            return nullptr;
+        }
+        virtual avatar *as_avatar() {
+            return nullptr;
+        }
+        virtual const avatar *as_avatar() const {
+            return nullptr;
+        }
         /** return the direction the creature is facing, for sdl horizontal flip **/
         FacingDirection facing = FD_RIGHT;
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
@@ -126,7 +139,7 @@ class Creature
         /**
          * Simplified attitude string for unlocalized needs.
          */
-        static const std::string attitude_raw_string( Attitude att );
+        static std::string attitude_raw_string( Attitude att );
 
         /**
          * Creature Attitude as String and color
@@ -197,7 +210,8 @@ class Creature
         virtual void absorb_hit( body_part bp, damage_instance &dam ) = 0;
 
         // TODO: this is just a shim so knockbacks work
-        virtual void knock_back_from( const tripoint &p ) = 0;
+        void knock_back_from( const tripoint &p );
+        virtual void knock_back_to( const tripoint &to ) = 0;
 
         // begins a melee attack against the creature
         // returns hit - dodge (>=0 = hit, <0 = miss)
@@ -270,7 +284,7 @@ class Creature
         /** Returns true if we are immune to the field type with the given fid. Does not
          *  handle intensity, so this function should only be called through is_dangerous_field().
          */
-        virtual bool is_immune_field( const field_id ) const {
+        virtual bool is_immune_field( const field_type_id ) const {
             return false;
         }
 
@@ -397,8 +411,8 @@ class Creature
         static const std::set<material_id> cmat_fleshnveg;
         static const std::set<material_id> cmat_flammable;
         static const std::set<material_id> cmat_flameres;
-        virtual field_id bloodType() const = 0;
-        virtual field_id gibType() const = 0;
+        virtual field_type_id bloodType() const = 0;
+        virtual field_type_id gibType() const = 0;
         // TODO: replumb this to use a std::string along with monster flags.
         virtual bool has_flag( const m_flag ) const {
             return false;

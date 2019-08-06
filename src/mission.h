@@ -20,9 +20,9 @@
 #include "game_constants.h"
 #include "omdata.h"
 #include "optional.h"
+#include "point.h"
 
 class avatar;
-class player;
 class mission;
 class Creature;
 class JsonObject;
@@ -66,6 +66,7 @@ enum mission_goal {
     MGOAL_RECRUIT_NPC_CLASS, // Recruit an NPC class
     MGOAL_COMPUTER_TOGGLE,   // Activating the correct terminal will complete the mission
     MGOAL_KILL_MONSTER_SPEC,  // Kill a number of monsters from a given species
+    MGOAL_TALK_TO_NPC,       // Talk to a given NPC
     NUM_MGOAL
 };
 const std::unordered_map<std::string, mission_goal> mission_goal_strs = { {
@@ -83,7 +84,8 @@ const std::unordered_map<std::string, mission_goal> mission_goal_strs = { {
         { "MGOAL_RECRUIT_NPC", MGOAL_RECRUIT_NPC },
         { "MGOAL_RECRUIT_NPC_CLASS", MGOAL_RECRUIT_NPC_CLASS },
         { "MGOAL_COMPUTER_TOGGLE", MGOAL_COMPUTER_TOGGLE },
-        { "MGOAL_KILL_MONSTER_SPEC", MGOAL_KILL_MONSTER_SPEC }
+        { "MGOAL_KILL_MONSTER_SPEC", MGOAL_KILL_MONSTER_SPEC },
+        { "MGOAL_TALK_TO_NPC", MGOAL_TALK_TO_NPC }
     }
 };
 
@@ -144,12 +146,13 @@ struct mission_fail {
 };
 
 struct mission_target_params {
-    std::string overmap_terrain_subtype;
+    std::string overmap_terrain;
+    ot_match_type overmap_terrain_match_type = ot_match_type::type;
     mission *mission_pointer;
 
     bool origin_u = true;
     cata::optional<tripoint> offset;
-    cata::optional<std::string> replaceable_overmap_terrain_subtype;
+    cata::optional<std::string> replaceable_overmap_terrain;
     cata::optional<overmap_special_id> overmap_special;
     cata::optional<int> reveal_radius;
     int min_distance = 0;
@@ -380,6 +383,8 @@ class mission
         bool in_progress() const;
         /** Processes this mission. */
         void process();
+        /** Called when the player talks with an NPC. May resolve mission goals, e.g. MGOAL_TALK_TO_NPC. */
+        void on_talk_with_npc( const int npc_id );
 
         // TODO: Give topics a string_id
         std::string dialogue_for_topic( const std::string &topic ) const;
@@ -423,15 +428,13 @@ class mission
         static void add_existing( const mission &m );
 
         static mission_status status_from_string( const std::string &s );
-        static const std::string status_to_string( mission_status st );
+        static std::string status_to_string( mission_status st );
 
         /** Used to handle saves from before player_id was a member of mission */
         void set_player_id_legacy_0c( int id );
 
     private:
         bool legacy_no_player_id = false;
-        // Don't use this, it's only for loading legacy saves.
-        void load_info( std::istream &info );
 
         void set_target_to_mission_giver();
 

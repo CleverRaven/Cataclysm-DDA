@@ -6,7 +6,6 @@
 
 #include "avatar.h"
 #include "catch/catch.hpp"
-#include "enums.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -20,6 +19,7 @@
 #include "creature.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "point.h"
 
 static void check_lethality( const std::string &explosive_id, const int range, float lethality,
                              float margin )

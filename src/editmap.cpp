@@ -3,13 +3,11 @@
 #include <algorithm>
 #include <cstdlib>
 #include <cstring>
-#include <fstream>
 #include <map>
 #include <string>
 #include <vector>
 #include <array>
 #include <exception>
-#include <list>
 #include <memory>
 #include <set>
 #include <utility>
@@ -17,7 +15,6 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
-#include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "debug_menu.h"
@@ -41,28 +38,22 @@
 #include "uistate.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "active_item_cache.h"
-#include "basecamp.h"
 #include "cata_utility.h"
 #include "creature.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "item.h"
-#include "item_stack.h"
 #include "omdata.h"
-#include "player.h"
 #include "shadowcasting.h"
 #include "string_id.h"
+#include "colony.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 static constexpr tripoint editmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
-static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT );
-static constexpr tripoint editmap_clearance_min( tripoint_zero );
-static constexpr tripoint editmap_clearance_max( 1, 1, 0 );
+static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT + 1 );
 
 static constexpr box editmap_boundaries( editmap_boundary_min, editmap_boundary_max );
-static constexpr box editmap_clearance( editmap_clearance_min, editmap_clearance_max );
 
 static const ter_id undefined_ter_id( -1 );
 static const furn_id undefined_furn_id( -1 );
@@ -154,14 +145,12 @@ void edit_json( SAVEOBJ &it )
                 tmret = -2;
             }
         } else if( tmret == 2 ) {
-            std::ofstream fout;
-            fout.open( "save/jtest-1j.txt" );
-            fout << osave1;
-            fout.close();
-
-            fout.open( "save/jtest-2j.txt" );
-            fout << serialize( it );
-            fout.close();
+            write_to_file( "save/jtest-1j.txt", [&]( std::ostream & fout ) {
+                fout << osave1;
+            }, nullptr );
+            write_to_file( "save/jtest-2j.txt", [&]( std::ostream & fout ) {
+                fout << serialize( it );
+            }, nullptr );
         }
         tm.addentry( 0, true, 'r', pgettext( "item manipulation debug menu entry", "rehash" ) );
         tm.addentry( 1, true, 'e', pgettext( "item manipulation debug menu entry", "edit" ) );
@@ -193,7 +182,7 @@ editmap::editmap()
     sel_frn = undefined_furn_id;
     target_frn = undefined_furn_id;
     ter_frn_mode = 0;
-    cur_field = 0;
+    cur_field = nullptr;
     cur_trap = tr_null;
     sel_field = -1;
     sel_field_intensity = -1;
@@ -212,8 +201,7 @@ editmap::editmap()
     editshape = editmap_rect;
     refresh_mplans = true;
 
-    tmaxx = getmaxx( g->w_terrain );
-    tmaxy = getmaxy( g->w_terrain );
+    tmax = point( getmaxx( g->w_terrain ), getmaxy( g->w_terrain ) );
     fids[fd_null] = "-clear-";
     fids[fd_fire_vent] = "fire_vent";
     fids[fd_push_items] = "push_items";
@@ -261,11 +249,11 @@ void editmap_hilight::draw( editmap &em, bool update )
                 }
                 const field &t_field = g->m.field_at( p );
                 if( t_field.field_count() > 0 ) {
-                    field_id t_ftype = t_field.field_symbol();
+                    field_type_id t_ftype = t_field.displayed_field_type();
                     const field_entry *t_fld = t_field.find_field( t_ftype );
                     if( t_fld != nullptr ) {
                         t_col = t_fld->color();
-                        t_sym = t_fld->symbol();
+                        t_sym = t_fld->symbol()[0];
                     }
                 }
                 if( blink_interval[ cur_blink ] ) {
@@ -282,7 +270,7 @@ void editmap_hilight::draw( editmap &em, bool update )
  */
 tripoint editmap::pos2screen( const tripoint &p )
 {
-    return tripoint( tmaxx / 2 + p.x - target.x, tmaxy / 2 + p.y - target.y, p.z );
+    return p + tmax / 2 - target.xy();
 }
 
 /*
@@ -300,15 +288,15 @@ bool editmap::eget_direction( tripoint &p, const std::string &action ) const
 {
     p = tripoint_zero;
     if( action == "CENTER" ) {
-        p = ( g->u.pos() - target );
+        p = g->u.pos() - target;
     } else if( action == "LEFT_WIDE" ) {
-        p.x = 0 - ( tmaxx / 2 );
+        p.x = -tmax.x / 2;
     } else if( action == "DOWN_WIDE" ) {
-        p.y = ( tmaxy / 2 );
+        p.y = tmax.y / 2;
     } else if( action == "UP_WIDE" ) {
-        p.y = 0 - ( tmaxy / 2 );
+        p.y = -tmax.y / 2;
     } else if( action == "RIGHT_WIDE" ) {
-        p.x = ( tmaxx / 2 );
+        p.x = tmax.x / 2;
     } else if( action == "LEVEL_DOWN" ) {
         p.z = -1;
     } else if( action == "LEVEL_UP" ) {
@@ -334,7 +322,7 @@ void editmap::uphelp( const std::string &txt1, const std::string &txt2, const st
     if( !txt1.empty() ) {
         mvwprintw( w_help, 0, 0, padding );
         mvwprintw( w_help, 1, 0, padding );
-        mvwprintw( w_help, ( !txt2.empty() ? 0 : 1 ), 0, txt1 );
+        mvwprintw( w_help, !txt2.empty() ? 0 : 1, 0, txt1 );
         if( !txt2.empty() ) {
             mvwprintw( w_help, 1, 0, txt2 );
         }
@@ -449,7 +437,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
 {
     tripoint center = target;
     tripoint start = tripoint( center.x - getmaxx( w ) / 2, center.y - getmaxy( w ) / 2, target.z );
-    tripoint end =   tripoint( center.x + getmaxx( w ) / 2, center.y + getmaxy( w ) / 2, target.z );
+    tripoint end = tripoint( center.x + getmaxx( w ) / 2, center.y + getmaxy( w ) / 2, target.z );
     /*
         // pending filter options
         bool draw_furn=true;
@@ -459,7 +447,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
         bool draw_veh=true;
     */
     bool draw_itm = true;
-    bool game_map = ( m == &g->m || w == g->w_terrain );
+    bool game_map = m == &g->m || w == g->w_terrain;
     const int msize = MAPSIZE_X;
     if( refresh_mplans ) {
         hilights["mplan"].points.clear();
@@ -467,7 +455,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
     for( int x = start.x, sx = 0; x <= end.x; x++, sx++ ) {
         for( int y = start.y, sy = 0; y <= end.y; y++, sy++ ) {
             tripoint p{ x, y, target.z };
-            int sym = ( game_map ? '%' : ' ' );
+            int sym = game_map ? '%' : ' ';
             if( x >= 0 && x < msize && y >= 0 && y < msize ) {
                 if( game_map ) {
                     Creature *critter = g->critter_at( p );
@@ -551,11 +539,11 @@ void editmap::update_view( bool update_info )
                 }
                 const field &t_field = g->m.field_at( p );
                 if( t_field.field_count() > 0 ) {
-                    field_id t_ftype = t_field.field_symbol();
+                    field_type_id t_ftype = t_field.displayed_field_type();
                     const field_entry *t_fld = t_field.find_field( t_ftype );
                     if( t_fld != nullptr ) {
                         t_col = t_fld->color();
-                        t_sym = t_fld->symbol();
+                        t_sym = t_fld->symbol()[0];
                     }
                 }
                 t_col = altblink ? green_background( t_col ) : cyan_background( t_col );
@@ -575,12 +563,11 @@ void editmap::update_view( bool update_info )
 
     // draw arrows if altblink is set (ie, [m]oving a large selection
     if( blink && altblink ) {
-        int mpx = ( tmaxx / 2 ) + 1;
-        int mpy = ( tmaxy / 2 ) + 1;
-        mvwputch( g->w_terrain, mpy, 1, c_yellow, '<' );
-        mvwputch( g->w_terrain, mpy, tmaxx - 1, c_yellow, '>' );
-        mvwputch( g->w_terrain, 1, mpx, c_yellow, '^' );
-        mvwputch( g->w_terrain, tmaxy - 1, mpx, c_yellow, 'v' );
+        const point mp = tmax / 2 + point( 1, 1 );
+        mvwputch( g->w_terrain, mp.y, 1, c_yellow, '<' );
+        mvwputch( g->w_terrain, mp.y, tmax.x - 1, c_yellow, '>' );
+        mvwputch( g->w_terrain, 1, mp.x, c_yellow, '^' );
+        mvwputch( g->w_terrain, tmax.y - 1, mp.x, c_yellow, 'v' );
     }
 
     wrefresh( g->w_terrain );
@@ -644,13 +631,14 @@ void editmap::update_view( bool update_info )
         mvwprintw( w_info, off, 1, "%s %s", g->m.features( target ).c_str(), extras );
         // 9
         off++;
-
         for( auto &fld : *cur_field ) {
             const field_entry &cur = fld.second;
             mvwprintz( w_info, off, 1, cur.color(),
-                       _( "field: %s (%d) intensity %d age %d" ),
-                       cur.name(), cur.get_field_type(),
-                       cur.get_field_intensity(), to_turns<int>( cur.get_field_age() )
+                       _( "field: %s L:%d[%s] A:%d" ),
+                       cur.get_field_type().id().c_str(),
+                       cur.get_field_intensity(),
+                       cur.name(),
+                       to_turns<int>( cur.get_field_age() )
                      );
             off++; // 10ish
         }
@@ -686,7 +674,7 @@ void editmap::update_view( bool update_info )
 
         if( g->m.has_graffiti_at( target ) ) {
             mvwprintw( w_info, off, 1,
-                       g->m.ter( target ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Incription: %s" ),
+                       g->m.ter( target ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
                        g->m.graffiti_at( target ) );
         }
 
@@ -707,10 +695,10 @@ static ter_id get_alt_ter( bool isvert, ter_id sel_ter )
     const int sidlen = tersid.size();
     for( std::map<std::string, std::string>::const_iterator it = alts.begin(); it != alts.end();
          ++it ) {
-        const std::string suffix = ( isvert ? it->first : it->second );
+        const std::string suffix = isvert ? it->first : it->second;
         const int slen = suffix.size();
         if( sidlen > slen && tersid.substr( sidlen - slen, slen ) == suffix ) {
-            const std::string asuffix = ( isvert ? it->second : it->first );
+            const std::string asuffix = isvert ? it->second : it->first;
             const std::string terasid = tersid.substr( 0, sidlen - slen ) + asuffix;
             const ter_str_id tid( terasid );
 
@@ -811,8 +799,8 @@ int editmap::edit_ter()
         }
 
         // cursor is green for terrain or furniture, depending on selection
-        nc_color c_tercurs = ( ter_frn_mode == 0 ? c_light_green : c_dark_gray );
-        nc_color c_frncurs = ( ter_frn_mode == 1 ? c_light_green : c_dark_gray );
+        nc_color c_tercurs = ter_frn_mode == 0 ? c_light_green : c_dark_gray;
+        nc_color c_frncurs = ter_frn_mode == 1 ? c_light_green : c_dark_gray;
 
         int cur_t = 0;
         int tstart = 2;
@@ -821,7 +809,7 @@ int editmap::edit_ter()
             for( int x = xmin; x < pickw && cur_t < static_cast<int>( ter_t::count() ); x++, cur_t++ ) {
                 const ter_id tid( cur_t );
                 const ter_t &ttype = tid.obj();
-                mvwputch( w_pickter, y, x, ( ter_frn_mode == 0 ? ttype.color() : c_dark_gray ), ttype.symbol() );
+                mvwputch( w_pickter, y, x, ter_frn_mode == 0 ? ttype.color() : c_dark_gray, ttype.symbol() );
                 if( tid == sel_ter ) {
                     sel_terp = tripoint( x, y, target.z );
                 } else if( tid == lastsel_ter ) {
@@ -877,7 +865,7 @@ int editmap::edit_ter()
             for( int x = xmin; x < pickw && cur_f < static_cast<int>( furn_t::count() ); x++, cur_f++ ) {
                 const furn_id fid( cur_f );
                 const furn_t &ftype = fid.obj();
-                mvwputch( w_pickter, y, x, ( ter_frn_mode == 1 ? ftype.color() : c_dark_gray ), ftype.symbol() );
+                mvwputch( w_pickter, y, x, ter_frn_mode == 1 ? ftype.color() : c_dark_gray, ftype.symbol() );
 
                 if( fid == sel_frn ) {
                     sel_frnp = tripoint( x, y, target.z );
@@ -927,12 +915,12 @@ int editmap::edit_ter()
 
         // draw green |'s around terrain or furniture tilesets depending on selection
         for( int y = tstart - 1; y < tstart + tlen + 1; y++ ) {
-            mvwputch( w_pickter, y, 1, c_light_green, ( ter_frn_mode == 0 ? '|' : ' ' ) );
-            mvwputch( w_pickter, y, width - 2, c_light_green, ( ter_frn_mode == 0 ? '|' : ' ' ) );
+            mvwputch( w_pickter, y, 1, c_light_green, ter_frn_mode == 0 ? '|' : ' ' );
+            mvwputch( w_pickter, y, width - 2, c_light_green, ter_frn_mode == 0 ? '|' : ' ' );
         }
         for( int y = fstart - 1; y < fstart + flen + 1; y++ ) {
-            mvwputch( w_pickter, y, 1, c_light_green, ( ter_frn_mode == 1 ? '|' : ' ' ) );
-            mvwputch( w_pickter, y, width - 2, c_light_green, ( ter_frn_mode == 1 ? '|' : ' ' ) );
+            mvwputch( w_pickter, y, 1, c_light_green, ter_frn_mode == 1 ? '|' : ' ' );
+            mvwputch( w_pickter, y, width - 2, c_light_green, ter_frn_mode == 1 ? '|' : ' ' );
         }
 
         uphelp( pgettext( "Map editor: terrain/furniture shortkeys",
@@ -953,13 +941,13 @@ int editmap::edit_ter()
                 increment( sel_ter, +1, ter_t::count() );
             } else if( action == "UP" ) {
                 if( would_overflow( sel_ter, -xmax, ter_t::count() ) ) {
-                    ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
+                    ter_frn_mode = ter_frn_mode == 0 ? 1 : 0;
                 } else {
                     increment( sel_ter, -xmax, ter_t::count() );
                 }
             } else if( action == "DOWN" ) {
                 if( would_overflow( sel_ter, +xmax, ter_t::count() ) ) {
-                    ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
+                    ter_frn_mode = ter_frn_mode == 0 ? 1 : 0;
                 } else {
                     increment( sel_ter, +xmax, ter_t::count() );
                 }
@@ -1008,7 +996,7 @@ int editmap::edit_ter()
                 update_view( false );
             } else if( action == "EDITMAP_TAB" || action == "EDITMAP_MOVE" ) {
                 ter_id sel_tmp = sel_ter;
-                select_shape( editshape, ( action == "EDITMAP_MOVE" ? 1 : 0 ) );
+                select_shape( editshape, action == "EDITMAP_MOVE" ? 1 : 0 );
                 sel_ter = sel_tmp;
             } else if( action == "EDITMAP_SHOW_ALL" ) {
                 uberdraw = !uberdraw;
@@ -1021,13 +1009,13 @@ int editmap::edit_ter()
                 increment( sel_frn, +1, furn_t::count() );
             } else if( action == "UP" ) {
                 if( would_overflow( sel_frn, -xmax, furn_t::count() ) ) {
-                    ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
+                    ter_frn_mode = ter_frn_mode == 0 ? 1 : 0;
                 } else {
                     increment( sel_frn, -xmax, furn_t::count() );
                 }
             } else if( action == "DOWN" ) {
                 if( would_overflow( sel_frn, +xmax, furn_t::count() ) ) {
-                    ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
+                    ter_frn_mode = ter_frn_mode == 0 ? 1 : 0;
                 } else {
                     increment( sel_frn, +xmax, furn_t::count() );
                 }
@@ -1042,7 +1030,7 @@ int editmap::edit_ter()
             } else if( action == "EDITMAP_TAB" || action == "EDITMAP_MOVE" ) {
                 furn_id sel_frn_tmp = sel_frn;
                 ter_id sel_ter_tmp = sel_ter;
-                select_shape( editshape, ( action == "EDITMAP_MOVE" ? 1 : 0 ) );
+                select_shape( editshape, action == "EDITMAP_MOVE" ? 1 : 0 );
                 sel_frn = sel_frn_tmp;
                 sel_ter = sel_ter_tmp;
             } else if( action == "EDITMAP_SHOW_ALL" ) {
@@ -1057,33 +1045,33 @@ int editmap::edit_ter()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// field edit
 
-void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_id idx )
+void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_type_id idx )
 {
-    int fintensity = 1;
-    const field_t &ftype = all_field_types_enum_list[idx];
+    int field_intensity = 1;
+    const field_type &ftype = idx.obj();
     field_entry *fld = field.find_field( idx );
     if( fld != nullptr ) {
-        fintensity = fld->get_field_intensity();
+        field_intensity = fld->get_field_intensity();
     }
-    fmenu.entries[idx].txt = ftype.name( fintensity - 1 );
+    fmenu.entries[idx].txt = ftype.get_name( field_intensity - 1 );
     if( fld != nullptr ) {
-        fmenu.entries[idx].txt += " " + std::string( fintensity, '*' );
+        fmenu.entries[idx].txt += " " + std::string( field_intensity, '*' );
     }
-    fmenu.entries[idx].text_color = ( fld != nullptr ? c_cyan : fmenu.text_color );
-    fmenu.entries[idx].extratxt.color = ftype.color[fintensity - 1];
+    fmenu.entries[idx].text_color = fld != nullptr ? c_cyan : fmenu.text_color;
+    fmenu.entries[idx].extratxt.color = ftype.get_color( field_intensity - 1 );
 }
 
 void editmap::setup_fmenu( uilist &fmenu )
 {
     fmenu.entries.clear();
-    for( int i = 0; i < num_fields; i++ ) {
-        const field_id fid = static_cast<field_id>( i );
-        const field_t &ftype = all_field_types_enum_list[fid];
-        int fintensity = 1;
-        std::string fname = ftype.name( fintensity - 1 );
+    for( int i = 0; i < static_cast<int>( field_type::count() ); i++ ) {
+        const field_type_id fid = static_cast<field_type_id>( i );
+        const field_type &ftype = fid.obj();
+        const int field_intensity = 1;
+        std::string fname = ftype.get_name( field_intensity - 1 );
         fmenu.addentry( fid, true, -2, fname );
         fmenu.entries[fid].extratxt.left = 1;
-        fmenu.entries[fid].extratxt.txt = string_format( "%c", ftype.sym );
+        fmenu.entries[fid].extratxt.txt = string_format( "%s", ftype.get_symbol( field_intensity - 1 ) );
         update_fmenu_entry( fmenu, *cur_field, fid );
     }
     if( sel_field >= 0 ) {
@@ -1109,16 +1097,17 @@ int editmap::edit_fld()
                 pgettext( "Map editor: Editing field effects", "Field effects" ) );
 
         fmenu.query( false );
-        if( fmenu.selected > 0 && fmenu.selected < num_fields &&
+        if( fmenu.selected > 0 && fmenu.selected < static_cast<int>( field_type::count() ) &&
             ( fmenu.ret > 0 || fmenu.keypress == KEY_LEFT || fmenu.keypress == KEY_RIGHT )
           ) {
-            int fintensity = 0;
-            const field_id idx = static_cast<field_id>( fmenu.selected );
+            int field_intensity = 0;
+            const field_type_id idx = static_cast<field_type_id>( fmenu.selected );
             field_entry *fld = cur_field->find_field( idx );
             if( fld != nullptr ) {
-                fintensity = fld->get_field_intensity();
+                field_intensity = fld->get_field_intensity();
             }
-            int fsel_intensity = fintensity;
+            const field_type &ftype = idx.obj();
+            int fsel_intensity = field_intensity;
             if( fmenu.ret > 0 ) {
                 uilist femenu;
                 femenu.w_width = width;
@@ -1126,29 +1115,31 @@ int editmap::edit_fld()
                 femenu.w_y = fmenu.w_height;
                 femenu.w_x = offsetX;
 
-                const field_t &ftype = all_field_types_enum_list[idx];
-                femenu.text = ftype.name( fintensity == 0 ? 0 : fintensity - 1 );
+                femenu.text = field_intensity < 1 ? "" : ftype.get_name( field_intensity - 1 );
                 femenu.addentry( pgettext( "map editor: used to describe a clean field (e.g. without blood)",
                                            "-clear-" ) );
 
-                femenu.addentry( string_format( "1: %s", ftype.name( 0 ) ) );
-                femenu.addentry( string_format( "2: %s", ftype.name( 1 ) ) );
-                femenu.addentry( string_format( "3: %s", ftype.name( 2 ) ) );
-                femenu.entries[fintensity].text_color = c_cyan;
-                femenu.selected = ( sel_field_intensity > 0 ? sel_field_intensity : fintensity );
+                int i = 0;
+                for( const auto &intensity_level : ftype.intensity_levels ) {
+                    i++;
+                    femenu.addentry( string_format( "%d: %s", i, _( intensity_level.name ) ) );
+                }
+                femenu.entries[field_intensity].text_color = c_cyan;
+                femenu.selected = sel_field_intensity > 0 ? sel_field_intensity : field_intensity;
 
                 femenu.query();
                 if( femenu.ret >= 0 ) {
                     fsel_intensity = femenu.ret;
                 }
-            } else if( fmenu.keypress == KEY_RIGHT && fintensity < 3 ) {
+            } else if( fmenu.keypress == KEY_RIGHT &&
+                       field_intensity < static_cast<int>( ftype.get_max_intensity() ) ) {
                 fsel_intensity++;
-            } else if( fmenu.keypress == KEY_LEFT && fintensity > 0 ) {
+            } else if( fmenu.keypress == KEY_LEFT && field_intensity > 0 ) {
                 fsel_intensity--;
             }
-            if( fintensity != fsel_intensity || target_list.size() > 1 ) {
+            if( field_intensity != fsel_intensity || target_list.size() > 1 ) {
                 for( auto &elem : target_list ) {
-                    const auto fid = static_cast<field_id>( idx );
+                    const auto fid = static_cast<field_type_id>( idx );
                     field &t_field = g->m.get_field( elem );
                     field_entry *t_fld = t_field.find_field( fid );
                     int t_intensity = 0;
@@ -1188,7 +1179,7 @@ int editmap::edit_fld()
             sel_field_intensity = 0;
         } else if( fmenu.keypress == 's' || fmenu.keypress == '\t' || fmenu.keypress == 'm' ) {
             int sel_tmp = fmenu.selected;
-            int ret = select_shape( editshape, ( fmenu.keypress == 'm' ? 1 : 0 ) );
+            int ret = select_shape( editshape, fmenu.keypress == 'm' ? 1 : 0 );
             if( ret > 0 ) {
                 setup_fmenu( fmenu );
             }
@@ -1200,7 +1191,6 @@ int editmap::edit_fld()
     } while( fmenu.ret != UILIST_CANCEL );
     return ret;
 }
-
 ///// edit traps
 int editmap::edit_trp()
 {
@@ -1252,8 +1242,9 @@ int editmap::edit_trp()
                 }
                 mvwputch( w_picktrap, t + 1 - tshift, 2, tr.color, tr.sym );
                 mvwprintz( w_picktrap, t + 1 - tshift, 4,
-                           ( trsel == tr.loadid ? h_white : ( cur_trap == tr.loadid ? c_green : c_light_gray ) ), "%d %s", t,
-                           tnam.c_str() );
+                           trsel == tr.loadid ? h_white :
+                           cur_trap == tr.loadid ? c_green : c_light_gray,
+                           "%d %s", t, tnam.c_str() );
             }
         }
         wrefresh( w_picktrap );
@@ -1274,7 +1265,7 @@ int editmap::edit_trp()
             update_view( false );
         } else if( action == "EDITMAP_TAB" || action == "EDITMAP_MOVE" ) {
             trap_id sel_tmp = trsel;
-            select_shape( editshape, ( action == "EDITMAP_MOVE" ? 1 : 0 ) );
+            select_shape( editshape, action == "EDITMAP_MOVE" ? 1 : 0 );
             trsel = sel_tmp;
         } else if( action == "EDITMAP_SHOW_ALL" ) {
             uberdraw = !uberdraw;
@@ -1431,7 +1422,7 @@ tripoint editmap::recalc_target( shapetype shape )
                 for( int y = origin.y - radius; y <= origin.y + radius; y++ ) {
                     const tripoint p( x, y, z );
                     if( rl_dist( p, origin ) <= radius ) {
-                        if( generic_inbounds( p, editmap_boundaries, editmap_clearance ) ) {
+                        if( editmap_boundaries.contains_half_open( p ) ) {
                             target_list.push_back( p );
                         }
                     }
@@ -1463,7 +1454,7 @@ tripoint editmap::recalc_target( shapetype shape )
                 for( int y = sy; y <= ey; y++ ) {
                     if( shape == editmap_rect_filled || x == sx || x == ex || y == sy || y == ey ) {
                         const tripoint p( x, y, z );
-                        if( generic_inbounds( p, editmap_boundaries, editmap_clearance ) ) {
+                        if( editmap_boundaries.contains_half_open( p ) ) {
                             target_list.push_back( p );
                         }
                     }
@@ -1501,7 +1492,8 @@ static int limited_shift( int var, int &shift, int min, int max )
 bool editmap::move_target( const std::string &action, int moveorigin )
 {
     tripoint mp;
-    bool move_origin = ( moveorigin == 1 ? true : ( moveorigin == 0 ? false : moveall ) );
+    bool move_origin = moveorigin == 1 ? true :
+                       moveorigin == 0 ? false : moveall;
     if( eget_direction( mp, action ) ) {
         target.x = limited_shift( target.x, mp.x, 0, MAPSIZE_X );
         target.y = limited_shift( target.y, mp.y, 0, MAPSIZE_Y );
@@ -1544,7 +1536,7 @@ int editmap::select_shape( shapetype shape, int mode )
     bool update = false;
     blink = true;
     if( mode >= 0 ) {
-        moveall = ( mode != 0 );
+        moveall = mode != 0;
     }
     altblink = moveall;
     update_view( false );
@@ -1649,7 +1641,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
     // Coordinates of the overmap terrain that should be generated.
     const point omt_pos = ms_to_omt_copy( tc.abs_pos );
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, target.z );
+    oter_id &omt_ref = overmap_buffer.ter( tripoint( omt_pos, target.z ) );
     // Copy to store the original value, to restore it upon canceling
     const oter_id orig_oters = omt_ref;
     omt_ref = oter_id( gmenu.ret );
@@ -1746,9 +1738,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                         std::swap( *destsm, *srcsm );
 
                         for( auto &veh : destsm->vehicles ) {
-                            veh->smx = dest_pos.x;
-                            veh->smy = dest_pos.y;
-                            veh->smz = dest_pos.z;
+                            veh->sm_pos = dest_pos;
                         }
 
                         g->m.update_vehicle_list( destsm, target.z ); // update real map's vcaches
@@ -1770,7 +1760,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
         } else if( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_PPAGE ||
                    gpmenu.keypress == KEY_LEFT || gpmenu.keypress == KEY_RIGHT ) {
 
-            int dir = ( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_RIGHT ? 1 : -1 );
+            int dir = gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_RIGHT ? 1 : -1;
             gmenu.scrollby( dir );
             gpmenu.selected = gpmenupos;
             gmenu.show();
@@ -1871,11 +1861,9 @@ int editmap::mapgen_retarget()
         action = ctxt.handle_input( BLINK_SPEED );
         blink = !blink;
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            tripoint ptarget = tripoint( target.x + ( vec->x * SEEX * 2 ), target.y + ( vec->y * SEEY * 2 ),
-                                         target.z );
-            if( generic_inbounds( ptarget, editmap_boundaries, editmap_clearance ) &&
-                generic_inbounds( { ptarget.x + SEEX, ptarget.y + SEEY, ptarget.z },
-                                  editmap_boundaries, editmap_clearance ) ) {
+            tripoint ptarget = tripoint( target.x + vec->x * SEEX * 2, target.y + vec->y * SEEY * 2, target.z );
+            if( editmap_boundaries.contains_half_open( ptarget ) &&
+                editmap_boundaries.contains_half_open( ptarget + point( SEEX, SEEY ) ) ) {
                 target = ptarget;
 
                 target_list.clear();

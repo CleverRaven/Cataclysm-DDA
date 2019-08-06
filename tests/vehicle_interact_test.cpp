@@ -8,16 +8,15 @@
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "player.h"
 #include "player_helpers.h"
 #include "requirements.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "calendar.h"
-#include "enums.h"
 #include "inventory.h"
 #include "item.h"
 #include "type_id.h"
+#include "point.h"
 
 static void test_repair( const std::vector<item> &tools, bool expect_craftable )
 {

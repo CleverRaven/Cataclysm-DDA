@@ -21,11 +21,10 @@
         ],
         "prob": 20
       },
-      { "item": "touring_suit", "damage": [ 1, 4 ], "prob": 10 },
       {
         "distribution": [
           { "item": "helmet_bike", "damage": [ 1, 4 ], "prob": 50 },
-          { "item": "helmet_motor", "damage": [ 1, 4 ], "prob": 50 }
+          { "group": "clothing_biker", "damage": [ 1, 4 ], "prob": 50 }
         ],
         "prob": 10
       },
@@ -47,7 +46,7 @@
       { "group": "homebooks", "prob": 30 },
       { "group": "alcohol_bottled_canned", "prob": 10 },
       { "group": "vending_drink_items", "prob": 25 },
-      { "item": "laptop", "prob": 10, "charges-min": 0, "charges-max": 50 },
+      { "item": "laptop", "prob": 10 },
       { "item": "eink_tablet_pc", "prob": 10, "charges-min": 0, "charges-max": 50 },
       { "item": "vibrator", "prob": 5, "charges-min": 0, "charges-max": 50 },
       { "item": "teleumbrella", "prob": 10 },
@@ -132,7 +131,7 @@
       { "item": "mp3", "prob": 18, "charges-min": 0, "charges-max": 15 },
       { "item": "portable_game", "prob": 10, "charges-min": 0, "charges-max": 50 },
       { "item": "game_watch", "prob": 10, "damage": [ 1, 4 ], "charges-min": 0, "charges-max": 50 },
-      { "item": "usb_drive", "prob": 10, "charges-min": 0, "charges-max": 50 },
+      { "item": "usb_drive", "prob": 10 },
       { "item": "meth", "prob": 2 },
       { "item": "coke", "prob": 2 },
       { "item": "lsd", "prob": 2 },

@@ -86,7 +86,7 @@
     "name_plural": "chunks of meat",
     "description": "Freshly butchered meat.  You could eat it raw, but cooking it is better.",
     "weight": 296,
-    "volume": 2,
+    "volume": "250 ml",
     "price": 500,
     "spoils_in": "1 day",
     "calories": 302,

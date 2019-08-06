@@ -2,6 +2,7 @@
 #ifndef ITEM_H
 #define ITEM_H
 
+#include <stdint.h>
 #include <climits>
 #include <list>
 #include <map>
@@ -15,22 +16,25 @@
 
 #include "calendar.h"
 #include "cata_utility.h"
+#include "craft_command.h"
 #include "debug.h"
 #include "enums.h"
-#include "faction.h"
 #include "flat_set.h"
 #include "io_tags.h"
 #include "item_location.h"
 #include "requirements.h"
+#include "safe_reference.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
 #include "visitable.h"
 #include "gun_mode.h"
+#include "point.h"
 
 class item;
 class material_type;
 struct mtype;
+class faction;
 
 namespace cata
 {
@@ -70,6 +74,7 @@ struct damage_unit;
 class map;
 
 enum damage_type : int;
+enum clothing_mod_type : int;
 
 const std::string &rad_badge_color( int rad );
 
@@ -184,6 +189,10 @@ class item : public visitable<item>
         /** For constructing in-progress crafts */
         item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
 
+        /** Return a pointer-like type that's automatically invalidated if this
+         * item is destroyed or assigned-to */
+        safe_reference<item> get_safe_reference();
+
         /**
          * Filter converting this instance to another type preserving all other aspects
          * @param new_type the type id to convert to
@@ -202,6 +211,17 @@ class item : public visitable<item>
 
         /** Filter converting instance to active state */
         item &activate();
+
+        /**
+         * Add or remove energy from a battery.
+         * If adding the specified energy quantity would go over the battery's capacity fill
+         * the battery and ignore the remainder.
+         * If adding the specified energy quantity would reduce the battery's charge level
+         * below 0 do nothing and return how far below 0 it would have gone.
+         * @param qty energy quantity to add (can be negative)
+         * @return 0 valued energy quantity on success
+         */
+        units::energy set_energy( const units::energy &qty );
 
         /**
          * Filter setting the ammo for this instance
@@ -416,8 +436,6 @@ class item : public visitable<item>
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
 
-        // Legacy function, don't use.
-        void load_info( const std::string &data );
         const std::string &symbol() const;
         /**
          * Returns the monetary value of an item.
@@ -426,6 +444,14 @@ class item : public visitable<item>
          */
         int price( bool practical ) const;
 
+        /**
+         * Whether two items should stack when displayed in a inventory menu.
+         * This is different from stacks_with, when two previously non-stackable
+         * items are now stackable and mergeable because, for example, they
+         * reaches the same temperature. This is necessary to avoid misleading
+         * stacks like "3 items-count-by-charge (5)".
+         */
+        bool display_stacked_with( const item &rhs, bool check_components = false ) const;
         bool stacks_with( const item &rhs, bool check_components = false ) const;
         /**
          * Merge charges of the other item into this item.
@@ -1025,6 +1051,7 @@ class item : public visitable<item>
         bool is_medication() const;            // Is it a medication that only pretends to be food?
         bool is_bionic() const;
         bool is_magazine() const;
+        bool is_battery() const;
         bool is_ammo_belt() const;
         bool is_bandolier() const;
         bool is_holster() const;
@@ -1280,6 +1307,9 @@ class item : public visitable<item>
         /** Removes all item specific flags. */
         void unset_flags();
         /*@}*/
+
+        /**Does this item have the specified fault*/
+        bool has_fault( const fault_id fault ) const;
 
         /**
          * @name Item properties
@@ -1551,6 +1581,9 @@ class item : public visitable<item>
          *  @note an item can be both a gun and melee weapon concurrently
          */
         bool is_gun() const;
+
+        /** Quantity of energy currently loaded in tool or battery */
+        units::energy energy_remaining() const;
 
         /** Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod */
         int ammo_remaining() const;
@@ -1921,6 +1954,11 @@ class item : public visitable<item>
          */
         requirement_data get_continue_reqs() const;
 
+        void set_tools_to_continue( bool value );
+        bool has_tools_to_continue() const;
+        void set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections );
+        const std::vector<comp_selection<tool_comp>> &get_cached_tool_selections() const;
+
     private:
         /**
          * Calculate the thermal energy and temperature change of the item
@@ -1983,6 +2021,7 @@ class item : public visitable<item>
         cata::flat_set<std::string> item_tags; // generic item specific flags
 
     private:
+        safe_reference_anchor anchor;
         const itype *curammo = nullptr;
         std::map<std::string, std::string> item_vars;
         const mtype *corpse = nullptr;
@@ -1993,22 +2032,25 @@ class item : public visitable<item>
         const recipe *making = nullptr;
         int next_failure_point = -1;
         std::vector<item_comp> comps_used;
+        // If the crafter has insufficient tools to continue to the next 5% progress step
+        bool tools_to_continue = false;
+        std::vector<comp_selection<tool_comp>> cached_tool_selections;
 
     public:
         int charges;
+        units::energy energy;      // Amount of energy currently stored in a battery
 
-        // The number of charges a recipe creates.  Used for comestible consumption.
-        int recipe_charges = 1;
-        int burnt = 0;           // How badly we're burnt
-        int poison = 0;          // How badly poisoned is it?
-        int frequency = 0;       // Radio frequency
-        int note = 0;            // Associated dynamic text snippet.
-        int irradiation = 0;      // Tracks radiation dosage.
-        int item_counter = 0; // generic counter to be used with item flags
+        int recipe_charges = 1;    // The number of charges a recipe creates.
+        int burnt = 0;             // How badly we're burnt
+        int poison = 0;            // How badly poisoned is it?
+        int frequency = 0;         // Radio frequency
+        int note = 0;              // Associated dynamic text snippet.
+        int irradiation = 0;       // Tracks radiation dosage.
+        int item_counter = 0;      // generic counter to be used with item flags
         int specific_energy = -10; // Specific energy (0.00001 J/g). Negative value for unprocessed.
-        int temperature = 0; // Temperature of the item (in 0.00001 K).
-        int mission_id = -1; // Refers to a mission in game's master list
-        int player_id = -1; // Only give a mission to the right player!
+        int temperature = 0;       // Temperature of the item (in 0.00001 K).
+        int mission_id = -1;       // Refers to a mission in game's master list
+        int player_id = -1;        // Only give a mission to the right player!
 
     private:
         /**
@@ -2018,9 +2060,9 @@ class item : public visitable<item>
          */
         time_duration rot = 0_turns;
         /** Time when the rot calculation was last performed. */
-        time_point last_rot_check = calendar::time_of_cataclysm;
+        time_point last_rot_check = calendar::turn_zero;
         /** the last time the temperature was updated for this item */
-        time_point last_temp_check = calendar::time_of_cataclysm;
+        time_point last_temp_check = calendar::turn_zero;
         /// The time the item was created.
         time_point bday;
         /**
@@ -2043,6 +2085,9 @@ class item : public visitable<item>
         bool is_favorite = false;
 
         void set_favorite( const bool favorite );
+        bool has_clothing_mod() const;
+        float get_clothing_mod_val( clothing_mod_type type ) const;
+        void update_clothing_mod_val();
 };
 
 bool item_compare_by_charges( const item &left, const item &right );

@@ -53,5 +53,40 @@
     "extras": "build",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "demon_spider_lair",
+    "name": "Forest",
+    "sym": "F",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "used_bookstore",
+    "name": "used bookstore",
+    "sym": "B",
+    "color": "white",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 1,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "used_bookstore_roof",
+    "name": "used bookstore",
+    "sym": "B",
+    "color": "white",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 1,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_basement",
+    "copy-from": "generic_city_house_basement"
   }
 ]

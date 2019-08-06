@@ -24,7 +24,6 @@
 #include "int_id.h"
 #include "item.h"
 #include "optional.h"
-#include "player.h"
 #include "rng.h"
 
 const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );
@@ -205,8 +204,9 @@ void mission_start::place_npc_software( mission *miss )
     compmap.load( place.x * 2, place.y * 2, place.z, false );
     tripoint comppoint;
 
-    oter_id oter = overmap_buffer.ter( place.x, place.y, place.z );
-    if( is_ot_prefix( "house", oter ) || is_ot_type( "s_pharm", oter ) || oter == "" ) {
+    oter_id oter = overmap_buffer.ter( place );
+    if( is_ot_match( "house", oter, ot_match_type::prefix ) ||
+        is_ot_match( "s_pharm", oter, ot_match_type::type ) || oter == "" ) {
         comppoint = find_potential_computer_point( compmap, place.z );
     }
 
@@ -584,7 +584,7 @@ void mission_start::place_book( mission * )
 void mission_start::reveal_refugee_center( mission *miss )
 {
     mission_target_params t;
-    t.overmap_terrain_subtype = "refctr_S3e";
+    t.overmap_terrain = "refctr_S3e";
     t.overmap_special = overmap_special_id( "evac_center" );
     t.mission_pointer = miss;
     t.search_range = 0;

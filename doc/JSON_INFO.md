@@ -10,6 +10,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | anatomy.json                | a listing of player body parts - do not edit
 | bionics.json                | bionics, does NOT include bionic effects
 | body_parts.json             | an expansion of anatomy.json - do not edit
+| clothing_mods.json          | definition of clothing mods
 | construction.json           | definition of construction menu tasks
 | default_blacklist.json      | a standard blacklist of joke monsters
 | doll_speech.json            | talk doll speech messages
@@ -711,6 +712,7 @@ Vehicle components when installed on a vehicle.
                                *    power       = base engine power in watts
                                *    bonus       = bonus granted; muffler = noise reduction%, seatbelt = bonus to not being thrown from vehicle
                                *    par1        = generic value used for unique bonuses, like the headlight's light intensity */
+"cargo_weight_modifier": 33,  // (Optional, default = 100) Modifies cargo weight by set percentage
 "fuel_type": "NULL",          // (Optional, default = "NULL") Type of fuel/ammo the part consumes, as an item id
 
 "item": "wheel",              // The item used to install this part, and the item obtained when removing this part
@@ -1121,6 +1123,7 @@ Gun mods can be defined like this:
 "acceptable_ammo": [ "9mm" ],  // Optional filter restricting mod to guns with those base (before modifiers) ammo types
 "install_time": "30 s",        // Optional time installation takes. Installation is instantaneous if unspecified. An integer will be read as moves or a time string can be used.
 "ammo_modifier": [ "57" ],     // Optional field which if specified modifies parent gun to use these ammo types
+"magazine_adaptor": [ [ "223", [ "stanag30" ] ] ], // Optional field which changes the types of magazines the parent gun accepts
 "burst_modifier": 3,           // Optional field increasing or decreasing base gun burst size
 "damage_modifier": -1,         // Optional field increasing or decreasing base gun damage
 "dispersion_modifier": 15,     // Optional field increasing or decreasing base gun dispersion
@@ -1130,6 +1133,14 @@ Gun mods can be defined like this:
 "ups_charges": 200,            // Optional field increasing or decreasing base gun UPS consumption (per shot)
 "reload_modifier": -10,        // Optional field increasing or decreasing base gun reload time in percent
 "min_str_required_mod": 14,    // Optional field increasing or decreasing minimum strength required to use gun
+```
+
+### Batteries
+```C++
+"type": "BATTERY",    // Defines this as a BATTERY
+...                   // Same entries as above for the generic item
+                      // Additionally some battery specific entries:
+"max_energy": "30 kJ" // Mandatory. Maximum energy quantity the battery can hold
 ```
 
 ### Tools
@@ -1574,6 +1585,18 @@ The contents of use_action fields can either be a string indicating a built-in f
     "practice": 4, // How much practice to the "traps" skill placing the trap gives.
     "moves": 10 // (optional, default is 100): the move points that are used by placing the trap.
 }
+"use_action": {
+    "type": "sew_advanced",  // Modify clothing
+    "materials": [           // materials to deal with.
+        "cotton",
+        "leather"
+    ],
+    "skill": "tailor",       // Skill used.
+    "clothing_mods": [       // Clothing mods to deal with.
+        "leather_padded",
+        "kevlar_padded"
+    ]
+}
 ```
 
 ###random Descriptions
@@ -1648,6 +1671,21 @@ The format also support snippet ids like above.
     { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
   ]
 },
+{
+  "id": "CBM_SCI",
+  "type": "harvest",
+  "entries": [
+    {
+      "drop": "bionics_sci",
+      "type": "bionic_group",
+      "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+      "faults": [ "fault_bionic_salvaged" ]
+    },
+    { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+    { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+    { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+  ]
+},
 ```
 
 #### `id`
@@ -1676,6 +1714,10 @@ Array of dictionaries defining possible items produced on butchering and their l
     `bionic`: an item gained by dissecting the creature. not restricted to CBMs.
     `bionic_group`: an item group that will give an item by dissecting a creature. not restricted to groups containing CBMs.
 
+`flags` value should be an array of strings.  It's the flags that will be added to te items of that entry upon harvesting.
+
+`faults` value should be an array of `fault_id` strings.  It's the faults that will be added to te items of that entry upon harvesting.
+
 For every `type` other then `bionic` and `bionic_group` following entries scale the results:
     `base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number.
     `scale_num` value should be an array with two elements, increasing the minimum and maximum drop numbers respectively by element value * survival skill.
@@ -1697,6 +1739,7 @@ For `type`s: `bionic` and `bionic_group` following enrties can scale the results
     "looks_like": "chair",
     "color": "white",
     "move_cost_mod": 2,
+    "light_emitted": 5,
     "required_str": 18,
     "flags": [ "TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD" ],
     "crafting_pseudo_item": "anvil",
@@ -1722,6 +1765,11 @@ Same as for terrain, see below in the chapter "Common to furniture and terrain".
 #### `move_cost_mod`
 
 Movement cost modifier (`-10` = impassable, `0` = no change). This is added to the movecost of the underlying terrain.
+
+#### `light_emitted`
+
+How much light the furniture produces.  10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
+For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
 #### `required_str`
 
@@ -1750,6 +1798,7 @@ Strength required to move the furniture around. Negative values indicate an unmo
     "looks_like": "pit",
     "color": "ltred",
     "move_cost": 10,
+    "light_emitted": 10,
     "trap": "spike_pit",
     "max_volume": 4000,
     "flags": ["TRANSPARENT", "DIGGABLE"],
@@ -1777,6 +1826,11 @@ Same as for furniture, see below in the chapter "Common to furniture and terrain
 #### `move_cost`
 
 Move cost to move through. A value of 0 means it's impassable (e.g. wall). You should not use negative values. The positive value is multiple of 50 move points, e.g. value 2 means the player uses 2\*50 = 100 move points when moving across the terrain.
+
+#### `light_emitted`
+
+How much light the terrain emits. 10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
+For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
 #### `trap`
 
@@ -1971,6 +2025,28 @@ A flat multiplier on the growth speed on the plant. For numbers greater than one
 #### `harvest_multiplier`
 
 A flat multiplier on the harvest count of the plant. For numbers greater than one, the plant will give more produce from harvest, for numbers less than one it will give less produce from harvest.
+
+### clothing_mod
+
+```JSON
+"type": "clothing_mod",
+"id": "leather_padded",   // Unique ID.
+"flag": "leather_padded", // flag to add to clothing.
+"item": "leather",        // item to consume.
+"implement_prompt": "Pad with leather",      // prompt to show when implement mod.
+"destroy_prompt": "Destroy leather padding", // prompt to show when destroy mod.
+"mod_value": [            // List of mod effect.
+    {
+        "type": "bash",   // "bash", "cut", "fire", "acid", "warmth", "storage", and "encumbrance" is available.
+        "value": 1,       // value of effect.
+        "round_up": false // (optional) round up value of effect. defaults to false.
+        "proportion": [   // (optional) value of effect propotions to clothing's parameter.
+            "thickness",  //            "thickness" and "coverage" is available.
+            "coverage"
+        ]
+    }
+]
+```
 
 # Scenarios
 

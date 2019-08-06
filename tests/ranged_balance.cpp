@@ -13,7 +13,6 @@
 #include "units.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "enums.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
@@ -21,6 +20,7 @@
 #include "player.h"
 #include "material.h"
 #include "type_id.h"
+#include "point.h"
 
 using firing_statistics = statistics<bool>;
 
@@ -54,7 +54,7 @@ static void arm_shooter( npc &shooter, const std::string &gun_type,
 {
     shooter.remove_weapon();
 
-    const itype_id gun_id( gun_type );
+    const itype_id &gun_id( gun_type );
     // Give shooter a loaded gun of the requested type.
     item &gun = shooter.i_add( item( gun_id ) );
     const itype_id ammo_id = gun.ammo_default();

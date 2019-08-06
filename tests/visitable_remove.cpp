@@ -16,13 +16,12 @@
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "calendar.h"
-#include "enums.h"
 #include "inventory.h"
 #include "item.h"
 #include "optional.h"
 #include "type_id.h"
+#include "point.h"
 
 template <typename T>
 static int count_items( const T &src, const itype_id &id )

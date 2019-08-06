@@ -3,6 +3,6 @@
     "type": "scenario",
     "ident": "lab_chal",
     "copy-from": "lab_chal",
-    "add_professions": { "professions": [ "crt", "crt_engineer", "crt_employee", "crt_vamp" ] }
+    "extend": { "professions": [ "crt", "crt_engineer", "crt_employee", "crt_vamp" ] }
   }
 ]

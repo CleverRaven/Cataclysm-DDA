@@ -33,8 +33,7 @@
     "name": "toxic waste dump",
     "sym": "D",
     "color": "pink",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -42,8 +41,7 @@
     "name": "hazardous waste sarcophagus",
     "sym": "X",
     "color": "pink",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -51,8 +49,7 @@
     "name": "hazardous waste sarcophagus",
     "sym": "X",
     "color": "pink",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -60,8 +57,7 @@
     "name": "hazardous waste sarcophagus",
     "sym": "X",
     "color": "pink",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -69,8 +65,7 @@
     "name": "hazardous waste sarcophagus",
     "sym": "X",
     "color": "pink",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -91,9 +86,27 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "pump_station_1_roof",
+    "copy-from": "generic_city_building",
+    "name": "pump station roof",
+    "sym": "P",
+    "color": "red",
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "pump_station_2",
     "copy-from": "generic_city_building",
     "name": "pump station",
+    "sym": "P",
+    "color": "red",
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pump_station_2_roof",
+    "copy-from": "generic_city_building",
+    "name": "pump station roof",
     "sym": "P",
     "color": "red",
     "flags": [ "KNOWN_DOWN" ]
@@ -146,6 +159,46 @@
     "id": "recyclecenter",
     "copy-from": "generic_city_building",
     "name": "recycle center",
+    "sym": "R",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "recyclecenter_roof",
+    "copy-from": "generic_city_building",
+    "name": "recycle center roof",
+    "sym": "R",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "recyclecenter_1",
+    "copy-from": "generic_city_building",
+    "name": "recycle center",
+    "sym": "R",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "recyclecenter_roof_1",
+    "copy-from": "generic_city_building",
+    "name": "recycle center roof",
+    "sym": "R",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "recyclecenter_2",
+    "copy-from": "generic_city_building",
+    "name": "recycle center",
+    "sym": "R",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "recyclecenter_roof_2",
+    "copy-from": "generic_city_building",
+    "name": "recycle center roof",
     "sym": "R",
     "color": "i_green"
   },
@@ -300,5 +353,90 @@
     "name": "small dump",
     "sym": "d",
     "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_0_0",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_1_0",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_2_0",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_3_0",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_0_1",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_1_1",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_2_1",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_3_1",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_0_2",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_1_2",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_2_2",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_2_2_roof",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_3_2",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_0_3",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_1_3",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_2_3",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_3_3",
+    "copy-from": "generic_regional_dump"
   }
 ]

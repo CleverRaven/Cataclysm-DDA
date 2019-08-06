@@ -8,6 +8,20 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_gas_1",
+    "name": "gas station",
+    "copy-from": "generic_city_building",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gas_roof_1",
+    "name": "gas station roof",
+    "copy-from": "generic_city_building",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_pharm",
     "name": "pharmacy",
     "copy-from": "generic_city_building",
@@ -87,6 +101,27 @@
     "type": "overmap_terrain",
     "id": "office_cubical",
     "name": "office",
+    "copy-from": "generic_city_building",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_cubical_roof",
+    "name": "office roof",
+    "copy-from": "generic_city_building",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_cubical_1",
+    "name": "office",
+    "copy-from": "generic_city_building",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_cubical_roof_1",
+    "name": "office roof",
     "copy-from": "generic_city_building",
     "color": "light_gray"
   },
@@ -244,6 +279,55 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_hardware_roof",
+    "name": "hardware store roof",
+    "copy-from": "generic_city_building",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_hardware_1",
+    "name": "hardware store",
+    "copy-from": "generic_city_building",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_hardware_roof_1",
+    "name": "hardware store roof",
+    "copy-from": "generic_city_building",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_hardware_2",
+    "name": "hardware store",
+    "copy-from": "generic_city_building",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_hardware_roof_2",
+    "name": "hardware store roof",
+    "copy-from": "generic_city_building",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_hardware_3",
+    "name": "hardware store",
+    "copy-from": "generic_city_building",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_hardware_roof_3",
+    "name": "hardware store roof",
+    "copy-from": "generic_city_building",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_electronics",
     "name": "electronics store",
     "copy-from": "generic_city_building",
@@ -251,8 +335,36 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_electronics_roof",
+    "name": "electronics store roof",
+    "copy-from": "generic_city_building",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_electronics_1",
+    "name": "electronics store",
+    "copy-from": "generic_city_building",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_electronics_roof_1",
+    "name": "electronics store roof",
+    "copy-from": "generic_city_building",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_sports",
     "name": "sporting goods store",
+    "copy-from": "generic_city_building",
+    "color": "light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_sports_roof",
+    "name": "sporting goods store roof",
     "copy-from": "generic_city_building",
     "color": "light_cyan"
   },
@@ -870,6 +982,48 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "pawn_roof",
+    "name": "pawn shop roof",
+    "copy-from": "generic_city_building",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pawn_1",
+    "name": "pawn shop",
+    "copy-from": "generic_city_building",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pawn_roof_1",
+    "name": "pawn shop roof",
+    "copy-from": "generic_city_building",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pawn_pf",
+    "name": "pawn shop",
+    "copy-from": "generic_city_building",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pawn_pf_under",
+    "name": "pawn shop",
+    "copy-from": "generic_city_building",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pawn_pf_roof",
+    "name": "pawn shop roof",
+    "copy-from": "generic_city_building",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mil_surplus",
     "name": "mil. surplus",
     "sym": "M",
@@ -1171,6 +1325,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_gas_rural_roof",
+    "name": "gas station roof",
+    "sym": "^",
+    "color": "light_blue",
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "hdwr_large_entrance",
     "name": "home improvement superstore entrance",
     "sym": "H",
@@ -1446,6 +1609,22 @@
     "color": "brown"
   },
   {
+    "id": "small_office_roof",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "small office roof",
+    "sym": "o",
+    "color": "brown"
+  },
+  {
+    "id": "small_office_upper_roof",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "small office roof",
+    "sym": "o",
+    "color": "brown"
+  },
+  {
     "type": "overmap_terrain",
     "id": "candy_shop",
     "name": "candy shop",
@@ -1601,6 +1780,15 @@
     "id": "s_vfw",
     "copy-from": "generic_city_building",
     "name": "veterans of foreign wars",
+    "sym": "w",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_vfw_roof",
+    "copy-from": "generic_city_building",
+    "name": "veterans of foreign wars center roof",
+    "sym": "w",
     "color": "i_green"
   },
   {
@@ -1608,6 +1796,13 @@
     "id": "s_thrift",
     "copy-from": "generic_city_building",
     "name": "thrift store",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_thrift_roof",
+    "copy-from": "generic_city_building",
+    "name": "thrift store roof",
     "color": "light_gray"
   },
   {
@@ -1629,6 +1824,41 @@
     "id": "s_petstore",
     "copy-from": "generic_city_building",
     "name": "pet supply store",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_petstore_roof",
+    "copy-from": "generic_city_building",
+    "name": "pet supply store roof",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_petstore_1",
+    "copy-from": "generic_city_building",
+    "name": "pet supply store",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_petstore_roof_1",
+    "copy-from": "generic_city_building",
+    "name": "pet supply store roof",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_petstore_2",
+    "copy-from": "generic_city_building",
+    "name": "pet supply store",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_petstore_roof_2",
+    "copy-from": "generic_city_building",
+    "name": "pet supply store roof",
     "color": "i_yellow"
   },
   {
@@ -1731,6 +1961,13 @@
     "type": "overmap_terrain",
     "id": "veterinarian",
     "name": "veterinarian clinic",
+    "copy-from": "generic_city_building",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "veterinarian_roof",
+    "name": "veterinarian clinic roof",
     "copy-from": "generic_city_building",
     "color": "i_pink"
   },
@@ -2276,6 +2513,30 @@
     "id": "station_radio",
     "copy-from": "generic_city_building",
     "name": "radio station",
+    "sym": "X",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "station_radio_roof",
+    "copy-from": "generic_city_building",
+    "name": "radio station roof",
+    "sym": "X",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "station_radio_1",
+    "copy-from": "generic_city_building",
+    "name": "radio station",
+    "sym": "X",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "station_radio_roof_1",
+    "copy-from": "generic_city_building",
+    "name": "radio station roof",
     "sym": "X",
     "color": "i_light_gray"
   },

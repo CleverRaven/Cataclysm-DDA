@@ -27,7 +27,6 @@
 #include <algorithm>
 #include <memory>
 #include <sstream>
-#include <type_traits>
 
 // sidebar messages flow direction
 extern bool log_from_top;
@@ -399,6 +398,7 @@ static bool msg_type_from_name( game_message_type &type, const std::string &name
 
 namespace Messages
 {
+// NOLINTNEXTLINE(cata-xy)
 class dialog
 {
     public:

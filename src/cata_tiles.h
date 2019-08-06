@@ -5,7 +5,6 @@
 #include <cstddef>
 #include <memory>
 #include <map>
-#include <set>
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -16,15 +15,14 @@
 #include "lightmap.h"
 #include "line.h"
 #include "options.h"
-#include "game_constants.h"
 #include "weather.h"
 #include "enums.h"
 #include "weighted_list.h"
+#include "point.h"
 
 class Creature;
 class player;
 class pixel_minimap;
-
 class JsonObject;
 
 extern void set_displaybuffer_rendertarget();
@@ -161,8 +159,7 @@ class tileset_loader
         tileset &ts;
         const SDL_Renderer_Ptr &renderer;
 
-        int sprite_offset_x;
-        int sprite_offset_y;
+        point sprite_offset;
 
         int sprite_width;
         int sprite_height;
@@ -483,15 +480,11 @@ class cata_tiles
         tripoint zone_offset;
 
         // offset values, in tile coordinates, not pixels
-        int o_x = 0;
-        int o_y = 0;
+        point o;
         // offset for drawing, in pixels.
-        int op_x = 0;
-        int op_y = 0;
+        point op;
 
     private:
-        int last_pos_x = 0;
-        int last_pos_y = 0;
         /**
          * Tracks active night vision goggle status for each draw call.
          * Allows usage of night vision tilesets during sprite rendering.

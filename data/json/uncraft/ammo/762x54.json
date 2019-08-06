@@ -8,7 +8,7 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 3 ] ],
-      [ [ "762_casing", 1 ] ],
+      [ [ "762R_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder", 8 ] ],
       [ [ "copper", 10 ] ]

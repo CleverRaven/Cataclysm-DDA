@@ -5,7 +5,7 @@
     "om_terrain": [ "sub_station" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         " SSSSSSSSSSSSSSSSSSSSSS ",
         "  SSSSSSSSSSSSSSSSSSSS  ",
@@ -28,12 +28,47 @@
         " SS||F............F||SS ",
         "  SS||2bbbbbbbbbb2||SS  ",
         " * SS||||||||||||||SS * ",
-        "*** SSSSSSSSSSSSSSSS ***",
+        "*** SSSSSSSSSSSS4SSS ***",
         "***   SSSSSSSSSSSS   ***",
         " *                    * "
       ],
       "palettes": [ "subway" ],
       "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "sub_station_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     |2222222222223     ",
+        "    ||............33    ",
+        "   ||..............33   ",
+        "  ||................33  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |.......oooo.......3  ",
+        "  |.......oooo.......3  ",
+        "  |.......oooo.......3  ",
+        "  |.......oooo.......3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  ||................33  ",
+        "   ||..............33   ",
+        "    ||............33    ",
+        "     |----------5-3     ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
     }
   },
   {

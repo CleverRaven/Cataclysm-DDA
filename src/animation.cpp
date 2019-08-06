@@ -12,11 +12,12 @@
 #include "weather.h"
 #include "creature.h"
 #include "cursesdef.h"
-#include "enums.h"
 #include "game_constants.h"
 #include "posix_time.h"
 #include "translations.h"
 #include "type_id.h"
+#include "explosion.h"
+#include "point.h"
 
 #if defined(TILES)
 #include <memory>
@@ -39,7 +40,7 @@ class basic_animation
 {
     public:
         basic_animation( const int scale ) :
-            delay{ 0, get_option<int>( "ANIMATION_DELAY" ) * scale * 1000000l } {
+            delay{ 0, get_option<int>( "ANIMATION_DELAY" ) * scale * 1000000L } {
         }
 
         void draw() const {
@@ -115,9 +116,7 @@ tripoint relative_view_pos( const player &u, const tripoint &p ) noexcept
 // Convert p to screen position relative to the current terrain view
 tripoint relative_view_pos( const game &g, const tripoint &p ) noexcept
 {
-    return { POSX + p.x - g.ter_view_x,
-             POSY + p.y - g.ter_view_y,
-             p.z - g.ter_view_z };
+    return p - g.ter_view_p + point( POSX, POSY );
 }
 
 void draw_explosion_curses( game &g, const tripoint &center, const int r, const nc_color &col )

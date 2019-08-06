@@ -1,7 +1,7 @@
 #include "output.h"
 
-#include <cctype>
 #include <errno.h>
+#include <cctype>
 #include <cstdio>
 #include <algorithm>
 #include <cstdarg>
@@ -33,6 +33,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "units.h"
+#include "point.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -132,9 +133,9 @@ std::vector<std::string> split_by_color( const std::string &s )
     std::vector<std::string> ret;
     std::vector<size_t> tag_positions = get_tag_positions( s );
     size_t last_pos = 0;
-    for( std::vector<size_t>::iterator it = tag_positions.begin(); it != tag_positions.end(); ++it ) {
-        ret.push_back( s.substr( last_pos, *it - last_pos ) );
-        last_pos = *it;
+    for( size_t tag_position : tag_positions ) {
+        ret.push_back( s.substr( last_pos, tag_position - last_pos ) );
+        last_pos = tag_position;
     }
     // and the last (or only) one
     ret.push_back( s.substr( last_pos, std::string::npos ) );
@@ -718,7 +719,7 @@ std::string string_replace( std::string text, const std::string &before, const s
 {
     // Check if there's something to replace (mandatory) and it's necessary (optional)
     // Second condition assumes that text is much longer than both &before and &after.
-    if( before.length() == 0 || !before.compare( after ) ) {
+    if( before.length() == 0 || before == after ) {
         return text;
     }
 
@@ -1633,7 +1634,7 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt )
     return fmt;
 }
 
-const std::pair<std::string, nc_color>
+std::pair<std::string, nc_color>
 get_bar( float cur, float max, int width, bool extra_resolution,
          const std::vector<nc_color> &colors )
 {
@@ -1658,7 +1659,7 @@ get_bar( float cur, float max, int width, bool extra_resolution,
     return std::make_pair( result, col );
 }
 
-const std::pair<std::string, nc_color> get_hp_bar( const int cur_hp, const int max_hp,
+std::pair<std::string, nc_color> get_hp_bar( const int cur_hp, const int max_hp,
         const bool is_mon )
 {
     if( cur_hp == 0 ) {
@@ -1667,7 +1668,7 @@ const std::pair<std::string, nc_color> get_hp_bar( const int cur_hp, const int m
     return get_bar( cur_hp, max_hp, 5, !is_mon );
 }
 
-const std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam )
+std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam )
 {
     if( cur_stam == 0 ) {
         return std::make_pair( "-----", c_light_gray );

@@ -1,0 +1,25 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_magiclysm_translocator_gate",
+    "name": "Translocator Gate",
+    "move_cost_mod": 0,
+    "symbol": "X",
+    "description": "A gate for translocation.  Cast the translocation spell or use a translocator to choose this gate as a destination.",
+    "color": "light_gray",
+    "required_str": 25,
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "ALLOW_FIELD_EFFECT" ],
+    "examine_action": "translocator"
+  },
+  {
+    "type": "furniture",
+    "id": "f_magic_circle",
+    "name": "Magic Circle",
+    "move_cost_mod": 0,
+    "symbol": "O",
+    "color": "red",
+    "required_str": -1,
+    "flags": [ "ALLOW_FIELD_EFFECT" ],
+    "description": "This is a rough magic circle, carved into the ground and decorated with blood, candles, and other small knick-knacks."
+  }
+]

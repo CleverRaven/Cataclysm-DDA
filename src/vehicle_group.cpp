@@ -5,12 +5,12 @@
 #include <utility>
 
 #include "debug.h"
-#include "enums.h"
 #include "json.h"
 #include "map.h"
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "point.h"
 
 using vplacement_id = string_id<VehiclePlacement>;
 

@@ -2,6 +2,7 @@
 
 #include <algorithm> //std::min
 #include <sstream>
+#include <cstddef>
 
 #include "bionics.h"
 #include "catacharset.h"
@@ -190,13 +191,13 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
     bool move_down = false;
     for( const auto &elem : pos_and_num ) {
         const int y = elem.first;
-        if( !move_up && y <  start_y ) {
+        if( !move_up && y < start_y ) {
             move_up = true;
         }
         if( !move_same && y == start_y ) {
             move_same = true;
         }
-        if( !move_down && y >  start_y ) {
+        if( !move_down && y > start_y ) {
             move_down = true;
         }
 

@@ -2,12 +2,11 @@
 #ifndef MINIMAP_H
 #define MINIMAP_H
 
-#include "enums.h"
-#include "sdl_wrappers.h"
-
-#include <cmath>
 #include <map>
 #include <memory>
+
+#include "point.h"
+#include "sdl_wrappers.h"
 
 enum class pixel_minimap_mode {
     solid,
@@ -73,6 +72,7 @@ class pixel_minimap
 
         //the minimap texture pool which is used to reduce new texture allocation spam
         struct shared_texture_pool;
+
         std::unique_ptr<shared_texture_pool> tex_pool;
 
         std::map<tripoint, submap_cache> cache;

@@ -15,11 +15,9 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "map_selector.h"
 #include "messages.h"
 #include "mission.h"
 #include "morale_types.h"
-#include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
 #include "npctrade.h"
@@ -36,6 +34,7 @@
 #include "enums.h"
 #include "faction.h"
 #include "game_constants.h"
+#include "game_inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "optional.h"
@@ -44,6 +43,9 @@
 #include "player_activity.h"
 #include "pldata.h"
 #include "string_id.h"
+#include "material.h"
+#include "monster.h"
+#include "point.h"
 
 struct itype;
 
@@ -228,7 +230,7 @@ void talk_function::goto_location( npc &p )
         if( elem == p.global_omt_location() ) {
             continue;
         }
-        cata::optional<basecamp *> camp = overmap_buffer.find_camp( elem.x, elem.y );
+        cata::optional<basecamp *> camp = overmap_buffer.find_camp( elem.xy() );
         if( !camp ) {
             continue;
         }
@@ -258,6 +260,7 @@ void talk_function::goto_location( npc &p )
     p.set_mission( NPC_MISSION_TRAVELLING );
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.goal = destination;
+    p.omt_path = overmap_buffer.get_npc_path( p.global_omt_location(), p.goal );
     p.guard_pos = npc::no_goal_point;
     p.set_attitude( NPCATT_NULL );
     return;
@@ -280,8 +283,7 @@ void talk_function::assign_guard( npc &p )
     p.set_mission( NPC_MISSION_GUARD_ALLY );
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.set_omt_destination();
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().x,
-                                     p.global_omt_location().y );
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         temp_camp->validate_assignees();
@@ -317,8 +319,7 @@ void talk_function::stop_guard( npc &p )
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
     p.guard_pos = npc::no_goal_point;
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().x,
-                                     p.global_omt_location().y );
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         temp_camp->validate_assignees();
@@ -354,52 +355,22 @@ void talk_function::insult_combat( npc &p )
 
 void talk_function::bionic_install( npc &p )
 {
-    std::vector<item *> bionic_inv = g->u.items_with( []( const item & itm ) {
-        return itm.is_bionic();
-    } );
-    if( bionic_inv.empty() ) {
-        popup( _( "You have no bionics to install!" ) );
+    item_location bionic = game_menus::inv::install_bionic( g->u, g->u, true );
+
+    if( !bionic ) {
         return;
     }
 
-    std::vector<itype_id> bionic_types;
-    std::vector<std::string> bionic_names;
-    for( auto &bio : bionic_inv ) {
-        if( std::find( bionic_types.begin(), bionic_types.end(), bio->typeId() ) == bionic_types.end() ) {
-            if( !g->u.has_bionic( bionic_id( bio->typeId() ) ) || bio->typeId() ==  "bio_power_storage" ||
-                bio->typeId() ==  "bio_power_storage_mkII" ) {
+    const item *tmp = bionic.get_item();
+    const itype &it = *tmp->type;
 
-                bionic_types.push_back( bio->typeId() );
-                bionic_names.push_back( bio->tname() + " - " + format_money( bio->price( true ) * 2 ) );
-            }
-        }
-    }
-    // Choose bionic if applicable
-    int bionic_index = uilist( _( "Which bionic do you wish to have installed?" ),
-                               bionic_names );
-    // Did we cancel?
-    if( bionic_index < 0 ) {
-        popup( _( "You decide to hold off..." ) );
-        return;
-    }
-
-    const item tmp = item( bionic_types[bionic_index], 0 );
-    const itype &it = *tmp.type;
-    signed int price = tmp.price( true ) * 2;
-
-    if( price > g->u.cash ) {
-        popup( _( "You can't afford the procedure..." ) );
-        return;
-    }
+    signed int price = tmp->price( true ) * 2;
 
     //Makes the doctor awesome at installing but not perfect
     if( g->u.can_install_bionics( it, p, false, 20 ) ) {
         g->u.cash -= price;
         p.cash += price;
-        g->u.amount_of( bionic_types[bionic_index] );
-        std::vector<item_comp> comps;
-        comps.push_back( item_comp( tmp.typeId(), 1 ) );
-        g->u.consume_items( comps, 1 );
+        bionic.remove_item();
         g->u.install_bionics( it, p, false, 20 );
     }
 }
@@ -489,8 +460,8 @@ void talk_function::give_aid( npc &p )
 {
     p.add_effect( effect_currently_busy, 30_minutes );
     for( int i = 0; i < num_hp_parts; i++ ) {
-        const body_part bp_healed = player::hp_to_bp( hp_part( i ) );
-        g->u.heal( hp_part( i ), 5 * rng( 2, 5 ) );
+        const body_part bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
+        g->u.heal( static_cast<hp_part>( i ), 5 * rng( 2, 5 ) );
         if( g->u.has_effect( effect_bite, bp_healed ) ) {
             g->u.remove_effect( effect_bite, bp_healed );
         }
@@ -512,8 +483,8 @@ void talk_function::give_all_aid( npc &p )
     for( npc &guy : g->all_npcs() ) {
         if( guy.is_walking_with() && rl_dist( guy.pos(), g->u.pos() ) < PICKUP_RANGE ) {
             for( int i = 0; i < num_hp_parts; i++ ) {
-                const body_part bp_healed = player::hp_to_bp( hp_part( i ) );
-                guy.heal( hp_part( i ), 5 * rng( 2, 5 ) );
+                const body_part bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
+                guy.heal( static_cast<hp_part>( i ), 5 * rng( 2, 5 ) );
                 if( guy.has_effect( effect_bite, bp_healed ) ) {
                     guy.remove_effect( effect_bite, bp_healed );
                 }
@@ -613,7 +584,7 @@ void talk_function::buy_10_logs( npc &p )
     const auto &cur_om = g->get_cur_om();
     std::vector<tripoint> places_om;
     for( auto &i : places ) {
-        if( &cur_om == overmap_buffer.get_existing_om_global( i ) ) {
+        if( &cur_om == overmap_buffer.get_existing_om_global( i ).om ) {
             places_om.push_back( i );
         }
     }
@@ -639,7 +610,7 @@ void talk_function::buy_100_logs( npc &p )
     const auto &cur_om = g->get_cur_om();
     std::vector<tripoint> places_om;
     for( auto &i : places ) {
-        if( &cur_om == overmap_buffer.get_existing_om_global( i ) ) {
+        if( &cur_om == overmap_buffer.get_existing_om_global( i ).om ) {
             places_om.push_back( i );
         }
     }

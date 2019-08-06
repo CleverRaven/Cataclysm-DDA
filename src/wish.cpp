@@ -13,7 +13,6 @@
 #include "input.h"
 #include "item_factory.h"
 #include "map.h"
-#include "npc.h"
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
@@ -29,11 +28,12 @@
 #include "calendar.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "enums.h"
 #include "item.h"
 #include "itype.h"
 #include "optional.h"
 #include "type_id.h"
+#include "flat_set.h"
+#include "point.h"
 
 class wish_mutate_callback: public uilist_callback
 {
@@ -66,9 +66,8 @@ class wish_mutate_callback: public uilist_callback
                     p->set_mutation( vTraits[ entnum ] );
                     p->toggle_trait( vTraits[ entnum ] );
                 }
-                menu->entries[ entnum ].text_color = ( p->has_trait( vTraits[ entnum ] ) ? c_green :
-                                                       menu->text_color );
-                menu->entries[ entnum ].extratxt.txt = ( p->has_base_trait( vTraits[ entnum ] ) ? "T" : "" );
+                menu->entries[ entnum ].text_color = p->has_trait( vTraits[ entnum ] ) ? c_green : menu->text_color;
+                menu->entries[ entnum ].extratxt.txt = p->has_base_trait( vTraits[ entnum ] ) ? "T" : "";
                 return true;
             }
             return false;
@@ -80,7 +79,7 @@ class wish_mutate_callback: public uilist_callback
                 padding = std::string( menu->pad_right - 1, ' ' );
                 for( auto &traits_iter : mutation_branch::get_all() ) {
                     vTraits.push_back( traits_iter.id );
-                    pTraits[traits_iter.id] = ( p->has_trait( traits_iter.id ) );
+                    pTraits[traits_iter.id] = p->has_trait( traits_iter.id );
                 }
             }
             const mutation_branch &mdata = vTraits[entnum].obj();
@@ -222,7 +221,7 @@ void debug_menu::wishmutate( player *p )
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;
     // Disabled due to foldstring crash // ( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
-    wmenu.pad_right = ( wmenu.w_width - 40 );
+    wmenu.pad_right = wmenu.w_width - 40;
     wmenu.selected = uistate.wishmutate_selected;
     wish_mutate_callback cb;
     cb.p = p;
@@ -263,15 +262,16 @@ void debug_menu::wishmutate( player *p )
             uistate.wishmutate_selected = wmenu.selected;
             if( rc != 0 ) {
                 for( size_t i = 0; i < cb.vTraits.size(); i++ ) {
-                    wmenu.entries[ i ].extratxt.txt.clear();
+                    uilist_entry &entry = wmenu.entries[ i ];
+                    entry.extratxt.txt.clear();
                     if( p->has_trait( cb.vTraits[ i ] ) ) {
-                        wmenu.entries[ i ].text_color = c_green;
+                        entry.text_color = c_green;
                         cb.pTraits[ cb.vTraits[ i ] ] = true;
                         if( p->has_base_trait( cb.vTraits[ i ] ) ) {
-                            wmenu.entries[ i ].extratxt.txt = "T";
+                            entry.extratxt.txt = "T";
                         }
                     } else {
-                        wmenu.entries[ i ].text_color = wmenu.text_color;
+                        entry.text_color = wmenu.text_color;
                         cb.pTraits[ cb.vTraits[ i ] ] = false;
                     }
                 }
@@ -353,7 +353,7 @@ class wish_monster_callback: public uilist_callback
             tmp.print_info( w_info, 2, 5, 1 );
 
             std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->nname(),
-                                                group, ( hallucination ? _( " (hallucination)" ) : "" ) );
+                                                group, hallucination ? _( " (hallucination)" ) : "" );
             mvwprintz( w_info, 0, ( getmaxx( w_info ) - header.size() ) / 2, c_cyan, header );
 
             mvwprintz( w_info, getmaxy( w_info ) - 3, 0, c_green, msg );
@@ -384,7 +384,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;
     // Disabled due to foldstring crash //( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
-    wmenu.pad_right = ( wmenu.w_width - 30 );
+    wmenu.pad_right = wmenu.w_width - 30;
     wmenu.selected = uistate.wishmonster_selected;
     wish_monster_callback cb( mtypes );
     wmenu.callback = &cb;
@@ -469,8 +469,8 @@ class wish_item_callback: public uilist_callback
             mvwhline( menu->window, 1, startx, ' ', menu->pad_right - 1 );
             const std::string header = string_format( "#%d: %s%s%s", entnum,
                                        standard_itype_ids[entnum]->get_id().c_str(),
-                                       ( incontainer ? _( " (contained)" ) : "" ),
-                                       ( has_flag ? _( " (flagged)" ) : "" ) );
+                                       incontainer ? _( " (contained)" ) : "",
+                                       has_flag ? _( " (flagged)" ) : "" );
             mvwprintz( menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan,
                        header );
 
@@ -499,7 +499,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
     uilist wmenu;
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;
-    wmenu.pad_right = ( TERMX / 2 > 40 ? TERMX - 40 : TERMX / 2 );
+    wmenu.pad_right = TERMX / 2 > 40 ? TERMX - 40 : TERMX / 2;
     wmenu.selected = uistate.wishitem_selected;
     wish_item_callback cb( opts );
     wmenu.callback = &cb;
@@ -508,9 +508,10 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
         item ity( opts[i], 0 );
         wmenu.addentry( i, true, 0, string_format( _( "%.*s" ), wmenu.pad_right - 5,
                         ity.tname( 1, false ) ) );
-        wmenu.entries[i].extratxt.txt = ity.symbol();
-        wmenu.entries[i].extratxt.color = ity.color();
-        wmenu.entries[i].extratxt.left = 1;
+        mvwzstr &entry_extra_text = wmenu.entries[i].extratxt;
+        entry_extra_text.txt = ity.symbol();
+        entry_extra_text.color = ity.color();
+        entry_extra_text.left = 1;
     }
 
     do {
@@ -612,7 +613,7 @@ void debug_menu::wishskill( player *p )
             const int skcur = p->get_skill_level( skill.ident() );
             sksetmenu.selected = skcur;
             for( int i = 0; i < NUM_SKILL_LVL; i++ ) {
-                sksetmenu.addentry( i, true, i + 48, "%d%s", i, ( skcur == i ? _( " (current)" ) : "" ) );
+                sksetmenu.addentry( i, true, i + 48, "%d%s", i, skcur == i ? _( " (current)" ) : "" );
             }
             sksetmenu.query();
             g->draw_ter();
@@ -631,8 +632,8 @@ void debug_menu::wishskill( player *p )
                     p->get_skill_level( skill.ident() ),
                     skill.name() );
             skmenu.entries[skill_id + skoffset].text_color =
-                ( p->get_skill_level( skill.ident() ) == origskills[skill_id] ?
-                  skmenu.text_color : c_yellow );
+                p->get_skill_level( skill.ident() ) == origskills[skill_id] ?
+                skmenu.text_color : c_yellow;
         } else if( skmenu.ret == 0 && sksel == -1 ) {
             const int ret = uilist( _( "Alter all skill values" ), {
                 _( "Add 3" ), _( "Add 1" ),
@@ -649,15 +650,14 @@ void debug_menu::wishskill( player *p )
                 }
                 for( size_t skill_id = 0; skill_id < Skill::skills.size(); skill_id++ ) {
                     const Skill &skill = Skill::skills[skill_id];
-                    int changeto = ( skmod != 0 ? p->get_skill_level( skill.ident() ) + skmod :
-                                     ( skset != -1 ? skset : origskills[skill_id] ) );
+                    int changeto = skmod != 0 ? p->get_skill_level( skill.ident() ) + skmod :
+                                   skset != -1 ? skset : origskills[skill_id];
                     p->set_skill_level( skill.ident(), std::max( 0, changeto ) );
                     skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
                             p->get_skill_level( skill.ident() ),
                             skill.name() );
                     skmenu.entries[skill_id + skoffset].text_color =
-                        ( p->get_skill_level( skill.ident() ) == origskills[skill_id] ?
-                          skmenu.text_color : c_yellow );
+                        p->get_skill_level( skill.ident() ) == origskills[skill_id] ? skmenu.text_color : c_yellow;
                 }
             }
         }
