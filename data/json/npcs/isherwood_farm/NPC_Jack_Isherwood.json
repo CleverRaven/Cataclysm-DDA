@@ -20,10 +20,10 @@
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_per": { "one_in": 4 },
+    "shopkeeper_item_group": "NC_ISHERWOOD_JACK_misc",
     "worn_override": "NC_Isherwood_worn",
     "carry_override": "NC_ISHERWOOD_rifle",
     "weapon_override": "NC_ISHERWOOD_archery",
-    "shopkeeper_item_group": "NC_ISHERWOOD_JACK_misc",
     "skills": [
       {
         "skill": "ALL",
@@ -92,22 +92,22 @@
     "type": "item_group",
     "id": "NC_ISHERWOOD_JACK_misc",
     "items": [
-      [ "cheese_hard", 5 ],
-      [ "vinegar", 15 ],
-      { "item": "veggy_pickled", "prob": 8, "charges": 2, "container-item": "jar_glass_sealed" },
-      [ "jar_sauerkraut_pickled", 5 ],
-      { "item": "meat_pickled", "prob": 4, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "fish_pickled", "prob": 6, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "meat_canned", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "veggy_canned", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "apple_canned", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "can_tomato", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "fish_pickled", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "meat_pickled", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "veggy_pickled", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "fish_pickled", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "sauce_red", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "kompot", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" }
+      [ "cheese_hard", 50 ],
+      [ "vinegar", 55 ],
+      { "item": "veggy_pickled", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
+      [ "jar_sauerkraut_pickled", 50 ],
+      { "item": "meat_pickled", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "fish_pickled", "prob": 60, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "meat_canned", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "veggy_canned", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "apple_canned", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "can_tomato", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "fish_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "meat_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "veggy_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "fish_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "sauce_red", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "kompot", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" }
     ]
   },
   {
@@ -188,7 +188,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_JACK2",
-    "dynamic_line": "Yes, we have been staying close to home since the news began to turn bad, preparing for troubled times.  We didn't expect anything like this though.",
+    "dynamic_line": "We've had our losses... now we stay close to home, preparing for trouble.  We've always taken disaster prepardness seriously, but we didn't expect anything like this though.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -197,7 +197,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_JACK_FARM",
-    "dynamic_line": "Even out here we've had some attacks and seen... other things.  We have been working on our defenses, but it takes time.  We've been able to keep up with the crops and animals though so we won't have to risk our necks for supplies.",
+    "dynamic_line": "Even out here we've had some attacks and seen ... other things.  We have been working on our defenses, but it takes time.  We've been able to keep up with the crops and animals though so we won't have to risk our necks for supplies.",
     "responses": [
       { "text": "What sort of defenses do you want?", "topic": "TALK_FARM_DEFENSE" },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
@@ -211,7 +211,7 @@
     "responses": [
       {
         "text": "Sounds reasonable, I'll see what I can do.",
-        "topic": "TALK_DONE",
+        "topic": "TALK_NONE",
         "effect": { "u_add_var": "u_scavenge_for_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
       },
       { "text": "I'm not interested right now, I'd better get going.", "topic": "TALK_DONE" }
@@ -250,13 +250,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_LEAVE_NOW",
-    "dynamic_line": "You should get off my land, the government proved its incompetence with this catastrophe.",
+    "dynamic_line": "You should get off my land, the governemnt proved its incompetence with this catastrophe.",
     "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_JACK_TOPICS",
-    "dynamic_line": "Go on...",
+    "dynamic_line": "Go on ...",
     "responses": [
       {
         "text": "I'm here to deliver some resources.",
@@ -282,7 +282,19 @@
     "id": "TALK_ISHERWOOD_JACK_RESOURCES",
     "dynamic_line": "Excellent.  What've you brought us?",
     "repeat_responses": {
-      "for_item": [ "log", "2x4", "wood_panel", "wood_sheet", "material_sand", "clay_lump", "nail", "rock", "steel_chunk", "steel_lump" ],
+      "for_item": [
+        "log",
+        "2x4",
+        "wood_panel",
+        "wood_sheet",
+        "material_sand",
+        "clay_lump",
+        "nail",
+        "wire",
+        "rock",
+        "steel_chunk",
+        "steel_lump"
+      ],
       "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
     },
     "responses": [
@@ -293,7 +305,7 @@
   {
     "id": "MISSION_ISHERWOOD_JACK_1",
     "type": "mission_definition",
-    "name": "Find 20 3L jars",
+    "name": "Find 10 3L jars",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
@@ -329,10 +341,10 @@
     "end": {
       "opinion": { "trust": 2, "value": 2 },
       "effect": [
-        { "u_buy_item": "tomato", "count": 5 },
-        { "u_buy_item": "onion", "count": 5 },
-        { "u_buy_item": "cucumber", "count": 5 },
-        { "u_add_var": "u_did_jack_missions", "type": "general", "context": "mission", "value": "yes" }
+        { "u_buy_item": "tomato", "count": 25 },
+        { "u_buy_item": "onion", "count": 25 },
+        { "u_buy_item": "cucumber", "count": 25 },
+        { "u_add_var": "u_did_jack_missions", "type": "general", "context": "recruit", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
