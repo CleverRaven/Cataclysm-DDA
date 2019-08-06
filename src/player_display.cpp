@@ -189,8 +189,9 @@ static std::string get_encumbrance_description( const player &p, body_part bp, b
         case bp_torso: {
             const int melee_roll_pen = std::max( -eff_encumbrance, -80 );
             s += string_format( _( "Melee attack rolls %+d%%; " ), melee_roll_pen );
-            s += dodge_skill_text( - ( eff_encumbrance / 10 ) );
-            s += swim_cost_text( ( eff_encumbrance / 10 ) * ( 80 - p.get_skill_level( skill_swimming ) * 3 ) );
+            s += dodge_skill_text( -( eff_encumbrance / 10.0 ) );
+            s += swim_cost_text( ( eff_encumbrance / 10.0 ) * ( 80 - p.get_skill_level(
+                                     skill_swimming ) * 3 ) );
             s += melee_cost_text( eff_encumbrance );
             break;
         }
