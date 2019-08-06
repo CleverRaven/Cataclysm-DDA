@@ -1000,15 +1000,36 @@ static void draw_stats( avatar &u, const catacurses::window &w )
     wrefresh( w );
 }
 
+static nc_color move_mode_color( avatar &u )
+{
+    if( u.movement_mode_is( PMM_RUN ) ) {
+        return c_red;
+    } else if( u.movement_mode_is( PMM_CROUCH ) ) {
+        return c_light_blue;
+    } else {
+        return c_light_gray;
+    }
+}
+
+static std::string move_mode_string( avatar &u )
+{
+    if( u.movement_mode_is( PMM_RUN ) ) {
+        return pgettext( "movement-type", "R" );
+    } else if( u.movement_mode_is( PMM_CROUCH ) ) {
+        return pgettext( "movement-type", "C" );
+    } else {
+        return pgettext( "movement-type", "W" );
+    }
+}
+
 static void draw_stealth( avatar &u, const catacurses::window &w )
 {
     werase( w );
     mvwprintz( w, 0, 0, c_light_gray, _( "Speed" ) );
     mvwprintz( w, 0, 7, value_color( u.get_speed() ), "%s", u.get_speed() );
-    mvwprintz( w, 0, 15 - to_string( u.movecounter ).length(), c_light_gray,
-               to_string( u.movecounter ) + ( u.movement_mode_is( PMM_WALK ) ? "W" : ( u.movement_mode_is(
-                           PMM_CROUCH ) ? "C" : "R" ) ) );
-
+    nc_color move_color = move_mode_color( u );
+    std::string move_string = to_string( u.movecounter ) + move_mode_string( u );
+    mvwprintz( w, 0, 15 - move_string.length(), move_color, move_string );
     if( u.is_deaf() ) {
         mvwprintz( w, 0, 22, c_red, _( "DEAF" ) );
     } else {
@@ -1168,12 +1189,9 @@ static void draw_char( avatar &u, const catacurses::window &w )
     mvwprintz( w, 1, 19, c_light_gray, _( "Speed:" ) );
     mvwprintz( w, 2, 19, c_light_gray, _( "Move :" ) );
 
-    const auto str_walk = pgettext( "movement-type", "W" );
-    const auto str_run = pgettext( "movement-type", "R" );
-    const auto str_crouch = pgettext( "movement-type", "C" );
-    const char *move = u.movement_mode_is( PMM_WALK ) ? str_walk : ( u.movement_mode_is(
-                           PMM_CROUCH ) ? str_crouch : str_run );
-    std::string movecost = std::to_string( u.movecounter ) + "(" + move + ")";
+    nc_color move_color =  move_mode_color( u );
+    std::string move_char = move_mode_string( u );
+    std::string movecost = std::to_string( u.movecounter ) + "(" + move_char + ")";
     bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
     std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
     mvwprintz( w, 0, 8, c_light_gray, "%s", u.volume );
@@ -1189,7 +1207,7 @@ static void draw_char( avatar &u, const catacurses::window &w )
     mvwprintz( w, 2, 8, focus_color( u.focus_pool ), "%s", u.focus_pool );
     mvwprintz( w, 0, 26, morale_pair.first, "%s", smiley );
     mvwprintz( w, 1, 26, focus_color( u.get_speed() ), "%s", u.get_speed() );
-    mvwprintz( w, 2, 26, c_light_gray, "%s", movecost );
+    mvwprintz( w, 2, 26, move_color, "%s", movecost );
     wrefresh( w );
 }
 
@@ -1410,9 +1428,9 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     if( !u.in_vehicle ) {
         mvwprintz( w, 5, 21, u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + to_string( u.get_speed() ) );
-        mvwprintz( w, 5, 26 + to_string( u.get_speed() ).length(), c_white,
-                   to_string( u.movecounter ) + " " + ( u.movement_mode_is( PMM_WALK ) ? "W" : ( u.movement_mode_is(
-                               PMM_CROUCH ) ? "C" : "R" ) ) );
+        nc_color move_color = u.movement_mode_is( PMM_WALK ) ? c_white : move_mode_color( u );
+        std::string move_string = to_string( u.movecounter ) + " " + move_mode_string( u );
+        mvwprintz( w, 5, 26 + move_string.length(), move_color, move_string );
     }
 
     // temperature
