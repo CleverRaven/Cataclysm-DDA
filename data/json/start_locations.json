@@ -49,8 +49,8 @@
   },
   {
       "type": "start_location",
-      "ident": "road_end_east"
-      "name": "Road End (East)"
+      "ident": "road_end_east",
+      "name": "Road End (East)",
       "target": "road_end_east"
   },
   {
