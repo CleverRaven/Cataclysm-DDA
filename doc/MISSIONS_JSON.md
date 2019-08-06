@@ -58,6 +58,7 @@ Must be included, and must be one of these strings:
 "MGOAL_KILL_MONSTER"      - Kill a specific hostile monster
 "MGOAL_KILL_MONSTER_TYPE" - Kill some number of a specific monster type
 "MGOAL_KILL_MONSTER_SPEC" -  Kill some number of monsters from a specific species
+"MGOAL_CONDITION"         - Satisfy the dynamically created condition and talk to the mission giver
 
 ### monster_species
 For "MGOAL_KILL_MONSTER_SPEC", sets the target monster species.
@@ -68,6 +69,10 @@ For "MGOAL_KILL_MONSTER_TYPE", sets the target monster type.
 ### monster_kill_goal
 For "MGOAL_KILL_MONSTER_SPEC" and "MGOAL_KILL_MONSTER_TYPE", sets the number of monsters above
 the player's current kill count that must be killed to complete the mission.
+
+### goal_condition
+For "MGOAL_CONDITION", defines the condition that must be satisified for the mission to be considered complete.
+Conditions are explained in more detail in [NPCs.md](./NPCs.md), and are used here in exactly the same way.
 
 ### dialogue
 This is a dictionary of strings.  The NPC says these exact strings in response to the player

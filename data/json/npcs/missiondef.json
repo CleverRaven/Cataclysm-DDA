@@ -770,5 +770,28 @@
       "success_lie": "Well...  where are they?",
       "failure": "I'm so disappointed in you kid..."
     }
+  },
+  {
+    "id": "MISSION_PROVE_YOU_ARE_A_SURVIVOR",
+    "type": "mission_definition",
+    "name": "Prove You're A Survivor",
+    "description": "Prove you're a survivor by surviving for 10 days after the cataclysm, and then returning to the person who gave you this mission.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "days_since_cataclysm": 10 },
+    "difficulty": 1,
+    "value": 0,
+    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "end": { "effect": "follow" },
+    "dialogue": {
+      "describe": "It's hard to tell who actually has the skills to survive these days...",
+      "offer": "It's hard surviving out here on our own, and we'd probably have a better chance working together.  Problem is, I don't really know you and what you're capable of.  You might have what it takes, or you might not.  Either way, I'm going to need some proof.  Come back in a few days and I'll gladly follow you.  It's basically a win-win for me: either you come back and I'll know you've got what it takes, or you don't and I'll know that I was right not to follow you.",
+      "accepted": "I'll see you then...or I won't, and then I'll know I made the right decision.",
+      "rejected": "Ya, it was a long shot I admit.",
+      "advice": "Don't die. If you're asking me for advice, that doesn't bode well for you.",
+      "inquire": "Well, you're not dead...yet.",
+      "success": "I'll be honest, I wasn't really expecting to see you again. A promise is a promise, I'll follow you now!",
+      "success_lie": "I know time is relative and all that.",
+      "failure": "I'm not quite sure how you failed to survive AND are talking to me."
+    }
   }
 ]

@@ -5,6 +5,7 @@
 
 #include "assign.h"
 #include "calendar.h"
+#include "condition.h"
 #include "generic_factory.h"
 #include "init.h"
 #include "item.h"
@@ -169,7 +170,8 @@ static const std::map<std::string, mission_goal> goal_map = {{
         { "MGOAL_RECRUIT_NPC", MGOAL_RECRUIT_NPC },
         { "MGOAL_RECRUIT_NPC_CLASS", MGOAL_RECRUIT_NPC_CLASS },
         { "MGOAL_COMPUTER_TOGGLE", MGOAL_COMPUTER_TOGGLE },
-        { "MGOAL_TALK_TO_NPC", MGOAL_TALK_TO_NPC }
+        { "MGOAL_TALK_TO_NPC", MGOAL_TALK_TO_NPC },
+        { "MGOAL_CONDITION", MGOAL_CONDITION }
     }
 };
 template<>
@@ -308,6 +310,18 @@ void mission_type::load( JsonObject &jo, const std::string &src )
     }
 
     assign( jo, "destination", target_id, strict );
+
+    if( jo.has_member( "goal_condition" ) ) {
+        read_condition<mission_goal_condition_context>( jo, "goal_condition", goal_condition, true );
+    }
+}
+
+bool mission_type::test_goal_condition( const mission_goal_condition_context &d ) const
+{
+    if( goal_condition ) {
+        return goal_condition( d );
+    }
+    return true;
 }
 
 void mission_type::finalize()

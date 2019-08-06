@@ -67,6 +67,7 @@ enum mission_goal {
     MGOAL_COMPUTER_TOGGLE,   // Activating the correct terminal will complete the mission
     MGOAL_KILL_MONSTER_SPEC,  // Kill a number of monsters from a given species
     MGOAL_TALK_TO_NPC,       // Talk to a given NPC
+    MGOAL_CONDITION,         // Satisfy the dynamically created condition and talk to the mission giver
     NUM_MGOAL
 };
 const std::unordered_map<std::string, mission_goal> mission_goal_strs = { {
@@ -85,7 +86,8 @@ const std::unordered_map<std::string, mission_goal> mission_goal_strs = { {
         { "MGOAL_RECRUIT_NPC_CLASS", MGOAL_RECRUIT_NPC_CLASS },
         { "MGOAL_COMPUTER_TOGGLE", MGOAL_COMPUTER_TOGGLE },
         { "MGOAL_KILL_MONSTER_SPEC", MGOAL_KILL_MONSTER_SPEC },
-        { "MGOAL_TALK_TO_NPC", MGOAL_TALK_TO_NPC }
+        { "MGOAL_TALK_TO_NPC", MGOAL_TALK_TO_NPC },
+        { "MGOAL_CONDITION", MGOAL_CONDITION }
     }
 };
 
@@ -188,6 +190,15 @@ bool set_update_mapgen( JsonObject &jo, std::vector<std::function<void( mission 
 bool load_funcs( JsonObject jo, std::vector<std::function<void( mission *miss )>> &funcs );
 } // namespace mission_util
 
+struct mission_goal_condition_context {
+    mission_goal_condition_context() = default;
+    player *alpha = nullptr;
+    npc *beta = nullptr;
+    std::vector<mission *> missions_assigned;
+    mutable std::string reason;
+    bool by_radio = false;
+};
+
 struct mission_type {
     // Matches it to a mission_type_id above
     mission_type_id id = mission_type_id( "MISSION_NULL" );
@@ -230,6 +241,9 @@ struct mission_type {
 
     std::map<std::string, std::string> dialogue;
 
+    // A dynamic goal condition invoked by MGOAL_CONDITION.
+    std::function<bool( const mission_goal_condition_context & )> goal_condition;
+
     mission_type() = default;
     mission_type( mission_type_id ID, const std::string &NAME, mission_goal GOAL, int DIF, int VAL,
                   bool URGENT,
@@ -258,6 +272,8 @@ struct mission_type {
      * Get all mission types at once.
      */
     static const std::vector<mission_type> &get_all();
+
+    bool test_goal_condition( const mission_goal_condition_context &d ) const;
 
     static void reset();
     static void load_mission_type( JsonObject &jo, const std::string &src );

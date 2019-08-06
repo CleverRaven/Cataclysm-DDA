@@ -429,6 +429,30 @@ bool mission::is_complete( const int _npc_id ) const
         case MGOAL_KILL_MONSTER_SPEC:
             return g->kill_count( monster_species ) >= kill_count_to_reach;
 
+        case MGOAL_CONDITION: {
+            // For now, we only allow completing when talking to the mission originator.
+            if( npc_id != _npc_id ) {
+                return false;
+            }
+
+            npc *n = g->find_npc( _npc_id );
+            if( n == nullptr ) {
+                return false;
+            }
+
+            mission_goal_condition_context cc;
+            cc.alpha = &u;
+            cc.beta = n;
+
+            for( auto &mission : n->chatbin.missions_assigned ) {
+                if( mission->get_assigned_player_id() == g->u.getID() ) {
+                    cc.missions_assigned.push_back( mission );
+                }
+            }
+
+            return type->test_goal_condition( cc );
+        }
+
         default:
             return false;
     }
