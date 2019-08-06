@@ -8418,7 +8418,8 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
                 continue;
             }
 
-            result.emplace_back( map_cursor( pos ), elem.item_ref.get() );
+            if (elem.item_ref)
+                result.emplace_back( map_cursor( pos ), elem.item_ref.get() );
         }
     }
 
