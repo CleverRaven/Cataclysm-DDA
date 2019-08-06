@@ -3411,6 +3411,27 @@
     }
   },
   {
+    "id": "birchbark_funnel",
+    "type": "TOOL",
+    "name": "birchbark funnel",
+    "description": "This is a small birchbark funnel.  Place it above an outdoor container to collect rainwater.",
+    "weight": 3,
+    "volume": "250ml",
+    "price": 0,
+    "to_hit": 1,
+    "material": "wood",
+    "symbol": ";",
+    "color": "white",
+    "use_action": {
+      "type": "place_trap",
+      "allow_under_player": true,
+      "trap": "tr_birchbark_funnel",
+      "moves": 100,
+      "practice": 0,
+      "done_message": "You place the birchbark funnel, waiting to collect rain."
+    }
+  },
+  {
     "id": "lighter",
     "type": "TOOL",
     "name": "lighter",
