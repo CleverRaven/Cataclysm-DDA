@@ -7,44 +7,44 @@
   },
   {
       "type": "start_location",
-      "ident": "road_end_south"
-      "name": "Road End (South)"
+      "ident": "road_end_south",
+      "name": "Road End (South)",
       "target": "road_end_south"
   },
   {
       "type": "start_location",
-      "ident": "road_end_west"
-      "name": "Road End (West)"
+      "ident": "road_end_west",
+      "name": "Road End (West)",
       "target": "road_end_west"
   },
   {
       "type": "start_location",
-      "ident": "road_ne"
-      "name": "Road (NE)"
+      "ident": "road_ne",
+      "name": "Road (NE)",
       "target": "road_ne"
   },
   {
       "type": "start_location",
-      "ident": "road_end_north"
-      "name": "Road End (North)"
+      "ident": "road_end_north",
+      "name": "Road End (North)",
       "target": "road_end_north"
   },
   {
       "type": "start_location",
-      "ident": "road_ns"
-      "name": "Road (NS)"
+      "ident": "road_ns",
+      "name": "Road (NS)",
       "target": "road_ns"
   },  
    {
       "type": "start_location",
-      "ident": "road_es"
-      "name": "Road (ES)"
+      "ident": "road_es",
+      "name": "Road (ES)",
       "target": "road_es"
   },
   {
       "type": "start_location",
-      "ident": "road_nes"
-      "name": "Road (NES)"
+      "ident": "road_nes",
+      "name": "Road (NES)",
       "target": "road_nes"
   },
   {
@@ -55,44 +55,44 @@
   },
   {
       "type": "start_location",
-      "ident": "road_wn"
-      "name": "Road (WN)"
+      "ident": "road_wn",
+      "name": "Road (WN)",
       "target": "road_wn"
   },
   {
       "type": "start_location",
-      "ident": "road_ew"
-      "name": "Road (EW)"
+      "ident": "road_ew",
+      "name": "Road (EW)",
       "target": "road_ew"
   },
   {
       "type": "start_location",
-      "ident": "road_new"
-      "name": "Road (NEW)"
+      "ident": "road_new",
+      "name": "Road (NEW)",
       "target": "road_new"
   },
   {
       "type": "start_location",
-      "ident": "road_sw"
-      "name": "Road (SW)"
+      "ident": "road_sw",
+      "name": "Road (SW)",
       "target": "road_sw"
   },
   {
       "type": "start_location",
-      "ident": "road_nsw"
-      "name": "Road (NSW)"
+      "ident": "road_nsw",
+      "name": "Road (NSW)",
       "target": "road_nsw"
   },
   {
       "type": "start_location",
-      "ident": "road_esw"
-      "name": "Road (ESW)"
+      "ident": "road_esw",
+      "name": "Road (ESW)",
       "target": "road_esw"
   },
   {
       "type": "start_location",
-      "ident": "road_nesw"
-      "name": "Road (NESW)"
+      "ident": "road_nesw",
+      "name": "Road (NESW)",
       "target": "road_nesw"
   },
   {
