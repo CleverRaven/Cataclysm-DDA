@@ -2618,7 +2618,7 @@ void mission::deserialize( JsonIn &jsin )
         type = &mission_type::get_all().front();
     }
 
-    jo.read( "description", description );
+    description = type->description;
 
     bool failed;
     bool was_started;
@@ -2692,7 +2692,6 @@ void mission::serialize( JsonOut &json ) const
     json.start_object();
 
     json.member( "type_id", type->id );
-    json.member( "description", description );
     json.member( "status", status_to_string( status ) );
     json.member( "value", value );
     json.member( "reward", reward );
