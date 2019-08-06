@@ -248,7 +248,15 @@
     "intensity_levels": [
       { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 10, "extra_radiation_max": 1 },
       { "name": "radioactive gas", "color": "light_green", "extra_radiation_max": 2 },
-      { "name": "thick radioactive gas", "color": "green", "transparent": false, "extra_radiation_max": 3 }
+      {
+        "name": "thick radioactive gas",
+        "color": "green",
+        "transparent": false,
+        "extra_radiation_max": 3,
+        "radiation_hurt_damage_min": 1,
+        "radiation_hurt_damage_max": 3,
+        "radiation_hurt_message": "This radioactive gas burns!"
+      }
     ],
     "decay_amount_factor": 5,
     "percent_spread": 15,
@@ -316,9 +324,24 @@
     "type": "field_type",
     "legacy_enum_id": 20,
     "intensity_levels": [
-      { "name": "odd ripple", "color": "light_gray", "sym": "*", "dangerous": true },
+      {
+        "name": "odd ripple",
+        "color": "light_gray",
+        "sym": "*",
+        "dangerous": true,
+        "intensity_upgrade_chance": 10,
+        "intensity_upgrade_duration": "6 hours"
+      },
       { "name": "swirling air", "color": "dark_gray" },
-      { "name": "tear in reality", "color": "magenta", "transparent": false }
+      {
+        "name": "tear in reality",
+        "color": "magenta",
+        "transparent": false,
+        "monster_spawn_chance": 600,
+        "monster_spawn_count": 1,
+        "monster_spawn_radius": 1,
+        "monster_spawn_group": "GROUP_NETHER_FATIGUE_FIELD"
+      }
     ],
     "priority": 8,
     "display_items": false,

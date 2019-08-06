@@ -56,6 +56,7 @@
 #include "game_constants.h"
 #include "point.h"
 #include "scent_block.h"
+#include "mongroup.h"
 
 const species_id FUNGUS( "FUNGUS" );
 
@@ -410,6 +411,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 field_type_id curtype = cur.get_field_type();
                 // Again, legacy support in the event someone Mods set_field_intensity to allow more values.
                 if( cur.get_field_intensity() > 3 || cur.get_field_intensity() < 1 ) {
+                    // TODO: Remove this eventually as we would suppoort more than 3 field intensity levels
                     debugmsg( "Whoooooa intensity of %d", cur.get_field_intensity() );
                 }
 
@@ -418,6 +420,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 // Don't process "newborn" fields. This gives the player time to run if they need to.
                 if( cur.get_field_age() == 0_turns ) {
                     curtype = fd_null;
+                }
+
+                // Upgrade field intensity
+                if( cur.intensity_upgrade_chance() > 0 &&
+                    one_in( cur.intensity_upgrade_chance() ) &&
+                    cur.intensity_upgrade_duration() > 0_turns &&
+                    calendar::once_every( cur.intensity_upgrade_duration() ) ) {
+                    cur.set_field_intensity( cur.get_field_intensity() + 1 );
                 }
 
                 int part;
@@ -965,7 +975,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     }
                 }
 
-                // Apply radition
+                // Apply radiation
                 if( cur.extra_radiation_max() > 0 ) {
                     int extra_radiation = rng( cur.extra_radiation_min(), cur.extra_radiation_max() );
                     adjust_radiation( p, extra_radiation );
@@ -1056,19 +1066,22 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                     }
                 }
-                if( curtype == fd_fatigue ) {
-                    static const std::array<mtype_id, 9> monids = { {
-                            mtype_id( "mon_flying_polyp" ), mtype_id( "mon_hunting_horror" ),
-                            mtype_id( "mon_mi_go" ), mtype_id( "mon_yugg" ), mtype_id( "mon_gelatin" ),
-                            mtype_id( "mon_flaming_eye" ), mtype_id( "mon_kreck" ), mtype_id( "mon_gracke" ),
-                            mtype_id( "mon_blank" ),
+
+                int monster_spawn_chance = cur.monster_spawn_chance();
+                int monster_spawn_count = cur.monster_spawn_count();
+                if( monster_spawn_count > 0 && monster_spawn_chance > 0 && one_in( monster_spawn_chance ) ) {
+                    for( ; monster_spawn_count > 0; monster_spawn_count-- ) {
+                        MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
+                                                               cur.monster_spawn_group(), &monster_spawn_count );
+                        if( !spawn_details.name ) {
+                            continue;
                         }
-                    };
-                    if( cur.get_field_intensity() < 3 && calendar::once_every( 6_hours ) && one_in( 10 ) ) {
-                        cur.set_field_intensity( cur.get_field_intensity() + 1 );
-                        // Spawn nether creature!
-                    } else if( cur.get_field_intensity() == 3 && one_in( 600 ) ) {
-                        g->summon_mon( random_entry( monids ), p );
+                        if( const auto spawn_point = random_point( points_in_radius( p,
+                        cur.monster_spawn_radius() ), [this]( const tripoint & n ) {
+                        return passable( n );
+                        } ) ) {
+                            add_spawn( spawn_details.name, spawn_details.pack_size, spawn_point->x, spawn_point->y );
+                        }
                     }
                 }
 
@@ -1558,16 +1571,16 @@ void map::player_in_field( player &u )
                 }
             }
         }
-        if( ft == fd_nuke_gas ) {
+
+        if( cur.extra_radiation_min() > 0 ) {
             // Get irradiated by the nuclear fallout.
-            // Changed to min of intensity, not 0.
-            const float rads = rng( cur.get_field_intensity(),
-                                    cur.get_field_intensity() * ( cur.get_field_intensity() + 1 ) );
+            const float rads = rng( cur.extra_radiation_min() + 1,
+                                    cur.extra_radiation_max() * ( cur.extra_radiation_max() + 1 ) );
             const bool rad_proof = !u.irradiate( rads );
             // TODO: Reduce damage for rad resistant?
-            if( cur.get_field_intensity() == 3 && !rad_proof ) {
-                u.add_msg_if_player( m_bad, _( "This radioactive gas burns!" ) );
-                u.hurtall( rng( 1, 3 ), nullptr );
+            if( cur.radiation_hurt_damage_min() > 0 && !rad_proof ) {
+                u.add_msg_if_player( m_bad, cur.radiation_hurt_message() );
+                u.hurtall( rng( cur.radiation_hurt_damage_min(), cur.radiation_hurt_damage_max() ), nullptr );
             }
         }
         if( ft == fd_flame_burst ) {

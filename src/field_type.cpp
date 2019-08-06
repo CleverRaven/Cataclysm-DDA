@@ -86,6 +86,24 @@ void field_type::load( JsonObject &jo, const std::string & )
                   fallback_intensity_level.extra_radiation_min );
         optional( jao, was_loaded, "extra_radiation_max", intensity_level.extra_radiation_max,
                   fallback_intensity_level.extra_radiation_max );
+        optional( jao, was_loaded, "radiation_hurt_damage_min", intensity_level.radiation_hurt_damage_min,
+                  fallback_intensity_level.radiation_hurt_damage_min );
+        optional( jao, was_loaded, "radiation_hurt_damage_max", intensity_level.radiation_hurt_damage_max,
+                  fallback_intensity_level.radiation_hurt_damage_max );
+        optional( jao, was_loaded, "radiation_hurt_message", intensity_level.radiation_hurt_message,
+                  fallback_intensity_level.radiation_hurt_message );
+        optional( jao, was_loaded, "intensity_upgrade_chance", intensity_level.intensity_upgrade_chance,
+                  fallback_intensity_level.intensity_upgrade_chance );
+        optional( jao, was_loaded, "intensity_upgrade_duration", intensity_level.intensity_upgrade_duration,
+                  fallback_intensity_level.intensity_upgrade_duration );
+        optional( jao, was_loaded, "monster_spawn_chance", intensity_level.monster_spawn_chance,
+                  fallback_intensity_level.monster_spawn_chance );
+        optional( jao, was_loaded, "monster_spawn_count", intensity_level.monster_spawn_count,
+                  fallback_intensity_level.monster_spawn_count );
+        optional( jao, was_loaded, "monster_spawn_radius", intensity_level.monster_spawn_radius,
+                  fallback_intensity_level.monster_spawn_radius );
+        optional( jao, was_loaded, "monster_spawn_group", intensity_level.monster_spawn_group,
+                  fallback_intensity_level.monster_spawn_group );
         optional( jao, was_loaded, "light_emitted", intensity_level.light_emitted,
                   fallback_intensity_level.light_emitted );
         optional( jao, was_loaded, "translucency", intensity_level.translucency,

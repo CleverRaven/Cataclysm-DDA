@@ -32,6 +32,15 @@ struct field_intensity_level {
     int move_cost = 0;
     int extra_radiation_min = 0;
     int extra_radiation_max = 0;
+    int radiation_hurt_damage_min = 0;
+    int radiation_hurt_damage_max = 0;
+    std::string radiation_hurt_message;
+    int intensity_upgrade_chance = 0;
+    time_duration intensity_upgrade_duration = 0_turns;
+    int monster_spawn_chance = 0;
+    int monster_spawn_count = 0;
+    int monster_spawn_radius = 0;
+    mongroup_id monster_spawn_group;
     float light_emitted = 0.0f;
     float translucency = 0.0f;
     int convection_temperature_mod = 0.0f;
@@ -110,6 +119,33 @@ struct field_type {
         }
         int get_extra_radiation_max( int level = 0 ) const {
             return intensity_levels[level].extra_radiation_max;
+        }
+        int get_radiation_hurt_damage_min( int level = 0 ) const {
+            return intensity_levels[level].radiation_hurt_damage_min;
+        }
+        int get_radiation_hurt_damage_max( int level = 0 ) const {
+            return intensity_levels[level].radiation_hurt_damage_max;
+        }
+        std::string get_radiation_hurt_message( int level = 0 ) const {
+            return _( intensity_levels[level].radiation_hurt_message );
+        }
+        int get_intensity_upgrade_chance( int level = 0 ) const {
+            return intensity_levels[level].intensity_upgrade_chance;
+        }
+        time_duration get_intensity_upgrade_duration( int level = 0 ) const {
+            return intensity_levels[level].intensity_upgrade_duration;
+        }
+        int get_monster_spawn_chance( int level = 0 ) const {
+            return intensity_levels[level].monster_spawn_chance;
+        }
+        int get_monster_spawn_count( int level = 0 ) const {
+            return intensity_levels[level].monster_spawn_count;
+        }
+        int get_monster_spawn_radius( int level = 0 ) const {
+            return intensity_levels[level].monster_spawn_radius;
+        }
+        mongroup_id get_monster_spawn_group( int level = 0 ) const {
+            return intensity_levels[level].monster_spawn_group;
         }
         float get_light_emitted( int level = 0 ) const {
             return intensity_levels[level].light_emitted;
