@@ -27,3 +27,8 @@ point p1;
 point p1a = point( p1.x, p1.y );
 // CHECK-MESSAGES: warning: Construction of point can be simplified. [cata-simplify-point-constructors]
 // CHECK-FIXES: point p1a = p1;
+
+point p2;
+tripoint p2a = tripoint( p2.x, p2.y, 0 );
+// CHECK-MESSAGES: warning: Construction of point can be simplified. [cata-simplify-point-constructors]
+// CHECK-FIXES: point p2a = tripoint( p2, 0 );

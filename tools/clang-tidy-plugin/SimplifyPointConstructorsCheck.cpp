@@ -14,6 +14,13 @@ namespace tidy
 namespace cata
 {
 
+static auto isPointConstructor()
+{
+    return cxxConstructorDecl(
+               ofClass( cxxRecordDecl( anyOf( hasName( "point" ), hasName( "tripoint" ) ) ) )
+           );
+}
+
 static auto isMemberExpr( const std::string &type, const std::string &member_,
                           const std::string &objBind )
 {
@@ -31,10 +38,10 @@ void SimplifyPointConstructorsCheck::registerMatchers( MatchFinder *Finder )
 {
     Finder->addMatcher(
         cxxConstructExpr(
-            hasDeclaration( cxxConstructorDecl( ofClass( cxxRecordDecl( hasName( "point" ) ) ) ) ),
+            hasDeclaration( isPointConstructor().bind( "constructorDecl" ) ),
             hasArgument( 0, isMemberExpr( "point", "x", "xobj" ) ),
             hasArgument( 1, isMemberExpr( "point", "y", "yobj" ) )
-        ).bind( "constructor" ),
+        ).bind( "constructorCall" ),
         this
     );
 }
@@ -42,11 +49,13 @@ void SimplifyPointConstructorsCheck::registerMatchers( MatchFinder *Finder )
 static void CheckPointFromPoint( SimplifyPointConstructorsCheck &Check,
                                  const MatchFinder::MatchResult &Result )
 {
-    const CXXConstructExpr *Constructor =
-        Result.Nodes.getNodeAs<CXXConstructExpr>( "constructor" );
+    const CXXConstructExpr *ConstructorCall =
+        Result.Nodes.getNodeAs<CXXConstructExpr>( "constructorCall" );
+    const CXXConstructorDecl *ConstructorDecl =
+        Result.Nodes.getNodeAs<CXXConstructorDecl>( "constructorDecl" );
     const Expr *XExpr = Result.Nodes.getNodeAs<Expr>( "xobj" );
     const Expr *YExpr = Result.Nodes.getNodeAs<Expr>( "yobj" );
-    if( !Constructor || !XExpr || !YExpr ) {
+    if( !ConstructorCall || !ConstructorDecl || !XExpr || !YExpr ) {
         return;
     }
 
@@ -57,11 +66,13 @@ static void CheckPointFromPoint( SimplifyPointConstructorsCheck &Check,
         return;
     }
 
-    SourceRange SourceRangeToReplace( Constructor->getArg( 0 )->getBeginLoc(),
-                                      Constructor->getArg( 1 )->getEndLoc() );
+    SourceRange SourceRangeToReplace( ConstructorCall->getArg( 0 )->getBeginLoc(),
+                                      ConstructorCall->getArg( 1 )->getEndLoc() );
 
-    if( const CXXTemporaryObjectExpr *T = dyn_cast<CXXTemporaryObjectExpr>( Constructor ) ) {
-        SourceRangeToReplace = T->getSourceRange();
+    if( const CXXTemporaryObjectExpr *T = dyn_cast<CXXTemporaryObjectExpr>( ConstructorCall ) ) {
+        if( ConstructorDecl->getNumParams() == 2 ) {
+            SourceRangeToReplace = T->getSourceRange();
+        }
     }
 
     CharSourceRange CharRangeToReplace = Lexer::makeFileCharRange(
@@ -69,7 +80,7 @@ static void CheckPointFromPoint( SimplifyPointConstructorsCheck &Check,
             Check.getLangOpts() );
 
     Check.diag(
-        Constructor->getBeginLoc(),
+        ConstructorCall->getBeginLoc(),
         "Construction of point can be simplified." ) <<
                 FixItHint::CreateReplacement( CharRangeToReplace, ReplacementX );
     /*Check.diag( YArg->getBeginLoc(), "y arg", DiagnosticIDs::Note );
