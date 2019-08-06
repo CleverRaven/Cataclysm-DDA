@@ -4423,7 +4423,10 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            const float volume_anesth = itemtype->bionic->difficulty * 20 * 2; // 2ml/min
+            const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
+            const int surgery_duration = itemtype->bionic->difficulty * 2;
+            const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+                                                surgery_duration * weight;
 
             if( patient.can_install_bionics( ( *itemtype ), installer, true ) ) {
                 const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
@@ -4432,7 +4435,13 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 if( needs_anesthesia ) {
                     // Consume obsolete anesthesia first
                     if( acomps.empty() ) {
-                        p.consume_tools( anesth_kit, volume_anesth );
+                        for( const auto &e : req_anesth.get_components() ) {
+                            p.consume_items( e, 1, is_crafting_component );
+                        }
+                        for( const auto &e : req_anesth.get_tools() ) {
+                            p.consume_tools( e );
+                        }
+                        p.invalidate_crafting_inventory();
                     } else {
                         // Legacy
                         p.consume_items( acomps, 1, is_crafting_component );

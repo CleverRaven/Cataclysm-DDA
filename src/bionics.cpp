@@ -1061,10 +1061,10 @@ void player::bionics_uninstall_failure( monster &installer, player &patient, int
 
 }
 
-bool player::has_enough_anesth( const itype *cbm )
+bool player::has_enough_anesth( const itype *cbm, player &patient )
 {
     if( !cbm->bionic ) {
-        debugmsg( "has_enough_anesth( const itype *cbm ): cbm is not a bionic" );
+        debugmsg( "has_enough_anesth( const itype *cbm ): %s is not a bionic", cbm->get_id() );
         return false;
     }
 
@@ -1073,23 +1073,16 @@ bool player::has_enough_anesth( const itype *cbm )
         return true;
     }
 
-    const int difficulty = cbm->bionic->difficulty;
-    int amount = difficulty * 40;
+    const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
+    const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+                                        cbm->bionic->difficulty * 2 * weight;
 
-    int anesth_count = 0;
-    std::vector<const item *> a_filter = crafting_inventory().items_with( []( const item & it ) {
-        return it.has_quality( quality_id( "ANESTHESIA" ) );
-    } );
     std::vector<const item *> b_filter = crafting_inventory().items_with( []( const item & it ) {
         return it.has_flag( "ANESTHESIA" ); // legacy
     } );
-    for( const item *anesthesia_item : a_filter ) {
-        if( anesthesia_item->ammo_remaining() >= 1 ) {
-            anesth_count += anesthesia_item->ammo_remaining();
-        }
-    }
 
-    return amount <= anesth_count || b_filter.size() > 0;
+    return req_anesth.can_make_with_inventory( crafting_inventory(), is_crafting_component ) ||
+           b_filter.size() > 0;
 }
 
 // bionic manipulation adjusted skill
