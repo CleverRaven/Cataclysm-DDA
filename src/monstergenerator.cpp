@@ -681,7 +681,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
         death_drops = item_group::load_item_group( stream, "distribution" );
     }
 
-    assign( jo, "harvest", harvest, strict );
+    assign( jo, "harvest", harvest );
 
     const auto death_reader = make_flag_reader( gen.death_map, "monster death function" );
     optional( jo, was_loaded, "death_function", dies, death_reader );
