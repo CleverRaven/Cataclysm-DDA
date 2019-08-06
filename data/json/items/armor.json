@@ -10252,7 +10252,7 @@
       "holster_prompt": "Sheath blade",
       "holster_msg": "You sheath your %s",
       "min_volume": "250ml",
-      "max_volume": 10,
+      "max_volume": "2500ml",
       "multi": 2,
       "draw_cost": 3,
       "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
