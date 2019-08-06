@@ -1504,7 +1504,7 @@ bool game::do_turn()
     // m.vehmove used to do this, but now it only give them moves instead.
     for( auto &elem : MAPBUFFER ) {
         tripoint sm_loc = elem.first;
-        point sm_topleft = sm_to_ms_copy( sm_loc.x, sm_loc.y );
+        point sm_topleft = sm_to_ms_copy( point( sm_loc.x, sm_loc.y ) );
         point in_reality = m.getlocal( sm_topleft );
 
         submap *sm = elem.second;

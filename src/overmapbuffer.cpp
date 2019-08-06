@@ -155,7 +155,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
     for( auto it = new_overmap.npcs.begin(); it != new_overmap.npcs.end(); ) {
         npc &np = **it;
         const tripoint npc_omt_pos = np.global_omt_location();
-        const point npc_om_pos = omt_to_om_copy( npc_omt_pos.x, npc_omt_pos.y );
+        const point npc_om_pos = omt_to_om_copy( point( npc_omt_pos.x, npc_omt_pos.y ) );
         const point &loc = new_overmap.pos();
         if( npc_om_pos == loc ) {
             // Nothing to do
@@ -174,7 +174,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
     for( auto &ptr : to_relocate ) {
         npc &np = *ptr;
         const tripoint npc_omt_pos = np.global_omt_location();
-        const point npc_om_pos = omt_to_om_copy( npc_omt_pos.x, npc_omt_pos.y );
+        const point npc_om_pos = omt_to_om_copy( point( npc_omt_pos.x, npc_omt_pos.y ) );
         const point &loc = new_overmap.pos();
         if( !has( npc_om_pos ) ) {
             // This can't really happen without save editing
@@ -1002,7 +1002,7 @@ void overmapbuffer::insert_npc( const std::shared_ptr<npc> &who )
 {
     assert( who );
     const tripoint npc_omt_pos = who->global_omt_location();
-    const point npc_om_pos = omt_to_om_copy( npc_omt_pos.x, npc_omt_pos.y );
+    const point npc_om_pos = omt_to_om_copy( point( npc_omt_pos.x, npc_omt_pos.y ) );
     get( npc_om_pos ).insert_npc( who );
 }
 
@@ -1032,8 +1032,8 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const tripoint &locatio
 {
     // Grab the corners of a square around the target location at distance radius.
     // Convert to overmap coordinates and iterate from the minimum to the maximum.
-    const point start = sm_to_om_copy( location.x - radius, location.y - radius );
-    const point end = sm_to_om_copy( location.x + radius, location.y + radius );
+    const point start = sm_to_om_copy( point( location.x - radius, location.y - radius ) );
+    const point end = sm_to_om_copy( point( location.x + radius, location.y + radius ) );
     const point offset = end - start;
 
     std::vector<overmap *> result;
