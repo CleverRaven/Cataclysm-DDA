@@ -6700,7 +6700,7 @@ void map::saven( const int gridx, const int gridy, const int gridz )
     dbg( D_INFO ) << "map::saven abs_x: " << abs_x << "  abs_y: " << abs_y << "  abs_z: " << abs_z
                   << "  gridn: " << gridn;
     submap_to_save->last_touched = calendar::turn;
-    MAPBUFFER.add_submap( abs_x, abs_y, abs_z, submap_to_save );
+    MAPBUFFER.add_submap( tripoint( abs_x, abs_y, abs_z ), submap_to_save );
 }
 
 // worldx & worldy specify where in the world this is;
