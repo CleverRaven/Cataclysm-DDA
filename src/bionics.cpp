@@ -1994,6 +1994,15 @@ void load_bionic( JsonObject &jsobj )
         }
     }
 
+    JsonArray json_arr = jsobj.get_array( "env_protec" );
+    if( !json_arr.empty() ) {
+        while( json_arr.has_more() ) {
+            JsonArray ja = json_arr.next_array();
+            new_bionic.env_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                           ja.get_int( 1 ) );
+        }
+    }
+
     new_bionic.activated = new_bionic.toggled ||
                            new_bionic.power_activate > 0 ||
                            new_bionic.charge_time > 0;
