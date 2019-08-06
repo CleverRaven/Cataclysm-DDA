@@ -1985,6 +1985,15 @@ void load_bionic( JsonObject &jsobj )
     jsobj.read( "included", new_bionic.included );
     jsobj.read( "upgraded_bionic", new_bionic.upgraded_bionic );
 
+    JsonArray jsar = jsobj.get_array( "encumbrance" );
+    if( !jsar.empty() ) {
+        while( jsar.has_more() ) {
+            JsonArray ja = jsar.next_array();
+            new_bionic.encumbrance.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                            ja.get_int( 1 ) );
+        }
+    }
+
     JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );
     if( !jsarr.empty() ) {
         while( jsarr.has_more() ) {

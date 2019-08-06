@@ -113,6 +113,7 @@
     "name": "Shotgun Arm",
     "description": "Concealed in your left arm is a single shot 12 gauge shotgun.  Activate the bionic to fire and reload the shotgun.",
     "occupied_bodyparts": [ [ "ARM_L", 15 ] ],
+    "encumbrance": [ [ "ARM_L", 5 ] ],
     "act_cost": 5,
     "fake_item": "bio_shotgun_gun",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ]
@@ -670,6 +671,7 @@
     "name": "Bionic Nostril",
     "description": "You're really not sure how the CBM ended up in your nose, but no matter how it got there this badly misplaced bionic makes it difficult to breathe.  Increases mouth encumbrance by one.",
     "occupied_bodyparts": [ [ "HEAD", 2 ], [ "MOUTH", 1 ] ],
+    "encumbrance": [ [ "MOUTH", 10 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
@@ -716,6 +718,7 @@
     "name": "Bionic Visual Impairment",
     "description": "Due to a badly misplaced dielectric stylette, you are now suffering from mild optic neuropathy.  Increases eye encumbrance by one.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
+    "encumbrance": [ [ "EYES", 10 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
@@ -941,6 +944,15 @@
     "name": "Wire-Induced Stiffness",
     "description": "Improperly installed wires cause a physical stiffness in most of your body, causing increased encumbrance.",
     "occupied_bodyparts": [ [ "TORSO", 2 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ], [ "FOOT_L", 1 ], [ "FOOT_R", 1 ] ],
+    "encumbrance": [
+      [ "TORSO", 10 ],
+      [ "ARM_L", 10 ],
+      [ "ARM_R", 10 ],
+      [ "LEG_L", 10 ],
+      [ "LEG_R", 10 ],
+      [ "FOOT_L", 10 ],
+      [ "FOOT_R", 10 ]
+    ],
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
@@ -991,6 +1003,7 @@
     "name": "Self-Locking Thumbs",
     "description": "Self-locking thumbs hold tight (even when you really don't want them to) and don't let go (even when you'd rather they did).  Increases hand encumbrance by two, while failing to improve your ability to hold objects whatsoever.",
     "occupied_bodyparts": [ [ "HAND_L", 1 ], [ "HAND_R", 1 ] ],
+    "encumbrance": [ [ "HAND_L", 10 ], [ "HAND_R", 10 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
