@@ -111,7 +111,7 @@
     "spawns": { "group": "GROUP_RAZORCLAW", "population": [ 30, 60 ], "radius": [ 2, 10 ] }
   },
   {
-    "//": "This special is required for robofac mission 3, and this is a fallback for when the tower doesn’t spawn inside city.  Should be removed once we can guarantee the spawning of mid-city specials"
+    "//": "This special is required for robofac mission 3, and this is a fallback for when the tower doesn’t spawn inside city.  Should be removed once we can guarantee the spawning of mid-city specials",
     "type": "overmap_special",
     "id": "office_tower_collapsed",
     "overmaps": [
