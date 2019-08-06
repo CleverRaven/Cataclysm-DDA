@@ -1274,9 +1274,9 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                                                            dest ) > 0 ? rl_dist( radorigin, dest ) : 1 ) );
                                 }
                                 if( g->m.pl_sees( dest, 10 ) ) {
-                                    g->u.irradiate( rng( 50, 250 ) / rl_dist( g->u.pos(), dest ) );
+                                    g->u.irradiate( rng_float( 50, 250 ) / rl_dist( g->u.pos(), dest ) );
                                 } else {
-                                    g->u.irradiate( rng( 20, 100 ) / rl_dist( g->u.pos(), dest ) );
+                                    g->u.irradiate( rng_float( 20, 100 ) / rl_dist( g->u.pos(), dest ) );
                                 }
                                 query_any( _( "EMERGENCY SHUTDOWN!  Press any key..." ) );
                                 error = true;
@@ -1291,7 +1291,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                             }
                             // if unshielded, rad source irradiates player directly, reduced by distance to source
                             if( g->m.pl_sees( dest, 10 ) ) {
-                                g->u.irradiate( rng( 5, 25 ) / rl_dist( g->u.pos(), dest ) );
+                                g->u.irradiate( rng_float( 5, 25 ) / rl_dist( g->u.pos(), dest ) );
                             }
                         }
                         if( !error && platform_exists ) {

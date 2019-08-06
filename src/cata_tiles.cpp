@@ -1298,10 +1298,13 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
 void cata_tiles::get_window_tile_counts( const int width, const int height, int &columns,
         int &rows ) const
 {
-    columns = tile_iso ? ceil( static_cast<double>( width ) / tile_width ) * 2 + 4 : ceil(
-                  static_cast<double>( width ) / tile_width );
-    rows = tile_iso ? ceil( static_cast<double>( height ) / ( tile_width / 2 - 1 ) ) * 2 + 4 : ceil(
-               static_cast<double>( height ) / tile_height );
+    if( tile_iso ) {
+        columns = ceil( static_cast<double>( width ) / tile_width ) * 2 + 4;
+        rows = ceil( static_cast<double>( height ) / ( tile_width / 2.0 - 1 ) ) * 2 + 4;
+    } else {
+        columns = ceil( static_cast<double>( width ) / tile_width );
+        rows = ceil( static_cast<double>( height ) / tile_height );
+    }
 }
 
 bool cata_tiles::draw_from_id_string( std::string id, const tripoint &pos, int subtile, int rota,

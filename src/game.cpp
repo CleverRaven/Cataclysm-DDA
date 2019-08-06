@@ -9024,8 +9024,10 @@ bool game::walk_move( const tripoint &dest_loc )
             add_msg( m_warning, _( "You cannot pass obstacles whilst mounted." ) );
             return false;
         }
-        u.moves -= static_cast<int>( ceil( ( u.run_cost( mcost,
-                                             diag ) * 100.0 / crit->get_speed() ) + ( ( u.get_weight() / 120_gram ) / 40 ) ) );
+        const double base_moves =
+            u.run_cost( mcost, diag ) * 100.0 / crit->get_speed();
+        const double encumb_moves = u.get_weight() * 1.0 / 480_gram;
+        u.moves -= static_cast<int>( ceil( base_moves + encumb_moves ) );
         if( u.movement_mode_is( PMM_WALK ) ) {
             crit->use_mech_power( -2 );
         } else if( u.movement_mode_is( PMM_CROUCH ) ) {
@@ -9226,7 +9228,7 @@ point game::place_player( const tripoint &dest_loc )
         }
     }
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
-    if( m.has_flag( "SHARP", dest_loc ) && !one_in( 3 ) && !x_in_y( 1 + u.dex_cur / 2, 40 ) &&
+    if( m.has_flag( "SHARP", dest_loc ) && !one_in( 3 ) && !x_in_y( 1 + u.dex_cur / 2.0, 40 ) &&
         ( !u.in_vehicle ) && ( !u.has_trait( trait_PARKOUR ) || one_in( 4 ) ) ) {
         if( u.is_mounted() ) {
             add_msg( _( "Your %s gets cut!" ), u.mounted_creature->get_name() );

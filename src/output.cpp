@@ -552,10 +552,11 @@ void draw_tabs( const catacurses::window &w, int active_tab, ... )
     }
 
     // Extra "buffer" space per each side of each tab
-    double buffer_extra = ( win_width - total_width ) / ( labels.size() * 2 );
-    int buffer = static_cast<int>( buffer_extra );
+    const double extra_width = win_width - total_width;
+    double buffer_extra = extra_width / ( labels.size() * 2 );
+    int buffer = floor( buffer_extra );
     // Set buffer_extra to (0, 1); the "extra" whitespace that builds up
-    buffer_extra = buffer_extra - buffer;
+    buffer_extra -= buffer;
     int xpos = 0;
     double savings = 0;
 

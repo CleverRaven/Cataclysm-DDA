@@ -794,7 +794,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
     difficulty = ( melee_skill + 1 ) * melee_dice * ( bonus_cut + melee_sides ) * 0.04 +
                  ( sk_dodge + 1 ) * ( 3 + armor_bash + armor_cut ) * 0.04 +
                  ( difficulty_base + special_attacks.size() + 8 * emit_fields.size() );
-    difficulty *= ( hp + speed - attack_cost + ( morale + agro ) / 10 ) * 0.01 +
+    difficulty *= ( hp + speed - attack_cost + ( morale + agro ) * 0.1 ) * 0.01 +
                   ( vision_day + 2 * vision_night ) * 0.01;
 }
 

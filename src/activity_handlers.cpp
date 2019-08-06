@@ -869,7 +869,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 // apply skill before converting to items, but only if mass_ratio is defined
                 roll *= roll_drops();
                 monster_weight_remaining -= roll;
-                roll = ceil( roll / to_gram( ( item::find_type( entry.drop ) )->weight ) );
+                roll = ceil( static_cast<double>( roll ) /
+                             to_gram( ( item::find_type( entry.drop ) )->weight ) );
             } else {
                 monster_weight_remaining -= roll * to_gram( ( item::find_type( entry.drop ) )->weight );
             }
@@ -4002,10 +4003,11 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
 
     /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
     /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
-    float success = p->get_skill_level( skill_id( "computer" ) ) - 1.5 * ( z->type->difficulty ) /
-                    ( ( rng( 2, p->int_cur ) / 2 ) + ( p->get_skill_level( skill_id( "computer" ) ) / 2 ) );
+    const int computer_skill = p->get_skill_level( skill_id( "computer" ) );
+    const float randomized_skill = rng( 2, p->int_cur ) + computer_skill;
+    float success = computer_skill - 3 * z->type->difficulty / randomized_skill;
     if( z->has_flag( MF_RIDEABLE_MECH ) ) {
-        success = p->get_skill_level( skill_id( "computer" ) ) + rng( 2, p->int_cur ) - rng( 1, 11 );
+        success = randomized_skill - rng( 1, 11 );
     }
     // rideable mechs are not hostile, they have no AI, they do not resist control as much.
     if( success >= 0 ) {

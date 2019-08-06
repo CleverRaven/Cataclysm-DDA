@@ -419,7 +419,7 @@ static void terrain_collision_data( const tripoint &p, bool bash_floor,
     // Just a rough rescale for now to obtain approximately equal numbers
     const int bash_min = g->m.bash_resistance( p, bash_floor );
     const int bash_max = g->m.bash_strength( p, bash_floor );
-    mass = ( bash_min + bash_max ) / 2;
+    mass = ( bash_min + bash_max ) / 2.0;
     density = bash_min;
 }
 

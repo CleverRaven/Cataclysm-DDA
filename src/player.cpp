@@ -1194,10 +1194,11 @@ void player::update_bodytemp()
             int wetness_percentage = 100 * body_wetness[bp] / drench_capacity[bp]; // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to temperature resistance
-            int Ftemperature = static_cast<int>( player_local_temp +
-                                                 warmth( bp ) * 0.2 - 20 * wetness_percentage / 100 );
+            int Ftemperature = static_cast<int>(
+                                   player_local_temp + warmth( bp ) * 0.2 - 20 * wetness_percentage / 100.0 );
             // Windchill reduced by your armor
-            int FBwindPower = static_cast<int>( total_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
+            int FBwindPower = static_cast<int>(
+                                  total_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
 
             int intense = get_effect_int( effect_frostbite, bp );
 
@@ -3434,10 +3435,10 @@ float player::fall_damage_mod() const
     /** @EFFECT_DEX decreases damage from falling */
 
     /** @EFFECT_DODGE decreases damage from falling */
-    float dex_dodge = dex_cur / 2 + get_skill_level( skill_dodge );
+    float dex_dodge = dex_cur / 2.0 + get_skill_level( skill_dodge );
     // Penalize for wearing heavy stuff
-    dex_dodge -= ( ( ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 2 ) + ( encumb(
-                       bp_torso ) / 1 ) ) / 10;
+    const float average_leg_encumb = ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 2.0;
+    dex_dodge -= ( average_leg_encumb + encumb( bp_torso ) ) / 10;
     // But prevent it from increasing damage
     dex_dodge = std::max( 0.0f, dex_dodge );
     // 100% damage at 0, 75% at 10, 50% at 20 and so on
@@ -4126,7 +4127,7 @@ needs_rates player::calc_needs_rates()
 
     if( has_trait( trait_TRANSPIRATION ) ) {
         // Transpiration, the act of moving nutrients with evaporating water, can take a very heavy toll on your thirst when it's really hot.
-        rates.thirst *= ( ( g->weather.get_temperature( pos() ) - 65 / 2 ) / 40.0f );
+        rates.thirst *= ( ( g->weather.get_temperature( pos() ) - 32.5f ) / 40.0f );
     }
 
     if( is_npc() ) {
@@ -11000,7 +11001,7 @@ void player::burn_move_stamina( int moves )
     if( move_mode == PMM_RUN ) {
         burn_ratio = burn_ratio * 7;
     }
-    mod_stat( "stamina", -( ( moves * burn_ratio ) / 100 ) );
+    mod_stat( "stamina", -( ( moves * burn_ratio ) / 100.0 ) );
     add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
