@@ -744,7 +744,6 @@
       "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
     }
   },
-
   {
     "type": "terrain",
     "id": "t_palisade_gate",
