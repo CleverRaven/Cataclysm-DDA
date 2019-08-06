@@ -226,34 +226,7 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
-    "components": [
-      [
-        [ "broccoli", 1 ],
-        [ "irradiated_broccoli", 1 ],
-        [ "tomato", 1 ],
-        [ "irradiated_tomato", 1 ],
-        [ "pumpkin", 1 ],
-        [ "irradiated_pumpkin", 1 ],
-        [ "zucchini", 1 ],
-        [ "irradiated_zucchini", 1 ],
-        [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
-        [ "potato", 1 ],
-        [ "irradiated_potato", 1 ],
-        [ "onion", 1 ],
-        [ "irradiated_onion", 1 ],
-        [ "carrot", 1 ],
-        [ "irradiated_carrot", 2 ],
-        [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
-        [ "lettuce", 1 ],
-        [ "irradiated_lettuce", 1 ],
-        [ "veggy", 1 ],
-        [ "veggy_wild", 1 ],
-        [ "dandelion_cooked", 1 ],
-        [ "wild_herbs", 40 ]
-      ]
-    ]
+    "components": [ [ [ "veggy_any_uncooked", 1, "LIST" ], [ "dandelion_cooked", 1 ], [ "wild_herbs", 40 ] ] ]
   },
   {
     "type": "recipe",
@@ -267,34 +240,7 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [
-      [
-        [ "broccoli", 1 ],
-        [ "irradiated_broccoli", 1 ],
-        [ "tomato", 1 ],
-        [ "irradiated_tomato", 1 ],
-        [ "pumpkin", 1 ],
-        [ "irradiated_pumpkin", 1 ],
-        [ "zucchini", 1 ],
-        [ "irradiated_zucchini", 1 ],
-        [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
-        [ "potato", 1 ],
-        [ "irradiated_potato", 1 ],
-        [ "onion", 1 ],
-        [ "irradiated_onion", 1 ],
-        [ "carrot", 1 ],
-        [ "irradiated_carrot", 2 ],
-        [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
-        [ "lettuce", 1 ],
-        [ "irradiated_lettuce", 1 ],
-        [ "veggy", 1 ],
-        [ "veggy_wild", 1 ],
-        [ "dandelion_cooked", 1 ],
-        [ "wild_herbs", 40 ]
-      ]
-    ]
+    "components": [ [ [ "veggy_any_uncooked", 1, "LIST" ], [ "dandelion_cooked", 1 ], [ "wild_herbs", 40 ] ] ]
   },
   {
     "result": "dry_veggy_tainted",
