@@ -111,6 +111,30 @@
     "spawns": { "group": "GROUP_RAZORCLAW", "population": [ 30, 60 ], "radius": [ 2, 10 ] }
   },
   {
+    "//": "This special is required for robofac mission 3, and this is a fallback for when the tower doesn’t spawn inside city.  Should be removed once we can guarantee the spawning of mid-city specials"
+    "type": "overmap_special",
+    "id": "office_tower_collapsed",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "office_tower_collapse_a0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "office_tower_collapse_a1_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "office_tower_collapse_a2_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "office_tower_collapse_b0_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "office_tower_collapse_b1_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "office_tower_collapse_b2_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "office_tower_collapse_b_a0_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "office_tower_collapse_b_a1_north" },
+      { "point": [ 2, 0, -1 ], "overmap": "office_tower_collapse_b_a2_north" },
+      { "point": [ 0, 1, -1 ], "overmap": "office_tower_collapse_b_b0_north" },
+      { "point": [ 1, 1, -1 ], "overmap": "office_tower_collapse_b_b1_north" },
+      { "point": [ 2, 1, -1 ], "overmap": "office_tower_collapse_b_b2_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" }, { "point": [ 2, -1, 0 ], "terrain": "road" } ],
+    "city_distance": [ 0, 1 ],
+    "locations": [ "land" ],
+    "city_sizes": [ 0, 12 ],
+    "occurrences": [ 0, 0 ]
+  },
+  {
     "type": "overmap_special",
     "id": "LMOE Shelter",
     "overmaps": [
