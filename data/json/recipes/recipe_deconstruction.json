@@ -231,7 +231,7 @@
     "components": [ [ [ "faux_fur", 1 ] ] ]
   },
   {
-    "result": "fur_collar", 
+    "result": "fur_collar",
     "type": "uncraft",
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
