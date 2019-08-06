@@ -40,7 +40,6 @@ mission mission_type::create( const int npc_id ) const
     ret.item_id = item_id;
     ret.item_count = item_count;
     ret.value = value;
-    ret.description = description;
     ret.follow_up = follow_up;
     ret.monster_species = monster_species;
     ret.monster_type = monster_type;
@@ -512,7 +511,7 @@ time_point mission::get_deadline() const
 
 std::string mission::get_description() const
 {
-    return description;
+    return _( type->description );
 }
 
 bool mission::has_target() const

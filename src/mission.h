@@ -301,8 +301,6 @@ class mission
         friend class debug_menu::mission_debug;
 
         const mission_type *type;
-        // Basic descriptive text
-        std::string description;
         mission_status status;
         // Cash/Favor value of completing this
         unsigned int value;

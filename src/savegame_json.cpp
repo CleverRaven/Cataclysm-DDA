@@ -2618,8 +2618,6 @@ void mission::deserialize( JsonIn &jsin )
         type = &mission_type::get_all().front();
     }
 
-    description = type->description;
-
     bool failed;
     bool was_started;
     std::string status_string;
