@@ -102,7 +102,7 @@
     "melee_allowed": true,
     "mult_bonuses": [ [ "movecost", 0.65 ], [ "damage", "bash", 0.55 ], [ "damage", "cut", 0.6 ], [ "damage", "stab", 0.55 ] ],
     "flat_bonuses": [ [ "damage", "stab", "dex", 0.01 ], [ "damage", "cut", "dex", 0.015 ], [ "movecost", "dex", -0.45 ] ],
-    "messages": [ "You swiftly jab your weapon at %s", "<npcname> swiftly jabs their weapon at %s" ],
+    "messages": [ "You swiftly jab your weapon at %s", "<npcname> swiftly jabs their weapon at %s" ]
   },
   {
     "type": "technique",
