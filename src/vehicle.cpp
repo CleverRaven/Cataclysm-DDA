@@ -3370,7 +3370,7 @@ void vehicle::spew_field( double joules, int part, field_type_id type, int inten
         p.x += ( velocity < 0 ? 1 : -1 );
     }
     point q = coord_translate( p );
-    const tripoint dest = global_pos3() + tripoint( q.x, q.y, 0 );
+    const tripoint dest = global_pos3() + tripoint( q, 0 );
     g->m.mod_field_intensity( dest, type, intensity );
 }
 
@@ -4497,7 +4497,7 @@ void vehicle::slow_leak()
         auto fuel = p.ammo_current();
         int qty = std::max( ( 0.5 - health ) * ( 0.5 - health ) * p.ammo_remaining() / 10, 1.0 );
         point q = coord_translate( p.mount );
-        const tripoint dest = global_pos3() + tripoint( q.x, q.y, 0 );
+        const tripoint dest = global_pos3() + tripoint( q, 0 );
 
         // damaged batteries self-discharge without leaking, plutonium leaks slurry
         if( fuel != fuel_type_battery && fuel != fuel_type_plutonium_cell ) {
@@ -4655,7 +4655,7 @@ vehicle_stack::iterator vehicle::remove_item( int part, vehicle_stack::const_ite
 vehicle_stack vehicle::get_items( const int part )
 {
     const tripoint pos = global_part_pos3( part );
-    return vehicle_stack( &parts[part].items, point( pos.x, pos.y ), this, part );
+    return vehicle_stack( &parts[part].items, pos.xy(), this, part );
 }
 
 vehicle_stack vehicle::get_items( const int part ) const
@@ -5903,7 +5903,7 @@ bounding_box vehicle::get_bounding_box()
 
     int i_use = 0;
     for( const tripoint &p : get_points( true ) ) {
-        const point pt = parts[part_at( point( p.x, p.y ) )].precalc[i_use];
+        const point pt = parts[part_at( p.xy() )].precalc[i_use];
         if( pt.x < min_x ) {
             min_x = pt.x;
         }

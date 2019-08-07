@@ -423,11 +423,11 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
 
     // We're moving onto a tile with no support, check if it has a ramp below
     if( !m.has_floor_or_support( dest_loc ) ) {
-        tripoint below( dest_loc.x, dest_loc.y, dest_loc.z - 1 );
+        tripoint below( dest_loc.xy(), dest_loc.z - 1 );
         if( m.has_flag( TFLAG_RAMP, below ) ) {
             // But we're moving onto one from above
             const tripoint dp = dest_loc - you.pos();
-            move( you, m, tripoint( dp.x, dp.y, -1 ) );
+            move( you, m, tripoint( dp.xy(), -1 ) );
             // No penalty for misaligned stairs here
             // Also cheaper than climbing up
             return true;
@@ -459,7 +459,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
 
     const tripoint dp = dest_loc - you.pos();
     const tripoint old_pos = you.pos();
-    move( you, m, tripoint( dp.x, dp.y, 1 ) );
+    move( you, m, tripoint( dp.xy(), 1 ) );
     // We can't just take the result of the above function here
     if( you.pos() != old_pos ) {
         you.moves -= 50 + ( aligned_ramps ? 0 : 50 );
@@ -575,7 +575,7 @@ void avatar_action::autoattack( avatar &you, map &m )
 
     const tripoint diff = best.pos() - you.pos();
     if( abs( diff.x ) <= 1 && abs( diff.y ) <= 1 && diff.z == 0 ) {
-        move( you, m, tripoint( diff.x, diff.y, 0 ) );
+        move( you, m, tripoint( diff.xy(), 0 ) );
         return;
     }
 

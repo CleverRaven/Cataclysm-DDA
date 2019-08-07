@@ -155,7 +155,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
     for( auto it = new_overmap.npcs.begin(); it != new_overmap.npcs.end(); ) {
         npc &np = **it;
         const tripoint npc_omt_pos = np.global_omt_location();
-        const point npc_om_pos = omt_to_om_copy( point( npc_omt_pos.x, npc_omt_pos.y ) );
+        const point npc_om_pos = omt_to_om_copy( npc_omt_pos.xy() );
         const point &loc = new_overmap.pos();
         if( npc_om_pos == loc ) {
             // Nothing to do
@@ -174,7 +174,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
     for( auto &ptr : to_relocate ) {
         npc &np = *ptr;
         const tripoint npc_omt_pos = np.global_omt_location();
-        const point npc_om_pos = omt_to_om_copy( point( npc_omt_pos.x, npc_omt_pos.y ) );
+        const point npc_om_pos = omt_to_om_copy( npc_omt_pos.xy() );
         const point &loc = new_overmap.pos();
         if( !has( npc_om_pos ) ) {
             // This can't really happen without save editing
@@ -714,7 +714,7 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
 
         return res;
     };
-    pf::path route = pf::find_path( point( start.x, start.y ), point( finish.x, finish.y ), 2 * OX,
+    pf::path route = pf::find_path( start, finish, 2 * OX,
                                     2 * OY, estimate );
     for( auto node : route.nodes ) {
         tripoint convert_result = base + tripoint( node.pos, base.z );
@@ -1002,7 +1002,7 @@ void overmapbuffer::insert_npc( const std::shared_ptr<npc> &who )
 {
     assert( who );
     const tripoint npc_omt_pos = who->global_omt_location();
-    const point npc_om_pos = omt_to_om_copy( point( npc_omt_pos.x, npc_omt_pos.y ) );
+    const point npc_om_pos = omt_to_om_copy( npc_omt_pos.xy() );
     get( npc_om_pos ).insert_npc( who );
 }
 
@@ -1061,7 +1061,7 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const tripoint &locatio
 
 std::vector<overmap *> overmapbuffer::get_overmaps_near( const point &p, const int radius )
 {
-    return get_overmaps_near( tripoint( p.x, p.y, 0 ), radius );
+    return get_overmaps_near( tripoint( p, 0 ), radius );
 }
 
 std::vector<std::shared_ptr<npc>> overmapbuffer::get_companion_mission_npcs()
@@ -1162,7 +1162,7 @@ std::vector<camp_reference> overmapbuffer::get_camps_near( const tripoint &locat
         result.reserve( result.size() + om->camps.size() );
         std::transform( om->camps.begin(), om->camps.end(), std::back_inserter( result ),
         [&]( basecamp & element ) {
-            const point camp_pt = point( element.camp_omt_pos().x, element.camp_omt_pos().y );
+            const point camp_pt = element.camp_omt_pos().xy();
             const auto rel_pos_camp = omt_to_sm_copy( camp_pt );
             const auto abs_pos_camp = tripoint( rel_pos_camp + abs_pos_om, 0 );
             const auto distance = rl_dist( abs_pos_camp, location );

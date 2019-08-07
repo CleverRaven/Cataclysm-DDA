@@ -118,7 +118,7 @@ bool scent_map::inbounds( const tripoint &p ) const
     const int levz = gm.get_levz();
     const bool scent_map_z_level_inbounds = ( p.z == levz ) ||
                                             ( std::abs( p.z - levz ) == SCENT_MAP_Z_REACH &&
-                                                    gm.m.valid_move( p, tripoint( p.x, p.y, levz ), false, true ) );
+                                                    gm.m.valid_move( p, tripoint( p.xy(), levz ), false, true ) );
     if( !scent_map_z_level_inbounds ) {
         return false;
     }
