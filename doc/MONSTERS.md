@@ -250,13 +250,16 @@ Example:
 The upgrades object may have the following members:
 
 ### "half_life"
-TODO: describe this.
+(int)
+Time in which half of the monsters upgrade according to an approximated exponential progression. It is scaled with the evolution scaling factor which defaults to 4 days.
 
 ### "into_group"
-TODO: describe this.
+(string, optional)
+The upgraded monster's type is taken from the specified group. The cost in these groups is for an upgrade in the spawn process (related to the rare "replace_monster_group" and "new_monster_group_id" attributes of spawning groups).
 
 ### "into"
-TODO: describe this.
+(string, optional)
+The upgraded monster's type.
 
 ## "special_when_hit"
 (array, optional)
