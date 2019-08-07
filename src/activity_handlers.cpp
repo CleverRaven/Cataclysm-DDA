@@ -1989,6 +1989,9 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
         p->mod_fatigue( 1 );
         if( hand_crank_item.ammo_capacity() > hand_crank_item.ammo_remaining() ) {
             hand_crank_item.ammo_set( "battery", hand_crank_item.ammo_remaining() + 1 );
+        } else {
+            act->moves_left = 0;
+            add_msg( m_info, _( "You've charged the battery completely." ) );
         }
     }
     if( p->get_fatigue() >= DEAD_TIRED ) {
