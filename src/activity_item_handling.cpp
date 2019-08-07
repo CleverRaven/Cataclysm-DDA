@@ -1162,7 +1162,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
 {
     const requirement_data things_to_fetch = requirement_id( p.backlog.front().str_values[0] ).obj();
     const activity_id activity_to_restore = p.backlog.front().id();
-    const requirement_id things_to_fetch_id = things_to_fetch.id();
+    requirement_id things_to_fetch_id = things_to_fetch.id();
     std::vector<std::vector<item_comp>> req_comps = things_to_fetch.get_components();
     std::vector<std::vector<tool_comp>> tool_comps = things_to_fetch.get_tools();
     std::vector<std::vector<quality_requirement>> quality_comps = things_to_fetch.get_qualities();
@@ -1745,7 +1745,7 @@ void generic_multi_activity_handler( player_activity &act, player &p )
     // First get the things that are activity-agnostic.
     zone_manager &mgr = zone_manager::get_manager();
     const tripoint abspos = g->m.getabs( p.pos() );
-    const activity_id activity_to_restore = act.id();
+    activity_id activity_to_restore = act.id();
     const tripoint localpos = p.pos();
     bool dark_capable = false;
     // the set of target work spots - potentally after we have fetched required tools.
