@@ -59,6 +59,8 @@
 #include "mongroup.h"
 
 const species_id FUNGUS( "FUNGUS" );
+const species_id INSECT( "INSECT" );
+const species_id SPIDER( "SPIDER" );
 
 const efftype_id effect_badpoison( "badpoison" );
 const efftype_id effect_blind( "blind" );
@@ -1206,6 +1208,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         curfield.find_field( fd_gas_vent ) ||
                         curfield.find_field( fd_smoke_vent ) ||
                         curfield.find_field( fd_fungicidal_gas ) ||
+                        curfield.find_field( fd_insecticidal_gas ) ||
                         curfield.find_field( fd_fire_vent ) ||
                         curfield.find_field( fd_flame_burst ) ||
                         curfield.find_field( fd_electricity ) ||
@@ -1702,8 +1705,8 @@ void map::player_in_field( player &u )
                 u.hurtall( rng( 2, 6 ), nullptr );
             }
         }
-        // Fungicidal gas is unhealthy and becomes deadly if you cross a related threshold.
-        if( ft == fd_fungicidal_gas ) {
+        // Both gases are unhealthy and become deadly if you cross a related threshold.
+        if( ft == fd_fungicidal_gas || ft == fd_insecticidal_gas ) {
             // The gas won't harm you inside a vehicle.
             if( !inside ) {
                 // Full body suits protect you from the effects of the gas.
@@ -1711,7 +1714,9 @@ void map::player_in_field( player &u )
                        u.get_env_resist( bp_eyes ) >= 15 ) ) {
                     const int intensity = cur.get_field_intensity();
                     bool inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, intensity * 1_minutes );
-                    if( u.has_trait( trait_id( "THRESH_MYCUS" ) ) || u.has_trait( trait_id( "THRESH_MARLOSS" ) ) ) {
+                    if( u.has_trait( trait_id( "THRESH_MYCUS" ) ) || u.has_trait( trait_id( "THRESH_MARLOSS" ) ) ||
+                        ( ft == fd_insecticidal_gas && ( u.get_highest_category() == "INSECT" ||
+                                                         u.get_highest_category() == "SPIDER" ) ) ) {
                         inhaled |= u.add_env_effect( effect_badpoison, bp_mouth, 5, intensity * 1_minutes );
                         u.hurtall( rng( intensity, intensity * 2 ), nullptr );
                         u.add_msg_if_player( m_bad, _( "The %s burns your skin." ), cur.name() );
@@ -1989,6 +1994,13 @@ void map::monster_in_field( monster &z )
         }
         if( cur_field_type == fd_fungicidal_gas ) {
             if( z.type->in_species( FUNGUS ) ) {
+                const int intensity = cur.get_field_intensity();
+                z.moves -= rng( 10 * intensity, 30 * intensity );
+                dam += rng( 4, 7 * intensity );
+            }
+        }
+        if( cur_field_type == fd_insecticidal_gas ) {
+            if( z.type->in_species( INSECT ) || z.type->in_species( SPIDER ) ) {
                 const int intensity = cur.get_field_intensity();
                 z.moves -= rng( 10 * intensity, 30 * intensity );
                 dam += rng( 4, 7 * intensity );

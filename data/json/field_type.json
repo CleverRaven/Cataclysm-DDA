@@ -817,17 +817,40 @@
     "type": "field_type",
     "legacy_enum_id": 49,
     "intensity_levels": [
-      { "name": "hazy cloud", "sym": "8", "dangerous": true },
-      { "name": "fungicidal gas", "color": "light_gray" },
-      { "name": "thick fungicidal gas", "color": "dark_gray", "transparent": false }
+      { "name": "fungicidal mist", "sym": "8", "dangerous": true },
+      { "name": "fungicidal haze", "color": "light_gray" },
+      { "name": "thick fungicidal haze", "color": "dark_gray", "transparent": false }
     ],
     "decay_amount_factor": 5,
-    "percent_spread": 120,
+    "gas_absorption_factor": 15,
+    "percent_spread": 100,
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
     "priority": 8,
-    "half_life": "90 minutes",
+    "half_life": "30 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true
+  },
+  {
+    "id": "fd_insecticidal_gas",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "insecticidal mist", "sym": "8", "dangerous": true },
+      { "name": "insecticidal haze", "color": "light_gray" },
+      { "name": "thick insecticidal haze", "color": "dark_gray", "transparent": false }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 100,
+    "outdoor_age_speedup": "1 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
+    "priority": 8,
+    "half_life": "30 minutes",
     "phase": "gas",
     "display_items": false,
     "display_field": true

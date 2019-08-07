@@ -3696,6 +3696,10 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         add_field( p, fd_fungicidal_gas, rng( 1, 2 ) );
     }
 
+    if( ammo_effects.count( "STREAM_GAS_INSCENTICIDAL" ) && !one_in( 3 ) ) {
+        add_field( p, fd_insecticidal_gas, rng( 1, 2 ) );
+    }
+
     if( ammo_effects.count( "STREAM_BIG" ) && !one_in( 4 ) ) {
         add_field( p, fd_fire, 2 );
     }
