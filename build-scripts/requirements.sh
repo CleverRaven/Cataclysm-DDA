@@ -61,4 +61,8 @@ if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
   brew link --force gettext ncurses
 fi
 
+if [[ "$NATIVE" == "android" ]]; then
+  yes | sdkmanager "ndk-bundle"
+fi
+
 set +x
