@@ -6261,7 +6261,7 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
             0,      0,
             1,  1,  1
         };
-        // *INDENT-OFF*
+        // *INDENT-ON*
 
         int ex = elem.ndx % grid_dim;
         int ey = elem.ndx / grid_dim;
@@ -6287,7 +6287,7 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
             t_grid[ item.ndx ] = item.dist;
             if( item.dist + 1 < range ) {
                 gen_neighbors( item, grid_dim, neighbor_elems );
-                for( pq_item neighbor_elem : neighbor_elems) {
+                for( pq_item neighbor_elem : neighbor_elems ) {
                     pq.push( neighbor_elem );
                 }
             }
@@ -6476,7 +6476,7 @@ void map::shift_traps( const tripoint &shift )
 {
     // Offset needs to have sign opposite to shift direction
     const tripoint offset( -shift.x * SEEX, -shift.y * SEEY, -shift.z );
-    for( auto iter = field_furn_locs.begin(); iter != field_furn_locs.end(); ){
+    for( auto iter = field_furn_locs.begin(); iter != field_furn_locs.end(); ) {
         tripoint &pos = *iter;
         pos += offset;
         if( inbounds( pos ) ) {
@@ -6527,7 +6527,7 @@ void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const int sx, const int
 
 template void
 shift_bitset_cache<MAPSIZE_X, SEEX>( std::bitset<MAPSIZE_X *MAPSIZE_X> &cache,
-				     const int sx, const int sy );
+                                     const int sx, const int sy );
 template void
 shift_bitset_cache<MAPSIZE, 1>( std::bitset<MAPSIZE *MAPSIZE> &cache, const int sx, const int sy );
 
@@ -6741,7 +6741,7 @@ static void generate_uniform( const tripoint &p, const ter_id &terrain_type )
             sm->is_uniform = true;
             std::uninitialized_fill_n( &sm->ter[0][0], block_size, terrain_type );
             sm->last_touched = calendar::turn;
-            MAPBUFFER.add_submap( p + point(xd, yd), sm );
+            MAPBUFFER.add_submap( p + point( xd, yd ), sm );
         }
     }
 }
@@ -6756,7 +6756,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
                   << "], worldy[" << abs_sub.y << "], gridx["
                   << gridx << "], gridy[" << gridy << "], gridz[" << gridz << "])";
 
-    const tripoint grid_abs_sub(abs_sub.x + gridx, abs_sub.y + gridy, gridz );
+    const tripoint grid_abs_sub( abs_sub.x + gridx, abs_sub.y + gridy, gridz );
     const size_t gridn = get_nonant( { gridx, gridy, gridz } );
 
     dbg( D_INFO ) << "map::loadn grid_abs_sub: " << grid_abs_sub << "  gridn: " << gridn;
@@ -6950,7 +6950,7 @@ void map::grow_plant( const tripoint &p )
     }
     // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = i_at( p );
-    map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item &it ) {
+    map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
         return it.is_seed();
     } );
 
@@ -6970,7 +6970,7 @@ void map::grow_plant( const tripoint &p )
             }
 
             // Remove fertilizer if any
-            map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item &it ) {
+            map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
                 return it.has_flag( "FERTILIZER" );
             } );
             if( fertilizer != items.end() ) {
@@ -6985,7 +6985,7 @@ void map::grow_plant( const tripoint &p )
             }
 
             // Remove fertilizer if any
-            map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item &it ) {
+            map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
                 return it.has_flag( "FERTILIZER" );
             } );
             if( fertilizer != items.end() ) {
@@ -7210,7 +7210,7 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
             const tripoint pnt( gridx * SEEX + x, gridy * SEEY + y, gridz );
             const point p( x, y );
             const auto &furn = this->furn( pnt ).obj();
-            if( furn.has_flag( "EMITTER" ) ){
+            if( furn.has_flag( "EMITTER" ) ) {
                 field_furn_locs.push_back( pnt );
             }
             // plants contain a seed item which must not be removed under any circumstances
@@ -7579,8 +7579,8 @@ bool tinymap::fake_load( const furn_id &fur_type, const ter_id &ter_type, const 
         }
     }
 
-    for( const tripoint &pos : points_in_rectangle( { 0, 0, 0 },
-           tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
+    for( const tripoint &pos : points_in_rectangle( tripoint_zero,
+            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
         if( do_terset ) {
             ter_set( pos, ter_type );
         }
@@ -8389,7 +8389,8 @@ tripoint_range map::points_in_radius( const tripoint &center, size_t radius, siz
     return tripoint_range( tripoint( minx, miny, minz ), tripoint( maxx, maxy, maxz ) );
 }
 
-std::list<item_location> map::get_active_items_in_radius( const tripoint &center, int radius, std::string type ) const
+std::list<item_location> map::get_active_items_in_radius( const tripoint &center, int radius,
+        std::string type ) const
 {
     std::list<item_location> result;
 
@@ -8410,7 +8411,8 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
         const point sm_offset( submap_loc.x * SEEX, submap_loc.y * SEEY );
 
         submap *sm = get_submap_at_grid( submap_loc );
-        std::vector<item_reference> items = type.empty() ? sm->active_items.get() : sm->active_items.get_special( type );
+        std::vector<item_reference> items = type.empty() ? sm->active_items.get() :
+                                            sm->active_items.get_special( type );
         for( const auto &elem : items ) {
             const tripoint pos( sm_offset + elem.location, submap_loc.z );
 
