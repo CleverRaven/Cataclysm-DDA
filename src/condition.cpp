@@ -500,7 +500,7 @@ void conditional_t<T>::set_days_since( JsonObject &jo )
 {
     const unsigned int days = jo.get_int( "days_since_cataclysm" );
     condition = [days]( const T & ) {
-        return to_turn<int>( calendar::turn ) >= DAYS( days );
+        return to_turn<int>( calendar::turn ) >= calendar::start_of_cataclysm + 1_days * days;
     };
 }
 
