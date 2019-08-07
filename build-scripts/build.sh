@@ -13,7 +13,6 @@ function run_tests
 
 date +%s > build-start-time
 
-export CCACHE_MAXSIZE=1G
 if [ -n "$TEST_STAGE" ]
 then
     build-scripts/lint-json.sh
@@ -30,6 +29,8 @@ then
 fi
 
 ccache --zero-stats
+# Increase cache size because debug builds generate large object files
+ccache -M 2G
 ccache --show-stats
 
 if [ -n "$CMAKE" ]
