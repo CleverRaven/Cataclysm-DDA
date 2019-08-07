@@ -46,7 +46,7 @@ mtype::mtype()
     burn_into = mtype_id::NULL_ID();
     dies.push_back( &mdeath::normal );
     sp_defense = nullptr;
-    harvest = harvest_id::NULL_ID();
+    harvest = harvest_id( "human" );
     luminance = 0;
     bash_skill = 0;
 
