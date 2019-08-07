@@ -728,7 +728,7 @@ static void smash()
     }
 }
 
-static bool try_set_alarm()
+static int try_set_alarm()
 {
     uilist as_m;
     const bool already_set = g->u.has_effect( effect_alarm_clock );
@@ -745,7 +745,7 @@ static bool try_set_alarm()
                                _( "Set an alarm for later" ) );
     as_m.query();
 
-    return as_m.ret == 1;
+    return as_m.ret;
 }
 
 static void wait()
@@ -762,7 +762,11 @@ static void wait()
     }
 
     if( u.has_alarm_clock() ) {
-        setting_alarm = try_set_alarm();
+        int alarm_query = try_set_alarm();
+        if( alarm_query == UILIST_CANCEL ) {
+            return;
+        }
+        setting_alarm = alarm_query == 1;
     }
 
     const bool has_watch = u.has_watch() || setting_alarm;
