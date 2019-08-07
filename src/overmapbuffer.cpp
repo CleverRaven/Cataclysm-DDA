@@ -1421,7 +1421,7 @@ bool overmapbuffer::place_special(
     // correctly (e.g. won't check correct underlying terrain).
 
     if( om_loc.om->can_place_special(
-            special, om_loc.local, dir, must_be_unexplored ) || force ) {
+                special, om_loc.local, dir, must_be_unexplored ) || force ) {
         // Get the closest city that is within the overmap because
         // all of the overmap generation functions only function within
         // the single overmap. If future generation is hoisted up to the
