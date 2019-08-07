@@ -580,7 +580,7 @@ void computer::activate_function( computer_action action )
         case COMPACT_MAPS: {
             g->u.moves -= 30;
             const tripoint center = g->u.global_omt_location();
-            overmap_buffer.reveal( point( center.x, center.y ), 40, 0 );
+            overmap_buffer.reveal( center.xy(), 40, 0 );
             query_any(
                 _( "Surface map data downloaded.  Local anomalous-access error logged.  Press any key..." ) );
             remove_option( COMPACT_MAPS );

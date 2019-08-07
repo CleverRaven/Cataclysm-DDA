@@ -119,7 +119,7 @@ struct tripoint {
     int z = 0;
     constexpr tripoint() = default;
     constexpr tripoint( int X, int Y, int Z ) : x( X ), y( Y ), z( Z ) {}
-    explicit constexpr tripoint( const point &p, int Z ) : x( p.x ), y( p.y ), z( Z ) {}
+    constexpr tripoint( const point &p, int Z ) : x( p.x ), y( p.y ), z( Z ) {}
 
     constexpr tripoint operator+( const tripoint &rhs ) const {
         return tripoint( x + rhs.x, y + rhs.y, z + rhs.z );
@@ -169,7 +169,7 @@ struct tripoint {
         return *this;
     }
 
-    point xy() const {
+    constexpr point xy() const {
         return point( x, y );
     }
 
@@ -287,9 +287,9 @@ static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 static constexpr tripoint tripoint_zero { 0, 0, 0 };
 static constexpr tripoint tripoint_max{ INT_MAX, INT_MAX, INT_MAX };
 
-static constexpr point point_min{ tripoint_min.x, tripoint_min.y };
-static constexpr point point_zero{ tripoint_zero.x, tripoint_zero.y };
-static constexpr point point_max{ tripoint_max.x, tripoint_max.y };
+static constexpr point point_min{ tripoint_min.xy() };
+static constexpr point point_zero{ tripoint_zero.xy() };
+static constexpr point point_max{ tripoint_max.xy() };
 
 static constexpr point point_north{ 0, -1 };
 static constexpr point point_north_east{ 1, -1 };

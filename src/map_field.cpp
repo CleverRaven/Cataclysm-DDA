@@ -59,6 +59,8 @@
 #include "mongroup.h"
 
 const species_id FUNGUS( "FUNGUS" );
+const species_id INSECT( "INSECT" );
+const species_id SPIDER( "SPIDER" );
 
 const efftype_id effect_badpoison( "badpoison" );
 const efftype_id effect_blind( "blind" );
@@ -264,7 +266,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     // First check if we can fall
     // TODO: Make fall and rise chances parameters to enable heavy/light gas
     if( zlevels && p.z > -OVERMAP_DEPTH ) {
-        const tripoint down{ p.x, p.y, p.z - 1 };
+        const tripoint down{ p.xy(), p.z - 1 };
         maptile down_tile = maptile_at_internal( down );
         if( gas_can_spread_to( cur, down_tile ) && valid_move( p, down, true, true ) ) {
             gas_spread_to( cur, down_tile );
@@ -318,7 +320,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
             }
         }
     } else if( zlevels && p.z < OVERMAP_HEIGHT ) {
-        const tripoint up{ p.x, p.y, p.z + 1 };
+        const tripoint up{ p.xy(), p.z + 1 };
         maptile up_tile = maptile_at_internal( up );
         if( gas_can_spread_to( cur, up_tile ) && valid_move( p, up, true, true ) ) {
             gas_spread_to( cur, up_tile );
@@ -439,7 +441,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 if( curtype == fd_acid ) {
                     // Try to fall by a z-level
                     if( zlevels && p.z > -OVERMAP_DEPTH ) {
-                        tripoint dst{ p.x, p.y, p.z - 1 };
+                        tripoint dst{ p.xy(), p.z - 1 };
                         if( valid_move( p, dst, true, true ) ) {
                             maptile dst_tile = maptile_at_internal( dst );
                             field_entry *acid_there = dst_tile.find_field( fd_acid );
@@ -610,7 +612,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                         } else if( ter.has_flag( TFLAG_NO_FLOOR ) && zlevels && p.z > -OVERMAP_DEPTH ) {
                             // We're hanging in the air - let's fall down
-                            tripoint dst{ p.x, p.y, p.z - 1 };
+                            tripoint dst{ p.xy(), p.z - 1 };
                             if( valid_move( p, dst, true, true ) ) {
                                 maptile dst_tile = maptile_at_internal( dst );
                                 field_entry *fire_there = dst_tile.find_field( fd_fire );
@@ -774,7 +776,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     // Spreading down is achieved by wrecking the walls/floor and then falling
                     if( zlevels && cur.get_field_intensity() == 3 && p.z < OVERMAP_HEIGHT ) {
                         // Let it burn through the floor
-                        maptile dst = maptile_at_internal( {p.x, p.y, p.z + 1} );
+                        maptile dst = maptile_at_internal( {p.xy(), p.z + 1} );
                         const auto &dst_ter = dst.get_ter_t();
                         if( dst_ter.has_flag( TFLAG_NO_FLOOR ) ||
                             dst_ter.has_flag( TFLAG_FLAMMABLE ) ||
@@ -918,7 +920,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         rng( 3, 35 ) < cur.get_field_intensity() * 10 ) {
                         bool smoke_up = zlevels && p.z < OVERMAP_HEIGHT;
                         if( smoke_up ) {
-                            tripoint up{p.x, p.y, p.z + 1};
+                            tripoint up{p.xy(), p.z + 1};
                             maptile dst = maptile_at_internal( up );
                             const ter_t &dst_ter = dst.get_ter_t();
                             if( dst_ter.has_flag( TFLAG_NO_FLOOR ) ) {
@@ -1206,6 +1208,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         curfield.find_field( fd_gas_vent ) ||
                         curfield.find_field( fd_smoke_vent ) ||
                         curfield.find_field( fd_fungicidal_gas ) ||
+                        curfield.find_field( fd_insecticidal_gas ) ||
                         curfield.find_field( fd_fire_vent ) ||
                         curfield.find_field( fd_flame_burst ) ||
                         curfield.find_field( fd_electricity ) ||
@@ -1702,8 +1705,8 @@ void map::player_in_field( player &u )
                 u.hurtall( rng( 2, 6 ), nullptr );
             }
         }
-        // Fungicidal gas is unhealthy and becomes deadly if you cross a related threshold.
-        if( ft == fd_fungicidal_gas ) {
+        // Both gases are unhealthy and become deadly if you cross a related threshold.
+        if( ft == fd_fungicidal_gas || ft == fd_insecticidal_gas ) {
             // The gas won't harm you inside a vehicle.
             if( !inside ) {
                 // Full body suits protect you from the effects of the gas.
@@ -1711,7 +1714,9 @@ void map::player_in_field( player &u )
                        u.get_env_resist( bp_eyes ) >= 15 ) ) {
                     const int intensity = cur.get_field_intensity();
                     bool inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, intensity * 1_minutes );
-                    if( u.has_trait( trait_id( "THRESH_MYCUS" ) ) || u.has_trait( trait_id( "THRESH_MARLOSS" ) ) ) {
+                    if( u.has_trait( trait_id( "THRESH_MYCUS" ) ) || u.has_trait( trait_id( "THRESH_MARLOSS" ) ) ||
+                        ( ft == fd_insecticidal_gas && ( u.get_highest_category() == "INSECT" ||
+                                                         u.get_highest_category() == "SPIDER" ) ) ) {
                         inhaled |= u.add_env_effect( effect_badpoison, bp_mouth, 5, intensity * 1_minutes );
                         u.hurtall( rng( intensity, intensity * 2 ), nullptr );
                         u.add_msg_if_player( m_bad, _( "The %s burns your skin." ), cur.name() );
@@ -1989,6 +1994,13 @@ void map::monster_in_field( monster &z )
         }
         if( cur_field_type == fd_fungicidal_gas ) {
             if( z.type->in_species( FUNGUS ) ) {
+                const int intensity = cur.get_field_intensity();
+                z.moves -= rng( 10 * intensity, 30 * intensity );
+                dam += rng( 4, 7 * intensity );
+            }
+        }
+        if( cur_field_type == fd_insecticidal_gas ) {
+            if( z.type->in_species( INSECT ) || z.type->in_species( SPIDER ) ) {
                 const int intensity = cur.get_field_intensity();
                 z.moves -= rng( 10 * intensity, 30 * intensity );
                 dam += rng( 4, 7 * intensity );

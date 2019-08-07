@@ -6867,7 +6867,7 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type, bool forc
     std::shared_ptr<npc> temp = std::make_shared<npc>();
     temp->normalize();
     temp->load_npc_template( type );
-    temp->spawn_at_precise( { abs_sub.x, abs_sub.y }, { x, y, abs_sub.z } );
+    temp->spawn_at_precise( { abs_sub.xy() }, { x, y, abs_sub.z } );
     temp->toggle_trait( trait_id( "NPC_STATIC_NPC" ) );
     overmap_buffer.insert_npc( temp );
     return temp->getID();
@@ -6998,7 +6998,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const int x, const int y, cons
 vehicle *map::add_vehicle( const vgroup_id &type, const point &p, const int dir,
                            const int veh_fuel, const int veh_status, const bool merge_wrecks )
 {
-    return add_vehicle( type.obj().pick(), tripoint( p.x, p.y, abs_sub.z ),
+    return add_vehicle( type.obj().pick(), tripoint( p, abs_sub.z ),
                         dir, veh_fuel, veh_status, merge_wrecks );
 }
 
@@ -7120,12 +7120,12 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
             for( auto &part : veh->parts ) {
                 const tripoint part_pos = veh->global_part_pos3( part ) - global_pos;
                 // TODO: change mount points to be tripoint
-                wreckage->install_part( point( part_pos.x, part_pos.y ), part );
+                wreckage->install_part( part_pos.xy(), part );
             }
 
             for( auto &part : other_veh->parts ) {
                 const tripoint part_pos = other_veh->global_part_pos3( part ) - global_pos;
-                wreckage->install_part( point( part_pos.x, part_pos.y ), part );
+                wreckage->install_part( part_pos.xy(), part );
 
             }
 
@@ -7228,7 +7228,7 @@ void map::rotate( int turns )
 
         const auto new_pos = point{ old_x, old_y } .rotate( turns, { SEEX * 2, SEEY * 2 } );
 
-        np.spawn_at_precise( { abs_sub.x, abs_sub.y }, { new_pos.x, new_pos.y, abs_sub.z } );
+        np.spawn_at_precise( { abs_sub.xy() }, { new_pos, abs_sub.z } );
         overmap_buffer.insert_npc( npc_ptr );
     }
 
@@ -8295,31 +8295,43 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, const poi
     mapgendata md( north, south, east, west, northeast, southeast, northwest, southwest,
                    above, below, omt_pos.z, rsettings, update_tmap );
 
+    // If the existing map is rotated, we need to rotate it back to the north
+    // orientation before applying our updates.
     int rotation = 0;
     if( map_id.size() > 7 ) {
         if( map_id.substr( map_id.size() - 6, 6 ) == "_south" ) {
             rotation = 2;
             md.m.rotate( rotation );
         } else if( map_id.substr( map_id.size() - 5, 5 ) == "_east" ) {
-            rotation = 1;
+            rotation = 3;
             md.m.rotate( rotation );
         } else if( map_id.substr( map_id.size() - 5, 5 ) == "_west" ) {
-            rotation = 3;
+            rotation = 1;
             md.m.rotate( rotation );
         }
     }
-    if( update_map( md, offset, miss, verify, rotation ) ) {
-        md.m.save();
-        g->load_npcs();
-        g->m.invalidate_map_cache( md.zlevel );
-        g->refresh_all();
-        return true;
+
+    const bool applied = update_map( md, offset, miss, verify );
+
+    // If we rotated the map before applying updates, we now need to rotate
+    // it back to where we found it.
+    if( rotation ) {
+        md.m.rotate( 4 - rotation );
     }
-    return false;
+
+    if( applied ) {
+        md.m.save();
+    }
+
+    g->load_npcs();
+    g->m.invalidate_map_cache( md.zlevel );
+    g->refresh_all();
+
+    return applied;
 }
 
 bool update_mapgen_function_json::update_map( mapgendata &md, const point &offset,
-        mission *miss, bool verify, int rotation ) const
+        mission *miss, bool verify ) const
 {
     for( auto &elem : setmap_points ) {
         if( verify && elem.has_vehicle_collision( md, offset ) ) {
@@ -8332,10 +8344,6 @@ bool update_mapgen_function_json::update_map( mapgendata &md, const point &offse
         return false;
     }
     objects.apply( md, offset, 0, miss );
-
-    if( rotation ) {
-        md.m.rotate( 4 - rotation );
-    }
 
     return true;
 }

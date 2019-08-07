@@ -1432,7 +1432,7 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
                 pnt = point( MAPSIZE_X - 1 - pnt.x, pnt.y );
             }
         }
-        if( g->is_empty( { pnt.x, pnt.y, g->get_levz() } ) ) {
+        if( g->is_empty( { pnt, g->get_levz() } ) ) {
             break;
         }
         if( tries++ == 1000 ) {
