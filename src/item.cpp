@@ -6126,7 +6126,10 @@ std::set<std::string> item::ammo_effects( bool with_ammo ) const
 std::string item::ammo_sort_name() const
 {
     if( is_magazine() || is_gun() || is_tool() ) {
-        return ammotype( *ammo_types().begin() )->name();
+        const std::set<ammotype> &types = ammo_types();
+        if( !types.empty() ) {
+            return ammotype( *types.begin() )->name();
+        }
     }
     if( is_ammo() ) {
         return ammo_type()->name();
