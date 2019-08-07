@@ -264,14 +264,43 @@ void sounds::process_sounds()
     recent_sounds.clear();
 }
 
-// skip most movement sounds
-static bool describe_sound( sounds::sound_t category )
+// skip some sounds to avoid message spam
+static bool describe_sound( sounds::sound_t category, bool from_player_position )
 {
-    if( category == sounds::sound_t::combat || category == sounds::sound_t::speech ||
-        category == sounds::sound_t::alert ) {
-        return true;
+    if( from_player_position ) {
+        switch( category ) {
+            case sounds::sound_t::background:
+            case sounds::sound_t::weather:
+            case sounds::sound_t::music: // detailed music descriptions are printed in iuse::play_music
+            case sounds::sound_t::movement:
+            case sounds::sound_t::activity:
+            case sounds::sound_t::destructive_activity:
+            case sounds::sound_t::combat:
+                return false;
+            case sounds::sound_t::speech: // radios also produce speech sound
+            case sounds::sound_t::alarm:
+            case sounds::sound_t::alert:
+            case sounds::sound_t::order:
+                return true;
+        }
+    } else {
+        switch( category ) {
+            case sounds::sound_t::background:
+            case sounds::sound_t::weather:
+            case sounds::sound_t::music:
+            case sounds::sound_t::movement:
+            case sounds::sound_t::activity:
+            case sounds::sound_t::destructive_activity:
+                return one_in( 100 );
+            case sounds::sound_t::speech:
+            case sounds::sound_t::alarm:
+            case sounds::sound_t::combat:
+            case sounds::sound_t::alert:
+            case sounds::sound_t::order:
+                return true;
+        }
     }
-    return one_in( 5 );
+    return true;
 }
 
 void sounds::process_sound_markers( player *p )
@@ -367,10 +396,8 @@ void sounds::process_sound_markers( player *p )
             }
         }
 
-        // skip most movement sounds and our own sounds
-        // unless our own sound is an alarm
-        if( ( pos != p->pos() || ( pos == p->pos() && sound.category == sound_t::alarm ) ) &&
-            describe_sound( sound.category ) ) {
+        // skip some sounds to avoid message spam
+        if( describe_sound( sound.category, pos == p->pos() ) ) {
             game_message_type severity = m_info;
             if( sound.category == sound_t::combat || sound.category == sound_t::alarm ) {
                 severity = m_warning;

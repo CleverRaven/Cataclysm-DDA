@@ -8204,13 +8204,10 @@ bool item::process_tool( player *carrier, const tripoint &pos )
         energy = std::max( ammo_required(), 1 );
 
     } else if( type->tool->power_draw > 0 ) {
-        // power_draw in mW / 1000 to give J per second
-        int energy_j = type->tool->power_draw / 1000;
-        // J / 1000 for kJ battery units
-        int energy_bat = energy_j / 1000;
+        // power_draw in mW / 1000000 to give kJ (battery unit) per second
+        energy = type->tool->power_draw / 1000000;
         // energy_bat remainder results in chance at additional charge/discharge
-        energy_bat += x_in_y( energy_j % 1000, 1000 ) ? 1 : 0;
-        energy = energy_bat;
+        energy += x_in_y( type->tool->power_draw % 1000000, 1000000 ) ? 1 : 0;
     }
     energy -= ammo_consume( energy, pos );
 
