@@ -1380,7 +1380,8 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
     // Shouldn't block if player is asleep or winded ; this only seems to be used by player.
     // TODO: It should probably be moved to the section that regenerates blocks
     // and to effects that disallow blocking
-    if( blocks_left < 1 || in_sleep_state() || has_effect( efftype_id( "winded" ) ) ) {
+    if( blocks_left < 1 || in_sleep_state() || has_effect( effect_narcosis ) ||
+        has_effect( efftype_id( "winded" ) ) ) {
         return false;
     }
     blocks_left--;
