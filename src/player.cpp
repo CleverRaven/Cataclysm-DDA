@@ -5803,10 +5803,12 @@ void player::suffer()
     }
 
     // Negative bionics effects
-    if( has_bionic( bio_dis_shock ) && one_turn_in( 2_hours ) && !has_effect( effect_narcosis ) ) {
+    if( has_bionic( bio_dis_shock ) && power_level > 9 && one_turn_in( 2_hours ) &&
+        !has_effect( effect_narcosis ) ) {
         add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
         mod_pain( 1 );
         moves -= 150;
+        charge_power( -10 );
 
         if( weapon.typeId() == "e_handcuffs" && weapon.charges > 0 ) {
             weapon.charges -= rng( 1, 3 ) * 50;
