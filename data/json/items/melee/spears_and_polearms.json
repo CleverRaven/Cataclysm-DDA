@@ -50,7 +50,7 @@
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
-    "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "REACH_ATTACK" ]
+    "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "spear_spike",
@@ -247,7 +247,7 @@
     "description": "This is a versatile polearm with an axe blade, a spike, and other fun things attached to a long stick.",
     "price": 50000,
     "material": [ "wood", "steel" ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "techniques": [ "WBLOCK_1", "WIDE", "SWEEP" ],
     "weight": 3175,
     "volume": 15,
@@ -265,7 +265,7 @@
     "description": "This is a dull, cheaply made replica of a polearm with an axe blade, a spike, and other fun things attached to a long stick.",
     "price": 5000,
     "material": [ "wood", "aluminum" ],
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "weight": 1644,
     "volume": 15,
@@ -284,7 +284,7 @@
     "price": 50000,
     "material": [ "steel", "wood" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -28 ] ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "techniques": [ "WIDE", "WBLOCK_1" ],
     "weight": 2100,
     "volume": 10,
@@ -308,7 +308,7 @@
     "bashing": 6,
     "cutting": 37,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "price": 80000
   },
   {
@@ -327,7 +327,7 @@
     "cutting": 21,
     "to_hit": 2,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "price": 8000
   },
   {
@@ -345,7 +345,7 @@
     "bashing": 13,
     "cutting": 1,
     "to_hit": -1,
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "price": 8000
   },
   {
@@ -423,7 +423,7 @@
     "color": "brown",
     "techniques": [ "IMPALE", "WBLOCK_2" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
+    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "pike_fake",
@@ -443,7 +443,7 @@
     "looks_like": "pike",
     "techniques": [ "IMPALE", "WBLOCK_2" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "pike_inferior",
@@ -463,7 +463,7 @@
     "looks_like": "pike",
     "techniques": [ "IMPALE", "WBLOCK_2" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "type": "GENERIC",
@@ -481,7 +481,7 @@
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "REACH_ATTACK" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "spear_dory",
@@ -519,7 +519,7 @@
     "symbol": "/",
     "color": "yellow",
     "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK" ]
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "spear_stone",

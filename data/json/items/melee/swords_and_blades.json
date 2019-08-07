@@ -855,7 +855,7 @@
       "lacks_fuel_message": "Dein Flammenschwert hat keinen Brennstoff mehr."
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "zweifire_on",
@@ -889,7 +889,7 @@
       },
       { "type": "firestarter", "moves": 30 }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "zweihander",
@@ -908,7 +908,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "kirpan",
@@ -1005,7 +1005,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "nodachi_fake",
@@ -1018,7 +1018,7 @@
     "price": 15000,
     "price_postapoc": 0,
     "material": "aluminum",
-    "flags": "SHEATH_SWORD",
+    "flags": [ "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE" ],
     "weight": 1882,
     "volume": 13,
@@ -1038,7 +1038,7 @@
     "price": 15000,
     "price_postapoc": 0,
     "material": "budget_steel",
-    "flags": "SHEATH_SWORD",
+    "flags": [ "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE" ],
     "weight": 1882,
     "volume": 13,
@@ -1380,7 +1380,7 @@
     "price": 8000,
     "price_postapoc": 1000,
     "material": "aluminum",
-    "flags": "SHEATH_SWORD",
+    "flags": [ "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "weight": 3176,
     "volume": 13,
@@ -1398,7 +1398,7 @@
     "description": "This is a huge two-handed sword from Germany.  You're not quite sure it's supposed to be that bendy.",
     "price": 160000,
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
+    "flags": [ "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "weight": 3176,
     "volume": 13,
@@ -1567,7 +1567,7 @@
     "revert_to": "chainsaw_off",
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": "CS_LAJATANG_OFF",
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "cs_lajatang_on",
@@ -1581,7 +1581,7 @@
     "revert_to": "cs_lajatang_off",
     "use_action": "CS_LAJATANG_ON",
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -250 ] ],
-    "flags": [ "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "flags": [ "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "ecs_lajatang_off",
@@ -1602,7 +1602,7 @@
     "revert_to": "elec_chainsaw_off",
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": "ECS_LAJATANG_OFF",
-    "flags": [ "NONCONDUCTIVE" ],
+    "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "magazines": [
       [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ],
@@ -1619,7 +1619,7 @@
     "cutting": 140,
     "revert_to": "ecs_lajatang_off",
     "use_action": "ECS_LAJATANG_ON",
-    "flags": [ "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE" ],
+    "flags": [ "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "magazine_well": 4
   },
   {
@@ -1652,7 +1652,7 @@
     "price": 12000,
     "material": [ "wood", "iron" ],
     "techniques": [ "WBLOCK_1", "SPIN" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "weight": 2500,
     "volume": 26,
     "bashing": 4,
@@ -1678,7 +1678,8 @@
     "ammo": "gasoline",
     "max_charges": 1000,
     "use_action": "COMBATSAW_OFF",
-    "techniques": [ "WBLOCK_1", "SWEEP" ]
+    "techniques": [ "WBLOCK_1", "SWEEP" ],
+    "flags": [ "ALWAYS_TWOHAND" ]
   },
   {
     "id": "combatsaw_on",
@@ -1693,7 +1694,7 @@
     "revert_to": "combatsaw_off",
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -120 ] ],
     "use_action": "COMBATSAW_ON",
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED" ]
+    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "e_combatsaw_off",
@@ -1713,6 +1714,7 @@
     "ammo": "battery",
     "use_action": "E_COMBATSAW_OFF",
     "techniques": [ "WBLOCK_1", "SWEEP" ],
+    "flags": [ "ALWAYS_TWOHAND" ],
     "magazines": [
       [
         "battery",
@@ -1734,7 +1736,7 @@
     "revert_to": "e_combatsaw_off",
     "qualities": [ [ "AXE", 3 ] ],
     "use_action": "E_COMBATSAW_ON",
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED" ],
+    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ],
     "magazine_well": 2
   }
 ]
