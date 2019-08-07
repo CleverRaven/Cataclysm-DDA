@@ -697,8 +697,8 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
         const oter_id oter = get_ter_at( cur.pos );
         int travel_cost = static_cast<int>( oter->get_travel_cost() );
         if( ( road_only && ( oter->get_name() != "road" && oter->get_name() != "bridge" && oter->get_name() != "road, manhole" ) ) ||
-            ( oter->get_name() == "solid rock" ||
-              oter->get_name() == "open air" ) ) {
+                ( oter->get_name() == "solid rock" ||
+                  oter->get_name() == "open air" ) ) {
             return pf::rejected;
         } else if( oter->get_name() == "forest" ) {
             travel_cost = 10;
