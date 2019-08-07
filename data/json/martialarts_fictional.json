@@ -50,24 +50,35 @@
     "type": "martial_art",
     "id": "style_centipede",
     "name": "Centipede Kung Fu",
-    "description": "One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land increases your speed by 4.",
+    "description": "One of the Five Deadly Venoms, used by Zhang Yiaotian.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land increases your attack speed.  Critical hits increase your damage further.",
     "initiate": [ "You ready yourself to attack as fast as possible.", "%s assumes a centipede-like stance." ],
     "learn_difficulty": 10,
     "arm_block": 3,
-    "leg_block": 99,
+    "leg_block": 4,
     "onhit_buffs": [
       {
-        "id": "centipede_hit_buff",
-        "name": "Hundred-Hitter",
-        "description": "+4 Atk Speed",
+        "id": "buff_centipede_onhit",
+        "name": "Centipede's Frenzy",
+        "description": "Your attacks are a blur of hands and legs that become faster as your strike your opponents without rest.\n\n-4 move cost.\nLasts 3 turns.  Stacks 4 times.",
+        "min_unarmed": 5,
         "unarmed_allowed": true,
-        "min_unarmed": 1,
         "buff_duration": 3,
-        "max_stacks": 8,
+        "max_stacks": 4,
         "flat_bonuses": [ [ "movecost", -4.0 ] ]
       }
     ],
-    "techniques": [ "tec_centipede_rapid" ]
+    "oncrit_buffs": [
+      {
+        "id": "buff_centipede_oncrit",
+        "name": "Centipede's Venom",
+        "description": "Your venom burns your opponents at the worst of times.\n\n+2 bashing damage.\nLasts 2 turns.",
+        "min_unarmed": 1,
+        "unarmed_allowed": true,
+        "buff_duration": 2,
+        "flat_bonuses": [ [ "damage", "bash", 2.0 ] ]
+      }
+    ],
+    "techniques": [ "tec_centipede_rapid", "tec_centipede_break", "tec_centipede_bite", "tec_centipede_disarm" ]
   },
   {
     "type": "martial_art",
@@ -351,11 +362,41 @@
   },
   {
     "type": "technique",
+    "id": "tec_centipede_break",
+    "name": "Grab Break",
+    "messages": [ "The %s tries to grab you, but you skitter free!", "The %s tries to grab <npcname>, but they skitter free!" ],
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "type": "technique",
     "id": "tec_centipede_rapid",
-    "name": "Rapid Strike",
+    "name": "Centipede Strike",
+    "messages": [ "You swiftly hit %s", "<npcname> swiftly hits %s" ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_centipede_bite",
+    "name": "Centipede Bite",
+    "messages": [ "You palm strike %s with a painful Centipede Bite", "<npcname> palm strikes %s with a painful Centipede Bite" ],
     "min_unarmed": 2,
     "unarmed_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
-    "messages": [ "You swiftly hit %s", "<npcname> swiftly hits %s" ]
+    "crit_tec": true,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_centipede_disarm",
+    "name": "Disarm",
+    "messages": [ "You disarm %s with lightning speed", "<npcname> disarms %s with lightning speed" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "disarms": true
   }
 ]
