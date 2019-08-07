@@ -712,7 +712,7 @@ bool game::start_game()
     m.invalidate_map_cache( get_levz() );
     m.build_map_cache( get_levz() );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
-    overmap_buffer.reveal( point( u.global_omt_location().x, u.global_omt_location().y ),
+    overmap_buffer.reveal( u.global_omt_location().xy(),
                            get_option<int>( "DISTANCE_INITIAL_VISIBILITY" ), 0 );
 
     u.moves = 0;
@@ -1504,7 +1504,7 @@ bool game::do_turn()
     // m.vehmove used to do this, but now it only give them moves instead.
     for( auto &elem : MAPBUFFER ) {
         tripoint sm_loc = elem.first;
-        point sm_topleft = sm_to_ms_copy( point( sm_loc.x, sm_loc.y ) );
+        point sm_topleft = sm_to_ms_copy( sm_loc.xy() );
         point in_reality = m.getlocal( sm_topleft );
 
         submap *sm = elem.second;
@@ -2472,7 +2472,7 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
 
         act = ACTION_FIRE;
     } else if( is_adjacent &&
-               m.close_door( tripoint( mouse_target.x, mouse_target.y, u.posz() ), !m.is_outside( u.pos() ),
+               m.close_door( tripoint( mouse_target.xy(), u.posz() ), !m.is_outside( u.pos() ),
                              true ) ) {
         act = ACTION_CLOSE;
     } else if( is_self ) {
@@ -5862,7 +5862,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
     if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && !m.has_floor( lp ) ) {
         // Print info about stuff below
-        tripoint below( lp.x, lp.y, lp.z - 1 );
+        tripoint below( lp.xy(), lp.z - 1 );
         std::string tile_below = m.tername( below );
         if( m.has_furn( below ) ) {
             tile_below += "; " + m.furnname( below );
@@ -9289,7 +9289,7 @@ point game::place_player( const tripoint &dest_loc )
                     add_msg( _( "You push the %s out of the way." ), critter.name() );
                 } else {
                     add_msg( _( "There is no room to push the %s out of the way." ), critter.name() );
-                    return point( u.pos().x, u.pos().y );
+                    return u.pos().xy();
                 }
             } else {
                 critter.move_to( u.pos(), true ); // Force the movement even though the player is there right now.
@@ -9534,7 +9534,7 @@ void game::place_player_overmap( const tripoint &om_dest )
     // offset because load_map expects the coordinates of the top left corner, but the
     // player will be centered in the middle of the map.
     const tripoint map_om_pos( om_dest.x * 2 - HALF_MAPSIZE, om_dest.y * 2 - HALF_MAPSIZE, om_dest.z );
-    const tripoint player_pos( u.pos().x, u.pos().y, map_om_pos.z );
+    const tripoint player_pos( u.pos().xy(), map_om_pos.z );
     load_map( map_om_pos );
     load_npcs();
     m.spawn_monsters( true ); // Static monsters

@@ -391,8 +391,8 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                         if( has_zlevels() && terrain.has_flag( TFLAG_NO_FLOOR ) ) {
                             // Special case - ledge in z-levels
                             // Warning: really expensive, needs a cache
-                            if( valid_move( p, tripoint( p.x, p.y, p.z - 1 ), false, true ) ) {
-                                tripoint below( p.x, p.y, p.z - 1 );
+                            if( valid_move( p, tripoint( p.xy(), p.z - 1 ), false, true ) ) {
+                                tripoint below( p.xy(), p.z - 1 );
                                 if( !has_flag( TFLAG_NO_FLOOR, below ) ) {
                                     // Otherwise this would have been a huge fall
                                     auto &layer = pf.get_layer( p.z - 1 );
@@ -429,7 +429,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         const maptile &parent_tile = maptile_at_internal( cur );
         const auto &parent_terrain = parent_tile.get_ter_t();
         if( settings.allow_climb_stairs && cur.z > minz && parent_terrain.has_flag( TFLAG_GOES_DOWN ) ) {
-            tripoint dest( cur.x, cur.y, cur.z - 1 );
+            tripoint dest( cur.xy(), cur.z - 1 );
             if( vertical_move_destination<TFLAG_GOES_UP>( *this, dest ) ) {
                 auto &layer = pf.get_layer( dest.z );
                 pf.add_point( layer.gscore[parent_index] + 2,
@@ -438,7 +438,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             }
         }
         if( settings.allow_climb_stairs && cur.z < maxz && parent_terrain.has_flag( TFLAG_GOES_UP ) ) {
-            tripoint dest( cur.x, cur.y, cur.z + 1 );
+            tripoint dest( cur.xy(), cur.z + 1 );
             if( vertical_move_destination<TFLAG_GOES_DOWN>( *this, dest ) ) {
                 auto &layer = pf.get_layer( dest.z );
                 pf.add_point( layer.gscore[parent_index] + 2,
@@ -447,7 +447,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             }
         }
         if( cur.z < maxz && parent_terrain.has_flag( TFLAG_RAMP ) &&
-            valid_move( cur, tripoint( cur.x, cur.y, cur.z + 1 ), false, true ) ) {
+            valid_move( cur, tripoint( cur.xy(), cur.z + 1 ), false, true ) ) {
             auto &layer = pf.get_layer( cur.z + 1 );
             for( size_t it = 0; it < 8; it++ ) {
                 const tripoint above( cur.x + x_offset[it], cur.y + y_offset[it], cur.z + 1 );

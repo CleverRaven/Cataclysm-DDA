@@ -2969,7 +2969,7 @@ void veh_interact::complete_vehicle()
                 veh->parts[partnum].direction = dir;
             }
 
-            const tripoint vehp = veh->global_pos3() + tripoint( q.x, q.y, 0 );
+            const tripoint vehp = veh->global_pos3() + tripoint( q, 0 );
             // TODO: allow boarding for non-players as well.
             player *const pl = g->critter_at<player>( vehp );
             if( vpinfo.has_flag( VPFLAG_BOARDABLE ) && pl ) {

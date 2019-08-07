@@ -282,7 +282,7 @@ int rl_dist( const int x1, const int y1, const int x2, const int y2 )
 
 int rl_dist( const point &a, const point &b )
 {
-    return rl_dist( tripoint( a.x, a.y, 0 ), tripoint( b.x, b.y, 0 ) );
+    return rl_dist( tripoint( a, 0 ), tripoint( b, 0 ) );
 }
 
 int rl_dist( const tripoint &loc1, const tripoint &loc2 )

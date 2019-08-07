@@ -248,7 +248,7 @@ void sounds::process_sounds()
 
             const point abs_ms = g->m.getabs( source.x, source.y );
             const point abs_sm = ms_to_sm_copy( abs_ms );
-            const tripoint target( abs_sm.x, abs_sm.y, source.z );
+            const tripoint target( abs_sm, source.z );
             overmap_buffer.signal_hordes( target, sig_power );
         }
         // Alert all monsters (that can hear) to the sound.

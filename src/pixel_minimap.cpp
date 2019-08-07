@@ -415,7 +415,7 @@ void pixel_minimap::render_cache( const tripoint &center )
         tiles_limit.y / SEEY / 2, 0
     };
 
-    auto ms_offset = point{ center.x, center.y };
+    auto ms_offset = center.xy();
     ms_to_sm_remain( ms_offset );
     ms_offset = point{ SEEX / 2, SEEY / 2 } - ms_offset;
 
@@ -435,7 +435,7 @@ void pixel_minimap::render_cache( const tripoint &center )
         const auto sm_pos = rel_pos + sm_offset;
         const auto ms_pos = sm_to_ms_copy( sm_pos ) + ms_offset;
 
-        const auto rect = get_map_chunk_rect( { ms_pos.x, ms_pos.y } );
+        const auto rect = get_map_chunk_rect( { ms_pos.xy() } );
 
         RenderCopy( renderer, elem.second.minimap_tex, nullptr, &rect );
     }

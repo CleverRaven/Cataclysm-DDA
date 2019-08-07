@@ -1905,7 +1905,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
         return false;
     }
 
-    tripoint pbelow = tripoint( p.x, p.y, p.z - 1 );
+    tripoint pbelow = tripoint( p.xy(), p.z - 1 );
     SDL_Color tercol = curses_color_to_SDL( c_dark_gray );
 
     const ter_t &curr_ter = g->m.ter( pbelow ).obj();
@@ -2141,7 +2141,7 @@ bool cata_tiles::draw_vpart_below( const tripoint &p, lit_level /*ll*/, int &/*h
     if( !g->m.need_draw_lower_floor( p ) ) {
         return false;
     }
-    tripoint pbelow( p.x, p.y, p.z - 1 );
+    tripoint pbelow( p.xy(), p.z - 1 );
     int height_3d_below = 0;
     return draw_vpart( pbelow, LL_LOW, height_3d_below );
 }
@@ -2200,7 +2200,7 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, lit_level, int & )
         return false;
     }
 
-    tripoint pbelow( p.x, p.y, p.z - 1 );
+    tripoint pbelow( p.xy(), p.z - 1 );
 
     // Get the critter at the location below. If there isn't one,
     // we can bail.

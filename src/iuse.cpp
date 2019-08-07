@@ -4806,7 +4806,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
             case AEA_MAP: {
                 const tripoint center = p->global_omt_location();
                 const bool new_map = overmap_buffer.reveal(
-                                         point( center.x, center.y ), 20, center.z );
+                                         center.xy(), 20, center.z );
                 if( new_map ) {
                     p->add_msg_if_player( m_warning, _( "You have a vision of the surrounding area..." ) );
                     p->moves -= to_moves<int>( 1_seconds );

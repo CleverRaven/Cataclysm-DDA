@@ -6867,7 +6867,7 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type, bool forc
     std::shared_ptr<npc> temp = std::make_shared<npc>();
     temp->normalize();
     temp->load_npc_template( type );
-    temp->spawn_at_precise( { abs_sub.x, abs_sub.y }, { x, y, abs_sub.z } );
+    temp->spawn_at_precise( { abs_sub.xy() }, { x, y, abs_sub.z } );
     temp->toggle_trait( trait_id( "NPC_STATIC_NPC" ) );
     overmap_buffer.insert_npc( temp );
     return temp->getID();
@@ -6998,7 +6998,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const int x, const int y, cons
 vehicle *map::add_vehicle( const vgroup_id &type, const point &p, const int dir,
                            const int veh_fuel, const int veh_status, const bool merge_wrecks )
 {
-    return add_vehicle( type.obj().pick(), tripoint( p.x, p.y, abs_sub.z ),
+    return add_vehicle( type.obj().pick(), tripoint( p, abs_sub.z ),
                         dir, veh_fuel, veh_status, merge_wrecks );
 }
 
@@ -7120,12 +7120,12 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
             for( auto &part : veh->parts ) {
                 const tripoint part_pos = veh->global_part_pos3( part ) - global_pos;
                 // TODO: change mount points to be tripoint
-                wreckage->install_part( point( part_pos.x, part_pos.y ), part );
+                wreckage->install_part( part_pos.xy(), part );
             }
 
             for( auto &part : other_veh->parts ) {
                 const tripoint part_pos = other_veh->global_part_pos3( part ) - global_pos;
-                wreckage->install_part( point( part_pos.x, part_pos.y ), part );
+                wreckage->install_part( part_pos.xy(), part );
 
             }
 
@@ -7228,7 +7228,7 @@ void map::rotate( int turns )
 
         const auto new_pos = point{ old_x, old_y } .rotate( turns, { SEEX * 2, SEEY * 2 } );
 
-        np.spawn_at_precise( { abs_sub.x, abs_sub.y }, { new_pos.x, new_pos.y, abs_sub.z } );
+        np.spawn_at_precise( { abs_sub.xy() }, { new_pos, abs_sub.z } );
         overmap_buffer.insert_npc( npc_ptr );
     }
 

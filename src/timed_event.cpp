@@ -278,8 +278,8 @@ void timed_event::per_turn()
                 if( place.x == -1 && place.y == -1 ) {
                     return; // We're safely indoors!
                 }
-                g->summon_mon( mon_eyebot, tripoint( place.x, place.y, g->u.posz() ) );
-                if( g->u.sees( tripoint( place.x, place.y, g->u.posz() ) ) ) {
+                g->summon_mon( mon_eyebot, tripoint( place, g->u.posz() ) );
+                if( g->u.sees( tripoint( place, g->u.posz() ) ) ) {
                     add_msg( m_warning, _( "An eyebot swoops down nearby!" ) );
                 }
                 // One eyebot per trigger is enough, really

@@ -227,7 +227,7 @@ city::city( const point &P, int const S )
 
 int city::get_distance_from( const tripoint &p ) const
 {
-    return std::max( static_cast<int>( trig_dist( p, { pos.x, pos.y, 0 } ) ) - size, 0 );
+    return std::max( static_cast<int>( trig_dist( p, { pos, 0 } ) ) - size, 0 );
 }
 
 std::map<enum radio_type, std::string> radio_type_names =
@@ -2175,7 +2175,7 @@ void overmap::place_forest_trailheads()
         bool close = false;
         for( const point &nearby_point : closest_points_first(
                  settings.forest_trail.trailhead_road_distance,
-                 point( trailhead.x, trailhead.y ) ) ) {
+                 trailhead.xy() ) ) {
             if( check_ot( "road", ot_match_type::contains, tripoint( nearby_point, 0 ) ) ) {
                 close = true;
             }
@@ -3664,7 +3664,7 @@ point om_direction::rotate( const point &p, type dir )
 
 tripoint om_direction::rotate( const tripoint &p, type dir )
 {
-    return tripoint( rotate( { p.x, p.y }, dir ), p.z );
+    return tripoint( rotate( { p.xy() }, dir ), p.z );
 }
 
 uint32_t om_direction::rotate_symbol( uint32_t sym, type dir )
@@ -3852,7 +3852,7 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
                     initial_dir = om_direction::add( initial_dir, dir );
                 }
 
-                build_connection( cit.pos, point( rp.x, rp.y ), elem.p.z, *elem.connection, must_be_unexplored,
+                build_connection( cit.pos, rp.xy(), elem.p.z, *elem.connection, must_be_unexplored,
                                   initial_dir );
             }
         }
@@ -3867,7 +3867,7 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
     // Place basement for houses.
     if( special.id == "FakeSpecial_house" && one_in( settings.city_spec.house_basement_chance ) ) {
         const overmap_special_id basement_tid = settings.city_spec.pick_basement();
-        const tripoint basement_p = tripoint( p.x, p.y, p.z - 1 );
+        const tripoint basement_p = tripoint( p.xy(), p.z - 1 );
 
         // This basement isn't part of the special that we asserted we could place at
         // the top of this function, so we need to make sure we can place the basement
@@ -4351,7 +4351,7 @@ bool overmap::is_omt_generated( const tripoint &loc ) const
 
     // Location is local to this overmap, but we need global submap coordinates
     // for the mapbuffer lookup.
-    tripoint global_sm_loc = omt_to_sm_copy( loc ) + om_to_sm_copy( tripoint( pos().x, pos().y,
+    tripoint global_sm_loc = omt_to_sm_copy( loc ) + om_to_sm_copy( tripoint( pos(),
                              loc.z ) );
 
     const bool is_generated = MAPBUFFER.lookup_submap( global_sm_loc ) != nullptr;

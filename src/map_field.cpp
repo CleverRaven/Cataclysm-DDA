@@ -264,7 +264,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     // First check if we can fall
     // TODO: Make fall and rise chances parameters to enable heavy/light gas
     if( zlevels && p.z > -OVERMAP_DEPTH ) {
-        const tripoint down{ p.x, p.y, p.z - 1 };
+        const tripoint down{ p.xy(), p.z - 1 };
         maptile down_tile = maptile_at_internal( down );
         if( gas_can_spread_to( cur, down_tile ) && valid_move( p, down, true, true ) ) {
             gas_spread_to( cur, down_tile );
@@ -318,7 +318,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
             }
         }
     } else if( zlevels && p.z < OVERMAP_HEIGHT ) {
-        const tripoint up{ p.x, p.y, p.z + 1 };
+        const tripoint up{ p.xy(), p.z + 1 };
         maptile up_tile = maptile_at_internal( up );
         if( gas_can_spread_to( cur, up_tile ) && valid_move( p, up, true, true ) ) {
             gas_spread_to( cur, up_tile );
@@ -439,7 +439,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 if( curtype == fd_acid ) {
                     // Try to fall by a z-level
                     if( zlevels && p.z > -OVERMAP_DEPTH ) {
-                        tripoint dst{ p.x, p.y, p.z - 1 };
+                        tripoint dst{ p.xy(), p.z - 1 };
                         if( valid_move( p, dst, true, true ) ) {
                             maptile dst_tile = maptile_at_internal( dst );
                             field_entry *acid_there = dst_tile.find_field( fd_acid );
@@ -610,7 +610,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                         } else if( ter.has_flag( TFLAG_NO_FLOOR ) && zlevels && p.z > -OVERMAP_DEPTH ) {
                             // We're hanging in the air - let's fall down
-                            tripoint dst{ p.x, p.y, p.z - 1 };
+                            tripoint dst{ p.xy(), p.z - 1 };
                             if( valid_move( p, dst, true, true ) ) {
                                 maptile dst_tile = maptile_at_internal( dst );
                                 field_entry *fire_there = dst_tile.find_field( fd_fire );
@@ -774,7 +774,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     // Spreading down is achieved by wrecking the walls/floor and then falling
                     if( zlevels && cur.get_field_intensity() == 3 && p.z < OVERMAP_HEIGHT ) {
                         // Let it burn through the floor
-                        maptile dst = maptile_at_internal( {p.x, p.y, p.z + 1} );
+                        maptile dst = maptile_at_internal( {p.xy(), p.z + 1} );
                         const auto &dst_ter = dst.get_ter_t();
                         if( dst_ter.has_flag( TFLAG_NO_FLOOR ) ||
                             dst_ter.has_flag( TFLAG_FLAMMABLE ) ||
@@ -918,7 +918,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         rng( 3, 35 ) < cur.get_field_intensity() * 10 ) {
                         bool smoke_up = zlevels && p.z < OVERMAP_HEIGHT;
                         if( smoke_up ) {
-                            tripoint up{p.x, p.y, p.z + 1};
+                            tripoint up{p.xy(), p.z + 1};
                             maptile dst = maptile_at_internal( up );
                             const ter_t &dst_ter = dst.get_ter_t();
                             if( dst_ter.has_flag( TFLAG_NO_FLOOR ) ) {

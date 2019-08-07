@@ -3,6 +3,8 @@
 #include "clang/ASTMatchers/ASTMatchFinder.h"
 #include "clang/Frontend/CompilerInstance.h"
 
+#include "Utils.h"
+
 using namespace clang::ast_matchers;
 
 namespace clang
@@ -27,22 +29,6 @@ void UsePointApisCheck::registerMatchers( MatchFinder *Finder )
         ).bind( "call" ),
         this
     );
-}
-
-static StringRef getText( const MatchFinder::MatchResult &Result, SourceRange Range )
-{
-    return Lexer::getSourceText( CharSourceRange::getTokenRange( Range ),
-                                 *Result.SourceManager,
-                                 Result.Context->getLangOpts() );
-}
-
-template <typename T>
-static StringRef getText( const MatchFinder::MatchResult &Result, T *Node )
-{
-    if( const CXXDefaultArgExpr *Default = dyn_cast<CXXDefaultArgExpr>( Node ) ) {
-        return getText( Result, Default->getExpr() );
-    }
-    return getText( Result, Node->getSourceRange() );
 }
 
 template<typename T>

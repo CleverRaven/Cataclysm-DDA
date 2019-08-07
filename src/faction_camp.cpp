@@ -3019,7 +3019,7 @@ bool om_set_hide_site( npc &comp, const tripoint &omt_tgt,
 
     omt_ref = oter_id( "faction_hide_site_0" );
 
-    overmap_buffer.reveal( point( omt_tgt.x, omt_tgt.y ), 3, 0 );
+    overmap_buffer.reveal( omt_tgt.xy(), 3, 0 );
     return true;
 }
 

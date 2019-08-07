@@ -1548,7 +1548,7 @@ class player : public Character
             setpos( tripoint( position.x, y, position.z ) );
         }
         inline void setz( int z ) {
-            setpos( tripoint( position.x, position.y, z ) );
+            setpos( tripoint( position.xy(), z ) );
         }
         inline void setpos( const tripoint &p ) override {
             position = p;
