@@ -264,6 +264,7 @@ field_type_id fd_null,
               fd_hot_air3,
               fd_hot_air4,
               fd_fungicidal_gas,
+              fd_insecticidal_gas,
               fd_smoke_vent
               ;
 
@@ -319,6 +320,7 @@ void field_types::set_field_type_ids()
     fd_hot_air3 = field_type_id( "fd_hot_air3" );
     fd_hot_air4 = field_type_id( "fd_hot_air4" );
     fd_fungicidal_gas = field_type_id( "fd_fungicidal_gas" );
+    fd_insecticidal_gas = field_type_id( "fd_insecticidal_gas" );
     fd_smoke_vent = field_type_id( "fd_smoke_vent" );
 }
 

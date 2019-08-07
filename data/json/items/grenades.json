@@ -287,5 +287,93 @@
     "countdown_interval": 100,
     "countdown_action": { "type": "transform", "target": "canister_empty" },
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "fungicidalbomb",
+    "copy-from": "grenade_canister",
+    "looks_like": "smokebomb",
+    "type": "GENERIC",
+    "name": "fungicidal gas grenade",
+    "price": 3600,
+    "description": "This is a canister grenade filled with fungicidal solution.  Use this item to pull the pin and light the fuse, turning it into an active fungicidal grenade.  In five turns it will begin to expel a volatile spray that is highly toxic to fungal life forms.",
+    "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "fungicidalbomb_act" }
+  },
+  {
+    "id": "fungicidalbomb_act",
+    "copy-from": "gasbomb",
+    "looks_like": "smokebomb_act",
+    "type": "GENERIC",
+    "name": "armed fungicidal gas canister",
+    "description": "This fungicidal bomb has had its pin removed and is expelling highly toxic gas.",
+    "emits": [ "emit_fungicidal_stream" ],
+    "countdown_interval": 50,
+    "countdown_action": { "type": "transform", "target": "canister_empty" },
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "insecticidalbomb",
+    "copy-from": "grenade_canister",
+    "looks_like": "smokebomb",
+    "type": "GENERIC",
+    "name": "insecticidal gas grenade",
+    "price": 3600,
+    "description": "This is a canister grenade filled with insecticidal solution.  Use this item to pull the pin and light the fuse, turning it into an active insecticidal grenade.  In five turns it will begin to expel a volatile spray that is highly toxic to insect life forms.",
+    "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "insecticidalbomb_act" }
+  },
+  {
+    "id": "insecticidalbomb_act",
+    "copy-from": "gasbomb",
+    "looks_like": "smokebomb_act",
+    "type": "GENERIC",
+    "name": "armed insecticidal gas canister",
+    "description": "This insecticidal bomb has had its pin removed and is expelling highly toxic haze.",
+    "emits": [ "emit_insecticidal_stream" ],
+    "countdown_interval": 50,
+    "countdown_action": { "type": "transform", "target": "canister_empty" },
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "fungicidalbomb_makeshift",
+    "copy-from": "grenade_canister",
+    "looks_like": "smokebomb",
+    "type": "GENERIC",
+    "name": "makeshift fungicidal gas grenade",
+    "price": 3600,
+    "description": "This is a makeshift canister grenade filled with fungicidal solution.  Use this item to pull the pin and light the fuse, turning it into an active fungicidal grenade.  In five turns it will begin to expel a volatile spray that is highly toxic to fungal life forms.",
+    "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "fungicidalbomb_makeshift_act" }
+  },
+  {
+    "id": "fungicidalbomb_makeshift_act",
+    "copy-from": "gasbomb",
+    "looks_like": "smokebomb_act",
+    "type": "GENERIC",
+    "name": "armed makeshift fungicidal gas canister",
+    "description": "This makeshift fungicidal bomb has had its pin removed and is expelling highly toxic haze.",
+    "emits": [ "emit_small_fungicidal_stream" ],
+    "countdown_interval": 50,
+    "countdown_action": { "type": "transform", "target": "canister_empty" },
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "insecticidalbomb_makeshift",
+    "copy-from": "grenade_canister",
+    "looks_like": "smokebomb",
+    "type": "GENERIC",
+    "name": "makeshift insecticidal gas grenade",
+    "price": 3600,
+    "description": "This is a makeshift canister grenade filled with insecticidal solution.  Use this item to pull the pin and light the fuse, turning it into an active insecticidal grenade.  In five turns it will begin to expel a volatile spray that is highly toxic to insect life forms.",
+    "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "insecticidalbomb_makeshift_act" }
+  },
+  {
+    "id": "insecticidalbomb_makeshift_act",
+    "copy-from": "gasbomb",
+    "looks_like": "smokebomb_act",
+    "type": "GENERIC",
+    "name": "armed makeshift insecticidal gas canister",
+    "description": "This makeshift insecticidal bomb has had its pin removed and is expelling highly toxic haze.",
+    "emits": [ "emit_small_insecticidal_stream" ],
+    "countdown_interval": 50,
+    "countdown_action": { "type": "transform", "target": "canister_empty" },
+    "flags": [ "TRADER_AVOID" ]
   }
 ]

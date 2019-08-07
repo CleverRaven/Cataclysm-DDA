@@ -189,6 +189,34 @@
     "chance": 75
   },
   {
+    "id": "emit_fungicidal_stream",
+    "type": "emit",
+    "field": "fd_fungicidal_gas",
+    "intensity": 3,
+    "qty": 18
+  },
+  {
+    "id": "emit_insecticidal_stream",
+    "type": "emit",
+    "field": "fd_insecticidal_gas",
+    "intensity": 3,
+    "qty": 18
+  },
+  {
+    "id": "emit_small_fungicidal_stream",
+    "type": "emit",
+    "field": "fd_fungicidal_gas",
+    "intensity": 2,
+    "qty": 10
+  },
+  {
+    "id": "emit_small_insecticidal_stream",
+    "type": "emit",
+    "field": "fd_insecticidal_gas",
+    "intensity": 2,
+    "qty": 10
+  },
+  {
     "id": "emit_fungal_haze_plume",
     "type": "emit",
     "field": "fd_fungal_haze",

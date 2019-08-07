@@ -43,6 +43,8 @@
 #define MONSTER_FOLLOW_DIST 8
 
 const species_id FUNGUS( "FUNGUS" );
+const species_id INSECT( "INSECT" );
+const species_id SPIDER( "SPIDER" );
 
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_countdown( "countdown" );
@@ -75,6 +77,9 @@ bool monster::is_immune_field( const field_type_id fid ) const
     }
     if( fid == fd_fungicidal_gas ) {
         return !type->in_species( FUNGUS );
+    }
+    if( fid == fd_insecticidal_gas ) {
+        return !type->in_species( INSECT ) && !type->in_species( SPIDER );
     }
     const field_type &ft = fid.obj();
     if( ft.has_fume ) {

@@ -34,5 +34,23 @@
     "range": 4,
     "count": 100,
     "effects": [ "GAS_FUNGICIDAL", "STREAM_GAS_FUNGICIDAL", "NEVER_MISFIRES", "JET" ]
+  },
+  {
+    "id": "gas_insecticidal",
+    "type": "AMMO",
+    "name": "sprayable insecticide",
+    "description": "Strong sprayable insecticide ammo for the chemical thrower.  Best be used with some kind of mask or mouth protection.",
+    "weight": 3,
+    "volume": "250 ml",
+    "price": 3500,
+    "material": "water",
+    "symbol": "=",
+    "color": "yellow",
+    "container": "bottle_plastic",
+    "phase": "liquid",
+    "ammo_type": "chemical_spray",
+    "range": 4,
+    "count": 100,
+    "effects": [ "GAS_INSECTICIDAL", "STREAM_GAS_INSECTICIDAL", "NEVER_MISFIRES", "JET" ]
   }
 ]

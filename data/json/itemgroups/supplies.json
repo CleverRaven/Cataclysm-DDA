@@ -191,6 +191,7 @@
       [ "permanent_marker", 20 ],
       [ "cu_pipe", 50 ],
       [ "fungicide", 5 ],
+      [ "insecticide", 5 ],
       [ "charcoal", 5 ],
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "solar_cell", 5 ],

@@ -941,6 +941,20 @@
   },
   {
     "type": "recipe",
+    "result": "gas_insecticidal",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "cooking",
+    "skills_required": [ "survival", 2 ],
+    "difficulty": 4,
+    "time": "8 m",
+    "book_learn": [ [ "textbook_gaswarfare", 4 ], [ "textbook_chemistry", 4 ], [ "adv_chemistry", 4 ], [ "recipe_labchem", 4 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "insecticide", 50 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "gas_chloramine",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",

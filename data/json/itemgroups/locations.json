@@ -821,6 +821,7 @@
       [ "towel", 50 ],
       [ "scissors", 50 ],
       [ "fungicide", 10 ],
+      [ "insecticide", 10 ],
       [ "soap", 20 ],
       [ "chem_hydrogen_peroxide", 10 ],
       [ "canister_empty", 5 ],
