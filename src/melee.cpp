@@ -719,7 +719,8 @@ float player::get_dodge_base() const
 float player::get_dodge() const
 {
     //If we're asleep or busy we can't dodge
-    if( in_sleep_state() || has_effect( effect_narcosis ) ) {
+    if( in_sleep_state() || has_effect( effect_narcosis ) ||
+        has_effect( efftype_id( "winded" ) ) ) {
         return 0.0f;
     }
 
@@ -1376,10 +1377,11 @@ item &player::best_shield()
 bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &dam )
 {
 
-    // Shouldn't block if player is asleep; this only seems to be used by player.
+    // Shouldn't block if player is asleep or winded ; this only seems to be used by player.
     // TODO: It should probably be moved to the section that regenerates blocks
     // and to effects that disallow blocking
-    if( blocks_left < 1 || in_sleep_state() ) {
+    if( blocks_left < 1 || in_sleep_state() || has_effect( effect_narcosis ) ||
+        has_effect( efftype_id( "winded" ) ) ) {
         return false;
     }
     blocks_left--;
