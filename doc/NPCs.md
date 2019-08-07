@@ -561,6 +561,7 @@ Condition | Type | Description
 `"u_can_stow_weapon"`<br/>`"npc_can_stow_weapon"` | simple string | `true` if the player character or NPC is wielding a weapon and has enough space to put it away.
 `"u_has_weapon"`<br/>`"npc_has_weapon"` | simple string | `true` if the player character or NPC is wielding a weapon.
 `"u_driving"`<br/>`"npc_driving"` | simple string | `true` if the player character or NPC is operating a vehicle.  <b>Note</b> NPCs cannot currently operate vehicles.
+`"u_has_skill"`<br/>`"npc_has_skill"` | dictionary | `u_has_skill` or `npc_has_skill` must be a dictionary with a `skill` string and a `level` int.<br/>`true` if the player character or NPC has at least the value of `level` in `skill`.
 
 #### Player Only conditions
 

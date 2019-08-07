@@ -779,6 +779,27 @@ void conditional_t<T>::set_has_reason()
 }
 
 template<class T>
+void conditional_t<T>::set_has_skill( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    JsonObject has_skill = jo.get_object( member );
+    if( !has_skill.has_string( "skill" ) || !has_skill.has_int( "level" ) ) {
+        condition = []( const T & ) {
+            return false;
+        };
+    } else {
+        const skill_id skill( has_skill.get_string( "skill" ) );
+        int level = has_skill.get_int( "level" );
+        condition = [skill, level, is_npc]( const T & d ) {
+            player *actor = d.alpha;
+            if( is_npc ) {
+                actor = dynamic_cast<player *>( d.beta );
+            }
+            return actor->get_skill_level( skill ) >= level;
+        };
+    }
+}
+
+template<class T>
 conditional_t<T>::conditional_t( JsonObject jo )
 {
     // improve the clarity of NPC setter functions
@@ -941,6 +962,10 @@ conditional_t<T>::conditional_t( JsonObject jo )
         set_is_season( jo );
     } else if( jo.has_string( "mission_goal" ) ) {
         set_mission_goal( jo );
+    } else if( jo.has_member( "u_has_skill" ) ) {
+        set_has_skill( jo, "u_has_skill" );
+    } else if( jo.has_member( "npc_has_skill" ) ) {
+        set_has_skill( jo, "npc_has_skill", is_npc );
     } else {
         for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
             if( jo.has_string( sub_member ) ) {
