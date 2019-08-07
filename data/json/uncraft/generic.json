@@ -62,5 +62,19 @@
     "skill_used": "fabrication",
     "time": 100,
     "components": [ [ [ "paper", 3 ] ] ]
+  },
+  {
+    "result": "sandbag",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 60 ] ] ]
+  },
+  {
+    "result": "earthbag",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_soil", 3 ] ] ]
   }
 ]
