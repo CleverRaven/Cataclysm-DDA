@@ -288,8 +288,8 @@ static void do_blast( const tripoint &p, const float power,
         player *pl = dynamic_cast<player *>( critter );
         if( pl == nullptr ) {
             // TODO: player's fault?
-            const int dmg = force - critter->get_armor_bash( bp_torso ) / 2.0;
-            const int actual_dmg = rng( dmg * 2, dmg * 3 );
+            const double dmg = force - critter->get_armor_bash( bp_torso ) / 2.0;
+            const int actual_dmg = rng_float( dmg * 2, dmg * 3 );
             critter->apply_damage( nullptr, bp_torso, actual_dmg );
             critter->check_dead_state();
             add_msg( m_debug, "Blast hits %s for %d damage", critter->disp_name(), actual_dmg );
