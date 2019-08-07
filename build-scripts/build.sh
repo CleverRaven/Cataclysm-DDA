@@ -30,6 +30,8 @@ then
 fi
 
 ccache --zero-stats
+ccache --show-stats
+
 if [ -n "$CMAKE" ]
 then
     bin_path="./"
