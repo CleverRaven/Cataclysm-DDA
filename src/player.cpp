@@ -1194,8 +1194,8 @@ void player::update_bodytemp()
             int wetness_percentage = 100 * body_wetness[bp] / drench_capacity[bp]; // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to temperature resistance
-            int Ftemperature = static_cast<int>(
-                                   player_local_temp + warmth( bp ) * 0.2 - 20 * wetness_percentage / 100.0 );
+            double adjusted_warmth = warmth( bp ) - wetness_percentage;
+            int Ftemperature = static_cast<int>( player_local_temp + 0.2 * adjusted_warmth );
             // Windchill reduced by your armor
             int FBwindPower = static_cast<int>(
                                   total_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
