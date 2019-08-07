@@ -365,12 +365,13 @@ void tileset_loader::create_textures_from_tile_atlas( const SDL_Surface_Ptr &til
 
     /** perform color filter conversion here */
     using tiles_pixel_color_entry = std::tuple<std::vector<texture>*, std::string>;
-    std::array<tiles_pixel_color_entry, 5> tile_values_data = {
-        std::make_tuple( &ts.tile_values, "color_pixel_none" ),
-        std::make_tuple( &ts.shadow_tile_values, "color_pixel_grayscale" ),
-        std::make_tuple( &ts.night_tile_values, "color_pixel_nightvision" ),
-        std::make_tuple( &ts.overexposed_tile_values, "color_pixel_overexposed" ),
-        std::make_tuple( &ts.memory_tile_values, tilecontext->memory_map_mode )
+    std::array<tiles_pixel_color_entry, 5> tile_values_data = {{
+            { std::make_tuple( &ts.tile_values, "color_pixel_none" ) },
+            { std::make_tuple( &ts.shadow_tile_values, "color_pixel_grayscale" ) },
+            { std::make_tuple( &ts.night_tile_values, "color_pixel_nightvision" ) },
+            { std::make_tuple( &ts.overexposed_tile_values, "color_pixel_overexposed" ) },
+            { std::make_tuple( &ts.memory_tile_values, tilecontext->memory_map_mode ) }
+        }
     };
     for( tiles_pixel_color_entry &entry : tile_values_data ) {
         std::vector<texture> *tile_values = std::get<0>( entry );
