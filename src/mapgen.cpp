@@ -27,6 +27,7 @@
 #include "itype.h"
 #include "json.h"
 #include "line.h"
+#include "magic_ter_furn_transform.h"
 #include "map.h"
 #include "map_extras.h"
 #include "map_iterator.h"
@@ -1390,6 +1391,22 @@ class jmapgen_terrain : public jmapgen_piece
         }
 };
 /**
+ * Run a transformation.
+ * "transform": id of the ter_furn_transform to run.
+ */
+class jmapgen_ter_furn_transform: public jmapgen_piece
+{
+    public:
+        ter_furn_transform_id id;
+        jmapgen_ter_furn_transform( JsonObject &jsi ) : jmapgen_ter_furn_transform(
+                jsi.get_string( "transform" ) ) {}
+        jmapgen_ter_furn_transform( const std::string &rid ) : id( ter_furn_transform_id( rid ) ) {}
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const float /*mdensity*/, mission * ) const override {
+            id->transform( dat.m, tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ) );
+        }
+};
+/**
  * Calls @ref map::make_rubble to create rubble and destroy the existing terrain/furniture.
  * See map::make_rubble for explanation of the parameters.
  */
@@ -2113,6 +2130,8 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_graffiti>( jo, "graffiti", format_placings );
     new_pal.load_place_mapings<jmapgen_translate>( jo, "translate", format_placings );
     new_pal.load_place_mapings<jmapgen_zone>( jo, "zones", format_placings );
+    new_pal.load_place_mapings<jmapgen_ter_furn_transform>( jo, "ter_furn_transforms",
+            format_placings );
     new_pal.load_place_mapings<jmapgen_faction>( jo, "faction_owner_character", format_placings );
     return new_pal;
 }
@@ -2299,6 +2318,7 @@ bool mapgen_function_json_base::setup_common( JsonObject jo )
     objects.load_objects<jmapgen_graffiti>( jo, "place_graffiti" );
     objects.load_objects<jmapgen_translate>( jo, "translate_ter" );
     objects.load_objects<jmapgen_zone>( jo, "place_zones" );
+    objects.load_objects<jmapgen_ter_furn_transform>( jo, "place_ter_furn_transforms" );
     // Needs to be last as it affects other placed items
     objects.load_objects<jmapgen_faction>( jo, "faction_owner" );
     if( !mapgen_defer::defer ) {

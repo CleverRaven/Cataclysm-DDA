@@ -184,7 +184,13 @@ bool ter_furn_transform::add_message( const std::map<K, ter_furn_data<T>> &list,
 
 void ter_furn_transform::add_all_messages( const Creature &critter, const tripoint &location ) const
 {
-    const ter_id ter_at_loc = g->m.ter( location );
+    add_all_messages( g->m, critter, location );
+}
+
+void ter_furn_transform::add_all_messages( const map &m, const Creature &critter,
+        const tripoint &location ) const
+{
+    const ter_id ter_at_loc = m.ter( location );
     if( !add_message( ter_transform, ter_at_loc->id, critter, location ) ) {
         for( const std::pair<std::string, ter_furn_data<ter_str_id>> &data : ter_flag_transform ) {
             if( data.second.has_msg() && ter_at_loc->has_flag( data.first ) ) {
@@ -194,7 +200,7 @@ void ter_furn_transform::add_all_messages( const Creature &critter, const tripoi
         }
     }
 
-    const furn_id furn_at_loc = g->m.furn( location );
+    const furn_id furn_at_loc = m.furn( location );
     if( !add_message( furn_transform, furn_at_loc->id, critter, location ) ) {
         for( const std::pair<std::string, ter_furn_data<furn_str_id>> &data : furn_flag_transform ) {
             if( data.second.has_msg() && furn_at_loc->has_flag( data.first ) ) {
@@ -207,9 +213,14 @@ void ter_furn_transform::add_all_messages( const Creature &critter, const tripoi
 
 void ter_furn_transform::transform( const tripoint &location ) const
 {
-    const ter_id ter_at_loc = g->m.ter( location );
+    transform( g->m, location );
+}
+
+void ter_furn_transform::transform( map &m, const tripoint &location ) const
+{
+    const ter_id ter_at_loc = m.ter( location );
     cata::optional<ter_str_id> ter_potential = next_ter( ter_at_loc->id );
-    const furn_id furn_at_loc = g->m.furn( location );
+    const furn_id furn_at_loc = m.furn( location );
     cata::optional<furn_str_id> furn_potential = next_furn( furn_at_loc->id );
 
     if( !ter_potential ) {
@@ -237,10 +248,10 @@ void ter_furn_transform::transform( const tripoint &location ) const
     }
 
     if( ter_potential ) {
-        g->m.ter_set( location, *ter_potential );
+        m.ter_set( location, *ter_potential );
     }
     if( furn_potential ) {
-        g->m.furn_set( location, *furn_potential );
+        m.furn_set( location, *furn_potential );
     }
 }
 
