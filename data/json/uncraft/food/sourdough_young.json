@@ -1,0 +1,8 @@
+[
+    {
+      "type": "uncraft",
+      "result": "sourdough_split",
+      "time": 500,
+      "components": [ [ [ "jar_glass", 1 ] ] ]
+    }
+]
