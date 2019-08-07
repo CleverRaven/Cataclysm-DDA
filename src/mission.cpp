@@ -511,7 +511,7 @@ time_point mission::get_deadline() const
 
 std::string mission::get_description() const
 {
-    return description;
+    return _( type->description );
 }
 
 bool mission::has_target() const
