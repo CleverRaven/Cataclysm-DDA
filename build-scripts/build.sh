@@ -131,6 +131,20 @@ then
         [ -f "${bin_path}cata_test" ] && run_tests "${bin_path}cata_test"
         [ -f "${bin_path}cata_test-tiles" ] && run_tests "${bin_path}cata_test-tiles"
     fi
+elif [ "$NATIVE" == "android" ]
+then
+    export USE_CCACHE=1
+    export NDK_CCACHE="$(which ccache)"
+
+    # Tweak the ccache compiler analysis.  We're using the compiler from the
+    # Android NDK which has an unpredictable mtime, so we need to hash the
+    # content rather than the size+mtime (which is ccache's default behaviour).
+    export CCACHE_COMPILERCHECK=content
+
+    cd android
+    # Specify dumb terminal to suppress gradle's constatnt output of time spent building, which
+    # fills the log with nonsense.
+    TERM=dumb ./gradlew assembleDebug -Pj=3
 else
     make -j "$num_jobs" RELEASE=1 CCACHE=1 BACKTRACE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
 

@@ -99,6 +99,19 @@ jobs:
         apt:
           packages: ["wine"]
 
+    - env: NATIVE=android COMPILER=gcc
+      name: "Android build"
+      language: android
+      android:
+        components:
+          - build-tools-28.0.1
+          - android-26
+      cache:
+        # The ccache feature in Travis doesn't work for language: android, so
+        # do it ourselves.
+        directories:
+          - $HOME/.ccache
+
     - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1
       name: "Xcode 10.1 Make build with Tiles and sound (macOS)"
       os: osx
