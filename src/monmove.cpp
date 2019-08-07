@@ -157,7 +157,7 @@ bool monster::can_move_to( const tripoint &p ) const
 
             // Don't enter open pits ever unless tiny, can fly or climb well
             if( !( type->size == MS_TINY || can_climb ) &&
-                ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
+                    ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
                 return false;
             }
         }
@@ -166,7 +166,7 @@ bool monster::can_move_to( const tripoint &p ) const
         if( attitude( &g->u ) != MATT_ATTACK ) {
             // Sharp terrain is ignored while attacking
             if( avoid_simple && g->m.has_flag( "SHARP", p ) &&
-                !( type->size == MS_TINY || has_flag( MF_FLIES ) ) ) {
+                    !( type->size == MS_TINY || has_flag( MF_FLIES ) ) ) {
                 return false;
             }
         }
@@ -284,9 +284,9 @@ void monster::plan( const mfactions &factions )
                 season_type season = season_of_year( calendar::turn );
                 for( auto &elem : type->baby_flags ) {
                     if( ( season == SUMMER && elem == "SUMMER" ) ||
-                        ( season == WINTER && elem == "WINTER" ) ||
-                        ( season == SPRING && elem == "SPRING" ) ||
-                        ( season == AUTUMN && elem == "AUTUMN" ) ) {
+                            ( season == WINTER && elem == "WINTER" ) ||
+                            ( season == SPRING && elem == "SPRING" ) ||
+                            ( season == AUTUMN && elem == "AUTUMN" ) ) {
                         mating_angry = true;
                         break;
                     }
@@ -339,8 +339,8 @@ void monster::plan( const mfactions &factions )
         bool fleeing_from = is_fleeing( who );
         // Switch targets if closer and hostile or scarier than current target
         if( ( rating < dist && fleeing ) ||
-            ( rating < dist && attitude( &who ) == MATT_ATTACK ) ||
-            ( !fleeing && fleeing_from ) ) {
+                ( rating < dist && attitude( &who ) == MATT_ATTACK ) ||
+                ( !fleeing && fleeing_from ) ) {
             target = &who;
             dist = rating;
         }
@@ -353,9 +353,9 @@ void monster::plan( const mfactions &factions )
                 season_type season = season_of_year( calendar::turn );
                 for( auto &elem : type->baby_flags ) {
                     if( ( season == SUMMER && elem == "SUMMER" ) ||
-                        ( season == WINTER && elem == "WINTER" ) ||
-                        ( season == SPRING && elem == "SPRING" ) ||
-                        ( season == AUTUMN && elem == "AUTUMN" ) ) {
+                            ( season == WINTER && elem == "WINTER" ) ||
+                            ( season == SPRING && elem == "SPRING" ) ||
+                            ( season == AUTUMN && elem == "AUTUMN" ) ) {
                         mating_angry = true;
                         break;
                     }
@@ -538,7 +538,7 @@ void monster::move()
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
     if( !is_hallucination() && ( has_flag( MF_ABSORBS ) || has_flag( MF_ABSORBS_SPLITS ) ) &&
-        !g->m.has_flag( TFLAG_SEALED, pos() ) && g->m.has_items( pos() ) ) {
+            !g->m.has_flag( TFLAG_SEALED, pos() ) && g->m.has_items( pos() ) ) {
         if( g->u.sees( *this ) ) {
             add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
                      name() );
@@ -601,14 +601,19 @@ void monster::move()
         }
     }
 
+    // dragged_foe: restore pointer by saved id if required
+    if (dragged_foe_id >= 0) {
+        dragged_foe = g->critter_by_id<player>(dragged_foe_id);
+        dragged_foe_id = 0;
+    }
     // defective nursebot surgery code
     if( type->has_special_attack( "OPERATE" ) && has_effect( effect_dragging ) &&
-        dragged_foe != nullptr ) {
+            dragged_foe != nullptr ) {
 
         if( rl_dist( pos(), goal ) == 1 && g->m.furn( goal ) == furn_id( "f_autodoc_couch" ) &&
-            !has_effect( effect_operating ) ) {
+                !has_effect( effect_operating ) ) {
             if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
-                ( g->critter_at( goal ) == nullptr || g->critter_at( goal ) == dragged_foe ) ) {
+                    ( g->critter_at( goal ) == nullptr || g->critter_at( goal ) == dragged_foe ) ) {
                 add_msg( m_bad, _( "The %1$s slowly but firmly puts %2$s down onto the autodoc couch." ), name(),
                          dragged_foe->disp_name() );
 
@@ -715,7 +720,7 @@ void monster::move()
     }
 
     if( current_attitude == MATT_IGNORE ||
-        ( current_attitude == MATT_FOLLOW && rl_dist( pos(), goal ) <= MONSTER_FOLLOW_DIST ) ) {
+            ( current_attitude == MATT_FOLLOW && rl_dist( pos(), goal ) <= MONSTER_FOLLOW_DIST ) ) {
         moves -= 100;
         stumble();
         return;
@@ -733,7 +738,7 @@ void monster::move()
 
         const auto &pf_settings = get_pathfinding_settings();
         if( pf_settings.max_dist >= rl_dist( pos(), goal ) &&
-            ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != goal ) ) {
+                ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != goal ) ) {
             // We need a new path
             path = g->m.route( pos(), goal, pf_settings, get_path_avoid() );
         }
@@ -822,8 +827,8 @@ void monster::move()
                 // Last chance - we can still do the z-level stair teleport bullshit that isn't removed yet
                 // TODO: Remove z-level stair bullshit teleport after aligning all stairs
                 if( !can_z_move &&
-                    posx() / ( SEEX * 2 ) == candidate.x / ( SEEX * 2 ) &&
-                    posy() / ( SEEY * 2 ) == candidate.y / ( SEEY * 2 ) ) {
+                        posx() / ( SEEX * 2 ) == candidate.x / ( SEEX * 2 ) &&
+                        posy() / ( SEEY * 2 ) == candidate.y / ( SEEY * 2 ) ) {
                     const tripoint &upper = candidate.z > posz() ? candidate : pos();
                     const tripoint &lower = candidate.z > posz() ? pos() : candidate;
                     if( g->m.has_flag( TFLAG_GOES_DOWN, upper ) && g->m.has_flag( TFLAG_GOES_UP, lower ) ) {
@@ -940,22 +945,22 @@ void monster::footsteps( const tripoint &p )
         volume = 10;
     }
     switch( type->size ) {
-        case MS_TINY:
-            volume = 0; // No sound for the tinies
-            break;
-        case MS_SMALL:
-            volume /= 3;
-            break;
-        case MS_MEDIUM:
-            break;
-        case MS_LARGE:
-            volume *= 1.5;
-            break;
-        case MS_HUGE:
-            volume *= 2;
-            break;
-        default:
-            break;
+    case MS_TINY:
+        volume = 0; // No sound for the tinies
+        break;
+    case MS_SMALL:
+        volume /= 3;
+        break;
+    case MS_MEDIUM:
+        break;
+    case MS_LARGE:
+        volume *= 1.5;
+        break;
+    case MS_HUGE:
+        volume *= 2;
+        break;
+    default:
+        break;
     }
     if( has_flag( MF_LOUDMOVES ) ) {
         volume += 6;
@@ -991,7 +996,7 @@ tripoint monster::scent_move()
 
     tripoint next( -1, -1, posz() );
     if( ( !fleeing && g->scent.get( pos() ) > smell_threshold ) ||
-        ( fleeing && bestsmell == 0 ) ) {
+            ( fleeing && bestsmell == 0 ) ) {
         return next;
     }
     const bool can_bash = bash_skill() > 0;
@@ -1001,8 +1006,8 @@ tripoint monster::scent_move()
             continue;
         }
         if( g->m.valid_move( pos(), dest, can_bash, true ) &&
-            ( can_move_to( dest ) || ( dest == g->u.pos() ) ||
-              ( can_bash && g->m.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
+                ( can_move_to( dest ) || ( dest == g->u.pos() ) ||
+                  ( can_bash && g->m.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
             if( ( !fleeing && smell > bestsmell ) || ( fleeing && smell < bestsmell ) ) {
                 smoves.clear();
                 smoves.push_back( dest );
@@ -1366,21 +1371,21 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     if( digging() ) {
         int factor = 0;
         switch( type->size ) {
-            case MS_TINY:
-                factor = 100;
-                break;
-            case MS_SMALL:
-                factor = 30;
-                break;
-            case MS_MEDIUM:
-                factor = 6;
-                break;
-            case MS_LARGE:
-                factor = 3;
-                break;
-            case MS_HUGE:
-                factor = 1;
-                break;
+        case MS_TINY:
+            factor = 100;
+            break;
+        case MS_SMALL:
+            factor = 30;
+            break;
+        case MS_MEDIUM:
+            factor = 6;
+            break;
+        case MS_LARGE:
+            factor = 3;
+            break;
+        case MS_HUGE:
+            factor = 1;
+            break;
         }
         if( one_in( factor ) ) {
             g->m.ter_set( pos(), t_dirtmound );
@@ -1434,7 +1439,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     // TODO: Generalize this to Creature
     monster *const critter = g->critter_at<monster>( p );
     if( critter == nullptr || critter == this ||
-        p == pos() || critter->movement_impaired() ) {
+            p == pos() || critter->movement_impaired() ) {
         return false;
     }
 
@@ -1582,20 +1587,20 @@ void monster::stumble()
         }
         // More restrictions for moving up
         if( has_flag( MF_FLIES ) && one_in( 5 ) &&
-            g->m.valid_move( pos(), above, false, true ) ) {
+                g->m.valid_move( pos(), above, false, true ) ) {
             valid_stumbles.push_back( above );
         }
     }
     while( !valid_stumbles.empty() ) {
         const tripoint dest = random_entry_removed( valid_stumbles );
         if( can_move_to( dest ) &&
-            //Stop zombies and other non-breathing monsters wandering INTO water
-            //(Unless they can swim/are aquatic)
-            //But let them wander OUT of water if they are there.
-            !( avoid_water &&
-               g->m.has_flag( TFLAG_SWIMMABLE, dest ) &&
-               !g->m.has_flag( TFLAG_SWIMMABLE, pos() ) ) &&
-            ( g->critter_at( dest, is_hallucination() ) == nullptr ) ) {
+                //Stop zombies and other non-breathing monsters wandering INTO water
+                //(Unless they can swim/are aquatic)
+                //But let them wander OUT of water if they are there.
+                !( avoid_water &&
+                   g->m.has_flag( TFLAG_SWIMMABLE, dest ) &&
+                   !g->m.has_flag( TFLAG_SWIMMABLE, pos() ) ) &&
+                ( g->critter_at( dest, is_hallucination() ) == nullptr ) ) {
             move_to( dest, true );
         }
     }
@@ -1707,12 +1712,12 @@ bool monster::will_reach( int x, int y )
     }
 
     if( has_flag( MF_SMELLS ) && g->scent.get( pos() ) > 0 &&
-        g->scent.get( { x, y, posz() } ) > g->scent.get( pos() ) ) {
+            g->scent.get( { x, y, posz() } ) > g->scent.get( pos() ) ) {
         return true;
     }
 
     if( can_hear() && wandf > 0 && rl_dist( wander_pos.x, wander_pos.y, x, y ) <= 2 &&
-        rl_dist( posx(), posy(), wander_pos.x, wander_pos.y ) <= wandf ) {
+            rl_dist( posx(), posy(), wander_pos.x, wander_pos.y ) <= wandf ) {
         return true;
     }
 
@@ -1762,38 +1767,38 @@ void monster::shove_vehicle( const tripoint &remote_destination,
             float shove_damage_min = 0.00F;
             float shove_damage_max = 0.00F;
             switch( this->get_size() ) {
-                case MS_TINY:
-                case MS_SMALL:
-                    break;
-                case MS_MEDIUM:
-                    if( veh_mass < 500_kilogram ) {
-                        shove_moves_minimal = 150;
-                        shove_veh_mass_moves_factor = 20;
-                        shove_velocity = 500;
-                        shove_damage_min = 0.00F;
-                        shove_damage_max = 0.01F;
-                    }
-                    break;
-                case MS_LARGE:
-                    if( veh_mass < 1000_kilogram ) {
-                        shove_moves_minimal = 100;
-                        shove_veh_mass_moves_factor = 8;
-                        shove_velocity = 1000;
-                        shove_damage_min = 0.00F;
-                        shove_damage_max = 0.03F;
-                    }
-                    break;
-                case MS_HUGE:
-                    if( veh_mass < 2000_kilogram ) {
-                        shove_moves_minimal = 50;
-                        shove_veh_mass_moves_factor = 4;
-                        shove_velocity = 1500;
-                        shove_damage_min = 0.00F;
-                        shove_damage_max = 0.05F;
-                    }
-                    break;
-                default:
-                    break;
+            case MS_TINY:
+            case MS_SMALL:
+                break;
+            case MS_MEDIUM:
+                if( veh_mass < 500_kilogram ) {
+                    shove_moves_minimal = 150;
+                    shove_veh_mass_moves_factor = 20;
+                    shove_velocity = 500;
+                    shove_damage_min = 0.00F;
+                    shove_damage_max = 0.01F;
+                }
+                break;
+            case MS_LARGE:
+                if( veh_mass < 1000_kilogram ) {
+                    shove_moves_minimal = 100;
+                    shove_veh_mass_moves_factor = 8;
+                    shove_velocity = 1000;
+                    shove_damage_min = 0.00F;
+                    shove_damage_max = 0.03F;
+                }
+                break;
+            case MS_HUGE:
+                if( veh_mass < 2000_kilogram ) {
+                    shove_moves_minimal = 50;
+                    shove_veh_mass_moves_factor = 4;
+                    shove_velocity = 1500;
+                    shove_damage_min = 0.00F;
+                    shove_damage_max = 0.05F;
+                }
+                break;
+            default:
+                break;
             }
             if( shove_velocity > 0 ) {
                 //~ %1$s - monster name, %2$s - vehicle name
