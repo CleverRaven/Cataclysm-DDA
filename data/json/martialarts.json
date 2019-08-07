@@ -181,6 +181,48 @@
   },
   {
     "type": "martial_art",
+    "id": "style_crane",
+    "name": "Crane Kung Fu",
+    "description": "One of the five Shaolin animal styles.  The Crane uses intricate hand techniques and jumping dodges.  Dexterity determines your damage, rather than Strength; you also receive a dodge bonus move or dodge an attack.",
+    "initiate": [ "You raise your leg slightly and balance like a crane.", "%s assumes a crane-like stance." ],
+    "learn_difficulty": 10,
+    "arm_block": 3,
+    "static_buffs": [
+      {
+        "id": "buff_crane_static",
+        "name": "Crane's Precision",
+        "description": "Your attacks strike at your opponents weakness with speed and percision instead of brute force.\nDexterity increases melee damage instead of Strength.\n\nBash damage increased by 75%% of Dexterity but decreased by 75%% of Strength.",
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "damage", "bash", "dex", 0.75 ], [ "damage", "bash", "str", -0.75 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_crane_onmove",
+        "name": "Crane's Flight",
+        "description": "Just like a bird, you take to the air to avoid danger.\n\n+1.0 Dodge skill.\nLasts 2 turns.",
+        "unarmed_allowed": true,
+        "min_unarmed": 2,
+        "buff_duration": 2,
+        "flat_bonuses": [ [ "dodge", 1.0 ] ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "buff_crane_ondodge",
+        "name": "Crane's Grace",
+        "description": "Much like the crane, you a quick to avoid danger.\n\n+1 Dodge attempts, +1.0 Dodge skill.\nLasts 2 turns.",
+        "unarmed_allowed": true,
+        "min_unarmed": 2,
+        "buff_duration": 2,
+        "bonus_dodges": 1,
+        "flat_bonuses": [ [ "dodge", 1.0 ] ]
+      }
+    ],
+    "techniques": [ "tec_crane_feint", "tec_crane_break", "tec_crane_counter", "tec_crane_precise" ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_karate",
     "name": "Karate",
     "description": "Karate is a popular martial art, originating from Japan.  It focuses on rapid, precise attacks, blocks, and fluid movement.  A successful hit allows you an extra dodge and two extra blocks on the following round.",
@@ -756,37 +798,6 @@
       "l-stick",
       "l-stick_on"
     ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_crane",
-    "name": "Crane Kung Fu",
-    "description": "One of the five Shaolin animal styles.  The Crane uses intricate hand techniques and jumping dodges.  Dexterity determines the majority of your damage, rather than Strength; you also receive a dodge bonus the turn after moving a tile.",
-    "initiate": [ "You raise your leg slightly and balance like a crane.", "%s assumes a crane-like stance." ],
-    "learn_difficulty": 10,
-    "arm_block": 3,
-    "leg_block": 99,
-    "static_buffs": [
-      {
-        "id": "crane_static",
-        "name": "Crane's Precision",
-        "description": "Damage bonus from dexterity at the cost of damage from strength.",
-        "unarmed_allowed": true,
-        "flat_bonuses": [ [ "damage", "bash", "dex", 0.8 ], [ "damage", "bash", "str", -0.2 ] ]
-      }
-    ],
-    "onmove_buffs": [
-      {
-        "id": "crane_move_buff",
-        "name": "Crane's Flight",
-        "description": "+2 Dodge",
-        "unarmed_allowed": true,
-        "min_unarmed": 2,
-        "buff_duration": 2,
-        "flat_bonuses": [ [ "dodge", 2.0 ] ]
-      }
-    ],
-    "techniques": [ "tec_crane_feint", "tec_crane_break", "tec_crane_precise" ]
   },
   {
     "type": "martial_art",
