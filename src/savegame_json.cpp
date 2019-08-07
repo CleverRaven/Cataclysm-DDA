@@ -734,7 +734,7 @@ void player::load( JsonObject &data )
     data.read( "ma_styles", ma_styles );
     // Fix up old ma_styles that doesn't include fake styles
     if( std::find( ma_styles.begin(), ma_styles.end(), style_kicks ) == ma_styles.end() &&
-            style_kicks.is_valid() ) {
+        style_kicks.is_valid() ) {
         ma_styles.insert( ma_styles.begin(), style_kicks );
     }
     if( std::find( ma_styles.begin(), ma_styles.end(), matype_id::NULL_ID() ) == ma_styles.end() ) {
@@ -1251,7 +1251,7 @@ void npc_chatbin::deserialize( JsonIn &jsin )
         if( savegame_loading_version <= 23 ) {
             // In 0.C, it was an index into the missions_assigned vector
             if( tmpmission_selected >= 0 &&
-                    tmpmission_selected < static_cast<int>( missions_assigned.size() ) ) {
+                tmpmission_selected < static_cast<int>( missions_assigned.size() ) ) {
                 mission_selected = missions_assigned[tmpmission_selected];
             }
         } else {
@@ -1268,9 +1268,9 @@ void npc_personality::deserialize( JsonIn &jsin )
     int tmpcol = 0;
     int tmpalt = 0;
     if( data.read( "aggression", tmpagg ) &&
-            data.read( "bravery", tmpbrav ) &&
-            data.read( "collector", tmpcol ) &&
-            data.read( "altruism", tmpalt ) ) {
+        data.read( "bravery", tmpbrav ) &&
+        data.read( "collector", tmpcol ) &&
+        data.read( "altruism", tmpalt ) ) {
         aggression = static_cast<signed char>( tmpagg );
         bravery = static_cast<signed char>( tmpbrav );
         collector = static_cast<signed char>( tmpcol );
@@ -1889,7 +1889,7 @@ void monster::store( JsonOut &json ) const
     }
     json.member( "inv", inv );
 
-    if (dragged_foe) {
+    if( dragged_foe ) {
         json.member( "dragged_foe_id", dragged_foe->getID() );
     }
 
@@ -2076,8 +2076,8 @@ void item::io( Archive &archive )
         active = true;
     }
     if( !active &&
-            ( item_tags.count( "HOT" ) > 0 || item_tags.count( "COLD" ) > 0 ||
-              item_tags.count( "WET" ) > 0 ) ) {
+        ( item_tags.count( "HOT" ) > 0 || item_tags.count( "COLD" ) > 0 ||
+          item_tags.count( "WET" ) > 0 ) ) {
         // Some hot/cold items from legacy saves may be inactive
         active = true;
     }
@@ -2189,7 +2189,7 @@ static void migrate_toolmod( item &it )
         // duplication would add an extra toolmod inside each toolmod on load;
         // delete the nested copies
         if( it.typeId() == "battery_atomic" || it.typeId() == "battery_compartment" ||
-                it.typeId() == "battery_ups" || it.typeId() == "double_plutonium_core" ) {
+            it.typeId() == "battery_ups" || it.typeId() == "double_plutonium_core" ) {
             // Be conservative and only delete nested mods of the same type
             it.contents.remove_if( [&]( const item & cont ) {
                 return cont.typeId() == it.typeId();
@@ -2208,9 +2208,9 @@ static void migrate_toolmod( item &it )
         // not safe to use remove_if with a stateful predicate
         for( auto i = it.contents.begin(); i != it.contents.end(); ) {
             if( ( i->typeId() == "battery_atomic" && ++n_atomic > 1 ) ||
-                    ( i->typeId() == "battery_compartment" && ++n_compartment > 1 ) ||
-                    ( i->typeId() == "battery_ups" && ++n_ups > 1 ) ||
-                    ( i->typeId() == "double_plutonium_core" && ++n_plutonium > 1 ) ) {
+                ( i->typeId() == "battery_compartment" && ++n_compartment > 1 ) ||
+                ( i->typeId() == "battery_ups" && ++n_ups > 1 ) ||
+                ( i->typeId() == "double_plutonium_core" && ++n_plutonium > 1 ) ) {
                 i = it.contents.erase( i );
             } else {
                 ++i;
