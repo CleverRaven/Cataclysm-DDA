@@ -14,7 +14,8 @@
     "description": "A rigid steel boom crane.  If it is in your line of sight and within two tiles of another vehicle, you will automatically use it when you want jack up the other vehicle to change the its wheels.  To use it to lift a heavy component like an engine that you are installing or removing, the crane must have line of sight to where it is going and it must be within four tiles of it.",
     "breaks_into": [ { "item": "pipe", "count": [ 8, 32 ] }, { "item": "scrap", "count": [ 8, 24 ] } ],
     "qualities": [ [ "LIFT", 40 ], [ "JACK", 40 ] ],
-    "flags": [ "TOOL_WRENCH", "PROTRUSION" ]
+    "flags": [ "TOOL_WRENCH", "PROTRUSION" ],
+    "damage_reduction": { "all": 48 }
   },
   {
     "id": "crane_medium_internal",
@@ -32,7 +33,8 @@
     "description": "A rigid steel boom crane.  If it is in your line of sight and within two tiles of another vehicle, you will automatically use it when you want jack up the other vehicle to change the its wheels.  To use it to lift a heavy component like an engine that you are installing or removing, the crane must have line of sight to where it is going and it must be within four tiles of it.",
     "breaks_into": [ { "item": "pipe", "count": [ 8, 32 ] }, { "item": "scrap", "count": [ 8, 24 ] } ],
     "qualities": [ [ "LIFT", 40 ], [ "JACK", 40 ] ],
-    "flags": [ "TOOL_WRENCH", "OBSTACLE" ]
+    "flags": [ "TOOL_WRENCH", "OBSTACLE" ],
+    "damage_reduction": { "all": 48 }
   },
   {
     "id": "crane_small",
@@ -50,7 +52,8 @@
     "folded_volume": 12,
     "breaks_into": [ { "item": "pipe", "count": [ 2, 8 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
     "qualities": [ [ "LIFT", 7 ], [ "JACK", 7 ] ],
-    "flags": [ "TOOL_WRENCH", "PROTRUSION", "FOLDABLE" ]
+    "flags": [ "TOOL_WRENCH", "PROTRUSION", "FOLDABLE" ],
+    "damage_reduction": { "all": 42 }
   },
   {
     "id": "crane_tiny",
@@ -68,7 +71,8 @@
     "folded_volume": 12,
     "breaks_into": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
     "qualities": [ [ "LIFT", 1 ], [ "JACK", 1 ] ],
-    "flags": [ "TOOL_WRENCH", "PROTRUSION", "FOLDABLE" ]
+    "flags": [ "TOOL_WRENCH", "PROTRUSION", "FOLDABLE" ],
+    "damage_reduction": { "all": 40 }
   },
   {
     "id": "forklift_fork",
@@ -91,7 +95,8 @@
       { "item": "scrap", "count": [ 4, 6 ] }
     ],
     "qualities": [ [ "LIFT", 2 ], [ "JACK", 6 ] ],
-    "flags": [ "CARGO", "PROTRUSION" ]
+    "flags": [ "CARGO", "PROTRUSION" ],
+    "damage_reduction": { "all": 42 }
   },
   {
     "id": "rockwheel",
@@ -116,7 +121,8 @@
       { "item": "scrap", "count": [ 4, 6 ] }
     ],
     "transform_terrain": { "pre_flags": [ "DIGGABLE" ], "post_terrain": "t_pit_shallow" },
-    "flags": [ "FOLDABLE", "PROTRUSION", "EXTRA_DRAG", "ROCKWHEEL", "TRANSFORM_TERRAIN" ]
+    "flags": [ "FOLDABLE", "PROTRUSION", "EXTRA_DRAG", "ROCKWHEEL", "TRANSFORM_TERRAIN" ],
+    "damage_reduction": { "all": 132 }
   },
   {
     "type": "vehicle_part",
@@ -138,7 +144,8 @@
       { "item": "jack", "count": [ 1, 1 ] }
     ],
     "qualities": [ [ "SELF_JACK", 17 ] ],
-    "flags": [ "PROTRUSION", "SELF_JACK" ]
+    "flags": [ "PROTRUSION", "SELF_JACK" ],
+    "damage_reduction": { "all": 36 }
   },
   {
     "type": "vehicle_part",
@@ -154,6 +161,7 @@
     "description": "A kickstand to keep the bike from falling over.  You could use this to lean it forward or backward to change a tire.",
     "breaks_into": [ { "item": "pipe", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "qualities": [ [ "SELF_JACK", 1 ] ],
-    "flags": [ "SELF_JACK" ]
+    "flags": [ "SELF_JACK" ],
+    "damage_reduction": { "all": 5 }
   }
 ]

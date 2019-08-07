@@ -156,7 +156,8 @@
     "name": "reinforced headlight",
     "item": "headlight_reinforced",
     "color": "light_blue",
-    "proportional": { "durability": 4 }
+    "proportional": { "durability": 4 },
+    "damage_reduction": { "all": 12 }
   },
   {
     "id": "wide_headlight_reinforced",
@@ -165,7 +166,8 @@
     "name": "reinforced wide-angle headlight",
     "item": "wide_headlight_reinforced",
     "color": "light_blue",
-    "proportional": { "durability": 4 }
+    "proportional": { "durability": 4 },
+    "damage_reduction": { "all": 12 }
   },
   {
     "abstract": "light_emergency",
@@ -192,7 +194,8 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 2000, "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "CIRCLE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
+    "flags": [ "CIRCLE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ],
+    "damage_reduction": { "all": 6 }
   },
   {
     "id": "light_blue",

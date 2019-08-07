@@ -27,7 +27,8 @@
       { "item": "steel_chunk", "count": [ 2, 5 ] },
       { "item": "scrap", "count": [ 2, 5 ] }
     ],
-    "extend": { "flags": [ "FOLDABLE", "TOOL_SCREWDRIVER" ] }
+    "extend": { "flags": [ "FOLDABLE", "TOOL_SCREWDRIVER" ] },
+    "damage_reduction": { "all": 12 }
   },
   {
     "id": "alternator_motorbike",
@@ -47,7 +48,8 @@
       { "item": "steel_chunk", "count": [ 2, 5 ] },
       { "item": "scrap", "count": [ 2, 5 ] }
     ],
-    "extend": { "flags": [ "FOLDABLE", "TOOL_SCREWDRIVER" ] }
+    "extend": { "flags": [ "FOLDABLE", "TOOL_SCREWDRIVER" ] },
+    "damage_reduction": { "all": 12 }
   },
   {
     "id": "alternator_car",
@@ -66,7 +68,8 @@
       { "item": "steel_chunk", "count": [ 3, 6 ] },
       { "item": "scrap", "count": [ 3, 6 ] }
     ],
-    "extend": { "flags": [ "TOOL_WRENCH" ] }
+    "extend": { "flags": [ "TOOL_WRENCH" ] },
+    "damage_reduction": { "all": 20 }
   },
   {
     "id": "alternator_truck",
@@ -85,7 +88,8 @@
       { "item": "steel_chunk", "count": [ 4, 7 ] },
       { "item": "scrap", "count": [ 4, 7 ] }
     ],
-    "extend": { "flags": [ "TOOL_WRENCH" ] }
+    "extend": { "flags": [ "TOOL_WRENCH" ] },
+    "damage_reduction": { "all": 20 }
   },
   {
     "id": "generator_7500w",
@@ -103,6 +107,7 @@
       { "item": "steel_lump", "count": [ 10, 18 ] },
       { "item": "steel_chunk", "count": [ 10, 18 ] },
       { "item": "scrap", "count": [ 10, 18 ] }
-    ]
+    ],
+    "damage_reduction": { "all": 25 }
   }
 ]
