@@ -173,7 +173,7 @@ void field_type::load( JsonObject &jo, const std::string & )
 void field_type::finalize()
 {
     wandering_field = field_type_id( wandering_field_id );
-    wandering_field_id.empty();
+    wandering_field_id.clear();
 }
 
 void field_type::check() const
