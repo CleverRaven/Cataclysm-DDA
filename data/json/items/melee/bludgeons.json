@@ -703,7 +703,7 @@
     "flags": [ "DURABLE_MELEE" ],
     "weight": 910,
     "volume": "1500 ml",
-    "bashing": 24,
+    "bashing": 22,
     "to_hit": 2,
     "category": "weapons"
   },
@@ -720,7 +720,7 @@
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
     "weight": 1135,
     "volume": "1500 ml",
-    "bashing": 31,
+    "bashing": 27,
     "to_hit": 2,
     "category": "weapons"
   }
