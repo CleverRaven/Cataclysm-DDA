@@ -16,9 +16,8 @@
   * [Advanced info for Developers](#advanced-info-for-developers)
   * [Troubleshooting](#mac-troubleshooting)
 * [Windows](#windows)
-  * [Visual Studio Guide](#visual-studio-guide)
-  * [MinGW Guide](#mingw-guide)
-  * [Rough guide to building with only MSYS2](#rough-guide-to-building-with-only-msys2)
+  * [Building with Visual Studio](#building-with-visual-studio)
+  * [Building with MSYS2](#building-with-msys2)
 * [BSDs](#bsds)
 
 # General Linux Guide
@@ -573,160 +572,13 @@ Open Terminal's preferences, turn on "Use bright colors for bold text" in "Prefe
 
 # Windows
 
-## Visual Studio Guide
+## Building with Visual Studio
 
-Visual Studio 2017 (or later) is required to build Cataclysm: Dark Days Ahead. Solutions and project files are located in directory `msvc-full-features`. Because of the complexity and how troublesome defining every combination of build feature options are, Visual Studio projects have all build features enabled, including tiles, sound and localization.
+See [COMPILING-VS-VCPKG.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING-VS-VCPKG.md) for instructions on how to set up and use a build environment using Visual Studio on windows.
 
-### Dependencies
+## Building with MSYS2
 
-We've prepared an archive containing all the headers and libraries required to build Cataclysm: [http://dev.narc.ro/cataclysm/WinDepend-MSVC.zip](http://dev.narc.ro/cataclysm/WinDepend-MSVC.zip) or [http://dev.narc.ro/cataclysm/WinDepend-MSVC.7z](http://dev.narc.ro/cataclysm/WinDepend-MSVC.7z). The latter is smaller, but if you don't have a 7-zip archive extracter, the former one is easier to deal with.
-
-Extract the 'WinDepend' folder from the zip and put the 'WinDepend' folder in the root folder of Cataclysm project.  Your folder structure should look like this: `.../Cataclysm-DDA/WinDepend/...`
-
-Run the "copy_dll_to_bin" batch file and then move the dll files from the bin folder inside 'WinDepend' into the root folder the Cataclysm project.  You'll probably want to use the dlls that are in `WinDepend/bin/x64/`.
-
-### Building
-
-Building Cataclysm with Visual Studio is very simple. Just build it like a normal Visual C++ project. The process may takes a long period of time, so you'd better prepare a cup of coffee and some books in front of your computer :)
-
-If you need localization support, execute the bash script `lang/compile_mo.sh` inside Git Bash GUI just like on a UNIX-like system.
-
-### Debugging
-
-After building Cataclysm, you may discover that after pressing the debug button in Visual Studio, Cataclysm just exits after launch with return code 1. That is because of the wrong working directory. You need to configure the working directory to `$(ProjectDir)..`.
-
-### Make a distribution
-
-There is a batch script in `msvc-full-features` folder `distribute.bat`. It will create a sub folder `distribution` and copy all required files(eg. `data/`, `Cataclysm.exe` and dlls) into that folder. Then you can zip it and share the archive on the Internet.
-
-## MinGW Guide
-To compile under windows MinGW you first need to download mingw. An automated GUI installer assistant called mingw-get-setup.exe will make everything a lot easier. I recommend installing it to `C:\MinGW`
-https://sourceforge.net/projects/mingw/files/latest/download
-
-### MinGW setup
-once installed we need to get the right packages. In "Basic Setup", mark `mingw-developer-toolkit`, `mingw32-base` and `mingw32-gcc-g++`
-
-Then install these components using `Installation -> Apply Changes`.
-
-#### Localization
-If we want to compile with localization, we will need gettext and libintl. In "All Packages -> MinGW -> MinGW Autotools" ensure that `mingw32-gettext` and `mingw32-libintl` are installed.
-
-### Required Tiles(SDL) Libraries
-If we want to compile with Tiles (SDL) we have to download a few libraries.
-* `SDL2` http://www.libsdl.org/download-2.0.php chose `SDL2-devel-2.0.X-mingw.tar.gz`.
-* `SDL_ttf` https://www.libsdl.org/projects/SDL_ttf/ chose `SDL2_ttf-devel-2.0.12-mingw.tar.gz`.
-* `SDL_image` https://www.libsdl.org/projects/SDL_image/ chose ` SDL2_image-devel-2.0.0-mingw.tar.gz`
-* `freetype` http://gnuwin32.sourceforge.net/packages/freetype.htm chose `Binaries` and `Developer files`
-
-#### Bundled Libraries
-The following archives were pre-bundled for convenience and reduction of head-aches, simply download and extract directly to the root directory of the CDDA source:
-* `64-bit SDL \ Tiles \ Sound \ Localization` http://dev.narc.ro/cataclysm/cdda-win64-codeblocks.7z
-
-#### Installing Tiles(SDL) libraries.
-For the first 3 (`SDL2`, `SDL_ttf` and `SDL_image`) you want to extract the include and lib folders from the `i686-w64-mingw32` folders into your MinGW installation folder. (Recommended `C:\MinGW`). And the `SDL2_image.dll` and `SDL2_ttf.dll` into your cataclysm root folder.
-
-For freetype you want to grab the include and lib folders from the `freetype-2.X.X-X-lib.zip` and move them into your your MinGW installation folder. Then you want to get the freetype6.dll from the `freetype-2.X.X-X-bin.zip` and move it into your cataclysm root folder.
-
-#### ISSUE - "winapifamily.h" no such file or directoyr
-There seems to be at the moment of writing that a file in SDL is broken and needs to be replaced.
-https://hg.libsdl.org/SDL/raw-file/e217ed463f25/include/SDL_platform.h
-Replace SDL_platform.h in the MinGW/include/SDL2 folder and it should be fine.
-
-### Makefile changes
-This probably not the best way to do it. But it seems that you need to remove a few dependencies from the makefile or it will not build.
-change the line `LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2` to `LDFLAGS += -lfreetype`
-
-### Compiling
-Navigate to `MinGW\msys\1.0` and run `msys.bat`. This will start a cmd-like shell where the following entries will be made.
-
-Add the MinGW toolchain to your PATH with `export PATH=$PATH:/c/MinGW/bin`. Replace /c/MinGW/ with the directory into which you installed MinGW (/c/ stands for drive C:, so if it's in F:/foo/bar, you'd use /f/foo/bar).
-
-Navigate to the CDDA source code directory.
-
-Compile using `make TILES=1 NATIVE=win32 LOCALIZE=1` and unless there are problems, it should produce a CDDA binary for you.
-
-If you dont want tiles you can change `TILES` to 0.
-
-If you dont want localization you can change `LOCALIZE` to 0.
-
-## Rough guide to building with only MSYS2
-
-This is a tentative step-by-step guide to building your own CDDA with Tiles and Localization using only MSYS2. You may want to follow it if the MinGW guide above doesn't work for you or you just feel adventurous. Feedback is very much welcome in terms of issues and/or pull-requests.
-
-This guide assumes you're building on a x86_64 build of Windows. If not adjust the invocations appropriately. It has been tested and proven to work on Windows XP, Windows 7 and Windows 10. Your mileage may vary.
-
-#### 1. Go to https://msys2.github.io/ and download appropriate MSYS (top of the page).
-
-#### 2. Install MSYS2 and leave the Run ticker on. You should end up with a MSYS2 terminal.
-
-#### 3. In the open terminal:
-
-```bash
-pacman --needed -Sy bash pacman pacman-mirrors msys2-runtime
-```
-
-Note: You may close the terminal now and reopen it from the Start menu (MSYS2 Shell, just to be on the safe-er side).
-
-Note: You may need to bash the close button repeatedly. Or use the task manager to kill it.
-
-#### 4. Open an editor that preserves line-endings
-
-Note: Wordpad should do. Or Notepad++.
-
-#### 5. Open `C:\msys64\etc\pacman.conf` and change:
-
-```bash
-# By default, pacman accepts packages signed by keys that its local keyring
-# trusts (see pacman-key and its man page), as well as unsigned packages.
-#SigLevel = Never
-SigLevel    = Required DatabaseOptional
-LocalFileSigLevel = Optional
-#RemoteFileSigLevel = Required
-```
-
-To:
-
-```bash
-# By default, pacman accepts packages signed by keys that its local keyring
-# trusts (see pacman-key and its man page), as well as unsigned packages.
-SigLevel = Never
-#SigLevel    = Required DatabaseOptional
-LocalFileSigLevel = Optional
-#RemoteFileSigLevel = Required
-```
-
-(Exchange the # on SigLevel). This disables signature checking as it is currently borked.
-
-#### 6. Save the file
-
-#### 7. Run in MSYS2 terminal:
-
-```bash
-update-core
-pacman -Su
-pacman -S mingw-w64-x86_64-gcc
-pacman -S mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_mixer mingw-w64-x86_64-SDL2_ttf
-pacman -S mingw-w64-x86_64-ncurses
-pacman -S mingw-w64-x86_64-pkg-config mingw-w64-x86_64-libwebp
-pacman -S git make
-```
-
-#### 8. Close MSYS2 terminal and open MinGW-w64 Win64 Shell from Start menu and run:
-
-Note: This will download whole CDDA repository. If you're just testing you should probably add `--depth=1`.
-
-```bash
-git clone https://github.com/CleverRaven/Cataclysm-DDA.git
-cd Cataclysm-DDA
-```
-
-#### 9. Compile your CDDA by running:
-
-```bash
-make MSYS2=1 RELEASE=1 TILES=1 LOCALIZE=1 SOUND=1 NATIVE=win64
-```
-
-That's it. You should get a `cataclysm-tiles.exe` binary in the same folder you've found the `Makefile` in. The make flags are the same as the ones described above. For instance, if you do not want to build with sound support, you can remove `SOUND=1`.
+See [COMPILING-MSYS.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING-MSYS.md) for instructions on how to set up and use a build environment using MSYS2 on windows.
 
 # BSDs
 

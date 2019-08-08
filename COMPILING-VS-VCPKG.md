@@ -73,8 +73,20 @@ git clone https://github.com/CleverRaven/Cataclysm-DDA.git
 cd Cataclysm-DDA
 ```
 
-2. Open one of provided solutions (`msvc-full-features\Cataclysm-vcpkg.sln` for dynamically linked executable or `msvc-full-features\Cataclysm-vcpkg-static.sln` for statically linked executable) in `Visual Studio`, select configuration (`Release` or `Debug`) an platform (`x64` or `x86`) and build it.
+2. Open one of provided solutions (`msvc-full-features\Cataclysm-vcpkg.sln` for dynamically linked executable or `msvc-full-features\Cataclysm-vcpkg-static.sln` for statically linked executable) in `Visual Studio`, select configuration (`Release` or `Debug`) and platform (`x64` or `x86`) and build it.
 
 **Note**: This will compile release version with Sound, Tiles and Localization support (language files won't be automatically compiled).
 
-3.  See [COMPILING.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING.md#visual-studio-guide) for detail about building and debugging.
+3. Building Cataclysm with Visual Studio is very simple. Just build it like a normal Visual C++ project. The process may takes a long period of time, so you'd better prepare a cup of coffee and some books in front of your computer :)
+
+4. If you need localization support, execute the bash script `lang/compile_mo.sh` inside Git Bash GUI just like on a UNIX-like system. This will compile the language files that were not automatically compiled in step 2 above.
+
+### Debugging
+
+After building Cataclysm, you may discover that after pressing the debug button in Visual Studio, Cataclysm just exits after launch with return code 1. That is because of the wrong working directory. You need to configure the working directory to `$(ProjectDir)..`.
+
+When debugging, it is not strictly necessary to use a `Debug` build; `Release` builds run significantly faster, can still be run in the debugger, and most of the time will have most of the information you need.
+
+### Make a distribution
+
+There is a batch script in `msvc-full-features` folder `distribute.bat`. It will create a sub folder `distribution` and copy all required files(eg. `data/`, `Cataclysm.exe` and dlls) into that folder. Then you can zip it and share the archive on the Internet.
