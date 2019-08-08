@@ -1192,6 +1192,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 }
 
             }
+            act->targets.pop_back();
             break;
         case SKIN:
             switch( rng( 1, 4 ) ) {
@@ -1213,6 +1214,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                     break;
             }
             corpse_item.set_flag( "SKINNED" );
+            act->targets.pop_back();
             break;
         case DISMEMBER:
             switch( rng( 1, 3 ) ) {
