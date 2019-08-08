@@ -7,7 +7,7 @@
     "name_plural": "incendiaries",
     "description": "Material from an incendiary round, useful in constructing incendiary ammunition.",
     "weight": 2,
-    "volume": 1,
+    "volume": 2,
     "price": 10000,
     "container": "bag_plastic",
     "material": [ "powder" ],
