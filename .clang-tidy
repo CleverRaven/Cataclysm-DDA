@@ -25,7 +25,6 @@ readability-*,\
 -bugprone-undefined-memory-manipulation,\
 -bugprone-unused-return-value,\
 -bugprone-use-after-move,\
--cert-dcl50-cpp,\
 -cert-dcl58-cpp,\
 -cert-dcl59-cpp,\
 -cert-env33-c,\
