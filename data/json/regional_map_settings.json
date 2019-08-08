@@ -410,7 +410,7 @@
       "forest": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 40,
+          "mx_helicopter": 8,
           "mx_military": 8,
           "mx_science": 20,
           "mx_collegekids": 25,
@@ -433,7 +433,7 @@
       "forest_thick": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 40,
+          "mx_helicopter": 8,
           "mx_military": 8,
           "mx_science": 20,
           "mx_collegekids": 25,
@@ -458,7 +458,7 @@
       "forest_water": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 40,
+          "mx_helicopter": 8,
           "mx_military": 8,
           "mx_science": 20,
           "mx_collegekids": 25,
@@ -481,7 +481,7 @@
       "field": {
         "chance": 90,
         "extras": {
-          "mx_helicopter": 40,
+          "mx_helicopter": 8,
           "mx_military": 8,
           "mx_science": 20,
           "mx_collegekids": 25,
@@ -498,7 +498,7 @@
       "road": {
         "chance": 75,
         "extras": {
-          "mx_helicopter": 40,
+          "mx_helicopter": 25,
           "mx_military": 25,
           "mx_science": 40,
           "mx_collegekids": 50,
@@ -538,7 +538,7 @@
       "research_facility_lot": {
         "chance": 3,
         "extras": {
-          "mx_helicopter": 90,
+          "mx_helicopter": 65,
           "mx_military": 65,
           "mx_collegekids": 1,
           "mx_portal": 200,
