@@ -538,7 +538,8 @@
     "durability": 6,
     "blackpowder_tolerance": 48,
     "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ] ] ]
+    "//": "Glock 17s cannot load a 15 round magazine. See http://guns-of-fun.com/portals/0/LiveContent/Mounts/Glock-Mags-Comp.jpg and #33038",
+    "magazines": [ [ "9mm", [ "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
   },
   {
     "id": "glock_18c",
