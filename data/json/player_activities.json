@@ -26,6 +26,15 @@
     "no_resume": true
   },
   {
+    "id": "ACT_MULTIPLE_CHOP_PLANKS",
+    "type": "activity_type",
+    "activity_level": "EXTRA_EXERCISE",
+    "verb": "chopping logs",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_TIDY_UP",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",

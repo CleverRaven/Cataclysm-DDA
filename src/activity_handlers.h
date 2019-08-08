@@ -44,6 +44,7 @@ enum do_activity_reason : int {
     NEEDS_HARVESTING,       // For farming - tile is harvestable now.
     NEEDS_PLANTING,         // For farming - tile can be planted
     NEEDS_TILLING,          // For farming - tile can be tilled
+    NEEDS_CHOPPING,         // There is wood there to be chopped
     BLOCKING_TILE           // Something has made it's way onto the tile, so the activity cannot proceed
 };
 
@@ -86,6 +87,7 @@ void churn_do_turn( player_activity *act, player *p );
 void start_fire_do_turn( player_activity *act, player *p );
 void vibe_do_turn( player_activity *act, player *p );
 void hand_crank_do_turn( player_activity *act, player *p );
+void multiple_chop_planks_do_turn( player_activity *act, player *p );
 void oxytorch_do_turn( player_activity *act, player *p );
 void aim_do_turn( player_activity *act, player *p );
 void pickup_do_turn( player_activity *act, player *p );

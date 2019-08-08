@@ -2310,6 +2310,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObjec
             WRAP( mission_reward ),
             WRAP( start_trade ),
             WRAP( sort_loot ),
+            WRAP( do_chop_plank ),
             WRAP( do_construction ),
             WRAP( do_farming ),
             WRAP( assign_guard ),

@@ -165,6 +165,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_DIG" ), dig_do_turn },
     { activity_id( "ACT_DIG_CHANNEL" ), dig_channel_do_turn },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn },
+    { activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ), multiple_chop_planks_do_turn },
     { activity_id( "ACT_TILL_PLOT" ), till_plot_do_turn },
     { activity_id( "ACT_HARVEST_PLOT" ), harvest_plot_do_turn },
     { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn },
@@ -3257,6 +3258,11 @@ void activity_handlers::tidy_up_do_turn( player_activity *act, player *p )
 }
 
 void activity_handlers::multiple_construction_do_turn( player_activity *act, player *p )
+{
+    generic_multi_activity_handler( *act, *p );
+}
+
+void activity_handlers::multiple_chop_planks_do_turn( player_activity *act, player *p )
 {
     generic_multi_activity_handler( *act, *p );
 }
