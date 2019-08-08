@@ -21,6 +21,21 @@ static auto isPointConstructor()
            );
 }
 
+// This returns a matcher that always matches, but binds "temp" if the
+// constructor call is constructing a temporary object.
+static auto testWhetherConstructingTemporary()
+{
+    return cxxConstructExpr(
+               anyOf(
+                   hasParent( materializeTemporaryExpr().bind( "temp" ) ),
+                   hasParent(
+                       implicitCastExpr( hasParent( materializeTemporaryExpr().bind( "temp" ) ) )
+                   ),
+                   anything()
+               )
+           );
+}
+
 static auto isMemberExpr( const std::string &type, const std::string &member_,
                           const std::string &objBind )
 {
@@ -39,10 +54,7 @@ void SimplifyPointConstructorsCheck::registerMatchers( MatchFinder *Finder )
     Finder->addMatcher(
         cxxConstructExpr(
             hasDeclaration( isPointConstructor().bind( "constructorDecl" ) ),
-            anyOf(
-                hasParent( materializeTemporaryExpr().bind( "temp" ) ),
-                anything()
-            ),
+            testWhetherConstructingTemporary(),
             hasArgument( 0, isMemberExpr( "point", "x", "xobj" ) ),
             hasArgument( 1, isMemberExpr( "point", "y", "yobj" ) )
         ).bind( "constructorCallFromPoint" ),
@@ -51,10 +63,7 @@ void SimplifyPointConstructorsCheck::registerMatchers( MatchFinder *Finder )
     Finder->addMatcher(
         cxxConstructExpr(
             hasDeclaration( isPointConstructor().bind( "constructorDecl" ) ),
-            anyOf(
-                hasParent( materializeTemporaryExpr().bind( "temp" ) ),
-                anything()
-            ),
+            testWhetherConstructingTemporary(),
             hasArgument( 0, isMemberExpr( "tripoint", "x", "xobj" ) ),
             hasArgument( 1, isMemberExpr( "tripoint", "y", "yobj" ) ),
             anyOf(
