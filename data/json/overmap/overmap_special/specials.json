@@ -807,7 +807,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 0, 20 ],
-    "occurrences": [ 0, 3 ],
+    "occurrences": [ 0, 1 ],
     "flags": [ "ANT" ],
     "rotate": false,
     "spawns": { "group": "GROUP_ANT", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] }
@@ -819,7 +819,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 0, 20 ],
-    "occurrences": [ 0, 3 ],
+    "occurrences": [ 0, 1 ],
     "flags": [ "ANT" ],
     "rotate": false,
     "spawns": { "group": "GROUP_ANT_ACID", "population": [ 800, 1600 ], "radius": [ 10, 30 ] }
