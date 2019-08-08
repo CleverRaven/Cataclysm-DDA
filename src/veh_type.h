@@ -272,7 +272,7 @@ class vpart_info
         int cargo_weight_modifier = 100;
 
         /** Flat decrease of damage of a given type. */
-        std::array<float, NUM_DT> damage_reduction;
+        std::array<float, NUM_DT> damage_reduction = {};
 
         /* Contains data for terrain transformer parts */
         transform_terrain_data transform_terrain;
