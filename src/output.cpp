@@ -525,68 +525,6 @@ void draw_border( const catacurses::window &w, nc_color border_color, const std:
     }
 }
 
-void draw_tabs( const catacurses::window &w, int active_tab, std::vector<std::string> &labels )
-{
-    int win_width = getmaxx( w );
-
-    // Draw the line under the tabs
-    for( int x = 0; x < win_width; x++ ) {
-        mvwputch( w, 2, x, c_white, LINE_OXOX );
-    }
-
-    int total_width = 0;
-    for( auto &i : labels ) {
-        total_width += i.length() + 6;    // "< |four| >"
-    }
-
-    if( total_width > win_width ) {
-        //debugmsg("draw_tabs not given enough space! %s", labels[0]);
-        return;
-    }
-
-    // Extra "buffer" space per each side of each tab
-    const double extra_width = win_width - total_width;
-    double buffer_extra = extra_width / ( labels.size() * 2 );
-    int buffer = floor( buffer_extra );
-    // Set buffer_extra to (0, 1); the "extra" whitespace that builds up
-    buffer_extra -= buffer;
-    int xpos = 0;
-    double savings = 0;
-
-    for( size_t i = 0; i < labels.size(); i++ ) {
-        int length = labels[i].length();
-        xpos += buffer + 2;
-        savings += buffer_extra;
-        if( savings > 1 ) {
-            savings--;
-            xpos++;
-        }
-        mvwputch( w, 0, xpos, c_white, LINE_OXXO );
-        mvwputch( w, 1, xpos, c_white, LINE_XOXO );
-        mvwputch( w, 0, xpos + length + 1, c_white, LINE_OOXX );
-        mvwputch( w, 1, xpos + length + 1, c_white, LINE_XOXO );
-        if( static_cast<int>( i ) == active_tab ) {
-            mvwputch( w, 1, xpos - 2, h_white, '<' );
-            mvwputch( w, 1, xpos + length + 3, h_white, '>' );
-            mvwputch( w, 2, xpos, c_white, LINE_XOOX );
-            mvwputch( w, 2, xpos + length + 1, c_white, LINE_XXOO );
-            mvwprintz( w, 1, xpos + 1, h_white, labels[i] );
-            for( int x = xpos + 1; x <= xpos + length; x++ ) {
-                mvwputch( w, 0, x, c_white, LINE_OXOX );
-                mvwputch( w, 2, x, c_black, 'x' );
-            }
-        } else {
-            mvwputch( w, 2, xpos, c_white, LINE_XXOX );
-            mvwputch( w, 2, xpos + length + 1, c_white, LINE_XXOX );
-            mvwprintz( w, 1, xpos + 1, c_white, labels[i] );
-            for( int x = xpos + 1; x <= xpos + length; x++ ) {
-                mvwputch( w, 0, x, c_white, LINE_OXOX );
-            }
-        }
-        xpos += length + 1 + buffer;
-    }
-}
-
 bool query_yn( const std::string &text )
 {
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
