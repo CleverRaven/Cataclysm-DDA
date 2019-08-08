@@ -11,6 +11,7 @@
     "type": "COMESTIBLE",
     "copy-from": "antibiotics",
     "name": "antibiotics",
+    "plural_name": "antibiotics",
     "use_action": "STRONG_ANTIBIOTIC"
   }
 ]
