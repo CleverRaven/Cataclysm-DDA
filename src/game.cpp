@@ -1146,14 +1146,14 @@ bool game::cleanup_at_end()
         wprintz( w_rip, c_magenta, ssTemp.str() );
 
         sTemp = _( "In memory of:" );
-        mvwprintz( w_rip, iNameLine++, FULL_SCREEN_WIDTH / 2 - ( sTemp.length() / 2 ), c_light_gray,
+        mvwprintz( w_rip, iNameLine++, FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, c_light_gray,
                    sTemp );
 
         sTemp = u.name;
-        mvwprintz( w_rip, iNameLine++, FULL_SCREEN_WIDTH / 2 - ( sTemp.length() / 2 ), c_white, sTemp );
+        mvwprintz( w_rip, iNameLine++, FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, c_white, sTemp );
 
         sTemp = _( "Last Words:" );
-        mvwprintz( w_rip, iNameLine++, FULL_SCREEN_WIDTH / 2 - ( sTemp.length() / 2 ), c_light_gray,
+        mvwprintz( w_rip, iNameLine++, FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, c_light_gray,
                    sTemp );
 
         int iStartX = FULL_SCREEN_WIDTH / 2 - ( ( iMaxWidth - 4 ) / 2 );
@@ -3269,10 +3269,12 @@ void game::draw_panels( size_t column, size_t index, bool force_draw )
                                                        sidebar_right ? TERMX - panel.get_width() : 0 ) );
                 }
                 if( show_panel_adm ) {
-                    auto label = catacurses::newwin( 1, panel.get_name().length(), y, sidebar_right ?
-                                                     TERMX - panel.get_width() - panel.get_name().length() - 1 : panel.get_width() + 1 );
+                    const std::string panel_name = _( panel.get_name() );
+                    const int panel_name_width = utf8_width( panel_name );
+                    auto label = catacurses::newwin( 1, panel_name_width, y, sidebar_right ?
+                                                     TERMX - panel.get_width() - panel_name_width - 1 : panel.get_width() + 1 );
                     werase( label );
-                    mvwprintz( label, 0, 0, c_light_red, _( panel.get_name() ) );
+                    mvwprintz( label, 0, 0, c_light_red, panel_name );
                     wrefresh( label );
                     label = catacurses::newwin( h, 1, y,
                                                 sidebar_right ? TERMX - panel.get_width() - 1 : panel.get_width() );
