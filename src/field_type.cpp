@@ -63,6 +63,20 @@ int_id<field_type>::int_id( const string_id<field_type> &id ) : _id( id.id() )
 {
 }
 
+const field_intensity_level &field_type::get_intensity_level( int level ) const
+{
+    if( intensity_levels.empty() ) {
+        static const field_intensity_level fallback;
+        debugmsg( "No intensity levels defined for field id %s", id.str() );
+        return fallback;
+    } else if( level < 0 || static_cast<size_t>( level ) >= intensity_levels.size() ) {
+        // level + 1 for the original intensity number
+        debugmsg( "Unknown intensity index %d for field id %s", level + 1, id.str() );
+        return intensity_levels.back();
+    }
+    return intensity_levels[level];
+}
+
 void field_type::load( JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "legacy_enum_id", legacy_enum_id, -1 );
