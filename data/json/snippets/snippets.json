@@ -484,28 +484,28 @@
       "By the blade or by the gun?  How will you kill this time?",
       "Ahh, how delightful would it be to kill something.",
       "You are death, and you are coming for them.  Soon.",
-      "You whisper a song to yourself. \"Stab stab stab stab stab, and then you die!  Yeah!\"",
-      "You whisper to yourself. \"Come, oh sweet death of yours.\"",
-      "You whisper a song to yourself. \"I've seen the future, baby!  It is murder!\""
+      "You feel restless.  It's been too long since your last kill.",
+      "Killing something would be nice right now.",
+      "Just one more death, one more kill and then you'd be right."
     ]
   },
   {
     "type": "snippet",
     "category": "killer_on_kill",
     "text": [
-      "You whisper to yourself. \"Now I am become death, the destroyer of worlds!\"",
-      "You whisper to yourself. \"Another one bites the dust!\"",
-      "You whisper to yourself. \"Death takes you away.\"",
+      "You feel the rush of the kill.",
+      "Your urge to kill is sated, for now.",
+      "You have the power of life and death, it feels good to be in control.",
       "You exhale in bliss.",
-      "You whisper to yourself. \"Your death is my life.\"",
-      "You whisper to yourself. \"No light for you anymore.\"",
-      "You whisper to yourself. \"Yet another one.\"",
-      "You whisper to yourself. \"Keep'em coming.\"",
-      "You whisper to yourself. \"Next!\"",
-      "You whisper to yourself. \"The goal of all life is death!\"",
-      "You whisper to yourself. \"By my hand!\"",
-      "You whisper to yourself. \"Die!\"",
-      "You whisper to yourself. \"Your time is up!\""
+      "A calm feeling washes over.",
+      "This feels right.",
+      "You kill and your world is in order again.",
+      "Your worries evaporate as the creature dies by your hand.",
+      "That was nice!  Maybe one more?",
+      "This feels so good!  You could do this all day.",
+      "This brings a smile to your face.",
+      "You feel tension leave your body as your need to kill is satisfied.",
+      "You feel much better now."
     ]
   },
   {
