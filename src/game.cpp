@@ -319,7 +319,7 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
     }
 
     if( check.empty() ) {
-        world_generator->set_active_world( NULL );
+        world_generator->set_active_world( nullptr );
         world_generator->init();
         const std::vector<mod_id> mods_empty;
         WORLDPTR test_world = world_generator->make_new_world( mods_empty );
@@ -341,7 +341,7 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
     }
 
     for( const auto &e : check ) {
-        world_generator->set_active_world( NULL );
+        world_generator->set_active_world( nullptr );
         world_generator->init();
         const std::vector<mod_id> mods_empty;
         WORLDPTR test_world = world_generator->make_new_world( mods_empty );
