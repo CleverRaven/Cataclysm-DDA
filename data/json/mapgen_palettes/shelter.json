@@ -23,7 +23,8 @@
       "|": "t_wall_w",
       ";": "t_concrete_wall",
       "*": "t_ladder_up",
-      "=": "t_door_locked_interior"
+      "=": "t_door_locked_interior",
+      "4": "t_gutter_downspout"
     },
     "furniture": { "b": "f_bench", "c": "f_counter", "l": "f_locker" }
   }
