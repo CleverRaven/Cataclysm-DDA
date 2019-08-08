@@ -702,7 +702,7 @@
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE" ],
     "weight": 910,
-    "volume": 6,
+    "volume": "1500 ml",
     "bashing": 24,
     "to_hit": 2,
     "category": "weapons"
@@ -719,7 +719,7 @@
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
     "weight": 1135,
-    "volume": 6,
+    "volume": "1500 ml",
     "bashing": 31,
     "to_hit": 2,
     "category": "weapons"
