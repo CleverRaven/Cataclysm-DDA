@@ -5773,7 +5773,7 @@ damage_instance item::gun_damage( bool with_ammo ) const
     }
 
     int item_damage = damage_level( 4 );
-    if( item_damage != 0 ) {
+    if( item_damage > 0 ) {
         // TODO: This isn't a good solution for multi-damage guns/ammos
         for( damage_unit &du : ret ) {
             du.amount -= item_damage * 2;
