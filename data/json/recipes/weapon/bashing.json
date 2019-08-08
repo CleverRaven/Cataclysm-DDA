@@ -51,7 +51,7 @@
     "tools": [ [ [ "forge", 100 ], [ "oxy_torch", 20 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "shillelagh", 1 ] ],
-      [ [ "weighting", 20, "LIST" ] ]
+      [ [ "weighting", 15, "LIST" ] ]
     ]
   }
 ]
