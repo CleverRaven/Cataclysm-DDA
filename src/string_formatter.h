@@ -133,10 +133,13 @@ template<typename RT, typename T>
 inline typename std::enable_if < std::is_pointer<typename std::decay<T>::type>::value ||
 is_numeric<T>::value || is_string<T>::value || is_char<T>::value ||
 std::is_enum<typename std::decay<T>::type>::value ||
-is_cstring<T>::value, RT >::type convert( RT *, const string_formatter &sf, T &&, ... )
+is_cstring<T>::value, RT >::type
+// NOLINTNEXTLINE(cert-dcl50-cpp)
+convert( RT *, const string_formatter &sf, T &&, ... )
 {
-    throw_error( sf, "Tried to convert argument of type " + std::string( typeid(
-                     T ).name() ) + " to " + std::string( typeid( RT ).name() ) + ", which is not possible" );
+    throw_error( sf, "Tried to convert argument of type " +
+                 std::string( typeid( T ).name() ) + " to " +
+                 std::string( typeid( RT ).name() ) + ", which is not possible" );
 }
 /**@}*/
 

@@ -525,16 +525,9 @@ void draw_border( const catacurses::window &w, nc_color border_color, const std:
     }
 }
 
-void draw_tabs( const catacurses::window &w, int active_tab, ... )
+void draw_tabs( const catacurses::window &w, int active_tab, std::vector<std::string> &labels )
 {
     int win_width = getmaxx( w );
-    std::vector<std::string> labels;
-    va_list ap;
-    va_start( ap, active_tab );
-    while( const char *const tmp = va_arg( ap, char * ) ) {
-        labels.push_back( tmp );
-    }
-    va_end( ap );
 
     // Draw the line under the tabs
     for( int x = 0; x < win_width; x++ ) {
@@ -1493,6 +1486,7 @@ std::string rewrite_vsnprintf( const char *msg )
     return rewritten_msg.str();
 }
 
+// NOLINTNEXTLINE(cert-dcl50-cpp)
 std::string cata::string_formatter::raw_string_format( const char *format, ... )
 {
     va_list args;
