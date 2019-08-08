@@ -38,8 +38,8 @@
 #define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters
 
 #define SELCOL(n) (selection == (n) ? c_yellow : c_blue)
-#define TOGCOL(n, b) (selection == (n) ? (b ? c_light_green : c_yellow) :\
-                      (b ? c_green : c_dark_gray))
+#define TOGCOL(n, b) (selection == (n) ? ((b) ? c_light_green : c_yellow) :\
+                      ((b) ? c_green : c_dark_gray))
 #define NUMALIGN(n) ((n) >= 10000 ? 20 : ((n) >= 1000 ? 21 :\
                      ((n) >= 100 ? 22 : ((n) >= 10 ? 23 : 24))))
 
