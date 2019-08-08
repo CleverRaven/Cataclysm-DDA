@@ -45,7 +45,8 @@ enum do_activity_reason : int {
     NEEDS_PLANTING,         // For farming - tile can be planted
     NEEDS_TILLING,          // For farming - tile can be tilled
     NEEDS_CHOPPING,         // There is wood there to be chopped
-    NEEDS_BUTCHERING,       // There is at least one corpse there to butcher
+    NEEDS_BIG_BUTCHERING,   // There is at least one corpse there to butcher, and it's a big one
+    NEEDS_BUTCHERING,       // THere is at least one corpse there to butcher, and theres no need for additional tools
     BLOCKING_TILE           // Something has made it's way onto the tile, so the activity cannot proceed
 };
 
@@ -71,6 +72,8 @@ enum class item_drop_reason {
 void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items );
 void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items,
                                const tripoint &where, bool force_ground = false );
+void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &items,
+                        const tripoint &where );
 
 namespace activity_handlers
 {

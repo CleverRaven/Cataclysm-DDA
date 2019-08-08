@@ -753,6 +753,12 @@
         "effect": "do_chop_plank"
       },
       {
+        "text": "Please butcher any corpses that you can.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_butcher"
+      },
+      {
         "text": "Please do some farming work.",
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },

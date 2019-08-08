@@ -451,11 +451,6 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
                               u.has_amount( "vine_30", 1 ) || u.has_amount( "grapnel", 1 );
         const bool big_corpse = corpse.size >= MS_MEDIUM;
 
-        if( !u.has_quality( quality_id( "CUT" ) ) ) {
-            u.add_msg_if_player( m_info, _( "You need a cutting tool to perform a full butchery." ) );
-            act.targets.pop_back();
-            return;
-        }
         if( big_corpse ) {
             if( has_rope && !has_tree_nearby && !b_rack_present ) {
                 u.add_msg_if_player( m_info,
@@ -531,24 +526,28 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
     if( is_human && !( u.has_trait_flag( "CANNIBAL" ) || u.has_trait_flag( "PSYCHOPATH" ) ||
                        u.has_trait_flag( "SAPIOVORE" ) ) ) {
 
-        if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
-            g->u.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
-            switch( rng( 1, 3 ) ) {
-                case 1:
-                    u.add_msg_if_player( m_bad, _( "You clench your teeth at the prospect of this gruesome job." ) );
-                    break;
-                case 2:
-                    u.add_msg_if_player( m_bad, _( "This will haunt you in your dreams." ) );
-                    break;
-                case 3:
-                    u.add_msg_if_player( m_bad,
-                                         _( "You try to look away, but this gruesome image will stay on your mind for some time." ) );
-                    break;
+        if( u.is_player() ){
+            if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
+                switch( rng( 1, 3 ) ) {
+                    case 1:
+                        u.add_msg_if_player( m_bad, _( "You clench your teeth at the prospect of this gruesome job." ) );
+                        break;
+                    case 2:
+                        u.add_msg_if_player( m_bad, _( "This will haunt you in your dreams." ) );
+                        break;
+                    case 3:
+                        u.add_msg_if_player( m_bad,
+                                             _( "You try to look away, but this gruesome image will stay on your mind for some time." ) );
+                        break;
+                }
+                g->u.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
+            } else {
+                u.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
+                act.targets.pop_back();
+                return;
             }
         } else {
-            u.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
-            act.targets.pop_back();
-            return;
+            u.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
         }
     }
 
@@ -983,7 +982,12 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
                 }
-                liquid_handler::handle_all_liquid( obj, 1 );
+                // TODO : smarter NPC liquid handling
+                if( p.is_npc() ){
+                    drop_on_map( p, item_drop_reason::deliberate, { obj }, p.pos() );
+                } else {
+                    liquid_handler::handle_all_liquid( obj, 1 );
+                }
             } else if( drop->count_by_charges() ) {
                 item obj( drop, calendar::turn, roll );
                 if( obj.has_temperature() ) {
@@ -997,6 +1001,9 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 }
                 for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
+                }
+                if( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ){
+                    obj.set_var( "activity_var", p.name );
                 }
                 g->m.add_item_or_charges( p.pos(), obj );
             } else {
@@ -1013,6 +1020,9 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 }
                 for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
+                }
+                if( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ){
+                    obj.set_var( "activity_var", p.name );
                 }
                 for( int i = 0; i != roll; ++i ) {
                     g->m.add_item_or_charges( p.pos(), obj );
@@ -1050,6 +1060,9 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             ruined_parts.set_mtype( &mt );
             ruined_parts.set_item_temperature( 0.00001 * corpse_item->temperature );
             ruined_parts.set_rot( corpse_item->get_rot() );
+            if( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ){
+                ruined_parts.set_var( "activity_var", p.name );
+            }
             g->m.add_item_or_charges( p.pos(), ruined_parts );
         }
     }
@@ -1079,6 +1092,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         act->set_to_null();
         return;
     }
+
+    add_msg( "butchery_finish started");
 
     item_location &target = act->targets.back();
 
@@ -1227,6 +1242,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             p->add_msg_if_player( m_good, _( "You finish butchering the %s." ), corpse_item.tname() );
 
             // Remove the target from the map
+            add_msg( "remove corpse from map");
             target.remove_item();
             act->targets.pop_back();
             break;
@@ -1333,6 +1349,10 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     // Ready to move on to the next item, if there is one (for example if multibutchering)
     act->index = true;
+    // if its mutli-tile butchering,then restart the backlog.
+    if( p->backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ){
+        p->activity = player_activity();
+    }
 }
 
 void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
