@@ -10189,7 +10189,7 @@ int player::get_env_resist( body_part bp ) const
     }
 
     for( const bionic &bio : *my_bionics ) {
-        if( bio.info().env_protec.find( bp ) != bio.info().env_protec.cend() ) {
+        if( bio.info().env_protec.find( bp ) != bio.info().env_protec.end() ) {
             ret += bio.info().env_protec.at( bp );
         }
     }
