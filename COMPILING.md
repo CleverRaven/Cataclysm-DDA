@@ -587,7 +587,7 @@ MSYS2 strikes a balance between a native Windows application and a UNIX-like env
 
 ## Building with CYGWIN
 
-See [COMPILING-MSYS.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING-CYGWIN.md) for instructions on how to set up and use a build environment using CYGWIN on windows.
+See [COMPILING-CYGWIN.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING-CYGWIN.md) for instructions on how to set up and use a build environment using CYGWIN on windows.
 
 CYGWIN attempts to more fully emulate a POSIX environment, to be "more unix" than MSYS2. It is a little less modern in some respects, and lacks the convenience of the MSYS2 package manager.
 
