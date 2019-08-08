@@ -97,7 +97,7 @@
   },
   {
       "type": "start_location",
-      "ident": "road_nesw",
+      "ident": "road_nesw_manhole",
       "name": "Road with Manhole (NESW)",
       "target": "road_nesw_manhole"
   },
