@@ -436,7 +436,6 @@ ncurses (with wide character support enabled) and gettext are needed if you want
 
 For Homebrew:
 
-    brew tap homebrew/dupes
     brew install gettext ncurses
     brew link --force gettext ncurses
 
