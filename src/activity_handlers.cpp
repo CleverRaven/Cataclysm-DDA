@@ -1093,8 +1093,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return;
     }
 
-    add_msg( "butchery_finish started");
-
     item_location &target = act->targets.back();
 
     // Corpses can disappear (rezzing!), so check for that
@@ -1242,7 +1240,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             p->add_msg_if_player( m_good, _( "You finish butchering the %s." ), corpse_item.tname() );
 
             // Remove the target from the map
-            add_msg( "remove corpse from map");
             target.remove_item();
             act->targets.pop_back();
             break;
