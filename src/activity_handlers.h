@@ -45,6 +45,7 @@ enum do_activity_reason : int {
     NEEDS_PLANTING,         // For farming - tile can be planted
     NEEDS_TILLING,          // For farming - tile can be tilled
     NEEDS_CHOPPING,         // There is wood there to be chopped
+    NEEDS_BUTCHERING,       // There is at least one corpse there to butcher
     BLOCKING_TILE           // Something has made it's way onto the tile, so the activity cannot proceed
 };
 
@@ -99,6 +100,7 @@ void consume_meds_menu_do_turn( player_activity *act, player *p );
 void move_items_do_turn( player_activity *act, player *p );
 void multiple_farm_do_turn( player_activity *act, player *p );
 void multiple_construction_do_turn( player_activity *act, player *p );
+void multiple_butcher_do_turn( player_activity *act, player *p );
 void fetch_do_turn( player_activity *act, player *p );
 void move_loot_do_turn( player_activity *act, player *p );
 void travel_do_turn( player_activity *act, player *p );

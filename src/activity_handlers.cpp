@@ -131,6 +131,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_PICKUP" ), pickup_do_turn },
     { activity_id( "ACT_WEAR" ), wear_do_turn },
     { activity_id( "ACT_MULTIPLE_CONSTRUCTION" ), multiple_construction_do_turn },
+    { activity_id( "ACT_MULTIPLE_BUTCHER" ), multiple_butcher_do_turn },
     { activity_id( "ACT_MULTIPLE_FARM" ), multiple_farm_do_turn },
     { activity_id( "ACT_FETCH_REQUIRED" ), fetch_do_turn },
     { activity_id( "ACT_BUILD" ), build_do_turn },
@@ -3263,6 +3264,11 @@ void activity_handlers::multiple_construction_do_turn( player_activity *act, pla
 }
 
 void activity_handlers::multiple_chop_planks_do_turn( player_activity *act, player *p )
+{
+    generic_multi_activity_handler( *act, *p );
+}
+
+void activity_handlers::multiple_butcher_do_turn( player_activity *act, player *p )
 {
     generic_multi_activity_handler( *act, *p );
 }

@@ -207,6 +207,13 @@ void talk_function::do_construction( npc &p )
     p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
+void talk_function::do_butcher( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_MULTIPLE_BUTCHER" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
 void talk_function::do_chop_plank( npc &p )
 {
     p.set_attitude( NPCATT_ACTIVITY );

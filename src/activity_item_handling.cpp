@@ -975,7 +975,9 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
             bool check_weight = p.backlog.front().id() == activity_id( "ACT_MULTIPLE_FARM" ) ||
                                 activity_to_restore == activity_id( "ACT_MULTIPLE_FARM" ) ||
                                 p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ||
-                                activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" );
+                                activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ||
+                                p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ||
+                                activity_to_restore == activity_id( "ACT_MULTIPLE_BUTCHER" );
             if( check_weight ) {
                 // this fetch task will need to pick up an item. so check for its weight/volume before setting off.
                 if( in_loot_zones && ( elem2.volume() > volume_allowed ||
@@ -1020,6 +1022,18 @@ static std::pair<bool, do_activity_reason> can_do_activity_there( const activity
     if( act == activity_id( "ACT_TIDY_UP" ) ) {
         if( mgr.has_near( z_loot_unsorted, g->m.getabs( src_loc ), 60 ) ) {
             return std::make_pair( true, CAN_DO_FETCH );
+        }
+        return std::make_pair( false, NO_ZONE );
+    }
+    if( act == activity_id( "ACT_MULTIPLE_BUTCHER" ) ){
+        for( auto &i : g->m.i_at( src_loc ) ) {
+            if( i.is_corpse() ){
+                if( p.has_quality( quality_id( "BUTCHER" ), 1 ) ){
+                    return std::make_pair( true, NEEDS_BUTCHERING );
+                } else {
+                    return std::make_pair( false, NEEDS_BUTCHERING );
+                }
+            }
         }
         return std::make_pair( false, NO_ZONE );
     }
@@ -1184,7 +1198,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     const units::mass weight_allowed = p.weight_capacity() - p.weight_carried();
     zone_manager &mgr = zone_manager::get_manager();
     const bool pickup_task = p.backlog.front().id() == activity_id( "ACT_MULTIPLE_FARM" ) ||
-                             p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" );
+                             p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ||
+                             p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" );
     // where it is, what it is, how much of it, and how much in total is required of that item.
     std::vector<std::tuple<tripoint, itype_id, int>> requirement_map;
     std::vector<std::tuple<tripoint, itype_id, int>> final_map;
@@ -1587,7 +1602,8 @@ static void fetch_activity( player &p, const tripoint src_loc, activity_id activ
         }
     }
     if( !p.backlog.empty() && ( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_FARM" ) ||
-                                p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ) ) {
+                                p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ||
+                                p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) ) {
         for( map_stack::iterator it = items_there.begin(); it != items_there.end(); it++ ) {
             found_post = false;
             // it was planting we were doing, so we want seeds.
@@ -1597,31 +1613,27 @@ static void fetch_activity( player &p, const tripoint src_loc, activity_id activ
                 std::string seed_name = dynamic_cast<const plot_options &>
                                         ( backlog_act_zone->get_options() ).get_seed();
                 if( ( *it ).typeId() == itype_id( seed_name ) ) {
-                    if( ( *it ).volume() > volume_allowed || ( *it ).weight() > weight_allowed ) {
-                        // this item is too heavy / big to pick up discount it.
-                        continue;
-                    }
                     pickup_count = 10;
                     found_post = true;
                 }
                 // we need a shovel/hoe
             } else if( p.backlog.front().values.back() == NEEDS_TILLING ) {
                 if( ( *it ).has_quality( quality_id( "DIG" ), 1 ) ) {
-                    if( ( *it ).volume() > volume_allowed || ( *it ).weight() > weight_allowed ) {
-                        // this item is too heavy / big to pick up discount it.
-                        continue;
-                    }
                     found_post = true;
                 }
             } else if( p.backlog.front().values.back() == NEEDS_CHOPPING ) {
                 if( ( *it ).has_quality( quality_id( "AXE" ), 1 ) ) {
-                    if( ( *it ).volume() > volume_allowed || ( *it ).weight() > weight_allowed ) {
-                        continue;
-                    }
+                    found_post = true;
+                }
+            } else if( p.backlog.front().values.back() == NEEDS_BUTCHERING ){
+                if( ( *it ).has_quality( quality_id( "BUTCHER" ), 1) ){
                     found_post = true;
                 }
             }
             if( found_post ) {
+                if( ( *it ).volume() > volume_allowed || ( *it ).weight() > weight_allowed ) {
+                    continue;
+                }
                 item leftovers = *it;
 
                 if( pickup_count != 1 && ( *it ).count_by_charges() ) {
@@ -1652,6 +1664,11 @@ static void fetch_activity( player &p, const tripoint src_loc, activity_id activ
             }
         }
     }
+}
+
+static bool butcher_corpse_activity( player &p, tripoint src_loc )
+{
+    
 }
 
 static bool chop_plank_activity( player &p, tripoint src_loc )
@@ -1854,6 +1871,8 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             tripoint elem_point = std::get<0>( elem );
             src_set.insert( g->m.getabs( elem_point ) );
         }
+    } else if( activity_to_restore == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
+        src_set = mgr.get_near( zone_type_id( "LOOT_CORPSE"), abspos, 60 );
     } else if( activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ) {
         // we want to chop logs so get loot wood spots
         src_set = mgr.get_near( zone_type_id( "LOOT_WOOD" ), abspos, 60 );
@@ -1908,16 +1927,15 @@ void generic_multi_activity_handler( player_activity &act, player &p )
         const bool can_do_it = check_can_do.first;
         const do_activity_reason reason = check_can_do.second;
         const zone_data *zone = mgr.get_zone_at( src );
-        // some activities require the target tile to be part of a zone.
-        // tidy up activity dosnt - it wants things that may not be in a zone already - things that may have been left lying around.
-        if( activity_to_restore == activity_id( "ACT_FETCH_REQUIRED" ) ||
-            activity_to_restore == activity_id( "ACT_MULTIPLE_FARM" ) ||
+        const bool needs_to_be_in_zone = activity_to_restore == activity_id( "ACT_FETCH_REQUIRED" ) ||
+            activity_to_restore == activity_id( "ACT_MULTIPLE_FARM" ) || activity_to_restore == activity_id( "ACT_MULTIPLE_BUTCHER" ) ||
             activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ||
             ( activity_to_restore == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) &&
-              !g->m.partial_con_at( src_loc ) ) ) {
-            if( !zone ) {
-                continue;
-            }
+              !g->m.partial_con_at( src_loc ) );
+        // some activities require the target tile to be part of a zone.
+        // tidy up activity dosnt - it wants things that may not be in a zone already - things that may have been left lying around.
+        if( needs_to_be_in_zone && !zone ) {
+            continue;
         }
         if( ( !can_do_it ) && ( reason == DONT_HAVE_SKILL || reason == NO_ZONE || reason == ALREADY_DONE ||
                                 reason == BLOCKING_TILE || reason == UNKNOWN_ACTIVITY ) ) {
@@ -1931,7 +1949,7 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             }
             continue;
         } else if( ( !can_do_it ) && ( reason == NO_COMPONENTS || reason == NEEDS_PLANTING ||
-                                       reason == NEEDS_TILLING || reason == NEEDS_CHOPPING ) ) {
+                                       reason == NEEDS_TILLING || reason == NEEDS_CHOPPING || reason == NEEDS_BUTCHERING ) ) {
             // we can do it, but we need to fetch some stuff first
             // before we set the task to fetch components - is it even worth it? are the components anywhere?
             requirement_id what_we_need;
@@ -1958,18 +1976,19 @@ void generic_multi_activity_handler( player_activity &act, player &p )
                     built_chosen = check_build_pre( check_build_pre( list_constructions[options.get_index()] ) );
                 }
                 what_we_need = built_chosen.requirements;
-            } else if( reason == NEEDS_TILLING || reason == NEEDS_PLANTING || reason == NEEDS_CHOPPING ) {
+            } else if( reason == NEEDS_TILLING || reason == NEEDS_PLANTING || reason == NEEDS_CHOPPING || reason == NEEDS_BUTCHERING ) {
                 std::vector<item_comp> requirement_comps;
                 std::vector<quality_requirement> quality_comps;
                 std::vector<tool_comp> tool_comps;
                 if( reason == NEEDS_TILLING ) {
                     quality_comps.push_back( quality_requirement( quality_id( "DIG" ), 1, 1 ) );
-                }
-                if( reason == NEEDS_CHOPPING ) {
+                } else if( reason == NEEDS_CHOPPING ) {
                     quality_comps.push_back( quality_requirement( quality_id( "AXE" ), 1, 1 ) );
                 } else if( reason == NEEDS_PLANTING ) {
                     requirement_comps.push_back( item_comp( itype_id( dynamic_cast<const plot_options &>
                                                             ( zone->get_options() ).get_seed() ), 1 ) );
+                } else if( reason == NEEDS_CHOPPING ){
+                    quality_comps.push_back( quality_requirement( quality_id( "BUTCHER"), 1, 1 ) );
                 }
                 std::vector<std::vector<item_comp>> requirement_comp_vector{ requirement_comps };
                 std::vector<std::vector<quality_requirement>> quality_comp_vector{ quality_comps };
@@ -1992,7 +2011,7 @@ void generic_multi_activity_handler( player_activity &act, player &p )
                 requirement_data::save_requirement( reqs_data, req_id );
                 what_we_need = req_id;
             }
-            bool tool_pickup = reason == NEEDS_TILLING || reason == NEEDS_PLANTING || reason == NEEDS_CHOPPING;
+            bool tool_pickup = reason == NEEDS_TILLING || reason == NEEDS_PLANTING || reason == NEEDS_CHOPPING || reason == NEEDS_BUTCHERING;
             // is it even worth fetching anything if there isnt enough nearby?
             if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, p,
                                           activity_to_restore, tool_pickup ) ) {
@@ -2078,6 +2097,11 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             p.assign_activity( activity_id( "ACT_BUILD" ) );
             p.activity.placement = src;
             return;
+        } else if( reason == NEEDS_BUTCHERING ){
+            if( butcher_corpse_activity( p, src_loc ) ){
+                p.backlog.push_front( activity_to_restore );
+                return;
+            }
         } else if( reason == CAN_DO_CONSTRUCTION || reason == CAN_DO_PREREQ || reason == CAN_DO_PREREQ_2 ) {
             construction_activity( p, zone, src_loc, reason, list_constructions, activity_to_restore );
             return;
