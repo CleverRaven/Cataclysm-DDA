@@ -31,7 +31,7 @@
     "difficulty": 3,
     "time": "360 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 100 ] ] ],
     "components": [
       [ [ "log", 1 ] ],
