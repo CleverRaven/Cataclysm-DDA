@@ -44,7 +44,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
-    "difficulty": 5,
+    "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "DRILL", "level": 1 } ],
