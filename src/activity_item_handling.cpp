@@ -1668,7 +1668,15 @@ static void fetch_activity( player &p, const tripoint src_loc, activity_id activ
 
 static bool butcher_corpse_activity( player &p, tripoint src_loc )
 {
-    
+    map_stack items = g->m.i_at( src_loc );
+    for( map_stack::iterator it = items.begin(); it != items.end(); ++it ) {
+        if( it->is_corpse() ) {
+            p.assign_activity( activity_id( "ACT_BUTCHER_FULL" ), 0, true );
+            p.activity.targets.emplace_back( map_cursor( src_loc ), &*it );
+            return true;
+        }
+    }
+    return false;
 }
 
 static bool chop_plank_activity( player &p, tripoint src_loc )
