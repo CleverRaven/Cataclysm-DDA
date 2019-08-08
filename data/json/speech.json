@@ -1423,6 +1423,12 @@
   },
   {
     "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Hold on, I want to pulp that zombie corpse.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
     "speaker": "mon_mutant_experimental",
     "sound": "\"Burning...  from the inside...\"",
     "volume": 10
@@ -1639,6 +1645,42 @@
   },
   {
     "type": "speech",
+    "speaker": "mon_broken_cyborg",
+    "sound": "\"I told you to let me die.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_broken_cyborg",
+    "sound": "\"W-where am I?  Why does it hur-REBOOTING IN 59 SECONDS.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_broken_cyborg",
+    "sound": "\"THIS UNIT IS BROKEN.  PLEASE CALL AN ATTENDANT.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_broken_cyborg",
+    "sound": "\"Can't... breathe...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_broken_cyborg",
+    "sound": "\"This cannot continue.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_broken_cyborg",
+    "sound": "\"USER PASSWORD UNRECOGNIZED.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
     "speaker": "mon_prototype_cyborg",
     "sound": "\"Have you seen my friend?  He went into surgery yesterday... or maybe the day before...\"",
     "volume": 10
@@ -1658,8 +1700,38 @@
   {
     "type": "speech",
     "speaker": "mon_prototype_cyborg",
+    "sound": "\"I cannot... yet I must.  How do you calculate that?\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_prototype_cyborg",
+    "sound": "\"This is a dream.  This has to be a dream.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_prototype_cyborg",
+    "sound": "\"This is my life now... this is my life now... this is my life now...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_prototype_cyborg",
+    "sound": "\"Wanna go home...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_prototype_cyborg",
     "sound": "screams of pain.",
     "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_prototype_cyborg",
+    "sound": "muffled sobbing.",
+    "volume": 5
   },
   {
     "type": "speech",
