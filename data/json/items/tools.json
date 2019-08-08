@@ -7349,7 +7349,7 @@
     "symbol": "#",
     "color": "brown",
     "looks_like": "frame_wood_light",
-    "flags": [ "NONCONDUCTIVE" ],
+    "flags": [ "NONCONDUCTIVE", "ALLOWS_REMOTE_USE" ],
     "use_action": {
       "target": "adobe_pallet_done",
       "msg": "You test the bricks, and they're solid enough to use.",
