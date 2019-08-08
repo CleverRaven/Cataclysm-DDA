@@ -16,7 +16,7 @@
     "points": 0,
     "description": "You attempted to escape the horrors of the cataclysm in your car.  Before you could reach the next town over, you were involved in a collision with another vehicle.",
     "allowed_locs": [ "road_end_south", "road_end_west", "road_ne", "road_end_north", "road_ns", "road_es", "road_nes", "road_end_east", "road_wn", "road_ew", "road_nsw" "road_esw" "road_nesw", "road_nesw_manhole" ],
-        "//": "TK: all road combos and map extra",
+        "//": "TK: update map extra with items and zombies",
     "start_name": "Crash Site",
     "flags": [ "LONE_START", "HELI_CRASH" ]
   },
