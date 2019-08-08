@@ -1656,14 +1656,12 @@ static void fetch_activity( player &p, const tripoint src_loc, activity_id activ
 
 static bool chop_plank_activity( player &p, tripoint src_loc )
 {
-    add_msg( "chop plank activity" );
     for( auto &i : g->m.i_at( src_loc ) ) {
         if( i.typeId() == "log" ) {
             g->m.i_rem( src_loc, &i );
             int moves = to_moves<int>( 20_minutes );
             p.add_msg_if_player( _( "You cut the log into planks." ) );
             p.assign_activity( activity_id( "ACT_CHOP_PLANKS" ), moves, -1 );
-            add_msg( "assigned chop plank activity" );
             p.activity.placement = src_loc;
             return true;
         }
