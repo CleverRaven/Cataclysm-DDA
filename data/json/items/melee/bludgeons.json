@@ -689,5 +689,39 @@
     "cutting": 3,
     "to_hit": 2,
     "qualities": [ [ "COOK", 1 ] ]
+  },
+  {
+    "id": "shillelagh",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "brown",
+    "name": "shillelagh",
+    "description": "A stout knotty stick with a large knob at the top that has been left to cure in a chimney.  A traditional Irish weapon, the shillelagh was originally used for settling disputes in a gentlemanly manner.",
+    "price": 25000,
+    "material": "wood",
+    "techniques": [ "WBLOCK_1", "SWEEP" ],
+    "flags": [ "DURABLE_MELEE" ],
+    "weight": 910,
+    "volume": 6,
+    "bashing": 24,
+    "to_hit": 2,
+    "category": "weapons"
+  },
+  {
+    "id": "shillelagh_weighted",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "brown",
+    "name": "loaded stick",
+    "description": "A stout knotty stick with a large knob at the top that has been left to cure in a chimney.  A traditional Irish weapon, the shillelagh was originally used for settling disputes in a gentlemanly manner.  The knob has been hollowed and filled with molten heavy metal to pack more of a punch.",
+    "price": 30000,
+    "material": [ "lead", "wood" ],
+    "techniques": [ "WBLOCK_1", "SWEEP" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "weight": 1110,
+    "volume": 6,
+    "bashing": 31,
+    "to_hit": 2,
+    "category": "weapons"
   }
 ]
