@@ -535,7 +535,8 @@ void game::init_ui( const bool resized )
     w_minimap = w_minimap_ptr = catacurses::newwin( MINIMAP_HEIGHT, MINIMAP_WIDTH, _y, _x );
     werase( w_minimap );
 
-    w_panel_adm = w_panel_adm_ptr = catacurses::newwin( 15, 65, ( TERMY / 2 ) - 8, ( TERMX / 2 ) - 33 );
+    w_panel_adm = w_panel_adm_ptr = catacurses::newwin( 20, 75, ( TERMY / 2 ) - 10,
+                                    ( TERMX / 2 ) - 38 );
     werase( w_panel_adm );
     // need to init in order to avoid crash. gets updated by the panel code.
     w_pixel_minimap = catacurses::newwin( 1, 1, 0, 0 );
