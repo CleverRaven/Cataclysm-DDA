@@ -17,7 +17,6 @@ misc-*,\
 modernize-*,\
 performance-*,\
 readability-*,\
--bugprone-macro-parentheses,\
 -bugprone-misplaced-widening-cast,\
 -bugprone-narrowing-conversions,\
 -bugprone-string-integer-assignment,\

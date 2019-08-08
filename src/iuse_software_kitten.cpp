@@ -10,7 +10,7 @@
 #include "rng.h"
 #include "translations.h"
 
-#define EMPTY -1
+#define EMPTY (-1)
 #define ROBOT 0
 #define KITTEN 1
 std::string robot_finds_kitten::getmessage( int idx )
