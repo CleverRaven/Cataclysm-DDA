@@ -601,6 +601,11 @@ void monster::move()
         }
     }
 
+    // dragged_foe: restore pointer by saved id if required
+    if( dragged_foe_id >= 0 ) {
+        dragged_foe = g->critter_by_id<player>( dragged_foe_id );
+        dragged_foe_id = 0;
+    }
     // defective nursebot surgery code
     if( type->has_special_attack( "OPERATE" ) && has_effect( effect_dragging ) &&
         dragged_foe != nullptr ) {
