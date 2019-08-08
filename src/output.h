@@ -367,7 +367,6 @@ void draw_custom_border( const catacurses::window &w, catacurses::chtype ls = 1,
                          int width = 0 );
 void draw_border( const catacurses::window &w, nc_color border_color = BORDER_COLOR,
                   const std::string &title = "", nc_color title_color = c_light_red );
-void draw_tabs( const catacurses::window &w, int active_tab, ... );
 
 std::string word_rewrap( const std::string &ins, int width, const uint32_t split = ' ' );
 std::vector<size_t> get_tag_positions( const std::string &s );
