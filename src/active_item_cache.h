@@ -17,7 +17,7 @@ struct item_reference {
     safe_reference<item> item_ref;
 };
 
-enum class special_item_type : char {
+enum class special_item_type : int {
     none,
     corpse,
     explosive
