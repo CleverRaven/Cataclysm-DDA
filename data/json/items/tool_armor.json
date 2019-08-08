@@ -1080,7 +1080,7 @@
     "name_plural": "pairs of infrared goggles (on)",
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them off.",
     "flags": [ "IR_EFFECT", "FRAGILE", "TRADER_AVOID" ],
-    "power_draw": 400,
+    "power_draw": 1000,
     "revert_to": "goggles_ir",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_ir" },
     "covers": [ "EYES" ],
