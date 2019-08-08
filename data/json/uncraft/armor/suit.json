@@ -4,7 +4,7 @@
     "type": "uncraft",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": 30000,
+    "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 33 ] ], [ [ "leather", 35 ] ], [ [ "scrap", 24 ] ], [ [ "kevlar", 48 ] ] ]
   },
@@ -13,7 +13,7 @@
     "type": "uncraft",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": 15000,
+    "time": "150 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 23 ] ], [ [ "leather", 25 ] ], [ [ "scrap", 12 ] ], [ [ "kevlar", 24 ] ] ]
   }
