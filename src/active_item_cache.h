@@ -23,6 +23,16 @@ enum class special_item_type : int {
     explosive
 };
 
+namespace std
+{
+template <>
+struct hash<special_item_type> {
+    std::size_t operator()( const special_item_type &k ) const {
+        return static_cast<size_t>( k );
+    }
+};
+} // namespace std
+
 class active_item_cache
 {
     private:
