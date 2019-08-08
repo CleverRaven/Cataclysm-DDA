@@ -4272,7 +4272,7 @@
     "monsters": [
       { "monster": "mon_gelatin", "freq": 250, "cost_multiplier": 0 },
       { "monster": "mon_mi_go", "freq": 250, "cost_multiplier": 0 },
-      { "monster": "mon_mi_go_scout", "freq": 250, "cost_multiplier": 0, "starts": 60 },
+      { "monster": "mon_mi_go_scout", "freq": 250, "cost_multiplier": 0, "starts": 35 },
       { "monster": "mon_kreck", "freq": 250, "cost_multiplier": 0 },
       { "monster": "mon_gracke", "freq": 250, "cost_multiplier": 0 }
     ]

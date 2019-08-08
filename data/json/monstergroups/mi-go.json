@@ -5,10 +5,10 @@
     "//": "Mi-go raiding parties spawning in the vicinity of a mi-go camp.  Puts slavers later on and keeps large groups from spawning until the player can deal with them.",
     "default": "mon_mi_go_slaver",
     "monsters": [
-      { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 20, "ends": 45 },
-      { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 10, "starts": 45, "ends": 60, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 2, "starts": 60, "pack_size": [ 3, 6 ] },
-      { "monster": "mon_mi_go_slaver", "freq": 100, "cost_multiplier": 10, "starts": 45, "ends": 60 },
+      { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 20, "ends": 14 },
+      { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 10, "starts": 14, "ends": 30, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 2, "starts": 30, "pack_size": [ 3, 6 ] },
+      { "monster": "mon_mi_go_slaver", "freq": 100, "cost_multiplier": 10, "starts": 14, "ends": 30 },
       {
         "monster": "mon_mi_go_slaver",
         "freq": 100,
@@ -17,9 +17,9 @@
         "ends": 30,
         "pack_size": [ 1, 2 ]
       },
-      { "monster": "mon_mi_go_slaver", "freq": 100, "cost_multiplier": 5, "starts": 60, "pack_size": [ 3, 6 ] },
-      { "monster": "mon_mi_go_scout", "freq": 100, "cost_multiplier": 50, "starts": 65 },
-      { "monster": "mon_mi_go_myrmidon", "freq": 20, "cost_multiplier": 50, "starts": 75 }
+      { "monster": "mon_mi_go_slaver", "freq": 100, "cost_multiplier": 5, "starts": 30, "pack_size": [ 3, 6 ] },
+      { "monster": "mon_mi_go_scout", "freq": 100, "cost_multiplier": 50, "starts": 35 },
+      { "monster": "mon_mi_go_myrmidon", "freq": 20, "cost_multiplier": 50, "starts": 45 }
     ]
   },
   {
