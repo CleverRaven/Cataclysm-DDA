@@ -96,6 +96,12 @@
       "target": "road_nesw"
   },
   {
+      "type": "start_location",
+      "ident": "road_nesw",
+      "name": "Road with Manhole (NESW)",
+      "target": "road_nesw_manhole"
+  },
+  {
     "type": "start_location",
     "ident": "shelter_1",
     "name": "Shelter",
