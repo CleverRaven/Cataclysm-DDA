@@ -718,7 +718,7 @@
     "material": [ "lead", "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
-    "weight": 1110,
+    "weight": 1135,
     "volume": 6,
     "bashing": 31,
     "to_hit": 2,
