@@ -575,7 +575,7 @@ void player_morale::display( int focus_eq )
         print_line( win_h - 3, morale_gain_caption, get_level() );
         //manual line as lambda will not do it properly here
         mvwprintz( w, win_h - 2, getmaxx( w ) - 8, c_white, "%d", focus_eq );
-        fold_and_print_from( w, win_h - 2, 2, getmaxx( w ) - 9, 0, c_white , focus_equilibrium );
+        fold_and_print_from( w, win_h - 2, 2, getmaxx( w ) - 9, 0, c_white, focus_equilibrium );
 
         draw_scrollbar( w, offset, rows_visible, rows_total, 4, 0 );
 

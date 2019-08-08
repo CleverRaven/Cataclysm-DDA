@@ -1168,11 +1168,11 @@ void avatar::disp_morale()
         equilibrium = 20;
     } else if( get_fatigue() >= EXHAUSTED && ( focus_pool > 40 || equilibrium > 40 ) ) {
         equilibrium = 40;
-    } else if ( get_fatigue() >= DEAD_TIRED && ( focus_pool > 60 || equilibrium > 60 ) ) {
+    } else if( get_fatigue() >= DEAD_TIRED && ( focus_pool > 60 || equilibrium > 60 ) ) {
         equilibrium = 60;
     } else if( get_fatigue() >= TIRED && ( focus_pool > 80 || equilibrium > 80 ) ) {
         equilibrium = 80;
-    } 
+    }
     morale->display( equilibrium );
 }
 
@@ -1258,7 +1258,7 @@ int avatar::calc_focus_change() const
     if( rng( 1, 100 ) <= focus_gap % 100 ) {
         gain++;
     }
-    
+
     gain *= base_change;
 
     // Fatigue will incrementally decrease any focus above related cap
@@ -1266,9 +1266,9 @@ int avatar::calc_focus_change() const
         ( get_fatigue() >= DEAD_TIRED && focus_pool > 60 ) ||
         ( get_fatigue() >= EXHAUSTED && focus_pool > 40 ) ||
         ( get_fatigue() >= MASSIVE_FATIGUE && focus_pool > 20 ) ) {
-        
-        //it fall faster then 1
-        if ( gain > -1 ) {
+
+        //it can fall faster then 1
+        if( gain > -1 ) {
             gain = -1;
         }
     }

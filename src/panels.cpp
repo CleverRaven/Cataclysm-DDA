@@ -1207,7 +1207,7 @@ static void draw_char( avatar &u, const catacurses::window &w )
     mvwprintz( w, 2, 8, focus_color( u.focus_pool ), "%s", u.focus_pool );
     if( u.focus_pool < u.calc_focus_equilibrium() ) {
         mvwprintz( w, 2, 11, c_light_green, "↥" );
-    } else if (u.focus_pool > u.calc_focus_equilibrium() ) {
+    } else if( u.focus_pool > u.calc_focus_equilibrium() ) {
         mvwprintz( w, 2, 11, c_light_red, "↧" );
     }
     mvwprintz( w, 0, 26, morale_pair.first, "%s", smiley );
