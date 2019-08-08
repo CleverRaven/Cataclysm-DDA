@@ -2111,7 +2111,8 @@ void generic_multi_activity_handler( player_activity &act, player &p )
         }
         // tidy up leftover moved parts and tools left lying near the work spots.
         if( activity_to_restore == activity_id( "ACT_MULTIPLE_FARM" ) ||
-            activity_to_restore == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ) {
+            activity_to_restore == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ||
+            activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ) {
             p.assign_activity( activity_id( "ACT_TIDY_UP" ) );
         } else if( activity_to_restore == activity_id( "ACT_MOVE_LOOT" ) ) {
             mgr.end_sort();
