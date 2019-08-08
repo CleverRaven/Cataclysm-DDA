@@ -319,6 +319,12 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
     }
 
     if( check.empty() ) {
+        world_generator->set_active_world( NULL );
+        world_generator->init();
+        const std::vector<mod_id> mods_empty;
+        WORLDPTR test_world = world_generator->make_new_world( mods_empty );
+        world_generator->set_active_world( test_world );
+
         // if no loadable mods then test core data only
         try {
             load_core_data( ui );
@@ -326,9 +332,21 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
         } catch( const std::exception &err ) {
             std::cerr << "Error loading data from json: " << err.what() << std::endl;
         }
+
+        std::string world_name = world_generator->active_world->world_name;
+        world_generator->delete_world( world_name, true );
+
+        MAPBUFFER.reset();
+        overmap_buffer.clear();
     }
 
     for( const auto &e : check ) {
+        world_generator->set_active_world( NULL );
+        world_generator->init();
+        const std::vector<mod_id> mods_empty;
+        WORLDPTR test_world = world_generator->make_new_world( mods_empty );
+        world_generator->set_active_world( test_world );
+
         if( !e.is_valid() ) {
             std::cerr << "Unknown mod: " << e.str() << std::endl;
             return false;
@@ -358,8 +376,13 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
         } catch( const std::exception &err ) {
             std::cerr << "Error loading data: " << err.what() << std::endl;
         }
-    }
 
+        std::string world_name = world_generator->active_world->world_name;
+        world_generator->delete_world( world_name, true );
+
+        MAPBUFFER.reset();
+        overmap_buffer.clear();
+    }
     return true;
 }
 
@@ -11918,5 +11941,8 @@ std::string game::get_player_base_save_path() const
 
 std::string game::get_world_base_save_path() const
 {
+    if( world_generator->active_world == nullptr ) {
+        return FILENAMES["savedir"];
+    }
     return world_generator->active_world->folder_path();
 }
