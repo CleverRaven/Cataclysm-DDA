@@ -655,7 +655,7 @@
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 1,
     "react_cost": 1,
-    "time": 100
+    "time": 10000
   },
   {
     "id": "bio_noise",
