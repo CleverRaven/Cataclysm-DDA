@@ -354,6 +354,7 @@
     "category": "REPAIR",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
+    "byproducts": [ { "item": "glass_shard", "count": [ 8, 16 ] } ],
     "pre_terrain": "t_window_frame",
     "post_terrain": "t_window_empty"
   },
