@@ -2832,8 +2832,8 @@ void npc::drop_items( int weight, int volume )
             wgt_ratio = 99999;
             vol_ratio = 99999;
         } else {
-            wgt_ratio = it.weight() / 1_gram / value( it );
-            vol_ratio = it.volume() / units::legacy_volume_factor / value( it );
+            wgt_ratio = units::to_gram<double>( it.weight() ) / value( it );
+            vol_ratio = it.volume() * 1.0 / units::legacy_volume_factor / value( it );
         }
         bool added_wgt = false;
         bool added_vol = false;

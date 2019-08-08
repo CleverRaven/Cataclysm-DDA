@@ -1302,8 +1302,9 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
     /** @EFFECT_SURVIVAL speeds up fire starting */
     float moves_modifier = std::pow( 0.8, std::min( 5.0, skill_level ) );
     const int moves_base = moves_cost_by_fuel( pos );
-    const int min_moves = std::min<int>( moves_base,
-                                         sqrt( 1 + moves_base / to_moves<int>( 1_turns ) ) * to_moves<int>( 1_turns ) );
+    const double moves_per_turn = to_moves<double>( 1_turns );
+    const int min_moves = std::min<int>(
+                              moves_base, sqrt( 1 + moves_base / moves_per_turn ) * moves_per_turn );
     const int moves = std::max<int>( min_moves, moves_base * moves_modifier ) / light;
     if( moves > to_moves<int>( 1_minutes ) ) {
         // If more than 1 minute, inform the player
@@ -1321,7 +1322,8 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
     }
 
     // skill gains are handled by the activity, but stored here in the index field
-    const int potential_skill_gain = moves_modifier + moves_cost_fast / 100 + 2;
+    const int potential_skill_gain =
+        moves_modifier + moves_cost_fast / 100.0 + 2;
     p.assign_activity( activity_id( "ACT_START_FIRE" ), moves, potential_skill_gain,
                        p.get_item_position( &it ),
                        it.tname() );

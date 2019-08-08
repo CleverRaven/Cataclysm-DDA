@@ -3661,10 +3661,10 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
     const point screen_pos = coordinate - win_min;
     point p;
     if( tile_iso && use_tiles ) {
-        const int screen_col = round( static_cast<float>(
-                                          screen_pos.x - ( win_size.x / 2 + win_min.x ) ) / ( fw / 2 ) );
-        const int screen_row = round( static_cast<float>(
-                                          screen_pos.y - win_size.y / 2 + win_min.y ) / ( fw / 4 ) );
+        const float win_mid_x = win_min.x + win_size.x / 2.0f;
+        const float win_mid_y = -win_min.y + win_size.y / 2.0f;
+        const int screen_col = round( ( screen_pos.x - win_mid_x ) / ( fw / 2.0 ) );
+        const int screen_row = round( ( screen_pos.y - win_mid_y ) / ( fw / 4.0 ) );
         const point selected( ( screen_col - screen_row ) / 2, ( screen_row + screen_col ) / 2 );
         p = view_offset + selected;
     } else {

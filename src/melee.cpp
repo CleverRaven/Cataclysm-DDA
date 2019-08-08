@@ -966,7 +966,7 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average,
 
             if( has_trait( trait_CLAWS_ST ) ) {
                 /** @EFFECT_UNARMED increases stabbing damage with CLAWS_ST */
-                per_hand += 3 + ( unarmed_skill / 2 );
+                per_hand += 3 + unarmed_skill / 2.0;
             }
 
             cut_dam += per_hand; // First hand
