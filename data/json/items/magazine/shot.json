@@ -55,7 +55,7 @@
     "name": "shotgun 6-round speedloader",
     "description": "A steel tube with attached handle that when inserted into a 6 round shotgun can be used to quickly load the full tube in a much shorter period of time than by hand.",
     "weight": 480,
-    "volume": 7,
+    "volume": "1750 ml",
     "price": 3200,
     "material": "steel",
     "symbol": "/",
