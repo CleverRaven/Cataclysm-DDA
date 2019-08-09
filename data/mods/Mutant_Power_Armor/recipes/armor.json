@@ -1,0 +1,128 @@
+[
+  {
+    "result": "depowered_mutant_armor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+	"skills_required": [["mechanics", 4]],
+    "difficulty": 7,
+    "time": "10 m",
+    "autolearn": true,
+    "components": [
+      [ [ "depowered_armor", 1 ] ]
+    ]
+  },
+  {
+    "result": "depowered_mutant_helmet",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+	"skills_required": [["mechanics", 4]],
+    "difficulty": 7,
+    "time": "10 m",
+    "autolearn": true,
+    "components": [
+      [ [ "depowered_helmet", 1 ] ]
+    ]
+  },
+  {
+    "result": "mutant_power_armor_basic",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+	"skills_required": [["mechanics", 4], ["electronics", 5]],
+    "difficulty": 8,
+    "time": "10 m",
+    "autolearn": true,
+    "components": [
+      [ [ "power_armor_basic", 1 ] ]
+    ]
+  },
+  {
+    "result": "mutant_power_armor_frame",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+	"skills_required": [["mechanics", 5], ["electronics", 5]],
+    "difficulty": 9,
+    "time": "10 m",
+    "autolearn": true,
+    "components": [
+      [ [ "power_armor_frame", 1 ] ]
+    ]
+  },
+  {
+    "result": "mutant_power_armor_heavy",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+	"skills_required": [["mechanics", 5], ["electronics", 6]],
+    "difficulty": 10,
+    "time": "10 m",
+    "autolearn": true,
+    "components": [
+      [ [ "power_armor_heavy", 1 ] ]
+    ]
+  },
+  {
+    "result": "mutant_power_armor_helmet_basic",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+	"skills_required": [["mechanics", 4], ["electronics", 5]],
+    "difficulty": 8,
+    "time": "10 m",
+    "autolearn": true,
+    "components": [
+      [ [ "power_armor_helmet_basic", 1 ] ]
+    ]
+  },
+  {
+    "result": "mutant_power_armor_helmet_heavy",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+	"skills_required": [["mechanics", 5], ["electronics", 6]],
+    "difficulty": 10,
+    "time": "10 m",
+    "autolearn": true,
+    "components": [
+      [ [ "power_armor_helmet_heavy", 1 ] ]
+    ]
+  },
+  {
+    "result": "mutant_power_armor_helmet_light",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+	"skills_required": [["mechanics", 4], ["electronics", 6]],
+    "difficulty": 9,
+    "time": "10 m",
+    "autolearn": true,
+    "components": [
+      [ [ "power_armor_helmet_light", 1 ] ]
+    ]
+  },
+  {
+    "result": "mutant_power_armor_light",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+	"skills_required": [["mechanics", 4], ["electronics", 6]],
+    "difficulty": 9,
+    "time": "10 m",
+    "autolearn": true,
+    "components": [
+      [ [ "power_armor_light", 1 ] ]
+    ]
+  }
+]
