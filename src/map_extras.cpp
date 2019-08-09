@@ -50,6 +50,25 @@
 
 class npc_template;
 
+namespace io
+{
+
+static const std::map<std::string, map_extra_method> map_extra_method_map = {{
+        { "null", map_extra_method::null },
+        { "map_extra_function", map_extra_method::map_extra_function },
+        { "mapgen", map_extra_method::mapgen },
+        { "update_mapgen", map_extra_method::update_mapgen },
+    }
+};
+
+template<>
+map_extra_method string_to_enum<map_extra_method>( const std::string &data )
+{
+    return string_to_enum_look_up( map_extra_method_map, data );
+}
+
+} // namespace io
+
 namespace
 {
 
@@ -2586,22 +2605,57 @@ map_extra_pointer get_function( const std::string &name )
 void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs_sub )
 {
     const map_extra &extra = id.obj();
-    const map_extra_pointer mx_func = extra.function_pointer;
-    const std::string mx_note =
-        string_format( "%s:%s;<color_yellow>%s</color>: <color_white>%s</color>",
-                       extra.get_symbol(),
-                       get_note_string_from_color( extra.color ),
-                       extra.name,
-                       extra.description );
-    if( mx_func != nullptr ) {
-        mx_func( m, abs_sub );
-        overmap_buffer.add_extra( sm_to_omt_copy( abs_sub ), id );
-        if( get_option<bool>( "AUTO_NOTES" ) && get_option<bool>( "AUTO_NOTES_MAP_EXTRAS" ) &&
-            !mx_note.empty() ) {
+    switch( extra.generator_method ) {
+        case map_extra_method::map_extra_function: {
+            const map_extra_pointer mx_func = get_function( extra.generator_id );
+            if( mx_func != nullptr ) {
+                mx_func( m, abs_sub );
+            }
+            break;
+        }
+        case map_extra_method::mapgen: {
+            tripoint over( abs_sub );
+            sm_to_omt( over );
+            const regional_settings *rsettings = &overmap_buffer.get_settings( over );
+            const oter_id terrain_type = overmap_buffer.ter( over );
+            const oter_id t_above = overmap_buffer.ter( over + tripoint_above );
+            const oter_id t_below = overmap_buffer.ter( over + tripoint_below );
+            const oter_id t_north = overmap_buffer.ter( over + tripoint_north );
+            const oter_id t_north_east = overmap_buffer.ter( over + tripoint_north_east );
+            const oter_id t_east  = overmap_buffer.ter( over + tripoint_east );
+            const oter_id t_south_east = overmap_buffer.ter( over + tripoint_south_east );
+            const oter_id t_south = overmap_buffer.ter( over + tripoint_south );
+            const oter_id t_south_west = overmap_buffer.ter( over + tripoint_south_west );
+            const oter_id t_west  = overmap_buffer.ter( over + tripoint_west );
+            const oter_id t_north_west = overmap_buffer.ter( over + tripoint_north_west );
+            const mapgendata dat( t_north, t_east, t_south, t_west,
+                                  t_north_east, t_south_east, t_south_west, t_north_west,
+                                  t_above, t_below, over.z, *rsettings, m );
+            run_mapgen_func( extra.generator_id, &m, terrain_type, dat, calendar::turn, 0 );
+            break;
+        }
+        case map_extra_method::update_mapgen: {
+            run_mapgen_update_func( extra.generator_id, sm_to_omt_copy( abs_sub ) );
+            break;
+        }
+        case map_extra_method::null:
+        default:
+            break;
+    }
+    overmap_buffer.add_extra( sm_to_omt_copy( abs_sub ), id );
+    if( get_option<bool>( "AUTO_NOTES" ) && get_option<bool>( "AUTO_NOTES_MAP_EXTRAS" ) ) {
+        const std::string mx_note =
+            string_format( "%s:%s;<color_yellow>%s</color>: <color_white>%s</color>",
+                           extra.get_symbol(),
+                           get_note_string_from_color( extra.color ),
+                           extra.name,
+                           extra.description );
+        if( !mx_note.empty() ) {
             overmap_buffer.add_note( sm_to_omt_copy( abs_sub ), mx_note );
         }
     }
 }
+
 void apply_function( const std::string &id, map &m, const tripoint &abs_sub )
 {
     apply_function( string_id<map_extra>( id ), m, abs_sub );
@@ -2617,18 +2671,66 @@ void load( JsonObject &jo, const std::string &src )
     extras.load( jo, src );
 }
 
+void check_consistency()
+{
+    extras.check();
+}
+
 } // namespace MapExtras
 
 void map_extra::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
-    mandatory( jo, was_loaded, "function", function );
-    function_pointer = MapExtras::get_function( function );
-    if( function_pointer == nullptr ) {
-        debugmsg( "invalid map extra function (%s) defined for map extra (%s)", function, id.str() );
+    if( jo.has_object( "generator" ) ) {
+        JsonObject jg = jo.get_object( "generator" );
+        generator_method = jg.get_enum_value<map_extra_method>( "generator_method",
+                           map_extra_method::null );
+        mandatory( jg, was_loaded, "generator_id", generator_id );
     }
     optional( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader, NULL_UNICODE );
     color = jo.has_member( "color" ) ? color_from_string( jo.get_string( "color" ) ) : c_white;
     optional( jo, was_loaded, "autonote", autonote, false );
+}
+
+extern std::map<std::string, std::vector<std::shared_ptr<mapgen_function>> > oter_mapgen;
+extern std::map<std::string, std::vector<std::unique_ptr<mapgen_function_json_nested>> >
+        nested_mapgen;
+extern std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> >
+        update_mapgen;
+
+void map_extra::check() const
+{
+    switch( generator_method ) {
+        case map_extra_method::map_extra_function: {
+            const map_extra_pointer mx_func = MapExtras::get_function( generator_id );
+            if( mx_func == nullptr ) {
+                debugmsg( "invalid map extra function (%s) defined for map extra (%s)", generator_id, id.str() );
+                break;
+            }
+            break;
+        }
+        case map_extra_method::mapgen: {
+            /*
+            const auto fmapit = oter_mapgen.find( generator_id );
+            const oter_id extra_oter( generator_id );
+            if( ( fmapit == oter_mapgen.end() || !fmapit->second.empty() ) && !extra_oter.is_valid() ) {
+                debugmsg( "invalid mapgen function (%s) defined for map extra (%s)", generator_id, id.str() );
+            }
+            */
+            break;
+        }
+        case map_extra_method::update_mapgen: {
+            const auto update_mapgen_func = update_mapgen.find( generator_id );
+            if( update_mapgen_func == update_mapgen.end() || update_mapgen_func->second.empty() ) {
+                debugmsg( "invalid update mapgen function (%s) defined for map extra (%s)", generator_id,
+                          id.str() );
+                break;
+            }
+            break;
+        }
+        case map_extra_method::null:
+        default:
+            break;
+    }
 }

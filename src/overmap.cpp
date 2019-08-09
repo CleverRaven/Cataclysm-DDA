@@ -298,7 +298,7 @@ int_id<oter_t>::int_id( const string_id<oter_t> &id ) : _id( id.id() ) {}
 
 /** @relates int_id */
 template<>
-inline bool int_id<oter_t>::is_valid() const
+bool int_id<oter_t>::is_valid() const
 {
     return terrains.is_valid( *this );
 }
