@@ -955,6 +955,14 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
     inventory temp_inv;
     units::volume volume_allowed = p.volume_capacity() - p.volume_carried();
     units::mass weight_allowed = p.weight_capacity() - p.weight_carried();
+    const bool check_weight = p.backlog.front().id() == activity_id( "ACT_MULTIPLE_FARM" ) ||
+                        activity_to_restore == activity_id( "ACT_MULTIPLE_FARM" ) ||
+                        p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ||
+                        activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ||
+                        p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ||
+                        activity_to_restore == activity_id( "ACT_MULTIPLE_BUTCHER" ) ||
+                        p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ||
+                        activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_TREES" );
     for( const tripoint &elem : loot_spots ) {
         // if we are searching for things to fetch, we can skip certain thngs.
         // if, however they are already near the work spot, then the crafting / inventory fucntions will have their own method to use or discount them.
@@ -972,14 +980,6 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
             if( in_loot_zones && elem2.made_of_from_type( LIQUID ) ) {
                 continue;
             }
-            bool check_weight = p.backlog.front().id() == activity_id( "ACT_MULTIPLE_FARM" ) ||
-                                activity_to_restore == activity_id( "ACT_MULTIPLE_FARM" ) ||
-                                p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ||
-                                activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ||
-                                p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ||
-                                activity_to_restore == activity_id( "ACT_MULTIPLE_BUTCHER" ) ||
-                                p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ||
-                                activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_TREES" );
             if( check_weight ) {
                 // this fetch task will need to pick up an item. so check for its weight/volume before setting off.
                 if( in_loot_zones && ( elem2.volume() > volume_allowed ||
@@ -1032,7 +1032,6 @@ static std::pair<bool, do_activity_reason> can_do_activity_there( const activity
             if( p.has_quality( quality_id( "AXE" ) ) ){
                 return std::make_pair( true, NEEDS_TREE_CHOPPING );
             } else {
-                add_msg( "needs tree chopping - find axe");
                 return std::make_pair( false, NEEDS_TREE_CHOPPING );
             }
         } else {
@@ -1265,33 +1264,33 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     std::vector<tripoint> combined_spots;
     std::map<itype_id, int> total_map;
     for( const auto elem : g->m.points_in_radius( g->m.getlocal( p.backlog.front().placement ),
-            PICKUP_RANGE - 1 ) ) {
-        already_there_spots.push_back( elem );
-        combined_spots.push_back( elem );
+           PICKUP_RANGE - 1 ) ) {
+       already_there_spots.push_back( elem );
+       combined_spots.push_back( elem );
     }
     for( const tripoint elem : mgr.get_point_set_loot( g->m.getabs( p.pos() ), 60, p.is_npc() ) ) {
-        // if there is a loot zone thats already near the work spot, we dont want it to be added twice.
-        if( std::find( already_there_spots.begin(), already_there_spots.end(),
-                       elem ) != already_there_spots.end() ) {
-            // construction tasks dont need the loot spot *and* the already_there/cmbined spots both added.
-            // but a farming task will need to go and fetch the tool no matter if its near the work spot.
-            // wheras the construction will automaticlaly use whats nearby anyway.
-            if( pickup_task ) {
-                loot_spots.push_back( elem );
-            } else {
-                continue;
-            }
-        }
-        combined_spots.push_back( elem );
+       // if there is a loot zone thats already near the work spot, we dont want it to be added twice.
+       if( std::find( already_there_spots.begin(), already_there_spots.end(),
+                      elem ) != already_there_spots.end() ) {
+           // construction tasks dont need the loot spot *and* the already_there/cmbined spots both added.
+           // but a farming task will need to go and fetch the tool no matter if its near the work spot.
+           // wheras the construction will automaticlaly use whats nearby anyway.
+           if( pickup_task ) {
+               loot_spots.push_back( elem );
+           } else {
+              continue;
+           }
+       } else {
+           loot_spots.push_back( elem );
+           combined_spots.push_back( elem );
+       }
     }
-    // are the requirements in total - alreayd near work spot and nearby loot zones together , available?
-    // return as not possible, fetching cant be done.
+    // if the requirements arent available, then stop.
     if( !are_requirements_nearby( pickup_task ? loot_spots : combined_spots, things_to_fetch_id, p,
                                   activity_to_restore, pickup_task ) ) {
         return requirement_map;
     }
-    // are the requirements all already near the work spot?
-    // return as already possible no fetching required.
+    // if the requirements are already near the work spot and its a construction/crafting task, then no need to fetch anything more.
     if( !pickup_task &&
         are_requirements_nearby( already_there_spots, things_to_fetch_id, p, activity_to_restore,
                                  false ) ) {
@@ -1596,9 +1595,9 @@ static bool tidy_activity( player &p, const tripoint src_loc, activity_id activi
         dest_veh = nullptr;
         dest_part = -1;
     }
-    for( auto &it : items_there ) {
-        if( it.has_var( "activity_var" ) && it.get_var( "activity_var", "" ) == p.name ) {
-            move_item( p, it, it.count(), src_loc, loot_src_lot, dest_veh, dest_part,
+    for( auto it = items_there.begin(); it != items_there.end(); it++ ) {
+        if( it->has_var( "activity_var" ) && it->get_var( "activity_var", "" ) == p.name ) {
+            move_item( p, (*it), it->count(), src_loc, loot_src_lot, dest_veh, dest_part,
                        activity_to_restore );
             break;
         }
@@ -1633,65 +1632,62 @@ static void fetch_activity( player &p, const tripoint src_loc, activity_id activ
     std::string picked_up;
     const units::volume volume_allowed = p.volume_capacity() - p.volume_carried();
     const units::mass weight_allowed = p.weight_capacity() - p.weight_carried();
-    if( !p.backlog.empty() && p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ) {
-        for( auto it : items_there ) {
+    // TODO : vehicle_stack and map_stack into one loop.
+    if( src_veh ){
+        for( auto &veh_elem : src_veh->get_items( src_part ) ){
             for( auto elem : mental_map_2 ) {
-                if( std::get<0>( elem ) == src_loc && it.typeId() == std::get<1>( elem ) ) {
-                    move_item( p, it, it.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
-                               g->m.getlocal( p.backlog.front().coords.back() ), nullptr, 0, activity_to_restore );
-                    return;
-                }
-            }
-        }
-        if( src_veh ) {
-            auto items_at_veh = src_veh->get_items( src_part );
-            for( auto it : items_at_veh ) {
-                for( auto elem : mental_map_2 ) {
-                    if( std::get<0>( elem ) == src_loc && it.typeId() == std::get<1>( elem ) ) {
-                        move_item( p, it, it.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
-                                   g->m.getlocal( p.backlog.front().coords.back() ), src_veh, src_part, activity_to_restore );
+                if( std::get<0>( elem ) == src_loc && veh_elem.typeId() == std::get<1>( elem ) ) {
+                    if( !p.backlog.empty() && p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ) {
+                        move_item( p, veh_elem, veh_elem.count_by_charges() ? std::get<2>( elem ) : 1, src_loc, g->m.getlocal( p.backlog.front().coords.back() ), src_veh, src_part, activity_to_restore );
                         return;
                     }
                 }
             }
         }
     }
-    if( !p.backlog.empty() && ( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_FARM" ) ||
-                                p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ||
-                                p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) ) {
-        for( map_stack::iterator it = items_there.begin(); it != items_there.end(); it++ ) {
-            for( auto elem : mental_map_2 ) {
-                if( std::get<0>( elem ) == src_loc && ( *it ).typeId() == std::get<1>( elem ) ) {
-                    if( ( *it ).volume() > volume_allowed || ( *it ).weight() > weight_allowed ) {
-                        continue;
-                    }
-                    item leftovers = *it;
+    for( auto it = items_there.begin(); it != items_there.end(); it++ ) {
+        for( auto elem : mental_map_2 ) {
+            if( std::get<0>( elem ) == src_loc && it->typeId() == std::get<1>( elem ) ) {
+                  // construction/crafting tasks want the requred item moved near the work spot.
+                  if( !p.backlog.empty() && p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ) {
+                      move_item( p, *it, it->count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
+                                 g->m.getlocal( p.backlog.front().coords.back() ), src_veh, src_part, activity_to_restore );
+                      return;
+                  // other tasks want the tool picked up
+                  } else if( !p.backlog.empty() && ( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_FARM" ) ||
+                                              p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ||
+                                              p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ||
+                                              p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CHOP_TREES" )) ) {
+                      if( it->volume() > volume_allowed || it->weight() > weight_allowed ) {
+                          continue;
+                      }
+                      item leftovers = *it;
 
-                    if( pickup_count != 1 && ( *it ).count_by_charges() ) {
-                        // Reinserting leftovers happens after item removal to avoid stacking issues.
-                        leftovers.charges = ( *it ).charges - pickup_count;
-                        if( leftovers.charges > 0 ) {
-                            ( *it ).charges = pickup_count;
-                        }
-                    } else {
-                        leftovers.charges = 0;
-                    }
-                    ( *it ).set_var( "activity_var", p.name );
-                    p.i_add( *it );
-                    picked_up = ( *it ).tname();
-                    items_there.erase( it );
-                    // If we didn't pick up a whole stack, put the remainder back where it came from.
-                    if( leftovers.charges > 0 ) {
-                        g->m.add_item_or_charges( src_loc, leftovers );
-                    }
-                    if( p.is_npc() && !picked_up.empty() ) {
-                        if( pickup_count == 1 ) {
-                            add_msg( _( "%1$s picks up a %2$s." ), p.disp_name(), picked_up );
-                        } else {
-                            add_msg( _( "%s picks up several items." ), p.disp_name() );
-                        }
-                    }
-                    return;
+                      if( pickup_count != 1 && it->count_by_charges() ) {
+                          // Reinserting leftovers happens after item removal to avoid stacking issues.
+                          leftovers.charges = it->charges - pickup_count;
+                          if( leftovers.charges > 0 ) {
+                              it->charges = pickup_count;
+                          }
+                      } else {
+                          leftovers.charges = 0;
+                      }
+                      it->set_var( "activity_var", p.name );
+                      p.i_add( *it );
+                      picked_up = it->tname();
+                      items_there.erase( it );
+                      // If we didn't pick up a whole stack, put the remainder back where it came from.
+                      if( leftovers.charges > 0 ) {
+                          g->m.add_item_or_charges( src_loc, leftovers );
+                      }
+                      if( p.is_npc() && !picked_up.empty() ) {
+                          if( pickup_count == 1 ) {
+                              add_msg( _( "%1$s picks up a %2$s." ), p.disp_name(), picked_up );
+                          } else {
+                              add_msg( _( "%s picks up several items." ), p.disp_name() );
+                          }
+                      }
+                      return;
                 }
             }
         }
@@ -1949,9 +1945,6 @@ void generic_multi_activity_handler( player_activity &act, player &p )
     }
     if( activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ){
         src_set = mgr.get_near( zone_type_id( "CHOP_TREES" ), abspos, 60 );
-        if( src_set.empty() ){
-            add_msg( "src_set is empty" );
-        }
     }
     // multiple construction will form a list of targets based on blueprint zones and unfinished constructions
     if( activity_to_restore == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ) {
@@ -2042,7 +2035,6 @@ void generic_multi_activity_handler( player_activity &act, player &p )
         // some activities require the target tile to be part of a zone.
         // tidy up activity dosnt - it wants things that may not be in a zone already - things that may have been left lying around.
         if( needs_to_be_in_zone && !zone ) {
-            add_msg( "no zone ");
             continue;
         }
         if( ( !can_do_it ) && ( reason == DONT_HAVE_SKILL || reason == NO_ZONE || reason == ALREADY_DONE ||
@@ -2092,7 +2084,7 @@ void generic_multi_activity_handler( player_activity &act, player &p )
                 std::vector<std::vector<tool_comp>> tool_comp_vector;
                 if( reason == NEEDS_TILLING ) {
                     quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( quality_id( "DIG" ), 1, 1 ) } );
-                } else if( reason == NEEDS_CHOPPING || NEEDS_TREE_CHOPPING ) {
+                } else if( reason == NEEDS_CHOPPING || reason == NEEDS_TREE_CHOPPING ) {
                     quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( quality_id( "AXE" ), 1, 1 ) } );
                 } else if( reason == NEEDS_PLANTING ) {
                     requirement_comp_vector.push_back( std::vector<item_comp> { item_comp( itype_id( dynamic_cast<const plot_options &>
@@ -2119,7 +2111,6 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             // is it even worth fetching anything if there isnt enough nearby?
             if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, p,
                                           activity_to_restore, tool_pickup ) ) {
-                add_msg( "requirements arent nearby" );
                 p.add_msg_if_player( m_info, _( "The required items are not available to complete this task." ) );
                 continue;
             } else {
