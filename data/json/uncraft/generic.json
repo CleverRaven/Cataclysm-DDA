@@ -18,7 +18,7 @@
     "difficulty": 1,
     "time": "20 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "incendiary", 25 ] ] ]
+    "components": [ [ [ "incendiary", 75 ] ] ]
   },
   {
     "result": "sheet_metal",
