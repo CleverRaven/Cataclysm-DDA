@@ -221,6 +221,12 @@ void talk_function::do_chop_plank( npc &p )
     p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
+void talk_function::do_chop_trees( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_TREES" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
 
 void talk_function::do_farming( npc &p )
 {

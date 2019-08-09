@@ -279,8 +279,8 @@ static std::string colorized_feature_description_at( const tripoint &center_poin
 
 static std::string colorized_item_name( const item &item );
 static std::string colorized_item_description( const item &item );
-static const item get_top_item_at_point( const tripoint &point,
-        const units::volume min_visible_volume );
+static item get_top_item_at_point( const tripoint &point,
+                                   const units::volume min_visible_volume );
 
 static std::string effects_description_for_creature( Creature *const creature, std::string &pose,
         const std::string &pronoun_sex );
@@ -2466,10 +2466,9 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint & )
     }
 
     if( g->m.has_flag( "PLOWABLE", pnt ) && !g->m.has_flag( "PLANT", pnt ) ) {
-        p->add_msg_if_player( _( "You start churning up the earth here." ) );
-        p->assign_activity( activity_id( "ACT_CHURN" ), to_turns<int>( 3_minutes ),
-                            -1, p->get_item_position( it ) );
-        p->activity.placement = pnt;
+        p->add_msg_if_player( _( "You churn up the earth here." ) );
+        p->mod_moves( -300 );
+        g->m.ter_set( pnt, t_dirtmound );
         return it->type->charges_to_use();
     } else {
         p->add_msg_if_player( _( "You can't churn up this ground." ) );
@@ -6487,8 +6486,8 @@ static std::string colorized_item_description( const item &item )
     return item.info( dummy, &query, 1 );
 }
 
-static const item get_top_item_at_point( const tripoint &point,
-        const units::volume min_visible_volume )
+static item get_top_item_at_point( const tripoint &point,
+                                   const units::volume min_visible_volume )
 {
     map_stack items = g->m.i_at( point );
     // iterate from topmost item down to ground

@@ -136,6 +136,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_FETCH_REQUIRED" ), fetch_do_turn },
     { activity_id( "ACT_BUILD" ), build_do_turn },
     { activity_id( "ACT_EAT_MENU" ), eat_menu_do_turn },
+    { activity_id( "ACT_MULTIPLE_CHOP_TREES" ), chop_trees_do_turn },
     { activity_id( "ACT_CONSUME_FOOD_MENU" ), consume_food_menu_do_turn },
     { activity_id( "ACT_CONSUME_DRINK_MENU" ), consume_drink_menu_do_turn },
     { activity_id( "ACT_CONSUME_MEDS_MENU" ), consume_meds_menu_do_turn },
@@ -3290,6 +3291,11 @@ void activity_handlers::multiple_butcher_do_turn( player_activity *act, player *
     generic_multi_activity_handler( *act, *p );
 }
 
+void activity_handlers::chop_trees_do_turn( player_activity *act, player *p )
+{
+    generic_multi_activity_handler( *act, *p );
+}
+
 void activity_handlers::multiple_farm_do_turn( player_activity *act, player *p )
 {
     generic_multi_activity_handler( *act, *p );
@@ -3511,13 +3517,31 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     const tripoint &pos = act->placement;
 
     tripoint direction;
-    while( true ) {
-        if( const cata::optional<tripoint> dir = choose_direction(
-                    _( "Select a direction for the tree to fall in." ) ) ) {
-            direction = *dir;
-            break;
+    if( p->is_player() ){
+        while( true ) {
+            if( const cata::optional<tripoint> dir = choose_direction(
+                        _( "Select a direction for the tree to fall in." ) ) ) {
+                direction = *dir;
+                break;
+            }
+            // try again
         }
-        // try again
+    } else {
+        for( const auto elem : g->m.points_in_radius( pos, 1 ) ){
+            bool cantuse = false;
+            tripoint direc = elem - pos;
+            tripoint proposed_to = pos + point( 3 * direction.x, 3 * direction.y );
+            std::vector<tripoint> rough_tree_line = line_to( pos, proposed_to );
+            for( const auto elem : rough_tree_line ){
+                if( g->critter_at( elem ) ){
+                    cantuse = true;
+                    break;
+                }
+            }
+            if( !cantuse ){
+                direction = direc;
+            }
+        }
     }
 
     const tripoint to = pos + point( 3 * direction.x + rng( -1, 1 ), 3 * direction.y + rng( -1, 1 ) );
@@ -3528,7 +3552,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     }
 
     g->m.ter_set( pos, t_stump );
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    const int helpersize = p->get_num_crafting_helpers( 3 );
     p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -3541,17 +3565,35 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
 void activity_handlers::chop_logs_finish( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
-
+    int log_quan;
+    int stick_quan;
+    int splint_quan;
     if( g->m.ter( pos ) == t_trunk ) {
-        g->m.spawn_item( pos.x, pos.y, "log", rng( 2, 3 ), 0, calendar::turn );
-        g->m.spawn_item( pos.x, pos.y, "stick_long", rng( 0, 1 ), 0, calendar::turn );
+        log_quan = rng( 2, 3 );
+        stick_quan = rng( 0, 1 );
+        splint_quan = 0;
     } else if( g->m.ter( pos ) == t_stump ) {
-        g->m.spawn_item( pos.x, pos.y, "log", rng( 0, 2 ), 0, calendar::turn );
-        g->m.spawn_item( pos.x, pos.y, "splinter", rng( 5, 15 ), 0, calendar::turn );
+        log_quan = rng( 0, 2 );
+        stick_quan = 0;
+        splint_quan = rng( 5, 15 );
     }
-
+    for( int i = 0; i != log_quan; ++i ) {
+        item obj( "log", calendar::turn );
+        obj.set_var( "activity_var", p->name );
+        g->m.add_item_or_charges( pos.x, pos.y, obj );
+    }
+    for( int i = 0; i != stick_quan; ++i ) {
+        item obj( "stick_long", calendar::turn );
+        obj.set_var( "activity_var", p->name );
+        g->m.add_item_or_charges( pos.x, pos.y, obj );
+    }
+    for( int i = 0; i != splint_quan; ++i ) {
+        item obj( "splinter", calendar::turn );
+        obj.set_var( "activity_var", p->name );
+        g->m.add_item_or_charges( pos.x, pos.y, obj );
+    }
     g->m.ter_set( pos, t_dirt );
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    const int helpersize = p->get_num_crafting_helpers( 3 );
     p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );

@@ -977,7 +977,9 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                                 p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ||
                                 activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ||
                                 p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ||
-                                activity_to_restore == activity_id( "ACT_MULTIPLE_BUTCHER" );
+                                activity_to_restore == activity_id( "ACT_MULTIPLE_BUTCHER" ) ||
+                                p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ||
+                                activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_TREES" );
             if( check_weight ) {
                 // this fetch task will need to pick up an item. so check for its weight/volume before setting off.
                 if( in_loot_zones && ( elem2.volume() > volume_allowed ||
@@ -1024,6 +1026,18 @@ static std::pair<bool, do_activity_reason> can_do_activity_there( const activity
             return std::make_pair( true, CAN_DO_FETCH );
         }
         return std::make_pair( false, NO_ZONE );
+    }
+    if( act == activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ){
+        if( g->m.has_flag( "TREE", src_loc ) || g->m.ter( src_loc ) == t_trunk || g->m.ter( src_loc ) == t_stump) {
+            if( p.has_quality( quality_id( "AXE" ) ) ){
+                return std::make_pair( true, NEEDS_TREE_CHOPPING );
+            } else {
+                add_msg( "needs tree chopping - find axe");
+                return std::make_pair( false, NEEDS_TREE_CHOPPING );
+            }
+        } else {
+            return std::make_pair( false, NO_ZONE );
+        }
     }
     if( act == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
         std::vector<item> corpses;
@@ -1241,7 +1255,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     zone_manager &mgr = zone_manager::get_manager();
     const bool pickup_task = p.backlog.front().id() == activity_id( "ACT_MULTIPLE_FARM" ) ||
                              p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ||
-                             p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" );
+                             p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ||
+                             p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CHOP_TREES" );
     // where it is, what it is, how much of it, and how much in total is required of that item.
     std::vector<std::tuple<tripoint, itype_id, int>> requirement_map;
     std::vector<std::tuple<tripoint, itype_id, int>> final_map;
@@ -1701,8 +1716,27 @@ static bool butcher_corpse_activity( player &p, tripoint src_loc, do_activity_re
     return false;
 }
 
+static item* best_quality_item( player &p, quality_id qual )
+{
+    std::vector<item *> qual_inv = p.items_with( [qual]( const item & itm ) {
+        return itm.has_quality( qual );
+    } );
+    item *best_qual = random_entry( qual_inv );
+    for( const auto elem : qual_inv ){
+        if( elem->get_quality( qual ) > best_qual->get_quality( qual ) ){
+            best_qual = elem;
+        }
+    }
+    return best_qual;
+}
+
 static bool chop_plank_activity( player &p, tripoint src_loc )
 {
+    item *best_qual = best_quality_item( p, quality_id( "AXE") );
+    if( !best_qual ){
+        return false;
+    }
+    p.consume_charges( *best_qual, best_qual->type->charges_to_use() );
     for( auto &i : g->m.i_at( src_loc ) ) {
         if( i.typeId() == "log" ) {
             g->m.i_rem( src_loc, &i );
@@ -1811,6 +1845,41 @@ static bool move_loot_activity( player &p, tripoint src_loc, zone_manager &mgr,
     return false;
 }
 
+static int chop_moves( player &p, item *it )
+{
+    // quality of tool
+    const int quality = it->get_quality( quality_id( "AXE" ) );
+
+    // attribute; regular tools - based on STR, powered tools - based on DEX
+    const int attr = it->has_flag( "POWERED" ) ? p.dex_cur : p.str_cur;
+
+    int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
+    const int helpersize = p.get_num_crafting_helpers( 3 );
+    moves = moves * ( 1 - ( helpersize / 10 ) );
+    return moves;
+}
+
+static bool chop_tree_activity( player &p, const tripoint &src_loc )
+{
+    item *best_qual = best_quality_item( p, quality_id( "AXE") );
+    if( !best_qual ){
+        return false;
+    }
+    int moves = chop_moves( p, best_qual );
+    p.consume_charges( *best_qual, best_qual->type->charges_to_use() );
+    const ter_id ter = g->m.ter( src_loc );
+    if( g->m.has_flag( "TREE", src_loc ) ){
+        p.assign_activity( activity_id( "ACT_CHOP_TREE" ), moves, -1, p.get_item_position( best_qual ) );
+        p.activity.placement = src_loc;
+        return true;
+    } else if( ter == t_trunk || ter == t_stump ) {
+        p.assign_activity( activity_id( "ACT_CHOP_LOGS" ), moves, -1, p.get_item_position( best_qual ) );
+        p.activity.placement = src_loc;
+        return true;
+    }
+    return false;
+}
+
 static std::string random_string( size_t length )
 {
     auto randchar = []() -> char {
@@ -1876,6 +1945,12 @@ void generic_multi_activity_handler( player_activity &act, player &p )
                     break;
                 }
             }
+        }
+    }
+    if( activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ){
+        src_set = mgr.get_near( zone_type_id( "CHOP_TREES" ), abspos, 60 );
+        if( src_set.empty() ){
+            add_msg( "src_set is empty" );
         }
     }
     // multiple construction will form a list of targets based on blueprint zones and unfinished constructions
@@ -1961,11 +2036,13 @@ void generic_multi_activity_handler( player_activity &act, player &p )
                                          activity_to_restore == activity_id( "ACT_MULTIPLE_FARM" ) ||
                                          activity_to_restore == activity_id( "ACT_MULTIPLE_BUTCHER" ) ||
                                          activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ||
+                                         activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ||
                                          ( activity_to_restore == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) &&
                                            !g->m.partial_con_at( src_loc ) );
         // some activities require the target tile to be part of a zone.
         // tidy up activity dosnt - it wants things that may not be in a zone already - things that may have been left lying around.
         if( needs_to_be_in_zone && !zone ) {
+            add_msg( "no zone ");
             continue;
         }
         if( ( !can_do_it ) && ( reason == DONT_HAVE_SKILL || reason == NO_ZONE || reason == ALREADY_DONE ||
@@ -1981,7 +2058,7 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             continue;
         } else if( ( !can_do_it ) && ( reason == NO_COMPONENTS || reason == NEEDS_PLANTING ||
                                        reason == NEEDS_TILLING || reason == NEEDS_CHOPPING || reason == NEEDS_BUTCHERING ||
-                                       reason == NEEDS_BIG_BUTCHERING ) ) {
+                                       reason == NEEDS_BIG_BUTCHERING || reason == NEEDS_TREE_CHOPPING ) ) {
             // we can do it, but we need to fetch some stuff first
             // before we set the task to fetch components - is it even worth it? are the components anywhere?
             requirement_id what_we_need;
@@ -2009,13 +2086,13 @@ void generic_multi_activity_handler( player_activity &act, player &p )
                 }
                 what_we_need = built_chosen.requirements;
             } else if( reason == NEEDS_TILLING || reason == NEEDS_PLANTING || reason == NEEDS_CHOPPING ||
-                       reason == NEEDS_BUTCHERING || reason == NEEDS_BIG_BUTCHERING ) {
+                       reason == NEEDS_BUTCHERING || reason == NEEDS_BIG_BUTCHERING || reason == NEEDS_TREE_CHOPPING ) {
                 std::vector<std::vector<item_comp>> requirement_comp_vector;
                 std::vector<std::vector<quality_requirement>> quality_comp_vector;
                 std::vector<std::vector<tool_comp>> tool_comp_vector;
                 if( reason == NEEDS_TILLING ) {
                     quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( quality_id( "DIG" ), 1, 1 ) } );
-                } else if( reason == NEEDS_CHOPPING ) {
+                } else if( reason == NEEDS_CHOPPING || NEEDS_TREE_CHOPPING ) {
                     quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( quality_id( "AXE" ), 1, 1 ) } );
                 } else if( reason == NEEDS_PLANTING ) {
                     requirement_comp_vector.push_back( std::vector<item_comp> { item_comp( itype_id( dynamic_cast<const plot_options &>
@@ -2038,10 +2115,11 @@ void generic_multi_activity_handler( player_activity &act, player &p )
                 what_we_need = req_id;
             }
             bool tool_pickup = reason == NEEDS_TILLING || reason == NEEDS_PLANTING ||
-                               reason == NEEDS_CHOPPING || reason == NEEDS_BUTCHERING || reason == NEEDS_BIG_BUTCHERING;
+                               reason == NEEDS_CHOPPING || reason == NEEDS_BUTCHERING || reason == NEEDS_BIG_BUTCHERING || reason == NEEDS_TREE_CHOPPING;
             // is it even worth fetching anything if there isnt enough nearby?
             if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, p,
                                           activity_to_restore, tool_pickup ) ) {
+                add_msg( "requirements arent nearby" );
                 p.add_msg_if_player( m_info, _( "The required items are not available to complete this task." ) );
                 continue;
             } else {
@@ -2139,6 +2217,11 @@ void generic_multi_activity_handler( player_activity &act, player &p )
         } else if( reason == CAN_DO_FETCH && activity_to_restore == activity_id( "ACT_FETCH_REQUIRED" ) ) {
             fetch_activity( p, src_loc, activity_to_restore );
             return;
+        } else if( reason == NEEDS_TREE_CHOPPING && p.has_quality( quality_id( "AXE" ), 1 ) ) {
+            p.backlog.push_front( activity_to_restore );
+            if( chop_tree_activity( p, src_loc ) ){
+                return;
+            }
         } else if( reason == CAN_DO_FETCH && activity_to_restore == activity_id( "ACT_MOVE_LOOT" ) ) {
             if( move_loot_activity( p, src_loc, mgr, activity_to_restore ) ) {
                 return;
@@ -2164,7 +2247,8 @@ void generic_multi_activity_handler( player_activity &act, player &p )
         if( activity_to_restore == activity_id( "ACT_MULTIPLE_FARM" ) ||
             activity_to_restore == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ||
             activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ||
-            activity_to_restore == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
+            activity_to_restore == activity_id( "ACT_MULTIPLE_BUTCHER" ) ||
+            activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ) {
             p.assign_activity( activity_id( "ACT_TIDY_UP" ) );
         } else if( activity_to_restore == activity_id( "ACT_MOVE_LOOT" ) ) {
             mgr.end_sort();

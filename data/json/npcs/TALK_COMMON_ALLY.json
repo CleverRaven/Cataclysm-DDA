@@ -759,6 +759,12 @@
         "effect": "do_butcher"
       },
       {
+        "text": "Please chop any trees in the designated areas.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_chop_trees"
+      },
+      {
         "text": "Please do some farming work.",
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },
