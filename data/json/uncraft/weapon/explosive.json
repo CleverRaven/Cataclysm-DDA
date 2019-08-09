@@ -16,6 +16,6 @@
     "difficulty": 2,
     "time": "50 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "pilot_light", 1 ] ], [ [ "canister_empty", 1 ] ], [ [ "incendiary", 50 ] ] ]
+    "components": [ [ [ "pilot_light", 1 ] ], [ [ "canister_empty", 1 ] ], [ [ "incendiary", 150 ] ] ]
   }
 ]
