@@ -1181,11 +1181,11 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
 static void draw_limb_wide( avatar &u, const catacurses::window &w )
 {
     const std::vector<std::pair<body_part, int>> parts = {
-        {bp_head, 0},
         {bp_arm_l, 2},
+        {bp_head, 0},
         {bp_arm_r, 3},
-        {bp_torso, 1},
         {bp_leg_l, 4},
+        {bp_torso, 1},
         {bp_leg_r, 5}
     };
     werase( w );
@@ -1483,6 +1483,28 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     }
 
     wrefresh( w );
+}
+
+static void render_wind( avatar &u, const catacurses::window &w, std::string formatstr )
+{
+    werase( w );
+    mvwprintz( w, 0, 0, c_light_gray, string_format( formatstr, _( "Wind" ) ) );
+    const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
+    double windpower = get_local_windpower( g->weather.windspeed, cur_om_ter,
+                                            u.pos(), g->weather.winddirection, g->is_sheltered( u.pos() ) );
+    mvwprintz( w, 0, 8, get_wind_color( windpower ),
+               get_wind_desc( windpower ) + " " + get_wind_arrow( g->weather.winddirection ) );
+    wrefresh( w );
+}
+
+static void draw_wind( avatar &u, const catacurses::window &w )
+{
+    render_wind( u, w, "%-5s: " );
+}
+
+static void draw_wind_padding( avatar &u, const catacurses::window &w )
+{
+    render_wind( u, w, " %-5s: " );
 }
 
 static void draw_health_classic( avatar &u, const catacurses::window &w )
@@ -1928,6 +1950,7 @@ static std::vector<window_panel> initialize_default_classic_panels()
                                     true ) );
     ret.emplace_back( window_panel( draw_weapon_classic, translate_marker( "Weapon" ), 1, 44, true ) );
     ret.emplace_back( window_panel( draw_time_classic, translate_marker( "Time" ), 1, 44, true ) );
+    ret.emplace_back( window_panel( draw_wind, translate_marker( "Wind" ), 1, 44, false ) );
     ret.emplace_back( window_panel( draw_armor, translate_marker( "Armor" ), 5, 44, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, translate_marker( "Compass" ), 8, 44,
                                     true ) );
@@ -1977,6 +2000,7 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
     ret.emplace_back( window_panel( draw_stat_narrow, translate_marker( "Stats" ), 3, 32, true ) );
     ret.emplace_back( window_panel( draw_veh_padding, translate_marker( "Vehicle" ), 1, 32, true ) );
     ret.emplace_back( window_panel( draw_loc_narrow, translate_marker( "Location" ), 5, 32, true ) );
+    ret.emplace_back( window_panel( draw_wind_padding, translate_marker( "Wind" ), 1, 32, false ) );
     ret.emplace_back( window_panel( draw_weapon_labels, translate_marker( "Weapon" ), 2, 32, true ) );
     ret.emplace_back( window_panel( draw_needs_narrow, translate_marker( "Needs" ), 5, 32, true ) );
     ret.emplace_back( window_panel( draw_messages, translate_marker( "Log" ), -2, 32, true ) );
@@ -2005,6 +2029,7 @@ static std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( window_panel( draw_stat_wide, translate_marker( "Stats" ), 2, 44, true ) );
     ret.emplace_back( window_panel( draw_veh_padding, translate_marker( "Vehicle" ), 1, 44, true ) );
     ret.emplace_back( window_panel( draw_loc_wide_map, translate_marker( "Location" ), 5, 44, true ) );
+    ret.emplace_back( window_panel( draw_wind_padding, translate_marker( "Wind" ), 1, 44, false ) );
     ret.emplace_back( window_panel( draw_loc_wide, translate_marker( "Location Alt" ), 5, 44, false ) );
     ret.emplace_back( window_panel( draw_weapon_labels, translate_marker( "Weapon" ), 2, 44, true ) );
     ret.emplace_back( window_panel( draw_needs_wide, translate_marker( "Needs" ), 2, 44, true ) );
