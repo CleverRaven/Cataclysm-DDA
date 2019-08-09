@@ -1196,8 +1196,6 @@ static void draw_limb_wide( avatar &u, const catacurses::window &w )
         std::string str = string_format( " %-5s: ", body_part_hp_bar_ui_text( parts[i].first ) );
         nc_color part_color = u.limb_color( parts[i].first, true, true, true );
         print_colored_text( w, ny, nx, part_color, c_white, str );
-
-        // wmove( w, ny, nx );
         draw_limb_health( u, w, parts[i].second );
     }
     wrefresh( w );
