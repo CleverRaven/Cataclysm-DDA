@@ -2296,8 +2296,8 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                 col_offset += column_widths[i];
             }
             mvwprintz( w, index + selected_offset, 1 + ( col_offset ), c_yellow, ">>" );
-            mvwvline( w, 1, column_widths[0], 0, 18 );
-            mvwvline( w, 1, column_widths[0] + column_widths[1], 0, 18 );
+            mvwvline( w, point( column_widths[0], 1 ), 0, 18 );
+            mvwvline( w, point( column_widths[0] + column_widths[1], 1 ), 0, 18 );
 
             col_offset = column_widths[0] + 2;
             int col_width = column_widths[1] - 4;

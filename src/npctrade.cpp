@@ -339,10 +339,10 @@ void trading_window::update_win( npc &p, const std::string &deal, const int adju
                            price_color, price_str );
             }
             if( offset > 0 ) {
-                mvwprintw( w_whose, entries_per_page + 2, 1, _( "< Back" ) );
+                mvwprintw( w_whose, point( 1, entries_per_page + 2 ), _( "< Back" ) );
             }
             if( offset + entries_per_page < list.size() ) {
-                mvwprintw( w_whose, entries_per_page + 2, 9, _( "More >" ) );
+                mvwprintw( w_whose, point( 9, entries_per_page + 2 ), _( "More >" ) );
             }
         }
         wrefresh( w_head );

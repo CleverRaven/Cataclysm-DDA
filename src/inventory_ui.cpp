@@ -952,7 +952,7 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
     }
 
     if( pages_count() > 1 ) {
-        mvwprintw( win, y + height - 1, x, _( "Page %d/%d" ), page_index() + 1, pages_count() );
+        mvwprintw( win, point( x, y + height - 1 ), _( "Page %d/%d" ), page_index() + 1, pages_count() );
     }
 }
 

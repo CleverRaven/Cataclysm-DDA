@@ -535,8 +535,8 @@ void game::init_ui( const bool resized )
     w_minimap = w_minimap_ptr = catacurses::newwin( MINIMAP_HEIGHT, MINIMAP_WIDTH, point( _x, _y ) );
     werase( w_minimap );
 
-    w_panel_adm = w_panel_adm_ptr = catacurses::newwin( 20, 75, ( TERMY / 2 ) - 10,
-                                    ( TERMX / 2 ) - 38 );
+    w_panel_adm = w_panel_adm_ptr = catacurses::newwin( 20, 75, point( ( TERMX / 2 ) - 38,
+                                    ( TERMY / 2 ) - 10 ) );
     werase( w_panel_adm );
     // need to init in order to avoid crash. gets updated by the panel code.
     w_pixel_minimap = catacurses::newwin( 1, 1, point( 0, 0 ) );
@@ -5808,7 +5808,7 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
     }
     auto this_sound = sounds::sound_at( lp );
     if( !this_sound.empty() ) {
-        mvwprintw( w_look, ++line, 1, _( "You heard %s from here." ), this_sound );
+        mvwprintw( w_look, point( 1, ++line ), _( "You heard %s from here." ), this_sound );
     } else {
         // Check other z-levels
         tripoint tmp = lp;
@@ -5819,7 +5819,7 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
 
             auto zlev_sound = sounds::sound_at( tmp );
             if( !zlev_sound.empty() ) {
-                mvwprintw( w_look, ++line, 1, tmp.z > lp.z ?
+                mvwprintw( w_look, point( 1, ++line ), tmp.z > lp.z ?
                            _( "You heard %s from above." ) : _( "You heard %s from below." ), zlev_sound );
             }
         }
@@ -5851,7 +5851,7 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
             break;
     }
 
-    mvwprintw( w_look, column, line, visibility_message );
+    mvwprintw( w_look, point( line, column ), visibility_message );
     line += 2;
 }
 
@@ -5876,7 +5876,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
         const auto ll = get_light_level( std::max( 1.0,
                                          LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + 1.0 ) );
-        mvwprintw( w_look, ++lines, column, _( "Lighting: " ) );
+        mvwprintw( w_look, point( column, ++lines ), _( "Lighting: " ) );
         wprintz( w_look, ll.second, ll.first );
     }
 
@@ -5963,7 +5963,7 @@ void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurse
                                const int column, int &line, const int last_line )
 {
     if( veh ) {
-        mvwprintw( w_look, ++line, column, _( "There is a %s there. Parts:" ), veh->name );
+        mvwprintw( w_look, point( column, ++line ), _( "There is a %s there. Parts:" ), veh->name );
         line = veh->print_part_list( w_look, ++line, last_line, getmaxx( w_look ), veh_part );
     }
 }
@@ -6005,7 +6005,7 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
     if( !m.sees_some_items( lp, u ) ) {
         return;
     } else if( m.has_flag( "CONTAINER", lp ) && !m.could_see_items( lp, u ) ) {
-        mvwprintw( w_look, ++line, column, _( "You cannot see what is inside of it." ) );
+        mvwprintw( w_look, point( column, ++line ), _( "You cannot see what is inside of it." ) );
     } else if( u.has_effect( effect_blind ) || u.worn_with_flag( "BLIND" ) ) {
         mvwprintz( w_look, ++line, column, c_yellow,
                    _( "There's something there, but you can't see what it is." ) );

@@ -1036,9 +1036,9 @@ static int draw_turret_aim( const player &p, const catacurses::window &w, int li
     // fetch and display list of turrets that are ready to fire at the target
     auto turrets = vp->vehicle().turrets( targ );
 
-    mvwprintw( w, line_number++, 1, _( "Turrets in range: %d" ), turrets.size() );
+    mvwprintw( w, point( 1, line_number++ ), _( "Turrets in range: %d" ), turrets.size() );
     for( const auto e : turrets ) {
-        mvwprintw( w, line_number++, 1, "*  %s", e->name() );
+        mvwprintw( w, point( 1, line_number++ ), "*  %s", e->name() );
     }
 
     return line_number;
@@ -1362,11 +1362,11 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 g->draw_line( dst, center, ret_this_zlevel );
 
                 // Print to target window
-                mvwprintw( w_target, line_number++, 1, _( "Range: %d/%d Elevation: %d Targets: %d" ),
+                mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d/%d Elevation: %d Targets: %d" ),
                            rl_dist( src, dst ), range, relative_elevation, t.size() );
 
             } else {
-                mvwprintw( w_target, line_number++, 1, _( "Range: %d Elevation: %d Targets: %d" ), range,
+                mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d Targets: %d" ), range,
                            relative_elevation, t.size() );
             }
 
@@ -1443,7 +1443,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                                          target_size, dst, predicted_recoil );
 
                 if( aim_mode->has_threshold ) {
-                    mvwprintw( w_target, line_number++, 1, _( "%s Delay: %i" ), aim_mode->name, predicted_delay );
+                    mvwprintw( w_target, point( 1, line_number++ ), _( "%s Delay: %i" ), aim_mode->name,
+                               predicted_delay );
                 }
             } else if( mode == TARGET_MODE_TURRET ) {
                 // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
@@ -1886,11 +1887,11 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
             g->draw_line( dst, center, ret_this_zlevel );
 
             // Print to target window
-            mvwprintw( w_target, line_number++, 1, _( "Range: %d/%d Elevation: %d Targets: %d" ),
+            mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d/%d Elevation: %d Targets: %d" ),
                        rl_dist( src, dst ), range, relative_elevation, t.size() );
 
         } else {
-            mvwprintw( w_target, line_number++, 1, _( "Range: %d Elevation: %d Targets: %d" ), range,
+            mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d Targets: %d" ), range,
                        relative_elevation, t.size() );
         }
 

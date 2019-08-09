@@ -89,7 +89,7 @@ class wish_mutate_callback: public uilist_callback
                 mvwprintw( menu->window, point( startx, i ), padding );
             }
 
-            mvwprintw( menu->window, 3, startx,
+            mvwprintw( menu->window, point( startx, 3 ),
                        mdata.valid ? _( "Valid" ) : _( "Nonvalid" ) );
             int line2 = 4;
 
@@ -191,7 +191,7 @@ class wish_mutate_callback: public uilist_callback
             mvwprintz( menu->window, menu->w_height - 3, startx, c_green, msg );
             msg = padding;
             input_context ctxt( menu->input_category );
-            mvwprintw( menu->window, menu->w_height - 2, startx,
+            mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
                        _( "[%s] find, [%s] quit, [t] toggle base trait" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
 
@@ -359,7 +359,7 @@ class wish_monster_callback: public uilist_callback
             mvwprintz( w_info, getmaxy( w_info ) - 3, 0, c_green, msg );
             msg = padding;
             input_context ctxt( menu->input_category );
-            mvwprintw( w_info, getmaxy( w_info ) - 2, 0,
+            mvwprintw( w_info, point( 0, getmaxy( w_info ) - 2 ),
                        _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
         }
@@ -480,7 +480,7 @@ class wish_item_callback: public uilist_callback
             msg.erase();
 
             input_context ctxt( menu->input_category );
-            mvwprintw( menu->window, menu->w_height - 2, startx,
+            mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
                        _( "[%s] find, [f] container, [F] flag, [%s] quit" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
         }
