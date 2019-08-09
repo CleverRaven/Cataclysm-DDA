@@ -257,7 +257,7 @@ bool player::activate_bionic( int b, bool eff_only )
 
     // Special compatibility code for people who updated saves with their claws out
     if( ( weapon.typeId() == "bio_claws_weapon" && bio.id == "bio_claws_weapon" ) ||
-            ( weapon.typeId() == "bio_blade_weapon" && bio.id == "bio_blade_weapon" ) ) {
+        ( weapon.typeId() == "bio_blade_weapon" && bio.id == "bio_blade_weapon" ) ) {
         return deactivate_bionic( b );
     }
 
@@ -542,8 +542,8 @@ bool player::activate_bionic( int b, bool eff_only )
             if( it.is_corpse() ) {
                 const int avail = it.get_var( "remaining_water", it.volume() / volume_per_water_charge );
                 if( avail > 0 &&
-                        query_yn( _( "Extract water from the %s" ),
-                                  colorize( it.tname(), it.color_in_inventory() ) ) ) {
+                    query_yn( _( "Extract water from the %s" ),
+                              colorize( it.tname(), it.color_in_inventory() ) ) ) {
                     item water( "water_clean", calendar::turn, avail );
                     water.set_item_temperature( 0.00001 * it.temperature );
                     if( liquid_handler::consume_liquid( water ) ) {
@@ -572,7 +572,7 @@ bool player::activate_bionic( int b, bool eff_only )
             auto stack = g->m.i_at( p );
             for( auto it = stack.begin(); it != stack.end(); it++ ) {
                 if( it->weight() < weight_cap &&
-                        it->made_of_any( affected_materials ) ) {
+                    it->made_of_any( affected_materials ) ) {
                     affected.emplace_back( std::make_pair( *it, p ) );
                     stack.erase( it );
                     break;
@@ -661,7 +661,7 @@ bool player::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == "bio_plutdump" ) {
         if( query_yn(
-                    _( "WARNING: Purging all fuel is likely to result in radiation!  Purge anyway?" ) ) ) {
+                _( "WARNING: Purging all fuel is likely to result in radiation!  Purge anyway?" ) ) ) {
             slow_rad += ( tank_plut + reactor_plut );
             tank_plut = 0;
             reactor_plut = 0;
@@ -933,8 +933,8 @@ void player::process_bionic( int b )
         }
 
         if( wants_power_amt < battery_per_power &&
-                wants_power_amt > 0 &&
-                x_in_y( battery_per_power - wants_power_amt, battery_per_power ) ) {
+            wants_power_amt > 0 &&
+            x_in_y( battery_per_power - wants_power_amt, battery_per_power ) ) {
             charge_power( 1 );
         }
     } else if( bio.id == "bio_gills" ) {
@@ -968,35 +968,35 @@ void player::bionics_uninstall_failure( int difficulty, int success, float adjus
 
     add_msg( m_neutral, _( "The removal is a failure." ) );
     switch( fail_type ) {
-    case 1:
-        if( !has_trait( trait_id( "NOPAIN" ) ) ) {
-            add_msg_if_player( m_bad, _( "It really hurts!" ) );
-            mod_pain( rng( failure_level * 3, failure_level * 6 ) );
-        }
-        break;
-
-    case 2:
-    case 3:
-        for( const body_part &bp : all_body_parts ) {
-            if( has_effect( effect_under_op, bp ) ) {
-                apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
-                add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
-                                       body_part_name_accusative( bp ) );
+        case 1:
+            if( !has_trait( trait_id( "NOPAIN" ) ) ) {
+                add_msg_if_player( m_bad, _( "It really hurts!" ) );
+                mod_pain( rng( failure_level * 3, failure_level * 6 ) );
             }
-        }
-        break;
+            break;
 
-    case 4:
-    case 5:
-        for( const body_part &bp : all_body_parts ) {
-            if( has_effect( effect_under_op, bp ) ) {
-                apply_damage( this, bp, rng( 30, 80 ), true );
-                add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
-                                       _( "<npcname>'s %s is severely damaged." ),
-                                       body_part_name_accusative( bp ) );
+        case 2:
+        case 3:
+            for( const body_part &bp : all_body_parts ) {
+                if( has_effect( effect_under_op, bp ) ) {
+                    apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
+                    add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
+                                           body_part_name_accusative( bp ) );
+                }
             }
-        }
-        break;
+            break;
+
+        case 4:
+        case 5:
+            for( const body_part &bp : all_body_parts ) {
+                if( has_effect( effect_under_op, bp ) ) {
+                    apply_damage( this, bp, rng( 30, 80 ), true );
+                    add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
+                                           _( "<npcname>'s %s is severely damaged." ),
+                                           body_part_name_accusative( bp ) );
+                }
+            }
+            break;
     }
 
 }
@@ -1025,57 +1025,57 @@ void player::bionics_uninstall_failure( monster &installer, player &patient, int
             return;
         }
         switch( rng( 1, 5 ) ) {
-        case 1:
-            add_msg( m_mixed, _( "The %s flub the operation." ), installer.name() );
-            break;
-        case 2:
-            add_msg( m_mixed, _( "The %s messes up the operation." ), installer.name() );
-            break;
-        case 3:
-            add_msg( m_mixed, _( "The operation fails." ) );
-            break;
-        case 4:
-            add_msg( m_mixed, _( "The operation is a failure." ) );
-            break;
-        case 5:
-            add_msg( m_mixed, _( "The %s screws up the operation." ), installer.name() );
-            break;
+            case 1:
+                add_msg( m_mixed, _( "The %s flub the operation." ), installer.name() );
+                break;
+            case 2:
+                add_msg( m_mixed, _( "The %s messes up the operation." ), installer.name() );
+                break;
+            case 3:
+                add_msg( m_mixed, _( "The operation fails." ) );
+                break;
+            case 4:
+                add_msg( m_mixed, _( "The operation is a failure." ) );
+                break;
+            case 5:
+                add_msg( m_mixed, _( "The %s screws up the operation." ), installer.name() );
+                break;
         }
     }
     switch( fail_type ) {
-    case 1:
-        if( !has_trait( trait_id( "NOPAIN" ) ) ) {
-            patient.add_msg_if_player( m_bad, _( "It really hurts!" ) );
-            patient.mod_pain( rng( failure_level * 3, failure_level * 6 ) );
-        }
-        break;
+        case 1:
+            if( !has_trait( trait_id( "NOPAIN" ) ) ) {
+                patient.add_msg_if_player( m_bad, _( "It really hurts!" ) );
+                patient.mod_pain( rng( failure_level * 3, failure_level * 6 ) );
+            }
+            break;
 
-    case 2:
-    case 3:
-        for( const body_part &bp : all_body_parts ) {
-            if( has_effect( effect_under_op, bp ) ) {
-                patient.apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
-                if( u_see ) {
-                    patient.add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
-                                                   body_part_name_accusative( bp ) );
+        case 2:
+        case 3:
+            for( const body_part &bp : all_body_parts ) {
+                if( has_effect( effect_under_op, bp ) ) {
+                    patient.apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
+                    if( u_see ) {
+                        patient.add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
+                                                       body_part_name_accusative( bp ) );
+                    }
                 }
             }
-        }
-        break;
+            break;
 
-    case 4:
-    case 5:
-        for( const body_part &bp : all_body_parts ) {
-            if( has_effect( effect_under_op, bp ) ) {
-                patient.apply_damage( this, bp, rng( 30, 80 ), true );
-                if( u_see ) {
-                    patient.add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
-                                                   _( "<npcname>'s %s is severely damaged." ),
-                                                   body_part_name_accusative( bp ) );
+        case 4:
+        case 5:
+            for( const body_part &bp : all_body_parts ) {
+                if( has_effect( effect_under_op, bp ) ) {
+                    patient.apply_damage( this, bp, rng( 30, 80 ), true );
+                    if( u_see ) {
+                        patient.add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
+                                                       _( "<npcname>'s %s is severely damaged." ),
+                                                       body_part_name_accusative( bp ) );
+                    }
                 }
             }
-        }
-        break;
+            break;
     }
 }
 
@@ -1087,7 +1087,7 @@ bool player::has_enough_anesth( const itype *cbm, player &patient )
     }
 
     if( has_bionic( bionic_id( "bio_painkiller" ) ) || has_trait( trait_NOPAIN ) ||
-            has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+        has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
         return true;
     }
 
@@ -1152,7 +1152,7 @@ int player::bionics_pl_skill( const skill_id &most_important_skill, const skill_
 int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty )
 {
     if( ( autodoc && get_option < bool > ( "SAFE_AUTODOC" ) ) ||
-            g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+        g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
         return 100;
     }
 
@@ -1196,7 +1196,7 @@ bool player::can_uninstall_bionic( const bionic_id &b_id, player &installer, boo
 
     if( ( b_id == "bio_reactor" ) || ( b_id == "bio_advreactor" ) ) {
         if( !g->u.query_yn(
-                    _( "WARNING: Removing a reactor may leave radioactive material! Remove anyway?" ) ) ) {
+                _( "WARNING: Removing a reactor may leave radioactive material! Remove anyway?" ) ) ) {
             return false;
         }
     }
@@ -1234,14 +1234,14 @@ bool player::can_uninstall_bionic( const bionic_id &b_id, player &installer, boo
 
     if( chance_of_success >= 100 ) {
         if( !g->u.query_yn(
-                    _( "Are you sure you wish to uninstall the selected bionic?" ),
-                    100 - chance_of_success ) ) {
+                _( "Are you sure you wish to uninstall the selected bionic?" ),
+                100 - chance_of_success ) ) {
             return false;
         }
     } else {
         if( !g->u.query_yn(
-                    _( "WARNING: %i percent chance of SEVERE damage to all body parts! Continue anyway?" ),
-                    ( 100 - static_cast<int>( chance_of_success ) ) ) ) {
+                _( "WARNING: %i percent chance of SEVERE damage to all body parts! Continue anyway?" ),
+                ( 100 - static_cast<int>( chance_of_success ) ) ) ) {
             return false;
         }
     }
@@ -1492,14 +1492,14 @@ bool player::can_install_bionics( const itype &type, player &installer, bool aut
 
     if( chance_of_success >= 100 ) {
         if( !g->u.query_yn(
-                    _( "Are you sure you wish to install the selected bionic?" ),
-                    100 - chance_of_success ) ) {
+                _( "Are you sure you wish to install the selected bionic?" ),
+                100 - chance_of_success ) ) {
             return false;
         }
     } else {
         if( !g->u.query_yn(
-                    _( "WARNING: %i percent chance of failure that may result in damage, pain, or a faulty installation! Continue anyway?" ),
-                    ( 100 - static_cast<int>( chance_of_success ) ) ) ) {
+                _( "WARNING: %i percent chance of failure that may result in damage, pain, or a faulty installation! Continue anyway?" ),
+                ( 100 - static_cast<int>( chance_of_success ) ) ) ) {
             return false;
         }
     }
@@ -1674,58 +1674,58 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
     } else {
         switch( fail_type ) {
 
-        case 1:
-            if( !( has_trait( trait_id( "NOPAIN" ) ) ) ) {
-                add_msg_if_player( m_bad, _( "It really hurts!" ) );
-                mod_pain( rng( failure_level * 3, failure_level * 6 ) );
-            }
-            drop_cbm = true;
-            break;
-
-        case 2:
-        case 3:
-            for( const body_part &bp : all_body_parts ) {
-                if( has_effect( effect_under_op, bp ) ) {
-                    apply_damage( this, bp, rng( 30, 80 ), true );
-                    add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
-                                           body_part_name_accusative( bp ) );
+            case 1:
+                if( !( has_trait( trait_id( "NOPAIN" ) ) ) ) {
+                    add_msg_if_player( m_bad, _( "It really hurts!" ) );
+                    mod_pain( rng( failure_level * 3, failure_level * 6 ) );
                 }
-            }
-            drop_cbm = true;
-            break;
+                drop_cbm = true;
+                break;
 
-        case 4:
-        case 5: {
-            add_msg( m_bad, _( "The installation is faulty!" ) );
-            std::vector<bionic_id> valid;
-            std::copy_if( begin( faulty_bionics ), end( faulty_bionics ), std::back_inserter( valid ),
-            [&]( const bionic_id & id ) {
-                return !has_bionic( id );
-            } );
-
-            if( valid.empty() ) { // We've got all the bad bionics!
-                if( max_power_level > 0 ) {
-                    int old_power = max_power_level;
-                    add_msg( m_bad, _( "%s lose power capacity!" ), disp_name() );
-                    max_power_level = rng( 0, max_power_level - 25 );
-                    if( is_player() ) {
-                        add_memorial_log( pgettext( "memorial_male", "Lost %d units of power capacity." ),
-                                          pgettext( "memorial_female", "Lost %d units of power capacity." ),
-                                          old_power - max_power_level );
+            case 2:
+            case 3:
+                for( const body_part &bp : all_body_parts ) {
+                    if( has_effect( effect_under_op, bp ) ) {
+                        apply_damage( this, bp, rng( 30, 80 ), true );
+                        add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
+                                               body_part_name_accusative( bp ) );
                     }
                 }
-                // TODO: What if we can't lose power capacity?  No penalty?
-            } else {
-                const bionic_id &id = random_entry( valid );
-                add_bionic( id );
-                if( is_player() ) {
-                    add_memorial_log( pgettext( "memorial_male", "Installed bad bionic: %s." ),
-                                      pgettext( "memorial_female", "Installed bad bionic: %s." ),
-                                      bionics[ id ].name );
+                drop_cbm = true;
+                break;
+
+            case 4:
+            case 5: {
+                add_msg( m_bad, _( "The installation is faulty!" ) );
+                std::vector<bionic_id> valid;
+                std::copy_if( begin( faulty_bionics ), end( faulty_bionics ), std::back_inserter( valid ),
+                [&]( const bionic_id & id ) {
+                    return !has_bionic( id );
+                } );
+
+                if( valid.empty() ) { // We've got all the bad bionics!
+                    if( max_power_level > 0 ) {
+                        int old_power = max_power_level;
+                        add_msg( m_bad, _( "%s lose power capacity!" ), disp_name() );
+                        max_power_level = rng( 0, max_power_level - 25 );
+                        if( is_player() ) {
+                            add_memorial_log( pgettext( "memorial_male", "Lost %d units of power capacity." ),
+                                              pgettext( "memorial_female", "Lost %d units of power capacity." ),
+                                              old_power - max_power_level );
+                        }
+                    }
+                    // TODO: What if we can't lose power capacity?  No penalty?
+                } else {
+                    const bionic_id &id = random_entry( valid );
+                    add_bionic( id );
+                    if( is_player() ) {
+                        add_memorial_log( pgettext( "memorial_male", "Installed bad bionic: %s." ),
+                                          pgettext( "memorial_female", "Installed bad bionic: %s." ),
+                                          bionics[ id ].name );
+                    }
                 }
             }
-        }
-        break;
+            break;
         }
     }
     if( drop_cbm ) {
@@ -1786,35 +1786,35 @@ std::map<body_part, int> player::bionic_installation_issues( const bionic_id &bi
 int player::get_total_bionics_slots( const body_part bp ) const
 {
     switch( bp ) {
-    case bp_torso:
-        return 80;
+        case bp_torso:
+            return 80;
 
-    case bp_head:
-        return 18;
+        case bp_head:
+            return 18;
 
-    case bp_eyes:
-    case bp_mouth:
-        return 4;
+        case bp_eyes:
+        case bp_mouth:
+            return 4;
 
-    case bp_arm_l:
-    case bp_arm_r:
-        return 20;
+        case bp_arm_l:
+        case bp_arm_r:
+            return 20;
 
-    case bp_hand_l:
-    case bp_hand_r:
-        return 5;
+        case bp_hand_l:
+        case bp_hand_r:
+            return 5;
 
-    case bp_leg_l:
-    case bp_leg_r:
-        return 30;
+        case bp_leg_l:
+        case bp_leg_r:
+            return 30;
 
-    case bp_foot_l:
-    case bp_foot_r:
-        return 7;
+        case bp_foot_l:
+        case bp_foot_r:
+            return 7;
 
-    case num_bp:
-        debugmsg( "number of slots for incorrect bodypart is requested!" );
-        return 0;
+        case num_bp:
+            debugmsg( "number of slots for incorrect bodypart is requested!" );
+            return 0;
     }
     return 0;
 }
@@ -2046,7 +2046,7 @@ void check_bionics()
 {
     for( const auto &bio : bionics ) {
         if( !bio.second.fake_item.empty() &&
-                !item::type_is_defined( bio.second.fake_item ) ) {
+            !item::type_is_defined( bio.second.fake_item ) ) {
             debugmsg( "Bionic %s has unknown fake_item %s",
                       bio.first.c_str(), bio.second.fake_item.c_str() );
         }
@@ -2166,7 +2166,7 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
 
     //Pain junkies feel sorry about missed pain from operation.
     if( has_trait( trait_MASOCHIST ) || has_trait( trait_MASOCHIST_MED ) ||
-            has_trait( trait_CENOBITE ) ) {
+        has_trait( trait_CENOBITE ) ) {
         add_msg_if_player( m_mixed,
                            _( "As your conciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
     }
