@@ -3576,6 +3576,10 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
         log_quan = rng( 0, 2 );
         stick_quan = 0;
         splint_quan = rng( 5, 15 );
+    } else {
+        log_quan = 0;
+        stick_quan = 0;
+        splint_quan = 0;
     }
     for( int i = 0; i != log_quan; ++i ) {
         item obj( "log", calendar::turn );
