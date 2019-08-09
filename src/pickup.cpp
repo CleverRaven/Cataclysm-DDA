@@ -214,7 +214,11 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         picked_up = true;
         option = NUM_ANSWERS; //Skip the options part
     } else if( newit.made_of_from_type( LIQUID ) ) {
-        got_water = true;
+
+        //If the item we're trying to pick up is a frozen liquid, perform frozen liquid pickup logic
+        if( newit.is_frozen_liquid() && !(got_water = !(u.crush_frozen_liquid(newit, loc)))) {
+            option = STASH;
+        }
     } else if( !u.can_pickWeight( newit, false ) ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _( "The %s is too heavy!" ),
@@ -388,11 +392,11 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         bool isEmpty = ( g->m.i_at( p ).empty() );
 
         // Hide the pickup window if this is a toilet and there's nothing here
-        // but water.
+        // but non-frozen water.
         if( ( !isEmpty ) && g->m.furn( p ) == f_toilet ) {
             isEmpty = true;
             for( const item &maybe_water : g->m.i_at( p ) ) {
-                if( maybe_water.typeId() != "water" ) {
+                if( maybe_water.typeId() != "water"  || maybe_water.is_frozen_liquid() ) {
                     isEmpty = false;
                     break;
                 }

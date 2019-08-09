@@ -856,7 +856,7 @@ class player : public Character
 
         /** used for drinking from hands, returns how many charges were consumed */
         int drink_from_hands( item &water );
-        /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
+        /** Used for eating object at pos, returns true if object is removed from inventory (last :thum was consumed) */
         bool consume( int pos );
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
@@ -1338,6 +1338,12 @@ class player : public Character
 
         // Carried items may leak radiation or chemicals
         int  leak_level( const std::string &flag ) const;
+
+        /** Returns the item in the player's inventory with the highest of the specified quality*/
+        item item_with_best_of_quality( quality_id qid );
+
+        /** Helper function if player tries to pick up a frozen liquid */
+        bool crush_frozen_liquid(item, item_location);
 
         // Has a weapon, inventory item or worn item with flag
         bool has_item_with_flag( const std::string &flag, bool need_charges = false ) const;

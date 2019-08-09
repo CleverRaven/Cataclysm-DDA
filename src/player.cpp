@@ -8102,7 +8102,7 @@ void player::mend_item( item_location &&obj, bool interactive )
 
 int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
 {
-    if( ammo.is_ammo() ) {
+    if( ammo.is_ammo() || ammo.is_frozen_liquid() ) {
         qty = std::max( std::min( ammo.charges, qty ), 1 );
     } else if( ammo.is_ammo_container() || ammo.is_container() ) {
         qty = std::max( std::min( ammo.contents.front().charges, qty ), 1 );
@@ -11640,6 +11640,48 @@ std::vector<const item *> player::all_items_with_flag( const std::string &flag )
     return items_with( [&flag]( const item & it ) {
         return it.has_flag( flag );
     } );
+}
+
+item player::item_with_best_of_quality( quality_id qid )
+{
+    int maxq = max_quality( qid );
+    item res_item;
+    auto items_with_quality = items_with( [qid]( const item & it ) {
+        return it.has_quality( qid );
+    } );
+    for( item *it : items_with_quality ) {
+        if( it->get_quality( qid ) == maxq ) {
+            res_item = *it;
+            break;
+        }
+    }
+    return res_item;
+}
+
+bool player::crush_frozen_liquid(item newit, item_location loc) {
+
+    player& u = g->u;
+
+    //Check if player has hammering tool and if they want to harvest frozen liquid using it
+    if (u.has_quality(quality_id("HAMMER"))) {
+        item hammering_item = u.item_with_best_of_quality(quality_id("HAMMER"));
+        if (query_yn(_(string_format("Do you want to crush up %s with your %s?\n" +
+            colorize("Be wary of fragile items nearby!", c_red), newit.display_name(),
+            hammering_item.display_name())))) {
+
+            //Risk smashing tile with hammering tool, risk is lower with higher dex, damage lower with lower strength
+            if (one_in(1 + u.dex_cur / 4)) {
+                add_msg(_(colorize(("You swing your %s wildly!", hammering_item.display_name()), c_red)));
+                int smashskill = u.str_cur + hammering_item.damage_melee(DT_BASH);
+                g->m.bash(loc.position(), smashskill, false, false, false);
+            }
+            return true;
+        }
+    }
+    else {
+        popup(_("You need a hammering tool to crush up frozen liquids!"));
+    }
+    return false;
 }
 
 bool player::has_item_with_flag( const std::string &flag, bool need_charges ) const
