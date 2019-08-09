@@ -149,7 +149,7 @@ void timed_event::actualize()
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     if( g->m.ter( x, y ) == t_root_wall && one_in( 3 ) ) {
-                        g->m.ter_set( x, y, t_underbrush );
+                        g->m.ter_set( point( x, y ), t_underbrush );
                     }
                 }
             }
@@ -162,7 +162,7 @@ void timed_event::actualize()
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     if( g->m.ter( x, y ) == t_grate ) {
-                        g->m.ter_set( x, y, t_stairs_down );
+                        g->m.ter_set( point( x, y ), t_stairs_down );
                         if( !saw_grate && g->u.sees( tripoint( x, y, g->get_levz() ) ) ) {
                             saw_grate = true;
                         }
@@ -234,7 +234,7 @@ void timed_event::actualize()
             // flood_buf is filled with correct tiles; now copy them back to g->m
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    g->m.ter_set( x, y, flood_buf[x][y] );
+                    g->m.ter_set( point( x, y ), flood_buf[x][y] );
                 }
             }
             g->timed_events.add( TIMED_EVENT_TEMPLE_FLOOD,

@@ -59,12 +59,12 @@ static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint &omt_
     const tripoint sm_pt = omt_to_sm_copy( omt_pt );
     tinymap checker;
     const int z_level = omt_pt.z;
-    checker.load( sm_pt.x, sm_pt.y, sm_pt.z, true );
+    checker.load( sm_pt, true );
 
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
             if( checker.has_flag_furn( "TRANSLOCATOR", tripoint( x, y, z_level ) ) ) {
-                return tripoint( checker.getabs( x, y ), z_level );
+                return tripoint( checker.getabs( point( x, y ) ), z_level );
             }
         }
     }
@@ -75,7 +75,7 @@ bool teleporter_list::place_avatar_overmap( avatar &, const tripoint &omt_pt ) c
 {
     tinymap omt_dest( 2, true );
     tripoint sm_dest = omt_to_sm_copy( omt_pt );
-    omt_dest.load( sm_dest.x, sm_dest.y, sm_dest.z, true );
+    omt_dest.load( sm_dest, true );
     cata::optional<tripoint> global_dest = find_valid_teleporters_omt( omt_pt );
     if( !global_dest ) {
         return false;

@@ -1309,10 +1309,6 @@ bool advanced_inventory::move_all_items( bool nested_call )
         popup( _( "You can't put items there!" ) );
         return false;
     }
-    if( spane.get_area() == AIM_WORN &&
-        !query_yn( _( "Really remove all your clothes? (woo hoo)" ) ) ) {
-        return false;
-    }
     auto &sarea = squares[spane.get_area()];
     auto &darea = squares[dpane.get_area()];
 
@@ -1341,10 +1337,10 @@ bool advanced_inventory::move_all_items( bool nested_call )
 
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
         std::list<std::pair<int, int>> dropped;
+        // keep a list of favorites separated, only drop non-fav first if they exist
+        std::list<std::pair<int, int>> dropped_favorite;
 
         if( spane.get_area() == AIM_INVENTORY ) {
-            // keep a list of favorites separated, only drop non-fav first if they exist
-            std::list<std::pair<int, int>> dropped_favorite;
             for( size_t index = 0; index < g->u.inv.size(); ++index ) {
                 const auto &stack = g->u.inv.const_stack( index );
                 const auto &it = stack.front();
@@ -1354,12 +1350,6 @@ bool advanced_inventory::move_all_items( bool nested_call )
                             it.count_by_charges() ? static_cast<int>( it.charges ) : static_cast<int>( stack.size() ) );
                 }
             }
-            if( dropped.empty() ) {
-                if( !query_yn( _( "Really drop all your favorite items?" ) ) ) {
-                    return false;
-                }
-                dropped = dropped_favorite;
-            }
         } else if( spane.get_area() == AIM_WORN ) {
             // do this in reverse, to account for vector item removal messing with future indices
             auto iter = g->u.worn.rbegin();
@@ -1368,10 +1358,17 @@ bool advanced_inventory::move_all_items( bool nested_call )
                 const auto &it = *iter;
 
                 if( !spane.is_filtered( it ) ) {
-                    dropped.emplace_back( player::worn_position_to_index( index ),
-                                          it.count() );
+                    ( it.is_favorite ? dropped_favorite : dropped ).emplace_back( player::worn_position_to_index(
+                                index ),
+                            it.count() );
                 }
             }
+        }
+        if( dropped.empty() ) {
+            if( !query_yn( _( "Really drop all your favorite items?" ) ) ) {
+                return false;
+            }
+            dropped = dropped_favorite;
         }
 
         g->u.drop( dropped, g->u.pos() + darea.off );

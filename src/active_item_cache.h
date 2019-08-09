@@ -17,11 +17,21 @@ struct item_reference {
     safe_reference<item> item_ref;
 };
 
-enum class special_item_type : char {
+enum class special_item_type : int {
     none,
     corpse,
     explosive
 };
+
+namespace std
+{
+template <>
+struct hash<special_item_type> {
+    std::size_t operator()( const special_item_type &k ) const {
+        return static_cast<size_t>( k );
+    }
+};
+} // namespace std
 
 class active_item_cache
 {

@@ -549,7 +549,7 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
         cmd << nm_variant << ' ' << binary << " 2>&1";
         FILE *nm = popen( cmd.str().c_str(), "re" );
         if( !nm ) {
-            out << "\tbacktrace: popen(nm) failed\n";
+            out << "\tbacktrace: popen(nm) failed: " << strerror( errno ) << "\n";
             return cata::nullopt;
         }
 

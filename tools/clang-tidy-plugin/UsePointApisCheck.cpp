@@ -21,7 +21,7 @@ void UsePointApisCheck::registerMatchers( MatchFinder *Finder )
             forEachArgumentWithParam(
                 expr().bind( "xarg" ),
                 parmVarDecl(
-                    hasType( asString( "int" ) ),
+                    anyOf( hasType( asString( "int" ) ), hasType( asString( "const int" ) ) ),
                     matchesName( "x$" )
                 ).bind( "xparam" )
             ),
@@ -40,18 +40,53 @@ static const FunctionDecl *getContainingFunction(
             if( const FunctionDecl *ContainingFunction = dyn_cast<FunctionDecl>( Candidate ) ) {
                 return ContainingFunction;
             }
-            if( const FunctionDecl *ContainingFunction = getContainingFunction( Result, Candidate ) ) {
+            if( const FunctionDecl *ContainingFunction =
+                    getContainingFunction( Result, Candidate ) ) {
                 return ContainingFunction;
             }
         }
         if( const Stmt *Candidate = parent.get<Stmt>() ) {
-            if( const FunctionDecl *ContainingFunction = getContainingFunction( Result, Candidate ) ) {
+            if( const FunctionDecl *ContainingFunction =
+                    getContainingFunction( Result, Candidate ) ) {
                 return ContainingFunction;
             }
         }
     }
 
     return nullptr;
+}
+
+static bool doFunctionsMatch( const FunctionDecl *Callee, const FunctionDecl *OtherCallee,
+                              unsigned int NumCoordParams, unsigned int SkipArgs,
+                              unsigned int MinArg, bool IsTripoint )
+{
+    const unsigned int ExpectedNumParams = Callee->getNumParams() - ( NumCoordParams - 1 );
+
+    if( OtherCallee->getNumParams() != ExpectedNumParams ) {
+        return false;
+    }
+    // Check that arguments match up as expected
+    unsigned int CalleeParamI = 0;
+    unsigned int OtherCalleeParamI = 0;
+
+    for( ; CalleeParamI < Callee->getNumParams(); ++CalleeParamI, ++OtherCalleeParamI ) {
+        const ParmVarDecl *CalleeParam = Callee->getParamDecl( CalleeParamI );
+        const ParmVarDecl *OtherCalleeParam =
+            OtherCallee->getParamDecl( OtherCalleeParamI );
+
+        std::string ExpectedTypeName = CalleeParam->getType().getAsString();
+        if( CalleeParamI == MinArg - SkipArgs ) {
+            std::string ShortTypeName = IsTripoint ? "tripoint" : "point";
+            ExpectedTypeName = "const struct " + ShortTypeName + " &";
+            CalleeParamI += NumCoordParams - 1;
+        }
+
+        if( OtherCalleeParam->getType().getAsString() != ExpectedTypeName ) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 static void CheckCall( UsePointApisCheck &Check, const MatchFinder::MatchResult &Result )
@@ -115,7 +150,6 @@ static void CheckCall( UsePointApisCheck &Check, const MatchFinder::MatchResult 
     }
 
     const unsigned int NumCoordParams = ZArg ? 3 : 2;
-    const unsigned int ExpectedNumParams = Callee->getNumParams() - ( NumCoordParams - 1 );
 
     if( MaxArg - MinArg != NumCoordParams - 1 ) {
         // This means that the parameters are not contiguous, which means we
@@ -135,38 +169,26 @@ static void CheckCall( UsePointApisCheck &Check, const MatchFinder::MatchResult 
             if( OtherCallee == Callee || OtherCallee == ContainingFunction ) {
                 continue;
             }
-            if( OtherCallee->getNumParams() != ExpectedNumParams ) {
-                continue;
+
+            if( doFunctionsMatch( Callee, OtherCallee, NumCoordParams, SkipArgs, MinArg,
+                                  !!ZArg ) ) {
+                NewCallee = OtherCallee;
+                break;
             }
-            // Check that arguments match up as expected
-            unsigned int CalleeParamI = 0;
-            unsigned int OtherCalleeParamI = 0;
-            bool Matched = true;
+        }
+        if( const FunctionTemplateDecl *OtherTmpl =
+                dyn_cast<FunctionTemplateDecl>( OtherDecl ) ) {
+            const FunctionTemplateDecl *Tmpl = Callee->getPrimaryTemplate();
 
-            for( ; CalleeParamI < Callee->getNumParams(); ++CalleeParamI, ++OtherCalleeParamI ) {
-                const ParmVarDecl *CalleeParam = Callee->getParamDecl( CalleeParamI );
-                const ParmVarDecl *OtherCalleeParam =
-                    OtherCallee->getParamDecl( OtherCalleeParamI );
-
-                std::string ExpectedTypeName = CalleeParam->getType().getAsString();
-                if( CalleeParamI == MinArg - SkipArgs ) {
-                    std::string ShortTypeName = ZArg ? "tripoint" : "point";
-                    ExpectedTypeName = "const struct " + ShortTypeName + " &";
-                    CalleeParamI += NumCoordParams - 1;
-                }
-
-                if( OtherCalleeParam->getType().getAsString() != ExpectedTypeName ) {
-                    Matched = false;
-                    break;
-                }
-            }
-
-            if( !Matched ) {
+            if( !Tmpl || Tmpl == OtherTmpl ) {
                 continue;
             }
 
-            NewCallee = OtherCallee;
-            break;
+            if( doFunctionsMatch( Tmpl->getTemplatedDecl(), OtherTmpl->getTemplatedDecl(),
+                                  NumCoordParams, SkipArgs, MinArg, !!ZArg ) ) {
+                NewCallee = OtherTmpl->getTemplatedDecl();
+                break;
+            }
         }
     }
 

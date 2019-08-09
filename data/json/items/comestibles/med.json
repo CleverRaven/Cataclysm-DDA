@@ -192,7 +192,7 @@
     "comestible_type": "MED",
     "name": "caffeinated chewing gum",
     "description": "Chewing gum with added caffeine.  Sugary and bad for your teeth, but it's a nice pick-me-up.",
-    "category": "food",
+    "category": "drugs",
     "weight": 3,
     "volume": 1,
     "price": 140,

@@ -1167,7 +1167,7 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
     const tripoint abs_pos = g->m.getabs( p );
     const tripoint pos_sm = ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
-    tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
+    tmpmap.load( tripoint( pos_sm.xy(), pos_sm.z - 1 ), false );
     const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
     bool dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) || g->u.has_trait( trait_STOCKY_TROGLO );
@@ -1222,11 +1222,11 @@ void construct::done_mine_upstair( const tripoint &p )
     const tripoint abs_pos = g->m.getabs( p );
     const tripoint pos_sm = ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
-    tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z + 1, false );
+    tmpmap.load( tripoint( pos_sm.xy(), pos_sm.z + 1 ), false );
     const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
     if( tmpmap.ter( local_tmp ) == t_lava ) {
-        g->m.ter_set( p.x, p.y, t_rock_floor ); // You dug a bit before discovering the problem
+        g->m.ter_set( p.xy(), t_rock_floor ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock overhead feels hot.  You decide *not* to mine magma." ) );
         unroll_digging( 12 );
         return;
@@ -1238,7 +1238,7 @@ void construct::done_mine_upstair( const tripoint &p )
     };
 
     if( liquids.count( tmpmap.ter( local_tmp ) ) > 0 ) {
-        g->m.ter_set( p.x, p.y, t_rock_floor ); // You dug a bit before discovering the problem
+        g->m.ter_set( p.xy(), t_rock_floor ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock above is rather damp.  You decide *not* to mine water." ) );
         unroll_digging( 12 );
         return;
@@ -1252,7 +1252,7 @@ void construct::done_mine_upstair( const tripoint &p )
     g->u.mod_fatigue( 25 + no_mut_penalty );
 
     add_msg( _( "You drill out a passage, heading for the surface." ) );
-    g->m.ter_set( p.x, p.y, t_stairs_up ); // There's the bottom half
+    g->m.ter_set( p.xy(), t_stairs_up ); // There's the bottom half
     // We need to write to submap-local coordinates.
     tmpmap.ter_set( local_tmp, t_stairs_down ); // and there's the top half.
     tmpmap.save();

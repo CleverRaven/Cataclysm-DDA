@@ -1488,7 +1488,7 @@ void debug()
                     const tripoint where( ui::omap::choose_point() );
                     if( where != overmap::invalid_tripoint ) {
                         tinymap mx_map;
-                        mx_map.load( where.x * 2, where.y * 2, where.z, false );
+                        mx_map.load( tripoint( where.x * 2, where.y * 2, where.z ), false );
                         MapExtras::apply_function( mx_str[mx_choice], mx_map, where );
                     }
                 }

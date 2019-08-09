@@ -159,13 +159,13 @@ static void mx_house_wasp( map &m, const tripoint & )
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( m.ter( i, j ) == t_door_c || m.ter( i, j ) == t_door_locked ) {
-                m.ter_set( i, j, t_door_frame );
+                m.ter_set( point( i, j ), t_door_frame );
             }
             if( m.ter( i, j ) == t_window_domestic && !one_in( 3 ) ) {
-                m.ter_set( i, j, t_window_frame );
+                m.ter_set( point( i, j ), t_window_frame );
             }
             if( m.ter( i, j ) == t_wall && one_in( 8 ) ) {
-                m.ter_set( i, j, t_paper );
+                m.ter_set( point( i, j ), t_paper );
             }
         }
     }
@@ -182,7 +182,7 @@ static void mx_house_wasp( map &m, const tripoint & )
         for( int x = -1; x <= 1; x++ ) {
             for( int y = -1; y <= 1; y++ ) {
                 if( ( x != nonx || y != nony ) && ( x != 0 || y != 0 ) ) {
-                    m.ter_set( podx + x, pody + y, t_paper );
+                    m.ter_set( point( podx + x, pody + y ), t_paper );
                 }
             }
         }
@@ -209,7 +209,7 @@ static void mx_house_spider( map &m, const tripoint & )
                             if( m.ter( x, y ) == t_floor ) {
                                 madd_field( &m, x, y, fd_web, rng( 2, 3 ) );
                                 if( one_in( 4 ) ) {
-                                    m.furn_set( i, j, egg_type );
+                                    m.furn_set( point( i, j ), egg_type );
                                     m.remove_field( {i, j, m.get_abs_sub().z}, fd_web );
                                 }
                             }
@@ -655,9 +655,9 @@ static void mx_bandits_block( map &m, const tripoint &abs_sub )
         line( &m, t_trunk, 1, 8, 1, 13 );
         line( &m, t_trunk, 2, 14, 2, 17 );
         line( &m, t_trunk, 1, 18, 2, 22 );
-        m.ter_set( 1, 2, t_stump );
-        m.ter_set( 1, 20, t_stump );
-        m.ter_set( 1, 1, t_improvised_shelter );
+        m.ter_set( point( 1, 2 ), t_stump );
+        m.ter_set( point( 1, 20 ), t_stump );
+        m.ter_set( point( 1, 1 ), t_improvised_shelter );
         m.place_npc( 2, 19, string_id<npc_template>( "bandit" ) );
         if( one_in( 2 ) ) {
             m.place_npc( 1, 1, string_id<npc_template>( "bandit" ) );
@@ -668,8 +668,8 @@ static void mx_bandits_block( map &m, const tripoint &abs_sub )
         line( &m, t_trunk, 5, 1, 10, 1 );
         line( &m, t_trunk, 11, 3, 16, 3 );
         line( &m, t_trunk, 17, 2, 21, 2 );
-        m.ter_set( 22, 2, t_stump );
-        m.ter_set( 0, 1, t_improvised_shelter );
+        m.ter_set( point( 22, 2 ), t_stump );
+        m.ter_set( point( 0, 1 ), t_improvised_shelter );
         m.place_npc( 20, 3, string_id<npc_template>( "bandit" ) );
         if( one_in( 2 ) ) {
             m.place_npc( 0, 1, string_id<npc_template>( "bandit" ) );
@@ -810,7 +810,7 @@ static void mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
         if( !p ) {
             break;
         }
-        m.furn_set( p->x, p->y, f_crate_c );
+        m.furn_set( point( p->x, p->y ), f_crate_c );
         std::string item_group;
         switch( rng( 1, 10 ) ) {
             case 1:
@@ -973,9 +973,9 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         //Set two warning signs on the last horizontal line of the submap
         x = rng( 1, SEEX );
         x1 = rng( SEEX + 1, SEEX * 2 );
-        m.furn_set( x, SEEY * 2 - 1, furn_str_id( "f_sign_warning" ) );
+        m.furn_set( point( x, SEEY * 2 - 1 ), furn_str_id( "f_sign_warning" ) );
         m.set_signage( tripoint( x, SEEY * 2 - 1, abs_sub.z ), text );
-        m.furn_set( x1, SEEY * 2 - 1, furn_str_id( "f_sign_warning" ) );
+        m.furn_set( point( x1, SEEY * 2 - 1 ), furn_str_id( "f_sign_warning" ) );
         m.set_signage( tripoint( x1, SEEY * 2 - 1, abs_sub.z ), text );
     }
 
@@ -1074,9 +1074,9 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         //Set two warning signs on the first horizontal line of the submap
         x = rng( 1, SEEX );
         x1 = rng( SEEX + 1, SEEX * 2 );
-        m.furn_set( x, 0, furn_str_id( "f_sign_warning" ) );
+        m.furn_set( point( x, 0 ), furn_str_id( "f_sign_warning" ) );
         m.set_signage( tripoint( x, 0, abs_sub.z ), text );
-        m.furn_set( x1, 0, furn_str_id( "f_sign_warning" ) );
+        m.furn_set( point( x1, 0 ), furn_str_id( "f_sign_warning" ) );
         m.set_signage( tripoint( x1, 0, abs_sub.z ), text );
     }
 
@@ -1218,9 +1218,9 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         //Set two warning signs on the last vertical line of the submap
         y = rng( 1, SEEY );
         y1 = rng( SEEY + 1, SEEY * 2 );
-        m.furn_set( SEEX * 2 - 1, y, furn_str_id( "f_sign_warning" ) );
+        m.furn_set( point( SEEX * 2 - 1, y ), furn_str_id( "f_sign_warning" ) );
         m.set_signage( tripoint( SEEX * 2 - 1, y, abs_sub.z ), text );
-        m.furn_set( SEEX * 2 - 1, y1, furn_str_id( "f_sign_warning" ) );
+        m.furn_set( point( SEEX * 2 - 1, y1 ), furn_str_id( "f_sign_warning" ) );
         m.set_signage( tripoint( SEEX * 2 - 1, y1, abs_sub.z ), text );
     }
 
@@ -1350,9 +1350,9 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         //Set two warning signs on the first vertical line of the submap
         y = rng( 1, SEEY );
         y1 = rng( SEEY + 1, SEEY * 2 );
-        m.furn_set( 0, y, furn_str_id( "f_sign_warning" ) );
+        m.furn_set( point( 0, y ), furn_str_id( "f_sign_warning" ) );
         m.set_signage( tripoint( 0, y, abs_sub.z ), text );
-        m.furn_set( 0, y1, furn_str_id( "f_sign_warning" ) );
+        m.furn_set( point( 0, y1 ), furn_str_id( "f_sign_warning" ) );
         m.set_signage( tripoint( 0, y1, abs_sub.z ), text );
     }
 }
@@ -1381,7 +1381,7 @@ static void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<poi
 
     std::vector<point> fumarole = line_to( x1, y1, x2, y2, 0 );
     for( auto &i : fumarole ) {
-        m.ter_set( i.x, i.y, t_lava );
+        m.ter_set( i, t_lava );
 
         // Add all adjacent tiles (even on diagonals) for possible ignition
         // Since they're being added to a set, duplicates won't occur
@@ -1616,8 +1616,8 @@ static void mx_spider( map &m, const tripoint &abs_sub )
         }
     }
 
-    m.ter_set( 12, 12, t_dirt );
-    m.furn_set( 12, 12, f_egg_sackws );
+    m.ter_set( point( 12, 12 ), t_dirt );
+    m.furn_set( point( 12, 12 ), f_egg_sackws );
     m.remove_field( { 12, 12, m.get_abs_sub().z }, fd_web );
     m.add_spawn( mon_spider_web, rng( 1, 2 ), SEEX, SEEY );
 }
@@ -2299,7 +2299,7 @@ static void mx_roadworks( map &m, const tripoint &abs_sub )
     }
     // equipment placer
     if( one_in( 3 ) ) {
-        m.furn_set( equipment.x, equipment.y, f_crate_c );
+        m.furn_set( equipment, f_crate_c );
         m.place_items( "mine_equipment", 100, tripoint( equipment, 0 ),
                        tripoint( equipment, 0 ), true, 0, 100 );
     }
