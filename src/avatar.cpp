@@ -1163,14 +1163,22 @@ void avatar::vomit()
 
 void avatar::disp_morale()
 {
-    morale->display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
+    int equilibrium = calc_focus_equilibrium();
+    if( get_fatigue() >= MASSIVE_FATIGUE && ( focus_pool > 20 || equilibrium > 20 ) ) {
+        equilibrium = 20;
+    } else if( get_fatigue() >= EXHAUSTED && ( focus_pool > 40 || equilibrium > 40 ) ) {
+        equilibrium = 40;
+    } else if( get_fatigue() >= DEAD_TIRED && ( focus_pool > 60 || equilibrium > 60 ) ) {
+        equilibrium = 60;
+    } else if( get_fatigue() >= TIRED && ( focus_pool > 80 || equilibrium > 80 ) ) {
+        equilibrium = 80;
+    }
+    morale->display( equilibrium );
 }
 
-// written mostly by FunnyMan3595 in Github issue #613 (DarklingWolf's repo),
-// with some small edits/corrections by Soron
 int avatar::calc_focus_equilibrium() const
 {
-    int focus_gain_rate = 100;
+    int focus_equilibrium = 100;
 
     if( activity.id() == activity_id( "ACT_READ" ) ) {
         const item &book = *activity.targets[0].get_item();
@@ -1179,7 +1187,7 @@ int avatar::calc_focus_equilibrium() const
             // apply a penalty when we're actually learning something
             const SkillLevel &skill_level = get_skill_level_object( bt.skill );
             if( skill_level.can_train() && skill_level < bt.level ) {
-                focus_gain_rate -= 50;
+                focus_equilibrium -= 50;
             }
         }
     }
@@ -1192,73 +1200,85 @@ int avatar::calc_focus_equilibrium() const
     }
 
     if( eff_morale < -99 ) {
-        // At very low morale, focus goes up at 1% of the normal rate.
-        focus_gain_rate = 1;
+        // At very low morale, focus is at it's minimum
+        focus_equilibrium = 1;
     } else if( eff_morale <= 50 ) {
-        // At -99 to +50 morale, each point of morale gives 1% of the normal rate.
-        focus_gain_rate += eff_morale;
+        // At -99 to +50 morale, each point of morale gives or takes 1 point of focus
+        focus_equilibrium += eff_morale;
     } else {
         /* Above 50 morale, we apply strong diminishing returns.
-        * Each block of 50% takes twice as many morale points as the previous one:
-        * 150% focus gain at 50 morale (as before)
-        * 200% focus gain at 150 morale (100 more morale)
-        * 250% focus gain at 350 morale (200 more morale)
+        * Each block of 50 takes twice as many morale points as the previous one:
+        * 50 focus at 50 morale (as before)
+        * 200 focus at 150 morale (100 more morale)
+        * 250 focus at 350 morale (200 more morale)
         * ...
         * Cap out at 400% focus gain with 3,150+ morale, mostly as a sanity check.
         */
 
         int block_multiplier = 1;
         int morale_left = eff_morale;
-        while( focus_gain_rate < 400 ) {
+        while( focus_equilibrium < 400 ) {
             if( morale_left > 50 * block_multiplier ) {
                 // We can afford the entire block.  Get it and continue.
                 morale_left -= 50 * block_multiplier;
-                focus_gain_rate += 50;
+                focus_equilibrium += 50;
                 block_multiplier *= 2;
             } else {
                 // We can't afford the entire block.  Each block_multiplier morale
-                // points give 1% focus gain, and then we're done.
-                focus_gain_rate += morale_left / block_multiplier;
+                // points give 1 focus, and then we're done.
+                focus_equilibrium += morale_left / block_multiplier;
                 break;
             }
         }
     }
 
     // This should be redundant, but just in case...
-    if( focus_gain_rate < 1 ) {
-        focus_gain_rate = 1;
-    } else if( focus_gain_rate > 400 ) {
-        focus_gain_rate = 400;
+    if( focus_equilibrium < 1 ) {
+        focus_equilibrium = 1;
+    } else if( focus_equilibrium > 400 ) {
+        focus_equilibrium = 400;
     }
-
-    return focus_gain_rate;
+    return focus_equilibrium;
 }
 
-void avatar::update_mental_focus()
+int avatar::calc_focus_change() const
 {
-    int focus_gain_rate = calc_focus_equilibrium() - focus_pool;
+    int focus_gap = calc_focus_equilibrium() - focus_pool;
 
     // handle negative gain rates in a symmetric manner
     int base_change = 1;
-    if( focus_gain_rate < 0 ) {
+    if( focus_gap < 0 ) {
         base_change = -1;
-        focus_gain_rate = -focus_gain_rate;
+        focus_gap = -focus_gap;
     }
 
     // for every 100 points, we have a flat gain of 1 focus.
     // for every n points left over, we have an n% chance of 1 focus
-    int gain = focus_gain_rate / 100;
-    if( rng( 1, 100 ) <= focus_gain_rate % 100 ) {
+    int gain = focus_gap / 100;
+    if( rng( 1, 100 ) <= focus_gap % 100 ) {
         gain++;
     }
 
-    focus_pool += gain * base_change;
+    gain *= base_change;
 
-    // Fatigue should at least prevent high focus
-    // This caps focus gain at 60(arbitrary value) if you're Dead Tired
-    if( get_fatigue() >= DEAD_TIRED && focus_pool > 60 ) {
-        focus_pool = 60;
+    // Fatigue will incrementally decrease any focus above related cap
+    if( ( get_fatigue() >= TIRED && focus_pool > 80 ) ||
+        ( get_fatigue() >= DEAD_TIRED && focus_pool > 60 ) ||
+        ( get_fatigue() >= EXHAUSTED && focus_pool > 40 ) ||
+        ( get_fatigue() >= MASSIVE_FATIGUE && focus_pool > 20 ) ) {
+
+        //it can fall faster then 1
+        if( gain > -1 ) {
+            gain = -1;
+        }
     }
+    return gain;
+}
+
+void avatar::update_mental_focus()
+{
+
+    focus_pool += calc_focus_change();
 
     // Moved from calc_focus_equilibrium, because it is now const
     if( activity.id() == activity_id( "ACT_READ" ) ) {
