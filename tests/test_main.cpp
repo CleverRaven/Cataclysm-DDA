@@ -155,7 +155,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     overmap_special_batch empty_specials( { 0, 0 } );
     overmap_buffer.create_custom_overmap( point_zero, empty_specials );
 
-    g->m.load( g->get_levx(), g->get_levy(), g->get_levz(), false );
+    g->m.load( tripoint( g->get_levx(), g->get_levy(), g->get_levz() ), false );
 }
 
 // Checks if any of the flags are in container, removes them all
