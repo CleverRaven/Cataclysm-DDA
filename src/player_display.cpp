@@ -1223,39 +1223,51 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         skill_win_size_y = maxy - infooffsetybottom;
     }
 
-    catacurses::window w_grid_top    = catacurses::newwin( infooffsetybottom, FULL_SCREEN_WIDTH + 1,
-                                       point( VIEW_OFFSET_X, VIEW_OFFSET_Y ) );
-    catacurses::window w_grid_skill  = catacurses::newwin( skill_win_size_y + 1, 27,
-                                       point( 0 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
-    catacurses::window w_grid_trait  = catacurses::newwin( trait_win_size_y + 1, 27,
-                                       point( 27 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
-    catacurses::window w_grid_bionics = catacurses::newwin( bionics_win_size_y + 1, 27,
-                                        point( 27 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y + trait_win_size_y + 1 ) );
-    catacurses::window w_grid_effect = catacurses::newwin( effect_win_size_y + 1, 28,
-                                       point( 53 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+    catacurses::window w_grid_top =
+        catacurses::newwin( infooffsetybottom, FULL_SCREEN_WIDTH + 1,
+                            point( VIEW_OFFSET_X, VIEW_OFFSET_Y ) );
+    catacurses::window w_grid_skill =
+        catacurses::newwin( skill_win_size_y + 1, 27,
+                            point( 0 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+    catacurses::window w_grid_trait =
+        catacurses::newwin( trait_win_size_y + 1, 27,
+                            point( 27 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+    catacurses::window w_grid_bionics =
+        catacurses::newwin( bionics_win_size_y + 1, 27,
+                            point( 27 + VIEW_OFFSET_X,
+                                   infooffsetybottom + VIEW_OFFSET_Y + trait_win_size_y + 1 ) );
+    catacurses::window w_grid_effect =
+        catacurses::newwin( effect_win_size_y + 1, 28,
+                            point( 53 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
 
-    catacurses::window w_tip     = catacurses::newwin( 1, FULL_SCREEN_WIDTH,  point( 0 + VIEW_OFFSET_X,
-                                   VIEW_OFFSET_Y ) );
-    catacurses::window w_stats   = catacurses::newwin( 9, 26,  point( 0 + VIEW_OFFSET_X,
-                                   1 + VIEW_OFFSET_Y ) );
-    catacurses::window w_traits  = catacurses::newwin( trait_win_size_y, 26,
-                                   point( 27 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
-    catacurses::window w_bionics = catacurses::newwin( bionics_win_size_y, 26,
-                                   point( 27 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y + trait_win_size_y + 1 ) );
-    catacurses::window w_encumb  = catacurses::newwin( 9, 26,  point( 27 + VIEW_OFFSET_X,
-                                   1 + VIEW_OFFSET_Y ) );
-    catacurses::window w_effects = catacurses::newwin( effect_win_size_y, 26,
-                                   point( 54 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
-    catacurses::window w_speed   = catacurses::newwin( 9, 26,  point( 54 + VIEW_OFFSET_X,
-                                   1 + VIEW_OFFSET_Y ) );
-    catacurses::window w_skills  = catacurses::newwin( skill_win_size_y, 26,
-                                   point( 0 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
-    catacurses::window w_info    = catacurses::newwin( info_win_size_y, FULL_SCREEN_WIDTH,
-                                   point( 0 + VIEW_OFFSET_X, infooffsetytop + VIEW_OFFSET_Y ) );
+    catacurses::window w_tip =
+        catacurses::newwin( 1, FULL_SCREEN_WIDTH,  point( 0 + VIEW_OFFSET_X, VIEW_OFFSET_Y ) );
+    catacurses::window w_stats =
+        catacurses::newwin( 9, 26,  point( 0 + VIEW_OFFSET_X, 1 + VIEW_OFFSET_Y ) );
+    catacurses::window w_traits =
+        catacurses::newwin( trait_win_size_y, 26,
+                            point( 27 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+    catacurses::window w_bionics =
+        catacurses::newwin( bionics_win_size_y, 26,
+                            point( 27 + VIEW_OFFSET_X,
+                                   infooffsetybottom + VIEW_OFFSET_Y + trait_win_size_y + 1 ) );
+    catacurses::window w_encumb =
+        catacurses::newwin( 9, 26, point( 27 + VIEW_OFFSET_X, 1 + VIEW_OFFSET_Y ) );
+    catacurses::window w_effects =
+        catacurses::newwin( effect_win_size_y, 26,
+                            point( 54 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+    catacurses::window w_speed =
+        catacurses::newwin( 9, 26,  point( 54 + VIEW_OFFSET_X, 1 + VIEW_OFFSET_Y ) );
+    catacurses::window w_skills =
+        catacurses::newwin( skill_win_size_y, 26,
+                            point( 0 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+    catacurses::window w_info =
+        catacurses::newwin( info_win_size_y, FULL_SCREEN_WIDTH,
+                            point( 0 + VIEW_OFFSET_X, infooffsetytop + VIEW_OFFSET_Y ) );
 
     draw_grid_borders( w_grid_top, w_grid_skill, w_grid_trait, w_grid_bionics, w_grid_effect,
-                       info_win_size_y, infooffsetybottom, skill_win_size_y, trait_win_size_y, bionics_win_size_y,
-                       effect_win_size_y );
+                       info_win_size_y, infooffsetybottom, skill_win_size_y, trait_win_size_y,
+                       bionics_win_size_y, effect_win_size_y );
     //-1 for header
     trait_win_size_y--;
     bionics_win_size_y--;

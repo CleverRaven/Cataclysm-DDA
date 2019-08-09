@@ -346,13 +346,13 @@ class map_notes_callback : public uilist_callback
         void select( int, uilist *menu ) override {
             _selected = menu->selected;
             const auto map_around = get_overmap_neighbors( note_location() );
-            catacurses::window w_preview = catacurses::newwin( npm_height + 2,
-                                           max_note_display_length - npm_width - 1,
-                                           point( npm_width + 2, 2 ) );
-            catacurses::window w_preview_title = catacurses::newwin( 2, max_note_display_length + 1, point( 0,
-                                                 0 ) );
-            catacurses::window w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, point( 0,
-                                               2 ) );
+            catacurses::window w_preview =
+                catacurses::newwin( npm_height + 2, max_note_display_length - npm_width - 1,
+                                    point( npm_width + 2, 2 ) );
+            catacurses::window w_preview_title =
+                catacurses::newwin( 2, max_note_display_length + 1, point( 0, 0 ) );
+            catacurses::window w_preview_map =
+                catacurses::newwin( npm_height + 2, npm_width + 2, point( 0, 2 ) );
             const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows =
                 std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
             update_note_preview( old_note(), map_around, preview_windows );

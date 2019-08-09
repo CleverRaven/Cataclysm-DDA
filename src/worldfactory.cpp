@@ -145,8 +145,9 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
         const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
         const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
         // set up window
-        catacurses::window wf_win = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                    point( iOffsetX, iOffsetY ) );
+        catacurses::window wf_win =
+            catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                point( iOffsetX, iOffsetY ) );
 
         int curtab = 0;
         int lasttab = 0; // give placement memory to menus, sorta.
@@ -386,8 +387,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     }
     size_t sel = 0, selpage = 0;
 
-    catacurses::window w_worlds_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                         point( iOffsetX, iOffsetY ) );
+    catacurses::window w_worlds_border =
+        catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, point( iOffsetX, iOffsetY ) );
     catacurses::window w_worlds_tooltip = catacurses::newwin( iTooltipHeight, FULL_SCREEN_WIDTH - 2,
                                           point( 1 + iOffsetX, 1 + iOffsetY ) );
     catacurses::window w_worlds_header = catacurses::newwin( 1, FULL_SCREEN_WIDTH - 2,

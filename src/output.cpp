@@ -632,8 +632,9 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
                             const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
                             const unsigned int padding )
 {
-    catacurses::window win = catacurses::newwin( iHeight, iWidth, point( iLeft + VIEW_OFFSET_X,
-                             iTop + VIEW_OFFSET_Y ) );
+    catacurses::window win =
+        catacurses::newwin( iHeight, iWidth,
+                            point( iLeft + VIEW_OFFSET_X, iTop + VIEW_OFFSET_Y ) );
 
 #if defined(TILES)
     clear_window_area( win );
@@ -641,9 +642,9 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
     wclear( win );
     wrefresh( win );
 
-    const auto result = draw_item_info( win, sItemName, sTypeName, vItemDisplay, vItemCompare,
-                                        selected, without_getch, without_border, handle_scrolling, scrollbar_left, use_full_win,
-                                        padding );
+    const auto result = draw_item_info(
+                            win, sItemName, sTypeName, vItemDisplay, vItemCompare, selected, without_getch,
+                            without_border, handle_scrolling, scrollbar_left, use_full_win, padding );
     return result;
 }
 
@@ -1284,8 +1285,8 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
     mvwputch(w, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X, cColor, cTile);
     */
 
-    catacurses::window w_hit = catacurses::newwin( 1, 1, point( iX + VIEW_OFFSET_X,
-                               iY + VIEW_OFFSET_Y ) );
+    catacurses::window w_hit =
+        catacurses::newwin( 1, 1, point( iX + VIEW_OFFSET_X, iY + VIEW_OFFSET_Y ) );
     if( !w_hit ) {
         return; //we passed in negative values (semi-expected), so let's not segfault
     }

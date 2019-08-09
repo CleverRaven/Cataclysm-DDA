@@ -3069,8 +3069,8 @@ void game::disp_NPC_epilogues()
 void game::disp_faction_ends()
 {
     catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                           point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ), std::max( 0,
-                                   ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
+                           point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ),
+                                  std::max( 0, ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
     std::vector<std::string> data;
 
     for( const faction &elem : faction_manager_ptr->all() ) {

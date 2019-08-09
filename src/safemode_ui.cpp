@@ -70,14 +70,17 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
     const int num_columns = column_pos.size();
 
-    catacurses::window w_help = catacurses::newwin( FULL_SCREEN_HEIGHT / 2 - 2,
-                                FULL_SCREEN_WIDTH * 3 / 4, point( offset_x + 19 / 2, 7 + offset_y + FULL_SCREEN_HEIGHT / 2 / 2 ) );
-    catacurses::window w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                  point( offset_x, offset_y ) );
-    catacurses::window w_header = catacurses::newwin( header_height, FULL_SCREEN_WIDTH - 2,
-                                  point( 1 + offset_x, 1 + offset_y ) );
-    catacurses::window w = catacurses::newwin( content_height, FULL_SCREEN_WIDTH - 2,
-                           point( 1 + offset_x, header_height + 1 + offset_y ) );
+    catacurses::window w_help =
+        catacurses::newwin( FULL_SCREEN_HEIGHT / 2 - 2, FULL_SCREEN_WIDTH * 3 / 4,
+                            point( offset_x + 19 / 2, 7 + offset_y + FULL_SCREEN_HEIGHT / 2 / 2 ) );
+    catacurses::window w_border =
+        catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, point( offset_x, offset_y ) );
+    catacurses::window w_header =
+        catacurses::newwin( header_height, FULL_SCREEN_WIDTH - 2,
+                            point( 1 + offset_x, 1 + offset_y ) );
+    catacurses::window w =
+        catacurses::newwin( content_height, FULL_SCREEN_WIDTH - 2,
+                            point( 1 + offset_x, header_height + 1 + offset_y ) );
 
     draw_border( w_border, BORDER_COLOR, custom_name_in );
 
@@ -85,8 +88,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
     mvwputch( w_border, 3, 79, c_light_gray, LINE_XOXX ); // -|
 
     for( auto &column : column_pos ) {
-        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, column.second + 1, c_light_gray,
-                  LINE_XXOX ); // _|_
+        // _|_
+        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, column.second + 1, c_light_gray, LINE_XXOX );
     }
 
     wrefresh( w_border );

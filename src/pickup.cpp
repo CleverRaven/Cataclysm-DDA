@@ -523,8 +523,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         }
 
         catacurses::window w_pickup = catacurses::newwin( pickupH, pickupW, point( pickupX, 0 ) );
-        catacurses::window w_item_info = catacurses::newwin( TERMY - pickupH, pickupW, point( pickupX,
-                                         pickupH ) );
+        catacurses::window w_item_info =
+            catacurses::newwin( TERMY - pickupH, pickupW, point( pickupX, pickupH ) );
 
         std::string action;
         int raw_input_char = ' ';
