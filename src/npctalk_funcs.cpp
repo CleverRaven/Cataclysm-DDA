@@ -595,7 +595,7 @@ void talk_function::buy_10_logs( npc &p )
 
     const tripoint site = random_entry( places_om );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.spawn_item( 7, 15, "log", 10 );
     bay.save();
 
@@ -621,7 +621,7 @@ void talk_function::buy_100_logs( npc &p )
 
     const tripoint site = random_entry( places_om );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.spawn_item( 7, 15, "log", 100 );
     bay.save();
 

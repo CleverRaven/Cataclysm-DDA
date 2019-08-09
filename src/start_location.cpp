@@ -230,7 +230,7 @@ void start_location::prepare_map( const tripoint &omtstart ) const
     // Now prepare the initial map (change terrain etc.)
     const point player_location = omt_to_sm_copy( omtstart.xy() );
     tinymap player_start;
-    player_start.load( player_location.x, player_location.y, omtstart.z, false );
+    player_start.load( tripoint( player_location, omtstart.z ), false );
     prepare_map( player_start );
     player_start.save();
 }
@@ -367,7 +367,7 @@ void start_location::burn( const tripoint &omtstart,
 {
     const tripoint player_location = omt_to_sm_copy( omtstart );
     tinymap m;
-    m.load( player_location.x, player_location.y, player_location.z, false );
+    m.load( player_location, false );
     m.build_outside_cache( m.get_abs_sub().z );
     const int ux = g->u.posx() % HALF_MAPSIZE_X;
     const int uy = g->u.posy() % HALF_MAPSIZE_Y;
@@ -399,7 +399,7 @@ void start_location::add_map_extra( const tripoint &omtstart,
 {
     const tripoint player_location = omt_to_sm_copy( omtstart );
     tinymap m;
-    m.load( player_location.x, player_location.y, player_location.z, false );
+    m.load( player_location, false );
 
     MapExtras::apply_function( map_extra, m, player_location );
 
@@ -439,7 +439,7 @@ static void add_monsters( const tripoint &omtstart, const mongroup_id &type, flo
 {
     const tripoint spawn_location = omt_to_sm_copy( omtstart );
     tinymap m;
-    m.load( spawn_location.x, spawn_location.y, spawn_location.z, false );
+    m.load( spawn_location, false );
     // map::place_spawns internally multiplies density by rng(10, 50)
     const float density = expected_points / ( ( 10 + 50 ) / 2.0 );
     m.place_spawns( type, 1, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, density );

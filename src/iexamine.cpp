@@ -1285,7 +1285,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 void iexamine::bulletin_board( player &p, const tripoint &examp )
 {
     g->validate_camps();
-    point omt = ms_to_omt_copy( g->m.getabs( examp.x, examp.y ) );
+    point omt = ms_to_omt_copy( g->m.getabs( examp.xy() ) );
     cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;

@@ -1645,7 +1645,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     tinymap tmpmap;
     // TODO: add a do-not-save-generated-submaps parameter
     // TODO: keep track of generated submaps to delete them properly and to avoid memory leaks
-    tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, target.z, calendar::turn );
+    tmpmap.generate( tripoint( omt_pos.x * 2, omt_pos.y * 2, target.z ), calendar::turn );
 
     tripoint pofs = pos2screen( { target.x - SEEX + 1, target.y - SEEY + 1, target.z } );
     catacurses::window w_preview = catacurses::newwin( SEEX * 2, SEEY * 2, pofs.y, pofs.x );
@@ -1678,7 +1678,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             lastsel = gmenu.selected;
             omt_ref = oter_id( gmenu.selected );
             cleartmpmap( tmpmap );
-            tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, target.z, calendar::turn );
+            tmpmap.generate( tripoint( omt_pos.x * 2, omt_pos.y * 2, target.z ), calendar::turn );
             showpreview = true;
         }
         if( showpreview ) {
@@ -1705,7 +1705,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             if( gpmenu.ret == 0 ) {
 
                 cleartmpmap( tmpmap );
-                tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, target.z, calendar::turn );
+                tmpmap.generate( tripoint( omt_pos.x * 2, omt_pos.y * 2, target.z ), calendar::turn );
                 showpreview = true;
             } else if( gpmenu.ret == 1 ) {
                 tmpmap.rotate( 1 );
@@ -1781,7 +1781,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 vehicle *editmap::mapgen_veh_query( const tripoint &omt_tgt )
 {
     tinymap target_bay;
-    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
+    target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
 
     std::vector<vehicle *> possible_vehicles;
     for( int x = 0; x < 2; x++ ) {
@@ -1815,7 +1815,7 @@ vehicle *editmap::mapgen_veh_query( const tripoint &omt_tgt )
 bool editmap::mapgen_veh_destroy( const tripoint &omt_tgt, vehicle *car_target )
 {
     tinymap target_bay;
-    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
+    target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
             submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
@@ -1927,13 +1927,13 @@ int editmap::edit_mapgen()
         uphelp( pgettext( "map generator", "[m]ove" ),
                 pgettext( "map generator", "[enter] change, [q]uit" ), pgettext( "map generator",
                         "Mapgen stamp" ) );
-        tc.fromabs( g->m.getabs( target.x, target.y ) );
+        tc.fromabs( g->m.getabs( target.xy() ) );
         point omt_lpos = g->m.getlocal( tc.begin_om_pos() );
         tripoint om_ltarget = tripoint( omt_lpos.x + SEEX - 1, omt_lpos.y + SEEY - 1, target.z );
 
         if( target.x != om_ltarget.x || target.y != om_ltarget.y ) {
             target = om_ltarget;
-            tc.fromabs( g->m.getabs( target.x, target.y ) );
+            tc.fromabs( g->m.getabs( target.xy() ) );
         }
         target_list.clear();
         for( int x = target.x - SEEX + 1; x < target.x + SEEX + 1; x++ ) {
