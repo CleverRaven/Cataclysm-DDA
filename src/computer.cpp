@@ -1809,15 +1809,15 @@ void computer::print_gibberish_line()
     for( int i = 0; i < length; i++ ) {
         switch( rng( 0, 4 ) ) {
             case 0:
-                gibberish += '0' + rng( 0, 9 );
+                gibberish += static_cast<char>( '0' + rng( 0, 9 ) );
                 break;
             case 1:
             case 2:
-                gibberish += 'a' + rng( 0, 25 );
+                gibberish += static_cast<char>( 'a' + rng( 0, 25 ) );
                 break;
             case 3:
             case 4:
-                gibberish += 'A' + rng( 0, 25 );
+                gibberish += static_cast<char>( 'A' + rng( 0, 25 ) );
                 break;
         }
     }
