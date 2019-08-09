@@ -64,3 +64,9 @@ point p8;
 point p8a{ p7.x, p7.y };
 // CHECK-MESSAGES: warning: Construction of 'point' can be simplified. [cata-simplify-point-constructors]
 // CHECK-FIXES: point p8a{ p7 };
+
+point p9;
+int f9( const point & );
+int i9 = f9( point( p9.x, p9.y ) );
+// CHECK-MESSAGES: warning: Construction of 'point' can be simplified. [cata-simplify-point-constructors]
+// CHECK-FIXES: int i9 = f9( p9 );
