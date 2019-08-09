@@ -849,6 +849,7 @@
     "items": [
       [ "dog_whistle", 10 ],
       [ "pet_carrier", 30 ],
+      [ "petpack", 3 ],
       { "item": "dogfood", "prob": 30, "container-item": "can_food" },
       { "item": "catfood", "prob": 30, "container-item": "can_food" },
       [ "birdfood", 10 ],
