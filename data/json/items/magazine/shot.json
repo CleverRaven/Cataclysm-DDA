@@ -70,7 +70,7 @@
     "name": "shotgun 8-round speedloader",
     "description": "A steel tube with attached handle that when inserted into an 8 round shotgun can be used to quickly load the full tube in a much shorter period of time than by hand.",
     "weight": 510,
-    "volume": 8,
+    "volume": "2 L",
     "price": 3250,
     "material": "steel",
     "symbol": "/",
