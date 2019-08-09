@@ -17,6 +17,13 @@ struct item_reference {
     safe_reference<item> item_ref;
 };
 
+struct enum_class_hash {
+    template <typename T>
+    std::size_t operator()( T t ) const {
+        return static_cast<std::size_t>( t );
+    }
+};
+
 enum class special_item_type : char {
     none,
     corpse,
@@ -27,7 +34,7 @@ class active_item_cache
 {
     private:
         std::unordered_map<int, std::list<item_reference>> active_items;
-        std::unordered_map<special_item_type, std::list<item_reference>> special_items;
+        std::unordered_map<special_item_type, std::list<item_reference>, enum_class_hash> special_items;
 
     public:
         /**
