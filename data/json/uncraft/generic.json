@@ -2,7 +2,7 @@
   {
     "result": "basket_laundry",
     "type": "uncraft",
-    "time": 3000,
+    "time": "30 s",
     "components": [ [ [ "plastic_chunk", 10 ] ] ]
   },
   {
@@ -16,7 +16,7 @@
     "result": "handflare",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": 2000,
+    "time": "20 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "incendiary", 25 ] ] ]
   },
@@ -25,7 +25,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": 15000,
+    "time": "150 s",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "sheet_metal_small", 24 ] ] ]
   },
@@ -34,7 +34,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": 1200,
+    "time": "12 s",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "scrap", 5 ] ] ]
   },
@@ -52,7 +52,7 @@
     "type": "uncraft",
     "skill_used": "tailor",
     "difficulty": 1,
-    "time": 2200,
+    "time": "22 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 60 ] ], [ [ "sheet", 4 ] ], [ [ "scrap", 20 ] ], [ [ "wire", 20 ] ] ]
   },
@@ -60,7 +60,7 @@
     "result": "character_sheet",
     "type": "uncraft",
     "skill_used": "fabrication",
-    "time": 100,
+    "time": "1 s",
     "components": [ [ [ "paper", 3 ] ] ]
   },
   {
