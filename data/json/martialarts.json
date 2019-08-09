@@ -223,6 +223,37 @@
   },
   {
     "type": "martial_art",
+    "id": "style_dragon",
+    "name": "Dragon Kung Fu",
+    "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Intelligence improves your accuracy instead of Dexterity.  Your attacks lead to counterattacks which disable your opponents and set them up for a powerful finishing move.",
+    "initiate": [ "You relax and patiently await conflict like the great dragon.", "%s assumes a dragon-like stance." ],
+    "learn_difficulty": 10,
+    "arm_block": 2,
+    "static_buffs": [
+      {
+        "id": "buff_dragon_static",
+        "name": "Dragon's Knowledge",
+        "description": "You plan your attack far in advance relying on your intution instead of your speed to strike true. Intelligence increases Accuracy instead of Dexterity.\n\nAccuracy increased by 25%% of Intelligence but decreased by 25%% of Dexterity.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "hit", "int", 0.25 ], [ "hit", "dex", -0.25 ] ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "buff_dragon_onhit",
+        "name": "Dragon's Flight",
+        "description": "Life and combat are a circle.  An attack leads to a counter and to an attack once again.  Seek to complete this loop.\n\n+1 Accuracy, +2 bash Damage.\nEnables \"Dragon Vortex Block\" and \"Dragon Wing Dodge\"\nLasts 1 turn.",
+        "unarmed_allowed": true,
+        "min_unarmed": 1,
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "hit", 1.0 ], [ "damage", "bash", 2 ] ]
+      }
+    ],
+    "techniques": [ "tec_dragon_claw", "tec_dragon_blockcounter", "tec_dragon_dodgecounter", "tec_dragon_tail", "tec_dragon_strike" ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_karate",
     "name": "Karate",
     "description": "Karate is a popular martial art, originating from Japan.  It focuses on rapid, precise attacks, blocks, and fluid movement.  A successful hit allows you an extra dodge and two extra blocks on the following round.",
@@ -798,37 +829,6 @@
       "l-stick",
       "l-stick_on"
     ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_dragon",
-    "name": "Dragon Kung Fu",
-    "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Intelligence improves your accuracy and damage dealt, as does moving.",
-    "initiate": [ "You relax and patiently await conflict like the great dragon.", "%s assumes a dragon-like stance." ],
-    "learn_difficulty": 10,
-    "arm_block": 2,
-    "leg_block": 99,
-    "static_buffs": [
-      {
-        "id": "dragon_static",
-        "name": "Dragon Style",
-        "description": "Bonus damage from intelligence.",
-        "unarmed_allowed": true,
-        "flat_bonuses": [ [ "damage", "bash", "int", 0.8 ] ]
-      }
-    ],
-    "onmove_buffs": [
-      {
-        "id": "dragon_move_buff",
-        "name": "Dragon's Flight",
-        "description": "+2 Accuracy & Damage",
-        "unarmed_allowed": true,
-        "min_unarmed": 2,
-        "buff_duration": 2,
-        "flat_bonuses": [ [ "hit", 2.0 ], [ "damage", "bash", 2 ] ]
-      }
-    ],
-    "techniques": [ "tec_dragon_grab", "tec_dragon_counterb", "tec_dragon_counterd", "tec_dragon_sweep", "tec_dragon_brutal" ]
   },
   {
     "type": "martial_art",
