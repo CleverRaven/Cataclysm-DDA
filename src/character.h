@@ -50,7 +50,7 @@ struct mutation_branch;
 class bionic_collection;
 struct points_left;
 class faction;
-class construction;
+struct construction;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
