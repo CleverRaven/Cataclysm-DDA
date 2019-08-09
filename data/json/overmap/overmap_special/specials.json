@@ -196,7 +196,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 0, 20 ],
-    "occurrences": [ 0, 4 ],
+    "occurrences": [ 0, 1 ],
     "flags": [ "BEE" ],
     "rotate": false,
     "spawns": { "group": "GROUP_BEE", "population": [ 20, 60 ], "radius": [ 2, 4 ] }
@@ -492,7 +492,7 @@
     "locations": [ "forest", "swamp" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 3 ],
+    "occurrences": [ 0, 1 ],
     "rotate": false
   },
   {
@@ -513,7 +513,7 @@
     "locations": [ "land" ],
     "city_distance": [ 8, -1 ],
     "city_sizes": [ 4, 12 ],
-    "occurrences": [ 1, 30 ]
+    "occurrences": [ 1, 1 ]
   },
   {
     "type": "overmap_special",
@@ -586,7 +586,7 @@
     "locations": [ "land" ],
     "city_distance": [ 8, -1 ],
     "city_sizes": [ 4, 12 ],
-    "occurrences": [ 0, 3 ]
+    "occurrences": [ 0, 1 ]
   },
   {
     "type": "overmap_special",
@@ -839,7 +839,7 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "slimepit_down" } ],
     "locations": [ "land", "swamp" ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 4 ],
+    "occurrences": [ 0, 1 ],
     "rotate": false,
     "spawns": { "group": "GROUP_GOO", "population": [ 100, 200 ], "radius": [ 2, 10 ] }
   },
@@ -850,7 +850,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 3 ],
+    "occurrences": [ 0, 1 ],
     "flags": [ "FUNGAL" ],
     "rotate": false,
     "spawns": { "group": "GROUP_FUNGI", "population": [ 600, 1200 ], "radius": [ 30, 50 ] }
@@ -862,7 +862,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 2 ],
+    "occurrences": [ 0, 1 ],
     "flags": [ "FUNGAL" ],
     "rotate": false,
     "spawns": { "group": "GROUP_FUNGI_TOWER", "population": [ 125, 175 ], "radius": [ 2, 2 ] }
@@ -874,7 +874,7 @@
     "locations": [ "land" ],
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 2 ],
+    "occurrences": [ 0, 1 ],
     "flags": [ "FUNGAL" ],
     "rotate": false,
     "spawns": { "group": "GROUP_FUNGI_FLOWERS", "population": [ 50, 100 ], "radius": [ 2, 4 ] }
