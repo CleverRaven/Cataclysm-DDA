@@ -91,25 +91,15 @@ using attr_t = unsigned short;
 
 extern window stdscr;
 
-window newwin( int nlines, int ncols, int begin_y, int begin_x );
 window newwin( int nlines, int ncols, const point &begin );
 void wborder( const window &win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
               chtype bl, chtype br );
-void mvwhline( const window &win, int y, int x, chtype ch, int n );
 void mvwhline( const window &win, const point &p, chtype ch, int n );
-void mvwvline( const window &win, int y, int x, chtype ch, int n );
 void mvwvline( const window &win, const point &p, chtype ch, int n );
 void wrefresh( const window &win );
 void refresh();
 void wredrawln( const window &win, int beg_line, int num_lines );
-void mvwprintw( const window &win, int y, int x, const std::string &text );
 void mvwprintw( const window &win, const point &p, const std::string &text );
-template<typename ...Args>
-inline void mvwprintw( const window &win, const int y, const int x, const char *const fmt,
-                       Args &&... args )
-{
-    return mvwprintw( win, point( x, y ), string_format( fmt, std::forward<Args>( args )... ) );
-}
 template<typename ...Args>
 inline void mvwprintw( const window &win, const point &p, const char *const fmt,
                        Args &&... args )
@@ -127,12 +117,10 @@ inline void wprintw( const window &win, const char *const fmt, Args &&... args )
 void resizeterm();
 void werase( const window &win );
 void init_pair( short pair, base_color f, base_color b );
-void wmove( const window &win, int y, int x );
 void wmove( const window &win, const point &p );
 void clear();
 void erase();
 void endwin();
-void mvwaddch( const window &win, int y, int x, const chtype ch );
 void mvwaddch( const window &win, const point &p, const chtype ch );
 void wclear( const window &win );
 void curs_set( int visibility );
