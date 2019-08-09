@@ -249,7 +249,7 @@
       [ "saiga410mag_30rd", 10 ],
       [ "shot_speedloader6", 15 ],
       [ "shot_speedloader8", 15 ]
-	]
+    ]
   },
   {
     "type": "item_group",
