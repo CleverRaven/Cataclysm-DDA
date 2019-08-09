@@ -2605,7 +2605,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
 
     uilist selection_menu;
     selection_menu.text = _( "Select an action" );
-    selection_menu.addentry( 0, true, 'e', _( "Examine" ) );
+    selection_menu.addentry( 0, true, 'g', _( "Get items" ) );
     if( !already_on_fire ) {
         selection_menu.addentry( 1, has_firestarter, 'f',
                                  has_firestarter ? _( "Start a fire" ) : _( "Start a fire... you'll need a fire source." ) );
@@ -2613,9 +2613,9 @@ void iexamine::fireplace( player &p, const tripoint &examp )
             selection_menu.addentry( 2, true, 'b', _( "Use a CBM to start a fire" ) );
         }
     } else if( !firequenchers.empty() ) {
-        selection_menu.addentry( 4, true, 's', _( "Put out fire" ) );
+        selection_menu.addentry( 4, true, 'e', _( "Extinguish fire" ) );
     } else {
-        selection_menu.addentry( 4, false, 's', _( "Put out fire (bashing item required)" ) );
+        selection_menu.addentry( 4, false, 'e', _( "Extinguish fire (bashing item required)" ) );
     }
     if( furn_is_deployed ) {
         selection_menu.addentry( 3, true, 't', string_format( _( "Take down the %s" ),
