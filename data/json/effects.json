@@ -1228,8 +1228,25 @@
     "apply_message": "You feel lightheaded.",
     "int_dur_factor": "100 m",
     "miss_messages": [ [ "You feel woozy.", 1 ] ],
-    "base_mods": { "vomit_chance": [ -43 ], "sleep_chance": [ -1003 ], "sleep_min": [ 2500 ], "sleep_max": [ 3500 ], "pkill_amount": [ 3 ], "pkill_max_val": [ 3 ], "pkill_min": [ 1 ], "pkill_tick": [ 45 ] },
-    "scaling_mods": { "per_mod": [ -0.5 ], "dex_mod": [ -0.5 ], "int_mod": [ -0.75 ], "vomit_chance": [ 21 ], "sleep_chance": [ 501 ], "pkill_max_val": [ 10 ], "pkill_tick": [ -10 ] }
+    "base_mods": {
+      "vomit_chance": [ -43 ],
+      "sleep_chance": [ -1003 ],
+      "sleep_min": [ 2500 ],
+      "sleep_max": [ 3500 ],
+      "pkill_amount": [ 3 ],
+      "pkill_max_val": [ 3 ],
+      "pkill_min": [ 1 ],
+      "pkill_tick": [ 45 ]
+    },
+    "scaling_mods": {
+      "per_mod": [ -0.5 ],
+      "dex_mod": [ -0.5 ],
+      "int_mod": [ -0.75 ],
+      "vomit_chance": [ 21 ],
+      "sleep_chance": [ 501 ],
+      "pkill_max_val": [ 10 ],
+      "pkill_tick": [ -10 ]
+    }
   },
   {
     "type": "effect_type",
