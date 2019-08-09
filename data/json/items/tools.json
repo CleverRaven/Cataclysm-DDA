@@ -4370,6 +4370,20 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
+    "id": "pet_carrier_wooden",
+    "copy-from": "pet_carrier",
+    "type": "TOOL",
+    "name": "wooden pet carrier",
+    "description": "A wooden container meant to hold pets for transport.  Use it on a suitable animal to capture, use it on an empty tile to release.",
+    "weight": 1500,
+    "volume": "6250 ml",
+    "price": 800,
+    "material": [ "wood" ],
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "pet_carrier"
+  },
+  {
     "id": "chicken_cage",
     "type": "TOOL",
     "name": "chicken cage",
