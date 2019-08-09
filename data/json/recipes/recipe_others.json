@@ -4550,21 +4550,6 @@
   },
   {
     "type": "recipe",
-    "result": "pet_carrier",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_OTHER",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "time": "2 h",
-    "reversible": true,
-    "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
-    "using": [ [ "welding_standard", 5 ], [ "cutting_wire_standard", 1 ], [ "surface_heat", 200 ] ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "components": [ [ [ "wire", 4 ] ], [ [ "plastic_chunk", 40 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "pet_carrier_wooden",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
