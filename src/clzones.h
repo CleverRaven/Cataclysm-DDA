@@ -11,6 +11,7 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include <set>
 
 #include "optional.h"
 #include "point.h"
@@ -23,6 +24,7 @@ class JsonObject;
 class item;
 class faction;
 class map;
+class construction;
 
 using faction_id = string_id<faction>;
 const faction_id your_fac( "your_followers" );
@@ -142,6 +144,10 @@ class blueprint_options : public zone_options, public mark_option
         };
 
         query_con_result query_con();
+        int get_final_construction(
+            const std::vector<construction> &list_constructions,
+            int idx,
+            std::set<int> &skip_index );
 
     public:
         std::string get_mark() const override {
