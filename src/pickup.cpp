@@ -522,8 +522,9 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             }
         }
 
-        catacurses::window w_pickup = catacurses::newwin( pickupH, pickupW, 0, pickupX );
-        catacurses::window w_item_info = catacurses::newwin( TERMY - pickupH, pickupW, pickupH, pickupX );
+        catacurses::window w_pickup = catacurses::newwin( pickupH, pickupW, point( pickupX, 0 ) );
+        catacurses::window w_item_info = catacurses::newwin( TERMY - pickupH, pickupW, point( pickupX,
+                                         pickupH ) );
 
         std::string action;
         int raw_input_char = ' ';
@@ -873,7 +874,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             if( update ) { // Update weight & volume information
                 update = false;
                 for( int i = 9; i < pickupW; ++i ) {
-                    mvwaddch( w_pickup, 0, i, ' ' );
+                    mvwaddch( w_pickup, point( i, 0 ), ' ' );
                 }
                 units::mass weight_picked_up = 0_gram;
                 units::volume volume_picked_up = 0_ml;

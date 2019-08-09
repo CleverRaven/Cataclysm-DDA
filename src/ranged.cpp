@@ -833,11 +833,11 @@ static int print_steadiness( const catacurses::window &w, int line_number, doubl
     if( get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers" ) {
         std::string steadiness_s = string_format( "%s: %d%%", _( "Steadiness" ),
                                    static_cast<int>( 100.0 * steadiness ) );
-        mvwprintw( w, line_number++, 1, steadiness_s );
+        mvwprintw( w, point( 1, line_number++ ), steadiness_s );
     } else {
         const std::string &steadiness_bar = get_labeled_bar( steadiness, window_width,
                                             _( "Steadiness" ), '*' );
-        mvwprintw( w, line_number++, 1, steadiness_bar );
+        mvwprintw( w, point( 1, line_number++ ), steadiness_bar );
     }
 
     return line_number;
@@ -1228,7 +1228,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         // Cover up more low-value ui elements if we're tight on space.
         height = 25;
     }
-    catacurses::window w_target = catacurses::newwin( height, 45, top, TERMX - 45 );
+    catacurses::window w_target = catacurses::newwin( height, 45, point( TERMX - 45, top ) );
 
     input_context ctxt( "TARGET" );
     ctxt.set_iso( true );
@@ -1742,7 +1742,7 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
 
     // Default to the maximum window size we can use.
     int height = 31;
-    catacurses::window w_target = catacurses::newwin( height, 45, 0, TERMX - 45 );
+    catacurses::window w_target = catacurses::newwin( height, 45, point( TERMX - 45, 0 ) );
 
     // TODO: this should return a reference to a static vector which is cleared on each call.
     static const std::vector<tripoint> empty_result{};

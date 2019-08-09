@@ -132,70 +132,70 @@ void catacurses::wborder( const window &win_, chtype ls, chtype rs, chtype ts, c
 
     if( ls ) {
         for( j = 1; j < win->height - 1; j++ ) {
-            mvwaddch( win_, j, 0, ls );
+            mvwaddch( win_, point( 0, j ), ls );
         }
     } else {
         for( j = 1; j < win->height - 1; j++ ) {
-            mvwaddch( win_, j, 0, LINE_XOXO );
+            mvwaddch( win_, point( 0, j ), LINE_XOXO );
         }
     }
 
     if( rs ) {
         for( j = 1; j < win->height - 1; j++ ) {
-            mvwaddch( win_, j, win->width - 1, rs );
+            mvwaddch( win_, point( win->width - 1, j ), rs );
         }
     } else {
         for( j = 1; j < win->height - 1; j++ ) {
-            mvwaddch( win_, j, win->width - 1, LINE_XOXO );
+            mvwaddch( win_, point( win->width - 1, j ), LINE_XOXO );
         }
     }
 
     if( ts ) {
         for( i = 1; i < win->width - 1; i++ ) {
-            mvwaddch( win_, 0, i, ts );
+            mvwaddch( win_, point( i, 0 ), ts );
         }
     } else {
         for( i = 1; i < win->width - 1; i++ ) {
-            mvwaddch( win_, 0, i, LINE_OXOX );
+            mvwaddch( win_, point( i, 0 ), LINE_OXOX );
         }
     }
 
     if( bs ) {
         for( i = 1; i < win->width - 1; i++ ) {
-            mvwaddch( win_, win->height - 1, i, bs );
+            mvwaddch( win_, point( i, win->height - 1 ), bs );
         }
     } else {
         for( i = 1; i < win->width - 1; i++ ) {
-            mvwaddch( win_, win->height - 1, i, LINE_OXOX );
+            mvwaddch( win_, point( i, win->height - 1 ), LINE_OXOX );
         }
     }
 
     if( tl ) {
-        mvwaddch( win_, 0, 0, tl );
+        mvwaddch( win_, point( 0, 0 ), tl );
     } else {
-        mvwaddch( win_, 0, 0, LINE_OXXO );
+        mvwaddch( win_, point( 0, 0 ), LINE_OXXO );
     }
 
     if( tr ) {
-        mvwaddch( win_, 0, win->width - 1, tr );
+        mvwaddch( win_, point( win->width - 1, 0 ), tr );
     } else {
-        mvwaddch( win_, 0, win->width - 1, LINE_OOXX );
+        mvwaddch( win_, point( win->width - 1, 0 ), LINE_OOXX );
     }
 
     if( bl ) {
-        mvwaddch( win_, win->height - 1, 0, bl );
+        mvwaddch( win_, point( 0, win->height - 1 ), bl );
     } else {
-        mvwaddch( win_, win->height - 1, 0, LINE_XXOO );
+        mvwaddch( win_, point( 0, win->height - 1 ), LINE_XXOO );
     }
 
     if( br ) {
-        mvwaddch( win_, win->height - 1, win->width - 1, br );
+        mvwaddch( win_, point( win->width - 1, win->height - 1 ), br );
     } else {
-        mvwaddch( win_, win->height - 1, win->width - 1, LINE_XOOX );
+        mvwaddch( win_, point( win->width - 1, win->height - 1 ), LINE_XOOX );
     }
 
     //methods above move the cursor, put it back
-    wmove( win_, old.y, old.x );
+    wmove( win_, old );
     wattroff( win_, c_white );
 }
 
@@ -204,11 +204,11 @@ void catacurses::mvwhline( const window &win, int y, int x, chtype ch, int n )
     wattron( win, BORDER_COLOR );
     if( ch ) {
         for( int i = 0; i < n; i++ ) {
-            mvwaddch( win, y, x + i, ch );
+            mvwaddch( win, point( x + i, y ), ch );
         }
     } else {
         for( int i = 0; i < n; i++ ) {
-            mvwaddch( win, y, x + i, LINE_OXOX );
+            mvwaddch( win, point( x + i, y ), LINE_OXOX );
         }
     }
     wattroff( win, BORDER_COLOR );
@@ -219,11 +219,11 @@ void catacurses::mvwvline( const window &win, int y, int x, chtype ch, int n )
     wattron( win, BORDER_COLOR );
     if( ch ) {
         for( int j = 0; j < n; j++ ) {
-            mvwaddch( win, y + j, x, ch );
+            mvwaddch( win, point( x, y + j ), ch );
         }
     } else {
         for( int j = 0; j < n; j++ ) {
-            mvwaddch( win, y + j, x, LINE_XOXO );
+            mvwaddch( win, point( x, y + j ), LINE_XOXO );
         }
     }
     wattroff( win, BORDER_COLOR );
@@ -428,7 +428,7 @@ void catacurses::werase( const window &win_ )
         win->line[j].touched = true;
     }
     win->draw = true;
-    wmove( win_, 0, 0 );
+    wmove( win_, point( 0, 0 ) );
     //    wrefresh(win);
     handle_additional_window_clear( win );
 }

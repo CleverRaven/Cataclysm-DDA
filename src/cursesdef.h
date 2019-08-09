@@ -108,7 +108,7 @@ template<typename ...Args>
 inline void mvwprintw( const window &win, const int y, const int x, const char *const fmt,
                        Args &&... args )
 {
-    return mvwprintw( win, y, x, string_format( fmt, std::forward<Args>( args )... ) );
+    return mvwprintw( win, point( x, y ), string_format( fmt, std::forward<Args>( args )... ) );
 }
 template<typename ...Args>
 inline void mvwprintw( const window &win, const point &p, const char *const fmt,
