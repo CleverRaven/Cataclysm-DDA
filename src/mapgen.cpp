@@ -3647,7 +3647,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                                 stair_points.push_back( point( SEEX, int( SEEY / 2 ) + SEEY ) );
                                 stair_points.push_back( point( SEEX + 2, int( SEEY / 2 ) + SEEY ) );
                                 const point p = random_entry( stair_points );
-                                ter_set( point( p.x, p.y ), t_stairs_down );
+                                ter_set( p, t_stairs_down );
                             }
 
                             break;
@@ -3916,7 +3916,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                         make_rubble( {x, y, abs_sub.z } );
                         ter_set( point( x, y ), t_thconc_floor );
                     }, center.x, center.y, 4 );
-                    furn_set( point( center.x, center.y ), f_null );
+                    furn_set( center.xy(), f_null );
                     trap_set( center, tr_portal );
                     create_anomaly( center, random_entry( valid_props ), false );
                     break;
@@ -4006,8 +4006,8 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                             }
                         }
                     }, center.x, center.y, 3 );
-                    ter_set( point( center.x, center.y ), t_fungus_floor_in );
-                    furn_set( point( center.x, center.y ), f_null );
+                    ter_set( center.xy(), t_fungus_floor_in );
+                    furn_set( center.xy(), f_null );
                     trap_set( center, tr_portal );
                     place_spawns( GROUP_FUNGI_FUNGALOID, 1, center.x - 2, center.y - 2,
                                   center.x + 2, center.y + 2, 1, true );
@@ -5113,7 +5113,7 @@ void map::draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_po
                                 default:
                                     break;
                             }
-                            ter_set( point( p.x, p.y ), t_rock_floor );
+                            ter_set( p, t_rock_floor );
                             place_spawns( GROUP_DARK_WYRM, 1, p.x, p.y, p.x, p.y, 1, true );
                         }
                     }
@@ -7859,7 +7859,7 @@ void silo_rooms( map *m )
     } while( okay );
 
     const point &first_room_position = rooms[0].first;
-    m->ter_set( point( first_room_position.x, first_room_position.y ), t_stairs_up );
+    m->ter_set( first_room_position, t_stairs_up );
     const auto &room = random_entry( rooms );
     m->ter_set( point( room.first.x + room.second.x, room.first.y + room.second.y ), t_stairs_down );
     rooms.emplace_back( point( SEEX, SEEY ), point( 5, 5 ) ); // So the center circle gets connected
@@ -8067,9 +8067,9 @@ void build_mine_room( map *m, room_type type, int x1, int y1, int x2, int y2, ma
         }
     } else {
         if( type == room_mine_storage ) { // Storage has a locked door
-            m->ter_set( point( door_point.x, door_point.y ), t_door_locked );
+            m->ter_set( door_point, t_door_locked );
         } else {
-            m->ter_set( point( door_point.x, door_point.y ), t_door_c );
+            m->ter_set( door_point, t_door_c );
         }
     }
 }

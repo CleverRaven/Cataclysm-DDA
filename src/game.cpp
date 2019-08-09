@@ -680,7 +680,7 @@ special_game_id game::gametype() const
 
 void game::load_map( const tripoint &pos_sm )
 {
-    m.load( tripoint( pos_sm.x, pos_sm.y, pos_sm.z ), true );
+    m.load( pos_sm, true );
 }
 
 // Set up all default values for a new game

@@ -1381,7 +1381,7 @@ static void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<poi
 
     std::vector<point> fumarole = line_to( x1, y1, x2, y2, 0 );
     for( auto &i : fumarole ) {
-        m.ter_set( point( i.x, i.y ), t_lava );
+        m.ter_set( i, t_lava );
 
         // Add all adjacent tiles (even on diagonals) for possible ignition
         // Since they're being added to a set, duplicates won't occur
@@ -2299,7 +2299,7 @@ static void mx_roadworks( map &m, const tripoint &abs_sub )
     }
     // equipment placer
     if( one_in( 3 ) ) {
-        m.furn_set( point( equipment.x, equipment.y ), f_crate_c );
+        m.furn_set( equipment, f_crate_c );
         m.place_items( "mine_equipment", 100, tripoint( equipment, 0 ),
                        tripoint( equipment, 0 ), true, 0, 100 );
     }

@@ -1927,13 +1927,13 @@ int editmap::edit_mapgen()
         uphelp( pgettext( "map generator", "[m]ove" ),
                 pgettext( "map generator", "[enter] change, [q]uit" ), pgettext( "map generator",
                         "Mapgen stamp" ) );
-        tc.fromabs( g->m.getabs( point( target.x, target.y ) ) );
+        tc.fromabs( g->m.getabs( target.xy() ) );
         point omt_lpos = g->m.getlocal( tc.begin_om_pos() );
         tripoint om_ltarget = tripoint( omt_lpos.x + SEEX - 1, omt_lpos.y + SEEY - 1, target.z );
 
         if( target.x != om_ltarget.x || target.y != om_ltarget.y ) {
             target = om_ltarget;
-            tc.fromabs( g->m.getabs( point( target.x, target.y ) ) );
+            tc.fromabs( g->m.getabs( target.xy() ) );
         }
         target_list.clear();
         for( int x = target.x - SEEX + 1; x < target.x + SEEX + 1; x++ ) {

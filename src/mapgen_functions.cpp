@@ -4470,8 +4470,8 @@ void mapgen_lake_shore( map *m, oter_id, mapgendata dat, const time_point &turn,
                 }
                 // Use t_null for now instead of t_water_sh, because sometimes our extended terrain
                 // has put down a t_water_sh, and we need to be able to flood-fill over that.
-                m->ter_set( point( bp.x, bp.y ), t_null );
-                m->furn_set( point( bp.x, bp.y ), f_null );
+                m->ter_set( bp, t_null );
+                m->furn_set( bp, f_null );
             }
         }
     };
@@ -4515,8 +4515,8 @@ void mapgen_lake_shore( map *m, oter_id, mapgendata dat, const time_point &turn,
         std::vector<point> water_points = ff::point_flood_fill_4_connected( starting_point, visited,
                                           should_fill );
         for( auto &wp : water_points ) {
-            m->ter_set( point( wp.x, wp.y ), t_water_dp );
-            m->furn_set( point( wp.x, wp.y ), f_null );
+            m->ter_set( wp, t_water_dp );
+            m->furn_set( wp, f_null );
         }
     };
 
@@ -4598,7 +4598,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
     const tripoint abs_sub_here = m->get_abs_sub();
 
     tinymap basement;
-    basement.load( tripoint( abs_sub_here.x, abs_sub_here.y, abs_sub_here.z - 1 ), false );
+    basement.load( tripoint( abs_sub_here.xy(), abs_sub_here.z - 1 ), false );
 
     const tripoint down( 0, 0, -1 );
     const tripoint from( 0, 0, abs_sub_here.z );

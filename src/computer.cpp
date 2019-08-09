@@ -1602,7 +1602,7 @@ void computer::activate_failure( computer_failure_type fail )
                                 i = leak_size;
                             } else {
                                 p = random_entry( next_move );
-                                g->m.ter_set( point( p.x, p.y ), t_sewage );
+                                g->m.ter_set( p, t_sewage );
                             }
                         }
                     }
