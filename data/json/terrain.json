@@ -3093,157 +3093,6 @@
   },
   {
     "type": "terrain",
-    "id": "t_marloss",
-    "name": "marloss bush",
-    "description": "This alien plant superficially resembles a blueberry bush, and hangs with large, juicy pink pomes that emit a heady, fruity aroma.",
-    "symbol": "#",
-    "color": "pink",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FUNGUS", "SHRUB", "SHORT" ],
-    "examine_action": "shrub_marloss",
-    "bash": { "str_min": 4, "str_max": 60, "sound": "crunch.", "sound_fail": "poof!", "ter_set": "t_fungus" }
-  },
-  {
-    "type": "terrain",
-    "id": "t_fungus",
-    "name": "fungal bed",
-    "description": "Fungus grows thick here, obscuring the ground beneath it.",
-    "symbol": ".",
-    "color": "light_gray",
-    "move_cost": 3,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FUNGUS", "NOCOLLIDE" ],
-    "bash": {
-      "sound": "smash",
-      "//": "muffled because fungus",
-      "ter_set": "t_null",
-      "str_min": 20,
-      "str_max": 400,
-      "str_min_supported": 50
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_fungus_floor_in",
-    "name": "fungal floor",
-    "description": "Grayish mold coats both the floor and the roof here, silent and still.  Stray spores waft through the air.",
-    "//": "roofed",
-    "symbol": ".",
-    "color": "light_gray",
-    "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "FUNGUS" ],
-    "bash": { "sound": "smash", "ter_set": "t_null", "str_min": 20, "str_max": 400, "str_min_supported": 50 }
-  },
-  {
-    "type": "terrain",
-    "id": "t_fungus_floor_sup",
-    "name": "fungal floor",
-    "description": "Grayish mold coats the floor here, silent and still.",
-    "//": "supports",
-    "symbol": ".",
-    "color": "light_gray",
-    "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "FLAT", "FUNGUS" ],
-    "bash": { "sound": "smash", "ter_set": "t_null", "str_min": 20, "str_max": 400, "str_min_supported": 50 }
-  },
-  {
-    "type": "terrain",
-    "id": "t_fungus_floor_out",
-    "name": "fungal floor",
-    "description": "Grayish mold coats the ground here, silent and still.",
-    "//": "outside",
-    "symbol": ".",
-    "color": "light_gray",
-    "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "FUNGUS" ],
-    "bash": { "sound": "SMASH!", "ter_set": "t_null", "str_min": 20, "str_max": 400, "str_min_supported": 50 }
-  },
-  {
-    "type": "terrain",
-    "id": "t_fungus_wall",
-    "aliases": [ "t_fungus_wall_h", "t_fungus_wall_v" ],
-    "name": "fungal wall",
-    "description": "Several thick, large tendrils of fungus perforate the wall here, piercing straight through it from the outside.  Despite the apparent damage, the wall is still structurally sound.",
-    "symbol": "O",
-    "color": "dark_gray",
-    "move_cost": 0,
-    "coverage": 100,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS", "WALL", "MINEABLE" ],
-    "bash": { "str_min": 30, "str_max": 180, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_fungus" }
-  },
-  {
-    "type": "terrain",
-    "id": "t_fungus_wall_transformed",
-    "name": "fungal wall",
-    "description": "The fungus here has grown thickly and tightly enough to form a solid wall.  It feels very stiff to the touch, and seems to be very strong.",
-    "symbol": "LINE_OXOX",
-    "color": "dark_gray",
-    "move_cost": 0,
-    "coverage": 100,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE" ],
-    "bash": { "str_min": 30, "str_max": 180, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_fungus" }
-  },
-  {
-    "type": "terrain",
-    "id": "t_fungus_mound",
-    "name": "fungal mound",
-    "description": "A mound of fungal matter, intertwined in itself.",
-    "symbol": "#",
-    "color": "light_gray",
-    "move_cost": 4,
-    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE" ],
-    "bash": { "str_min": 10, "str_max": 70, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_fungus" }
-  },
-  {
-    "type": "terrain",
-    "id": "t_shrub_fungal",
-    "name": "fungal shrub",
-    "description": "This shrub has been completely absorbed by the mushrooms.  Its branches droop and have lost much of their structure, and its leaves have vanished, replaced by fleshy gray sacks that visibly expand and contract.",
-    "symbol": "#",
-    "color": "dark_gray",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "FUNGUS", "SHORT" ],
-    "bash": { "str_min": 4, "str_max": 60, "sound": "crunch.", "sound_fail": "poof!", "ter_set": "t_fungus" }
-  },
-  {
-    "type": "terrain",
-    "id": "t_tree_fungal",
-    "name": "fungal tree",
-    "description": "Once tall and majestic, this tree is now a slave to the fungus like the landscape around it.  Its bark is penetrated by and covered with fungal tendrils, and the canopy has rotted away, leaving only the branches, stretching forlornly to the sky as if to escape the infection overrunning it.",
-    "symbol": "7",
-    "color": "dark_gray",
-    "move_cost": 0,
-    "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "FUNGUS", "TREE", "REDUCE_SCENT" ],
-    "bash": { "str_min": 40, "str_max": 180, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_fungus" }
-  },
-  {
-    "type": "terrain",
-    "id": "t_tree_fungal_young",
-    "name": "young fungal tree",
-    "description": "A small sapling poking through the ground, infested by fungal mold.",
-    "symbol": "1",
-    "color": "dark_gray",
-    "move_cost": 4,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "FUNGUS", "YOUNG", "REDUCE_SCENT" ],
-    "bash": { "str_min": 4, "str_max": 50, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_fungus" }
-  },
-  {
-    "type": "terrain",
-    "id": "t_marloss_tree",
-    "name": "marloss tree",
-    "description": "This tree stands as a stark outlier to the landscape around it.  Despite its infestation, its leaves wave proudly in the wind, colored pinkish-white.  Its branches are heavy with pink fruit that looks both mutated and delicious.",
-    "symbol": "7",
-    "color": "pink",
-    "move_cost": 0,
-    "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "FUNGUS", "TREE", "REDUCE_SCENT" ],
-    "examine_action": "tree_marloss",
-    "bash": { "str_min": 40, "str_max": 180, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_fungus" }
-  },
-  {
-    "type": "terrain",
     "id": "t_water_sh",
     "name": "shallow water",
     "description": "The water isn't too deep here.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
@@ -6003,440 +5852,23 @@
     "flags": [ "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM", "WALL", "MINEABLE" ]
   },
   {
-    "id": "t_railroad_rubble",
+    "id": "t_floor_waxed_y",
     "type": "terrain",
-    "name": "gravel",
-    "description": "A small mallet that a judge uses to call - er, wait.  Oh, gravel!  Gravel is a collection of small stones often used for roads, as railroad ballast, and in many other applications.",
-    "symbol": "^",
-    "color": [ "brown" ],
+    "name": "painted waxed floor",
+    "description": "This section of wax flooring has been painted.",
+    "symbol": ".",
+    "color": [ "yellow" ],
     "move_cost": 2,
+    "roof": "t_flat_roof",
     "bash": {
-      "str_min": 4,
-      "str_max": 40,
-      "ter_set": "t_rock_floor",
-      "sound": "crunch!",
-      "sound_fail": "whump!",
-      "items": [ { "item": "pebble", "count": [ 1, 3 ] }, { "item": "sharp_rock", "count": [ 0, 1 ] } ]
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "ter_set": "t_null",
+      "sound": "SMASH!",
+      "items": [ { "item": "wax", "count": [ 1, 3 ] } ]
     },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "pebble", "count": [ 2, 6 ] }, { "item": "sharp_rock", "count": [ 1, 3 ] } ]
-    },
-    "flags": [ "BASHABLE", "TRANSPARENT" ]
-  },
-  {
-    "id": "t_railroad_track",
-    "type": "terrain",
-    "name": "railroad track",
-    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
-    "symbol": "X",
-    "color": [ "cyan" ],
-    "move_cost": 3,
-    "bash": {
-      "str_min": 60,
-      "str_max": 210,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 12 ] }
-      ]
-    },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 12 ] }
-      ]
-    },
-    "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
-  },
-  {
-    "id": "t_railroad_track_h",
-    "type": "terrain",
-    "name": "railroad track",
-    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
-    "symbol": "X",
-    "color": [ "cyan" ],
-    "move_cost": 3,
-    "bash": {
-      "str_min": 60,
-      "str_max": 210,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 12 ] }
-      ]
-    },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 12 ] }
-      ]
-    },
-    "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
-  },
-  {
-    "id": "t_railroad_track_v",
-    "type": "terrain",
-    "name": "railroad track",
-    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
-    "symbol": "X",
-    "color": [ "cyan" ],
-    "move_cost": 3,
-    "bash": {
-      "str_min": 60,
-      "str_max": 210,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 12 ] }
-      ]
-    },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 12 ] }
-      ]
-    },
-    "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
-  },
-  {
-    "id": "t_railroad_track_d",
-    "type": "terrain",
-    "name": "railroad track",
-    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
-    "symbol": "X",
-    "color": [ "cyan" ],
-    "move_cost": 3,
-    "bash": {
-      "str_min": 60,
-      "str_max": 210,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 12 ] }
-      ]
-    },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 12 ] }
-      ]
-    },
-    "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
-  },
-  {
-    "id": "t_railroad_track_d1",
-    "type": "terrain",
-    "name": "railroad track",
-    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
-    "symbol": "X",
-    "color": [ "cyan" ],
-    "move_cost": 3,
-    "bash": {
-      "str_min": 60,
-      "str_max": 210,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 12 ] }
-      ]
-    },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 12 ] }
-      ]
-    },
-    "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
-  },
-  {
-    "id": "t_railroad_track_d2",
-    "type": "terrain",
-    "name": "railroad track",
-    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
-    "symbol": "X",
-    "color": [ "cyan" ],
-    "move_cost": 3,
-    "bash": {
-      "str_min": 60,
-      "str_max": 210,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 12 ] }
-      ]
-    },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 12 ] }
-      ]
-    },
-    "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
-  },
-  {
-    "id": "t_railroad_tie",
-    "type": "terrain",
-    "name": "railroad tie",
-    "description": "This crosstie is used to support the rails.",
-    "symbol": "#",
-    "color": [ "dark_gray_yellow" ],
-    "move_cost": 2,
-    "bash": {
-      "str_min": 10,
-      "str_max": 120,
-      "sound": "crunch!",
-      "sound_fail": "whump.",
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "TRANSPARENT" ]
-  },
-  {
-    "id": "t_railroad_tie_h",
-    "type": "terrain",
-    "name": "railroad tie",
-    "description": "This crosstie is used to support the rails.",
-    "symbol": "#",
-    "color": [ "dark_gray_yellow" ],
-    "move_cost": 2,
-    "bash": {
-      "str_min": 10,
-      "str_max": 120,
-      "sound": "crunch!",
-      "sound_fail": "whump.",
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "TRANSPARENT" ]
-  },
-  {
-    "id": "t_railroad_tie_v",
-    "type": "terrain",
-    "name": "railroad tie",
-    "description": "This crosstie is used to support the rails.",
-    "symbol": "#",
-    "color": [ "dark_gray_yellow" ],
-    "move_cost": 2,
-    "bash": {
-      "str_min": 10,
-      "str_max": 120,
-      "sound": "crunch!",
-      "sound_fail": "whump.",
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "TRANSPARENT" ]
-  },
-  {
-    "id": "t_railroad_tie_d",
-    "type": "terrain",
-    "name": "railroad tie",
-    "description": "This crosstie is used to support the rails.",
-    "symbol": "#",
-    "color": [ "dark_gray_yellow" ],
-    "move_cost": 2,
-    "bash": {
-      "str_min": 10,
-      "str_max": 120,
-      "sound": "crunch!",
-      "sound_fail": "whump.",
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "TRANSPARENT" ]
-  },
-  {
-    "id": "t_railroad_track_on_tie",
-    "type": "terrain",
-    "name": "railroad track",
-    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.",
-    "symbol": "X",
-    "color": [ "cyan" ],
-    "move_cost": 3,
-    "bash": {
-      "str_min": 60,
-      "str_max": 210,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 12 ] },
-        { "item": "splinter", "count": [ 10, 20 ] }
-      ]
-    },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 12 ] },
-        { "item": "log", "count": [ 0, 1 ] },
-        { "item": "splinter", "count": [ 10, 20 ] }
-      ]
-    },
-    "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
-  },
-  {
-    "id": "t_railroad_track_h_on_tie",
-    "type": "terrain",
-    "name": "railroad track",
-    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.",
-    "symbol": "X",
-    "color": [ "cyan" ],
-    "move_cost": 3,
-    "bash": {
-      "str_min": 60,
-      "str_max": 210,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 12 ] },
-        { "item": "splinter", "count": [ 10, 20 ] }
-      ]
-    },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 12 ] },
-        { "item": "log", "count": [ 0, 1 ] },
-        { "item": "splinter", "count": [ 10, 20 ] }
-      ]
-    },
-    "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
-  },
-  {
-    "id": "t_railroad_track_v_on_tie",
-    "type": "terrain",
-    "name": "railroad track",
-    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.",
-    "symbol": "X",
-    "color": [ "cyan" ],
-    "move_cost": 3,
-    "bash": {
-      "str_min": 60,
-      "str_max": 210,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 12 ] },
-        { "item": "splinter", "count": [ 10, 20 ] }
-      ]
-    },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 12 ] },
-        { "item": "log", "count": [ 0, 1 ] },
-        { "item": "splinter", "count": [ 10, 20 ] }
-      ]
-    },
-    "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
-  },
-  {
-    "id": "t_railroad_track_d_on_tie",
-    "type": "terrain",
-    "name": "railroad track",
-    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.",
-    "symbol": "X",
-    "color": [ "cyan" ],
-    "move_cost": 3,
-    "bash": {
-      "str_min": 60,
-      "str_max": 210,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 12 ] },
-        { "item": "splinter", "count": [ 10, 20 ] }
-      ]
-    },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 12 ] },
-        { "item": "log", "count": [ 0, 1 ] },
-        { "item": "splinter", "count": [ 10, 20 ] }
-      ]
-    },
-    "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ]
   },
   {
     "id": "t_backboard_in",
@@ -6476,132 +5908,137 @@
     "flags": [ "TRANSPARENT", "NO_FLOOR", "INDOORS" ]
   },
   {
-    "id": "t_buffer_stop",
     "type": "terrain",
-    "name": "buffer stop",
-    "description": "A tiny blockade on the train tracks, meant to signify the end of a track, or mark a 'no-go' zone for trains.",
-    "symbol": "S",
-    "color": [ "brown" ],
-    "move_cost": 3,
-    "bash": {
-      "str_min": 4,
-      "str_max": 12,
-      "ter_set": "t_dirt",
-      "sound": "crack.",
-      "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 2, 5 ] }, { "item": "nail", "charges": [ 3, 8 ] }, { "item": "splinter", "count": 2 } ]
-    },
-    "flags": [ "BASHABLE", "TRANSPARENT", "NOITEM", "MOUNTABLE" ]
-  },
-  {
-    "id": "t_railroad_tie_d1",
-    "type": "terrain",
-    "name": "railroad tie",
-    "description": "This crosstie is used to support the rails.",
-    "symbol": "/",
-    "color": [ "dark_gray_yellow" ],
-    "move_cost": 2,
-    "bash": {
-      "str_min": 10,
-      "str_max": 120,
-      "sound": "crunch!",
-      "sound_fail": "whump.",
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "TRANSPARENT" ]
-  },
-  {
-    "id": "t_railroad_tie_d2",
-    "type": "terrain",
-    "name": "railroad tie",
-    "description": "This crosstie is used to support the rails.",
-    "symbol": "\\",
-    "color": [ "dark_gray_yellow" ],
-    "move_cost": 2,
-    "bash": {
-      "str_min": 10,
-      "str_max": 120,
-      "sound": "crunch!",
-      "sound_fail": "whump.",
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "connects_to": "RAIL",
-    "flags": [ "BASHABLE", "TRANSPARENT" ]
-  },
-  {
-    "id": "t_railroad_crossing_signal",
-    "type": "terrain",
-    "name": "railroad crossing signal",
-    "description": "Traffic lights meant to light and make noise when a train approaches, to prevent people from turning into meaty mush while they cross the tracks.  Won't stop people from turning into meaty mush by other means, though.",
-    "symbol": "1",
-    "color": [ "light_gray" ],
+    "id": "t_rootcellar",
+    "name": "root cellar",
+    "symbol": "=",
+    "description": "A cellar dug into the earth for storing food in a cool environment.",
+    "color": [ "green" ],
     "move_cost": 0,
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "INDOORS", "DECONSTRUCT" ],
+    "deconstruct": { "ter_set": "t_pit", "items": [ { "item": "rock", "count": 40 }, { "item": "stick", "count": [ 16, 16 ] } ] },
     "bash": {
-      "str_min": 16,
-      "str_max": 75,
-      "ter_set": "t_dirt",
-      "sound": "crash!",
-      "sound_fail": "clang.",
-      "items": [
-        { "item": "pipe", "count": [ 2, 4 ] },
-        { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "steel_chunk", "count": [ 0, 1 ] },
-        { "item": "e_scrap", "count": [ 0, 1 ] },
-        { "item": "power_supply", "count": [ 0, 1 ] }
-      ]
-    },
-    "flags": [ "TRANSPARENT", "NOITEM" ]
-  },
-  {
-    "id": "t_crossbuck_wood",
-    "type": "terrain",
-    "description": "A traffic sign intended to indicate a level railway crossing.  If the trains were still running.",
-    "name": "crossbuck",
-    "symbol": "X",
-    "color": [ "brown" ],
-    "move_cost": 0,
-    "bash": {
-      "str_min": 6,
-      "str_max": 18,
-      "ter_set": "t_dirt",
-      "sound": "crack.",
-      "sound_fail": "whump.",
-      "items": [
-        { "item": "2x4", "count": [ 1, 3 ] },
-        { "item": "nail", "charges": [ 0, 4 ] },
-        { "item": "splinter", "count": [ 1, 2 ] }
-      ]
-    },
-    "flags": [ "TRANSPARENT", "NOITEM" ]
-  },
-  {
-    "id": "t_crossbuck_metal",
-    "type": "terrain",
-    "name": "crossbuck",
-    "description": "A traffic sign intended to indicate a level railway crossing.  If the trains were still running.",
-    "symbol": "X",
-    "color": [ "light_gray" ],
-    "move_cost": 0,
-    "bash": {
-      "str_min": 10,
+      "str_min": 18,
       "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 8, 12 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_junk_floor",
+    "name": "junk metal floor",
+    "looks_like": "t_scrap_floor",
+    "description": "A simple roof and floor of rusty scrap metal bolted and wire-tied to a makeshift frame.  Very fashionable in post-apocalyptic shantytowns.  Hope you like the sound of rain on corrugated metal.",
+    "symbol": "LINE_OXOX",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
       "ter_set": "t_dirt",
-      "sound": "crash!",
-      "sound_fail": "clang.",
-      "items": [ { "item": "pipe", "count": [ 2, 3 ] }, { "item": "scrap", "count": [ 0, 2 ] } ]
+      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 40 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rad_platform",
+    "looks_like": "t_blue_floor",
+    "name": "radiation platform",
+    "description": "A dual purpose platform that serves as a containment, and as a device that exposes items places on in to the radioactive source, by temporarily hoisting the radioactive material stored within. Operated from external console.",
+    "symbol": "0",
+    "color": "light_blue",
+    "move_cost": 100,
+    "flags": [ "TRANSPARENT", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 400,
+      "ter_set": "t_pit",
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 16 ] },
+        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "cobalt_60", "charges": [ 1, 5 ] },
+        { "item": "lead", "charges": [ 12, 18 ] }
+      ]
     },
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "deconstruct": {
+      "ter_set": "t_pit",
+      "items": [
+        { "item": "cable", "charges": [ 8, 16 ] },
+        { "item": "cobalt_60", "charges": [ 2, 10 ] },
+        { "item": "scrap", "count": [ 8, 16 ] },
+        { "item": "sheet_metal", "count": [ 5, 10 ] },
+        { "item": "lead", "count": [ 12, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_grave",
+    "name": "grave",
+    "looks_like": "t_dirtmound",
+    "description": "A dirt grave, with some grass growing on it.  At least some of the dead do actually rest in peace.",
+    "symbol": "#",
+    "color": "green",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE" ],
+    "bash": { "sound": "thump", "ter_set": "t_dirt", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
+  },
+  {
+    "type": "terrain",
+    "id": "t_grave_new",
+    "name": "grave",
+    "looks_like": "t_dirtmound",
+    "description": "A fresh grave, covered with stones, either to keep something from digging it out or to keep one inside from digging out of it.  Two planks mark this place of someone's eternal rest.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE", "CONTAINER", "SEALED" ],
+    "bash": { "sound": "thump", "ter_set": "t_dirt", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
+  },
+  {
+    "id": "t_backboard_in",
+    "type": "terrain",
+    "name": "backboard",
+    "description": "A metal backboard.",
+    "symbol": "7",
+    "color": [ "red" ],
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "bash": {
+      "str_min": 8,
+      "str_max": 45,
+      "ter_set": "t_floor_waxed",
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "pipe", "count": [ 1, 2 ] }
+      ]
+    },
+    "deconstruct": { "ter_set": "t_floor_waxed", "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
+    "flags": [ "TRANSPARENT", "WALL", "PERMEABLE", "INDOORS" ]
+  },
+  {
+    "id": "t_open_air_rooved",
+    "type": "terrain",
+    "name": "open air",
+    "description": "This is open air.",
+    "symbol": " ",
+    "color": [ "i_cyan" ],
+    "move_cost": 2,
+    "trap": "tr_ledge",
+    "roof": "t_flat_roof",
+    "examine_action": "ledge",
+    "flags": [ "TRANSPARENT", "NO_FLOOR", "INDOORS" ]
   },
   {
     "type": "terrain",
@@ -6868,162 +6305,5 @@
       "items": [ { "item": "pointy_stick", "count": 4 }, { "item": "string_6", "count": 4 }, { "item": "tarp", "count": 1 } ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE", "EASY_DECONSTRUCT" ]
-  },
-  {
-    "type": "terrain",
-    "id": "t_wall_resin",
-    "name": "resin wall",
-    "description": "This wall is made of a glistening, nearly opaque, plastic-like substance.  Deep within the material making it up, you can barely see a network of pulsating green conduits, snaking like blood vessels through it.  The material is hard, warm to the touch, and slightly damp.",
-    "symbol": "LINE_OXOX",
-    "color": "dark_gray",
-    "move_cost": 0,
-    "coverage": 100,
-    "roof": "t_resin_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
-    "bash": {
-      "str_min": 250,
-      "str_max": 700,
-      "sound": "boom!",
-      "sound_fail": "whack!",
-      "ter_set": "t_resin_hole",
-      "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_wall_resin_cage",
-    "name": "resin cage",
-    "description": "This resin wall opens into a series of small honeycomb-like hexagons, allowing the passage of air and light.  While still made of the same sturdy material, it is thinner and more delicate in appearance.",
-    "symbol": "#",
-    "color": "dark_gray",
-    "move_cost": 0,
-    "coverage": 100,
-    "roof": "t_resin_roof",
-    "flags": [ "NOITEM", "WALL", "TRANSPARENT", "INDOORS", "NONFLAMMABLE", "MINEABLE" ],
-    "bash": {
-      "str_min": 70,
-      "str_max": 300,
-      "sound": "boom!",
-      "sound_fail": "whack!",
-      "ter_set": "t_floor_resin",
-      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_floor_resin",
-    "name": "resin floor",
-    "description": "This nearly opaque, plastic-like floor has a gentle curve from wall to wall, but in the central areas is quite flat.  The material is hard, warm to the touch, and slightly damp.",
-    "symbol": "~",
-    "color": "dark_gray",
-    "move_cost": 1,
-    "roof": "t_resin_roof",
-    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "NONFLAMMABLE" ],
-    "bash": {
-      "str_min": 250,
-      "str_max": 700,
-      "sound": "boom!",
-      "sound_fail": "whack!",
-      "ter_set": "t_null",
-      "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_platform_resin",
-    "name": "resin floor",
-    "description": "This nearly opaque, plastic-like floor is smooth and flat.  The material is hard, warm to the touch, and slightly damp.",
-    "symbol": "~",
-    "color": "light_gray",
-    "move_cost": 1,
-    "flags": [ "TRANSPARENT", "COLLAPSES", "FLAT", "ROAD", "NONFLAMMABLE" ],
-    "bash": {
-      "str_min": 250,
-      "str_max": 700,
-      "sound": "boom!",
-      "sound_fail": "whack!",
-      "ter_set": "t_null",
-      "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_resin_roof",
-    "name": "resin roof",
-    "description": "A wide, domed section of nearly opaque, plastic-like material.  When the light hits it, a network of multicolored conduits like blood vessels can be seen snaking through its glistening interior.",
-    "symbol": "~",
-    "color": "dark_gray",
-    "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "NONFLAMMABLE" ],
-    "bash": {
-      "str_min": 250,
-      "str_max": 700,
-      "sound": "boom!",
-      "sound_fail": "whack!",
-      "ter_set": "t_open_air",
-      "bash_below": true
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_resin_hole_c",
-    "name": "closed resin portal",
-    "description": "A tricuspid hatch of some sort of damp, flexible, resinous material. This one is closed tightly, but it looks like a firm push would cause it to snap open.",
-    "symbol": "Y",
-    "color": "light_gray",
-    "move_cost": 0,
-    "coverage": 95,
-    "roof": "t_resin_roof",
-    "flags": [ "DOOR", "NOITEM", "CONNECT_TO_WALL", "BLOCK_WIND", "NONFLAMMABLE" ],
-    "open": "t_resin_hole_o",
-    "deconstruct": { "ter_set": "t_resin_hole", "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ] },
-    "bash": {
-      "str_min": 90,
-      "str_max": 120,
-      "sound": "boom!",
-      "sound_fail": "whack!",
-      "ter_set": "t_resin_hole",
-      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_resin_hole_o",
-    "name": "open resin portal",
-    "description": "A tricuspid hatch of some sort of damp, flexible, resinous material. This one is open, the flaps held out by some sort of stringy mucus-like substance.",
-    "symbol": "D",
-    "color": "light_gray",
-    "move_cost": 2,
-    "roof": "t_resin_roof",
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "NONFLAMMABLE" ],
-    "deconstruct": { "ter_set": "t_resin_hole", "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ] },
-    "close": "t_resin_hole_c",
-    "bash": {
-      "str_min": 90,
-      "str_max": 120,
-      "sound": "boom!",
-      "sound_fail": "whack!",
-      "ter_set": "t_resin_hole",
-      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_resin_hole",
-    "name": "resin-lined hole",
-    "description": "An open hole in the resin wall, large enough to pass through.",
-    "symbol": "O",
-    "color": "light_gray",
-    "move_cost": 4,
-    "roof": "t_resin_roof",
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "NONFLAMMABLE" ],
-    "bash": {
-      "str_min": 100,
-      "str_max": 500,
-      "sound": "boom!",
-      "sound_fail": "whack!",
-      "ter_set": "t_floor_resin",
-      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
-    }
   }
 ]

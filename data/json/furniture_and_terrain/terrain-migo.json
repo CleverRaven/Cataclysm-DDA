@@ -1,0 +1,159 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_wall_resin",
+    "name": "resin wall",
+    "description": "This wall is made of a glistening, nearly opaque, plastic-like substance.  Deep within the material making it up, you can barely see a network of pulsating green conduits, snaking like blood vessels through it.  The material is hard, warm to the touch, and slightly damp.",
+    "symbol": "LINE_OXOX",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_resin_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 250,
+      "str_max": 700,
+      "sound": "boom!",
+      "sound_fail": "whack!",
+      "ter_set": "t_resin_hole",
+      "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_resin_cage",
+    "name": "resin cage",
+    "description": "This resin wall opens into a series of small honeycomb-like hexagons, allowing the passage of air and light.  While still made of the same sturdy material, it is thinner and more delicate in appearance.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_resin_roof",
+    "flags": [ "NOITEM", "WALL", "TRANSPARENT", "INDOORS", "NONFLAMMABLE", "MINEABLE" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 300,
+      "sound": "boom!",
+      "sound_fail": "whack!",
+      "ter_set": "t_floor_resin",
+      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_floor_resin",
+    "name": "resin floor",
+    "description": "This nearly opaque, plastic-like floor has a gentle curve from wall to wall, but in the central areas is quite flat.  The material is hard, warm to the touch, and slightly damp.",
+    "symbol": "~",
+    "color": "dark_gray",
+    "move_cost": 1,
+    "roof": "t_resin_roof",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "NONFLAMMABLE" ],
+    "bash": {
+      "str_min": 250,
+      "str_max": 700,
+      "sound": "boom!",
+      "sound_fail": "whack!",
+      "ter_set": "t_null",
+      "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_platform_resin",
+    "name": "resin floor",
+    "description": "This nearly opaque, plastic-like floor is smooth and flat.  The material is hard, warm to the touch, and slightly damp.",
+    "symbol": "~",
+    "color": "light_gray",
+    "move_cost": 1,
+    "flags": [ "TRANSPARENT", "COLLAPSES", "FLAT", "ROAD", "NONFLAMMABLE" ],
+    "bash": {
+      "str_min": 250,
+      "str_max": 700,
+      "sound": "boom!",
+      "sound_fail": "whack!",
+      "ter_set": "t_null",
+      "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_resin_roof",
+    "name": "resin roof",
+    "description": "A wide, domed section of nearly opaque, plastic-like material.  When the light hits it, a network of multicolored conduits like blood vessels can be seen snaking through its glistening interior.",
+    "symbol": "~",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "NONFLAMMABLE" ],
+    "bash": {
+      "str_min": 250,
+      "str_max": 700,
+      "sound": "boom!",
+      "sound_fail": "whack!",
+      "ter_set": "t_open_air",
+      "bash_below": true
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_resin_hole_c",
+    "name": "closed resin portal",
+    "description": "A tricuspid hatch of some sort of damp, flexible, resinous material. This one is closed tightly, but it looks like a firm push would cause it to snap open.",
+    "symbol": "Y",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_resin_roof",
+    "flags": [ "DOOR", "NOITEM", "CONNECT_TO_WALL", "BLOCK_WIND", "NONFLAMMABLE" ],
+    "open": "t_resin_hole_o",
+    "deconstruct": { "ter_set": "t_resin_hole", "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ] },
+    "bash": {
+      "str_min": 90,
+      "str_max": 120,
+      "sound": "boom!",
+      "sound_fail": "whack!",
+      "ter_set": "t_resin_hole",
+      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_resin_hole_o",
+    "name": "open resin portal",
+    "description": "A tricuspid hatch of some sort of damp, flexible, resinous material. This one is open, the flaps held out by some sort of stringy mucus-like substance.",
+    "symbol": "D",
+    "color": "light_gray",
+    "move_cost": 2,
+    "roof": "t_resin_roof",
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "NONFLAMMABLE" ],
+    "deconstruct": { "ter_set": "t_resin_hole", "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ] },
+    "close": "t_resin_hole_c",
+    "bash": {
+      "str_min": 90,
+      "str_max": 120,
+      "sound": "boom!",
+      "sound_fail": "whack!",
+      "ter_set": "t_resin_hole",
+      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_resin_hole",
+    "name": "resin-lined hole",
+    "description": "An open hole in the resin wall, large enough to pass through.",
+    "symbol": "O",
+    "color": "light_gray",
+    "move_cost": 4,
+    "roof": "t_resin_roof",
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "NONFLAMMABLE" ],
+    "bash": {
+      "str_min": 100,
+      "str_max": 500,
+      "sound": "boom!",
+      "sound_fail": "whack!",
+      "ter_set": "t_floor_resin",
+      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
+    }
+  }
+]
