@@ -581,7 +581,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     }
 
     if( has_trait( trait_id( "XS" ) ) ) {
-        set_stored_kcal( 25000 );
+        set_stored_kcal( 10000 );
         toggle_trait( trait_id( "XS" ) );
     }
     if( has_trait( trait_id( "XXXL" ) ) ) {
