@@ -21,7 +21,7 @@ void UsePointApisCheck::registerMatchers( MatchFinder *Finder )
             forEachArgumentWithParam(
                 expr().bind( "xarg" ),
                 parmVarDecl(
-                    hasType( asString( "int" ) ),
+                    anyOf( hasType( asString( "int" ) ), hasType( asString( "const int" ) ) ),
                     matchesName( "x$" )
                 ).bind( "xparam" )
             ),

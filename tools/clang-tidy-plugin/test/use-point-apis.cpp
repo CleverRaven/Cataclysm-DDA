@@ -131,7 +131,6 @@ int g10()
     // CHECK-FIXES: return f10( "foo", point( 0, 1 ) );
 }
 
-// Check function templates
 template<typename... Args>
 int f11( int, int x, int y, Args &&... );
 template<typename... Args>
@@ -142,4 +141,15 @@ int g11()
     return f11( 7, 0, 1, "foo", 3.5f );
     // CHECK-MESSAGES: warning: Call to 'f11<char const (&)[4], float>' could instead call overload using a point parameter. [cata-use-point-apis]
     // CHECK-FIXES: return f11( 7, point( 0, 1 ), "foo", 3.5f );
+}
+
+// Check const-qualified int args
+int f12( const int x, const int y );
+int f12( const point &p );
+
+int g12()
+{
+    return f12( 0, 1 );
+    // CHECK-MESSAGES: warning: Call to 'f12' could instead call overload using a point parameter. [cata-use-point-apis]
+    // CHECK-FIXES: return f12( point( 0, 1 ) );
 }
