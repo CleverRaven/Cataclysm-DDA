@@ -304,6 +304,15 @@ static constexpr std::array<point, 4> four_adjacent_offsets{{
         point_north, point_east, point_south, point_west
     }};
 
+static constexpr tripoint tripoint_north{ point_north, 0 };
+static constexpr tripoint tripoint_north_east{ point_north_east, 0 };
+static constexpr tripoint tripoint_east{ point_east, 0 };
+static constexpr tripoint tripoint_south_east{ point_south_east, 0 };
+static constexpr tripoint tripoint_south{ point_south, 0 };
+static constexpr tripoint tripoint_south_west{ point_south_west, 0 };
+static constexpr tripoint tripoint_west{ point_west, 0 };
+static constexpr tripoint tripoint_north_west{ point_north_west, 0 };
+
 static constexpr tripoint tripoint_above{ 0, 0, 1 };
 static constexpr tripoint tripoint_below{ 0, 0, -1 };
 
