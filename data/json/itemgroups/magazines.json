@@ -244,7 +244,7 @@
     "//": "Aftermarket or otherwise uncommon shotgun magazines excluding milspec.",
     "items": [
       [ "saiga10mag", 50 ],
-      [ "saiga30mag", 10 ], 
+      [ "saiga30mag", 10 ],
       [ "saiga410mag_10rd", 30 ],
       [ "saiga410mag_30rd", 10 ],
       [ "shot_speedloader6", 15 ],
