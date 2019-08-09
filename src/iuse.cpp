@@ -413,9 +413,6 @@ static int alcohol( player &p, const item &it, const int strength )
     } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
         duration += alc_strength( strength, 12_minutes, 30_minutes, 45_minutes );
     }
-    if( !( p.has_trait( trait_ALCMET ) ) ) {
-        p.mod_painkiller( to_turns<int>( alc_strength( strength, 24_seconds, 48_seconds, 72_seconds ) ) );
-    }
     p.add_effect( effect_drunk, duration );
     return it.type->charges_to_use();
 }
