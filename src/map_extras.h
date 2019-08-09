@@ -14,6 +14,13 @@ class JsonObject;
 class map;
 struct tripoint;
 
+enum class map_extra_method : int {
+    null = 0,
+    map_extra_function,
+    mapgen,
+    update_mapgen,
+};
+
 using map_extra_pointer = void( * )( map &, const tripoint & );
 
 class map_extra
@@ -22,8 +29,8 @@ class map_extra
         string_id<map_extra> id = string_id<map_extra>::NULL_ID();
         std::string name;
         std::string description;
-        std::string function;
-        map_extra_pointer function_pointer;
+        std::string generator_id;
+        map_extra_method generator_method;
         bool autonote = false;
         uint32_t symbol = UTF8_getch( "X" );
         nc_color color = c_red;
@@ -35,6 +42,7 @@ class map_extra
         // Used by generic_factory
         bool was_loaded = false;
         void load( JsonObject &jo, const std::string &src );
+        void check() const;
 };
 
 namespace MapExtras
@@ -48,6 +56,7 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
 void apply_function( const std::string &id, map &m, const tripoint &abs_sub );
 
 void load( JsonObject &jo, const std::string &src );
+void check_consistency();
 
 } // namespace MapExtras
 
