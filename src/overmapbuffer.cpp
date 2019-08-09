@@ -1325,7 +1325,7 @@ void overmapbuffer::spawn_monster( const tripoint &p )
         assert( ms.y >= 0 && ms.y < SEEX );
         ms += sm_to_ms_copy( p.xy() );
         // The monster position must be local to the main map when added via game::add_zombie
-        const tripoint local = tripoint( g->m.getlocal( ms.x, ms.y ), p.z );
+        const tripoint local = tripoint( g->m.getlocal( ms ), p.z );
         assert( g->m.inbounds( local ) );
         this_monster.spawn( local );
         g->add_zombie( this_monster );

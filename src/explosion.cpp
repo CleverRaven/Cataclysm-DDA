@@ -622,7 +622,7 @@ void emp_blast( const tripoint &p )
         if( sight ) {
             add_msg( _( "The %s is rendered non-functional!" ), g->m.tername( x, y ) );
         }
-        g->m.ter_set( x, y, t_console_broken );
+        g->m.ter_set( point( x, y ), t_console_broken );
         return;
     }
     // TODO: More terrain effects.
@@ -633,7 +633,7 @@ void emp_blast( const tripoint &p )
             if( sight ) {
                 add_msg( _( "The card reader is rendered non-functional." ) );
             }
-            g->m.ter_set( x, y, t_card_reader_broken );
+            g->m.ter_set( point( x, y ), t_card_reader_broken );
         }
         if( rn > 80 ) {
             if( sight ) {
@@ -642,7 +642,7 @@ void emp_blast( const tripoint &p )
             for( int i = -3; i <= 3; i++ ) {
                 for( int j = -3; j <= 3; j++ ) {
                     if( g->m.ter( x + i, y + j ) == t_door_metal_locked ) {
-                        g->m.ter_set( x + i, y + j, t_floor );
+                        g->m.ter_set( point( x + i, y + j ), t_floor );
                     }
                 }
             }

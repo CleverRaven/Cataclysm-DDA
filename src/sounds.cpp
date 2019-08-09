@@ -246,7 +246,7 @@ void sounds::process_sounds()
         int sig_power = get_signal_for_hordes( this_centroid );
         if( sig_power > 0 ) {
 
-            const point abs_ms = g->m.getabs( source.x, source.y );
+            const point abs_ms = g->m.getabs( source.xy() );
             const point abs_sm = ms_to_sm_copy( abs_ms );
             const tripoint target( abs_sm, source.z );
             overmap_buffer.signal_hordes( target, sig_power );

@@ -556,7 +556,7 @@ void basecamp::consume_components( const recipe &making, int batch_size, bool by
 {
     if( by_radio ) {
         tinymap target_map;
-        target_map.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
+        target_map.load( tripoint( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z ), false );
         consume_components( target_map, making, batch_size, by_radio );
         target_map.save();
     } else {
@@ -620,7 +620,7 @@ void basecamp::form_crafting_inventory( const bool by_radio )
 {
     if( by_radio ) {
         tinymap target_map;
-        target_map.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
+        target_map.load( tripoint( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z ), false );
         form_crafting_inventory( target_map );
     } else {
         form_crafting_inventory( g->m );

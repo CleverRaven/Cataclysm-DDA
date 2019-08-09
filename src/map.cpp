@@ -1170,8 +1170,8 @@ bool map::displace_water( const tripoint &p )
 // To be removed once not needed
 void map::set( const int x, const int y, const ter_id &new_terrain, const furn_id &new_furniture )
 {
-    furn_set( x, y, new_furniture );
-    ter_set( x, y, new_terrain );
+    furn_set( point( x, y ), new_furniture );
+    ter_set( point( x, y ), new_terrain );
 }
 
 std::string map::name( const int x, const int y )
@@ -3094,7 +3094,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         if( rl_dist( g->u.pos(), p ) <= 3 ) {
             g->u.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
                                    pgettext( "memorial_female", "Set off an alarm." ) );
-            const point abs = ms_to_sm_copy( getabs( p.x, p.y ) );
+            const point abs = ms_to_sm_copy( getabs( p.xy() ) );
             g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
                                  tripoint( abs, p.z ) );
         }
@@ -3891,12 +3891,12 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
             if( ter( t ) == from ) {
                 // within distance, and either no submap limitation or same overmap coords.
                 if( radiX <= radi && ( !same_submap ||
-                                       ms_to_omt_copy( getabs( x, y ) ) == ms_to_omt_copy( getabs( uX, uY ) ) ) ) {
+                                       ms_to_omt_copy( getabs( point( x, y ) ) ) == ms_to_omt_copy( getabs( point( uX, uY ) ) ) ) ) {
                     ter_set( t, to );
                 }
             } else if( toggle_between && ter( t ) == to ) {
                 if( radiX <= radi && ( !same_submap ||
-                                       ms_to_omt_copy( getabs( x, y ) ) == ms_to_omt_copy( getabs( uX, uY ) ) ) ) {
+                                       ms_to_omt_copy( getabs( point( x, y ) ) ) == ms_to_omt_copy( getabs( point( uX, uY ) ) ) ) ) {
                     ter_set( t, from );
                 }
             }
@@ -8103,14 +8103,14 @@ tinymap::tinymap( int mapsize, bool zlevels )
 void map::draw_line_ter( const ter_id type, int x1, int y1, int x2, int y2 )
 {
     draw_line( [this, type]( int x, int y ) {
-        this->ter_set( x, y, type );
+        this->ter_set( point( x, y ), type );
     }, x1, y1, x2, y2 );
 }
 
 void map::draw_line_furn( const furn_id type, int x1, int y1, int x2, int y2 )
 {
     draw_line( [this, type]( int x, int y ) {
-        this->furn_set( x, y, type );
+        this->furn_set( point( x, y ), type );
     }, x1, y1, x2, y2 );
 }
 
@@ -8144,21 +8144,21 @@ void map::draw_fill_background( const weighted_int_list<ter_id> &f )
 void map::draw_square_ter( const ter_id type, int x1, int y1, int x2, int y2 )
 {
     draw_square( [this, type]( int x, int y ) {
-        this->ter_set( x, y, type );
+        this->ter_set( point( x, y ), type );
     }, x1, y1, x2, y2 );
 }
 
 void map::draw_square_furn( const furn_id type, int x1, int y1, int x2, int y2 )
 {
     draw_square( [this, type]( int x, int y ) {
-        this->furn_set( x, y, type );
+        this->furn_set( point( x, y ), type );
     }, x1, y1, x2, y2 );
 }
 
 void map::draw_square_ter( ter_id( *f )(), int x1, int y1, int x2, int y2 )
 {
     draw_square( [this, f]( int x, int y ) {
-        this->ter_set( x, y, f() );
+        this->ter_set( point( x, y ), f() );
     }, x1, y1, x2, y2 );
 }
 
@@ -8166,42 +8166,42 @@ void map::draw_square_ter( const weighted_int_list<ter_id> &f, int x1, int y1, i
 {
     draw_square( [this, f]( int x, int y ) {
         const ter_id *tid = f.pick();
-        this->ter_set( x, y, tid != nullptr ? *tid : t_null );
+        this->ter_set( point( x, y ), tid != nullptr ? *tid : t_null );
     }, x1, y1, x2, y2 );
 }
 
 void map::draw_rough_circle_ter( const ter_id type, int x, int y, int rad )
 {
     draw_rough_circle( [this, type]( int x, int y ) {
-        this->ter_set( x, y, type );
+        this->ter_set( point( x, y ), type );
     }, x, y, rad );
 }
 
 void map::draw_rough_circle_furn( const furn_id type, int x, int y, int rad )
 {
     draw_rough_circle( [this, type]( int x, int y ) {
-        this->furn_set( x, y, type );
+        this->furn_set( point( x, y ), type );
     }, x, y, rad );
 }
 
 void map::draw_circle_ter( const ter_id type, double x, double y, double rad )
 {
     draw_circle( [this, type]( int x, int y ) {
-        this->ter_set( x, y, type );
+        this->ter_set( point( x, y ), type );
     }, x, y, rad );
 }
 
 void map::draw_circle_ter( const ter_id type, int x, int y, int rad )
 {
     draw_circle( [this, type]( int x, int y ) {
-        this->ter_set( x, y, type );
+        this->ter_set( point( x, y ), type );
     }, x, y, rad );
 }
 
 void map::draw_circle_furn( const furn_id type, int x, int y, int rad )
 {
     draw_circle( [this, type]( int x, int y ) {
-        this->furn_set( x, y, type );
+        this->furn_set( point( x, y ), type );
     }, x, y, rad );
 }
 

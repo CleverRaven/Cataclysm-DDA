@@ -680,7 +680,7 @@ special_game_id game::gametype() const
 
 void game::load_map( const tripoint &pos_sm )
 {
-    m.load( pos_sm.x, pos_sm.y, pos_sm.z, true );
+    m.load( pos_sm, true );
 }
 
 // Set up all default values for a new game
@@ -5187,7 +5187,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         }
     }
 
-    m.ter_set( x, y, door_type );
+    m.ter_set( point( x, y ), door_type );
     if( m.has_flag( "NOITEM", x, y ) ) {
         map_stack items = m.i_at( x, y );
         for( map_stack::iterator it = items.begin(); it != items.end(); ) {
@@ -10195,7 +10195,7 @@ void game::vertical_move( int movez, bool force )
     if( m.has_zlevels() ) {
         // We no longer need to shift the map here! What joy
     } else {
-        maybetmp.load( get_levx(), get_levy(), z_after, false );
+        maybetmp.load( tripoint( get_levx(), get_levy(), z_after ), false );
     }
 
     // Find the corresponding staircase
@@ -10373,7 +10373,7 @@ void game::vertical_move( int movez, bool force )
 cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder )
 {
     const int omtilesz = SEEX * 2;
-    real_coords rc( m.getabs( u.posx(), u.posy() ) );
+    real_coords rc( m.getabs( point( u.posx(), u.posy() ) ) );
     tripoint omtile_align_start( m.getlocal( rc.begin_om_pos() ), z_after );
     tripoint omtile_align_end( omtile_align_start.x + omtilesz - 1, omtile_align_start.y + omtilesz - 1,
                                omtile_align_start.z );
@@ -10517,7 +10517,7 @@ void game::vertical_shift( const int z_after )
         m.access_cache( z_before ).zone_vehicles.clear();
         m.set_transparency_cache_dirty( z_before );
         m.set_outside_cache_dirty( z_before );
-        m.load( get_levx(), get_levy(), z_after, true );
+        m.load( tripoint( get_levx(), get_levy(), z_after ), true );
         shift_monsters( 0, 0, z_after - z_before );
         reload_npcs();
     } else {

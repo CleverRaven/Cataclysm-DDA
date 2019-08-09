@@ -663,7 +663,7 @@ void computer::activate_function( computer_action action )
             // For each level between here and the surface, remove the missile
             for( int level = g->get_levz(); level <= 0; level++ ) {
                 map tmpmap;
-                tmpmap.load( g->get_levx(), g->get_levy(), level, false );
+                tmpmap.load( tripoint( g->get_levx(), g->get_levy(), level ), false );
 
                 if( level < 0 ) {
                     tmpmap.translate( t_missile, t_hole );
@@ -750,7 +750,7 @@ void computer::activate_function( computer_action action )
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     if( g->m.ter( x, y ) == t_elevator_control_off ) {
-                        g->m.ter_set( x, y, t_elevator_control );
+                        g->m.ter_set( point( x, y ), t_elevator_control );
                     }
                 }
             }
@@ -1227,7 +1227,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                 for( int x = 0; x < MAPSIZE_X; x++ ) {
                     for( int y = 0; y < MAPSIZE_Y; y++ ) {
                         if( g->m.ter( x, y ) == t_elevator_control_off ) {
-                            g->m.ter_set( x, y, t_elevator_control );
+                            g->m.ter_set( point( x, y ), t_elevator_control );
 
                         }
                     }
@@ -1499,7 +1499,7 @@ void computer::activate_failure( computer_failure_type fail )
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     if( g->m.has_flag( "CONSOLE", x, y ) ) {
-                        g->m.ter_set( x, y, t_console_broken );
+                        g->m.ter_set( point( x, y ), t_console_broken );
                         add_msg( m_bad, _( "The console shuts down." ) );
                     }
                 }
@@ -1602,7 +1602,7 @@ void computer::activate_failure( computer_failure_type fail )
                                 i = leak_size;
                             } else {
                                 p = random_entry( next_move );
-                                g->m.ter_set( p.x, p.y, t_sewage );
+                                g->m.ter_set( p, t_sewage );
                             }
                         }
                     }

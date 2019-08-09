@@ -894,7 +894,7 @@ void talk_function::field_build_1( npc &p )
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "ranch_camp_63", 20,
                           false );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.draw_square_ter( t_dirt, 5, 4, 15, 14 );
     bay.draw_square_ter( t_dirtmound, 6, 5, 6, 13 );
     bay.draw_square_ter( t_dirtmound, 8, 5, 8, 13 );
@@ -918,7 +918,7 @@ void talk_function::field_build_2( npc &p )
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "ranch_camp_63",
                           20, false );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.draw_square_ter( t_fence, 4, 3, 16, 3 );
     bay.draw_square_ter( t_fence, 4, 15, 16, 15 );
     bay.draw_square_ter( t_fence, 4, 3, 4, 15 );
@@ -975,7 +975,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), place, 20,
                           false );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     for( int x = 0; x < SEEX * 2 - 1; x++ ) {
         for( int y = 0; y < SEEY * 2 - 1; y++ ) {
             if( bay.ter( x, y ) == t_dirtmound ) {
@@ -1016,7 +1016,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
                 }
                 used_seed.front().set_age( 0_turns );
                 bay.add_item_or_charges( x, y, used_seed.front() );
-                bay.set( x, y, t_dirt, f_plant_seed );
+                bay.set( point( x, y ), t_dirt, f_plant_seed );
                 limiting_number--;
             }
         }
@@ -1037,7 +1037,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     std::vector<itype_id> seed_types;
     std::vector<itype_id> plant_types;
     std::vector<std::string> plant_names;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     for( int x = 0; x < SEEX * 2 - 1; x++ ) {
         for( int y = 0; y < SEEY * 2 - 1; y++ ) {
             if( bay.furn( x, y ) == furn_str_id( "f_plant_harvest" ) && !bay.i_at( x, y ).empty() ) {
@@ -1101,8 +1101,8 @@ void talk_function::field_harvest( npc &p, const std::string &place )
                     if( tmp.typeId() == plant_types[plant_index] ) {
                         number_plots++;
                         bay.i_clear( x, y );
-                        bay.furn_set( x, y, f_null );
-                        bay.ter_set( x, y, t_dirtmound );
+                        bay.furn_set( point( x, y ), f_null );
+                        bay.ter_set( point( x, y ), t_dirtmound );
                         int plantCount = rng( skillLevel / 2, skillLevel );
                         if( plantCount >= 9 ) {
                             plantCount = 9;
@@ -1476,7 +1476,7 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
     }
 
     tinymap target_bay;
-    target_bay.load( om_tgt.x * 2, om_tgt.y * 2, om_tgt.z, false );
+    target_bay.load( tripoint( om_tgt.x * 2, om_tgt.y * 2, om_tgt.z ), false );
     std::vector< monster * > monsters_around;
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
@@ -2020,7 +2020,7 @@ void talk_function::loot_building( const tripoint &site )
 {
     tinymap bay;
     tripoint p;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     for( int x = 0; x < SEEX * 2 - 1; x++ ) {
         for( int y = 0; y < SEEY * 2 - 1; y++ ) {
             p.x = x;
@@ -2032,20 +2032,20 @@ void talk_function::loot_building( const tripoint &site )
                 || t == t_door_boarded || t == t_door_boarded_damaged
                 || t == t_rdoor_boarded || t == t_rdoor_boarded_damaged
                 || t == t_door_boarded_peep || t == t_door_boarded_damaged_peep ) {
-                bay.ter_set( x, y, t_door_o );
+                bay.ter_set( point( x, y ), t_door_o );
             } else if( t == t_door_locked || t == t_door_locked_peep
                        || t == t_door_locked_alarm ) {
                 const map_bash_info &bash = bay.ter( x, y ).obj().bash;
-                bay.ter_set( x, y, bash.ter_set );
+                bay.ter_set( point( x, y ), bash.ter_set );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             } else if( t == t_door_metal_c || t == t_door_metal_locked
                        || t == t_door_metal_pickable ) {
-                bay.ter_set( x, y, t_door_metal_o );
+                bay.ter_set( point( x, y ), t_door_metal_o );
             } else if( t == t_door_glass_c ) {
-                bay.ter_set( x, y, t_door_glass_o );
+                bay.ter_set( point( x, y ), t_door_glass_o );
             } else if( t == t_wall && one_in( 25 ) ) {
                 const map_bash_info &bash = bay.ter( x, y ).obj().bash;
-                bay.ter_set( x, y, bash.ter_set );
+                bay.ter_set( point( x, y ), bash.ter_set );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
                 bay.collapse_at( p, false );
             }
@@ -2057,16 +2057,16 @@ void talk_function::loot_building( const tripoint &site )
                        t == t_window_no_curtains || t == t_window_no_curtains_taped )
                      && one_in( 4 ) ) {
                 const map_bash_info &bash = bay.ter( x, y ).obj().bash;
-                bay.ter_set( x, y, bash.ter_set );
+                bay.ter_set( point( x, y ), bash.ter_set );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             } else if( ( t == t_wall_glass || t == t_wall_glass_alarm ) && one_in( 3 ) ) {
                 const map_bash_info &bash = bay.ter( x, y ).obj().bash;
-                bay.ter_set( x, y, bash.ter_set );
+                bay.ter_set( point( x, y ), bash.ter_set );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             } else if( bay.has_furn( x, y ) && bay.furn( x, y ).obj().bash.str_max != -1 &&
                        one_in( 10 ) ) {
                 const map_bash_info &bash = bay.furn( x, y ).obj().bash;
-                bay.furn_set( x, y, bash.furn_set );
+                bay.furn_set( point( x, y ), bash.furn_set );
                 bay.delete_signage( p );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             }

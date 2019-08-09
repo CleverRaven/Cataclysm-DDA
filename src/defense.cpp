@@ -310,7 +310,7 @@ void defense_game::init_map()
             mx -= mx % 2;
             my -= my % 2;
             tinymap tm;
-            tm.generate( mx, my, 0, calendar::turn );
+            tm.generate( tripoint( mx, my, 0 ), calendar::turn );
             tm.clear_spawns();
             tm.clear_traps();
             tm.save();
