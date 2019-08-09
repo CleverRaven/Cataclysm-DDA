@@ -117,3 +117,16 @@ int g9()
     // CHECK-MESSAGES: warning: Call to 'f' could instead call overload using a point parameter. [cata-use-point-apis]
     // CHECK-FIXES: return a.f( point( 0, 1 ) );
 }
+
+// Check function templates
+template<typename T>
+int f10( T t, int x, int y );
+template<typename T>
+int f10( T t, const point &p );
+
+int g10()
+{
+    return f10( "foo", 0, 1 );
+    // CHECK-MESSAGES: warning: Call to 'f10<const char *>' could instead call overload using a point parameter. [cata-use-point-apis]
+    // CHECK-FIXES: return f10( "foo", point( 0, 1 ) );
+}
