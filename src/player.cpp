@@ -6901,7 +6901,6 @@ std::list<item> player::use_charges( const itype_id &what, int qty,
 
 
     }
-
     else if( what == "UPS_AIR" ) {
 
 
