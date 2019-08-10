@@ -938,7 +938,7 @@
     "aliases": [ "t_ballistic_glass_h", "t_ballistic_glass_v" ],
     "name": "ballistic glass",
     "looks_like": "t_reinforced_glass",
-    "description": "Ballistic glass consists of layers of aminated glass.",
+    "description": "Ballistic glass consists of layers of laminated glass.",
     "symbol": "LINE_OXOX",
     "color": "light_cyan",
     "move_cost": 0,
