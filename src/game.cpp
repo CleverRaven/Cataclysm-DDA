@@ -3327,7 +3327,7 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
         return;
     }
     if( u.sees( critter ) || &critter == &u ) {
-        critter.draw( w_terrain, center.x, center.y, false );
+        critter.draw( w_terrain, point( center.x, center.y ), false );
         return;
     }
 
@@ -10223,8 +10223,8 @@ void game::vertical_move( int movez, bool force )
         const int to_x = u.posx();
         const int to_y = u.posy();
         for( monster &critter : all_monsters() ) {
-            int turns = critter.turns_to_reach( to_x, to_y );
-            if( turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach( to_x, to_y )
+            int turns = critter.turns_to_reach( point( to_x, to_y ) );
+            if( turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach( point( to_x, to_y ) )
                 && !slippedpast ) {
                 critter.staircount = 10 + turns;
                 critter.on_unload();
@@ -10616,7 +10616,7 @@ point game::update_map( int &x, int &y )
 
     // Shift monsters
     shift_monsters( shiftx, shifty, 0 );
-    u.shift_destination( -shiftx * SEEX, -shifty * SEEY );
+    u.shift_destination( point( -shiftx * SEEX, -shifty * SEEY ) );
 
     // Shift NPCs
     for( auto it = active_npc.begin(); it != active_npc.end(); ) {
@@ -10959,7 +10959,7 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
     }
     for( monster &critter : all_monsters() ) {
         if( shiftx != 0 || shifty != 0 ) {
-            critter.shift( shiftx, shifty );
+            critter.shift( point( shiftx, shifty ) );
         }
 
         if( m.inbounds( critter.pos() ) && ( shiftz == 0 || m.has_zlevels() ) ) {
