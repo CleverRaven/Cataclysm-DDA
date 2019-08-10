@@ -120,7 +120,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some aspirin.",
-      "effects": [ { "id": "pkill1", "duration": 120 } ]
+      "effects": [ { "id": "pkill1", "duration": 720 } ]
     }
   },
   {
@@ -344,7 +344,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some codeine.",
-      "effects": [ { "id": "pkill2", "duration": 180 }, { "id": "cough_suppress", "duration": 1000 } ]
+      "effects": [ { "id": "pkill2", "duration": 1080 }, { "id": "cough_suppress", "duration": 1000 } ]
     }
   },
   {
@@ -651,8 +651,8 @@
       "activation_message": "You shoot up.",
       "tools_needed": { "syringe": 1 },
       "effects": [
-        { "id": "pkill3", "duration": 80 },
-        { "id": "pkill2", "duration": 200 },
+        { "id": "pkill3", "duration": 480 },
+        { "id": "pkill2", "duration": 1200 },
         { "id": "cough_suppress", "duration": 1000 }
       ]
     }
@@ -781,7 +781,7 @@
       "type": "consume_drug",
       "activation_message": "You shoot up.",
       "tools_needed": { "syringe": 1 },
-      "effects": [ { "id": "pkill3", "duration": 20 }, { "id": "pkill2", "duration": 200 } ]
+      "effects": [ { "id": "pkill3", "duration": 120 }, { "id": "pkill2", "duration": 1200 } ]
     }
   },
   {
@@ -864,7 +864,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some oxycodone.",
-      "effects": [ { "id": "pkill3", "duration": 20 }, { "id": "pkill2", "duration": 200 } ]
+      "effects": [ { "id": "pkill3", "duration": 120 }, { "id": "pkill2", "duration": 1200 } ]
     }
   },
   {
@@ -907,7 +907,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some poppy painkiller.",
-      "effects": [ { "id": "pkill2", "duration": 180 } ]
+      "effects": [ { "id": "pkill2", "duration": 1080 } ]
     }
   },
   {
@@ -1108,7 +1108,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some tramadol.",
-      "effects": [ { "id": "pkill_l", "duration": 4500 } ]
+      "effects": [ { "id": "pkill_l", "duration": 27000 } ]
     }
   },
   {
@@ -1277,7 +1277,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You smoke some weed.  Good stuff, man!",
-      "effects": [ { "id": "weed_high", "duration": 90 }, { "id": "pkill1", "duration": 60 } ],
+      "effects": [ { "id": "weed_high", "duration": 90 }, { "id": "pkill1", "duration": 360 } ],
       "stat_adjustments": { "hunger": 4, "thirst": 6 },
       "fields_produced": { "fd_weedsmoke": 2 },
       "charges_needed": { "fire": 1 },
@@ -1435,7 +1435,7 @@
       "disinfectant_power": 3,
       "bite": 0.75,
       "move_cost": 100,
-      "effects": [ { "id": "pkill1", "duration": 120 } ]
+      "effects": [ { "id": "pkill1", "duration": 720 } ]
     }
   }
 ]
