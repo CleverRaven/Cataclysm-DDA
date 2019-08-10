@@ -1,0 +1,122 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_water_sh",
+    "name": "shallow water",
+    "description": "The water isn't too deep here.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
+    "symbol": "~",
+    "color": "light_blue",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "FISHABLE" ],
+    "connects_to": "WATER",
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_water_dp",
+    "name": "deep water",
+    "description": "You're having trouble seeing the bottom through the deep water here.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
+    "symbol": "~",
+    "color": "blue",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE" ],
+    "connects_to": "WATER",
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_water_moving_sh",
+    "name": "flowing shallow water",
+    "description": "The streaming water isn't too deep here.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is, although probably safer than stagnant water.",
+    "looks_like": "t_water_sh",
+    "symbol": "~",
+    "color": "light_blue",
+    "move_cost": 6,
+    "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "FISHABLE", "CURRENT" ],
+    "connects_to": "WATER",
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_water_moving_dp",
+    "name": "flowing deep water",
+    "description": "The streaming water looks deep here.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is, although probably safer than stagnant water.",
+    "looks_like": "t_water_dp",
+    "symbol": "~",
+    "color": "blue",
+    "move_cost": 10,
+    "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "CURRENT" ],
+    "connects_to": "WATER",
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_swater_sh",
+    "name": "shallow water",
+    "description": "The water isn't too deep here.  With a watertight container, you could gather salt water from here.",
+    "symbol": "~",
+    "color": "light_blue",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "FISHABLE" ],
+    "connects_to": "WATER",
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_swater_dp",
+    "name": "deep water",
+    "description": "You're having trouble seeing the bottom through the deep water here.  With a watertight container, you could gather salt water from here.",
+    "symbol": "~",
+    "color": "blue",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "DEEP_WATER", "FISHABLE" ],
+    "connects_to": "WATER",
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_water_pool",
+    "name": "pool water",
+    "description": "A deep pool full of water.  Never swim without a lifeguard present.  Even though monsters probably ate them.",
+    "symbol": "~",
+    "color": "light_blue",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "INDOORS", "DEEP_WATER" ],
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_water_pool_shallow",
+    "name": "shallow pool water",
+    "description": "A shallow pool of water.",
+    "symbol": "~",
+    "color": "light_blue",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "INDOORS" ],
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_sewage",
+    "name": "sewage",
+    "description": "Gross.  Sewage water flows through here.  As if it needed saying, this isn't safe to drink.",
+    "symbol": "~",
+    "color": "light_green",
+    "move_cost": 6,
+    "flags": [ "TRANSPARENT", "SWIMMABLE" ],
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_lava",
+    "name": "lava",
+    "description": "An extremely hot, glowing liquid, composed of molten rock and/or metal.  In some places, lava-grilled steak is a delicacy.",
+    "symbol": "~",
+    "color": "red",
+    "move_cost": 4,
+    "light_emitted": 50,
+    "trap": "tr_lava",
+    "flags": [ "TRANSPARENT", "LIQUID", "DESTROY_ITEM", "USABLE_FIRE" ],
+    "//": "lava-seared moose meat? yes, please"
+  }
+]
