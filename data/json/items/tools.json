@@ -131,7 +131,7 @@
     "description": "This is an air fitting for a high pressure cylinder. It can connect a high pressure cylinder to a variety of devices utilizing air as power.",
     "weight": 500,
     "volume": "200 ml",
-    "price": 280000,
+    "price": 2800,
     "to_hit": -1,
     "bashing": 8,
     "material": [ "steel" ],
