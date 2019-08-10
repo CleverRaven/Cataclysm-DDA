@@ -2,11 +2,27 @@
 #ifndef CATA_POINT_H
 #define CATA_POINT_H
 
+// The CATA_NO_STL macro is used by the cata clang-tidy plugin tests so they
+// can include this header when compiling with -nostdinc++
+#ifndef CATA_NO_STL
+
 #include <array>
 #include <cassert>
 #include <climits>
 #include <functional>
 #include <ostream>
+
+#else
+
+#define assert(...)
+
+namespace std
+{
+class string;
+class ostream;
+}
+
+#endif // CATA_NO_STL
 
 class JsonOut;
 class JsonIn;
@@ -78,22 +94,6 @@ std::ostream &operator<<( std::ostream &, const point & );
 void serialize( const point &p, JsonOut &jsout );
 void deserialize( point &p, JsonIn &jsin );
 
-// Make point hashable so it can be used as an unordered_set or unordered_map key,
-// or a component of one.
-namespace std
-{
-template <>
-struct hash<point> {
-    std::size_t operator()( const point &k ) const {
-        constexpr uint64_t a = 2862933555777941757;
-        size_t result = k.y;
-        result *= a;
-        result += k.x;
-        return result;
-    }
-};
-} // namespace std
-
 inline constexpr bool operator<( const point &a, const point &b )
 {
     return a.x < b.x || ( a.x == b.x && a.y < b.y );
@@ -105,11 +105,6 @@ inline constexpr bool operator==( const point &a, const point &b )
 inline constexpr bool operator!=( const point &a, const point &b )
 {
     return !( a == b );
-}
-
-inline point abs( const point &p )
-{
-    return point( abs( p.x ), abs( p.y ) );
 }
 
 // NOLINTNEXTLINE(cata-xy)
@@ -181,24 +176,6 @@ struct tripoint {
 
 std::ostream &operator<<( std::ostream &, const tripoint & );
 
-// Make tripoint hashable so it can be used as an unordered_set or unordered_map key,
-// or a component of one.
-namespace std
-{
-template <>
-struct hash<tripoint> {
-    std::size_t operator()( const tripoint &k ) const {
-        constexpr uint64_t a = 2862933555777941757;
-        size_t result = k.z;
-        result *= a;
-        result += k.y;
-        result *= a;
-        result += k.x;
-        return result;
-    }
-};
-} // namespace std
-
 inline constexpr bool operator==( const tripoint &a, const tripoint &b )
 {
     return a.x == b.x && a.y == b.y && a.z == b.z;
@@ -220,18 +197,6 @@ inline bool operator<( const tripoint &a, const tripoint &b )
     }
     return false;
 }
-
-static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
-        { -1, -1, 0 },
-        {  0, -1, 0 },
-        { +1, -1, 0 },
-        { -1,  0, 0 },
-        { +1,  0, 0 },
-        { -1, +1, 0 },
-        {  0, +1, 0 },
-        { +1, +1, 0 },
-    }
-};
 
 struct rectangle {
     point p_min;
@@ -283,13 +248,8 @@ struct box {
     }
 };
 
-static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 static constexpr tripoint tripoint_zero { 0, 0, 0 };
-static constexpr tripoint tripoint_max{ INT_MAX, INT_MAX, INT_MAX };
-
-static constexpr point point_min{ tripoint_min.xy() };
 static constexpr point point_zero{ tripoint_zero.xy() };
-static constexpr point point_max{ tripoint_max.xy() };
 
 static constexpr point point_north{ 0, -1 };
 static constexpr point point_north_east{ 1, -1 };
@@ -299,10 +259,6 @@ static constexpr point point_south{ 0, 1 };
 static constexpr point point_south_west{ -1, 1 };
 static constexpr point point_west{ -1, 0 };
 static constexpr point point_north_west{ -1, -1 };
-
-static constexpr std::array<point, 4> four_adjacent_offsets{{
-        point_north, point_east, point_south, point_west
-    }};
 
 static constexpr tripoint tripoint_north{ point_north, 0 };
 static constexpr tripoint tripoint_north_east{ point_north_east, 0 };
@@ -327,5 +283,70 @@ struct sphere {
     explicit sphere( const tripoint &center ) : radius( 1 ), center( center ) {}
     explicit sphere( const tripoint &center, int radius ) : radius( radius ), center( center ) {}
 };
+
+#ifndef CATA_NO_STL
+
+inline point abs( const point &p )
+{
+    return point( abs( p.x ), abs( p.y ) );
+}
+
+static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
+static constexpr tripoint tripoint_max{ INT_MAX, INT_MAX, INT_MAX };
+
+static constexpr point point_min{ tripoint_min.xy() };
+static constexpr point point_max{ tripoint_max.xy() };
+
+// Make point hashable so it can be used as an unordered_set or unordered_map key,
+// or a component of one.
+namespace std
+{
+template <>
+struct hash<point> {
+    std::size_t operator()( const point &k ) const {
+        constexpr uint64_t a = 2862933555777941757;
+        size_t result = k.y;
+        result *= a;
+        result += k.x;
+        return result;
+    }
+};
+} // namespace std
+
+// Make tripoint hashable so it can be used as an unordered_set or unordered_map key,
+// or a component of one.
+namespace std
+{
+template <>
+struct hash<tripoint> {
+    std::size_t operator()( const tripoint &k ) const {
+        constexpr uint64_t a = 2862933555777941757;
+        size_t result = k.z;
+        result *= a;
+        result += k.y;
+        result *= a;
+        result += k.x;
+        return result;
+    }
+};
+} // namespace std
+
+static constexpr std::array<point, 4> four_adjacent_offsets{{
+        point_north, point_east, point_south, point_west
+    }};
+
+static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
+        { -1, -1, 0 },
+        {  0, -1, 0 },
+        { +1, -1, 0 },
+        { -1,  0, 0 },
+        { +1,  0, 0 },
+        { -1, +1, 0 },
+        {  0, +1, 0 },
+        { +1, +1, 0 },
+    }
+};
+
+#endif // CATA_NO_STL
 
 #endif // CATA_POINT_H
