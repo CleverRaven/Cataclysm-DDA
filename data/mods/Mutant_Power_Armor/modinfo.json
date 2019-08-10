@@ -3,8 +3,7 @@
     "type": "MOD_INFO",
     "ident": "Mutant_Power_Armor",
     "name": "Mutant Power Armor",
-    "authors": [ "Potatomancer" ],
-    "maintainers": [ "Potatomancer" ],
+    "authors": [ "ThePotatomancer" ],
     "description": "Adds more encumbaring versions of power armor for oversized mutants. Now more mutants are end game viable!",
     "category": "items",
     "dependencies": [ "dda" ]
