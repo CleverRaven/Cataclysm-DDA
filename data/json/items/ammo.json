@@ -21,6 +21,24 @@
     "fuel": { "energy": 1 }
   },
   {
+    "type": "AMMO",
+    "id": "air",
+    "category": "spare_parts",
+    "price": 12000,
+    "name": "air",
+    "name_plural": "air",
+    "symbol": "=",
+    "color": "yellow",
+    "description": "Some free-floating air charge.  This can be reloaded into rechargable air cylinders, but can never be unloaded.",
+    "flags": "TRADER_AVOID",
+    "material": "iron",
+    "volume": 1,
+    "//": "Setting battery volume to 0 causes weirdness in vehicle tests.  Please don't do that.",
+    "ammo_type": "air",
+    "reload_time": 1,
+    "count": 100
+  },
+  {
     "type": "TOOL",
     "id": "betavoltaic",
     "category": "spare_parts",

@@ -864,6 +864,7 @@ bool veh_interact::do_install( std::string &msg )
                part.has_flag( "WATCH" ) ||
                part.has_flag( "ALARMCLOCK" ) ||
                part.has_flag( VPFLAG_RECHARGE ) ||
+               part.has_flag( VPFLAG_RECHARGE_AIR ) ||
                part.has_flag( "VISION" ) ||
                part.has_flag( "POWER_TRANSFER" ) ||
                part.has_flag( "FAUCET" ) ||

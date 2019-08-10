@@ -1,0 +1,20 @@
+[
+  {
+    "id": "bbprmmag",
+    "type": "MAGAZINE",
+    "name": "modified big bore pneumatic rifle magazine",
+    "//": "",
+    "description": "Home-made 50-round box magazine for a modified big bore pneumatic rifle.",
+    "weight": 727,
+    "volume": 2,
+    "price": 10000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "looks_like": "m107a1mag",
+    "ammo_type": "50pellet",
+    "capacity": 50,
+    "reload_time": 130,
+    "flags": [ "MAG_BULKY" ]
+  }
+]

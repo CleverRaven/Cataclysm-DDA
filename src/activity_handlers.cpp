@@ -124,6 +124,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_START_FIRE" ), start_fire_do_turn },
     { activity_id( "ACT_VIBE" ), vibe_do_turn },
     { activity_id( "ACT_HAND_CRANK" ), hand_crank_do_turn },
+    { activity_id( "ACT_HAND_CRANK_AIR" ), hand_crank_do_turn_air },
     { activity_id( "ACT_OXYTORCH" ), oxytorch_do_turn },
     { activity_id( "ACT_AIM" ), aim_do_turn },
     { activity_id( "ACT_PICKUP" ), pickup_do_turn },
@@ -2067,6 +2068,25 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
         p->mod_fatigue( 1 );
         if( hand_crank_item.ammo_capacity() > hand_crank_item.ammo_remaining() ) {
             hand_crank_item.ammo_set( "battery", hand_crank_item.ammo_remaining() + 1 );
+        }
+    }
+    if( p->get_fatigue() >= DEAD_TIRED ) {
+        act->moves_left = 0;
+        add_msg( m_info, _( "You're too exhausted to keep cranking." ) );
+    }
+
+}
+
+void activity_handlers::hand_crank_do_turn_air( player_activity *act, player *p )
+{
+
+    act->moves_left -= 100;
+    item &hand_crank_item_air = p ->i_at( act->position );
+
+    if( calendar::once_every( 144_seconds ) ) {
+        p->mod_fatigue( 1 );
+        if( hand_crank_item_air.ammo_capacity() > hand_crank_item_air.ammo_remaining() ) {
+            hand_crank_item_air.ammo_set( "air", hand_crank_item_air.ammo_remaining() + 10 );
         }
     }
     if( p->get_fatigue() >= DEAD_TIRED ) {

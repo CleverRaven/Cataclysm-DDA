@@ -1880,6 +1880,7 @@ class item : public visitable<item>
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &p );
         int get_gun_ups_drain() const;
+        int get_gun_ups_drain_air() const;
         inline void set_old_owner( const faction *temp_owner ) {
             old_owner = temp_owner;
         }

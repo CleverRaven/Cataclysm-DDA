@@ -55,6 +55,7 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_RECHARGE_UPSMODDED,
     iteminfo_parts::DESCRIPTION_RECHARGE_NORELOAD,
     iteminfo_parts::DESCRIPTION_RECHARGE_UPSCAPABLE,
+    iteminfo_parts::DESCRIPTION_RECHARGE_UPSCAPABLE_AIR,
     iteminfo_parts::DESCRIPTION_RADIO_ACTIVATION,
     iteminfo_parts::DESCRIPTION_RADIO_ACTIVATION_CHANNEL,
     iteminfo_parts::DESCRIPTION_RADIO_ACTIVATION_PROC,

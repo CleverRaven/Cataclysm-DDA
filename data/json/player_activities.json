@@ -220,6 +220,14 @@
     "based_on": "time"
   },
   {
+    "id": "ACT_HAND_CRANK_AIR",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "cranking",
+    "rooted": true,
+    "based_on": "time"
+  },
+  {
     "id": "ACT_VIBE",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",

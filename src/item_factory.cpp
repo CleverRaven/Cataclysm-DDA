@@ -763,6 +763,7 @@ void Item_factory::init()
     add_iuse( "MIND_SPLICER", &iuse::mind_splicer );
     add_iuse( "VIBE", &iuse::vibe );
     add_iuse( "HAND_CRANK", &iuse::hand_crank );
+    add_iuse( "HAND_CRANK_AIR", &iuse::hand_crank_air );
     add_iuse( "VORTEX", &iuse::vortex );
     add_iuse( "WASHCLOTHES", &iuse::washclothes );
     add_iuse( "WASHCBMS", &iuse::washcbms );
@@ -1449,6 +1450,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     assign( jo, "built_in_mods", slot.built_in_mods, strict );
     assign( jo, "default_mods", slot.default_mods, strict );
     assign( jo, "ups_charges", slot.ups_charges, strict, 0 );
+    assign( jo, "ups_charges_air", slot.ups_charges_air, strict, 0 );
     assign( jo, "blackpowder_tolerance", slot.blackpowder_tolerance, strict, 0 );
     assign( jo, "min_cycle_recoil", slot.blackpowder_tolerance, strict, 0 );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
@@ -1820,6 +1822,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     assign( jo, "consume_divisor", slot.consume_divisor );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
     assign( jo, "ups_charges", slot.ups_charges );
+    assign( jo, "ups_charges_air", slot.ups_charges_air );
     if( jo.has_int( "time" ) ) {
         slot.install_time = jo.get_int( "time" );
     } else if( jo.has_string( "time" ) ) {

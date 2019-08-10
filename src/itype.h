@@ -471,6 +471,7 @@ struct islot_gun : common_ranged_data {
      * If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all.
      */
     int ups_charges = 0;
+    int ups_charges_air = 0;
     /**
      * One in X chance for gun to require major cleanup after firing blackpowder shot.
      */
@@ -561,6 +562,7 @@ struct islot_gunmod : common_ranged_data {
 
     /** Increases base gun UPS consumption by this many charges per shot */
     int ups_charges = 0;
+    int ups_charges_air = 0;
 
     /** Firing modes added to or replacing those of the base gun */
     std::map<gun_mode_id, gun_modifier_data> mode_modifier;
@@ -619,6 +621,11 @@ struct islot_magazine {
 };
 
 struct islot_battery {
+    /** Maximum energy the battery can store */
+    units::energy max_capacity;
+};
+
+struct islot_air {
     /** Maximum energy the battery can store */
     units::energy max_capacity;
 };
@@ -768,6 +775,7 @@ struct itype {
         cata::optional<islot_gunmod> gunmod;
         cata::optional<islot_magazine> magazine;
         cata::optional<islot_battery> battery;
+        cata::optional<islot_air> air;
         cata::optional<islot_bionic> bionic;
         cata::optional<islot_ammo> ammo;
         cata::optional<islot_seed> seed;

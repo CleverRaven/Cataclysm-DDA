@@ -1516,6 +1516,13 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                mod->get_gun_ups_drain() ) );
         }
 
+        if( mod->get_gun_ups_drain_air() && parts->test( iteminfo_parts::AMMO_UPSCOST_air ) ) {
+            info.emplace_back( "AMMO", string_format(
+                                   ngettext( "Uses <stat>%i</stat> charge of compressed air per shot",
+                                             "Uses <stat>%i</stat> charges of compressed air per shot", mod->get_gun_ups_drain_air() ),
+                                   mod->get_gun_ups_drain_air() ) );
+        }
+
         insert_separation_line();
 
         int max_gun_range = mod->gun_range( &g->u );
@@ -2583,7 +2590,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         if( is_tool() ) {
-            if( has_flag( "USE_UPS" ) && parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_UPSMODDED ) ) {
+            if( ( has_flag( "USE_UPS" ) || has_flag( "USE_UPS_AIR" ) ) &&
+                parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_UPSMODDED ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This tool has been modified to use a <info>universal power supply</info> and is <neutral>not compatible</neutral> with <info>standard batteries</info>." ) ) );
             } else if( has_flag( "RECHARGE" ) && has_flag( "NO_RELOAD" ) &&
@@ -2594,6 +2602,10 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                        parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_UPSCAPABLE ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This tool has a <info>rechargeable power cell</info> and can be recharged in any <neutral>UPS-compatible recharging station</neutral>. You could charge it with <info>standard batteries</info>, but unloading it is impossible." ) ) );
+            } else if( has_flag( "RECHARGE_AIR" ) &&
+                       parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_UPSCAPABLE_AIR ) ) {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This tool has a <info>rechargeable air cell</info> and can be recharged in any <neutral>air-compatible recharging station</neutral>. You could charge it with <info>air</info>, but unloading it is impossible." ) ) );
             } else if( has_flag( "USES_BIONIC_POWER" ) ) {
                 info.emplace_back( "DESCRIPTION",
                                    _( "* This tool <info>runs on bionic power</info>." ) );
@@ -3400,6 +3412,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 
     if( is_tool() && has_flag( "USE_UPS" ) ) {
         ret << _( " (UPS)" );
+    }
+
+    if( is_tool() && has_flag( "USE_UPS_AIR" ) ) {
+        ret << _( " (UPS_AIR)" );
     }
 
     if( has_var( "NANOFAB_ITEM_ID" ) ) {
@@ -6430,6 +6446,9 @@ int item::units_remaining( const Character &ch, int limit ) const
     if( res < limit && has_flag( "USE_UPS" ) ) {
         res += ch.charges_of( "UPS", limit - res );
     }
+    if( res < limit && has_flag( "USE_UPS_AIR" ) ) {
+        res += ch.charges_of( "UPS_AIR", limit - res );
+    }
 
     return std::min( static_cast<int>( res ), limit );
 }
@@ -8189,6 +8208,12 @@ bool item::process_tool( player *carrier, const tripoint &pos )
         }
     }
 
+    if( carrier && has_flag( "USE_UPS_AIR" ) ) {
+        if( carrier->use_charges_if_avail( "UPS_AIR", energy ) ) {
+            energy = 0;
+        }
+    }
+
     // if insufficient available charges shutdown the tool
     if( energy > 0 ) {
         if( carrier && has_flag( "USE_UPS" ) ) {
@@ -8568,6 +8593,18 @@ int item::get_gun_ups_drain() const
         }
     }
     return draincount;
+}
+
+int item::get_gun_ups_drain_air() const
+{
+    int draincount_air = 0;
+    if( type->gun ) {
+        draincount_air += type->gun->ups_charges_air;
+        for( const auto mod : gunmods() ) {
+            draincount_air += mod->type->gunmod->ups_charges_air;
+        }
+    }
+    return draincount_air;
 }
 
 bool item::has_label() const

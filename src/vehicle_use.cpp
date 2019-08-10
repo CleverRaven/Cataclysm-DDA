@@ -236,6 +236,7 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
     add_toggle( _( "space heater" ), keybind( "TOGGLE_SPACE_HEATER" ), "SPACE_HEATER" );
     add_toggle( _( "cooler" ), keybind( "TOGGLE_COOLER" ), "COOLER" );
     add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
+    add_toggle( _( "recharger air" ), keybind( "TOGGLE_RECHARGER_AIR" ), "RECHARGE_AIR" );
     add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
     add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
     add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );

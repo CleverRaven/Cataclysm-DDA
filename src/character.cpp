@@ -2894,6 +2894,11 @@ int Character::ammo_count_for( const item &gun )
         ret = std::min( ret, charges_of( "UPS" ) / ups_drain );
     }
 
+    int ups_drain_air = gun.get_gun_ups_drain_air();
+    if( ups_drain_air > 0 ) {
+        ret = std::min( ret, charges_of( "UPS_AIR" ) / ups_drain_air );
+    }
+
     return ret;
 }
 

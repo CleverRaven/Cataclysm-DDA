@@ -124,6 +124,25 @@
     "magazine_well": 4
   },
   {
+    "id": "UPS_off_air",
+    "type": "TOOL",
+    "name": "air fitting",
+    "name_plural": "air fittings",
+    "description": "This is an air fitting for a high pressure cylinder. It can connect a high pressure cylinder to a variety of devices utilizing air as power.",
+    "weight": 500,
+    "volume": "200 ml",
+    "price": 280000,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": "air",
+    "looks_like": "hose",
+    "magazines": [ [ "air", [ "heavy_air_cylinder", "medium_air_cylinder", "light_air_cylinder" ] ] ],
+    "magazine_well": 1
+  },
+  {
     "id": "acidbomb",
     "type": "TOOL",
     "category": "weapons",
@@ -6694,6 +6713,23 @@
         ]
       ]
     ]
+  },
+  {
+    "id": "hand_crank_charger_air",
+    "type": "TOOL",
+    "category": "tools",
+    "name": "hand-crank air pump",
+    "description": "This is a high pressure air pump.  It has an adjustable receptacle designed to accept a wide variety of refillable high pressure air cylinders.",
+    "weight": 2000,
+    "volume": 2,
+    "price": 1000,
+    "material": "steel",
+    "symbol": ":",
+    "color": "light_gray",
+    "ammo": "air",
+    "use_action": "HAND_CRANK_AIR",
+    "looks_like": "air_pump",
+    "magazines": [ [ "air", [ "heavy_air_cylinder", "medium_air_cylinder", "light_air_cylinder" ] ] ]
   },
   {
     "id": "vibrator",

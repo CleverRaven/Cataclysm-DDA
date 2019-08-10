@@ -926,6 +926,11 @@
   },
   {
     "type": "item_action",
+    "id": "HAND_CRANK_AIR",
+    "name": "Refill a cylinder"
+  },
+  {
+    "type": "item_action",
     "id": "VIBE",
     "name": "Well, you know"
   },

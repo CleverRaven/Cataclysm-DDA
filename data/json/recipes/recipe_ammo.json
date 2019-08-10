@@ -109,6 +109,59 @@
   },
   {
     "type": "recipe",
+    "result": "50pellet",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 2 ],
+    "difficulty": 3,
+    "time": "15 m",
+    "reversible": true,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 1 ] ],
+    "tools": [
+      [ [ "press", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ], [ "forge", 100 ], [ "oxy_torch", 20 ] ]
+    ],
+    "components": [ [ [ "lead", 50 ], [ "solder_wire", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "50pellet_copper",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 2 ],
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 1 ] ],
+    "tools": [
+      [ [ "press", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ], [ "forge", 100 ], [ "oxy_torch", 20 ] ]
+    ],
+    "components": [ [ [ "copper", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "50pellet_steelcore",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 4 ],
+    "difficulty": 5,
+    "reversible": true,
+    "time": "60 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 1 ] ],
+    "tools": [ [ [ "press", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
+    "components": [ [ [ "lead", 10 ], [ "solder_wire", 10 ] ], [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "arrow_small_game_fletched",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",

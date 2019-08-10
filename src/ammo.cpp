@@ -64,7 +64,7 @@ void ammunition_type::check_consistency()
         const auto &at = ammo.second.default_ammotype_;
 
         // TODO: these ammo types should probably not have default ammo at all.
-        if( at == "UPS" || at == "components" || at == "thrown" ) {
+        if( at == "UPS" || at == "UPS_AIR" || at == "components" || at == "thrown" ) {
             continue;
         }
 
