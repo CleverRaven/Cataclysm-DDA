@@ -3909,7 +3909,7 @@ void player::check_needs_extremes()
     } else if( get_effect_int( effect_drunk ) > 4 ) {
         add_msg_if_player( m_bad, _( "Your breathing slows down to a stop." ) );
         add_memorial_log( pgettext( "memorial_male", "Died of an alcohol overdose." ),
-                        pgettext( "memorial_female", "Died of an alcohol overdose." ) );
+                          pgettext( "memorial_female", "Died of an alcohol overdose." ) );
         hp_cur[hp_torso] = 0;
     }
 
