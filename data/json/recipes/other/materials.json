@@ -64,6 +64,6 @@
     "time": "30 m",
     "batch_time_factors": [ 50, 2 ],
     "tools": [ [ [ "electrolysis_kit", 100 ] ], [ [ "jar_glass", -1 ], [ "jar_3l_glass", -1 ] ] ],
-    "components": [ [ [ "acid", 1 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "can_food_unsealed", 1 ] ] ]
+    "components": [ [ [ "acid", 1 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "tin_plate", 1 ], [ "tin_cup", 1 ] ] ]
   }
 ]
