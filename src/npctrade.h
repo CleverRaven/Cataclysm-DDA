@@ -25,7 +25,7 @@ class player;
 class item_pricing
 {
     public:
-        item_pricing( Character &c, item *it, int v, int count ) : loc( c, it ), price( v ) {
+        item_pricing( Character &c, item &it, int v, int count ) : loc( c, &it ), price( v ) {
             set_values( count );
         }
 
