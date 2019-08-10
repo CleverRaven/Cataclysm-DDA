@@ -2,7 +2,7 @@
   {
     "id": "50pellet",
     "type": "AMMO",
-    "name": ".50 Pellet",
+    "name": ".50 pellet",
     "description": "A huge .50 pellet for big bore air rifles.  It causes tremendous tissue damage for an air rifle.",
     "weight": 10,
     "volume": 1,
