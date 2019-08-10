@@ -1,0 +1,242 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_wood_stairs_down",
+    "name": "wooden stairs",
+    "description": "A wooden staircase leading down.",
+    "symbol": ">",
+    "color": "light_red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "GOES_DOWN", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 70,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_open_air",
+      "items": [
+        { "item": "2x4", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 0, 5 ] },
+        { "item": "splinter", "count": [ 2, 8 ] }
+      ]
+    },
+    "deconstruct": { "ter_set": "t_open_air", "items": [ { "item": "nail", "charges": [ 4, 8 ] }, { "item": "2x4", "count": [ 0, 4 ] } ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_stairs_up_half",
+    "name": "half-built wooden stairs",
+    "description": "Half of a wooden staircase.  Some work still needs to be done before this staircase is complete.",
+    "symbol": "<",
+    "color": "light_red",
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM" ],
+    "deconstruct": {
+      "deconstruct_above": true,
+      "ter_set": "t_floor",
+      "items": [ { "item": "nail", "charges": [ 12, 20 ] }, { "item": "2x4", "count": [ 2, 6 ] } ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 70,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "2x4", "count": [ 0, 5 ] },
+        { "item": "nail", "charges": [ 0, 5 ] },
+        { "item": "splinter", "count": [ 5, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_stairs_up_broken",
+    "name": "broken wooden stairs",
+    "description": "A number of planks are missing and the structure is beginning to sag and fall apart.  It's going to need quite a bit of work to repair this staircase.",
+    "symbol": "<",
+    "color": "light_red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 110,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "2x4", "count": [ 0, 2 ] },
+        { "item": "wood_panel", "count": [ 0, 1 ] },
+        { "item": "nail", "charges": [ 0, 5 ] },
+        { "item": "splinter", "count": [ 2, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_stairs_up",
+    "name": "wooden stairs",
+    "description": "A wooden staircase leading up",
+    "symbol": "<",
+    "color": "light_red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "GOES_UP", "PLACE_ITEM" ],
+    "deconstruct": {
+      "deconstruct_above": true,
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "nail", "charges": [ 12, 20 ] },
+        { "item": "2x4", "count": [ 8, 12 ] },
+        { "item": "wood_panel", "count": [ 1, 3 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wood_stairs_up_broken",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_stairs_down",
+    "name": "stairs",
+    "description": "A flight of stairs leading down.",
+    "symbol": ">",
+    "color": "yellow",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "INDOORS", "PLACE_ITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_stairs_up",
+    "name": "stairs",
+    "description": "A flight of stairs leading up.",
+    "symbol": "<",
+    "color": "yellow",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_UP", "INDOORS", "PLACE_ITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_manhole",
+    "name": "manhole",
+    "description": "This is a manhole.  The heavy iron cover lies over an entrance to the underworld of hidden tunnels beneath the streets where sewage and rain water frolic freely.",
+    "symbol": ">",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_manhole_cover",
+    "name": "manhole cover",
+    "description": "Just a manhole cover.",
+    "symbol": "0",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_ladder_up",
+    "name": "ladder",
+    "description": "A ladder leading up.",
+    "symbol": "<",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_ladder_down",
+    "name": "ladder",
+    "description": "A ladder leading down.",
+    "symbol": ">",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_slope_down",
+    "name": "downward slope",
+    "description": "A downward facing slope.",
+    "symbol": ">",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_slope_up",
+    "name": "upward slope",
+    "description": "An upward facing slope.",
+    "symbol": "<",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_rope_up",
+    "name": "rope leading up",
+    "description": "A rope.  You could climb up it.",
+    "symbol": "<",
+    "color": "white",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_UP" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_low_stairs_begin",
+    "name": "low stairs (beginning section)",
+    "description": "A flight of stairs leading up.",
+    "symbol": "<",
+    "color": "dark_gray_white",
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "BASHABLE", "FLAMMABLE", "PLACE_ITEM", "RAMP", "SEEN_FROM_ABOVE" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_low_stairs_end",
+    "name": "low stairs (end section)",
+    "description": "A flight of stairs leading up.",
+    "symbol": "<",
+    "color": "black_white",
+    "move_cost": 0,
+    "flags": [ "BASHABLE", "FLAMMABLE", "PLACE_ITEM", "RAMP", "RAMP_END", "SEEN_FROM_ABOVE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
+  }
+]
