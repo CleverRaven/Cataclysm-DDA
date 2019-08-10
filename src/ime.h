@@ -14,7 +14,7 @@ void disable_ime();
 class ime_sentry
 {
     public:
-        ime_sentry();
+        ime_sentry( bool enable = true );
         ~ime_sentry();
 };
 

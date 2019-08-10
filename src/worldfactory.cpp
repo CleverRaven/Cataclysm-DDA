@@ -19,6 +19,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h"
+#include "ime.h"
 #include "input.h"
 #include "json.h"
 #include "mod_manager.h"
@@ -1111,6 +1112,8 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
     ctxt.register_action( "PICK_RANDOM_WORLDNAME" );
 
     std::string worldname = world->world_name;
+
+    ime_sentry sentry( false ); // do not switch IME mode now, but set to raw input mode on return
     do {
         mvwprintz( w_confirmation, namebar_y, 2, c_white, _( "World Name:" ) );
         mvwprintz( w_confirmation, namebar_y, namebar_x, c_light_gray, line_of_32_underscores );

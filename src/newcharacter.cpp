@@ -20,6 +20,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "game.h"
+#include "ime.h"
 #include "input.h"
 #include "json.h"
 #include "mapsharing.h"
@@ -2218,6 +2219,8 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
     } else if( !get_option<std::string>( "DEF_CHAR_NAME" ).empty() ) {
         you.name = get_option<std::string>( "DEF_CHAR_NAME" );
     }
+
+    ime_sentry sentry( false ); // do not switch IME mode now, but set to raw input mode on return
     do {
         if( redraw ) {
             //Draw the line between editable and non-editable stuff.

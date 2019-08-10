@@ -92,9 +92,11 @@ void disable_ime()
     // TODO: other platforms?
 }
 
-ime_sentry::ime_sentry()
+ime_sentry::ime_sentry( bool enable )
 {
-    enable_ime();
+    if( enable ) {
+        enable_ime();
+    }
 }
 
 ime_sentry::~ime_sentry()
