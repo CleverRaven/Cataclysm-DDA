@@ -212,8 +212,9 @@ struct mutation_branch {
         std::map<body_part, int> encumbrance_covered;
         // Body parts that now need OVERSIZE gear
         std::set<body_part> restricts_gear;
+        // Mutation stat mods
         /** Key pair is <active: bool, mod type: "STR"> */
-        std::unordered_map<std::pair<bool, std::string>, int> mods; // Mutation stat mods
+        std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> mods;
         std::map<body_part, resistances> armor;
         std::vector<matype_id>
         initial_ma_styles; // Martial art styles that can be chosen upon character generation
