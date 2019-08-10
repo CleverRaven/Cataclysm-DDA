@@ -203,7 +203,7 @@ void main_menu::init_windows()
         return;
     }
 
-    w_background = catacurses::newwin( TERMY, TERMX, 0, 0 );
+    w_background = catacurses::newwin( TERMY, TERMX, point( 0, 0 ) );
     werase( w_background );
     wrefresh( w_background );
 
@@ -220,7 +220,7 @@ void main_menu::init_windows()
     const int x0 = ( TERMX - total_w ) / 2;
     const int y0 = ( TERMY - total_h ) / 2;
 
-    w_open = catacurses::newwin( total_h, total_w, y0, x0 );
+    w_open = catacurses::newwin( total_h, total_w, point( x0, y0 ) );
 
     iMenuOffsetY = total_h - 3;
     // note: if iMenuOffset is changed,
@@ -317,12 +317,12 @@ void main_menu::init_strings()
 void main_menu::display_text( const std::string &text, const std::string &title, int &selected )
 {
     catacurses::window w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                  TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                                  TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+                                  point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                                         TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
 
     catacurses::window w_text = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                                1 + static_cast<int>( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
-                                1 + static_cast<int>( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
+                                point( 1 + static_cast<int>( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ),
+                                       1 + static_cast<int>( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) ) );
 
     draw_border( w_border, BORDER_COLOR, title );
 
@@ -1017,7 +1017,7 @@ void main_menu::world_tab()
                     text_color = c_light_gray;
                     key_color = c_white;
                 }
-                wmove( w_open, yoffset - i, xoffset );
+                wmove( w_open, point( xoffset, yoffset - i ) );
                 wprintz( w_open, c_light_gray, "[" );
                 shortcut_print( w_open, text_color, key_color, vWorldSubItems[i] );
                 wprintz( w_open, c_light_gray, "]" );

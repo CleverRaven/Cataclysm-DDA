@@ -272,7 +272,7 @@ std::string uilist::inputfilter()
 
     wattron( window, border_color );
     for( int i = 1; i < w_width - 1; i++ ) {
-        mvwaddch( window, w_height - 1, i, LINE_OXOX );
+        mvwaddch( window, point( i, w_height - 1 ), LINE_OXOX );
     }
     wattroff( window, border_color );
 
@@ -514,7 +514,7 @@ void uilist::setup()
     if( static_cast<int>( entries.size() ) <= vmax ) {
         scrollbar_auto = false;
     }
-    window = catacurses::newwin( w_height, w_width, w_y, w_x );
+    window = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
     if( !window ) {
         debugmsg( "Window not created; probably trying to use uilist in test mode." );
         abort();

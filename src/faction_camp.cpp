@@ -2539,7 +2539,7 @@ void talk_function::draw_camp_tabs( const catacurses::window &win, const camp_ta
 {
     werase( win );
     const int width = getmaxx( win );
-    mvwhline( win, 2, 0, LINE_OXOX, width );
+    mvwhline( win, point( 0, 2 ), LINE_OXOX, width );
 
     std::vector<std::string> tabs;
     tabs.push_back( _( "MAIN" ) );

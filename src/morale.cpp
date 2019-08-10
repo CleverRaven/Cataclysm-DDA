@@ -480,7 +480,7 @@ void player_morale::display( int focus_eq )
     const int win_x = ( TERMX - win_w ) / 2;
     const int win_y = ( TERMY - win_h ) / 2;
 
-    catacurses::window w = catacurses::newwin( win_h, win_w, win_y, win_x );
+    catacurses::window w = catacurses::newwin( win_h, win_w, point( win_x, win_y ) );
     //lambda function used to print almost everything to the window
     const auto print_line = [ w ]( int y, const char *label, int value, bool isPercentage = false,
     nc_color color_override = c_unset ) -> int {
@@ -519,13 +519,13 @@ void player_morale::display( int focus_eq )
 
         mvwprintz( w, 1, 2, c_white, _( "Morale" ) );
 
-        mvwhline( w, 2, 0, LINE_XXXO, 1 );
-        mvwhline( w, 2, 1, 0, win_w - 2 );
-        mvwhline( w, 2, win_w - 1, LINE_XOXX, 1 );
+        mvwhline( w, point( 0, 2 ), LINE_XXXO, 1 );
+        mvwhline( w, point( 1, 2 ), 0, win_w - 2 );
+        mvwhline( w, point( win_w - 1, 2 ), LINE_XOXX, 1 );
 
-        mvwhline( w, win_h - 4, 0, LINE_XXXO, 1 );
-        mvwhline( w, win_h - 4, 1, 0, win_w - 2 );
-        mvwhline( w, win_h - 4, win_w - 1, LINE_XOXX, 1 );
+        mvwhline( w, point( 0, win_h - 4 ), LINE_XXXO, 1 );
+        mvwhline( w, point( 1, win_h - 4 ), 0, win_w - 2 );
+        mvwhline( w, point( win_w - 1, win_h - 4 ), LINE_XOXX, 1 );
 
         if( !points.empty() ) {
             const char *source_column = _( "Source" );

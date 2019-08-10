@@ -53,16 +53,14 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
     catacurses::window w_help = catacurses::newwin( FULL_SCREEN_HEIGHT / 2 + 2,
                                 FULL_SCREEN_WIDTH * 3 / 4,
-                                7 + iOffsetY + FULL_SCREEN_HEIGHT / 2 / 2, iOffsetX + 19 / 2 );
+                                point( iOffsetX + 19 / 2, 7 + iOffsetY + FULL_SCREEN_HEIGHT / 2 / 2 ) );
 
-    catacurses::window w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY,
-                                  iOffsetX );
+    catacurses::window w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                  point( iOffsetX, iOffsetY ) );
     catacurses::window w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                  1 + iOffsetY,
-                                  1 + iOffsetX );
+                                  point( 1 + iOffsetX, 1 + iOffsetY ) );
     catacurses::window w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                           iHeaderHeight + 1 + iOffsetY,
-                           1 + iOffsetX );
+                           point( 1 + iOffsetX, iHeaderHeight + 1 + iOffsetY ) );
 
     /**
      * All of the stuff in this lambda needs to be drawn (1) initially, and
@@ -408,10 +406,10 @@ void auto_pickup::test_pattern( const int iTab, const int iRow )
     std::ostringstream sTemp;
 
     const catacurses::window w_test_rule_border = catacurses::newwin( iContentHeight + 2, iContentWidth,
-            iOffsetY, iOffsetX );
+            point( iOffsetX, iOffsetY ) );
     const catacurses::window w_test_rule_content = catacurses::newwin( iContentHeight,
             iContentWidth - 2,
-            1 + iOffsetY, 1 + iOffsetX );
+            point( 1 + iOffsetX, 1 + iOffsetY ) );
 
     int nmatch = vMatchingItems.size();
     const std::string buf = string_format( ngettext( "%1$d item matches: %2$s",

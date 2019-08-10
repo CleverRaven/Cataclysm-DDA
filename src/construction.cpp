@@ -161,8 +161,8 @@ static void draw_grid( const catacurses::window &w, const int list_width )
     draw_border( w );
     mvwprintz( w, 0, 2, c_light_red, _( " Construction " ) );
     // draw internal lines
-    mvwvline( w, 1, list_width, LINE_XOXO, getmaxy( w ) - 2 );
-    mvwhline( w, 2, 1, LINE_OXOX, list_width );
+    mvwvline( w, point( list_width, 1 ), LINE_XOXO, getmaxy( w ) - 2 );
+    mvwhline( w, point( 1, 2 ), LINE_OXOX, list_width );
     // draw intersections
     mvwputch( w, 0, list_width, c_light_gray, LINE_OXXX );
     mvwputch( w, getmaxy( w ) - 1, list_width, c_light_gray, LINE_XXOX );
@@ -231,13 +231,13 @@ int construction_menu( bool blueprint )
     const int w_width = std::max( FULL_SCREEN_WIDTH, TERMX * 2 / 3 );
     const int w_y0 = ( TERMY > w_height ) ? ( TERMY - w_height ) / 2 : 0;
     const int w_x0 = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
-    catacurses::window w_con = catacurses::newwin( w_height, w_width, w_y0, w_x0 );
+    catacurses::window w_con = catacurses::newwin( w_height, w_width, point( w_x0, w_y0 ) );
 
     const int w_list_width = static_cast<int>( .375 * w_width );
     const int w_list_height = w_height - 4;
     const int w_list_x0 = 1;
     catacurses::window w_list = catacurses::newwin( w_list_height, w_list_width,
-                                w_y0 + 3, w_x0 + w_list_x0 );
+                                point( w_x0 + w_list_x0, w_y0 + 3 ) );
 
     draw_grid( w_con, w_list_width + w_list_x0 );
 
@@ -315,7 +315,7 @@ int construction_menu( bool blueprint )
         }
         isnew = false;
         // Erase existing tab selection & list of constructions
-        mvwhline( w_con, 1, 1, ' ', w_list_width );
+        mvwhline( w_con, point( 1, 1 ), ' ', w_list_width );
         werase( w_list );
         // Print new tab listing
         mvwprintz( w_con, 1, 1, c_yellow, "<< %s >>", _( construct_cat[tabindex].name ) );
@@ -338,7 +338,7 @@ int construction_menu( bool blueprint )
             const int pos_x = w_list_width + w_list_x0 + 2;
             const int available_window_width = w_width - pos_x - 1;
             for( int i = 1; i < w_height - 1; i++ ) {
-                mvwhline( w_con, i, pos_x, ' ', available_window_width );
+                mvwhline( w_con, point( pos_x, i ), ' ', available_window_width );
             }
 
             std::vector<std::string> notes;

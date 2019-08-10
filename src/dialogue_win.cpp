@@ -19,7 +19,7 @@ void dialogue_window::open_dialogue( bool text_only )
     int win_beginx = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
     int maxy = win_beginy ? TERMY - 2 * win_beginy : FULL_SCREEN_HEIGHT;
     int maxx = win_beginx ? TERMX - 2 * win_beginx : FULL_SCREEN_WIDTH;
-    d_win = catacurses::newwin( maxy, maxx, win_beginy, win_beginx );
+    d_win = catacurses::newwin( maxy, maxx, point( win_beginx, win_beginy ) );
 }
 
 void dialogue_window::print_header( const std::string &name )
@@ -30,7 +30,7 @@ void dialogue_window::print_header( const std::string &name )
     draw_border( d_win );
     int win_midx = getmaxx( d_win ) / 2;
     int winy = getmaxy( d_win );
-    mvwvline( d_win, 1, win_midx + 1, LINE_XOXO, winy - 1 );
+    mvwvline( d_win, point( win_midx + 1, 1 ), LINE_XOXO, winy - 1 );
     mvwputch( d_win, 0, win_midx + 1, BORDER_COLOR, LINE_OXXX );
     mvwputch( d_win, winy - 1, win_midx + 1, BORDER_COLOR, LINE_XXOX );
     mvwprintz( d_win, 1,  1, c_white, _( "Dialogue: %s" ), name );

@@ -144,12 +144,12 @@ void computer::use()
 {
     if( !w_border ) {
         w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                       TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                                       TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+                                       point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                                              TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
     }
     if( !w_terminal ) {
         w_terminal = catacurses::newwin( getmaxy( w_border ) - 2, getmaxx( w_border ) - 2,
-                                         getbegy( w_border ) + 1, getbegx( w_border ) + 1 );
+                                         point( getbegx( w_border ) + 1, getbegy( w_border ) + 1 ) );
     }
     draw_border( w_border );
     wrefresh( w_border );
@@ -1829,7 +1829,7 @@ void computer::print_gibberish_line()
 void computer::reset_terminal()
 {
     werase( w_terminal );
-    wmove( w_terminal, 0, 0 );
+    wmove( w_terminal, point( 0, 0 ) );
     wrefresh( w_terminal );
 }
 

@@ -383,8 +383,9 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
     size_t maxy = part_y ? TERMY - 2 * part_y : FULL_SCREEN_HEIGHT;
     size_t maxx = part_x ? TERMX - 2 * part_x : FULL_SCREEN_WIDTH;
 
-    catacurses::window w_list = catacurses::newwin( maxy, maxx, part_y + TITLE_TAB_HEIGHT, part_x );
-    catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, maxx, part_y, part_x );
+    catacurses::window w_list = catacurses::newwin( maxy, maxx, point( part_x,
+                                part_y + TITLE_TAB_HEIGHT ) );
+    catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, maxx, point( part_x, part_y ) );
 
     size_t sel = 0;
     int offset = 0;
@@ -399,7 +400,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
     std::vector<std::string> mission_text;
 
     catacurses::window w_info = catacurses::newwin( info_height, info_width,
-                                part_y + TITLE_TAB_HEIGHT + 1, part_x + MAX_FAC_NAME_SIZE );
+                                point( part_x + MAX_FAC_NAME_SIZE, part_y + TITLE_TAB_HEIGHT + 1 ) );
 
     input_context ctxt( "FACTIONS" );
     ctxt.register_action( "UP", translate_marker( "Move cursor up" ) );

@@ -974,8 +974,8 @@ void input_context::display_menu()
     int maxheight = max( FULL_SCREEN_HEIGHT, TERMY );
     int height = min( maxheight, static_cast<int>( hotkeys.size() ) + LEGEND_HEIGHT + BORDER_SPACE );
 
-    catacurses::window w_help = catacurses::newwin( height - 2, width - 2, maxheight / 2 - height / 2,
-                                maxwidth / 2 - width / 2 );
+    catacurses::window w_help = catacurses::newwin( height - 2, width - 2,
+                                point( maxwidth / 2 - width / 2, maxheight / 2 - height / 2 ) );
 
     // has the user changed something?
     bool changed = false;

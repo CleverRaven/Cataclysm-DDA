@@ -86,10 +86,10 @@ class wish_mutate_callback: public uilist_callback
 
             const int startx = menu->w_width - menu->pad_right;
             for( int i = 2; i < lastlen; i++ ) {
-                mvwprintw( menu->window, i, startx, padding );
+                mvwprintw( menu->window, point( startx, i ), padding );
             }
 
-            mvwprintw( menu->window, 3, startx,
+            mvwprintw( menu->window, point( startx, 3 ),
                        mdata.valid ? _( "Valid" ) : _( "Nonvalid" ) );
             int line2 = 4;
 
@@ -157,7 +157,7 @@ class wish_mutate_callback: public uilist_callback
                 line2++;
                 mvwprintz( menu->window, line2, startx, c_light_gray,  _( "Type:" ) );
                 for( auto &j : mdata.types ) {
-                    mvwprintw( menu->window, line2, startx + 11, j );
+                    mvwprintw( menu->window, point( startx + 11, line2 ), j );
                     line2++;
                 }
             }
@@ -166,7 +166,7 @@ class wish_mutate_callback: public uilist_callback
                 line2++;
                 mvwprintz( menu->window, line2, startx, c_light_gray,  _( "Category:" ) );
                 for( auto &j : mdata.category ) {
-                    mvwprintw( menu->window, line2, startx + 11, j );
+                    mvwprintw( menu->window, point( startx + 11, line2 ), j );
                     line2++;
                 }
             }
@@ -191,7 +191,7 @@ class wish_mutate_callback: public uilist_callback
             mvwprintz( menu->window, menu->w_height - 3, startx, c_green, msg );
             msg = padding;
             input_context ctxt( menu->input_category );
-            mvwprintw( menu->window, menu->w_height - 2, startx,
+            mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
                        _( "[%s] find, [%s] quit, [t] toggle base trait" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
 
@@ -304,8 +304,8 @@ class wish_monster_callback: public uilist_callback
         }
 
         void setup( uilist *menu ) {
-            w_info = catacurses::newwin( menu->w_height - 2, menu->pad_right, 1,
-                                         menu->w_x + menu->w_width - 1 - menu->pad_right );
+            w_info = catacurses::newwin( menu->w_height - 2, menu->pad_right,
+                                         point( menu->w_x + menu->w_width - 1 - menu->pad_right, 1 ) );
             padding = std::string( getmaxx( w_info ), ' ' );
             werase( w_info );
             wrefresh( w_info );
@@ -359,7 +359,7 @@ class wish_monster_callback: public uilist_callback
             mvwprintz( w_info, getmaxy( w_info ) - 3, 0, c_green, msg );
             msg = padding;
             input_context ctxt( menu->input_category );
-            mvwprintw( w_info, getmaxy( w_info ) - 2, 0,
+            mvwprintw( w_info, point( 0, getmaxy( w_info ) - 2 ),
                        _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
         }
@@ -463,10 +463,10 @@ class wish_item_callback: public uilist_callback
             const int startx = menu->w_width - menu->pad_right;
             const std::string padding( menu->pad_right, ' ' );
             for( int y = 2; y < menu->w_height - 1; y++ ) {
-                mvwprintw( menu->window, y, startx - 1, padding );
+                mvwprintw( menu->window, point( startx - 1, y ), padding );
             }
             item tmp( standard_itype_ids[entnum], calendar::turn );
-            mvwhline( menu->window, 1, startx, ' ', menu->pad_right - 1 );
+            mvwhline( menu->window, point( startx, 1 ), ' ', menu->pad_right - 1 );
             const std::string header = string_format( "#%d: %s%s%s", entnum,
                                        standard_itype_ids[entnum]->get_id().c_str(),
                                        incontainer ? _( " (contained)" ) : "",
@@ -480,7 +480,7 @@ class wish_item_callback: public uilist_callback
             msg.erase();
 
             input_context ctxt( menu->input_category );
-            mvwprintw( menu->window, menu->w_height - 2, startx,
+            mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
                        _( "[%s] find, [f] container, [F] flag, [%s] quit" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
         }

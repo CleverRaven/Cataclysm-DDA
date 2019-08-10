@@ -2368,13 +2368,13 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     mapLines[60] = true;
 
     catacurses::window w_options_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                          iOffsetY - iWorldOffset, iOffsetX );
+                                          point( iOffsetX, iOffsetY - iWorldOffset ) );
     catacurses::window w_options_tooltip = catacurses::newwin( iTooltipHeight, FULL_SCREEN_WIDTH - 2,
-                                           1 + iOffsetY, 1 + iOffsetX );
+                                           point( 1 + iOffsetX, 1 + iOffsetY ) );
     catacurses::window w_options_header = catacurses::newwin( 1, FULL_SCREEN_WIDTH - 2,
-                                          1 + iTooltipHeight + iOffsetY, 1 + iOffsetX );
+                                          point( 1 + iOffsetX, 1 + iTooltipHeight + iOffsetY ) );
     catacurses::window w_options = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                                   iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX );
+                                   point( 1 + iOffsetX, iTooltipHeight + 2 + iOffsetY ) );
 
     if( world_options_only ) {
         worldfactory::draw_worldgen_tabs( w_options_border, 1 );

@@ -11393,7 +11393,7 @@ std::string player::short_description() const
 
 int player::print_info( const catacurses::window &w, int vStart, int, int column ) const
 {
-    mvwprintw( w, vStart++, column, _( "You (%s)" ), name );
+    mvwprintw( w, point( column, vStart++ ), _( "You (%s)" ), name );
     return vStart;
 }
 

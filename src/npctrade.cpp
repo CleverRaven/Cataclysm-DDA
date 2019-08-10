@@ -192,9 +192,9 @@ void item_pricing::adjust_values( const double adjust, faction *fac )
 
 void trading_window::setup_win( npc &np )
 {
-    w_head = catacurses::newwin( 4, TERMX, 0, 0 );
-    w_them = catacurses::newwin( TERMY - 4, win_they_w, 4, 0 );
-    w_you = catacurses::newwin( TERMY - 4, TERMX - win_they_w, 4, win_they_w );
+    w_head = catacurses::newwin( 4, TERMX, point( 0, 0 ) );
+    w_them = catacurses::newwin( TERMY - 4, win_they_w, point( 0, 4 ) );
+    w_you = catacurses::newwin( TERMY - 4, TERMX - win_they_w, point( win_they_w, 4 ) );
     mvwprintz( w_head, 0, 0, c_white, header_message.c_str(), np.disp_name() );
 
     // Set up line drawings
@@ -339,10 +339,10 @@ void trading_window::update_win( npc &p, const std::string &deal, const int adju
                            price_color, price_str );
             }
             if( offset > 0 ) {
-                mvwprintw( w_whose, entries_per_page + 2, 1, _( "< Back" ) );
+                mvwprintw( w_whose, point( 1, entries_per_page + 2 ), _( "< Back" ) );
             }
             if( offset + entries_per_page < list.size() ) {
-                mvwprintw( w_whose, entries_per_page + 2, 9, _( "More >" ) );
+                mvwprintw( w_whose, point( 9, entries_per_page + 2 ), _( "More >" ) );
             }
         }
         wrefresh( w_head );
@@ -355,8 +355,8 @@ void trading_window::show_item_data( npc &np, size_t offset,
                                      std::vector<item_pricing> &target_list )
 {
     update = true;
-    catacurses::window w_tmp = catacurses::newwin( 3, 21, 1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2,
-                               30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2 );
+    catacurses::window w_tmp = catacurses::newwin( 3, 21, point( 30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2,
+                               1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) );
     mvwprintz( w_tmp, 1, 1, c_red, _( "Examine which item?" ) );
     draw_border( w_tmp );
     wrefresh( w_tmp );
