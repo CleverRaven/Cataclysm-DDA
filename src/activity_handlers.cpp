@@ -2079,7 +2079,6 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
 
 void activity_handlers::hand_crank_do_turn_air( player_activity *act, player *p )
 {
-
     act->moves_left -= 100;
     item &hand_crank_item_air = p ->i_at( act->position );
 
