@@ -21,18 +21,14 @@
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
     "verb": "constructing",
-    "suspendable": false,
-    "based_on": "neither",
-    "no_resume": true
+    "based_on": "neither"
   },
   {
     "id": "ACT_TIDY_UP",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
     "verb": "tidying up",
-    "suspendable": false,
-    "based_on": "neither",
-    "no_resume": true
+    "based_on": "neither"
   },
   {
     "id": "ACT_GAME",
