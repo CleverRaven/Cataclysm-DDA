@@ -2092,7 +2092,6 @@ void activity_handlers::hand_crank_do_turn_air( player_activity *act, player *p 
         act->moves_left = 0;
         add_msg( m_info, _( "You're too exhausted to keep cranking." ) );
     }
-
 }
 
 void activity_handlers::vibe_do_turn( player_activity *act, player *p )
