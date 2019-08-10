@@ -374,7 +374,7 @@ void trading_window::show_item_data( npc &np, size_t offset,
     wrefresh( w_head );
     help += offset;
     if( help < target_list.size() ) {
-        popup( target_list[help].loc.get_item()->info(), PF_NONE );
+        popup( target_list[help].loc.get_item()->info( true ), PF_NONE );
     }
 }
 
