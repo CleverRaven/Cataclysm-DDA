@@ -6899,7 +6899,6 @@ std::list<item> player::use_charges( const itype_id &what, int qty,
             qty -= std::min( qty, ups );
         }
 
-
     }
 
     else if( what == "UPS_AIR" ) {
