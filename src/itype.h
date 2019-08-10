@@ -626,7 +626,7 @@ struct islot_battery {
 };
 
 struct islot_air {
-    /** Maximum energy the battery can store */
+    /** Maximum air the cylinder can store */
     units::energy max_capacity;
 };
 
