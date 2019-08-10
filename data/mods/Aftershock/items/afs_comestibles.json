@@ -110,8 +110,8 @@
       "type": "consume_drug",
       "activation_message": "Your vision sharpens and your eyes widen as the sungel slams your senses.",
       "effects": [
-        { "id": "pkill3", "duration": 20 },
-        { "id": "pkill2", "duration": 200 },
+        { "id": "pkill3", "duration": 120 },
+        { "id": "pkill2", "duration": 1200 },
         { "id": "cough_suppress", "duration": 1000 }
       ]
     }
@@ -130,8 +130,8 @@
       "type": "consume_drug",
       "activation_message": "You go limp and collapse as the sunesthesia knocks you senseless.",
       "effects": [
-        { "id": "pkill3", "duration": 80 },
-        { "id": "pkill2", "duration": 200 },
+        { "id": "pkill3", "duration": 480 },
+        { "id": "pkill2", "duration": 1200 },
         { "id": "cough_suppress", "duration": 1000 },
         { "id": "downed", "duration": 1 }
       ]
