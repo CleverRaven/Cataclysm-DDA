@@ -1509,6 +1509,7 @@ class player : public Character
         action_id get_next_auto_move_direction();
         bool defer_move( const tripoint &next );
         void shift_destination( int shiftx, int shifty );
+        void shift_destination( const point &shift );
         void forced_dismount();
         void dismount();
 
