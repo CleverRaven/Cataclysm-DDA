@@ -491,7 +491,7 @@ ma_technique::ma_technique()
     dodge_counter = false; // like tec_grab
     block_counter = false; // like tec_counter
 
-     // conditional
+    // conditional
     downed_target = false;    // only works on downed enemies
     stunned_target = false;   // only works on stunned enemies
 
