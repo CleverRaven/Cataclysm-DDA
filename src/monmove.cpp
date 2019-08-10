@@ -1690,7 +1690,7 @@ void monster::knock_back_to( const tripoint &to )
          Make sure that non-smashing monsters won't "teleport" through windows
          Injure monsters if they're gonna be walking through pits or whatever
  */
-bool monster::will_reach( int x, int y )
+bool monster::will_reach( const point &p )
 {
     monster_attitude att = attitude( &g->u );
     if( att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND && att != MATT_ZLAVE ) {
@@ -1701,37 +1701,36 @@ bool monster::will_reach( int x, int y )
         return false;
     }
 
-    if( ( has_flag( MF_IMMOBILE ) || has_flag( MF_RIDEABLE_MECH ) ) && ( posx() != x ||
-            posy() != y ) ) {
+    if( ( has_flag( MF_IMMOBILE ) || has_flag( MF_RIDEABLE_MECH ) ) && ( pos().xy() != p ) ) {
         return false;
     }
 
-    auto path = g->m.route( pos(), tripoint( x, y, posz() ), get_pathfinding_settings() );
+    auto path = g->m.route( pos(), tripoint( p, posz() ), get_pathfinding_settings() );
     if( path.empty() ) {
         return false;
     }
 
     if( has_flag( MF_SMELLS ) && g->scent.get( pos() ) > 0 &&
-        g->scent.get( { x, y, posz() } ) > g->scent.get( pos() ) ) {
+        g->scent.get( { p, posz() } ) > g->scent.get( pos() ) ) {
         return true;
     }
 
-    if( can_hear() && wandf > 0 && rl_dist( wander_pos.x, wander_pos.y, x, y ) <= 2 &&
+    if( can_hear() && wandf > 0 && rl_dist( wander_pos.xy(), p ) <= 2 &&
         rl_dist( posx(), posy(), wander_pos.x, wander_pos.y ) <= wandf ) {
         return true;
     }
 
-    if( can_see() && sees( tripoint( x, y, posz() ) ) ) {
+    if( can_see() && sees( tripoint( p, posz() ) ) ) {
         return true;
     }
 
     return false;
 }
 
-int monster::turns_to_reach( int x, int y )
+int monster::turns_to_reach( const point &p )
 {
     // This function is a(n old) temporary hack that should soon be removed
-    auto path = g->m.route( pos(), tripoint( x, y, posz() ), get_pathfinding_settings() );
+    auto path = g->m.route( pos(), tripoint( p, posz() ), get_pathfinding_settings() );
     if( path.empty() ) {
         return 999;
     }

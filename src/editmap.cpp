@@ -460,7 +460,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
                 if( game_map ) {
                     Creature *critter = g->critter_at( p );
                     if( critter != nullptr ) {
-                        critter->draw( w, center.x, center.y, false );
+                        critter->draw( w, center.xy(), false );
                     } else {
                         m->drawsq( w, g->u, p, false, draw_itm, center, false, true );
                     }

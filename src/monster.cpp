@@ -858,17 +858,13 @@ void monster::set_goal( const tripoint &p )
     goal = p;
 }
 
-void monster::shift( int sx, int sy )
+void monster::shift( const point &sm_shift )
 {
-    const int xshift = sx * SEEX;
-    const int yshift = sy * SEEY;
-    position.x -= xshift;
-    position.y -= yshift;
-    goal.x -= xshift;
-    goal.y -= yshift;
+    const point ms_shift = sm_to_ms_copy( sm_shift );
+    position -= ms_shift;
+    goal -= ms_shift;
     if( wandf > 0 ) {
-        wander_pos.x -= xshift;
-        wander_pos.y -= yshift;
+        wander_pos -= ms_shift;
     }
 }
 

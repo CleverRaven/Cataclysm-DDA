@@ -3327,7 +3327,7 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
         return;
     }
     if( u.sees( critter ) || &critter == &u ) {
-        critter.draw( w_terrain, center.x, center.y, false );
+        critter.draw( w_terrain, center.xy(), false );
         return;
     }
 
@@ -10220,11 +10220,10 @@ void game::vertical_move( int movez, bool force )
         stored_mount = *u.mounted_creature.get();
     }
     if( !m.has_zlevels() ) {
-        const int to_x = u.posx();
-        const int to_y = u.posy();
+        const tripoint to = u.pos();
         for( monster &critter : all_monsters() ) {
-            int turns = critter.turns_to_reach( to_x, to_y );
-            if( turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach( to_x, to_y )
+            int turns = critter.turns_to_reach( to.xy() );
+            if( turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach( to.xy() )
                 && !slippedpast ) {
                 critter.staircount = 10 + turns;
                 critter.on_unload();
@@ -10584,27 +10583,26 @@ point game::update_map( player &p )
 
 point game::update_map( int &x, int &y )
 {
-    int shiftx = 0;
-    int shifty = 0;
+    point shift;
 
     while( x < HALF_MAPSIZE_X ) {
         x += SEEX;
-        shiftx--;
+        shift.x--;
     }
     while( x >= HALF_MAPSIZE_X + SEEX ) {
         x -= SEEX;
-        shiftx++;
+        shift.x++;
     }
     while( y < HALF_MAPSIZE_Y ) {
         y += SEEY;
-        shifty--;
+        shift.y--;
     }
     while( y >= HALF_MAPSIZE_Y + SEEY ) {
         y -= SEEY;
-        shifty++;
+        shift.y++;
     }
 
-    if( shiftx == 0 && shifty == 0 ) {
+    if( shift == point_zero ) {
         // adjust player position
         u.setpos( tripoint( x, y, get_levz() ) );
         // Not actually shifting the submaps, all the stuff below would do nothing
@@ -10612,15 +10610,16 @@ point game::update_map( int &x, int &y )
     }
 
     // this handles loading/unloading submaps that have scrolled on or off the viewport
-    m.shift( shiftx, shifty );
+    m.shift( shift.x, shift.y );
 
     // Shift monsters
-    shift_monsters( shiftx, shifty, 0 );
-    u.shift_destination( -shiftx * SEEX, -shifty * SEEY );
+    shift_monsters( shift.x, shift.y, 0 );
+    const point shift_ms = sm_to_ms_copy( shift );
+    u.shift_destination( -shift_ms );
 
     // Shift NPCs
     for( auto it = active_npc.begin(); it != active_npc.end(); ) {
-        ( *it )->shift( shiftx, shifty );
+        ( *it )->shift( shift.x, shift.y );
         if( ( *it )->posx() < 0 - SEEX * 2 || ( *it )->posy() < 0 - SEEX * 2 ||
             ( *it )->posx() > SEEX * ( MAPSIZE + 2 ) || ( *it )->posy() > SEEY * ( MAPSIZE + 2 ) ) {
             //Remove the npc from the active list. It remains in the overmap list.
@@ -10631,7 +10630,7 @@ point game::update_map( int &x, int &y )
         }
     }
 
-    scent.shift( shiftx * SEEX, shifty * SEEY );
+    scent.shift( shift_ms.x, shift_ms.y );
 
     // Also ensure the player is on current z-level
     // get_levz() should later be removed, when there is no longer such a thing
@@ -10661,7 +10660,7 @@ point game::update_map( int &x, int &y )
     // Update what parts of the world map we can see
     update_overmap_seen();
 
-    return point( shiftx, shifty );
+    return shift;
 }
 
 void game::update_overmap_seen()
@@ -10959,7 +10958,7 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
     }
     for( monster &critter : all_monsters() ) {
         if( shiftx != 0 || shifty != 0 ) {
-            critter.shift( shiftx, shifty );
+            critter.shift( point( shiftx, shifty ) );
         }
 
         if( m.inbounds( critter.pos() ) && ( shiftz == 0 || m.has_zlevels() ) ) {
