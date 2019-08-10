@@ -1191,7 +1191,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     // and another of the zones is for a seed that we have
                     // so loop again, and return false once all zones done.
                 }
-
             } else {
                 // cant plant, till or harvest
                 return activity_reason_info::fail( ALREADY_DONE );
