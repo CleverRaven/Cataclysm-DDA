@@ -236,5 +236,40 @@
       "str_min_supported": 100,
       "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_linoleum_white_no_roof",
+    "name": "linoleum tile",
+    "looks_like": "t_linoleum_white",
+    "description": "A section of flooring made out of a tough, rubbery material.  Colored a simple white.",
+    "symbol": ".",
+    "color": "white",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT", "ROAD" ],
+    "ter_set": "t_null",
+    "str_min": 50,
+    "str_max": 400,
+    "str_min_supported": 100,
+    "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_linoleum_gray_no_roof",
+    "name": "linoleum tile",
+    "looks_like": "t_linoleum_gray",
+    "description": "A section of flooring made out of a tough, gray, rubbery material.",
+    "symbol": ".",
+    "color": "light_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+    }
   }
 ]
