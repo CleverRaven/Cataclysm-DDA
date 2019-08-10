@@ -131,7 +131,9 @@ class effect_type
         std::string remove_memorial_log;
 
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
-        std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double> mod_data;
+        std::unordered_map <
+        std::tuple<std::string, bool, std::string, std::string>, double, cata::tuple_hash
+        > mod_data;
 };
 
 class effect
