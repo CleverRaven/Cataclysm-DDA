@@ -952,7 +952,7 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
     }
 
     if( pages_count() > 1 ) {
-        mvwprintw( win, y + height - 1, x, _( "Page %d/%d" ), page_index() + 1, pages_count() );
+        mvwprintw( win, point( x, y + height - 1 ), _( "Page %d/%d" ), page_index() + 1, pages_count() );
     }
 }
 
@@ -1381,7 +1381,7 @@ void inventory_selector::draw_header( const catacurses::window &w ) const
     trim_and_print( w, border, border + 1, getmaxx( w ) - 2 * ( border + 1 ), c_white, title );
     trim_and_print( w, border + 1, border + 1, getmaxx( w ) - 2 * ( border + 1 ), c_dark_gray, hint );
 
-    mvwhline( w, border + get_header_height(), border, LINE_OXOX, getmaxx( w ) - 2 * border );
+    mvwhline( w, point( border, border + get_header_height() ), LINE_OXOX, getmaxx( w ) - 2 * border );
 
     if( display_stats ) {
         size_t y = border;
@@ -1473,8 +1473,7 @@ void inventory_selector::resize_window( int width, int height )
 {
     if( !w_inv || width != getmaxx( w_inv ) || height != getmaxy( w_inv ) ) {
         w_inv = catacurses::newwin( height, width,
-                                    VIEW_OFFSET_Y + ( TERMY - height ) / 2,
-                                    VIEW_OFFSET_X + ( TERMX - width ) / 2 );
+                                    point( VIEW_OFFSET_X + ( TERMX - width ) / 2, VIEW_OFFSET_Y + ( TERMY - height ) / 2 ) );
     }
 }
 
@@ -1576,8 +1575,8 @@ void inventory_selector::draw_frame( const catacurses::window &w ) const
     draw_border( w );
 
     const int y = border + get_header_height();
-    mvwhline( w, y, 0, LINE_XXXO, 1 );
-    mvwhline( w, y, getmaxx( w ) - border, LINE_XOXX, 1 );
+    mvwhline( w, point( 0, y ), LINE_XXXO, 1 );
+    mvwhline( w, point( getmaxx( w ) - border, y ), LINE_XOXX, 1 );
 }
 
 std::pair<std::string, nc_color> inventory_selector::get_footer( navigation_mode m ) const

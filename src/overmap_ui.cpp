@@ -346,11 +346,13 @@ class map_notes_callback : public uilist_callback
         void select( int, uilist *menu ) override {
             _selected = menu->selected;
             const auto map_around = get_overmap_neighbors( note_location() );
-            catacurses::window w_preview = catacurses::newwin( npm_height + 2,
-                                           max_note_display_length - npm_width - 1,
-                                           2, npm_width + 2 );
-            catacurses::window w_preview_title = catacurses::newwin( 2, max_note_display_length + 1, 0, 0 );
-            catacurses::window w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, 2, 0 );
+            catacurses::window w_preview =
+                catacurses::newwin( npm_height + 2, max_note_display_length - npm_width - 1,
+                                    point( npm_width + 2, 2 ) );
+            catacurses::window w_preview_title =
+                catacurses::newwin( 2, max_note_display_length + 1, point( 0, 0 ) );
+            catacurses::window w_preview_map =
+                catacurses::newwin( npm_height + 2, npm_width + 2, point( 0, 2 ) );
             const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows =
                 std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
             update_note_preview( old_note(), map_around, preview_windows );
@@ -993,7 +995,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     }
     // Done with all drawing!
     wrefresh( wbar );
-    wmove( w, om_half_height, om_half_width );
+    wmove( w, point( om_half_width, om_half_height ) );
     wrefresh( w );
 }
 
@@ -1019,9 +1021,11 @@ void create_note( const tripoint &curs )
 
     catacurses::window w_preview = catacurses::newwin( npm_height + 2,
                                    max_note_display_length - npm_width - 1,
-                                   2, npm_width + 2 );
-    catacurses::window w_preview_title = catacurses::newwin( 2, max_note_display_length + 1, 0, 0 );
-    catacurses::window w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, 2, 0 );
+                                   point( npm_width + 2, 2 ) );
+    catacurses::window w_preview_title = catacurses::newwin( 2, max_note_display_length + 1, point( 0,
+                                         0 ) );
+    catacurses::window w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, point( 0,
+                                       2 ) );
     std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows =
         std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
 
@@ -1120,7 +1124,7 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
     int i = 0;
     //Navigate through results
     tripoint tmp = curs;
-    catacurses::window w_search = catacurses::newwin( 13, 27, 3, TERMX - 27 );
+    catacurses::window w_search = catacurses::newwin( 13, 27, point( TERMX - 27, 3 ) );
 
     input_context ctxt( "OVERMAP_SEARCH" );
     ctxt.register_leftright();
@@ -1194,7 +1198,7 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
     pmenu.query();
 
     if( pmenu.ret >= 0 ) {
-        catacurses::window w_editor = catacurses::newwin( 15, 27, 3, TERMX - 27 );
+        catacurses::window w_editor = catacurses::newwin( 15, 27, point( TERMX - 27, 3 ) );
         input_context ctxt( "OVERMAP_EDITOR" );
         ctxt.register_directions();
         ctxt.register_action( "CONFIRM" );
@@ -1293,12 +1297,12 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
 
 static tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() )
 {
-    g->w_omlegend = catacurses::newwin( TERMY, 28, 0, TERMX - 28 );
-    g->w_overmap = catacurses::newwin( OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, 0, 0 );
+    g->w_omlegend = catacurses::newwin( TERMY, 28, point( TERMX - 28, 0 ) );
+    g->w_overmap = catacurses::newwin( OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, point( 0, 0 ) );
 
     // Draw black padding space to avoid gap between map and legend
     // also clears the pixel minimap in TILES
-    g->w_blackspace = catacurses::newwin( TERMY, TERMX, 0, 0 );
+    g->w_blackspace = catacurses::newwin( TERMY, TERMX, point( 0, 0 ) );
     mvwputch( g->w_blackspace, 0, 0, c_black, ' ' );
     wrefresh( g->w_blackspace );
 

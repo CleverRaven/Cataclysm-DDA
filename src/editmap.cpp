@@ -320,18 +320,18 @@ void editmap::uphelp( const std::string &txt1, const std::string &txt2, const st
 {
 
     if( !txt1.empty() ) {
-        mvwprintw( w_help, 0, 0, padding );
-        mvwprintw( w_help, 1, 0, padding );
-        mvwprintw( w_help, !txt2.empty() ? 0 : 1, 0, txt1 );
+        mvwprintw( w_help, point( 0, 0 ), padding );
+        mvwprintw( w_help, point( 0, 1 ), padding );
+        mvwprintw( w_help, point( 0, !txt2.empty() ? 0 : 1 ), txt1 );
         if( !txt2.empty() ) {
-            mvwprintw( w_help, 1, 0, txt2 );
+            mvwprintw( w_help, point( 0, 1 ), txt2 );
         }
     }
     if( !title.empty() ) {
         int hwidth = getmaxx( w_help );
-        mvwhline( w_help, 2, 0, LINE_OXOX, hwidth );
+        mvwhline( w_help, point( 0, 2 ), LINE_OXOX, hwidth );
         int starttxt = static_cast<int>( ( hwidth - title.size() - 4 ) / 2 );
-        mvwprintw( w_help, 2, starttxt, "< " );
+        mvwprintw( w_help, point( starttxt, 2 ), "< " );
         wprintz( w_help, c_cyan, title );
         wprintw( w_help, " >" );
     }
@@ -366,10 +366,10 @@ cata::optional<tripoint> editmap::edit()
     uberdraw = uistate.editmap_nsa_viewmode;
     infoHeight = 20;
 
-    w_info = catacurses::newwin( infoHeight, width, TERMY - infoHeight, offsetX );
-    w_help = catacurses::newwin( 3, width, TERMY - 3, offsetX + 1 );
+    w_info = catacurses::newwin( infoHeight, width, point( offsetX, TERMY - infoHeight ) );
+    w_help = catacurses::newwin( 3, width, point( offsetX + 1, TERMY - 3 ) );
     for( int i = 0; i < getmaxx( w_help ); i++ ) {
-        mvwaddch( w_help, 2, i, LINE_OXOX );
+        mvwaddch( w_help, point( i, 2 ), LINE_OXOX );
     }
     do {
         if( target_list.empty() ) {
@@ -583,14 +583,15 @@ void editmap::update_view( bool update_info )
         }
 
         mvwputch( w_info, off, 2, terrain_type.color(), terrain_type.symbol() );
-        mvwprintw( w_info, off, 4, _( "%d: %s; movecost %d" ), g->m.ter( target ).to_i(),
+        mvwprintw( w_info, point( 4, off ), _( "%d: %s; movecost %d" ), g->m.ter( target ).to_i(),
                    terrain_type.name(),
                    terrain_type.movecost
                  );
         off++; // 2
         if( g->m.furn( target ) > 0 ) {
             mvwputch( w_info, off, 2, furniture_type.color(), furniture_type.symbol() );
-            mvwprintw( w_info, off, 4, _( "%d: %s; movecost %d movestr %d" ), g->m.furn( target ).to_i(),
+            mvwprintw( w_info, point( 4, off ), _( "%d: %s; movecost %d movestr %d" ),
+                       g->m.furn( target ).to_i(),
                        furniture_type.name(),
                        furniture_type.movecost,
                        furniture_type.move_str_req
@@ -599,23 +600,23 @@ void editmap::update_view( bool update_info )
         }
         const auto &map_cache = g->m.get_cache( target.z );
 
-        mvwprintw( w_info, off++, 1, _( "dist: %d u_see: %d v_in: %d scent: %d" ),
+        mvwprintw( w_info, point( 1, off++ ), _( "dist: %d u_see: %d v_in: %d scent: %d" ),
                    rl_dist( g->u.pos(), target ), static_cast<int>( g->u.sees( target ) ),
                    veh_in, g->scent.get( target ) );
-        mvwprintw( w_info, off++, 1, _( "sight_range: %d, daylight_sight_range: %d," ),
+        mvwprintw( w_info, point( 1, off++ ), _( "sight_range: %d, daylight_sight_range: %d," ),
                    g->u.sight_range( g->light_level( g->u.posz() ) ), g->u.sight_range( DAYLIGHT_LEVEL ) );
-        mvwprintw( w_info, off++, 1, _( "transparency: %.5f, visibility: %.5f," ),
+        mvwprintw( w_info, point( 1, off++ ), _( "transparency: %.5f, visibility: %.5f," ),
                    map_cache.transparency_cache[target.x][target.y],
                    map_cache.seen_cache[target.x][target.y] );
         map::apparent_light_info al = map::apparent_light_helper( map_cache, target );
         int apparent_light = static_cast<int>(
                                  g->m.apparent_light_at( target, g->m.get_visibility_variables_cache() ) );
-        mvwprintw( w_info, off++, 1, _( "outside: %d obstructed: %d" ),
+        mvwprintw( w_info, point( 1, off++ ), _( "outside: %d obstructed: %d" ),
                    static_cast<int>( g->m.is_outside( target ) ),
                    static_cast<int>( al.obstructed ) );
-        mvwprintw( w_info, off++, 1, _( "light_at: %s" ),
+        mvwprintw( w_info, point( 1, off++ ), _( "light_at: %s" ),
                    map_cache.lm[target.x][target.y].to_string() );
-        mvwprintw( w_info, off++, 1, _( "apparent light: %.5f (%d)" ),
+        mvwprintw( w_info, point( 1, off++ ), _( "apparent light: %.5f (%d)" ),
                    al.apparent_light, apparent_light );
         std::string extras;
         if( veh_in >= 0 ) {
@@ -628,7 +629,7 @@ void editmap::update_view( bool update_info )
             extras += _( " [roof]" );
         }
 
-        mvwprintw( w_info, off, 1, "%s %s", g->m.features( target ).c_str(), extras );
+        mvwprintw( w_info, point( 1, off ), "%s %s", g->m.features( target ).c_str(), extras );
         // 9
         off++;
         for( auto &fld : *cur_field ) {
@@ -652,7 +653,7 @@ void editmap::update_view( bool update_info )
         if( critter != nullptr ) {
             off = critter->print_info( w_info, off, 5, 1 );
         } else if( vp ) {
-            mvwprintw( w_info, off, 1, _( "There is a %s there. Parts:" ), vp->vehicle().name );
+            mvwprintw( w_info, point( 1, off ), _( "There is a %s there. Parts:" ), vp->vehicle().name );
             off++;
             vp->vehicle().print_part_list( w_info, off, getmaxy( w_info ) - 1, width, vp->part_index() );
             off += 6;
@@ -664,16 +665,16 @@ void editmap::update_view( bool update_info )
                             target_stack.begin()->tname() );
             off++;
             if( target_stack_size > 1 ) {
-                mvwprintw( w_info, off, 1, ngettext( "There is %d other item there as well.",
-                                                     "There are %d other items there as well.",
-                                                     target_stack_size - 1 ),
+                mvwprintw( w_info, point( 1, off ), ngettext( "There is %d other item there as well.",
+                           "There are %d other items there as well.",
+                           target_stack_size - 1 ),
                            target_stack_size - 1 );
                 off++;
             }
         }
 
         if( g->m.has_graffiti_at( target ) ) {
-            mvwprintw( w_info, off, 1,
+            mvwprintw( w_info, point( 1, off ),
                        g->m.ter( target ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
                        g->m.graffiti_at( target ) );
         }
@@ -744,7 +745,7 @@ int editmap::edit_ter()
     int ret = 0;
     int pwh = TERMY - 4;
 
-    catacurses::window w_pickter = catacurses::newwin( pwh, width, VIEW_OFFSET_Y, offsetX );
+    catacurses::window w_pickter = catacurses::newwin( pwh, width, point( offsetX, VIEW_OFFSET_Y ) );
     draw_border( w_pickter );
     wrefresh( w_pickter );
 
@@ -837,15 +838,15 @@ int editmap::edit_ter()
         // calculate offset, print terrain selection info
         int tlen = tymax * 2;
         int off = tstart + tlen;
-        mvwprintw( w_pickter, off, 1, padding );
+        mvwprintw( w_pickter, point( 1, off ), padding );
         if( ter_frn_mode == 0 ) { // unless furniture is selected
             const ter_t &pttype = sel_ter.obj();
 
             for( int i = 1; i < width - 2; i++ ) {
-                mvwaddch( w_pickter, 0, i, LINE_OXOX );
+                mvwaddch( w_pickter, point( i, 0 ), LINE_OXOX );
             }
 
-            mvwprintw( w_pickter, 0, 2, "< %s[%d]: %s >", pttype.id.c_str(), pttype.id.id().to_i(),
+            mvwprintw( w_pickter, point( 2, 0 ), "< %s[%d]: %s >", pttype.id.c_str(), pttype.id.id().to_i(),
                        pttype.name() );
             mvwprintz( w_pickter, off, 2, c_white, _( "movecost %d" ), pttype.movecost );
             std::string extras;
@@ -892,15 +893,15 @@ int editmap::edit_ter()
 
         int flen = fymax * 2;
         off += flen;
-        mvwprintw( w_pickter, off, 1, padding );
+        mvwprintw( w_pickter, point( 1, off ), padding );
         if( ter_frn_mode == 1 ) {
             const furn_t &pftype = sel_frn.obj();
 
             for( int i = 1; i < width - 2; i++ ) {
-                mvwaddch( w_pickter, 0, i, LINE_OXOX );
+                mvwaddch( w_pickter, point( i, 0 ), LINE_OXOX );
             }
 
-            mvwprintw( w_pickter, 0, 2, "< %s[%d]: %s >", pftype.id.c_str(), pftype.id.id().to_i(),
+            mvwprintw( w_pickter, point( 2, 0 ), "< %s[%d]: %s >", pftype.id.c_str(), pftype.id.id().to_i(),
                        pftype.name() );
             mvwprintz( w_pickter, off, 2, c_white, _( "movecost %d" ), pftype.movecost );
             std::string fextras;
@@ -1194,7 +1195,7 @@ int editmap::edit_trp()
     int ret = 0;
     int pwh = TERMY - infoHeight;
 
-    catacurses::window w_picktrap = catacurses::newwin( pwh, width, VIEW_OFFSET_Y, offsetX );
+    catacurses::window w_picktrap = catacurses::newwin( pwh, width, point( offsetX, VIEW_OFFSET_Y ) );
     draw_border( w_picktrap );
     int tmax = pwh - 3;
     int tshift = 0;
@@ -1648,7 +1649,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     tmpmap.generate( tripoint( omt_pos.x * 2, omt_pos.y * 2, target.z ), calendar::turn );
 
     tripoint pofs = pos2screen( { target.x - SEEX + 1, target.y - SEEY + 1, target.z } );
-    catacurses::window w_preview = catacurses::newwin( SEEX * 2, SEEY * 2, pofs.y, pofs.x );
+    catacurses::window w_preview = catacurses::newwin( SEEX * 2, SEEY * 2, pofs.xy() );
 
     gmenu.border_color = c_light_gray;
     gmenu.hilight_color = c_black_white;
