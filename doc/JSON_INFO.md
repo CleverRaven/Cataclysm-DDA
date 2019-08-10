@@ -270,8 +270,8 @@ The syntax listed here is still valid.
 | `vitamins`       | Vitamins in a material. Usually overridden by item specific values.
 | `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186.
 | `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108.
-| `latent_heat`    | Latent heat of a material (J/g). Default 334.
-| `freeze_point`    | Freezing point of this material (F). Default 32 F ( 0 C ).
+| `latent_heat`    | Latent heat of fusion for a material (J/g). Default 334.
+| `freeze_point`   | Freezing point of this material (F). Default 32 F ( 0 C ).
 
 ```C++
 {
