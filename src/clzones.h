@@ -24,7 +24,7 @@ class JsonObject;
 class item;
 class faction;
 class map;
-class construction;
+struct construction;
 
 using faction_id = string_id<faction>;
 const faction_id your_fac( "your_followers" );
