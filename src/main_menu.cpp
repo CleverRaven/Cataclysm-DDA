@@ -19,6 +19,7 @@
 #include "gamemode.h"
 #include "get_version.h"
 #include "help.h"
+#include "ime.h"
 #include "loading_ui.h"
 #include "mapbuffer.h"
 #include "mapsharing.h"
@@ -416,6 +417,10 @@ bool main_menu::opening_screen()
     }
 
     while( !start ) {
+        // disable ime at program start
+        // somehow this need to be here to actually work
+        disable_ime();
+
         print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
 
         if( layer == 1 ) {

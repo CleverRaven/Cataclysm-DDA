@@ -22,6 +22,8 @@
 #   endif
 #
 #   include <windows.h>
+
+HWND getWindowHandle();
 #endif
 
 #endif //CATA_PLATFORM_WIN_H
