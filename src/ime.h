@@ -14,8 +14,16 @@ void disable_ime();
 class ime_sentry
 {
     public:
-        ime_sentry( bool enable = true );
+        enum mode {
+            enable = 0,
+            disable = 1,
+            keep = 2,
+        };
+
+        ime_sentry( mode m = enable );
         ~ime_sentry();
+    private:
+        bool previously_enabled;
 };
 
 #endif

@@ -1022,7 +1022,8 @@ void input_context::display_menu()
     .max_length( legwidth )
     .context( ctxt );
 
-    ime_sentry sentry( false ); // do not switch IME mode now, but set to raw input mode on return
+    // do not switch IME mode now, but restore previous mode on return
+    ime_sentry sentry( ime_sentry::keep );
     while( true ) {
         werase( w_help );
         draw_border( w_help, BORDER_COLOR, _( "Keybindings" ), c_light_red );

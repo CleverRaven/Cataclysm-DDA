@@ -2220,7 +2220,8 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
         you.name = get_option<std::string>( "DEF_CHAR_NAME" );
     }
 
-    ime_sentry sentry( false ); // do not switch IME mode now, but set to raw input mode on return
+    // do not switch IME mode now, but restore previous mode on return
+    ime_sentry sentry( ime_sentry::keep );
     do {
         if( redraw ) {
             //Draw the line between editable and non-editable stuff.

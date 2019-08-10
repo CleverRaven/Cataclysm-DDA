@@ -724,8 +724,8 @@ void Messages::dialog::input()
             if( filter_sentry ) {
                 enable_ime();
             } else {
-                // this implies enable_ime() and ensures that the ime is always
-                // disabled when closing the dialog if at least filtered once
+                // this implies enable_ime() and ensures that the ime mode is always
+                // restored when closing the dialog if at least filtered once
                 filter_sentry.emplace();
             }
         } else if( action == "RESET_FILTER" ) {

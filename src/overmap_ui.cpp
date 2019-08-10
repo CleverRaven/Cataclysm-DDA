@@ -1026,7 +1026,7 @@ void create_note( const tripoint &curs )
     std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows =
         std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
 
-    // this implies enable_ime() and ensures that ime is always disabled on return
+    // this implies enable_ime() and ensures that ime mode is always restored on return
     ime_sentry sentry;
 
     bool esc_pressed = false;

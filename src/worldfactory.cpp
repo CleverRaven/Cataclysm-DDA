@@ -1113,7 +1113,8 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
 
     std::string worldname = world->world_name;
 
-    ime_sentry sentry( false ); // do not switch IME mode now, but set to raw input mode on return
+    // do not switch IME mode now, but restore previous mode on return
+    ime_sentry sentry( ime_sentry::keep );
     do {
         mvwprintz( w_confirmation, namebar_y, 2, c_white, _( "World Name:" ) );
         mvwprintz( w_confirmation, namebar_y, namebar_x, c_light_gray, line_of_32_underscores );
