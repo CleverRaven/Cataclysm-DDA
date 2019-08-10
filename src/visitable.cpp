@@ -762,7 +762,7 @@ static int charges_of_internal( const T &self, const itype_id &id, int limit,
     int qty = 0;
 
     bool found_tool_with_UPS = false;
-    bool found_tool_with_UPS_AIR = false;
+    bool found_tool_with_compressed_air = false;
     self.visit_items( [&]( const item * e ) {
         if( filter( *e ) ) {
             if( e->is_tool() ) {
@@ -772,8 +772,8 @@ static int charges_of_internal( const T &self, const itype_id &id, int limit,
                     if( e->has_flag( "USE_UPS" ) ) {
                         found_tool_with_UPS = true;
                     }
-                    if( e->has_flag( "USE_UPS_AIR" ) ) {
-                        found_tool_with_UPS_AIR = true;
+                    if( e->has_flag( "USE_compressed_air" ) ) {
+                        found_tool_with_compressed_air = true;
                     }
                 }
                 return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
@@ -816,9 +816,9 @@ int visitable<inventory>::charges_of( const std::string &what, int limit,
         qty = sum_no_wrap( qty, static_cast<int>( charges_of( "adv_UPS_off" ) / 0.6 ) );
         return std::min( qty, limit );
     }
-    if( what == "UPS_AIR" ) {
+    if( what == "compressed_air" ) {
         int qty = 0;
-        qty = sum_no_wrap( qty, charges_of( "UPS_off_air" ) );
+        qty = sum_no_wrap( qty, charges_of( "compressed_air_container" ) );
         return std::min( qty, limit );
     }
     const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
@@ -864,9 +864,9 @@ int visitable<Character>::charges_of( const std::string &what, int limit,
         return std::min( qty, limit );
     }
 
-    if( what == "UPS_AIR" ) {
+    if( what == "compressed_air" ) {
         int qty = 0;
-        qty = sum_no_wrap( qty, charges_of( "UPS_off_air" ) );
+        qty = sum_no_wrap( qty, charges_of( "compressed_air_container" ) );
         return std::min( qty, limit );
     }
 

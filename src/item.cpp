@@ -1516,11 +1516,12 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                mod->get_gun_ups_drain() ) );
         }
 
-        if( mod->get_gun_ups_drain_air() && parts->test( iteminfo_parts::AMMO_UPSCOST_air ) ) {
+        if( mod->get_gun_compressed_air_drain() &&
+            parts->test( iteminfo_parts::AMMO_compressed_air_cost ) ) {
             info.emplace_back( "AMMO", string_format(
                                    ngettext( "Uses <stat>%i</stat> charge of compressed air per shot",
-                                             "Uses <stat>%i</stat> charges of compressed air per shot", mod->get_gun_ups_drain_air() ),
-                                   mod->get_gun_ups_drain_air() ) );
+                                             "Uses <stat>%i</stat> charges of compressed air per shot", mod->get_gun_compressed_air_drain() ),
+                                   mod->get_gun_compressed_air_drain() ) );
         }
 
         insert_separation_line();
@@ -2590,7 +2591,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         if( is_tool() ) {
-            if( ( has_flag( "USE_UPS" ) || has_flag( "USE_UPS_AIR" ) ) &&
+            if( ( has_flag( "USE_UPS" ) || has_flag( "USE_compressed_air" ) ) &&
                 parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_UPSMODDED ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This tool has been modified to use a <info>universal power supply</info> and is <neutral>not compatible</neutral> with <info>standard batteries</info>." ) ) );
@@ -2603,7 +2604,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This tool has a <info>rechargeable power cell</info> and can be recharged in any <neutral>UPS-compatible recharging station</neutral>. You could charge it with <info>standard batteries</info>, but unloading it is impossible." ) ) );
             } else if( has_flag( "RECHARGE_AIR" ) &&
-                       parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_UPSCAPABLE_AIR ) ) {
+                       parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_COMPRESSED_AIR_CAPABLE ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This tool has an <info>air cylinder</info> and can be refilled with air in any <neutral>air pumping station</neutral>. You could fill it with <info>air</info>, but unloading it is impossible." ) ) );
             } else if( has_flag( "USES_BIONIC_POWER" ) ) {
@@ -6442,8 +6443,8 @@ int item::units_remaining( const Character &ch, int limit ) const
     if( res < limit && has_flag( "USE_UPS" ) ) {
         res += ch.charges_of( "UPS", limit - res );
     }
-    if( res < limit && has_flag( "USE_UPS_AIR" ) ) {
-        res += ch.charges_of( "UPS_AIR", limit - res );
+    if( res < limit && has_flag( "USE_compressed_air" ) ) {
+        res += ch.charges_of( "compressed_air", limit - res );
     }
 
     return std::min( static_cast<int>( res ), limit );
@@ -8204,8 +8205,8 @@ bool item::process_tool( player *carrier, const tripoint &pos )
         }
     }
 
-    if( carrier && has_flag( "USE_UPS_AIR" ) ) {
-        if( carrier->use_charges_if_avail( "UPS_AIR", energy ) ) {
+    if( carrier && has_flag( "USE_compressed_air" ) ) {
+        if( carrier->use_charges_if_avail( "compressed_air", energy ) ) {
             energy = 0;
         }
     }
@@ -8591,13 +8592,13 @@ int item::get_gun_ups_drain() const
     return draincount;
 }
 
-int item::get_gun_ups_drain_air() const
+int item::get_gun_compressed_air_drain() const
 {
     int draincount_air = 0;
     if( type->gun ) {
-        draincount_air += type->gun->ups_charges_air;
+        draincount_air += type->gun->compressed_air_used;
         for( const auto mod : gunmods() ) {
-            draincount_air += mod->type->gunmod->ups_charges_air;
+            draincount_air += mod->type->gunmod->compressed_air_used;
         }
     }
     return draincount_air;

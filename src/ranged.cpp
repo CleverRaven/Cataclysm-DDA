@@ -326,9 +326,9 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         shots = std::min( shots, static_cast<int>( charges_of( "UPS" ) / gun.get_gun_ups_drain() ) );
     }
 
-    if( !gun.has_flag( "VEHICLE" ) && gun.get_gun_ups_drain_air() > 0 ) {
-        shots = std::min( shots, static_cast<int>( charges_of( "UPS_AIR" ) /
-                          gun.get_gun_ups_drain_air() ) );
+    if( !gun.has_flag( "VEHICLE" ) && gun.get_gun_compressed_air_drain() > 0 ) {
+        shots = std::min( shots, static_cast<int>( charges_of( "compressed_air" ) /
+                          gun.get_gun_compressed_air_drain() ) );
     }
 
     if( shots <= 0 ) {
@@ -399,7 +399,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         }
 
         if( !gun.has_flag( "VEHICLE" ) ) {
-            use_charges( "UPS_AIR", gun.get_gun_ups_drain_air() );
+            use_charges( "compressed_air", gun.get_gun_compressed_air_drain() );
         }
 
         if( shot.missed_by <= .1 ) {

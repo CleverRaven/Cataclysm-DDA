@@ -4516,7 +4516,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     if( cur_veh.part_with_feature( part, VPFLAG_RECHARGE_AIR, true ) >= 0 &&
         cur_veh.has_part( "RECHARGE_AIR", true ) ) {
         for( auto &n : cur_veh.get_items( part ) ) {
-            if( !n.has_flag( "RECHARGE_AIR" ) && !n.has_flag( "USE_UPS_AIR" ) ) {
+            if( !n.has_flag( "RECHARGE_AIR" ) && !n.has_flag( "USE_compressed_air" ) ) {
                 continue;
             }
             if( n.ammo_capacity() > n.ammo_remaining() ||

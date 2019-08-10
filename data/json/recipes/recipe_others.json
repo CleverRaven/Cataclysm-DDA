@@ -1873,7 +1873,7 @@
   },
   {
     "type": "recipe",
-    "result": "UPS_off_air",
+    "result": "compressed_air_container",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",

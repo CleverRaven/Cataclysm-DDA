@@ -673,12 +673,12 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
             }
         }
 
-        if( gun->get_gun_ups_drain_air() > 0 ) {
-            const int ups_drain_air = gun->get_gun_ups_drain_air();
-            if( !you.has_charges( "UPS_off_air", ups_drain_air ) ) {
+        if( gun->get_gun_compressed_air_drain() > 0 ) {
+            const int compressed_air_drain = gun->get_gun_compressed_air_drain();
+            if( !you.has_charges( "compressed_air_container", compressed_air_drain ) ) {
                 add_msg( m_info,
                          _( "You need a high pressure air cylinder with at least %d charges to fire that!" ),
-                         ups_drain_air );
+                         compressed_air_drain );
                 return false;
             }
         }

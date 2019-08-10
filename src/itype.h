@@ -471,7 +471,7 @@ struct islot_gun : common_ranged_data {
      * If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all.
      */
     int ups_charges = 0;
-    int ups_charges_air = 0;
+    int compressed_air_used = 0;
     /**
      * One in X chance for gun to require major cleanup after firing blackpowder shot.
      */
@@ -562,7 +562,7 @@ struct islot_gunmod : common_ranged_data {
 
     /** Increases base gun UPS consumption by this many charges per shot */
     int ups_charges = 0;
-    int ups_charges_air = 0;
+    int compressed_air_used = 0;
 
     /** Firing modes added to or replacing those of the base gun */
     std::map<gun_mode_id, gun_modifier_data> mode_modifier;

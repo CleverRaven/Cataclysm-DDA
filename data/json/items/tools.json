@@ -124,7 +124,7 @@
     "magazine_well": 4
   },
   {
-    "id": "UPS_off_air",
+    "id": "compressed_air_container",
     "type": "TOOL",
     "name": "air fitting",
     "name_plural": "air fittings",

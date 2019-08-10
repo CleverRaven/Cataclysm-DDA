@@ -6619,7 +6619,7 @@ void player::process_active_items()
         ch_UPS += power_level;
     }
     int ch_UPS_used = 0;
-    int ch_UPS_used_air = 0;
+    int ch_used_air = 0;
     if( cloak != nullptr ) {
         if( ch_UPS >= 20 ) {
             use_charges( "UPS", 20 );
@@ -6680,8 +6680,8 @@ void player::process_active_items()
     if( ch_UPS_used > 0 ) {
         use_charges( "UPS", ch_UPS_used );
     }
-    if( ch_UPS_used_air > 0 ) {
-        use_charges( "UPS_AIR", ch_UPS_used_air );
+    if( ch_used_air > 0 ) {
+        use_charges( "compressed_air", ch_used_air );
     }
 }
 
@@ -6900,19 +6900,19 @@ std::list<item> player::use_charges( const itype_id &what, int qty,
         }
 
     }
-    else if( what == "UPS_AIR" ) {
-        int UPS_AIR = charges_of( "UPS_off_air", qty );
-        if( UPS_AIR > 0 ) {
-            std::list<item> found = use_charges( "UPS_off_air", UPS_AIR );
+    else if( what == "compressed_air" ) {
+        int compressed_air = charges_of( "compressed_air_container", qty );
+        if( compressed_air > 0 ) {
+            std::list<item> found = use_charges( "compressed_air_container", compressed_air );
             res.splice( res.end(), found );
-            qty -= std::min( qty, UPS_AIR );
+            qty -= std::min( qty, compressed_air );
         }
     }
 
     std::vector<item *> del;
 
     bool has_tool_with_UPS = false;
-    bool has_tool_with_UPS_AIR = false;
+    bool has_tool_with_compressed_air = false;
     visit_items( [this, &what, &qty, &res, &del, &has_tool_with_UPS, &filter]( item * e ) {
         if( e->use_charges( what, qty, res, pos(), filter ) ) {
             del.push_back( e );
@@ -6923,12 +6923,12 @@ std::list<item> player::use_charges( const itype_id &what, int qty,
         return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
     } );
 
-    visit_items( [this, &what, &qty, &res, &del, &has_tool_with_UPS_AIR, &filter]( item * e ) {
+    visit_items( [this, &what, &qty, &res, &del, &has_tool_with_compressed_air, &filter]( item * e ) {
         if( e->use_charges( what, qty, res, pos(), filter ) ) {
             del.push_back( e );
         }
-        if( filter( *e ) && e->typeId() == what && e->has_flag( "USE_UPS_AIR" ) ) {
-            has_tool_with_UPS_AIR = true;
+        if( filter( *e ) && e->typeId() == what && e->has_flag( "USE_compressed_air" ) ) {
+            has_tool_with_compressed_air = true;
         }
         return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
     } );
@@ -6941,8 +6941,8 @@ std::list<item> player::use_charges( const itype_id &what, int qty,
         use_charges( "UPS", qty );
     }
 
-    if( has_tool_with_UPS_AIR ) {
-        use_charges( "UPS_AIR", qty );
+    if( has_tool_with_compressed_air ) {
+        use_charges( "compressed_air", qty );
     }
 
     return res;
@@ -8561,7 +8561,7 @@ bool player::unload( item &it )
     if( target->has_flag( "NO_UNLOAD" ) ) {
         if( target->has_flag( "RECHARGE" ) || target->has_flag( "USE_UPS" ) ) {
             add_msg( m_info, _( "You can't unload a rechargeable %s!" ), target->tname() );
-            if( target->has_flag( "RECHARGE_AIR" ) || target->has_flag( "USE_UPS_AIR" ) ) {
+            if( target->has_flag( "RECHARGE_AIR" ) || target->has_flag( "USE_compressed_air" ) ) {
                 add_msg( m_info, _( "You can't unload a refillable %s!" ), target->tname() );
 
             }
@@ -8846,11 +8846,11 @@ bool player::consume_charges( item &used, int qty )
             use_charges( "UPS", qty );
         }
     }
-    if( used.has_flag( "USE_UPS_AIR" ) ) {
+    if( used.has_flag( "USE_compressed_air" ) ) {
         if( used.charges >= qty ) {
             used.ammo_consume( qty, pos() );
         } else {
-            use_charges( "UPS_AIR", qty );
+            use_charges( "compressed_air", qty );
         }
     } else {
         used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
