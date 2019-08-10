@@ -3414,10 +3414,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         ret << _( " (UPS)" );
     }
 
-    if( is_tool() && has_flag( "USE_UPS_AIR" ) ) {
-        ret << _( " (UPS_AIR)" );
-    }
-
     if( has_var( "NANOFAB_ITEM_ID" ) ) {
         ret << string_format( " (%s)", nname( get_var( "NANOFAB_ITEM_ID" ) ) );
     }
