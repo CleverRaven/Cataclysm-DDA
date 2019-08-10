@@ -6902,7 +6902,6 @@ std::list<item> player::use_charges( const itype_id &what, int qty,
     }
     else if( what == "UPS_AIR" ) {
 
-
         int UPS_AIR = charges_of( "UPS_off_air", qty );
         if( UPS_AIR > 0 ) {
             std::list<item> found = use_charges( "UPS_off_air", UPS_AIR );
