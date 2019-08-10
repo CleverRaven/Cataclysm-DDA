@@ -1107,8 +1107,9 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
         for( const std::vector<tool_comp> &it : build.requirements->get_tools() ) {
             p.consume_tools( it );
         }
-
-        p.backlog.push_front( act_blueprint_construction );
+        player_activity current_act( act_blueprint_construction );
+        current_act.auto_resume = true;
+        p.backlog.push_front( current_act );
         p.assign_activity( activity_id( "ACT_BUILD" ) );
         p.activity.placement = g->m.getabs( src_loc );
         return;

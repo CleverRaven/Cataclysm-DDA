@@ -21,18 +21,14 @@
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
     "verb": "constructing",
-    "suspendable": false,
-    "based_on": "neither",
-    "no_resume": true
+    "based_on": "neither"
   },
   {
     "id": "ACT_BLUEPRINT_CONSTRUCTION",
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
     "verb": "constructing",
-    "suspendable": false,
-    "based_on": "neither",
-    "no_resume": true
+    "based_on": "neither"
   },
   {
     "id": "ACT_GAME",
