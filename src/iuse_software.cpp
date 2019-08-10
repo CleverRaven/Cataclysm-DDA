@@ -23,10 +23,12 @@ bool play_videogame( const std::string &function_name,
         return true; // generic game
     }
     if( function_name == "robot_finds_kitten" ) {
-        catacurses::window bkatwin = catacurses::newwin( 22, 62, ( TERMY - 22 ) / 2, ( TERMX - 62 ) / 2 );
+        catacurses::window bkatwin = catacurses::newwin( 22, 62, point( ( TERMX - 62 ) / 2,
+                                     ( TERMY - 22 ) / 2 ) );
         draw_border( bkatwin );
         wrefresh( bkatwin );
-        catacurses::window katwin = catacurses::newwin( 20, 60, ( TERMY - 20 ) / 2, ( TERMX - 60 ) / 2 );
+        catacurses::window katwin = catacurses::newwin( 20, 60, point( ( TERMX - 60 ) / 2,
+                                    ( TERMY - 20 ) / 2 ) );
         robot_finds_kitten findkitten( katwin );
         bool foundkitten = findkitten.ret;
         if( foundkitten ) {

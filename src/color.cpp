@@ -699,7 +699,7 @@ static void draw_header( const catacurses::window &w )
 
     mvwprintz( w, 1, 0, c_white, _( "Some color changes may require a restart." ) );
 
-    mvwhline( w, 2, 0, LINE_OXOX, getmaxx( w ) ); // Draw line under header
+    mvwhline( w, point( 0, 2 ), LINE_OXOX, getmaxx( w ) ); // Draw line under header
     mvwputch( w, 2, 48, BORDER_COLOR, LINE_OXXX ); //^|^
 
     mvwprintz( w, 3, 3, c_white, _( "Colorname" ) );
@@ -724,11 +724,11 @@ void color_manager::show_gui()
     const int iTotalCols = vLines.size();
 
     catacurses::window w_colors_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                         iOffsetY, iOffsetX );
+                                         point( iOffsetX, iOffsetY ) );
     catacurses::window w_colors_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                         1 + iOffsetY, 1 + iOffsetX );
+                                         point( 1 + iOffsetX, 1 + iOffsetY ) );
     catacurses::window w_colors = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                                  iHeaderHeight + 1 + iOffsetY, 1 + iOffsetX );
+                                  point( 1 + iOffsetX, iHeaderHeight + 1 + iOffsetY ) );
 
     draw_border( w_colors_border, BORDER_COLOR, _( " COLOR MANAGER " ) );
     mvwputch( w_colors_border, 3,  0, BORDER_COLOR, LINE_XXXO ); // |-

@@ -233,7 +233,7 @@ void veh_interact::allocate_windows()
     // grid window
     const int grid_w = TERMX - 2; // exterior borders take 2
     const int grid_h = TERMY - 2; // exterior borders take 2
-    w_grid = catacurses::newwin( grid_h, grid_w, 1, 1 );
+    w_grid = catacurses::newwin( grid_h, grid_w, point( 1, 1 ) );
 
     int mode_h  = 1;
     int name_h  = 1;
@@ -256,13 +256,13 @@ void veh_interact::allocate_windows()
     int msg_x  = list_x + pane_w + 1;
 
     // make the windows
-    w_mode  = catacurses::newwin( mode_h,    grid_w, 1,       1 );
-    w_msg   = catacurses::newwin( page_size, pane_w, pane_y,  msg_x );
-    w_disp  = catacurses::newwin( disp_h,    disp_w, pane_y,  1 );
-    w_parts = catacurses::newwin( parts_h,   disp_w, parts_y, 1 );
-    w_list  = catacurses::newwin( page_size, pane_w, pane_y,  list_x );
-    w_stats = catacurses::newwin( stats_h,   grid_w, stats_y, 1 );
-    w_name  = catacurses::newwin( name_h,    grid_w, name_y,  1 );
+    w_mode  = catacurses::newwin( mode_h,    grid_w, point( 1, 1 ) );
+    w_msg   = catacurses::newwin( page_size, pane_w, point( msg_x, pane_y ) );
+    w_disp  = catacurses::newwin( disp_h,    disp_w, point( 1, pane_y ) );
+    w_parts = catacurses::newwin( parts_h,   disp_w, point( 1, parts_y ) );
+    w_list  = catacurses::newwin( page_size, pane_w, point( list_x, pane_y ) );
+    w_stats = catacurses::newwin( stats_h,   grid_w, point( 1, stats_y ) );
+    w_name  = catacurses::newwin( name_h,    grid_w, point( 1, name_y ) );
 
     display_grid();
     display_name();
@@ -2073,7 +2073,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
 void veh_interact::display_grid()
 {
     // border window
-    catacurses::window w_border = catacurses::newwin( TERMY, TERMX, 0, 0 );
+    catacurses::window w_border = catacurses::newwin( TERMY, TERMX, point( 0, 0 ) );
     draw_border( w_border );
 
     // match grid lines
@@ -2523,12 +2523,12 @@ void veh_interact::display_details( const vpart_info *part )
         int stats_col_3 = 65 + ( ( TERMX - FULL_SCREEN_WIDTH ) / 4 );
         int clear_x = getmaxx( w_stats ) - details_w + 1 >= stats_col_3 ? stats_col_3 : stats_col_2;
         for( int i = 0; i < getmaxy( w_stats ); i++ ) {
-            mvwhline( w_stats, i, clear_x, ' ', getmaxx( w_stats ) - clear_x );
+            mvwhline( w_stats, point( clear_x, i ), ' ', getmaxx( w_stats ) - clear_x );
         }
 
         wrefresh( w_stats );
 
-        w_details = catacurses::newwin( details_h, details_w, details_y, details_x );
+        w_details = catacurses::newwin( details_h, details_w, point( details_x, details_y ) );
     } else {
         werase( w_details );
     }

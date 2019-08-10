@@ -91,19 +91,19 @@ static void draw_rectangle( const catacurses::window &w, nc_color, point top_lef
                             point bottom_right )
 {
     // corners
-    mvwaddch( w, top_left.y, top_left.x, LINE_OXXO );
-    mvwaddch( w, bottom_right.y, top_left.x, LINE_XXOO );
-    mvwaddch( w, top_left.y, bottom_right.x, LINE_OOXX );
-    mvwaddch( w, bottom_right.y, bottom_right.x, LINE_XOOX );
+    mvwaddch( w, top_left, LINE_OXXO );
+    mvwaddch( w, point( top_left.x, bottom_right.y ), LINE_XXOO );
+    mvwaddch( w, point( bottom_right.x, top_left.y ), LINE_OOXX );
+    mvwaddch( w, bottom_right, LINE_XOOX );
 
     for( int i = 1; i < bottom_right.x; i++ ) {
-        mvwaddch( w, top_left.y, i, LINE_OXOX );
-        mvwaddch( w, bottom_right.y, i, LINE_OXOX );
+        mvwaddch( w, point( i, top_left.y ), LINE_OXOX );
+        mvwaddch( w, point( i, bottom_right.y ), LINE_OXOX );
     }
 
     for( int i = 1; i < bottom_right.y; i++ ) {
-        mvwaddch( w, i, top_left.x, LINE_XOXO );
-        mvwaddch( w, i, bottom_right.x, LINE_XOXO );
+        mvwaddch( w, point( top_left.x, i ), LINE_XOXO );
+        mvwaddch( w, point( bottom_right.x, i ), LINE_XOXO );
     }
 }
 
@@ -936,15 +936,15 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     for( int i = 0; i < num_hp_parts; i++ ) {
         const std::string str = body_part_hp_bar_ui_text( part[i] );
         if( i % 2 == 0 ) {
-            wmove( w, i / 2, 0 );
+            wmove( w, point( 0, i / 2 ) );
         } else {
-            wmove( w, i / 2, 11 );
+            wmove( w, point( 11, i / 2 ) );
         }
         wprintz( w, u.limb_color( part[i], true, true, true ), str );
         if( i % 2 == 0 ) {
-            wmove( w, i / 2, 5 );
+            wmove( w, point( 5, i / 2 ) );
         } else {
-            wmove( w, i / 2, 16 );
+            wmove( w, point( 16, i / 2 ) );
         }
         draw_limb_health( u, w, i );
     }
@@ -1096,7 +1096,7 @@ static void draw_time( const avatar &u, const catacurses::window &w )
     if( u.has_watch() ) {
         mvwprintz( w, 0, 11, c_light_gray, to_string_time_of_day( calendar::turn ) );
     } else if( g->get_levz() >= 0 ) {
-        wmove( w, 0, 11 );
+        wmove( w, point( 11, 0 ) );
         draw_time_graphic( w );
     } else {
         mvwprintz( w, 0, 11, c_light_gray, _( "Time: ???" ) );
@@ -1147,7 +1147,7 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
             ny = ny2++;
             nx = 26;
         }
-        wmove( w, ny, nx );
+        wmove( w, point( nx, ny ) );
         draw_limb_health( u, w, i );
     }
 
@@ -1169,7 +1169,7 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
         }
 
         std::string str = body_part_hp_bar_ui_text( part[i] );
-        wmove( w, ny, nx );
+        wmove( w, point( nx, ny ) );
         while( str.length() < 5 ) {
             str = str + " ";
         }
@@ -1530,9 +1530,9 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     // print limb health
     for( int i = 0; i < num_hp_parts; i++ ) {
         const std::string str = body_part_hp_bar_ui_text( part[i] );
-        wmove( w, i, 8 );
+        wmove( w, point( 8, i ) );
         wprintz( w, u.limb_color( part[i], true, true, true ), str );
-        wmove( w, i, 14 );
+        wmove( w, point( 14, i ) );
         draw_limb_health( u, w, i );
     }
 
@@ -1866,7 +1866,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
     if( u.has_watch() ) {
         mvwprintz( w, 0, 15, c_light_gray, to_string_time_of_day( calendar::turn ) );
     } else if( g->get_levz() >= 0 ) {
-        wmove( w, 0, 15 );
+        wmove( w, point( 15, 0 ) );
         draw_time_graphic( w );
     } else {
         mvwprintz( w, 0, 15, c_light_gray, _( "Time: ???" ) );
@@ -2296,8 +2296,8 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                 col_offset += column_widths[i];
             }
             mvwprintz( w, index + selected_offset, 1 + ( col_offset ), c_yellow, ">>" );
-            mvwvline( w, 1, column_widths[0], 0, 18 );
-            mvwvline( w, 1, column_widths[0] + column_widths[1], 0, 18 );
+            mvwvline( w, point( column_widths[0], 1 ), 0, 18 );
+            mvwvline( w, point( column_widths[0] + column_widths[1], 1 ), 0, 18 );
 
             col_offset = column_widths[0] + 2;
             int col_width = column_widths[1] - 4;

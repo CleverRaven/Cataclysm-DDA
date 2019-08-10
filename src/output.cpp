@@ -183,7 +183,7 @@ void print_colored_text( const catacurses::window &w, int y, int x, nc_color &co
                          const nc_color &base_color, const std::string &text )
 {
     if( y > -1 && x > -1 ) {
-        wmove( w, y, x );
+        wmove( w, point( x, y ) );
     }
     const auto color_segments = split_by_color( text );
     std::stack<nc_color> color_stack;
@@ -302,7 +302,7 @@ int fold_and_print_from( const catacurses::window &w, int begin_y, int begin_x, 
             break;
         }
         if( line_num >= begin_line ) {
-            wmove( w, line_num + begin_y - begin_line, begin_x );
+            wmove( w, point( begin_x, line_num + begin_y - begin_line ) );
         }
         // split into colorable sections
         std::vector<std::string> color_segments = split_by_color( textformatted[line_num] );
@@ -420,14 +420,14 @@ void wputch( const catacurses::window &w, nc_color FG, int ch )
 void mvwputch( const catacurses::window &w, int y, int x, nc_color FG, int ch )
 {
     wattron( w, FG );
-    mvwaddch( w, y, x, ch );
+    mvwaddch( w, point( x, y ), ch );
     wattroff( w, FG );
 }
 
 void mvwputch( const catacurses::window &w, int y, int x, nc_color FG, const std::string &ch )
 {
     wattron( w, FG );
-    mvwprintw( w, y, x, ch );
+    mvwprintw( w, point( x, y ), ch );
     wattroff( w, FG );
 }
 
@@ -435,7 +435,7 @@ void mvwputch_inv( const catacurses::window &w, int y, int x, nc_color FG, int c
 {
     nc_color HC = invert_color( FG );
     wattron( w, HC );
-    mvwaddch( w, y, x, ch );
+    mvwaddch( w, point( x, y ), ch );
     wattroff( w, HC );
 }
 
@@ -443,7 +443,7 @@ void mvwputch_inv( const catacurses::window &w, int y, int x, nc_color FG, const
 {
     nc_color HC = invert_color( FG );
     wattron( w, HC );
-    mvwprintw( w, y, x, ch );
+    mvwprintw( w, point( x, y ), ch );
     wattroff( w, HC );
 }
 
@@ -451,7 +451,7 @@ void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, int ch
 {
     nc_color HC = hilite( FG );
     wattron( w, HC );
-    mvwaddch( w, y, x, ch );
+    mvwaddch( w, point( x, y ), ch );
     wattroff( w, HC );
 }
 
@@ -459,7 +459,7 @@ void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, const 
 {
     nc_color HC = hilite( FG );
     wattron( w, HC );
-    mvwprintw( w, y, x, ch );
+    mvwprintw( w, point( x, y ), ch );
     wattroff( w, HC );
 }
 
@@ -632,8 +632,9 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
                             const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
                             const unsigned int padding )
 {
-    catacurses::window win = catacurses::newwin( iHeight, iWidth, iTop + VIEW_OFFSET_Y,
-                             iLeft + VIEW_OFFSET_X );
+    catacurses::window win =
+        catacurses::newwin( iHeight, iWidth,
+                            point( iLeft + VIEW_OFFSET_X, iTop + VIEW_OFFSET_Y ) );
 
 #if defined(TILES)
     clear_window_area( win );
@@ -641,9 +642,9 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
     wclear( win );
     wrefresh( win );
 
-    const auto result = draw_item_info( win, sItemName, sTypeName, vItemDisplay, vItemCompare,
-                                        selected, without_getch, without_border, handle_scrolling, scrollbar_left, use_full_win,
-                                        padding );
+    const auto result = draw_item_info(
+                            win, sItemName, sTypeName, vItemDisplay, vItemCompare, selected, without_getch,
+                            without_border, handle_scrolling, scrollbar_left, use_full_win, padding );
     return result;
 }
 
@@ -1284,7 +1285,8 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
     mvwputch(w, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X, cColor, cTile);
     */
 
-    catacurses::window w_hit = catacurses::newwin( 1, 1, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X );
+    catacurses::window w_hit =
+        catacurses::newwin( 1, 1, point( iX + VIEW_OFFSET_X, iY + VIEW_OFFSET_Y ) );
     if( !w_hit ) {
         return; //we passed in negative values (semi-expected), so let's not segfault
     }
@@ -1533,7 +1535,7 @@ std::string rm_prefix( std::string str, char c1, char c2 )
 size_t shortcut_print( const catacurses::window &w, int y, int x, nc_color text_color,
                        nc_color shortcut_color, const std::string &fmt )
 {
-    wmove( w, y, x );
+    wmove( w, point( x, y ) );
     return shortcut_print( w, text_color, shortcut_color, fmt );
 }
 
@@ -2118,7 +2120,7 @@ void mvwprintz( const catacurses::window &w, const int y, const int x, const nc_
                 const std::string &text )
 {
     wattron( w, FG );
-    mvwprintw( w, y, x, text );
+    mvwprintw( w, point( x, y ), text );
     wattroff( w, FG );
 }
 

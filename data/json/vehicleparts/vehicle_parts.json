@@ -2682,7 +2682,7 @@
     "description": "An LCD display attached to one or more cameras.  When turned on, it lets you see from the cameras, but drains power from the vehicle's batteries.  You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^').",
     "folded_volume": 10,
     "item": "camera_control",
-    "epower": -100,
+    "epower": -20,
     "difficulty": 3,
     "flags": [ "VISION", "CAMERA", "CAMERA_CONTROL", "TOOL_SCREWDRIVER", "ENABLED_DRAINS_EPOWER" ],
     "breaks_into": [ { "item": "e_scrap", "count": [ 4, 10 ] }, { "item": "plastic_chunk", "count": [ 2, 8 ] } ]

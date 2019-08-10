@@ -814,14 +814,15 @@ void advanced_inventory::init()
     headstart = 0; //(TERMY>w_height)?(TERMY-w_height)/2:0;
     colstart = TERMX > w_width ? ( TERMX - w_width ) / 2 : 0;
 
-    head = catacurses::newwin( head_height, w_width - minimap_width, headstart, colstart );
-    mm_border = catacurses::newwin( minimap_height + 2, minimap_width + 2, headstart,
-                                    colstart + ( w_width - ( minimap_width + 2 ) ) );
-    minimap = catacurses::newwin( minimap_height, minimap_width, headstart + 1,
-                                  colstart + ( w_width - ( minimap_width + 1 ) ) );
-    left_window = catacurses::newwin( w_height, w_width / 2, headstart + head_height, colstart );
-    right_window = catacurses::newwin( w_height, w_width / 2, headstart + head_height,
-                                       colstart + w_width / 2 );
+    head = catacurses::newwin( head_height, w_width - minimap_width, point( colstart, headstart ) );
+    mm_border = catacurses::newwin( minimap_height + 2, minimap_width + 2,
+                                    point( colstart + ( w_width - ( minimap_width + 2 ) ), headstart ) );
+    minimap = catacurses::newwin( minimap_height, minimap_width,
+                                  point( colstart + ( w_width - ( minimap_width + 1 ) ), headstart + 1 ) );
+    left_window = catacurses::newwin( w_height, w_width / 2, point( colstart,
+                                      headstart + head_height ) );
+    right_window = catacurses::newwin( w_height, w_width / 2, point( colstart + w_width / 2,
+                                       headstart + head_height ) );
 
     itemsPerPage = w_height - 2 - 5; // 2 for the borders, 5 for the header stuff
 
@@ -1173,22 +1174,22 @@ void advanced_inventory::redraw_pane( side p )
     }
     // draw a darker border around the inactive pane
     draw_border( w, active ? BORDER_COLOR : c_dark_gray );
-    mvwprintw( w, 0, 3, _( "< [s]ort: %s >" ), get_sortname( pane.sortby ) );
+    mvwprintw( w, point( 3, 0 ), _( "< [s]ort: %s >" ), get_sortname( pane.sortby ) );
     int max = square.max_size;
     if( max > 0 ) {
         int itemcount = square.get_item_count();
         int fmtw = 7 + ( itemcount > 99 ? 3 : itemcount > 9 ? 2 : 1 ) +
                    ( max > 99 ? 3 : max > 9 ? 2 : 1 );
-        mvwprintw( w, 0, w_width / 2 - fmtw, "< %d/%d >", itemcount, max );
+        mvwprintw( w, point( w_width / 2 - fmtw, 0 ), "< %d/%d >", itemcount, max );
     }
 
     const char *fprefix = _( "[F]ilter" );
     const char *fsuffix = _( "[R]eset" );
     if( ! filter_edit ) {
         if( !pane.filter.empty() ) {
-            mvwprintw( w, getmaxy( w ) - 1, 2, "< %s: %s >", fprefix, pane.filter );
+            mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s: %s >", fprefix, pane.filter );
         } else {
-            mvwprintw( w, getmaxy( w ) - 1, 2, "< %s >", fprefix );
+            mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s >", fprefix );
         }
     }
     if( active ) {
