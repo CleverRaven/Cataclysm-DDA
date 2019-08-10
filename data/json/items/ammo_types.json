@@ -428,7 +428,7 @@
   {
     "type": "ammunition_type",
     "id": "RPG-7",
-    "name": "93mm RPG-7",
+    "name": "RPG-7 rocket",
     "default": "RPG-7_ammo"
   },
   {
