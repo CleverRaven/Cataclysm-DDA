@@ -10220,11 +10220,10 @@ void game::vertical_move( int movez, bool force )
         stored_mount = *u.mounted_creature.get();
     }
     if( !m.has_zlevels() ) {
-        const int to_x = u.posx();
-        const int to_y = u.posy();
+        const tripoint to = u.pos();
         for( monster &critter : all_monsters() ) {
-            int turns = critter.turns_to_reach( point( to_x, to_y ) );
-            if( turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach( point( to_x, to_y ) )
+            int turns = critter.turns_to_reach( to.xy() );
+            if( turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach( to.xy() )
                 && !slippedpast ) {
                 critter.staircount = 10 + turns;
                 critter.on_unload();

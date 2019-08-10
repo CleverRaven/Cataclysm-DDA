@@ -157,7 +157,6 @@ class monster : public Creature
         Creature *attack_target(); // Returns the creature at the end of plans (if hostile)
 
         // Movement
-        void shift( int sx, int sy ); // Shifts the monster to the appropriate submap
         void shift( const point &sp ); // Shifts the monster to the appropriate submap
         void set_goal( const tripoint &p );
         // Updates current pos AND our plans
@@ -171,9 +170,7 @@ class monster : public Creature
          */
         bool can_move_to( const tripoint &p ) const;
 
-        bool will_reach( int x, int y ); // Do we have plans to get to (x, y)?
         bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
-        int  turns_to_reach( int x, int y ); // How long will it take?
         int  turns_to_reach( const point &p ); // How long will it take?
 
         // Go in a straight line to p
