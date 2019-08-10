@@ -10,6 +10,7 @@
 #include <set>
 
 #include "avatar.h"
+#include "debug.h"
 #include "cata_utility.h"
 #include "game.h"
 #include "input.h"
@@ -41,6 +42,12 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
         if( !ip.selected ) {
             continue;
         }
+
+        if( ip.loc.get_item() == nullptr ) {
+            DebugLog( D_ERROR, D_NPC ) << "Null item being traded in npc_trading::transfer_items";
+            continue;
+        }
+
         item gift = *ip.loc.get_item();
         gift.set_owner( fac );
         int charges = npc_gives ? ip.u_charges : ip.npc_charges;
@@ -77,17 +84,17 @@ std::vector<item_pricing> npc_trading::init_selling( npc &p )
     std::vector<item_pricing> result;
     invslice slice = p.inv.slice();
     for( auto &i : slice ) {
-        auto &it = i->front();
+        item &it = i->front();
 
         const int price = it.price( true );
         int val = p.value( it );
         if( p.wants_to_sell( it, val, price ) ) {
-            result.emplace_back( p, &i->front(), val, i->size() );
+            result.emplace_back( p, i->front(), val, i->size() );
         }
     }
 
     if( p.is_player_ally() & !p.weapon.is_null() && !p.weapon.has_flag( "NO_UNWIELD" ) ) {
-        result.emplace_back( p, &p.weapon, p.value( p.weapon ), false );
+        result.emplace_back( p, p.weapon, p.value( p.weapon ), false );
     }
 
     return result;
@@ -157,10 +164,10 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         check_item( item_location( seller, &seller.weapon ), 1 );
     }
 
-    for( auto &cursor : map_selector( seller.pos(), 1 ) ) {
+    for( map_cursor &cursor : map_selector( seller.pos(), 1 ) ) {
         buy_helper( cursor, check_item );
     }
-    for( auto &cursor : vehicle_selector( seller.pos(), 1 ) ) {
+    for( vehicle_cursor &cursor : vehicle_selector( seller.pos(), 1 ) ) {
         buy_helper( cursor, check_item );
     }
 
