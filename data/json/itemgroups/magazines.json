@@ -242,7 +242,14 @@
     "type": "item_group",
     "id": "mags_shotgun_rare",
     "//": "Aftermarket or otherwise uncommon shotgun magazines excluding milspec.",
-    "items": [ [ "saiga10mag", 50 ], [ "saiga30mag", 10 ], [ "saiga410mag_10rd", 30 ], [ "saiga410mag_30rd", 10 ] ]
+    "items": [
+      [ "saiga10mag", 50 ],
+      [ "saiga30mag", 10 ],
+      [ "saiga410mag_10rd", 30 ],
+      [ "saiga410mag_30rd", 10 ],
+      [ "shot_speedloader6", 15 ],
+      [ "shot_speedloader8", 15 ]
+    ]
   },
   {
     "type": "item_group",

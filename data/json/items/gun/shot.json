@@ -131,6 +131,7 @@
     "dispersion": 375,
     "durability": 8,
     "clip_size": 8,
+    "magazines": [ [ "shot", [ "shot_speedloader8" ] ] ],
     "built_in_mods": [ "lead_red_dot_sight", "lead_laser_sight" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -161,6 +162,7 @@
     "dispersion": 345,
     "durability": 9,
     "clip_size": 8,
+    "magazines": [ [ "shot", [ "shot_speedloader8" ] ] ],
     "flags": [ "RELOAD_ONE" ]
   },
   {
@@ -179,6 +181,7 @@
     "dispersion": 375,
     "durability": 9,
     "clip_size": 8,
+    "magazines": [ [ "shot", [ "shot_speedloader8" ] ] ],
     "barrel_length": 1
   },
   {
@@ -249,6 +252,7 @@
     "dispersion": 345,
     "durability": 8,
     "clip_size": 6,
+    "magazines": [ [ "shot", [ "shot_speedloader6" ] ] ],
     "barrel_length": 3
   },
   {
