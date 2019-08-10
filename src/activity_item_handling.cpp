@@ -979,11 +979,6 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
     // sort source tiles by distance
     for( const tripoint &src : src_sorted ) {
         const tripoint &src_loc = g->m.getlocal( src );
-        // check if somebodies already started it
-        partial_con *nc = g->m.partial_con_at( src_loc );
-        if( nc ) {
-            continue;
-        }
 
         if( !g->m.inbounds( src_loc ) ) {
             if( !g->m.inbounds( p.pos() ) ) {
@@ -1020,11 +1015,21 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
         const inventory &total_inv = p.crafting_inventory();
         // PICKUP_RANGE -1 because we will be adjacent to the spot when arriving.
         bool can_build = false;
+        const std::vector<construction> &list_constructions = get_constructions();
 
+        //check partial construction
+        partial_con *pc_prev = g->m.partial_con_at( src_loc );
+        if( pc_prev ) {
+            player_activity current_act( act_blueprint_construction );
+            current_act.auto_resume = true;
+            p.backlog.push_front( current_act );
+            p.assign_activity( activity_id( "ACT_BUILD" ) );
+            p.activity.placement = g->m.getabs( src_loc );
+            return;
+        }
         for( const zone_data &zone : zones ) {
             const blueprint_options options = dynamic_cast<const blueprint_options &>( zone.get_options() );
             const int index = options.get_index();
-            const std::vector<construction> &list_constructions = get_constructions();
             build = list_constructions[index];
             //what is already here?
             const furn_id &fid = g->m.furn( src_loc );
@@ -1054,6 +1059,7 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
                 break;
             }
         }
+
         //impossible to build or already has been built
         if( !can_build ) {
             continue;
