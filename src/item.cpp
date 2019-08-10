@@ -2605,7 +2605,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             } else if( has_flag( "RECHARGE_AIR" ) &&
                        parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_UPSCAPABLE_AIR ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This tool has a <info>rechargeable air cell</info> and can be recharged in any <neutral>air-compatible recharging station</neutral>. You could charge it with <info>air</info>, but unloading it is impossible." ) ) );
+                                          _( "* This tool has an <info>air cylinder</info> and can be refilled with air in any <neutral>air pumping station</neutral>. You could fill it with <info>air</info>, but unloading it is impossible." ) ) );
             } else if( has_flag( "USES_BIONIC_POWER" ) ) {
                 info.emplace_back( "DESCRIPTION",
                                    _( "* This tool <info>runs on bionic power</info>." ) );

@@ -2248,7 +2248,7 @@
     "broken_color": "blue",
     "damage_modifier": 10,
     "durability": 20,
-    "description": "A device for refilling air cylinders.  When turned on, it charges any refillable air containers placed directly in the attached storage space.",
+    "description": "A device for refilling air cylinders.  When turned on, it fills any refillable air containers placed directly in the attached storage space.",
     "//": "Only keeping a controller board running while not actively charging",
     "epower": -10,
     "bonus": 600,
