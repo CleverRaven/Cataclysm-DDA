@@ -471,7 +471,7 @@ void pixel_minimap::render_cache( const tripoint &center )
         const auto sm_pos = rel_pos + sm_offset;
         const auto ms_pos = sm_to_ms_copy( sm_pos ) + ms_offset;
 
-        const auto chunk_rect = projector->get_chunk_rect( { ms_pos.x, ms_pos.y }, { SEEX, SEEY } );
+        const auto chunk_rect = projector->get_chunk_rect( ms_pos.xy(), { SEEX, SEEY } );
 
         RenderCopy( renderer, elem.second.chunk_tex, nullptr, &chunk_rect );
     }
