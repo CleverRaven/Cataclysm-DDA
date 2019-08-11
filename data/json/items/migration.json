@@ -621,5 +621,70 @@
     "id": "reloaded_270",
     "type": "MIGRATION",
     "replace": "reloaded_270win_jsp"
+  },
+  {
+    "id": "afs_rolling_pin",
+    "type": "MIGRATION",
+    "replace": "rolling_pin"
+  },
+  {
+    "id": "afs_rolling_pin_barbed_wire",
+    "type": "MIGRATION",
+    "replace": "bwire_rolling_pin"
+  },
+  {
+    "id": "afs_welding_mask",
+    "type": "MIGRATION",
+    "replace": "welding_mask"
+  },
+  {
+    "id": "afs_atomic_reading_light",
+    "type": "MIGRATION",
+    "replace": "atomic_light"
+  },
+  {
+    "id": "afs_large_storage_battery",
+    "type": "MIGRATION",
+    "replace": "large_storage_battery"
+  },
+  {
+    "id": "afs_textbook_shotguns",
+    "type": "MIGRATION",
+    "replace": "textbook_shotgun"
+  },
+  {
+    "id": "afs_textbook_handguns",
+    "type": "MIGRATION",
+    "replace": "textbook_pistol"
+  },
+  {
+    "id": "afs_textbook_rifles",
+    "type": "MIGRATION",
+    "replace": "textbook_rifle"
+  },
+  {
+    "id": "afs_textbook_launchers",
+    "type": "MIGRATION",
+    "replace": "textbook_launcher"
+  },
+  {
+    "id": "afs_daypack",
+    "type": "MIGRATION",
+    "replace": "daypack",
+  },
+  {
+    "id": "afs_ski_jacket",
+    "type": "MIGRATION",
+    "replace": "ski_jacket"
+  },
+  {
+    "id": "afs_cake",
+    "type": "MIGRATION",
+    "replace": "cake2"
+  },
+  {
+    "id": "afs_fried_donut_holes",
+    "type": "MIGRATION",
+    "replace": "donut_holes"
   }
 ]

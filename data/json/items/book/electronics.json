@@ -169,6 +169,26 @@
     "fun": -1
   },
   {
+    "id": "textbook_atomic",
+    "type": "BOOK",
+    "name": "Nuclear Physics Made Easy",
+    "name_plural": "Nuclear Physics Made Easy",
+    "description": "A book detailing the workings of state of the art atomic technology, and the physics behind it.  You could probably figure out how to build a fission reactor from reading it, but after the apocalypse, acquiring suitable machinery and materials for that seems extremely unlikely at best.  However, more fundamental information presented in this book could indeed be useful.",
+    "weight": 2063,
+    "volume": 8,
+    "price": 9200,
+    "bashing": 8,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_green",
+    "skill": "electronics",
+    "required_level": 5,
+    "max_level": 7,
+    "intelligence": 13,
+    "time": 50,
+    "fun": -1
+  },
+  {
     "id": "textbook_electronics",
     "type": "BOOK",
     "name": "Electronic Circuit Theory",

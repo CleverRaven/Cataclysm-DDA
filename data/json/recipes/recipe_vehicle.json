@@ -28,6 +28,37 @@
   },
   {
     "type": "recipe",
+    "result": "turret_mount",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "electronics",
+    "skills_required": [ [ "mechanics", 5 ], [ "computer", 5 ] ],
+    "difficulty": 7,
+    "time": "1 h",
+    "reversible": true,
+    "decomp_learn": 8,
+    "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 9 ] ],
+    "using": [ [ "soldering_standard", 14 ], [ "welding_standard", 5 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SAW_M", "level": 1 }
+    ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "steel_lump", 4 ] ],
+      [ [ "pipe", 4 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "fuel_bunker",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",

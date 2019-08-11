@@ -32,5 +32,23 @@
     "max_level": 3,
     "intelligence": 4,
     "time": "18 m"
+  },
+  {
+    "id": "textbook_rifle",
+    "type": "BOOK",
+    "name": "America's Rifle",
+    "name_plural": "copies of America's Rifle",
+    "description": "A history book penned by an anonymous author.  Starting from its design by John Garand and ending with the Vietnam War, it provides a detailed run-down of the M1 Garand rifle's use throughout history as well as its design and quirks with the weapon.",
+    "weight": 600,
+    "volume": 2,
+    "price": 3000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "skill": "rifle",
+    "required_level": 2,
+    "max_level": 6,
+    "intelligence": 6,
+    "time": "20 m"
   }
 ]

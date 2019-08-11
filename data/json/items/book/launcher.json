@@ -33,5 +33,23 @@
     "max_level": 3,
     "intelligence": 4,
     "time": "18 m"
+  },
+  {
+    "id": "textbook_launcher",
+    "type": "BOOK",
+    "name": "Jane's Flamethrowers and Firestarters",
+    "name_plural": "copies of Jane's Flamethrowers and Firestarters",
+    "description": "A detailed, full-colored guide to flamethrowers, incendiary weapons, and napalm.  It builds off of information provided in its sister book, Jane's Mortars and Rocket Launchers, and so it's mostly incomprehensible to anyone without prior knowledge.",
+    "weight": 734,
+    "volume": 1,
+    "price": 2000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "skill": "launcher",
+    "required_level": 2,
+    "max_level": 6,
+    "intelligence": 5,
+    "time": "18 m"
   }
 ]
