@@ -100,8 +100,22 @@
     "points": 3,
     "description": "You're just generally quick!  You get a 10% bonus to action points.",
     "starting_trait": true,
+    "cancels": [ "STEADY" ],
     "category": [ "FISH", "BIRD", "INSECT", "TROGLOBITE", "CHIMERA", "RAPTOR", "MOUSE" ],
     "speed_modifier": 1.1
+  },
+  {
+    "type": "mutation",
+    "id": "STEADY",
+    "name": "Slow and Steady",
+    "points": 1,
+    "mixed_effect": true,
+    "description": "Take it easy!  You are a bit slower all around, but you are better at conserving your energy.",
+    "starting_trait": true,
+    "cancels": [ "QUICK" ],
+    "category": [ "PLANT", "LIZARD" ],
+    "speed_modifier": 0.9,
+    "stamina_regen_modifier": 0.2
   },
   {
     "type": "mutation",
