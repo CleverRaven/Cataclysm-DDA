@@ -18,6 +18,20 @@
     "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ] ]
   },
   {
+    "id": "mutagen_production_standard",
+    "type": "requirement",
+    "//": "Production of mutagens.",
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "serum_production_standard",
+    "type": "requirement",
+    "//": "Production of mutagenic serums.",
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ]
+  },
+  {
     "id": "sewing_standard",
     "type": "requirement",
     "//": "Crafting or repair of fabric items",
