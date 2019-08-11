@@ -576,9 +576,10 @@ void iexamine::vending( player &p, const tripoint &examp )
 
     constexpr int first_item_offset = 3; // header size
 
-    catacurses::window const w = catacurses::newwin( window_h, w_items_w, padding_y, padding_x );
-    catacurses::window const w_item_info = catacurses::newwin( window_h, w_info_w,  padding_y,
-                                           padding_x + w_items_w );
+    catacurses::window const w = catacurses::newwin( window_h, w_items_w, point( padding_x,
+                                 padding_y ) );
+    catacurses::window const w_item_info = catacurses::newwin( window_h, w_info_w,
+                                           point( padding_x + w_items_w, padding_y ) );
 
     bool used_machine = false;
     input_context ctxt( "VENDING_MACHINE" );
@@ -616,9 +617,9 @@ void iexamine::vending( player &p, const tripoint &examp )
         werase( w );
         wborder( w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-        mvwhline( w, first_item_offset - 1, 1, LINE_OXOX, w_items_w - 2 );
-        mvwaddch( w, first_item_offset - 1, 0, LINE_XXXO ); // |-
-        mvwaddch( w, first_item_offset - 1, w_items_w - 1, LINE_XOXX ); // -|
+        mvwhline( w, point( 1, first_item_offset - 1 ), LINE_OXOX, w_items_w - 2 );
+        mvwaddch( w, point( 0, first_item_offset - 1 ), LINE_XXXO ); // |-
+        mvwaddch( w, point( w_items_w - 1, first_item_offset - 1 ), LINE_XOXX ); // -|
 
         trim_and_print( w, 1, 2, w_items_w - 3, c_light_gray,
                         _( "Money left: %s" ), format_money( money ) );
@@ -660,7 +661,7 @@ void iexamine::vending( player &p, const tripoint &examp )
         //12      34
         const std::string name = utf8_truncate( cur_item->display_name(),
                                                 static_cast<size_t>( w_info_w - 4 ) );
-        mvwprintw( w_item_info, 0, 1, "<%s>", name );
+        mvwprintw( w_item_info, point( 1, 0 ), "<%s>", name );
         wrefresh( w_item_info );
 
         const std::string &action = ctxt.handle_input();

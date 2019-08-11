@@ -5705,7 +5705,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
             continue;
         }
 
-        wmove( w, y - center.y + getmaxy( w ) / 2, 0 );
+        wmove( w, point( 0, y - center.y + getmaxy( w ) / 2 ) );
 
         const int maxxrender = center.x - getmaxx( w ) / 2 + getmaxx( w );
         x = center.x - getmaxx( w ) / 2;

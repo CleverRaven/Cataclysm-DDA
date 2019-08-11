@@ -163,7 +163,8 @@ static void create_backbuffer()
     bmi.bmiHeader.biSizeImage    = WindowWidth * WindowHeight * 1;
     bmi.bmiHeader.biClrUsed      = color_loader<RGBQUAD>::COLOR_NAMES_COUNT; // Colors in the palette
     bmi.bmiHeader.biClrImportant = color_loader<RGBQUAD>::COLOR_NAMES_COUNT; // Colors in the palette
-    backbit = CreateDIBSection( 0, &bmi, DIB_RGB_COLORS, static_cast<void **>( &dcbits ), NULL, 0 );
+    backbit = CreateDIBSection( 0, &bmi, DIB_RGB_COLORS, reinterpret_cast<void **>( &dcbits ), NULL,
+                                0 );
     DeleteObject( SelectObject( backbuffer, backbit ) ); //load the buffer into DC
 }
 
@@ -639,7 +640,7 @@ void catacurses::init_interface()
 static uint64_t GetPerfCount()
 {
     uint64_t Count;
-    QueryPerformanceCounter( static_cast<PLARGE_INTEGER>( &Count ) );
+    QueryPerformanceCounter( reinterpret_cast<PLARGE_INTEGER>( &Count ) );
     return Count;
 }
 
@@ -649,7 +650,7 @@ input_event input_manager::get_input_event()
     // see, e.g., http://linux.die.net/man/3/getch
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
     uint64_t Frequency;
-    QueryPerformanceFrequency( static_cast<PLARGE_INTEGER>( &Frequency ) );
+    QueryPerformanceFrequency( reinterpret_cast<PLARGE_INTEGER>( &Frequency ) );
     wrefresh( catacurses::stdscr );
     InvalidateRect( WindowHandle, NULL, true );
     lastchar = ERR;
