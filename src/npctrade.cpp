@@ -274,7 +274,7 @@ void trading_window::update_win( npc &p, const std::string &deal, const int adju
 
         std::string cost_str = _( "Exchange" );
         if( !is_free_exchange ) {
-            cost_str = string_format( u_get < 0 ? _( "Profit %s" ) : _( "Cost %s" ),
+            cost_str = string_format( u_get < 0 ? _( "Credit %s" ) : _( "Debt %s" ),
                                       format_money( std::abs( u_get ) ) );
         }
 
