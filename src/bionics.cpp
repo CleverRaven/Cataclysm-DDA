@@ -1857,8 +1857,13 @@ void player::add_bionic( const bionic_id &b )
 void player::remove_bionic( const bionic_id &b )
 {
     bionic_collection new_my_bionics;
+    // Multiple copies of power storage bionics may be installed
+    // now. This prevents all with the same id from getting
+    // uninstalled at the same time.
+    bool already_removed = false;
     for( auto &i : *my_bionics ) {
-        if( b == i.id ) {
+        if( b == i.id && !already_removed ) {
+            already_removed = true;
             continue;
         }
 
