@@ -4832,6 +4832,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "20 m",
+    "batch_time_factors": [ 83, 5 ],
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 5 ], [ "makeshift_sealer", 10 ] ] ],
