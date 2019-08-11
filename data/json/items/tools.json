@@ -7550,7 +7550,7 @@
     "weight": 8000,
     "volume": "3 L",
     "price": "3200",
-    "to-hit": -4,
+    "to_hit": -4,
     "bashing": 12,
     "material": "steel"
   }

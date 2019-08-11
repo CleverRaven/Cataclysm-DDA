@@ -90,7 +90,7 @@
     "name": "experimental lab bot",
     "description": "This robot looks like a large metal spider, a bit bigger than a person, with its thorax covered in tiny holes.  An ominous buzzing emanates from it.",
     "default_faction": "defense_bot",
-    "looks-like": "mon_skitterbot",
+    "looks_like": "mon_skitterbot",
     "species": [ "ROBOT" ],
     "volume": "65000 ml",
     "weight": 100000,

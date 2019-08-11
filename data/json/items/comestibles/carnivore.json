@@ -121,7 +121,7 @@
     "volume": 10,
     "weight": 250,
     "color": "black",
-    "looks-like": "feces_manure",
+    "looks_like": "feces_manure",
     "description": "Eugh.  This is a mess of dirt, excreta, connective tissue, and bits of matter like hair and claws, leftover from the butchering process.  Eating it isn't even worth thinking about, but disposing of it might be a concern as it could attract vermin.",
     "material": [ "flesh" ],
     "spoils_in": "8 hours",

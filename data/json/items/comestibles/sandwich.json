@@ -138,7 +138,7 @@
     "name": "boring sandwich",
     "name_plural": "boring sandwiches",
     "copy-from": "bread",
-    "proprtional": { "weight": 2, "calories": 2, "volume": 2 },
+    "proportional": { "weight": 2, "calories": 2, "volume": 2 },
     "color": "brown",
     "spoils_in": "1 day 22 hours",
     "container": "wrapper",
