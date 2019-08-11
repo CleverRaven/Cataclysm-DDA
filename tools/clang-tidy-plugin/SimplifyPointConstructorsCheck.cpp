@@ -14,28 +14,6 @@ namespace tidy
 namespace cata
 {
 
-static auto isPointConstructor()
-{
-    return cxxConstructorDecl(
-               ofClass( cxxRecordDecl( anyOf( hasName( "point" ), hasName( "tripoint" ) ) ) )
-           );
-}
-
-// This returns a matcher that always matches, but binds "temp" if the
-// constructor call is constructing a temporary object.
-static auto testWhetherConstructingTemporary()
-{
-    return cxxConstructExpr(
-               anyOf(
-                   hasParent( materializeTemporaryExpr().bind( "temp" ) ),
-                   hasParent(
-                       implicitCastExpr( hasParent( materializeTemporaryExpr().bind( "temp" ) ) )
-                   ),
-                   anything()
-               )
-           );
-}
-
 static auto isMemberExpr( const std::string &type, const std::string &member_,
                           const std::string &objBind )
 {
@@ -123,8 +101,7 @@ static void CheckFromTripoint( SimplifyPointConstructorsCheck &Check,
         Result.Nodes.getNodeAs<CXXConstructExpr>( "constructorCallFromTripoint" );
     const CXXConstructorDecl *ConstructorDecl =
         Result.Nodes.getNodeAs<CXXConstructorDecl>( "constructorDecl" );
-    const MaterializeTemporaryExpr *TempParent =
-        Result.Nodes.getNodeAs<MaterializeTemporaryExpr>( "temp" );
+    const Expr *TempParent = Result.Nodes.getNodeAs<Expr>( "temp" );
     const Expr *XExpr = Result.Nodes.getNodeAs<Expr>( "xobj" );
     const Expr *YExpr = Result.Nodes.getNodeAs<Expr>( "yobj" );
     const Expr *ZExpr = Result.Nodes.getNodeAs<Expr>( "zobj" );
