@@ -56,15 +56,13 @@ class trading_window
         trading_window() = default;
         std::vector<item_pricing> theirs;
         std::vector<item_pricing> yours;
-        bool is_free_exchange; // Eg: Exchange between allies
-        int u_get;
-        int max_credit_npc_will_extend;
+        int your_balance;
 
         void setup_win( npc &np );
         void setup_trade( int cost, npc &np );
-        void update_win( npc &p, const std::string &deal, const int adjusted_u_get );
+        void update_win( npc &np, const std::string &deal );
         void show_item_data( npc &np, size_t offset, std::vector<item_pricing> &target_list );
-        bool perform_trade( npc &p, const std::string &deal );
+        bool perform_trade( npc &np, const std::string &deal );
         void update_npc_owed( npc &np );
 
     private:
@@ -85,6 +83,8 @@ class trading_window
         units::mass weight_left;
 
         int get_var_trade( const item &it, int total_count );
+        bool npc_will_accept_trade( const npc &np ) const;
+        int calc_npc_owes_you( const npc &np ) const;
 };
 
 namespace npc_trading
