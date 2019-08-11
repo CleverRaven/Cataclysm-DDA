@@ -6899,8 +6899,7 @@ std::list<item> player::use_charges( const itype_id &what, int qty,
             qty -= std::min( qty, ups );
         }
 
-    }
-    else if( what == "compressed_air" ) {
+    } else if( what == "compressed_air" ) {
         int compressed_air = charges_of( "compressed_air_container", qty );
         if( compressed_air > 0 ) {
             std::list<item> found = use_charges( "compressed_air_container", compressed_air );
