@@ -4,7 +4,7 @@
     "ident": "Mutant_Power_Armor",
     "name": "Mutant Power Armor",
     "authors": [ "ThePotatomancer" ],
-    "description": "Adds more encumbaring versions of power armor for oversized mutants. Now more mutants are end game viable!",
+    "description": "Adds more encumbering versions of power armor for oversized mutants. Now more mutants are end game viable!",
     "category": "items",
     "dependencies": [ "dda" ]
   }
