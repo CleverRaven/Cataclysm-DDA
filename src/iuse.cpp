@@ -4274,7 +4274,7 @@ int iuse::hand_crank_air( player *p, item *it, bool, const tripoint & )
         int time = to_moves<int>( 1600_minutes );
         if( it->ammo_capacity() > it->ammo_remaining() ) {
             p->add_msg_if_player( ( "You start cranking the %s to charge its %s." ),
-                                                 it->tname(), it->magazine_current()->tname() ) ;
+                                  it->tname(), it->magazine_current()->tname() ) ;
             p->assign_activity( activity_id( "ACT_HAND_CRANK_AIR" ), time, -1, p->get_item_position( it ),
                                 "hand-cranking-air" );
         } else {
@@ -5634,9 +5634,10 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
 
     auto filter = [&it]( const item & e ) {
         // don't allow ups battery mods on a UPS or UPS-powered tools
-        if( ( it->has_flag( "USE_UPS" ) || it->has_flag( "USE_compressed_air" ) ) && ( e.typeId() == "UPS_off" ||
-                e.typeId() == "compressed_air_container" || e.typeId() == "adv_UPS_off" ||
-                e.has_flag( "USE_UPS" ) || e.has_flag( "USE_compressed_air" ) ) ) {
+        if( ( it->has_flag( "USE_UPS" ) || it->has_flag( "USE_compressed_air" ) ) &&
+            ( e.typeId() == "UPS_off" ||
+              e.typeId() == "compressed_air_container" || e.typeId() == "adv_UPS_off" ||
+              e.has_flag( "USE_UPS" ) || e.has_flag( "USE_compressed_air" ) ) ) {
             return false;
         }
 
