@@ -3,7 +3,7 @@
 
 #include "catch/catch.hpp"
 #include "map_iterator.h"
-#include "enums.h"
+#include "point.h"
 
 std::array<tripoint, 9> range_1_2d_centered = {
     {   {-1, -1, 0}, { 0, -1, 0}, { 1, -1, 0},

@@ -1,6 +1,5 @@
 #include "mattack_actors.h"
 
-#include <cmath>
 #include <algorithm>
 #include <memory>
 
@@ -24,6 +23,7 @@
 #include "player.h"
 #include "rng.h"
 #include "material.h"
+#include "point.h"
 
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_bite( "bite" );
@@ -50,7 +50,7 @@ void leap_actor::load_internal( JsonObject &obj, const std::string & )
     max_range = obj.get_float( "max_range" );
     // Optional:
     min_range = obj.get_float( "min_range", 1.0f );
-    allow_no_target = obj.get_bool( "allow_no_target", true );
+    allow_no_target = obj.get_bool( "allow_no_target", false );
     move_cost = obj.get_int( "move_cost", 150 );
     min_consider_range = obj.get_float( "min_consider_range", 0.0f );
     max_consider_range = obj.get_float( "max_consider_range", 200.0f );
@@ -76,27 +76,36 @@ bool leap_actor::call( monster &z ) const
 
     // We wanted the float for range check
     // int here will make the jumps more random
-    int best = static_cast<int>( best_float );
+    int best = std::numeric_limits<int>::max();
     if( !allow_no_target && z.attack_target() == nullptr ) {
         return false;
     }
-
-    for( const tripoint &dest : g->m.points_in_radius( z.pos(), max_range ) ) {
-        if( dest == z.pos() ) {
+    std::multimap<int, tripoint> candidates;
+    for( const tripoint &candidate : g->m.points_in_radius( z.pos(), max_range ) ) {
+        if( candidate == z.pos() ) {
             continue;
+        }
+        float leap_dist = trigdist ? trig_dist( z.pos(), candidate ) :
+                          square_dist( z.pos(), candidate );
+        if( leap_dist > max_range || leap_dist < min_range ) {
+            continue;
+        }
+        int candidate_dist = rl_dist( candidate, target );
+        if( candidate_dist >= best_float ) {
+            continue;
+        }
+        candidates.emplace( candidate_dist, candidate );
+    }
+    for( const auto &candidate : candidates ) {
+        const int &cur_dist = candidate.first;
+        const tripoint &dest = candidate.second;
+        if( cur_dist > best ) {
+            break;
         }
         if( !z.sees( dest ) ) {
             continue;
         }
         if( !g->is_empty( dest ) ) {
-            continue;
-        }
-        int cur_dist = rl_dist( target, dest );
-        if( cur_dist > best ) {
-            continue;
-        }
-        if( ( trigdist ? trig_dist( z.pos(), dest ) : square_dist( z.pos(), dest ) ) <
-            min_range ) {
             continue;
         }
         bool blocked_path = false;
@@ -110,11 +119,6 @@ bool leap_actor::call( monster &z ) const
         }
         if( blocked_path ) {
             continue;
-        }
-
-        if( cur_dist < best ) {
-            // Better than any earlier one
-            options.clear();
         }
 
         options.push_back( dest );
@@ -133,6 +137,54 @@ bool leap_actor::call( monster &z ) const
     if( seen ) {
         add_msg( _( "The %s leaps!" ), z.name() );
     }
+
+    return true;
+}
+
+mattack_actor *mon_spellcasting_actor::clone() const
+{
+    return new mon_spellcasting_actor( *this );
+}
+
+void mon_spellcasting_actor::load_internal( JsonObject &obj, const std::string & )
+{
+    std::string sp_id;
+    int spell_level = 0;
+    mandatory( obj, was_loaded, "spell_id", sp_id );
+    optional( obj, was_loaded, "self", self, false );
+    optional( obj, was_loaded, "spell_level", spell_level, 0 );
+    spell_data = spell( spell_id( sp_id ) );
+    for( int i = 0; i <= spell_level; i++ ) {
+        spell_data.gain_level();
+    }
+    avatar fake_player;
+    move_cost = spell_data.casting_time( fake_player );
+}
+
+bool mon_spellcasting_actor::call( monster &mon ) const
+{
+    if( !mon.can_act() ) {
+        return false;
+    }
+
+    if( !mon.attack_target() ) {
+        // this is an attack. there is no reason to attack if there isn't a real target.
+        return false;
+    }
+
+    const tripoint target = mon.attack_target()->pos();
+
+    std::string fx = spell_data.effect();
+    // is the spell an attack that needs to hit the target?
+    // examples of spells that don't: summons, teleport self
+    const bool targeted_attack = fx == "target_attack" || fx == "projectile_attack" ||
+                                 fx == "cone_attack" || fx == "line_attack";
+
+    if( targeted_attack && rl_dist( mon.pos(), target ) > spell_data.range() ) {
+        return false;
+    }
+
+    spell_data.cast_all_effects( mon, target );
 
     return true;
 }

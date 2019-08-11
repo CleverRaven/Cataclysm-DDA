@@ -9,6 +9,7 @@
 #include <functional>
 #include <memory>
 #include <utility>
+#include <list>
 
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -23,6 +24,7 @@
 #include "messages.h"
 #include "options.h"
 #include "output.h"
+#include "panels.h"
 #include "player.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -31,7 +33,6 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -42,9 +43,15 @@
 #include "optional.h"
 #include "player_activity.h"
 #include "ret_val.h"
-#include "string_id.h"
 #include "units.h"
 #include "type_id.h"
+#include "clzones.h"
+#include "colony.h"
+#include "faction.h"
+#include "item_stack.h"
+#include "map_selector.h"
+#include "pimpl.h"
+#include "point.h"
 
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
@@ -268,7 +275,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                 break;
             }
 
-            picked_up = newit.spill_contents( u );
+            picked_up = loc.get_item()->spill_contents( u );
             if( !picked_up ) {
                 break;
             }
@@ -317,7 +324,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
         quantities.pop_back();
 
         if( !target ) {
-            debugmsg( "lost target item of ACT_DROP" );
+            debugmsg( "lost target item of ACT_PICKUP" );
             continue;
         }
 
@@ -450,7 +457,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     for( item_stack::iterator it : here ) {
         bool found_stack = false;
         for( std::list<item_stack::iterator> &stack : stacked_here ) {
-            if( stack.front()->stacks_with( *it ) ) {
+            if( stack.front()->display_stacked_with( *it ) ) {
                 stack.push_back( it );
                 found_stack = true;
                 break;
@@ -503,9 +510,21 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
         int itemsW = pickupW;
 
-        catacurses::window w_pickup = catacurses::newwin( pickupH, pickupW, 0, 0 );
-        catacurses::window w_item_info = catacurses::newwin( TERMY - pickupH,
-                                         pickupW,  pickupH,  0 );
+        int pickupX = 0;
+        std::string position = get_option<std::string>( "PICKUP_POSITION" );
+        if( position == "left" ) {
+            pickupX = panel_manager::get_manager().get_width_left();
+        } else if( position == "right" ) {
+            pickupX = TERMX - panel_manager::get_manager().get_width_right() - pickupW;
+        } else if( position == "overlapping" ) {
+            if( get_option<std::string>( "SIDEBAR_POSITION" ) == "right" ) {
+                pickupX = TERMX - pickupW;
+            }
+        }
+
+        catacurses::window w_pickup = catacurses::newwin( pickupH, pickupW, point( pickupX, 0 ) );
+        catacurses::window w_item_info =
+            catacurses::newwin( TERMY - pickupH, pickupW, point( pickupX, pickupH ) );
 
         std::string action;
         int raw_input_char = ' ';
@@ -531,7 +550,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         int start = 0;
         int cur_it = 0;
         bool update = true;
-        mvwprintw( w_pickup, 0, 0, _( "PICK" ) );
+        mvwprintw( w_pickup, point( 0, 0 ), _( "PICK" ) );
         int selected = 0;
         int iScrollPos = 0;
 
@@ -550,7 +569,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 ctxt.get_available_single_char_hotkeys( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;" );
             int idx = -1;
             for( int i = 1; i < pickupH; i++ ) {
-                mvwprintw( w_pickup, i, 0,
+                mvwprintw( w_pickup, point( 0, i ),
                            "                                                " );
             }
             if( action == "ANY_INPUT" &&
@@ -572,7 +591,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     start = static_cast<int>( ( matches.size() - 1 ) / maxitems ) * maxitems;
                 }
                 selected = start;
-                mvwprintw( w_pickup, maxitems + 2, 0, "         " );
+                mvwprintw( w_pickup, point( 0, maxitems + 2 ), "         " );
             } else if( action == "NEXT_TAB" ) {
                 if( start + maxitems < static_cast<int>( matches.size() ) ) {
                     start += maxitems;
@@ -581,7 +600,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 }
                 iScrollPos = 0;
                 selected = start;
-                mvwprintw( w_pickup, maxitems + 2, pickupH, "            " );
+                mvwprintw( w_pickup, point( pickupH, maxitems + 2 ), "            " );
             } else if( action == "UP" ) {
                 selected--;
                 iScrollPos = 0;
@@ -712,7 +731,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 draw_item_info( w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true );
             }
             draw_custom_border( w_item_info, 0 );
-            mvwprintw( w_item_info, 0, 2, "< " );
+            mvwprintw( w_item_info, point( 2, 0 ), "< " );
             trim_and_print( w_item_info, 0, 4, itemsW - 8, c_white, "%s >",
                             selected_item.display_name() );
             wrefresh( w_item_info );
@@ -733,7 +752,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 update = true;
             }
             for( cur_it = start; cur_it < start + maxitems; cur_it++ ) {
-                mvwprintw( w_pickup, 1 + ( cur_it % maxitems ), 0,
+                mvwprintw( w_pickup, point( 0, 1 + ( cur_it % maxitems ) ),
                            "                                        " );
                 if( cur_it < static_cast<int>( matches.size() ) ) {
                     int true_it = matches[cur_it];
@@ -834,7 +853,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 }
             }
 
-            mvwprintw( w_pickup, maxitems + 1, 0, _( "[%s] Unmark" ),
+            mvwprintw( w_pickup, point( 0, maxitems + 1 ), _( "[%s] Unmark" ),
                        ctxt.get_desc( "LEFT", 1 ) );
 
             center_print( w_pickup, maxitems + 1, c_light_gray, string_format( _( "[%s] Help" ),
@@ -843,7 +862,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             right_print( w_pickup, maxitems + 1, 0, c_light_gray, string_format( _( "[%s] Mark" ),
                          ctxt.get_desc( "RIGHT", 1 ) ) );
 
-            mvwprintw( w_pickup, maxitems + 2, 0, _( "[%s] Prev" ),
+            mvwprintw( w_pickup, point( 0, maxitems + 2 ), _( "[%s] Prev" ),
                        ctxt.get_desc( "PREV_TAB", 1 ) );
 
             center_print( w_pickup, maxitems + 2, c_light_gray, string_format( _( "[%s] All" ),
@@ -855,7 +874,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             if( update ) { // Update weight & volume information
                 update = false;
                 for( int i = 9; i < pickupW; ++i ) {
-                    mvwaddch( w_pickup, 0, i, ' ' );
+                    mvwaddch( w_pickup, point( i, 0 ), ' ' );
                 }
                 units::mass weight_picked_up = 0_gram;
                 units::volume volume_picked_up = 0_ml;

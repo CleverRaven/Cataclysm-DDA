@@ -9,6 +9,7 @@
 #include <type_traits>
 #include <unordered_set>
 #include <utility>
+#include <unordered_map>
 
 #include "avatar.h"
 #include "coordinate_conversions.h"
@@ -32,7 +33,6 @@
 #include "json.h"
 #include "omdata.h"
 #include "overmap_types.h"
-#include "player.h"
 #include "regional_settings.h"
 #include "int_id.h"
 #include "string_id.h"
@@ -72,8 +72,8 @@ void game::serialize( std::ostream &fout )
 
     json.start_object();
     // basic game state information.
-    json.member( "turn", static_cast<int>( calendar::turn ) );
-    json.member( "calendar_start", static_cast<int>( calendar::start ) );
+    json.member( "turn", calendar::turn );
+    json.member( "calendar_start", calendar::start_of_cataclysm );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
     json.member( "auto_travel_mode", auto_travel_mode );
     json.member( "run_mode", static_cast<int>( safe_mode ) );
@@ -198,7 +198,7 @@ void game::unserialize( std::istream &fin )
         data.read( "om_y", comy );
 
         calendar::turn = tmpturn;
-        calendar::start = tmpcalstart;
+        calendar::start_of_cataclysm = tmpcalstart;
 
         load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
@@ -282,7 +282,7 @@ void game::load_weather( std::istream &fin )
     if( fin.peek() == 'l' ) {
         std::string line;
         getline( fin, line );
-        weather.lightning_active = ( line.compare( "lightning: 1" ) == 0 );
+        weather.lightning_active = line == "lightning: 1";
     } else {
         weather.lightning_active = false;
     }
@@ -356,40 +356,19 @@ void game::save_shortcuts( std::ostream &fout )
 }
 #endif
 
+std::unordered_set<std::string> obsolete_terrains;
+
+void overmap::load_obsolete_terrains( JsonObject &jo )
+{
+    JsonArray ja = jo.get_array( "terrains" );
+    while( ja.has_more() ) {
+        obsolete_terrains.emplace( ja.next_string() );
+    }
+}
+
 bool overmap::obsolete_terrain( const std::string &ter )
 {
-    static const std::unordered_set<std::string> obsolete = {
-        "apartments_con_tower_1", "apartments_con_tower_1_entrance",
-        "apartments_mod_tower_1", "apartments_mod_tower_1_entrance",
-        "bridge_ew", "bridge_ns",
-        "public_works", "public_works_entrance",
-        "hdwr_large_entrance", "hdwr_large_SW", "hdwr_large_NW",
-        "hdwr_large_NE", "hdwr_large_backroom", "hdwr_large_loadingbay",
-        "cemetery_4square_00", "cemetery_4square_10",
-        "cemetery_4square_01", "cemetery_4square_11",
-        "loffice_tower_1", "loffice_tower_2", "loffice_tower_3", "loffice_tower_4",
-        "loffice_tower_5", "loffice_tower_6", "loffice_tower_7", "loffice_tower_8",
-        "loffice_tower_9", "loffice_tower_10", "loffice_tower_11", "loffice_tower_12",
-        "loffice_tower_13", "loffice_tower_14", "loffice_tower_15", "loffice_tower_16",
-        "school_1", "school_2", "school_3",
-        "school_4", "school_5", "school_6",
-        "school_7", "school_8", "school_9",
-        "prison_1", "prison_2", "prison_3",
-        "prison_4", "prison_5", "prison_6",
-        "prison_7", "prison_8", "prison_9",
-        "prison_b_entrance", "prison_b",
-        "hospital_entrance", "hospital",
-        "cathedral_1_entrance", "cathedral_1",
-        "cathedral_b_entrance", "cathedral_b",
-        "hotel_tower_1_1", "hotel_tower_1_2", "hotel_tower_1_3", "hotel_tower_1_4",
-        "hotel_tower_1_5", "hotel_tower_1_6", "hotel_tower_1_7", "hotel_tower_1_8",
-        "hotel_tower_1_9", "hotel_tower_b_1", "hotel_tower_b_2", "hotel_tower_b_3",
-        "bunker", "farm", "farm_field", "subway_station",
-        "mansion", "mansion_entrance",
-        "pool"
-    };
-
-    return obsolete.find( ter ) != obsolete.end();
+    return obsolete_terrains.find( ter ) != obsolete_terrains.end();
 }
 
 /*
@@ -401,7 +380,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
     for( const auto &convert : needs_conversion ) {
         const tripoint pos = convert.first;
         const std::string old = convert.second;
-        oter_id &new_id = ter( pos.x, pos.y, pos.z );
+        oter_id &new_id = ter( pos );
 
         struct convert_nearby {
             int xoffset;
@@ -467,18 +446,6 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { 1, entr, 1, old, base + "SE_south" } );
             nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
             nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
-
-        } else if( old.compare( 0, 11, "hdwr_large_" ) == 0 ) {
-            //Migrate terrains with NO_ROTATE flag to rotatable
-            new_id = oter_id( old + "_north" );
-
-        } else if( old.compare( 0, 17, "cemetery_4square_" ) == 0 ) {
-            //Migrate terrains with NO_ROTATE flag to rotatable
-            new_id = oter_id( old + "_north" );
-
-        } else if( old.compare( 0, 14, "loffice_tower_" ) == 0 ) {
-            //Migrate terrains with NO_ROTATE flag to rotatable
-            new_id = oter_id( old + "_north" );
 
         } else if( old.compare( 0, 7, "school_" ) == 0 ) {
             const std::string school = "school_";
@@ -726,15 +693,16 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         } else if( old == "bunker" ) {
             if( pos.z < 0 ) {
                 new_id = oter_id( "bunker_basement" );
-            } else if( is_ot_type( "road", get_ter( pos.x + 1, pos.y, pos.z ) ) ) {
+            } else if( is_ot_match( "road", get_ter( pos + point( 1, 0 ) ), ot_match_type::type ) ) {
                 new_id = oter_id( "bunker_west" );
-            } else if( is_ot_type( "road", get_ter( pos.x - 1, pos.y, pos.z ) ) ) {
+            } else if( is_ot_match( "road", get_ter( pos + point( -1, 0 ) ), ot_match_type::type ) ) {
                 new_id = oter_id( "bunker_east" );
-            } else if( is_ot_type( "road", get_ter( pos.x, pos.y + 1, pos.z ) ) ) {
+            } else if( is_ot_match( "road", get_ter( pos + point( 0, 1 ) ), ot_match_type::type ) ) {
                 new_id = oter_id( "bunker_north" );
             } else {
                 new_id = oter_id( "bunker_south" );
             }
+
         } else if( old == "farm" ) {
             new_id = oter_id( "farm_2_north" );
 
@@ -760,8 +728,40 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                 nearby.push_back( {  0, "mansion",          -2, "mansion_entrance", "mansion_t2_north" } );
                 nearby.push_back( {  2, "mansion",          -2, "mansion",          "mansion_c2_west" } );
             }
-        } else if( old == "pool" ) {
-            new_id = oter_id( "pool_1_north" );
+
+            // Migrate terrains with NO_ROTATE flag to rotatable
+        } else if( old.compare( 0, 4, "lmoe" ) == 0 ||
+                   old.compare( 0, 5, "cabin" ) == 0 ||
+                   old.compare( 0, 5, "pond_" ) == 0 ||
+                   old.compare( 0, 6, "bandit" ) == 0 ||
+                   old.compare( 0, 7, "haz_sar" ) == 0 ||
+                   old.compare( 0, 7, "shelter" ) == 0 ||
+                   old.compare( 0, 8, "campsite" ) == 0 ||
+                   old.compare( 0, 9, "pwr_large" ) == 0 ||
+                   old.compare( 0, 9, "shipwreck" ) == 0 ||
+                   old.compare( 0, 9, "robofachq" ) == 0 ||
+                   old.compare( 0, 10, "ranch_camp" ) == 0 ||
+                   old.compare( 0, 11, "hdwr_large_" ) == 0 ||
+                   old.compare( 0, 14, "loffice_tower_" ) == 0 ||
+                   old.compare( 0, 17, "cemetery_4square_" ) == 0 ) {
+            new_id = oter_id( old + "_north" );
+
+        } else if( old == "hunter_shack" ||
+                   old == "outpost" ||
+                   old == "park" ||
+                   old == "pool" ||
+                   old == "pwr_sub_s" ||
+                   old == "radio_tower" ||
+                   old == "sai" ||
+                   old == "toxic_dump" ||
+                   old == "orchard_stall" ||
+                   old == "orchard_tree_apple" ||
+                   old == "orchard_processing" ||
+                   old == "dairy_farm_NW" ||
+                   old == "dairy_farm_NE" ||
+                   old == "dairy_farm_SW" ||
+                   old == "dairy_farm_SE" ) {
+            new_id = oter_id( old + "_north" );
         }
 
         for( const auto &conv : nearby ) {
@@ -810,23 +810,7 @@ void overmap::load_legacy_monstergroups( JsonIn &jsin )
 // throws std::exception
 void overmap::unserialize( std::istream &fin )
 {
-
-    if( fin.peek() == '#' ) {
-        // This was the last savegame version that produced the old format.
-        static int overmap_legacy_save_version = 24;
-        std::string vline;
-        getline( fin, vline );
-        std::string tmphash;
-        std::string tmpver;
-        int savedver = -1;
-        std::stringstream vliness( vline );
-        vliness >> tmphash >> tmpver >> savedver;
-        if( savedver <= overmap_legacy_save_version ) {
-            unserialize_legacy( fin );
-            return;
-        }
-    }
-
+    chkversion( fin );
     JsonIn jsin( fin );
     jsin.start_object();
     while( !jsin.end_object() ) {
@@ -918,7 +902,7 @@ void overmap::unserialize( std::istream &fin )
             jsin.start_array();
             while( !jsin.end_array() ) {
                 jsin.start_object();
-                radio_tower new_radio;
+                radio_tower new_radio( point_min );
                 while( !jsin.end_object() ) {
                     const std::string radio_member_name = jsin.get_member_name();
                     if( radio_member_name == "type" ) {
@@ -932,9 +916,9 @@ void overmap::unserialize( std::istream &fin )
                             new_radio.type = mapping->first;
                         }
                     } else if( radio_member_name == "x" ) {
-                        jsin.read( new_radio.x );
+                        jsin.read( new_radio.pos.x );
                     } else if( radio_member_name == "y" ) {
-                        jsin.read( new_radio.y );
+                        jsin.read( new_radio.pos.y );
                     } else if( radio_member_name == "strength" ) {
                         jsin.read( new_radio.strength );
                     } else if( radio_member_name == "message" ) {
@@ -964,9 +948,9 @@ void overmap::unserialize( std::istream &fin )
                     if( tracker_member_name == "id" ) {
                         jsin.read( id );
                     } else if( tracker_member_name == "x" ) {
-                        jsin.read( new_tracker.x );
+                        jsin.read( new_tracker.p.x );
                     } else if( tracker_member_name == "y" ) {
-                        jsin.read( new_tracker.y );
+                        jsin.read( new_tracker.p.y );
                     } else if( tracker_member_name == "name" ) {
                         jsin.read( new_tracker.name );
                     }
@@ -1052,7 +1036,7 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &arr
     int count = 0;
     bool value = false;
     for( int j = 0; j < OMAPY; j++ ) {
-        for( int i = 0; i < OMAPX; i++ ) {
+        for( auto &array_col : array ) {
             if( count == 0 ) {
                 jsin.start_array();
                 jsin.read( value );
@@ -1060,7 +1044,7 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &arr
                 jsin.end_array();
             }
             count--;
-            array[i][j] = value;
+            array_col[j] = value;
         }
     }
 }
@@ -1068,23 +1052,7 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &arr
 // throws std::exception
 void overmap::unserialize_view( std::istream &fin )
 {
-    // Private/per-character view of the overmap.
-    if( fin.peek() == '#' ) {
-        // This was the last savegame version that produced the old format.
-        static int overmap_legacy_save_version = 24;
-        std::string vline;
-        getline( fin, vline );
-        std::string tmphash;
-        std::string tmpver;
-        int savedver = -1;
-        std::stringstream vliness( vline );
-        vliness >> tmphash >> tmpver >> savedver;
-        if( savedver <= overmap_legacy_save_version ) {
-            unserialize_view_legacy( fin );
-            return;
-        }
-    }
-
+    chkversion( fin );
     JsonIn jsin( fin );
     jsin.start_object();
     while( !jsin.end_object() ) {
@@ -1112,8 +1080,8 @@ void overmap::unserialize_view( std::istream &fin )
                 while( !jsin.end_array() ) {
                     om_note tmp;
                     jsin.start_array();
-                    jsin.read( tmp.x );
-                    jsin.read( tmp.y );
+                    jsin.read( tmp.p.x );
+                    jsin.read( tmp.p.y );
                     jsin.read( tmp.text );
                     jsin.end_array();
 
@@ -1128,8 +1096,8 @@ void overmap::unserialize_view( std::istream &fin )
                 while( !jsin.end_array() ) {
                     om_map_extra tmp;
                     jsin.start_array();
-                    jsin.read( tmp.x );
-                    jsin.read( tmp.y );
+                    jsin.read( tmp.p.x );
+                    jsin.read( tmp.p.y );
                     jsin.read( tmp.id );
                     jsin.end_array();
 
@@ -1147,8 +1115,8 @@ static void serialize_array_to_compacted_sequence( JsonOut &json,
     int count = 0;
     int lastval = -1;
     for( int j = 0; j < OMAPY; j++ ) {
-        for( int i = 0; i < OMAPX; i++ ) {
-            const int value = array[i][j];
+        for( const auto &array_col : array ) {
+            const int value = array_col[j];
             if( value != lastval ) {
                 if( count ) {
                     json.write( count );
@@ -1201,8 +1169,8 @@ void overmap::serialize_view( std::ostream &fout ) const
         json.start_array();
         for( auto &i : layer[z].notes ) {
             json.start_array();
-            json.write( i.x );
-            json.write( i.y );
+            json.write( i.p.x );
+            json.write( i.p.y );
             json.write( i.text );
             json.end_array();
             fout << std::endl;
@@ -1217,8 +1185,8 @@ void overmap::serialize_view( std::ostream &fout ) const
         json.start_array();
         for( auto &i : layer[z].extras ) {
             json.start_array();
-            json.write( i.x );
-            json.write( i.y );
+            json.write( i.p.x );
+            json.write( i.p.y );
             json.write( i.id );
             json.end_array();
             fout << std::endl;
@@ -1252,14 +1220,14 @@ struct mongroup_hash {
     std::size_t operator()( const mongroup &mg ) const {
         // Note: not hashing monsters or position
         size_t ret = std::hash<mongroup_id>()( mg.type );
-        std::hash_combine( ret, mg.radius );
-        std::hash_combine( ret, mg.population );
-        std::hash_combine( ret, mg.target );
-        std::hash_combine( ret, mg.interest );
-        std::hash_combine( ret, mg.dying );
-        std::hash_combine( ret, mg.horde );
-        std::hash_combine( ret, mg.horde_behaviour );
-        std::hash_combine( ret, mg.diffuse );
+        cata::hash_combine( ret, mg.radius );
+        cata::hash_combine( ret, mg.population );
+        cata::hash_combine( ret, mg.target );
+        cata::hash_combine( ret, mg.interest );
+        cata::hash_combine( ret, mg.dying );
+        cata::hash_combine( ret, mg.horde );
+        cata::hash_combine( ret, mg.horde_behaviour );
+        cata::hash_combine( ret, mg.diffuse );
         return ret;
     }
 };
@@ -1303,12 +1271,14 @@ void overmap::serialize( std::ostream &fout ) const
     json.member( "layers" );
     json.start_array();
     for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+        auto &layer_terrain = layer[z].terrain;
         int count = 0;
         oter_id last_tertype( -1 );
         json.start_array();
         for( int j = 0; j < OMAPY; j++ ) {
+            // NOLINTNEXTLINE(modernize-loop-convert)
             for( int i = 0; i < OMAPX; i++ ) {
-                oter_id t = layer[z].terrain[i][j];
+                oter_id t = layer_terrain[i][j];
                 if( t != last_tertype ) {
                     if( count ) {
                         json.write( count );
@@ -1368,8 +1338,8 @@ void overmap::serialize( std::ostream &fout ) const
     json.start_array();
     for( auto &i : radios ) {
         json.start_object();
-        json.member( "x", i.x );
-        json.member( "y", i.y );
+        json.member( "x", i.pos.x );
+        json.member( "y", i.pos.y );
         json.member( "strength", i.strength );
         json.member( "type", radio_type_names[i.type] );
         json.member( "message", i.message );
@@ -1393,8 +1363,8 @@ void overmap::serialize( std::ostream &fout ) const
         json.start_object();
         json.member( "id", i.first );
         json.member( "name", i.second.name );
-        json.member( "x", i.second.x );
-        json.member( "y", i.second.y );
+        json.member( "x", i.second.p.x );
+        json.member( "y", i.second.p.y );
         json.end_object();
     }
     json.end_array();
@@ -1551,7 +1521,7 @@ void game::unserialize_master( std::istream &fin )
 {
     savegame_loading_version = 0;
     chkversion( fin );
-    if( savegame_loading_version != savegame_version && savegame_loading_version < 11 ) {
+    if( savegame_loading_version < 11 ) {
         popup_nowait(
             _( "Cannot find loader for save data in old version %d, attempting to load as current version %d." ),
             savegame_loading_version, savegame_version );

@@ -1,11 +1,13 @@
 #include "npctrade.h"
 
+#include <limits.h>
 #include <cstdlib>
 #include <algorithm>
 #include <string>
 #include <vector>
 #include <list>
 #include <memory>
+#include <set>
 
 #include "avatar.h"
 #include "cata_utility.h"
@@ -26,6 +28,8 @@
 #include "units.h"
 #include "visitable.h"
 #include "type_id.h"
+#include "faction.h"
+#include "pimpl.h"
 
 const skill_id skill_barter( "barter" );
 
@@ -188,9 +192,9 @@ void item_pricing::adjust_values( const double adjust, faction *fac )
 
 void trading_window::setup_win( npc &np )
 {
-    w_head = catacurses::newwin( 4, TERMX, 0, 0 );
-    w_them = catacurses::newwin( TERMY - 4, win_they_w, 4, 0 );
-    w_you = catacurses::newwin( TERMY - 4, TERMX - win_they_w, 4, win_they_w );
+    w_head = catacurses::newwin( 4, TERMX, point( 0, 0 ) );
+    w_them = catacurses::newwin( TERMY - 4, win_they_w, point( 0, 4 ) );
+    w_you = catacurses::newwin( TERMY - 4, TERMX - win_they_w, point( win_they_w, 4 ) );
     mvwprintz( w_head, 0, 0, c_white, header_message.c_str(), np.disp_name() );
 
     // Set up line drawings
@@ -223,8 +227,8 @@ void trading_window::setup_trade( int cost, npc &np )
         u_get = cost - np.op_of_u.owed;
         // the NPC doesn't require a barter to exactly match, but there's a small limit to how
         // much credit they'll extend
-        npc_requires =  50 * std::max( 0, np.op_of_u.trust + np.op_of_u.value + np.op_of_u.fear -
-                                       np.op_of_u.anger + np.personality.altruism );
+        npc_requires = 50 * std::max( 0, np.op_of_u.trust + np.op_of_u.value + np.op_of_u.fear -
+                                      np.op_of_u.anger + np.personality.altruism );
     }
 }
 
@@ -335,10 +339,10 @@ void trading_window::update_win( npc &p, const std::string &deal, const int adju
                            price_color, price_str );
             }
             if( offset > 0 ) {
-                mvwprintw( w_whose, entries_per_page + 2, 1, _( "< Back" ) );
+                mvwprintw( w_whose, point( 1, entries_per_page + 2 ), _( "< Back" ) );
             }
             if( offset + entries_per_page < list.size() ) {
-                mvwprintw( w_whose, entries_per_page + 2, 9, _( "More >" ) );
+                mvwprintw( w_whose, point( 9, entries_per_page + 2 ), _( "More >" ) );
             }
         }
         wrefresh( w_head );
@@ -351,8 +355,8 @@ void trading_window::show_item_data( npc &np, size_t offset,
                                      std::vector<item_pricing> &target_list )
 {
     update = true;
-    catacurses::window w_tmp = catacurses::newwin( 3, 21, 1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2,
-                               30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2 );
+    catacurses::window w_tmp = catacurses::newwin( 3, 21, point( 30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2,
+                               1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) );
     mvwprintz( w_tmp, 1, 1, c_red, _( "Examine which item?" ) );
     draw_border( w_tmp );
     wrefresh( w_tmp );
@@ -395,8 +399,8 @@ bool trading_window::perform_trade( npc &p, const std::string &deal )
     volume_left = p.volume_capacity() - p.volume_carried();
     weight_left = p.weight_capacity() - p.weight_carried();
     if( p.mission == NPC_MISSION_SHOPKEEP ) {
-        volume_left = units::from_liter( 5000 );
-        weight_left = units::from_kilogram( 5000 );
+        volume_left = 5'000'000_ml;
+        weight_left = 5'000_kilogram;
     }
 
     do {

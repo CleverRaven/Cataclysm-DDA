@@ -4,7 +4,6 @@
 
 #include <fstream>
 #include <functional>
-#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
@@ -344,38 +343,6 @@ class list_circularizer
 };
 
 /**
- * Wrapper around std::ofstream that handles error checking and throws on errors.
- *
- * Use like a normal ofstream: the stream is opened in the constructor and
- * closed via @ref close. Both functions check for success and throw std::exception
- * upon any error (e.g. when opening failed or when the stream is in an error state when
- * being closed).
- * Use @ref stream (or the implicit conversion) to access the output stream and to write
- * to it.
- *
- * @note: the stream is closed in the constructor, but no exception is throw from it. To
- * ensure all errors get reported correctly, you should always call `close` explicitly.
- */
-class ofstream_wrapper
-{
-    private:
-        std::ofstream file_stream;
-
-    public:
-        ofstream_wrapper( const std::string &path );
-        ~ofstream_wrapper();
-
-        std::ostream &stream() {
-            return file_stream;
-        }
-        operator std::ostream &() {
-            return file_stream;
-        }
-
-        void close();
-};
-
-/**
  * Open a file for writing, calls the writer on that stream.
  *
  * If the writer throws, or if the file could not be opened or if any I/O error
@@ -383,9 +350,15 @@ class ofstream_wrapper
  * \p fail_message, the error text and the path.
  *
  * @return Whether saving succeeded (no error was caught).
+ * @throw The void function throws when writing failes or when the @p writer throws.
+ * The other function catches all exceptions and returns false.
  */
+///@{
 bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
                     const char *fail_message );
+void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer );
+///@}
+
 class JsonDeserializer;
 
 /**
@@ -419,19 +392,32 @@ bool read_from_file_optional_json( const std::string &path,
 bool read_from_file_optional( const std::string &path, JsonDeserializer &reader );
 /**@}*/
 /**
- * Same as ofstream_wrapper, but uses exclusive I/O (@ref fopen_exclusive).
- * The interface intentionally matches ofstream_wrapper. One should be able to use
- * one instead of the other.
+ * Wrapper around std::ofstream that handles error checking and throws on errors.
+ *
+ * Use like a normal ofstream: the stream is opened in the constructor and
+ * closed via @ref close. Both functions check for success and throw std::exception
+ * upon any error (e.g. when opening failed or when the stream is in an error state when
+ * being closed).
+ * Use @ref stream (or the implicit conversion) to access the output stream and to write
+ * to it.
+ *
+ * @note: The stream is closed in the destructor, but no exception is throw from it. To
+ * ensure all errors get reported correctly, you should always call `close` explicitly.
+ *
+ * @note: This uses exclusive I/O.
  */
-class ofstream_wrapper_exclusive
+class ofstream_wrapper
 {
     private:
         std::ofstream file_stream;
         std::string path;
+        std::string temp_path;
+
+        void open( std::ios::openmode mode );
 
     public:
-        ofstream_wrapper_exclusive( const std::string &path );
-        ~ofstream_wrapper_exclusive();
+        ofstream_wrapper( const std::string &path, std::ios::openmode mode );
+        ~ofstream_wrapper();
 
         std::ostream &stream() {
             return file_stream;
@@ -442,10 +428,6 @@ class ofstream_wrapper_exclusive
 
         void close();
 };
-
-/** See @ref write_to_file, but uses the exclusive I/O functions. */
-bool write_to_file_exclusive( const std::string &path,
-                              const std::function<void( std::ostream & )> &writer,  const char *fail_message );
 
 std::istream &safe_getline( std::istream &ins, std::string &str );
 

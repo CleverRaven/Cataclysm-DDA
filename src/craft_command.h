@@ -5,13 +5,15 @@
 #include <vector>
 #include <string>
 
-#include "enums.h"
+#include "point.h"
 #include "requirements.h"
 
 class inventory;
 class item;
 class player;
 class recipe;
+class JsonIn;
+class JsonOut;
 
 /**
 *   enum used by comp_selection to indicate where a component should be consumed from.
@@ -35,6 +37,9 @@ struct comp_selection {
 
     /** provides a translated name for 'comp', suffixed with it's location e.g '(nearby)'. */
     std::string nname() const;
+
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 /**

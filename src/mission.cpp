@@ -27,7 +27,7 @@
 #include "item.h"
 #include "json.h"
 #include "monster.h"
-#include "player.h"
+#include "material.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -178,6 +178,21 @@ void mission::on_creature_death( Creature &poor_dead_dude )
     }
 }
 
+void mission::on_talk_with_npc( const int npc_id )
+{
+    switch( type->goal ) {
+        case MGOAL_TALK_TO_NPC:
+            // If our goal is to talk to this npc, and we haven't yet completed a step for this
+            // mission, then complete a step.
+            if( npc_id == target_npc_id && step == 0 ) {
+                step_complete( 1 );
+            }
+            break;
+        default:
+            break;
+    }
+}
+
 mission *mission::reserve_random( const mission_origin origin, const tripoint &p, const int npc_id )
 {
     const auto type = mission_type::get_random_id( origin, p );
@@ -241,6 +256,7 @@ void mission::step_complete( const int _step )
         case MGOAL_ASSASSINATE:
         case MGOAL_KILL_MONSTER:
         case MGOAL_COMPUTER_TOGGLE:
+        case MGOAL_TALK_TO_NPC:
             // Go back and report.
             set_target_to_mission_giver();
             break;
@@ -330,7 +346,7 @@ bool mission::is_complete( const int _npc_id ) const
 
         case MGOAL_GO_TO_TYPE: {
             const auto cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
-            return is_ot_type( type->target_id.str(), cur_ter );
+            return is_ot_match( type->target_id.str(), cur_ter, ot_match_type::type );
         }
 
         case MGOAL_FIND_ITEM_GROUP: {
@@ -339,7 +355,7 @@ bool mission::is_complete( const int _npc_id ) const
             tmp_inv.dump( items );
             Group_tag grp_type = type->group_id;
             itype_id container = type->container_id;
-            bool specific_container_required = container.compare( "null" ) != 0;
+            bool specific_container_required = container != "null";
 
             std::map<itype_id, int> matches = std::map<itype_id, int>();
             get_all_item_group_matches(
@@ -362,7 +378,7 @@ bool mission::is_complete( const int _npc_id ) const
             if( npc_id != -1 && npc_id != _npc_id ) {
                 return false;
             }
-            inventory tmp_inv = u.crafting_inventory();
+            const inventory &tmp_inv = u.crafting_inventory();
             // TODO: check for count_by_charges and use appropriate player::has_* function
             if( !tmp_inv.has_amount( type->item_id, item_count ) ) {
                 return tmp_inv.has_amount( type->item_id, 1 ) && tmp_inv.has_charges( type->item_id, item_count );
@@ -400,6 +416,7 @@ bool mission::is_complete( const int _npc_id ) const
         case MGOAL_FIND_NPC:
             return npc_id == _npc_id;
 
+        case MGOAL_TALK_TO_NPC:
         case MGOAL_ASSASSINATE:
         case MGOAL_KILL_MONSTER:
         case MGOAL_COMPUTER_TOGGLE:
@@ -411,6 +428,30 @@ bool mission::is_complete( const int _npc_id ) const
         case MGOAL_KILL_MONSTER_SPEC:
             return g->kill_count( monster_species ) >= kill_count_to_reach;
 
+        case MGOAL_CONDITION: {
+            // For now, we only allow completing when talking to the mission originator.
+            if( npc_id != _npc_id ) {
+                return false;
+            }
+
+            npc *n = g->find_npc( _npc_id );
+            if( n == nullptr ) {
+                return false;
+            }
+
+            mission_goal_condition_context cc;
+            cc.alpha = &u;
+            cc.beta = n;
+
+            for( auto &mission : n->chatbin.missions_assigned ) {
+                if( mission->get_assigned_player_id() == g->u.getID() ) {
+                    cc.missions_assigned.push_back( mission );
+                }
+            }
+
+            return type->test_goal_condition( cc );
+        }
+
         default:
             return false;
     }
@@ -421,9 +462,7 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
         const itype_id &required_container, const itype_id &actual_container,
         bool &specific_container_required )
 {
-    for( std::vector<int>::size_type i = 0; i < ( items ).size(); i++ ) {
-        item *itm = items[i];
-
+    for( item *itm : items ) {
         bool correct_container = ( required_container == actual_container ) ||
                                  !specific_container_required;
 
@@ -472,7 +511,7 @@ time_point mission::get_deadline() const
 
 std::string mission::get_description() const
 {
-    return description;
+    return _( type->description );
 }
 
 bool mission::has_target() const
@@ -594,42 +633,6 @@ mission_type_id mission::mission_id()
     return type->id;
 }
 
-void mission::load_info( std::istream &data )
-{
-    int type_id = 0;
-    int rewtype = 0;
-    int reward_id = 0;
-    int rew_skill = 0;
-    int tmpfollow = 0;
-    int item_num = 0;
-    int target_npc_id = 0;
-    int deadline_ = 0;
-    std::string rew_item;
-    std::string itemid;
-    data >> type_id;
-    type = mission_type::get( mission_type::from_legacy( type_id ) );
-    std::string tmpdesc;
-    do {
-        data >> tmpdesc;
-        if( tmpdesc != "<>" ) {
-            description += tmpdesc + " ";
-        }
-    } while( tmpdesc != "<>" );
-    description = description.substr( 0, description.size() - 1 ); // Ending ' '
-    bool failed; // Dummy, no one has saves this old
-    data >> failed >> value >> rewtype >> reward_id >> rew_item >> rew_skill >>
-         uid >> target.x >> target.y >> itemid >> item_num >> deadline_ >> npc_id >>
-         good_fac_id >> bad_fac_id >> step >> tmpfollow >> target_npc_id;
-    deadline = time_point::from_turn( deadline_ );
-    target.z = 0;
-    follow_up = mission_type::from_legacy( tmpfollow );
-    reward.type = npc_favor_type( reward_id );
-    reward.item_id = itype_id( rew_item );
-    reward.skill = Skill::from_legacy_int( rew_skill );
-    item_id = itype_id( itemid );
-    item_count = static_cast<int>( item_num );
-}
-
 std::string mission::dialogue_for_topic( const std::string &in_topic ) const
 {
     // The internal keys are pretty ugly, it's better to translate them here than globally
@@ -709,7 +712,7 @@ mission::mission_status string_to_enum<mission::mission_status>( const std::stri
 }
 
 template<>
-const std::string enum_to_string<mission::mission_status>( mission::mission_status data )
+std::string enum_to_string<mission::mission_status>( mission::mission_status data )
 {
     const auto iter = std::find_if( status_map.begin(), status_map.end(),
     [data]( const std::pair<std::string, mission::mission_status> &pr ) {
@@ -729,7 +732,7 @@ mission::mission_status mission::status_from_string( const std::string &s )
     return io::string_to_enum<mission::mission_status>( s );
 }
 
-const std::string mission::status_to_string( mission::mission_status st )
+std::string mission::status_to_string( mission::mission_status st )
 {
     return io::enum_to_string<mission::mission_status>( st );
 }

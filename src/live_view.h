@@ -2,7 +2,7 @@
 #ifndef LIVE_VIEW_H
 #define LIVE_VIEW_H
 
-#include "enums.h"     // tripoint
+#include "point.h"
 
 namespace catacurses
 {

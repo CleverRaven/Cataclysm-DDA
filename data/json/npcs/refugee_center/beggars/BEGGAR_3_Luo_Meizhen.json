@@ -48,15 +48,15 @@
     "id": "NC_BEGGAR_3_worn",
     "subtype": "collection",
     "items": [
-      { "item": "hoodie" },
-      { "item": "jacket_evac" },
-      { "item": "jeans" },
-      { "item": "panties" },
-      { "item": "camisole" },
       { "item": "bra" },
       { "item": "socks" },
+      { "item": "panties" },
+      { "item": "camisole" },
+      { "item": "hoodie" },
+      { "item": "jeans" },
       { "item": "lowtops" },
-      { "item": "gloves_light" }
+      { "item": "gloves_light" },
+      { "item": "jacket_evac" }
     ]
   },
   {
@@ -272,7 +272,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_EVACUATION",
-    "dynamic_line": "Oh yeah, that was a hell of a shitstorm.  We were waiting back there for 'processing' for hours and hours, with the sick and wounded.  One guy died, we all thought he was sleeping until he got back up.  That started a panic, gunshots in a closed area, that kind of stuff.  In just a few minutes, a bunch more people were dead.  Then the assholes called it an 'outbreak' and tried to barricade us in... took us way too long to convince the panicking guards that we were alive and needed to get out.  I'll give the one guy credit, Jason: when he found out they'd locked living people in with zombies, he came in himself, as some of the newly dead were starting to get back up, and he held them off for us to escape.  That... that was probably the only actual good thing I've seen since before the end of the world: he owned his error and he put himself in harm's way to make up for it.  Massive respect to that guy.  So, of course, he's a zombie now.  Fuck, thanks for reminding me of all that sunny fun.",
+    "dynamic_line": "Oh yeah, that was a hell of a shitstorm.  We were waiting back there for 'processing' for hours and hours, with the sick and wounded.  One guy died, we all thought he was sleeping until he got back up.  That started a panic, gunshots in a closed area, that kind of stuff.  In just a few minutes, a bunch more people were dead.  Then the assholes called it an 'outbreak' and tried to barricade us in... took us way too long to convince the panicking guards that we were alive and needed to get out.  I'll give the one guy credit, Sean: when he found out they'd locked living people in with zombies, he came in himself, as some of the newly dead were starting to get back up, and he held them off for us to escape.  That... that was probably the only actual good thing I've seen since before the end of the world: he owned his error and he put himself in harm's way to make up for it.  Massive respect to that guy.  So, of course, he's a zombie now.  Fuck, thanks for reminding me of all that sunny fun.",
     "responses": [ { "text": "Sorry for bringing it up. What were you saying?", "topic": "TALK_NONE" } ]
   },
   {
@@ -541,8 +541,10 @@
     "id": "TALK_REFUGEE_BEGGAR_3_MYCUS2",
     "dynamic_line": "Okay, you've got my attention.  Listen, do you think you could bring me some kind of sample of these things?",
     "responses": [
-      { "text": "It'd be dangerous, what's in it for me?", "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS3" },
-      { "text": "Sure, easy enough.  What do you need?", "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS3" },
+      {
+        "text": "It'd be dangerous.  What kind of benefit is there from taking a risk like that?",
+        "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS3"
+      },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]

@@ -2,8 +2,8 @@
 #ifndef OVERMAP_NOISE_H
 #define OVERMAP_NOISE_H
 
-#include "enums.h"
 #include "game_constants.h"
+#include "point.h"
 
 namespace om_noise
 {

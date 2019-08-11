@@ -137,6 +137,42 @@
     "flags": [ "ALLOW_ROTTEN" ]
   },
   {
+    "result": "seed_salsify_raw",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SEEDS",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "time": "5 m",
+    "autolearn": true,
+    "components": [ [ [ "salsify_raw", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
+  },
+  {
+    "result": "seed_chicory",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SEEDS",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "time": "5 m",
+    "autolearn": true,
+    "components": [ [ [ "chicory_raw", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
+  },
+  {
+    "result": "seed_wildcarrot",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SEEDS",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "time": "5 m",
+    "autolearn": true,
+    "components": [ [ [ "carrot_wild", 3 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
+  },
+  {
     "result": "seed_raspberries",
     "type": "recipe",
     "category": "CC_FOOD",

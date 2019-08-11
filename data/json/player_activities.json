@@ -271,6 +271,24 @@
     "no_resume": true
   },
   {
+    "id": "ACT_AUTODRIVE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "driving",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_TRAVELLING",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "travelling",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_MOVE_LOOT",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
@@ -449,6 +467,15 @@
     "no_resume": true
   },
   {
+    "id": "ACT_WAIT_STAMINA",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "catching breath",
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
     "id": "ACT_CLEAR_RUBBLE",
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",
@@ -490,6 +517,14 @@
     "activity_level": "ACTIVE_EXERCISE",
     "verb": "chopping down",
     "based_on": "speed"
+  },
+  {
+    "id": "ACT_CHOP_PLANKS",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "cutting planks",
+    "based_on": "speed",
+    "no_resume": true
   },
   {
     "id": "ACT_JACKHAMMER",
@@ -547,6 +582,14 @@
     "verb": "trying to fall asleep",
     "rooted": true,
     "based_on": "speed",
+    "suspendable": false
+  },
+  {
+    "id": "ACT_OPERATION",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "being operated on",
+    "based_on": "time",
     "suspendable": false
   },
   {

@@ -11,6 +11,7 @@
 
 #include "calendar.h"
 #include "color.h"
+#include "enums.h"
 #include "explosion.h"
 #include "game_constants.h"
 #include "iuse.h"
@@ -25,7 +26,6 @@ class player;
 struct iteminfo;
 struct tripoint;
 
-enum field_id : int;
 enum hp_part : int;
 enum body_part : int;
 class JsonObject;
@@ -151,9 +151,9 @@ class explosion_iuse : public iuse_actor
         bool flashbang_player_immune = false;
         /** Create fields of this type around the center of the explosion */
         int fields_radius = -1;
-        field_id fields_type;
+        field_type_id fields_type;
         int fields_min_intensity = 1;
-        int fields_max_intensity = MAX_FIELD_INTENSITY;
+        int fields_max_intensity = 0;
         /** Calls game::emp_blast if >= 0 */
         int emp_blast_radius = -1;
         /** Calls game::scrambler_blast if >= 0 */
@@ -364,6 +364,7 @@ class deploy_furn_actor : public iuse_actor
         void load( JsonObject &jo ) override;
         int use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 /**
@@ -383,13 +384,14 @@ class reveal_map_actor : public iuse_actor
         /**
          * Overmap terrain types that get revealed.
          */
-        std::vector<std::string> omt_types;
+        std::vector<std::pair<std::string, ot_match_type>> omt_types;
         /**
          * The message displayed after revealing.
          */
         std::string message;
 
-        void reveal_targets( const tripoint &center, const std::string &target, int reveal_distance ) const;
+        void reveal_targets( const tripoint &center, const std::pair<std::string, ot_match_type> &target,
+                             int reveal_distance ) const;
 
         reveal_map_actor( const std::string &type = "reveal_map" ) : iuse_actor( type ) {}
 
@@ -968,7 +970,7 @@ class place_trap_actor : public iuse_actor
         /** Data that applies to buried traps. */
         data buried_data;
         /**
-         * The trap that makes up the outer layer of a 3x3 trap. This is not supported for buried traps!
+         * The trap that makes up the outer layer of a multi-tile trap. This is not supported for buried traps!
          */
         trap_str_id outer_layer_trap;
         bool is_allowed( player &p, const tripoint &pos, const std::string &name ) const;
@@ -1080,4 +1082,42 @@ class deploy_tent_actor : public iuse_actor
         bool check_intact( const tripoint &pos ) const;
 };
 
+/**
+* Weigh yourself on a bathroom scale. or something.
+*/
+class weigh_self_actor : public iuse_actor
+{
+    public:
+        // max weight this device can handle before showing "error"
+        units::mass max_weight;
+
+        weigh_self_actor( const std::string &type = "weigh_self" ) : iuse_actor( type ) {}
+
+        ~weigh_self_actor() override = default;
+        void load( JsonObject &jo ) override;
+        int use( player &p, item &itm, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
+};
+
+/**
+ * Modify clothing
+ */
+class sew_advanced_actor : public iuse_actor
+{
+    public:
+        /** Materials */
+        std::set<material_id> materials;
+        /** Clothing mods */
+        std::vector<clothing_mod_id> clothing_mods;
+        /** Skill used */
+        skill_id used_skill;
+
+        sew_advanced_actor( const std::string &type = "sew_advanced" ) : iuse_actor( type ) {}
+
+        ~sew_advanced_actor() override = default;
+        void load( JsonObject &jo ) override;
+        int use( player &, item &, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+};
 #endif

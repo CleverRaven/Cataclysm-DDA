@@ -94,6 +94,10 @@ void water_source( player &p, const tripoint &examp );
 void clean_water_source( player &, const tripoint &examp );
 void kiln_empty( player &p, const tripoint &examp );
 void kiln_full( player &p, const tripoint &examp );
+void arcfurnace_empty( player &p, const tripoint &examp );
+void arcfurnace_full( player &p, const tripoint &examp );
+void autoclave_empty( player &p, const tripoint &examp );
+void autoclave_full( player &, const tripoint &examp );
 void fireplace( player &p, const tripoint &examp );
 void fvat_empty( player &p, const tripoint &examp );
 void fvat_full( player &p, const tripoint &examp );
@@ -104,6 +108,7 @@ void sign( player &p, const tripoint &examp );
 void pay_gas( player &p, const tripoint &examp );
 void ledge( player &p, const tripoint &examp );
 void autodoc( player &p, const tripoint &examp );
+void translocator( player &p, const tripoint &examp );
 void on_smoke_out( const tripoint &examp,
                    const time_point &start_time ); //activates end of smoking effects
 void mill_finalize( player &, const tripoint &examp, const time_point &start_time );

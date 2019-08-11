@@ -86,11 +86,11 @@ int snake_game::start_game()
     std::vector<std::pair<int, int> > vSnakeBody;
     std::map<int, std::map<int, bool> > mSnakeBody;
 
-    int iOffsetX = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+    int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+    int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
 
     catacurses::window w_snake = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                 iOffsetY, iOffsetX );
+                                 point( iOffsetX, iOffsetY ) );
     print_header( w_snake );
 
     //Snake start position

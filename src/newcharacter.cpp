@@ -6,9 +6,16 @@
 #include <vector>
 #include <iterator>
 #include <tuple>
+#include <array>
+#include <functional>
+#include <list>
+#include <map>
+#include <memory>
+#include <set>
+#include <unordered_map>
+#include <utility>
 
 #include "addiction.h"
-#include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -17,7 +24,6 @@
 #include "json.h"
 #include "mapsharing.h"
 #include "martialarts.h"
-#include "mtype.h"
 #include "monster.h"
 #include "mutation.h"
 #include "name.h"
@@ -37,6 +43,16 @@
 #include "worldfactory.h"
 #include "recipe.h"
 #include "string_id.h"
+#include "character.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "game_constants.h"
+#include "inventory.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "type_id.h"
+
+struct points_left;
 
 // Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_STAT_ACT        c_white   // Selected stat
@@ -267,7 +283,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     int num_gtraits = 0;
     int num_btraits = 0;
     int tries = 0;
-    add_traits(); // adds mandatory profession/scenario traits.
+    add_traits( points ); // adds mandatory profession/scenario traits.
     for( const auto &mut : my_mutations ) {
         const mutation_branch &mut_info = mut.first.obj();
         if( mut_info.profession ) {
@@ -425,7 +441,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     catacurses::window w;
     if( type != PLTYPE_NOW && type != PLTYPE_FULL_RANDOM ) {
-        w = catacurses::newwin( TERMY, TERMX, 0, 0 );
+        w = catacurses::newwin( TERMY, TERMX, point( 0, 0 ) );
     }
 
     int tab = 0;
@@ -632,6 +648,8 @@ bool avatar::create( character_type type, const std::string &tempname )
         }
     }
 
+    prof->learn_spells( *this );
+
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
 
@@ -724,7 +742,7 @@ tab_direction set_points( const catacurses::window &w, avatar &, points_left &po
     tab_direction retval = tab_direction::NONE;
     const int content_height = TERMY - 6;
     catacurses::window w_description = catacurses::newwin( content_height, TERMX - 35,
-                                       5 + getbegy( w ), 31 + getbegx( w ) );
+                                       point( 31 + getbegx( w ), 5 + getbegy( w ) ) );
 
     draw_tabs( w, _( "POINTS" ) );
 
@@ -824,8 +842,7 @@ tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &po
     ctxt.register_action( "QUIT" );
     int read_spd;
     catacurses::window w_description = catacurses::newwin( 8, TERMX - iSecondColumn - 1,
-                                       6 + getbegy( w ),
-                                       iSecondColumn + getbegx( w ) );
+                                       point( iSecondColumn + getbegx( w ), 6 + getbegy( w ) ) );
     // There is no map loaded currently, so any access to the map will
     // fail (player::suffer, called from player::reset_stats), might access
     // the map:
@@ -1027,8 +1044,8 @@ tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &p
 
     draw_tabs( w, _( "TRAITS" ) );
 
-    catacurses::window w_description = catacurses::newwin( 3, TERMX - 2, TERMY - 4 + getbegy( w ),
-                                       1 + getbegx( w ) );
+    catacurses::window w_description =
+        catacurses::newwin( 3, TERMX - 2, point( 1 + getbegx( w ), TERMY - 4 + getbegy( w ) ) );
     // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
     int num_good = 0;
     int num_bad = 0;
@@ -1317,15 +1334,16 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
     const int iContentHeight = TERMY - 10;
     int iStartPos = 0;
 
-    catacurses::window w_description = catacurses::newwin( 4, TERMX - 2,
-                                       TERMY - 5 + getbegy( w ), 1 + getbegx( w ) );
+    catacurses::window w_description =
+        catacurses::newwin( 4, TERMX - 2, point( 1 + getbegx( w ), TERMY - 5 + getbegy( w ) ) );
 
-    catacurses::window w_sorting    = catacurses::newwin( 1,                  55,  5 + getbegy( w ),
-                                      ( TERMX / 2 ) + getbegx( w ) );
-    catacurses::window w_genderswap = catacurses::newwin( 1,                  55,  6 + getbegy( w ),
-                                      ( TERMX / 2 ) + getbegx( w ) );
-    catacurses::window w_items      = catacurses::newwin( iContentHeight - 2, 55,  7 + getbegy( w ),
-                                      ( TERMX / 2 ) + getbegx( w ) );
+    catacurses::window w_sorting =
+        catacurses::newwin( 1, 55, point( ( TERMX / 2 ) + getbegx( w ), 5 + getbegy( w ) ) );
+    catacurses::window w_genderswap =
+        catacurses::newwin( 1, 55, point( ( TERMX / 2 ) + getbegx( w ), 6 + getbegy( w ) ) );
+    catacurses::window w_items =
+        catacurses::newwin( iContentHeight - 2, 55,
+                            point( ( TERMX / 2 ) + getbegx( w ), 7 + getbegy( w ) ) );
 
     input_context ctxt( "NEW_CHAR_PROFESSIONS" );
     ctxt.register_cardinal();
@@ -1527,6 +1545,13 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
                 buffer << mon.get_name() << "\n";
             }
         }
+        // Profession spells
+        if( !sorted_profs[cur_id]->spells().empty() ) {
+            buffer << "<color_light_blue>" << _( "Spells:" ) << "</color>\n";
+            for( const std::pair<spell_id, int> spell_pair : sorted_profs[cur_id]->spells() ) {
+                buffer << _( spell_pair.first->name ) << _( " level " ) << spell_pair.second << "\n";
+            }
+        }
         werase( w_items );
         const auto scroll_msg = string_format(
                                     _( "Press <color_light_green>%1$s</color> or <color_light_green>%2$s</color> to scroll." ),
@@ -1576,16 +1601,14 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
                 desc_offset++;
             }
         } else if( action == "CONFIRM" ) {
-            // Remove old profession-specific traits (e.g. pugilist for boxers)
+            // Remove traits from the previous profession
             for( const trait_id &old_trait : u.prof->get_locked_traits() ) {
-                if( old_trait.obj().profession ) {
-                    u.toggle_trait( old_trait );
-                }
+                u.toggle_trait( old_trait );
             }
             u.prof = &sorted_profs[cur_id].obj();
             // Add traits for the new profession (and perhaps scenario, if, for example,
             // both the scenario and old profession require the same trait)
-            u.add_traits();
+            u.add_traits( points );
             points.skill_points -= netPointCost;
         } else if( action == "CHANGE_GENDER" ) {
             u.male = !u.male;
@@ -1635,7 +1658,7 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
     draw_tabs( w, _( "SKILLS" ) );
     const int iContentHeight = TERMY - 6;
     catacurses::window w_description = catacurses::newwin( iContentHeight, TERMX - 35,
-                                       5 + getbegy( w ), 31 + getbegx( w ) );
+                                       point( 31 + getbegx( w ), 5 + getbegy( w ) ) );
 
     auto sorted_skills = Skill::get_skills_sorted_by( []( const Skill & a, const Skill & b ) {
         return a.name() < b.name();
@@ -1853,18 +1876,22 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
     const int iContentHeight = TERMY - 10;
     int iStartPos = 0;
 
-    catacurses::window w_description = catacurses::newwin( 4, TERMX - 2, TERMY - 5 + getbegy( w ),
-                                       1 + getbegx( w ) );
-    catacurses::window w_sorting = catacurses::newwin( 2, ( TERMX / 2 ) - 1, 5 + getbegy( w ),
-                                   ( TERMX / 2 ) + getbegx( w ) );
-    catacurses::window w_profession = catacurses::newwin( 4, ( TERMX / 2 ) - 1, 7 + getbegy( w ),
-                                      ( TERMX / 2 ) + getbegx( w ) );
-    catacurses::window w_location = catacurses::newwin( 3, ( TERMX / 2 ) - 1, 11 + getbegy( w ),
-                                    ( TERMX / 2 ) + getbegx( w ) );
+    catacurses::window w_description =
+        catacurses::newwin( 4, TERMX - 2, point( 1 + getbegx( w ), TERMY - 5 + getbegy( w ) ) );
+    catacurses::window w_sorting =
+        catacurses::newwin( 2, ( TERMX / 2 ) - 1,
+                            point( ( TERMX / 2 ) + getbegx( w ), 5 + getbegy( w ) ) );
+    catacurses::window w_profession =
+        catacurses::newwin( 4, ( TERMX / 2 ) - 1,
+                            point( ( TERMX / 2 ) + getbegx( w ), 7 + getbegy( w ) ) );
+    catacurses::window w_location =
+        catacurses::newwin( 3, ( TERMX / 2 ) - 1,
+                            point( ( TERMX / 2 ) + getbegx( w ), 11 + getbegy( w ) ) );
 
     // 9 = 2 + 4 + 3, so we use rest of space for flags
-    catacurses::window w_flags = catacurses::newwin( iContentHeight - 9, ( TERMX / 2 ) - 1,
-                                 14 + getbegy( w ), ( TERMX / 2 ) + getbegx( w ) );
+    catacurses::window w_flags =
+        catacurses::newwin( iContentHeight - 9, ( TERMX / 2 ) - 1,
+                            point( ( TERMX / 2 ) + getbegx( w ), 14 + getbegy( w ) ) );
 
     input_context ctxt( "NEW_CHAR_SCENARIOS" );
     ctxt.register_cardinal();
@@ -1972,11 +1999,11 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
                    sorted_scens[cur_id]->gender_appropriate_name( u.male ),
                    pointsForScen );
 
-        std::string scenUnavailable =
-            _( "This scenario is not available in this world due to city size settings. " );
-        std::string scenDesc = sorted_scens[cur_id]->description( u.male );
+        const std::string scenDesc = sorted_scens[cur_id]->description( u.male );
 
         if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
+            const std::string scenUnavailable =
+                _( "This scenario is not available in this world due to city size settings. " );
             fold_and_print( w_description, 0, 0, TERMX - 2, c_red, scenUnavailable );
             fold_and_print( w_description, 1, 0, TERMX - 2, c_green, scenDesc );
         } else {
@@ -2146,16 +2173,25 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
 {
     draw_tabs( w, _( "DESCRIPTION" ) );
 
-    catacurses::window w_name = catacurses::newwin( 2, 42, getbegy( w ) + 5, getbegx( w ) + 2 );
-    catacurses::window w_gender = catacurses::newwin( 2, 33, getbegy( w ) + 5, getbegx( w ) + 46 );
-    catacurses::window w_location = catacurses::newwin( 1, 76, getbegy( w ) + 7, getbegx( w ) + 2 );
-    catacurses::window w_stats = catacurses::newwin( 6, 20, getbegy( w ) + 9, getbegx( w ) + 2 );
-    catacurses::window w_traits = catacurses::newwin( 13, 24, getbegy( w ) + 9, getbegx( w ) + 22 );
-    catacurses::window w_scenario = catacurses::newwin( 1, 33, getbegy( w ) + 9, getbegx( w ) + 46 );
-    catacurses::window w_profession = catacurses::newwin( 1, 33, getbegy( w ) + 10, getbegx( w ) + 46 );
-    catacurses::window w_skills = catacurses::newwin( 9, 33, getbegy( w ) + 11, getbegx( w ) + 46 );
-    catacurses::window w_guide = catacurses::newwin( TERMY - getbegy( w ) - 19 - 1, TERMX - 3,
-                                 getbegy( w ) + 19, getbegx( w ) + 2 );
+    catacurses::window w_name =
+        catacurses::newwin( 2, 42, point( getbegx( w ) + 2, getbegy( w ) + 5 ) );
+    catacurses::window w_gender =
+        catacurses::newwin( 2, 33, point( getbegx( w ) + 46, getbegy( w ) + 5 ) );
+    catacurses::window w_location =
+        catacurses::newwin( 1, 76, point( getbegx( w ) + 2, getbegy( w ) + 7 ) );
+    catacurses::window w_stats =
+        catacurses::newwin( 6, 20, point( getbegx( w ) + 2, getbegy( w ) + 9 ) );
+    catacurses::window w_traits =
+        catacurses::newwin( 13, 24, point( getbegx( w ) + 22, getbegy( w ) + 9 ) );
+    catacurses::window w_scenario =
+        catacurses::newwin( 1, 33, point( getbegx( w ) + 46, getbegy( w ) + 9 ) );
+    catacurses::window w_profession =
+        catacurses::newwin( 1, 33, point( getbegx( w ) + 46, getbegy( w ) + 10 ) );
+    catacurses::window w_skills =
+        catacurses::newwin( 9, 33, point( getbegx( w ) + 46, getbegy( w ) + 11 ) );
+    catacurses::window w_guide =
+        catacurses::newwin( TERMY - getbegy( w ) - 19 - 1, TERMX - 3,
+                            point( getbegx( w ) + 2, getbegy( w ) + 19 ) );
 
     draw_points( w, points );
 
@@ -2478,10 +2514,18 @@ void Character::empty_skills()
 
 void Character::add_traits()
 {
+    points_left points = points_left();
+    add_traits( points );
+}
+
+void Character::add_traits( points_left &points )
+{
     // TODO: get rid of using g->u here, use `this` instead
     for( const trait_id &tr : g->u.prof->get_locked_traits() ) {
         if( !has_trait( tr ) ) {
             toggle_trait( tr );
+        } else {
+            points.trait_points += tr->points;
         }
     }
     for( const trait_id &tr : g->scen->get_locked_traits() ) {

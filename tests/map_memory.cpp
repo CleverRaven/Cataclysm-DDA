@@ -9,7 +9,8 @@
 #include "map_memory.h"
 #include "json.h"
 #include "game_constants.h"
-#include "enums.h"
+#include "lru_cache.h"
+#include "point.h"
 
 static constexpr tripoint p1{ 0, 0, 1 };
 static constexpr tripoint p2{ 0, 0, 2 };

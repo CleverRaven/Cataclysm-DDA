@@ -34,18 +34,20 @@
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
+#include "point.h"
 
 struct pathfinding_settings;
 class item_location;
 class SkillLevel;
 class SkillLevelMap;
-enum field_id : int;
+
 class JsonObject;
 class JsonIn;
 class JsonOut;
 class vehicle;
 struct mutation_branch;
 class bionic_collection;
+struct points_left;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -116,8 +118,8 @@ struct encumbrance_data {
     std::array<layer_details, static_cast<size_t>( layer_level::MAX_CLOTHING_LAYER )>
     layer_penalty_details;
 
-    void layer( const layer_level level, const int emcumbrance ) {
-        layer_penalty += layer_penalty_details[static_cast<size_t>( level )].layer( emcumbrance );
+    void layer( const layer_level level, const int encumbrance ) {
+        layer_penalty += layer_penalty_details[static_cast<size_t>( level )].layer( encumbrance );
     }
 
     void reset() {
@@ -163,10 +165,17 @@ class Character : public Creature, public visitable<Character>
     public:
         ~Character() override;
 
-        field_id bloodType() const override;
-        field_id gibType() const override;
+        field_type_id bloodType() const override;
+        field_type_id gibType() const override;
         bool is_warm() const override;
         const std::string &symbol() const override;
+
+        enum stat {
+            STRENGTH,
+            DEXTERITY,
+            INTELLIGENCE,
+            PERCEPTION
+        };
 
         // Character stats
         // TODO: Make those protected
@@ -312,6 +321,8 @@ class Character : public Creature, public visitable<Character>
         /** Get encumbrance penalty per layer & body part */
         int extraEncumbrance( const layer_level level, const int bp ) const;
 
+        /** Returns true if the character is wearing power armor */
+        bool is_wearing_power_armor( bool *hasHelmet = nullptr ) const;
         /** Returns true if the character is wearing active power */
         bool is_wearing_active_power_armor() const;
 
@@ -379,6 +390,7 @@ class Character : public Creature, public visitable<Character>
         /** Converts an hp_part to a body_part */
         static body_part hp_to_bp( hp_part hpart );
 
+        bool is_mounted() const;
         /**
          * Displays menu with body part hp, optionally with hp estimation after healing.
          * Returns selected part.
@@ -455,7 +467,8 @@ class Character : public Creature, public visitable<Character>
         bool has_active_bionic( const bionic_id &b ) const;
         /**Returns true if the player has any bionic*/
         bool has_any_bionic() const;
-
+        // route for overmap-scale travelling
+        std::vector<tripoint> omt_path;
         // --------------- Generic Item Stuff ---------------
 
         struct has_mission_item_filter {
@@ -667,7 +680,7 @@ class Character : public Creature, public visitable<Character>
 
         void drop_invalid_inventory();
 
-        bool has_artifact_with( const art_effect_passive effect ) const;
+        virtual bool has_artifact_with( const art_effect_passive effect ) const;
 
         // --------------- Clothing Stuff ---------------
         /** Returns true if the player is wearing the item. */
@@ -730,7 +743,7 @@ class Character : public Creature, public visitable<Character>
         }
         virtual bool query_yn( const std::string &msg ) const = 0;
 
-        bool is_immune_field( const field_id fid ) const override;
+        bool is_immune_field( const field_type_id fid ) const override;
 
         /** Returns true if the player has some form of night vision */
         bool has_nv();
@@ -758,7 +771,7 @@ class Character : public Creature, public visitable<Character>
         /**
          * Goes over all mutations, returning the sum of the social modifiers
          */
-        const social_modifiers get_mutation_social_mods() const;
+        social_modifiers get_mutation_social_mods() const;
 
         /** Color's character's tile's background */
         nc_color symbol_color() const override;
@@ -778,8 +791,12 @@ class Character : public Creature, public visitable<Character>
         }
         /** Empties the trait list */
         void empty_traits();
-        /** Adds mandatory scenario and profession traits unless you already have them */
+        /**
+         * Adds mandatory scenario and profession traits unless you already have them
+         * And if you do already have them, refunds the points for the trait
+         */
         void add_traits();
+        void add_traits( points_left &points );
 
         // --------------- Values ---------------
         std::string name;
@@ -803,6 +820,8 @@ class Character : public Creature, public visitable<Character>
         int oxygen;
         int stamina;
         int radiation;
+
+        std::shared_ptr<monster> mounted_creature;
 
         void initialize_stomach_contents();
 
@@ -854,6 +873,11 @@ class Character : public Creature, public visitable<Character>
         void shout( std::string text = "", bool order = false );
         /** Handles Character vomiting effects */
         void vomit();
+        // adds total healing to the bodypart. this is only a counter.
+        void healed_bp( int bp, int amount );
+
+        // the amount healed per bodypart per day
+        std::array<int, num_hp_parts> healed_total;
     protected:
         Character();
         Character( const Character & ) = delete;
@@ -892,6 +916,7 @@ class Character : public Creature, public visitable<Character>
         float activity_level = NO_EXERCISE;
 
         std::array<encumbrance_data, num_bp> encumbrance_cache;
+        mutable std::map<std::string, double> cached_info;
 
         /**
          * Traits / mutations of the character. Key is the mutation id (it's also a valid

@@ -2,13 +2,11 @@
 
 #include <climits>
 #include <algorithm>
-#include <random>
 #include <memory>
 
 #include "avatar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
-#include "enums.h"
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
@@ -25,6 +23,7 @@
 #include "pldata.h"
 #include "rng.h"
 #include "translations.h"
+#include "point.h"
 
 class item;
 
@@ -215,7 +214,7 @@ tripoint start_location::find_player_initial_location() const
     // creating overmaps as necessary.
     const int radius = 3;
     for( const point &omp : closest_points_first( radius, point_zero ) ) {
-        overmap &omap = overmap_buffer.get( omp.x, omp.y );
+        overmap &omap = overmap_buffer.get( omp );
         const tripoint omtstart = omap.find_random_omt( target() );
         if( omtstart != overmap::invalid_tripoint ) {
             return omtstart + point( omp.x * OMAPX, omp.y * OMAPY );
@@ -229,9 +228,9 @@ tripoint start_location::find_player_initial_location() const
 void start_location::prepare_map( const tripoint &omtstart ) const
 {
     // Now prepare the initial map (change terrain etc.)
-    const point player_location = omt_to_sm_copy( omtstart.x, omtstart.y );
+    const point player_location = omt_to_sm_copy( omtstart.xy() );
     tinymap player_start;
-    player_start.load( player_location.x, player_location.y, omtstart.z, false );
+    player_start.load( tripoint( player_location, omtstart.z ), false );
     prepare_map( player_start );
     player_start.save();
 }
@@ -368,7 +367,7 @@ void start_location::burn( const tripoint &omtstart,
 {
     const tripoint player_location = omt_to_sm_copy( omtstart );
     tinymap m;
-    m.load( player_location.x, player_location.y, player_location.z, false );
+    m.load( player_location, false );
     m.build_outside_cache( m.get_abs_sub().z );
     const int ux = g->u.posx() % HALF_MAPSIZE_X;
     const int uy = g->u.posy() % HALF_MAPSIZE_Y;
@@ -400,7 +399,7 @@ void start_location::add_map_extra( const tripoint &omtstart,
 {
     const tripoint player_location = omt_to_sm_copy( omtstart );
     tinymap m;
-    m.load( player_location.x, player_location.y, player_location.z, false );
+    m.load( player_location, false );
 
     MapExtras::apply_function( map_extra, m, player_location );
 
@@ -410,8 +409,8 @@ void start_location::add_map_extra( const tripoint &omtstart,
 void start_location::handle_heli_crash( player &u ) const
 {
     for( int i = 2; i < num_hp_parts; i++ ) { // Skip head + torso for balance reasons.
-        const auto part = hp_part( i );
-        const auto bp_part = u.hp_to_bp( part );
+        const auto part = static_cast<hp_part>( i );
+        const auto bp_part = player::hp_to_bp( part );
         const int roll = static_cast<int>( rng( 1, 8 ) );
         switch( roll ) {
             // Damage + Bleed
@@ -440,9 +439,9 @@ static void add_monsters( const tripoint &omtstart, const mongroup_id &type, flo
 {
     const tripoint spawn_location = omt_to_sm_copy( omtstart );
     tinymap m;
-    m.load( spawn_location.x, spawn_location.y, spawn_location.z, false );
+    m.load( spawn_location, false );
     // map::place_spawns internally multiplies density by rng(10, 50)
-    const float density = expected_points / ( ( 10 + 50 ) / 2 );
+    const float density = expected_points / ( ( 10 + 50 ) / 2.0 );
     m.place_spawns( type, 1, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, density );
     m.save();
 }

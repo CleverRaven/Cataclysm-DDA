@@ -22,9 +22,9 @@
     "revert_to_itype": "bot_secubot",
     "starting_ammo": { "9mm": 100 },
     "special_attacks": [ { "type": "gun", "cooldown": 2, "gun_type": "hk_mp5", "ranges": [ [ 0, 6, "AUTO" ], [ 7, 12, "DEFAULT" ] ] } ],
-    "death_drops": { "groups": [ [ "robots", 4 ], [ "secubot", 1 ] ] },
-    "death_function": [ "EXPLODE" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES" ]
+    "death_drops": {  },
+    "death_function": [ "BROKEN" ],
+    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "DROPS_AMMO" ]
   },
   {
     "id": "mon_turret",
@@ -52,9 +52,9 @@
       { "type": "gun", "cooldown": 1, "gun_type": "hk_mp5", "ranges": [ [ 0, 6, "AUTO" ], [ 7, 12, "DEFAULT" ] ] },
       [ "PARROT", 40 ]
     ],
-    "death_drops": { "groups": [ [ "robots", 10 ], [ "turret", 1 ] ] },
-    "death_function": [ "EXPLODE" ],
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
+    "death_drops": {  },
+    "death_function": [ "BROKEN" ],
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
   },
   {
     "id": "mon_skitterbot",
@@ -116,7 +116,17 @@
     "special_attacks": [ [ "SCIENCE", 16 ], [ "TAZER", 10 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "skitterbot", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "GOODHEARING", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_2" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "BASHES",
+      "GOODHEARING",
+      "ELECTRONIC",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "PATH_AVOID_DANGER_2",
+      "DROPS_AMMO"
+    ]
   },
   {
     "id": "mon_robofac_prototype",
@@ -189,7 +199,7 @@
     "special_attacks": [ [ "GRENADIER", 10 ] ],
     "death_drops": { "groups": [ [ "robots", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_2", "LOUDMOVES" ]
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_2", "LOUDMOVES", "DROPS_AMMO" ]
   },
   {
     "id": "mon_dispatch_military",
@@ -222,6 +232,6 @@
     "special_attacks": [ [ "GRENADIER_ELITE", 10 ] ],
     "death_drops": { "groups": [ [ "robots", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_2", "LOUDMOVES" ]
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_2", "LOUDMOVES", "DROPS_AMMO" ]
   }
 ]

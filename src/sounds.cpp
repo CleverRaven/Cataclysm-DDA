@@ -33,17 +33,16 @@
 #include "calendar.h"
 #include "creature.h"
 #include "game_constants.h"
-#include "mapdata.h"
 #include "optional.h"
 #include "player_activity.h"
 #include "rng.h"
 #include "units.h"
-#include "material.h"
-#include "pldata.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "veh_type.h"
 #include "type_id.h"
+#include "point.h"
+#include "string_id.h"
 
 #if defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -247,9 +246,9 @@ void sounds::process_sounds()
         int sig_power = get_signal_for_hordes( this_centroid );
         if( sig_power > 0 ) {
 
-            const point abs_ms = g->m.getabs( source.x, source.y );
+            const point abs_ms = g->m.getabs( source.xy() );
             const point abs_sm = ms_to_sm_copy( abs_ms );
-            const tripoint target( abs_sm.x, abs_sm.y, source.z );
+            const tripoint target( abs_sm, source.z );
             overmap_buffer.signal_hordes( target, sig_power );
         }
         // Alert all monsters (that can hear) to the sound.
@@ -265,14 +264,43 @@ void sounds::process_sounds()
     recent_sounds.clear();
 }
 
-// skip most movement sounds
-static bool describe_sound( sounds::sound_t category )
+// skip some sounds to avoid message spam
+static bool describe_sound( sounds::sound_t category, bool from_player_position )
 {
-    if( category == sounds::sound_t::combat || category == sounds::sound_t::speech ||
-        category == sounds::sound_t::alert ) {
-        return true;
+    if( from_player_position ) {
+        switch( category ) {
+            case sounds::sound_t::background:
+            case sounds::sound_t::weather:
+            case sounds::sound_t::music: // detailed music descriptions are printed in iuse::play_music
+            case sounds::sound_t::movement:
+            case sounds::sound_t::activity:
+            case sounds::sound_t::destructive_activity:
+            case sounds::sound_t::combat:
+                return false;
+            case sounds::sound_t::speech: // radios also produce speech sound
+            case sounds::sound_t::alarm:
+            case sounds::sound_t::alert:
+            case sounds::sound_t::order:
+                return true;
+        }
+    } else {
+        switch( category ) {
+            case sounds::sound_t::background:
+            case sounds::sound_t::weather:
+            case sounds::sound_t::music:
+            case sounds::sound_t::movement:
+            case sounds::sound_t::activity:
+            case sounds::sound_t::destructive_activity:
+                return one_in( 100 );
+            case sounds::sound_t::speech:
+            case sounds::sound_t::alarm:
+            case sounds::sound_t::combat:
+            case sounds::sound_t::alert:
+            case sounds::sound_t::order:
+                return true;
+        }
     }
-    return one_in( 5 );
+    return true;
 }
 
 void sounds::process_sound_markers( player *p )
@@ -368,17 +396,15 @@ void sounds::process_sound_markers( player *p )
             }
         }
 
-        // skip most movement sounds and our own sounds
-        // unless our own sound is an alarm
-        if( ( pos != p->pos() || ( pos == p->pos() && sound.category == sound_t::alarm ) ) &&
-            describe_sound( sound.category ) ) {
+        // skip some sounds to avoid message spam
+        if( describe_sound( sound.category, pos == p->pos() ) ) {
             game_message_type severity = m_info;
             if( sound.category == sound_t::combat || sound.category == sound_t::alarm ) {
                 severity = m_warning;
             }
             // if we can see it, don't print a direction
             if( pos == p->pos() ) {
-                add_msg( severity, _( "From yourself you hear %1$s." ), description );
+                add_msg( severity, _( "From your position you hear %1$s." ), description );
             } else if( p->sees( pos ) ) {
                 add_msg( severity, _( "You hear %1$s" ), description );
             } else {
@@ -602,7 +628,7 @@ void sfx::do_vehicle_engine_sfx()
     float pitch = 1.0f;
     int safe_speed = veh->safe_velocity();
     int current_gear;
-    if( in_reverse == true ) {
+    if( in_reverse ) {
         current_gear = -1;
     } else if( current_speed == 0 ) {
         current_gear = 0;
@@ -789,12 +815,12 @@ void sfx::do_ambient()
     const bool is_sheltered = g->is_sheltered( g->u.pos() );
     const bool weather_changed = g->weather.weather != previous_weather;
     // Step in at night time / we are not indoors
-    if( calendar::turn.is_night() && !is_sheltered &&
+    if( is_night( calendar::turn ) && !is_sheltered &&
         !is_channel_playing( 1 ) && !is_deaf ) {
         fade_audio_group( 2, 1000 );
         play_ambient_variant_sound( "environment", "nighttime", heard_volume, 1, 1000 );
         // Step in at day time / we are not indoors
-    } else if( !calendar::turn.is_night() && !is_channel_playing( 0 ) &&
+    } else if( !is_night( calendar::turn ) && !is_channel_playing( 0 ) &&
                !is_sheltered && !is_deaf ) {
         fade_audio_group( 2, 1000 );
         play_ambient_variant_sound( "environment", "daytime", heard_volume, 0, 1000 );
@@ -1130,39 +1156,39 @@ void sfx::do_fatigue()
     /*15: Stamina 75%
     16: Stamina 50%
     17: Stamina 25%*/
-    if( g->u.stamina >=  g->u.get_stamina_max() * .75 ) {
+    if( g->u.stamina >= g->u.get_stamina_max() * .75 ) {
         fade_audio_group( 4, 2000 );
         return;
-    } else if( g->u.stamina <=  g->u.get_stamina_max() * .74
-               && g->u.stamina >=  g->u.get_stamina_max() * .5 &&
+    } else if( g->u.stamina <= g->u.get_stamina_max() * .74
+               && g->u.stamina >= g->u.get_stamina_max() * .5 &&
                g->u.male && !is_channel_playing( 15 ) ) {
         fade_audio_group( 4, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_m_low", 100, 15, 1000 );
         return;
-    } else if( g->u.stamina <=  g->u.get_stamina_max() * .49
-               && g->u.stamina >=  g->u.get_stamina_max() * .25 &&
+    } else if( g->u.stamina <= g->u.get_stamina_max() * .49
+               && g->u.stamina >= g->u.get_stamina_max() * .25 &&
                g->u.male && !is_channel_playing( 16 ) ) {
         fade_audio_group( 4, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_m_med", 100, 16, 1000 );
         return;
-    } else if( g->u.stamina <=  g->u.get_stamina_max() * .24 && g->u.stamina >=  0 &&
+    } else if( g->u.stamina <= g->u.get_stamina_max() * .24 && g->u.stamina >= 0 &&
                g->u.male && !is_channel_playing( 17 ) ) {
         fade_audio_group( 4, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_m_high", 100, 17, 1000 );
         return;
-    } else if( g->u.stamina <=  g->u.get_stamina_max() * .74
-               && g->u.stamina >=  g->u.get_stamina_max() * .5 &&
+    } else if( g->u.stamina <= g->u.get_stamina_max() * .74
+               && g->u.stamina >= g->u.get_stamina_max() * .5 &&
                !g->u.male && !is_channel_playing( 15 ) ) {
         fade_audio_group( 4, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_f_low", 100, 15, 1000 );
         return;
-    } else if( g->u.stamina <=  g->u.get_stamina_max() * .49
-               && g->u.stamina >=  g->u.get_stamina_max() * .25 &&
+    } else if( g->u.stamina <= g->u.get_stamina_max() * .49
+               && g->u.stamina >= g->u.get_stamina_max() * .25 &&
                !g->u.male && !is_channel_playing( 16 ) ) {
         fade_audio_group( 4, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_f_med", 100, 16, 1000 );
         return;
-    } else if( g->u.stamina <=  g->u.get_stamina_max() * .24 && g->u.stamina >=  0 &&
+    } else if( g->u.stamina <= g->u.get_stamina_max() * .24 && g->u.stamina >= 0 &&
                !g->u.male && !is_channel_playing( 17 ) ) {
         fade_audio_group( 4, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_f_high", 100, 17, 1000 );

@@ -409,6 +409,18 @@
     "components": [ [ [ "rag", 8 ] ] ]
   },
   {
+    "type": "recipe",
+    "result": "leg_warmers_f",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ] ]
+  },
+  {
     "result": "pants_fur",
     "type": "recipe",
     "category": "CC_ARMOR",

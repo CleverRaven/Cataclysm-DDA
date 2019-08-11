@@ -6,6 +6,7 @@
 #include <memory>
 #include <unordered_map>
 #include <utility>
+#include <limits>
 
 #include "bionics.h"
 #include "character.h"
@@ -21,8 +22,11 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "active_item_cache.h"
-#include "enums.h"
 #include "pimpl.h"
+#include "colony.h"
+#include "point.h"
+
+const efftype_id effect_riding( "riding" );
 
 /** @relates visitable */
 template <typename T>
@@ -650,10 +654,8 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
     for( auto iter = sub->itm[ offset.x ][ offset.y ].begin();
          iter != sub->itm[ offset.x ][ offset.y ].end(); ) {
         if( filter( *iter ) ) {
-            // check for presence in the active items cache
-            if( sub->active_items.has( iter, offset ) ) {
-                sub->active_items.remove( iter, offset );
-            }
+            // remove from the active items cache (if it isn't there does nothing)
+            sub->active_items.remove( &*iter );
 
             // if necessary remove item from the luminosity map
             sub->update_lum_rem( offset, *iter );
@@ -673,6 +675,7 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
             ++iter;
         }
     }
+    g->m.update_submap_active_item_status( *cur );
     return res;
 }
 
@@ -704,7 +707,7 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
         return res; // nothing to do
     }
 
-    int idx = cur->veh.part_with_feature( cur->part, "CARGO", true );
+    int idx = cur->veh.part_with_feature( cur->part, "CARGO", false );
     if( idx < 0 ) {
         return res;
     }
@@ -712,10 +715,8 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
     vehicle_part &part = cur->veh.parts[ idx ];
     for( auto iter = part.items.begin(); iter != part.items.end(); ) {
         if( filter( *iter ) ) {
-            // check for presence in the active items cache
-            if( cur->veh.active_items.has( iter, part.mount ) ) {
-                cur->veh.active_items.remove( iter, part.mount );
-            }
+            // remove from the active items cache (if it isn't there does nothing)
+            cur->veh.active_items.remove( &*iter );
 
             res.push_back( *iter );
             iter = part.items.erase( iter );
@@ -852,6 +853,12 @@ int visitable<Character>::charges_of( const std::string &what, int limit,
         qty = sum_no_wrap( qty, static_cast<int>( charges_of( "adv_UPS_off" ) / 0.6 ) );
         if( p && p->has_active_bionic( bionic_id( "bio_ups" ) ) ) {
             qty = sum_no_wrap( qty, p->power_level );
+        }
+        if( p && p->is_mounted() ) {
+            auto mons = p->mounted_creature.get();
+            if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->battery_item ) {
+                qty = sum_no_wrap( qty, mons->battery_item->ammo_remaining() );
+            }
         }
         return std::min( qty, limit );
     }

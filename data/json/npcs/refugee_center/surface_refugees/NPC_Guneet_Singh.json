@@ -1,5 +1,17 @@
 [
   {
+    "type": "npc",
+    "id": "refugee_GuneetSingh",
+    "name_unique": "Guneet Singh",
+    "gender": "male",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_Guneet",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_Guneet_1",
+    "faction": "free_merchants"
+  },
+  {
     "type": "npc_class",
     "id": "NC_REFUGEE_Guneet",
     "name": "Refugee",
@@ -48,71 +60,46 @@
     ]
   },
   {
-    "type": "npc",
-    "id": "refugee_GuneetSingh",
-    "name_unique": "Guneet Singh",
-    "gender": "male",
-    "name_suffix": "refugee",
-    "class": "NC_REFUGEE_Guneet",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_REFUGEE_Guneet_1",
-    "faction": "free_merchants"
-  },
-  {
-    "type": "effect_type",
-    "id": "u_met_Guneet_Singh",
-    "//": "Use this flag to indicate if the player has met this NPC before."
+    "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [ "TALK_REFUGEE_Guneet_2", "TALK_REFUGEE_Guneet_Background", "TALK_REFUGEE_Guneet_Situation" ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_REFUGEE_Guneet_Background" },
+      { "text": "How are things here?", "topic": "TALK_REFUGEE_Guneet_Situation" }
+    ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Guneet_1",
     "dynamic_line": {
-      "u_has_effect": "u_met_Guneet_Singh",
+      "u_has_var": "u_met_Guneet_Singh",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
       "yes": [ "Hey there.", "Hi.", "Hey again.", "Oh, hi." ],
       "no": "Oh, hello.  I don't think I've seen you around before.  I'm Guneet, people call me Gunny."
     },
     "responses": [
       {
         "text": "Nice to meet you, Gunny.",
-        "condition": { "not": { "u_has_effect": "u_met_Guneet_Singh" } },
-        "effect": { "u_add_effect": "u_met_Guneet_Singh", "duration": "PERMANENT" },
-        "topic": "TALK_REFUGEE_Guneet_1_firstmeet",
-        "switch": true
+        "effect": { "u_add_var": "u_met_Guneet_Singh", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Guneet_Singh", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_REFUGEE_Guneet_1_firstmeet"
       },
       {
         "text": "Hi, Gunny.  What's up?",
-        "condition": { "days_since_cataclysm": 180 },
-        "topic": "TALK_REFUGEE_Guneet_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, Gunny.  What's up?",
-        "condition": { "days_since_cataclysm": 60 },
-        "topic": "TALK_REFUGEE_Guneet_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, Gunny.  What's up?",
-        "condition": { "days_since_cataclysm": 30 },
-        "topic": "TALK_REFUGEE_Guneet_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, Gunny.  What's up?",
-        "condition": { "u_has_effect": "u_met_Guneet_Singh" },
-        "topic": "TALK_REFUGEE_Guneet_2_stub",
-        "switch": true
+        "topic": "TALK_REFUGEE_Guneet_2",
+        "condition": { "u_has_var": "u_met_Guneet_Singh", "type": "general", "context": "meeting", "value": "yes" }
       },
       {
         "text": "Hi Gunny, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_effect": "u_met_Guneet_Singh", "duration": "PERMANENT" },
-        "condition": { "not": { "u_has_effect": "u_met_Guneet_Singh" } },
+        "effect": { "u_add_var": "u_met_Guneet_Singh", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Guneet_Singh", "type": "general", "context": "meeting", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
-        "text": "Hi Gunny, nice to see you too.  I gotta go though.",
-        "condition": { "u_has_effect": "u_met_Guneet_Singh" },
+        "text": "Hi Gunny.  I can't stay to talk.",
+        "condition": { "u_has_var": "u_met_Guneet_Singh", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
@@ -122,15 +109,32 @@
     "id": "TALK_REFUGEE_Guneet_1_firstmeet",
     "dynamic_line": "I guess we're still doing that stuff?  Cool.  Nice to meet you too.  What's up?",
     "responses": [
-      { "text": "I just had some questions.", "topic": "TALK_REFUGEE_Guneet_2_stub" },
+      { "text": "I just had some questions.", "topic": "TALK_REFUGEE_Guneet_2" },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Guneet_2_stub",
-    "dynamic_line": "Maybe another time, okay?  I'm not up for chatting with new people right now.",
-    "//": "TK: not written yet",
-    "responses": [ { "text": "Oh... okay.  Talk to you later.", "topic": "TALK_DONE" } ]
+    "id": "TALK_REFUGEE_Guneet_2",
+    "dynamic_line": ".",
+    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Guneet_Background",
+    "dynamic_line": "I was in high school, you know.  Most of the way through my junior year.  \"My story\"?  I got on a bus with my parents, the bus crashed, and everyone died except a few people, most of whom are crammed into this little shelter now.  Who knows when we're getting out.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Guneet_Situation",
+    "dynamic_line": "It sucks in here, there's no two ways about it.  People don't talk to us because we wear turbans and we still have each other.  They think because we're still together, we didn't lose anything.  My dad believes it, too, and I think my mom's on the fence.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
   }
 ]

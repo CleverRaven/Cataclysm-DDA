@@ -2,10 +2,32 @@
 
 #include "sdl_utils.h"
 
+#include <stddef.h>
+#include <array>
+
 #include "color.h"
 #include "color_loader.h"
 #include "cursesport.h"
 #include "sdltiles.h"
+
+color_pixel_function_map builtin_color_pixel_functions = {
+    { "color_pixel_none", nullptr },
+    { "color_pixel_darken", color_pixel_darken },
+    { "color_pixel_sepia", color_pixel_sepia },
+    { "color_pixel_grayscale", color_pixel_grayscale },
+    { "color_pixel_nightvision", color_pixel_nightvision },
+    { "color_pixel_overexposed", color_pixel_overexposed },
+};
+
+color_pixel_function_pointer get_color_pixel_function( const std::string &name )
+{
+    const auto iter = builtin_color_pixel_functions.find( name );
+    if( iter == builtin_color_pixel_functions.end() ) {
+        debugmsg( "no color pixel function with name %s", name );
+        return nullptr;
+    }
+    return iter->second;
+}
 
 SDL_Color curses_color_to_SDL( const nc_color &color )
 {
@@ -35,7 +57,7 @@ void render_fill_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
 {
     if( alt_rect_tex_enabled ) {
         SetTextureColorMod( alt_rect_tex, r, g, b );
-        RenderCopy( renderer, alt_rect_tex, NULL, &rect );
+        RenderCopy( renderer, alt_rect_tex, nullptr, &rect );
     } else {
         SetRenderDrawColor( renderer, r, g, b, 255 );
         RenderFillRect( renderer, &rect );

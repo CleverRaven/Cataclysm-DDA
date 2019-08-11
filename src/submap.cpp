@@ -3,9 +3,11 @@
 #include <algorithm>
 #include <memory>
 #include <iterator>
+#include <array>
 
 #include "mapdata.h"
 #include "trap.h"
+#include "tileray.h"
 
 template<int sx, int sy>
 void maptile_soa<sx, sy>::swap_soa_tile( const point &p1, const point &p2 )
@@ -114,7 +116,7 @@ bool submap::has_signage( const point &p ) const
 
     return false;
 }
-const std::string submap::get_signage( const point &p ) const
+std::string submap::get_signage( const point &p ) const
 {
     if( frn[p.x][p.y].obj().has_flag( "SIGN" ) ) {
         const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
@@ -210,10 +212,9 @@ void submap::rotate( int turns )
     }
 
     for( auto &elem : vehicles ) {
-        const auto new_pos = rotate_point( { elem->posx, elem->posy } );
+        const auto new_pos = rotate_point( elem->pos );
 
-        elem->posx = new_pos.x;
-        elem->posy = new_pos.y;
+        elem->pos = new_pos;
         // turn the steering wheel, vehicle::turn does not actually
         // move the vehicle.
         elem->turn( turns * 90 );

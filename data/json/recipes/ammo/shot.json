@@ -61,7 +61,7 @@
     "charges": 1,
     "using": [ [ "ammo_shot", 1 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "components": [ [ [ "gunpowder", 3 ], [ "chem_black_powder", 3 ] ], [ [ "magnesium", 5 ] ] ]
+    "components": [ [ [ "gunpowder", 3 ] ], [ [ "magnesium", 5 ] ] ]
   },
   {
     "result": "reloaded_shot_flechette",
@@ -129,6 +129,23 @@
     "components": [ [ [ "chem_black_powder", 3 ] ] ]
   },
   {
+    "result": "bp_shot_dragon",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "gun", 1 ],
+    "time": 2000,
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "ammo_shot", 1 ] ],
+    "tools": [ [ [ "press", -1 ] ] ],
+    "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "magnesium", 5 ] ] ]
+  },
+  {
     "result": "bp_shot_flechette",
     "type": "recipe",
     "category": "CC_AMMO",
@@ -186,7 +203,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "skills_required": [ "gun", 1 ],
-    "time": "0 m",
+    "time": "6 s",
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 2 ], [ "pocket_survival", 2 ], [ "mag_survival", 2 ] ],
     "charges": 1,

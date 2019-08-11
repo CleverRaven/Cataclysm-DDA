@@ -12,9 +12,9 @@
 #include "map.h"
 #include "rng.h"
 #include "shadowcasting.h"
-#include "enums.h"
 #include "game_constants.h"
 #include "lightmap.h"
+#include "point.h"
 
 // Constants setting the ratio of set to unset tiles.
 constexpr unsigned int NUMERATOR = 1;
@@ -34,7 +34,7 @@ static void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY
     }
     bool blocked = false;
     static constexpr tripoint origin( 0, 0, 0 );
-    tripoint delta( 0, 0, 0 );
+    tripoint delta;
     for( int distance = row; distance <= radius && !blocked; distance++ ) {
         delta.y = -distance;
         for( delta.x = -distance; delta.x <= 0; delta.x++ ) {

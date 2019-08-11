@@ -1,0 +1,216 @@
+[
+  {
+    "type": "npc",
+    "id": "isherwood_jesse",
+    "//": "Horse trainer for the Isherwood family.",
+    "name_unique": "Jesse Isherwood",
+    "gender": "female",
+    "class": "NC_ISHERWOOD_JESSE",
+    "worn_override": "NC_Isherwood_worn",
+    "carry_override": "NC_ISHERWOOD_rifle",
+    "weapon_override": "NC_ISHERWOOD_archery",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ISHERWOOD_JESSE",
+    "mission_offered": "MISSION_ISHERWOOD_JESSE_1",
+    "faction": "isherwood_family"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ISHERWOOD_JESSE",
+    "name": "Jesse Isherwood",
+    "job_description": "I'm a horse trainer, part of the Isherwood family",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "common": false,
+    "bonus_per": { "one_in": 4 },
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "barter", "bonus": { "rng": [ 6, 9 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 4, 6 ] } }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_JESSE",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "Leave our property, Marshal.",
+      "no": {
+        "u_male": true,
+        "yes": "Hello, We don't see many people these days.",
+        "no": "Hello, We don't see many people these days."
+      }
+    },
+    "responses": [
+      {
+        "text": "Yeah, I'm a Marshal, what are you going to do about it?",
+        "topic": "TALK_LEAVE_NOW",
+        "effect": "hostile",
+        "opinion": { "trust": -20, "value": -20 },
+        "condition": { "u_is_wearing": "badge_marshal" }
+      },
+      {
+        "text": "...",
+        "topic": "TALK_LEAVE_NOW",
+        "opinion": { "trust": -20, "value": -20 },
+        "condition": { "u_is_wearing": "badge_marshal" }
+      },
+      {
+        "text": "Hi, it looks like you are doing well here.",
+        "topic": "TALK_ISHERWOOD_JESSE_TALK1",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } },
+        "effect": { "u_add_var": "u_met_Jesse_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "Hi, Jack and Claire suggested I come down here and meet you.",
+        "topic": "TALK_MET_JACK_CLAIRE",
+        "condition": {
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "u_has_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "Can I do anything for you?",
+        "topic": "TALK_MISSION_LIST",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      },
+      {
+        "text": "I'd better get going.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_JESSE_TALK1",
+    "dynamic_line": "It would be a lot harder without family.  Keeping the animals safe is essential to our future.",
+    "responses": [
+      { "text": "Sounds like you are betting on civilization not coming back.", "topic": "TALK_ISHERWOOD_JESSE_OPINION" },
+      { "text": "Do you have any animal care tips?", "topic": "TALK_ISHERWOOD_JESSE_TIPS" },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_JESSE_OPINION",
+    "dynamic_line": "We can't wait for someone else to fix things, we need to take care of ourselves.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_JESSE_TIPS",
+    "dynamic_line": "We can't wait for someone else to fix things, we need to take care of ourselves.  Horses make good all around companions.  They can get places that cars can't and also help when all the engines fail.  They become very trusting if you feed them some nice fodder.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MET_JACK_CLAIRE",
+    "dynamic_line": "Oh good, I'm sure Jack wanted to put you to work.  If you're interested, I could use a hand clearing out the woods.  My son, Chris has his hands full trying to keep the predators under control.",
+    "responses": [
+      { "text": "I'd like to speak with Carlos too about some work.", "topic": "TALK_JESSE_CARLOS" },
+      {
+        "text": "Is Chris around? I'd like to know what he's run into out in the woods.",
+        "topic": "TALK_JESSE_CHRIS"
+      },
+      { "text": "What needs killing?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_Jesse_TOPICS" },
+      { "text": "I'm not interested right now, I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_JESSE_CARLOS",
+    "dynamic_line": "He's out back in the workshop.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_JESSE_CHRIS",
+    "dynamic_line": "He's out doing some surveying, we are planning on adding a fence line and some defenses.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_JESSE_CARLOS",
+    "dynamic_line": "Carlos will be in his workshop if he isn't out hunting.  He is trying to get a forage set up.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LEAVE_NOW",
+    "dynamic_line": "You should get off my farm, I won't deal with a a government stooge.",
+    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_JESSE_TOPICS",
+    "dynamic_line": "Go on...",
+    "responses": [
+      { "text": "Looks like you are doing well here.", "topic": "TALK_ISHERWOOD_JESSE_TALK1" },
+      { "text": "Do you have any animal care tips?", "topic": "TALK_ISHERWOOD_JESSE_TIPS" },
+      { "text": "Jack and Claire suggested I come talk to you.", "topic": "TALK_MET_JACK_CLAIRE" },
+      { "text": "I'd like to speak with Carlos too about some work.", "topic": "TALK_JESSE_CARLOS" },
+      { "text": "Is Chris around?", "topic": "TALK_JESSE_CHRIS" },
+      { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_ISHERWOOD_JESSE_1",
+    "type": "mission_definition",
+    "name": "Kill monster",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 5,
+    "value": 50000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 8 },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_flying_polyp", "x": 11, "y": 11, "target": true } ] }
+    },
+    "origins": [ "ORIGIN_ANY_NPC" ],
+    "dialogue": {
+      "describe": "We could use some help killing some monsters.",
+      "offer": "I don't know what it is, but it is very fast, I'm willing to outfit you with a horse if you succeed.",
+      "accepted": "Be ready for anything.",
+      "rejected": "Thanks anyway, we will try some traps.",
+      "advice": "A gun will probably help.",
+      "inquire": "Did you kill it?",
+      "success": "I appreciate it, this will help keep our animals safe, here's an extra saddle for you.  Take this fodder and choose a horse for your bravery.",
+      "success_lie": "Show me the body.",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "opinion": { "trust": 1, "value": 1 },
+      "effect": [
+        { "u_buy_item": "riding_saddle", "count": 1 },
+        { "u_buy_item": "cattlefodder", "count": 3 },
+        { "u_add_var": "u_did_jesse_missions", "type": "general", "context": "recruit", "value": "yes" }
+      ]
+    }
+  }
+]

@@ -2,7 +2,7 @@
 #ifndef OVERMAP_UI_H
 #define OVERMAP_UI_H
 
-#include "enums.h"
+#include "point.h"
 
 namespace catacurses
 {

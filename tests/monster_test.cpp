@@ -17,10 +17,10 @@
 #include "options.h"
 #include "player.h"
 #include "test_statistics.h"
-#include "enums.h"
 #include "game_constants.h"
 #include "item.h"
 #include "line.h"
+#include "point.h"
 
 using move_statistics = statistics<int>;
 
@@ -166,7 +166,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
 static void check_shamble_speed( const std::string &monster_type, const tripoint &destination )
 {
     // Scale the scaling factor based on the ratio of diagonal to cardinal steps.
-    const float slope = get_normalized_angle( {0, 0}, {destination.x, destination.y} );
+    const float slope = get_normalized_angle( {0, 0}, destination.xy() );
     const float diagonal_multiplier = 1.0 + ( get_option<bool>( "CIRCLEDIST" ) ?
                                       ( slope * 0.41 ) : 0.0 );
     INFO( monster_type << " " << destination );

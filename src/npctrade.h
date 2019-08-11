@@ -2,15 +2,19 @@
 #ifndef NPCTRADE_H
 #define NPCTRADE_H
 
+#include <stddef.h>
 #include <vector>
-#include <set>
 #include <string>
 #include <utility>
+#include <algorithm>
+#include <list>
 
 #include "inventory.h"
 #include "item_location.h"
 #include "output.h"
 #include "units.h"
+#include "cursesdef.h"
+#include "translations.h"
 
 class Character;
 class faction;
@@ -42,8 +46,8 @@ class item_pricing
         int npc_has = 0;
         int u_charges = 0;
         int npc_charges = 0;
-        units::mass weight = units::from_gram( 0 );
-        units::volume vol = units::from_milliliter( 0 );
+        units::mass weight = 0_gram;
+        units::volume vol = 0_ml;
 };
 
 class trading_window

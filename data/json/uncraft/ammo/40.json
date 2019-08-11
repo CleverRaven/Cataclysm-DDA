@@ -2,7 +2,7 @@
   {
     "result": "40fmj",
     "type": "uncraft",
-    "time": 500,
+    "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "lead", 2 ] ], [ [ "40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 4 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
@@ -10,7 +10,7 @@
   {
     "result": "40sw",
     "type": "uncraft",
-    "time": 500,
+    "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "lead", 2 ] ], [ [ "40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 4 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]

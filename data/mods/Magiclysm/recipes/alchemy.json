@@ -1,0 +1,21 @@
+[
+  {
+    "type": "recipe",
+    "result": "dragon_essence",
+    "qualities": [
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "FINE_DISTILL", "level": 1 },
+      { "id": "SEPARATE", "level": 1 },
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_FOCUS", "level": 1 }
+    ],
+    "tools": [ [ [ "food_processor", 40 ] ], [ [ "surface_heat", 20, "LIST" ] ] ],
+    "components": [ [ [ "dragon_scale", 4, "LIST" ], [ "meat_dragon", 40 ] ] ],
+    "time": "2 h",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "skills_required": [ "spellcraft", 2 ],
+    "book_learn": [ [ "black_dragons", 2 ] ],
+    "category": "CSC_ENCHANTED_OTHER"
+  }
+]

@@ -1,6 +1,9 @@
 #include "fungal_effects.h"
 
 #include <memory>
+#include <algorithm>
+#include <ostream>
+#include <string>
 
 #include "avatar.h"
 #include "creature.h"
@@ -21,6 +24,10 @@
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
+#include "colony.h"
+#include "debug.h"
+#include "point.h"
+#include "string_formatter.h"
 
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_spore( "mon_spore" );

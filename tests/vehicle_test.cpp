@@ -6,10 +6,10 @@
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "player.h"
 #include "vehicle.h"
 #include "enums.h"
 #include "type_id.h"
+#include "point.h"
 
 TEST_CASE( "detaching_vehicle_unboards_passengers" )
 {
@@ -44,4 +44,28 @@ TEST_CASE( "destroy_grabbed_vehicle_section" )
             }
         }
     }
+}
+
+TEST_CASE( "add_item_to_broken_vehicle_part" )
+{
+    clear_map();
+    const tripoint test_origin( 60, 60, 0 );
+    const tripoint vehicle_origin = test_origin;
+    vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "bicycle" ), vehicle_origin, 0, 0, 0 );
+    REQUIRE( veh_ptr != nullptr );
+
+    const tripoint pos = vehicle_origin + tripoint( -1, 0, 0 );
+    auto cargo_parts = veh_ptr->get_parts_at( pos, "CARGO", part_status_flag::any );
+    REQUIRE( !cargo_parts.empty( ) );
+    vehicle_part *cargo_part = cargo_parts.front();
+    REQUIRE( cargo_part != nullptr );
+    //Must not be broken yet
+    REQUIRE( !cargo_part->is_broken() );
+    //For some reason (0 - cargo_part->hp()) is just not enough to destroy a part
+    REQUIRE( veh_ptr->mod_hp( *cargo_part, -( 1 + cargo_part->hp() ), DT_BASH ) );
+    //Now it must be broken
+    REQUIRE( cargo_part->is_broken() );
+    //Now part is really broken, adding an item should fail
+    const item itm2 = item( "jeans" );
+    REQUIRE( !veh_ptr->add_item( *cargo_part, itm2 ) );
 }
