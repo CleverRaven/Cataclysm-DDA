@@ -1,6 +1,98 @@
 [
   {
     "type": "terrain",
+    "id": "t_laminated_door_glass_c",
+    "name": "closed laminated glass door",
+    "description": "A closed laminated glass door is composed layers of glass and plastic held together by an interlayer.",
+    "symbol": "+",
+    "color": "light_cyan",
+    "move_cost": 0,
+    "looks_like": "t_reinforced_door_glass_c",
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "open": "t_laminated_door_glass_o",
+    "bash": {
+      "str_min": 100,
+      "str_max": 180,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 20,
+      "sound_fail_vol": 14,
+      "ter_set": "t_mdoor_frame",
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_laminated_door_glass_o",
+    "name": "open laminated glass door",
+    "description": "Laminated glass door is composed layers of glass and plastic held together by an interlayer.  Yep, it's open.",
+    "symbol": "'",
+    "color": "light_cyan",
+    "move_cost": 2,
+    "looks_like": "t_reinforced_door_glass_o",
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
+    "close": "t_reinforced_door_glass_c",
+    "bash": {
+      "str_min": 100,
+      "str_max": 180,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 20,
+      "sound_fail_vol": 14,
+      "ter_set": "t_mdoor_frame",
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_ballistic_door_glass_c",
+    "name": "closed ballistic glass door",
+    "description": "Ballistic glass consists of layers of laminated glass.",
+    "symbol": "+",
+    "color": "light_cyan",
+    "move_cost": 0,
+    "looks_like": "t_reinforced_door_glass_c",
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "open": "t_ballistic_door_glass_o",
+    "bash": {
+      "str_min": 200,
+      "str_max": 400,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 20,
+      "sound_fail_vol": 14,
+      "ter_set": "t_mdoor_frame",
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_ballistic_door_glass_o",
+    "name": "open ballistic glass door",
+    "description": "Ballistic glass consists of layers of laminated glass.  Yep, it's open.",
+    "symbol": "'",
+    "color": "light_cyan",
+    "move_cost": 2,
+    "looks_like": "t_reinforced_door_glass_o",
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
+    "close": "t_ballistic_door_glass_c",
+    "bash": {
+      "str_min": 200,
+      "str_max": 400,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 20,
+      "sound_fail_vol": 14,
+      "ter_set": "t_mdoor_frame",
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_reinforced_door_glass_c",
     "name": "closed reinforced glass door",
     "description": "A closed glass door reinforced with woven steel wires in a stylish, but practical pattern.",
