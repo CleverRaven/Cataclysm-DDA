@@ -1826,7 +1826,7 @@ int player::get_free_bionics_slots( const body_part bp ) const
 
 void player::add_bionic( const bionic_id &b )
 {
-    if( has_bionic( b ) ) {
+    if( has_bionic( b ) && !bionics[b].allow_duplicates ) {
         debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
         return;
     }

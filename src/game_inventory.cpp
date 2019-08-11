@@ -1540,7 +1540,7 @@ class bionic_install_preset: public inventory_selector_preset
                 return _( "/!\\ CBM is not sterile. /!\\" ) ;
             } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
                 return _( "CBM already deployed.  Please reset to factory state." );
-            } else if( pa.has_bionic( bid ) ) {
+            } else if( pa.has_bionic( bid ) && !bid->allow_duplicates ) {
                 return _( "CBM already installed" );
             } else if( bid->upgraded_bionic &&
                        !pa.has_bionic( bid->upgraded_bionic ) &&
