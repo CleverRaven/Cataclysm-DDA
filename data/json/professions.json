@@ -925,9 +925,13 @@
     "type": "profession",
     "ident": "pillhead",
     "name": "Pillhead",
-    "description": "After an accident in your youth, you got addicted to the opiates treating your pain. With the pharmacies shut down and dealers turned undead, satisfying your fix just got a lot more difficult.",
+    "description": "After an accident in your youth, you got addicted to the opiates treating your pain.  With the pharmacies shut down and dealers turned undead, satisfying your fix just got a lot more difficult.",
     "points": -1,
-    "items": { "both": [ "sneakers","socks","jeans", "tshirt", "wristwatch", "oxycodone" ],"male": [ "boxer_shorts" ], "female": [ "panties", "bra" ] },
+    "items": {
+      "both": [ "sneakers", "socks", "jeans", "tshirt", "wristwatch", "oxycodone" ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "panties", "bra" ]
+    },
     "addictions": [ { "intensity": 20, "type": "opiate" } ]
   },
   {
