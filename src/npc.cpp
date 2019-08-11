@@ -97,6 +97,9 @@ const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_infection( "infection" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_npc_flee_player( "npc_flee_player" );
+const efftype_id effect_riding( "riding" );
+const efftype_id effect_ridden( "ridden" );
+const efftype_id effect_controlled( "controlled" );
 
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
@@ -1783,6 +1786,30 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
+void npc::npc_dismount()
+{
+    tripoint pnt;
+    for( const auto &elem : g->m.points_in_radius( pos(), 1 ) ){
+        if( g->is_empty( elem ) ){
+            pnt = elem;
+            break;
+        }
+    }
+    if( pnt != tripoint_zero && mounted_creature ) {
+        remove_effect( effect_riding );
+        monster *critter = mounted_creature.get();
+        if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.empty() ) {
+            remove_item( weapon );
+        }
+        critter->remove_effect( effect_ridden );
+        critter->add_effect( effect_controlled, 5_turns );
+        mounted_creature = nullptr;
+        setpos( pnt );
+        mod_moves( -100 );
+        return;
+    }
+}
+
 int npc::smash_ability() const
 {
     if( !is_hallucination() && ( !is_player_ally() || rules.has_flag( ally_rule::allow_bash ) ) ) {
@@ -1823,7 +1850,7 @@ bool npc::emergency( float danger ) const
 //Active npcs are the npcs near the player that are actively simulated.
 bool npc::is_active() const
 {
-    return g->critter_at<npc>( pos() ) == this;
+    return g->critter_at<npc>( pos(), false, true ) == this;
 }
 
 int npc::follow_distance() const

@@ -874,7 +874,6 @@ void game::load_npcs()
     // uses submap coordinates
     std::vector<std::shared_ptr<npc>> just_added;
     for( const auto &temp : overmap_buffer.get_npcs_near_player( radius ) ) {
-
         if( temp->is_active() ) {
             continue;
         }
@@ -4144,6 +4143,9 @@ void game::monmove()
             if( !critter.has_effect( effect_controlled ) ) {
                 // Formulate a path to follow
                 critter.plan();
+            } else {
+                critter.moves = 0;
+                break;
             }
             critter.move(); // Move one square, possibly hit u
             critter.process_triggers();
@@ -4519,13 +4521,15 @@ void game::use_computer( const tripoint &p )
 }
 
 template<typename T>
-T *game::critter_at( const tripoint &p, bool allow_hallucination )
+T *game::critter_at( const tripoint &p, bool allow_hallucination, bool rider_only )
 {
     if( const std::shared_ptr<monster> mon_ptr = critter_tracker->find( p ) ) {
         if( !allow_hallucination && mon_ptr->is_hallucination() ) {
             return nullptr;
         }
-        return dynamic_cast<T *>( mon_ptr.get() );
+        if( !rider_only ){
+            return dynamic_cast<T *>( mon_ptr.get() );
+        }
     }
     if( p == u.pos() ) {
         return dynamic_cast<T *>( &u );
@@ -4548,9 +4552,9 @@ template const monster *game::critter_at<monster>( const tripoint &, bool ) cons
 template const npc *game::critter_at<npc>( const tripoint &, bool ) const;
 template const player *game::critter_at<player>( const tripoint &, bool ) const;
 template const avatar *game::critter_at<avatar>( const tripoint &, bool ) const;
-template avatar *game::critter_at<avatar>( const tripoint &, bool );
+template avatar *game::critter_at<avatar>( const tripoint &, bool, bool );
 template const Character *game::critter_at<Character>( const tripoint &, bool ) const;
-template Character *game::critter_at<Character>( const tripoint &, bool );
+template Character *game::critter_at<Character>( const tripoint &, bool, bool );
 template const Creature *game::critter_at<Creature>( const tripoint &, bool ) const;
 
 template<typename T>
@@ -4991,7 +4995,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     }
     const tripoint kbp( kbx, kby, p.z );
     const bool can_see = u.sees( tripoint( x, y, p.z ) );
-    player *npc_or_player = critter_at<player>( tripoint( x, y, p.z ) );
+    player *npc_or_player = critter_at<player>( tripoint( x, y, p.z ), false, true );
     if( npc_or_player != nullptr ) {
         if( bash_dmg <= 0 ) {
             return false;
@@ -5229,8 +5233,8 @@ bool game::npc_menu( npc &who )
 
     amenu.text = string_format( _( "What to do with %s?" ), who.disp_name() );
     amenu.addentry( talk, true, 't', _( "Talk" ) );
-    amenu.addentry( swap_pos, obeys, 's', _( "Swap positions" ) );
-    amenu.addentry( push, obeys, 'p', _( "Push away" ) );
+    amenu.addentry( swap_pos, obeys && !who.is_mounted() && !u.is_mounted(), 's', _( "Swap positions" ) );
+    amenu.addentry( push, obeys && !who.is_mounted(), 'p', _( "Push away" ) );
     amenu.addentry( examine_wounds, true, 'w', _( "Examine wounds" ) );
     amenu.addentry( use_item, true, 'i', _( "Use item on" ) );
     amenu.addentry( sort_armor, true, 'r', _( "Sort armor" ) );
@@ -9218,6 +9222,9 @@ point game::place_player( const tripoint &dest_loc )
                 critter.move_to( u.pos(), true ); // Force the movement even though the player is there right now.
                 add_msg( _( "You displace the %s." ), critter.name() );
             }
+        } else if( !g->u.has_effect( effect_riding ) ){
+            add_msg( _( "You cannot move the %s out of the way." ), critter.name() );
+            return u.pos().xy();
         }
     }
 

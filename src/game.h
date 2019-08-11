@@ -252,7 +252,7 @@ class game
          * @param allow_hallucination Whether to return monsters that are actually hallucinations.
          */
         template<typename T = Creature>
-        T * critter_at( const tripoint &p, bool allow_hallucination = false );
+        T * critter_at( const tripoint &p, bool allow_hallucination = false, bool only_rider = false );
         template<typename T = Creature>
         const T * critter_at( const tripoint &p, bool allow_hallucination = false ) const;
         /**
@@ -936,11 +936,11 @@ class game
         int turnssincelastmon; // needed for auto run mode
 
         weather_manager weather;
+        std::vector<std::shared_ptr<npc>> active_npc;
 
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:
         std::shared_ptr<player> u_shared_ptr;
-        std::vector<std::shared_ptr<npc>> active_npc;
 
         catacurses::window w_terrain_ptr;
         catacurses::window w_minimap_ptr;

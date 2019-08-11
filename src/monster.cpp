@@ -265,9 +265,12 @@ void monster::setpos( const tripoint &p )
     bool wandering = wander();
     g->update_zombie_pos( *this, p );
     position = p;
-    if( has_effect( effect_ridden ) && position != g->u.pos() ) {
-        add_msg( m_debug, "Ridden monster %s moved independently and dumped player", get_name() );
-        g->u.forced_dismount();
+    if( has_effect( effect_ridden ) && mounted_player ){
+        player *pl = mounted_player;
+        if( pl && position != pl->pos() ){
+            add_msg( m_debug, "Ridden monster %s moved independently and dumped player", get_name() );
+            pl->forced_dismount();
+        }
     }
     if( wandering ) {
         unset_dest();

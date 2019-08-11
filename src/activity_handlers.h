@@ -90,6 +90,7 @@ void butcher_do_turn( player_activity *act, player *p );
 void hacksaw_do_turn( player_activity *act, player *p );
 void chop_tree_do_turn( player_activity *act, player *p );
 void jackhammer_do_turn( player_activity *act, player *p );
+void find_mount_do_turn( player_activity *act, player *p );
 void dig_do_turn( player_activity *act, player *p );
 void build_do_turn( player_activity *act, player *p );
 void dig_channel_do_turn( player_activity *act, player *p );

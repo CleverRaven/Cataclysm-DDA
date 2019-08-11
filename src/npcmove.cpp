@@ -604,7 +604,7 @@ void npc::regen_ai_cache()
     while( i != std::end( ai_cache.sound_alerts ) ) {
         if( sees( g->m.getlocal( i->abs_pos ) ) ) {
             // if they were responding to a call for guards because of thievery
-            npc *const sound_source = g->critter_at<npc>( g->m.getlocal( i->abs_pos ) );
+            npc *const sound_source = g->critter_at<npc>( g->m.getlocal( i->abs_pos ), false, true );
             if( sound_source ) {
                 if( my_fac == sound_source->my_fac && sound_source->known_stolen_item ) {
                     sound_source->known_stolen_item = nullptr;
@@ -2237,7 +2237,19 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     if( moved ) {
         const tripoint old_pos = pos();
         setpos( p );
-
+        if( old_pos.x - p.x < 0 ){
+            facing = FD_RIGHT;
+        } else {
+            facing = FD_LEFT;
+        }
+        if( is_mounted() && mounted_creature ){
+            if( mounted_creature->pos() != pos() ){
+                mounted_creature->setpos( pos() );
+                mounted_creature->facing = facing;
+                mounted_creature->process_triggers();
+                g->m.creature_in_field( *mounted_creature.get() );
+            }
+        }
         if( g->m.has_flag( "UNSTABLE", pos() ) ) {
             add_effect( effect_bouldering, 1_turns, num_bp, true );
         } else if( has_effect( effect_bouldering ) ) {
