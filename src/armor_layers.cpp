@@ -71,7 +71,7 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
         }
         const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
         [layer, bp]( const item & i ) {
-            return i.get_layer() == layer && i.covers( bp );
+            return i.get_layer() == layer && i.covers( bp ) && !i.has_flag( "SEMITANGIBLE" );
         } );
         if( num_items > 1 ) {
             body_parts_with_stacking_penalty.push_back( bp );
@@ -179,7 +179,9 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     if( !penalties.body_parts_with_stacking_penalty.empty() ) {
         std::string layer_description = [&]() {
             switch( worn_item_it->get_layer() ) {
-                case UNDERWEAR:
+                case PERSONAL_LAYER:
+                    return _( "in your <color_light_blue>personal aura</color>" );
+                case UNDERWEAR_LAYER:
                     return _( "<color_light_blue>close to your skin</color>" );
                 case REGULAR_LAYER:
                     return _( "of <color_light_blue>normal</color> clothing" );
@@ -189,6 +191,8 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
                     return _( "of <color_light_blue>outer</color> clothing" );
                 case BELTED_LAYER:
                     return _( "<color_light_blue>strapped</color> to you" );
+                case AURA_LAYER:
+                    return _( "an <color_light_blue>aura</color> around you" );
                 default:
                     debugmsg( "Unexpected layer" );
                     return "";
@@ -243,7 +247,9 @@ std::string clothing_layer( const item &worn_item )
 {
     std::string layer;
 
-    if( worn_item.has_flag( "SKINTIGHT" ) ) {
+    if( worn_item.has_flag( "PERSONAL" ) ) {
+        layer = _( "This is in your personal aura." );
+    } else if( worn_item.has_flag( "SKINTIGHT" ) ) {
         layer = _( "This is worn next to the skin." );
     } else if( worn_item.has_flag( "WAIST" ) ) {
         layer = _( "This is worn on or around your waist." );
@@ -251,6 +257,8 @@ std::string clothing_layer( const item &worn_item )
         layer = _( "This is worn over your other clothes." );
     } else if( worn_item.has_flag( "BELTED" ) ) {
         layer = _( "This is strapped onto you." );
+    } else if( worn_item.has_flag( "AURA" ) ) {
+        layer = _( "This is an aura around you." );
     }
 
     return layer;
@@ -329,6 +337,9 @@ std::vector<std::string> clothing_flags_description( const item &worn_item )
     if( worn_item.has_flag( "SWIM_GOGGLES" ) ) {
         description_stack.push_back( _( "It helps you to see clearly underwater." ) );
     }
+    if( worn_item.has_flag( "SEMITANGIBLE" ) ) {
+        description_stack.push_back( _( "It can occupy the same space as other things." ) );
+    }
 
     return description_stack;
 }
@@ -373,9 +384,9 @@ static void draw_grid( const catacurses::window &w, int left_pane_w, int mid_pan
     const int win_h = getmaxy( w );
 
     draw_border( w );
-    mvwhline( w, 2, 1, 0, win_w - 2 );
-    mvwvline( w, 3, left_pane_w + 1, 0, win_h - 4 );
-    mvwvline( w, 3, left_pane_w + mid_pane_w + 2, 0, win_h - 4 );
+    mvwhline( w, point( 1, 2 ), 0, win_w - 2 );
+    mvwvline( w, point( left_pane_w + 1, 3 ), 0, win_h - 4 );
+    mvwvline( w, point( left_pane_w + mid_pane_w + 2, 3 ), 0, win_h - 4 );
 
     // intersections
     mvwputch( w, 2, 0, BORDER_COLOR, LINE_XXXO );
@@ -447,17 +458,18 @@ void player::sort_armor()
     };
 
     // Layout window
-    catacurses::window w_sort_armor = catacurses::newwin( win_h, win_w, win_y, win_x );
+    catacurses::window w_sort_armor = catacurses::newwin( win_h, win_w, point( win_x, win_y ) );
     draw_grid( w_sort_armor, left_w, middle_w );
     // Subwindows (between lines)
-    catacurses::window w_sort_cat = catacurses::newwin( 1, win_w - 4, win_y + 1, win_x + 2 );
-    catacurses::window w_sort_left = catacurses::newwin( cont_h, left_w,   win_y + 3, win_x + 1 );
-    catacurses::window w_sort_middle = catacurses::newwin( cont_h - num_bp - 1, middle_w, win_y + 3,
-                                       win_x + left_w + 2 );
-    catacurses::window w_sort_right = catacurses::newwin( cont_h, right_w,  win_y + 3,
-                                      win_x + left_w + middle_w + 3 );
+    catacurses::window w_sort_cat = catacurses::newwin( 1, win_w - 4, point( win_x + 2, win_y + 1 ) );
+    catacurses::window w_sort_left = catacurses::newwin( cont_h, left_w,   point( win_x + 1,
+                                     win_y + 3 ) );
+    catacurses::window w_sort_middle = catacurses::newwin( cont_h - num_bp - 1, middle_w,
+                                       point( win_x + left_w + 2, win_y + 3 ) );
+    catacurses::window w_sort_right = catacurses::newwin( cont_h, right_w,
+                                      point( win_x + left_w + middle_w + 3, win_y + 3 ) );
     catacurses::window w_encumb = catacurses::newwin( num_bp + 1, middle_w,
-                                  win_y + 3 + cont_h - num_bp - 1, win_x + left_w + 2 );
+                                  point( win_x + left_w + 2, win_y + 3 + cont_h - num_bp - 1 ) );
 
     input_context ctxt( "SORT_ARMOR" );
     ctxt.register_cardinal();

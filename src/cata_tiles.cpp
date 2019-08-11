@@ -206,6 +206,8 @@ cata_tiles::~cata_tiles() = default;
 
 void cata_tiles::on_options_changed()
 {
+    memory_map_mode = get_option <std::string>( "MEMORY_MAP_MODE" );
+
     pixel_minimap_settings settings;
 
     settings.mode = pixel_minimap_mode_from_string( get_option<std::string>( "PIXEL_MINIMAP_MODE" ) );
@@ -360,17 +362,29 @@ void tileset_loader::create_textures_from_tile_atlas( const SDL_Surface_Ptr &til
         const point &offset )
 {
     assert( tile_atlas );
-    copy_surface_to_texture( tile_atlas, offset, ts.tile_values );
 
     /** perform color filter conversion here */
-    copy_surface_to_texture( apply_color_filter( tile_atlas, color_pixel_grayscale ), offset,
-                             ts.shadow_tile_values );
-    copy_surface_to_texture( apply_color_filter( tile_atlas, color_pixel_nightvision ), offset,
-                             ts.night_tile_values );
-    copy_surface_to_texture( apply_color_filter( tile_atlas, color_pixel_overexposed ), offset,
-                             ts.overexposed_tile_values );
-    copy_surface_to_texture( apply_color_filter( tile_atlas, color_pixel_memorized ), offset,
-                             ts.memory_tile_values );
+    using tiles_pixel_color_entry = std::tuple<std::vector<texture>*, std::string>;
+    std::array<tiles_pixel_color_entry, 5> tile_values_data = {{
+            { std::make_tuple( &ts.tile_values, "color_pixel_none" ) },
+            { std::make_tuple( &ts.shadow_tile_values, "color_pixel_grayscale" ) },
+            { std::make_tuple( &ts.night_tile_values, "color_pixel_nightvision" ) },
+            { std::make_tuple( &ts.overexposed_tile_values, "color_pixel_overexposed" ) },
+            { std::make_tuple( &ts.memory_tile_values, tilecontext->memory_map_mode ) }
+        }
+    };
+    for( tiles_pixel_color_entry &entry : tile_values_data ) {
+        std::vector<texture> *tile_values = std::get<0>( entry );
+        color_pixel_function_pointer color_pixel_function = get_color_pixel_function( std::get<1>
+                ( entry ) );
+        if( !color_pixel_function ) {
+            // TODO: Move it inside apply_color_filter.
+            copy_surface_to_texture( tile_atlas, offset, *tile_values );
+        } else {
+            copy_surface_to_texture( apply_color_filter( tile_atlas, color_pixel_function ), offset,
+                                     *tile_values );
+        }
+    }
 }
 
 template<typename T>
@@ -1284,10 +1298,13 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
 void cata_tiles::get_window_tile_counts( const int width, const int height, int &columns,
         int &rows ) const
 {
-    columns = tile_iso ? ceil( static_cast<double>( width ) / tile_width ) * 2 + 4 : ceil(
-                  static_cast<double>( width ) / tile_width );
-    rows = tile_iso ? ceil( static_cast<double>( height ) / ( tile_width / 2 - 1 ) ) * 2 + 4 : ceil(
-               static_cast<double>( height ) / tile_height );
+    if( tile_iso ) {
+        columns = ceil( static_cast<double>( width ) / tile_width ) * 2 + 4;
+        rows = ceil( static_cast<double>( height ) / ( tile_width / 2.0 - 1 ) ) * 2 + 4;
+    } else {
+        columns = ceil( static_cast<double>( width ) / tile_width );
+        rows = ceil( static_cast<double>( height ) / tile_height );
+    }
 }
 
 bool cata_tiles::draw_from_id_string( std::string id, const tripoint &pos, int subtile, int rota,
@@ -1892,7 +1909,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
         return false;
     }
 
-    tripoint pbelow = tripoint( p.x, p.y, p.z - 1 );
+    tripoint pbelow = tripoint( p.xy(), p.z - 1 );
     SDL_Color tercol = curses_color_to_SDL( c_dark_gray );
 
     const ter_t &curr_ter = g->m.ter( pbelow ).obj();
@@ -2128,7 +2145,7 @@ bool cata_tiles::draw_vpart_below( const tripoint &p, lit_level /*ll*/, int &/*h
     if( !g->m.need_draw_lower_floor( p ) ) {
         return false;
     }
-    tripoint pbelow( p.x, p.y, p.z - 1 );
+    tripoint pbelow( p.xy(), p.z - 1 );
     int height_3d_below = 0;
     return draw_vpart( pbelow, LL_LOW, height_3d_below );
 }
@@ -2187,7 +2204,7 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, lit_level, int & )
         return false;
     }
 
-    tripoint pbelow( p.x, p.y, p.z - 1 );
+    tripoint pbelow( p.xy(), p.z - 1 );
 
     // Get the critter at the location below. If there isn't one,
     // we can bail.
@@ -2291,11 +2308,19 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
         }
         if( rot_facing >= 0 ) {
             const auto ent_name = m->type->id;
+            std::string chosen_id = ent_name.str();
             if( m->has_effect( effect_ridden ) ) {
                 int pl_under_height = 6;
                 draw_entity_with_overlays( g->u, p, ll, pl_under_height );
+                const std::string prefix = "rid_";
+                std::string copy_id = chosen_id;
+                const std::string ridden_id = copy_id.insert( 0, prefix );
+                const tile_type *tt = tileset_ptr->find_tile_type( ridden_id );
+                if( tt ) {
+                    chosen_id = ridden_id;
+                }
             }
-            result = draw_from_id_string( ent_name.str(), ent_category, ent_subcategory, p, subtile, rot_facing,
+            result = draw_from_id_string( chosen_id, ent_category, ent_subcategory, p, subtile, rot_facing,
                                           ll, false, height_3d );
             sees_player = m->sees( g->u );
             attitude = m->attitude_to( g-> u );

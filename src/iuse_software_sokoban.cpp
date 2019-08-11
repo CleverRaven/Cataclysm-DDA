@@ -245,7 +245,7 @@ int sokoban_game::start_game()
     read_from_file( FILENAMES["sokoban"], std::bind( &sokoban_game::parse_level, this, _1 ) );
 
     const catacurses::window w_sokoban = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                         iOffsetY, iOffsetX );
+                                         point( iOffsetX, iOffsetY ) );
     draw_border( w_sokoban, BORDER_COLOR, _( "Sokoban" ), hilite( c_white ) );
     input_context ctxt( "SOKOBAN" );
     ctxt.register_cardinal();

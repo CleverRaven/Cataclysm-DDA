@@ -228,6 +228,7 @@
       [ "birdfood", 15 ],
       [ "can_tuna", 15 ],
       [ "can_chicken", 15 ],
+      [ "petpack", 10 ],
       [ "kevlar_harness", 5 ],
       [ "leather_harness_dog", 5 ],
       [ "rubber_harness_dog", 5 ]
@@ -827,6 +828,7 @@
       [ "towel", 50 ],
       [ "scissors", 50 ],
       [ "fungicide", 10 ],
+      [ "insecticide", 10 ],
       [ "soap", 20 ],
       [ "chem_hydrogen_peroxide", 10 ],
       [ "canister_empty", 5 ],
@@ -893,6 +895,7 @@
       [ "scissors", 1 ],
       [ "phonebook", 2 ],
       [ "flashlight", 2 ],
+      [ "petpack", 1 ],
       [ "mag_comic", 5 ]
     ]
   },

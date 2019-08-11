@@ -39,7 +39,7 @@ pacman -Su
 4. Install packages required for compilation with:
 
 ```bash
-pacman -S git git-extras-git make mingw-w64-x86_64-{astyle,ccache,gcc,libmad,libwebp,ncurses,pkg-config,SDL2} mingw-w64-x86_64-SDL2_{image,mixer,ttf}
+pacman -S git git-extras make mingw-w64-x86_64-{astyle,ccache,gcc,libmad,libwebp,ncurses,pkg-config,SDL2} mingw-w64-x86_64-SDL2_{image,mixer,ttf}
 ```
 
 5. Update paths in system-wide profile file (e.g. `C:\msys64\etc\profile`) as following:

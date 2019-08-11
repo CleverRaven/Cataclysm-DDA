@@ -30,10 +30,9 @@ static void curses_check_result( const int result, const int expected, const cha
     }
 }
 
-catacurses::window catacurses::newwin( const int nlines, const int ncols, const int begin_y,
-                                       const int begin_x )
+catacurses::window catacurses::newwin( const int nlines, const int ncols, const point &begin )
 {
-    const auto w = ::newwin( nlines, ncols, begin_y, begin_x ); // TODO: check for errors
+    const auto w = ::newwin( nlines, ncols, begin.y, begin.x ); // TODO: check for errors
     return std::shared_ptr<void>( w, []( void *const w ) {
         ::curses_check_result( ::delwin( static_cast<::WINDOW *>( w ) ), OK, "delwin" );
     } );
@@ -89,14 +88,14 @@ void catacurses::wattron( const window &win, const nc_color &attrs )
     return curses_check_result( ::wattron( win.get<::WINDOW>(), attrs ), OK, "wattron" );
 }
 
-void catacurses::wmove( const window &win, const int y, const int x )
+void catacurses::wmove( const window &win, const point &p )
 {
-    return curses_check_result( ::wmove( win.get<::WINDOW>(), y, x ), OK, "wmove" );
+    return curses_check_result( ::wmove( win.get<::WINDOW>(), p.y, p.x ), OK, "wmove" );
 }
 
-void catacurses::mvwprintw( const window &win, const int y, const int x, const std::string &text )
+void catacurses::mvwprintw( const window &win, const point &p, const std::string &text )
 {
-    return curses_check_result( ::mvwprintw( win.get<::WINDOW>(), y, x, "%s", text.c_str() ),
+    return curses_check_result( ::mvwprintw( win.get<::WINDOW>(), p.y, p.x, "%s", text.c_str() ),
                                 OK, "mvwprintw" );
 }
 
@@ -133,21 +132,21 @@ void catacurses::wborder( const window &win, const chtype ls, const chtype rs, c
                                 "wborder" );
 }
 
-void catacurses::mvwhline( const window &win, const int y, const int x, const chtype ch,
-                           const int n )
+void catacurses::mvwhline( const window &win, const point &p, const chtype ch, const int n )
 {
-    return curses_check_result( ::mvwhline( win.get<::WINDOW>(), y, x, ch, n ), OK, "mvwhline" );
+    return curses_check_result( ::mvwhline( win.get<::WINDOW>(), p.y, p.x, ch, n ), OK,
+                                "mvwhline" );
 }
 
-void catacurses::mvwvline( const window &win, const int y, const int x, const chtype ch,
-                           const int n )
+void catacurses::mvwvline( const window &win, const point &p, const chtype ch, const int n )
 {
-    return curses_check_result( ::mvwvline( win.get<::WINDOW>(), y, x, ch, n ), OK, "mvwvline" );
+    return curses_check_result( ::mvwvline( win.get<::WINDOW>(), p.y, p.x, ch, n ), OK,
+                                "mvwvline" );
 }
 
-void catacurses::mvwaddch( const window &win, const int y, const int x, const chtype ch )
+void catacurses::mvwaddch( const window &win, const point &p, const chtype ch )
 {
-    return curses_check_result( ::mvwaddch( win.get<::WINDOW>(), y, x, ch ), OK, "mvwaddch" );
+    return curses_check_result( ::mvwaddch( win.get<::WINDOW>(), p.y, p.x, ch ), OK, "mvwaddch" );
 }
 
 void catacurses::waddch( const window &win, const chtype ch )

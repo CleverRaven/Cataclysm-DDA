@@ -176,9 +176,11 @@ void weed_msg( player &p )
     }
 }
 
-static void extract_effect( JsonObject &j,
-                            std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double> &data,
-                            const std::string &mod_type, std::string data_key, std::string type_key, std::string arg_key )
+static void extract_effect(
+    JsonObject &j,
+    std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double,
+    cata::tuple_hash> &data,
+    const std::string &mod_type, std::string data_key, std::string type_key, std::string arg_key )
 {
     double val = 0;
     double reduced_val = 0;
@@ -825,7 +827,7 @@ const std::vector<efftype_id> &effect::get_removes_effects() const
 {
     return eff_type->removes_effects;
 }
-const std::vector<efftype_id> effect::get_blocks_effects() const
+std::vector<efftype_id> effect::get_blocks_effects() const
 {
     std::vector<efftype_id> ret = eff_type->removes_effects;
     ret.insert( ret.end(), eff_type->blocks_effects.begin(), eff_type->blocks_effects.end() );

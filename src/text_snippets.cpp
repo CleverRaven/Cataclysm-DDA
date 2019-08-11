@@ -122,7 +122,7 @@ const std::string &snippet_library::random_from_category( const std::string &cat
     return get( iter->second );
 }
 
-const std::vector<int> snippet_library::all_ids_from_category( const std::string &cat ) const
+std::vector<int> snippet_library::all_ids_from_category( const std::string &cat ) const
 {
     std::vector<int> ret;
     const auto iters = categories.equal_range( cat );

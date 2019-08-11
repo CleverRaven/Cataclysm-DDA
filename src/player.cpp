@@ -230,7 +230,6 @@ static const bionic_id bio_metabolics( "bio_metabolics" );
 static const bionic_id bio_noise( "bio_noise" );
 static const bionic_id bio_plut_filter( "bio_plut_filter" );
 static const bionic_id bio_power_weakness( "bio_power_weakness" );
-static const bionic_id bio_purifier( "bio_purifier" );
 static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_recycler( "bio_recycler" );
 static const bionic_id bio_shakes( "bio_shakes" );
@@ -654,7 +653,7 @@ void player::process_turn()
     if( ( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) || has_trait( trait_NOMAD3 ) ) &&
         !has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
         const tripoint ompos = global_omt_location();
-        const point pos = point( ompos.x, ompos.y );
+        const point pos = ompos.xy();
         if( overmap_time.find( pos ) == overmap_time.end() ) {
             overmap_time[pos] = 1_turns;
         } else {
@@ -680,7 +679,7 @@ void player::process_turn()
                 continue;
             }
             // Find the amount of time passed since the player touched any of the overmap tile's submaps.
-            const tripoint tpt = tripoint( it->first.x, it->first.y, 0 );
+            const tripoint tpt = tripoint( it->first, 0 );
             const time_point last_touched = overmap_buffer.scent_at( tpt ).creation_time;
             const time_duration since_visit = now - last_touched;
             // If the player has spent little time in this overmap tile, let it decay after just an hour instead of the usual extended decay time.
@@ -1195,10 +1194,11 @@ void player::update_bodytemp()
             int wetness_percentage = 100 * body_wetness[bp] / drench_capacity[bp]; // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to temperature resistance
-            int Ftemperature = static_cast<int>( player_local_temp +
-                                                 warmth( bp ) * 0.2 - 20 * wetness_percentage / 100 );
+            double adjusted_warmth = warmth( bp ) - wetness_percentage;
+            int Ftemperature = static_cast<int>( player_local_temp + 0.2 * adjusted_warmth );
             // Windchill reduced by your armor
-            int FBwindPower = static_cast<int>( total_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
+            int FBwindPower = static_cast<int>(
+                                  total_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
 
             int intense = get_effect_int( effect_frostbite, bp );
 
@@ -3435,10 +3435,10 @@ float player::fall_damage_mod() const
     /** @EFFECT_DEX decreases damage from falling */
 
     /** @EFFECT_DODGE decreases damage from falling */
-    float dex_dodge = dex_cur / 2 + get_skill_level( skill_dodge );
+    float dex_dodge = dex_cur / 2.0 + get_skill_level( skill_dodge );
     // Penalize for wearing heavy stuff
-    dex_dodge -= ( ( ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 2 ) + ( encumb(
-                       bp_torso ) / 1 ) ) / 10;
+    const float average_leg_encumb = ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 2.0;
+    dex_dodge -= ( average_leg_encumb + encumb( bp_torso ) ) / 10;
     // But prevent it from increasing damage
     dex_dodge = std::max( 0.0f, dex_dodge );
     // 100% damage at 0, 75% at 10, 50% at 20 and so on
@@ -3906,6 +3906,11 @@ void player::check_needs_extremes()
         add_memorial_log( pgettext( "memorial_male", "Died of adrenaline overdose." ),
                           pgettext( "memorial_female", "Died of adrenaline overdose." ) );
         hp_cur[hp_torso] = 0;
+    } else if( get_effect_int( effect_drunk ) > 4 ) {
+        add_msg_if_player( m_bad, _( "Your breathing slows down to a stop." ) );
+        add_memorial_log( pgettext( "memorial_male", "Died of an alcohol overdose." ),
+                          pgettext( "memorial_female", "Died of an alcohol overdose." ) );
+        hp_cur[hp_torso] = 0;
     }
 
     // check if we've starved
@@ -4127,7 +4132,7 @@ needs_rates player::calc_needs_rates()
 
     if( has_trait( trait_TRANSPIRATION ) ) {
         // Transpiration, the act of moving nutrients with evaporating water, can take a very heavy toll on your thirst when it's really hot.
-        rates.thirst *= ( ( g->weather.get_temperature( pos() ) - 65 / 2 ) / 40.0f );
+        rates.thirst *= ( ( g->weather.get_temperature( pos() ) - 32.5f ) / 40.0f );
     }
 
     if( is_npc() ) {
@@ -4340,14 +4345,14 @@ void player::update_stamina( int turns )
                                mutation_value( "stamina_regen_modifier" );
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
-                        get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) - ( encumb( bp_mouth ) / 10.0f ) );
+                        get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) - ( encumb( bp_mouth ) / 5.0f ) );
     // TODO: recovering stamina causes hunger/thirst/fatigue.
     // TODO: Tiredness slowing recovery
 
     // stim recovers stamina (or impairs recovery)
     if( stim > 0 ) {
         // TODO: Make stamina recovery with stims cost health
-        stamina_recovery += std::min( 5.0f, stim / 20.0f );
+        stamina_recovery += std::min( 5.0f, stim / 15.0f );
     } else if( stim < 0 ) {
         // Affect it less near 0 and more near full
         // Negative stim kill at -200
@@ -5804,10 +5809,12 @@ void player::suffer()
     }
 
     // Negative bionics effects
-    if( has_bionic( bio_dis_shock ) && one_turn_in( 2_hours ) && !has_effect( effect_narcosis ) ) {
+    if( has_bionic( bio_dis_shock ) && power_level > 9 && one_turn_in( 2_hours ) &&
+        !has_effect( effect_narcosis ) ) {
         add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
         mod_pain( 1 );
         moves -= 150;
+        charge_power( -10 );
 
         if( weapon.typeId() == "e_handcuffs" && weapon.charges > 0 ) {
             weapon.charges -= rng( 1, 3 ) * 50;
@@ -7627,24 +7634,24 @@ ret_val<bool> player::can_wear( const item &it ) const
 
     if( ( ( it.covers( bp_foot_l ) && is_wearing_shoes( side::LEFT ) ) ||
           ( it.covers( bp_foot_r ) && is_wearing_shoes( side::RIGHT ) ) ) &&
-        ( !it.has_flag( "OVERSIZE" ) || !it.has_flag( "OUTER" ) ) &&
-        !it.has_flag( "SKINTIGHT" ) && !it.has_flag( "BELTED" ) ) {
+        ( !it.has_flag( "OVERSIZE" ) || !it.has_flag( "OUTER" ) ) && !it.has_flag( "SKINTIGHT" ) &&
+        !it.has_flag( "BELTED" ) && !it.has_flag( "PERSONAL" ) && !it.has_flag( "AURA" ) &&
+        !it.has_flag( "SEMITANGIBLE" ) ) {
         // Checks to see if the player is wearing shoes
         return ret_val<bool>::make_failure( ( is_player() ? _( "You're already wearing footwear!" )
                                               : string_format( _( "%s is already wearing footwear!" ), name ) ) );
     }
 
     if( it.covers( bp_head ) &&
-        !it.has_flag( "HELMET_COMPAT" ) &&
-        !it.has_flag( "SKINTIGHT" ) &&
-        !it.has_flag( "OVERSIZE" ) &&
+        !it.has_flag( "HELMET_COMPAT" ) && !it.has_flag( "SKINTIGHT" ) && !it.has_flag( "PERSONAL" ) &&
+        !it.has_flag( "AURA" ) && !it.has_flag( "SEMITANGIBLE" ) && !it.has_flag( "OVERSIZE" ) &&
         is_wearing_helmet() ) {
         return ret_val<bool>::make_failure( wearing_something_on( bp_head ),
                                             ( is_player() ? _( "You can't wear that with other headgear!" )
                                               : string_format( _( "%s can't wear that with other headgear!" ), name ) ) );
     }
 
-    if( it.covers( bp_head ) &&
+    if( it.covers( bp_head ) && !it.has_flag( "SEMITANGIBLE" ) &&
         ( it.has_flag( "SKINTIGHT" ) || it.has_flag( "HELMET_COMPAT" ) ) &&
         ( head_cloth_encumbrance() + it.get_encumber( *this ) > 40 ) ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You can't wear that much on your head!" )
@@ -7660,7 +7667,7 @@ ret_val<bool> player::can_wear( const item &it ) const
         return ret_val<bool>::make_failure( _( "Can't wear that, it's filthy!" ) );
     }
 
-    if( !it.has_flag( "OVERSIZE" ) ) {
+    if( !it.has_flag( "OVERSIZE" ) && !it.has_flag( "SEMITANGIBLE" ) ) {
         for( const trait_id &mut : get_mutations() ) {
             const auto &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
@@ -7668,7 +7675,7 @@ ret_val<bool> player::can_wear( const item &it ) const
                                                     branch.name(), it.type_name() );
             }
         }
-        if( it.covers( bp_head ) &&
+        if( it.covers( bp_head ) && !it.has_flag( "SEMITANGIBLE" ) &&
             !it.made_of( material_id( "wool" ) ) && !it.made_of( material_id( "cotton" ) ) &&
             !it.made_of( material_id( "nomex" ) ) && !it.made_of( material_id( "leather" ) ) &&
             ( has_trait( trait_HORNS_POINTED ) || has_trait( trait_ANTENNAE ) ||
@@ -8154,7 +8161,10 @@ int player::item_wear_cost( const item &it ) const
     double mv = item_handling_cost( it );
 
     switch( it.get_layer() ) {
-        case UNDERWEAR:
+        case PERSONAL_LAYER:
+            break;
+
+        case UNDERWEAR_LAYER:
             mv *= 1.5;
             break;
 
@@ -8169,6 +8179,10 @@ int player::item_wear_cost( const item &it ) const
         case BELTED_LAYER:
             mv /= 2.0;
             break;
+
+        case AURA_LAYER:
+            break;
+
         default:
             break;
     }
@@ -9160,9 +9174,10 @@ void player::gunmod_add( item &gun, item &mod )
         actions[ prompt.ret ]();
     }
 
-    int turns = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
+    const int turns = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
+    const int moves = to_moves<int>( time_duration::from_turns( turns ) );
 
-    assign_activity( activity_id( "ACT_GUNMOD_ADD" ), turns, -1, get_item_position( &gun ), tool );
+    assign_activity( activity_id( "ACT_GUNMOD_ADD" ), moves, -1, get_item_position( &gun ), tool );
     activity.values.push_back( get_item_position( &mod ) );
     activity.values.push_back( roll ); // chance of success (%)
     activity.values.push_back( risk ); // chance of damage (%)
@@ -9262,7 +9277,7 @@ const recipe_subset &player::get_learned_recipes() const
     return *learned_recipes;
 }
 
-const recipe_subset player::get_recipes_from_books( const inventory &crafting_inv ) const
+recipe_subset player::get_recipes_from_books( const inventory &crafting_inv ) const
 {
     recipe_subset res;
 
@@ -9278,7 +9293,7 @@ const recipe_subset player::get_recipes_from_books( const inventory &crafting_in
     return res;
 }
 
-const std::set<itype_id> player::get_books_for_recipe( const inventory &crafting_inv,
+std::set<itype_id> player::get_books_for_recipe( const inventory &crafting_inv,
         const recipe *r ) const
 {
     std::set<itype_id> book_ids;
@@ -9298,7 +9313,7 @@ const std::set<itype_id> player::get_books_for_recipe( const inventory &crafting
     return book_ids;
 }
 
-const recipe_subset player::get_available_recipes( const inventory &crafting_inv,
+recipe_subset player::get_available_recipes( const inventory &crafting_inv,
         const std::vector<npc *> *helpers ) const
 {
     recipe_subset res( get_learned_recipes() );
@@ -10179,19 +10194,13 @@ int player::get_env_resist( body_part bp ) const
         }
     }
 
-    if( bp == bp_mouth && has_bionic( bio_purifier ) && ret < 5 ) {
-        ret += 2;
-        if( ret > 5 ) {
-            ret = 5;
+    for( const bionic &bio : *my_bionics ) {
+        const auto EP = bio.info().env_protec.find( bp );
+        if( EP != bio.info().env_protec.end() ) {
+            ret += EP->second;
         }
     }
 
-    if( bp == bp_eyes && has_bionic( bio_armor_eyes ) && ret < 5 ) {
-        ret += 2;
-        if( ret > 5 ) {
-            ret = 5;
-        }
-    }
     if( bp == bp_eyes && has_trait( trait_SEESLEEP ) ) {
         ret += 8;
     }
@@ -10211,7 +10220,8 @@ bool player::wearing_something_on( body_part bp ) const
 bool player::natural_attack_restricted_on( body_part bp ) const
 {
     for( auto &i : worn ) {
-        if( i.covers( bp ) && !i.has_flag( "ALLOWS_NATURAL_ATTACKS" ) ) {
+        if( i.covers( bp ) && !i.has_flag( "ALLOWS_NATURAL_ATTACKS" ) && !i.has_flag( "SEMITANGIBLE" ) &&
+            !i.has_flag( "PERSONAL" ) && !i.has_flag( "AURA" ) ) {
             return true;
         }
     }
@@ -10225,9 +10235,9 @@ bool player::is_wearing_shoes( const side &which_side ) const
     if( which_side == side::LEFT || which_side == side::BOTH ) {
         left = false;
         for( const item &worn_item : worn ) {
-            if( worn_item.covers( bp_foot_l ) &&
-                !worn_item.has_flag( "BELTED" ) &&
-                !worn_item.has_flag( "SKINTIGHT" ) ) {
+            if( worn_item.covers( bp_foot_l ) && !worn_item.has_flag( "BELTED" ) &&
+                !worn_item.has_flag( "PERSONAL" ) && !worn_item.has_flag( "AURA" ) &&
+                !worn_item.has_flag( "SEMITANGIBLE" ) && !worn_item.has_flag( "SKINTIGHT" ) ) {
                 left = true;
                 break;
             }
@@ -10236,9 +10246,9 @@ bool player::is_wearing_shoes( const side &which_side ) const
     if( which_side == side::RIGHT || which_side == side::BOTH ) {
         right = false;
         for( const item &worn_item : worn ) {
-            if( worn_item.covers( bp_foot_r ) &&
-                !worn_item.has_flag( "BELTED" ) &&
-                !worn_item.has_flag( "SKINTIGHT" ) ) {
+            if( worn_item.covers( bp_foot_r ) && !worn_item.has_flag( "BELTED" ) &&
+                !worn_item.has_flag( "PERSONAL" ) && !worn_item.has_flag( "AURA" ) &&
+                !worn_item.has_flag( "SEMITANGIBLE" ) && !worn_item.has_flag( "SKINTIGHT" ) ) {
                 right = true;
                 break;
             }
@@ -10250,9 +10260,8 @@ bool player::is_wearing_shoes( const side &which_side ) const
 bool player::is_wearing_helmet() const
 {
     for( const item &i : worn ) {
-        if( i.covers( bp_head ) &&
-            !i.has_flag( "HELMET_COMPAT" ) &&
-            !i.has_flag( "SKINTIGHT" ) &&
+        if( i.covers( bp_head ) && !i.has_flag( "HELMET_COMPAT" ) && !i.has_flag( "SKINTIGHT" ) &&
+            !i.has_flag( "PERSONAL" ) && !i.has_flag( "AURA" ) && !i.has_flag( "SEMITANGIBLE" ) &&
             !i.has_flag( "OVERSIZE" ) ) {
             return true;
         }
@@ -10265,8 +10274,8 @@ int player::head_cloth_encumbrance() const
     int ret = 0;
     for( auto &i : worn ) {
         const item *worn_item = &i;
-        if( i.covers( bp_head ) && ( worn_item->has_flag( "HELMET_COMPAT" ) ||
-                                     worn_item->has_flag( "SKINTIGHT" ) ) ) {
+        if( i.covers( bp_head ) && !i.has_flag( "SEMITANGIBLE" ) &&
+            ( worn_item->has_flag( "HELMET_COMPAT" ) || worn_item->has_flag( "SKINTIGHT" ) ) ) {
             ret += worn_item->get_encumber( *this );
         }
     }
@@ -10307,27 +10316,6 @@ int player::shoe_type_count( const itype_id &it ) const
         ret++;
     }
     return ret;
-}
-
-bool player::is_wearing_power_armor( bool *hasHelmet ) const
-{
-    bool result = false;
-    for( auto &elem : worn ) {
-        if( !elem.is_power_armor() ) {
-            continue;
-        }
-        if( hasHelmet == nullptr ) {
-            // found power armor, helmet not requested, cancel loop
-            return true;
-        }
-        // found power armor, continue search for helmet
-        result = true;
-        if( elem.covers( bp_head ) ) {
-            *hasHelmet = true;
-            return true;
-        }
-    }
-    return result;
 }
 
 int player::adjust_for_focus( int amount ) const
@@ -10906,16 +10894,14 @@ bool player::defer_move( const tripoint &next )
     return true;
 }
 
-void player::shift_destination( int shiftx, int shifty )
+void player::shift_destination( const point &shift )
 {
     if( next_expected_position ) {
-        next_expected_position->x += shiftx;
-        next_expected_position->y += shifty;
+        *next_expected_position += shift;
     }
 
     for( auto &elem : auto_move_route ) {
-        elem.x += shiftx;
-        elem.y += shifty;
+        elem += shift;
     }
 }
 
@@ -11018,7 +11004,7 @@ void player::burn_move_stamina( int moves )
     if( move_mode == PMM_RUN ) {
         burn_ratio = burn_ratio * 7;
     }
-    mod_stat( "stamina", -( ( moves * burn_ratio ) / 100 ) );
+    mod_stat( "stamina", -( ( moves * burn_ratio ) / 100.0 ) );
     add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
@@ -11407,7 +11393,7 @@ std::string player::short_description() const
 
 int player::print_info( const catacurses::window &w, int vStart, int, int column ) const
 {
-    mvwprintw( w, vStart++, column, _( "You (%s)" ), name );
+    mvwprintw( w, point( column, vStart++ ), _( "You (%s)" ), name );
     return vStart;
 }
 
@@ -11465,7 +11451,12 @@ void player::place_corpse()
     }
     for( auto &bio : *my_bionics ) {
         if( item::type_is_defined( bio.id.str() ) ) {
-            body.put_in( item( bio.id.str(), calendar::turn ) );
+            item cbm( bio.id.str(), calendar::turn );
+            cbm.set_flag( "FILTHY" );
+            cbm.set_flag( "NO_STERILE" );
+            cbm.set_flag( "NO_PACKED" );
+            cbm.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
+            body.put_in( cbm );
         }
     }
 
@@ -11483,7 +11474,7 @@ void player::place_corpse()
 void player::place_corpse( const tripoint &om_target )
 {
     tinymap bay;
-    bay.load( om_target.x * 2, om_target.y * 2, om_target.z, false );
+    bay.load( tripoint( om_target.x * 2, om_target.y * 2, om_target.z ), false );
     int finX = rng( 1, SEEX * 2 - 2 );
     int finY = rng( 1, SEEX * 2 - 2 );
     if( bay.furn( finX, finY ) != furn_str_id( "f_null" ) ) {

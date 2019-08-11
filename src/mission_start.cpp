@@ -63,7 +63,7 @@ void mission_start::place_dog( mission *miss )
     overmap_buffer.reveal( house, 6 );
 
     tinymap doghouse;
-    doghouse.load( house.x * 2, house.y * 2, house.z, false );
+    doghouse.load( tripoint( house.x * 2, house.y * 2, house.z ), false );
     doghouse.add_spawn( mon_dog, 1, SEEX, SEEY, true, -1, miss->uid );
     doghouse.save();
 }
@@ -76,7 +76,7 @@ void mission_start::place_zombie_mom( mission *miss )
     overmap_buffer.reveal( house, 6 );
 
     tinymap zomhouse;
-    zomhouse.load( house.x * 2, house.y * 2, house.z, false );
+    zomhouse.load( tripoint( house.x * 2, house.y * 2, house.z ), false );
     zomhouse.add_spawn( mon_zombie, 1, SEEX, SEEY, false, -1, miss->uid,
                         Name::get( nameIsFemaleName | nameIsGivenName ) );
     zomhouse.save();
@@ -106,7 +106,7 @@ void mission_start::kill_horde_master( mission *miss )
     miss->target = site;
     overmap_buffer.reveal( site, 6 );
     tinymap tile;
-    tile.load( site.x * 2, site.y * 2, site.z, false );
+    tile.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     tile.add_spawn( mon_zombie_master, 1, SEEX, SEEY, false, -1, miss->uid, _( "Demonic Soul" ) );
     tile.add_spawn( mon_zombie_brute, 3, SEEX, SEEY );
     tile.add_spawn( mon_zombie_dog, 3, SEEX, SEEY );
@@ -201,7 +201,7 @@ void mission_start::place_npc_software( mission *miss )
     overmap_buffer.reveal( place, 6 );
 
     tinymap compmap;
-    compmap.load( place.x * 2, place.y * 2, place.z, false );
+    compmap.load( tripoint( place.x * 2, place.y * 2, place.z ), false );
     tripoint comppoint;
 
     oter_id oter = overmap_buffer.ter( place );
@@ -224,7 +224,7 @@ void mission_start::place_priest_diary( mission *miss )
     miss->target = place;
     overmap_buffer.reveal( place, 2 );
     tinymap compmap;
-    compmap.load( place.x * 2, place.y * 2, place.z, false );
+    compmap.load( tripoint( place.x * 2, place.y * 2, place.z ), false );
 
     std::vector<tripoint> valid;
     for( int x = 0; x < SEEX * 2; x++ ) {
@@ -264,7 +264,7 @@ void mission_start::place_deposit_box( mission *miss )
     overmap_buffer.reveal( site, 2 );
 
     tinymap compmap;
-    compmap.load( site.x * 2, site.y * 2, site.z, false );
+    compmap.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     std::vector<tripoint> valid;
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
@@ -344,7 +344,7 @@ void mission_start::ranch_nurse_1( mission *miss )
     //Improvements to clinic...
     tripoint site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.draw_square_furn( f_rack, 16, 9, 17, 9 );
     bay.spawn_item( 16, 9, "bandages", rng( 1, 3 ) );
     bay.spawn_item( 17, 9, "aspirin", rng( 1, 2 ) );
@@ -356,7 +356,7 @@ void mission_start::ranch_nurse_2( mission *miss )
     //Improvements to clinic...
     tripoint site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.draw_square_furn( f_counter, 3, 7, 5, 7 );
     bay.draw_square_furn( f_rack, 8, 4, 8, 5 );
     bay.spawn_item( 8, 4, "manual_first_aid" );
@@ -368,14 +368,14 @@ void mission_start::ranch_nurse_3( mission *miss )
     //Improvements to clinic...
     tripoint site = mission_util::target_om_ter_random( "ranch_camp_50", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.draw_square_ter( t_dirt, 2, 16, 9, 23 );
     bay.draw_square_ter( t_dirt, 13, 16, 20, 23 );
     bay.draw_square_ter( t_dirt, 10, 17, 12, 23 );
     bay.save();
 
     site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.draw_square_ter( t_dirt, 2, 0, 20, 2 );
     bay.draw_square_ter( t_dirt, 10, 3, 12, 4 );
     bay.save();
@@ -386,26 +386,26 @@ void mission_start::ranch_nurse_4( mission *miss )
     //Improvements to clinic...
     tripoint site = mission_util::target_om_ter_random( "ranch_camp_50", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.draw_square_ter( t_wall_half, 2, 16, 9, 23 );
     bay.draw_square_ter( t_dirt, 3, 17, 8, 22 );
     bay.draw_square_ter( t_wall_half, 13, 16, 20, 23 );
     bay.draw_square_ter( t_dirt, 14, 17, 19, 22 );
     bay.draw_square_ter( t_wall_half, 10, 17, 12, 23 );
     bay.draw_square_ter( t_dirt, 10, 18, 12, 23 );
-    bay.ter_set( 9, 19, t_door_frame );
-    bay.ter_set( 13, 19, t_door_frame );
+    bay.ter_set( point( 9, 19 ), t_door_frame );
+    bay.ter_set( point( 13, 19 ), t_door_frame );
     bay.save();
 
     site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.draw_square_ter( t_wall_half, 4, 0, 18, 2 );
     bay.draw_square_ter( t_wall_half, 10, 3, 12, 4 );
     bay.draw_square_ter( t_dirt, 5, 0, 8, 2 );
     bay.draw_square_ter( t_dirt, 10, 0, 12, 4 );
     bay.draw_square_ter( t_dirt, 14, 0, 17, 2 );
-    bay.ter_set( 9, 1, t_door_frame );
-    bay.ter_set( 13, 1, t_door_frame );
+    bay.ter_set( point( 9, 1 ), t_door_frame );
+    bay.ter_set( point( 13, 1 ), t_door_frame );
     bay.save();
 }
 
@@ -414,17 +414,17 @@ void mission_start::ranch_nurse_5( mission *miss )
     //Improvements to clinic...
     tripoint site = mission_util::target_om_ter_random( "ranch_camp_50", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.translate( t_wall_half, t_wall_wood );
-    bay.ter_set( 2, 21, t_window_frame );
-    bay.ter_set( 2, 18, t_window_frame );
-    bay.ter_set( 20, 18, t_window_frame );
-    bay.ter_set( 20, 21, t_window_frame );
-    bay.ter_set( 11, 17, t_window_frame );
+    bay.ter_set( point( 2, 21 ), t_window_frame );
+    bay.ter_set( point( 2, 18 ), t_window_frame );
+    bay.ter_set( point( 20, 18 ), t_window_frame );
+    bay.ter_set( point( 20, 21 ), t_window_frame );
+    bay.ter_set( point( 11, 17 ), t_window_frame );
     bay.save();
 
     site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.translate( t_wall_half, t_wall_wood );
     bay.draw_square_ter( t_dirt, 10, 0, 12, 4 );
     bay.save();
@@ -435,7 +435,7 @@ void mission_start::ranch_nurse_6( mission *miss )
     //Improvements to clinic...
     tripoint site = mission_util::target_om_ter_random( "ranch_camp_50", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.translate( t_window_frame, t_window_boarded_noglass );
     bay.translate( t_door_frame, t_door_c );
     bay.draw_square_ter( t_dirtfloor, 3, 17, 8, 22 );
@@ -444,7 +444,7 @@ void mission_start::ranch_nurse_6( mission *miss )
     bay.save();
 
     site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.translate( t_door_frame, t_door_c );
     bay.draw_square_ter( t_dirtfloor, 5, 0, 8, 2 );
     bay.draw_square_ter( t_dirtfloor, 10, 0, 12, 4 );
@@ -457,12 +457,12 @@ void mission_start::ranch_nurse_7( mission *miss )
     //Improvements to clinic...
     tripoint site = mission_util::target_om_ter_random( "ranch_camp_50", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.translate( t_dirtfloor, t_floor );
     bay.save();
 
     site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.translate( t_dirtfloor, t_floor );
     bay.draw_square_ter( t_floor, 10, 5, 12, 5 );
     bay.draw_square_furn( f_rack, 17, 0, 17, 2 );
@@ -474,7 +474,7 @@ void mission_start::ranch_nurse_8( mission *miss )
     //Improvements to clinic...
     tripoint site = mission_util::target_om_ter_random( "ranch_camp_50", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.draw_square_furn( f_makeshift_bed, 4, 21, 4, 22 );
     bay.draw_square_furn( f_makeshift_bed, 7, 21, 7, 22 );
     bay.draw_square_furn( f_makeshift_bed, 15, 21, 15, 22 );
@@ -486,7 +486,7 @@ void mission_start::ranch_nurse_8( mission *miss )
     bay.save();
 
     site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.translate( t_dirtfloor, t_floor );
     bay.place_items( "cleaning", 75, 17, 0, 17, 2, true, 0 );
     bay.place_items( "surgery", 75, 15, 4, 18, 4, true, 0 );
@@ -498,15 +498,15 @@ void mission_start::ranch_nurse_9( mission *miss )
     //Improvements to clinic...
     tripoint site = mission_util::target_om_ter_random( "ranch_camp_50", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
-    bay.furn_set( 3, 22, f_dresser );
-    bay.furn_set( 8, 22, f_dresser );
-    bay.furn_set( 14, 22, f_dresser );
-    bay.furn_set( 19, 22, f_dresser );
-    bay.furn_set( 3, 17, f_dresser );
-    bay.furn_set( 8, 17, f_dresser );
-    bay.furn_set( 14, 17, f_dresser );
-    bay.furn_set( 19, 17, f_dresser );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
+    bay.furn_set( point( 3, 22 ), f_dresser );
+    bay.furn_set( point( 8, 22 ), f_dresser );
+    bay.furn_set( point( 14, 22 ), f_dresser );
+    bay.furn_set( point( 19, 22 ), f_dresser );
+    bay.furn_set( point( 3, 17 ), f_dresser );
+    bay.furn_set( point( 8, 17 ), f_dresser );
+    bay.furn_set( point( 14, 17 ), f_dresser );
+    bay.furn_set( point( 19, 17 ), f_dresser );
     bay.place_npc( 16, 19, string_id<npc_template>( "ranch_doctor" ) );
     bay.save();
 
@@ -517,14 +517,14 @@ void mission_start::ranch_scavenger_1( mission *miss )
 {
     tripoint site = mission_util::target_om_ter_random( "ranch_camp_48", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.draw_square_ter( t_chainfence, 15, 13, 15, 22 );
     bay.draw_square_ter( t_chainfence, 16, 13, 23, 13 );
     bay.draw_square_ter( t_chainfence, 16, 22, 23, 22 );
     bay.save();
 
     site = mission_util::target_om_ter_random( "ranch_camp_49", 1, miss, false, RANCH_SIZE );
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.place_items( "mechanics", 65, 9, 13, 10, 16, true, 0 );
     bay.draw_square_ter( t_chainfence, 0, 22, 7, 22 );
     bay.draw_square_ter( t_dirt, 2, 22, 3, 22 );
@@ -536,15 +536,15 @@ void mission_start::ranch_scavenger_2( mission *miss )
 {
     tripoint site = mission_util::target_om_ter_random( "ranch_camp_48", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.add_vehicle( vproto_id( "car_chassis" ), 20, 15, 0 );
     bay.draw_square_ter( t_wall_half, 18, 19, 21, 22 );
     bay.draw_square_ter( t_dirt, 19, 20, 20, 21 );
-    bay.ter_set( 19, 19, t_door_frame );
+    bay.ter_set( point( 19, 19 ), t_door_frame );
     bay.save();
 
     site = mission_util::target_om_ter_random( "ranch_camp_49", 1, miss, false, RANCH_SIZE );
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.place_items( "mischw", 65, 12, 13, 13, 16, true, 0 );
     bay.draw_square_ter( t_chaingate_l, 2, 22, 3, 22 );
     bay.spawn_item( 7, 20, "30gal_drum" );
@@ -555,25 +555,25 @@ void mission_start::ranch_scavenger_3( mission *miss )
 {
     tripoint site = mission_util::target_om_ter_random( "ranch_camp_48", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.translate( t_door_frame, t_door_locked );
     bay.translate( t_wall_half, t_wall_wood );
     bay.draw_square_ter( t_dirtfloor, 19, 20, 20, 21 );
     bay.spawn_item( 16, 21, "wheel_wide" );
     bay.spawn_item( 17, 21, "wheel_wide" );
     bay.spawn_item( 23, 18, "v8_combustion" );
-    bay.furn_set( 23, 17, furn_str_id( "f_arcade_machine" ) );
-    bay.ter_set( 23, 16, ter_str_id( "t_machinery_light" ) );
-    bay.furn_set( 20, 21, f_woodstove );
+    bay.furn_set( point( 23, 17 ), furn_str_id( "f_arcade_machine" ) );
+    bay.ter_set( point( 23, 16 ), ter_str_id( "t_machinery_light" ) );
+    bay.furn_set( point( 20, 21 ), f_woodstove );
     bay.save();
 
     site = mission_util::target_om_ter_random( "ranch_camp_49", 1, miss, false, RANCH_SIZE );
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.place_items( "mischw", 65, 2, 10, 4, 10, true, 0 );
     bay.place_items( "mischw", 65, 2, 13, 4, 13, true, 0 );
-    bay.furn_set( 1, 15, f_fridge );
+    bay.furn_set( point( 1, 15 ), f_fridge );
     bay.spawn_item( 2, 15, "hdframe" );
-    bay.furn_set( 3, 15, f_washer );
+    bay.furn_set( point( 3, 15 ), f_washer );
     bay.save();
 }
 
@@ -618,7 +618,7 @@ void static create_lab_consoles( mission *miss, const tripoint &place, const std
         tripoint om_place = mission_util::target_om_ter_random( otype, -1, miss, false, 4, place );
 
         tinymap compmap;
-        compmap.load( om_place.x * 2, om_place.y * 2, om_place.z, false );
+        compmap.load( tripoint( om_place.x * 2, om_place.y * 2, om_place.z ), false );
 
         tripoint comppoint = find_potential_computer_point( compmap, om_place.z );
 
@@ -685,7 +685,7 @@ void mission_start::reveal_lab_train_depot( mission *miss )
     const tripoint place = overmap_buffer.find_closest( loc, "lab_train_depot", 0, false );
 
     tinymap compmap;
-    compmap.load( place.x * 2, place.y * 2, place.z, false );
+    compmap.load( tripoint( place.x * 2, place.y * 2, place.z ), false );
     tripoint comppoint;
 
     for( tripoint point : compmap.points_in_rectangle(

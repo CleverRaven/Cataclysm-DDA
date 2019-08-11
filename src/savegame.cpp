@@ -1220,14 +1220,14 @@ struct mongroup_hash {
     std::size_t operator()( const mongroup &mg ) const {
         // Note: not hashing monsters or position
         size_t ret = std::hash<mongroup_id>()( mg.type );
-        std::hash_combine( ret, mg.radius );
-        std::hash_combine( ret, mg.population );
-        std::hash_combine( ret, mg.target );
-        std::hash_combine( ret, mg.interest );
-        std::hash_combine( ret, mg.dying );
-        std::hash_combine( ret, mg.horde );
-        std::hash_combine( ret, mg.horde_behaviour );
-        std::hash_combine( ret, mg.diffuse );
+        cata::hash_combine( ret, mg.radius );
+        cata::hash_combine( ret, mg.population );
+        cata::hash_combine( ret, mg.target );
+        cata::hash_combine( ret, mg.interest );
+        cata::hash_combine( ret, mg.dying );
+        cata::hash_combine( ret, mg.horde );
+        cata::hash_combine( ret, mg.horde_behaviour );
+        cata::hash_combine( ret, mg.diffuse );
         return ret;
     }
 };
@@ -1521,7 +1521,7 @@ void game::unserialize_master( std::istream &fin )
 {
     savegame_loading_version = 0;
     chkversion( fin );
-    if( savegame_loading_version != savegame_version && savegame_loading_version < 11 ) {
+    if( savegame_loading_version < 11 ) {
         popup_nowait(
             _( "Cannot find loader for save data in old version %d, attempting to load as current version %d." ),
             savegame_loading_version, savegame_version );

@@ -87,6 +87,37 @@
     ]
   },
   {
+    "id": "tools_hunting",
+    "type": "item_group",
+    "//": "Gear that hunters take on hunting trips.",
+    "items": [
+      [ "binoculars", 15 ],
+      [ "canteen", 25 ],
+      [ "e_tool", 20 ],
+      [ "flashlight", 20 ],
+      [ "goggles_nv", 5 ],
+      [ "hand_crank_charger", 15 ],
+      [ "handflare", 20 ],
+      [ "hatchet", 10 ],
+      [ "heavy_flashlight", 15 ],
+      [ "knife_folding", 25 ],
+      [ "knife_hunting", 10 ],
+      [ "knife_rambo", 10 ],
+      [ "knife_swissarmy", 10 ],
+      [ "mess_kit", 20 ],
+      [ "multitool", 10 ],
+      [ "pockknife", 30 ],
+      [ "pur_tablets", 10 ],
+      [ "ref_lighter", 20 ],
+      [ "rope_30", 20 ],
+      [ "flint_steel", 10 ],
+      [ "tinderbox", 10 ],
+      [ "chem_hexamine", 10 ],
+      [ "esbit_stove", 15 ],
+      [ "mess_tin", 10 ]
+    ]
+  },
+  {
     "id": "tools_earthworking",
     "type": "item_group",
     "//": "Portable tools for earthworking or farming",

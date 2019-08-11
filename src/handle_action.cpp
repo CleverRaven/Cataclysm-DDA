@@ -203,7 +203,7 @@ input_context game::get_player_input( std::string &action )
                     for( auto &elem : wPrint.vdrops ) {
                         const tripoint location( elem.first + offset_x, elem.second + offset_y, get_levz() );
                         const lit_level lighting = visibility_cache[location.x][location.y];
-                        wmove( w_terrain, location.y - offset_y, location.x - offset_x );
+                        wmove( w_terrain, point( location.x - offset_x, location.y - offset_y ) );
                         if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
                             m.drawsq( w_terrain, u, location, false, true,
                                       u.pos() + u.view_offset,
@@ -243,7 +243,7 @@ input_context game::get_player_input( std::string &action )
                             for( size_t i = 0; i < elem.getText().length(); ++i ) {
                                 const tripoint location( elem.getPosX() + i, elem.getPosY(), get_levz() );
                                 const lit_level lighting = visibility_cache[location.x][location.y];
-                                wmove( w_terrain, location.y - offset_y, location.x - offset_x );
+                                wmove( w_terrain, point( location.x - offset_x, location.y - offset_y ) );
                                 if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
                                     m.drawsq( w_terrain, u, location, false, true,
                                               u.pos() + u.view_offset,
@@ -728,7 +728,7 @@ static void smash()
     }
 }
 
-static bool try_set_alarm()
+static int try_set_alarm()
 {
     uilist as_m;
     const bool already_set = g->u.has_effect( effect_alarm_clock );
@@ -745,7 +745,7 @@ static bool try_set_alarm()
                                _( "Set an alarm for later" ) );
     as_m.query();
 
-    return as_m.ret == 1;
+    return as_m.ret;
 }
 
 static void wait()
@@ -762,7 +762,11 @@ static void wait()
     }
 
     if( u.has_alarm_clock() ) {
-        setting_alarm = try_set_alarm();
+        int alarm_query = try_set_alarm();
+        if( alarm_query == UILIST_CANCEL ) {
+            return;
+        }
+        setting_alarm = alarm_query == 1;
     }
 
     const bool has_watch = u.has_watch() || setting_alarm;

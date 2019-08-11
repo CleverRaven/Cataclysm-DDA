@@ -319,6 +319,12 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
     }
 
     if( check.empty() ) {
+        world_generator->set_active_world( nullptr );
+        world_generator->init();
+        const std::vector<mod_id> mods_empty;
+        WORLDPTR test_world = world_generator->make_new_world( mods_empty );
+        world_generator->set_active_world( test_world );
+
         // if no loadable mods then test core data only
         try {
             load_core_data( ui );
@@ -326,9 +332,21 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
         } catch( const std::exception &err ) {
             std::cerr << "Error loading data from json: " << err.what() << std::endl;
         }
+
+        std::string world_name = world_generator->active_world->world_name;
+        world_generator->delete_world( world_name, true );
+
+        MAPBUFFER.reset();
+        overmap_buffer.clear();
     }
 
     for( const auto &e : check ) {
+        world_generator->set_active_world( nullptr );
+        world_generator->init();
+        const std::vector<mod_id> mods_empty;
+        WORLDPTR test_world = world_generator->make_new_world( mods_empty );
+        world_generator->set_active_world( test_world );
+
         if( !e.is_valid() ) {
             std::cerr << "Unknown mod: " << e.str() << std::endl;
             return false;
@@ -358,8 +376,13 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
         } catch( const std::exception &err ) {
             std::cerr << "Error loading data: " << err.what() << std::endl;
         }
-    }
 
+        std::string world_name = world_generator->active_world->world_name;
+        world_generator->delete_world( world_name, true );
+
+        MAPBUFFER.reset();
+        overmap_buffer.clear();
+    }
     return true;
 }
 
@@ -490,7 +513,7 @@ void game::init_ui( const bool resized )
     POSY = TERRAIN_WINDOW_HEIGHT / 2;
 
     w_terrain = w_terrain_ptr = catacurses::newwin( TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH,
-                                VIEW_OFFSET_Y, VIEW_OFFSET_X + sidebar_left );
+                                point( VIEW_OFFSET_X + sidebar_left, VIEW_OFFSET_Y ) );
     werase( w_terrain );
 
     /**
@@ -509,13 +532,14 @@ void game::init_ui( const bool resized )
     int _y = VIEW_OFFSET_Y;
     int _x = VIEW_OFFSET_X;
 
-    w_minimap = w_minimap_ptr = catacurses::newwin( MINIMAP_HEIGHT, MINIMAP_WIDTH, _y, _x );
+    w_minimap = w_minimap_ptr = catacurses::newwin( MINIMAP_HEIGHT, MINIMAP_WIDTH, point( _x, _y ) );
     werase( w_minimap );
 
-    w_panel_adm = w_panel_adm_ptr = catacurses::newwin( 15, 65, ( TERMY / 2 ) - 8, ( TERMX / 2 ) - 33 );
+    w_panel_adm = w_panel_adm_ptr = catacurses::newwin( 20, 75, point( ( TERMX / 2 ) - 38,
+                                    ( TERMY / 2 ) - 10 ) );
     werase( w_panel_adm );
     // need to init in order to avoid crash. gets updated by the panel code.
-    w_pixel_minimap = catacurses::newwin( 1, 1, 0, 0 );
+    w_pixel_minimap = catacurses::newwin( 1, 1, point( 0, 0 ) );
     liveview.init();
 
     // Only refresh if we are in-game, otherwise all resources are not initialized
@@ -656,7 +680,7 @@ special_game_id game::gametype() const
 
 void game::load_map( const tripoint &pos_sm )
 {
-    m.load( pos_sm.x, pos_sm.y, pos_sm.z, true );
+    m.load( pos_sm, true );
 }
 
 // Set up all default values for a new game
@@ -712,7 +736,7 @@ bool game::start_game()
     m.invalidate_map_cache( get_levz() );
     m.build_map_cache( get_levz() );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
-    overmap_buffer.reveal( point( u.global_omt_location().x, u.global_omt_location().y ),
+    overmap_buffer.reveal( u.global_omt_location().xy(),
                            get_option<int>( "DISTANCE_INITIAL_VISIBILITY" ), 0 );
 
     u.moves = 0;
@@ -1052,8 +1076,8 @@ bool game::cleanup_at_end()
         const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
         const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
 
-        catacurses::window w_rip = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY,
-                                   iOffsetX );
+        catacurses::window w_rip = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                   point( iOffsetX, iOffsetY ) );
         draw_border( w_rip );
 
         sfx::do_player_death_hurt( g->u, true );
@@ -1123,14 +1147,14 @@ bool game::cleanup_at_end()
         wprintz( w_rip, c_magenta, ssTemp.str() );
 
         sTemp = _( "In memory of:" );
-        mvwprintz( w_rip, iNameLine++, FULL_SCREEN_WIDTH / 2 - ( sTemp.length() / 2 ), c_light_gray,
+        mvwprintz( w_rip, iNameLine++, FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, c_light_gray,
                    sTemp );
 
         sTemp = u.name;
-        mvwprintz( w_rip, iNameLine++, FULL_SCREEN_WIDTH / 2 - ( sTemp.length() / 2 ), c_white, sTemp );
+        mvwprintz( w_rip, iNameLine++, FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, c_white, sTemp );
 
         sTemp = _( "Last Words:" );
-        mvwprintz( w_rip, iNameLine++, FULL_SCREEN_WIDTH / 2 - ( sTemp.length() / 2 ), c_light_gray,
+        mvwprintz( w_rip, iNameLine++, FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, c_light_gray,
                    sTemp );
 
         int iStartX = FULL_SCREEN_WIDTH / 2 - ( ( iMaxWidth - 4 ) / 2 );
@@ -1504,7 +1528,7 @@ bool game::do_turn()
     // m.vehmove used to do this, but now it only give them moves instead.
     for( auto &elem : MAPBUFFER ) {
         tripoint sm_loc = elem.first;
-        point sm_topleft = sm_to_ms_copy( sm_loc.x, sm_loc.y );
+        point sm_topleft = sm_to_ms_copy( sm_loc.xy() );
         point in_reality = m.getlocal( sm_topleft );
 
         submap *sm = elem.second;
@@ -2472,7 +2496,7 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
 
         act = ACTION_FIRE;
     } else if( is_adjacent &&
-               m.close_door( tripoint( mouse_target.x, mouse_target.y, u.posz() ), !m.is_outside( u.pos() ),
+               m.close_door( tripoint( mouse_target.xy(), u.posz() ), !m.is_outside( u.pos() ),
                              true ) ) {
         act = ACTION_CLOSE;
     } else if( is_self ) {
@@ -2960,8 +2984,8 @@ void game::write_memorial_file( std::string sLastWords )
 void game::disp_kills()
 {
     catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                           std::max( 0, ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ),
-                           std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ) );
+                           point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ), std::max( 0,
+                                   ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
 
     std::vector<std::string> data;
     int totalkills = 0;
@@ -3022,8 +3046,8 @@ void game::disp_kills()
 void game::disp_NPC_epilogues()
 {
     catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                           std::max( 0, ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ),
-                           std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ) );
+                           point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ), std::max( 0,
+                                   ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
     epilogue epi;
     // TODO: This search needs to be expanded to all NPCs
     for( auto elem : follower_ids ) {
@@ -3045,8 +3069,8 @@ void game::disp_NPC_epilogues()
 void game::disp_faction_ends()
 {
     catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                           std::max( 0, ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ),
-                           std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ) );
+                           point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ),
+                                  std::max( 0, ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
     std::vector<std::string> data;
 
     for( const faction &elem : faction_manager_ptr->all() ) {
@@ -3156,8 +3180,8 @@ struct npc_dist_to_player {
 void game::disp_NPCs()
 {
     catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                           TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                           TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+                           point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                                  TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
 
     const tripoint ppos = u.global_omt_location();
     const tripoint &lpos = u.pos();
@@ -3242,17 +3266,19 @@ void game::draw_panels( size_t column, size_t index, bool force_draw )
             h += spacer;
             if( panel.toggle && panel.render() && h > 0 ) {
                 if( panel.always_draw || draw_this_turn ) {
-                    panel.draw( u, catacurses::newwin( h, panel.get_width(), y,
-                                                       sidebar_right ? TERMX - panel.get_width() : 0 ) );
+                    panel.draw( u, catacurses::newwin( h, panel.get_width(),
+                                                       point( sidebar_right ? TERMX - panel.get_width() : 0, y ) ) );
                 }
                 if( show_panel_adm ) {
-                    auto label = catacurses::newwin( 1, panel.get_name().length(), y, sidebar_right ?
-                                                     TERMX - panel.get_width() - panel.get_name().length() - 1 : panel.get_width() + 1 );
+                    const std::string panel_name = _( panel.get_name() );
+                    const int panel_name_width = utf8_width( panel_name );
+                    auto label = catacurses::newwin( 1, panel_name_width, point( sidebar_right ?
+                                                     TERMX - panel.get_width() - panel_name_width - 1 : panel.get_width() + 1, y ) );
                     werase( label );
-                    mvwprintz( label, 0, 0, c_light_red, _( panel.get_name() ) );
+                    mvwprintz( label, 0, 0, c_light_red, panel_name );
                     wrefresh( label );
-                    label = catacurses::newwin( h, 1, y,
-                                                sidebar_right ? TERMX - panel.get_width() - 1 : panel.get_width() );
+                    label = catacurses::newwin( h, 1,
+                                                point( sidebar_right ? TERMX - panel.get_width() - 1 : panel.get_width(), y ) );
                     werase( label );
                     if( h == 1 ) {
                         mvwputch( label, 0, 0, c_light_red, LINE_OXOX );
@@ -3301,7 +3327,7 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
         return;
     }
     if( u.sees( critter ) || &critter == &u ) {
-        critter.draw( w_terrain, center.x, center.y, false );
+        critter.draw( w_terrain, center.xy(), false );
         return;
     }
 
@@ -3384,7 +3410,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         draw_veh_dir_indicator( true );
     }
     // Place the cursor over the player as is expected by screen readers.
-    wmove( w_terrain, POSY + g->u.pos().y - center.y, POSX + g->u.pos().x - center.x );
+    wmove( w_terrain, point( POSX + g->u.pos().x - center.x, POSY + g->u.pos().y - center.y ) );
 }
 
 cata::optional<tripoint> game::get_veh_dir_indicator_location( bool next ) const
@@ -5161,7 +5187,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         }
     }
 
-    m.ter_set( x, y, door_type );
+    m.ter_set( point( x, y ), door_type );
     if( m.has_flag( "NOITEM", x, y ) ) {
         map_stack items = m.i_at( x, y );
         for( map_stack::iterator it = items.begin(); it != items.end(); ) {
@@ -5437,7 +5463,7 @@ void game::examine()
     u.manual_examine = false;
 }
 
-static const std::string get_fire_fuel_string( const tripoint &examp )
+static std::string get_fire_fuel_string( const tripoint &examp )
 {
     if( g->m.has_flag( TFLAG_FIRE_CONTAINER, examp ) ) {
         field_entry *fire = g->m.get_field( examp, fd_fire );
@@ -5782,7 +5808,7 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
     }
     auto this_sound = sounds::sound_at( lp );
     if( !this_sound.empty() ) {
-        mvwprintw( w_look, ++line, 1, _( "You heard %s from here." ), this_sound );
+        mvwprintw( w_look, point( 1, ++line ), _( "You heard %s from here." ), this_sound );
     } else {
         // Check other z-levels
         tripoint tmp = lp;
@@ -5793,7 +5819,7 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
 
             auto zlev_sound = sounds::sound_at( tmp );
             if( !zlev_sound.empty() ) {
-                mvwprintw( w_look, ++line, 1, tmp.z > lp.z ?
+                mvwprintw( w_look, point( 1, ++line ), tmp.z > lp.z ?
                            _( "You heard %s from above." ) : _( "You heard %s from below." ), zlev_sound );
             }
         }
@@ -5825,7 +5851,7 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
             break;
     }
 
-    mvwprintw( w_look, column, line, visibility_message );
+    mvwprintw( w_look, point( line, column ), visibility_message );
     line += 2;
 }
 
@@ -5850,7 +5876,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
         const auto ll = get_light_level( std::max( 1.0,
                                          LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + 1.0 ) );
-        mvwprintw( w_look, ++lines, column, _( "Lighting: " ) );
+        mvwprintw( w_look, point( column, ++lines ), _( "Lighting: " ) );
         wprintz( w_look, ll.second, ll.first );
     }
 
@@ -5862,7 +5888,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
     if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && !m.has_floor( lp ) ) {
         // Print info about stuff below
-        tripoint below( lp.x, lp.y, lp.z - 1 );
+        tripoint below( lp.xy(), lp.z - 1 );
         std::string tile_below = m.tername( below );
         if( m.has_furn( below ) ) {
             tile_below += "; " + m.furnname( below );
@@ -5937,7 +5963,7 @@ void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurse
                                const int column, int &line, const int last_line )
 {
     if( veh ) {
-        mvwprintw( w_look, ++line, column, _( "There is a %s there. Parts:" ), veh->name );
+        mvwprintw( w_look, point( column, ++line ), _( "There is a %s there. Parts:" ), veh->name );
         line = veh->print_part_list( w_look, ++line, last_line, getmaxx( w_look ), veh_part );
     }
 }
@@ -5979,7 +6005,7 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
     if( !m.sees_some_items( lp, u ) ) {
         return;
     } else if( m.has_flag( "CONTAINER", lp ) && !m.could_see_items( lp, u ) ) {
-        mvwprintw( w_look, ++line, column, _( "You cannot see what is inside of it." ) );
+        mvwprintw( w_look, point( column, ++line ), _( "You cannot see what is inside of it." ) );
     } else if( u.has_effect( effect_blind ) || u.worn_with_flag( "BLIND" ) ) {
         mvwprintz( w_look, ++line, column, c_yellow,
                    _( "There's something there, but you can't see what it is." ) );
@@ -6127,15 +6153,15 @@ void game::zones_manager()
                         TERMX + VIEW_OFFSET_X - width : VIEW_OFFSET_X;
     int w_zone_height = TERMY - zone_ui_height - VIEW_OFFSET_Y * 2;
     catacurses::window w_zones = catacurses::newwin( w_zone_height - 2, width - 2,
-                                 VIEW_OFFSET_Y + 1, offsetX + 1 );
+                                 point( offsetX + 1, VIEW_OFFSET_Y + 1 ) );
     catacurses::window w_zones_border = catacurses::newwin( w_zone_height, width,
-                                        VIEW_OFFSET_Y, offsetX );
+                                        point( offsetX, VIEW_OFFSET_Y ) );
     catacurses::window w_zones_info = catacurses::newwin( zone_ui_height - zone_options_height - 1,
-                                      width - 2, w_zone_height + VIEW_OFFSET_Y, offsetX + 1 );
+                                      width - 2, point( offsetX + 1, w_zone_height + VIEW_OFFSET_Y ) );
     catacurses::window w_zones_info_border = catacurses::newwin( zone_ui_height, width,
-            w_zone_height + VIEW_OFFSET_Y, offsetX );
+            point( offsetX, w_zone_height + VIEW_OFFSET_Y ) );
     catacurses::window w_zones_options = catacurses::newwin( zone_options_height - 1, width - 2,
-                                         TERMY - zone_options_height - VIEW_OFFSET_Y, offsetX + 1 );
+                                         point( offsetX + 1, TERMY - zone_options_height - VIEW_OFFSET_Y ) );
 
     zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
     zones_manager_shortcuts( w_zones_info );
@@ -6634,7 +6660,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
         int la_x = TERMX - panel_width;
         int la_h = height;
         int la_w = panel_width;
-        w_info = catacurses::newwin( la_h, la_w, la_y, la_x );
+        w_info = catacurses::newwin( la_h, la_w, point( la_x, la_y ) );
         bNewWindow = true;
     }
 
@@ -7180,11 +7206,11 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     const int offsetX = TERMX - VIEW_OFFSET_X - width;
 
     catacurses::window w_items = catacurses::newwin( TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2,
-                                 width - 2, VIEW_OFFSET_Y + 1, offsetX + 1 );
+                                 width - 2, point( offsetX + 1, VIEW_OFFSET_Y + 1 ) );
     catacurses::window w_items_border = catacurses::newwin( TERMY - iInfoHeight - VIEW_OFFSET_Y * 2,
-                                        width, VIEW_OFFSET_Y, offsetX );
+                                        width, point( offsetX, VIEW_OFFSET_Y ) );
     catacurses::window w_item_info = catacurses::newwin( iInfoHeight, width,
-                                     TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX );
+                                     point( offsetX, TERMY - iInfoHeight - VIEW_OFFSET_Y ) );
 
     // use previously selected sorting method
     bool sort_radius = uistate.list_item_sort != 2;
@@ -7544,13 +7570,13 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     const int width = 45;
     const int offsetX = TERMX - VIEW_OFFSET_X - width; //VIEW_OFFSET_X;
     catacurses::window w_monsters = catacurses::newwin( TERMY - iInfoHeight - VIEW_OFFSET_Y * 2,
-                                    width - 2, VIEW_OFFSET_Y + 1, offsetX + 1 );
+                                    width - 2, point( offsetX + 1, VIEW_OFFSET_Y + 1 ) );
     catacurses::window w_monsters_border = catacurses::newwin( TERMY - iInfoHeight - VIEW_OFFSET_Y * 2,
-                                           width, VIEW_OFFSET_Y, offsetX );
+                                           width, point( offsetX, VIEW_OFFSET_Y ) );
     catacurses::window w_monster_info = catacurses::newwin( iInfoHeight - 1, width - 2,
-                                        TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX + 1 );
+                                        point( offsetX + 1, TERMY - iInfoHeight - VIEW_OFFSET_Y ) );
     catacurses::window w_monster_info_border = catacurses::newwin( iInfoHeight, width + 1,
-            TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX );
+            point( offsetX, TERMY - iInfoHeight - VIEW_OFFSET_Y ) );
 
     const int max_gun_range = u.weapon.gun_range( &u );
 
@@ -7805,7 +7831,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             mvwputch( w_monster_info_border, iInfoHeight - 1, j, c_light_gray, LINE_OXOX );
         }
 
-        mvwhline( w_monsters, getmaxy( w_monsters ) - 2, 0, 0, 45 );
+        mvwhline( w_monsters, point( 0, getmaxy( w_monsters ) - 2 ), 0, 45 );
 
         for( int i = 1; i < getmaxy( w_monsters ) - 1; i++ ) {
             mvwputch( w_monsters_border, i, 0, BORDER_COLOR, LINE_XOXO ); // |
@@ -9024,8 +9050,10 @@ bool game::walk_move( const tripoint &dest_loc )
             add_msg( m_warning, _( "You cannot pass obstacles whilst mounted." ) );
             return false;
         }
-        u.moves -= static_cast<int>( ceil( ( u.run_cost( mcost,
-                                             diag ) * 100.0 / crit->get_speed() ) + ( ( u.get_weight() / 120_gram ) / 40 ) ) );
+        const double base_moves =
+            u.run_cost( mcost, diag ) * 100.0 / crit->get_speed();
+        const double encumb_moves = u.get_weight() * 1.0 / 480_gram;
+        u.moves -= static_cast<int>( ceil( base_moves + encumb_moves ) );
         if( u.movement_mode_is( PMM_WALK ) ) {
             crit->use_mech_power( -2 );
         } else if( u.movement_mode_is( PMM_CROUCH ) ) {
@@ -9226,7 +9254,7 @@ point game::place_player( const tripoint &dest_loc )
         }
     }
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
-    if( m.has_flag( "SHARP", dest_loc ) && !one_in( 3 ) && !x_in_y( 1 + u.dex_cur / 2, 40 ) &&
+    if( m.has_flag( "SHARP", dest_loc ) && !one_in( 3 ) && !x_in_y( 1 + u.dex_cur / 2.0, 40 ) &&
         ( !u.in_vehicle ) && ( !u.has_trait( trait_PARKOUR ) || one_in( 4 ) ) ) {
         if( u.is_mounted() ) {
             add_msg( _( "Your %s gets cut!" ), u.mounted_creature->get_name() );
@@ -9289,7 +9317,7 @@ point game::place_player( const tripoint &dest_loc )
                     add_msg( _( "You push the %s out of the way." ), critter.name() );
                 } else {
                     add_msg( _( "There is no room to push the %s out of the way." ), critter.name() );
-                    return point( u.pos().x, u.pos().y );
+                    return u.pos().xy();
                 }
             } else {
                 critter.move_to( u.pos(), true ); // Force the movement even though the player is there right now.
@@ -9534,7 +9562,7 @@ void game::place_player_overmap( const tripoint &om_dest )
     // offset because load_map expects the coordinates of the top left corner, but the
     // player will be centered in the middle of the map.
     const tripoint map_om_pos( om_dest.x * 2 - HALF_MAPSIZE, om_dest.y * 2 - HALF_MAPSIZE, om_dest.z );
-    const tripoint player_pos( u.pos().x, u.pos().y, map_om_pos.z );
+    const tripoint player_pos( u.pos().xy(), map_om_pos.z );
     load_map( map_om_pos );
     load_npcs();
     m.spawn_monsters( true ); // Static monsters
@@ -10167,7 +10195,7 @@ void game::vertical_move( int movez, bool force )
     if( m.has_zlevels() ) {
         // We no longer need to shift the map here! What joy
     } else {
-        maybetmp.load( get_levx(), get_levy(), z_after, false );
+        maybetmp.load( tripoint( get_levx(), get_levy(), z_after ), false );
     }
 
     // Find the corresponding staircase
@@ -10192,11 +10220,10 @@ void game::vertical_move( int movez, bool force )
         stored_mount = *u.mounted_creature.get();
     }
     if( !m.has_zlevels() ) {
-        const int to_x = u.posx();
-        const int to_y = u.posy();
+        const tripoint to = u.pos();
         for( monster &critter : all_monsters() ) {
-            int turns = critter.turns_to_reach( to_x, to_y );
-            if( turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach( to_x, to_y )
+            int turns = critter.turns_to_reach( to.xy() );
+            if( turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach( to.xy() )
                 && !slippedpast ) {
                 critter.staircount = 10 + turns;
                 critter.on_unload();
@@ -10345,7 +10372,7 @@ void game::vertical_move( int movez, bool force )
 cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder )
 {
     const int omtilesz = SEEX * 2;
-    real_coords rc( m.getabs( u.posx(), u.posy() ) );
+    real_coords rc( m.getabs( point( u.posx(), u.posy() ) ) );
     tripoint omtile_align_start( m.getlocal( rc.begin_om_pos() ), z_after );
     tripoint omtile_align_end( omtile_align_start.x + omtilesz - 1, omtile_align_start.y + omtilesz - 1,
                                omtile_align_start.z );
@@ -10489,7 +10516,7 @@ void game::vertical_shift( const int z_after )
         m.access_cache( z_before ).zone_vehicles.clear();
         m.set_transparency_cache_dirty( z_before );
         m.set_outside_cache_dirty( z_before );
-        m.load( get_levx(), get_levy(), z_after, true );
+        m.load( tripoint( get_levx(), get_levy(), z_after ), true );
         shift_monsters( 0, 0, z_after - z_before );
         reload_npcs();
     } else {
@@ -10556,27 +10583,26 @@ point game::update_map( player &p )
 
 point game::update_map( int &x, int &y )
 {
-    int shiftx = 0;
-    int shifty = 0;
+    point shift;
 
     while( x < HALF_MAPSIZE_X ) {
         x += SEEX;
-        shiftx--;
+        shift.x--;
     }
     while( x >= HALF_MAPSIZE_X + SEEX ) {
         x -= SEEX;
-        shiftx++;
+        shift.x++;
     }
     while( y < HALF_MAPSIZE_Y ) {
         y += SEEY;
-        shifty--;
+        shift.y--;
     }
     while( y >= HALF_MAPSIZE_Y + SEEY ) {
         y -= SEEY;
-        shifty++;
+        shift.y++;
     }
 
-    if( shiftx == 0 && shifty == 0 ) {
+    if( shift == point_zero ) {
         // adjust player position
         u.setpos( tripoint( x, y, get_levz() ) );
         // Not actually shifting the submaps, all the stuff below would do nothing
@@ -10584,15 +10610,16 @@ point game::update_map( int &x, int &y )
     }
 
     // this handles loading/unloading submaps that have scrolled on or off the viewport
-    m.shift( shiftx, shifty );
+    m.shift( shift.x, shift.y );
 
     // Shift monsters
-    shift_monsters( shiftx, shifty, 0 );
-    u.shift_destination( -shiftx * SEEX, -shifty * SEEY );
+    shift_monsters( shift.x, shift.y, 0 );
+    const point shift_ms = sm_to_ms_copy( shift );
+    u.shift_destination( -shift_ms );
 
     // Shift NPCs
     for( auto it = active_npc.begin(); it != active_npc.end(); ) {
-        ( *it )->shift( shiftx, shifty );
+        ( *it )->shift( shift.x, shift.y );
         if( ( *it )->posx() < 0 - SEEX * 2 || ( *it )->posy() < 0 - SEEX * 2 ||
             ( *it )->posx() > SEEX * ( MAPSIZE + 2 ) || ( *it )->posy() > SEEY * ( MAPSIZE + 2 ) ) {
             //Remove the npc from the active list. It remains in the overmap list.
@@ -10603,7 +10630,7 @@ point game::update_map( int &x, int &y )
         }
     }
 
-    scent.shift( shiftx * SEEX, shifty * SEEY );
+    scent.shift( shift_ms.x, shift_ms.y );
 
     // Also ensure the player is on current z-level
     // get_levz() should later be removed, when there is no longer such a thing
@@ -10633,7 +10660,7 @@ point game::update_map( int &x, int &y )
     // Update what parts of the world map we can see
     update_overmap_seen();
 
-    return point( shiftx, shifty );
+    return shift;
 }
 
 void game::update_overmap_seen()
@@ -10931,7 +10958,7 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
     }
     for( monster &critter : all_monsters() ) {
         if( shiftx != 0 || shifty != 0 ) {
-            critter.shift( shiftx, shifty );
+            critter.shift( point( shiftx, shifty ) );
         }
 
         if( m.inbounds( critter.pos() ) && ( shiftz == 0 || m.has_zlevels() ) ) {
@@ -11191,7 +11218,7 @@ void intro()
     int maxx = getmaxx( catacurses::stdscr );
     const int minHeight = FULL_SCREEN_HEIGHT;
     const int minWidth = FULL_SCREEN_WIDTH;
-    catacurses::window tmp = catacurses::newwin( minHeight, minWidth, 0, 0 );
+    catacurses::window tmp = catacurses::newwin( minHeight, minWidth, point( 0, 0 ) );
 
     while( maxy < minHeight || maxx < minWidth ) {
         werase( tmp );
@@ -11916,5 +11943,8 @@ std::string game::get_player_base_save_path() const
 
 std::string game::get_world_base_save_path() const
 {
+    if( world_generator->active_world == nullptr ) {
+        return FILENAMES["savedir"];
+    }
     return world_generator->active_world->folder_path();
 }

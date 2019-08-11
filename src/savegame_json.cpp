@@ -1810,6 +1810,9 @@ void monster::load( JsonObject &data )
     horde_attraction = static_cast<monster_horde_attraction>( data.get_int( "horde_attraction", 0 ) );
 
     data.read( "inv", inv );
+    data.read( "dragged_foe_id", dragged_foe_id );
+    dragged_foe = nullptr;
+
     if( data.has_int( "ammo" ) && !type->starting_ammo.empty() ) {
         // Legacy loading for ammo.
         normalize_ammo( data.get_int( "ammo" ) );
@@ -1885,6 +1888,10 @@ void monster::store( JsonOut &json ) const
         json.member( "horde_attraction", horde_attraction );
     }
     json.member( "inv", inv );
+
+    if( dragged_foe ) {
+        json.member( "dragged_foe_id", dragged_foe->getID() );
+    }
 
     json.member( "path", path );
 }
@@ -2618,8 +2625,6 @@ void mission::deserialize( JsonIn &jsin )
         type = &mission_type::get_all().front();
     }
 
-    jo.read( "description", description );
-
     bool failed;
     bool was_started;
     std::string status_string;
@@ -2692,7 +2697,6 @@ void mission::serialize( JsonOut &json ) const
     json.start_object();
 
     json.member( "type_id", type->id );
-    json.member( "description", description );
     json.member( "status", status_to_string( status ) );
     json.member( "value", value );
     json.member( "reward", reward );

@@ -164,7 +164,7 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
         // Its effect is meant to be cosmetic and atmospheric only.
         bool has_signage( const point &p ) const;
         // Dependent on furniture + cosmetics.
-        const std::string get_signage( const point &p ) const;
+        std::string get_signage( const point &p ) const;
         // Can be used anytime (prevents code from needing to place sign first.)
         void set_signage( const point &p, const std::string &s );
         // Can be used anytime (prevents code from needing to place sign first.)
@@ -280,7 +280,7 @@ struct maptile {
             return sm->has_signage( pos() );
         }
 
-        const std::string get_signage() const {
+        std::string get_signage() const {
             return sm->get_signage( pos() );
         }
 

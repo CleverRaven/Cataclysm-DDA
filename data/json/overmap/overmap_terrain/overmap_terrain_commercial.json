@@ -227,6 +227,126 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "office_tower_collapse_a0",
+    "name": "collapsed tower",
+    "sym": "t",
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_tower_collapse_a1",
+    "name": "office tower",
+    "sym": "t",
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_tower_collapse_a2",
+    "name": "collapsed tower",
+    "sym": "O",
+    "color": "light_gray",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_tower_collapse_b0",
+    "name": "collapsed tower",
+    "sym": "t",
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_tower_collapse_b1",
+    "name": "collapsed tower",
+    "sym": "t",
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_tower_collapse_b2",
+    "name": "collapsed tower",
+    "sym": "T",
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_tower_collapse_b_a0",
+    "name": "collapsed tower",
+    "sym": "t",
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_tower_collapse_b_a1",
+    "name": "office tower",
+    "sym": "t",
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_tower_collapse_b_a2",
+    "name": "collapsed tower",
+    "sym": "t",
+    "color": "light_gray",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_tower_collapse_b_b0",
+    "name": "collapsed tower",
+    "sym": "t",
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_tower_collapse_b_b1",
+    "name": "collapsed tower",
+    "sym": "t",
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_tower_collapse_b_b2",
+    "name": "collapsed tower",
+    "sym": "t",
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "office_tower_2_a1_tower_lab",
     "name": "office tower",
     "sym": "t",
@@ -2593,5 +2713,21 @@
     "name": "empty commercial lot",
     "sym": "O",
     "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_hunting",
+    "copy-from": "generic_city_building",
+    "name": "hunting supply store",
+    "sym": "H",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_hunting_roof",
+    "copy-from": "generic_city_building",
+    "name": "hunting supply store roof",
+    "sym": "H",
+    "color": "brown"
   }
 ]

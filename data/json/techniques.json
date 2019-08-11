@@ -422,6 +422,107 @@
   },
   {
     "type": "technique",
+    "id": "tec_capoeira_feint",
+    "name": "Feint",
+    "messages": [ "You fake a kick at %s", "<npcname> fakes a kick at %s" ],
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "miss_recovery": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_capoeira_pushkick",
+    "name": "Push Kick",
+    "messages": [ "You push kick %s", "<npcname> push kicks %s" ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_capoeira_circlekick",
+    "name": "Circle Kick",
+    "messages": [ "You circle kick %s", "<npcname> circle kicks %s" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.4 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_capoeira_sweepkick",
+    "name": "Sweep Kick",
+    "messages": [ "You sweep kick %s", "<npcname> sweep kicks %s" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "req_buffs": [ "buff_capoeira_onmove" ],
+    "weighting": 2,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.75 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_capoeira_spinkick",
+    "name": "Spin Kick",
+    "messages": [ "You spin kick %s", "<npcname> spin kicks %s" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "req_buffs": [ "buff_capoeira_onmove" ],
+    "weighting": 2,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.75 ], [ "damage", "bash", 1.4 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_crane_feint",
+    "name": "Crane Wing",
+    "messages": [ "You raise your arms intimidatingly at %s.", "<npcname> performs the Crane Wing at %s." ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "miss_recovery": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_crane_break",
+    "name": "Crane Flap",
+    "messages": [
+      "The %s tries to grab you, but you swing your arms and break free!",
+      "The %s tries to grab <npcname>, but they flap free!"
+    ],
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_crane_counter",
+    "name": "Crane Strike",
+    "messages": [ "You hand-peck and swat down %s", "<npcname> hand-pecks and swats down %s" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "dodge_counter": true,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_crane_precise",
+    "name": "Crane Kick",
+    "messages": [ "You leap and kick %s", "<npcname> leaps and kicks %s" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "knockback_dist": 1,
+    "knockback_spread": 1,
+    "stun_dur": 2,
+    "mult_bonuses": [ [ "damage", "bash", 1.25 ] ]
+  },
+  {
+    "type": "technique",
     "id": "tec_karate_rapid",
     "name": "quick punch",
     "min_unarmed": 0,
@@ -547,16 +648,6 @@
     "crit_tec": true,
     "stun_dur": 2,
     "messages": [ "You strike %s", "<npcname> strikes %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_capoeira_feint",
-    "name": "feint at",
-    "min_unarmed": 1,
-    "unarmed_allowed": true,
-    "defensive": true,
-    "miss_recovery": true,
-    "messages": [ "You feint at %s", "<npcname> feints at %s" ]
   },
   {
     "type": "technique",
@@ -943,39 +1034,6 @@
     "stun_dur": 1,
     "knockback_dist": 1,
     "messages": [ "You send %s reeling with a Dragon Strike", "<npcname> sends %s reeling with a Dragon Strike" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_crane_feint",
-    "name": "Crane Wing",
-    "min_unarmed": 2,
-    "unarmed_allowed": true,
-    "defensive": true,
-    "miss_recovery": true,
-    "messages": [ "You raise your arms intimidatingly at %s.", "<npcname> performs the Crane Wing at %s." ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_crane_break",
-    "name": "Crane Flap",
-    "min_unarmed": 3,
-    "unarmed_allowed": true,
-    "defensive": true,
-    "grab_break": true,
-    "messages": [
-      "The %s tries to grab you, but you swing your arms and break free!",
-      "The %s tries to grab <npcname>, but they flap free!"
-    ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_crane_precise",
-    "name": "Crane Strike",
-    "min_unarmed": 4,
-    "unarmed_allowed": true,
-    "crit_tec": true,
-    "messages": [ "You hand-peck %s", "<npcname> hand-pecks %s" ],
-    "stun_dur": 3
   },
   {
     "type": "technique",

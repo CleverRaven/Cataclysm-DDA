@@ -282,7 +282,7 @@ int rl_dist( const int x1, const int y1, const int x2, const int y2 )
 
 int rl_dist( const point &a, const point &b )
 {
-    return rl_dist( tripoint( a.x, a.y, 0 ), tripoint( b.x, b.y, 0 ) );
+    return rl_dist( tripoint( a, 0 ), tripoint( b, 0 ) );
 }
 
 int rl_dist( const tripoint &loc1, const tripoint &loc2 )
@@ -438,7 +438,7 @@ point direction_XY( const direction dir )
 
 namespace
 {
-const std::string direction_name_impl( const direction dir, const bool short_name )
+std::string direction_name_impl( const direction dir, const bool short_name )
 {
     enum : int { size = 3 * 3 * 3 };
     static const auto names = [] {
@@ -487,12 +487,12 @@ const std::string direction_name_impl( const direction dir, const bool short_nam
 }
 } //namespace
 
-const std::string direction_name( const direction dir )
+std::string direction_name( const direction dir )
 {
     return direction_name_impl( dir, false );
 }
 
-const std::string direction_name_short( const direction dir )
+std::string direction_name_short( const direction dir )
 {
     return direction_name_impl( dir, true );
 }
