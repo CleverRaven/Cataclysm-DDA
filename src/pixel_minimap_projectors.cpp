@@ -1,3 +1,5 @@
+#if defined(TILES)
+
 #include "pixel_minimap_projectors.h"
 
 #include "game_constants.h"
@@ -94,3 +96,5 @@ point pixel_minimap_iso_projector::get_tile_pos( const point &p, const point &ti
         tile_size.y *( tiles_count.y + p.y - p.x - 1 ) / 2,
     };
 }
+
+#endif // TILES
