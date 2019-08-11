@@ -4273,8 +4273,8 @@ int iuse::hand_crank_air( player *p, item *it, bool, const tripoint & )
     if( magazine && magazine->has_flag( "RECHARGE_AIR" ) ) {
         int time = to_moves<int>( 1600_minutes );
         if( it->ammo_capacity() > it->ammo_remaining() ) {
-            p->add_msg_if_player( string_format( _( "You start cranking the %s to charge its %s." ),
-                                                 it->tname(), it->magazine_current()->tname() ) ) ;
+            p->add_msg_if_player( ( "You start cranking the %s to charge its %s." ),
+                                                 it->tname(), it->magazine_current()->tname() ) ;
             p->assign_activity( activity_id( "ACT_HAND_CRANK_AIR" ), time, -1, p->get_item_position( it ),
                                 "hand-cranking-air" );
         } else {

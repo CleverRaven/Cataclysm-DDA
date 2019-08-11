@@ -818,7 +818,7 @@ int visitable<inventory>::charges_of( const std::string &what, int limit,
     }
     if( what == "compressed_air" ) {
         int qty = 0;
-        int qty = charges_of( "compressed_air_container" );
+        qty = charges_of( "compressed_air_container" );
         return std::min( qty, limit );
     }
     const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
@@ -866,7 +866,7 @@ int visitable<Character>::charges_of( const std::string &what, int limit,
 
     if( what == "compressed_air" ) {
         int qty = 0;
-        qty = sum_no_wrap( qty, charges_of( "compressed_air_container" ) );
+        qty = charges_of( "compressed_air_container" );
         return std::min( qty, limit );
     }
 

@@ -327,8 +327,8 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     }
 
     if( !gun.has_flag( "VEHICLE" ) && gun.get_gun_compressed_air_drain() > 0 ) {
-        shots = std::min( shots, static_cast<int>( charges_of( "compressed_air" ) /
-                          gun.get_gun_compressed_air_drain() ) );
+        shots = std::min( shots, charges_of( "compressed_air" ) /
+                          gun.get_gun_compressed_air_drain() );
     }
 
     if( shots <= 0 ) {
