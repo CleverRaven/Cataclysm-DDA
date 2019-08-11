@@ -56,9 +56,9 @@ class trading_window
         trading_window() = default;
         std::vector<item_pricing> theirs;
         std::vector<item_pricing> yours;
-        bool exchange;
+        bool is_free_exchange; // Eg: Exchange between allies
         int u_get;
-        int npc_requires;
+        int max_credit_npc_will_extend;
 
         void setup_win( npc &np );
         void setup_trade( int cost, npc &np );
