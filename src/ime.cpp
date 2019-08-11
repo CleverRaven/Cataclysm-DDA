@@ -95,6 +95,7 @@ static bool ime_enabled()
 #elif defined( _WIN32 )
     return imm.ime_enabled();
 #endif
+    return false;
     // TODO: other platforms?
 }
 
