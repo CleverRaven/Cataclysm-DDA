@@ -9,7 +9,7 @@ void enable_ime();
 void disable_ime();
 
 /**
- * used before text input to enable IME and auto-disable IME when leaving the scope
+ * used before text input to change IME mode and auto-restore IME mode when leaving the scope
  */
 class ime_sentry
 {
