@@ -113,7 +113,6 @@
     "description": "Take it easy!  You are a bit slower all around, but you are better at conserving your energy.",
     "starting_trait": true,
     "cancels": [ "QUICK" ],
-    "category": [ "PLANT", "LIZARD" ],
     "speed_modifier": 0.9,
     "stamina_regen_modifier": 0.2
   },
