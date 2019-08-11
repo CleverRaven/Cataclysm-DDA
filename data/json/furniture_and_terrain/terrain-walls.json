@@ -911,6 +911,52 @@
   },
   {
     "type": "terrain",
+    "id": "t_laminated_glass",
+    "aliases": [ "t_laminated_glass_h", "t_laminated_glass_v" ],
+    "name": "laminated glass",
+    "looks_like": "t_reinforced_glass",
+    "description": "Laminated glass is composed layers of glass and plastic held together by an interlayer.",
+    "symbol": "LINE_OXOX",
+    "color": "light_cyan",
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 100,
+      "str_max": 180,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 20,
+      "sound_fail_vol": 14,
+      "ter_set": "t_floor",
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_ballistic_glass",
+    "aliases": [ "t_ballistic_glass_h", "t_ballistic_glass_v" ],
+    "name": "ballistic glass",
+    "looks_like": "t_reinforced_glass",
+    "description": "Ballistic glass consists of layers of laminated glass.",
+    "symbol": "LINE_OXOX",
+    "color": "light_cyan",
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 200,
+      "str_max": 400,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 20,
+      "sound_fail_vol": 14,
+      "ter_set": "t_floor",
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_reinforced_glass",
     "aliases": [ "t_reinforced_glass_h", "t_reinforced_glass_v" ],
     "name": "reinforced glass",
