@@ -1811,7 +1811,6 @@ void monster::load( JsonObject &data )
 
     data.read( "inv", inv );
     data.read( "dragged_foe_id", dragged_foe_id );
-    dragged_foe = nullptr;
 
     if( data.has_int( "ammo" ) && !type->starting_ammo.empty() ) {
         // Legacy loading for ammo.
@@ -1889,10 +1888,7 @@ void monster::store( JsonOut &json ) const
     }
     json.member( "inv", inv );
 
-    if( dragged_foe ) {
-        json.member( "dragged_foe_id", dragged_foe->getID() );
-    }
-
+    json.member( "dragged_foe_id", dragged_foe_id );
     json.member( "path", path );
 }
 

@@ -419,8 +419,7 @@ class monster : public Creature
         tripoint wander_pos; // Wander destination - Just try to move in that direction
         int wandf;           // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
-        player *dragged_foe; // player being dragged by the monster
-        int dragged_foe_id; // id of player being dragged by the monster (for save/load)
+        int dragged_foe_id = -1; // id of player being dragged by the monster
         cata::optional<item> tied_item; // item used to tie the monster
         cata::optional<item> battery_item; // item to power mechs
         // DEFINING VALUES
@@ -524,6 +523,9 @@ class monster : public Creature
         std::vector<tripoint> path;
         std::bitset<NUM_MEFF> effect_cache;
         cata::optional<time_duration> summon_time_limit = cata::nullopt;
+
+        player *find_dragged_foe();
+        void nursebot_operate( player *dragged_foe );
 
     protected:
         void store( JsonOut &jsout ) const;

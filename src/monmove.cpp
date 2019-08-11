@@ -601,54 +601,11 @@ void monster::move()
         }
     }
 
-    // dragged_foe: restore pointer by saved id if required
-    if( dragged_foe_id >= 0 ) {
-        dragged_foe = g->critter_by_id<player>( dragged_foe_id );
-        dragged_foe_id = 0;
-    }
-    // defective nursebot surgery code
-    if( type->has_special_attack( "OPERATE" ) && has_effect( effect_dragging ) &&
-        dragged_foe != nullptr ) {
+    // Check if they're dragging a foe and find their hapless victim
+    player *dragged_foe = find_dragged_foe();
 
-        if( rl_dist( pos(), goal ) == 1 && g->m.furn( goal ) == furn_id( "f_autodoc_couch" ) &&
-            !has_effect( effect_operating ) ) {
-            if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
-                ( g->critter_at( goal ) == nullptr || g->critter_at( goal ) == dragged_foe ) ) {
-                add_msg( m_bad, _( "The %1$s slowly but firmly puts %2$s down onto the autodoc couch." ), name(),
-                         dragged_foe->disp_name() );
-
-                dragged_foe->setpos( goal );
-
-                add_effect( effect_countdown, 2_turns );// there's still time to get away
-                add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
-            } else if( g->critter_at( goal ) != nullptr && has_effect( effect_dragging ) ) {
-                sounds::sound( pos(), 8, sounds::sound_t::speech,
-                               string_format(
-                                   _( "a soft robotic voice say, \"Please step away from the autodoc, this patient needs immediate care.\"" ) ) );
-                // TODO: Make it able to push NPC/player
-                push_to( goal, 4, 0 );
-            }
-        }
-        if( get_effect_dur( effect_countdown ) == 1_turns && !has_effect( effect_operating ) ) {
-            if( dragged_foe->has_effect( effect_grabbed ) ) {
-
-                bionic_collection collec = *dragged_foe->my_bionics;
-                int index = rng( 0, collec.size() - 1 );
-                bionic target_cbm = collec[index];
-
-                //8 intelligence*4 + 8 first aid*4 + 3 computer *3 + 4 electronic*1 = 77
-                float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ),
-                                       static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
-
-                g->u.uninstall_bionic( target_cbm, *this, *dragged_foe, adjusted_skill );
-
-                dragged_foe->remove_effect( effect_grabbed );
-                remove_effect( effect_dragging );
-                dragged_foe = nullptr;
-
-            }
-        }
-    }
+    // Give nursebots a chance to do surgery.
+    nursebot_operate( dragged_foe );
 
     // The monster can sometimes hang in air due to last fall being blocked
     const bool can_fly = has_flag( MF_FLIES );
@@ -926,6 +883,81 @@ void monster::move()
         moves -= 100;
         stumble();
         path.clear();
+    }
+}
+
+player *monster::find_dragged_foe()
+{
+    // Make sure they're actually dragging someone.
+    if( dragged_foe_id < 0 || !has_effect( effect_dragging ) ) {
+        dragged_foe_id = -1;
+        return nullptr;
+    }
+
+    // Dragged critters may die or otherwise become invalid, which is why we look
+    // them up each time. Luckily, monsters dragging critters is relatively rare,
+    // so this check should happen infrequently.
+    player *dragged_foe = g->critter_by_id<player>( dragged_foe_id );
+
+    if( dragged_foe == nullptr ) {
+        // Target no longer valid.
+        dragged_foe_id = -1;
+        remove_effect( effect_dragging );
+    }
+
+    return dragged_foe;
+}
+
+// Nursebot surgery code
+void monster::nursebot_operate( player *dragged_foe )
+{
+    // No dragged foe, nothing to do.
+    if( dragged_foe == nullptr ) {
+        return;
+    }
+
+    // Nothing to do if they can't operate, or they don't think they're dragging.
+    if( !( type->has_special_attack( "OPERATE" ) && has_effect( effect_dragging ) ) ) {
+        return;
+    }
+
+    if( rl_dist( pos(), goal ) == 1 && g->m.furn( goal ) == furn_id( "f_autodoc_couch" ) &&
+        !has_effect( effect_operating ) ) {
+        if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
+            ( g->critter_at( goal ) == nullptr || g->critter_at( goal ) == dragged_foe ) ) {
+            add_msg( m_bad, _( "The %1$s slowly but firmly puts %2$s down onto the autodoc couch." ), name(),
+                     dragged_foe->disp_name() );
+
+            dragged_foe->setpos( goal );
+
+            add_effect( effect_countdown, 2_turns );// there's still time to get away
+            add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
+        } else if( g->critter_at( goal ) != nullptr && has_effect( effect_dragging ) ) {
+            sounds::sound( pos(), 8, sounds::sound_t::speech,
+                           string_format(
+                               _( "a soft robotic voice say, \"Please step away from the autodoc, this patient needs immediate care.\"" ) ) );
+            // TODO: Make it able to push NPC/player
+            push_to( goal, 4, 0 );
+        }
+    }
+    if( get_effect_dur( effect_countdown ) == 1_turns && !has_effect( effect_operating ) ) {
+        if( dragged_foe->has_effect( effect_grabbed ) ) {
+
+            bionic_collection collec = *dragged_foe->my_bionics;
+            int index = rng( 0, collec.size() - 1 );
+            bionic target_cbm = collec[index];
+
+            //8 intelligence*4 + 8 first aid*4 + 3 computer *3 + 4 electronic*1 = 77
+            float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ),
+                                   static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
+
+            g->u.uninstall_bionic( target_cbm, *this, *dragged_foe, adjusted_skill );
+
+            dragged_foe->remove_effect( effect_grabbed );
+            remove_effect( effect_dragging );
+            dragged_foe_id = -1;
+
+        }
     }
 }
 
