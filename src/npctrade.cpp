@@ -447,13 +447,18 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                 show_item_data( np, offset, target_list );
                 ch = ' ';
                 break;
-            case '\n': // Check if the NPC will accept the deal
-                // The player must give more than they get
+            case '\n':
                 if( ! npc_will_accept_trade( np ) ) {
-                    popup(
-                        _( "Sorry, I'm only willing to extend you %s in credit." ),
-                        format_money( np.max_credit_extended() )
-                    );
+
+                    if( np.max_credit_extended() == 0 ) {
+                        popup( _( "You'll need to offer me more than that." ) );
+                    } else {
+                        popup(
+                            _( "Sorry, I'm only willing to extend you %s in credit." ),
+                            format_money( np.max_credit_extended() )
+                        );
+                    }
+
                     update = true;
                     ch = ' ';
                 } else if( volume_left < 0_ml || weight_left < 0_gram ) {
@@ -461,6 +466,22 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                     popup( _( "%s can't carry all that." ), np.name );
                     update = true;
                     ch = ' ';
+                } else if( calc_npc_owes_you( np ) < your_balance ) {
+                    // NPC is happy with the trade, but isn't willing to remember the whole debt.
+                    const bool trade_ok = query_yn(
+                                              _( "I'm never going to be able to pay you back for all that. The most I'm willing to owe you is %s.\n\nContinue with trade?" ),
+                                              format_money( np.max_willing_to_owe() )
+                                          );
+
+                    if( ! trade_ok ) {
+                        update = true;
+                        ch = ' ';
+                    }
+                } else {
+                    if( ! query_yn( _( "Looks like a deal! Accept this trade?" ) ) ) {
+                        update = true;
+                        ch = ' ';
+                    }
                 }
                 break;
             default: // Letters & such
