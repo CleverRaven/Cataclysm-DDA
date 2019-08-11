@@ -1833,8 +1833,10 @@ void player::add_bionic( const bionic_id &b )
 
     int pow_up = bionics[b].capacity;
     max_power_level += pow_up;
-    if( b == "bio_power_storage" || b == "bio_power_storage_mkII" ) {
+    if( pow_up > 0 ) {
         add_msg_if_player( m_good, _( "Increased storage capacity by %i." ), pow_up );
+    }
+    if( b == "bio_power_storage" || b == "bio_power_storage_mkII" ) {
         // Power Storage CBMs are not real bionic units, so return without adding it to my_bionics
         return;
     }
