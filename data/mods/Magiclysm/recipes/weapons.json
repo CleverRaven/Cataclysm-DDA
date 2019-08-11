@@ -71,10 +71,7 @@
     "time": "360 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
-    "components": [
-      [ [ "compositebow", 1 ] ],
-      [ [ "rune_druid", 2 ] ]
-    ]
+    "components": [ [ [ "compositebow", 1 ] ], [ [ "rune_druid", 2 ] ] ]
   },
   {
     "type": "recipe",
