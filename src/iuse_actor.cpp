@@ -2131,8 +2131,8 @@ void musical_instrument_actor::load( JsonObject &obj )
 int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint & ) const
 {
     if( p.is_mounted() ) {
-        p.add_msg_player_or_npc( m_bad, _( "You can't play music while mounted" ),
-                                 _( "<npcname> can't play music while mounted" ) );
+        p.add_msg_player_or_npc( m_bad, _( "You can't play music while mounted." ),
+                                 _( "<npcname> can't play music while mounted." ) );
         it.active = false;
         return 0;
     }
@@ -2826,8 +2826,8 @@ bool repair_item_actor::can_use_tool( const player &p, const item &tool, bool pr
     }
     if( p.is_mounted() ) {
         if( print_msg ) {
-            p.add_msg_player_or_npc( m_bad, _( "You can't do that while mounted" ),
-                                     _( "<npcname> can't do that while mounted" ) );
+            p.add_msg_player_or_npc( m_bad, _( "You can't do that while mounted." ),
+                                     _( "<npcname> can't do that while mounted." ) );
         }
         return false;
     }
