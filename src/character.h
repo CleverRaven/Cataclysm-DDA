@@ -467,8 +467,6 @@ class Character : public Creature, public visitable<Character>
         bool has_active_bionic( const bionic_id &b ) const;
         /**Returns true if the player has any bionic*/
         bool has_any_bionic() const;
-        /**Returns true if the character has a fueled bionic*/
-        bool has_fueled_bionic() const;
         // route for overmap-scale travelling
         std::vector<tripoint> omt_path;
         // --------------- Generic Item Stuff ---------------

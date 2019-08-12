@@ -334,6 +334,7 @@
     "name": "Ethanol Burner",
     "description": "You burn alcohol as fuel in an extremely efficient reaction.  However, you will still suffer the inebriating effects of the substance.",
     "occupied_bodyparts": [ [ "TORSO", 26 ] ],
+    "fuel_options": [ "chem_ethanol", "denat_alcohol", "chem_methanol" ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {

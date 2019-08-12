@@ -811,16 +811,6 @@ bool Character::has_any_bionic() const
     return !my_bionics->empty();
 }
 
-bool Character::has_fueled_bionic() const
-{
-    for( auto &i : *my_bionics ) {
-        if( !i.info().fuel_opts.empty() ) {
-            return true ;
-        }
-    }
-    return false;
-}
-
 std::vector<item_location> Character::nearby( const
         std::function<bool( const item *, const item * )> &func, int radius ) const
 {
