@@ -170,14 +170,14 @@ struct npc_opinion {
     int fear;
     int value;
     int anger;
-    int owed;
+    int owed; // Positive when the npc owes the player. Negative if player owes them.
 
     npc_opinion() {
         trust = 0;
         fear  = 0;
         value = 0;
         anger = 0;
-        owed = 0;
+        owed  = 0;
     }
 
     npc_opinion( int T, int F, int V, int A, int O ) :
