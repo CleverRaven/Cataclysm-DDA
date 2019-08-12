@@ -41,17 +41,16 @@
       {
         "id": "crt_blade_hit_buff",
         "name": "C.R.I.T Intensity",
-        "description": "+DMG, Atk Spd and Arpen per stack. Max of 5 stacks",
+        "description": "Additional DMG, and Arpen per stack. Max of 5 stacks",
         "unarmed_allowed": false,
         "melee_allowed": true,  
         "min_unarmed": 1,
         "buff_duration": 3,
         "max_stacks": 5,
-        "flat_bonuses": [
-          [ "damage", "stab", 0.01 ],
-          [ "damage", "cut",  0.025 ],
-          [ "arpen", "cut", 0.01 ],
-          [ "movecost", "dex", -0.125 ]
+        "flat_bonuses": [7
+          [ "damage", "stab", 0.5 ],
+          [ "damage", "cut",  0.5 ],
+          [ "arpen", "cut", 2 ]
         ]
       }
     ],
