@@ -7605,10 +7605,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
 
 int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
 {
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot use handcuffs while mounted." ) );
-        return 0;
-    }
+
     if( t ) {
 
         if( g->m.has_flag( "SWIMMABLE", pos.x, pos.y ) ) {
