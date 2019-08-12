@@ -1711,6 +1711,13 @@ void options_manager::add_options_graphics()
 
     get_option( "PIXEL_MINIMAP_HEIGHT" ).setPrerequisite( "PIXEL_MINIMAP" );
 
+    add( "PIXEL_MINIMAP_SCALE_TO_FIT", "graphics", translate_marker( "Scale pixel minimap" ),
+         translate_marker( "Scale pixel minimap to fit its surroundings.  May produce crappy results, especially in modes other than \"Solid\"." ),
+         false, COPT_CURSES_HIDE
+       );
+
+    get_option( "PIXEL_MINIMAP_SCALE_TO_FIT" ).setPrerequisite( "PIXEL_MINIMAP" );
+
     add( "PIXEL_MINIMAP_RATIO", "graphics", translate_marker( "Maintain pixel minimap aspect ratio" ),
          translate_marker( "Preserves the square shape of tiles shown on the pixel minimap." ),
          true, COPT_CURSES_HIDE
@@ -1718,8 +1725,16 @@ void options_manager::add_options_graphics()
 
     get_option( "PIXEL_MINIMAP_RATIO" ).setPrerequisite( "PIXEL_MINIMAP" );
 
-    add( "PIXEL_MINIMAP_BLINK", "graphics", translate_marker( "Enemy beacon blink speed" ),
-         translate_marker( "Controls how fast the enemy beacons blink on the pixel minimap.  Value is multiplied by 200 ms.  Set to 0 to disable." ),
+    add( "PIXEL_MINIMAP_BEACON_SIZE", "graphics",
+         translate_marker( "Creature beacon size" ),
+         translate_marker( "Controls how big the creature beacons are.  Value is in minimap tiles." ),
+         1, 4, 2, COPT_CURSES_HIDE
+       );
+
+    get_option( "PIXEL_MINIMAP_BEACON_SIZE" ).setPrerequisite( "PIXEL_MINIMAP" );
+
+    add( "PIXEL_MINIMAP_BLINK", "graphics", translate_marker( "Hostile creature beacon blink speed" ),
+         translate_marker( "Controls how fast the hostile creature beacons blink on the pixel minimap.  Value is multiplied by 200 ms.  Set to 0 to disable." ),
          0, 50, 10, COPT_CURSES_HIDE
        );
 
@@ -2657,7 +2672,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
             if( iter.first == "PIXEL_MINIMAP_HEIGHT"
                 || iter.first == "PIXEL_MINIMAP_RATIO"
-                || iter.first == "PIXEL_MINIMAP_MODE" ) {
+                || iter.first == "PIXEL_MINIMAP_MODE"
+                || iter.first == "PIXEL_MINIMAP_SCALE_TO_FIT" ) {
                 pixel_minimap_changed = true;
 
             } else if( iter.first == "TILES" || iter.first == "USE_TILES" ) {

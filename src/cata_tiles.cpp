@@ -212,8 +212,10 @@ void cata_tiles::on_options_changed()
 
     settings.mode = pixel_minimap_mode_from_string( get_option<std::string>( "PIXEL_MINIMAP_MODE" ) );
     settings.brightness = get_option<int>( "PIXEL_MINIMAP_BRIGHTNESS" );
-    settings.blink_interval = get_option<int>( "PIXEL_MINIMAP_BLINK" );
+    settings.beacon_size = get_option<int>( "PIXEL_MINIMAP_BEACON_SIZE" );
+    settings.beacon_blink_interval = get_option<int>( "PIXEL_MINIMAP_BLINK" );
     settings.square_pixels = get_option<bool>( "PIXEL_MINIMAP_RATIO" );
+    settings.scale_to_fit = get_option<bool>( "PIXEL_MINIMAP_SCALE_TO_FIT" );
 
     minimap->set_settings( settings );
 }
@@ -249,6 +251,8 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     tileset_ptr = std::move( new_tileset_ptr );
 
     set_draw_scale( 16 );
+
+    minimap->set_type( tile_iso ? pixel_minimap_type::iso : pixel_minimap_type::ortho );
 }
 
 void cata_tiles::reinit()
