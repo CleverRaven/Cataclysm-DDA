@@ -1075,7 +1075,7 @@
     "to_hit": -5,
     "bashing": 4,
     "cutting": 70,
-    "turns_per_charge": 1,
+    "power_draw": 150000,
     "revert_to": "chainsaw_off",
     "techniques": "SWEEP",
     "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
