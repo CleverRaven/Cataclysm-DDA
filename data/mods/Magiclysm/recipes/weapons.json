@@ -1,0 +1,230 @@
+[
+  {
+    "type": "recipe",
+    "result": "rune_magus_weapon",
+    "\\": "Forging and water included for glass heat-tempering process",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 2 ], [ "bashing", 2 ] ],
+    "difficulty": 4,
+    "time": "360 m",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 2 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "tools": [ [ [ "water", -1 ] ], [ [ "tongs", -1 ] ] ],
+    "components": [
+      [ [ "q_staff", 1 ] ],
+      [ [ "jar_glass", 2 ] ],
+      [ [ "rune_magus", 2 ] ],
+      [ [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ], [ "lamp_oil", 250 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "rune_biomancer_weapon",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 2 ], [ "piercing", 2 ] ],
+    "difficulty": 4,
+    "time": "2 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "fire", -1 ] ] ],
+    "components": [
+      [ [ "stick_long", 1 ], [ "pool_cue", 1 ] ],
+      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
+      [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ],
+      [ [ "bone", 3 ], [ "bone_human", 3 ], [ "bone_tainted", 6 ] ],
+      [ [ "rune_biomancer", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "rune_animist_weapon",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 2 ], [ "piercing", 2 ] ],
+    "difficulty": 4,
+    "time": "360 m",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 2 ], [ "steel_tiny", 1 ] ],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "MANA_INFUSE", "level": 1 }
+    ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "rune_animist", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "rune_druid_weapon",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 2 ], [ "archery", 2 ] ],
+    "difficulty": 4,
+    "time": "360 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [ [ [ "compositebow", 1 ] ], [ [ "rune_druid", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "rune_technomancer_weapon",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ [ "spellcraft", 2 ], [ "mechanics", 2 ] ],
+    "time": "360 m",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 14 ], [ "steel_standard", 3 ] ],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "MANA_INFUSE", "level": 1 }
+    ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "rune_technomancer", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "rune_stormshaper_weapon",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ [ "spellcraft", 2 ], [ "bashing", 2 ] ],
+    "time": "360 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "using": [ [ "forging_standard", 5 ] ],
+    "components": [
+      [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "scrap_copper", 10 ], [ "copper", 1000 ] ],
+      [ [ "silver", 100 ] ],
+      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ], [ "duct_tape", 40 ] ],
+      [ [ "rune_stormshaper", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "rune_earthshaper_weapon",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 2 ], [ "bashing", 2 ] ],
+    "difficulty": 4,
+    "time": "360 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [ [ [ "leather", 4 ] ], [ [ "scrap", 8 ] ], [ [ "rune_earthshaper", 1 ] ] ]
+  },
+  {
+    "result": "rune_kelvinist_weapon",
+    "type": "recipe",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "skills_required": [ [ "spellcraft", 2 ], [ "cutting", 2 ] ],
+    "time": "420 m",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 4 ], [ "steel_standard", 2 ] ],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "MANA_INFUSE", "level": 1 }
+    ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "rune_kelvinist", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "animist_doll_zombie",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "tailoring",
+    "skills_required": [ [ "spellcraft", 4 ] ],
+    "difficulty": 4,
+    "time": "120 m",
+    "result_mult": 3,
+    "book_learn": [ [ "necro_basic", 3 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT_FINE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "tools": [ [ [ "rune_alchemist", -1 ], [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ] ] ],
+    "components": [
+      [ [ "brain", 1 ], [ "brain_cooked", 1 ] ],
+      [ [ "lung", 2 ], [ "lung_cooked", 2 ] ],
+      [ [ "stomach", 1 ], [ "hstomach", 1 ] ],
+      [ [ "liver", 1 ], [ "liver_cooked", 1 ] ],
+      [ [ "kidney", 2 ], [ "kidney_cooked", 2 ] ],
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
+      [ [ "sinew", 60 ] ],
+      [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_tainted", 2 ] ],
+      [ [ "bone_needle", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "animist_doll_skeleton",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "tailoring",
+    "skills_required": [ [ "spellcraft", 5 ] ],
+    "difficulty": 5,
+    "time": "180 m",
+    "result_mult": 3,
+    "book_learn": [ [ "necro_basic", 4 ] ],
+    "qualities": [
+      { "id": "SEW", "level": 1 },
+      { "id": "CUT_FINE", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 1 }
+    ],
+    "tools": [ [ [ "rune_alchemist", -1 ], [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ] ] ],
+    "components": [
+      [ [ "brain", 1 ], [ "brain_cooked", 1 ] ],
+      [ [ "lung", 2 ], [ "lung_cooked", 2 ] ],
+      [ [ "stomach", 1 ], [ "hstomach", 1 ] ],
+      [ [ "liver", 1 ], [ "liver_cooked", 1 ] ],
+      [ [ "kidney", 2 ], [ "kidney_cooked", 2 ] ],
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
+      [ [ "sinew", 60 ] ],
+      [ [ "bone", 4 ], [ "bone_human", 4 ], [ "bone_tainted", 8 ] ],
+      [ [ "bone_needle", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "animist_doll_decayed_pouncer",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "tailoring",
+    "skills_required": [ [ "spellcraft", 7 ] ],
+    "difficulty": 7,
+    "time": "210 m",
+    "result_mult": 3,
+    "book_learn": [ [ "necro_basic", 6 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT_FINE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "tools": [ [ [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ] ] ],
+    "components": [
+      [ [ "brain", 1 ], [ "brain_cooked", 1 ] ],
+      [ [ "lung", 2 ], [ "lung_cooked", 2 ] ],
+      [ [ "stomach", 1 ], [ "hstomach", 1 ] ],
+      [ [ "liver", 1 ], [ "liver_cooked", 1 ] ],
+      [ [ "kidney", 2 ], [ "kidney_cooked", 2 ] ],
+      [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
+      [ [ "hairball", 2 ] ],
+      [ [ "sinew", 60 ] ],
+      [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_tainted", 2 ] ],
+      [ [ "bone_needle", 1 ] ]
+    ]
+  }
+]
