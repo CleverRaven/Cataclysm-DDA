@@ -8,8 +8,6 @@
 // so that it is picked up by argument-dependent name lookup (ADL).
 namespace cata
 {
-namespace
-{
 
 // Code from boost
 // Reciprocal of the golden ratio helps spread entropy
@@ -23,29 +21,33 @@ inline void hash_combine( std::size_t &seed, const T &v )
     seed ^= std::hash<T>()( v ) + 0x9e3779b9 + ( seed << 6 ) + ( seed >> 2 );
 }
 
+namespace tuple_hash_detail
+{
+
 // Recursive template code derived from Matthieu M.
 template < class Tuple, size_t Index = std::tuple_size<Tuple>::value - 1 >
-struct HashValueImpl
+struct Impl
 {
     static void apply( size_t &seed, const Tuple &tuple ) {
-        HashValueImpl < Tuple, Index - 1 >::apply( seed, tuple );
+        Impl < Tuple, Index - 1 >::apply( seed, tuple );
         hash_combine( seed, std::get<Index>( tuple ) );
     }
 };
 
 template <class Tuple>
-struct HashValueImpl<Tuple, 0> {
+struct Impl<Tuple, 0> {
     static void apply( size_t &seed, const Tuple &tuple ) {
         hash_combine( seed, std::get<0>( tuple ) );
     }
 };
-} // namespace
+
+} // namespace tuple_hash_detail
 
 struct tuple_hash {
     template <typename ... TT>
     std::size_t operator()( const std::tuple<TT...> &tt ) const {
         size_t seed = 0;
-        HashValueImpl<std::tuple<TT...> >::apply( seed, tt );
+        tuple_hash_detail::Impl<std::tuple<TT...> >::apply( seed, tt );
         return seed;
     }
 
