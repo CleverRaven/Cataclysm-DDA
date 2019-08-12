@@ -284,4 +284,10 @@ void submap::rotate( int turns )
         elem->face = elem->turn_dir;
         elem->precalc_mounts( 0, elem->turn_dir, elem->pivot_anchor[0] );
     }
+
+    std::map<point, computer> rot_comp;
+    for( auto &elem : computers ) {
+        rot_comp.emplace( rotate_point( elem.first ), elem.second );
+    }
+    computers = rot_comp;
 }
