@@ -1604,7 +1604,7 @@ bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
 {
     invslice slice = inv.slice();
     int index = -1;
-    for( unsigned int i = 0; i < slice.size(); i++ ) {
+    for( size_t i = 0; i < slice.size(); i++ ) {
         const item &it = slice[i]->front();
         const item &real_item = it.is_container() ?  it.contents.front() : it;
         if( filter( real_item ) ) {
@@ -2825,7 +2825,7 @@ void npc::drop_items( int weight, int volume )
 
     // First fill our ratio vectors, so we know which things to drop first
     invslice slice = inv.slice();
-    for( unsigned int i = 0; i < slice.size(); i++ ) {
+    for( size_t i = 0; i < slice.size(); i++ ) {
         item &it = slice[i]->front();
         double wgt_ratio = 0.0;
         double vol_ratio = 0.0;
@@ -3478,7 +3478,7 @@ bool npc::consume_food()
     int want_hunger = get_hunger();
     int want_quench = get_thirst();
     invslice slice = inv.slice();
-    for( unsigned int i = 0; i < slice.size(); i++ ) {
+    for( size_t i = 0; i < slice.size(); i++ ) {
         const item &it = slice[i]->front();
         const item &food_item = it.is_food_container() ?
                                 it.contents.front() : it;
@@ -3553,7 +3553,7 @@ void npc::mug_player( player &mark )
     double best_value = minimum_item_value() * value_mod;
     int item_index = INT_MIN;
     invslice slice = mark.inv.slice();
-    for( unsigned int i = 0; i < slice.size(); i++ ) {
+    for( size_t i = 0; i < slice.size(); i++ ) {
         if( value( slice[i]->front() ) >= best_value &&
             can_pickVolume( slice[i]->front(), true ) &&
             can_pickWeight( slice[i]->front(), true ) ) {

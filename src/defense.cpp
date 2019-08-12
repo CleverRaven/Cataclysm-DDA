@@ -1023,7 +1023,7 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
                 total_price += caravan_price( g->u, item( tmp_itm, 0 ).price( false ) );
                 if( category_selected == CARAVAN_CART ) { // Find the item in its category
                     for( int i = 1; i < NUM_CARAVAN_CATEGORIES; i++ ) {
-                        for( unsigned j = 0; j < items[i].size(); j++ ) {
+                        for( size_t j = 0; j < items[i].size(); j++ ) {
                             if( items[i][j] == tmp_itm ) {
                                 item_count[i][j]++;
                             }
@@ -1055,7 +1055,7 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
                 total_price -= caravan_price( g->u, item( tmp_itm, 0 ).price( false ) );
                 if( category_selected == CARAVAN_CART ) { // Find the item in its category
                     for( int i = 1; i < NUM_CARAVAN_CATEGORIES; i++ ) {
-                        for( unsigned j = 0; j < items[i].size(); j++ ) {
+                        for( size_t j = 0; j < items[i].size(); j++ ) {
                             if( items[i][j] == tmp_itm ) {
                                 item_count[i][j]--;
                             }
@@ -1117,7 +1117,7 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
     if( !cancel ) {
         g->u.cash -= total_price;
         bool dropped_some = false;
-        for( unsigned i = 0; i < items[0].size(); i++ ) {
+        for( size_t i = 0; i < items[0].size(); i++ ) {
             item tmp( items[0][i] );
             tmp = tmp.in_its_container();
 
@@ -1456,7 +1456,7 @@ std::string defense_game::special_wave_message( std::string name )
 
     // Capitalize
     capitalize_letter( name );
-    for( unsigned i = 2; i < name.size(); i++ ) {
+    for( size_t i = 2; i < name.size(); i++ ) {
         if( name[i - 1] == ' ' ) {
             capitalize_letter( name, i );
         }

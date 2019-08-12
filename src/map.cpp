@@ -6428,14 +6428,14 @@ std::vector<tripoint> map::get_dir_circle( const tripoint &f, const tripoint &t 
     //  642  864  786  578  357  135  213  421
 
     size_t pos_offset = 0;
-    for( unsigned int i = 1; i < spiral.size(); i++ ) {
+    for( size_t i = 1; i < spiral.size(); i++ ) {
         if( spiral[i] == line[0] ) {
             pos_offset = i - 1;
             break;
         }
     }
 
-    for( unsigned int i = 1; i < spiral.size(); i++ ) {
+    for( size_t i = 1; i < spiral.size(); i++ ) {
         if( pos_offset >= pos_index.size() ) {
             pos_offset = 0;
         }
