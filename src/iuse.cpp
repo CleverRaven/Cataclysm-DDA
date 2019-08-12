@@ -840,7 +840,7 @@ int iuse::meditate( player *p, item *it, bool t, const tripoint & )
     if( !p || t ) {
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot meditate while mounted." ) );
         return 0;
     }
@@ -1686,7 +1686,7 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
         // Long actions - NPCs don't like those yet
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot use a fishing rod while mounted." ) );
         return 0;
     }
@@ -1723,7 +1723,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             it->charges = 0;
             return 0;
         }
-        if( p->is_mounted() ){
+        if( p->is_mounted() ) {
             p->add_msg_if_player( m_info, _( "You cannot use a fish trap while mounted." ) );
             return 0;
         }
@@ -2044,7 +2044,7 @@ static int cauterize_elec( player &p, item &it )
 
 int iuse::water_purifier( player *p, item *it, bool, const tripoint & )
 {
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot purify water while mounted." ) );
         return 0;
     }
@@ -2292,7 +2292,7 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
 {
     // If anyone other than the player wants to use one of these,
     // they're going to need to figure out how to aim it.
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot pry anything while mounted." ) );
         return 0;
     }
@@ -2314,7 +2314,7 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
 int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
 {
     // TODO: Make this 3D now that NPCs get to use items
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot pry anything while mounted." ) );
         return 0;
     }
@@ -2472,7 +2472,7 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint & )
     if( !p || t ) {
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot use a shovel while mounted." ) );
         return 0;
     }
@@ -2483,7 +2483,8 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint & )
     const tripoint pnt = *pnt_;
 
     if( pnt == p->pos() ) {
-        p->add_msg_if_player( m_info, _( "You think about jumping on a shovel, but then change up your mind." ) );
+        p->add_msg_if_player( m_info,
+                              _( "You think about jumping on a shovel, but then change up your mind." ) );
         return 0;
     }
 
@@ -2634,7 +2635,7 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     if( !p || t ) {
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot use a shovel while mounted." ) );
         return 0;
     }
@@ -2729,7 +2730,7 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
     if( !p || t ) {
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot use a shovel while mounted." ) );
         return 0;
     }
@@ -2794,7 +2795,7 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
     if( !p || t ) {
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot use a shovel while mounted." ) );
         return 0;
     }
@@ -2844,7 +2845,7 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
 
 int iuse::clear_rubble( player *p, item *it, bool, const tripoint & )
 {
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot use a shovel while mounted." ) );
         return 0;
     }
@@ -2877,7 +2878,7 @@ void act_vehicle_siphon( vehicle * ); // veh_interact.cpp
 
 int iuse::siphon( player *p, item *it, bool, const tripoint & )
 {
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot siphon anything while mounted." ) );
         return 0;
     }
@@ -3100,7 +3101,7 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
     if( !p->has_enough_charges( *it, false ) ) {
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot use a jackhammer while mounted." ) );
         return 0;
     }
@@ -3155,7 +3156,7 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
         // Long action
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot use a pickaxe while mounted." ) );
         return 0;
     }
@@ -3210,7 +3211,7 @@ int iuse::burrow( player *p, item *it, bool, const tripoint &pos )
         // Long action
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot burrow while mounted." ) );
         return 0;
     }
@@ -3319,7 +3320,7 @@ int iuse::teleport( player *p, item *it, bool, const tripoint & )
         // That would be evil
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot use a teleporter while mounted." ) );
         return 0;
     }
@@ -3423,7 +3424,7 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
         sounds::sound( pos, 0, sounds::sound_t::speech, _( "Merged!" ), true, "speech", it->typeId() );
     } else if( it->charges > 0 ) {
         p->add_msg_if_player( m_info, _( "You've already pulled the %s's pin, try throwing it instead." ),
-                 it->tname() );
+                              it->tname() );
         return 0;
     } else { // When that timer runs down...
         int explosion_radius = 3;
@@ -3634,7 +3635,8 @@ int iuse::molotov_lit( player *p, item *it, bool t, const tripoint &pos )
     if( pos.x == -999 || pos.y == -999 ) {
         return 0;
     } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ), it->tname() );
+        p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
+                              it->tname() );
         return 0;
     } else if( p->has_item( *it ) && it->charges == 0 ) {
         it->charges += 1;
@@ -3719,7 +3721,8 @@ int iuse::firecracker_act( player *p, item *it, bool t, const tripoint &pos )
     if( t ) { // Simple timer effects
         sounds::sound( pos, 0,  sounds::sound_t::alarm, _( "ssss..." ), true, "misc", "lit_fuse" );
     } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ), it->tname() );
+        p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
+                              it->tname() );
         return 0;
     } else { // When that timer runs down...
         sounds::sound( pos, 20, sounds::sound_t::combat, _( "Bang!" ), true, "explosion", "small" );
@@ -3797,7 +3800,7 @@ int iuse::portal( player *p, item *it, bool, const tripoint & )
     if( !it->ammo_sufficient() ) {
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot use this while mounted." ) );
         return 0;
     }
@@ -4049,7 +4052,7 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
 
 int iuse::rpgdie( player *you, item *die, bool, const tripoint & )
 {
-    if( you->is_mounted() ){
+    if( you->is_mounted() ) {
         you->add_msg_if_player( m_info, _( "You cannot roll dice while mounted." ) );
         return 0;
     }
@@ -4206,7 +4209,7 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
         // Long action
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot play a game while mounted." ) );
         return 0;
     }
@@ -4325,7 +4328,7 @@ int iuse::vibe( player *p, item *it, bool, const tripoint & )
         // Also, that would be creepy as fuck, seriously
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot do... that while mounted." ) );
         return 0;
     }
@@ -4417,7 +4420,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     if( p->is_npc() ) {
         return 0;    // No NPCs for now!
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot draw blood while mounted." ) );
         return 0;
     }
@@ -4481,7 +4484,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
 //This is just used for robofac_intercom_mission_2
 int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
 {
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot use a mind splicer while mounted." ) );
         return 0;
     }
@@ -4512,7 +4515,7 @@ int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
 
 void iuse::cut_log_into_planks( player &p )
 {
-    if( p.is_mounted() ){
+    if( p.is_mounted() ) {
         p.add_msg_if_player( m_info, _( "You cannot cut logs while mounted." ) );
         return;
     }
@@ -4528,7 +4531,7 @@ int iuse::lumber( player *p, item *it, bool t, const tripoint & )
     if( t ) {
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot cut logs while mounted." ) );
         return 0;
     }
@@ -4574,7 +4577,7 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )
     if( !p || t ) {
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot chop trees while mounted." ) );
         return 0;
     }
@@ -4613,7 +4616,7 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint & )
     if( !p || t ) {
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot chop logs while mounted." ) );
         return 0;
     }
@@ -4649,7 +4652,7 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
         // Long action
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot use a cutting torch while mounted." ) );
         return 0;
     }
@@ -4713,7 +4716,7 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
     if( !p || t ) {
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot use a hacksaw while mounted." ) );
         return 0;
     }
@@ -4755,7 +4758,7 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
 
 int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
 {
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot use boltcutters while mounted." ) );
         return 0;
     }
@@ -4790,7 +4793,7 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
 
 int iuse::mop( player *p, item *it, bool, const tripoint & )
 {
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot use a mop while mounted." ) );
         return 0;
     }
@@ -5245,7 +5248,8 @@ static bool heat_item( player &p )
 
         if( target.has_flag( "EATEN_COLD" ) ) {
             target.cold_up();
-            p.add_msg_if_player( m_info, _( "You defrost the food, but don't heat it up, since you enjoy it cold." ) );
+            p.add_msg_if_player( m_info,
+                                 _( "You defrost the food, but don't heat it up, since you enjoy it cold." ) );
         } else {
             p.add_msg_if_player( m_info, _( "You defrost and heat up the food." ) );
             target.heat_up();
@@ -5286,7 +5290,7 @@ int iuse::heat_food( player *p, item *it, bool, const tripoint & )
 
 int iuse::hotplate( player *p, item *it, bool, const tripoint & )
 {
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot heat food while mounted." ) );
         return 0;
     }
@@ -5394,7 +5398,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot unfold that while mounted." ) );
         return 0;
     }
@@ -5597,7 +5601,7 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot repair a gun while mounted." ) );
         return 0;
     }
@@ -5739,7 +5743,7 @@ int iuse::misc_repair( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot repair anything while mounted." ) );
         return 0;
     }
@@ -5857,7 +5861,8 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
 
     if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( "FIX_FARSIGHT" ) &&
         !p->has_effect( effect_contacts ) && !p->has_bionic( bionic_id( "bio_eye_optic" ) ) ) {
-        p->add_msg_if_player( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
+        p->add_msg_if_player( m_info,
+                              _( "You'll need to put on reading glasses before you can see the screen." ) );
         return 0;
     }
 
@@ -6192,7 +6197,7 @@ static std::string photo_quality_name( const int index )
 
 int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 {
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot use a mop while mounted." ) );
         return 0;
     }
@@ -6229,7 +6234,8 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
         }
         if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( "FIX_FARSIGHT" ) &&
             !p->has_effect( effect_contacts ) && !p->has_bionic( bionic_id( "bio_eye_optic" ) ) ) {
-            p->add_msg_if_player( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
+            p->add_msg_if_player( m_info,
+                                  _( "You'll need to put on reading glasses before you can see the screen." ) );
             return 0;
         }
 
@@ -7599,7 +7605,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
 
 int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
 {
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot use handcuffs while mounted." ) );
         return 0;
     }
@@ -7710,7 +7716,8 @@ int iuse::foodperson( player *p, item *it, bool t, const tripoint &pos )
     time_duration shift = time_duration::from_turns( it->magazine_current()->ammo_remaining() *
                           it->type->tool->turns_per_charge );
 
-    p->add_msg_if_player( m_info, _( "Your HUD lights-up: \"Your shift ends in %s\"." ), to_string( shift ) );
+    p->add_msg_if_player( m_info, _( "Your HUD lights-up: \"Your shift ends in %s\"." ),
+                          to_string( shift ) );
     return 0;
 }
 
@@ -8150,7 +8157,7 @@ static bool multicooker_hallu( player &p )
 
 int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
 {
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot use an autoclave while mounted." ) );
         return 0;
     }
@@ -8252,7 +8259,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 {
     static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
     static const int charges_to_start = 50;
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot use a cooker while mounted." ) );
         return 0;
     }
@@ -8309,7 +8316,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
         }
 
         if( p->has_trait( trait_ILLITERATE ) ) {
-            p->add_msg_if_player( m_info, _( "You cannot read, and don't understand the screen or the buttons!" ) );
+            p->add_msg_if_player( m_info,
+                                  _( "You cannot read, and don't understand the screen or the buttons!" ) );
             return 0;
         }
 
@@ -8321,7 +8329,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
         if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( "FIX_FARSIGHT" ) &&
             !p->has_effect( effect_contacts ) ) {
-            p->add_msg_if_player( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
+            p->add_msg_if_player( m_info,
+                                  _( "You'll need to put on reading glasses before you can see the screen." ) );
             return 0;
         }
 
@@ -8736,7 +8745,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
 
 int iuse::shavekit( player *p, item *it, bool, const tripoint & )
 {
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot shave while mounted." ) );
         return 0;
     }
@@ -8751,7 +8760,7 @@ int iuse::shavekit( player *p, item *it, bool, const tripoint & )
 
 int iuse::hairkit( player *p, item *it, bool, const tripoint & )
 {
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot cut your hair while mounted." ) );
         return 0;
     }
@@ -8857,7 +8866,7 @@ int iuse::directional_hologram( player *p, item *it, bool, const tripoint &pos )
 
 int iuse::capture_monster_veh( player *p, item *it, bool, const tripoint &pos )
 {
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot use a vehicle container while mounted." ) );
         return 0;
     }
@@ -8930,7 +8939,7 @@ int item::contain_monster( const tripoint &target )
 
 int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
 {
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot capture a creature mounted." ) );
         return 0;
     }
@@ -9023,7 +9032,7 @@ int iuse::ladder( player *p, item *, bool, const tripoint & )
         debugmsg( "Ladder can't be used in non-z-level mode" );
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot climb a ladder while mounted." ) );
         return 0;
     }
@@ -9058,7 +9067,7 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
         p->add_msg_if_player( _( "You can't see to do that!" ) );
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot wash clothes while mounted." ) );
         return 0;
     }
@@ -9079,7 +9088,7 @@ int iuse::washcbms( player *p, item *, bool, const tripoint & )
         p->add_msg_if_player( _( "You can't see to do that!" ) );
         return 0;
     }
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot wash a CBM while mounted." ) );
         return 0;
     }
@@ -9096,7 +9105,7 @@ int iuse::washcbms( player *p, item *, bool, const tripoint & )
 
 int iuse::wash_items( player *p, bool cbm )
 {
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot wash anything while mounted." ) );
         return 0;
     }
@@ -9265,7 +9274,7 @@ int iuse::panacea( player *p, item *it, bool, const tripoint & )
 
 int iuse::craft( player *p, item *it, bool, const tripoint & )
 {
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot craft while mounted." ) );
         return 0;
     }
@@ -9314,7 +9323,7 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
 
 int iuse::disassemble( player *p, item *it, bool, const tripoint & )
 {
-    if( p->is_mounted() ){
+    if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot disassemble while mounted." ) );
         return 0;
     }
