@@ -3355,6 +3355,16 @@ units::mass Character::bodyweight() const
     return units::from_kilogram( get_bmi() * pow( height() / 100.0f, 2 ) );
 }
 
+units::mass Character::bionics_weight() const
+{
+    units::mass bio_weight = units::from_kilogram( 0 );
+    for( const auto bio : *my_bionics ) {
+        const item cbm( bio.id.c_str() );
+        bio_weight += cbm.weight();
+    }
+    return bio_weight;
+}
+
 int Character::height() const
 {
     int height = init_height;
