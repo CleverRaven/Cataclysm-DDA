@@ -1998,7 +1998,7 @@ void load_bionic( JsonObject &jsobj )
     jsobj.read( "included_bionics", new_bionic.included_bionics );
     jsobj.read( "included", new_bionic.included );
     jsobj.read( "upgraded_bionic", new_bionic.upgraded_bionic );
-
+    jsobj.read( "fuel_options", new_bionic.fuel_opts );
     JsonArray jsar = jsobj.get_array( "encumbrance" );
     if( !jsar.empty() ) {
         while( jsar.has_more() ) {
