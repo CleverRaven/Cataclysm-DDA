@@ -125,7 +125,7 @@ class translation
         /**
          * Create a deferred translation without context
          **/
-        translation( const std::string &raw );
+        explicit translation( const std::string &raw );
 
         /**
          * Store a string that needs no translation.
