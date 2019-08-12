@@ -116,7 +116,7 @@ struct bionic_data {
 
 struct bionic {
     bionic_id id;
-    int         charge  = 0;
+    int         charge_timer  = 0;
     char        invlet  = 'a';
     bool        powered = false;
     /* Ammunition actually loaded in this bionic gun in deactivated state */
