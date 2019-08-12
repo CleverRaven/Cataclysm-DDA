@@ -58,18 +58,18 @@ void snake_game::snake_over( const catacurses::window &w_snake, int iScore )
     mvwputch( w_snake, body_length + 2, 71, c_green, 'v' );
 
     std::vector<std::string> game_over_text;
-    game_over_text.push_back( "  ________    _____      _____   ___________       " );
-    game_over_text.push_back( " /  _____/   /  _  \\    /     \\  \\_   _____/    " );
-    game_over_text.push_back( "/   \\  ___  /  /_\\  \\  /  \\ /  \\  |    __)_   " );
-    game_over_text.push_back( "\\    \\_\\  \\/    |    \\/    Y    \\ |        \\" );
-    game_over_text.push_back( " \\______  /\\____|__  /\\____|__  //_______  /    " );
-    game_over_text.push_back( "        \\/         \\/         \\/         \\/    " );
-    game_over_text.push_back( " ________ ____   _________________________         " );
-    game_over_text.push_back( " \\_____  \\\\   \\ /   /\\_   _____/\\______   \\ " );
-    game_over_text.push_back( "  /   |   \\\\   Y   /  |    __)_  |       _/      " );
-    game_over_text.push_back( " /    |    \\\\     /   |        \\ |    |   \\    " );
-    game_over_text.push_back( " \\_______  / \\___/   /_______  / |____|_  /      " );
-    game_over_text.push_back( "         \\/                  \\/         \\/      " );
+    game_over_text.push_back( R"(  ________    _____      _____   ___________)" );
+    game_over_text.push_back( R"( /  _____/   /  _  \    /     \  \_   _____/)" );
+    game_over_text.push_back( R"(/   \  ___  /  /_\  \  /  \ /  \  |    __)_ )" );
+    game_over_text.push_back( R"(\    \_\  \/    |    \/    Y    \ |        \)" );
+    game_over_text.push_back( R"( \______  /\____|__  /\____|__  //_______  /)" );
+    game_over_text.push_back( R"(        \/         \/         \/         \/ )" );
+    game_over_text.push_back( R"( ________ ____   _________________________  )" );
+    game_over_text.push_back( R"( \_____  \\   \ /   /\_   _____/\______   \ )" );
+    game_over_text.push_back( R"(  /   |   \\   Y   /  |    __)_  |       _/ )" );
+    game_over_text.push_back( R"( /    |    \\     /   |        \ |    |   \ )" );
+    game_over_text.push_back( R"( \_______  / \___/   /_______  / |____|_  / )" );
+    game_over_text.push_back( R"(         \/                  \/         \/  )" );
 
     for( size_t i = 0; i < game_over_text.size(); i++ ) {
         mvwprintz( w_snake, i + 3, 17, c_light_red, game_over_text[i] );

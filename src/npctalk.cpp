@@ -2641,7 +2641,7 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         const std::string line = jo.get_string( "gendered_line" );
         if( !jo.has_array( "relevant_genders" ) ) {
             jo.throw_error(
-                "dynamic line with \"gendered_line\" must also have \"relevant_genders\"" );
+                R"(dynamic line with "gendered_line" must also have "relevant_genders")" );
         }
         JsonArray ja = jo.get_array( "relevant_genders" );
         std::vector<std::string> relevant_genders;

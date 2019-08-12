@@ -621,13 +621,13 @@ static Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid
     if( is_collection ) {
         if( dynamic_cast<Trait_group_distribution *>( found->second.get() ) ) {
             std::ostringstream buf;
-            buf << "item group \"" << gid.c_str() << "\" already defined with type \"distribution\"";
+            buf << "item group \"" << gid.c_str() << R"(" already defined with type "distribution")";
             throw std::runtime_error( buf.str() );
         }
     } else {
         if( dynamic_cast<Trait_group_collection *>( found->second.get() ) ) {
             std::ostringstream buf;
-            buf << "item group \"" << gid.c_str() << "\" already defined with type \"collection\"";
+            buf << "item group \"" << gid.c_str() << R"(" already defined with type "collection")";
             throw std::runtime_error( buf.str() );
         }
     }
