@@ -10,7 +10,7 @@
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "recipe_bullets", 3 ], [ "textbook_anarch", 0 ] ],
     "using": [ [ "surface_heat", 25 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "components": [ [ [ "magnesium", 100 ] ], [ [ "oxy_powder", 200 ] ] ]
+    "components": [ [ [ "magnesium", 100 ], [ "chem_aluminium_powder", 100 ] ], [ [ "oxy_powder", 200 ] ] ]
   },
   {
     "type": "recipe",

@@ -25,7 +25,7 @@ class player;
 class item_pricing
 {
     public:
-        item_pricing( Character &c, item *it, int v, int count ) : loc( c, it ), price( v ) {
+        item_pricing( Character &c, item &it, int v, int count ) : loc( c, &it ), price( v ) {
             set_values( count );
         }
 
@@ -56,9 +56,9 @@ class trading_window
         trading_window() = default;
         std::vector<item_pricing> theirs;
         std::vector<item_pricing> yours;
-        bool exchange;
+        bool is_free_exchange; // Eg: Exchange between allies
         int u_get;
-        int npc_requires;
+        int max_credit_npc_will_extend;
 
         void setup_win( npc &np );
         void setup_trade( int cost, npc &np );

@@ -212,8 +212,10 @@ void cata_tiles::on_options_changed()
 
     settings.mode = pixel_minimap_mode_from_string( get_option<std::string>( "PIXEL_MINIMAP_MODE" ) );
     settings.brightness = get_option<int>( "PIXEL_MINIMAP_BRIGHTNESS" );
-    settings.blink_interval = get_option<int>( "PIXEL_MINIMAP_BLINK" );
+    settings.beacon_size = get_option<int>( "PIXEL_MINIMAP_BEACON_SIZE" );
+    settings.beacon_blink_interval = get_option<int>( "PIXEL_MINIMAP_BLINK" );
     settings.square_pixels = get_option<bool>( "PIXEL_MINIMAP_RATIO" );
+    settings.scale_to_fit = get_option<bool>( "PIXEL_MINIMAP_SCALE_TO_FIT" );
 
     minimap->set_settings( settings );
 }
@@ -249,6 +251,8 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     tileset_ptr = std::move( new_tileset_ptr );
 
     set_draw_scale( 16 );
+
+    minimap->set_type( tile_iso ? pixel_minimap_type::iso : pixel_minimap_type::ortho );
 }
 
 void cata_tiles::reinit()
@@ -1298,10 +1302,13 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
 void cata_tiles::get_window_tile_counts( const int width, const int height, int &columns,
         int &rows ) const
 {
-    columns = tile_iso ? ceil( static_cast<double>( width ) / tile_width ) * 2 + 4 : ceil(
-                  static_cast<double>( width ) / tile_width );
-    rows = tile_iso ? ceil( static_cast<double>( height ) / ( tile_width / 2 - 1 ) ) * 2 + 4 : ceil(
-               static_cast<double>( height ) / tile_height );
+    if( tile_iso ) {
+        columns = ceil( static_cast<double>( width ) / tile_width ) * 2 + 4;
+        rows = ceil( static_cast<double>( height ) / ( tile_width / 2.0 - 1 ) ) * 2 + 4;
+    } else {
+        columns = ceil( static_cast<double>( width ) / tile_width );
+        rows = ceil( static_cast<double>( height ) / tile_height );
+    }
 }
 
 bool cata_tiles::draw_from_id_string( std::string id, const tripoint &pos, int subtile, int rota,

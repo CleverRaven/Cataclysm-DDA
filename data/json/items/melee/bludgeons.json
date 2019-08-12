@@ -132,7 +132,7 @@
     "price": 4000,
     "material": "wood",
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "weight": 1400,
     "volume": 12,
     "bashing": 19,
@@ -150,7 +150,7 @@
     "price": 6000,
     "material": [ "wood", "iron" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "weight": 2200,
     "volume": 12,
     "bashing": 25,
@@ -178,7 +178,7 @@
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": "TAZER",
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "magazines": [
       [
         "battery",
@@ -350,7 +350,7 @@
     "symbol": "\\",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "2h_flail_wood",
@@ -366,7 +366,7 @@
     "symbol": "\\",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE" ]
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "//": "Id retained to avoid breaking anything, same reason as with the makeshift glaive.",
@@ -662,7 +662,7 @@
     "description": "This is a versatile polearm with an spiked hammer head, a spike, and a hook attached to a long stick.",
     "price": 50000,
     "material": [ "wood", "steel" ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "SPEAR" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "SPEAR", "ALWAYS_TWOHAND" ],
     "techniques": [ "WBLOCK_1", "WIDE", "SWEEP" ],
     "weight": 3200,
     "volume": 15,
@@ -681,7 +681,7 @@
     "price": 4000,
     "price_postapoc": 0,
     "material": [ "wood", "aluminum" ],
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "SPEAR" ],
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "SPEAR", "ALWAYS_TWOHAND" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "weight": 2700,
     "volume": 15,

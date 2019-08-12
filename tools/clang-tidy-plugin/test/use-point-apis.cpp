@@ -1,17 +1,7 @@
-// RUN: %check_clang_tidy %s cata-use-point-apis %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-use-point-apis %t -- -plugins=%cata_plugin -- -isystem %cata_include
 
-// Can't include the real point header because this is compiled with
-// -nostdinc++ and I couldn't see an easy way to change that.
-struct point {
-    constexpr point() : x( 0 ), y( 0 ) {}
-    constexpr point( int x, int y );
-    int x;
-    int y;
-};
-struct tripoint {
-    constexpr tripoint() = default;
-    constexpr tripoint( int x, int y, int z );
-};
+#define CATA_NO_STL
+#include "point.h"
 
 int f0( int x, int y );
 int f0( const point &p );
@@ -116,4 +106,40 @@ int g9()
     return a.f( 0, 1 );
     // CHECK-MESSAGES: warning: Call to 'f' could instead call overload using a point parameter. [cata-use-point-apis]
     // CHECK-FIXES: return a.f( point( 0, 1 ) );
+}
+
+// Check function templates
+template<typename T>
+int f10( T t, int x, int y );
+template<typename T>
+int f10( T t, const point &p );
+
+int g10()
+{
+    return f10( "foo", 0, 1 );
+    // CHECK-MESSAGES: warning: Call to 'f10<const char *>' could instead call overload using a point parameter. [cata-use-point-apis]
+    // CHECK-FIXES: return f10( "foo", point( 0, 1 ) );
+}
+
+template<typename... Args>
+int f11( int, int x, int y, Args &&... );
+template<typename... Args>
+int f11( int, const point &p, Args &&... );
+
+int g11()
+{
+    return f11( 7, 0, 1, "foo", 3.5f );
+    // CHECK-MESSAGES: warning: Call to 'f11<char const (&)[4], float>' could instead call overload using a point parameter. [cata-use-point-apis]
+    // CHECK-FIXES: return f11( 7, point( 0, 1 ), "foo", 3.5f );
+}
+
+// Check const-qualified int args
+int f12( const int x, const int y );
+int f12( const point &p );
+
+int g12()
+{
+    return f12( 0, 1 );
+    // CHECK-MESSAGES: warning: Call to 'f12' could instead call overload using a point parameter. [cata-use-point-apis]
+    // CHECK-FIXES: return f12( point( 0, 1 ) );
 }

@@ -1182,11 +1182,11 @@ void npc::decide_needs()
     for( auto &i : slice ) {
         item inventory_item = i->front();
         if( inventory_item.is_food( ) ) {
-            needrank[ need_food ] += nutrition_for( inventory_item ) / 4;
-            needrank[ need_drink ] += inventory_item.get_comestible()->quench / 4;
+            needrank[ need_food ] += nutrition_for( inventory_item ) / 4.0;
+            needrank[ need_drink ] += inventory_item.get_comestible()->quench / 4.0;
         } else if( inventory_item.is_food_container() ) {
-            needrank[ need_food ] += nutrition_for( inventory_item.contents.front() ) / 4;
-            needrank[ need_drink ] += inventory_item.contents.front().get_comestible()->quench / 4;
+            needrank[ need_food ] += nutrition_for( inventory_item.contents.front() ) / 4.0;
+            needrank[ need_drink ] += inventory_item.contents.front().get_comestible()->quench / 4.0;
         }
     }
     needs.clear();
@@ -1762,7 +1762,7 @@ bool npc::emergency() const
 
 bool npc::emergency( float danger ) const
 {
-    return ( danger > ( personality.bravery * 3 * hp_percentage() ) / 100 );
+    return ( danger > ( personality.bravery * 3 * hp_percentage() ) / 100.0 );
 }
 
 //Check if this npc is currently in the list of active npcs.

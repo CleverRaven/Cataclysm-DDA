@@ -1216,19 +1216,37 @@
   {
     "type": "effect_type",
     "id": "drunk",
-    "name": [ "Tipsy", "Drunk", "Trashed", "Wasted" ],
+    "name": [ "Tipsy", "Drunk", "Trashed", "Wasted", "Dead Drunk" ],
     "desc": [
       "You drank some alcohol.  You feel warm inside.",
       "You drank alcohol.  Party on!",
       "You drank lots of alcohol.  Are those white mice?",
-      "You drank unholy amounts of alcohol.  It's the end of the world, what do you care?"
+      "You drank unholy amounts of alcohol.  It's the end of the world, what do you care?",
+      "You embalmed yourself alive with so much alcohol, that even zombies will leave your dead body alone."
     ],
-    "max_intensity": 4,
+    "max_intensity": 5,
     "apply_message": "You feel lightheaded.",
     "int_dur_factor": "100 m",
     "miss_messages": [ [ "You feel woozy.", 1 ] ],
-    "base_mods": { "vomit_chance": [ -43 ], "sleep_chance": [ -1003 ], "sleep_min": [ 2500 ], "sleep_max": [ 3500 ] },
-    "scaling_mods": { "per_mod": [ -0.5 ], "dex_mod": [ -0.5 ], "int_mod": [ -0.75 ], "vomit_chance": [ 21 ], "sleep_chance": [ 501 ] }
+    "base_mods": {
+      "vomit_chance": [ -43 ],
+      "sleep_chance": [ -1003 ],
+      "sleep_min": [ 2500 ],
+      "sleep_max": [ 3500 ],
+      "pkill_amount": [ 3 ],
+      "pkill_max_val": [ 3 ],
+      "pkill_min": [ 1 ],
+      "pkill_tick": [ 45 ]
+    },
+    "scaling_mods": {
+      "per_mod": [ -0.5 ],
+      "dex_mod": [ -0.5 ],
+      "int_mod": [ -0.75 ],
+      "vomit_chance": [ 21 ],
+      "sleep_chance": [ 501 ],
+      "pkill_max_val": [ 10 ],
+      "pkill_tick": [ -10 ]
+    }
   },
   {
     "type": "effect_type",

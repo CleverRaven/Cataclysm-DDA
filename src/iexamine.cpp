@@ -576,9 +576,10 @@ void iexamine::vending( player &p, const tripoint &examp )
 
     constexpr int first_item_offset = 3; // header size
 
-    catacurses::window const w = catacurses::newwin( window_h, w_items_w, padding_y, padding_x );
-    catacurses::window const w_item_info = catacurses::newwin( window_h, w_info_w,  padding_y,
-                                           padding_x + w_items_w );
+    catacurses::window const w = catacurses::newwin( window_h, w_items_w, point( padding_x,
+                                 padding_y ) );
+    catacurses::window const w_item_info = catacurses::newwin( window_h, w_info_w,
+                                           point( padding_x + w_items_w, padding_y ) );
 
     bool used_machine = false;
     input_context ctxt( "VENDING_MACHINE" );
@@ -616,9 +617,9 @@ void iexamine::vending( player &p, const tripoint &examp )
         werase( w );
         wborder( w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-        mvwhline( w, first_item_offset - 1, 1, LINE_OXOX, w_items_w - 2 );
-        mvwaddch( w, first_item_offset - 1, 0, LINE_XXXO ); // |-
-        mvwaddch( w, first_item_offset - 1, w_items_w - 1, LINE_XOXX ); // -|
+        mvwhline( w, point( 1, first_item_offset - 1 ), LINE_OXOX, w_items_w - 2 );
+        mvwaddch( w, point( 0, first_item_offset - 1 ), LINE_XXXO ); // |-
+        mvwaddch( w, point( w_items_w - 1, first_item_offset - 1 ), LINE_XOXX ); // -|
 
         trim_and_print( w, 1, 2, w_items_w - 3, c_light_gray,
                         _( "Money left: %s" ), format_money( money ) );
@@ -660,7 +661,7 @@ void iexamine::vending( player &p, const tripoint &examp )
         //12      34
         const std::string name = utf8_truncate( cur_item->display_name(),
                                                 static_cast<size_t>( w_info_w - 4 ) );
-        mvwprintw( w_item_info, 0, 1, "<%s>", name );
+        mvwprintw( w_item_info, point( 1, 0 ), "<%s>", name );
         wrefresh( w_item_info );
 
         const std::string &action = ctxt.handle_input();
@@ -894,9 +895,9 @@ void iexamine::rubble( player &p, const tripoint &examp )
 {
     int moves;
     if( p.has_quality( quality_id( "DIG" ), 3 ) || p.has_trait( trait_BURROW ) ) {
-        moves = to_turns<int>( 1_minutes );
+        moves = to_moves<int>( 1_minutes );
     } else if( p.has_quality( quality_id( "DIG" ), 2 ) ) {
-        moves = to_turns<int>( 2_minutes );
+        moves = to_moves<int>( 2_minutes );
     } else {
         add_msg( m_info, _( "If only you had a shovel..." ) );
         return;
@@ -1285,7 +1286,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 void iexamine::bulletin_board( player &p, const tripoint &examp )
 {
     g->validate_camps();
-    point omt = ms_to_omt_copy( g->m.getabs( examp.x, examp.y ) );
+    point omt = ms_to_omt_copy( g->m.getabs( examp.xy() ) );
     cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
@@ -2605,7 +2606,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
 
     uilist selection_menu;
     selection_menu.text = _( "Select an action" );
-    selection_menu.addentry( 0, true, 'e', _( "Examine" ) );
+    selection_menu.addentry( 0, true, 'g', _( "Get items" ) );
     if( !already_on_fire ) {
         selection_menu.addentry( 1, has_firestarter, 'f',
                                  has_firestarter ? _( "Start a fire" ) : _( "Start a fire... you'll need a fire source." ) );
@@ -2613,9 +2614,9 @@ void iexamine::fireplace( player &p, const tripoint &examp )
             selection_menu.addentry( 2, true, 'b', _( "Use a CBM to start a fire" ) );
         }
     } else if( !firequenchers.empty() ) {
-        selection_menu.addentry( 4, true, 's', _( "Put out fire" ) );
+        selection_menu.addentry( 4, true, 'e', _( "Extinguish fire" ) );
     } else {
-        selection_menu.addentry( 4, false, 's', _( "Put out fire (bashing item required)" ) );
+        selection_menu.addentry( 4, false, 'e', _( "Extinguish fire (bashing item required)" ) );
     }
     if( furn_is_deployed ) {
         selection_menu.addentry( 3, true, 't', string_format( _( "Take down the %s" ),

@@ -117,8 +117,8 @@ int lightson_game::start_game()
     const int w_height = 15;
     const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
     const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
-    w_border = catacurses::newwin( w_height, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX );
-    w = catacurses::newwin( w_height - 6, FULL_SCREEN_WIDTH - 2, iOffsetY + 1, iOffsetX + 1 );
+    w_border = catacurses::newwin( w_height, FULL_SCREEN_WIDTH, point( iOffsetX, iOffsetY ) );
+    w = catacurses::newwin( w_height - 6, FULL_SCREEN_WIDTH - 2, point( iOffsetX + 1, iOffsetY + 1 ) );
     draw_border( w_border );
 
     input_context ctxt( "LIGHTSON" );

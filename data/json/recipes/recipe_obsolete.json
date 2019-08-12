@@ -1783,6 +1783,26 @@
   },
   {
     "type": "recipe",
+    "result": "bio_armor_head",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_armor_arms",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_armor_torso",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_armor_legs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "years_old_newspaperuncraft",
     "obsolete": true
   }

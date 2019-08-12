@@ -399,9 +399,10 @@ bool vehicle::interact_vehicle_locked()
                           name ) ) {
                 ///\EFFECT_MECHANICS speeds up vehicle hotwiring
                 int mechanics_skill = g->u.get_skill_level( skill_mechanics );
-                int hotwire_time = 6000 / ( ( mechanics_skill > 0 ) ? mechanics_skill : 1 );
+                const int hotwire_time = 6000 / ( ( mechanics_skill > 0 ) ? mechanics_skill : 1 );
+                const int moves = to_moves<int>( time_duration::from_turns( hotwire_time ) );
                 //assign long activity
-                g->u.assign_activity( activity_id( "ACT_HOTWIRE_CAR" ), hotwire_time, -1, INT_MIN, _( "Hotwire" ) );
+                g->u.assign_activity( activity_id( "ACT_HOTWIRE_CAR" ), moves, -1, INT_MIN, _( "Hotwire" ) );
                 // use part 0 as the reference point
                 point q = coord_translate( parts[0].mount );
                 g->u.activity.values.push_back( global_pos3().x + q.x ); //[0]
@@ -799,12 +800,12 @@ int vehicle::engine_start_time( const int e ) const
 
     // non-linear range [100-1000]; f(0.0) = 100, f(0.6) = 250, f(0.8) = 500, f(0.9) = 1000
     // diesel engines with working glow plugs always start with f = 0.6 (or better)
-    const int cold = ( 1 / tanh( 1 - std::min( engine_cold_factor( e ), 0.9 ) ) ) * 100;
+    const double cold = 100 / tanh( 1 - std::min( engine_cold_factor( e ), 0.9 ) );
 
     // watts to old vhp = watts / 373
     // divided by magic 16 = watts / 6000
-    const int watts_per_time = 6000;
-    return part_vpower_w( engines[ e ], true ) / watts_per_time  + ( 100 * dmg ) + cold;
+    const double watts_per_time = 6000;
+    return part_vpower_w( engines[ e ], true ) / watts_per_time + 100 * dmg + cold;
 }
 
 bool vehicle::start_engine( const int e )

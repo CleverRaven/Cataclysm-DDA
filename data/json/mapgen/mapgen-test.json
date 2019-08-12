@@ -24,6 +24,11 @@
     "mondensity": 1
   },
   {
+    "type": "ter_furn_transform",
+    "id": "mapgen_test",
+    "terrain": [ { "result": "t_dirt", "valid_terrain": [ "t_grass" ] } ]
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mapgen-test" ],
@@ -31,7 +36,7 @@
       "//": "Some of the squares should have a frame, but not all.",
       "fill_ter": "t_grass",
       "rows": [
-        "                        ",
+        "                       r",
         "                        ",
         "                        ",
         "                        ",
@@ -112,7 +117,9 @@
       "vehicles": {
         "o": { "vehicle": "welding_cart", "chance": 100, "fuel": 40, "status": 1 },
         "s": { "vehicle": "wheelchair", "chance": 100, "status": 1 }
-      }
+      },
+      "place_ter_furn_transforms": [ { "transform": "mapgen_test", "x": 22, "y": 0 } ],
+      "ter_furn_transforms": { "r": { "transform": "mapgen_test" } }
     }
   }
 ]

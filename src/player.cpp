@@ -1194,10 +1194,11 @@ void player::update_bodytemp()
             int wetness_percentage = 100 * body_wetness[bp] / drench_capacity[bp]; // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to temperature resistance
-            int Ftemperature = static_cast<int>( player_local_temp +
-                                                 warmth( bp ) * 0.2 - 20 * wetness_percentage / 100 );
+            double adjusted_warmth = warmth( bp ) - wetness_percentage;
+            int Ftemperature = static_cast<int>( player_local_temp + 0.2 * adjusted_warmth );
             // Windchill reduced by your armor
-            int FBwindPower = static_cast<int>( total_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
+            int FBwindPower = static_cast<int>(
+                                  total_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
 
             int intense = get_effect_int( effect_frostbite, bp );
 
@@ -3434,10 +3435,10 @@ float player::fall_damage_mod() const
     /** @EFFECT_DEX decreases damage from falling */
 
     /** @EFFECT_DODGE decreases damage from falling */
-    float dex_dodge = dex_cur / 2 + get_skill_level( skill_dodge );
+    float dex_dodge = dex_cur / 2.0 + get_skill_level( skill_dodge );
     // Penalize for wearing heavy stuff
-    dex_dodge -= ( ( ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 2 ) + ( encumb(
-                       bp_torso ) / 1 ) ) / 10;
+    const float average_leg_encumb = ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 2.0;
+    dex_dodge -= ( average_leg_encumb + encumb( bp_torso ) ) / 10;
     // But prevent it from increasing damage
     dex_dodge = std::max( 0.0f, dex_dodge );
     // 100% damage at 0, 75% at 10, 50% at 20 and so on
@@ -3905,6 +3906,11 @@ void player::check_needs_extremes()
         add_memorial_log( pgettext( "memorial_male", "Died of adrenaline overdose." ),
                           pgettext( "memorial_female", "Died of adrenaline overdose." ) );
         hp_cur[hp_torso] = 0;
+    } else if( get_effect_int( effect_drunk ) > 4 ) {
+        add_msg_if_player( m_bad, _( "Your breathing slows down to a stop." ) );
+        add_memorial_log( pgettext( "memorial_male", "Died of an alcohol overdose." ),
+                          pgettext( "memorial_female", "Died of an alcohol overdose." ) );
+        hp_cur[hp_torso] = 0;
     }
 
     // check if we've starved
@@ -4126,7 +4132,7 @@ needs_rates player::calc_needs_rates()
 
     if( has_trait( trait_TRANSPIRATION ) ) {
         // Transpiration, the act of moving nutrients with evaporating water, can take a very heavy toll on your thirst when it's really hot.
-        rates.thirst *= ( ( g->weather.get_temperature( pos() ) - 65 / 2 ) / 40.0f );
+        rates.thirst *= ( ( g->weather.get_temperature( pos() ) - 32.5f ) / 40.0f );
     }
 
     if( is_npc() ) {
@@ -9168,9 +9174,10 @@ void player::gunmod_add( item &gun, item &mod )
         actions[ prompt.ret ]();
     }
 
-    int turns = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
+    const int turns = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
+    const int moves = to_moves<int>( time_duration::from_turns( turns ) );
 
-    assign_activity( activity_id( "ACT_GUNMOD_ADD" ), turns, -1, get_item_position( &gun ), tool );
+    assign_activity( activity_id( "ACT_GUNMOD_ADD" ), moves, -1, get_item_position( &gun ), tool );
     activity.values.push_back( get_item_position( &mod ) );
     activity.values.push_back( roll ); // chance of success (%)
     activity.values.push_back( risk ); // chance of damage (%)
@@ -10188,10 +10195,9 @@ int player::get_env_resist( body_part bp ) const
     }
 
     for( const bionic &bio : *my_bionics ) {
-        for( const auto &element : bio.info().env_protec ) {
-            if( element.first == bp || ( bp == bp_eyes && element.first == bp_head ) ) {
-                ret += element.second;
-            }
+        const auto EP = bio.info().env_protec.find( bp );
+        if( EP != bio.info().env_protec.end() ) {
+            ret += EP->second;
         }
     }
 
@@ -10888,16 +10894,14 @@ bool player::defer_move( const tripoint &next )
     return true;
 }
 
-void player::shift_destination( int shiftx, int shifty )
+void player::shift_destination( const point &shift )
 {
     if( next_expected_position ) {
-        next_expected_position->x += shiftx;
-        next_expected_position->y += shifty;
+        *next_expected_position += shift;
     }
 
     for( auto &elem : auto_move_route ) {
-        elem.x += shiftx;
-        elem.y += shifty;
+        elem += shift;
     }
 }
 
@@ -11000,7 +11004,7 @@ void player::burn_move_stamina( int moves )
     if( move_mode == PMM_RUN ) {
         burn_ratio = burn_ratio * 7;
     }
-    mod_stat( "stamina", -( ( moves * burn_ratio ) / 100 ) );
+    mod_stat( "stamina", -( ( moves * burn_ratio ) / 100.0 ) );
     add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
@@ -11389,7 +11393,7 @@ std::string player::short_description() const
 
 int player::print_info( const catacurses::window &w, int vStart, int, int column ) const
 {
-    mvwprintw( w, vStart++, column, _( "You (%s)" ), name );
+    mvwprintw( w, point( column, vStart++ ), _( "You (%s)" ), name );
     return vStart;
 }
 
@@ -11470,7 +11474,7 @@ void player::place_corpse()
 void player::place_corpse( const tripoint &om_target )
 {
     tinymap bay;
-    bay.load( om_target.x * 2, om_target.y * 2, om_target.z, false );
+    bay.load( tripoint( om_target.x * 2, om_target.y * 2, om_target.z ), false );
     int finX = rng( 1, SEEX * 2 - 2 );
     int finY = rng( 1, SEEX * 2 - 2 );
     if( bay.furn( finX, finY ) != furn_str_id( "f_null" ) ) {

@@ -125,7 +125,7 @@ bool vertical_move_destination( const map &m, tripoint &t )
 
     constexpr int omtileszx = SEEX * 2;
     constexpr int omtileszy = SEEY * 2;
-    real_coords rc( m.getabs( t.x, t.y ) );
+    real_coords rc( m.getabs( t.xy() ) );
     const point omtile_align_start(
         m.getlocal( rc.begin_om_pos() )
     );
