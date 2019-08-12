@@ -3791,7 +3791,7 @@ void npc::go_to_omt_destination()
         omt_path.pop_back();
     }
     if( !omt_path.empty() ) {
-        point omt_diff = point( omt_path.back().x - omt_pos.x, omt_path.back().y - omt_pos.y );
+        point omt_diff = omt_path.back().xy() - omt_pos.xy();
         if( omt_diff.x > 3 || omt_diff.x < -3 || omt_diff.y > 3 || omt_diff.y < -3 ) {
             // we've gone wandering somehow, reset destination.
             if( !is_player_ally() ) {
@@ -3803,7 +3803,7 @@ void npc::go_to_omt_destination()
         }
     }
     tripoint sm_tri = g->m.getlocal( sm_to_ms_copy( omt_to_sm_copy( omt_path.back() ) ) );
-    tripoint centre_sub = tripoint( sm_tri.x + SEEX, sm_tri.y + SEEY, sm_tri.z );
+    tripoint centre_sub = sm_tri + point( SEEX, SEEY );
     if( !g->m.passable( centre_sub ) ) {
         auto candidates = g->m.points_in_radius( centre_sub, 2 );
         for( const auto &elem : candidates ) {

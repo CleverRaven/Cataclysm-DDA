@@ -466,7 +466,7 @@ void overmapbuffer::signal_hordes( const tripoint &center, const int sig_power )
     const auto radius = sig_power;
     for( auto &om : get_overmaps_near( center, radius ) ) {
         const point abs_pos_om = om_to_sm_copy( om->pos() );
-        const tripoint rel_pos( center.x - abs_pos_om.x, center.y - abs_pos_om.y, center.z );
+        const tripoint rel_pos( -abs_pos_om + center );
         // overmap::signal_hordes expects a coordinate relative to the overmap, this is easier
         // for processing as the monster group stores is location as relative coordinates, too.
         om->signal_hordes( rel_pos, sig_power );
@@ -946,7 +946,7 @@ std::vector<tripoint> overmapbuffer::find_all( const tripoint &origin,
             if( abs( x ) < min_distance && abs( y ) < min_distance ) {
                 continue;
             }
-            const tripoint search_loc( origin.x + x, origin.y + y, origin.z );
+            const tripoint search_loc( origin + point( x, y ) );
             if( is_findable_location( search_loc, params ) ) {
                 result.push_back( search_loc );
             }
@@ -1032,8 +1032,8 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const tripoint &locatio
 {
     // Grab the corners of a square around the target location at distance radius.
     // Convert to overmap coordinates and iterate from the minimum to the maximum.
-    const point start = sm_to_om_copy( point( location.x - radius, location.y - radius ) );
-    const point end = sm_to_om_copy( point( location.x + radius, location.y + radius ) );
+    const point start = sm_to_om_copy( location.xy() + point( -radius, -radius ) );
+    const point end = sm_to_om_copy( location.xy() + point( radius, radius ) );
     const point offset = end - start;
 
     std::vector<overmap *> result;

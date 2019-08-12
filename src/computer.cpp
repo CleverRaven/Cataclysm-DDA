@@ -1586,16 +1586,16 @@ void computer::activate_failure( computer_failure_type fail )
                         for( int i = 0; i < leak_size; i++ ) {
                             std::vector<point> next_move;
                             if( g->m.passable( p.x, p.y - 1 ) ) {
-                                next_move.push_back( point( p.x, p.y - 1 ) );
+                                next_move.push_back( p + point( 0, -1 ) );
                             }
                             if( g->m.passable( p.x + 1, p.y ) ) {
-                                next_move.push_back( point( p.x + 1, p.y ) );
+                                next_move.push_back( p + point( 1, 0 ) );
                             }
                             if( g->m.passable( p.x, p.y + 1 ) ) {
-                                next_move.push_back( point( p.x, p.y + 1 ) );
+                                next_move.push_back( p + point( 0, 1 ) );
                             }
                             if( g->m.passable( p.x - 1, p.y ) ) {
-                                next_move.push_back( point( p.x - 1, p.y ) );
+                                next_move.push_back( p + point( -1, 0 ) );
                             }
 
                             if( next_move.empty() ) {
