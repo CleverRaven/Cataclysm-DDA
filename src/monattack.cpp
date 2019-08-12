@@ -13,6 +13,8 @@
 #include <set>
 #include <string>
 #include <utility>
+#include <vector>
+
 #include "avatar.h"
 #include "ballistics.h"
 #include "bodypart.h"
