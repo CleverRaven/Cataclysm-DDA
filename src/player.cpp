@@ -1567,13 +1567,6 @@ int player::run_cost( int base_cost, bool diag ) const
     const bool on_road = flatground && g->m.has_flag( "ROAD", pos() );
     const bool on_fungus = g->m.has_flag_ter_or_furn( "FUNGUS", pos() );
 
-    if( movecost > 100 ) {
-        movecost *= Character::mutation_value( "movecost_obstacle_modifier" );
-        if( movecost < 100 ) {
-            movecost = 100;
-        }
-    }
-
     if( !is_mounted() ) {
         if( movecost > 100 ) {
             movecost *= Character::mutation_value( "movecost_obstacle_modifier" );
@@ -1669,18 +1662,18 @@ int player::run_cost( int base_cost, bool diag ) const
         // Both walk and run speed drop to half their maximums as stamina approaches 0.
         // Convert stamina to a float first to allow for decimal place carrying
         stamina_modifier = ( static_cast<float>( stamina ) / get_stamina_max() + 1 ) / 2;
+        if( move_mode == PMM_RUN && stamina > 0 ) {
+            // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
+            stamina_modifier *= 2.0;
+        }
+        if( move_mode == PMM_CROUCH ) {
+            stamina_modifier *= 0.5;
+        }
+        movecost /= stamina_modifier;
+
     } else {
         stamina_modifier = 1.0;
     }
-
-    if( move_mode == PMM_RUN && stamina > 0 ) {
-        // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
-        stamina_modifier *= 2.0;
-    }
-    if( move_mode == PMM_CROUCH ) {
-        stamina_modifier *= 0.5;
-    }
-    movecost /= stamina_modifier;
 
     if( diag ) {
         movecost *= M_SQRT2;
