@@ -820,7 +820,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
                 aim_and_fire += string_format( "[%s] ", front_or( e.action, ' ' ) );
             }
         }
-        mvwprintz( w_target, text_y++, 1, c_white, "%sto aim and fire", aim_and_fire );
+        mvwprintz( w_target, text_y++, 1, c_white, _( "%sto aim and fire" ), aim_and_fire );
         mvwprintz( w_target, text_y++, 1, c_white, _( "[%c] to switch aiming modes." ),
                    front_or( "SWITCH_AIM", ' ' ) );
     }
@@ -963,7 +963,8 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     if( display_type != "numbers" ) {
         std::string symbols;
         for( const confidence_rating &cr : confidence_config ) {
-            symbols += string_format( " <color_%s>%s</color> = %s", cr.color, cr.symbol, cr.label );
+            symbols += string_format( " <color_%s>%s</color> = %s", cr.color, cr.symbol,
+                                      pgettext( "aim_confidence", cr.label.c_str() ) );
         }
         print_colored_text( w, line_number++, 1, col, col, string_format(
                                 _( "Symbols:%s" ), symbols ) );
@@ -1008,8 +1009,8 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
                 // TODO: Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
                 int chance = std::min<int>( 100, 100.0 * ( config.aim_level * confidence ) ) - last_chance;
                 last_chance += chance;
-                return string_format( "%s: <color_%s>%3d%%</color>", _( config.label ), config.color,
-                                      chance );
+                return string_format( "%s: <color_%s>%3d%%</color>", pgettext( "aim_confidence",
+                                      config.label.c_str() ), config.color, chance );
             }, enumeration_conjunction::none );
             line_number += fold_and_print_from( w, line_number, 1, window_width, 0,
                                                 c_dark_gray, confidence_s );
@@ -1263,6 +1264,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
     // Default to the maximum window size we can use.
     int height = 31;
+    int width = 55;
     int top = 0;
     if( tiny ) {
         // If we're extremely short on space, use the whole sidebar.
@@ -1271,7 +1273,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         // Cover up more low-value ui elements if we're tight on space.
         height = 25;
     }
-    catacurses::window w_target = catacurses::newwin( height, 45, point( TERMX - 45, top ) );
+    catacurses::window w_target = catacurses::newwin( height, width, point( TERMX - width, top ) );
 
     input_context ctxt( "TARGET" );
     ctxt.set_iso( true );
@@ -1786,7 +1788,8 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
 
     // Default to the maximum window size we can use.
     int height = 31;
-    catacurses::window w_target = catacurses::newwin( height, 45, point( TERMX - 45, 0 ) );
+    int width = 55;
+    catacurses::window w_target = catacurses::newwin( height, width, point( TERMX - width, 0 ) );
 
     // TODO: this should return a reference to a static vector which is cleared on each call.
     static const std::vector<tripoint> empty_result{};
