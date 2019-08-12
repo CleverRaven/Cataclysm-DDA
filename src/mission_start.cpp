@@ -128,7 +128,8 @@ void mission_start::kill_horde_master( mission *miss )
  * Find a location to place a computer.  In order, prefer:
  * 1) Broken consoles.
  * 2) Corners or coords adjacent to a bed/dresser? (this logic may be flawed, dates from Whales in 2011)
- * 3) A random spot near the center of the tile.
+ * 3) A spot near the center of the tile that is not a console
+ * 4) A random spot near the center of the tile.
  */
 static tripoint find_potential_computer_point( const tinymap &compmap, int z )
 {
