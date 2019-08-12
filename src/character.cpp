@@ -1675,11 +1675,11 @@ units::mass Character::get_weight() const
     []( units::mass sum, const item & itm ) {
         return sum + itm.weight();
     } );
-
     ret += bodyweight();       // The base weight of the player's body
     ret += inv.weight();           // Weight of the stored inventory
     ret += wornWeight;             // Weight of worn items
     ret += weapon.weight();        // Weight of wielded item
+    ret += bionics_weight();       // Weight of installed bionics
     return ret;
 }
 
@@ -3357,7 +3357,7 @@ units::mass Character::bodyweight() const
 
 units::mass Character::bionics_weight() const
 {
-    units::mass bio_weight = units::from_kilogram( 0 );
+    units::mass bio_weight = units::from_gram( 0 );
     for( const auto bio : *my_bionics ) {
         const item cbm( bio.id.c_str() );
         bio_weight += cbm.weight();
