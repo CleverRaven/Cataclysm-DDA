@@ -7195,9 +7195,10 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 computer *map::add_computer( const tripoint &p, const std::string &name, int security )
 {
     ter_set( p, t_console ); // TODO: Turn this off?
-    submap *place_on_submap = get_submap_at( p );
-    place_on_submap->comp = std::make_unique<computer>( name, security );
-    return place_on_submap->comp.get();
+    point l;
+    submap *const place_on_submap = get_submap_at( p, l );
+    place_on_submap->set_computer( l, computer( name, security ) );
+    return place_on_submap->get_computer( l );
 }
 
 /**

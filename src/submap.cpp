@@ -148,6 +148,68 @@ void submap::delete_signage( const point &p )
     }
 }
 
+void submap::update_legacy_computer()
+{
+    if( legacy_computer ) {
+        for( int x = 0; x < SEEX; ++x ) {
+            for( int y = 0; y < SEEY; ++y ) {
+                if( ter[x][y] == t_console ) {
+                    computers.emplace( point( x, y ), *legacy_computer );
+                }
+            }
+        }
+        legacy_computer.reset();
+    }
+}
+
+bool submap::has_computer( const point &p ) const
+{
+    return computers.find( p ) != computers.end() || ( legacy_computer && ter[p.x][p.y] == t_console );
+}
+
+const computer *submap::get_computer( const point &p ) const
+{
+    // the returned object will not get modified (should not, at least), so we
+    // don't yet need to update to std::map
+    const auto it = computers.find( p );
+    if( it != computers.end() ) {
+        return &it->second;
+    }
+    if( legacy_computer && ter[p.x][p.y] == t_console ) {
+        return legacy_computer.get();
+    }
+    return nullptr;
+}
+
+computer *submap::get_computer( const point &p )
+{
+    // need to update to std::map first so modifications to the returned object
+    // only affects the exact point p
+    update_legacy_computer();
+    const auto it = computers.find( p );
+    if( it != computers.end() ) {
+        return &it->second;
+    }
+    return nullptr;
+}
+
+void submap::set_computer( const point &p, const computer &c )
+{
+    update_legacy_computer();
+    const auto it = computers.find( p );
+    if( it != computers.end() ) {
+        it->second = c;
+    } else {
+        computers.emplace( p, c );
+    }
+}
+
+void submap::delete_computer( const point &p )
+{
+    update_legacy_computer();
+    computers.erase( p );
+}
+
 bool submap::contains_vehicle( vehicle *veh )
 {
     const auto match = std::find_if(
