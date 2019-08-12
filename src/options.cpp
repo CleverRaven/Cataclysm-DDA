@@ -986,12 +986,12 @@ void options_manager::init()
     add_options_world_default();
     add_options_android();
 
-    for( unsigned i = 0; i < vPages.size(); ++i ) {
+    for( size_t i = 0; i < vPages.size(); ++i ) {
         mPageItems[i].resize( mOptionsSort[vPages[i].first] );
     }
 
     for( auto &elem : options ) {
-        for( unsigned i = 0; i < vPages.size(); ++i ) {
+        for( size_t i = 0; i < vPages.size(); ++i ) {
             if( vPages[i].first == elem.second.getPage() && elem.second.getSortPos() > -1 ) {
                 mPageItems[i][elem.second.getSortPos()] = elem.first;
                 break;
@@ -1000,7 +1000,7 @@ void options_manager::init()
     }
 
     //Sort out possible double empty lines after options are hidden
-    for( unsigned i = 0; i < vPages.size(); ++i ) {
+    for( size_t i = 0; i < vPages.size(); ++i ) {
         bool bLastLineEmpty = false;
         while( mPageItems[i][0].empty() ) {
             //delete empty lines at the beginning

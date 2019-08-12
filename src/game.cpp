@@ -1086,8 +1086,8 @@ bool game::cleanup_at_end()
         sfx::fade_audio_group( 3, 2000 );
         sfx::fade_audio_group( 4, 2000 );
 
-        for( unsigned int iY = 0; iY < vRip.size(); ++iY ) {
-            for( unsigned int iX = 0; iX < vRip[iY].length(); ++iX ) {
+        for( size_t iY = 0; iY < vRip.size(); ++iY ) {
+            for( size_t iX = 0; iX < vRip[iY].length(); ++iX ) {
                 char cTemp = vRip[iY][iX];
                 if( cTemp != ' ' ) {
                     nc_color ncColor = c_light_gray;

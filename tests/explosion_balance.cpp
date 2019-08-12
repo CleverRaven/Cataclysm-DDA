@@ -112,7 +112,7 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
 
     // We don't expect any destroyed parts.
     REQUIRE( before_hp.size() == after_hp.size() );
-    for( unsigned int i = 0; i < before_hp.size(); ++i ) {
+    for( size_t i = 0; i < before_hp.size(); ++i ) {
         INFO( target_vehicle->parts[ i ].name() );
         if( target_vehicle->parts[ i ].info().get_id() == "windshield" ||
             target_vehicle->parts[ i ].info().get_id() == "headlight" ) {
