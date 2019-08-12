@@ -124,7 +124,7 @@
     "time": "360 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
-    "components": [ [ [ "leather", 4 ] ], [ [ "scrap", 8 ] ], [ [ "rune_earthshaper", 1 ] ] ]
+    "components": [ [ [ "leather", 4 ] ], [ [ "scrap", 8 ] ], [ [ "rock", 1 ] ], [ [ "rune_earthshaper", 1 ] ] ]
   },
   {
     "result": "rune_kelvinist_weapon",
