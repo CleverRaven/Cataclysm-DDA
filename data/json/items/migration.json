@@ -628,11 +628,6 @@
     "replace": "rolling_pin"
   },
   {
-    "id": "afs_rolling_pin_barbed_wire",
-    "type": "MIGRATION",
-    "replace": "bwire_rolling_pin"
-  },
-  {
     "id": "afs_welding_mask",
     "type": "MIGRATION",
     "replace": "welding_mask"

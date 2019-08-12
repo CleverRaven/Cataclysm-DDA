@@ -40,7 +40,7 @@
     "name": "USMC M1014 technical manual",
     "description": "A pocket-sized book printed for official use.  It describes the operation, repair, and cleaning of the Benelli M1014 shotgun.  Though specific to the M1014, it can provide a wealth of information to the trained eye.",
     "weight": 600,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 3000,
     "material": [ "paper" ],
     "symbol": "?",

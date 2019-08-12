@@ -98,6 +98,17 @@
     "components": [ [ [ "2x4", 2 ] ], [ [ "adhesive", 1, "LIST" ] ] ]
   },
   {
+    "result": "afs_rolling_pin_barbed_wire",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": true,
+    "components": [ [ [ "afs_rolling_pin", 1 ] ], [ [ "wire_barbed", 1 ] ], [ [ "adhesive", 1, "LIST" ] ] ]
+  },
+  {
     "type": "recipe",
     "result": "afs_rope_lighter",
     "category": "CC_OTHER",

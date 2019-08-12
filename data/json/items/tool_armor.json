@@ -66,7 +66,7 @@
     "name": "welding mask",
     "description": "A steel mask with a very dark visor, meant to protect the entire face while welding.  It also serves as good armor, but makes it hard to see.  Activate it to push it up your head.",
     "weight": 4000,
-    "volume": 4,
+    "volume": "4 L",
     "price": 1400,
     "to_hit": -3,
     "use_action": { "type": "transform", "msg": "You push your %s up your head.", "target": "welding_mask_raised", "menu_text": "Raise" },

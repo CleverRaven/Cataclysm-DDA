@@ -100,7 +100,7 @@
   {
     "id": "survivorzed_extra",
     "type": "item_group",
-    "items": [ [ "afs_chain_wrench", 8 ] ]
+    "items": [ [ "afs_rolling_pin_barbed_wire", 5 ], [ "afs_chain_wrench", 8 ] ]
   },
   {
     "id": "camping",

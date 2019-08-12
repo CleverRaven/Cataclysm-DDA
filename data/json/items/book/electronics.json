@@ -175,7 +175,7 @@
     "name_plural": "Nuclear Physics Made Easy",
     "description": "A book detailing the workings of state of the art atomic technology, and the physics behind it.  You could probably figure out how to build a fission reactor from reading it, but after the apocalypse, acquiring suitable machinery and materials for that seems extremely unlikely at best.  However, more fundamental information presented in this book could indeed be useful.",
     "weight": 2063,
-    "volume": 8,
+    "volume": "2 L",
     "price": 9200,
     "bashing": 8,
     "material": [ "paper" ],

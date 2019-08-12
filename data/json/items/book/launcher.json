@@ -41,7 +41,7 @@
     "name_plural": "copies of Jane's Flamethrowers and Firestarters",
     "description": "A detailed, full-colored guide to flamethrowers, incendiary weapons, and napalm.  It builds off of information provided in its sister book, Jane's Mortars and Rocket Launchers, and so it's mostly incomprehensible to anyone without prior knowledge.",
     "weight": 734,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 2000,
     "material": [ "paper" ],
     "symbol": "?",

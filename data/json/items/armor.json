@@ -2222,7 +2222,7 @@
     "symbol": "[",
     "color": "red",
     "weight": 411,
-    "volume": 4,
+    "volume": "2 L",
     "//": "REI Co-op 22-liter daypack costs $54.95, so ballpark to $55",
     "price": 5500,
     "price_postapoc": 10000,
@@ -2236,6 +2236,7 @@
     "flags": [ "BELTED", "OVERSIZE", "STURDY" ],
     "looks_like": "backpack"
   },
+  {
     "id": "dinosuit",
     "type": "ARMOR",
     "name": "dinosaur suit",
@@ -7654,7 +7655,7 @@
     "name": "ski jacket",
     "description": "An insulated, breathable hoodie made for alpine skiing.  Very warm, and with sizable pockets.",
     "weight": 1105,
-    "volume": 20,
+    "volume": "5 L",
     "price": 18000,
     "material": [ "cotton", "plastic" ],
     "symbol": "[",

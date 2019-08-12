@@ -423,7 +423,7 @@
       [ "aluminum_foil", 25 ],
       [ "chips", 65 ],
       [ "fried_seeds", 15 ],
-      [ "rolling_pin", 25 ]
+      [ "rolling_pin", 25 ],
       [ "cereal", 50 ],
       [ "cereal2", 60 ],
       [ "cereal3", 45 ],
@@ -8133,7 +8133,6 @@
     "type": "item_group",
     "id": "survivorzed_extra",
     "items": [
-      [ "bwire_rolling_pin", 5 ],
       [ "daypack", 4 ],
       [ "mask_lsurvivor", 10 ],
       [ "mask_survivor", 8 ],
