@@ -1424,12 +1424,12 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
         } else if( one_in( 2 ) ) {
             pnt = point( rng( HALF_MAPSIZE_X, HALF_MAPSIZE_X + SEEX ), rng( 1, SEEY ) );
             if( one_in( 2 ) ) {
-                pnt = point( pnt.x, MAPSIZE_Y - 1 - pnt.y );
+                pnt = point( pnt.x, -pnt.y ) + point( 0, MAPSIZE_Y - 1 );
             }
         } else {
             pnt = point( rng( 1, SEEX ), rng( HALF_MAPSIZE_Y, HALF_MAPSIZE_Y + SEEY ) );
             if( one_in( 2 ) ) {
-                pnt = point( MAPSIZE_X - 1 - pnt.x, pnt.y );
+                pnt = point( -pnt.x, pnt.y ) + point( MAPSIZE_X - 1, 0 );
             }
         }
         if( g->is_empty( { pnt, g->get_levz() } ) ) {

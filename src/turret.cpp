@@ -402,10 +402,10 @@ bool vehicle::turrets_aim( bool manual, bool automatic, vehicle_part *tur_part )
         const int rng = gun.range();
 
         int res = 0;
-        res = std::max( res, rl_dist( g->u.pos(), { pos.x + rng, pos.y, pos.z } ) );
-        res = std::max( res, rl_dist( g->u.pos(), { pos.x - rng, pos.y, pos.z } ) );
-        res = std::max( res, rl_dist( g->u.pos(), { pos.x, pos.y + rng, pos.z } ) );
-        res = std::max( res, rl_dist( g->u.pos(), { pos.x, pos.y - rng, pos.z } ) );
+        res = std::max( res, rl_dist( g->u.pos(), pos + point( rng, 0 ) ) );
+        res = std::max( res, rl_dist( g->u.pos(), pos + point( -rng, 0 ) ) );
+        res = std::max( res, rl_dist( g->u.pos(), pos + point( 0, rng ) ) );
+        res = std::max( res, rl_dist( g->u.pos(), pos + point( 0, -rng ) ) );
         return std::max( lhs, res );
     } );
 

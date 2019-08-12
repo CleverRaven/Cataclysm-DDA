@@ -40,10 +40,10 @@ std::vector<point> point_flood_fill_4_connected( const point &starting_point,
 
         if( predicate( current_point ) ) {
             filled_points.emplace_back( current_point );
-            to_check.push( point( current_point.x, current_point.y + 1 ) );
-            to_check.push( point( current_point.x, current_point.y - 1 ) );
-            to_check.push( point( current_point.x + 1, current_point.y ) );
-            to_check.push( point( current_point.x - 1, current_point.y ) );
+            to_check.push( current_point + point( 0, 1 ) );
+            to_check.push( current_point + point( 0, -1 ) );
+            to_check.push( current_point + point( 1, 0 ) );
+            to_check.push( current_point + point( -1, 0 ) );
         }
     }
 

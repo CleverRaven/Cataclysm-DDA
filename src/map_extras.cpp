@@ -588,7 +588,7 @@ static void mx_roadblock( map &m, const tripoint &abs_sub )
 
                 int splatter_range = rng( 1, 3 );
                 for( int j = 0; j <= splatter_range; j++ ) {
-                    m.add_field( {p->x - j * 1, p->y + j * 1, p->z}, fd_blood, 1, 0_turns );
+                    m.add_field( *p + point( -j * 1, j * 1 ), fd_blood, 1, 0_turns );
                 }
             }
         }
@@ -626,7 +626,7 @@ static void mx_roadblock( map &m, const tripoint &abs_sub )
 
                 int splatter_range = rng( 1, 3 );
                 for( int j = 0; j <= splatter_range; j++ ) {
-                    m.add_field( {p->x + j * 1, p->y - j * 1, p->z}, fd_blood, 1, 0_turns );
+                    m.add_field( *p + point( j * 1, -j * 1 ), fd_blood, 1, 0_turns );
                 }
             }
         }
@@ -1404,14 +1404,14 @@ static void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<poi
 
         // Add all adjacent tiles (even on diagonals) for possible ignition
         // Since they're being added to a set, duplicates won't occur
-        ignited.insert( point( i.x - 1, i.y - 1 ) );
-        ignited.insert( point( i.x,     i.y - 1 ) );
-        ignited.insert( point( i.x + 1, i.y - 1 ) );
-        ignited.insert( point( i.x - 1, i.y ) );
-        ignited.insert( point( i.x + 1, i.y ) );
-        ignited.insert( point( i.x - 1, i.y + 1 ) );
-        ignited.insert( point( i.x,     i.y + 1 ) );
-        ignited.insert( point( i.x + 1, i.y + 1 ) );
+        ignited.insert( i + point( -1, -1 ) );
+        ignited.insert( i + point( 0, -1 ) );
+        ignited.insert( i + point( 1, -1 ) );
+        ignited.insert( i + point( -1, 0 ) );
+        ignited.insert( i + point( 1, 0 ) );
+        ignited.insert( i + point( -1, 1 ) );
+        ignited.insert( i + point( 0, 1 ) );
+        ignited.insert( i + point( 1, 1 ) );
 
         if( one_in( 6 ) ) {
             m.spawn_item( i.x - 1, i.y - 1, "chunk_sulfur" );

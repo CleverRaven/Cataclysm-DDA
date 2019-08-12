@@ -7861,7 +7861,7 @@ void silo_rooms( map *m )
     const point &first_room_position = rooms[0].first;
     m->ter_set( first_room_position, t_stairs_up );
     const auto &room = random_entry( rooms );
-    m->ter_set( point( room.first.x + room.second.x, room.first.y + room.second.y ), t_stairs_down );
+    m->ter_set( room.first + room.second, t_stairs_down );
     rooms.emplace_back( point( SEEX, SEEY ), point( 5, 5 ) ); // So the center circle gets connected
 
     while( rooms.size() > 1 ) {

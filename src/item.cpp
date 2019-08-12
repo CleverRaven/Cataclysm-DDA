@@ -7998,21 +7998,21 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             ( carrier->has_trait( trait_id( "JITTERY" ) ) && one_in( 200 ) ) ) {
             carrier->add_msg_if_player( m_bad, _( "Your shaking hand causes you to drop your %s." ),
                                         tname() );
-            g->m.add_item_or_charges( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), *this );
+            g->m.add_item_or_charges( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), *this );
             return true; // removes the item that has just been added to the map
         }
 
         if( carrier->has_effect( effect_sleep ) ) {
             carrier->add_msg_if_player( m_bad, _( "You fall asleep and drop your %s." ),
                                         tname() );
-            g->m.add_item_or_charges( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), *this );
+            g->m.add_item_or_charges( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), *this );
             return true; // removes the item that has just been added to the map
         }
     } else {
         // If not carried by someone, but laying on the ground:
         // release some smoke every five ticks
         if( item_counter % 5 == 0 ) {
-            g->m.add_field( tripoint( pos.x + rng( -2, 2 ), pos.y + rng( -2, 2 ), pos.z ), smoke_type, 1 );
+            g->m.add_field( pos + point( rng( -2, 2 ), rng( -2, 2 ) ), smoke_type, 1 );
             // lit cigarette can start fires
             if( g->m.flammable_items_at( pos ) ||
                 g->m.has_flag( "FLAMMABLE", pos ) ||
@@ -8035,7 +8035,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             convert( "joint_roach" );
             if( carrier != nullptr ) {
                 carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
-                g->m.add_field( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), fd_weedsmoke, 2 );
+                g->m.add_field( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), fd_weedsmoke, 2 );
                 weed_msg( *carrier );
             }
         }

@@ -6,6 +6,7 @@
 #include "PointInitializationCheck.h"
 #include "SimplifyPointConstructorsCheck.h"
 #include "UsePointApisCheck.h"
+#include "UsePointArithmeticCheck.h"
 #include "XYCheck.h"
 
 namespace clang
@@ -24,6 +25,7 @@ class CataModule : public ClangTidyModule
             CheckFactories.registerCheck<SimplifyPointConstructorsCheck>(
                 "cata-simplify-point-constructors" );
             CheckFactories.registerCheck<UsePointApisCheck>( "cata-use-point-apis" );
+            CheckFactories.registerCheck<UsePointArithmeticCheck>( "cata-use-point-arithmetic" );
             CheckFactories.registerCheck<XYCheck>( "cata-xy" );
         }
 };

@@ -181,7 +181,7 @@ static void do_blast( const tripoint &p, const float power,
         // Don't check up/down (for now) - this will make 2D/3D balancing easier
         int empty_neighbors = 0;
         for( size_t i = 0; i < 8; i++ ) {
-            tripoint dest( pt.x + x_offset[i], pt.y + y_offset[i], pt.z + z_offset[i] );
+            tripoint dest( pt + tripoint( x_offset[i], y_offset[i], z_offset[i] ) );
             if( closed.count( dest ) == 0 && g->m.valid_move( pt, dest, false, true ) ) {
                 empty_neighbors++;
             }
@@ -190,7 +190,7 @@ static void do_blast( const tripoint &p, const float power,
         empty_neighbors = std::max( 1, empty_neighbors );
         // Iterate over all neighbors. Bash all of them, propagate to some
         for( size_t i = 0; i < max_index; i++ ) {
-            tripoint dest( pt.x + x_offset[i], pt.y + y_offset[i], pt.z + z_offset[i] );
+            tripoint dest( pt + tripoint( x_offset[i], y_offset[i], z_offset[i] ) );
             if( closed.count( dest ) != 0 || !g->m.inbounds( dest ) ) {
                 continue;
             }

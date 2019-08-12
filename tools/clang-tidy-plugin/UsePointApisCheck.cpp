@@ -31,31 +31,6 @@ void UsePointApisCheck::registerMatchers( MatchFinder *Finder )
     );
 }
 
-template<typename T>
-static const FunctionDecl *getContainingFunction(
-    const MatchFinder::MatchResult &Result, const T *Node )
-{
-    for( const ast_type_traits::DynTypedNode &parent : Result.Context->getParents( *Node ) ) {
-        if( const Decl *Candidate = parent.get<Decl>() ) {
-            if( const FunctionDecl *ContainingFunction = dyn_cast<FunctionDecl>( Candidate ) ) {
-                return ContainingFunction;
-            }
-            if( const FunctionDecl *ContainingFunction =
-                    getContainingFunction( Result, Candidate ) ) {
-                return ContainingFunction;
-            }
-        }
-        if( const Stmt *Candidate = parent.get<Stmt>() ) {
-            if( const FunctionDecl *ContainingFunction =
-                    getContainingFunction( Result, Candidate ) ) {
-                return ContainingFunction;
-            }
-        }
-    }
-
-    return nullptr;
-}
-
 static bool doFunctionsMatch( const FunctionDecl *Callee, const FunctionDecl *OtherCallee,
                               unsigned int NumCoordParams, unsigned int SkipArgs,
                               unsigned int MinArg, bool IsTripoint )

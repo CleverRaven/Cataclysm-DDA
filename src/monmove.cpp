@@ -447,7 +447,7 @@ void monster::plan( const mfactions &factions )
         if( type->has_special_attack( "OPERATE" ) ) {
 
             bool found_path_to_couch = false;
-            tripoint tmp( pos().x + 12, pos().y + 12, pos().z );
+            tripoint tmp( pos() + point( 12, 12 ) );
             tripoint couch_loc;
             for( const auto &couch_pos : g->m.find_furnitures_in_radius( pos(), 10,
                     furn_id( "f_autodoc_couch" ) ) ) {
@@ -1513,7 +1513,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
             continue;
         }
 
-        tripoint dest( p.x + dx, p.y + dy, p.z );
+        tripoint dest( p + point( dx, dy ) );
         const int dest_movecost_from = 50 * g->m.move_cost( dest );
 
         // Pushing into cars/windows etc. is harder

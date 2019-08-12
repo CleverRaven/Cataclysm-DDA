@@ -1354,8 +1354,7 @@ void game::calc_driving_offset( vehicle *veh )
 
     // Turn the offset into a vector that increments the offset toward the desired position
     // instead of setting it there instantly, should smooth out jerkiness.
-    const point offset_difference( offset.x - driving_view_offset.x,
-                                   offset.y - driving_view_offset.y );
+    const point offset_difference( -driving_view_offset + point( offset.x, offset.y ) );
 
     const point offset_sign( ( offset_difference.x < 0 ) ? -1 : 1,
                              ( offset_difference.y < 0 ) ? -1 : 1 );
@@ -3365,7 +3364,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
     m.draw( w_terrain, center );
 
     if( draw_sounds ) {
-        draw_footsteps( w_terrain, {POSX - center.x, POSY - center.y, center.z} );
+        draw_footsteps( w_terrain, tripoint( -center.x, -center.y, center.z ) + point( POSX, POSY ) );
     }
 
     for( Creature &critter : all_creatures() ) {
@@ -3410,7 +3409,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         draw_veh_dir_indicator( true );
     }
     // Place the cursor over the player as is expected by screen readers.
-    wmove( w_terrain, point( POSX + g->u.pos().x - center.x, POSY + g->u.pos().y - center.y ) );
+    wmove( w_terrain, -center.xy() + g->u.pos().xy() + point( POSX, POSY ) );
 }
 
 cata::optional<tripoint> game::get_veh_dir_indicator_location( bool next ) const
@@ -3774,8 +3773,8 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
 
     std::unordered_set<tripoint> visited;
 
-    const tripoint fishing_boundary_min( fish_pos.x - distance, fish_pos.y - distance, fish_pos.z );
-    const tripoint fishing_boundary_max( fish_pos.x + distance, fish_pos.y + distance, fish_pos.z );
+    const tripoint fishing_boundary_min( fish_pos + point( -distance, -distance ) );
+    const tripoint fishing_boundary_max( fish_pos + point( distance, distance ) );
 
     const box fishing_boundaries( fishing_boundary_min, fishing_boundary_max );
 
@@ -3802,10 +3801,10 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
 
             if( m.has_flag( "FISHABLE", current_point ) ) {
                 fishable_terrain.emplace( current_point );
-                to_check.push( tripoint( current_point.x, current_point.y + 1, current_point.z ) );
-                to_check.push( tripoint( current_point.x, current_point.y - 1, current_point.z ) );
-                to_check.push( tripoint( current_point.x + 1, current_point.y, current_point.z ) );
-                to_check.push( tripoint( current_point.x - 1, current_point.y, current_point.z ) );
+                to_check.push( current_point + point( 0, 1 ) );
+                to_check.push( current_point + point( 0, -1 ) );
+                to_check.push( current_point + point( 1, 0 ) );
+                to_check.push( current_point + point( -1, 0 ) );
             }
         }
         return;
@@ -9006,7 +9005,7 @@ bool game::walk_move( const tripoint &dest_loc )
             } else if( diff.y > 0 ) {
                 diff.y += 2;
             }
-            u.mounted_creature->shove_vehicle( tripoint( dest_loc.x + diff.x, dest_loc.y + diff.y, dest_loc.z ),
+            u.mounted_creature->shove_vehicle( dest_loc + diff.xy(),
                                                dest_loc );
         }
         return false;
@@ -9181,13 +9180,12 @@ bool game::walk_move( const tripoint &dest_loc )
 
     tripoint oldpos = u.pos();
     point submap_shift = place_player( dest_loc );
-    oldpos = tripoint( oldpos.x - submap_shift.x * SEEX, oldpos.y - submap_shift.y * SEEX, oldpos.z );
+    point ms_shift = sm_to_ms_copy( submap_shift );
+    oldpos = oldpos - ms_shift;
 
     if( pulling ) {
-        const tripoint shifted_furn_pos = tripoint( furn_pos.x - submap_shift.x * SEEX,
-                                          furn_pos.y - submap_shift.y * SEEY, furn_pos.z );
-        const tripoint shifted_furn_dest = tripoint( furn_dest.x - submap_shift.x * SEEX,
-                                           furn_dest.y - submap_shift.y * SEEY, furn_dest.z );
+        const tripoint shifted_furn_pos = furn_pos - ms_shift;
+        const tripoint shifted_furn_dest = furn_dest - ms_shift;
         const time_duration fire_age = m.get_field_age( shifted_furn_pos, fd_fire );
         const int fire_intensity = m.get_field_intensity( shifted_furn_pos, fd_fire );
         m.remove_field( shifted_furn_pos, fd_fire );
@@ -9561,7 +9559,8 @@ void game::place_player_overmap( const tripoint &om_dest )
     }
     // offset because load_map expects the coordinates of the top left corner, but the
     // player will be centered in the middle of the map.
-    const tripoint map_om_pos( om_dest.x * 2 - HALF_MAPSIZE, om_dest.y * 2 - HALF_MAPSIZE, om_dest.z );
+    const tripoint map_om_pos( tripoint( 2 * om_dest.x, 2 * om_dest.y,
+                                         om_dest.z ) + point( -HALF_MAPSIZE, -HALF_MAPSIZE ) );
     const tripoint player_pos( u.pos().xy(), map_om_pos.z );
     load_map( map_om_pos );
     load_npcs();
@@ -10345,8 +10344,7 @@ void game::vertical_move( int movez, bool force )
     }
 
     if( u.is_hauling() ) {
-        const tripoint adjusted_pos( old_pos.x - submap_shift.x * SEEX, old_pos.y - submap_shift.y * SEEY,
-                                     old_pos.z );
+        const tripoint adjusted_pos = old_pos - sm_to_ms_copy( submap_shift );
         u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
         // Whether the destination is inside a vehicle (not supported)
         u.activity.values.push_back( 0 );
@@ -10374,8 +10372,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
     const int omtilesz = SEEX * 2;
     real_coords rc( m.getabs( point( u.posx(), u.posy() ) ) );
     tripoint omtile_align_start( m.getlocal( rc.begin_om_pos() ), z_after );
-    tripoint omtile_align_end( omtile_align_start.x + omtilesz - 1, omtile_align_start.y + omtilesz - 1,
-                               omtile_align_start.z );
+    tripoint omtile_align_end( omtile_align_start + point( -1 + omtilesz, -1 + omtilesz ) );
 
     // Try to find the stairs.
     cata::optional<tripoint> stairs;

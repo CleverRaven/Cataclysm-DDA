@@ -1292,8 +1292,7 @@ void debug()
 #if defined(TILES)
                 // *INDENT-OFF*
                 const point offset{
-                    POSX - u.posx() + u.view_offset.x,
-                    POSY - u.posy() + u.view_offset.y
+                    u.view_offset.xy() + point( POSX - u.posx(), POSY - u.posy() )
                 }; // *INDENT-ON*
                 g->draw_ter();
                 auto sounds_to_draw = sounds::get_monster_sounds();

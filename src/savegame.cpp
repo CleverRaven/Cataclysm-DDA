@@ -765,8 +765,8 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         }
 
         for( const auto &conv : nearby ) {
-            const auto x_it = needs_conversion.find( tripoint( pos.x + conv.xoffset, pos.y, pos.z ) );
-            const auto y_it = needs_conversion.find( tripoint( pos.x, pos.y + conv.yoffset, pos.z ) );
+            const auto x_it = needs_conversion.find( pos + point( conv.xoffset, 0 ) );
+            const auto y_it = needs_conversion.find( pos + point( 0, conv.yoffset ) );
             if( x_it != needs_conversion.end() && x_it->second == conv.x_id &&
                 y_it != needs_conversion.end() && y_it->second == conv.y_id ) {
                 new_id = oter_id( conv.new_id );

@@ -56,6 +56,9 @@ struct point {
     constexpr point operator*( const int rhs ) const {
         return point( x * rhs, y * rhs );
     }
+    friend constexpr point operator*( int lhs, const point &rhs ) {
+        return rhs * lhs;
+    }
     point &operator*=( const int rhs ) {
         x *= rhs;
         y *= rhs;
@@ -134,6 +137,9 @@ struct tripoint {
     constexpr tripoint operator*( const int rhs ) const {
         return tripoint( x * rhs, y * rhs, z * rhs );
     }
+    friend constexpr tripoint operator*( int lhs, const tripoint &rhs ) {
+        return rhs * lhs;
+    }
     tripoint &operator*=( const int rhs ) {
         x *= rhs;
         y *= rhs;
@@ -143,6 +149,9 @@ struct tripoint {
     /*** some point operators and functions ***/
     constexpr tripoint operator+( const point &rhs ) const {
         return tripoint( x + rhs.x, y + rhs.y, z );
+    }
+    friend constexpr tripoint operator+( const point &lhs, const tripoint &rhs ) {
+        return rhs + lhs;
     }
     constexpr tripoint operator-( const point &rhs ) const {
         return tripoint( x - rhs.x, y - rhs.y, z );

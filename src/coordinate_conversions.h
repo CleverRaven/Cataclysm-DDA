@@ -140,6 +140,8 @@ inline void omt_to_sm( tripoint &p )
 {
     omt_to_sm( p.x, p.y );
 }
+// overmap terrain to map square
+point omt_to_ms_copy( const point &p );
 // overmap to submap, basically: x *= 2 * OMAPX
 point om_to_sm_copy( int x, int y );
 inline point om_to_sm_copy( const point &p )

@@ -323,16 +323,16 @@ void mission_start::find_safety( mission *miss )
     // Couldn't find safety; so just set the target to far away
     switch( rng( 0, 3 ) ) {
         case 0:
-            miss->target = tripoint( place.x - 20, place.y - 20, place.z );
+            miss->target = place + point( -20, -20 );
             break;
         case 1:
-            miss->target = tripoint( place.x - 20, place.y + 20, place.z );
+            miss->target = place + point( -20, 20 );
             break;
         case 2:
-            miss->target = tripoint( place.x + 20, place.y - 20, place.z );
+            miss->target = place + point( 20, -20 );
             break;
         case 3:
-            miss->target = tripoint( place.x + 20, place.y + 20, place.z );
+            miss->target = place + point( 20, 20 );
             break;
     }
 }

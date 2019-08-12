@@ -353,7 +353,7 @@ void map::create_hot_air( const tripoint &p, int intensity )
     }
 
     for( int counter = 0; counter < 5; counter++ ) {
-        tripoint dst( p.x + rng( -1, 1 ), p.y + rng( -1, 1 ), p.z );
+        tripoint dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
         add_field( dst, hot_air, 1 );
     }
 }
@@ -1049,7 +1049,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             }
                             // Spread to adjacent space, then
                             if( valid.empty() ) {
-                                tripoint dst( p.x + rng( -1, 1 ), p.y + rng( -1, 1 ), p.z );
+                                tripoint dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
                                 field_entry *elec = get_field( dst ).find_field( fd_electricity );
                                 if( passable( dst ) && elec != nullptr &&
                                     elec->get_field_intensity() < 3 ) {
@@ -1250,7 +1250,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 }
                 if( curtype == fd_incendiary ) {
                     // Needed for variable scope
-                    tripoint dst( p.x + rng( -1, 1 ), p.y + rng( -1, 1 ), p.z );
+                    tripoint dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
                     if( has_flag( TFLAG_FLAMMABLE, dst ) ||
                         has_flag( TFLAG_FLAMMABLE_ASH, dst ) ||
                         has_flag( TFLAG_FLAMMABLE_HARD, dst ) ) {

@@ -744,7 +744,7 @@ void player::apply_persistent_morale()
                 if( dist > max_dist ) {
                     continue;
                 }
-                const point pos = point( ompos.x + dx, ompos.y + dy );
+                const point pos = ompos.xy() + point( dx, dy );
                 if( overmap_time.find( pos ) == overmap_time.end() ) {
                     continue;
                 }
@@ -11122,7 +11122,7 @@ void player::dismount()
                 mounted_creature = nullptr;
                 setpos( *pnt );
                 g->refresh_all();
-                critter->setpos( tripoint( pos().x + xdiff, pos().y + ydiff, pos().z ) );
+                critter->setpos( pos() + point( xdiff, ydiff ) );
                 critter->add_effect( effect_controlled, 5_turns );
                 mod_moves( -100 );
                 set_movement_mode( PMM_WALK );

@@ -3601,9 +3601,8 @@ void basecamp::place_results( item result, bool by_radio )
 
 void apply_camp_ownership( const tripoint &camp_pos, int radius )
 {
-    for( const tripoint &p : g->m.points_in_rectangle( tripoint( camp_pos.x - radius,
-            camp_pos.y - radius, camp_pos.z ), tripoint( camp_pos.x + radius, camp_pos.y + radius,
-                    camp_pos.z ) ) ) {
+    for( const tripoint &p : g->m.points_in_rectangle( camp_pos + point( -radius, -radius ),
+            camp_pos + point( radius, radius ) ) ) {
         auto items = g->m.i_at( p.x, p.y );
         for( item &elem : items ) {
             elem.set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );

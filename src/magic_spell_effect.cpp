@@ -47,7 +47,7 @@ static tripoint random_point( int min_distance, int max_distance, const tripoint
     const int dist = rng( min_distance, max_distance );
     const int x = round( dist * cos( angle ) );
     const int y = round( dist * sin( angle ) );
-    return tripoint( x + player_pos.x, y + player_pos.y, player_pos.z );
+    return player_pos + point( x, y );
 }
 
 void spell_effect::teleport_random( const spell &sp, Creature &caster, const tripoint & )
