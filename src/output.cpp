@@ -34,6 +34,7 @@
 #include "string_input_popup.h"
 #include "units.h"
 #include "point.h"
+#include "wcwidth.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>

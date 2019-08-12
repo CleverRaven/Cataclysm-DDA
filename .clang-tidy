@@ -29,7 +29,6 @@ readability-*,\
 -cert-msc32-c,\
 -cert-msc50-cpp,\
 -cert-msc51-cpp,\
--misc-definitions-in-headers,\
 -misc-non-private-member-variables-in-classes,\
 -modernize-avoid-c-arrays,\
 -modernize-deprecated-headers,\

@@ -19,6 +19,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "wcwidth.h"
 
 /**
 A generic class to store objects identified by a `string_id`.

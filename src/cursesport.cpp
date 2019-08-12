@@ -9,6 +9,7 @@
 #include "cursesdef.h"
 #include "game_ui.h"
 #include "output.h"
+#include "wcwidth.h"
 
 /**
  * Whoever cares, btw. not my base design, but this is how it works:
