@@ -1012,6 +1012,7 @@ matec_id player::pick_technique( Creature &t, const item &weap,
     std::vector<matec_id> possible;
 
     bool downed = t.has_effect( effect_downed );
+    bool stunned = t.has_effect( effect_stunned );
 
     // first add non-aoe tecs
     for( auto &tec_id : all ) {
@@ -1045,6 +1046,16 @@ matec_id player::pick_technique( Creature &t, const item &weap,
 
         // don't apply downing techniques to someone who's already downed
         if( downed && tec.down_dur > 0 ) {
+            continue;
+        }
+
+        // don't apply "downed only" techniques to someone who's not downed
+        if( !downed && tec.downed_target ) {
+            continue;
+        }
+
+        // don't apply "stunned only" techniques to someone who's not stunned
+        if( !stunned && tec.stunned_target ) {
             continue;
         }
 

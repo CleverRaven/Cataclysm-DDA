@@ -106,6 +106,9 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
+    optional( jo, was_loaded, "downed_target", downed_target, false );
+    optional( jo, was_loaded, "stunned_target", stunned_target, false );
+
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
     optional( jo, was_loaded, "dummy", dummy, false );
@@ -487,6 +490,10 @@ ma_technique::ma_technique()
     disarms = false; // like tec_disarm
     dodge_counter = false; // like tec_grab
     block_counter = false; // like tec_counter
+
+    // conditional
+    downed_target = false;    // only works on downed enemies
+    stunned_target = false;   // only works on stunned enemies
 
     miss_recovery = false; // allows free recovery from misses, like tec_feint
     grab_break = false; // allows grab_breaks, like tec_break
@@ -1122,6 +1129,14 @@ std::string ma_technique::get_description() const
         dump << _( "* Can activate on a <info>normal</info> or a <info>crit</info> hit" ) << std::endl;
     } else if( crit_tec ) {
         dump << _( "* Will only activate on a <info>crit</info>" ) << std::endl;
+    }
+
+    if( downed_target ) {
+        dump << _( "* Only works on a <info>downed</info> target" ) << std::endl;
+    }
+
+    if( stunned_target ) {
+        dump << _( "* Only works on a <info>stunned</info> target" ) << std::endl;
     }
 
     if( dodge_counter ) {

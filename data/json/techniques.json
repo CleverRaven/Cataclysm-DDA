@@ -523,6 +523,63 @@
   },
   {
     "type": "technique",
+    "id": "tec_dragon_claw",
+    "name": "Dragon Claw",
+    "min_unarmed": 1,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ],
+    "messages": [ "You lash out at %s with a Dragon Claw", "<npcname> lashes out at %s with a Dragon Claw" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_dragon_blockcounter",
+    "name": "Dragon Vortex Block",
+    "messages": [ "You block the attack and send %s spinning", "<npcname> blocks and spins %s" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "req_buffs": [ "buff_dragon_onhit" ],
+    "block_counter": true,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_dragon_dodgecounter",
+    "name": "Dragon Wing Dodge",
+    "messages": [ "You dodge the attack and leave %s off balance", "<npcname> dodges and leaves %s off balance" ],
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "req_buffs": [ "buff_dragon_onhit" ],
+    "dodge_counter": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_dragon_tail",
+    "name": "Dragon Tail",
+    "messages": [ "You sweep %s with a quick Dragon Tail", "<npcname> sweeps %s with a quick Dragon Tail sweep" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stunned_target": true,
+    "down_dur": 2,
+    "mult_bonuses": [ [ "damage", "bash", 1.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_dragon_strike",
+    "name": "Dragon Strike",
+    "messages": [ "You descend upon %s with a powerful Dragon Strike", "<npcname>  descends upon %s with a powerful Dragon Strike" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "downed_target": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 2.0 ] ]
+  },
+  {
+    "type": "technique",
     "id": "tec_karate_rapid",
     "name": "quick punch",
     "min_unarmed": 0,
@@ -980,60 +1037,6 @@
     "crit_ok": true,
     "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 1.5 ] ],
     "messages": [ "You dodge the attack and swipe at %s's exposed flank", "<npcname> dodges and catches %s exposed" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_dragon_grab",
-    "name": "Dragon Snatch",
-    "min_unarmed": 4,
-    "unarmed_allowed": true,
-    "stun_dur": 2,
-    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ],
-    "messages": [ "You grab and knee %s", "<npcname> grabs and knees %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_dragon_counterb",
-    "name": "Dragon's Vortex Block",
-    "min_unarmed": 4,
-    "unarmed_allowed": true,
-    "block_counter": true,
-    "crit_ok": true,
-    "mult_bonuses": [ [ "movecost", 0.0 ] ],
-    "stun_dur": 2,
-    "messages": [ "You block the attack and send %s spinning", "<npcname> blocks and spins %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_dragon_counterd",
-    "name": "Dragon's Vortex Dodge",
-    "min_unarmed": 4,
-    "unarmed_allowed": true,
-    "dodge_counter": true,
-    "crit_ok": true,
-    "mult_bonuses": [ [ "movecost", 0.0 ] ],
-    "stun_dur": 2,
-    "messages": [ "You dodge the attack and send %s spinning", "<npcname> dodges and spins %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_dragon_sweep",
-    "name": "Dragon Sweeper",
-    "min_unarmed": 5,
-    "unarmed_allowed": true,
-    "down_dur": 2,
-    "messages": [ "You low-roundhouse %s 's legs", "<npcname> low-roundhouses %s 's legs" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_dragon_brutal",
-    "name": "Dragon Strike",
-    "min_unarmed": 6,
-    "unarmed_allowed": true,
-    "crit_tec": true,
-    "stun_dur": 1,
-    "knockback_dist": 1,
-    "messages": [ "You send %s reeling with a Dragon Strike", "<npcname> sends %s reeling with a Dragon Strike" ]
   },
   {
     "type": "technique",
