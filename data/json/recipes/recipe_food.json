@@ -909,7 +909,7 @@
   },
   {
     "type": "recipe",
-    "result": "dogfood_canned",
+    "result": "dogfood",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
     "container": "jar_glass_sealed",
@@ -932,7 +932,7 @@
   },
   {
     "type": "recipe",
-    "result": "dogfood_canned",
+    "result": "dogfood",
     "id_suffix": "canned",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -940,6 +940,7 @@
     "difficulty": 5,
     "time": "24 m",
     "autolearn": true,
+    "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [
       { "id": "SAW_M", "level": 1 },
@@ -958,7 +959,7 @@
   },
   {
     "type": "recipe",
-    "result": "dogfood_canned",
+    "result": "dogfood",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
     "container": "jar_3l_glass_sealed",
@@ -994,7 +995,7 @@
   },
   {
     "type": "recipe",
-    "result": "catfood_canned",
+    "result": "catfood",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
     "container": "jar_glass_sealed",
@@ -1012,7 +1013,7 @@
   },
   {
     "type": "recipe",
-    "result": "catfood_canned",
+    "result": "catfood",
     "id_suffix": "canned",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -1020,6 +1021,7 @@
     "difficulty": 5,
     "time": "24 m",
     "autolearn": true,
+    "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [
       { "id": "SAW_M", "level": 1 },
@@ -1037,7 +1039,7 @@
   },
   {
     "type": "recipe",
-    "result": "catfood_canned",
+    "result": "catfood",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
     "container": "jar_3l_glass_sealed",

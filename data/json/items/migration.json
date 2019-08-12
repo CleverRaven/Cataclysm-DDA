@@ -199,6 +199,18 @@
     "replace": "jackhammer"
   },
   {
+    "id": "dogfood_canned",
+    "type": "MIGRATION",
+    "replace": "can_food",
+    "contents": [ "dogfood" ]
+  },
+  {
+    "id": "catfood_canned",
+    "type": "MIGRATION",
+    "replace": "can_food",
+    "contents": [ "catfood" ]
+  },
+  {
     "id": "jar_V8",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",

@@ -134,15 +134,8 @@
     "object": {
       "fill_ter": "t_floor",
       "place_item": [
-        { "item": "catfood_canned", "repeat": 1, "x": 8, "y": 7 },
-        { "item": "catfood_canned", "repeat": 1, "x": 8, "y": 8 },
         { "item": "pet_carrier", "repeat": 1, "x": 21, "y": 9 },
-        { "item": "dogfood_canned", "repeat": 1, "x": 8, "y": 10 },
         { "item": "pet_carrier", "repeat": 1, "x": 21, "y": 10 },
-        { "item": "dogfood_canned", "repeat": 1, "x": 8, "y": 11 },
-        { "item": "dogfood_canned", "repeat": 1, "x": 15, "y": 12 },
-        { "item": "catfood_canned", "repeat": 1, "x": 16, "y": 12 },
-        { "item": "catfood_canned", "repeat": 1, "x": 17, "y": 12 },
         { "item": "pet_carrier", "repeat": 1, "x": 8, "y": 14 },
         { "item": "bathroom_scale", "x": 21, "y": 19 }
       ],

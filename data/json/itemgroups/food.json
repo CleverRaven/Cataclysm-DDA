@@ -49,6 +49,15 @@
     ]
   },
   {
+    "id": "pet_food",
+    "type": "item_group",
+    "items": [
+      [ "birdfood", 10 ],
+      { "item": "dogfood", "prob": 45, "container-item": "can_food" },
+      { "item": "catfood", "prob": 45, "container-item": "can_food" }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "condiments",
     "ammo": 75,

@@ -36,8 +36,8 @@
     "items": [
       [ "dog_whistle", 10 ],
       [ "pet_carrier", 30 ],
-      [ "dogfood_canned", 50 ],
-      [ "catfood_canned", 50 ],
+      { "item": "dogfood", "prob": 50, "container-item": "can_food" },
+      { "item": "catfood", "prob": 50, "container-item": "can_food" },
       [ "towel", 20 ],
       [ "soap", 10 ],
       [ "gloves_medical", 20 ],

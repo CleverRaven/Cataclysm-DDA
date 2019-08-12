@@ -601,17 +601,6 @@
     "use_action": "DOGFOOD"
   },
   {
-    "type": "COMESTIBLE",
-    "id": "dogfood_canned",
-    "name": "canned dogfood",
-    "name_plural": "canned dogfood",
-    "copy-from": "dogfood",
-    "color": "light_gray",
-    "container": "can_food",
-    "description": "Canned food for dogs. Keeps the food preserved, not that the dogs care.",
-    "price": 400
-  },
-  {
     "id": "catfood",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
@@ -633,17 +622,6 @@
     "color": "brown",
     "flags": [ "FELINE" ],
     "use_action": "CATFOOD"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "catfood_canned",
-    "name": "canned catfood",
-    "name_plural": "canned catfood",
-    "copy-from": "catfood",
-    "color": "light_gray",
-    "container": "can_food",
-    "description": "Canned food for cats. Keeps the food preserved, not that the cats care about you.",
-    "price": 400
   },
   {
     "type": "COMESTIBLE",
