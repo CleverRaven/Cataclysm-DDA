@@ -1,0 +1,51 @@
+[
+  {
+    "id": "twisted_restore",
+    "type": "SPELL",
+    "name": "Twisted Restoration",
+    "\\": "Used for potion of Twisted Restoration, not castable",
+    "description": "This spell overclocks your heart, generating new flesh and muscle. It is unwise to use this in immediate danger, and may be fatal if done in critical condition.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
+    "max_level": 1,
+    "min_damage": 10,
+    "max_damage": 10,
+    "damage_increment": 0,
+    "damage_type": "bio",
+    "difficulty": 0,
+    "spell_class": "NONE",
+    "effect": "target_attack",
+    "energy_source": "HP",
+    "base_casting_time": 30000,
+    "base_energy_cost": 2,
+    "extra_effects": [
+      { "id": "light_healing" },
+      { "id": "pain_damage" },
+      { "id": "pain_damage" },
+      { "id": "stamina_damage" },
+      { "id": "stamina_damage" },
+      { "id": "stamina_damage" }
+    ]
+  },
+  {
+    "id": "twisted_restore_improved",
+    "type": "SPELL",
+    "name": "Improved Twisted Restoration",
+    "\\": "Used for Animist-exclusive potion, not castable",
+    "description": "This spell overclocks your heart, generating new flesh and muscle. It is unwise to use this in immediate danger, and may be fatal if done in critical condition. Improved brewing mitigates the strain of the spell.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
+    "max_level": 1,
+    "min_damage": 8,
+    "max_damage": 8,
+    "damage_increment": 0,
+    "damage_type": "bio",
+    "difficulty": 0,
+    "spell_class": "NONE",
+    "effect": "target_attack",
+    "energy_source": "HP",
+    "base_casting_time": 12000,
+    "base_energy_cost": 2,
+    "extra_effects": [ { "id": "light_healing" }, { "id": "pain_damage" }, { "id": "stamina_damage" }, { "id": "stamina_damage" } ]
+  }
+]
