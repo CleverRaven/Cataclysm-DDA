@@ -279,7 +279,7 @@ bool player::activate_bionic( int b, bool eff_only )
             bio.powered = true;
         }
         if( bionics[bio.id].charge_time > 0 ) {
-            bio.charge = bionics[bio.id].charge_time;
+            bio.charge_timer = bionics[bio.id].charge_time;
         }
         add_msg_if_player( m_info, _( "You activate your %s." ), bionics[bio.id].name );
     }
@@ -820,7 +820,7 @@ static bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 
             // Set the recharging cost and charge the bionic.
             amount = power_cost;
             // This is our first turn of charging, so subtract a turn from the recharge delay.
-            bio.charge = info.charge_time - rate;
+            bio.charge_timer = info.charge_time - rate;
             recharged = true;
         }
     }
@@ -840,8 +840,8 @@ void player::process_bionic( int b )
     int discharge_factor = 1;
     int discharge_rate = 1;
 
-    if( bio.charge > 0 ) {
-        bio.charge -= discharge_rate;
+    if( bio.charge_timer > 0 ) {
+        bio.charge_timer -= discharge_rate;
     } else {
         if( bio.info().charge_time > 0 ) {
             // Try to recharge our bionic if it is made for it
@@ -2102,7 +2102,7 @@ void bionic::serialize( JsonOut &json ) const
     json.member( "id", id );
     json.member( "invlet", static_cast<int>( invlet ) );
     json.member( "powered", powered );
-    json.member( "charge", charge );
+    json.member( "charge", charge_timer );
     json.member( "ammo_loaded", ammo_loaded );
     json.member( "ammo_count", ammo_count );
     if( incapacitated_time > 0_turns ) {
@@ -2117,7 +2117,7 @@ void bionic::deserialize( JsonIn &jsin )
     id = bionic_id( jo.get_string( "id" ) );
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );
-    charge = jo.get_int( "charge" );
+    charge_timer = jo.get_int( "charge" );
     if( jo.has_string( "ammo_loaded" ) ) {
         ammo_loaded = jo.get_string( "ammo_loaded" );
     }
