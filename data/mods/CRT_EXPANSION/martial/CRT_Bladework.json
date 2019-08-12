@@ -29,11 +29,11 @@
         "unarmed_allowed": true,
         "melee_allowed": true,
         "flat_bonuses": [
-          [ "damage", "stab", "dex", 0.15 ],
-          [ "damage", "cut", "dex", 0.5 ],
+          [ "damage", "stab", 1 ],
+          [ "damage", "cut", 1 ],
           [ "arpen", "stab", "dex", 0.1 ],
-          [ "arpen", "cut", "dex", 0.2 ],
-          [ "hit", "dex", 0.3 ]
+          [ "arpen", "cut", "dex", 0.25 ],
+          [ "hit", "dex", 0.2 ]
         ]
       }
     ],
@@ -41,20 +41,17 @@
       {
         "id": "crt_blade_hit_buff",
         "name": "C.R.I.T Intensity",
-        "description": "+3 Atk Speed and other small bonuses per stack. Bash damage decreases by 7.5 percent per stack. Max of 5 stacks",
+        "description": "+DMG, Atk Spd and Arpen per stack. Max of 5 stacks",
         "unarmed_allowed": false,
         "melee_allowed": true,  
         "min_unarmed": 1,
-        "buff_duration": 10,
+        "buff_duration": 3,
         "max_stacks": 5,
         "flat_bonuses": [
-          [ "hit", "dex", 0.015 ],
-          [ "damage", "bash", -0.075 ],
-          [ "damage", "stab", "dex", 0.01 ],
-          [ "damage", "cut", "dex", 0.025 ],
-          [ "arpen", "cut", "dex", 0.01 ],
-          [ "movecost", "dex", -0.125 ],
-          [ "movecost", -3 ]
+          [ "damage", "stab", 0.01 ],
+          [ "damage", "cut",  0.025 ],
+          [ "arpen", "cut", 0.01 ],
+          [ "movecost", "dex", -0.125 ]
         ]
       }
     ],
