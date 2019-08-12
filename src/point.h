@@ -150,6 +150,9 @@ struct tripoint {
     constexpr tripoint operator+( const point &rhs ) const {
         return tripoint( x + rhs.x, y + rhs.y, z );
     }
+    friend constexpr tripoint operator+( const point &lhs, const tripoint &rhs ) {
+        return rhs + lhs;
+    }
     constexpr tripoint operator-( const point &rhs ) const {
         return tripoint( x - rhs.x, y - rhs.y, z );
     }
