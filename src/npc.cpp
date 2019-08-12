@@ -675,8 +675,7 @@ void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
 
 tripoint npc::global_square_location() const
 {
-    return tripoint( submap_coords.x * SEEX + posx() % SEEX, submap_coords.y * SEEY + posy() % SEEY,
-                     position.z );
+    return sm_to_ms_copy( submap_coords ) + tripoint( posx() % SEEX, posy() % SEEY, position.z );
 }
 
 void npc::place_on_map()

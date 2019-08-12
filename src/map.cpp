@@ -7982,22 +7982,22 @@ std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &cente
 
 point map::getabs( const int x, const int y ) const
 {
-    return point( x + abs_sub.x * SEEX, y + abs_sub.y * SEEY );
+    return sm_to_ms_copy( abs_sub.xy() ) + point( x, y );
 }
 
 tripoint map::getabs( const tripoint &p ) const
 {
-    return tripoint( p.x + abs_sub.x * SEEX, p.y + abs_sub.y * SEEY, p.z );
+    return sm_to_ms_copy( abs_sub.xy() ) + p;
 }
 
 point map::getlocal( const int x, const int y ) const
 {
-    return point( x - abs_sub.x * SEEX, y - abs_sub.y * SEEY );
+    return point( x, y ) - sm_to_ms_copy( abs_sub.xy() );
 }
 
 tripoint map::getlocal( const tripoint &p ) const
 {
-    return tripoint( p.x - abs_sub.x * SEEX, p.y - abs_sub.y * SEEY, p.z );
+    return p - sm_to_ms_copy( abs_sub.xy() );
 }
 
 void map::set_abs_sub( const int x, const int y, const int z )

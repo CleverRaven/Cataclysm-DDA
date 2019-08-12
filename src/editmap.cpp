@@ -1859,7 +1859,8 @@ int editmap::mapgen_retarget()
         action = ctxt.handle_input( BLINK_SPEED );
         blink = !blink;
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            tripoint ptarget = tripoint( target.x + vec->x * SEEX * 2, target.y + vec->y * SEEY * 2, target.z );
+            point vec_ms = omt_to_ms_copy( vec->xy() );
+            tripoint ptarget = target + vec_ms;
             if( editmap_boundaries.contains_half_open( ptarget ) &&
                 editmap_boundaries.contains_half_open( ptarget + point( SEEX, SEEY ) ) ) {
                 target = ptarget;

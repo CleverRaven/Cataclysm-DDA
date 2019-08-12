@@ -129,8 +129,7 @@ void overmapbuffer::fix_mongroups( overmap &new_overmap )
             ++it;
             continue;
         }
-        point smabs( mg.pos.x + new_overmap.pos().x * OMAPX * 2,
-                     mg.pos.y + new_overmap.pos().y * OMAPY * 2 );
+        point smabs = mg.pos.xy() + om_to_sm_copy( new_overmap.pos() );
         point omp = sm_to_om_remain( smabs );
         if( !has( omp ) ) {
             // Don't generate new overmaps, as this can be called from the

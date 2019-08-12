@@ -9180,13 +9180,12 @@ bool game::walk_move( const tripoint &dest_loc )
 
     tripoint oldpos = u.pos();
     point submap_shift = place_player( dest_loc );
-    oldpos = tripoint( oldpos.x - submap_shift.x * SEEX, oldpos.y - submap_shift.y * SEEX, oldpos.z );
+    point ms_shift = sm_to_ms_copy( submap_shift );
+    oldpos = oldpos - ms_shift;
 
     if( pulling ) {
-        const tripoint shifted_furn_pos = tripoint( furn_pos.x - submap_shift.x * SEEX,
-                                          furn_pos.y - submap_shift.y * SEEY, furn_pos.z );
-        const tripoint shifted_furn_dest = tripoint( furn_dest.x - submap_shift.x * SEEX,
-                                           furn_dest.y - submap_shift.y * SEEY, furn_dest.z );
+        const tripoint shifted_furn_pos = furn_pos - ms_shift;
+        const tripoint shifted_furn_dest = furn_dest - ms_shift;
         const time_duration fire_age = m.get_field_age( shifted_furn_pos, fd_fire );
         const int fire_intensity = m.get_field_intensity( shifted_furn_pos, fd_fire );
         m.remove_field( shifted_furn_pos, fd_fire );
@@ -10345,8 +10344,7 @@ void game::vertical_move( int movez, bool force )
     }
 
     if( u.is_hauling() ) {
-        const tripoint adjusted_pos( old_pos.x - submap_shift.x * SEEX, old_pos.y - submap_shift.y * SEEY,
-                                     old_pos.z );
+        const tripoint adjusted_pos = old_pos - sm_to_ms_copy( submap_shift );
         u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
         // Whether the destination is inside a vehicle (not supported)
         u.activity.values.push_back( 0 );
