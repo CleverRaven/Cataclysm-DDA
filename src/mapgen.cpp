@@ -608,7 +608,7 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
         } else if( pjo.read( "square", tmpval ) ) {
             setmap_optype = JMAPGEN_SETMAP_OPTYPE_SQUARE;
         } else {
-            pjo.throw_error( "invalid data: must contain \"point\", \"set\", \"line\" or \"square\" member" );
+            pjo.throw_error( R"(invalid data: must contain "point", "set", "line" or "square" member)" );
         }
 
         sm_it = setmap_opmap.find( tmpval );

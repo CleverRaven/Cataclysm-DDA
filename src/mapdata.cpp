@@ -397,7 +397,7 @@ void map_data_common_t::load_symbol( JsonObject &jo )
     } else if( has_bgcolor ) {
         load_season_array( jo, "bgcolor", color_, bgcolor_from_string );
     } else {
-        jo.throw_error( "Missing member: one of: \"color\", \"bgcolor\" must exist." );
+        jo.throw_error( R"(Missing member: one of: "color", "bgcolor" must exist.)" );
     }
 }
 
@@ -1118,7 +1118,7 @@ void map_data_common_t::load( JsonObject &jo, const std::string &src )
             } else if( harvest_jo.has_string( "id" ) ) {
                 hl = harvest_id( harvest_jo.get_string( "id" ) );
             } else {
-                jo.throw_error( "Each harvest entry must specify either \"entries\" or \"id\"",
+                jo.throw_error( R"(Each harvest entry must specify either "entries" or "id")",
                                 "harvest_by_season" );
             }
 

@@ -1562,7 +1562,8 @@ void inscribe_actor::load( JsonObject &obj )
     assign( obj, "gerund", gerund );
 
     if( !on_items && !on_terrain ) {
-        obj.throw_error( "Tried to create an useless inscribe_actor, at least on of \"on_items\" or \"on_terrain\" should be true" );
+        obj.throw_error(
+            R"(Tried to create an useless inscribe_actor, at least on of "on_items" or "on_terrain" should be true)" );
     }
 }
 

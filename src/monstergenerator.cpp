@@ -879,8 +879,9 @@ mtype_special_attack MonsterGenerator::create_actor( JsonObject obj, const std::
     const std::string attack_type = obj.get_string( "attack_type", type );
 
     if( type != "monster_attack" && attack_type != type ) {
-        obj.throw_error( "Specifying \"attack_type\" is only allowed when \"type\" is \"monster_attack\" or not specified",
-                         "type" );
+        obj.throw_error(
+            R"(Specifying "attack_type" is only allowed when "type" is "monster_attack" or not specified)",
+            "type" );
     }
 
     mattack_actor *new_attack = nullptr;

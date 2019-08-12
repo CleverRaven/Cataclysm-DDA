@@ -100,7 +100,7 @@ void clothing_mod::load( JsonObject &jo, const std::string & )
             } else if( str == "coverage" ) {
                 mv.coverage_propotion = true;
             } else {
-                jarr_prop.throw_error( "Invalid value, valid are: \"coverage\" and \"thickness\"" );
+                jarr_prop.throw_error( R"(Invalid value, valid are: "coverage" and "thickness")" );
             }
         }
         mod_values.push_back( mv );
