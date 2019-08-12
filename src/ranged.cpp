@@ -954,9 +954,8 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
 
         auto hotkey = front_or( type.action.empty() ? "FIRE" : type.action, ' ' );
         print_colored_text( w, line_number++, 1, col, col,
-                            string_format( "<color_white>[%s]</color> %s:", hotkey, label ) );
-        print_colored_text( w, line_number++, 1, col, col,
-                            string_format( _( "Moves to fire: <color_light_blue>%d</color>" ), moves_to_fire ) );
+                            string_format( _( "<color_white>[%s]</color> %s: Moves to fire: <color_light_blue>%d</color>" ),
+                                           hotkey, label, moves_to_fire ) );
 
         double confidence = confidence_estimate( range, target_size, current_dispersion );
 
