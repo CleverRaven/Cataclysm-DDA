@@ -767,24 +767,6 @@
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_ALLOW_DUPLICATES" ]
   },
   {
-    "id": "bio_arm_battery",
-    "type": "bionic",
-    "name": "Arm Battery",
-    "capacity": 100,
-    "description": "A Compact Bionics Module that stores 100 power in your arms.  Having at least one of these is a prerequisite to using powered bionics.  The user will also need a power supply, found in various CBMs.",
-    "occupied_bodyparts": [ [ "ARM_L", 1 ], [ "ARM_R", 1 ] ],
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_ALLOW_DUPLICATES" ]
-  },
-  {
-    "id": "bio_leg_battery",
-    "type": "bionic",
-    "name": "Leg Battery",
-    "capacity": 100,
-    "description": "A Compact Bionics Module that stores 100 power in your legs.  Having at least one of these is a prerequisite to using powered bionics.  The user will also need a power supply, found in various CBMs.",
-    "occupied_bodyparts": [ [ "LEG_L", 1 ], [ "LEG_R", 1 ] ],
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_ALLOW_DUPLICATES" ]
-  },
-  {
     "id": "bio_power_weakness",
     "type": "bionic",
     "name": "Power Overload",

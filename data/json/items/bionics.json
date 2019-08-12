@@ -655,24 +655,6 @@
     "difficulty": 1
   },
   {
-    "id": "bio_arm_battery",
-    "copy-from": "bionic_general_npc_usable",
-    "type": "BIONIC_ITEM",
-    "name": "Arm Battery CBM",
-    "description": "A Compact Bionics Module that stores 100 power in your arms.  Having at least one of these is a prerequisite to using powered bionics.  The user will also need a power supply, found in various CBMs.",
-    "price": 380000,
-    "difficulty": 1
-  },
-  {
-    "id": "bio_leg_battery",
-    "copy-from": "bionic_general_npc_usable",
-    "type": "BIONIC_ITEM",
-    "name": "Leg Battery CBM",
-    "description": "A Compact Bionics Module that stores 100 power in your legs.  Having at least one of these is a prerequisite to using powered bionics.  The user will also need a power supply, found in various CBMs.",
-    "price": 380000,
-    "difficulty": 1
-  },
-  {
     "id": "bio_probability_travel",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
