@@ -588,7 +588,7 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
 
     if( has_flag( line_drawing ) ) {
         if( has_flag( no_rotate ) ) {
-            jo.throw_error( "Mutually exclusive flags: \"NO_ROTATE\" and \"LINEAR\"." );
+            jo.throw_error( R"(Mutually exclusive flags: "NO_ROTATE" and "LINEAR".)" );
         }
 
         for( const auto &elem : om_lines::mapgen_suffixes ) {

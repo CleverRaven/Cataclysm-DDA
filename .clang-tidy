@@ -33,7 +33,6 @@ readability-*,\
 -modernize-avoid-c-arrays,\
 -modernize-deprecated-headers,\
 -modernize-pass-by-value,\
--modernize-raw-string-literal,\
 -modernize-return-braced-init-list,\
 -modernize-use-auto,\
 -modernize-use-default-member-init,\
