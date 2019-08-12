@@ -227,7 +227,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             stow_item( weapon );
         }
         if( g->u.sees( pos() ) ) {
-            add_msg( m_info, "%s activates their %s", disp_name(), bionics[bio.id].name );
+            add_msg( m_info, _( "%s activates their %s" ), disp_name(), bionics[bio.id].name );
         }
 
         weapon = item( bionics[bio.id].fake_item );
@@ -1382,7 +1382,7 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
 
     if( installer.ammo[ammo_type] <= 0 ) {
         if( g->u.sees( installer ) ) {
-            add_msg( "The %s's anesthesia kit looks empty", installer.name() );
+            add_msg( _( "The %s's anesthesia kit looks empty" ), installer.name() );
         }
         return false;
     }
@@ -1413,9 +1413,9 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
     patient.add_effect( effect_sleep, duration );
 
     if( patient.is_player() ) {
-        add_msg( "You fall asleep and %1$s starts operating.", installer.disp_name() );
+        add_msg( _( "You fall asleep and %1$s starts operating." ), installer.disp_name() );
     } else if( g->u.sees( patient ) ) {
-        add_msg( "%1$s falls asleep and %2$s starts operating.", patient.disp_name(),
+        add_msg( _( "%1$s falls asleep and %2$s starts operating." ), patient.disp_name(),
                  installer.disp_name() );
     }
 
