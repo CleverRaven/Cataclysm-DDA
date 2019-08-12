@@ -650,5 +650,31 @@
     "volume": 1,
     "fun": -1,
     "vitamins": [ [ "vitA", 10 ], [ "vitC", 16 ], [ "calcium", 16 ], [ "iron", 2 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "rejuvenator_fruit",
+    "name": "rejuvenator fruit",
+    "name_plural": "requvenator fruits",
+    "weight": 546,
+    "color": "lila",
+    "spoils_in": "2 days 8 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 3,
+    "addiction_potential": 8,
+    "healthy": 1,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You eat the rejuvenator fruit.",
+      "effects": [ { "id": "rejuvenated", "duration": 600 } ]
+    },
+    "calories": 95,
+    "description": "Heavy fruit said to give youth.",
+    "price": 3000,
+    "material": "fruit",
+    "volume": "600 ml",
+    "fun": 3,
+    "vitamins": [ [ "vitC", 6 ], [ "iron", 2 ] ]
   }
 ]

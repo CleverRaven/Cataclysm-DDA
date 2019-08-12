@@ -799,5 +799,49 @@
     "name_plural": "chamomile seeds",
     "description": "Some chamomile seeds.",
     "seed_data": { "plant_name": "chamomile", "fruit": "chamomile", "byproducts": [ "withered" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_rejuvenator_inactive",
+    "name": "rejuvenator seed (inactive)",
+    "weight": 364,
+    "color": "lila",
+    "spoils_in": "270 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -5,
+    "healthy": -70,
+    "calories": 150,
+    "description": "A violet seed of a fruit specially designed to rejuvenate muscles and skin. It needs a battery to support it's artificial nervous system in the growth phase.'",
+    "price": 2000,
+    "material": "fruit",
+    "volume": "150 ml",
+    "fun": -8,
+    "ammo": "battery",
+    "use_action": {
+      "type": "transform",
+      "msg": "You close and activate the rejuvenator seed.",
+      "target": "seed_rejuvenator_active",
+      "active": true,
+      "need_charges": 100,
+      "need_charges_msg": "A small red light shows insuficient power."
+    },
+    "magazines": [
+      [
+        "battery",
+        [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell", "light_atomic_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell", "light_disposable_cell" ]
+      ]
+    ],
+    "flags": [ "NUTRIENT_OVERRIDE" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_rejuvenator_active",
+    "copy_from": "rejuvenator_seed_inactive",
+    "description": "A violet seed of a fruit specially designed to rejuvenate muscles and skin. It is ready for plantation.'",
+    "name": "rejuvenator seed (active)",
+    "spoils_in": "5 days",
+    "seed_data": { "plant_name": "bioengeneerd growth", "fruit": "rejuvenator_fruit", "byproducts": [ "withered", "plastic" ], "grow": "6 days" },
+    "flags": [ "PLANTABLE_SEED" ]
   }
 ]

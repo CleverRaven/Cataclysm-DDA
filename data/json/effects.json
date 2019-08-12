@@ -1691,6 +1691,17 @@
     "scaling_mods": { "health_min": [ -1.5 ], "health_min_val": [ -2 ], "vomit_tick": [ 120 ] }
   },
   {
+    "type": "effect_type",
+    "id": "rejuvenated",
+    "name": [ "Rejuvenated" ],
+    "desc": [ "Your muscles react faster and  your skin stiffens." ],
+    "int_add_val": 1,
+    "max_intensity": 8,
+    "base_mods": { "dex_mod": [ 3 ]  },
+    "scaling_mods": { "speed_mod": [ 10 ], "healing_rate": [ 2 ], "stamina_chance": [ 5 ],
+      "stamina_min": [ 0 ] }
+  },
+  {
     "//": "This effect is a dummy effect for disabling certain things for a few turns after an electromagnetic pulse and does nothing on its own",
     "type": "effect_type",
     "id": "emp",
