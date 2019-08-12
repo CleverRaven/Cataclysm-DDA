@@ -2290,12 +2290,12 @@ static bool pry_nails( player &p, const ter_id &type, const tripoint &pnt )
 
 int iuse::hammer( player *p, item *it, bool, const tripoint & )
 {
-    // If anyone other than the player wants to use one of these,
-    // they're going to need to figure out how to aim it.
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot pry anything while mounted." ) );
         return 0;
     }
+    // If anyone other than the player wants to use one of these,
+    // they're going to need to figure out how to aim it.
     const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Pry where?" ) );
     if( !pnt_ ) {
         return 0;
@@ -2313,11 +2313,11 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
 
 int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
 {
-    // TODO: Make this 3D now that NPCs get to use items
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot pry anything while mounted." ) );
         return 0;
     }
+    // TODO: Make this 3D now that NPCs get to use items
     tripoint pnt = pos;
     if( pos == p->pos() ) {
         const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Pry where?" ) );
