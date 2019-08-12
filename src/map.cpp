@@ -1063,9 +1063,8 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
 
             // Place passenger on the new part location
             const vehicle_part &veh_part = veh->parts[prt];
-            tripoint psgp( part_pos.x + dp.x + veh_part.precalc[1].x - veh_part.precalc[0].x,
-                           part_pos.y + dp.y + veh_part.precalc[1].y - veh_part.precalc[0].y,
-                           psg->posz() + dp.z );
+            tripoint psgp( dp + part_pos.xy() - veh_part.precalc[0] + veh_part.precalc[1] + tripoint( 0, 0,
+                           psg->posz() ) );
             // someone is in the way so try again
             if( g->critter_at( psgp ) ) {
                 complete = false;
@@ -3813,7 +3812,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
 
             if( ( g->u.has_trait( trait_id( "SCHIZOPHRENIC" ) ) || g->u.has_artifact_with( AEP_SCHIZO ) )
                 && one_in( 50 ) && !ter.has_flag( "TRANSPARENT" ) ) {
-                tripoint mp = p + tripoint( ( p.x - g->u.pos().x ) * 2, ( p.y - g->u.pos().y ) * 2, p.z );
+                tripoint mp = p + -2 * g->u.pos().xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
                 g->spawn_hallucination( mp );
             }
         }
@@ -4582,7 +4581,7 @@ void map::process_items( const bool active, map::map_process_func processor,
         }
     }
     for( const tripoint &abs_pos : submaps_with_active_items ) {
-        const tripoint local_pos = tripoint( abs_pos.xy() - abs_sub.xy(), abs_pos.z );
+        const tripoint local_pos = abs_pos - abs_sub.xy();
         submap *const current_submap = get_submap_at_grid( local_pos );
         if( !active || !current_submap->active_items.empty() ) {
             process_items_in_submap( *current_submap, local_pos, processor, signal );
@@ -6645,7 +6644,7 @@ void map::shift( const int sx, const int sy )
         std::set<tripoint> old_cache = std::move( support_cache_dirty );
         support_cache_dirty.clear();
         for( const auto &pt : old_cache ) {
-            support_cache_dirty.insert( tripoint( pt.x - sx * SEEX, pt.y - sy * SEEY, pt.z ) );
+            support_cache_dirty.insert( pt + point( -sx * SEEX, -sy * SEEY ) );
         }
     }
 }
@@ -7406,8 +7405,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     }
 
     // Find horde's target submap
-    tripoint horde_target( group.target.x - abs_sub.x,
-                           group.target.y - abs_sub.y, abs_sub.z );
+    tripoint horde_target( tripoint( -abs_sub.x, -abs_sub.y, abs_sub.z ) + group.target.xy() );
     sm_to_ms( horde_target );
     for( auto &tmp : group.monsters ) {
         for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
@@ -7967,7 +7965,7 @@ std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &cente
     int maxI = t * t;
     for( int i = 0; i < maxI; i++ ) {
         if( -X / 2 <= x && x <= X / 2 && -Y / 2 <= y && y <= Y / 2 ) {
-            points.push_back( tripoint( x + center.x, y + center.y, center.z ) );
+            points.push_back( center + point( x, y ) );
         }
         if( x == y || ( x < 0 && x == -y ) || ( x > 0 && x == 1 - y ) ) {
             t = dx;
@@ -7984,22 +7982,22 @@ std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &cente
 
 point map::getabs( const int x, const int y ) const
 {
-    return point( x + abs_sub.x * SEEX, y + abs_sub.y * SEEY );
+    return sm_to_ms_copy( abs_sub.xy() ) + point( x, y );
 }
 
 tripoint map::getabs( const tripoint &p ) const
 {
-    return tripoint( p.x + abs_sub.x * SEEX, p.y + abs_sub.y * SEEY, p.z );
+    return sm_to_ms_copy( abs_sub.xy() ) + p;
 }
 
 point map::getlocal( const int x, const int y ) const
 {
-    return point( x - abs_sub.x * SEEX, y - abs_sub.y * SEEY );
+    return point( x, y ) - sm_to_ms_copy( abs_sub.xy() );
 }
 
 tripoint map::getlocal( const tripoint &p ) const
 {
-    return tripoint( p.x - abs_sub.x * SEEX, p.y - abs_sub.y * SEEY, p.z );
+    return p - sm_to_ms_copy( abs_sub.xy() );
 }
 
 void map::set_abs_sub( const int x, const int y, const int z )
@@ -8403,8 +8401,8 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
 {
     std::list<item_location> result;
 
-    const point minp( center.x - radius, center.y - radius );
-    const point maxp( center.x + radius, center.y + radius );
+    const point minp( center.xy() + point( -radius, -radius ) );
+    const point maxp( center.xy() + point( radius, radius ) );
 
     const point ming( std::max( minp.x / SEEX, 0 ),
                       std::max( minp.y / SEEY, 0 ) );
@@ -8412,7 +8410,7 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
                       std::min( maxp.y / SEEY, my_MAPSIZE - 1 ) );
 
     for( const tripoint &abs_submap_loc : submaps_with_active_items ) {
-        const tripoint submap_loc{ abs_submap_loc.xy() - abs_sub.xy(), abs_submap_loc.z };
+        const tripoint submap_loc{ -abs_sub.xy() + abs_submap_loc };
         if( submap_loc.x < ming.x || submap_loc.y < ming.y ||
             submap_loc.x > maxg.x || submap_loc.y > maxg.y ) {
             continue;

@@ -278,7 +278,7 @@ tripoint editmap::pos2screen( const tripoint &p )
  */
 tripoint editmap::screen2pos( const tripoint &p )
 {
-    return tripoint( p.x + target.x - POSX, p.y + target.y - POSY, p.z );
+    return p + target.xy() + point( -POSX, -POSY );
 }
 
 /*
@@ -436,8 +436,8 @@ enum edit_drawmode {
 void editmap::uber_draw_ter( const catacurses::window &w, map *m )
 {
     tripoint center = target;
-    tripoint start = tripoint( center.x - getmaxx( w ) / 2, center.y - getmaxy( w ) / 2, target.z );
-    tripoint end = tripoint( center.x + getmaxx( w ) / 2, center.y + getmaxy( w ) / 2, target.z );
+    tripoint start = center.xy() + tripoint( -getmaxx( w ) / 2, -getmaxy( w ) / 2, target.z );
+    tripoint end = center.xy() + tripoint( getmaxx( w ) / 2, getmaxy( w ) / 2, target.z );
     /*
         // pending filter options
         bool draw_furn=true;
@@ -1630,10 +1630,10 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     int ret = 0;
 
     hilights["mapgentgt"].points.clear();
-    hilights["mapgentgt"].points[tripoint( target.x - SEEX, target.y - SEEY, target.z )] = 1;
-    hilights["mapgentgt"].points[tripoint( target.x + SEEX + 1, target.y + SEEY + 1, target.z )] = 1;
-    hilights["mapgentgt"].points[tripoint( target.x - SEEX, target.y + SEEY + 1, target.z )] = 1;
-    hilights["mapgentgt"].points[tripoint( target.x + SEEX + 1, target.y - SEEY, target.z )] = 1;
+    hilights["mapgentgt"].points[target + point( -SEEX, -SEEY )] = 1;
+    hilights["mapgentgt"].points[target + point( 1 + SEEX, 1 + SEEY )] = 1;
+    hilights["mapgentgt"].points[target + point( -SEEX, 1 + SEEY )] = 1;
+    hilights["mapgentgt"].points[target + point( 1 + SEEX, -SEEY )] = 1;
 
     update_view( true );
 
@@ -1648,7 +1648,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     // TODO: keep track of generated submaps to delete them properly and to avoid memory leaks
     tmpmap.generate( tripoint( omt_pos.x * 2, omt_pos.y * 2, target.z ), calendar::turn );
 
-    tripoint pofs = pos2screen( { target.x - SEEX + 1, target.y - SEEY + 1, target.z } );
+    tripoint pofs = pos2screen( target + point( 1 - SEEX, 1 - SEEY ) );
     catacurses::window w_preview = catacurses::newwin( SEEX * 2, SEEY * 2, pofs.xy() );
 
     gmenu.border_color = c_light_gray;
@@ -1727,7 +1727,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                     for( int y = 0; y < 2; y++ ) {
                         // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
                         // functions that would alter the results
-                        const auto dest_pos = tripoint{ target_sub.x + x, target_sub.y + y, target.z };
+                        const auto dest_pos = target_sub + tripoint( x, y, target.z );
                         const auto src_pos = tripoint{ x, y, target.z };
 
                         submap *destsm = g->m.get_submap_at_grid( dest_pos );
@@ -1859,7 +1859,8 @@ int editmap::mapgen_retarget()
         action = ctxt.handle_input( BLINK_SPEED );
         blink = !blink;
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            tripoint ptarget = tripoint( target.x + vec->x * SEEX * 2, target.y + vec->y * SEEY * 2, target.z );
+            point vec_ms = omt_to_ms_copy( vec->xy() );
+            tripoint ptarget = target + vec_ms;
             if( editmap_boundaries.contains_half_open( ptarget ) &&
                 editmap_boundaries.contains_half_open( ptarget + point( SEEX, SEEY ) ) ) {
                 target = ptarget;
@@ -1930,7 +1931,7 @@ int editmap::edit_mapgen()
                         "Mapgen stamp" ) );
         tc.fromabs( g->m.getabs( target.xy() ) );
         point omt_lpos = g->m.getlocal( tc.begin_om_pos() );
-        tripoint om_ltarget = tripoint( omt_lpos.x + SEEX - 1, omt_lpos.y + SEEY - 1, target.z );
+        tripoint om_ltarget = omt_lpos + tripoint( -1 + SEEX, -1 + SEEY, target.z );
 
         if( target.x != om_ltarget.x || target.y != om_ltarget.y ) {
             target = om_ltarget;

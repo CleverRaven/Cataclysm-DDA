@@ -947,10 +947,10 @@ bool construct::check_empty( const tripoint &p )
 inline std::array<tripoint, 4> get_orthogonal_neighbors( const tripoint &p )
 {
     return {{
-            tripoint( p.x, p.y - 1, p.z ),
-            tripoint( p.x, p.y + 1, p.z ),
-            tripoint( p.x - 1, p.y, p.z ),
-            tripoint( p.x + 1, p.y, p.z )
+            p + point( 0, -1 ),
+            p + point( 0, 1 ),
+            p + point( -1, 0 ),
+            p + point( 1, 0 )
         }};
 }
 

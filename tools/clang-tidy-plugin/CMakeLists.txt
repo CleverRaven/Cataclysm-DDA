@@ -10,6 +10,7 @@ add_library(
     PointInitializationCheck.cpp
     SimplifyPointConstructorsCheck.cpp
     UsePointApisCheck.cpp
+    UsePointArithmeticCheck.cpp
     XYCheck.cpp
     )
 
