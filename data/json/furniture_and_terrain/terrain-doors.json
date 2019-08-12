@@ -33,7 +33,7 @@
     "looks_like": "t_reinforced_door_glass_o",
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
-    "close": "t_reinforced_door_glass_c",
+    "close": "t_laminated_door_glass_c",
     "bash": {
       "str_min": 100,
       "str_max": 180,
