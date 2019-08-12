@@ -27,7 +27,9 @@
 #   include <SDL2/SDL_syswm.h>
 #else
 #   include <SDL_image.h>
+#ifdef _WIN32
 #   include <SDL_syswm.h>
+#endif
 #endif
 
 #include "avatar.h"
