@@ -157,7 +157,7 @@
         "min_unarmed": 1,
         "buff_duration": 2,
         "max_stacks": 3,
-        "multi_bonuses": [ [ "damage", "bash", 1.15 ] ]
+        "mult_bonuses": [ [ "damage", "bash", 1.15 ] ]
       }
     ],
     "onmove_buffs": [
