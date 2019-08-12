@@ -3771,7 +3771,7 @@
     "material": "iron",
     "symbol": ",",
     "color": "light_gray",
-    "qualities": [ [ "SMOOTH", 2 ] ]
+    "qualities": [ [ "SMOOTH", 2 ], [ "SMOOTH_FINE", 1 ] ]
   },
   {
     "id": "mil_mess_kit",
@@ -7064,7 +7064,7 @@
     "material": "wood",
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "SMOOTH", 1 ] ]
+    "qualities": [ [ "SMOOTH", 1 ], [ "SMOOTH_FINE", 1 ] ]
   },
   {
     "id": "wool_staple",

@@ -28,6 +28,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "SMOOTH_FINE",
+    "name": "spreading"
+  },
+  {
+    "type": "tool_quality",
     "id": "WELD",
     "name": "welding"
   },
