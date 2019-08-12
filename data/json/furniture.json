@@ -1500,6 +1500,19 @@
   },
   {
     "type": "furniture",
+    "id": "f_biogenic_growth",
+    "name": "biogenic growth",
+    "description": "A plant unlike others created with genetic manipulation.",
+    "symbol": "f",
+    "color": "magenta",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
     "id": "f_forge",
     "name": "forge",
     "description": "Metalworking station typically used in combination with an anvil.",
