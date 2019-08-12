@@ -64,4 +64,20 @@ void render_fill_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
     }
 }
 
+SDL_Rect fit_rect_inside( const SDL_Rect &inner, const SDL_Rect &outer )
+{
+    const float inner_ratio = static_cast<float>( inner.w ) / inner.h;
+    const float outer_ratio = static_cast<float>( outer.w ) / outer.h;
+    const float factor = inner_ratio > outer_ratio
+                         ? static_cast<float>( outer.w ) / inner.w
+                         : static_cast<float>( outer.h ) / inner.h;
+
+    const int w = factor * inner.w;
+    const int h = factor * inner.h;
+    const int x = outer.x + ( outer.w - w ) / 2;
+    const int y = outer.y + ( outer.h - h ) / 2;
+
+    return SDL_Rect{ x, y, w, h };
+}
+
 #endif // SDL_TILES
