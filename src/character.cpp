@@ -1675,6 +1675,7 @@ units::mass Character::get_weight() const
     []( units::mass sum, const item & itm ) {
         return sum + itm.weight();
     } );
+
     ret += bodyweight();       // The base weight of the player's body
     ret += inv.weight();           // Weight of the stored inventory
     ret += wornWeight;             // Weight of worn items
