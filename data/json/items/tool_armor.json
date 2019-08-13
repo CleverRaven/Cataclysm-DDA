@@ -79,7 +79,43 @@
     "encumbrance": 60,
     "material_thickness": 3,
     "qualities": [ [ "GLARE", 3 ] ],
-    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ]
+    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION", "BLIND" ]
+  },
+  {
+    "id": "welding_mask_crude",
+    "copy-from": "welding_mask",
+    "type": "ARMOR",
+    "name": "crude welding mask",
+    "description": "A crude welding mask made from shaped steel.  It's less dark than a proper welding mask, and therefore less difficult to see in, but also less protective when welding and less sturdy.  Activate it to push it up your head.",
+    "price": 1000,
+    "use_action": {
+      "type": "transform",
+      "msg": "You push your %s up your head.",
+      "target": "welding_mask_crude_raised",
+      "menu_text": "Raise"
+    },
+    "material_thickness": 2,
+    "qualities": [ [ "GLARE", 2 ] ]
+    "delete": { "qualities": [ [ "GLARE", 3 ] ], "flags": [ "BLIND" ] },
+    "extend": { "qualities": [ [ "GLARE", 2 ] ] }
+  },
+  {
+    "id": "welding_mask_crude_raised",
+    "copy-from": "welding_mask",
+    "type": "ARMOR",
+    "name": "crude welding mask (raised)",
+    "name_plural": "crude welding masks (raised)",
+    "description": "A crude welding mask made from shaped steel.  It's less dark than a proper welding mask, and therefore less difficult to see in, but also less protective when welding and less sturdy.  Activate it to lower it over your face.",
+    "price": 1000,
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower your crude welding mask over your face.",
+      "target": "welding_mask",
+      "menu_text": "Lower"
+    },
+    "covers": [ "HEAD" ],
+    "delete": { "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ] },
+    "coverage": 30
   },
   {
     "id": "welding_mask_raised",
@@ -95,8 +131,8 @@
       "menu_text": "Lower"
     },
     "covers": [ "HEAD" ],
-    "delete": { "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ] },
-    "coverage": 80
+    "delete": { "flags": [ "SUN_GLASSES", "FLASH_PROTECTION", "BLIND" ] },
+    "coverage": 30
   },
   {
     "type": "TOOL_ARMOR",

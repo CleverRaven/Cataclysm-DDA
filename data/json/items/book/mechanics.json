@@ -68,7 +68,7 @@
     "copy-from": "recipe_lab_cvd",
     "name": "lab journal-Curie",
     "name_plural": "lab journals-Curie",
-    "description": "This lab notebook is filled with the collective discoveries and refinements of a research team dedicated to nuclear energy.  It mostly pertains to fission power, but there's also blueprints for recycling plutonium, adaptation of nuclear power into everyday batteries, early specs for several Rivtech products, and... schematics for a nuclear warhead.  You don't think you're ready to start a second Cataclysm, but the general information provided might be useful...",
+    "description": "This lab notebook is filled with the collective discoveries and refinements of a research team dedicated to nuclear energy.  It mostly pertains to fission power, but there's also blueprints for recycling plutonium, adaptation of nuclear power into everyday batteries, early specs for several Rivtech products, and... schematics for a nuclear warhead, albeit most of them are useless to you now due to required tools and materials being inaccessible.  You don't think you're ready to start a second Cataclysm, but the general information provided might be useful...",
     "skill": "mechanics",
     "required_level": 6,
     "max_level": 10

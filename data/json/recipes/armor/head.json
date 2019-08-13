@@ -1334,7 +1334,7 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
-    "result": "welding_mask",
+    "result": "welding_mask_crude",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",

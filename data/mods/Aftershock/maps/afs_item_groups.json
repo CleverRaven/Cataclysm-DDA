@@ -184,6 +184,36 @@
     "items": [ [ "afs_power_cutter", 5 ] ]
   },
   {
+    "id": "book_gunref",
+    "type": "item_group",
+    "items": [
+      [ "afs_textbook_shotguns", 3 ],
+      [ "afs_textbook_handguns", 3 ],
+      [ "afs_textbook_rifles", 3 ],
+      [ "afs_textbook_launchers", 3 ]
+    ]
+  },
+  {
+    "id": "book_military",
+    "type": "item_group",
+    "items": [
+      [ "afs_textbook_shotguns", 20 ],
+      [ "afs_textbook_handguns", 20 ],
+      [ "afs_textbook_rifles", 20 ],
+      [ "afs_textbook_launchers", 10 ]
+    ]
+  },
+  {
+    "id": "textbooks",
+    "type": "item_group",
+    "items": [
+      [ "afs_textbook_shotguns", 3 ],
+      [ "afs_textbook_handguns", 3 ],
+      [ "afs_textbook_rifles", 3 ],
+      [ "afs_textbook_launchers", 3 ]
+    ]
+  },
+  {
     "id": "guns_pistol_improvised",
     "type": "item_group",
     "items": [ [ "v29_cheap", 10 ] ]

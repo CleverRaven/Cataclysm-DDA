@@ -32,23 +32,5 @@
     "max_level": 3,
     "intelligence": 3,
     "time": "15 m"
-  },
-  {
-    "id": "textbook_pistol",
-    "type": "BOOK",
-    "name": "Black Powder to Berettas",
-    "name_plural": "copies of Black Powder to Berettas",
-    "description": "This hardcover book, aimed at the gun nut, provides an illustrated, concise history of the handgun throughout history, including technical specifications and use techniques.  It's difficult to follow without a passing knowledge in pistols, but an experienced handgun user could glean much from it.",
-    "weight": 732,
-    "volume": "750 ml",
-    "price": 3000,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "green",
-    "skill": "pistol",
-    "required_level": 2,
-    "max_level": 6,
-    "intelligence": 6,
-    "time": "20 m"
   }
 ]

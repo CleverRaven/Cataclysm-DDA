@@ -185,25 +185,6 @@
     "name": "survivor utility belt (sheath)"
   },
   {
-    "id": "afs_welding_mask_makeshift",
-    "type": "ARMOR",
-    "name": "makeshift welding mask",
-    "description": "A crude welding mask made from shaped metal, with dark cloth and tinted glass to protect the eyes.  It's extremely hard to see with, but with nothing else available, it can protect your sight while welding.",
-    "weight": 4000,
-    "volume": 4,
-    "price": 1400,
-    "to_hit": -3,
-    "material": [ "steel" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "covers": [ "MOUTH", "EYES" ],
-    "coverage": 100,
-    "encumbrance": 60,
-    "material_thickness": 2,
-    "qualities": [ [ "GLARE", 2 ] ],
-    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION", "BLIND" ]
-  },
-  {
     "id": "afs_brigandine",
     "type": "ARMOR",
     "name": "brigandine",

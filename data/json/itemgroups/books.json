@@ -23,11 +23,7 @@
       [ "manual_shotgun", 30 ],
       [ "manual_smg", 10 ],
       [ "pocket_firearms", 100 ],
-      [ "recipe_bullets", 80 ],
-      [ "textbook_launcher", 3 ],
-      [ "textbook_pistol", 3 ],
-      [ "textbook_rifle", 3 ],
-      [ "textbook_shotgun", 3 ]
+      [ "recipe_bullets", 80 ]
     ]
   },
   {
@@ -96,11 +92,7 @@
       [ "manual_stabbing", 40 ],
       [ "manual_swimming", 30 ],
       [ "pocket_firearms", 10 ],
-      [ "textbook_firstaid", 30 ],
-      [ "textbook_launcher", 10 ],
-      [ "textbook_pistol", 20 ],
-      [ "textbook_rifle", 20 ],
-      [ "textbook_shotgun", 20 ]
+      [ "textbook_firstaid", 30 ]
     ]
   },
   {
@@ -388,10 +380,6 @@
     "items": [
       [ "textbook_atomic", 8 ],
       [ "textbook_computer", 4 ],
-      [ "textbook_launcher", 3 ],
-      [ "textbook_pistol", 3 ],
-      [ "textbook_rifle", 3 ],
-      [ "textbook_shotgun", 3 ],
       [ "computer_science", 8 ],
       [ "book_icef", 8 ],
       [ "textbook_electronics", 6 ],
