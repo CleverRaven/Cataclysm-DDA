@@ -1385,7 +1385,7 @@ void npc::load( JsonObject &data )
         if( data.read( "omy", o ) ) {
             old_coords.y += o * OMAPY * 2;
         }
-        submap_coords = point( old_coords.x + posx() / SEEX, old_coords.y + posy() / SEEY );
+        submap_coords = old_coords + point( posx() / SEEX, posy() / SEEY );
     }
 
     if( !data.read( "mapz", position.z ) ) {
@@ -1810,6 +1810,8 @@ void monster::load( JsonObject &data )
     horde_attraction = static_cast<monster_horde_attraction>( data.get_int( "horde_attraction", 0 ) );
 
     data.read( "inv", inv );
+    data.read( "dragged_foe_id", dragged_foe_id );
+
     if( data.has_int( "ammo" ) && !type->starting_ammo.empty() ) {
         // Legacy loading for ammo.
         normalize_ammo( data.get_int( "ammo" ) );
@@ -1886,6 +1888,7 @@ void monster::store( JsonOut &json ) const
     }
     json.member( "inv", inv );
 
+    json.member( "dragged_foe_id", dragged_foe_id );
     json.member( "path", path );
 }
 
@@ -2618,8 +2621,6 @@ void mission::deserialize( JsonIn &jsin )
         type = &mission_type::get_all().front();
     }
 
-    jo.read( "description", description );
-
     bool failed;
     bool was_started;
     std::string status_string;
@@ -2692,7 +2693,6 @@ void mission::serialize( JsonOut &json ) const
     json.start_object();
 
     json.member( "type_id", type->id );
-    json.member( "description", description );
     json.member( "status", status_to_string( status ) );
     json.member( "value", value );
     json.member( "reward", reward );

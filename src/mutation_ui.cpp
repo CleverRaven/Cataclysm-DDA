@@ -21,7 +21,7 @@ static void draw_exam_window( const catacurses::window &win, const int border_y 
 {
     const int width = getmaxx( win );
     mvwputch( win, border_y, 0, BORDER_COLOR, LINE_XXXO );
-    mvwhline( win, border_y, 1, LINE_OXOX, width - 2 );
+    mvwhline( win, point( 1, border_y ), LINE_OXOX, width - 2 );
     mvwputch( win, border_y, width - 1, BORDER_COLOR, LINE_XOXX );
 }
 
@@ -104,19 +104,19 @@ void player::power_mutations()
     int WIDTH = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) / 2;
     int START_X = ( TERMX - WIDTH ) / 2;
     int START_Y = ( TERMY - HEIGHT ) / 2;
-    catacurses::window wBio = catacurses::newwin( HEIGHT, WIDTH, START_Y, START_X );
+    catacurses::window wBio = catacurses::newwin( HEIGHT, WIDTH, point( START_X, START_Y ) );
 
     // Description window @ the bottom of the bionic window
     int DESCRIPTION_START_Y = START_Y + HEIGHT - DESCRIPTION_HEIGHT - 1;
     int DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - START_Y - 1;
     catacurses::window w_description = catacurses::newwin( DESCRIPTION_HEIGHT, WIDTH - 2,
-                                       DESCRIPTION_START_Y, START_X + 1 );
+                                       point( START_X + 1, DESCRIPTION_START_Y ) );
 
     // Title window
     int TITLE_START_Y = START_Y + 1;
     int HEADER_LINE_Y = TITLE_HEIGHT + 1; // + lines with text in titlebar, local
-    catacurses::window w_title = catacurses::newwin( TITLE_HEIGHT, WIDTH - 2, TITLE_START_Y,
-                                 START_X + 1 );
+    catacurses::window w_title = catacurses::newwin( TITLE_HEIGHT, WIDTH - 2, point( START_X + 1,
+                                 TITLE_START_Y ) );
 
     int scroll_position = 0;
     int second_column = 32 + ( TERMX - FULL_SCREEN_WIDTH ) /
@@ -152,7 +152,7 @@ void player::power_mutations()
             werase( wBio );
             draw_border( wBio, BORDER_COLOR, _( " MUTATIONS " ) );
             // Draw line under title
-            mvwhline( wBio, HEADER_LINE_Y, 1, LINE_OXOX, WIDTH - 2 );
+            mvwhline( wBio, point( 1, HEADER_LINE_Y ), LINE_OXOX, WIDTH - 2 );
             // Draw symbols to connect additional lines to border
             mvwputch( wBio, HEADER_LINE_Y, 0, BORDER_COLOR, LINE_XXXO ); // |-
             mvwputch( wBio, HEADER_LINE_Y, WIDTH - 1, BORDER_COLOR, LINE_XOXX ); // -|

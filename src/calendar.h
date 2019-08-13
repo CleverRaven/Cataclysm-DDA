@@ -147,7 +147,7 @@ float season_ratio();
 float season_from_default_ratio();
 
 /** Returns the translated name of the season (with first letter being uppercase). */
-const std::string name_season( season_type s );
+std::string name_season( season_type s );
 
 extern time_point start_of_cataclysm;
 extern time_point turn;
@@ -162,8 +162,8 @@ extern season_type initial_season;
 extern const time_point before_time_starts;
 /**
  * Represents time point 0.
+ * TODO: flesh out the documentation
  */
-// TODO: flesh out the documentation
 extern const time_point turn_zero;
 } // namespace calendar
 

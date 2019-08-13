@@ -126,7 +126,7 @@ struct weather_sum {
     int wind_amount = 0;
 };
 
-weather_datum const weather_data( weather_type const type );
+weather_datum weather_data( weather_type const type );
 namespace weather
 {
 std::string name( weather_type const type );

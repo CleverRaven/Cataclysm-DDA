@@ -553,7 +553,7 @@ void vehicle::do_autodrive()
         omt_path.pop_back();
     }
 
-    point omt_diff = point( omt_path.back().x - veh_omt_pos.x, omt_path.back().y - veh_omt_pos.y );
+    point omt_diff = omt_path.back().xy() - veh_omt_pos.xy();
     if( omt_diff.x > 3 || omt_diff.x < -3 || omt_diff.y > 3 || omt_diff.y < -3 ) {
         // we've gone walkabout somehow, call off the whole thing
         is_autodriving = false;
@@ -581,8 +581,7 @@ void vehicle::do_autodrive()
     tripoint autodrive_local_target = ( global_a + tripoint( x_side, y_side,
                                         sm_pos.z ) - g->m.getabs( vehpos ) ) + global_pos3();
     rl_vec2d facevec = face_vec();
-    point rel_pos_target = point( autodrive_local_target.x - vehpos.x,
-                                  autodrive_local_target.y - vehpos.y );
+    point rel_pos_target = autodrive_local_target.xy() - vehpos.xy();
     rl_vec2d targetvec = rl_vec2d( rel_pos_target.x, rel_pos_target.y );
     // cross product
     double crossy = ( facevec.x * targetvec.y ) - ( targetvec.x * facevec.y );
@@ -1759,7 +1758,7 @@ bool vehicle::remove_part( int p )
 
     for( auto &i : get_items( p ) ) {
         // Note: this can spawn items on the other side of the wall!
-        tripoint dest( part_loc.x + rng( -3, 3 ), part_loc.y + rng( -3, 3 ), part_loc.z );
+        tripoint dest( part_loc + point( rng( -3, 3 ), rng( -3, 3 ) ) );
         g->m.add_item_or_charges( dest, i );
     }
     g->m.dirty_vehicle_list.insert( this );
@@ -3370,7 +3369,7 @@ void vehicle::spew_field( double joules, int part, field_type_id type, int inten
         p.x += ( velocity < 0 ? 1 : -1 );
     }
     point q = coord_translate( p );
-    const tripoint dest = global_pos3() + tripoint( q.x, q.y, 0 );
+    const tripoint dest = global_pos3() + tripoint( q, 0 );
     g->m.mod_field_intensity( dest, type, intensity );
 }
 
@@ -3732,22 +3731,15 @@ double vehicle::coeff_water_drag() const
 
     // effective hull area is actual hull area * hull coverage
     double hull_area_m   = actual_area_m * std::max( 0.1, hull_coverage );
-    // treat the hullform as a tetrahedron for half it's length, and a rectangular block
-    // for the rest.  the mass of the water displaced by those shapes is equal to the mass
-    // of the vehicle (Archimedes principle, eh?) and the volume of that water is the volume
-    // of the hull below the waterline divided by the density of water.  apply math to get
-    // depth.
-    // volume of the block = width * length / 2 * depth
-    // volume of the tetrahedron = 1/3 * area of the triangle * depth
-    // area of the triangle = 1/2 triangle length * width = 1/2 * length/2 * width
-    // volume of the tetrahedron = 1/3 * 1/4 * length * width * depth
-    // hull volume underwater = 1/2 * width * length * depth + 1/12 * length * width * depth
-    // 7/12 * length * width * depth = hull_volume = water_mass / water density
+    // Treat the hullform as a simple cuboid to calculate displaced depth of
+    // water.
+    // Apply Archimedes' principle (mass of water displaced is mass of vehicle).
+    // area * depth = hull_volume = water_mass / water density
     // water_mass = vehicle_mass
-    // 7/12 * length * width * depth = vehicle_mass / water_density
-    // depth = 12/7 * vehicle_mass / water_density / ( length * width )
+    // area * depth = vehicle_mass / water_density
+    // depth = vehicle_mass / water_density / area
     constexpr double water_density = 1000.0; // kg/m^3
-    draft_m = 12 / 7 * to_kilogram( total_mass() ) / water_density / hull_area_m;
+    draft_m = to_kilogram( total_mass() ) / water_density / hull_area_m;
     // increase the streamlining as more of the boat is covered in boat boards
     double c_water_drag = 1.25 - hull_coverage;
     // hull height starts at 0.3m and goes up as you add more boat boards
@@ -4497,7 +4489,7 @@ void vehicle::slow_leak()
         auto fuel = p.ammo_current();
         int qty = std::max( ( 0.5 - health ) * ( 0.5 - health ) * p.ammo_remaining() / 10, 1.0 );
         point q = coord_translate( p.mount );
-        const tripoint dest = global_pos3() + tripoint( q.x, q.y, 0 );
+        const tripoint dest = global_pos3() + tripoint( q, 0 );
 
         // damaged batteries self-discharge without leaking, plutonium leaks slurry
         if( fuel != fuel_type_battery && fuel != fuel_type_plutonium_cell ) {
@@ -4655,7 +4647,7 @@ vehicle_stack::iterator vehicle::remove_item( int part, vehicle_stack::const_ite
 vehicle_stack vehicle::get_items( const int part )
 {
     const tripoint pos = global_part_pos3( part );
-    return vehicle_stack( &parts[part].items, point( pos.x, pos.y ), this, part );
+    return vehicle_stack( &parts[part].items, pos.xy(), this, part );
 }
 
 vehicle_stack vehicle::get_items( const int part ) const
@@ -5781,7 +5773,7 @@ void vehicle::update_time( const time_point &update_to )
 
             double windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, global_part_pos3( part ),
                                                     g->weather.winddirection, false );
-            if( windpower <= ( g->weather.windspeed / 10 ) ) {
+            if( windpower <= ( g->weather.windspeed / 10.0 ) ) {
                 continue;
             }
             epower_w += part_epower_w( part ) * windpower;
@@ -5903,7 +5895,7 @@ bounding_box vehicle::get_bounding_box()
 
     int i_use = 0;
     for( const tripoint &p : get_points( true ) ) {
-        const point pt = parts[part_at( point( p.x, p.y ) )].precalc[i_use];
+        const point pt = parts[part_at( p.xy() )].precalc[i_use];
         if( pt.x < min_x ) {
             min_x = pt.x;
         }

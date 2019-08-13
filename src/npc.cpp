@@ -520,12 +520,16 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         ret.push_back( random_item_from( type, "extra" ) );
     }
 
+    for( item &it : who.worn ) {
+        it.on_takeoff( who );
+    }
     who.worn.clear();
     for( item &it : ret ) {
         if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
         }
         if( who.can_wear( it ).success() ) {
+            it.on_wear( who );
             who.worn.push_back( it );
             it.set_owner( who.my_fac );
         }
@@ -671,8 +675,7 @@ void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
 
 tripoint npc::global_square_location() const
 {
-    return tripoint( submap_coords.x * SEEX + posx() % SEEX, submap_coords.y * SEEY + posy() % SEEY,
-                     position.z );
+    return sm_to_ms_copy( submap_coords ) + tripoint( posx() % SEEX, posy() % SEEY, position.z );
 }
 
 void npc::place_on_map()
@@ -1060,7 +1063,7 @@ float npc::vehicle_danger( int radius ) const
     int danger = 0;
 
     // TODO: check for most dangerous vehicle?
-    for( unsigned int i = 0; i < vehicles.size(); ++i ) {
+    for( size_t i = 0; i < vehicles.size(); ++i ) {
         const wrapped_vehicle &wrapped_veh = vehicles[i];
         if( wrapped_veh.v->is_moving() ) {
             // FIXME: this can't be the right way to do this
@@ -1178,11 +1181,11 @@ void npc::decide_needs()
     for( auto &i : slice ) {
         item inventory_item = i->front();
         if( inventory_item.is_food( ) ) {
-            needrank[ need_food ] += nutrition_for( inventory_item ) / 4;
-            needrank[ need_drink ] += inventory_item.get_comestible()->quench / 4;
+            needrank[ need_food ] += nutrition_for( inventory_item ) / 4.0;
+            needrank[ need_drink ] += inventory_item.get_comestible()->quench / 4.0;
         } else if( inventory_item.is_food_container() ) {
-            needrank[ need_food ] += nutrition_for( inventory_item.contents.front() ) / 4;
-            needrank[ need_drink ] += inventory_item.contents.front().get_comestible()->quench / 4;
+            needrank[ need_food ] += nutrition_for( inventory_item.contents.front() ) / 4.0;
+            needrank[ need_drink ] += inventory_item.contents.front().get_comestible()->quench / 4.0;
         }
     }
     needs.clear();
@@ -1758,7 +1761,7 @@ bool npc::emergency() const
 
 bool npc::emergency( float danger ) const
 {
-    return ( danger > ( personality.bravery * 3 * hp_percentage() ) / 100 );
+    return ( danger > ( personality.bravery * 3 * hp_percentage() ) / 100.0 );
 }
 
 //Check if this npc is currently in the list of active npcs.

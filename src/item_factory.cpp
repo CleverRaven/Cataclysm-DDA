@@ -59,7 +59,7 @@ static DynamicDataLoader::deferred_json deferred;
 
 std::unique_ptr<Item_factory> item_controller = std::make_unique<Item_factory>();
 
-static const std::string calc_category( const itype &obj );
+static std::string calc_category( const itype &obj );
 static void set_allergy_flags( itype &item_template );
 static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
@@ -354,14 +354,18 @@ void Item_factory::finalize_pre( itype &obj )
         obj.drop_action.get_actor_ptr()->finalize( obj.id );
     }
 
-    if( obj.item_tags.count( "SKINTIGHT" ) ) {
-        obj.layer = UNDERWEAR;
+    if( obj.item_tags.count( "PERSONAL" ) ) {
+        obj.layer = PERSONAL_LAYER;
+    } else if( obj.item_tags.count( "SKINTIGHT" ) ) {
+        obj.layer = UNDERWEAR_LAYER;
     } else if( obj.item_tags.count( "WAIST" ) ) {
         obj.layer = WAIST_LAYER;
     } else if( obj.item_tags.count( "OUTER" ) ) {
         obj.layer = OUTER_LAYER;
     } else if( obj.item_tags.count( "BELTED" ) ) {
         obj.layer = BELTED_LAYER;
+    } else if( obj.item_tags.count( "AURA" ) ) {
+        obj.layer = AURA_LAYER;
     } else {
         obj.layer = REGULAR_LAYER;
     }
@@ -2679,7 +2683,7 @@ phase_id string_to_enum<phase_id>( const std::string &data )
 }
 } // namespace io
 
-const std::string calc_category( const itype &obj )
+std::string calc_category( const itype &obj )
 {
     if( obj.artifact ) {
         return "artifacts";

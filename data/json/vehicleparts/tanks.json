@@ -14,7 +14,8 @@
     "damage_modifier": 80,
     "folded_volume": 8,
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
-    "flags": [ "FLUIDTANK", "FOLDABLE" ]
+    "flags": [ "FLUIDTANK", "FOLDABLE" ],
+    "damage_reduction": { "all": 26, "stab": 8 }
   },
   {
     "id": "tank_small",
@@ -30,7 +31,8 @@
     "size": 10000,
     "damage_modifier": 80,
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 40 ] } ],
-    "flags": [ "FLUIDTANK" ]
+    "flags": [ "FLUIDTANK" ],
+    "damage_reduction": { "all": 9, "stab": 0 }
   },
   {
     "id": "tank_medium",
@@ -50,7 +52,8 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
-    "flags": [ "FLUIDTANK" ]
+    "flags": [ "FLUIDTANK" ],
+    "damage_reduction": { "all": 28, "stab": 10 }
   },
   {
     "id": "tank",
@@ -70,7 +73,8 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
-    "flags": [ "FLUIDTANK" ]
+    "flags": [ "FLUIDTANK" ],
+    "damage_reduction": { "all": 28, "stab": 12 }
   },
   {
     "id": "external_tank_small",
@@ -85,7 +89,8 @@
     "description": "A storage space for holding liquids, mounted outside the vehicle's walls and armor.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "size": 100000,
     "damage_modifier": 80,
-    "flags": [ "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FLUIDTANK" ]
+    "flags": [ "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FLUIDTANK" ],
+    "damage_reduction": { "all": 30, "stab": 12 }
   },
   {
     "id": "external_tank",
@@ -93,7 +98,8 @@
     "type": "vehicle_part",
     "name": "external tank (200L)",
     "item": "55gal_drum",
-    "size": 200000
+    "size": 200000,
+    "damage_reduction": { "all": 30, "stab": 12 }
   },
   {
     "id": "tank_barrel",
@@ -113,7 +119,8 @@
       { "item": "2x4", "count": [ 2, 8 ] },
       { "item": "scrap", "count": [ 1, 3 ] }
     ],
-    "flags": [ "NAILABLE", "FLUIDTANK" ]
+    "flags": [ "NAILABLE", "FLUIDTANK" ],
+    "damage_reduction": { "all": 18, "stab": 12 }
   },
   {
     "id": "tank_30gal_drum",
@@ -133,7 +140,8 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
-    "flags": [ "FLUIDTANK" ]
+    "flags": [ "FLUIDTANK" ],
+    "damage_reduction": { "all": 30, "stab": 12 }
   },
   {
     "id": "tank_55gal_drum",
@@ -147,7 +155,8 @@
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "scrap", "count": [ 2, 10 ] }
     ],
-    "flags": [ "FLUIDTANK", "OPAQUE", "OBSTACLE" ]
+    "flags": [ "FLUIDTANK", "OPAQUE", "OBSTACLE" ],
+    "damage_reduction": { "all": 30, "stab": 12 }
   },
   {
     "id": "fuel_bunker",
@@ -168,6 +177,7 @@
       { "item": "steel_lump", "count": [ 2, 2 ] },
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
-    ]
+    ],
+    "damage_reduction": { "all": 24, "stab": 18 }
   }
 ]

@@ -765,8 +765,8 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         }
 
         for( const auto &conv : nearby ) {
-            const auto x_it = needs_conversion.find( tripoint( pos.x + conv.xoffset, pos.y, pos.z ) );
-            const auto y_it = needs_conversion.find( tripoint( pos.x, pos.y + conv.yoffset, pos.z ) );
+            const auto x_it = needs_conversion.find( pos + point( conv.xoffset, 0 ) );
+            const auto y_it = needs_conversion.find( pos + point( 0, conv.yoffset ) );
             if( x_it != needs_conversion.end() && x_it->second == conv.x_id &&
                 y_it != needs_conversion.end() && y_it->second == conv.y_id ) {
                 new_id = oter_id( conv.new_id );
@@ -1220,14 +1220,14 @@ struct mongroup_hash {
     std::size_t operator()( const mongroup &mg ) const {
         // Note: not hashing monsters or position
         size_t ret = std::hash<mongroup_id>()( mg.type );
-        std::hash_combine( ret, mg.radius );
-        std::hash_combine( ret, mg.population );
-        std::hash_combine( ret, mg.target );
-        std::hash_combine( ret, mg.interest );
-        std::hash_combine( ret, mg.dying );
-        std::hash_combine( ret, mg.horde );
-        std::hash_combine( ret, mg.horde_behaviour );
-        std::hash_combine( ret, mg.diffuse );
+        cata::hash_combine( ret, mg.radius );
+        cata::hash_combine( ret, mg.population );
+        cata::hash_combine( ret, mg.target );
+        cata::hash_combine( ret, mg.interest );
+        cata::hash_combine( ret, mg.dying );
+        cata::hash_combine( ret, mg.horde );
+        cata::hash_combine( ret, mg.horde_behaviour );
+        cata::hash_combine( ret, mg.diffuse );
         return ret;
     }
 };
@@ -1521,7 +1521,7 @@ void game::unserialize_master( std::istream &fin )
 {
     savegame_loading_version = 0;
     chkversion( fin );
-    if( savegame_loading_version != savegame_version && savegame_loading_version < 11 ) {
+    if( savegame_loading_version < 11 ) {
         popup_nowait(
             _( "Cannot find loader for save data in old version %d, attempting to load as current version %d." ),
             savegame_loading_version, savegame_version );

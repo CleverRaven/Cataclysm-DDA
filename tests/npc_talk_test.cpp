@@ -140,6 +140,30 @@ TEST_CASE( "npc_talk_stats", "[npc_talk]" )
     CHECK( d.responses[4].text == "This is a low perception test response." );
 }
 
+TEST_CASE( "npc_talk_skills", "[npc_talk]" )
+{
+    dialogue d;
+    prep_test( d );
+
+    const skill_id skill( "driving" );
+
+    g->u.set_skill_level( skill, 8 );
+
+    d.add_topic( "TALK_TEST_SIMPLE_SKILLS" );
+    gen_response_lines( d, 2 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a driving test response." );
+
+    g->u.set_skill_level( skill, 6 );
+    gen_response_lines( d, 1 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+
+    d.add_topic( "TALK_TEST_NEGATED_SKILLS" );
+    gen_response_lines( d, 2 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a low driving test response." );
+}
+
 TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
 {
     dialogue d;

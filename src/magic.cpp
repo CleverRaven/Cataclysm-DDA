@@ -1393,7 +1393,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     line++;
 
-    std::string targets = "";
+    std::string targets;
     if( sp.is_valid_target( target_none ) ) {
         targets = "self";
     } else {
@@ -1420,7 +1420,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         }
         if( sp.aoe() > 0 ) {
             std::string aoe_string_temp = "Spell Radius";
-            std::string degree_string = "";
+            std::string degree_string;
             if( fx == "cone_attack" ) {
                 aoe_string_temp = "Cone Arc";
                 degree_string = "degrees";

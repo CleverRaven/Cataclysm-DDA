@@ -401,7 +401,7 @@ void monster::try_reproduce()
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - calendar::turn_zero );
+    const int current_day = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
     if( baby_timer < 0 ) {
         baby_timer = type->baby_timer;
         if( baby_timer < 0 ) {
@@ -464,7 +464,7 @@ void monster::try_biosignature()
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - calendar::turn_zero );
+    const int current_day = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
     if( biosig_timer < 0 ) {
         biosig_timer = type->biosig_timer;
         if( biosig_timer < 0 ) {
@@ -858,17 +858,13 @@ void monster::set_goal( const tripoint &p )
     goal = p;
 }
 
-void monster::shift( int sx, int sy )
+void monster::shift( const point &sm_shift )
 {
-    const int xshift = sx * SEEX;
-    const int yshift = sy * SEEY;
-    position.x -= xshift;
-    position.y -= yshift;
-    goal.x -= xshift;
-    goal.y -= yshift;
+    const point ms_shift = sm_to_ms_copy( sm_shift );
+    position -= ms_shift;
+    goal -= ms_shift;
     if( wandf > 0 ) {
-        wander_pos.x -= xshift;
-        wander_pos.y -= yshift;
+        wander_pos -= ms_shift;
     }
 }
 

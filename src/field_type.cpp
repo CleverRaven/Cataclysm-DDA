@@ -63,10 +63,23 @@ int_id<field_type>::int_id( const string_id<field_type> &id ) : _id( id.id() )
 {
 }
 
+const field_intensity_level &field_type::get_intensity_level( int level ) const
+{
+    if( level < 0 || static_cast<size_t>( level ) >= intensity_levels.size() ) {
+        // level + 1 for the original intensity number
+        debugmsg( "Unknown intensity level %d for field type %s.", level + 1, id.str() );
+        return intensity_levels.back();
+    }
+    return intensity_levels[level];
+}
+
 void field_type::load( JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "legacy_enum_id", legacy_enum_id, -1 );
     JsonArray ja = jo.get_array( "intensity_levels" );
+    if( !jo.has_array( "intensity_levels" ) || ja.empty() ) {
+        jo.throw_error( "No intensity levels defined for field type", "id" );
+    }
     for( size_t i = 0; i < ja.size(); ++i ) {
         field_intensity_level intensity_level;
         field_intensity_level fallback_intensity_level = i > 0 ? intensity_levels[i - 1] : intensity_level;
@@ -86,6 +99,24 @@ void field_type::load( JsonObject &jo, const std::string & )
                   fallback_intensity_level.extra_radiation_min );
         optional( jao, was_loaded, "extra_radiation_max", intensity_level.extra_radiation_max,
                   fallback_intensity_level.extra_radiation_max );
+        optional( jao, was_loaded, "radiation_hurt_damage_min", intensity_level.radiation_hurt_damage_min,
+                  fallback_intensity_level.radiation_hurt_damage_min );
+        optional( jao, was_loaded, "radiation_hurt_damage_max", intensity_level.radiation_hurt_damage_max,
+                  fallback_intensity_level.radiation_hurt_damage_max );
+        optional( jao, was_loaded, "radiation_hurt_message", intensity_level.radiation_hurt_message,
+                  fallback_intensity_level.radiation_hurt_message );
+        optional( jao, was_loaded, "intensity_upgrade_chance", intensity_level.intensity_upgrade_chance,
+                  fallback_intensity_level.intensity_upgrade_chance );
+        optional( jao, was_loaded, "intensity_upgrade_duration", intensity_level.intensity_upgrade_duration,
+                  fallback_intensity_level.intensity_upgrade_duration );
+        optional( jao, was_loaded, "monster_spawn_chance", intensity_level.monster_spawn_chance,
+                  fallback_intensity_level.monster_spawn_chance );
+        optional( jao, was_loaded, "monster_spawn_count", intensity_level.monster_spawn_count,
+                  fallback_intensity_level.monster_spawn_count );
+        optional( jao, was_loaded, "monster_spawn_radius", intensity_level.monster_spawn_radius,
+                  fallback_intensity_level.monster_spawn_radius );
+        optional( jao, was_loaded, "monster_spawn_group", intensity_level.monster_spawn_group,
+                  fallback_intensity_level.monster_spawn_group );
         optional( jao, was_loaded, "light_emitted", intensity_level.light_emitted,
                   fallback_intensity_level.light_emitted );
         optional( jao, was_loaded, "translucency", intensity_level.translucency,
@@ -139,20 +170,17 @@ void field_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "accelerated_decay", accelerated_decay, false );
     optional( jo, was_loaded, "display_items", display_items, true );
     optional( jo, was_loaded, "display_field", display_field, false );
-    optional( jo, was_loaded, "wandering_field_id", wandering_field_id, "fd_null" );
+    optional( jo, was_loaded, "wandering_field", wandering_field_id, "fd_null" );
 }
 
 void field_type::finalize()
 {
     wandering_field = field_type_id( wandering_field_id );
-    wandering_field_id.empty();
+    wandering_field_id.clear();
 }
 
 void field_type::check() const
 {
-    if( intensity_levels.empty() ) {
-        debugmsg( "No intensity levels defined for field type \"%s\".", id.c_str() );
-    }
     int i = 0;
     for( auto &intensity_level : intensity_levels ) {
         i++;
@@ -176,6 +204,9 @@ void field_types::finalize_all()
 {
     set_field_type_ids();
     all_field_types.finalize();
+    for( const field_type &fd : all_field_types.get_all() ) {
+        const_cast<field_type &>( fd ).finalize();
+    }
 }
 
 void field_types::check_consistency()
@@ -243,6 +274,7 @@ field_type_id fd_null,
               fd_hot_air3,
               fd_hot_air4,
               fd_fungicidal_gas,
+              fd_insecticidal_gas,
               fd_smoke_vent
               ;
 
@@ -298,6 +330,7 @@ void field_types::set_field_type_ids()
     fd_hot_air3 = field_type_id( "fd_hot_air3" );
     fd_hot_air4 = field_type_id( "fd_hot_air4" );
     fd_fungicidal_gas = field_type_id( "fd_fungicidal_gas" );
+    fd_insecticidal_gas = field_type_id( "fd_insecticidal_gas" );
     fd_smoke_vent = field_type_id( "fd_smoke_vent" );
 }
 

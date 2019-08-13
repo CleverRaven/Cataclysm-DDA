@@ -56,8 +56,11 @@
 #include "game_constants.h"
 #include "point.h"
 #include "scent_block.h"
+#include "mongroup.h"
 
 const species_id FUNGUS( "FUNGUS" );
+const species_id INSECT( "INSECT" );
+const species_id SPIDER( "SPIDER" );
 
 const efftype_id effect_badpoison( "badpoison" );
 const efftype_id effect_blind( "blind" );
@@ -263,7 +266,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     // First check if we can fall
     // TODO: Make fall and rise chances parameters to enable heavy/light gas
     if( zlevels && p.z > -OVERMAP_DEPTH ) {
-        const tripoint down{ p.x, p.y, p.z - 1 };
+        const tripoint down{ p.xy(), p.z - 1 };
         maptile down_tile = maptile_at_internal( down );
         if( gas_can_spread_to( cur, down_tile ) && valid_move( p, down, true, true ) ) {
             gas_spread_to( cur, down_tile );
@@ -317,7 +320,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
             }
         }
     } else if( zlevels && p.z < OVERMAP_HEIGHT ) {
-        const tripoint up{ p.x, p.y, p.z + 1 };
+        const tripoint up{ p.xy(), p.z + 1 };
         maptile up_tile = maptile_at_internal( up );
         if( gas_can_spread_to( cur, up_tile ) && valid_move( p, up, true, true ) ) {
             gas_spread_to( cur, up_tile );
@@ -350,7 +353,7 @@ void map::create_hot_air( const tripoint &p, int intensity )
     }
 
     for( int counter = 0; counter < 5; counter++ ) {
-        tripoint dst( p.x + rng( -1, 1 ), p.y + rng( -1, 1 ), p.z );
+        tripoint dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
         add_field( dst, hot_air, 1 );
     }
 }
@@ -410,6 +413,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 field_type_id curtype = cur.get_field_type();
                 // Again, legacy support in the event someone Mods set_field_intensity to allow more values.
                 if( cur.get_field_intensity() > 3 || cur.get_field_intensity() < 1 ) {
+                    // TODO: Remove this eventually as we would suppoort more than 3 field intensity levels
                     debugmsg( "Whoooooa intensity of %d", cur.get_field_intensity() );
                 }
 
@@ -418,6 +422,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 // Don't process "newborn" fields. This gives the player time to run if they need to.
                 if( cur.get_field_age() == 0_turns ) {
                     curtype = fd_null;
+                }
+
+                // Upgrade field intensity
+                if( cur.intensity_upgrade_chance() > 0 &&
+                    one_in( cur.intensity_upgrade_chance() ) &&
+                    cur.intensity_upgrade_duration() > 0_turns &&
+                    calendar::once_every( cur.intensity_upgrade_duration() ) ) {
+                    cur.set_field_intensity( cur.get_field_intensity() + 1 );
                 }
 
                 int part;
@@ -429,7 +441,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 if( curtype == fd_acid ) {
                     // Try to fall by a z-level
                     if( zlevels && p.z > -OVERMAP_DEPTH ) {
-                        tripoint dst{ p.x, p.y, p.z - 1 };
+                        tripoint dst{ p.xy(), p.z - 1 };
                         if( valid_move( p, dst, true, true ) ) {
                             maptile dst_tile = maptile_at_internal( dst );
                             field_entry *acid_there = dst_tile.find_field( fd_acid );
@@ -600,7 +612,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                         } else if( ter.has_flag( TFLAG_NO_FLOOR ) && zlevels && p.z > -OVERMAP_DEPTH ) {
                             // We're hanging in the air - let's fall down
-                            tripoint dst{ p.x, p.y, p.z - 1 };
+                            tripoint dst{ p.xy(), p.z - 1 };
                             if( valid_move( p, dst, true, true ) ) {
                                 maptile dst_tile = maptile_at_internal( dst );
                                 field_entry *fire_there = dst_tile.find_field( fd_fire );
@@ -764,7 +776,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     // Spreading down is achieved by wrecking the walls/floor and then falling
                     if( zlevels && cur.get_field_intensity() == 3 && p.z < OVERMAP_HEIGHT ) {
                         // Let it burn through the floor
-                        maptile dst = maptile_at_internal( {p.x, p.y, p.z + 1} );
+                        maptile dst = maptile_at_internal( {p.xy(), p.z + 1} );
                         const auto &dst_ter = dst.get_ter_t();
                         if( dst_ter.has_flag( TFLAG_NO_FLOOR ) ||
                             dst_ter.has_flag( TFLAG_FLAMMABLE ) ||
@@ -908,7 +920,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         rng( 3, 35 ) < cur.get_field_intensity() * 10 ) {
                         bool smoke_up = zlevels && p.z < OVERMAP_HEIGHT;
                         if( smoke_up ) {
-                            tripoint up{p.x, p.y, p.z + 1};
+                            tripoint up{p.xy(), p.z + 1};
                             maptile dst = maptile_at_internal( up );
                             const ter_t &dst_ter = dst.get_ter_t();
                             if( dst_ter.has_flag( TFLAG_NO_FLOOR ) ) {
@@ -965,7 +977,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     }
                 }
 
-                // Apply radition
+                // Apply radiation
                 if( cur.extra_radiation_max() > 0 ) {
                     int extra_radiation = rng( cur.extra_radiation_min(), cur.extra_radiation_max() );
                     adjust_radiation( p, extra_radiation );
@@ -1037,7 +1049,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             }
                             // Spread to adjacent space, then
                             if( valid.empty() ) {
-                                tripoint dst( p.x + rng( -1, 1 ), p.y + rng( -1, 1 ), p.z );
+                                tripoint dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
                                 field_entry *elec = get_field( dst ).find_field( fd_electricity );
                                 if( passable( dst ) && elec != nullptr &&
                                     elec->get_field_intensity() < 3 ) {
@@ -1056,19 +1068,22 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                     }
                 }
-                if( curtype == fd_fatigue ) {
-                    static const std::array<mtype_id, 9> monids = { {
-                            mtype_id( "mon_flying_polyp" ), mtype_id( "mon_hunting_horror" ),
-                            mtype_id( "mon_mi_go" ), mtype_id( "mon_yugg" ), mtype_id( "mon_gelatin" ),
-                            mtype_id( "mon_flaming_eye" ), mtype_id( "mon_kreck" ), mtype_id( "mon_gracke" ),
-                            mtype_id( "mon_blank" ),
+
+                int monster_spawn_chance = cur.monster_spawn_chance();
+                int monster_spawn_count = cur.monster_spawn_count();
+                if( monster_spawn_count > 0 && monster_spawn_chance > 0 && one_in( monster_spawn_chance ) ) {
+                    for( ; monster_spawn_count > 0; monster_spawn_count-- ) {
+                        MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
+                                                               cur.monster_spawn_group(), &monster_spawn_count );
+                        if( !spawn_details.name ) {
+                            continue;
                         }
-                    };
-                    if( cur.get_field_intensity() < 3 && calendar::once_every( 6_hours ) && one_in( 10 ) ) {
-                        cur.set_field_intensity( cur.get_field_intensity() + 1 );
-                        // Spawn nether creature!
-                    } else if( cur.get_field_intensity() == 3 && one_in( 600 ) ) {
-                        g->summon_mon( random_entry( monids ), p );
+                        if( const auto spawn_point = random_point( points_in_radius( p,
+                        cur.monster_spawn_radius() ), [this]( const tripoint & n ) {
+                        return passable( n );
+                        } ) ) {
+                            add_spawn( spawn_details.name, spawn_details.pack_size, spawn_point->x, spawn_point->y );
+                        }
                     }
                 }
 
@@ -1193,6 +1208,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         curfield.find_field( fd_gas_vent ) ||
                         curfield.find_field( fd_smoke_vent ) ||
                         curfield.find_field( fd_fungicidal_gas ) ||
+                        curfield.find_field( fd_insecticidal_gas ) ||
                         curfield.find_field( fd_fire_vent ) ||
                         curfield.find_field( fd_flame_burst ) ||
                         curfield.find_field( fd_electricity ) ||
@@ -1234,7 +1250,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 }
                 if( curtype == fd_incendiary ) {
                     // Needed for variable scope
-                    tripoint dst( p.x + rng( -1, 1 ), p.y + rng( -1, 1 ), p.z );
+                    tripoint dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
                     if( has_flag( TFLAG_FLAMMABLE, dst ) ||
                         has_flag( TFLAG_FLAMMABLE_ASH, dst ) ||
                         has_flag( TFLAG_FLAMMABLE_HARD, dst ) ) {
@@ -1558,16 +1574,16 @@ void map::player_in_field( player &u )
                 }
             }
         }
-        if( ft == fd_nuke_gas ) {
+
+        if( cur.extra_radiation_min() > 0 ) {
             // Get irradiated by the nuclear fallout.
-            // Changed to min of intensity, not 0.
-            const float rads = rng( cur.get_field_intensity(),
-                                    cur.get_field_intensity() * ( cur.get_field_intensity() + 1 ) );
+            const float rads = rng( cur.extra_radiation_min() + 1,
+                                    cur.extra_radiation_max() * ( cur.extra_radiation_max() + 1 ) );
             const bool rad_proof = !u.irradiate( rads );
             // TODO: Reduce damage for rad resistant?
-            if( cur.get_field_intensity() == 3 && !rad_proof ) {
-                u.add_msg_if_player( m_bad, _( "This radioactive gas burns!" ) );
-                u.hurtall( rng( 1, 3 ), nullptr );
+            if( cur.radiation_hurt_damage_min() > 0 && !rad_proof ) {
+                u.add_msg_if_player( m_bad, cur.radiation_hurt_message() );
+                u.hurtall( rng( cur.radiation_hurt_damage_min(), cur.radiation_hurt_damage_max() ), nullptr );
             }
         }
         if( ft == fd_flame_burst ) {
@@ -1689,8 +1705,8 @@ void map::player_in_field( player &u )
                 u.hurtall( rng( 2, 6 ), nullptr );
             }
         }
-        // Fungicidal gas is unhealthy and becomes deadly if you cross a related threshold.
-        if( ft == fd_fungicidal_gas ) {
+        // Both gases are unhealthy and become deadly if you cross a related threshold.
+        if( ft == fd_fungicidal_gas || ft == fd_insecticidal_gas ) {
             // The gas won't harm you inside a vehicle.
             if( !inside ) {
                 // Full body suits protect you from the effects of the gas.
@@ -1698,7 +1714,9 @@ void map::player_in_field( player &u )
                        u.get_env_resist( bp_eyes ) >= 15 ) ) {
                     const int intensity = cur.get_field_intensity();
                     bool inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, intensity * 1_minutes );
-                    if( u.has_trait( trait_id( "THRESH_MYCUS" ) ) || u.has_trait( trait_id( "THRESH_MARLOSS" ) ) ) {
+                    if( u.has_trait( trait_id( "THRESH_MYCUS" ) ) || u.has_trait( trait_id( "THRESH_MARLOSS" ) ) ||
+                        ( ft == fd_insecticidal_gas && ( u.get_highest_category() == "INSECT" ||
+                                                         u.get_highest_category() == "SPIDER" ) ) ) {
                         inhaled |= u.add_env_effect( effect_badpoison, bp_mouth, 5, intensity * 1_minutes );
                         u.hurtall( rng( intensity, intensity * 2 ), nullptr );
                         u.add_msg_if_player( m_bad, _( "The %s burns your skin." ), cur.name() );
@@ -1976,6 +1994,13 @@ void map::monster_in_field( monster &z )
         }
         if( cur_field_type == fd_fungicidal_gas ) {
             if( z.type->in_species( FUNGUS ) ) {
+                const int intensity = cur.get_field_intensity();
+                z.moves -= rng( 10 * intensity, 30 * intensity );
+                dam += rng( 4, 7 * intensity );
+            }
+        }
+        if( cur_field_type == fd_insecticidal_gas ) {
+            if( z.type->in_species( INSECT ) || z.type->in_species( SPIDER ) ) {
                 const int intensity = cur.get_field_intensity();
                 z.moves -= rng( 10 * intensity, 30 * intensity );
                 dam += rng( 4, 7 * intensity );

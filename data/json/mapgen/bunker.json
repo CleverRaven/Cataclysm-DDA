@@ -42,7 +42,7 @@
         "6": "t_card_military",
         ">": "t_stairs_down",
         "D": "t_door_metal_locked",
-        "I": "t_reinforced_glass",
+        "I": "t_ballistic_glass",
         "M": "t_wall_metal",
         "|": "t_chainfence_v"
       },
@@ -98,7 +98,7 @@
         "6": "t_card_military",
         "<": "t_stairs_up",
         "M": "t_wall_metal",
-        "|": "t_reinforced_glass"
+        "|": "t_ballistic_glass"
       },
       "furniture": { "r": "f_rack" },
       "items": { "r": { "item": "bunker_basement_loot", "chance": 15, "repeat": [ 1, 5 ] } },

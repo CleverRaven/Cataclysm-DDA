@@ -986,12 +986,12 @@ void options_manager::init()
     add_options_world_default();
     add_options_android();
 
-    for( unsigned i = 0; i < vPages.size(); ++i ) {
+    for( size_t i = 0; i < vPages.size(); ++i ) {
         mPageItems[i].resize( mOptionsSort[vPages[i].first] );
     }
 
     for( auto &elem : options ) {
-        for( unsigned i = 0; i < vPages.size(); ++i ) {
+        for( size_t i = 0; i < vPages.size(); ++i ) {
             if( vPages[i].first == elem.second.getPage() && elem.second.getSortPos() > -1 ) {
                 mPageItems[i][elem.second.getSortPos()] = elem.first;
                 break;
@@ -1000,7 +1000,7 @@ void options_manager::init()
     }
 
     //Sort out possible double empty lines after options are hidden
-    for( unsigned i = 0; i < vPages.size(); ++i ) {
+    for( size_t i = 0; i < vPages.size(); ++i ) {
         bool bLastLineEmpty = false;
         while( mPageItems[i][0].empty() ) {
             //delete empty lines at the beginning
@@ -1671,6 +1671,17 @@ void options_manager::add_options_graphics()
 
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
 
+    mOptionsSort["graphics"]++;
+
+    add( "MEMORY_MAP_MODE", "graphics", translate_marker( "Memory map drawing mode" ),
+    translate_marker( "Specified the mode in which the memory map is drawn.  Requires restart." ), {
+        { "color_pixel_darken", translate_marker( "Darkened" ) },
+        { "color_pixel_sepia", translate_marker( "Sepia" ) }
+    }, "color_pixel_sepia", COPT_CURSES_HIDE
+       );
+
+    mOptionsSort["graphics"]++;
+
     add( "PIXEL_MINIMAP", "graphics", translate_marker( "Pixel minimap" ),
          translate_marker( "If true, shows the pixel-detail minimap in game after the save is loaded.  Use the 'Toggle Pixel Minimap' action key to change its visibility during gameplay." ),
          true, COPT_CURSES_HIDE
@@ -1700,6 +1711,13 @@ void options_manager::add_options_graphics()
 
     get_option( "PIXEL_MINIMAP_HEIGHT" ).setPrerequisite( "PIXEL_MINIMAP" );
 
+    add( "PIXEL_MINIMAP_SCALE_TO_FIT", "graphics", translate_marker( "Scale pixel minimap" ),
+         translate_marker( "Scale pixel minimap to fit its surroundings.  May produce crappy results, especially in modes other than \"Solid\"." ),
+         false, COPT_CURSES_HIDE
+       );
+
+    get_option( "PIXEL_MINIMAP_SCALE_TO_FIT" ).setPrerequisite( "PIXEL_MINIMAP" );
+
     add( "PIXEL_MINIMAP_RATIO", "graphics", translate_marker( "Maintain pixel minimap aspect ratio" ),
          translate_marker( "Preserves the square shape of tiles shown on the pixel minimap." ),
          true, COPT_CURSES_HIDE
@@ -1707,8 +1725,16 @@ void options_manager::add_options_graphics()
 
     get_option( "PIXEL_MINIMAP_RATIO" ).setPrerequisite( "PIXEL_MINIMAP" );
 
-    add( "PIXEL_MINIMAP_BLINK", "graphics", translate_marker( "Enemy beacon blink speed" ),
-         translate_marker( "Controls how fast the enemy beacons blink on the pixel minimap.  Value is multiplied by 200 ms.  Set to 0 to disable." ),
+    add( "PIXEL_MINIMAP_BEACON_SIZE", "graphics",
+         translate_marker( "Creature beacon size" ),
+         translate_marker( "Controls how big the creature beacons are.  Value is in minimap tiles." ),
+         1, 4, 2, COPT_CURSES_HIDE
+       );
+
+    get_option( "PIXEL_MINIMAP_BEACON_SIZE" ).setPrerequisite( "PIXEL_MINIMAP" );
+
+    add( "PIXEL_MINIMAP_BLINK", "graphics", translate_marker( "Hostile creature beacon blink speed" ),
+         translate_marker( "Controls how fast the hostile creature beacons blink on the pixel minimap.  Value is multiplied by 200 ms.  Set to 0 to disable." ),
          0, 50, 10, COPT_CURSES_HIDE
        );
 
@@ -2357,13 +2383,13 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     mapLines[60] = true;
 
     catacurses::window w_options_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                          iOffsetY - iWorldOffset, iOffsetX );
+                                          point( iOffsetX, iOffsetY - iWorldOffset ) );
     catacurses::window w_options_tooltip = catacurses::newwin( iTooltipHeight, FULL_SCREEN_WIDTH - 2,
-                                           1 + iOffsetY, 1 + iOffsetX );
+                                           point( 1 + iOffsetX, 1 + iOffsetY ) );
     catacurses::window w_options_header = catacurses::newwin( 1, FULL_SCREEN_WIDTH - 2,
-                                          1 + iTooltipHeight + iOffsetY, 1 + iOffsetX );
+                                          point( 1 + iOffsetX, 1 + iTooltipHeight + iOffsetY ) );
     catacurses::window w_options = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                                   iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX );
+                                   point( 1 + iOffsetX, iTooltipHeight + 2 + iOffsetY ) );
 
     if( world_options_only ) {
         worldfactory::draw_worldgen_tabs( w_options_border, 1 );
@@ -2646,7 +2672,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
             if( iter.first == "PIXEL_MINIMAP_HEIGHT"
                 || iter.first == "PIXEL_MINIMAP_RATIO"
-                || iter.first == "PIXEL_MINIMAP_MODE" ) {
+                || iter.first == "PIXEL_MINIMAP_MODE"
+                || iter.first == "PIXEL_MINIMAP_SCALE_TO_FIT" ) {
                 pixel_minimap_changed = true;
 
             } else if( iter.first == "TILES" || iter.first == "USE_TILES" ) {

@@ -649,11 +649,11 @@
     "symbol": "=",
     "color": "light_gray",
     "description": "Tin and pewter scraps.  Usable in making ammo.",
-    "material": "steel",
+    "material": "tin",
     "volume": 0,
     "weight": 3,
     "ammo_type": "components",
-    "count": 10,
+    "count": 50,
     "charges": 200
   },
   {

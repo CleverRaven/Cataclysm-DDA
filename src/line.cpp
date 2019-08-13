@@ -282,7 +282,7 @@ int rl_dist( const int x1, const int y1, const int x2, const int y2 )
 
 int rl_dist( const point &a, const point &b )
 {
-    return rl_dist( tripoint( a.x, a.y, 0 ), tripoint( b.x, b.y, 0 ) );
+    return rl_dist( tripoint( a, 0 ), tripoint( b, 0 ) );
 }
 
 int rl_dist( const tripoint &loc1, const tripoint &loc2 )
@@ -438,7 +438,7 @@ point direction_XY( const direction dir )
 
 namespace
 {
-const std::string direction_name_impl( const direction dir, const bool short_name )
+std::string direction_name_impl( const direction dir, const bool short_name )
 {
     enum : int { size = 3 * 3 * 3 };
     static const auto names = [] {
@@ -487,12 +487,12 @@ const std::string direction_name_impl( const direction dir, const bool short_nam
 }
 } //namespace
 
-const std::string direction_name( const direction dir )
+std::string direction_name( const direction dir )
 {
     return direction_name_impl( dir, false );
 }
 
-const std::string direction_name_short( const direction dir )
+std::string direction_name_short( const direction dir )
 {
     return direction_name_impl( dir, true );
 }
@@ -520,29 +520,29 @@ std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &t
     const int ax = std::abs( dx );
     const int ay = std::abs( dy );
     if( dz != 0 ) {
-        adjacent_closer_squares.push_back( { from.x + sgn( dx ), from.y + sgn( dy ), from.z + sgn( dz ) } );
+        adjacent_closer_squares.push_back( from + tripoint( sgn( dx ), sgn( dy ), sgn( dz ) ) );
     }
     if( ax > ay ) {
         // X dominant.
-        adjacent_closer_squares.push_back( { from.x + sgn( dx ), from.y, from.z } );
-        adjacent_closer_squares.push_back( { from.x + sgn( dx ), from.y + 1, from.z } );
-        adjacent_closer_squares.push_back( { from.x + sgn( dx ), from.y - 1, from.z } );
+        adjacent_closer_squares.push_back( from + point( sgn( dx ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( sgn( dx ), 1 ) );
+        adjacent_closer_squares.push_back( from + point( sgn( dx ), -1 ) );
         if( dy != 0 ) {
-            adjacent_closer_squares.push_back( { from.x, from.y + sgn( dy ), from.z } );
+            adjacent_closer_squares.push_back( from + point( 0, sgn( dy ) ) );
         }
     } else if( ax < ay ) {
         // Y dominant.
-        adjacent_closer_squares.push_back( { from.x, from.y + sgn( dy ), from.z } );
-        adjacent_closer_squares.push_back( { from.x + 1, from.y + sgn( dy ), from.z } );
-        adjacent_closer_squares.push_back( { from.x - 1, from.y + sgn( dy ), from.z } );
+        adjacent_closer_squares.push_back( from + point( 0, sgn( dy ) ) );
+        adjacent_closer_squares.push_back( from + point( 1, sgn( dy ) ) );
+        adjacent_closer_squares.push_back( from + point( -1, sgn( dy ) ) );
         if( dx != 0 ) {
-            adjacent_closer_squares.push_back( { from.x + sgn( dx ), from.y, from.z } );
+            adjacent_closer_squares.push_back( from + point( sgn( dx ), 0 ) );
         }
     } else if( dx != 0 ) {
         // Pure diagonal.
-        adjacent_closer_squares.push_back( { from.x + sgn( dx ), from.y + sgn( dy ), from.z } );
-        adjacent_closer_squares.push_back( { from.x + sgn( dx ), from.y, from.z } );
-        adjacent_closer_squares.push_back( { from.x, from.y + sgn( dy ), from.z } );
+        adjacent_closer_squares.push_back( from + point( sgn( dx ), sgn( dy ) ) );
+        adjacent_closer_squares.push_back( from + point( sgn( dx ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( 0, sgn( dy ) ) );
     }
 
     return adjacent_closer_squares;

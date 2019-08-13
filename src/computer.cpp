@@ -144,12 +144,12 @@ void computer::use()
 {
     if( !w_border ) {
         w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                       TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                                       TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+                                       point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                                              TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
     }
     if( !w_terminal ) {
         w_terminal = catacurses::newwin( getmaxy( w_border ) - 2, getmaxx( w_border ) - 2,
-                                         getbegy( w_border ) + 1, getbegx( w_border ) + 1 );
+                                         point( getbegx( w_border ) + 1, getbegy( w_border ) + 1 ) );
     }
     draw_border( w_border );
     wrefresh( w_border );
@@ -580,7 +580,7 @@ void computer::activate_function( computer_action action )
         case COMPACT_MAPS: {
             g->u.moves -= 30;
             const tripoint center = g->u.global_omt_location();
-            overmap_buffer.reveal( point( center.x, center.y ), 40, 0 );
+            overmap_buffer.reveal( center.xy(), 40, 0 );
             query_any(
                 _( "Surface map data downloaded.  Local anomalous-access error logged.  Press any key..." ) );
             remove_option( COMPACT_MAPS );
@@ -663,7 +663,7 @@ void computer::activate_function( computer_action action )
             // For each level between here and the surface, remove the missile
             for( int level = g->get_levz(); level <= 0; level++ ) {
                 map tmpmap;
-                tmpmap.load( g->get_levx(), g->get_levy(), level, false );
+                tmpmap.load( tripoint( g->get_levx(), g->get_levy(), level ), false );
 
                 if( level < 0 ) {
                     tmpmap.translate( t_missile, t_hole );
@@ -750,7 +750,7 @@ void computer::activate_function( computer_action action )
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     if( g->m.ter( x, y ) == t_elevator_control_off ) {
-                        g->m.ter_set( x, y, t_elevator_control );
+                        g->m.ter_set( point( x, y ), t_elevator_control );
                     }
                 }
             }
@@ -1227,7 +1227,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                 for( int x = 0; x < MAPSIZE_X; x++ ) {
                     for( int y = 0; y < MAPSIZE_Y; y++ ) {
                         if( g->m.ter( x, y ) == t_elevator_control_off ) {
-                            g->m.ter_set( x, y, t_elevator_control );
+                            g->m.ter_set( point( x, y ), t_elevator_control );
 
                         }
                     }
@@ -1274,9 +1274,9 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                                                            dest ) > 0 ? rl_dist( radorigin, dest ) : 1 ) );
                                 }
                                 if( g->m.pl_sees( dest, 10 ) ) {
-                                    g->u.irradiate( rng( 50, 250 ) / rl_dist( g->u.pos(), dest ) );
+                                    g->u.irradiate( rng_float( 50, 250 ) / rl_dist( g->u.pos(), dest ) );
                                 } else {
-                                    g->u.irradiate( rng( 20, 100 ) / rl_dist( g->u.pos(), dest ) );
+                                    g->u.irradiate( rng_float( 20, 100 ) / rl_dist( g->u.pos(), dest ) );
                                 }
                                 query_any( _( "EMERGENCY SHUTDOWN!  Press any key..." ) );
                                 error = true;
@@ -1291,7 +1291,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                             }
                             // if unshielded, rad source irradiates player directly, reduced by distance to source
                             if( g->m.pl_sees( dest, 10 ) ) {
-                                g->u.irradiate( rng( 5, 25 ) / rl_dist( g->u.pos(), dest ) );
+                                g->u.irradiate( rng_float( 5, 25 ) / rl_dist( g->u.pos(), dest ) );
                             }
                         }
                         if( !error && platform_exists ) {
@@ -1499,7 +1499,7 @@ void computer::activate_failure( computer_failure_type fail )
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     if( g->m.has_flag( "CONSOLE", x, y ) ) {
-                        g->m.ter_set( x, y, t_console_broken );
+                        g->m.ter_set( point( x, y ), t_console_broken );
                         add_msg( m_bad, _( "The console shuts down." ) );
                     }
                 }
@@ -1586,23 +1586,23 @@ void computer::activate_failure( computer_failure_type fail )
                         for( int i = 0; i < leak_size; i++ ) {
                             std::vector<point> next_move;
                             if( g->m.passable( p.x, p.y - 1 ) ) {
-                                next_move.push_back( point( p.x, p.y - 1 ) );
+                                next_move.push_back( p + point( 0, -1 ) );
                             }
                             if( g->m.passable( p.x + 1, p.y ) ) {
-                                next_move.push_back( point( p.x + 1, p.y ) );
+                                next_move.push_back( p + point( 1, 0 ) );
                             }
                             if( g->m.passable( p.x, p.y + 1 ) ) {
-                                next_move.push_back( point( p.x, p.y + 1 ) );
+                                next_move.push_back( p + point( 0, 1 ) );
                             }
                             if( g->m.passable( p.x - 1, p.y ) ) {
-                                next_move.push_back( point( p.x - 1, p.y ) );
+                                next_move.push_back( p + point( -1, 0 ) );
                             }
 
                             if( next_move.empty() ) {
                                 i = leak_size;
                             } else {
                                 p = random_entry( next_move );
-                                g->m.ter_set( p.x, p.y, t_sewage );
+                                g->m.ter_set( p, t_sewage );
                             }
                         }
                     }
@@ -1809,15 +1809,15 @@ void computer::print_gibberish_line()
     for( int i = 0; i < length; i++ ) {
         switch( rng( 0, 4 ) ) {
             case 0:
-                gibberish += '0' + rng( 0, 9 );
+                gibberish += static_cast<char>( '0' + rng( 0, 9 ) );
                 break;
             case 1:
             case 2:
-                gibberish += 'a' + rng( 0, 25 );
+                gibberish += static_cast<char>( 'a' + rng( 0, 25 ) );
                 break;
             case 3:
             case 4:
-                gibberish += 'A' + rng( 0, 25 );
+                gibberish += static_cast<char>( 'A' + rng( 0, 25 ) );
                 break;
         }
     }
@@ -1829,7 +1829,7 @@ void computer::print_gibberish_line()
 void computer::reset_terminal()
 {
     werase( w_terminal );
-    wmove( w_terminal, 0, 0 );
+    wmove( w_terminal, point( 0, 0 ) );
     wrefresh( w_terminal );
 }
 

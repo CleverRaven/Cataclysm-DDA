@@ -35,6 +35,7 @@ class JsonOut;
 struct tripoint;
 class time_duration;
 class player;
+struct point;
 
 enum damage_type : int;
 enum m_flag : int;
@@ -139,7 +140,7 @@ class Creature
         /**
          * Simplified attitude string for unlocalized needs.
          */
-        static const std::string attitude_raw_string( Attitude att );
+        static std::string attitude_raw_string( Attitude att );
 
         /**
          * Creature Attitude as String and color
@@ -491,7 +492,7 @@ class Creature
 
         int moves;
         bool underwater;
-        void draw( const catacurses::window &w, int origin_x, int origin_y, bool inverted ) const;
+        void draw( const catacurses::window &w, const point &origin, bool inverted ) const;
         void draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const;
         /**
          * Write information about this creature.

@@ -94,9 +94,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     test_player.setpos( { 65, 65, 0 } );
     test_player.set_moves( 0 );
     // Give the player a head start.
-    const tripoint monster_start = { test_player.pos().x - ( 10 * direction_of_flight.x ),
-                                     test_player.pos().y - ( 10 * direction_of_flight.y ),
-                                     test_player.pos().z - ( 10 * direction_of_flight.z )
+    const tripoint monster_start = { -10 * direction_of_flight + test_player.pos()
                                    };
     monster &test_monster = spawn_test_monster( monster_type, monster_start );
     // Get it riled up and give it a goal.
@@ -166,7 +164,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
 static void check_shamble_speed( const std::string &monster_type, const tripoint &destination )
 {
     // Scale the scaling factor based on the ratio of diagonal to cardinal steps.
-    const float slope = get_normalized_angle( {0, 0}, {destination.x, destination.y} );
+    const float slope = get_normalized_angle( {0, 0}, destination.xy() );
     const float diagonal_multiplier = 1.0 + ( get_option<bool>( "CIRCLEDIST" ) ?
                                       ( slope * 0.41 ) : 0.0 );
     INFO( monster_type << " " << destination );
