@@ -1310,6 +1310,21 @@ bool player::feed_furnace_with( item &it )
     return true;
 }
 
+bool player::fuel_bionic_with( item &it )
+{
+    if( !can_fuel_bionic_with( it ) ) {
+        return false;
+    }
+
+    it.charges -= 1;
+    charge_power( it.fuel_energy );
+    add_msg_player_or_npc( m_info,
+                           _( "You consume a %s and recharge %d point of energy." ),
+                           _( "<npcname> digests a %s and recharges %d points of energy." ), it.tname(), it.fuel_energy() );
+    mod_moves( -250 );
+    return true;
+}
+
 rechargeable_cbm player::get_cbm_rechargeable_with( const item &it ) const
 {
     if( can_feed_reactor_with( it ) ) {
@@ -1383,7 +1398,8 @@ bool player::can_estimate_rot() const
 
 bool player::can_consume_as_is( const item &it ) const
 {
-    return it.is_comestible() || get_cbm_rechargeable_with( it ) != rechargeable_cbm::none;
+    return it.is_comestible() || get_cbm_rechargeable_with( it ) != rechargeable_cbm::none ||
+           can_fuel_bionic_with( it );
 }
 
 bool player::can_consume( const item &it ) const
