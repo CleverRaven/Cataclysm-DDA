@@ -4284,7 +4284,7 @@ int deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     int diam = 2 * radius + 1;
     if( p.is_mounted() ) {
-        p.add_msg_if_player( _( "You cannot deploy a tent while mounted." ) );
+        p.add_msg_if_player( _( "You cannot do that while mounted." ) );
         return 0;
     }
     const cata::optional<tripoint> dir = choose_direction( string_format(
