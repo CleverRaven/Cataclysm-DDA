@@ -955,7 +955,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
     inventory temp_inv;
     units::volume volume_allowed = p.volume_capacity() - p.volume_carried();
     units::mass weight_allowed = p.weight_capacity() - p.weight_carried();
-    const bool check_weight = p.backlog.front().id() == activity_id( "ACT_MULTIPLE_FARM" );
+    const bool check_weight = p.backlog.front().id() == activity_id( "ACT_MULTIPLE_FARM" ) || activity_to_restore == activity_id( "ACT_MULTIPLE_FARM" );
     for( const tripoint &elem : loot_spots ) {
         // if we are searching for things to fetch, we can skip certain thngs.
         // if, however they are already near the work spot, then the crafting / inventory fucntions will have their own method to use or discount them.
