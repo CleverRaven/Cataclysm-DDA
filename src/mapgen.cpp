@@ -7257,7 +7257,7 @@ void map::rotate( int turns )
         std::swap( *get_submap_at_grid( point_zero ), *get_submap_at_grid( point_south_east ) );
         std::swap( *get_submap_at_grid( point_east ), *get_submap_at_grid( point_south ) );
     } else {
-        auto p = point_zero;
+        point p;
         submap tmp;
 
         std::swap( *get_submap_at_grid( point_south_east - p ), tmp );
