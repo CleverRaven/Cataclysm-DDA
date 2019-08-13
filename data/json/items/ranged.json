@@ -22,7 +22,7 @@
     "dispersion": 150,
     "durability": 7,
     "clip_size": 150,
-    "reload": 50,
+    "reload": 500,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "sights", 1 ],
@@ -317,7 +317,7 @@
     "durability": 7,
     "burst": 5,
     "clip_size": 15,
-    "reload": 1000,
+    "reload": 6000,
     "loudness": 18,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -352,7 +352,7 @@
     "dispersion": 30,
     "durability": 7,
     "clip_size": 8,
-    "reload": 1000,
+    "reload": 6000,
     "loudness": 22,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -389,7 +389,7 @@
     "durability": 7,
     "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
     "clip_size": 2,
-    "reload": 1000,
+    "reload": 6000,
     "loudness": 22,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -611,7 +611,7 @@
     "dispersion": 105,
     "durability": 8,
     "clip_size": 4,
-    "reload": 1000,
+    "reload": 6000,
     "loudness": 11,
     "valid_mod_locations": [
       [ "accessories", 4 ],
