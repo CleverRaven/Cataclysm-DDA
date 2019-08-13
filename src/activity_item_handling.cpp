@@ -1567,7 +1567,7 @@ static void fetch_activity( player &p, const tripoint src_loc, activity_id activ
                                g->m.getlocal( p.backlog.front().coords.back() ), src_veh, src_part, activity_to_restore );
                     return;
                     // other tasks want the tool picked up
-                } else if( !p.backlog.empty() && p.backlog.front().id() == activity_id( "ACT_MULTIPLE_FARM" ) ){
+                } else if( !p.backlog.empty() && p.backlog.front().id() == activity_id( "ACT_MULTIPLE_FARM" ) ) {
                     if( it->volume() > volume_allowed || it->weight() > weight_allowed ) {
                         continue;
                     }
