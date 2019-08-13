@@ -972,7 +972,7 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
                                        const bool first )
 {
     talk_response result = talk_response();
-    result.truetext = text;
+    result.truetext = no_translation( text );
     result.truefalse_condition = []( const dialogue & ) {
         return true;
     };
@@ -1443,7 +1443,7 @@ void dialogue::add_topic( const talk_topic &topic )
 talk_data talk_response::create_option_line( const dialogue &d, const char letter )
 {
     std::string ftext;
-    text = truefalse_condition( d ) ? truetext : falsetext;
+    text = ( truefalse_condition( d ) ? truetext : falsetext ).translated();
     // dialogue w/ a % chance to work
     if( trial.type == TALK_TRIAL_NONE || trial.type == TALK_TRIAL_CONDITION ) {
         // regular dialogue
@@ -2450,10 +2450,10 @@ talk_response::talk_response( JsonObject jo )
     if( jo.has_member( "truefalsetext" ) ) {
         JsonObject truefalse_jo = jo.get_object( "truefalsetext" );
         read_condition<dialogue>( truefalse_jo, "condition", truefalse_condition, true );
-        truetext = _( truefalse_jo.get_string( "true" ) );
-        falsetext = _( truefalse_jo.get_string( "false" ) );
+        truetext = translation( truefalse_jo.get_string( "true" ) );
+        falsetext = translation( truefalse_jo.get_string( "false" ) );
     } else {
-        truetext = _( jo.get_string( "text" ) );
+        truetext = translation( jo.get_string( "text" ) );
         truefalse_condition = []( const dialogue & ) {
             return true;
         };

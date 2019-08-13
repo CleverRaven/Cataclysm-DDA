@@ -14,6 +14,7 @@
 #include "npc.h"
 #include "json.h"
 #include "string_id.h"
+#include "translations.h"
 #include "material.h"
 #include "type_id.h"
 
@@ -190,8 +191,8 @@ struct talk_response {
     /*
      * Optional responses from a true/false test that defaults to true.
      */
-    std::string truetext;
-    std::string falsetext;
+    translation truetext;
+    translation falsetext;
     std::function<bool( const dialogue & )> truefalse_condition;
 
     talk_trial trial;
