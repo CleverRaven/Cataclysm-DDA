@@ -18,7 +18,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": 42 } ]
+      "items": [ { "item": "glass_shard", "count": [ 34, 50 ] } ]
     }
   },
   {
@@ -40,7 +40,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": 42 } ]
+      "items": [ { "item": "glass_shard", "count": [ 34, 50 ] } ]
     }
   },
   {
@@ -85,7 +85,7 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
       "items": [
-        { "item": "glass_shard", "count": 25 },
+        { "item": "glass_shard", "count": [ 21, 29 ] },
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
@@ -123,7 +123,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": 25 } ]
+      "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
     }
   },
   {
@@ -146,7 +146,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": 25 } ]
+      "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
     }
   },
   {
@@ -169,7 +169,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": 25 } ]
+      "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
     }
   },
   {
@@ -194,7 +194,7 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
       "items": [
-        { "item": "glass_shard", "count": 25 },
+        { "item": "glass_shard", "count": [ 21, 29 ] },
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
@@ -223,7 +223,7 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
       "items": [
-        { "item": "glass_shard", "count": 25 },
+        { "item": "glass_shard", "count": [ 21, 29 ] },
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
@@ -270,7 +270,7 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
       "items": [
-        { "item": "glass_shard", "count": 25 },
+        { "item": "glass_shard", "count": [ 21, 29 ] },
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
@@ -325,7 +325,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": 42 } ]
+      "items": [ { "item": "glass_shard", "count": [ 34, 50 ] } ]
     }
   },
   {
@@ -369,7 +369,7 @@
       "sound_vol": 12,
       "sound_fail_vol": 8,
       "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_shard", "count": 8 } ]
+      "items": [ { "item": "glass_shard", "count": [ 6, 10 ] } ]
     },
     "flags": [ "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "MOUNTABLE", "CONNECT_TO_WALL" ]
   },
@@ -517,7 +517,7 @@
         { "item": "steel_lump", "prob": 25 },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "glass_shard", "count": 100 }
+        { "item": "glass_shard", "count": [ 75, 125 ] }
       ]
     }
   },
@@ -539,7 +539,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_bars",
-      "items": [ { "item": "glass_shard", "count": 42 } ]
+      "items": [ { "item": "glass_shard", "count": [ 34, 50 ] } ]
     }
   },
   {
