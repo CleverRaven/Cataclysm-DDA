@@ -121,12 +121,13 @@
     "container": "wrapper",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "description": "An open-faced sandwich consisting of sliced white bread, a healthy crust-to-crust slathering of butter, and sprinkles.  Supposedly a staple of birthday parties in Australia.",
+    "calories": "546",
+    "description": "An 'open-faced sandwich' consisting of sliced white bread, a healthy crust-to-crust slathering of butter, and sprinkles.  Supposedly a staple of birthday parties in Australia.",
     "price": 85,
-    "material": [ "milk", "wheat" ],
+    "material": [ "junk", "wheat" ],
     "primary_material": "wheat",
     "volume": 1,
-    "fun": 8
+    "fun": 10
   },
   {
     "type": "COMESTIBLE",
