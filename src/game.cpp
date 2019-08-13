@@ -2206,7 +2206,7 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
     return true;
 }
 
-tripoint game::mouse_edge_scrolling( input_context ctxt, const int speed )
+tripoint game::mouse_edge_scrolling( input_context ctxt, const int speed, bool iso )
 {
     const int rate = get_option<int>( "EDGE_SCROLL" );
     tripoint ret;
@@ -2230,13 +2230,25 @@ tripoint game::mouse_edge_scrolling( input_context ctxt, const int speed )
         const int threshold_y = projected_window_height() / 100;
         if( event.mouse_pos.x <= threshold_x ) {
             ret.x -= speed;
+            if( iso ) {
+                ret.y -= speed;
+            }
         } else if( event.mouse_pos.x >= projected_window_width() - threshold_x ) {
             ret.x += speed;
+            if( iso ) {
+                ret.y += speed;
+            }
         }
         if( event.mouse_pos.y <= threshold_y ) {
             ret.y -= speed;
+            if( iso ) {
+                ret.x += speed;
+            }
         } else if( event.mouse_pos.y >= projected_window_height() - threshold_y ) {
             ret.y += speed;
+            if( iso ) {
+                ret.x -= speed;
+            }
         }
         last_mouse_edge_scroll_vector = ret;
     } else if( event.type == CATA_INPUT_TIMEOUT ) {
@@ -2248,12 +2260,12 @@ tripoint game::mouse_edge_scrolling( input_context ctxt, const int speed )
 
 tripoint game::mouse_edge_scrolling_terrain( input_context &ctxt )
 {
-    return mouse_edge_scrolling( ctxt, std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 ) );
+    return mouse_edge_scrolling( ctxt, std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 ), tile_iso );
 }
 
 tripoint game::mouse_edge_scrolling_overmap( input_context &ctxt )
 {
-    return mouse_edge_scrolling( ctxt, 1 );
+    return mouse_edge_scrolling( ctxt, 1, false ); // overmap has no iso mode
 }
 
 input_context get_default_mode_input_context()

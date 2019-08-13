@@ -1002,7 +1002,7 @@ class game
 
         std::chrono::time_point<std::chrono::steady_clock> last_mouse_edge_scroll;
         tripoint last_mouse_edge_scroll_vector;
-        tripoint mouse_edge_scrolling( input_context ctxt, const int speed );
+        tripoint mouse_edge_scrolling( input_context ctxt, const int speed, bool iso );
 
 };
 
