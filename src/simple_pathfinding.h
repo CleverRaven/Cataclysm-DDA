@@ -50,7 +50,7 @@ path find_path( const point &source,
                 const int max_y,
                 BinaryPredicate estimator )
 {
-    static constexpr point d[4] = { point( 0, -1 ), point( 1, 0 ), point( 0, 1 ), point( -1, 0 ) };
+    static constexpr point d[4] = { point_north, point_east, point_south, point_west };
 
     const auto inbounds = [ max_x, max_y ]( const point & p ) {
         return p.x >= 0 && p.x < max_x && p.y >= 0 && p.y <= max_y;
@@ -162,7 +162,7 @@ inline path straight_path( const point &source,
                            int dir,
                            size_t len )
 {
-    static constexpr point d[4] = { point( 0, -1 ), point( 1, 0 ), point( 0, 1 ), point( -1, 0 ) };
+    static constexpr point d[4] = { point_north, point_east, point_south, point_west };
 
     path res;
 

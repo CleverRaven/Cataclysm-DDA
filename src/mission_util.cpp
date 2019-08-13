@@ -387,7 +387,7 @@ mission_target_params mission_util::parse_mission_om_target( JsonObject &jo )
         p.min_distance = std::max( 1, jo.get_int( "min_distance" ) );
     }
     if( jo.has_int( "offset_x" ) || jo.has_int( "offset_y" ) || jo.has_int( "offset_z" ) ) {
-        tripoint offset = tripoint( 0, 0, 0 );
+        tripoint offset;
         if( jo.has_int( "offset_x" ) ) {
             offset.x = jo.get_int( "offset_x" );
         }

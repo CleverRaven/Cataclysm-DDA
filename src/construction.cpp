@@ -315,7 +315,7 @@ int construction_menu( bool blueprint )
         }
         isnew = false;
         // Erase existing tab selection & list of constructions
-        mvwhline( w_con, point( 1, 1 ), ' ', w_list_width );
+        mvwhline( w_con, point_south_east, ' ', w_list_width );
         werase( w_list );
         // Print new tab listing
         mvwprintz( w_con, 1, 1, c_yellow, "<< %s >>", _( construct_cat[tabindex].name ) );
@@ -947,10 +947,10 @@ bool construct::check_empty( const tripoint &p )
 inline std::array<tripoint, 4> get_orthogonal_neighbors( const tripoint &p )
 {
     return {{
-            p + point( 0, -1 ),
-            p + point( 0, 1 ),
-            p + point( -1, 0 ),
-            p + point( 1, 0 )
+            p + point_north,
+            p + point_south,
+            p + point_west,
+            p + point_east
         }};
 }
 
@@ -1130,7 +1130,7 @@ void construct::done_deconstruct( const tripoint &p )
             return;
         }
         if( t.deconstruct.deconstruct_above ) {
-            const tripoint top = p + tripoint( 0, 0, 1 );
+            const tripoint top = p + tripoint_above;
             if( g->m.has_furn( top ) ) {
                 add_msg( _( "That %s can not be dissasembled, since there is furniture above it." ), t.name() );
                 return;
@@ -1260,7 +1260,7 @@ void construct::done_mine_upstair( const tripoint &p )
 
 void construct::done_wood_stairs( const tripoint &p )
 {
-    const tripoint top = p + tripoint( 0, 0, 1 );
+    const tripoint top = p + tripoint_above;
     g->m.ter_set( top, ter_id( "t_wood_stairs_down" ) );
 }
 

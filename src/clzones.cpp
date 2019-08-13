@@ -1001,7 +1001,7 @@ void zone_manager::rotate_zones( map &target_map, const int turns )
     if( turns == 0 ) {
         return;
     }
-    const tripoint a_start = target_map.getabs( tripoint( 0, 0, 0 ) );
+    const tripoint a_start = target_map.getabs( tripoint_zero );
     const tripoint a_end = target_map.getabs( tripoint( 23, 23, 0 ) );
     const point dim( 24, 24 );
     for( zone_data &zone : zones ) {

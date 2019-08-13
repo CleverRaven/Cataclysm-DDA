@@ -337,10 +337,10 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
         const tripoint &pt = pr.first;
         explosion_neighbors &ngh = pr.second.neighborhood;
 
-        set_neighbors( pt + point( -1, 0 ), ngh, N_WEST, N_EAST );
-        set_neighbors( pt + point( 1, 0 ), ngh, N_EAST, N_WEST );
-        set_neighbors( pt + point( 0, -1 ), ngh, N_NORTH, N_SOUTH );
-        set_neighbors( pt + point( 0, 1 ), ngh, N_SOUTH, N_NORTH );
+        set_neighbors( pt + point_west, ngh, N_WEST, N_EAST );
+        set_neighbors( pt + point_east, ngh, N_EAST, N_WEST );
+        set_neighbors( pt + point_north, ngh, N_NORTH, N_SOUTH );
+        set_neighbors( pt + point_south, ngh, N_SOUTH, N_NORTH );
     }
 
     // We need to save the layers because we will draw them in reverse order
@@ -364,10 +364,10 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
             const tripoint &pt = pr.first;
             const explosion_neighbors ngh = pr.second.neighborhood;
 
-            unset_neighbor( pt + point( -1, 0 ), ngh, N_WEST, N_EAST );
-            unset_neighbor( pt + point( 1, 0 ), ngh, N_EAST, N_WEST );
-            unset_neighbor( pt + point( 0, -1 ), ngh, N_NORTH, N_SOUTH );
-            unset_neighbor( pt + point( 0, 1 ), ngh, N_SOUTH, N_NORTH );
+            unset_neighbor( pt + point_west, ngh, N_WEST, N_EAST );
+            unset_neighbor( pt + point_east, ngh, N_EAST, N_WEST );
+            unset_neighbor( pt + point_north, ngh, N_NORTH, N_SOUTH );
+            unset_neighbor( pt + point_south, ngh, N_SOUTH, N_NORTH );
             neighbors.erase( pr.first );
         }
 

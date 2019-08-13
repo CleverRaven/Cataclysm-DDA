@@ -76,6 +76,7 @@ inline auto testWhetherConstructingTemporary()
                        implicitCastExpr( hasParent( materializeTemporaryExpr().bind( "temp" ) ) )
                    ),
                    hasParent( callExpr().bind( "temp" ) ),
+                   hasParent( initListExpr().bind( "temp" ) ),
                    anything()
                )
            );

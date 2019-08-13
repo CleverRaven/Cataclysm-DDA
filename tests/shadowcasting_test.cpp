@@ -33,7 +33,6 @@ static void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY
         return;
     }
     bool blocked = false;
-    static constexpr tripoint origin( 0, 0, 0 );
     tripoint delta;
     for( int distance = row; distance <= radius && !blocked; distance++ ) {
         delta.y = -distance;
@@ -50,7 +49,7 @@ static void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY
             }
 
             //check if it's within the visible area and mark visible if so
-            if( rl_dist( origin, delta ) <= radius ) {
+            if( rl_dist( tripoint_zero, delta ) <= radius ) {
                 output_cache[currentX][currentY] = LIGHT_TRANSPARENCY_CLEAR;
             }
 
@@ -546,6 +545,7 @@ TEST_CASE( "shadowcasting_pillar_behavior_cardinally_adjacent", "[shadowcasting]
 
 TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap", "[shadowcasting]" )
 {
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     grid_overlay test_case( { 1, 1 }, LIGHT_TRANSPARENCY_CLEAR );
     test_case.data = {
         {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
@@ -559,6 +559,7 @@ TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap", "[shadowcasting]" )
         {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T}
     };
 
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     grid_overlay expected_results( { 1, 1 }, LIGHT_TRANSPARENCY_CLEAR );
     expected_results.data = {
         {V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},

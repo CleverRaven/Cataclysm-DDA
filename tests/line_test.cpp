@@ -79,14 +79,14 @@ static std::vector <point> canonical_line_to(
 
 TEST_CASE( "test_normalized_angle" )
 {
-    CHECK( get_normalized_angle( {0, 0}, {10, 0} ) == Approx( 0.0 ) );
-    CHECK( get_normalized_angle( {0, 0}, {0, 10} ) == Approx( 0.0 ) );
-    CHECK( get_normalized_angle( {0, 0}, {-10, 0} ) == Approx( 0.0 ) );
-    CHECK( get_normalized_angle( {0, 0}, {0, -10} ) == Approx( 0.0 ) );
-    CHECK( get_normalized_angle( {0, 0}, {10, 10} ) == Approx( 1.0 ) );
-    CHECK( get_normalized_angle( {0, 0}, {-10, 10} ) == Approx( 1.0 ) );
-    CHECK( get_normalized_angle( {0, 0}, {10, -10} ) == Approx( 1.0 ) );
-    CHECK( get_normalized_angle( {0, 0}, {-10, -10} ) == Approx( 1.0 ) );
+    CHECK( get_normalized_angle( point_zero, {10, 0} ) == Approx( 0.0 ) );
+    CHECK( get_normalized_angle( point_zero, {0, 10} ) == Approx( 0.0 ) );
+    CHECK( get_normalized_angle( point_zero, {-10, 0} ) == Approx( 0.0 ) );
+    CHECK( get_normalized_angle( point_zero, {0, -10} ) == Approx( 0.0 ) );
+    CHECK( get_normalized_angle( point_zero, {10, 10} ) == Approx( 1.0 ) );
+    CHECK( get_normalized_angle( point_zero, {-10, 10} ) == Approx( 1.0 ) );
+    CHECK( get_normalized_angle( point_zero, {10, -10} ) == Approx( 1.0 ) );
+    CHECK( get_normalized_angle( point_zero, {-10, -10} ) == Approx( 1.0 ) );
 }
 
 TEST_CASE( "Test bounds for mapping x/y/z/ offsets to direction enum" )
@@ -251,32 +251,32 @@ TEST_CASE( "Test bounds for mapping x/y/z/ offsets to direction enum" )
 TEST_CASE( "squares_closer_to_test" )
 {
     // TODO: make this ordering agnostic.
-    auto actual = squares_closer_to( {0, 0, 0}, {10, 0, 0} );
-    std::vector<tripoint> expected = {tripoint( 1, 0, 0 ), tripoint( 1, 1, 0 ), tripoint( 1, -1, 0 )};
+    auto actual = squares_closer_to( tripoint_zero, {10, 0, 0} );
+    std::vector<tripoint> expected = {tripoint_east, tripoint_south_east, tripoint_north_east};
     CHECK( actual == expected );
 
-    actual = squares_closer_to( {0, 0, 0}, {-10, -10, 0} );
-    expected = {tripoint( -1, -1, 0 ), tripoint( -1, 0, 0 ), tripoint( 0, -1, 0 )};
+    actual = squares_closer_to( tripoint_zero, {-10, -10, 0} );
+    expected = {tripoint_north_west, tripoint_west, tripoint_north};
     CHECK( actual == expected );
 
-    actual = squares_closer_to( {0, 0, 0}, {10, 10, 0} );
-    expected = {tripoint( 1, 1, 0 ), tripoint( 1, 0, 0 ), tripoint( 0, 1, 0 )};
+    actual = squares_closer_to( tripoint_zero, {10, 10, 0} );
+    expected = {tripoint_south_east, tripoint_east, tripoint_south};
     CHECK( actual == expected );
 
-    actual = squares_closer_to( {0, 0, 0}, {10, 9, 0} );
-    expected = {tripoint( 1, 0, 0 ), tripoint( 1, 1, 0 ), tripoint( 1, -1, 0 ), tripoint( 0, 1, 0 )};
+    actual = squares_closer_to( tripoint_zero, {10, 9, 0} );
+    expected = {tripoint_east, tripoint_south_east, tripoint_north_east, tripoint_south};
     CHECK( actual == expected );
 
-    actual = squares_closer_to( {0, 0, 0}, {10, 1, 0} );
-    expected = {tripoint( 1, 0, 0 ), tripoint( 1, 1, 0 ), tripoint( 1, -1, 0 ), tripoint( 0, 1, 0 )};
+    actual = squares_closer_to( tripoint_zero, {10, 1, 0} );
+    expected = {tripoint_east, tripoint_south_east, tripoint_north_east, tripoint_south};
     CHECK( actual == expected );
 
-    actual = squares_closer_to( {10, 9, 0}, {0, 0, 0} );
+    actual = squares_closer_to( {10, 9, 0}, tripoint_zero );
     expected = {tripoint( 9, 9, 0 ), tripoint( 9, 10, 0 ), tripoint( 9, 8, 0 ), tripoint( 10, 8, 0 )};
     CHECK( actual == expected );
 
-    actual = squares_closer_to( {0, 0, 0}, {-10, -9, 0} );
-    expected = {tripoint( -1, 0, 0 ), tripoint( -1, 1, 0 ), tripoint( -1, -1, 0 ), tripoint( 0, -1, 0 )};
+    actual = squares_closer_to( tripoint_zero, {-10, -9, 0} );
+    expected = {tripoint_west, tripoint_south_west, tripoint_north_west, tripoint_north};
     CHECK( actual == expected );
 
     actual = squares_closer_to( {10, -10, 0}, {10, 10, 0} );

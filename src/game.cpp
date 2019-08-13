@@ -539,7 +539,7 @@ void game::init_ui( const bool resized )
                                     ( TERMY / 2 ) - 10 ) );
     werase( w_panel_adm );
     // need to init in order to avoid crash. gets updated by the panel code.
-    w_pixel_minimap = catacurses::newwin( 1, 1, point( 0, 0 ) );
+    w_pixel_minimap = catacurses::newwin( 1, 1, point_zero );
     liveview.init();
 
     // Only refresh if we are in-game, otherwise all resources are not initialized
@@ -951,7 +951,7 @@ void game::create_starting_npcs()
     std::shared_ptr<npc> tmp = std::make_shared<npc>();
     tmp->normalize();
     tmp->randomize( one_in( 2 ) ? NC_DOCTOR : NC_NONE );
-    tmp->spawn_at_precise( { get_levx(), get_levy() }, u.pos() - point( 1, 1 ) );
+    tmp->spawn_at_precise( { get_levx(), get_levy() }, u.pos() - point_south_east );
     overmap_buffer.insert_npc( tmp );
     tmp->form_opinion( u );
     tmp->set_attitude( NPCATT_NULL );
@@ -3313,7 +3313,7 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
         return;
     }
     if( critter.posz() != center.z && m.has_zlevels() ) {
-        static constexpr tripoint up_tripoint( 0, 0, 1 );
+        static constexpr tripoint up_tripoint( tripoint_above );
         if( critter.posz() == center.z - 1 &&
             ( debug_mode || u.sees( critter ) ) &&
             m.valid_move( critter.pos(), critter.pos() + up_tripoint, false, true ) ) {
@@ -3801,10 +3801,10 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
 
             if( m.has_flag( "FISHABLE", current_point ) ) {
                 fishable_terrain.emplace( current_point );
-                to_check.push( current_point + point( 0, 1 ) );
-                to_check.push( current_point + point( 0, -1 ) );
-                to_check.push( current_point + point( 1, 0 ) );
-                to_check.push( current_point + point( -1, 0 ) );
+                to_check.push( current_point + point_south );
+                to_check.push( current_point + point_north );
+                to_check.push( current_point + point_east );
+                to_check.push( current_point + point_west );
             }
         }
         return;
@@ -4189,7 +4189,7 @@ void game::monmove()
     cleanup_dead();
 
     // Make sure these don't match the first time around.
-    tripoint cached_lev = m.get_abs_sub() + tripoint( 1, 0, 0 );
+    tripoint cached_lev = m.get_abs_sub() + tripoint_east;
 
     // used to force update of the monster factions if a monster has changed its z-level.
     bool force_mfactions_update = false;
@@ -11215,7 +11215,7 @@ void intro()
     int maxx = getmaxx( catacurses::stdscr );
     const int minHeight = FULL_SCREEN_HEIGHT;
     const int minWidth = FULL_SCREEN_WIDTH;
-    catacurses::window tmp = catacurses::newwin( minHeight, minWidth, point( 0, 0 ) );
+    catacurses::window tmp = catacurses::newwin( minHeight, minWidth, point_zero );
 
     while( maxy < minHeight || maxx < minWidth ) {
         werase( tmp );

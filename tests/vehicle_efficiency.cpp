@@ -46,11 +46,11 @@ static void clear_game( const ter_id &terrain )
 
     // Move player somewhere safe
     CHECK( !g->u.in_vehicle );
-    g->u.setpos( tripoint( 0, 0, 0 ) );
+    g->u.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
     g->u.add_effect( effect_blind, 1_turns, num_bp, true );
 
-    for( const tripoint &p : g->m.points_in_rectangle( tripoint( 0, 0, 0 ),
+    for( const tripoint &p : g->m.points_in_rectangle( tripoint_zero,
             tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
         g->m.furn_set( p, furn_id( "f_null" ) );
         g->m.ter_set( p, terrain );
@@ -58,7 +58,7 @@ static void clear_game( const ter_id &terrain )
         g->m.i_clear( p );
     }
 
-    for( wrapped_vehicle &veh : g->m.get_vehicles( tripoint( 0, 0, 0 ), tripoint( MAPSIZE * SEEX,
+    for( wrapped_vehicle &veh : g->m.get_vehicles( tripoint_zero, tripoint( MAPSIZE * SEEX,
             MAPSIZE * SEEY, 0 ) ) ) {
         g->m.destroy_vehicle( veh.v );
     }

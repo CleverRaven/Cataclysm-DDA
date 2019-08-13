@@ -528,14 +528,14 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
             std::array<quadrant, 2> quadrants;
         };
         static constexpr std::array<offset_and_quadrants, 8> adjacent_offsets = {{
-                { { 0, 1 }, {{ quadrant::SE, quadrant::SW }} },
-                { { 0, -1 }, {{ quadrant::NE, quadrant::NW }} },
-                { { 1, 0 }, {{ quadrant::SE, quadrant::NE }} },
-                { { 1, 1 }, {{ quadrant::SE, quadrant::SE }} },
-                { { 1, -1 }, {{ quadrant::NE, quadrant::NE }} },
-                { {-1, 0 }, {{ quadrant::SW, quadrant::NW }} },
-                { {-1, 1 }, {{ quadrant::SW, quadrant::SW }} },
-                { {-1, -1 }, {{ quadrant::NW, quadrant::NW }} },
+                { point_south,      {{ quadrant::SE, quadrant::SW }} },
+                { point_north,      {{ quadrant::NE, quadrant::NW }} },
+                { point_east,       {{ quadrant::SE, quadrant::NE }} },
+                { point_south_east, {{ quadrant::SE, quadrant::SE }} },
+                { point_north_east, {{ quadrant::NE, quadrant::NE }} },
+                { point_west,       {{ quadrant::SW, quadrant::NW }} },
+                { point_south_west, {{ quadrant::SW, quadrant::SW }} },
+                { point_north_west, {{ quadrant::NW, quadrant::NW }} },
             }
         };
 
@@ -700,7 +700,6 @@ void cast_zlight_segment(
     float new_start_minor = 1.0f;
 
     T last_intensity = 0.0;
-    static constexpr tripoint origin( 0, 0, 0 );
     tripoint delta;
     tripoint current;
     for( int distance = row; distance <= radius; distance++ ) {
@@ -759,7 +758,7 @@ void cast_zlight_segment(
                     current_transparency = new_transparency;
                 }
 
-                const int dist = rl_dist( origin, delta ) + offset_distance;
+                const int dist = rl_dist( tripoint_zero, delta ) + offset_distance;
                 last_intensity = calc( numerator, cumulative_transparency, dist );
 
                 if( !floor_block ) {
@@ -965,7 +964,6 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
         return;
     }
     T last_intensity = 0.0;
-    static constexpr tripoint origin( 0, 0, 0 );
     tripoint delta;
     for( int distance = row; distance <= radius; distance++ ) {
         delta.y = -distance;
@@ -995,7 +993,7 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                 current_transparency = input_array[ currentX ][ currentY ];
             }
 
-            const int dist = rl_dist( origin, delta ) + offsetDistance;
+            const int dist = rl_dist( tripoint_zero, delta ) + offsetDistance;
             last_intensity = calc( numerator, cumulative_transparency, dist );
 
             T new_transparency = input_array[ currentX ][ currentY ];

@@ -224,8 +224,8 @@ class zone_data
             invert = false;
             enabled = false;
             is_vehicle = false;
-            start = tripoint( 0, 0, 0 );
-            end = tripoint( 0, 0, 0 );
+            start = tripoint_zero;
+            end = tripoint_zero;
             options = nullptr;
         }
 

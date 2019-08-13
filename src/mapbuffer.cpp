@@ -170,9 +170,9 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
     std::vector<point> offsets;
     std::vector<tripoint> submap_addrs;
     offsets.push_back( point_zero );
-    offsets.push_back( point( 0, 1 ) );
-    offsets.push_back( point( 1, 0 ) );
-    offsets.push_back( point( 1, 1 ) );
+    offsets.push_back( point_south );
+    offsets.push_back( point_east );
+    offsets.push_back( point_south_east );
 
     bool all_uniform = true;
     for( auto &offsets_offset : offsets ) {

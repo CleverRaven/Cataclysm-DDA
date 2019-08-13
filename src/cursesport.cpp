@@ -172,9 +172,9 @@ void catacurses::wborder( const window &win_, chtype ls, chtype rs, chtype ts, c
     }
 
     if( tl ) {
-        mvwaddch( win_, point( 0, 0 ), tl );
+        mvwaddch( win_, point_zero, tl );
     } else {
-        mvwaddch( win_, point( 0, 0 ), LINE_OXXO );
+        mvwaddch( win_, point_zero, LINE_OXXO );
     }
 
     if( tr ) {
@@ -429,7 +429,7 @@ void catacurses::werase( const window &win_ )
         win->line[j].touched = true;
     }
     win->draw = true;
-    wmove( win_, point( 0, 0 ) );
+    wmove( win_, point_zero );
     //    wrefresh(win);
     handle_additional_window_clear( win );
 }

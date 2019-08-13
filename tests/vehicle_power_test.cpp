@@ -20,7 +20,7 @@ static const itype_id fuel_type_plut_cell( "plut_cell" );
 TEST_CASE( "vehicle_power" )
 {
     GIVEN( "Reactor and solar panels" ) {
-        for( const tripoint &p : g->m.points_in_rectangle( tripoint( 0, 0, 0 ),
+        for( const tripoint &p : g->m.points_in_rectangle( tripoint_zero,
                 tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
             g->m.furn_set( p, furn_id( "f_null" ) );
             g->m.ter_set( p, ter_id( "t_pavement" ) );
