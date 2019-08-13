@@ -1343,7 +1343,7 @@ class player : public Character
         item item_with_best_of_quality( quality_id qid );
 
         /** Helper function if player tries to pick up a frozen liquid */
-        bool crush_frozen_liquid(item, item_location);
+        bool crush_frozen_liquid(std::string itname, item_location);
 
         // Has a weapon, inventory item or worn item with flag
         bool has_item_with_flag( const std::string &flag, bool need_charges = false ) const;

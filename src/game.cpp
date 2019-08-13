@@ -8503,13 +8503,9 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     item::reload_option opt = u.ammo_location && it->can_reload_with( u.ammo_location->typeId() ) ?
                               item::reload_option( &u, it, it, u.ammo_location ) :
                               u.select_ammo( *it, prompt, empty );
-    //add_msg("RELOAD");
-    //add_msg(opt.ammo.get_item()->display_name());
-    //add_msg("%s", opt.ammo.get_item()->is_frozen_liquid() ? "true" : "false" );
 
-    if (opt.ammo.get_item()->is_frozen_liquid() ) {
-        if (!u.crush_frozen_liquid(*opt.ammo.get_item(), opt.ammo)) {
-            add_msg("canceled");
+    if( opt.ammo.get_item() != nullptr && opt.ammo.get_item()->is_frozen_liquid() ) {
+        if( !u.crush_frozen_liquid( opt.ammo.get_item()->display_name(), opt.ammo ) ) {
             return;
         }
     }

@@ -213,10 +213,10 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     if( newit.is_ammo() && newit.charges == 0 ) {
         picked_up = true;
         option = NUM_ANSWERS; //Skip the options part
-    } else if( newit.made_of_from_type( LIQUID ) ) {
+    } else if( newit.is_frozen_liquid() ) {
 
         //If the item we're trying to pick up is a frozen liquid, perform frozen liquid pickup logic
-        if( newit.is_frozen_liquid() && !(got_water = !(u.crush_frozen_liquid(newit, loc)))) {
+        if( !( got_water = !( u.crush_frozen_liquid( newit.display_name(), loc ) ) ) ) {
             option = STASH;
         }
     } else if( !u.can_pickWeight( newit, false ) ) {
