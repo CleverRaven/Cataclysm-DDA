@@ -54,6 +54,11 @@ mission mission_type::create( const int npc_id ) const
     return ret;
 }
 
+std::string mission_type::tname() const
+{
+    return _( name );
+}
+
 static std::unordered_map<int, mission> world_missions;
 
 mission *mission::reserve_new( const mission_type_id &type, const int npc_id )
@@ -622,7 +627,7 @@ std::string mission::name()
     if( type == nullptr ) {
         return "NULL";
     }
-    return _( type->name );
+    return type->tname();
 }
 
 mission_type_id mission::mission_id()

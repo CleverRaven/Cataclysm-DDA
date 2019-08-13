@@ -1072,7 +1072,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                           p->chatbin.missions.front(), true );
         } else {
             for( auto &mission : p->chatbin.missions ) {
-                add_response( mission->get_type().name, "TALK_MISSION_OFFER", mission, true );
+                add_response( mission->get_type().tname(), "TALK_MISSION_OFFER", mission, true );
             }
         }
     } else if( topic == "TALK_MISSION_LIST_ASSIGNED" ) {
@@ -1080,7 +1080,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response( _( "I have news." ), "TALK_MISSION_INQUIRE", missions_assigned.front() );
         } else {
             for( auto &miss_it : missions_assigned ) {
-                add_response( miss_it->get_type().name, "TALK_MISSION_INQUIRE", miss_it );
+                add_response( miss_it->get_type().tname(), "TALK_MISSION_INQUIRE", miss_it );
             }
         }
     } else if( topic == "TALK_TRAIN" ) {
