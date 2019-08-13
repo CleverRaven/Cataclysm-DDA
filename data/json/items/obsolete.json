@@ -346,7 +346,7 @@
     "name": "spraycan flamethrower",
     "description": "A favorite of hooligans around the world, this lighter duct-taped to a spray can is probably as dangerous to the user as anyone else.  The nozzle has been crudely modified to disperse gasoline, and a small pump attached to the side allows for repressurization, though this process takes a few minutes.",
     "weight": 451,
-    "volume": 2,
+    "volume": "500 ml",
     "price": 16000,
     "material": "steel",
     "range": -2,
