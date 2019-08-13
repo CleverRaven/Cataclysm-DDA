@@ -748,6 +748,11 @@
   },
   {
     "type": "recipe",
+    "result": "flamethrower_crude",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "fletching",
     "obsolete": true
   },

@@ -340,6 +340,23 @@
     "flags": [ "NEVER_JAMS", "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
   {
+    "id": "flamethrower_crude",
+    "copy-from": "flamethrower_base",
+    "type": "GUN",
+    "name": "spraycan flamethrower",
+    "description": "A favorite of hooligans around the world, this lighter duct-taped to a spray can is probably as dangerous to the user as anyone else.  The nozzle has been crudely modified to disperse gasoline, and a small pump attached to the side allows for repressurization, though this process takes a few minutes.",
+    "weight": 451,
+    "volume": "500 ml",
+    "price": 16000,
+    "material": "steel",
+    "range": -2,
+    "dispersion": 300,
+    "durability": 8,
+    "clip_size": 100,
+    "valid_mod_locations": [ [ "sling", 1 ], [ "stock", 1 ], [ "rail mount", 1 ] ],
+    "relative": { "reload": 4 }
+  },
+  {
     "id": "bio_furnace",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
