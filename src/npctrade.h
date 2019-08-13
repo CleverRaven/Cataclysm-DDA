@@ -2,15 +2,19 @@
 #ifndef NPCTRADE_H
 #define NPCTRADE_H
 
+#include <stddef.h>
 #include <vector>
-#include <set>
 #include <string>
 #include <utility>
+#include <algorithm>
+#include <list>
 
 #include "inventory.h"
 #include "item_location.h"
 #include "output.h"
 #include "units.h"
+#include "cursesdef.h"
+#include "translations.h"
 
 class Character;
 class faction;
@@ -21,7 +25,7 @@ class player;
 class item_pricing
 {
     public:
-        item_pricing( Character &c, item *it, int v, int count ) : loc( c, it ), price( v ) {
+        item_pricing( Character &c, item &it, int v, int count ) : loc( c, &it ), price( v ) {
             set_values( count );
         }
 
@@ -42,8 +46,8 @@ class item_pricing
         int npc_has = 0;
         int u_charges = 0;
         int npc_charges = 0;
-        units::mass weight = units::from_gram( 0 );
-        units::volume vol = units::from_milliliter( 0 );
+        units::mass weight = 0_gram;
+        units::volume vol = 0_ml;
 };
 
 class trading_window
@@ -52,9 +56,9 @@ class trading_window
         trading_window() = default;
         std::vector<item_pricing> theirs;
         std::vector<item_pricing> yours;
-        bool exchange;
+        bool is_free_exchange; // Eg: Exchange between allies
         int u_get;
-        int npc_requires;
+        int max_credit_npc_will_extend;
 
         void setup_win( npc &np );
         void setup_trade( int cost, npc &np );

@@ -23,7 +23,6 @@
 #include "player.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "cursesdef.h"
 #include "game_constants.h"
@@ -32,13 +31,15 @@
 #include "pldata.h"
 #include "mapdata.h"
 #include "string_id.h"
+#include "point.h"
+#include "weather.h"
 
 #define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
 #define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters
 
 #define SELCOL(n) (selection == (n) ? c_yellow : c_blue)
-#define TOGCOL(n, b) (selection == (n) ? (b ? c_light_green : c_yellow) :\
-                      (b ? c_green : c_dark_gray))
+#define TOGCOL(n, b) (selection == (n) ? ((b) ? c_light_green : c_yellow) :\
+                      ((b) ? c_green : c_dark_gray))
 #define NUMALIGN(n) ((n) >= 10000 ? 20 : ((n) >= 1000 ? 21 :\
                      ((n) >= 100 ? 22 : ((n) >= 10 ? 23 : 24))))
 
@@ -155,7 +156,7 @@ void defense_game::pre_action( action_id &act )
     if( ( act == ACTION_MOVE_N && g->u.posy() == HALF_MAPSIZE_X &&
           g->get_levy() <= 93 ) ||
         ( act == ACTION_MOVE_NE && ( ( g->u.posy() == HALF_MAPSIZE_Y &&
-                                       g->get_levy() <=  93 ) ||
+                                       g->get_levy() <= 93 ) ||
                                      ( g->u.posx() == HALF_MAPSIZE_X + SEEX - 1 &&
                                        g->get_levx() >= 98 ) ) ) ||
         ( act == ACTION_MOVE_E && g->u.posx() == HALF_MAPSIZE_X + SEEX - 1 &&
@@ -169,13 +170,13 @@ void defense_game::pre_action( action_id &act )
         ( act == ACTION_MOVE_SW && ( ( g->u.posy() == HALF_MAPSIZE_Y + SEEY - 1 &&
                                        g->get_levy() >= 98 ) ||
                                      ( g->u.posx() == HALF_MAPSIZE_X &&
-                                       g->get_levx() <=  93 ) ) ) ||
+                                       g->get_levx() <= 93 ) ) ) ||
         ( act == ACTION_MOVE_W && g->u.posx() == HALF_MAPSIZE_X &&
           g->get_levx() <= 93 ) ||
         ( act == ACTION_MOVE_NW && ( ( g->u.posy() == HALF_MAPSIZE_Y &&
-                                       g->get_levy() <=  93 ) ||
+                                       g->get_levy() <= 93 ) ||
                                      ( g->u.posx() == HALF_MAPSIZE_X &&
-                                       g->get_levx() <=  93 ) ) ) ) {
+                                       g->get_levx() <= 93 ) ) ) ) {
         add_msg( m_info, _( "You cannot leave the %s behind!" ),
                  defense_location_name( location ) );
         act = ACTION_NULL;
@@ -212,11 +213,12 @@ void defense_game::init_constructions()
 
 void defense_game::init_map()
 {
-    auto &starting_om = overmap_buffer.get( 0, 0 );
+    auto &starting_om = overmap_buffer.get( point_zero );
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
-            starting_om.ter( x, y, 0 ) = oter_id( "field" );
-            starting_om.seen( x, y, 0 ) = true;
+            tripoint p( x, y, 0 );
+            starting_om.ter( p ) = oter_id( "field" );
+            starting_om.seen( p ) = true;
         }
     }
 
@@ -227,67 +229,67 @@ void defense_game::init_map()
             break;
 
         case DEFLOC_HOSPITAL:
-            starting_om.ter( 51, 49, 0 ) = oter_id( "road_end_north" );
-            starting_om.ter( 50, 50, 0 ) = oter_id( "hospital_3_north" );
-            starting_om.ter( 51, 50, 0 ) = oter_id( "hospital_2_north" );
-            starting_om.ter( 52, 50, 0 ) = oter_id( "hospital_1_north" );
-            starting_om.ter( 50, 51, 0 ) = oter_id( "hospital_6_north" );
-            starting_om.ter( 51, 51, 0 ) = oter_id( "hospital_5_north" );
-            starting_om.ter( 52, 51, 0 ) = oter_id( "hospital_4_north" );
-            starting_om.ter( 50, 52, 0 ) = oter_id( "hospital_9_north" );
-            starting_om.ter( 51, 52, 0 ) = oter_id( "hospital_8_north" );
-            starting_om.ter( 52, 52, 0 ) = oter_id( "hospital_7_north" );
+            starting_om.ter( { 51, 49, 0 } ) = oter_id( "road_end_north" );
+            starting_om.ter( { 50, 50, 0 } ) = oter_id( "hospital_3_north" );
+            starting_om.ter( { 51, 50, 0 } ) = oter_id( "hospital_2_north" );
+            starting_om.ter( { 52, 50, 0 } ) = oter_id( "hospital_1_north" );
+            starting_om.ter( { 50, 51, 0 } ) = oter_id( "hospital_6_north" );
+            starting_om.ter( { 51, 51, 0 } ) = oter_id( "hospital_5_north" );
+            starting_om.ter( { 52, 51, 0 } ) = oter_id( "hospital_4_north" );
+            starting_om.ter( { 50, 52, 0 } ) = oter_id( "hospital_9_north" );
+            starting_om.ter( { 51, 52, 0 } ) = oter_id( "hospital_8_north" );
+            starting_om.ter( { 52, 52, 0 } ) = oter_id( "hospital_7_north" );
             break;
 
         case DEFLOC_WORKS:
-            starting_om.ter( 50, 52, 0 ) = oter_id( "road_end_north" );
-            starting_om.ter( 50, 50, 0 ) = oter_id( "public_works_NW_north" );
-            starting_om.ter( 51, 50, 0 ) = oter_id( "public_works_NE_north" );
-            starting_om.ter( 50, 51, 0 ) = oter_id( "public_works_SW_north" );
-            starting_om.ter( 51, 51, 0 ) = oter_id( "public_works_SE_north" );
+            starting_om.ter( { 50, 52, 0 } ) = oter_id( "road_end_north" );
+            starting_om.ter( { 50, 50, 0 } ) = oter_id( "public_works_NW_north" );
+            starting_om.ter( { 51, 50, 0 } ) = oter_id( "public_works_NE_north" );
+            starting_om.ter( { 50, 51, 0 } ) = oter_id( "public_works_SW_north" );
+            starting_om.ter( { 51, 51, 0 } ) = oter_id( "public_works_SE_north" );
             break;
 
         case DEFLOC_MALL:
             for( int x = 49; x <= 51; x++ ) {
                 for( int y = 49; y <= 51; y++ ) {
-                    starting_om.ter( x, y, 0 ) = oter_id( "megastore" );
+                    starting_om.ter( { x, y, 0 } ) = oter_id( "megastore" );
                 }
             }
-            starting_om.ter( 50, 49, 0 ) = oter_id( "megastore_entrance" );
+            starting_om.ter( { 50, 49, 0 } ) = oter_id( "megastore_entrance" );
             break;
 
         case DEFLOC_BAR:
-            starting_om.ter( 50, 50, 0 ) = oter_id( "bar_north" );
+            starting_om.ter( { 50, 50, 0 } ) = oter_id( "bar_north" );
             break;
 
         case DEFLOC_MANSION:
-            starting_om.ter( 49, 49, 0 ) = oter_id( "mansion_c3_north" );
-            starting_om.ter( 50, 49, 0 ) = oter_id( "mansion_e1_north" );
-            starting_om.ter( 51, 49, 0 ) = oter_id( "mansion_c1_east" );
-            starting_om.ter( 49, 50, 0 ) = oter_id( "mansion_t4_east" );
-            starting_om.ter( 50, 50, 0 ) = oter_id( "mansion_+4_north" );
-            starting_om.ter( 51, 50, 0 ) = oter_id( "mansion_t2_west" );
-            starting_om.ter( 49, 51, 0 ) = oter_id( "mansion_c2_west" );
-            starting_om.ter( 50, 51, 0 ) = oter_id( "mansion_t2_north" );
-            starting_om.ter( 51, 51, 0 ) = oter_id( "mansion_c4_south" );
-            starting_om.ter( 49, 49, 1 ) = oter_id( "mansion_c3u_north" );
-            starting_om.ter( 50, 49, 1 ) = oter_id( "mansion_e1u_north" );
-            starting_om.ter( 51, 49, 1 ) = oter_id( "mansion_c1u_east" );
-            starting_om.ter( 49, 50, 1 ) = oter_id( "mansion_t4u_east" );
-            starting_om.ter( 50, 50, 1 ) = oter_id( "mansion_+4u_north" );
-            starting_om.ter( 51, 50, 1 ) = oter_id( "mansion_t2u_west" );
-            starting_om.ter( 49, 51, 1 ) = oter_id( "mansion_c2u_west" );
-            starting_om.ter( 50, 51, 1 ) = oter_id( "mansion_t2u_north" );
-            starting_om.ter( 51, 51, 1 ) = oter_id( "mansion_c4u_south" );
-            starting_om.ter( 49, 49, -1 ) = oter_id( "mansion_c3d_north" );
-            starting_om.ter( 50, 49, -1 ) = oter_id( "mansion_e1d_north" );
-            starting_om.ter( 51, 49, -1 ) = oter_id( "mansion_c1d_east" );
-            starting_om.ter( 49, 50, -1 ) = oter_id( "mansion_t4d_east" );
-            starting_om.ter( 50, 50, -1 ) = oter_id( "mansion_+4d_north" );
-            starting_om.ter( 51, 50, -1 ) = oter_id( "mansion_t2d_west" );
-            starting_om.ter( 49, 51, -1 ) = oter_id( "mansion_c2d_west" );
-            starting_om.ter( 50, 51, -1 ) = oter_id( "mansion_t2d_north" );
-            starting_om.ter( 51, 51, -1 ) = oter_id( "mansion_c4d_south" );
+            starting_om.ter( { 49, 49, 0 } ) = oter_id( "mansion_c3_north" );
+            starting_om.ter( { 50, 49, 0 } ) = oter_id( "mansion_e1_north" );
+            starting_om.ter( { 51, 49, 0 } ) = oter_id( "mansion_c1_east" );
+            starting_om.ter( { 49, 50, 0 } ) = oter_id( "mansion_t4_east" );
+            starting_om.ter( { 50, 50, 0 } ) = oter_id( "mansion_+4_north" );
+            starting_om.ter( { 51, 50, 0 } ) = oter_id( "mansion_t2_west" );
+            starting_om.ter( { 49, 51, 0 } ) = oter_id( "mansion_c2_west" );
+            starting_om.ter( { 50, 51, 0 } ) = oter_id( "mansion_t2_north" );
+            starting_om.ter( { 51, 51, 0 } ) = oter_id( "mansion_c4_south" );
+            starting_om.ter( { 49, 49, 1 } ) = oter_id( "mansion_c3u_north" );
+            starting_om.ter( { 50, 49, 1 } ) = oter_id( "mansion_e1u_north" );
+            starting_om.ter( { 51, 49, 1 } ) = oter_id( "mansion_c1u_east" );
+            starting_om.ter( { 49, 50, 1 } ) = oter_id( "mansion_t4u_east" );
+            starting_om.ter( { 50, 50, 1 } ) = oter_id( "mansion_+4u_north" );
+            starting_om.ter( { 51, 50, 1 } ) = oter_id( "mansion_t2u_west" );
+            starting_om.ter( { 49, 51, 1 } ) = oter_id( "mansion_c2u_west" );
+            starting_om.ter( { 50, 51, 1 } ) = oter_id( "mansion_t2u_north" );
+            starting_om.ter( { 51, 51, 1 } ) = oter_id( "mansion_c4u_south" );
+            starting_om.ter( { 49, 49, -1 } ) = oter_id( "mansion_c3d_north" );
+            starting_om.ter( { 50, 49, -1 } ) = oter_id( "mansion_e1d_north" );
+            starting_om.ter( { 51, 49, -1 } ) = oter_id( "mansion_c1d_east" );
+            starting_om.ter( { 49, 50, -1 } ) = oter_id( "mansion_t4d_east" );
+            starting_om.ter( { 50, 50, -1 } ) = oter_id( "mansion_+4d_north" );
+            starting_om.ter( { 51, 50, -1 } ) = oter_id( "mansion_t2d_west" );
+            starting_om.ter( { 49, 51, -1 } ) = oter_id( "mansion_c2d_west" );
+            starting_om.ter( { 50, 51, -1 } ) = oter_id( "mansion_t2d_north" );
+            starting_om.ter( { 51, 51, -1 } ) = oter_id( "mansion_c4d_south" );
             break;
     }
     starting_om.save();
@@ -308,7 +310,7 @@ void defense_game::init_map()
             mx -= mx % 2;
             my -= my % 2;
             tinymap tm;
-            tm.generate( mx, my, 0, calendar::turn );
+            tm.generate( tripoint( mx, my, 0 ), calendar::turn );
             tm.clear_spawns();
             tm.clear_traps();
             tm.save();
@@ -493,8 +495,8 @@ void defense_game::init_to_style( defense_style new_style )
 void defense_game::setup()
 {
     catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                           ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                           ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+                           point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                                  TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
     int selection = 1;
     refresh_setup( w, selection );
 
@@ -537,17 +539,17 @@ void defense_game::setup()
             switch( selection ) {
                 case 1: // Scenario selection
                     if( action == "RIGHT" ) {
-                        if( style == defense_style( NUM_DEFENSE_STYLES - 1 ) ) {
-                            style = defense_style( 1 );
+                        if( style == static_cast<defense_style>( NUM_DEFENSE_STYLES - 1 ) ) {
+                            style = static_cast<defense_style>( 1 );
                         } else {
-                            style = defense_style( style + 1 );
+                            style = static_cast<defense_style>( style + 1 );
                         }
                     }
                     if( action == "LEFT" ) {
-                        if( style == defense_style( 1 ) ) {
-                            style = defense_style( NUM_DEFENSE_STYLES - 1 );
+                        if( style == static_cast<defense_style>( 1 ) ) {
+                            style = static_cast<defense_style>( NUM_DEFENSE_STYLES - 1 );
                         } else {
-                            style = defense_style( style - 1 );
+                            style = static_cast<defense_style>( style - 1 );
                         }
                     }
                     init_to_style( style );
@@ -555,17 +557,17 @@ void defense_game::setup()
 
                 case 2: // Location selection
                     if( action == "RIGHT" ) {
-                        if( location == defense_location( NUM_DEFENSE_LOCATIONS - 1 ) ) {
-                            location = defense_location( 1 );
+                        if( location == static_cast<defense_location>( NUM_DEFENSE_LOCATIONS - 1 ) ) {
+                            location = static_cast<defense_location>( 1 );
                         } else {
-                            location = defense_location( location + 1 );
+                            location = static_cast<defense_location>( location + 1 );
                         }
                     }
                     if( action == "LEFT" ) {
-                        if( location == defense_location( 1 ) ) {
-                            location = defense_location( NUM_DEFENSE_LOCATIONS - 1 );
+                        if( location == static_cast<defense_location>( 1 ) ) {
+                            location = static_cast<defense_location>( NUM_DEFENSE_LOCATIONS - 1 );
                         } else {
-                            location = defense_location( location - 1 );
+                            location = static_cast<defense_location>( location - 1 );
                         }
                     }
                     mvwprintz( w, 5, 2, c_black, "\
@@ -899,7 +901,7 @@ void defense_game::caravan()
 
     // Init the items for each category
     for( int i = 0; i < NUM_CARAVAN_CATEGORIES; i++ ) {
-        items[i] = caravan_items( caravan_category( i ) );
+        items[i] = caravan_items( static_cast<caravan_category>( i ) );
         for( std::vector<itype_id>::iterator it = items[i].begin();
              it != items[i].end(); ) {
             if( current_wave == 0 || !one_in( 4 ) ) {
@@ -913,7 +915,7 @@ void defense_game::caravan()
 
     signed total_price = 0;
 
-    catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, 0, 0 );
+    catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, point( 0, 0 ) );
 
     int offset = 0;
     int item_selected = 0;
@@ -1021,7 +1023,7 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
                 total_price += caravan_price( g->u, item( tmp_itm, 0 ).price( false ) );
                 if( category_selected == CARAVAN_CART ) { // Find the item in its category
                     for( int i = 1; i < NUM_CARAVAN_CATEGORIES; i++ ) {
-                        for( unsigned j = 0; j < items[i].size(); j++ ) {
+                        for( size_t j = 0; j < items[i].size(); j++ ) {
                             if( items[i][j] == tmp_itm ) {
                                 item_count[i][j]++;
                             }
@@ -1053,7 +1055,7 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
                 total_price -= caravan_price( g->u, item( tmp_itm, 0 ).price( false ) );
                 if( category_selected == CARAVAN_CART ) { // Find the item in its category
                     for( int i = 1; i < NUM_CARAVAN_CATEGORIES; i++ ) {
-                        for( unsigned j = 0; j < items[i].size(); j++ ) {
+                        for( size_t j = 0; j < items[i].size(); j++ ) {
                             if( items[i][j] == tmp_itm ) {
                                 item_count[i][j]--;
                             }
@@ -1115,7 +1117,7 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
     if( !cancel ) {
         g->u.cash -= total_price;
         bool dropped_some = false;
-        for( unsigned i = 0; i < items[0].size(); i++ ) {
+        for( size_t i = 0; i < items[0].size(); i++ ) {
             item tmp( items[0][i] );
             tmp = tmp.in_its_container();
 
@@ -1285,7 +1287,7 @@ void draw_caravan_categories( const catacurses::window &w, int category_selected
 
     for( int i = 0; i < NUM_CARAVAN_CATEGORIES; i++ ) {
         mvwprintz( w, i + 3, 1, ( i == category_selected ? h_white : c_white ),
-                   caravan_category_name( caravan_category( i ) ) );
+                   caravan_category_name( static_cast<caravan_category>( i ) ) );
     }
     wrefresh( w );
 }
@@ -1422,15 +1424,15 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
         } else if( one_in( 2 ) ) {
             pnt = point( rng( HALF_MAPSIZE_X, HALF_MAPSIZE_X + SEEX ), rng( 1, SEEY ) );
             if( one_in( 2 ) ) {
-                pnt = point( pnt.x, MAPSIZE_Y - 1 - pnt.y );
+                pnt = point( pnt.x, -pnt.y ) + point( 0, MAPSIZE_Y - 1 );
             }
         } else {
             pnt = point( rng( 1, SEEX ), rng( HALF_MAPSIZE_Y, HALF_MAPSIZE_Y + SEEY ) );
             if( one_in( 2 ) ) {
-                pnt = point( MAPSIZE_X - 1 - pnt.x, pnt.y );
+                pnt = point( -pnt.x, pnt.y ) + point( MAPSIZE_X - 1, 0 );
             }
         }
-        if( g->is_empty( { pnt.x, pnt.y, g->get_levz() } ) ) {
+        if( g->is_empty( { pnt, g->get_levz() } ) ) {
             break;
         }
         if( tries++ == 1000 ) {
@@ -1454,7 +1456,7 @@ std::string defense_game::special_wave_message( std::string name )
 
     // Capitalize
     capitalize_letter( name );
-    for( unsigned i = 2; i < name.size(); i++ ) {
+    for( size_t i = 2; i < name.size(); i++ ) {
         if( name[i - 1] == ' ' ) {
             capitalize_letter( name, i );
         }

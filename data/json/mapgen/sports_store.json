@@ -5,6 +5,7 @@
     "om_terrain": [ "s_sports" ],
     "weight": 300,
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         ".`''''`''''`''''`''''`..",
         ".`''''`''''`''''`''''`..",
@@ -29,31 +30,19 @@
         ".|  +                O|.",
         ".|% |   {{{{{{{{{    O|.",
         ".-----------------*----.",
-        "........................"
+        "........4..............."
       ],
       "terrain": {
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         " ": "t_floor",
-        "@": "t_floor",
-        "^": "t_floor",
-        "{": "t_floor",
-        "}": "t_floor",
-        "#": "t_floor",
-        "%": "t_floor",
-        "&": "t_floor",
-        "h": "t_floor",
-        "t": "t_floor",
-        "e": "t_floor",
-        "p": "t_floor",
-        "m": "t_floor",
-        "O": "t_floor",
         "'": "t_pavement",
         "`": "t_pavement_y",
         "+": "t_door_c",
         "*": "t_door_locked",
-        "|": "t_wall",
-        "-": "t_wall",
+        "|": "t_wall_p",
+        "-": "t_wall_p",
         "~": "t_window",
+        "4": "t_gutter_downspout",
         "/": "t_door_curtain_c"
       },
       "furniture": {
@@ -90,15 +79,51 @@
     }
   },
   {
-    "id": "clothing_sport",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [
-      { "group": "clothing_outdoor_torso" },
-      { "group": "clothing_outdoor_pants" },
-      { "group": "clothing_outdoor_shoes" },
-      { "group": "clothing_glasses", "prob": 10 },
-      { "group": "clothing_watch", "prob": 5 }
-    ]
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_sports_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |..oooo........oooo..3 ",
+        " |....................3 ",
+        " |..oooo........oooo..3 ",
+        " |....................3 ",
+        " |..oooo........oooo..3 ",
+        " |....................3 ",
+        " |..oooo........oooo..3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |...&.........=......3 ",
+        " |....................3 ",
+        " |------5-------------3 ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 4, 17 ],
+          "y": [ 15, 16 ]
+        }
+      ]
+    }
   }
 ]

@@ -1,6 +1,70 @@
 [
   {
     "type": "overmap_terrain",
+    "id": "campus_admin_0_0_0",
+    "name": "campus admin building",
+    "sym": "A",
+    "color": "red",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_1_0",
+    "copy-from": "campus_admin_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_2_0",
+    "copy-from": "campus_admin_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_0_1",
+    "copy-from": "campus_admin_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_1_1",
+    "copy-from": "campus_admin_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_2_1",
+    "copy-from": "campus_admin_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_0_2",
+    "copy-from": "campus_admin_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_1_2",
+    "copy-from": "campus_admin_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_2_2",
+    "copy-from": "campus_admin_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_0_3",
+    "name": "campus admin building roof",
+    "copy-from": "campus_admin_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_1_3",
+    "copy-from": "campus_admin_0_0_3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_2_3",
+    "copy-from": "campus_admin_0_0_3"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "campus_commons_0_0_0",
     "name": "campus commons building",
     "sym": "C",

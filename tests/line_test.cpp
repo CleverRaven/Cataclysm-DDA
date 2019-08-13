@@ -1,4 +1,3 @@
-#include <inttypes.h>
 #include <time.h>
 #include <chrono>
 #include <cstdio>
@@ -11,7 +10,7 @@
 #include "catch/catch.hpp"
 #include "line.h"
 #include "rng.h"
-#include "enums.h"
+#include "point.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 // Compare all future line_to implementations to the canonical one.
@@ -297,7 +296,7 @@ static void line_to_comparison( const int iterations )
     REQUIRE( trig_dist( 0, 0, 0, 0 ) == 0 );
     REQUIRE( trig_dist( 0, 0, 1, 0 ) == 1 );
 
-    const int seed = time( NULL );
+    const int seed = time( nullptr );
     std::srand( seed );
 
     for( int i = 0; i < RANDOM_TEST_NUM; ++i ) {

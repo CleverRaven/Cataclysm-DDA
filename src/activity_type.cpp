@@ -13,6 +13,7 @@
 #include "translations.h"
 #include "player.h"
 #include "player_activity.h"
+#include "string_formatter.h"
 
 // activity_type functions
 static std::map< activity_id, activity_type > activity_type_all;

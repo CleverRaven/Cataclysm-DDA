@@ -31,6 +31,9 @@
 #include "rng.h"
 #include "vpart_position.h"
 #include "string_id.h"
+#include "enums.h"
+#include "int_id.h"
+#include "monster.h"
 
 static const std::string part_location_structure( "structure" );
 static const itype_id fuel_type_muscle( "muscle" );
@@ -73,7 +76,7 @@ int vmiph_to_cmps( int vmiph )
 
 int vehicle::slowdown( int at_velocity ) const
 {
-    double mps =  vmiph_to_mps( abs( at_velocity ) );
+    double mps = vmiph_to_mps( abs( at_velocity ) );
 
     // slowdown due to air resistance is proportional to square of speed
     double f_total_drag = coeff_air_drag() * mps * mps;
@@ -130,7 +133,6 @@ void vehicle::thrust( int thd )
             return;
         }
     }
-
     // Accelerate (true) or brake (false)
     bool thrusting = true;
     if( velocity ) {
@@ -342,7 +344,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
 
     if( dp.z != 0 && ( dp.x != 0 || dp.y != 0 ) ) {
         // Split into horizontal + vertical
-        return collision( colls, tripoint( dp.x, dp.y, 0 ), just_detect, bash_floor ) ||
+        return collision( colls, tripoint( dp.xy(), 0 ), just_detect, bash_floor ) ||
                collision( colls, tripoint( 0,    0,    dp.z ), just_detect, bash_floor );
     }
 
@@ -417,7 +419,7 @@ static void terrain_collision_data( const tripoint &p, bool bash_floor,
     // Just a rough rescale for now to obtain approximately equal numbers
     const int bash_min = g->m.bash_resistance( p, bash_floor );
     const int bash_max = g->m.bash_strength( p, bash_floor );
-    mass = ( bash_min + bash_max ) / 2;
+    mass = ( bash_min + bash_max ) / 2.0;
     density = bash_min;
 }
 
@@ -426,7 +428,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 {
     // Vertical collisions need to be handled differently
     // All collisions have to be either fully vertical or fully horizontal for now
-    const bool vert_coll = bash_floor || p.z != smz;
+    const bool vert_coll = bash_floor || p.z != sm_pos.z;
     const bool pl_ctrl = player_in_control( g->u );
     Creature *critter = g->critter_at( p, true );
     player *ph = dynamic_cast<player *>( critter );
@@ -610,8 +612,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         // Velocity of object after collision
         const float vel2_a = ( mass * vel1 + mass2 * vel2 + e * mass * ( vel1 - vel2 ) ) / ( mass + mass2 );
         // Lost energy at collision -> deformation energy -> damage
-        const float E_before = 0.5f * ( mass * vel1 * vel1 )   + 0.5f * ( mass2 * vel2 * vel2 );
-        const float E_after =  0.5f * ( mass * vel1_a * vel1_a ) + 0.5f * ( mass2 * vel2_a * vel2_a );
+        const float E_before = 0.5f * ( mass * vel1 * vel1 )     + 0.5f * ( mass2 * vel2 * vel2 );
+        const float E_after  = 0.5f * ( mass * vel1_a * vel1_a ) + 0.5f * ( mass2 * vel2_a * vel2_a );
         const float d_E = E_before - E_after;
         if( d_E <= 0 ) {
             // Deformation energy is signed
@@ -804,6 +806,10 @@ void vehicle::handle_trap( const tripoint &p, int part )
     const trap &tr = g->m.tr_at( p );
     const trap_id t = tr.loadid;
 
+    if( t == tr_null ) {
+        // If the trap doesn't exist, we can't interact with it, so just return
+        return;
+    }
     vehicle_handle_trap_data veh_data = tr.vehicle_data;
 
     if( veh_data.is_falling ) {
@@ -1212,7 +1218,7 @@ vehicle *vehicle::act_on_map()
             g->setremoteveh( nullptr );
         }
 
-        g->m.on_vehicle_moved( smz );
+        g->m.on_vehicle_moved( sm_pos.z );
         // Destroy vehicle (sank to nowhere)
         g->m.destroy_vehicle( this );
         return nullptr;
@@ -1349,7 +1355,7 @@ vehicle *vehicle::act_on_map()
     vehicle *new_pointer = this;
     // Split the movement into horizontal and vertical for easier processing
     if( dp.x != 0 || dp.y != 0 ) {
-        new_pointer = g->m.move_vehicle( *new_pointer, tripoint( dp.x, dp.y, 0 ), mdir );
+        new_pointer = g->m.move_vehicle( *new_pointer, tripoint( dp.xy(), 0 ), mdir );
     }
 
     if( new_pointer != nullptr && dp.z != 0 ) {
@@ -1377,7 +1383,7 @@ void vehicle::check_falling_or_floating()
     size_t water_tiles = 0;
     for( const tripoint &p : pts ) {
         if( is_falling ) {
-            tripoint below( p.x, p.y, p.z - 1 );
+            tripoint below( p.xy(), p.z - 1 );
             is_falling &= g->m.has_flag_ter_or_furn( TFLAG_NO_FLOOR, p ) && ( p.z > -OVERMAP_DEPTH ) &&
                           !g->m.supports_above( below );
         }
@@ -1421,7 +1427,7 @@ float map::vehicle_wheel_traction( const vehicle &veh ) const
         }
 
         for( const auto &terrain_mod : veh.part_info( p ).wheel_terrain_mod() ) {
-            if( terrain_mod.second.movecost && terrain_mod.second.movecost > 0 &&
+            if( terrain_mod.second.movecost > 0 &&
                 tr.has_flag( terrain_mod.first ) ) {
                 move_mod = terrain_mod.second.movecost;
                 break;

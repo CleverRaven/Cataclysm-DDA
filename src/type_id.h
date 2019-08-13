@@ -14,6 +14,9 @@ using bionic_id = string_id<bionic_data>;
 struct construction_category;
 using construction_category_id = string_id<construction_category>;
 
+struct clothing_mod;
+using clothing_mod_id = string_id<clothing_mod>;
+
 class effect_type;
 using efftype_id = string_id<effect_type>;
 
@@ -96,6 +99,9 @@ using start_location_id = string_id<start_location>;
 struct ter_t;
 using ter_id = int_id<ter_t>;
 using ter_str_id = string_id<ter_t>;
+
+class ter_furn_transform;
+using ter_furn_transform_id = string_id<ter_furn_transform>;
 
 class Trait_group;
 namespace trait_group

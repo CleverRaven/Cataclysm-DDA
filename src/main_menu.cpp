@@ -25,7 +25,6 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
-#include "player.h"
 #include "safemode_ui.h"
 #include "scenario.h"
 #include "sdlsound.h"
@@ -204,7 +203,7 @@ void main_menu::init_windows()
         return;
     }
 
-    w_background = catacurses::newwin( TERMY, TERMX, 0, 0 );
+    w_background = catacurses::newwin( TERMY, TERMX, point( 0, 0 ) );
     werase( w_background );
     wrefresh( w_background );
 
@@ -221,7 +220,7 @@ void main_menu::init_windows()
     const int x0 = ( TERMX - total_w ) / 2;
     const int y0 = ( TERMY - total_h ) / 2;
 
-    w_open = catacurses::newwin( total_h, total_w, y0, x0 );
+    w_open = catacurses::newwin( total_h, total_w, point( x0, y0 ) );
 
     iMenuOffsetY = total_h - 3;
     // note: if iMenuOffset is changed,
@@ -318,12 +317,12 @@ void main_menu::init_strings()
 void main_menu::display_text( const std::string &text, const std::string &title, int &selected )
 {
     catacurses::window w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                  ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                                  ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+                                  point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                                         TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
 
     catacurses::window w_text = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                                1 + static_cast<int>( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
-                                1 + static_cast<int>( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
+                                point( 1 + static_cast<int>( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ),
+                                       1 + static_cast<int>( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) ) );
 
     draw_border( w_border, BORDER_COLOR, title );
 
@@ -510,7 +509,7 @@ bool main_menu::opening_screen()
                 int yoffset = iMenuOffsetY - 2;
                 int xlen = 0;
                 for( int i = 1; i < NUM_SPECIAL_GAMES; i++ ) {
-                    std::string spec_name = special_game_name( special_game_id( i ) );
+                    std::string spec_name = special_game_name( static_cast<special_game_id>( i ) );
                     special_names.push_back( spec_name );
                     xlen += spec_name.size() + 2;
                 }
@@ -539,9 +538,9 @@ bool main_menu::opening_screen()
                 }
                 if( action == "UP" || action == "CONFIRM" ) {
                     if( sel2 >= 0 && sel2 < NUM_SPECIAL_GAMES - 1 ) {
-                        g->gamemode = get_special_game( special_game_id( sel2 + 1 ) );
+                        g->gamemode = get_special_game( static_cast<special_game_id>( sel2 + 1 ) );
                         // check world
-                        WORLDPTR world = world_generator->make_new_world( special_game_id( sel2 + 1 ) );
+                        WORLDPTR world = world_generator->make_new_world( static_cast<special_game_id>( sel2 + 1 ) );
                         if( world == nullptr ) {
                             continue;
                         }
@@ -1018,7 +1017,7 @@ void main_menu::world_tab()
                     text_color = c_light_gray;
                     key_color = c_white;
                 }
-                wmove( w_open, yoffset - i, xoffset );
+                wmove( w_open, point( xoffset, yoffset - i ) );
                 wprintz( w_open, c_light_gray, "[" );
                 shortcut_print( w_open, text_color, key_color, vWorldSubItems[i] );
                 wprintz( w_open, c_light_gray, "]" );

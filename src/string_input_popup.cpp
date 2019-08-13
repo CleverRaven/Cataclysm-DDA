@@ -18,6 +18,7 @@
 
 #include <cstdlib>
 #include <algorithm>
+#include <memory>
 #include <vector>
 
 string_input_popup::string_input_popup() = default;
@@ -26,7 +27,7 @@ string_input_popup::~string_input_popup() = default;
 
 void string_input_popup::create_window()
 {
-    int titlesize = utf8_width( _title ); // Occupied horizontal space
+    int titlesize = utf8_width( remove_color_tags( _title ) ); // Occupied horizontal space
     if( _max_length <= 0 ) {
         _max_length = _width;
     }
@@ -76,7 +77,7 @@ void string_input_popup::create_window()
 
     const int w_y = ( TERMY - w_height ) / 2;
     const int w_x = std::max( ( TERMX - w_width ) / 2, 0 );
-    w = catacurses::newwin( w_height, w_width, w_y, w_x );
+    w = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
 
     draw_border( w );
 
@@ -92,7 +93,7 @@ void string_input_popup::create_window()
 
 void string_input_popup::create_context()
 {
-    ctxt_ptr.reset( new input_context( "STRING_INPUT" ) );
+    ctxt_ptr = std::make_unique<input_context>( "STRING_INPUT" );
     ctxt = ctxt_ptr.get();
     ctxt->register_action( "ANY_INPUT" );
 }
@@ -222,7 +223,7 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
     const utf8_wrapper ds( ret.substr_display( shift, scrmax ) );
     int start_x_edit = _startx;
     // Clear the line
-    mvwprintw( w, _starty, _startx, std::string( scrmax, ' ' ) );
+    mvwprintw( w, point( _startx, _starty ), std::string( std::max( 0, scrmax ), ' ' ) );
     // Print the whole input string in default color
     mvwprintz( w, _starty, _startx, _string_color, "%s", ds.c_str() );
     size_t sx = ds.display_width();

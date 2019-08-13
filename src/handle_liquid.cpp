@@ -1,7 +1,17 @@
 #include "handle_liquid.h"
 
+#include <limits.h>
+#include <stddef.h>
+#include <algorithm>
+#include <functional>
+#include <iterator>
+#include <memory>
+#include <ostream>
+#include <set>
+#include <string>
+#include <vector>
+
 #include "action.h"
-#include "activity_handlers.h"
 #include "avatar.h"
 #include "game.h"
 #include "game_inventory.h"
@@ -11,11 +21,18 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
-#include "player.h"
 #include "translations.h"
 #include "ui.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "cata_utility.h"
+#include "colony.h"
+#include "debug.h"
+#include "enums.h"
+#include "line.h"
+#include "optional.h"
+#include "player_activity.h"
+#include "string_formatter.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -74,7 +91,7 @@ namespace liquid_handler
 {
 void handle_all_liquid( item liquid, const int radius )
 {
-    while( liquid.charges > 0l ) {
+    while( liquid.charges > 0 ) {
         // handle_liquid allows to pour onto the ground, which will handle all the liquid and
         // set charges to 0. This allows terminating the loop.
         // The result of handle_liquid is ignored, the player *has* to handle all the liquid.

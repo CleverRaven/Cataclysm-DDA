@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <string>
 #include <vector>
-#include <list>
 #include <memory>
 #include <set>
 
@@ -24,13 +23,14 @@
 #include "enums.h"
 #include "int_id.h"
 #include "item.h"
-#include "item_stack.h"
 #include "optional.h"
 #include "player_activity.h"
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
 #include "type_id.h"
+#include "colony.h"
+#include "point.h"
 
 // Gates namespace
 
@@ -276,6 +276,9 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
         const int inside_closable = veh->next_part_to_close( vpart );
         const int openable = veh->next_part_to_open( vpart );
         if( closable >= 0 ) {
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                return;
+            }
             veh->close( closable );
             didit = true;
         } else if( inside_closable >= 0 ) {
@@ -338,4 +341,3 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
         who.mod_moves( -90 ); // TODO: Vary this? Based on strength, broken legs, and so on.
     }
 }
-

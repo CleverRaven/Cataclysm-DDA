@@ -9,7 +9,7 @@
 #include "optional.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "enums.h"
+#include "point.h"
 #include "type_id.h"
 
 struct real_coords;
@@ -19,8 +19,6 @@ class uilist;
 class vehicle;
 class map;
 class tinymap;
-
-enum field_id : int;
 
 enum shapetype {
     editmap_rect, editmap_rect_filled, editmap_line, editmap_circle,
@@ -35,13 +33,10 @@ struct editmap_hilight {
     std::map<tripoint, char> points;
     nc_color( *getbg )( const nc_color & );
     void setup() {
-        getbg = ( color == c_red ? &red_background :
-                  ( color == c_magenta ? &magenta_background :
-                    ( color == c_cyan ? &cyan_background :
-                      ( color == c_yellow ? &yellow_background : &green_background )
-                    )
-                  )
-                );
+        getbg = color == c_red ? &red_background :
+                color == c_magenta ? &magenta_background :
+                color == c_cyan ? &cyan_background :
+                color == c_yellow ? &yellow_background : &green_background;
     }
     void draw( editmap &em, bool update = false );
 };
@@ -72,7 +67,7 @@ class editmap
         int mapgen_retarget();
         int select_shape( shapetype shape, int mode = -1 );
 
-        void update_fmenu_entry( uilist &fmenu, field &field, field_id idx );
+        void update_fmenu_entry( uilist &fmenu, field &field, field_type_id idx );
         void setup_fmenu( uilist &fmenu );
         catacurses::window w_info;
         catacurses::window w_help;
@@ -111,14 +106,13 @@ class editmap
 
         std::string padding;
 
-        std::map<field_id, std::string> fids;
+        std::map<field_type_id, std::string> fids;
 
         std::vector<tripoint> target_list;
         std::map<std::string, editmap_hilight> hilights;
         bool blink;
         bool altblink;
-        int tmaxx;
-        int tmaxy;
+        point tmax;
         bool uberdraw;
 
         editmap();

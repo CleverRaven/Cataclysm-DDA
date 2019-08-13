@@ -1,5 +1,11 @@
-#include "catch/catch.hpp"
+#include <algorithm>
+#include <functional>
+#include <iterator>
+#include <type_traits>
+#include <utility>
+#include <vector>
 
+#include "catch/catch.hpp"
 #include "flat_set.h"
 #include "assertion_helpers.h"
 

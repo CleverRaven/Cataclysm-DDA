@@ -46,12 +46,12 @@
     "id": "NC_BEGGAR_5_worn",
     "subtype": "collection",
     "items": [
-      { "item": "jacket_jean" },
+      { "item": "socks" },
       { "item": "boxer_briefs" },
       { "item": "hoodie" },
       { "item": "pants_cargo" },
+      { "item": "jacket_jean" },
       { "item": "boots" },
-      { "item": "socks" },
       { "item": "backpack" }
     ]
   },

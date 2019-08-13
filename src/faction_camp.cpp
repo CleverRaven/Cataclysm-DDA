@@ -47,7 +47,6 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
 #include "basecamp.h"
 #include "calendar.h"
 #include "color.h"
@@ -58,10 +57,8 @@
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "omdata.h"
 #include "optional.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -69,6 +66,11 @@
 #include "units.h"
 #include "weighted_list.h"
 #include "type_id.h"
+#include "colony.h"
+#include "item_stack.h"
+#include "point.h"
+#include "vpart_position.h"
+#include "weather.h"
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );
@@ -429,12 +431,12 @@ static cata::optional<basecamp *> get_basecamp( npc &p, const std::string &camp_
 {
 
     tripoint omt_pos = p.global_omt_location();
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.x, omt_pos.y );
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
     if( bcp ) {
         return bcp;
     }
     g->m.add_camp( p.pos(), "faction_camp" );
-    bcp = overmap_buffer.find_camp( omt_pos.x, omt_pos.y );
+    bcp = overmap_buffer.find_camp( omt_pos.xy() );
     if( !bcp ) {
         return cata::nullopt;
     }
@@ -486,7 +488,7 @@ void talk_function::start_camp( npc &p )
     int near_fields = 0;
     for( const auto &om_near : om_region ) {
         const oter_id &om_type = oter_id( om_near.first );
-        if( is_ot_subtype( "field", om_type ) ) {
+        if( is_ot_match( "field", om_type, ot_match_type::contains ) ) {
             near_fields += 1;
         }
     }
@@ -501,17 +503,17 @@ void talk_function::start_camp( npc &p )
     int fields = 0;
     for( const auto &om_near : om_region_ext ) {
         const oter_id &om_type = oter_id( om_near.first );
-        if( is_ot_subtype( "faction_base", om_type ) ) {
+        if( is_ot_match( "faction_base", om_type, ot_match_type::contains ) ) {
             popup( _( "You are too close to another camp!" ) );
             return;
         }
-        if( is_ot_type( "forest_water", om_type ) ) {
+        if( is_ot_match( "forest_water", om_type, ot_match_type::type ) ) {
             swamps++;
-        } else if( is_ot_subtype( "forest", om_type ) ) {
+        } else if( is_ot_match( "forest", om_type, ot_match_type::contains ) ) {
             forests++;
-        } else if( is_ot_subtype( "river", om_type ) ) {
+        } else if( is_ot_match( "river", om_type, ot_match_type::contains ) ) {
             waters++;
-        } else if( is_ot_subtype( "field", om_type ) ) {
+        } else if( is_ot_match( "field", om_type, ot_match_type::contains ) ) {
             fields++;
         }
     }
@@ -988,19 +990,19 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
     if( has_provides( "scouting" ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_scout_0" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_scout_0" ];
-        entry =  string_format( _( "Notes:\n"
-                                   "Send a companion out into the great unknown.  High survival "
-                                   "skills are needed to avoid combat but you should expect an "
-                                   "encounter or two.\n \n"
-                                   "Skill used: survival\n"
-                                   "Difficulty: 3\n"
-                                   "Effects:\n"
-                                   "> Select checkpoints to customize path.\n"
-                                   "> Reveals terrain around the path.\n"
-                                   "> Can bounce off hide sites to extend range.\n \n"
-                                   "Risk: High\n"
-                                   "Time: Travel\n"
-                                   "Positions: %d/3\n" ), npc_list.size() );
+        entry = string_format( _( "Notes:\n"
+                                  "Send a companion out into the great unknown.  High survival "
+                                  "skills are needed to avoid combat but you should expect an "
+                                  "encounter or two.\n \n"
+                                  "Skill used: survival\n"
+                                  "Difficulty: 3\n"
+                                  "Effects:\n"
+                                  "> Select checkpoints to customize path.\n"
+                                  "> Reveals terrain around the path.\n"
+                                  "> Can bounce off hide sites to extend range.\n \n"
+                                  "Risk: High\n"
+                                  "Time: Travel\n"
+                                  "Positions: %d/3\n" ), npc_list.size() );
         mission_key.add_start( miss_info.miss_id, miss_info.desc, "", entry, npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = miss_info.action;
@@ -1012,21 +1014,21 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
     if( has_provides( "patrolling" ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_combat_0" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_combat_0" ];
-        entry =  string_format( _( "Notes:\n"
-                                   "Send a companion to purge the wasteland.  Their goal is to "
-                                   "kill anything hostile they encounter and return when "
-                                   "their wounds are too great or the odds are stacked against "
-                                   "them.\n \n"
-                                   "Skill used: survival\n"
-                                   "Difficulty: 4\n"
-                                   "Effects:\n"
-                                   "> Pulls creatures encountered into combat instead of "
-                                   "fleeing.\n"
-                                   "> Select checkpoints to customize path.\n"
-                                   "> Can bounce off hide sites to extend range.\n \n"
-                                   "Risk: Very High\n"
-                                   "Time: Travel\n"
-                                   "Positions: %d/3\n" ), npc_list.size() );
+        entry = string_format( _( "Notes:\n"
+                                  "Send a companion to purge the wasteland.  Their goal is to "
+                                  "kill anything hostile they encounter and return when "
+                                  "their wounds are too great or the odds are stacked against "
+                                  "them.\n \n"
+                                  "Skill used: survival\n"
+                                  "Difficulty: 4\n"
+                                  "Effects:\n"
+                                  "> Pulls creatures encountered into combat instead of "
+                                  "fleeing.\n"
+                                  "> Select checkpoints to customize path.\n"
+                                  "> Can bounce off hide sites to extend range.\n \n"
+                                  "Risk: Very High\n"
+                                  "Time: Travel\n"
+                                  "Positions: %d/3\n" ), npc_list.size() );
         mission_key.add_start( miss_info.miss_id, miss_info.desc, "", entry, npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = miss_info.action;
@@ -1637,7 +1639,7 @@ void basecamp::start_relay_hide_site()
         }
         //Check items in improvised shelters at hide site
         tinymap target_bay;
-        target_bay.load( forest.x * 2, forest.y * 2, forest.z, false );
+        target_bay.load( tripoint( forest.x * 2, forest.y * 2, forest.z ), false );
         std::vector<item *> hide_inv;
         for( item &i : target_bay.i_at( 11, 10 ) ) {
             hide_inv.push_back( &i );
@@ -1864,10 +1866,10 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
 
     //farm_json is what the area should look like according to jsons
     tinymap farm_json;
-    farm_json.generate( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, calendar::turn );
+    farm_json.generate( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), calendar::turn );
     //farm_map is what the area actually looks like
     tinymap farm_map;
-    farm_map.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
+    farm_map.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z );
     bool done_planting = false;
@@ -2220,7 +2222,7 @@ bool basecamp::gathering_return( const std::string &task, time_duration min_time
         danger = 10;
         favor = 0;
         skill_group = "hunting";
-        skill = 1.5 * comp->get_skill_level( skill_gun ) + comp->per_cur / 2;
+        skill = 1.5 * comp->get_skill_level( skill_gun ) + comp->per_cur / 2.0;
         threat = 12;
         checks_per_cycle = 2;
     }
@@ -2537,7 +2539,7 @@ void talk_function::draw_camp_tabs( const catacurses::window &win, const camp_ta
 {
     werase( win );
     const int width = getmaxx( win );
-    mvwhline( win, 2, 0, LINE_OXOX, width );
+    mvwhline( win, point( 0, 2 ), LINE_OXOX, width );
 
     std::vector<std::string> tabs;
     tabs.push_back( _( "MAIN" ) );
@@ -2567,7 +2569,7 @@ std::string talk_function::name_mission_tabs( const tripoint &omt_pos, const std
     if( role_id != base_camps::id ) {
         return cur_title;
     }
-    cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( omt_pos.x, omt_pos.y );
+    cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( omt_pos.xy() );
     if( !temp_camp ) {
         return cur_title;
     }
@@ -2706,7 +2708,7 @@ int om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f, int c
 {
     const furn_t &furn_tgt = f.obj();
     tinymap target_bay;
-    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
+    target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
     int harvested = 0;
     int total = 0;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
@@ -2749,7 +2751,7 @@ int om_harvest_ter( npc &comp, const tripoint &omt_tgt, const ter_id &t, int cha
 {
     const ter_t &ter_tgt = t.obj();
     tinymap target_bay;
-    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
+    target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
     int harvested = 0;
     int total = 0;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
@@ -2792,7 +2794,7 @@ int om_cutdown_trees_trunks( const tripoint &omt_tgt, int chance )
 int om_cutdown_trees( const tripoint &omt_tgt, int chance, bool estimate, bool force_cut_trunk )
 {
     tinymap target_bay;
-    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
+    target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
     int harvested = 0;
     int total = 0;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
@@ -2838,7 +2840,7 @@ int om_cutdown_trees( const tripoint &omt_tgt, int chance, bool estimate, bool f
 mass_volume om_harvest_itm( npc_ptr comp, const tripoint &omt_tgt, int chance, bool take )
 {
     tinymap target_bay;
-    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
+    target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
     units::mass harvested_m = 0_gram;
     units::volume harvested_v = 0_ml;
     units::mass total_m = 0_gram;
@@ -2905,7 +2907,7 @@ tripoint om_target_tile( const tripoint &omt_pos, int min_range, int range,
 
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt );
 
-    if( must_see && !overmap_buffer.seen( omt_tgt.x, omt_tgt.y, omt_tgt.z ) ) {
+    if( must_see && !overmap_buffer.seen( omt_tgt ) ) {
         errors = true;
         popup( _( "You must be able to see the target that you select." ) );
     }
@@ -3003,8 +3005,8 @@ bool om_set_hide_site( npc &comp, const tripoint &omt_tgt,
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt );
     omt_ref = oter_id( omt_ref.id().c_str() );
     tinymap target_bay;
-    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
-    target_bay.ter_set( 11, 10, t_improvised_shelter );
+    target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
+    target_bay.ter_set( point( 11, 10 ), t_improvised_shelter );
     for( auto i : itms_rem ) {
         comp.companion_mission_inv.add_item( *i );
         target_bay.i_rem( 11, 10, i );
@@ -3017,7 +3019,7 @@ bool om_set_hide_site( npc &comp, const tripoint &omt_tgt,
 
     omt_ref = oter_id( "faction_hide_site_0" );
 
-    overmap_buffer.reveal( point( omt_tgt.x, omt_tgt.y ), 3, 0 );
+    overmap_buffer.reveal( omt_tgt.xy(), 3, 0 );
     return true;
 }
 
@@ -3075,7 +3077,7 @@ int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp )
     units::mass max_m = comp ? comp->weight_capacity() - comp->weight_carried() : 30_kilogram;
     //Assume an additional pack will be carried in addition to normal gear
     units::volume sack_v = item( itype_id( "makeshift_sling" ) ).get_storage();
-    units::volume max_v =  comp ? comp->volume_capacity() - comp->volume_carried() : sack_v;
+    units::volume max_v = comp ? comp->volume_capacity() - comp->volume_carried() : sack_v;
     max_v += sack_v;
     return om_carry_weight_to_trips( total_m, total_v, max_m, max_v );
 }
@@ -3568,7 +3570,7 @@ void basecamp::place_results( item result, bool by_radio )
 {
     if( by_radio ) {
         tinymap target_bay;
-        target_bay.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
+        target_bay.load( tripoint( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z ), false );
         const tripoint &new_spot = target_bay.getlocal( get_dumping_spot() );
         target_bay.add_item_or_charges( new_spot, result, true );
         apply_camp_ownership( new_spot, 10 );
@@ -3599,9 +3601,8 @@ void basecamp::place_results( item result, bool by_radio )
 
 void apply_camp_ownership( const tripoint &camp_pos, int radius )
 {
-    for( const tripoint &p : g->m.points_in_rectangle( tripoint( camp_pos.x - radius,
-            camp_pos.y - radius, camp_pos.z ), tripoint( camp_pos.x + radius, camp_pos.y + radius,
-                    camp_pos.z ) ) ) {
+    for( const tripoint &p : g->m.points_in_rectangle( camp_pos + point( -radius, -radius ),
+            camp_pos + point( radius, radius ) ) ) {
         auto items = g->m.i_at( p.x, p.y );
         for( item &elem : items ) {
             elem.set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );

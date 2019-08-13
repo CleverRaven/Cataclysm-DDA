@@ -75,7 +75,7 @@
       "place_loot": [
         { "group": "gunmod_common", "x": [ 5, 10 ], "y": 10, "chance": 100, "repeat": [ 1, 2 ] },
         { "group": "gunmod_rare", "x": [ 5, 10 ], "y": 11, "chance": 100, "repeat": [ 2, 4 ] },
-        { "group": "ammo_casings", "x": [ 5, 10 ], "y": 13, "chance": 100, "repeat": [ 2, 4 ] },
+        { "group": "ammo_casings_bulk", "x": [ 5, 10 ], "y": 13, "chance": 100, "repeat": [ 2, 4 ] },
         { "group": "book_gunref", "x": 2, "y": [ 8, 13 ], "chance": 100, "repeat": [ 1, 4 ] },
         { "group": "mags_pistol_rare", "x": 17, "y": 11, "chance": 100 },
         { "group": "mags_pistol_rare", "x": 18, "y": 11, "chance": 20 },

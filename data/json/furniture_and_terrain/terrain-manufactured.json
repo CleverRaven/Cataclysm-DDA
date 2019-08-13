@@ -1,0 +1,1405 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_recycler",
+    "name": "metal compactor",
+    "description": "A hydraulic compactor that can accept items made of various metals, and press them into basic shapes, ready for further crafting.",
+    "symbol": "&",
+    "color": "green",
+    "move_cost": 0,
+    "max_volume": 8000,
+    "flags": [ "TRANSPARENT", "REDUCE_SCENT", "PERMEABLE" ],
+    "examine_action": "recycle_compactor",
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_thconc_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 0, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_gas_pump",
+    "name": "gasoline pump",
+    "description": "Precious GASOLINE.  The former world bowed to their petroleum god as it led them to their ruin.  There's plenty left over to fuel your inner road warrior.  If this gas dispenser doesn't give up the goods for free, you may have to pay at a nearby terminal.",
+    "symbol": "&",
+    "color": "red",
+    "move_cost": 0,
+    "coverage": 65,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE" ],
+    "examine_action": "gaspump",
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "clang!",
+      "ter_set": "t_gas_pump_smashed",
+      "items": [ { "item": "scrap", "count": 1 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_gas_tank",
+    "name": "tank with gasoline",
+    "description": "A tank filled with gasoline.",
+    "symbol": "Q",
+    "color": "brown_red",
+    "move_cost": 0,
+    "coverage": 50,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_gas_pump_a",
+    "name": "gasoline pump",
+    "description": "Precious GASOLINE.  The former world bowed to their petroleum god as it led them to their ruin.  There's plenty left over to fuel your inner road warrior.  If this gas dispenser doesn't give up the goods for free, you may have to pay at a nearby terminal.",
+    "//": "clone of t_gas_pump, but other color, must be clone every time",
+    "symbol": "&",
+    "color": "yellow_red",
+    "move_cost": 0,
+    "coverage": 65,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT" ],
+    "examine_action": "gaspump"
+  },
+  {
+    "type": "terrain",
+    "id": "t_gas_pump_smashed",
+    "name": "smashed gas pump",
+    "description": "The horror!  This gasoline pump has been destroyed, denying you access to the liquid gold.",
+    "symbol": "&",
+    "color": "light_red",
+    "move_cost": 0,
+    "coverage": 55,
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "explosive": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_pavement",
+      "items": [
+        { "item": "steel_lump", "prob": 50 },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 7 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_diesel_pump",
+    "name": "diesel pump",
+    "description": "This is a diesel fuel pump.  This roadside attraction provides all the thick, gloopy liquid POWER you need to move your sensibly oversized APOCOLYPTIC SUPERTRUCK from point A to points beyond.  If it doesn't dispense fuel immediately, try banging on it or grunt your way over the nearby payment terminal.",
+    "symbol": "&",
+    "color": "green",
+    "move_cost": 0,
+    "coverage": 65,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE" ],
+    "examine_action": "gaspump",
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "clang!",
+      "ter_set": "t_diesel_pump_smashed",
+      "items": [ { "item": "scrap", "count": 1 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_diesel_pump_smashed",
+    "name": "smashed diesel pump",
+    "description": "You're not getting any diesel out of this pump any time soon.  Some barbarian decided to take their frustration out on it.",
+    "symbol": "&",
+    "color": "light_green",
+    "move_cost": 0,
+    "coverage": 55,
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "explosive": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_pavement",
+      "items": [
+        { "item": "steel_lump", "prob": 50 },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 7 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_atm",
+    "name": "ATM",
+    "description": "For your banking convenience, this Automated Teller Machine is fully capable of operating autonomously in the event of complete network failure. You can deposit funds from cash cards and migrate all of your inflation-adjusted earnings to a single card.  These things have seen better days. There's been a run on the bank, and this machine has the dents and cracks to prove it.",
+    "symbol": "&",
+    "color": "magenta",
+    "move_cost": 0,
+    "coverage": 55,
+    "flags": [ "TRANSPARENT", "NOITEM", "ALARMED", "REDUCE_SCENT", "PERMEABLE" ],
+    "examine_action": "atm",
+    "bash": {
+      "str_min": 40,
+      "str_max": 210,
+      "explosive": 5,
+      "sound": "Critical failure imminent, self destruct activated.  Have a nice day!",
+      "sound_fail": "clang!",
+      "ter_set": "t_floor",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 4, 8 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_generator_broken",
+    "name": "broken generator",
+    "description": "This generator is broken and will not help you produce usable electricity.",
+    "symbol": "&",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 30,
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "PERMEABLE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_pavement",
+      "items": [
+        { "item": "steel_lump", "prob": 50 },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 7 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_missile",
+    "name": "missile",
+    "description": "This is a section of an ICBM, an Intercontinental Ballistic Missile.  This isn't the kind of rocket that goes to the moon.",
+    "symbol": "#",
+    "color": "light_blue",
+    "move_cost": 0,
+    "flags": [ "NOITEM" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 400,
+      "explosive": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_missile_exploded",
+      "items": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "plut_cell", "charges": [ 0, 3 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_missile_exploded",
+    "name": "blown-out missile",
+    "description": "This is a section of an ICBM, an Intercontiental Ballistic Missile.  This isn't the kind of rocket that's going anywhere.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "flags": [ "NOITEM" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_metal_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 0, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "scrap", "count": [ 4, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_radio_tower",
+    "name": "radio tower",
+    "description": "This is the structure of a radio transmission tower.",
+    "symbol": "&",
+    "color": "light_gray",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "MINEABLE" ],
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_radio_controls",
+    "name": "radio controls",
+    "description": "This console appears to control a nearby radio transmission tower.  It doesn't seem to be fully operational.",
+    "symbol": "6",
+    "color": "green",
+    "move_cost": 0,
+    "coverage": 50,
+    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE" ],
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "processor", "count": [ 1, 2 ] },
+        { "item": "RAM", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "circuit", "count": [ 6, 10 ] },
+        { "item": "power_supply", "count": [ 2, 4 ] },
+        { "item": "amplifier", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "scrap", "count": [ 6, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_console_broken",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sewage_pipe",
+    "name": "high gauge pipe",
+    "description": "This is a section of high gauge pipe.",
+    "symbol": "1",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 50,
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "THIN_OBSTACLE", "MINEABLE" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_sewage",
+      "items": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "steel_plate", "count": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sewage_pump",
+    "name": "high gauge pump",
+    "description": "This unpowered pump previously would have moved fluids around in a hurry.",
+    "symbol": "&",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 50,
+    "flags": [ "NOITEM", "REDUCE_SCENT", "MOUNTABLE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_sewage",
+      "items": [
+        { "item": "steel_lump", "prob": 50 },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 7 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_centrifuge",
+    "name": "centrifuge",
+    "description": "This is a centrifuge, a liquid separating device with an automated analyzer unit. It could be used to analyze a medical fluid sample, such as blood, if a test tube was placed in it.",
+    "symbol": "{",
+    "color": "magenta",
+    "move_cost": 0,
+    "coverage": 30,
+    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 3,
+      "str_max": 45,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 1, 6 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 5 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal", "count": [ 1, 3 ] },
+        { "item": "cable", "charges": [ 1, 15 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_cvdbody",
+    "name": "CVD machine",
+    "description": "The bulk of a highly technical-looking apparatus controlled by a nearby console.",
+    "symbol": "%",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 65,
+    "flags": [ "NOITEM", "WALL" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 1, 6 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 8 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_cvdmachine",
+    "name": "CVD control panel",
+    "description": "This is a VERY expensive-looking apparatus that's labeled 'Chemical Vapor Deposition Machine'.  With the input of certain exceptionally rare chemicals and elements, one could conceievably coat one's weapon with diamond.  While the process is extremely complicated, a previous user has helpfully sketched: Hydrogen + charcoal = smiley face.",
+    "symbol": "&",
+    "color": "cyan",
+    "move_cost": 0,
+    "coverage": 50,
+    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE" ],
+    "examine_action": "cvdmachine",
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_console_broken",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nanofab_body",
+    "name": "nanofabricator",
+    "symbol": "%",
+    "description": "A great column of advanced machinery.  Within this self-contained, miniaturized factory, several 3d printers work in tandem with a robotic assembler to manufacture nearly any inorganic object.",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 65,
+    "flags": [ "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 120,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "e_scrap", "count": [ 10, 14 ] },
+        { "item": "processor", "count": [ 10, 20 ] },
+        { "item": "RAM", "count": [ 14, 20 ] },
+        { "item": "nanomaterial", "count": 1, "prob": 10 },
+        { "item": "bearing", "charges": [ 20, 60 ] },
+        { "item": "motor", "count": 4 },
+        { "item": "power_supply", "count": [ 4, 16 ] },
+        { "item": "amplifier", "count": [ 4, 16 ] },
+        { "item": "cable", "charges": [ 250, 500 ] },
+        { "item": "circuit", "count": [ 1, 6 ] },
+        { "item": "scrap", "count": [ 12, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nanofab",
+    "name": "nanofabricator control panel",
+    "symbol": "&",
+    "description": "A small computer panel attached to a nanofabricator.  It has a single slot for reading templates.",
+    "color": "red",
+    "move_cost": 0,
+    "coverage": 50,
+    "flags": [ "WALL", "NOITEM", "PERMEABLE" ],
+    "examine_action": "nanofab",
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_console_broken",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_vat",
+    "name": "cloning vat",
+    "description": "A vat full of solution, probably intended to hold growing clones of people or other life forms.",
+    "symbol": "0",
+    "color": "light_cyan",
+    "move_cost": 0,
+    "coverage": 40,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "WALL" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 80,
+      "sound": "ker-rash!",
+      "sound_fail": "plunk.",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "ter_set": "t_floor",
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_slot_machine",
+    "name": "slot machine",
+    "description": "A machine with a bright screen flashing hypnotic promises of wealth.  If gambling with your life on a daily basis isn't enough for you, you can also gamble with this.",
+    "symbol": "6",
+    "color": "green",
+    "move_cost": 0,
+    "coverage": 50,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "INDOORS" ],
+    "examine_action": "slot_machine",
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_console_broken",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_water_pump",
+    "name": "water pump",
+    "description": "Deep well collecting ground water.  Installed water pump allows to draw water from it.",
+    "symbol": "&",
+    "color": "light_gray",
+    "move_cost": 6,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE" ],
+    "deconstruct": { "ter_set": "t_covered_well", "items": [ { "item": "well_pump", "count": 1 }, { "item": "pipe", "count": [ 1, 6 ] } ] },
+    "bash": {
+      "str_min": 15,
+      "str_max": 80,
+      "sound": "whack!",
+      "sound_fail": "thunk.",
+      "ter_set": "t_covered_well",
+      "items": [
+        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "pipe", "count": [ 0, 2 ] }
+      ]
+    },
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_water_dispenser",
+    "name": "water dispenser",
+    "description": "A machine with several taps that dispenses clean water.",
+    "symbol": "W",
+    "color": "light_blue",
+    "move_cost": 0,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT" ],
+    "bash": {
+      "str_min": 15,
+      "str_max": 80,
+      "sound": "whack!",
+      "sound_fail": "thunk.",
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "pipe", "count": [ 0, 2 ] }
+      ]
+    },
+    "examine_action": "clean_water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_plut_generator",
+    "name": "plutonium generator",
+    "description": "This imposing apparatus harnesses the power of the atom.  Refined nuclear fuel is 'burned' to provide nearly limitless electrical power.  It's not doing much good here though.  Perhaps it could be salvaged for other purposes.",
+    "symbol": "0",
+    "color": "light_green",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 400,
+      "explosive": 25,
+      "ter_set": "t_concrete",
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 16 ] },
+        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "plut_cell", "charges": [ 0, 3 ] },
+        { "item": "lead", "charges": [ 12, 18 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "minireactor", "prob": 25 },
+        { "item": "RAM", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 8, 16 ] },
+        { "item": "small_lcd_screen", "count": [ 2, 4 ] },
+        { "item": "e_scrap", "count": [ 12, 24 ] },
+        { "item": "circuit", "count": [ 6, 10 ] },
+        { "item": "power_supply", "count": [ 4, 8 ] },
+        { "item": "amplifier", "count": [ 3, 6 ] },
+        { "item": "plut_cell", "charges": [ 2, 8 ] },
+        { "item": "scrap", "count": [ 8, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sai_box",
+    "name": "telecom cabinet",
+    "description": "A cabinet full of telecoms equipment.  With the lines down, you might be able to take it apart for its useful electronics.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 90,
+    "flags": [ "NOITEM", "WALL" ],
+    "bash": { "str_min": 8, "str_max": 80, "sound": "whack!", "sound_fail": "clang!", "ter_set": "t_sai_box_damaged" },
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "RAM", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 16, 40 ] },
+        { "item": "small_lcd_screen", "count": [ 2, 4 ] },
+        { "item": "e_scrap", "count": [ 12, 24 ] },
+        { "item": "circuit", "count": [ 6, 30 ] },
+        { "item": "power_supply", "count": [ 4, 8 ] },
+        { "item": "amplifier", "count": [ 3, 6 ] },
+        { "item": "plastic_chunk", "count": [ 4, 8 ] },
+        { "item": "scrap", "count": [ 8, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sai_box_damaged",
+    "name": "damaged telecom cabinet",
+    "description": "A damaged telecoms cabinet.  Might still be able to salvage some useful electronics scrap from it.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 90,
+    "flags": [ "NOITEM", "WALL" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 80,
+      "sound": "whack!",
+      "sound_fail": "clang!",
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ], "prob": 80 },
+        { "item": "e_scrap", "count": [ 2, 8 ], "prob": 60 },
+        { "item": "circuit", "count": [ 1, 6 ], "prob": 50 },
+        { "item": "amplifier", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "RAM", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 4, 24 ] },
+        { "item": "e_scrap", "count": [ 4, 12 ] },
+        { "item": "circuit", "count": [ 2, 12 ] },
+        { "item": "power_supply", "count": [ 1, 4 ] },
+        { "item": "amplifier", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 2, 6 ] },
+        { "item": "scrap", "count": [ 6, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_oil_circ_brkr_l",
+    "name": "HV oil circuit breaker",
+    "description": "A circuit breaker that uses oil in its arc supression chamber.",
+    "symbol": "B",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 90,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "WALL", "PERMEABLE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "explosive": 6,
+      "sound": "pow!",
+      "ter_set": "t_concrete",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 8, 16 ] },
+        { "item": "steel_chunk", "count": [ 2, 6 ] },
+        { "item": "ceramic_shard", "count": [ 0, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "cable", "charges": [ 8, 24 ] },
+        { "item": "power_supply", "count": [ 4, 8 ] },
+        { "item": "amplifier", "count": [ 8, 16 ] },
+        { "item": "steel_chunk", "count": [ 4, 16 ] },
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "sheet_metal", "count": [ 6, 12 ] },
+        { "item": "ceramic_shard", "count": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_oil_circ_brkr_s",
+    "name": "small HV oil circuit breaker",
+    "description": "A small circuit breaker that uses oil in its arc supression chamber.",
+    "symbol": "b",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 65,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "WALL", "PERMEABLE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "explosive": 4,
+      "sound": "pow!",
+      "ter_set": "t_concrete",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 6, 12 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "ceramic_shard", "count": [ 0, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "cable", "charges": [ 4, 12 ] },
+        { "item": "power_supply", "count": [ 3, 6 ] },
+        { "item": "amplifier", "count": [ 6, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 8, 18 ] },
+        { "item": "sheet_metal", "count": [ 4, 8 ] },
+        { "item": "ceramic_shard", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_switchgear_l",
+    "name": "large switchgear",
+    "description": "A switchgear panel.  It's covered in breaker switches, fuses, and gauges.",
+    "symbol": "H",
+    "color": "i_light_gray",
+    "move_cost": 0,
+    "coverage": 90,
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "explosive": 3,
+      "ter_set": "t_concrete",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 5, 10 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "RAM", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 4, 24 ] },
+        { "item": "small_lcd_screen", "count": [ 6, 12 ] },
+        { "item": "e_scrap", "count": [ 16, 24 ] },
+        { "item": "circuit", "count": [ 12, 30 ] },
+        { "item": "power_supply", "count": [ 6, 8 ] },
+        { "item": "amplifier", "count": [ 6, 8 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] },
+        { "item": "scrap", "count": [ 8, 16 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_switchgear_s",
+    "name": "small switchgear",
+    "description": "A small switchgear panel.  It's covered in breaker switches, fuses, and gauges.",
+    "symbol": "L",
+    "color": "i_light_gray",
+    "move_cost": 0,
+    "coverage": 65,
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "explosive": 2,
+      "ter_set": "t_concrete",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "e_scrap", "count": [ 0, 2 ] },
+        { "item": "circuit", "count": [ 1, 4 ] },
+        { "item": "power_supply", "count": [ 0, 2 ] },
+        { "item": "amplifier", "prob": 50 },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "RAM", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 2, 8 ] },
+        { "item": "small_lcd_screen", "count": [ 2, 6 ] },
+        { "item": "e_scrap", "count": [ 6, 12 ] },
+        { "item": "circuit", "count": [ 8, 24 ] },
+        { "item": "power_supply", "count": [ 2, 6 ] },
+        { "item": "amplifier", "count": [ 1, 4 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_lgtn_arrest",
+    "name": "lightning arrester",
+    "description": "A component designed to protect insulation and conductors in an electrical system by directing lightning through itself and into the ground.",
+    "symbol": "}",
+    "color": "i_light_gray",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "explosive": 4,
+      "ter_set": "t_concrete",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "ceramic_shard", "count": [ 8, 16 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "plastic_chunk", "count": [ 1, 4 ] },
+        { "item": "ceramic_shard", "count": [ 12, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_station_disc",
+    "name": "disconnect switch",
+    "description": "A switch used to make sure an electrical system doesn't have any current flowing through it, for maintenance periods.",
+    "symbol": "h",
+    "color": "light_gray",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "explosive": 3,
+      "ter_set": "t_concrete",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "ceramic_shard", "count": [ 0, 2 ] },
+        { "item": "lead", "prob": 50 }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "RAM", "count": [ 12, 24 ] },
+        { "item": "cable", "charges": [ 6, 12 ] },
+        { "item": "small_lcd_screen", "count": [ 8, 16 ] },
+        { "item": "e_scrap", "count": [ 8, 12 ] },
+        { "item": "circuit", "count": [ 6, 18 ] },
+        { "item": "power_supply", "count": [ 8, 12 ] },
+        { "item": "amplifier", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 8 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "lead", "charges": [ 1, 2 ] },
+        { "item": "ceramic_shard", "count": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_current_trans",
+    "name": "current transformer",
+    "description": "An electronic component used to transform the voltage of a current.",
+    "symbol": "{",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 50,
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "explosive": 5,
+      "ter_set": "t_concrete",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 10, 12 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "lead", "charges": [ 2, 8 ] },
+        { "item": "cable", "charges": [ 20, 60 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "ceramic_shard", "count": [ 2, 6 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "lead", "charges": [ 4, 16 ] },
+        { "item": "cable", "charges": [ 60, 120 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "ceramic_shard", "count": [ 4, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_potential_trans",
+    "name": "potential transformer",
+    "description": "A specialised type of electrical transformer, ",
+    "symbol": "8",
+    "color": "i_light_gray",
+    "move_cost": 0,
+    "coverage": 50,
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "explosive": 5,
+      "ter_set": "t_concrete",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 10, 12 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "lead", "charges": [ 8, 16 ] },
+        { "item": "cable", "charges": [ 1, 20 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "ceramic_shard", "count": [ 2, 6 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "lead", "charges": [ 12, 32 ] },
+        { "item": "cable", "charges": [ 20, 40 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "ceramic_shard", "count": [ 4, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_conveyor",
+    "name": "conveyor belt",
+    "description": "A convetor belt.  Used to transport things.",
+    "symbol": "=",
+    "color": "brown",
+    "move_cost": 6,
+    "flags": [ "TRANSPARENT", "BASHABLE", "PLACE_ITEM", "INDOORS" ],
+    "coverage": 30,
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "wire", "count": 1 },
+        { "item": "pipe", "count": [ 1, 4 ] },
+        { "item": "chain", "prob": 10 },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "xlframe", "prob": 5 }
+      ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 80,
+      "sound": "clang!",
+      "sound_fail": "ting.",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "pipe", "count": [ 1, 3 ] }, { "item": "chain", "prob": 10 }, { "item": "scrap", "count": [ 1, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_machinery_light",
+    "name": "light machinery",
+    "description": "Assorted light machinery.  You could scavenge it for parts.",
+    "symbol": "$",
+    "color": "dark_gray",
+    "move_cost": 10,
+    "coverage": 65,
+    "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "wire", "count": [ 1, 3 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "chain", "prob": 40 },
+        { "item": "cu_pipe", "prob": 40 },
+        { "item": "scrap", "count": [ 1, 4 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "bearing", "charges": [ 4, 12 ] },
+        { "item": "frame", "prob": 50 },
+        { "item": "motor", "prob": 50 }
+      ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 80,
+      "sound": "clang!",
+      "sound_fail": "ting.",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "wire", "count": 1 },
+        { "item": "pipe", "count": 2, "prob": 40 },
+        { "item": "chain", "prob": 20 },
+        { "item": "cu_pipe", "prob": 10 },
+        { "item": "scrap", "count": [ 3, 8 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "bearing", "charges": [ 2, 8 ] },
+        { "item": "frame", "prob": 20 },
+        { "item": "motor", "prob": 10 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_machinery_heavy",
+    "name": "heavy machinery",
+    "description": "Assorted heavy machinery.  You could scavenge it for parts.",
+    "symbol": "%",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 75,
+    "flags": [ "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM" ],
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "wire", "count": [ 1, 3 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "chain", "prob": 60 },
+        { "item": "cu_pipe", "prob": 20 },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "sheet_metal", "count": [ 1, 3 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "bearing", "charges": [ 4, 12 ] },
+        { "item": "frame", "prob": 60 },
+        { "item": "motor", "prob": 30 },
+        { "item": "metal_tank", "prob": 30 },
+        { "item": "motor_large", "prob": 10 }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 80,
+      "sound": "clang!",
+      "sound_fail": "ting.",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "wire", "count": 1 },
+        { "item": "pipe", "count": 1 },
+        { "item": "chain", "prob": 20 },
+        { "item": "steel_lump", "count": 1 },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "sheet_metal", "count": 2 },
+        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "bearing", "charges": [ 2, 8 ] },
+        { "item": "frame", "prob": 30 },
+        { "item": "motor", "prob": 10 },
+        { "item": "metal_tank", "prob": 20 },
+        { "item": "motor_large", "prob": 5 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_machinery_old",
+    "name": "old machinery",
+    "description": "Assorted old machinery.  You could scavenge it for parts.",
+    "symbol": "&",
+    "color": "brown",
+    "move_cost": 4,
+    "coverage": 55,
+    "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "wire", "count": 1 },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "chain", "prob": 40 },
+        { "item": "cu_pipe", "prob": 60 },
+        { "item": "scrap", "count": [ 1, 3 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "bearing", "charges": [ 1, 5 ] },
+        { "item": "frame", "prob": 30 },
+        { "item": "motor", "prob": 30 },
+        { "item": "splinter", "count": 3, "prob": 30 },
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "nail", "charges": [ 3, 10 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 80,
+      "sound": "clang!",
+      "sound_fail": "ting.",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "wire", "count": 1 },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "chain", "prob": 20 },
+        { "item": "cu_pipe", "prob": 10 },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "motor", "prob": 10 },
+        { "item": "splinter", "count": [ 4, 8 ] },
+        { "item": "2x4", "count": 2 },
+        { "item": "nail", "charges": [ 2, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_machinery_electronic",
+    "name": "electronic machinery",
+    "description": "Assorted electronic machinery.  You could scavenge it for parts.",
+    "symbol": "$",
+    "color": "yellow",
+    "move_cost": 8,
+    "coverage": 55,
+    "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM" ],
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "wire", "count": [ 1, 3 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "bearing", "charges": [ 2, 6 ] },
+        { "item": "motor", "prob": 40 },
+        { "item": "processor", "count": 1 },
+        { "item": "RAM", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "small_lcd_screen", "count": 1 },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "circuit", "count": [ 3, 8 ] },
+        { "item": "power_supply", "count": [ 1, 3 ] },
+        { "item": "amplifier", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 2, 8 ] },
+        { "item": "scrap", "count": [ 1, 5 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 80,
+      "sound": "clang!",
+      "sound_fail": "ting.",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "wire", "prob": 40 },
+        { "item": "pipe", "prob": 40 },
+        { "item": "steel_chunk", "prob": 40 },
+        { "item": "bearing", "charges": [ 2, 4 ] },
+        { "item": "motor", "prob": 10 },
+        { "item": "processor", "prob": 40 },
+        { "item": "RAM", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "small_lcd_screen", "prob": 40 },
+        { "item": "e_scrap", "count": [ 3, 8 ] },
+        { "item": "circuit", "count": [ 1, 3 ] },
+        { "item": "power_supply", "prob": 40 },
+        { "item": "amplifier", "prob": 40 },
+        { "item": "plastic_chunk", "count": [ 2, 8 ] },
+        { "item": "scrap", "count": [ 3, 8 ] }
+      ]
+    }
+  },
+  {
+    "id": "t_milking_machine",
+    "type": "terrain",
+    "name": "milking machine",
+    "description": "A machine used in the dairy industry to milk cows.",
+    "symbol": "%",
+    "color": [ "light_gray" ],
+    "move_cost": 1,
+    "bash": {
+      "str_min": 10,
+      "str_max": 50,
+      "ter_set": "t_floor",
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "hose", "count": [ 1, 3 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "scrap", "count": [ 2, 9 ] },
+        { "item": "steel_chunk", "count": [ 2, 5 ] },
+        { "item": "hose", "count": [ 2, 6 ] }
+      ]
+    },
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ]
+  },
+  {
+    "id": "t_bulk_tank",
+    "type": "terrain",
+    "name": "bulk tank",
+    "description": "A heavy, high capacity tank.",
+    "symbol": "O",
+    "color": [ "light_gray" ],
+    "move_cost": 0,
+    "coverage": 85,
+    "bash": {
+      "str_min": 20,
+      "str_max": 80,
+      "ter_set": "t_floor",
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "wire", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "steel_lump", "count": [ 1, 5 ] },
+        { "item": "sheet_metal", "count": [ 1, 3 ] },
+        { "item": "steel_chunk", "count": [ 1, 5 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "wire", "count": [ 2, 8 ] },
+        { "item": "pipe", "count": [ 1, 3 ] },
+        { "item": "steel_lump", "count": [ 1, 8 ] },
+        { "item": "sheet_metal", "count": [ 1, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 10 ] }
+      ]
+    },
+    "flags": [ "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM", "WALL", "MINEABLE" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_rootcellar",
+    "name": "root cellar",
+    "symbol": "=",
+    "description": "A cellar dug into the earth for storing food in a cool environment.",
+    "color": [ "green" ],
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "INDOORS", "DECONSTRUCT" ],
+    "deconstruct": { "ter_set": "t_pit", "items": [ { "item": "rock", "count": 40 }, { "item": "stick", "count": [ 16, 16 ] } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 8, 12 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_covered_well",
+    "name": "covered well",
+    "description": "Deep well collecting ground water.  Requires a method to draw water from.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "FLAT", "MINEABLE" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 300,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_pit",
+      "items": [
+        { "item": "rock", "count": [ 8, 18 ] },
+        { "item": "2x4", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 4 ] },
+        { "item": "splinter", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_improvised_shelter",
+    "name": "improvised shelter",
+    "description": "Improvised shelter providing little bit of protection, that can be used to take refuge from the elements or to protect a campfire from the rain.",
+    "symbol": "#",
+    "color": "brown_green",
+    "move_cost": 2,
+    "coverage": 30,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE", "HIDE_PLACE" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "stick", "count": [ 3, 6 ] }, { "item": "pine_bough", "count": [ 6, 18 ] } ]
+    }
+  },
+  {
+    "id": "t_leanto",
+    "type": "terrain",
+    "name": "pine lean-to",
+    "description": "A small shelter roofed with pine leaves, that can be used to take refuge from the elements or to protect a campfire from the rain.",
+    "symbol": ";",
+    "color": [ "brown" ],
+    "move_cost": 2,
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "ter_set": "t_tree_pine",
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "stick", "count": [ 2, 7 ] },
+        { "item": "splinter", "count": [ 8, 20 ] },
+        { "item": "pine_bough", "count": [ 0, 2 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE" ]
+  },
+  {
+    "id": "t_tarptent",
+    "type": "terrain",
+    "name": "tarp lean-to",
+    "description": "A small shelter covered by waterproof tarp, that can be used to take refuge from the elements or to protect a campfire from the rain.",
+    "symbol": ";",
+    "color": [ "light_blue" ],
+    "move_cost": 2,
+    "bash": {
+      "str_min": 6,
+      "str_max": 12,
+      "ter_set": "t_dirt",
+      "sound": "crash!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "stick", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 1, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 8 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [ { "item": "pointy_stick", "count": 4 }, { "item": "string_6", "count": 4 }, { "item": "tarp", "count": 1 } ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE", "EASY_DECONSTRUCT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_grave",
+    "name": "grave",
+    "looks_like": "t_dirtmound",
+    "description": "A dirt grave, with some grass growing on it.  At least some of the dead do actually rest in peace.",
+    "symbol": "#",
+    "color": "green",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE" ],
+    "bash": { "sound": "thump", "ter_set": "t_dirt", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
+  },
+  {
+    "type": "terrain",
+    "id": "t_grave_new",
+    "name": "grave",
+    "looks_like": "t_dirtmound",
+    "description": "A fresh grave, covered with stones, either to keep something from digging it out or to keep one inside from digging out of it.  Two planks mark this place of someone's eternal rest.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE", "CONTAINER", "SEALED" ],
+    "bash": { "sound": "thump", "ter_set": "t_dirt", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
+  }
+]

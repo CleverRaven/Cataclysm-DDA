@@ -20,7 +20,6 @@
 #include "itype.h"
 #include "json.h"
 #include "output.h"
-#include "player.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "skill.h"
@@ -112,7 +111,7 @@ static void translate_all()
         normalized_names[cat] = _( get_cat_name( cat ) );
 
         for( const auto &subcat : craft_subcat_list[cat] ) {
-            normalized_names[subcat] =  _( get_subcat_name( cat, subcat ) ) ;
+            normalized_names[subcat] = _( get_subcat_name( cat, subcat ) ) ;
         }
     }
 }
@@ -172,10 +171,10 @@ const recipe *select_crafting_recipe( int &batch_size )
 
     const recipe *last_recipe = nullptr;
 
-    catacurses::window w_head = catacurses::newwin( headHeight, width, 0, wStart );
-    catacurses::window w_subhead = catacurses::newwin( subHeadHeight, width, 3, wStart );
-    catacurses::window w_data = catacurses::newwin( dataHeight, width, headHeight + subHeadHeight,
-                                wStart );
+    catacurses::window w_head = catacurses::newwin( headHeight, width, point( wStart, 0 ) );
+    catacurses::window w_subhead = catacurses::newwin( subHeadHeight, width, point( wStart, 3 ) );
+    catacurses::window w_data = catacurses::newwin( dataHeight, width, point( wStart,
+                                headHeight + subHeadHeight ) );
 
     int item_info_x = infoWidth;
     int item_info_y = dataHeight - 3;
@@ -189,8 +188,8 @@ const recipe *select_crafting_recipe( int &batch_size )
         item_info_height = 1;
     }
 
-    catacurses::window w_iteminfo = catacurses::newwin( item_info_y, item_info_x, item_info_height,
-                                    item_info_width );
+    catacurses::window w_iteminfo = catacurses::newwin( item_info_y, item_info_x,
+                                    point( item_info_width, item_info_height ) );
 
     list_circularizer<std::string> tab( craft_cat_list );
     list_circularizer<std::string> subtab( craft_subcat_list[tab.cur()] );
@@ -267,8 +266,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 current.clear();
                 for( int i = 1; i <= 20; i++ ) {
                     current.push_back( chosen );
-                    available.push_back( chosen->requirements().can_make_with_inventory( crafting_inv,
-                                         chosen->get_component_filter(), i ) );
+                    available.push_back( g->u.can_start_craft( chosen, i ) );
                 }
             } else {
                 std::vector<const recipe *> picking;
@@ -332,14 +330,6 @@ const recipe *select_crafting_recipe( int &batch_size )
                                     break;
                                 }
 
-                                case 'h': {
-                                    filtered_recipes = filtered_recipes.intersection( available_recipes );
-                                    if( query_is_yes( qry_filter_str ) ) {
-                                        show_hidden = true;
-                                    }
-                                    break;
-                                }
-
                                 default:
                                     current.clear();
                             }
@@ -375,8 +365,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 // cache recipe availability on first display
                 for( const auto e : current ) {
                     if( !availability_cache.count( e ) ) {
-                        availability_cache.emplace( e, e->requirements().can_make_with_inventory( crafting_inv,
-                                                    e->get_component_filter() ) );
+                        availability_cache.emplace( e, g->u.can_start_craft( e ) );
                     }
                 }
 
@@ -545,7 +534,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 std::string enumerated_books =
                     enumerate_as_string( books_with_recipe.begin(), books_with_recipe.end(),
                 []( itype_id type_id ) {
-                    return colorize( item::find_type( type_id )->nname( 1 ), c_cyan );
+                    return colorize( item::nname( type_id ), c_cyan );
                 } );
                 const std::string text = string_format( _( "Written in: %s" ), enumerated_books );
                 std::vector<std::string> folded_lines = foldstring( text, pane );
@@ -744,8 +733,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 { 's', _( "cooking" ), _( "<color_cyan>any skill</color> used to craft" ) },
                 { 'Q', _( "fine bolt turning" ), _( "<color_cyan>quality</color> required to craft" ) },
                 { 't', _( "soldering iron" ), _( "<color_cyan>tool</color> required to craft" ) },
-                { 'h', _( "yes" ), _( "recipes which are <color_cyan>hidden</color> or not" ) },
-                { 'm', _( "no" ), _( "recipes which are <color_cyan>memorized</color> or not" ) },
+                { 'm', _( "yes" ), _( "recipes which are <color_cyan>memorized</color> or not" ) },
             };
             int max_example_length = 0;
             for( const auto &prefix : prefixes ) {
@@ -904,8 +892,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     rel_menu.settext( _( "Related recipes:" ) );
     rel_menu.query();
     if( rel_menu.ret != UILIST_CANCEL ) {
-        std::wstring wstr_recipe_name = utf8_to_wstr( rel_menu.entries[ rel_menu.ret ].txt );
-        return wstr_to_utf8( wstr_recipe_name.substr( 2 ) ); // 2 = prefix length
+        return rel_menu.entries[rel_menu.ret].txt.substr( strlen( "─ " ) );
     }
 
     return "";

@@ -79,6 +79,7 @@
         "!": { "item": "hardware_plumbing", "chance": 70 },
         "L": [
           { "item": "guns_rifle_milspec", "chance": 20 },
+          { "item": "energy_weapon_armory", "chance": 10 },
           { "item": "ammo_milspec", "chance": 20, "repeat": [ 1, 3 ] },
           { "item": "grenades", "chance": 20 },
           { "item": "guns_launcher_milspec", "chance": 20 },
@@ -203,6 +204,7 @@
         "!": { "item": "hardware_plumbing", "chance": 70 },
         "L": [
           { "item": "guns_rifle_milspec", "chance": 20 },
+          { "item": "energy_weapon_armory", "chance": 10 },
           { "item": "ammo_milspec", "chance": 20, "repeat": [ 1, 3 ] },
           { "item": "grenades", "chance": 20 },
           { "item": "guns_launcher_milspec", "chance": 20 },

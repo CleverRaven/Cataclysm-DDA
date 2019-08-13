@@ -1,5 +1,17 @@
 [
   {
+    "type": "npc",
+    "id": "refugee_StanBorichenko",
+    "name_unique": "Stan Borichenko",
+    "gender": "male",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_Stan",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_Stan_1",
+    "faction": "free_merchants"
+  },
+  {
     "type": "npc_class",
     "id": "NC_REFUGEE_Stan",
     "name": "Refugee",
@@ -27,7 +39,7 @@
     "entries": [
       { "item": "briefs" },
       { "item": "socks" },
-      { "item": "skinny_tie" },
+      { "item": "tie_skinny" },
       { "item": "dress_shirt" },
       { "item": "pants" },
       { "item": "blazer" },
@@ -48,71 +60,46 @@
     "entries": [ { "item": "camera_pro" } ]
   },
   {
-    "type": "npc",
-    "id": "refugee_StanBorichenko",
-    "name_unique": "Stan Borichenko",
-    "gender": "male",
-    "name_suffix": "refugee",
-    "class": "NC_REFUGEE_Stan",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_REFUGEE_Stan_1",
-    "faction": "free_merchants"
-  },
-  {
-    "type": "effect_type",
-    "id": "u_met_Stan_Borichenko",
-    "//": "Use this flag to indicate if the player has met this NPC before."
+    "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [ "TALK_REFUGEE_Stan_2", "TALK_REFUGEE_Stan_Background", "TALK_REFUGEE_Stan_Situation" ],
+    "responses": [
+      { "text": "Do you want to talk about your story?", "topic": "TALK_REFUGEE_Stan_Background" },
+      { "text": "How are things here?", "topic": "TALK_REFUGEE_Stan_Situation" }
+    ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Stan_1",
     "dynamic_line": {
-      "u_has_effect": "u_met_Stan_Borichenko",
-      "yes": "Hi.",
-      "no": "Hello.  I'm sorry, if we've met before, I don't really remember.  I'm not really myself.  I'm Stan."
+      "u_has_var": "u_met_Stan_Borichenko",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [ "Hi.", "Hello.", "Hm?  Oh, hi.", "...Hi." ],
+      "no": "Hello.  I'm sorry, if we've met before, I don't really remember.  I'm... I'm Stan."
     },
     "responses": [
       {
-        "text": "We've never met, Stan.  Nice to meet you.",
-        "condition": { "not": { "u_has_effect": "u_met_Stan_Borichenko" } },
-        "effect": { "u_add_effect": "u_met_Stan_Borichenko", "duration": "PERMANENT" },
-        "topic": "TALK_REFUGEE_Stan_1_firstmeet",
-        "switch": true
+        "text": "Stan, hey?  Nice to meet you.",
+        "effect": { "u_add_var": "u_met_Stan_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Stan_Borichenko", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_REFUGEE_Stan_1_firstmeet"
       },
       {
         "text": "Hi, Stan.  What's up?",
-        "condition": { "days_since_cataclysm": 180 },
-        "topic": "TALK_REFUGEE_Stan_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, Stan.  What's up?",
-        "condition": { "days_since_cataclysm": 60 },
-        "topic": "TALK_REFUGEE_Stan_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, Stan.  What's up?",
-        "condition": { "days_since_cataclysm": 30 },
-        "topic": "TALK_REFUGEE_Stan_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, Stan.  What's up?",
-        "condition": { "u_has_effect": "u_met_Stan_Borichenko" },
-        "topic": "TALK_REFUGEE_Stan_2_stub",
-        "switch": true
+        "topic": "TALK_REFUGEE_Stan_2",
+        "condition": { "u_has_var": "u_met_Stan_Borichenko", "type": "general", "context": "meeting", "value": "yes" }
       },
       {
         "text": "Hi Stan, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_effect": "u_met_Stan_Borichenko", "duration": "PERMANENT" },
-        "condition": { "not": { "u_has_effect": "u_met_Stan_Borichenko" } },
+        "effect": { "u_add_var": "u_met_Stan_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Stan_Borichenko", "type": "general", "context": "meeting", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
-        "text": "Hi Stan, nice to see you too.  I gotta go though.",
-        "condition": { "u_has_effect": "u_met_Stan_Borichenko" },
+        "text": "Hi Stan.  I can't stay to talk.",
+        "condition": { "u_has_var": "u_met_Stan_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
@@ -120,17 +107,34 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Stan_1_firstmeet",
-    "dynamic_line": "Yes.",
+    "dynamic_line": "Huh?  Sorry, yes, nice to meet you too.",
     "responses": [
-      { "text": "You seem distracted.", "topic": "TALK_REFUGEE_Stan_2_stub" },
+      { "text": "You seem distracted.", "topic": "TALK_REFUGEE_Stan_2" },
       { "text": "I just wanted to say hi.  I'll be on my way.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Stan_2_stub",
-    "dynamic_line": "I'm sorry, I've been through some hard stuff.  Please just let me be for now.",
-    "//": "TK: not written yet",
-    "responses": [ { "text": "Sorry to hear that.", "topic": "TALK_DONE" } ]
+    "id": "TALK_REFUGEE_Stan_2",
+    "dynamic_line": "I'm sorry, I've been through some hard stuff.  I'm not really myself lately.",
+    "responses": [ { "text": "Sorry to hear that.  I'll leave you be.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Stan_Background",
+    "dynamic_line": "No, I don't particularly want to talk about it, but I can I guess.  Before <the_cataclysm> I was an insurance adjuster.  My husband Boris and I were evacuated with my brother Garry, and from our evacuation center we caught a commissioned bus out here.  The bus was attacked by a monster, we lived.  Not everyone on the bus did.  We lost people dear to us, now we're stuck here with little to do but think about it.",
+    "responses": [
+      { "text": "I'm sorry for your loss.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Sorry to hear that.  I'll leave you be.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Stan_Situation",
+    "dynamic_line": "Mostly my family and I have just been mourning.  This isn't the best place to do it.  I hope we'll have something productive to do soon; Boris, in particular, has skills to contribute that might help him feel alive again.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I had better be going.", "topic": "TALK_DONE" }
+    ]
   }
 ]

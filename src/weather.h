@@ -3,11 +3,12 @@
 #define WEATHER_H
 
 #include "color.h"
-#include "enums.h"
 #include "optional.h"
 #include "pimpl.h"
+#include "point.h"
 #include "type_id.h"
 #include "weather_gen.h"
+#include "calendar.h"
 
 /**
  * @name BODYTEMP
@@ -32,11 +33,7 @@
 #include <unordered_map>
 #include <utility>
 
-class time_duration;
-class time_point;
 class item;
-struct point;
-struct tripoint;
 struct trap;
 struct rl_vec2d;
 
@@ -84,10 +81,6 @@ struct weather_printable {
     std::vector<std::pair<int, int> > vdrops; //!< Coordinates targeted for droplets.
     nc_color colGlyph; //!< Color to draw glyph this animation frame.
     char cGlyph; //!< Glyph to draw this animation frame.
-    int startx;
-    int starty;
-    int endx;
-    int endy;
 };
 
 /**
@@ -133,7 +126,7 @@ struct weather_sum {
     int wind_amount = 0;
 };
 
-weather_datum const weather_data( weather_type const type );
+weather_datum weather_data( weather_type const type );
 namespace weather
 {
 std::string name( weather_type const type );

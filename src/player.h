@@ -3,10 +3,8 @@
 #define PLAYER_H
 
 #include <climits>
-#include <cstddef>
 #include <array>
 #include <memory>
-#include <unordered_set>
 #include <functional>
 #include <iosfwd>
 #include <list>
@@ -24,7 +22,6 @@
 #include "damage.h"
 #include "game_constants.h"
 #include "item.h"
-#include "map_memory.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -34,12 +31,15 @@
 #include "color.h"
 #include "creature.h"
 #include "cursesdef.h"
-#include "enums.h"
 #include "inventory.h"
 #include "item_location.h"
 #include "pldata.h"
 #include "type_id.h"
 #include "magic.h"
+#include "monster.h"
+#include "craft_command.h"
+#include "point.h"
+#include "faction.h"
 
 class basecamp;
 class effect;
@@ -49,10 +49,10 @@ struct pathfinding_settings;
 class recipe;
 struct islot_comestible;
 struct itype;
+class monster;
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
-class craft_command;
 class recipe_subset;
 
 enum action_id : int;
@@ -65,7 +65,6 @@ class dispersion_sources;
 
 using itype_id = std::string;
 struct trap;
-class mission;
 class profession;
 
 nc_color encumb_color( int level );
@@ -74,16 +73,9 @@ class ma_technique;
 class martialart;
 struct item_comp;
 struct tool_comp;
-template<typename CompType> struct comp_selection;
 class vehicle;
 struct w_point;
-struct points_left;
 struct targeting_data;
-
-namespace debug_menu
-{
-class mission_debug;
-} // namespace debug_menu
 
 // This tries to represent both rating and
 // player's decision to respect said rating
@@ -175,6 +167,20 @@ struct needs_rates {
     float kcal = 0.0f;
 };
 
+enum player_movemode : unsigned char {
+    PMM_WALK = 0,
+    PMM_RUN = 1,
+    PMM_CROUCH = 2,
+    PMM_COUNT
+};
+
+static const std::array< std::string, PMM_COUNT > player_movemode_str = { {
+        "walk",
+        "run",
+        "crouch"
+    }
+};
+
 class player : public Character
 {
     public:
@@ -194,6 +200,12 @@ class player : public Character
         bool is_player() const override {
             return true;
         }
+        player *as_player() override {
+            return this;
+        }
+        const player *as_player() const override {
+            return this;
+        }
 
         /** Processes human-specific effects of effects before calling Creature::process_effects(). */
         void process_effects() override;
@@ -212,11 +224,6 @@ class player : public Character
         /** Returns what color the player should be drawn as */
         nc_color basic_symbol_color() const override;
 
-        /** Deserializes string data when loading files */
-        virtual void load_info( std::string data );
-        /** Outputs a serialized json string for saving */
-        virtual std::string save_info() const;
-
         /** Returns an enumeration of visible mutations with colors */
         std::string visible_mutations( const int visibility_cap ) const;
         std::vector<std::string> short_description_parts() const;
@@ -231,16 +238,12 @@ class player : public Character
 
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info();
-        /** Provides the window and detailed morale data */
-        void disp_morale();
 
         /**Estimate effect duration based on player relevant skill*/
         time_duration estimate_effect_dur( const skill_id &relevant_skill, const efftype_id &effect,
                                            const time_duration &error_magnitude,
                                            int threshold, const Creature &target ) const;
 
-        /** Resets stats, and applies effects in an idempotent manner */
-        void reset_stats() override;
         /** Resets movement points and applies other non-idempotent changes */
         void process_turn() override;
         /** Calculates the various speed bonuses we will get from mutations, etc. */
@@ -251,10 +254,6 @@ class player : public Character
         void update_morale();
         /** Ensures persistent morale effects are up-to-date */
         void apply_persistent_morale();
-        /** Uses calc_focus_equilibrium to update the player's current focus */
-        void update_mental_focus();
-        /** Uses morale and other factors to return the player's focus gain rate */
-        int calc_focus_equilibrium() const;
         /** Maintains body temperature */
         void update_bodytemp();
         /** Define color for displaying the body temperature */
@@ -337,31 +336,44 @@ class player : public Character
                                       const skill_id &important_skill,
                                       const skill_id &least_important_skill,
                                       int skill_level = -1 );
+        /** Calculate non adjusted skill for (un)installing bionics */
+        int bionics_pl_skill( const skill_id &most_important_skill,
+                              const skill_id &important_skill,
+                              const skill_id &least_important_skill,
+                              int skill_level = -1 );
         /**Is the installation possible*/
         bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
                                   int skill_level = -1 );
-        /** Attempts to install bionics, returns false if the player cancels prior to installation */
+        /** Initialize all the values needed to start the operation player_activity */
         bool install_bionics( const itype &type, player &installer, bool autodoc = false,
                               int skill_level = -1 );
-        void bionics_install_failure( player &installer, int difficulty, int success,
-                                      float adjusted_skill );
+        /**Success or failure of installation happens here*/
+        void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
+                              int pl_skill,
+                              std::string cbm_name, std::string upcbm_name, std::string installer_name,
+                              std::vector<trait_id> trait_to_rem, tripoint patient_pos );
+        void bionics_install_failure( bionic_id bid, std::string installer, int difficulty, int success,
+                                      float adjusted_skill, tripoint patient_pos );
         /**Is The uninstallation possible*/
         bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                    int skill_level = -1 );
-        /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
+        /** Initialize all the values needed to start the operation player_activity */
         bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                int skill_level = -1 );
+        /**Succes or failure of removal happens here*/
+        void perform_uninstall( bionic_id bid, int difficulty, int success, int power_lvl, int pl_skill,
+                                std::string cbm_name );
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
                                float adjusted_skill, bool autodoc = false );
         /**When a player fails the surgery*/
-        void bionics_uninstall_failure( player &installer, int difficulty, int success,
+        void bionics_uninstall_failure( int difficulty, int success,
                                         float adjusted_skill );
         /**When a monster fails the surgery*/
         void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
                                         float adjusted_skill );
         /**Has enough anesthetic for surgery*/
-        bool has_enough_anesth( const itype *cbm );
+        bool has_enough_anesth( const itype *cbm, player &patient );
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power( int amount );
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -394,6 +406,8 @@ class player : public Character
         void mutate();
         /** Picks a random valid mutation in a category and mutate_towards() it */
         void mutate_category( const std::string &mut_cat );
+        /** Mutates toward one of the given mutations, upgrading or removing conflicts if necessary */
+        bool mutate_towards( std::vector<trait_id> muts, int num_tries = INT_MAX );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
         bool mutate_towards( const trait_id &mut );
         /** Removes a mutation, downgrading to the previous level if possible */
@@ -463,8 +477,8 @@ class player : public Character
 
         void pause(); // '.' command; pauses & reduces recoil
 
-        void set_movement_mode( const std::string &mode );
-        const std::string get_movement_mode() const;
+        void set_movement_mode( const player_movemode mode );
+        bool movement_mode_is( const player_movemode mode ) const;
 
         void cycle_move_mode(); // Cycles to the next move mode.
         void reset_move_mode(); // Resets to walking.
@@ -792,8 +806,8 @@ class player : public Character
         void hurtall( int dam, Creature *source, bool disturb = true );
         /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
         int hitall( int dam, int vary, Creature *source );
-        /** Knocks the player back one square from a tile */
-        void knock_back_from( const tripoint &p ) override;
+        /** Knocks the player to a specified tile */
+        void knock_back_to( const tripoint &p ) override;
 
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         float fall_damage_mod() const override;
@@ -961,6 +975,10 @@ class player : public Character
         bool can_lift( const T &obj ) const {
             // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
             int str = get_str();
+            if( mounted_creature ) {
+                auto mons = mounted_creature.get();
+                str = mons->mech_str_addition() == 0 ? str : mons->mech_str_addition();
+            }
             const int npc_str = get_lift_assist();
             if( has_trait( trait_id( "STRONGBACK" ) ) ) {
                 str *= 1.35;
@@ -1150,7 +1168,7 @@ class player : public Character
 
     private:
         /** last time we checked for sleep */
-        time_point last_sleep_check = calendar::time_of_cataclysm;
+        time_point last_sleep_check = calendar::turn_zero;
         bool bio_soporific_powered_at_last_sleep_check;
 
     public:
@@ -1171,6 +1189,10 @@ class player : public Character
         hint_rating rate_action_mend( const item &it ) const;
         hint_rating rate_action_disassemble( const item &it );
 
+        //returns true if the warning is now beyond final and results in hostility.
+        bool add_faction_warning( const faction_id &id );
+        int current_warnings_fac( const faction_id &id );
+        bool beyond_final_warning( const faction_id &id );
         /** Returns warmth provided by armor, etc. */
         int warmth( body_part bp ) const;
         /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
@@ -1207,8 +1229,6 @@ class player : public Character
         double armwear_factor() const;
         /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both, and zero if on neither */
         int shoe_type_count( const itype_id &it ) const;
-        /** Returns true if the player is wearing power armor */
-        bool is_wearing_power_armor( bool *hasHelmet = nullptr ) const;
         /** Returns wind resistance provided by armor, etc **/
         int get_wind_resistance( body_part bp ) const;
         /** Returns the effect of pain on stats */
@@ -1347,21 +1367,21 @@ class player : public Character
         /** Returns all known recipes. */
         const recipe_subset &get_learned_recipes() const;
         /** Returns all recipes that are known from the books (either in inventory or nearby). */
-        const recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
+        recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
         /**
           * Returns all available recipes (from books and npc companions)
           * @param crafting_inv Current available items to craft
           * @param helpers List of NPCs that could help with crafting.
           */
-        const recipe_subset get_available_recipes( const inventory &crafting_inv,
-                const std::vector<npc *> *helpers = nullptr ) const;
+        recipe_subset get_available_recipes( const inventory &crafting_inv,
+                                             const std::vector<npc *> *helpers = nullptr ) const;
         /**
           * Returns the set of book types in crafting_inv that provide the
           * given recipe.
           * @param crafting_inv Current available items that may contain readable books
           * @param r Recipe to search for in the available books
           */
-        const std::set<itype_id> get_books_for_recipe( const inventory &crafting_inv,
+        std::set<itype_id> get_books_for_recipe( const inventory &crafting_inv,
                 const recipe *r ) const;
 
         // crafting.cpp
@@ -1383,6 +1403,12 @@ class player : public Character
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
         bool has_morale_to_craft() const;
         bool can_make( const recipe *r, int batch_size = 1 );  // have components?
+        /**
+         * Returns true if the player can start crafting the recipe with the given batch size
+         * The player is not required to have enough tool charges to finish crafting, only to
+         * complete the first step (total / 20 + total % 20 charges)
+         */
+        bool can_start_craft( const recipe *rec, int batch_size = 1 );
         bool making_would_work( const recipe_id &id_to_make, int batch_size );
 
         /**
@@ -1455,7 +1481,12 @@ class player : public Character
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
                                const std::string &hotkeys = DEFAULT_HOTKEYS,
-                               bool can_cancel = false, bool player_inv = true );
+                               bool can_cancel = false, bool player_inv = true,
+        const std::function<int( int )> charges_required_modifier = []( int i ) {
+            return i;
+        } );
+        /** Consume tools for the next multiplier * 5% progress of the craft */
+        bool craft_consume_tools( item &craft, int multiplier, bool start_craft );
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
                             const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,
@@ -1467,6 +1498,8 @@ class player : public Character
         void set_destination( const std::vector<tripoint> &route,
                               const player_activity &destination_activity = player_activity() );
         void clear_destination();
+        bool has_distant_destination() const;
+
         bool has_destination() const;
         // true if player has destination activity AND is standing on destination tile
         bool has_destination_activity() const;
@@ -1475,7 +1508,7 @@ class player : public Character
         std::vector<tripoint> &get_auto_move_route();
         action_id get_next_auto_move_direction();
         bool defer_move( const tripoint &next );
-        void shift_destination( int shiftx, int shifty );
+        void shift_destination( const point &shift );
         void forced_dismount();
         void dismount();
 
@@ -1515,7 +1548,7 @@ class player : public Character
             setpos( tripoint( position.x, y, position.z ) );
         }
         inline void setz( int z ) {
-            setpos( tripoint( position.x, position.y, z ) );
+            setpos( tripoint( position.xy(), z ) );
         }
         inline void setpos( const tripoint &p ) override {
             position = p;
@@ -1531,7 +1564,7 @@ class player : public Character
         player_activity activity;
         std::list<player_activity> backlog;
         int volume;
-
+        cata::optional<tripoint> destination_point;
         const profession *prof;
 
         start_location_id start_location;
@@ -1554,7 +1587,6 @@ class player : public Character
         int stim;
         int cash;
         int movecounter;
-        std::shared_ptr<monster> mounted_creature;
         bool death_drops;// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
         std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
         // Equalizes heat between body parts
@@ -1607,7 +1639,6 @@ class player : public Character
         std::set<int> follower_ids;
         //Record of player stats, for posterity only
         stats lifetime_stats;
-
         void mod_stat( const std::string &stat, float modifier ) override;
 
         int getID() const;
@@ -1825,15 +1856,15 @@ class player : public Character
 
     protected:
         // TODO: move this to avatar
-        std::string move_mode;
+        player_movemode move_mode;
     private:
 
         std::vector<tripoint> auto_move_route;
         player_activity destination_activity;
-        cata::optional<tripoint> destination_point;
         // Used to make sure auto move is canceled if we stumble off course
         cata::optional<tripoint> next_expected_position;
-
+        /** warnings from a faction about bad behaviour */
+        std::map<faction_id, std::pair<int, time_point>> warning_record;
         inventory cached_crafting_inventory;
         int cached_moves;
         time_point cached_time;

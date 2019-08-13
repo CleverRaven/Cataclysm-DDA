@@ -55,10 +55,10 @@
     "effect_str": "PAIN",
     "energy_source": "STAMINA",
     "base_casting_time": 50000,
-    "base_energy_cost": 500,
-    "energy_increment": 50,
+    "base_energy_cost": 5000,
+    "energy_increment": 500,
     "flags": [ "SOMATIC", "VERBAL" ],
-    "final_energy_cost": 1000
+    "final_energy_cost": 10000
   },
   {
     "id": "summon_zombie",
@@ -143,6 +143,28 @@
     "min_duration": 30000,
     "max_duration": 150000,
     "duration_increment": 4000
+  },
+  {
+    "id": "necrotic_gaze",
+    "type": "SPELL",
+    "name": "Necrotic Gaze",
+    "description": "You use the power of your own blood to imbue necrotic energy into your gaze, damaging the target you look at.",
+    "valid_targets": [ "hostile" ],
+    "effect": "target_attack",
+    "spell_class": "ANIMIST",
+    "energy_source": "HP",
+    "flags": [ "NO_LEGS", "CONCENTRATE", "SOMATIC" ],
+    "min_damage": 10,
+    "max_damage": 160,
+    "damage_increment": 5,
+    "min_range": 3,
+    "max_range": 5,
+    "range_increment": 0.1,
+    "max_level": 20,
+    "difficulty": 3,
+    "base_casting_time": 100,
+    "base_energy_cost": 2,
+    "damage_type": "bio"
   },
   {
     "id": "create_rune_animist",

@@ -10,7 +10,7 @@
 
 #include "color.h"
 #include "cursesdef.h"
-#include "enums.h"
+#include "point.h"
 #include "string_formatter.h"
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -89,7 +89,7 @@ struct uilist_entry {
 /**
  * Virtual base class for windowed ui stuff (like uilist)
  */
-class ui_container
+class ui_container // NOLINT(cata-xy)
 {
     public:
         virtual ~ui_container() = default;

@@ -1,5 +1,6 @@
 #include "requirements.h"
 
+#include <limits.h>
 #include <cstdlib>
 #include <algorithm>
 #include <limits>
@@ -20,12 +21,12 @@
 #include "itype.h"
 #include "json.h"
 #include "output.h"
-#include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "color.h"
 #include "item.h"
 #include "visitable.h"
+#include "point.h"
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
@@ -121,7 +122,7 @@ std::string item_comp::to_string( int batch ) const
 {
     const int c = std::abs( count ) * batch;
     const auto type_ptr = item::find_type( type );
-    if( type_ptr->stackable ) {
+    if( type_ptr->count_by_charges() ) {
         return string_format( "%s (%d)", type_ptr->nname( 1 ), c );
     }
     //~ <item-count> <item-name>
@@ -241,11 +242,11 @@ void requirement_data::load_requirement( JsonObject &jsobj, const requirement_id
     requirement_data req;
 
     JsonArray jsarr = jsobj.get_array( "components" );
-    req.load_obj_list( jsarr, req.components );
+    requirement_data::load_obj_list( jsarr, req.components );
     jsarr = jsobj.get_array( "qualities" );
-    req.load_obj_list( jsarr, req.qualities );
+    requirement_data::load_obj_list( jsarr, req.qualities );
     jsarr = jsobj.get_array( "tools" );
-    req.load_obj_list( jsarr, req.tools );
+    requirement_data::load_obj_list( jsarr, req.tools );
 
     if( !id.is_null() ) {
         req.id_ = id;
@@ -890,7 +891,7 @@ requirement_data requirement_data::disassembly_requirements() const
                 new_qualities.emplace_back( quality_id( "PULL" ), 1, 1 );
                 break;
             }
-            if( type == "fire" && remove_fire == true ) {
+            if( type == "fire" && remove_fire ) {
                 replaced = true;
                 break;
             }
@@ -973,8 +974,7 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
     // Create an empty requirement_data
     requirement_data ret;
 
-    // Tools and qualities are not checked upon resuming yet
-    // TODO: Check tools and qualities
+    // For items we cant change what alternative we selected half way through
     for( const item_comp &it : required_comps ) {
         ret.components.emplace_back( std::vector<item_comp>( {it} ) );
     }

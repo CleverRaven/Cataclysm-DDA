@@ -2,6 +2,7 @@
 
 #include <algorithm> //std::min
 #include <sstream>
+#include <cstddef>
 
 #include "bionics.h"
 #include "catacharset.h"
@@ -121,7 +122,7 @@ static void draw_bionics_tabs( const catacurses::window &win, const size_t activ
     werase( win );
 
     const int width = getmaxx( win );
-    mvwhline( win, 2, 0, LINE_OXOX, width );
+    mvwhline( win, point( 0, 2 ), LINE_OXOX, width );
 
     const std::string active_tab_name = string_format( _( "ACTIVE (%i)" ), active_num );
     const std::string passive_tab_name = string_format( _( "PASSIVE (%i)" ), passive_num );
@@ -173,7 +174,7 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
     // draw horizontal line from selected bionic
     const int turn_x = start_x + ( last_x - start_x ) * 2 / 3;
     mvwputch( win, start_y, start_x, BORDER_COLOR, '>' );
-    mvwhline( win, start_y, start_x + 1, LINE_OXOX, turn_x - start_x - 1 );
+    mvwhline( win, point( start_x + 1, start_y ), LINE_OXOX, turn_x - start_x - 1 );
 
     int min_y = start_y;
     int max_y = start_y;
@@ -182,7 +183,7 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
         max_y = std::max( max_y, elem.first );
     }
     if( max_y - min_y > 1 ) {
-        mvwvline( win, min_y + 1, turn_x, LINE_XOXO, max_y - min_y - 1 );
+        mvwvline( win, point( turn_x, min_y + 1 ), LINE_XOXO, max_y - min_y - 1 );
     }
 
     bool move_up   = false;
@@ -190,13 +191,13 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
     bool move_down = false;
     for( const auto &elem : pos_and_num ) {
         const int y = elem.first;
-        if( !move_up && y <  start_y ) {
+        if( !move_up && y < start_y ) {
             move_up = true;
         }
         if( !move_same && y == start_y ) {
             move_same = true;
         }
-        if( !move_down && y >  start_y ) {
+        if( !move_down && y > start_y ) {
             move_down = true;
         }
 
@@ -210,7 +211,7 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
         mvwputch( win, y, turn_x, BORDER_COLOR, bp_chr );
 
         // draw horizontal line to bodypart title
-        mvwhline( win, y, turn_x + 1, LINE_OXOX, last_x - turn_x - 1 );
+        mvwhline( win, point( turn_x + 1, y ), LINE_OXOX, last_x - turn_x - 1 );
         mvwputch( win, y, last_x, BORDER_COLOR, '<' );
 
         // draw amount of consumed slots by this CBM
@@ -321,7 +322,7 @@ void player::power_bionics()
     const int START_X = ( TERMX - WIDTH ) / 2;
     const int START_Y = ( TERMY - HEIGHT ) / 2;
     //wBio is the entire bionic window
-    catacurses::window wBio = catacurses::newwin( HEIGHT, WIDTH, START_Y, START_X );
+    catacurses::window wBio = catacurses::newwin( HEIGHT, WIDTH, point( START_X, START_Y ) );
 
     const int LIST_HEIGHT = HEIGHT - TITLE_HEIGHT - TITLE_TAB_HEIGHT - 2;
 
@@ -330,18 +331,18 @@ void player::power_bionics()
     const int DESCRIPTION_START_X = START_X + 1 + 40;
     //w_description is the description panel that is controlled with ! key
     catacurses::window w_description = catacurses::newwin( LIST_HEIGHT, DESCRIPTION_WIDTH,
-                                       DESCRIPTION_START_Y, DESCRIPTION_START_X );
+                                       point( DESCRIPTION_START_X, DESCRIPTION_START_Y ) );
 
     // Title window
     const int TITLE_START_Y = START_Y + 1;
     const int HEADER_LINE_Y = TITLE_HEIGHT + TITLE_TAB_HEIGHT + 1;
-    catacurses::window w_title = catacurses::newwin( TITLE_HEIGHT, WIDTH - 2, TITLE_START_Y,
-                                 START_X + 1 );
+    catacurses::window w_title = catacurses::newwin( TITLE_HEIGHT, WIDTH - 2, point( START_X + 1,
+                                 TITLE_START_Y ) );
 
     const int TAB_START_Y = TITLE_START_Y + 2;
     //w_tabs is the tab bar for passive and active bionic groups
-    catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, WIDTH - 2, TAB_START_Y,
-                                START_X + 1 );
+    catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, WIDTH - 2, point( START_X + 1,
+                                TAB_START_Y ) );
 
     int scroll_position = 0;
     int cursor = 0;

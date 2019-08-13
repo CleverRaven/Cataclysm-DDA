@@ -69,6 +69,7 @@
         "s": { "items": { "item": "traveler", "chance": 15 } },
         "x": { "items": [ { "item": "cleaning", "chance": 30 }, { "item": "hardware_plumbing", "chance": 30 } ] }
       },
+      "place_loot": [ { "item": "net", "x": 11, "y": 14, "chance": 100 }, { "item": "stepladder", "x": 11, "y": 16, "chance": 50 } ],
       "terrain": {
         "&": "t_dirt",
         "+": "t_door_c",
@@ -155,7 +156,44 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "hunter_shack" ],
+    "om_terrain": "hunter_shack_roof",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       ...........      ",
+        "       ..%........      ",
+        "       ...........      ",
+        "       ...........      ",
+        "       ...........      ",
+        "       ...........      ",
+        "       ...........      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "furniture": { "%": "f_chimney" },
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "hunter_shack_1" ],
     "weight": 100,
     "object": {
       "fill_ter": "t_floor",
@@ -174,8 +212,8 @@
         " ,#,#,#,,+...L..bb-,;;  ",
         " ,,,,,,,,----------,;;  ",
         "  ;;,,,,,;-llNNxX-;;;;  ",
-        "  ;X-+--,;-.....X-^;;,  ",
-        "  ;X-.C-;;;;;;;;;;;;;;  ",
+        "  ;1-+--,;-.....X-^;;,  ",
+        "  ;1-.C-;;;;;;;;;;;;;;  ",
         "   --.x-;;;;;;;;;;;;;;; ",
         "  ;-V.X-;;;;;;;;;;;;;;;;",
         "  ;on.X-;;;;;;;;;;;;;;;;",
@@ -200,6 +238,7 @@
         "s": { "items": { "item": "traveler", "chance": 15 } },
         "x": { "items": [ { "item": "cleaning", "chance": 30 }, { "item": "hardware_plumbing", "chance": 30 } ] }
       },
+      "place_loot": [ { "item": "net", "x": 4, "y": 18, "chance": 100 }, { "item": "stepladder", "x": 13, "y": 4, "chance": 50 } ],
       "terrain": {
         "#": "t_dirtmound",
         "&": "t_dirt",
@@ -209,6 +248,7 @@
         ".": "t_floor",
         ";": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
         "R": "t_dirt",
+        "1": "t_dirt",
         "^": "t_dirt",
         "o": "t_window_domestic"
       },
@@ -225,6 +265,7 @@
         "T": "f_table",
         "V": "f_fvat_empty",
         "X": "f_crate_c",
+        "1": "f_crate_c",
         "^": "f_bulletin",
         "b": "f_makeshift_bed",
         "c": "f_chair",
@@ -234,6 +275,43 @@
         "s": "f_counter",
         "x": "f_crate_o"
       }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "hunter_shack_roof_1",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "          .........     ",
+        "          .........     ",
+        "          ..........    ",
+        "          ..........    ",
+        "          .%........    ",
+        "          ..........    ",
+        "          .........     ",
+        "         ..........     ",
+        "         ..........     ",
+        "         ..........     ",
+        "          ........      ",
+        "    ....  ........      ",
+        "    ....                ",
+        "   .....                ",
+        "   .....                ",
+        "   .....                ",
+        "   .....                ",
+        "   .....                ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "furniture": { "%": "f_chimney" },
+      "terrain": { ".": "t_shingle_flat_roof" }
     }
   }
 ]

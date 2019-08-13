@@ -14,7 +14,8 @@
     "folded_volume": 4,
     "description": "Improvised armor plate.  Will partially protect other components on the same frame from damage.",
     "breaks_into": [ { "item": "rebar", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 4, 8 ] } ],
-    "flags": [ "ARMOR", "FOLDABLE" ]
+    "flags": [ "ARMOR", "FOLDABLE" ],
+    "damage_reduction": { "all": 10, "cut": 45, "stab": 45 }
   },
   {
     "id": "spring_plate",
@@ -27,9 +28,10 @@
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "difficulty": 4,
-    "durability": 1500,
+    "durability": 340,
     "description": "A system of springs and pads, intended to cushion the effects of collisions on the interior of your vehicle.",
     "breaks_into": [ { "item": "scrap", "count": [ 1, 5 ] }, { "item": "spring", "count": [ 0, 4 ] } ],
-    "flags": [ "ARMOR" ]
+    "flags": [ "ARMOR" ],
+    "damage_reduction": { "all": 15, "bash": 100 }
   }
 ]

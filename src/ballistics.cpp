@@ -18,7 +18,6 @@
 #include "messages.h"
 #include "monster.h"
 #include "options.h"
-#include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
@@ -33,6 +32,7 @@
 #include "translations.h"
 #include "units.h"
 #include "type_id.h"
+#include "point.h"
 
 const efftype_id effect_bounced( "bounced" );
 
@@ -83,9 +83,9 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     monster *mon = dynamic_cast<monster *>( attack.hit_critter );
 
     // We can only embed in monsters
-    bool embed = mon != nullptr && !mon->is_dead_state();
+    bool mon_there = mon != nullptr && !mon->is_dead_state();
     // And if we actually want to embed
-    embed = embed && effects.count( "NO_EMBED" ) == 0;
+    bool embed = mon_there && effects.count( "NO_EMBED" ) == 0 && effects.count( "TANGLE" ) == 0;
     // Don't embed in small creatures
     if( embed ) {
         const m_size critter_size = mon->get_size();
@@ -108,6 +108,14 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
     } else {
         bool do_drop = true;
+        // monsters that are able to be tied up will store the item another way
+        // see monexamine.cpp tie_or_untie()
+        // if they arent friendly they will try and break out of the net/bolas/lassoo
+        // players and NPCs just get the downed effect, and item is dropped.
+        // TODO: storing the item on player until they recover from downed
+        if( effects.count( "TANGLE" ) && mon_there ) {
+            do_drop = false;
+        }
         if( effects.count( "ACT_ON_RANGED_HIT" ) ) {
             // Don't drop if it exploded
             do_drop = !dropped_item.process( nullptr, attack.end_point, true );

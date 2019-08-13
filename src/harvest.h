@@ -7,6 +7,7 @@
 #include <set>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "string_id.h"
 #include "type_id.h"
@@ -27,6 +28,9 @@ struct harvest_entry {
     float mass_ratio = 0.00f;
 
     static harvest_entry load( JsonObject &jo, const std::string &src );
+
+    std::vector<std::string> flags;
+    std::vector<fault_id> faults;
 };
 
 class harvest_list

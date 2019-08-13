@@ -34,7 +34,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "POISON", "STUMBLES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "POISON", "STUMBLES", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_plague_nymph",
@@ -65,7 +65,7 @@
     "upgrades": { "age_grow": 7, "into": "mon_skittering_plague" },
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "POISON", "LARVA", "STUMBLES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "POISON", "LARVA", "STUMBLES", "FILTHY", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_plague_vector",
@@ -101,7 +101,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "POISON", "STUMBLES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "POISON", "STUMBLES", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_giant_cockroach",
@@ -136,7 +136,7 @@
     "upgrades": { "age_grow": 7, "into": "mon_pregnant_giant_cockroach" },
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_giant_cockroach_nymph",
@@ -166,7 +166,7 @@
     "upgrades": { "age_grow": 7, "into": "mon_giant_cockroach" },
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "LARVA", "CLIMBS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "LARVA", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_pregnant_giant_cockroach",
@@ -201,7 +201,7 @@
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
     "death_function": [ "NORMAL", "PREG_ROACH" ],
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_bee",
@@ -234,7 +234,7 @@
     "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE" ],
     "death_drops": { "subtype": "collection", "groups": [ [ "bees", 50 ] ], "//": "50% chance of an item from group bees" },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "VENOM", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE" ]
+    "flags": [ "SEES", "SMELLS", "VENOM", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_centipede_giant",
@@ -265,7 +265,7 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_dragonfly_giant",
@@ -297,7 +297,7 @@
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "FLIES", "HIT_AND_RUN" ]
+    "flags": [ "SEES", "SMELLS", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_fly",
@@ -327,7 +327,7 @@
     "harvest": "arachnid",
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN" ]
+    "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_mosquito_giant",
@@ -356,7 +356,7 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_spider_cellar_giant",
@@ -389,7 +389,7 @@
     "harvest": "arachnid",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON", "PATH_AVOID_FIRE" ],
     "//": "No, they are not in fact the most venomous spider in the world."
   },
   {
@@ -422,7 +422,7 @@
     "harvest": "arachnid",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "HARDTOSHOOT" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_spider_jumping_giant",
@@ -451,10 +451,10 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 5 } ],
+    "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 5, "allow_no_target": true } ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "HIT_AND_RUN", "CLIMBS" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "HIT_AND_RUN", "CLIMBS", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_spider_trapdoor_giant",
@@ -485,7 +485,7 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CLIMBS" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_spider_web",
@@ -516,7 +516,39 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+  },
+  {
+    "id": "mon_spider_fungus",
+    "type": "MONSTER",
+    "name": "fungal spider",
+    "description": "The abdomen of this sickly looking giant spider is now home to many lumps of blooming fungi.  It is leaving behind a trail of tainted secretions when the spider struggles to drag it along the ground.",
+    "default_faction": "fungus",
+    "bodytype": "spider",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "volume": "62500 ml",
+    "weight": 81500,
+    "hp": 20,
+    "speed": 60,
+    "material": [ "iflesh" ],
+    "symbol": "s",
+    "color": "light_gray",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "melee_cut": 6,
+    "dodge": 2,
+    "armor_bash": 2,
+    "armor_cut": 6,
+    "vision_day": 5,
+    "vision_night": 5,
+    "harvest": "arachnid",
+    "special_attacks": [ [ "FUNGAL_TRAIL", 3 ] ],
+    "death_function": [ "NORMAL", "FUNGUS" ],
+    "flags": [ "SEES", "SMELLS", "VENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_spider_web_s",
@@ -546,7 +578,7 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "STUMBLES", "CLIMBS" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "STUMBLES", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_spider_widow_giant",
@@ -578,7 +610,7 @@
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "WEBWALK", "CLIMBS" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_spider_widow_giant_s",
@@ -610,7 +642,7 @@
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_spider_wolf_giant",
@@ -642,7 +674,7 @@
     "harvest": "arachnid",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "CLIMBS" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
     "id": "mon_wasp",
@@ -675,7 +707,7 @@
     "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE", "PLAYER_WEAK", "STALK" ],
     "death_drops": { "subtype": "collection", "groups": [ [ "wasps", 40 ] ], "//": "40% chance of an item from group bees" },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "VENOM", "FLIES", "SWARMS", "GROUP_MORALE" ]
+    "flags": [ "SEES", "SMELLS", "VENOM", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_dermatik",
@@ -705,7 +737,7 @@
     "special_attacks": [ [ "DERMATIK", 25 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "HEARS", "SMELLS", "STUMBLES", "POISON", "FLIES" ]
+    "flags": [ "HEARS", "SMELLS", "STUMBLES", "POISON", "FLIES", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_dermatik_larva",
@@ -765,7 +797,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 30 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
     "id": "mon_ant_acid",
@@ -798,7 +830,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "ACID", "NORMAL" ],
     "harvest": "arachnid_acid",
-    "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS" ]
+    "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
     "id": "mon_ant_acid_larva",
@@ -855,7 +887,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "harvest": "acidant_queen",
-    "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "QUEEN", "SEES", "SMELLS" ]
+    "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "QUEEN", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
     "id": "mon_ant_acid_soldier",
@@ -888,7 +920,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "ACID", "NORMAL" ],
     "harvest": "arachnid_acid",
-    "flags": [ "ACIDPROOF", "SHORTACIDTRAIL", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS" ]
+    "flags": [ "ACIDPROOF", "SHORTACIDTRAIL", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
     "id": "mon_ant_fungus",
@@ -920,7 +952,7 @@
     "harvest": "arachnid",
     "special_attacks": [ [ "FUNGUS", 200 ] ],
     "death_function": [ "NORMAL", "FUNGUS" ],
-    "flags": [ "SEES", "SMELLS", "POISON", "CLIMBS" ]
+    "flags": [ "SEES", "SMELLS", "POISON", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
     "id": "mon_ant_larva",
@@ -975,7 +1007,7 @@
     "special_attacks": [ [ "ANTQUEEN", 1 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SMELLS", "QUEEN", "CLIMBS" ]
+    "flags": [ "SMELLS", "QUEEN", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
     "id": "mon_ant_soldier",
@@ -1006,7 +1038,7 @@
     "harvest": "arachnid",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
     "id": "mon_locust",
@@ -1039,8 +1071,8 @@
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "death_function": [ "NORMAL" ],
-    "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 8 }, [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "STUMBLES" ]
+    "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 8, "allow_no_target": true }, [ "EAT_CROP", 60 ] ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_locust_nymph",
@@ -1068,7 +1100,7 @@
     "harvest": "mammal_tiny",
     "upgrades": { "age_grow": 10, "into": "mon_locust" },
     "death_function": [ "NORMAL" ],
-    "special_attacks": [ { "type": "leap", "cooldown": 4, "max_range": 4 }, [ "EAT_CROP", 120 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "LARVA", "STUMBLES" ]
+    "special_attacks": [ { "type": "leap", "cooldown": 4, "max_range": 4, "allow_no_target": true }, [ "EAT_CROP", 120 ] ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "LARVA", "STUMBLES", "PATH_AVOID_FIRE" ]
   }
 ]

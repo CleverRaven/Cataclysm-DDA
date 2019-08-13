@@ -6,12 +6,12 @@
 
 #include "item_location.h"
 #include "map.h"
+#include "item.h"
+#include "item_stack.h"
+#include "point.h"
 
-class item;
 class monster;
 class vehicle;
-
-struct tripoint;
 
 enum liquid_dest : int {
     LD_NULL,
