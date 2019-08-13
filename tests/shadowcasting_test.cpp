@@ -33,7 +33,7 @@ static void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY
         return;
     }
     bool blocked = false;
-    static constexpr tripoint origin( 0, 0, 0 );
+    static constexpr tripoint origin( tripoint_zero );
     tripoint delta;
     for( int distance = row; distance <= radius && !blocked; distance++ ) {
         delta.y = -distance;
@@ -546,7 +546,7 @@ TEST_CASE( "shadowcasting_pillar_behavior_cardinally_adjacent", "[shadowcasting]
 
 TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap", "[shadowcasting]" )
 {
-    grid_overlay test_case( { 1, 1 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay test_case( point_south_east, LIGHT_TRANSPARENCY_CLEAR );
     test_case.data = {
         {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
         {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
@@ -559,7 +559,7 @@ TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap", "[shadowcasting]" )
         {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T}
     };
 
-    grid_overlay expected_results( { 1, 1 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay expected_results( point_south_east, LIGHT_TRANSPARENCY_CLEAR );
     expected_results.data = {
         {V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},
         {V, X, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},

@@ -28,7 +28,7 @@ TEST_CASE( "pavement_destroy", "[.]" )
     INFO( "ZLEVELS is " << zlevels_set );
     clear_map_and_put_player_underground();
     // Populate the map with pavement.
-    const tripoint pt( 0, 0, 0 );
+    const tripoint pt( tripoint_zero );
     g->m.ter_set( pt, ter_id( "t_pavement" ) );
 
     // Destroy it

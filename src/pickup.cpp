@@ -550,7 +550,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         int start = 0;
         int cur_it = 0;
         bool update = true;
-        mvwprintw( w_pickup, point( 0, 0 ), _( "PICK" ) );
+        mvwprintw( w_pickup, point_zero, _( "PICK" ) );
         int selected = 0;
         int iScrollPos = 0;
 

@@ -320,11 +320,11 @@ void editmap::uphelp( const std::string &txt1, const std::string &txt2, const st
 {
 
     if( !txt1.empty() ) {
-        mvwprintw( w_help, point( 0, 0 ), padding );
-        mvwprintw( w_help, point( 0, 1 ), padding );
+        mvwprintw( w_help, point_zero, padding );
+        mvwprintw( w_help, point_south, padding );
         mvwprintw( w_help, point( 0, !txt2.empty() ? 0 : 1 ), txt1 );
         if( !txt2.empty() ) {
-            mvwprintw( w_help, point( 0, 1 ), txt2 );
+            mvwprintw( w_help, point_south, txt2 );
         }
     }
     if( !title.empty() ) {
@@ -563,7 +563,7 @@ void editmap::update_view( bool update_info )
 
     // draw arrows if altblink is set (ie, [m]oving a large selection
     if( blink && altblink ) {
-        const point mp = tmax / 2 + point( 1, 1 );
+        const point mp = tmax / 2 + point_south_east;
         mvwputch( g->w_terrain, mp.y, 1, c_yellow, '<' );
         mvwputch( g->w_terrain, mp.y, tmax.x - 1, c_yellow, '>' );
         mvwputch( g->w_terrain, 1, mp.x, c_yellow, '^' );

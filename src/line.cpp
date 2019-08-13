@@ -414,23 +414,23 @@ point direction_XY( const direction dir )
 {
     switch( dir % 9 ) {
         case NORTHWEST:
-            return point( -1, -1 );
+            return point_north_west;
         case NORTH:
-            return point( 0, -1 );
+            return point_north;
         case NORTHEAST:
-            return point( 1, -1 );
+            return point_north_east;
         case WEST:
-            return point( -1,  0 );
+            return point_west;
         case CENTER:
-            return point( 0,  0 );
+            return point_zero;
         case EAST:
-            return point( 1,  0 );
+            return point_east;
         case SOUTHWEST:
-            return point( -1,  1 );
+            return point_south_west;
         case SOUTH:
-            return point( 0,  1 );
+            return point_south;
         case SOUTHEAST:
-            return point( 1,  1 );
+            return point_south_east;
     }
 
     return point_zero;

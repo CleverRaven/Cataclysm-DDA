@@ -233,7 +233,7 @@ void veh_interact::allocate_windows()
     // grid window
     const int grid_w = TERMX - 2; // exterior borders take 2
     const int grid_h = TERMY - 2; // exterior borders take 2
-    w_grid = catacurses::newwin( grid_h, grid_w, point( 1, 1 ) );
+    w_grid = catacurses::newwin( grid_h, grid_w, point_south_east );
 
     int mode_h  = 1;
     int name_h  = 1;
@@ -256,7 +256,7 @@ void veh_interact::allocate_windows()
     int msg_x  = list_x + pane_w + 1;
 
     // make the windows
-    w_mode  = catacurses::newwin( mode_h,    grid_w, point( 1, 1 ) );
+    w_mode  = catacurses::newwin( mode_h,    grid_w, point_south_east );
     w_msg   = catacurses::newwin( page_size, pane_w, point( msg_x, pane_y ) );
     w_disp  = catacurses::newwin( disp_h,    disp_w, point( 1, pane_y ) );
     w_parts = catacurses::newwin( parts_h,   disp_w, point( 1, parts_y ) );
@@ -2073,7 +2073,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
 void veh_interact::display_grid()
 {
     // border window
-    catacurses::window w_border = catacurses::newwin( TERMY, TERMX, point( 0, 0 ) );
+    catacurses::window w_border = catacurses::newwin( TERMY, TERMX, point_zero );
     draw_border( w_border );
 
     // match grid lines

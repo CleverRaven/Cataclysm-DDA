@@ -42,7 +42,7 @@ TEST_CASE( "Item spawns with right thermal attributes" )
     CHECK( D.specific_energy == -10 );
 
     set_map_temperature( 122 );
-    tripoint pos = tripoint( 0, 0, 0 );
+    tripoint pos = tripoint_zero;
     D.process_temperature_rot( 1, pos, nullptr );
 
     CHECK( is_nearly( D.temperature, 323.15 * 100000 ) );
@@ -78,7 +78,7 @@ TEST_CASE( "Rate of temperature change" )
         item water1( "water" );
         item water2( "water" );
 
-        tripoint pos = tripoint( 0, 0, 0 );
+        tripoint pos = tripoint_zero;
         set_map_temperature( 131 ); // 55 C
 
         water1.process_temperature_rot( 1, pos, nullptr );
@@ -119,7 +119,7 @@ TEST_CASE( "Rate of temperature change" )
         item meat1( "meat_cooked" );
         item meat2( "meat_cooked" );
 
-        tripoint pos = tripoint( 0, 0, 0 );
+        tripoint pos = tripoint_zero;
         set_map_temperature( 122 ); //50 C
 
         meat1.process_temperature_rot( 1, pos, nullptr );
@@ -201,7 +201,7 @@ TEST_CASE( "Rate of temperature change" )
         item meat1( "meat_cooked" );
         item meat2( "meat_cooked" );
 
-        tripoint pos = tripoint( 0, 0, 0 );
+        tripoint pos = tripoint_zero;
         set_map_temperature( -4 ); // -20 C
 
         meat1.process_temperature_rot( 1, pos, nullptr );
@@ -275,7 +275,7 @@ TEST_CASE( "Temperature controlled location" )
         // Process water 2h 3m later. Should still be temperatures::normal.
         item water1( "water" );
 
-        tripoint pos = tripoint( 0, 0, 0 );
+        tripoint pos = tripoint_zero;
         set_map_temperature( 0 ); // -17 C
 
         water1.process_temperature_rot( 1, pos, nullptr, temperature_flag::TEMP_HEATER );
