@@ -3376,7 +3376,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
             science_room( this, 2, 2, SEEX - 3, SEEY * 2 - 3, dat.zlevel, 1 );
             science_room( this, SEEX + 2, 2, SEEX * 2 - 3, SEEY * 2 - 3, dat.zlevel, 3 );
 
-            place_spawns( GROUP_TURRET_SMG, 1, SEEX, 5, SEEY, 5, 1, true );
+            place_spawns( GROUP_TURRET_SMG, 1, SEEX, 5, SEEX, 5, 1, true );
 
             if( is_ot_match( "road", dat.east(), ot_match_type::type ) ) {
                 rotate( 1 );
@@ -7414,7 +7414,7 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 tmpcomp->add_failure( COMPFAIL_ALARM );
                 tmpcomp->add_failure( COMPFAIL_DAMAGE );
                 m->place_spawns( GROUP_TURRET_SMG, 1, desk, static_cast<int>( ( y1 + y2 ) / 2 ),
-                                 desk, static_cast<int>( ( x1 + x2 ) / 2 ), 1, true );
+                                 desk, static_cast<int>( ( y1 + y2 ) / 2 ), 1, true );
             }
             break;
         case room_chemistry:
