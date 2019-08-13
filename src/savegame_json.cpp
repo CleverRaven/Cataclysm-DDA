@@ -3444,8 +3444,7 @@ void submap::store( JsonOut &jsout ) const
         jsout.member( "computers" );
         jsout.start_array();
         for( auto &elem : computers ) {
-            jsout.write( elem.first.x );
-            jsout.write( elem.first.y );
+            jsout.write( elem.first );
             jsout.write( elem.second.save_data() );
         }
         jsout.end_array();
@@ -3708,8 +3707,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
             jsin.start_array();
             while( !jsin.end_array() ) {
                 point loc;
-                loc.x = jsin.get_int();
-                loc.y = jsin.get_int();
+                jsin.read( loc );
                 std::string computer_data = jsin.get_string();
                 auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100 ) ).first;
                 new_comp_it->second.load_data( computer_data );
