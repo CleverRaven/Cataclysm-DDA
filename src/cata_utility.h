@@ -69,7 +69,7 @@ double round_up( double val, unsigned int dp );
 * @p num must be non-negative, @p den must be positive, and @c num+den must not overflow.
 */
 template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::type = 0>
-T divide_round_up( T num, T den )
+constexpr T divide_round_up( T num, T den )
 {
     return ( num + den - 1 ) / den;
 }
