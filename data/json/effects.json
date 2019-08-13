@@ -1715,9 +1715,9 @@
     "desc": [ "Your muscles react faster and  your skin stiffens." ],
     "int_add_val": 1,
     "max_intensity": 8,
-    "base_mods": { "dex_mod": [ 3 ]  },
-    "scaling_mods": { "speed_mod": [ 10 ], "healing_rate": [ 2 ], "stamina_chance": [ 5 ],
-      "stamina_min": [ 0 ] }
+    "rating": "good" ,
+    "base_mods": { "dex_mod": [ 3 ], "speed_mod": [ 5 ], "stamina_min": [ 3 ], "stamina_max": [ 9 ] },
+    "scaling_mods": { "speed_mod": [ 7 ], "stamina_min": [ 2 ], "stamina_max": [ 6 ] }
   },
   {
     "//": "This effect is a dummy effect for disabling certain things for a few turns after an electromagnetic pulse and does nothing on its own",
