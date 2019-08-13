@@ -580,6 +580,66 @@
   },
   {
     "type": "technique",
+    "id": "tec_eskrima_round",
+    "name": "Round Strike",
+    "messages": [ "You round strike %s", "<npcname> round strikes %s" ],
+    "min_melee": 4,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.6 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_eskrima_fan",
+    "name": "Fan Strike",
+    "messages": [ "You fan strike %s", "<npcname> fan strikes %s" ],
+    "min_melee": 2,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.75 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_eskrima_snap",
+    "name": "Snap Strike",
+    "messages": [ "You snap out at %s", "<npcname> snaps quickly at %s" ],
+    "min_melee": 0,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.8 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_eskrima_combination",
+    "name": "Combination Strike",
+    "messages": [ "You combination strike %s", "<npcname> combination strikes %s" ],
+    "min_melee": 2,
+    "melee_allowed": true,
+    "req_buffs": [ "buff_eskrima_oncrit" ],
+    "crit_tec": true,
+    "mult_bonuses": [ [ "movecost", 0.8 ], [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_eskrima_puno",
+    "name": "Puño Strike",
+    "messages": [ "You deliver a puño to %s", "<npcname> haftstrikes %s" ],
+    "min_melee": 3,
+    "min_bashing_damage": 2,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.6 ], [ "damage", "bash", 0.7 ], [ "damage", "cut", 0.0 ], [ "damage", "stab", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_eskrima_low",
+    "name": "Low Strike",
+    "messages": [ "Your weapon becomes a blur as you ground %s", "<npcname>'s weapon becomes a blur as they ground %s" ],
+    "min_melee": 4,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "down_dur": 1
+  },
+  {
+    "type": "technique",
     "id": "tec_karate_rapid",
     "name": "quick punch",
     "min_unarmed": 0,
@@ -887,75 +947,6 @@
     "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "stab", 1.5 ] ],
     "stun_dur": 1,
     "messages": [ "You deliver a perfect stop thrust to %s", "<npcname> delivers a perfect stop thrust to %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_eskrima_round",
-    "name": "Round strike",
-    "min_melee": 4,
-    "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.6 ] ],
-    "messages": [ "You round strike %s", "<npcname> round strikes %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_eskrima_fan",
-    "name": "Fan strike",
-    "min_melee": 2,
-    "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.75 ] ],
-    "messages": [ "You fan strike %s", "<npcname> fan strikes %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_eskrima_snap",
-    "name": "Snap strike",
-    "min_melee": 0,
-    "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.8 ] ],
-    "messages": [ "You snap out at %s", "<npcname> snaps quickly at %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_eskrima_combination",
-    "name": "Combination strike",
-    "min_melee": 2,
-    "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.8 ], [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ],
-    "req_buffs": [ "eskrima_hit_buff" ],
-    "messages": [ "You combination strike %s", "<npcname> combination strikes %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_eskrima_free",
-    "name": "free strike",
-    "min_melee": 4,
-    "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.0 ] ],
-    "req_buffs": [ "eskrima_hit_buff" ],
-    "messages": [ "You whip a free strike onto %s", "<npcname> free strikes %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_eskrima_puno",
-    "name": "puño strike",
-    "min_melee": 3,
-    "melee_allowed": true,
-    "min_bashing_damage": 2,
-    "mult_bonuses": [ [ "movecost", 0.6 ], [ "damage", "bash", 0.7 ], [ "damage", "cut", 0.0 ], [ "damage", "stab", 0.0 ] ],
-    "crit_tec": true,
-    "stun_dur": 1,
-    "messages": [ "You deliver a puño to %s", "<npcname> haftstrikes %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_eskrima_kick",
-    "name": "knee strike",
-    "min_unarmed": 3,
-    "melee_allowed": true,
-    "crit_tec": true,
-    "down_dur": 2,
-    "messages": [ "You deliver a knee strike to %s", "<npcname> knees %s" ]
   },
   {
     "type": "technique",
