@@ -11643,7 +11643,7 @@ std::vector<const item *> player::all_items_with_flag( const std::string &flag )
     } );
 }
 
-item player::item_with_best_of_quality( quality_id qid )
+item &player::item_with_best_of_quality( const quality_id &qid )
 {
     int maxq = max_quality( qid );
     auto items_with_quality = items_with( [qid]( const item & it ) {
