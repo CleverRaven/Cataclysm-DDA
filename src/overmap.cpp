@@ -1379,9 +1379,9 @@ void overmap::add_extra( const tripoint &p, const string_id<map_extra> &id )
     } );
 
     if( it == std::end( extras ) ) {
-        extras.emplace_back( om_map_extra{ std::move( id ), p.xy() } );
+        extras.emplace_back( om_map_extra{ id, p.xy() } );
     } else if( !id.is_null() ) {
-        it->id = std::move( id );
+        it->id = id ;
     } else {
         extras.erase( it );
     }
