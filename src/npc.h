@@ -877,6 +877,10 @@ class npc : public player
         bool wants_to_buy( const item &it ) const;
         bool wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const;
 
+        bool will_exchange_items_freely() const;
+        int max_credit_extended() const;
+        int max_willing_to_owe() const;
+
         // AI helpers
         void regen_ai_cache();
         const Creature *current_target() const;
