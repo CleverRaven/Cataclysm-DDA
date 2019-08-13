@@ -171,7 +171,7 @@
     "reversible": true,
     "decomp_learn": 9,
     "book_learn": [ [ "recipe_lab_elec", 8 ], [ "textbook_robots", 10 ] ],
-    "using": [ [ "soldering_standard", 14 ], [ "welding_standard", 5 ], [ "forging_standard", 4 ],
+    "using": [ [ "soldering_standard", 14 ], [ "welding_standard", 5 ], [ "forging_standard", 4 ] ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
