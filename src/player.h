@@ -1854,6 +1854,7 @@ class player : public Character
         bool feed_battery_with( item &it );
         bool feed_reactor_with( item &it );
         bool feed_furnace_with( item &it );
+        bool fuel_bionic_with( item &it );
         /** Check whether player can consume this very item */
         bool can_consume_as_is( const item &it ) const;
         /**
