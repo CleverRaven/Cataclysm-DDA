@@ -2365,7 +2365,7 @@
     "byproducts": [ { "item": "straw_pile" } ],
     "pre_terrain": "t_grass_long",
     "post_terrain": "t_grass",
-    "tools": [ [ [ "scythe", -1 ], [ "sickle", -1 ] ] ]
+    "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ]
   },
   {
     "type": "construction",
@@ -2376,7 +2376,7 @@
     "byproducts": [ { "item": "straw_pile", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_grass_tall",
     "post_terrain": "t_grass",
-    "tools": [ [ [ "scythe", -1 ], [ "sickle", -1 ] ] ]
+    "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ]
   },
   {
     "type": "construction",
