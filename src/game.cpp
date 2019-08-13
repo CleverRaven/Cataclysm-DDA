@@ -271,7 +271,10 @@ game::game() :
     next_mission_id( 1 ),
     remoteveh_cache_time( calendar::before_time_starts ),
     user_action_counter( 0 ),
-    tileset_zoom( DEFAULT_TILESET_ZOOM )
+    tileset_zoom( DEFAULT_TILESET_ZOOM ),
+    last_mouse_edge_scroll( std::chrono::steady_clock::now() ),
+    last_mouse_edge_scroll_vector_terrain( tripoint_zero ),
+    last_mouse_edge_scroll_vector_overmap( tripoint_zero )
 {
     player_was_sleeping = false;
     reset_light_level();
@@ -697,9 +700,6 @@ bool game::start_game()
     safe_mode = ( get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF );
     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
     get_safemode().load_global();
-
-    last_mouse_edge_scroll = std::chrono::steady_clock::now();
-    last_mouse_edge_scroll_vector = tripoint_zero;
 
     init_autosave();
 
@@ -2206,10 +2206,11 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
     return true;
 }
 
-tripoint game::mouse_edge_scrolling( input_context ctxt, const int speed, bool iso )
+std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context ctxt, const int speed,
+        const tripoint &last, bool iso )
 {
     const int rate = get_option<int>( "EDGE_SCROLL" );
-    tripoint ret;
+    auto ret = std::make_pair( tripoint_zero, last );
     if( rate == -1 ) {
         // Fast return when the option is disabled.
         return ret;
@@ -2229,30 +2230,30 @@ tripoint game::mouse_edge_scrolling( input_context ctxt, const int speed, bool i
         const int threshold_x = projected_window_width() / 100;
         const int threshold_y = projected_window_height() / 100;
         if( event.mouse_pos.x <= threshold_x ) {
-            ret.x -= speed;
+            ret.first.x -= speed;
             if( iso ) {
-                ret.y -= speed;
+                ret.first.y -= speed;
             }
         } else if( event.mouse_pos.x >= projected_window_width() - threshold_x ) {
-            ret.x += speed;
+            ret.first.x += speed;
             if( iso ) {
-                ret.y += speed;
+                ret.first.y += speed;
             }
         }
         if( event.mouse_pos.y <= threshold_y ) {
-            ret.y -= speed;
+            ret.first.y -= speed;
             if( iso ) {
-                ret.x += speed;
+                ret.first.x += speed;
             }
         } else if( event.mouse_pos.y >= projected_window_height() - threshold_y ) {
-            ret.y += speed;
+            ret.first.y += speed;
             if( iso ) {
-                ret.x -= speed;
+                ret.first.x -= speed;
             }
         }
-        last_mouse_edge_scroll_vector = ret;
+        ret.second = ret.first;
     } else if( event.type == CATA_INPUT_TIMEOUT ) {
-        return last_mouse_edge_scroll_vector;
+        ret.first = ret.second;
     }
 #endif
     return ret;
@@ -2260,12 +2261,20 @@ tripoint game::mouse_edge_scrolling( input_context ctxt, const int speed, bool i
 
 tripoint game::mouse_edge_scrolling_terrain( input_context &ctxt )
 {
-    return mouse_edge_scrolling( ctxt, std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 ), tile_iso );
+    auto ret = mouse_edge_scrolling( ctxt, std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 ),
+                                     last_mouse_edge_scroll_vector_terrain, tile_iso );
+    last_mouse_edge_scroll_vector_terrain = ret.second;
+    last_mouse_edge_scroll_vector_overmap = tripoint_zero;
+    return ret.first;
 }
 
 tripoint game::mouse_edge_scrolling_overmap( input_context &ctxt )
 {
-    return mouse_edge_scrolling( ctxt, 1, false ); // overmap has no iso mode
+    // overmap has no iso mode
+    auto ret = mouse_edge_scrolling( ctxt, 2, last_mouse_edge_scroll_vector_overmap, false );
+    last_mouse_edge_scroll_vector_overmap = ret.second;
+    last_mouse_edge_scroll_vector_terrain = tripoint_zero;
+    return ret.first;
 }
 
 input_context get_default_mode_input_context()
