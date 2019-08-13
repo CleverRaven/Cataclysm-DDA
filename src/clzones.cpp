@@ -710,7 +710,7 @@ bool zone_manager::custom_loot_has( const tripoint &where, const item *it ) cons
 }
 
 std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
-        const tripoint &where, int range, bool npc_search, const faction_id &fac ) const
+        const tripoint &where, int range, const item *it, const faction_id &fac ) const
 {
     const auto &point_set = get_point_set( type, fac );
     auto near_point_set = std::unordered_set<tripoint>();
@@ -723,9 +723,6 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
                         near_point_set.insert( point );
                     }
                 } else {
-                    if( npc_search && ( has( zone_type_id( "NO_NPC_PICKUP" ), point ) ) ){
-                        continue;
-                    }
                     near_point_set.insert( point );
                 }
             }
@@ -741,9 +738,6 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
                         near_point_set.insert( point );
                     }
                 } else {
-                    if( npc_search && ( has( zone_type_id( "NO_NPC_PICKUP" ), point ) ) ){
-                        continue;
-                    }
                     near_point_set.insert( point );
                 }
             }
