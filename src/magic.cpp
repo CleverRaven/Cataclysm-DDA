@@ -501,11 +501,6 @@ bool spell::is_spell_class( const trait_id &mid ) const
 
 bool spell::can_cast( const player &p ) const
 {
-    if( !p.magic.knows_spell( type->id ) ) {
-        // how in the world can this happen?
-        debugmsg( "ERROR: owner of spell does not know spell" );
-        return false;
-    }
     switch( type->energy_source ) {
         case mana_energy:
             return p.magic.available_mana() >= energy_cost( p );
