@@ -841,7 +841,7 @@ class Character : public Creature, public visitable<Character>
         int height() const;
         // returns bodyweight of the Character
         units::mass bodyweight() const;
-        // returns total weight of install bionics
+        // returns total weight of installed bionics
         units::mass bionics_weight() const;
         // increases the activity level to the next level
         // does not decrease activity level
