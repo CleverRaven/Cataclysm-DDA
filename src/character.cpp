@@ -3358,7 +3358,7 @@ units::mass Character::bodyweight() const
 
 units::mass Character::bionics_weight() const
 {
-    units::mass bio_weight = units::from_gram( 0 );
+    units::mass bio_weight = 0_gram;
     for( const auto bio : *my_bionics ) {
         const item cbm( bio.id.c_str() );
         bio_weight += cbm.weight();
