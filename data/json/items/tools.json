@@ -1522,8 +1522,8 @@
     "techniques": [ "WBLOCK_1" ],
     "weight": 907,
     "volume": "1 L",
-    "bashing": 12,
-    "cutting": 6,
+    "bashing": 13,
+    "cutting": 7,
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
     "to_hit": 1,
     "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "PRY", 2 ], [ "BUTCHER", 16 ] ]
