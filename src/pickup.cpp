@@ -181,7 +181,8 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
 
     // We already checked in do_pickup if this was a nullptr
     // Make copies so the original remains untouched if we bail out
-    item newit = *loc.get_item();
+    item_location newloc = loc;
+    item newit = *newloc.get_item();
     item leftovers = newit;
 
     const auto wield_check = u.can_wield( newit );
@@ -214,9 +215,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         picked_up = true;
         option = NUM_ANSWERS; //Skip the options part
     } else if( newit.is_frozen_liquid() ) {
-
-        //If the item we're trying to pick up is a frozen liquid, perform frozen liquid pickup logic
-        if( !( got_water = !( u.crush_frozen_liquid( newit.display_name(), loc ) ) ) ) {
+        if( !( got_water = !( u.crush_frozen_liquid( newloc ) ) ) ) {
             option = STASH;
         }
     } else if( !u.can_pickWeight( newit, false ) ) {

@@ -7505,6 +7505,7 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
             if( can_reload( *e, id ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
                 ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
             }
+            add_msg( ammo.get_item()->display_name() );
         }
     }
     return ammo_match_found;
@@ -11657,24 +11658,25 @@ item player::item_with_best_of_quality( quality_id qid )
     return null_item_reference();
 }
 
-bool player::crush_frozen_liquid( std::string itname, item_location loc )
+bool player::crush_frozen_liquid( item_location loc )
 {
 
     player &u = g->u;
 
     if( u.has_quality( quality_id( "HAMMER" ) ) ) {
         item hammering_item = u.item_with_best_of_quality( quality_id( "HAMMER" ) );
-        if( query_yn( _( "Do you want to crush up %s with your %s?\n%s" ), itname, hammering_item.tname(),
+        if( query_yn( _( "Do you want to crush up %s with your %s?\n%s" ), loc.get_item()->display_name(),
+                      hammering_item.tname(),
                       colorize( _( "Be wary of fragile items nearby!" ), c_red ) ) ) {
 
             //Risk smashing tile with hammering tool, risk is lower with higher dex, damage lower with lower strength
             if( one_in( 1 + u.dex_cur / 4 ) ) {
                 add_msg_if_player( colorize( _( "You swing your %s wildly!" ), c_red ),
-                                   hammering_item.display_name() );
+                                   hammering_item.tname() );
                 int smashskill = u.str_cur + hammering_item.damage_melee( DT_BASH );
                 g->m.bash( loc.position(), smashskill );
             }
-            add_msg_if_player( _( "You crush up and gather %s" ), itname );
+            add_msg_if_player( _( "You crush up and gather %s" ), loc.get_item()->display_name() );
             return true;
         }
     } else {
