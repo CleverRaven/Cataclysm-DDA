@@ -22,6 +22,7 @@
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "game.h"
+#include "ime.h"
 #include "input.h"
 #include "line.h"
 #include "map_iterator.h"
@@ -1029,11 +1030,8 @@ void create_note( const tripoint &curs )
     std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows =
         std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
 
-#if defined(__ANDROID__)
-    if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-        SDL_StartTextInput();
-    }
-#endif
+    // this implies enable_ime() and ensures that ime mode is always restored on return
+    ime_sentry sentry;
 
     bool esc_pressed = false;
     string_input_popup input_popup;
@@ -1062,6 +1060,8 @@ void create_note( const tripoint &curs )
             update_note_preview( new_note, map_around, preview_windows );
         }
     } while( true );
+
+    disable_ime();
 
     if( !esc_pressed && new_note.empty() && !old_note.empty() ) {
         if( query_yn( _( "Really delete note?" ) ) ) {

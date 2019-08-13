@@ -4,6 +4,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "game.h"
+#include "ime.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_search.h"
@@ -1498,11 +1499,7 @@ void inventory_selector::set_filter()
     .max_length( 256 )
     .text( filter );
 
-#if defined(__ANDROID__)
-    if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-        SDL_StartTextInput();
-    }
-#endif
+    ime_sentry sentry;
 
     do {
         mvwprintz( w_inv, getmaxy( w_inv ) - 1, 2, c_cyan, "< " );
