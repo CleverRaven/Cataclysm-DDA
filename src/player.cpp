@@ -11652,7 +11652,6 @@ item player::item_with_best_of_quality( quality_id qid )
     for( item *it : items_with_quality ) {
         if( it->get_quality( qid ) == maxq ) {
             return *it;
-            break;
         }
     }
     return null_item_reference();
