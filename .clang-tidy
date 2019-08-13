@@ -42,7 +42,6 @@ readability-*,\
 -modernize-use-transparent-functors,\
 -performance-for-range-copy,\
 -performance-inefficient-vector-operation,\
--performance-move-const-arg,\
 -performance-noexcept-move-constructor,\
 -performance-implicit-conversion-in-loop,\
 -performance-inefficient-algorithm,\
