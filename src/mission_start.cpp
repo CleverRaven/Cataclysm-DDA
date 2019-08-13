@@ -640,7 +640,8 @@ void mission_start::create_lab_console( mission *miss )
     loc.z = -1;
     const tripoint place = overmap_buffer.find_closest( loc, "lab", 0, false );
 
-    create_lab_consoles( miss, place, "lab", 2, "Workstation", "Download Memory Contents" );
+    create_lab_consoles( miss, place, "lab", 2, translate_marker( "Workstation" ),
+                         translate_marker( "Download Memory Contents" ) );
 
     // Target the lab entrance.
     const tripoint target = mission_util::target_closest_lab_entrance( place, 2, miss );
@@ -656,7 +657,8 @@ void mission_start::create_hidden_lab_console( mission *miss )
                      0, loc );
     place.z = -2;  // then go down 1 z-level to place consoles.
 
-    create_lab_consoles( miss, place, "lab", 3, "Workstation", "Download Encryption Routines" );
+    create_lab_consoles( miss, place, "lab", 3, translate_marker( "Workstation" ),
+                         translate_marker( "Download Encryption Routines" ) );
 
     // Target the lab entrance.
     const tripoint target = mission_util::target_closest_lab_entrance( place, 2, miss );
@@ -670,7 +672,8 @@ void mission_start::create_ice_lab_console( mission *miss )
     loc.z = -4;
     const tripoint place = overmap_buffer.find_closest( loc, "ice_lab", 0, false );
 
-    create_lab_consoles( miss, place, "ice_lab", 3, "Durable Storage Archive", "Download Archives" );
+    create_lab_consoles( miss, place, "ice_lab", 3, translate_marker( "Durable Storage Archive" ),
+                         translate_marker( "Download Archives" ) );
 
     // Target the lab entrance.
     const tripoint target = mission_util::target_closest_lab_entrance( place, 2, miss );
