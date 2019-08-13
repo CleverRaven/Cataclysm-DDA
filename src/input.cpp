@@ -921,21 +921,21 @@ cata::optional<tripoint> input_context::get_direction( const std::string &action
     const auto transform = iso_mode && tile_iso && use_tiles ? rotate : noop;
 
     if( action == "UP" ) {
-        return transform( tripoint( 0, -1, 0 ) );
+        return transform( tripoint_north );
     } else if( action == "DOWN" ) {
-        return transform( tripoint( 0, +1, 0 ) );
+        return transform( tripoint_south );
     } else if( action == "LEFT" ) {
-        return transform( tripoint( -1, 0, 0 ) );
+        return transform( tripoint_west );
     } else if( action == "RIGHT" ) {
-        return transform( tripoint( +1, 0, 0 ) );
+        return transform( tripoint_east );
     } else if( action == "LEFTUP" ) {
-        return transform( tripoint( -1, -1, 0 ) );
+        return transform( tripoint_north_west );
     } else if( action == "RIGHTUP" ) {
-        return transform( tripoint( +1, -1, 0 ) );
+        return transform( tripoint_north_east );
     } else if( action == "LEFTDOWN" ) {
-        return transform( tripoint( -1, +1, 0 ) );
+        return transform( tripoint_south_west );
     } else if( action == "RIGHTDOWN" ) {
-        return transform( tripoint( +1, +1, 0 ) );
+        return transform( tripoint_south_east );
     } else {
         return cata::nullopt;
     }

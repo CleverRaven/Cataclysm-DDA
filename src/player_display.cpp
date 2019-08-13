@@ -1286,14 +1286,14 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
             }
         }
         //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
-        mvwprintw( w_tip, point( 0, 0 ), _( "%1$s | %2$s | %3$s" ), name,
+        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s" ), name,
                    male ? _( "Male" ) : _( "Female" ), race );
     } else if( prof == nullptr || prof == profession::generic() ) {
         // Regular person. Nothing interesting.
         //~ player info window: 1s - name, 2s - gender, '|' - field separator.
-        mvwprintw( w_tip, point( 0, 0 ), _( "%1$s | %2$s" ), name, male ? _( "Male" ) : _( "Female" ) );
+        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s" ), name, male ? _( "Male" ) : _( "Female" ) );
     } else {
-        mvwprintw( w_tip, point( 0, 0 ), _( "%1$s | %2$s | %3$s" ), name,
+        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s" ), name,
                    male ? _( "Male" ) : _( "Female" ), prof->gender_appropriate_name( male ) );
     }
 

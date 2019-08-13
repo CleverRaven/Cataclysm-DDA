@@ -915,7 +915,7 @@ void defense_game::caravan()
 
     signed total_price = 0;
 
-    catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, point( 0, 0 ) );
+    catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, point_zero );
 
     int offset = 0;
     int item_selected = 0;

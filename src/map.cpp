@@ -1393,7 +1393,7 @@ ter_id map::ter( const tripoint &p ) const
 uint8_t map::get_known_connections( const tripoint &p, int connect_group ) const
 {
     constexpr std::array<point, 4> offsets = {{
-            { 0, 1 }, { 1, 0 }, { -1, 0 }, { 0, -1 }
+            point_south, point_east, point_west, point_north
         }
     };
     auto &ch = access_cache( p.z );
@@ -2139,7 +2139,7 @@ void map::drop_fields( const tripoint &p )
     }
 
     std::list<field_type_id> dropped;
-    const tripoint below = p - tripoint( 0, 0, 1 );
+    const tripoint below = p + tripoint_below;
     for( const auto &iter : fld ) {
         const field_entry &entry = iter.second;
         // For now only drop cosmetic fields, which don't warrant per-turn check
@@ -2773,7 +2773,7 @@ point map::random_outdoor_tile()
             }
         }
     }
-    return random_entry( options, point( -1, -1 ) );
+    return random_entry( options, point_north_west );
 }
 
 bool map::has_adjacent_furniture_with( const tripoint &p,

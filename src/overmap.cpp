@@ -1491,7 +1491,7 @@ bool overmap::generate_sub( const int z )
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             tripoint p( i, j, z );
-            oter_id oter_above = ter( p + tripoint( 0, 0, 1 ) );
+            oter_id oter_above = ter( p + tripoint_above );
             oter_id oter_ground = ter( tripoint( p.xy(), 0 ) );
             //oter_id oter_sewer = ter(i, j, -1);
             //oter_id oter_underground = ter(i, j, -2);

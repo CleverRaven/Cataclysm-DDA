@@ -1010,9 +1010,9 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
     } else if( action == "pause" ) {
         return tripoint_zero;
     } else if( action == "LEVEL_UP" ) {
-        return tripoint( 0, 0, 1 );
+        return tripoint_above;
     } else if( action == "LEVEL_DOWN" ) {
-        return tripoint( 0, 0, -1 );
+        return tripoint_below;
     }
 
     add_msg( _( "Invalid direction." ) );

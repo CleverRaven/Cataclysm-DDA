@@ -661,7 +661,7 @@ void iexamine::vending( player &p, const tripoint &examp )
         //12      34
         const std::string name = utf8_truncate( cur_item->display_name(),
                                                 static_cast<size_t>( w_info_w - 4 ) );
-        mvwprintw( w_item_info, point( 1, 0 ), "<%s>", name );
+        mvwprintw( w_item_info, point_east, "<%s>", name );
         wrefresh( w_item_info );
 
         const std::string &action = ctxt.handle_input();

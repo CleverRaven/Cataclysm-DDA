@@ -205,7 +205,7 @@ void item_pricing::adjust_values( const double adjust, faction *fac )
 
 void trading_window::setup_win( npc &np )
 {
-    w_head = catacurses::newwin( 4, TERMX, point( 0, 0 ) );
+    w_head = catacurses::newwin( 4, TERMX, point_zero );
     w_them = catacurses::newwin( TERMY - 4, win_they_w, point( 0, 4 ) );
     w_you = catacurses::newwin( TERMY - 4, TERMX - win_they_w, point( win_they_w, 4 ) );
     mvwprintz( w_head, 0, 0, c_white, header_message.c_str(), np.disp_name() );

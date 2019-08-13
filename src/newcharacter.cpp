@@ -441,7 +441,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     catacurses::window w;
     if( type != PLTYPE_NOW && type != PLTYPE_FULL_RANDOM ) {
-        w = catacurses::newwin( TERMY, TERMX, point( 0, 0 ) );
+        w = catacurses::newwin( TERMY, TERMX, point_zero );
     }
 
     int tab = 0;

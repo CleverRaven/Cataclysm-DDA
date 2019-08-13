@@ -495,10 +495,10 @@ static void mx_collegekids( map &m, const tripoint & )
 static void mx_roadblock( map &m, const tripoint &abs_sub )
 {
     const tripoint abs_omt = sm_to_omt_copy( abs_sub );
-    const oter_id &north = overmap_buffer.ter( abs_omt + point( 0, -1 ) );
-    const oter_id &south = overmap_buffer.ter( abs_omt + point( 0, 1 ) );
-    const oter_id &west = overmap_buffer.ter( abs_omt + point( -1, 0 ) );
-    const oter_id &east = overmap_buffer.ter( abs_omt + point( 1, 0 ) );
+    const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
+    const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
+    const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
+    const oter_id &east = overmap_buffer.ter( abs_omt + point_east );
 
     const bool road_at_north = is_ot_match( "road", north, ot_match_type::type );
     const bool road_at_south = is_ot_match( "road", south, ot_match_type::type );
@@ -653,10 +653,10 @@ static void mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
 static void mx_bandits_block( map &m, const tripoint &abs_sub )
 {
     const tripoint abs_omt = sm_to_omt_copy( abs_sub );
-    const oter_id &north = overmap_buffer.ter( abs_omt + point( 0, -1 ) );
-    const oter_id &south = overmap_buffer.ter( abs_omt + point( 0, 1 ) );
-    const oter_id &west = overmap_buffer.ter( abs_omt + point( -1, 0 ) );
-    const oter_id &east = overmap_buffer.ter( abs_omt + point( 1, 0 ) );
+    const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
+    const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
+    const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
+    const oter_id &east = overmap_buffer.ter( abs_omt + point_east );
 
     const bool forest_at_north = is_ot_match( "forest", north, ot_match_type::prefix );
     const bool forest_at_south = is_ot_match( "forest", south, ot_match_type::prefix );
@@ -676,7 +676,7 @@ static void mx_bandits_block( map &m, const tripoint &abs_sub )
         line( &m, t_trunk, 1, 18, 2, 22 );
         m.ter_set( point( 1, 2 ), t_stump );
         m.ter_set( point( 1, 20 ), t_stump );
-        m.ter_set( point( 1, 1 ), t_improvised_shelter );
+        m.ter_set( point_south_east, t_improvised_shelter );
         m.place_npc( 2, 19, string_id<npc_template>( "bandit" ) );
         if( one_in( 2 ) ) {
             m.place_npc( 1, 1, string_id<npc_template>( "bandit" ) );
@@ -688,7 +688,7 @@ static void mx_bandits_block( map &m, const tripoint &abs_sub )
         line( &m, t_trunk, 11, 3, 16, 3 );
         line( &m, t_trunk, 17, 2, 21, 2 );
         m.ter_set( point( 22, 2 ), t_stump );
-        m.ter_set( point( 0, 1 ), t_improvised_shelter );
+        m.ter_set( point_south, t_improvised_shelter );
         m.place_npc( 20, 3, string_id<npc_template>( "bandit" ) );
         if( one_in( 2 ) ) {
             m.place_npc( 0, 1, string_id<npc_template>( "bandit" ) );
@@ -882,10 +882,10 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
 {
     const tripoint abs_omt = sm_to_omt_copy( abs_sub );
     const oter_id &center = overmap_buffer.ter( abs_omt );
-    const oter_id &north = overmap_buffer.ter( abs_omt + point( 0, -1 ) );
-    const oter_id &south = overmap_buffer.ter( abs_omt + point( 0, 1 ) );
-    const oter_id &west = overmap_buffer.ter( abs_omt + point( -1, 0 ) );
-    const oter_id &east = overmap_buffer.ter( abs_omt + point( 1, 0 ) );
+    const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
+    const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
+    const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
+    const oter_id &east = overmap_buffer.ter( abs_omt + point_east );
 
     const bool bridge_at_center = is_ot_match( "bridge", center, ot_match_type::type );
     const bool bridge_at_north = is_ot_match( "bridge", north, ot_match_type::type );
@@ -1404,14 +1404,14 @@ static void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<poi
 
         // Add all adjacent tiles (even on diagonals) for possible ignition
         // Since they're being added to a set, duplicates won't occur
-        ignited.insert( i + point( -1, -1 ) );
-        ignited.insert( i + point( 0, -1 ) );
-        ignited.insert( i + point( 1, -1 ) );
-        ignited.insert( i + point( -1, 0 ) );
-        ignited.insert( i + point( 1, 0 ) );
-        ignited.insert( i + point( -1, 1 ) );
-        ignited.insert( i + point( 0, 1 ) );
-        ignited.insert( i + point( 1, 1 ) );
+        ignited.insert( i + point_north_west );
+        ignited.insert( i + point_north );
+        ignited.insert( i + point_north_east );
+        ignited.insert( i + point_west );
+        ignited.insert( i + point_east );
+        ignited.insert( i + point_south_west );
+        ignited.insert( i + point_south );
+        ignited.insert( i + point_south_east );
 
         if( one_in( 6 ) ) {
             m.spawn_item( i.x - 1, i.y - 1, "chunk_sulfur" );
@@ -2030,10 +2030,10 @@ static void mx_roadworks( map &m, const tripoint &abs_sub )
     // (curved roads & intersections excluded, perhaps TODO)
 
     const tripoint abs_omt = sm_to_omt_copy( abs_sub );
-    const oter_id &north = overmap_buffer.ter( abs_omt + point( 0, -1 ) );
-    const oter_id &south = overmap_buffer.ter( abs_omt + point( 0, 1 ) );
-    const oter_id &west = overmap_buffer.ter( abs_omt + point( -1, 0 ) );
-    const oter_id &east = overmap_buffer.ter( abs_omt + point( 1, 0 ) );
+    const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
+    const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
+    const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
+    const oter_id &east = overmap_buffer.ter( abs_omt + point_east );
 
     const bool road_at_north = is_ot_match( "road", north, ot_match_type::type );
     const bool road_at_south = is_ot_match( "road", south, ot_match_type::type );

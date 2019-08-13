@@ -2043,10 +2043,10 @@ bool cata_tiles::draw_furniture( const tripoint &p, lit_level ll, int &height_3d
 
     // for rotation information
     const int neighborhood[4] = {
-        static_cast<int>( g->m.furn( p + point( 0, 1 ) ) ), // south
-        static_cast<int>( g->m.furn( p + point( 1, 0 ) ) ), // east
-        static_cast<int>( g->m.furn( p + point( -1, 0 ) ) ), // west
-        static_cast<int>( g->m.furn( p + point( 0, -1 ) ) ) // north
+        static_cast<int>( g->m.furn( p + point_south ) ),
+        static_cast<int>( g->m.furn( p + point_east ) ),
+        static_cast<int>( g->m.furn( p + point_west ) ),
+        static_cast<int>( g->m.furn( p + point_north ) )
     };
 
     int subtile = 0;
@@ -2072,10 +2072,10 @@ bool cata_tiles::draw_trap( const tripoint &p, lit_level ll, int &height_3d )
     }
 
     const int neighborhood[4] = {
-        static_cast<int>( g->m.tr_at( p + point( 0, 1 ) ).loadid ), // south
-        static_cast<int>( g->m.tr_at( p + point( 1, 0 ) ).loadid ), // east
-        static_cast<int>( g->m.tr_at( p + point( -1, 0 ) ).loadid ), // west
-        static_cast<int>( g->m.tr_at( p + point( 0, -1 ) ).loadid ) // north
+        static_cast<int>( g->m.tr_at( p + point_south ).loadid ),
+        static_cast<int>( g->m.tr_at( p + point_east ).loadid ),
+        static_cast<int>( g->m.tr_at( p + point_west ).loadid ),
+        static_cast<int>( g->m.tr_at( p + point_north ).loadid )
     };
 
     int subtile = 0;
@@ -2108,10 +2108,10 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
     if( fld_type.display_field ) {
         // for rotation information
         const int neighborhood[4] = {
-            static_cast<int>( g->m.field_at( p + point( 0, 1 ) ).displayed_field_type() ), // south
-            static_cast<int>( g->m.field_at( p + point( 1, 0 ) ).displayed_field_type() ), // east
-            static_cast<int>( g->m.field_at( p + point( -1, 0 ) ).displayed_field_type() ), // west
-            static_cast<int>( g->m.field_at( p + point( 0, -1 ) ).displayed_field_type() ) // north
+            static_cast<int>( g->m.field_at( p + point_south ).displayed_field_type() ),
+            static_cast<int>( g->m.field_at( p + point_east ).displayed_field_type() ),
+            static_cast<int>( g->m.field_at( p + point_west ).displayed_field_type() ),
+            static_cast<int>( g->m.field_at( p + point_north ).displayed_field_type() )
         };
 
         int subtile = 0;
@@ -2775,10 +2775,10 @@ void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &sub
 
     // get terrain neighborhood
     const ter_id neighborhood[4] = {
-        g->m.ter( p + point( 0, 1 ) ), // south
-        g->m.ter( p + point( 1, 0 ) ), // east
-        g->m.ter( p + point( -1, 0 ) ), // west
-        g->m.ter( p + point( 0, -1 ) ) // north
+        g->m.ter( p + point_south ),
+        g->m.ter( p + point_east ),
+        g->m.ter( p + point_west ),
+        g->m.ter( p + point_north )
     };
 
     bool connects[4];

@@ -203,7 +203,7 @@ void main_menu::init_windows()
         return;
     }
 
-    w_background = catacurses::newwin( TERMY, TERMX, point( 0, 0 ) );
+    w_background = catacurses::newwin( TERMY, TERMX, point_zero );
     werase( w_background );
     wrefresh( w_background );
 

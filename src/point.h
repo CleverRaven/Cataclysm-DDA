@@ -72,7 +72,7 @@ struct point {
      * Rotate point clockwise @param turns times, 90 degrees per turn,
      * around the center of a rectangle with the dimensions specified
      * by @param dim. By default rotates around the origin (0, 0).
-     */
+     * NOLINTNEXTLINE(cata-use-named-point-constants) */
     point rotate( int turns, const point &dim = { 1, 1 } ) const {
         assert( turns >= 0 );
         assert( turns <= 4 );
@@ -345,14 +345,14 @@ static constexpr std::array<point, 4> four_adjacent_offsets{{
     }};
 
 static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
-        { -1, -1, 0 },
-        {  0, -1, 0 },
-        { +1, -1, 0 },
-        { -1,  0, 0 },
-        { +1,  0, 0 },
-        { -1, +1, 0 },
-        {  0, +1, 0 },
-        { +1, +1, 0 },
+        { tripoint_north_west },
+        { tripoint_north },
+        { tripoint_north_east },
+        { tripoint_west },
+        { tripoint_east },
+        { tripoint_south_west },
+        { tripoint_south },
+        { tripoint_south_east },
     }
 };
 
