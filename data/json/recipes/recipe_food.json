@@ -5768,6 +5768,7 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "time": "1 m",
+    "book_learn": [ [ "mag_glam", 1 ] ],
     "qualities": [ { "id": "SMOOTH_FINE", "level": 1 } ],
     "components": [
       [ [ "flatbread", 1 ], [ "bread", 1 ], [ "cornbread", 1 ], [ "wastebread", 1 ], [ "sourdough_bread", 1 ] ],
