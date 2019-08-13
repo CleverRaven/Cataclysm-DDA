@@ -171,7 +171,7 @@
     "name": "gelled gasoline",
     "name_plural": "gelled gasoline",
     "copy-from": "gasoline",
-    "description": "A flammable gel composed of gasoline and dissolved shavings of polystyrene, roughly similar in properties to napalm b.  It’s meant to be used with a flamethrower.",
+    "description": "A flammable gel composed of gasoline and dissolved shavings of polystyrene, roughly similar in properties to napalm b.  It's meant to be used with a flamethrower.",
     "price": 400,
     "ammo_type": "flammable",
     "damage": 10,
