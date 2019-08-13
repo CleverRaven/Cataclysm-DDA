@@ -2712,6 +2712,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     }
 
     if( lang_changed ) {
+        update_global_locale();
         set_language();
     }
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
@@ -2838,6 +2839,8 @@ void options_manager::load()
         }
     }
 
+    update_global_locale();
+
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
@@ -2918,4 +2921,38 @@ std::vector<std::string> options_manager::getWorldOptPageItems() const
     // TODO: mPageItems is const here, so we can not use its operator[], therefore the copy
     auto temp = mPageItems;
     return temp[iWorldOptPage];
+}
+
+void options_manager::update_global_locale()
+{
+    std::string lang = ::get_option<std::string>( "USE_LANG" );
+    try {
+        if( lang == "en" ) {
+            std::locale::global( std::locale( "en_US.UTF-8" ) );
+        } else if( lang == "de" ) {
+            std::locale::global( std::locale( "de_DE.UTF-8" ) );
+        } else if( lang == "es_AR" ) {
+            std::locale::global( std::locale( "es_AR.UTF-8" ) );
+        } else if( lang == "es_ES" ) {
+            std::locale::global( std::locale( "es_ES.UTF-8" ) );
+        } else if( lang == "fr" ) {
+            std::locale::global( std::locale( "fr_FR.UTF-8" ) );
+        } else if( lang == "hu" ) {
+            std::locale::global( std::locale( "hu_HU.UTF-8" ) );
+        } else if( lang == "ja" ) {
+            std::locale::global( std::locale( "ja_JP.UTF-8" ) );
+        } else if( lang == "ko" ) {
+            std::locale::global( std::locale( "ko_KR.UTF-8" ) );
+        } else if( lang == "pl" ) {
+            std::locale::global( std::locale( "pl_PL.UTF-8" ) );
+        } else if( lang == "ru" ) {
+            std::locale::global( std::locale( "ru_RU.UTF-8" ) );
+        } else if( lang == "zh_CN" ) {
+            std::locale::global( std::locale( "zh_CN.UTF-8" ) );
+        } else if( lang == "zh_TW" ) {
+            std::locale::global( std::locale( "zh_TW.UTF-8" ) );
+        };
+    } catch( std::runtime_error &e ) {
+        std::locale::global( std::locale( "en_US.UTF-8" ) );
+    }
 }

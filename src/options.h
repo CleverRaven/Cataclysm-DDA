@@ -39,6 +39,8 @@ class options_manager
         void enable_json( const std::string &var );
         void add_retry( const std::string &var, const std::string &val );
 
+        void update_global_locale();
+
         std::map<std::string, std::string> post_json_verify;
 
         std::map<std::string, std::pair<std::string, std::map<std::string, std::string> > > mMigrateOption;
