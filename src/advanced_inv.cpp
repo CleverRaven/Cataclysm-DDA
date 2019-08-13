@@ -7,6 +7,7 @@
 #include "debug.h"
 #include "field.h"
 #include "game.h"
+#include "ime.h"
 #include "input.h"
 #include "item_category.h"
 #include "item_search.h"
@@ -1812,11 +1813,7 @@ void advanced_inventory::display()
 
             draw_item_filter_rules( dpane.window, 1, 11, item_filter_type::FILTER );
 
-#if defined(__ANDROID__)
-            if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                SDL_StartTextInput();
-            }
-#endif
+            ime_sentry sentry;
 
             do {
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, 2, c_cyan, "< " );

@@ -5,8 +5,10 @@
 #include "compatibility.h" // IWYU pragma: keep
 #include "debug.h"
 #include "game.h"
+#include "ime.h"
 #include "input.h"
 #include "json.h"
+#include "optional.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -453,6 +455,8 @@ class dialog
 
         bool canceled;
         bool errored;
+
+        cata::optional<ime_sentry> filter_sentry;
 };
 } // namespace Messages
 
@@ -681,6 +685,9 @@ void Messages::dialog::input()
         filter.query( false );
         if( filter.confirmed() || filter.canceled() ) {
             filtering = false;
+            if( filter_sentry ) {
+                disable_ime();
+            }
         }
         if( !filter.canceled() ) {
             const std::string &new_filter_str = filter.text();
@@ -714,11 +721,13 @@ void Messages::dialog::input()
             }
         } else if( action == "FILTER" ) {
             filtering = true;
-#if defined(__ANDROID__)
-            if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                SDL_StartTextInput();
+            if( filter_sentry ) {
+                enable_ime();
+            } else {
+                // this implies enable_ime() and ensures that the ime mode is always
+                // restored when closing the dialog if at least filtered once
+                filter_sentry.emplace();
             }
-#endif
         } else if( action == "RESET_FILTER" ) {
             filter_str.clear();
             filter.text( filter_str );

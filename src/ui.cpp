@@ -13,6 +13,7 @@
 #include "catacharset.h"
 #include "debug.h"
 #include "game.h"
+#include "ime.h"
 #include "input.h"
 #include "output.h"
 #include "player.h"
@@ -241,11 +242,7 @@ std::string uilist::inputfilter()
     .window( window, 4, w_height - 1, w_width - 4 )
     .identifier( identifier );
     input_event event;
-#if defined(__ANDROID__)
-    if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-        SDL_StartTextInput();
-    }
-#endif
+    ime_sentry sentry;
     do {
         // filter=filter_input->query(filter, false);
         filter = popup.query_string( false );

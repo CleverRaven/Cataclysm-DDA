@@ -750,4 +750,9 @@ int get_scaling_factor()
     return 1;
 }
 
+HWND getWindowHandle()
+{
+    return WindowHandle;
+}
+
 #endif

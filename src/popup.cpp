@@ -4,6 +4,7 @@
 #include <array>
 #include <memory>
 
+#include "ime.h"
 #include "input.h"
 #include "output.h"
 #include "catacharset.h"
@@ -323,6 +324,8 @@ query_popup::result query_popup::query_once()
 
 query_popup::result query_popup::query()
 {
+    ime_sentry sentry( ime_sentry::disable );
+
     result res;
     do {
         res = query_once();

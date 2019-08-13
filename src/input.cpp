@@ -20,6 +20,7 @@
 #include "filesystem.h"
 #include "game.h"
 #include "help.h"
+#include "ime.h"
 #include "json.h"
 #include "optional.h"
 #include "options.h"
@@ -1021,6 +1022,8 @@ void input_context::display_menu()
     .max_length( legwidth )
     .context( ctxt );
 
+    // do not switch IME mode now, but restore previous mode on return
+    ime_sentry sentry( ime_sentry::keep );
     while( true ) {
         werase( w_help );
         draw_border( w_help, BORDER_COLOR, _( "Keybindings" ), c_light_red );

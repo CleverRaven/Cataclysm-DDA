@@ -4,7 +4,9 @@
 
 #include "catacharset.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
+#include "ime.h"
 #include "input.h"
+#include "optional.h"
 #include "output.h"
 #include "ui.h"
 #include "uistate.h"
@@ -294,11 +296,10 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     if( !ctxt ) {
         create_context();
     }
-#if defined(__ANDROID__)
-    if( !draw_only && loop && get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-        SDL_StartTextInput();
+    cata::optional<ime_sentry> sentry;
+    if( !draw_only && loop ) {
+        sentry.emplace();
     }
-#endif
     utf8_wrapper ret( _text );
     utf8_wrapper edit( ctxt->get_edittext() );
     if( _position == -1 ) {

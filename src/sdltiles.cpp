@@ -24,8 +24,12 @@
 
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL_image.h>
+#   include <SDL2/SDL_syswm.h>
 #else
 #   include <SDL_image.h>
+#ifdef _WIN32
+#   include <SDL_syswm.h>
+#endif
 #endif
 
 #include "avatar.h"
@@ -3907,5 +3911,15 @@ bool save_screenshot( const std::string &file_path )
 
     return true;
 }
+
+#ifdef _WIN32
+HWND getWindowHandle()
+{
+    SDL_SysWMinfo info;
+    SDL_VERSION( &info.version );
+    SDL_GetWindowWMInfo( ::window.get(), &info );
+    return info.info.win.window;
+}
+#endif
 
 #endif // TILES
