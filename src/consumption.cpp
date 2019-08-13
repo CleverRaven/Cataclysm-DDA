@@ -451,8 +451,13 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
 {
 
     const auto &comest = food.get_comestible();
-    if( !comest ) {
+    if( !comest && !food.is_fuel() ) {
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
+    }
+
+    if( !can_fuel_bionic_with( food ) ) {
+        return ret_val<edible_rating>::make_failure(
+                   _( "You don't have the proper bionic to use this fuel." ) );
     }
 
     if( food.has_flag( "INEDIBLE" ) ) {
@@ -504,7 +509,7 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
     if( comest->tool != "null" ) {
         const bool has = item::count_by_charges( comest->tool )
                          ? has_charges( comest->tool, 1 )
-                         : has_amount( comest->tool, 1 );
+                         : has_amount( comest->tool, 1 ) || can_fuel_bionic_with( food );
         if( !has ) {
             return ret_val<edible_rating>::make_failure( NO_TOOL,
                     string_format( _( "You need a %s to consume that!" ),
@@ -1317,10 +1322,11 @@ bool player::fuel_bionic_with( item &it )
     }
 
     it.charges -= 1;
-    charge_power( it.fuel_energy );
+    charge_power( it.fuel_energy() );
     add_msg_player_or_npc( m_info,
-                           _( "You consume a %s and recharge %d point of energy." ),
-                           _( "<npcname> digests a %s and recharges %d points of energy." ), it.tname(), it.fuel_energy() );
+                           _( "You consume one charge of %s and recharge %i point of energy." ),
+                           _( "<npcname> consume one charge of %s and recharges %i points of energy." ), it.tname(),
+                           static_cast<int>( it.fuel_energy() ) );
     mod_moves( -250 );
     return true;
 }
