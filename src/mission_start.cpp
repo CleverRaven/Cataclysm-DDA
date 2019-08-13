@@ -164,7 +164,7 @@ static tripoint find_potential_computer_point( const tinymap &compmap, int z )
                         compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, SOUTH ) &&
                         compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, WEST ) &&
                         compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, EAST ) ) {
-                        potential.push_back( tripoint( x, y, z ) );
+                        potential.emplace_back( x, y, z );
                     }
                 }
             } else if( broken.empty() && potential.empty() && x >= rng_x_min && x <= rng_x_max
