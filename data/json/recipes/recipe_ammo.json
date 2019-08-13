@@ -875,6 +875,36 @@
   },
   {
     "type": "recipe",
+    "result": "gelled_gasoline",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "batch_time_factors": [ 80, 5 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "book_learn": [ [ "textbook_gaswarfare", 2 ], [ "textbook_anarch", 2, "Stuff THE MAN doesn't want you to know" ] ],
+    "components": [ [ [ "gasoline", 100 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "flamethrower_fuel",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "3 m",
+    "batch_time_factors": [ 80, 5 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "book_learn": [
+      [ "textbook_gaswarfare", 2 ],
+      [ "textbook_anarch", 2, "Stuff THE MAN doesn't want you to know" ],
+      [ "manual_launcher", 2 ]
+    ],
+    "components": [ [ [ "gasoline", 125 ], [ "diesel", 125 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "spiked_rocket",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
