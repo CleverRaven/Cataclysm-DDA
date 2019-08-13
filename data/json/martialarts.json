@@ -345,6 +345,70 @@
   },
   {
     "type": "martial_art",
+    "id": "style_fencing",
+    "name": "Fencing",
+    "description": "The noble art of fencing is taught with flexible competition blades, but the techniques are derived from (and applicable to) more functional examples.  Skilled fencers can take advantage of blocks and feints to deliver accurate strikes.",
+    "initiate": [ "You move into the en-garde stance.", "%s moves into a fencing stance." ],
+    "learn_difficulty": 5,
+    "primary_skill": "stabbing",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "buff_fencing_static",
+        "name": "Fencing Stance",
+        "description": "Your side stance minimizes the chances you will be harmed in a combat.\n\nBlocked damage reduced by 50%% of Dexterity.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "flat_bonuses": [ [ "block", "dex", 0.5 ] ]
+      }
+    ],
+    "onblock_buffs": [
+      {
+        "id": "buff_fencing_onblock",
+        "name": "Parry",
+        "description": "Your next strike will find it's mark much easier from your parry.\n\n+1 Accuracy.\nLasts 1 turn.",
+        "min_melee": 1,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "hit", 1.0 ] ]
+      }
+    ],
+    "onmiss_buffs": [
+      {
+        "id": "buff_fencing_onmiss",
+        "name": "Remise",
+        "description": "Your feint is the perfect setup for a devistating followup attack!\n\n+1 Accuracy.\nEnables \"Compound Attack\" technique.\nLasts 1 turn.",
+        "min_melee": 3,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "hit", 1.0 ] ]
+      }
+    ],
+    "techniques": [ "tec_fencing_feint", "tec_fencing_lunge", "tec_fencing_riposte", "tec_fencing_compound" ],
+    "weapons": [
+      "baton-extended",
+      "broadsword",
+      "broadsword_inferior",
+      "broadsword_fake",
+      "broadfire_off",
+      "broadfire_on",
+      "cane",
+      "cavalry_sabre",
+      "cavalry_sabre_fake",
+      "cudgel",
+      "fencing_foil",
+      "fencing_sabre",
+      "fencing_epee",
+      "pointy_stick",
+      "pipe",
+      "rapier",
+      "rapier_fake",
+      "stick",
+      "umbrella"
+    ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_karate",
     "name": "Karate",
     "description": "Karate is a popular martial art, originating from Japan.  It focuses on rapid, precise attacks, blocks, and fluid movement.  A successful hit allows you an extra dodge and two extra blocks on the following round.",
@@ -709,47 +773,6 @@
       "switchblade",
       "l-stick",
       "l-stick_on"
-    ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_fencing",
-    "name": "Fencing",
-    "description": "The noble art of fencing is taught with flexible competition blades, but the techniques are derived from (and applicable to) more functional examples.  Skilled fencers can take advantage of advances and retreats to deliver accurate strikes.",
-    "initiate": [ "You move into the en-garde stance.", "%s moves into a fencing stance." ],
-    "learn_difficulty": 5,
-    "primary_skill": "stabbing",
-    "arm_block": 99,
-    "leg_block": 99,
-    "strictly_melee": true,
-    "onmove_buffs": [
-      {
-        "id": "fencing_move_buff",
-        "name": "Fencing Footwork",
-        "description": "+2 stab and +1 acc per stack",
-        "min_melee": 2,
-        "buff_duration": 2,
-        "max_stacks": 2,
-        "flat_bonuses": [ [ "damage", "stab", 2.0 ], [ "hit", 1.0 ] ]
-      }
-    ],
-    "techniques": [ "tec_feint", "tec_fencing_lunge", "tec_fencing_stop_thrust", "tec_fencing_thrust" ],
-    "weapons": [
-      "broadsword",
-      "broadsword_inferior",
-      "broadsword_fake",
-      "broadfire_off",
-      "broadfire_on",
-      "rapier",
-      "rapier_fake",
-      "cavalry_sabre",
-      "cavalry_sabre_fake",
-      "fencing_foil",
-      "fencing_sabre",
-      "fencing_epee",
-      "umbrella",
-      "cane",
-      "cudgel"
     ]
   },
   {
