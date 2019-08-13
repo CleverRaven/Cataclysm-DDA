@@ -1216,7 +1216,7 @@ bool veh_interact::do_refill( std::string &msg )
     auto act = [&]( const vehicle_part & pt ) {
         auto validate = [&]( const item & obj ) {
             if( pt.is_tank() ) {
-                if( obj.is_watertight_container() && !obj.contents.empty() ) {
+                if( obj.is_container() && !obj.contents.empty() ) {
                     return pt.can_reload( obj.contents.front() );
                 }
             } else if( pt.is_fuel_store() ) {
@@ -3000,7 +3000,7 @@ void veh_interact::complete_vehicle()
             auto &src = g->u.activity.targets.front();
             struct vehicle_part &pt = veh->parts[ vehicle_part ];
             std::list<item> &contents = src->contents;
-            if( pt.is_tank() && src->is_watertight_container() && !contents.empty() ) {
+            if( pt.is_tank() && src->is_container() && !contents.empty() ) {
 
                 pt.base.fill_with( contents.front() );
 
