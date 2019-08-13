@@ -322,7 +322,8 @@ struct vehicle_part {
         point mount;
 
         /** mount translated to face.dir [0] and turn_dir [1] */
-        std::array<point, 2> precalc = { { point_north_west, point_north_west } };
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        std::array<point, 2> precalc = { { point( -1, -1 ), point( -1, -1 ) } };
 
         /** current part health with range [0,durability] */
         int hp() const;

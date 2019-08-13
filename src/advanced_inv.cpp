@@ -82,21 +82,21 @@ advanced_inventory::advanced_inventory()
       // panes don't need initialization, they are recalculated immediately
     , squares( {
     {
-        //               hx  hy  x    y   z
-        { AIM_INVENTORY, 25, 2, {tripoint_zero},       _( "Inventory" ),          _( "IN" ) },
-        { AIM_SOUTHWEST, 30, 3, {tripoint_south_west}, _( "South West" ),         _( "SW" ) },
-        { AIM_SOUTH,     33, 3, {tripoint_south},      _( "South" ),              _( "S" )  },
-        { AIM_SOUTHEAST, 36, 3, {tripoint_south_east}, _( "South East" ),         _( "SE" ) },
-        { AIM_WEST,      30, 2, {tripoint_west},       _( "West" ),               _( "W" )  },
-        { AIM_CENTER,    33, 2, {tripoint_zero},       _( "Directly below you" ), _( "DN" ) },
-        { AIM_EAST,      36, 2, {tripoint_east},       _( "East" ),               _( "E" )  },
-        { AIM_NORTHWEST, 30, 1, {tripoint_north_west}, _( "North West" ),         _( "NW" ) },
-        { AIM_NORTH,     33, 1, {tripoint_north},      _( "North" ),              _( "N" )  },
-        { AIM_NORTHEAST, 36, 1, {tripoint_north_east}, _( "North East" ),         _( "NE" ) },
-        { AIM_DRAGGED,   25, 1, {tripoint_zero},       _( "Grabbed Vehicle" ),    _( "GR" ) },
-        { AIM_ALL,       22, 3, {tripoint_zero},       _( "Surrounding area" ),   _( "AL" ) },
-        { AIM_CONTAINER, 22, 1, {tripoint_zero},       _( "Container" ),          _( "CN" ) },
-        { AIM_WORN,      25, 3, {tripoint_zero},       _( "Worn Items" ),         _( "WR" ) }
+        //               hx  hy
+        { AIM_INVENTORY, 25, 2, tripoint_zero,       _( "Inventory" ),          _( "IN" ) },
+        { AIM_SOUTHWEST, 30, 3, tripoint_south_west, _( "South West" ),         _( "SW" ) },
+        { AIM_SOUTH,     33, 3, tripoint_south,      _( "South" ),              _( "S" )  },
+        { AIM_SOUTHEAST, 36, 3, tripoint_south_east, _( "South East" ),         _( "SE" ) },
+        { AIM_WEST,      30, 2, tripoint_west,       _( "West" ),               _( "W" )  },
+        { AIM_CENTER,    33, 2, tripoint_zero,       _( "Directly below you" ), _( "DN" ) },
+        { AIM_EAST,      36, 2, tripoint_east,       _( "East" ),               _( "E" )  },
+        { AIM_NORTHWEST, 30, 1, tripoint_north_west, _( "North West" ),         _( "NW" ) },
+        { AIM_NORTH,     33, 1, tripoint_north,      _( "North" ),              _( "N" )  },
+        { AIM_NORTHEAST, 36, 1, tripoint_north_east, _( "North East" ),         _( "NE" ) },
+        { AIM_DRAGGED,   25, 1, tripoint_zero,       _( "Grabbed Vehicle" ),    _( "GR" ) },
+        { AIM_ALL,       22, 3, tripoint_zero,       _( "Surrounding area" ),   _( "AL" ) },
+        { AIM_CONTAINER, 22, 1, tripoint_zero,       _( "Container" ),          _( "CN" ) },
+        { AIM_WORN,      25, 3, tripoint_zero,       _( "Worn Items" ),         _( "WR" ) }
     }
 } )
 {

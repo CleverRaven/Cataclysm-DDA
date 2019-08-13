@@ -4600,7 +4600,6 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
     tinymap basement;
     basement.load( tripoint( abs_sub_here.xy(), abs_sub_here.z - 1 ), false );
 
-    const tripoint down( tripoint_below );
     const tripoint from( 0, 0, abs_sub_here.z );
     const tripoint to( SEEX * 2, SEEY * 2, abs_sub_here.z );
     tripoint_range tr = m->points_in_rectangle( from, to );
@@ -4609,7 +4608,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
 
     // Find the basement's stairs first.
     for( auto &&p : tr ) { // *NOPAD*
-        if( basement.has_flag( TFLAG_GOES_UP, p + down ) ) {
+        if( basement.has_flag( TFLAG_GOES_UP, p + tripoint_below ) ) {
             const tripoint rotated = om_direction::rotate( p, terrain_type->get_dir() );
             stairs.emplace_back( rotated );
             stairs_debug_log( m, "basement stairs:", rotated );

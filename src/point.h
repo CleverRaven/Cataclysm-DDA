@@ -346,12 +346,12 @@ static constexpr std::array<point, 4> four_adjacent_offsets{{
 
 static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
         { tripoint_north_west },
-        {  tripoint_north },
+        { tripoint_north },
         { tripoint_north_east },
         { tripoint_west },
         { tripoint_east },
         { tripoint_south_west },
-        {  tripoint_south },
+        { tripoint_south },
         { tripoint_south_east },
     }
 };

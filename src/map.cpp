@@ -1393,7 +1393,7 @@ ter_id map::ter( const tripoint &p ) const
 uint8_t map::get_known_connections( const tripoint &p, int connect_group ) const
 {
     constexpr std::array<point, 4> offsets = {{
-            { point_south }, { point_east }, { point_west }, { point_north }
+            point_south, point_east, point_west, point_north
         }
     };
     auto &ch = access_cache( p.z );
@@ -2139,7 +2139,7 @@ void map::drop_fields( const tripoint &p )
     }
 
     std::list<field_type_id> dropped;
-    const tripoint below = p - tripoint_above;
+    const tripoint below = p + tripoint_below;
     for( const auto &iter : fld ) {
         const field_entry &entry = iter.second;
         // For now only drop cosmetic fields, which don't warrant per-turn check

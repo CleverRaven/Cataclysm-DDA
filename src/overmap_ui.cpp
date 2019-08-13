@@ -361,7 +361,7 @@ class map_notes_callback : public uilist_callback
 
 static point draw_notes( const tripoint &origin )
 {
-    point result( point_north_west );
+    point result = point_min;
 
     bool refresh = true;
     uilist nmenu;
@@ -1406,7 +1406,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             }
         } else if( action == "LIST_NOTES" ) {
             const point p = draw_notes( curs );
-            if( p.x != -1 && p.y != -1 ) {
+            if( p != point_min ) {
                 curs.x = p.x;
                 curs.y = p.y;
             }

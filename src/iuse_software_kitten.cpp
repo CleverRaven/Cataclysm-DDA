@@ -239,7 +239,8 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
 
     const int numbogus = 20;
     nummessages = 201;
-    empty.pos = point_north_west;
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    empty.pos = point( -1, -1 );
     empty.color = nc_color();
     empty.character = ' ';
     for( int ( &col )[rfkLINES] : rfkscreen ) {
