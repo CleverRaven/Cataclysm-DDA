@@ -746,7 +746,7 @@ void character_edit_menu()
             const auto all_missions = mission_type::get_all();
             std::vector<const mission_type *> mts;
             for( size_t i = 0; i < all_missions.size(); i++ ) {
-                types.addentry( i, true, -1, all_missions[i].name );
+                types.addentry( i, true, -1, all_missions[i].tname() );
                 mts.push_back( &all_missions[i] );
             }
 
