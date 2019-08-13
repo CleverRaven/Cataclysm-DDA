@@ -835,6 +835,7 @@
   {
     "type": "COMESTIBLE",
     "id": "seed_rejuvenator_active",
+    "category": "seeds",
     "copy_from": "seed_rejuvenator_inactive",
     "looks_like": "seed_rejuvenator_inactive",
     "symbol": ".",

@@ -658,7 +658,7 @@
     "name_plural": "requvenator fruits",
     "weight": 546,
     "color": "magenta",
-    "addiction_potential": 8,
+    "addiction_potential": 60,
     "addiction_type": "mutagen",
     "spoils_in": "4 days 8 hours",
     "comestible_type": "FOOD",
@@ -668,7 +668,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You eat the rejuvenator fruit.",
-      "effects": [ { "id": "rejuvenated", "duration": 600, "dur_add_perc": 70 } ]
+      "effects": [ { "id": "rejuvenated", "duration": 3600, "dur_add_perc": 40 } ]
     },
     "calories": 95,
     "description": "Heavy fruit said to give youth.",
