@@ -1180,8 +1180,7 @@ void trapfunc::ledge( const tripoint &p, Creature *c, item * )
 
             c->setpos( dest );
             if( m != nullptr ) {
-                g->remove_zombie( *m );
-                overmap_buffer.despawn_monster( *m );
+                g->despawn_monster( *m );
             }
         }
 
