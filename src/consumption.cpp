@@ -451,13 +451,8 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
 {
 
     const auto &comest = food.get_comestible();
-    if( !comest && !food.is_fuel() ) {
+    if( !comest ) {
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
-    }
-
-    if( !can_fuel_bionic_with( food ) ) {
-        return ret_val<edible_rating>::make_failure(
-                   _( "You don't have the proper bionic to use this fuel." ) );
     }
 
     if( food.has_flag( "INEDIBLE" ) ) {
@@ -509,7 +504,7 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
     if( comest->tool != "null" ) {
         const bool has = item::count_by_charges( comest->tool )
                          ? has_charges( comest->tool, 1 )
-                         : has_amount( comest->tool, 1 ) || can_fuel_bionic_with( food );
+                         : has_amount( comest->tool, 1 );
         if( !has ) {
             return ret_val<edible_rating>::make_failure( NO_TOOL,
                     string_format( _( "You need a %s to consume that!" ),

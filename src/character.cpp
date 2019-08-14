@@ -827,6 +827,19 @@ bool Character::can_fuel_bionic_with( const item &it ) const
     return false;
 }
 
+bionic_id Character::get_bionic_fueled_with( const item &it ) const
+{
+    for( const auto bio : *my_bionics ) {
+        for( const itype_id fuel : bio.info().fuel_opts ) {
+            if( fuel == it.typeId() ) {
+                return bio.id;
+            }
+        }
+    }
+
+    return bionic_id( "null" );
+}
+
 std::vector<item_location> Character::nearby( const
         std::function<bool( const item *, const item * )> &func, int radius ) const
 {
