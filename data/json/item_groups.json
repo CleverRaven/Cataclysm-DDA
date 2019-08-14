@@ -4177,6 +4177,8 @@
       [ "pike", 5 ],
       [ "pike_inferior", 10 ],
       [ "spear_steel", 5 ],
+      [ "shillelagh", 3 ],
+      [ "shillelagh_weighted", 2 ],
       [ "helmet_plate", 1 ],
       [ "armor_plate", 2 ],
       [ "huge_crossbow", 2 ],

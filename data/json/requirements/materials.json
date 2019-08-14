@@ -132,5 +132,11 @@
         [ "cash_card", 2 ]
       ]
     ]
+  },
+  {
+    "id": "weights",
+    "type": "requirement",
+    "//": "Materials used for adding weight to weapons and to other items. The materials should be malleable, ductile and dense.",
+    "components": [ [ [ "lead", 5 ], [ "silver_small", 5 ], [ "gold_small", 3 ], [ "platinum_small", 3 ] ] ]
   }
 ]
