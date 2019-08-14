@@ -150,12 +150,20 @@ bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_p
 
 void Creature_tracker::remove_from_location_map( const monster &critter )
 {
-    const tripoint &loc = critter.pos();
-    const auto pos_iter = monsters_by_location.find( loc );
-    if( pos_iter != monsters_by_location.end() ) {
-        if( pos_iter->second.get() == &critter ) {
-            monsters_by_location.erase( pos_iter );
-        }
+    const auto pos_iter = monsters_by_location.find( critter.pos() );
+    if( pos_iter != monsters_by_location.end() && pos_iter->second.get() == &critter ) {
+        monsters_by_location.erase( pos_iter );
+        return;
+    }
+
+    // When it's not in the map at its current location, it might still be there under,
+    // another location, so look for it.
+    const auto iter = std::find_if( monsters_by_location.begin(), monsters_by_location.end(),
+    [&]( const decltype( monsters_by_location )::value_type & v ) {
+        return v.second.get() == &critter;
+    } );
+    if( iter != monsters_by_location.end() ) {
+        monsters_by_location.erase( iter );
     }
 }
 
