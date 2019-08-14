@@ -74,7 +74,8 @@
     "bashing": 8,
     "symbol": ",",
     "color": "light_green",
-    "flags": [ "LIGHT_15", "LEAK_DAM" ]
+    "covers": [ "HEAD" ],
+    "flags": [ "LIGHT_15", "LEAK_DAM", "AURA", "SEMITANGIBLE" ]
   },
   {
     "id": "magic_light",
@@ -87,7 +88,8 @@
     "price": 0,
     "symbol": ",",
     "color": "light_green",
-    "flags": [ "LIGHT_5", "LEAK_DAM" ]
+    "covers": [ "HEAD" ],
+    "flags": [ "LIGHT_5", "LEAK_DAM", "AURA", "SEMITANGIBLE" ]
   },
   {
     "id": "shield_ice",

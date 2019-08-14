@@ -118,7 +118,7 @@ static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
 // *INDENT-OFF*
 Character::Character() :
-    Creature(),
+
     visitable<Character>(),
     hp_cur( {{ 0 }} ),
     hp_max( {{ 0 }} ),
@@ -376,6 +376,11 @@ double Character::aim_per_move( const item &gun, double recoil ) const
     return std::min( aim_speed, recoil - limit );
 }
 
+bool Character::is_mounted() const
+{
+    return has_effect( effect_riding ) && mounted_creature;
+}
+
 bool Character::move_effects( bool attacking )
 {
     if( has_effect( effect_downed ) ) {
@@ -392,8 +397,8 @@ bool Character::move_effects( bool attacking )
         return false;
     }
     if( has_effect( effect_webbed ) ) {
-        if( has_effect( effect_riding ) && g->u.mounted_creature ) {
-            auto mon = g->u.mounted_creature.get();
+        if( is_mounted() ) {
+            auto mon = mounted_creature.get();
             if( x_in_y( mon->type->melee_dice * mon->type->melee_sides,
                         6 * get_effect_int( effect_webbed ) ) ) {
                 add_msg( _( "The %s breaks free of the webs!" ), mon->get_name() );
@@ -411,8 +416,8 @@ bool Character::move_effects( bool attacking )
         return false;
     }
     if( has_effect( effect_lightsnare ) ) {
-        if( has_effect( effect_riding ) && g->u.mounted_creature ) {
-            auto mon = g->u.mounted_creature.get();
+        if( is_mounted() ) {
+            auto mon = mounted_creature.get();
             if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 12 ) ) {
                 mon->remove_effect( effect_lightsnare );
                 remove_effect( effect_lightsnare );
@@ -440,8 +445,8 @@ bool Character::move_effects( bool attacking )
         }
     }
     if( has_effect( effect_heavysnare ) ) {
-        if( has_effect( effect_riding ) && g->u.mounted_creature ) {
-            auto mon = g->u.mounted_creature.get();
+        if( is_mounted() ) {
+            auto mon = mounted_creature.get();
             if( mon->type->melee_dice * mon->type->melee_sides >= 7 ) {
                 if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 32 ) ) {
                     mon->remove_effect( effect_heavysnare );
@@ -478,8 +483,8 @@ bool Character::move_effects( bool attacking )
         */
         /** @EFFECT_STR increases chance to escape bear trap */
         // If is riding, then despite the character having the effect, it is the mounted creature that escapes.
-        if( has_effect( effect_riding ) && is_player() && g->u.mounted_creature ) {
-            auto mon = g->u.mounted_creature.get();
+        if( is_player() && is_mounted() ) {
+            auto mon = mounted_creature.get();
             if( mon->type->melee_dice * mon->type->melee_sides >= 18 ) {
                 if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 200 ) ) {
                     mon->remove_effect( effect_beartrap );
@@ -509,7 +514,7 @@ bool Character::move_effects( bool attacking )
         /** @EFFECT_STR increases chance to escape crushing rubble */
 
         /** @EFFECT_DEX increases chance to escape crushing rubble, slightly */
-        if( x_in_y( get_str() + get_dex() / 4, 100 ) ) {
+        if( x_in_y( get_str() + get_dex() / 4.0, 100 ) ) {
             remove_effect( effect_crushed );
             add_msg_player_or_npc( m_good, _( "You free yourself from the rubble!" ),
                                    _( "<npcname> frees themselves from the rubble!" ) );
@@ -537,8 +542,8 @@ bool Character::move_effects( bool attacking )
     }
     if( has_effect( effect_grabbed ) && !attacking ) {
         int zed_number = 0;
-        if( has_effect( effect_riding ) && g->u.mounted_creature ) {
-            auto mon = g->u.mounted_creature.get();
+        if( is_mounted() ) {
+            auto mon = mounted_creature.get();
             if( mon->has_effect( effect_grabbed ) ) {
                 if( ( dice( mon->type->melee_dice + mon->type->melee_sides,
                             3 ) < get_effect_int( effect_grabbed ) ) ||
@@ -554,7 +559,7 @@ bool Character::move_effects( bool attacking )
                 if( one_in( 4 ) ) {
                     add_msg( m_bad, _( "You are pulled from your %s!" ), mon->get_name() );
                     remove_effect( effect_grabbed );
-                    g->u.forced_dismount();
+                    dynamic_cast<player &>( *this ).forced_dismount();
                 }
             }
         } else {
@@ -692,7 +697,8 @@ void Character::recalc_sight_limits()
     if( has_nv() ) {
         vision_mode_cache.set( NV_GOGGLES );
     }
-    if( has_active_mutation( trait_NIGHTVISION3 ) || is_wearing( "rm13_armor_on" ) ) {
+    if( has_active_mutation( trait_NIGHTVISION3 ) || is_wearing( "rm13_armor_on" ) ||
+        ( is_mounted() && mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) ) {
         vision_mode_cache.set( NIGHTVISION_3 );
     }
     if( has_active_mutation( trait_ELFA_FNV ) ) {
@@ -724,7 +730,8 @@ void Character::recalc_sight_limits()
     if( has_active_bionic( bionic_id( "bio_infrared" ) ) ||
         has_trait( trait_id( "INFRARED" ) ) ||
         has_trait( trait_id( "LIZ_IR" ) ) ||
-        worn_with_flag( "IR_EFFECT" ) ) {
+        worn_with_flag( "IR_EFFECT" ) || ( is_mounted() &&
+                                           mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) ) {
         vision_mode_cache.set( IR_VISION );
     }
 
@@ -801,11 +808,7 @@ bool Character::has_active_bionic( const bionic_id &b ) const
 
 bool Character::has_any_bionic() const
 {
-    bionic_collection tmp_collec = *my_bionics;
-    if( !tmp_collec.empty() ) {
-        return true;
-    }
-    return false;
+    return !my_bionics->empty();
 }
 
 std::vector<item_location> Character::nearby( const
@@ -1094,11 +1097,12 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 // guns/tools never contain usable ammo so most efficient to skip them now
                 return VisitResponse::SKIP;
             }
-            if( node->has_flag( "FROZEN" ) && node->made_of_from_type( LIQUID ) ) {
-                out = item_location( src, node );
-            } else if( !node->made_of( SOLID ) ) {
-                // some liquids are ammo but we can't reload with them unless within a container
+            if( !node->made_of( SOLID ) ) {
+                // some liquids are ammo but we can't reload with them unless within a container or frozen
                 return VisitResponse::SKIP;
+            }
+            if( node->is_frozen_liquid() ) {
+                out = item_location( src, node );
             }
             if( node->is_ammo_container() && !node->contents.empty() &&
                 !node->contents_made_of( SOLID ) ) {
@@ -1202,7 +1206,14 @@ int Character::best_nearby_lifting_assist() const
 int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
 {
     const quality_id LIFT( "LIFT" );
-    return std::max( { this->max_quality( LIFT ),
+    int mech_lift = 0;
+    if( is_mounted() ) {
+        auto mons = mounted_creature.get();
+        if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
+            mech_lift = mons->mech_str_addition() + 10;
+        }
+    }
+    return std::max( { this->max_quality( LIFT ), mech_lift,
                        map_selector( this->pos(), PICKUP_RANGE ).max_quality( LIFT ),
                        vehicle_selector( world_pos, 4, true, true ).max_quality( LIFT )
                      } );
@@ -1266,6 +1277,13 @@ units::mass Character::weight_capacity() const
     }
     if( ret < 0_gram ) {
         ret = 0_gram;
+    }
+    if( is_mounted() ) {
+        auto *mons = mounted_creature.get();
+        // the mech has an effective strength for other purposes, like hitting.
+        // but for lifting, its effective strength is even higher, due to its sturdy construction, leverage,
+        // and being built entirely for that purpose with hydraulics etc.
+        ret = mons->mech_str_addition() == 0 ? ret : ( mons->mech_str_addition() + 10 ) * 4_kilogram;
     }
     return ret;
 }
@@ -1693,6 +1711,16 @@ static void layer_item( std::array<encumbrance_data, num_bp> &vals,
     // For the purposes of layering penalty, set a min of 2 and a max of 10 per item.
     int layering_encumbrance = std::min( 10, std::max( 2, encumber_val ) );
 
+    /*
+     * Setting layering_encumbrance to 0 at this point makes the item cease to exist
+     * for the purposes of the layer penalty system. (normally an item has a minimum
+     * layering_encumbrance of 2 )
+     */
+    if( it.has_flag( "SEMITANGIBLE" ) ) {
+        encumber_val = 0;
+        layering_encumbrance = 0;
+    }
+
     const int armorenc = !power_armor || !it.is_power_armor() ?
                          encumber_val : std::max( 0, encumber_val - 40 );
 
@@ -1715,6 +1743,27 @@ static void layer_item( std::array<encumbrance_data, num_bp> &vals,
     }
 }
 
+bool Character::is_wearing_power_armor( bool *hasHelmet ) const
+{
+    bool result = false;
+    for( auto &elem : worn ) {
+        if( !elem.is_power_armor() ) {
+            continue;
+        }
+        if( hasHelmet == nullptr ) {
+            // found power armor, helmet not requested, cancel loop
+            return true;
+        }
+        // found power armor, continue search for helmet
+        result = true;
+        if( elem.covers( bp_head ) ) {
+            *hasHelmet = true;
+            return true;
+        }
+    }
+    return result;
+}
+
 bool Character::is_wearing_active_power_armor() const
 {
     for( const auto &w : worn ) {
@@ -1735,6 +1784,16 @@ void layer_details::reset()
 // So we add them together and then subtract out the highest.
 int layer_details::layer( const int encumbrance )
 {
+    /*
+     * We should only get to this point with an encumbrance value of 0
+     * if the item is 'semitangible'. A normal item has a minimum of
+     * 2 encumbrance for layer penalty purposes.
+     * ( even if normally its encumbrance is 0 )
+     */
+    if( encumbrance == 0 ) {
+        return total; // skip over the other logic because this item doesn't count
+    }
+
     pieces.push_back( encumbrance );
 
     int current = total;
@@ -1796,7 +1855,7 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
     // items
     std::array<layer_level, num_bp> highest_layer_so_far;
     std::fill( highest_layer_so_far.begin(), highest_layer_so_far.end(),
-               UNDERWEAR );
+               PERSONAL_LAYER );
 
     const bool power_armored = is_wearing_active_power_armor();
     for( auto w_it = worn.begin(); w_it != worn.end(); ++w_it ) {
@@ -1843,30 +1902,13 @@ static void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
 
 void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) const
 {
-    if( has_bionic( bionic_id( "bio_stiff" ) ) ) {
-        // All but head, mouth and eyes
-        for( auto &val : vals ) {
-            val.encumbrance += 10;
+
+    for( const bionic &bio : *my_bionics ) {
+        for( const auto &element : bio.info().encumbrance ) {
+            vals[element.first].encumbrance += element.second;
         }
-
-        vals[bp_head].encumbrance -= 10;
-        vals[bp_mouth].encumbrance -= 10;
-        vals[bp_eyes].encumbrance -= 10;
     }
 
-    if( has_bionic( bionic_id( "bio_nostril" ) ) ) {
-        vals[bp_mouth].encumbrance += 10;
-    }
-    if( has_bionic( bionic_id( "bio_shotgun" ) ) ) {
-        vals[bp_arm_l].encumbrance += 5;
-    }
-    if( has_bionic( bionic_id( "bio_thumbs" ) ) ) {
-        vals[bp_hand_l].encumbrance += 10;
-        vals[bp_hand_r].encumbrance += 10;
-    }
-    if( has_bionic( bionic_id( "bio_pokedeye" ) ) ) {
-        vals[bp_eyes].encumbrance += 10;
-    }
     if( has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
         for( auto &val : vals ) {
             val.encumbrance += 3; // Slight encumbrance to all parts except eyes
@@ -2744,9 +2786,14 @@ int Character::throw_range( const item &it ) const
     }
     // Increases as weight decreases until 150 g, then decreases again
     /** @EFFECT_STR increases throwing range, vs item weight (high or low) */
-    int ret = ( str_cur * 10 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 -
-                                   static_cast<int>(
-                                       tmp.weight() / 15_gram ) );
+    int str_override = str_cur;
+    if( is_mounted() ) {
+        auto mons = mounted_creature.get();
+        str_override = mons->mech_str_addition() != 0 ? mons->mech_str_addition() : str_cur;
+    }
+    int ret = ( str_override * 10 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 -
+                                        static_cast<int>(
+                                            tmp.weight() / 15_gram ) );
     ret -= tmp.volume() / 1000_ml;
     static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
     if( has_active_bionic( bionic_id( "bio_railgun" ) ) && tmp.made_of_any( affected_materials ) ) {
@@ -2759,8 +2806,8 @@ int Character::throw_range( const item &it ) const
     /** @EFFECT_STR caps throwing range */
 
     /** @EFFECT_THROW caps throwing range */
-    if( ret > str_cur * 3 + get_skill_level( skill_throw ) ) {
-        return str_cur * 3 + get_skill_level( skill_throw );
+    if( ret > str_override * 3 + get_skill_level( skill_throw ) ) {
+        return str_override * 3 + get_skill_level( skill_throw );
     }
 
     return ret;
@@ -3049,7 +3096,7 @@ std::string Character::extended_description() const
     return replace_colors( ss.str() );
 }
 
-const social_modifiers Character::get_mutation_social_mods() const
+social_modifiers Character::get_mutation_social_mods() const
 {
     social_modifiers mods;
     for( const mutation_branch *mut : cached_mutations ) {
@@ -3480,7 +3527,7 @@ int Character::get_shout_volume() const
 void Character::shout( std::string msg, bool order )
 {
     int base = 10;
-    std::string shout = "";
+    std::string shout;
 
     // You can't shout without your face
     if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||

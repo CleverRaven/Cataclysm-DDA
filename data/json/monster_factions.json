@@ -85,6 +85,12 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "mech_bot",
+    "base_faction": "bot",
+    "neutral": [ "cop_bot", "military", "utility_bot", "science", "small_animal", "player" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "nurse_bot",
     "base_faction": "bot",
     "by_mood": "zombie"

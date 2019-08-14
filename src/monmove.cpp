@@ -43,6 +43,8 @@
 #define MONSTER_FOLLOW_DIST 8
 
 const species_id FUNGUS( "FUNGUS" );
+const species_id INSECT( "INSECT" );
+const species_id SPIDER( "SPIDER" );
 
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_countdown( "countdown" );
@@ -75,6 +77,9 @@ bool monster::is_immune_field( const field_type_id fid ) const
     }
     if( fid == fd_fungicidal_gas ) {
         return !type->in_species( FUNGUS );
+    }
+    if( fid == fd_insecticidal_gas ) {
+        return !type->in_species( INSECT ) && !type->in_species( SPIDER );
     }
     const field_type &ft = fid.obj();
     if( ft.has_fume ) {
@@ -114,27 +119,53 @@ bool monster::can_move_to( const tripoint &p ) const
         return false;
     }
 
-    // Various avoiding behaviors
-    if( has_flag( MF_AVOID_DANGER_1 ) || has_flag( MF_AVOID_DANGER_2 ) ) {
+    // Various avoiding behaviors.
+
+    bool avoid_fire = has_flag( MF_AVOID_FIRE );
+    bool avoid_fall = has_flag( MF_AVOID_FALL );
+    bool avoid_simple = has_flag( MF_AVOID_DANGER_1 );
+    bool avoid_complex = has_flag( MF_AVOID_DANGER_2 );
+    /*
+     * Because some avoidance behaviors are supersets of others,
+     * we can cascade through the implications. Complex implies simple,
+     * and simple implies fire and fall.
+     * unfortunately, fall does not necessarily imply fire, nor the converse.
+     */
+    if( avoid_complex ) {
+        avoid_simple = true;
+    }
+    if( avoid_simple ) {
+        avoid_fire = true;
+        avoid_fall = true;
+    }
+
+    // technically this will shortcut in evaluation from fire or fall
+    // before hitting simple or complex but this is more explicit
+    if( avoid_fire || avoid_fall || avoid_simple || avoid_complex ) {
         const ter_id target = g->m.ter( p );
-        // Don't enter lava ever
-        if( target == t_lava ) {
-            return false;
-        }
-        // Don't ever throw ourselves off cliffs
-        if( !g->m.has_floor( p ) && !has_flag( MF_FLIES ) ) {
+
+        // Don't enter lava if we have any concept of heat being bad
+        if( avoid_fire && target == t_lava ) {
             return false;
         }
 
-        // Don't enter open pits ever unless tiny, can fly or climb well
-        if( !( type->size == MS_TINY || can_climb ) &&
-            ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
-            return false;
+        if( avoid_fall ) {
+            // Don't throw ourselves off cliffs if we have a concept of falling
+            if( !g->m.has_floor( p ) && !has_flag( MF_FLIES ) ) {
+                return false;
+            }
+
+            // Don't enter open pits ever unless tiny, can fly or climb well
+            if( !( type->size == MS_TINY || can_climb ) &&
+                ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
+                return false;
+            }
         }
 
-        // The following behaviors are overridden when attacking
-        if( attitude( &( g->u ) ) != MATT_ATTACK ) {
-            if( g->m.has_flag( "SHARP", p ) &&
+        // Some things are only avoided if we're not attacking
+        if( attitude( &g->u ) != MATT_ATTACK ) {
+            // Sharp terrain is ignored while attacking
+            if( avoid_simple && g->m.has_flag( "SHARP", p ) &&
                 !( type->size == MS_TINY || has_flag( MF_FLIES ) ) ) {
                 return false;
             }
@@ -142,8 +173,8 @@ bool monster::can_move_to( const tripoint &p ) const
 
         const field &target_field = g->m.field_at( p );
 
-        // Differently handled behaviors
-        if( has_flag( MF_AVOID_DANGER_2 ) ) {
+        // Higher awareness is needed for identifying these as threats.
+        if( avoid_complex ) {
             const trap &target_trap = g->m.tr_at( p );
             // Don't enter any dangerous fields
             if( is_dangerous_fields( target_field ) ) {
@@ -153,11 +184,14 @@ bool monster::can_move_to( const tripoint &p ) const
             if( has_flag( MF_SEES ) && !target_trap.is_benign() && g->m.has_floor( p ) ) {
                 return false;
             }
-        } else if( has_flag( MF_AVOID_DANGER_1 ) ) {
-            // Don't enter fire or electricity ever (other dangerous fields are fine though)
-            if( target_field.find_field( fd_fire ) || target_field.find_field( fd_electricity ) ) {
-                return false;
-            }
+        }
+
+        // Without avoid_complex, only fire and electricity are checked for field avoidance.
+        if( avoid_fire && target_field.find_field( fd_fire ) ) {
+            return false;
+        }
+        if( avoid_simple && target_field.find_field( fd_electricity ) ) {
+            return false;
         }
     }
 
@@ -567,6 +601,11 @@ void monster::move()
         }
     }
 
+    // dragged_foe: restore pointer by saved id if required
+    if( dragged_foe_id >= 0 ) {
+        dragged_foe = g->critter_by_id<player>( dragged_foe_id );
+        dragged_foe_id = 0;
+    }
     // defective nursebot surgery code
     if( type->has_special_attack( "OPERATE" ) && has_effect( effect_dragging ) &&
         dragged_foe != nullptr ) {
@@ -638,7 +677,7 @@ void monster::move()
         moves = 0;
         return;
     }
-    if( has_flag( MF_IMMOBILE ) ) {
+    if( has_flag( MF_IMMOBILE ) || has_flag( MF_RIDEABLE_MECH ) ) {
         moves = 0;
         return;
     }
@@ -670,7 +709,7 @@ void monster::move()
     monster_attitude current_attitude = attitude( nullptr );
     if( !wander() ) {
         if( goal == g->u.pos() ) {
-            current_attitude = attitude( &( g->u ) );
+            current_attitude = attitude( &g->u );
         } else {
             for( const npc &guy : g->all_npcs() ) {
                 if( goal == guy.pos() ) {
@@ -1091,6 +1130,13 @@ bool monster::bash_at( const tripoint &p )
     if( is_hallucination() ) {
         return false;
     }
+
+    // Don't bash if a friendly monster is standing there
+    monster *target = g->critter_at<monster>( p );
+    if( target != nullptr && attitude_to( *target ) == A_FRIENDLY ) {
+        return false;
+    }
+
     bool try_bash = !can_move_to( p ) || one_in( 3 );
     bool can_bash = g->m.is_bashable( p ) && bash_skill() > 0;
 
@@ -1392,7 +1438,8 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 
     // TODO: Generalize this to Creature
     monster *const critter = g->critter_at<monster>( p );
-    if( critter == nullptr || critter == this || p == pos() ) {
+    if( critter == nullptr || critter == this ||
+        p == pos() || critter->movement_impaired() ) {
         return false;
     }
 
@@ -1435,6 +1482,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         }
 
         tripoint dest( p.x + dx, p.y + dy, p.z );
+        const int dest_movecost_from = 50 * g->m.move_cost( dest );
 
         // Pushing into cars/windows etc. is harder
         const int movecost_penalty = g->m.move_cost( dest ) - 2;
@@ -1449,7 +1497,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         }
 
         Creature *critter_recur = g->critter_at( dest );
-        if( critter_recur == nullptr || critter_recur->is_hallucination() ) {
+        if( !( critter_recur == nullptr || critter_recur->is_hallucination() ) ) {
             // Try to push recursively
             monster *mon_recur = dynamic_cast< monster * >( critter_recur );
             if( mon_recur == nullptr ) {
@@ -1463,15 +1511,13 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
                 }
 
                 moves -= movecost_attacker;
-                if( movecost_from > 100 ) {
-                    critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
-                } else {
-                    critter->moves -= movecost_from;
-                }
 
+                // Don't knock down a creature that successfully
+                // pushed another creature, just reduce moves
+                critter->moves -= dest_movecost_from;
                 return true;
             } else {
-                continue;
+                return false;
             }
         }
 
@@ -1479,20 +1525,13 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         if( critter_recur != nullptr ) {
             if( critter_recur->is_hallucination() ) {
                 critter_recur->die( nullptr );
-            } else {
-                return false;
             }
-        }
-
-        critter->setpos( dest );
-        move_to( p );
-        moves -= movecost_attacker;
-        if( movecost_from > 100 ) {
-            critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
         } else {
-            critter->moves -= movecost_from;
+            critter->setpos( dest );
+            move_to( p );
+            moves -= movecost_attacker;
+            critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
         }
-
         return true;
     }
 
@@ -1653,7 +1692,7 @@ void monster::knock_back_to( const tripoint &to )
  */
 bool monster::will_reach( int x, int y )
 {
-    monster_attitude att = attitude( &( g->u ) );
+    monster_attitude att = attitude( &g->u );
     if( att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND && att != MATT_ZLAVE ) {
         return false;
     }
@@ -1662,7 +1701,8 @@ bool monster::will_reach( int x, int y )
         return false;
     }
 
-    if( has_flag( MF_IMMOBILE ) && ( posx() != x || posy() != y ) ) {
+    if( ( has_flag( MF_IMMOBILE ) || has_flag( MF_RIDEABLE_MECH ) ) && ( posx() != x ||
+            posy() != y ) ) {
         return false;
     }
 
@@ -1749,7 +1789,7 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                     }
                     break;
                 case MS_HUGE:
-                    if( veh_mass < 1500_kilogram ) {
+                    if( veh_mass < 2000_kilogram ) {
                         shove_moves_minimal = 50;
                         shove_veh_mass_moves_factor = 4;
                         shove_velocity = 1500;

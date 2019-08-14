@@ -81,10 +81,6 @@ struct weather_printable {
     std::vector<std::pair<int, int> > vdrops; //!< Coordinates targeted for droplets.
     nc_color colGlyph; //!< Color to draw glyph this animation frame.
     char cGlyph; //!< Glyph to draw this animation frame.
-    int startx;
-    int starty;
-    int endx;
-    int endy;
 };
 
 /**
@@ -130,7 +126,7 @@ struct weather_sum {
     int wind_amount = 0;
 };
 
-weather_datum const weather_data( weather_type const type );
+weather_datum weather_data( weather_type const type );
 namespace weather
 {
 std::string name( weather_type const type );

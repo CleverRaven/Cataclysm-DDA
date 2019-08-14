@@ -314,7 +314,8 @@ std::vector<sphere> npc::find_dangerous_explosives() const
 {
     std::vector<sphere> result;
 
-    const auto active_items = g->m.get_active_items_in_radius( pos(), MAX_VIEW_DISTANCE, "explosives" );
+    const auto active_items = g->m.get_active_items_in_radius( pos(), MAX_VIEW_DISTANCE,
+                              special_item_type::explosive );
 
     for( const auto &elem : active_items ) {
         const auto use = elem->type->get_use( "explosion" );
@@ -546,6 +547,7 @@ void npc::assess_danger()
         } else if( is_friendly( g->u ) ) {
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
             assessment = std::max( min_danger, assessment - player_diff * 0.5f );
+            ai_cache.friends.emplace_back( g->shared_from( g->u ) );
         }
     }
     assessment *= 0.1f;
@@ -664,7 +666,7 @@ void npc::move()
     regen_ai_cache();
     adjust_power_cbms();
 
-    if( has_effect( effect_under_op ) ) {
+    if( activity.id() == "ACT_OPERATION" ) {
         execute_action( npc_player_activity );
         return;// NPCs under operation should just stay still
     }
@@ -1501,7 +1503,7 @@ item_location npc::find_usable_ammo( const item &weap )
     return loc;
 }
 
-const item_location npc::find_usable_ammo( const item &weap ) const
+item_location npc::find_usable_ammo( const item &weap ) const
 {
     return const_cast<npc *>( this )->find_usable_ammo( weap );
 }
@@ -2161,7 +2163,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
                 realnomove = nomove;
             } else {
                 // create the no-move list
-                newnomove.reset( new std::set<tripoint>() );
+                newnomove = std::make_unique<std::set<tripoint>>();
                 realnomove = newnomove.get();
             }
             // other npcs should not try to move into this npc anymore,
@@ -2831,8 +2833,8 @@ void npc::drop_items( int weight, int volume )
             wgt_ratio = 99999;
             vol_ratio = 99999;
         } else {
-            wgt_ratio = it.weight() / 1_gram / value( it );
-            vol_ratio = it.volume() / units::legacy_volume_factor / value( it );
+            wgt_ratio = units::to_gram<double>( it.weight() ) / value( it );
+            vol_ratio = it.volume() * 1.0 / units::legacy_volume_factor / value( it );
         }
         bool added_wgt = false;
         bool added_vol = false;
@@ -2970,7 +2972,8 @@ bool npc::find_corpse_to_pulp()
     if( corpse == nullptr ) {
         // If we're following the player, don't wander off to pulp corpses
         const tripoint &around = is_walking_with() ? g->u.pos() : pos();
-        for( const item_location &location : g->m.get_active_items_in_radius( around, range, "corpse" ) ) {
+        for( const item_location &location : g->m.get_active_items_in_radius( around, range,
+                special_item_type::corpse ) ) {
             corpse = check_tile( location.position() );
 
             if( corpse != nullptr ) {

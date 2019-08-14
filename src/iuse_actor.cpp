@@ -25,7 +25,7 @@
 #include "debug.h"
 #include "vpart_position.h"
 #include "effect.h"
-#include "event.h"
+#include "timed_event.h"
 #include "explosion.h"
 #include "field.h"
 #include "game.h"
@@ -1006,8 +1006,9 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll ) {
         sounds::sound( p.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
-        if( !g->events.queued( EVENT_WANTED ) ) {
-            g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p.global_sm_location() );
+        if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+            g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+                                 p.global_sm_location() );
         }
     }
     if( destroy ) {
@@ -1166,7 +1167,7 @@ int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
                                          p.global_omt_location() );
     for( auto &omt : omt_types ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-            reveal_targets( tripoint( center.x, center.y, z ), omt, 0 );
+            reveal_targets( tripoint( center.xy(), z ), omt, 0 );
         }
     }
     if( !message.empty() ) {
@@ -1216,12 +1217,9 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
             has_unactivated_brazier = true;
         }
     }
-    if( has_unactivated_brazier &&
-        !query_yn(
-            _( "There's a brazier there but you haven't set it up to contain the fire. Continue?" ) ) ) {
-        return false;
-    }
-    return true;
+    return !has_unactivated_brazier ||
+           query_yn(
+               _( "There's a brazier there but you haven't set it up to contain the fire. Continue?" ) );
 }
 
 void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos )
@@ -1304,8 +1302,9 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
     /** @EFFECT_SURVIVAL speeds up fire starting */
     float moves_modifier = std::pow( 0.8, std::min( 5.0, skill_level ) );
     const int moves_base = moves_cost_by_fuel( pos );
-    const int min_moves = std::min<int>( moves_base,
-                                         sqrt( 1 + moves_base / to_moves<int>( 1_turns ) ) * to_moves<int>( 1_turns ) );
+    const double moves_per_turn = to_moves<double>( 1_turns );
+    const int min_moves = std::min<int>(
+                              moves_base, sqrt( 1 + moves_base / moves_per_turn ) * moves_per_turn );
     const int moves = std::max<int>( min_moves, moves_base * moves_modifier ) / light;
     if( moves > to_moves<int>( 1_minutes ) ) {
         // If more than 1 minute, inform the player
@@ -1323,7 +1322,8 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
     }
 
     // skill gains are handled by the activity, but stored here in the index field
-    const int potential_skill_gain = moves_modifier + moves_cost_fast / 100 + 2;
+    const int potential_skill_gain =
+        moves_modifier + moves_cost_fast / 100.0 + 2;
     p.assign_activity( activity_id( "ACT_START_FIRE" ), moves, potential_skill_gain,
                        p.get_item_position( &it ),
                        it.tname() );
@@ -1905,7 +1905,7 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     int success = rng( 0, skills ) - rng( 0, difficulty );
 
     /** @EFFECT_FIRSTAID speeds up enzlavement */
-    const int moves = difficulty * to_turns<int>( 12_seconds ) / p.get_skill_level( skill_firstaid );
+    const int moves = difficulty * to_moves<int>( 12_seconds ) / p.get_skill_level( skill_firstaid );
 
     p.assign_activity( activity_id( "ACT_MAKE_ZLAVE" ), moves );
     p.activity.values.push_back( success );

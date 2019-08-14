@@ -95,7 +95,7 @@ static void eff_fun_spores( player &u, effect &it )
     // Equivalent to X in 150000 + health * 100
     const int intense = it.get_intensity();
     if( ( !u.has_trait( trait_id( "M_IMMUNE" ) ) ) && ( one_in( 100 ) &&
-            x_in_y( intense, 900 + u.get_healthy() * 6 / 10 ) ) ) {
+            x_in_y( intense, 900 + u.get_healthy() * 0.6 ) ) ) {
         u.add_effect( effect_fungus, 1_turns, num_bp, true );
     }
 }

@@ -89,7 +89,7 @@ class tripoint_range
         point_generator end() const {
             // Return the point AFTER the last one
             // That is, point under (in z-levels) the first one, but one z-level below the last one
-            return point_generator( tripoint( minp.x, minp.y, maxp.z + 1 ), *this );
+            return point_generator( tripoint( minp.xy(), maxp.z + 1 ), *this );
         }
 
         size_t size() const {

@@ -711,9 +711,9 @@ std::string input_context::get_available_single_char_hotkeys( std::string reques
     return requested_keys;
 }
 
-const std::string input_context::get_desc( const std::string &action_descriptor,
-        const unsigned int max_limit,
-        const std::function<bool( const input_event & )> evt_filter ) const
+std::string input_context::get_desc( const std::string &action_descriptor,
+                                     const unsigned int max_limit,
+                                     const std::function<bool( const input_event & )> evt_filter ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
         return "(*)"; // * for wildcard
@@ -763,9 +763,9 @@ const std::string input_context::get_desc( const std::string &action_descriptor,
     return rval.str();
 }
 
-const std::string input_context::get_desc( const std::string &action_descriptor,
-        const std::string &text,
-        const std::function<bool( const input_event & )> evt_filter ) const
+std::string input_context::get_desc( const std::string &action_descriptor,
+                                     const std::string &text,
+                                     const std::function<bool( const input_event & )> evt_filter ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
         //~ keybinding description for anykey
@@ -905,8 +905,8 @@ void rotate_direction_cw( int &dx, int &dy )
     static const std::array<int, 9> rotate_direction_vec = {{ 1, 2, 5, 0, 4, 8, 3, 6, 7 }};
     dir_num = rotate_direction_vec[dir_num];
     // convert back to -1,0,+1
-    dx = ( dir_num % 3 ) - 1;
-    dy = ( dir_num / 3 ) - 1;
+    dx = dir_num % 3 - 1;
+    dy = dir_num / 3 - 1;
 }
 
 cata::optional<tripoint> input_context::get_direction( const std::string &action ) const
@@ -1279,7 +1279,7 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 }
 #endif
 
-const std::string input_context::get_action_name( const std::string &action_id ) const
+std::string input_context::get_action_name( const std::string &action_id ) const
 {
     // 1) Check action name overrides specific to this input_context
     const input_manager::t_string_string_map::const_iterator action_name_override =

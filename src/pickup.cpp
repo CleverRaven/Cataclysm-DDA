@@ -182,7 +182,8 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
 
     // We already checked in do_pickup if this was a nullptr
     // Make copies so the original remains untouched if we bail out
-    item newit = *loc.get_item();
+    item_location newloc = loc;
+    item newit = *newloc.get_item();
     item leftovers = newit;
 
     const auto wield_check = u.can_wield( newit );
@@ -214,30 +215,9 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     if( newit.is_ammo() && newit.charges == 0 ) {
         picked_up = true;
         option = NUM_ANSWERS; //Skip the options part
-    } else if( newit.made_of_from_type( LIQUID ) ) {
-        if( newit.has_flag( "FROZEN" ) ) {
-            if( u.has_quality( quality_id( "HAMMER" ) ) ) {
-                item hammering_item = u.item_with_best_of_quality(quality_id("HAMMER"));
-                std::string action = query_popup()
-                                     .context( "YESNO" )
-                                     .message( _( "Do you want to crush up %s with your %s?\n" + colorize("Be wary of fragile items nearby!", color_from_string("red"))), newit.display_name(), hammering_item.display_name() )
-                                     .option( "YES" )
-                                     .option( "NO" )
-                                     .cursor( 1 )
-                                     .query()
-                                     .action;
-                if( action == "YES" ) {
-                    int smashskill = u.str_cur + hammering_item.damage_melee(DT_BASH);
-                    g->m.bash(loc.position(), smashskill, false, false, false);
-                    option = STASH;
-                    add_msg(_("You crush up and gather %s with your %s."), newit.display_name(), hammering_item.display_name());
-                }
-            } else {
-                popup( _( "You need a hammering tool to crush up frozen liquids!" ) );
-                got_water = true;
-            }
-        } else {
-            got_water = true;
+    } else if( newit.is_frozen_liquid() ) {
+        if( !( got_water = !( u.crush_frozen_liquid( newloc ) ) ) ) {
+            option = STASH;
         }
     } else if( !u.can_pickWeight( newit, false ) ) {
         if( !autopickup ) {
@@ -360,7 +340,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
     }
 
     if( got_water ) {
-        add_msg( m_info, _( "You can't pick up this liquid!" ) );
+        add_msg( m_info, _( "You can't pick up a liquid!" ) );
     }
     if( weight_is_okay && g->u.weight_carried() > g->u.weight_capacity() ) {
         add_msg( m_bad, _( "You're overburdened!" ) );
@@ -412,11 +392,11 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         bool isEmpty = ( g->m.i_at( p ).empty() );
 
         // Hide the pickup window if this is a toilet and there's nothing here
-        // but water.
+        // but non-frozen water.
         if( ( !isEmpty ) && g->m.furn( p ) == f_toilet ) {
             isEmpty = true;
             for( const item &maybe_water : g->m.i_at( p ) ) {
-                if( maybe_water.typeId() != "water" ) {
+                if( maybe_water.typeId() != "water"  || maybe_water.is_frozen_liquid() ) {
                     isEmpty = false;
                     break;
                 }
@@ -481,7 +461,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     for( item_stack::iterator it : here ) {
         bool found_stack = false;
         for( std::list<item_stack::iterator> &stack : stacked_here ) {
-            if( stack.front()->stacks_with( *it ) ) {
+            if( stack.front()->display_stacked_with( *it ) ) {
                 stack.push_back( it );
                 found_stack = true;
                 break;

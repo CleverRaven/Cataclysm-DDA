@@ -525,74 +525,6 @@ void draw_border( const catacurses::window &w, nc_color border_color, const std:
     }
 }
 
-void draw_tabs( const catacurses::window &w, int active_tab, ... )
-{
-    int win_width = getmaxx( w );
-    std::vector<std::string> labels;
-    va_list ap;
-    va_start( ap, active_tab );
-    while( const char *const tmp = va_arg( ap, char * ) ) {
-        labels.push_back( tmp );
-    }
-    va_end( ap );
-
-    // Draw the line under the tabs
-    for( int x = 0; x < win_width; x++ ) {
-        mvwputch( w, 2, x, c_white, LINE_OXOX );
-    }
-
-    int total_width = 0;
-    for( auto &i : labels ) {
-        total_width += i.length() + 6;    // "< |four| >"
-    }
-
-    if( total_width > win_width ) {
-        //debugmsg("draw_tabs not given enough space! %s", labels[0]);
-        return;
-    }
-
-    // Extra "buffer" space per each side of each tab
-    double buffer_extra = ( win_width - total_width ) / ( labels.size() * 2 );
-    int buffer = static_cast<int>( buffer_extra );
-    // Set buffer_extra to (0, 1); the "extra" whitespace that builds up
-    buffer_extra = buffer_extra - buffer;
-    int xpos = 0;
-    double savings = 0;
-
-    for( size_t i = 0; i < labels.size(); i++ ) {
-        int length = labels[i].length();
-        xpos += buffer + 2;
-        savings += buffer_extra;
-        if( savings > 1 ) {
-            savings--;
-            xpos++;
-        }
-        mvwputch( w, 0, xpos, c_white, LINE_OXXO );
-        mvwputch( w, 1, xpos, c_white, LINE_XOXO );
-        mvwputch( w, 0, xpos + length + 1, c_white, LINE_OOXX );
-        mvwputch( w, 1, xpos + length + 1, c_white, LINE_XOXO );
-        if( static_cast<int>( i ) == active_tab ) {
-            mvwputch( w, 1, xpos - 2, h_white, '<' );
-            mvwputch( w, 1, xpos + length + 3, h_white, '>' );
-            mvwputch( w, 2, xpos, c_white, LINE_XOOX );
-            mvwputch( w, 2, xpos + length + 1, c_white, LINE_XXOO );
-            mvwprintz( w, 1, xpos + 1, h_white, labels[i] );
-            for( int x = xpos + 1; x <= xpos + length; x++ ) {
-                mvwputch( w, 0, x, c_white, LINE_OXOX );
-                mvwputch( w, 2, x, c_black, 'x' );
-            }
-        } else {
-            mvwputch( w, 2, xpos, c_white, LINE_XXOX );
-            mvwputch( w, 2, xpos + length + 1, c_white, LINE_XXOX );
-            mvwprintz( w, 1, xpos + 1, c_white, labels[i] );
-            for( int x = xpos + 1; x <= xpos + length; x++ ) {
-                mvwputch( w, 0, x, c_white, LINE_OXOX );
-            }
-        }
-        xpos += length + 1 + buffer;
-    }
-}
-
 bool query_yn( const std::string &text )
 {
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
@@ -1492,6 +1424,7 @@ std::string rewrite_vsnprintf( const char *msg )
     return rewritten_msg.str();
 }
 
+// NOLINTNEXTLINE(cert-dcl50-cpp)
 std::string cata::string_formatter::raw_string_format( const char *format, ... )
 {
     va_list args;
@@ -1634,7 +1567,7 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt )
     return fmt;
 }
 
-const std::pair<std::string, nc_color>
+std::pair<std::string, nc_color>
 get_bar( float cur, float max, int width, bool extra_resolution,
          const std::vector<nc_color> &colors )
 {
@@ -1659,7 +1592,7 @@ get_bar( float cur, float max, int width, bool extra_resolution,
     return std::make_pair( result, col );
 }
 
-const std::pair<std::string, nc_color> get_hp_bar( const int cur_hp, const int max_hp,
+std::pair<std::string, nc_color> get_hp_bar( const int cur_hp, const int max_hp,
         const bool is_mon )
 {
     if( cur_hp == 0 ) {
@@ -1668,7 +1601,7 @@ const std::pair<std::string, nc_color> get_hp_bar( const int cur_hp, const int m
     return get_bar( cur_hp, max_hp, 5, !is_mon );
 }
 
-const std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam )
+std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam )
 {
     if( cur_stam == 0 ) {
         return std::make_pair( "-----", c_light_gray );

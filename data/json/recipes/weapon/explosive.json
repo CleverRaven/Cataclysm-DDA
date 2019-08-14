@@ -149,6 +149,46 @@
     ]
   },
   {
+    "result": "fungicidalbomb_makeshift",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "cooking",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 4,
+    "time": "8 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_gaswarfare", 3 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
+      [ [ "fungicide", 50 ] ],
+      [ [ "chem_sulphur", 10 ] ],
+      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ] ],
+      [ [ "superglue", 1 ] ]
+    ]
+  },
+  {
+    "result": "insecticidalbomb_makeshift",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "cooking",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 4,
+    "time": "8 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_gaswarfare", 3 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
+      [ [ "insecticide", 50 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ] ],
+      [ [ "superglue", 1 ] ]
+    ]
+  },
+  {
     "result": "makeshift_grenade",
     "type": "recipe",
     "category": "CC_WEAPON",

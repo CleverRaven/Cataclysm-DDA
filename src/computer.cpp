@@ -15,7 +15,7 @@
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "explosion.h"
-#include "event.h"
+#include "timed_event.h"
 #include "field.h"
 #include "game.h"
 #include "input.h"
@@ -144,8 +144,8 @@ void computer::use()
 {
     if( !w_border ) {
         w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                       ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                                       ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+                                       TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                                       TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
     }
     if( !w_terminal ) {
         w_terminal = catacurses::newwin( getmaxy( w_border ) - 2, getmaxx( w_border ) - 2,
@@ -580,7 +580,7 @@ void computer::activate_function( computer_action action )
         case COMPACT_MAPS: {
             g->u.moves -= 30;
             const tripoint center = g->u.global_omt_location();
-            overmap_buffer.reveal( point( center.x, center.y ), 40, 0 );
+            overmap_buffer.reveal( center.xy(), 40, 0 );
             query_any(
                 _( "Surface map data downloaded.  Local anomalous-access error logged.  Press any key..." ) );
             remove_option( COMPACT_MAPS );
@@ -812,7 +812,7 @@ PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
         }
 
         case COMPACT_AMIGARA_START:
-            g->events.add( EVENT_AMIGARA, calendar::turn + 1_minutes );
+            g->timed_events.add( TIMED_EVENT_AMIGARA, calendar::turn + 1_minutes );
             if( !g->u.has_artifact_with( AEP_PSYSHIELD ) ) {
                 g->u.add_effect( effect_amigara, 2_minutes );
             }
@@ -1274,9 +1274,9 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                                                            dest ) > 0 ? rl_dist( radorigin, dest ) : 1 ) );
                                 }
                                 if( g->m.pl_sees( dest, 10 ) ) {
-                                    g->u.irradiate( rng( 50, 250 ) / rl_dist( g->u.pos(), dest ) );
+                                    g->u.irradiate( rng_float( 50, 250 ) / rl_dist( g->u.pos(), dest ) );
                                 } else {
-                                    g->u.irradiate( rng( 20, 100 ) / rl_dist( g->u.pos(), dest ) );
+                                    g->u.irradiate( rng_float( 20, 100 ) / rl_dist( g->u.pos(), dest ) );
                                 }
                                 query_any( _( "EMERGENCY SHUTDOWN!  Press any key..." ) );
                                 error = true;
@@ -1291,7 +1291,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                             }
                             // if unshielded, rad source irradiates player directly, reduced by distance to source
                             if( g->m.pl_sees( dest, 10 ) ) {
-                                g->u.irradiate( rng( 5, 25 ) / rl_dist( g->u.pos(), dest ) );
+                                g->u.irradiate( rng_float( 5, 25 ) / rl_dist( g->u.pos(), dest ) );
                             }
                         }
                         if( !error && platform_exists ) {
@@ -1511,8 +1511,9 @@ void computer::activate_failure( computer_failure_type fail )
                                    pgettext( "memorial_female", "Set off an alarm." ) );
             sounds::sound( g->u.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
                            "alarm" );
-            if( g->get_levz() > 0 && !g->events.queued( EVENT_WANTED ) ) {
-                g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, g->u.global_sm_location() );
+            if( g->get_levz() > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+                g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+                                     g->u.global_sm_location() );
             }
             break;
 
@@ -1610,7 +1611,7 @@ void computer::activate_failure( computer_failure_type fail )
             break;
 
         case COMPFAIL_AMIGARA:
-            g->events.add( EVENT_AMIGARA, calendar::turn + 30_seconds );
+            g->timed_events.add( TIMED_EVENT_AMIGARA, calendar::turn + 30_seconds );
             g->u.add_effect( effect_amigara, 2_minutes );
             explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
                                           10,

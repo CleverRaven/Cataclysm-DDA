@@ -8,6 +8,7 @@ Checks: "\
 bugprone-*,\
 cata-*,\
 cert-*,\
+-cert-dcl21-cpp,\
 -cert-err58-cpp,\
 clang-diagnostic-*,\
 cppcoreguidelines-slicing,\
@@ -16,9 +17,6 @@ misc-*,\
 modernize-*,\
 performance-*,\
 readability-*,\
--bugprone-incorrect-roundings,\
--bugprone-integer-division,\
--bugprone-macro-parentheses,\
 -bugprone-misplaced-widening-cast,\
 -bugprone-narrowing-conversions,\
 -bugprone-string-integer-assignment,\
@@ -26,8 +24,6 @@ readability-*,\
 -bugprone-undefined-memory-manipulation,\
 -bugprone-unused-return-value,\
 -bugprone-use-after-move,\
--cert-dcl21-cpp,\
--cert-dcl50-cpp,\
 -cert-dcl58-cpp,\
 -cert-dcl59-cpp,\
 -cert-env33-c,\
@@ -39,11 +35,8 @@ readability-*,\
 -cert-msc51-cpp,\
 -misc-definitions-in-headers,\
 -misc-non-private-member-variables-in-classes,\
--misc-redundant-expression,\
--misc-unconventional-assign-operator,\
 -modernize-avoid-c-arrays,\
 -modernize-deprecated-headers,\
--modernize-make-unique,\
 -modernize-pass-by-value,\
 -modernize-raw-string-literal,\
 -modernize-return-braced-init-list,\
@@ -52,8 +45,6 @@ readability-*,\
 -modernize-use-emplace,\
 -modernize-use-equals-default,\
 -modernize-use-equals-delete,\
--modernize-use-nullptr,\
--modernize-use-override,\
 -modernize-use-transparent-functors,\
 -performance-for-range-copy,\
 -performance-inefficient-vector-operation,\
@@ -66,7 +57,6 @@ readability-*,\
 -performance-unnecessary-value-param,\
 -readability-avoid-const-params-in-decls,\
 -readability-braces-around-statements,\
--readability-const-return-type,\
 -readability-else-after-return,\
 -readability-function-size,\
 -readability-implicit-bool-conversion,\
@@ -74,14 +64,10 @@ readability-*,\
 -readability-isolate-declaration,\
 -readability-magic-numbers,\
 -readability-named-parameter,\
--readability-non-const-parameter,\
 -readability-container-size-empty,\
 -readability-redundant-control-flow,\
 -readability-redundant-declaration,\
--readability-redundant-member-init,\
 -readability-redundant-preprocessor,\
--readability-redundant-string-init,\
--readability-simplify-boolean-expr,\
 "
 WarningsAsErrors: '*'
 HeaderFilterRegex: '(src|test).*'

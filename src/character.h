@@ -118,8 +118,8 @@ struct encumbrance_data {
     std::array<layer_details, static_cast<size_t>( layer_level::MAX_CLOTHING_LAYER )>
     layer_penalty_details;
 
-    void layer( const layer_level level, const int emcumbrance ) {
-        layer_penalty += layer_penalty_details[static_cast<size_t>( level )].layer( emcumbrance );
+    void layer( const layer_level level, const int encumbrance ) {
+        layer_penalty += layer_penalty_details[static_cast<size_t>( level )].layer( encumbrance );
     }
 
     void reset() {
@@ -321,6 +321,8 @@ class Character : public Creature, public visitable<Character>
         /** Get encumbrance penalty per layer & body part */
         int extraEncumbrance( const layer_level level, const int bp ) const;
 
+        /** Returns true if the character is wearing power armor */
+        bool is_wearing_power_armor( bool *hasHelmet = nullptr ) const;
         /** Returns true if the character is wearing active power */
         bool is_wearing_active_power_armor() const;
 
@@ -388,6 +390,7 @@ class Character : public Creature, public visitable<Character>
         /** Converts an hp_part to a body_part */
         static body_part hp_to_bp( hp_part hpart );
 
+        bool is_mounted() const;
         /**
          * Displays menu with body part hp, optionally with hp estimation after healing.
          * Returns selected part.
@@ -768,7 +771,7 @@ class Character : public Creature, public visitable<Character>
         /**
          * Goes over all mutations, returning the sum of the social modifiers
          */
-        const social_modifiers get_mutation_social_mods() const;
+        social_modifiers get_mutation_social_mods() const;
 
         /** Color's character's tile's background */
         nc_color symbol_color() const override;
@@ -817,6 +820,8 @@ class Character : public Creature, public visitable<Character>
         int oxygen;
         int stamina;
         int radiation;
+
+        std::shared_ptr<monster> mounted_creature;
 
         void initialize_stomach_contents();
 

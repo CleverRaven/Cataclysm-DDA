@@ -2222,7 +2222,7 @@ bool basecamp::gathering_return( const std::string &task, time_duration min_time
         danger = 10;
         favor = 0;
         skill_group = "hunting";
-        skill = 1.5 * comp->get_skill_level( skill_gun ) + comp->per_cur / 2;
+        skill = 1.5 * comp->get_skill_level( skill_gun ) + comp->per_cur / 2.0;
         threat = 12;
         checks_per_cycle = 2;
     }
@@ -3019,7 +3019,7 @@ bool om_set_hide_site( npc &comp, const tripoint &omt_tgt,
 
     omt_ref = oter_id( "faction_hide_site_0" );
 
-    overmap_buffer.reveal( point( omt_tgt.x, omt_tgt.y ), 3, 0 );
+    overmap_buffer.reveal( omt_tgt.xy(), 3, 0 );
     return true;
 }
 

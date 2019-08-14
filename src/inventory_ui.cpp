@@ -432,7 +432,7 @@ void inventory_column::set_filter( const std::string &filter )
     prepare_paging( filter );
 }
 
-const inventory_column::entry_cell_cache_t inventory_column::make_entry_cell_cache(
+inventory_column::entry_cell_cache_t inventory_column::make_entry_cell_cache(
     const inventory_entry &entry ) const
 {
     entry_cell_cache_t result;
@@ -1023,7 +1023,7 @@ static std::vector<std::list<item *>> restack_items( const std::list<item>::cons
     for( auto it = from; it != to; ++it ) {
         auto match = std::find_if( res.begin(), res.end(),
         [ &it, check_components ]( const std::list<item *> &e ) {
-            return it->stacks_with( *const_cast<item *>( e.back() ), check_components );
+            return it->display_stacked_with( *const_cast<item *>( e.back() ), check_components );
         } );
 
         if( match != res.end() ) {
@@ -1045,7 +1045,7 @@ static std::vector<std::list<item *>> restack_items( const item_stack::const_ite
     for( auto it = from; it != to; ++it ) {
         auto match = std::find_if( res.begin(), res.end(),
         [ &it, check_components ]( const std::list<item *> &e ) {
-            return it->stacks_with( *const_cast<item *>( e.back() ), check_components );
+            return it->display_stacked_with( *const_cast<item *>( e.back() ), check_components );
         } );
 
         if( match != res.end() ) {

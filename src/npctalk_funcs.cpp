@@ -472,7 +472,8 @@ void talk_function::give_aid( npc &p )
             g->u.remove_effect( effect_infected, bp_healed );
         }
     }
-    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 10000 );
+    const int moves = to_moves<int>( 100_minutes );
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), moves );
     g->u.activity.str_values.push_back( p.name );
 }
 
@@ -546,7 +547,8 @@ void talk_function::barber_hair( npc &p )
 void talk_function::buy_haircut( npc &p )
 {
     g->u.add_morale( MORALE_HAIRCUT, 5, 5, 720_minutes, 3_minutes );
-    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 300 );
+    const int moves = to_moves<int>( 20_minutes );
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), moves );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "%s gives you a decent haircut..." ), p.name );
 }
@@ -554,7 +556,8 @@ void talk_function::buy_haircut( npc &p )
 void talk_function::buy_shave( npc &p )
 {
     g->u.add_morale( MORALE_SHAVE, 10, 10, 360_minutes, 3_minutes );
-    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 100 );
+    const int moves = to_moves<int>( 5_minutes );
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), moves );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "%s gives you a decent shave..." ), p.name );
 }
@@ -567,7 +570,8 @@ void talk_function::morale_chat( npc &p )
 
 void talk_function::morale_chat_activity( npc &p )
 {
-    g->u.assign_activity( activity_id( "ACT_SOCIALIZE" ), 10000 );
+    const int moves = to_moves<int>( 10_minutes );
+    g->u.assign_activity( activity_id( "ACT_SOCIALIZE" ), moves );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "That was a pleasant conversation with %s." ), p.disp_name() );
     g->u.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );

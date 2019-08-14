@@ -353,7 +353,7 @@
       "menu_text": "Close cover",
       "type": "transform"
     },
-    "flags": [ "LIGHT_5", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "LIGHT_10", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "atomic_light_off",
@@ -1506,6 +1506,27 @@
     "symbol": ",",
     "color": "cyan",
     "qualities": [ [ "SMOKE_PIPE", 1 ] ]
+  },
+  {
+    "type": "TOOL",
+    "id": "crash_axe",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "crash axe",
+    "looks_like": "hatchet",
+    "//": "Same stats as a hatchet, except it has prying instead of hammering.",
+    "description": "A short lightweight emergency tool with a quarter circular blade, a short pick opposite the blade and an insulated handle.  Used on airplanes to chop down or pry walls or cabinets to gain access in case of fire.",
+    "price": 2500,
+    "price_postapoc": 5000,
+    "material": [ "steel" ],
+    "techniques": [ "WBLOCK_1" ],
+    "weight": 907,
+    "volume": "1 L",
+    "bashing": 12,
+    "cutting": 6,
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
+    "to_hit": 1,
+    "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "PRY", 2 ], [ "BUTCHER", 16 ] ]
   },
   {
     "id": "crossbow_trap",
@@ -2874,6 +2895,24 @@
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ]
   },
   {
+    "id": "claw_bar",
+    "type": "TOOL",
+    "name": "claw bar",
+    "description": "This is a small prying tool with a clawed bend at one end for pulling spikes.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
+    "weight": 340,
+    "volume": "375 ml",
+    "price": 1000,
+    "to_hit": 1,
+    "bashing": 10,
+    "cutting": 1,
+    "material": "steel",
+    "symbol": ";",
+    "color": "dark_gray",
+    "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ] ],
+    "use_action": [ "CROWBAR", "HAMMER" ],
+    "flags": [ "BELT_CLIP" ]
+  },
+  {
     "id": "hand_drill",
     "type": "TOOL",
     "name": "hand drill",
@@ -3369,6 +3408,27 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You place the leather funnel, waiting to collect rain."
+    }
+  },
+  {
+    "id": "birchbark_funnel",
+    "type": "TOOL",
+    "name": "birchbark funnel",
+    "description": "This is a small birchbark funnel.  Place it above an outdoor container to collect rainwater.",
+    "weight": 3,
+    "volume": "250ml",
+    "price": 0,
+    "to_hit": 1,
+    "material": "wood",
+    "symbol": ";",
+    "color": "white",
+    "use_action": {
+      "type": "place_trap",
+      "allow_under_player": true,
+      "trap": "tr_birchbark_funnel",
+      "moves": 100,
+      "practice": 0,
+      "done_message": "You place the birchbark funnel, waiting to collect rain."
     }
   },
   {
@@ -5019,7 +5079,7 @@
     "name": "wood saw",
     "description": "This is a thin saw, useful for cutting through wood objects.",
     "weight": 283,
-    "volume": 5,
+    "volume": "1 L",
     "price": 3000,
     "to_hit": -2,
     "cutting": 1,
@@ -5536,7 +5596,7 @@
     "id": "autoclave",
     "type": "TOOL",
     "name": "autoclave",
-    "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  This machine draws a lot of power, standard battery might not be enough.",
+    "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  It requires a massive amount of power, so standard batteries will not power it sufficiently.",
     "weight": 34500,
     "volume": "76 L",
     "price": 162654,
@@ -5547,8 +5607,9 @@
     "symbol": "A",
     "color": "yellow",
     "use_action": "AUTOCLAVE",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "power_draw": 1500000,
-    "charges_per_use": 1,
+    "revert_to": "autoclave",
     "looks_like": "microwave",
     "ammo": "battery",
     "magazines": [
@@ -7288,7 +7349,7 @@
     "symbol": "#",
     "color": "brown",
     "looks_like": "frame_wood_light",
-    "flags": [ "NONCONDUCTIVE" ],
+    "flags": [ "NONCONDUCTIVE", "ALLOWS_REMOTE_USE" ],
     "use_action": {
       "target": "adobe_pallet_done",
       "msg": "You test the bricks, and they're solid enough to use.",

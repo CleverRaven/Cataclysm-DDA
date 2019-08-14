@@ -66,6 +66,8 @@ enum mission_goal {
     MGOAL_RECRUIT_NPC_CLASS, // Recruit an NPC class
     MGOAL_COMPUTER_TOGGLE,   // Activating the correct terminal will complete the mission
     MGOAL_KILL_MONSTER_SPEC,  // Kill a number of monsters from a given species
+    MGOAL_TALK_TO_NPC,       // Talk to a given NPC
+    MGOAL_CONDITION,         // Satisfy the dynamically created condition and talk to the mission giver
     NUM_MGOAL
 };
 const std::unordered_map<std::string, mission_goal> mission_goal_strs = { {
@@ -83,7 +85,9 @@ const std::unordered_map<std::string, mission_goal> mission_goal_strs = { {
         { "MGOAL_RECRUIT_NPC", MGOAL_RECRUIT_NPC },
         { "MGOAL_RECRUIT_NPC_CLASS", MGOAL_RECRUIT_NPC_CLASS },
         { "MGOAL_COMPUTER_TOGGLE", MGOAL_COMPUTER_TOGGLE },
-        { "MGOAL_KILL_MONSTER_SPEC", MGOAL_KILL_MONSTER_SPEC }
+        { "MGOAL_KILL_MONSTER_SPEC", MGOAL_KILL_MONSTER_SPEC },
+        { "MGOAL_TALK_TO_NPC", MGOAL_TALK_TO_NPC },
+        { "MGOAL_CONDITION", MGOAL_CONDITION }
     }
 };
 
@@ -186,12 +190,22 @@ bool set_update_mapgen( JsonObject &jo, std::vector<std::function<void( mission 
 bool load_funcs( JsonObject jo, std::vector<std::function<void( mission *miss )>> &funcs );
 } // namespace mission_util
 
+struct mission_goal_condition_context {
+    mission_goal_condition_context() = default;
+    player *alpha = nullptr;
+    npc *beta = nullptr;
+    std::vector<mission *> missions_assigned;
+    mutable std::string reason;
+    bool by_radio = false;
+};
+
 struct mission_type {
     // Matches it to a mission_type_id above
     mission_type_id id = mission_type_id( "MISSION_NULL" );
     bool was_loaded = false;
     // The name the mission is given in menus
     std::string name = "Bugged mission type";
+    std::string description = "";
     // The basic goal type
     mission_goal goal;
     // Difficulty; TODO: come up with a scale
@@ -227,6 +241,9 @@ struct mission_type {
 
     std::map<std::string, std::string> dialogue;
 
+    // A dynamic goal condition invoked by MGOAL_CONDITION.
+    std::function<bool( const mission_goal_condition_context & )> goal_condition;
+
     mission_type() = default;
     mission_type( mission_type_id ID, const std::string &NAME, mission_goal GOAL, int DIF, int VAL,
                   bool URGENT,
@@ -256,6 +273,8 @@ struct mission_type {
      */
     static const std::vector<mission_type> &get_all();
 
+    bool test_goal_condition( const mission_goal_condition_context &d ) const;
+
     static void reset();
     static void load_mission_type( JsonObject &jo, const std::string &src );
     static void finalize();
@@ -282,8 +301,6 @@ class mission
         friend class debug_menu::mission_debug;
 
         const mission_type *type;
-        // Basic descriptive text
-        std::string description;
         mission_status status;
         // Cash/Favor value of completing this
         unsigned int value;
@@ -381,6 +398,8 @@ class mission
         bool in_progress() const;
         /** Processes this mission. */
         void process();
+        /** Called when the player talks with an NPC. May resolve mission goals, e.g. MGOAL_TALK_TO_NPC. */
+        void on_talk_with_npc( const int npc_id );
 
         // TODO: Give topics a string_id
         std::string dialogue_for_topic( const std::string &topic ) const;
@@ -424,7 +443,7 @@ class mission
         static void add_existing( const mission &m );
 
         static mission_status status_from_string( const std::string &s );
-        static const std::string status_to_string( mission_status st );
+        static std::string status_to_string( mission_status st );
 
         /** Used to handle saves from before player_id was a member of mission */
         void set_player_id_legacy_0c( int id );

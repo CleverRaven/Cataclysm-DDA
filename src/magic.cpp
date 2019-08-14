@@ -187,6 +187,7 @@ void spell_type::load( JsonObject &jo, const std::string & )
         { "translocate", spell_effect::translocate },
         { "area_pull", spell_effect::area_pull },
         { "area_push", spell_effect::area_push },
+        { "ter_transform", spell_effect::transform_blast },
         { "none", spell_effect::none }
     };
 
@@ -1294,10 +1295,7 @@ static bool casting_time_encumbered( const spell &sp, const player &p )
         // the first 20 points of encumbrance combined is ignored
         encumb += std::max( 0, p.encumb( bp_arm_l ) + p.encumb( bp_arm_r ) - 20 );
     }
-    if( encumb > 0 ) {
-        return true;
-    }
-    return false;
+    return encumb > 0;
 }
 
 static bool energy_cost_encumbered( const spell &sp, const player &p )
@@ -1395,7 +1393,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     line++;
 
-    std::string targets = "";
+    std::string targets;
     if( sp.is_valid_target( target_none ) ) {
         targets = "self";
     } else {
@@ -1422,7 +1420,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         }
         if( sp.aoe() > 0 ) {
             std::string aoe_string_temp = "Spell Radius";
-            std::string degree_string = "";
+            std::string degree_string;
             if( fx == "cone_attack" ) {
                 aoe_string_temp = "Cone Arc";
                 degree_string = "degrees";

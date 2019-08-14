@@ -11,6 +11,7 @@
 class JsonOut;
 class JsonIn;
 
+// NOLINTNEXTLINE(cata-xy)
 struct point {
     int x = 0;
     int y = 0;
@@ -25,6 +26,9 @@ struct point {
         y += rhs.y;
         return *this;
     }
+    constexpr point operator-() const {
+        return point( -x, -y );
+    }
     constexpr point operator-( const point &rhs ) const {
         return point( x - rhs.x, y - rhs.y );
     }
@@ -35,6 +39,11 @@ struct point {
     }
     constexpr point operator*( const int rhs ) const {
         return point( x * rhs, y * rhs );
+    }
+    point &operator*=( const int rhs ) {
+        x *= rhs;
+        y *= rhs;
+        return *this;
     }
     constexpr point operator/( const int rhs ) const {
         return point( x / rhs, y / rhs );
@@ -98,13 +107,19 @@ inline constexpr bool operator!=( const point &a, const point &b )
     return !( a == b );
 }
 
+inline point abs( const point &p )
+{
+    return point( abs( p.x ), abs( p.y ) );
+}
+
+// NOLINTNEXTLINE(cata-xy)
 struct tripoint {
     int x = 0;
     int y = 0;
     int z = 0;
     constexpr tripoint() = default;
     constexpr tripoint( int X, int Y, int Z ) : x( X ), y( Y ), z( Z ) {}
-    explicit constexpr tripoint( const point &p, int Z ) : x( p.x ), y( p.y ), z( Z ) {}
+    constexpr tripoint( const point &p, int Z ) : x( p.x ), y( p.y ), z( Z ) {}
 
     constexpr tripoint operator+( const tripoint &rhs ) const {
         return tripoint( x + rhs.x, y + rhs.y, z + rhs.z );
@@ -154,7 +169,7 @@ struct tripoint {
         return *this;
     }
 
-    point xy() const {
+    constexpr point xy() const {
         return point( x, y );
     }
 
@@ -272,9 +287,9 @@ static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 static constexpr tripoint tripoint_zero { 0, 0, 0 };
 static constexpr tripoint tripoint_max{ INT_MAX, INT_MAX, INT_MAX };
 
-static constexpr point point_min{ tripoint_min.x, tripoint_min.y };
-static constexpr point point_zero{ tripoint_zero.x, tripoint_zero.y };
-static constexpr point point_max{ tripoint_max.x, tripoint_max.y };
+static constexpr point point_min{ tripoint_min.xy() };
+static constexpr point point_zero{ tripoint_zero.xy() };
+static constexpr point point_max{ tripoint_max.xy() };
 
 static constexpr point point_north{ 0, -1 };
 static constexpr point point_north_east{ 1, -1 };

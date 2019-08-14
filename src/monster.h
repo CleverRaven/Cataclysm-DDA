@@ -158,6 +158,7 @@ class monster : public Creature
 
         // Movement
         void shift( int sx, int sy ); // Shifts the monster to the appropriate submap
+        void set_goal( const tripoint &p );
         // Updates current pos AND our plans
         bool wander(); // Returns true if we have no plans
 
@@ -305,6 +306,9 @@ class monster : public Creature
 
         /** Processes monster-specific effects before calling Creature::process_effects(). */
         void process_effects() override;
+
+        /** Returns true if the monster has its movement impaired */
+        bool movement_impaired();
         /** Processes effects which may prevent the monster from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
@@ -384,7 +388,10 @@ class monster : public Creature
         void make_ally( const monster &z );
         // Add an item to inventory
         void add_item( const item &it );
-
+        // check mech power levels and modify it.
+        bool use_mech_power( int amt );
+        bool check_mech_powered() const;
+        int mech_str_addition() const;
         /**
          * Makes monster react to heard sound
          *
@@ -413,7 +420,9 @@ class monster : public Creature
         int wandf;           // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
         player *dragged_foe; // player being dragged by the monster
+        int dragged_foe_id; // id of player being dragged by the monster (for save/load)
         cata::optional<item> tied_item; // item used to tie the monster
+        cata::optional<item> battery_item; // item to power mechs
         // DEFINING VALUES
         int friendly;
         int anger = 0;

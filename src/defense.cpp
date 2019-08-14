@@ -38,8 +38,8 @@
 #define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters
 
 #define SELCOL(n) (selection == (n) ? c_yellow : c_blue)
-#define TOGCOL(n, b) (selection == (n) ? (b ? c_light_green : c_yellow) :\
-                      (b ? c_green : c_dark_gray))
+#define TOGCOL(n, b) (selection == (n) ? ((b) ? c_light_green : c_yellow) :\
+                      ((b) ? c_green : c_dark_gray))
 #define NUMALIGN(n) ((n) >= 10000 ? 20 : ((n) >= 1000 ? 21 :\
                      ((n) >= 100 ? 22 : ((n) >= 10 ? 23 : 24))))
 
@@ -495,8 +495,8 @@ void defense_game::init_to_style( defense_style new_style )
 void defense_game::setup()
 {
     catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                           ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                           ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+                           TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                           TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
     int selection = 1;
     refresh_setup( w, selection );
 
@@ -1432,7 +1432,7 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
                 pnt = point( MAPSIZE_X - 1 - pnt.x, pnt.y );
             }
         }
-        if( g->is_empty( { pnt.x, pnt.y, g->get_levz() } ) ) {
+        if( g->is_empty( { pnt, g->get_levz() } ) ) {
             break;
         }
         if( tries++ == 1000 ) {

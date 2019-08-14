@@ -228,7 +228,7 @@ tripoint start_location::find_player_initial_location() const
 void start_location::prepare_map( const tripoint &omtstart ) const
 {
     // Now prepare the initial map (change terrain etc.)
-    const point player_location = omt_to_sm_copy( omtstart.x, omtstart.y );
+    const point player_location = omt_to_sm_copy( omtstart.xy() );
     tinymap player_start;
     player_start.load( player_location.x, player_location.y, omtstart.z, false );
     prepare_map( player_start );
@@ -441,7 +441,7 @@ static void add_monsters( const tripoint &omtstart, const mongroup_id &type, flo
     tinymap m;
     m.load( spawn_location.x, spawn_location.y, spawn_location.z, false );
     // map::place_spawns internally multiplies density by rng(10, 50)
-    const float density = expected_points / ( ( 10 + 50 ) / 2 );
+    const float density = expected_points / ( ( 10 + 50 ) / 2.0 );
     m.place_spawns( type, 1, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, density );
     m.save();
 }

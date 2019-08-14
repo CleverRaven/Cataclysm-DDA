@@ -139,7 +139,7 @@ class Creature
         /**
          * Simplified attitude string for unlocalized needs.
          */
-        static const std::string attitude_raw_string( Attitude att );
+        static std::string attitude_raw_string( Attitude att );
 
         /**
          * Creature Attitude as String and color

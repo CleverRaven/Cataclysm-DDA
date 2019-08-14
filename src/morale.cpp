@@ -451,22 +451,22 @@ void player_morale::decay( const time_duration ticks )
     invalidate();
 }
 
-void player_morale::display( double focus_gain )
+void player_morale::display( int focus_eq )
 {
     /*calculates the percent contributions of the morale points,
      * must be done before anything else in this method
      */
     calculate_percentage();
 
-    const char *morale_gain_caption = _( "Total morale change" );
-    const char *focus_gain_caption = _( "Focus gain per minute" );
+    const char *morale_gain_caption = _( "Total morale:" );
+    const char *focus_equilibrium = _( "Focus trends towards:" );
     const char *points_is_empty = _( "Nothing affects your morale" );
 
     int w_extra = 16;
 
     // Figure out how wide the source column needs to be.
     int source_column_width = std::max( utf8_width( morale_gain_caption ),
-                                        utf8_width( focus_gain_caption ) ) + w_extra;
+                                        utf8_width( focus_equilibrium ) ) + w_extra;
     if( points.empty() ) {
         source_column_width = std::max( utf8_width( points_is_empty ), source_column_width );
     } else {
@@ -482,21 +482,20 @@ void player_morale::display( double focus_gain )
 
     catacurses::window w = catacurses::newwin( win_h, win_w, win_y, win_x );
     //lambda function used to print almost everything to the window
-    const auto print_line = [ w ]( int y, const char *label, double value, bool isPercentage = false,
+    const auto print_line = [ w ]( int y, const char *label, int value, bool isPercentage = false,
     nc_color color_override = c_unset ) -> int {
         nc_color color;
-        if( value != 0.0 )
+        if( value != 0 )
         {
-            const int decimals = ( value - static_cast<int>( value ) != 0.0 ) ? 2 : 0;
             if( color_override == c_unset ) {
-                color = ( value > 0.0 ) ? c_green : c_light_red;
+                color = ( value > 0 ) ? c_green : c_light_red;
             } else {
                 color = color_override;
             }
             if( isPercentage ) {
-                mvwprintz( w, y, getmaxx( w ) - 8, color, "%6.*f%%", decimals, value );
+                mvwprintz( w, y, getmaxx( w ) - 8, color, "%d%%", value );
             } else {
-                mvwprintz( w, y, getmaxx( w ) - 8, color, "%+6.*f", decimals, value );
+                mvwprintz( w, y, getmaxx( w ) - 8, color, "%+d", value );
             }
 
         } else
@@ -574,7 +573,9 @@ void player_morale::display( double focus_gain )
         }
 
         print_line( win_h - 3, morale_gain_caption, get_level() );
-        print_line( win_h - 2, focus_gain_caption, focus_gain );
+        //manual line as lambda will not do it properly here
+        mvwprintz( w, win_h - 2, getmaxx( w ) - 8, c_white, "%d", focus_eq );
+        fold_and_print_from( w, win_h - 2, 2, getmaxx( w ) - 9, 0, c_white, focus_equilibrium );
 
         draw_scrollbar( w, offset, rows_visible, rows_total, 4, 0 );
 

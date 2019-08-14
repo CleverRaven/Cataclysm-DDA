@@ -178,6 +178,21 @@ void mission::on_creature_death( Creature &poor_dead_dude )
     }
 }
 
+void mission::on_talk_with_npc( const int npc_id )
+{
+    switch( type->goal ) {
+        case MGOAL_TALK_TO_NPC:
+            // If our goal is to talk to this npc, and we haven't yet completed a step for this
+            // mission, then complete a step.
+            if( npc_id == target_npc_id && step == 0 ) {
+                step_complete( 1 );
+            }
+            break;
+        default:
+            break;
+    }
+}
+
 mission *mission::reserve_random( const mission_origin origin, const tripoint &p, const int npc_id )
 {
     const auto type = mission_type::get_random_id( origin, p );
@@ -241,6 +256,7 @@ void mission::step_complete( const int _step )
         case MGOAL_ASSASSINATE:
         case MGOAL_KILL_MONSTER:
         case MGOAL_COMPUTER_TOGGLE:
+        case MGOAL_TALK_TO_NPC:
             // Go back and report.
             set_target_to_mission_giver();
             break;
@@ -400,6 +416,7 @@ bool mission::is_complete( const int _npc_id ) const
         case MGOAL_FIND_NPC:
             return npc_id == _npc_id;
 
+        case MGOAL_TALK_TO_NPC:
         case MGOAL_ASSASSINATE:
         case MGOAL_KILL_MONSTER:
         case MGOAL_COMPUTER_TOGGLE:
@@ -410,6 +427,30 @@ bool mission::is_complete( const int _npc_id ) const
 
         case MGOAL_KILL_MONSTER_SPEC:
             return g->kill_count( monster_species ) >= kill_count_to_reach;
+
+        case MGOAL_CONDITION: {
+            // For now, we only allow completing when talking to the mission originator.
+            if( npc_id != _npc_id ) {
+                return false;
+            }
+
+            npc *n = g->find_npc( _npc_id );
+            if( n == nullptr ) {
+                return false;
+            }
+
+            mission_goal_condition_context cc;
+            cc.alpha = &u;
+            cc.beta = n;
+
+            for( auto &mission : n->chatbin.missions_assigned ) {
+                if( mission->get_assigned_player_id() == g->u.getID() ) {
+                    cc.missions_assigned.push_back( mission );
+                }
+            }
+
+            return type->test_goal_condition( cc );
+        }
 
         default:
             return false;
@@ -470,7 +511,7 @@ time_point mission::get_deadline() const
 
 std::string mission::get_description() const
 {
-    return description;
+    return _( type->description );
 }
 
 bool mission::has_target() const
@@ -671,7 +712,7 @@ mission::mission_status string_to_enum<mission::mission_status>( const std::stri
 }
 
 template<>
-const std::string enum_to_string<mission::mission_status>( mission::mission_status data )
+std::string enum_to_string<mission::mission_status>( mission::mission_status data )
 {
     const auto iter = std::find_if( status_map.begin(), status_map.end(),
     [data]( const std::pair<std::string, mission::mission_status> &pr ) {
@@ -691,7 +732,7 @@ mission::mission_status mission::status_from_string( const std::string &s )
     return io::string_to_enum<mission::mission_status>( s );
 }
 
-const std::string mission::status_to_string( mission::mission_status st )
+std::string mission::status_to_string( mission::mission_status st )
 {
     return io::enum_to_string<mission::mission_status>( st );
 }

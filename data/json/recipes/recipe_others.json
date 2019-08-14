@@ -2028,7 +2028,7 @@
     "time": "20 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "bowl_plastic", 4 ] ] ]
+    "components": [ [ [ "bowl_plastic", 4 ], [ "plastic_chunk", 12 ] ] ]
   },
   {
     "type": "recipe",
@@ -3666,6 +3666,18 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 60 ] ],
     "components": [ [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "fur", 4 ], [ "tanned_pelt", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "birchbark_funnel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": "60 m",
+    "autolearn": true,
+    "components": [ [ [ "birchbark", 12 ] ], [ [ "adhesive", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",

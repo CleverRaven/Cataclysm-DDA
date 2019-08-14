@@ -137,7 +137,7 @@ class effect_type
 class effect
 {
     public:
-        effect() : eff_type( NULL ), duration( 0_turns ), bp( num_bp ),
+        effect() : eff_type( nullptr ), duration( 0_turns ), bp( num_bp ),
             permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ) {
         }
         effect( const effect_type *peff_type, const time_duration &dur, body_part part,
@@ -226,7 +226,7 @@ class effect
         /** Returns the string ids of the effects removed by this effect to be used in remove_effect("id"). */
         const std::vector<efftype_id> &get_removes_effects() const;
         /** Returns the string ids of the effects blocked by this effect to be used in add_effect("id"). */
-        const std::vector<efftype_id> get_blocks_effects() const;
+        std::vector<efftype_id> get_blocks_effects() const;
 
         /** Returns the matching modifier type from an effect, used for getting actual effect effects. */
         int get_mod( std::string arg, bool reduced = false ) const;

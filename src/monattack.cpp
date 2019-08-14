@@ -20,7 +20,7 @@
 #include "bodypart.h"
 #include "debug.h"
 #include "effect.h"
-#include "event.h"
+#include "timed_event.h"
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -34,6 +34,7 @@
 #include "martialarts.h"
 #include "messages.h"
 #include "mondefense.h"
+#include "monfaction.h"
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
@@ -160,12 +161,9 @@ static bool within_visual_range( monster *z, int max_range )
 
 static bool within_target_range( const monster *const z, const Creature *const target, int range )
 {
-    if( target == nullptr ||
-        rl_dist( z->pos(), target->pos() ) > range ||
-        !z->sees( *target ) ) {
-        return false;
-    }
-    return true;
+    return target != nullptr &&
+           rl_dist( z->pos(), target->pos() ) <= range &&
+           z->sees( *target );
 }
 
 static Creature *sting_get_target( monster *z, float range = 5.0f )
@@ -910,7 +908,7 @@ bool mattack::resurrect( monster *z )
     if( corpses.empty() ) { // No nearby corpses
         if( found_eligible_corpse ) {
             // There was a corpse, but we haven't charged enough.
-            if( sees_necromancer && one_in( sqrt( lowest_raise_score / 30 ) ) ) {
+            if( sees_necromancer && x_in_y( 1, sqrt( lowest_raise_score / 30.0 ) ) ) {
                 add_msg( m_info, _( "The %s gesticulates wildly." ), z->name() );
             }
             while( z->moves >= 0 ) {
@@ -924,12 +922,9 @@ bool mattack::resurrect( monster *z )
         // Check to see if there are any nearby living zombies to see if we should get angry
         const bool allies = g->get_creature_if( [&]( const Creature & critter ) {
             const monster *const zed = dynamic_cast<const monster *>( &critter );
-            if( zed && zed != z && zed->type->has_flag( MF_REVIVES ) && zed->type->in_species( ZOMBIE ) &&
-                z->attitude_to( *zed ) == Creature::Attitude::A_FRIENDLY  &&
-                within_target_range( z, zed, 10 ) ) {
-                return true;
-            }
-            return false;
+            return zed && zed != z && zed->type->has_flag( MF_REVIVES ) && zed->type->in_species( ZOMBIE ) &&
+                   z->attitude_to( *zed ) == Creature::Attitude::A_FRIENDLY  &&
+                   within_target_range( z, zed, 10 );
         } );
         if( !allies ) {
             // Nobody around who we could revive, get angry
@@ -981,6 +976,18 @@ bool mattack::resurrect( monster *z )
     }
 
     return true;
+}
+
+void mattack::smash_specific( monster *z, Creature *target )
+{
+    if( target == nullptr || !is_adjacent( z, target, false ) ) {
+        return;
+    }
+    if( z->has_flag( MF_RIDEABLE_MECH ) ) {
+        z->use_mech_power( -5 );
+    }
+    z->set_goal( target->pos() );
+    smash( z );
 }
 
 bool mattack::smash( monster *z )
@@ -3079,8 +3086,8 @@ bool mattack::photograph( monster *z )
         const SpeechBubble &speech = get_speech( z->type->id.str() );
         sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text );
     }
-    g->events.add( EVENT_ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ), 0,
-                   g->u.global_sm_location() );
+    g->timed_events.add( TIMED_EVENT_ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ), 0,
+                         g->u.global_sm_location() );
 
     return true;
 }
@@ -3512,7 +3519,7 @@ void mattack::flame( monster *z, Creature *target )
         for( auto &i : traj ) {
             // break out of attack if flame hits a wall
             // TODO: Z
-            if( g->m.hit_with_fire( tripoint( i.x, i.y, z->posz() ) ) ) {
+            if( g->m.hit_with_fire( tripoint( i.xy(), z->posz() ) ) ) {
                 if( g->u.sees( i ) ) {
                     add_msg( _( "The tongue of flame hits the %s!" ),
                              g->m.tername( i.x, i.y ) );
@@ -3535,7 +3542,7 @@ void mattack::flame( monster *z, Creature *target )
 
     for( auto &i : traj ) {
         // break out of attack if flame hits a wall
-        if( g->m.hit_with_fire( tripoint( i.x, i.y, z->posz() ) ) ) {
+        if( g->m.hit_with_fire( tripoint( i.xy(), z->posz() ) ) ) {
             if( g->u.sees( i ) ) {
                 add_msg( _( "The tongue of flame hits the %s!" ),
                          g->m.tername( i.x, i.y ) );
@@ -4047,7 +4054,7 @@ bool mattack::absorb_meat( monster *z )
     const int monster_volume = units::to_liter( z->get_volume() );
     const float average_meat_chunk_volume = 0.5;
     //TODO: dynamically get volume of meat
-    const int max_meat_absorbed = monster_volume / 10 * average_meat_chunk_volume;
+    const int max_meat_absorbed = monster_volume / 10.0 * average_meat_chunk_volume;
     //For every milliliter of meat absorbed, heal this many HP
     const float meat_absorption_factor = 0.01;
     //Search surrounding tiles for meat
@@ -4267,6 +4274,14 @@ bool mattack::longswipe( monster *z )
     return true;
 }
 
+static void parrot_common( monster *parrot )
+{
+    parrot->moves -= 100;  // It takes a while
+    const SpeechBubble &speech = get_speech( parrot->type->id.str() );
+    sounds::sound( parrot->pos(), speech.volume, sounds::sound_t::speech, speech.text, false, "speech",
+                   parrot->type->id.str() );
+}
+
 bool mattack::parrot( monster *z )
 {
     if( z->has_effect( effect_shrieking ) ) {
@@ -4275,11 +4290,22 @@ bool mattack::parrot( monster *z )
         z->moves -= 40;
         return false;
     } else if( one_in( 20 ) ) {
-        z->moves -= 100;  // It takes a while
-        const SpeechBubble &speech = get_speech( z->type->id.str() );
-        sounds::sound( z->pos(), speech.volume, sounds::sound_t::speech, speech.text, false, "speech",
-                       z->type->id.str() );
+        parrot_common( z );
         return true;
+    }
+
+    return false;
+}
+
+bool mattack::parrot_at_danger( monster *parrot )
+{
+    for( monster &monster : g->all_monsters() ) {
+        if( one_in( 20 ) && monster.anger > 0 &&
+            monster.faction->attitude( parrot->faction ) == mf_attitude::MFA_BY_MOOD &&
+            parrot->sees( monster ) ) {
+            parrot_common( parrot );
+            return true;
+        }
     }
 
     return false;

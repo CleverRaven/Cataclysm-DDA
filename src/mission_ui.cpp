@@ -21,8 +21,8 @@
 void game::list_missions()
 {
     catacurses::window w_missions = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                    ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                                    ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+                                    TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                                    TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
     enum class tab_mode : int {
         TAB_ACTIVE = 0,
@@ -118,12 +118,14 @@ void game::list_missions()
                 }
             }
 
-            int lines = fold_and_print( w_missions, 3, 31, getmaxx( w_missions ) - 33, col,
-                                        miss->name() + for_npc );
+            int y = 3;
+            y += fold_and_print( w_missions, y, 31, getmaxx( w_missions ) - 33, col,
+                                 miss->name() + for_npc );
 
-            int y = 3 + lines;
+            y++;
             if( !miss->get_description().empty() ) {
-                mvwprintz( w_missions, ++y, 31, c_white, miss->get_description() );
+                y += fold_and_print( w_missions, y, 31, getmaxx( w_missions ) - 33, c_white,
+                                     miss->get_description() );
             }
             if( miss->has_deadline() ) {
                 const time_point deadline = miss->get_deadline();

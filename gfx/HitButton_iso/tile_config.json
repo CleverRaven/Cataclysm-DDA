@@ -4008,11 +4008,11 @@
           "fg": 1317
         },
         {
-          "id": ["bra", "undershirt", "camisole", "waistcoat", "tshirt", "tshirt_text", "postman_shirt", "flag_shirt", "polo_shirt", "army_top", "tank_top", "bikini_top", "chestwrap", "sleeveless_trenchcoat", "vest", "chestrig", "ragpouch", "skinny_tie", "makeshift_sling", "technician_shirt_blue", "technician_shirt_ltblue", "technician_shirt_gray", "linuxtshirt", "halter_top", "makeshift_knapsack", "sports_bra", "under_armor", "bookplate" ],
+          "id": ["bra", "undershirt", "camisole", "waistcoat", "tshirt", "tshirt_text", "postman_shirt", "flag_shirt", "polo_shirt", "army_top", "tank_top", "bikini_top", "chestwrap", "sleeveless_trenchcoat", "vest", "chestrig", "ragpouch", "tie_skinny", "makeshift_sling", "technician_shirt_blue", "technician_shirt_ltblue", "technician_shirt_gray", "linuxtshirt", "halter_top", "makeshift_knapsack", "sports_bra", "under_armor", "bookplate" ],
           "fg": 1318
         },
         {
-          "id": ["overlay_worn_bra", "overlay_worn_undershirt", "overlay_worn_camisole", "overlay_worn_waistcoat", "overlay_worn_tshirt", "overlay_worn_tshirt_text", "overlay_worn_postman_shirt", "overlay_worn_flag_shirt", "overlay_worn_polo_shirt", "overlay_worn_army_top", "overlay_worn_tank_top", "overlay_worn_bikini_top", "overlay_worn_chestwrap", "overlay_worn_sleeveless_trenchcoat", "overlay_worn_vest", "overlay_worn_chestrig", "overlay_worn_ragpouch", "overlay_worn_skinny_tie", "overlay_worn_makeshift_sling", "overlay_worn_technician_shirt_blue", "overlay_worn_technician_shirt_ltblue", "overlay_worn_technician_shirt_gray", "overlay_worn_linuxtshirt", "overlay_worn_halter_top", "overlay_worn_makeshift_knapsack", "overlay_worn_sports_bra", "overlay_worn_under_armor", "bookplate" ],
+          "id": ["overlay_worn_bra", "overlay_worn_undershirt", "overlay_worn_camisole", "overlay_worn_waistcoat", "overlay_worn_tshirt", "overlay_worn_tshirt_text", "overlay_worn_postman_shirt", "overlay_worn_flag_shirt", "overlay_worn_polo_shirt", "overlay_worn_army_top", "overlay_worn_tank_top", "overlay_worn_bikini_top", "overlay_worn_chestwrap", "overlay_worn_sleeveless_trenchcoat", "overlay_worn_vest", "overlay_worn_chestrig", "overlay_worn_ragpouch", "overlay_worn_tie_skinny", "overlay_worn_makeshift_sling", "overlay_worn_technician_shirt_blue", "overlay_worn_technician_shirt_ltblue", "overlay_worn_technician_shirt_gray", "overlay_worn_linuxtshirt", "overlay_worn_halter_top", "overlay_worn_makeshift_knapsack", "overlay_worn_sports_bra", "overlay_worn_under_armor", "bookplate" ],
           "fg": 1319
         },
         {
@@ -4656,7 +4656,7 @@
           "fg": 1479
         },
         {
-          "id": ["copper_ear", "copper_bracelet", "holy_symbol", "ring", "diamond_ring", "gold_ear", "gold_bracelet", "badge_detective", "gold_dental_grill", "diamond_dental_grill" ],
+          "id": ["copper_ear", "copper_bracelet", "holy_symbol", "gold_ring", "diamond_ring", "gold_ear", "gold_bracelet", "badge_detective", "gold_dental_grill", "diamond_dental_grill" ],
           "fg": 1480
         },
         {
@@ -4664,7 +4664,7 @@
           "fg": 1481
         },
         {
-          "id": ["silver_ear", "necklace", "locket", "silver_bracelet", "badge_deputy", "badge_swat", "badge_cybercop", "badge_marshal", "tieclip", "collarpin", "pearl_collar", "brooch" ],
+          "id": ["silver_ear", "silver_necklace", "silver_locket", "silver_bracelet", "badge_deputy", "badge_swat", "badge_cybercop", "badge_marshal", "tieclip", "collarpin", "pearl_collar", "jade_brooch" ],
           "fg": 1482
         },
         {

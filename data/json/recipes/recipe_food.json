@@ -764,12 +764,12 @@
       [ [ "meat_red", 2, "LIST" ], [ "liver", 10 ] ],
       [ [ "fat", 1 ], [ "tallow", 2 ], [ "lard", 2 ] ],
       [
-        [ "salt", 2 ],
-        [ "soysauce", 1 ],
-        [ "seasoning_italian", 10 ],
-        [ "wild_herbs", 10 ],
-        [ "seasoning_salt", 10 ],
-        [ "pepper", 10 ]
+        [ "salt", 4 ],
+        [ "soysauce", 2 ],
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "pepper", 4 ]
       ]
     ]
   },
@@ -4346,7 +4346,7 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "human_flesh", 1 ] ] ]
+    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "human_flesh", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -5941,6 +5941,7 @@
     "skill_used": "cooking",
     "difficulty": 6,
     "time": "30 m",
+    "result_mult": 2,
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
@@ -5948,7 +5949,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "jar_glass", 1 ] ],
-      [ [ "meat", 1 ], [ "meat_scrap", 10 ] ],
+      [ [ "meat", 2 ], [ "meat_scrap", 20 ] ],
       [ [ "vinegar", 1 ] ]
     ]
   },
