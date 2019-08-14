@@ -2218,6 +2218,7 @@ std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context ctxt, co
     // Ensure the parameters are used even if the #if below is false
     ( void ) ctxt;
     ( void ) speed;
+    ( void ) iso;
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
     auto now = std::chrono::steady_clock::now();
     if( now < last_mouse_edge_scroll + std::chrono::milliseconds( rate ) ) {
