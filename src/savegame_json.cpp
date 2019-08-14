@@ -3431,9 +3431,19 @@ void submap::store( JsonOut &jsout ) const
         jsout.end_array();
     }
     jsout.end_array();
-    // Output the computer
-    if( comp != nullptr ) {
-        jsout.member( "computers", comp->save_data() );
+
+    if( legacy_computer ) {
+        // it's possible that no access to computers has been made and legacy_computer
+        // is not cleared
+        jsout.member( "computers", legacy_computer->save_data() );
+    } else if( !computers.empty() ) {
+        jsout.member( "computers" );
+        jsout.start_array();
+        for( auto &elem : computers ) {
+            jsout.write( elem.first );
+            jsout.write( elem.second.save_data() );
+        }
+        jsout.end_array();
     }
 
     // Output base camp if any
@@ -3689,11 +3699,22 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
             partial_constructions[pt] = pc;
         }
     } else if( member_name == "computers" ) {
-        std::string computer_data = jsin.get_string();
-        std::unique_ptr<computer> new_comp =
-            std::make_unique<computer>( "BUGGED_COMPUTER", -100 );
-        new_comp->load_data( computer_data );
-        comp = std::move( new_comp );
+        if( jsin.test_array() ) {
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                point loc;
+                jsin.read( loc );
+                std::string computer_data = jsin.get_string();
+                auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100 ) ).first;
+                new_comp_it->second.load_data( computer_data );
+            }
+        } else {
+            // only load legacy data here, but do not update to std::map, since
+            // the terrain may not have been loaded yet.
+            std::string computer_data = jsin.get_string();
+            legacy_computer = std::make_unique<computer>( "BUGGED_COMPUTER", -100 );
+            legacy_computer->load_data( computer_data );
+        }
     } else if( member_name == "camp" ) {
         jsin.read( camp );
     } else {

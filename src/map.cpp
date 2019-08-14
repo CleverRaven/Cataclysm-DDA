@@ -5525,7 +5525,9 @@ computer *map::computer_at( const tripoint &p )
         return nullptr;
     }
 
-    return get_submap_at( p )->comp.get();
+    point l;
+    submap *const sm = get_submap_at( p, l );
+    return sm->get_computer( l );
 }
 
 void map::remove_submap_camp( const tripoint &p )
