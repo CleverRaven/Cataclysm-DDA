@@ -527,6 +527,16 @@ class comestible_inventory_preset : public inventory_selector_preset
                 }
 
                 return std::string();
+            }, _( "FURNACE" ) );
+
+            append_cell( [this, &p]( const item_location & loc ) {
+                bionic_id cbm_name = p.get_bionic_fueled_with( get_consumable_item( loc ) );
+
+                if( cbm_name != bionic_id( "null" ) ) {
+                    return string_format( "<color_cyan>%s</color>", cbm_name->name );
+                }
+
+                return std::string();
             }, _( "CBM" ) );
 
             append_cell( [ this, &p ]( const item_location & loc ) {
@@ -547,7 +557,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             const auto res = p.can_eat( it );
             const auto cbm = p.get_cbm_rechargeable_with( it );
 
-            if( !res.success() && cbm == rechargeable_cbm::none ) {
+            if( !res.success() && cbm == rechargeable_cbm::none && !p.can_fuel_bionic_with( it ) ) {
                 return res.str();
             } else if( cbm == rechargeable_cbm::battery && p.power_level >= p.max_power_level ) {
                 return _( "You're fully charged" );
