@@ -25,6 +25,7 @@
 #include "font_loader.h"
 #include "platform_win.h"
 #include "mmsystem.h"
+#include "wcwidth.h"
 
 //***********************************
 //Globals                           *
