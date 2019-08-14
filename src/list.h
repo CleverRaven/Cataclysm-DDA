@@ -250,6 +250,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
                 group_vector &operator = ( group_vector &&source ) noexcept {
                     if LIST_CONSTEXPR( std::is_trivial<group_pointer_type>::value ) {
+                        // NOLINTNEXTLINE(bugprone-undefined-memory-manipulation)
                         std::memcpy( static_cast<void *>( this ), &source, sizeof( group_vector ) );
                     } else {
                         last_endpoint_group = std::move( source.last_endpoint_group );

@@ -2426,6 +2426,7 @@ class colony : private element_allocator_type
 
             if COLONY_CONSTEXPR( std::is_trivial<group_pointer_type>::value &&
                                  std::is_trivial<aligned_pointer_type>::value && std::is_trivial<skipfield_pointer_type>::value ) {
+                // NOLINTNEXTLINE(bugprone-undefined-memory-manipulation)
                 std::memcpy( static_cast<void *>( this ), &source, sizeof( colony ) );
             } else {
                 end_iterator = std::move( source.end_iterator );
