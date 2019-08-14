@@ -180,11 +180,11 @@ static void update_color_stack( std::stack<nc_color> &color_stack, const std::st
     }
 }
 
-void print_colored_text( const catacurses::window &w, int y, int x, nc_color &color,
+void print_colored_text( const catacurses::window &w, const point &p, nc_color &color,
                          const nc_color &base_color, const std::string &text )
 {
-    if( y > -1 && x > -1 ) {
-        wmove( w, point( x, y ) );
+    if( p.y > -1 && p.x > -1 ) {
+        wmove( w, p );
     }
     const auto color_segments = split_by_color( text );
     std::stack<nc_color> color_stack;
@@ -205,7 +205,7 @@ void print_colored_text( const catacurses::window &w, int y, int x, nc_color &co
     }
 }
 
-void trim_and_print( const catacurses::window &w, int begin_y, int begin_x, int width,
+void trim_and_print( const catacurses::window &w, const point &begin, int width,
                      nc_color base_color, const std::string &text )
 {
     std::string sText;
@@ -250,7 +250,7 @@ void trim_and_print( const catacurses::window &w, int begin_y, int begin_x, int 
         sText = text;
     }
 
-    print_colored_text( w, point( begin_x, begin_y ), base_color, base_color, sText );
+    print_colored_text( w, begin, base_color, base_color, sText );
 }
 
 int print_scrollable( const catacurses::window &w, int begin_line, const std::string &text,
@@ -281,30 +281,30 @@ int print_scrollable( const catacurses::window &w, int begin_line, const std::st
 }
 
 // returns number of printed lines
-int fold_and_print( const catacurses::window &w, int begin_y, int begin_x, int width,
+int fold_and_print( const catacurses::window &w, const point &begin, int width,
                     const nc_color &base_color, const std::string &text, const char split )
 {
     nc_color color = base_color;
     std::vector<std::string> textformatted = foldstring( text, width, split );
     for( int line_num = 0; static_cast<size_t>( line_num ) < textformatted.size(); line_num++ ) {
-        print_colored_text( w, point( begin_x, line_num + begin_y ), color, base_color,
+        print_colored_text( w, begin + point( 0, line_num ), color, base_color,
                             textformatted[line_num] );
     }
     return textformatted.size();
 }
 
-int fold_and_print_from( const catacurses::window &w, int begin_y, int begin_x, int width,
+int fold_and_print_from( const catacurses::window &w, const point &begin, int width,
                          int begin_line, const nc_color &base_color, const std::string &text )
 {
     const int iWinHeight = getmaxy( w );
     std::stack<nc_color> color_stack;
     std::vector<std::string> textformatted = foldstring( text, width );
     for( int line_num = 0; static_cast<size_t>( line_num ) < textformatted.size(); line_num++ ) {
-        if( line_num + begin_y - begin_line == iWinHeight ) {
+        if( line_num + begin.y - begin_line == iWinHeight ) {
             break;
         }
         if( line_num >= begin_line ) {
-            wmove( w, point( begin_x, line_num + begin_y - begin_line ) );
+            wmove( w, point( begin.x, line_num + begin.y - begin_line ) );
         }
         // split into colorable sections
         std::vector<std::string> color_segments = split_by_color( textformatted[line_num] );
@@ -420,49 +420,50 @@ void wputch( const catacurses::window &w, nc_color FG, int ch )
     wattroff( w, FG );
 }
 
-void mvwputch( const catacurses::window &w, int y, int x, nc_color FG, int ch )
+void mvwputch( const catacurses::window &w, const point &p, nc_color FG, int ch )
 {
     wattron( w, FG );
-    mvwaddch( w, point( x, y ), ch );
+    mvwaddch( w, p, ch );
     wattroff( w, FG );
 }
 
-void mvwputch( const catacurses::window &w, int y, int x, nc_color FG, const std::string &ch )
+void mvwputch( const catacurses::window &w, const point &p, nc_color FG, const std::string &ch )
 {
     wattron( w, FG );
-    mvwprintw( w, point( x, y ), ch );
+    mvwprintw( w, p, ch );
     wattroff( w, FG );
 }
 
-void mvwputch_inv( const catacurses::window &w, int y, int x, nc_color FG, int ch )
+void mvwputch_inv( const catacurses::window &w, const point &p, nc_color FG, int ch )
 {
     nc_color HC = invert_color( FG );
     wattron( w, HC );
-    mvwaddch( w, point( x, y ), ch );
+    mvwaddch( w, p, ch );
     wattroff( w, HC );
 }
 
-void mvwputch_inv( const catacurses::window &w, int y, int x, nc_color FG, const std::string &ch )
+void mvwputch_inv( const catacurses::window &w, const point &p, nc_color FG,
+                   const std::string &ch )
 {
     nc_color HC = invert_color( FG );
     wattron( w, HC );
-    mvwprintw( w, point( x, y ), ch );
+    mvwprintw( w, p, ch );
     wattroff( w, HC );
 }
 
-void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, int ch )
+void mvwputch_hi( const catacurses::window &w, const point &p, nc_color FG, int ch )
 {
     nc_color HC = hilite( FG );
     wattron( w, HC );
-    mvwaddch( w, point( x, y ), ch );
+    mvwaddch( w, p, ch );
     wattroff( w, HC );
 }
 
-void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, const std::string &ch )
+void mvwputch_hi( const catacurses::window &w, const point &p, nc_color FG, const std::string &ch )
 {
     nc_color HC = hilite( FG );
     wattron( w, HC );
-    mvwprintw( w, point( x, y ), ch );
+    mvwprintw( w, p, ch );
     wattroff( w, HC );
 }
 
@@ -1540,10 +1541,10 @@ std::string rm_prefix( std::string str, char c1, char c2 )
 // draw a menu-item-like string with highlighted shortcut character
 // Example: <w>ield, m<o>ve
 // returns: output length (in console cells)
-size_t shortcut_print( const catacurses::window &w, int y, int x, nc_color text_color,
+size_t shortcut_print( const catacurses::window &w, const point &p, nc_color text_color,
                        nc_color shortcut_color, const std::string &fmt )
 {
-    wmove( w, point( x, y ) );
+    wmove( w, p );
     return shortcut_print( w, text_color, shortcut_color, fmt );
 }
 
@@ -2125,11 +2126,11 @@ void refresh_display()
 }
 #endif
 
-void mvwprintz( const catacurses::window &w, const int y, const int x, const nc_color &FG,
+void mvwprintz( const catacurses::window &w, const point &p, const nc_color &FG,
                 const std::string &text )
 {
     wattron( w, FG );
-    mvwprintw( w, point( x, y ), text );
+    mvwprintw( w, p, text );
     wattroff( w, FG );
 }
 

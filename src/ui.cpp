@@ -44,38 +44,38 @@ uilist::uilist( const std::string &hotkeys_override )
 }
 
 uilist::uilist( const std::string &msg, const std::vector<uilist_entry> &opts )
-    : uilist( MENU_AUTOASSIGN, MENU_AUTOASSIGN, MENU_AUTOASSIGN, msg, opts )
+    : uilist( MENU_AUTOASSIGN_POS, MENU_AUTOASSIGN, msg, opts )
 {
 }
 
 uilist::uilist( const std::string &msg, const std::vector<std::string> &opts )
-    : uilist( MENU_AUTOASSIGN, MENU_AUTOASSIGN, MENU_AUTOASSIGN, msg, opts )
+    : uilist( MENU_AUTOASSIGN_POS, MENU_AUTOASSIGN, msg, opts )
 {
 }
 
 uilist::uilist( const std::string &msg, std::initializer_list<const char *const> opts )
-    : uilist( MENU_AUTOASSIGN, MENU_AUTOASSIGN, MENU_AUTOASSIGN, msg, opts )
+    : uilist( MENU_AUTOASSIGN_POS, MENU_AUTOASSIGN, msg, opts )
 {
 }
 
-uilist::uilist( int startx, int width, int starty, const std::string &msg,
+uilist::uilist( const point &start, int width, const std::string &msg,
                 const std::vector<uilist_entry> &opts )
 {
     init();
-    w_x = startx;
-    w_y = starty;
+    w_x = start.x;
+    w_y = start.y;
     w_width = width;
     text = msg;
     entries = opts;
     query();
 }
 
-uilist::uilist( int startx, int width, int starty, const std::string &msg,
+uilist::uilist( const point &start, int width, const std::string &msg,
                 const std::vector<std::string> &opts )
 {
     init();
-    w_x = startx;
-    w_y = starty;
+    w_x = start.x;
+    w_y = start.y;
     w_width = width;
     text = msg;
     for( const auto &opt : opts ) {
@@ -84,12 +84,12 @@ uilist::uilist( int startx, int width, int starty, const std::string &msg,
     query();
 }
 
-uilist::uilist( int startx, int width, int starty, const std::string &msg,
+uilist::uilist( const point &start, int width, const std::string &msg,
                 std::initializer_list<const char *const> opts )
 {
     init();
-    w_x = startx;
-    w_y = starty;
+    w_x = start.x;
+    w_y = start.y;
     w_width = width;
     text = msg;
     for( auto opt : opts ) {
