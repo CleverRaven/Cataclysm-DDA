@@ -22,7 +22,7 @@ class options_manager
         {
             public:
                 id_and_option( const std::string &first, const std::string &second )
-                    : std::pair<std::string, translation>( first, second ) {
+                    : std::pair<std::string, translation>( first, translation( second ) ) {
                 }
                 id_and_option( const std::string &first, const translation &second )
                     : std::pair<std::string, translation>( first, second ) {
@@ -38,6 +38,8 @@ class options_manager
 
         void enable_json( const std::string &var );
         void add_retry( const std::string &var, const std::string &val );
+
+        void update_global_locale();
 
         std::map<std::string, std::string> post_json_verify;
 

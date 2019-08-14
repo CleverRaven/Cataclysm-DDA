@@ -51,6 +51,16 @@ bool isBetween( int test, int down, int up )
 
 bool lcmatch( const std::string &str, const std::string &qry )
 {
+    if( std::locale().name() != "en_US.UTF-8" ) {
+        auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
+        std::wstring wneedle = utf8_to_wstr( qry );
+        std::wstring whaystack = utf8_to_wstr( str );
+
+        f.tolower( &whaystack[0], &whaystack[0] + whaystack.size() );
+        f.tolower( &wneedle[0], &wneedle[0] + wneedle.size() );
+
+        return whaystack.find( wneedle ) != std::wstring::npos;
+    }
     std::string needle;
     needle.reserve( qry.size() );
     std::transform( qry.begin(), qry.end(), std::back_inserter( needle ), tolower );

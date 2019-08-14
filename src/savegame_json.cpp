@@ -1385,7 +1385,7 @@ void npc::load( JsonObject &data )
         if( data.read( "omy", o ) ) {
             old_coords.y += o * OMAPY * 2;
         }
-        submap_coords = point( old_coords.x + posx() / SEEX, old_coords.y + posy() / SEEY );
+        submap_coords = old_coords + point( posx() / SEEX, posy() / SEEY );
     }
 
     if( !data.read( "mapz", position.z ) ) {
@@ -1810,6 +1810,8 @@ void monster::load( JsonObject &data )
     horde_attraction = static_cast<monster_horde_attraction>( data.get_int( "horde_attraction", 0 ) );
 
     data.read( "inv", inv );
+    data.read( "dragged_foe_id", dragged_foe_id );
+
     if( data.has_int( "ammo" ) && !type->starting_ammo.empty() ) {
         // Legacy loading for ammo.
         normalize_ammo( data.get_int( "ammo" ) );
@@ -1886,6 +1888,7 @@ void monster::store( JsonOut &json ) const
     }
     json.member( "inv", inv );
 
+    json.member( "dragged_foe_id", dragged_foe_id );
     json.member( "path", path );
 }
 
@@ -2618,8 +2621,6 @@ void mission::deserialize( JsonIn &jsin )
         type = &mission_type::get_all().front();
     }
 
-    jo.read( "description", description );
-
     bool failed;
     bool was_started;
     std::string status_string;
@@ -2692,7 +2693,6 @@ void mission::serialize( JsonOut &json ) const
     json.start_object();
 
     json.member( "type_id", type->id );
-    json.member( "description", description );
     json.member( "status", status_to_string( status ) );
     json.member( "value", value );
     json.member( "reward", reward );
@@ -3431,9 +3431,19 @@ void submap::store( JsonOut &jsout ) const
         jsout.end_array();
     }
     jsout.end_array();
-    // Output the computer
-    if( comp != nullptr ) {
-        jsout.member( "computers", comp->save_data() );
+
+    if( legacy_computer ) {
+        // it's possible that no access to computers has been made and legacy_computer
+        // is not cleared
+        jsout.member( "computers", legacy_computer->save_data() );
+    } else if( !computers.empty() ) {
+        jsout.member( "computers" );
+        jsout.start_array();
+        for( auto &elem : computers ) {
+            jsout.write( elem.first );
+            jsout.write( elem.second.save_data() );
+        }
+        jsout.end_array();
     }
 
     // Output base camp if any
@@ -3689,11 +3699,22 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
             partial_constructions[pt] = pc;
         }
     } else if( member_name == "computers" ) {
-        std::string computer_data = jsin.get_string();
-        std::unique_ptr<computer> new_comp =
-            std::make_unique<computer>( "BUGGED_COMPUTER", -100 );
-        new_comp->load_data( computer_data );
-        comp = std::move( new_comp );
+        if( jsin.test_array() ) {
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                point loc;
+                jsin.read( loc );
+                std::string computer_data = jsin.get_string();
+                auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100 ) ).first;
+                new_comp_it->second.load_data( computer_data );
+            }
+        } else {
+            // only load legacy data here, but do not update to std::map, since
+            // the terrain may not have been loaded yet.
+            std::string computer_data = jsin.get_string();
+            legacy_computer = std::make_unique<computer>( "BUGGED_COMPUTER", -100 );
+            legacy_computer->load_data( computer_data );
+        }
     } else if( member_name == "camp" ) {
         jsin.read( camp );
     } else {

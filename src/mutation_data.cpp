@@ -49,8 +49,9 @@ bool string_id<Trait_group>::is_valid() const
     return trait_groups.count( *this );
 }
 
-static void extract_mod( JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int> &data,
-                         const std::string &mod_type, bool active, const std::string &type_key )
+static void extract_mod(
+    JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &data,
+    const std::string &mod_type, bool active, const std::string &type_key )
 {
     int val = j.get_int( mod_type, 0 );
     if( val != 0 ) {
@@ -58,8 +59,9 @@ static void extract_mod( JsonObject &j, std::unordered_map<std::pair<bool, std::
     }
 }
 
-static void load_mutation_mods( JsonObject &jsobj, const std::string &member,
-                                std::unordered_map<std::pair<bool, std::string>, int> &mods )
+static void load_mutation_mods(
+    JsonObject &jsobj, const std::string &member,
+    std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &mods )
 {
     if( jsobj.has_object( member ) ) {
         JsonObject j = jsobj.get_object( member );
@@ -619,13 +621,13 @@ static Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid
     if( is_collection ) {
         if( dynamic_cast<Trait_group_distribution *>( found->second.get() ) ) {
             std::ostringstream buf;
-            buf << "item group \"" << gid.c_str() << "\" already defined with type \"distribution\"";
+            buf << "item group \"" << gid.c_str() << R"(" already defined with type "distribution")";
             throw std::runtime_error( buf.str() );
         }
     } else {
         if( dynamic_cast<Trait_group_collection *>( found->second.get() ) ) {
             std::ostringstream buf;
-            buf << "item group \"" << gid.c_str() << "\" already defined with type \"collection\"";
+            buf << "item group \"" << gid.c_str() << R"(" already defined with type "collection")";
             throw std::runtime_error( buf.str() );
         }
     }

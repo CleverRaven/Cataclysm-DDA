@@ -157,7 +157,7 @@ class monster : public Creature
         Creature *attack_target(); // Returns the creature at the end of plans (if hostile)
 
         // Movement
-        void shift( int sx, int sy ); // Shifts the monster to the appropriate submap
+        void shift( const point &sp ); // Shifts the monster to the appropriate submap
         void set_goal( const tripoint &p );
         // Updates current pos AND our plans
         bool wander(); // Returns true if we have no plans
@@ -170,8 +170,8 @@ class monster : public Creature
          */
         bool can_move_to( const tripoint &p ) const;
 
-        bool will_reach( int x, int y ); // Do we have plans to get to (x, y)?
-        int  turns_to_reach( int x, int y ); // How long will it take?
+        bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
+        int  turns_to_reach( const point &p ); // How long will it take?
 
         // Go in a straight line to p
         void set_dest( const tripoint &p );
@@ -419,7 +419,7 @@ class monster : public Creature
         tripoint wander_pos; // Wander destination - Just try to move in that direction
         int wandf;           // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
-        player *dragged_foe; // player being dragged by the monster
+        int dragged_foe_id = -1; // id of player being dragged by the monster
         cata::optional<item> tied_item; // item used to tie the monster
         cata::optional<item> battery_item; // item to power mechs
         // DEFINING VALUES
@@ -523,6 +523,9 @@ class monster : public Creature
         std::vector<tripoint> path;
         std::bitset<NUM_MEFF> effect_cache;
         cata::optional<time_duration> summon_time_limit = cata::nullopt;
+
+        player *find_dragged_foe();
+        void nursebot_operate( player *dragged_foe );
 
     protected:
         void store( JsonOut &jsout ) const;

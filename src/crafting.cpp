@@ -1091,9 +1091,11 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
                 int difficulty = has_recipe( &making, crafting_inventory(), get_crafting_helpers() );
                 ///\EFFECT_INT increases chance to learn recipe when crafting from a book
-                if( x_in_y( making.time, ( 1000 * 8 *
-                                           ( difficulty * difficulty * difficulty * difficulty ) ) /
-                            ( std::max( get_skill_level( making.skill_used ), 1 ) * std::max( get_int(), 1 ) ) ) ) {
+                const double learning_speed =
+                    std::max( get_skill_level( making.skill_used ), 1 ) *
+                    std::max( get_int(), 1 );
+                const double time_to_learn = 1000 * 8 * pow( difficulty, 4 ) / learning_speed;
+                if( x_in_y( making.time, time_to_learn ) ) {
                     learn_recipe( &making );
                     add_msg( m_good, _( "You memorized the recipe for %s!" ),
                              making.result_name() );

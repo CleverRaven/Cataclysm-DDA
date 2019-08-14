@@ -1553,8 +1553,12 @@ class bionic_install_preset: public inventory_selector_preset
                 return _( "Superior version installed" );
             } else if( pa.is_npc() && !bid->npc_usable ) {
                 return _( "CBM not compatible with patient" );
-            } else if( !p.has_enough_anesth( itemtype ) ) {
-                return string_format( _( "%i mL" ), itemtype->bionic->difficulty * 40 );
+            } else if( !p.has_enough_anesth( itemtype, pa ) ) {
+                const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
+                const int duration = loc.get_item()->type->bionic->difficulty * 2;
+                const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+                                                    duration * weight;
+                return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
             }
 
             return std::string();
@@ -1600,7 +1604,10 @@ class bionic_install_preset: public inventory_selector_preset
 
         std::string get_anesth_amount( const item_location &loc ) {
 
-            const int amount = loc.get_item()->type->bionic->difficulty * 40;
+            const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
+            const int duration = loc.get_item()->type->bionic->difficulty * 2;
+            const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+                                                duration * weight;
 
             std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
                 return it.has_flag( "ANESTHESIA" ); // legacy
@@ -1609,7 +1616,7 @@ class bionic_install_preset: public inventory_selector_preset
             if( b_filter.size() > 0 ) {
                 return  _( "kit available" );// legacy
             } else {
-                return string_format( _( "%i mL" ), amount );
+                return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
             }
         }
 };
@@ -1747,8 +1754,12 @@ class bionic_uninstall_preset : public inventory_selector_preset
         std::string get_denial( const item_location &loc ) const override {
             const itype *itemtype = loc.get_item()->type;
 
-            if( !p.has_enough_anesth( itemtype ) ) {
-                return string_format( _( "%i mL" ), itemtype->bionic->difficulty * 40 );
+            if( !p.has_enough_anesth( itemtype, pa ) ) {
+                const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
+                const int duration = loc.get_item()->type->bionic->difficulty * 2;
+                const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+                                                    duration * weight;
+                return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
             }
 
             return std::string();
@@ -1795,7 +1806,10 @@ class bionic_uninstall_preset : public inventory_selector_preset
 
         std::string get_anesth_amount( const item_location &loc ) {
 
-            const int amount = loc.get_item()->type->bionic->difficulty * 40;
+            const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
+            const int duration = loc.get_item()->type->bionic->difficulty * 2;
+            const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+                                                duration * weight;
 
             std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
                 return it.has_flag( "ANESTHESIA" ); // legacy
@@ -1804,7 +1818,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
             if( b_filter.size() > 0 ) {
                 return  _( "kit available" ); // legacy
             } else {
-                return string_format( _( "%i mL" ), amount );
+                return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
             }
         }
 };

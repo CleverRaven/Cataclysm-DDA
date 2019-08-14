@@ -5,8 +5,10 @@
 #include "compatibility.h" // IWYU pragma: keep
 #include "debug.h"
 #include "game.h"
+#include "ime.h"
 #include "input.h"
 #include "json.h"
+#include "optional.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -453,6 +455,8 @@ class dialog
 
         bool canceled;
         bool errored;
+
+        cata::optional<ime_sentry> filter_sentry;
 };
 } // namespace Messages
 
@@ -471,7 +475,7 @@ void Messages::dialog::init()
     w_x = ( TERMX - w_width ) / 2;
     w_y = ( TERMY - w_height ) / 2;
 
-    w = catacurses::newwin( w_height, w_width, w_y, w_x );
+    w = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
 
     ctxt = input_context( "MESSAGE_LOG" );
     ctxt.register_action( "UP", translate_marker( "Scroll up" ) );
@@ -503,7 +507,7 @@ void Messages::dialog::init()
     help_text = filter_help_text( w_fh_width - border_width * 2 );
     w_fh_height = help_text.size() + border_width * 2;
     w_fh_y = w_y + w_height - w_fh_height;
-    w_filter_help = catacurses::newwin( w_fh_height, w_fh_width, w_fh_y, w_fh_x );
+    w_filter_help = catacurses::newwin( w_fh_height, w_fh_width, point( w_fh_x, w_fh_y ) );
 
     // Initialize filter input
     filter.window( w_filter_help, border_width + 2, w_fh_height - 1, w_fh_width - border_width - 2 );
@@ -592,11 +596,11 @@ void Messages::dialog::show()
             if( printing_range ) {
                 const size_t last_line = log_from_top ? line - 1 : line + 1;
                 wattron( w, bracket_color );
-                mvwaddch( w, border_width + last_line, border_width + time_width - 1, LINE_XOXO );
+                mvwaddch( w, point( border_width + time_width - 1, border_width + last_line ), LINE_XOXO );
                 wattroff( w, bracket_color );
             }
             wattron( w, bracket_color );
-            mvwaddch( w, border_width + line, border_width + time_width - 1,
+            mvwaddch( w, point( border_width + time_width - 1, border_width + line ),
                       log_from_top ? LINE_XXOO : LINE_OXXO );
             wattroff( w, bracket_color );
             printing_range = true;
@@ -681,6 +685,9 @@ void Messages::dialog::input()
         filter.query( false );
         if( filter.confirmed() || filter.canceled() ) {
             filtering = false;
+            if( filter_sentry ) {
+                disable_ime();
+            }
         }
         if( !filter.canceled() ) {
             const std::string &new_filter_str = filter.text();
@@ -714,11 +721,13 @@ void Messages::dialog::input()
             }
         } else if( action == "FILTER" ) {
             filtering = true;
-#if defined(__ANDROID__)
-            if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                SDL_StartTextInput();
+            if( filter_sentry ) {
+                enable_ime();
+            } else {
+                // this implies enable_ime() and ensures that the ime mode is always
+                // restored when closing the dialog if at least filtered once
+                filter_sentry.emplace();
             }
-#endif
         } else if( action == "RESET_FILTER" ) {
             filter_str.clear();
             filter.text( filter_str );

@@ -1,0 +1,8 @@
+[
+  {
+    "id": "magic_recipe_basic",
+    "type": "item_group",
+    "//": "Lower tier recipes, many of which can be done with the alchemist rune. Usually has at least one recipe requiring related school rune or rune weapon",
+    "items": [ [ "alchemy_basic", 30 ], [ "necro_basic", 30 ] ]
+  }
+]

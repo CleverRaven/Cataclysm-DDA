@@ -908,7 +908,7 @@ bool mattack::resurrect( monster *z )
     if( corpses.empty() ) { // No nearby corpses
         if( found_eligible_corpse ) {
             // There was a corpse, but we haven't charged enough.
-            if( sees_necromancer && one_in( sqrt( lowest_raise_score / 30 ) ) ) {
+            if( sees_necromancer && x_in_y( 1, sqrt( lowest_raise_score / 30.0 ) ) ) {
                 add_msg( m_info, _( "The %s gesticulates wildly." ), z->name() );
             }
             while( z->moves >= 0 ) {
@@ -2774,7 +2774,7 @@ bool mattack::fear_paralyze( monster *z )
         } else if( rng( 0, 20 ) > g->u.get_int() ) {
             add_msg( m_bad, _( "The terrifying visage of the %s paralyzes you." ), z->name() );
             g->u.add_effect( effect_fearparalyze, 5_turns );
-            g->u.moves -= 400;
+            g->u.moves -= 4 * g->u.get_speed();
         } else {
             add_msg( _( "You manage to avoid staring at the horrendous %s." ), z->name() );
         }
@@ -2786,7 +2786,7 @@ bool mattack::nurse_check_up( monster *z )
 {
     bool found_target = false;
     player *target = nullptr;
-    tripoint tmp_pos( z->pos().x + 12, z->pos().y + 12, z->pos().z );
+    tripoint tmp_pos( z->pos() + point( 12, 12 ) );
     for( auto critter : g->m.get_creatures_in_radius( z->pos(), 6 ) ) {
         player *tmp_player = dynamic_cast<player *>( critter );
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
@@ -2836,7 +2836,7 @@ bool mattack::nurse_assist( monster *z )
 
     bool found_target = false;
     player *target = nullptr;
-    tripoint tmp_pos( z->pos().x + 12, z->pos().y + 12, z->pos().z );
+    tripoint tmp_pos( z->pos() + point( 12, 12 ) );
     for( auto critter : g->m.get_creatures_in_radius( z->pos(), 6 ) ) {
         player *tmp_player = dynamic_cast<player *>( critter );
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
@@ -2891,7 +2891,7 @@ bool mattack::nurse_operate( monster *z )
 
     bool found_target = false;
     player *target = nullptr;
-    tripoint tmp_pos( z->pos().x + 12, z->pos().y + 12, z->pos().z );
+    tripoint tmp_pos( z->pos() + point( 12, 12 ) );
     for( auto critter : g->m.get_creatures_in_radius( z->pos(), 6 ) ) {
         player *tmp_player = dynamic_cast< player *>( critter );
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
@@ -2951,7 +2951,7 @@ bool mattack::nurse_operate( monster *z )
         } else {
             grab( z );
             if( target->has_effect( effect_grabbed ) ) { // check if we succesfully grabbed the target
-                z->dragged_foe = target;
+                z->dragged_foe_id = target->getID();
                 z->add_effect( effect_dragging, 1_turns, num_bp, true );
                 return true;
             }
@@ -3519,7 +3519,7 @@ void mattack::flame( monster *z, Creature *target )
         for( auto &i : traj ) {
             // break out of attack if flame hits a wall
             // TODO: Z
-            if( g->m.hit_with_fire( tripoint( i.x, i.y, z->posz() ) ) ) {
+            if( g->m.hit_with_fire( tripoint( i.xy(), z->posz() ) ) ) {
                 if( g->u.sees( i ) ) {
                     add_msg( _( "The tongue of flame hits the %s!" ),
                              g->m.tername( i.x, i.y ) );
@@ -3542,7 +3542,7 @@ void mattack::flame( monster *z, Creature *target )
 
     for( auto &i : traj ) {
         // break out of attack if flame hits a wall
-        if( g->m.hit_with_fire( tripoint( i.x, i.y, z->posz() ) ) ) {
+        if( g->m.hit_with_fire( tripoint( i.xy(), z->posz() ) ) ) {
             if( g->u.sees( i ) ) {
                 add_msg( _( "The tongue of flame hits the %s!" ),
                          g->m.tername( i.x, i.y ) );
@@ -4054,7 +4054,7 @@ bool mattack::absorb_meat( monster *z )
     const int monster_volume = units::to_liter( z->get_volume() );
     const float average_meat_chunk_volume = 0.5;
     //TODO: dynamically get volume of meat
-    const int max_meat_absorbed = monster_volume / 10 * average_meat_chunk_volume;
+    const int max_meat_absorbed = monster_volume / 10.0 * average_meat_chunk_volume;
     //For every milliliter of meat absorbed, heal this many HP
     const float meat_absorption_factor = 0.01;
     //Search surrounding tiles for meat

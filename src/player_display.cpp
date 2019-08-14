@@ -189,8 +189,9 @@ static std::string get_encumbrance_description( const player &p, body_part bp, b
         case bp_torso: {
             const int melee_roll_pen = std::max( -eff_encumbrance, -80 );
             s += string_format( _( "Melee attack rolls %+d%%; " ), melee_roll_pen );
-            s += dodge_skill_text( - ( eff_encumbrance / 10 ) );
-            s += swim_cost_text( ( eff_encumbrance / 10 ) * ( 80 - p.get_skill_level( skill_swimming ) * 3 ) );
+            s += dodge_skill_text( -( eff_encumbrance / 10.0 ) );
+            s += swim_cost_text( ( eff_encumbrance / 10.0 ) * ( 80 - p.get_skill_level(
+                                     skill_swimming ) * 3 ) );
             s += melee_cost_text( eff_encumbrance );
             break;
         }
@@ -262,58 +263,60 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
     mvwprintz( w_stats, 7, 0, c_light_gray, "%26s", "" );
     mvwprintz( w_stats, 8, 0, c_light_gray, "%26s", "" );
 
+    nc_color col_temp = c_light_gray;
+
     if( line == 0 ) {
         // Display information on player strength in appropriate window
         mvwprintz( w_stats, 2, 1, h_light_gray, _( "Strength:" ) );
         fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Strength affects your melee damage, the amount of weight you can carry, your total HP, "
                            "your resistance to many diseases, and the effectiveness of actions which require brute force." ) );
-        mvwprintz( w_info, 3, 1, c_magenta, _( "Base HP:" ) );
-        mvwprintz( w_info, 3, 22, c_magenta, "%3d", you.hp_max[1] );
-        if( get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "kg" ) {
-            mvwprintz( w_info, 4, 1, c_magenta, _( "Carry weight(kg):" ) );
-        } else {
-            mvwprintz( w_info, 4, 1, c_magenta, _( "Carry weight(lbs):" ) );
-        }
-        mvwprintz( w_info, 4, 21, c_magenta, "%4.1f", convert_weight( you.weight_capacity() ) );
-        mvwprintz( w_info, 5, 1, c_magenta, _( "Melee damage:" ) );
-        mvwprintz( w_info, 5, 22, c_magenta, "%3.1f", you.bonus_damage( false ) );
-
+        print_colored_text( w_info, 3, 1, col_temp, c_light_gray,
+                            string_format( _( "Base HP: <color_white>%d</color>" ), you.hp_max[1] ) );
+        print_colored_text( w_info, 4, 1, col_temp, c_light_gray,
+                            string_format( _( "Carry weight (%s): <color_white>%.1f</color>" ), weight_units(),
+                                           convert_weight( you.weight_capacity() ) ) );
+        print_colored_text( w_info, 5, 1, col_temp, c_light_gray,
+                            string_format( _( "Melee damage: <color_white>%.1f</color>" ), you.bonus_damage( false ) ) );
     } else if( line == 1 ) {
         // Display information on player dexterity in appropriate window
         mvwprintz( w_stats, 3, 1, h_light_gray, _( "Dexterity:" ) );
         fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Dexterity affects your chance to hit in melee combat, helps you steady your "
                            "gun for ranged combat, and enhances many actions that require finesse." ) );
-        mvwprintz( w_info, 3, 1, c_magenta, _( "Melee to-hit bonus:" ) );
-        mvwprintz( w_info, 3, 38, c_magenta, "%+.1lf", you.get_hit_base() );
-        mvwprintz( w_info, 4, 1, c_magenta, _( "Ranged penalty:" ) );
-        mvwprintz( w_info, 4, 38, c_magenta, "%+3d", -( abs( you.ranged_dex_mod() ) ) );
-        mvwprintz( w_info, 5, 1, c_magenta, _( "Throwing penalty per target's dodge:" ) );
-        mvwprintz( w_info, 5, 38, c_magenta, "%+3d", you.throw_dispersion_per_dodge( false ) );
+        print_colored_text( w_info, 3, 1, col_temp, c_light_gray,
+                            string_format( _( "Melee to-hit bonus: <color_white>%+.1lf</color>" ), you.get_hit_base() ) );
+        print_colored_text( w_info, 4, 1, col_temp, c_light_gray,
+                            string_format( _( "Ranged penalty: <color_white>%+d</color>" ),
+                                           -abs( you.ranged_dex_mod() ) ) );
+        print_colored_text( w_info, 5, 1, col_temp, c_light_gray,
+                            string_format( _( "Throwing penalty per target's dodge: <color_white>%+d</color>" ),
+                                           you.throw_dispersion_per_dodge( false ) ) );
     } else if( line == 2 ) {
         // Display information on player intelligence in appropriate window
         mvwprintz( w_stats, 4, 1, h_light_gray, _( "Intelligence:" ) );
         fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Intelligence is less important in most situations, but it is vital for more complex tasks like "
                            "electronics crafting.  It also affects how much skill you can pick up from reading a book." ) );
-        mvwprintz( w_info, 3, 1, c_magenta, _( "Read times:" ) );
-        mvwprintz( w_info, 3, 21, c_magenta, "%3d%%", you.read_speed( false ) );
-        mvwprintz( w_info, 4, 1, c_magenta, _( "Skill rust:" ) );
-        mvwprintz( w_info, 4, 22, c_magenta, "%2d%%", you.rust_rate( false ) );
-        mvwprintz( w_info, 5, 1, c_magenta, _( "Crafting bonus:" ) );
-        mvwprintz( w_info, 5, 22, c_magenta, "%2d%%", you.get_int() );
+        print_colored_text( w_info, 3, 1, col_temp, c_light_gray,
+                            string_format( _( "Read times: <color_white>%d%%</color>" ), you.read_speed( false ) ) );
+        print_colored_text( w_info, 4, 1, col_temp, c_light_gray,
+                            string_format( _( "Crafting bonus: <color_white>%d%%</color>" ), you.get_int() ) );
+        if( you.rust_rate() ) {
+            print_colored_text( w_info, 5, 1, col_temp, c_light_gray,
+                                string_format( _( "Skill rust: <color_white>%d%%</color>" ), you.rust_rate( false ) ) );
+        }
     } else if( line == 3 ) {
         // Display information on player perception in appropriate window
         mvwprintz( w_stats, 5, 1, h_light_gray, _( "Perception:" ) );
         fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Perception is the most important stat for ranged combat.  It's also used for "
                            "detecting traps and other things of interest." ) );
-        mvwprintz( w_info, 4, 1, c_magenta, _( "Trap detection level:" ) );
-        mvwprintz( w_info, 4, 23, c_magenta, "%2d", you.get_per() );
+        print_colored_text( w_info, 4, 1, col_temp, c_light_gray,
+                            string_format( _( "Trap detection level: <color_white>%d</color>" ), you.get_per() ) );
         if( you.ranged_per_mod() > 0 ) {
-            mvwprintz( w_info, 5, 1, c_magenta, _( "Aiming penalty:" ) );
-            mvwprintz( w_info, 5, 21, c_magenta, "%+4d", -you.ranged_per_mod() );
+            print_colored_text( w_info, 5, 1, col_temp, c_light_gray,
+                                string_format( _( "Aiming penalty: <color_white>%+d</color>" ), -you.ranged_per_mod() ) );
         }
     } else if( line == 4 ) {
         mvwprintz( w_stats, 6, 1, h_light_gray, _( "Weight:" ) );
@@ -1220,38 +1223,51 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         skill_win_size_y = maxy - infooffsetybottom;
     }
 
-    catacurses::window w_grid_top    = catacurses::newwin( infooffsetybottom, FULL_SCREEN_WIDTH + 1,
-                                       VIEW_OFFSET_Y, VIEW_OFFSET_X );
-    catacurses::window w_grid_skill  = catacurses::newwin( skill_win_size_y + 1, 27,
-                                       infooffsetybottom + VIEW_OFFSET_Y, 0 + VIEW_OFFSET_X );
-    catacurses::window w_grid_trait  = catacurses::newwin( trait_win_size_y + 1, 27,
-                                       infooffsetybottom + VIEW_OFFSET_Y, 27 + VIEW_OFFSET_X );
-    catacurses::window w_grid_bionics = catacurses::newwin( bionics_win_size_y + 1, 27,
-                                        infooffsetybottom + VIEW_OFFSET_Y + trait_win_size_y + 1,
-                                        27 + VIEW_OFFSET_X );
-    catacurses::window w_grid_effect = catacurses::newwin( effect_win_size_y + 1, 28,
-                                       infooffsetybottom + VIEW_OFFSET_Y, 53 + VIEW_OFFSET_X );
+    catacurses::window w_grid_top =
+        catacurses::newwin( infooffsetybottom, FULL_SCREEN_WIDTH + 1,
+                            point( VIEW_OFFSET_X, VIEW_OFFSET_Y ) );
+    catacurses::window w_grid_skill =
+        catacurses::newwin( skill_win_size_y + 1, 27,
+                            point( 0 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+    catacurses::window w_grid_trait =
+        catacurses::newwin( trait_win_size_y + 1, 27,
+                            point( 27 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+    catacurses::window w_grid_bionics =
+        catacurses::newwin( bionics_win_size_y + 1, 27,
+                            point( 27 + VIEW_OFFSET_X,
+                                   infooffsetybottom + VIEW_OFFSET_Y + trait_win_size_y + 1 ) );
+    catacurses::window w_grid_effect =
+        catacurses::newwin( effect_win_size_y + 1, 28,
+                            point( 53 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
 
-    catacurses::window w_tip     = catacurses::newwin( 1, FULL_SCREEN_WIDTH,  VIEW_OFFSET_Y,
-                                   0 + VIEW_OFFSET_X );
-    catacurses::window w_stats   = catacurses::newwin( 9, 26,  1 + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X );
-    catacurses::window w_traits  = catacurses::newwin( trait_win_size_y, 26,
-                                   infooffsetybottom + VIEW_OFFSET_Y, 27 + VIEW_OFFSET_X );
-    catacurses::window w_bionics = catacurses::newwin( bionics_win_size_y, 26,
-                                   infooffsetybottom + VIEW_OFFSET_Y + trait_win_size_y + 1,
-                                   27 + VIEW_OFFSET_X );
-    catacurses::window w_encumb  = catacurses::newwin( 9, 26,  1 + VIEW_OFFSET_Y, 27 + VIEW_OFFSET_X );
-    catacurses::window w_effects = catacurses::newwin( effect_win_size_y, 26,
-                                   infooffsetybottom + VIEW_OFFSET_Y, 54 + VIEW_OFFSET_X );
-    catacurses::window w_speed   = catacurses::newwin( 9, 26,  1 + VIEW_OFFSET_Y, 54 + VIEW_OFFSET_X );
-    catacurses::window w_skills  = catacurses::newwin( skill_win_size_y, 26,
-                                   infooffsetybottom + VIEW_OFFSET_Y, 0 + VIEW_OFFSET_X );
-    catacurses::window w_info    = catacurses::newwin( info_win_size_y, FULL_SCREEN_WIDTH,
-                                   infooffsetytop + VIEW_OFFSET_Y, 0 + VIEW_OFFSET_X );
+    catacurses::window w_tip =
+        catacurses::newwin( 1, FULL_SCREEN_WIDTH,  point( 0 + VIEW_OFFSET_X, VIEW_OFFSET_Y ) );
+    catacurses::window w_stats =
+        catacurses::newwin( 9, 26,  point( 0 + VIEW_OFFSET_X, 1 + VIEW_OFFSET_Y ) );
+    catacurses::window w_traits =
+        catacurses::newwin( trait_win_size_y, 26,
+                            point( 27 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+    catacurses::window w_bionics =
+        catacurses::newwin( bionics_win_size_y, 26,
+                            point( 27 + VIEW_OFFSET_X,
+                                   infooffsetybottom + VIEW_OFFSET_Y + trait_win_size_y + 1 ) );
+    catacurses::window w_encumb =
+        catacurses::newwin( 9, 26, point( 27 + VIEW_OFFSET_X, 1 + VIEW_OFFSET_Y ) );
+    catacurses::window w_effects =
+        catacurses::newwin( effect_win_size_y, 26,
+                            point( 54 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+    catacurses::window w_speed =
+        catacurses::newwin( 9, 26,  point( 54 + VIEW_OFFSET_X, 1 + VIEW_OFFSET_Y ) );
+    catacurses::window w_skills =
+        catacurses::newwin( skill_win_size_y, 26,
+                            point( 0 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+    catacurses::window w_info =
+        catacurses::newwin( info_win_size_y, FULL_SCREEN_WIDTH,
+                            point( 0 + VIEW_OFFSET_X, infooffsetytop + VIEW_OFFSET_Y ) );
 
     draw_grid_borders( w_grid_top, w_grid_skill, w_grid_trait, w_grid_bionics, w_grid_effect,
-                       info_win_size_y, infooffsetybottom, skill_win_size_y, trait_win_size_y, bionics_win_size_y,
-                       effect_win_size_y );
+                       info_win_size_y, infooffsetybottom, skill_win_size_y, trait_win_size_y,
+                       bionics_win_size_y, effect_win_size_y );
     //-1 for header
     trait_win_size_y--;
     bionics_win_size_y--;
@@ -1270,13 +1286,14 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
             }
         }
         //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
-        mvwprintw( w_tip, 0, 0, _( "%1$s | %2$s | %3$s" ), name, male ? _( "Male" ) : _( "Female" ), race );
+        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s" ), name,
+                   male ? _( "Male" ) : _( "Female" ), race );
     } else if( prof == nullptr || prof == profession::generic() ) {
         // Regular person. Nothing interesting.
         //~ player info window: 1s - name, 2s - gender, '|' - field separator.
-        mvwprintw( w_tip, 0, 0, _( "%1$s | %2$s" ), name, male ? _( "Male" ) : _( "Female" ) );
+        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s" ), name, male ? _( "Male" ) : _( "Female" ) );
     } else {
-        mvwprintw( w_tip, 0, 0, _( "%1$s | %2$s | %3$s" ), name,
+        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s" ), name,
                    male ? _( "Male" ) : _( "Female" ), prof->gender_appropriate_name( male ) );
     }
 

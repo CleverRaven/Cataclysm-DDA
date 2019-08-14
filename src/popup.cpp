@@ -4,6 +4,7 @@
 #include <array>
 #include <memory>
 
+#include "ime.h"
 #include "input.h"
 #include "output.h"
 #include "catacharset.h"
@@ -206,7 +207,7 @@ void query_popup::init() const
                                      fullscr ? FULL_SCREEN_HEIGHT : msg_height + border_width * 2 );
     const int win_x = ( TERMX - win_width ) / 2;
     const int win_y = ontop ? 0 : ( TERMY - win_height ) / 2;
-    win = catacurses::newwin( win_height, win_width, win_y, win_x );
+    win = catacurses::newwin( win_height, win_width, point( win_x, win_y ) );
 }
 
 void query_popup::show() const
@@ -323,6 +324,8 @@ query_popup::result query_popup::query_once()
 
 query_popup::result query_popup::query()
 {
+    ime_sentry sentry( ime_sentry::disable );
+
     result res;
     do {
         res = query_once();

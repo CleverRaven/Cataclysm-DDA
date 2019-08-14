@@ -24,8 +24,12 @@
 
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL_image.h>
+#   include <SDL2/SDL_syswm.h>
 #else
 #   include <SDL_image.h>
+#ifdef _WIN32
+#   include <SDL_syswm.h>
+#endif
 #endif
 
 #include "avatar.h"
@@ -648,7 +652,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
 void CachedTTFFont::OutputChar( const std::string &ch, const int x, const int y,
                                 const unsigned char color )
 {
-    key_t    key {std::move( ch ), static_cast<unsigned char>( color & 0xf )};
+    key_t    key {ch, static_cast<unsigned char>( color & 0xf )};
 
     auto it = glyph_cache_map.find( key );
     if( it == std::end( glyph_cache_map ) ) {
@@ -843,8 +847,8 @@ static void find_videodisplays()
     }
 
     int current_display = get_option<int>( "DISPLAY" );
-    get_options().add( "DISPLAY", "graphics", _( "Display" ),
-                       _( "Sets which video display will be used to show the game. Requires restart." ),
+    get_options().add( "DISPLAY", "graphics", translate_marker( "Display" ),
+                       translate_marker( "Sets which video display will be used to show the game. Requires restart." ),
                        displays, current_display, 0, options_manager::COPT_CURSES_HIDE, true
                      );
 }
@@ -3466,7 +3470,7 @@ void catacurses::init_interface()
                                 fl.fontblending );
     overmap_font = Font::load_font( fl.overmap_typeface, fl.overmap_fontsize,
                                     fl.overmap_fontwidth, fl.overmap_fontheight, fl.fontblending );
-    stdscr = newwin( get_terminal_height(), get_terminal_width(), 0, 0 );
+    stdscr = newwin( get_terminal_height(), get_terminal_width(), point_zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 
 #if defined(__ANDROID__)
@@ -3524,14 +3528,10 @@ template<>
 SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int b )
 {
     SDL_Color result;
-    //Blue
-    result.b = b;
-    //Green
-    result.g = g;
-    //Red
-    result.r = r;
-    //The Alpha, is not used, so just set it to 0
-    result.a = 0;
+    result.b = b;       //Blue
+    result.g = g;       //Green
+    result.r = r;       //Red
+    result.a = 0xFF;    // Opaque
     return result;
 }
 
@@ -3661,10 +3661,10 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
     const point screen_pos = coordinate - win_min;
     point p;
     if( tile_iso && use_tiles ) {
-        const int screen_col = round( static_cast<float>(
-                                          screen_pos.x - ( win_size.x / 2 + win_min.x ) ) / ( fw / 2 ) );
-        const int screen_row = round( static_cast<float>(
-                                          screen_pos.y - win_size.y / 2 + win_min.y ) / ( fw / 4 ) );
+        const float win_mid_x = win_min.x + win_size.x / 2.0f;
+        const float win_mid_y = -win_min.y + win_size.y / 2.0f;
+        const int screen_col = round( ( screen_pos.x - win_mid_x ) / ( fw / 2.0 ) );
+        const int screen_row = round( ( screen_pos.y - win_mid_y ) / ( fw / 4.0 ) );
         const point selected( ( screen_col - screen_row ) / 2, ( screen_row + screen_col ) / 2 );
         p = view_offset + selected;
     } else {
@@ -3911,5 +3911,15 @@ bool save_screenshot( const std::string &file_path )
 
     return true;
 }
+
+#ifdef _WIN32
+HWND getWindowHandle()
+{
+    SDL_SysWMinfo info;
+    SDL_VERSION( &info.version );
+    SDL_GetWindowWMInfo( ::window.get(), &info );
+    return info.info.win.window;
+}
+#endif
 
 #endif // TILES

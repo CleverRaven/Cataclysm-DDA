@@ -248,7 +248,15 @@
     "intensity_levels": [
       { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 10, "extra_radiation_max": 1 },
       { "name": "radioactive gas", "color": "light_green", "extra_radiation_max": 2 },
-      { "name": "thick radioactive gas", "color": "green", "transparent": false, "extra_radiation_max": 3 }
+      {
+        "name": "thick radioactive gas",
+        "color": "green",
+        "transparent": false,
+        "extra_radiation_max": 3,
+        "radiation_hurt_damage_min": 1,
+        "radiation_hurt_damage_max": 3,
+        "radiation_hurt_message": "This radioactive gas burns!"
+      }
     ],
     "decay_amount_factor": 5,
     "percent_spread": 15,
@@ -316,9 +324,24 @@
     "type": "field_type",
     "legacy_enum_id": 20,
     "intensity_levels": [
-      { "name": "odd ripple", "color": "light_gray", "sym": "*", "dangerous": true },
+      {
+        "name": "odd ripple",
+        "color": "light_gray",
+        "sym": "*",
+        "dangerous": true,
+        "intensity_upgrade_chance": 10,
+        "intensity_upgrade_duration": "6 hours"
+      },
       { "name": "swirling air", "color": "dark_gray" },
-      { "name": "tear in reality", "color": "magenta", "transparent": false }
+      {
+        "name": "tear in reality",
+        "color": "magenta",
+        "transparent": false,
+        "monster_spawn_chance": 600,
+        "monster_spawn_count": 1,
+        "monster_spawn_radius": 1,
+        "monster_spawn_group": "GROUP_NETHER_FATIGUE_FIELD"
+      }
     ],
     "priority": 8,
     "display_items": false,
@@ -794,17 +817,40 @@
     "type": "field_type",
     "legacy_enum_id": 49,
     "intensity_levels": [
-      { "name": "hazy cloud", "sym": "8", "dangerous": true },
-      { "name": "fungicidal gas", "color": "light_gray" },
-      { "name": "thick fungicidal gas", "color": "dark_gray", "transparent": false }
+      { "name": "fungicidal mist", "sym": "8", "dangerous": true },
+      { "name": "fungicidal haze", "color": "light_gray" },
+      { "name": "thick fungicidal haze", "color": "dark_gray", "transparent": false }
     ],
     "decay_amount_factor": 5,
-    "percent_spread": 120,
+    "gas_absorption_factor": 15,
+    "percent_spread": 100,
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
     "priority": 8,
-    "half_life": "90 minutes",
+    "half_life": "30 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true
+  },
+  {
+    "id": "fd_insecticidal_gas",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "insecticidal mist", "sym": "8", "dangerous": true },
+      { "name": "insecticidal haze", "color": "light_gray" },
+      { "name": "thick insecticidal haze", "color": "dark_gray", "transparent": false }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 100,
+    "outdoor_age_speedup": "1 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
+    "priority": 8,
+    "half_life": "30 minutes",
     "phase": "gas",
     "display_items": false,
     "display_field": true

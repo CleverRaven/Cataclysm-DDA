@@ -38,8 +38,8 @@
 #define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters
 
 #define SELCOL(n) (selection == (n) ? c_yellow : c_blue)
-#define TOGCOL(n, b) (selection == (n) ? (b ? c_light_green : c_yellow) :\
-                      (b ? c_green : c_dark_gray))
+#define TOGCOL(n, b) (selection == (n) ? ((b) ? c_light_green : c_yellow) :\
+                      ((b) ? c_green : c_dark_gray))
 #define NUMALIGN(n) ((n) >= 10000 ? 20 : ((n) >= 1000 ? 21 :\
                      ((n) >= 100 ? 22 : ((n) >= 10 ? 23 : 24))))
 
@@ -310,7 +310,7 @@ void defense_game::init_map()
             mx -= mx % 2;
             my -= my % 2;
             tinymap tm;
-            tm.generate( mx, my, 0, calendar::turn );
+            tm.generate( tripoint( mx, my, 0 ), calendar::turn );
             tm.clear_spawns();
             tm.clear_traps();
             tm.save();
@@ -495,8 +495,8 @@ void defense_game::init_to_style( defense_style new_style )
 void defense_game::setup()
 {
     catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                           TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                           TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+                           point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                                  TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
     int selection = 1;
     refresh_setup( w, selection );
 
@@ -915,7 +915,7 @@ void defense_game::caravan()
 
     signed total_price = 0;
 
-    catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, 0, 0 );
+    catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, point_zero );
 
     int offset = 0;
     int item_selected = 0;
@@ -1023,7 +1023,7 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
                 total_price += caravan_price( g->u, item( tmp_itm, 0 ).price( false ) );
                 if( category_selected == CARAVAN_CART ) { // Find the item in its category
                     for( int i = 1; i < NUM_CARAVAN_CATEGORIES; i++ ) {
-                        for( unsigned j = 0; j < items[i].size(); j++ ) {
+                        for( size_t j = 0; j < items[i].size(); j++ ) {
                             if( items[i][j] == tmp_itm ) {
                                 item_count[i][j]++;
                             }
@@ -1055,7 +1055,7 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
                 total_price -= caravan_price( g->u, item( tmp_itm, 0 ).price( false ) );
                 if( category_selected == CARAVAN_CART ) { // Find the item in its category
                     for( int i = 1; i < NUM_CARAVAN_CATEGORIES; i++ ) {
-                        for( unsigned j = 0; j < items[i].size(); j++ ) {
+                        for( size_t j = 0; j < items[i].size(); j++ ) {
                             if( items[i][j] == tmp_itm ) {
                                 item_count[i][j]--;
                             }
@@ -1117,7 +1117,7 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
     if( !cancel ) {
         g->u.cash -= total_price;
         bool dropped_some = false;
-        for( unsigned i = 0; i < items[0].size(); i++ ) {
+        for( size_t i = 0; i < items[0].size(); i++ ) {
             item tmp( items[0][i] );
             tmp = tmp.in_its_container();
 
@@ -1424,15 +1424,15 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
         } else if( one_in( 2 ) ) {
             pnt = point( rng( HALF_MAPSIZE_X, HALF_MAPSIZE_X + SEEX ), rng( 1, SEEY ) );
             if( one_in( 2 ) ) {
-                pnt = point( pnt.x, MAPSIZE_Y - 1 - pnt.y );
+                pnt = point( pnt.x, -pnt.y ) + point( 0, MAPSIZE_Y - 1 );
             }
         } else {
             pnt = point( rng( 1, SEEX ), rng( HALF_MAPSIZE_Y, HALF_MAPSIZE_Y + SEEY ) );
             if( one_in( 2 ) ) {
-                pnt = point( MAPSIZE_X - 1 - pnt.x, pnt.y );
+                pnt = point( -pnt.x, pnt.y ) + point( MAPSIZE_X - 1, 0 );
             }
         }
-        if( g->is_empty( { pnt.x, pnt.y, g->get_levz() } ) ) {
+        if( g->is_empty( { pnt, g->get_levz() } ) ) {
             break;
         }
         if( tries++ == 1000 ) {
@@ -1456,7 +1456,7 @@ std::string defense_game::special_wave_message( std::string name )
 
     // Capitalize
     capitalize_letter( name );
-    for( unsigned i = 2; i < name.size(); i++ ) {
+    for( size_t i = 2; i < name.size(); i++ ) {
         if( name[i - 1] == ' ' ) {
             capitalize_letter( name, i );
         }

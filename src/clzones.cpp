@@ -216,7 +216,7 @@ loot_options::query_loot_result loot_options::query_loot()
     const int w_y0 = ( TERMY > w_height ) ? ( TERMY - w_height ) / 4 : 0;
     const int w_x0 = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
 
-    catacurses::window w_con = catacurses::newwin( w_height, w_width, w_y0, w_x0 );
+    catacurses::window w_con = catacurses::newwin( w_height, w_width, point( w_x0, w_y0 ) );
     draw_item_filter_rules( w_con, 1, w_height - 1, item_filter_type::FILTER );
     string_input_popup()
     .title( _( "Filter:" ) )
@@ -1001,7 +1001,7 @@ void zone_manager::rotate_zones( map &target_map, const int turns )
     if( turns == 0 ) {
         return;
     }
-    const tripoint a_start = target_map.getabs( tripoint( 0, 0, 0 ) );
+    const tripoint a_start = target_map.getabs( tripoint_zero );
     const tripoint a_end = target_map.getabs( tripoint( 23, 23, 0 ) );
     const point dim( 24, 24 );
     for( zone_data &zone : zones ) {
@@ -1017,8 +1017,8 @@ void zone_manager::rotate_zones( map &target_map, const int turns )
             if( z_l_start3.x == z_l_start3.y && z_l_end3.x == z_l_end3.y && z_l_start3.x + z_l_end3.x == 23 ) {
                 continue;
             }
-            point z_l_start = point( z_l_start3.x, z_l_start3.y ).rotate( turns, dim );
-            point z_l_end = point( z_l_end3.x, z_l_end3.y ).rotate( turns, dim );
+            point z_l_start = z_l_start3.xy().rotate( turns, dim );
+            point z_l_end = z_l_end3.xy().rotate( turns, dim );
             point new_z_start = target_map.getabs( z_l_start );
             point new_z_end = target_map.getabs( z_l_end );
             tripoint first = tripoint( std::min( new_z_start.x, new_z_end.x ),

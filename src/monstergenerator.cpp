@@ -136,6 +136,8 @@ const std::map<std::string, m_flag> flag_map = {
     { "PUSH_VEH", MF_PUSH_VEH },
     { "PATH_AVOID_DANGER_1", MF_AVOID_DANGER_1 },
     { "PATH_AVOID_DANGER_2", MF_AVOID_DANGER_2 },
+    { "PATH_AVOID_FALL", MF_AVOID_FALL },
+    { "PATH_AVOID_FIRE", MF_AVOID_FIRE },
     { "PRIORITIZE_TARGETS", MF_PRIORITIZE_TARGETS },
     { "NOT_HALLUCINATION", MF_NOT_HALLU },
     { "CATFOOD", MF_CATFOOD },
@@ -679,7 +681,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
         death_drops = item_group::load_item_group( stream, "distribution" );
     }
 
-    assign( jo, "harvest", harvest, strict );
+    assign( jo, "harvest", harvest );
 
     const auto death_reader = make_flag_reader( gen.death_map, "monster death function" );
     optional( jo, was_loaded, "death_function", dies, death_reader );
@@ -792,7 +794,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
     difficulty = ( melee_skill + 1 ) * melee_dice * ( bonus_cut + melee_sides ) * 0.04 +
                  ( sk_dodge + 1 ) * ( 3 + armor_bash + armor_cut ) * 0.04 +
                  ( difficulty_base + special_attacks.size() + 8 * emit_fields.size() );
-    difficulty *= ( hp + speed - attack_cost + ( morale + agro ) / 10 ) * 0.01 +
+    difficulty *= ( hp + speed - attack_cost + ( morale + agro ) * 0.1 ) * 0.01 +
                   ( vision_day + 2 * vision_night ) * 0.01;
 }
 
@@ -877,8 +879,9 @@ mtype_special_attack MonsterGenerator::create_actor( JsonObject obj, const std::
     const std::string attack_type = obj.get_string( "attack_type", type );
 
     if( type != "monster_attack" && attack_type != type ) {
-        obj.throw_error( "Specifying \"attack_type\" is only allowed when \"type\" is \"monster_attack\" or not specified",
-                         "type" );
+        obj.throw_error(
+            R"(Specifying "attack_type" is only allowed when "type" is "monster_attack" or not specified)",
+            "type" );
     }
 
     mattack_actor *new_attack = nullptr;

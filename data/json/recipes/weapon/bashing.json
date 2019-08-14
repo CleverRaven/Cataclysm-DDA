@@ -20,5 +20,38 @@
         [ "diesel", 250 ]
       ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "shillelagh",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 2 ],
+    "difficulty": 3,
+    "time": "360 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "char_smoker", 100 ] ] ],
+    "components": [
+      [ [ "log", 1 ] ],
+      [ [ "butter", 30 ], [ "lard", 4 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "shillelagh_weighted",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "DRILL", "level": 1 } ],
+    "tools": [ [ [ "forge", 100 ], [ "oxy_torch", 20 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [ [ "shillelagh", 1 ] ],
+      [ [ "weights", 15, "LIST" ] ]
+    ]
   }
 ]

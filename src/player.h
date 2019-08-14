@@ -373,7 +373,7 @@ class player : public Character
         void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
                                         float adjusted_skill );
         /**Has enough anesthetic for surgery*/
-        bool has_enough_anesth( const itype *cbm );
+        bool has_enough_anesth( const itype *cbm, player &patient );
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power( int amount );
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -1508,7 +1508,7 @@ class player : public Character
         std::vector<tripoint> &get_auto_move_route();
         action_id get_next_auto_move_direction();
         bool defer_move( const tripoint &next );
-        void shift_destination( int shiftx, int shifty );
+        void shift_destination( const point &shift );
         void forced_dismount();
         void dismount();
 
@@ -1548,7 +1548,7 @@ class player : public Character
             setpos( tripoint( position.x, y, position.z ) );
         }
         inline void setz( int z ) {
-            setpos( tripoint( position.x, position.y, z ) );
+            setpos( tripoint( position.xy(), z ) );
         }
         inline void setpos( const tripoint &p ) override {
             position = p;

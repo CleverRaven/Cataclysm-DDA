@@ -233,11 +233,26 @@
   {
     "type": "item_group",
     "id": "archery_mods",
-    "items": [ [ "bow_sight", 50 ], [ "bow_stabilizer", 50 ], [ "arrowrest", 50 ], [ "gun_crossbow", 40 ] ]
+    "items": [
+      [ "arrowrest", 50 ],
+      [ "bow_scope", 30 ],
+      [ "bow_sight", 50 ],
+      [ "bow_sight_pin", 50 ],
+      [ "bow_silencer", 50 ],
+      [ "bow_stabilizer", 50 ],
+      [ "bow_stabilizer_set", 40 ],
+      [ "gun_crossbow", 40 ]
+    ]
   },
   {
     "type": "item_group",
     "id": "archery_ammo",
-    "items": [ [ "arrow_wood", 100 ], [ "arrow_metal", 50 ], [ "arrow_cf", 50 ], [ "bolt_steel", 50 ] ]
+    "items": [
+      [ "arrow_wood", 100 ],
+      [ "arrow_field_point_fletched", 50 ],
+      [ "arrow_cf", 100 ],
+      [ "bolt_wood", 100 ],
+      [ "bolt_wood_bodkin", 50 ]
+    ]
   }
 ]

@@ -719,7 +719,8 @@ float player::get_dodge_base() const
 float player::get_dodge() const
 {
     //If we're asleep or busy we can't dodge
-    if( in_sleep_state() || has_effect( effect_narcosis ) ) {
+    if( in_sleep_state() || has_effect( effect_narcosis ) ||
+        has_effect( efftype_id( "winded" ) ) ) {
         return 0.0f;
     }
 
@@ -965,7 +966,7 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average,
 
             if( has_trait( trait_CLAWS_ST ) ) {
                 /** @EFFECT_UNARMED increases stabbing damage with CLAWS_ST */
-                per_hand += 3 + ( unarmed_skill / 2 );
+                per_hand += 3 + unarmed_skill / 2.0;
             }
 
             cut_dam += per_hand; // First hand
@@ -1011,6 +1012,7 @@ matec_id player::pick_technique( Creature &t, const item &weap,
     std::vector<matec_id> possible;
 
     bool downed = t.has_effect( effect_downed );
+    bool stunned = t.has_effect( effect_stunned );
 
     // first add non-aoe tecs
     for( auto &tec_id : all ) {
@@ -1044,6 +1046,16 @@ matec_id player::pick_technique( Creature &t, const item &weap,
 
         // don't apply downing techniques to someone who's already downed
         if( downed && tec.down_dur > 0 ) {
+            continue;
+        }
+
+        // don't apply "downed only" techniques to someone who's not downed
+        if( !downed && tec.downed_target ) {
+            continue;
+        }
+
+        // don't apply "stunned only" techniques to someone who's not stunned
+        if( !stunned && tec.stunned_target ) {
             continue;
         }
 
@@ -1376,10 +1388,11 @@ item &player::best_shield()
 bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &dam )
 {
 
-    // Shouldn't block if player is asleep; this only seems to be used by player.
+    // Shouldn't block if player is asleep or winded ; this only seems to be used by player.
     // TODO: It should probably be moved to the section that regenerates blocks
     // and to effects that disallow blocking
-    if( blocks_left < 1 || in_sleep_state() ) {
+    if( blocks_left < 1 || in_sleep_state() || has_effect( effect_narcosis ) ||
+        has_effect( efftype_id( "winded" ) ) ) {
         return false;
     }
     blocks_left--;

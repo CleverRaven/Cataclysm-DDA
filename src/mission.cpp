@@ -54,6 +54,11 @@ mission mission_type::create( const int npc_id ) const
     return ret;
 }
 
+std::string mission_type::tname() const
+{
+    return _( name );
+}
+
 static std::unordered_map<int, mission> world_missions;
 
 mission *mission::reserve_new( const mission_type_id &type, const int npc_id )
@@ -428,6 +433,30 @@ bool mission::is_complete( const int _npc_id ) const
         case MGOAL_KILL_MONSTER_SPEC:
             return g->kill_count( monster_species ) >= kill_count_to_reach;
 
+        case MGOAL_CONDITION: {
+            // For now, we only allow completing when talking to the mission originator.
+            if( npc_id != _npc_id ) {
+                return false;
+            }
+
+            npc *n = g->find_npc( _npc_id );
+            if( n == nullptr ) {
+                return false;
+            }
+
+            mission_goal_condition_context cc;
+            cc.alpha = &u;
+            cc.beta = n;
+
+            for( auto &mission : n->chatbin.missions_assigned ) {
+                if( mission->get_assigned_player_id() == g->u.getID() ) {
+                    cc.missions_assigned.push_back( mission );
+                }
+            }
+
+            return type->test_goal_condition( cc );
+        }
+
         default:
             return false;
     }
@@ -487,7 +516,7 @@ time_point mission::get_deadline() const
 
 std::string mission::get_description() const
 {
-    return description;
+    return _( type->description );
 }
 
 bool mission::has_target() const
@@ -598,7 +627,7 @@ std::string mission::name()
     if( type == nullptr ) {
         return "NULL";
     }
-    return _( type->name );
+    return type->tname();
 }
 
 mission_type_id mission::mission_id()

@@ -20,6 +20,7 @@
 #include "filesystem.h"
 #include "game.h"
 #include "help.h"
+#include "ime.h"
 #include "json.h"
 #include "optional.h"
 #include "options.h"
@@ -921,21 +922,21 @@ cata::optional<tripoint> input_context::get_direction( const std::string &action
     const auto transform = iso_mode && tile_iso && use_tiles ? rotate : noop;
 
     if( action == "UP" ) {
-        return transform( tripoint( 0, -1, 0 ) );
+        return transform( tripoint_north );
     } else if( action == "DOWN" ) {
-        return transform( tripoint( 0, +1, 0 ) );
+        return transform( tripoint_south );
     } else if( action == "LEFT" ) {
-        return transform( tripoint( -1, 0, 0 ) );
+        return transform( tripoint_west );
     } else if( action == "RIGHT" ) {
-        return transform( tripoint( +1, 0, 0 ) );
+        return transform( tripoint_east );
     } else if( action == "LEFTUP" ) {
-        return transform( tripoint( -1, -1, 0 ) );
+        return transform( tripoint_north_west );
     } else if( action == "RIGHTUP" ) {
-        return transform( tripoint( +1, -1, 0 ) );
+        return transform( tripoint_north_east );
     } else if( action == "LEFTDOWN" ) {
-        return transform( tripoint( -1, +1, 0 ) );
+        return transform( tripoint_south_west );
     } else if( action == "RIGHTDOWN" ) {
-        return transform( tripoint( +1, +1, 0 ) );
+        return transform( tripoint_south_east );
     } else {
         return cata::nullopt;
     }
@@ -974,8 +975,8 @@ void input_context::display_menu()
     int maxheight = max( FULL_SCREEN_HEIGHT, TERMY );
     int height = min( maxheight, static_cast<int>( hotkeys.size() ) + LEGEND_HEIGHT + BORDER_SPACE );
 
-    catacurses::window w_help = catacurses::newwin( height - 2, width - 2, maxheight / 2 - height / 2,
-                                maxwidth / 2 - width / 2 );
+    catacurses::window w_help = catacurses::newwin( height - 2, width - 2,
+                                point( maxwidth / 2 - width / 2, maxheight / 2 - height / 2 ) );
 
     // has the user changed something?
     bool changed = false;
@@ -1021,6 +1022,8 @@ void input_context::display_menu()
     .max_length( legwidth )
     .context( ctxt );
 
+    // do not switch IME mode now, but restore previous mode on return
+    ime_sentry sentry( ime_sentry::keep );
     while( true ) {
         werase( w_help );
         draw_border( w_help, BORDER_COLOR, _( "Keybindings" ), c_light_red );

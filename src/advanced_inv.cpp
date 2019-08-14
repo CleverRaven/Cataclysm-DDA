@@ -7,6 +7,7 @@
 #include "debug.h"
 #include "field.h"
 #include "game.h"
+#include "ime.h"
 #include "input.h"
 #include "item_category.h"
 #include "item_search.h"
@@ -82,21 +83,21 @@ advanced_inventory::advanced_inventory()
       // panes don't need initialization, they are recalculated immediately
     , squares( {
     {
-        //               hx  hy  x    y   z
-        { AIM_INVENTORY, 25, 2, {0,   0,  0}, _( "Inventory" ),          _( "IN" ) },
-        { AIM_SOUTHWEST, 30, 3, { -1,  1,  0}, _( "South West" ),         _( "SW" ) },
-        { AIM_SOUTH,     33, 3, {0,   1,  0}, _( "South" ),              _( "S" )  },
-        { AIM_SOUTHEAST, 36, 3, {1,   1,  0}, _( "South East" ),         _( "SE" ) },
-        { AIM_WEST,      30, 2, { -1,  0,  0}, _( "West" ),               _( "W" )  },
-        { AIM_CENTER,    33, 2, {0,   0,  0}, _( "Directly below you" ), _( "DN" ) },
-        { AIM_EAST,      36, 2, {1,   0,  0}, _( "East" ),               _( "E" )  },
-        { AIM_NORTHWEST, 30, 1, { -1, -1,  0}, _( "North West" ),         _( "NW" ) },
-        { AIM_NORTH,     33, 1, {0,  -1,  0}, _( "North" ),              _( "N" )  },
-        { AIM_NORTHEAST, 36, 1, {1,  -1,  0}, _( "North East" ),         _( "NE" ) },
-        { AIM_DRAGGED,   25, 1, {0,   0,  0}, _( "Grabbed Vehicle" ),    _( "GR" ) },
-        { AIM_ALL,       22, 3, {0,   0,  0}, _( "Surrounding area" ),   _( "AL" ) },
-        { AIM_CONTAINER, 22, 1, {0,   0,  0}, _( "Container" ),          _( "CN" ) },
-        { AIM_WORN,      25, 3, {0,   0,  0}, _( "Worn Items" ),         _( "WR" ) }
+        //               hx  hy
+        { AIM_INVENTORY, 25, 2, tripoint_zero,       _( "Inventory" ),          _( "IN" ) },
+        { AIM_SOUTHWEST, 30, 3, tripoint_south_west, _( "South West" ),         _( "SW" ) },
+        { AIM_SOUTH,     33, 3, tripoint_south,      _( "South" ),              _( "S" )  },
+        { AIM_SOUTHEAST, 36, 3, tripoint_south_east, _( "South East" ),         _( "SE" ) },
+        { AIM_WEST,      30, 2, tripoint_west,       _( "West" ),               _( "W" )  },
+        { AIM_CENTER,    33, 2, tripoint_zero,       _( "Directly below you" ), _( "DN" ) },
+        { AIM_EAST,      36, 2, tripoint_east,       _( "East" ),               _( "E" )  },
+        { AIM_NORTHWEST, 30, 1, tripoint_north_west, _( "North West" ),         _( "NW" ) },
+        { AIM_NORTH,     33, 1, tripoint_north,      _( "North" ),              _( "N" )  },
+        { AIM_NORTHEAST, 36, 1, tripoint_north_east, _( "North East" ),         _( "NE" ) },
+        { AIM_DRAGGED,   25, 1, tripoint_zero,       _( "Grabbed Vehicle" ),    _( "GR" ) },
+        { AIM_ALL,       22, 3, tripoint_zero,       _( "Surrounding area" ),   _( "AL" ) },
+        { AIM_CONTAINER, 22, 1, tripoint_zero,       _( "Container" ),          _( "CN" ) },
+        { AIM_WORN,      25, 3, tripoint_zero,       _( "Worn Items" ),         _( "WR" ) }
     }
 } )
 {
@@ -814,14 +815,15 @@ void advanced_inventory::init()
     headstart = 0; //(TERMY>w_height)?(TERMY-w_height)/2:0;
     colstart = TERMX > w_width ? ( TERMX - w_width ) / 2 : 0;
 
-    head = catacurses::newwin( head_height, w_width - minimap_width, headstart, colstart );
-    mm_border = catacurses::newwin( minimap_height + 2, minimap_width + 2, headstart,
-                                    colstart + ( w_width - ( minimap_width + 2 ) ) );
-    minimap = catacurses::newwin( minimap_height, minimap_width, headstart + 1,
-                                  colstart + ( w_width - ( minimap_width + 1 ) ) );
-    left_window = catacurses::newwin( w_height, w_width / 2, headstart + head_height, colstart );
-    right_window = catacurses::newwin( w_height, w_width / 2, headstart + head_height,
-                                       colstart + w_width / 2 );
+    head = catacurses::newwin( head_height, w_width - minimap_width, point( colstart, headstart ) );
+    mm_border = catacurses::newwin( minimap_height + 2, minimap_width + 2,
+                                    point( colstart + ( w_width - ( minimap_width + 2 ) ), headstart ) );
+    minimap = catacurses::newwin( minimap_height, minimap_width,
+                                  point( colstart + ( w_width - ( minimap_width + 1 ) ), headstart + 1 ) );
+    left_window = catacurses::newwin( w_height, w_width / 2, point( colstart,
+                                      headstart + head_height ) );
+    right_window = catacurses::newwin( w_height, w_width / 2, point( colstart + w_width / 2,
+                                       headstart + head_height ) );
 
     itemsPerPage = w_height - 2 - 5; // 2 for the borders, 5 for the header stuff
 
@@ -1173,22 +1175,22 @@ void advanced_inventory::redraw_pane( side p )
     }
     // draw a darker border around the inactive pane
     draw_border( w, active ? BORDER_COLOR : c_dark_gray );
-    mvwprintw( w, 0, 3, _( "< [s]ort: %s >" ), get_sortname( pane.sortby ) );
+    mvwprintw( w, point( 3, 0 ), _( "< [s]ort: %s >" ), get_sortname( pane.sortby ) );
     int max = square.max_size;
     if( max > 0 ) {
         int itemcount = square.get_item_count();
         int fmtw = 7 + ( itemcount > 99 ? 3 : itemcount > 9 ? 2 : 1 ) +
                    ( max > 99 ? 3 : max > 9 ? 2 : 1 );
-        mvwprintw( w, 0, w_width / 2 - fmtw, "< %d/%d >", itemcount, max );
+        mvwprintw( w, point( w_width / 2 - fmtw, 0 ), "< %d/%d >", itemcount, max );
     }
 
     const char *fprefix = _( "[F]ilter" );
     const char *fsuffix = _( "[R]eset" );
     if( ! filter_edit ) {
         if( !pane.filter.empty() ) {
-            mvwprintw( w, getmaxy( w ) - 1, 2, "< %s: %s >", fprefix, pane.filter );
+            mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s: %s >", fprefix, pane.filter );
         } else {
-            mvwprintw( w, getmaxy( w ) - 1, 2, "< %s >", fprefix );
+            mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s >", fprefix );
         }
     }
     if( active ) {
@@ -1309,10 +1311,6 @@ bool advanced_inventory::move_all_items( bool nested_call )
         popup( _( "You can't put items there!" ) );
         return false;
     }
-    if( spane.get_area() == AIM_WORN &&
-        !query_yn( _( "Really remove all your clothes? (woo hoo)" ) ) ) {
-        return false;
-    }
     auto &sarea = squares[spane.get_area()];
     auto &darea = squares[dpane.get_area()];
 
@@ -1341,10 +1339,10 @@ bool advanced_inventory::move_all_items( bool nested_call )
 
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
         std::list<std::pair<int, int>> dropped;
+        // keep a list of favorites separated, only drop non-fav first if they exist
+        std::list<std::pair<int, int>> dropped_favorite;
 
         if( spane.get_area() == AIM_INVENTORY ) {
-            // keep a list of favorites separated, only drop non-fav first if they exist
-            std::list<std::pair<int, int>> dropped_favorite;
             for( size_t index = 0; index < g->u.inv.size(); ++index ) {
                 const auto &stack = g->u.inv.const_stack( index );
                 const auto &it = stack.front();
@@ -1354,12 +1352,6 @@ bool advanced_inventory::move_all_items( bool nested_call )
                             it.count_by_charges() ? static_cast<int>( it.charges ) : static_cast<int>( stack.size() ) );
                 }
             }
-            if( dropped.empty() ) {
-                if( !query_yn( _( "Really drop all your favorite items?" ) ) ) {
-                    return false;
-                }
-                dropped = dropped_favorite;
-            }
         } else if( spane.get_area() == AIM_WORN ) {
             // do this in reverse, to account for vector item removal messing with future indices
             auto iter = g->u.worn.rbegin();
@@ -1368,10 +1360,17 @@ bool advanced_inventory::move_all_items( bool nested_call )
                 const auto &it = *iter;
 
                 if( !spane.is_filtered( it ) ) {
-                    dropped.emplace_back( player::worn_position_to_index( index ),
-                                          it.count() );
+                    ( it.is_favorite ? dropped_favorite : dropped ).emplace_back( player::worn_position_to_index(
+                                index ),
+                            it.count() );
                 }
             }
+        }
+        if( dropped.empty() ) {
+            if( !query_yn( _( "Really drop all your favorite items?" ) ) ) {
+                return false;
+            }
+            dropped = dropped_favorite;
         }
 
         g->u.drop( dropped, g->u.pos() + darea.off );
@@ -1468,21 +1467,21 @@ static tripoint aim_vector( aim_location id )
 {
     switch( id ) {
         case AIM_SOUTHWEST:
-            return tripoint( -1, 1, 0 );
+            return tripoint_south_west;
         case AIM_SOUTH:
-            return tripoint( 0, 1, 0 );
+            return tripoint_south;
         case AIM_SOUTHEAST:
-            return tripoint( 1, 1, 0 );
+            return tripoint_south_east;
         case AIM_WEST:
-            return tripoint( -1, 0, 0 );
+            return tripoint_west;
         case AIM_EAST:
-            return tripoint( 1, 0, 0 );
+            return tripoint_east;
         case AIM_NORTHWEST:
-            return tripoint( -1, -1, 0 );
+            return tripoint_north_west;
         case AIM_NORTH:
-            return tripoint( 0, -1, 0 );
+            return tripoint_north;
         case AIM_NORTHEAST:
-            return tripoint( 1, -1, 0 );
+            return tripoint_north_east;
         default:
             return tripoint_zero;
     }
@@ -1814,11 +1813,7 @@ void advanced_inventory::display()
 
             draw_item_filter_rules( dpane.window, 1, 11, item_filter_type::FILTER );
 
-#if defined(__ANDROID__)
-            if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                SDL_StartTextInput();
-            }
-#endif
+            ime_sentry sentry;
 
             do {
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, 2, c_cyan, "< " );

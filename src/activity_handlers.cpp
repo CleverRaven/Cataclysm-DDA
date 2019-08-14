@@ -867,7 +867,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 // apply skill before converting to items, but only if mass_ratio is defined
                 roll *= roll_drops();
                 monster_weight_remaining -= roll;
-                roll = ceil( roll / to_gram( ( item::find_type( entry.drop ) )->weight ) );
+                roll = ceil( static_cast<double>( roll ) /
+                             to_gram( ( item::find_type( entry.drop ) )->weight ) );
             } else {
                 monster_weight_remaining -= roll * to_gram( ( item::find_type( entry.drop ) )->weight );
             }
@@ -1191,6 +1192,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 }
 
             }
+            act->targets.pop_back();
             break;
         case SKIN:
             switch( rng( 1, 4 ) ) {
@@ -1212,6 +1214,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                     break;
             }
             corpse_item.set_flag( "SKINNED" );
+            act->targets.pop_back();
             break;
         case DISMEMBER:
             switch( rng( 1, 3 ) ) {
@@ -1736,7 +1739,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                         units::legacy_volume_factor ) ) { // Splatter some blood around
                 // Splatter a bit more randomly, so that it looks cooler
                 const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
-                const tripoint dest( pos.x + rng( -radius, radius ), pos.y + rng( -radius, radius ), pos.z );
+                const tripoint dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
                 const field_type_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
                                                  corpse.get_mtype()->gibType() :
                                                  corpse.get_mtype()->bloodType();
@@ -1987,6 +1990,9 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
         p->mod_fatigue( 1 );
         if( hand_crank_item.ammo_capacity() > hand_crank_item.ammo_remaining() ) {
             hand_crank_item.ammo_set( "battery", hand_crank_item.ammo_remaining() + 1 );
+        } else {
+            act->moves_left = 0;
+            add_msg( m_info, _( "You've charged the battery completely." ) );
         }
     }
     if( p->get_fatigue() >= DEAD_TIRED ) {
@@ -2156,9 +2162,9 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         g->m.spawn_item( pos, "spike", rng( 1, 19 ) );
         g->m.spawn_item( pos, "scrap", rng( 1, 8 ) );
     } else if( ter == t_bars ) {
-        if( g->m.ter( {pos.x + 1, pos.y, pos.z} ) == t_sewage || g->m.ter( {pos.x, pos.y + 1, pos.z} ) ==
+        if( g->m.ter( pos + point_east ) == t_sewage || g->m.ter( pos + point_south ) ==
             t_sewage ||
-            g->m.ter( {pos.x - 1, pos.y, pos.z} ) == t_sewage || g->m.ter( {pos.x, pos.y - 1, pos.z} ) ==
+            g->m.ter( pos + point_west ) == t_sewage || g->m.ter( pos + point_north ) ==
             t_sewage ) {
             g->m.ter_set( pos, t_sewage );
             g->m.spawn_item( p->pos(), "pipe", rng( 1, 2 ) );
@@ -2444,8 +2450,8 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
         return;
     }
 
-    const auto inv = p->crafting_inventory();
-    const auto &reqs = f->obj().requirements();
+    const inventory inv = p->crafting_inventory();
+    const requirement_data &reqs = f->obj().requirements();
     if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
         add_msg( m_info, _( "You are currently unable to mend the %s." ), target->tname() );
     }
@@ -2646,7 +2652,7 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
             return;
         }
         tripoint sm_tri = g->m.getlocal( sm_to_ms_copy( omt_to_sm_copy( p->omt_path.back() ) ) );
-        tripoint centre_sub = tripoint( sm_tri.x + SEEX, sm_tri.y + SEEY, sm_tri.z );
+        tripoint centre_sub = sm_tri + point( SEEX, SEEY );
         if( !g->m.passable( centre_sub ) ) {
             auto candidates = g->m.points_in_radius( centre_sub, 2 );
             for( const auto &elem : candidates ) {
@@ -3411,9 +3417,9 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
         g->m.spawn_item( p->pos(), "spike", 19 );
         g->m.spawn_item( p->pos(), "scrap", 8 );
     } else if( ter == t_bars ) {
-        if( g->m.ter( { pos.x + 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y + 1, pos.z } )
+        if( g->m.ter( pos + point_east ) == t_sewage || g->m.ter( pos + point_south )
             == t_sewage ||
-            g->m.ter( { pos.x - 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y - 1, pos.z } ) ==
+            g->m.ter( pos + point_west ) == t_sewage || g->m.ter( pos + point_north ) ==
             t_sewage ) {
             g->m.ter_set( pos, t_sewage );
             g->m.spawn_item( p->pos(), "pipe", 3 );
@@ -3458,7 +3464,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
         // try again
     }
 
-    const tripoint to = pos + point( 3 * direction.x + rng( -1, 1 ), 3 * direction.y + rng( -1, 1 ) );
+    const tripoint to = pos + 3 * direction.xy() + point( rng( -1, 1 ), rng( -1, 1 ) );
     std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
     for( auto &elem : tree ) {
         g->m.destroy( elem );
@@ -3987,10 +3993,11 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
 
     /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
     /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
-    float success = p->get_skill_level( skill_id( "computer" ) ) - 1.5 * ( z->type->difficulty ) /
-                    ( ( rng( 2, p->int_cur ) / 2 ) + ( p->get_skill_level( skill_id( "computer" ) ) / 2 ) );
+    const int computer_skill = p->get_skill_level( skill_id( "computer" ) );
+    const float randomized_skill = rng( 2, p->int_cur ) + computer_skill;
+    float success = computer_skill - 3 * z->type->difficulty / randomized_skill;
     if( z->has_flag( MF_RIDEABLE_MECH ) ) {
-        success = p->get_skill_level( skill_id( "computer" ) ) + rng( 2, p->int_cur ) - rng( 1, 11 );
+        success = randomized_skill - rng( 1, 11 );
     }
     // rideable mechs are not hostile, they have no AI, they do not resist control as much.
     if( success >= 0 ) {
@@ -4064,7 +4071,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
         }
         for( int dx = -1; dx <= 1; dx++ ) {
             for( int dy = -1; dy <= 1; dy++ ) {
-                tripoint neighbor = tripoint( tpt.x + dx, tpt.y + dy, tpt.z );
+                tripoint neighbor = tpt + point( dx, dy );
                 if( seen.find( neighbor ) != seen.end() ) {
                     continue;
                 }

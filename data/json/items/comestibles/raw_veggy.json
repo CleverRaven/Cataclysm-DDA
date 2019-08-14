@@ -175,6 +175,8 @@
     "material": "veggy",
     "volume": 1,
     "fun": -8,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ] ]
   },
   {
@@ -213,7 +215,8 @@
     "//": "Thinking this is a single ear here.",
     "material": "veggy",
     "volume": 3,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 12 ], [ "iron", 4 ] ]
   },
   {
@@ -272,7 +275,8 @@
     "price": 300,
     "material": "veggy",
     "volume": 3,
-    "flags": [ "FREEZERBURN" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 9 ], [ "calcium", 6 ], [ "iron", 6 ] ]
   },
   {
@@ -479,7 +483,9 @@
     "description": "A fluid bladder from a fungus based lifeform.  Not very nutritious, but fine to eat anyway.",
     "price": 0,
     "material": "veggy",
-    "volume": 1
+    "volume": 1,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_veggy"
   },
   {
     "type": "COMESTIBLE",
@@ -543,7 +549,8 @@
     "volume": 1,
     "stack_size": 4,
     "fun": -12,
-    "flags": [ "FREEZERBURN" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitA", 33 ], [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ] ]
   },
   {
@@ -562,6 +569,8 @@
     "price": 410,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitA", 1 ], [ "vitC", 11 ], [ "calcium", 11 ], [ "iron", 2 ] ]
   },
   {
@@ -581,6 +590,8 @@
     "volume": 4,
     "charges": 4,
     "fun": -10,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 8 ], [ "calcium", 2 ], [ "iron", 6 ] ]
   },
   {
