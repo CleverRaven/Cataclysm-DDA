@@ -76,6 +76,165 @@ void mx_null( map &, const tripoint & )
     debugmsg( "Tried to generate null map extra." );
 }
 
+void mx_roa_crash( map &m, const tripoint &abs_sub )
+{
+    int cx = rng( 6, SEEX * 2 - 7 );
+    int cy = rng( 6, SEEY * 2 - 7 );
+
+    for( int x = 0; x < SEEX * 2; x++ ) {
+        for( int y = 0; y < SEEY * 2; y++ ) {
+            if( m.veh_at( tripoint( x,  y, abs_sub.z ) ) &&
+                m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+            } else {
+                if( x >= cx - dice( 1, 5 ) && x <= cx + dice( 1, 5 ) && y >= cy - dice( 1, 5 ) &&
+                    y <= cy + dice( 1, 5 ) ) {
+                    if( one_in( 7 ) && m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                        m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                    }
+                }
+                if( x >= cx - dice( 1, 6 ) && x <= cx + dice( 1, 6 ) && y >= cy - dice( 1, 6 ) &&
+                    y <= cy + dice( 1, 6 ) ) {
+                    if( !one_in( 5 ) ) {
+                        m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
+                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                            m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                        }
+                    } else if( m.is_bashable( x, y ) ) {
+                        m.destroy( tripoint( x,  y, abs_sub.z ), true );
+                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                            m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                        }
+                    }
+
+                } else if( one_in( 4 + ( abs( x - cx ) + ( abs( y -
+                                         cy ) ) ) ) ) { // 1 in 10 chance of being wreckage anyway
+                    m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
+                    if( !one_in( 3 ) ) {
+                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                            m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    int dir1 = rng( 0, 359 );
+
+    auto crashed_cars = vgroup_id( "city_wrecks" )->pick();
+
+    // Create the vehicle so we can rotate it and calculate its bounding box, but don't place it on the map.
+    auto veh = std::unique_ptr<vehicle>( new vehicle( city_wrecks, rng( 1, 33 ), 1 ) );
+
+    veh->turn( dir1 );
+
+    bounding_box bbox = veh->get_bounding_box();     // Get the bounding box, centered on mount(0,0)
+    int x_length = std::abs( bbox.p2.x -
+                             bbox.p1.x );  // Move the wreckage forward/backward half it's length so
+    int y_length = std::abs( bbox.p2.y -   // that it spawns more over the center of the debris area
+                             bbox.p1.y );
+
+    int x_offset = veh->dir_vec().x * ( x_length / 2 );   // cont.
+    int y_offset = veh->dir_vec().y * ( y_length / 2 );
+
+    int x_min = abs( bbox.p1.x ) + 0;
+    int y_min = abs( bbox.p1.y ) + 0;
+
+    int x_max = ( SEEX * 2 ) - ( bbox.p2.x + 1 );
+    int y_max = ( SEEY * 2 ) - ( bbox.p2.y + 1 );
+
+    int x1 = clamp( cx + x_offset, x_min,
+                    x_max ); // Clamp x1 & y1 such that no parts of the vehicle extend
+    int y1 = clamp( cy + y_offset, y_min, y_max ); // over the border of the submap.
+
+    vehicle *wreckage = m.add_vehicle( city_wrecks, tripoint( x1, y1, abs_sub.z ), dir1, rng( 1, 33 ),
+                                       1 );
+
+    const auto controls_at = []( vehicle * wreckage, const tripoint & pos ) {
+        return !wreckage->get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() ||
+               !wreckage->get_parts_at( pos, "CTRL_DASHBOARD", part_status_flag::any ).empty():
+    };
+
+    if( wreckage != nullptr ) {
+        const int clowncar_factor = dice( 1, 8 );
+
+        switch( clowncar_factor ) {
+            case 1:
+            case 2:
+            case 3: // Full clown car
+                for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
+                    const tripoint pos = vp.pos();
+                    // Spawn pilots in seats with controls.CTRL_ELECTRONIC
+                    if( controls_at( wreckage, pos ) ) {
+                        m.add_spawn( mon_zombie, 1, pos.x, pos.y );
+                    } else {
+                        if( one_in( 5 ) ) {
+                            m.add_spawn( mon_zombie, 1, pos.x, pos.y );
+                    }
+
+                    // Delete the items that would have spawned here from a "corpse"
+                    for( auto sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
+                        vehicle_stack here = wreckage->get_items( sp );
+
+                        for( auto iter = here.begin(); iter != here.end(); ) {
+                            iter = here.erase( iter );
+                        }
+                    }
+                }
+                break;
+            case 4:
+            case 5: // 2/3rds clown car
+                for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
+                    const tripoint pos = vp.pos();
+                    // Spawn pilots in seats with controls.
+                    if( controls_at( wreckage, pos ) ) {
+                        m.add_spawn( mon_zombie, 1, pos.x, pos.y );
+                    } else {
+                        if( !one_in( 3 ) ) {
+                            m.add_spawn( mon_zombie, 1, pos.x, pos.y );
+                        }
+                    }
+
+                    // Delete the items that would have spawned here from a "corpse"
+                    for( auto sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
+                        vehicle_stack here = wreckage->get_items( sp );
+
+                        for( auto iter = here.begin(); iter != here.end(); ) {
+                            iter = here.erase( iter );
+                        }
+                    }
+                }
+                break;
+            case 6: // Just drivers
+                for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_CONTROLS ) ) {
+                    const tripoint pos = vp.pos();
+                    m.add_spawn( mon_zombie, 1, pos.x, pos.y );
+
+                    // Delete the items that would have spawned here from a "corpse"
+                    for( auto sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
+                        vehicle_stack here = wreckage->get_items( sp );
+
+                        for( auto iter = here.begin(); iter != here.end(); ) {
+                            iter = here.erase( iter );
+                        }
+                    }
+                }
+                break;
+            case 7: // Empty clown car
+            case 8:
+                break;
+            default:
+                break;
+        }
+        if( !one_in( 4 ) ) {
+            wreckage->smash( 0.8f, 1.2f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1, 10 ) );
+        } else {
+            wreckage->smash( 0.1f, 0.9f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1, 10 ) );
+        }
+    }
+}
+
 void mx_helicopter( map &m, const tripoint &abs_sub )
 {
     int cx = rng( 6, SEEX * 2 - 7 );
