@@ -50,7 +50,7 @@
     "symbol": "?",
     "color": "black",
     "looks_like": "summon_undead_spellbook",
-    "skill": "tailoring",
+    "skill": "tailor",
     "required_level": 4,
     "max_level": 6,
     "intelligence": 9,
