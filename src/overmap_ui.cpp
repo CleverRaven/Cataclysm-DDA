@@ -1376,7 +1376,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             curs.x += vec->x * scroll_d;
             curs.y += vec->y * scroll_d;
         } else if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
-            tripoint edge_scroll = g->mouse_edge_scrolling_terrain( ictxt );
+            tripoint edge_scroll = g->mouse_edge_scrolling_overmap( ictxt );
             if( edge_scroll == tripoint_zero ) {
                 redraw = false;
             } else {
