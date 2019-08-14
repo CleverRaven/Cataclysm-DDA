@@ -578,7 +578,7 @@
   {
     "type": "ammunition_type",
     "id": "300blk",
-    "name": ".308 AAC Blackout",
+    "name": ".300 AAC Blackout",
     "default": "300blk"
   }
 ]
