@@ -304,7 +304,7 @@ int fold_and_print_from( const catacurses::window &w, const point &begin, int wi
             break;
         }
         if( line_num >= begin_line ) {
-            wmove( w, point( begin.x, line_num + begin.y - begin_line ) );
+            wmove( w, begin + point( 0, -begin_line + line_num ) );
         }
         // split into colorable sections
         std::vector<std::string> color_segments = split_by_color( textformatted[line_num] );
