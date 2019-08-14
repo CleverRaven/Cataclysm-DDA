@@ -116,7 +116,8 @@ enum class rechargeable_cbm {
     none = 0,
     battery,
     reactor,
-    furnace
+    furnace,
+    other
 };
 
 enum class comfort_level {

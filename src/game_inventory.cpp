@@ -511,29 +511,22 @@ class comestible_inventory_preset : public inventory_selector_preset
                 switch( p.get_cbm_rechargeable_with( get_consumable_item( loc ) ) ) {
                     case rechargeable_cbm::none:
                         break;
-                    case rechargeable_cbm::battery:
-                        cbm_name = _( "Battery" );
-                        break;
                     case rechargeable_cbm::reactor:
                         cbm_name = _( "Reactor" );
                         break;
                     case rechargeable_cbm::furnace:
                         cbm_name = _( "Furnace" );
                         break;
+                    case rechargeable_cbm::other:
+                        bionic_id bid = p.get_bionic_fueled_with( get_consumable_item( loc ) );
+                        if( bid != bionic_id( "null" ) ) {
+                            cbm_name = bid->name;
+                        }
+                        break;
                 }
 
                 if( !cbm_name.empty() ) {
                     return string_format( "<color_cyan>%s</color>", cbm_name );
-                }
-
-                return std::string();
-            }, _( "FURNACE" ) );
-
-            append_cell( [this, &p]( const item_location & loc ) {
-                bionic_id cbm_name = p.get_bionic_fueled_with( get_consumable_item( loc ) );
-
-                if( cbm_name != bionic_id( "null" ) ) {
-                    return string_format( "<color_cyan>%s</color>", cbm_name->name );
                 }
 
                 return std::string();
@@ -557,9 +550,9 @@ class comestible_inventory_preset : public inventory_selector_preset
             const auto res = p.can_eat( it );
             const auto cbm = p.get_cbm_rechargeable_with( it );
 
-            if( !res.success() && cbm == rechargeable_cbm::none && !p.can_fuel_bionic_with( it ) ) {
+            if( !res.success() && cbm == rechargeable_cbm::none ) {
                 return res.str();
-            } else if( cbm == rechargeable_cbm::battery && p.power_level >= p.max_power_level ) {
+            } else if( p.power_level >= p.max_power_level ) {
                 return _( "You're fully charged" );
             }
 

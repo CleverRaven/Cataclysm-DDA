@@ -1316,12 +1316,20 @@ bool player::fuel_bionic_with( item &it )
         return false;
     }
 
-    it.charges -= 1;
-    charge_power( it.fuel_energy() );
+    const int available = std::min( it.charges, std::numeric_limits<int>::max() );
+    const int to_charge = std::min( static_cast<int>( it.fuel_energy() * available ),
+                                    max_power_level - power_level );
+    const int to_consume = static_cast<int>( to_charge / it.fuel_energy() );
+
+    it.charges -= to_consume;
+    charge_power( to_charge );
     add_msg_player_or_npc( m_info,
-                           _( "You consume one charge of %s and recharge %i point of energy." ),
-                           _( "<npcname> consume one charge of %s and recharges %i points of energy." ), it.tname(),
-                           static_cast<int>( it.fuel_energy() ) );
+                           ngettext( "You consume %i charge of %s and recharge %i J of energy.",
+                                     "You consume %i charges of %s and recharge %i J of energy.", to_consume ),
+                           ngettext( "<npcname> consume %i charge of %s and recharges %i J of energy.",
+                                     "<npcname> consume %i charges of %s and recharges %i J of energy.", to_consume ), to_consume,
+                           it.tname(),
+                           to_charge );
     mod_moves( -250 );
     return true;
 }
@@ -1339,6 +1347,10 @@ rechargeable_cbm player::get_cbm_rechargeable_with( const item &it ) const
         return rechargeable_cbm::battery;
     } else if( can_feed_furnace_with( it ) ) {
         return rechargeable_cbm::furnace;
+    }
+
+    if( can_fuel_bionic_with( it ) ) {
+        return rechargeable_cbm::other;
     }
 
     return rechargeable_cbm::none;
@@ -1382,6 +1394,12 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
 
             return amount;
         }
+        case rechargeable_cbm::other:
+            const int to_consume = std::min( it.charges, std::numeric_limits<int>::max() );
+            const int to_charge = std::min( static_cast<int>( it.fuel_energy() * to_consume ),
+                                            max_power_level - power_level );
+            return to_charge;
+            break;
     }
 
     return 0;
