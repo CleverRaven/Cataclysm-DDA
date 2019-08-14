@@ -51,7 +51,8 @@ static void show_mutations_titlebar( const catacurses::window &window,
         desc << shortcut_desc( _( "%s to reassign invlet, " ), ctxt.get_desc( "REASSIGN" ) );
     }
     desc << shortcut_desc( _( "%s to assign the hotkeys." ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
-    fold_and_print( window, point_east, getmaxx( window ) - 1, c_white, desc.str() );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    fold_and_print( window, point( 1, 0 ), getmaxx( window ) - 1, c_white, desc.str() );
     wrefresh( window );
 }
 

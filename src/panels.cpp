@@ -1116,7 +1116,8 @@ static void draw_needs_compact( const avatar &u, const catacurses::window &w )
     auto hunger_pair = u.get_hunger_description();
     mvwprintz( w, point_zero, hunger_pair.second, hunger_pair.first );
     hunger_pair = u.get_fatigue_description();
-    mvwprintz( w, point_south, hunger_pair.second, hunger_pair.first );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 0, 1 ), hunger_pair.second, hunger_pair.first );
     auto pair = pain_stat( u );
     mvwprintz( w, point( 0, 2 ), pair.first, pair.second );
 
@@ -1205,8 +1206,10 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
 {
     werase( w );
     std::pair<nc_color, int> morale_pair = morale_stat( u );
-    mvwprintz( w, point_east, c_light_gray, _( "Sound:" ) );
-    mvwprintz( w, point_south_east, c_light_gray, _( "Stam :" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Stam :" ) );
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Focus:" ) );
     mvwprintz( w, point( 19, 0 ), c_light_gray, _( "Mood :" ) );
     mvwprintz( w, point( 19, 1 ), c_light_gray, _( "Speed:" ) );
@@ -1243,10 +1246,12 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
 {
     werase( w );
     std::pair<nc_color, int> morale_pair = morale_stat( u );
-    mvwprintz( w, point_east, c_light_gray, _( "Sound:" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
     mvwprintz( w, point( 16, 0 ), c_light_gray, _( "Mood :" ) );
     mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Focus:" ) );
-    mvwprintz( w, point_south_east, c_light_gray, _( "Stam :" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Stam :" ) );
     mvwprintz( w, point( 16, 1 ), c_light_gray, _( "Speed:" ) );
     mvwprintz( w, point( 31, 1 ), c_light_gray, _( "Move :" ) );
 
@@ -1277,8 +1282,10 @@ static void draw_stat_narrow( avatar &u, const catacurses::window &w )
 {
     werase( w );
 
-    mvwprintz( w, point_east, c_light_gray, _( "Str  :" ) );
-    mvwprintz( w, point_south_east, c_light_gray, _( "Int  :" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Str  :" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Int  :" ) );
     mvwprintz( w, point( 19, 0 ), c_light_gray, _( "Dex  :" ) );
     mvwprintz( w, point( 19, 1 ), c_light_gray, _( "Per  :" ) );
 
@@ -1330,13 +1337,16 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     werase( w );
     // display location
     const oter_id &cur_ter = overmap_buffer.ter( u.global_omt_location() );
-    mvwprintz( w, point_east, c_light_gray, _( "Place: " ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Place: " ) );
     wprintz( w, c_white, utf8_truncate( cur_ter->get_name(), getmaxx( w ) - 13 ) );
     // display weather
     if( g->get_levz() < 0 ) {
-        mvwprintz( w, point_south_east, c_light_gray, _( "Sky  : Underground" ) );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Sky  : Underground" ) );
     } else {
-        mvwprintz( w, point_south_east, c_light_gray, _( "Sky  :" ) );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Sky  :" ) );
         const weather_datum wdata = weather_data( g->weather.weather );
         wprintz( w, wdata.color, " %s", wdata.name );
     }
@@ -1385,15 +1395,18 @@ static void draw_loc_wide_map( const avatar &u, const catacurses::window &w )
 static void draw_moon_narrow( const avatar &u, const catacurses::window &w )
 {
     werase( w );
-    mvwprintz( w, point_east, c_light_gray, _( "Moon : %s" ), get_moon() );
-    mvwprintz( w, point_south_east, c_light_gray, _( "Temp : %s" ), get_temp( u ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Moon : %s" ), get_moon() );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Temp : %s" ), get_temp( u ) );
     wrefresh( w );
 }
 
 static void draw_moon_wide( const avatar &u, const catacurses::window &w )
 {
     werase( w );
-    mvwprintz( w, point_east, c_light_gray, _( "Moon : %s" ), get_moon() );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Moon : %s" ), get_moon() );
     mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Temp : %s" ), get_temp( u ) );
     wrefresh( w );
 }
@@ -1402,8 +1415,10 @@ static void draw_weapon_labels( const avatar &u, const catacurses::window &w )
 {
     werase( w );
     nc_color color = c_light_gray;
-    mvwprintz( w, point_east, c_light_gray, _( "Wield:" ) );
-    mvwprintz( w, point_south_east, c_light_gray, _( "Style:" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Wield:" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Style:" ) );
     print_colored_text( w, point( 8, 0 ), color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
     mvwprintz( w, point( 8, 1 ), c_light_gray, u.get_combat_style().name );
     wrefresh( w );
@@ -1417,8 +1432,10 @@ static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
     std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
     std::pair<nc_color, std::string> pain_pair = pain_stat( u );
-    mvwprintz( w, point_east, c_light_gray, _( "Food :" ) );
-    mvwprintz( w, point_south_east, c_light_gray, _( "Drink:" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Food :" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Drink:" ) );
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Rest :" ) );
     mvwprintz( w, point( 1, 3 ), c_light_gray, _( "Pain :" ) );
     mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Heat :" ) );
@@ -1438,10 +1455,12 @@ static void draw_needs_wide( const avatar &u, const catacurses::window &w )
     std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
     std::pair<nc_color, std::string> pain_pair = pain_stat( u );
-    mvwprintz( w, point_east, c_light_gray, _( "Rest :" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Rest :" ) );
     mvwprintz( w, point( 16, 0 ), c_light_gray, _( "Pain :" ) );
     mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Heat :" ) );
-    mvwprintz( w, point_south_east, c_light_gray, _( "Food :" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Food :" ) );
     mvwprintz( w, point( 23, 1 ), c_light_gray, _( "Drink:" ) );
     mvwprintz( w, point( 8, 0 ), rest_pair.second, rest_pair.first );
     mvwprintz( w, point( 23, 0 ), pain_pair.first, pain_pair.second );
@@ -1628,8 +1647,10 @@ static void draw_armor_padding( const avatar &u, const catacurses::window &w )
 {
     werase( w );
     nc_color color = c_light_gray;
-    mvwprintz( w, point_east, color, _( "Head :" ) );
-    mvwprintz( w, point_south_east, color, _( "Torso:" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), color, _( "Head :" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), color, _( "Torso:" ) );
     mvwprintz( w, point( 1, 2 ), color, _( "Arms :" ) );
     mvwprintz( w, point( 1, 3 ), color, _( "Legs :" ) );
     mvwprintz( w, point( 1, 4 ), color, _( "Feet :" ) );
@@ -1648,7 +1669,8 @@ static void draw_armor( const avatar &u, const catacurses::window &w )
     werase( w );
     nc_color color = c_light_gray;
     mvwprintz( w, point_zero, color, _( "Head :" ) );
-    mvwprintz( w, point_south, color, _( "Torso:" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 0, 1 ), color, _( "Torso:" ) );
     mvwprintz( w, point( 0, 2 ), color, _( "Arms :" ) );
     mvwprintz( w, point( 0, 3 ), color, _( "Legs :" ) );
     mvwprintz( w, point( 0, 4 ), color, _( "Feet :" ) );
@@ -1774,7 +1796,8 @@ static void draw_ai_goal( const avatar &u, const catacurses::window &w )
     needs.add( &string_id<behavior::node_t>( "npc_needs" ).obj() );
     behavior::character_oracle_t player_oracle( &u );
     std::string current_need = needs.tick( &player_oracle );
-    mvwprintz( w, point_east, c_light_gray, _( "Goal: %s" ), current_need );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Goal: %s" ), current_need );
     wrefresh( w );
 }
 
@@ -1885,7 +1908,8 @@ static void draw_hint( const avatar &, const catacurses::window &w )
 {
     werase( w );
     std::string press = press_x( ACTION_TOGGLE_PANEL_ADM );
-    mvwprintz( w, point_east, c_light_green, press );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_green, press );
     mvwprintz( w, point( 2 + utf8_width( press ), 0 ), c_white, _( "to open sidebar options" ) );
 
     wrefresh( w );

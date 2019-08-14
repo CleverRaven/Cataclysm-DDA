@@ -141,7 +141,8 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
 {
     const int win_width = getmaxx( w_sort_middle );
     const size_t win_height = static_cast<size_t>( getmaxy( w_sort_middle ) );
-    size_t i = fold_and_print( w_sort_middle, point_east, win_width - 1, c_white,
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    size_t i = fold_and_print( w_sort_middle, point( 1, 0 ), win_width - 1, c_white,
                                worn_item_it->type_name( 1 ) ) - 1;
     std::vector<std::string> props = clothing_properties( *worn_item_it, win_width - 3, c );
     nc_color color = c_light_gray;
@@ -586,7 +587,8 @@ void player::sort_armor()
         if( leftListSize > 0 ) {
             draw_mid_pane( w_sort_middle, tmp_worn[leftListIndex], *this, tabindex );
         } else {
-            fold_and_print( w_sort_middle, point_east, middle_w - 1, c_white,
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            fold_and_print( w_sort_middle, point( 1, 0 ), middle_w - 1, c_white,
                             _( "Nothing to see here!" ) );
         }
 

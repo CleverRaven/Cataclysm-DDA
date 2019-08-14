@@ -95,7 +95,8 @@ std::string help::get_dir_grid()
 void help::draw_menu( const catacurses::window &win )
 {
     werase( win );
-    int y = fold_and_print( win, point_east, getmaxx( win ) - 2, c_white, _( "\
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    int y = fold_and_print( win, point( 1, 0 ), getmaxx( win ) - 2, c_white, _( "\
 Please press one of the following for help on that topic:\n\
 Press ESC to return to the game." ) ) + 1;
 

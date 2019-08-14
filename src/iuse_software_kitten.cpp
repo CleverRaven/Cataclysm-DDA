@@ -352,7 +352,8 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
 void robot_finds_kitten::instructions( const catacurses::window &w )
 {
     int pos = 1;
-    pos += fold_and_print( w, point_east, getmaxx( w ) - 4, c_light_gray,
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    pos += fold_and_print( w, point( 1, 0 ), getmaxx( w ) - 4, c_light_gray,
                            _( "robotfindskitten v22July2008" ) );
     pos += 1 + fold_and_print( w, point( 1, pos ), getmaxx( w ) - 4, c_light_gray, _( "\
 Originally by the illustrious Leonard Richardson, \

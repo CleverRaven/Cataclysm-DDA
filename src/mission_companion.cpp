@@ -446,7 +446,8 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         if( redraw ) {
             werase( w_list );
             draw_border( w_list );
-            mvwprintz( w_list, point_south_east, c_white, name_mission_tabs( omt_pos, role_id, title,
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            mvwprintz( w_list, point( 1, 1 ), c_white, name_mission_tabs( omt_pos, role_id, title,
                        tab_mode ) );
 
             calcStartPos( offset, sel, info_height, cur_key_list.size() );

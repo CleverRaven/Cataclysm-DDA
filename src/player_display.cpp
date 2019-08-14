@@ -268,7 +268,8 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
     if( line == 0 ) {
         // Display information on player strength in appropriate window
         mvwprintz( w_stats, point( 1, 2 ), h_light_gray, _( "Strength:" ) );
-        fold_and_print( w_info, point_east, FULL_SCREEN_WIDTH - 2, c_magenta,
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Strength affects your melee damage, the amount of weight you can carry, your total HP, "
                            "your resistance to many diseases, and the effectiveness of actions which require brute force." ) );
         print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
@@ -281,7 +282,8 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
     } else if( line == 1 ) {
         // Display information on player dexterity in appropriate window
         mvwprintz( w_stats, point( 1, 3 ), h_light_gray, _( "Dexterity:" ) );
-        fold_and_print( w_info, point_east, FULL_SCREEN_WIDTH - 2, c_magenta,
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Dexterity affects your chance to hit in melee combat, helps you steady your "
                            "gun for ranged combat, and enhances many actions that require finesse." ) );
         print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
@@ -295,7 +297,8 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
     } else if( line == 2 ) {
         // Display information on player intelligence in appropriate window
         mvwprintz( w_stats, point( 1, 4 ), h_light_gray, _( "Intelligence:" ) );
-        fold_and_print( w_info, point_east, FULL_SCREEN_WIDTH - 2, c_magenta,
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Intelligence is less important in most situations, but it is vital for more complex tasks like "
                            "electronics crafting.  It also affects how much skill you can pick up from reading a book." ) );
         print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
@@ -309,7 +312,8 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
     } else if( line == 3 ) {
         // Display information on player perception in appropriate window
         mvwprintz( w_stats, point( 1, 5 ), h_light_gray, _( "Perception:" ) );
-        fold_and_print( w_info, point_east, FULL_SCREEN_WIDTH - 2, c_magenta,
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Perception is the most important stat for ranged combat.  It's also used for "
                            "detecting traps and other things of interest." ) );
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
@@ -322,7 +326,8 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
         mvwprintz( w_stats, point( 1, 6 ), h_light_gray, _( "Weight:" ) );
         mvwprintz( w_stats, point( 25 - you.get_weight_string().size(), 6 ), h_light_gray,
                    you.get_weight_string() );
-        const int lines = fold_and_print( w_info, point_east, FULL_SCREEN_WIDTH - 2, c_magenta,
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                                           _( "Your weight is a general indicator of how much fat your body has stored up,"
                                              " which in turn shows how prepared you are to survive for a time without food."
                                              "Having too much, or too little, can be unhealthy." ) );
@@ -383,7 +388,8 @@ static void draw_encumbrance_tab( const catacurses::window &w_encumb,
                            bp_aiOther[line] == line - 1 ) && // first of a pair
                          should_combine_bps( you, line, bp_aiOther[line] );
     s += get_encumbrance_description( you, bp, combined_here );
-    fold_and_print( w_info, point_east, FULL_SCREEN_WIDTH - 2, c_magenta, s );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta, s );
     wrefresh( w_info );
 
     action = ctxt.handle_input();
@@ -452,7 +458,8 @@ static void draw_traits_tab( const catacurses::window &w_traits, const catacurse
     }
     if( line < traitslist.size() ) {
         const auto &mdata = traitslist[line].obj();
-        fold_and_print( w_info, point_east, FULL_SCREEN_WIDTH - 2, c_magenta, string_format(
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta, string_format(
                             "<color_%s>%s</color>: %s", string_from_color( mdata.get_display_color() ),
                             mdata.name(), traitslist[line]->desc() ) );
     }
@@ -495,7 +502,8 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
     werase( w_bionics );
     mvwprintz( w_bionics, point_zero, h_light_gray, header_spaces );
     center_print( w_bionics, 0, h_light_gray, _( title_BIONICS ) );
-    trim_and_print( w_bionics, point_south_east, getmaxx( w_bionics ) - 1, c_white,
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
                     string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), you.max_power_level ) );
 
     const size_t useful_y = bionics_win_size_y - 1;
@@ -520,7 +528,8 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
                         i == line ? hilite( c_white ) : c_white, bionicslist[i].info().name );
     }
     if( line < bionicslist.size() ) {
-        fold_and_print( w_info, point_east, FULL_SCREEN_WIDTH - 2, c_white,
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_white,
                         bionicslist[line].info().description );
     }
     wrefresh( w_bionics );
@@ -539,7 +548,8 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
     } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
         mvwprintz( w_bionics, point_zero, c_light_gray, header_spaces );
         center_print( w_bionics, 0, c_light_gray, _( title_BIONICS ) );
-        trim_and_print( w_bionics, point_south_east, getmaxx( w_bionics ) - 1, c_white,
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
                         string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), you.max_power_level ) );
         for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y - 1; i++ ) {
             mvwprintz( w_bionics, point( 1, static_cast<int>( i + 2 ) ), c_black, "                         " );
@@ -590,7 +600,8 @@ static void draw_effects_tab( const catacurses::window &w_effects, const catacur
                         i == line ? h_light_gray : c_light_gray, effect_name[i] );
     }
     if( line < effect_text.size() ) {
-        fold_and_print( w_info, point_east, FULL_SCREEN_WIDTH - 2, c_magenta, effect_text[line] );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta, effect_text[line] );
     }
     wrefresh( w_effects );
     wrefresh( w_info );
@@ -713,7 +724,8 @@ static void draw_skills_tab( const catacurses::window &w_skills, const catacurse
     werase( w_info );
 
     if( selectedSkill ) {
-        fold_and_print( w_info, point_east, FULL_SCREEN_WIDTH - 2, c_magenta,
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         selectedSkill->description() );
     }
     wrefresh( w_info );
@@ -952,7 +964,8 @@ static void draw_initial_windows( const catacurses::window &w_stats,
 
     // Next, draw bionics
     center_print( w_bionics, 0, c_light_gray, _( title_BIONICS ) );
-    trim_and_print( w_bionics, point_south_east, getmaxx( w_bionics ) - 1, c_white,
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
                     string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
                                    you.power_level, you.max_power_level ) );
     for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y - 1; i++ ) {
@@ -1021,7 +1034,8 @@ static void draw_initial_windows( const catacurses::window &w_stats,
 
     // Finally, draw speed.
     center_print( w_speed, 0, c_light_gray, _( title_SPEED ) );
-    mvwprintz( w_speed, point_south_east, c_light_gray, _( "Base Move Cost:" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w_speed, point( 1, 1 ), c_light_gray, _( "Base Move Cost:" ) );
     mvwprintz( w_speed, point( 1, 2 ), c_light_gray, _( "Current Speed:" ) );
     int newmoves = you.get_speed();
     int pen = 0;

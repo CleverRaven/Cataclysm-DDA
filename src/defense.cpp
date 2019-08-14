@@ -742,7 +742,8 @@ void defense_game::setup()
 void defense_game::refresh_setup( const catacurses::window &w, int selection )
 {
     werase( w );
-    mvwprintz( w, point_east, c_light_red, _( "DEFENSE MODE" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_red, _( "DEFENSE MODE" ) );
     mvwprintz( w, point( 28, 0 ), c_light_red, _( "Press direction keys to cycle, ENTER to toggle" ) );
     mvwprintz( w, point( 28, 1 ), c_light_red, _( "Press S to start" ) );
     mvwprintz( w, point( 2, 2 ), c_light_gray, _( "Scenario:" ) );
@@ -1283,7 +1284,8 @@ void draw_caravan_categories( const catacurses::window &w, int category_selected
     for( int i = 1; i <= 10; i++ ) {
         mvwprintz( w, point( 1, i ), c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" );
     }
-    mvwprintz( w, point_south_east, c_white, _( "Your Cash: %s" ), format_money( cash ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), c_white, _( "Your Cash: %s" ), format_money( cash ) );
     wprintz( w, c_light_gray, " -> " );
     wprintz( w, ( total_price > cash ? c_red : c_green ), "%s",
              format_money( static_cast<int>( cash ) - static_cast<int>( total_price ) ) );

@@ -365,7 +365,8 @@ void trading_window::show_item_data( npc &np, size_t offset,
     update = true;
     catacurses::window w_tmp = catacurses::newwin( 3, 21, point( 30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2,
                                1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) );
-    mvwprintz( w_tmp, point_south_east, c_red, _( "Examine which item?" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w_tmp, point( 1, 1 ), c_red, _( "Examine which item?" ) );
     draw_border( w_tmp );
     wrefresh( w_tmp );
     // TODO: use input context

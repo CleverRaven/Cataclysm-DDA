@@ -3189,7 +3189,8 @@ void game::disp_NPCs()
     const tripoint &lpos = u.pos();
     mvwprintz( w, point_zero, c_white, _( "Your overmap position: %d, %d, %d" ), ppos.x, ppos.y,
                ppos.z );
-    mvwprintz( w, point_south, c_white, _( "Your local position: %d, %d, %d" ), lpos.x, lpos.y,
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 0, 1 ), c_white, _( "Your local position: %d, %d, %d" ), lpos.x, lpos.y,
                lpos.z );
     std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near_player( 100 );
     std::sort( npcs.begin(), npcs.end(), npc_dist_to_player() );
@@ -6227,7 +6228,8 @@ void game::zones_manager()
             if( zone.has_options() ) {
                 const auto &descriptions = zone.get_options().get_descriptions();
 
-                mvwprintz( w_zones_options, point_east, c_white, _( "Options" ) );
+                // NOLINTNEXTLINE(cata-use-named-point-constants)
+                mvwprintz( w_zones_options, point( 1, 0 ), c_white, _( "Options" ) );
 
                 int y = 1;
                 for( const auto &desc : descriptions ) {

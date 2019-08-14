@@ -909,7 +909,9 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             werase( w_description );
 
             if( const MOD_INFORMATION *selmod = get_selected_mod() ) {
-                int num_lines = fold_and_print( w_description, point_east, getmaxx( w_description ) - 1,
+                // NOLINTNEXTLINE(cata-use-named-point-constants)
+                int num_lines = fold_and_print( w_description, point( 1, 0 ),
+                                                getmaxx( w_description ) - 1,
                                                 c_white, mman_ui->get_information( selmod ) );
                 auto window_height = catacurses::getmaxy( w_description );
                 auto window_width = catacurses::getmaxx( w_description );

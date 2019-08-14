@@ -71,7 +71,8 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     } else if( mode == EXAMINING ) {
         desc = _( "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
     }
-    fold_and_print( window, point_east, pwr_str_pos, c_white, desc );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    fold_and_print( window, point( 1, 0 ), pwr_str_pos, c_white, desc );
 
     wrefresh( window );
 }

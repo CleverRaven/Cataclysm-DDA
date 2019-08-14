@@ -347,7 +347,8 @@ void multipage( const catacurses::window &w, const std::vector<std::string> &tex
     */
     for( int i = 0; i < static_cast<int>( text.size() ); i++ ) {
         if( begin_y == 0 && !caption.empty() ) {
-            begin_y = fold_and_print( w, point_east, width - 2, c_white, caption ) + 1;
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            begin_y = fold_and_print( w, point( 1, 0 ), width - 2, c_white, caption ) + 1;
         }
         std::vector<std::string> next_paragraph = foldstring( text[i], width - 2 );
         if( begin_y + static_cast<int>( next_paragraph.size() ) > height - ( ( i + 1 ) < static_cast<int>
@@ -1551,7 +1552,8 @@ size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_colo
                        const std::string &fmt )
 {
     std::string text = shortcut_text( shortcut_color, fmt );
-    print_colored_text( w, point_north_west, text_color, text_color, text );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    print_colored_text( w, point( -1, -1 ), text_color, text_color, text );
 
     return utf8_width( remove_color_tags( text ) );
 }

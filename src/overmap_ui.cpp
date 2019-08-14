@@ -156,7 +156,8 @@ static void update_note_preview( const std::string &note,
     auto w_preview_map   = std::get<2>( preview_windows );
 
     draw_border( *w_preview );
-    mvwprintz( *w_preview, point_south_east, c_white, _( "Note preview" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( *w_preview, point( 1, 1 ), c_white, _( "Note preview" ) );
     wrefresh( *w_preview );
 
     werase( *w_preview_title );
@@ -899,7 +900,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             const auto &ter = ccur_ter.obj();
             const auto sm_pos = omt_to_sm_copy( center );
 
-            mvwputch( wbar, point_south_east, ter.get_color(), ter.get_symbol() );
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            mvwputch( wbar, point( 1, 1 ), ter.get_color(), ter.get_symbol() );
 
             lines = fold_and_print( wbar, point( 3, 1 ), 25, c_light_gray,
                                     overmap_buffer.get_description_at( sm_pos ) );
@@ -909,12 +911,15 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                                           g->u.overmap_los( center, sight_points * 2 ) );
         if( weather_is_visible ) {
             weather_datum weather = weather_data( get_weather_at_point( center ) );
-            mvwprintz( wbar, point_south_east, weather.color, weather.name );
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            mvwprintz( wbar, point( 1, 1 ), weather.color, weather.name );
         } else {
-            mvwprintz( wbar, point_south_east, c_dark_gray, _( "# Unexplored" ) );
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            mvwprintz( wbar, point( 1, 1 ), c_dark_gray, _( "# Unexplored" ) );
         }
     } else {
-        mvwprintz( wbar, point_south_east, c_dark_gray, _( "# Unexplored" ) );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( wbar, point( 1, 1 ), c_dark_gray, _( "# Unexplored" ) );
     }
 
     if( has_target ) {
@@ -1143,7 +1148,8 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
               fast_scroll, nullptr,
               draw_data_t() );
         //Draw search box
-        mvwprintz( w_search, point_south_east, c_light_blue, _( "Search:" ) );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( w_search, point( 1, 1 ), c_light_blue, _( "Search:" ) );
         mvwprintz( w_search, point( 10, 1 ), c_light_red, "%*s", 12, term );
 
         mvwprintz( w_search, point( 1, 2 ), c_light_blue, _( "Result(s):" ) );
@@ -1234,7 +1240,8 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
 
             draw_border( w_editor );
             if( terrain ) {
-                mvwprintz( w_editor, point_south_east, c_white, _( "Place overmap terrain:" ) );
+                // NOLINTNEXTLINE(cata-use-named-point-constants)
+                mvwprintz( w_editor, point( 1, 1 ), c_white, _( "Place overmap terrain:" ) );
                 mvwprintz( w_editor, point( 1, 2 ), c_light_blue, "                         " );
                 mvwprintz( w_editor, point( 1, 2 ), c_light_blue, uistate.place_terrain->id.c_str() );
             } else {

@@ -296,7 +296,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         } else if( action == "CONFIRM" && !current_tab.empty() ) {
             changes_made = true;
             if( column == COLUMN_RULE ) {
-                fold_and_print( w_help, point_south_east, 999, c_white,
+                // NOLINTNEXTLINE(cata-use-named-point-constants)
+                fold_and_print( w_help, point( 1, 1 ), 999, c_white,
                                 _(
                                     "* is used as a Wildcard. A few Examples:\n"
                                     "\n"

@@ -318,7 +318,8 @@ int construction_menu( bool blueprint )
         mvwhline( w_con, point_south_east, ' ', w_list_width );
         werase( w_list );
         // Print new tab listing
-        mvwprintz( w_con, point_south_east, c_yellow, "<< %s >>", _( construct_cat[tabindex].name ) );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( w_con, point( 1, 1 ), c_yellow, "<< %s >>", _( construct_cat[tabindex].name ) );
         // Determine where in the master list to start printing
         calcStartPos( offset, select, w_list_height, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)

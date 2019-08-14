@@ -2447,7 +2447,8 @@ void advanced_inventory::refresh_minimap()
     draw_border( mm_border );
     // minor addition to border for AIM_ALL, sorta hacky
     if( panes[src].get_area() == AIM_ALL || panes[dest].get_area() == AIM_ALL ) {
-        mvwprintz( mm_border, point_east, c_light_gray, utf8_truncate( _( "All" ), minimap_width ) );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( mm_border, point( 1, 0 ), c_light_gray, utf8_truncate( _( "All" ), minimap_width ) );
     }
     // refresh border, then minimap
     wrefresh( mm_border );

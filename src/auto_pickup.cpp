@@ -278,7 +278,8 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
             }
 
             if( iColumn == 1 || action == "ADD_RULE" ) {
-                fold_and_print( w_help, point_south_east, 999, c_white,
+                // NOLINTNEXTLINE(cata-use-named-point-constants)
+                fold_and_print( w_help, point( 1, 1 ), 999, c_white,
                                 _(
                                     "* is used as a Wildcard. A few Examples:\n"
                                     " \n"

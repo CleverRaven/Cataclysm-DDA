@@ -574,7 +574,8 @@ void uilist::show()
     werase( window );
     draw_border( window, border_color );
     if( !title.empty() ) {
-        mvwprintz( window, point_east, border_color, "< " );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( window, point( 1, 0 ), border_color, "< " );
         wprintz( window, title_color, title );
         wprintz( window, border_color, " >" );
     }
@@ -698,7 +699,8 @@ void uilist::redraw( bool redraw_callback )
 {
     draw_border( window, border_color );
     if( !title.empty() ) {
-        mvwprintz( window, point_east, border_color, "< " );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( window, point( 1, 0 ), border_color, "< " );
         wprintz( window, title_color, title );
         wprintz( window, border_color, " >" );
     }

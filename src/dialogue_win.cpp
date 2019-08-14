@@ -33,7 +33,8 @@ void dialogue_window::print_header( const std::string &name )
     mvwvline( d_win, point( win_midx + 1, 1 ), LINE_XOXO, winy - 1 );
     mvwputch( d_win, point( win_midx + 1, 0 ), BORDER_COLOR, LINE_OXXX );
     mvwputch( d_win, point( win_midx + 1, winy - 1 ), BORDER_COLOR, LINE_XXOX );
-    mvwprintz( d_win, point_south_east, c_white, _( "Dialogue: %s" ), name );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( d_win, point( 1, 1 ), c_white, _( "Dialogue: %s" ), name );
     mvwprintz( d_win, point( win_midx + 3, 1 ), c_white, _( "Your response:" ) );
     npc_name = name;
 }

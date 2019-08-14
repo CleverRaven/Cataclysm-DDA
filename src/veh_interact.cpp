@@ -277,7 +277,8 @@ void veh_interact::set_title( const std::string &msg ) const
 {
     werase( w_mode );
     nc_color col = c_light_gray;
-    print_colored_text( w_mode, point_east, col, col, msg );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    print_colored_text( w_mode, point( 1, 0 ), col, col, msg );
     wrefresh( w_mode );
 }
 
@@ -437,7 +438,8 @@ void veh_interact::do_main_loop()
 
         if( !msg.empty() ) {
             werase( w_msg );
-            fold_and_print( w_msg, point_east, getmaxx( w_msg ) - 2, c_light_red, msg );
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red, msg );
             wrefresh( w_msg );
         } else {
             move_cursor( point_zero );
@@ -617,8 +619,9 @@ bool veh_interact::is_drive_conflict()
 
     if( has_conflict ) {
         werase( w_msg );
-        //~ %1$s is fuel_type
-        fold_and_print( w_msg, point_east, getmaxx( w_msg ) - 2, c_light_red,
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red,
+                        //~ %1$s is fuel_type
                         string_format( _( "Only one %1$s powered engine can be installed." ),
                                        conflict_type ) );
         wrefresh( w_msg );
@@ -654,7 +657,8 @@ bool veh_interact::can_install_part()
         return veh->parts[e].is_tank();
         } ) ) {
             werase( w_msg );
-            fold_and_print( w_msg, point_east, getmaxx( w_msg ) - 2, c_light_red,
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red,
                             _( "Funnels need to be installed over a tank." ) );
             wrefresh( w_msg );
             return false;
@@ -666,7 +670,8 @@ bool veh_interact::can_install_part()
         return veh->parts[e].is_turret();
         } ) ) {
             werase( w_msg );
-            fold_and_print( w_msg, point_east, getmaxx( w_msg ) - 2, c_light_red,
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red,
                             _( "Can't install turret on another turret." ) );
             wrefresh( w_msg );
             return false;
@@ -776,7 +781,8 @@ bool veh_interact::can_install_part()
     sel_vpart_info->format_description( msg, "<color_light_gray>", getmaxx( w_msg ) - 4 );
 
     werase( w_msg );
-    fold_and_print( w_msg, point_east, getmaxx( w_msg ) - 2, c_light_gray, msg.str() );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_gray, msg.str() );
     wrefresh( w_msg );
     return ok || g->u.has_trait( trait_DEBUG_HS );
 }
@@ -1128,7 +1134,8 @@ bool veh_interact::do_repair( std::string &msg )
         vp.format_description( nmsg, desc_color, getmaxx( w_msg ) - 4 );
 
         werase( w_msg );
-        fold_and_print( w_msg, point_east, getmaxx( w_msg ) - 2, c_light_gray, nmsg.str() );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_gray, nmsg.str() );
         wrefresh( w_msg );
 
         werase( w_parts );
@@ -1688,7 +1695,8 @@ bool veh_interact::can_remove_part( int idx )
     sel_vehicle_part->info().format_description( msg, desc_color, getmaxx( w_msg ) - 4 );
 
     werase( w_msg );
-    fold_and_print( w_msg, point_east, getmaxx( w_msg ) - 2, c_light_gray, msg.str() );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_gray, msg.str() );
     wrefresh( w_msg );
     return ok || g->u.has_trait( trait_DEBUG_HS );
 }
@@ -2131,7 +2139,8 @@ void veh_interact::display_veh()
         const point &com = veh->local_center_of_mass();
 
         mvwprintz( w_disp, point_zero, c_green, "CoM   %d,%d", com.x, com.y );
-        mvwprintz( w_disp, point_south, c_red,   "Pivot %d,%d", pivot.x, pivot.y );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( w_disp, point( 0, 1 ), c_red,   "Pivot %d,%d", pivot.x, pivot.y );
 
         const point com_s = ( com + dd ).rotate( 3 ) + h_size;
         const point pivot_s = ( pivot + dd ).rotate( 3 ) + h_size;
@@ -2408,7 +2417,8 @@ void veh_interact::display_stats() const
 void veh_interact::display_name()
 {
     werase( w_name );
-    mvwprintz( w_name, point_east, c_light_gray, _( "Name: " ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w_name, point( 1, 0 ), c_light_gray, _( "Name: " ) );
     std::string fac_name = veh->get_owner() &&
                            veh->get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ?
                            _( veh->get_owner()->name ) : _( "Yours" );

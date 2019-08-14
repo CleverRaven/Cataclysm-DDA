@@ -902,7 +902,8 @@ tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &po
                 }
                 u.recalc_hp();
                 mvwprintz( w_description, point_zero, COL_STAT_NEUTRAL, _( "Base HP: %d" ), u.hp_max[0] );
-                mvwprintz( w_description, point_south, COL_STAT_NEUTRAL, _( "Carry weight: %.1f %s" ),
+                // NOLINTNEXTLINE(cata-use-named-point-constants)
+                mvwprintz( w_description, point( 0, 1 ), COL_STAT_NEUTRAL, _( "Carry weight: %.1f %s" ),
                            convert_weight( u.weight_capacity() ), weight_units() );
                 mvwprintz( w_description, point( 0, 2 ), COL_STAT_BONUS, _( "Melee damage bonus: %.1f" ),
                            u.bonus_damage( false ) );
@@ -919,7 +920,8 @@ tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &po
                 }
                 mvwprintz( w_description, point_zero, COL_STAT_BONUS, _( "Melee to-hit bonus: +%.2f" ),
                            u.get_hit_base() );
-                mvwprintz( w_description, point_south, COL_STAT_BONUS,
+                // NOLINTNEXTLINE(cata-use-named-point-constants)
+                mvwprintz( w_description, point( 0, 1 ), COL_STAT_BONUS,
                            _( "Throwing penalty per target's dodge: +%d" ),
                            u.throw_dispersion_per_dodge( false ) );
                 if( u.ranged_dex_mod() != 0 ) {
@@ -941,7 +943,8 @@ tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &po
                 mvwprintz( w_description, point_zero, ( read_spd == 100 ? COL_STAT_NEUTRAL :
                                                         ( read_spd < 100 ? COL_STAT_BONUS : COL_STAT_PENALTY ) ),
                            _( "Read times: %d%%" ), read_spd );
-                mvwprintz( w_description, point_south, COL_STAT_PENALTY, _( "Skill rust: %d%%" ),
+                // NOLINTNEXTLINE(cata-use-named-point-constants)
+                mvwprintz( w_description, point( 0, 1 ), COL_STAT_PENALTY, _( "Skill rust: %d%%" ),
                            u.rust_rate( false ) );
                 mvwprintz( w_description, point( 0, 2 ), COL_STAT_BONUS, _( "Crafting bonus: %2d%%" ),
                            u.get_int() );
@@ -2013,7 +2016,8 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
             const std::string scenUnavailable =
                 _( "This scenario is not available in this world due to city size settings. " );
             fold_and_print( w_description, point_zero, TERMX - 2, c_red, scenUnavailable );
-            fold_and_print( w_description, point_south, TERMX - 2, c_green, scenDesc );
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            fold_and_print( w_description, point( 0, 1 ), TERMX - 2, c_green, scenDesc );
         } else {
             fold_and_print( w_description, point_zero, TERMX - 2, c_green, scenDesc );
         }
@@ -2355,7 +2359,8 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
         wprintz( w_name, h_light_gray, "_" );
 
         if( !MAP_SHARING::isSharing() ) { // no random names when sharing maps
-            mvwprintz( w_name, point_south, c_light_gray, _( "Press %s to pick a random name." ),
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            mvwprintz( w_name, point( 0, 1 ), c_light_gray, _( "Press %s to pick a random name." ),
                        ctxt.get_desc( "PICK_RANDOM_NAME" ) );
         }
         wrefresh( w_name );
@@ -2364,7 +2369,8 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
         mvwprintz( w_gender, point( male_pos, 0 ), ( you.male ? c_light_red : c_light_gray ), _( "Male" ) );
         mvwprintz( w_gender, point( female_pos, 0 ), ( you.male ? c_light_gray : c_light_red ),
                    _( "Female" ) );
-        mvwprintz( w_gender, point_south, c_light_gray, _( "Press %s to switch gender" ),
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( w_gender, point( 0, 1 ), c_light_gray, _( "Press %s to switch gender" ),
                    ctxt.get_desc( "CHANGE_GENDER" ) );
         wrefresh( w_gender );
 

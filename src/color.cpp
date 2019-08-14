@@ -697,7 +697,8 @@ static void draw_header( const catacurses::window &w )
     tmpx += shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green, _( "<Enter>-Edit" ) ) + 2;
     shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green, _( "Load <T>emplate" ) );
 
-    mvwprintz( w, point_south, c_white, _( "Some color changes may require a restart." ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 0, 1 ), c_white, _( "Some color changes may require a restart." ) );
 
     mvwhline( w, point( 0, 2 ), LINE_OXOX, getmaxx( w ) ); // Draw line under header
     mvwputch( w, point( 48, 2 ), BORDER_COLOR, LINE_OXXX ); //^|^
