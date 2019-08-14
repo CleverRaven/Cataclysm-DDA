@@ -7669,7 +7669,7 @@
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "OUTER" ],
     "looks_like": "coat_winter"
-  }
+  },
   {
     "id": "skirt",
     "type": "ARMOR",
