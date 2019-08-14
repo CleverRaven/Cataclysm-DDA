@@ -627,7 +627,7 @@ void game::draw_cursor( const tripoint &p )
 void game::draw_cursor( const tripoint &p )
 {
     const tripoint rp = relative_view_pos( *this, p );
-    mvwputch_inv( w_terrain, rp.y, rp.x, c_light_green, 'X' );
+    mvwputch_inv( w_terrain, rp.xy(), c_light_green, 'X' );
 }
 #endif
 

@@ -11268,7 +11268,8 @@ void intro()
         const char *unicode_error_msg =
             _( "You don't seem to have a valid Unicode locale. You may see some weird "
                "characters (e.g. empty boxes or question marks). You have been warned." );
-        fold_and_print( tmp, 0, 0, maxx, c_white, unicode_error_msg, minWidth, minHeight, maxx, maxy );
+        fold_and_print( tmp, point_zero, maxx, c_white, unicode_error_msg, minWidth, minHeight,
+                        maxx, maxy );
         wrefresh( tmp );
         inp_mngr.wait_for_any_key();
         werase( tmp );
