@@ -47,7 +47,7 @@
         "min_unarmed": 1,
         "buff_duration": 3,
         "max_stacks": 5,
-        "flat_bonuses": [7
+        "flat_bonuses": [
           [ "damage", "stab", 0.5 ],
           [ "damage", "cut",  0.5 ],
           [ "arpen", "cut", 2 ]
