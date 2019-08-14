@@ -1375,8 +1375,7 @@ bool player::can_estimate_rot() const
 
 bool player::can_consume_as_is( const item &it ) const
 {
-    return it.is_comestible() || get_cbm_rechargeable_with( it ) != rechargeable_cbm::none ||
-           can_fuel_bionic_with( it );
+    return it.is_comestible() || get_cbm_rechargeable_with( it ) != rechargeable_cbm::none;
 }
 
 bool player::can_consume( const item &it ) const

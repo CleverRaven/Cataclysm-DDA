@@ -7102,8 +7102,7 @@ bool player::consume_item( item &target )
         return false;
     }
 
-    if( consume_med( comest ) ||
-        eat( comest ) || feed_reactor_with( comest ) ||
+    if( consume_med( comest ) || eat( comest ) || feed_reactor_with( comest ) ||
         feed_furnace_with( comest ) || fuel_bionic_with( comest ) ) {
 
         if( target.is_container() ) {
