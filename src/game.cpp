@@ -9049,9 +9049,8 @@ bool game::walk_move( const tripoint &dest_loc )
             add_msg( m_warning, _( "You cannot pass obstacles whilst mounted." ) );
             return false;
         }
-        const double base_moves =
-            u.run_cost( mcost, diag ) * 100.0 / crit->get_speed();
-        const double encumb_moves = u.get_weight() * 1.0 / 480_gram;
+        const double base_moves = u.run_cost( mcost, diag ) * 100.0 / crit->get_speed();
+        const double encumb_moves = u.get_weight() / 4800_gram;
         u.moves -= static_cast<int>( ceil( base_moves + encumb_moves ) );
         if( u.movement_mode_is( PMM_WALK ) ) {
             crit->use_mech_power( -2 );
