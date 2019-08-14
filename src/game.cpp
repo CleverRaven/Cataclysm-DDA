@@ -6874,8 +6874,6 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                     lx = mouse_pos->x;
                     ly = mouse_pos->y;
                 }
-                lx = clamp( lx, 0, MAPSIZE_X );
-                ly = clamp( ly, 0, MAPSIZE_Y );
                 if( select_zone && has_first_point ) { // is blinking
                     if( blink && lp == old_lp ) { // blink symbols drawn (blink == true) and cursor not changed
                         redraw = false; // no need to redraw, so don't redraw to save CPU
