@@ -114,7 +114,6 @@ struct ret_val<edible_rating>::default_failure : public
 
 enum class rechargeable_cbm {
     none = 0,
-    battery,
     reactor,
     furnace,
     other
@@ -1832,14 +1831,12 @@ class player : public Character
         void use_fire( const int quantity );
 
         /** Determine player's capability of recharging their CBMs. */
-        bool can_feed_battery_with( const item &it ) const;
         bool can_feed_reactor_with( const item &it ) const;
         bool can_feed_furnace_with( const item &it ) const;
         /**
          * Recharge CBMs whenever possible.
          * @return true when recharging was successful.
          */
-        bool feed_battery_with( item &it );
         bool feed_reactor_with( item &it );
         bool feed_furnace_with( item &it );
         bool fuel_bionic_with( item &it );
