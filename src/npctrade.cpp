@@ -208,11 +208,11 @@ void trading_window::setup_win( npc &np )
     w_head = catacurses::newwin( 4, TERMX, point_zero );
     w_them = catacurses::newwin( TERMY - 4, win_they_w, point( 0, 4 ) );
     w_you = catacurses::newwin( TERMY - 4, TERMX - win_they_w, point( win_they_w, 4 ) );
-    mvwprintz( w_head, 0, 0, c_white, header_message.c_str(), np.disp_name() );
+    mvwprintz( w_head, point_zero, c_white, header_message.c_str(), np.disp_name() );
 
     // Set up line drawings
     for( int i = 0; i < TERMX; i++ ) {
-        mvwputch( w_head, 3, i, c_white, LINE_OXOX );
+        mvwputch( w_head, point( i, 3 ), c_white, LINE_OXOX );
     }
     wrefresh( w_head );
     // End of line drawings
@@ -243,7 +243,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
         werase( w_them );
         werase( w_you );
         for( int i = 1; i < TERMX; i++ ) {
-            mvwputch( w_head, 3, i, c_white, LINE_OXOX );
+            mvwputch( w_head, point( i, 3 ), c_white, LINE_OXOX );
         }
 
         std::set<item *> without;
@@ -267,7 +267,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
         const nc_color trade_color       = npc_will_accept_trade( np ) ? c_green : c_red;
         const nc_color trade_color_light = npc_will_accept_trade( np ) ? c_light_green : c_light_red;
 
-        mvwprintz( w_head, 3, 2,  npc_out_of_space ?  c_red : c_green,
+        mvwprintz( w_head, point( 2, 3 ),  npc_out_of_space ?  c_red : c_green,
                    _( "Volume: %s %s, Weight: %.1f %s" ),
                    format_volume( volume_left ), volume_units_abbr(),
                    convert_weight( weight_left ), weight_units() );
@@ -278,18 +278,18 @@ void trading_window::update_win( npc &np, const std::string &deal )
                                       format_money( std::abs( your_balance ) ) );
         }
 
-        mvwprintz( w_head, 3, TERMX / 2 + ( TERMX / 2 - cost_str.length() ) / 2,
+        mvwprintz( w_head, point( TERMX / 2 + ( TERMX / 2 - cost_str.length() ) / 2, 3 ),
                    trade_color, cost_str );
 
         if( !deal.empty() ) {
-            mvwprintz( w_head, 3, ( TERMX - deal.length() ) / 2,
+            mvwprintz( w_head, point( ( TERMX - deal.length() ) / 2, 3 ),
                        trade_color_light, deal );
         }
         draw_border( w_them, ( focus_them ? c_yellow : BORDER_COLOR ) );
         draw_border( w_you, ( !focus_them ? c_yellow : BORDER_COLOR ) );
 
-        mvwprintz( w_them, 0, 2, trade_color, np.name );
-        mvwprintz( w_you,  0, 2, trade_color, _( "You" ) );
+        mvwprintz( w_them, point( 2, 0 ), trade_color, np.name );
+        mvwprintz( w_you,  point( 2, 0 ), trade_color, _( "You" ) );
 #if defined(__ANDROID__)
         input_context ctxt( "NPC_TRADE" );
 #endif
@@ -334,7 +334,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
                 if( keychar > 'z' ) {
                     keychar = keychar - 'z' - 1 + 'A';
                 }
-                trim_and_print( w_whose, i - offset + 1, 1, win_w, color, "%c %c %s",
+                trim_and_print( w_whose, point( 1, i - offset + 1 ), win_w, color, "%c %c %s",
                                 static_cast<char>( keychar ), ip.selected ? '+' : '-', itname );
 #if defined(__ANDROID__)
                 ctxt.register_manual_key( keychar, itname );
@@ -343,7 +343,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
                 std::string price_str = format_money( ip.price );
                 nc_color price_color = np.will_exchange_items_freely() ? c_dark_gray : ( ip.selected ? c_white :
                                        c_light_gray );
-                mvwprintz( w_whose, i - offset + 1, win_w - price_str.length(),
+                mvwprintz( w_whose, point( win_w - price_str.length(), i - offset + 1 ),
                            price_color, price_str );
             }
             if( offset > 0 ) {
@@ -365,7 +365,8 @@ void trading_window::show_item_data( npc &np, size_t offset,
     update = true;
     catacurses::window w_tmp = catacurses::newwin( 3, 21, point( 30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2,
                                1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) );
-    mvwprintz( w_tmp, 1, 1, c_red, _( "Examine which item?" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w_tmp, point( 1, 1 ), c_red, _( "Examine which item?" ) );
     draw_border( w_tmp );
     wrefresh( w_tmp );
     // TODO: use input context
@@ -378,7 +379,7 @@ void trading_window::show_item_data( npc &np, size_t offset,
         return;
     }
 
-    mvwprintz( w_head, 0, 0, c_white, header_message.c_str(), np.name );
+    mvwprintz( w_head, point_zero, c_white, header_message.c_str(), np.name );
     wrefresh( w_head );
     help += offset;
     if( help < target_list.size() ) {

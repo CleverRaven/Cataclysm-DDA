@@ -493,17 +493,17 @@ void player_morale::display( int focus_eq )
                 color = color_override;
             }
             if( isPercentage ) {
-                mvwprintz( w, y, getmaxx( w ) - 8, color, "%d%%", value );
+                mvwprintz( w, point( getmaxx( w ) - 8, y ), color, "%d%%", value );
             } else {
-                mvwprintz( w, y, getmaxx( w ) - 8, color, "%+d", value );
+                mvwprintz( w, point( getmaxx( w ) - 8, y ), color, "%+d", value );
             }
 
         } else
         {
             color = c_dark_gray;
-            mvwprintz( w, y, getmaxx( w ) - 3, color, "-" );
+            mvwprintz( w, point( getmaxx( w ) - 3, y ), color, "-" );
         }
-        return fold_and_print_from( w, y, 2, getmaxx( w ) - 9, 0, color, label );
+        return fold_and_print_from( w, point( 2, y ), getmaxx( w ) - 9, 0, color, label );
     };
 
     int offset = 0;
@@ -517,7 +517,7 @@ void player_morale::display( int focus_eq )
 
         draw_border( w );
 
-        mvwprintz( w, 1, 2, c_white, _( "Morale" ) );
+        mvwprintz( w, point( 2, 1 ), c_white, _( "Morale" ) );
 
         mvwhline( w, point( 0, 2 ), LINE_XXXO, 1 );
         mvwhline( w, point( 1, 2 ), 0, win_w - 2 );
@@ -533,8 +533,8 @@ void player_morale::display( int focus_eq )
             const char *total_positve_label = _( "Total positive morale" );
             const char *total_negitive_label = _( "Total negative morale" );
 
-            mvwprintz( w, 3, 2, c_light_gray, source_column );
-            mvwprintz( w, 3, win_w - utf8_width( value_column ) - 2, c_light_gray, value_column );
+            mvwprintz( w, point( 2, 3 ), c_light_gray, source_column );
+            mvwprintz( w, point( win_w - utf8_width( value_column ) - 2, 3 ), c_light_gray, value_column );
 
             const morale_mult mult = get_temper_mult();
 
@@ -569,13 +569,13 @@ void player_morale::display( int focus_eq )
                 }
             }
         } else {
-            fold_and_print_from( w, 3, 2, win_w - 4, 0, c_dark_gray, points_is_empty );
+            fold_and_print_from( w, point( 2, 3 ), win_w - 4, 0, c_dark_gray, points_is_empty );
         }
 
         print_line( win_h - 3, morale_gain_caption, get_level() );
         //manual line as lambda will not do it properly here
-        mvwprintz( w, win_h - 2, getmaxx( w ) - 8, c_white, "%d", focus_eq );
-        fold_and_print_from( w, win_h - 2, 2, getmaxx( w ) - 9, 0, c_white, focus_equilibrium );
+        mvwprintz( w, point( getmaxx( w ) - 8, win_h - 2 ), c_white, "%d", focus_eq );
+        fold_and_print_from( w, point( 2, win_h - 2 ), getmaxx( w ) - 9, 0, c_white, focus_equilibrium );
 
         draw_scrollbar( w, offset, rows_visible, rows_total, 4, 0 );
 

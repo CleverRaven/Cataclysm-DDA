@@ -24,19 +24,19 @@ void sokoban_game::print_score( const catacurses::window &w_sokoban, int iScore,
 {
     std::stringstream ssTemp;
     ssTemp << string_format( _( "Level: %d/%d" ), iCurrentLevel + 1, iNumLevel ) << "    ";
-    mvwprintz( w_sokoban, 1, 3, c_white, ssTemp.str() );
+    mvwprintz( w_sokoban, point( 3, 1 ), c_white, ssTemp.str() );
 
     ssTemp.str( "" );
     ssTemp << string_format( _( "Score: %d" ), iScore );
-    mvwprintz( w_sokoban, 2, 3, c_white, ssTemp.str() );
+    mvwprintz( w_sokoban, point( 3, 2 ), c_white, ssTemp.str() );
 
     ssTemp.str( "" );
     ssTemp << string_format( _( "Moves: %d" ), iMoves ) << "    ";
-    mvwprintz( w_sokoban, 3, 3, c_white, ssTemp.str() );
+    mvwprintz( w_sokoban, point( 3, 3 ), c_white, ssTemp.str() );
 
     ssTemp.str( "" );
     ssTemp << string_format( _( "Total moves: %d" ), iTotalMoves );
-    mvwprintz( w_sokoban, 4, 3, c_white, ssTemp.str() );
+    mvwprintz( w_sokoban, point( 3, 4 ), c_white, ssTemp.str() );
 
 }
 
@@ -175,7 +175,7 @@ void sokoban_game::clear_level( const catacurses::window &w_sokoban )
 
     for( size_t iY = 0; iY < mLevelInfo[iCurrentLevel]["MaxLevelY"]; iY++ ) {
         for( size_t iX = 0; iX < mLevelInfo[iCurrentLevel]["MaxLevelX"]; iX++ ) {
-            mvwputch( w_sokoban, iOffsetY + iY, iOffsetX + iX, c_black, ' ' );
+            mvwputch( w_sokoban, point( iOffsetX + iX, iOffsetY + iY ), c_black, ' ' );
         }
     }
 }
@@ -191,7 +191,7 @@ void sokoban_game::draw_level( const catacurses::window &w_sokoban )
             std::string sTile = iterX->second;
 
             if( sTile == "#" ) {
-                mvwputch( w_sokoban, iOffsetY + elem.first, iOffsetX + iterX->first,
+                mvwputch( w_sokoban, point( iOffsetX + iterX->first, iOffsetY + elem.first ),
                           c_white, get_wall_connection( elem.first, iterX->first ) );
 
             } else {
@@ -213,7 +213,7 @@ void sokoban_game::draw_level( const catacurses::window &w_sokoban )
                     sTile = "@";
                 }
 
-                mvwprintz( w_sokoban, iOffsetY + elem.first, iOffsetX + iterX->first, cCol, sTile );
+                mvwprintz( w_sokoban, point( iOffsetX + iterX->first, iOffsetY + elem.first ), cCol, sTile );
             }
         }
     }
@@ -270,7 +270,7 @@ int sokoban_game::start_game()
     indent = std::min( indent, 30 );
 
     for( size_t i = 0; i < shortcuts.size(); i++ ) {
-        shortcut_print( w_sokoban, i + 1, FULL_SCREEN_WIDTH - indent,
+        shortcut_print( w_sokoban, point( FULL_SCREEN_WIDTH - indent, i + 1 ),
                         c_white, c_light_green, shortcuts[i] );
     }
 

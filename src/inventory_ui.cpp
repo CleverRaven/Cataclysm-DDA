@@ -871,7 +871,7 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
 
         if( selected && visible_cells() > 1 ) {
             for( int hx = x1, hx_max = x + get_width(); hx < hx_max; ++hx ) {
-                mvwputch( win, yy, hx, h_white, ' ' );
+                mvwputch( win, point( hx, yy ), h_white, ' ' );
             }
         }
 
@@ -883,7 +883,7 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
             const size_t denial_width = std::min( max_denial_width, static_cast<size_t>( utf8_width( denial,
                                                   true ) ) );
 
-            trim_and_print( win, yy, x + get_width() - denial_width, denial_width, c_red, denial );
+            trim_and_print( win, point( x + get_width() - denial_width, yy ), denial_width, c_red, denial );
         }
 
         const size_t count = denial.empty() ? cells.size() : 1;
@@ -919,10 +919,10 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
                 const std::string &text = entry_cell_cache.text[cell_index];
 
                 if( entry.is_item() && ( selected || !entry.is_selectable() ) ) {
-                    trim_and_print( win, yy, text_x, text_width, selected ? h_white : c_dark_gray,
+                    trim_and_print( win, point( text_x, yy ), text_width, selected ? h_white : c_dark_gray,
                                     remove_color_tags( text ) );
                 } else {
-                    trim_and_print( win, yy, text_x, text_width, entry_cell_cache.color, text );
+                    trim_and_print( win, point( text_x, yy ), text_width, entry_cell_cache.color, text );
                 }
             }
 
@@ -932,21 +932,21 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
         if( entry.is_item() ) {
             int xx = x;
             if( entry.get_invlet() != '\0' ) {
-                mvwputch( win, yy, x, entry.get_invlet_color(), entry.get_invlet() );
+                mvwputch( win, point( x, yy ), entry.get_invlet_color(), entry.get_invlet() );
             }
             xx += 2;
             if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
                 const nc_color color = entry.any_item()->color();
-                mvwputch( win, yy, xx, color, entry.any_item()->symbol() );
+                mvwputch( win, point( xx, yy ), color, entry.any_item()->symbol() );
                 xx += 2;
             }
             if( allows_selecting() && multiselect ) {
                 if( entry.chosen_count == 0 ) {
-                    mvwputch( win, yy, xx, c_dark_gray, '-' );
+                    mvwputch( win, point( xx, yy ), c_dark_gray, '-' );
                 } else if( entry.chosen_count >= entry.get_available_count() ) {
-                    mvwputch( win, yy, xx, c_light_green, '+' );
+                    mvwputch( win, point( xx, yy ), c_light_green, '+' );
                 } else {
-                    mvwputch( win, yy, xx, c_light_green, '#' );
+                    mvwputch( win, point( xx, yy ), c_light_green, '#' );
                 }
             }
         }
@@ -1379,8 +1379,9 @@ size_t inventory_selector::get_footer_min_width() const
 
 void inventory_selector::draw_header( const catacurses::window &w ) const
 {
-    trim_and_print( w, border, border + 1, getmaxx( w ) - 2 * ( border + 1 ), c_white, title );
-    trim_and_print( w, border + 1, border + 1, getmaxx( w ) - 2 * ( border + 1 ), c_dark_gray, hint );
+    trim_and_print( w, point( border + 1, border ), getmaxx( w ) - 2 * ( border + 1 ), c_white, title );
+    trim_and_print( w, point( border + 1, border + 1 ), getmaxx( w ) - 2 * ( border + 1 ), c_dark_gray,
+                    hint );
 
     mvwhline( w, point( border, border + get_header_height() ), LINE_OXOX, getmaxx( w ) - 2 * border );
 
@@ -1502,8 +1503,8 @@ void inventory_selector::set_filter()
     ime_sentry sentry;
 
     do {
-        mvwprintz( w_inv, getmaxy( w_inv ) - 1, 2, c_cyan, "< " );
-        mvwprintz( w_inv, getmaxy( w_inv ) - 1, ( getmaxx( w_inv ) / 2 ) - 4, c_cyan, " >" );
+        mvwprintz( w_inv, point( 2, getmaxy( w_inv ) - 1 ), c_cyan, "< " );
+        mvwprintz( w_inv, point( ( getmaxx( w_inv ) / 2 ) - 4, getmaxy( w_inv ) - 1 ), c_cyan, " >" );
 
         std::string new_filter = spopup.query_string( false );
         if( spopup.context().get_raw_input().get_first_input() == KEY_ESCAPE ) {
@@ -1593,7 +1594,7 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
                                           ctxt.press_x( "INVENTORY_FILTER", "", "", "" ) );
         filter_offset = utf8_width( text + filter ) + 6;
 
-        mvwprintz( w, getmaxy( w ) - border, 2, c_light_gray, "< " );
+        mvwprintz( w, point( 2, getmaxy( w ) - border ), c_light_gray, "< " );
         wprintz( w, c_light_gray, text );
         wprintz( w, c_white, filter );
         wprintz( w, c_light_gray, " >" );
@@ -1606,11 +1607,11 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
         const int x2 = x1 + string_width - 1;
         const int y = getmaxy( w ) - border;
 
-        mvwprintz( w, y, x1, footer.second, footer.first );
-        mvwputch( w, y, x1 - 1, c_light_gray, ' ' );
-        mvwputch( w, y, x2 + 1, c_light_gray, ' ' );
-        mvwputch( w, y, x1 - 2, c_light_gray, LINE_XOXX );
-        mvwputch( w, y, x2 + 2, c_light_gray, LINE_XXXO );
+        mvwprintz( w, point( x1, y ), footer.second, footer.first );
+        mvwputch( w, point( x1 - 1, y ), c_light_gray, ' ' );
+        mvwputch( w, point( x2 + 1, y ), c_light_gray, ' ' );
+        mvwputch( w, point( x1 - 2, y ), c_light_gray, LINE_XOXX );
+        mvwputch( w, point( x2 + 2, y ), c_light_gray, LINE_XXXO );
     }
 }
 

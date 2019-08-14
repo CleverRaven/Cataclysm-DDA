@@ -850,17 +850,6 @@ class game
         void quicksave();        // Saves the game without quitting
         void disp_NPCs();        // Currently for debug use.  Lists global NPCs.
 
-        /** Used to implement mouse "edge scrolling". Returns a
-         *  tripoint which is a vector of the resulting "move", i.e.
-         *  (0, 0, 0) if the mouse is not at the edge of the screen,
-         *  otherwise some (x, y, 0) depending on which edges are
-         *  hit.
-         *  This variant adjust scrolling speed according to zoom
-         *  level, making it suitable when viewing the "terrain".
-         */
-        tripoint mouse_edge_scrolling_terrain( input_context &ctxt );
-        /** This variant is suitable for the overmap. */
-        tripoint mouse_edge_scrolling_overmap( input_context &ctxt );
         void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
     private:
         void quickload();        // Loads the previously saved game if it exists
@@ -1001,9 +990,22 @@ class game
         std::vector<tripoint> destination_preview;
 
         std::chrono::time_point<std::chrono::steady_clock> last_mouse_edge_scroll;
-        tripoint last_mouse_edge_scroll_vector;
-        tripoint mouse_edge_scrolling( input_context ctxt, const int speed );
-
+        tripoint last_mouse_edge_scroll_vector_terrain;
+        tripoint last_mouse_edge_scroll_vector_overmap;
+        std::pair<tripoint, tripoint> mouse_edge_scrolling( input_context ctxt, const int speed,
+                const tripoint &last, bool iso );
+    public:
+        /** Used to implement mouse "edge scrolling". Returns a
+         *  tripoint which is a vector of the resulting "move", i.e.
+         *  (0, 0, 0) if the mouse is not at the edge of the screen,
+         *  otherwise some (x, y, 0) depending on which edges are
+         *  hit.
+         *  This variant adjust scrolling speed according to zoom
+         *  level, making it suitable when viewing the "terrain".
+         */
+        tripoint mouse_edge_scrolling_terrain( input_context &ctxt );
+        /** This variant is suitable for the overmap. */
+        tripoint mouse_edge_scrolling_overmap( input_context &ctxt );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

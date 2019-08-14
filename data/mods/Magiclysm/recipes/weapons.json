@@ -26,7 +26,7 @@
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "spellcraft", 2 ], [ "piercing", 2 ] ],
+    "skills_required": [ [ "spellcraft", 2 ], [ "stabbing", 2 ] ],
     "difficulty": 4,
     "time": "2 m",
     "autolearn": true,
@@ -46,7 +46,7 @@
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "spellcraft", 2 ], [ "piercing", 2 ] ],
+    "skills_required": [ [ "spellcraft", 2 ], [ "stabbing", 2 ] ],
     "difficulty": 4,
     "time": "360 m",
     "autolearn": true,
@@ -108,7 +108,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "scrap_copper", 10 ], [ "copper", 1000 ] ],
-      [ [ "silver", 100 ] ],
+      [ [ "silver_small", 100 ] ],
       [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ], [ "duct_tape", 40 ] ],
       [ [ "rune_stormshaper", 1 ] ]
     ]
@@ -151,7 +151,7 @@
     "result": "animist_doll_zombie",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
-    "skill_used": "tailoring",
+    "skill_used": "tailor",
     "skills_required": [ [ "spellcraft", 4 ] ],
     "difficulty": 4,
     "time": "120 m",
@@ -168,7 +168,7 @@
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
       [ [ "sinew", 60 ] ],
       [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_tainted", 2 ] ],
-      [ [ "bone_needle", 1 ] ]
+      [ [ "needle_bone", 1 ] ]
     ]
   },
   {
@@ -176,7 +176,7 @@
     "result": "animist_doll_skeleton",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
-    "skill_used": "tailoring",
+    "skill_used": "tailor",
     "skills_required": [ [ "spellcraft", 5 ] ],
     "difficulty": 5,
     "time": "180 m",
@@ -198,7 +198,7 @@
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
       [ [ "sinew", 60 ] ],
       [ [ "bone", 4 ], [ "bone_human", 4 ], [ "bone_tainted", 8 ] ],
-      [ [ "bone_needle", 1 ] ]
+      [ [ "needle_bone", 1 ] ]
     ]
   },
   {
@@ -206,7 +206,7 @@
     "result": "animist_doll_decayed_pouncer",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
-    "skill_used": "tailoring",
+    "skill_used": "tailor",
     "skills_required": [ [ "spellcraft", 7 ] ],
     "difficulty": 7,
     "time": "210 m",
@@ -224,7 +224,7 @@
       [ [ "hairball", 2 ] ],
       [ [ "sinew", 60 ] ],
       [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_tainted", 2 ] ],
-      [ [ "bone_needle", 1 ] ]
+      [ [ "needle_bone", 1 ] ]
     ]
   }
 ]
