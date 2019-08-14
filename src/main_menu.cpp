@@ -86,7 +86,7 @@ void main_menu::print_menu_items( const catacurses::window &w_in,
         iOffsetY -= std::ceil( utf8_width( remove_color_tags( text ) ) / getmaxx( w_in ) );
     }
 
-    fold_and_print( w_in, iOffsetY, iOffsetX, getmaxx( w_in ), c_light_gray, text, ']' );
+    fold_and_print( w_in, point( iOffsetX, iOffsetY ), getmaxx( w_in ), c_light_gray, text, ']' );
 }
 
 void main_menu::print_menu( const catacurses::window &w_open, int iSel, const int iMenuOffsetX,
@@ -101,7 +101,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
 
     // Draw horizontal line
     for( int i = 1; i < window_width - 1; ++i ) {
-        mvwputch( w_open, window_height - 4, i, c_white, LINE_OXOX );
+        mvwputch( w_open, point( i, window_height - 4 ), c_white, LINE_OXOX );
     }
 
     center_print( w_open, window_height - 2, c_red,
@@ -118,8 +118,8 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
     const nc_color cColor3 = c_light_blue;
 
     if( halloween_theme ) {
-        fold_and_print_from( w_open, 0, 0, 30, 0, c_white, halloween_spider() );
-        fold_and_print_from( w_open, iMenuOffsetY - 8, getmaxx( w_open ) - 25,
+        fold_and_print_from( w_open, point_zero, 30, 0, c_white, halloween_spider() );
+        fold_and_print_from( w_open, point( getmaxx( w_open ) - 25, iMenuOffsetY - 8 ),
                              25, 0, c_white, halloween_graves() );
     }
 
@@ -131,14 +131,14 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
                 for( size_t j = 0; j < text.size(); j++ ) {
                     std::string temp = text.substr_display( j, 1 ).str();
                     if( temp != " " ) {
-                        mvwprintz( w_open, iLine, iOffsetX + j,
+                        mvwprintz( w_open, point( iOffsetX + j, iLine ),
                                    ( temp != marker ) ? c_red : ( i < 9  ? cColor1 : cColor2 ),
                                    "%s", ( temp == marker ) ? "▓" : temp );
                     }
                 }
                 iLine++;
             } else {
-                mvwprintz( w_open, iLine++, iOffsetX, i < 6 ? cColor1 : cColor2, "%s", mmenu_title[i] );
+                mvwprintz( w_open, point( iOffsetX, iLine++ ), i < 6 ? cColor1 : cColor2, "%s", mmenu_title[i] );
             }
         }
     } else {
@@ -340,7 +340,7 @@ void main_menu::display_text( const std::string &text, const std::string &title,
         selected = iLines - height;
     }
 
-    fold_and_print_from( w_text, 0, 0, width, selected, c_light_gray, text );
+    fold_and_print_from( w_text, point_zero, width, selected, c_light_gray, text );
 
     draw_scrollbar( w_border, selected, height, iLines, 1, 0, BORDER_COLOR, true );
     wrefresh( w_border );
@@ -755,15 +755,16 @@ bool main_menu::new_character_tab()
         } else if( layer == 3 && sel1 == 1 ) {
             // Then view presets
             if( templates.empty() ) {
-                mvwprintz( w_open, iMenuOffsetY - 4, iMenuOffsetX + 20 + extra_w / 2,
+                mvwprintz( w_open, point( iMenuOffsetX + 20 + extra_w / 2, iMenuOffsetY - 4 ),
                            c_red, "%s", _( "No templates found!" ) );
                 on_error();
             } else {
-                mvwprintz( w_open, iMenuOffsetY - 2, iMenuOffsetX + 20 + extra_w / 2,
+                mvwprintz( w_open, point( iMenuOffsetX + 20 + extra_w / 2, iMenuOffsetY - 2 ),
                            c_white, "%s", _( "Press 'd' to delete a preset." ) );
                 for( int i = 0; i < static_cast<int>( templates.size() ); i++ ) {
                     int line = iMenuOffsetY - 4 - i;
-                    mvwprintz( w_open, line, 20 + iMenuOffsetX + extra_w / 2, ( sel3 == i ? h_white : c_white ), "%s",
+                    mvwprintz( w_open, point( 20 + iMenuOffsetX + extra_w / 2, line ),
+                               ( sel3 == i ? h_white : c_white ), "%s",
                                templates[i] );
                 }
             }
@@ -873,7 +874,7 @@ bool main_menu::load_character_tab()
         print_menu( w_open, 2, iMenuOffsetX, iMenuOffsetY );
         if( layer == 2 && sel1 == 2 ) {
             if( all_worldnames.empty() ) {
-                mvwprintz( w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
+                mvwprintz( w_open, point( 15 + iMenuOffsetX + extra_w / 2, iMenuOffsetY - 2 ),
                            c_red, "%s", _( "No Worlds found!" ) );
                 on_error();
             } else {
@@ -889,7 +890,7 @@ bool main_menu::load_character_tab()
                         color1 = c_white;
                         color2 = h_white;
                     }
-                    mvwprintz( w_open, line, 15 + iMenuOffsetX + extra_w / 2,
+                    mvwprintz( w_open, point( 15 + iMenuOffsetX + extra_w / 2, line ),
                                ( sel2 == i ? color2 : color1 ), "%s (%d)",
                                world_name, savegames_count );
                 }
@@ -931,10 +932,11 @@ bool main_menu::load_character_tab()
                 savegames.erase( new_end, savegames.end() );
             }
 
-            mvwprintz( w_open, iMenuOffsetY - 2 - sel2, 15 + iMenuOffsetX + extra_w / 2, h_white, "%s", wn );
+            mvwprintz( w_open, point( 15 + iMenuOffsetX + extra_w / 2, iMenuOffsetY - 2 - sel2 ), h_white, "%s",
+                       wn );
 
             if( savegames.empty() ) {
-                mvwprintz( w_open, iMenuOffsetY - 2 - sel2, 40 + iMenuOffsetX + extra_w / 2,
+                mvwprintz( w_open, point( 40 + iMenuOffsetX + extra_w / 2, iMenuOffsetY - 2 - sel2 ),
                            c_red, "%s", _( "No save games found!" ) );
                 on_error();
             } else {
@@ -942,7 +944,7 @@ bool main_menu::load_character_tab()
 
                 for( const auto &savename : savegames ) {
                     const bool selected = sel3 + line == iMenuOffsetY - 2;
-                    mvwprintz( w_open, line--, 40 + iMenuOffsetX + extra_w / 2,
+                    mvwprintz( w_open, point( 40 + iMenuOffsetX + extra_w / 2, line-- ),
                                selected ? h_white : c_white,
                                "%s", savename.player_name() );
                 }
@@ -1010,7 +1012,7 @@ void main_menu::world_tab()
             int yoffset = iMenuOffsetY - 2 - sel2;
 
             const auto all_worldnames = world_generator->all_worldnames();
-            mvwprintz( w_open, yoffset, xoffset - 15, h_white, "%s", all_worldnames[sel2 - 1] );
+            mvwprintz( w_open, point( xoffset - 15, yoffset ), h_white, "%s", all_worldnames[sel2 - 1] );
 
             for( size_t i = 0; i < vWorldSubItems.size(); ++i ) {
                 nc_color text_color;
@@ -1104,7 +1106,7 @@ void main_menu::world_tab()
                 continue;
             }
 
-            mvwprintz( w_open, iMenuOffsetY - 2, 25 + iMenuOffsetX + extra_w / 2,
+            mvwprintz( w_open, point( 25 + iMenuOffsetX + extra_w / 2, iMenuOffsetY - 2 ),
                        ( sel2 == 0 ? h_white : c_white ), "%s", _( "Create World" ) );
 
             int i = 1;
@@ -1120,7 +1122,7 @@ void main_menu::world_tab()
                     color1 = c_white;
                     color2 = h_white;
                 }
-                mvwprintz( w_open, line, 25 + iMenuOffsetX + extra_w / 2,
+                mvwprintz( w_open, point( 25 + iMenuOffsetX + extra_w / 2, line ),
                            ( sel2 == i ? color2 : color1 ), "%s (%d)", ( *it ).c_str(), savegames_count );
             }
 

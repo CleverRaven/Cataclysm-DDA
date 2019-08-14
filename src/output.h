@@ -278,7 +278,7 @@ inline int fold_and_print( const catacurses::window &w, const int begin_y, const
                            const int width, const nc_color &base_color,
                            const char *const mes, Args &&... args )
 {
-    return fold_and_print( w, begin_y, begin_x, width, base_color, string_format( mes,
+    return fold_and_print( w, point( begin_x, begin_y ), width, base_color, string_format( mes,
                            std::forward<Args>( args )... ) );
 }
 /**
@@ -346,7 +346,7 @@ template<typename ...Args>
 inline void trim_and_print( const catacurses::window &w, const int begin_y, const int begin_x,
                             const int width, const nc_color base_color, const char *const mes, Args &&... args )
 {
-    return trim_and_print( w, begin_y, begin_x, width, base_color, string_format( mes,
+    return trim_and_print( w, point( begin_x, begin_y ), width, base_color, string_format( mes,
                            std::forward<Args>( args )... ) );
 }
 void center_print( const catacurses::window &w, int y, const nc_color &FG, const std::string &mes );
@@ -391,7 +391,7 @@ template<typename ...Args>
 inline void mvwprintz( const catacurses::window &w, const int y, const int x, const nc_color &FG,
                        const char *const mes, Args &&... args )
 {
-    mvwprintz( w, y, x, FG, string_format( mes, std::forward<Args>( args )... ) );
+    mvwprintz( w, point( x, y ), FG, string_format( mes, std::forward<Args>( args )... ) );
 }
 
 void wprintz( const catacurses::window &w, const nc_color &FG, const std::string &text );
@@ -407,11 +407,6 @@ void draw_custom_border(
     catacurses::chtype ts = 1, catacurses::chtype bs = 1, catacurses::chtype tl = 1,
     catacurses::chtype tr = 1, catacurses::chtype bl = 1, catacurses::chtype br = 1,
     nc_color FG = BORDER_COLOR, const point &pos = point_zero, int height = 0, int width = 0 );
-void draw_custom_border( const catacurses::window &w, catacurses::chtype ls = 1,
-                         catacurses::chtype rs = 1, catacurses::chtype ts = 1, catacurses::chtype bs = 1,
-                         catacurses::chtype tl = 1, catacurses::chtype tr = 1, catacurses::chtype bl = 1,
-                         catacurses::chtype br = 1, nc_color FG = BORDER_COLOR, int posy = 0, int height = 0, int posx = 0,
-                         int width = 0 );
 void draw_border( const catacurses::window &w, nc_color border_color = BORDER_COLOR,
                   const std::string &title = "", nc_color title_color = c_light_red );
 
