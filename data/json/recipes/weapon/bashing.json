@@ -33,10 +33,7 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 100 ] ] ],
-    "components": [
-      [ [ "log", 1 ] ],
-      [ [ "butter", 30 ], [ "lard", 4 ] ]
-    ]
+    "components": [ [ [ "log", 1 ] ], [ [ "butter", 30 ], [ "lard", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -49,9 +46,6 @@
     "autolearn": true,
     "qualities": [ { "id": "DRILL", "level": 1 } ],
     "tools": [ [ [ "forge", 100 ], [ "oxy_torch", 20 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [
-      [ [ "shillelagh", 1 ] ],
-      [ [ "weights", 15, "LIST" ] ]
-    ]
+    "components": [ [ [ "shillelagh", 1 ] ], [ [ "weights", 15, "LIST" ] ] ]
   }
 ]
