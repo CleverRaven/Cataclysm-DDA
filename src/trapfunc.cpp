@@ -1173,11 +1173,6 @@ void trapfunc::ledge( const tripoint &p, Creature *c, item * )
             tripoint dest = c->pos();
             dest.z--;
             c->impact( 20, dest );
-            if( g->m.has_flag( TFLAG_NO_FLOOR, dest ) && m != nullptr ) {
-                // don't kill until they hit the ground so that subsequent ledges will trigger
-                m->set_hp( std::max( m->get_hp(), 1 ) );
-            }
-
             c->setpos( dest );
             if( m != nullptr ) {
                 g->despawn_monster( *m );
