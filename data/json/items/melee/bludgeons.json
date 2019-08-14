@@ -758,19 +758,19 @@
     "category": "weapons"
   },
   {
-    "id": "sap",
+    "id": "makeshift_sap",
     "type": "GENERIC",
     "symbol": "/",
     "color": "dark_gray",
-    "name": "sap",
-    "description": "This is a short, flat and easily concealed bludgeoning weapon consisting of a weight embedded in a flat leather pouch.  Also known as a cosh, slapjack and slapper.",
+    "name": "makeshift sap",
+    "description": "This is an improvised sap, also known as a cosh, slapjack and slapper.  A short and flat bludgeoning weapon consisting of a weight embedded between two patches of leather.",
     "price": 5000,
     "material": [ "leather", "steel" ],
     "techniques": [ "PRECISE", "RAPID" ],
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
     "weight": 400,
     "volume": "350 ml",
-    "bashing": 10,
+    "bashing": 9,
     "to_hit": 1,
     "category": "weapons"
   }

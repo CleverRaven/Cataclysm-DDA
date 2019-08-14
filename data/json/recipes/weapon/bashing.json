@@ -64,7 +64,7 @@
   },
   {
     "type": "recipe",
-    "result": "sap",
+    "result": "makeshift_sap",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "survival",
