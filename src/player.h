@@ -1340,7 +1340,7 @@ class player : public Character
         int  leak_level( const std::string &flag ) const;
 
         /** Returns the item in the player's inventory with the highest of the specified quality*/
-        item item_with_best_of_quality( quality_id qid );
+        item item_with_best_of_quality( const quality_id &qid );
 
         /**
         * Prompts user about crushing item at item_location loc, for harvesting of frozen liquids
