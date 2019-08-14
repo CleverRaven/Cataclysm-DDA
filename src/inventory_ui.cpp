@@ -1000,14 +1000,14 @@ void selection_column::on_change( const inventory_entry &entry )
         }
         add_entry( my_entry );
         last_changed = my_entry;
-    } else {
+    } else if( iter->chosen_count != my_entry.chosen_count ) {
         if( my_entry.chosen_count > 0 ) {
             iter->chosen_count = my_entry.chosen_count;
             expand_to_fit( my_entry );
         } else {
             iter = entries.erase( iter );
-            paging_is_valid = false;
         }
+        paging_is_valid = false;
 
         if( iter != entries.end() ) {
             last_changed = *iter;
