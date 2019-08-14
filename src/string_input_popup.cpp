@@ -84,10 +84,10 @@ void string_input_popup::create_window()
     draw_border( w );
 
     for( size_t i = 0; i < descformatted.size(); ++i ) {
-        trim_and_print( w, 1 + i, 1, w_width - 2, _desc_color, descformatted[i] );
+        trim_and_print( w, point( 1, 1 + i ), w_width - 2, _desc_color, descformatted[i] );
     }
     for( int i = 0; i < static_cast<int>( title_split.size() ) - 1; i++ ) {
-        mvwprintz( w, _starty++, i + 1, _title_color, title_split[i] );
+        mvwprintz( w, point( i + 1, _starty++ ), _title_color, title_split[i] );
     }
     right_print( w, _starty, w_width - titlesize - 1, _title_color, title_split.back() );
     _starty = w_height - 2; // The ____ looks better at the bottom right when the title folds
@@ -227,7 +227,7 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
     // Clear the line
     mvwprintw( w, point( _startx, _starty ), std::string( std::max( 0, scrmax ), ' ' ) );
     // Print the whole input string in default color
-    mvwprintz( w, _starty, _startx, _string_color, "%s", ds.c_str() );
+    mvwprintz( w, point( _startx, _starty ), _string_color, "%s", ds.c_str() );
     size_t sx = ds.display_width();
     // Print the cursor in its own color
     if( _position < static_cast<int>( ret.length() ) ) {
@@ -240,14 +240,14 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
             cursor = ret.substr( a, _position - a + 1 );
         }
         const size_t left_over = ret.substr( 0, a ).display_width() - shift;
-        mvwprintz( w, _starty, _startx + left_over, _cursor_color, "%s", cursor.c_str() );
+        mvwprintz( w, point( _startx + left_over, _starty ), _cursor_color, "%s", cursor.c_str() );
         start_x_edit += left_over;
     } else if( _position == _max_length && _max_length > 0 ) {
-        mvwprintz( w, _starty, _startx + sx, _cursor_color, " " );
+        mvwprintz( w, point( _startx + sx, _starty ), _cursor_color, " " );
         start_x_edit += sx;
         sx++; // don't override trailing ' '
     } else {
-        mvwprintz( w, _starty, _startx + sx, _cursor_color, "_" );
+        mvwprintz( w, point( _startx + sx, _starty ), _cursor_color, "_" );
         start_x_edit += sx;
         sx++; // don't override trailing '_'
     }
@@ -265,11 +265,11 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
             }
         }
         if( l > 0 ) {
-            mvwprintz( w, _starty, _startx + sx, _underscore_color, std::string( l, '_' ) );
+            mvwprintz( w, point( _startx + sx, _starty ), _underscore_color, std::string( l, '_' ) );
         }
     }
     if( !edit.empty() ) {
-        mvwprintz( w, _starty, start_x_edit, _cursor_color, "%s", edit.c_str() );
+        mvwprintz( w, point( start_x_edit, _starty ), _cursor_color, "%s", edit.c_str() );
     }
 }
 

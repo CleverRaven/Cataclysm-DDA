@@ -49,11 +49,11 @@ void game::extended_description( const tripoint &p )
     // TODO: De-hardcode
     std::string header_message = _( "\
 c to describe creatures, f to describe furniture, t to describe terrain, Esc/Enter to close." );
-    mvwprintz( w_head, 0, 0, c_white, header_message );
+    mvwprintz( w_head, point_zero, c_white, header_message );
 
     // Set up line drawings
     for( int i = 0; i < TERMX; i++ ) {
-        mvwputch( w_head, top - 1, i, c_white, LINE_OXOX );
+        mvwputch( w_head, point( i, top - 1 ), c_white, LINE_OXOX );
     }
 
     wrefresh( w_head );
@@ -103,7 +103,7 @@ c to describe creatures, f to describe furniture, t to describe terrain, Esc/Ent
         }
 
         werase( w_main );
-        fold_and_print_from( w_main, 0, 0, width, 0, c_light_gray, desc );
+        fold_and_print_from( w_main, point_zero, width, 0, c_light_gray, desc );
         wrefresh( w_main );
         // TODO: use input context
         ch = inp_mngr.get_input_event().get_first_input();

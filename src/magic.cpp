@@ -1252,14 +1252,15 @@ class spellcasting_callback : public uilist_callback
         }
 
         void select( int entnum, uilist *menu ) override {
-            mvwputch( menu->window, 0, menu->w_width - menu->pad_right, c_magenta, LINE_OXXX );
-            mvwputch( menu->window, menu->w_height - 1, menu->w_width - menu->pad_right, c_magenta, LINE_XXOX );
+            mvwputch( menu->window, point( menu->w_width - menu->pad_right, 0 ), c_magenta, LINE_OXXX );
+            mvwputch( menu->window, point( menu->w_width - menu->pad_right, menu->w_height - 1 ), c_magenta,
+                      LINE_XXOX );
             for( int i = 1; i < menu->w_height - 1; i++ ) {
-                mvwputch( menu->window, i, menu->w_width - menu->pad_right, c_magenta, LINE_XOXO );
+                mvwputch( menu->window, point( menu->w_width - menu->pad_right, i ), c_magenta, LINE_XOXO );
             }
             std::string ignore_string = casting_ignore ? _( "Ignore Distractions" ) :
                                         _( "Popup Distractions" );
-            mvwprintz( menu->window, 0, menu->w_width - menu->pad_right + 2,
+            mvwprintz( menu->window, point( menu->w_width - menu->pad_right + 2, 0 ),
                        casting_ignore ? c_red : c_light_green, string_format( "%s %s", "[I]", ignore_string ) );
             draw_spell_info( *known_spells[entnum], menu );
         }
@@ -1344,44 +1345,45 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     nc_color light_green = c_light_green;
     nc_color yellow = c_yellow;
 
-    print_colored_text( w_menu, line++, h_col1, yellow, yellow,
+    print_colored_text( w_menu, point( h_col1, line++ ), yellow, yellow,
                         sp.spell_class() == trait_id( "NONE" ) ? _( "Classless" ) : sp.spell_class()->name() );
 
-    line += fold_and_print( w_menu, line, h_col1, info_width, gray, sp.description() );
+    line += fold_and_print( w_menu, point( h_col1, line ), info_width, gray, sp.description() );
 
     line++;
 
-    line += fold_and_print( w_menu, line, h_col1, info_width, gray, enumerate_spell_data( sp ) );
+    line += fold_and_print( w_menu, point( h_col1, line ), info_width, gray,
+                            enumerate_spell_data( sp ) );
 
     line++;
 
-    print_colored_text( w_menu, line, h_col1, gray, gray,
+    print_colored_text( w_menu, point( h_col1, line ), gray, gray,
                         string_format( "%s: %d %s", _( "Spell Level" ), sp.get_level(),
                                        sp.is_max_level() ? _( "(MAX)" ) : "" ) );
-    print_colored_text( w_menu, line++, h_col2, gray, gray,
+    print_colored_text( w_menu, point( h_col2, line++ ), gray, gray,
                         string_format( "%s: %d", _( "Max Level" ), sp.get_max_level() ) );
 
-    print_colored_text( w_menu, line, h_col1, gray, gray,
+    print_colored_text( w_menu, point( h_col1, line ), gray, gray,
                         sp.colorized_fail_percent( g->u ) );
-    print_colored_text( w_menu, line++, h_col2, gray, gray,
+    print_colored_text( w_menu, point( h_col2, line++ ), gray, gray,
                         string_format( "%s: %d", _( "Difficulty" ), sp.get_difficulty() ) );
 
-    print_colored_text( w_menu, line, h_col1, gray, gray,
+    print_colored_text( w_menu, point( h_col1, line ), gray, gray,
                         string_format( "%s: %s", _( "to Next Level" ), colorize( to_string( sp.xp() ), light_green ) ) );
-    print_colored_text( w_menu, line++, h_col2, gray, gray,
+    print_colored_text( w_menu, point( h_col2, line++ ), gray, gray,
                         string_format( "%s: %s", _( "to Next Level" ), colorize( to_string( sp.exp_to_next_level() ),
                                        light_green ) ) );
 
     line++;
 
     const bool cost_encumb = energy_cost_encumbered( sp, g->u );
-    print_colored_text( w_menu, line++, h_col1, gray, gray,
+    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                         string_format( "%s: %s %s%s", cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" ),
                                        sp.energy_cost_string( g->u ), sp.energy_string(),
                                        sp.energy_source() == hp_energy ? "" :  string_format( " ( %s current )",
                                                sp.energy_cur_string( g->u ) ) ) );
     const bool c_t_encumb = casting_time_encumbered( sp, g->u );
-    print_colored_text( w_menu, line++, h_col1, gray, gray, colorize(
+    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, colorize(
                             string_format( "%s: %s", c_t_encumb ? _( "Casting Time (impeded)" ) : _( "Casting Time" ),
                                            moves_to_string( sp.casting_time( g->u ) ) ),
                             c_t_encumb  ? c_red : c_light_gray ) );
@@ -1394,7 +1396,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     } else {
         targets = sp.enumerate_targets();
     }
-    print_colored_text( w_menu, line++, h_col1, gray, gray,
+    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                         string_format( "%s: %s", _( "Valid Targets" ), _( targets ) ) );
 
     line++;
@@ -1437,15 +1439,15 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         aoe_string = string_format( "%s: %d", _( "Spell Radius" ), sp.aoe() );
     }
 
-    print_colored_text( w_menu, line, h_col1, gray, gray, damage_string );
-    print_colored_text( w_menu, line++, h_col2, gray, gray, aoe_string );
+    print_colored_text( w_menu, point( h_col1, line ), gray, gray, damage_string );
+    print_colored_text( w_menu, point( h_col2, line++ ), gray, gray, aoe_string );
 
-    print_colored_text( w_menu, line++, h_col1, gray, gray,
+    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                         string_format( "%s: %s", _( "Range" ), sp.range() <= 0 ? _( "self" ) : to_string( sp.range() ) ) );
 
     // todo: damage over time here, when it gets implemeted
 
-    print_colored_text( w_menu, line++, h_col2, gray, gray, sp.duration() <= 0 ? "" :
+    print_colored_text( w_menu, point( h_col2, line++ ), gray, gray, sp.duration() <= 0 ? "" :
                         string_format( "%s: %s", _( "Duration" ), moves_to_string( sp.duration() ) ) );
 }
 
@@ -1578,16 +1580,17 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     const std::string spell_name = colorize( _( sp.name ), c_light_green );
     const std::string spell_class = sp.spell_class == trait_id( "NONE" ) ? _( "Classless" ) :
                                     sp.spell_class->name();
-    print_colored_text( w, line, start_x, gray, gray, spell_name );
-    print_colored_text( w, line++, menu->pad_left - spell_class.length() - 1, yellow, yellow,
+    print_colored_text( w, point( start_x, line ), gray, gray, spell_name );
+    print_colored_text( w, point( menu->pad_left - spell_class.length() - 1, line++ ), yellow, yellow,
                         spell_class );
     line++;
-    line += fold_and_print( w, line, start_x, width, gray, _( sp.description ) );
+    line += fold_and_print( w, point( start_x, line ), width, gray, _( sp.description ) );
     line++;
 
-    mvwprintz( w, line, start_x, c_light_gray, string_format( "%s: %d", _( "Difficulty" ),
+    mvwprintz( w, point( start_x, line ), c_light_gray, string_format( "%s: %d", _( "Difficulty" ),
                sp.difficulty ) );
-    mvwprintz( w, line++, start_x + width / 2, c_light_gray, string_format( "%s: %d", _( "Max Level" ),
+    mvwprintz( w, point( start_x + width / 2, line++ ), c_light_gray, string_format( "%s: %d",
+               _( "Max Level" ),
                sp.max_level ) );
 
     const std::string fx = sp.effect_name;
@@ -1610,12 +1613,13 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     }
 
     if( has_damage_type ) {
-        print_colored_text( w, line++, start_x, gray, gray, string_format( "%s: %s", _( "Damage Type" ),
+        print_colored_text( w, point( start_x, line++ ), gray, gray, string_format( "%s: %s",
+                            _( "Damage Type" ),
                             colorize( fake_spell.damage_type_string(), fake_spell.damage_type_color() ) ) );
     }
     line++;
 
-    print_colored_text( w, line++, start_x, gray, gray,
+    print_colored_text( w, point( start_x, line++ ), gray, gray,
                         string_format( "%-10s %-7s %-7s %-7s", _( "Stat Gain" ), _( "lvl 0" ), _( "per lvl" ),
                                        _( "max lvl" ) ) );
     std::vector<std::tuple<std::string, int, float, int>> rows;
@@ -1642,20 +1646,23 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
                        sp.final_casting_time );
 
     for( std::tuple<std::string, int, float, int> &row : rows ) {
-        mvwprintz( w, line, start_x, c_light_gray, std::get<0>( row ) );
-        print_colored_text( w, line, start_x + 11, gray, gray, color_number( std::get<1>( row ) ) );
-        print_colored_text( w, line, start_x + 19, gray, gray, color_number( std::get<2>( row ) ) );
-        print_colored_text( w, line, start_x + 27, gray, gray, color_number( std::get<3>( row ) ) );
+        mvwprintz( w, point( start_x, line ), c_light_gray, std::get<0>( row ) );
+        print_colored_text( w, point( start_x + 11, line ), gray, gray,
+                            color_number( std::get<1>( row ) ) );
+        print_colored_text( w, point( start_x + 19, line ), gray, gray,
+                            color_number( std::get<2>( row ) ) );
+        print_colored_text( w, point( start_x + 27, line ), gray, gray,
+                            color_number( std::get<3>( row ) ) );
         line++;
     }
 }
 
 void spellbook_callback::select( int entnum, uilist *menu )
 {
-    mvwputch( menu->window, 0, menu->pad_left, c_magenta, LINE_OXXX );
-    mvwputch( menu->window, menu->w_height - 1, menu->pad_left, c_magenta, LINE_XXOX );
+    mvwputch( menu->window, point( menu->pad_left, 0 ), c_magenta, LINE_OXXX );
+    mvwputch( menu->window, point( menu->pad_left, menu->w_height - 1 ), c_magenta, LINE_XXOX );
     for( int i = 1; i < menu->w_height - 1; i++ ) {
-        mvwputch( menu->window, i, menu->pad_left, c_magenta, LINE_XOXO );
+        mvwputch( menu->window, point( menu->pad_left, i ), c_magenta, LINE_XOXO );
     }
     draw_spellbook_info( spells[entnum], menu );
 }

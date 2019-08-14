@@ -144,7 +144,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
     int y = y1;
     for( size_t i = 0; i < pl.size(); i++ ) {
         if( y >= max_y ) {
-            mvwprintz( win, y, 1, c_yellow, _( "More parts here..." ) );
+            mvwprintz( win, point( 1, y ), c_yellow, _( "More parts here..." ) );
             ++y;
             break;
         }
@@ -191,17 +191,19 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
             right_sym = "-";
         }
         nc_color sym_color = static_cast<int>( i ) == hl ? hilite( c_light_gray ) : c_light_gray;
-        mvwprintz( win, y, 1, sym_color, left_sym );
-        trim_and_print( win, y, 2, getmaxx( win ) - 4,
+        mvwprintz( win, point( 1, y ), sym_color, left_sym );
+        trim_and_print( win, point( 2, y ), getmaxx( win ) - 4,
                         static_cast<int>( i ) == hl ? hilite( c_light_gray ) : c_light_gray, partname );
         wprintz( win, sym_color, right_sym );
 
         if( i == 0 && vpart_position( const_cast<vehicle &>( *this ), pl[i] ).is_inside() ) {
             //~ indicates that a vehicle part is inside
-            mvwprintz( win, y, width - 2 - utf8_width( _( "Interior" ) ), c_light_gray, _( "Interior" ) );
+            mvwprintz( win, point( width - 2 - utf8_width( _( "Interior" ) ), y ), c_light_gray,
+                       _( "Interior" ) );
         } else if( i == 0 ) {
             //~ indicates that a vehicle part is outside
-            mvwprintz( win, y, width - 2 - utf8_width( _( "Exterior" ) ), c_light_gray, _( "Exterior" ) );
+            mvwprintz( win, point( width - 2 - utf8_width( _( "Exterior" ) ), y ), c_light_gray,
+                       _( "Exterior" ) );
         }
         y++;
     }
@@ -210,7 +212,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
     const cata::optional<std::string> label = vpart_position( const_cast<vehicle &>( *this ),
             p ).get_label();
     if( label && y <= max_y ) {
-        mvwprintz( win, y++, 1, c_light_red, _( "Label: %s" ), label->c_str() );
+        mvwprintz( win, point( 1, y++ ), c_light_red, _( "Label: %s" ), label->c_str() );
     }
 
     return y;
@@ -291,7 +293,8 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
     }
     werase( win );
     // -2 for left & right padding
-    fold_and_print( win, 0, 1, width - 2, c_light_gray, msg.str() );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    fold_and_print( win, point( 1, 0 ), width - 2, c_light_gray, msg.str() );
     wrefresh( win );
 }
 
@@ -363,7 +366,7 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
 
     // check if the current index is less than the max size minus 12 or 5, to indicate that there's more
     if( start_index < static_cast<int>( fuels.size() ) - ( isHorizontal ? 12 : 5 ) ) {
-        mvwprintz( win, y + yofs, x, c_light_green, ">" );
+        mvwprintz( win, point( x, y + yofs ), c_light_green, ">" );
         wprintz( win, c_light_gray, " for more" );
     }
 }
@@ -395,15 +398,15 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x,
     int cap = fuel_capacity( fuel_type );
     int f_left = fuel_left( fuel_type );
     nc_color f_color = item::find_type( fuel_type )->color;
-    mvwprintz( win, y, x, col_indf1, "E...F" );
+    mvwprintz( win, point( x, y ), col_indf1, "E...F" );
     int amnt = cap > 0 ? f_left * 99 / cap : 0;
     int indf = ( amnt / 20 ) % 5;
-    mvwprintz( win, y, x + indf, f_color, "%c", fsyms[indf] );
+    mvwprintz( win, point( x + indf, y ), f_color, "%c", fsyms[indf] );
     if( verbose ) {
         if( debug_mode ) {
-            mvwprintz( win, y, x + 6, f_color, "%d/%d", f_left, cap );
+            mvwprintz( win, point( x + 6, y ), f_color, "%d/%d", f_left, cap );
         } else {
-            mvwprintz( win, y, x + 6, f_color, "%d", f_left * 100 / cap );
+            mvwprintz( win, point( x + 6, y ), f_color, "%d", f_left * 100 / cap );
             wprintz( win, c_light_gray, "%c", 045 );
         }
     }
