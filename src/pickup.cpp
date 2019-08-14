@@ -26,7 +26,6 @@
 #include "output.h"
 #include "panels.h"
 #include "player.h"
-#include "popup.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
