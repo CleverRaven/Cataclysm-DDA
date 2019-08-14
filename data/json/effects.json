@@ -1656,6 +1656,17 @@
   },
   {
     "type": "effect_type",
+    "id": "stim_overdose",
+    "name": [ "Stimulant Overdose" ],
+    "desc": [ "You can't sit still as you feel your heart pounding out of your chest.  You probably overdosed on those stims." ],
+    "max_intensity": 1000,
+    "int_dur_factor": 1,
+    "base_mods": { "dex_mod": [ -0.88 ], "per_mod": [ -0.25 ] },
+    "scaling_mods": { "speed_mod": [ -0.25 ], "per_mod": [ -0.071 ] },
+    "miss_messages": [ [ "You shake with the excess stimulation.", 1 ] ]
+  },
+  {
+    "type": "effect_type",
     "id": "weak_antibiotic_visible",
     "name": [ "Took weak antibiotic" ],
     "desc": [
