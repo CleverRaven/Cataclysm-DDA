@@ -217,6 +217,12 @@ class uilist: public ui_container
                 const std::vector<std::string> &opts );
         uilist( int startx, int width, int starty, const std::string &msg,
                 std::initializer_list<const char *const> opts );
+        uilist( const point &start, int width, const std::string &msg,
+                const std::vector<uilist_entry> &opts );
+        uilist( const point &start, int width, const std::string &msg,
+                const std::vector<std::string> &opts );
+        uilist( const point &start, int width, const std::string &msg,
+                std::initializer_list<const char *const> opts );
 
         void init();
         void setup();

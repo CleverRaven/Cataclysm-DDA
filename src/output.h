@@ -219,13 +219,14 @@ std::vector<std::string> foldstring( const std::string &str, int width, const ch
  * If the text contains no color tags, it's equivalent to a simple mvprintz.
  *
  * @param w Window we are drawing in
- * @param y Curses-style Y coordinate to print text at.
- * @param x Curses-style X coordinate to print text at.
+ * @param p Curses-style coordinates to print text at.
  * @param text The text to print.
  * @param cur_color The current color (could have been set by a previously encountered color tag),
  * change to a color according to the color tags that are in the text.
  * @param base_color Base color that is used outside of any color tag.
  **/
+void print_colored_text( const catacurses::window &w, const point &p, nc_color &cur_color,
+                         const nc_color &base_color, const std::string &text );
 void print_colored_text( const catacurses::window &w, int y, int x, nc_color &cur_color,
                          const nc_color &base_color, const std::string &text );
 /**
@@ -247,8 +248,7 @@ int print_scrollable( const catacurses::window &w, int begin_line, const std::st
  * uses them while printing.
  *
  * @param w Window we are printing in
- * @param begin_y The column index on which to start each line.
- * @param begin_x The row index on which to print the first line.
+ * @param begin The (row, column) index on which to start.
  * @param width The width used to fold the text (see @ref foldstring). `width + begin_y` should be
  * less than the window width, otherwise the lines will be wrapped by the curses system, which
  * defeats the purpose of using `foldstring`.
@@ -258,11 +258,21 @@ int print_scrollable( const catacurses::window &w, int begin_line, const std::st
  * @return The number of lines of the formatted text (after folding). This may be larger than
  * the height of the window.
  */
+int fold_and_print( const catacurses::window &w, const point &begin, int width,
+                    const nc_color &base_color, const std::string &mes, const char split = ' ' );
 int fold_and_print( const catacurses::window &w, int begin_y, int begin_x, int width,
                     const nc_color &base_color, const std::string &mes, const char split = ' ' );
 /**
  * Same as other @ref fold_and_print, but does string formatting via @ref string_format.
  */
+template<typename ...Args>
+inline int fold_and_print( const catacurses::window &w, const point &begin,
+                           const int width, const nc_color &base_color,
+                           const char *const mes, Args &&... args )
+{
+    return fold_and_print( w, begin, width, base_color, string_format( mes,
+                           std::forward<Args>( args )... ) );
+}
 template<typename ...Args>
 inline int fold_and_print( const catacurses::window &w, const int begin_y, const int begin_x,
                            const int width, const nc_color &base_color,
@@ -277,8 +287,7 @@ inline int fold_and_print( const catacurses::window &w, const int begin_y, const
  * @ref fold_and_print, the function therefor handles @ref color_tags correctly.
  *
  * @param w Window we are printing in
- * @param begin_y The column index on which to start each line.
- * @param begin_x The row index on which to print the first line.
+ * @param begin The (row,column) index on which to start.
  * @param width The width used to fold the text (see @ref foldstring). `width + begin_y` should be
  * @param begin_line The index of the first line (of the folded string) that is to be printed.
  * The function basically removes all lines before this one and prints the remaining lines
@@ -289,11 +298,21 @@ inline int fold_and_print( const catacurses::window &w, const int begin_y, const
  * always the same value, regardless of `begin_line`, it can be used to determine the maximal
  * value for `begin_line`.
  */
+int fold_and_print_from( const catacurses::window &w, const point &begin, int width,
+                         int begin_line, const nc_color &base_color, const std::string &mes );
 int fold_and_print_from( const catacurses::window &w, int begin_y, int begin_x, int width,
                          int begin_line, const nc_color &base_color, const std::string &mes );
 /**
  * Same as other @ref fold_and_print_from, but does formatting via @ref string_format.
  */
+template<typename ...Args>
+inline int fold_and_print_from( const catacurses::window &w, const point &begin,
+                                const int width, const int begin_line, const nc_color &base_color,
+                                const char *const mes, Args &&... args )
+{
+    return fold_and_print_from( w, begin, width, begin_line, base_color,
+                                string_format( mes, std::forward<Args>( args )... ) );
+}
 template<typename ...Args>
 inline int fold_and_print_from( const catacurses::window &w, const int begin_y, const int begin_x,
                                 const int width, const int begin_line, const nc_color &base_color,
@@ -307,14 +326,22 @@ inline int fold_and_print_from( const catacurses::window &w, const int begin_y, 
  * width. The function handles @ref color_tags correctly.
  *
  * @param w Window we are printing in
- * @param begin_x The x coordinate of line start (curses coordinates)
- * @param begin_y The y coordinate of line start (curses coordinates)
+ * @param begin The coordinates of line start (curses coordinates)
  * @param width Maximal width of the printed line, if the text is longer, it is cut off.
  * @param base_color The initially used color. This can be overridden using color tags.
  * @param mes Actual message to print
  */
+void trim_and_print( const catacurses::window &w, const point &begin, int width,
+                     nc_color base_color, const std::string &mes );
 void trim_and_print( const catacurses::window &w, int begin_y, int begin_x, int width,
                      nc_color base_color, const std::string &mes );
+template<typename ...Args>
+inline void trim_and_print( const catacurses::window &w, const point &begin,
+                            const int width, const nc_color base_color, const char *const mes, Args &&... args )
+{
+    return trim_and_print( w, begin, width, base_color, string_format( mes,
+                           std::forward<Args>( args )... ) );
+}
 template<typename ...Args>
 inline void trim_and_print( const catacurses::window &w, const int begin_y, const int begin_x,
                             const int width, const nc_color base_color, const char *const mes, Args &&... args )
@@ -334,17 +361,32 @@ std::string name_and_value( const std::string &name, const std::string &value, i
 
 void wputch( const catacurses::window &w, nc_color FG, int ch );
 // Using int ch is deprecated, use an UTF-8 encoded string instead
+void mvwputch( const catacurses::window &w, const point &p, nc_color FG, int ch );
 void mvwputch( const catacurses::window &w, int y, int x, nc_color FG, int ch );
+void mvwputch( const catacurses::window &w, const point &p, nc_color FG, const std::string &ch );
 void mvwputch( const catacurses::window &w, int y, int x, nc_color FG, const std::string &ch );
 // Using int ch is deprecated, use an UTF-8 encoded string instead
+void mvwputch_inv( const catacurses::window &w, const point &p, nc_color FG, int ch );
 void mvwputch_inv( const catacurses::window &w, int y, int x, nc_color FG, int ch );
+void mvwputch_inv( const catacurses::window &w, const point &p, nc_color FG,
+                   const std::string &ch );
 void mvwputch_inv( const catacurses::window &w, int y, int x, nc_color FG, const std::string &ch );
 // Using int ch is deprecated, use an UTF-8 encoded string instead
+void mvwputch_hi( const catacurses::window &w, const point &p, nc_color FG, int ch );
 void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, int ch );
+void mvwputch_hi( const catacurses::window &w, const point &p, nc_color FG, const std::string &ch );
 void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, const std::string &ch );
 
+void mvwprintz( const catacurses::window &w, const point &p, const nc_color &FG,
+                const std::string &text );
 void mvwprintz( const catacurses::window &w, int y, int x, const nc_color &FG,
                 const std::string &text );
+template<typename ...Args>
+inline void mvwprintz( const catacurses::window &w, const point &p, const nc_color &FG,
+                       const char *const mes, Args &&... args )
+{
+    mvwprintz( w, p, FG, string_format( mes, std::forward<Args>( args )... ) );
+}
 template<typename ...Args>
 inline void mvwprintz( const catacurses::window &w, const int y, const int x, const nc_color &FG,
                        const char *const mes, Args &&... args )
@@ -360,6 +402,11 @@ inline void wprintz( const catacurses::window &w, const nc_color &FG, const char
     wprintz( w, FG, string_format( mes, std::forward<Args>( args )... ) );
 }
 
+void draw_custom_border(
+    const catacurses::window &w, catacurses::chtype ls = 1, catacurses::chtype rs = 1,
+    catacurses::chtype ts = 1, catacurses::chtype bs = 1, catacurses::chtype tl = 1,
+    catacurses::chtype tr = 1, catacurses::chtype bl = 1, catacurses::chtype br = 1,
+    nc_color FG = BORDER_COLOR, const point &pos = point_zero, int height = 0, int width = 0 );
 void draw_custom_border( const catacurses::window &w, catacurses::chtype ls = 1,
                          catacurses::chtype rs = 1, catacurses::chtype ts = 1, catacurses::chtype bs = 1,
                          catacurses::chtype tl = 1, catacurses::chtype tr = 1, catacurses::chtype bl = 1,
@@ -525,6 +572,8 @@ void replace_substring( std::string &input, const std::string &substring,
 std::string string_replace( std::string text, const std::string &before, const std::string &after );
 std::string replace_colors( std::string text );
 std::string &capitalize_letter( std::string &pattern, size_t n = 0 );
+size_t shortcut_print( const catacurses::window &w, const point &p, nc_color text_color,
+                       nc_color shortcut_color, const std::string &fmt );
 size_t shortcut_print( const catacurses::window &w, int y, int x, nc_color text_color,
                        nc_color shortcut_color, const std::string &fmt );
 size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
