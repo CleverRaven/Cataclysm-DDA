@@ -276,6 +276,24 @@
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
   },
   {
+    "id": "huge_atomic_battery_cell",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
+    "name": "military plutonium fuel cell",
+    "description": "This battery uses a huge plutonium-244 rod to stablize an exotic nanocompound.  It was used in military mech-suits, was highly experimental, and had no civilian applications.  Although it stores a stupendous amount of power, it cannot be recharged.",
+    "weight": 64000,
+    "volume": "30 L",
+    "price": 100000,
+    "material": [ "superalloy", "plastic" ],
+    "symbol": "=",
+    "color": "red",
+    "ammo_type": "battery",
+    "count": 100000,
+    "capacity": 100000,
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MECH_BAT", "LEAK_DAM", "RADIOACTIVE" ]
+  },
+  {
     "id": "heavy_disposable_cell",
     "type": "MAGAZINE",
     "category": "spare_parts",

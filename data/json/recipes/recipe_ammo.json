@@ -875,6 +875,36 @@
   },
   {
     "type": "recipe",
+    "result": "gelled_gasoline",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "batch_time_factors": [ 80, 5 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "book_learn": [ [ "textbook_gaswarfare", 2 ], [ "textbook_anarch", 2, "Stuff THE MAN doesn't want you to know" ] ],
+    "components": [ [ [ "gasoline", 100 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "flamethrower_fuel",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "3 m",
+    "batch_time_factors": [ 80, 5 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "book_learn": [
+      [ "textbook_gaswarfare", 2 ],
+      [ "textbook_anarch", 2, "Stuff THE MAN doesn't want you to know" ],
+      [ "manual_launcher", 2 ]
+    ],
+    "components": [ [ [ "gasoline", 125 ], [ "diesel", 125 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "spiked_rocket",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -941,6 +971,20 @@
   },
   {
     "type": "recipe",
+    "result": "gas_insecticidal",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "cooking",
+    "skills_required": [ "survival", 2 ],
+    "difficulty": 4,
+    "time": "8 m",
+    "book_learn": [ [ "textbook_gaswarfare", 4 ], [ "textbook_chemistry", 4 ], [ "adv_chemistry", 4 ], [ "recipe_labchem", 4 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "insecticide", 50 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "gas_chloramine",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -985,5 +1029,17 @@
         [ "willowbark", 1 ]
       ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "cac2powder",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "60 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "coal_lump", 30 ] ], [ [ "material_quicklime", 44 ] ] ]
   }
 ]

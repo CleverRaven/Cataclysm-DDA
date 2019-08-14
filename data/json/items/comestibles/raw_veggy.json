@@ -175,6 +175,8 @@
     "material": "veggy",
     "volume": 1,
     "fun": -8,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ] ]
   },
   {
@@ -213,7 +215,8 @@
     "//": "Thinking this is a single ear here.",
     "material": "veggy",
     "volume": 3,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 12 ], [ "iron", 4 ] ]
   },
   {
@@ -272,7 +275,8 @@
     "price": 300,
     "material": "veggy",
     "volume": 3,
-    "flags": [ "FREEZERBURN" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 9 ], [ "calcium", 6 ], [ "iron", 6 ] ]
   },
   {
@@ -285,7 +289,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 60,
-    "description": "The large, tuberous root of a dahlia flower. It smells spicy, but is too starchy to eat without cooking.",
+    "description": "The large, tuberous root of a dahlia flower.  It smells spicy, but is too starchy to eat without cooking.",
     "price": 100,
     "material": "veggy",
     "volume": 1,
@@ -303,7 +307,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 109,
-    "description": "An herb with a small purple flower. The roots are nutritious, but tough and bland until cooked.",
+    "description": "An herb with a small purple flower.  The roots are nutritious, but tough and bland until cooked.",
     "//": "Serving Size is 1 cup of sliced roots. Salsify grows in bountiful clumps, it's a weed.",
     "price": 75,
     "material": "veggy",
@@ -324,7 +328,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 43,
-    "description": "A modest blue flower. The flower's roots are very bitter and not meant to be eaten raw.",
+    "description": "A modest blue flower.  The flower's roots are very bitter and not meant to be eaten raw.",
     "price": 110,
     "material": "veggy",
     "volume": 1,
@@ -339,7 +343,7 @@
     "name_plural": "wild roots",
     "copy-from": "carrot",
     "color": "white",
-    "description": "A weed with a cluster of tiny white flowers. These are often wild carrots, but beware of poisonous lookalikes.",
+    "description": "A weed with a cluster of tiny white flowers.  These are often wild carrots, but beware of poisonous lookalikes.",
     "charges": 3,
     "//": "Also known as Queen Anne's Lace. It's that boring white flower that grows wild everywhere. Water hemlock looks almost exactly like wild carrot. The easiest way to tell them apart is by their scent. Please don't eat either of them at home, hemlock will kill you deader than Socrates.",
     "flags": [ "FORAGE_POISON" ],
@@ -479,7 +483,9 @@
     "description": "A fluid bladder from a fungus based lifeform.  Not very nutritious, but fine to eat anyway.",
     "price": 0,
     "material": "veggy",
-    "volume": 1
+    "volume": 1,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_veggy"
   },
   {
     "type": "COMESTIBLE",
@@ -543,7 +549,8 @@
     "volume": 1,
     "stack_size": 4,
     "fun": -12,
-    "flags": [ "FREEZERBURN" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitA", 33 ], [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ] ]
   },
   {
@@ -562,6 +569,8 @@
     "price": 410,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitA", 1 ], [ "vitC", 11 ], [ "calcium", 11 ], [ "iron", 2 ] ]
   },
   {
@@ -581,6 +590,8 @@
     "volume": 4,
     "charges": 4,
     "fun": -10,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 8 ], [ "calcium", 2 ], [ "iron", 6 ] ]
   },
   {

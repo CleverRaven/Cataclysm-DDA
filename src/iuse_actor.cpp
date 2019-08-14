@@ -25,7 +25,7 @@
 #include "debug.h"
 #include "vpart_position.h"
 #include "effect.h"
-#include "event.h"
+#include "timed_event.h"
 #include "explosion.h"
 #include "field.h"
 #include "game.h"
@@ -1006,8 +1006,9 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll ) {
         sounds::sound( p.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
-        if( !g->events.queued( EVENT_WANTED ) ) {
-            g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p.global_sm_location() );
+        if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+            g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+                                 p.global_sm_location() );
         }
     }
     if( destroy ) {
@@ -1020,6 +1021,49 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
 iuse_actor *deploy_furn_actor::clone() const
 {
     return new deploy_furn_actor( *this );
+}
+
+void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    std::vector<std::string> can_function_as;
+    const furn_t &the_furn = furn_type.obj();
+    const std::string furn_name = the_furn.name();
+
+    if( the_furn.workbench.has_value() ) {
+        can_function_as.emplace_back( _( "a <info>crafting station</info>" ) );
+    }
+    if( the_furn.has_flag( "BUTCHER_EQ" ) ) {
+        can_function_as.emplace_back(
+            _( "a place to hang <info>corpses for butchering</info>" ) );
+    }
+    if( the_furn.has_flag( "FLAT_SURF" ) ) {
+        can_function_as.emplace_back(
+            _( "a flat surface to <info>butcher</info> onto or <info>eat meals</info> from" ) );
+    }
+    if( the_furn.has_flag( "CAN_SIT" ) ) {
+        can_function_as.emplace_back( _( "a place to <info>sit</info>" ) );
+    }
+    if( the_furn.has_flag( "HIDE_PLACE" ) ) {
+        can_function_as.emplace_back( _( "a place to <info>hide</info>" ) );
+    }
+    if( the_furn.has_flag( "FIRE_CONTAINER" ) ) {
+        can_function_as.emplace_back( _( "a safe place to <info>contain a fire</info>" ) );
+    }
+    if( the_furn.crafting_pseudo_item == "char_smoker" ) {
+        can_function_as.emplace_back( _( "a place to <info>smoke or dry food</info> for preservation" ) );
+    }
+
+    if( can_function_as.empty() ) {
+        dump.emplace_back( "DESCRIPTION",
+                           string_format( _( "Can be <info>activated</info> to deploy as furniture (<stat>%s</stat>)." ),
+                                          furn_name ) );
+    } else {
+        std::string furn_usages = enumerate_as_string( can_function_as, enumeration_conjunction::or_ );
+        dump.emplace_back( "DESCRIPTION",
+                           string_format(
+                               _( "Can be <info>activated</info> to deploy as furniture (<stat>%s</stat>), which can then be used as %s." ),
+                               furn_name, furn_usages ) );
+    }
 }
 
 void deploy_furn_actor::load( JsonObject &obj )
@@ -1123,7 +1167,7 @@ int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
                                          p.global_omt_location() );
     for( auto &omt : omt_types ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-            reveal_targets( tripoint( center.x, center.y, z ), omt, 0 );
+            reveal_targets( tripoint( center.xy(), z ), omt, 0 );
         }
     }
     if( !message.empty() ) {
@@ -1173,12 +1217,9 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
             has_unactivated_brazier = true;
         }
     }
-    if( has_unactivated_brazier &&
-        !query_yn(
-            _( "There's a brazier there but you haven't set it up to contain the fire. Continue?" ) ) ) {
-        return false;
-    }
-    return true;
+    return !has_unactivated_brazier ||
+           query_yn(
+               _( "There's a brazier there but you haven't set it up to contain the fire. Continue?" ) );
 }
 
 void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos )
@@ -1261,8 +1302,9 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
     /** @EFFECT_SURVIVAL speeds up fire starting */
     float moves_modifier = std::pow( 0.8, std::min( 5.0, skill_level ) );
     const int moves_base = moves_cost_by_fuel( pos );
-    const int min_moves = std::min<int>( moves_base,
-                                         sqrt( 1 + moves_base / to_moves<int>( 1_turns ) ) * to_moves<int>( 1_turns ) );
+    const double moves_per_turn = to_moves<double>( 1_turns );
+    const int min_moves = std::min<int>(
+                              moves_base, sqrt( 1 + moves_base / moves_per_turn ) * moves_per_turn );
     const int moves = std::max<int>( min_moves, moves_base * moves_modifier ) / light;
     if( moves > to_moves<int>( 1_minutes ) ) {
         // If more than 1 minute, inform the player
@@ -1280,7 +1322,8 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
     }
 
     // skill gains are handled by the activity, but stored here in the index field
-    const int potential_skill_gain = moves_modifier + moves_cost_fast / 100 + 2;
+    const int potential_skill_gain =
+        moves_modifier + moves_cost_fast / 100.0 + 2;
     p.assign_activity( activity_id( "ACT_START_FIRE" ), moves, potential_skill_gain,
                        p.get_item_position( &it ),
                        it.tname() );
@@ -1519,7 +1562,8 @@ void inscribe_actor::load( JsonObject &obj )
     assign( obj, "gerund", gerund );
 
     if( !on_items && !on_terrain ) {
-        obj.throw_error( "Tried to create an useless inscribe_actor, at least on of \"on_items\" or \"on_terrain\" should be true" );
+        obj.throw_error(
+            R"(Tried to create an useless inscribe_actor, at least on of "on_items" or "on_terrain" should be true)" );
     }
 }
 
@@ -1862,7 +1906,7 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     int success = rng( 0, skills ) - rng( 0, difficulty );
 
     /** @EFFECT_FIRSTAID speeds up enzlavement */
-    const int moves = difficulty * to_turns<int>( 12_seconds ) / p.get_skill_level( skill_firstaid );
+    const int moves = difficulty * to_moves<int>( 12_seconds ) / p.get_skill_level( skill_firstaid );
 
     p.assign_activity( activity_id( "ACT_MAKE_ZLAVE" ), moves );
     p.activity.values.push_back( success );
@@ -2593,7 +2637,7 @@ bool bandolier_actor::reload( player &p, item &obj ) const
     std::vector<item::reload_option> opts;
     std::transform( std::make_move_iterator( found.begin() ), std::make_move_iterator( found.end() ),
     std::back_inserter( opts ), [&]( item_location && e ) {
-        return item::reload_option( &p, &obj, &obj, std::move( e ) );
+        return item::reload_option( &p, &obj, &obj, e );
     } );
 
     item::reload_option sel = p.select_ammo( obj, std::move( opts ) );
@@ -2669,18 +2713,16 @@ int bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
 
 units::volume bandolier_actor::max_stored_volume() const
 {
-    // This is relevant only for bandoliers with the non-rigid flag.  There are
-    // no such items in the base game at time of writing, but I created some to
-    // test this and it does seem to work as expected.
+    // This is relevant only for bandoliers with the non-rigid flag
 
     // Find all valid ammo
     auto ammo_types = Item_factory::find( [&]( const itype & t ) {
         return is_valid_ammo_type( t );
     } );
-    // Figure out which has the greateset volume and calculate on that basis
+    // Figure out which has the greatest volume and calculate on that basis
     units::volume max_ammo_volume{};
     for( const auto *ammo_type : ammo_types ) {
-        max_ammo_volume = std::max( max_ammo_volume, ammo_type->volume );
+        max_ammo_volume = std::max( max_ammo_volume, ammo_type->volume / ammo_type->stack_size );
     }
     return max_ammo_volume * capacity;
 }
@@ -3931,7 +3973,11 @@ iuse_actor *saw_barrel_actor::clone() const
 
 int install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    return p.install_bionics( *it.type, p, false ) ? it.type->charges_to_use() : 0;
+    if( p.can_install_bionics( *it.type, p, false ) ) {
+        return p.install_bionics( *it.type, p, false ) ? it.type->charges_to_use() : 0;
+    } else {
+        return 0;
+    }
 }
 
 ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bool,

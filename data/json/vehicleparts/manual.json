@@ -27,7 +27,8 @@
     "muscle_power_factor": 140,
     "folded_volume": 2,
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
-    "extend": { "flags": [ "FOLDABLE", "MUSCLE_LEGS", "CONTROLS", "TOOL_WRENCH" ] }
+    "extend": { "flags": [ "FOLDABLE", "MUSCLE_LEGS", "CONTROLS", "TOOL_WRENCH" ] },
+    "damage_reduction": { "all": 4 }
   },
   {
     "id": "hand_rims",
@@ -42,6 +43,7 @@
     "damage_modifier": 50,
     "folded_volume": 2,
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
-    "extend": { "flags": [ "FOLDABLE", "MUSCLE_ARMS", "CONTROLS" ] }
+    "extend": { "flags": [ "FOLDABLE", "MUSCLE_ARMS", "CONTROLS" ] },
+    "damage_reduction": { "all": 4 }
   }
 ]

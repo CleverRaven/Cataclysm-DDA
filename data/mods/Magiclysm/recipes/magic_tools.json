@@ -45,7 +45,7 @@
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_TOOLS",
     "skill_used": "fabrication",
-    "skills_required": [ "spellcraft", 4 ],
+    "skills_required": [ "spellcraft", 6 ],
     "difficulty": 2,
     "time": "120m",
     "autolearn": true,

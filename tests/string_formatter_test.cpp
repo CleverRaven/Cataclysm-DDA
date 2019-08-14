@@ -75,6 +75,7 @@ void test_lvalues( const std::string &expected, const char *const pattern, const
     test_for_expected( expected, pattern, T( value ) ); // T &&
     T lvalue( value );
     test_for_expected( expected, pattern, lvalue ); // T &
+    // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
     const T const_lvalue( value );
     test_for_expected( expected, pattern, const_lvalue ); // const T &
 }

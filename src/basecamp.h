@@ -50,10 +50,10 @@ const std::string base_dir = "[B]";
 const std::string prefix = "faction_base_";
 const std::string id = "FACTION_CAMP";
 const int prefix_len = 13;
-const std::string faction_encode_short( const std::string &type );
-const std::string faction_encode_abs( const expansion_data &e, int number );
-const std::string faction_decode( const std::string &full_type );
-const time_duration to_workdays( const time_duration &work_time );
+std::string faction_encode_short( const std::string &type );
+std::string faction_encode_abs( const expansion_data &e, int number );
+std::string faction_decode( const std::string &full_type );
+time_duration to_workdays( const time_duration &work_time );
 int max_upgrade_by_type( const std::string &type );
 } // namespace base_camps
 
@@ -127,8 +127,8 @@ class basecamp
         bool can_expand();
         /// Returns the name of the building the current building @ref dir upgrades into,
         /// "null" if there isn't one
-        const std::string next_upgrade( const std::string &dir, const int offset = 1 ) const;
-        const std::vector<basecamp_upgrade> available_upgrades( const std::string &dir );
+        std::string next_upgrade( const std::string &dir, const int offset = 1 ) const;
+        std::vector<basecamp_upgrade> available_upgrades( const std::string &dir );
 
         // camp utility functions
         int recruit_evaluation() const;
@@ -156,7 +156,7 @@ class basecamp
         void consume_components( const recipe &making, int batch_size, bool by_radio = false );
         void consume_components( map &target_map, const recipe &making, int batch_size,
                                  bool by_radio = false );
-        const std::string get_gatherlist() const;
+        std::string get_gatherlist() const;
         /**
          * spawn items or corpses based on search attempts
          * @param skill skill level of the search

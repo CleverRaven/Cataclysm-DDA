@@ -176,9 +176,11 @@ void weed_msg( player &p )
     }
 }
 
-static void extract_effect( JsonObject &j,
-                            std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double> &data,
-                            const std::string &mod_type, std::string data_key, std::string type_key, std::string arg_key )
+static void extract_effect(
+    JsonObject &j,
+    std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double,
+    cata::tuple_hash> &data,
+    const std::string &mod_type, std::string data_key, std::string type_key, std::string arg_key )
 {
     double val = 0;
     double reduced_val = 0;
@@ -362,9 +364,9 @@ bool effect_type::use_name_ints() const
 bool effect_type::use_desc_ints( bool reduced ) const
 {
     if( reduced ) {
-        return ( static_cast<size_t>( max_intensity ) <= reduced_desc.size() );
+        return static_cast<size_t>( max_intensity ) <= reduced_desc.size();
     } else {
-        return ( static_cast<size_t>( max_intensity ) <= desc.size() );
+        return static_cast<size_t>( max_intensity ) <= desc.size();
     }
 }
 
@@ -825,7 +827,7 @@ const std::vector<efftype_id> &effect::get_removes_effects() const
 {
     return eff_type->removes_effects;
 }
-const std::vector<efftype_id> effect::get_blocks_effects() const
+std::vector<efftype_id> effect::get_blocks_effects() const
 {
     std::vector<efftype_id> ret = eff_type->removes_effects;
     ret.insert( ret.end(), eff_type->blocks_effects.begin(), eff_type->blocks_effects.end() );
@@ -898,8 +900,8 @@ int effect::get_avg_mod( std::string arg, bool reduced ) const
 
 int effect::get_amount( std::string arg, bool reduced ) const
 {
-    int intensity_capped = ( ( eff_type->max_effective_intensity > 0 ) ? std::min(
-                                 eff_type->max_effective_intensity, intensity ) : intensity );
+    int intensity_capped = eff_type->max_effective_intensity > 0 ? std::min(
+                               eff_type->max_effective_intensity, intensity ) : intensity;
     auto &mod_data = eff_type->mod_data;
     double ret = 0;
     auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "amount" ) );
@@ -1091,14 +1093,14 @@ bool effect::activated( const time_point &when, std::string arg, int val, bool r
 
     // has to be an && here to avoid undefined behavior of turn % 0
     if( tick > 0 &&
-        ( when - calendar::time_of_cataclysm ) % time_duration::from_turns( tick ) == 0_turns ) {
+        ( when - calendar::turn_zero ) % time_duration::from_turns( tick ) == 0_turns ) {
         if( bot_base != 0 && bot_scale != 0 ) {
             if( bot_base + bot_scale == 0 ) {
                 // Special crash avoidance case, in most effect fields 0 = "nothing happens"
                 // so assume false here for consistency
                 return false;
             } else {
-                return x_in_y( ( top_base + top_scale ) * mod, ( bot_base + bot_scale ) );
+                return x_in_y( ( top_base + top_scale ) * mod, bot_base + bot_scale );
             }
         } else {
             return x_in_y( mod, top_base + top_scale );
@@ -1331,7 +1333,7 @@ void effect::deserialize( JsonIn &jsin )
     bp = static_cast<body_part>( jo.get_int( "bp" ) );
     permanent = jo.get_bool( "permanent" );
     intensity = jo.get_int( "intensity" );
-    start_time = calendar::time_of_cataclysm;
+    start_time = calendar::turn_zero;
     jo.read( "start_turn", start_time );
 }
 

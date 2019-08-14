@@ -106,8 +106,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male );
 void starting_inv( npc &who, const npc_class_id &type );
 
 npc::npc()
-    : player()
-    , restock( calendar::before_time_starts )
+    : restock( calendar::before_time_starts )
     , companion_mission_time( calendar::before_time_starts )
     , companion_mission_time_ret( calendar::before_time_starts )
     , last_updated( calendar::turn )
@@ -521,12 +520,16 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         ret.push_back( random_item_from( type, "extra" ) );
     }
 
+    for( item &it : who.worn ) {
+        it.on_takeoff( who );
+    }
     who.worn.clear();
     for( item &it : ret ) {
         if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
         }
         if( who.can_wear( it ).success() ) {
+            it.on_wear( who );
             who.worn.push_back( it );
             it.set_owner( who.my_fac );
         }
@@ -672,8 +675,7 @@ void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
 
 tripoint npc::global_square_location() const
 {
-    return tripoint( submap_coords.x * SEEX + posx() % SEEX, submap_coords.y * SEEY + posy() % SEEY,
-                     position.z );
+    return sm_to_ms_copy( submap_coords ) + tripoint( posx() % SEEX, posy() % SEEY, position.z );
 }
 
 void npc::place_on_map()
@@ -1061,7 +1063,7 @@ float npc::vehicle_danger( int radius ) const
     int danger = 0;
 
     // TODO: check for most dangerous vehicle?
-    for( unsigned int i = 0; i < vehicles.size(); ++i ) {
+    for( size_t i = 0; i < vehicles.size(); ++i ) {
         const wrapped_vehicle &wrapped_veh = vehicles[i];
         if( wrapped_veh.v->is_moving() ) {
             // FIXME: this can't be the right way to do this
@@ -1179,11 +1181,11 @@ void npc::decide_needs()
     for( auto &i : slice ) {
         item inventory_item = i->front();
         if( inventory_item.is_food( ) ) {
-            needrank[ need_food ] += nutrition_for( inventory_item ) / 4;
-            needrank[ need_drink ] += inventory_item.get_comestible()->quench / 4;
+            needrank[ need_food ] += nutrition_for( inventory_item ) / 4.0;
+            needrank[ need_drink ] += inventory_item.get_comestible()->quench / 4.0;
         } else if( inventory_item.is_food_container() ) {
-            needrank[ need_food ] += nutrition_for( inventory_item.contents.front() ) / 4;
-            needrank[ need_drink ] += inventory_item.contents.front().get_comestible()->quench / 4;
+            needrank[ need_food ] += nutrition_for( inventory_item.contents.front() ) / 4.0;
+            needrank[ need_drink ] += inventory_item.contents.front().get_comestible()->quench / 4.0;
         }
     }
     needs.clear();
@@ -1278,6 +1280,60 @@ bool npc::wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ )
 
     // TODO: Base on inventory
     return at_price >= 80;
+}
+
+// Will the NPC freely exchange items with the player?
+bool npc::will_exchange_items_freely() const
+{
+    return is_player_ally();
+}
+
+// What's the maximum credit the NPC is willing to extend to the player?
+// This is currently very scrooge-like; NPCs are only likely to extend a few dollars
+// of credit at most.
+int npc::max_credit_extended() const
+{
+    if( is_player_ally() ) {
+        return INT_MAX;
+    }
+
+    const int credit_trust    = 50;
+    const int credit_value    = 50;
+    const int credit_fear     = 50;
+    const int credit_altruism = 100;
+    const int credit_anger    = -200;
+
+    return std::max( 0,
+                     op_of_u.trust * credit_trust +
+                     op_of_u.value * credit_value +
+                     op_of_u.fear  * credit_fear  +
+                     personality.altruism * credit_altruism +
+                     op_of_u.anger * credit_anger
+                   );
+}
+
+// How much is the NPC willing to owe the player?
+// This is much more generous, as it's the essentially the player holding the risk here.
+int npc::max_willing_to_owe() const
+{
+    if( is_player_ally() ) {
+        return INT_MAX;
+    }
+
+    const int credit_trust    = 10000;
+    const int credit_value    = 10000;
+    const int credit_fear     = 10000;
+    const int credit_altruism = 0;
+    const int credit_anger    = -10000;
+
+    return std::max( 0,
+                     op_of_u.trust * credit_trust +
+                     op_of_u.value * credit_value +
+                     op_of_u.fear  * credit_fear  +
+                     personality.altruism * credit_altruism +
+                     op_of_u.anger * credit_anger
+                   );
+
 }
 
 void npc::shop_restock()
@@ -1639,10 +1695,7 @@ bool npc::is_assigned_to_camp() const
     if( !bcp ) {
         return false;
     }
-    if( !has_companion_mission() && mission == NPC_MISSION_GUARD_ALLY ) {
-        return true;
-    }
-    return false;
+    return !has_companion_mission() && mission == NPC_MISSION_GUARD_ALLY;
 }
 
 bool npc::is_enemy() const
@@ -1762,7 +1815,7 @@ bool npc::emergency() const
 
 bool npc::emergency( float danger ) const
 {
-    return ( danger > ( personality.bravery * 3 * hp_percentage() ) / 100 );
+    return ( danger > ( personality.bravery * 3 * hp_percentage() ) / 100.0 );
 }
 
 //Check if this npc is currently in the list of active npcs.

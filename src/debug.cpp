@@ -291,7 +291,7 @@ static time_info get_time() noexcept
     const auto current = localtime( &tt );
 
     return time_info { current->tm_hour, current->tm_min, current->tm_sec,
-                       static_cast<int>( tv.tv_usec / 1000.0 + 0.5 )
+                       static_cast<int>( lround( tv.tv_usec / 1000.0 ) )
                      };
 }
 #endif
@@ -538,7 +538,7 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
     // things (e.g. dladdr1 in GNU libdl) but this approach might
     // perhaps be more portable and adds no link-time dependencies.
 
-    uintptr_t offset_within_symbol = std::stoull( offset_within_symbol_s, 0, 0 );
+    uintptr_t offset_within_symbol = std::stoull( offset_within_symbol_s, nullptr, 0 );
     std::string string_sought = " " + symbol;
 
     // We need to try calling nm in two different ways, because one
@@ -549,7 +549,7 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
         cmd << nm_variant << ' ' << binary << " 2>&1";
         FILE *nm = popen( cmd.str().c_str(), "re" );
         if( !nm ) {
-            out << "\tbacktrace: popen(nm) failed\n";
+            out << "\tbacktrace: popen(nm) failed: " << strerror( errno ) << "\n";
             return cata::nullopt;
         }
 
@@ -765,7 +765,7 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
 
     // Error are always logged, they are important,
     // Messages from D_MAIN come from debugmsg and are equally important.
-    if( ( ( lev & debugLevel ) && ( cl & debugClass ) ) || lev & D_ERROR || cl & D_MAIN ) {
+    if( ( lev & debugLevel && cl & debugClass ) || lev & D_ERROR || cl & D_MAIN ) {
         std::ostream &out = *debugFile.file;
         out << std::endl;
         out << get_time() << " ";

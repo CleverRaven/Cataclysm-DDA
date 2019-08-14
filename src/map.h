@@ -64,6 +64,7 @@ class zone_data;
 struct trap;
 
 enum direction : unsigned;
+enum class special_item_type : int;
 using itype_id = std::string;
 template<typename T>
 class visitable;
@@ -75,13 +76,8 @@ class tileray;
 class npc_template;
 class vpart_reference;
 
-// TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle {
-    int x;
-    int y;
-    int z;
-    int i; // submap col
-    int j; // submap row
+    tripoint pos;
     vehicle *v;
 };
 
@@ -240,7 +236,7 @@ class map
         /*@}*/
 
         void set_memory_seen_cache_dirty( const tripoint &p ) {
-            const int offset = p.x + ( p.y * MAPSIZE_Y );
+            const int offset = p.x + p.y * MAPSIZE_Y;
             if( offset >= 0 && offset < MAPSIZE_X * MAPSIZE_Y ) {
                 get_cache( p.z ).map_memory_seen_cache.reset( offset );
             }
@@ -258,8 +254,8 @@ class map
         bool check_and_set_seen_cache( const tripoint &p ) const {
             std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
                 get_cache( p.z ).map_memory_seen_cache;
-            if( !memory_seen_cache[ static_cast<size_t>( p.x + ( p.y * MAPSIZE_Y ) ) ] ) {
-                memory_seen_cache.set( static_cast<size_t>( p.x + ( p.y * MAPSIZE_Y ) ) );
+            if( !memory_seen_cache[ static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) ] ) {
+                memory_seen_cache.set( static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) );
                 return true;
             }
             return false;
@@ -369,11 +365,11 @@ class map
         void clear_spawns();
         void clear_traps();
 
-        const maptile maptile_at( const tripoint &p ) const;
+        maptile maptile_at( const tripoint &p ) const;
         maptile maptile_at( const tripoint &p );
     private:
         // Versions of the above that don't do bounds checks
-        const maptile maptile_at_internal( const tripoint &p ) const;
+        maptile maptile_at_internal( const tripoint &p ) const;
         maptile maptile_at_internal( const tripoint &p );
         maptile maptile_has_bounds( const tripoint &p, const bool bounds_checked );
         std::array<maptile, 8> get_neighbors( const tripoint &p );
@@ -593,6 +589,9 @@ class map
 
         // Furniture: 2D overloads
         void set( const int x, const int y, const ter_id &new_terrain, const furn_id &new_furniture );
+        void set( const point &p, const ter_id &new_terrain, const furn_id &new_furniture ) {
+            set( p.x, p.y, new_terrain, new_furniture );
+        }
 
         std::string name( const int x, const int y );
         bool has_furn( const int x, const int y ) const;
@@ -601,6 +600,10 @@ class map
         furn_id furn( const int x, const int y ) const;
 
         void furn_set( const int x, const int y, const furn_id &new_furniture );
+
+        void furn_set( const point &p, const furn_id &new_furniture ) {
+            furn_set( p.x, p.y, new_furniture );
+        }
 
         std::string furnname( const int x, const int y );
         // Furniture: 3D
@@ -626,6 +629,10 @@ class map
         ter_id ter( const int x, const int y ) const;
 
         bool ter_set( const int x, const int y, const ter_id &new_terrain );
+
+        bool ter_set( const point &p, const ter_id &new_terrain ) {
+            return ter_set( p.x, p.y, new_terrain );
+        }
 
         std::string tername( const int x, const int y ) const; // Name of terrain at (x, y)
         // Terrain: 3D
@@ -880,7 +887,7 @@ class map
         void decay_fields_and_scent( const time_duration &amount );
 
         // Signs
-        const std::string get_signage( const tripoint &p ) const;
+        std::string get_signage( const tripoint &p ) const;
         void set_signage( const tripoint &p, const std::string &message ) const;
         void delete_signage( const tripoint &p ) const;
 
@@ -916,7 +923,7 @@ class map
         void i_rem( const int x, const int y, item *it );
         void spawn_item( const int x, const int y, const std::string &itype_id,
                          const unsigned quantity = 1, const int charges = 0,
-                         const time_point &birthday = calendar::time_of_cataclysm, const int damlevel = 0 );
+                         const time_point &birthday = calendar::turn_zero, const int damlevel = 0 );
 
         item &add_item_or_charges( const int x, const int y, item obj, bool overflow = true );
 
@@ -942,7 +949,7 @@ class map
         void spawn_natural_artifact( const tripoint &p, const artifact_natural_property prop );
         void spawn_item( const tripoint &p, const std::string &itype_id,
                          const unsigned quantity = 1, const int charges = 0,
-                         const time_point &birthday = calendar::time_of_cataclysm, const int damlevel = 0 );
+                         const time_point &birthday = calendar::turn_zero, const int damlevel = 0 );
         units::volume max_volume( const tripoint &p );
         units::volume free_volume( const tripoint &p );
         units::volume stored_volume( const tripoint &p );
@@ -1031,7 +1038,7 @@ class map
         * @return Vector of pointers to placed items (can be empty, but no nulls).
         */
         std::vector<item *> put_items_from_loc( const items_location &loc, const tripoint &p,
-                                                const time_point &turn = calendar::time_of_cataclysm );
+                                                const time_point &turn = calendar::turn_zero );
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
         std::vector<item *> spawn_items( const tripoint &p, const std::vector<item> &new_items );
@@ -1451,8 +1458,6 @@ class map
                           const float density );
         void draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
                                const float density );
-        void draw_toxic_dump( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                              const float density );
         void draw_megastore( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
                              const float density );
         void draw_fema( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
@@ -1701,8 +1706,9 @@ class map
         tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;
         tripoint_range points_in_radius( const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
 
+        std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius ) const;
         std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius,
-                std::string type = "" ) const;
+                special_item_type type ) const;
 
         /**returns positions of furnitures matching target in the specified radius*/
         std::list<tripoint> find_furnitures_in_radius( const tripoint &center, size_t radius,

@@ -17,11 +17,27 @@ struct item_reference {
     safe_reference<item> item_ref;
 };
 
+enum class special_item_type : int {
+    none,
+    corpse,
+    explosive
+};
+
+namespace std
+{
+template <>
+struct hash<special_item_type> {
+    std::size_t operator()( const special_item_type &k ) const {
+        return static_cast<size_t>( k );
+    }
+};
+} // namespace std
+
 class active_item_cache
 {
     private:
         std::unordered_map<int, std::list<item_reference>> active_items;
-        std::unordered_map<std::string, std::list<item_reference>> special_items;
+        std::unordered_map<special_item_type, std::list<item_reference>> special_items;
 
     public:
         /**
@@ -61,7 +77,7 @@ class active_item_cache
         /**
          * Returns the currently tracked list of special active items.
          */
-        std::vector<item_reference> get_special( std::string type );
+        std::vector<item_reference> get_special( special_item_type type );
         /** Subtract delta from every item_reference's location */
         void subtract_locations( const point &delta );
         void rotate_locations( int turns, const point &dim );

@@ -36,8 +36,8 @@
         "  #____2_______2____#   ###++### -u.....hLLh..H- F          Q         F ",
         "  W____g_______g____W   #EE__@V# -e.....hLLh..Lw F  DDDDDDDDDDDDDDDD  F ",
         "  W____g_______g____W   #E__J_0# -z.....hLLh..H- F                    F ",
-        "  #____2_______2____#   ###___^+,+............*- F  DDDDDDDDDDDDDDDD  F ",
-        "  #____2_______2____#   #>Z____# -*..Y----+----- F                    F ",
+        "  #____2_______2____#   ###___^#,+............*- F  DDDDDDDDDDDDDDDD  F ",
+        "  #____2_______2____#   #>Z____+,-*..Y----+----- F                    F ",
         "  #33332_______23333#   ###___V# --+---|kk..LH*- F  DDDDDDDDDDDDDDDD  F ",
         "  #______________yyy#   #s___JV# -*.S|d|kh.....w F                    F ",
         "  W_______________yyW   #s____A# wb..+.+....BB.- F  DDDDDDDDDDDDDDDD  F ",
@@ -129,7 +129,7 @@
         "@": "f_tablesaw",
         "^": [ "f_mitresaw", "f_bandsaw" ]
       },
-      "place_items": [  ],
+      "items": { "s": { "item": "preserved_food", "chance": 100, "repeat": [ 8, 20 ] } },
       "place_item": [
         { "item": "straw_pile", "x": [ 3, 5 ], "y": [ 5, 7 ], "amount": [ 0, 8 ] },
         { "item": "cattlefodder", "x": [ 3, 5 ], "y": [ 5, 7 ], "amount": [ 0, 4 ] },

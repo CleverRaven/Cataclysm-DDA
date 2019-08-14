@@ -7,7 +7,7 @@
     "description": "This is a template to show off all the available values",
     "valid_targets": [ "hostile", "ground", "self", "ally" ],
     "//": "effect is only limited by what is coded.",
-    "effect": "shallow_pit",
+    "effect": "none",
     "//": "base_casting_time is in moves",
     "base_casting_time": 100,
     "base_energy_cost": 10,

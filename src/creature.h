@@ -27,6 +27,7 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
+class avatar;
 class field;
 class field_entry;
 class JsonObject;
@@ -34,6 +35,7 @@ class JsonOut;
 struct tripoint;
 class time_duration;
 class player;
+struct point;
 
 enum damage_type : int;
 enum m_flag : int;
@@ -88,6 +90,12 @@ class Creature
         virtual const player *as_player() const {
             return nullptr;
         }
+        virtual avatar *as_avatar() {
+            return nullptr;
+        }
+        virtual const avatar *as_avatar() const {
+            return nullptr;
+        }
         /** return the direction the creature is facing, for sdl horizontal flip **/
         FacingDirection facing = FD_RIGHT;
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
@@ -132,7 +140,7 @@ class Creature
         /**
          * Simplified attitude string for unlocalized needs.
          */
-        static const std::string attitude_raw_string( Attitude att );
+        static std::string attitude_raw_string( Attitude att );
 
         /**
          * Creature Attitude as String and color
@@ -484,7 +492,7 @@ class Creature
 
         int moves;
         bool underwater;
-        void draw( const catacurses::window &w, int origin_x, int origin_y, bool inverted ) const;
+        void draw( const catacurses::window &w, const point &origin, bool inverted ) const;
         void draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const;
         /**
          * Write information about this creature.
