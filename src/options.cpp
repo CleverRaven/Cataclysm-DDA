@@ -2953,6 +2953,6 @@ void options_manager::update_global_locale()
             std::locale::global( std::locale( "zh_TW.UTF-8" ) );
         };
     } catch( std::runtime_error &e ) {
-        std::locale::global( std::locale( "en_US.UTF-8" ) );
+        std::locale::global( std::locale() );
     }
 }
