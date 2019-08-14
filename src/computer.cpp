@@ -1796,7 +1796,7 @@ void computer::print_text( const char *const text, Args &&... args )
     const std::string formated_text = string_format( text, std::forward<Args>( args )... );
     int y = getcury( w_terminal );
     int w = getmaxx( w_terminal ) - 2;
-    fold_and_print( w_terminal, y, 1, w, c_green, formated_text );
+    fold_and_print( w_terminal, point( 1, y ), w, c_green, formated_text );
     print_newline();
     print_newline();
     wrefresh( w_terminal );

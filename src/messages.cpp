@@ -578,7 +578,7 @@ void Messages::dialog::show()
         nc_color col = msgtype_to_color( msg.type, false );
 
         // Print current line
-        print_colored_text( w, border_width + line, border_width + time_width + padding_width,
+        print_colored_text( w, point( border_width + time_width + padding_width, border_width + line ),
                             col, col, folded_all[folded_filtered[folded_ind]].second );
 
         // Generate aligned time string
@@ -619,22 +619,24 @@ void Messages::dialog::show()
         draw_border( w_filter_help, border_color );
         for( size_t line = 0; line < help_text.size(); ++line ) {
             nc_color col = filter_help_color;
-            print_colored_text( w_filter_help, border_width + line, border_width, col, col,
+            print_colored_text( w_filter_help, point( border_width, border_width + line ), col, col,
                                 help_text[line] );
         }
-        mvwprintz( w_filter_help, w_fh_height - 1, border_width, border_color, "< " );
-        mvwprintz( w_filter_help, w_fh_height - 1, w_fh_width - border_width - 2, border_color, " >" );
+        mvwprintz( w_filter_help, point( border_width, w_fh_height - 1 ), border_color, "< " );
+        mvwprintz( w_filter_help, point( w_fh_width - border_width - 2, w_fh_height - 1 ), border_color,
+                   " >" );
         wrefresh( w_filter_help );
 
         // This line is preventing this method from being const
         filter.query( false, true ); // Draw only
     } else {
         if( filter_str.empty() ) {
-            mvwprintz( w, w_height - 1, border_width, border_color, _( "< Press %s to filter, %s to reset >" ),
+            mvwprintz( w, point( border_width, w_height - 1 ), border_color,
+                       _( "< Press %s to filter, %s to reset >" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "RESET_FILTER" ) );
         } else {
-            mvwprintz( w, w_height - 1, border_width, border_color, "< %s >", filter_str );
-            mvwprintz( w, w_height - 1, border_width + 2, filter_color, "%s", filter_str );
+            mvwprintz( w, point( border_width, w_height - 1 ), border_color, "< %s >", filter_str );
+            mvwprintz( w, point( border_width + 2, w_height - 1 ), filter_color, "%s", filter_str );
         }
         wrefresh( w );
     }
@@ -822,7 +824,7 @@ void Messages::display_messages( const catacurses::window &ipk_target, const int
                 // messages will not be missed by screen readers
                 wredrawln( ipk_target, line, 1 );
                 nc_color col_out = col;
-                print_colored_text( ipk_target, line++, left, col_out, col, folded );
+                print_colored_text( ipk_target, point( left, line++ ), col_out, col, folded );
             }
         }
     } else {
@@ -855,7 +857,7 @@ void Messages::display_messages( const catacurses::window &ipk_target, const int
                 // messages will not be missed by screen readers
                 wredrawln( ipk_target, line, 1 );
                 nc_color col_out = col;
-                print_colored_text( ipk_target, line, left, col_out, col, *string_iter );
+                print_colored_text( ipk_target, point( left, line ), col_out, col, *string_iter );
             }
         }
     }

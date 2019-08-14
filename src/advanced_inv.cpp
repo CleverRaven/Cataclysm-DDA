@@ -264,7 +264,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
                                            volume_units_abbr() );
         const int hrightcol = columns - 1 - formatted_head.length();
         nc_color color = weight_carried > weight_capacity ? c_red : c_light_green;
-        mvwprintz( window, 4, hrightcol, color, "%.1f", weight_carried );
+        mvwprintz( window, point( hrightcol, 4 ), color, "%.1f", weight_carried );
         wprintz( window, c_light_gray, "/%.1f %s  ", weight_capacity, weight_units() );
         color = g->u.volume_carried().value() > g->u.volume_capacity().value() ? c_red : c_light_green;
         wprintz( window, color, volume_carried );
@@ -294,7 +294,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
                                             format_volume( maxvolume ),
                                             volume_units_abbr() );
         }
-        mvwprintz( window, 4, columns - 1 - formatted_head.length(), norm, formatted_head );
+        mvwprintz( window, point( columns - 1 - formatted_head.length(), 4 ), norm, formatted_head );
     }
 
     //print header row and determine max item name length
@@ -311,19 +311,20 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
     //~ Items list header. Table fields length without spaces: src - 2, amt - 4, weight - 5, vol - 4.
     const int table_hdr_len2 = utf8_width( _( "src amt weight vol" ) ); // Header length type 2
 
-    mvwprintz( window, 5, compact ? 1 : 4, c_light_gray, _( "Name (charges)" ) );
+    mvwprintz( window, point( compact ? 1 : 4, 5 ), c_light_gray, _( "Name (charges)" ) );
     if( pane.get_area() == AIM_ALL && !compact ) {
-        mvwprintz( window, 5, lastcol - table_hdr_len2 + 1, c_light_gray, _( "src amt weight vol" ) );
+        mvwprintz( window, point( lastcol - table_hdr_len2 + 1, 5 ), c_light_gray,
+                   _( "src amt weight vol" ) );
         max_name_length = src_startpos - name_startpos - 1; // 1 for space
     } else {
-        mvwprintz( window, 5, lastcol - table_hdr_len1 + 1, c_light_gray, _( "amt weight vol" ) );
+        mvwprintz( window, point( lastcol - table_hdr_len1 + 1, 5 ), c_light_gray, _( "amt weight vol" ) );
     }
 
     for( int i = page * itemsPerPage, x = 0 ; i < static_cast<int>( items.size() ) &&
          x < itemsPerPage ; i++, x++ ) {
         const auto &sitem = items[i];
         if( sitem.is_category_header() ) {
-            mvwprintz( window, 6 + x, ( columns - utf8_width( sitem.name ) - 6 ) / 2, c_cyan, "[%s]",
+            mvwprintz( window, point( ( columns - utf8_width( sitem.name ) - 6 ) / 2, 6 + x ), c_cyan, "[%s]",
                        sitem.name );
             continue;
         }
@@ -342,9 +343,9 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
             thiscolor = inCategoryMode && pane.sortby == SORTBY_CATEGORY ? c_white_red : hilite( c_white );
             thiscolordark = hilite( thiscolordark );
             if( compact ) {
-                mvwprintz( window, 6 + x, 1, thiscolor, "  %s", spaces );
+                mvwprintz( window, point( 1, 6 + x ), thiscolor, "  %s", spaces );
             } else {
-                mvwprintz( window, 6 + x, 1, thiscolor, ">>%s", spaces );
+                mvwprintz( window, point( 1, 6 + x ), thiscolor, ">>%s", spaces );
             }
         }
 
@@ -383,12 +384,12 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         }
 
         //print item name
-        trim_and_print( window, 6 + x, compact ? 1 : 4, max_name_length, thiscolor, item_name );
+        trim_and_print( window, point( compact ? 1 : 4, 6 + x ), max_name_length, thiscolor, item_name );
 
         //print src column
         // TODO: specify this is coming from a vehicle!
         if( pane.get_area() == AIM_ALL && !compact ) {
-            mvwprintz( window, 6 + x, src_startpos, thiscolor, squares[sitem.area].shortname );
+            mvwprintz( window, point( src_startpos, 6 + x ), thiscolor, squares[sitem.area].shortname );
         }
 
         //print "amount" column
@@ -399,7 +400,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
                 it_amt = 9999;
                 print_color = selected ? hilite( c_red ) : c_red;
             }
-            mvwprintz( window, 6 + x, amt_startpos, print_color, "%4d", it_amt );
+            mvwprintz( window, point( amt_startpos, 6 + x ), print_color, "%4d", it_amt );
         }
 
         //print weight column
@@ -418,7 +419,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         } else {
             w_precision = 2;
         }
-        mvwprintz( window, 6 + x, weight_startpos, print_color, "%5.*f", w_precision, it_weight );
+        mvwprintz( window, point( weight_startpos, 6 + x ), print_color, "%5.*f", w_precision, it_weight );
 
         //print volume column
         bool it_vol_truncated = false;
@@ -429,10 +430,10 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         } else {
             print_color = sitem.volume.value() > 0 ? thiscolor : thiscolordark;
         }
-        mvwprintz( window, 6 + x, vol_startpos, print_color, it_vol );
+        mvwprintz( window, point( vol_startpos, 6 + x ), print_color, it_vol );
 
         if( active && sitem.autopickup ) {
-            mvwprintz( window, 6 + x, 1, magenta_background( it.color_in_inventory() ),
+            mvwprintz( window, point( 1, 6 + x ), magenta_background( it.color_in_inventory() ),
                        compact ? it.tname().substr( 0, 1 ) : ">" );
         }
     }
@@ -563,7 +564,7 @@ void advanced_inventory::menu_square( uilist &menu )
         nc_color kcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_dark_gray;
         const int x = squares[loc].hscreen.x + ofs;
         const int y = squares[loc].hscreen.y + 5;
-        mvwprintz( menu.window, y, x, bcolor, "%c", bracket[0] );
+        mvwprintz( menu.window, point( x, y ), bcolor, "%c", bracket[0] );
         wprintz( menu.window, kcolor, "%c", key );
         wprintz( menu.window, bcolor, "%c", bracket[1] );
     }
@@ -650,7 +651,7 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
         }
         const int x = squares[i].hscreen.x + ofs;
         const int y = squares[i].hscreen.y;
-        mvwprintz( window, y, x, bcolor, "%c", bracket[0] );
+        mvwprintz( window, point( x, y ), bcolor, "%c", bracket[0] );
         wprintz( window, kcolor, "%c", in_vehicle && sel != AIM_DRAGGED ? 'V' : key );
         wprintz( window, bcolor, "%c", bracket[1] );
     }
@@ -1160,14 +1161,14 @@ void advanced_inventory::redraw_pane( side p )
     auto name = utf8_truncate( car ? sq.veh->name : sq.name, width );
     auto desc = utf8_truncate( sq.desc[car], width );
     width -= 2 + 1; // starts at offset 2, plus space between the header and the text
-    mvwprintz( w, 1, 2, active ? c_green  : c_light_gray, name );
-    mvwprintz( w, 2, 2, active ? c_light_blue : c_dark_gray, desc );
-    trim_and_print( w, 3, 2, width, active ? c_cyan : c_dark_gray, square.flags );
+    mvwprintz( w, point( 2, 1 ), active ? c_green  : c_light_gray, name );
+    mvwprintz( w, point( 2, 2 ), active ? c_light_blue : c_dark_gray, desc );
+    trim_and_print( w, point( 2, 3 ), width, active ? c_cyan : c_dark_gray, square.flags );
 
     const int max_page = ( pane.items.size() + itemsPerPage - 1 ) / itemsPerPage;
     if( active && max_page > 1 ) {
         const int page = pane.index / itemsPerPage;
-        mvwprintz( w, 4, 2, c_light_blue, _( "[<] page %d of %d [>]" ), page + 1, max_page );
+        mvwprintz( w, point( 2, 4 ), c_light_blue, _( "[<] page %d of %d [>]" ), page + 1, max_page );
     }
 
     if( active ) {
@@ -1197,10 +1198,10 @@ void advanced_inventory::redraw_pane( side p )
         wattroff( w, c_white );
     }
     if( ! filter_edit && !pane.filter.empty() ) {
-        mvwprintz( w, getmaxy( w ) - 1, 6 + std::strlen( fprefix ), c_white,
+        mvwprintz( w, point( 6 + std::strlen( fprefix ), getmaxy( w ) - 1 ), c_white,
                    pane.filter );
-        mvwprintz( w, getmaxy( w ) - 1,
-                   getmaxx( w ) - std::strlen( fsuffix ) - 2, c_white, "%s", fsuffix );
+        mvwprintz( w, point( getmaxx( w ) - std::strlen( fsuffix ) - 2, getmaxy( w ) - 1 ), c_white, "%s",
+                   fsuffix );
     }
     wrefresh( w );
 }
@@ -1556,12 +1557,11 @@ void advanced_inventory::display()
             Messages::display_messages( head, 2, 1, w_width - 1, head_height - 2 );
             draw_minimap();
             const std::string msg = _( "< [?] show help >" );
-            mvwprintz( head, 0,
-                       w_width - ( minimap_width + 2 ) - utf8_width( msg ) - 1,
+            mvwprintz( head, point( w_width - ( minimap_width + 2 ) - utf8_width( msg ) - 1, 0 ),
                        c_white, msg );
             if( g->u.has_watch() ) {
                 const std::string time = to_string_time_of_day( calendar::turn );
-                mvwprintz( head, 0, 2, c_white, time );
+                mvwprintz( head, point( 2, 0 ), c_white, time );
             }
             wrefresh( head );
             refresh_minimap();
@@ -1816,8 +1816,8 @@ void advanced_inventory::display()
             ime_sentry sentry;
 
             do {
-                mvwprintz( spane.window, getmaxy( spane.window ) - 1, 2, c_cyan, "< " );
-                mvwprintz( spane.window, getmaxy( spane.window ) - 1, w_width / 2 - 4, c_cyan, " >" );
+                mvwprintz( spane.window, point( 2, getmaxy( spane.window ) - 1 ), c_cyan, "< " );
+                mvwprintz( spane.window, point( w_width / 2 - 4, getmaxy( spane.window ) - 1 ), c_cyan, " >" );
                 std::string new_filter = spopup.query_string( false );
                 if( spopup.context().get_raw_input().get_first_input() == KEY_ESCAPE ) {
                     // restore original filter
@@ -2447,7 +2447,8 @@ void advanced_inventory::refresh_minimap()
     draw_border( mm_border );
     // minor addition to border for AIM_ALL, sorta hacky
     if( panes[src].get_area() == AIM_ALL || panes[dest].get_area() == AIM_ALL ) {
-        mvwprintz( mm_border, 0, 1, c_light_gray, utf8_truncate( _( "All" ), minimap_width ) );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( mm_border, point( 1, 0 ), c_light_gray, utf8_truncate( _( "All" ), minimap_width ) );
     }
     // refresh border, then minimap
     wrefresh( mm_border );
@@ -2475,7 +2476,7 @@ void advanced_inventory::draw_minimap()
         // invert the color if pointing to the player's position
         auto cl = sq.id == AIM_INVENTORY || sq.id == AIM_WORN ?
                   invert_color( c_light_cyan ) : c_light_cyan.blink();
-        mvwputch( minimap, pt.y, pt.x, cl, sym );
+        mvwputch( minimap, pt.xy(), cl, sym );
     }
 
     // Invert player's tile color if exactly one pane points to player's tile

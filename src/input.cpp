@@ -1029,7 +1029,7 @@ void input_context::display_menu()
         draw_border( w_help, BORDER_COLOR, _( "Keybindings" ), c_light_red );
         draw_scrollbar( w_help, scroll_offset, display_height,
                         filtered_registered_actions.size(), 10, 0, c_white, true );
-        fold_and_print( w_help, 1, 2, legwidth, c_white, legend.str() );
+        fold_and_print( w_help, point( 2, 1 ), legwidth, c_white, legend.str() );
 
         for( size_t i = 0; i + scroll_offset < filtered_registered_actions.size() &&
              i < display_height; i++ ) {
@@ -1049,13 +1049,13 @@ void input_context::display_menu()
             if( status == s_add_global && overwrite_default ) {
                 // We're trying to add a global, but this action has a local
                 // defined, so gray out the invlet.
-                mvwprintz( w_help, i + 10, 2, c_dark_gray, "%c ", invlet );
+                mvwprintz( w_help, point( 2, i + 10 ), c_dark_gray, "%c ", invlet );
             } else if( status == s_add || status == s_add_global ) {
-                mvwprintz( w_help, i + 10, 2, c_light_blue, "%c ", invlet );
+                mvwprintz( w_help, point( 2, i + 10 ), c_light_blue, "%c ", invlet );
             } else if( status == s_remove ) {
-                mvwprintz( w_help, i + 10, 2, c_light_blue, "%c ", invlet );
+                mvwprintz( w_help, point( 2, i + 10 ), c_light_blue, "%c ", invlet );
             } else {
-                mvwprintz( w_help, i + 10, 2, c_blue, "  " );
+                mvwprintz( w_help, point( 2, i + 10 ), c_blue, "  " );
             }
             nc_color col;
             if( attributes.input_events.empty() ) {
@@ -1065,8 +1065,8 @@ void input_context::display_menu()
             } else {
                 col = global_key;
             }
-            mvwprintz( w_help, i + 10, 4, col, "%s: ", get_action_name( action_id ) );
-            mvwprintz( w_help, i + 10, 52, col, "%s", get_desc( action_id ) );
+            mvwprintz( w_help, point( 4, i + 10 ), col, "%s: ", get_action_name( action_id ) );
+            mvwprintz( w_help, point( 52, i + 10 ), col, "%s", get_desc( action_id ) );
         }
 
         // spopup.query_string() will call wrefresh( w_help )

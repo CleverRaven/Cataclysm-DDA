@@ -260,7 +260,7 @@ void editmap_hilight::draw( editmap &em, bool update )
                     t_col = getbg( t_col );
                 }
                 tripoint scrpos = em.pos2screen( p );
-                mvwputch( g->w_terrain, scrpos.y, scrpos.x, t_col, t_sym );
+                mvwputch( g->w_terrain, scrpos.xy(), t_col, t_sym );
             }
         }
     }
@@ -476,7 +476,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
                     m->drawsq( w, g->u, p, false, draw_itm, center, false, true );
                 }
             } else {
-                mvwputch( w, sy, sx, c_dark_gray, sym );
+                mvwputch( w, point( sx, sy ), c_dark_gray, sym );
             }
         }
     }
@@ -548,7 +548,7 @@ void editmap::update_view( bool update_info )
                 }
                 t_col = altblink ? green_background( t_col ) : cyan_background( t_col );
                 tripoint scrpos = pos2screen( p );
-                mvwputch( g->w_terrain, scrpos.y, scrpos.x, t_col, t_sym );
+                mvwputch( g->w_terrain, scrpos.xy(), t_col, t_sym );
             }
         }
     }
@@ -564,10 +564,10 @@ void editmap::update_view( bool update_info )
     // draw arrows if altblink is set (ie, [m]oving a large selection
     if( blink && altblink ) {
         const point mp = tmax / 2 + point_south_east;
-        mvwputch( g->w_terrain, mp.y, 1, c_yellow, '<' );
-        mvwputch( g->w_terrain, mp.y, tmax.x - 1, c_yellow, '>' );
-        mvwputch( g->w_terrain, 1, mp.x, c_yellow, '^' );
-        mvwputch( g->w_terrain, tmax.y - 1, mp.x, c_yellow, 'v' );
+        mvwputch( g->w_terrain, point( 1, mp.y ), c_yellow, '<' );
+        mvwputch( g->w_terrain, point( tmax.x - 1, mp.y ), c_yellow, '>' );
+        mvwputch( g->w_terrain, point( mp.x, 1 ), c_yellow, '^' );
+        mvwputch( g->w_terrain, point( mp.x, tmax.y - 1 ), c_yellow, 'v' );
     }
 
     wrefresh( g->w_terrain );
@@ -577,19 +577,19 @@ void editmap::update_view( bool update_info )
         int off = 1;
         draw_border( w_info );
 
-        mvwprintz( w_info, 0, 2, c_light_gray, "< %d,%d >", target.x, target.y );
+        mvwprintz( w_info, point( 2, 0 ), c_light_gray, "< %d,%d >", target.x, target.y );
         for( int i = 1; i < infoHeight - 2; i++ ) { // clear window
-            mvwprintz( w_info, i, 1, c_white, padding );
+            mvwprintz( w_info, point( 1, i ), c_white, padding );
         }
 
-        mvwputch( w_info, off, 2, terrain_type.color(), terrain_type.symbol() );
+        mvwputch( w_info, point( 2, off ), terrain_type.color(), terrain_type.symbol() );
         mvwprintw( w_info, point( 4, off ), _( "%d: %s; movecost %d" ), g->m.ter( target ).to_i(),
                    terrain_type.name(),
                    terrain_type.movecost
                  );
         off++; // 2
         if( g->m.furn( target ) > 0 ) {
-            mvwputch( w_info, off, 2, furniture_type.color(), furniture_type.symbol() );
+            mvwputch( w_info, point( 2, off ), furniture_type.color(), furniture_type.symbol() );
             mvwprintw( w_info, point( 4, off ), _( "%d: %s; movecost %d movestr %d" ),
                        g->m.furn( target ).to_i(),
                        furniture_type.name(),
@@ -634,7 +634,7 @@ void editmap::update_view( bool update_info )
         off++;
         for( auto &fld : *cur_field ) {
             const field_entry &cur = fld.second;
-            mvwprintz( w_info, off, 1, cur.color(),
+            mvwprintz( w_info, point( 1, off ), cur.color(),
                        _( "field: %s L:%d[%s] A:%d" ),
                        cur.get_field_type().id().c_str(),
                        cur.get_field_intensity(),
@@ -646,7 +646,7 @@ void editmap::update_view( bool update_info )
 
         if( cur_trap != tr_null ) {
             auto &t = cur_trap.obj();
-            mvwprintz( w_info, off, 1, t.color, _( "trap: %s (%d)" ), t.name(), cur_trap.to_i() );
+            mvwprintz( w_info, point( 1, off ), t.color, _( "trap: %s (%d)" ), t.name(), cur_trap.to_i() );
             off++; // 11
         }
 
@@ -661,7 +661,8 @@ void editmap::update_view( bool update_info )
         map_stack target_stack = g->m.i_at( target );
         const int target_stack_size = target_stack.size();
         if( !g->m.has_flag( "CONTAINER", target ) && target_stack_size > 0 ) {
-            trim_and_print( w_info, off, 1, getmaxx( w_info ), c_light_gray, _( "There is a %s there." ),
+            trim_and_print( w_info, point( 1, off ), getmaxx( w_info ), c_light_gray,
+                            _( "There is a %s there." ),
                             target_stack.begin()->tname() );
             off++;
             if( target_stack_size > 1 ) {
@@ -810,7 +811,8 @@ int editmap::edit_ter()
             for( int x = xmin; x < pickw && cur_t < static_cast<int>( ter_t::count() ); x++, cur_t++ ) {
                 const ter_id tid( cur_t );
                 const ter_t &ttype = tid.obj();
-                mvwputch( w_pickter, y, x, ter_frn_mode == 0 ? ttype.color() : c_dark_gray, ttype.symbol() );
+                mvwputch( w_pickter, point( x, y ), ter_frn_mode == 0 ? ttype.color() : c_dark_gray,
+                          ttype.symbol() );
                 if( tid == sel_ter ) {
                     sel_terp = tripoint( x, y, target.z );
                 } else if( tid == lastsel_ter ) {
@@ -821,18 +823,18 @@ int editmap::edit_ter()
             }
         }
         // clear last cursor area
-        mvwputch( w_pickter, lastsel_terp.y + 1, lastsel_terp.x - 1, c_tercurs, ' ' );
-        mvwputch( w_pickter, lastsel_terp.y - 1, lastsel_terp.x + 1, c_tercurs, ' ' );
-        mvwputch( w_pickter, lastsel_terp.y + 1, lastsel_terp.x + 1, c_tercurs, ' ' );
-        mvwputch( w_pickter, lastsel_terp.y - 1, lastsel_terp.x - 1, c_tercurs, ' ' );
+        mvwputch( w_pickter, lastsel_terp.xy() + point_south_west, c_tercurs, ' ' );
+        mvwputch( w_pickter, lastsel_terp.xy() + point_north_east, c_tercurs, ' ' );
+        mvwputch( w_pickter, lastsel_terp.xy() + point_south_east, c_tercurs, ' ' );
+        mvwputch( w_pickter, lastsel_terp.xy() + point_north_west, c_tercurs, ' ' );
         // indicate current tile
-        mvwputch( w_pickter, target_terp.y + 1, target_terp.x, c_light_gray, '^' );
-        mvwputch( w_pickter, target_terp.y - 1, target_terp.x, c_light_gray, 'v' );
+        mvwputch( w_pickter, target_terp.xy() + point_south, c_light_gray, '^' );
+        mvwputch( w_pickter, target_terp.xy() + point_north, c_light_gray, 'v' );
         // draw cursor around selected terrain icon
-        mvwputch( w_pickter, sel_terp.y + 1, sel_terp.x - 1, c_tercurs, LINE_XXOO );
-        mvwputch( w_pickter, sel_terp.y - 1, sel_terp.x + 1, c_tercurs, LINE_OOXX );
-        mvwputch( w_pickter, sel_terp.y + 1, sel_terp.x + 1, c_tercurs, LINE_XOOX );
-        mvwputch( w_pickter, sel_terp.y - 1, sel_terp.x - 1, c_tercurs, LINE_OXXO );
+        mvwputch( w_pickter, sel_terp.xy() + point_south_west, c_tercurs, LINE_XXOO );
+        mvwputch( w_pickter, sel_terp.xy() + point_north_east, c_tercurs, LINE_OOXX );
+        mvwputch( w_pickter, sel_terp.xy() + point_south_east, c_tercurs, LINE_XOOX );
+        mvwputch( w_pickter, sel_terp.xy() + point_north_west, c_tercurs, LINE_OXXO );
 
         draw_border( w_pickter );
         // calculate offset, print terrain selection info
@@ -848,7 +850,7 @@ int editmap::edit_ter()
 
             mvwprintw( w_pickter, point( 2, 0 ), "< %s[%d]: %s >", pttype.id.c_str(), pttype.id.id().to_i(),
                        pttype.name() );
-            mvwprintz( w_pickter, off, 2, c_white, _( "movecost %d" ), pttype.movecost );
+            mvwprintz( w_pickter, point( 2, off ), c_white, _( "movecost %d" ), pttype.movecost );
             std::string extras;
             if( pttype.has_flag( TFLAG_INDOORS ) ) {
                 extras += _( "[indoors] " );
@@ -866,7 +868,8 @@ int editmap::edit_ter()
             for( int x = xmin; x < pickw && cur_f < static_cast<int>( furn_t::count() ); x++, cur_f++ ) {
                 const furn_id fid( cur_f );
                 const furn_t &ftype = fid.obj();
-                mvwputch( w_pickter, y, x, ter_frn_mode == 1 ? ftype.color() : c_dark_gray, ftype.symbol() );
+                mvwputch( w_pickter, point( x, y ), ter_frn_mode == 1 ? ftype.color() : c_dark_gray,
+                          ftype.symbol() );
 
                 if( fid == sel_frn ) {
                     sel_frnp = tripoint( x, y, target.z );
@@ -878,18 +881,18 @@ int editmap::edit_ter()
             }
         }
 
-        mvwputch( w_pickter, lastsel_frnp.y + 1, lastsel_frnp.x - 1, c_frncurs, ' ' );
-        mvwputch( w_pickter, lastsel_frnp.y - 1, lastsel_frnp.x + 1, c_frncurs, ' ' );
-        mvwputch( w_pickter, lastsel_frnp.y + 1, lastsel_frnp.x + 1, c_frncurs, ' ' );
-        mvwputch( w_pickter, lastsel_frnp.y - 1, lastsel_frnp.x - 1, c_frncurs, ' ' );
+        mvwputch( w_pickter, lastsel_frnp.xy() + point_south_west, c_frncurs, ' ' );
+        mvwputch( w_pickter, lastsel_frnp.xy() + point_north_east, c_frncurs, ' ' );
+        mvwputch( w_pickter, lastsel_frnp.xy() + point_south_east, c_frncurs, ' ' );
+        mvwputch( w_pickter, lastsel_frnp.xy() + point_north_west, c_frncurs, ' ' );
 
-        mvwputch( w_pickter, target_frnp.y + 1, target_frnp.x, c_light_gray, '^' );
-        mvwputch( w_pickter, target_frnp.y - 1, target_frnp.x, c_light_gray, 'v' );
+        mvwputch( w_pickter, target_frnp.xy() + point_south, c_light_gray, '^' );
+        mvwputch( w_pickter, target_frnp.xy() + point_north, c_light_gray, 'v' );
 
-        mvwputch( w_pickter, sel_frnp.y + 1, sel_frnp.x - 1, c_frncurs, LINE_XXOO );
-        mvwputch( w_pickter, sel_frnp.y - 1, sel_frnp.x + 1, c_frncurs, LINE_OOXX );
-        mvwputch( w_pickter, sel_frnp.y + 1, sel_frnp.x + 1, c_frncurs, LINE_XOOX );
-        mvwputch( w_pickter, sel_frnp.y - 1, sel_frnp.x - 1, c_frncurs, LINE_OXXO );
+        mvwputch( w_pickter, sel_frnp.xy() + point_south_west, c_frncurs, LINE_XXOO );
+        mvwputch( w_pickter, sel_frnp.xy() + point_north_east, c_frncurs, LINE_OOXX );
+        mvwputch( w_pickter, sel_frnp.xy() + point_south_east, c_frncurs, LINE_XOOX );
+        mvwputch( w_pickter, sel_frnp.xy() + point_north_west, c_frncurs, LINE_OXXO );
 
         int flen = fymax * 2;
         off += flen;
@@ -903,7 +906,7 @@ int editmap::edit_ter()
 
             mvwprintw( w_pickter, point( 2, 0 ), "< %s[%d]: %s >", pftype.id.c_str(), pftype.id.id().to_i(),
                        pftype.name() );
-            mvwprintz( w_pickter, off, 2, c_white, _( "movecost %d" ), pftype.movecost );
+            mvwprintz( w_pickter, point( 2, off ), c_white, _( "movecost %d" ), pftype.movecost );
             std::string fextras;
             if( pftype.has_flag( TFLAG_INDOORS ) ) {
                 fextras += _( "[indoors] " );
@@ -916,12 +919,12 @@ int editmap::edit_ter()
 
         // draw green |'s around terrain or furniture tilesets depending on selection
         for( int y = tstart - 1; y < tstart + tlen + 1; y++ ) {
-            mvwputch( w_pickter, y, 1, c_light_green, ter_frn_mode == 0 ? '|' : ' ' );
-            mvwputch( w_pickter, y, width - 2, c_light_green, ter_frn_mode == 0 ? '|' : ' ' );
+            mvwputch( w_pickter, point( 1, y ), c_light_green, ter_frn_mode == 0 ? '|' : ' ' );
+            mvwputch( w_pickter, point( width - 2, y ), c_light_green, ter_frn_mode == 0 ? '|' : ' ' );
         }
         for( int y = fstart - 1; y < fstart + flen + 1; y++ ) {
-            mvwputch( w_pickter, y, 1, c_light_green, ter_frn_mode == 1 ? '|' : ' ' );
-            mvwputch( w_pickter, y, width - 2, c_light_green, ter_frn_mode == 1 ? '|' : ' ' );
+            mvwputch( w_pickter, point( 1, y ), c_light_green, ter_frn_mode == 1 ? '|' : ' ' );
+            mvwputch( w_pickter, point( width - 2, y ), c_light_green, ter_frn_mode == 1 ? '|' : ' ' );
         }
 
         uphelp( pgettext( "Map editor: terrain/furniture shortkeys",
@@ -1225,7 +1228,7 @@ int editmap::edit_trp()
         }
         std::string tnam;
         for( int t = tshift; t <= tshift + tmax; t++ ) {
-            mvwprintz( w_picktrap, t + 1 - tshift, 1, c_white, padding );
+            mvwprintz( w_picktrap, point( 1, t + 1 - tshift ), c_white, padding );
             if( t < num_trap_types ) {
                 auto &tr = trap_id( t ).obj();
                 if( tr.is_null() ) {
@@ -1238,8 +1241,8 @@ int editmap::edit_trp()
                         tnam = tr.id.str();
                     }
                 }
-                mvwputch( w_picktrap, t + 1 - tshift, 2, tr.color, tr.sym );
-                mvwprintz( w_picktrap, t + 1 - tshift, 4,
+                mvwputch( w_picktrap, point( 2, t + 1 - tshift ), tr.color, tr.sym );
+                mvwprintz( w_picktrap, point( 4, t + 1 - tshift ),
                            trsel == tr.loadid ? h_white :
                            cur_trap == tr.loadid ? c_green : c_light_gray,
                            "%d %s", t, tnam.c_str() );

@@ -1297,10 +1297,10 @@ void debug()
                 g->draw_ter();
                 auto sounds_to_draw = sounds::get_monster_sounds();
                 for( const auto &sound : sounds_to_draw.first ) {
-                    mvwputch( g->w_terrain, offset.y + sound.y, offset.x + sound.x, c_yellow, '?' );
+                    mvwputch( g->w_terrain, offset + sound.xy(), c_yellow, '?' );
                 }
                 for( const auto &sound : sounds_to_draw.second ) {
-                    mvwputch( g->w_terrain, offset.y + sound.y, offset.x + sound.x, c_red, '?' );
+                    mvwputch( g->w_terrain, offset + sound.xy(), c_red, '?' );
                 }
                 wrefresh( g->w_terrain );
                 g->draw_panels();

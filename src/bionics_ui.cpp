@@ -71,7 +71,8 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     } else if( mode == EXAMINING ) {
         desc = _( "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
     }
-    fold_and_print( window, 0, 1, pwr_str_pos, c_white, desc );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    fold_and_print( window, point( 1, 0 ), pwr_str_pos, c_white, desc );
 
     wrefresh( window );
 }
@@ -140,18 +141,18 @@ static void draw_description( const catacurses::window &win, const bionic &bio )
     werase( win );
     const int width = getmaxx( win );
     const std::string poweronly_string = build_bionic_poweronly_string( bio );
-    int ypos = fold_and_print( win, 0, 0, width, c_white, bio.id->name );
+    int ypos = fold_and_print( win, point_zero, width, c_white, bio.id->name );
     if( !poweronly_string.empty() ) {
-        ypos += fold_and_print( win, ypos, 0, width, c_light_gray,
+        ypos += fold_and_print( win, point( 0, ypos ), width, c_light_gray,
                                 _( "Power usage: %s" ), poweronly_string );
     }
-    ypos += 1 + fold_and_print( win, ypos, 0, width, c_light_blue, bio.id->description );
+    ypos += 1 + fold_and_print( win, point( 0, ypos ), width, c_light_blue, bio.id->description );
 
     // TODO: Unhide when enforcing limits
     if( get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         const bool each_bp_on_new_line = ypos + static_cast<int>( num_bp ) + 1 < getmaxy( win );
         // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-        ypos += fold_and_print( win, ypos, 0, width, c_light_gray,
+        ypos += fold_and_print( win, point( 0, ypos ), width, c_light_gray,
                                 list_occupied_bps( bio.id, _( "This bionic occupies the following body parts:" ),
                                         each_bp_on_new_line ) );
     }
@@ -173,7 +174,7 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
 
     // draw horizontal line from selected bionic
     const int turn_x = start_x + ( last_x - start_x ) * 2 / 3;
-    mvwputch( win, start_y, start_x, BORDER_COLOR, '>' );
+    mvwputch( win, point( start_x, start_y ), BORDER_COLOR, '>' );
     mvwhline( win, point( start_x + 1, start_y ), LINE_OXOX, turn_x - start_x - 1 );
 
     int min_y = start_y;
@@ -208,15 +209,15 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
             bp_chr = LINE_XXXO;
         }
 
-        mvwputch( win, y, turn_x, BORDER_COLOR, bp_chr );
+        mvwputch( win, point( turn_x, y ), BORDER_COLOR, bp_chr );
 
         // draw horizontal line to bodypart title
         mvwhline( win, point( turn_x + 1, y ), LINE_OXOX, last_x - turn_x - 1 );
-        mvwputch( win, y, last_x, BORDER_COLOR, '<' );
+        mvwputch( win, point( last_x, y ), BORDER_COLOR, '<' );
 
         // draw amount of consumed slots by this CBM
         const std::string fmt_num = string_format( "(%d)", elem.second );
-        mvwprintz( win, y, turn_x + std::max( 1, ( last_x - turn_x - utf8_width( fmt_num ) ) / 2 ),
+        mvwprintz( win, point( turn_x + std::max( 1, ( last_x - turn_x - utf8_width( fmt_num ) ) / 2 ), y ),
                    c_yellow, fmt_num );
     }
 
@@ -235,7 +236,7 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
     } else if( !move_up && move_down && move_same ) {  // 011
         bionic_chr = LINE_OXXX;  // '^|^'
     }
-    mvwputch( win, start_y, turn_x, BORDER_COLOR, bionic_chr );
+    mvwputch( win, point( turn_x, start_y ), BORDER_COLOR, bionic_chr );
 }
 
 //get a text color depending on the power/powering state of the bionic
@@ -401,8 +402,8 @@ void player::power_bionics()
             werase( wBio );
             draw_border( wBio, BORDER_COLOR, _( " BIONICS " ) );
             // Draw symbols to connect additional lines to border
-            mvwputch( wBio, HEADER_LINE_Y - 1, 0, BORDER_COLOR, LINE_XXXO ); // |-
-            mvwputch( wBio, HEADER_LINE_Y - 1, WIDTH - 1, BORDER_COLOR, LINE_XOXX ); // -|
+            mvwputch( wBio, point( 0, HEADER_LINE_Y - 1 ), BORDER_COLOR, LINE_XXXO ); // |-
+            mvwputch( wBio, point( WIDTH - 1, HEADER_LINE_Y - 1 ), BORDER_COLOR, LINE_XOXX ); // -|
 
             int max_width = 0;
             std::vector<std::string>bps;
@@ -417,7 +418,7 @@ void player::power_bionics()
             const int pos_x = WIDTH - 2 - max_width;
             if( get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
                 for( size_t i = 0; i < bps.size(); ++i ) {
-                    mvwprintz( wBio, i + list_start_y, pos_x, c_light_gray, bps[i] );
+                    mvwprintz( wBio, point( pos_x, i + list_start_y ), c_light_gray, bps[i] );
                 }
             }
 
@@ -431,7 +432,7 @@ void player::power_bionics()
                         msg = _( "No passive bionics installed." );
                         break;
                 }
-                fold_and_print( wBio, list_start_y, 2, pos_x - 1, c_light_gray, msg );
+                fold_and_print( wBio, point( 2, list_start_y ), pos_x - 1, c_light_gray, msg );
             } else {
                 for( size_t i = scroll_position; i < current_bionic_list->size(); i++ ) {
                     if( list_start_y + static_cast<int>( i ) - scroll_position == HEIGHT - 1 ) {
@@ -443,7 +444,7 @@ void player::power_bionics()
                     const std::string desc = string_format( "%c %s", ( *current_bionic_list )[i]->invlet,
                                                             build_bionic_powerdesc_string(
                                                                     *( *current_bionic_list )[i] ).c_str() );
-                    trim_and_print( wBio, list_start_y + i - scroll_position, 2, WIDTH - 3, col,
+                    trim_and_print( wBio, point( 2, list_start_y + i - scroll_position ), WIDTH - 3, col,
                                     desc );
                     if( is_highlighted && menu_mode != EXAMINING && get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
                         const bionic_id bio_id = ( *current_bionic_list )[i]->id;
@@ -453,7 +454,7 @@ void player::power_bionics()
                         // redraw highlighted (occupied) body parts
                         for( auto &elem : bio_id->occupied_bodyparts ) {
                             const int i = static_cast<int>( elem.first );
-                            mvwprintz( wBio, i + list_start_y, pos_x, c_yellow, bps[i] );
+                            mvwprintz( wBio, point( pos_x, i + list_start_y ), c_yellow, bps[i] );
                         }
                     }
 

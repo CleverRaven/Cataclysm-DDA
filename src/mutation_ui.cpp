@@ -20,9 +20,9 @@ mutation_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:
 static void draw_exam_window( const catacurses::window &win, const int border_y )
 {
     const int width = getmaxx( win );
-    mvwputch( win, border_y, 0, BORDER_COLOR, LINE_XXXO );
+    mvwputch( win, point( 0, border_y ), BORDER_COLOR, LINE_XXXO );
     mvwhline( win, point( 1, border_y ), LINE_OXOX, width - 2 );
-    mvwputch( win, border_y, width - 1, BORDER_COLOR, LINE_XOXX );
+    mvwputch( win, point( width - 1, border_y ), BORDER_COLOR, LINE_XOXX );
 }
 
 const auto shortcut_desc = []( const std::string &comment, const std::string &keys )
@@ -51,7 +51,8 @@ static void show_mutations_titlebar( const catacurses::window &window,
         desc << shortcut_desc( _( "%s to reassign invlet, " ), ctxt.get_desc( "REASSIGN" ) );
     }
     desc << shortcut_desc( _( "%s to assign the hotkeys." ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
-    fold_and_print( window, 0, 1, getmaxx( window ) - 1, c_white, desc.str() );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    fold_and_print( window, point( 1, 0 ), getmaxx( window ) - 1, c_white, desc.str() );
     wrefresh( window );
 }
 
@@ -154,19 +155,19 @@ void player::power_mutations()
             // Draw line under title
             mvwhline( wBio, point( 1, HEADER_LINE_Y ), LINE_OXOX, WIDTH - 2 );
             // Draw symbols to connect additional lines to border
-            mvwputch( wBio, HEADER_LINE_Y, 0, BORDER_COLOR, LINE_XXXO ); // |-
-            mvwputch( wBio, HEADER_LINE_Y, WIDTH - 1, BORDER_COLOR, LINE_XOXX ); // -|
+            mvwputch( wBio, point( 0, HEADER_LINE_Y ), BORDER_COLOR, LINE_XXXO ); // |-
+            mvwputch( wBio, point( WIDTH - 1, HEADER_LINE_Y ), BORDER_COLOR, LINE_XOXX ); // -|
 
             // Captions
-            mvwprintz( wBio, HEADER_LINE_Y + 1, 2, c_light_blue, _( "Passive:" ) );
-            mvwprintz( wBio, HEADER_LINE_Y + 1, second_column, c_light_blue, _( "Active:" ) );
+            mvwprintz( wBio, point( 2, HEADER_LINE_Y + 1 ), c_light_blue, _( "Passive:" ) );
+            mvwprintz( wBio, point( second_column, HEADER_LINE_Y + 1 ), c_light_blue, _( "Active:" ) );
 
             if( menu_mode == "examining" ) {
                 draw_exam_window( wBio, DESCRIPTION_LINE_Y );
             }
             nc_color type;
             if( passive.empty() ) {
-                mvwprintz( wBio, list_start_y, 2, c_light_gray, _( "None" ) );
+                mvwprintz( wBio, point( 2, list_start_y ), c_light_gray, _( "None" ) );
             } else {
                 for( size_t i = scroll_position; i < passive.size(); i++ ) {
                     const auto &md = passive[i].obj();
@@ -176,12 +177,12 @@ void player::power_mutations()
                         break;
                     }
                     type = has_base_trait( passive[i] ) ? c_cyan : c_light_cyan;
-                    mvwprintz( wBio, list_start_y + i, 2, type, "%c %s", td.key, md.name() );
+                    mvwprintz( wBio, point( 2, list_start_y + i ), type, "%c %s", td.key, md.name() );
                 }
             }
 
             if( active.empty() ) {
-                mvwprintz( wBio, list_start_y, second_column, c_light_gray, _( "None" ) );
+                mvwprintz( wBio, point( second_column, list_start_y ), c_light_gray, _( "None" ) );
             } else {
                 for( size_t i = scroll_position; i < active.size(); i++ ) {
                     const auto &md = active[i].obj();
@@ -196,7 +197,7 @@ void player::power_mutations()
                         type = has_base_trait( active[i] ) ? c_red : c_light_red;
                     }
                     // TODO: track resource(s) used and specify
-                    mvwputch( wBio, list_start_y + i, second_column, type, td.key );
+                    mvwputch( wBio, point( second_column, list_start_y + i ), type, td.key );
                     std::ostringstream mut_desc;
                     mut_desc << md.name();
                     if( md.cost > 0 && md.cooldown > 0 ) {
@@ -212,18 +213,18 @@ void player::power_mutations()
                     if( td.powered ) {
                         mut_desc << _( " - Active" );
                     }
-                    mvwprintz( wBio, list_start_y + i, second_column + 2, type,
+                    mvwprintz( wBio, point( second_column + 2, list_start_y + i ), type,
                                mut_desc.str() );
                 }
             }
 
             // Scrollbar
             if( scroll_position > 0 ) {
-                mvwputch( wBio, HEADER_LINE_Y + 2, 0, c_light_green, '^' );
+                mvwputch( wBio, point( 0, HEADER_LINE_Y + 2 ), c_light_green, '^' );
             }
             if( scroll_position < max_scroll_position && max_scroll_position > 0 ) {
-                mvwputch( wBio, ( menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1 ) - 1,
-                          0, c_light_green, 'v' );
+                mvwputch( wBio, point( 0, ( menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1 ) - 1 ),
+                          c_light_green, 'v' );
             }
         }
         wrefresh( wBio );
@@ -316,7 +317,7 @@ You cannot activate %s!  To read a description of \
                 draw_exam_window( wBio, DESCRIPTION_LINE_Y );
                 // Clear the lines first
                 werase( w_description );
-                fold_and_print( w_description, 0, 0, WIDTH - 2, c_light_blue, mut_data.desc() );
+                fold_and_print( w_description, point_zero, WIDTH - 2, c_light_blue, mut_data.desc() );
                 wrefresh( w_description );
             }
         }

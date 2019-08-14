@@ -446,7 +446,8 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         if( redraw ) {
             werase( w_list );
             draw_border( w_list );
-            mvwprintz( w_list, 1, 1, c_white, name_mission_tabs( omt_pos, role_id, title,
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            mvwprintz( w_list, point( 1, 1 ), c_white, name_mission_tabs( omt_pos, role_id, title,
                        tab_mode ) );
 
             calcStartPos( offset, sel, info_height, cur_key_list.size() );
@@ -466,7 +467,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
                         col = ( current == sel ? h_white : c_dark_gray );
                     }
                 }
-                mvwprintz( w_list, i + 2, 1, col, "  %s", cur_key_list[current].name_display );
+                mvwprintz( w_list, point( 1, i + 2 ), col, "  %s", cur_key_list[current].name_display );
             }
 
             draw_scrollbar( w_list, sel, info_height + 1, cur_key_list.size(), 1 );
@@ -492,7 +493,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
 
             // Display the current subset of the mission text.
             for( size_t start_line = 0; start_line < end_line; start_line++ ) {
-                print_colored_text( w_info, start_line, 0, col, col,
+                print_colored_text( w_info, point( 0, start_line ), col, col,
                                     mission_text[start_line + info_offset] );
             }
 
@@ -507,7 +508,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         }
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
-            mvwprintz( w_list, sel + 2, 1, c_white, "-%s", mission_key.cur_key.id );
+            mvwprintz( w_list, point( 1, sel + 2 ), c_white, "-%s", mission_key.cur_key.id );
             if( sel == cur_key_list.size() - 1 ) {
                 sel = 0;    // Wrap around
             } else {
@@ -516,7 +517,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             info_offset = 0;
             redraw = true;
         } else if( action == "UP" ) {
-            mvwprintz( w_list, sel + 2, 1, c_white, "-%s", mission_key.cur_key.id );
+            mvwprintz( w_list, point( 1, sel + 2 ), c_white, "-%s", mission_key.cur_key.id );
             if( sel == 0 ) {
                 sel = cur_key_list.size() - 1;    // Wrap around
             } else {

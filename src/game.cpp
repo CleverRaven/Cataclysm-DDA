@@ -1105,7 +1105,7 @@ bool game::cleanup_at_end()
                         ncColor = c_red;
                     }
 
-                    mvwputch( w_rip, iY + 1, iX + FULL_SCREEN_WIDTH / 2 - ( iMaxWidth / 2 ), ncColor,
+                    mvwputch( w_rip, point( iX + FULL_SCREEN_WIDTH / 2 - ( iMaxWidth / 2 ), iY + 1 ), ncColor,
                               vRip[iY][iX] );
                 }
             }
@@ -1142,19 +1142,22 @@ bool game::cleanup_at_end()
         ssTemp << iTotalKills;
 
         sTemp = _( "Kills:" );
-        mvwprintz( w_rip, 1 + iInfoLine++, FULL_SCREEN_WIDTH / 2 - 5, c_light_gray,
+        mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - 5, 1 + iInfoLine++ ), c_light_gray,
                    ( sTemp + " " ) );
         wprintz( w_rip, c_magenta, ssTemp.str() );
 
         sTemp = _( "In memory of:" );
-        mvwprintz( w_rip, iNameLine++, FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, c_light_gray,
+        mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ),
+                   c_light_gray,
                    sTemp );
 
         sTemp = u.name;
-        mvwprintz( w_rip, iNameLine++, FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, c_white, sTemp );
+        mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ), c_white,
+                   sTemp );
 
         sTemp = _( "Last Words:" );
-        mvwprintz( w_rip, iNameLine++, FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, c_light_gray,
+        mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ),
+                   c_light_gray,
                    sTemp );
 
         int iStartX = FULL_SCREEN_WIDTH / 2 - ( ( iMaxWidth - 4 ) / 2 );
@@ -3206,18 +3209,21 @@ void game::disp_NPCs()
 
     const tripoint ppos = u.global_omt_location();
     const tripoint &lpos = u.pos();
-    mvwprintz( w, 0, 0, c_white, _( "Your overmap position: %d, %d, %d" ), ppos.x, ppos.y, ppos.z );
-    mvwprintz( w, 1, 0, c_white, _( "Your local position: %d, %d, %d" ), lpos.x, lpos.y, lpos.z );
+    mvwprintz( w, point_zero, c_white, _( "Your overmap position: %d, %d, %d" ), ppos.x, ppos.y,
+               ppos.z );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 0, 1 ), c_white, _( "Your local position: %d, %d, %d" ), lpos.x, lpos.y,
+               lpos.z );
     std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near_player( 100 );
     std::sort( npcs.begin(), npcs.end(), npc_dist_to_player() );
     size_t i;
     for( i = 0; i < 20 && i < npcs.size(); i++ ) {
         const tripoint apos = npcs[i]->global_omt_location();
-        mvwprintz( w, i + 3, 0, c_white, "%s: %d, %d, %d", npcs[i]->name,
+        mvwprintz( w, point( 0, i + 3 ), c_white, "%s: %d, %d, %d", npcs[i]->name,
                    apos.x, apos.y, apos.z );
     }
     for( const monster &m : all_monsters() ) {
-        mvwprintz( w, i + 3, 0, c_white, "%s: %d, %d, %d", m.name(),
+        mvwprintz( w, point( 0, i + 3 ), c_white, "%s: %d, %d, %d", m.name(),
                    m.posx(), m.posy(), m.posz() );
         ++i;
     }
@@ -3234,7 +3240,7 @@ static void draw_footsteps( const catacurses::window &window, const tripoint &of
             glyph = footstep.z > offset.z ? '^' : 'v';
         }
 
-        mvwputch( window, offset.y + footstep.y, offset.x + footstep.x, c_yellow, glyph );
+        mvwputch( window, footstep.xy() + offset.xy(), c_yellow, glyph );
     }
 }
 
@@ -3296,19 +3302,19 @@ void game::draw_panels( size_t column, size_t index, bool force_draw )
                     auto label = catacurses::newwin( 1, panel_name_width, point( sidebar_right ?
                                                      TERMX - panel.get_width() - panel_name_width - 1 : panel.get_width() + 1, y ) );
                     werase( label );
-                    mvwprintz( label, 0, 0, c_light_red, panel_name );
+                    mvwprintz( label, point_zero, c_light_red, panel_name );
                     wrefresh( label );
                     label = catacurses::newwin( h, 1,
                                                 point( sidebar_right ? TERMX - panel.get_width() - 1 : panel.get_width(), y ) );
                     werase( label );
                     if( h == 1 ) {
-                        mvwputch( label, 0, 0, c_light_red, LINE_OXOX );
+                        mvwputch( label, point_zero, c_light_red, LINE_OXOX );
                     } else {
-                        mvwputch( label, 0, 0, c_light_red, LINE_OXXX );
+                        mvwputch( label, point_zero, c_light_red, LINE_OXXX );
                         for( int i = 1; i < h - 1; i++ ) {
-                            mvwputch( label, i, 0, c_light_red, LINE_XOXO );
+                            mvwputch( label, point( 0, i ), c_light_red, LINE_XOXO );
                         }
-                        mvwputch( label, h - 1, 0, c_light_red, sidebar_right ? LINE_XXOO : LINE_XOOX );
+                        mvwputch( label, point( 0, h - 1 ), c_light_red, sidebar_right ? LINE_XXOO : LINE_XOOX );
                     }
                     wrefresh( label );
                 }
@@ -3343,7 +3349,7 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
             // TODO: Make this show something more informative than just green 'v'
             // TODO: Allow looking at this mon with look command
             // TODO: Redraw this after weather etc. animations
-            mvwputch( w_terrain, my, mx, c_green_cyan, 'v' );
+            mvwputch( w_terrain, point( mx, my ), c_green_cyan, 'v' );
         }
         return;
     }
@@ -3353,7 +3359,7 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
     }
 
     if( u.sees_with_infrared( critter ) ) {
-        mvwputch( w_terrain, my, mx, c_red, '?' );
+        mvwputch( w_terrain, point( mx, my ), c_red, '?' );
     }
 }
 
@@ -3405,11 +3411,9 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
                     if( !( isBetween( tempx, -2, 2 ) &&
                            isBetween( tempy, -2, 2 ) ) ) {
                         if( critter_at( tmp ) ) {
-                            mvwputch( w_terrain, realy + POSY - posy,
-                                      realx + POSX - posx, c_white, '?' );
+                            mvwputch( w_terrain, point( realx + POSX - posx, realy + POSY - posy ), c_white, '?' );
                         } else {
-                            mvwputch( w_terrain, realy + POSY - posy,
-                                      realx + POSX - posx, c_magenta, '#' );
+                            mvwputch( w_terrain, point( realx + POSX - posx, realy + POSY - posy ), c_magenta, '#' );
                         }
                     }
                 }
@@ -3422,8 +3426,8 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         const tripoint &final_destination = destination_preview.back();
         tripoint line_center = u.pos() + u.view_offset;
         draw_line( final_destination, line_center, destination_preview );
-        mvwputch( w_terrain, POSY + ( final_destination.y - ( u.posy() + u.view_offset.y ) ),
-                  POSX + ( final_destination.x - ( u.posx() + u.view_offset.x ) ), c_white, 'X' );
+        mvwputch( w_terrain, final_destination.xy() - u.view_offset.xy() + point( POSX - u.posx(),
+                  POSY - u.posy() ), c_white, 'X' );
     }
 
     if( u.controlling_vehicle && !looking ) {
@@ -3453,8 +3457,7 @@ void game::draw_veh_dir_indicator( bool next )
 {
     if( const cata::optional<tripoint> indicator_offset = get_veh_dir_indicator_location( next ) ) {
         auto col = next ? c_white : c_dark_gray;
-        mvwputch( w_terrain, POSY + indicator_offset->y - u.view_offset.y,
-                  POSX + indicator_offset->x - u.view_offset.x, col, 'X' );
+        mvwputch( w_terrain, indicator_offset->xy() - u.view_offset.xy() + point( POSX, POSY ), col, 'X' );
     }
 }
 
@@ -3605,9 +3608,9 @@ void game::draw_minimap()
                 }
             }
             if( i == 0 && j == 0 ) {
-                mvwputch_hi( w_minimap, 3, 3, ter_color, ter_sym );
+                mvwputch_hi( w_minimap, point( 3, 3 ), ter_color, ter_sym );
             } else {
-                mvwputch( w_minimap, 3 + j, 3 + i, ter_color, ter_sym );
+                mvwputch( w_minimap, point( 3 + i, 3 + j ), ter_color, ter_sym );
             }
         }
     }
@@ -3619,9 +3622,9 @@ void game::draw_minimap()
 
         if( cursx == targ.x || fabs( slope ) > 3.5 ) { // Vertical slope
             if( targ.y > cursy ) {
-                mvwputch( w_minimap, 6, 3, c_red, "*" );
+                mvwputch( w_minimap, point( 3, 6 ), c_red, "*" );
             } else {
-                mvwputch( w_minimap, 0, 3, c_red, "*" );
+                mvwputch( w_minimap, point( 3, 0 ), c_red, "*" );
             }
         } else {
             int arrowx = -1;
@@ -3652,7 +3655,7 @@ void game::draw_minimap()
                 glyph = 'v';
             }
 
-            mvwputch( w_minimap, arrowy, arrowx, c_red, glyph );
+            mvwputch( w_minimap, point( arrowx, arrowy ), c_red, glyph );
         }
     }
 
@@ -3671,7 +3674,7 @@ void game::draw_minimap()
                 };
                 if( overmap_buffer.seen( omp )
                     && g->u.overmap_los( cur_pos, sight_points ) ) {
-                    mvwputch( w_minimap, j + 3, i + 3, c_green,
+                    mvwputch( w_minimap, point( i + 3, j + 3 ), c_green,
                               overmap_buffer.get_horde_size( omp ) > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
                 }
             }
@@ -4076,7 +4079,7 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
     for( int i = 0; i < 8; i++ ) {
         nc_color c = unique_types[i].empty() && unique_mons[i].empty() ? c_dark_gray
                      : ( dangerous[i] ? c_light_red : c_light_gray );
-        mvwprintz( w, ycoords[i] + startrow, xcoords[i] + hor_padding, c, dir_labels[i] );
+        mvwprintz( w, point( xcoords[i] + hor_padding, ycoords[i] + startrow ), c, dir_labels[i] );
     }
 
     // Print the symbols of all monsters in all directions.
@@ -4113,7 +4116,7 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
                 c = mt.color;
                 sym = mt.sym;
             }
-            mvwprintz( w, pr.y, pr.x, c, sym );
+            mvwprintz( w, pr, c, sym );
 
             pr.x++;
         }
@@ -4152,7 +4155,7 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
             }
 
             if( pr.y < maxheight ) { // Don't print if we've overflowed
-                mvwprintz( w, pr.y, pr.x, mt.color, mt.sym );
+                mvwprintz( w, pr, mt.color, mt.sym );
                 pr.x += 2; // symbol and space
                 nc_color danger = c_dark_gray;
                 if( mt.difficulty >= 30 ) {
@@ -4164,7 +4167,7 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
                 } else if( mt.agro > 0 ) {
                     danger = c_light_gray;
                 }
-                mvwprintz( w, pr.y, pr.x, danger, name );
+                mvwprintz( w, pr, danger, name );
                 pr.x += utf8_width( name ) + namesep;
             }
         }
@@ -5889,10 +5892,12 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     }
 
     if( m.impassable( lp ) ) {
-        lines = fold_and_print( w_look, line, column, max_width, c_light_gray, _( "%s; Impassable" ),
+        lines = fold_and_print( w_look, point( column, line ), max_width, c_light_gray,
+                                _( "%s; Impassable" ),
                                 tile );
     } else {
-        lines = fold_and_print( w_look, line, column, max_width, c_light_gray, _( "%s; Movement cost %d" ),
+        lines = fold_and_print( w_look, point( column, line ), max_width, c_light_gray,
+                                _( "%s; Movement cost %d" ),
                                 tile, m.move_cost( lp ) * 50 );
 
         const auto ll = get_light_level( std::max( 1.0,
@@ -5903,7 +5908,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
     std::string signage = m.get_signage( lp );
     if( !signage.empty() ) {
-        trim_and_print( w_look, ++lines, column, max_width, c_dark_gray,
+        trim_and_print( w_look, point( column, ++lines ), max_width, c_dark_gray,
                         u.has_trait( trait_ILLITERATE ) ? _( "Sign: ???" ) : _( "Sign: %s" ), signage );
     }
 
@@ -5916,17 +5921,19 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         }
 
         if( !m.has_floor_or_support( lp ) ) {
-            fold_and_print( w_look, ++lines, column, max_width, c_dark_gray, _( "Below: %s; No support" ),
+            fold_and_print( w_look, point( column, ++lines ), max_width, c_dark_gray,
+                            _( "Below: %s; No support" ),
                             tile_below );
         } else {
-            fold_and_print( w_look, ++lines, column, max_width, c_dark_gray, _( "Below: %s; Walkable" ),
+            fold_and_print( w_look, point( column, ++lines ), max_width, c_dark_gray,
+                            _( "Below: %s; Walkable" ),
                             tile_below );
         }
     }
 
-    int map_features = fold_and_print( w_look, ++lines, column, max_width, c_dark_gray,
+    int map_features = fold_and_print( w_look, point( column, ++lines ), max_width, c_dark_gray,
                                        m.features( lp ) );
-    fold_and_print( w_look, ++lines, column, max_width, c_light_gray, _( "Coverage: %d%%" ),
+    fold_and_print( w_look, point( column, ++lines ), max_width, c_light_gray, _( "Coverage: %d%%" ),
                     m.coverage( lp ) );
     if( line < lines ) {
         line = lines + map_features - 1;
@@ -5942,11 +5949,11 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
         if( fld.first.obj().has_fire && ( m.has_flag( TFLAG_FIRE_CONTAINER, lp ) ||
                                           m.ter( lp ) == t_pit_shallow || m.ter( lp ) == t_pit ) ) {
             const int max_width = getmaxx( w_look ) - column - 2;
-            int lines = fold_and_print( w_look, ++line, column, max_width, cur.color(),
+            int lines = fold_and_print( w_look, point( column, ++line ), max_width, cur.color(),
                                         get_fire_fuel_string( lp ) ) - 1;
             line += lines;
         } else {
-            mvwprintz( w_look, ++line, column, cur.color(), cur.name() );
+            mvwprintz( w_look, point( column, ++line ), cur.color(), cur.name() );
         }
     }
 }
@@ -5967,7 +5974,7 @@ void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look
             tr_name = tr.name();
         }
 
-        mvwprintz( w_look, ++line, column, tr.color, tr_name );
+        mvwprintz( w_look, point( column, ++line ), tr.color, tr_name );
     }
 }
 
@@ -6016,7 +6023,7 @@ void game::print_visibility_indicator( visibility_type visibility )
             break;
     }
 
-    mvwputch( w_terrain, POSY, POSX, visibility_indicator_color, visibility_indicator );
+    mvwputch( w_terrain, point( POSX, POSY ), visibility_indicator_color, visibility_indicator );
 }
 
 void game::print_items_info( const tripoint &lp, const catacurses::window &w_look, const int column,
@@ -6028,7 +6035,7 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
     } else if( m.has_flag( "CONTAINER", lp ) && !m.could_see_items( lp, u ) ) {
         mvwprintw( w_look, point( column, ++line ), _( "You cannot see what is inside of it." ) );
     } else if( u.has_effect( effect_blind ) || u.worn_with_flag( "BLIND" ) ) {
-        mvwprintz( w_look, ++line, column, c_yellow,
+        mvwprintz( w_look, point( column, ++line ), c_yellow,
                    _( "There's something there, but you can't see what it is." ) );
         return;
     } else {
@@ -6040,16 +6047,16 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
         const int max_width = getmaxx( w_look ) - column - 1;
         for( const auto &it : item_names ) {
             if( line >= last_line - 2 ) {
-                mvwprintz( w_look, ++line, column, c_yellow, _( "More items here..." ) );
+                mvwprintz( w_look, point( column, ++line ), c_yellow, _( "More items here..." ) );
                 break;
             }
 
             if( it.second > 1 ) {
-                trim_and_print( w_look, ++line, column, max_width, c_white,
+                trim_and_print( w_look, point( column, ++line ), max_width, c_white,
                                 pgettext( "%s is the name of the item. %d is the quantity of that item.", "%s [%d]" ),
                                 it.first.c_str(), it.second );
             } else {
-                trim_and_print( w_look, ++line, column, max_width, c_white, it.first );
+                trim_and_print( w_look, point( column, ++line ), max_width, c_white, it.first );
             }
         }
     }
@@ -6065,7 +6072,7 @@ void game::print_graffiti_info( const tripoint &lp, const catacurses::window &w_
 
     const int max_width = getmaxx( w_look ) - column - 2;
     if( m.has_graffiti_at( lp ) ) {
-        fold_and_print( w_look, ++line, column, max_width, c_light_gray,
+        fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray,
                         m.ter( lp ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
                         m.graffiti_at( lp ) );
     }
@@ -6091,22 +6098,23 @@ static void zones_manager_shortcuts( const catacurses::window &w_info )
     werase( w_info );
 
     int tmpx = 1;
-    tmpx += shortcut_print( w_info, 1, tmpx, c_white, c_light_green, _( "<A>dd" ) ) + 2;
-    tmpx += shortcut_print( w_info, 1, tmpx, c_white, c_light_green, _( "<R>emove" ) ) + 2;
-    tmpx += shortcut_print( w_info, 1, tmpx, c_white, c_light_green, _( "<E>nable" ) ) + 2;
+    tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<A>dd" ) ) + 2;
+    tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<R>emove" ) ) + 2;
+    tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<E>nable" ) ) + 2;
     // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-    tmpx += shortcut_print( w_info, 1, tmpx, c_white, c_light_green, _( "<D>isable" ) ) + 2;
+    tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<D>isable" ) ) + 2;
 
     tmpx = 1;
-    tmpx += shortcut_print( w_info, 2, tmpx, c_white, c_light_green, _( "<+-> Move up/down" ) ) + 2;
+    tmpx += shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green,
+                            _( "<+-> Move up/down" ) ) + 2;
     // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-    tmpx += shortcut_print( w_info, 2, tmpx, c_white, c_light_green, _( "<Enter>-Edit" ) ) + 2;
+    tmpx += shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green, _( "<Enter>-Edit" ) ) + 2;
 
     tmpx = 1;
-    tmpx += shortcut_print( w_info, 3, tmpx, c_white, c_light_green,
+    tmpx += shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green,
                             _( "<S>how all / hide distant" ) ) + 2;
     // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-    tmpx += shortcut_print( w_info, 3, tmpx, c_white, c_light_green, _( "<M>ap" ) ) + 2;
+    tmpx += shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green, _( "<M>ap" ) ) + 2;
 
     wrefresh( w_info );
 }
@@ -6117,38 +6125,39 @@ static void zones_manager_draw_borders( const catacurses::window &w_border,
 {
     for( int i = 1; i < TERMX; ++i ) {
         if( i < width ) {
-            mvwputch( w_border, 0, i, c_light_gray, LINE_OXOX ); // -
-            mvwputch( w_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, i, c_light_gray, LINE_OXOX ); // -
+            mvwputch( w_border, point( i, 0 ), c_light_gray, LINE_OXOX ); // -
+            mvwputch( w_border, point( i, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ), c_light_gray,
+                      LINE_OXOX ); // -
         }
 
         if( i < TERMY - iInfoHeight - VIEW_OFFSET_Y * 2 ) {
-            mvwputch( w_border, i, 0, c_light_gray, LINE_XOXO ); // |
-            mvwputch( w_border, i, width - 1, c_light_gray, LINE_XOXO ); // |
+            mvwputch( w_border, point( 0, i ), c_light_gray, LINE_XOXO ); // |
+            mvwputch( w_border, point( width - 1, i ), c_light_gray, LINE_XOXO ); // |
         }
     }
 
-    mvwputch( w_border, 0, 0, c_light_gray, LINE_OXXO ); // |^
-    mvwputch( w_border, 0, width - 1, c_light_gray, LINE_OOXX ); // ^|
+    mvwputch( w_border, point_zero, c_light_gray, LINE_OXXO ); // |^
+    mvwputch( w_border, point( width - 1, 0 ), c_light_gray, LINE_OOXX ); // ^|
 
-    mvwputch( w_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, 0, c_light_gray,
+    mvwputch( w_border, point( 0, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ), c_light_gray,
               LINE_XXXO ); // |-
-    mvwputch( w_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, width - 1, c_light_gray,
+    mvwputch( w_border, point( width - 1, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ), c_light_gray,
               LINE_XOXX ); // -|
 
-    mvwprintz( w_border, 0, 2, c_white, _( "Zones manager" ) );
+    mvwprintz( w_border, point( 2, 0 ), c_white, _( "Zones manager" ) );
     wrefresh( w_border );
 
     for( int j = 0; j < iInfoHeight - 1; ++j ) {
-        mvwputch( w_info_border, j, 0, c_light_gray, LINE_XOXO );
-        mvwputch( w_info_border, j, width - 1, c_light_gray, LINE_XOXO );
+        mvwputch( w_info_border, point( 0, j ), c_light_gray, LINE_XOXO );
+        mvwputch( w_info_border, point( width - 1, j ), c_light_gray, LINE_XOXO );
     }
 
     for( int j = 0; j < width - 1; ++j ) {
-        mvwputch( w_info_border, iInfoHeight - 1, j, c_light_gray, LINE_OXOX );
+        mvwputch( w_info_border, point( j, iInfoHeight - 1 ), c_light_gray, LINE_OXOX );
     }
 
-    mvwputch( w_info_border, iInfoHeight - 1, 0, c_light_gray, LINE_XXOO );
-    mvwputch( w_info_border, iInfoHeight - 1, width - 1, c_light_gray, LINE_XOOX );
+    mvwputch( w_info_border, point( 0, iInfoHeight - 1 ), c_light_gray, LINE_XXOO );
+    mvwputch( w_info_border, point( width - 1, iInfoHeight - 1 ), c_light_gray, LINE_XOOX );
     wrefresh( w_info_border );
 }
 
@@ -6241,12 +6250,13 @@ void game::zones_manager()
             if( zone.has_options() ) {
                 const auto &descriptions = zone.get_options().get_descriptions();
 
-                mvwprintz( w_zones_options, 0, 1, c_white, _( "Options" ) );
+                // NOLINTNEXTLINE(cata-use-named-point-constants)
+                mvwprintz( w_zones_options, point( 1, 0 ), c_white, _( "Options" ) );
 
                 int y = 1;
                 for( const auto &desc : descriptions ) {
-                    mvwprintz( w_zones_options, y, 3, c_white, desc.first );
-                    mvwprintz( w_zones_options, y, 20, c_white, desc.second );
+                    mvwprintz( w_zones_options, point( 3, y ), c_white, desc.first );
+                    mvwprintz( w_zones_options, point( 20, y ), c_white, desc.second );
                     y++;
                 }
             }
@@ -6257,7 +6267,7 @@ void game::zones_manager()
 
     auto query_position = [this, w_zones_info]() -> cata::optional<std::pair<tripoint, tripoint>> {
         werase( w_zones_info );
-        mvwprintz( w_zones_info, 3, 2, c_white, _( "Select first point." ) );
+        mvwprintz( w_zones_info, point( 2, 3 ), c_white, _( "Select first point." ) );
         wrefresh( w_zones_info );
 
         tripoint center = u.pos() + u.view_offset;
@@ -6266,7 +6276,7 @@ void game::zones_manager()
                 false );
         if( first.position )
         {
-            mvwprintz( w_zones_info, 3, 2, c_white, _( "Select second point." ) );
+            mvwprintz( w_zones_info, point( 2, 3 ), c_white, _( "Select second point." ) );
             wrefresh( w_zones_info );
 
             const look_around_result second = look_around( w_zones_info, center, *first.position,
@@ -6477,7 +6487,7 @@ void game::zones_manager()
         if( zone_cnt == 0 ) {
             werase( w_zones );
             wrefresh( w_zones_border );
-            mvwprintz( w_zones, 5, 2, c_white, _( "No Zones defined." ) );
+            mvwprintz( w_zones, point( 2, 5 ), c_white, _( "No Zones defined." ) );
 
         } else {
             werase( w_zones );
@@ -6500,28 +6510,28 @@ void game::zones_manager()
                     nc_color colorLine = ( zone.get_enabled() ) ? c_white : c_light_gray;
 
                     if( iNum == active_index ) {
-                        mvwprintz( w_zones, iNum - start_index, 0, c_yellow, "%s", ">>" );
+                        mvwprintz( w_zones, point( 0, iNum - start_index ), c_yellow, "%s", ">>" );
                         colorLine = ( zone.get_enabled() ) ? c_light_green : c_green;
                     }
 
                     //Draw Zone name
-                    mvwprintz( w_zones, iNum - start_index, 3, colorLine,
+                    mvwprintz( w_zones, point( 3, iNum - start_index ), colorLine,
                                zone.get_name() );
 
                     //Draw Type name
-                    mvwprintz( w_zones, iNum - start_index, 20, colorLine,
+                    mvwprintz( w_zones, point( 20, iNum - start_index ), colorLine,
                                mgr.get_name_from_type( zone.get_type() ) );
 
                     tripoint center = zone.get_center_point();
 
                     //Draw direction + distance
-                    mvwprintz( w_zones, iNum - start_index, 32, colorLine, "%*d %s",
+                    mvwprintz( w_zones, point( 32, iNum - start_index ), colorLine, "%*d %s",
                                5, static_cast<int>( trig_dist( player_absolute_pos, center ) ),
                                direction_name_short( direction_from( player_absolute_pos,
                                                      center ) ) );
 
                     //Draw Vehicle Indicator
-                    mvwprintz( w_zones, iNum - start_index, 41, colorLine,
+                    mvwprintz( w_zones, point( 41, iNum - start_index ), colorLine,
                                zone.get_is_vehicle() ? "*" : "" );
                 }
                 iNum++;
@@ -6566,10 +6576,10 @@ void game::zones_manager()
                                           u.pos() + u.view_offset );
                             } else {
                                 if( u.has_effect( effect_boomered ) ) {
-                                    mvwputch( w_terrain, iY - offset_y, iX - offset_x,
+                                    mvwputch( w_terrain, point( iX - offset_x, iY - offset_y ),
                                               c_magenta, '#' );
                                 } else {
-                                    mvwputch( w_terrain, iY - offset_y, iX - offset_x,
+                                    mvwputch( w_terrain, point( iX - offset_x, iY - offset_y ),
                                               c_black, ' ' );
                                 }
                             }
@@ -6736,7 +6746,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 static const char *title_suffix = " >";
                 static const std::string full_title = string_format( "%s%s%s", title_prefix, title, title_suffix );
                 const int start_pos = center_text_pos( full_title, 0, getmaxx( w_info ) - 1 );
-                mvwprintz( w_info, 0, start_pos, c_white, title_prefix );
+                mvwprintz( w_info, point( start_pos, 0 ), c_white, title_prefix );
                 wprintz( w_info, c_green, title );
                 wprintz( w_info, c_white, title_suffix );
 
@@ -6995,10 +7005,10 @@ void game::draw_trail_to_square( const tripoint &t, bool bDrawX )
             sym = 'v';
         }
         if( pts.empty() ) {
-            mvwputch( w_terrain, POSY, POSX, c_white, sym );
+            mvwputch( w_terrain, point( POSX, POSY ), c_white, sym );
         } else {
-            mvwputch( w_terrain, POSY + ( pts[pts.size() - 1].y - ( u.posy() + u.view_offset.y ) ),
-                      POSX + ( pts[pts.size() - 1].x - ( u.posx() + u.view_offset.x ) ),
+            mvwputch( w_terrain, pts[pts.size() - 1].xy() - u.view_offset.xy() + point( POSX - u.posx(),
+                      POSY - u.posy() ),
                       c_white, sym );
         }
     }
@@ -7109,24 +7119,26 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
     const int width = 44;
     for( int i = 1; i < TERMX; i++ ) {
         if( i < width ) {
-            mvwputch( window, 0, i, c_light_gray, LINE_OXOX ); // -
-            mvwputch( window, TERMY - height - 1 - VIEW_OFFSET_Y * 2, i, c_light_gray, LINE_OXOX ); // -
+            mvwputch( window, point( i, 0 ), c_light_gray, LINE_OXOX ); // -
+            mvwputch( window, point( i, TERMY - height - 1 - VIEW_OFFSET_Y * 2 ), c_light_gray,
+                      LINE_OXOX ); // -
         }
 
         if( i < TERMY - height - VIEW_OFFSET_Y * 2 ) {
-            mvwputch( window, i, 0, c_light_gray, LINE_XOXO ); // |
-            mvwputch( window, i, width - 1, c_light_gray, LINE_XOXO ); // |
+            mvwputch( window, point( 0, i ), c_light_gray, LINE_XOXO ); // |
+            mvwputch( window, point( width - 1, i ), c_light_gray, LINE_XOXO ); // |
         }
     }
 
-    mvwputch( window, 0, 0, c_light_gray, LINE_OXXO ); // |^
-    mvwputch( window, 0, width - 1, c_light_gray, LINE_OOXX ); // ^|
+    mvwputch( window, point_zero, c_light_gray, LINE_OXXO ); // |^
+    mvwputch( window, point( width - 1, 0 ), c_light_gray, LINE_OOXX ); // ^|
 
-    mvwputch( window, TERMY - height - 1 - VIEW_OFFSET_Y * 2, 0, c_light_gray, LINE_XXXO ); // |-
-    mvwputch( window, TERMY - height - 1 - VIEW_OFFSET_Y * 2, width - 1, c_light_gray,
+    mvwputch( window, point( 0, TERMY - height - 1 - VIEW_OFFSET_Y * 2 ), c_light_gray,
+              LINE_XXXO ); // |-
+    mvwputch( window, point( width - 1, TERMY - height - 1 - VIEW_OFFSET_Y * 2 ), c_light_gray,
               LINE_XOXX ); // -|
 
-    mvwprintz( window, 0, 2, c_light_green, "<Tab> " );
+    mvwprintz( window, point( 2, 0 ), c_light_green, "<Tab> " );
     wprintz( window, c_white, _( "Items" ) );
 
     std::string sSort;
@@ -7140,7 +7152,7 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
 
     int letters = utf8_width( sSort );
 
-    shortcut_print( window, 0, getmaxx( window ) - letters, c_white, c_light_green, sSort );
+    shortcut_print( window, point( getmaxx( window ) - letters, 0 ), c_white, c_light_green, sSort );
 
     std::vector<std::string> tokens;
     if( !sFilter.empty() ) {
@@ -7166,7 +7178,8 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
     const int ypos = TERMY - height - 1 - VIEW_OFFSET_Y * 2;
 
     for( int i = 0; i < n; i++ ) {
-        xpos += shortcut_print( window, ypos, xpos, c_white, c_light_green, tokens[i] ) + gap_spaces;
+        xpos += shortcut_print( window, point( xpos, ypos ), c_white, c_light_green,
+                                tokens[i] ) + gap_spaces;
     }
 
     refresh_all();
@@ -7472,7 +7485,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         if( ground_items.empty() ) {
             reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
             wrefresh( w_items_border );
-            mvwprintz( w_items, 10, 2, c_white, _( "You don't see any items around you!" ) );
+            mvwprintz( w_items, point( 2, 10 ), c_white, _( "You don't see any items around you!" ) );
         } else {
             werase( w_items );
             calcStartPos( iStartPos, iActive, iMaxRows, iItemNum );
@@ -7504,7 +7517,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                     int iThisPage = 0;
                     if( !mSortCategory[iNum].empty() ) {
                         iCatSortOffset++;
-                        mvwprintz( w_items, iNum - iStartPos, 1, c_magenta, mSortCategory[iNum] );
+                        mvwprintz( w_items, point( 1, iNum - iStartPos ), c_magenta, mSortCategory[iNum] );
                     } else {
                         if( iNum == iActive ) {
                             iThisPage = page_num;
@@ -7530,11 +7543,11 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                 col = iter->example->color_in_inventory();
                             }
                         }
-                        trim_and_print( w_items, iNum - iStartPos, 1, width - 9, col, sText.str() );
+                        trim_and_print( w_items, point( 1, iNum - iStartPos ), width - 9, col, sText.str() );
                         const int numw = iItemNum > 9 ? 2 : 1;
                         const int x = iter->vIG[iThisPage].pos.x;
                         const int y = iter->vIG[iThisPage].pos.y;
-                        mvwprintz( w_items, iNum - iStartPos, width - 6 - numw,
+                        mvwprintz( w_items, point( width - 6 - numw, iNum - iStartPos ),
                                    iNum == iActive ? c_light_green : c_light_gray,
                                    "%*d %s", numw, rl_dist( 0, 0, x, y ),
                                    direction_name_short( direction_from( 0, 0, x, y ) ) );
@@ -7551,7 +7564,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                     iNum++;
                 }
             }
-            mvwprintz( w_items_border, 0, ( width - 9 ) / 2 + ( iItemNum > 9 ? 0 : 1 ),
+            mvwprintz( w_items_border, point( ( width - 9 ) / 2 + ( iItemNum > 9 ? 0 : 1 ), 0 ),
                        c_light_green, " %*d", iItemNum > 9 ? 2 : 1, iItemNum > 0 ? iActive - iNum + 1 : 0 );
             wprintz( w_items_border, c_white, " / %*d ", iItemNum > 9 ? 2 : 1, iItemNum - iCatSortNum );
             werase( w_item_info );
@@ -7609,28 +7622,29 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     Creature *cCurMon = nullptr;
 
     for( int j = 0; j < iInfoHeight - 1; j++ ) {
-        mvwputch( w_monster_info_border, j, 0, c_light_gray, LINE_XOXO );
-        mvwputch( w_monster_info_border, j, width - 1, c_light_gray, LINE_XOXO );
+        mvwputch( w_monster_info_border, point( 0, j ), c_light_gray, LINE_XOXO );
+        mvwputch( w_monster_info_border, point( width - 1, j ), c_light_gray, LINE_XOXO );
     }
 
     for( int j = 0; j < width - 1; j++ ) {
-        mvwputch( w_monster_info_border, iInfoHeight - 1, j, c_light_gray, LINE_OXOX );
+        mvwputch( w_monster_info_border, point( j, iInfoHeight - 1 ), c_light_gray, LINE_OXOX );
     }
 
-    mvwputch( w_monsters_border, 0, 0, BORDER_COLOR, LINE_OXXO ); // |^
-    mvwputch( w_monsters_border, 0, width - 1, BORDER_COLOR, LINE_OOXX ); // ^|
+    mvwputch( w_monsters_border, point_zero, BORDER_COLOR, LINE_OXXO ); // |^
+    mvwputch( w_monsters_border, point( width - 1, 0 ), BORDER_COLOR, LINE_OOXX ); // ^|
 
-    mvwputch( w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, 0, BORDER_COLOR,
+    mvwputch( w_monsters_border, point( 0, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ), BORDER_COLOR,
               LINE_XXXO ); // |-
-    mvwputch( w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, width - 1, BORDER_COLOR,
+    mvwputch( w_monsters_border, point( width - 1, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ),
+              BORDER_COLOR,
               LINE_XOXX ); // -|
 
     for( int i = 1; i < getmaxy( w_monsters ) - 1; i++ ) {
-        mvwputch( w_monsters_border, i, 0, BORDER_COLOR, LINE_XOXO ); // |
-        mvwputch( w_monsters_border, i, width - 1, BORDER_COLOR, LINE_XOXO ); // |
+        mvwputch( w_monsters_border, point( 0, i ), BORDER_COLOR, LINE_XOXO ); // |
+        mvwputch( w_monsters_border, point( width - 1, i ), BORDER_COLOR, LINE_XOXO ); // |
     }
 
-    mvwprintz( w_monsters_border, 0, 2, c_light_green, "<Tab> " );
+    mvwprintz( w_monsters_border, point( 2, 0 ), c_light_green, "<Tab> " );
     wprintz( w_monsters_border, c_white, _( "Monsters" ) );
 
     std::string action;
@@ -7703,7 +7717,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
         if( monster_list.empty() ) {
             wrefresh( w_monsters_border );
-            mvwprintz( w_monsters, 10, 2, c_white, _( "You don't see any monsters around you!" ) );
+            mvwprintz( w_monsters, point( 2, 10 ), c_white, _( "You don't see any monsters around you!" ) );
         } else {
             werase( w_monsters );
             const int iNumMonster = monster_list.size();
@@ -7741,7 +7755,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     const int iCatPos = CatSortIter->first;
                     if( iCurPos == iCatPos ) {
                         const std::string &cat_name = Creature::get_attitude_ui_data( CatSortIter->second ).first;
-                        mvwprintz( w_monsters, y, 1, c_magenta, cat_name );
+                        mvwprintz( w_monsters, point( 1, y ), c_magenta, cat_name );
                         ++CatSortIter;
                         continue;
                     }
@@ -7751,23 +7765,23 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 const bool selected = iCurMon == iActive;
                 ++iCurMon;
                 if( critter->sees( g->u ) ) {
-                    mvwprintz( w_monsters, y, 0, c_yellow, "!" );
+                    mvwprintz( w_monsters, point( 0, y ), c_yellow, "!" );
                 }
                 bool is_npc = false;
                 const monster *m = dynamic_cast<monster *>( critter );
                 const npc     *p = dynamic_cast<npc *>( critter );
 
                 if( m != nullptr ) {
-                    mvwprintz( w_monsters, y, 1, selected ? c_light_green : c_white, m->name() );
+                    mvwprintz( w_monsters, point( 1, y ), selected ? c_light_green : c_white, m->name() );
                 } else {
-                    mvwprintz( w_monsters, y, 1, selected ? c_light_green : c_white, critter->disp_name() );
+                    mvwprintz( w_monsters, point( 1, y ), selected ? c_light_green : c_white, critter->disp_name() );
                     is_npc = true;
                 }
 
                 if( selected && !get_safemode().empty() ) {
                     for( int i = 1; i < width - 2; i++ ) {
-                        mvwputch( w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2,
-                                  i, BORDER_COLOR, LINE_OXOX ); // -
+                        mvwputch( w_monsters_border, point( i, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ), BORDER_COLOR,
+                                  LINE_OXOX ); // -
                     }
                     const std::string monName = is_npc ? get_safemode().npc_type_name() : m->name();
 
@@ -7778,7 +7792,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         sSafemode = _( "<A>dd to safemode Blacklist" );
                     }
 
-                    shortcut_print( w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, 3,
+                    shortcut_print( w_monsters_border, point( 3, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ),
                                     c_white, c_light_green, sSafemode );
                 }
 
@@ -7791,7 +7805,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     std::tie( sText, color ) =
                         ::get_hp_bar( critter->get_hp(), critter->get_hp_max(), false );
                 }
-                mvwprintz( w_monsters, y, 22, color, sText );
+                mvwprintz( w_monsters, point( 22, y ), color, sText );
 
                 if( m != nullptr ) {
                     const auto att = m->get_attitude();
@@ -7801,15 +7815,16 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     sText = npc_attitude_name( p->get_attitude() );
                     color = p->symbol_color();
                 }
-                mvwprintz( w_monsters, y, 28, color, sText );
+                mvwprintz( w_monsters, point( 28, y ), color, sText );
 
-                mvwprintz( w_monsters, y, width - ( 6 + numw ), ( selected ? c_light_green : c_light_gray ),
+                mvwprintz( w_monsters, point( width - ( 6 + numw ), y ),
+                           ( selected ? c_light_green : c_light_gray ),
                            "%*d %s",
                            numw, rl_dist( u.pos(), critter->pos() ),
                            direction_name_short( direction_from( u.pos(), critter->pos() ) ) );
             }
 
-            mvwprintz( w_monsters_border, 0, ( width / 2 ) - numw - 2, c_light_green, " %*d", numw,
+            mvwprintz( w_monsters_border, point( ( width / 2 ) - numw - 2, 0 ), c_light_green, " %*d", numw,
                        iActive + 1 );
             wprintz( w_monsters_border, c_white, " / %*d ", numw, static_cast<int>( monster_list.size() ) );
 
@@ -7819,12 +7834,14 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             cCurMon->print_info( w_monster_info, 1, 11, 1 );
 
             if( bVMonsterLookFire ) {
-                mvwprintz( w_monsters, getmaxy( w_monsters ) - 3, 1, c_light_green, ctxt.press_x( "look" ) );
+                mvwprintz( w_monsters, point( 1, getmaxy( w_monsters ) - 3 ), c_light_green,
+                           ctxt.press_x( "look" ) );
                 wprintz( w_monsters, c_light_gray, " %s", _( "to look around" ) );
 
                 if( rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
                     wprintz( w_monsters, c_light_gray, "%s", " " );
-                    mvwprintz( w_monsters, getmaxy( w_monsters ) - 3, 24, c_light_green, ctxt.press_x( "fire" ) );
+                    mvwprintz( w_monsters, point( 24, getmaxy( w_monsters ) - 3 ), c_light_green,
+                               ctxt.press_x( "fire" ) );
                     wprintz( w_monsters, c_light_gray, " %s", _( "to shoot" ) );
                 }
             }
@@ -7842,25 +7859,25 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         // repairing the damage caused by refreshing the whole screen for w_terrain
         // the previous situation was only refreshing the screen minus sidebar width.
         for( int j = 0; j < iInfoHeight - 1; j++ ) {
-            mvwputch( w_monster_info_border, j, 0, c_light_gray, LINE_XOXO );
-            mvwputch( w_monster_info_border, j, width - 1, c_light_gray, LINE_XOXO );
+            mvwputch( w_monster_info_border, point( 0, j ), c_light_gray, LINE_XOXO );
+            mvwputch( w_monster_info_border, point( width - 1, j ), c_light_gray, LINE_XOXO );
         }
 
         for( int j = 0; j < width - 1; j++ ) {
-            mvwputch( w_monster_info_border, iInfoHeight - 1, j, c_light_gray, LINE_OXOX );
+            mvwputch( w_monster_info_border, point( j, iInfoHeight - 1 ), c_light_gray, LINE_OXOX );
         }
 
         mvwhline( w_monsters, point( 0, getmaxy( w_monsters ) - 2 ), 0, 45 );
 
         for( int i = 1; i < getmaxy( w_monsters ) - 1; i++ ) {
-            mvwputch( w_monsters_border, i, 0, BORDER_COLOR, LINE_XOXO ); // |
-            mvwputch( w_monsters_border, i, width - 1, BORDER_COLOR, LINE_XOXO ); // |
+            mvwputch( w_monsters_border, point( 0, i ), BORDER_COLOR, LINE_XOXO ); // |
+            mvwputch( w_monsters_border, point( width - 1, i ), BORDER_COLOR, LINE_XOXO ); // |
         }
 
-        mvwputch( w_monster_info_border, getmaxy( w_monster_info_border ) - 1,
-                  0, BORDER_COLOR, LINE_XXOO );  // |_
-        mvwputch( w_monster_info_border, getmaxy( w_monster_info_border ) - 1,
-                  width - 1, BORDER_COLOR, LINE_XOOX ); // _|
+        mvwputch( w_monster_info_border, point( 0, getmaxy( w_monster_info_border ) - 1 ), BORDER_COLOR,
+                  LINE_XXOO );  // |_
+        mvwputch( w_monster_info_border, point( width - 1, getmaxy( w_monster_info_border ) - 1 ),
+                  BORDER_COLOR, LINE_XOOX ); // _|
 
         wrefresh( w_monsters_border );
         wrefresh( w_monster_info_border );
@@ -11239,18 +11256,18 @@ void intro()
     while( maxy < minHeight || maxx < minWidth ) {
         werase( tmp );
         if( maxy < minHeight && maxx < minWidth ) {
-            fold_and_print( tmp, 0, 0, maxx, c_white,
+            fold_and_print( tmp, point_zero, maxx, c_white,
                             _( "Whoa! Your terminal is tiny! This game requires a minimum terminal size of "
                                "%dx%d to work properly. %dx%d just won't do. Maybe a smaller font would help?" ),
                             minWidth, minHeight, maxx, maxy );
         } else if( maxx < minWidth ) {
-            fold_and_print( tmp, 0, 0, maxx, c_white,
+            fold_and_print( tmp, point_zero, maxx, c_white,
                             _( "Oh! Hey, look at that. Your terminal is just a little too narrow. This game "
                                "requires a minimum terminal size of %dx%d to function. It just won't work "
                                "with only %dx%d. Can you stretch it out sideways a bit?" ),
                             minWidth, minHeight, maxx, maxy );
         } else {
-            fold_and_print( tmp, 0, 0, maxx, c_white,
+            fold_and_print( tmp, point_zero, maxx, c_white,
                             _( "Woah, woah, we're just a little short on space here. The game requires a "
                                "minimum terminal size of %dx%d to run. %dx%d isn't quite enough! Can you "
                                "make the terminal just a smidgen taller?" ),
@@ -11270,7 +11287,8 @@ void intro()
         const char *unicode_error_msg =
             _( "You don't seem to have a valid Unicode locale. You may see some weird "
                "characters (e.g. empty boxes or question marks). You have been warned." );
-        fold_and_print( tmp, 0, 0, maxx, c_white, unicode_error_msg, minWidth, minHeight, maxx, maxy );
+        fold_and_print( tmp, point_zero, maxx, c_white, unicode_error_msg, minWidth, minHeight,
+                        maxx, maxy );
         wrefresh( tmp );
         inp_mngr.wait_for_any_key();
         werase( tmp );
