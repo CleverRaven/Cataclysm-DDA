@@ -1001,8 +1001,9 @@ bool veh_interact::do_install( std::string &msg )
                         entry.extratxt.color = shapes[i]->color;
                         shape_ui_entries.push_back( entry );
                     }
-                    selected_shape = uilist( getbegx( w_list ), getmaxx( w_list ), getbegy( w_list ),
-                                             _( "Choose shape:" ), shape_ui_entries );
+                    selected_shape = uilist(
+                                         point( getbegx( w_list ), getbegy( w_list ) ), getmaxx( w_list ),
+                                         _( "Choose shape:" ), shape_ui_entries );
                 } else { // only one shape available, default to first one
                     selected_shape = 0;
                 }
