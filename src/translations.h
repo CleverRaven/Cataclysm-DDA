@@ -163,7 +163,7 @@ class translation
         bool operator!=( const translation &that ) const;
     private:
         struct no_translation_tag {};
-        translation( const std::string &str, const no_translation_tag );
+        translation( const std::string &str, no_translation_tag );
 
         cata::optional<std::string> ctxt;
         std::string raw;

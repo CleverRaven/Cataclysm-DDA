@@ -228,7 +228,7 @@ class Single_item_creator : public Item_spawn_data
         Type type;
         cata::optional<Item_modifier> modifier;
 
-        void inherit_ammo_mag_chances( const int ammo, const int mag );
+        void inherit_ammo_mag_chances( int ammo, int mag );
 
         ItemList create( const time_point &birthday, RecursionList &rec ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
