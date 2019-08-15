@@ -101,7 +101,7 @@ class Creature
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
-        virtual void set_fake( const bool fake_value );
+        virtual void set_fake( bool fake_value );
 
         /** Recreates the Creature from scratch. */
         virtual void normalize();
@@ -249,7 +249,7 @@ class Creature
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
         virtual void apply_damage( Creature *source, body_part bp, int amount,
-                                   const bool bypass_med = false ) = 0;
+                                   bool bypass_med = false ) = 0;
 
         /**
          * This creature just dodged an attack - possibly special/ranged attack - from source.
@@ -261,7 +261,7 @@ class Creature
          * Players should train dodge, possibly counter-attack somehow.
          */
         virtual void on_hit( Creature *source, body_part bp_hit = num_bp,
-                             float difficulty = INT_MIN, dealt_projectile_attack const *const proj = nullptr ) = 0;
+                             float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) = 0;
 
         virtual bool digging() const;      // MF_DIGS or MF_CAN_DIG and diggable terrain
         virtual bool is_on_ground() const = 0;
@@ -275,7 +275,7 @@ class Creature
         // Resistances
         virtual bool is_elec_immune() const = 0;
         virtual bool is_immune_effect( const efftype_id &type ) const = 0;
-        virtual bool is_immune_damage( const damage_type type ) const = 0;
+        virtual bool is_immune_damage( damage_type type ) const = 0;
 
         // Field dangers
         /** Returns true if there is a field in the field set that is dangerous to us. */
@@ -528,7 +528,7 @@ class Creature
             return add_msg_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
-        void add_msg_if_player( const game_message_type type, const std::string &msg,
+        void add_msg_if_player( game_message_type type, const std::string &msg,
                                 Args &&... args ) const {
             if( type == m_debug && !debug_mode ) {
                 return;
@@ -555,7 +555,7 @@ class Creature
             return add_msg_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
-        void add_msg_if_npc( const game_message_type type, const std::string &msg, Args &&... args ) const {
+        void add_msg_if_npc( game_message_type type, const std::string &msg, Args &&... args ) const {
             if( type == m_debug && !debug_mode ) {
                 return;
             }
@@ -589,7 +589,7 @@ class Creature
                                           string_format( npc_msg, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
-        void add_msg_player_or_npc( const game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_npc( game_message_type type, const std::string &player_msg,
                                     const std::string &npc_msg, Args &&... args ) const {
             if( type == m_debug && !debug_mode ) {
                 return;
@@ -625,7 +625,7 @@ class Creature
                                           string_format( npc_speech, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
-        void add_msg_player_or_say( const game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_say( game_message_type type, const std::string &player_msg,
                                     const std::string &npc_speech, Args &&... args ) const {
             if( type == m_debug && !debug_mode ) {
                 return;

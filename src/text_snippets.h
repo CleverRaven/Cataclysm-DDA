@@ -28,7 +28,7 @@ class snippet_library
          * snippet out of the category is returned (same seed yields same snippet).
          */
         int assign( const std::string &category, unsigned seed ) const;
-        const std::string &get( const int index ) const;
+        const std::string &get( int index ) const;
         bool has_category( const std::string &category ) const;
         int get_snippet_by_id( const std::string &id ) const;
         const std::string &random_from_category( const std::string &cat ) const;

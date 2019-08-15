@@ -335,9 +335,9 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                 }
             }
             if( i == 0 && j == 0 ) {
-                mvwputch_hi( w_minimap, 3 + start_y, 3 + start_x, ter_color, ter_sym );
+                mvwputch_hi( w_minimap, point( 3 + start_x, 3 + start_y ), ter_color, ter_sym );
             } else {
-                mvwputch( w_minimap, 3 + j + start_y, 3 + i + start_x, ter_color, ter_sym );
+                mvwputch( w_minimap, point( 3 + i + start_x, 3 + j + start_y ), ter_color, ter_sym );
             }
         }
     }
@@ -349,9 +349,9 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
 
         if( cursx == targ.x || fabs( slope ) > 3.5 ) {  // Vertical slope
             if( targ.y > cursy ) {
-                mvwputch( w_minimap, 6 + start_y, 3 + start_x, c_red, '*' );
+                mvwputch( w_minimap, point( 3 + start_x, 6 + start_y ), c_red, '*' );
             } else {
-                mvwputch( w_minimap, 0 + start_y, 3 + start_x, c_red, '*' );
+                mvwputch( w_minimap, point( 3 + start_x, 0 + start_y ), c_red, '*' );
             }
         } else {
             int arrowx = -1;
@@ -382,7 +382,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                 glyph = 'v';
             }
 
-            mvwputch( w_minimap, arrowy + start_y, arrowx + start_x, c_red, glyph );
+            mvwputch( w_minimap, point( arrowx + start_x, arrowy + start_y ), c_red, glyph );
         }
     }
 
@@ -397,7 +397,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             if( horde_size >= HORDE_VISIBILITY_SIZE ) {
                 if( overmap_buffer.seen( omp )
                     && g->u.overmap_los( omp, sight_points ) ) {
-                    mvwputch( w_minimap, j + 3, i + 3, c_green,
+                    mvwputch( w_minimap, point( i + 3, j + 3 ), c_green,
                               horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
                 }
             }
@@ -422,7 +422,7 @@ static void decorate_panel( const std::string &name, const catacurses::window &w
     static const std::string full_title = string_format( "%s%s%s",
                                           title_prefix, title, title_suffix );
     const int start_pos = center_text_pos( full_title, 0, getmaxx( w ) - 1 );
-    mvwprintz( w, 0, start_pos, c_white, title_prefix );
+    mvwprintz( w, point( start_pos, 0 ), c_white, title_prefix );
     wprintz( w, c_light_red, title );
     wprintz( w, c_white, title_suffix );
 }
@@ -959,17 +959,17 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     if( g->safe_mode || get_option<bool>( "AUTOSAFEMODE" ) ) {
         safe_str = _( "SAFE" );
     }
-    mvwprintz( w, 2, 22, safe_color(), safe_str );
-    mvwprintz( w, 2, 27, morale_pair.first, smiley );
+    mvwprintz( w, point( 22, 2 ), safe_color(), safe_str );
+    mvwprintz( w, point( 27, 2 ), morale_pair.first, smiley );
 
     // print stamina
     const auto &stamina = get_hp_bar( u.stamina, u.get_stamina_max() );
-    mvwprintz( w, 0, 22, c_light_gray, _( "STM" ) );
-    mvwprintz( w, 0, 26, stamina.second, stamina.first );
+    mvwprintz( w, point( 22, 0 ), c_light_gray, _( "STM" ) );
+    mvwprintz( w, point( 26, 0 ), stamina.second, stamina.first );
 
-    mvwprintz( w, 1, 22, c_light_gray, _( "PWR" ) );
+    mvwprintz( w, point( 22, 1 ), c_light_gray, _( "PWR" ) );
     const auto pwr = power_stat( u );
-    mvwprintz( w, 1, 31 - pwr.second.length(), pwr.first, pwr.second );
+    mvwprintz( w, point( 31 - pwr.second.length(), 1 ), pwr.first, pwr.second );
 
     wrefresh( w );
 }
@@ -978,24 +978,24 @@ static void draw_stats( avatar &u, const catacurses::window &w )
 {
     werase( w );
     nc_color stat_clr = str_string( u ).first;
-    mvwprintz( w, 0, 0, c_light_gray, _( "STR" ) );
+    mvwprintz( w, point_zero, c_light_gray, _( "STR" ) );
     int stat = u.get_str();
-    mvwprintz( w, 0, stat < 10 ? 5 : 4, stat_clr,
+    mvwprintz( w, point( stat < 10 ? 5 : 4, 0 ), stat_clr,
                stat < 100 ? to_string( stat ) : "99+" );
     stat_clr = dex_string( u ).first;
     stat = u.get_dex();
-    mvwprintz( w, 0, 9, c_light_gray, _( "DEX" ) );
-    mvwprintz( w, 0, stat < 10 ? 14 : 13, stat_clr,
+    mvwprintz( w, point( 9, 0 ), c_light_gray, _( "DEX" ) );
+    mvwprintz( w, point( stat < 10 ? 14 : 13, 0 ), stat_clr,
                stat < 100 ? to_string( stat ) : "99+" );
     stat_clr = int_string( u ).first;
     stat = u.get_int();
-    mvwprintz( w, 0, 17, c_light_gray, _( "INT" ) );
-    mvwprintz( w, 0, stat < 10 ? 22 : 21, stat_clr,
+    mvwprintz( w, point( 17, 0 ), c_light_gray, _( "INT" ) );
+    mvwprintz( w, point( stat < 10 ? 22 : 21, 0 ), stat_clr,
                stat < 100 ? to_string( stat ) : "99+" );
     stat_clr = per_string( u ).first;
     stat = u.get_per();
-    mvwprintz( w, 0, 25, c_light_gray, _( "PER" ) );
-    mvwprintz( w, 0, stat < 10 ? 30 : 29, stat_clr,
+    mvwprintz( w, point( 25, 0 ), c_light_gray, _( "PER" ) );
+    mvwprintz( w, point( stat < 10 ? 30 : 29, 0 ), stat_clr,
                stat < 100 ? to_string( stat ) : "99+" );
     wrefresh( w );
 }
@@ -1025,17 +1025,17 @@ static std::string move_mode_string( avatar &u )
 static void draw_stealth( avatar &u, const catacurses::window &w )
 {
     werase( w );
-    mvwprintz( w, 0, 0, c_light_gray, _( "Speed" ) );
-    mvwprintz( w, 0, 7, value_color( u.get_speed() ), "%s", u.get_speed() );
+    mvwprintz( w, point_zero, c_light_gray, _( "Speed" ) );
+    mvwprintz( w, point( 7, 0 ), value_color( u.get_speed() ), "%s", u.get_speed() );
     nc_color move_color = move_mode_color( u );
     std::string move_string = to_string( u.movecounter ) + move_mode_string( u );
-    mvwprintz( w, 0, 15 - move_string.length(), move_color, move_string );
+    mvwprintz( w, point( 15 - move_string.length(), 0 ), move_color, move_string );
     if( u.is_deaf() ) {
-        mvwprintz( w, 0, 22, c_red, _( "DEAF" ) );
+        mvwprintz( w, point( 22, 0 ), c_red, _( "DEAF" ) );
     } else {
-        mvwprintz( w, 0, 20, c_light_gray, _( "Sound:" ) );
+        mvwprintz( w, point( 20, 0 ), c_light_gray, _( "Sound:" ) );
         const std::string snd = to_string( u.volume );
-        mvwprintz( w, 0, 30 - snd.length(), u.volume != 0 ? c_yellow : c_light_gray, snd );
+        mvwprintz( w, point( 30 - snd.length(), 0 ), u.volume != 0 ? c_yellow : c_light_gray, snd );
     }
 
     wrefresh( w );
@@ -1089,22 +1089,22 @@ static void draw_time( const avatar &u, const catacurses::window &w )
 {
     werase( w );
     // display date
-    mvwprintz( w, 0, 0, c_light_gray, calendar::name_season( season_of_year( calendar::turn ) ) );
+    mvwprintz( w, point_zero, c_light_gray, calendar::name_season( season_of_year( calendar::turn ) ) );
     std::string day = to_string( day_of_season<int>( calendar::turn ) + 1 );
-    mvwprintz( w, 0, 10 - day.length(), c_light_gray, day );
+    mvwprintz( w, point( 10 - day.length(), 0 ), c_light_gray, day );
     // display time
     if( u.has_watch() ) {
-        mvwprintz( w, 0, 11, c_light_gray, to_string_time_of_day( calendar::turn ) );
+        mvwprintz( w, point( 11, 0 ), c_light_gray, to_string_time_of_day( calendar::turn ) );
     } else if( g->get_levz() >= 0 ) {
         wmove( w, point( 11, 0 ) );
         draw_time_graphic( w );
     } else {
-        mvwprintz( w, 0, 11, c_light_gray, _( "Time: ???" ) );
+        mvwprintz( w, point( 11, 0 ), c_light_gray, _( "Time: ???" ) );
     }
     //display moon
-    mvwprintz( w, 0, 22, c_white, _( "Moon" ) );
+    mvwprintz( w, point( 22, 0 ), c_white, _( "Moon" ) );
     nc_color clr = c_white;
-    print_colored_text( w, 0, 27, clr, c_white, get_moon_graphic() );
+    print_colored_text( w, point( 27, 0 ), clr, c_white, get_moon_graphic() );
 
     wrefresh( w );
 }
@@ -1114,21 +1114,22 @@ static void draw_needs_compact( const avatar &u, const catacurses::window &w )
     werase( w );
 
     auto hunger_pair = u.get_hunger_description();
-    mvwprintz( w, 0, 0, hunger_pair.second, hunger_pair.first );
+    mvwprintz( w, point_zero, hunger_pair.second, hunger_pair.first );
     hunger_pair = u.get_fatigue_description();
-    mvwprintz( w, 1, 0, hunger_pair.second, hunger_pair.first );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 0, 1 ), hunger_pair.second, hunger_pair.first );
     auto pair = pain_stat( u );
-    mvwprintz( w, 2, 0, pair.first, pair.second );
+    mvwprintz( w, point( 0, 2 ), pair.first, pair.second );
 
     hunger_pair = u.get_thirst_description();
-    mvwprintz( w, 0, 17, hunger_pair.second, hunger_pair.first );
+    mvwprintz( w, point( 17, 0 ), hunger_pair.second, hunger_pair.first );
     pair = temp_stat( u );
-    mvwprintz( w, 1, 17, pair.first, pair.second );
+    mvwprintz( w, point( 17, 1 ), pair.first, pair.second );
     const auto arrow = temp_delta_arrows( u );
-    mvwprintz( w, 1, 17 + utf8_width( pair.second ), arrow.first, arrow.second );
+    mvwprintz( w, point( 17 + utf8_width( pair.second ), 1 ), arrow.first, arrow.second );
 
-    mvwprintz( w, 2, 17, c_light_gray, _( "Focus" ) );
-    mvwprintz( w, 2, 24, focus_color( u.focus_pool ), to_string( u.focus_pool ) );
+    mvwprintz( w, point( 17, 2 ), c_light_gray, _( "Focus" ) );
+    mvwprintz( w, point( 24, 2 ), focus_color( u.focus_pool ), to_string( u.focus_pool ) );
 
     wrefresh( w );
 }
@@ -1195,7 +1196,7 @@ static void draw_limb_wide( avatar &u, const catacurses::window &w )
         int nx = offset % 45;
         std::string str = string_format( " %-5s: ", body_part_hp_bar_ui_text( parts[i].first ) );
         nc_color part_color = u.limb_color( parts[i].first, true, true, true );
-        print_colored_text( w, ny, nx, part_color, c_white, str );
+        print_colored_text( w, point( nx, ny ), part_color, c_white, str );
         draw_limb_health( u, w, parts[i].second );
     }
     wrefresh( w );
@@ -1205,37 +1206,39 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
 {
     werase( w );
     std::pair<nc_color, int> morale_pair = morale_stat( u );
-    mvwprintz( w, 0, 1, c_light_gray, _( "Sound:" ) );
-    mvwprintz( w, 1, 1, c_light_gray, _( "Stam :" ) );
-    mvwprintz( w, 2, 1, c_light_gray, _( "Focus:" ) );
-    mvwprintz( w, 0, 19, c_light_gray, _( "Mood :" ) );
-    mvwprintz( w, 1, 19, c_light_gray, _( "Speed:" ) );
-    mvwprintz( w, 2, 19, c_light_gray, _( "Move :" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Stam :" ) );
+    mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Focus:" ) );
+    mvwprintz( w, point( 19, 0 ), c_light_gray, _( "Mood :" ) );
+    mvwprintz( w, point( 19, 1 ), c_light_gray, _( "Speed:" ) );
+    mvwprintz( w, point( 19, 2 ), c_light_gray, _( "Move :" ) );
 
     nc_color move_color =  move_mode_color( u );
     std::string move_char = move_mode_string( u );
     std::string movecost = std::to_string( u.movecounter ) + "(" + move_char + ")";
     bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
     std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
-    mvwprintz( w, 0, 8, c_light_gray, "%s", u.volume );
+    mvwprintz( w, point( 8, 0 ), c_light_gray, "%s", u.volume );
 
     // print stamina
     auto needs_pair = std::make_pair( get_hp_bar( u.stamina, u.get_stamina_max() ).second,
                                       get_hp_bar( u.stamina, u.get_stamina_max() ).first );
-    mvwprintz( w, 1, 8, needs_pair.first, needs_pair.second );
+    mvwprintz( w, point( 8, 1 ), needs_pair.first, needs_pair.second );
     for( size_t i = 0; i < 5 - needs_pair.second.length(); i++ ) {
-        mvwprintz( w, 1, 12 - i, c_white, "." );
+        mvwprintz( w, point( 12 - i, 1 ), c_white, "." );
     }
 
-    mvwprintz( w, 2, 8, focus_color( u.focus_pool ), "%s", u.focus_pool );
+    mvwprintz( w, point( 8, 2 ), focus_color( u.focus_pool ), "%s", u.focus_pool );
     if( u.focus_pool < u.calc_focus_equilibrium() ) {
-        mvwprintz( w, 2, 11, c_light_green, "↥" );
+        mvwprintz( w, point( 11, 2 ), c_light_green, "↥" );
     } else if( u.focus_pool > u.calc_focus_equilibrium() ) {
-        mvwprintz( w, 2, 11, c_light_red, "↧" );
+        mvwprintz( w, point( 11, 2 ), c_light_red, "↧" );
     }
-    mvwprintz( w, 0, 26, morale_pair.first, "%s", smiley );
-    mvwprintz( w, 1, 26, focus_color( u.get_speed() ), "%s", u.get_speed() );
-    mvwprintz( w, 2, 26, move_color, "%s", movecost );
+    mvwprintz( w, point( 26, 0 ), morale_pair.first, "%s", smiley );
+    mvwprintz( w, point( 26, 1 ), focus_color( u.get_speed() ), "%s", u.get_speed() );
+    mvwprintz( w, point( 26, 2 ), move_color, "%s", movecost );
     wrefresh( w );
 }
 
@@ -1243,12 +1246,14 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
 {
     werase( w );
     std::pair<nc_color, int> morale_pair = morale_stat( u );
-    mvwprintz( w, 0, 1, c_light_gray, _( "Sound:" ) );
-    mvwprintz( w, 0, 16, c_light_gray, _( "Mood :" ) );
-    mvwprintz( w, 0, 31, c_light_gray, _( "Focus:" ) );
-    mvwprintz( w, 1, 1, c_light_gray, _( "Stam :" ) );
-    mvwprintz( w, 1, 16, c_light_gray, _( "Speed:" ) );
-    mvwprintz( w, 1, 31, c_light_gray, _( "Move :" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
+    mvwprintz( w, point( 16, 0 ), c_light_gray, _( "Mood :" ) );
+    mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Focus:" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Stam :" ) );
+    mvwprintz( w, point( 16, 1 ), c_light_gray, _( "Speed:" ) );
+    mvwprintz( w, point( 31, 1 ), c_light_gray, _( "Move :" ) );
 
     nc_color move_color =  move_mode_color( u );
     std::string move_char = move_mode_string( u );
@@ -1256,20 +1261,20 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
     bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
     std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
 
-    mvwprintz( w, 0, 8, c_light_gray, "%s", u.volume );
-    mvwprintz( w, 0, 23, morale_pair.first, "%s", smiley );
-    mvwprintz( w, 0, 38, focus_color( u.focus_pool ), "%s", u.focus_pool );
+    mvwprintz( w, point( 8, 0 ), c_light_gray, "%s", u.volume );
+    mvwprintz( w, point( 23, 0 ), morale_pair.first, "%s", smiley );
+    mvwprintz( w, point( 38, 0 ), focus_color( u.focus_pool ), "%s", u.focus_pool );
 
     // print stamina
     auto needs_pair = std::make_pair( get_hp_bar( u.stamina, u.get_stamina_max() ).second,
                                       get_hp_bar( u.stamina, u.get_stamina_max() ).first );
-    mvwprintz( w, 1, 8, needs_pair.first, needs_pair.second );
+    mvwprintz( w, point( 8, 1 ), needs_pair.first, needs_pair.second );
     for( size_t i = 0; i < 5 - needs_pair.second.length(); i++ ) {
-        mvwprintz( w, 1, 12 - i, c_white, "." );
+        mvwprintz( w, point( 12 - i, 1 ), c_white, "." );
     }
 
-    mvwprintz( w, 1, 23, focus_color( u.get_speed() ), "%s", u.get_speed() );
-    mvwprintz( w, 1, 38, move_color, "%s", movecost );
+    mvwprintz( w, point( 23, 1 ), focus_color( u.get_speed() ), "%s", u.get_speed() );
+    mvwprintz( w, point( 38, 1 ), move_color, "%s", movecost );
     wrefresh( w );
 }
 
@@ -1277,25 +1282,27 @@ static void draw_stat_narrow( avatar &u, const catacurses::window &w )
 {
     werase( w );
 
-    mvwprintz( w, 0, 1, c_light_gray, _( "Str  :" ) );
-    mvwprintz( w, 1, 1, c_light_gray, _( "Int  :" ) );
-    mvwprintz( w, 0, 19, c_light_gray, _( "Dex  :" ) );
-    mvwprintz( w, 1, 19, c_light_gray, _( "Per  :" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Str  :" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Int  :" ) );
+    mvwprintz( w, point( 19, 0 ), c_light_gray, _( "Dex  :" ) );
+    mvwprintz( w, point( 19, 1 ), c_light_gray, _( "Per  :" ) );
 
     nc_color stat_clr = str_string( u ).first;
-    mvwprintz( w, 0, 8, stat_clr, "%s", u.get_str() );
+    mvwprintz( w, point( 8, 0 ), stat_clr, "%s", u.get_str() );
     stat_clr = int_string( u ).first;
-    mvwprintz( w, 1, 8, stat_clr, "%s", u.get_int() );
+    mvwprintz( w, point( 8, 1 ), stat_clr, "%s", u.get_int() );
     stat_clr = dex_string( u ).first;
-    mvwprintz( w, 0, 26, stat_clr, "%s", u.get_dex() );
+    mvwprintz( w, point( 26, 0 ), stat_clr, "%s", u.get_dex() );
     stat_clr = per_string( u ).first;
-    mvwprintz( w, 1, 26, stat_clr, "%s", u.get_per() );
+    mvwprintz( w, point( 26, 1 ), stat_clr, "%s", u.get_per() );
 
     std::pair<nc_color, std::string> pwr_pair = power_stat( u );
-    mvwprintz( w, 2, 1, c_light_gray, _( "Power:" ) );
-    mvwprintz( w, 2, 19, c_light_gray, _( "Safe :" ) );
-    mvwprintz( w, 2, 8, pwr_pair.first, "%s", pwr_pair.second );
-    mvwprintz( w, 2, 26, safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
+    mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Power:" ) );
+    mvwprintz( w, point( 19, 2 ), c_light_gray, _( "Safe :" ) );
+    mvwprintz( w, point( 8, 2 ), pwr_pair.first, "%s", pwr_pair.second );
+    mvwprintz( w, point( 26, 2 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
     wrefresh( w );
 }
 
@@ -1303,25 +1310,25 @@ static void draw_stat_wide( avatar &u, const catacurses::window &w )
 {
     werase( w );
 
-    mvwprintz( w, 0, 1, c_light_gray, _( "Str  :" ) );
-    mvwprintz( w, 1, 1, c_light_gray, _( "Int  :" ) );
-    mvwprintz( w, 0, 16, c_light_gray, _( "Dex  :" ) );
-    mvwprintz( w, 1, 16, c_light_gray, _( "Per  :" ) );
+    mvwprintz( w, point_east, c_light_gray, _( "Str  :" ) );
+    mvwprintz( w, point_south_east, c_light_gray, _( "Int  :" ) );
+    mvwprintz( w, point( 16, 0 ), c_light_gray, _( "Dex  :" ) );
+    mvwprintz( w, point( 16, 1 ), c_light_gray, _( "Per  :" ) );
 
     nc_color stat_clr = str_string( u ).first;
-    mvwprintz( w, 0, 8, stat_clr, "%s", u.get_str() );
+    mvwprintz( w, point( 8, 0 ), stat_clr, "%s", u.get_str() );
     stat_clr = int_string( u ).first;
-    mvwprintz( w, 1, 8, stat_clr, "%s", u.get_int() );
+    mvwprintz( w, point( 8, 1 ), stat_clr, "%s", u.get_int() );
     stat_clr = dex_string( u ).first;
-    mvwprintz( w, 0, 23, stat_clr, "%s", u.get_dex() );
+    mvwprintz( w, point( 23, 0 ), stat_clr, "%s", u.get_dex() );
     stat_clr = per_string( u ).first;
-    mvwprintz( w, 1, 23, stat_clr, "%s", u.get_per() );
+    mvwprintz( w, point( 23, 1 ), stat_clr, "%s", u.get_per() );
 
     std::pair<nc_color, std::string> pwr_pair = power_stat( u );
-    mvwprintz( w, 0, 31, c_light_gray, _( "Power:" ) );
-    mvwprintz( w, 1, 31, c_light_gray, _( "Safe :" ) );
-    mvwprintz( w, 0, 38, pwr_pair.first, "%s", pwr_pair.second );
-    mvwprintz( w, 1, 38, safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
+    mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Power:" ) );
+    mvwprintz( w, point( 31, 1 ), c_light_gray, _( "Safe :" ) );
+    mvwprintz( w, point( 38, 0 ), pwr_pair.first, "%s", pwr_pair.second );
+    mvwprintz( w, point( 38, 1 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
     wrefresh( w );
 }
 
@@ -1330,34 +1337,37 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     werase( w );
     // display location
     const oter_id &cur_ter = overmap_buffer.ter( u.global_omt_location() );
-    mvwprintz( w, 0, 1, c_light_gray, _( "Place: " ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Place: " ) );
     wprintz( w, c_white, utf8_truncate( cur_ter->get_name(), getmaxx( w ) - 13 ) );
     // display weather
     if( g->get_levz() < 0 ) {
-        mvwprintz( w, 1, 1, c_light_gray, _( "Sky  : Underground" ) );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Sky  : Underground" ) );
     } else {
-        mvwprintz( w, 1, 1, c_light_gray, _( "Sky  :" ) );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Sky  :" ) );
         const weather_datum wdata = weather_data( g->weather.weather );
         wprintz( w, wdata.color, " %s", wdata.name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
-    mvwprintz( w, 2, 1, c_light_gray, "%s ", _( "Light:" ) );
+    mvwprintz( w, point( 1, 2 ), c_light_gray, "%s ", _( "Light:" ) );
     wprintz( w, ll.second, ll.first );
 
     // display date
-    mvwprintz( w, 3, 1, c_light_gray, _( "Date : %s, day %d" ),
+    mvwprintz( w, point( 1, 3 ), c_light_gray, _( "Date : %s, day %d" ),
                calendar::name_season( season_of_year( calendar::turn ) ),
                day_of_season<int>( calendar::turn ) + 1 );
 
     // display time
     if( u.has_watch() ) {
-        mvwprintz( w, 4, 1, c_light_gray, _( "Time : %s" ),
+        mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ),
                    to_string_time_of_day( calendar::turn ) );
     } else if( g->get_levz() >= 0 ) {
-        mvwprintz( w, 4, 1, c_light_gray, _( "Time : %s" ), time_approx() );
+        mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ), time_approx() );
     } else {
-        mvwprintz( w, 4, 1, c_light_gray, _( "Time : ???" ) );
+        mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : ???" ) );
     }
     if( minimap ) {
         const int offset = getmaxx( w ) - 6;
@@ -1385,16 +1395,19 @@ static void draw_loc_wide_map( const avatar &u, const catacurses::window &w )
 static void draw_moon_narrow( const avatar &u, const catacurses::window &w )
 {
     werase( w );
-    mvwprintz( w, 0, 1, c_light_gray, _( "Moon : %s" ), get_moon() );
-    mvwprintz( w, 1, 1, c_light_gray, _( "Temp : %s" ), get_temp( u ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Moon : %s" ), get_moon() );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Temp : %s" ), get_temp( u ) );
     wrefresh( w );
 }
 
 static void draw_moon_wide( const avatar &u, const catacurses::window &w )
 {
     werase( w );
-    mvwprintz( w, 0, 1, c_light_gray, _( "Moon : %s" ), get_moon() );
-    mvwprintz( w, 0, 23, c_light_gray, _( "Temp : %s" ), get_temp( u ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Moon : %s" ), get_moon() );
+    mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Temp : %s" ), get_temp( u ) );
     wrefresh( w );
 }
 
@@ -1402,10 +1415,12 @@ static void draw_weapon_labels( const avatar &u, const catacurses::window &w )
 {
     werase( w );
     nc_color color = c_light_gray;
-    mvwprintz( w, 0, 1, c_light_gray, _( "Wield:" ) );
-    mvwprintz( w, 1, 1, c_light_gray, _( "Style:" ) );
-    print_colored_text( w, 0, 8, color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
-    mvwprintz( w, 1, 8, c_light_gray, u.get_combat_style().name );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Wield:" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Style:" ) );
+    print_colored_text( w, point( 8, 0 ), color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
+    mvwprintz( w, point( 8, 1 ), c_light_gray, u.get_combat_style().name );
     wrefresh( w );
 }
 
@@ -1417,16 +1432,18 @@ static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
     std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
     std::pair<nc_color, std::string> pain_pair = pain_stat( u );
-    mvwprintz( w, 0, 1, c_light_gray, _( "Food :" ) );
-    mvwprintz( w, 1, 1, c_light_gray, _( "Drink:" ) );
-    mvwprintz( w, 2, 1, c_light_gray, _( "Rest :" ) );
-    mvwprintz( w, 3, 1, c_light_gray, _( "Pain :" ) );
-    mvwprintz( w, 4, 1, c_light_gray, _( "Heat :" ) );
-    mvwprintz( w, 0, 8, hunger_pair.second, hunger_pair.first );
-    mvwprintz( w, 1, 8, thirst_pair.second, thirst_pair.first );
-    mvwprintz( w, 2, 8, rest_pair.second, rest_pair.first );
-    mvwprintz( w, 3, 8, pain_pair.first, pain_pair.second );
-    mvwprintz( w, 4, 8, temp_pair.first, temp_pair.second );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Food :" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Drink:" ) );
+    mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Rest :" ) );
+    mvwprintz( w, point( 1, 3 ), c_light_gray, _( "Pain :" ) );
+    mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Heat :" ) );
+    mvwprintz( w, point( 8, 0 ), hunger_pair.second, hunger_pair.first );
+    mvwprintz( w, point( 8, 1 ), thirst_pair.second, thirst_pair.first );
+    mvwprintz( w, point( 8, 2 ), rest_pair.second, rest_pair.first );
+    mvwprintz( w, point( 8, 3 ), pain_pair.first, pain_pair.second );
+    mvwprintz( w, point( 8, 4 ), temp_pair.first, temp_pair.second );
     wrefresh( w );
 }
 
@@ -1438,16 +1455,18 @@ static void draw_needs_wide( const avatar &u, const catacurses::window &w )
     std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
     std::pair<nc_color, std::string> pain_pair = pain_stat( u );
-    mvwprintz( w, 0, 1, c_light_gray, _( "Rest :" ) );
-    mvwprintz( w, 0, 16, c_light_gray, _( "Pain :" ) );
-    mvwprintz( w, 0, 31, c_light_gray, _( "Heat :" ) );
-    mvwprintz( w, 1, 1, c_light_gray, _( "Food :" ) );
-    mvwprintz( w, 1, 23, c_light_gray, _( "Drink:" ) );
-    mvwprintz( w, 0, 8, rest_pair.second, rest_pair.first );
-    mvwprintz( w, 0, 23, pain_pair.first, pain_pair.second );
-    mvwprintz( w, 0, 38, temp_pair.first, temp_pair.second );
-    mvwprintz( w, 1, 8, hunger_pair.second, hunger_pair.first );
-    mvwprintz( w, 1, 30, thirst_pair.second, thirst_pair.first );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Rest :" ) );
+    mvwprintz( w, point( 16, 0 ), c_light_gray, _( "Pain :" ) );
+    mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Heat :" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Food :" ) );
+    mvwprintz( w, point( 23, 1 ), c_light_gray, _( "Drink:" ) );
+    mvwprintz( w, point( 8, 0 ), rest_pair.second, rest_pair.first );
+    mvwprintz( w, point( 23, 0 ), pain_pair.first, pain_pair.second );
+    mvwprintz( w, point( 38, 0 ), temp_pair.first, temp_pair.second );
+    mvwprintz( w, point( 8, 1 ), hunger_pair.second, hunger_pair.first );
+    mvwprintz( w, point( 30, 1 ), thirst_pair.second, thirst_pair.first );
     wrefresh( w );
 }
 static void draw_env_compact( avatar &u, const catacurses::window &w )
@@ -1457,32 +1476,32 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     draw_minimap( u, w );
     // wielded item
     nc_color color = c_light_gray;
-    print_colored_text( w, 0, 8, color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
+    print_colored_text( w, point( 8, 0 ), color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
     // style
-    mvwprintz( w, 1, 8, c_light_gray, u.get_combat_style().name );
+    mvwprintz( w, point( 8, 1 ), c_light_gray, u.get_combat_style().name );
     // location
-    mvwprintz( w, 2, 8, c_white, utf8_truncate( overmap_buffer.ter(
+    mvwprintz( w, point( 8, 2 ), c_white, utf8_truncate( overmap_buffer.ter(
                    u.global_omt_location() )->get_name(), getmaxx( w ) - 8 ) );
     // weather
     if( g->get_levz() < 0 ) {
-        mvwprintz( w, 3, 8, c_light_gray, _( "Underground" ) );
+        mvwprintz( w, point( 8, 3 ), c_light_gray, _( "Underground" ) );
     } else {
         const weather_datum wdata = weather_data( g->weather.weather );
-        mvwprintz( w, 3, 8, wdata.color, wdata.name );
+        mvwprintz( w, point( 8, 3 ), wdata.color, wdata.name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
-    mvwprintz( w, 4, 8, ll.second, ll.first );
+    mvwprintz( w, point( 8, 4 ), ll.second, ll.first );
     // wind
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
     double windpower = get_local_windpower( g->weather.windspeed, cur_om_ter,
                                             u.pos(), g->weather.winddirection, g->is_sheltered( u.pos() ) );
-    mvwprintz( w, 5, 8, get_wind_color( windpower ),
+    mvwprintz( w, point( 8, 5 ), get_wind_color( windpower ),
                get_wind_desc( windpower ) + " " + get_wind_arrow( g->weather.winddirection ) );
 
     if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         std::string temp = print_temperature( g->weather.get_temperature( u.pos() ) );
-        mvwprintz( w, 5, 31 - utf8_width( temp ), c_light_gray, temp );
+        mvwprintz( w, point( 31 - utf8_width( temp ), 5 ), c_light_gray, temp );
     }
 
     wrefresh( w );
@@ -1491,11 +1510,11 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
 static void render_wind( avatar &u, const catacurses::window &w, std::string formatstr )
 {
     werase( w );
-    mvwprintz( w, 0, 0, c_light_gray, string_format( formatstr, _( "Wind" ) ) );
+    mvwprintz( w, point_zero, c_light_gray, string_format( formatstr, _( "Wind" ) ) );
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
     double windpower = get_local_windpower( g->weather.windspeed, cur_om_ter,
                                             u.pos(), g->weather.winddirection, g->is_sheltered( u.pos() ) );
-    mvwprintz( w, 0, 8, get_wind_color( windpower ),
+    mvwprintz( w, point( 8, 0 ), get_wind_color( windpower ),
                get_wind_desc( windpower ) + " " + get_wind_arrow( g->weather.winddirection ) );
     wrefresh( w );
 }
@@ -1538,32 +1557,32 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     // needs
     auto needs_pair = u.get_hunger_description();
-    mvwprintz( w, 1, 21, needs_pair.second, needs_pair.first );
+    mvwprintz( w, point( 21, 1 ), needs_pair.second, needs_pair.first );
     needs_pair = u.get_thirst_description();
-    mvwprintz( w, 2, 21, needs_pair.second, needs_pair.first );
-    mvwprintz( w, 4, 21, c_white, _( "Focus" ) );
-    mvwprintz( w, 4, 27, c_white, to_string( u.focus_pool ) );
+    mvwprintz( w, point( 21, 2 ), needs_pair.second, needs_pair.first );
+    mvwprintz( w, point( 21, 4 ), c_white, _( "Focus" ) );
+    mvwprintz( w, point( 27, 4 ), c_white, to_string( u.focus_pool ) );
     needs_pair = u.get_fatigue_description();
-    mvwprintz( w, 3, 21, needs_pair.second, needs_pair.first );
+    mvwprintz( w, point( 21, 3 ), needs_pair.second, needs_pair.first );
     auto pain_pair = pain_stat( u );
-    mvwprintz( w, 0, 21, pain_pair.first, pain_pair.second );
+    mvwprintz( w, point( 21, 0 ), pain_pair.first, pain_pair.second );
 
     // print mood
     std::pair<nc_color, int> morale_pair = morale_stat( u );
     bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
     std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
-    mvwprintz( w, 1, 34, morale_pair.first, smiley );
+    mvwprintz( w, point( 34, 1 ), morale_pair.first, smiley );
 
     if( !veh ) {
         // stats
         auto pair = str_string( u );
-        mvwprintz( w, 0, 38, pair.first, pair.second );
+        mvwprintz( w, point( 38, 0 ), pair.first, pair.second );
         pair = dex_string( u );
-        mvwprintz( w, 1, 38, pair.first, pair.second );
+        mvwprintz( w, point( 38, 1 ), pair.first, pair.second );
         pair = int_string( u );
-        mvwprintz( w, 2, 38, pair.first, pair.second );
+        mvwprintz( w, point( 38, 2 ), pair.first, pair.second );
         pair = per_string( u );
-        mvwprintz( w, 3, 38, pair.first, pair.second );
+        mvwprintz( w, point( 38, 3 ), pair.first, pair.second );
     }
 
     // print safe mode// print safe mode
@@ -1571,39 +1590,39 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     if( g->safe_mode || get_option<bool>( "AUTOSAFEMODE" ) ) {
         safe_str = "SAFE";
     }
-    mvwprintz( w, 4, 40, safe_color(), safe_str );
+    mvwprintz( w, point( 40, 4 ), safe_color(), safe_str );
 
     // print stamina
     auto pair = std::make_pair( get_hp_bar( u.stamina, u.get_stamina_max() ).second,
                                 get_hp_bar( u.stamina, u.get_stamina_max() ).first );
-    mvwprintz( w, 5, 35, c_light_gray, _( "Stm" ) );
-    mvwprintz( w, 5, 39, pair.first, pair.second );
+    mvwprintz( w, point( 35, 5 ), c_light_gray, _( "Stm" ) );
+    mvwprintz( w, point( 39, 5 ), pair.first, pair.second );
     for( size_t i = 0; i < 5 - pair.second.length(); i++ ) {
-        mvwprintz( w, 5, 43 - i, c_white, "." );
+        mvwprintz( w, point( 43 - i, 5 ), c_white, "." );
     }
 
     // speed
     if( !u.in_vehicle ) {
-        mvwprintz( w, 5, 21, u.get_speed() < 100 ? c_red : c_white,
+        mvwprintz( w, point( 21, 5 ), u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + to_string( u.get_speed() ) );
         nc_color move_color = u.movement_mode_is( PMM_WALK ) ? c_white : move_mode_color( u );
         std::string move_string = to_string( u.movecounter ) + " " + move_mode_string( u );
-        mvwprintz( w, 5, 26 + move_string.length(), move_color, move_string );
+        mvwprintz( w, point( 26 + move_string.length(), 5 ), move_color, move_string );
     }
 
     // temperature
     pair = temp_stat( u );
-    mvwprintz( w, 6, 21, pair.first, pair.second + temp_delta_string( u ) );
+    mvwprintz( w, point( 21, 6 ), pair.first, pair.second + temp_delta_string( u ) );
 
     // power
     pair = power_stat( u );
-    mvwprintz( w, 6, 8, c_light_gray, _( "POWER" ) );
-    mvwprintz( w, 6, 14, pair.first, pair.second );
+    mvwprintz( w, point( 8, 6 ), c_light_gray, _( "POWER" ) );
+    mvwprintz( w, point( 14, 6 ), pair.first, pair.second );
 
     // vehicle display
     if( veh ) {
         veh->print_fuel_indicators( w, 2, 39 );
-        mvwprintz( w, 4, 35, c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
+        mvwprintz( w, point( 35, 4 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();
         if( veh->cruise_on ) {
@@ -1614,10 +1633,10 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
             int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
             int offset = get_int_digits( t_speed );
             const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-            mvwprintz( w, 5, 21, c_light_gray, type );
-            mvwprintz( w, 5, 26, col_vel, "%d", c_speed );
-            mvwprintz( w, 5, 26 + offset, c_light_gray, ">" );
-            mvwprintz( w, 5, 28 + offset, c_light_green, "%d", t_speed );
+            mvwprintz( w, point( 21, 5 ), c_light_gray, type );
+            mvwprintz( w, point( 26, 5 ), col_vel, "%d", c_speed );
+            mvwprintz( w, point( 26 + offset, 5 ), c_light_gray, ">" );
+            mvwprintz( w, point( 28 + offset, 5 ), c_light_green, "%d", t_speed );
         }
     }
 
@@ -1628,18 +1647,20 @@ static void draw_armor_padding( const avatar &u, const catacurses::window &w )
 {
     werase( w );
     nc_color color = c_light_gray;
-    mvwprintz( w, 0, 1, color, _( "Head :" ) );
-    mvwprintz( w, 1, 1, color, _( "Torso:" ) );
-    mvwprintz( w, 2, 1, color, _( "Arms :" ) );
-    mvwprintz( w, 3, 1, color, _( "Legs :" ) );
-    mvwprintz( w, 4, 1, color, _( "Feet :" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), color, _( "Head :" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), color, _( "Torso:" ) );
+    mvwprintz( w, point( 1, 2 ), color, _( "Arms :" ) );
+    mvwprintz( w, point( 1, 3 ), color, _( "Legs :" ) );
+    mvwprintz( w, point( 1, 4 ), color, _( "Feet :" ) );
 
     unsigned int max_length = getmaxx( w ) - 8;
-    print_colored_text( w, 0, 8, color, color, get_armor( u, bp_head, max_length ) );
-    print_colored_text( w, 1, 8, color, color, get_armor( u, bp_torso, max_length ) );
-    print_colored_text( w, 2, 8, color, color, get_armor( u, bp_arm_r, max_length ) );
-    print_colored_text( w, 3, 8, color, color, get_armor( u, bp_leg_r, max_length ) );
-    print_colored_text( w, 4, 8, color, color, get_armor( u, bp_foot_r, max_length ) );
+    print_colored_text( w, point( 8, 0 ), color, color, get_armor( u, bp_head, max_length ) );
+    print_colored_text( w, point( 8, 1 ), color, color, get_armor( u, bp_torso, max_length ) );
+    print_colored_text( w, point( 8, 2 ), color, color, get_armor( u, bp_arm_r, max_length ) );
+    print_colored_text( w, point( 8, 3 ), color, color, get_armor( u, bp_leg_r, max_length ) );
+    print_colored_text( w, point( 8, 4 ), color, color, get_armor( u, bp_foot_r, max_length ) );
     wrefresh( w );
 }
 
@@ -1647,18 +1668,19 @@ static void draw_armor( const avatar &u, const catacurses::window &w )
 {
     werase( w );
     nc_color color = c_light_gray;
-    mvwprintz( w, 0, 0, color, _( "Head :" ) );
-    mvwprintz( w, 1, 0, color, _( "Torso:" ) );
-    mvwprintz( w, 2, 0, color, _( "Arms :" ) );
-    mvwprintz( w, 3, 0, color, _( "Legs :" ) );
-    mvwprintz( w, 4, 0, color, _( "Feet :" ) );
+    mvwprintz( w, point_zero, color, _( "Head :" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 0, 1 ), color, _( "Torso:" ) );
+    mvwprintz( w, point( 0, 2 ), color, _( "Arms :" ) );
+    mvwprintz( w, point( 0, 3 ), color, _( "Legs :" ) );
+    mvwprintz( w, point( 0, 4 ), color, _( "Feet :" ) );
 
     unsigned int max_length = getmaxx( w ) - 7;
-    print_colored_text( w, 0, 7, color, color, get_armor( u, bp_head, max_length ) );
-    print_colored_text( w, 1, 7, color, color, get_armor( u, bp_torso, max_length ) );
-    print_colored_text( w, 2, 7, color, color, get_armor( u, bp_arm_r, max_length ) );
-    print_colored_text( w, 3, 7, color, color, get_armor( u, bp_leg_r, max_length ) );
-    print_colored_text( w, 4, 7, color, color, get_armor( u, bp_foot_r, max_length ) );
+    print_colored_text( w, point( 7, 0 ), color, color, get_armor( u, bp_head, max_length ) );
+    print_colored_text( w, point( 7, 1 ), color, color, get_armor( u, bp_torso, max_length ) );
+    print_colored_text( w, point( 7, 2 ), color, color, get_armor( u, bp_arm_r, max_length ) );
+    print_colored_text( w, point( 7, 3 ), color, color, get_armor( u, bp_leg_r, max_length ) );
+    print_colored_text( w, point( 7, 4 ), color, color, get_armor( u, bp_foot_r, max_length ) );
     wrefresh( w );
 }
 
@@ -1714,7 +1736,7 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
     }
     if( veh ) {
         veh->print_fuel_indicators( w, 0, 0 );
-        mvwprintz( w, 0, 6, c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
+        mvwprintz( w, point( 6, 0 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();
         if( veh->cruise_on ) {
@@ -1725,10 +1747,10 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
             int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
             int offset = get_int_digits( t_speed );
             const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-            mvwprintz( w, 0, 12, c_light_gray, "%s :", type );
-            mvwprintz( w, 0, 19, c_light_green, "%d", t_speed );
-            mvwprintz( w, 0, 20 + offset, c_light_gray, "%s", ">" );
-            mvwprintz( w, 0, 22 + offset, col_vel, "%d", c_speed );
+            mvwprintz( w, point( 12, 0 ), c_light_gray, "%s :", type );
+            mvwprintz( w, point( 19, 0 ), c_light_green, "%d", t_speed );
+            mvwprintz( w, point( 20 + offset, 0 ), c_light_gray, "%s", ">" );
+            mvwprintz( w, point( 22 + offset, 0 ), col_vel, "%d", c_speed );
         }
     }
 
@@ -1746,7 +1768,7 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
     }
     if( veh ) {
         veh->print_fuel_indicators( w, 0, 1 );
-        mvwprintz( w, 0, 7, c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
+        mvwprintz( w, point( 7, 0 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();
         nc_color col_vel = strain <= 0 ? c_light_blue :
@@ -1757,10 +1779,10 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
             int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
             int offset = get_int_digits( t_speed );
             const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-            mvwprintz( w, 0, 13, c_light_gray, "%s :", type );
-            mvwprintz( w, 0, 20, c_light_green, "%d", t_speed );
-            mvwprintz( w, 0, 21 + offset, c_light_gray, "%s", ">" );
-            mvwprintz( w, 0, 23 + offset, col_vel, "%d", c_speed );
+            mvwprintz( w, point( 13, 0 ), c_light_gray, "%s :", type );
+            mvwprintz( w, point( 20, 0 ), c_light_green, "%d", t_speed );
+            mvwprintz( w, point( 21 + offset, 0 ), c_light_gray, "%s", ">" );
+            mvwprintz( w, point( 23 + offset, 0 ), col_vel, "%d", c_speed );
         }
     }
 
@@ -1774,7 +1796,8 @@ static void draw_ai_goal( const avatar &u, const catacurses::window &w )
     needs.add( &string_id<behavior::node_t>( "npc_needs" ).obj() );
     behavior::character_oracle_t player_oracle( &u );
     std::string current_need = needs.tick( &player_oracle );
-    mvwprintz( w, 0, 1, c_light_gray, _( "Goal: %s" ), current_need );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Goal: %s" ), current_need );
     wrefresh( w );
 }
 
@@ -1782,8 +1805,8 @@ static void draw_location_classic( const avatar &u, const catacurses::window &w 
 {
     werase( w );
 
-    mvwprintz( w, 0, 0, c_light_gray, _( "Location:" ) );
-    mvwprintz( w, 0, 10, c_white, utf8_truncate( overmap_buffer.ter(
+    mvwprintz( w, point_zero, c_light_gray, _( "Location:" ) );
+    mvwprintz( w, point( 10, 0 ), c_white, utf8_truncate( overmap_buffer.ter(
                    u.global_omt_location() )->get_name(), getmaxx( w ) - 13 ) );
 
     wrefresh( w );
@@ -1794,15 +1817,15 @@ static void draw_weather_classic( avatar &, const catacurses::window &w )
     werase( w );
 
     if( g->get_levz() < 0 ) {
-        mvwprintz( w, 0, 0, c_light_gray, _( "Underground" ) );
+        mvwprintz( w, point_zero, c_light_gray, _( "Underground" ) );
     } else {
         const weather_datum wdata = weather_data( g->weather.weather );
-        mvwprintz( w, 0, 0, c_light_gray, _( "Weather :" ) );
-        mvwprintz( w, 0, 10, wdata.color, wdata.name );
+        mvwprintz( w, point_zero, c_light_gray, _( "Weather :" ) );
+        mvwprintz( w, point( 10, 0 ), wdata.color, wdata.name );
     }
-    mvwprintz( w, 0, 31, c_light_gray, _( "Moon :" ) );
+    mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Moon :" ) );
     nc_color clr = c_white;
-    print_colored_text( w, 0, 38, clr, c_white, get_moon_graphic() );
+    print_colored_text( w, point( 38, 0 ), clr, c_white, get_moon_graphic() );
 
     wrefresh( w );
 }
@@ -1812,14 +1835,14 @@ static void draw_lighting_classic( const avatar &u, const catacurses::window &w 
     werase( w );
 
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
-    mvwprintz( w, 0, 0, c_light_gray, _( "Lighting:" ) );
-    mvwprintz( w, 0, 10, ll.second, ll.first );
+    mvwprintz( w, point_zero, c_light_gray, _( "Lighting:" ) );
+    mvwprintz( w, point( 10, 0 ), ll.second, ll.first );
 
     if( !u.is_deaf() ) {
-        mvwprintz( w, 0, 31, c_light_gray, _( "Sound:" ) );
-        mvwprintz( w, 0, 38, c_yellow, to_string( u.volume ) );
+        mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Sound:" ) );
+        mvwprintz( w, point( 38, 0 ), c_yellow, to_string( u.volume ) );
     } else {
-        mvwprintz( w, 0, 31, c_red, _( "Deaf!" ) );
+        mvwprintz( w, point( 31, 0 ), c_red, _( "Deaf!" ) );
     }
 
     wrefresh( w );
@@ -1829,9 +1852,9 @@ static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
 {
     werase( w );
 
-    mvwprintz( w, 0, 0, c_light_gray, _( "Weapon  :" ) );
+    mvwprintz( w, point_zero, c_light_gray, _( "Weapon  :" ) );
     nc_color color = c_light_gray;
-    print_colored_text( w, 0, 10, color, color, u.weapname( getmaxx( w ) - 24 ) );
+    print_colored_text( w, point( 10, 0 ), color, color, u.weapname( getmaxx( w ) - 24 ) );
 
     // Print in sidebar currently used martial style.
     std::string style;
@@ -1848,7 +1871,7 @@ static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
 
     if( !style.empty() ) {
         const auto style_color = u.is_armed() ? c_red : c_blue;
-        mvwprintz( w, 0, 31, style_color, style );
+        mvwprintz( w, point( 31, 0 ), style_color, style );
     }
 
     wrefresh( w );
@@ -1859,22 +1882,23 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
     werase( w );
 
     // display date
-    mvwprintz( w, 0, 0, c_white, calendar::name_season( season_of_year( calendar::turn ) ) + "," );
+    mvwprintz( w, point_zero, c_white,
+               calendar::name_season( season_of_year( calendar::turn ) ) + "," );
     std::string day = to_string( day_of_season<int>( calendar::turn ) + 1 );
-    mvwprintz( w, 0, 8, c_white, _( "Day " ) + day );
+    mvwprintz( w, point( 8, 0 ), c_white, _( "Day " ) + day );
     // display time
     if( u.has_watch() ) {
-        mvwprintz( w, 0, 15, c_light_gray, to_string_time_of_day( calendar::turn ) );
+        mvwprintz( w, point( 15, 0 ), c_light_gray, to_string_time_of_day( calendar::turn ) );
     } else if( g->get_levz() >= 0 ) {
         wmove( w, point( 15, 0 ) );
         draw_time_graphic( w );
     } else {
-        mvwprintz( w, 0, 15, c_light_gray, _( "Time: ???" ) );
+        mvwprintz( w, point( 15, 0 ), c_light_gray, _( "Time: ???" ) );
     }
 
     if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         std::string temp = print_temperature( g->weather.get_temperature( u.pos() ) );
-        mvwprintz( w, 0, 31, c_light_gray, _( "Temp : " ) + temp );
+        mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Temp : " ) + temp );
     }
 
     wrefresh( w );
@@ -1884,8 +1908,9 @@ static void draw_hint( const avatar &, const catacurses::window &w )
 {
     werase( w );
     std::string press = press_x( ACTION_TOGGLE_PANEL_ADM );
-    mvwprintz( w, 0, 1, c_light_green, press );
-    mvwprintz( w, 0, 2 + utf8_width( press ), c_white, _( "to open sidebar options" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_green, press );
+    mvwprintz( w, point( 2 + utf8_width( press ), 0 ), c_white, _( "to open sidebar options" ) );
 
     wrefresh( w );
 }
@@ -1899,7 +1924,7 @@ static void print_mana( const player &u, const catacurses::window &w, std::strin
                                     colorize( mana_pair.second, mana_pair.first ), _( "Max Mana" ),
                                     colorize( to_string( u.magic.max_mana( u ) ), c_light_blue ) );
     nc_color gray = c_light_gray;
-    print_colored_text( w, 0, getmaxx( w ) - mana_string.size(), gray, gray, mana_string );
+    print_colored_text( w, point( getmaxx( w ) - mana_string.size(), 0 ), gray, gray, mana_string );
 
     wrefresh( w );
 }
@@ -2239,7 +2264,7 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
             // clear the panel list
             for( int i = 1; i <= 18; i++ ) {
                 for( int j = 1; j <= column_widths[0]; j++ ) {
-                    mvwputch( w, i, j, c_black, ' ' );
+                    mvwputch( w, point( j, i ), c_black, ' ' );
                 }
             }
             // the row that the panel name is printed on
@@ -2265,7 +2290,7 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                 nc_color toggle_color = panels[row_indx.second].toggle ? c_white : c_dark_gray;
                 std::string name = _( panels[row_indx.second].get_name() );
                 if( !selected ) {
-                    mvwprintz( w, row_indx.first + 1, 4, toggle_color, name );
+                    mvwprintz( w, point( 4, row_indx.first + 1 ), toggle_color, name );
                 } else {
                     if( modified_index < row_indx.second ) {
                         vertical_offset = 2;
@@ -2274,20 +2299,20 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                     } else {
                         vertical_offset = 1;
                     }
-                    mvwprintz( w, row_indx.first + vertical_offset, 4, toggle_color, name );
+                    mvwprintz( w, point( 4, row_indx.first + vertical_offset ), toggle_color, name );
                     if( source_index == row_indx.second ) {
                         if( modified_index < source_index ) {
                             selected_offset = 0;
                         } else {
                             selected_offset = 1;
                         }
-                        mvwprintz( w, index + selected_offset, 5, c_yellow, name );
+                        mvwprintz( w, point( 5, index + selected_offset ), c_yellow, name );
                     }
                 }
             }
             size_t i = 1;
             for( const auto &layout : layouts ) {
-                mvwprintz( w, i, column_widths[0] + column_widths[1] + 4,
+                mvwprintz( w, point( column_widths[0] + column_widths[1] + 4, i ),
                            current_layout_id == layout.first ? c_light_blue : c_white, _( layout.first ) );
                 i++;
             }
@@ -2295,21 +2320,21 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
             for( i = 0; i < column; i++ ) {
                 col_offset += column_widths[i];
             }
-            mvwprintz( w, index + selected_offset, 1 + ( col_offset ), c_yellow, ">>" );
+            mvwprintz( w, point( 1 + ( col_offset ), index + selected_offset ), c_yellow, ">>" );
             mvwvline( w, point( column_widths[0], 1 ), 0, 18 );
             mvwvline( w, point( column_widths[0] + column_widths[1], 1 ), 0, 18 );
 
             col_offset = column_widths[0] + 2;
             int col_width = column_widths[1] - 4;
-            mvwprintz( w, 1, col_offset, c_light_green, trunc_ellipse( ctxt.press_x( "TOGGLE_PANEL" ),
+            mvwprintz( w, point( col_offset, 1 ), c_light_green, trunc_ellipse( ctxt.press_x( "TOGGLE_PANEL" ),
                        col_width ) + ":" );
-            mvwprintz( w, 2, col_offset, c_white, _( "Toggle panels on/off" ) );
-            mvwprintz( w, 3, col_offset, c_light_green, trunc_ellipse( ctxt.press_x( "MOVE_PANEL" ),
+            mvwprintz( w, point( col_offset, 2 ), c_white, _( "Toggle panels on/off" ) );
+            mvwprintz( w, point( col_offset, 3 ), c_light_green, trunc_ellipse( ctxt.press_x( "MOVE_PANEL" ),
                        col_width ) + ":" );
-            mvwprintz( w, 4, col_offset, c_white, _( "Change display order" ) );
-            mvwprintz( w, 5, col_offset, c_light_green, trunc_ellipse( ctxt.press_x( "QUIT" ),
+            mvwprintz( w, point( col_offset, 4 ), c_white, _( "Change display order" ) );
+            mvwprintz( w, point( col_offset, 5 ), c_light_green, trunc_ellipse( ctxt.press_x( "QUIT" ),
                        col_width ) + ":" );
-            mvwprintz( w, 6, col_offset, c_white, _( "Exit" ) );
+            mvwprintz( w, point( col_offset, 6 ), c_white, _( "Exit" ) );
         }
         wrefresh( w );
 
