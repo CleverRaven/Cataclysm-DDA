@@ -1417,6 +1417,8 @@ void npc::load( JsonObject &data )
     data.read( "guardz", guard_pos.z );
     if( data.read( "current_activity_id", act_id ) ) {
         current_activity_id = activity_id( act_id );
+    } else if( activity ) {
+        current_activity_id = activity.id();
     }
 
     if( data.has_member( "pulp_locationx" ) ) {
