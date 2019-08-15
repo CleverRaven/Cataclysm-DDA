@@ -3021,6 +3021,7 @@ void veh_interact::complete_vehicle()
             if( pt.is_tank() && src->is_container() && !contents.empty() ) {
 
                 pt.base.fill_with( contents.front() );
+                src->on_contents_changed();
 
                 if( pt.ammo_remaining() != pt.ammo_capacity() ) {
                     //~ 1$s vehicle name, 2$s tank name
