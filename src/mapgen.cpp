@@ -505,7 +505,7 @@ bool mapgen_function_json_base::check_inbounds( const jmapgen_int &x, const jmap
 }
 
 mapgen_function_json_base::mapgen_function_json_base( const std::string &s )
-    : jdata( s )
+    : jdata( std::move( s ) )
     , do_format( false )
     , is_ready( false )
     , mapgensize( SEEX * 2, SEEY * 2 )
@@ -1127,9 +1127,9 @@ class jmapgen_monster_group : public jmapgen_piece
         mongroup_id id;
         float density;
         jmapgen_int chance;
+        bool target;
         bool individual;
         std::string name;
-        bool target;
         jmapgen_monster_group( JsonObject &jsi ) :
             id( jsi.get_string( "monster" ) )
             , density( jsi.get_float( "density", -1.0f ) )
@@ -7206,10 +7206,9 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 computer *map::add_computer( const tripoint &p, const std::string &name, int security )
 {
     ter_set( p, t_console ); // TODO: Turn this off?
-    point l;
-    submap *const place_on_submap = get_submap_at( p, l );
-    place_on_submap->set_computer( l, computer( name, security ) );
-    return place_on_submap->get_computer( l );
+    submap *place_on_submap = get_submap_at( p );
+    place_on_submap->comp = std::make_unique<computer>( name, security );
+    return place_on_submap->comp.get();
 }
 
 /**
