@@ -79,8 +79,6 @@ const efftype_id effect_winded( "winded" );
 
 // 1 kJ per battery charge
 const int bat_energy_j = 1000;
-
-inline int modulo( int v, int m );
 //
 // Point dxs for the adjacent cardinal tiles.
 point vehicles::cardinal_d[5] = { point_west, point_east, point_north, point_south, point_zero };
@@ -5607,15 +5605,6 @@ bool vpart_reference::has_feature( const std::string &f ) const
 bool vpart_reference::has_feature( const vpart_bitflags f ) const
 {
     return info().has_flag( f );
-}
-
-inline int modulo( int v, int m )
-{
-    // C++11: negative v and positive m result in negative v%m (or 0),
-    // but this is supposed to be mathematical modulo: 0 <= v%m < m,
-    const int r = v % m;
-    // Adding m in that (and only that) case.
-    return r >= 0 ? r : r + m;
 }
 
 static bool is_sm_tile_over_water( const tripoint &real_global_pos )

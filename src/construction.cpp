@@ -159,15 +159,15 @@ static void load_available_constructions( std::vector<std::string> &available,
 static void draw_grid( const catacurses::window &w, const int list_width )
 {
     draw_border( w );
-    mvwprintz( w, 0, 2, c_light_red, _( " Construction " ) );
+    mvwprintz( w, point( 2, 0 ), c_light_red, _( " Construction " ) );
     // draw internal lines
     mvwvline( w, point( list_width, 1 ), LINE_XOXO, getmaxy( w ) - 2 );
     mvwhline( w, point( 1, 2 ), LINE_OXOX, list_width );
     // draw intersections
-    mvwputch( w, 0, list_width, c_light_gray, LINE_OXXX );
-    mvwputch( w, getmaxy( w ) - 1, list_width, c_light_gray, LINE_XXOX );
-    mvwputch( w, 2, 0, c_light_gray, LINE_XXXO );
-    mvwputch( w, 2, list_width, c_light_gray, LINE_XOXX );
+    mvwputch( w, point( list_width, 0 ), c_light_gray, LINE_OXXX );
+    mvwputch( w, point( list_width, getmaxy( w ) - 1 ), c_light_gray, LINE_XXOX );
+    mvwputch( w, point( 0, 2 ), c_light_gray, LINE_XXXO );
+    mvwputch( w, point( list_width, 2 ), c_light_gray, LINE_XOXX );
 
     wrefresh( w );
 }
@@ -318,7 +318,8 @@ int construction_menu( bool blueprint )
         mvwhline( w_con, point_south_east, ' ', w_list_width );
         werase( w_list );
         // Print new tab listing
-        mvwprintz( w_con, 1, 1, c_yellow, "<< %s >>", _( construct_cat[tabindex].name ) );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( w_con, point( 1, 1 ), c_yellow, "<< %s >>", _( construct_cat[tabindex].name ) );
         // Determine where in the master list to start printing
         calcStartPos( offset, select, w_list_height, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
@@ -328,7 +329,7 @@ int construction_menu( bool blueprint )
             std::string con_name = constructs[current];
             bool highlight = ( current == select );
 
-            trim_and_print( w_list, i, 0, w_list_width,
+            trim_and_print( w_list, point( 0, i ), w_list_width,
                             construction_color( con_name, highlight ), _( con_name ) );
         }
 
@@ -355,8 +356,8 @@ int construction_menu( bool blueprint )
 
             // print the hotkeys regardless of if there are constructions
             for( size_t i = 0; i < notes.size(); ++i ) {
-                trim_and_print( w_con, w_height - 1 - static_cast<int>( notes.size() ) + static_cast<int>( i ),
-                                pos_x,
+                trim_and_print( w_con, point( pos_x,
+                                              w_height - 1 - static_cast<int>( notes.size() ) + static_cast<int>( i ) ),
                                 available_window_width, c_white, notes[i] );
             }
 
@@ -367,7 +368,7 @@ int construction_menu( bool blueprint )
                 }
                 std::string current_desc = constructs[select];
                 // Print construction name
-                trim_and_print( w_con, 1, pos_x, available_window_width, c_white, _( current_desc ) );
+                trim_and_print( w_con, point( pos_x, 1 ), available_window_width, c_white, _( current_desc ) );
 
                 //only reconstruct the project list when moving away from the current item, or when changing the display mode
                 if( previous_select != select || previous_tabindex != tabindex ||
@@ -551,14 +552,14 @@ int construction_menu( bool blueprint )
                 }
                 if( current_construct_breakpoint > 0 ) {
                     // Print previous stage indicator if breakpoint is past the beginning
-                    trim_and_print( w_con, 2, pos_x, available_window_width, c_white,
+                    trim_and_print( w_con, point( pos_x, 2 ), available_window_width, c_white,
                                     _( "Press %s to show previous stage(s)." ),
                                     ctxt.get_desc( "PAGE_UP" ) );
                 }
                 if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] +
                                          available_buffer_height ) < full_construct_buffer.size() ) {
                     // Print next stage indicator if more breakpoints are remaining after screen height
-                    trim_and_print( w_con, w_height - 2 - static_cast<int>( notes.size() ), pos_x,
+                    trim_and_print( w_con, point( pos_x, w_height - 2 - static_cast<int>( notes.size() ) ),
                                     available_window_width,
                                     c_white, _( "Press %s to show next stage(s)." ),
                                     ctxt.get_desc( "PAGE_DOWN" ) );
@@ -572,7 +573,7 @@ int construction_menu( bool blueprint )
                     if( ypos > available_buffer_height + 3 ) {
                         break;
                     }
-                    print_colored_text( w_con, ypos++, ( w_list_width + w_list_x0 + 2 ), stored_color, color_stage,
+                    print_colored_text( w_con, point( w_list_width + w_list_x0 + 2, ypos++ ), stored_color, color_stage,
                                         full_construct_buffer[i] );
                 }
             }
@@ -1487,7 +1488,7 @@ int construction::print_time( const catacurses::window &w, int ypos, int xpos, i
                               nc_color col ) const
 {
     std::string text = get_time_string();
-    return fold_and_print( w, ypos, xpos, width, col, text );
+    return fold_and_print( w, point( xpos, ypos ), width, col, text );
 }
 
 float construction::time_scale() const

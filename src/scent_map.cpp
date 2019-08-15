@@ -69,7 +69,7 @@ void scent_map::draw( const catacurses::window &win, const int div, const tripoi
     for( int x = 0; x < maxx; ++x ) {
         for( int y = 0; y < maxy; ++y ) {
             const int sn = get( center + point( -maxx / 2 + x, -maxy / 2 + y ) ) / div;
-            mvwprintz( win, y, x, sev( sn / 10 ), "%d", sn % 10 );
+            mvwprintz( win, point( x, y ), sev( sn / 10 ), "%d", sn % 10 );
         }
     }
 }

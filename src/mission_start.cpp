@@ -128,24 +128,31 @@ void mission_start::kill_horde_master( mission *miss )
  * Find a location to place a computer.  In order, prefer:
  * 1) Broken consoles.
  * 2) Corners or coords adjacent to a bed/dresser? (this logic may be flawed, dates from Whales in 2011)
- * 3) A random spot near the center of the tile.
+ * 3) A spot near the center of the tile that is not a console
+ * 4) A random spot near the center of the tile.
  */
 static tripoint find_potential_computer_point( const tinymap &compmap, int z )
 {
+    constexpr int rng_x_min = 10;
+    constexpr int rng_x_max = SEEX * 2 - 11;
+    constexpr int rng_y_min = 10;
+    constexpr int rng_y_max = SEEY * 2 - 11;
+    static_assert( rng_x_min <= rng_x_max && rng_y_min <= rng_y_max, "invalid randomization range" );
     std::vector<tripoint> broken;
     std::vector<tripoint> potential;
+    std::vector<tripoint> last_resort;
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
             if( compmap.ter( x, y ) == t_console_broken ) {
-                broken.push_back( tripoint( x, y, z ) );
-            } else if( compmap.ter( x, y ) == t_floor && compmap.furn( x, y ) == f_null ) {
+                broken.emplace_back( x, y, z );
+            } else if( broken.empty() && compmap.ter( x, y ) == t_floor && compmap.furn( x, y ) == f_null ) {
                 bool okay = false;
                 int wall = 0;
                 for( int x2 = x - 1; x2 <= x + 1 && !okay; x2++ ) {
                     for( int y2 = y - 1; y2 <= y + 1 && !okay; y2++ ) {
                         if( compmap.furn( x2, y2 ) == f_bed || compmap.furn( x2, y2 ) == f_dresser ) {
                             okay = true;
-                            potential.push_back( tripoint( x, y, z ) );
+                            potential.emplace_back( x, y, z );
                         }
                         if( compmap.has_flag_ter( "WALL", x2, y2 ) ) {
                             wall++;
@@ -157,14 +164,25 @@ static tripoint find_potential_computer_point( const tinymap &compmap, int z )
                         compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, SOUTH ) &&
                         compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, WEST ) &&
                         compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, EAST ) ) {
-                        potential.push_back( tripoint( x, y, z ) );
+                        potential.emplace_back( x, y, z );
                     }
                 }
+            } else if( broken.empty() && potential.empty() && x >= rng_x_min && x <= rng_x_max
+                       && y >= rng_y_min && y <= rng_y_max && compmap.ter( x, y ) != t_console ) {
+                last_resort.emplace_back( x, y, z );
             }
         }
     }
-    const tripoint fallback( rng( 10, SEEX * 2 - 11 ), rng( 10, SEEY * 2 - 11 ), z );
-    return random_entry( !broken.empty() ? broken : potential, fallback );
+    std::vector<tripoint> *used = &broken;
+    if( used->empty() ) {
+        used = &potential;
+    }
+    if( used->empty() ) {
+        used = &last_resort;
+    }
+    // if there's no possible location, then we have to overwrite an existing console...
+    const tripoint fallback( rng( rng_x_min, rng_x_max ), rng( rng_y_min, rng_y_max ), z );
+    return random_entry( *used, fallback );
 }
 
 void mission_start::place_npc_software( mission *miss )

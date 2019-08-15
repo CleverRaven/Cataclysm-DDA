@@ -690,21 +690,22 @@ void color_manager::clear()
 static void draw_header( const catacurses::window &w )
 {
     int tmpx = 0;
-    tmpx += shortcut_print( w, 0, tmpx, c_white, c_light_green,
+    tmpx += shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green,
                             _( "<R>emove custom color" ) ) + 2;
-    tmpx += shortcut_print( w, 0, tmpx, c_white, c_light_green,
+    tmpx += shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green,
                             _( "<Arrow Keys> To navigate" ) ) + 2;
-    tmpx += shortcut_print( w, 0, tmpx, c_white, c_light_green, _( "<Enter>-Edit" ) ) + 2;
-    shortcut_print( w, 0, tmpx, c_white, c_light_green, _( "Load <T>emplate" ) );
+    tmpx += shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green, _( "<Enter>-Edit" ) ) + 2;
+    shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green, _( "Load <T>emplate" ) );
 
-    mvwprintz( w, 1, 0, c_white, _( "Some color changes may require a restart." ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 0, 1 ), c_white, _( "Some color changes may require a restart." ) );
 
     mvwhline( w, point( 0, 2 ), LINE_OXOX, getmaxx( w ) ); // Draw line under header
-    mvwputch( w, 2, 48, BORDER_COLOR, LINE_OXXX ); //^|^
+    mvwputch( w, point( 48, 2 ), BORDER_COLOR, LINE_OXXX ); //^|^
 
-    mvwprintz( w, 3, 3, c_white, _( "Colorname" ) );
-    mvwprintz( w, 3, 21, c_white, _( "Normal" ) );
-    mvwprintz( w, 3, 52, c_white, _( "Invert" ) );
+    mvwprintz( w, point( 3, 3 ), c_white, _( "Colorname" ) );
+    mvwprintz( w, point( 21, 3 ), c_white, _( "Normal" ) );
+    mvwprintz( w, point( 52, 3 ), c_white, _( "Invert" ) );
 
     wrefresh( w );
 }
@@ -731,13 +732,15 @@ void color_manager::show_gui()
                                   point( 1 + iOffsetX, iHeaderHeight + 1 + iOffsetY ) );
 
     draw_border( w_colors_border, BORDER_COLOR, _( " COLOR MANAGER " ) );
-    mvwputch( w_colors_border, 3,  0, BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( w_colors_border, 3, getmaxx( w_colors_border ) - 1, BORDER_COLOR, LINE_XOXX ); // -|
+    mvwputch( w_colors_border, point( 0, 3 ), BORDER_COLOR, LINE_XXXO ); // |-
+    mvwputch( w_colors_border, point( getmaxx( w_colors_border ) - 1, 3 ), BORDER_COLOR,
+              LINE_XOXX ); // -|
 
     for( auto &iCol : vLines ) {
         if( iCol > -1 ) {
-            mvwputch( w_colors_border, FULL_SCREEN_HEIGHT - 1, iCol + 1, BORDER_COLOR, LINE_XXOX ); // _|_
-            mvwputch( w_colors_header, 3, iCol, BORDER_COLOR, LINE_XOXO );
+            mvwputch( w_colors_border, point( iCol + 1, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR,
+                      LINE_XXOX ); // _|_
+            mvwputch( w_colors_header, point( iCol, 3 ), BORDER_COLOR, LINE_XOXO );
         }
     }
     wrefresh( w_colors_border );
@@ -767,11 +770,11 @@ void color_manager::show_gui()
         // Clear all lines
         for( int i = 0; i < iContentHeight; i++ ) {
             for( int j = 0; j < 79; j++ ) {
-                mvwputch( w_colors, i, j, c_black, ' ' );
+                mvwputch( w_colors, point( j, i ), c_black, ' ' );
 
                 for( auto &iCol : vLines ) {
                     if( iCol == j ) {
-                        mvwputch( w_colors, i, j, BORDER_COLOR, LINE_XOXO );
+                        mvwputch( w_colors, point( j, i ), BORDER_COLOR, LINE_XOXO );
                     }
                 }
             }
@@ -795,21 +798,22 @@ void color_manager::show_gui()
 
                 if( iCurrentLine == i ) {
                     sActive = iter->first;
-                    mvwprintz( w_colors, i - iStartPos, vLines[iCurrentCol - 1] + 2, c_yellow, ">" );
+                    mvwprintz( w_colors, point( vLines[iCurrentCol - 1] + 2, i - iStartPos ), c_yellow, ">" );
                 }
 
-                mvwprintz( w_colors, i - iStartPos, 3, c_white, iter->first ); //color name
-                mvwprintz( w_colors, i - iStartPos, 21, entry.color, _( "default" ) ); //default color
+                mvwprintz( w_colors, point( 3, i - iStartPos ), c_white, iter->first ); //color name
+                mvwprintz( w_colors, point( 21, i - iStartPos ), entry.color, _( "default" ) ); //default color
 
                 if( !entry.name_custom.empty() ) {
-                    mvwprintz( w_colors, i - iStartPos, 30, name_color_map[entry.name_custom].color,
+                    mvwprintz( w_colors, point( 30, i - iStartPos ), name_color_map[entry.name_custom].color,
                                entry.name_custom ); //custom color
                 }
 
-                mvwprintz( w_colors, i - iStartPos, 52, entry.invert, _( "default" ) ); //invert default color
+                mvwprintz( w_colors, point( 52, i - iStartPos ), entry.invert,
+                           _( "default" ) ); //invert default color
 
                 if( !entry.name_invert_custom.empty() ) {
-                    mvwprintz( w_colors, i - iStartPos, 61, name_color_map[entry.name_invert_custom].color,
+                    mvwprintz( w_colors, point( 61, i - iStartPos ), name_color_map[entry.name_invert_custom].color,
                                entry.name_invert_custom ); //invert custom color
                 }
             }

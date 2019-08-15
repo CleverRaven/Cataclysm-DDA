@@ -907,8 +907,8 @@ action_id handle_action_menu()
         int ix = TERMX > width ? ( TERMX - width ) / 2 - 1 : 0;
         int iy = TERMY > static_cast<int>( entries.size() ) + 2 ? ( TERMY - static_cast<int>
                  ( entries.size() ) - 2 ) / 2 - 1 : 0;
-        int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
-                                std::max( iy, 0 ), title, entries );
+        int selection = uilist( point( std::max( ix, 0 ), std::max( iy, 0 ) ),
+                                std::min( width, TERMX - 2 ), title, entries );
 
         g->draw();
 
@@ -964,8 +964,8 @@ action_id handle_main_menu()
     const int ix = TERMX > width ? ( TERMX - width ) / 2 - 1 : 0;
     const int iy = TERMY > static_cast<int>( entries.size() ) + 2 ? ( TERMY - static_cast<int>
                    ( entries.size() ) - 2 ) / 2 - 1 : 0;
-    int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
-                            std::max( iy, 0 ), _( "MAIN MENU" ), entries );
+    int selection = uilist( point( std::max( ix, 0 ), std::max( iy, 0 ) ),
+                            std::min( width, TERMX - 2 ), _( "MAIN MENU" ), entries );
 
     g->draw();
 

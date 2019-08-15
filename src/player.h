@@ -225,7 +225,7 @@ class player : public Character
         nc_color basic_symbol_color() const override;
 
         /** Returns an enumeration of visible mutations with colors */
-        std::string visible_mutations( const int visibility_cap ) const;
+        std::string visible_mutations( int visibility_cap ) const;
         std::vector<std::string> short_description_parts() const;
         std::string short_description() const;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
@@ -477,8 +477,8 @@ class player : public Character
 
         void pause(); // '.' command; pauses & reduces recoil
 
-        void set_movement_mode( const player_movemode mode );
-        bool movement_mode_is( const player_movemode mode ) const;
+        void set_movement_mode( player_movemode mode );
+        bool movement_mode_is( player_movemode mode ) const;
 
         void cycle_move_mode(); // Cycles to the next move mode.
         void reset_move_mode(); // Resets to walking.
@@ -555,7 +555,7 @@ class player : public Character
         /** Returns true if the player is immune to this kind of effect */
         bool is_immune_effect( const efftype_id & ) const override;
         /** Returns true if the player is immune to this kind of damage */
-        bool is_immune_damage( const damage_type ) const override;
+        bool is_immune_damage( damage_type ) const override;
         /** Returns true if the player is protected from radiation */
         bool is_rad_immune() const;
 
@@ -658,7 +658,7 @@ class player : public Character
         void on_dodge( Creature *source, float difficulty ) override;
         /** Handles special defenses from an attack that hit us (source can be null) */
         void on_hit( Creature *source, body_part bp_hit = num_bp,
-                     float difficulty = INT_MIN, dealt_projectile_attack const *const proj = nullptr ) override;
+                     float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
         /** Handles effects that happen when the player is damaged and aware of the fact. */
         void on_hurt( Creature *source, bool disturb = true );
 
@@ -778,7 +778,7 @@ class player : public Character
         int reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt );
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
         void apply_damage( Creature *source, body_part bp, int amount,
-                           const bool bypass_med = false ) override;
+                           bool bypass_med = false ) override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
         void mod_pain( int npain ) override;
         /** Sets new intensity of pain an reacts to it */
@@ -1086,7 +1086,7 @@ class player : public Character
         void drop( const std::list<std::pair<int, int>> &what, const tripoint &where, bool stash = false );
 
         /** So far only called by unload() from game.cpp */
-        bool add_or_drop_with_msg( item &it, const bool unloading = false );
+        bool add_or_drop_with_msg( item &it, bool unloading = false );
 
         bool unload( item &it );
 
@@ -1482,7 +1482,7 @@ class player : public Character
         select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
                                const std::string &hotkeys = DEFAULT_HOTKEYS,
                                bool can_cancel = false, bool player_inv = true,
-        const std::function<int( int )> charges_required_modifier = []( int i ) {
+        std::function<int( int )> charges_required_modifier = []( int i ) {
             return i;
         } );
         /** Consume tools for the next multiplier * 5% progress of the craft */
@@ -1622,9 +1622,9 @@ class player : public Character
         int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
-        int get_used_bionics_slots( const body_part bp ) const;
-        int get_total_bionics_slots( const body_part bp ) const;
-        int get_free_bionics_slots( const body_part bp ) const;
+        int get_used_bionics_slots( body_part bp ) const;
+        int get_total_bionics_slots( body_part bp ) const;
+        int get_free_bionics_slots( body_part bp ) const;
         std::map<body_part, int> bionic_installation_issues( const bionic_id &bioid );
 
         //Dumps all memorial events into a single newline-delimited string
@@ -1653,7 +1653,7 @@ class player : public Character
         bool is_invisible() const;
         bool is_deaf() const;
         // Checks whether a player can hear a sound at a given volume and location.
-        bool can_hear( const tripoint &source, const int volume ) const;
+        bool can_hear( const tripoint &source, int volume ) const;
         // Returns a multiplier indicating the keenness of a player's hearing.
         float hearing_ability() const;
         int visibility( bool check_color = false,
@@ -1827,8 +1827,8 @@ class player : public Character
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const trait_id &mutation );
         void deactivate_mutation( const trait_id &mut );
-        bool has_fire( const int quantity ) const;
-        void use_fire( const int quantity );
+        bool has_fire( int quantity ) const;
+        void use_fire( int quantity );
 
         /** Determine player's capability of recharging their CBMs. */
         bool can_feed_battery_with( const item &it ) const;

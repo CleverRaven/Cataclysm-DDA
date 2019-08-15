@@ -237,7 +237,7 @@ struct vehicle_part {
          * @param pos Position of this part for item::process
          * @param e_heater Engine has a heater and is on
          */
-        void process_contents( const tripoint &pos, const bool e_heater );
+        void process_contents( const tripoint &pos, bool e_heater );
 
         /**
          *  Try adding @param liquid to tank optionally limited by @param qty
@@ -298,7 +298,7 @@ struct vehicle_part {
         /** Can this part store fuel of any type
          * @skip_broke exclude broken parts
          */
-        bool is_fuel_store( const bool skip_broke = true ) const;
+        bool is_fuel_store( bool skip_broke = true ) const;
 
         /** Can this part contain liquid fuels? */
         bool is_tank() const;
@@ -343,9 +343,9 @@ struct vehicle_part {
         bool is_broken() const;
 
         /** parts are unavailable if broken or if carried is true, if they have the CARRIED flag */
-        bool is_unavailable( const bool carried = true ) const;
+        bool is_unavailable( bool carried = true ) const;
         /** parts are available if they aren't unavailable */
-        bool is_available( const bool carried = true ) const;
+        bool is_available( bool carried = true ) const;
 
         /** how much blood covers part (in turns). */
         int blood = 0;
@@ -622,7 +622,7 @@ class vehicle
         int part_epower_w( int index ) const;
 
         // convert watts over time to battery energy
-        int power_to_energy_bat( const int power_w, const int t_seconds ) const;
+        int power_to_energy_bat( int power_w, int t_seconds ) const;
 
         // convert vhp to watts.
         static int vhp_to_watts( int power );
@@ -645,10 +645,10 @@ class vehicle
                                    bool verbose = false, bool desc = false );
 
         // Calculate how long it takes to attempt to start an engine
-        int engine_start_time( const int e ) const;
+        int engine_start_time( int e ) const;
 
         // How much does the temperature effect the engine starting (0.0 - 1.0)
-        double engine_cold_factor( const int e ) const;
+        double engine_cold_factor( int e ) const;
 
         // refresh pivot_cache, clear pivot_dirty
         void refresh_pivot() const;
@@ -770,13 +770,13 @@ class vehicle
         bool fold_up();
 
         // Attempt to start an engine
-        bool start_engine( const int e );
+        bool start_engine( int e );
 
         // Attempt to start the vehicle's active engines
-        void start_engines( const bool take_control = false );
+        void start_engines( bool take_control = false );
 
         // Engine backfire, making a loud noise
-        void backfire( const int e ) const;
+        void backfire( int e ) const;
 
         // get vpart type info for part number (part at given vector index)
         const vpart_info &part_info( int index, bool include_removed = false ) const;
@@ -913,9 +913,9 @@ class vehicle
          *  @param condition enum to include unabled, unavailable, and broken parts
          */
         std::vector<vehicle_part *> get_parts_at( const tripoint &pos, const std::string &flag,
-                const part_status_flag condition );
+                part_status_flag condition );
         std::vector<const vehicle_part *> get_parts_at( const tripoint &pos,
-                const std::string &flag, const part_status_flag condition ) const;
+                const std::string &flag, part_status_flag condition ) const;
 
         /** Test if part can be enabled (unbroken, sufficient fuel etc), optionally displaying failures to user */
         bool can_enable( const vehicle_part &pt, bool alert = false ) const;
@@ -1029,9 +1029,9 @@ class vehicle
         // Checks how much certain fuel left in tanks.
         int fuel_left( const itype_id &ftype, bool recurse = false ) const;
         // Checks how much of the part p's current fuel is left
-        int fuel_left( const int p, bool recurse = false ) const;
+        int fuel_left( int p, bool recurse = false ) const;
         // Checks how much of an engine's current fuel is left in the tanks.
-        int engine_fuel_left( const int e, bool recurse = false ) const;
+        int engine_fuel_left( int e, bool recurse = false ) const;
         int fuel_capacity( const itype_id &ftype ) const;
 
         // Returns the total specific energy of this fuel type. Frozen is ignored.
@@ -1040,7 +1040,7 @@ class vehicle
         // drains a fuel type (e.g. for the kitchen unit)
         // returns amount actually drained, does not engage reactor
         int drain( const itype_id &ftype, int amount );
-        int drain( const int index, int amount );
+        int drain( int index, int amount );
         /**
          * Consumes enough fuel by energy content. Does not support cable draining.
          * @param ftype Type of fuel
@@ -1053,7 +1053,7 @@ class vehicle
         int basic_consumption( const itype_id &ftype ) const;
         int consumption_per_hour( const itype_id &ftype, int fuel_rate ) const;
 
-        void consume_fuel( int load, const int t_seconds = 6, bool skip_battery = false );
+        void consume_fuel( int load, int t_seconds = 6, bool skip_battery = false );
 
         /**
          * Maps used fuel to its basic (unscaled by load/strain) consumption.
@@ -1507,7 +1507,7 @@ class vehicle
          * &turning_wheels_that_are_one_axis_counter - number of wheels that are on one axis and will land on rail
          */
         void precalculate_vehicle_turning( int new_turn_dir, bool check_rail_direction,
-                                           const ter_bitflags ter_flag_to_check, int &wheels_on_rail,
+                                           ter_bitflags ter_flag_to_check, int &wheels_on_rail,
                                            int &turning_wheels_that_are_one_axis_counter ) const;
         bool allow_auto_turn_on_rails( int &corrected_turn_dir ) const;
         bool allow_manual_turn_on_rails( int &corrected_turn_dir ) const;
