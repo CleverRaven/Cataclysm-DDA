@@ -1075,17 +1075,21 @@ size_t ter_t::count()
 
 namespace io
 {
-static const std::map<std::string, season_type> season_map = {{
-        { "spring", season_type::SPRING },
-        { "summer", season_type::SUMMER },
-        { "autumn", season_type::AUTUMN },
-        { "winter", season_type::WINTER }
-    }
-};
 template<>
-season_type string_to_enum<season_type>( const std::string &data )
+std::string enum_to_string<season_type>( season_type data )
 {
-    return string_to_enum_look_up( season_map, data );
+    switch( data ) {
+        // *INDENT-OFF*
+        case season_type::SPRING: return "spring";
+        case season_type::SUMMER: return "summer";
+        case season_type::AUTUMN: return "autumn";
+        case season_type::WINTER: return "winter";
+        // *INDENT-ON*
+        case season_type::NUM_SEASONS:
+            break;
+    }
+    debugmsg( "Invalid season_type" );
+    abort();
 }
 } // namespace io
 
