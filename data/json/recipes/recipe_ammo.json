@@ -901,7 +901,7 @@
       [ "textbook_anarch", 2, "Stuff THE MAN doesn't want you to know" ],
       [ "manual_launcher", 2 ]
     ],
-    "components": [ [ [ "gasoline", 125 ], [ "diesel", 125 ] ] ]
+    "components": [ [ [ "gasoline", 125 ] ], [ [ "diesel", 125 ] ] ]
   },
   {
     "type": "recipe",
