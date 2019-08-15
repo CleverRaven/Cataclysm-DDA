@@ -234,6 +234,30 @@ class optional
         }
 };
 
+template<class T, class U>
+constexpr bool operator==( const optional<T> &lhs, const optional<U> &rhs )
+{
+    if( bool( lhs ) != bool( rhs ) ) {
+        return false;
+    } else if( !lhs ) {
+        return true;
+    } else {
+        return *lhs == *rhs;
+    }
+}
+
+template< class T, class U >
+constexpr bool operator!=( const optional<T> &lhs, const optional<U> &rhs )
+{
+    if( bool( lhs ) != bool( rhs ) ) {
+        return true;
+    } else if( !lhs ) {
+        return false;
+    } else {
+        return *lhs != *rhs;
+    }
+}
+
 } // namespace cata
 
 #endif

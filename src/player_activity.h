@@ -12,8 +12,9 @@
 
 #include "enums.h"
 #include "item_location.h"
-#include "string_id.h"
 #include "point.h"
+#include "string_id.h"
+#include "translations.h"
 
 class player;
 class Character;
@@ -78,7 +79,7 @@ class player_activity
         // e.g. "Stop doing something?", already translated.
         std::string get_stop_phrase() const;
 
-        std::string get_verb() const;
+        translation get_verb() const;
 
         int get_value( size_t index, int def = 0 ) const;
         std::string get_str_value( size_t index, const std::string &def = "" ) const;
