@@ -47,7 +47,6 @@ readability-*,\
 -performance-inefficient-string-concatenation,\
 -performance-type-promotion-in-math-fn,\
 -performance-unnecessary-value-param,\
--readability-avoid-const-params-in-decls,\
 -readability-braces-around-statements,\
 -readability-else-after-return,\
 -readability-function-size,\

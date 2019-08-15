@@ -101,7 +101,7 @@ struct layer_details {
     int total = 0;
 
     void reset();
-    int layer( const int encumbrance );
+    int layer( int encumbrance );
 
     bool operator ==( const layer_details &rhs ) const {
         return max == rhs.max &&
@@ -319,7 +319,7 @@ class Character : public Creature, public visitable<Character>
         /** Get encumbrance for all body parts as if `new_item` was also worn. */
         std::array<encumbrance_data, num_bp> get_encumbrance( const item &new_item ) const;
         /** Get encumbrance penalty per layer & body part */
-        int extraEncumbrance( const layer_level level, const int bp ) const;
+        int extraEncumbrance( layer_level level, int bp ) const;
 
         /** Returns true if the character is wearing power armor */
         bool is_wearing_power_armor( bool *hasHelmet = nullptr ) const;
@@ -551,7 +551,7 @@ class Character : public Creature, public visitable<Character>
          * @param unloading Do not try to add to a container when the item was intentionally unloaded.
          * @return Remaining charges which could not be stored in a container.
          */
-        int i_add_to_container( const item &it, const bool unloading );
+        int i_add_to_container( const item &it, bool unloading );
         item &i_add( item it, bool should_stack = true );
 
         /**
@@ -680,7 +680,7 @@ class Character : public Creature, public visitable<Character>
 
         void drop_invalid_inventory();
 
-        virtual bool has_artifact_with( const art_effect_passive effect ) const;
+        virtual bool has_artifact_with( art_effect_passive effect ) const;
 
         // --------------- Clothing Stuff ---------------
         /** Returns true if the player is wearing the item. */
@@ -743,7 +743,7 @@ class Character : public Creature, public visitable<Character>
         }
         virtual bool query_yn( const std::string &msg ) const = 0;
 
-        bool is_immune_field( const field_type_id fid ) const override;
+        bool is_immune_field( field_type_id fid ) const override;
 
         /** Returns true if the player has some form of night vision */
         bool has_nv();
@@ -760,7 +760,7 @@ class Character : public Creature, public visitable<Character>
         /**
          * Average hit points healed per turn from healing effects.
          */
-        float healing_rate_medicine( float at_rest_quality, const body_part bp ) const;
+        float healing_rate_medicine( float at_rest_quality, body_part bp ) const;
 
         /**
          * Goes over all mutations, gets min and max of a value with given name

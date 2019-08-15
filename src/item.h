@@ -706,7 +706,7 @@ class item : public visitable<item>
          * @param flag to specify special temperature situations
          */
         void process_temperature_rot( float insulation, const tripoint &pos, player *carrier,
-                                      const temperature_flag flag = temperature_flag::TEMP_NORMAL );
+                                      temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /** Set the item to HOT */
         void heat_up();
@@ -718,7 +718,7 @@ class item : public visitable<item>
         void set_item_temperature( float new_temperature );
 
         /** Sets the item to new temperature and energy based new specific energy (J/g)*/
-        void set_item_specific_energy( const float specific_energy );
+        void set_item_specific_energy( float specific_energy );
 
         /** reset the last_temp_check used when crafting new items and the like */
         void reset_temp_check();
@@ -852,7 +852,7 @@ class item : public visitable<item>
         /**
          * If contents nonempty, return true if item phase is same, else false
          */
-        bool contents_made_of( const phase_id phase ) const;
+        bool contents_made_of( phase_id phase ) const;
         /**
          * Are we solid, liquid, gas, plasma?
          */
@@ -962,7 +962,7 @@ class item : public visitable<item>
          * @param dt type of damage which may be passed to @ref on_damage callback
          * @return whether item should be destroyed
          */
-        bool inc_damage( const damage_type dt );
+        bool inc_damage( damage_type dt );
         /// same as other inc_damage, but uses @ref DT_NULL as damage type.
         bool inc_damage();
 
@@ -1012,7 +1012,7 @@ class item : public visitable<item>
          * Returns false if the item is not destroyed.
          */
         bool process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
-                      const temperature_flag flag = temperature_flag::TEMP_NORMAL );
+                      temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /**
          * Gets the point (vehicle tile) the cable is connected to.
@@ -1309,7 +1309,7 @@ class item : public visitable<item>
         /*@}*/
 
         /**Does this item have the specified fault*/
-        bool has_fault( const fault_id fault ) const;
+        bool has_fault( fault_id fault ) const;
 
         /**
          * @name Item properties
@@ -1966,7 +1966,7 @@ class item : public visitable<item>
          * @param insulation Amount of insulation item has
          * @param time time point which the item is processed to
          */
-        void calc_temp( const int temp, const float insulation, const time_point &time );
+        void calc_temp( int temp, float insulation, const time_point &time );
 
         /**
          * Get the thermal energy of the item in Joules.
@@ -1974,7 +1974,7 @@ class item : public visitable<item>
         float get_item_thermal_energy();
 
         /** Calculates item specific energy (J/g) from temperature (K)*/
-        float get_specific_energy_from_temperature( const float new_temperature );
+        float get_specific_energy_from_temperature( float new_temperature );
 
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
@@ -2084,7 +2084,7 @@ class item : public visitable<item>
         bool active = false; // If true, it has active effects to be processed
         bool is_favorite = false;
 
-        void set_favorite( const bool favorite );
+        void set_favorite( bool favorite );
         bool has_clothing_mod() const;
         float get_clothing_mod_val( clothing_mod_type type ) const;
         void update_clothing_mod_val();

@@ -441,7 +441,7 @@ class overmapbuffer
          */
         bool place_special( const overmap_special &special, const tripoint &location,
                             om_direction::type dir,
-                            const bool must_be_unexplored, const bool force );
+                            bool must_be_unexplored, bool force );
         /**
          * Place the specified overmap special using the overmap's placement algorithm. Intended to be used
          * when you have a special that you want placed but it should be placed similarly to as if it were

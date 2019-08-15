@@ -224,7 +224,7 @@ class uilist: public ui_container
         void setup();
         void show();
         bool scrollby( int scrollby );
-        int scroll_amount_from_key( const int key );
+        int scroll_amount_from_key( int key );
         int scroll_amount_from_action( const std::string &action );
         void query( bool loop = true, int timeout = -1 );
         void filterlist();
