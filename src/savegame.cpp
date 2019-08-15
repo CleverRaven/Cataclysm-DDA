@@ -391,6 +391,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         };
 
         std::vector<convert_nearby> nearby;
+        std::vector<std::pair<tripoint, std::string>> convert_unrelated_adjacent_tiles;
 
         if( old == "apartments_con_tower_1_entrance" ||
             old == "apartments_mod_tower_1_entrance" ) {
@@ -789,6 +790,10 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                 new_id = oter_id( conv.new_id );
                 break;
             }
+        }
+
+        for( const std::pair<tripoint, std::string> &conv : convert_unrelated_adjacent_tiles ) {
+            ter( pos + conv.first ) = oter_id( conv.second );
         }
     }
 }
