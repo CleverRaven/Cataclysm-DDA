@@ -1127,6 +1127,7 @@ class jmapgen_monster_group : public jmapgen_piece
         mongroup_id id;
         float density;
         jmapgen_int chance;
+		bool spawn_one;
         jmapgen_monster_group( JsonObject &jsi ) :
             id( jsi.get_string( "monster" ) )
             , density( jsi.get_float( "density", -1.0f ) )
@@ -1134,11 +1135,12 @@ class jmapgen_monster_group : public jmapgen_piece
             if( !id.is_valid() ) {
                 set_mapgen_defer( jsi, "monster", "no such monster group" );
             }
+			spawn_one = jsi.get_bool( "individual", false );
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float mdensity, mission * ) const override {
             dat.m.place_spawns( id, chance.get(), x.val, y.val, x.valmax, y.valmax,
-                                density == -1.0f ? mdensity : density );
+                                density == -1.0f ? mdensity : density, spawn_one );
         }
 };
 /**
