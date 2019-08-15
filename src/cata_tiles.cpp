@@ -1070,7 +1070,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             if( iso_mode ) {
                 //in isometric, rows and columns represent a checkerboard screen space, and we place
                 //the appropriate tile in valid squares by getting position relative to the screen center.
-                if( ( row + o.y ) % 2 != ( col + o.x ) % 2 ) {
+                if( modulo( row + o.y, 2 ) != modulo( col + o.x, 2 ) ) {
                     continue;
                 }
                 x = ( col - row - sx / 2 + sy / 2 ) / 2 + o.x;
@@ -1205,10 +1205,11 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             int height_3d = 0;
             if( iso_mode ) {
                 //Iso_mode skips in a checkerboard
-                if( ( mem_y ) % 2 != ( mem_x ) % 2 ) {
+                if( modulo( mem_y, 2 ) != modulo( mem_x, 2 ) ) {
                     continue;
                 }
-                //iso_mode does weird things to x and y... replicate that
+                //in isometric, rows and columns represent a checkerboard screen space, and we place
+                //the appropriate tile in valid squares by getting position relative to the screen center.
                 //The MAPSIZE_X/2 offset is to keep the rectangle in the upper right quadrant.
                 p.x = ( mem_x - mem_y - MAPSIZE_X / 2 + MAPSIZE_Y / 2 ) / 2 + MAPSIZE_X / 2;
                 p.y = ( mem_y + mem_x - MAPSIZE_Y / 2 - MAPSIZE_X / 2 ) / 2 + MAPSIZE_Y / 2;
