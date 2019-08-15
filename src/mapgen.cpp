@@ -1127,27 +1127,27 @@ class jmapgen_monster_group : public jmapgen_piece
         mongroup_id id;
         float density;
         jmapgen_int chance;
-		bool individual;
-		std::string name;
-		bool target;
+        bool individual;
+        std::string name;
+        bool target;
         jmapgen_monster_group( JsonObject &jsi ) :
             id( jsi.get_string( "monster" ) )
             , density( jsi.get_float( "density", -1.0f ) )
-            , chance( jsi, "chance", 1, 1 ) 
-			, target( jsi.get_bool( "target", false ) ) 
-			, individual( jsi.get_bool( "individual", false ) ) 
-			, name( jsi.get_string( "name", "NONE" ) ) {
+            , chance( jsi, "chance", 1, 1 )
+            , target( jsi.get_bool( "target", false ) )
+            , individual( jsi.get_bool( "individual", false ) )
+            , name( jsi.get_string( "name", "NONE" ) ) {
             if( !id.is_valid() ) {
                 set_mapgen_defer( jsi, "monster", "no such monster group" );
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float mdensity, mission *miss = nullptr ) const override {
-			int mission_id = -1;
+            int mission_id = -1;
             if( miss && target ) {
                 mission_id = miss->get_id();
             }
-			
+
             dat.m.place_spawns( id, chance.get(), x.val, y.val, x.valmax, y.valmax,
                                 density == -1.0f ? mdensity : density, individual, false, name, mission_id );
         }
