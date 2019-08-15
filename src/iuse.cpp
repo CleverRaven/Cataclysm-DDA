@@ -1891,6 +1891,7 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
 
 int iuse::rm13armor_off( player *p, item *it, bool, const tripoint & )
 {
+    // This allows it to turn on for a turn, because ammo_sufficient assumes non-tool non-weapons need zero ammo, for some reason.
     if( !it->ammo_sufficient() ) {
         p->add_msg_if_player( m_info, _( "The RM13 combat armor's fuel cells are dead." ) );
         return 0;
@@ -1905,6 +1906,7 @@ int iuse::rm13armor_off( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( _( "Electro-reactive armor system:  ONLINE." ) );
         p->add_msg_if_player( _( "All systems nominal." ) );
         it->convert( oname ).active = true;
+        p->reset_encumbrance();
         return it->type->charges_to_use();
     }
 }
@@ -1924,6 +1926,7 @@ int iuse::rm13armor_on( player *p, item *it, bool t, const tripoint & )
         p->add_msg_if_player( _( "Shutting down." ) );
         p->add_msg_if_player( _( "Your RM13 combat armor turns off." ) );
         it->convert( oname ).active = false;
+        p->reset_encumbrance();
     }
     return it->type->charges_to_use();
 }

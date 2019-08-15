@@ -362,6 +362,11 @@ class Character : public Creature, public visitable<Character>
          * to simulate glare, etc, night vision only works if you are in the dark.
          */
         float get_vision_threshold( float light_level ) const;
+        /**
+         * Checks worn items for the "RESET_ENCUMBRANCE" flag, which indicates
+         * that encumbrance may have changed and require recalculating.
+         */
+        void check_item_encumbrance_flag();
         // --------------- Mutation Stuff ---------------
         // In newcharacter.cpp
         /** Returns the id of a random starting trait that costs >= 0 points */
