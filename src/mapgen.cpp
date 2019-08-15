@@ -1127,20 +1127,29 @@ class jmapgen_monster_group : public jmapgen_piece
         mongroup_id id;
         float density;
         jmapgen_int chance;
-		bool spawn_one;
+		bool individual;
+		std::string name;
+		bool target;
         jmapgen_monster_group( JsonObject &jsi ) :
             id( jsi.get_string( "monster" ) )
             , density( jsi.get_float( "density", -1.0f ) )
-            , chance( jsi, "chance", 1, 1 ) {
+            , chance( jsi, "chance", 1, 1 ) 
+			, target( jsi.get_bool( "target", false ) ) 
+			, individual( jsi.get_bool( "individual", false ) ) 
+			, name( jsi.get_string( "name", "NONE" ) ) {
             if( !id.is_valid() ) {
                 set_mapgen_defer( jsi, "monster", "no such monster group" );
             }
-			spawn_one = jsi.get_bool( "individual", false );
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float mdensity, mission * ) const override {
+                    const float mdensity, mission *miss = nullptr ) const override {
+			int mission_id = -1;
+            if( miss && target ) {
+                mission_id = miss->get_id();
+            }
+			
             dat.m.place_spawns( id, chance.get(), x.val, y.val, x.valmax, y.valmax,
-                                density == -1.0f ? mdensity : density, spawn_one );
+                                density == -1.0f ? mdensity : density, individual, false, name, mission_id );
         }
 };
 /**
@@ -6791,7 +6800,7 @@ void map::draw_connections( const oter_id &terrain_type, mapgendata &dat,
 
 void map::place_spawns( const mongroup_id &group, const int chance,
                         const int x1, const int y1, const int x2, const int y2, const float density,
-                        const bool individual, const bool friendly )
+                        const bool individual, const bool friendly, const std::string name, const int mission_id )
 {
     if( !group.is_valid() ) {
         const tripoint omt = sm_to_omt_copy( get_abs_sub() );
@@ -6834,7 +6843,7 @@ void map::place_spawns( const mongroup_id &group, const int chance,
         // Pick a monster type
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
 
-        add_spawn( spawn_details.name, spawn_details.pack_size, x, y, friendly );
+        add_spawn( spawn_details.name, spawn_details.pack_size, x, y, friendly, -1, mission_id, name );
     }
 }
 
