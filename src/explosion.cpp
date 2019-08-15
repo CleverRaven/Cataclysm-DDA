@@ -674,10 +674,10 @@ void emp_blast( const tripoint &p )
                 if( sight ) {
                     add_msg( _( "The %s beeps erratically and deactivates!" ), critter.name() );
                 }
-                g->m.add_item_or_charges( x, y, critter.to_item() );
+                g->m.add_item_or_charges( point( x, y ), critter.to_item() );
                 for( auto &ammodef : critter.ammo ) {
                     if( ammodef.second > 0 ) {
-                        g->m.spawn_item( x, y, ammodef.first, 1, ammodef.second, calendar::turn );
+                        g->m.spawn_item( point( x, y ), ammodef.first, 1, ammodef.second, calendar::turn );
                     }
                 }
                 g->remove_zombie( critter );
@@ -727,7 +727,7 @@ void emp_blast( const tripoint &p )
         }
     }
     // Drain any items of their battery charge
-    for( auto &it : g->m.i_at( x, y ) ) {
+    for( auto &it : g->m.i_at( point( x, y ) ) ) {
         if( it.is_tool() && it.ammo_current() == "battery" ) {
             it.charges = 0;
         }

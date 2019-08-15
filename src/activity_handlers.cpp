@@ -3499,11 +3499,11 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
     const tripoint &pos = act->placement;
 
     if( g->m.ter( pos ) == t_trunk ) {
-        g->m.spawn_item( pos.x, pos.y, "log", rng( 2, 3 ), 0, calendar::turn );
-        g->m.spawn_item( pos.x, pos.y, "stick_long", rng( 0, 1 ), 0, calendar::turn );
+        g->m.spawn_item( pos.xy(), "log", rng( 2, 3 ), 0, calendar::turn );
+        g->m.spawn_item( pos.xy(), "stick_long", rng( 0, 1 ), 0, calendar::turn );
     } else if( g->m.ter( pos ) == t_stump ) {
-        g->m.spawn_item( pos.x, pos.y, "log", rng( 0, 2 ), 0, calendar::turn );
-        g->m.spawn_item( pos.x, pos.y, "splinter", rng( 5, 15 ), 0, calendar::turn );
+        g->m.spawn_item( pos.xy(), "log", rng( 0, 2 ), 0, calendar::turn );
+        g->m.spawn_item( pos.xy(), "splinter", rng( 5, 15 ), 0, calendar::turn );
     }
 
     g->m.ter_set( pos, t_dirt );

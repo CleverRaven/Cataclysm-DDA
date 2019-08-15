@@ -117,7 +117,7 @@ void tutorial_game::per_turn()
     }
 
     if( !tutorials_seen[LESSON_BUTCHER] ) {
-        for( const item &it : g->m.i_at( g->u.posx(), g->u.posy() ) ) {
+        for( const item &it : g->m.i_at( point( g->u.posx(), g->u.posy() ) ) ) {
             if( it.is_corpse() ) {
                 add_message( LESSON_BUTCHER );
                 break;
@@ -137,7 +137,7 @@ void tutorial_game::per_turn()
             } else if( g->m.ter( x, y ) == t_window ) {
                 add_message( LESSON_SMASH );
                 showed_message = true;
-            } else if( g->m.furn( x, y ) == f_rack && !g->m.i_at( x, y ).empty() ) {
+            } else if( g->m.furn( x, y ) == f_rack && !g->m.i_at( point( x, y ) ).empty() ) {
                 add_message( LESSON_EXAMINE );
                 showed_message = true;
             } else if( g->m.ter( x, y ) == t_stairs_down ) {
@@ -150,7 +150,7 @@ void tutorial_game::per_turn()
         }
     }
 
-    if( !g->m.i_at( g->u.posx(), g->u.posy() ).empty() ) {
+    if( !g->m.i_at( point( g->u.posx(), g->u.posy() ) ).empty() ) {
         add_message( LESSON_PICKUP );
     }
 }

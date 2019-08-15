@@ -1647,7 +1647,7 @@ int map::move_cost( const int x, const int y, const vehicle *ignored_vehicle ) c
 
 bool map::impassable( const int x, const int y ) const
 {
-    return !passable( x, y );
+    return !passable( point( x, y ) );
 }
 
 bool map::passable( const int x, const int y ) const
@@ -6349,7 +6349,7 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
                 return false;
             }
 
-            const int cost = this->move_cost( new_point.x, new_point.y );
+            const int cost = this->move_cost( new_point );
             if( cost < cost_min || cost > cost_max ) {
                 is_clear = false;
                 return false;
@@ -6453,10 +6453,10 @@ void map::save()
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             if( zlevels ) {
                 for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-                    saven( gridx, gridy, gridz );
+                    saven( tripoint( gridx, gridy, gridz ) );
                 }
             } else {
-                saven( gridx, gridy, abs_sub.z );
+                saven( tripoint( gridx, gridy, abs_sub.z ) );
             }
         }
     }
@@ -6472,7 +6472,7 @@ void map::load( const int wx, const int wy, const int wz, const bool update_vehi
     set_abs_sub( wx, wy, wz );
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            loadn( gridx, gridy, update_vehicle );
+            loadn( point( gridx, gridy ), update_vehicle );
         }
     }
 }
@@ -6587,7 +6587,7 @@ void map::shift( const int sx, const int sy )
                                        tripoint( gridx + sx, gridy + sy, gridz ) );
                             update_vehicle_list( get_submap_at_grid( {gridx, gridy, gridz} ), gridz );
                         } else {
-                            loadn( gridx, gridy, gridz, true );
+                            loadn( tripoint( gridx, gridy, gridz ), true );
                         }
                     }
                 } else { // sy < 0; work through it backwards
@@ -6600,7 +6600,7 @@ void map::shift( const int sx, const int sy )
                                        tripoint( gridx + sx, gridy + sy, gridz ) );
                             update_vehicle_list( get_submap_at_grid( { gridx, gridy, gridz } ), gridz );
                         } else {
-                            loadn( gridx, gridy, gridz, true );
+                            loadn( tripoint( gridx, gridy, gridz ), true );
                         }
                     }
                 }
@@ -6617,7 +6617,7 @@ void map::shift( const int sx, const int sy )
                                        tripoint( gridx + sx, gridy + sy, gridz ) );
                             update_vehicle_list( get_submap_at_grid( { gridx, gridy, gridz } ), gridz );
                         } else {
-                            loadn( gridx, gridy, gridz, true );
+                            loadn( tripoint( gridx, gridy, gridz ), true );
                         }
                     }
                 } else { // sy < 0; work through it backwards
@@ -6630,7 +6630,7 @@ void map::shift( const int sx, const int sy )
                                        tripoint( gridx + sx, gridy + sy, gridz ) );
                             update_vehicle_list( get_submap_at_grid( { gridx, gridy, gridz } ), gridz );
                         } else {
-                            loadn( gridx, gridy, gridz, true );
+                            loadn( tripoint( gridx, gridy, gridz ), true );
                         }
                     }
                 }
@@ -6719,16 +6719,16 @@ void map::loadn( const int gridx, const int gridy, const bool update_vehicles )
 {
     if( zlevels ) {
         for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-            loadn( gridx, gridy, gridz, update_vehicles );
+            loadn( tripoint( gridx, gridy, gridz ), update_vehicles );
         }
 
         // Note: we want it in a separate loop! It is a post-load cleanup
         // Since we're adding roofs, we want it to go up (from lowest to highest)
         for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-            add_roofs( gridx, gridy, gridz );
+            add_roofs( tripoint( gridx, gridy, gridz ) );
         }
     } else {
-        loadn( gridx, gridy, abs_sub.z, update_vehicles );
+        loadn( tripoint( gridx, gridy, abs_sub.z ), update_vehicles );
     }
 }
 
@@ -6846,7 +6846,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
         }
     }
 
-    actualize( gridx, gridy, gridz );
+    actualize( tripoint( gridx, gridy, gridz ) );
 
     abs_sub.z = old_abs_z;
 }
@@ -6913,7 +6913,7 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
     const int chance = ( comest->rot_spawn_chance * get_option<int>( "CARRION_SPAWNRATE" ) ) / 100;
     if( rng( 0, 100 ) < chance ) {
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
-        add_spawn( spawn_details.name, 1, pnt.x, pnt.y, false );
+        add_spawn( spawn_details.name, 1, pnt.xy(), false );
         if( g->u.sees( pnt ) ) {
             if( item.is_seed() ) {
                 add_msg( m_warning, _( "Something has crawled out of the %s plants!" ), item.get_plant_name() );
@@ -8126,11 +8126,11 @@ void map::draw_fill_background( const ter_id type )
 
 void map::draw_fill_background( ter_id( *f )() )
 {
-    draw_square_ter( f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 );
+    draw_square_ter( f, point_zero, point( SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 ) );
 }
 void map::draw_fill_background( const weighted_int_list<ter_id> &f )
 {
-    draw_square_ter( f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 );
+    draw_square_ter( f, point_zero, point( SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 ) );
 }
 
 void map::draw_square_ter( const ter_id type, int x1, int y1, int x2, int y2 )

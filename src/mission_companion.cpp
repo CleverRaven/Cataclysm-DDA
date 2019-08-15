@@ -897,12 +897,12 @@ void talk_function::field_build_1( npc &p )
                           false );
     tinymap bay;
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
-    bay.draw_square_ter( t_dirt, 5, 4, 15, 14 );
-    bay.draw_square_ter( t_dirtmound, 6, 5, 6, 13 );
-    bay.draw_square_ter( t_dirtmound, 8, 5, 8, 13 );
-    bay.draw_square_ter( t_dirtmound, 10, 5, 10, 13 );
-    bay.draw_square_ter( t_dirtmound, 12, 5, 12, 13 );
-    bay.draw_square_ter( t_dirtmound, 14, 5, 14, 13 );
+    bay.draw_square_ter( t_dirt, point( 5, 4 ), point( 15, 14 ) );
+    bay.draw_square_ter( t_dirtmound, point( 6, 5 ), point( 6, 13 ) );
+    bay.draw_square_ter( t_dirtmound, point( 8, 5 ), point( 8, 13 ) );
+    bay.draw_square_ter( t_dirtmound, point( 10, 5 ), point( 10, 13 ) );
+    bay.draw_square_ter( t_dirtmound, point( 12, 5 ), point( 12, 13 ) );
+    bay.draw_square_ter( t_dirtmound, point( 14, 5 ), point( 14, 13 ) );
     bay.save();
     popup( _( "%s jots your name down on a ledger and yells out to nearby laborers to begin "
               "plowing your new field." ), p.name );
@@ -921,13 +921,13 @@ void talk_function::field_build_2( npc &p )
                           20, false );
     tinymap bay;
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
-    bay.draw_square_ter( t_fence, 4, 3, 16, 3 );
-    bay.draw_square_ter( t_fence, 4, 15, 16, 15 );
-    bay.draw_square_ter( t_fence, 4, 3, 4, 15 );
-    bay.draw_square_ter( t_fence, 16, 3, 16, 15 );
-    bay.draw_square_ter( t_fencegate_c, 10, 3, 10, 3 );
-    bay.draw_square_ter( t_fencegate_c, 10, 15, 10, 15 );
-    bay.draw_square_ter( t_fencegate_c, 4, 9, 4, 9 );
+    bay.draw_square_ter( t_fence, point( 4, 3 ), point( 16, 3 ) );
+    bay.draw_square_ter( t_fence, point( 4, 15 ), point( 16, 15 ) );
+    bay.draw_square_ter( t_fence, point( 4, 3 ), point( 4, 15 ) );
+    bay.draw_square_ter( t_fence, point( 16, 3 ), point( 16, 15 ) );
+    bay.draw_square_ter( t_fencegate_c, point( 10, 3 ), point( 10, 3 ) );
+    bay.draw_square_ter( t_fencegate_c, point( 10, 15 ), point( 10, 15 ) );
+    bay.draw_square_ter( t_fencegate_c, point( 4, 9 ), point( 4, 9 ) );
     bay.save();
     popup( _( "After counting your money %s directs a nearby laborer to begin constructing a "
               "fence around your plot..." ), p.name );
@@ -1017,13 +1017,13 @@ void talk_function::field_plant( npc &p, const std::string &place )
                     used_seed = g->u.use_amount( seed_id, 1 );
                 }
                 used_seed.front().set_age( 0_turns );
-                bay.add_item_or_charges( x, y, used_seed.front() );
+                bay.add_item_or_charges( point( x, y ), used_seed.front() );
                 bay.set( point( x, y ), t_dirt, f_plant_seed );
                 limiting_number--;
             }
         }
     }
-    bay.draw_square_ter( t_fence, 4, 3, 16, 3 );
+    bay.draw_square_ter( t_fence, point( 4, 3 ), point( 16, 3 ) );
     bay.save();
     popup( _( "After counting your money and collecting your seeds, %s calls forth a labor party "
               "to plant your field." ), p.name );
@@ -1042,9 +1042,9 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     for( int x = 0; x < SEEX * 2 - 1; x++ ) {
         for( int y = 0; y < SEEY * 2 - 1; y++ ) {
-            if( bay.furn( x, y ) == furn_str_id( "f_plant_harvest" ) && !bay.i_at( x, y ).empty() ) {
+            if( bay.furn( x, y ) == furn_str_id( "f_plant_harvest" ) && !bay.i_at( point( x, y ) ).empty() ) {
                 // Can't use item_stack::only_item() since there might be fertilizer
-                map_stack items = bay.i_at( x, y );
+                map_stack items = bay.i_at( point( x, y ) );
                 map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
                     return it.is_seed();
                 } );
@@ -1092,7 +1092,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         for( int y = 0; y < SEEY * 2 - 1; y++ ) {
             if( bay.furn( x, y ) == furn_str_id( "f_plant_harvest" ) ) {
                 // Can't use item_stack::only_item() since there might be fertilizer
-                map_stack items = bay.i_at( x, y );
+                map_stack items = bay.i_at( point( x, y ) );
                 map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
                     return it.is_seed();
                 } );
@@ -1102,7 +1102,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
                     tmp = item( seed_data.fruit_id, calendar::turn );
                     if( tmp.typeId() == plant_types[plant_index] ) {
                         number_plots++;
-                        bay.i_clear( x, y );
+                        bay.i_clear( point( x, y ) );
                         bay.furn_set( point( x, y ), f_null );
                         bay.ter_set( point( x, y ), t_dirtmound );
                         int plantCount = rng( skillLevel / 2, skillLevel );

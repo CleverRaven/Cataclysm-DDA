@@ -667,7 +667,7 @@ void trapfunc::telepad( const tripoint &p, Creature *c, item * )
             newposx = rng( z->posx() - SEEX, z->posx() + SEEX );
             newposy = rng( z->posy() - SEEY, z->posy() + SEEY );
             tries++;
-        } while( g->m.impassable( newposx, newposy ) && tries != 10 );
+        } while( g->m.impassable( point( newposx, newposy ) ) && tries != 10 );
 
         if( tries == 10 ) {
             z->die_in_explosion( nullptr );

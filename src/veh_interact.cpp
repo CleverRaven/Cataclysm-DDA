@@ -3140,7 +3140,7 @@ void veh_interact::complete_vehicle()
                 }
                 // Place the removed wheel on the map last so consume_vpart_item() doesn't pick it.
                 if( !broken ) {
-                    g->m.add_item_or_charges( g->u.posx(), g->u.posy(), removed_wheel );
+                    g->m.add_item_or_charges( point( g->u.posx(), g->u.posy() ), removed_wheel );
                 }
                 add_msg( _( "You replace one of the %1$s's tires with a %2$s." ),
                          veh->name, veh->parts[ partnum ].name() );
