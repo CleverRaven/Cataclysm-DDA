@@ -96,6 +96,7 @@
     "description": "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to drain charge from a battery.  Can be toggled on and off at will.",
     "occupied_bodyparts": [ [ "TORSO", 25 ] ],
     "fuel_options": [ "battery" ],
+    "fuel_capacity": 500,
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
@@ -336,7 +337,8 @@
     "description": "You burn alcohol as fuel in an extremely efficient reaction.  However, you will still suffer the inebriating effects of the substance.",
     "occupied_bodyparts": [ [ "TORSO", 26 ] ],
     "fuel_options": [ "chem_ethanol", "denat_alcohol", "chem_methanol" ],
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
+    "fuel_capacity": 500,
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_evap",

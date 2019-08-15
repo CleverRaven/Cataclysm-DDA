@@ -273,6 +273,23 @@ bool player::activate_bionic( int b, bool eff_only )
             return false;
         }
 
+        if( !bio.info().fuel_opts.empty() ) {
+            if( get_fuel_stored( bio.id ).empty() ) {
+                add_msg_player_or_npc( m_bad, _( "Your %s does not have enought fuel to start." ),
+                                       _( "<npcname>'s %s does not have enought fuel to start." ), bio.info().name );
+                return deactivate_bionic( b );
+            }
+            for( const itype_id fuel : get_fuel_stored( bio.id ) ) {
+                const item tmp_fuel( fuel.c_str() );
+                int temp = std::stoi( get_value( fuel ) );
+                if( temp > 0 ) {
+                    temp -= 1;
+                    charge_power( tmp_fuel.fuel_energy() );
+                    set_value( fuel, std::to_string( temp ) );
+                }
+            }
+        }
+
         //We can actually activate now, do activation-y things
         charge_power( -bionics[bio.id].power_activate );
         if( bionics[bio.id].toggled || bionics[bio.id].charge_time > 0 ) {
@@ -860,7 +877,23 @@ void player::process_bionic( int b )
             }
         }
     }
-
+    if( !bio.info().fuel_opts.empty() ) {
+        for( const itype_id fuel : get_fuel_stored( bio.id ) ) {
+            const item tmp_fuel( fuel.c_str() );
+            int temp = std::stoi( get_value( fuel ) );
+            if( temp > 0 ) {
+                temp -= 1;
+                charge_power( tmp_fuel.fuel_energy() );
+                set_value( fuel, std::to_string( temp ) );
+            } else {
+                remove_value( fuel );
+                add_msg_player_or_npc( m_info, _( "Your %s runs out of fuel and turn off." ),
+                                       _( "<npcname>'s %s runs out of fuel and turn off." ), bio.info().name );
+                bio.powered = false;
+                deactivate_bionic( b, true );
+            }
+        }
+    }
     // Bionic effects on every turn they are active go here.
     if( bio.id == "bio_night" ) {
         if( calendar::once_every( 5_turns ) ) {
@@ -1999,6 +2032,7 @@ void load_bionic( JsonObject &jsobj )
     jsobj.read( "included", new_bionic.included );
     jsobj.read( "upgraded_bionic", new_bionic.upgraded_bionic );
     jsobj.read( "fuel_options", new_bionic.fuel_opts );
+    jsobj.read( "fuel_capacity", new_bionic.fuel_capacity );
     JsonArray jsar = jsobj.get_array( "encumbrance" );
     if( !jsar.empty() ) {
         while( jsar.has_more() ) {

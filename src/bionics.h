@@ -76,6 +76,8 @@ struct bionic_data {
     bool included = false;
     /**Fuel types that can be used by this bionic*/
     std::vector<itype_id> fuel_opts;
+    /**How much fuel this bionic can hold*/
+    int fuel_capacity;
     /**Amount of environemental protection offered by this bionic*/
     std::map<body_part, size_t> env_protec;
     /**

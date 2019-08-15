@@ -857,6 +857,17 @@ bionic_id Character::get_bionic_fueled_with( const item &it ) const
     return bionic_id( "null" );
 }
 
+std::vector<itype_id> Character::get_fuel_stored( const bionic_id &bio ) const
+{
+    std::vector<itype_id> stored_fuels;
+    for( const itype_id fuel : bio->fuel_opts ) {
+        if( !get_value( fuel ).empty() ) {
+            stored_fuels.emplace_back( fuel );
+        }
+    }
+    return stored_fuels;
+}
+
 std::vector<item_location> Character::nearby( const
         std::function<bool( const item *, const item * )> &func, int radius ) const
 {
