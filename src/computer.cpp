@@ -423,7 +423,7 @@ void computer::activate_function( computer_action action )
                                 if( g->m.furn( x1, y1 ) == f_counter ) {
                                     bool found_item = false;
                                     item sewage( "sewage", calendar::turn );
-                                    auto candidates = g->m.i_at( x1, y1 );
+                                    auto candidates = g->m.i_at( point( x1, y1 ) );
                                     for( auto &candidate : candidates ) {
                                         int capa = candidate.get_remaining_capacity_for_liquid( sewage );
                                         if( capa <= 0 ) {
@@ -441,7 +441,7 @@ void computer::activate_function( computer_action action )
                                         break;
                                     }
                                     if( !found_item ) {
-                                        g->m.add_item_or_charges( x1, y1, sewage );
+                                        g->m.add_item_or_charges( point( x1, y1 ), sewage );
                                     }
                                 }
                             }
@@ -716,7 +716,7 @@ void computer::activate_function( computer_action action )
             int more = 0;
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    for( auto &elem : g->m.i_at( x, y ) ) {
+                    for( auto &elem : g->m.i_at( point( x, y ) ) ) {
                         if( elem.is_bionic() ) {
                             if( static_cast<int>( names.size() ) < TERMY - 8 ) {
                                 names.push_back( elem.tname() );
@@ -942,7 +942,7 @@ PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
                         if( items.only_item().typeId() == "black_box" ) {
                             print_line( _( "Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n" ) );
                             item transcript( "black_box_transcript", calendar::turn );
-                            g->m.add_item_or_charges( g->u.posx(), g->u.posy(), transcript );
+                            g->m.add_item_or_charges( point( g->u.posx(), g->u.posy() ), transcript );
                         } else {
                             print_line( _( "Memory Bank:  Unencrypted\nNothing of interest.\n" ) );
                         }
@@ -1585,16 +1585,16 @@ void computer::activate_failure( computer_failure_type fail )
                         int leak_size = rng( 4, 10 );
                         for( int i = 0; i < leak_size; i++ ) {
                             std::vector<point> next_move;
-                            if( g->m.passable( p.x, p.y - 1 ) ) {
+                            if( g->m.passable( p + point_north ) ) {
                                 next_move.push_back( p + point_north );
                             }
-                            if( g->m.passable( p.x + 1, p.y ) ) {
+                            if( g->m.passable( p + point_east ) ) {
                                 next_move.push_back( p + point_east );
                             }
-                            if( g->m.passable( p.x, p.y + 1 ) ) {
+                            if( g->m.passable( p + point_south ) ) {
                                 next_move.push_back( p + point_south );
                             }
-                            if( g->m.passable( p.x - 1, p.y ) ) {
+                            if( g->m.passable( p + point_west ) ) {
                                 next_move.push_back( p + point_west );
                             }
 
@@ -1651,7 +1651,7 @@ void computer::activate_failure( computer_failure_type fail )
             for( int x = 0; x < SEEX * 2; x++ ) {
                 for( int y = 0; y < SEEY * 2; y++ ) {
                     if( g->m.ter( x, y ) == t_floor_blue ) {
-                        map_stack items = g->m.i_at( x, y );
+                        map_stack items = g->m.i_at( point( x, y ) );
                         if( items.empty() ) {
                             print_error( _( "ERROR: Please place memory bank in scan area." ) );
                         } else if( items.size() > 1 ) {
@@ -1662,7 +1662,7 @@ void computer::activate_failure( computer_failure_type fail )
                             print_error( _( "ERROR: Memory bank is empty." ) );
                         } else {
                             print_error( _( "ERROR: Data bank destroyed." ) );
-                            g->m.i_clear( x, y );
+                            g->m.i_clear( point( x, y ) );
                         }
                     }
                 }

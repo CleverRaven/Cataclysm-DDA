@@ -11493,7 +11493,7 @@ void player::place_corpse( const tripoint &om_target )
     std::vector<item *> tmp = inv_dump();
     item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
     for( auto itm : tmp ) {
-        bay.add_item_or_charges( finX, finY, *itm );
+        bay.add_item_or_charges( point( finX, finY ), *itm );
     }
     for( auto &bio : *my_bionics ) {
         if( item::type_is_defined( bio.id.str() ) ) {
@@ -11509,7 +11509,7 @@ void player::place_corpse( const tripoint &om_target )
     for( int i = 0; i < storage_modules.second; ++i ) {
         body.emplace_back( "bio_power_storage_mkII" );
     }
-    bay.add_item_or_charges( finX, finY, body );
+    bay.add_item_or_charges( point( finX, finY ), body );
 }
 
 bool player::sees_with_infrared( const Creature &critter ) const
