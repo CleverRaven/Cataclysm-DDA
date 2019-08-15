@@ -548,28 +548,6 @@ struct advanced_inv_sorter {
     }
 };
 
-void advanced_inventory::menu_square( uilist &menu )
-{
-    assert( menu.entries.size() >= 9 );
-    int ofs = -25 - 4;
-    int sel = screen_relative_location( static_cast <aim_location>( menu.selected + 1 ) );
-    for( int i = 1; i < 10; i++ ) {
-        aim_location loc = screen_relative_location( static_cast <aim_location>( i ) );
-        char key = get_location_key( loc );
-        bool in_vehicle = squares[loc].can_store_in_vehicle();
-        const char *bracket = in_vehicle ? "<>" : "[]";
-        // always show storage option for vehicle storage, if applicable
-        bool canputitems = menu.entries[i - 1].enabled && squares[loc].canputitems();
-        nc_color bcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_dark_gray;
-        nc_color kcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_dark_gray;
-        const int x = squares[loc].hscreen.x + ofs;
-        const int y = squares[loc].hscreen.y + 5;
-        mvwprintz( menu.window, point( x, y ), bcolor, "%c", bracket[0] );
-        wprintz( menu.window, kcolor, "%c", key );
-        wprintz( menu.window, bcolor, "%c", bracket[1] );
-    }
-}
-
 inline char advanced_inventory::get_location_key( aim_location area )
 {
     switch( area ) {
@@ -2026,6 +2004,42 @@ void advanced_inventory_pane::set_filter( const std::string &new_filter )
     recalc = true;
 }
 
+class query_destination_callback : public uilist_callback
+{
+    private:
+        advanced_inventory &_adv_inv;
+        void draw_squares( const uilist *menu ); // Render a fancy ASCII grid at the left of the menu.
+    public:
+        query_destination_callback( advanced_inventory &adv_inv ) : _adv_inv( adv_inv ) {}
+        void select( int /*entnum*/, uilist *menu ) override {
+            draw_squares( menu );
+        }
+};
+
+void query_destination_callback::draw_squares( const uilist *menu )
+{
+    assert( menu->entries.size() >= 9 );
+    int ofs = -25 - 4;
+    int sel = advanced_inventory::screen_relative_location(
+                  static_cast <aim_location>( menu->selected + 1 ) );
+    for( int i = 1; i < 10; i++ ) {
+        aim_location loc = advanced_inventory::screen_relative_location( static_cast <aim_location>( i ) );
+        char key = advanced_inventory::get_location_key( loc );
+        advanced_inv_area &square = _adv_inv.get_one_square( loc );
+        bool in_vehicle = square.can_store_in_vehicle();
+        const char *bracket = in_vehicle ? "<>" : "[]";
+        // always show storage option for vehicle storage, if applicable
+        bool canputitems = menu->entries[i - 1].enabled && square.canputitems();
+        nc_color bcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_dark_gray;
+        nc_color kcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_dark_gray;
+        const int x = square.hscreen.x + ofs;
+        const int y = square.hscreen.y + 5;
+        mvwprintz( menu->window, point( x, y ), bcolor, "%c", bracket[0] );
+        wprintz( menu->window, kcolor, "%c", key );
+        wprintz( menu->window, bcolor, "%c", bracket[1] );
+    }
+}
+
 bool advanced_inventory::query_destination( aim_location &def )
 {
     if( def != AIM_ALL ) {
@@ -2039,7 +2053,9 @@ bool advanced_inventory::query_destination( aim_location &def )
 
     uilist menu;
     menu.text = _( "Select destination" );
-    menu.pad_left = 9; /* free space for advanced_inventory::menu_square */
+    menu.pad_left = 9; /* free space for the squares */
+    query_destination_callback cb( *this );
+    menu.callback = &cb;
 
     {
         std::vector <aim_location> ordered_locs;
@@ -2065,8 +2081,6 @@ bool advanced_inventory::query_destination( aim_location &def )
     menu.selected = uistate.adv_inv_last_popup_dest - AIM_SOUTHWEST;
     menu.show(); // generate and show window.
     while( menu.ret == UILIST_WAIT_INPUT ) {
-        // Render a fancy ASCII grid at the left of the menu.
-        menu_square( menu );
         menu.query( false ); // query, but don't loop
     }
     redraw = true; // the menu has messed the screen up.
