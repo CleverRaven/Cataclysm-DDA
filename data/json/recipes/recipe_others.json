@@ -979,7 +979,7 @@
     "reversible": true,
     "decomp_learn": 1,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 2 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ]
   },
   {
