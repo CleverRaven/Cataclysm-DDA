@@ -581,6 +581,15 @@ bool avatar::create( character_type type, const std::string &tempname )
         cash = rng( 1500000, 2000000 );
     }
 
+    if( has_trait( trait_id( "XS" ) ) ) {
+        set_stored_kcal( 10000 );
+        toggle_trait( trait_id( "XS" ) );
+    }
+    if( has_trait( trait_id( "XXXL" ) ) ) {
+        set_stored_kcal( 125000 );
+        toggle_trait( trait_id( "XXXL" ) );
+    }
+
     // Learn recipes
     for( const auto &e : recipe_dict ) {
         const auto &r = e.second;
