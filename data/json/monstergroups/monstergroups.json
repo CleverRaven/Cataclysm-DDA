@@ -5293,5 +5293,15 @@
     "type": "monstergroup",
     "default": "mon_hazmatbot",
     "monsters": [ { "monster": "mon_hazmatbot", "freq": 40, "cost_multiplier": 1 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_REFUGEE_BOSS_ZOMBIE",
+    "default": "mon_zombie_tough",
+    "//": "The refugee center mission 1 enemy is chosen from here",
+    "monsters": [
+      { "monster": "mon_zombie_acidic", "freq": 500, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_electric", "freq": 500, "cost_multiplier": 1 }
+    ]
   }
 ]
