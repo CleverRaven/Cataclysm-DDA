@@ -78,14 +78,23 @@ class event
             return time_;
         }
 
+        cata_variant get_variant( const std::string &key ) const {
+            auto it = data_.find( key );
+            if( it == data_.end() ) {
+                debugmsg( "No such key %s in event of type %d", key, type_ );
+                abort();
+            }
+            return it->second;
+        }
+
         template<cata_variant_type Type>
         auto get( const std::string &key ) const {
-            return data_.at( key ).get<Type>();
+            return get_variant( key ).get<Type>();
         }
 
         template<typename T>
         auto get( const std::string &key ) const {
-            return data_.at( key ).get<T>();
+            return get_variant( key ).get<T>();
         }
     private:
         event_type type_;
