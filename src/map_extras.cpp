@@ -2298,8 +2298,8 @@ static void mx_roadworks( map &m, const tripoint &abs_sub )
     }
     // soil generator
     for( int i = 1; i <= 10; i++ ) {
-        m.spawn_item( rng( defects_from.x, defects_to.y ),
-                      rng( defects_from.x, defects_to.y ), "material_soil" );
+        m.spawn_item( rng( defects_from.x, defects_to.x ),
+                      rng( defects_from.y, defects_to.y ), "material_soil" );
     }
     // vehicle placer
     switch( rng( 1, 6 ) ) {
