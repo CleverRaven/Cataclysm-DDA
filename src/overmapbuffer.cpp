@@ -1294,15 +1294,6 @@ std::string overmapbuffer::get_description_at( const tripoint &where )
     return string_format( format_string, ter_name, dir_name, closest_city_name );
 }
 
-static int modulo( int v, int m )
-{
-    // C++11: negative v and positive m result in negative v%m (or 0),
-    // but this is supposed to be mathematical modulo: 0 <= v%m < m,
-    const int r = v % m;
-    // Adding m in that (and only that) case.
-    return r >= 0 ? r : r + m;
-}
-
 void overmapbuffer::spawn_monster( const tripoint &p )
 {
     // Create a copy, so we can reuse x and y later

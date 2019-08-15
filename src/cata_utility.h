@@ -504,4 +504,7 @@ bool return_true( const T & )
  * Joins a vector of `std::string`s into a single string with a delimiter/joiner
  */
 std::string join( const std::vector<std::string> &strings, const std::string &joiner );
+
+int modulo( int v, int m );
+
 #endif // CAT_UTILITY_H
