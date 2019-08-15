@@ -126,7 +126,7 @@
     "price": 85,
     "material": [ "junk", "wheat" ],
     "primary_material": "wheat",
-    "volume": 1,
+    "volume": "250 ml",
     "fun": 10
   },
   {
