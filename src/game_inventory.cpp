@@ -440,7 +440,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
 
     private:
         const player &p;
-        const inventory inv;
+        const inventory &inv;
 };
 
 item_location game_menus::inv::disassemble( player &p )
