@@ -1279,21 +1279,23 @@ bool player::fuel_bionic_with( item &it )
     if( !can_fuel_bionic_with( it ) ) {
         return false;
     }
+    const bionic_id bid = get_bionic_fueled_with( it );
 
     const int available = std::min( it.charges, std::numeric_limits<int>::max() );
     const int to_charge = std::min( static_cast<int>( it.fuel_energy() * available ),
                                     max_power_level - power_level );
     const int to_consume = static_cast<int>( to_charge / it.fuel_energy() );
 
+    const std::string loaded_charge = std::to_string( to_consume );
+
     it.charges -= to_consume;
-    charge_power( to_charge );
+    set_value( it.typeId(), loaded_charge );
     add_msg_player_or_npc( m_info,
-                           ngettext( "You consume %i charge of %s and recharge %i J of energy.",
-                                     "You consume %i charges of %s and recharge %i J of energy.", to_consume ),
-                           ngettext( "<npcname> consume %i charge of %s and recharges %i J of energy.",
-                                     "<npcname> consume %i charges of %s and recharges %i J of energy.", to_consume ), to_consume,
-                           it.tname(),
-                           to_charge );
+                           ngettext( "You load %i charge of %s in your %s.",
+                                     "You load %i charges of %s in your %s.", to_consume ),
+                           ngettext( "<npcname> load %i charge of %s in their %s.",
+                                     "<npcname> load %i charges of %s in their %s.", to_consume ), to_consume, it.tname(),
+                           item( bid.c_str() ).tname() );
     mod_moves( -250 );
     return true;
 }

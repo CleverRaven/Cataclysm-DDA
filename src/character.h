@@ -470,6 +470,7 @@ class Character : public Creature, public visitable<Character>
         /**Returns true if the character can fuel a bionic with the item*/
         bool can_fuel_bionic_with( const item &it ) const;
         bionic_id get_bionic_fueled_with( const item &it ) const;
+        std::vector<itype_id> get_fuel_stored( const bionic_id &bio ) const;
         // route for overmap-scale travelling
         std::vector<tripoint> omt_path;
         // --------------- Generic Item Stuff ---------------

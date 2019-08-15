@@ -177,6 +177,9 @@ Currently, only effect names, item action names, and item category names support
 | included           | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
 | env_protec         | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
 | occupied_bodyparts | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
+| capacity           | (_optional_) Amount of power storage added by this bionic.
+| fuel_options       | (_optional_) A list of fuel that this bionic can use to produce bionic power.
+| fuel_capacity      | (_optional_) Volume of fuel this bionic can store.
 
 ```C++
 {
