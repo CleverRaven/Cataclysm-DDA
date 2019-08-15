@@ -1108,10 +1108,7 @@ void map_data_common_t::load( JsonObject &jo, const std::string &src )
             auto season_strings = harvest_jo.get_tags( "seasons" );
             std::set<season_type> seasons;
             std::transform( season_strings.begin(), season_strings.end(), std::inserter( seasons,
-                            seasons.begin() ),
-            []( const std::string & data ) {
-                return io::string_to_enum<season_type>( data );
-            } );
+                            seasons.begin() ), io::string_to_enum<season_type> );
 
             harvest_id hl;
             if( harvest_jo.has_array( "entries" ) ) {
