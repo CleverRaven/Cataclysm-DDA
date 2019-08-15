@@ -1001,6 +1001,11 @@ bool mattack::smash( monster *z )
         return false;
     }
 
+    //Don't try to smash immobile targets
+    if( target->has_flag( MF_IMMOBILE ) ) {
+        return false;
+    }
+
     // Costs lots of moves to give you a little bit of a chance to get away.
     z->moves -= 400;
 
