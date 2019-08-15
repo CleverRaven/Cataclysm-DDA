@@ -805,8 +805,8 @@ int iuse::vaccine( player *p, item *it, bool, const tripoint & )
 int iuse::flu_vaccine( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You inject the vaccine." ) );
-    p->add_msg_if_player( m_good, _( "You no longer need to fear the flu." ) );
-    p->add_effect( effect_flushot, 1_turns, num_bp, true );
+    p->add_msg_if_player( m_good, _( "You no longer need to fear the flu, at least for some time." ) );
+    p->add_effect( effect_flushot, 30_days, num_bp, true );
     p->mod_pain( 3 );
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
