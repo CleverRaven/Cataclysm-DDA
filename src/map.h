@@ -385,9 +385,13 @@ class map
 
         // Move cost: 2D overloads
         int move_cost( int x, int y, const vehicle *ignored_vehicle = nullptr ) const;
+        int move_cost( const point &p, const vehicle *ignored_vehicle = nullptr ) const;
         bool impassable( int x, int y ) const;
+        bool impassable( const point &p ) const;
         bool passable( int x, int y ) const;
+        bool passable( const point &p ) const;
         int move_cost_ter_furn( int x, int y ) const;
+        int move_cost_ter_furn( const point &p ) const;
 
         // Move cost: 3D
 
@@ -809,20 +813,37 @@ class map
         // mapgen
 
         void draw_line_ter( ter_id type, int x1, int y1, int x2, int y2 );
+        void draw_line_ter( ter_id type, const point &p1, int x2, int y2 );
+        void draw_line_ter( ter_id type, const point &p1, const point &p2 );
         void draw_line_furn( furn_id type, int x1, int y1, int x2, int y2 );
+        void draw_line_furn( furn_id type, const point &p1, int x2, int y2 );
+        void draw_line_furn( furn_id type, const point &p1, const point &p2 );
         void draw_fill_background( ter_id type );
         void draw_fill_background( ter_id( *f )() );
         void draw_fill_background( const weighted_int_list<ter_id> &f );
 
         void draw_square_ter( ter_id type, int x1, int y1, int x2, int y2 );
+        void draw_square_ter( ter_id type, const point &p1, int x2, int y2 );
+        void draw_square_ter( ter_id type, const point &p1, const point &p2 );
         void draw_square_furn( furn_id type, int x1, int y1, int x2, int y2 );
+        void draw_square_furn( furn_id type, const point &p1, int x2, int y2 );
+        void draw_square_furn( furn_id type, const point &p1, const point &p2 );
         void draw_square_ter( ter_id( *f )(), int x1, int y1, int x2, int y2 );
+        void draw_square_ter( ter_id( *f )(), const point &p1, int x2, int y2 );
+        void draw_square_ter( ter_id( *f )(), const point &p1, const point &p2 );
         void draw_square_ter( const weighted_int_list<ter_id> &f, int x1, int y1, int x2, int y2 );
+        void draw_square_ter( const weighted_int_list<ter_id> &f, const point &p1, int x2, int y2 );
+        void draw_square_ter( const weighted_int_list<ter_id> &f, const point &p1,
+                              const point &p2 );
         void draw_rough_circle_ter( ter_id type, int x, int y, int rad );
         void draw_rough_circle_furn( furn_id type, int x, int y, int rad );
         void draw_circle_ter( ter_id type, double x, double y, double rad );
         void draw_circle_ter( ter_id type, int x, int y, int rad );
         void draw_circle_furn( furn_id type, int x, int y, int rad );
+        void draw_rough_circle_ter( ter_id type, const point &p, int rad );
+        void draw_rough_circle_furn( furn_id type, const point &p, int rad );
+        void draw_circle_ter( ter_id type, const point &p, int rad );
+        void draw_circle_furn( furn_id type, const point &p, int rad );
 
         void add_corpse( const tripoint &p );
 
@@ -918,24 +939,42 @@ class map
 
         // Items: 2D
         map_stack i_at( int x, int y );
+        map_stack i_at( const point &p );
         void i_clear( int x, int y );
+        void i_clear( const point &p );
         map_stack::iterator i_rem( const point &location, map_stack::const_iterator it );
         void i_rem( int x, int y, item *it );
+        void i_rem( const point &p, item *it );
         void spawn_item( int x, int y, const std::string &itype_id,
+                         unsigned quantity = 1, int charges = 0,
+                         const time_point &birthday = calendar::turn_zero, int damlevel = 0 );
+        void spawn_item( const point &p, const std::string &itype_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::turn_zero, int damlevel = 0 );
 
         item &add_item_or_charges( int x, int y, item obj, bool overflow = true );
+        item &add_item_or_charges( const point &p, item obj, bool overflow = true );
 
         void add_item( int x, int y, item new_item );
+        void add_item( const point &p, item new_item );
         void spawn_an_item( int x, int y, item new_item,
+                            int charges, int damlevel );
+        void spawn_an_item( const point &p, item new_item,
                             int charges, int damlevel );
         std::vector<item *> place_items( const items_location &loc, int chance, int x1,
                                          int y1,
                                          int x2, int y2, bool ongrass, const time_point &turn,
                                          int magazine = 0, int ammo = 0 );
+        std::vector<item *> place_items( const items_location &loc, int chance, const point &p1,
+                                         int x2, int y2, bool ongrass, const time_point &turn,
+                                         int magazine = 0, int ammo = 0 );
+        std::vector<item *> place_items( const items_location &loc, int chance, const point &p1,
+                                         const point &p2, bool ongrass, const time_point &turn,
+                                         int magazine = 0, int ammo = 0 );
         void spawn_items( int x, int y, const std::vector<item> &new_items );
+        void spawn_items( const point &p, const std::vector<item> &new_items );
         void create_anomaly( int cx, int cy, artifact_natural_property prop );
+        void create_anomaly( const point &c, artifact_natural_property prop );
         // Items: 3D
         // Accessor that returns a wrapped reference to an item stack for safe modification.
         map_stack i_at( const tripoint &p );
@@ -1008,6 +1047,7 @@ class map
                                      basecamp *bcp = nullptr );
         /*@}*/
         std::list<std::pair<tripoint, item *> > get_rc_items( int x = -1, int y = -1, int z = -1 );
+        std::list<std::pair<tripoint, item *> > get_rc_items( const tripoint &p );
 
         /**
         * Place items from item group in the rectangle f - t. Several items may be spawned
@@ -1176,6 +1216,12 @@ class map
         void scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &blocks_scent,
                              std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &reduces_scent,
                              int minx, int miny, int maxx, int maxy );
+        void scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &blocks_scent,
+                             std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &reduces_scent,
+                             int minx, int miny, const point &max );
+        void scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &blocks_scent,
+                             std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &reduces_scent,
+                             const point &min, const point &max );
 
         // Computers
         computer *computer_at( const tripoint &p );
@@ -1238,16 +1284,32 @@ class map
         void place_spawns( const mongroup_id &group, int chance,
                            int x1, int y1, int x2, int y2, float intensity,
                            bool individual = false, bool friendly = false );
+        void place_spawns( const mongroup_id &group, int chance,
+                           const point &p1, int x2, int y2, float intensity,
+                           bool individual = false, bool friendly = false );
+        void place_spawns( const mongroup_id &group, int chance,
+                           const point &p1, const point &p2, float intensity,
+                           bool individual = false, bool friendly = false );
         void place_gas_pump( int x, int y, int charges );
+        void place_gas_pump( const point &p, int charges );
         void place_gas_pump( int x, int y, int charges, const std::string &fuel_type );
+        void place_gas_pump( const point &p, int charges, const std::string &fuel_type );
         // 6 liters at 250 ml per charge
         void place_toilet( int x, int y, int charges = 6 * 4 );
+        void place_toilet( const point &p, int charges = 6 * 4 );
         void place_vending( int x, int y, const std::string &type, bool reinforced = false );
+        void place_vending( const point &p, const std::string &type, bool reinforced = false );
         // places an NPC, if static NPCs are enabled or if force is true
         int place_npc( int x, int y, const string_id<npc_template> &type, bool force = false );
-        void apply_faction_ownership( int x1, int y1, int x2, int y2,
-                                      faction_id id );
+        int place_npc( const point &p, const string_id<npc_template> &type, bool force = false );
+        void apply_faction_ownership( int x1, int y1, int x2, int y2, faction_id id );
+        void apply_faction_ownership( const point &p1, int x2, int y2, faction_id id );
+        void apply_faction_ownership( const point &p1, const point &p2, faction_id id );
         void add_spawn( const mtype_id &type, int count, int x, int y,
+                        bool friendly = false,
+                        int faction_id = -1, int mission_id = -1,
+                        const std::string &name = "NONE" );
+        void add_spawn( const mtype_id &type, int count, const point &p,
                         bool friendly = false,
                         int faction_id = -1, int mission_id = -1,
                         const std::string &name = "NONE" );
@@ -1367,17 +1429,22 @@ class map
 
     protected:
         void saven( int gridx, int gridy, int gridz );
+        void saven( const tripoint &grid );
         void loadn( int gridx, int gridy, bool update_vehicles );
+        void loadn( const point &grid, bool update_vehicles );
         void loadn( int gridx, int gridy, int gridz, bool update_vehicles );
+        void loadn( const tripoint &grid, bool update_vehicles );
         /**
          * Fast forward a submap that has just been loading into this map.
          * This is used to rot and remove rotten items, grow plants, fill funnels etc.
          */
         void actualize( int gridx, int gridy, int gridz );
+        void actualize( const tripoint &grid );
         /**
          * Hacks in missing roofs. Should be removed when 3D mapgen is done.
          */
         void add_roofs( int gridx, int gridy, int gridz );
+        void add_roofs( const tripoint &grid );
         /**
          * Whether the item has to be removed as it has rotten away completely.
          * @param itm Item to check for rotting
