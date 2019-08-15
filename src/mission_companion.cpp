@@ -1445,6 +1445,8 @@ bool talk_function::forage_return( npc &p )
                 case WINTER:
                     itemlist = "forage_winter";
                     break;
+                default:
+                    debugmsg( "Invalid season" );
             }
         }
         auto result = item_group::item_from( itemlist );

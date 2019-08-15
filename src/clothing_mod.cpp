@@ -33,45 +33,25 @@ const clothing_mod &string_id<clothing_mod>::obj() const
 namespace io
 {
 
-static const std::map<std::string, clothing_mod_type> clothing_mod_type_map = {{
-        { "acid", clothing_mod_type_acid },
-        { "fire", clothing_mod_type_fire },
-        { "bash", clothing_mod_type_bash },
-        { "cut", clothing_mod_type_cut },
-        { "encumbrance", clothing_mod_type_encumbrance },
-        { "warmth", clothing_mod_type_warmth },
-        { "storage", clothing_mod_type_storage },
-        { "invalid", clothing_mod_type_invalid }
-    }
-};
-
-template<>
-clothing_mod_type string_to_enum<clothing_mod_type>( const std::string &data )
-{
-    auto iter = clothing_mod_type_map.find( data );
-
-    if( iter == clothing_mod_type_map.end() ) {
-        debugmsg( "Invalid mod type '%s'.", data );
-        return clothing_mod_type_invalid;
-    }
-
-    return string_to_enum_look_up( clothing_mod_type_map, data );
-}
-
 template<>
 std::string enum_to_string<clothing_mod_type>( clothing_mod_type data )
 {
-    const auto iter = std::find_if( clothing_mod_type_map.begin(), clothing_mod_type_map.end(),
-    [data]( const std::pair<std::string, clothing_mod_type> &pr ) {
-        return pr.second == data;
-    } );
-
-    if( iter == clothing_mod_type_map.end() ) {
-        debugmsg( "Invalid mod type value '%d'.", data );
-        return "invalid";
-    }
-
-    return iter->first;
+    switch( data ) {
+        // *INDENT-OFF*
+        case clothing_mod_type_acid: return "acid";
+        case clothing_mod_type_fire: return "fire";
+        case clothing_mod_type_bash: return "bash";
+        case clothing_mod_type_cut: return "cut";
+        case clothing_mod_type_encumbrance: return "encumbrance";
+        case clothing_mod_type_warmth: return "warmth";
+        case clothing_mod_type_storage: return "storage";
+        case clothing_mod_type_invalid: return "invalid";
+        // *INDENT-ON*
+        case num_clothing_mod_types:
+            break;
+    };
+    debugmsg( "Invalid mod type value '%d'.", data );
+    return "invalid";
 }
 
 } // namespace io

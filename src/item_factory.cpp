@@ -2669,17 +2669,22 @@ use_function Item_factory::usage_from_string( const std::string &type ) const
 
 namespace io
 {
-static const std::unordered_map<std::string, phase_id> phase_id_values = { {
-        { "liquid", LIQUID },
-        { "solid", SOLID },
-        { "gas", GAS },
-        { "plasma", PLASMA },
-    }
-};
 template<>
-phase_id string_to_enum<phase_id>( const std::string &data )
+std::string enum_to_string<phase_id>( phase_id data )
 {
-    return string_to_enum_look_up( phase_id_values, data );
+    switch( data ) {
+        // *INDENT-OFF*
+        case PNULL: return "null";
+        case LIQUID: return "liquid";
+        case SOLID: return "solid";
+        case GAS: return "gas";
+        case PLASMA: return "plasma";
+        // *INDENT-ON*
+        case num_phases:
+            break;
+    }
+    debugmsg( "Invalid phase" );
+    abort();
 }
 } // namespace io
 

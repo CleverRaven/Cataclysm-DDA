@@ -33,6 +33,7 @@ std::string comp_selection<CompType>::nname() const
         case use_from_player: // Is the same as the default return;
         case use_from_none:
         case cancel:
+        case num_usages:
             break;
     }
 
@@ -42,34 +43,22 @@ std::string comp_selection<CompType>::nname() const
 namespace io
 {
 
-static const std::map<std::string, usage> usage_map = {{
-        { "map", usage::use_from_map },
-        { "player", usage::use_from_player },
-        { "both", usage::use_from_both },
-        { "none", usage::use_from_none },
-        { "cancel", usage::cancel }
-    }
-};
-
-template<>
-usage string_to_enum<usage>( const std::string &data )
-{
-    return string_to_enum_look_up( usage_map, data );
-}
-
 template<>
 std::string enum_to_string<usage>( usage data )
 {
-    const auto iter = std::find_if( usage_map.begin(), usage_map.end(),
-    [data]( const std::pair<std::string, usage> &kv ) {
-        return kv.second == data;
-    } );
-
-    if( iter == usage_map.end() ) {
-        throw InvalidEnumString{};
+    switch( data ) {
+        // *INDENT-OFF*
+        case usage::use_from_map: return "map";
+        case usage::use_from_player: return "player";
+        case usage::use_from_both: return "both";
+        case usage::use_from_none: return "none";
+        case usage::cancel: return "cancel";
+        // *INDENT-ON*
+        case usage::num_usages:
+            break;
     }
-
-    return iter->first;
+    debugmsg( "Invalid usage" );
+    abort();
 }
 
 } // namespace io
@@ -293,6 +282,7 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
                     break;
                 case use_from_none:
                 case cancel:
+                case num_usages:
                     break;
             }
         } else {
@@ -316,6 +306,7 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
                     break;
                 case use_from_none:
                 case cancel:
+                case num_usages:
                     break;
             }
         }
@@ -347,6 +338,7 @@ std::vector<comp_selection<tool_comp>> craft_command::check_tool_components_miss
                 case use_from_both:
                 case use_from_none:
                 case cancel:
+                case num_usages:
                     break;
             }
         } else if( !crafter->has_amount( type, 1 ) && !map_inv.has_tools( type, 1 ) ) {

@@ -524,11 +524,11 @@ void conditional_t<T>::set_mission_goal( JsonObject &jo )
     std::string mission_goal_str = jo.get_string( "mission_goal" );
     condition = [mission_goal_str]( const T & d ) {
         mission *miss = d.beta->chatbin.mission_selected;
-        const auto mgoal = mission_goal_strs.find( mission_goal_str );
-        if( !miss || mgoal == mission_goal_strs.end() ) {
+        if( !miss ) {
             return false;
         }
-        return miss->get_type().goal == mgoal->second;
+        const mission_goal mgoal = io::string_to_enum<mission_goal>( mission_goal_str );
+        return miss->get_type().goal == mgoal;
     };
 }
 

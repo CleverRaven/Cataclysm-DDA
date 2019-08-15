@@ -1459,6 +1459,8 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
             loc = "forage_winter";
             next_ter = ter_str_id( "t_underbrush_harvested_winter" );
             break;
+        default:
+            debugmsg( "Invalid season" );
     }
 
     g->m.ter_set( act->placement, next_ter );

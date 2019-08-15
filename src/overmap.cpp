@@ -4378,17 +4378,21 @@ overmap_special_id overmap_specials::create_building_from( const string_id<oter_
 
 namespace io
 {
-static const std::map<std::string, ot_match_type> ot_match_type_map = { {
-        { "EXACT", exact },
-        { "TYPE", type },
-        { "PREFIX", prefix },
-        { "CONTAINS", contains },
-    }
-};
 template<>
-ot_match_type string_to_enum<ot_match_type>( const std::string &data )
+std::string enum_to_string<ot_match_type>( ot_match_type data )
 {
-    return string_to_enum_look_up( ot_match_type_map, data );
+    switch( data ) {
+        // *INDENT-OFF*
+        case exact: return "EXACT";
+        case type: return "TYPE";
+        case prefix: return "PREFIX";
+        case contains: return "CONTAINS";
+        // *INDENT-ON*
+        case num_ot_match_type:
+            break;
+    }
+    debugmsg( "Invalid ot_match_type" );
+    abort();
 }
 } // namespace io
 

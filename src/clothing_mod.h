@@ -13,6 +13,8 @@ class JsonObject;
 class player;
 class item;
 
+template<typename T> struct enum_traits;
+
 enum clothing_mod_type : int {
     clothing_mod_type_acid,
     clothing_mod_type_fire,
@@ -21,7 +23,13 @@ enum clothing_mod_type : int {
     clothing_mod_type_encumbrance,
     clothing_mod_type_warmth,
     clothing_mod_type_storage,
-    clothing_mod_type_invalid
+    clothing_mod_type_invalid,
+    num_clothing_mod_types
+};
+
+template<>
+struct enum_traits<clothing_mod_type> {
+    static constexpr clothing_mod_type last = clothing_mod_type::num_clothing_mod_types;
 };
 
 struct mod_value {

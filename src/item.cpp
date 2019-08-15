@@ -583,6 +583,7 @@ body_part_set item::get_covered_body_parts( const side s ) const
 
     switch( s ) {
         case side::BOTH:
+        case side::num_sides:
             break;
 
         case side::LEFT:
@@ -3527,6 +3528,7 @@ std::string item::display_name( unsigned int quantity ) const
 
     switch( get_side() ) {
         case side::BOTH:
+        case side::num_sides:
             break;
         case side::LEFT:
             sidetxt = string_format( " (%s)", _( "left" ) );

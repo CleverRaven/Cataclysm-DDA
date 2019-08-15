@@ -231,13 +231,13 @@ struct map_data_common_t {
     public:
         std::string name() const;
 
-        enum { SEASONS_PER_YEAR = 4 };
         /*
-        * The symbol drawn on the screen for the terrain. Please note that there are extensive rules
-        * as to which possible object/field/entity in a single square gets drawn and that some symbols
-        * are "reserved" such as * and % to do programmatic behavior.
+        * The symbol drawn on the screen for the terrain. Please note that
+        * there are extensive rules as to which possible object/field/entity in
+        * a single square gets drawn and that some symbols are "reserved" such
+        * as * and % to do programmatic behavior.
         */
-        std::array<int, SEASONS_PER_YEAR> symbol_;
+        std::array<int, NUM_SEASONS> symbol_;
 
         int light_emitted;
         int movecost;   // The amount of movement points required to pass this terrain by default.
@@ -246,7 +246,7 @@ struct map_data_common_t {
 
         std::string description;
 
-        std::array<nc_color, SEASONS_PER_YEAR> color_; //The color the sym will draw in on the GUI.
+        std::array<nc_color, NUM_SEASONS> color_; //The color the sym will draw in on the GUI.
         void load_symbol( JsonObject &jo );
 
         std::string looks_like;
@@ -257,7 +257,7 @@ struct map_data_common_t {
          * When will this terrain/furniture get harvested and what will drop?
          * Note: This excludes items that take extra tools to harvest.
          */
-        std::array<harvest_id, SEASONS_PER_YEAR> harvest_by_season = {{
+        std::array<harvest_id, NUM_SEASONS> harvest_by_season = {{
                 harvest_id::NULL_ID(), harvest_id::NULL_ID(), harvest_id::NULL_ID(), harvest_id::NULL_ID()
             }
         };

@@ -1731,6 +1731,7 @@ bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft 
                 case use_from_both:
                 case use_from_none:
                 case cancel:
+                case num_usages:
                     break;
             }
         } else if( !has_amount( type, 1 ) && !map_inv.has_tools( type, 1 ) ) {

@@ -5,6 +5,7 @@
 #include <limits>
 #include <algorithm>
 
+#include "debug.h"
 #include "options.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -154,6 +155,8 @@ double current_daylight_level( const time_point &p )
         case WINTER:
             modifier = ( 1. - deviation ) + ( percent * deviation );
             break;
+        default:
+            debugmsg( "Invalid season" );
     }
 
     return modifier * default_daylight_level();

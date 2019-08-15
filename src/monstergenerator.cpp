@@ -27,152 +27,155 @@
 #include "units.h"
 #include "translations.h"
 
-namespace
-{
-
-const std::map<std::string, mon_trigger> trigger_map = {
-    { "STALK",              mon_trigger::STALK },
-    { "MEAT",               mon_trigger::MEAT },
-    { "PLAYER_WEAK",        mon_trigger::HOSTILE_WEAK },
-    { "PLAYER_CLOSE",       mon_trigger::HOSTILE_CLOSE },
-    { "HURT",               mon_trigger::HURT },
-    { "FIRE",               mon_trigger::FIRE },
-    { "FRIEND_DIED",        mon_trigger::FRIEND_DIED },
-    { "FRIEND_ATTACKED",    mon_trigger::FRIEND_ATTACKED },
-    { "SOUND",              mon_trigger::SOUND },
-    { "PLAYER_NEAR_BABY",   mon_trigger::PLAYER_NEAR_BABY },
-    { "MATING_SEASON",      mon_trigger::MATING_SEASON }
-};
-
-const std::map<std::string, m_flag> flag_map = {
-    // see mtype.h for commentary
-    { "SEES", MF_SEES },
-    { "HEARS", MF_HEARS },
-    { "GOODHEARING", MF_GOODHEARING },
-    { "SMELLS", MF_SMELLS },
-    { "KEENNOSE", MF_KEENNOSE },
-    { "STUMBLES", MF_STUMBLES },
-    { "WARM", MF_WARM },
-    { "NOHEAD", MF_NOHEAD },
-    { "HARDTOSHOOT", MF_HARDTOSHOOT },
-    { "GRABS", MF_GRABS },
-    { "BASHES", MF_BASHES },
-    { "GROUP_BASH", MF_GROUP_BASH },
-    { "DESTROYS", MF_DESTROYS },
-    { "BORES", MF_BORES },
-    { "POISON", MF_POISON },
-    { "VENOM", MF_VENOM },
-    { "BADVENOM", MF_BADVENOM },
-    { "PARALYZEVENOM", MF_PARALYZE },
-    { "BLEED", MF_BLEED },
-    { "WEBWALK", MF_WEBWALK },
-    { "DIGS", MF_DIGS },
-    { "CAN_DIG", MF_CAN_DIG },
-    { "CAN_OPEN_DOORS", MF_CAN_OPEN_DOORS },
-    { "FLIES", MF_FLIES },
-    { "AQUATIC", MF_AQUATIC },
-    { "SWIMS", MF_SWIMS },
-    { "FISHABLE", MF_FISHABLE },
-    { "ATTACKMON", MF_ATTACKMON },
-    { "ANIMAL", MF_ANIMAL },
-    { "PLASTIC", MF_PLASTIC },
-    { "SUNDEATH", MF_SUNDEATH },
-    { "ELECTRIC", MF_ELECTRIC },
-    { "ACIDPROOF", MF_ACIDPROOF },
-    { "ACIDTRAIL", MF_ACIDTRAIL },
-    { "SHORTACIDTRAIL", MF_SHORTACIDTRAIL },
-    { "FIREPROOF", MF_FIREPROOF },
-    { "SLUDGEPROOF", MF_SLUDGEPROOF },
-    { "SLUDGETRAIL", MF_SLUDGETRAIL },
-    { "FIREY", MF_FIREY },
-    { "QUEEN", MF_QUEEN },
-    { "ELECTRONIC", MF_ELECTRONIC },
-    { "FUR", MF_FUR },
-    { "LEATHER", MF_LEATHER },
-    { "WOOL", MF_WOOL },
-    { "FEATHER", MF_FEATHER },
-    { "CBM_CIV", MF_CBM_CIV },
-    { "BONES", MF_BONES },
-    { "FAT", MF_FAT },
-    { "IMMOBILE", MF_IMMOBILE },
-    { "RIDEABLE_MECH", MF_RIDEABLE_MECH },
-    { "MILITARY_MECH", MF_MILITARY_MECH },
-    { "MECH_RECON_VISION", MF_MECH_RECON_VISION },
-    { "MECH_DEFENSIVE", MF_MECH_DEFENSIVE },
-    { "HIT_AND_RUN", MF_HIT_AND_RUN },
-    { "GUILT", MF_GUILT },
-    { "HUMAN", MF_HUMAN },
-    { "NO_BREATHE", MF_NO_BREATHE },
-    { "REGENERATES_50", MF_REGENERATES_50 },
-    { "REGENERATES_10", MF_REGENERATES_10 },
-    { "REGENERATES_1", MF_REGENERATES_1 },
-    { "REGENERATES_IN_DARK", MF_REGENERATES_IN_DARK },
-    { "FLAMMABLE", MF_FLAMMABLE },
-    { "REVIVES", MF_REVIVES },
-    { "CHITIN", MF_CHITIN },
-    { "VERMIN", MF_VERMIN },
-    { "NOGIB", MF_NOGIB },
-    { "ABSORBS", MF_ABSORBS },
-    { "ABSORBS_SPLITS", MF_ABSORBS_SPLITS },
-    { "LARVA", MF_LARVA },
-    { "ARTHROPOD_BLOOD", MF_ARTHROPOD_BLOOD },
-    { "ACID_BLOOD", MF_ACID_BLOOD },
-    { "BILE_BLOOD", MF_BILE_BLOOD },
-    { "REGEN_MORALE", MF_REGENMORALE },
-    { "CBM_POWER", MF_CBM_POWER },
-    { "CBM_SCI", MF_CBM_SCI },
-    { "CBM_OP", MF_CBM_OP },
-    { "CBM_TECH", MF_CBM_TECH },
-    { "CBM_SUBS", MF_CBM_SUBS },
-    { "FILTHY", MF_FILTHY },
-    { "SWARMS", MF_SWARMS },
-    { "CLIMBS", MF_CLIMBS },
-    { "GROUP_MORALE", MF_GROUP_MORALE },
-    { "INTERIOR_AMMO", MF_INTERIOR_AMMO },
-    { "NIGHT_INVISIBILITY", MF_NIGHT_INVISIBILITY },
-    { "REVIVES_HEALTHY", MF_REVIVES_HEALTHY },
-    { "NO_NECRO", MF_NO_NECRO },
-    { "PACIFIST", MF_PACIFIST },
-    { "PUSH_MON", MF_PUSH_MON },
-    { "PUSH_VEH", MF_PUSH_VEH },
-    { "PATH_AVOID_DANGER_1", MF_AVOID_DANGER_1 },
-    { "PATH_AVOID_DANGER_2", MF_AVOID_DANGER_2 },
-    { "PATH_AVOID_FALL", MF_AVOID_FALL },
-    { "PATH_AVOID_FIRE", MF_AVOID_FIRE },
-    { "PRIORITIZE_TARGETS", MF_PRIORITIZE_TARGETS },
-    { "NOT_HALLUCINATION", MF_NOT_HALLU },
-    { "CATFOOD", MF_CATFOOD },
-    { "CANPLAY", MF_CANPLAY },
-    { "CATTLEFODDER", MF_CATTLEFODDER },
-    { "BIRDFOOD", MF_BIRDFOOD },
-    { "PET_MOUNTABLE", MF_PET_MOUNTABLE },
-    { "DOGFOOD", MF_DOGFOOD },
-    { "MILKABLE", MF_MILKABLE },
-    { "NO_BREED", MF_NO_BREED },
-    { "PET_WONT_FOLLOW", MF_PET_WONT_FOLLOW },
-    { "DRIPS_NAPALM", MF_DRIPS_NAPALM },
-    { "DRIPS_GASOLINE", MF_DRIPS_GASOLINE },
-    { "ELECTRIC_FIELD", MF_ELECTRIC_FIELD },
-    { "STUN_IMMUNE", MF_STUN_IMMUNE },
-    { "LOUDMOVES", MF_LOUDMOVES },
-    { "DROPS_AMMO", MF_DROPS_AMMO }
-};
-
-} // namespace
-
 namespace io
 {
 
 template<>
-mon_trigger string_to_enum<mon_trigger>( const std::string &trigger )
+std::string enum_to_string<mon_trigger>( mon_trigger data )
 {
-    return string_to_enum_look_up( trigger_map, trigger );
+    switch( data ) {
+        // *INDENT-OFF*
+        case mon_trigger::STALK: return "STALK";
+        case mon_trigger::MEAT: return "MEAT";
+        case mon_trigger::HOSTILE_WEAK: return "PLAYER_WEAK";
+        case mon_trigger::HOSTILE_CLOSE: return "PLAYER_CLOSE";
+        case mon_trigger::HURT: return "HURT";
+        case mon_trigger::FIRE: return "FIRE";
+        case mon_trigger::FRIEND_DIED: return "FRIEND_DIED";
+        case mon_trigger::FRIEND_ATTACKED: return "FRIEND_ATTACKED";
+        case mon_trigger::SOUND: return "SOUND";
+        case mon_trigger::PLAYER_NEAR_BABY: return "PLAYER_NEAR_BABY";
+        case mon_trigger::MATING_SEASON: return "MATING_SEASON";
+        // *INDENT-ON*
+        case mon_trigger::_LAST:
+            break;
+    }
+    debugmsg( "Invalid mon_trigger" );
+    abort();
 }
 
 template<>
-m_flag string_to_enum<m_flag>( const std::string &flag )
+std::string enum_to_string<m_flag>( m_flag data )
 {
-    return string_to_enum_look_up( flag_map, flag );
+    // see mtype.h for commentary
+    switch( data ) {
+        // *INDENT-OFF*
+        case MF_SEES: return "SEES";
+        case MF_HEARS: return "HEARS";
+        case MF_GOODHEARING: return "GOODHEARING";
+        case MF_SMELLS: return "SMELLS";
+        case MF_KEENNOSE: return "KEENNOSE";
+        case MF_STUMBLES: return "STUMBLES";
+        case MF_WARM: return "WARM";
+        case MF_NOHEAD: return "NOHEAD";
+        case MF_HARDTOSHOOT: return "HARDTOSHOOT";
+        case MF_GRABS: return "GRABS";
+        case MF_BASHES: return "BASHES";
+        case MF_GROUP_BASH: return "GROUP_BASH";
+        case MF_DESTROYS: return "DESTROYS";
+        case MF_BORES: return "BORES";
+        case MF_POISON: return "POISON";
+        case MF_VENOM: return "VENOM";
+        case MF_BADVENOM: return "BADVENOM";
+        case MF_PARALYZE: return "PARALYZEVENOM";
+        case MF_BLEED: return "BLEED";
+        case MF_WEBWALK: return "WEBWALK";
+        case MF_DIGS: return "DIGS";
+        case MF_CAN_DIG: return "CAN_DIG";
+        case MF_CAN_OPEN_DOORS: return "CAN_OPEN_DOORS";
+        case MF_FLIES: return "FLIES";
+        case MF_AQUATIC: return "AQUATIC";
+        case MF_SWIMS: return "SWIMS";
+        case MF_FISHABLE: return "FISHABLE";
+        case MF_ATTACKMON: return "ATTACKMON";
+        case MF_ANIMAL: return "ANIMAL";
+        case MF_PLASTIC: return "PLASTIC";
+        case MF_SUNDEATH: return "SUNDEATH";
+        case MF_ELECTRIC: return "ELECTRIC";
+        case MF_ACIDPROOF: return "ACIDPROOF";
+        case MF_ACIDTRAIL: return "ACIDTRAIL";
+        case MF_SHORTACIDTRAIL: return "SHORTACIDTRAIL";
+        case MF_FIREPROOF: return "FIREPROOF";
+        case MF_SLUDGEPROOF: return "SLUDGEPROOF";
+        case MF_SLUDGETRAIL: return "SLUDGETRAIL";
+        case MF_FIREY: return "FIREY";
+        case MF_QUEEN: return "QUEEN";
+        case MF_ELECTRONIC: return "ELECTRONIC";
+        case MF_FUR: return "FUR";
+        case MF_LEATHER: return "LEATHER";
+        case MF_WOOL: return "WOOL";
+        case MF_FEATHER: return "FEATHER";
+        case MF_CBM_CIV: return "CBM_CIV";
+        case MF_BONES: return "BONES";
+        case MF_FAT: return "FAT";
+        case MF_IMMOBILE: return "IMMOBILE";
+        case MF_RIDEABLE_MECH: return "RIDEABLE_MECH";
+        case MF_MILITARY_MECH: return "MILITARY_MECH";
+        case MF_MECH_RECON_VISION: return "MECH_RECON_VISION";
+        case MF_MECH_DEFENSIVE: return "MECH_DEFENSIVE";
+        case MF_HIT_AND_RUN: return "HIT_AND_RUN";
+        case MF_GUILT: return "GUILT";
+        case MF_HUMAN: return "HUMAN";
+        case MF_NO_BREATHE: return "NO_BREATHE";
+        case MF_REGENERATES_50: return "REGENERATES_50";
+        case MF_REGENERATES_10: return "REGENERATES_10";
+        case MF_REGENERATES_1: return "REGENERATES_1";
+        case MF_REGENERATES_IN_DARK: return "REGENERATES_IN_DARK";
+        case MF_FLAMMABLE: return "FLAMMABLE";
+        case MF_REVIVES: return "REVIVES";
+        case MF_CHITIN: return "CHITIN";
+        case MF_VERMIN: return "VERMIN";
+        case MF_NOGIB: return "NOGIB";
+        case MF_ABSORBS: return "ABSORBS";
+        case MF_ABSORBS_SPLITS: return "ABSORBS_SPLITS";
+        case MF_LARVA: return "LARVA";
+        case MF_ARTHROPOD_BLOOD: return "ARTHROPOD_BLOOD";
+        case MF_ACID_BLOOD: return "ACID_BLOOD";
+        case MF_BILE_BLOOD: return "BILE_BLOOD";
+        case MF_REGENMORALE: return "REGEN_MORALE";
+        case MF_CBM_POWER: return "CBM_POWER";
+        case MF_CBM_SCI: return "CBM_SCI";
+        case MF_CBM_OP: return "CBM_OP";
+        case MF_CBM_TECH: return "CBM_TECH";
+        case MF_CBM_SUBS: return "CBM_SUBS";
+        case MF_FILTHY: return "FILTHY";
+        case MF_SWARMS: return "SWARMS";
+        case MF_CLIMBS: return "CLIMBS";
+        case MF_GROUP_MORALE: return "GROUP_MORALE";
+        case MF_INTERIOR_AMMO: return "INTERIOR_AMMO";
+        case MF_NIGHT_INVISIBILITY: return "NIGHT_INVISIBILITY";
+        case MF_REVIVES_HEALTHY: return "REVIVES_HEALTHY";
+        case MF_NO_NECRO: return "NO_NECRO";
+        case MF_PACIFIST: return "PACIFIST";
+        case MF_PUSH_MON: return "PUSH_MON";
+        case MF_PUSH_VEH: return "PUSH_VEH";
+        case MF_AVOID_DANGER_1: return "PATH_AVOID_DANGER_1";
+        case MF_AVOID_DANGER_2: return "PATH_AVOID_DANGER_2";
+        case MF_AVOID_FALL: return "PATH_AVOID_FALL";
+        case MF_AVOID_FIRE: return "PATH_AVOID_FIRE";
+        case MF_PRIORITIZE_TARGETS: return "PRIORITIZE_TARGETS";
+        case MF_NOT_HALLU: return "NOT_HALLUCINATION";
+        case MF_CATFOOD: return "CATFOOD";
+        case MF_CANPLAY: return "CANPLAY";
+        case MF_CATTLEFODDER: return "CATTLEFODDER";
+        case MF_BIRDFOOD: return "BIRDFOOD";
+        case MF_PET_MOUNTABLE: return "PET_MOUNTABLE";
+        case MF_DOGFOOD: return "DOGFOOD";
+        case MF_MILKABLE: return "MILKABLE";
+        case MF_NO_BREED: return "NO_BREED";
+        case MF_PET_WONT_FOLLOW: return "PET_WONT_FOLLOW";
+        case MF_DRIPS_NAPALM: return "DRIPS_NAPALM";
+        case MF_DRIPS_GASOLINE: return "DRIPS_GASOLINE";
+        case MF_ELECTRIC_FIELD: return "ELECTRIC_FIELD";
+        case MF_STUN_IMMUNE: return "STUN_IMMUNE";
+        case MF_LOUDMOVES: return "LOUDMOVES";
+        case MF_DROPS_AMMO: return "DROPS_AMMO";
+        // *INDENT-ON*
+        case m_flag::MF_MAX:
+            break;
+    }
+    debugmsg( "Invalid m_flag" );
+    abort();
 }
 
 } // namespace io

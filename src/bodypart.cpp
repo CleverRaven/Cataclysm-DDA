@@ -21,6 +21,9 @@ side opposite_side( side s )
             return side::RIGHT;
         case side::RIGHT:
             return side::LEFT;
+        case side::num_sides:
+            debugmsg( "invalid side %d", static_cast<int>( s ) );
+            break;
     }
 
     return s;
@@ -29,17 +32,20 @@ side opposite_side( side s )
 namespace io
 {
 
-static const std::map<std::string, side> side_map = {{
-        { "left", side::LEFT },
-        { "right", side::RIGHT },
-        { "both", side::BOTH }
-    }
-};
-
 template<>
-side string_to_enum<side>( const std::string &data )
+std::string enum_to_string<side>( side data )
 {
-    return string_to_enum_look_up( side_map, data );
+    switch( data ) {
+        // *INDENT-OFF*
+        case side::LEFT: return "left";
+        case side::RIGHT: return "right";
+        case side::BOTH: return "both";
+        // *INDENT-ON*
+        case side::num_sides:
+            break;
+    }
+    debugmsg( "Invalid side" );
+    abort();
 }
 
 } // namespace io
