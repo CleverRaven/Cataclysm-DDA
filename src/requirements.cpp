@@ -615,6 +615,7 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
             total_UPS_charges_used += UPS_charges_used;
         }
     }
+
     if( total_UPS_charges_used > 0 &&
         total_UPS_charges_used > crafting_inv.charges_of( "UPS" ) ) {
         return false;
@@ -628,7 +629,6 @@ bool quality_requirement::has( const inventory &crafting_inv,
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
-
     return crafting_inv.has_quality( type, level, count );
 }
 
@@ -648,38 +648,12 @@ bool tool_comp::has( const inventory &crafting_inv,
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
-
     if( !by_charges() ) {
         return crafting_inv.has_tools( type, std::abs( count ), filter );
     } else {
         const int charges_required = count * batch * item::find_type( type )->charge_factor();
-        int charges_found = crafting_inv.charges_of( type, charges_required, filter );
-        if( charges_found == charges_required ) {
-            return true;
-        }
-        const auto &binned = crafting_inv.get_binned_items();
-        const auto iter = binned.find( type );
-        if( iter == binned.end() ) {
-            return false;
-        }
-        bool has_UPS = false;
-        for( const item *it : iter->second ) {
-            it->visit_items( [&has_UPS]( const item * e ) {
-                if( e->has_flag( "USE_UPS" ) ) {
-                    has_UPS = true;
-                    return VisitResponse::ABORT;
-                }
-                return VisitResponse::NEXT;
-            } );
-        }
-        if( has_UPS ) {
-            const int UPS_charges_used =
-                crafting_inv.charges_of( "UPS", charges_required - charges_found, filter );
-            if( visitor && UPS_charges_used + charges_found >= charges_required ) {
-                visitor( UPS_charges_used );
-            }
-            charges_found += UPS_charges_used;
-        }
+
+        int charges_found = crafting_inv.charges_of( type, charges_required, filter, visitor );
         return charges_found == charges_required;
     }
 }
@@ -702,7 +676,6 @@ bool item_comp::has( const inventory &crafting_inv,
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
-
     const int cnt = std::abs( count ) * batch;
     if( item::count_by_charges( type ) ) {
         return crafting_inv.has_charges( type, cnt, filter );
