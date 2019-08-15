@@ -1022,6 +1022,8 @@
   {
     "type": "effect_type",
     "id": "flushot",
+    "name": [ "Vaccinated" ],
+    "desc": [ "You have been vaccinated for the flu recently." ],
     "blocks_effects": [ "flu" ]
   },
   {
