@@ -1990,7 +1990,6 @@
     "id": "consumer_electronics",
     "items": [
       [ "amplifier", 8 ],
-      [ "atomic_light", 4 ],
       [ "mag_electronics", 15 ],
       [ "antenna", 18 ],
       { "group": "ammo_any_batteries_full", "prob": 50 },
@@ -2137,7 +2136,6 @@
     "ammo": 75,
     "magazine": 100,
     "items": [
-      [ "atomic_light", 1 ],
       [ "daypack", 20 ],
       [ "rope_30", 35 ],
       [ "hatchet", 10 ],
@@ -4744,7 +4742,6 @@
     "type": "item_group",
     "id": "shelter",
     "items": [
-      [ "atomic_light", 2 ],
       [ "daypack", 10 ],
       [ "ski_jacket", 40 ],
       [ "water_clean", 90 ],
@@ -5318,7 +5315,6 @@
     "type": "item_group",
     "id": "electronics",
     "items": [
-      [ "atomic_light", 2 ],
       [ "voltmeter", 10 ],
       [ "jumper_cable_heavy", 10 ],
       [ "superglue", 30 ],

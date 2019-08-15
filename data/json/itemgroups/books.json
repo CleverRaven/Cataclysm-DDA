@@ -378,7 +378,6 @@
     "type": "item_group",
     "id": "textbooks",
     "items": [
-      [ "textbook_atomic", 8 ],
       [ "textbook_computer", 4 ],
       [ "computer_science", 8 ],
       [ "book_icef", 8 ],

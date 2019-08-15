@@ -169,26 +169,6 @@
     "fun": -1
   },
   {
-    "id": "textbook_atomic",
-    "type": "BOOK",
-    "name": "Nuclear Physics Made Easy",
-    "name_plural": "Nuclear Physics Made Easy",
-    "description": "A book detailing the workings of state of the art atomic technology, and the physics behind it.  Many of the things detailed here would need some very advanced components and equipment to implement and therefore are practically useless now, however, more fundamental information presented in this book could indeed be useful.",
-    "weight": 2063,
-    "volume": "2 L",
-    "price": 9200,
-    "bashing": 8,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "light_green",
-    "skill": "electronics",
-    "required_level": 5,
-    "max_level": 7,
-    "intelligence": 13,
-    "time": 50,
-    "fun": -1
-  },
-  {
     "id": "textbook_electronics",
     "type": "BOOK",
     "name": "Electronic Circuit Theory",

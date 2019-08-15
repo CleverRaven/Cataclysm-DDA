@@ -105,7 +105,7 @@
   {
     "id": "camping",
     "type": "item_group",
-    "items": [ [ "afs_rope_lighter", 10 ] ]
+    "items": [ [ "afs_rope_lighter", 10 ], [ "atomic_light", 1 ] ]
   },
   {
     "id": "allsporting",
@@ -140,27 +140,27 @@
   {
     "id": "livingroom",
     "type": "item_group",
-    "items": [ [ "afs_atomic_smartphone", 1 ] ]
+    "items": [ [ "afs_atomic_smartphone", 1 ], [ "atomic_light", 2 ] ]
   },
   {
     "id": "bedroom",
     "type": "item_group",
-    "items": [ [ "afs_atomic_smartphone", 1 ] ]
+    "items": [ [ "afs_atomic_smartphone", 1 ], [ "atomic_light", 2 ] ]
   },
   {
     "id": "consumer_electronics",
     "type": "item_group",
-    "items": [ [ "afs_atomic_smartphone", 2 ], [ "afs_bio_precision_solderers", 1 ] ]
+    "items": [ [ "afs_atomic_smartphone", 2 ], [ "afs_bio_precision_solderers", 1 ], [ "atomic_light", 4 ] ]
   },
   {
     "id": "electronics",
     "type": "item_group",
-    "items": [ [ "afs_atomic_smartphone", 1 ], [ "afs_bio_precision_solderers", 2 ] ]
+    "items": [ [ "afs_atomic_smartphone", 1 ], [ "afs_bio_precision_solderers", 2 ], [ "atomic_light", 2 ] ]
   },
   {
     "id": "lab_dorm",
     "type": "item_group",
-    "items": [ [ "afs_atomic_smartphone", 5 ] ]
+    "items": [ [ "afs_atomic_smartphone", 5 ], [ "atomic_light", 3 ] ]
   },
   {
     "id": "subway",
@@ -210,7 +210,8 @@
       [ "afs_textbook_shotguns", 3 ],
       [ "afs_textbook_handguns", 3 ],
       [ "afs_textbook_rifles", 3 ],
-      [ "afs_textbook_launchers", 3 ]
+      [ "afs_textbook_launchers", 3 ],
+      [ "textbook_atomic", 8 ]
     ]
   },
   {
