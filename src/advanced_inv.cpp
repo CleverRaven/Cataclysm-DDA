@@ -2034,7 +2034,7 @@ void query_destination_callback::draw_squares( const uilist *menu )
         nc_color kcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_dark_gray;
         const int x = square.hscreen.x + ofs;
         const int y = square.hscreen.y + 5;
-        mvwprintz( menu->window, y, x, bcolor, "%c", bracket[0] );
+        mvwprintz( menu->window, point( x, y ), bcolor, "%c", bracket[0] );
         wprintz( menu->window, kcolor, "%c", key );
         wprintz( menu->window, bcolor, "%c", bracket[1] );
     }
