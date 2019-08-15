@@ -17,23 +17,23 @@
     "type": "martial_art",
     "id": "style_crt_blade",
     "name": "C.R.I.T Blade-work",
-    "description": "An offensive style that is centered around rapid slashes and prodding.  Each attack landed increases your speed by 3 and offers other combat bonuses",
+    "description": "An offensive style that is centered around rapid slashes and prodding.  Each attack landed increases combat ability",
     "initiate": [ "Initiate blade-work.", "%s initiates blade-work." ],
-    "arm_block": 3,
+    "arm_block": 99,
     "leg_block": 99,
     "static_buffs": [
       {
         "id": "crt_blade_static",
         "name": "C.R.I.T Calculation",
-        "description": "DEX provides accuracy and minor cut and stab damage with slight piercing capability.",
+        "description": "Increased accuracy along with minor cut and stab damage with piercing capability.",
         "unarmed_allowed": true,
         "melee_allowed": true,
+        "min_unarmed": 2,
         "flat_bonuses": [
           [ "damage", "stab", 1 ],
           [ "damage", "cut", 1 ],
-          [ "arpen", "stab", "dex", 0.1 ],
-          [ "arpen", "cut", "dex", 0.25 ],
-          [ "hit", "dex", 0.2 ]
+          [ "arpen", "stab", 1 ],
+          [ "arpen", "cut", 1 ]
         ]
       }
     ],
@@ -44,13 +44,13 @@
         "description": "Additional DMG, and Arpen per stack. Max of 5 stacks",
         "unarmed_allowed": false,
         "melee_allowed": true,  
-        "min_unarmed": 1,
+        "min_unarmed": 3,
         "buff_duration": 3,
         "max_stacks": 5,
         "flat_bonuses": [
           [ "damage", "stab", 0.5 ],
           [ "damage", "cut",  0.5 ],
-          [ "arpen", "cut", 2 ]
+          [ "arpen", "cut", 1 ]
         ]
       }
     ],
@@ -66,6 +66,13 @@
       "knife_steak",
       "knife_trench",
       "knife_folding",
+      "knife_paring",
+      "knife_carving",
+      "knife_vegetable_cleaver",
+      "knife_meat_cleaver",
+      "knife_bread",
+      "knife_chef",
+      "knife_butcher", 
       "makeshift_knife",
       "primitive_knife",
       "pockknife",
@@ -85,7 +92,6 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "mult_bonuses": [ [ "damage", "bash", 0.8 ], [ "damage", "cut", 0.7 ], [ "damage", "stab", 0.6 ] ],
-    "flat_bonuses": [ [ "damage", "stab", "dex", 0.15 ], [ "damage", "cut", "dex", 0.2 ], [ "movecost", "dex", -0.5 ] ],
     "messages": [ "You release a blindingly fast slash at %s", "<npcname> slashes at %s" ]
   },
   {
@@ -96,8 +102,7 @@
     "min_melee": 2,
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.65 ], [ "damage", "bash", 0.55 ], [ "damage", "cut", 0.6 ], [ "damage", "stab", 0.55 ] ],
-    "flat_bonuses": [ [ "damage", "stab", "dex", 0.01 ], [ "damage", "cut", "dex", 0.015 ], [ "movecost", "dex", -0.45 ] ],
+    "mult_bonuses": [ [ "movecost", 0.77 ], [ "damage", "bash", 0.55 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.88 ] ],
     "messages": [ "You swiftly jab your weapon at %s", "<npcname> swiftly jabs their weapon at %s" ]
   },
   {
@@ -109,10 +114,9 @@
     "unarmed_allowed": true,
     "melee_allowed": true,  
     "mult_bonuses": [ [ "movecost", 0.8 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 1.05 ], [ "damage", "stab", 1.0 ] ],
-    "flat_bonuses": [ [ "damage", "stab", "dex", 0.1 ], [ "damage", "cut", "dex", 0.5 ], [ "movecost", "dex", -0.2 ] ],
     "crit_tec": true,
-    "messages": [ "You steady your hand and release a debilitating swipe at %s", "<npcname> releases a debilitating swipe at %s" ],
-    "stun_dur": 1.5
+    "messages": [ "You release a debilitating swipe at %s", "<npcname> releases a debilitating swipe at %s" ],
+    "down_dur": 2
   },
   {
     "type": "technique",
@@ -124,19 +128,17 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "mult_bonuses": [
-      [ "movecost", 0.95 ],
-      [ "damage", "bash", 0.2 ],
+      [ "damage", "bash", 0.5 ],
       [ "damage", "cut", 1.1 ],
-      [ "arpen", "stab", "dex", 0.15 ],
       [ "damage", "stab", 1.1 ],
-      [ "arpen", "cut", "dex", 0.3 ]
+      [ "arpen", "stab", 0.25 ],  
+      [ "arpen", "cut", 0.5 ]
     ],
-    "flat_bonuses": [ [ "damage", "stab", "dex", 0.25 ], [ "damage", "cut", "dex", 0.35 ], [ "movecost", "dex", -0.5 ] ],
     "crit_tec": true,
     "messages": [
       "You envision the tension of a fully drawn bow and then launch a piercing blow on %s's top half",
       "<npcname> lands a piercing blow on %s's face"
     ],
-    "stun_dur": 0.25
+    "stun_dur": 2
   }
 ]
