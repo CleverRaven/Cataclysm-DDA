@@ -158,9 +158,9 @@ class translation
          * Be especially careful when using these to sort translations, as the
          * translated result will change when switching the language.
          **/
-        bool operator<( const translation &that ) const;
-        bool operator==( const translation &that ) const;
-        bool operator!=( const translation &that ) const;
+        bool translated_lt( const translation &that ) const;
+        bool translated_eq( const translation &that ) const;
+        bool translated_ne( const translation &that ) const;
     private:
         struct no_translation_tag {};
         translation( const std::string &str, const no_translation_tag );

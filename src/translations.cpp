@@ -405,19 +405,19 @@ bool translation::empty() const
     return raw.empty();
 }
 
-bool translation::operator<( const translation &that ) const
+bool translation::translated_lt( const translation &that ) const
 {
     return translated() < that.translated();
 }
 
-bool translation::operator==( const translation &that ) const
+bool translation::translated_eq( const translation &that ) const
 {
     return translated() == that.translated();
 }
 
-bool translation::operator!=( const translation &that ) const
+bool translation::translated_ne( const translation &that ) const
 {
-    return !operator==( that );
+    return !translated_eq( that );
 }
 
 translation no_translation( const std::string &str )
