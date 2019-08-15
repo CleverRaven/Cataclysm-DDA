@@ -512,7 +512,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         ret.target = critter;
         e = 0.30;
         part_dens = 15;
-        mass2 = units::to_kilogram(critter->get_weight());
+        mass2 = units::to_kilogram( critter->get_weight() );
         ret.target_name = critter->disp_name();
     } else if( ( bash_floor && g->m.is_bashable_ter_furn( p, true ) ) ||
                ( g->m.is_bashable_ter_furn( p, false ) && g->m.move_cost_ter_furn( p ) != 2 &&
