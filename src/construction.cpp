@@ -862,7 +862,7 @@ void complete_construction( player *p )
         }
         if( p->is_npc() ) {
             npc *guy = dynamic_cast<npc *>( p );
-            guy->current_activity.clear();
+            guy->current_activity_id = activity_id::NULL_ID();
             guy->revert_after_activity();
             guy->set_moves( 0 );
         }
