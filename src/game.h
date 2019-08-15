@@ -186,7 +186,7 @@ class game
         void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
     public:
         /** Initializes the UI. */
-        void init_ui( const bool resized = false );
+        void init_ui( bool resized = false );
         void setup();
         /** Saving and loading functions. */
         void serialize( std::ostream &fout ); // for save
@@ -410,7 +410,7 @@ class game
         bool cancel_activity_query( const std::string &message );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
          *  if the player wants to ignore further distractions. */
-        bool cancel_activity_or_ignore_query( const distraction_type type, const std::string &reason );
+        bool cancel_activity_or_ignore_query( distraction_type type, const std::string &reason );
         /** Handles players exiting from moving vehicles. */
         void moving_vehicle_dismount( const tripoint &p );
 
@@ -779,10 +779,10 @@ class game
         void print_terrain_info( const tripoint &lp, const catacurses::window &w_look,
                                  const std::string &area_name, int column,
                                  int &line );
-        void print_trap_info( const tripoint &lp, const catacurses::window &w_look, const int column,
+        void print_trap_info( const tripoint &lp, const catacurses::window &w_look, int column,
                               int &line );
         void print_creature_info( const Creature *creature, const catacurses::window &w_look, int column,
-                                  int &line, const int last_line );
+                                  int &line, int last_line );
         void print_vehicle_info( const vehicle *veh, int veh_part, const catacurses::window &w_look,
                                  int column, int &line, int last_line );
         void print_visibility_info( const catacurses::window &w_look, int column, int &line,
@@ -805,7 +805,7 @@ class game
          * Note on z-levels: this works with vertical shifts, but currently all
          * monsters are despawned upon a vertical shift.
          */
-        void shift_monsters( const int shiftx, const int shifty, const int shiftz );
+        void shift_monsters( int shiftx, int shifty, int shiftz );
         /**
          * Despawn a specific monster, it's stored on the overmap. Also removes
          * it from the creature tracker. Keep in mind that any monster index may
@@ -992,7 +992,7 @@ class game
         std::chrono::time_point<std::chrono::steady_clock> last_mouse_edge_scroll;
         tripoint last_mouse_edge_scroll_vector_terrain;
         tripoint last_mouse_edge_scroll_vector_overmap;
-        std::pair<tripoint, tripoint> mouse_edge_scrolling( input_context ctxt, const int speed,
+        std::pair<tripoint, tripoint> mouse_edge_scrolling( input_context ctxt, int speed,
                 const tripoint &last, bool iso );
     public:
         /** Used to implement mouse "edge scrolling". Returns a

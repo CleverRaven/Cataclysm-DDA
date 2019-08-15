@@ -535,8 +535,8 @@ class input_context
          *                   described.
          */
         std::string get_desc( const std::string &action_descriptor,
-                              const unsigned int max_limit = 0,
-                              const std::function<bool( const input_event & )> evt_filter =
+                              unsigned int max_limit = 0,
+                              std::function<bool( const input_event & )> evt_filter =
         []( const input_event & ) {
             return true;
         } ) const;
@@ -557,7 +557,7 @@ class input_context
          */
         std::string get_desc( const std::string &action_descriptor,
                               const std::string &text,
-                              const std::function<bool( const input_event & )> evt_filter =
+                              std::function<bool( const input_event & )> evt_filter =
         []( const input_event & ) {
             return true;
         } ) const;

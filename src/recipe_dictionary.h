@@ -143,9 +143,9 @@ class recipe_subset
 
         /** Find recipes matching query (left anchored partial matches are supported) */
         std::vector<const recipe *> search( const std::string &txt,
-                                            const search_type key = search_type::name ) const;
+                                            search_type key = search_type::name ) const;
         /** Find recipes matching query and return a new recipe_subset */
-        recipe_subset reduce( const std::string &txt, const search_type key = search_type::name ) const;
+        recipe_subset reduce( const std::string &txt, search_type key = search_type::name ) const;
         /** Set intersection between recipe_subsets */
         recipe_subset intersection( const recipe_subset &subset ) const;
         /** Set difference between recipe_subsets */

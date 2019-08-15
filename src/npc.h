@@ -657,7 +657,7 @@ enum talk_topic_enum {
 };
 
 // Function for conversion of legacy topics, defined in savegame_legacy.cpp
-std::string convert_talk_topic( talk_topic_enum const old_value );
+std::string convert_talk_topic( talk_topic_enum old_value );
 
 struct npc_chatbin {
     /**
@@ -764,7 +764,7 @@ class npc : public player
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
         std::string opinion_text() const;
-        int faction_display( const catacurses::window &fac_w, const int width ) const;
+        int faction_display( const catacurses::window &fac_w, int width ) const;
 
         // Interaction with the player
         void form_opinion( const player &u );
@@ -799,7 +799,7 @@ class npc : public player
         int get_faction_ver() const;
         void set_faction_ver( int new_version );
         bool has_faction_relationship( const player &guy,
-                                       const npc_factions::relationship flag ) const;
+                                       npc_factions::relationship flag ) const;
         // We want to kill/mug/etc the player
         bool is_enemy() const;
         // Traveling w/ player (whether as a friend or a slave)
@@ -902,7 +902,7 @@ class npc : public player
         void say( const char *const line, Args &&... args ) const {
             return say( string_format( line, std::forward<Args>( args )... ) );
         }
-        void say( const std::string &line, const int priority = 0 ) const;
+        void say( const std::string &line, int priority = 0 ) const;
         void decide_needs();
         void die( Creature *killer ) override;
         bool is_dead() const;
@@ -943,8 +943,8 @@ class npc : public player
         // @param force true if the complaint should happen even if not enough time has elapsed since last complaint
         // @param speech words of this complaint
         bool complain_about( const std::string &issue, const time_duration &dur,
-                             const std::string &speech, const bool force = false,
-                             const int priority = 0 );
+                             const std::string &speech, bool force = false,
+                             int priority = 0 );
         // wrapper for complain_about that warns about a specific type of threat, with
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
@@ -1022,7 +1022,7 @@ class npc : public player
          * @returns If it updated the path.
          */
         bool update_path( const tripoint &p, bool no_bashing = false, bool force = true );
-        bool can_open_door( const tripoint &p, const bool inside ) const;
+        bool can_open_door( const tripoint &p, bool inside ) const;
         bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
 
         // nomove is used to resolve recursive invocation

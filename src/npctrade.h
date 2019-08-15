@@ -33,7 +33,7 @@ class item_pricing
             set_values( count );
         }
         void set_values( int ip_count );
-        void adjust_values( const double adjust, faction *fac );
+        void adjust_values( double adjust, faction *fac );
 
         item_location loc;
         int price;

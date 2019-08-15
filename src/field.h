@@ -50,14 +50,14 @@ class field_entry
         // Allows you to modify the field_type_id of the current field entry.
         // This probably shouldn't be called outside of field::replace_field, as it
         // breaks the field drawing code and field lookup
-        field_type_id set_field_type( const field_type_id new_type );
+        field_type_id set_field_type( field_type_id new_type );
 
         // Returns the maximum intensity of the current field entry.
         int get_max_field_intensity() const;
         // Returns the current intensity of the current field entry.
         int get_field_intensity() const;
         // Allows you to modify the intensity of the current field entry.
-        int set_field_intensity( const int new_intensity );
+        int set_field_intensity( int new_intensity );
 
         /// @returns @ref age.
         time_duration get_field_age() const;
@@ -130,17 +130,17 @@ class field
          * Returns a field entry corresponding to the field_type_id parameter passed in.
          * If no fields are found then nullptr is returned.
          */
-        field_entry *find_field( const field_type_id field_type_to_find );
+        field_entry *find_field( field_type_id field_type_to_find );
         /**
          * Returns a field entry corresponding to the field_type_id parameter passed in.
          * If no fields are found then nullptr is returned.
          */
-        const field_entry *find_field_c( const field_type_id field_type_to_find ) const;
+        const field_entry *find_field_c( field_type_id field_type_to_find ) const;
         /**
          * Returns a field entry corresponding to the field_type_id parameter passed in.
          * If no fields are found then nullptr is returned.
          */
-        const field_entry *find_field( const field_type_id field_type_to_find ) const;
+        const field_entry *find_field( field_type_id field_type_to_find ) const;
 
         /**
          * Inserts the given field_type_id into the field list for a given tile if it does not already exist.

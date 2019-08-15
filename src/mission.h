@@ -386,7 +386,7 @@ class mission
          * Simple setters, no checking if the values is performed. */
         /*@{*/
         void set_target( const tripoint &p );
-        void set_target_npc_id( const int npc_id );
+        void set_target_npc_id( int npc_id );
         /*@}*/
 
         /** Assigns the mission to the player. */
@@ -407,7 +407,7 @@ class mission
         /** Processes this mission. */
         void process();
         /** Called when the player talks with an NPC. May resolve mission goals, e.g. MGOAL_TALK_TO_NPC. */
-        void on_talk_with_npc( const int npc_id );
+        void on_talk_with_npc( int npc_id );
 
         // TODO: Give topics a string_id
         std::string dialogue_for_topic( const std::string &topic ) const;

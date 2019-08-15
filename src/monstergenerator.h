@@ -81,7 +81,7 @@ class MonsterGenerator
         void init_attack();
         void init_defense();
 
-        void add_hardcoded_attack( const std::string &type, const mon_action_attack f );
+        void add_hardcoded_attack( const std::string &type, mon_action_attack f );
         void add_attack( mattack_actor *ptr );
         void add_attack( const mtype_special_attack &wrapper );
 

@@ -68,10 +68,10 @@ class target_handler
                                          const target_callback &on_mode_change = target_callback(),
                                          const target_callback &on_ammo_change = target_callback() );
         // magic version of target_ui
-        std::vector<tripoint> target_ui( spell_id sp, const bool no_fail = false,
-                                         const bool no_mana = false );
-        std::vector<tripoint> target_ui( spell &casting, const bool no_fail = false,
-                                         const bool no_mana = false );
+        std::vector<tripoint> target_ui( spell_id sp, bool no_fail = false,
+                                         bool no_mana = false );
+        std::vector<tripoint> target_ui( spell &casting, bool no_fail = false,
+                                         bool no_mana = false );
 };
 
 int range_with_even_chance_of_good_hit( int dispersion );

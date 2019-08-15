@@ -56,7 +56,7 @@ class start_location
          * @param count number of fire on the map.
          */
         void burn( const tripoint &omtstart,
-                   const size_t count, const int rad ) const;
+                   size_t count, int rad ) const;
         /**
          * Adds a map extra, see map_extras.h and map_extras.cpp. Look at the namespace MapExtras and class map_extras.
          */

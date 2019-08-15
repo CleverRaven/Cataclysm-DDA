@@ -178,7 +178,7 @@ int bound_mod_to_vals( int val, int mod, int max, int min );
  *
  * @return name of unit.
  */
-const char *velocity_units( const units_type vel_units );
+const char *velocity_units( units_type vel_units );
 
 /**
  * Create a units label for a weight value.
@@ -219,7 +219,7 @@ const char *volume_units_long();
  * @returns Velocity in the user selected measurement system and in appropriate
  *          units for the object being measured.
  */
-double convert_velocity( int velocity, const units_type vel_units );
+double convert_velocity( int velocity, units_type vel_units );
 
 /**
  * Convert weight in grams to units defined by user (kg or lbs)

@@ -47,7 +47,7 @@ struct city {
     point pos;
     int size;
     std::string name;
-    city( const point &P = point_zero, const int S = -1 );
+    city( const point &P = point_zero, int S = -1 );
 
     operator bool() const {
         return size >= 0;
@@ -233,14 +233,14 @@ class overmap
          * @returns A vector of note coordinates (absolute overmap terrain
          * coordinates), or empty vector if no matching notes are found.
          */
-        std::vector<point> find_notes( const int z, const std::string &text );
+        std::vector<point> find_notes( int z, const std::string &text );
         /**
          * Return a vector containing the absolute coordinates of
          * every matching map extra on the current z level of the current overmap.
          * @returns A vector of map extra coordinates (absolute overmap terrain
          * coordinates), or empty vector if no matching map extras are found.
          */
-        std::vector<point> find_extras( const int z, const std::string &text );
+        std::vector<point> find_extras( int z, const std::string &text );
 
         /**
          * Returns whether or not the location has been generated (e.g. mapgen has run).
@@ -275,7 +275,7 @@ class overmap
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( std::shared_ptr<npc> who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
-        std::shared_ptr<npc> erase_npc( const int id );
+        std::shared_ptr<npc> erase_npc( int id );
 
         void for_each_npc( const std::function<void( npc & )> &callback );
         void for_each_npc( const std::function<void( const npc & )> &callback ) const;
@@ -334,7 +334,7 @@ class overmap
         void generate( const overmap *north, const overmap *east,
                        const overmap *south, const overmap *west,
                        overmap_special_batch &enabled_specials );
-        bool generate_sub( const int z );
+        bool generate_sub( int z );
 
         const city &get_nearest_city( const tripoint &p ) const;
 
@@ -375,14 +375,14 @@ class overmap
 
         // Connection laying
         pf::path lay_out_connection( const overmap_connection &connection, const point &source,
-                                     const point &dest, int z, const bool must_be_unexplored ) const;
+                                     const point &dest, int z, bool must_be_unexplored ) const;
         pf::path lay_out_street( const overmap_connection &connection, const point &source,
                                  om_direction::type dir, size_t len ) const;
 
         void build_connection( const overmap_connection &connection, const pf::path &path, int z,
                                const om_direction::type &initial_dir = om_direction::type::invalid );
         void build_connection( const point &source, const point &dest, int z,
-                               const overmap_connection &connection, const bool must_be_unexplored,
+                               const overmap_connection &connection, bool must_be_unexplored,
                                const om_direction::type &initial_dir = om_direction::type::invalid );
         void connect_closest_points( const std::vector<point> &points, int z,
                                      const overmap_connection &connection );
@@ -398,10 +398,10 @@ class overmap
                 const tripoint &p, bool must_be_unexplored ) const;
 
         bool can_place_special( const overmap_special &special, const tripoint &p,
-                                om_direction::type dir, const bool must_be_unexplored ) const;
+                                om_direction::type dir, bool must_be_unexplored ) const;
 
         void place_special( const overmap_special &special, const tripoint &p, om_direction::type dir,
-                            const city &cit, const bool must_be_unexplored, const bool force );
+                            const city &cit, bool must_be_unexplored, bool force );
         /**
          * Iterate over the overmap and place the quota of specials.
          * If the stated minimums are not reached, it will spawn a new nearby overmap
@@ -416,7 +416,7 @@ class overmap
          * @param place_optional restricts attempting to place specials that have met their minimum count in the first pass.
          */
         void place_specials_pass( overmap_special_batch &enabled_specials,
-                                  om_special_sectors &sectors, bool place_optional, const bool must_be_unexplored );
+                                  om_special_sectors &sectors, bool place_optional, bool must_be_unexplored );
 
         /**
          * Attempts to place specials within a sector.
@@ -425,7 +425,7 @@ class overmap
          * @param place_optional restricts attempting to place specials that have met their minimum count in the first pass.
          */
         bool place_special_attempt( overmap_special_batch &enabled_specials,
-                                    const point &sector, const int sector_width, bool place_optional, const bool must_be_unexplored );
+                                    const point &sector, int sector_width, bool place_optional, bool must_be_unexplored );
 
         void place_mongroups();
         void place_radios();
@@ -450,12 +450,12 @@ bool is_river_or_lake( const oter_id &ter );
 * @param match_type is the matching rule to use when comparing the two values.
 */
 bool is_ot_match( const std::string &name, const oter_id &oter,
-                  const ot_match_type match_type );
+                  ot_match_type match_type );
 
 /**
 * Gets a collection of sectors and their width for usage in placing overmap specials.
 * @param sector_width used to divide the OMAPX by OMAPY map into sectors.
 */
-om_special_sectors get_sectors( const int sector_width );
+om_special_sectors get_sectors( int sector_width );
 
 #endif

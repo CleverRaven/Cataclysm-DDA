@@ -252,9 +252,9 @@ class zone_data
 
         bool set_name(); // returns true if name is changed
         bool set_type(); // returns true if type is changed
-        void set_position( const std::pair<tripoint, tripoint> &position, const bool manual = true );
-        void set_enabled( const bool enabled_arg );
-        void set_is_vehicle( const bool is_vehicle_arg );
+        void set_position( const std::pair<tripoint, tripoint> &position, bool manual = true );
+        void set_enabled( bool enabled_arg );
+        void set_is_vehicle( bool is_vehicle_arg );
 
         static std::string make_type_hash( const zone_type_id &_type, const faction_id &_fac ) {
             return _type.c_str() + type_fac_hash_str + _fac.c_str();
@@ -354,7 +354,7 @@ class zone_manager
         }
 
         void add( const std::string &name, const zone_type_id &type, const faction_id &faction,
-                  const bool invert, const bool enabled,
+                  bool invert, bool enabled,
                   const tripoint &start, const tripoint &end,
                   std::shared_ptr<zone_options> options = nullptr );
         const zone_data *get_zone_at( const tripoint &where, const zone_type_id &type ) const;
@@ -394,7 +394,7 @@ class zone_manager
         cata::optional<std::string> query_name( const std::string &default_name = "" ) const;
         cata::optional<zone_type_id> query_type() const;
         void swap( zone_data &a, zone_data &b );
-        void rotate_zones( map &target_map, const int turns );
+        void rotate_zones( map &target_map, int turns );
 
         void start_sort( const std::vector<tripoint> &src_sorted );
         void end_sort();

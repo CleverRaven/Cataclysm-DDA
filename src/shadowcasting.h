@@ -106,7 +106,7 @@ template<typename T, typename Out, T( *calc )( const T &, const T &, const int &
          T( *accumulate )( const T &, const T &, const int & )>
 void castLightAll( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                    const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
-                   const int offsetX, const int offsetY, int offsetDistance = 0,
+                   int offsetX, int offsetY, int offsetDistance = 0,
                    T numerator = 1.0 );
 
 // TODO: Generalize the floor check, allow semi-transparent floors
@@ -117,6 +117,6 @@ void cast_zlight(
     const std::array<T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
     const std::array<const T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
     const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
-    const tripoint &offset, const int offset_distance, const T numerator );
+    const tripoint &offset, int offset_distance, T numerator );
 
 #endif

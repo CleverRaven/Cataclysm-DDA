@@ -354,8 +354,8 @@ class Item_factory
         //iuse stuff
         std::map<Item_tag, use_function> iuse_function_list;
 
-        void add_iuse( const std::string &type, const use_function_pointer f );
-        void add_iuse( const std::string &type, const use_function_pointer f,
+        void add_iuse( const std::string &type, use_function_pointer f );
+        void add_iuse( const std::string &type, use_function_pointer f,
                        const std::string &info );
         void add_actor( iuse_actor *ptr );
 

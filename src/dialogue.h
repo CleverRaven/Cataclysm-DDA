@@ -90,7 +90,7 @@ struct talk_effect_fun_t {
     public:
         talk_effect_fun_t() = default;
         talk_effect_fun_t( talkfunction_ptr effect );
-        talk_effect_fun_t( const std::function<void( npc & )> effect );
+        talk_effect_fun_t( std::function<void( npc & )> effect );
         talk_effect_fun_t( std::function<void( const dialogue &d )> fun );
         void set_companion_mission( const std::string &role_id );
         void set_add_effect( JsonObject jo, const std::string &member, bool is_npc = false );
@@ -120,7 +120,7 @@ struct talk_effect_fun_t {
         void set_mapgen_update( JsonObject jo, const std::string &member );
         void set_bulk_trade_accept( bool is_trade, bool is_npc = false );
         void set_npc_gets_item( bool to_use );
-        void set_add_mission( const std::string mission_id );
+        void set_add_mission( std::string mission_id );
 
         void operator()( const dialogue &d ) const {
             if( !function ) {
@@ -260,7 +260,7 @@ struct dialogue {
          * this topic to the front of the responses.
          */
         talk_response &add_response( const std::string &text, const std::string &r,
-                                     const bool first = false );
+                                     bool first = false );
         /**
          * Add a response with the result TALK_DONE.
          */
@@ -274,7 +274,7 @@ struct dialogue {
          * action. The response always succeeds. Consequence is based on function used.
          */
         talk_response &add_response( const std::string &text, const std::string &r,
-                                     dialogue_fun_ptr effect_success, const bool first = false );
+                                     dialogue_fun_ptr effect_success, bool first = false );
 
         /**
          * Add a simple response that switches the topic to the new one and executes the given
@@ -282,31 +282,31 @@ struct dialogue {
          */
         talk_response &add_response( const std::string &text, const std::string &r,
                                      std::function<void( npc & )> effect_success,
-                                     dialogue_consequence consequence, const bool first = false );
+                                     dialogue_consequence consequence, bool first = false );
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
          * talked about mission to the given one. The mission pointer must be valid.
          */
         talk_response &add_response( const std::string &text, const std::string &r, mission *miss,
-                                     const bool first = false );
+                                     bool first = false );
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
          * talked about skill to the given one.
          */
         talk_response &add_response( const std::string &text, const std::string &r, const skill_id &skill,
-                                     const bool first = false );
+                                     bool first = false );
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
          * talked about martial art style to the given one.
          */
         talk_response &add_response( const std::string &text, const std::string &r,
-                                     const martialart &style, const bool first = false );
+                                     const martialart &style, bool first = false );
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
          * talked about item type to the given one.
          */
         talk_response &add_response( const std::string &text, const std::string &r,
-                                     const itype_id &item_type, const bool first = false );
+                                     const itype_id &item_type, bool first = false );
 };
 
 /**

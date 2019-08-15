@@ -147,7 +147,7 @@ extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
 extern int OVERMAP_WINDOW_WIDTH; // width of overmap window
 extern int OVERMAP_WINDOW_HEIGHT; // height of overmap window
 
-nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg = false );
+nc_color msgtype_to_color( game_message_type type, bool bOldMsg = false );
 
 /**
  * @anchor color_tags
@@ -210,7 +210,7 @@ std::string remove_color_tags( const std::string &text );
  * @return A vector of lines, it may contain empty strings. Each entry is at most `width`
  * console cells width.
  */
-std::vector<std::string> foldstring( const std::string &str, int width, const char split = ' ' );
+std::vector<std::string> foldstring( const std::string &str, int width, char split = ' ' );
 
 /**
  * Print text with embedded @ref color_tags, x, y are in curses system.
@@ -257,7 +257,7 @@ int print_scrollable( const catacurses::window &w, int begin_line, const std::st
  * the height of the window.
  */
 int fold_and_print( const catacurses::window &w, const point &begin, int width,
-                    const nc_color &base_color, const std::string &mes, const char split = ' ' );
+                    const nc_color &base_color, const std::string &mes, char split = ' ' );
 /**
  * Same as other @ref fold_and_print, but does string formatting via @ref string_format.
  */
@@ -319,7 +319,7 @@ inline void trim_and_print( const catacurses::window &w, const point &begin,
                            std::forward<Args>( args )... ) );
 }
 void center_print( const catacurses::window &w, int y, const nc_color &FG, const std::string &mes );
-int right_print( const catacurses::window &w, const int line, const int right_indent,
+int right_print( const catacurses::window &w, int line, int right_indent,
                  const nc_color &FG, const std::string &mes );
 void display_table( const catacurses::window &w, const std::string &title, int columns,
                     const std::vector<std::string> &data );
@@ -365,7 +365,7 @@ void draw_custom_border(
 void draw_border( const catacurses::window &w, nc_color border_color = BORDER_COLOR,
                   const std::string &title = "", nc_color title_color = c_light_red );
 
-std::string word_rewrap( const std::string &ins, int width, const uint32_t split = ' ' );
+std::string word_rewrap( const std::string &ins, int width, uint32_t split = ' ' );
 std::vector<size_t> get_tag_positions( const std::string &s );
 std::vector<std::string> split_by_color( const std::string &s );
 
@@ -436,7 +436,7 @@ inline void popup_nowait( const char *mes, Args &&... args )
 {
     popup( string_format( mes, std::forward<Args>( args )... ), PF_NO_WAIT );
 }
-void popup_status( const char *const title, const std::string &mes );
+void popup_status( const char *title, const std::string &mes );
 template<typename ...Args>
 inline void popup_status( const char *const title, const char *const mes, Args &&... args )
 {
@@ -471,16 +471,16 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
 input_event draw_item_info( const catacurses::window &win, const std::string &sItemName,
                             const std::string &sTypeName,
                             const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
-                            int &selected, const bool without_getch = false, const bool without_border = false,
-                            const bool handle_scrolling = false, const bool scrollbar_left = true,
-                            const bool use_full_win = false, const unsigned int padding = 1 );
+                            int &selected, bool without_getch = false, bool without_border = false,
+                            bool handle_scrolling = false, bool scrollbar_left = true,
+                            bool use_full_win = false, unsigned int padding = 1 );
 
-input_event draw_item_info( const int iLeft, int iWidth, const int iTop, const int iHeight,
+input_event draw_item_info( int iLeft, int iWidth, int iTop, int iHeight,
                             const std::string &sItemName, const std::string &sTypeName,
                             const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
-                            int &selected, const bool without_getch = false, const bool without_border = false,
-                            const bool handle_scrolling = false, const bool scrollbar_left = true,
-                            const bool use_full_win = false, const unsigned int padding = 1 );
+                            int &selected, bool without_getch = false, bool without_border = false,
+                            bool handle_scrolling = false, bool scrollbar_left = true,
+                            bool use_full_win = false, unsigned int padding = 1 );
 
 enum class item_filter_type : int {
     FIRST = 1, // used for indexing into tables
@@ -549,7 +549,7 @@ std::pair<std::string, nc_color> get_hp_bar( int cur_hp, int max_hp, bool is_mon
 
 std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam );
 
-std::pair<std::string, nc_color> get_light_level( const float light );
+std::pair<std::string, nc_color> get_light_level( float light );
 
 /**
  * @return String containing the bar. Example: "Label [********    ]".
@@ -670,7 +670,7 @@ std::string enumerate_as_string( _FIter first, _FIter last, _Predicate pred,
  * @param label Label before the bar. Can be empty.
  * @param c Character to fill the bar with.
  */
-std::string get_labeled_bar( const double val, const int width, const std::string &label, char c );
+std::string get_labeled_bar( double val, int width, const std::string &label, char c );
 
 void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sText,
                bool bSelected );
@@ -678,11 +678,11 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &
                   bool bSelected,
                   bool bDecorate = true, bool bDisabled = false );
 // Legacy function, use class scrollbar instead!
-void draw_scrollbar( const catacurses::window &window, const int iCurrentLine,
-                     const int iContentHeight, const int iNumLines, const int iOffsetY = 0, const int iOffsetX = 0,
-                     nc_color bar_color = c_white, const bool bDoNotScrollToEnd = false );
-void calcStartPos( int &iStartPos, const int iCurrentLine, const int iContentHeight,
-                   const int iNumEntries );
+void draw_scrollbar( const catacurses::window &window, int iCurrentLine,
+                     int iContentHeight, int iNumLines, int iOffsetY = 0, int iOffsetX = 0,
+                     nc_color bar_color = c_white, bool bDoNotScrollToEnd = false );
+void calcStartPos( int &iStartPos, int iCurrentLine, int iContentHeight,
+                   int iNumEntries );
 
 class scrollbar
 {
@@ -742,9 +742,9 @@ class scrollingcombattext
                 bool iso_mode;
 
             public:
-                cSCT( const int p_iPosX, const int p_iPosY, direction p_oDir,
-                      const std::string &p_sText, const game_message_type p_gmt,
-                      const std::string &p_sText2 = "", const game_message_type p_gmt2 = m_neutral,
+                cSCT( int p_iPosX, int p_iPosY, direction p_oDir,
+                      const std::string &p_sText, game_message_type p_gmt,
+                      const std::string &p_sText2 = "", game_message_type p_gmt2 = m_neutral,
                       const std::string &p_sType = "" );
 
                 int getStep() const {
@@ -779,9 +779,9 @@ class scrollingcombattext
 
         std::vector<cSCT> vSCT;
 
-        void add( const int p_iPosX, const int p_iPosY, const direction p_oDir,
-                  const std::string &p_sText, const game_message_type p_gmt,
-                  const std::string &p_sText2 = "", const game_message_type p_gmt2 = m_neutral,
+        void add( int p_iPosX, int p_iPosY, direction p_oDir,
+                  const std::string &p_sText, game_message_type p_gmt,
+                  const std::string &p_sText2 = "", game_message_type p_gmt2 = m_neutral,
                   const std::string &p_sType = "" );
         void advanceAllSteps();
         void removeCreatureHP();

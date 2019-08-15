@@ -134,7 +134,7 @@ time_duration year_length();
 
 /** @returns Time of a season (configured in current world settings) */
 time_duration season_length();
-void set_season_length( const int dur );
+void set_season_length( int dur );
 
 /// @returns relative length of game season to real life season.
 float season_ratio();
@@ -186,15 +186,15 @@ template<typename T>
 constexpr T to_turn( const time_point &point );
 
 template<typename T>
-constexpr time_duration operator/( const time_duration &lhs, const T rhs );
+constexpr time_duration operator/( const time_duration &lhs, T rhs );
 template<typename T>
-inline time_duration &operator/=( time_duration &lhs, const T rhs );
+inline time_duration &operator/=( time_duration &lhs, T rhs );
 template<typename T>
-constexpr time_duration operator*( const time_duration &lhs, const T rhs );
+constexpr time_duration operator*( const time_duration &lhs, T rhs );
 template<typename T>
-constexpr time_duration operator*( const T lhs, const time_duration &rhs );
+constexpr time_duration operator*( T lhs, const time_duration &rhs );
 template<typename T>
-inline time_duration &operator*=( time_duration &lhs, const T rhs );
+inline time_duration &operator*=( time_duration &lhs, T rhs );
 
 /**
  * A duration defined as a number of specific time units.

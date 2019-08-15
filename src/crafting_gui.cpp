@@ -49,8 +49,8 @@ std::map<std::string, std::vector<std::string> > craft_subcat_list;
 std::map<std::string, std::string> normalized_names;
 
 static bool query_is_yes( const std::string &query );
-static void draw_hidden_amount( const catacurses::window &w, const int margin_y, int amount );
-static void draw_can_craft_indicator( const catacurses::window &w, const int margin_y,
+static void draw_hidden_amount( const catacurses::window &w, int margin_y, int amount );
+static void draw_can_craft_indicator( const catacurses::window &w, int margin_y,
                                       const recipe &rec );
 static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab,
                               TAB_MODE mode = NORMAL );

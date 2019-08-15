@@ -236,7 +236,7 @@ struct jmapgen_objects {
 
         jmapgen_objects( const point &offset, const point &mapsize );
 
-        bool check_bounds( const jmapgen_place place, JsonObject &jso );
+        bool check_bounds( jmapgen_place place, JsonObject &jso );
 
         void add( const jmapgen_place &place, std::shared_ptr<const jmapgen_piece> piece );
 
@@ -426,7 +426,7 @@ void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgend
 bool connects_to( const oter_id &there, int dir );
 void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down = false );
 // wrappers for map:: functions
-void line( map *m, const ter_id type, int x1, int y1, int x2, int y2 );
+void line( map *m, ter_id type, int x1, int y1, int x2, int y2 );
 void line_furn( map *m, furn_id type, int x1, int y1, int x2, int y2 );
 void fill_background( map *m, ter_id type );
 void fill_background( map *m, ter_id( *f )() );

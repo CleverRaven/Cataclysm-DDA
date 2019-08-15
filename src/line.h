@@ -47,7 +47,7 @@ inline constexpr unsigned make_xyz_unit( const int x, const int y, const int z )
 }
 
 // This more general version of this function gives correct values for larger inputs.
-unsigned make_xyz( const int x, const int y, const int z );
+unsigned make_xyz( int x, int y, int z );
 
 enum direction : unsigned {
     ABOVENORTHWEST = make_xyz_unit( -1, -1, -1 ),
@@ -96,13 +96,13 @@ std::string direction_suffix( const tripoint &p, const tripoint &q );
  * The actual Bresenham algorithm in 2D and 3D, everything else should call these
  * and pass in an interact functor to iterate across a line between two points.
  */
-void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
+void bresenham( int x1, int y1, int x2, int y2, int t,
                 const std::function<bool( const point & )> &interact );
 void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 const std::function<bool( const tripoint & )> &interact );
 
 tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line,
-                          const int distance );
+                          int distance );
 // The "t" value decides WHICH Bresenham line is used.
 std::vector<point> line_to( int x1, int y1, int x2, int y2, int t = 0 );
 std::vector<point> line_to( const point &p1, const point &p2, int t = 0 );

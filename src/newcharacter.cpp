@@ -184,9 +184,9 @@ tab_direction set_points( const catacurses::window &w, avatar &u, points_left &p
 tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &points );
 tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &points );
 tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left &points,
-                            const tab_direction direction );
+                            tab_direction direction );
 tab_direction set_profession( const catacurses::window &w, avatar &u, points_left &points,
-                              const tab_direction direction );
+                              tab_direction direction );
 tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &points );
 tab_direction set_description( const catacurses::window &w, avatar &you, bool allow_reroll,
                                points_left &points );

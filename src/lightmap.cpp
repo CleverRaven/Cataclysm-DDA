@@ -668,10 +668,10 @@ void cast_zlight_segment(
     const std::array<T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
     const std::array<const T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
     const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
-    const tripoint &offset, const int offset_distance,
-    const T numerator = 1.0f, const int row = 1,
-    float start_major = 0.0f, const float end_major = 1.0f,
-    float start_minor = 0.0f, const float end_minor = 1.0f,
+    const tripoint &offset, int offset_distance,
+    T numerator = 1.0f, int row = 1,
+    float start_major = 0.0f, float end_major = 1.0f,
+    float start_minor = 0.0f, float end_minor = 1.0f,
     T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
 
 template<int xx, int xy, int xz, int yx, int yy, int yz, int zz, typename T,
@@ -942,9 +942,9 @@ template<int xx, int xy, int yx, int yy, typename T, typename Out,
          T( *accumulate )( const T &, const T &, const int & )>
 void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                 const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
-                const int offsetX, const int offsetY, const int offsetDistance,
-                const T numerator = 1.0,
-                const int row = 1, float start = 1.0f, const float end = 0.0f,
+                int offsetX, int offsetY, int offsetDistance,
+                T numerator = 1.0,
+                int row = 1, float start = 1.0f, float end = 0.0f,
                 T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
 
 template<int xx, int xy, int yx, int yy, typename T, typename Out,

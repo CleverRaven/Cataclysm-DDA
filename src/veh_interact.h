@@ -118,8 +118,8 @@ class veh_interact
          * @param header number of lines reserved for list header.
          * @return false if the action is not a move action, the index is not changed in this case.
          */
-        bool move_in_list( int &pos, const std::string &action, const int size,
-                           const int header = 0 ) const;
+        bool move_in_list( int &pos, const std::string &action, int size,
+                           int header = 0 ) const;
         void move_fuel_cursor( int delta );
 
         /**
@@ -149,7 +149,7 @@ class veh_interact
         void display_stats() const;
         void display_name();
         void display_mode();
-        void display_list( size_t pos, const std::vector<const vpart_info *> &list, const int header = 0 );
+        void display_list( size_t pos, const std::vector<const vpart_info *> &list, int header = 0 );
         void display_details( const vpart_info *part );
         size_t display_esc( const catacurses::window &win );
 

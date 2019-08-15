@@ -125,7 +125,7 @@ class mod_manager
          * @returns path of a file in the world folder that contains
          * the list of mods that should be loaded for this world.
          */
-        static std::string get_mods_list_file( const WORLDPTR world );
+        static std::string get_mods_list_file( WORLDPTR world );
         /**
          * Load all modinfo.json files (recursively) from the
          * given root.

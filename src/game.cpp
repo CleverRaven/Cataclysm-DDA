@@ -272,9 +272,7 @@ game::game() :
     remoteveh_cache_time( calendar::before_time_starts ),
     user_action_counter( 0 ),
     tileset_zoom( DEFAULT_TILESET_ZOOM ),
-    last_mouse_edge_scroll( std::chrono::steady_clock::now() ),
-    last_mouse_edge_scroll_vector_terrain( tripoint_zero ),
-    last_mouse_edge_scroll_vector_overmap( tripoint_zero )
+    last_mouse_edge_scroll( std::chrono::steady_clock::now() )
 {
     player_was_sleeping = false;
     reset_light_level();
