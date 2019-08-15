@@ -332,6 +332,18 @@ class advanced_inventory
         ~advanced_inventory();
 
         void display();
+
+        /**
+         * Converts from screen relative location to game-space relative location
+         * for control rotation in isometric mode.
+        */
+        static aim_location screen_relative_location( aim_location area );
+
+        static char get_location_key( aim_location area );
+
+        advanced_inv_area &get_one_square( const aim_location &loc ) {
+            return squares[loc];
+        }
     private:
         /**
          * Refers to the two panes, used as index into @ref panes.
@@ -457,16 +469,7 @@ class advanced_inventory
         bool query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
                             const std::string &action, int &amount );
 
-        void menu_square( uilist &menu );
-
-        static char get_location_key( aim_location area );
         static char get_direction_key( aim_location area );
-
-        /**
-         * Converts from screen relative location to game-space relative location
-         * for control rotation in isometric mode.
-        */
-        static aim_location screen_relative_location( aim_location area );
 };
 
 #endif
