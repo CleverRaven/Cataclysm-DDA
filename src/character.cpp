@@ -1115,8 +1115,11 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 return VisitResponse::SKIP;
             }
             if( !node->made_of( SOLID ) ) {
-                // some liquids are ammo but we can't reload with them unless within a container
+                // some liquids are ammo but we can't reload with them unless within a container or frozen
                 return VisitResponse::SKIP;
+            }
+            if( node->is_frozen_liquid() ) {
+                out = item_location( src, node );
             }
             if( node->is_ammo_container() && !node->contents.empty() &&
                 !node->contents_made_of( SOLID ) ) {

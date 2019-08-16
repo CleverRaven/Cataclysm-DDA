@@ -2162,7 +2162,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     amount = input_amount;
 
     // Includes moving from/to inventory and around on the map.
-    if( it.made_of_from_type( LIQUID ) ) {
+    if( it.made_of_from_type( LIQUID ) && !it.is_frozen_liquid() ) {
         popup( _( "You can't pick up a liquid." ) );
         redraw = true;
         return false;

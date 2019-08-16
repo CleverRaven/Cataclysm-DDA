@@ -1084,6 +1084,10 @@ class item : public visitable<item>
         bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
 
         bool has_temperature() const;
+
+        /** Returns true if the item is A: is SOLID and if it B: is of type LIQUID */
+        bool is_frozen_liquid() const;
+
         float get_specific_heat_liquid() const;
         float get_specific_heat_solid() const;
         float get_latent_heat() const;
