@@ -1207,6 +1207,24 @@ class jmapgen_monster : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mdensity*/, mission *miss = nullptr ) const override {
+
+            int raw_odds = chance.get();
+
+            // Handle spawn density: Increase odds, but don't let the odds of absence go below half the odds at density 1.
+            // Instead, apply a multipler to the number of monsters for really high densities.
+            // For example, a 50% chance at spawn density 4 becomes a 75% chance of ~2.7 monsters.
+            int odds_after_density = raw_odds * get_option<float>( "SPAWN_DENSITY" ) ;
+            int max_odds = 100 - ( 100 - raw_odds ) / 2;
+            float density_multiplier = 1;
+            if( odds_after_density > max_odds ) {
+                density_multiplier = 1.0f * odds_after_density / max_odds;
+                odds_after_density = max_odds;
+            }
+
+            if( !x_in_y( odds_after_density, 100 ) ) {
+                return;
+            }
+
             int mission_id = -1;
             if( miss && target ) {
                 mission_id = miss->get_id();
@@ -1214,25 +1232,9 @@ class jmapgen_monster : public jmapgen_piece
 
             if( m_id != mongroup_id::NULL_ID() ) {
                 // Spawn single monster from a group
-                dat.m.place_spawns( m_id, chance.get() / 100, x.val, y.val, x.valmax, y.valmax, 1.0f, true, false,
+                dat.m.place_spawns( m_id, 1, x.val, y.val, x.valmax, y.valmax, 1.0f, true, false,
                                     name, mission_id );
             } else {
-                int raw_odds = chance.get();
-
-                // Handle spawn density: Increase odds, but don't let the odds of absence go below half the odds at density 1.
-                // Instead, apply a multipler to the number of monsters for really high densities.
-                // For example, a 50% chance at spawn density 4 becomes a 75% chance of ~2.7 monsters.
-                int odds_after_density = raw_odds * get_option<float>( "SPAWN_DENSITY" ) ;
-                int max_odds = 100 - ( 100 - raw_odds ) / 2;
-                float density_multiplier = 1;
-                if( odds_after_density > max_odds ) {
-                    density_multiplier = 1.0f * odds_after_density / max_odds;
-                    odds_after_density = max_odds;
-                }
-
-                if( !x_in_y( odds_after_density, 100 ) ) {
-                    return;
-                }
                 int spawn_count = roll_remainder( density_multiplier );
 
                 if( one_or_none ) { // don't let high spawn density alone cause more than 1 to spawn.

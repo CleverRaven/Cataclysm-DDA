@@ -362,16 +362,18 @@ The arguments are exactly the same as "line", but "x", "y" and "x2", "y2" define
 
 | Identifier | Description
 |---         |---
-| monster   | ID of the monster to spawn.
-| group   | ID of the monster group from which the spawned monster is selected. `monster` and `group` should not be used together. `group` will act over `monster`.
+| monster | ID of the monster to spawn.
+| group | ID of the monster group from which the spawned monster is selected. `monster` and `group` should not be used together. `group` will act over `monster`.
 | x, y  | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or [ 0-23, 0-23 ] - random point between [ a, b ]. When using a range, the minimum and maximum values will be used in creating rectangle coordinates to be used by map::place_spawns. Each monster generated from the monster group will be placed in a different random location within the rectangle. Example: "x": 12, "y": [ 5, 15 ] These values will produce a rectangle for map::place_spawns from ( 12, 5 ) to ( 12, 15 ) inclusive.
-| chance | Percentage chance to do spawning. Ignored when spawning from a group.
+| chance | Percentage chance to do spawning.
 | repeat | The spawning is repeated
 | pack_size | How many monsters are spawned. Can be single number or range like [1-4]. Ignored when spawning from a group.
-| one_or_none | Do not allow more than one to spawn. Boolean. If repeat is not defined or pack size is defined this is true.
+| one_or_none | Do not allow more than one to spawn. Boolean. If repeat is not defined or pack size is defined this is true. Ignored when spawning from a group.
 | friendly | Make the monster friendly. Default false.
 | name | Extra name to display on the monster.
 |target | Set to true to make this into mission target. Only works when the monster is spawned from a mission.
+
+Note that spawn density can cause extra monsters to spawn when `monster` is used. When `group` is used only one monster will spawn.
 
 Example: `"place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]`  
 This places a single random monster from group "GROUP_REFUGEE_BOSS_ZOMBIE", sets the name to "Sean McLaughlin", spawns the monster at coordinate (10, 10) and also sets the monster as the target of this mission.
