@@ -313,7 +313,7 @@ class Character : public Creature, public visitable<Character>
         int encumb( body_part bp ) const;
 
         /** Returns body weight plus weight of inventory and worn/wielded items */
-        units::mass get_weight() const;
+        units::mass get_weight() const override;
         /** Get encumbrance for all body parts. */
         std::array<encumbrance_data, num_bp> get_encumbrance() const;
         /** Get encumbrance for all body parts as if `new_item` was also worn. */

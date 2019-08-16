@@ -104,7 +104,7 @@ class monster : public Creature
         void try_biosignature();
         void spawn( const tripoint &p );
         m_size get_size() const override;
-        units::mass get_weight() const;
+        units::mass get_weight() const override;
         units::volume get_volume() const;
         int get_hp( hp_part ) const override;
         int get_hp() const override;
