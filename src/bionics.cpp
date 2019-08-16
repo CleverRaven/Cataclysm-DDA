@@ -284,8 +284,9 @@ bool player::activate_bionic( int b, bool eff_only )
                 int temp = std::stoi( get_value( fuel ) );
                 if( temp > 0 ) {
                     temp -= 1;
-                    charge_power( tmp_fuel.fuel_energy() );
+                    charge_power( tmp_fuel.fuel_energy() * ( bio.info().fuel_efficiency / 100 ) );
                     set_value( fuel, std::to_string( temp ) );
+                    update_fuel_storage( item( fuel ) );
                 }
             }
         }
@@ -893,6 +894,7 @@ void player::process_bionic( int b )
                     temp -= 1;
                     charge_power( tmp_fuel.fuel_energy() * ( bio.info().fuel_efficiency / 100 ) );
                     set_value( fuel, std::to_string( temp ) );
+                    update_fuel_storage( item( fuel ) );
                 } else {
                     remove_value( fuel );
                     add_msg_player_or_npc( m_info, _( "Your %s runs out of fuel and turn off." ),
