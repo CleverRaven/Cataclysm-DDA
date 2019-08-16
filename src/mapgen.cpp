@@ -1127,29 +1127,18 @@ class jmapgen_monster_group : public jmapgen_piece
         mongroup_id id;
         float density;
         jmapgen_int chance;
-        bool target;
-        bool individual;
-        std::string name;
         jmapgen_monster_group( JsonObject &jsi ) :
             id( jsi.get_string( "monster" ) )
             , density( jsi.get_float( "density", -1.0f ) )
-            , chance( jsi, "chance", 1, 1 )
-            , target( jsi.get_bool( "target", false ) )
-            , individual( jsi.get_bool( "individual", false ) )
-            , name( jsi.get_string( "name", "NONE" ) ) {
+            , chance( jsi, "chance", 1, 1 ) {
             if( !id.is_valid() ) {
                 set_mapgen_defer( jsi, "monster", "no such monster group" );
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float mdensity, mission *miss = nullptr ) const override {
-            int mission_id = -1;
-            if( miss && target ) {
-                mission_id = miss->get_id();
-            }
-
+                    const float mdensity, mission * ) const override {
             dat.m.place_spawns( id, chance.get(), x.val, y.val, x.valmax, y.valmax,
-                                density == -1.0f ? mdensity : density, individual, false, name, mission_id );
+                                density == -1.0f ? mdensity : density );
         }
 };
 /**
@@ -1168,6 +1157,7 @@ class jmapgen_monster : public jmapgen_piece
 {
     public:
         weighted_int_list<mtype_id> ids;
+		mongroup_id m_id;
         jmapgen_int chance;
         jmapgen_int pack_size;
         bool one_or_none;
@@ -1182,7 +1172,13 @@ class jmapgen_monster : public jmapgen_piece
             , friendly( jsi.get_bool( "friendly", false ) )
             , name( jsi.get_string( "name", "NONE" ) )
             , target( jsi.get_bool( "target", false ) ) {
-            if( jsi.has_array( "monster" ) ) {
+            if( jsi.has_string( "group" ) ) {
+				m_id = mongroup_id( jsi.get_string( "group" ) );
+				if( !m_id.is_valid() ) {
+                    set_mapgen_defer( jsi, "group", "no such monster group" );
+                    return;
+                }
+			} else if( jsi.has_array( "monster" ) ) {
                 JsonArray jarr = jsi.get_array( "monster" );
                 while( jarr.has_more() ) {
                     mtype_id id;
@@ -1211,37 +1207,43 @@ class jmapgen_monster : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mdensity*/, mission *miss = nullptr ) const override {
-            int raw_odds = chance.get();
-
-            // Handle spawn density: Increase odds, but don't let the odds of absence go below half the odds at density 1.
-            // Instead, apply a multipler to the number of monsters for really high densities.
-            // For example, a 50% chance at spawn density 4 becomes a 75% chance of ~2.7 monsters.
-            int odds_after_density = raw_odds * get_option<float>( "SPAWN_DENSITY" ) ;
-            int max_odds = 100 - ( 100 - raw_odds ) / 2;
-            float density_multiplier = 1;
-            if( odds_after_density > max_odds ) {
-                density_multiplier = 1.0f * odds_after_density / max_odds;
-                odds_after_density = max_odds;
-            }
-
-            if( !x_in_y( odds_after_density, 100 ) ) {
-                return;
-            }
-            int spawn_count = roll_remainder( density_multiplier );
-
-            if( one_or_none ) { // don't let high spawn density alone cause more than 1 to spawn.
-                spawn_count = std::min( spawn_count, 1 );
-            }
-            if( raw_odds == 100 ) { // don't spawn less than 1 if odds were 100%, even with low spawn density.
-                spawn_count = std::max( spawn_count, 1 );
-            }
             int mission_id = -1;
             if( miss && target ) {
                 mission_id = miss->get_id();
             }
+			
+			if( m_id ) {
+				// Spawn single monster from a group
+				dat.m.place_spawns( m_id, chance.get() / 100, x.val, y.val, x.valmax, y.valmax, 1.0f, true, false, name, mission_id );
+			} else {
+				int raw_odds = chance.get();
 
-            dat.m.add_spawn( *( ids.pick() ), spawn_count * pack_size.get(), x.get(), y.get(),
+				// Handle spawn density: Increase odds, but don't let the odds of absence go below half the odds at density 1.
+				// Instead, apply a multipler to the number of monsters for really high densities.
+				// For example, a 50% chance at spawn density 4 becomes a 75% chance of ~2.7 monsters.
+				int odds_after_density = raw_odds * get_option<float>( "SPAWN_DENSITY" ) ;
+				int max_odds = 100 - ( 100 - raw_odds ) / 2;
+				float density_multiplier = 1;
+				if( odds_after_density > max_odds ) {
+					density_multiplier = 1.0f * odds_after_density / max_odds;
+					odds_after_density = max_odds;
+				}
+
+				if( !x_in_y( odds_after_density, 100 ) ) {
+					return;
+				}
+				int spawn_count = roll_remainder( density_multiplier );
+
+				if( one_or_none ) { // don't let high spawn density alone cause more than 1 to spawn.
+					spawn_count = std::min( spawn_count, 1 );
+				}
+				if( raw_odds == 100 ) { // don't spawn less than 1 if odds were 100%, even with low spawn density.
+					spawn_count = std::max( spawn_count, 1 );
+				}
+				
+				dat.m.add_spawn( *( ids.pick() ), spawn_count * pack_size.get(), x.get(), y.get(),
                              friendly, -1, mission_id, name );
+			}
         }
 };
 
