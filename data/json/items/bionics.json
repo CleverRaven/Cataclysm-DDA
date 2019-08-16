@@ -987,7 +987,6 @@
     "name": "Pieces Of Junk",
     "plural_name": "Pieces of Junk",
     "description": "A jumble of broken metal pieces that were removed during reconstructive surgery.",
-    "weight": 500,
     "difficulty": 5
   },
   {
@@ -1077,7 +1076,6 @@
     "type": "BIONIC_ITEM",
     "name": "Power Overload",
     "description": "A bunch of defective power circuits that are prone to short-circuiting.",
-    "weight": 500,
     "difficulty": 7
   },
   {
@@ -1086,7 +1084,6 @@
     "type": "BIONIC_ITEM",
     "name": "Bionic Short Circuit",
     "description": "This bionic is poorly wired and occasionally short-circuits.",
-    "weight": 500,
     "difficulty": 7
   },
   {
