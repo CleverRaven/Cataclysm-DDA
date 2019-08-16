@@ -31,22 +31,22 @@ season_type calendar::initial_season = SPRING;
 // Times for sunrise, sunset at equinoxes
 
 /** Hour of sunrise at winter solstice */
-#define SUNRISE_WINTER   7
-
-/** Hour of sunrise at fall and spring equinox */
-#define SUNRISE_EQUINOX 6
+static constexpr int sunrise_winter = 7;
 
 /** Hour of sunrise at summer solstice */
-#define SUNRISE_SUMMER   5
+static constexpr int sunrise_summer = 5;
+
+/** Hour of sunrise at fall and spring equinox */
+static constexpr int sunrise_equinox = ( sunrise_summer + sunrise_winter ) / 2;
 
 /** Hour of sunset at winter solstice */
-#define SUNSET_WINTER   17
-
-/** Hour of sunset at fall and spring equinox */
-#define SUNSET_EQUINOX 19
+static constexpr int sunset_winter = 17;
 
 /** Hour of sunset at summer solstice */
-#define SUNSET_SUMMER   21
+static constexpr int sunset_summer = 21;
+
+/** Hour of sunset at fall and spring equinox */
+static constexpr int sunset_equinox = ( sunset_summer + sunset_winter ) / 2;
 
 // How long, does sunrise/sunset last?
 static const time_duration twilight_duration = 1_hours;
@@ -68,7 +68,7 @@ time_point sunrise( const time_point &p )
     static_assert( static_cast<int>( SPRING ) == 0,
                    "Expected spring to be the first season. If not, code below will use wrong index into array" );
 
-    static const std::array<int, 4> start_hours = { { SUNRISE_EQUINOX, SUNRISE_SUMMER, SUNRISE_EQUINOX, SUNRISE_WINTER, } };
+    static const std::array<int, 4> start_hours = { { sunrise_equinox, sunrise_summer, sunrise_equinox, sunrise_winter, } };
     const size_t season = static_cast<size_t>( season_of_year( p ) );
     assert( season < start_hours.size() );
 
@@ -88,7 +88,7 @@ time_point sunset( const time_point &p )
     static_assert( static_cast<int>( SPRING ) == 0,
                    "Expected spring to be the first season. If not, code below will use wrong index into array" );
 
-    static const std::array<int, 4> start_hours = { { SUNSET_EQUINOX, SUNSET_SUMMER, SUNSET_EQUINOX, SUNSET_WINTER } };
+    static const std::array<int, 4> start_hours = { { sunset_equinox, sunset_summer, sunset_equinox, sunset_winter, } };
     const size_t season = static_cast<size_t>( season_of_year( p ) );
     assert( season < start_hours.size() );
 
