@@ -186,6 +186,11 @@ static void CheckCall( UsePointApisCheck &Check, const MatchFinder::MatchResult 
     // Construct range to be replaced
     while( isa<CXXDefaultArgExpr>( Call->getArg( MaxArg ) ) ) {
         --MaxArg;
+        if( MaxArg == UINT_MAX ) {
+            // We underflowed; that means every argument was defaulted.  In
+            // this case, we don't want to change the call at all
+            return;
+        }
     }
     SourceRange SourceRangeToReplace( Call->getArg( MinArg )->getBeginLoc(),
                                       Call->getArg( MaxArg )->getEndLoc() );

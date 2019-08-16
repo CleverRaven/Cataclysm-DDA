@@ -173,3 +173,11 @@ int g15()
     // CHECK-MESSAGES: warning: Call to 'f15' could instead call overload using a point parameter. [cata-use-point-apis]
     // CHECK-FIXES: return f15( point( 0, 1 ) );
 }
+
+int f16( int x = 0, int y = 0 );
+int f16( const point &p );
+
+int g16()
+{
+    return f16();
+}
