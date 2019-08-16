@@ -1237,8 +1237,8 @@ class map
         }
         void place_spawns( const mongroup_id &group, const int chance,
                            const int x1, const int y1, const int x2, const int y2, const float intensity,
-                           const bool individual = false, const bool friendly = false, const std::string name = "NONE",
-                           const int mission_id = -1 );
+                           const bool individual = false, const bool friendly = false, const std::string &name = "NONE",
+                           const int &mission_id = -1 );
         void place_gas_pump( int x, int y, int charges );
         void place_gas_pump( int x, int y, int charges, const std::string &fuel_type );
         // 6 liters at 250 ml per charge
