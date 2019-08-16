@@ -5695,7 +5695,6 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "time": "1 m",
-    "qualities": [ { "id": "SMOOTH_FINE", "level": 1 } ],
     "autolearn": true,
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
@@ -5709,7 +5708,6 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "time": "1 m",
-    "qualities": [ { "id": "SMOOTH_FINE", "level": 1 } ],
     "autolearn": true,
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
@@ -5724,7 +5722,6 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "time": "1 m",
-    "qualities": [ { "id": "SMOOTH_FINE", "level": 1 } ],
     "autolearn": true,
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
@@ -5739,7 +5736,6 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "time": "1 m",
-    "qualities": [ { "id": "SMOOTH_FINE", "level": 1 } ],
     "autolearn": true,
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
@@ -5769,7 +5765,6 @@
     "skill_used": "cooking",
     "time": "1 m",
     "book_learn": [ [ "mag_glam", 1 ] ],
-    "qualities": [ { "id": "SMOOTH_FINE", "level": 1 } ],
     "components": [
       [ [ "flatbread", 1 ], [ "bread", 1 ], [ "cornbread", 1 ], [ "wastebread", 1 ], [ "sourdough_bread", 1 ] ],
       [ [ "butter", 4 ], [ "ghee", 4 ] ],
@@ -6835,7 +6830,6 @@
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
     "time": "1 m",
-    "qualities": [ { "id": "SMOOTH_FINE", "level": 1 } ],
     "autolearn": true,
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
@@ -6849,7 +6843,6 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "time": "1 m",
-    "qualities": [ { "id": "SMOOTH_FINE", "level": 1 } ],
     "autolearn": true,
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
@@ -6863,7 +6856,6 @@
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
     "time": "1 m",
-    "qualities": [ { "id": "SMOOTH_FINE", "level": 1 } ],
     "autolearn": true,
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
