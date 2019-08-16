@@ -240,5 +240,62 @@
       "PATH_AVOID_DANGER_2",
       "PRIORITIZE_TARGETS"
     ]
+  },
+  {
+    "id": "mon_mi_go_scout",
+    "type": "MONSTER",
+    "name": "mi-go scout",
+    "description": "This slender mi-go is a little smaller than most others of its kind.  It has a weird oblong thing attached to the center of its body with some sort of a diaphragm or a membrane on the end.  The thing seems like an integral part of the mi-go, and all its appendages are supporting it to prevent swaying.",
+    "default_faction": "mi-go",
+    "bodytype": "migo",
+    "species": [ "NETHER" ],
+    "looks_like": "mon_mi_go",
+    "volume": "80500 ml",
+    "weight": 90000,
+    "hp": 200,
+    "speed": 150,
+    "material": [ "flesh" ],
+    "symbol": "&",
+    "color": "red",
+    "aggression": 20,
+    "morale": 30,
+    "melee_skill": 7,
+    "melee_dice": 4,
+    "melee_dice_sides": 6,
+    "melee_cut": 6,
+    "dodge": 5,
+    "armor_bash": 4,
+    "armor_cut": 5,
+    "vision_day": 50,
+    "vision_night": 25,
+    "harvest": "zombie_meatslug",
+    "path_settings": { "max_dist": 50 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 50,
+        "gun_type": "migo_bio_gun",
+        "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
+        "fake_dex": 8,
+        "fake_per": 8,
+        "require_targeting_player": false,
+        "description": "The mi-go scout fires its weapon!",
+        "ranges": [ [ 2, 30, "DEFAULT" ] ]
+      }
+    ],
+    "death_function": [ "NORMAL" ],
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "WARM",
+      "BASHES",
+      "POISON",
+      "NO_BREATHE",
+      "ARTHROPOD_BLOOD",
+      "PATH_AVOID_DANGER_2",
+      "PRIORITIZE_TARGETS"
+    ]
   }
 ]

@@ -4272,6 +4272,7 @@
     "monsters": [
       { "monster": "mon_gelatin", "freq": 250, "cost_multiplier": 0 },
       { "monster": "mon_mi_go", "freq": 250, "cost_multiplier": 0 },
+      { "monster": "mon_mi_go_scout", "freq": 250, "cost_multiplier": 0, "starts": 35 },
       { "monster": "mon_kreck", "freq": 250, "cost_multiplier": 0 },
       { "monster": "mon_gracke", "freq": 250, "cost_multiplier": 0 }
     ]
@@ -4311,6 +4312,7 @@
       { "monster": "mon_flying_polyp", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_hunting_horror", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_mi_go_scout", "freq": 100, "cost_multiplier": 0, "starts": 35 },
       { "monster": "mon_yugg", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_gelatin", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_flaming_eye", "freq": 100, "cost_multiplier": 0 },
