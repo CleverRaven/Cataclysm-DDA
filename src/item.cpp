@@ -1383,7 +1383,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         if( parts->test( iteminfo_parts::MAGAZINE_RELOAD ) ) {
             info.emplace_back( "MAGAZINE", _( "Reload time: " ), _( "<num> per round" ),
-                               iteminfo::lower_is_better, type->magazine->reload_time );
+                               iteminfo::lower_is_better, type->magazine->reload_time / 100 );
         }
         insert_separation_line();
     }
@@ -1688,7 +1688,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.emplace_back( "GUN", _( "Reload time: " ),
                                has_flag( "RELOAD_ONE" ) ? _( "<num> seconds per round" ) : _( "<num> seconds" ),
                                iteminfo::lower_is_better,
-                               static_cast<int>( mod->get_reload_time() / 16.67 ) );
+                               mod->get_reload_time() / 100 );
         }
 
         if( parts->test( iteminfo_parts::GUN_FIRE_MODES ) ) {
