@@ -1157,7 +1157,7 @@ class jmapgen_monster : public jmapgen_piece
 {
     public:
         weighted_int_list<mtype_id> ids;
-        mongroup_id m_id;
+        mongroup_id m_id = mongroup_id::NULL_ID();;
         jmapgen_int chance;
         jmapgen_int pack_size;
         bool one_or_none;
@@ -1212,7 +1212,7 @@ class jmapgen_monster : public jmapgen_piece
                 mission_id = miss->get_id();
             }
 
-            if( m_id != mongroup_id( "" ) ) {
+            if( m_id != mongroup_id::NULL_ID() ) {
                 // Spawn single monster from a group
                 dat.m.place_spawns( m_id, chance.get() / 100, x.val, y.val, x.valmax, y.valmax, 1.0f, true, false,
                                     name, mission_id );
