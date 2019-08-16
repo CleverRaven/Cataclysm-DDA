@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "cell_list.h"
 #include "character_id.h"
 #include "creature.h"
 #include "enums.h"

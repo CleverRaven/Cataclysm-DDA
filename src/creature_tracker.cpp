@@ -94,10 +94,10 @@ void Creature_tracker::add_to_faction_map( std::shared_ptr<monster> critter_ptr 
 
     // Only 1 faction per mon at the moment.
     if( critter.friendly == 0 ) {
-        monster_faction_map_[ critter.faction ].insert( critter_ptr );
+        monster_faction_map_[ critter.faction ].add( critter.pos().xy(), critter_ptr );
     } else {
         static const mfaction_str_id playerfaction( "player" );
-        monster_faction_map_[ playerfaction ].insert( critter_ptr );
+        monster_faction_map_[ playerfaction ].add( critter.pos().xy(), critter_ptr );
     }
 }
 

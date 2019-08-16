@@ -370,6 +370,9 @@ void monster::plan()
         }
     }
 
+    const int range_day = sight_range( DAYLIGHT_LEVEL );
+    const int range_night = sight_range( 0 );
+    const int range_max = std::max( range_day, range_night );
     fleeing = fleeing || ( mood == MATT_FLEE );
     if( friendly == 0 ) {
         for( const auto &fac : factions ) {
@@ -377,9 +380,10 @@ void monster::plan()
             if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
                 continue;
             }
-
-            for( const std::weak_ptr<monster> &weak : fac.second ) {
-                const std::shared_ptr<monster> shared = weak.lock();
+            bool found = false;
+            for( const std::pair<point, std::weak_ptr<monster>> &entry :
+		   fac.second.get( pos().xy(), range_max ) ) {
+                const std::shared_ptr<monster> shared = entry.second->lock();
                 if( !shared ) {
                     continue;
                 }
@@ -388,10 +392,15 @@ void monster::plan()
                 if( rating < dist ) {
                     target = &mon;
                     dist = rating;
+                    found = true;
                 }
                 if( rating <= 5 ) {
                     anger += angers_hostile_near;
                     morale -= fears_hostile_near;
+                } else if( found && !smart_planning ) {
+                    // Continue searching out to distance 5 even if we found a nearby enemy to
+                    // tally up agression. Unless we're smart, then we have to search exhaustively.
+                    break;
                 }
             }
         }
@@ -410,8 +419,9 @@ void monster::plan()
     }
     swarms = swarms && target == nullptr; // Only swarm if we have no target
     if( group_morale || swarms ) {
-        for( const std::weak_ptr<monster> &weak : myfaction_iter->second ) {
-            const std::shared_ptr<monster> shared = weak.lock();
+        for( const std::pair<point, std::weak_ptr<monster>> &entry :
+             fac.second.get( pos().xy(), range_max ) ) {
+            const std::shared_ptr<monster> shared = entry.second->lock();
             if( !shared ) {
                 continue;
             }
@@ -426,7 +436,6 @@ void monster::plan()
                     wander_pos.y = posy() * rng( 1, 3 ) - mon.posy();
                     wandf = 2;
                     target = nullptr;
-                    // Swarm to the furthest ally you can see
                 } else if( rating < INT_MAX && rating > dist && wandf <= 0 ) {
                     target = &mon;
                     dist = rating;
