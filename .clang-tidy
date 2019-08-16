@@ -9,6 +9,7 @@ bugprone-*,\
 cata-*,\
 cert-*,\
 -cert-dcl21-cpp,\
+-cert-env33-c,\
 -cert-err58-cpp,\
 clang-diagnostic-*,\
 cppcoreguidelines-slicing,\
@@ -21,7 +22,6 @@ readability-*,\
 -bugprone-narrowing-conversions,\
 -bugprone-unused-return-value,\
 -bugprone-use-after-move,\
--cert-env33-c,\
 -cert-err34-c,\
 -cert-flp30-c,\
 -cert-msc30-c,\
