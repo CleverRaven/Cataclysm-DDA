@@ -1141,7 +1141,7 @@ class npc : public player
         void revert_after_activity();
 
         // #############   VALUES   ################
-        std::string current_activity = "";
+        activity_id current_activity_id = activity_id::NULL_ID();
         npc_class_id myclass; // What's our archetype?
         // A temp variable used to inform the game which npc json to use as a template
         std::string idz;
