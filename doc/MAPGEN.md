@@ -29,47 +29,39 @@
       * 2.2.1.3 "chance"
       * 2.2.1.4 "repeat"
     * 2.2.2 "square" {}
-  * 2.3 "place_groups": []
-    * 2.3.0 "monster":
-      * 2.3.0.0 "x" & "y"
-      * 2.3.0.1 "chance"
-      * 2.3.0.2 "repeat"
-    * 2.3.1 "item":
-      * 2.3.1.0 "x" & "y"
-      * 2.3.1.1 "amount"
-      * 2.3.1.2 "chance"
-      * 2.3.1.3 "repeat"
-  * 2.4 "place_item": []
-    * 2.4.0 "item":
-      * 2.4.0.0 "x" / "y"
-      * 2.4.0.1 "amount"
-      * 2.4.0.2 "chance"
-      * 2.4.0.3 "repeat"
-  * 2.5 specials:
-    * 2.5.0 "fields"
-    * 2.5.1 "npcs"
-    * 2.5.2 "signs"
-    * 2.5.3 "vendingmachines"
-    * 2.5.4 "toilets"
-    * 2.5.5 "gaspumps"
-    * 2.5.6 "items"
-    * 2.5.7 "monsters"
-    * 2.5.8 "vehicles"
-    * 2.5.9 "item"
-    * 2.5.10 "traps"
-    * 2.5.11 "furniture"
-    * 2.5.12 "terrain"
-    * 2.5.13 "monster"
-    * 2.5.14 "rubble"
-    * 2.5.15 "place_liquids"
-    * 2.5.16 "loot"
-    * 2.5.17 "sealed_item"
-    * 2.5.18 "graffiti"
-    * 2.5.19 "translate_ter"
-    * 2.5.20 "zones"
-    * 2.5.21 "ter_furn_transforms"
-  * 2.6 "rotation"
-  * 2.7 "predecessor_mapgen"
+  * 2.3 "place_monsters": []
+  * 2.4 "place_monster": []
+  * 2.5 "place_item": []
+    * 2.5.0 "item":
+      * 2.5.0.0 "x" / "y"
+      * 2.5.0.1 "amount"
+      * 2.5.0.2 "chance"
+      * 2.5.0.3 "repeat"
+  * 2.6 specials:
+    * 2.6.0 "fields"
+    * 2.6.1 "npcs"
+    * 2.6.2 "signs"
+    * 2.6.3 "vendingmachines"
+    * 2.6.4 "toilets"
+    * 2.6.5 "gaspumps"
+    * 2.6.6 "items"
+    * 2.6.7 "monsters"
+    * 2.6.8 "vehicles"
+    * 2.6.9 "item"
+    * 2.6.10 "traps"
+    * 2.6.11 "furniture"
+    * 2.6.12 "terrain"
+    * 2.6.13 "monster"
+    * 2.6.14 "rubble"
+    * 2.6.15 "place_liquids"
+    * 2.6.16 "loot"
+    * 2.6.17 "sealed_item"
+    * 2.6.18 "graffiti"
+    * 2.6.19 "translate_ter"
+    * 2.6.20 "zones"
+    * 2.6.21 "ter_furn_transforms"
+  * 2.7 "rotation"
+  * 2.8 "predecessor_mapgen"
 * 3 update_mapgen
   * 3.1 overmap tile specification
     * 3.1.0 "assign_mission_target"
@@ -353,71 +345,45 @@ Example: [ 1, 3 ] - apply 1-3 times
 Example: { "square": "radiation", "amount": 10, "x:" [ 0, 5 ], "y": [ 0, 5 ], "x2": [ 18, 23 ], "y2": [ 18, 23 ] }
 The arguments are exactly the same as "line", but "x", "y" and "x2", "y2" define opposite corners
 
-## 2.3 "place_groups"
-**optional** Spawn items or monsters from item_groups.json and monster_groups.json
-> Value: [ array of {objects} ]: [ { "monster": ... }, { "item": ... }, ... ]
+## 2.3 "place_monsters"
+**optional** Spawn random monsters from a monster group. Is effected by spawn density game setting.
+> Value: [ array of {objects} ]: [ { "monster": ... } ]
 
-### 2.3.0 "monster"
-**required** The monster group id, which picks random critters from a list
-> Value: "MONSTER_GROUP"
+| Identifier | Description
+|---         |---
+| monster   | ID of the monster group from which the spawned monster is selected.
+| x, y  | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or [ 0-23, 0-23 ] - random point between [ a, b ]. When using a range, the minimum and maximum values will be used in creating rectangle coordinates to be used by map::place_spawns. Each monster generated from the monster group will be placed in a different random location within the rectangle. Example: "x": 12, "y": [ 5, 15 ]. These values will produce a rectangle for map::place_spawns from ( 12, 5 ) to ( 12, 15 ) inclusive.
+| density | Determines how many monsters are spawned. This argument is optional, but for place_monsters to work the density must be set either here or in the overmap terrain definition. Otherwise it defaults to zero and no monsters will spawn. Monsters spawned = density * spawn_density * rng_float( 10.0f, 50.0f )
+| chance | one in `chance` to do spawning.
 
-Example: { "monster": "GROUP_ZOMBIE", "x": [ 13, 15 ], "y": 15, "chance": 10 }
+## 2.4 "place_monster"
+**optional** Spawn single monster. Either specific monster or a random monster from a monster group. Is effected by spawn density game setting.
+> Value: [ array of {objects} ]: [ { "monster": ... } ]
 
-#### 2.3.0.0 "x" / "y"
-**required** Spawn coordinates ( specific or area rectangle )
-> Value: 0-23
+| Identifier | Description
+|---         |---
+| monster   | ID of the monster to spawn.
+| group   | ID of the monster group from which the spawned monster is selected. `monster` and `group` should not be used together. `group` will act over `monster`.
+| x, y  | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or [ 0-23, 0-23 ] - random point between [ a, b ]. When using a range, the minimum and maximum values will be used in creating rectangle coordinates to be used by map::place_spawns. Each monster generated from the monster group will be placed in a different random location within the rectangle. Example: "x": 12, "y": [ 5, 15 ] These values will produce a rectangle for map::place_spawns from ( 12, 5 ) to ( 12, 15 ) inclusive.
+| chance | Percentage chance to do spawning. Ignored when spawning from a group.
+| repeat | The spawning is repeated
+| pack_size | How many monsters are spawned. Can be single number or range like [1-4]. Ignored when spawning from a group.
+| one_or_none | Do not allow more than one to spawn. Boolean. If repeat is not defined or pack size is defined this is true.
+| friendly | Make the monster friendly. Default false.
+| name | Extra name to display on the monster.
+|target | Set to true to make this into mission target. Only works when the monster is spawned from a mission.
 
--or-
-
-> Value: [ 0-23, 0-23 ] - random point between [ a, b ]
-When using a range, the minimum and maximum values will be used in creating rectangle coordinates to be used by map::place_spawns.
-Each monster generated from the monster group will be placed in a different random location within the rectangle.
-
-Example: "x": 12, "y": [ 5, 15 ]
-These values will produce a rectangle for map::place_spawns from ( 12, 5 ) to ( 12, 15 ) inclusive.
-
-#### 2.3.0.1 "density"
-**optional** magic sauce spawn amount number that somehow determines how many monsters from the group can appear. This argument is optional, but for place_monsters to work the density must be set either here or in the overmap terrain definition. Otherwise it defaults to zero and no monsters will spawn. How density actually works is a strange mystery that someone should solve and put into this document.
-> Value: *floating point number*
-
-#### 2.3.0.2 "chance"
-**optional** one-in-??? chance to apply
-> Value: *number*
-
-### 2.3.1 "item"
-**required** The item group id, which picks random stuff from a list
-> Value: "ITEM_GROUP"
-
-Example: { "item": "livingroom", "x": [ 13, 15 ], "y": 15, "chance": 50 }
-
-#### 2.3.1.0 "x" / "y"
-**required** Spawn coordinates ( specific or area rectangle )
-> Value: 0-23
-
--or-
-
-> Value: [ 0-23, 0-23 ] - a range between [ a, b ] inclusive
-When using a range, the minimum and maximum values will be used in creating rectangle coordinates to be used by map::place_items.
-Each item from the item group will be placed in a different random location within the rectangle.
-
-Example: "x": 12, "y": [ 5, 15 ]
-These values will produce a rectangle for map::place_items from ( 12, 5 ) to ( 12, 15 ) inclusive.
-
-#### 2.3.1.1 "chance"
-**required** unlike everything else, this is a percentage. Maybe
-> Value: *number*
-
-## 2.4 "place_item"
+## 2.5 "place_item"
 **optional** A list of *specific* things to add. WIP: Monsters and vehicles will be here too
 > Value: [ array of {objects} ]: [ { "item", ... }, ... ]
 
-### 2.4.0 "item"
+### 2.5.0 "item"
 **required** A valid itype ID. see everything in data/json/items
 > Value: "string"
 
 Example: { "item": "weed", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [1, 3], "chance": 20 }
 
-#### 2.4.0.0 "x" / "y"
+#### 2.6.0.0 "x" / "y"
 **required** Spawn coordinates ( specific or random )
 > Value: 0-23
 
@@ -427,7 +393,7 @@ Example: { "item": "weed", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [1,
 
 Example: "x": 12, "y": [ 5, 15 ]
 
-#### 2.4.0.1 "amount"
+#### 2.6.0.1 "amount"
 **required** Spawn this amount [ or, range ]
 > Value: *number*
 
@@ -437,11 +403,11 @@ Example: "x": 12, "y": [ 5, 15 ]
 
 Example: "amount": [ 5, 15 ]
 
-#### 2.4.0.2 "chance"
+#### 2.6.0.2 "chance"
 **optional** one-in-??? chance to apply
 > Value: *number*
 
-#### 2.4.0.3 "repeat"
+#### 2.6.0.3 "repeat"
 **optional** repeat this randomly between ??? and ??? times. Only makes sense if the coordinates are random
 > Value: [ *number*, *number* ]
 
