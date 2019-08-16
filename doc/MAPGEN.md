@@ -368,12 +368,12 @@ The arguments are exactly the same as "line", but "x", "y" and "x2", "y2" define
 | chance | Percentage chance to do spawning.
 | repeat | The spawning is repeated
 | pack_size | How many monsters are spawned. Can be single number or range like [1-4]. Ignored when spawning from a group.
-| one_or_none | Do not allow more than one to spawn. Boolean. If repeat is not defined or pack size is defined this is true. Ignored when spawning from a group.
+| one_or_none | Do not allow more than one to spawn due to high spawn density. If repeat is not defined or pack size is defined this is true. Ignored when spawning from a group.
 | friendly | Make the monster friendly. Default false.
 | name | Extra name to display on the monster.
 |target | Set to true to make this into mission target. Only works when the monster is spawned from a mission.
 
-Note that spawn density can cause extra monsters to spawn when `monster` is used. When `group` is used only one monster will spawn.
+Note that high spawn density game setting can cause extra monsters to spawn when `monster` is used. When `group` is used only one monster will spawn.
 
 Example: `"place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]`  
 This places a single random monster from group "GROUP_REFUGEE_BOSS_ZOMBIE", sets the name to "Sean McLaughlin", spawns the monster at coordinate (10, 10) and also sets the monster as the target of this mission.

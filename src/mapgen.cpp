@@ -1157,7 +1157,7 @@ class jmapgen_monster : public jmapgen_piece
 {
     public:
         weighted_int_list<mtype_id> ids;
-        mongroup_id m_id = mongroup_id::NULL_ID();;
+        mongroup_id m_id = mongroup_id::NULL_ID();
         jmapgen_int chance;
         jmapgen_int pack_size;
         bool one_or_none;
