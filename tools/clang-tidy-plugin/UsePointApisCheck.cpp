@@ -22,7 +22,7 @@ void UsePointApisCheck::registerMatchers( MatchFinder *Finder )
                 expr().bind( "xarg" ),
                 parmVarDecl(
                     anyOf( hasType( asString( "int" ) ), hasType( asString( "const int" ) ) ),
-                    matchesName( "x$" )
+                    isXParam()
                 ).bind( "xparam" )
             ),
             callee( functionDecl().bind( "callee" ) )
@@ -74,8 +74,6 @@ static void CheckCall( UsePointApisCheck &Check, const MatchFinder::MatchResult 
         return;
     }
 
-    llvm::StringRef XPrefix = XParam->getName().drop_back();
-
     const Expr *YArg = nullptr;
     const Expr *ZArg = nullptr;
     unsigned int MinArg = UINT_MAX;
@@ -97,26 +95,31 @@ static void CheckCall( UsePointApisCheck &Check, const MatchFinder::MatchResult 
         return;
     }
 
+    NameConvention NameMatcher( XParam->getName() );
+
+    if( !NameMatcher ) {
+        return;
+    }
+
     for( unsigned int i = SkipArgs; i < Call->getNumArgs(); ++i ) {
         const ParmVarDecl *Param = Callee->getParamDecl( i - SkipArgs );
-        StringRef Name = Param->getName();
-        if( Name.size() > 0 && Name.drop_back() == XPrefix ) {
-            bool Matched = false;
-
-            if( Name.endswith( "x" ) ) {
-                Matched = true;
-            } else if( Name.endswith( "y" ) ) {
+        bool Matched = true;
+        switch( NameMatcher.Match( Param->getName() ) ) {
+            case NameConvention::XName:
+                break;
+            case NameConvention::YName:
                 YArg = Call->getArg( i );
-                Matched = true;
-            } else if( Name.endswith( "z" ) ) {
+                break;
+            case NameConvention::ZName:
                 ZArg = Call->getArg( i );
-                Matched = true;
-            }
+                break;
+            default:
+                Matched = false;
+        }
 
-            if( Matched ) {
-                MinArg = std::min( MinArg, i );
-                MaxArg = std::max( MaxArg, i );
-            }
+        if( Matched ) {
+            MinArg = std::min( MinArg, i );
+            MaxArg = std::max( MaxArg, i );
         }
     }
 

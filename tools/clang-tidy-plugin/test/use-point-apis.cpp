@@ -143,3 +143,33 @@ int g12()
     // CHECK-MESSAGES: warning: Call to 'f12' could instead call overload using a point parameter. [cata-use-point-apis]
     // CHECK-FIXES: return f12( point( 0, 1 ) );
 }
+
+int f13( int X, int Y );
+int f13( const point &p );
+
+int g13()
+{
+    return f13( 0, 1 );
+    // CHECK-MESSAGES: warning: Call to 'f13' could instead call overload using a point parameter. [cata-use-point-apis]
+    // CHECK-FIXES: return f13( point( 0, 1 ) );
+}
+
+int f14( int x1, int y1 );
+int f14( const point &p );
+
+int g14()
+{
+    return f14( 0, 1 );
+    // CHECK-MESSAGES: warning: Call to 'f14' could instead call overload using a point parameter. [cata-use-point-apis]
+    // CHECK-FIXES: return f14( point( 0, 1 ) );
+}
+
+int f15( int foo_x, int foo_y );
+int f15( const point &p );
+
+int g15()
+{
+    return f15( 0, 1 );
+    // CHECK-MESSAGES: warning: Call to 'f15' could instead call overload using a point parameter. [cata-use-point-apis]
+    // CHECK-FIXES: return f15( point( 0, 1 ) );
+}
