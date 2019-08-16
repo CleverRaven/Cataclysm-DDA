@@ -382,7 +382,7 @@ The "pack_size" modifier in monstergroups is a random multiplier to the rolled s
 > Value: *floating point number*
 
 #### 2.3.0.2 "chance"
-**optional** one-in-??? chance to apply
+**optional** ???-in-100 chance to apply
 > Value: *number*
 
 ### 2.3.1 "item"
