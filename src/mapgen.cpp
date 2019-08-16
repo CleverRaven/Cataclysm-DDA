@@ -3875,7 +3875,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                                 ter_set( point( x, y ), fluid_type );
                                 furn_set( point( x, y ), f_null );
                             }
-                        }, rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ), rng( 3, 6 ) );
+                        }, point( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) ), rng( 3, 6 ) );
                     }
                     break;
                 }
@@ -3916,7 +3916,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                         }
                         make_rubble( {x, y, abs_sub.z } );
                         ter_set( point( x, y ), t_thconc_floor );
-                    }, center.x, center.y, 4 );
+                    }, center.xy(), 4 );
                     furn_set( center.xy(), f_null );
                     trap_set( center, tr_portal );
                     create_anomaly( center, random_entry( valid_props ), false );
@@ -3931,16 +3931,16 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                     }
                     draw_rough_circle( [this]( int x, int y ) {
                         set_radiation( x, y, 10 );
-                    }, center.x, center.y, rng( 7, 12 ) );
+                    }, center.xy(), rng( 7, 12 ) );
                     draw_circle( [this]( int x, int y ) {
                         set_radiation( x, y, 20 );
-                    }, center.x, center.y, rng( 5, 8 ) );
+                    }, center.xy(), rng( 5, 8 ) );
                     draw_circle( [this]( int x, int y ) {
                         set_radiation( x, y, 30 );
-                    }, center.x, center.y, rng( 2, 4 ) );
+                    }, center.xy(), rng( 2, 4 ) );
                     draw_circle( [this]( int x, int y ) {
                         set_radiation( x, y, 50 );
-                    }, center.x, center.y, 1 );
+                    }, center.xy(), 1 );
                     draw_circle( [this]( int x, int y ) {
                         if( has_flag_ter( "GOES_DOWN", x, y ) ||
                             has_flag_ter( "GOES_UP", x, y ) ||
@@ -3949,7 +3949,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                         }
                         make_rubble( {x, y, abs_sub.z } );
                         ter_set( point( x, y ), t_thconc_floor );
-                    }, center.x, center.y, 1 );
+                    }, center.xy(), 1 );
 
                     place_spawns( GROUP_HAZMATBOT, 1, center.xy() + point_west,
                                   center.xy() + point_west, 1, true );
@@ -4006,7 +4006,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                                 ter_set( point( x, y ), t_marloss );
                             }
                         }
-                    }, center.x, center.y, 3 );
+                    }, center.xy(), 3 );
                     ter_set( center.xy(), t_fungus_floor_in );
                     furn_set( center.xy(), f_null );
                     trap_set( center, tr_portal );
