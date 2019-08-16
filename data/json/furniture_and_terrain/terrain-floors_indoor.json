@@ -7,6 +7,7 @@
     "symbol": ".",
     "color": "cyan",
     "move_cost": 2,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "sound": "SMASH!",
@@ -30,6 +31,7 @@
     "color": "yellow",
     "looks_like": "t_wall_y",
     "move_cost": 2,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "sound": "SMASH!",
