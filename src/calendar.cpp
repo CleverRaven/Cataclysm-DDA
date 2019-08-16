@@ -10,6 +10,9 @@
 #include "string_formatter.h"
 #include "translations.h"
 
+/** How much light moon provides per lit-up quarter (Full-moon light is four times this value) */
+static constexpr double moonlight_per_quarter = 2.25;
+
 // Divided by 100 to prevent overflowing when converted to moves
 const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
 const time_duration calendar::INDEFINITELY_LONG_DURATION(
@@ -164,7 +167,7 @@ float sunlight( const time_point &p )
         current_phase = static_cast<int>( MOON_PHASE_MAX ) - current_phase;
     }
 
-    const int moonlight = 1 + static_cast<int>( current_phase * MOONLIGHT_PER_QUARTER );
+    const int moonlight = 1 + static_cast<int>( current_phase * moonlight_per_quarter );
 
     if( now > sunset + twilight_duration || now < sunrise ) { // Night
         return moonlight;
