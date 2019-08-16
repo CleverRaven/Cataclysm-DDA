@@ -14,10 +14,10 @@
 #include "calendar.h"
 #include "character.h"
 #include "damage.h"
-#include "enums.h" // tripoint
 #include "string_id.h"
 #include "tuple_hash.h"
 #include "type_id.h"
+#include "point.h"
 
 class nc_color;
 class JsonObject;
@@ -158,6 +158,12 @@ struct mutation_branch {
         // Multiplier for sight range, defaulting to 1.
         float overmap_multiplier = 1.0f;
 
+        // Multiplier for map memory capacity, defaulting to 1.
+        float map_memory_capacity_multiplier = 1.0f;
+
+        // Multiplier for skill rust, defaulting to 1.
+        float skill_rust_multiplier = 1.0f;
+
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;
 
@@ -206,8 +212,9 @@ struct mutation_branch {
         std::map<body_part, int> encumbrance_covered;
         // Body parts that now need OVERSIZE gear
         std::set<body_part> restricts_gear;
+        // Mutation stat mods
         /** Key pair is <active: bool, mod type: "STR"> */
-        std::unordered_map<std::pair<bool, std::string>, int> mods; // Mutation stat mods
+        std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> mods;
         std::map<body_part, resistances> armor;
         std::vector<matype_id>
         initial_ma_styles; // Martial art styles that can be chosen upon character generation
@@ -314,7 +321,7 @@ struct mutation_branch {
          * can also load data from arrays of strings, where the strings are item or group ids.
          */
         static void load_trait_group( JsonArray &entries, const trait_group::Trait_group_tag &gid,
-                                      const bool is_collection );
+                                      bool is_collection );
 
         /**
          * Create a new trait group as specified by the given JSON object and register

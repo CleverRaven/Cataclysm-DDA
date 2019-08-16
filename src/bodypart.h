@@ -8,11 +8,11 @@
 #include <initializer_list>
 #include <string>
 
-#include "enum_bitset.h"
 #include "int_id.h"
 #include "string_id.h"
 
 class JsonObject;
+template <typename E> struct enum_traits;
 
 // The order is important ; pldata.h has to be in the same order
 enum body_part : int {

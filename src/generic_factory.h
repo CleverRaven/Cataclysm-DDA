@@ -12,7 +12,6 @@
 #include "catacharset.h"
 #include "debug.h"
 #include "enum_bitset.h"
-#include "field_type.h"
 #include "init.h"
 #include "int_id.h"
 #include "json.h"
@@ -20,6 +19,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "wcwidth.h"
 
 /**
 A generic class to store objects identified by a `string_id`.

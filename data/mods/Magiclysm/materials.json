@@ -1,0 +1,42 @@
+[
+  {
+    "type": "material",
+    "ident": "arcane_skin",
+    "name": "Arcane Skin",
+    "density": 38,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 273,
+    "soft": true,
+    "reinforces": true,
+    "bash_resist": 14,
+    "cut_resist": 18,
+    "acid_resist": 4,
+    "fire_resist": 20,
+    "elec_resist": 2,
+    "chip_resist": 15,
+    "dmg_adj": [ "scratched", "cut", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "sliced"
+  },
+  {
+    "type": "material",
+    "ident": "black_dragon_hide",
+    "name": "black dragon hide",
+    "density": 20,
+    "specific_heat_liquid": 4.186,
+    "specific_heat_solid": 2.108,
+    "latent_heat": 333,
+    "bash_resist": 5,
+    "cut_resist": 8,
+    "acid_resist": 40,
+    "fire_resist": 1,
+    "elec_resist": 1,
+    "chip_resist": 30,
+    "reinforces": true,
+    "repaired_with": "dragon_black_scale",
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "chipped"
+  }
+]

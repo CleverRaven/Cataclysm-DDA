@@ -2,6 +2,7 @@
 #ifndef INVENTORY_UI_H
 #define INVENTORY_UI_H
 
+#include <assert.h>
 #include <climits>
 #include <cstddef>
 #include <functional>
@@ -43,30 +44,32 @@ struct inventory_input;
 class inventory_entry
 {
     public:
-        item_location location;
+        std::vector<item_location> locations;
 
         size_t chosen_count = 0;
         int custom_invlet = INT_MIN;
         std::string cached_name;
 
-        inventory_entry( const item_location &location, size_t stack_size,
-                         const item_category *custom_category = nullptr, bool enabled = true ) :
-            location( location ),
-            stack_size( stack_size ),
-            custom_category( custom_category ),
-            enabled( enabled ) {}
+        inventory_entry() = default;
 
-        inventory_entry( const item_location &location, const item_category *custom_category = nullptr,
-                         bool enabled = true ) :
-            inventory_entry( location, location ? 1 : 0, custom_category, enabled ) {}
+        inventory_entry( const item_category *custom_category ) :
+            custom_category( custom_category )
+        {}
 
-        inventory_entry( const item_category *custom_category = nullptr ) :
-            inventory_entry( item_location(), custom_category ) {}
-
+        // Copy with new category.  Used to copy entries into the "selected"
+        // category when they are selected.
         inventory_entry( const inventory_entry &entry, const item_category *custom_category ) :
             inventory_entry( entry ) {
             this->custom_category = custom_category;
         }
+
+        inventory_entry( const std::vector<item_location> &locations,
+                         const item_category *custom_category = nullptr,
+                         bool enabled = true ) :
+            locations( locations ),
+            custom_category( custom_category ),
+            enabled( enabled )
+        {}
 
         bool operator==( const inventory_entry &other ) const;
         bool operator!=( const inventory_entry &other ) const {
@@ -82,10 +85,9 @@ class inventory_entry
         }
         /**
          * Whether the entry is an item.
-         * item_location::valid() is way too expensive for mundane routines.
          */
         bool is_item() const {
-            return location != item_location::nowhere;
+            return !locations.empty();
         }
         /** Whether the entry is a category */
         bool is_category() const {
@@ -96,9 +98,17 @@ class inventory_entry
             return is_item() && enabled;
         }
 
-        size_t get_stack_size() const {
-            return stack_size;
+        const item_location &any_item() const {
+            assert( !locations.empty() );
+            return locations.front();
         }
+
+        size_t get_stack_size() const {
+            return locations.size();
+        }
+
+        int get_total_charges() const;
+        int get_selected_charges() const;
 
         size_t get_available_count() const;
         const item_category *get_category_ptr() const;
@@ -107,8 +117,7 @@ class inventory_entry
         void update_cache();
 
     private:
-        size_t stack_size;
-        const item_category *custom_category;
+        const item_category *custom_category = nullptr;
         bool enabled = true;
 
 };
@@ -342,7 +351,7 @@ class inventory_column
         /** Sum of the cell widths */
         size_t get_cells_width() const;
 
-        const entry_cell_cache_t make_entry_cell_cache( const inventory_entry &entry ) const;
+        entry_cell_cache_t make_entry_cell_cache( const inventory_entry &entry ) const;
         const entry_cell_cache_t &get_entry_cell_cache( size_t index ) const;
 
         const inventory_selector_preset &preset;
@@ -455,9 +464,12 @@ class inventory_selector
         const item_category *naturalize_category( const item_category &category,
                 const tripoint &pos );
 
+        void add_entry( inventory_column &target_column,
+                        std::vector<item_location> &&locations,
+                        const item_category *custom_category = nullptr );
+
         void add_item( inventory_column &target_column,
-                       const item_location &location,
-                       size_t stack_size = 1,
+                       item_location &&location,
                        const item_category *custom_category = nullptr );
 
         void add_items( inventory_column &target_column,
@@ -525,7 +537,7 @@ class inventory_selector
          */
         bool select( const item_location &loc );
 
-        inventory_entry get_selected() {
+        const inventory_entry &get_selected() {
             return get_active_column().get_selected();
         }
 
@@ -584,7 +596,6 @@ class inventory_selector
     private:
         catacurses::window w_inv;
 
-        std::list<item_location> items;
         std::vector<inventory_column *> columns;
 
         std::string title;
@@ -600,6 +611,7 @@ class inventory_selector
         const int border = 1;                // Width of the window border
         std::string filter;
 
+        bool is_empty = true;
         bool display_stats = true;
         bool layout_is_valid = false;
 };

@@ -69,6 +69,7 @@
     "weight": 180,
     "//": "Real decent place for a quick morale boost, relatively rare.",
     "object": {
+      "fill_ter": "t_linoleum_gray",
       "rows": [
         "_s______,______,______s_",
         "_s______,______,______s_",
@@ -96,41 +97,28 @@
         "________________________"
       ],
       "terrain": {
-        "#": "t_linoleum_gray",
         "%": "t_shrub",
         "+": "t_door_glass_c",
         ",": "t_pavement_y",
-        "-": "t_wall",
+        "-": "t_wall_b",
         ".": "t_linoleum_gray",
         "1": "t_pavement",
         "2": "t_pavement",
         "5": "t_wall_glass",
         "8": "t_wall_glass",
-        "C": "t_linoleum_gray",
         "D": "t_door_c",
-        "E": "t_linoleum_gray",
-        "F": "t_linoleum_gray",
         "H": "t_curtains",
         "L": "t_door_locked",
-        "S": "t_linoleum_gray",
-        "T": "t_linoleum_gray",
-        "^": "t_linoleum_gray",
         "_": "t_pavement",
-        "c": "t_linoleum_gray",
         "d": "t_pavement",
-        "l": "t_linoleum_gray",
-        "r": "t_linoleum_gray",
         "s": "t_sidewalk",
-        "t": "t_linoleum_gray",
-        "w": "t_linoleum_gray",
-        "y": "t_linoleum_gray",
         "z": "t_shrub",
         "g": "t_carpet_green",
         "h": "t_carpet_green",
         "K": "t_carpet_green",
         "7": "t_carpet_green",
         "<": "t_gutter_downspout",
-        "|": "t_wall"
+        "|": "t_wall_b"
       },
       "furniture": {
         "#": "f_counter",
@@ -207,7 +195,7 @@
         "e": "t_gutter_east",
         "s": "t_gutter_south",
         "w": "t_gutter_west",
-        "d": "t_gutter_downspout"
+        "d": "t_gutter_drop"
       },
       "furniture": { "&": "f_roof_turbine_vent" },
       "place_items": [ { "item": "roof_trash", "x": [ 2, 21 ], "y": [ 9, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],

@@ -438,7 +438,6 @@
     "city_distance": [ 1, 5 ],
     "city_sizes": [ 1, 12 ],
     "occurrences": [ 1, 1 ],
-    "rotate": true,
     "flags": [ "CLASSIC" ]
   }
 ]

@@ -6,7 +6,6 @@
 #include <sstream>
 #include <map>
 #include <utility>
-#include <type_traits>
 
 #include "debug.h"
 #include "json.h"

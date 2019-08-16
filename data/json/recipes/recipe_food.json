@@ -19,7 +19,7 @@
     "id_suffix": "using_water_purifier",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "time": "0 m",
+    "time": "9 s",
     "autolearn": true,
     "tools": [ [ [ "water_purifier", 1 ] ] ],
     "components": [ [ [ "water", 1 ] ] ]
@@ -82,7 +82,8 @@
     "type": "recipe",
     "result": "meat_scrap_cooked",
     "copy-from": "meat_cooked",
-    "time": "0 m",
+    "time": "45 s",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "meat_scrap", 1 ] ] ]
   },
@@ -763,12 +764,12 @@
       [ [ "meat_red", 2, "LIST" ], [ "liver", 10 ] ],
       [ [ "fat", 1 ], [ "tallow", 2 ], [ "lard", 2 ] ],
       [
-        [ "salt", 2 ],
-        [ "soysauce", 1 ],
-        [ "seasoning_italian", 10 ],
-        [ "wild_herbs", 10 ],
-        [ "seasoning_salt", 10 ],
-        [ "pepper", 10 ]
+        [ "salt", 4 ],
+        [ "soysauce", 2 ],
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "pepper", 4 ]
       ]
     ]
   },
@@ -800,7 +801,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 5 ] ] ],
     "components": [
-      [ [ "meat", 1 ] ],
+      [ [ "meat_red", 1, "LIST" ] ],
       [ [ "salt", 2 ], [ "soysauce", 1 ], [ "seasoning_italian", 2 ], [ "wild_herbs", 2 ], [ "seasoning_salt", 2 ] ]
     ]
   },
@@ -895,12 +896,89 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
-    "difficulty": 4,
+    "difficulty": 3,
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "components": [ [ [ "meat", 1 ], [ "fish", 1 ] ], [ [ "veggy", 1 ], [ "veggy_wild", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [
+      [ [ "meat_red", 1, "LIST" ], [ "fish", 1 ] ],
+      [ [ "veggy", 1 ], [ "veggy_wild", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "dogfood",
+    "id_suffix": "jarred",
+    "byproducts": [ [ "water", 10 ] ],
+    "container": "jar_glass_sealed",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "batch_time_factors": [ 83, 5 ],
+    "result_mult": 2,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
+    "components": [
+      [ [ "water", 11 ], [ "water_clean", 11 ] ],
+      [ [ "jar_glass", 1 ] ],
+      [ [ "meat", 2 ], [ "fish", 2 ] ],
+      [ [ "veggy", 2 ], [ "veggy_wild", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "dogfood",
+    "id_suffix": "canned",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "24 m",
+    "autolearn": true,
+    "contained": true,
+    "batch_time_factors": [ 83, 5 ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CUT", "level": 1 },
+      { "id": "COOK", "level": 3 }
+    ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
+    "components": [
+      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "meat", 1 ], [ "fish", 1 ] ],
+      [ [ "veggy", 1 ], [ "veggy_wild", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "dogfood",
+    "id_suffix": "jarred_3l",
+    "byproducts": [ [ "water", 10 ] ],
+    "container": "jar_3l_glass_sealed",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "40 m",
+    "result_mult": 12,
+    "autolearn": true,
+    "batch_time_factors": [ 83, 5 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
+    "components": [
+      [ [ "water", 16 ], [ "water_clean", 16 ] ],
+      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "meat", 12 ], [ "fish", 12 ] ],
+      [ [ "veggy", 12 ], [ "veggy_wild", 12 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -908,12 +986,74 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
-    "difficulty": 4,
+    "difficulty": 3,
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "components": [ [ [ "meat", 2 ], [ "fish", 2 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "meat_red", 2, "LIST" ], [ "fish", 2 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "catfood",
+    "id_suffix": "jarred",
+    "byproducts": [ [ "water", 10 ] ],
+    "container": "jar_glass_sealed",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "batch_time_factors": [ 83, 5 ],
+    "result_mult": 2,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
+    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "meat", 4 ], [ "fish", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "catfood",
+    "id_suffix": "canned",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "24 m",
+    "autolearn": true,
+    "contained": true,
+    "batch_time_factors": [ 83, 5 ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CUT", "level": 1 },
+      { "id": "COOK", "level": 3 }
+    ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
+    "components": [
+      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "meat", 2 ], [ "fish", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "catfood",
+    "id_suffix": "jarred_3l",
+    "byproducts": [ [ "water", 10 ] ],
+    "container": "jar_3l_glass_sealed",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "40 m",
+    "result_mult": 12,
+    "autolearn": true,
+    "batch_time_factors": [ 83, 5 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
+    "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass", 1 ] ], [ [ "meat", 24 ], [ "fish", 24 ] ] ]
   },
   {
     "type": "recipe",
@@ -1001,6 +1141,26 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "dahlia_root", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "salsify_baked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": 12000,
+    "autolearn": true,
+    "book_learn": [
+      [ "pocket_survival", 1 ],
+      [ "survival_book", 1 ],
+      [ "textbook_survival", 1 ],
+      [ "manual_survival", 1 ],
+      [ "survival_book", 1 ]
+    ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "salsify_raw", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1146,10 +1306,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "components": [
-      [ [ "meat", 1 ], [ "rehydrated_meat", 1 ], [ "dry_meat", 1 ], [ "meat_canned", 1 ], [ "can_chicken", 2 ] ],
-      [ [ "nachos", 3 ] ]
-    ]
+    "components": [ [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 2 ] ], [ [ "nachos", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -1163,7 +1320,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
     "components": [
-      [ [ "meat", 1 ], [ "rehydrated_meat", 1 ], [ "dry_meat", 1 ], [ "meat_canned", 1 ], [ "can_chicken", 2 ] ],
+      [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 2 ] ],
       [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ],
       [ [ "nachos", 3 ] ]
     ]
@@ -1242,7 +1399,7 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
-    "time": "0 m",
+    "time": "18 s",
     "autolearn": true,
     "components": [ [ [ "popcorn", 1 ] ], [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ] ]
   },
@@ -1315,6 +1472,28 @@
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "raw_dandelion", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chicory_coffee",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": 12000,
+    "batch_time_factors": [ 80, 4 ],
+    "autolearn": true,
+    "book_learn": [
+      [ "pocket_survival", 1 ],
+      [ "survival_book", 1 ],
+      [ "textbook_survival", 1 ],
+      [ "manual_survival", 1 ],
+      [ "mag_survival", 1 ],
+      [ "family_cookbook", 1 ]
+    ],
+    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "chicory_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1616,7 +1795,7 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "time": "0 m",
+    "time": "30 s",
     "autolearn": true,
     "components": [ [ [ "lemonade_powder", 1 ] ], [ [ "water_clean", 1 ] ] ]
   },
@@ -2702,11 +2881,9 @@
     "components": [
       [ [ "can_beans", 1 ], [ "beans_cooked", 1 ] ],
       [
-        [ "meat", 1 ],
+        [ "meat_red", 1, "LIST" ],
         [ "meat_smoked", 1 ],
         [ "dry_meat", 1 ],
-        [ "rehydrated_meat", 1 ],
-        [ "meat_canned", 1 ],
         [ "can_chicken", 1 ],
         [ "can_spam", 1 ],
         [ "fish", 1 ],
@@ -2787,11 +2964,9 @@
     "components": [
       [ [ "rice_cooked", 1 ] ],
       [
-        [ "meat", 1 ],
+        [ "meat_red", 1, "LIST" ],
         [ "meat_smoked", 1 ],
         [ "dry_meat", 1 ],
-        [ "rehydrated_meat", 1 ],
-        [ "meat_canned", 1 ],
         [ "can_chicken", 1 ],
         [ "can_spam", 1 ],
         [ "fish", 1 ],
@@ -2832,7 +3007,7 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": "0 m",
+    "time": "18 s",
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
@@ -2871,11 +3046,9 @@
       [ [ "can_beans", 1 ], [ "dry_beans", 1 ], [ "raw_beans", 1 ] ],
       [ [ "dry_rice", 1 ] ],
       [
-        [ "meat", 1 ],
+        [ "meat_red", 1, "LIST" ],
         [ "meat_smoked", 1 ],
         [ "dry_meat", 1 ],
-        [ "rehydrated_meat", 1 ],
-        [ "meat_canned", 1 ],
         [ "can_chicken", 1 ],
         [ "can_spam", 1 ],
         [ "fish", 1 ],
@@ -3036,36 +3209,6 @@
   },
   {
     "type": "recipe",
-    "result": "peanut_unshelled",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "peanut", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "walnut_unshelled",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "walnut", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "walnut_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3111,21 +3254,6 @@
   },
   {
     "type": "recipe",
-    "result": "pecan_unshelled",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "pecan", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "pecan_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3138,21 +3266,6 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "pecan_unshelled", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "pistachio_unshelled",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "pistachio", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3171,21 +3284,6 @@
   },
   {
     "type": "recipe",
-    "result": "almond_unshelled",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "almond", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "almond_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3201,21 +3299,6 @@
   },
   {
     "type": "recipe",
-    "result": "chestnut_unshelled",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "chestnut", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "chestnut_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3228,21 +3311,6 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "chestnut_unshelled", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "hazelnut_unshelled",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "hazelnut", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3273,21 +3341,6 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "acorns", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "hickory_nut_unshelled",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "hickory_nut", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -4295,7 +4348,7 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "human_flesh", 1 ] ] ]
+    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "human_flesh", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -4704,26 +4757,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "bag_plastic", 1 ] ],
-      [ [ "meat", 1 ] ],
-      [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 2 ], [ "chem_saltpetre", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "bag_meat_vac",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
-    "skill_used": "cooking",
-    "difficulty": 4,
-    "time": "20 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "bag_plastic", 1 ] ],
-      [ [ "meat", 1 ] ],
+      [ [ "meat", 1 ], [ "meat_scrap", 10 ] ],
       [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 2 ], [ "chem_saltpetre", 1 ] ]
     ]
   },
@@ -4738,25 +4772,6 @@
     "difficulty": 4,
     "time": "20 m",
     "batch_time_factors": [ 83, 5 ],
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "bag_plastic", 1 ] ],
-      [ [ "fish", 1 ] ],
-      [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 1 ], [ "chem_saltpetre", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "bag_fish_vac",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
-    "skill_used": "cooking",
-    "difficulty": 4,
-    "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
@@ -4790,25 +4805,6 @@
   },
   {
     "type": "recipe",
-    "result": "bag_hflesh_vac",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
-    "skill_used": "cooking",
-    "difficulty": 4,
-    "time": "20 m",
-    "book_learn": [ [ "cookbook_human", 4 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "bag_plastic", 1 ] ],
-      [ [ "human_flesh", 1 ] ],
-      [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 2 ], [ "chem_saltpetre", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "veggy_salted",
     "id_suffix": "vacuum_packed",
     "container": "plastic_bag_vac",
@@ -4830,25 +4826,6 @@
   },
   {
     "type": "recipe",
-    "result": "bag_veggy_vac",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "cooking",
-    "difficulty": 4,
-    "time": "20 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "bag_plastic", 1 ] ],
-      [ [ "mushroom", 1 ], [ "veggy_any_uncooked", 1, "LIST" ] ],
-      [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 2 ], [ "chem_saltpetre", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "apple_sugar",
     "id_suffix": "vacuum_packed",
     "container": "plastic_bag_vac",
@@ -4857,6 +4834,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "20 m",
+    "batch_time_factors": [ 83, 5 ],
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 5 ], [ "makeshift_sealer", 10 ] ] ],
@@ -4865,25 +4843,6 @@
       [ [ "bag_plastic", 1 ] ],
       [ [ "sweet_fruit", 2, "LIST" ] ],
       [ [ "sugar", 8 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "bag_apple_vac",
-    "obsolete": true,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "cooking",
-    "difficulty": 4,
-    "time": "20 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "vac_sealer", 5 ], [ "makeshift_sealer", 10 ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "bag_plastic", 1 ] ],
-      [ [ "sweet_fruit", 1, "LIST" ] ],
-      [ [ "sugar", 2 ] ]
     ]
   },
   {
@@ -4996,7 +4955,7 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "time": "0 m",
+    "time": "1 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
     "components": [ [ [ "chem_ethanol", 125 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
@@ -5007,7 +4966,7 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "time": "0 m",
+    "time": "1 s",
     "charges": 1,
     "autolearn": true,
     "flags": [ "BLIND_EASY" ],
@@ -5030,7 +4989,7 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "time": "0 m",
+    "time": "1 s",
     "charges": 1,
     "autolearn": true,
     "flags": [ "BLIND_EASY" ],
@@ -5042,6 +5001,7 @@
         [ "european_pilsner", 1 ],
         [ "hb_beer", 1 ],
         [ "india_pale_ale", 1 ],
+        [ "wine_barley", 1 ],
         [ "pale_ale", 1 ],
         [ "stout", 1 ]
       ]
@@ -5112,9 +5072,9 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "meat", 1 ] ],
+      [ [ "meat_red", 1, "LIST" ] ],
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
-      [ [ "cheese", 2 ], [ "cheese_hard", 2 ], [ "can_cheese", 1 ] ],
+      [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ],
       [
         [ "pickle", 1 ],
         [ "veggy_pickled", 1 ],
@@ -5350,7 +5310,7 @@
     "components": [
       [ [ "human_flesh", 1 ] ],
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
-      [ [ "cheese", 2 ], [ "cheese_hard", 2 ], [ "can_cheese", 1 ] ],
+      [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ],
       [
         [ "pickle", 1 ],
         [ "veggy_pickled", 1 ],
@@ -5385,7 +5345,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "meat", 1 ] ],
+      [ [ "meat_red", 1, "LIST" ] ],
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
       [
         [ "pickle", 1 ],
@@ -5984,6 +5944,7 @@
     "skill_used": "cooking",
     "difficulty": 6,
     "time": "30 m",
+    "result_mult": 2,
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
@@ -5991,7 +5952,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "jar_glass", 1 ] ],
-      [ [ "meat", 1 ], [ "meat_scrap", 10 ] ],
+      [ [ "meat", 2 ], [ "meat_scrap", 20 ] ],
       [ [ "vinegar", 1 ] ]
     ]
   },
@@ -6749,7 +6710,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "meat", 1 ] ], [ [ "royal_jelly", 1 ] ] ]
+    "components": [ [ [ "meat_red", 1, "LIST" ] ], [ [ "royal_jelly", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -7006,6 +6967,18 @@
   },
   {
     "type": "recipe",
+    "result": "drink_martini",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREW",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "5 m",
+    "batch_time_factors": [ 50, 4 ],
+    "autolearn": true,
+    "components": [ [ [ "gin", 6 ] ], [ [ "wine_vermouth", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "drink_kalimotxo",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -7014,7 +6987,10 @@
     "charges": 5,
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "bum_wine", 2 ], [ "wine_cabernet", 2 ], [ "wine_chardonnay", 2 ], [ "wine_noir", 2 ] ], [ [ "cola", 1 ] ] ]
+    "components": [
+      [ [ "bum_wine", 2 ], [ "wine_cabernet", 2 ], [ "wine_chardonnay", 2 ], [ "wine_noir", 2 ], [ "wine_vermouth", 2 ] ],
+      [ [ "cola", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -7073,11 +7049,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 12, "LIST" ] ] ],
-    "components": [
-      [ [ "flour", 2 ] ],
-      [ [ "meat", 1 ], [ "dry_meat", 1 ], [ "rehydrated_meat", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
-    ]
+    "components": [ [ [ "flour", 2 ] ], [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -7550,7 +7522,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "food_processor", 20 ] ] ],
-    "components": [ [ [ "chili_pepper", 1 ] ] ]
+    "components": [ [ [ "chili_pepper", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -8677,7 +8649,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "meat", 1 ], [ "dry_meat", 1 ], [ "can_chicken", 1 ], [ "meat_smoked", 1 ] ],
+      [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ], [ "meat_smoked", 1 ] ],
       [ [ "tortilla_corn", 3 ] ],
       [
         [ "dry_beans", 1 ],

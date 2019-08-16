@@ -67,6 +67,7 @@
     * 2.5.18 "graffiti"
     * 2.5.19 "translate_ter"
     * 2.5.20 "zones"
+    * 2.5.21 "ter_furn_transforms"
   * 2.6 "rotation"
   * 2.7 "predecessor_mapgen"
 * 3 update_mapgen
@@ -189,7 +190,7 @@ Default: 1000
 ## 1.3 How "overmap_terrain" variables affect mapgen
 "id" is used to determine the required "om_terrain" id for standalone, -except- when the following variables are set in "overmap_terrain":
 * "extras" - applies rare, random scenes after mapgen; helicopter crashes, etc
-* "mondensity" - determines the default 'density' value for *"place_groups": [ { "monster": ...* (json)
+* "mondensity" - determines the default 'density' value for *"place_groups": [ { "monster": ...* (json), if this is not set then place_monsters will not work without its own explicitly set density argument.
 
 ## 1.4 Limitations / TODO
 * JSON: adding specific monster spawns are still WIP.
@@ -376,7 +377,7 @@ Example: "x": 12, "y": [ 5, 15 ]
 These values will produce a rectangle for map::place_spawns from ( 12, 5 ) to ( 12, 15 ) inclusive.
 
 #### 2.3.0.1 "density"
-**optional** magic sauce spawn amount number. Someone else describe this better >.>
+**optional** magic sauce spawn amount number that somehow determines how many monsters from the group can appear. This argument is optional, but for place_monsters to work the density must be set either here or in the overmap terrain definition. Otherwise it defaults to zero and no monsters will spawn. How density actually works is a strange mystery that someone should solve and put into this document.
 > Value: *floating point number*
 
 #### 2.3.0.2 "chance"
@@ -705,6 +706,11 @@ Places a zone for an NPC faction.  NPCs in the faction will use the zone to infl
 - "type": (required, string) must be one of NPC_RETREAT, NPC_NO_INVESTIGATE, or NPC_INVESTIGATE_ONLY.  NPCs will prefer to retreat towards NPC_RETREAT zones.  They will not move to the see the source of unseen sounds coming from NPC_NO_INVESTIGATE zones.  They will not move to the see the source of unseen sounds coming from outside NPC_INVESTIGATE_ONLY zones.
 - "faction": (required, string) the faction id of the NPC faction that will use the zone.
 - "name": (optional, string) the name of the zone.
+
+### 2.5.21 "ter_furn_transforms"
+Run a `ter_furn_transform` at the specified location.  This is mostly useful for applying transformations as part of
+an update_mapgen, as normal mapgen can just specify the terrain directly.
+- "transform": (required, string) the id of the `ter_furn_transform` to run.
 
 # 2.6 "rotation"
 Rotates the generated map after all the other mapgen stuff has been done. The value can be a single integer or a range (out of which a value will be randomly chosen). Example:

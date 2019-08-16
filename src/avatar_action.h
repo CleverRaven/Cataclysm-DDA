@@ -2,14 +2,14 @@
 #ifndef AVATAR_ACTION_H
 #define AVATAR_ACTION_H
 
-#include "enums.h"
+#include <limits.h>
+
 #include "optional.h"
+#include "point.h"
 
 class avatar;
 class item;
 class map;
-
-struct point;
 struct targeting_data;
 
 namespace avatar_action
@@ -23,7 +23,7 @@ inline bool move( avatar &you, map &m, const tripoint &d )
 }
 inline bool move( avatar &you, map &m, const point &d )
 {
-    return move( you, m, d.x, d.y );
+    return move( you, m, tripoint( d, 0 ) );
 }
 
 // Handle moving from a ramp

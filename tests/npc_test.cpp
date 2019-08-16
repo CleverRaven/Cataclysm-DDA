@@ -4,6 +4,7 @@
 #include <set>
 #include <utility>
 #include <vector>
+#include <sstream>
 
 #include "avatar.h"
 #include "catch/catch.hpp"
@@ -16,27 +17,25 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "text_snippets.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "vpart_reference.h" // IWYU pragma: keep
 #include "calendar.h"
-#include "creature.h"
-#include "enums.h"
-#include "game_constants.h"
 #include "line.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "point.h"
+
+class Creature;
 
 static void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {
-    calendar::turn = to_turn<int>( calendar::time_of_cataclysm + from );
+    calendar::turn = to_turn<int>( calendar::turn_zero + from );
     who.on_unload();
-    calendar::turn = to_turn<int>( calendar::time_of_cataclysm + to );
+    calendar::turn = to_turn<int>( calendar::turn_zero + to );
     who.on_load();
 }
 
@@ -139,8 +138,8 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
         const int five_min_ticks = 2;
         on_load_test( on_load_npc, 0_turns, 5_minutes * five_min_ticks );
         for( time_duration turn = 0_turns; turn < 5_minutes * five_min_ticks; turn += 1_turns ) {
-            iterated_npc.update_body( calendar::time_of_cataclysm + turn,
-                                      calendar::time_of_cataclysm + turn + 1_turns );
+            iterated_npc.update_body( calendar::turn_zero + turn,
+                                      calendar::turn_zero + turn + 1_turns );
         }
 
         const int margin = 2;
@@ -157,8 +156,8 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
         const auto five_min_ticks = 6_hours / 5_minutes;
         on_load_test( on_load_npc, 0_turns, 5_minutes * five_min_ticks );
         for( time_duration turn = 0_turns; turn < 5_minutes * five_min_ticks; turn += 1_turns ) {
-            iterated_npc.update_body( calendar::time_of_cataclysm + turn,
-                                      calendar::time_of_cataclysm + turn + 1_turns );
+            iterated_npc.update_body( calendar::turn_zero + turn,
+                                      calendar::turn_zero + turn + 1_turns );
         }
 
         const int margin = 10;
@@ -337,7 +336,7 @@ TEST_CASE( "npc-movement" )
             if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
                 || type == 'B' || type == 'C' ) {
 
-                g->m.add_field( p, fd_acid, MAX_FIELD_INTENSITY );
+                g->m.add_field( p, fd_acid, 3 );
             }
             // spawn rubbles
             if( type == 'R' ) {
@@ -349,8 +348,8 @@ TEST_CASE( "npc-movement" )
             if( type == 'V' || type == 'W' || type == 'M' ) {
                 vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p, 270, 0, 0 );
                 REQUIRE( veh != nullptr );
-                veh->install_part( point( 0, 0 ), vpart_frame_vertical );
-                veh->install_part( point( 0, 0 ), vpart_seat );
+                veh->install_part( point_zero, vpart_frame_vertical );
+                veh->install_part( point_zero, vpart_seat );
                 g->m.add_vehicle_to_cache( veh );
             }
             // spawn npcs

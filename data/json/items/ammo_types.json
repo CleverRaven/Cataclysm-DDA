@@ -207,7 +207,13 @@
     "type": "ammunition_type",
     "id": "3006",
     "name": ".30-06",
-    "default": "270"
+    "default": "3006"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "270win",
+    "name": ".270 Winchester",
+    "default": "270win_jsp"
   },
   {
     "type": "ammunition_type",
@@ -313,12 +319,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "fusion",
-    "name": "fusion cell",
-    "default": "laser_pack"
-  },
-  {
-    "type": "ammunition_type",
     "id": "12mm",
     "name": "12mm slugs",
     "default": "12mm"
@@ -382,6 +382,12 @@
     "id": "charcoal",
     "name": "charcoal",
     "default": "charcoal"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "cac2powder",
+    "name": "powdered calcium carbide premix",
+    "default": "cac2powder"
   },
   {
     "type": "ammunition_type",
@@ -511,9 +517,21 @@
   },
   {
     "type": "ammunition_type",
+    "id": "atgm",
+    "name": "152mm anti-tank guided missile",
+    "default": "atgm_heat"
+  },
+  {
+    "type": "ammunition_type",
     "id": "unfinished_char",
     "name": "semi-charred fuel",
     "default": "unfinished_charcoal"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "unfinished_cac2",
+    "name": "partially burned calcium carbide",
+    "default": "unfinished_cac2"
   },
   {
     "type": "ammunition_type",
@@ -550,5 +568,17 @@
     "name": "hexamine",
     "default": "chem_hexamine",
     "type": "ammunition_type"
+  },
+  {
+    "id": "oxygen",
+    "name": "oxygen",
+    "default": "oxygen",
+    "type": "ammunition_type"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "300blk",
+    "name": ".300 AAC Blackout",
+    "default": "300blk"
   }
 ]

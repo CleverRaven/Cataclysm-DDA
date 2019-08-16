@@ -4,7 +4,7 @@
     "result": "bio_power_storage",
     "skill_used": "electronics",
     "difficulty": 6,
-    "time": 50000,
+    "time": "500 s",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "power_supply", 6 ] ], [ [ "amplifier", 4 ] ], [ [ "light_battery_cell", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
@@ -14,7 +14,7 @@
     "result": "bio_power_storage_mkII",
     "skill_used": "electronics",
     "difficulty": 10,
-    "time": 70000,
+    "time": "700 s",
     "using": [ [ "soldering_standard", 32 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -30,7 +30,7 @@
     "result": "bio_solar",
     "skill_used": "electronics",
     "difficulty": 7,
-    "time": 50000,
+    "time": "500 s",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "power_supply", 4 ] ], [ [ "amplifier", 2 ] ], [ [ "solar_cell", 4 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
@@ -40,7 +40,7 @@
     "result": "bio_batteries",
     "skill_used": "electronics",
     "difficulty": 7,
-    "time": 50000,
+    "time": "500 s",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "power_supply", 2 ] ], [ [ "amplifier", 2 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
@@ -50,7 +50,7 @@
     "result": "bio_reactor",
     "skill_used": "electronics",
     "difficulty": 10,
-    "time": 50000,
+    "time": "500 s",
     "using": [ [ "soldering_standard", 120 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "minireactor", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
@@ -60,7 +60,7 @@
     "result": "bio_plut_filter",
     "skill_used": "electronics",
     "difficulty": 10,
-    "time": 50000,
+    "time": "500 s",
     "using": [ [ "soldering_standard", 80 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "laptop", -1 ], [ "control_laptop", -1 ] ] ],
@@ -71,7 +71,7 @@
     "result": "bio_reactor_upgrade",
     "skill_used": "electronics",
     "difficulty": 10,
-    "time": 50000,
+    "time": "500 s",
     "using": [ [ "soldering_standard", 120 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "laptop", -1 ], [ "control_laptop", -1 ] ] ],
@@ -82,7 +82,7 @@
     "result": "bio_advreactor",
     "skill_used": "electronics",
     "difficulty": 10,
-    "time": 5000,
+    "time": "50 s",
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "bio_reactor", 1 ] ], [ [ "bio_reactor_upgrade", 1 ] ] ]
@@ -92,7 +92,7 @@
     "result": "bio_ups",
     "skill_used": "electronics",
     "difficulty": 6,
-    "time": 50000,
+    "time": "500 s",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "power_supply", 2 ] ], [ [ "recharge_station", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
@@ -102,7 +102,7 @@
     "result": "bio_power_armor_interface",
     "skill_used": "electronics",
     "difficulty": 6,
-    "time": 50000,
+    "time": "500 s",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "power_supply", 2 ] ], [ [ "amplifier", 2 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
@@ -112,7 +112,7 @@
     "result": "bio_power_armor_interface_mkII",
     "skill_used": "electronics",
     "difficulty": 9,
-    "time": 50000,
+    "time": "500 s",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "power_supply", 5 ] ], [ [ "amplifier", 3 ] ], [ [ "plut_cell", 5 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
@@ -122,7 +122,7 @@
     "result": "bio_evap",
     "skill_used": "electronics",
     "difficulty": 7,
-    "time": 50000,
+    "time": "500 s",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "power_supply", 2 ] ], [ [ "hose", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
@@ -132,7 +132,7 @@
     "result": "bio_flashlight",
     "skill_used": "electronics",
     "difficulty": 6,
-    "time": 50000,
+    "time": "500 s",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "power_supply", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "lens", 2 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
@@ -142,7 +142,7 @@
     "result": "bio_water_extractor",
     "skill_used": "electronics",
     "difficulty": 7,
-    "time": 50000,
+    "time": "500 s",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "power_supply", 2 ] ], [ [ "element", 1 ] ], [ [ "hose", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]

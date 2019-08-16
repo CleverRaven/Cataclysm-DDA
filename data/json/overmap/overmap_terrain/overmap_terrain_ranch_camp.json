@@ -5,8 +5,7 @@
     "name": "field",
     "sym": "┌",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -14,8 +13,7 @@
     "name": "field",
     "sym": "─",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -23,8 +21,7 @@
     "name": "field",
     "sym": "─",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -32,8 +29,7 @@
     "name": "field",
     "sym": "─",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -41,8 +37,7 @@
     "name": "field",
     "sym": "─",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -50,8 +45,7 @@
     "name": "field",
     "sym": "─",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -59,8 +53,7 @@
     "name": "field",
     "sym": "─",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -68,8 +61,7 @@
     "name": "field",
     "sym": "─",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -77,8 +69,7 @@
     "name": "field",
     "sym": "┐",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -86,8 +77,7 @@
     "name": "field",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -95,8 +85,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -104,8 +93,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -113,8 +101,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -122,8 +109,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -131,8 +117,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -140,8 +125,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -149,8 +133,7 @@
     "name": "pond",
     "sym": "P",
     "color": "blue",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -158,8 +141,7 @@
     "name": "field",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -167,8 +149,7 @@
     "name": "field",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -176,8 +157,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -185,8 +165,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -194,8 +173,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -203,8 +181,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -212,8 +189,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -221,8 +197,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -230,8 +205,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -239,8 +213,7 @@
     "name": "field",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -248,8 +221,7 @@
     "name": "field",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -257,8 +229,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -266,8 +237,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -275,8 +245,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -284,8 +253,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -293,8 +261,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -302,8 +269,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -311,8 +277,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -320,8 +285,7 @@
     "name": "field",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -329,8 +293,7 @@
     "name": "field",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -338,8 +301,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -347,8 +309,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -356,8 +317,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -365,8 +325,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -374,8 +333,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -383,8 +341,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -392,8 +349,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -401,8 +357,7 @@
     "name": "field",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -410,8 +365,7 @@
     "name": "field",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -419,8 +373,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -428,8 +381,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -437,8 +389,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -446,8 +397,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -455,8 +405,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -464,8 +413,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -473,8 +421,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -482,8 +429,7 @@
     "name": "field",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -491,8 +437,7 @@
     "name": "field",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -500,8 +445,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -509,8 +453,7 @@
     "name": "silo",
     "sym": "#",
     "color": "i_brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -518,8 +461,7 @@
     "name": "field",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -527,8 +469,7 @@
     "name": "silo",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -536,8 +477,7 @@
     "name": "silo cap",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -545,8 +485,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -554,8 +493,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -563,8 +501,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -572,8 +509,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -581,8 +517,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -590,8 +525,7 @@
     "name": "field",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -599,8 +533,7 @@
     "name": "field",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -608,8 +541,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -617,8 +549,7 @@
     "name": "barn roof",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -626,8 +557,7 @@
     "name": "barn",
     "sym": "#",
     "color": "i_brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -635,8 +565,7 @@
     "name": "barn roof",
     "sym": "#",
     "color": "i_brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -644,8 +573,7 @@
     "name": "garage",
     "sym": "O",
     "color": "white",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -653,8 +581,7 @@
     "name": "garage roof",
     "sym": "O",
     "color": "white",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -662,8 +589,7 @@
     "name": "ranch",
     "sym": "v",
     "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -671,8 +597,7 @@
     "name": "ranch roof",
     "sym": "v",
     "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -680,8 +605,7 @@
     "name": "field",
     "sym": "┐",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -689,8 +613,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -698,8 +621,7 @@
     "name": "field",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -707,8 +629,7 @@
     "name": "field",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -716,8 +637,7 @@
     "name": "field",
     "sym": "└",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -725,8 +645,7 @@
     "name": "field",
     "sym": "─",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -734,8 +653,7 @@
     "name": "field",
     "sym": "─",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -743,8 +661,7 @@
     "name": "field",
     "sym": "┘",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -752,8 +669,7 @@
     "name": "field",
     "sym": "┘",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -761,8 +677,7 @@
     "name": "lot",
     "sym": "O",
     "color": "dark_gray",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -771,8 +686,7 @@
     "sym": "│",
     "color": "dark_gray",
     "see_cost": 2,
-    "extras": "road",
-    "flags": [ "NO_ROTATE" ]
+    "extras": "road"
   },
   {
     "type": "overmap_terrain",
@@ -780,8 +694,7 @@
     "name": "field",
     "sym": "└",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -789,8 +702,7 @@
     "name": "field",
     "sym": "─",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -798,8 +710,7 @@
     "name": "field",
     "sym": "─",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
@@ -807,7 +718,6 @@
     "name": "field",
     "sym": "┘",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "see_cost": 2
   }
 ]

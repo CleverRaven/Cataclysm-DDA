@@ -275,18 +275,6 @@
   },
   {
     "type": "profession",
-    "ident": "golfer",
-    "name": "Golfer",
-    "description": "A birdie is one under par, but how much is a zombie?  Your clubhouse was overrun by the undead, and you fled with your trusty driving wedge.",
-    "points": 0,
-    "items": {
-      "both": [ "hat_ball", "dress_shirt", "pants", "socks", "sneakers", "golf_club" ],
-      "male": [ "briefs" ],
-      "female": [ "sports_bra", "panties" ]
-    }
-  },
-  {
-    "type": "profession",
     "ident": "prep_student",
     "name": "Preppy Student",
     "description": "Your parents were busy, important people, who wanted you to have every advantage and pushed you to be \"successful,\" whatever that meant.  If only they'd ever let you experience childhood, or ever shown you their love.  You're certainly not getting either one now.",
@@ -300,7 +288,7 @@
           "pants",
           "socks",
           "dress_shoes",
-          "skinny_tie",
+          "tie_skinny",
           "tieclip",
           "fancy_sunglasses",
           "knit_scarf",

@@ -1,7 +1,6 @@
 #include "mission_companion.h"
 
 #include <cstdlib>
-#include <cmath>
 #include <algorithm>
 #include <cassert>
 #include <vector>
@@ -9,6 +8,7 @@
 #include <list>
 #include <unordered_map>
 #include <utility>
+#include <set>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -45,13 +45,15 @@
 #include "optional.h"
 #include "output.h"
 #include "pimpl.h"
-#include "player.h"
 #include "pldata.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "ui.h"
 #include "weighted_list.h"
 #include "material.h"
+#include "colony.h"
+#include "point.h"
+#include "weather.h"
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );
@@ -376,13 +378,14 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
 
     camp_tab_mode tab_mode = TAB_MAIN;
 
-    size_t part_y = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
-    size_t part_x = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
+    size_t part_y = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
+    size_t part_x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
     size_t maxy = part_y ? TERMY - 2 * part_y : FULL_SCREEN_HEIGHT;
     size_t maxx = part_x ? TERMX - 2 * part_x : FULL_SCREEN_WIDTH;
 
-    catacurses::window w_list = catacurses::newwin( maxy, maxx, part_y + TITLE_TAB_HEIGHT, part_x );
-    catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, maxx, part_y, part_x );
+    catacurses::window w_list = catacurses::newwin( maxy, maxx, point( part_x,
+                                part_y + TITLE_TAB_HEIGHT ) );
+    catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, maxx, point( part_x, part_y ) );
 
     size_t sel = 0;
     int offset = 0;
@@ -397,7 +400,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
     std::vector<std::string> mission_text;
 
     catacurses::window w_info = catacurses::newwin( info_height, info_width,
-                                part_y + TITLE_TAB_HEIGHT + 1, part_x + MAX_FAC_NAME_SIZE );
+                                point( part_x + MAX_FAC_NAME_SIZE, part_y + TITLE_TAB_HEIGHT + 1 ) );
 
     input_context ctxt( "FACTIONS" );
     ctxt.register_action( "UP", translate_marker( "Move cursor up" ) );
@@ -443,7 +446,8 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         if( redraw ) {
             werase( w_list );
             draw_border( w_list );
-            mvwprintz( w_list, 1, 1, c_white, name_mission_tabs( omt_pos, role_id, title,
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            mvwprintz( w_list, point( 1, 1 ), c_white, name_mission_tabs( omt_pos, role_id, title,
                        tab_mode ) );
 
             calcStartPos( offset, sel, info_height, cur_key_list.size() );
@@ -463,7 +467,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
                         col = ( current == sel ? h_white : c_dark_gray );
                     }
                 }
-                mvwprintz( w_list, i + 2, 1, col, "  %s", cur_key_list[current].name_display );
+                mvwprintz( w_list, point( 1, i + 2 ), col, "  %s", cur_key_list[current].name_display );
             }
 
             draw_scrollbar( w_list, sel, info_height + 1, cur_key_list.size(), 1 );
@@ -489,7 +493,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
 
             // Display the current subset of the mission text.
             for( size_t start_line = 0; start_line < end_line; start_line++ ) {
-                print_colored_text( w_info, start_line, 0, col, col,
+                print_colored_text( w_info, point( 0, start_line ), col, col,
                                     mission_text[start_line + info_offset] );
             }
 
@@ -504,7 +508,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         }
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
-            mvwprintz( w_list, sel + 2, 1, c_white, "-%s", mission_key.cur_key.id );
+            mvwprintz( w_list, point( 1, sel + 2 ), c_white, "-%s", mission_key.cur_key.id );
             if( sel == cur_key_list.size() - 1 ) {
                 sel = 0;    // Wrap around
             } else {
@@ -513,7 +517,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             info_offset = 0;
             redraw = true;
         } else if( action == "UP" ) {
-            mvwprintz( w_list, sel + 2, 1, c_white, "-%s", mission_key.cur_key.id );
+            mvwprintz( w_list, point( 1, sel + 2 ), c_white, "-%s", mission_key.cur_key.id );
             if( sel == 0 ) {
                 sel = cur_key_list.size() - 1;    // Wrap around
             } else {
@@ -892,7 +896,7 @@ void talk_function::field_build_1( npc &p )
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "ranch_camp_63", 20,
                           false );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.draw_square_ter( t_dirt, 5, 4, 15, 14 );
     bay.draw_square_ter( t_dirtmound, 6, 5, 6, 13 );
     bay.draw_square_ter( t_dirtmound, 8, 5, 8, 13 );
@@ -916,7 +920,7 @@ void talk_function::field_build_2( npc &p )
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "ranch_camp_63",
                           20, false );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.draw_square_ter( t_fence, 4, 3, 16, 3 );
     bay.draw_square_ter( t_fence, 4, 15, 16, 15 );
     bay.draw_square_ter( t_fence, 4, 3, 4, 15 );
@@ -931,7 +935,7 @@ void talk_function::field_build_2( npc &p )
 
 void talk_function::field_plant( npc &p, const std::string &place )
 {
-    if( g->weather.get_temperature( g->u.pos() ) < 50 ) {
+    if( !warm_enough_to_plant( g->u.pos() ) ) {
         popup( _( "It is too cold to plant anything now." ) );
         return;
     }
@@ -973,7 +977,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), place, 20,
                           false );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     for( int x = 0; x < SEEX * 2 - 1; x++ ) {
         for( int y = 0; y < SEEY * 2 - 1; y++ ) {
             if( bay.ter( x, y ) == t_dirtmound ) {
@@ -1014,7 +1018,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
                 }
                 used_seed.front().set_age( 0_turns );
                 bay.add_item_or_charges( x, y, used_seed.front() );
-                bay.set( x, y, t_dirt, f_plant_seed );
+                bay.set( point( x, y ), t_dirt, f_plant_seed );
                 limiting_number--;
             }
         }
@@ -1035,7 +1039,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     std::vector<itype_id> seed_types;
     std::vector<itype_id> plant_types;
     std::vector<std::string> plant_names;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     for( int x = 0; x < SEEX * 2 - 1; x++ ) {
         for( int y = 0; y < SEEY * 2 - 1; y++ ) {
             if( bay.furn( x, y ) == furn_str_id( "f_plant_harvest" ) && !bay.i_at( x, y ).empty() ) {
@@ -1099,8 +1103,8 @@ void talk_function::field_harvest( npc &p, const std::string &place )
                     if( tmp.typeId() == plant_types[plant_index] ) {
                         number_plots++;
                         bay.i_clear( x, y );
-                        bay.furn_set( x, y, f_null );
-                        bay.ter_set( x, y, t_dirtmound );
+                        bay.furn_set( point( x, y ), f_null );
+                        bay.ter_set( point( x, y ), t_dirtmound );
                         int plantCount = rng( skillLevel / 2, skillLevel );
                         if( plantCount >= 9 ) {
                             plantCount = 9;
@@ -1474,15 +1478,16 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
     }
 
     tinymap target_bay;
-    target_bay.load( om_tgt.x * 2, om_tgt.y * 2, om_tgt.z, false );
+    target_bay.load( tripoint( om_tgt.x * 2, om_tgt.y * 2, om_tgt.z ), false );
     std::vector< monster * > monsters_around;
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
             point sm( ( om_tgt.x * 2 ) + x, ( om_tgt.x * 2 ) + y );
             const point omp = sm_to_om_remain( sm );
-            overmap &omi = overmap_buffer.get( omp.x, omp.y );
+            overmap &omi = overmap_buffer.get( omp );
 
-            const tripoint current_submap_loc( om_tgt.x * 2 + x, om_tgt.y * 2 + y, om_tgt.z );
+            const tripoint current_submap_loc( tripoint( 2 * om_tgt.x, 2 * om_tgt.y, om_tgt.z ) + point( x,
+                                               y ) );
             auto monster_bucket = omi.monster_map.equal_range( current_submap_loc );
             std::for_each( monster_bucket.first,
             monster_bucket.second, [&]( std::pair<const tripoint, monster> &monster_entry ) {
@@ -1879,8 +1884,7 @@ std::vector<comp_rank> talk_function::companion_rank( const std::vector<npc_ptr>
 npc_ptr talk_function::companion_choose( const std::string &skill_tested, int skill_level )
 {
     std::vector<npc_ptr> available;
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( g->u.global_omt_location().x,
-                                     g->u.global_omt_location().y );
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( g->u.global_omt_location().xy() );
 
     for( auto &elem : g->get_follower_list() ) {
         npc_ptr guy = overmap_buffer.find_npc( elem );
@@ -1890,6 +1894,7 @@ npc_ptr talk_function::companion_choose( const std::string &skill_tested, int sk
         npc_companion_mission c_mission = guy->get_companion_mission();
         // get non-assigned visible followers
         if( g->u.posz() == guy->posz() && !guy->has_companion_mission() &&
+            !guy->is_travelling() &&
             ( rl_dist( g->u.pos(), guy->pos() ) <= SEEX * 2 ) && g->u.sees( guy->pos() ) ) {
             available.push_back( guy );
         } else if( bcp ) {
@@ -1903,8 +1908,7 @@ npc_ptr talk_function::companion_choose( const std::string &skill_tested, int sk
             }
         } else {
             const tripoint &guy_omt_pos = guy->global_omt_location();
-            cata::optional<basecamp *> guy_camp = overmap_buffer.find_camp( guy_omt_pos.x,
-                                                  guy_omt_pos.y );
+            cata::optional<basecamp *> guy_camp = overmap_buffer.find_camp( guy_omt_pos.xy() );
             if( guy_camp ) {
                 // get NPCs assigned to guard a remote base
                 basecamp *temp_camp = *guy_camp;
@@ -2019,7 +2023,7 @@ void talk_function::loot_building( const tripoint &site )
 {
     tinymap bay;
     tripoint p;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     for( int x = 0; x < SEEX * 2 - 1; x++ ) {
         for( int y = 0; y < SEEY * 2 - 1; y++ ) {
             p.x = x;
@@ -2031,20 +2035,20 @@ void talk_function::loot_building( const tripoint &site )
                 || t == t_door_boarded || t == t_door_boarded_damaged
                 || t == t_rdoor_boarded || t == t_rdoor_boarded_damaged
                 || t == t_door_boarded_peep || t == t_door_boarded_damaged_peep ) {
-                bay.ter_set( x, y, t_door_o );
+                bay.ter_set( point( x, y ), t_door_o );
             } else if( t == t_door_locked || t == t_door_locked_peep
                        || t == t_door_locked_alarm ) {
                 const map_bash_info &bash = bay.ter( x, y ).obj().bash;
-                bay.ter_set( x, y, bash.ter_set );
+                bay.ter_set( point( x, y ), bash.ter_set );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             } else if( t == t_door_metal_c || t == t_door_metal_locked
                        || t == t_door_metal_pickable ) {
-                bay.ter_set( x, y, t_door_metal_o );
+                bay.ter_set( point( x, y ), t_door_metal_o );
             } else if( t == t_door_glass_c ) {
-                bay.ter_set( x, y, t_door_glass_o );
+                bay.ter_set( point( x, y ), t_door_glass_o );
             } else if( t == t_wall && one_in( 25 ) ) {
                 const map_bash_info &bash = bay.ter( x, y ).obj().bash;
-                bay.ter_set( x, y, bash.ter_set );
+                bay.ter_set( point( x, y ), bash.ter_set );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
                 bay.collapse_at( p, false );
             }
@@ -2056,16 +2060,16 @@ void talk_function::loot_building( const tripoint &site )
                        t == t_window_no_curtains || t == t_window_no_curtains_taped )
                      && one_in( 4 ) ) {
                 const map_bash_info &bash = bay.ter( x, y ).obj().bash;
-                bay.ter_set( x, y, bash.ter_set );
+                bay.ter_set( point( x, y ), bash.ter_set );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             } else if( ( t == t_wall_glass || t == t_wall_glass_alarm ) && one_in( 3 ) ) {
                 const map_bash_info &bash = bay.ter( x, y ).obj().bash;
-                bay.ter_set( x, y, bash.ter_set );
+                bay.ter_set( point( x, y ), bash.ter_set );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             } else if( bay.has_furn( x, y ) && bay.furn( x, y ).obj().bash.str_max != -1 &&
                        one_in( 10 ) ) {
                 const map_bash_info &bash = bay.furn( x, y ).obj().bash;
-                bay.furn_set( x, y, bash.furn_set );
+                bay.furn_set( point( x, y ), bash.furn_set );
                 bay.delete_signage( p );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             }
@@ -2088,7 +2092,7 @@ void talk_function::loot_building( const tripoint &site )
         }
     }
     bay.save();
-    overmap_buffer.ter( site.x, site.y, site.z ) = oter_id( "looted_building" );
+    overmap_buffer.ter( site ) = oter_id( "looted_building" );
 }
 
 void mission_data::add( const std::string &id, const std::string &name_display,

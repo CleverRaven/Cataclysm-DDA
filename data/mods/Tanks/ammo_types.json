@@ -16,11 +16,5 @@
     "id": "30mm",
     "name": "30x113mm",
     "default": "30mm_hedp"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "atgm",
-    "name": "152mm anti-tank guided missile",
-    "default": "atgm_heat"
   }
 ]

@@ -6,7 +6,6 @@
 
 #include "avatar.h"
 #include "catch/catch.hpp"
-#include "enums.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -20,6 +19,7 @@
 #include "creature.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "point.h"
 
 static void check_lethality( const std::string &explosive_id, const int range, float lethality,
                              float margin )
@@ -112,7 +112,7 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
 
     // We don't expect any destroyed parts.
     REQUIRE( before_hp.size() == after_hp.size() );
-    for( unsigned int i = 0; i < before_hp.size(); ++i ) {
+    for( size_t i = 0; i < before_hp.size(); ++i ) {
         INFO( target_vehicle->parts[ i ].name() );
         if( target_vehicle->parts[ i ].info().get_id() == "windshield" ||
             target_vehicle->parts[ i ].info().get_id() == "headlight" ) {

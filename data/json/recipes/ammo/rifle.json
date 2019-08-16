@@ -82,7 +82,7 @@
     "components": [ [ [ "223_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder", 4 ] ], [ [ "copper", 1 ] ] ]
   },
   {
-    "result": "reloaded_270",
+    "result": "reloaded_270win_jsp",
     "type": "recipe",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_RIFLE",
@@ -94,8 +94,8 @@
     "book_learn": [ [ "recipe_bullets", 1 ], [ "mag_rifle", 3 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 8 ], [ "ammo_bullet", 5 ] ],
-    "components": [ [ [ "3006_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 10 ] ], [ [ "copper", 3 ] ] ]
+    "using": [ [ "bullet_forming", 8 ], [ "ammo_bullet", 5 ], [ "ammo_270win", 1 ] ],
+    "components": [ [ [ "gunpowder", 10 ] ], [ [ "copper", 3 ] ] ]
   },
   {
     "result": "reloaded_300_winmag",

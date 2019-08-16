@@ -56,7 +56,7 @@ class uistatedata
         bool editmap_nsa_viewmode = false;      // true: ignore LOS and lighting
         bool overmap_blinking = true;           // toggles active blinking of overlays.
         bool overmap_show_overlays = false;     // whether overlays are shown or not.
-        bool overmap_show_map_notes = false;
+        bool overmap_show_map_notes = true;
         bool overmap_show_land_use_codes = false; // toggle land use code sym/color for terrain
         bool overmap_show_city_labels = true;
         bool overmap_show_hordes = true;

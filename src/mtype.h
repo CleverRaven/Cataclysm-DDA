@@ -22,7 +22,6 @@ template <typename E> struct enum_traits;
 struct dealt_projectile_attack;
 struct species_type;
 
-enum field_id : int;
 enum body_part : int;
 enum m_size : int;
 
@@ -108,6 +107,9 @@ enum m_flag : int {
     MF_BONES,               // May produce bones and sinews when butchered; if combined with POISON flag, tainted bones, if combined with HUMAN, human bones
     MF_FAT,                 // May produce fat when butchered; if combined with POISON flag, tainted fat
     MF_IMMOBILE,            // Doesn't move (e.g. turrets)
+    MF_RIDEABLE_MECH,       // A rideable mech that is immobile until ridden.
+    MF_MILITARY_MECH,        // A rideable mech that was designed for military work.
+    MF_MECH_RECON_VISION,   // This mech gives you IR night-vision.
     MF_HIT_AND_RUN,         // Flee for several turns after a melee attack
     MF_GUILT,               // You feel guilty for killing it
     MF_HUMAN,               // It's a live human, as long as it's alive
@@ -149,11 +151,14 @@ enum m_flag : int {
     MF_NO_NECRO,            // This monster can't be revived by necros. It will still rise on its own.
     MF_AVOID_DANGER_1,      // This monster will path around some dangers instead of through them.
     MF_AVOID_DANGER_2,      // This monster will path around most dangers instead of through them.
+    MF_AVOID_FIRE,          // This monster will path around heat-related dangers instead of through them.
+    MF_AVOID_FALL,          // This monster will path around cliffs instead of off of them.
     MF_PRIORITIZE_TARGETS,  // This monster will prioritize targets depending on their danger levels
     MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
     MF_CATFOOD,             // This monster will become friendly when fed cat food.
     MF_CATTLEFODDER,        // This monster will become friendly when fed cattle fodder.
     MF_BIRDFOOD,            // This monster will become friendly when fed bird food.
+    MF_CANPLAY,             // This monster can be played with if it's a pet.
     MF_PET_MOUNTABLE,       // This monster can be mounted and ridden when tamed.
     MF_DOGFOOD,             // This monster will become friendly when fed dog food.
     MF_MILKABLE,            // This monster is milkable.
@@ -164,6 +169,8 @@ enum m_flag : int {
     MF_ELECTRIC_FIELD,      // This monster is surrounded by an electrical field that ignites flammable liquids near it
     MF_LOUDMOVES,           // This monster makes move noises as if ~2 sizes louder, even if flying.
     MF_CAN_OPEN_DOORS,      // This monster can open doors.
+    MF_STUN_IMMUNE,         // This monster is immune to the stun effect
+    MF_DROPS_AMMO,          // This monster drops ammo. Check to make sure starting_ammo paramter is present for this monster type!
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -319,6 +326,18 @@ struct mtype {
          * of this type (if it's friendly).
          */
         itype_id revert_to_itype;
+        /**
+         * If this monster is a rideable mech with built-in weapons, this is the weapons id
+         */
+        itype_id mech_weapon;
+        /**
+         * If this monster is a rideable mech it needs a power source battery type
+         */
+        itype_id mech_battery;
+        /**
+         * If this monster is a rideable mech with enhanced strength, this is the strength it gives to the player
+         */
+        int mech_str_bonus = 0;
 
         /** Emission sources that cycle each turn the monster remains alive */
         std::set<emit_id> emit_fields;
@@ -339,8 +358,8 @@ struct mtype {
         bool in_species( const species_id &spec ) const;
         bool in_species( const species_type &spec ) const;
         //Used for corpses.
-        field_id bloodType() const;
-        field_id gibType() const;
+        field_type_id bloodType() const;
+        field_type_id gibType() const;
         // The item id of the meat items that are produced by this monster (or "null")
         // if there is no matching item type. e.g. "veggy" for plant monsters.
         itype_id get_meat_itype() const;

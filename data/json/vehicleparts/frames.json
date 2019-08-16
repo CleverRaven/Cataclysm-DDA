@@ -11,7 +11,8 @@
     "description": "A light metal framework, designed to fold.  Other vehicle components can be mounted on it.  If all the frames and components of a vehicle are foldable, the vehicle can be folding into a small package and picked up as a normal item.",
     "folded_volume": 10,
     "breaks_into": [ { "item": "steel_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "count": [ 1, 2 ] } ],
-    "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ]
+    "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ],
+    "damage_reduction": { "all": 8 }
   },
   {
     "id": "folding_wooden_frame",
@@ -27,7 +28,8 @@
     "description": "A light wooden framework, designed to fold.  Other vehicle components can be mounted on it.  If all the frames and components of a vehicle are foldable, the vehicle can be folding into a small package and picked up as a normal item.",
     "folded_volume": 15,
     "breaks_into": [ { "item": "splinter", "count": [ 0, 6 ] }, { "item": "nail", "charges": [ 1, 15 ] } ],
-    "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE", "NAILABLE" ]
+    "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE", "NAILABLE" ],
+    "damage_reduction": { "all": 12 }
   },
   {
     "abstract": "frame",
@@ -44,7 +46,8 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "using": "vehicle_weld_removal" },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 30000, "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "MOUNTABLE" ]
+    "flags": [ "MOUNTABLE" ],
+    "damage_reduction": { "all": 52 }
   },
   {
     "abstract": "frame_wood",
@@ -58,7 +61,8 @@
     "durability": 150,
     "description": "A wooden framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Wood and nail construction means it can be constructed and added to the vehicle without welding tools.",
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
-    "flags": [ "NAILABLE" ]
+    "flags": [ "NAILABLE" ],
+    "damage_reduction": { "all": 52 }
   },
   {
     "abstract": "frame_wood_light",
@@ -75,7 +79,8 @@
     "requirements": {
       "install": { "time": 60000, "using": [ [ "rope_natural_short", 1 ] ] },
       "repair": { "time": 30000, "using": [ [ "adhesive", 1 ] ] }
-    }
+    },
+    "damage_reduction": { "all": 46 }
   },
   {
     "abstract": "hdframe",
@@ -85,7 +90,7 @@
     "location": "structure",
     "color": "dark_gray",
     "difficulty": 3,
-    "durability": 1600,
+    "durability": 760,
     "description": "A heavy metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Increased mass makes it more resistant to damage in collisions.",
     "breaks_into": "ig_vp_hdframe",
     "requirements": {
@@ -93,7 +98,8 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "using": "vehicle_weld_removal" },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": 60000, "using": [ [ "welding_standard", 10 ] ] }
     },
-    "flags": [ "MOUNTABLE" ]
+    "flags": [ "MOUNTABLE" ],
+    "damage_reduction": { "all": 112 }
   },
   {
     "abstract": "xlframe",
@@ -106,7 +112,8 @@
     "durability": 150,
     "description": "A light metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": "ig_vp_xlframe",
-    "flags": [ "MOUNTABLE" ]
+    "flags": [ "MOUNTABLE" ],
+    "damage_reduction": { "all": 28 }
   },
   {
     "id": "frame_cover",

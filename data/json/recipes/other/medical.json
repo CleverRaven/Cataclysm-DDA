@@ -6,7 +6,7 @@
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "firstaid",
     "difficulty": 1,
-    "time": "0 m",
+    "time": "30 s",
     "autolearn": true,
     "components": [
       [ [ "rag", 3 ], [ "medical_gauze", 1 ] ],
@@ -20,7 +20,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "tailor",
-    "time": "0 m",
+    "time": "9 s",
     "autolearn": true,
     "charges": 1,
     "components": [ [ [ "rag", 1 ] ] ]
@@ -72,7 +72,7 @@
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "cooking",
     "autolearn": true,
-    "time": "0 m",
+    "time": "30 s",
     "components": [ [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ] ]
   },
   {
@@ -131,8 +131,9 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
+    "charges": 2,
     "flags": [ "BLIND_EASY" ],
-    "components": [ [ [ "rag", 1 ] ], [ [ "disinfectant", 1 ] ] ]
+    "components": [ [ [ "rag", 2 ] ], [ [ "disinfectant", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -143,7 +144,8 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
+    "charges": 4,
     "flags": [ "BLIND_EASY" ],
-    "components": [ [ [ "cotton_ball", 1 ] ], [ [ "disinfectant", 1 ] ] ]
+    "components": [ [ [ "cotton_ball", 4 ] ], [ [ "disinfectant", 1 ] ] ]
   }
 ]

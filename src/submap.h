@@ -4,10 +4,11 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <list>
 #include <memory>
 #include <vector>
 #include <string>
+#include <iterator>
+#include <map>
 
 #include "active_item_cache.h"
 #include "basecamp.h"
@@ -18,15 +19,13 @@
 #include "field.h"
 #include "game_constants.h"
 #include "item.h"
-#include "enums.h"
 #include "type_id.h"
 #include "vehicle.h"
+#include "point.h"
 
 class JsonIn;
 class JsonOut;
 class map;
-
-struct mtype;
 struct trap;
 struct ter_t;
 struct furn_t;
@@ -165,11 +164,17 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
         // Its effect is meant to be cosmetic and atmospheric only.
         bool has_signage( const point &p ) const;
         // Dependent on furniture + cosmetics.
-        const std::string get_signage( const point &p ) const;
+        std::string get_signage( const point &p ) const;
         // Can be used anytime (prevents code from needing to place sign first.)
         void set_signage( const point &p, const std::string &s );
         // Can be used anytime (prevents code from needing to place sign first.)
         void delete_signage( const point &p );
+
+        bool has_computer( const point &p ) const;
+        const computer *get_computer( const point &p ) const;
+        computer *get_computer( const point &p );
+        void set_computer( const point &p, const computer &c );
+        void delete_computer( const point &p );
 
         bool contains_vehicle( vehicle * );
 
@@ -187,7 +192,7 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
         active_item_cache active_items;
 
         int field_count = 0;
-        time_point last_touched = calendar::time_of_cataclysm;
+        time_point last_touched = calendar::turn_zero;
         std::vector<spawn_point> spawns;
         /**
          * Vehicles on this submap (their (0,0) point is on this submap).
@@ -196,11 +201,14 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
          */
         std::vector<std::unique_ptr<vehicle>> vehicles;
         std::map<tripoint, partial_con> partial_constructions;
-        std::unique_ptr<computer> comp;
         basecamp camp;  // only allowing one basecamp per submap
 
     private:
+        std::map<point, computer> computers;
+        std::unique_ptr<computer> legacy_computer;
         int temperature = 0;
+
+        void update_legacy_computer();
 };
 
 /**
@@ -251,11 +259,11 @@ struct maptile {
             return sm->fld[x][y];
         }
 
-        field_entry *find_field( const field_id field_to_find ) {
+        field_entry *find_field( const field_type_id field_to_find ) {
             return sm->fld[x][y].find_field( field_to_find );
         }
 
-        bool add_field( const field_id field_to_add, const int new_intensity,
+        bool add_field( const field_type_id field_to_add, const int new_intensity,
                         const time_duration &new_age ) {
             const bool ret = sm->fld[x][y].add_field( field_to_add, new_intensity, new_age );
             if( ret ) {
@@ -281,7 +289,7 @@ struct maptile {
             return sm->has_signage( pos() );
         }
 
-        const std::string get_signage() const {
+        std::string get_signage() const {
             return sm->get_signage( pos() );
         }
 

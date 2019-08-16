@@ -1,7 +1,6 @@
 #include <algorithm>
 #include <map>
 #include <memory>
-#include <set>
 #include <utility>
 #include <vector>
 
@@ -11,16 +10,15 @@
 #include "game.h"
 #include "itype.h"
 #include "map.h"
-#include "player.h"
 #include "veh_type.h"
 #include "vehicle.h"
-#include "enums.h"
 #include "item.h"
 #include "item_location.h"
 #include "optional.h"
 #include "string_id.h"
 #include "units.h"
 #include "type_id.h"
+#include "point.h"
 
 static std::vector<const vpart_info *> turret_types()
 {
@@ -68,10 +66,10 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
             vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), 65, 65, 270, 0, 0 );
             REQUIRE( veh );
 
-            const int idx = veh->install_part( point( 0, 0 ), e->get_id(), true );
+            const int idx = veh->install_part( point_zero, e->get_id(), true );
             REQUIRE( idx >= 0 );
 
-            REQUIRE( veh->install_part( point( 0, 0 ), vpart_id( "storage_battery" ), true ) >= 0 );
+            REQUIRE( veh->install_part( point_zero, vpart_id( "storage_battery" ), true ) >= 0 );
             veh->charge_battery( 10000 );
 
             auto ammo = ammotype( veh->turret_query( veh->parts[idx] ).base()->ammo_default() );
@@ -81,7 +79,7 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
                 REQUIRE( tank );
                 INFO( tank->get_id().str() );
 
-                auto tank_idx = veh->install_part( point( 0, 0 ), tank->get_id(), true );
+                auto tank_idx = veh->install_part( point_zero, tank->get_id(), true );
                 REQUIRE( tank_idx >= 0 );
                 REQUIRE( veh->parts[ tank_idx ].ammo_set( ammo->default_ammotype() ) );
 

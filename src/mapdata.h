@@ -239,6 +239,7 @@ struct map_data_common_t {
         */
         std::array<int, SEASONS_PER_YEAR> symbol_;
 
+        int light_emitted;
         int movecost;   // The amount of movement points required to pass this terrain by default.
         int coverage; // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         units::volume max_volume; // Maximal volume of items that can be stored in/on this furniture
@@ -280,7 +281,7 @@ struct map_data_common_t {
         bool connects( int &ret ) const;
 
         bool connects_to( int test_connect_group ) const {
-            return ( connect_group != TERCONN_NONE ) && ( connect_group == test_connect_group );
+            return connect_group != TERCONN_NONE && connect_group == test_connect_group;
         }
 
         int symbol() const;
@@ -296,6 +297,11 @@ struct map_data_common_t {
         std::string extended_description() const;
 
         bool was_loaded = false;
+
+        bool is_flammable() const {
+            return flags.count( "FLAMMABLE" ) > 0 || flags.count( "FLAMMABLE_ASH" ) > 0 ||
+                   flags.count( "FLAMMABLE_HARD" ) > 0;
+        }
 
         virtual void load( JsonObject &jo, const std::string &src );
         virtual void check() const;
@@ -340,6 +346,9 @@ struct furn_t : map_data_common_t {
     units::volume keg_capacity = 0_ml;
     int comfort = 0;
     int floor_bedding_warmth = 0;
+    /** Emissions of furniture */
+    std::set<emit_id> emissions;
+
     int bonus_fire_warmth_feet = 300;
     itype_id deployed_item; // item id string used to create furniture
 
@@ -527,6 +536,7 @@ extern furn_id f_null,
        f_flower_marloss,
        f_tatami,
        f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
+       f_arcfurnace_empty, f_arcfurnace_full,
        f_smoking_rack, f_smoking_rack_active, f_metal_smoking_rack, f_metal_smoking_rack_active,
        f_water_mill, f_water_mill_active,
        f_wind_mill, f_wind_mill_active,

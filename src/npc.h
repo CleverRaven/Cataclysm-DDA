@@ -12,6 +12,7 @@
 #include <list>
 #include <unordered_map>
 #include <utility>
+#include <functional>
 
 #include "calendar.h"
 #include "line.h"
@@ -22,26 +23,29 @@
 #include "color.h"
 #include "creature.h"
 #include "cursesdef.h"
-#include "enums.h"
 #include "inventory.h"
 #include "item_location.h"
-#include "translations.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "material.h"
 #include "type_id.h"
+#include "faction.h"
+#include "int_id.h"
+#include "item.h"
+#include "point.h"
 
 struct bionic_data;
 class JsonObject;
 class JsonIn;
 class JsonOut;
-class item;
 struct overmap_location;
 class Character;
-class faction;
 class mission;
 class vehicle;
 struct pathfinding_settings;
+class monfaction;
+class npc_class;
+struct mission_type;
 
 enum game_message_type : int;
 class gun_mode;
@@ -89,6 +93,7 @@ enum npc_attitude : int {
     NPCATT_END
 };
 
+std::string npc_attitude_id( npc_attitude );
 std::string npc_attitude_name( npc_attitude );
 
 // Attitudes are grouped by overall behavior towards player
@@ -165,14 +170,14 @@ struct npc_opinion {
     int fear;
     int value;
     int anger;
-    int owed;
+    int owed; // Positive when the npc owes the player. Negative if player owes them.
 
     npc_opinion() {
         trust = 0;
         fear  = 0;
         value = 0;
         anger = 0;
-        owed = 0;
+        owed  = 0;
     }
 
     npc_opinion( int T, int F, int V, int A, int O ) :
@@ -652,7 +657,7 @@ enum talk_topic_enum {
 };
 
 // Function for conversion of legacy topics, defined in savegame_legacy.cpp
-std::string convert_talk_topic( talk_topic_enum const old_value );
+std::string convert_talk_topic( talk_topic_enum old_value );
 
 struct npc_chatbin {
     /**
@@ -752,10 +757,6 @@ class npc : public player
         void starting_weapon( const npc_class_id &type );
 
         // Save & load
-        // Overloaded from player
-        void load_info( std::string data ) override;
-        std::string save_info() const override;
-
         void deserialize( JsonIn &jsin ) override;
         void serialize( JsonOut &jsout ) const override;
 
@@ -763,7 +764,7 @@ class npc : public player
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
         std::string opinion_text() const;
-        int faction_display( const catacurses::window &fac_w, const int width ) const;
+        int faction_display( const catacurses::window &fac_w, int width ) const;
 
         // Interaction with the player
         void form_opinion( const player &u );
@@ -798,7 +799,7 @@ class npc : public player
         int get_faction_ver() const;
         void set_faction_ver( int new_version );
         bool has_faction_relationship( const player &guy,
-                                       const npc_factions::relationship flag ) const;
+                                       npc_factions::relationship flag ) const;
         // We want to kill/mug/etc the player
         bool is_enemy() const;
         // Traveling w/ player (whether as a friend or a slave)
@@ -865,6 +866,9 @@ class npc : public player
         bool has_identified( const std::string & ) const override {
             return true;
         }
+        bool has_artifact_with( const art_effect_passive ) const override {
+            return false;
+        }
         /** Is the item safe or does the NPC trust you enough? */
         bool will_accept_from_player( const item &it ) const;
 
@@ -872,6 +876,10 @@ class npc : public player
         bool wants_to_sell( const item &/*it*/, int at_price, int market_price ) const;
         bool wants_to_buy( const item &it ) const;
         bool wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const;
+
+        bool will_exchange_items_freely() const;
+        int max_credit_extended() const;
+        int max_willing_to_owe() const;
 
         // AI helpers
         void regen_ai_cache();
@@ -894,7 +902,7 @@ class npc : public player
         void say( const char *const line, Args &&... args ) const {
             return say( string_format( line, std::forward<Args>( args )... ) );
         }
-        void say( const std::string &line, const int priority = 0 ) const;
+        void say( const std::string &line, int priority = 0 ) const;
         void decide_needs();
         void die( Creature *killer ) override;
         bool is_dead() const;
@@ -935,8 +943,8 @@ class npc : public player
         // @param force true if the complaint should happen even if not enough time has elapsed since last complaint
         // @param speech words of this complaint
         bool complain_about( const std::string &issue, const time_duration &dur,
-                             const std::string &speech, const bool force = false,
-                             const int priority = 0 );
+                             const std::string &speech, bool force = false,
+                             int priority = 0 );
         // wrapper for complain_about that warns about a specific type of threat, with
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
@@ -998,7 +1006,7 @@ class npc : public player
         item &find_reloadable();
         /** Finds ammo the NPC could use to reload a given object */
         item_location find_usable_ammo( const item &weap );
-        const item_location find_usable_ammo( const item &weap ) const;
+        item_location find_usable_ammo( const item &weap ) const;
 
         bool dispose_item( item_location &&obj, const std::string &prompt = std::string() ) override;
 
@@ -1014,7 +1022,7 @@ class npc : public player
          * @returns If it updated the path.
          */
         bool update_path( const tripoint &p, bool no_bashing = false, bool force = true );
-        bool can_open_door( const tripoint &p, const bool inside ) const;
+        bool can_open_door( const tripoint &p, bool inside ) const;
         bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
 
         // nomove is used to resolve recursive invocation
@@ -1188,7 +1196,6 @@ class npc : public player
          * if no goal exist, this is no_goal_point.
          */
         tripoint goal;
-        std::vector<tripoint> omt_path;
         tripoint wander_pos; // Not actually used (should be: wander there when you hear a sound)
         int wander_time;
         item *known_stolen_item = nullptr; // the item that the NPC wants the player to drop or barter for.
@@ -1237,6 +1244,10 @@ class npc : public player
          * Retroactively update npc.
          */
         void on_load();
+        /**
+         * Update body, but throttled.
+         */
+        void npc_update_body();
 
         /// Set up (start) a companion mission.
         void set_companion_mission( npc &p, const std::string &mission_id );

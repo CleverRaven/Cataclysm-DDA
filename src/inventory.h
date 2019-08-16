@@ -177,8 +177,6 @@ class inventory : public visitable<inventory>
         int worst_item_value( npc *p ) const;
         bool has_enough_painkiller( int pain ) const;
         item *most_appropriate_painkiller( int pain );
-        item *best_for_melee( player &p, double &best );
-        item *most_loaded_gun();
 
         void rust_iron_items();
 
@@ -191,6 +189,7 @@ class inventory : public visitable<inventory>
         void dump( std::vector<item *> &dest );
 
         // vector rather than list because it's NOT an item stack
+        // returns all items that need processing
         std::vector<item *> active_items();
 
         void json_load_invcache( JsonIn &jsin );
@@ -207,7 +206,7 @@ class inventory : public visitable<inventory>
         // Removes invalid invlets, and assigns new ones if assign_invlet is true. Does not update the invlet cache.
         void update_invlet( item &it, bool assign_invlet = true );
 
-        void set_stack_favorite( const int position, const bool favorite );
+        void set_stack_favorite( int position, bool favorite );
 
         invlets_bitset allocated_invlets() const;
 

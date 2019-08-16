@@ -13,7 +13,7 @@
 #include <algorithm>
 #endif
 
-struct tripoint;
+#include "point.h"
 
 namespace cata
 {
@@ -87,7 +87,7 @@ struct input_event {
     // triggers this event. For single-key
     // events, simply make this of size 1.
 
-    int mouse_x, mouse_y;       // Mouse click co-ordinates, if applicable
+    point mouse_pos;       // Mouse click co-ordinates, if applicable
 
     // Actually entered text (if any), UTF-8 encoded, might be empty if
     // the input is not UTF-8 or not even text.
@@ -101,7 +101,6 @@ struct input_event {
 #endif
 
     input_event() {
-        mouse_x = mouse_y = 0;
         type = CATA_INPUT_ERROR;
 #if defined(__ANDROID__)
         shortcut_last_used_action_counter = 0;
@@ -109,7 +108,6 @@ struct input_event {
     }
     input_event( int s, input_event_t t )
         : type( t ) {
-        mouse_x = mouse_y = 0;
         sequence.push_back( s );
 #if defined(__ANDROID__)
         shortcut_last_used_action_counter = 0;
@@ -127,8 +125,7 @@ struct input_event {
         type = other.type;
         modifiers = other.modifiers;
         sequence = other.sequence;
-        mouse_x = other.mouse_x;
-        mouse_y = other.mouse_y;
+        mouse_pos = other.mouse_pos;
         text = other.text;
         shortcut_last_used_action_counter = other.shortcut_last_used_action_counter;
         return *this;
@@ -186,14 +183,14 @@ struct action_attributes {
 #define JOY_6        6
 #define JOY_7        7
 
-#define JOY_LEFT        256 + 1
-#define JOY_RIGHT       256 + 2
-#define JOY_UP          256 + 3
-#define JOY_DOWN        256 + 4
-#define JOY_RIGHTUP     256 + 5
-#define JOY_RIGHTDOWN   256 + 6
-#define JOY_LEFTUP      256 + 7
-#define JOY_LEFTDOWN    256 + 8
+#define JOY_LEFT        (256 + 1)
+#define JOY_RIGHT       (256 + 2)
+#define JOY_UP          (256 + 3)
+#define JOY_DOWN        (256 + 4)
+#define JOY_RIGHTUP     (256 + 5)
+#define JOY_RIGHTDOWN   (256 + 6)
+#define JOY_LEFTUP      (256 + 7)
+#define JOY_LEFTDOWN    (256 + 8)
 
 /**
  * Manages the translation from action IDs to associated input.
@@ -445,8 +442,7 @@ class input_context
             allow_text_entry = other.allow_text_entry;
             registered_any_input = other.registered_any_input;
             category = other.category;
-            coordinate_x = other.coordinate_x;
-            coordinate_y = other.coordinate_y;
+            coordinate = other.coordinate;
             coordinate_input_received = other.coordinate_input_received;
             handling_coordinate_input = other.handling_coordinate_input;
             next_action = other.next_action;
@@ -462,8 +458,7 @@ class input_context
                    registered_manual_keys == other.registered_manual_keys &&
                    allow_text_entry == other.allow_text_entry &&
                    registered_any_input == other.registered_any_input &&
-                   coordinate_x == other.coordinate_x &&
-                   coordinate_y == other.coordinate_y &&
+                   coordinate == other.coordinate &&
                    coordinate_input_received == other.coordinate_input_received &&
                    handling_coordinate_input == other.handling_coordinate_input &&
                    next_action == other.next_action &&
@@ -539,9 +534,9 @@ class input_context
          * @param evt_filter Only keys satisfying this function will be
          *                   described.
          */
-        const std::string get_desc( const std::string &action_descriptor,
-                                    const unsigned int max_limit = 0,
-                                    const std::function<bool( const input_event & )> evt_filter =
+        std::string get_desc( const std::string &action_descriptor,
+                              unsigned int max_limit = 0,
+                              std::function<bool( const input_event & )> evt_filter =
         []( const input_event & ) {
             return true;
         } ) const;
@@ -560,9 +555,9 @@ class input_context
          *
          * @param evt_filter Only keys satisfying this function will be considered
          */
-        const std::string get_desc( const std::string &action_descriptor,
-                                    const std::string &text,
-                                    const std::function<bool( const input_event & )> evt_filter =
+        std::string get_desc( const std::string &action_descriptor,
+                              const std::string &text,
+                              std::function<bool( const input_event & )> evt_filter =
         []( const input_event & ) {
             return true;
         } ) const;
@@ -622,7 +617,7 @@ class input_context
         /**
          * Get the human-readable name for an action.
          */
-        const std::string get_action_name( const std::string &action_id ) const;
+        std::string get_action_name( const std::string &action_id ) const;
 
         /* For the future, something like this might be nice:
          * const std::string register_action(const std::string& action_descriptor, x, y, width, height);
@@ -674,8 +669,7 @@ class input_context
     private:
         bool registered_any_input;
         std::string category; // The input category this context uses.
-        int coordinate_x;
-        int coordinate_y;
+        point coordinate;
         bool coordinate_input_received;
         bool handling_coordinate_input;
         input_event next_action;

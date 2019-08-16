@@ -279,6 +279,38 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_salsify_raw",
+    "copy-from": "seed",
+    "name": "salsify seeds",
+    "name_plural": "salsify seeds",
+    "color": "green",
+    "description": "Some salsify seeds.",
+    "charges": 2,
+    "seed_data": { "plant_name": "salsify", "fruit": "salsify_raw", "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_chicory",
+    "copy-from": "seed",
+    "name": "chicory seeds",
+    "name_plural": "chicory seeds",
+    "color": "green",
+    "description": "Some chicory seeds.",
+    "charges": 2,
+    "seed_data": { "plant_name": "chicory", "fruit": "chicory_raw", "byproducts": [ "withered" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_wildcarrot",
+    "copy-from": "seed",
+    "price": 50,
+    "name": "wild root seeds",
+    "name_plural": "wild root seeds",
+    "description": "Some seeds from a white flower.",
+    "seed_data": { "plant_name": "wild root", "fruit": "carrot_wild", "byproducts": [ "withered" ], "grow": "65 days" }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "seed_flower",
     "copy-from": "seed",
     "name": "decorative plant seeds",
