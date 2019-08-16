@@ -545,6 +545,11 @@ bool item::is_unarmed_weapon() const
     return has_flag( "UNARMED_WEAPON" ) || is_null();
 }
 
+bool item::is_frozen_liquid() const
+{
+    return made_of( SOLID ) && made_of_from_type( LIQUID );
+}
+
 bool item::covers( const body_part bp ) const
 {
     return get_covered_body_parts().test( bp );
@@ -6652,11 +6657,6 @@ bool item::reload( player &u, item_location loc, int qty )
     } else if( is_watertight_container() ) {
         if( !ammo->made_of_from_type( LIQUID ) ) {
             debugmsg( "Tried to reload liquid container with non-liquid." );
-            return false;
-        }
-        if( !ammo->made_of( LIQUID ) ) {
-            u.add_msg_if_player( m_bad, _( "The %s froze solid before you could finish." ),
-                                 ammo->tname() );
             return false;
         }
         if( container ) {

@@ -8498,6 +8498,12 @@ void game::reload( item_location &loc, bool prompt, bool empty )
                               item::reload_option( &u, it, it, u.ammo_location ) :
                               u.select_ammo( *it, prompt, empty );
 
+    if( opt.ammo.get_item() != nullptr && opt.ammo.get_item()->is_frozen_liquid() ) {
+        if( !u.crush_frozen_liquid( opt.ammo ) ) {
+            return;
+        }
+    }
+
     if( opt ) {
         u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
         if( use_loc ) {
