@@ -269,13 +269,12 @@ bool player::handle_gun_damage( item &it )
             it.faults_potential().count( fault_gun_blackpowder ) ) {
             it.faults.insert( fault_gun_blackpowder );
         }
-        if( it.ammo_data()->ammo->recoil < firing->min_cycle_recoil ) {
+        if( ( it.ammo_data()->ammo->recoil < firing->min_cycle_recoil ) &&
+            it.faults_potential().count( fault_gun_chamber_spent ) ) {
             add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
                                    _( "<npcname>'s %s fails to cycle!" ),
                                    it.tname() );
-            if( it.faults_potential().count( fault_gun_chamber_spent ) ) {
-                it.faults.insert( fault_gun_chamber_spent );
-            }
+            it.faults.insert( fault_gun_chamber_spent );
             // Don't return false in this case; this shot happens, follow-up ones won't.
         }
         if( one_in( firing->blackpowder_tolerance ) &&
