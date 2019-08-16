@@ -1382,8 +1382,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
         }
         if( parts->test( iteminfo_parts::MAGAZINE_RELOAD ) ) {
-            info.emplace_back( "MAGAZINE", _( "Reload time: " ), _( "<num> per round" ),
-                               iteminfo::lower_is_better, type->magazine->reload_time / 100 );
+            info.emplace_back( "MAGAZINE", _( "Reload time: " ), _( "<num> moves per round" ),
+                               iteminfo::lower_is_better, type->magazine->reload_time );
         }
         insert_separation_line();
     }
@@ -1548,9 +1548,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.emplace_back( "GUN", _( "Even chance of good hit at range: " ),
                                    _( "<num>" ), iteminfo::no_flags, range );
                 int aim_mv = g->u.gun_engagement_moves( *mod, type.threshold );
-                info.emplace_back( "GUN", _( "Time to reach aim level: " ), _( "<num> seconds" ),
+                info.emplace_back( "GUN", _( "Time to reach aim level: " ), _( "<num> moves " ),
                                    iteminfo::is_decimal | iteminfo::lower_is_better,
-                                   TICKS_TO_SECONDS( aim_mv ) );
+                                   aim_mv );
             }
         }
 
@@ -1686,9 +1686,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         if( parts->test( iteminfo_parts::GUN_RELOAD_TIME ) ) {
             info.emplace_back( "GUN", _( "Reload time: " ),
-                               has_flag( "RELOAD_ONE" ) ? _( "<num> seconds per round" ) : _( "<num> seconds" ),
+                               has_flag( "RELOAD_ONE" ) ? _( "<num> moves per round" ) : _( "<num> moves " ),
                                iteminfo::lower_is_better,
-                               mod->get_reload_time() / 100 );
+                               mod->get_reload_time() );
         }
 
         if( parts->test( iteminfo_parts::GUN_FIRE_MODES ) ) {
