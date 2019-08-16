@@ -819,7 +819,7 @@ ma_technique player::get_grab_break_tec() const
 
 bool player::can_grab_break() const
 {
-    if ( !has_grab_break_tec() ) {
+    if( !has_grab_break_tec() ) {
         return false;
     }
 
@@ -829,8 +829,8 @@ bool player::can_grab_break() const
     std::map<skill_id, int> min_skill = tec.reqs.min_skill;
 
     // Failure conditions.
-    for ( const auto& pr : min_skill ) {
-        if ( ( cqb ? 5 : get_skill_level( pr.first ) ) < pr.second ) {
+    for( const auto &pr : min_skill ) {
+        if( ( cqb ? 5 : get_skill_level( pr.first ) ) < pr.second ) {
             return false;
         }
     }
@@ -839,9 +839,9 @@ bool player::can_grab_break() const
     return true;
 }
 
-bool player::can_miss_recovery( const item& weap ) const
+bool player::can_miss_recovery( const item &weap ) const
 {
-    if ( !has_miss_recovery_tec( weap ) ) {
+    if( !has_miss_recovery_tec( weap ) ) {
         return false;
     }
 
@@ -851,8 +851,8 @@ bool player::can_miss_recovery( const item& weap ) const
     std::map<skill_id, int> min_skill = tec.reqs.min_skill;
 
     // Failure conditions.
-    for ( const auto& pr : min_skill ) {
-        if ( ( cqb ? 5 : get_skill_level( pr.first ) ) < pr.second ) {
+    for( const auto &pr : min_skill ) {
+        if( ( cqb ? 5 : get_skill_level( pr.first ) ) < pr.second ) {
             return false;
         }
     }
