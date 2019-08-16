@@ -95,17 +95,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 1 ] ],
     "tools": [ [ [ "press", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
-    "components": [
-      [
-        [ "lead", 50 ],
-        [ "gold_small", 50 ],
-        [ "silver_small", 50 ],
-        [ "platinum_small", 50 ],
-        [ "tin", 50 ],
-        [ "bismuth", 50 ],
-        [ "solder_wire", 50 ]
-      ]
-    ]
+    "components": [ [ [ "weights", 10, "LIST" ] ] ]
   },
   {
     "type": "recipe",
