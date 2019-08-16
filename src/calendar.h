@@ -12,9 +12,6 @@ class time_point;
 class JsonOut;
 class JsonIn;
 
-/** How much light moon provides per lit-up quarter (Full-moon light is four times this value) */
-#define MOONLIGHT_PER_QUARTER 2.25
-
 /** How much light is provided in full daylight */
 #define DAYLIGHT_LEVEL 100
 
