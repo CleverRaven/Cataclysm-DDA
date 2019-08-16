@@ -20,6 +20,7 @@
 #include "filesystem.h"
 #include "game.h"
 #include "help.h"
+#include "ime.h"
 #include "json.h"
 #include "optional.h"
 #include "options.h"
@@ -921,21 +922,21 @@ cata::optional<tripoint> input_context::get_direction( const std::string &action
     const auto transform = iso_mode && tile_iso && use_tiles ? rotate : noop;
 
     if( action == "UP" ) {
-        return transform( tripoint( 0, -1, 0 ) );
+        return transform( tripoint_north );
     } else if( action == "DOWN" ) {
-        return transform( tripoint( 0, +1, 0 ) );
+        return transform( tripoint_south );
     } else if( action == "LEFT" ) {
-        return transform( tripoint( -1, 0, 0 ) );
+        return transform( tripoint_west );
     } else if( action == "RIGHT" ) {
-        return transform( tripoint( +1, 0, 0 ) );
+        return transform( tripoint_east );
     } else if( action == "LEFTUP" ) {
-        return transform( tripoint( -1, -1, 0 ) );
+        return transform( tripoint_north_west );
     } else if( action == "RIGHTUP" ) {
-        return transform( tripoint( +1, -1, 0 ) );
+        return transform( tripoint_north_east );
     } else if( action == "LEFTDOWN" ) {
-        return transform( tripoint( -1, +1, 0 ) );
+        return transform( tripoint_south_west );
     } else if( action == "RIGHTDOWN" ) {
-        return transform( tripoint( +1, +1, 0 ) );
+        return transform( tripoint_south_east );
     } else {
         return cata::nullopt;
     }
@@ -1021,12 +1022,14 @@ void input_context::display_menu()
     .max_length( legwidth )
     .context( ctxt );
 
+    // do not switch IME mode now, but restore previous mode on return
+    ime_sentry sentry( ime_sentry::keep );
     while( true ) {
         werase( w_help );
         draw_border( w_help, BORDER_COLOR, _( "Keybindings" ), c_light_red );
         draw_scrollbar( w_help, scroll_offset, display_height,
                         filtered_registered_actions.size(), 10, 0, c_white, true );
-        fold_and_print( w_help, 1, 2, legwidth, c_white, legend.str() );
+        fold_and_print( w_help, point( 2, 1 ), legwidth, c_white, legend.str() );
 
         for( size_t i = 0; i + scroll_offset < filtered_registered_actions.size() &&
              i < display_height; i++ ) {
@@ -1046,13 +1049,13 @@ void input_context::display_menu()
             if( status == s_add_global && overwrite_default ) {
                 // We're trying to add a global, but this action has a local
                 // defined, so gray out the invlet.
-                mvwprintz( w_help, i + 10, 2, c_dark_gray, "%c ", invlet );
+                mvwprintz( w_help, point( 2, i + 10 ), c_dark_gray, "%c ", invlet );
             } else if( status == s_add || status == s_add_global ) {
-                mvwprintz( w_help, i + 10, 2, c_light_blue, "%c ", invlet );
+                mvwprintz( w_help, point( 2, i + 10 ), c_light_blue, "%c ", invlet );
             } else if( status == s_remove ) {
-                mvwprintz( w_help, i + 10, 2, c_light_blue, "%c ", invlet );
+                mvwprintz( w_help, point( 2, i + 10 ), c_light_blue, "%c ", invlet );
             } else {
-                mvwprintz( w_help, i + 10, 2, c_blue, "  " );
+                mvwprintz( w_help, point( 2, i + 10 ), c_blue, "  " );
             }
             nc_color col;
             if( attributes.input_events.empty() ) {
@@ -1062,8 +1065,8 @@ void input_context::display_menu()
             } else {
                 col = global_key;
             }
-            mvwprintz( w_help, i + 10, 4, col, "%s: ", get_action_name( action_id ) );
-            mvwprintz( w_help, i + 10, 52, col, "%s", get_desc( action_id ) );
+            mvwprintz( w_help, point( 4, i + 10 ), col, "%s: ", get_action_name( action_id ) );
+            mvwprintz( w_help, point( 52, i + 10 ), col, "%s", get_desc( action_id ) );
         }
 
         // spopup.query_string() will call wrefresh( w_help )

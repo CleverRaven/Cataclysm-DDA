@@ -9,6 +9,7 @@ add_library(
     NoLongCheck.cpp
     PointInitializationCheck.cpp
     SimplifyPointConstructorsCheck.cpp
+    UseNamedPointConstantsCheck.cpp
     UsePointApisCheck.cpp
     UsePointArithmeticCheck.cpp
     XYCheck.cpp

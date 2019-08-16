@@ -2162,9 +2162,9 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         g->m.spawn_item( pos, "spike", rng( 1, 19 ) );
         g->m.spawn_item( pos, "scrap", rng( 1, 8 ) );
     } else if( ter == t_bars ) {
-        if( g->m.ter( pos + point( 1, 0 ) ) == t_sewage || g->m.ter( pos + point( 0, 1 ) ) ==
+        if( g->m.ter( pos + point_east ) == t_sewage || g->m.ter( pos + point_south ) ==
             t_sewage ||
-            g->m.ter( pos + point( -1, 0 ) ) == t_sewage || g->m.ter( pos + point( 0, -1 ) ) ==
+            g->m.ter( pos + point_west ) == t_sewage || g->m.ter( pos + point_north ) ==
             t_sewage ) {
             g->m.ter_set( pos, t_sewage );
             g->m.spawn_item( p->pos(), "pipe", rng( 1, 2 ) );
@@ -3234,7 +3234,7 @@ void activity_handlers::multiple_construction_do_turn( player_activity *act, pla
     // If we got here without restarting the activity, it means we're done.
     if( p->is_npc() ) {
         npc *guy = dynamic_cast<npc *>( p );
-        guy->current_activity.clear();
+        guy->current_activity_id = activity_id::NULL_ID();
         guy->revert_after_activity();
     }
 }
@@ -3417,9 +3417,9 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
         g->m.spawn_item( p->pos(), "spike", 19 );
         g->m.spawn_item( p->pos(), "scrap", 8 );
     } else if( ter == t_bars ) {
-        if( g->m.ter( pos + point( 1, 0 ) ) == t_sewage || g->m.ter( pos + point( 0, 1 ) )
+        if( g->m.ter( pos + point_east ) == t_sewage || g->m.ter( pos + point_south )
             == t_sewage ||
-            g->m.ter( pos + point( -1, 0 ) ) == t_sewage || g->m.ter( pos + point( 0, -1 ) ) ==
+            g->m.ter( pos + point_west ) == t_sewage || g->m.ter( pos + point_north ) ==
             t_sewage ) {
             g->m.ter_set( pos, t_sewage );
             g->m.spawn_item( p->pos(), "pipe", 3 );

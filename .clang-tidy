@@ -9,6 +9,7 @@ bugprone-*,\
 cata-*,\
 cert-*,\
 -cert-dcl21-cpp,\
+-cert-env33-c,\
 -cert-err58-cpp,\
 clang-diagnostic-*,\
 cppcoreguidelines-slicing,\
@@ -19,10 +20,8 @@ performance-*,\
 readability-*,\
 -bugprone-misplaced-widening-cast,\
 -bugprone-narrowing-conversions,\
--bugprone-undefined-memory-manipulation,\
 -bugprone-unused-return-value,\
 -bugprone-use-after-move,\
--cert-env33-c,\
 -cert-err34-c,\
 -cert-flp30-c,\
 -cert-msc30-c,\
@@ -42,14 +41,12 @@ readability-*,\
 -modernize-use-transparent-functors,\
 -performance-for-range-copy,\
 -performance-inefficient-vector-operation,\
--performance-move-const-arg,\
 -performance-noexcept-move-constructor,\
 -performance-implicit-conversion-in-loop,\
 -performance-inefficient-algorithm,\
 -performance-inefficient-string-concatenation,\
 -performance-type-promotion-in-math-fn,\
 -performance-unnecessary-value-param,\
--readability-avoid-const-params-in-decls,\
 -readability-braces-around-statements,\
 -readability-else-after-return,\
 -readability-function-size,\

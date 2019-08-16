@@ -95,9 +95,9 @@ class wish_mutate_callback: public uilist_callback
 
             if( !mdata.prereqs.empty() ) {
                 line2++;
-                mvwprintz( menu->window, line2, startx, c_light_gray, _( "Prereqs:" ) );
+                mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Prereqs:" ) );
                 for( auto &j : mdata.prereqs ) {
-                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ),
+                    mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
                                mutation_branch::get_name( j ) );
                     line2++;
                 }
@@ -105,9 +105,9 @@ class wish_mutate_callback: public uilist_callback
 
             if( !mdata.prereqs2.empty() ) {
                 line2++;
-                mvwprintz( menu->window, line2, startx, c_light_gray, _( "Prereqs, 2d:" ) );
+                mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Prereqs, 2d:" ) );
                 for( auto &j : mdata.prereqs2 ) {
-                    mvwprintz( menu->window, line2, startx + 15, mcolor( j ),
+                    mvwprintz( menu->window, point( startx + 15, line2 ), mcolor( j ),
                                mutation_branch::get_name( j ) );
                     line2++;
                 }
@@ -115,9 +115,9 @@ class wish_mutate_callback: public uilist_callback
 
             if( !mdata.threshreq.empty() ) {
                 line2++;
-                mvwprintz( menu->window, line2, startx, c_light_gray, _( "Thresholds required:" ) );
+                mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Thresholds required:" ) );
                 for( auto &j : mdata.threshreq ) {
-                    mvwprintz( menu->window, line2, startx + 21, mcolor( j ),
+                    mvwprintz( menu->window, point( startx + 21, line2 ), mcolor( j ),
                                mutation_branch::get_name( j ) );
                     line2++;
                 }
@@ -125,9 +125,9 @@ class wish_mutate_callback: public uilist_callback
 
             if( !mdata.cancels.empty() ) {
                 line2++;
-                mvwprintz( menu->window, line2, startx, c_light_gray, _( "Cancels:" ) );
+                mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Cancels:" ) );
                 for( auto &j : mdata.cancels ) {
-                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ),
+                    mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
                                mutation_branch::get_name( j ) );
                     line2++;
                 }
@@ -135,9 +135,9 @@ class wish_mutate_callback: public uilist_callback
 
             if( !mdata.replacements.empty() ) {
                 line2++;
-                mvwprintz( menu->window, line2, startx, c_light_gray, _( "Becomes:" ) );
+                mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Becomes:" ) );
                 for( auto &j : mdata.replacements ) {
-                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ),
+                    mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
                                mutation_branch::get_name( j ) );
                     line2++;
                 }
@@ -145,9 +145,9 @@ class wish_mutate_callback: public uilist_callback
 
             if( !mdata.additions.empty() ) {
                 line2++;
-                mvwprintz( menu->window, line2, startx, c_light_gray, _( "Add-ons:" ) );
+                mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Add-ons:" ) );
                 for( auto &j : mdata.additions ) {
-                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ),
+                    mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
                                mutation_branch::get_name( j ) );
                     line2++;
                 }
@@ -155,7 +155,7 @@ class wish_mutate_callback: public uilist_callback
 
             if( !mdata.types.empty() ) {
                 line2++;
-                mvwprintz( menu->window, line2, startx, c_light_gray,  _( "Type:" ) );
+                mvwprintz( menu->window, point( startx, line2 ), c_light_gray,  _( "Type:" ) );
                 for( auto &j : mdata.types ) {
                     mvwprintw( menu->window, point( startx + 11, line2 ), j );
                     line2++;
@@ -164,7 +164,7 @@ class wish_mutate_callback: public uilist_callback
 
             if( !mdata.category.empty() ) {
                 line2++;
-                mvwprintz( menu->window, line2, startx, c_light_gray,  _( "Category:" ) );
+                mvwprintz( menu->window, point( startx, line2 ), c_light_gray,  _( "Category:" ) );
                 for( auto &j : mdata.category ) {
                     mvwprintw( menu->window, point( startx + 11, line2 ), j );
                     line2++;
@@ -173,7 +173,7 @@ class wish_mutate_callback: public uilist_callback
             line2 += 2;
 
             //~ pts: points, vis: visibility, ugly: ugliness
-            mvwprintz( menu->window, line2, startx, c_light_gray, _( "pts: %d vis: %d ugly: %d" ),
+            mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "pts: %d vis: %d ugly: %d" ),
                        mdata.points,
                        mdata.visibility,
                        mdata.ugliness
@@ -183,12 +183,12 @@ class wish_mutate_callback: public uilist_callback
             std::vector<std::string> desc = foldstring( mdata.desc(),
                                             menu->pad_right - 1 );
             for( auto &elem : desc ) {
-                mvwprintz( menu->window, line2, startx, c_light_gray, elem );
+                mvwprintz( menu->window, point( startx, line2 ), c_light_gray, elem );
                 line2++;
             }
             lastlen = line2 + 1;
 
-            mvwprintz( menu->window, menu->w_height - 3, startx, c_green, msg );
+            mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
             msg = padding;
             input_context ctxt( menu->input_category );
             mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
@@ -354,9 +354,9 @@ class wish_monster_callback: public uilist_callback
 
             std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->nname(),
                                                 group, hallucination ? _( " (hallucination)" ) : "" );
-            mvwprintz( w_info, 0, ( getmaxx( w_info ) - header.size() ) / 2, c_cyan, header );
+            mvwprintz( w_info, point( ( getmaxx( w_info ) - header.size() ) / 2, 0 ), c_cyan, header );
 
-            mvwprintz( w_info, getmaxy( w_info ) - 3, 0, c_green, msg );
+            mvwprintz( w_info, point( 0, getmaxy( w_info ) - 3 ), c_green, msg );
             msg = padding;
             input_context ctxt( menu->input_category );
             mvwprintw( w_info, point( 0, getmaxy( w_info ) - 2 ),
@@ -471,12 +471,13 @@ class wish_item_callback: public uilist_callback
                                        standard_itype_ids[entnum]->get_id().c_str(),
                                        incontainer ? _( " (contained)" ) : "",
                                        has_flag ? _( " (flagged)" ) : "" );
-            mvwprintz( menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan,
+            mvwprintz( menu->window, point( startx + ( menu->pad_right - 1 - header.size() ) / 2, 1 ), c_cyan,
                        header );
 
-            fold_and_print( menu->window, starty, startx, menu->pad_right - 1, c_light_gray, tmp.info( true ) );
+            fold_and_print( menu->window, point( startx, starty ), menu->pad_right - 1, c_light_gray,
+                            tmp.info( true ) );
 
-            mvwprintz( menu->window, menu->w_height - 3, startx, c_green, msg );
+            mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
             msg.erase();
 
             input_context ctxt( menu->input_category );

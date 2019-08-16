@@ -256,7 +256,7 @@ struct extended_photo_def;
 struct object_names_collection;
 
 static void item_save_monsters( player &p, item &it, const std::vector<monster *> &monster_vec,
-                                const int photo_quality );
+                                int photo_quality );
 static bool show_photo_selection( player &p, item &it, const std::string &var_name );
 
 static bool item_read_extended_photos( item &, std::vector<extended_photo_def> &,
@@ -275,19 +275,19 @@ static std::string colorized_trap_name_at( const tripoint &point );
 static std::string colorized_ter_name_flags_at( const tripoint &point,
         const std::vector<std::string> &flags = {}, const std::vector<ter_str_id> &ter_whitelist = {} );
 static std::string colorized_feature_description_at( const tripoint &center_point, bool &item_found,
-        const units::volume min_visible_volume );
+        units::volume min_visible_volume );
 
 static std::string colorized_item_name( const item &item );
 static std::string colorized_item_description( const item &item );
 static item get_top_item_at_point( const tripoint &point,
-                                   const units::volume min_visible_volume );
+                                   units::volume min_visible_volume );
 
-static std::string effects_description_for_creature( Creature *const creature, std::string &pose,
+static std::string effects_description_for_creature( Creature *creature, std::string &pose,
         const std::string &pronoun_sex );
 
 static object_names_collection enumerate_objects_around_point( const tripoint &point,
-        const int radius, const tripoint &bounds_center_point, const int bounds_radius,
-        const tripoint &camera_pos, const units::volume min_visible_volume, bool create_figure_desc,
+        int radius, const tripoint &bounds_center_point, int bounds_radius,
+        const tripoint &camera_pos, units::volume min_visible_volume, bool create_figure_desc,
         std::unordered_set<tripoint> &ignored_points,
         std::unordered_set<const vehicle *> &vehicles_recorded );
 static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
@@ -805,8 +805,8 @@ int iuse::vaccine( player *p, item *it, bool, const tripoint & )
 int iuse::flu_vaccine( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You inject the vaccine." ) );
-    p->add_msg_if_player( m_good, _( "You no longer need to fear the flu." ) );
-    p->add_effect( effect_flushot, 1_turns, num_bp, true );
+    p->add_msg_if_player( m_good, _( "You no longer need to fear the flu, at least for some time." ) );
+    p->add_effect( effect_flushot, 30_days, num_bp, true );
     p->mod_pain( 3 );
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
@@ -1891,6 +1891,7 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
 
 int iuse::rm13armor_off( player *p, item *it, bool, const tripoint & )
 {
+    // This allows it to turn on for a turn, because ammo_sufficient assumes non-tool non-weapons need zero ammo, for some reason.
     if( !it->ammo_sufficient() ) {
         p->add_msg_if_player( m_info, _( "The RM13 combat armor's fuel cells are dead." ) );
         return 0;
@@ -1905,6 +1906,7 @@ int iuse::rm13armor_off( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( _( "Electro-reactive armor system:  ONLINE." ) );
         p->add_msg_if_player( _( "All systems nominal." ) );
         it->convert( oname ).active = true;
+        p->reset_encumbrance();
         return it->type->charges_to_use();
     }
 }
@@ -1924,6 +1926,7 @@ int iuse::rm13armor_on( player *p, item *it, bool t, const tripoint & )
         p->add_msg_if_player( _( "Shutting down." ) );
         p->add_msg_if_player( _( "Your RM13 combat armor turns off." ) );
         it->convert( oname ).active = false;
+        p->reset_encumbrance();
     }
     return it->type->charges_to_use();
 }
@@ -2705,10 +2708,10 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
 
     const tripoint dig_point = p->pos();
 
-    tripoint north = dig_point + point( 0, -1 );
-    tripoint south = dig_point + point( 0, 1 );
-    tripoint west = dig_point + point( -1, 0 );
-    tripoint east = dig_point + point( 1, 0 );
+    tripoint north = dig_point + point_north;
+    tripoint south = dig_point + point_south;
+    tripoint west = dig_point + point_west;
+    tripoint east = dig_point + point_east;
 
     const bool can_dig_here = g->m.has_flag( "DIGGABLE", dig_point ) && !g->m.has_furn( dig_point ) &&
                               g->m.tr_at( dig_point ).is_null() && g->m.i_at( dig_point ).empty() && !g->m.veh_at( dig_point ) &&

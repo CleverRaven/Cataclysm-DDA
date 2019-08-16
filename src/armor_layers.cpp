@@ -141,18 +141,19 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
 {
     const int win_width = getmaxx( w_sort_middle );
     const size_t win_height = static_cast<size_t>( getmaxy( w_sort_middle ) );
-    size_t i = fold_and_print( w_sort_middle, 0, 1, win_width - 1, c_white,
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    size_t i = fold_and_print( w_sort_middle, point( 1, 0 ), win_width - 1, c_white,
                                worn_item_it->type_name( 1 ) ) - 1;
     std::vector<std::string> props = clothing_properties( *worn_item_it, win_width - 3, c );
     nc_color color = c_light_gray;
     for( std::string &iter : props ) {
-        print_colored_text( w_sort_middle, ++i, 2, color, c_light_gray, iter );
+        print_colored_text( w_sort_middle, point( 2, ++i ), color, c_light_gray, iter );
     }
 
     std::vector<std::string> prot = clothing_protection( *worn_item_it, win_width - 3 );
     if( i + prot.size() < win_height ) {
         for( std::string &iter : prot ) {
-            print_colored_text( w_sort_middle, ++i, 2, color, c_light_gray, iter );
+            print_colored_text( w_sort_middle, point( 2, ++i ), color, c_light_gray, iter );
         }
     } else {
         return;
@@ -162,7 +163,7 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     std::vector<std::string> layer_desc = foldstring( clothing_layer( *worn_item_it ), win_width );
     if( i + layer_desc.size() < win_height && !clothing_layer( *worn_item_it ).empty() ) {
         for( std::string &iter : layer_desc ) {
-            mvwprintz( w_sort_middle, ++i, 0, c_light_blue, iter );
+            mvwprintz( w_sort_middle, point( 0, ++i ), c_light_blue, iter );
         }
     }
 
@@ -170,7 +171,7 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     std::vector<std::string> desc = clothing_flags_description( *worn_item_it );
     if( !desc.empty() ) {
         for( size_t j = 0; j < desc.size() && i + j < win_height; ++j ) {
-            i += fold_and_print( w_sort_middle, i, 0, win_width, c_light_blue, desc[j] );
+            i += fold_and_print( w_sort_middle, point( 0, i ), win_width, c_light_blue, desc[j] );
         }
     }
 
@@ -210,7 +211,7 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
                           penalties.body_parts_with_stacking_penalty.size() ),
                 layer_description, body_parts
             );
-        i += fold_and_print( w_sort_middle, i, 0, win_width, c_light_gray, message );
+        i += fold_and_print( w_sort_middle, point( 0, i ), win_width, c_light_gray, message );
     }
 
     if( !penalties.body_parts_with_out_of_order_penalty.empty() ) {
@@ -239,7 +240,7 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
                       );
         }
         // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-        i += fold_and_print( w_sort_middle, i, 0, win_width, c_light_gray, message );
+        i += fold_and_print( w_sort_middle, point( 0, i ), win_width, c_light_gray, message );
     }
 }
 
@@ -389,12 +390,12 @@ static void draw_grid( const catacurses::window &w, int left_pane_w, int mid_pan
     mvwvline( w, point( left_pane_w + mid_pane_w + 2, 3 ), 0, win_h - 4 );
 
     // intersections
-    mvwputch( w, 2, 0, BORDER_COLOR, LINE_XXXO );
-    mvwputch( w, 2, win_w - 1, BORDER_COLOR, LINE_XOXX );
-    mvwputch( w, 2, left_pane_w + 1, BORDER_COLOR, LINE_OXXX );
-    mvwputch( w, win_h - 1, left_pane_w + 1, BORDER_COLOR, LINE_XXOX );
-    mvwputch( w, 2, left_pane_w + mid_pane_w + 2, BORDER_COLOR, LINE_OXXX );
-    mvwputch( w, win_h - 1, left_pane_w + mid_pane_w + 2, BORDER_COLOR, LINE_XXOX );
+    mvwputch( w, point( 0, 2 ), BORDER_COLOR, LINE_XXXO );
+    mvwputch( w, point( win_w - 1, 2 ), BORDER_COLOR, LINE_XOXX );
+    mvwputch( w, point( left_pane_w + 1, 2 ), BORDER_COLOR, LINE_OXXX );
+    mvwputch( w, point( left_pane_w + 1, win_h - 1 ), BORDER_COLOR, LINE_XXOX );
+    mvwputch( w, point( left_pane_w + mid_pane_w + 2, 2 ), BORDER_COLOR, LINE_OXXX );
+    mvwputch( w, point( left_pane_w + mid_pane_w + 2, win_h - 1 ), BORDER_COLOR, LINE_XXOX );
 
     wrefresh( w );
 }
@@ -547,7 +548,7 @@ void player::sort_armor()
         leftListIndex = std::min( leftListIndex, new_index_upper_bound );
 
         // Left header
-        mvwprintz( w_sort_left, 0, 0, c_light_gray, _( "(Innermost)" ) );
+        mvwprintz( w_sort_left, point_zero, c_light_gray, _( "(Innermost)" ) );
         right_print( w_sort_left, 0, 0, c_light_gray, string_format( _( "Storage (%s)" ),
                      volume_units_abbr() ) );
         // Left list
@@ -555,7 +556,7 @@ void player::sort_armor()
             int itemindex = leftListOffset + drawindex;
 
             if( itemindex == leftListIndex ) {
-                mvwprintz( w_sort_left, drawindex + 1, 0, c_yellow, ">>" );
+                mvwprintz( w_sort_left, point( 0, drawindex + 1 ), c_yellow, ">>" );
             }
 
             std::string worn_armor_name = tmp_worn[itemindex]->tname();
@@ -563,22 +564,22 @@ void player::sort_armor()
                 get_item_penalties( tmp_worn[itemindex], *this, tabindex );
 
             const int offset_x = ( itemindex == selected ) ? 3 : 2;
-            trim_and_print( w_sort_left, drawindex + 1, offset_x, left_w - offset_x - 3,
+            trim_and_print( w_sort_left, point( offset_x, drawindex + 1 ), left_w - offset_x - 3,
                             penalties.color_for_stacking_badness(), worn_armor_name );
             right_print( w_sort_left, drawindex + 1, 0, c_light_gray,
                          format_volume( tmp_worn[itemindex]->get_storage() ) );
         }
 
         // Left footer
-        mvwprintz( w_sort_left, cont_h - 1, 0, c_light_gray, _( "(Outermost)" ) );
+        mvwprintz( w_sort_left, point( 0, cont_h - 1 ), c_light_gray, _( "(Outermost)" ) );
         if( leftListSize > static_cast<int>( tmp_worn.size() ) ) {
             // TODO: replace it by right_print()
-            mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<more>" ) ),
+            mvwprintz( w_sort_left, point( left_w - utf8_width( _( "<more>" ) ), cont_h - 1 ),
                        c_light_blue, _( "<more>" ) );
         }
         if( leftListSize == 0 ) {
             // TODO: replace it by right_print()
-            mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<empty>" ) ),
+            mvwprintz( w_sort_left, point( left_w - utf8_width( _( "<empty>" ) ), cont_h - 1 ),
                        c_light_blue, _( "<empty>" ) );
         }
 
@@ -586,15 +587,16 @@ void player::sort_armor()
         if( leftListSize > 0 ) {
             draw_mid_pane( w_sort_middle, tmp_worn[leftListIndex], *this, tabindex );
         } else {
-            fold_and_print( w_sort_middle, 0, 1, middle_w - 1, c_white,
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            fold_and_print( w_sort_middle, point( 1, 0 ), middle_w - 1, c_white,
                             _( "Nothing to see here!" ) );
         }
 
-        mvwprintz( w_encumb, 0, 1, c_white, _( "Encumbrance and Warmth" ) );
+        mvwprintz( w_encumb, point_east, c_white, _( "Encumbrance and Warmth" ) );
         print_encumbrance( w_encumb, -1, ( leftListSize > 0 ) ? &*tmp_worn[leftListIndex] : nullptr );
 
         // Right header
-        mvwprintz( w_sort_right, 0, 0, c_light_gray, _( "(Innermost)" ) );
+        mvwprintz( w_sort_right, point_zero, c_light_gray, _( "(Innermost)" ) );
         right_print( w_sort_right, 0, 0, c_light_gray, _( "Encumbrance" ) );
 
         // Right list
@@ -606,7 +608,7 @@ void player::sort_armor()
                 combined = true;
             }
             if( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
-                mvwprintz( w_sort_right, pos, 1, ( cover == tabindex ? c_yellow : c_white ),
+                mvwprintz( w_sort_right, point( 1, pos ), ( cover == tabindex ? c_yellow : c_white ),
                            "%s:", body_part_name_as_heading( all_body_parts[cover], combined ? 2 : 1 ) );
                 pos++;
             }
@@ -614,10 +616,10 @@ void player::sort_armor()
             for( layering_item_info &elem : items_cover_bp( *this, cover ) ) {
                 if( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
                     nc_color color = elem.penalties.color_for_stacking_badness();
-                    trim_and_print( w_sort_right, pos, 2, right_w - 5, color,
+                    trim_and_print( w_sort_right, point( 2, pos ), right_w - 5, color,
                                     elem.name );
                     char plus = elem.penalties.badness() > 0 ? '+' : ' ';
-                    mvwprintz( w_sort_right, pos, right_w - 4, c_light_gray, "%3d%c",
+                    mvwprintz( w_sort_right, point( right_w - 4, pos ), c_light_gray, "%3d%c",
                                elem.encumber, plus );
                     pos++;
                 }
@@ -629,10 +631,10 @@ void player::sort_armor()
         }
 
         // Right footer
-        mvwprintz( w_sort_right, cont_h - 1, 0, c_light_gray, _( "(Outermost)" ) );
+        mvwprintz( w_sort_right, point( 0, cont_h - 1 ), c_light_gray, _( "(Outermost)" ) );
         if( rightListSize > cont_h - 2 ) {
             // TODO: replace it by right_print()
-            mvwprintz( w_sort_right, cont_h - 1, right_w - utf8_width( _( "<more>" ) ), c_light_blue,
+            mvwprintz( w_sort_right, point( right_w - utf8_width( _( "<more>" ) ), cont_h - 1 ), c_light_blue,
                        _( "<more>" ) );
         }
         // F5

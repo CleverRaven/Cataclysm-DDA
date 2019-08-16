@@ -545,6 +545,11 @@ bool item::is_unarmed_weapon() const
     return has_flag( "UNARMED_WEAPON" ) || is_null();
 }
 
+bool item::is_frozen_liquid() const
+{
+    return made_of( SOLID ) && made_of_from_type( LIQUID );
+}
+
 bool item::covers( const body_part bp ) const
 {
     return get_covered_body_parts().test( bp );
@@ -1378,7 +1383,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         if( parts->test( iteminfo_parts::MAGAZINE_RELOAD ) ) {
             info.emplace_back( "MAGAZINE", _( "Reload time: " ), _( "<num> per round" ),
-                               iteminfo::lower_is_better, type->magazine->reload_time );
+                               iteminfo::lower_is_better, type->magazine->reload_time / 100 );
         }
         insert_separation_line();
     }
@@ -1683,7 +1688,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.emplace_back( "GUN", _( "Reload time: " ),
                                has_flag( "RELOAD_ONE" ) ? _( "<num> seconds per round" ) : _( "<num> seconds" ),
                                iteminfo::lower_is_better,
-                               static_cast<int>( mod->get_reload_time() / 16.67 ) );
+                               mod->get_reload_time() / 100 );
         }
 
         if( parts->test( iteminfo_parts::GUN_FIRE_MODES ) ) {
@@ -3174,6 +3179,9 @@ void item::on_wield( player &p, int mv )
     if( p.style_selected != matype_id( "style_none" ) ) {
         p.martialart_use_message();
     }
+
+    // Update encumbrance in case we were wearing it
+    p.reset_encumbrance();
 }
 
 void item::handle_pickup_ownership( Character &c )
@@ -3247,6 +3255,8 @@ void item::on_contents_changed()
     if( is_non_resealable_container() ) {
         convert( type->container->unseals_into );
     }
+
+    set_flag( "ENCUMBRANCE_UPDATE" );
 }
 
 void item::on_damage( int, damage_type )
@@ -6624,11 +6634,6 @@ bool item::reload( player &u, item_location loc, int qty )
     } else if( is_watertight_container() ) {
         if( !ammo->made_of_from_type( LIQUID ) ) {
             debugmsg( "Tried to reload liquid container with non-liquid." );
-            return false;
-        }
-        if( !ammo->made_of( LIQUID ) ) {
-            u.add_msg_if_player( m_bad, _( "The %s froze solid before you could finish." ),
-                                 ammo->tname() );
             return false;
         }
         if( container ) {
