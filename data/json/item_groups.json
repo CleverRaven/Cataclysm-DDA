@@ -3248,6 +3248,7 @@
     "items": [
       [ "tonfa", 50 ],
       [ "tonfa_wood", 10 ],
+      [ "blackjack", 50 ],
       [ "shocktonfa_off", 25 ],
       [ "tazer", 25 ],
       [ "remington_700", 5 ],
@@ -6123,6 +6124,7 @@
       [ "bullwhip", 10 ],
       [ "machete", 5 ],
       [ "baton", 8 ],
+      [ "blackjack", 10 ],
       [ "tazer", 3 ],
       [ "rapier", 3 ],
       [ "cavalry_sabre", 2 ],
