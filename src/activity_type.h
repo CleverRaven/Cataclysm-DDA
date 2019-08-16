@@ -49,7 +49,7 @@ class activity_type
             return suspendable_;
         }
         std::string stop_phrase() const;
-        translation verb() const {
+        const translation &verb() const {
             return verb_;
         }
         based_on_type based_on() const {

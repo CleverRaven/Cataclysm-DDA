@@ -14,7 +14,6 @@
 #include "item_location.h"
 #include "point.h"
 #include "string_id.h"
-#include "translations.h"
 
 class player;
 class Character;
@@ -22,6 +21,7 @@ class JsonIn;
 class JsonOut;
 class activity_type;
 class monster;
+class translation;
 
 using activity_id = string_id<activity_type>;
 
@@ -79,7 +79,7 @@ class player_activity
         // e.g. "Stop doing something?", already translated.
         std::string get_stop_phrase() const;
 
-        translation get_verb() const;
+        const translation &get_verb() const;
 
         int get_value( size_t index, int def = 0 ) const;
         std::string get_str_value( size_t index, const std::string &def = "" ) const;

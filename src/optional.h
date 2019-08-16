@@ -237,7 +237,7 @@ class optional
 template<class T, class U>
 constexpr bool operator==( const optional<T> &lhs, const optional<U> &rhs )
 {
-    if( bool( lhs ) != bool( rhs ) ) {
+    if( lhs.has_value() != rhs.has_value() ) {
         return false;
     } else if( !lhs ) {
         return true;
@@ -249,13 +249,7 @@ constexpr bool operator==( const optional<T> &lhs, const optional<U> &rhs )
 template< class T, class U >
 constexpr bool operator!=( const optional<T> &lhs, const optional<U> &rhs )
 {
-    if( bool( lhs ) != bool( rhs ) ) {
-        return true;
-    } else if( !lhs ) {
-        return false;
-    } else {
-        return *lhs != *rhs;
-    }
+    return !operator==( lhs, rhs );
 }
 
 } // namespace cata
