@@ -65,7 +65,7 @@
         "ammo_type": "50bmg",
         "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "fake_dex": 12,
-        "ranges": [ [ 0, 30, "DEFAULT" ] ],
+        "ranges": [ [ 0, 40, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
         "laser_lock": true,
@@ -84,7 +84,7 @@
     "id": "mon_turret_rifle",
     "type": "MONSTER",
     "name": "milspec turret",
-    "description": "Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General Atomics' TX-1 9x19mm model and an automated M4 carbine.",
+    "description": "Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General Atomics' TX-1 9x19mm model and an automated 5.56mm carbine.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "diff": 20,
@@ -111,7 +111,7 @@
         "fake_skills": [ [ "gun", 6 ], [ "rifle", 8 ] ],
         "fake_dex": 10,
         "range": 18,
-        "ranges": [ [ 0, 8, "AUTO" ], [ 9, 16, "DEFAULT" ] ]
+        "ranges": [ [ 0, 10, "AUTO" ], [ 11, 30, "DEFAULT" ] ]
       }
     ],
     "death_drops": {  },
