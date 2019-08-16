@@ -348,6 +348,8 @@ class Creature
         void remove_value( const std::string &key );
         std::string get_value( const std::string &key ) const;
 
+        virtual units::mass get_weight() const = 0;
+
         /** Processes through all the effects on the Creature. */
         virtual void process_effects();
 
