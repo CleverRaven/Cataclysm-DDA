@@ -4345,9 +4345,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
                 case 2: {
                     std::vector<std::string> choice_names;
-                    choice_names.push_back( "Personality_Override" );
+                    choice_names.push_back( _( "Personality_Override" ) );
                     for( size_t i = 0; i < 6; i++ ) {
-                        choice_names.push_back( "C0RR#PTED?D#TA" );
+                        choice_names.push_back( _( "C0RR#PTED?D#TA" ) );
                     }
                     int choice_index = uilist( _( "Choose bionic to uninstall" ), choice_names );
                     if( choice_index == 0 ) {
