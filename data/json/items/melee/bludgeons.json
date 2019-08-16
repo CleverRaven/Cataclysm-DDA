@@ -770,7 +770,7 @@
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
     "weight": 400,
     "volume": "350 ml",
-    "bashing": 10,
+    "bashing": 9,
     "to_hit": 1,
     "category": "weapons"
   }
