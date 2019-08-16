@@ -844,20 +844,35 @@ bool Character::can_fuel_bionic_with( const item &it ) const
     return false;
 }
 
-bionic_id Character::get_bionic_fueled_with( const item &it ) const
+std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
 {
-    for( const auto bio : *my_bionics ) {
+    std::vector<bionic_id> bionics;
+
+    for( const bionic bio : *my_bionics ) {
         for( const itype_id fuel : bio.info().fuel_opts ) {
             if( fuel == it.typeId() ) {
-                return bio.id;
+                bionics.emplace_back( bio.id );
             }
         }
     }
 
-    return bionic_id( "null" );
+    return bionics;
 }
 
-std::vector<itype_id> Character::get_fuel_stored( const bionic_id &bio ) const
+bionic_id Character::get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const
+{
+    int temp_eff = 0;
+    bionic_id bio( "null" );
+    for( const bionic_id &bid : bids ) {
+        if( bid->fuel_efficiency > temp_eff ) {
+            temp_eff = bid->fuel_efficiency;
+            bio = bid;
+        }
+    }
+    return bio;
+}
+
+std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) const
 {
     std::vector<itype_id> stored_fuels;
     for( const itype_id fuel : bio->fuel_opts ) {
@@ -866,6 +881,54 @@ std::vector<itype_id> Character::get_fuel_stored( const bionic_id &bio ) const
         }
     }
     return stored_fuels;
+}
+
+int Character::get_fuel_capacity( const itype_id fuel ) const
+{
+    int amount_stored = 0;
+    if( !get_value( fuel ).empty() ) {
+        amount_stored = std::stoi( get_value( fuel ) );
+    }
+    int capacity = 0;
+    for( const bionic &bio : *my_bionics ) {
+        for( const itype_id &fl : bio.info().fuel_opts ) {
+            if( get_value( bio.id.c_str() ).empty() || get_value( bio.id.c_str() ) == fl ) {
+                if( fl == fuel ) {
+                    capacity += bio.info().fuel_capacity;
+                }
+            }
+        }
+    }
+    return capacity - amount_stored;
+}
+
+void Character::update_fuel_storage( const item &fuel )
+{
+    if( get_value( fuel.typeId() ).empty() ) {
+        for( const bionic_id &bid : get_bionic_fueled_with( fuel ) ) {
+            remove_value( bid.c_str() );
+        }
+        return;
+    }
+
+    std::vector<bionic_id> bids = get_bionic_fueled_with( fuel );
+    int amount_fuel_loaded = std::stoi( get_value( fuel.typeId() ) );
+    std::vector<bionic_id> loaded_bio;
+    for( const bionic_id &bid : bids ) {
+        remove_value( bid.c_str() );
+        if( bid->fuel_capacity <= amount_fuel_loaded ) {
+            amount_fuel_loaded -= bid->fuel_capacity;
+            loaded_bio.emplace_back( bid );
+        } else if( amount_fuel_loaded != 0 ) {
+            loaded_bio.emplace_back( bid );
+            break;
+        }
+    }
+
+    for( const bionic_id &bd : loaded_bio ) {
+        set_value( bd.c_str(), fuel.typeId() );
+    }
+
 }
 
 std::vector<item_location> Character::nearby( const
