@@ -49,7 +49,7 @@
     "revert_to_itype": "bot_turret",
     "starting_ammo": { "9mm": 100 },
     "special_attacks": [
-      { "type": "gun", "cooldown": 1, "gun_type": "hk_mp5", "ranges": [ [ 0, 6, "AUTO" ], [ 7, 12, "DEFAULT" ] ] },
+      { "type": "gun", "cooldown": 1, "gun_type": "hk_mp5", "ranges": [ [ 0, 6, "AUTO" ], [ 7, 14, "DEFAULT" ] ] },
       [ "PARROT", 40 ]
     ],
     "death_drops": {  },
