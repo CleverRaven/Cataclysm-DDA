@@ -10489,7 +10489,7 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
     }
     if( is_npc() ) {
         npc *guy = dynamic_cast<npc *>( this );
-        guy->current_activity = activity.get_verb();
+        guy->current_activity_id = activity.id();
     }
 }
 

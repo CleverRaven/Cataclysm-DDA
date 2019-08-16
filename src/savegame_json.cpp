@@ -1360,6 +1360,7 @@ void npc::load( JsonObject &data )
     std::string companion_mission_role;
     time_point companion_mission_t = 0;
     time_point companion_mission_t_r = 0;
+    std::string act_id;
 
     data.read( "name", name );
     data.read( "marked_for_death", marked_for_death );
@@ -1414,7 +1415,11 @@ void npc::load( JsonObject &data )
     data.read( "guardx", guard_pos.x );
     data.read( "guardy", guard_pos.y );
     data.read( "guardz", guard_pos.z );
-    data.read( "current_activity", current_activity );
+    if( data.read( "current_activity_id", act_id ) ) {
+        current_activity_id = activity_id( act_id );
+    } else if( activity ) {
+        current_activity_id = activity.id();
+    }
 
     if( data.has_member( "pulp_locationx" ) ) {
         pulp_location.emplace();
@@ -1592,7 +1597,7 @@ void npc::store( JsonOut &json ) const
     json.member( "guardx", guard_pos.x );
     json.member( "guardy", guard_pos.y );
     json.member( "guardz", guard_pos.z );
-    json.member( "current_activity", current_activity );
+    json.member( "current_activity_id", current_activity_id.str() );
     json.member( "pulp_location", pulp_location );
 
     json.member( "mission", mission ); // TODO: stringid

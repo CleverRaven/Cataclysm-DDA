@@ -51,8 +51,7 @@ void activity_type::load( JsonObject &jo )
 
     result.id_ = activity_id( jo.get_string( "id" ) );
     assign( jo, "rooted", result.rooted_, true );
-    result.stop_phrase_ = string_format( _( "Stop %s?" ), jo.get_string( "verb" ) );
-    result.verb_ = _( jo.get_string( "verb" ) );
+    assign( jo, "verb", result.verb_, true );
     assign( jo, "suspendable", result.suspendable_, true );
     assign( jo, "no_resume", result.no_resume_, true );
     assign( jo, "refuel_fires", result.refuel_fires, false );
@@ -77,8 +76,8 @@ void activity_type::load( JsonObject &jo )
 void activity_type::check_consistency()
 {
     for( const auto &pair : activity_type_all ) {
-        if( pair.second.stop_phrase_.empty() ) {
-            debugmsg( "%s doesn't have a stop phrase", pair.first.c_str() );
+        if( pair.second.verb_.empty() ) {
+            debugmsg( "%s doesn't have a verb", pair.first.c_str() );
         }
         if( pair.second.based_on_ == based_on_type::NEITHER &&
             activity_handlers::do_turn_functions.find( pair.second.id_ ) ==
@@ -126,4 +125,9 @@ bool activity_type::call_finish( player_activity *act, player *p ) const
 void activity_type::reset()
 {
     activity_type_all.clear();
+}
+
+std::string activity_type::stop_phrase() const
+{
+    return string_format( _( "Stop %s?" ), verb_.translated() );
 }

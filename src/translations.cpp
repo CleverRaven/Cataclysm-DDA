@@ -405,14 +405,24 @@ bool translation::empty() const
     return raw.empty();
 }
 
-bool translation::operator<( const translation &that ) const
+bool translation::translated_lt( const translation &that ) const
 {
     return translated() < that.translated();
 }
 
-bool translation::operator==( const translation &that ) const
+bool translation::translated_eq( const translation &that ) const
 {
     return translated() == that.translated();
+}
+
+bool translation::translated_ne( const translation &that ) const
+{
+    return !translated_eq( that );
+}
+
+bool translation::operator==( const translation &that ) const
+{
+    return ctxt == that.ctxt && raw == that.raw && needs_translation == that.needs_translation;
 }
 
 bool translation::operator!=( const translation &that ) const

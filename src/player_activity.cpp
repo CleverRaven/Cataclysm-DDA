@@ -34,7 +34,7 @@ std::string player_activity::get_stop_phrase() const
     return type->stop_phrase();
 }
 
-std::string player_activity::get_verb() const
+const translation &player_activity::get_verb() const
 {
     return type->verb();
 }
