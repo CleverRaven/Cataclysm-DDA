@@ -1700,6 +1700,7 @@ units::mass Character::get_weight() const
     ret += inv.weight();           // Weight of the stored inventory
     ret += wornWeight;             // Weight of worn items
     ret += weapon.weight();        // Weight of wielded item
+    ret += bionics_weight();       // Weight of installed bionics
     return ret;
 }
 
@@ -3373,6 +3374,15 @@ std::string Character::get_weight_description() const
 units::mass Character::bodyweight() const
 {
     return units::from_kilogram( get_bmi() * pow( height() / 100.0f, 2 ) );
+}
+
+units::mass Character::bionics_weight() const
+{
+    units::mass bio_weight = 0_gram;
+    for( const auto bio : *my_bionics ) {
+        bio_weight += item::find_type( bio.id.c_str() )->weight;
+    }
+    return bio_weight;
 }
 
 int Character::height() const
