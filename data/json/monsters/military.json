@@ -18,7 +18,6 @@
     "morale": 100,
     "armor_bash": 14,
     "armor_cut": 16,
-    "luminance": 200,
     "revert_to_itype": "bot_laserturret",
     "special_attacks": [
       {
@@ -54,7 +53,6 @@
     "morale": 100,
     "armor_bash": 14,
     "armor_cut": 16,
-    "luminance": 210,
     "revert_to_itype": "bot_antimateriel",
     "starting_ammo": { "50bmg": 100 },
     "special_attacks": [
@@ -100,7 +98,6 @@
     "morale": 100,
     "armor_bash": 14,
     "armor_cut": 16,
-    "luminance": 210,
     "revert_to_itype": "bot_rifleturret",
     "starting_ammo": { "556": 100 },
     "special_attacks": [

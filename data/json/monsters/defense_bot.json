@@ -45,7 +45,6 @@
     "morale": 100,
     "armor_bash": 14,
     "armor_cut": 16,
-    "luminance": 200,
     "revert_to_itype": "bot_turret",
     "starting_ammo": { "9mm": 100 },
     "special_attacks": [
