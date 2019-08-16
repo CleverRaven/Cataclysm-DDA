@@ -6789,7 +6789,7 @@ void map::draw_connections( const oter_id &terrain_type, mapgendata &dat,
 }
 
 void map::place_spawns( const mongroup_id &group, const int chance,
-                        const int x1, const int y1, const int x2, const int y2, const float density,
+                        const point &p1, const point &p2, const float density,
                         const bool individual, const bool friendly )
 {
     if( !group.is_valid() ) {
@@ -6825,8 +6825,8 @@ void map::place_spawns( const mongroup_id &group, const int chance,
 
         // Pick a spot for the spawn
         do {
-            x = rng( x1, x2 );
-            y = rng( y1, y2 );
+            x = rng( p1.x, p2.x );
+            y = rng( p1.y, p2.y );
             tries--;
         } while( impassable( point( x, y ) ) && tries > 0 );
 
@@ -6837,7 +6837,7 @@ void map::place_spawns( const mongroup_id &group, const int chance,
     }
 }
 
-void map::place_gas_pump( int x, int y, int charges )
+void map::place_gas_pump( const point &p, int charges )
 {
     std::string fuel_type;
     if( one_in( 4 ) ) {
@@ -6845,42 +6845,42 @@ void map::place_gas_pump( int x, int y, int charges )
     } else {
         fuel_type = "gasoline";
     }
-    place_gas_pump( point( x, y ), charges, fuel_type );
+    place_gas_pump( p, charges, fuel_type );
 }
 
-void map::place_gas_pump( int x, int y, int charges, const std::string &fuel_type )
+void map::place_gas_pump( const point &p, int charges, const std::string &fuel_type )
 {
     item fuel( fuel_type, 0 );
     fuel.charges = charges;
-    add_item( point( x, y ), fuel );
-    ter_set( point( x, y ), ter_id( fuel.fuel_pump_terrain() ) );
+    add_item( p, fuel );
+    ter_set( p, ter_id( fuel.fuel_pump_terrain() ) );
 }
 
-void map::place_toilet( int x, int y, int charges )
+void map::place_toilet( const point &p, int charges )
 {
     item water( "water", 0 );
     water.charges = charges;
-    add_item( point( x, y ), water );
-    furn_set( point( x, y ), f_toilet );
+    add_item( p, water );
+    furn_set( p, f_toilet );
 }
 
-void map::place_vending( int x, int y, const std::string &type, bool reinforced )
+void map::place_vending( const point &p, const std::string &type, bool reinforced )
 {
     if( reinforced ) {
-        furn_set( point( x, y ), f_vending_reinforced );
-        place_items( type, 100, point( x, y ), point( x, y ), false, 0 );
+        furn_set( p, f_vending_reinforced );
+        place_items( type, 100, p, p, false, 0 );
     } else {
         const bool broken = one_in( 5 );
         if( broken ) {
-            furn_set( point( x, y ), f_vending_o );
+            furn_set( p, f_vending_o );
         } else {
-            furn_set( point( x, y ), f_vending_c );
-            place_items( type, 100, point( x, y ), point( x, y ), false, 0 );
+            furn_set( p, f_vending_c );
+            place_items( type, 100, p, p, false, 0 );
         }
     }
 }
 
-int map::place_npc( int x, int y, const string_id<npc_template> &type, bool force )
+int map::place_npc( const point &p, const string_id<npc_template> &type, bool force )
 {
     if( !force && !get_option<bool>( "STATIC_NPC" ) ) {
         return -1; //Do not generate an npc.
@@ -6888,17 +6888,17 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type, bool forc
     std::shared_ptr<npc> temp = std::make_shared<npc>();
     temp->normalize();
     temp->load_npc_template( type );
-    temp->spawn_at_precise( { abs_sub.xy() }, { x, y, abs_sub.z } );
+    temp->spawn_at_precise( { abs_sub.xy() }, { p, abs_sub.z } );
     temp->toggle_trait( trait_id( "NPC_STATIC_NPC" ) );
     overmap_buffer.insert_npc( temp );
     return temp->getID();
 }
 
-void map::apply_faction_ownership( const int x1, const int y1, const int x2, const int y2,
+void map::apply_faction_ownership( const point &p1, const point &p2,
                                    const faction_id id )
 {
     faction *fac = g->faction_manager_ptr->get( id );
-    for( const tripoint &p : points_in_rectangle( tripoint( x1, y1, abs_sub.z ), tripoint( x2, y2,
+    for( const tripoint &p : points_in_rectangle( tripoint( p1, abs_sub.z ), tripoint( p2,
             abs_sub.z ) ) ) {
         auto items = i_at( p.xy() );
         for( item &elem : items ) {
@@ -6924,8 +6924,8 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
 
 // A chance of 100 indicates that items should always spawn,
 // the item group should be responsible for determining the amount of items.
-std::vector<item *> map::place_items( const items_location &loc, int chance, int x1, int y1,
-                                      int x2, int y2, bool ongrass, const time_point &turn,
+std::vector<item *> map::place_items( const items_location &loc, int chance, const point &p1,
+                                      const point &p2, bool ongrass, const time_point &turn,
                                       int magazine, int ammo )
 {
     std::vector<item *> res;
@@ -6958,8 +6958,8 @@ std::vector<item *> map::place_items( const items_location &loc, int chance, int
         int px = 0;
         int py = 0;
         do {
-            px = rng( x1, x2 );
-            py = rng( y1, y2 );
+            px = rng( p1.x, p2.x );
+            py = rng( p1.y, p2.y );
             tries++;
         } while( is_valid_terrain( px, py ) && tries < 20 );
         if( tries < 20 ) {
@@ -6987,19 +6987,19 @@ std::vector<item *> map::put_items_from_loc( const items_location &loc, const tr
     return spawn_items( p, items );
 }
 
-void map::add_spawn( const mtype_id &type, int count, int x, int y, bool friendly,
+void map::add_spawn( const mtype_id &type, int count, const point &p, bool friendly,
                      int faction_id, int mission_id, const std::string &name )
 {
-    if( x < 0 || x >= SEEX * my_MAPSIZE || y < 0 || y >= SEEY * my_MAPSIZE ) {
-        debugmsg( "Bad add_spawn(%s, %d, %d, %d)", type.c_str(), count, x, y );
+    if( p.x < 0 || p.x >= SEEX * my_MAPSIZE || p.y < 0 || p.y >= SEEY * my_MAPSIZE ) {
+        debugmsg( "Bad add_spawn(%s, %d, %d, %d)", type.c_str(), count, p.x, p.y );
         return;
     }
     point offset;
-    submap *place_on_submap = get_submap_at( { x, y }, offset );
+    submap *place_on_submap = get_submap_at( p, offset );
 
     if( !place_on_submap ) {
         debugmsg( "centadodecamonant doesn't exist in grid; within add_spawn(%s, %d, %d, %d)",
-                  type.c_str(), count, x, y );
+                  type.c_str(), count, p.x, p.y );
         return;
     }
     if( MonsterGroupManager::monster_is_blacklisted( type ) ) {
@@ -7400,8 +7400,9 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 tmpcomp->add_failure( COMPFAIL_SHUTDOWN );
                 tmpcomp->add_failure( COMPFAIL_ALARM );
                 tmpcomp->add_failure( COMPFAIL_DAMAGE );
-                m->place_spawns( GROUP_TURRET_SMG, 1, static_cast<int>( ( x1 + x2 ) / 2 ), desk,
-                                 static_cast<int>( ( x1 + x2 ) / 2 ), desk, 1, true );
+                m->place_spawns( GROUP_TURRET_SMG, 1,
+                                 point( static_cast<int>( ( x1 + x2 ) / 2 ), desk ),
+                                 point( static_cast<int>( ( x1 + x2 ) / 2 ), desk ), 1, true );
             } else {
                 int desk = x1 + rng( static_cast<int>( height / 2 ) - static_cast<int>( height / 4 ),
                                      static_cast<int>( height / 2 ) + 1 );
@@ -7415,8 +7416,9 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 tmpcomp->add_failure( COMPFAIL_SHUTDOWN );
                 tmpcomp->add_failure( COMPFAIL_ALARM );
                 tmpcomp->add_failure( COMPFAIL_DAMAGE );
-                m->place_spawns( GROUP_TURRET_SMG, 1, desk, static_cast<int>( ( y1 + y2 ) / 2 ),
-                                 desk, static_cast<int>( ( y1 + y2 ) / 2 ), 1, true );
+                m->place_spawns( GROUP_TURRET_SMG, 1,
+                                 point( desk, static_cast<int>( ( y1 + y2 ) / 2 ) ),
+                                 point( desk, static_cast<int>( ( y1 + y2 ) / 2 ) ), 1, true );
             }
             break;
         case room_chemistry:
@@ -7520,9 +7522,11 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
             }
             mtrap_set( m, static_cast<int>( ( x1 + x2 ) / 2 ), static_cast<int>( ( y1 + y2 ) / 2 ),
                        tr_dissector );
-            m->place_spawns( GROUP_LAB_CYBORG, 10, static_cast<int>( ( ( x1 + x2 ) / 2 ) + 1 ),
-                             static_cast<int>( ( ( y1 + y2 ) / 2 ) + 1 ), static_cast<int>( ( ( x1 + x2 ) / 2 ) + 1 ),
-                             static_cast<int>( ( ( y1 + y2 ) / 2 ) + 1 ), 1, true );
+            m->place_spawns( GROUP_LAB_CYBORG, 10,
+                             point( static_cast<int>( ( ( x1 + x2 ) / 2 ) + 1 ),
+                                    static_cast<int>( ( ( y1 + y2 ) / 2 ) + 1 ) ),
+                             point( static_cast<int>( ( ( x1 + x2 ) / 2 ) + 1 ),
+                                    static_cast<int>( ( ( y1 + y2 ) / 2 ) + 1 ) ), 1, true );
             break;
 
         case room_bionics:
@@ -8079,9 +8083,9 @@ void build_mine_room( map *m, room_type type, int x1, int y1, int x2, int y2, ma
     }
 }
 
-void map::create_anomaly( int cx, int cy, artifact_natural_property prop )
+void map::create_anomaly( const point &cp, artifact_natural_property prop )
 {
-    create_anomaly( tripoint( cx, cy, abs_sub.z ), prop );
+    create_anomaly( tripoint( cp, abs_sub.z ), prop );
 }
 
 void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bool create_rubble )
@@ -8146,9 +8150,10 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
             for( int i = cx - 1; i <= cx + 1; i++ ) {
                 for( int j = cy - 1; j <= cy + 1; j++ ) {
                     if( i == cx && j == cy ) {
-                        place_spawns( GROUP_BREATHER_HUB, 1, i, j, i, j, 1, true );
+                        place_spawns( GROUP_BREATHER_HUB, 1, point( i, j ), point( i, j ), 1,
+                                      true );
                     } else {
-                        place_spawns( GROUP_BREATHER, 1, i, j, i, j, 1, true );
+                        place_spawns( GROUP_BREATHER, 1, point( i, j ), point( i, j ), 1, true );
                     }
                 }
             }
@@ -8261,7 +8266,7 @@ void rough_circle_furn( map *m, furn_id type, int x, int y, int rad )
 }
 void circle( map *m, ter_id type, double x, double y, double rad )
 {
-    m->draw_circle_ter( type, x, y, rad );
+    m->draw_circle_ter( type, rl_vec2d( x, y ), rad );
 }
 void circle( map *m, ter_id type, int x, int y, int rad )
 {
