@@ -53,6 +53,7 @@
     "morale": 100,
     "armor_bash": 14,
     "armor_cut": 16,
+    "vision_night": 3,
     "revert_to_itype": "bot_antimateriel",
     "starting_ammo": { "50bmg": 100 },
     "special_attacks": [
@@ -98,6 +99,7 @@
     "morale": 100,
     "armor_bash": 14,
     "armor_cut": 16,
+    "vision_night": 3,
     "revert_to_itype": "bot_rifleturret",
     "starting_ammo": { "556": 100 },
     "special_attacks": [
