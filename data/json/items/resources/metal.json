@@ -302,5 +302,38 @@
     "volume": 1,
     "bashing": 1,
     "to_hit": -2
+  },
+  {
+    "type": "AMMO",
+    "id": "tin",
+    "category": "spare_parts",
+    "price": 750,
+    "name": "tin",
+    "symbol": "=",
+    "color": "light_gray",
+    "description": "Tin and pewter scraps.  Usable in making ammo.",
+    "material": "tin",
+    "volume": "50ml",
+    "weight": 2,
+    "//": "Density 7.28g/cm³ ~ 1820kg/250ml @ stack 1000 = 2g/unit",
+    "ammo_type": "components",
+    "count": 50,
+    "stack_size": 200
+  },
+  {
+    "type": "AMMO",
+    "id": "solder_wire",
+    "category": "spare_parts",
+    "price": 5000,
+    "name": "solder",
+    "symbol": "=",
+    "color": "light_gray",
+    "description": "A small spool of solder, able to be used in ammunition and electronics.",
+    "material": "steel",
+    "volume": "50ml",
+    "weight": 2,
+    "//": "Density ~ 8g/cm³ ~ 2000kg/250ml @ stack 1000 = 2g/unit",
+    "ammo_type": "components",
+    "count": 200
   }
 ]
