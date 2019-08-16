@@ -7453,8 +7453,10 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
     }
 
     submap *const current_submap = get_submap_at_grid( gp );
+    const tripoint gp_ms = sm_to_ms_copy( gp );
+
     for( auto &i : current_submap->spawns ) {
-        const tripoint center( i.pos.x + gp.x * SEEX, i.pos.y + gp.y * SEEX, gp.z );
+        const tripoint center = gp_ms + i.pos;
         const tripoint_range points = points_in_radius( center, 3 );
 
         for( int j = 0; j < i.count; j++ ) {
