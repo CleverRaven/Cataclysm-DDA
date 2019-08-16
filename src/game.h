@@ -806,6 +806,7 @@ class game
          * monsters are despawned upon a vertical shift.
          */
         void shift_monsters( int shiftx, int shifty, int shiftz );
+    public:
         /**
          * Despawn a specific monster, it's stored on the overmap. Also removes
          * it from the creature tracker. Keep in mind that any monster index may
@@ -813,8 +814,8 @@ class game
          */
         void despawn_monster( monster &critter );
 
+    private:
         void perhaps_add_random_npc();
-        void rebuild_mon_at_cache();
 
         // Routine loop functions, approximately in order of execution
         void monmove();          // Monster movement

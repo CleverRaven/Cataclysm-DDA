@@ -7327,13 +7327,20 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         ignore_sight = true;
     }
 
+    static const auto allow_on_terrain = [&]( const tripoint & p ) {
+        // @todo flying creatures should be allowed to spawn without a floor,
+        // but the new creature is created *after* determining the terrain, so
+        // we can't check for it here.
+        return passable( p ) && has_floor( p );
+    };
+
     // If the submap is uniform, we can skip many checks
     const submap *current_submap = get_submap_at_grid( gp );
     bool ignore_terrain_checks = false;
     bool ignore_inside_checks = gp.z < 0;
     if( current_submap->is_uniform ) {
         const tripoint upper_left{ SEEX * gp.x, SEEY * gp.y, gp.z };
-        if( impassable( upper_left ) ||
+        if( !allow_on_terrain( upper_left ) ||
             ( !ignore_inside_checks && has_flag_ter_or_furn( TFLAG_INDOORS, upper_left ) ) ) {
             const tripoint glp = getabs( gp );
             dbg( D_WARNING ) << "Empty locations for group " << group.type.str() <<
@@ -7355,7 +7362,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                 continue; // there is already some creature
             }
 
-            if( !ignore_terrain_checks && impassable( fp ) ) {
+            if( !ignore_terrain_checks && !allow_on_terrain( fp ) ) {
                 continue; // solid area, impassable
             }
 
@@ -7447,10 +7454,10 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
 
     submap *const current_submap = get_submap_at_grid( gp );
     for( auto &i : current_submap->spawns ) {
+        const tripoint center( i.pos.x + gp.x * SEEX, i.pos.y + gp.y * SEEX, gp.z );
+        const tripoint_range points = points_in_radius( center, 3 );
+
         for( int j = 0; j < i.count; j++ ) {
-            int tries = 0;
-            int mx = i.pos.x;
-            int my = i.pos.y;
             monster tmp( i.type );
             tmp.mission_id = i.mission_id;
             if( i.name != "NONE" ) {
@@ -7459,26 +7466,11 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             if( i.friendly ) {
                 tmp.friendly = -1;
             }
-            int fx = mx + gp.x * SEEX;
-            int fy = my + gp.y * SEEY;
-            tripoint pos( fx, fy, gp.z );
 
-            while( ( !g->is_empty( pos ) || !tmp.can_move_to( pos ) ) && tries < 10 ) {
-                mx = ( i.pos.x + rng( -3, 3 ) ) % SEEX;
-                my = ( i.pos.y + rng( -3, 3 ) ) % SEEY;
-                if( mx < 0 ) {
-                    mx += SEEX;
-                }
-                if( my < 0 ) {
-                    my += SEEY;
-                }
-                fx = mx + gp.x * SEEX;
-                fy = my + gp.y * SEEY;
-                tries++;
-                pos = tripoint( fx, fy, gp.z );
-            }
-            if( tries != 10 ) {
-                tmp.spawn( pos );
+            if( const cata::optional<tripoint> pos = random_point( points, [&]( const tripoint & p ) {
+            return g->is_empty( p ) && tmp.can_move_to( p );
+            } ) ) {
+                tmp.spawn( *pos );
                 g->add_zombie( tmp );
             }
         }

@@ -4211,32 +4211,7 @@ void game::monmove()
 {
     cleanup_dead();
 
-    // Make sure these don't match the first time around.
-    tripoint cached_lev = m.get_abs_sub() + tripoint_east;
-
-    // used to force update of the monster factions if a monster has changed its z-level.
-    bool force_mfactions_update = false;
-
-    mfactions monster_factions;
-    const auto &playerfaction = mfaction_str_id( "player" );
     for( monster &critter : all_monsters() ) {
-        // The first time through, and any time the map has been shifted, or a monster changed its z-level
-        // recalculate monster factions.
-        if( cached_lev != m.get_abs_sub() || force_mfactions_update ) {
-            force_mfactions_update = false;
-            // monster::plan() needs to know about all monsters on the same team as the monster.
-            monster_factions.clear();
-            for( monster &critter : all_monsters() ) {
-                if( critter.friendly == 0 ) {
-                    // Only 1 faction per mon at the moment.
-                    monster_factions[ critter.faction ].insert( &critter );
-                } else {
-                    monster_factions[ playerfaction ].insert( &critter );
-                }
-            }
-            cached_lev = m.get_abs_sub();
-        }
-
         // Critters in impassable tiles get pushed away, unless it's not impassable for them
         if( !critter.is_dead() && m.impassable( critter.pos() ) && !critter.can_move_to( critter.pos() ) ) {
             dbg( D_ERROR ) << "game:monmove: " << critter.name()
@@ -4270,21 +4245,11 @@ void game::monmove()
             // Controlled critters don't make their own plans
             if( !critter.has_effect( effect_controlled ) ) {
                 // Formulate a path to follow
-                critter.plan( monster_factions );
+                critter.plan();
             }
             critter.move(); // Move one square, possibly hit u
             critter.process_triggers();
             m.creature_in_field( critter );
-        }
-
-        // FIX #28679
-        // It is possible that a monster has fallen down a z-level during critter.move() above, if it stepped on a trap.
-        // In this case the monster is deleted during the iteration of this `for` loop in
-        //  game::non_dead_range<monster>::iterator::operator++().
-        // We must make sure that we update the monster_factions so we don't pass a deleted monster later in critter.plan().
-        // Note that this only applies if z-levels are not active.
-        if( !g->m.has_zlevels() && critter.posz() != g->u.posz() ) {
-            force_mfactions_update = true;
         }
 
         if( !critter.is_dead() &&
@@ -4818,11 +4783,6 @@ bool game::spawn_hallucination( const tripoint &p )
     } else {
         return false;
     }
-}
-
-void game::rebuild_mon_at_cache()
-{
-    critter_tracker->rebuild_cache();
 }
 
 bool game::swap_critters( Creature &a, Creature &b )
@@ -10985,6 +10945,8 @@ void game::despawn_monster( monster &critter )
 
     critter.on_unload();
     remove_zombie( critter );
+    // simulate it being dead so further processing of it (e.g. in monmove) will yield
+    critter.set_hp( 0 );
 }
 
 void game::shift_monsters( const int shiftx, const int shifty, const int shiftz )
@@ -11009,7 +10971,7 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
     }
     // The order in which zombies are shifted may cause zombies to briefly exist on
     // the same square. This messes up the mon_at cache, so we need to rebuild it.
-    rebuild_mon_at_cache();
+    critter_tracker->rebuild_cache();
 }
 
 void game::perhaps_add_random_npc()
