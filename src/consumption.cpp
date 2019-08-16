@@ -10,6 +10,7 @@
 
 #include "addiction.h"
 #include "avatar.h"
+#include "bionics.h"
 #include "calendar.h" // ticks_between
 #include "cata_utility.h"
 #include "debug.h"
@@ -1279,23 +1280,25 @@ bool player::fuel_bionic_with( item &it )
     if( !can_fuel_bionic_with( it ) ) {
         return false;
     }
-    const bionic_id bid = get_bionic_fueled_with( it );
 
-    const int available = std::min( it.charges, std::numeric_limits<int>::max() );
-    const int to_charge = std::min( static_cast<int>( it.fuel_energy() * available ),
-                                    max_power_level - power_level );
-    const int to_consume = static_cast<int>( to_charge / it.fuel_energy() );
+    const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
 
-    const std::string loaded_charge = std::to_string( to_consume );
+    const int loadable = std::min( it.charges, get_fuel_capacity( it.typeId() ) );
+    if( loadable <= 0 ) {
+        add_msg_player_or_npc( m_info, _( "You don't have enough space to store more %s" ),
+                               _( "<npcname> doesn't have enough space to store more %s" ), it.tname() );
+        return false;
+    }
+    const std::string loaded_charge = std::to_string( loadable );
 
-    it.charges -= to_consume;
-    set_value( it.typeId(), loaded_charge );
+    it.charges -= loadable;
+    set_value( it.typeId(), loaded_charge );// type and amount of fuel
+    set_value( bio.c_str(), it.typeId() );// bionic and type of fuel
     add_msg_player_or_npc( m_info,
                            ngettext( "You load %i charge of %s in your %s.",
-                                     "You load %i charges of %s in your %s.", to_consume ),
+                                     "You load %i charges of %s in your %s.", loadable ),
                            ngettext( "<npcname> load %i charge of %s in their %s.",
-                                     "<npcname> load %i charges of %s in their %s.", to_consume ), to_consume, it.tname(),
-                           item( bid.c_str() ).tname() );
+                                     "<npcname> load %i charges of %s in their %s.", loadable ), loadable, it.tname(), bio->name );
     mod_moves( -250 );
     return true;
 }

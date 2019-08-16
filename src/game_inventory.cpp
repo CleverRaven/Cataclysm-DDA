@@ -518,8 +518,9 @@ class comestible_inventory_preset : public inventory_selector_preset
                         cbm_name = _( "Furnace" );
                         break;
                     case rechargeable_cbm::other:
-                        bionic_id bid = p.get_bionic_fueled_with( get_consumable_item( loc ) );
-                        if( bid != bionic_id( "null" ) ) {
+                        std::vector<bionic_id> bids = p.get_bionic_fueled_with( get_consumable_item( loc ) );
+                        if( !bids.empty() ) {
+                            bionic_id bid = p.get_most_efficient_bionic( bids );
                             cbm_name = bid->name;
                         }
                         break;

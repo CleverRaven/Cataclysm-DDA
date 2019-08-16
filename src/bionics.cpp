@@ -274,12 +274,12 @@ bool player::activate_bionic( int b, bool eff_only )
         }
 
         if( !bio.info().fuel_opts.empty() ) {
-            if( get_fuel_stored( bio.id ).empty() ) {
+            if( get_fuel_available( bio.id ).empty() ) {
                 add_msg_player_or_npc( m_bad, _( "Your %s does not have enought fuel to start." ),
                                        _( "<npcname>'s %s does not have enought fuel to start." ), bio.info().name );
                 return deactivate_bionic( b );
             }
-            for( const itype_id fuel : get_fuel_stored( bio.id ) ) {
+            for( const itype_id fuel : get_fuel_available( bio.id ) ) {
                 const item tmp_fuel( fuel.c_str() );
                 int temp = std::stoi( get_value( fuel ) );
                 if( temp > 0 ) {
@@ -878,19 +878,28 @@ void player::process_bionic( int b )
         }
     }
     if( !bio.info().fuel_opts.empty() ) {
-        for( const itype_id fuel : get_fuel_stored( bio.id ) ) {
+        for( const itype_id fuel : get_fuel_available( bio.id ) ) {
             const item tmp_fuel( fuel.c_str() );
             int temp = std::stoi( get_value( fuel ) );
-            if( temp > 0 ) {
-                temp -= 1;
-                charge_power( tmp_fuel.fuel_energy() );
-                set_value( fuel, std::to_string( temp ) );
-            } else {
-                remove_value( fuel );
-                add_msg_player_or_npc( m_info, _( "Your %s runs out of fuel and turn off." ),
-                                       _( "<npcname>'s %s runs out of fuel and turn off." ), bio.info().name );
+            if( power_level + tmp_fuel.fuel_energy() * ( bio.info().fuel_efficiency / 100 ) >
+                max_power_level ) {
+                add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
+                                       _( "<npcname>'s %s turns off to not waste fuel." ), bio.info().name );
                 bio.powered = false;
                 deactivate_bionic( b, true );
+
+            } else {
+                if( temp > 0 ) {
+                    temp -= 1;
+                    charge_power( tmp_fuel.fuel_energy() * ( bio.info().fuel_efficiency / 100 ) );
+                    set_value( fuel, std::to_string( temp ) );
+                } else {
+                    remove_value( fuel );
+                    add_msg_player_or_npc( m_info, _( "Your %s runs out of fuel and turn off." ),
+                                           _( "<npcname>'s %s runs out of fuel and turn off." ), bio.info().name );
+                    bio.powered = false;
+                    deactivate_bionic( b, true );
+                }
             }
         }
     }
@@ -2033,6 +2042,7 @@ void load_bionic( JsonObject &jsobj )
     jsobj.read( "upgraded_bionic", new_bionic.upgraded_bionic );
     jsobj.read( "fuel_options", new_bionic.fuel_opts );
     jsobj.read( "fuel_capacity", new_bionic.fuel_capacity );
+    jsobj.read( "fuel_efficiency", new_bionic.fuel_efficiency );
     JsonArray jsar = jsobj.get_array( "encumbrance" );
     if( !jsar.empty() ) {
         while( jsar.has_more() ) {
