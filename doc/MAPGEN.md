@@ -373,10 +373,10 @@ The arguments are exactly the same as "line", but "x", "y" and "x2", "y2" define
 | name | Extra name to display on the monster.
 |target | Set to true to make this into mission target. Only works when the monster is spawned from a mission.
 
-Example: `"place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]`
-This places a single random monster from group "GROUP_REFUGEE_BOSS_ZOMBIE", sets the name to "Sean McLaughlin", spawnes the monster at coordinate (10,10) and also sets the monster as the target of this mission.
+Example: `"place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]`  
+This places a single random monster from group "GROUP_REFUGEE_BOSS_ZOMBIE", sets the name to "Sean McLaughlin", spawns the monster at coordinate (10, 10) and also sets the monster as the target of this mission.
 
-Example: `"place_monster": [ { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": [1, 3] } ]`
+Example: `"place_monster": [ { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": [1, 3] } ]`  
 This places "mon_secubot" at random coordinate (7-18, 7-18). The monster is placed with 30% probablity. The placement is repeated one, two or three times.
 
 ## 2.5 "place_item"
