@@ -12,9 +12,6 @@ class time_point;
 class JsonOut;
 class JsonIn;
 
-/** How much light is provided in full daylight */
-#define DAYLIGHT_LEVEL 100
-
 /** Real world seasons */
 enum season_type {
     SPRING = 0,
@@ -540,6 +537,8 @@ bool is_sunset_now( const time_point &p );
 bool is_sunrise_now( const time_point &p );
 /** Returns the current seasonally-adjusted maximum daylight level */
 double current_daylight_level( const time_point &p );
+/** How much light is provided in full daylight */
+double default_daylight_level();
 /** Returns the current sunlight or moonlight level through the preceding functions. */
 float sunlight( const time_point &p );
 

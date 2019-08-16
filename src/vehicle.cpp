@@ -5739,7 +5739,7 @@ void vehicle::update_time( const time_point &update_to )
 
             epower_w += part_epower_w( part );
         }
-        double intensity = accum_weather.sunlight / DAYLIGHT_LEVEL / to_turns<double>( elapsed );
+        double intensity = accum_weather.sunlight / default_daylight_level() / to_turns<double>( elapsed );
         int energy_bat = power_to_energy_bat( epower_w * intensity, elapsed );
         if( energy_bat > 0 ) {
             add_msg( m_debug, "%s got %d kJ energy from solar panels", name, energy_bat );

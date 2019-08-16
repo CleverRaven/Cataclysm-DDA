@@ -51,6 +51,11 @@ static constexpr int sunset_equinox = ( sunset_summer + sunset_winter ) / 2;
 // How long, does sunrise/sunset last?
 static const time_duration twilight_duration = 1_hours;
 
+double default_daylight_level()
+{
+    return 100.0;
+}
+
 moon_phase get_moon_phase( const time_point &p )
 {
     //One full phase every 2 rl months = 2/3 season length
@@ -151,7 +156,7 @@ double current_daylight_level( const time_point &p )
             break;
     }
 
-    return double( modifier * DAYLIGHT_LEVEL );
+    return modifier * default_daylight_level();
 }
 
 float sunlight( const time_point &p )

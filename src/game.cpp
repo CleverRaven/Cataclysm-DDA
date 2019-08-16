@@ -3701,7 +3701,7 @@ float game::natural_light_level( const int zlev ) const
         ret = sunlight( calendar::turn );
     } else {
         // Recent lightning strike has lit the area
-        ret = DAYLIGHT_LEVEL;
+        ret = default_daylight_level();
     }
 
     ret += weather::light_modifier( weather.weather );
@@ -3725,7 +3725,7 @@ float game::natural_light_level( const int zlev ) const
     }
     if( timed_events.queued( TIMED_EVENT_ARTIFACT_LIGHT ) ) {
         // TIMED_EVENT_ARTIFACT_LIGHT causes everywhere to become as bright as day.
-        mod_ret = std::max<float>( ret, DAYLIGHT_LEVEL );
+        mod_ret = std::max<float>( ret, default_daylight_level() );
     }
     // If we had a changed light level due to an artifact event then it overwrites
     // the natural light level.
@@ -7145,7 +7145,7 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
 
 void game::list_items_monsters()
 {
-    std::vector<Creature *> mons = u.get_visible_creatures( DAYLIGHT_LEVEL );
+    std::vector<Creature *> mons = u.get_visible_creatures( current_daylight_level( calendar::turn ) );
     ///\EFFECT_PER increases range of interacting with items on the ground from a list
     const std::vector<map_item_stack> items = find_nearby_items( 2 * u.per_cur + 12 );
 
