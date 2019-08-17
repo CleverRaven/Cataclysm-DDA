@@ -6461,7 +6461,7 @@ void map::load( const int wx, const int wy, const int wz, const bool update_vehi
     }
     field_furn_locs.clear();
     submaps_with_active_items.clear();
-    set_abs_sub( wx, wy, wz );
+    set_abs_sub( tripoint( wx, wy, wz ) );
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             loadn( point( gridx, gridy ), update_vehicle );
@@ -6538,7 +6538,7 @@ void map::shift( const int sx, const int sy )
     const int absy = get_abs_sub().y;
     const int wz = get_abs_sub().z;
 
-    set_abs_sub( absx + sx, absy + sy, wz );
+    set_abs_sub( tripoint( absx + sx, absy + sy, wz ) );
 
     // if player is in vehicle, (s)he must be shifted with vehicle too
     if( g->u.in_vehicle ) {
@@ -6657,7 +6657,7 @@ void map::vertical_shift( const int newz )
     }
 
     tripoint trp = get_abs_sub();
-    set_abs_sub( trp.x, trp.y, newz );
+    set_abs_sub( tripoint( trp.xy(), newz ) );
 
     // TODO: Remove the function when it's safe
     return;
@@ -7545,7 +7545,7 @@ bool tinymap::inbounds( const tripoint &p ) const
 bool tinymap::fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type )
 {
     bool do_terset = true;
-    set_abs_sub( 0, 0, 0 );
+    set_abs_sub( tripoint_zero );
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             const tripoint gridp( gridx, gridy, 0 );

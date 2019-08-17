@@ -2743,7 +2743,7 @@ void map::draw_office_tower( const oter_id &terrain_type, mapgendata &dat,
     const auto place_office_chairs = [&]() {
         int num_chairs = rng( 0, 6 );
         for( int i = 0; i < num_chairs; i++ ) {
-            add_vehicle( vproto_id( "swivel_chair" ), rng( 6, 16 ), rng( 6, 16 ),
+            add_vehicle( vproto_id( "swivel_chair" ), point( rng( 6, 16 ), rng( 6, 16 ) ),
                          0, -1, -1, false );
         }
     };
@@ -3074,54 +3074,54 @@ void map::draw_office_tower( const oter_id &terrain_type, mapgendata &dat,
             if( dat.west() == "office_tower_b_entrance" ) {
                 rotate( 1 );
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), 17, 7, 180 );
+                    add_vehicle( vproto_id( "car" ), point( 17, 7 ), 180 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "motorcycle" ), 17, 13, 180 );
+                    add_vehicle( vproto_id( "motorcycle" ), point( 17, 13 ), 180 );
                 }
                 if( x_in_y( 1, 5 ) ) {
                     if( one_in( 3 ) ) {
-                        add_vehicle( vproto_id( "fire_truck" ), 6, 13, 0 );
+                        add_vehicle( vproto_id( "fire_truck" ), point( 6, 13 ), 0 );
                     } else {
-                        add_vehicle( vproto_id( "pickup" ), 17, 19, 180 );
+                        add_vehicle( vproto_id( "pickup" ), point( 17, 19 ), 180 );
                     }
                 }
             } else if( dat.north() == "office_tower_b_entrance" ) {
                 rotate( 2 );
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), 10, 17, 270 );
+                    add_vehicle( vproto_id( "car" ), point( 10, 17 ), 270 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "motorcycle" ), 4, 18, 270 );
+                    add_vehicle( vproto_id( "motorcycle" ), point( 4, 18 ), 270 );
                 }
                 if( x_in_y( 1, 5 ) ) {
                     if( one_in( 3 ) ) {
-                        add_vehicle( vproto_id( "fire_truck" ), 6, 13, 0 );
+                        add_vehicle( vproto_id( "fire_truck" ), point( 6, 13 ), 0 );
                     } else {
-                        add_vehicle( vproto_id( "pickup" ), 16, 17, 270 );
+                        add_vehicle( vproto_id( "pickup" ), point( 16, 17 ), 270 );
                     }
                 }
             } else if( dat.east() == "office_tower_b_entrance" ) {
                 rotate( 3 );
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), 6, 4, 0 );
+                    add_vehicle( vproto_id( "car" ), point( 6, 4 ), 0 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "motorcycle" ), 6, 10, 180 );
+                    add_vehicle( vproto_id( "motorcycle" ), point( 6, 10 ), 180 );
                 }
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "pickup" ), 6, 16, 0 );
+                    add_vehicle( vproto_id( "pickup" ), point( 6, 16 ), 0 );
                 }
 
             } else {
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "pickup" ), 7, 6, 90 );
+                    add_vehicle( vproto_id( "pickup" ), point( 7, 6 ), 90 );
                 }
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), 14, 6, 90 );
+                    add_vehicle( vproto_id( "car" ), point( 14, 6 ), 90 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "motorcycle" ), 19, 6, 90 );
+                    add_vehicle( vproto_id( "motorcycle" ), point( 19, 6 ), 90 );
                 }
             }
         } else if( ( dat.west() == "office_tower_b_entrance" && dat.north() == "office_tower_b" ) ||
@@ -3161,49 +3161,49 @@ void map::draw_office_tower( const oter_id &terrain_type, mapgendata &dat,
             if( dat.north() == "office_tower_b_entrance" ) {
                 rotate( 1 );
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), 8, 15, 0 );
+                    add_vehicle( vproto_id( "car" ), point( 8, 15 ), 0 );
                 }
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "pickup" ), 7, 10, 180 );
+                    add_vehicle( vproto_id( "pickup" ), point( 7, 10 ), 180 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "beetle" ), 7, 3, 0 );
+                    add_vehicle( vproto_id( "beetle" ), point( 7, 3 ), 0 );
                 }
             } else if( dat.east() == "office_tower_b_entrance" ) {
                 rotate( 2 );
                 if( x_in_y( 1, 5 ) ) {
                     if( one_in( 3 ) ) {
-                        add_vehicle( vproto_id( "fire_truck" ), 6, 13, 0 );
+                        add_vehicle( vproto_id( "fire_truck" ), point( 6, 13 ), 0 );
                     } else {
-                        add_vehicle( vproto_id( "pickup" ), 7, 7, 270 );
+                        add_vehicle( vproto_id( "pickup" ), point( 7, 7 ), 270 );
                     }
                 }
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), 13, 8, 90 );
+                    add_vehicle( vproto_id( "car" ), point( 13, 8 ), 90 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "beetle" ), 20, 7, 90 );
+                    add_vehicle( vproto_id( "beetle" ), point( 20, 7 ), 90 );
                 }
             } else if( dat.south() == "office_tower_b_entrance" ) {
                 rotate( 3 );
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "pickup" ), 16, 7, 0 );
+                    add_vehicle( vproto_id( "pickup" ), point( 16, 7 ), 0 );
                 }
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), 15, 13, 180 );
+                    add_vehicle( vproto_id( "car" ), point( 15, 13 ), 180 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "beetle" ), 15, 20, 180 );
+                    add_vehicle( vproto_id( "beetle" ), point( 15, 20 ), 180 );
                 }
             } else {
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "pickup" ), 16, 16, 90 );
+                    add_vehicle( vproto_id( "pickup" ), point( 16, 16 ), 90 );
                 }
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), 9, 15, 270 );
+                    add_vehicle( vproto_id( "car" ), point( 9, 15 ), 270 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "beetle" ), 4, 16, 270 );
+                    add_vehicle( vproto_id( "beetle" ), point( 4, 16 ), 270 );
                 }
             }
         } else {
@@ -3241,56 +3241,56 @@ void map::draw_office_tower( const oter_id &terrain_type, mapgendata &dat,
                 rotate( 1 );
                 if( x_in_y( 1, 5 ) ) {
                     if( one_in( 3 ) ) {
-                        add_vehicle( vproto_id( "cube_van" ), 17, 4, 180 );
+                        add_vehicle( vproto_id( "cube_van" ), point( 17, 4 ), 180 );
                     } else {
-                        add_vehicle( vproto_id( "cube_van_cheap" ), 17, 4, 180 );
+                        add_vehicle( vproto_id( "cube_van_cheap" ), point( 17, 4 ), 180 );
                     }
                 }
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "pickup" ), 17, 10, 180 );
+                    add_vehicle( vproto_id( "pickup" ), point( 17, 10 ), 180 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "car" ), 17, 17, 180 );
+                    add_vehicle( vproto_id( "car" ), point( 17, 17 ), 180 );
                 }
             } else if( dat.east() == "office_tower_b" && dat.north() == "office_tower_b" ) {
                 rotate( 2 );
                 if( x_in_y( 1, 5 ) ) {
                     if( one_in( 3 ) ) {
-                        add_vehicle( vproto_id( "cube_van" ), 6, 17, 270 );
+                        add_vehicle( vproto_id( "cube_van" ), point( 6, 17 ), 270 );
                     } else {
-                        add_vehicle( vproto_id( "cube_van_cheap" ), 6, 17, 270 );
+                        add_vehicle( vproto_id( "cube_van_cheap" ), point( 6, 17 ), 270 );
                     }
                 }
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "pickup" ), 12, 17, 270 );
+                    add_vehicle( vproto_id( "pickup" ), point( 12, 17 ), 270 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "fire_truck" ), 18, 17, 270 );
+                    add_vehicle( vproto_id( "fire_truck" ), point( 18, 17 ), 270 );
                 }
             } else if( dat.east() == "office_tower_b" && dat.south() == "office_tower_b" ) {
                 rotate( 3 );
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "cube_van_cheap" ), 6, 6, 0 );
+                    add_vehicle( vproto_id( "cube_van_cheap" ), point( 6, 6 ), 0 );
                 }
                 if( x_in_y( 1, 5 ) ) {
                     if( one_in( 3 ) ) {
-                        add_vehicle( vproto_id( "fire_truck" ), 6, 13, 0 );
+                        add_vehicle( vproto_id( "fire_truck" ), point( 6, 13 ), 0 );
                     } else {
-                        add_vehicle( vproto_id( "pickup" ), 6, 13, 0 );
+                        add_vehicle( vproto_id( "pickup" ), point( 6, 13 ), 0 );
                     }
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "car" ), 5, 19, 180 );
+                    add_vehicle( vproto_id( "car" ), point( 5, 19 ), 180 );
                 }
             } else {
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "flatbed_truck" ), 16, 6, 90 );
+                    add_vehicle( vproto_id( "flatbed_truck" ), point( 16, 6 ), 90 );
                 }
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "cube_van_cheap" ), 10, 6, 90 );
+                    add_vehicle( vproto_id( "cube_van_cheap" ), point( 10, 6 ), 90 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "car" ), 4, 6, 90 );
+                    add_vehicle( vproto_id( "car" ), point( 4, 6 ), 90 );
                 }
             }
         }
@@ -3327,10 +3327,10 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
 
         if( ice_lab ) {
             int temperature = -20 + 30 * ( dat.zlevel );
-            set_temperature( x, y, temperature );
-            set_temperature( x + SEEX, y, temperature );
-            set_temperature( x, y + SEEY, temperature );
-            set_temperature( x + SEEX, y + SEEY, temperature );
+            set_temperature( point( x, y ), temperature );
+            set_temperature( point( x + SEEX, y ), temperature );
+            set_temperature( point( x, y + SEEY ), temperature );
+            set_temperature( point( x + SEEX, y + SEEY ), temperature );
         }
 
         // Check for adjacent sewers; used below
@@ -4026,10 +4026,10 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
 
         if( ice_lab ) {
             int temperature = -20 + 30 * dat.zlevel;
-            set_temperature( x, y, temperature );
-            set_temperature( x + SEEX, y, temperature );
-            set_temperature( x, y + SEEY, temperature );
-            set_temperature( x + SEEX, y + SEEY, temperature );
+            set_temperature( point( x, y ), temperature );
+            set_temperature( point( x + SEEX, y ), temperature );
+            set_temperature( point( x, y + SEEY ), temperature );
+            set_temperature( point( x + SEEX, y + SEEY ), temperature );
         }
 
         tw = is_ot_match( "lab", dat.north(), ot_match_type::contains ) ? 0 : 2;
@@ -5514,7 +5514,7 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
         //lazy radiation mapping
         for( int x = 0; x < SEEX * 2; x++ ) {
             for( int y = 0; y < SEEY * 2; y++ ) {
-                adjust_radiation( x, y, rng( 10, 30 ) );
+                adjust_radiation( point( x, y ), rng( 10, 30 ) );
             }
         }
         if( match( dat.north(), "haz_sar" ) && match( dat.west(), "haz_sar" ) ) {
@@ -5566,26 +5566,26 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
             //lazy radiation mapping
             for( int x = 0; x < SEEX * 2; x++ ) {
                 for( int y = 0; y < SEEY * 2; y++ ) {
-                    adjust_radiation( x, y, rng( 10, 30 ) );
+                    adjust_radiation( point( x, y ), rng( 10, 30 ) );
                 }
             }
             if( match( dat.west(), "haz_sar_entrance" ) ) {
                 rotate( 1 );
                 if( x_in_y( 1, 4 ) ) {
-                    add_vehicle( vproto_id( "military_cargo_truck" ), 10, 11, 0 );
+                    add_vehicle( vproto_id( "military_cargo_truck" ), point( 10, 11 ), 0 );
                 }
             } else if( match( dat.north(), "haz_sar_entrance" ) ) {
                 rotate( 2 );
                 if( x_in_y( 1, 4 ) ) {
-                    add_vehicle( vproto_id( "military_cargo_truck" ), 12, 10, 90 );
+                    add_vehicle( vproto_id( "military_cargo_truck" ), point( 12, 10 ), 90 );
                 }
             } else if( match( dat.east(), "haz_sar_entrance" ) ) {
                 rotate( 3 );
                 if( x_in_y( 1, 4 ) ) {
-                    add_vehicle( vproto_id( "military_cargo_truck" ), 13, 12, 180 );
+                    add_vehicle( vproto_id( "military_cargo_truck" ), point( 13, 12 ), 180 );
                 }
             } else if( x_in_y( 1, 4 ) ) {
-                add_vehicle( vproto_id( "military_cargo_truck" ), 11, 13, 270 );
+                add_vehicle( vproto_id( "military_cargo_truck" ), point( 11, 13 ), 270 );
             }
 
         } else if( ( match( dat.west(), "haz_sar_entrance" ) && match( dat.north(), "haz_sar" ) ) ||
@@ -5624,7 +5624,7 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
             //lazy radiation mapping
             for( int x = 0; x < SEEX * 2; x++ ) {
                 for( int y = 0; y < SEEY * 2; y++ ) {
-                    adjust_radiation( x, y, rng( 10, 30 ) );
+                    adjust_radiation( point( x, y ), rng( 10, 30 ) );
                 }
             }
             if( match( dat.north(), "haz_sar_entrance" ) ) {
@@ -5671,7 +5671,7 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
             //lazy radiation mapping
             for( int x = 0; x < SEEX * 2; x++ ) {
                 for( int y = 0; y < SEEY * 2; y++ ) {
-                    adjust_radiation( x, y, rng( 10, 30 ) );
+                    adjust_radiation( point( x, y ), rng( 10, 30 ) );
                 }
             }
             tmpcomp = add_computer( tripoint( 2,  23, abs_sub.z ), _( "SRCF Security Terminal" ), 0 );
@@ -5735,7 +5735,7 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                     place_spawns( GROUP_PLAIN, 80, point( i, j ), point( i, j ), 1, true );
                 }
                 if( this->ter( point( i, j ) ) != t_metal_floor ) {
-                    adjust_radiation( i, j, rng( 10, 70 ) );
+                    adjust_radiation( point( i, j ), rng( 10, 70 ) );
                 }
                 if( this->ter( point( i, j ) ) == t_sewage ) {
                     if( one_in( 2 ) ) {
@@ -5810,7 +5810,7 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                         }
                     }
                     if( this->ter( point( i, j ) ) != t_metal_floor ) {
-                        adjust_radiation( i, j, rng( 10, 70 ) );
+                        adjust_radiation( point( i, j ), rng( 10, 70 ) );
                     }
                     if( this->ter( point( i, j ) ) == t_sewage ) {
                         if( one_in( 2 ) ) {
@@ -5877,7 +5877,7 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                         place_spawns( GROUP_PLAIN, 80, point( i, j ), point( i, j ), 1, true );
                     }
                     if( this->ter( point( i, j ) ) != t_metal_floor ) {
-                        adjust_radiation( i, j, rng( 10, 70 ) );
+                        adjust_radiation( point( i, j ), rng( 10, 70 ) );
                     }
                     if( this->ter( point( i, j ) ) == t_sewage ) {
                         if( one_in( 2 ) ) {
@@ -5953,7 +5953,7 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                         place_spawns( GROUP_PLAIN, 80, point( i, j ), point( i, j ), 1, true );
                     }
                     if( this->ter( point( i, j ) ) != t_metal_floor ) {
-                        adjust_radiation( i, j, rng( 10, 70 ) );
+                        adjust_radiation( point( i, j ), rng( 10, 70 ) );
                     }
                     if( this->ter( point( i, j ) ) == t_sewage ) {
                         if( one_in( 2 ) ) {
