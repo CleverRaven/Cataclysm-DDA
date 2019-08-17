@@ -652,6 +652,8 @@
       [ "microwave", 20 ],
       [ "hat_chef", 2 ],
       [ "bowl_pewter", 25 ],
+      [ "tin_plate", 25 ],
+      [ "tin_cup", 25 ],
       [ "pastaextruder", 10 ],
       [ "knife_butter", 90 ],
       [ "knife_steak", 85 ],
@@ -678,6 +680,8 @@
     "items": [
       [ "glass", 80 ],
       [ "bowl_pewter", 40 ],
+      [ "tin_plate", 40 ],
+      [ "tin_cup", 40 ],
       [ "towel", 40 ],
       [ "ceramic_bowl", 30 ],
       [ "bucket", 30 ],
@@ -693,6 +697,8 @@
     "subtype": "distribution",
     "items": [
       [ "bowl_pewter", 40 ],
+      [ "tin_plate", 40 ],
+      [ "tin_cup", 40 ],
       [ "ceramic_bowl", 30 ],
       { "group": "wines_worthy", "prob": 20 },
       { "group": "glass_set", "prob": 20 },

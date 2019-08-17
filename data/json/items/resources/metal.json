@@ -317,7 +317,7 @@
     "weight": 2,
     "//": "Density 7.28g/cm³ ~ 1820kg/250ml @ stack 1000 = 2g/unit",
     "ammo_type": "components",
-    "count": 50,
+    "count": 100,
     "stack_size": 200
   },
   {

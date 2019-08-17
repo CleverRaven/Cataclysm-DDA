@@ -440,6 +440,8 @@
       [ "pressure_cooker", 5 ],
       [ "thermometer", 5 ],
       [ "bowl_pewter", 25 ],
+      [ "tin_plate", 25 ],
+      [ "tin_cup", 25 ],
       [ "teapot", 15 ],
       [ "pan", 25 ],
       [ "waffleiron", 25 ],
@@ -1210,7 +1212,10 @@
       [ "glass", 90 ],
       [ "glass_bowl", 90 ],
       [ "glass_plate", 90 ],
-      [ "bottle_glass", 10 ]
+      [ "bottle_glass", 10 ],
+      [ "tin_plate", 10 ],
+      [ "tin_cup", 10 ],
+      [ "bowl_pewter", 10 ]
     ]
   },
   {
@@ -2153,6 +2158,7 @@
       [ "popcan_stove", 10 ],
       [ "coffeemaker", 5 ],
       [ "tin_plate", 10 ],
+      [ "tin_cup", 10 ],
       [ "kukri", 4 ],
       [ "knife_hunting", 18 ],
       [ "knife_rambo", 20 ],
@@ -8581,6 +8587,8 @@
       [ "petrified_eye", 1 ],
       [ "teapot", 15 ],
       [ "bowl_pewter", 15 ],
+      [ "tin_plate", 15 ],
+      [ "tin_cup", 15 ],
       [ "briefcase", 10 ],
       [ "gold_watch", 5 ],
       [ "silver_watch", 10 ],
@@ -9179,6 +9187,7 @@
       [ "binoculars", 30 ],
       [ "firecracker_pack", 20 ],
       [ "tin_plate", 50 ],
+      [ "tin_cup", 50 ],
       [ "knife_hunting", 50 ],
       [ "glock_19", 5 ],
       [ "backpack", 100 ],
