@@ -172,6 +172,7 @@ void mx_roa_crash( map &m, const tripoint &abs_sub )
                         if( one_in( 5 ) ) {
                             m.add_spawn( mon_zombie, 1, pos.x, pos.y );
                     }
+                }
 
                     // Delete the items that would have spawned here from a "corpse"
                     for( auto sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
