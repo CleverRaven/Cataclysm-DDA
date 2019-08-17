@@ -367,6 +367,7 @@ void draw_custom_border( const catacurses::window &w, catacurses::chtype ls = 1,
                          int width = 0 );
 void draw_border( const catacurses::window &w, nc_color border_color = BORDER_COLOR,
                   const std::string &title = "", nc_color title_color = c_light_red );
+void draw_tabs( const catacurses::window &w, int active_tab, ... );
 
 std::string word_rewrap( const std::string &ins, int width, const uint32_t split = ' ' );
 std::vector<size_t> get_tag_positions( const std::string &s );
@@ -544,13 +545,13 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile );
  */
 // The last color is used for an empty bar
 // extra_resolution
-std::pair<std::string, nc_color> get_bar( float cur, float max, int width = 5,
+const std::pair<std::string, nc_color> get_bar( float cur, float max, int width = 5,
         bool extra_resolution = true,
         const std::vector<nc_color> &colors = { c_green, c_light_green, c_yellow, c_light_red, c_red } );
 
-std::pair<std::string, nc_color> get_hp_bar( int cur_hp, int max_hp, bool is_mon = false );
+const std::pair<std::string, nc_color> get_hp_bar( int cur_hp, int max_hp, bool is_mon = false );
 
-std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam );
+const std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam );
 
 std::pair<std::string, nc_color> get_light_level( const float light );
 
@@ -802,7 +803,7 @@ std::string format_volume( const units::volume &volume );
 std::string format_volume( const units::volume &volume, int width, bool *out_truncated,
                            double *out_value );
 
-inline std::string format_money( int cents )
+inline const std::string format_money( int cents )
 {
     return string_format( _( "$%.2f" ), cents / 100.0 );
 }

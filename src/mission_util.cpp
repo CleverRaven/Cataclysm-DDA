@@ -25,7 +25,7 @@
 #include "type_id.h"
 #include "point.h"
 
-static tripoint reveal_destination( const std::string &type )
+static const tripoint reveal_destination( const std::string &type )
 {
     const tripoint your_pos = g->u.global_omt_location();
     const tripoint center_pos = overmap_buffer.find_random( your_pos, type, rng( 40, 80 ), false );
@@ -387,7 +387,7 @@ mission_target_params mission_util::parse_mission_om_target( JsonObject &jo )
         p.min_distance = std::max( 1, jo.get_int( "min_distance" ) );
     }
     if( jo.has_int( "offset_x" ) || jo.has_int( "offset_y" ) || jo.has_int( "offset_z" ) ) {
-        tripoint offset;
+        tripoint offset = tripoint( 0, 0, 0 );
         if( jo.has_int( "offset_x" ) ) {
             offset.x = jo.get_int( "offset_x" );
         }

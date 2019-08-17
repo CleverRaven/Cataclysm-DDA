@@ -242,11 +242,6 @@ float trig_dist( const int x1, const int y1, const int x2, const int y2 )
     return trig_dist( tripoint( x1, y1, 0 ), tripoint( x2, y2, 0 ) );
 }
 
-float trig_dist( const point &loc1, const point &loc2 )
-{
-    return trig_dist( tripoint( loc1, 0 ), tripoint( loc2, 0 ) );
-}
-
 float trig_dist( const tripoint &loc1, const tripoint &loc2 )
 {
     return sqrt( static_cast<double>( ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) ) +
@@ -282,7 +277,7 @@ int rl_dist( const int x1, const int y1, const int x2, const int y2 )
 
 int rl_dist( const point &a, const point &b )
 {
-    return rl_dist( tripoint( a, 0 ), tripoint( b, 0 ) );
+    return rl_dist( tripoint( a.x, a.y, 0 ), tripoint( b.x, b.y, 0 ) );
 }
 
 int rl_dist( const tripoint &loc1, const tripoint &loc2 )
@@ -295,18 +290,9 @@ int rl_dist( const tripoint &loc1, const tripoint &loc2 )
 
 int manhattan_dist( const point &loc1, const point &loc2 )
 {
-    const point d = abs( loc1 - loc2 );
-    return d.x + d.y;
-}
-
-double atan2( const point &p )
-{
-    return atan2( static_cast<double>( p.y ), static_cast<double>( p.x ) );
-}
-
-double atan2_degrees( const point &p )
-{
-    return atan2( p ) * 180.0 / M_PI;
+    const int dx = abs( loc1.x - loc2.x );
+    const int dy = abs( loc1.y - loc2.y );
+    return dx + dy;
 }
 
 // This more general version of this function gives correct values for larger values.
@@ -414,23 +400,23 @@ point direction_XY( const direction dir )
 {
     switch( dir % 9 ) {
         case NORTHWEST:
-            return point_north_west;
+            return point( -1, -1 );
         case NORTH:
-            return point_north;
+            return point( 0, -1 );
         case NORTHEAST:
-            return point_north_east;
+            return point( 1, -1 );
         case WEST:
-            return point_west;
+            return point( -1,  0 );
         case CENTER:
-            return point_zero;
+            return point( 0,  0 );
         case EAST:
-            return point_east;
+            return point( 1,  0 );
         case SOUTHWEST:
-            return point_south_west;
+            return point( -1,  1 );
         case SOUTH:
-            return point_south;
+            return point( 0,  1 );
         case SOUTHEAST:
-            return point_south_east;
+            return point( 1,  1 );
     }
 
     return point_zero;
@@ -438,7 +424,7 @@ point direction_XY( const direction dir )
 
 namespace
 {
-std::string direction_name_impl( const direction dir, const bool short_name )
+const std::string direction_name_impl( const direction dir, const bool short_name )
 {
     enum : int { size = 3 * 3 * 3 };
     static const auto names = [] {
@@ -487,12 +473,12 @@ std::string direction_name_impl( const direction dir, const bool short_name )
 }
 } //namespace
 
-std::string direction_name( const direction dir )
+const std::string direction_name( const direction dir )
 {
     return direction_name_impl( dir, false );
 }
 
-std::string direction_name_short( const direction dir )
+const std::string direction_name_short( const direction dir )
 {
     return direction_name_impl( dir, true );
 }
@@ -520,29 +506,29 @@ std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &t
     const int ax = std::abs( dx );
     const int ay = std::abs( dy );
     if( dz != 0 ) {
-        adjacent_closer_squares.push_back( from + tripoint( sgn( dx ), sgn( dy ), sgn( dz ) ) );
+        adjacent_closer_squares.push_back( { from.x + sgn( dx ), from.y + sgn( dy ), from.z + sgn( dz ) } );
     }
     if( ax > ay ) {
         // X dominant.
-        adjacent_closer_squares.push_back( from + point( sgn( dx ), 0 ) );
-        adjacent_closer_squares.push_back( from + point( sgn( dx ), 1 ) );
-        adjacent_closer_squares.push_back( from + point( sgn( dx ), -1 ) );
+        adjacent_closer_squares.push_back( { from.x + sgn( dx ), from.y, from.z } );
+        adjacent_closer_squares.push_back( { from.x + sgn( dx ), from.y + 1, from.z } );
+        adjacent_closer_squares.push_back( { from.x + sgn( dx ), from.y - 1, from.z } );
         if( dy != 0 ) {
-            adjacent_closer_squares.push_back( from + point( 0, sgn( dy ) ) );
+            adjacent_closer_squares.push_back( { from.x, from.y + sgn( dy ), from.z } );
         }
     } else if( ax < ay ) {
         // Y dominant.
-        adjacent_closer_squares.push_back( from + point( 0, sgn( dy ) ) );
-        adjacent_closer_squares.push_back( from + point( 1, sgn( dy ) ) );
-        adjacent_closer_squares.push_back( from + point( -1, sgn( dy ) ) );
+        adjacent_closer_squares.push_back( { from.x, from.y + sgn( dy ), from.z } );
+        adjacent_closer_squares.push_back( { from.x + 1, from.y + sgn( dy ), from.z } );
+        adjacent_closer_squares.push_back( { from.x - 1, from.y + sgn( dy ), from.z } );
         if( dx != 0 ) {
-            adjacent_closer_squares.push_back( from + point( sgn( dx ), 0 ) );
+            adjacent_closer_squares.push_back( { from.x + sgn( dx ), from.y, from.z } );
         }
     } else if( dx != 0 ) {
         // Pure diagonal.
-        adjacent_closer_squares.push_back( from + point( sgn( dx ), sgn( dy ) ) );
-        adjacent_closer_squares.push_back( from + point( sgn( dx ), 0 ) );
-        adjacent_closer_squares.push_back( from + point( 0, sgn( dy ) ) );
+        adjacent_closer_squares.push_back( { from.x + sgn( dx ), from.y + sgn( dy ), from.z } );
+        adjacent_closer_squares.push_back( { from.x + sgn( dx ), from.y, from.z } );
+        adjacent_closer_squares.push_back( { from.x, from.y + sgn( dy ), from.z } );
     }
 
     return adjacent_closer_squares;

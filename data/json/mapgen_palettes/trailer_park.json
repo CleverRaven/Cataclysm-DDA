@@ -38,8 +38,7 @@
       "i": "f_null",
       "j": "f_shower",
       "p": "f_null",
-      "u": "f_null",
-      "o": "f_oven"
+      "u": "f_null"
     },
     "terrain": {
       "#": "t_underbrush",
@@ -77,8 +76,7 @@
       "i": "t_curtains",
       "j": "t_floor",
       "p": "t_palisade_gate_o",
-      "u": "t_underbrush",
-      "o": "t_floor"
+      "u": "t_underbrush"
     }
   }
 ]

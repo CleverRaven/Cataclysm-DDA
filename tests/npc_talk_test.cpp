@@ -80,7 +80,7 @@ static void change_om_type( const std::string &new_type )
     omt_ref = oter_id( new_type );
 }
 
-static npc &prep_test( dialogue &d )
+TEST_CASE( "npc_talk_test" )
 {
     clear_player();
     CHECK( !g->u.in_vehicle );
@@ -91,26 +91,13 @@ static npc &prep_test( dialogue &d )
 
     npc &talker_npc = create_test_talker();
 
+    dialogue d;
     d.alpha = &g->u;
     d.beta = &talker_npc;
-
-    return talker_npc;
-}
-
-TEST_CASE( "npc_talk_start", "[npc_talk]" )
-{
-    dialogue d;
-    prep_test( d );
 
     d.add_topic( "TALK_TEST_START" );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-}
-
-TEST_CASE( "npc_talk_stats", "[npc_talk]" )
-{
-    dialogue d;
-    prep_test( d );
 
     g->u.str_cur = 8;
     g->u.dex_cur = 8;
@@ -138,36 +125,12 @@ TEST_CASE( "npc_talk_stats", "[npc_talk]" )
     CHECK( d.responses[2].text == "This is a low dexterity test response." );
     CHECK( d.responses[3].text == "This is a low intelligence test response." );
     CHECK( d.responses[4].text == "This is a low perception test response." );
-}
-
-TEST_CASE( "npc_talk_skills", "[npc_talk]" )
-{
-    dialogue d;
-    prep_test( d );
-
-    const skill_id skill( "driving" );
-
-    g->u.set_skill_level( skill, 8 );
-
-    d.add_topic( "TALK_TEST_SIMPLE_SKILLS" );
-    gen_response_lines( d, 2 );
-    CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a driving test response." );
-
-    g->u.set_skill_level( skill, 6 );
+    g->u.str_cur = 8;
+    g->u.dex_cur = 8;
+    g->u.int_cur = 8;
+    g->u.per_cur = 8;
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-
-    d.add_topic( "TALK_TEST_NEGATED_SKILLS" );
-    gen_response_lines( d, 2 );
-    CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a low driving test response." );
-}
-
-TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
-{
-    dialogue d;
-    npc &talker_npc = prep_test( d );
 
     for( trait_id tr : g->u.get_mutations() ) {
         g->u.unset_mutation( tr );
@@ -207,12 +170,6 @@ TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
     CHECK( d.responses[3].text == "This is a npc trait flags test response." );
     g->u.toggle_trait( trait_id( "PSYCHOPATH" ) );
     talker_npc.toggle_trait( trait_id( "SAPIOVORE" ) );
-}
-
-TEST_CASE( "npc_talk_effect", "[npc_talk]" )
-{
-    dialogue d;
-    npc &talker_npc = prep_test( d );
 
     d.add_topic( "TALK_TEST_EFFECT" );
     gen_response_lines( d, 1 );
@@ -227,12 +184,6 @@ TEST_CASE( "npc_talk_effect", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is an npc effect test response." );
     CHECK( d.responses[2].text == "This is a player effect test response." );
-}
-
-TEST_CASE( "npc_talk_service", "[npc_talk]" )
-{
-    dialogue d;
-    npc &talker_npc = prep_test( d );
 
     d.add_topic( "TALK_TEST_SERVICE" );
     g->u.cash = 0;
@@ -249,12 +200,6 @@ TEST_CASE( "npc_talk_service", "[npc_talk]" )
     CHECK( d.responses[1].text == "This is a cash test response." );
     CHECK( d.responses[2].text == "This is an npc service test response." );
     CHECK( d.responses[3].text == "This is an npc available test response." );
-}
-
-TEST_CASE( "npc_talk_location", "[npc_talk]" )
-{
-    dialogue d;
-    prep_test( d );
 
     change_om_type( "pond_swamp_north" );
     d.add_topic( "TALK_TEST_LOCATION" );
@@ -269,12 +214,6 @@ TEST_CASE( "npc_talk_location", "[npc_talk]" )
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a faction camp any test response." );
-}
-
-TEST_CASE( "npc_talk_role", "[npc_talk]" )
-{
-    dialogue d;
-    npc &talker_npc = prep_test( d );
 
     d.add_topic( "TALK_TEST_NPC_ROLE" );
     talker_npc.companion_mission_role_id = "NO_TEST_ROLE";
@@ -284,12 +223,6 @@ TEST_CASE( "npc_talk_role", "[npc_talk]" )
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a nearby role test response." );
-}
-
-TEST_CASE( "npc_talk_class", "[npc_talk]" )
-{
-    dialogue d;
-    npc &talker_npc = prep_test( d );
 
     d.add_topic( "TALK_TEST_NPC_CLASS" );
     talker_npc.myclass = npc_class_id( "NC_NONE" );
@@ -299,12 +232,6 @@ TEST_CASE( "npc_talk_class", "[npc_talk]" )
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a class test response." );
-}
-
-TEST_CASE( "npc_talk_allies", "[npc_talk]" )
-{
-    dialogue d;
-    npc &talker_npc = prep_test( d );
 
     for( npc *guy : g->allies() ) {
         talk_function::leave( *guy );
@@ -314,12 +241,6 @@ TEST_CASE( "npc_talk_allies", "[npc_talk]" )
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a npc allies 1 test response." );
-}
-
-TEST_CASE( "npc_talk_rules", "[npc_talk]" )
-{
-    dialogue d;
-    npc &talker_npc = prep_test( d );
 
     d.add_topic( "TALK_TEST_NPC_RULES" );
     gen_response_lines( d, 1 );
@@ -333,12 +254,6 @@ TEST_CASE( "npc_talk_rules", "[npc_talk]" )
     CHECK( d.responses[2].text == "This is a npc aim rule test response." );
     CHECK( d.responses[3].text == "This is a npc rule test response." );
     talker_npc.rules.clear_flag( ally_rule::use_silent );
-}
-
-TEST_CASE( "npc_talk_needs", "[npc_talk]" )
-{
-    dialogue d;
-    npc &talker_npc = prep_test( d );
 
     d.add_topic( "TALK_TEST_NPC_NEEDS" );
     gen_response_lines( d, 1 );
@@ -351,12 +266,6 @@ TEST_CASE( "npc_talk_needs", "[npc_talk]" )
     CHECK( d.responses[1].text == "This is a npc thirst test response." );
     CHECK( d.responses[2].text == "This is a npc hunger test response." );
     CHECK( d.responses[3].text == "This is a npc fatigue test response." );
-}
-
-TEST_CASE( "npc_talk_mission_goal", "[npc_talk]" )
-{
-    dialogue d;
-    npc &talker_npc = prep_test( d );
 
     d.add_topic( "TALK_TEST_MISSION_GOAL" );
     gen_response_lines( d, 1 );
@@ -375,38 +284,32 @@ TEST_CASE( "npc_talk_mission_goal", "[npc_talk]" )
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a mission goal test response." );
-}
 
-TEST_CASE( "npc_talk_season", "[npc_talk]" )
-{
-    dialogue d;
-    prep_test( d );
-
-    const time_point old_calendar = calendar::turn;
-    calendar::turn = calendar::start_of_cataclysm;
+    const calendar old_calendar = calendar::turn;
+    calendar::turn = calendar::start;
     d.add_topic( "TALK_TEST_SEASON" );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a season spring test response." );
-    calendar::turn += calendar::season_length();
+    calendar::turn += to_turns<int>( calendar::season_length() );
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a days since cataclysm 30 test response." );
     CHECK( d.responses[2].text == "This is a season summer test response." );
-    calendar::turn += calendar::season_length();
+    calendar::turn += to_turns<int>( calendar::season_length() );
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a days since cataclysm 30 test response." );
     CHECK( d.responses[2].text == "This is a days since cataclysm 120 test response." );
     CHECK( d.responses[3].text == "This is a season autumn test response." );
-    calendar::turn += calendar::season_length();
+    calendar::turn += to_turns<int>( calendar::season_length() );
     gen_response_lines( d, 5 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a days since cataclysm 30 test response." );
     CHECK( d.responses[2].text == "This is a days since cataclysm 120 test response." );
     CHECK( d.responses[3].text == "This is a days since cataclysm 210 test response." );
     CHECK( d.responses[4].text == "This is a season winter test response." );
-    calendar::turn += calendar::season_length();
+    calendar::turn += to_turns<int>( calendar::season_length() );
     gen_response_lines( d, 6 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a season spring test response." );
@@ -414,31 +317,17 @@ TEST_CASE( "npc_talk_season", "[npc_talk]" )
     CHECK( d.responses[3].text == "This is a days since cataclysm 120 test response." );
     CHECK( d.responses[4].text == "This is a days since cataclysm 210 test response." );
     CHECK( d.responses[5].text == "This is a days since cataclysm 300 test response." );
-    calendar::turn = old_calendar;
-}
 
-TEST_CASE( "npc_talk_time", "[npc_talk]" )
-{
-    dialogue d;
-    prep_test( d );
-
-    const time_point old_calendar = calendar::turn;
-    calendar::turn = to_turn<int>( sunrise( calendar::turn ) + 4_hours );
+    calendar::turn = calendar::turn.sunrise() + HOURS( 4 );
     d.add_topic( "TALK_TEST_TIME" );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a is day test response." );
-    calendar::turn = to_turn<int>( sunset( calendar::turn ) + 2_hours );
+    calendar::turn = calendar::turn.sunset() + HOURS( 2 );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a is night test response." );
     calendar::turn = old_calendar;
-}
-
-TEST_CASE( "npc_talk_switch", "[npc_talk]" )
-{
-    dialogue d;
-    prep_test( d );
 
     d.add_topic( "TALK_TEST_SWITCH" );
     g->u.cash = 1000;
@@ -462,12 +351,6 @@ TEST_CASE( "npc_talk_switch", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is an switch default 2 test response." );
     CHECK( d.responses[2].text == "This is another basic test response." );
-}
-
-TEST_CASE( "npc_talk_or", "[npc_talk]" )
-{
-    dialogue d;
-    npc &talker_npc = prep_test( d );
 
     d.add_topic( "TALK_TEST_OR" );
     g->u.cash = 0;
@@ -478,14 +361,7 @@ TEST_CASE( "npc_talk_or", "[npc_talk]" )
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is an or trait test response." );
-}
 
-TEST_CASE( "npc_talk_and", "[npc_talk]" )
-{
-    dialogue d;
-    npc &talker_npc = prep_test( d );
-
-    g->u.toggle_trait( trait_id( "ELFA_EARS" ) );
     d.add_topic( "TALK_TEST_AND" );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
@@ -494,12 +370,6 @@ TEST_CASE( "npc_talk_and", "[npc_talk]" )
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is an and cash, available, trait test response." );
-}
-
-TEST_CASE( "npc_talk_nested", "[npc_talk]" )
-{
-    dialogue d;
-    npc &talker_npc = prep_test( d );
 
     d.add_topic( "TALK_TEST_NESTED" );
     talker_npc.add_effect( effect_currently_busy, 9999_turns );
@@ -511,12 +381,6 @@ TEST_CASE( "npc_talk_nested", "[npc_talk]" )
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a complex nested test response." );
-}
-
-TEST_CASE( "npc_talk_conditionals", "[npc_talk]" )
-{
-    dialogue d;
-    prep_test( d );
 
     d.add_topic( "TALK_TEST_TRUE_FALSE_CONDITIONAL" );
     gen_response_lines( d, 3 );
@@ -538,12 +402,6 @@ TEST_CASE( "npc_talk_conditionals", "[npc_talk]" )
     CHECK( trial_success == false );
     trial_effect = trial_success ? chosen.success : chosen.failure;
     CHECK( trial_effect.next_topic.id == "TALK_TEST_FALSE_CONDITION_NEXT" );
-}
-
-TEST_CASE( "npc_talk_items", "[npc_talk]" )
-{
-    dialogue d;
-    npc &talker_npc = prep_test( d );
 
     g->u.remove_items_with( []( const item & it ) {
         return it.get_category().id() == "books" || it.get_category().id() == "food" ||
@@ -703,12 +561,6 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     effects.apply( d );
     CHECK( has_item( g->u, "beer", 0 ) );
     CHECK( !has_item( g->u, "beer", 1 ) );
-}
-
-TEST_CASE( "npc_talk_combat_commands", "[npc_talk]" )
-{
-    dialogue d;
-    prep_test( d );
 
     d.add_topic( "TALK_COMBAT_COMMANDS" );
     gen_response_lines( d, 10 );
@@ -722,19 +574,13 @@ TEST_CASE( "npc_talk_combat_commands", "[npc_talk]" )
     CHECK( d.responses[7].text == "Don't worry about shooting an ally." );
     CHECK( d.responses[8].text == "Hold the line: don't move onto obstacles adjacent to me." );
     CHECK( d.responses[9].text == "Never mind." );
-}
-
-TEST_CASE( "npc_talk_vars", "[npc_talk]" )
-{
-    dialogue d;
-    prep_test( d );
 
     d.add_topic( "TALK_TEST_VARS" );
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a u_add_var test response." );
     CHECK( d.responses[2].text == "This is a npc_add_var test response." );
-    talk_effect_t &effects = d.responses[1].success;
+    effects = d.responses[1].success;
     effects.apply( d );
     effects = d.responses[2].success;
     effects.apply( d );
@@ -750,12 +596,6 @@ TEST_CASE( "npc_talk_vars", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a u_add_var test response." );
     CHECK( d.responses[2].text == "This is a npc_add_var test response." );
-}
-
-TEST_CASE( "npc_talk_bionics", "[npc_talk]" )
-{
-    dialogue d;
-    npc &talker_npc = prep_test( d );
 
     g->u.clear_bionics();
     talker_npc.clear_bionics();
@@ -768,15 +608,8 @@ TEST_CASE( "npc_talk_bionics", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a u_has_bionics bio_ads test response." );
     CHECK( d.responses[2].text == "This is a npc_has_bionics ANY response." );
-}
-
-TEST_CASE( "npc_talk_effects", "[npc_talk]" )
-{
-    dialogue d;
-    npc &talker_npc = prep_test( d );
 
     // speaker effects just use are owed because I don't want to do anything complicated
-    g->u.cash = 1000;
     talker_npc.op_of_u.owed = 2000;
     CHECK( talker_npc.op_of_u.owed == 2000 );
     d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SIMPLE" );
@@ -828,10 +661,10 @@ TEST_CASE( "npc_talk_effects", "[npc_talk]" )
     REQUIRE( talker_npc.op_of_u.owed == 1500 );
 
     // test change class
-    talker_npc.myclass = npc_class_id( "NC_TEST_CLASS" );
+    REQUIRE( talker_npc.myclass == npc_class_id( "NC_TEST_CLASS" ) );
     d.add_topic( "TALK_TEST_EFFECTS" );
     gen_response_lines( d, 19 );
-    talk_effect_t &effects = d.responses[18].success;
+    effects = d.responses[18].success;
     effects.apply( d );
     CHECK( talker_npc.myclass == npc_class_id( "NC_NONE" ) );
 }

@@ -39,7 +39,6 @@
 #include "material.h"
 #include "mission.h"
 #include "magic.h"
-#include "magic_ter_furn_transform.h"
 #include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -372,7 +371,6 @@ void DynamicDataLoader::initialize()
     add( "morale_type", &morale_type_data::load_type );
     add( "SPELL", &spell_type::load_spell );
     add( "clothing_mod", &clothing_mods::load );
-    add( "ter_furn_transform", &ter_furn_transform::load_transform );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -644,7 +642,6 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Overmap terrain" ), &overmap_terrains::check_consistency },
             { _( "Overmap locations" ), &overmap_locations::check_consistency },
             { _( "Overmap specials" ), &overmap_specials::check_consistency },
-            { _( "Map extras" ), &MapExtras::check_consistency },
             { _( "Ammunition types" ), &ammunition_type::check_consistency },
             { _( "Traps" ), &trap::check_consistency },
             { _( "Bionics" ), &check_bionics },

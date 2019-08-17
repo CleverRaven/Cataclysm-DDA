@@ -10,7 +10,6 @@
 #include <set>
 
 #include "avatar.h"
-#include "debug.h"
 #include "cata_utility.h"
 #include "game.h"
 #include "input.h"
@@ -42,12 +41,6 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
         if( !ip.selected ) {
             continue;
         }
-
-        if( ip.loc.get_item() == nullptr ) {
-            DebugLog( D_ERROR, D_NPC ) << "Null item being traded in npc_trading::transfer_items";
-            continue;
-        }
-
         item gift = *ip.loc.get_item();
         gift.set_owner( fac );
         int charges = npc_gives ? ip.u_charges : ip.npc_charges;
@@ -79,26 +72,22 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
     }
 }
 
-std::vector<item_pricing> npc_trading::init_selling( npc &np )
+std::vector<item_pricing> npc_trading::init_selling( npc &p )
 {
     std::vector<item_pricing> result;
-    invslice slice = np.inv.slice();
+    invslice slice = p.inv.slice();
     for( auto &i : slice ) {
-        item &it = i->front();
+        auto &it = i->front();
 
         const int price = it.price( true );
-        int val = np.value( it );
-        if( np.wants_to_sell( it, val, price ) ) {
-            result.emplace_back( np, i->front(), val, i->size() );
+        int val = p.value( it );
+        if( p.wants_to_sell( it, val, price ) ) {
+            result.emplace_back( p, &i->front(), val, i->size() );
         }
     }
 
-    if(
-        np.will_exchange_items_freely() &&
-        ! np.weapon.is_null() &&
-        ! np.weapon.has_flag( "NO_UNWIELD" )
-    ) {
-        result.emplace_back( np, np.weapon, np.value( np.weapon ), false );
+    if( p.is_player_ally() & !p.weapon.is_null() && !p.weapon.has_flag( "NO_UNWIELD" ) ) {
+        result.emplace_back( p, &p.weapon, p.value( p.weapon ), false );
     }
 
     return result;
@@ -168,10 +157,10 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         check_item( item_location( seller, &seller.weapon ), 1 );
     }
 
-    for( map_cursor &cursor : map_selector( seller.pos(), 1 ) ) {
+    for( auto &cursor : map_selector( seller.pos(), 1 ) ) {
         buy_helper( cursor, check_item );
     }
-    for( vehicle_cursor &cursor : vehicle_selector( seller.pos(), 1 ) ) {
+    for( auto &cursor : vehicle_selector( seller.pos(), 1 ) ) {
         buy_helper( cursor, check_item );
     }
 
@@ -194,8 +183,6 @@ void item_pricing::set_values( int ip_count )
     }
 }
 
-// Adjusts the pricing of an item, *unless* it is the currency of the
-// faction we're trading with, as that should always be worth face value.
 void item_pricing::adjust_values( const double adjust, faction *fac )
 {
     if( !fac || fac->currency != loc.get_item()->typeId() ) {
@@ -205,9 +192,9 @@ void item_pricing::adjust_values( const double adjust, faction *fac )
 
 void trading_window::setup_win( npc &np )
 {
-    w_head = catacurses::newwin( 4, TERMX, point_zero );
-    w_them = catacurses::newwin( TERMY - 4, win_they_w, point( 0, 4 ) );
-    w_you = catacurses::newwin( TERMY - 4, TERMX - win_they_w, point( win_they_w, 4 ) );
+    w_head = catacurses::newwin( 4, TERMX, 0, 0 );
+    w_them = catacurses::newwin( TERMY - 4, win_they_w, 4, 0 );
+    w_you = catacurses::newwin( TERMY - 4, TERMX - win_they_w, 4, win_they_w );
     mvwprintz( w_head, 0, 0, c_white, header_message.c_str(), np.disp_name() );
 
     // Set up line drawings
@@ -218,7 +205,6 @@ void trading_window::setup_win( npc &np )
     // End of line drawings
 }
 
-// 'cost' is the cost of a service the NPC may be rendering, if any.
 void trading_window::setup_trade( int cost, npc &np )
 {
     // Populate the list of what the NPC is willing to buy, and the prices they pay
@@ -228,14 +214,25 @@ void trading_window::setup_trade( int cost, npc &np )
     theirs = npc_trading::init_buying( g->u, np, true );
     yours = npc_trading::init_buying( np, g->u, false );
 
-    if( np.will_exchange_items_freely() ) {
-        your_balance = 0;
+    // Just exchanging items, no barter involved
+    exchange = np.is_player_ally();
+
+    if( exchange ) {
+        // Sometimes owed money fails to reset for friends
+        // NPC AI is way too weak to manage money, so let's just make them give stuff away for free
+        u_get = 0;
+        npc_requires = INT_MAX;
     } else {
-        your_balance = np.op_of_u.owed - cost;
+        // How much cash you get in the deal (must be less than npc_requires for the deal to happen)
+        u_get = cost - np.op_of_u.owed;
+        // the NPC doesn't require a barter to exactly match, but there's a small limit to how
+        // much credit they'll extend
+        npc_requires = 50 * std::max( 0, np.op_of_u.trust + np.op_of_u.value + np.op_of_u.fear -
+                                      np.op_of_u.anger + np.personality.altruism );
     }
 }
 
-void trading_window::update_win( npc &np, const std::string &deal )
+void trading_window::update_win( npc &p, const std::string &deal, const int adjusted_u_get )
 {
     if( update ) { // Time to re-draw
         update = false;
@@ -261,35 +258,30 @@ void trading_window::update_win( npc &np, const std::string &deal )
             }
         }
 
-        bool npc_out_of_space = volume_left < 0_ml || weight_left < 0_gram;
-
-        // Colors for hinting if the trade will be accepted or not.
-        const nc_color trade_color       = npc_will_accept_trade( np ) ? c_green : c_red;
-        const nc_color trade_color_light = npc_will_accept_trade( np ) ? c_light_green : c_light_red;
-
-        mvwprintz( w_head, 3, 2,  npc_out_of_space ?  c_red : c_green,
+        bool npc_has_space = volume_left < 0_ml || weight_left < 0_gram;
+        mvwprintz( w_head, 3, 2,  npc_has_space ?  c_red : c_green,
                    _( "Volume: %s %s, Weight: %.1f %s" ),
                    format_volume( volume_left ), volume_units_abbr(),
                    convert_weight( weight_left ), weight_units() );
 
         std::string cost_str = _( "Exchange" );
-        if( ! np.will_exchange_items_freely() ) {
-            cost_str = string_format( your_balance >= 0 ? _( "Credit %s" ) : _( "Debt %s" ),
-                                      format_money( std::abs( your_balance ) ) );
+        if( !exchange ) {
+            cost_str = string_format( u_get < 0 ? _( "Profit %s" ) : _( "Cost %s" ),
+                                      format_money( std::abs( u_get ) ) );
         }
 
         mvwprintz( w_head, 3, TERMX / 2 + ( TERMX / 2 - cost_str.length() ) / 2,
-                   trade_color, cost_str );
+                   adjusted_u_get < 0 ? c_green : c_red, cost_str );
 
         if( !deal.empty() ) {
             mvwprintz( w_head, 3, ( TERMX - deal.length() ) / 2,
-                       trade_color_light, deal );
+                       adjusted_u_get > 0 ?  c_light_red : c_light_green, deal );
         }
         draw_border( w_them, ( focus_them ? c_yellow : BORDER_COLOR ) );
         draw_border( w_you, ( !focus_them ? c_yellow : BORDER_COLOR ) );
 
-        mvwprintz( w_them, 0, 2, trade_color, np.name );
-        mvwprintz( w_you,  0, 2, trade_color, _( "You" ) );
+        mvwprintz( w_them, 0, 2, adjusted_u_get < 0 ?  c_green : c_red, p.name );
+        mvwprintz( w_you,  0, 2, adjusted_u_get > 0 ?  c_green : c_red, _( "You" ) );
 #if defined(__ANDROID__)
         input_context ctxt( "NPC_TRADE" );
 #endif
@@ -298,7 +290,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
             const bool they = whose == 0;
             const std::vector<item_pricing> &list = they ? theirs : yours;
             const size_t &offset = they ? them_off : you_off;
-            const player &person = they ? static_cast<player &>( np ) :
+            const player &person = they ? static_cast<player &>( p ) :
                                    static_cast<player &>( g->u );
             catacurses::window &w_whose = they ? w_them : w_you;
             int win_w = getmaxx( w_whose );
@@ -341,16 +333,16 @@ void trading_window::update_win( npc &np, const std::string &deal )
 #endif
 
                 std::string price_str = format_money( ip.price );
-                nc_color price_color = np.will_exchange_items_freely() ? c_dark_gray : ( ip.selected ? c_white :
+                nc_color price_color = exchange ? c_dark_gray : ( ip.selected ? c_white :
                                        c_light_gray );
                 mvwprintz( w_whose, i - offset + 1, win_w - price_str.length(),
                            price_color, price_str );
             }
             if( offset > 0 ) {
-                mvwprintw( w_whose, point( 1, entries_per_page + 2 ), _( "< Back" ) );
+                mvwprintw( w_whose, entries_per_page + 2, 1, _( "< Back" ) );
             }
             if( offset + entries_per_page < list.size() ) {
-                mvwprintw( w_whose, point( 9, entries_per_page + 2 ), _( "More >" ) );
+                mvwprintw( w_whose, entries_per_page + 2, 9, _( "More >" ) );
             }
         }
         wrefresh( w_head );
@@ -363,8 +355,8 @@ void trading_window::show_item_data( npc &np, size_t offset,
                                      std::vector<item_pricing> &target_list )
 {
     update = true;
-    catacurses::window w_tmp = catacurses::newwin( 3, 21, point( 30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2,
-                               1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) );
+    catacurses::window w_tmp = catacurses::newwin( 3, 21, 1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2,
+                               30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2 );
     mvwprintz( w_tmp, 1, 1, c_red, _( "Examine which item?" ) );
     draw_border( w_tmp );
     wrefresh( w_tmp );
@@ -382,7 +374,7 @@ void trading_window::show_item_data( npc &np, size_t offset,
     wrefresh( w_head );
     help += offset;
     if( help < target_list.size() ) {
-        popup( target_list[help].loc.get_item()->info( true ), PF_NONE );
+        popup( target_list[help].loc.get_item()->info(), PF_NONE );
     }
 }
 
@@ -399,21 +391,20 @@ int trading_window::get_var_trade( const item &it, int total_count )
     return std::min( total_count, how_many );
 }
 
-bool trading_window::perform_trade( npc &np, const std::string &deal )
+bool trading_window::perform_trade( npc &p, const std::string &deal )
 {
     size_t ch;
+    int adjusted_u_get = u_get - npc_requires;
 
-    volume_left = np.volume_capacity() - np.volume_carried();
-    weight_left = np.weight_capacity() - np.weight_carried();
-
-    // Shopkeeps are happy to have large inventories.
-    if( np.mission == NPC_MISSION_SHOPKEEP ) {
+    volume_left = p.volume_capacity() - p.volume_carried();
+    weight_left = p.weight_capacity() - p.weight_carried();
+    if( p.mission == NPC_MISSION_SHOPKEEP ) {
         volume_left = 5'000'000_ml;
         weight_left = 5'000_kilogram;
     }
 
     do {
-        update_win( np, deal );
+        update_win( p, deal, adjusted_u_get );
 #if defined(__ANDROID__)
         input_context ctxt( "NPC_TRADE" );
         ctxt.register_manual_key( '\t', "Switch lists" );
@@ -444,44 +435,20 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                 }
                 break;
             case '?':
-                show_item_data( np, offset, target_list );
+                show_item_data( p, offset, target_list );
                 ch = ' ';
                 break;
-            case '\n':
-                if( ! npc_will_accept_trade( np ) ) {
-
-                    if( np.max_credit_extended() == 0 ) {
-                        popup( _( "You'll need to offer me more than that." ) );
-                    } else {
-                        popup(
-                            _( "Sorry, I'm only willing to extend you %s in credit." ),
-                            format_money( np.max_credit_extended() )
-                        );
-                    }
-
+            case '\n': // Check if the NPC will accept the deal
+                // The player must give more than they get
+                if( adjusted_u_get > 0 ) {
+                    popup( _( "Not enough value!  You need %s." ), format_money( adjusted_u_get ) );
                     update = true;
                     ch = ' ';
                 } else if( volume_left < 0_ml || weight_left < 0_gram ) {
                     // Make sure NPC doesn't go over allowed volume
-                    popup( _( "%s can't carry all that." ), np.name );
+                    popup( _( "%s can't carry all that." ), p.name );
                     update = true;
                     ch = ' ';
-                } else if( calc_npc_owes_you( np ) < your_balance ) {
-                    // NPC is happy with the trade, but isn't willing to remember the whole debt.
-                    const bool trade_ok = query_yn(
-                                              _( "I'm never going to be able to pay you back for all that. The most I'm willing to owe you is %s.\n\nContinue with trade?" ),
-                                              format_money( np.max_willing_to_owe() )
-                                          );
-
-                    if( ! trade_ok ) {
-                        update = true;
-                        ch = ' ';
-                    }
-                } else {
-                    if( ! query_yn( _( "Looks like a deal! Accept this trade?" ) ) ) {
-                        update = true;
-                        ch = ' ';
-                    }
                 }
                 break;
             default: // Letters & such
@@ -531,8 +498,9 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                         change_amount *= -1;
                     }
                     int delta_price = ip.price * change_amount;
-                    if( ! np.will_exchange_items_freely() ) {
-                        your_balance -= delta_price;
+                    if( !exchange ) {
+                        u_get += delta_price;
+                        adjusted_u_get += delta_price;
                         volume_left -= ip.vol * change_amount;
                         weight_left -= ip.weight * change_amount;
                     }
@@ -544,32 +512,9 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
     return ch == '\n';
 }
 
-// Returns how much the NPC will owe you after this transaction.
-// You must also check if they will accept the trade.
-int trading_window::calc_npc_owes_you( const npc &np ) const
-{
-    // Friends don't hold debts against friends.
-    if( np.will_exchange_items_freely() ) {
-        return 0;
-    }
-
-    // If they're going to owe you more than before, and it's more than they're willing
-    // to owe, then cap the amount owed at the present level or their willingness to owe
-    // (whichever is bigger).
-    //
-    // When could they owe you more than max_willing_to_owe? It could be from quest rewards,
-    // when they were less angry, or from when you were better friends.
-    if( your_balance > np.op_of_u.owed && your_balance > np.max_willing_to_owe() ) {
-        return std::max( np.op_of_u.owed, np.max_willing_to_owe() );
-    }
-
-    // Fair's fair. NPC will remember this debt (or credit they've extended)
-    return your_balance;
-}
-
 void trading_window::update_npc_owed( npc &np )
 {
-    np.op_of_u.owed = calc_npc_owes_you( np );
+    np.op_of_u.owed = std::min( std::max( np.op_of_u.owed, npc_requires ), - u_get );
 }
 
 // Oh my aching head
@@ -599,17 +544,11 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
         }
 
         // NPCs will remember debts, to the limit that they'll extend credit or previous debts
-        if( ! np.will_exchange_items_freely() ) {
+        if( !trade_win.exchange ) {
             trade_win.update_npc_owed( np );
             g->u.practice( skill_barter, practice / 10000 );
         }
     }
     g->refresh_all();
     return traded;
-}
-
-// Will the NPC accept the trade that's currently on offer?
-bool trading_window::npc_will_accept_trade( const npc &np ) const
-{
-    return np.is_player_ally() || your_balance + np.max_credit_extended() > 0;
 }

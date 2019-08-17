@@ -159,7 +159,8 @@ class tileset_loader
         tileset &ts;
         const SDL_Renderer_Ptr &renderer;
 
-        point sprite_offset;
+        int sprite_offset_x;
+        int sprite_offset_y;
 
         int sprite_width;
         int sprite_height;
@@ -480,11 +481,15 @@ class cata_tiles
         tripoint zone_offset;
 
         // offset values, in tile coordinates, not pixels
-        point o;
+        int o_x = 0;
+        int o_y = 0;
         // offset for drawing, in pixels.
-        point op;
+        int op_x = 0;
+        int op_y = 0;
 
     private:
+        int last_pos_x = 0;
+        int last_pos_y = 0;
         /**
          * Tracks active night vision goggle status for each draw call.
          * Allows usage of night vision tilesets during sprite rendering.
@@ -492,9 +497,6 @@ class cata_tiles
         bool nv_goggles_activated;
 
         std::unique_ptr<pixel_minimap> minimap;
-
-    public:
-        std::string memory_map_mode = "color_pixel_sepia";
 };
 
 #endif

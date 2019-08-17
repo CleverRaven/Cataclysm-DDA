@@ -764,12 +764,12 @@
       [ [ "meat_red", 2, "LIST" ], [ "liver", 10 ] ],
       [ [ "fat", 1 ], [ "tallow", 2 ], [ "lard", 2 ] ],
       [
-        [ "salt", 4 ],
-        [ "soysauce", 2 ],
-        [ "seasoning_italian", 4 ],
-        [ "wild_herbs", 4 ],
-        [ "seasoning_salt", 4 ],
-        [ "pepper", 4 ]
+        [ "salt", 2 ],
+        [ "soysauce", 1 ],
+        [ "seasoning_italian", 10 ],
+        [ "wild_herbs", 10 ],
+        [ "seasoning_salt", 10 ],
+        [ "pepper", 10 ]
       ]
     ]
   },
@@ -909,7 +909,7 @@
   },
   {
     "type": "recipe",
-    "result": "dogfood",
+    "result": "dogfood_canned",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
     "container": "jar_glass_sealed",
@@ -932,7 +932,7 @@
   },
   {
     "type": "recipe",
-    "result": "dogfood",
+    "result": "dogfood_canned",
     "id_suffix": "canned",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -940,7 +940,6 @@
     "difficulty": 5,
     "time": "24 m",
     "autolearn": true,
-    "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [
       { "id": "SAW_M", "level": 1 },
@@ -959,7 +958,7 @@
   },
   {
     "type": "recipe",
-    "result": "dogfood",
+    "result": "dogfood_canned",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
     "container": "jar_3l_glass_sealed",
@@ -995,7 +994,7 @@
   },
   {
     "type": "recipe",
-    "result": "catfood",
+    "result": "catfood_canned",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
     "container": "jar_glass_sealed",
@@ -1013,7 +1012,7 @@
   },
   {
     "type": "recipe",
-    "result": "catfood",
+    "result": "catfood_canned",
     "id_suffix": "canned",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -1021,7 +1020,6 @@
     "difficulty": 5,
     "time": "24 m",
     "autolearn": true,
-    "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [
       { "id": "SAW_M", "level": 1 },
@@ -1039,7 +1037,7 @@
   },
   {
     "type": "recipe",
-    "result": "catfood",
+    "result": "catfood_canned",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
     "container": "jar_3l_glass_sealed",
@@ -4348,7 +4346,7 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "human_flesh", 2 ] ] ]
+    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "human_flesh", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -4834,7 +4832,6 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "20 m",
-    "batch_time_factors": [ 83, 5 ],
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 5 ], [ "makeshift_sealer", 10 ] ] ],
@@ -5944,7 +5941,6 @@
     "skill_used": "cooking",
     "difficulty": 6,
     "time": "30 m",
-    "result_mult": 2,
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
@@ -5952,7 +5948,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "jar_glass", 1 ] ],
-      [ [ "meat", 2 ], [ "meat_scrap", 20 ] ],
+      [ [ "meat", 1 ], [ "meat_scrap", 10 ] ],
       [ [ "vinegar", 1 ] ]
     ]
   },

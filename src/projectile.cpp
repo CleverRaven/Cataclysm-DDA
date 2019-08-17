@@ -1,6 +1,5 @@
 #include "projectile.h"
 
-#include <memory>
 #include <utility>
 
 #include "explosion.h"
@@ -51,7 +50,7 @@ void projectile::set_drop( const item &it )
     if( it.is_null() ) {
         unset_drop();
     } else {
-        drop = std::make_unique<item>( it );
+        drop.reset( new item( it ) );
     }
 }
 
@@ -60,7 +59,7 @@ void projectile::set_drop( item &&it )
     if( it.is_null() ) {
         unset_drop();
     } else {
-        drop = std::make_unique<item>( std::move( it ) );
+        drop.reset( new item( std::move( it ) ) );
     }
 }
 
@@ -81,7 +80,7 @@ const explosion_data &projectile::get_custom_explosion() const
 
 void projectile::set_custom_explosion( const explosion_data &ex )
 {
-    custom_explosion = std::make_unique<explosion_data>( ex );
+    custom_explosion.reset( new explosion_data( ex ) );
 }
 
 void projectile::unset_custom_explosion()
@@ -156,11 +155,6 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
     if( effects.count( "GAS_FUNGICIDAL" ) > 0 ) {
         for( auto &pt : g->m.points_in_radius( p, 1, 0 ) ) {
             g->m.add_field( pt, fd_fungicidal_gas, 3 );
-        }
-    }
-    if( effects.count( "GAS_INSECTICIDAL" ) > 0 ) {
-        for( auto &pt : g->m.points_in_radius( p, 1, 0 ) ) {
-            g->m.add_field( pt, fd_insecticidal_gas, 3 );
         }
     }
     if( effects.count( "SMOKE" ) > 0 ) {

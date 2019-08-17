@@ -210,7 +210,8 @@ class query_popup
             button( const std::string &text, int x, int y );
 
             std::string text;
-            point pos;
+            int x;
+            int y;
         };
 
         // UI caches

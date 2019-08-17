@@ -70,7 +70,7 @@ class InvalidEnumString : public std::runtime_error
 template<typename E>
 E string_to_enum( const std::string &data );
 template<typename E>
-std::string enum_to_string( E data );
+const std::string enum_to_string( E data );
 
 // Helper function to do the lookup in a container (map or unordered_map)
 template<typename C, typename E = typename C::mapped_type>
@@ -691,7 +691,7 @@ class JsonObject
     public:
         JsonObject( JsonIn &jsin );
         JsonObject( const JsonObject &jsobj );
-        JsonObject() : start( 0 ), end( 0 ), jsin( nullptr ) {}
+        JsonObject() : start( 0 ), end( 0 ), jsin( NULL ) {}
         ~JsonObject() {
             finish();
         }
@@ -863,7 +863,7 @@ class JsonArray
     public:
         JsonArray( JsonIn &jsin );
         JsonArray( const JsonArray &jsarr );
-        JsonArray() : start( 0 ), index( 0 ), end( 0 ), jsin( nullptr ) {}
+        JsonArray() : start( 0 ), index( 0 ), end( 0 ), jsin( NULL ) {}
         ~JsonArray() {
             finish();
         }

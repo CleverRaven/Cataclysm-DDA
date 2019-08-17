@@ -36,7 +36,6 @@
 #include "pldata.h"
 #include "type_id.h"
 #include "magic.h"
-#include "monster.h"
 #include "craft_command.h"
 #include "point.h"
 #include "faction.h"
@@ -351,9 +350,9 @@ class player : public Character
         void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
                               int pl_skill,
                               std::string cbm_name, std::string upcbm_name, std::string installer_name,
-                              std::vector<trait_id> trait_to_rem, tripoint patient_pos );
-        void bionics_install_failure( bionic_id bid, std::string installer, int difficulty, int success,
-                                      float adjusted_skill, tripoint patient_pos );
+                              std::vector<trait_id> trait_to_rem );
+        void bionics_install_failure( std::string installer, int difficulty, int success,
+                                      float adjusted_skill );
         /**Is The uninstallation possible*/
         bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                    int skill_level = -1 );
@@ -373,7 +372,7 @@ class player : public Character
         void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
                                         float adjusted_skill );
         /**Has enough anesthetic for surgery*/
-        bool has_enough_anesth( const itype *cbm, player &patient );
+        bool has_enough_anesth( const itype *cbm );
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power( int amount );
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -975,10 +974,6 @@ class player : public Character
         bool can_lift( const T &obj ) const {
             // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
             int str = get_str();
-            if( mounted_creature ) {
-                auto mons = mounted_creature.get();
-                str = mons->mech_str_addition() == 0 ? str : mons->mech_str_addition();
-            }
             const int npc_str = get_lift_assist();
             if( has_trait( trait_id( "STRONGBACK" ) ) ) {
                 str *= 1.35;
@@ -1168,7 +1163,7 @@ class player : public Character
 
     private:
         /** last time we checked for sleep */
-        time_point last_sleep_check = calendar::turn_zero;
+        time_point last_sleep_check = calendar::time_of_cataclysm;
         bool bio_soporific_powered_at_last_sleep_check;
 
     public:
@@ -1229,6 +1224,8 @@ class player : public Character
         double armwear_factor() const;
         /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both, and zero if on neither */
         int shoe_type_count( const itype_id &it ) const;
+        /** Returns true if the player is wearing power armor */
+        bool is_wearing_power_armor( bool *hasHelmet = nullptr ) const;
         /** Returns wind resistance provided by armor, etc **/
         int get_wind_resistance( body_part bp ) const;
         /** Returns the effect of pain on stats */
@@ -1367,21 +1364,21 @@ class player : public Character
         /** Returns all known recipes. */
         const recipe_subset &get_learned_recipes() const;
         /** Returns all recipes that are known from the books (either in inventory or nearby). */
-        recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
+        const recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
         /**
           * Returns all available recipes (from books and npc companions)
           * @param crafting_inv Current available items to craft
           * @param helpers List of NPCs that could help with crafting.
           */
-        recipe_subset get_available_recipes( const inventory &crafting_inv,
-                                             const std::vector<npc *> *helpers = nullptr ) const;
+        const recipe_subset get_available_recipes( const inventory &crafting_inv,
+                const std::vector<npc *> *helpers = nullptr ) const;
         /**
           * Returns the set of book types in crafting_inv that provide the
           * given recipe.
           * @param crafting_inv Current available items that may contain readable books
           * @param r Recipe to search for in the available books
           */
-        std::set<itype_id> get_books_for_recipe( const inventory &crafting_inv,
+        const std::set<itype_id> get_books_for_recipe( const inventory &crafting_inv,
                 const recipe *r ) const;
 
         // crafting.cpp
@@ -1508,7 +1505,7 @@ class player : public Character
         std::vector<tripoint> &get_auto_move_route();
         action_id get_next_auto_move_direction();
         bool defer_move( const tripoint &next );
-        void shift_destination( const point &shift );
+        void shift_destination( int shiftx, int shifty );
         void forced_dismount();
         void dismount();
 
@@ -1548,7 +1545,7 @@ class player : public Character
             setpos( tripoint( position.x, y, position.z ) );
         }
         inline void setz( int z ) {
-            setpos( tripoint( position.xy(), z ) );
+            setpos( tripoint( position.x, position.y, z ) );
         }
         inline void setpos( const tripoint &p ) override {
             position = p;
@@ -1587,6 +1584,7 @@ class player : public Character
         int stim;
         int cash;
         int movecounter;
+        std::shared_ptr<monster> mounted_creature;
         bool death_drops;// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
         std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
         // Equalizes heat between body parts

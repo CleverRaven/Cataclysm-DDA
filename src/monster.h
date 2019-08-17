@@ -157,8 +157,7 @@ class monster : public Creature
         Creature *attack_target(); // Returns the creature at the end of plans (if hostile)
 
         // Movement
-        void shift( const point &sp ); // Shifts the monster to the appropriate submap
-        void set_goal( const tripoint &p );
+        void shift( int sx, int sy ); // Shifts the monster to the appropriate submap
         // Updates current pos AND our plans
         bool wander(); // Returns true if we have no plans
 
@@ -170,8 +169,8 @@ class monster : public Creature
          */
         bool can_move_to( const tripoint &p ) const;
 
-        bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
-        int  turns_to_reach( const point &p ); // How long will it take?
+        bool will_reach( int x, int y ); // Do we have plans to get to (x, y)?
+        int  turns_to_reach( int x, int y ); // How long will it take?
 
         // Go in a straight line to p
         void set_dest( const tripoint &p );
@@ -306,9 +305,6 @@ class monster : public Creature
 
         /** Processes monster-specific effects before calling Creature::process_effects(). */
         void process_effects() override;
-
-        /** Returns true if the monster has its movement impaired */
-        bool movement_impaired();
         /** Processes effects which may prevent the monster from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
@@ -388,10 +384,7 @@ class monster : public Creature
         void make_ally( const monster &z );
         // Add an item to inventory
         void add_item( const item &it );
-        // check mech power levels and modify it.
-        bool use_mech_power( int amt );
-        bool check_mech_powered() const;
-        int mech_str_addition() const;
+
         /**
          * Makes monster react to heard sound
          *
@@ -419,9 +412,8 @@ class monster : public Creature
         tripoint wander_pos; // Wander destination - Just try to move in that direction
         int wandf;           // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
-        int dragged_foe_id = -1; // id of player being dragged by the monster
+        player *dragged_foe; // player being dragged by the monster
         cata::optional<item> tied_item; // item used to tie the monster
-        cata::optional<item> battery_item; // item to power mechs
         // DEFINING VALUES
         int friendly;
         int anger = 0;
@@ -479,7 +471,7 @@ class monster : public Creature
          */
         void init_from_item( const item &itm );
 
-        time_point last_updated = calendar::turn_zero;
+        time_point last_updated = calendar::time_of_cataclysm;
         int last_baby;
         int last_biosig;
 
@@ -523,9 +515,6 @@ class monster : public Creature
         std::vector<tripoint> path;
         std::bitset<NUM_MEFF> effect_cache;
         cata::optional<time_duration> summon_time_limit = cata::nullopt;
-
-        player *find_dragged_foe();
-        void nursebot_operate( player *dragged_foe );
 
     protected:
         void store( JsonOut &jsout ) const;

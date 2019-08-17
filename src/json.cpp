@@ -329,7 +329,10 @@ bool JsonObject::has_null( const std::string &name )
         return false;
     }
     jsin->seek( pos );
-    return jsin->test_null();
+    if( jsin->test_null() ) {
+        return true;
+    }
+    return false;
 }
 
 bool JsonObject::has_bool( const std::string &name )
@@ -339,7 +342,10 @@ bool JsonObject::has_bool( const std::string &name )
         return false;
     }
     jsin->seek( pos );
-    return jsin->test_bool();
+    if( jsin->test_bool() ) {
+        return true;
+    }
+    return false;
 }
 
 bool JsonObject::has_number( const std::string &name )
@@ -349,7 +355,10 @@ bool JsonObject::has_number( const std::string &name )
         return false;
     }
     jsin->seek( pos );
-    return jsin->test_number();
+    if( jsin->test_number() ) {
+        return true;
+    }
+    return false;
 }
 
 bool JsonObject::has_string( const std::string &name )
@@ -359,7 +368,10 @@ bool JsonObject::has_string( const std::string &name )
         return false;
     }
     jsin->seek( pos );
-    return jsin->test_string();
+    if( jsin->test_string() ) {
+        return true;
+    }
+    return false;
 }
 
 bool JsonObject::has_array( const std::string &name )
@@ -369,7 +381,10 @@ bool JsonObject::has_array( const std::string &name )
         return false;
     }
     jsin->seek( pos );
-    return jsin->test_array();
+    if( jsin->test_array() ) {
+        return true;
+    }
+    return false;
 }
 
 bool JsonObject::has_object( const std::string &name )
@@ -379,7 +394,10 @@ bool JsonObject::has_object( const std::string &name )
         return false;
     }
     jsin->seek( pos );
-    return jsin->test_object();
+    if( jsin->test_object() ) {
+        return true;
+    }
+    return false;
 }
 
 /* class JsonArray
@@ -855,7 +873,7 @@ void JsonIn::skip_true()
     stream->get( text, 5 );
     if( strcmp( text, "true" ) != 0 ) {
         std::stringstream err;
-        err << R"(expected "true", but found ")" << text << "\"";
+        err << "expected \"true\", but found \"" << text << "\"";
         error( err.str(), -4 );
     }
     end_value();
@@ -868,7 +886,7 @@ void JsonIn::skip_false()
     stream->get( text, 6 );
     if( strcmp( text, "false" ) != 0 ) {
         std::stringstream err;
-        err << R"(expected "false", but found ")" << text << "\"";
+        err << "expected \"false\", but found \"" << text << "\"";
         error( err.str(), -5 );
     }
     end_value();
@@ -881,7 +899,7 @@ void JsonIn::skip_null()
     stream->get( text, 5 );
     if( strcmp( text, "null" ) != 0 ) {
         std::stringstream err;
-        err << R"(expected "null", but found ")" << text << "\"";
+        err << "expected \"null\", but found \"" << text << "\"";
         error( err.str(), -4 );
     }
     end_value();
@@ -1080,7 +1098,7 @@ bool JsonIn::get_bool()
             end_value();
             return true;
         } else {
-            err << R"(not a boolean. expected "true", but got ")";
+            err << "not a boolean. expected \"true\", but got \"";
             err << ch << text << "\"";
             error( err.str(), -4 );
         }
@@ -1090,7 +1108,7 @@ bool JsonIn::get_bool()
             end_value();
             return false;
         } else {
-            err << R"(not a boolean. expected "false", but got ")";
+            err << "not a boolean. expected \"false\", but got \"";
             err << ch << text << "\"";
             error( err.str(), -5 );
         }
@@ -1178,45 +1196,66 @@ bool JsonIn::end_object()
 bool JsonIn::test_null()
 {
     eat_whitespace();
-    return peek() == 'n';
+    if( peek() == 'n' ) {
+        return true;
+    }
+    return false;
 }
 
 bool JsonIn::test_bool()
 {
     eat_whitespace();
     const char ch = peek();
-    return ch == 't' || ch == 'f';
+    if( ch == 't' || ch == 'f' ) {
+        return true;
+    }
+    return false;
 }
 
 bool JsonIn::test_number()
 {
     eat_whitespace();
     const char ch = peek();
-    return ch == '-' || ch == '+' || ch == '.' || ( ch >= '0' && ch <= '9' );
+    if( ch != '-' && ch != '+' && ch != '.' && ( ch < '0' || ch > '9' ) ) {
+        return false;
+    }
+    return true;
 }
 
 bool JsonIn::test_string()
 {
     eat_whitespace();
-    return peek() == '"';
+    if( peek() == '"' ) {
+        return true;
+    }
+    return false;
 }
 
 bool JsonIn::test_bitset()
 {
     eat_whitespace();
-    return peek() == '"';
+    if( peek() == '"' ) {
+        return true;
+    }
+    return false;
 }
 
 bool JsonIn::test_array()
 {
     eat_whitespace();
-    return peek() == '[';
+    if( peek() == '[' ) {
+        return true;
+    }
+    return false;
 }
 
 bool JsonIn::test_object()
 {
     eat_whitespace();
-    return peek() == '{';
+    if( peek() == '{' ) {
+        return true;
+    }
+    return false;
 }
 
 /* non-fatal value setting by reference */

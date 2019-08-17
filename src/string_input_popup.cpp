@@ -4,9 +4,7 @@
 
 #include "catacharset.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
-#include "ime.h"
 #include "input.h"
-#include "optional.h"
 #include "output.h"
 #include "ui.h"
 #include "uistate.h"
@@ -20,7 +18,6 @@
 
 #include <cstdlib>
 #include <algorithm>
-#include <memory>
 #include <vector>
 
 string_input_popup::string_input_popup() = default;
@@ -79,7 +76,7 @@ void string_input_popup::create_window()
 
     const int w_y = ( TERMY - w_height ) / 2;
     const int w_x = std::max( ( TERMX - w_width ) / 2, 0 );
-    w = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
+    w = catacurses::newwin( w_height, w_width, w_y, w_x );
 
     draw_border( w );
 
@@ -95,7 +92,7 @@ void string_input_popup::create_window()
 
 void string_input_popup::create_context()
 {
-    ctxt_ptr = std::make_unique<input_context>( "STRING_INPUT" );
+    ctxt_ptr.reset( new input_context( "STRING_INPUT" ) );
     ctxt = ctxt_ptr.get();
     ctxt->register_action( "ANY_INPUT" );
 }
@@ -225,7 +222,7 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
     const utf8_wrapper ds( ret.substr_display( shift, scrmax ) );
     int start_x_edit = _startx;
     // Clear the line
-    mvwprintw( w, point( _startx, _starty ), std::string( std::max( 0, scrmax ), ' ' ) );
+    mvwprintw( w, _starty, _startx, std::string( std::max( 0, scrmax ), ' ' ) );
     // Print the whole input string in default color
     mvwprintz( w, _starty, _startx, _string_color, "%s", ds.c_str() );
     size_t sx = ds.display_width();
@@ -296,10 +293,11 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     if( !ctxt ) {
         create_context();
     }
-    cata::optional<ime_sentry> sentry;
-    if( !draw_only && loop ) {
-        sentry.emplace();
+#if defined(__ANDROID__)
+    if( !draw_only && loop && get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
+        SDL_StartTextInput();
     }
+#endif
     utf8_wrapper ret( _text );
     utf8_wrapper edit( ctxt->get_edittext() );
     if( _position == -1 ) {

@@ -181,7 +181,7 @@ static void do_blast( const tripoint &p, const float power,
         // Don't check up/down (for now) - this will make 2D/3D balancing easier
         int empty_neighbors = 0;
         for( size_t i = 0; i < 8; i++ ) {
-            tripoint dest( pt + tripoint( x_offset[i], y_offset[i], z_offset[i] ) );
+            tripoint dest( pt.x + x_offset[i], pt.y + y_offset[i], pt.z + z_offset[i] );
             if( closed.count( dest ) == 0 && g->m.valid_move( pt, dest, false, true ) ) {
                 empty_neighbors++;
             }
@@ -190,7 +190,7 @@ static void do_blast( const tripoint &p, const float power,
         empty_neighbors = std::max( 1, empty_neighbors );
         // Iterate over all neighbors. Bash all of them, propagate to some
         for( size_t i = 0; i < max_index; i++ ) {
-            tripoint dest( pt + tripoint( x_offset[i], y_offset[i], z_offset[i] ) );
+            tripoint dest( pt.x + x_offset[i], pt.y + y_offset[i], pt.z + z_offset[i] );
             if( closed.count( dest ) != 0 || !g->m.inbounds( dest ) ) {
                 continue;
             }
@@ -288,8 +288,8 @@ static void do_blast( const tripoint &p, const float power,
         player *pl = dynamic_cast<player *>( critter );
         if( pl == nullptr ) {
             // TODO: player's fault?
-            const double dmg = force - critter->get_armor_bash( bp_torso ) / 2.0;
-            const int actual_dmg = rng_float( dmg * 2, dmg * 3 );
+            const int dmg = force - ( critter->get_armor_bash( bp_torso ) / 2 );
+            const int actual_dmg = rng( dmg * 2, dmg * 3 );
             critter->apply_damage( nullptr, bp_torso, actual_dmg );
             critter->check_dead_state();
             add_msg( m_debug, "Blast hits %s for %d damage", critter->disp_name(), actual_dmg );
@@ -622,7 +622,7 @@ void emp_blast( const tripoint &p )
         if( sight ) {
             add_msg( _( "The %s is rendered non-functional!" ), g->m.tername( x, y ) );
         }
-        g->m.ter_set( point( x, y ), t_console_broken );
+        g->m.ter_set( x, y, t_console_broken );
         return;
     }
     // TODO: More terrain effects.
@@ -633,7 +633,7 @@ void emp_blast( const tripoint &p )
             if( sight ) {
                 add_msg( _( "The card reader is rendered non-functional." ) );
             }
-            g->m.ter_set( point( x, y ), t_card_reader_broken );
+            g->m.ter_set( x, y, t_card_reader_broken );
         }
         if( rn > 80 ) {
             if( sight ) {
@@ -642,7 +642,7 @@ void emp_blast( const tripoint &p )
             for( int i = -3; i <= 3; i++ ) {
                 for( int j = -3; j <= 3; j++ ) {
                     if( g->m.ter( x + i, y + j ) == t_door_metal_locked ) {
-                        g->m.ter_set( point( x + i, y + j ), t_floor );
+                        g->m.ter_set( x + i, y + j, t_floor );
                     }
                 }
             }

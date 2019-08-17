@@ -205,7 +205,6 @@ def extract_harvest(item):
 
 def extract_bodypart(item):
     outfile = get_outfile("bodypart")
-    writestr(outfile, item["name"])
     writestr(outfile, item["name"], context="bodypart_accusative")
     writestr(outfile, item["encumbrance_text"])
     writestr(outfile, item["heading_singular"], item["heading_plural"])
@@ -689,12 +688,6 @@ def extract_field_type(item):
     for fd in item.get("intensity_levels"):
        if "name" in fd:
            writestr(outfile,fd.get("name"))
-            
-def extract_ter_furn_transform_messages(item):
-	outfile = get_outfile("ter_furn_transform_messages")
-	writestr(outfile,item.get("fail_message"))
-	for terrain in item.get("terrain"):
-		writestr(outfile,terrain.get("message"))
 
 # these objects need to have their strings specially extracted
 extract_specials = {
@@ -720,8 +713,7 @@ extract_specials = {
     "talk_topic": extract_talk_topic,
     "gate": extract_gate,
     "vehicle_spawn": extract_vehspawn,
-    "field_type": extract_field_type,
-    "ter_furn_transform": extract_ter_furn_transform_messages
+    "field_type": extract_field_type
 
 }
 

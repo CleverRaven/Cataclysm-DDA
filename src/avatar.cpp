@@ -71,7 +71,6 @@ const efftype_id effect_depressants( "depressants" );
 const efftype_id effect_happy( "happy" );
 const efftype_id effect_irradiated( "irradiated" );
 const efftype_id effect_pkill( "pkill" );
-const efftype_id effect_riding( "riding" );
 const efftype_id effect_sad( "sad" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_sleep_deprived( "sleep_deprived" );
@@ -103,7 +102,7 @@ static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 
 const skill_id skill_unarmed( "unarmed" );
 
-avatar::avatar()
+avatar::avatar() : player()
 {
     show_map_memory = true;
     active_mission = nullptr;
@@ -121,7 +120,7 @@ void avatar::memorial( std::ostream &memorial_file, const std::string &epitaph )
 
     //Avoid saying "a male unemployed" or similar
     std::string profession_name;
-    if( prof == profession::generic() ) {
+    if( prof == prof->generic( ) ) {
         if( male ) {
             profession_name = _( "an unemployed male" );
         } else {
@@ -263,7 +262,7 @@ void avatar::memorial( std::ostream &memorial_file, const std::string &epitaph )
     memorial_file << _( "Bionics:" ) << eol;
     int total_bionics = 0;
     for( size_t i = 0; i < my_bionics->size(); ++i ) {
-        memorial_file << indent << i + 1 << ": " << ( *my_bionics )[i].id->name << eol;
+        memorial_file << indent << ( i + 1 ) << ": " << ( *my_bionics )[i].id->name << eol;
         total_bionics++;
     }
     if( total_bionics == 0 ) {
@@ -693,7 +692,8 @@ bool avatar::read( int inventory_position, const bool continuous )
                 const int lvl = elem.first->get_skill_level( skill );
                 const std::string lvl_text = skill ? string_format( _( " | current level: %d" ), lvl ) : "";
                 const std::string name_text = elem.first->disp_name() + elem.second;
-                return string_format( "%-*s%s", static_cast<int>( max_length( m ) ), name_text, lvl_text );
+                return string_format( ( "%-*s%s" ), static_cast<int>( max_length( m ) ),
+                                      name_text, lvl_text );
             };
 
             auto add_header = [&menu]( const std::string & str ) {
@@ -1163,22 +1163,14 @@ void avatar::vomit()
 
 void avatar::disp_morale()
 {
-    int equilibrium = calc_focus_equilibrium();
-    if( get_fatigue() >= MASSIVE_FATIGUE && ( focus_pool > 20 || equilibrium > 20 ) ) {
-        equilibrium = 20;
-    } else if( get_fatigue() >= EXHAUSTED && ( focus_pool > 40 || equilibrium > 40 ) ) {
-        equilibrium = 40;
-    } else if( get_fatigue() >= DEAD_TIRED && ( focus_pool > 60 || equilibrium > 60 ) ) {
-        equilibrium = 60;
-    } else if( get_fatigue() >= TIRED && ( focus_pool > 80 || equilibrium > 80 ) ) {
-        equilibrium = 80;
-    }
-    morale->display( equilibrium );
+    morale->display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
 }
 
+// written mostly by FunnyMan3595 in Github issue #613 (DarklingWolf's repo),
+// with some small edits/corrections by Soron
 int avatar::calc_focus_equilibrium() const
 {
-    int focus_equilibrium = 100;
+    int focus_gain_rate = 100;
 
     if( activity.id() == activity_id( "ACT_READ" ) ) {
         const item &book = *activity.targets[0].get_item();
@@ -1187,7 +1179,7 @@ int avatar::calc_focus_equilibrium() const
             // apply a penalty when we're actually learning something
             const SkillLevel &skill_level = get_skill_level_object( bt.skill );
             if( skill_level.can_train() && skill_level < bt.level ) {
-                focus_equilibrium -= 50;
+                focus_gain_rate -= 50;
             }
         }
     }
@@ -1200,85 +1192,73 @@ int avatar::calc_focus_equilibrium() const
     }
 
     if( eff_morale < -99 ) {
-        // At very low morale, focus is at it's minimum
-        focus_equilibrium = 1;
+        // At very low morale, focus goes up at 1% of the normal rate.
+        focus_gain_rate = 1;
     } else if( eff_morale <= 50 ) {
-        // At -99 to +50 morale, each point of morale gives or takes 1 point of focus
-        focus_equilibrium += eff_morale;
+        // At -99 to +50 morale, each point of morale gives 1% of the normal rate.
+        focus_gain_rate += eff_morale;
     } else {
         /* Above 50 morale, we apply strong diminishing returns.
-        * Each block of 50 takes twice as many morale points as the previous one:
-        * 50 focus at 50 morale (as before)
-        * 200 focus at 150 morale (100 more morale)
-        * 250 focus at 350 morale (200 more morale)
+        * Each block of 50% takes twice as many morale points as the previous one:
+        * 150% focus gain at 50 morale (as before)
+        * 200% focus gain at 150 morale (100 more morale)
+        * 250% focus gain at 350 morale (200 more morale)
         * ...
         * Cap out at 400% focus gain with 3,150+ morale, mostly as a sanity check.
         */
 
         int block_multiplier = 1;
         int morale_left = eff_morale;
-        while( focus_equilibrium < 400 ) {
+        while( focus_gain_rate < 400 ) {
             if( morale_left > 50 * block_multiplier ) {
                 // We can afford the entire block.  Get it and continue.
                 morale_left -= 50 * block_multiplier;
-                focus_equilibrium += 50;
+                focus_gain_rate += 50;
                 block_multiplier *= 2;
             } else {
                 // We can't afford the entire block.  Each block_multiplier morale
-                // points give 1 focus, and then we're done.
-                focus_equilibrium += morale_left / block_multiplier;
+                // points give 1% focus gain, and then we're done.
+                focus_gain_rate += morale_left / block_multiplier;
                 break;
             }
         }
     }
 
     // This should be redundant, but just in case...
-    if( focus_equilibrium < 1 ) {
-        focus_equilibrium = 1;
-    } else if( focus_equilibrium > 400 ) {
-        focus_equilibrium = 400;
-    }
-    return focus_equilibrium;
-}
-
-int avatar::calc_focus_change() const
-{
-    int focus_gap = calc_focus_equilibrium() - focus_pool;
-
-    // handle negative gain rates in a symmetric manner
-    int base_change = 1;
-    if( focus_gap < 0 ) {
-        base_change = -1;
-        focus_gap = -focus_gap;
+    if( focus_gain_rate < 1 ) {
+        focus_gain_rate = 1;
+    } else if( focus_gain_rate > 400 ) {
+        focus_gain_rate = 400;
     }
 
-    // for every 100 points, we have a flat gain of 1 focus.
-    // for every n points left over, we have an n% chance of 1 focus
-    int gain = focus_gap / 100;
-    if( rng( 1, 100 ) <= focus_gap % 100 ) {
-        gain++;
-    }
-
-    gain *= base_change;
-
-    // Fatigue will incrementally decrease any focus above related cap
-    if( ( get_fatigue() >= TIRED && focus_pool > 80 ) ||
-        ( get_fatigue() >= DEAD_TIRED && focus_pool > 60 ) ||
-        ( get_fatigue() >= EXHAUSTED && focus_pool > 40 ) ||
-        ( get_fatigue() >= MASSIVE_FATIGUE && focus_pool > 20 ) ) {
-
-        //it can fall faster then 1
-        if( gain > -1 ) {
-            gain = -1;
-        }
-    }
-    return gain;
+    return focus_gain_rate;
 }
 
 void avatar::update_mental_focus()
 {
+    int focus_gain_rate = calc_focus_equilibrium() - focus_pool;
 
-    focus_pool += calc_focus_change();
+    // handle negative gain rates in a symmetric manner
+    int base_change = 1;
+    if( focus_gain_rate < 0 ) {
+        base_change = -1;
+        focus_gain_rate = -focus_gain_rate;
+    }
+
+    // for every 100 points, we have a flat gain of 1 focus.
+    // for every n points left over, we have an n% chance of 1 focus
+    int gain = focus_gain_rate / 100;
+    if( rng( 1, 100 ) <= ( focus_gain_rate % 100 ) ) {
+        gain++;
+    }
+
+    focus_pool += ( gain * base_change );
+
+    // Fatigue should at least prevent high focus
+    // This caps focus gain at 60(arbitrary value) if you're Dead Tired
+    if( get_fatigue() >= DEAD_TIRED && focus_pool > 60 ) {
+        focus_pool = 60;
+    }
 
     // Moved from calc_focus_equilibrium, because it is now const
     if( activity.id() == activity_id( "ACT_READ" ) ) {
@@ -1374,7 +1354,7 @@ void avatar::reset_stats()
     // Starvation
     const float bmi = get_bmi();
     if( bmi < character_weight_category::underweight ) {
-        const int str_penalty = floor( ( 1.0f - ( bmi - 13.0f ) / 3.0f ) * get_str_base() );
+        const int str_penalty = floor( ( 1.0f - ( bmi - 13.0f ) / 3.0f ) * get_str_base() ) + 0.5f;
         add_miss_reason( _( "You're weak from hunger." ),
                          static_cast<unsigned>( ( get_starvation() + 300 ) / 1000 ) );
         mod_str_bonus( -str_penalty );
@@ -1399,18 +1379,14 @@ void avatar::reset_stats()
 
     // Dodge-related effects
     mod_dodge_bonus( mabuff_dodge_bonus() -
-                     ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f - encumb( bp_torso ) / 10.0f );
+                     ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f -
+                     ( encumb( bp_torso ) / 10.0f ) );
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !wearing_something_on( bp_mouth ) ) {
         mod_dodge_bonus( 1 );
     }
     if( has_trait( trait_WHISKERS_RAT ) && !wearing_something_on( bp_mouth ) ) {
         mod_dodge_bonus( 2 );
-    }
-    // depending on mounts size, attacks will hit the mount and use their dodge rating.
-    // if they hit the player, the player cannot dodge as effectively.
-    if( is_mounted() ) {
-        mod_dodge_bonus( -4 );
     }
     // Spider hair is basically a full-body set of whiskers, once you get the brain for it
     if( has_trait( trait_CHITIN_FUR3 ) ) {

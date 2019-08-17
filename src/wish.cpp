@@ -66,8 +66,9 @@ class wish_mutate_callback: public uilist_callback
                     p->set_mutation( vTraits[ entnum ] );
                     p->toggle_trait( vTraits[ entnum ] );
                 }
-                menu->entries[ entnum ].text_color = p->has_trait( vTraits[ entnum ] ) ? c_green : menu->text_color;
-                menu->entries[ entnum ].extratxt.txt = p->has_base_trait( vTraits[ entnum ] ) ? "T" : "";
+                menu->entries[ entnum ].text_color = ( p->has_trait( vTraits[ entnum ] ) ? c_green :
+                                                       menu->text_color );
+                menu->entries[ entnum ].extratxt.txt = ( p->has_base_trait( vTraits[ entnum ] ) ? "T" : "" );
                 return true;
             }
             return false;
@@ -79,17 +80,17 @@ class wish_mutate_callback: public uilist_callback
                 padding = std::string( menu->pad_right - 1, ' ' );
                 for( auto &traits_iter : mutation_branch::get_all() ) {
                     vTraits.push_back( traits_iter.id );
-                    pTraits[traits_iter.id] = p->has_trait( traits_iter.id );
+                    pTraits[traits_iter.id] = ( p->has_trait( traits_iter.id ) );
                 }
             }
             const mutation_branch &mdata = vTraits[entnum].obj();
 
             const int startx = menu->w_width - menu->pad_right;
             for( int i = 2; i < lastlen; i++ ) {
-                mvwprintw( menu->window, point( startx, i ), padding );
+                mvwprintw( menu->window, i, startx, padding );
             }
 
-            mvwprintw( menu->window, point( startx, 3 ),
+            mvwprintw( menu->window, 3, startx,
                        mdata.valid ? _( "Valid" ) : _( "Nonvalid" ) );
             int line2 = 4;
 
@@ -157,7 +158,7 @@ class wish_mutate_callback: public uilist_callback
                 line2++;
                 mvwprintz( menu->window, line2, startx, c_light_gray,  _( "Type:" ) );
                 for( auto &j : mdata.types ) {
-                    mvwprintw( menu->window, point( startx + 11, line2 ), j );
+                    mvwprintw( menu->window, line2, startx + 11, j );
                     line2++;
                 }
             }
@@ -166,7 +167,7 @@ class wish_mutate_callback: public uilist_callback
                 line2++;
                 mvwprintz( menu->window, line2, startx, c_light_gray,  _( "Category:" ) );
                 for( auto &j : mdata.category ) {
-                    mvwprintw( menu->window, point( startx + 11, line2 ), j );
+                    mvwprintw( menu->window, line2, startx + 11, j );
                     line2++;
                 }
             }
@@ -191,7 +192,7 @@ class wish_mutate_callback: public uilist_callback
             mvwprintz( menu->window, menu->w_height - 3, startx, c_green, msg );
             msg = padding;
             input_context ctxt( menu->input_category );
-            mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
+            mvwprintw( menu->window, menu->w_height - 2, startx,
                        _( "[%s] find, [%s] quit, [t] toggle base trait" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
 
@@ -221,7 +222,7 @@ void debug_menu::wishmutate( player *p )
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;
     // Disabled due to foldstring crash // ( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
-    wmenu.pad_right = wmenu.w_width - 40;
+    wmenu.pad_right = ( wmenu.w_width - 40 );
     wmenu.selected = uistate.wishmutate_selected;
     wish_mutate_callback cb;
     cb.p = p;
@@ -304,8 +305,8 @@ class wish_monster_callback: public uilist_callback
         }
 
         void setup( uilist *menu ) {
-            w_info = catacurses::newwin( menu->w_height - 2, menu->pad_right,
-                                         point( menu->w_x + menu->w_width - 1 - menu->pad_right, 1 ) );
+            w_info = catacurses::newwin( menu->w_height - 2, menu->pad_right, 1,
+                                         menu->w_x + menu->w_width - 1 - menu->pad_right );
             padding = std::string( getmaxx( w_info ), ' ' );
             werase( w_info );
             wrefresh( w_info );
@@ -353,13 +354,13 @@ class wish_monster_callback: public uilist_callback
             tmp.print_info( w_info, 2, 5, 1 );
 
             std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->nname(),
-                                                group, hallucination ? _( " (hallucination)" ) : "" );
+                                                group, ( hallucination ? _( " (hallucination)" ) : "" ) );
             mvwprintz( w_info, 0, ( getmaxx( w_info ) - header.size() ) / 2, c_cyan, header );
 
             mvwprintz( w_info, getmaxy( w_info ) - 3, 0, c_green, msg );
             msg = padding;
             input_context ctxt( menu->input_category );
-            mvwprintw( w_info, point( 0, getmaxy( w_info ) - 2 ),
+            mvwprintw( w_info, getmaxy( w_info ) - 2, 0,
                        _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
         }
@@ -384,7 +385,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;
     // Disabled due to foldstring crash //( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
-    wmenu.pad_right = wmenu.w_width - 30;
+    wmenu.pad_right = ( wmenu.w_width - 30 );
     wmenu.selected = uistate.wishmonster_selected;
     wish_monster_callback cb( mtypes );
     wmenu.callback = &cb;
@@ -463,14 +464,14 @@ class wish_item_callback: public uilist_callback
             const int startx = menu->w_width - menu->pad_right;
             const std::string padding( menu->pad_right, ' ' );
             for( int y = 2; y < menu->w_height - 1; y++ ) {
-                mvwprintw( menu->window, point( startx - 1, y ), padding );
+                mvwprintw( menu->window, y, startx - 1, padding );
             }
             item tmp( standard_itype_ids[entnum], calendar::turn );
-            mvwhline( menu->window, point( startx, 1 ), ' ', menu->pad_right - 1 );
+            mvwhline( menu->window, 1, startx, ' ', menu->pad_right - 1 );
             const std::string header = string_format( "#%d: %s%s%s", entnum,
                                        standard_itype_ids[entnum]->get_id().c_str(),
-                                       incontainer ? _( " (contained)" ) : "",
-                                       has_flag ? _( " (flagged)" ) : "" );
+                                       ( incontainer ? _( " (contained)" ) : "" ),
+                                       ( has_flag ? _( " (flagged)" ) : "" ) );
             mvwprintz( menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan,
                        header );
 
@@ -480,7 +481,7 @@ class wish_item_callback: public uilist_callback
             msg.erase();
 
             input_context ctxt( menu->input_category );
-            mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
+            mvwprintw( menu->window, menu->w_height - 2, startx,
                        _( "[%s] find, [f] container, [F] flag, [%s] quit" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
         }
@@ -499,7 +500,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
     uilist wmenu;
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;
-    wmenu.pad_right = TERMX / 2 > 40 ? TERMX - 40 : TERMX / 2;
+    wmenu.pad_right = ( TERMX / 2 > 40 ? TERMX - 40 : TERMX / 2 );
     wmenu.selected = uistate.wishitem_selected;
     wish_item_callback cb( opts );
     wmenu.callback = &cb;
@@ -613,7 +614,7 @@ void debug_menu::wishskill( player *p )
             const int skcur = p->get_skill_level( skill.ident() );
             sksetmenu.selected = skcur;
             for( int i = 0; i < NUM_SKILL_LVL; i++ ) {
-                sksetmenu.addentry( i, true, i + 48, "%d%s", i, skcur == i ? _( " (current)" ) : "" );
+                sksetmenu.addentry( i, true, i + 48, "%d%s", i, ( skcur == i ? _( " (current)" ) : "" ) );
             }
             sksetmenu.query();
             g->draw_ter();
@@ -632,8 +633,8 @@ void debug_menu::wishskill( player *p )
                     p->get_skill_level( skill.ident() ),
                     skill.name() );
             skmenu.entries[skill_id + skoffset].text_color =
-                p->get_skill_level( skill.ident() ) == origskills[skill_id] ?
-                skmenu.text_color : c_yellow;
+                ( p->get_skill_level( skill.ident() ) == origskills[skill_id] ?
+                  skmenu.text_color : c_yellow );
         } else if( skmenu.ret == 0 && sksel == -1 ) {
             const int ret = uilist( _( "Alter all skill values" ), {
                 _( "Add 3" ), _( "Add 1" ),
@@ -650,14 +651,15 @@ void debug_menu::wishskill( player *p )
                 }
                 for( size_t skill_id = 0; skill_id < Skill::skills.size(); skill_id++ ) {
                     const Skill &skill = Skill::skills[skill_id];
-                    int changeto = skmod != 0 ? p->get_skill_level( skill.ident() ) + skmod :
-                                   skset != -1 ? skset : origskills[skill_id];
+                    int changeto = ( skmod != 0 ? p->get_skill_level( skill.ident() ) + skmod :
+                                     ( skset != -1 ? skset : origskills[skill_id] ) );
                     p->set_skill_level( skill.ident(), std::max( 0, changeto ) );
                     skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
                             p->get_skill_level( skill.ident() ),
                             skill.name() );
                     skmenu.entries[skill_id + skoffset].text_color =
-                        p->get_skill_level( skill.ident() ) == origskills[skill_id] ? skmenu.text_color : c_yellow;
+                        ( p->get_skill_level( skill.ident() ) == origskills[skill_id] ?
+                          skmenu.text_color : c_yellow );
                 }
             }
         }

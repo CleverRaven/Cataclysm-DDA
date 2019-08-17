@@ -2,12 +2,10 @@
 
 #include <utility>
 
-#include "calendar.h"
 #include "debug.h"
 #include "json.h"
 #include "requirements.h"
 #include "translations.h"
-#include "units.h"
 
 static std::map<fault_id, fault> faults_all;
 
@@ -39,13 +37,7 @@ void fault::load_fault( JsonObject &jo )
     f.name_ = _( jo.get_string( "name" ) );
     f.description_ = _( jo.get_string( "description" ) );
 
-    if( jo.has_int( "time" ) ) {
-        // TODO: better have a from_moves function
-        f.time_ = to_moves<int>( time_duration::from_turns( jo.get_int( "time" ) / 100 ) );
-    } else if( jo.has_string( "time" ) ) {
-        f.time_ = to_moves<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
-                                 time_duration::units ) );
-    }
+    f.time_ = jo.get_int( "time" );
 
     auto sk = jo.get_array( "skills" );
     while( sk.has_more() ) {

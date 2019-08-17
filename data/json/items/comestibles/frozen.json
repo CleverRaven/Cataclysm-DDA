@@ -34,9 +34,7 @@
     "calories": 175,
     "fun": 23,
     "health": -3,
-    "price": 275,
-    "material": [ "milk", "junk" ],
-    "primary_material": "milk"
+    "price": 275
   },
   {
     "type": "COMESTIBLE",

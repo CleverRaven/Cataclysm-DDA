@@ -649,11 +649,11 @@
     "symbol": "=",
     "color": "light_gray",
     "description": "Tin and pewter scraps.  Usable in making ammo.",
-    "material": "tin",
+    "material": "steel",
     "volume": 0,
     "weight": 3,
     "ammo_type": "components",
-    "count": 50,
+    "count": 10,
     "charges": 200
   },
   {
@@ -740,25 +740,6 @@
     "count": 50,
     "stack_size": 10,
     "fuel": { "energy": 1.6 }
-  },
-  {
-    "type": "AMMO",
-    "id": "cac2powder",
-    "category": "spare_parts",
-    "price": 200,
-    "name": "calcium carbide premix",
-    "name_plural": "calcium carbide premix",
-    "symbol": "=",
-    "color": "dark_gray",
-    "description": "A powdered mixture of coke and lime ready to be smelted into usable calcium carbide in an arc furnace.",
-    "material": "cac2powder",
-    "phase": "solid",
-    "volume": "250 ml",
-    "weight": 11,
-    "ammo_type": "cac2powder",
-    "count": 25,
-    "stack_size": 10,
-    "fuel": { "energy": 5.2 }
   },
   {
     "type": "AMMO",
@@ -888,7 +869,7 @@
   {
     "type": "AMMO",
     "id": "nicotine_liquid",
-    "category": "drugs",
+    "category": "spare_parts",
     "price": 1000,
     "name": "nicotine liquid",
     "symbol": "=",
@@ -928,7 +909,7 @@
     "material": "steel",
     "volume": 10,
     "weight": 1183,
-    "ammo_type": "oxygen",
+    "ammo_type": "components",
     "count": 10
   },
   {
@@ -1001,20 +982,6 @@
     "volume": 1,
     "weight": 300,
     "ammo_type": "unfinished_char"
-  },
-  {
-    "type": "AMMO",
-    "id": "unfinished_cac2",
-    "category": "spare_parts",
-    "price": 0,
-    "name": "unfinished calcium carbide",
-    "symbol": "=",
-    "color": "white",
-    "description": "The incomplete process of converting coal and lime into calcium carbide. Useless in this state/",
-    "material": "cac2powder",
-    "volume": "250 ml",
-    "weight": 300,
-    "ammo_type": "unfinished_cac2"
   },
   {
     "type": "AMMO",

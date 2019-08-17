@@ -22,7 +22,6 @@ class player;
 class JsonObject;
 class JsonOut;
 class JsonIn;
-class spell;
 class teleporter_list;
 class time_duration;
 class nc_color;
@@ -100,8 +99,7 @@ class spell_type
         // spell description
         std::string description;
         // spell effect string. used to look up spell function
-        std::string effect_name;
-        std::function<void( const spell &, Creature &, const tripoint & )> effect;
+        std::string effect;
         // extra information about spell effect. allows for combinations for effects
         std::string effect_str;
         // list of additional "spell effects"
@@ -331,9 +329,9 @@ class spell
         int heal( const tripoint &target ) const;
 
         // casts the spell effect. returns true if successful
-        void cast_spell_effect( Creature &source, const tripoint &target ) const;
+        bool cast_spell_effect( const Creature &source, const tripoint &target ) const;
         // goes through the spell effect and all of its internal spells
-        void cast_all_effects( Creature &source, const tripoint &target ) const;
+        bool cast_all_effects( const Creature &source, const tripoint &target ) const;
 
         // is the target valid for this spell?
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
@@ -406,19 +404,21 @@ class known_magic
 namespace spell_effect
 {
 
-void teleport_random( const spell &sp, Creature &caster, const tripoint & );
-void pain_split( const spell &, Creature &, const tripoint & );
-void target_attack( const spell &sp, Creature &caster,
+void teleport( int min_distance, int max_distance );
+void pain_split(); // only does g->u
+void move_earth( const tripoint &target );
+void target_attack( const spell &sp, const Creature &caster,
                     const tripoint &target );
-void projectile_attack( const spell &sp, Creature &caster,
+void projectile_attack( const spell &sp, const Creature &caster,
                         const tripoint &target );
-void cone_attack( const spell &sp, Creature &caster,
+void cone_attack( const spell &sp, const Creature &caster,
                   const tripoint &target );
-void line_attack( const spell &sp, Creature &caster,
+void line_attack( const spell &sp, const Creature &caster,
                   const tripoint &target );
 
-void area_pull( const spell &sp, Creature &caster, const tripoint &target );
-void area_push( const spell &sp, Creature &caster, const tripoint &target );
+void area_pull( const spell &sp, const Creature &caster, const tripoint &target );
+void area_push( const spell &sp, const Creature &caster, const tripoint &target );
+
 
 std::set<tripoint> spell_effect_blast( const spell &, const tripoint &, const tripoint &target,
                                        const int aoe_radius, const bool ignore_walls );
@@ -429,12 +429,11 @@ std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
                                       const tripoint &target,
                                       const int aoe_radius, const bool ignore_walls );
 
-void spawn_ethereal_item( const spell &sp, Creature &, const tripoint & );
-void recover_energy( const spell &sp, Creature &, const tripoint &target );
-void spawn_summoned_monster( const spell &sp, Creature &caster, const tripoint &target );
-void translocate( const spell &sp, Creature &caster, const tripoint &target );
-void transform_blast( const spell &sp, Creature &caster, const tripoint &target );
-void none( const spell &sp, Creature &, const tripoint &target );
+void spawn_ethereal_item( const spell &sp );
+void recover_energy( const spell &sp, const tripoint &target );
+void spawn_summoned_monster( const spell &sp, const Creature &caster, const tripoint &target );
+void translocate( const spell &sp, const Creature &caster, const tripoint &target,
+                  teleporter_list &tp_list );
 } // namespace spell_effect
 
 class spellbook_callback : public uilist_callback

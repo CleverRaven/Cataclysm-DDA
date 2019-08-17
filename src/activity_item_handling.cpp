@@ -674,10 +674,7 @@ void activity_on_turn_pickup()
     // Otherwise, we are done.
     if( !keep_going || g->u.activity.targets.empty() ) {
         g->u.cancel_activity();
-    }
-
-    // TODO: Move this to advanced inventory instead of hacking it in here
-    if( !keep_going ) {
+        // TODO: Move this to advanced inventory instead of hacking it in here
         cancel_aim_processing();
     }
 }
@@ -1141,9 +1138,7 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
         pc.id = built_chosen.id;
         pc.counter = 0;
         // Set the trap that has the examine function
-        if( g->m.tr_at( src_loc ).loadid == tr_null ) {
-            g->m.trap_set( src_loc, tr_unfinished_construction );
-        }
+        g->m.trap_set( src_loc, tr_unfinished_construction );
         // Use up the components
         for( const std::vector<item_comp> &it : built_chosen.requirements->get_components() ) {
             std::list<item> tmp = p.consume_items( it, 1, is_crafting_component );
@@ -1271,7 +1266,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
             // if it is, we can skip such item, if not we move the item to correct pile
             // think empty bag on food pile, after you ate the content
             if( !mgr.has( id, src ) ) {
-                const auto &dest_set = mgr.get_near( id, abspos, 60, thisitem );
+                const auto &dest_set = mgr.get_near( id, abspos );
 
                 for( auto &dest : dest_set ) {
                     const auto &dest_loc = g->m.getlocal( dest );

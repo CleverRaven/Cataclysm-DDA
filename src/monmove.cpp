@@ -43,8 +43,6 @@
 #define MONSTER_FOLLOW_DIST 8
 
 const species_id FUNGUS( "FUNGUS" );
-const species_id INSECT( "INSECT" );
-const species_id SPIDER( "SPIDER" );
 
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_countdown( "countdown" );
@@ -78,10 +76,7 @@ bool monster::is_immune_field( const field_type_id fid ) const
     if( fid == fd_fungicidal_gas ) {
         return !type->in_species( FUNGUS );
     }
-    if( fid == fd_insecticidal_gas ) {
-        return !type->in_species( INSECT ) && !type->in_species( SPIDER );
-    }
-    const field_type &ft = fid.obj();
+    const field_type ft = fid.obj();
     if( ft.has_fume ) {
         return has_flag( MF_NO_BREATHE );
     }
@@ -119,53 +114,27 @@ bool monster::can_move_to( const tripoint &p ) const
         return false;
     }
 
-    // Various avoiding behaviors.
-
-    bool avoid_fire = has_flag( MF_AVOID_FIRE );
-    bool avoid_fall = has_flag( MF_AVOID_FALL );
-    bool avoid_simple = has_flag( MF_AVOID_DANGER_1 );
-    bool avoid_complex = has_flag( MF_AVOID_DANGER_2 );
-    /*
-     * Because some avoidance behaviors are supersets of others,
-     * we can cascade through the implications. Complex implies simple,
-     * and simple implies fire and fall.
-     * unfortunately, fall does not necessarily imply fire, nor the converse.
-     */
-    if( avoid_complex ) {
-        avoid_simple = true;
-    }
-    if( avoid_simple ) {
-        avoid_fire = true;
-        avoid_fall = true;
-    }
-
-    // technically this will shortcut in evaluation from fire or fall
-    // before hitting simple or complex but this is more explicit
-    if( avoid_fire || avoid_fall || avoid_simple || avoid_complex ) {
+    // Various avoiding behaviors
+    if( has_flag( MF_AVOID_DANGER_1 ) || has_flag( MF_AVOID_DANGER_2 ) ) {
         const ter_id target = g->m.ter( p );
-
-        // Don't enter lava if we have any concept of heat being bad
-        if( avoid_fire && target == t_lava ) {
+        // Don't enter lava ever
+        if( target == t_lava ) {
+            return false;
+        }
+        // Don't ever throw ourselves off cliffs
+        if( !g->m.has_floor( p ) && !has_flag( MF_FLIES ) ) {
             return false;
         }
 
-        if( avoid_fall ) {
-            // Don't throw ourselves off cliffs if we have a concept of falling
-            if( !g->m.has_floor( p ) && !has_flag( MF_FLIES ) ) {
-                return false;
-            }
-
-            // Don't enter open pits ever unless tiny, can fly or climb well
-            if( !( type->size == MS_TINY || can_climb ) &&
-                ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
-                return false;
-            }
+        // Don't enter open pits ever unless tiny, can fly or climb well
+        if( !( type->size == MS_TINY || can_climb ) &&
+            ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
+            return false;
         }
 
-        // Some things are only avoided if we're not attacking
-        if( attitude( &g->u ) != MATT_ATTACK ) {
-            // Sharp terrain is ignored while attacking
-            if( avoid_simple && g->m.has_flag( "SHARP", p ) &&
+        // The following behaviors are overridden when attacking
+        if( attitude( &( g->u ) ) != MATT_ATTACK ) {
+            if( g->m.has_flag( "SHARP", p ) &&
                 !( type->size == MS_TINY || has_flag( MF_FLIES ) ) ) {
                 return false;
             }
@@ -173,8 +142,8 @@ bool monster::can_move_to( const tripoint &p ) const
 
         const field &target_field = g->m.field_at( p );
 
-        // Higher awareness is needed for identifying these as threats.
-        if( avoid_complex ) {
+        // Differently handled behaviors
+        if( has_flag( MF_AVOID_DANGER_2 ) ) {
             const trap &target_trap = g->m.tr_at( p );
             // Don't enter any dangerous fields
             if( is_dangerous_fields( target_field ) ) {
@@ -184,14 +153,11 @@ bool monster::can_move_to( const tripoint &p ) const
             if( has_flag( MF_SEES ) && !target_trap.is_benign() && g->m.has_floor( p ) ) {
                 return false;
             }
-        }
-
-        // Without avoid_complex, only fire and electricity are checked for field avoidance.
-        if( avoid_fire && target_field.find_field( fd_fire ) ) {
-            return false;
-        }
-        if( avoid_simple && target_field.find_field( fd_electricity ) ) {
-            return false;
+        } else if( has_flag( MF_AVOID_DANGER_1 ) ) {
+            // Don't enter fire or electricity ever (other dangerous fields are fine though)
+            if( target_field.find_field( fd_fire ) || target_field.find_field( fd_electricity ) ) {
+                return false;
+            }
         }
     }
 
@@ -447,7 +413,7 @@ void monster::plan( const mfactions &factions )
         if( type->has_special_attack( "OPERATE" ) ) {
 
             bool found_path_to_couch = false;
-            tripoint tmp( pos() + point( 12, 12 ) );
+            tripoint tmp( pos().x + 12, pos().y + 12, pos().z );
             tripoint couch_loc;
             for( const auto &couch_pos : g->m.find_furnitures_in_radius( pos(), 10,
                     furn_id( "f_autodoc_couch" ) ) ) {
@@ -601,11 +567,49 @@ void monster::move()
         }
     }
 
-    // Check if they're dragging a foe and find their hapless victim
-    player *dragged_foe = find_dragged_foe();
+    // defective nursebot surgery code
+    if( type->has_special_attack( "OPERATE" ) && has_effect( effect_dragging ) &&
+        dragged_foe != nullptr ) {
 
-    // Give nursebots a chance to do surgery.
-    nursebot_operate( dragged_foe );
+        if( rl_dist( pos(), goal ) == 1 && g->m.furn( goal ) == furn_id( "f_autodoc_couch" ) &&
+            !has_effect( effect_operating ) ) {
+            if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
+                ( g->critter_at( goal ) == nullptr || g->critter_at( goal ) == dragged_foe ) ) {
+                add_msg( m_bad, _( "The %1$s slowly but firmly puts %2$s down onto the autodoc couch." ), name(),
+                         dragged_foe->disp_name() );
+
+                dragged_foe->setpos( goal );
+
+                add_effect( effect_countdown, 2_turns );// there's still time to get away
+                add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
+            } else if( g->critter_at( goal ) != nullptr && has_effect( effect_dragging ) ) {
+                sounds::sound( pos(), 8, sounds::sound_t::speech,
+                               string_format(
+                                   _( "a soft robotic voice say, \"Please step away from the autodoc, this patient needs immediate care.\"" ) ) );
+                // TODO: Make it able to push NPC/player
+                push_to( goal, 4, 0 );
+            }
+        }
+        if( get_effect_dur( effect_countdown ) == 1_turns && !has_effect( effect_operating ) ) {
+            if( dragged_foe->has_effect( effect_grabbed ) ) {
+
+                bionic_collection collec = *dragged_foe->my_bionics;
+                int index = rng( 0, collec.size() - 1 );
+                bionic target_cbm = collec[index];
+
+                //8 intelligence*4 + 8 first aid*4 + 3 computer *3 + 4 electronic*1 = 77
+                float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ),
+                                       static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
+
+                g->u.uninstall_bionic( target_cbm, *this, *dragged_foe, adjusted_skill );
+
+                dragged_foe->remove_effect( effect_grabbed );
+                remove_effect( effect_dragging );
+                dragged_foe = nullptr;
+
+            }
+        }
+    }
 
     // The monster can sometimes hang in air due to last fall being blocked
     const bool can_fly = has_flag( MF_FLIES );
@@ -634,7 +638,7 @@ void monster::move()
         moves = 0;
         return;
     }
-    if( has_flag( MF_IMMOBILE ) || has_flag( MF_RIDEABLE_MECH ) ) {
+    if( has_flag( MF_IMMOBILE ) ) {
         moves = 0;
         return;
     }
@@ -666,7 +670,7 @@ void monster::move()
     monster_attitude current_attitude = attitude( nullptr );
     if( !wander() ) {
         if( goal == g->u.pos() ) {
-            current_attitude = attitude( &g->u );
+            current_attitude = attitude( &( g->u ) );
         } else {
             for( const npc &guy : g->all_npcs() ) {
                 if( goal == guy.pos() ) {
@@ -886,81 +890,6 @@ void monster::move()
     }
 }
 
-player *monster::find_dragged_foe()
-{
-    // Make sure they're actually dragging someone.
-    if( dragged_foe_id < 0 || !has_effect( effect_dragging ) ) {
-        dragged_foe_id = -1;
-        return nullptr;
-    }
-
-    // Dragged critters may die or otherwise become invalid, which is why we look
-    // them up each time. Luckily, monsters dragging critters is relatively rare,
-    // so this check should happen infrequently.
-    player *dragged_foe = g->critter_by_id<player>( dragged_foe_id );
-
-    if( dragged_foe == nullptr ) {
-        // Target no longer valid.
-        dragged_foe_id = -1;
-        remove_effect( effect_dragging );
-    }
-
-    return dragged_foe;
-}
-
-// Nursebot surgery code
-void monster::nursebot_operate( player *dragged_foe )
-{
-    // No dragged foe, nothing to do.
-    if( dragged_foe == nullptr ) {
-        return;
-    }
-
-    // Nothing to do if they can't operate, or they don't think they're dragging.
-    if( !( type->has_special_attack( "OPERATE" ) && has_effect( effect_dragging ) ) ) {
-        return;
-    }
-
-    if( rl_dist( pos(), goal ) == 1 && g->m.furn( goal ) == furn_id( "f_autodoc_couch" ) &&
-        !has_effect( effect_operating ) ) {
-        if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
-            ( g->critter_at( goal ) == nullptr || g->critter_at( goal ) == dragged_foe ) ) {
-            add_msg( m_bad, _( "The %1$s slowly but firmly puts %2$s down onto the autodoc couch." ), name(),
-                     dragged_foe->disp_name() );
-
-            dragged_foe->setpos( goal );
-
-            add_effect( effect_countdown, 2_turns );// there's still time to get away
-            add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
-        } else if( g->critter_at( goal ) != nullptr && has_effect( effect_dragging ) ) {
-            sounds::sound( pos(), 8, sounds::sound_t::speech,
-                           string_format(
-                               _( "a soft robotic voice say, \"Please step away from the autodoc, this patient needs immediate care.\"" ) ) );
-            // TODO: Make it able to push NPC/player
-            push_to( goal, 4, 0 );
-        }
-    }
-    if( get_effect_dur( effect_countdown ) == 1_turns && !has_effect( effect_operating ) ) {
-        if( dragged_foe->has_effect( effect_grabbed ) ) {
-
-            bionic_collection collec = *dragged_foe->my_bionics;
-            int index = rng( 0, collec.size() - 1 );
-            bionic target_cbm = collec[index];
-
-            //8 intelligence*4 + 8 first aid*4 + 3 computer *3 + 4 electronic*1 = 77
-            float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ),
-                                   static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
-
-            g->u.uninstall_bionic( target_cbm, *this, *dragged_foe, adjusted_skill );
-
-            dragged_foe->remove_effect( effect_grabbed );
-            remove_effect( effect_dragging );
-            dragged_foe_id = -1;
-
-        }
-    }
-}
-
 // footsteps will determine how loud a monster's normal movement is
 // and create a sound in the monsters location when they move
 void monster::footsteps( const tripoint &p )
@@ -1162,13 +1091,6 @@ bool monster::bash_at( const tripoint &p )
     if( is_hallucination() ) {
         return false;
     }
-
-    // Don't bash if a friendly monster is standing there
-    monster *target = g->critter_at<monster>( p );
-    if( target != nullptr && attitude_to( *target ) == A_FRIENDLY ) {
-        return false;
-    }
-
     bool try_bash = !can_move_to( p ) || one_in( 3 );
     bool can_bash = g->m.is_bashable( p ) && bash_skill() > 0;
 
@@ -1470,8 +1392,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 
     // TODO: Generalize this to Creature
     monster *const critter = g->critter_at<monster>( p );
-    if( critter == nullptr || critter == this ||
-        p == pos() || critter->movement_impaired() ) {
+    if( critter == nullptr || critter == this || p == pos() ) {
         return false;
     }
 
@@ -1513,8 +1434,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
             continue;
         }
 
-        tripoint dest( p + point( dx, dy ) );
-        const int dest_movecost_from = 50 * g->m.move_cost( dest );
+        tripoint dest( p.x + dx, p.y + dy, p.z );
 
         // Pushing into cars/windows etc. is harder
         const int movecost_penalty = g->m.move_cost( dest ) - 2;
@@ -1529,7 +1449,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         }
 
         Creature *critter_recur = g->critter_at( dest );
-        if( !( critter_recur == nullptr || critter_recur->is_hallucination() ) ) {
+        if( critter_recur == nullptr || critter_recur->is_hallucination() ) {
             // Try to push recursively
             monster *mon_recur = dynamic_cast< monster * >( critter_recur );
             if( mon_recur == nullptr ) {
@@ -1543,13 +1463,15 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
                 }
 
                 moves -= movecost_attacker;
+                if( movecost_from > 100 ) {
+                    critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
+                } else {
+                    critter->moves -= movecost_from;
+                }
 
-                // Don't knock down a creature that successfully
-                // pushed another creature, just reduce moves
-                critter->moves -= dest_movecost_from;
                 return true;
             } else {
-                return false;
+                continue;
             }
         }
 
@@ -1557,13 +1479,20 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         if( critter_recur != nullptr ) {
             if( critter_recur->is_hallucination() ) {
                 critter_recur->die( nullptr );
+            } else {
+                return false;
             }
-        } else {
-            critter->setpos( dest );
-            move_to( p );
-            moves -= movecost_attacker;
-            critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
         }
+
+        critter->setpos( dest );
+        move_to( p );
+        moves -= movecost_attacker;
+        if( movecost_from > 100 ) {
+            critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
+        } else {
+            critter->moves -= movecost_from;
+        }
+
         return true;
     }
 
@@ -1722,9 +1651,9 @@ void monster::knock_back_to( const tripoint &to )
          Make sure that non-smashing monsters won't "teleport" through windows
          Injure monsters if they're gonna be walking through pits or whatever
  */
-bool monster::will_reach( const point &p )
+bool monster::will_reach( int x, int y )
 {
-    monster_attitude att = attitude( &g->u );
+    monster_attitude att = attitude( &( g->u ) );
     if( att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND && att != MATT_ZLAVE ) {
         return false;
     }
@@ -1733,36 +1662,36 @@ bool monster::will_reach( const point &p )
         return false;
     }
 
-    if( ( has_flag( MF_IMMOBILE ) || has_flag( MF_RIDEABLE_MECH ) ) && ( pos().xy() != p ) ) {
+    if( has_flag( MF_IMMOBILE ) && ( posx() != x || posy() != y ) ) {
         return false;
     }
 
-    auto path = g->m.route( pos(), tripoint( p, posz() ), get_pathfinding_settings() );
+    auto path = g->m.route( pos(), tripoint( x, y, posz() ), get_pathfinding_settings() );
     if( path.empty() ) {
         return false;
     }
 
     if( has_flag( MF_SMELLS ) && g->scent.get( pos() ) > 0 &&
-        g->scent.get( { p, posz() } ) > g->scent.get( pos() ) ) {
+        g->scent.get( { x, y, posz() } ) > g->scent.get( pos() ) ) {
         return true;
     }
 
-    if( can_hear() && wandf > 0 && rl_dist( wander_pos.xy(), p ) <= 2 &&
+    if( can_hear() && wandf > 0 && rl_dist( wander_pos.x, wander_pos.y, x, y ) <= 2 &&
         rl_dist( posx(), posy(), wander_pos.x, wander_pos.y ) <= wandf ) {
         return true;
     }
 
-    if( can_see() && sees( tripoint( p, posz() ) ) ) {
+    if( can_see() && sees( tripoint( x, y, posz() ) ) ) {
         return true;
     }
 
     return false;
 }
 
-int monster::turns_to_reach( const point &p )
+int monster::turns_to_reach( int x, int y )
 {
     // This function is a(n old) temporary hack that should soon be removed
-    auto path = g->m.route( pos(), tripoint( p, posz() ), get_pathfinding_settings() );
+    auto path = g->m.route( pos(), tripoint( x, y, posz() ), get_pathfinding_settings() );
     if( path.empty() ) {
         return 999;
     }
@@ -1820,7 +1749,7 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                     }
                     break;
                 case MS_HUGE:
-                    if( veh_mass < 2000_kilogram ) {
+                    if( veh_mass < 1500_kilogram ) {
                         shove_moves_minimal = 50;
                         shove_veh_mass_moves_factor = 4;
                         shove_velocity = 1500;

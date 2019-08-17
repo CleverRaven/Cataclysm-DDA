@@ -5,7 +5,6 @@
 #include <string>
 
 #include "color.h"
-#include "point.h"
 
 namespace catacurses
 {
@@ -13,7 +12,8 @@ class window;
 } // namespace catacurses
 
 struct kobject {
-    point pos;
+    int x;
+    int y;
     nc_color color;
     int character;
 };
@@ -34,11 +34,11 @@ class robot_finds_kitten
         kobject kitten;
         kobject empty;
         kobject bogus[MAXMESSAGES];
-        static constexpr int rfkLINES = 20;
-        static constexpr int rfkCOLS = 60;
-        int rfkscreen[rfkCOLS][rfkLINES];
+        int rfkscreen[60][20];
         int nummessages;
         int bogus_messages[MAXMESSAGES];
+        int rfkLINES;
+        int rfkCOLS;
 };
 
 #endif

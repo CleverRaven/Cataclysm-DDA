@@ -26,7 +26,7 @@
 #include "debug.h"
 #include "effect.h" // for weed_msg
 #include "explosion.h"
-#include "timed_event.h"
+#include "event.h"
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -279,8 +279,8 @@ static std::string colorized_feature_description_at( const tripoint &center_poin
 
 static std::string colorized_item_name( const item &item );
 static std::string colorized_item_description( const item &item );
-static item get_top_item_at_point( const tripoint &point,
-                                   const units::volume min_visible_volume );
+static const item get_top_item_at_point( const tripoint &point,
+        const units::volume min_visible_volume );
 
 static std::string effects_description_for_creature( Creature *const creature, std::string &pose,
         const std::string &pronoun_sex );
@@ -412,6 +412,9 @@ static int alcohol( player &p, const item &it, const int strength )
         duration -= alc_strength( strength, 12_minutes, 30_minutes, 45_minutes );
     } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
         duration += alc_strength( strength, 12_minutes, 30_minutes, 45_minutes );
+    }
+    if( !( p.has_trait( trait_ALCMET ) ) ) {
+        p.mod_painkiller( to_turns<int>( alc_strength( strength, 24_seconds, 48_seconds, 72_seconds ) ) );
     }
     p.add_effect( effect_drunk, duration );
     return it.type->charges_to_use();
@@ -842,8 +845,7 @@ int iuse::meditate( player *p, item *it, bool t, const tripoint & )
     }
 
     if( p->has_trait( trait_SPIRITUAL ) ) {
-        const int moves = to_moves<int>( 20_minutes );
-        p->assign_activity( activity_id( "ACT_MEDITATE" ), moves );
+        p->assign_activity( activity_id( "ACT_MEDITATE" ), 2000 );
     } else {
         p->add_msg_if_player( _( "This %s probably meant a lot to someone at one time." ),
                               it->tname() );
@@ -1807,7 +1809,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
                     if( chosen_fish->fish_population <= 0 ) {
                         g->catch_a_monster( chosen_fish, pos, p, 300_hours ); //catch the fish!
                     } else {
-                        g->m.add_item_or_charges( pos, item::make_corpse( chosen_fish->type->id,
+                        g->m.add_item_or_charges( p->pos(), item::make_corpse( chosen_fish->type->id,
                                                   calendar::turn + rng( 0_turns,
                                                           3_hours ) ) );
                     }
@@ -2123,7 +2125,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
             } );
 
             std::vector<std::string> segments = foldstring( message, RADIO_PER_TURN );
-            int index = to_turn<int>( calendar::turn ) % segments.size();
+            int index = calendar::turn % segments.size();
             std::stringstream messtream;
             messtream << string_format( _( "radio: %s" ), segments[index] );
             message = messtream.str();
@@ -2419,9 +2421,8 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
                                  pgettext( "memorial_female", "Set off an alarm." ) );
             sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
-            if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
-                g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
-                                     p->global_sm_location() );
+            if( !g->events.queued( EVENT_WANTED ) ) {
+                g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p->global_sm_location() );
             }
         }
     } else {
@@ -2705,10 +2706,10 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
 
     const tripoint dig_point = p->pos();
 
-    tripoint north = dig_point + point_north;
-    tripoint south = dig_point + point_south;
-    tripoint west = dig_point + point_west;
-    tripoint east = dig_point + point_east;
+    tripoint north = dig_point + point( 0, -1 );
+    tripoint south = dig_point + point( 0, 1 );
+    tripoint west = dig_point + point( -1, 0 );
+    tripoint east = dig_point + point( 1, 0 );
 
     const bool can_dig_here = g->m.has_flag( "DIGGABLE", dig_point ) && !g->m.has_furn( dig_point ) &&
                               g->m.tr_at( dig_point ).is_null() && g->m.i_at( dig_point ).empty() && !g->m.veh_at( dig_point ) &&
@@ -2780,11 +2781,11 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
 
     if( g->m.ter( pnt ) == t_pit || g->m.ter( pnt ) == t_pit_spiked ||
         g->m.ter( pnt ) == t_pit_glass || g->m.ter( pnt ) == t_pit_corpsed ) {
-        moves = to_moves<int>( time_duration::from_minutes( 15 ) );
+        moves = to_turns<int>( time_duration::from_minutes( 15 ) );
     } else if( g->m.ter( pnt ) == t_pit_shallow ) {
-        moves = to_moves<int>( time_duration::from_minutes( 10 ) );
+        moves = to_turns<int>( time_duration::from_minutes( 10 ) );
     } else if( g->m.ter( pnt ) == t_dirtmound ) {
-        moves = to_moves<int>( time_duration::from_minutes( 5 ) );
+        moves = to_turns<int>( time_duration::from_minutes( 5 ) );
     } else {
         p->add_msg_if_player( _( "There is nothing to fill." ) );
         return 0;
@@ -3083,21 +3084,21 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    int moves = to_moves<int>( 30_minutes );
+    int turns = to_moves<int>( 30_minutes );
     if( g->m.move_cost( pnt ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
-        moves /= 2;
+        turns /= 2;
     }
 
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    moves *= ( 1 - ( helpersize / 10 ) );
+    turns *= ( 1 - ( helpersize / 10 ) );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task..." ), np->name );
         break;
     }
 
-    p->assign_activity( activity_id( "ACT_JACKHAMMER" ), moves, -1, p->get_item_position( it ) );
+    p->assign_activity( activity_id( "ACT_JACKHAMMER" ), turns, -1, p->get_item_position( it ) );
     p->activity.placement = pnt;
     p->add_msg_if_player( _( "You start drilling into the %1$s with your %2$s." ),
                           g->m.tername( pnt ), it->tname() );
@@ -3539,7 +3540,7 @@ int iuse::grenade_inc_act( player *p, item *it, bool t, const tripoint &pos )
     } else {  // blow up
         int num_flames = rng( 3, 5 );
         for( int current_flame = 0; current_flame < num_flames; current_flame++ ) {
-            tripoint dest( pos + point( rng( -5, 5 ), rng( -5, 5 ) ) );
+            tripoint dest( pos.x + rng( -5, 5 ), pos.y + rng( -5, 5 ), pos.z );
             std::vector<tripoint> flames = line_to( pos, dest, 0, 0 );
             for( auto &flame : flames ) {
                 g->m.add_field( flame, fd_fire, rng( 0, 2 ) );
@@ -4189,10 +4190,10 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
         }
 
         //Play in 15-minute chunks
-        const int moves = to_moves<int>( 15_minutes );
+        int time = to_turns<int>( 15_minutes );
 
         p->add_msg_if_player( _( "You play on your %s for a while." ), it->tname() );
-        p->assign_activity( activity_id( "ACT_GAME" ), moves, -1, p->get_item_position( it ), "gaming" );
+        p->assign_activity( activity_id( "ACT_GAME" ), time, -1, p->get_item_position( it ), "gaming" );
 
         std::map<std::string, std::string> game_data;
         game_data.clear();
@@ -4237,11 +4238,11 @@ int iuse::hand_crank( player *p, item *it, bool, const tripoint & )
     if( magazine && magazine->has_flag( "RECHARGE" ) ) {
         // 1600 minutes. It shouldn't ever run this long, but it's an upper bound.
         // expectation is it runs until the player is too tired.
-        int moves = to_moves<int>( 1600_minutes );
+        int time = to_moves<int>( 1600_minutes );
         if( it->ammo_capacity() > it->ammo_remaining() ) {
             p->add_msg_if_player( string_format( _( "You start cranking the %s to charge its %s." ),
                                                  it->tname(), it->magazine_current()->tname() ) ) ;
-            p->assign_activity( activity_id( "ACT_HAND_CRANK" ), moves, -1, p->get_item_position( it ),
+            p->assign_activity( activity_id( "ACT_HAND_CRANK" ), time, -1, p->get_item_position( it ),
                                 "hand-cranking" );
         } else {
             p->add_msg_if_player( string_format(
@@ -4276,7 +4277,7 @@ int iuse::vibe( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "*Your* batteries are dead." ) );
         return 0;
     } else {
-        int moves = to_moves<int>( 20_minutes );
+        int time = to_turns<int>( 20_minutes );
         if( it->ammo_remaining() > 0 ) {
             p->add_msg_if_player( _( "You fire up your %s and start getting the tension out." ),
                                   it->tname() );
@@ -4284,7 +4285,7 @@ int iuse::vibe( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( _( "You whip out your %s and start getting the tension out." ),
                                   it->tname() );
         }
-        p->assign_activity( activity_id( "ACT_VIBE" ), moves, -1, p->get_item_position( it ),
+        p->assign_activity( activity_id( "ACT_VIBE" ), time, -1, p->get_item_position( it ),
                             "de-stressing" );
     }
     return it->type->charges_to_use();
@@ -4438,11 +4439,27 @@ int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
 
 void iuse::cut_log_into_planks( player &p )
 {
-    const int moves = to_moves<int>( 20_minutes );
+    p.moves -= to_moves<int>( 20_minutes );
     p.add_msg_if_player( _( "You cut the log into planks." ) );
-
-    p.assign_activity( activity_id( "ACT_CHOP_PLANKS" ), moves, -1 );
-    p.activity.placement = p.pos();
+    const int max_planks = 10;
+    /** @EFFECT_FABRICATION increases number of planks cut from a log */
+    int planks = normal_roll( 2 + p.get_skill_level( skill_fabrication ), 1 );
+    int wasted_planks = max_planks - planks;
+    int scraps = rng( wasted_planks, wasted_planks * 3 );
+    planks = std::min( planks, max_planks );
+    if( planks > 0 ) {
+        item plank( "2x4", calendar::turn );
+        p.i_add_or_drop( plank, planks );
+        p.add_msg_if_player( m_good, _( "You produce %d planks." ), planks );
+    }
+    if( scraps > 0 ) {
+        item scrap( "splinter", calendar::turn );
+        p.i_add_or_drop( scrap, scraps );
+        p.add_msg_if_player( m_good, _( "You produce %d splinters." ), scraps );
+    }
+    if( planks < max_planks / 2 ) {
+        add_msg( m_bad, _( "You waste a lot of the wood." ) );
+    }
 }
 
 int iuse::lumber( player *p, item *it, bool t, const tripoint & )
@@ -4601,7 +4618,6 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
     }
 
     const int charges = turns * it->ammo_required();
-    int moves = to_moves<int>( time_duration::from_turns( turns ) );
 
     if( charges > it->ammo_remaining() ) {
         add_msg( m_info, _( "Your torch doesn't have enough acetylene to cut that." ) );
@@ -4609,7 +4625,7 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
     }
 
     // placing ter here makes resuming tasks work better
-    p->assign_activity( activity_id( "ACT_OXYTORCH" ), moves, static_cast<int>( ter ),
+    p->assign_activity( activity_id( "ACT_OXYTORCH" ), turns, static_cast<int>( ter ),
                         p->get_item_position( it ) );
     p->activity.placement = pnt;
     p->activity.values.push_back( charges );
@@ -4805,7 +4821,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
             case AEA_MAP: {
                 const tripoint center = p->global_omt_location();
                 const bool new_map = overmap_buffer.reveal(
-                                         center.xy(), 20, center.z );
+                                         point( center.x, center.y ), 20, center.z );
                 if( new_map ) {
                     p->add_msg_if_player( m_warning, _( "You have a vision of the surrounding area..." ) );
                     p->moves -= to_moves<int>( 1_seconds );
@@ -4921,7 +4937,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_LIGHT:
                 p->add_msg_if_player( _( "The %s glows brightly!" ), it->tname() );
-                g->timed_events.add( TIMED_EVENT_ARTIFACT_LIGHT, calendar::turn + 3_minutes );
+                g->events.add( EVENT_ARTIFACT_LIGHT, calendar::turn + 3_minutes );
                 break;
 
             case AEA_GROWTH: {
@@ -5000,7 +5016,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_DIM:
                 p->add_msg_if_player( _( "The sky starts to dim." ) );
-                g->timed_events.add( TIMED_EVENT_DIM, calendar::turn + 5_minutes );
+                g->events.add( EVENT_DIM, calendar::turn + 5_minutes );
                 break;
 
             case AEA_FLASH:
@@ -5212,11 +5228,6 @@ int iuse::hotplate( player *p, item *it, bool, const tripoint & )
 
 int iuse::towel( player *p, item *it, bool t, const tripoint & )
 {
-    return towel_common( p, it, t );
-}
-
-int iuse::towel_common( player *p, item *it, bool t )
-{
     if( t ) {
         // Continuous usage, do nothing as not initiated by the player, this is for
         // wet towels only as they are active items.
@@ -5227,10 +5238,9 @@ int iuse::towel_common( player *p, item *it, bool t )
     bool glow = p->has_effect( effect_glowing );
     int mult = slime + boom + glow; // cleaning off more than one at once makes it take longer
     bool towelUsed = false;
-    const std::string name = it ? it->tname() : _( "towel" );
 
     // can't use an already wet towel!
-    if( it && it->has_flag( "WET" ) ) {
+    if( it->has_flag( "WET" ) ) {
         p->add_msg_if_player( m_info, _( "That %s is too wet to soak up any more liquid!" ),
                               it->tname() );
         // clean off the messes first, more important
@@ -5239,10 +5249,10 @@ int iuse::towel_common( player *p, item *it, bool t )
         p->remove_effect( effect_boomered );
         p->remove_effect( effect_glowing );
         p->add_msg_if_player( _( "You use the %s to clean yourself off, saturating it with slime!" ),
-                              name );
+                              it->tname() );
 
         towelUsed = true;
-        if( it && it->typeId() == "towel" ) {
+        if( it->typeId() == "towel" ) {
             it->convert( "towel_soiled" );
         }
 
@@ -5251,16 +5261,14 @@ int iuse::towel_common( player *p, item *it, bool t )
         p->rem_morale( MORALE_WET );
         p->body_wetness.fill( 0 );
         p->add_msg_if_player( _( "You use the %s to dry off, saturating it with water!" ),
-                              name );
+                              it->tname() );
 
         towelUsed = true;
-        if( it ) {
-            it->item_counter = to_turns<int>( 30_minutes );
-        }
+        it->item_counter = to_turns<int>( 30_minutes );
 
         // default message
     } else {
-        p->add_msg_if_player( _( "You are already dry, the %s does nothing." ), name );
+        p->add_msg_if_player( _( "You are already dry, the %s does nothing." ), it->tname() );
     }
 
     // towel was used
@@ -5269,18 +5277,16 @@ int iuse::towel_common( player *p, item *it, bool t )
             mult = 1;
         }
         p->moves -= 50 * mult;
-        if( it ) {
-            // change "towel" to a "towel_wet" (different flavor text/color)
-            if( it->typeId() == "towel" ) {
-                it->convert( "towel_wet" );
-            }
-
-            // WET, active items have their timer decremented every turn
-            it->item_tags.insert( "WET" );
-            it->active = true;
+        // change "towel" to a "towel_wet" (different flavor text/color)
+        if( it->typeId() == "towel" ) {
+            it->convert( "towel_wet" );
         }
+
+        // WET, active items have their timer decremented every turn
+        it->item_tags.insert( "WET" );
+        it->active = true;
     }
-    return it ? it->type->charges_to_use() : 0;
+    return it->type->charges_to_use();
 }
 
 int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
@@ -5481,7 +5487,7 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
 
 int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
 {
-    if( !it->units_sufficient( *p ) ) {
+    if( !it->ammo_sufficient() ) {
         return 0;
     }
     if( p->is_underwater() ) {
@@ -6485,8 +6491,8 @@ static std::string colorized_item_description( const item &item )
     return item.info( dummy, &query, 1 );
 }
 
-static item get_top_item_at_point( const tripoint &point,
-                                   const units::volume min_visible_volume )
+static const item get_top_item_at_point( const tripoint &point,
+        const units::volume min_visible_volume )
 {
     map_stack items = g->m.i_at( point );
     // iterate from topmost item down to ground
@@ -6588,9 +6594,9 @@ static std::string effects_description_for_creature( Creature *const creature, s
         ef_con( std::string status, std::string pose ) :
             status( status ), pose( pose ), intensity_lower_limit( 0 ) {}
         ef_con( std::string status, int intensity_lower_limit ) :
-            status( status ), intensity_lower_limit( intensity_lower_limit ) {}
+            status( status ), pose(), intensity_lower_limit( intensity_lower_limit ) {}
         ef_con( std::string status ) :
-            status( status ), intensity_lower_limit( 0 ) {}
+            status( status ), pose(), intensity_lower_limit( 0 ) {}
     };
     static const std::unordered_map<efftype_id, ef_con> vec_effect_status = {
         { effect_onfire, ef_con( _( " is on <color_red>fire</color>. " ) ) },
@@ -7041,11 +7047,11 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
 
     if( g->get_levz() >= 0 && need_store_weather ) {
         photo_text += "\n\n";
-        if( is_sunrise_now( calendar::turn ) ) {
+        if( calendar::turn.is_sunrise_now() ) {
             photo_text += _( "It is <color_yellow>sunrise</color>. " );
-        } else if( is_sunset_now( calendar::turn ) ) {
+        } else if( calendar::turn.is_sunset_now() ) {
             photo_text += _( "It is <color_light_red>sunset</color>. " );
-        } else if( is_night( calendar::turn ) ) {
+        } else if( calendar::turn.is_night() ) {
             photo_text += _( "It is <color_dark_gray>night</color>. " );
         } else {
             photo_text += _( "It is day. " );
@@ -8029,7 +8035,16 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
         if( !it->units_sufficient( *p ) ) {
             add_msg( m_bad, _( "The autoclave ran out of battery and stopped before completing its cycle." ) );
             it->active = false;
-            it->erase_var( "CYCLETIME" );
+            item *clean_cbm = nullptr;
+            for( item &bio : it->contents ) {
+                if( bio.is_bionic() ) {
+                    clean_cbm = &bio;
+                }
+            }
+            if( clean_cbm ) {
+                g->m.add_item( pos, *clean_cbm );
+                it->remove_item( *clean_cbm );
+            }
             return 0;
         }
 
@@ -8038,11 +8053,17 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
         if( Cycle_time <= 0 ) {
             it->active = false;
             it->erase_var( "CYCLETIME" );
+            item *clean_cbm = nullptr;
             for( item &bio : it->contents ) {
                 if( bio.is_bionic() ) {
                     bio.unset_flag( "NO_STERILE" );
                     bio.set_var( "sterile", 1 ); // sterile for 1s if not (packed);
+                    clean_cbm = &bio;
                 }
+            }
+            if( clean_cbm ) {
+                g->m.add_item( pos, *clean_cbm );
+                it->remove_item( *clean_cbm );
             }
         } else {
             it->set_var( "CYCLETIME", Cycle_time );
@@ -8053,45 +8074,16 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
 
-        bool empty = true;
-        item *clean_cbm = nullptr;
-        for( item &bio : it->contents ) {
-            if( bio.is_bionic() ) {
-                clean_cbm = &bio;
-            }
-        }
-        if( clean_cbm ) {
-            empty = false;
-            if( query_yn( _( "Autoclave already contains a CBM.  Do you want to remove it?" ) ) ) {
-                g->m.add_item( pos, *clean_cbm );
-                it->remove_item( *clean_cbm );
-                if( !query_yn( _( "Do you want to use the autoclave?" ) ) ) {
-                    return 0;
-                }
-                empty = true;
-            }
-        }
+        auto reqs = *requirement_id( "autoclave_item" );
 
-        //Using power_draw seem to consume random amount of battery so +100 to be safe
-        static const int power_need = ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>
-                                        ( 90_minutes ) ) / 1000 + 100;
-        if( power_need > it->ammo_remaining() ) {
-            popup( string_format(
-                       _( "The autoclave doesn't have enough battery for one cycle.  You need at least %s charges." ),
-                       power_need ) );
+        item_location to_sterile = game_menus::inv::sterilize_cbm( *p );
+
+        if( !to_sterile ) {
             return 0;
         }
 
-        item_location to_sterile;
-        if( empty ) {
-            to_sterile = game_menus::inv::sterilize_cbm( *p );
-            if( !to_sterile ) {
-                return 0;
-            }
-        }
-
         if( query_yn( _( "Start the autoclave?" ) ) ) {
-            auto reqs = *requirement_id( "autoclave_item" );
+
             for( const auto &e : reqs.get_components() ) {
                 p->consume_items( e, 1, is_crafting_component );
             }
@@ -8099,12 +8091,10 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
                 p->consume_tools( e );
             }
             p->invalidate_crafting_inventory();
+            const item *cbm = to_sterile.get_item();
 
-            if( empty ) {
-                const item *cbm = to_sterile.get_item();
-                it->put_in( *cbm );
-                to_sterile.remove_item();
-            }
+            it->put_in( *cbm );
+            to_sterile.remove_item();
 
             it->activate();
             it->set_var( "CYCLETIME", to_seconds<int>( 90_minutes ) ); // one cycle
@@ -8607,16 +8597,14 @@ int iuse::shavekit( player *p, item *it, bool, const tripoint & )
     if( !it->ammo_sufficient() ) {
         p->add_msg_if_player( _( "You need soap to use this." ) );
     } else {
-        const int moves = to_moves<int>( 5_minutes );
-        p->assign_activity( activity_id( "ACT_SHAVE" ), moves );
+        p->assign_activity( activity_id( "ACT_SHAVE" ), 3000 );
     }
     return it->type->charges_to_use();
 }
 
 int iuse::hairkit( player *p, item *it, bool, const tripoint & )
 {
-    const int moves = to_moves<int>( 30_minutes );
-    p->assign_activity( activity_id( "ACT_HAIRCUT" ), moves );
+    p->assign_activity( activity_id( "ACT_HAIRCUT" ), 3000 );
     return it->type->charges_to_use();
 }
 
@@ -8897,7 +8885,7 @@ washing_requirements washing_requirements_for_volume( const units::volume vol )
 {
     int water = divide_round_up( vol, 125_ml );
     int cleanser = divide_round_up( vol, 1000_ml );
-    int time = to_moves<int>( 10_seconds * ( vol / 250_ml ) );
+    int time = to_turns<int>( 10_seconds * ( vol / 250_ml ) );
     return { water, cleanser, time };
 }
 
@@ -9264,8 +9252,7 @@ use_function::use_function( const use_function &other )
 
 use_function &use_function::operator=( iuse_actor *const f )
 {
-    *this = use_function( f );
-    return *this;
+    return operator=( use_function( f ) );
 }
 
 use_function &use_function::operator=( const use_function &other )

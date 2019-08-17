@@ -432,7 +432,7 @@ std::vector<trait_id> profession::get_locked_traits() const
     return _starting_traits;
 }
 
-profession::StartingSkillList profession::skills() const
+const profession::StartingSkillList profession::skills() const
 {
     return _starting_skills;
 }

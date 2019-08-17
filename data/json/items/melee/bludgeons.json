@@ -132,7 +132,7 @@
     "price": 4000,
     "material": "wood",
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ],
     "weight": 1400,
     "volume": 12,
     "bashing": 19,
@@ -150,7 +150,7 @@
     "price": 6000,
     "material": [ "wood", "iron" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "weight": 2200,
     "volume": 12,
     "bashing": 25,
@@ -178,7 +178,7 @@
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": "TAZER",
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "magazines": [
       [
         "battery",
@@ -350,7 +350,7 @@
     "symbol": "\\",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE" ]
   },
   {
     "id": "2h_flail_wood",
@@ -366,7 +366,7 @@
     "symbol": "\\",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE" ]
   },
   {
     "//": "Id retained to avoid breaking anything, same reason as with the makeshift glaive.",
@@ -662,7 +662,7 @@
     "description": "This is a versatile polearm with an spiked hammer head, a spike, and a hook attached to a long stick.",
     "price": 50000,
     "material": [ "wood", "steel" ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "SPEAR" ],
     "techniques": [ "WBLOCK_1", "WIDE", "SWEEP" ],
     "weight": 3200,
     "volume": 15,
@@ -681,7 +681,7 @@
     "price": 4000,
     "price_postapoc": 0,
     "material": [ "wood", "aluminum" ],
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "SPEAR" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "weight": 2700,
     "volume": 15,
@@ -689,55 +689,5 @@
     "cutting": 3,
     "to_hit": 2,
     "qualities": [ [ "COOK", 1 ] ]
-  },
-  {
-    "id": "shillelagh",
-    "type": "GENERIC",
-    "symbol": "/",
-    "color": "brown",
-    "name": "shillelagh",
-    "description": "A stout knotty stick with a large knob at the top that has been left to cure in a chimney.  A traditional Irish weapon, the shillelagh was originally used for settling disputes in a gentlemanly manner.",
-    "price": 25000,
-    "material": "wood",
-    "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE" ],
-    "weight": 910,
-    "volume": "1500 ml",
-    "bashing": 22,
-    "to_hit": 2,
-    "category": "weapons"
-  },
-  {
-    "id": "shillelagh_weighted",
-    "type": "GENERIC",
-    "symbol": "/",
-    "color": "brown",
-    "name": "loaded stick",
-    "description": "A stout knotty stick with a large knob at the top that has been left to cure in a chimney.  A traditional Irish weapon, the shillelagh was originally used for settling disputes in a gentlemanly manner.  The knob has been hollowed and filled with molten heavy metal to pack more of a punch.",
-    "price": 30000,
-    "material": [ "lead", "wood" ],
-    "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
-    "weight": 1135,
-    "volume": "1500 ml",
-    "bashing": 27,
-    "to_hit": 2,
-    "category": "weapons"
-  },
-  {
-    "id": "shillelagh_fake",
-    "type": "GENERIC",
-    "symbol": "/",
-    "color": "brown",
-    "name": "shillelagh",
-    "description": "A fake shillelagh massproduced as a souvenir for tourists.  This knotty stick has not been cured in a chimney like a traditional shillelagh but has had fake black soot painted on.",
-    "price": 2500,
-    "material": "wood",
-    "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "weight": 850,
-    "volume": "1500 ml",
-    "bashing": 10,
-    "to_hit": 2,
-    "category": "weapons"
   }
 ]

@@ -100,8 +100,7 @@
     "weight": 113,
     "volume": 2,
     "bashing": 4,
-    "to_hit": -1,
-    "qualities": [ [ "PRESSURIZATION", 1 ] ]
+    "to_hit": -1
   },
   {
     "id": "UPS_off",
@@ -353,7 +352,7 @@
       "menu_text": "Close cover",
       "type": "transform"
     },
-    "flags": [ "LIGHT_10", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "LIGHT_5", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "atomic_light_off",
@@ -1075,7 +1074,7 @@
     "to_hit": -5,
     "bashing": 4,
     "cutting": 70,
-    "power_draw": 150000,
+    "turns_per_charge": 1,
     "revert_to": "chainsaw_off",
     "techniques": "SWEEP",
     "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
@@ -1506,27 +1505,6 @@
     "symbol": ",",
     "color": "cyan",
     "qualities": [ [ "SMOKE_PIPE", 1 ] ]
-  },
-  {
-    "type": "TOOL",
-    "id": "crash_axe",
-    "symbol": ";",
-    "color": "light_gray",
-    "name": "crash axe",
-    "looks_like": "hatchet",
-    "//": "Same stats as a hatchet, except it has prying instead of hammering.",
-    "description": "A short lightweight emergency tool with a quarter circular blade, a short pick opposite the blade and an insulated handle.  Used on airplanes to chop down or pry walls or cabinets to gain access in case of fire.",
-    "price": 2500,
-    "price_postapoc": 5000,
-    "material": [ "steel" ],
-    "techniques": [ "WBLOCK_1" ],
-    "weight": 907,
-    "volume": "1 L",
-    "bashing": 13,
-    "cutting": 7,
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
-    "to_hit": 1,
-    "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "PRY", 2 ], [ "BUTCHER", 16 ] ]
   },
   {
     "id": "crossbow_trap",
@@ -2895,24 +2873,6 @@
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ]
   },
   {
-    "id": "claw_bar",
-    "type": "TOOL",
-    "name": "claw bar",
-    "description": "This is a small prying tool with a clawed bend at one end for pulling spikes.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
-    "weight": 340,
-    "volume": "375 ml",
-    "price": 1000,
-    "to_hit": 1,
-    "bashing": 10,
-    "cutting": 1,
-    "material": "steel",
-    "symbol": ";",
-    "color": "dark_gray",
-    "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ] ],
-    "use_action": [ "CROWBAR", "HAMMER" ],
-    "flags": [ "BELT_CLIP" ]
-  },
-  {
     "id": "hand_drill",
     "type": "TOOL",
     "name": "hand drill",
@@ -3408,27 +3368,6 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You place the leather funnel, waiting to collect rain."
-    }
-  },
-  {
-    "id": "birchbark_funnel",
-    "type": "TOOL",
-    "name": "birchbark funnel",
-    "description": "This is a small birchbark funnel.  Place it above an outdoor container to collect rainwater.",
-    "weight": 3,
-    "volume": "250ml",
-    "price": 0,
-    "to_hit": 1,
-    "material": "wood",
-    "symbol": ";",
-    "color": "white",
-    "use_action": {
-      "type": "place_trap",
-      "allow_under_player": true,
-      "trap": "tr_birchbark_funnel",
-      "moves": 100,
-      "practice": 0,
-      "done_message": "You place the birchbark funnel, waiting to collect rain."
     }
   },
   {
@@ -4370,20 +4309,6 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "id": "pet_carrier_wooden",
-    "copy-from": "pet_carrier",
-    "type": "TOOL",
-    "name": "wooden pet carrier",
-    "description": "A wooden container meant to hold pets for transport.  Use it on a suitable animal to capture, use it on an empty tile to release.",
-    "weight": 1500,
-    "volume": "6250 ml",
-    "price": 800,
-    "material": [ "wood" ],
-    "symbol": "#",
-    "color": "brown",
-    "looks_like": "pet_carrier"
-  },
-  {
     "id": "chicken_cage",
     "type": "TOOL",
     "name": "chicken cage",
@@ -5093,7 +5018,7 @@
     "name": "wood saw",
     "description": "This is a thin saw, useful for cutting through wood objects.",
     "weight": 283,
-    "volume": "1 L",
+    "volume": 5,
     "price": 3000,
     "to_hit": -2,
     "cutting": 1,
@@ -5610,7 +5535,7 @@
     "id": "autoclave",
     "type": "TOOL",
     "name": "autoclave",
-    "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  It requires a massive amount of power, so standard batteries will not power it sufficiently.",
+    "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  This machine draws a lot of power, standard battery might not be enough.",
     "weight": 34500,
     "volume": "76 L",
     "price": 162654,
@@ -5621,9 +5546,8 @@
     "symbol": "A",
     "color": "yellow",
     "use_action": "AUTOCLAVE",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
     "power_draw": 1500000,
-    "revert_to": "autoclave",
+    "charges_per_use": 1,
     "looks_like": "microwave",
     "ammo": "battery",
     "magazines": [
@@ -6148,8 +6072,8 @@
     "category": "weapons",
     "name": "black gunpowder bomb",
     "description": "This is a tin can filled to the brim with black gunpowder and with a bit of fuse sticking out of it.",
-    "//": "40g of tin can and 250ml/412g of gunpowder",
-    "weight": 452,
+    "//": "400g of tin can and 250ml/412g of gunpowder",
+    "weight": 812,
     "volume": 1,
     "price": 2500,
     "to_hit": -2,
@@ -6157,11 +6081,11 @@
     "symbol": "*",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": { "power": 88, "shrapnel": { "casing_mass": 3, "fragment_mass": 0.12 } },
+    "explosion": { "power": 100, "shrapnel": 400 },
     "use_action": {
       "target": "tool_black_powder_bomb_act",
       "msg": "You light the fuse on the black gunpowder bomb.  Throw it before it blows in your face!",
-      "target_charges": 3,
+      "target_charges": 2,
       "active": true,
       "need_fire": 1,
       "menu_text": "Light fuse",
@@ -6175,24 +6099,24 @@
     "category": "weapons",
     "name": "active black gunpowder bomb",
     "description": "This is a tin can filled to the brim with black gunpowder and with a lit fuse stuck inside of it.",
-    "weight": 452,
+    "weight": 500,
     "volume": 2,
     "price": 0,
     "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "light_red",
-    "initial_charges": 3,
-    "max_charges": 3,
+    "initial_charges": 2,
+    "max_charges": 2,
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": { "power": 88, "shrapnel": { "casing_mass": 3, "fragment_mass": 0.12 } },
+    "explosion": { "power": 100, "shrapnel": 400 },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "Kshhh.",
       "no_deactivate_msg": "You've already lit the fuse - throw it!",
-      "explosion": { "power": 88, "shrapnel": { "casing_mass": 3, "fragment_mass": 0.12 } }
+      "explosion": { "power": 100, "shrapnel": 400 }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
@@ -7363,7 +7287,7 @@
     "symbol": "#",
     "color": "brown",
     "looks_like": "frame_wood_light",
-    "flags": [ "NONCONDUCTIVE", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "NONCONDUCTIVE" ],
     "use_action": {
       "target": "adobe_pallet_done",
       "msg": "You test the bricks, and they're solid enough to use.",
@@ -7539,19 +7463,5 @@
     "bashing": 6,
     "material": "steel",
     "use_action": { "type": "weigh_self", "max_weight": 150000 }
-  },
-  {
-    "id": "acetylene_machine",
-    "type": "TOOL",
-    "name": "acetylene-gas machine",
-    "symbol": "&",
-    "color": "light_gray",
-    "description": "This bulky device takes water and calcium carbide and yields unpressurised acetylene.",
-    "weight": 8000,
-    "volume": "3 L",
-    "price": "3200",
-    "to_hit": -4,
-    "bashing": 12,
-    "material": "steel"
   }
 ]

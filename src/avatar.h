@@ -45,13 +45,6 @@ class avatar : public player
         void randomize( bool random_scenario, points_left &points, bool play_now = false );
         bool load_template( const std::string &template_name, points_left &points );
 
-        avatar *as_avatar() override {
-            return this;
-        }
-        const avatar *as_avatar() const override {
-            return this;
-        }
-
         /** Prints out the player's memorial file */
         void memorial( std::ostream &memorial_file, const std::string &epitaph );
 
@@ -72,11 +65,9 @@ class avatar : public player
 
         /** Provides the window and detailed morale data */
         void disp_morale();
-        /** Uses morale and other factors to return the player's focus target goto value */
+        /** Uses morale and other factors to return the player's focus gain rate */
         int calc_focus_equilibrium() const;
-        /** Calculates actual focus gain/loss value from focus equilibrium*/
-        int calc_focus_change() const;
-        /** Uses calc_focus_change to update the player's current focus */
+        /** Uses calc_focus_equilibrium to update the player's current focus */
         void update_mental_focus();
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;

@@ -111,30 +111,6 @@
     "spawns": { "group": "GROUP_RAZORCLAW", "population": [ 30, 60 ], "radius": [ 2, 10 ] }
   },
   {
-    "//": "This special is required for robofac mission 3, and this is a fallback for when the tower doesn’t spawn inside city.  Should be removed once we can guarantee the spawning of mid-city specials",
-    "type": "overmap_special",
-    "id": "office_tower_collapsed",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "office_tower_collapse_a0_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "office_tower_collapse_a1_north" },
-      { "point": [ 2, 0, 0 ], "overmap": "office_tower_collapse_a2_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "office_tower_collapse_b0_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "office_tower_collapse_b1_north" },
-      { "point": [ 2, 1, 0 ], "overmap": "office_tower_collapse_b2_north" },
-      { "point": [ 0, 0, -1 ], "overmap": "office_tower_collapse_b_a0_north" },
-      { "point": [ 1, 0, -1 ], "overmap": "office_tower_collapse_b_a1_north" },
-      { "point": [ 2, 0, -1 ], "overmap": "office_tower_collapse_b_a2_north" },
-      { "point": [ 0, 1, -1 ], "overmap": "office_tower_collapse_b_b0_north" },
-      { "point": [ 1, 1, -1 ], "overmap": "office_tower_collapse_b_b1_north" },
-      { "point": [ 2, 1, -1 ], "overmap": "office_tower_collapse_b_b2_north" }
-    ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" }, { "point": [ 2, -1, 0 ], "terrain": "road" } ],
-    "city_distance": [ 0, 1 ],
-    "locations": [ "land" ],
-    "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 0 ]
-  },
-  {
     "type": "overmap_special",
     "id": "LMOE Shelter",
     "overmaps": [
@@ -198,7 +174,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 0, 20 ],
-    "occurrences": [ 0, 1 ],
+    "occurrences": [ 0, 4 ],
     "flags": [ "BEE" ],
     "rotate": false,
     "spawns": { "group": "GROUP_BEE", "population": [ 20, 60 ], "radius": [ 2, 4 ] }
@@ -286,10 +262,10 @@
       { "point": [ 2, 4, 0 ], "overmap": "2farm_14_north" },
       { "point": [ 3, 4, 0 ], "overmap": "2farm_13_north" }
     ],
-    "connections": [ { "point": [ 1, 2, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ 1, 2, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 5, -1 ],
-    "city_sizes": [ 1, -1 ],
+    "city_distance": [ 10, -1 ],
+    "city_sizes": [ 1, 20 ],
     "occurrences": [ 0, 5 ]
   },
   {
@@ -308,10 +284,10 @@
       { "point": [ 0, 0, 1 ], "overmap": "farm_3_roof_north" },
       { "point": [ 1, 0, 1 ], "overmap": "farm_2_roof_north" }
     ],
-    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 5, -1 ],
-    "city_sizes": [ 1, -1 ],
+    "city_distance": [ 10, -1 ],
+    "city_sizes": [ 1, 20 ],
     "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC" ]
   },
@@ -332,10 +308,10 @@
       { "point": [ 2, 2, 0 ], "overmap": "farm_stills_10_north" },
       { "point": [ 3, 2, 0 ], "overmap": "farm_stills_9_north" }
     ],
-    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 5, -1 ],
-    "city_sizes": [ 1, -1 ],
+    "city_distance": [ 10, -1 ],
+    "city_sizes": [ 1, 20 ],
     "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC" ]
   },
@@ -369,10 +345,9 @@
     ],
     "connections": [ { "point": [ 1, 4, 0 ], "terrain": "road" } ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 5, -1 ],
-    "city_sizes": [ 1, -1 ],
-    "occurrences": [ 0, 5 ],
-    "flags": [ "CLASSIC" ]
+    "city_distance": [ 10, -1 ],
+    "city_sizes": [ 1, 20 ],
+    "occurrences": [ 0, 5 ]
   },
   {
     "type": "overmap_special",
@@ -390,12 +365,11 @@
       { "point": [ -1, -1, 0 ], "overmap": "farm_lot_wire_turn_v_open_west" },
       { "point": [ 0, -1, 0 ], "overmap": "dirt_road_3way_east" }
     ],
-    "connections": [ { "point": [ 0, 0, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ 0, 0, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 5, -1 ],
-    "city_sizes": [ 1, -1 ],
-    "occurrences": [ 0, 3 ],
-    "flags": [ "CLASSIC" ]
+    "city_sizes": [ 1, 20 ],
+    "occurrences": [ 0, 15 ]
   },
   {
     "type": "overmap_special",
@@ -413,12 +387,11 @@
       { "point": [ -1, -1, 0 ], "overmap": "farm_lot_M1_east" },
       { "point": [ 0, -1, 0 ], "overmap": "dirt_road_3way_east" }
     ],
-    "connections": [ { "point": [ 0, 0, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ 0, 0, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 5, -1 ],
-    "city_sizes": [ 1, -1 ],
-    "occurrences": [ 0, 3 ],
-    "flags": [ "CLASSIC" ]
+    "city_sizes": [ 1, 20 ],
+    "occurrences": [ 0, 15 ]
   },
   {
     "type": "overmap_special",
@@ -445,12 +418,11 @@
       { "point": [ 0, -2, 0 ], "overmap": "dirt_road_turn_forest_north" },
       { "point": [ 0, -1, 0 ], "overmap": "dirt_road_forest_north" }
     ],
-    "connections": [ { "point": [ 0, 0, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ 0, 0, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 5, -1 ],
-    "city_sizes": [ 1, -1 ],
-    "occurrences": [ 0, 5 ],
-    "flags": [ "CLASSIC" ]
+    "city_sizes": [ 1, 20 ],
+    "occurrences": [ 0, 15 ]
   },
   {
     "type": "overmap_special",
@@ -473,12 +445,11 @@
       { "point": [ 2, 4, 0 ], "overmap": "farm_lot_wire_turn_v_west" },
       { "point": [ 1, 4, 0 ], "overmap": "farm_lot_wire_turn_h_north" }
     ],
-    "connections": [ { "point": [ 0, 0, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ 0, 0, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 5, -1 ],
-    "city_sizes": [ 1, -1 ],
-    "occurrences": [ 0, 5 ],
-    "flags": [ "CLASSIC" ]
+    "city_sizes": [ 1, 20 ],
+    "occurrences": [ 0, 15 ]
   },
   {
     "type": "overmap_special",
@@ -494,7 +465,7 @@
     "locations": [ "forest", "swamp" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 1 ],
+    "occurrences": [ 0, 3 ],
     "rotate": false
   },
   {
@@ -515,7 +486,7 @@
     "locations": [ "land" ],
     "city_distance": [ 8, -1 ],
     "city_sizes": [ 4, 12 ],
-    "occurrences": [ 1, 1 ]
+    "occurrences": [ 1, 30 ]
   },
   {
     "type": "overmap_special",
@@ -588,7 +559,7 @@
     "locations": [ "land" ],
     "city_distance": [ 8, -1 ],
     "city_sizes": [ 4, 12 ],
-    "occurrences": [ 0, 1 ]
+    "occurrences": [ 0, 3 ]
   },
   {
     "type": "overmap_special",
@@ -809,7 +780,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 0, 20 ],
-    "occurrences": [ 0, 1 ],
+    "occurrences": [ 0, 3 ],
     "flags": [ "ANT" ],
     "rotate": false,
     "spawns": { "group": "GROUP_ANT", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] }
@@ -821,7 +792,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 0, 20 ],
-    "occurrences": [ 0, 1 ],
+    "occurrences": [ 0, 3 ],
     "flags": [ "ANT" ],
     "rotate": false,
     "spawns": { "group": "GROUP_ANT_ACID", "population": [ 800, 1600 ], "radius": [ 10, 30 ] }
@@ -841,7 +812,7 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "slimepit_down" } ],
     "locations": [ "land", "swamp" ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 1 ],
+    "occurrences": [ 0, 4 ],
     "rotate": false,
     "spawns": { "group": "GROUP_GOO", "population": [ 100, 200 ], "radius": [ 2, 10 ] }
   },
@@ -852,7 +823,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 1 ],
+    "occurrences": [ 0, 3 ],
     "flags": [ "FUNGAL" ],
     "rotate": false,
     "spawns": { "group": "GROUP_FUNGI", "population": [ 600, 1200 ], "radius": [ 30, 50 ] }
@@ -864,7 +835,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 1 ],
+    "occurrences": [ 0, 2 ],
     "flags": [ "FUNGAL" ],
     "rotate": false,
     "spawns": { "group": "GROUP_FUNGI_TOWER", "population": [ 125, 175 ], "radius": [ 2, 2 ] }
@@ -876,7 +847,7 @@
     "locations": [ "land" ],
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 1 ],
+    "occurrences": [ 0, 2 ],
     "flags": [ "FUNGAL" ],
     "rotate": false,
     "spawns": { "group": "GROUP_FUNGI_FLOWERS", "population": [ 50, 100 ], "radius": [ 2, 4 ] }
@@ -3334,10 +3305,9 @@
     ],
     "connections": [ { "point": [ 0, 2, 0 ], "terrain": "road" } ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 5, -1 ],
-    "city_sizes": [ 1, -1 ],
-    "occurrences": [ 0, 5 ],
-    "flags": [ "CLASSIC" ]
+    "city_distance": [ 5, 10 ],
+    "city_sizes": [ 4, 12 ],
+    "occurrences": [ 0, 3 ]
   },
   {
     "type": "overmap_special",
@@ -3614,9 +3584,9 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "TreeFarm_1a_north" }, { "point": [ 1, 0, 0 ], "overmap": "TreeFarm_1b_north" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 5, -1 ],
-    "city_sizes": [ 1, -1 ],
-    "occurrences": [ 0, 5 ],
+    "city_distance": [ 1, 6 ],
+    "city_sizes": [ 4, 12 ],
+    "occurrences": [ 0, 3 ],
     "flags": [ "CLASSIC" ]
   },
   {
@@ -3649,6 +3619,23 @@
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 3, 12 ],
     "occurrences": [ 0, 5 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "campground_npc",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "campground_1a_npc_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "campground_1b_npc_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "campground_2a_npc_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "campground_2b_npc_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "campground_roof_npc_north" }
+    ],
+    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ] } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 10, -1 ],
+    "city_sizes": [ 3, 12 ],
+    "occurrences": [ 3, 100 ],
     "flags": [ "CLASSIC" ]
   },
   {
@@ -3776,11 +3763,11 @@
       { "point": [ 0, 3, 0 ], "overmap": "house_farm_north" },
       { "point": [ 0, 3, 1 ], "overmap": "house_farm_roof_north" }
     ],
-    "connections": [ { "point": [ 0, 0, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ 0, 0, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "forest" ],
-    "city_distance": [ 5, -1 ],
-    "city_sizes": [ 1, -1 ],
-    "occurrences": [ 0, 5 ],
+    "city_distance": [ 5, 65 ],
+    "city_sizes": [ 1, 20 ],
+    "occurrences": [ 0, 10 ],
     "flags": [ "CLASSIC" ]
   },
   {
@@ -3792,11 +3779,11 @@
       { "point": [ 1, 2, 0 ], "overmap": "house_farm_west" },
       { "point": [ 1, 2, 1 ], "overmap": "house_farm_roof_west" }
     ],
-    "connections": [ { "point": [ 0, 0, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ 0, 0, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "forest" ],
-    "city_distance": [ 5, -1 ],
-    "city_sizes": [ 1, -1 ],
-    "occurrences": [ 0, 5 ],
+    "city_distance": [ 5, 65 ],
+    "city_sizes": [ 1, 20 ],
+    "occurrences": [ 0, 10 ],
     "flags": [ "CLASSIC" ]
   },
   {
@@ -3810,11 +3797,11 @@
       { "point": [ 1, 3, 0 ], "overmap": "house_farm_west" },
       { "point": [ 1, 3, 1 ], "overmap": "house_farm_roof_west" }
     ],
-    "connections": [ { "point": [ 0, 0, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ 0, 0, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "forest" ],
-    "city_distance": [ 5, -1 ],
-    "city_sizes": [ 1, -1 ],
-    "occurrences": [ 0, 5 ],
+    "city_distance": [ 5, 65 ],
+    "city_sizes": [ 1, 20 ],
+    "occurrences": [ 0, 10 ],
     "flags": [ "CLASSIC" ]
   },
   {
@@ -4355,57 +4342,7 @@
       { "point": [ 2, 1, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] }
     ],
     "city_sizes": [ 1, 20 ],
-    "occurrences": [ 0, 5 ],
-    "flags": [ "LAKE" ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "Lake Cabin",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "lake_surface" },
-      { "point": [ 1, 0, 0 ], "overmap": "lake_surface" },
-      { "point": [ 2, 0, 0 ], "overmap": "lake_surface" },
-      { "point": [ 3, 0, 0 ], "overmap": "lake_surface" },
-      { "point": [ 4, 0, 0 ], "overmap": "lake_surface" },
-      { "point": [ 5, 0, 0 ], "overmap": "lake_surface" },
-      { "point": [ 0, 1, 0 ], "overmap": "lake_surface" },
-      { "point": [ 1, 1, 0 ], "overmap": "lake_surface" },
-      { "point": [ 2, 1, 0 ], "overmap": "lake_surface" },
-      { "point": [ 3, 1, 0 ], "overmap": "lake_shore" },
-      { "point": [ 4, 1, 0 ], "overmap": "lake_shore" },
-      { "point": [ 5, 1, 0 ], "overmap": "lake_surface" },
-      { "point": [ 0, 2, 0 ], "overmap": "lake_surface" },
-      { "point": [ 1, 2, 0 ], "overmap": "lake_shore" },
-      { "point": [ 2, 2, 0 ], "overmap": "lake_shore" },
-      { "point": [ 3, 2, 0 ], "overmap": "lake_cabin_boathouse_north" },
-      { "point": [ 3, 2, 1 ], "overmap": "lake_cabin_boathouse_roof_north" },
-      { "point": [ 4, 2, 0 ], "overmap": "lake_shore" },
-      { "point": [ 5, 2, 0 ], "overmap": "lake_surface" },
-      { "point": [ 0, 3, 0 ], "overmap": "lake_surface" },
-      { "point": [ 1, 3, 0 ], "overmap": "lake_shore" },
-      { "point": [ 2, 3, 0 ], "overmap": "cabin_lake_north" },
-      { "point": [ 2, 3, 1 ], "overmap": "cabin_lake_roof_north" },
-      { "point": [ 3, 3, 0 ], "overmap": "forest_thick" },
-      { "point": [ 4, 3, 0 ], "overmap": "lake_shore" },
-      { "point": [ 5, 3, 0 ], "overmap": "lake_surface" },
-      { "point": [ 0, 4, 0 ], "overmap": "lake_surface" },
-      { "point": [ 1, 4, 0 ], "overmap": "lake_shore" },
-      { "point": [ 2, 4, 0 ], "overmap": "lake_shore" },
-      { "point": [ 3, 4, 0 ], "overmap": "lake_shore" },
-      { "point": [ 4, 4, 0 ], "overmap": "lake_shore" },
-      { "point": [ 5, 4, 0 ], "overmap": "lake_surface" },
-      { "point": [ 0, 5, 0 ], "overmap": "lake_surface" },
-      { "point": [ 1, 5, 0 ], "overmap": "lake_surface" },
-      { "point": [ 2, 5, 0 ], "overmap": "lake_surface" },
-      { "point": [ 3, 5, 0 ], "overmap": "lake_surface" },
-      { "point": [ 4, 5, 0 ], "overmap": "lake_surface" },
-      { "point": [ 5, 5, 0 ], "overmap": "lake_surface" }
-    ],
-    "locations": [ "lake_surface" ],
-    "city_distance": [ 3, -1 ],
-    "city_sizes": [ 4, 12 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "LAKE" ]
+    "occurrences": [ 0, 5 ]
   },
   {
     "type": "overmap_special",
@@ -4447,8 +4384,7 @@
     ],
     "city_sizes": [ 4, 20 ],
     "occurrences": [ 0, 1 ],
-    "connections": [ { "point": [ 2, 4, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, 3, 0 ] } ],
-    "flags": [ "LAKE" ]
+    "connections": [ { "point": [ 2, 4, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, 3, 0 ] } ]
   },
   {
     "type": "overmap_special",
@@ -4462,7 +4398,7 @@
     "locations": [ "wilderness", "forest", "land" ],
     "city_distance": [ 1, -1 ],
     "city_sizes": [ 0, 20 ],
-    "occurrences": [ 0, 1 ],
+    "occurrences": [ 0, 0 ],
     "flags": [ "CLASSIC" ],
     "spawns": { "group": "GROUP_MI-GO_CAMP_OM", "population": [ 50, 200 ], "radius": [ 2, 30 ] }
   },
@@ -4594,8 +4530,7 @@
       { "point": [ 1, 4, 0 ], "overmap": "forest" },
       { "point": [ 2, 4, 0 ], "overmap": "forest_thick" },
       { "point": [ 3, 4, 0 ], "overmap": "forest" },
-      { "point": [ 4, 4, 0 ], "overmap": "cabin_isherwood_north" },
-      { "point": [ 4, 4, 1 ], "overmap": "cabin_lake_roof_north" },
+      { "point": [ 4, 4, 0 ], "overmap": "cabin_north" },
       { "point": [ 5, 4, 0 ], "overmap": "forest" },
       { "point": [ 6, 4, 0 ], "overmap": "forest" },
       { "point": [ 7, 4, 0 ], "overmap": "forest" },
@@ -4697,11 +4632,11 @@
       { "point": [ 13, 7, 0 ], "overmap": "forest" },
       { "point": [ 14, 7, 0 ], "overmap": "forest" },
       { "point": [ 15, 7, 0 ], "overmap": "forest" },
-      { "point": [ 16, 7, 0 ], "overmap": "horse_farm_isherwood_1_north" },
-      { "point": [ 17, 7, 0 ], "overmap": "horse_farm_isherwood_2_north" },
-      { "point": [ 18, 7, 0 ], "overmap": "horse_farm_isherwood_3_north" },
-      { "point": [ 19, 7, 0 ], "overmap": "horse_farm_isherwood_4_north" },
-      { "point": [ 19, 7, 1 ], "overmap": "horse_farm_isherwood_4_roof_north" },
+      { "point": [ 16, 7, 0 ], "overmap": "horse_farm_1_north" },
+      { "point": [ 17, 7, 0 ], "overmap": "horse_farm_2_north" },
+      { "point": [ 18, 7, 0 ], "overmap": "horse_farm_3_north" },
+      { "point": [ 19, 7, 0 ], "overmap": "horse_farm_4_north" },
+      { "point": [ 19, 7, 1 ], "overmap": "horse_farm_4_roof_north" },
       { "point": [ 20, 7, 0 ], "overmap": "field" },
       { "point": [ 21, 7, 0 ], "overmap": "field" },
       { "point": [ 22, 7, 0 ], "overmap": "field" },
@@ -4728,12 +4663,12 @@
       { "point": [ 13, 8, 0 ], "overmap": "forest" },
       { "point": [ 14, 8, 0 ], "overmap": "field" },
       { "point": [ 15, 8, 0 ], "overmap": "field" },
-      { "point": [ 16, 8, 0 ], "overmap": "horse_farm_isherwood_5_north" },
-      { "point": [ 17, 8, 0 ], "overmap": "horse_farm_isherwood_6_north" },
-      { "point": [ 18, 8, 0 ], "overmap": "horse_farm_isherwood_7_north" },
-      { "point": [ 18, 8, 1 ], "overmap": "horse_farm_isherwood_7_hayloft_north" },
-      { "point": [ 18, 8, 2 ], "overmap": "horse_farm_isherwood_7_roof_north" },
-      { "point": [ 19, 8, 0 ], "overmap": "horse_farm_isherwood_8_north" },
+      { "point": [ 16, 8, 0 ], "overmap": "horse_farm_5_north" },
+      { "point": [ 17, 8, 0 ], "overmap": "horse_farm_6_north" },
+      { "point": [ 18, 8, 0 ], "overmap": "horse_farm_7_north" },
+      { "point": [ 18, 8, 1 ], "overmap": "horse_farm_7_hayloft_north" },
+      { "point": [ 18, 8, 2 ], "overmap": "horse_farm_7_roof_north" },
+      { "point": [ 19, 8, 0 ], "overmap": "horse_farm_8_north" },
       { "point": [ 20, 8, 0 ], "overmap": "field" },
       { "point": [ 21, 8, 0 ], "overmap": "field" },
       { "point": [ 22, 8, 0 ], "overmap": "field" },
@@ -4760,12 +4695,12 @@
       { "point": [ 13, 9, 0 ], "overmap": "field" },
       { "point": [ 14, 9, 0 ], "overmap": "field" },
       { "point": [ 15, 9, 0 ], "overmap": "field" },
-      { "point": [ 16, 9, 0 ], "overmap": "horse_farm_isherwood_9_north" },
-      { "point": [ 16, 9, 1 ], "overmap": "horse_farm_isherwood_9_roof_north" },
-      { "point": [ 17, 9, 0 ], "overmap": "horse_farm_isherwood_10_north" },
-      { "point": [ 17, 9, 1 ], "overmap": "horse_farm_isherwood_10_roof_north" },
-      { "point": [ 18, 9, 0 ], "overmap": "horse_farm_isherwood_11_north" },
-      { "point": [ 19, 9, 0 ], "overmap": "horse_farm_isherwood_12_north" },
+      { "point": [ 16, 9, 0 ], "overmap": "horse_farm_9_north" },
+      { "point": [ 16, 9, 1 ], "overmap": "horse_farm_9_roof_north" },
+      { "point": [ 17, 9, 0 ], "overmap": "horse_farm_10_north" },
+      { "point": [ 17, 9, 1 ], "overmap": "horse_farm_10_roof_north" },
+      { "point": [ 18, 9, 0 ], "overmap": "horse_farm_11_north" },
+      { "point": [ 19, 9, 0 ], "overmap": "horse_farm_12_north" },
       { "point": [ 20, 9, 0 ], "overmap": "field" },
       { "point": [ 21, 9, 0 ], "overmap": "field" },
       { "point": [ 22, 9, 0 ], "overmap": "field" },
@@ -4792,12 +4727,12 @@
       { "point": [ 13, 10, 0 ], "overmap": "field" },
       { "point": [ 14, 10, 0 ], "overmap": "field" },
       { "point": [ 15, 10, 0 ], "overmap": "field" },
-      { "point": [ 16, 10, 0 ], "overmap": "horse_farm_isherwood_13_north" },
-      { "point": [ 16, 10, 1 ], "overmap": "horse_farm_isherwood_13_2ndfloor_north" },
-      { "point": [ 16, 10, 2 ], "overmap": "horse_farm_isherwood_13_roof_north" },
-      { "point": [ 17, 10, 0 ], "overmap": "horse_farm_isherwood_14_north" },
-      { "point": [ 18, 10, 0 ], "overmap": "horse_farm_isherwood_15_north" },
-      { "point": [ 19, 10, 0 ], "overmap": "horse_farm_isherwood_16_north" },
+      { "point": [ 16, 10, 0 ], "overmap": "horse_farm_13_north" },
+      { "point": [ 16, 10, 1 ], "overmap": "horse_farm_13_2ndfloor_north" },
+      { "point": [ 16, 10, 2 ], "overmap": "horse_farm_13_roof_north" },
+      { "point": [ 17, 10, 0 ], "overmap": "horse_farm_14_north" },
+      { "point": [ 18, 10, 0 ], "overmap": "horse_farm_15_north" },
+      { "point": [ 19, 10, 0 ], "overmap": "horse_farm_16_north" },
       { "point": [ 20, 10, 0 ], "overmap": "field" },
       { "point": [ 21, 10, 0 ], "overmap": "field" },
       { "point": [ 22, 10, 0 ], "overmap": "field" },
@@ -5393,125 +5328,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 1, 20 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "UNIQUE" ]
-  },
-  {
-    "id": "airliner_crashed",
-    "type": "overmap_special",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "airliner_1a_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "airliner_2a_north" },
-      { "point": [ 2, 0, 0 ], "overmap": "airliner_3a_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "airliner_1b_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "airliner_2b_north" },
-      { "point": [ 2, 1, 0 ], "overmap": "airliner_3b_north" },
-      { "point": [ 0, 2, 0 ], "overmap": "airliner_1c_north" },
-      { "point": [ 1, 2, 0 ], "overmap": "airliner_2c_north" },
-      { "point": [ 2, 2, 0 ], "overmap": "airliner_3c_north" },
-      { "point": [ 0, 3, 0 ], "overmap": "airliner_1d_north" },
-      { "point": [ 1, 3, 0 ], "overmap": "airliner_2d_north" },
-      { "point": [ 2, 3, 0 ], "overmap": "airliner_3d_north" },
-      { "point": [ 0, 4, 0 ], "overmap": "airliner_1e_north" },
-      { "point": [ 1, 4, 0 ], "overmap": "airliner_2e_north" },
-      { "point": [ 2, 4, 0 ], "overmap": "airliner_3e_north" },
-      { "point": [ 0, 5, 0 ], "overmap": "airliner_1f_north" },
-      { "point": [ 1, 5, 0 ], "overmap": "airliner_2f_north" },
-      { "point": [ 2, 5, 0 ], "overmap": "airliner_3f_north" },
-      { "point": [ 0, 6, 0 ], "overmap": "airliner_1g_north" },
-      { "point": [ 1, 6, 0 ], "overmap": "airliner_2g_north" },
-      { "point": [ 2, 6, 0 ], "overmap": "airliner_3g_north" },
-      { "point": [ 0, 7, 0 ], "overmap": "airliner_1h_north" },
-      { "point": [ 1, 7, 0 ], "overmap": "airliner_2h_north" },
-      { "point": [ 2, 7, 0 ], "overmap": "airliner_3h_north" },
-      { "point": [ 0, 8, 0 ], "overmap": "airliner_1i_north" },
-      { "point": [ 1, 8, 0 ], "overmap": "airliner_2i_north" },
-      { "point": [ 2, 8, 0 ], "overmap": "airliner_3i_north" },
-      { "point": [ 0, 9, 0 ], "overmap": "airliner_1j_north" },
-      { "point": [ 1, 9, 0 ], "overmap": "airliner_2j_north" },
-      { "point": [ 2, 9, 0 ], "overmap": "airliner_3j_north" },
-      { "point": [ 1, 0, 1 ], "overmap": "airliner_2a_1_north" },
-      { "point": [ 1, 1, 1 ], "overmap": "airliner_2b_1_north" },
-      { "point": [ 1, 2, 1 ], "overmap": "airliner_2c_1_north" },
-      { "point": [ 1, 1, -1 ], "overmap": "airliner_2b_-1_north" },
-      { "point": [ 1, 2, -1 ], "overmap": "airliner_2c_-1_north" }
-    ],
-    "locations": [ "wilderness" ],
-    "city_distance": [ 6, -1 ],
-    "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC" ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "Large Campground",
-    "overmaps": [
-      { "point": [ -4, 1, 0 ], "overmap": "forest" },
-      { "point": [ -3, 1, 0 ], "overmap": "forest" },
-      { "point": [ -2, 1, 0 ], "overmap": "forest" },
-      { "point": [ -1, 1, 0 ], "overmap": "dirt_road_forest_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "forest" },
-      { "point": [ 1, 1, 0 ], "overmap": "forest" },
-      { "point": [ 2, 1, 0 ], "overmap": "forest" },
-      { "point": [ -4, 2, 0 ], "overmap": "forest" },
-      { "point": [ -3, 2, 0 ], "overmap": "forest_thick" },
-      { "point": [ -2, 2, 0 ], "overmap": "forest_thick" },
-      { "point": [ -1, 2, 0 ], "overmap": "dirt_road_forest_north" },
-      { "point": [ 0, 2, 0 ], "overmap": "forest_thick" },
-      { "point": [ 1, 2, 0 ], "overmap": "forest_thick" },
-      { "point": [ 2, 2, 0 ], "overmap": "forest" },
-      { "point": [ -2, 3, 0 ], "overmap": "cground_3_north" },
-      { "point": [ -3, 3, 0 ], "overmap": "forest_thick" },
-      { "point": [ -4, 3, 0 ], "overmap": "forest_thick" },
-      { "point": [ -1, 3, 0 ], "overmap": "cground_2_north" },
-      { "point": [ 0, 3, 0 ], "overmap": "cground_1_north" },
-      { "point": [ 1, 3, 0 ], "overmap": "forest_thick" },
-      { "point": [ 2, 3, 0 ], "overmap": "forest_thick" },
-      { "point": [ -2, 4, 0 ], "overmap": "cground_6_north" },
-      { "point": [ -3, 4, 0 ], "overmap": "forest_thick" },
-      { "point": [ -4, 4, 0 ], "overmap": "forest_thick" },
-      { "point": [ -1, 4, 0 ], "overmap": "cground_5_north" },
-      { "point": [ 0, 4, 0 ], "overmap": "cground_4_north" },
-      { "point": [ 1, 4, 0 ], "overmap": "forest_thick" },
-      { "point": [ 2, 4, 0 ], "overmap": "forest_thick" },
-      { "point": [ -2, 5, 0 ], "overmap": "cground_9_north" },
-      { "point": [ -3, 5, 0 ], "overmap": "forest_thick" },
-      { "point": [ -4, 5, 0 ], "overmap": "forest_thick" },
-      { "point": [ -1, 5, 0 ], "overmap": "cground_8_north" },
-      { "point": [ 0, 5, 0 ], "overmap": "cground_7_north" },
-      { "point": [ 1, 5, 0 ], "overmap": "forest_thick" },
-      { "point": [ 2, 5, 0 ], "overmap": "forest_thick" },
-      { "point": [ -2, 6, 0 ], "overmap": "forest" },
-      { "point": [ -3, 6, 0 ], "overmap": "forest_thick" },
-      { "point": [ -4, 6, 0 ], "overmap": "forest_thick" },
-      { "point": [ -1, 6, 0 ], "overmap": "forest_thick" },
-      { "point": [ 0, 6, 0 ], "overmap": "forest_thick" },
-      { "point": [ 1, 6, 0 ], "overmap": "forest_thick" },
-      { "point": [ 2, 6, 0 ], "overmap": "forest" },
-      { "point": [ -2, 7, 0 ], "overmap": "forest" },
-      { "point": [ -3, 7, 0 ], "overmap": "forest" },
-      { "point": [ -4, 7, 0 ], "overmap": "forest_thick" },
-      { "point": [ -1, 7, 0 ], "overmap": "forest_thick" },
-      { "point": [ 0, 7, 0 ], "overmap": "forest_thick" },
-      { "point": [ 1, 7, 0 ], "overmap": "forest" },
-      { "point": [ 2, 7, 0 ], "overmap": "forest" },
-      { "point": [ -2, 3, 1 ], "overmap": "cground_3_1_north" },
-      { "point": [ -1, 3, 1 ], "overmap": "cground_2_1_north" },
-      { "point": [ 0, 3, 1 ], "overmap": "cground_1_1_north" },
-      { "point": [ -2, 4, 1 ], "overmap": "cground_6_1_north" },
-      { "point": [ -1, 4, 1 ], "overmap": "cground_5_1_north" },
-      { "point": [ 0, 4, 1 ], "overmap": "cground_4_1_north" },
-      { "point": [ -2, 5, 1 ], "overmap": "cground_9_1_north" },
-      { "point": [ -1, 5, 1 ], "overmap": "cground_8_1_north" },
-      { "point": [ 0, 5, 1 ], "overmap": "cground_7_1_north" },
-      { "point": [ -1, 3, 2 ], "overmap": "cground_2_2_north" },
-      { "point": [ 0, 3, 2 ], "overmap": "cground_1_2_north" }
-    ],
-    "locations": [ "forest" ],
-    "connections": [ { "point": [ -1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ -1, 1, 0 ] } ],
-    "city_distance": [ 10, -1 ],
-    "city_sizes": [ 3, 20 ],
     "occurrences": [ 0, 0 ],
-    "flags": [ "UNIQUE" ]
+    "flags": [ "CLASSIC", "UNIQUE" ]
   }
 ]

@@ -59,7 +59,7 @@ clothing_mod_type string_to_enum<clothing_mod_type>( const std::string &data )
 }
 
 template<>
-std::string enum_to_string<clothing_mod_type>( clothing_mod_type data )
+const std::string enum_to_string<clothing_mod_type>( clothing_mod_type data )
 {
     const auto iter = std::find_if( clothing_mod_type_map.begin(), clothing_mod_type_map.end(),
     [data]( const std::pair<std::string, clothing_mod_type> &pr ) {
@@ -100,7 +100,7 @@ void clothing_mod::load( JsonObject &jo, const std::string & )
             } else if( str == "coverage" ) {
                 mv.coverage_propotion = true;
             } else {
-                jarr_prop.throw_error( R"(Invalid value, valid are: "coverage" and "thickness")" );
+                jarr_prop.throw_error( "Invalid value, valid are: \"coverage\" and \"thickness\"" );
             }
         }
         mod_values.push_back( mv );

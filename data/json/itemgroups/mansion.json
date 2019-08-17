@@ -403,8 +403,7 @@
       [ "pike_fake", 50 ],
       { "group": "broadsword_fake+scabbard", "prob": 17 },
       [ "mace_fake", 6 ],
-      [ "morningstar_fake", 5 ],
-      [ "shillelagh_fake", 5 ]
+      [ "morningstar_fake", 5 ]
     ]
   },
   {
@@ -422,14 +421,7 @@
     "id": "soa_real_weapon_decor",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [
-      [ "pike", 50 ],
-      { "group": "broadsword+scabbard", "prob": 17 },
-      [ "mace", 6 ],
-      [ "morningstar", 5 ],
-      [ "shillelagh", 5 ],
-      [ "shillelagh_weighted", 3 ]
-    ]
+    "items": [ [ "pike", 50 ], { "group": "broadsword+scabbard", "prob": 17 }, [ "mace", 6 ], [ "morningstar", 5 ] ]
   },
   {
     "id": "soa_fake_weapon_plate",
@@ -439,8 +431,7 @@
       [ "pike_fake", 17 ],
       { "group": "broadsword_fake+scabbard", "prob": 5 },
       [ "mace_fake", 50 ],
-      [ "morningstar_fake", 6 ],
-      [ "shillelagh_fake", 6 ]
+      [ "morningstar_fake", 6 ]
     ]
   },
   {
@@ -912,9 +903,8 @@
       [ "gold_ear", 10 ],
       [ "bone_tainted", 5 ],
       [ "silver_ear", 5 ],
-      [ "platinum_ear", 1 ],
       { "group": "corpse_mansion", "prob": 5 },
-      { "group": "neckties", "prob": 1 }
+      [ "skinny_tie", 1 ]
     ]
   },
   {
@@ -995,7 +985,6 @@
       { "item": "lye_powder", "prob": 5, "container-item": "bag_canvas_small" },
       [ "oxy_powder", 5 ],
       [ "fungicide", 5 ],
-      [ "insecticide", 5 ],
       { "item": "charcoal", "prob": 5, "container-item": "bag_canvas" }
     ]
   },
@@ -1311,7 +1300,7 @@
       [ "jacket_army", 10 ],
       [ "army_top", 20 ],
       [ "porkpie", 5 ],
-      { "group": "neckties", "prob": 5 },
+      [ "skinny_tie", 5 ],
       [ "jersey", 60 ],
       [ "maid_hat", 3 ],
       [ "halter_top", 50 ],
@@ -1344,7 +1333,7 @@
       [ "long_glove_white", 5 ],
       [ "veil_wedding", 1 ],
       [ "dress_wedding", 1 ],
-      { "group": "neckties", "prob": 5 },
+      [ "skinny_tie", 5 ],
       [ "tieclip", 2 ],
       [ "collarpin", 2 ],
       [ "kilt", 5 ],

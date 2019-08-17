@@ -106,9 +106,6 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
-    optional( jo, was_loaded, "downed_target", downed_target, false );
-    optional( jo, was_loaded, "stunned_target", stunned_target, false );
-
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
     optional( jo, was_loaded, "dummy", dummy, false );
@@ -340,7 +337,7 @@ class ma_buff_effect_type : public effect_type
             int_decay_step = -1;
             int_decay_tick = 1;
             int_dur_factor = 0_turns;
-            name.push_back( translation( buff.name ) );
+            name.push_back( buff.name );
             desc.push_back( buff.description );
             rating = e_good;
         }
@@ -358,7 +355,7 @@ void finialize_martial_arts()
     }
 }
 
-std::string martialart_difficulty( matype_id mstyle )
+const std::string martialart_difficulty( matype_id mstyle )
 {
     std::string diff;
     if( mstyle->learn_difficulty <= 2 ) {
@@ -490,10 +487,6 @@ ma_technique::ma_technique()
     disarms = false; // like tec_disarm
     dodge_counter = false; // like tec_grab
     block_counter = false; // like tec_counter
-
-    // conditional
-    downed_target = false;    // only works on downed enemies
-    stunned_target = false;   // only works on stunned enemies
 
     miss_recovery = false; // allows free recovery from misses, like tec_feint
     grab_break = false; // allows grab_breaks, like tec_break
@@ -1058,6 +1051,7 @@ bool player::can_autolearn( const matype_id &ma_id ) const
         return false;
     }
 
+
     for( const std::pair<std::string, int> &elem : ma_id.obj().autolearn_skills ) {
         const skill_id skill_req( elem.first );
         const int required_level = elem.second;
@@ -1129,14 +1123,6 @@ std::string ma_technique::get_description() const
         dump << _( "* Can activate on a <info>normal</info> or a <info>crit</info> hit" ) << std::endl;
     } else if( crit_tec ) {
         dump << _( "* Will only activate on a <info>crit</info>" ) << std::endl;
-    }
-
-    if( downed_target ) {
-        dump << _( "* Only works on a <info>downed</info> target" ) << std::endl;
-    }
-
-    if( stunned_target ) {
-        dump << _( "* Only works on a <info>stunned</info> target" ) << std::endl;
     }
 
     if( dodge_counter ) {
@@ -1272,8 +1258,8 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         }
 
         catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                               point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                                      TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
+                               ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                               ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
         std::string text = replace_colors( buffer.str() );
         int width = FULL_SCREEN_WIDTH - 4;

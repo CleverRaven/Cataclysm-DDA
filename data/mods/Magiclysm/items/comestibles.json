@@ -4,7 +4,7 @@
     "id": "egg_owlbear_rock",
     "name": "owlbear egg",
     "weight": 2395,
-    "color": "light_gray",
+    "color": "gray",
     "spoils_in": "14 days",
     "comestible_type": "FOOD",
     "symbol": "0",

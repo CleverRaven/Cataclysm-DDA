@@ -174,10 +174,6 @@ bool Creature::is_dangerous_field( const field_entry &entry ) const
 
 bool Creature::sees( const Creature &critter ) const
 {
-    if( &critter == this ) {
-        return true;    // Can always see ourselves.
-    }
-
     if( critter.is_hallucination() ) {
         // hallucinations are imaginations of the player character, npcs or monsters don't hallucinate.
         // Invisible hallucinations would be pretty useless (nobody would see them at all), therefor
@@ -1539,9 +1535,9 @@ units::mass Creature::weight_capacity() const
 /*
  * Drawing-related functions
  */
-void Creature::draw( const catacurses::window &w, const point &origin, bool inverted ) const
+void Creature::draw( const catacurses::window &w, int origin_x, int origin_y, bool inverted ) const
 {
-    draw( w, tripoint( origin, posz() ), inverted );
+    draw( w, tripoint( origin_x, origin_y, posz() ), inverted );
 }
 
 void Creature::draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const
@@ -1585,7 +1581,7 @@ void Creature::check_dead_state()
     }
 }
 
-std::string Creature::attitude_raw_string( Attitude att )
+const std::string Creature::attitude_raw_string( Attitude att )
 {
     switch( att ) {
         case Creature::A_HOSTILE:

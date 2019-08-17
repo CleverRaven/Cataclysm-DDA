@@ -7052,14 +7052,14 @@
          "multitile" : false
       },
       {
-         "id" : "gold_ring",
+         "id" : "ring",
          "fg" : 828,
          "bg" : 193,
          "rotates" : false,
          "multitile" : false
       },
       {
-         "id" : "silver_necklace",
+         "id" : "necklace",
          "fg" : 829,
          "bg" : 193,
          "rotates" : false,

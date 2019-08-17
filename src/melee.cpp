@@ -26,7 +26,6 @@
 #include "map_iterator.h"
 #include "martialarts.h"
 #include "messages.h"
-#include "monattack.h"
 #include "monster.h"
 #include "mutation.h"
 #include "npc.h"
@@ -80,7 +79,6 @@ const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_poison( "poison" );
-const efftype_id effect_riding( "riding" );
 const efftype_id effect_stunned( "stunned" );
 
 static const trait_id trait_CLAWS( "CLAWS" );
@@ -389,24 +387,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
         // TODO: Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
         t.add_effect( effect_hit_by_player, 10_minutes ); // Flag as attacked by us for AI
     }
-    if( is_mounted() ) {
-        auto mons = mounted_creature.get();
-        if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
-            if( !mons->check_mech_powered() ) {
-                add_msg( m_bad, _( "The %s has dead batteries and will not move its arms." ), mons->get_name() );
-                return;
-            }
-            if( mons->type->has_special_attack( "SMASH" ) && one_in( 3 ) ) {
-                add_msg( m_info, _( "The %s hisses as its hydraulic arm pumps forward!" ), mons->get_name() );
-                mattack::smash_specific( mons, &t );
-            } else {
-                mons->use_mech_power( -2 );
-                mons->melee_attack( t );
-            }
-            mod_moves( -mons->type->attack_cost );
-            return;
-        }
-    }
+
     item &cur_weapon = allow_unarmed ? used_weapon() : weapon;
     const bool critical_hit = scored_crit( t.dodge_roll(), cur_weapon );
     int move_cost = attack_speed( cur_weapon );
@@ -719,8 +700,7 @@ float player::get_dodge_base() const
 float player::get_dodge() const
 {
     //If we're asleep or busy we can't dodge
-    if( in_sleep_state() || has_effect( effect_narcosis ) ||
-        has_effect( efftype_id( "winded" ) ) ) {
+    if( in_sleep_state() || has_effect( effect_narcosis ) ) {
         return 0.0f;
     }
 
@@ -966,7 +946,7 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average,
 
             if( has_trait( trait_CLAWS_ST ) ) {
                 /** @EFFECT_UNARMED increases stabbing damage with CLAWS_ST */
-                per_hand += 3 + unarmed_skill / 2.0;
+                per_hand += 3 + ( unarmed_skill / 2 );
             }
 
             cut_dam += per_hand; // First hand
@@ -1012,7 +992,6 @@ matec_id player::pick_technique( Creature &t, const item &weap,
     std::vector<matec_id> possible;
 
     bool downed = t.has_effect( effect_downed );
-    bool stunned = t.has_effect( effect_stunned );
 
     // first add non-aoe tecs
     for( auto &tec_id : all ) {
@@ -1046,16 +1025,6 @@ matec_id player::pick_technique( Creature &t, const item &weap,
 
         // don't apply downing techniques to someone who's already downed
         if( downed && tec.down_dur > 0 ) {
-            continue;
-        }
-
-        // don't apply "downed only" techniques to someone who's not downed
-        if( !downed && tec.downed_target ) {
-            continue;
-        }
-
-        // don't apply "stunned only" techniques to someone who's not stunned
-        if( !stunned && tec.stunned_target ) {
             continue;
         }
 
@@ -1388,11 +1357,10 @@ item &player::best_shield()
 bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &dam )
 {
 
-    // Shouldn't block if player is asleep or winded ; this only seems to be used by player.
+    // Shouldn't block if player is asleep; this only seems to be used by player.
     // TODO: It should probably be moved to the section that regenerates blocks
     // and to effects that disallow blocking
-    if( blocks_left < 1 || in_sleep_state() || has_effect( effect_narcosis ) ||
-        has_effect( efftype_id( "winded" ) ) ) {
+    if( blocks_left < 1 || in_sleep_state() ) {
         return false;
     }
     blocks_left--;

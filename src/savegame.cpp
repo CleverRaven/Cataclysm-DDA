@@ -72,8 +72,8 @@ void game::serialize( std::ostream &fout )
 
     json.start_object();
     // basic game state information.
-    json.member( "turn", calendar::turn );
-    json.member( "calendar_start", calendar::start_of_cataclysm );
+    json.member( "turn", static_cast<int>( calendar::turn ) );
+    json.member( "calendar_start", static_cast<int>( calendar::start ) );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
     json.member( "auto_travel_mode", auto_travel_mode );
     json.member( "run_mode", static_cast<int>( safe_mode ) );
@@ -198,7 +198,7 @@ void game::unserialize( std::istream &fin )
         data.read( "om_y", comy );
 
         calendar::turn = tmpturn;
-        calendar::start_of_cataclysm = tmpcalstart;
+        calendar::start = tmpcalstart;
 
         load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
@@ -710,11 +710,11 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         } else if( old == "bunker" ) {
             if( pos.z < 0 ) {
                 new_id = oter_id( "bunker_basement" );
-            } else if( is_ot_match( "road", get_ter( pos + point_east ), ot_match_type::type ) ) {
+            } else if( is_ot_match( "road", get_ter( pos + point( 1, 0 ) ), ot_match_type::type ) ) {
                 new_id = oter_id( "bunker_west" );
-            } else if( is_ot_match( "road", get_ter( pos + point_west ), ot_match_type::type ) ) {
+            } else if( is_ot_match( "road", get_ter( pos + point( -1, 0 ) ), ot_match_type::type ) ) {
                 new_id = oter_id( "bunker_east" );
-            } else if( is_ot_match( "road", get_ter( pos + point_south ), ot_match_type::type ) ) {
+            } else if( is_ot_match( "road", get_ter( pos + point( 0, 1 ) ), ot_match_type::type ) ) {
                 new_id = oter_id( "bunker_north" );
             } else {
                 new_id = oter_id( "bunker_south" );
@@ -782,8 +782,8 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         }
 
         for( const auto &conv : nearby ) {
-            const auto x_it = needs_conversion.find( pos + point( conv.xoffset, 0 ) );
-            const auto y_it = needs_conversion.find( pos + point( 0, conv.yoffset ) );
+            const auto x_it = needs_conversion.find( tripoint( pos.x + conv.xoffset, pos.y, pos.z ) );
+            const auto y_it = needs_conversion.find( tripoint( pos.x, pos.y + conv.yoffset, pos.z ) );
             if( x_it != needs_conversion.end() && x_it->second == conv.x_id &&
                 y_it != needs_conversion.end() && y_it->second == conv.y_id ) {
                 new_id = oter_id( conv.new_id );
@@ -951,7 +951,7 @@ void overmap::unserialize( std::istream &fin )
                 monster new_monster;
                 monster_location.deserialize( jsin );
                 new_monster.deserialize( jsin );
-                monster_map.insert( std::make_pair( monster_location,
+                monster_map.insert( std::make_pair( std::move( monster_location ),
                                                     std::move( new_monster ) ) );
             }
         } else if( name == "tracked_vehicles" ) {
@@ -1237,14 +1237,14 @@ struct mongroup_hash {
     std::size_t operator()( const mongroup &mg ) const {
         // Note: not hashing monsters or position
         size_t ret = std::hash<mongroup_id>()( mg.type );
-        cata::hash_combine( ret, mg.radius );
-        cata::hash_combine( ret, mg.population );
-        cata::hash_combine( ret, mg.target );
-        cata::hash_combine( ret, mg.interest );
-        cata::hash_combine( ret, mg.dying );
-        cata::hash_combine( ret, mg.horde );
-        cata::hash_combine( ret, mg.horde_behaviour );
-        cata::hash_combine( ret, mg.diffuse );
+        std::hash_combine( ret, mg.radius );
+        std::hash_combine( ret, mg.population );
+        std::hash_combine( ret, mg.target );
+        std::hash_combine( ret, mg.interest );
+        std::hash_combine( ret, mg.dying );
+        std::hash_combine( ret, mg.horde );
+        std::hash_combine( ret, mg.horde_behaviour );
+        std::hash_combine( ret, mg.diffuse );
         return ret;
     }
 };
@@ -1538,7 +1538,7 @@ void game::unserialize_master( std::istream &fin )
 {
     savegame_loading_version = 0;
     chkversion( fin );
-    if( savegame_loading_version < 11 ) {
+    if( savegame_loading_version != savegame_version && savegame_loading_version < 11 ) {
         popup_nowait(
             _( "Cannot find loader for save data in old version %d, attempting to load as current version %d." ),
             savegame_loading_version, savegame_version );

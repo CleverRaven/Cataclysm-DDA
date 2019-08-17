@@ -453,7 +453,7 @@ item_location game_menus::inv::disassemble( player &p )
 class comestible_inventory_preset : public inventory_selector_preset
 {
     public:
-        comestible_inventory_preset( const player &p ) : p( p ) {
+        comestible_inventory_preset( const player &p ) : inventory_selector_preset(), p( p ) {
 
             append_cell( [ &p, this ]( const item_location & loc ) {
                 return good_bad_none( p.kcal_for( get_consumable_item( loc ) ) );
@@ -1194,7 +1194,7 @@ class salvage_inventory_preset: public inventory_selector_preset
 {
     public:
         salvage_inventory_preset( const salvage_actor *actor ) :
-            actor( actor ) {
+            inventory_selector_preset(), actor( actor ) {
 
             append_cell( [ actor ]( const item_location & loc ) {
                 return to_string_clipped( time_duration::from_turns( actor->time_to_cut_up(
@@ -1221,7 +1221,7 @@ class repair_inventory_preset: public inventory_selector_preset
 {
     public:
         repair_inventory_preset( const repair_item_actor *actor, const item *main_tool ) :
-            actor( actor ), main_tool( main_tool ) {
+            inventory_selector_preset(), actor( actor ), main_tool( main_tool ) {
         }
 
         bool is_shown( const item_location &loc ) const override {
@@ -1553,12 +1553,8 @@ class bionic_install_preset: public inventory_selector_preset
                 return _( "Superior version installed" );
             } else if( pa.is_npc() && !bid->npc_usable ) {
                 return _( "CBM not compatible with patient" );
-            } else if( !p.has_enough_anesth( itemtype, pa ) ) {
-                const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
-                const int duration = loc.get_item()->type->bionic->difficulty * 2;
-                const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
-                                                    duration * weight;
-                return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
+            } else if( !p.has_enough_anesth( itemtype ) ) {
+                return string_format( _( "%i mL" ), itemtype->bionic->difficulty * 40 );
             }
 
             return std::string();
@@ -1604,19 +1600,16 @@ class bionic_install_preset: public inventory_selector_preset
 
         std::string get_anesth_amount( const item_location &loc ) {
 
-            const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
-            const int duration = loc.get_item()->type->bionic->difficulty * 2;
-            const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
-                                                duration * weight;
+            const int amount = loc.get_item()->type->bionic->difficulty * 40;
 
             std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
                 return it.has_flag( "ANESTHESIA" ); // legacy
             } );
 
             if( b_filter.size() > 0 ) {
-                return  _( "kit available" );// legacy
+                return string_format( _( "kit available" ) );// legacy
             } else {
-                return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
+                return string_format( _( "%i mL" ), amount );
             }
         }
 };
@@ -1754,12 +1747,8 @@ class bionic_uninstall_preset : public inventory_selector_preset
         std::string get_denial( const item_location &loc ) const override {
             const itype *itemtype = loc.get_item()->type;
 
-            if( !p.has_enough_anesth( itemtype, pa ) ) {
-                const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
-                const int duration = loc.get_item()->type->bionic->difficulty * 2;
-                const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
-                                                    duration * weight;
-                return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
+            if( !p.has_enough_anesth( itemtype ) ) {
+                return string_format( _( "%i mL" ), itemtype->bionic->difficulty * 40 );
             }
 
             return std::string();
@@ -1806,19 +1795,16 @@ class bionic_uninstall_preset : public inventory_selector_preset
 
         std::string get_anesth_amount( const item_location &loc ) {
 
-            const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
-            const int duration = loc.get_item()->type->bionic->difficulty * 2;
-            const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
-                                                duration * weight;
+            const int amount = loc.get_item()->type->bionic->difficulty * 40;
 
             std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
                 return it.has_flag( "ANESTHESIA" ); // legacy
             } );
 
             if( b_filter.size() > 0 ) {
-                return  _( "kit available" ); // legacy
+                return string_format( _( "kit available" ) ); // legacy
             } else {
-                return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
+                return string_format( _( "%i mL" ), amount );
             }
         }
 };
@@ -1827,6 +1813,7 @@ item_location game_menus::inv::uninstall_bionic( player &p, player &patient )
 {
     return autodoc_internal( p, patient, bionic_uninstall_preset( p, patient ), 0, true );
 }
+
 
 // Menu used by autoclave when sterilizing a bionic
 class bionic_sterilize_preset : public inventory_selector_preset
@@ -1848,16 +1835,13 @@ class bionic_sterilize_preset : public inventory_selector_preset
             return loc->has_flag( "NO_STERILE" ) && loc->is_bionic();
         }
 
-        std::string get_denial( const item_location &loc ) const override {
+        std::string get_denial( const item_location & ) const override {
             auto reqs = *requirement_id( "autoclave_item" );
 
             if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
                 return pgettext( "volume of water", "2 L" );
             }
 
-            if( loc.get_item()->has_flag( "FILTHY" ) ) {
-                return  _( "CBM is filthy.  Wash it first." );
-            }
             return std::string();
         }
 

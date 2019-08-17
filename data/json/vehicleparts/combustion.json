@@ -60,8 +60,7 @@
       { "item": "steel_lump", "count": [ 30, 40 ] },
       { "item": "steel_chunk", "count": [ 30, 40 ] },
       { "item": "scrap", "count": [ 30, 40 ] }
-    ],
-    "damage_reduction": { "all": 100 }
+    ]
   },
   {
     "id": "diesel_engine_v6",
@@ -77,8 +76,7 @@
       { "item": "steel_lump", "count": [ 30, 40 ] },
       { "item": "steel_chunk", "count": [ 30, 40 ] },
       { "item": "scrap", "count": [ 30, 40 ] }
-    ],
-    "damage_reduction": { "all": 100 }
+    ]
   },
   {
     "id": "diesel_engine_v8",
@@ -94,8 +92,7 @@
       { "item": "steel_lump", "count": [ 30, 40 ] },
       { "item": "steel_chunk", "count": [ 30, 40 ] },
       { "item": "scrap", "count": [ 30, 40 ] }
-    ],
-    "damage_reduction": { "all": 100 }
+    ]
   },
   {
     "id": "engine_1cyl",
@@ -114,8 +111,7 @@
       { "item": "steel_chunk", "count": [ 5, 10 ] },
       { "item": "scrap", "count": [ 5, 10 ] }
     ],
-    "extend": { "flags": [ "FOLDABLE" ] },
-    "damage_reduction": { "all": 40 }
+    "extend": { "flags": [ "FOLDABLE" ] }
   },
   {
     "id": "engine_1cyl_large",
@@ -134,8 +130,7 @@
       { "item": "steel_chunk", "count": [ 6, 12 ] },
       { "item": "scrap", "count": [ 6, 12 ] }
     ],
-    "extend": { "flags": [ "FOLDABLE" ] },
-    "damage_reduction": { "all": 40 }
+    "extend": { "flags": [ "FOLDABLE" ] }
   },
   {
     "id": "engine_1cyl_small",
@@ -155,8 +150,7 @@
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "scrap", "count": [ 2, 4 ] }
     ],
-    "extend": { "flags": [ "FOLDABLE" ] },
-    "damage_reduction": { "all": 40 }
+    "extend": { "flags": [ "FOLDABLE" ] }
   },
   {
     "id": "engine_inline4",
@@ -172,8 +166,7 @@
       { "item": "steel_lump", "count": [ 20, 30 ] },
       { "item": "steel_chunk", "count": [ 20, 30 ] },
       { "item": "scrap", "count": [ 20, 30 ] }
-    ],
-    "damage_reduction": { "all": 50 }
+    ]
   },
   {
     "id": "engine_v12",
@@ -189,8 +182,7 @@
       { "item": "steel_lump", "count": [ 45, 58 ] },
       { "item": "steel_chunk", "count": [ 45, 58 ] },
       { "item": "scrap", "count": [ 45, 58 ] }
-    ],
-    "damage_reduction": { "all": 110 }
+    ]
   },
   {
     "id": "diesel_engine_v12",
@@ -206,8 +198,7 @@
       { "item": "steel_lump", "count": [ 45, 58 ] },
       { "item": "steel_chunk", "count": [ 45, 58 ] },
       { "item": "scrap", "count": [ 45, 58 ] }
-    ],
-    "damage_reduction": { "all": 110 }
+    ]
   },
   {
     "id": "engine_v6",
@@ -223,8 +214,7 @@
       { "item": "steel_lump", "count": [ 30, 40 ] },
       { "item": "steel_chunk", "count": [ 30, 40 ] },
       { "item": "scrap", "count": [ 30, 40 ] }
-    ],
-    "damage_reduction": { "all": 100 }
+    ]
   },
   {
     "id": "engine_v8",
@@ -240,8 +230,7 @@
       { "item": "steel_lump", "count": [ 40, 50 ] },
       { "item": "steel_chunk", "count": [ 40, 50 ] },
       { "item": "scrap", "count": [ 40, 50 ] }
-    ],
-    "damage_reduction": { "all": 100 }
+    ]
   },
   {
     "id": "engine_vtwin",
@@ -259,8 +248,7 @@
       { "item": "steel_chunk", "count": [ 10, 20 ] },
       { "item": "scrap", "count": [ 10, 20 ] }
     ],
-    "extend": { "flags": [ "FOLDABLE" ] },
-    "damage_reduction": { "all": 60 }
+    "extend": { "flags": [ "FOLDABLE" ] }
   },
   {
     "abstract": "steam_engine",
@@ -275,8 +263,7 @@
     "backfire_threshold": 0.7,
     "backfire_freq": 10,
     "noise_factor": 20,
-    "description": "A closed cycle, external combustion steam engine.  Burns coal or charcoal from a bunker in the vehicle to produce steam.",
-    "damage_reduction": { "all": 75 }
+    "description": "A closed cycle, external combustion steam engine.  Burns coal or charcoal from a bunker in the vehicle to produce steam."
   },
   {
     "id": "engine_steam_makeshift",
@@ -293,8 +280,7 @@
       { "item": "steel_chunk", "count": [ 30, 60 ] },
       { "item": "scrap", "count": [ 30, 60 ] },
       { "item": "water", "count": [ 50, 120 ] }
-    ],
-    "damage_reduction": { "all": 40 }
+    ]
   },
   {
     "id": "engine_steam_small",
@@ -328,8 +314,7 @@
       { "item": "steel_chunk", "count": [ 30, 60 ] },
       { "item": "scrap", "count": [ 30, 60 ] },
       { "item": "water", "count": [ 50, 120 ] }
-    ],
-    "damage_reduction": { "all": 50 }
+    ]
   },
   {
     "id": "engine_turbine_small",
@@ -346,8 +331,7 @@
       { "item": "steel_lump", "count": [ 45, 58 ] },
       { "item": "steel_chunk", "count": [ 45, 58 ] },
       { "item": "scrap", "count": [ 45, 58 ] }
-    ],
-    "damage_reduction": { "all": 60 }
+    ]
   },
   {
     "id": "engine_turbine_medium",
@@ -364,8 +348,7 @@
       { "item": "steel_lump", "count": [ 50, 65 ] },
       { "item": "steel_chunk", "count": [ 50, 65 ] },
       { "item": "scrap", "count": [ 50, 65 ] }
-    ],
-    "damage_reduction": { "all": 65 }
+    ]
   },
   {
     "id": "engine_turbine_large",
@@ -382,7 +365,6 @@
       { "item": "steel_lump", "count": [ 100, 120 ] },
       { "item": "steel_chunk", "count": [ 100, 120 ] },
       { "item": "scrap", "count": [ 100, 120 ] }
-    ],
-    "damage_reduction": { "all": 70 }
+    ]
   }
 ]

@@ -103,7 +103,9 @@ bool is_layer_visible( const std::map<tripoint, explosion_tile> &layer )
 //! Get (x, y) relative to u's current position and view
 tripoint relative_view_pos( const player &u, const int x, const int y, const int z ) noexcept
 {
-    return -u.view_offset + tripoint( POSX + x - u.posx(), POSY + y - u.posy(), z - u.posz() );
+    return tripoint { POSX + x - u.posx() - u.view_offset.x,
+                      POSY + y - u.posy() - u.view_offset.y,
+                      z - u.posz() - u.view_offset.z };
 }
 
 tripoint relative_view_pos( const player &u, const tripoint &p ) noexcept
@@ -114,7 +116,9 @@ tripoint relative_view_pos( const player &u, const tripoint &p ) noexcept
 // Convert p to screen position relative to the current terrain view
 tripoint relative_view_pos( const game &g, const tripoint &p ) noexcept
 {
-    return p - g.ter_view_p + point( POSX, POSY );
+    return { POSX + p.x - g.ter_view_x,
+             POSY + p.y - g.ter_view_y,
+             p.z - g.ter_view_z };
 }
 
 void draw_explosion_curses( game &g, const tripoint &center, const int r, const nc_color &col )
@@ -337,10 +341,10 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
         const tripoint &pt = pr.first;
         explosion_neighbors &ngh = pr.second.neighborhood;
 
-        set_neighbors( pt + point_west, ngh, N_WEST, N_EAST );
-        set_neighbors( pt + point_east, ngh, N_EAST, N_WEST );
-        set_neighbors( pt + point_north, ngh, N_NORTH, N_SOUTH );
-        set_neighbors( pt + point_south, ngh, N_SOUTH, N_NORTH );
+        set_neighbors( tripoint( pt.x - 1, pt.y, pt.z ), ngh, N_WEST, N_EAST );
+        set_neighbors( tripoint( pt.x + 1, pt.y, pt.z ), ngh, N_EAST, N_WEST );
+        set_neighbors( tripoint( pt.x, pt.y - 1, pt.z ), ngh, N_NORTH, N_SOUTH );
+        set_neighbors( tripoint( pt.x, pt.y + 1, pt.z ), ngh, N_SOUTH, N_NORTH );
     }
 
     // We need to save the layers because we will draw them in reverse order
@@ -364,10 +368,10 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
             const tripoint &pt = pr.first;
             const explosion_neighbors ngh = pr.second.neighborhood;
 
-            unset_neighbor( pt + point_west, ngh, N_WEST, N_EAST );
-            unset_neighbor( pt + point_east, ngh, N_EAST, N_WEST );
-            unset_neighbor( pt + point_north, ngh, N_NORTH, N_SOUTH );
-            unset_neighbor( pt + point_south, ngh, N_SOUTH, N_NORTH );
+            unset_neighbor( tripoint( pt.x - 1, pt.y, pt.z ), ngh, N_WEST, N_EAST );
+            unset_neighbor( tripoint( pt.x + 1, pt.y, pt.z ), ngh, N_EAST, N_WEST );
+            unset_neighbor( tripoint( pt.x, pt.y - 1, pt.z ), ngh, N_NORTH, N_SOUTH );
+            unset_neighbor( tripoint( pt.x, pt.y + 1, pt.z ), ngh, N_SOUTH, N_NORTH );
             neighbors.erase( pr.first );
         }
 
@@ -702,7 +706,7 @@ namespace
 {
 void draw_sct_curses( game &g )
 {
-    const tripoint off = relative_view_pos( g.u, tripoint_zero );
+    const tripoint off = relative_view_pos( g.u, 0, 0, 0 );
 
     for( const auto &text : SCT.vSCT ) {
         const int dy = off.y + text.getPosY();

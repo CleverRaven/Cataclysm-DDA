@@ -165,10 +165,8 @@ enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, LTT_M
  *  when starting the game.
  */
 enum layer_level {
-    /* "Personal effects" layer, corresponds to PERSONAL flag */
-    PERSONAL_LAYER = 0,
     /* "Close to skin" layer, corresponds to SKINTIGHT flag. */
-    UNDERWEAR_LAYER,
+    UNDERWEAR = 0,
     /* "Normal" layer, default if no flags set */
     REGULAR_LAYER,
     /* "Waist" layer, corresponds to WAIST flag. */
@@ -177,8 +175,6 @@ enum layer_level {
     OUTER_LAYER,
     /* "Strapped" layer, corresponds to BELTED flag */
     BELTED_LAYER,
-    /* "Aura" layer, corresponds to AURA flag */
-    AURA_LAYER,
     /* Not a valid layer; used for C-style iteration through this enum */
     MAX_CLOTHING_LAYER
 };

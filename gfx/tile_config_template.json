@@ -5707,14 +5707,14 @@
             "multitile":false
         },
         {
-            "id": "gold_ring",
+            "id": "ring",
             "fg":-1,
             "bg":-1,
             "rotates":false,
             "multitile":false
         },
         {
-            "id": "silver_necklace",
+            "id": "necklace",
             "fg":-1,
             "bg":-1,
             "rotates":false,

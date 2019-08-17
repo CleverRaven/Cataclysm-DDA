@@ -1,7 +1,5 @@
 #include "loading_ui.h"
 
-#include <memory>
-
 #include "color.h"
 #include "output.h"
 #include "ui.h"
@@ -21,7 +19,7 @@ extern bool test_mode;
 loading_ui::loading_ui( bool display )
 {
     if( display && !test_mode ) {
-        menu = std::make_unique<uilist>();
+        menu.reset( new uilist );
         menu->settext( _( "Loading" ) );
     }
 }

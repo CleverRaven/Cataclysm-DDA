@@ -242,11 +242,11 @@ void requirement_data::load_requirement( JsonObject &jsobj, const requirement_id
     requirement_data req;
 
     JsonArray jsarr = jsobj.get_array( "components" );
-    requirement_data::load_obj_list( jsarr, req.components );
+    req.load_obj_list( jsarr, req.components );
     jsarr = jsobj.get_array( "qualities" );
-    requirement_data::load_obj_list( jsarr, req.qualities );
+    req.load_obj_list( jsarr, req.qualities );
     jsarr = jsobj.get_array( "tools" );
-    requirement_data::load_obj_list( jsarr, req.tools );
+    req.load_obj_list( jsarr, req.tools );
 
     if( !id.is_null() ) {
         req.id_ = id;
@@ -891,7 +891,7 @@ requirement_data requirement_data::disassembly_requirements() const
                 new_qualities.emplace_back( quality_id( "PULL" ), 1, 1 );
                 break;
             }
-            if( type == "fire" && remove_fire ) {
+            if( type == "fire" && remove_fire == true ) {
                 replaced = true;
                 break;
             }

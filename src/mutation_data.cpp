@@ -1,7 +1,6 @@
 #include "mutation.h" // IWYU pragma: associated
 
 #include <map>
-#include <memory>
 #include <set>
 #include <sstream>
 #include <vector>
@@ -49,9 +48,8 @@ bool string_id<Trait_group>::is_valid() const
     return trait_groups.count( *this );
 }
 
-static void extract_mod(
-    JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &data,
-    const std::string &mod_type, bool active, const std::string &type_key )
+static void extract_mod( JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int> &data,
+                         const std::string &mod_type, bool active, const std::string &type_key )
 {
     int val = j.get_int( mod_type, 0 );
     if( val != 0 ) {
@@ -59,9 +57,8 @@ static void extract_mod(
     }
 }
 
-static void load_mutation_mods(
-    JsonObject &jsobj, const std::string &member,
-    std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &mods )
+static void load_mutation_mods( JsonObject &jsobj, const std::string &member,
+                                std::unordered_map<std::pair<bool, std::string>, int> &mods )
 {
     if( jsobj.has_object( member ) ) {
         JsonObject j = jsobj.get_object( member );
@@ -621,17 +618,17 @@ static Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid
     if( is_collection ) {
         if( dynamic_cast<Trait_group_distribution *>( found->second.get() ) ) {
             std::ostringstream buf;
-            buf << "item group \"" << gid.c_str() << R"(" already defined with type "distribution")";
+            buf << "item group \"" << gid.c_str() << "\" already defined with type \"distribution\"";
             throw std::runtime_error( buf.str() );
         }
     } else {
         if( dynamic_cast<Trait_group_collection *>( found->second.get() ) ) {
             std::ostringstream buf;
-            buf << "item group \"" << gid.c_str() << R"(" already defined with type "collection")";
+            buf << "item group \"" << gid.c_str() << "\" already defined with type \"collection\"";
             throw std::runtime_error( buf.str() );
         }
     }
-    return *found->second;
+    return *( found->second );
 }
 
 void mutation_branch::load_trait_group( JsonArray &entries, const trait_group::Trait_group_tag &gid,
@@ -661,7 +658,7 @@ void mutation_branch::load_trait_group( JsonObject &jsobj, const trait_group::Tr
         jsobj.throw_error( "unknown trait group type", "subtype" );
     }
 
-    Trait_group &tg = make_group_or_throw( gid, subtype == "collection" || subtype == "old" );
+    Trait_group &tg = make_group_or_throw( gid, ( subtype == "collection" || subtype == "old" ) );
 
     // TODO: (sm) Looks like this makes the new code backwards-compatible with the old format. Great if so!
     if( subtype == "old" ) {
@@ -718,10 +715,10 @@ void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
     JsonArray jarr;
 
     if( obj.has_member( "collection" ) ) {
-        ptr = std::make_unique<Trait_group_collection>( probability );
+        ptr.reset( new Trait_group_collection( probability ) );
         jarr = obj.get_array( "collection" );
     } else if( obj.has_member( "distribution" ) ) {
-        ptr = std::make_unique<Trait_group_distribution>( probability );
+        ptr.reset( new Trait_group_distribution( probability ) );
         jarr = obj.get_array( "distribution" );
     }
 
@@ -737,11 +734,10 @@ void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
 
     if( obj.has_member( "trait" ) ) {
         trait_id id( obj.get_string( "trait" ) );
-        ptr = std::make_unique<Single_trait_creator>( id, probability );
+        ptr.reset( new Single_trait_creator( id, probability ) );
     } else if( obj.has_member( "group" ) ) {
-        ptr = std::make_unique<Trait_group_creator>( trait_group::Trait_group_tag(
-                    obj.get_string( "group" ) ),
-                probability );
+        ptr.reset( new Trait_group_creator( trait_group::Trait_group_tag( obj.get_string( "group" ) ),
+                                            probability ) );
     }
 
     if( !ptr ) {

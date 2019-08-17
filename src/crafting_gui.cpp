@@ -171,10 +171,10 @@ const recipe *select_crafting_recipe( int &batch_size )
 
     const recipe *last_recipe = nullptr;
 
-    catacurses::window w_head = catacurses::newwin( headHeight, width, point( wStart, 0 ) );
-    catacurses::window w_subhead = catacurses::newwin( subHeadHeight, width, point( wStart, 3 ) );
-    catacurses::window w_data = catacurses::newwin( dataHeight, width, point( wStart,
-                                headHeight + subHeadHeight ) );
+    catacurses::window w_head = catacurses::newwin( headHeight, width, 0, wStart );
+    catacurses::window w_subhead = catacurses::newwin( subHeadHeight, width, 3, wStart );
+    catacurses::window w_data = catacurses::newwin( dataHeight, width, headHeight + subHeadHeight,
+                                wStart );
 
     int item_info_x = infoWidth;
     int item_info_y = dataHeight - 3;
@@ -188,8 +188,8 @@ const recipe *select_crafting_recipe( int &batch_size )
         item_info_height = 1;
     }
 
-    catacurses::window w_iteminfo = catacurses::newwin( item_info_y, item_info_x,
-                                    point( item_info_width, item_info_height ) );
+    catacurses::window w_iteminfo = catacurses::newwin( item_info_y, item_info_x, item_info_height,
+                                    item_info_width );
 
     list_circularizer<std::string> tab( craft_cat_list );
     list_circularizer<std::string> subtab( craft_subcat_list[tab.cur()] );
@@ -327,6 +327,14 @@ const recipe *select_crafting_recipe( int &batch_size )
                                         temp_subset = available_recipes.difference( learned );
                                     }
                                     filtered_recipes = filtered_recipes.intersection( temp_subset );
+                                    break;
+                                }
+
+                                case 'h': {
+                                    filtered_recipes = filtered_recipes.intersection( available_recipes );
+                                    if( query_is_yes( qry_filter_str ) ) {
+                                        show_hidden = true;
+                                    }
                                     break;
                                 }
 
@@ -733,7 +741,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                 { 's', _( "cooking" ), _( "<color_cyan>any skill</color> used to craft" ) },
                 { 'Q', _( "fine bolt turning" ), _( "<color_cyan>quality</color> required to craft" ) },
                 { 't', _( "soldering iron" ), _( "<color_cyan>tool</color> required to craft" ) },
-                { 'm', _( "yes" ), _( "recipes which are <color_cyan>memorized</color> or not" ) },
+                { 'h', _( "yes" ), _( "recipes which are <color_cyan>hidden</color> or not" ) },
+                { 'm', _( "no" ), _( "recipes which are <color_cyan>memorized</color> or not" ) },
             };
             int max_example_length = 0;
             for( const auto &prefix : prefixes ) {
@@ -892,7 +901,8 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     rel_menu.settext( _( "Related recipes:" ) );
     rel_menu.query();
     if( rel_menu.ret != UILIST_CANCEL ) {
-        return rel_menu.entries[rel_menu.ret].txt.substr( strlen( "─ " ) );
+        std::wstring wstr_recipe_name = utf8_to_wstr( rel_menu.entries[ rel_menu.ret ].txt );
+        return wstr_to_utf8( wstr_recipe_name.substr( 2 ) ); // 2 = prefix length
     }
 
     return "";

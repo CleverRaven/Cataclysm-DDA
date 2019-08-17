@@ -13,7 +13,6 @@
 #include "catacharset.h"
 #include "debug.h"
 #include "game.h"
-#include "ime.h"
 #include "input.h"
 #include "output.h"
 #include "player.h"
@@ -242,7 +241,11 @@ std::string uilist::inputfilter()
     .window( window, 4, w_height - 1, w_width - 4 )
     .identifier( identifier );
     input_event event;
-    ime_sentry sentry;
+#if defined(__ANDROID__)
+    if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
+        SDL_StartTextInput();
+    }
+#endif
     do {
         // filter=filter_input->query(filter, false);
         filter = popup.query_string( false );
@@ -269,7 +272,7 @@ std::string uilist::inputfilter()
 
     wattron( window, border_color );
     for( int i = 1; i < w_width - 1; i++ ) {
-        mvwaddch( window, point( i, w_height - 1 ), LINE_OXOX );
+        mvwaddch( window, w_height - 1, i, LINE_OXOX );
     }
     wattroff( window, border_color );
 
@@ -511,7 +514,7 @@ void uilist::setup()
     if( static_cast<int>( entries.size() ) <= vmax ) {
         scrollbar_auto = false;
     }
-    window = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
+    window = catacurses::newwin( w_height, w_width, w_y, w_x );
     if( !window ) {
         debugmsg( "Window not created; probably trying to use uilist in test mode." );
         abort();

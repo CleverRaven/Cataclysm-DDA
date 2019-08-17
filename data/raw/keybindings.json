@@ -784,13 +784,6 @@
   },
   {
     "type": "keybinding",
-    "name": "View Missions",
-    "category": "OVERMAP",
-    "id": "MISSIONS",
-    "bindings": [ { "input_method": "keyboard", "key": "M" } ]
-  },
-  {
-    "type": "keybinding",
     "id": "ROTATE",
     "category": "OVERMAP_EDITOR",
     "name": "Rotate",
@@ -1887,12 +1880,6 @@
     "name": "View Visibility Map",
     "category": "DEFAULTMODE",
     "id": "debug_visibility"
-  },
-  {
-    "type": "keybinding",
-    "name": "View Radiation Map",
-    "category": "DEFAULTMODE",
-    "id": "debug_radiation"
   },
   {
     "type": "keybinding",

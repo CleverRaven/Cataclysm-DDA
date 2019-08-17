@@ -10,7 +10,7 @@
 #include "rng.h"
 #include "translations.h"
 
-#define EMPTY (-1)
+#define EMPTY -1
 #define ROBOT 0
 #define KITTEN 1
 std::string robot_finds_kitten::getmessage( int idx )
@@ -237,15 +237,18 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
         "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#&()*+./:;=?![]{|}y";
     int used_messages[MAXMESSAGES];
 
+    rfkLINES = 20;
+    rfkCOLS = 60;
+
     const int numbogus = 20;
     nummessages = 201;
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    empty.pos = point( -1, -1 );
+    empty.x = -1;
+    empty.y = -1;
     empty.color = nc_color();
     empty.character = ' ';
-    for( int ( &col )[rfkLINES] : rfkscreen ) {
-        for( int &i : col ) {
-            i = EMPTY;
+    for( int c = 0; c < rfkCOLS; c++ ) {
+        for( int c2 = 0; c2 < rfkLINES; c2++ ) {
+            rfkscreen[c][c2] = EMPTY;
         }
     }
     /* Create an array to ensure we don't get duplicate messages. */
@@ -256,17 +259,17 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
     }
     /* Now we initialize the various game OBJECTs.
        * Assign a position to the player. */
-    robot.pos.x = rng( 0, rfkCOLS - 1 );
-    robot.pos.y = rng( 0, rfkLINES - 3 - 1 ) + 3;
+    robot.x = rng( 0, rfkCOLS - 1 );
+    robot.y = rng( 0, rfkLINES - 3 - 1 ) + 3;
     robot.character = '#';
     robot.color = c_white;
-    rfkscreen[robot.pos.x][robot.pos.y] = ROBOT;
+    rfkscreen[robot.x][robot.y] = ROBOT;
 
     /* Assign the kitten a unique position. */
     do {
-        kitten.pos.x = rng( 0, rfkCOLS - 1 );
-        kitten.pos.y = rng( 0, rfkLINES - 3 - 1 ) + 3;
-    } while( rfkscreen[kitten.pos.x][kitten.pos.y] != EMPTY );
+        kitten.x = rng( 0, rfkCOLS - 1 );
+        kitten.y = rng( 0, rfkLINES - 3 - 1 ) + 3;
+    } while( rfkscreen[kitten.x][kitten.y] != EMPTY );
 
     /* Assign the kitten a character and a color. */
     do {
@@ -277,16 +280,16 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
         kitten.color = all_colors.get_random();
     } while( kitten.color == c_black );
 
-    rfkscreen[kitten.pos.x][kitten.pos.y] = KITTEN;
+    rfkscreen[kitten.x][kitten.y] = KITTEN;
 
     /* Now, initialize non-kitten OBJECTs. */
     for( int c = 0; c < numbogus; c++ ) {
         /* Assign a unique position. */
         do {
-            bogus[c].pos.x = rng( 0, rfkCOLS - 1 );
-            bogus[c].pos.y = rng( 0, rfkLINES - 3 - 1 ) + 3;
-        } while( rfkscreen[bogus[c].pos.x][bogus[c].pos.y] != EMPTY );
-        rfkscreen[bogus[c].pos.x][bogus[c].pos.y] = c + 2;
+            bogus[c].x = rng( 0, rfkCOLS - 1 );
+            bogus[c].y = rng( 0, rfkLINES - 3 - 1 ) + 3;
+        } while( rfkscreen[bogus[c].x][bogus[c].y] != EMPTY );
+        rfkscreen[bogus[c].x][bogus[c].y] = c + 2;
 
         /* Assign a character. */
         do {
@@ -313,16 +316,17 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
     for( int c = 0; c < rfkCOLS; c++ ) {
         mvwputch( w, 2, c, BORDER_COLOR, '_' );
     }
-    wmove( w, kitten.pos );
+    wmove( w, kitten.y, kitten.x );
     draw_kitten( w );
 
     for( int c = 0; c < numbogus; c++ ) {
-        mvwputch( w, bogus[c].pos.y, bogus[c].pos.x, bogus[c].color, bogus[c].character );
+        mvwputch( w, bogus[c].y, bogus[c].x, bogus[c].color, bogus[c].character );
     }
 
-    wmove( w, robot.pos );
+    wmove( w, robot.y, robot.x );
     draw_robot( w );
-    point old_pos = robot.pos;
+    int old_x = robot.x;
+    int old_y = robot.y;
 
     wrefresh( w );
     /* Now the fun begins. */
@@ -334,14 +338,15 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
             break;
         }
         /* Redraw robot, where available */
-        if( old_pos != robot.pos ) {
-            wmove( w, old_pos );
+        if( !( old_x == robot.x && old_y == robot.y ) ) {
+            wmove( w, old_y, old_x );
             wputch( w, c_white, ' ' );
-            wmove( w, robot.pos );
+            wmove( w, robot.y, robot.x );
             draw_robot( w );
-            rfkscreen[old_pos.x][old_pos.y] = EMPTY;
-            rfkscreen[robot.pos.x][robot.pos.y] = ROBOT;
-            old_pos = robot.pos;
+            rfkscreen[old_x][old_y] = EMPTY;
+            rfkscreen[robot.x][robot.y] = ROBOT;
+            old_x = robot.x;
+            old_y = robot.y;
         }
         wrefresh( w );
         // TODO: use input context / rewrite loop so this is only called at one place
@@ -379,20 +384,21 @@ void robot_finds_kitten::process_input( int input, const catacurses::window &w )
     ts.tv_sec = 1;
     ts.tv_nsec = 0;
 
-    point check = robot.pos;
+    int check_x = robot.x;
+    int check_y = robot.y;
 
     switch( input ) {
         case KEY_UP: /* up */
-            check.y--;
+            check_y--;
             break;
         case KEY_DOWN: /* down */
-            check.y++;
+            check_y++;
             break;
         case KEY_LEFT: /* left */
-            check.x--;
+            check_x--;
             break;
         case KEY_RIGHT: /* right */
-            check.x++;
+            check_x++;
             break;
         case 0:
             break;
@@ -406,13 +412,12 @@ void robot_finds_kitten::process_input( int input, const catacurses::window &w )
         }
     }
 
-    constexpr rectangle bounds( point( 0, 3 ), point( rfkCOLS, rfkLINES ) );
-    if( !bounds.contains_half_open( check ) ) {
+    if( check_y < 3 || check_y > rfkLINES - 1 || check_x < 0 || check_x > rfkCOLS - 1 ) {
         return;
     }
 
-    if( rfkscreen[check.x][check.y] != EMPTY ) {
-        switch( rfkscreen[check.x][check.y] ) {
+    if( rfkscreen[check_x][check_y] != EMPTY ) {
+        switch( rfkscreen[check_x][check_y] ) {
             case ROBOT:
                 /* We didn't move. */
                 break;
@@ -424,17 +429,17 @@ void robot_finds_kitten::process_input( int input, const catacurses::window &w )
                 /* The grand cinema scene. */
                 for( int c = 0; c <= 3; c++ ) {
 
-                    wmove( w, point( rfkCOLS / 2 - 5 + c, 1 ) );
+                    wmove( w, 1, ( rfkCOLS / 2 ) - 5 + c );
                     wputch( w, c_white, ' ' );
-                    wmove( w, point( rfkCOLS / 2 + 4 - c, 1 ) );
+                    wmove( w, 1, ( rfkCOLS / 2 ) + 4 - c );
                     wputch( w, c_white, ' ' );
-                    wmove( w, point( rfkCOLS / 2 - 4 + c, 1 ) );
+                    wmove( w, 1, ( rfkCOLS / 2 ) - 4 + c );
                     if( input == KEY_LEFT || input == KEY_UP ) {
                         draw_kitten( w );
                     } else {
                         draw_robot( w );
                     }
-                    wmove( w, point( rfkCOLS / 2 + 3 - c, 1 ) );
+                    wmove( w, 1, ( rfkCOLS / 2 ) + 3 - c );
                     if( input == KEY_LEFT || input == KEY_UP ) {
                         draw_robot( w );
                     } else {
@@ -446,7 +451,7 @@ void robot_finds_kitten::process_input( int input, const catacurses::window &w )
                 }
 
                 /* They're in love! */
-                mvwprintz( w, 0, ( rfkCOLS - 6 ) / 2 - 1, c_light_red, "<3<3<3" );
+                mvwprintz( w, 0, ( ( rfkCOLS - 6 ) / 2 ) - 1, c_light_red, "<3<3<3" );
                 wrefresh( w );
                 refresh_display();
                 nanosleep( &ts, nullptr );
@@ -468,19 +473,20 @@ void robot_finds_kitten::process_input( int input, const catacurses::window &w )
                     mvwputch( w, 1, c, c_white, ' ' );
                 }
                 std::vector<std::string> bogusvstr = foldstring( getmessage(
-                        bogus_messages[rfkscreen[check.x][check.y] - 2] ), rfkCOLS );
+                        bogus_messages[rfkscreen[check_x][check_y] - 2] ), rfkCOLS );
                 for( size_t c = 0; c < bogusvstr.size(); c++ ) {
-                    mvwprintw( w, point( 0, c ), bogusvstr[c] );
+                    mvwprintw( w, c, 0, bogusvstr[c] );
                 }
                 wrefresh( w );
             }
             break;
         }
-        wmove( w, point( 0, 2 ) );
+        wmove( w, 2, 0 );
         return;
     }
     /* Otherwise, move the robot. */
-    robot.pos = check;
+    robot.x = check_x;
+    robot.y = check_y;
 }
 
 void robot_finds_kitten::draw_robot( const catacurses::window

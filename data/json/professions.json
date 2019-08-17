@@ -1005,7 +1005,7 @@
         "items": [
           "pants",
           "dress_shirt",
-          "tie_skinny",
+          "skinny_tie",
           "waistcoat",
           "trenchcoat",
           "badge_detective",
@@ -2131,7 +2131,7 @@
       "both": {
         "items": [
           "dress_shirt",
-          "tie_skinny",
+          "skinny_tie",
           "sunglasses",
           "pants",
           "socks",
@@ -2398,7 +2398,7 @@
     "items": {
       "both": [
         "suit",
-        "tie_necktie",
+        "skinny_tie",
         "tieclip",
         "socks",
         "dress_shoes",
@@ -2425,7 +2425,7 @@
       "both": {
         "items": [
           "suit",
-          "tie_skinny",
+          "skinny_tie",
           "tieclip",
           "socks",
           "dress_shoes",
@@ -3398,7 +3398,7 @@
         "pants",
         "socks",
         "dress_shoes",
-        "tie_clipon",
+        "skinny_tie",
         "tieclip",
         "fancy_sunglasses",
         "knit_scarf",
@@ -3485,7 +3485,7 @@
           "pants",
           "socks",
           "dress_shoes",
-          "tie_skinny",
+          "skinny_tie",
           "tieclip",
           "poetry_book",
           "permanent_marker",
@@ -3842,7 +3842,7 @@
         "smart_phone",
         "gold_watch",
         "briefcase",
-        "tie_skinny",
+        "skinny_tie",
         "file",
         "ref_lighter",
         "cigar"

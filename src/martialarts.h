@@ -105,10 +105,6 @@ class ma_technique
 
         int weighting; //how often this technique is used
 
-        // conditional
-        bool downed_target; // only works on downed enemies
-        bool stunned_target; // only works on stunned enemies
-
         /** All kinds of bonuses by types to damage, hit etc. */
         bonus_container bonuses;
 
@@ -278,7 +274,7 @@ void load_martial_art( JsonObject &jo, const std::string &src );
 void check_martialarts();
 void clear_techniques_and_martial_arts();
 void finialize_martial_arts();
-std::string martialart_difficulty( matype_id mstyle );
+const std::string martialart_difficulty( matype_id mstyle );
 
 std::vector<matype_id> all_martialart_types();
 std::vector<matype_id> autolearn_martialart_types();

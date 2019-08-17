@@ -59,8 +59,8 @@
         "faults": [ "fault_bionic_salvaged" ]
       },
       {
-        "drop": "cyborg_harvest",
-        "type": "bionic_group",
+        "drop": "burnt_out_bionic",
+        "type": "bionic",
         "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
         "faults": [ "fault_bionic_salvaged" ]
       },

@@ -14,8 +14,7 @@
     "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
     "size": 200,
     "damage_modifier": 60,
-    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ],
-    "damage_reduction": { "all": 6 }
+    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ]
   },
   {
     "id": "basketsm_external",
@@ -32,8 +31,7 @@
     "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
     "size": 60,
     "damage_modifier": 60,
-    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ],
-    "damage_reduction": { "all": 6 }
+    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ]
   },
   {
     "id": "cargo_space_external",
@@ -50,8 +48,7 @@
     "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
     "size": 1000,
     "breaks_into": [  ],
-    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE" ],
-    "damage_reduction": { "all": 26 }
+    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE" ]
   },
   {
     "id": "bike_rack",
@@ -71,8 +68,7 @@
       { "item": "steel_chunk", "count": [ 6, 8 ] },
       { "item": "scrap", "count": [ 6, 8 ] }
     ],
-    "flags": [ "BIKE_RACK_VEH", "MULTISQUARE", "TOOL_WRENCH" ],
-    "damage_reduction": { "all": 10 }
+    "flags": [ "BIKE_RACK_VEH", "MULTISQUARE", "TOOL_WRENCH" ]
   },
   {
     "id": "mounted_spare_tire",
@@ -89,7 +85,6 @@
     "description": "Spare tire stored on an external carrier rig.",
     "size": 60,
     "damage_modifier": 60,
-    "flags": [ "UNMOUNT_ON_DAMAGE", "PROTRUSION", "TOOL_WRENCH" ],
-    "damage_reduction": { "all": 10 }
+    "flags": [ "UNMOUNT_ON_DAMAGE", "PROTRUSION", "TOOL_WRENCH" ]
   }
 ]

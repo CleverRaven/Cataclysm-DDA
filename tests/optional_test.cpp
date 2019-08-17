@@ -32,7 +32,7 @@ TEST_CASE( "optional_assignment_works", "[optional]" )
     a = d;
     REQUIRE( a );
     CHECK( *a == 4 );
-    a = d ;
+    a = std::move( d );
     REQUIRE( a );
     CHECK( *a == 4 );
 

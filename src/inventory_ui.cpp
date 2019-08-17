@@ -4,7 +4,6 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "game.h"
-#include "ime.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_search.h"
@@ -433,7 +432,7 @@ void inventory_column::set_filter( const std::string &filter )
     prepare_paging( filter );
 }
 
-inventory_column::entry_cell_cache_t inventory_column::make_entry_cell_cache(
+const inventory_column::entry_cell_cache_t inventory_column::make_entry_cell_cache(
     const inventory_entry &entry ) const
 {
     entry_cell_cache_t result;
@@ -953,7 +952,7 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
     }
 
     if( pages_count() > 1 ) {
-        mvwprintw( win, point( x, y + height - 1 ), _( "Page %d/%d" ), page_index() + 1, pages_count() );
+        mvwprintw( win, y + height - 1, x, _( "Page %d/%d" ), page_index() + 1, pages_count() );
     }
 }
 
@@ -1024,7 +1023,7 @@ static std::vector<std::list<item *>> restack_items( const std::list<item>::cons
     for( auto it = from; it != to; ++it ) {
         auto match = std::find_if( res.begin(), res.end(),
         [ &it, check_components ]( const std::list<item *> &e ) {
-            return it->display_stacked_with( *const_cast<item *>( e.back() ), check_components );
+            return it->stacks_with( *const_cast<item *>( e.back() ), check_components );
         } );
 
         if( match != res.end() ) {
@@ -1046,7 +1045,7 @@ static std::vector<std::list<item *>> restack_items( const item_stack::const_ite
     for( auto it = from; it != to; ++it ) {
         auto match = std::find_if( res.begin(), res.end(),
         [ &it, check_components ]( const std::list<item *> &e ) {
-            return it->display_stacked_with( *const_cast<item *>( e.back() ), check_components );
+            return it->stacks_with( *const_cast<item *>( e.back() ), check_components );
         } );
 
         if( match != res.end() ) {
@@ -1382,7 +1381,7 @@ void inventory_selector::draw_header( const catacurses::window &w ) const
     trim_and_print( w, border, border + 1, getmaxx( w ) - 2 * ( border + 1 ), c_white, title );
     trim_and_print( w, border + 1, border + 1, getmaxx( w ) - 2 * ( border + 1 ), c_dark_gray, hint );
 
-    mvwhline( w, point( border, border + get_header_height() ), LINE_OXOX, getmaxx( w ) - 2 * border );
+    mvwhline( w, border + get_header_height(), border, LINE_OXOX, getmaxx( w ) - 2 * border );
 
     if( display_stats ) {
         size_t y = border;
@@ -1474,7 +1473,8 @@ void inventory_selector::resize_window( int width, int height )
 {
     if( !w_inv || width != getmaxx( w_inv ) || height != getmaxy( w_inv ) ) {
         w_inv = catacurses::newwin( height, width,
-                                    point( VIEW_OFFSET_X + ( TERMX - width ) / 2, VIEW_OFFSET_Y + ( TERMY - height ) / 2 ) );
+                                    VIEW_OFFSET_Y + ( TERMY - height ) / 2,
+                                    VIEW_OFFSET_X + ( TERMX - width ) / 2 );
     }
 }
 
@@ -1499,7 +1499,11 @@ void inventory_selector::set_filter()
     .max_length( 256 )
     .text( filter );
 
-    ime_sentry sentry;
+#if defined(__ANDROID__)
+    if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
+        SDL_StartTextInput();
+    }
+#endif
 
     do {
         mvwprintz( w_inv, getmaxy( w_inv ) - 1, 2, c_cyan, "< " );
@@ -1572,8 +1576,8 @@ void inventory_selector::draw_frame( const catacurses::window &w ) const
     draw_border( w );
 
     const int y = border + get_header_height();
-    mvwhline( w, point( 0, y ), LINE_XXXO, 1 );
-    mvwhline( w, point( getmaxx( w ) - border, y ), LINE_XOXX, 1 );
+    mvwhline( w, y, 0, LINE_XXXO, 1 );
+    mvwhline( w, y, getmaxx( w ) - border, LINE_XOXX, 1 );
 }
 
 std::pair<std::string, nc_color> inventory_selector::get_footer( navigation_mode m ) const

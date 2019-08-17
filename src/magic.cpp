@@ -172,36 +172,10 @@ static damage_type damage_type_from_string( const std::string &str )
 
 void spell_type::load( JsonObject &jo, const std::string & )
 {
-    static const
-    std::map<std::string, std::function<void( const spell &, Creature &, const tripoint & )>>
-    effect_map{
-        { "pain_split", spell_effect::pain_split },
-        { "target_attack", spell_effect::target_attack },
-        { "projectile_attack", spell_effect::projectile_attack },
-        { "cone_attack", spell_effect::cone_attack },
-        { "line_attack", spell_effect::line_attack },
-        { "teleport_random", spell_effect::teleport_random },
-        { "spawn_item", spell_effect::spawn_ethereal_item },
-        { "recover_energy", spell_effect::recover_energy },
-        { "summon", spell_effect::spawn_summoned_monster },
-        { "translocate", spell_effect::translocate },
-        { "area_pull", spell_effect::area_pull },
-        { "area_push", spell_effect::area_push },
-        { "ter_transform", spell_effect::transform_blast },
-        { "none", spell_effect::none }
-    };
-
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
     mandatory( jo, was_loaded, "description", description, translated_string_reader );
-    mandatory( jo, was_loaded, "effect", effect_name );
-    const auto found_effect = effect_map.find( effect_name );
-    if( found_effect == effect_map.cend() ) {
-        effect = spell_effect::none;
-        debugmsg( "ERROR: spell %s has invalid effect %s", id.c_str(), effect_name );
-    } else {
-        effect = found_effect->second;
-    }
+    mandatory( jo, was_loaded, "effect", effect );
 
     const auto effect_targets_reader = enum_flags_reader<valid_target> { "effect_targets" };
     optional( jo, was_loaded, "effect_filter", effect_targets, effect_targets_reader );
@@ -501,6 +475,11 @@ bool spell::is_spell_class( const trait_id &mid ) const
 
 bool spell::can_cast( const player &p ) const
 {
+    if( !p.magic.knows_spell( type->id ) ) {
+        // how in the world can this happen?
+        debugmsg( "ERROR: owner of spell does not know spell" );
+        return false;
+    }
     switch( type->energy_source ) {
         case mana_energy:
             return p.magic.available_mana() >= energy_cost( p );
@@ -743,7 +722,7 @@ void spell::make_sound( const tripoint &target ) const
 
 std::string spell::effect() const
 {
-    return type->effect_name;
+    return type->effect;
 }
 
 energy_type spell::energy_source() const
@@ -959,15 +938,53 @@ int spell::heal( const tripoint &target ) const
     return -1;
 }
 
-void spell::cast_spell_effect( Creature &source, const tripoint &target ) const
+bool spell::cast_spell_effect( const Creature &source, const tripoint &target ) const
 {
-    type->effect( *this, source, target );
+    // figure out which function is the effect (maybe change this into how iuse or activity_handlers does it)
+    // TODO: refactor these so make_sound can be called inside each of these functions
+    const std::string fx = effect();
+    if( fx == "pain_split" ) {
+        spell_effect::pain_split();
+        make_sound( source.pos() );
+    } else if( fx == "move_earth" ) {
+        spell_effect::move_earth( target );
+        make_sound( target );
+    } else if( fx == "target_attack" ) {
+        spell_effect::target_attack( *this, source, target );
+    } else if( fx == "projectile_attack" ) {
+        spell_effect::projectile_attack( *this, source, target );
+    } else if( fx == "cone_attack" ) {
+        spell_effect::cone_attack( *this, source, target );
+    } else if( fx == "line_attack" ) {
+        spell_effect::line_attack( *this, source, target );
+    } else if( fx == "teleport_random" ) {
+        spell_effect::teleport( range(), range() + aoe() );
+        make_sound( source.pos() );
+    } else if( fx == "spawn_item" ) {
+        spell_effect::spawn_ethereal_item( *this );
+        make_sound( source.pos() );
+    } else if( fx == "recover_energy" ) {
+        spell_effect::recover_energy( *this, target );
+        make_sound( target );
+    } else if( fx == "summon" ) {
+        spell_effect::spawn_summoned_monster( *this, source, target );
+    } else if( fx == "translocate" ) {
+        spell_effect::translocate( *this, source, target, g->u.translocators );
+    } else if( fx == "area_pull" ) {
+        spell_effect::area_pull( *this, source, target );
+    } else if( fx == "area_push" ) {
+        spell_effect::area_push( *this, source, target );
+    } else {
+        debugmsg( "ERROR: Spell effect not defined properly." );
+        return false;
+    }
+    return true;
 }
 
-void spell::cast_all_effects( Creature &source, const tripoint &target ) const
+bool spell::cast_all_effects( const Creature &source, const tripoint &target ) const
 {
     // first call the effect of the main spell
-    cast_spell_effect( source, target );
+    bool success = cast_spell_effect( source, target );
     for( const fake_spell &extra_spell : type->additional_spells ) {
         spell sp( extra_spell.id );
         int level = sp.get_max_level();
@@ -979,11 +996,12 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
             sp.gain_level();
         }
         if( extra_spell.self ) {
-            sp.cast_all_effects( source, source.pos() );
+            success = success && sp.cast_all_effects( source, source.pos() );
         } else {
-            sp.cast_all_effects( source, target );
+            success = success && sp.cast_all_effects( source, target );
         }
     }
+    return success;
 }
 
 // player
@@ -1119,7 +1137,7 @@ void known_magic::forget_spell( const spell_id &sp )
 
 bool known_magic::can_learn_spell( const player &p, const spell_id &sp ) const
 {
-    const spell_type &sp_t = sp.obj();
+    const spell_type sp_t = sp.obj();
     if( sp_t.spell_class == trait_id( "NONE" ) ) {
         return true;
     }
@@ -1290,7 +1308,10 @@ static bool casting_time_encumbered( const spell &sp, const player &p )
         // the first 20 points of encumbrance combined is ignored
         encumb += std::max( 0, p.encumb( bp_arm_l ) + p.encumb( bp_arm_r ) - 20 );
     }
-    return encumb > 0;
+    if( encumb > 0 ) {
+        return true;
+    }
+    return false;
 }
 
 static bool energy_cost_encumbered( const spell &sp, const player &p )
@@ -1388,7 +1409,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     line++;
 
-    std::string targets;
+    std::string targets = "";
     if( sp.is_valid_target( target_none ) ) {
         targets = "self";
     } else {
@@ -1415,7 +1436,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         }
         if( sp.aoe() > 0 ) {
             std::string aoe_string_temp = "Spell Radius";
-            std::string degree_string;
+            std::string degree_string = "";
             if( fx == "cone_attack" ) {
                 aoe_string_temp = "Cone Arc";
                 degree_string = "degrees";
@@ -1590,7 +1611,7 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     mvwprintz( w, line++, start_x + width / 2, c_light_gray, string_format( "%s: %d", _( "Max Level" ),
                sp.max_level ) );
 
-    const std::string fx = sp.effect_name;
+    const std::string fx = sp.effect;
     std::string damage_string;
     std::string aoe_string;
     bool has_damage_type = false;

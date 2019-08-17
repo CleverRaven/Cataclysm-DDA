@@ -97,7 +97,7 @@ class save_t;
 
 using WORLDPTR = WORLD *;
 class overmap;
-class timed_event_manager;
+class event_manager;
 
 enum event_type : int;
 class live_view;
@@ -861,7 +861,6 @@ class game
         tripoint mouse_edge_scrolling_terrain( input_context &ctxt );
         /** This variant is suitable for the overmap. */
         tripoint mouse_edge_scrolling_overmap( input_context &ctxt );
-        void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
     private:
         void quickload();        // Loads the previously saved game if it exists
 
@@ -873,12 +872,12 @@ class game
         void disp_kills();          // Display the player's kill counts
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings
+        void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
 
         // Debug functions
         void display_scent();   // Displays the scent map
         void display_temperature();    // Displays temperature map
         void display_visibility(); // Displays visibility map
-        void display_radiation(); // Displays radiation map
 
         Creature *is_hostile_within( int distance );
 
@@ -892,14 +891,14 @@ class game
         pimpl<live_view> liveview_ptr;
         live_view &liveview;
         pimpl<scent_map> scent_ptr;
-        pimpl<timed_event_manager> timed_event_manager_ptr;
+        pimpl<event_manager> event_manager_ptr;
 
     public:
         /** Make map a reference here, to avoid map.h in game.h */
         map &m;
         avatar &u;
         scent_map &scent;
-        timed_event_manager &timed_events;
+        event_manager &events;
 
         pimpl<Creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr;
@@ -914,7 +913,9 @@ class game
         std::vector<monster> coming_to_stairs;
         int monstairz;
 
-        tripoint ter_view_p;
+        int ter_view_x;
+        int ter_view_y;
+        int ter_view_z;
         catacurses::window w_terrain;
         catacurses::window w_overmap;
         catacurses::window w_omlegend;
@@ -938,7 +939,6 @@ class game
         bool displaying_visibility;
         /** Creature for which to display the visibility map */
         Creature *displaying_visibility_creature;
-        bool displaying_radiation;
 
         bool show_panel_adm;
         bool right_sidebar;

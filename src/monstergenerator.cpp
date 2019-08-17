@@ -95,9 +95,6 @@ const std::map<std::string, m_flag> flag_map = {
     { "BONES", MF_BONES },
     { "FAT", MF_FAT },
     { "IMMOBILE", MF_IMMOBILE },
-    { "RIDEABLE_MECH", MF_RIDEABLE_MECH },
-    { "MILITARY_MECH", MF_MILITARY_MECH },
-    { "MECH_RECON_VISION", MF_MECH_RECON_VISION },
     { "HIT_AND_RUN", MF_HIT_AND_RUN },
     { "GUILT", MF_GUILT },
     { "HUMAN", MF_HUMAN },
@@ -136,8 +133,6 @@ const std::map<std::string, m_flag> flag_map = {
     { "PUSH_VEH", MF_PUSH_VEH },
     { "PATH_AVOID_DANGER_1", MF_AVOID_DANGER_1 },
     { "PATH_AVOID_DANGER_2", MF_AVOID_DANGER_2 },
-    { "PATH_AVOID_FALL", MF_AVOID_FALL },
-    { "PATH_AVOID_FIRE", MF_AVOID_FIRE },
     { "PRIORITIZE_TARGETS", MF_PRIORITIZE_TARGETS },
     { "NOT_HALLUCINATION", MF_NOT_HALLU },
     { "CATFOOD", MF_CATFOOD },
@@ -153,8 +148,7 @@ const std::map<std::string, m_flag> flag_map = {
     { "DRIPS_GASOLINE", MF_DRIPS_GASOLINE },
     { "ELECTRIC_FIELD", MF_ELECTRIC_FIELD },
     { "STUN_IMMUNE", MF_STUN_IMMUNE },
-    { "LOUDMOVES", MF_LOUDMOVES },
-    { "DROPS_AMMO", MF_DROPS_AMMO }
+    { "LOUDMOVES", MF_LOUDMOVES }
 };
 
 } // namespace
@@ -522,7 +516,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "LUNGE", mattack::lunge );
     add_hardcoded_attack( "LONGSWIPE", mattack::longswipe );
     add_hardcoded_attack( "PARROT", mattack::parrot );
-    add_hardcoded_attack( "PARROT_AT_DANGER", mattack::parrot_at_danger );
     add_hardcoded_attack( "DARKMAN", mattack::darkman );
     add_hardcoded_attack( "SLIMESPRING", mattack::slimespring );
     add_hardcoded_attack( "BIO_OP_TAKEDOWN", mattack::bio_op_takedown );
@@ -658,9 +651,6 @@ void mtype::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "luminance", luminance, 0 );
     optional( jo, was_loaded, "revert_to_itype", revert_to_itype, "" );
     optional( jo, was_loaded, "attack_effs", atk_effs, mon_attack_effect_reader{} );
-    optional( jo, was_loaded, "mech_weapon", mech_weapon, "" );
-    optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
-    optional( jo, was_loaded, "mech_battery", mech_battery, "" );
 
     // TODO: make this work with `was_loaded`
     if( jo.has_array( "melee_damage" ) ) {
@@ -681,7 +671,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
         death_drops = item_group::load_item_group( stream, "distribution" );
     }
 
-    assign( jo, "harvest", harvest );
+    assign( jo, "harvest", harvest, strict );
 
     const auto death_reader = make_flag_reader( gen.death_map, "monster death function" );
     optional( jo, was_loaded, "death_function", dies, death_reader );
@@ -794,7 +784,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
     difficulty = ( melee_skill + 1 ) * melee_dice * ( bonus_cut + melee_sides ) * 0.04 +
                  ( sk_dodge + 1 ) * ( 3 + armor_bash + armor_cut ) * 0.04 +
                  ( difficulty_base + special_attacks.size() + 8 * emit_fields.size() );
-    difficulty *= ( hp + speed - attack_cost + ( morale + agro ) * 0.1 ) * 0.01 +
+    difficulty *= ( hp + speed - attack_cost + ( morale + agro ) / 10 ) * 0.01 +
                   ( vision_day + 2 * vision_night ) * 0.01;
 }
 
@@ -879,9 +869,8 @@ mtype_special_attack MonsterGenerator::create_actor( JsonObject obj, const std::
     const std::string attack_type = obj.get_string( "attack_type", type );
 
     if( type != "monster_attack" && attack_type != type ) {
-        obj.throw_error(
-            R"(Specifying "attack_type" is only allowed when "type" is "monster_attack" or not specified)",
-            "type" );
+        obj.throw_error( "Specifying \"attack_type\" is only allowed when \"type\" is \"monster_attack\" or not specified",
+                         "type" );
     }
 
     mattack_actor *new_attack = nullptr;
@@ -1037,14 +1026,6 @@ void MonsterGenerator::check_monster_definitions() const
         if( !mon.revert_to_itype.empty() && !item::type_is_defined( mon.revert_to_itype ) ) {
             debugmsg( "monster %s has unknown revert_to_itype: %s", mon.id.c_str(),
                       mon.revert_to_itype.c_str() );
-        }
-        if( !mon.mech_weapon.empty() && !item::type_is_defined( mon.mech_weapon ) ) {
-            debugmsg( "monster %s has unknown mech_weapon: %s", mon.id.c_str(),
-                      mon.mech_weapon.c_str() );
-        }
-        if( !mon.mech_battery.empty() && !item::type_is_defined( mon.mech_battery ) ) {
-            debugmsg( "monster %s has unknown mech_battery: %s", mon.id.c_str(),
-                      mon.mech_battery.c_str() );
         }
         for( auto &s : mon.starting_ammo ) {
             if( !item::type_is_defined( s.first ) ) {

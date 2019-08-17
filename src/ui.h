@@ -89,7 +89,7 @@ struct uilist_entry {
 /**
  * Virtual base class for windowed ui stuff (like uilist)
  */
-class ui_container // NOLINT(cata-xy)
+class ui_container
 {
     public:
         virtual ~ui_container() = default;

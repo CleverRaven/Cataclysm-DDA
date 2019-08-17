@@ -748,11 +748,6 @@
   },
   {
     "type": "recipe",
-    "result": "flamethrower_crude",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "fletching",
     "obsolete": true
   },
@@ -1784,26 +1779,6 @@
   {
     "type": "recipe",
     "result": "wristwatchuncraft",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bio_armor_head",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bio_armor_arms",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bio_armor_torso",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bio_armor_legs",
     "obsolete": true
   },
   {
