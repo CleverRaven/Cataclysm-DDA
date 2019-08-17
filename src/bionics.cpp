@@ -281,6 +281,14 @@ bool player::activate_bionic( int b, bool eff_only )
             }
             for( const itype_id fuel : get_fuel_available( bio.id ) ) {
                 const item tmp_fuel( fuel.c_str() );
+                if( power_level + tmp_fuel.fuel_energy() * ( bio.info().fuel_efficiency / 100 ) >
+                    max_power_level ) {
+                    add_msg_player_or_npc( m_info, _( "Your %s does not start as to not waste fuel." ),
+                                           _( "<npcname>'s %s does not start as to not waste fuel." ), bio.info().name );
+                    bio.powered = false;
+                    return deactivate_bionic( b );
+
+                }
                 int temp = std::stoi( get_value( fuel ) );
                 if( temp > 0 ) {
                     temp -= 1;
