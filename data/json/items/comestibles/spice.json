@@ -84,6 +84,19 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "sprinkles",
+    "name": "sprinkles",
+    "name_plural": "sprinkles",
+    "weight": 4,
+    "copy-from": "sugar",
+    "container": "bottle_plastic_small",
+    "description": "Known as nonpareils, sprinkles, jimmies, sugar strands or 'hundreds-and-thousands', these colorful balls, rods or flakes of sugar and starch are intended for use decorating soft surfaces of sweets.  Like sugar, they are bad for your teeth and surprisingly not very tasty on their own.",
+    "price": 399,
+    "calories": 20,
+    "charges": 66
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "wild_herbs",
     "name": "wild herbs",
     "name_plural": "wild herbs",
