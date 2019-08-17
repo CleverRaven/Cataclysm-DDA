@@ -81,6 +81,7 @@ void move_loot_do_turn( player_activity *act, player *p );
 void travel_do_turn( player_activity *act, player *p );
 void drive_do_turn( player_activity *act, player *p );
 void adv_inventory_do_turn( player_activity *act, player *p );
+void comestible_inventory_do_turn( player_activity *act, player *p );
 void armor_layers_do_turn( player_activity *act, player *p );
 void atm_do_turn( player_activity *act, player *p );
 void fish_do_turn( player_activity *act, player *p );

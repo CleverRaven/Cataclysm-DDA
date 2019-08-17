@@ -8,6 +8,7 @@
 
 #include "action.h"
 #include "advanced_inv.h"
+#include "comestible_inv.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "avatar_action.h"
@@ -1872,7 +1873,8 @@ bool game::handle_action()
                 break;
 
             case ACTION_EAT:
-                eat();
+                comestible_inv();
+                //eat();
                 break;
 
             case ACTION_OPEN_CONSUME:
@@ -1881,7 +1883,8 @@ bool game::handle_action()
 
             case ACTION_READ:
                 // Shell-users are presumed to have the book just at an opening and read it that way
-                read();
+                //read();
+                eat();
                 break;
 
             case ACTION_WIELD:

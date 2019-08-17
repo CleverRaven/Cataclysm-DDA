@@ -16,6 +16,7 @@
 
 #include "action.h"
 #include "advanced_inv.h"
+#include "comestible_inv.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "clzones.h"
@@ -139,6 +140,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_MOVE_ITEMS" ), move_items_do_turn },
     { activity_id( "ACT_MOVE_LOOT" ), move_loot_do_turn },
     { activity_id( "ACT_ADV_INVENTORY" ), adv_inventory_do_turn },
+    { activity_id( "ACT_COMESTIBLE_INVENTORY" ), comestible_inventory_do_turn },
     { activity_id( "ACT_ARMOR_LAYERS" ), armor_layers_do_turn },
     { activity_id( "ACT_ATM" ), atm_do_turn },
     { activity_id( "ACT_CRACKING" ), cracking_do_turn },
@@ -2606,6 +2608,12 @@ void activity_handlers::adv_inventory_do_turn( player_activity *, player *p )
 {
     p->cancel_activity();
     advanced_inv();
+}
+
+void activity_handlers::comestible_inventory_do_turn(player_activity*, player* p)
+{
+    p->cancel_activity();
+    comestible_inv();
 }
 
 void activity_handlers::drive_do_turn( player_activity *act, player *p )
