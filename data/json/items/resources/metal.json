@@ -311,7 +311,7 @@
     "name": "tin powder",
     "symbol": "=",
     "color": "light_gray",
-    "description": "A fine gray powder composed of tin,  usable for making solder and lining containers to prevent oxidation.",
+    "description": "A fine gray powder composed of tin,  usable for making solder and lining containers to prevent corrosion.",
     "material": "tin",
     "volume": "50ml",
     "weight": 2,
