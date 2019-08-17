@@ -37,6 +37,11 @@ class auto_pickup_rule
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
+
+        void test_pattern() const;
+
+        static bool check_special_rule( const std::vector<material_id> &materials,
+                                        const std::string &rule );
 };
 
 /**
@@ -47,12 +52,20 @@ class auto_pickup_rule_list : public std::vector<auto_pickup_rule>
     public:
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
+
+        void load_legacy_rules( std::istream &fin );
+
+        void refresh_map_items( std::unordered_map<std::string, rule_state> &map_items,
+                                std::unordered_map<std::string, const itype *> &temp_items ) const;
+
+        void create_rule( std::unordered_map<std::string, rule_state> &map_items,
+                          const std::string &to_match );
+        void create_rule( std::unordered_map<std::string, rule_state> &map_items, const item &it );
 };
 
 class auto_pickup
 {
     private:
-        void test_pattern( const auto_pickup_rule_list &rules, int iRow );
         void load( bool bCharacter );
         bool save( bool bCharacter );
         bool load_legacy( bool bCharacter );
@@ -70,14 +83,7 @@ class auto_pickup
         auto_pickup_rule_list global_rules;
         auto_pickup_rule_list character_rules;
 
-        void load_legacy_rules( auto_pickup_rule_list &rules, std::istream &fin );
-
         void refresh_map_items() const; //< Only modifies mutable state
-        void refresh_map_items( const auto_pickup_rule_list &rules,
-                                std::unordered_map<std::string, const itype *> &temp_items ) const;
-
-        void create_rule( const auto_pickup_rule_list &rules, const std::string &to_match );
-        void create_rule( const auto_pickup_rule_list &rules, const item &it );
 
     public:
         auto_pickup() : ready( false ) {}
@@ -87,7 +93,6 @@ class auto_pickup
         bool has_rule( const item *it );
         void add_rule( const item *it );
         void remove_rule( const item *it );
-        bool check_special_rule( const std::vector<material_id> &materials, const std::string &rule ) const;
 
         void clear_character_rules();
         rule_state check_item( const std::string &sItemName ) const;
