@@ -91,11 +91,7 @@
   {
     "id": "spider",
     "type": "item_group",
-    "items": [
-      [ "afs_energy_saber_off", 1 ],
-      [ "afs_bag_of_holding", 2 ],
-      [ "afs_hydraulic_gauntlet", 1 ]
-    ]
+    "items": [ [ "afs_energy_saber_off", 1 ], [ "afs_bag_of_holding", 2 ], [ "afs_hydraulic_gauntlet", 1 ] ]
   },
   {
     "id": "survivorzed_extra",
