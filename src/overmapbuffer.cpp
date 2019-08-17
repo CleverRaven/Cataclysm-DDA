@@ -129,8 +129,7 @@ void overmapbuffer::fix_mongroups( overmap &new_overmap )
             ++it;
             continue;
         }
-        point smabs( mg.pos.x + new_overmap.pos().x * OMAPX * 2,
-                     mg.pos.y + new_overmap.pos().y * OMAPY * 2 );
+        point smabs = mg.pos.xy() + om_to_sm_copy( new_overmap.pos() );
         point omp = sm_to_om_remain( smabs );
         if( !has( omp ) ) {
             // Don't generate new overmaps, as this can be called from the
@@ -183,7 +182,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
                       np.name, loc.x, loc.y );
             point npc_sm = om_to_sm_copy( npc_om_pos );
             point min = om_to_sm_copy( loc );
-            point max = om_to_sm_copy( loc + point( 1, 1 ) ) - point( 1, 1 );
+            point max = om_to_sm_copy( loc + point_south_east ) - point_south_east;
             npc_sm.x = clamp( npc_sm.x, min.x, max.x );
             npc_sm.y = clamp( npc_sm.y, min.y, max.y );
             np.spawn_at_sm( npc_sm.x, npc_sm.y, np.posz() );
@@ -466,7 +465,7 @@ void overmapbuffer::signal_hordes( const tripoint &center, const int sig_power )
     const auto radius = sig_power;
     for( auto &om : get_overmaps_near( center, radius ) ) {
         const point abs_pos_om = om_to_sm_copy( om->pos() );
-        const tripoint rel_pos( center.x - abs_pos_om.x, center.y - abs_pos_om.y, center.z );
+        const tripoint rel_pos( -abs_pos_om + center );
         // overmap::signal_hordes expects a coordinate relative to the overmap, this is easier
         // for processing as the monster group stores is location as relative coordinates, too.
         om->signal_hordes( rel_pos, sig_power );
@@ -499,7 +498,7 @@ std::vector<mongroup *> overmapbuffer::monsters_at( const tripoint &p )
     // but monster groups are defined with submap coordinates.
     tripoint p_sm = omt_to_sm_copy( p );
     std::vector<mongroup *> result;
-    for( point offset : std::array<point, 4> { { { 0, 0 }, { 0, 1 }, { 1, 0 }, { 1, 1 } } } ) {
+    for( point offset : std::array<point, 4> { { { point_zero }, { point_south }, { point_east }, { point_south_east } } } ) {
         std::vector<mongroup *> tmp = groups_at( p_sm + offset );
         result.insert( result.end(), tmp.begin(), tmp.end() );
     }
@@ -946,7 +945,7 @@ std::vector<tripoint> overmapbuffer::find_all( const tripoint &origin,
             if( abs( x ) < min_distance && abs( y ) < min_distance ) {
                 continue;
             }
-            const tripoint search_loc( origin.x + x, origin.y + y, origin.z );
+            const tripoint search_loc( origin + point( x, y ) );
             if( is_findable_location( search_loc, params ) ) {
                 result.push_back( search_loc );
             }
@@ -1032,8 +1031,8 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const tripoint &locatio
 {
     // Grab the corners of a square around the target location at distance radius.
     // Convert to overmap coordinates and iterate from the minimum to the maximum.
-    const point start = sm_to_om_copy( point( location.x - radius, location.y - radius ) );
-    const point end = sm_to_om_copy( point( location.x + radius, location.y + radius ) );
+    const point start = sm_to_om_copy( location.xy() + point( -radius, -radius ) );
+    const point end = sm_to_om_copy( location.xy() + point( radius, radius ) );
     const point offset = end - start;
 
     std::vector<overmap *> result;
@@ -1293,15 +1292,6 @@ std::string overmapbuffer::get_description_at( const tripoint &where )
     }
 
     return string_format( format_string, ter_name, dir_name, closest_city_name );
-}
-
-static int modulo( int v, int m )
-{
-    // C++11: negative v and positive m result in negative v%m (or 0),
-    // but this is supposed to be mathematical modulo: 0 <= v%m < m,
-    const int r = v % m;
-    // Adding m in that (and only that) case.
-    return r >= 0 ? r : r + m;
 }
 
 void overmapbuffer::spawn_monster( const tripoint &p )

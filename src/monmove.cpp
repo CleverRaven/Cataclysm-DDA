@@ -21,6 +21,7 @@
 #include "messages.h"
 #include "monfaction.h"
 #include "mtype.h"
+#include "creature_tracker.h"
 #include "npc.h"
 #include "rng.h"
 #include "scent_map.h"
@@ -251,8 +252,10 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
     return INT_MAX;
 }
 
-void monster::plan( const mfactions &factions )
+void monster::plan()
 {
+    const auto &factions = g->critter_tracker->factions();
+
     // Bots are more intelligent than most living stuff
     bool smart_planning = has_flag( MF_PRIORITIZE_TARGETS );
     Creature *target = nullptr;
@@ -375,8 +378,12 @@ void monster::plan( const mfactions &factions )
                 continue;
             }
 
-            for( monster *const mon_ptr : fac.second ) {
-                monster &mon = *mon_ptr;
+            for( const std::weak_ptr<monster> &weak : fac.second ) {
+                const std::shared_ptr<monster> shared = weak.lock();
+                if( !shared ) {
+                    continue;
+                }
+                monster &mon = *shared;
                 float rating = rate_target( mon, dist, smart_planning );
                 if( rating < dist ) {
                     target = &mon;
@@ -403,8 +410,12 @@ void monster::plan( const mfactions &factions )
     }
     swarms = swarms && target == nullptr; // Only swarm if we have no target
     if( group_morale || swarms ) {
-        for( monster *const mon_ptr : myfaction_iter->second ) {
-            monster &mon = *mon_ptr;
+        for( const std::weak_ptr<monster> &weak : myfaction_iter->second ) {
+            const std::shared_ptr<monster> shared = weak.lock();
+            if( !shared ) {
+                continue;
+            }
+            monster &mon = *shared;
             float rating = rate_target( mon, dist, smart_planning );
             if( group_morale && rating <= 10 ) {
                 morale += 10 - rating;
@@ -447,7 +458,7 @@ void monster::plan( const mfactions &factions )
         if( type->has_special_attack( "OPERATE" ) ) {
 
             bool found_path_to_couch = false;
-            tripoint tmp( pos().x + 12, pos().y + 12, pos().z );
+            tripoint tmp( pos() + point( 12, 12 ) );
             tripoint couch_loc;
             for( const auto &couch_pos : g->m.find_furnitures_in_radius( pos(), 10,
                     furn_id( "f_autodoc_couch" ) ) ) {
@@ -601,59 +612,19 @@ void monster::move()
         }
     }
 
-    // dragged_foe: restore pointer by saved id if required
-    if( dragged_foe_id >= 0 ) {
-        dragged_foe = g->critter_by_id<player>( dragged_foe_id );
-        dragged_foe_id = 0;
-    }
-    // defective nursebot surgery code
-    if( type->has_special_attack( "OPERATE" ) && has_effect( effect_dragging ) &&
-        dragged_foe != nullptr ) {
+    // Check if they're dragging a foe and find their hapless victim
+    player *dragged_foe = find_dragged_foe();
 
-        if( rl_dist( pos(), goal ) == 1 && g->m.furn( goal ) == furn_id( "f_autodoc_couch" ) &&
-            !has_effect( effect_operating ) ) {
-            if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
-                ( g->critter_at( goal ) == nullptr || g->critter_at( goal ) == dragged_foe ) ) {
-                add_msg( m_bad, _( "The %1$s slowly but firmly puts %2$s down onto the autodoc couch." ), name(),
-                         dragged_foe->disp_name() );
-
-                dragged_foe->setpos( goal );
-
-                add_effect( effect_countdown, 2_turns );// there's still time to get away
-                add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
-            } else if( g->critter_at( goal ) != nullptr && has_effect( effect_dragging ) ) {
-                sounds::sound( pos(), 8, sounds::sound_t::speech,
-                               string_format(
-                                   _( "a soft robotic voice say, \"Please step away from the autodoc, this patient needs immediate care.\"" ) ) );
-                // TODO: Make it able to push NPC/player
-                push_to( goal, 4, 0 );
-            }
-        }
-        if( get_effect_dur( effect_countdown ) == 1_turns && !has_effect( effect_operating ) ) {
-            if( dragged_foe->has_effect( effect_grabbed ) ) {
-
-                bionic_collection collec = *dragged_foe->my_bionics;
-                int index = rng( 0, collec.size() - 1 );
-                bionic target_cbm = collec[index];
-
-                //8 intelligence*4 + 8 first aid*4 + 3 computer *3 + 4 electronic*1 = 77
-                float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ),
-                                       static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
-
-                g->u.uninstall_bionic( target_cbm, *this, *dragged_foe, adjusted_skill );
-
-                dragged_foe->remove_effect( effect_grabbed );
-                remove_effect( effect_dragging );
-                dragged_foe = nullptr;
-
-            }
-        }
-    }
+    // Give nursebots a chance to do surgery.
+    nursebot_operate( dragged_foe );
 
     // The monster can sometimes hang in air due to last fall being blocked
     const bool can_fly = has_flag( MF_FLIES );
     if( !can_fly && g->m.has_flag( TFLAG_NO_FLOOR, pos() ) ) {
         g->m.creature_on_trap( *this, false );
+        if( is_dead() ) {
+            return;
+        }
     }
 
     // The monster is in a deep water tile and has a chance to drown
@@ -926,6 +897,81 @@ void monster::move()
         moves -= 100;
         stumble();
         path.clear();
+    }
+}
+
+player *monster::find_dragged_foe()
+{
+    // Make sure they're actually dragging someone.
+    if( dragged_foe_id < 0 || !has_effect( effect_dragging ) ) {
+        dragged_foe_id = -1;
+        return nullptr;
+    }
+
+    // Dragged critters may die or otherwise become invalid, which is why we look
+    // them up each time. Luckily, monsters dragging critters is relatively rare,
+    // so this check should happen infrequently.
+    player *dragged_foe = g->critter_by_id<player>( dragged_foe_id );
+
+    if( dragged_foe == nullptr ) {
+        // Target no longer valid.
+        dragged_foe_id = -1;
+        remove_effect( effect_dragging );
+    }
+
+    return dragged_foe;
+}
+
+// Nursebot surgery code
+void monster::nursebot_operate( player *dragged_foe )
+{
+    // No dragged foe, nothing to do.
+    if( dragged_foe == nullptr ) {
+        return;
+    }
+
+    // Nothing to do if they can't operate, or they don't think they're dragging.
+    if( !( type->has_special_attack( "OPERATE" ) && has_effect( effect_dragging ) ) ) {
+        return;
+    }
+
+    if( rl_dist( pos(), goal ) == 1 && g->m.furn( goal ) == furn_id( "f_autodoc_couch" ) &&
+        !has_effect( effect_operating ) ) {
+        if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
+            ( g->critter_at( goal ) == nullptr || g->critter_at( goal ) == dragged_foe ) ) {
+            add_msg( m_bad, _( "The %1$s slowly but firmly puts %2$s down onto the autodoc couch." ), name(),
+                     dragged_foe->disp_name() );
+
+            dragged_foe->setpos( goal );
+
+            add_effect( effect_countdown, 2_turns );// there's still time to get away
+            add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
+        } else if( g->critter_at( goal ) != nullptr && has_effect( effect_dragging ) ) {
+            sounds::sound( pos(), 8, sounds::sound_t::speech,
+                           string_format(
+                               _( "a soft robotic voice say, \"Please step away from the autodoc, this patient needs immediate care.\"" ) ) );
+            // TODO: Make it able to push NPC/player
+            push_to( goal, 4, 0 );
+        }
+    }
+    if( get_effect_dur( effect_countdown ) == 1_turns && !has_effect( effect_operating ) ) {
+        if( dragged_foe->has_effect( effect_grabbed ) ) {
+
+            bionic_collection collec = *dragged_foe->my_bionics;
+            int index = rng( 0, collec.size() - 1 );
+            bionic target_cbm = collec[index];
+
+            //8 intelligence*4 + 8 first aid*4 + 3 computer *3 + 4 electronic*1 = 77
+            float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ),
+                                   static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
+
+            g->u.uninstall_bionic( target_cbm, *this, *dragged_foe, adjusted_skill );
+
+            dragged_foe->remove_effect( effect_grabbed );
+            remove_effect( effect_dragging );
+            dragged_foe_id = -1;
+
+        }
     }
 }
 
@@ -1364,6 +1410,9 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     }
 
     g->m.creature_on_trap( *this );
+    if( is_dead() ) {
+        return true;
+    }
     if( !will_be_water && ( has_flag( MF_DIGS ) || has_flag( MF_CAN_DIG ) ) ) {
         underwater = g->m.has_flag( "DIGGABLE", pos() );
     }
@@ -1481,7 +1530,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
             continue;
         }
 
-        tripoint dest( p.x + dx, p.y + dy, p.z );
+        tripoint dest( p + point( dx, dy ) );
         const int dest_movecost_from = 50 * g->m.move_cost( dest );
 
         // Pushing into cars/windows etc. is harder
@@ -1591,7 +1640,7 @@ void monster::stumble()
             valid_stumbles.push_back( above );
         }
     }
-    while( !valid_stumbles.empty() ) {
+    while( !valid_stumbles.empty() && !is_dead() ) {
         const tripoint dest = random_entry_removed( valid_stumbles );
         if( can_move_to( dest ) &&
             //Stop zombies and other non-breathing monsters wandering INTO water

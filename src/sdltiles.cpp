@@ -24,8 +24,12 @@
 
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL_image.h>
+#   include <SDL2/SDL_syswm.h>
 #else
 #   include <SDL_image.h>
+#ifdef _WIN32
+#   include <SDL_syswm.h>
+#endif
 #endif
 
 #include "avatar.h"
@@ -648,7 +652,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
 void CachedTTFFont::OutputChar( const std::string &ch, const int x, const int y,
                                 const unsigned char color )
 {
-    key_t    key {std::move( ch ), static_cast<unsigned char>( color & 0xf )};
+    key_t    key {ch, static_cast<unsigned char>( color & 0xf )};
 
     auto it = glyph_cache_map.find( key );
     if( it == std::end( glyph_cache_map ) ) {
@@ -3466,7 +3470,7 @@ void catacurses::init_interface()
                                 fl.fontblending );
     overmap_font = Font::load_font( fl.overmap_typeface, fl.overmap_fontsize,
                                     fl.overmap_fontwidth, fl.overmap_fontheight, fl.fontblending );
-    stdscr = newwin( get_terminal_height(), get_terminal_width(), point( 0, 0 ) );
+    stdscr = newwin( get_terminal_height(), get_terminal_width(), point_zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 
 #if defined(__ANDROID__)
@@ -3524,14 +3528,10 @@ template<>
 SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int b )
 {
     SDL_Color result;
-    //Blue
-    result.b = b;
-    //Green
-    result.g = g;
-    //Red
-    result.r = r;
-    //The Alpha, is not used, so just set it to 0
-    result.a = 0;
+    result.b = b;       //Blue
+    result.g = g;       //Green
+    result.r = r;       //Red
+    result.a = 0xFF;    // Opaque
     return result;
 }
 
@@ -3911,5 +3911,15 @@ bool save_screenshot( const std::string &file_path )
 
     return true;
 }
+
+#ifdef _WIN32
+HWND getWindowHandle()
+{
+    SDL_SysWMinfo info;
+    SDL_VERSION( &info.version );
+    SDL_GetWindowWMInfo( ::window.get(), &info );
+    return info.info.win.window;
+}
+#endif
 
 #endif // TILES

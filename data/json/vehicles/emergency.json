@@ -1187,9 +1187,7 @@
     "items": [
       { "x": 0, "y": 1, "chance": 14, "items": [ "dog_whistle" ] },
       { "x": -2, "y": 0, "chance": 7, "item_groups": [ "cop_gear" ] },
-      { "x": -2, "y": 0, "chance": 4, "items": [ "dogfood_canned" ] },
       { "x": -2, "y": 1, "chance": 7, "item_groups": [ "cop_gear" ] },
-      { "x": -2, "y": 1, "chance": 4, "items": [ "dogfood_canned" ] },
       { "x": -3, "y": 0, "chance": 10, "items": [ "blanket" ] },
       { "x": -3, "y": 1, "chance": 10, "items": [ "blanket" ] }
     ]

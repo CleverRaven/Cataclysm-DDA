@@ -855,7 +855,7 @@ void JsonIn::skip_true()
     stream->get( text, 5 );
     if( strcmp( text, "true" ) != 0 ) {
         std::stringstream err;
-        err << "expected \"true\", but found \"" << text << "\"";
+        err << R"(expected "true", but found ")" << text << "\"";
         error( err.str(), -4 );
     }
     end_value();
@@ -868,7 +868,7 @@ void JsonIn::skip_false()
     stream->get( text, 6 );
     if( strcmp( text, "false" ) != 0 ) {
         std::stringstream err;
-        err << "expected \"false\", but found \"" << text << "\"";
+        err << R"(expected "false", but found ")" << text << "\"";
         error( err.str(), -5 );
     }
     end_value();
@@ -881,7 +881,7 @@ void JsonIn::skip_null()
     stream->get( text, 5 );
     if( strcmp( text, "null" ) != 0 ) {
         std::stringstream err;
-        err << "expected \"null\", but found \"" << text << "\"";
+        err << R"(expected "null", but found ")" << text << "\"";
         error( err.str(), -4 );
     }
     end_value();
@@ -1080,7 +1080,7 @@ bool JsonIn::get_bool()
             end_value();
             return true;
         } else {
-            err << "not a boolean. expected \"true\", but got \"";
+            err << R"(not a boolean. expected "true", but got ")";
             err << ch << text << "\"";
             error( err.str(), -4 );
         }
@@ -1090,7 +1090,7 @@ bool JsonIn::get_bool()
             end_value();
             return false;
         } else {
-            err << "not a boolean. expected \"false\", but got \"";
+            err << R"(not a boolean. expected "false", but got ")";
             err << ch << text << "\"";
             error( err.str(), -5 );
         }

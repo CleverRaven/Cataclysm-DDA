@@ -898,6 +898,7 @@ int ups_based_armor_actor::use( player &p, item &it, bool t, const tripoint & ) 
         return 0;
     }
     it.active = !it.active;
+    p.reset_encumbrance();
     if( it.active ) {
         if( activate_msg.empty() ) {
             p.add_msg_if_player( m_info, _( "You activate your %s." ), it.tname() );
@@ -1520,6 +1521,8 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     remove_ammo( *cut.get_item(), p );
     // Original item has been consumed.
     cut.remove_item();
+    // Force an encumbrance update in case they were wearing that item.
+    p.reset_encumbrance();
 
     for( const auto &salvaged : materials_salvaged ) {
         std::string mat_name = salvaged.first;
@@ -1562,7 +1565,8 @@ void inscribe_actor::load( JsonObject &obj )
     assign( obj, "gerund", gerund );
 
     if( !on_items && !on_terrain ) {
-        obj.throw_error( "Tried to create an useless inscribe_actor, at least on of \"on_items\" or \"on_terrain\" should be true" );
+        obj.throw_error(
+            R"(Tried to create an useless inscribe_actor, at least on of "on_items" or "on_terrain" should be true)" );
     }
 }
 
@@ -2636,7 +2640,7 @@ bool bandolier_actor::reload( player &p, item &obj ) const
     std::vector<item::reload_option> opts;
     std::transform( std::make_move_iterator( found.begin() ), std::make_move_iterator( found.end() ),
     std::back_inserter( opts ), [&]( item_location && e ) {
-        return item::reload_option( &p, &obj, &obj, std::move( e ) );
+        return item::reload_option( &p, &obj, &obj, e );
     } );
 
     item::reload_option sel = p.select_ammo( obj, std::move( opts ) );

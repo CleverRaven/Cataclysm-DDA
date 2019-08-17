@@ -3150,7 +3150,7 @@ bool basecamp::validate_sort_points()
     if( g->m.check_vehicle_zones( g->get_levz() ) ) {
         mgr.cache_vzones();
     }
-    tripoint src_loc = bb_pos + point( 0, -1 );
+    tripoint src_loc = bb_pos + point_north;
     const auto abspos = g->m.getabs( g->u.pos() );
     if( !mgr.has_near( z_loot_unsorted, abspos ) ||
         !mgr.has_near( z_camp_food, abspos ) || !mgr.has_loot_dest_near( abspos ) ) {
@@ -3204,10 +3204,10 @@ point talk_function::om_dir_to_offset( const std::string &dir )
 {
     std::map<const std::string, point> dir2pt = { {
             { "[B]", point_zero },
-            { "[N]", point( 0, -1 ) }, { "[S]", point( 0, 1 ) },
-            { "[E]", point( 1, 0 ) }, { "[W]", point( -1, 0 ) },
-            { "[NE]", point( 1, -1 ) }, { "[SE]", point( 1, 1 ) },
-            { "[NW]", point( -1, -1 ) }, { "[SW]", point( -1, 1 ) }
+            { "[N]", point_north }, { "[S]", point_south },
+            { "[E]", point_east }, { "[W]", point_west },
+            { "[NE]", point_north_east }, { "[SE]", point_south_east },
+            { "[NW]", point_north_west }, { "[SW]", point_south_west }
         }
     };
     return dir2pt[ dir ];
@@ -3601,9 +3601,8 @@ void basecamp::place_results( item result, bool by_radio )
 
 void apply_camp_ownership( const tripoint &camp_pos, int radius )
 {
-    for( const tripoint &p : g->m.points_in_rectangle( tripoint( camp_pos.x - radius,
-            camp_pos.y - radius, camp_pos.z ), tripoint( camp_pos.x + radius, camp_pos.y + radius,
-                    camp_pos.z ) ) ) {
+    for( const tripoint &p : g->m.points_in_rectangle( camp_pos + point( -radius, -radius ),
+            camp_pos + point( radius, radius ) ) ) {
         auto items = g->m.i_at( p.x, p.y );
         for( item &elem : items ) {
             elem.set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );

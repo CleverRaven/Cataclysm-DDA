@@ -545,6 +545,11 @@ bool item::is_unarmed_weapon() const
     return has_flag( "UNARMED_WEAPON" ) || is_null();
 }
 
+bool item::is_frozen_liquid() const
+{
+    return made_of( SOLID ) && made_of_from_type( LIQUID );
+}
+
 bool item::covers( const body_part bp ) const
 {
     return get_covered_body_parts().test( bp );
@@ -1378,7 +1383,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         if( parts->test( iteminfo_parts::MAGAZINE_RELOAD ) ) {
             info.emplace_back( "MAGAZINE", _( "Reload time: " ), _( "<num> per round" ),
-                               iteminfo::lower_is_better, type->magazine->reload_time );
+                               iteminfo::lower_is_better, type->magazine->reload_time / 100 );
         }
         insert_separation_line();
     }
@@ -1683,7 +1688,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.emplace_back( "GUN", _( "Reload time: " ),
                                has_flag( "RELOAD_ONE" ) ? _( "<num> seconds per round" ) : _( "<num> seconds" ),
                                iteminfo::lower_is_better,
-                               static_cast<int>( mod->get_reload_time() / 16.67 ) );
+                               mod->get_reload_time() / 100 );
         }
 
         if( parts->test( iteminfo_parts::GUN_FIRE_MODES ) ) {
@@ -3174,6 +3179,9 @@ void item::on_wield( player &p, int mv )
     if( p.style_selected != matype_id( "style_none" ) ) {
         p.martialart_use_message();
     }
+
+    // Update encumbrance in case we were wearing it
+    p.reset_encumbrance();
 }
 
 void item::handle_pickup_ownership( Character &c )
@@ -3247,6 +3255,8 @@ void item::on_contents_changed()
     if( is_non_resealable_container() ) {
         convert( type->container->unseals_into );
     }
+
+    set_flag( "ENCUMBRANCE_UPDATE" );
 }
 
 void item::on_damage( int, damage_type )
@@ -6626,11 +6636,6 @@ bool item::reload( player &u, item_location loc, int qty )
             debugmsg( "Tried to reload liquid container with non-liquid." );
             return false;
         }
-        if( !ammo->made_of( LIQUID ) ) {
-            u.add_msg_if_player( m_bad, _( "The %s froze solid before you could finish." ),
-                                 ammo->tname() );
-            return false;
-        }
         if( container ) {
             container->on_contents_changed();
         }
@@ -7975,21 +7980,21 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             ( carrier->has_trait( trait_id( "JITTERY" ) ) && one_in( 200 ) ) ) {
             carrier->add_msg_if_player( m_bad, _( "Your shaking hand causes you to drop your %s." ),
                                         tname() );
-            g->m.add_item_or_charges( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), *this );
+            g->m.add_item_or_charges( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), *this );
             return true; // removes the item that has just been added to the map
         }
 
         if( carrier->has_effect( effect_sleep ) ) {
             carrier->add_msg_if_player( m_bad, _( "You fall asleep and drop your %s." ),
                                         tname() );
-            g->m.add_item_or_charges( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), *this );
+            g->m.add_item_or_charges( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), *this );
             return true; // removes the item that has just been added to the map
         }
     } else {
         // If not carried by someone, but laying on the ground:
         // release some smoke every five ticks
         if( item_counter % 5 == 0 ) {
-            g->m.add_field( tripoint( pos.x + rng( -2, 2 ), pos.y + rng( -2, 2 ), pos.z ), smoke_type, 1 );
+            g->m.add_field( pos + point( rng( -2, 2 ), rng( -2, 2 ) ), smoke_type, 1 );
             // lit cigarette can start fires
             if( g->m.flammable_items_at( pos ) ||
                 g->m.has_flag( "FLAMMABLE", pos ) ||
@@ -8012,7 +8017,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             convert( "joint_roach" );
             if( carrier != nullptr ) {
                 carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
-                g->m.add_field( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), fd_weedsmoke, 2 );
+                g->m.add_field( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), fd_weedsmoke, 2 );
                 weed_msg( *carrier );
             }
         }

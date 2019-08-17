@@ -174,6 +174,10 @@ bool Creature::is_dangerous_field( const field_entry &entry ) const
 
 bool Creature::sees( const Creature &critter ) const
 {
+    if( &critter == this ) {
+        return true;    // Can always see ourselves.
+    }
+
     if( critter.is_hallucination() ) {
         // hallucinations are imaginations of the player character, npcs or monsters don't hallucinate.
         // Invisible hallucinations would be pretty useless (nobody would see them at all), therefor
@@ -1549,11 +1553,11 @@ void Creature::draw( const catacurses::window &w, const tripoint &origin, bool i
     int draw_x = getmaxx( w ) / 2 + posx() - origin.x;
     int draw_y = getmaxy( w ) / 2 + posy() - origin.y;
     if( inverted ) {
-        mvwputch_inv( w, draw_y, draw_x, basic_symbol_color(), symbol() );
+        mvwputch_inv( w, point( draw_x, draw_y ), basic_symbol_color(), symbol() );
     } else if( is_symbol_highlighted() ) {
-        mvwputch_hi( w, draw_y, draw_x, basic_symbol_color(), symbol() );
+        mvwputch_hi( w, point( draw_x, draw_y ), basic_symbol_color(), symbol() );
     } else {
-        mvwputch( w, draw_y, draw_x, symbol_color(), symbol() );
+        mvwputch( w, point( draw_x, draw_y ), symbol_color(), symbol() );
     }
 }
 

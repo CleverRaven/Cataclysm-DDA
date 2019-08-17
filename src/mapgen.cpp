@@ -125,16 +125,16 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
     tripoint abs_omt = sm_to_omt_copy( tripoint( x, y, z ) );
     const regional_settings *rsettings = &overmap_buffer.get_settings( abs_omt );
     oter_id terrain_type = overmap_buffer.ter( abs_omt );
-    oter_id t_above = overmap_buffer.ter( abs_omt + tripoint( 0, 0, 1 ) );
-    oter_id t_below = overmap_buffer.ter( abs_omt + tripoint( 0, 0, -1 ) );
-    oter_id t_north = overmap_buffer.ter( abs_omt + tripoint( 0, -1, 0 ) );
-    oter_id t_neast = overmap_buffer.ter( abs_omt + tripoint( 1, -1, 0 ) );
-    oter_id t_east  = overmap_buffer.ter( abs_omt + tripoint( 1, 0, 0 ) );
-    oter_id t_seast = overmap_buffer.ter( abs_omt + tripoint( 1, 1, 0 ) );
-    oter_id t_south = overmap_buffer.ter( abs_omt + tripoint( 0, 1, 0 ) );
-    oter_id t_swest = overmap_buffer.ter( abs_omt + tripoint( -1, 1, 0 ) );
-    oter_id t_west  = overmap_buffer.ter( abs_omt + tripoint( -1, 0, 0 ) );
-    oter_id t_nwest = overmap_buffer.ter( abs_omt + tripoint( -1, -1, 0 ) );
+    oter_id t_above = overmap_buffer.ter( abs_omt + tripoint_above );
+    oter_id t_below = overmap_buffer.ter( abs_omt + tripoint_below );
+    oter_id t_north = overmap_buffer.ter( abs_omt + tripoint_north );
+    oter_id t_neast = overmap_buffer.ter( abs_omt + tripoint_north_east );
+    oter_id t_east  = overmap_buffer.ter( abs_omt + tripoint_east );
+    oter_id t_seast = overmap_buffer.ter( abs_omt + tripoint_south_east );
+    oter_id t_south = overmap_buffer.ter( abs_omt + tripoint_south );
+    oter_id t_swest = overmap_buffer.ter( abs_omt + tripoint_south_west );
+    oter_id t_west  = overmap_buffer.ter( abs_omt + tripoint_west );
+    oter_id t_nwest = overmap_buffer.ter( abs_omt + tripoint_north_west );
 
     // This attempts to scale density of zombies inversely with distance from the nearest city.
     // In other words, make city centers dense and perimeters sparse.
@@ -505,7 +505,7 @@ bool mapgen_function_json_base::check_inbounds( const jmapgen_int &x, const jmap
 }
 
 mapgen_function_json_base::mapgen_function_json_base( const std::string &s )
-    : jdata( std::move( s ) )
+    : jdata( s )
     , do_format( false )
     , is_ready( false )
     , mapgensize( SEEX * 2, SEEY * 2 )
@@ -608,7 +608,7 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
         } else if( pjo.read( "square", tmpval ) ) {
             setmap_optype = JMAPGEN_SETMAP_OPTYPE_SQUARE;
         } else {
-            pjo.throw_error( "invalid data: must contain \"point\", \"set\", \"line\" or \"square\" member" );
+            pjo.throw_error( R"(invalid data: must contain "point", "set", "line" or "square" member)" );
         }
 
         sm_it = setmap_opmap.find( tmpval );
@@ -3376,7 +3376,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
             science_room( this, 2, 2, SEEX - 3, SEEY * 2 - 3, dat.zlevel, 1 );
             science_room( this, SEEX + 2, 2, SEEX * 2 - 3, SEEY * 2 - 3, dat.zlevel, 3 );
 
-            place_spawns( GROUP_TURRET_SMG, 1, SEEX, 5, SEEY, 5, 1, true );
+            place_spawns( GROUP_TURRET_SMG, 1, SEEX, 5, SEEX, 5, 1, true );
 
             if( is_ot_match( "road", dat.east(), ot_match_type::type ) ) {
                 rotate( 1 );
@@ -4420,7 +4420,7 @@ void map::draw_silo( const oter_id &terrain_type, mapgendata &dat, const time_po
                 }
             }
         }
-        ter_set( point( 0, 0 ), t_stairs_up );
+        ter_set( point_zero, t_stairs_up );
         tmpcomp = add_computer( tripoint( 4,  5, abs_sub.z ), _( "Missile Controls" ), 8 );
         tmpcomp->add_option( _( "Launch Missile" ), COMPACT_MISS_LAUNCH, 10 );
         tmpcomp->add_option( _( "Disarm Missile" ), COMPACT_MISS_DISARM,  8 );
@@ -7195,9 +7195,10 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 computer *map::add_computer( const tripoint &p, const std::string &name, int security )
 {
     ter_set( p, t_console ); // TODO: Turn this off?
-    submap *place_on_submap = get_submap_at( p );
-    place_on_submap->comp = std::make_unique<computer>( name, security );
-    return place_on_submap->comp.get();
+    point l;
+    submap *const place_on_submap = get_submap_at( p, l );
+    place_on_submap->set_computer( l, computer( name, security ) );
+    return place_on_submap->get_computer( l );
 }
 
 /**
@@ -7254,17 +7255,17 @@ void map::rotate( int turns )
 
     // Move the submaps around.
     if( turns == 2 ) {
-        std::swap( *get_submap_at_grid( { 0, 0 } ), *get_submap_at_grid( { 1, 1 } ) );
-        std::swap( *get_submap_at_grid( { 1, 0 } ), *get_submap_at_grid( { 0, 1 } ) );
+        std::swap( *get_submap_at_grid( point_zero ), *get_submap_at_grid( point_south_east ) );
+        std::swap( *get_submap_at_grid( point_east ), *get_submap_at_grid( point_south ) );
     } else {
-        auto p = point{ 0, 0 };
+        point p;
         submap tmp;
 
-        std::swap( *get_submap_at_grid( point{ 1, 1 } - p ), tmp );
+        std::swap( *get_submap_at_grid( point_south_east - p ), tmp );
 
         for( int k = 0; k < 4; ++k ) {
             p = p.rotate( turns, { 2, 2 } );
-            std::swap( *get_submap_at_grid( point{ 1, 1 } - p ), tmp );
+            std::swap( *get_submap_at_grid( point_south_east - p ), tmp );
         }
     }
 
@@ -7414,7 +7415,7 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 tmpcomp->add_failure( COMPFAIL_ALARM );
                 tmpcomp->add_failure( COMPFAIL_DAMAGE );
                 m->place_spawns( GROUP_TURRET_SMG, 1, desk, static_cast<int>( ( y1 + y2 ) / 2 ),
-                                 desk, static_cast<int>( ( x1 + x2 ) / 2 ), 1, true );
+                                 desk, static_cast<int>( ( y1 + y2 ) / 2 ), 1, true );
             }
             break;
         case room_chemistry:
@@ -7861,7 +7862,7 @@ void silo_rooms( map *m )
     const point &first_room_position = rooms[0].first;
     m->ter_set( first_room_position, t_stairs_up );
     const auto &room = random_entry( rooms );
-    m->ter_set( point( room.first.x + room.second.x, room.first.y + room.second.y ), t_stairs_down );
+    m->ter_set( room.first + room.second, t_stairs_down );
     rooms.emplace_back( point( SEEX, SEEY ), point( 5, 5 ) ); // So the center circle gets connected
 
     while( rooms.size() > 1 ) {
@@ -8302,16 +8303,16 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, const poi
     const tripoint sm_pos = omt_to_sm_copy( omt_pos );
     update_tmap.load( sm_pos, false );
     const std::string map_id = overmap_buffer.ter( omt_pos ).id().c_str();
-    oter_id north = overmap_buffer.ter( omt_pos + tripoint( 0, -1, 0 ) );
-    oter_id south = overmap_buffer.ter( omt_pos + tripoint( 0, 1, 0 ) );
-    oter_id east = overmap_buffer.ter( omt_pos + tripoint( 1, 0, 0 ) );
-    oter_id west = overmap_buffer.ter( omt_pos + tripoint( -1, 0, 0 ) );
-    oter_id northeast = overmap_buffer.ter( omt_pos + tripoint( 1, -1, 0 ) );
-    oter_id southeast = overmap_buffer.ter( omt_pos + tripoint( 1, 1, 0 ) );
-    oter_id northwest = overmap_buffer.ter( omt_pos + tripoint( -1, -1, 0 ) );
-    oter_id southwest = overmap_buffer.ter( omt_pos + tripoint( -1, 1, 0 ) );
-    oter_id above = overmap_buffer.ter( omt_pos + tripoint( 0, 0, 1 ) );
-    oter_id below = overmap_buffer.ter( omt_pos + tripoint( 0, 0, -1 ) );
+    oter_id north = overmap_buffer.ter( omt_pos + tripoint_north );
+    oter_id south = overmap_buffer.ter( omt_pos + tripoint_south );
+    oter_id east = overmap_buffer.ter( omt_pos + tripoint_east );
+    oter_id west = overmap_buffer.ter( omt_pos + tripoint_west );
+    oter_id northeast = overmap_buffer.ter( omt_pos + tripoint_north_east );
+    oter_id southeast = overmap_buffer.ter( omt_pos + tripoint_south_east );
+    oter_id northwest = overmap_buffer.ter( omt_pos + tripoint_north_west );
+    oter_id southwest = overmap_buffer.ter( omt_pos + tripoint_south_west );
+    oter_id above = overmap_buffer.ter( omt_pos + tripoint_above );
+    oter_id below = overmap_buffer.ter( omt_pos + tripoint_below );
 
     mapgendata md( north, south, east, west, northeast, southeast, northwest, southwest,
                    above, below, omt_pos.z, rsettings, update_tmap );
@@ -8430,7 +8431,7 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
                         any, any, 0, dummy_settings, fake_map );
 
     if( update_function->second[0]->update_map( fake_md ) ) {
-        for( const tripoint &pos : fake_map.points_in_rectangle( { 0, 0, 0 }, { 23, 23, 0 } ) ) {
+        for( const tripoint &pos : fake_map.points_in_rectangle( tripoint_zero, { 23, 23, 0 } ) ) {
             ter_id ter_at_pos = fake_map.ter( pos );
             if( ter_at_pos != t_dirt ) {
                 if( terrains.find( ter_at_pos ) == terrains.end() ) {

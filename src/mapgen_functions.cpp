@@ -4294,7 +4294,7 @@ void mapgen_lake_shore( map *m, oter_id, mapgendata dat, const time_point &turn,
     const int sector_length = SEEX * 2 / 3;
 
     // Define the corners of the map. These won't change.
-    static constexpr point nw_corner( 0, 0 );
+    static constexpr point nw_corner( point_zero );
     static constexpr point ne_corner( SEEX * 2 - 1, 0 );
     static constexpr point se_corner( SEEX * 2 - 1, SEEY * 2 - 1 );
     static constexpr point sw_corner( 0, SEEY * 2 - 1 );
@@ -4600,7 +4600,6 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
     tinymap basement;
     basement.load( tripoint( abs_sub_here.xy(), abs_sub_here.z - 1 ), false );
 
-    const tripoint down( 0, 0, -1 );
     const tripoint from( 0, 0, abs_sub_here.z );
     const tripoint to( SEEX * 2, SEEY * 2, abs_sub_here.z );
     tripoint_range tr = m->points_in_rectangle( from, to );
@@ -4609,7 +4608,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
 
     // Find the basement's stairs first.
     for( auto &&p : tr ) { // *NOPAD*
-        if( basement.has_flag( TFLAG_GOES_UP, p + down ) ) {
+        if( basement.has_flag( TFLAG_GOES_UP, p + tripoint_below ) ) {
             const tripoint rotated = om_direction::rotate( p, terrain_type->get_dir() );
             stairs.emplace_back( rotated );
             stairs_debug_log( m, "basement stairs:", rotated );
