@@ -628,6 +628,7 @@ class map
         // Terrain: 2D overloads
         // Terrain integer id at coordinates (x, y); {x|y}=(0, SEE{X|Y}*3]
         ter_id ter( int x, int y ) const;
+        ter_id ter( const point &p ) const;
 
         bool ter_set( int x, int y, const ter_id &new_terrain );
 
@@ -703,6 +704,7 @@ class map
         bool can_put_items_ter_furn( int x, int y ) const;
         // checks terrain
         bool has_flag_ter( const std::string &flag, int x, int y ) const;
+        bool has_flag_ter( const std::string &flag, const point &p ) const;
         // checks furniture
         bool has_flag_furn( const std::string &flag, int x, int y ) const;
         // checks terrain or furniture
@@ -898,6 +900,7 @@ class map
         void set_radiation( const tripoint &p, int value );
         // Overload for mapgen
         void set_radiation( int x, int y, int value );
+        void set_radiation( const point &p, int value );
 
         /** Increment the radiation in the given tile by the given delta
         *  (decrement it if delta is negative)

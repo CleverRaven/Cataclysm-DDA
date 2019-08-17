@@ -3865,15 +3865,15 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                     }
                     auto fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
                     for( int i = 0; i < 2; ++i ) {
-                        draw_rough_circle( [this, fluid_type]( int x, int y ) {
-                            if( t_thconc_floor == ter( x, y ) || t_strconc_floor == ter( x, y ) ||
-                                t_thconc_floor_olight == ter( x, y ) ) {
-                                ter_set( point( x, y ), fluid_type );
-                            } else if( has_flag_ter( "DOOR", x, y ) ) {
+                        draw_rough_circle( [this, fluid_type]( const point & p ) {
+                            if( t_thconc_floor == ter( p ) || t_strconc_floor == ter( p ) ||
+                                t_thconc_floor_olight == ter( p ) ) {
+                                ter_set( p, fluid_type );
+                            } else if( has_flag_ter( "DOOR", p ) ) {
                                 // We want the actual debris, but not the rubble marker or dirt.
-                                make_rubble( { x,  y, abs_sub.z } );
-                                ter_set( point( x, y ), fluid_type );
-                                furn_set( point( x, y ), f_null );
+                                make_rubble( { p, abs_sub.z } );
+                                ter_set( p, fluid_type );
+                                furn_set( p, f_null );
                             }
                         }, point( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) ), rng( 3, 6 ) );
                     }
@@ -3908,14 +3908,14 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                         ARTPROP_WHISPERING,
                         ARTPROP_GLOWING
                     };
-                    draw_rough_circle( [this]( int x, int y ) {
-                        if( has_flag_ter( "GOES_DOWN", x, y ) ||
-                            has_flag_ter( "GOES_UP", x, y ) ||
-                            has_flag_ter( "CONSOLE", x, y ) ) {
+                    draw_rough_circle( [this]( const point & p ) {
+                        if( has_flag_ter( "GOES_DOWN", p ) ||
+                            has_flag_ter( "GOES_UP", p ) ||
+                            has_flag_ter( "CONSOLE", p ) ) {
                             return; // spare stairs and consoles.
                         }
-                        make_rubble( {x, y, abs_sub.z } );
-                        ter_set( point( x, y ), t_thconc_floor );
+                        make_rubble( {p, abs_sub.z } );
+                        ter_set( p, t_thconc_floor );
                     }, center.xy(), 4 );
                     furn_set( center.xy(), f_null );
                     trap_set( center, tr_portal );
@@ -3929,26 +3929,26 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                         // just skip it, we don't want to risk embedding radiation out of sight.
                         break;
                     }
-                    draw_rough_circle( [this]( int x, int y ) {
-                        set_radiation( x, y, 10 );
+                    draw_rough_circle( [this]( const point & p ) {
+                        set_radiation( p, 10 );
                     }, center.xy(), rng( 7, 12 ) );
-                    draw_circle( [this]( int x, int y ) {
-                        set_radiation( x, y, 20 );
+                    draw_circle( [this]( const point & p ) {
+                        set_radiation( p, 20 );
                     }, center.xy(), rng( 5, 8 ) );
-                    draw_circle( [this]( int x, int y ) {
-                        set_radiation( x, y, 30 );
+                    draw_circle( [this]( const point & p ) {
+                        set_radiation( p, 30 );
                     }, center.xy(), rng( 2, 4 ) );
-                    draw_circle( [this]( int x, int y ) {
-                        set_radiation( x, y, 50 );
+                    draw_circle( [this]( const point & p ) {
+                        set_radiation( p, 50 );
                     }, center.xy(), 1 );
-                    draw_circle( [this]( int x, int y ) {
-                        if( has_flag_ter( "GOES_DOWN", x, y ) ||
-                            has_flag_ter( "GOES_UP", x, y ) ||
-                            has_flag_ter( "CONSOLE", x, y ) ) {
+                    draw_circle( [this]( const point & p ) {
+                        if( has_flag_ter( "GOES_DOWN", p ) ||
+                            has_flag_ter( "GOES_UP", p ) ||
+                            has_flag_ter( "CONSOLE", p ) ) {
                             return; // spare stairs and consoles.
                         }
-                        make_rubble( {x, y, abs_sub.z } );
-                        ter_set( point( x, y ), t_thconc_floor );
+                        make_rubble( {p, abs_sub.z } );
+                        ter_set( p, t_thconc_floor );
                     }, center.xy(), 1 );
 
                     place_spawns( GROUP_HAZMATBOT, 1, center.xy() + point_west,
@@ -3990,20 +3990,20 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                     tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
 
                     // Make a portal surrounded by more dense fungal stuff and a fungaloid.
-                    draw_rough_circle( [this]( int x, int y ) {
-                        if( has_flag_ter( "GOES_DOWN", x, y ) ||
-                            has_flag_ter( "GOES_UP", x, y ) ||
-                            has_flag_ter( "CONSOLE", x, y ) ) {
+                    draw_rough_circle( [this]( const point & p ) {
+                        if( has_flag_ter( "GOES_DOWN", p ) ||
+                            has_flag_ter( "GOES_UP", p ) ||
+                            has_flag_ter( "CONSOLE", p ) ) {
                             return; // spare stairs and consoles.
                         }
-                        if( has_flag_ter( "WALL", x, y ) ) {
-                            ter_set( point( x, y ), t_fungus_wall );
+                        if( has_flag_ter( "WALL", p ) ) {
+                            ter_set( p, t_fungus_wall );
                         } else {
-                            ter_set( point( x, y ), t_fungus_floor_in );
+                            ter_set( p, t_fungus_floor_in );
                             if( one_in( 3 ) ) {
-                                furn_set( point( x, y ), f_flower_fungal );
+                                furn_set( p, f_flower_fungal );
                             } else if( one_in( 10 ) ) {
-                                ter_set( point( x, y ), t_marloss );
+                                ter_set( p, t_marloss );
                             }
                         }
                     }, center.xy(), 3 );

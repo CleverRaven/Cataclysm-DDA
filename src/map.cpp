@@ -8090,15 +8090,15 @@ tinymap::tinymap( int mapsize, bool zlevels )
 
 void map::draw_line_ter( const ter_id type, const point &p1, const point &p2 )
 {
-    draw_line( [this, type]( int x, int y ) {
-        this->ter_set( point( x, y ), type );
+    draw_line( [this, type]( const point & p ) {
+        this->ter_set( p, type );
     }, p1, p2 );
 }
 
 void map::draw_line_furn( const furn_id type, const point &p1, const point &p2 )
 {
-    draw_line( [this, type]( int x, int y ) {
-        this->furn_set( point( x, y ), type );
+    draw_line( [this, type]( const point & p ) {
+        this->furn_set( p, type );
     }, p1, p2 );
 }
 
@@ -8131,65 +8131,65 @@ void map::draw_fill_background( const weighted_int_list<ter_id> &f )
 
 void map::draw_square_ter( const ter_id type, const point &p1, const point &p2 )
 {
-    draw_square( [this, type]( int x, int y ) {
-        this->ter_set( point( x, y ), type );
+    draw_square( [this, type]( const point & p ) {
+        this->ter_set( p, type );
     }, p1, p2 );
 }
 
 void map::draw_square_furn( const furn_id type, const point &p1, const point &p2 )
 {
-    draw_square( [this, type]( int x, int y ) {
-        this->furn_set( point( x, y ), type );
+    draw_square( [this, type]( const point & p ) {
+        this->furn_set( p, type );
     }, p1, p2 );
 }
 
 void map::draw_square_ter( ter_id( *f )(), const point &p1, const point &p2 )
 {
-    draw_square( [this, f]( int x, int y ) {
-        this->ter_set( point( x, y ), f() );
+    draw_square( [this, f]( const point & p ) {
+        this->ter_set( p, f() );
     }, p1, p2 );
 }
 
 void map::draw_square_ter( const weighted_int_list<ter_id> &f, const point &p1, const point &p2 )
 {
-    draw_square( [this, f]( int x, int y ) {
+    draw_square( [this, f]( const point & p ) {
         const ter_id *tid = f.pick();
-        this->ter_set( point( x, y ), tid != nullptr ? *tid : t_null );
+        this->ter_set( p, tid != nullptr ? *tid : t_null );
     }, p1, p2 );
 }
 
 void map::draw_rough_circle_ter( const ter_id type, const point &p, int rad )
 {
-    draw_rough_circle( [this, type]( int x, int y ) {
-        this->ter_set( point( x, y ), type );
+    draw_rough_circle( [this, type]( const point & q ) {
+        this->ter_set( q, type );
     }, p, rad );
 }
 
 void map::draw_rough_circle_furn( const furn_id type, const point &p, int rad )
 {
-    draw_rough_circle( [this, type]( int x, int y ) {
-        this->furn_set( point( x, y ), type );
+    draw_rough_circle( [this, type]( const point & q ) {
+        this->furn_set( q, type );
     }, p, rad );
 }
 
 void map::draw_circle_ter( const ter_id type, const rl_vec2d &p, double rad )
 {
-    draw_circle( [this, type]( int x, int y ) {
-        this->ter_set( point( x, y ), type );
+    draw_circle( [this, type]( const point & q ) {
+        this->ter_set( q, type );
     }, p, rad );
 }
 
 void map::draw_circle_ter( const ter_id type, const point &p, int rad )
 {
-    draw_circle( [this, type]( int x, int y ) {
-        this->ter_set( point( x, y ), type );
+    draw_circle( [this, type]( const point & q ) {
+        this->ter_set( q, type );
     }, p, rad );
 }
 
 void map::draw_circle_furn( const furn_id type, const point &p, int rad )
 {
-    draw_circle( [this, type]( int x, int y ) {
-        this->furn_set( point( x, y ), type );
+    draw_circle( [this, type]( const point & q ) {
+        this->furn_set( q, type );
     }, p, rad );
 }
 
