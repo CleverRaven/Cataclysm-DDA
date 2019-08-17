@@ -93,7 +93,7 @@
     "magazines": [ [ "45", [ "m1911mag", "m1911bigmag" ] ] ]
   },
   {
-    "id": "1911_MEU",
+    "id": "m1911_MEU",
     "copy-from": "m1911",
     "type": "GUN",
     "name": "M45A1",
