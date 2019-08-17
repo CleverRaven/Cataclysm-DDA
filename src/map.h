@@ -777,8 +777,6 @@ class map
          *  @return true if from x to xmax or y to ymax depending on direction
          *  all terrain is floor and the last terrain is a wall */
         bool is_last_ter_wall( bool no_furn, const point &p,
-                               int xmax, int ymax, direction dir ) const;
-        bool is_last_ter_wall( bool no_furn, const point &p,
                                const point &max, direction dir ) const;
 
         /**
@@ -893,7 +891,6 @@ class map
         */
         void adjust_radiation( const tripoint &p, int delta );
         // Overload for mapgen
-        void adjust_radiation( int x, int y, int delta );
         void adjust_radiation( const point &p, int delta );
 
         // Temperature
@@ -902,7 +899,6 @@ class map
         // Set temperature for all four submap quadrants
         void set_temperature( const tripoint &p, int temperature );
         // 2D overload for mapgen
-        void set_temperature( int x, int y, int temperature );
         void set_temperature( const point &p, int temperature );
 
         // Items
@@ -1242,9 +1238,6 @@ class map
         vehicle *add_vehicle( const vgroup_id &type, const point &p, int dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
-        vehicle *add_vehicle( const vproto_id &type, int x, int y, int dir,
-                              int init_veh_fuel = -1, int init_veh_status = -1,
-                              bool merge_wrecks = true );
         vehicle *add_vehicle( const vproto_id &type, const point &p, int dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
@@ -1492,7 +1485,6 @@ class map
         /**
          * Sets @ref abs_sub, see there. Uses the same coordinate system as @ref abs_sub.
          */
-        void set_abs_sub( int x, int y, int z );
         void set_abs_sub( const tripoint &p );
 
     private:

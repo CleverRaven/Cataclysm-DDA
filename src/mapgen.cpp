@@ -7009,10 +7009,10 @@ void map::add_spawn( const mtype_id &type, int count, const point &p, bool frien
     place_on_submap->spawns.push_back( tmp );
 }
 
-vehicle *map::add_vehicle( const vproto_id &type, const int x, const int y, const int dir,
+vehicle *map::add_vehicle( const vproto_id &type, const point &p, const int dir,
                            const int veh_fuel, const int veh_status, const bool merge_wrecks )
 {
-    return add_vehicle( type, tripoint( x, y, abs_sub.z ),
+    return add_vehicle( type, tripoint( p, abs_sub.z ),
                         dir, veh_fuel, veh_status, merge_wrecks );
 }
 

@@ -2599,7 +2599,7 @@ bool map::is_outside( const tripoint &p ) const
 }
 
 bool map::is_last_ter_wall( const bool no_furn, const point &p,
-                            const int xmax, const int ymax, const direction dir ) const
+                            const point &max, const direction dir ) const
 {
     int xmov = 0;
     int ymov = 0;
@@ -2624,9 +2624,9 @@ bool map::is_last_ter_wall( const bool no_furn, const point &p,
     bool result = true;
     bool loop = true;
     while( ( loop ) && ( ( dir == NORTH && y2 >= 0 ) ||
-                         ( dir == SOUTH && y2 < ymax ) ||
+                         ( dir == SOUTH && y2 < max.y ) ||
                          ( dir == WEST  && x2 >= 0 ) ||
-                         ( dir == EAST  && x2 < xmax ) ) ) {
+                         ( dir == EAST  && x2 < max.x ) ) ) {
         if( no_furn && has_furn( point( x2, y2 ) ) ) {
             loop = false;
             result = false;
@@ -3986,9 +3986,9 @@ void map::set_radiation( const tripoint &p, const int value )
     current_submap->set_radiation( l, value );
 }
 
-void map::adjust_radiation( const int x, const int y, const int delta )
+void map::adjust_radiation( const point &p, const int delta )
 {
-    adjust_radiation( tripoint( x, y, abs_sub.z ), delta );
+    adjust_radiation( tripoint( p, abs_sub.z ), delta );
 }
 
 void map::adjust_radiation( const tripoint &p, const int delta )
@@ -4022,9 +4022,9 @@ void map::set_temperature( const tripoint &p, int new_temperature )
     get_submap_at( p )->set_temperature( new_temperature );
 }
 
-void map::set_temperature( const int x, const int y, int new_temperature )
+void map::set_temperature( const point &p, int new_temperature )
 {
-    set_temperature( tripoint( x, y, abs_sub.z ), new_temperature );
+    set_temperature( tripoint( p, abs_sub.z ), new_temperature );
 }
 
 // Items: 2D
@@ -7980,9 +7980,9 @@ tripoint map::getlocal( const tripoint &p ) const
     return p - sm_to_ms_copy( abs_sub.xy() );
 }
 
-void map::set_abs_sub( const int x, const int y, const int z )
+void map::set_abs_sub( const tripoint &p )
 {
-    abs_sub = tripoint( x, y, z );
+    abs_sub = p;
 }
 
 tripoint map::get_abs_sub() const
