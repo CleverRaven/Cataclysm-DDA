@@ -16,41 +16,46 @@ class JsonIn;
 class item;
 struct itype;
 
+/**
+ * A single entry in the list of auto pickup entries @ref auto_pickup_rule_list.
+ * The data contained can be edited by the player and determines what to pick/ignore.
+ */
+class auto_pickup_rule
+{
+    public:
+        std::string sRule;
+        bool bActive = false;
+        bool bExclude = false;
+
+        auto_pickup_rule() = default;
+
+        auto_pickup_rule( const std::string &sRuleIn, bool bActiveIn, bool bExcludeIn ) {
+            this->sRule = sRuleIn;
+            this->bActive = bActiveIn;
+            this->bExclude = bExcludeIn;
+        }
+
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
+};
+
+/**
+ * A list of rules. This is primarily a container with a few convenient functions (like saving/loading).
+ */
+class auto_pickup_rule_list : public std::vector<auto_pickup_rule>
+{
+    public:
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
+};
+
 class auto_pickup
 {
     private:
-        class rules_list;
-
-        void test_pattern( const rules_list &rules, int iRow );
+        void test_pattern( const auto_pickup_rule_list &rules, int iRow );
         void load( bool bCharacter );
         bool save( bool bCharacter );
         bool load_legacy( bool bCharacter );
-
-        class cRules
-        {
-            public:
-                std::string sRule;
-                bool bActive = false;
-                bool bExclude = false;
-
-                cRules() = default;
-
-                cRules( const std::string &sRuleIn, bool bActiveIn, bool bExcludeIn ) {
-                    this->sRule = sRuleIn;
-                    this->bActive = bActiveIn;
-                    this->bExclude = bExcludeIn;
-                }
-
-                void serialize( JsonOut &json ) const;
-                void deserialize( JsonIn &jsin );
-        };
-
-        class rules_list : public std::vector<cRules>
-        {
-            public:
-                void serialize( JsonOut &json ) const;
-                void deserialize( JsonIn &jsin );
-        };
 
         mutable bool ready; //< true if map_items has been populated from vRules
 
@@ -62,17 +67,17 @@ class auto_pickup
          */
         mutable std::unordered_map<std::string, rule_state> map_items;
 
-        rules_list global_rules;
-        rules_list character_rules;
+        auto_pickup_rule_list global_rules;
+        auto_pickup_rule_list character_rules;
 
-        void load_legacy_rules( rules_list &rules, std::istream &fin );
+        void load_legacy_rules( auto_pickup_rule_list &rules, std::istream &fin );
 
         void refresh_map_items() const; //< Only modifies mutable state
-        void refresh_map_items( const rules_list &rules,
+        void refresh_map_items( const auto_pickup_rule_list &rules,
                                 std::unordered_map<std::string, const itype *> &temp_items ) const;
 
-        void create_rule( const rules_list &rules, const std::string &to_match );
-        void create_rule( const rules_list &rules, const item &it );
+        void create_rule( const auto_pickup_rule_list &rules, const std::string &to_match );
+        void create_rule( const auto_pickup_rule_list &rules, const item &it );
 
     public:
         auto_pickup() : ready( false ) {}
