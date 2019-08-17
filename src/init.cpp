@@ -514,6 +514,9 @@ void DynamicDataLoader::unload_data()
     npc_template::reset();
     anatomy::reset();
     reset_mod_tileset();
+    VehicleGroup::reset();
+    VehiclePlacement::reset();
+    VehicleSpawn::reset();
 
     // TODO:
     //    Name::clear();
