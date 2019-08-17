@@ -469,7 +469,7 @@
     "id": "gunpowder",
     "category": "chems",
     "price": 500,
-    "name": "gunpowder",
+    "name": "mixed gunpowder",
     "symbol": "=",
     "color": "dark_gray",
     "description": "Firearm-quality gunpowder, mixed without concern for composition, burn rate or shape.  It has been slightly ground to make its properties more uniform.  Only the truly desperate would attempt to reload with this.",
@@ -520,7 +520,7 @@
     "copy-from": "gunpowder",
     "price": 3000,
     "name": "artillery propellant",
-    "description": "Firearm-quality gunpowder intended for use in artillery, salvaged from a propellant charge bag.",
+    "description": "Single base smokeless gunpowder intended for use in artillery propelling charges.",
   },
   {
     "type": "AMMO",
