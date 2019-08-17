@@ -1235,10 +1235,10 @@ class map
         void generate( const tripoint &p, const time_point &when ) {
             generate( p.x, p.y, p.z, when );
         }
-        void place_spawns( const mongroup_id &group, const int chance,
-                           const int x1, const int y1, const int x2, const int y2, const float intensity,
-                           const bool individual = false, const bool friendly = false, const std::string &name = "NONE",
-                           const int &mission_id = -1 );
+        void place_spawns( const mongroup_id &group, int chance,
+                           int x1, int y1, int x2, const int y2, float intensity,
+                           bool individual = false, bool friendly = false, const std::string &name = "NONE",
+                           int mission_id = -1 );
         void place_gas_pump( int x, int y, int charges );
         void place_gas_pump( int x, int y, int charges, const std::string &fuel_type );
         // 6 liters at 250 ml per charge

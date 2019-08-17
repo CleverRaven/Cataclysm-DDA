@@ -6805,7 +6805,7 @@ void map::draw_connections( const oter_id &terrain_type, mapgendata &dat,
 
 void map::place_spawns( const mongroup_id &group, const int chance,
                         const int x1, const int y1, const int x2, const int y2, const float density,
-                        const bool individual, const bool friendly, const std::string &name, const int &mission_id )
+                        const bool individual, const bool friendly, const std::string &name, const int mission_id )
 {
     if( !group.is_valid() ) {
         const tripoint omt = sm_to_omt_copy( get_abs_sub() );

@@ -29,7 +29,11 @@
       * 2.2.1.3 "chance"
       * 2.2.1.4 "repeat"
     * 2.2.2 "square" {}
-  * 2.3 "place_monsters": []
+  * 2.3 "place_groups": []
+    * 2.3.0 "monster":
+      * 2.3.0.0 "x" & "y"
+      * 2.3.0.1 "chance"
+      * 2.3.0.2 "repeat"
   * 2.4 "place_monster": []
   * 2.5 "place_item": []
     * 2.5.0 "item":
@@ -345,16 +349,44 @@ Example: [ 1, 3 ] - apply 1-3 times
 Example: { "square": "radiation", "amount": 10, "x:" [ 0, 5 ], "y": [ 0, 5 ], "x2": [ 18, 23 ], "y2": [ 18, 23 ] }
 The arguments are exactly the same as "line", but "x", "y" and "x2", "y2" define opposite corners
 
-## 2.3 "place_monsters"
-**optional** Spawn random monsters from a monster group. Is effected by spawn density game setting.
-> Value: [ array of {objects} ]: [ { "monster": ... } ]
-
-| Identifier | Description
-|---         |---
-| monster   | ID of the monster group from which the spawned monster is selected.
-| x, y  | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or [ 0-23, 0-23 ] - random point between [ a, b ]. When using a range, the minimum and maximum values will be used in creating rectangle coordinates to be used by map::place_spawns. Each monster generated from the monster group will be placed in a different random location within the rectangle. Example: "x": 12, "y": [ 5, 15 ]. These values will produce a rectangle for map::place_spawns from ( 12, 5 ) to ( 12, 15 ) inclusive.
-| density | Determines how many monsters are spawned. This argument is optional, but for place_monsters to work the density must be set either here or in the overmap terrain definition. Otherwise it defaults to zero and no monsters will spawn. Monsters spawned = density * spawn_density * rng_float( 10.0f, 50.0f )
-| chance | one in `chance` to do spawning.
+## 2.3 "place_groups"
+**optional** Spawn items or monsters from item_groups.json and monster_groups.json
+> Value: [ array of {objects} ]: [ { "monster": ... }, { "item": ... }, ... ]
+### 2.3.0 "monster"
+**required** The monster group id, which picks random critters from a list
+> Value: "MONSTER_GROUP"
+Example: { "monster": "GROUP_ZOMBIE", "x": [ 13, 15 ], "y": 15, "chance": 10 }
+#### 2.3.0.0 "x" / "y"
+**required** Spawn coordinates ( specific or area rectangle )
+> Value: 0-23
+-or-
+> Value: [ 0-23, 0-23 ] - random point between [ a, b ]
+When using a range, the minimum and maximum values will be used in creating rectangle coordinates to be used by map::place_spawns.
+Each monster generated from the monster group will be placed in a different random location within the rectangle.
+Example: "x": 12, "y": [ 5, 15 ]
+These values will produce a rectangle for map::place_spawns from ( 12, 5 ) to ( 12, 15 ) inclusive.
+#### 2.3.0.1 "density"
+**optional** magic sauce spawn amount number that somehow determines how many monsters from the group can appear. This argument is optional, but for place_monsters to work the density must be set either here or in the overmap terrain definition. Otherwise it defaults to zero and no monsters will spawn. How density actually works is a strange mystery that someone should solve and put into this document.
+> Value: *floating point number*
+#### 2.3.0.2 "chance"
+**optional** one-in-??? chance to apply
+> Value: *number*
+### 2.3.1 "item"
+**required** The item group id, which picks random stuff from a list
+> Value: "ITEM_GROUP"
+Example: { "item": "livingroom", "x": [ 13, 15 ], "y": 15, "chance": 50 }
+#### 2.3.1.0 "x" / "y"
+**required** Spawn coordinates ( specific or area rectangle )
+> Value: 0-23
+-or-
+> Value: [ 0-23, 0-23 ] - a range between [ a, b ] inclusive
+When using a range, the minimum and maximum values will be used in creating rectangle coordinates to be used by map::place_items.
+Each item from the item group will be placed in a different random location within the rectangle.
+Example: "x": 12, "y": [ 5, 15 ]
+These values will produce a rectangle for map::place_items from ( 12, 5 ) to ( 12, 15 ) inclusive.
+#### 2.3.1.1 "chance"
+**required** unlike everything else, this is a percentage. Maybe
+> Value: *number*
 
 ## 2.4 "place_monster"
 **optional** Spawn single monster. Either specific monster or a random monster from a monster group. Is effected by spawn density game setting.
@@ -367,7 +399,7 @@ The arguments are exactly the same as "line", but "x", "y" and "x2", "y2" define
 | x, y  | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or [ 0-23, 0-23 ] - random point between [ a, b ]. When using a range, the minimum and maximum values will be used in creating rectangle coordinates to be used by map::place_spawns. Each monster generated from the monster group will be placed in a different random location within the rectangle. Example: "x": 12, "y": [ 5, 15 ] These values will produce a rectangle for map::place_spawns from ( 12, 5 ) to ( 12, 15 ) inclusive.
 | chance | Percentage chance to do spawning.
 | repeat | The spawning is repeated
-| pack_size | How many monsters are spawned. Can be single number or range like [1-4]. Ignored when spawning from a group.
+| pack_size | How many monsters are spawned. Can be single number or range like [1-4]. Is affected by the chance and spawn density. Ignored when spawning from a group.
 | one_or_none | Do not allow more than one to spawn due to high spawn density. If repeat is not defined or pack size is defined this is true. Ignored when spawning from a group.
 | friendly | Make the monster friendly. Default false.
 | name | Extra name to display on the monster.
