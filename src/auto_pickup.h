@@ -35,13 +35,10 @@ class auto_pickup
         {
             public:
                 std::string sRule;
-                bool bActive;
-                bool bExclude;
+                bool bActive = false;
+                bool bExclude = false;
 
-                cRules() {
-                    this->bActive = false;
-                    this->bExclude = false;
-                }
+                cRules() = default;
 
                 cRules( const std::string &sRuleIn, bool bActiveIn, bool bExcludeIn ) {
                     this->sRule = sRuleIn;
