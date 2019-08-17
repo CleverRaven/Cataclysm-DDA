@@ -141,8 +141,8 @@ void mx_roa_crash( map &m, const tripoint &abs_sub )
     int x_min = abs( bbox.p1.x ) + 0;
     int y_min = abs( bbox.p1.y ) + 0;
 
-    int x_max = ( SEEX * 2 ) - ( bbox.p2.x + 1 );
-    int y_max = ( SEEY * 2 ) - ( bbox.p2.y + 1 );
+    int x_max = SEEX * 2 - bbox.p2.x + 1;
+    int y_max = SEEY * 2 - bbox.p2.y + 1;
 
     int x1 = clamp( cx + x_offset, x_min,
                     x_max ); // Clamp x1 & y1 such that no parts of the vehicle extend
