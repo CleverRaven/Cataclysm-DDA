@@ -97,8 +97,6 @@ class auto_pickup
         void load_global();
 
         bool empty() const;
-
-        void deserialize( JsonIn &jsin );
 };
 
 auto_pickup &get_auto_pickup();
