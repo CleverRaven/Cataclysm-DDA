@@ -589,27 +589,16 @@ class map
         vehicle *move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing );
 
         // Furniture: 2D overloads
-        void set( int x, int y, const ter_id &new_terrain, const furn_id &new_furniture );
-        void set( const point &p, const ter_id &new_terrain, const furn_id &new_furniture ) {
-            set( p.x, p.y, new_terrain, new_furniture );
-        }
+        void set( const point &p, const ter_id &new_terrain, const furn_id &new_furniture );
 
-        std::string name( int x, int y );
         std::string name( const point &p );
-        bool has_furn( int x, int y ) const;
         bool has_furn( const point &p ) const;
 
         // Furniture at coordinates (x, y); {x|y}=(0, SEE{X|Y}*3]
-        furn_id furn( int x, int y ) const;
         furn_id furn( const point &p ) const;
 
-        void furn_set( int x, int y, const furn_id &new_furniture );
+        void furn_set( const point &p, const furn_id &new_furniture );
 
-        void furn_set( const point &p, const furn_id &new_furniture ) {
-            furn_set( p.x, p.y, new_furniture );
-        }
-
-        std::string furnname( int x, int y );
         std::string furnname( const point &p );
         // Furniture: 3D
         void set( const tripoint &p, const ter_id &new_terrain, const furn_id &new_furniture );
@@ -631,16 +620,10 @@ class map
         bool can_move_furniture( const tripoint &pos, player *p = nullptr );
         // Terrain: 2D overloads
         // Terrain integer id at coordinates (x, y); {x|y}=(0, SEE{X|Y}*3]
-        ter_id ter( int x, int y ) const;
         ter_id ter( const point &p ) const;
 
-        bool ter_set( int x, int y, const ter_id &new_terrain );
+        bool ter_set( const point &p, const ter_id &new_terrain );
 
-        bool ter_set( const point &p, const ter_id &new_terrain ) {
-            return ter_set( p.x, p.y, new_terrain );
-        }
-
-        std::string tername( int x, int y ) const; // Name of terrain at (x, y)
         std::string tername( const point &p ) const; // Name of terrain at (x, y)
         // Terrain: 3D
         ter_id ter( const tripoint &p ) const;
@@ -702,35 +685,25 @@ class map
 
         // Flags: 2D overloads
         // Words relevant to terrain (sharp, etc)
-        std::string features( int x, int y );
         std::string features( const point &p );
         // checks terrain, furniture and vehicles
-        bool has_flag( const std::string &flag, int x, int y ) const;
         bool has_flag( const std::string &flag, const point &p ) const;
         // True if items can be placed in this tile
-        bool can_put_items_ter_furn( int x, int y ) const;
         bool can_put_items_ter_furn( const point &p ) const;
         // checks terrain
-        bool has_flag_ter( const std::string &flag, int x, int y ) const;
         bool has_flag_ter( const std::string &flag, const point &p ) const;
         // checks furniture
-        bool has_flag_furn( const std::string &flag, int x, int y ) const;
         bool has_flag_furn( const std::string &flag, const point &p ) const;
         // checks terrain or furniture
-        bool has_flag_ter_or_furn( const std::string &flag, int x, int y ) const;
         bool has_flag_ter_or_furn( const std::string &flag, const point &p ) const;
         // fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
         // checks terrain, furniture and vehicles
-        bool has_flag( ter_bitflags flag, int x, int y ) const;
         bool has_flag( ter_bitflags flag, const point &p ) const;
         // checks terrain
-        bool has_flag_ter( ter_bitflags flag, int x, int y ) const;
         bool has_flag_ter( ter_bitflags flag, const point &p ) const;
         // checks furniture
-        bool has_flag_furn( ter_bitflags flag, int x, int y ) const;
         bool has_flag_furn( ter_bitflags flag, const point &p ) const;
         // checks terrain or furniture
-        bool has_flag_ter_or_furn( ter_bitflags flag, int x, int y ) const;
         bool has_flag_ter_or_furn( ter_bitflags flag, const point &p ) const;
         // Flags: 3D
         // Words relevant to terrain (sharp, etc)
@@ -758,13 +731,6 @@ class map
         bool has_flag_ter_or_furn( ter_bitflags flag, const tripoint &p ) const;
 
         // Bashable: 2D
-        bool is_bashable( int x, int y ) const;
-        bool is_bashable_ter( int x, int y ) const;
-        bool is_bashable_furn( int x, int y ) const;
-        bool is_bashable_ter_furn( int x, int y ) const;
-        int bash_strength( int x, int y ) const;
-        int bash_resistance( int x, int y ) const;
-        int bash_rating( int str, int x, int y ) const;
         bool is_bashable( const point &p ) const;
         bool is_bashable_ter( const point &p ) const;
         bool is_bashable_furn( const point &p ) const;
@@ -796,9 +762,6 @@ class map
         void make_rubble( const tripoint &p );
         void make_rubble( const tripoint &p, const furn_id &rubble_type, bool items );
 
-        bool is_divable( int x, int y ) const;
-        bool is_water_shallow_current( int x, int y ) const;
-        bool is_outside( int x, int y ) const;
         bool is_divable( const point &p ) const;
         bool is_water_shallow_current( const point &p ) const;
         bool is_outside( const point &p ) const;
@@ -808,17 +771,15 @@ class map
         /** Check if the last terrain is wall in direction NORTH, SOUTH, WEST or EAST
          *  @param no_furn if true, the function will stop and return false
          *  if it encounters a furniture
-         *  @param x starting x coordinate of check
-         *  @param y starting y coordinate of check
-         *  @param xmax ending x coordinate of check
-         *  @param ymax ending y coordinate of check
+         *  @param p starting coordinates of check
+         *  @param max ending coordinates of check
          *  @param dir Direction of check
          *  @return true if from x to xmax or y to ymax depending on direction
          *  all terrain is floor and the last terrain is a wall */
-        bool is_last_ter_wall( bool no_furn, int x, int y,
-                               int xmax, int ymax, direction dir ) const;
         bool is_last_ter_wall( bool no_furn, const point &p,
                                int xmax, int ymax, direction dir ) const;
+        bool is_last_ter_wall( bool no_furn, const point &p,
+                               const point &max, direction dir ) const;
 
         /**
          * Checks if there are any tinder flagged items on the tile.
@@ -925,7 +886,6 @@ class map
         int get_radiation( const tripoint &p ) const; // Amount of radiation at (x, y);
         void set_radiation( const tripoint &p, int value );
         // Overload for mapgen
-        void set_radiation( int x, int y, int value );
         void set_radiation( const point &p, int value );
 
         /** Increment the radiation in the given tile by the given delta
@@ -934,6 +894,7 @@ class map
         void adjust_radiation( const tripoint &p, int delta );
         // Overload for mapgen
         void adjust_radiation( int x, int y, int delta );
+        void adjust_radiation( const point &p, int delta );
 
         // Temperature
         // Temperature for submap
@@ -942,6 +903,7 @@ class map
         void set_temperature( const tripoint &p, int temperature );
         // 2D overload for mapgen
         void set_temperature( int x, int y, int temperature );
+        void set_temperature( const point &p, int temperature );
 
         // Items
         void process_active_items();
@@ -1261,10 +1223,7 @@ class map
         void process_falling();
 
         // mapgen.cpp functions
-        void generate( int x, int y, int z, const time_point &when );
-        void generate( const tripoint &p, const time_point &when ) {
-            generate( p.x, p.y, p.z, when );
-        }
+        void generate( const tripoint &p, const time_point &when );
         void place_spawns( const mongroup_id &group, int chance,
                            const point &p1, const point &p2, float intensity,
                            bool individual = false, bool friendly = false );
@@ -1284,6 +1243,9 @@ class map
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
         vehicle *add_vehicle( const vproto_id &type, int x, int y, int dir,
+                              int init_veh_fuel = -1, int init_veh_status = -1,
+                              bool merge_wrecks = true );
+        vehicle *add_vehicle( const vproto_id &type, const point &p, int dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
 
@@ -1335,10 +1297,7 @@ class map
          * is used by the ter/furn/i_at functions.
          * Output is in the same scale, but in global system.
          */
-        point getabs( int x, int y ) const;
-        point getabs( const point &p ) const {
-            return getabs( p.x, p.y );
-        }
+        point getabs( const point &p ) const;
         /**
          * Translates tripoint in local coordinates (near player) to global,
          * just as the 2D variant of the function.
@@ -1348,10 +1307,7 @@ class map
         /**
          * Inverse of @ref getabs
          */
-        point getlocal( int x, int y ) const;
-        point getlocal( const point &p ) const {
-            return getlocal( p.x, p.y );
-        }
+        point getlocal( const point &p ) const;
         tripoint getlocal( const tripoint &p ) const;
         virtual bool inbounds( const tripoint &p ) const;
         bool inbounds( const point &p ) const {
@@ -1537,6 +1493,7 @@ class map
          * Sets @ref abs_sub, see there. Uses the same coordinate system as @ref abs_sub.
          */
         void set_abs_sub( int x, int y, int z );
+        void set_abs_sub( const tripoint &p );
 
     private:
         field &get_field( const tripoint &p );
@@ -1757,8 +1714,7 @@ class map
 template<int SIZE, int MULTIPLIER>
 void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, int sx, int sy );
 
-std::vector<point> closest_points_first( int radius, point p );
-std::vector<point> closest_points_first( int radius, int x, int y );
+std::vector<point> closest_points_first( int radius, const point &center );
 // Does not build "piles" - does the same as above functions, except in tripoints
 std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
 bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, ter_bitflags flag );
