@@ -352,41 +352,60 @@ The arguments are exactly the same as "line", but "x", "y" and "x2", "y2" define
 ## 2.3 "place_groups"
 **optional** Spawn items or monsters from item_groups.json and monster_groups.json
 > Value: [ array of {objects} ]: [ { "monster": ... }, { "item": ... }, ... ]
+
 ### 2.3.0 "monster"
 **required** The monster group id, which picks random critters from a list
 > Value: "MONSTER_GROUP"
+
 Example: { "monster": "GROUP_ZOMBIE", "x": [ 13, 15 ], "y": 15, "chance": 10 }
+
 #### 2.3.0.0 "x" / "y"
 **required** Spawn coordinates ( specific or area rectangle )
 > Value: 0-23
+
 -or-
+
 > Value: [ 0-23, 0-23 ] - random point between [ a, b ]
 When using a range, the minimum and maximum values will be used in creating rectangle coordinates to be used by map::place_spawns.
 Each monster generated from the monster group will be placed in a different random location within the rectangle.
+
 Example: "x": 12, "y": [ 5, 15 ]
 These values will produce a rectangle for map::place_spawns from ( 12, 5 ) to ( 12, 15 ) inclusive.
+
 #### 2.3.0.1 "density"
 **optional** magic sauce spawn amount number that somehow determines how many monsters from the group can appear. This argument is optional, but for place_monsters to work the density must be set either here or in the overmap terrain definition. Otherwise it defaults to zero and no monsters will spawn. How density actually works is a strange mystery that someone should solve and put into this document.
 > Value: *floating point number*
+
 #### 2.3.0.2 "chance"
 **optional** one-in-??? chance to apply
 > Value: *number*
+
 ### 2.3.1 "item"
 **required** The item group id, which picks random stuff from a list
 > Value: "ITEM_GROUP"
+
 Example: { "item": "livingroom", "x": [ 13, 15 ], "y": 15, "chance": 50 }
+
 #### 2.3.1.0 "x" / "y"
 **required** Spawn coordinates ( specific or area rectangle )
 > Value: 0-23
+
 -or-
+
 > Value: [ 0-23, 0-23 ] - a range between [ a, b ] inclusive
 When using a range, the minimum and maximum values will be used in creating rectangle coordinates to be used by map::place_items.
 Each item from the item group will be placed in a different random location within the rectangle.
+
 Example: "x": 12, "y": [ 5, 15 ]
 These values will produce a rectangle for map::place_items from ( 12, 5 ) to ( 12, 15 ) inclusive.
+
 #### 2.3.1.1 "chance"
 **required** unlike everything else, this is a percentage. Maybe
 > Value: *number*
+
+## 2.4 "place_item"
+**optional** A list of *specific* things to add. WIP: Monsters and vehicles will be here too
+> Value: [ array of {objects} ]: [ { "item", ... }, ... ]
 
 ## 2.4 "place_monster"
 **optional** Spawn single monster. Either specific monster or a random monster from a monster group. Is effected by spawn density game setting.

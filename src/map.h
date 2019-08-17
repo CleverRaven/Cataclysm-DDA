@@ -1236,7 +1236,7 @@ class map
             generate( p.x, p.y, p.z, when );
         }
         void place_spawns( const mongroup_id &group, int chance,
-                           int x1, int y1, int x2, const int y2, float intensity,
+                           int x1, int y1, int x2, int y2, float intensity,
                            bool individual = false, bool friendly = false, const std::string &name = "NONE",
                            int mission_id = -1 );
         void place_gas_pump( int x, int y, int charges );
