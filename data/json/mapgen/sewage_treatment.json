@@ -22,6 +22,7 @@
       "O": "t_thconc_floor",
       "H": "t_sconc_wall",
       "z": "t_concrete",
+      "9": "t_gutter_downspout",
       "-": "t_wall_metal",
       "W": "t_window_no_curtains",
       "t": "t_thconc_floor",
@@ -154,7 +155,7 @@
       "fill_ter": "t_floor",
       "rows": [
         "|||_.......pp......._|||||||||||||||||||||||||||",
-        "|  _................_      ? ?   ? ??? ?   ?   |",
+        "|  _................_      ? ?   ? ??? ?   ? 9 |",
         "|  _.......pp......._    HHWHWHHHWHWWWHWHHHWHH |",
         "|  _................_ ?  H^,6#,H,d,,,,,d,H^d,H |",
         "|  _.......pp......._____W,,d,,H#6,,#,,6#H,6#W?|",
@@ -448,7 +449,7 @@
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 26, 36 ], "y": [ 12, 18 ], "density": 0.35 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 16, 20 ], "y": [ 36, 38 ], "density": 0.35 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 16, 20 ], "y": [ 36, 38 ], "density": 0.1 },
         { "monster": "GROUP_SEWAGE_TREATMENT", "x": 36, "y": 3, "density": 0.2 },
         { "monster": "GROUP_SEWAGE_TREATMENT", "x": [ 30, 32 ], "y": [ 35, 36 ], "density": 0.2 }
       ]
@@ -498,7 +499,7 @@
       },
       "fields": { "=": { "field": "fd_blood", "intensity": 1, "age": 990, "chance": 40 } },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 16, 20 ], "y": [ 11, 14 ], "density": 0.2 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 16, 20 ], "y": [ 11, 14 ], "density": 0.1 },
         { "monster": "GROUP_CHUD", "x": [ 4, 6 ], "y": [ 16, 18 ], "density": 0.2 }
       ]
     }
@@ -572,7 +573,7 @@
         { "item": "judo_belt_blue", "x": 4, "y": 13 },
         { "item": "pizza_cheese", "x": 2, "y": 21 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 16, 20 ], "y": [ 11, 14 ], "density": 0.2 } ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 16, 20 ], "y": [ 11, 14 ], "density": 0.1 } ]
     }
   },
   {
