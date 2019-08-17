@@ -1607,7 +1607,7 @@ void npc::store( JsonOut &json ) const
         json.member( "my_fac", fac_id.c_str() );
     }
     json.member( "attitude", static_cast<int>( attitude ) );
-    json.member( "previous_attitude", static_cast<int>( attitude ) );
+    json.member( "previous_attitude", static_cast<int>( previous_attitude ) );
     json.member( "op_of_u", op_of_u );
     json.member( "chatbin", chatbin );
     json.member( "rules", rules );
