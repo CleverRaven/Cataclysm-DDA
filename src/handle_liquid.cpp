@@ -122,8 +122,7 @@ bool handle_liquid_from_ground( map_stack::iterator on_ground,
 }
 
 bool handle_liquid_from_container( std::list<item>::iterator in_container,
-                                   item &container,
-                                   int radius )
+                                   item &container, int radius )
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
     const int old_charges = in_container->charges;

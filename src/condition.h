@@ -15,6 +15,8 @@ class mission;
 
 namespace dialogue_data
 {
+// when updating this, please also update `dynamic_line_string_keys` in
+// `lang/extract_json_string.py` so the lines are properly extracted for translation
 const std::unordered_set<std::string> simple_string_conds = { {
         "u_male", "u_female", "npc_male", "npc_female",
         "has_no_assigned_mission", "has_assigned_mission", "has_many_assigned_missions",

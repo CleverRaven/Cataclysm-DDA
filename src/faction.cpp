@@ -371,22 +371,22 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
     const tripoint player_abspos = g->u.global_omt_location();
     tripoint camp_pos = camp_omt_pos();
     std::string direction = direction_name( direction_from( player_abspos, camp_pos ) );
-    mvwprintz( fac_w, ++y, width, c_light_gray, _( "Press enter to rename this camp" ) );
+    mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Press enter to rename this camp" ) );
     if( direction != "center" ) {
-        mvwprintz( fac_w, ++y, width, c_light_gray, _( "Direction : to the " ) + direction );
+        mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Direction : to the " ) + direction );
     }
-    mvwprintz( fac_w, ++y, width, col, _( "Location : (%d, %d)" ), camp_pos.x, camp_pos.y );
+    mvwprintz( fac_w, point( width, ++y ), col, _( "Location : (%d, %d)" ), camp_pos.x, camp_pos.y );
     faction *yours = g->faction_manager_ptr->get( your_faction );
     std::string food_text = string_format( _( "Food Supply : %s %d calories" ),
                                            yours->food_supply_text(), yours->food_supply );
     nc_color food_col = yours->food_supply_color();
-    mvwprintz( fac_w, ++y, width, food_col, food_text );
+    mvwprintz( fac_w, point( width, ++y ), food_col, food_text );
     const std::string base_dir = "[B]";
     std::string bldg = next_upgrade( base_dir, 1 );
     std::string bldg_full = _( "Next Upgrade : " ) + bldg;
-    mvwprintz( fac_w, ++y, width, col, bldg_full );
+    mvwprintz( fac_w, point( width, ++y ), col, bldg_full );
     std::string requirements = om_upgrade_description( bldg, true );
-    fold_and_print( fac_w, ++y, width, getmaxx( fac_w ) - width - 2, col, requirements );
+    fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, requirements );
 }
 
 int npc::faction_display( const catacurses::window &fac_w, const int width ) const
@@ -397,7 +397,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     const tripoint player_abspos = g->u.global_omt_location();
 
     //get NPC followers, status, direction, location, needs, weapon, etc.
-    mvwprintz( fac_w, ++y, width, c_light_gray, _( "Press enter to talk to this follower " ) );
+    mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Press enter to talk to this follower " ) );
     std::string mission_string;
     if( has_companion_mission() ) {
         std::string dest_string;
@@ -418,7 +418,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
                              get_mission_action_string( c_mission.mission_id );
         }
     }
-    fold_and_print( fac_w, ++y, width, getmaxx( fac_w ) - width - 2, col, mission_string );
+    fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, mission_string );
     tripoint guy_abspos = global_omt_location();
     basecamp *stationed_at;
     bool is_stationed = false;
@@ -431,15 +431,15 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     }
     std::string direction = direction_name( direction_from( player_abspos, guy_abspos ) );
     if( direction != "center" ) {
-        mvwprintz( fac_w, ++y, width, col, _( "Direction : to the " ) + direction );
+        mvwprintz( fac_w, point( width, ++y ), col, _( "Direction : to the " ) + direction );
     } else {
-        mvwprintz( fac_w, ++y, width, col, _( "Direction : Nearby" ) );
+        mvwprintz( fac_w, point( width, ++y ), col, _( "Direction : Nearby" ) );
     }
     if( is_stationed ) {
-        mvwprintz( fac_w, ++y, width, col, _( "Location : (%d, %d), at camp: %s" ), guy_abspos.x,
+        mvwprintz( fac_w, point( width, ++y ), col, _( "Location : (%d, %d), at camp: %s" ), guy_abspos.x,
                    guy_abspos.y, stationed_at->camp_name() );
     } else {
-        mvwprintz( fac_w, ++y, width, col, _( "Location : (%d, %d)" ), guy_abspos.x,
+        mvwprintz( fac_w, point( width, ++y ), col, _( "Location : (%d, %d)" ), guy_abspos.x,
                    guy_abspos.y );
     }
     std::string can_see;
@@ -497,7 +497,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         can_see = "Within interaction range";
         see_color = c_light_green;
     }
-    mvwprintz( fac_w, ++y, width, see_color, can_see );
+    mvwprintz( fac_w, point( width, ++y ), see_color, can_see );
     nc_color status_col = col;
     std::string current_status = _( "Status : " );
     if( current_target() != nullptr ) {
@@ -514,21 +514,21 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     } else if( is_guarding() ) {
         current_status += _( "Guarding" );
     }
-    mvwprintz( fac_w, ++y, width, status_col, current_status );
+    mvwprintz( fac_w, point( width, ++y ), status_col, current_status );
 
     const std::pair <std::string, nc_color> condition = hp_description();
-    mvwprintz( fac_w, ++y, width, condition.second, _( "Condition : " ) + condition.first );
+    mvwprintz( fac_w, point( width, ++y ), condition.second, _( "Condition : " ) + condition.first );
     const std::pair <std::string, nc_color> hunger_pair = get_hunger_description();
     const std::pair <std::string, nc_color> thirst_pair = get_thirst_description();
     const std::pair <std::string, nc_color> fatigue_pair = get_fatigue_description();
-    mvwprintz( fac_w, ++y, width, hunger_pair.second,
+    mvwprintz( fac_w, point( width, ++y ), hunger_pair.second,
                _( "Hunger : " ) + ( hunger_pair.first.empty() ? "Nominal" : hunger_pair.first ) );
-    mvwprintz( fac_w, ++y, width, thirst_pair.second,
+    mvwprintz( fac_w, point( width, ++y ), thirst_pair.second,
                _( "Thirst : " ) + ( thirst_pair.first.empty() ? "Nominal" : thirst_pair.first ) );
-    mvwprintz( fac_w, ++y, width, fatigue_pair.second,
+    mvwprintz( fac_w, point( width, ++y ), fatigue_pair.second,
                _( "Fatigue : " ) + ( fatigue_pair.first.empty() ?
                                      "Nominal" : fatigue_pair.first ) );
-    int lines = fold_and_print( fac_w, ++y, width, getmaxx( fac_w ) - width - 2, c_white,
+    int lines = fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_white,
                                 _( "Wielding : " ) + weapon.tname() );
     y += lines;
 
@@ -550,10 +550,10 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     std::string best_three_noncombat = _( "Best other skills : " );
     std::string best_skill_text = string_format( _( "Best combat skill : %s : %d" ),
                                   best_skill().obj().name(), best_skill_level() );
-    mvwprintz( fac_w, ++y, width, col, best_skill_text );
-    mvwprintz( fac_w, ++y, width, col, best_three_noncombat + skill_strs[0] );
-    mvwprintz( fac_w, ++y, width + 20, col, skill_strs[1] );
-    mvwprintz( fac_w, ++y, width + 20, col, skill_strs[2] );
+    mvwprintz( fac_w, point( width, ++y ), col, best_skill_text );
+    mvwprintz( fac_w, point( width, ++y ), col, best_three_noncombat + skill_strs[0] );
+    mvwprintz( fac_w, point( width + 20, ++y ), col, skill_strs[1] );
+    mvwprintz( fac_w, point( width + 20, ++y ), col, skill_strs[2] );
     return retval;
 }
 
@@ -630,27 +630,27 @@ void new_faction_manager::display() const
             }
         }
         for( int i = 1; i < FULL_SCREEN_WIDTH - 1; i++ ) {
-            mvwputch( w_missions, 2, i, BORDER_COLOR, LINE_OXOX );
-            mvwputch( w_missions, FULL_SCREEN_HEIGHT - 1, i, BORDER_COLOR, LINE_OXOX );
+            mvwputch( w_missions, point( i, 2 ), BORDER_COLOR, LINE_OXOX );
+            mvwputch( w_missions, point( i, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR, LINE_OXOX );
 
             if( i > 2 && i < FULL_SCREEN_HEIGHT - 1 ) {
-                mvwputch( w_missions, i, 30, BORDER_COLOR, LINE_XOXO );
-                mvwputch( w_missions, i, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXO );
+                mvwputch( w_missions, point( 30, i ), BORDER_COLOR, LINE_XOXO );
+                mvwputch( w_missions, point( FULL_SCREEN_WIDTH - 1, i ), BORDER_COLOR, LINE_XOXO );
             }
         }
         draw_tab( w_missions, 7, _( "YOUR FACTION" ), tab == tab_mode::TAB_MYFACTION );
         draw_tab( w_missions, 30, _( "YOUR FOLLOWERS" ), tab == tab_mode::TAB_FOLLOWERS );
         draw_tab( w_missions, 56, _( "OTHER FACTIONS" ), tab == tab_mode::TAB_OTHERFACTIONS );
 
-        mvwputch( w_missions, 2, 0, BORDER_COLOR, LINE_OXXO ); // |^
-        mvwputch( w_missions, 2, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_OOXX ); // ^|
+        mvwputch( w_missions, point( 0, 2 ), BORDER_COLOR, LINE_OXXO ); // |^
+        mvwputch( w_missions, point( FULL_SCREEN_WIDTH - 1, 2 ), BORDER_COLOR, LINE_OOXX ); // ^|
 
-        mvwputch( w_missions, FULL_SCREEN_HEIGHT - 1, 0, BORDER_COLOR, LINE_XXOO ); // |
-        mvwputch( w_missions, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR,
+        mvwputch( w_missions, point( 0, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR, LINE_XXOO ); // |
+        mvwputch( w_missions, point( FULL_SCREEN_WIDTH - 1, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR,
                   LINE_XOOX ); // _|
-        mvwputch( w_missions, 2, 30, BORDER_COLOR,
+        mvwputch( w_missions, point( 30, 2 ), BORDER_COLOR,
                   tab == tab_mode::TAB_FOLLOWERS ? LINE_XOXX : LINE_XXXX ); // + || -|
-        mvwputch( w_missions, FULL_SCREEN_HEIGHT - 1, 30, BORDER_COLOR, LINE_XXOX ); // _|_
+        mvwputch( w_missions, point( 30, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
         const nc_color col = c_white;
         static const std::string no_camp = _( "You have no camps" );
         static const std::string no_ally = _( "You have no followers" );
@@ -662,18 +662,18 @@ void new_faction_manager::display() const
                                     3, 0 );
                     for( size_t i = top_of_page; i < active_vec_size; i++ ) {
                         const int y = i - top_of_page + 3;
-                        trim_and_print( w_missions, y, 1, 28, selection == i ? hilite( col ) : col,
+                        trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
                                         camps[i]->camp_name() );
                     }
                     if( selection < camps.size() ) {
                         assert( camp ); // To appease static analysis
                         camp->faction_display( w_missions, 31 );
                     } else {
-                        mvwprintz( w_missions, 4, 31, c_light_red, no_camp );
+                        mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_camp );
                     }
                     break;
                 } else {
-                    mvwprintz( w_missions, 4, 31, c_light_red, no_camp );
+                    mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_camp );
                 }
                 break;
             case tab_mode::TAB_FOLLOWERS:
@@ -682,7 +682,7 @@ void new_faction_manager::display() const
                                     3, 0 );
                     for( size_t i = top_of_page; i < active_vec_size; i++ ) {
                         const int y = i - top_of_page + 3;
-                        trim_and_print( w_missions, y, 1, 28, selection == i ? hilite( col ) : col,
+                        trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
                                         followers[i]->disp_name() );
                     }
                     if( selection < followers.size() ) {
@@ -694,11 +694,11 @@ void new_faction_manager::display() const
                             interactable = true;
                         }
                     } else {
-                        mvwprintz( w_missions, 4, 31, c_light_red, no_ally );
+                        mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_ally );
                     }
                     break;
                 } else {
-                    mvwprintz( w_missions, 4, 31, c_light_red, no_ally );
+                    mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_ally );
                 }
                 break;
             case tab_mode::TAB_OTHERFACTIONS:

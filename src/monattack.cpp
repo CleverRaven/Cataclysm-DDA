@@ -1001,6 +1001,11 @@ bool mattack::smash( monster *z )
         return false;
     }
 
+    //Don't try to smash immobile targets
+    if( target->has_flag( MF_IMMOBILE ) ) {
+        return false;
+    }
+
     // Costs lots of moves to give you a little bit of a chance to get away.
     z->moves -= 400;
 
@@ -2605,7 +2610,7 @@ bool mattack::grab( monster *z )
     ///\EFFECT_DEX increases chance to avoid being grabbed if DEX>STR
 
     ///\EFFECT_STR increases chance to avoid being grabbed if STR>DEX
-    if( pl->has_grab_break_tec() && pl->get_grab_resist() > 0 && pl->get_dex() > pl->get_str() ?
+    if( pl->can_grab_break() && pl->get_grab_resist() > 0 && pl->get_dex() > pl->get_str() ?
         rng( 0, pl->get_dex() ) : rng( 0, pl->get_str() ) > rng( 0,
                 z->type->melee_sides + z->type->melee_dice ) ) {
         if( target->has_effect( effect_grabbed ) ) {

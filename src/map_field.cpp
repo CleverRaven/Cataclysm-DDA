@@ -2018,15 +2018,15 @@ std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddir
         const tripoint &pos )
 {
     static const std::array<std::pair<int, std::tuple< point, point, point >>, 9> outputs = {{
-            { 330, std::make_tuple( point( 1, 0 ), point( 1, -1 ), point( 1, 1 ) ) },
-            { 301, std::make_tuple( point( 1, 1 ), point( 1, 0 ), point( 0, 1 ) ) },
-            { 240, std::make_tuple( point( 0, 1 ), point( -1, 1 ), point( 1, 1 ) ) },
-            { 211, std::make_tuple( point( -1, 1 ), point( -1, 0 ), point( 0, 1 ) ) },
-            { 150, std::make_tuple( point( -1, 0 ), point( -1, -1 ), point( -1, 1 ) ) },
-            { 121, std::make_tuple( point( -1, -1 ), point( 0, -1 ), point( -1, 0 ) ) },
-            { 60, std::make_tuple( point( 0, -1 ), point( -1, -1 ), point( 1, -1 ) ) },
-            { 31, std::make_tuple( point( 1, -1 ), point( 1, 0 ), point( 0, -1 ) ) },
-            { 0, std::make_tuple( point( 1, 0 ), point( 1, -1 ), point( 1, 1 ) ) }
+            { 330, std::make_tuple( point_east, point_north_east, point_south_east ) },
+            { 301, std::make_tuple( point_south_east, point_east, point_south ) },
+            { 240, std::make_tuple( point_south, point_south_west, point_south_east ) },
+            { 211, std::make_tuple( point_south_west, point_west, point_south ) },
+            { 150, std::make_tuple( point_west, point_north_west, point_south_west ) },
+            { 121, std::make_tuple( point_north_west, point_north, point_west ) },
+            { 60, std::make_tuple( point_north, point_north_west, point_north_east ) },
+            { 31, std::make_tuple( point_north_east, point_east, point_north ) },
+            { 0, std::make_tuple( point_east, point_north_east, point_south_east ) }
         }
     };
 

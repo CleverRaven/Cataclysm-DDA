@@ -693,11 +693,11 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         } else if( old == "bunker" ) {
             if( pos.z < 0 ) {
                 new_id = oter_id( "bunker_basement" );
-            } else if( is_ot_match( "road", get_ter( pos + point( 1, 0 ) ), ot_match_type::type ) ) {
+            } else if( is_ot_match( "road", get_ter( pos + point_east ), ot_match_type::type ) ) {
                 new_id = oter_id( "bunker_west" );
-            } else if( is_ot_match( "road", get_ter( pos + point( -1, 0 ) ), ot_match_type::type ) ) {
+            } else if( is_ot_match( "road", get_ter( pos + point_west ), ot_match_type::type ) ) {
                 new_id = oter_id( "bunker_east" );
-            } else if( is_ot_match( "road", get_ter( pos + point( 0, 1 ) ), ot_match_type::type ) ) {
+            } else if( is_ot_match( "road", get_ter( pos + point_south ), ot_match_type::type ) ) {
                 new_id = oter_id( "bunker_north" );
             } else {
                 new_id = oter_id( "bunker_south" );
@@ -934,7 +934,7 @@ void overmap::unserialize( std::istream &fin )
                 monster new_monster;
                 monster_location.deserialize( jsin );
                 new_monster.deserialize( jsin );
-                monster_map.insert( std::make_pair( std::move( monster_location ),
+                monster_map.insert( std::make_pair( monster_location,
                                                     std::move( new_monster ) ) );
             }
         } else if( name == "tracked_vehicles" ) {
