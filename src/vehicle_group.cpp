@@ -72,6 +72,11 @@ void VehicleGroup::load( JsonObject &jo )
     }
 }
 
+void VehicleGroup::reset()
+{
+    vgroups.clear();
+}
+
 VehicleFacings::VehicleFacings( JsonObject &jo, const std::string &key )
 {
     if( jo.has_array( key ) ) {
