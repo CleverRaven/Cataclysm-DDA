@@ -4484,7 +4484,7 @@ void mapgen_lake_shore( map *m, oter_id, mapgendata dat, const time_point &turn,
     const auto draw_shallow_water = [&]( const point & from, const point & to ) {
         std::vector<point> points = line_to( from, to );
         for( auto &p : points ) {
-            std::vector<point> buffered_points = closest_points_first( 1, p.x, p.y );
+            std::vector<point> buffered_points = closest_points_first( 1, p );
             for( const point &bp : buffered_points ) {
                 if( !map_boundaries.contains_inclusive( bp ) ) {
                     continue;

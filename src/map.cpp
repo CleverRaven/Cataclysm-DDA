@@ -1167,25 +1167,24 @@ bool map::displace_water( const tripoint &p )
 
 // 2D overloads for furniture
 // To be removed once not needed
-void map::set( const int x, const int y, const ter_id &new_terrain, const furn_id &new_furniture )
+void map::set( const point &p, const ter_id &new_terrain, const furn_id &new_furniture )
 {
-    furn_set( point( x, y ), new_furniture );
-    ter_set( point( x, y ), new_terrain );
+    furn_set( p, new_furniture );
+    ter_set( p, new_terrain );
 }
 
-std::string map::name( const int x, const int y )
+std::string map::name( const point &p )
 {
-    return name( tripoint( x, y, abs_sub.z ) );
+    return name( tripoint( p, abs_sub.z ) );
 }
 
-bool map::has_furn( const int x, const int y ) const
+bool map::has_furn( const point &p ) const
 {
-    return furn( point( x, y ) ) != f_null;
+    return furn( p ) != f_null;
 }
 
-furn_id map::furn( const int x, const int y ) const
+furn_id map::furn( const point &p ) const
 {
-    const point p( x, y );
     if( !inbounds( p ) ) {
         return f_null;
     }
@@ -1196,14 +1195,14 @@ furn_id map::furn( const int x, const int y ) const
     return current_submap->get_furn( l );
 }
 
-void map::furn_set( const int x, const int y, const furn_id &new_furniture )
+void map::furn_set( const point &p, const furn_id &new_furniture )
 {
-    furn_set( tripoint( x, y, abs_sub.z ), new_furniture );
+    furn_set( tripoint( p, abs_sub.z ), new_furniture );
 }
 
-std::string map::furnname( const int x, const int y )
+std::string map::furnname( const point &p )
 {
-    return furnname( tripoint( x, y, abs_sub.z ) );
+    return furnname( tripoint( p, abs_sub.z ) );
 }
 // End of 2D overloads for furniture
 
@@ -1346,9 +1345,8 @@ std::string map::furnname( const tripoint &p )
 // 2D overloads for terrain
 // To be removed once not needed
 
-ter_id map::ter( const int x, const int y ) const
+ter_id map::ter( const point &p ) const
 {
-    const point p( x, y );
     if( !inbounds( p ) ) {
         return t_null;
     }
@@ -1358,14 +1356,14 @@ ter_id map::ter( const int x, const int y ) const
     return current_submap->get_ter( l );
 }
 
-bool map::ter_set( const int x, const int y, const ter_id &new_terrain )
+bool map::ter_set( const point &p, const ter_id &new_terrain )
 {
-    return ter_set( tripoint( x, y, abs_sub.z ), new_terrain );
+    return ter_set( tripoint( p, abs_sub.z ), new_terrain );
 }
 
-std::string map::tername( const int x, const int y ) const
+std::string map::tername( const point &p ) const
 {
-    return tername( tripoint( x, y, abs_sub.z ) );
+    return tername( tripoint( p, abs_sub.z ) );
 }
 // End of 2D overloads for terrain
 
@@ -1572,9 +1570,9 @@ std::string map::tername( const tripoint &p ) const
     return ter( p ).obj().name();
 }
 
-std::string map::features( const int x, const int y )
+std::string map::features( const point &p )
 {
-    return features( tripoint( x, y, abs_sub.z ) );
+    return features( tripoint( p, abs_sub.z ) );
 }
 
 std::string map::features( const tripoint &p )
@@ -2182,29 +2180,28 @@ void map::process_falling()
 
 // 2D flags
 
-bool map::has_flag( const std::string &flag, const int x, const int y ) const
+bool map::has_flag( const std::string &flag, const point &p ) const
 {
-    return has_flag( flag, tripoint( x, y, abs_sub.z ) );
+    return has_flag( flag, tripoint( p, abs_sub.z ) );
 }
 
-bool map::can_put_items_ter_furn( const int x, const int y ) const
+bool map::can_put_items_ter_furn( const point &p ) const
 {
-    return !has_flag( "NOITEM", point( x, y ) ) && !has_flag( "SEALED", point( x, y ) );
+    return !has_flag( "NOITEM", p ) && !has_flag( "SEALED", p );
 }
 
-bool map::has_flag_ter( const std::string &flag, const int x, const int y ) const
+bool map::has_flag_ter( const std::string &flag, const point &p ) const
 {
-    return has_flag_ter( flag, tripoint( x, y, abs_sub.z ) );
+    return has_flag_ter( flag, tripoint( p, abs_sub.z ) );
 }
 
-bool map::has_flag_furn( const std::string &flag, const int x, const int y ) const
+bool map::has_flag_furn( const std::string &flag, const point &p ) const
 {
-    return has_flag_furn( flag, tripoint( x, y, abs_sub.z ) );
+    return has_flag_furn( flag, tripoint( p, abs_sub.z ) );
 }
 
-bool map::has_flag_ter_or_furn( const std::string &flag, const int x, const int y ) const
+bool map::has_flag_ter_or_furn( const std::string &flag, const point &p ) const
 {
-    const point p( x, y );
     if( !inbounds( p ) ) {
         return false;
     }
@@ -2217,24 +2214,23 @@ bool map::has_flag_ter_or_furn( const std::string &flag, const int x, const int 
 }
 
 /////
-bool map::has_flag( const ter_bitflags flag, const int x, const int y ) const
+bool map::has_flag( const ter_bitflags flag, const point &p ) const
 {
-    return has_flag( flag, tripoint( x, y, abs_sub.z ) );
+    return has_flag( flag, tripoint( p, abs_sub.z ) );
 }
 
-bool map::has_flag_ter( const ter_bitflags flag, const int x, const int y ) const
+bool map::has_flag_ter( const ter_bitflags flag, const point &p ) const
 {
-    return has_flag_ter( flag, tripoint( x, y, abs_sub.z ) );
+    return has_flag_ter( flag, tripoint( p, abs_sub.z ) );
 }
 
-bool map::has_flag_furn( const ter_bitflags flag, const int x, const int y ) const
+bool map::has_flag_furn( const ter_bitflags flag, const point &p ) const
 {
-    return has_flag_furn( flag, tripoint( x, y, abs_sub.z ) );
+    return has_flag_furn( flag, tripoint( p, abs_sub.z ) );
 }
 
-bool map::has_flag_ter_or_furn( const ter_bitflags flag, const int x, const int y ) const
+bool map::has_flag_ter_or_furn( const ter_bitflags flag, const point &p ) const
 {
-    const point p( x, y );
     if( !inbounds( p ) ) {
         return false;
     }
@@ -2367,39 +2363,39 @@ int map::bash_rating_internal( const int str, const furn_t &furniture,
 
 // 2D bashable
 
-bool map::is_bashable( const int x, const int y ) const
+bool map::is_bashable( const point &p ) const
 {
-    return is_bashable( tripoint( x, y, abs_sub.z ) );
+    return is_bashable( tripoint( p, abs_sub.z ) );
 }
 
-bool map::is_bashable_ter( const int x, const int y ) const
+bool map::is_bashable_ter( const point &p ) const
 {
-    return is_bashable_ter( tripoint( x, y, abs_sub.z ) );
+    return is_bashable_ter( tripoint( p, abs_sub.z ) );
 }
 
-bool map::is_bashable_furn( const int x, const int y ) const
+bool map::is_bashable_furn( const point &p ) const
 {
-    return is_bashable_furn( tripoint( x, y, abs_sub.z ) );
+    return is_bashable_furn( tripoint( p, abs_sub.z ) );
 }
 
-bool map::is_bashable_ter_furn( const int x, const int y ) const
+bool map::is_bashable_ter_furn( const point &p ) const
 {
-    return is_bashable_ter_furn( tripoint( x, y, abs_sub.z ) );
+    return is_bashable_ter_furn( tripoint( p, abs_sub.z ) );
 }
 
-int map::bash_strength( const int x, const int y ) const
+int map::bash_strength( const point &p ) const
 {
-    return bash_strength( tripoint( x, y, abs_sub.z ) );
+    return bash_strength( tripoint( p, abs_sub.z ) );
 }
 
-int map::bash_resistance( const int x, const int y ) const
+int map::bash_resistance( const point &p ) const
 {
-    return bash_resistance( tripoint( x, y, abs_sub.z ) );
+    return bash_resistance( tripoint( p, abs_sub.z ) );
 }
 
-int map::bash_rating( const int str, const int x, const int y ) const
+int map::bash_rating( const int str, const point &p ) const
 {
-    return bash_rating( str, tripoint( x, y, abs_sub.z ) );
+    return bash_rating( str, tripoint( p, abs_sub.z ) );
 }
 
 // 3D bashable
@@ -2562,14 +2558,14 @@ void map::make_rubble( const tripoint &p, const furn_id &rubble_type, const bool
  * @param y The y coordinate to look at.
  * @return true if the terrain can be dived into; false if not.
  */
-bool map::is_divable( const int x, const int y ) const
+bool map::is_divable( const point &p ) const
 {
-    return has_flag( "SWIMMABLE", point( x, y ) ) && has_flag( TFLAG_DEEP_WATER, x, y );
+    return has_flag( "SWIMMABLE", p ) && has_flag( TFLAG_DEEP_WATER, p );
 }
 
-bool map::is_water_shallow_current( const int x, const int y ) const
+bool map::is_water_shallow_current( const point &p ) const
 {
-    return has_flag( "CURRENT", point( x, y ) ) && !has_flag( TFLAG_DEEP_WATER, x, y );
+    return has_flag( "CURRENT", p ) && !has_flag( TFLAG_DEEP_WATER, p );
 }
 
 bool map::is_water_shallow_current( const tripoint &p ) const
@@ -2582,15 +2578,14 @@ bool map::is_divable( const tripoint &p ) const
     return has_flag( "SWIMMABLE", p ) && has_flag( TFLAG_DEEP_WATER, p );
 }
 
-bool map::is_outside( const int x, const int y ) const
+bool map::is_outside( const point &p ) const
 {
-    const point p( x, y );
     if( !inbounds( p ) ) {
         return true;
     }
 
     const auto &outside_cache = get_cache_ref( abs_sub.z ).outside_cache;
-    return outside_cache[x][y];
+    return outside_cache[p.x][p.y];
 }
 
 bool map::is_outside( const tripoint &p ) const
@@ -2603,7 +2598,7 @@ bool map::is_outside( const tripoint &p ) const
     return outside_cache[p.x][p.y];
 }
 
-bool map::is_last_ter_wall( const bool no_furn, const int x, const int y,
+bool map::is_last_ter_wall( const bool no_furn, const point &p,
                             const int xmax, const int ymax, const direction dir ) const
 {
     int xmov = 0;
@@ -2624,8 +2619,8 @@ bool map::is_last_ter_wall( const bool no_furn, const int x, const int y,
         default:
             break;
     }
-    int x2 = x;
-    int y2 = y;
+    int x2 = p.x;
+    int y2 = p.y;
     bool result = true;
     bool loop = true;
     while( ( loop ) && ( ( dir == NORTH && y2 >= 0 ) ||
@@ -3974,9 +3969,9 @@ int map::get_radiation( const tripoint &p ) const
     return current_submap->get_radiation( l );
 }
 
-void map::set_radiation( const int x, const int y, const int value )
+void map::set_radiation( const point &p, const int value )
 {
-    set_radiation( tripoint( x, y, abs_sub.z ), value );
+    set_radiation( tripoint( p, abs_sub.z ), value );
 }
 
 void map::set_radiation( const tripoint &p, const int value )
@@ -7909,14 +7904,9 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     }
 }
 
-std::vector<point> closest_points_first( int radius, point p )
-{
-    return closest_points_first( radius, p.x, p.y );
-}
-
 //this returns points in a spiral pattern starting at center_x/center_y until it hits the radius. clockwise fashion
 //credit to Tom J Nowell; http://stackoverflow.com/a/1555236/1269969
-std::vector<point> closest_points_first( int radius, int center_x, int center_y )
+std::vector<point> closest_points_first( int radius, const point &center )
 {
     std::vector<point> points;
     int X = radius * 2 + 1;
@@ -7929,7 +7919,7 @@ std::vector<point> closest_points_first( int radius, int center_x, int center_y 
     int maxI = t * t;
     for( int i = 0; i < maxI; i++ ) {
         if( -X / 2 <= x && x <= X / 2 && -Y / 2 <= y && y <= Y / 2 ) {
-            points.push_back( point( x + center_x, y + center_y ) );
+            points.push_back( center + point( x, y ) );
         }
         if( x == y || ( x < 0 && x == -y ) || ( x > 0 && x == 1 - y ) ) {
             t = dx;
@@ -7970,9 +7960,9 @@ std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &cente
 //////////
 ///// coordinate helpers
 
-point map::getabs( const int x, const int y ) const
+point map::getabs( const point &p ) const
 {
-    return sm_to_ms_copy( abs_sub.xy() ) + point( x, y );
+    return sm_to_ms_copy( abs_sub.xy() ) + p;
 }
 
 tripoint map::getabs( const tripoint &p ) const
@@ -7980,9 +7970,9 @@ tripoint map::getabs( const tripoint &p ) const
     return sm_to_ms_copy( abs_sub.xy() ) + p;
 }
 
-point map::getlocal( const int x, const int y ) const
+point map::getlocal( const point &p ) const
 {
-    return point( x, y ) - sm_to_ms_copy( abs_sub.xy() );
+    return p - sm_to_ms_copy( abs_sub.xy() );
 }
 
 tripoint map::getlocal( const tripoint &p ) const

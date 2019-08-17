@@ -102,12 +102,12 @@ void build_mine_room( map *m, room_type type, int x1, int y1, int x2, int y2, ma
 
 // (x,y,z) are absolute coordinates of a submap
 // x%2 and y%2 must be 0!
-void map::generate( const int x, const int y, const int z, const time_point &when )
+void map::generate( const tripoint &p, const time_point &when )
 {
-    dbg( D_INFO ) << "map::generate( g[" << g.get() << "], x[" << x << "], "
-                  << "y[" << y << "], z[" << z << "], when[" << to_string( when ) << "] )";
+    dbg( D_INFO ) << "map::generate( g[" << g.get() << "], p[" << p << "], "
+                  "when[" << to_string( when ) << "] )";
 
-    set_abs_sub( x, y, z );
+    set_abs_sub( p );
 
     // First we have to create new submaps and initialize them to 0 all over
     // We create all the submaps, even if we're not a tinymap, so that map
@@ -122,7 +122,7 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
         }
     }
     // x, and y are submap coordinates, convert to overmap terrain coordinates
-    tripoint abs_omt = sm_to_omt_copy( tripoint( x, y, z ) );
+    tripoint abs_omt = sm_to_omt_copy( p );
     const regional_settings *rsettings = &overmap_buffer.get_settings( abs_omt );
     oter_id terrain_type = overmap_buffer.ter( abs_omt );
     oter_id t_above = overmap_buffer.ter( abs_omt + tripoint_above );
@@ -147,7 +147,7 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
     density = density / 100;
 
     draw_map( terrain_type, t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest,
-              t_above, t_below, when, density, z, rsettings );
+              t_above, t_below, when, density, p.z, rsettings );
 
     // At some point, we should add region information so we can grab the appropriate extras
     map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
@@ -201,9 +201,9 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
             dbg( D_INFO ) << "map::generate: submap (" << i << "," << j << ")";
 
             if( i <= 1 && j <= 1 ) {
-                saven( tripoint( i, j, z ) );
+                saven( tripoint( i, j, p.z ) );
             } else {
-                delete get_submap_at_grid( { i, j, z } );
+                delete get_submap_at_grid( { i, j, p.z } );
             }
         }
     }
