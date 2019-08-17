@@ -980,7 +980,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     for( int x = 0; x < SEEX * 2 - 1; x++ ) {
         for( int y = 0; y < SEEY * 2 - 1; y++ ) {
-            if( bay.ter( x, y ) == t_dirtmound ) {
+            if( bay.ter( point( x, y ) ) == t_dirtmound ) {
                 empty_plots++;
             }
         }
@@ -1009,7 +1009,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
     //Plant the actual seeds
     for( int x = 0; x < SEEX * 2 - 1; x++ ) {
         for( int y = 0; y < SEEY * 2 - 1; y++ ) {
-            if( bay.ter( x, y ) == t_dirtmound && limiting_number > 0 ) {
+            if( bay.ter( point( x, y ) ) == t_dirtmound && limiting_number > 0 ) {
                 std::list<item> used_seed;
                 if( item::count_by_charges( seed_id ) ) {
                     used_seed = g->u.use_charges( seed_id, 1 );
@@ -1042,7 +1042,8 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     for( int x = 0; x < SEEX * 2 - 1; x++ ) {
         for( int y = 0; y < SEEY * 2 - 1; y++ ) {
-            if( bay.furn( x, y ) == furn_str_id( "f_plant_harvest" ) && !bay.i_at( point( x, y ) ).empty() ) {
+            if( bay.furn( point( x, y ) ) == furn_str_id( "f_plant_harvest" ) &&
+                !bay.i_at( point( x, y ) ).empty() ) {
                 // Can't use item_stack::only_item() since there might be fertilizer
                 map_stack items = bay.i_at( point( x, y ) );
                 map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
@@ -1090,7 +1091,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
 
     for( int x = 0; x < SEEX * 2 - 1; x++ ) {
         for( int y = 0; y < SEEY * 2 - 1; y++ ) {
-            if( bay.furn( x, y ) == furn_str_id( "f_plant_harvest" ) ) {
+            if( bay.furn( point( x, y ) ) == furn_str_id( "f_plant_harvest" ) ) {
                 // Can't use item_stack::only_item() since there might be fertilizer
                 map_stack items = bay.i_at( point( x, y ) );
                 map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
@@ -2029,7 +2030,7 @@ void talk_function::loot_building( const tripoint &site )
             p.x = x;
             p.y = y;
             p.z = site.z;
-            ter_id t = bay.ter( x, y );
+            ter_id t = bay.ter( point( x, y ) );
             //Open all the doors, doesn't need to be exhaustive
             if( t == t_door_c || t == t_door_c_peep || t == t_door_b
                 || t == t_door_boarded || t == t_door_boarded_damaged
@@ -2038,7 +2039,7 @@ void talk_function::loot_building( const tripoint &site )
                 bay.ter_set( point( x, y ), t_door_o );
             } else if( t == t_door_locked || t == t_door_locked_peep
                        || t == t_door_locked_alarm ) {
-                const map_bash_info &bash = bay.ter( x, y ).obj().bash;
+                const map_bash_info &bash = bay.ter( point( x, y ) ).obj().bash;
                 bay.ter_set( point( x, y ), bash.ter_set );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             } else if( t == t_door_metal_c || t == t_door_metal_locked
@@ -2047,7 +2048,7 @@ void talk_function::loot_building( const tripoint &site )
             } else if( t == t_door_glass_c ) {
                 bay.ter_set( point( x, y ), t_door_glass_o );
             } else if( t == t_wall && one_in( 25 ) ) {
-                const map_bash_info &bash = bay.ter( x, y ).obj().bash;
+                const map_bash_info &bash = bay.ter( point( x, y ) ).obj().bash;
                 bay.ter_set( point( x, y ), bash.ter_set );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
                 bay.collapse_at( p, false );
@@ -2059,16 +2060,16 @@ void talk_function::loot_building( const tripoint &site )
                        t == t_curtains || t == t_window_alarm ||
                        t == t_window_no_curtains || t == t_window_no_curtains_taped )
                      && one_in( 4 ) ) {
-                const map_bash_info &bash = bay.ter( x, y ).obj().bash;
+                const map_bash_info &bash = bay.ter( point( x, y ) ).obj().bash;
                 bay.ter_set( point( x, y ), bash.ter_set );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             } else if( ( t == t_wall_glass || t == t_wall_glass_alarm ) && one_in( 3 ) ) {
-                const map_bash_info &bash = bay.ter( x, y ).obj().bash;
+                const map_bash_info &bash = bay.ter( point( x, y ) ).obj().bash;
                 bay.ter_set( point( x, y ), bash.ter_set );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-            } else if( bay.has_furn( x, y ) && bay.furn( x, y ).obj().bash.str_max != -1 &&
+            } else if( bay.has_furn( point( x, y ) ) && bay.furn( point( x, y ) ).obj().bash.str_max != -1 &&
                        one_in( 10 ) ) {
-                const map_bash_info &bash = bay.furn( x, y ).obj().bash;
+                const map_bash_info &bash = bay.furn( point( x, y ) ).obj().bash;
                 bay.furn_set( point( x, y ), bash.furn_set );
                 bay.delete_signage( p );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );

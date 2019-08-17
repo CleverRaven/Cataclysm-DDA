@@ -128,22 +128,22 @@ void tutorial_game::per_turn()
     bool showed_message = false;
     for( int x = g->u.posx() - 1; x <= g->u.posx() + 1 && !showed_message; x++ ) {
         for( int y = g->u.posy() - 1; y <= g->u.posy() + 1 && !showed_message; y++ ) {
-            if( g->m.ter( x, y ) == t_door_o ) {
+            if( g->m.ter( point( x, y ) ) == t_door_o ) {
                 add_message( LESSON_OPEN );
                 showed_message = true;
-            } else if( g->m.ter( x, y ) == t_door_c ) {
+            } else if( g->m.ter( point( x, y ) ) == t_door_c ) {
                 add_message( LESSON_CLOSE );
                 showed_message = true;
-            } else if( g->m.ter( x, y ) == t_window ) {
+            } else if( g->m.ter( point( x, y ) ) == t_window ) {
                 add_message( LESSON_SMASH );
                 showed_message = true;
-            } else if( g->m.furn( x, y ) == f_rack && !g->m.i_at( point( x, y ) ).empty() ) {
+            } else if( g->m.furn( point( x, y ) ) == f_rack && !g->m.i_at( point( x, y ) ).empty() ) {
                 add_message( LESSON_EXAMINE );
                 showed_message = true;
-            } else if( g->m.ter( x, y ) == t_stairs_down ) {
+            } else if( g->m.ter( point( x, y ) ) == t_stairs_down ) {
                 add_message( LESSON_STAIRS );
                 showed_message = true;
-            } else if( g->m.ter( x, y ) == t_water_sh ) {
+            } else if( g->m.ter( point( x, y ) ) == t_water_sh ) {
                 add_message( LESSON_PICKUP_WATER );
                 showed_message = true;
             }

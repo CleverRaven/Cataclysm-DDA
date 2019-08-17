@@ -417,10 +417,10 @@ void computer::activate_function( computer_action action )
             g->u.moves -= 30;
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( x, y ) == t_sewage_pump ) {
+                    if( g->m.ter( point( x, y ) ) == t_sewage_pump ) {
                         for( int x1 = x - 1; x1 <= x + 1; x1++ ) {
                             for( int y1 = y - 1; y1 <= y + 1; y1++ ) {
-                                if( g->m.furn( x1, y1 ) == f_counter ) {
+                                if( g->m.furn( point( x1, y1 ) ) == f_counter ) {
                                     bool found_item = false;
                                     item sewage( "sewage", calendar::turn );
                                     auto candidates = g->m.i_at( point( x1, y1 ) );
@@ -479,10 +479,10 @@ void computer::activate_function( computer_action action )
                     tripoint p( x, y, g->u.posz() );
                     monster *const mon = g->critter_at<monster>( p );
                     if( mon &&
-                        ( ( g->m.ter( x, y - 1 ) == t_reinforced_glass &&
-                            g->m.ter( x, y + 1 ) == t_concrete_wall ) ||
-                          ( g->m.ter( x, y + 1 ) == t_reinforced_glass &&
-                            g->m.ter( x, y - 1 ) == t_concrete_wall ) ) ) {
+                        ( ( g->m.ter( point( x, y - 1 ) ) == t_reinforced_glass &&
+                            g->m.ter( point( x, y + 1 ) ) == t_concrete_wall ) ||
+                          ( g->m.ter( point( x, y + 1 ) ) == t_reinforced_glass &&
+                            g->m.ter( point( x, y - 1 ) ) == t_concrete_wall ) ) ) {
                         mon->die( &g->u );
                     }
                 }
@@ -749,7 +749,7 @@ void computer::activate_function( computer_action action )
         case COMPACT_ELEVATOR_ON:
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( x, y ) == t_elevator_control_off ) {
+                    if( g->m.ter( point( x, y ) ) == t_elevator_control_off ) {
                         g->m.ter_set( point( x, y ), t_elevator_control );
                     }
                 }
@@ -1195,18 +1195,18 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     tripoint p( x, y, g->get_levz() );
-                    if( g->m.ter( x, y ) == t_elevator || g->m.ter( x, y ) == t_vat ) {
+                    if( g->m.ter( point( x, y ) ) == t_elevator || g->m.ter( point( x, y ) ) == t_vat ) {
                         g->m.make_rubble( p, f_rubble_rock, true );
                         explosion_handler::explosion( p, 40, 0.7, true );
                     }
-                    if( g->m.ter( x, y ) == t_wall_glass ) {
+                    if( g->m.ter( point( x, y ) ) == t_wall_glass ) {
                         g->m.make_rubble( p, f_rubble_rock, true );
                     }
-                    if( g->m.ter( x, y ) == t_sewage_pipe || g->m.ter( x, y ) == t_sewage ||
-                        g->m.ter( x, y ) == t_grate ) {
+                    if( g->m.ter( point( x, y ) ) == t_sewage_pipe || g->m.ter( point( x, y ) ) == t_sewage ||
+                        g->m.ter( point( x, y ) ) == t_grate ) {
                         g->m.make_rubble( p, f_rubble_rock, true );
                     }
-                    if( g->m.ter( x, y ) == t_sewage_pump ) {
+                    if( g->m.ter( point( x, y ) ) == t_sewage_pump ) {
                         g->m.make_rubble( p, f_rubble_rock, true );
                         explosion_handler::explosion( p, 50, 0.7, true );
                     }
@@ -1226,7 +1226,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                     _( "\nPower:         Backup Only\nRadiation Level:  Very Dangerous\nOperational:   Overridden\n\n" ) );
                 for( int x = 0; x < MAPSIZE_X; x++ ) {
                     for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                        if( g->m.ter( x, y ) == t_elevator_control_off ) {
+                        if( g->m.ter( point( x, y ) ) == t_elevator_control_off ) {
                             g->m.ter_set( point( x, y ), t_elevator_control );
 
                         }
@@ -1498,7 +1498,7 @@ void computer::activate_failure( computer_failure_type fail )
             }
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.has_flag( "CONSOLE", x, y ) ) {
+                    if( g->m.has_flag( "CONSOLE", point( x, y ) ) ) {
                         g->m.ter_set( point( x, y ), t_console_broken );
                         add_msg( m_bad, _( "The console shuts down." ) );
                     }
@@ -1567,7 +1567,7 @@ void computer::activate_failure( computer_failure_type fail )
             add_msg( m_warning, _( "The pump explodes!" ) );
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( x, y ) == t_sewage_pump ) {
+                    if( g->m.ter( point( x, y ) ) == t_sewage_pump ) {
                         tripoint p( x, y, g->get_levz() );
                         g->m.make_rubble( p );
                         explosion_handler::explosion( p, 10 );
@@ -1580,7 +1580,7 @@ void computer::activate_failure( computer_failure_type fail )
             add_msg( m_warning, _( "Sewage leaks!" ) );
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( x, y ) == t_sewage_pump ) {
+                    if( g->m.ter( point( x, y ) ) == t_sewage_pump ) {
                         point p( x, y );
                         int leak_size = rng( 4, 10 );
                         for( int i = 0; i < leak_size; i++ ) {
@@ -1650,7 +1650,7 @@ void computer::activate_failure( computer_failure_type fail )
             print_error( _( "ERROR: ACCESSING DATA MALFUNCTION" ) );
             for( int x = 0; x < SEEX * 2; x++ ) {
                 for( int y = 0; y < SEEY * 2; y++ ) {
-                    if( g->m.ter( x, y ) == t_floor_blue ) {
+                    if( g->m.ter( point( x, y ) ) == t_floor_blue ) {
                         map_stack items = g->m.i_at( point( x, y ) );
                         if( items.empty() ) {
                             print_error( _( "ERROR: Please place memory bank in scan area." ) );

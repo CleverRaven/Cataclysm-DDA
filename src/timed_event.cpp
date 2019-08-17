@@ -106,10 +106,10 @@ void timed_event::actualize()
             bool horizontal = false;
             for( int x = 0; x < MAPSIZE_X && faultx == -1; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y && faulty == -1; y++ ) {
-                    if( g->m.ter( x, y ) == t_fault ) {
+                    if( g->m.ter( point( x, y ) ) == t_fault ) {
                         faultx = x;
                         faulty = y;
-                        horizontal = g->m.ter( x - 1, y ) == t_fault || g->m.ter( x + 1, y ) == t_fault;
+                        horizontal = g->m.ter( point( x - 1, y ) ) == t_fault || g->m.ter( point( x + 1, y ) ) == t_fault;
                     }
                 }
             }
@@ -121,14 +121,14 @@ void timed_event::actualize()
                     if( horizontal ) {
                         monx = rng( faultx, faultx + 2 * SEEX - 8 );
                         for( int n = -1; n <= 1; n++ ) {
-                            if( g->m.ter( monx, faulty + n ) == t_rock_floor ) {
+                            if( g->m.ter( point( monx, faulty + n ) ) == t_rock_floor ) {
                                 mony = faulty + n;
                             }
                         }
                     } else { // Vertical fault
                         mony = rng( faulty, faulty + 2 * SEEY - 8 );
                         for( int n = -1; n <= 1; n++ ) {
-                            if( g->m.ter( faultx + n, mony ) == t_rock_floor ) {
+                            if( g->m.ter( point( faultx + n, mony ) ) == t_rock_floor ) {
                                 monx = faultx + n;
                             }
                         }
@@ -148,7 +148,7 @@ void timed_event::actualize()
                                    pgettext( "memorial_female", "Destroyed a triffid grove." ) );
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( x, y ) == t_root_wall && one_in( 3 ) ) {
+                    if( g->m.ter( point( x, y ) ) == t_root_wall && one_in( 3 ) ) {
                         g->m.ter_set( point( x, y ), t_underbrush );
                     }
                 }
@@ -161,7 +161,7 @@ void timed_event::actualize()
             bool saw_grate = false;
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( x, y ) == t_grate ) {
+                    if( g->m.ter( point( x, y ) ) == t_grate ) {
                         g->m.ter_set( point( x, y ), t_stairs_down );
                         if( !saw_grate && g->u.sees( tripoint( x, y, g->get_levz() ) ) ) {
                             saw_grate = true;
@@ -181,16 +181,16 @@ void timed_event::actualize()
             ter_id flood_buf[MAPSIZE_X][MAPSIZE_Y];
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    flood_buf[x][y] = g->m.ter( x, y );
+                    flood_buf[x][y] = g->m.ter( point( x, y ) );
                 }
             }
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( x, y ) == t_water_sh ) {
+                    if( g->m.ter( point( x, y ) ) == t_water_sh ) {
                         bool deepen = false;
                         for( int wx = x - 1;  wx <= x + 1 && !deepen; wx++ ) {
                             for( int wy = y - 1;  wy <= y + 1 && !deepen; wy++ ) {
-                                if( g->m.ter( wx, wy ) == t_water_dp ) {
+                                if( g->m.ter( point( wx, wy ) ) == t_water_dp ) {
                                     deepen = true;
                                 }
                             }
@@ -199,11 +199,11 @@ void timed_event::actualize()
                             flood_buf[x][y] = t_water_dp;
                             flooded = true;
                         }
-                    } else if( g->m.ter( x, y ) == t_rock_floor ) {
+                    } else if( g->m.ter( point( x, y ) ) == t_rock_floor ) {
                         bool flood = false;
                         for( int wx = x - 1;  wx <= x + 1 && !flood; wx++ ) {
                             for( int wy = y - 1;  wy <= y + 1 && !flood; wy++ ) {
-                                if( g->m.ter( wx, wy ) == t_water_dp || g->m.ter( wx, wy ) == t_water_sh ) {
+                                if( g->m.ter( point( wx, wy ) ) == t_water_dp || g->m.ter( point( wx, wy ) ) == t_water_sh ) {
                                     flood = true;
                                 }
                             }
@@ -219,7 +219,7 @@ void timed_event::actualize()
                 return;    // We finished flooding the entire chamber!
             }
             // Check if we should print a message
-            if( flood_buf[g->u.posx()][g->u.posy()] != g->m.ter( g->u.posx(), g->u.posy() ) ) {
+            if( flood_buf[g->u.posx()][g->u.posy()] != g->m.ter( point( g->u.posx(), g->u.posy() ) ) ) {
                 if( flood_buf[g->u.posx()][g->u.posy()] == t_water_sh ) {
                     add_msg( m_warning, _( "Water quickly floods up to your knees." ) );
                     g->u.add_memorial_log( pgettext( "memorial_male", "Water level reached knees." ),

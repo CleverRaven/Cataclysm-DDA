@@ -144,32 +144,33 @@ static tripoint find_potential_computer_point( const tinymap &compmap, int z )
     std::vector<tripoint> last_resort;
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
-            if( compmap.ter( x, y ) == t_console_broken ) {
+            if( compmap.ter( point( x, y ) ) == t_console_broken ) {
                 broken.emplace_back( x, y, z );
-            } else if( broken.empty() && compmap.ter( x, y ) == t_floor && compmap.furn( x, y ) == f_null ) {
+            } else if( broken.empty() && compmap.ter( point( x, y ) ) == t_floor &&
+                       compmap.furn( point( x, y ) ) == f_null ) {
                 bool okay = false;
                 int wall = 0;
                 for( int x2 = x - 1; x2 <= x + 1 && !okay; x2++ ) {
                     for( int y2 = y - 1; y2 <= y + 1 && !okay; y2++ ) {
-                        if( compmap.furn( x2, y2 ) == f_bed || compmap.furn( x2, y2 ) == f_dresser ) {
+                        if( compmap.furn( point( x2, y2 ) ) == f_bed || compmap.furn( point( x2, y2 ) ) == f_dresser ) {
                             okay = true;
                             potential.emplace_back( x, y, z );
                         }
-                        if( compmap.has_flag_ter( "WALL", x2, y2 ) ) {
+                        if( compmap.has_flag_ter( "WALL", point( x2, y2 ) ) ) {
                             wall++;
                         }
                     }
                 }
                 if( wall == 5 ) {
-                    if( compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, NORTH ) &&
-                        compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, SOUTH ) &&
-                        compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, WEST ) &&
-                        compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, EAST ) ) {
+                    if( compmap.is_last_ter_wall( true, point( x, y ), SEEX * 2, SEEY * 2, NORTH ) &&
+                        compmap.is_last_ter_wall( true, point( x, y ), SEEX * 2, SEEY * 2, SOUTH ) &&
+                        compmap.is_last_ter_wall( true, point( x, y ), SEEX * 2, SEEY * 2, WEST ) &&
+                        compmap.is_last_ter_wall( true, point( x, y ), SEEX * 2, SEEY * 2, EAST ) ) {
                         potential.emplace_back( x, y, z );
                     }
                 }
             } else if( broken.empty() && potential.empty() && x >= rng_x_min && x <= rng_x_max
-                       && y >= rng_y_min && y <= rng_y_max && compmap.ter( x, y ) != t_console ) {
+                       && y >= rng_y_min && y <= rng_y_max && compmap.ter( point( x, y ) ) != t_console ) {
                 last_resort.emplace_back( x, y, z );
             }
         }
@@ -248,8 +249,8 @@ void mission_start::place_priest_diary( mission *miss )
     std::vector<tripoint> valid;
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
-            if( compmap.furn( x, y ) == f_bed || compmap.furn( x, y ) == f_dresser ||
-                compmap.furn( x, y ) == f_indoor_plant || compmap.furn( x, y ) == f_cupboard ) {
+            if( compmap.furn( point( x, y ) ) == f_bed || compmap.furn( point( x, y ) ) == f_dresser ||
+                compmap.furn( point( x, y ) ) == f_indoor_plant || compmap.furn( point( x, y ) ) == f_cupboard ) {
                 valid.push_back( tripoint( x, y, place.z ) );
             }
         }
@@ -287,11 +288,11 @@ void mission_start::place_deposit_box( mission *miss )
     std::vector<tripoint> valid;
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
-            if( compmap.ter( x, y ) == t_floor ) {
+            if( compmap.ter( point( x, y ) ) == t_floor ) {
                 bool okay = false;
                 for( int x2 = x - 1; x2 <= x + 1 && !okay; x2++ ) {
                     for( int y2 = y - 1; y2 <= y + 1 && !okay; y2++ ) {
-                        if( compmap.ter( x2, y2 ) == t_wall_metal ) {
+                        if( compmap.ter( point( x2, y2 ) ) == t_wall_metal ) {
                             okay = true;
                             valid.push_back( tripoint( x, y, site.z ) );
                         }

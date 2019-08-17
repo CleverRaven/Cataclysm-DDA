@@ -177,13 +177,13 @@ static void mx_house_wasp( map &m, const tripoint & )
 {
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
-            if( m.ter( i, j ) == t_door_c || m.ter( i, j ) == t_door_locked ) {
+            if( m.ter( point( i, j ) ) == t_door_c || m.ter( point( i, j ) ) == t_door_locked ) {
                 m.ter_set( point( i, j ), t_door_frame );
             }
-            if( m.ter( i, j ) == t_window_domestic && !one_in( 3 ) ) {
+            if( m.ter( point( i, j ) ) == t_window_domestic && !one_in( 3 ) ) {
                 m.ter_set( point( i, j ), t_window_frame );
             }
-            if( m.ter( i, j ) == t_wall && one_in( 8 ) ) {
+            if( m.ter( point( i, j ) ) == t_wall && one_in( 8 ) ) {
                 m.ter_set( point( i, j ), t_paper );
             }
         }
@@ -220,12 +220,12 @@ static void mx_house_spider( map &m, const tripoint & )
     }
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
-            if( m.ter( i, j ) == t_floor ) {
+            if( m.ter( point( i, j ) ) == t_floor ) {
                 if( one_in( 15 ) ) {
                     m.add_spawn( spider_type, rng( 1, 2 ), point( i, j ) );
                     for( int x = i - 1; x <= i + 1; x++ ) {
                         for( int y = j - 1; y <= j + 1; y++ ) {
-                            if( m.ter( x, y ) == t_floor ) {
+                            if( m.ter( point( x, y ) ) == t_floor ) {
                                 madd_field( &m, x, y, fd_web, rng( 2, 3 ) );
                                 if( one_in( 4 ) ) {
                                     m.furn_set( point( i, j ), egg_type );
@@ -268,7 +268,7 @@ static void mx_helicopter( map &m, const tripoint &abs_sub )
                         if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
                             m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
                         }
-                    } else if( m.is_bashable( x, y ) ) {
+                    } else if( m.is_bashable( point( x, y ) ) ) {
                         m.destroy( tripoint( x,  y, abs_sub.z ), true );
                         if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
                             m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
@@ -964,7 +964,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 1, SEEX * 2 ), y = rng( SEEY, SEEY * 2 - 2 );
-            if( m.has_flag( "DIGGABLE", x, y ) ) {
+            if( m.has_flag( "DIGGABLE", point( x, y ) ) ) {
                 mtrap_set( &m, x, y, tr_landmine_buried );
             } else {
                 mtrap_set( &m, x, y, tr_landmine );
@@ -1065,7 +1065,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 1, SEEX * 2 ), y = rng( 1, SEEY );
-            if( m.has_flag( "DIGGABLE", x, y ) ) {
+            if( m.has_flag( "DIGGABLE", point( x, y ) ) ) {
                 mtrap_set( &m, x, y, tr_landmine_buried );
             } else {
                 mtrap_set( &m, x, y, tr_landmine );
@@ -1209,7 +1209,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( SEEX + 1, SEEX * 2 - 2 ), y = rng( 1, SEEY * 2 );
-            if( m.has_flag( "DIGGABLE", x, y ) ) {
+            if( m.has_flag( "DIGGABLE", point( x, y ) ) ) {
                 mtrap_set( &m, x, y, tr_landmine_buried );
             } else {
                 mtrap_set( &m, x, y, tr_landmine );
@@ -1341,7 +1341,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 1, SEEX ), y = rng( 1, SEEY * 2 );
-            if( m.has_flag( "DIGGABLE", x, y ) ) {
+            if( m.has_flag( "DIGGABLE", point( x, y ) ) ) {
                 mtrap_set( &m, x, y, tr_landmine_buried );
             } else {
                 mtrap_set( &m, x, y, tr_landmine );
@@ -1460,7 +1460,7 @@ static void mx_fumarole( map &m, const tripoint &abs_sub )
 
         for( auto &i : ignited ) {
             // Don't need to do anything to tiles that already have lava on them
-            if( m.ter( i.x, i.y ) != t_lava ) {
+            if( m.ter( i ) != t_lava ) {
                 // Spawn an intense but short-lived fire
                 // Any furniture or buildings will catch fire, otherwise it will burn out quickly
                 m.add_field( tripoint( i, abs_sub.z ), fd_fire, 15, 1_minutes );
@@ -1563,7 +1563,7 @@ static void mx_portal_in( map &m, const tripoint &abs_sub )
 
                 for( auto &i : ignited ) {
                     // Don't need to do anything to tiles that already have lava on them
-                    if( m.ter( i.x, i.y ) != t_lava ) {
+                    if( m.ter( i ) != t_lava ) {
                         // Spawn an intense but short-lived fire
                         // Any furniture or buildings will catch fire, otherwise it will burn out quickly
                         m.add_field( tripoint( i, abs_sub.z ), fd_fire, 15, 1_minutes );

@@ -343,7 +343,7 @@ void mapgen_null( map *m, oter_id, mapgendata, const time_point &, float )
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             m->ter_set( point( i, j ), t_null );
-            m->set_radiation( i, j, 0 );
+            m->set_radiation( point( i, j ), 0 );
         }
     }
 }
@@ -362,10 +362,10 @@ void mapgen_crater( map *m, oter_id, mapgendata dat, const time_point &turn, flo
                 rng( 0, dat.n_fac ) <= j && rng( 0, dat.s_fac ) <= SEEX * 2 - 1 - j ) {
                 m->ter_set( point( i, j ), t_dirt );
                 m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true );
-                m->set_radiation( i, j, rng( 0, 4 ) * rng( 0, 2 ) );
+                m->set_radiation( point( i, j ), rng( 0, 4 ) * rng( 0, 2 ) );
             } else {
                 m->ter_set( point( i, j ), dat.groundcover() );
-                m->set_radiation( i, j, rng( 0, 2 ) * rng( 0, 2 ) * rng( 0, 2 ) );
+                m->set_radiation( point( i, j ), rng( 0, 2 ) * rng( 0, 2 ) * rng( 0, 2 ) );
             }
         }
     }
@@ -635,7 +635,7 @@ void mapgen_spider_pit( map *m, oter_id, mapgendata dat, const time_point &turn,
         for( int x1 = x - 3; x1 <= x + 3; x1++ ) {
             for( int y1 = y - 3; y1 <= y + 3; y1++ ) {
                 madd_field( m, x1, y1, fd_web, rng( 2, 3 ) );
-                if( m->ter( x1, y1 ) != t_slope_down ) {
+                if( m->ter( point( x1, y1 ) ) != t_slope_down ) {
                     m->ter_set( point( x1, y1 ), t_dirt );
                 }
             }
@@ -2072,9 +2072,9 @@ void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgend
                     m->ter_set( point( i, j ), t_fence );
                 } else {
                     m->ter_set( point( i, j ), t_grass );
-                    if( one_in( 35 ) && !m->has_furn( i, j ) ) {
+                    if( one_in( 35 ) && !m->has_furn( point( i, j ) ) ) {
                         m->ter_set( point( i, j ), t_tree_young );
-                    } else if( one_in( 35 ) && !m->has_furn( i, j ) ) {
+                    } else if( one_in( 35 ) && !m->has_furn( point( i, j ) ) ) {
                         m->ter_set( point( i, j ), t_tree );
                     } else if( one_in( 25 ) ) {
                         m->ter_set( point( i, j ), t_dirt );
@@ -2088,9 +2088,9 @@ void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgend
 
     for( int i = x1; i <= x2; i++ ) {
         for( int j = y1; j <= y2; j++ ) {
-            if( dat.is_groundcover( m->ter( i, j ) ) ||
+            if( dat.is_groundcover( m->ter( point( i, j ) ) ) ||
                 //m->ter(i, j) == t_grass || m->ter(i, j) == t_dirt ||
-                m->ter( i, j ) == t_floor ) {
+                m->ter( point( i, j ) ) == t_floor ) {
                 if( j == y1 || j == y2 ) {
                     m->ter_set( point( i, j ), t_wall );
                 } else if( i == x1 || i == x2 ) {
@@ -2125,12 +2125,12 @@ void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgend
                     m->furn_set( point( x1 + 2, y2 - 1 ), f_desk );
                     while( pos_x1 < x2 ) {
                         pos_x1 += 1;
-                        if( m->ter( pos_x1, pos_y1 ) == t_wall ) {
+                        if( m->ter( point( pos_x1, pos_y1 ) ) == t_wall ) {
                             break;
                         }
                         m->furn_set( point( pos_x1, pos_y1 ), f_bookcase );
                         pos_x1 += 1;
-                        if( m->ter( pos_x1, pos_y1 ) == t_wall ) {
+                        if( m->ter( point( pos_x1, pos_y1 ) ) == t_wall ) {
                             break;
                         }
                         m->furn_set( point( pos_x1, pos_y1 ), f_bookcase );
@@ -2143,12 +2143,12 @@ void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgend
                     m->furn_set( point( x1 + 2, y2 - 1 ), f_desk );
                     while( pos_x1 > x1 ) {
                         pos_x1 -= 1;
-                        if( m->ter( pos_x1, pos_y1 ) == t_wall ) {
+                        if( m->ter( point( pos_x1, pos_y1 ) ) == t_wall ) {
                             break;
                         }
                         m->furn_set( point( pos_x1, pos_y1 ), f_bookcase );
                         pos_x1 -= 1;
-                        if( m->ter( pos_x1, pos_y1 ) == t_wall ) {
+                        if( m->ter( point( pos_x1, pos_y1 ) ) == t_wall ) {
                             break;
                         }
                         m->furn_set( point( pos_x1, pos_y1 ), f_bookcase );
@@ -2161,12 +2161,12 @@ void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgend
                     m->furn_set( point( x1 + 2, y2 - 1 ), f_desk );
                     while( pos_x1 < x2 ) {
                         pos_x1 += 1;
-                        if( m->ter( pos_x1, pos_y1 ) == t_wall ) {
+                        if( m->ter( point( pos_x1, pos_y1 ) ) == t_wall ) {
                             break;
                         }
                         m->furn_set( point( pos_x1, pos_y1 ), f_bookcase );
                         pos_x1 += 1;
-                        if( m->ter( pos_x1, pos_y1 ) == t_wall ) {
+                        if( m->ter( point( pos_x1, pos_y1 ) ) == t_wall ) {
                             break;
                         }
                         m->furn_set( point( pos_x1, pos_y1 ), f_bookcase );
@@ -2179,12 +2179,12 @@ void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgend
                     m->furn_set( point( x1 + 2, y2 - 1 ), f_desk );
                     while( pos_x1 > x1 ) {
                         pos_x1 -= 1;
-                        if( m->ter( pos_x1, pos_y1 ) == t_wall ) {
+                        if( m->ter( point( pos_x1, pos_y1 ) ) == t_wall ) {
                             break;
                         }
                         m->furn_set( point( pos_x1, pos_y1 ), f_bookcase );
                         pos_x1 -= 1;
-                        if( m->ter( pos_x1, pos_y1 ) == t_wall ) {
+                        if( m->ter( point( pos_x1, pos_y1 ) ) == t_wall ) {
                             break;
                         }
                         m->furn_set( point( pos_x1, pos_y1 ), f_bookcase );
@@ -2280,9 +2280,10 @@ void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgend
                 for( int i = 0; i <= 2; i++ ) {
                     pos_x1 = rng( x1 + 2, x2 - 2 );
                     pos_y1 = rng( y1 + 1, y2 - 1 );
-                    if( m->ter( pos_x1, pos_y1 ) == t_floor && !( m->furn( pos_x1, pos_y1 ) == f_cupboard ||
-                            m->furn( pos_x1, pos_y1 ) == f_oven || m->furn( pos_x1, pos_y1 ) == f_sink ||
-                            m->furn( pos_x1, pos_y1 ) == f_fridge ) ) {
+                    if( m->ter( point( pos_x1, pos_y1 ) ) == t_floor &&
+                        !( m->furn( point( pos_x1, pos_y1 ) ) == f_cupboard ||
+                           m->furn( point( pos_x1, pos_y1 ) ) == f_oven || m->furn( point( pos_x1, pos_y1 ) ) == f_sink ||
+                           m->furn( point( pos_x1, pos_y1 ) ) == f_fridge ) ) {
                         m->furn_set( point( pos_x1, pos_y1 ), f_chair );
                     }
                 }
@@ -2371,10 +2372,11 @@ void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgend
             placed = "softdrugs";
             chance = 72;
             m->furn_set( point( x2 - 1, y2 - 2 ), f_bathtub );
-            if( one_in( 3 ) && !( m->ter( x2 - 1, y2 - 3 ) == t_wall ) ) {
+            if( one_in( 3 ) && !( m->ter( point( x2 - 1, y2 - 3 ) ) == t_wall ) ) {
                 m->furn_set( point( x2 - 1, y2 - 3 ), f_bathtub );
             }
-            if( !( ( m->furn( x1 + 1, y2 - 2 ) == f_toilet ) || ( m->furn( x1 + 1, y2 - 2 ) == f_bathtub ) ) ) {
+            if( !( ( m->furn( point( x1 + 1, y2 - 2 ) ) == f_toilet ) ||
+                   ( m->furn( point( x1 + 1, y2 - 2 ) ) == f_bathtub ) ) ) {
                 m->furn_set( point( x1 + 1, y2 - 2 ), f_sink );
             }
             if( one_in( 4 ) ) {
@@ -2732,7 +2734,7 @@ void mapgen_generic_house( map *m, oter_id terrain_type, mapgendata dat, const t
                 if( one_in( 4 ) ) {
                     m->ter_set( point( rng( rw - 2, rw - 1 ), bw ), t_window_domestic );
                 } else {
-                    m->ter( rw, rng( cw + 1, bw - 1 ) );
+                    m->ter( point( rw, rng( cw + 1, bw - 1 ) ) );
                 }
             } else { //bathroom to the right
                 house_room( m, room_bathroom, lw, cw, lw + 3, bw, dat );
@@ -2763,7 +2765,7 @@ void mapgen_generic_house( map *m, oter_id terrain_type, mapgendata dat, const t
                 if( one_in( 4 ) ) {
                     m->ter_set( point( rng( lw + 1, lw + 2 ), bw ), t_window_domestic );
                 } else {
-                    m->ter( lw, rng( cw + 1, bw - 1 ) );
+                    m->ter( point( lw, rng( cw + 1, bw - 1 ) ) );
                 }
             }
             // Doors off the sides of the hallway
@@ -2942,7 +2944,7 @@ void mapgen_basement_spiders( map *m, oter_id terrain_type, mapgendata dat, cons
     }
     for( int i = 1; i < 22; i++ ) {
         for( int j = 1; j < 22; j++ ) {
-            if( m->ter( i, j ).obj().movecost == 0 ) {
+            if( m->ter( point( i, j ) ).obj().movecost == 0 ) {
                 // Wall, skip
                 continue;
             }
@@ -3608,7 +3610,7 @@ static void mapgen_ants_generic( map *m, oter_id terrain_type, mapgendata dat,
         do {
             x = rng( 1 + cw, SEEX * 2 - 2 - cw );
             y = rng( 1 + cw, SEEY * 2 - 2 - cw );
-        } while( m->ter( x, y ) == t_rock );
+        } while( m->ter( point( x, y ) ) == t_rock );
         for( int i = x - cw; i <= x + cw; i++ ) {
             for( int j = y - cw; j <= y + cw; j++ ) {
                 if( trig_dist( x, y, i, j ) <= cw ) {
@@ -4527,7 +4529,7 @@ void mapgen_lake_shore( map *m, oter_id, mapgendata dat, const time_point &turn,
         if( !map_boundaries.contains_inclusive( p ) ) {
             return false;
         }
-        return m->ter( p.x, p.y ) != t_null;
+        return m->ter( p ) != t_null;
     };
 
     const auto fill_deep_water = [&]( const point & starting_point ) {
