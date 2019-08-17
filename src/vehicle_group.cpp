@@ -103,6 +103,11 @@ void VehiclePlacement::load( JsonObject &jo )
     }
 }
 
+void VehiclePlacement::reset()
+{
+    vplacements.clear();
+}
+
 const VehicleLocation *VehiclePlacement::pick() const
 {
     if( const auto chosen = random_entry_opt( locations ) ) {
