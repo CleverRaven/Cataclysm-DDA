@@ -1,7 +1,8 @@
 #ifndef CATA_TOOLS_CLANG_TIDY_UTILS_H
 #define CATA_TOOLS_CLANG_TIDY_UTILS_H
 
-#include "clang/ASTMatchers/ASTMatchFinder.h"
+#include <clang/Lex/Lexer.h>
+#include <clang/ASTMatchers/ASTMatchFinder.h>
 
 namespace clang
 {
@@ -81,6 +82,38 @@ inline auto testWhetherConstructingTemporary()
                )
            );
 }
+
+inline auto isXParam()
+{
+    using namespace clang::ast_matchers;
+    return matchesName( "[xX]" );
+}
+
+// Struct to help identify and construct names of associated points and
+// coordinates
+class NameConvention
+{
+    public:
+        NameConvention( StringRef xName );
+
+        enum MatchResult {
+            XName,
+            YName,
+            ZName,
+            None
+        };
+
+        MatchResult Match( StringRef name );
+
+        bool operator!() const {
+            return !valid;
+        }
+    private:
+        std::string root;
+        bool capital;
+        bool atEnd;
+        bool valid = true;
+};
 
 } // namespace cata
 } // namespace tidy

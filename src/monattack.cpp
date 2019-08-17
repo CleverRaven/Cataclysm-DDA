@@ -3527,7 +3527,7 @@ void mattack::flame( monster *z, Creature *target )
             if( g->m.hit_with_fire( tripoint( i.xy(), z->posz() ) ) ) {
                 if( g->u.sees( i ) ) {
                     add_msg( _( "The tongue of flame hits the %s!" ),
-                             g->m.tername( i.x, i.y ) );
+                             g->m.tername( i.xy() ) );
                 }
                 return;
             }
@@ -3550,7 +3550,7 @@ void mattack::flame( monster *z, Creature *target )
         if( g->m.hit_with_fire( tripoint( i.xy(), z->posz() ) ) ) {
             if( g->u.sees( i ) ) {
                 add_msg( _( "The tongue of flame hits the %s!" ),
-                         g->m.tername( i.x, i.y ) );
+                         g->m.tername( i.xy() ) );
             }
             return;
         }

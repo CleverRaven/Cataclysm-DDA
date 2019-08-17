@@ -11472,10 +11472,10 @@ void player::place_corpse( const tripoint &om_target )
     bay.load( tripoint( om_target.x * 2, om_target.y * 2, om_target.z ), false );
     int finX = rng( 1, SEEX * 2 - 2 );
     int finY = rng( 1, SEEX * 2 - 2 );
-    if( bay.furn( finX, finY ) != furn_str_id( "f_null" ) ) {
+    if( bay.furn( point( finX, finY ) ) != furn_str_id( "f_null" ) ) {
         for( int x = 0; x < SEEX * 2 - 1; x++ ) {
             for( int y = 0; y < SEEY * 2 - 1; y++ ) {
-                if( bay.furn( x, y ) == furn_str_id( "f_null" ) ) {
+                if( bay.furn( point( x, y ) ) == furn_str_id( "f_null" ) ) {
                     finX = x;
                     finY = y;
                 }
@@ -11486,7 +11486,7 @@ void player::place_corpse( const tripoint &om_target )
     std::vector<item *> tmp = inv_dump();
     item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
     for( auto itm : tmp ) {
-        bay.add_item_or_charges( finX, finY, *itm );
+        bay.add_item_or_charges( point( finX, finY ), *itm );
     }
     for( auto &bio : *my_bionics ) {
         if( item::type_is_defined( bio.id.str() ) ) {
@@ -11502,7 +11502,7 @@ void player::place_corpse( const tripoint &om_target )
     for( int i = 0; i < storage_modules.second; ++i ) {
         body.emplace_back( "bio_power_storage_mkII" );
     }
-    bay.add_item_or_charges( finX, finY, body );
+    bay.add_item_or_charges( point( finX, finY ), body );
 }
 
 bool player::sees_with_infrared( const Creature &critter ) const
