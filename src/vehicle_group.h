@@ -88,6 +88,7 @@ struct VehiclePlacement {
 
     const VehicleLocation *pick() const;
     static void load( JsonObject &jo );
+    static void reset();
 
     using LocationMap = std::vector<VehicleLocation>;
     LocationMap locations;
