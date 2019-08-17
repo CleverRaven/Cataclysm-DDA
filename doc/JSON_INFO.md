@@ -180,6 +180,7 @@ Currently, only effect names, item action names, and item category names support
 | capacity           | (_optional_) Amount of power storage added by this bionic.
 | fuel_options       | (_optional_) A list of fuel that this bionic can use to produce bionic power.
 | fuel_capacity      | (_optional_) Volume of fuel this bionic can store.
+| fuel_efficiency    | (_optional_) Percentage of fuel energy converted into power.
 
 ```C++
 {
