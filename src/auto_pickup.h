@@ -14,22 +14,19 @@
 class JsonOut;
 class JsonIn;
 class item;
+struct itype;
 
 class auto_pickup
 {
     private:
-        void test_pattern( int iTab, int iRow );
+        class rules_list;
+
+        void test_pattern( const rules_list &rules, int iRow );
         void load( bool bCharacter );
         bool save( bool bCharacter );
         bool load_legacy( bool bCharacter );
 
         bool bChar;
-
-        enum TAB : int {
-            GLOBAL_TAB,
-            CHARACTER_TAB,
-            MAX_TAB
-        };
 
         class cRules
         {
@@ -67,15 +64,17 @@ class auto_pickup
          */
         mutable std::unordered_map<std::string, rule_state> map_items;
 
-        /**
-         * - vRules[0,1] aka vRules[GLOBAL,CHARACTER]: current rules split into global and
-         *      character-specific. Allows the editor to show one or the other.
-         */
-        std::array<rules_list, MAX_TAB> vRules;
+        rules_list global_rules;
+        rules_list character_rules;
 
         void load_legacy_rules( rules_list &rules, std::istream &fin );
 
         void refresh_map_items() const; //< Only modifies mutable state
+        void refresh_map_items( const rules_list &rules,
+                                std::unordered_map<std::string, const itype *> &temp_items ) const;
+
+        void create_rule( const rules_list &rules, const std::string &to_match );
+        void create_rule( const rules_list &rules, const item &it );
 
     public:
         auto_pickup() : bChar( false ), ready( false ) {}
