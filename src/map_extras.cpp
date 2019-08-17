@@ -145,8 +145,10 @@ void mx_roa_crash( map &m, const tripoint &abs_sub )
     int y_max = SEEY * 2 - bbox.p2.y + 1;
 
     int x1 = clamp( cx + x_offset, x_min,
-                    x_max ); // Clamp x1 & y1 such that no parts of the vehicle extend
-    int y1 = clamp( cy + y_offset, y_min, y_max ); // over the border of the submap.
+                    x_max );
+    int y1 = clamp( cy + y_offset, y_min, y_max ); 
+    // Clamp x1 & y1 such that no parts of the vehicle extend
+    // over the border of the submap.
 
     vehicle *wreckage = m.add_vehicle( city_wrecks, tripoint( x1, y1, abs_sub.z ), dir1, rng( 1, 33 ),
                                        1 );
