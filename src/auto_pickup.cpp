@@ -713,7 +713,7 @@ void auto_pickup::load( const bool bCharacter )
     }
 
     if( !read_from_file_optional_json( sFile, [this]( JsonIn & jsin ) {
-    deserialize( jsin );
+    ( bChar ? character_rules : global_rules ).deserialize( jsin );
     } ) ) {
         if( load_legacy( bCharacter ) ) {
             if( save( bCharacter ) ) {
@@ -761,12 +761,6 @@ void auto_pickup::rules_list::deserialize( JsonIn &jsin )
         tmp.deserialize( jsin );
         push_back( tmp );
     }
-}
-
-void auto_pickup::deserialize( JsonIn &jsin )
-{
-    ready = false;
-    ( bChar ? character_rules : global_rules ).deserialize( jsin );
 }
 
 bool auto_pickup::load_legacy( const bool bCharacter )
