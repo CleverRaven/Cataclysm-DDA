@@ -7485,7 +7485,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
 {
     if( t ) {
 
-        if( g->m.has_flag( "SWIMMABLE", pos.x, pos.y ) ) {
+        if( g->m.has_flag( "SWIMMABLE", pos.xy() ) ) {
             it->item_tags.erase( "NO_UNWIELD" );
             it->ammo_unset();
             it->active = false;

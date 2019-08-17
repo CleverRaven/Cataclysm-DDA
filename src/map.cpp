@@ -1180,7 +1180,7 @@ std::string map::name( const int x, const int y )
 
 bool map::has_furn( const int x, const int y ) const
 {
-    return furn( x, y ) != f_null;
+    return furn( point( x, y ) ) != f_null;
 }
 
 furn_id map::furn( const int x, const int y ) const
@@ -2189,7 +2189,7 @@ bool map::has_flag( const std::string &flag, const int x, const int y ) const
 
 bool map::can_put_items_ter_furn( const int x, const int y ) const
 {
-    return !has_flag( "NOITEM", x, y ) && !has_flag( "SEALED", x, y );
+    return !has_flag( "NOITEM", point( x, y ) ) && !has_flag( "SEALED", point( x, y ) );
 }
 
 bool map::has_flag_ter( const std::string &flag, const int x, const int y ) const
@@ -2564,12 +2564,12 @@ void map::make_rubble( const tripoint &p, const furn_id &rubble_type, const bool
  */
 bool map::is_divable( const int x, const int y ) const
 {
-    return has_flag( "SWIMMABLE", x, y ) && has_flag( TFLAG_DEEP_WATER, x, y );
+    return has_flag( "SWIMMABLE", point( x, y ) ) && has_flag( TFLAG_DEEP_WATER, x, y );
 }
 
 bool map::is_water_shallow_current( const int x, const int y ) const
 {
-    return has_flag( "CURRENT", x, y ) && !has_flag( TFLAG_DEEP_WATER, x, y );
+    return has_flag( "CURRENT", point( x, y ) ) && !has_flag( TFLAG_DEEP_WATER, x, y );
 }
 
 bool map::is_water_shallow_current( const tripoint &p ) const
@@ -2632,12 +2632,12 @@ bool map::is_last_ter_wall( const bool no_furn, const int x, const int y,
                          ( dir == SOUTH && y2 < ymax ) ||
                          ( dir == WEST  && x2 >= 0 ) ||
                          ( dir == EAST  && x2 < xmax ) ) ) {
-        if( no_furn && has_furn( x2, y2 ) ) {
+        if( no_furn && has_furn( point( x2, y2 ) ) ) {
             loop = false;
             result = false;
-        } else if( !has_flag_ter( "FLAT", x2, y2 ) ) {
+        } else if( !has_flag_ter( "FLAT", point( x2, y2 ) ) ) {
             loop = false;
-            if( !has_flag_ter( "WALL", x2, y2 ) ) {
+            if( !has_flag_ter( "WALL", point( x2, y2 ) ) ) {
                 result = false;
             }
         }
@@ -2767,7 +2767,7 @@ point map::random_outdoor_tile()
     std::vector<point> options;
     for( int x = 0; x < SEEX * my_MAPSIZE; x++ ) {
         for( int y = 0; y < SEEY * my_MAPSIZE; y++ ) {
-            if( is_outside( x, y ) ) {
+            if( is_outside( point( x, y ) ) ) {
                 options.push_back( point( x, y ) );
             }
         }

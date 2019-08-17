@@ -972,11 +972,11 @@ bool construct::check_support( const tripoint &p )
 
 bool construct::check_deconstruct( const tripoint &p )
 {
-    if( g->m.has_furn( p.x, p.y ) ) {
-        return g->m.furn( p.x, p.y ).obj().deconstruct.can_do;
+    if( g->m.has_furn( p.xy() ) ) {
+        return g->m.furn( p.xy() ).obj().deconstruct.can_do;
     }
     // terrain can only be deconstructed when there is no furniture in the way
-    return g->m.ter( p.x, p.y ).obj().deconstruct.can_do;
+    return g->m.ter( p.xy() ).obj().deconstruct.can_do;
 }
 
 bool construct::check_empty_up_OK( const tripoint &p )

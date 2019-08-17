@@ -618,16 +618,16 @@ void emp_blast( const tripoint &p )
     int x = p.x;
     int y = p.y;
     const bool sight = g->u.sees( p );
-    if( g->m.has_flag( "CONSOLE", x, y ) ) {
+    if( g->m.has_flag( "CONSOLE", point( x, y ) ) ) {
         if( sight ) {
-            add_msg( _( "The %s is rendered non-functional!" ), g->m.tername( x, y ) );
+            add_msg( _( "The %s is rendered non-functional!" ), g->m.tername( point( x, y ) ) );
         }
         g->m.ter_set( point( x, y ), t_console_broken );
         return;
     }
     // TODO: More terrain effects.
-    if( g->m.ter( x, y ) == t_card_science || g->m.ter( x, y ) == t_card_military ||
-        g->m.ter( x, y ) == t_card_industrial ) {
+    if( g->m.ter( point( x, y ) ) == t_card_science || g->m.ter( point( x, y ) ) == t_card_military ||
+        g->m.ter( point( x, y ) ) == t_card_industrial ) {
         int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
@@ -641,7 +641,7 @@ void emp_blast( const tripoint &p )
             }
             for( int i = -3; i <= 3; i++ ) {
                 for( int j = -3; j <= 3; j++ ) {
-                    if( g->m.ter( x + i, y + j ) == t_door_metal_locked ) {
+                    if( g->m.ter( point( x + i, y + j ) ) == t_door_metal_locked ) {
                         g->m.ter_set( point( x + i, y + j ), t_floor );
                     }
                 }

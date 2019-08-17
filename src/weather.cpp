@@ -52,7 +52,7 @@ static const trait_id trait_FEATHERS( "FEATHERS" );
 
 static bool is_player_outside()
 {
-    return g->m.is_outside( g->u.posx(), g->u.posy() ) && g->get_levz() >= 0;
+    return g->m.is_outside( point( g->u.posx(), g->u.posy() ) ) && g->get_levz() >= 0;
 }
 
 #define THUNDER_CHANCE 50

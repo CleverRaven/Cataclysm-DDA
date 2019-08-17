@@ -130,7 +130,7 @@ static void board_up( map &m, const tripoint &start, const tripoint &end )
     for( x = start.x; x < end.x; x++ ) {
         for( y = start.y; y < end.y; y++ ) {
             bool must_board_around = false;
-            const ter_id t = m.ter( x, y );
+            const ter_id t = m.ter( point( x, y ) );
             if( t == t_window_domestic || t == t_window || t == t_window_no_curtains ) {
                 // Windows are always to the outside and must be boarded
                 must_board_around = true;
