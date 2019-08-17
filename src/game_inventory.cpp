@@ -511,6 +511,9 @@ class comestible_inventory_preset : public inventory_selector_preset
                 switch( p.get_cbm_rechargeable_with( get_consumable_item( loc ) ) ) {
                     case rechargeable_cbm::none:
                         break;
+                    case rechargeable_cbm::battery:
+                        cbm_name = _( "Battery" );
+                        break;
                     case rechargeable_cbm::reactor:
                         cbm_name = _( "Reactor" );
                         break;
@@ -553,8 +556,10 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             if( !res.success() && cbm == rechargeable_cbm::none ) {
                 return res.str();
-            } else if( p.power_level >= p.max_power_level ) {
+            } else if( cbm == rechargeable_cbm::battery && p.power_level >= p.max_power_level ) {
                 return _( "You're fully charged" );
+            } else if( cbm == rechargeable_cbm::other && ( p.get_fuel_capacity( loc->typeId() ) <= 0 ) ) {
+                return string_format( _( "No space to store more %s" ), loc->tname() );
             }
 
             return inventory_selector_preset::get_denial( loc );
