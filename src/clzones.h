@@ -400,7 +400,6 @@ class zone_manager
                 const faction_id &fac = your_fac ) const;
         std::unordered_set<tripoint> get_point_set_loot( const tripoint &where, const int radius,
                 const bool npc_search, const faction_id &fac = your_fac ) const;
-        void rotate_zones( map &target_map, int turns );
         void start_sort( const std::vector<tripoint> &src_sorted );
         void end_sort();
         bool is_sorting() const;
