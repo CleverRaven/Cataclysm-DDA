@@ -214,11 +214,6 @@ struct comestible_inv_listitem {
     comestible_inv_listitem( const item_category *cat );
 
     /**
-     * Create a category header entry.
-     * @param cat The category name
-     */
-    comestible_inv_listitem::comestible_inv_listitem( const std::string cat_name );
-    /**
      * Creates an empty entry, both category and item pointer are null.
      */
     comestible_inv_listitem();
@@ -464,10 +459,10 @@ class comestible_inventory
         */
         static aim_location screen_relative_location( aim_location area );
 
-        char *comestible_inventory::set_string_params( nc_color &print_color, int value, bool selected,
+        char const *set_string_params( nc_color &print_color, int value, bool selected,
                 bool need_highlight = false );
         //nc_color set_string_params(int value, bool need_highlight = false);
-        time_duration comestible_inventory::get_time_left( player &p, const item &it ) const;
+        time_duration get_time_left( player &p, const item &it ) const;
         const islot_comestible &get_edible_comestible( player &p, const item &it ) const;
         std::string get_time_left_rounded( player &p, const item &it ) const;
         std::string time_to_comestible_str( const time_duration &d ) const;

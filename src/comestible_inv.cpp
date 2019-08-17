@@ -133,11 +133,11 @@ comestible_inventory::~comestible_inventory()
 
 void comestible_inventory::save_settings( bool only_panes )
 {
-    //if (!only_panes) {
+    if (!only_panes) {
     //  uistate.adv_inv_last_coords = g->u.pos();
     //  uistate.adv_inv_src = src;
     //  uistate.adv_inv_dest = dest;
-    //}
+    }
     uistate.adv_inv_in_vehicle[0] = pane.in_vehicle();
     uistate.adv_inv_area[0] = pane.get_area();
     uistate.adv_inv_index[0] = pane.index;
@@ -315,9 +315,9 @@ void comestible_inventory::print_items( comestible_inventory_pane &pane )
     int max_name_length = src_startpos - name_startpos - 1; // Default name length
 
     //~ Items list header. Table fields length without spaces: amt - 4, weight - 5, vol - 4.
-    const int table_hdr_len1 = utf8_width( _( "amt weight vol" ) ); // Header length type 1
+    //const int table_hdr_len1 = utf8_width( _( "amt weight vol" ) ); // Header length type 1
     //~ Items list header. Table fields length without spaces: src - 2, amt - 4, weight - 5, vol - 4.
-    const int table_hdr_len2 = utf8_width( _( "src amt weight vol" ) ); // Header length type 2
+    //const int table_hdr_len2 = utf8_width( _( "src amt weight vol" ) ); // Header length type 2
 
     mvwprintz( window, 5, compact ? 1 : 4, c_light_gray, _( "Name (charges)" ) );
     //if (pane.get_area() == AIM_ALL && !compact) {
@@ -360,8 +360,9 @@ void comestible_inventory::print_items( comestible_inventory_pane &pane )
         nc_color thiscolordark = c_dark_gray;
         nc_color print_color;
 
+        //TODO: remove inCategoryMode
         if( selected ) {
-            thiscolor = inCategoryMode && pane.sortby == SORTBY_CATEGORY ? c_white_red : hilite( c_white );
+            thiscolor = inCategoryMode ? c_white_red : hilite( c_white );
             thiscolordark = hilite( thiscolordark );
             if( compact ) {
                 mvwprintz( window, 6 + x, 1, thiscolor, "  %s", spaces );
@@ -459,7 +460,7 @@ void comestible_inventory::print_items( comestible_inventory_pane &pane )
                        compact ? it.tname().substr( 0, 1 ) : ">" );
         }
         //get_consumable_item
-        char *string_format = "";
+        char const *string_format = "";
         islot_comestible it_c = get_edible_comestible( p, it ); // .type->comestible;
 
         //print "CALORIES" column
@@ -953,17 +954,6 @@ comestible_inv_listitem::comestible_inv_listitem( const item_category *cat )
 {
 }
 
-comestible_inv_listitem::comestible_inv_listitem( const std::string cat_name )
-    : idx()
-    , area()
-    , id( "null" )
-    , name( cat_name )
-    , autopickup()
-    , stacks()
-    , cat( cat )
-{
-}
-
 bool comestible_inv_listitem::is_category_header() const
 {
     return items.empty() && cat != nullptr;
@@ -1128,9 +1118,10 @@ void comestible_inventory_pane::add_items_from_area( comestible_inv_area &square
 
 void comestible_inventory_pane::paginate( size_t itemsPerPage )
 {
-    if( sortby != SORTBY_CATEGORY ) {
-        return; // not needed as there are no category entries here.
-    }
+    //TODO: check this out, pagination not needed without categories?
+    //if( sortby != SORTBY_CATEGORY ) {
+    //    return; // not needed as there are no category entries here.
+    //}
     // first, we insert all the items, then we sort the result
     for( size_t i = 0; i < items.size(); ++i ) {
         if( i % itemsPerPage == 0 ) {
@@ -1195,24 +1186,15 @@ void comestible_inventory::recalc_pane()
     }
 
     //TODO: just put it as a part of the header instead of one of the items
-    // Insert category headers
-    if( pane.filter_show_food ) {
-        pane.items.push_back( comestible_inv_listitem( "FOOD" ) );
-    } else {
-        pane.items.push_back( comestible_inv_listitem( "CHEMICALS" ) );
-    }
-
+    
     // Insert category headers (only expected when sorting by category)
-    //if (pane.sortby == COMESTIBLE_SORTBY_CATEGORY) {
-    //
-    //  std::set<const item_category*> categories;
-    //  for (auto& it : pane.items) {
-    //      categories.insert(it.cat);
-    //  }
-    //  for (auto& cat : categories) {
-    //      pane.items.push_back(comestible_inv_listitem(cat));
-    //  }
-    //}
+    std::set<const item_category*> categories;
+    for (auto& it : pane.items) {
+        categories.insert(it.cat);
+    }
+    for (auto& cat : categories) {
+        pane.items.push_back(comestible_inv_listitem(cat));
+    }
 
     // Finally sort all items (category headers will now be moved to their proper position)
     std::stable_sort( pane.items.begin(), pane.items.end(), comestible_inv_sorter( pane.sortby ) );
@@ -2098,18 +2080,18 @@ void comestible_inventory::refresh_minimap()
 void comestible_inventory::draw_minimap()
 {
     // if player is in one of the below, invert the player cell
-    static const std::array<aim_location, 3> player_locations = {
-        {AIM_CENTER, AIM_INVENTORY, AIM_WORN}
-    };
+    //static const std::array<aim_location, 3> player_locations = {
+    //    {AIM_CENTER, AIM_INVENTORY, AIM_WORN}
+    //};
     // get the center of the window
-    tripoint pc = { getmaxx( minimap ) / 2, getmaxy( minimap ) / 2, 0 };
+    //tripoint pc = { getmaxx( minimap ) / 2, getmaxy( minimap ) / 2, 0 };
     // draw the 3x3 tiles centered around player
     g->m.draw( minimap, g->u.pos() );
-    auto sq = squares[pane.get_area()];
-    auto pt = pc + sq.off;
+    //auto sq = squares[pane.get_area()];
+    //auto pt = pc + sq.off;
     // invert the color if pointing to the player's position
-    auto cl = sq.id == AIM_INVENTORY || sq.id == AIM_WORN ?
-              invert_color( c_light_cyan ) : c_light_cyan.blink();
+    //auto cl = sq.id == AIM_INVENTORY || sq.id == AIM_WORN ?
+    //          invert_color( c_light_cyan ) : c_light_cyan.blink();
 
     // Invert player's tile color if exactly one pane points to player's tile
     //bool invert_left = false;
@@ -2219,10 +2201,10 @@ aim_location comestible_inventory::screen_relative_location( aim_location area )
     }
 }
 
-char *comestible_inventory::set_string_params( nc_color &print_color, int value, bool selected,
+char const *comestible_inventory::set_string_params( nc_color &print_color, int value, bool selected,
         bool need_highlight )
 {
-    char *string_format;
+    char const *string_format;
     if( value > 0 ) {
         print_color = need_highlight ? c_yellow_green : c_green;
         string_format = "+%d";
@@ -2420,12 +2402,13 @@ void comestible_inventory::heat_up( item *it_to_heat )
             counter++;
         }
 
-        for each( item * var in hotplates ) {
-            sm.addentry( counter, true, counter, string_format( _( "%s in inventory" ), var->display_name() ) );
+        for (size_t i = 0; i < hotplates.size(); i++) {
+            sm.addentry(counter, true, counter, string_format(_("%s in inventory"), hotplates.at(i)->display_name()));
             counter++;
         }
-        for each( item * var in hotplates_map ) {
-            sm.addentry( counter, true, counter, string_format( _( "%s nearby" ), var->display_name() ) );
+
+        for (size_t i = 0; i < hotplates_map.size(); i++) {
+            sm.addentry(counter, true, counter, string_format(_("%s nearby"), hotplates_map.at(i)->display_name()));
             counter++;
         }
         //sm.selected = pane.sortby - SORTBY_NONE;
@@ -2448,7 +2431,7 @@ void comestible_inventory::heat_up( item *it_to_heat )
                 choice--;
             }
             item *it_choice;
-            if( choice < hotplates.size() ) {
+            if( static_cast<size_t>(choice) < hotplates.size() ) {
                 it_choice = hotplates[choice];
             } else {
                 choice -= hotplates.size();
