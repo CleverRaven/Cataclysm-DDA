@@ -1689,8 +1689,12 @@ void computer::mark_refugee_center()
 SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT ... " ) );
 
     const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
-    const std::vector<mission *> missions = g->u.get_active_missions();
     tripoint mission_target;
+    // Check completed missions too, so people can't repeatedly get the mission.
+    const std::vector<mission *> completed_missions = g->u.get_completed_missions();
+    std::vector<mission *> missions = g->u.get_active_missions();
+    missions.reserve( completed_missions.size() );
+    missions.insert( missions.end(), completed_missions.begin(), completed_missions.end() );
 
     const bool has_mission = std::any_of( missions.begin(), missions.end(), [ &mission_type,
     &mission_target ]( mission * mission ) {
