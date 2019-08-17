@@ -180,6 +180,7 @@ class VehicleSpawn
         static void apply( const vspawn_id &id, map &m, const std::string &terrain_name );
 
         static void load( JsonObject &jo );
+        static void reset();
 
     private:
         weighted_float_list<std::shared_ptr<VehicleFunction>> types;

@@ -194,6 +194,11 @@ void VehicleSpawn::load( JsonObject &jo )
     }
 }
 
+void VehicleSpawn::reset()
+{
+    vspawns.clear();
+}
+
 void VehicleSpawn::apply( map &m, const std::string &terrain_name ) const
 {
     const std::shared_ptr<VehicleFunction> *func = types.pick();
