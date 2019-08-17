@@ -403,10 +403,6 @@ These values will produce a rectangle for map::place_items from ( 12, 5 ) to ( 1
 **required** unlike everything else, this is a percentage. Maybe
 > Value: *number*
 
-## 2.4 "place_item"
-**optional** A list of *specific* things to add. WIP: Monsters and vehicles will be here too
-> Value: [ array of {objects} ]: [ { "item", ... }, ... ]
-
 ## 2.4 "place_monster"
 **optional** Spawn single monster. Either specific monster or a random monster from a monster group. Is effected by spawn density game setting.
 > Value: [ array of {objects} ]: [ { "monster": ... } ]
