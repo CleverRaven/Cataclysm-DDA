@@ -233,19 +233,23 @@ void body_part_struct::check() const
 std::string body_part_name( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    return _( number > 1 ? bdy.name_multiple : bdy.name );
+    return number > 1 ? _( bdy.name_multiple ) : _( bdy.name );
 }
 
 std::string body_part_name_accusative( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    return pgettext( "bodypart_accusative", number > 1 ? bdy.name_multiple.c_str() : bdy.name.c_str() );
+    if( number > 1 ) {
+        return pgettext( "bodypart_accusative", bdy.name_multiple.c_str() );
+    } else {
+        return pgettext( "bodypart_accusative", bdy.name.c_str() );
+    }
 }
 
 std::string body_part_name_as_heading( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    return _( number > 1 ? bdy.name_as_heading_multiple : bdy.name_as_heading_singular );
+    return number > 1 ? _( bdy.name_as_heading_multiple ) : _( bdy.name_as_heading_singular );
 }
 
 std::string body_part_hp_bar_ui_text( body_part bp )
