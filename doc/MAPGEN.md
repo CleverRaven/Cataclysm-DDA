@@ -377,11 +377,13 @@ Example: "x": 12, "y": [ 5, 15 ]
 These values will produce a rectangle for map::place_spawns from ( 12, 5 ) to ( 12, 15 ) inclusive.
 
 #### 2.3.0.1 "density"
-**optional** magic sauce spawn amount number that somehow determines how many monsters from the group can appear. This argument is optional, but for place_monsters to work the density must be set either here or in the overmap terrain definition. Otherwise it defaults to zero and no monsters will spawn. How density actually works is a strange mystery that someone should solve and put into this document.
+**optional** This is a multipier to the following "chance". If the result is bigger than 100% it gurantees one spawn point for every 100% and the rest is evaluated by chance (one added or not). Then the monsters are spawned according to their spawn-point cost "cost_multiplier" defined in the monster groups.
+Additionally all overmap densities within a square of raduis 3 (7x7 around player) [exact value in mapgen.cpp/MON_RADIUS makro] are added to this.
+The "pack_size" modifier in monstergroups is a random multiplier to the rolled spawn point amount.
 > Value: *floating point number*
 
 #### 2.3.0.2 "chance"
-**optional** one-in-??? chance to apply
+**optional** ???-in-100 chance to apply
 > Value: *number*
 
 ### 2.3.1 "item"
@@ -617,7 +619,7 @@ Places furniture. Values:
 - "furn": (required, string) type id of the furniture (e.g. f_chair).
 
 ### 2.5.12 "terrain"
-Places terrain. Values:
+Places terrain. If the terrain has the value "roof" set and is in an enclosed space it's indoors. Values:
 - "ter": (required, string) type id of the terrain (e.g. t_floor).
 
 ### 2.5.13 "monster"
