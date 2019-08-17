@@ -145,7 +145,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
     std::ostringstream sTemp;
 
     while( true ) {
-        rules_list &cur_rules = iTab == GLOBAL_TAB ? global_rules : character_rules;
+        auto_pickup_rule_list &cur_rules = iTab == GLOBAL_TAB ? global_rules : character_rules;
         int locx = 17;
         locx += shortcut_print( w_header, point( locx, 2 ), c_white,
                                 iTab == GLOBAL_TAB ? hilite( c_white ) : c_white, _( "[<Global>]" ) ) + 1;
@@ -261,7 +261,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
             iLine = cur_rules.size() - 1;
         } else if( action == "SWAP_RULE_GLOBAL_CHAR" && currentPageNonEmpty ) {
             if( ( iTab == GLOBAL_TAB && !g->u.name.empty() ) || iTab == CHARACTER_TAB ) {
-                rules_list &other_rules = iTab == CHARACTER_TAB ? global_rules : character_rules;
+                auto_pickup_rule_list &other_rules = iTab == CHARACTER_TAB ? global_rules : character_rules;
                 bStuffChanged = true;
                 //copy over
                 other_rules.push_back( cur_rules[iLine] );
@@ -274,7 +274,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
         } else if( action == "ADD_RULE" || ( action == "CONFIRM" && currentPageNonEmpty ) ) {
             const int old_iLine = iLine;
             if( action == "ADD_RULE" ) {
-                cur_rules.push_back( cRules( "", true, false ) );
+                cur_rules.push_back( auto_pickup_rule( "", true, false ) );
                 iLine = cur_rules.size() - 1;
             }
 
@@ -378,7 +378,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
     }
 }
 
-void auto_pickup::test_pattern( const rules_list &rules, const int iRow )
+void auto_pickup::test_pattern( const auto_pickup_rule_list &rules, const int iRow )
 {
     std::vector<std::string> vMatchingItems;
 
@@ -492,7 +492,7 @@ bool auto_pickup::has_rule( const item *it )
 
 void auto_pickup::add_rule( const item *it )
 {
-    character_rules.push_back( cRules( it->tname( 1, false ), true, false ) );
+    character_rules.push_back( auto_pickup_rule( it->tname( 1, false ), true, false ) );
     create_rule( it );
 
     if( !get_option<bool>( "AUTO_PICKUP" ) &&
@@ -560,9 +560,9 @@ void auto_pickup::create_rule( const std::string &to_match )
     create_rule( character_rules, to_match );
 }
 
-void auto_pickup::create_rule( const rules_list &rules, const std::string &to_match )
+void auto_pickup::create_rule( const auto_pickup_rule_list &rules, const std::string &to_match )
 {
-    for( const cRules &elem : rules ) {
+    for( const auto_pickup_rule &elem : rules ) {
         if( !elem.bActive || !wildcard_match( to_match, elem.sRule ) ) {
             continue;
         }
@@ -578,11 +578,11 @@ void auto_pickup::create_rule( const item *it )
     create_rule( character_rules, *it );
 }
 
-void auto_pickup::create_rule( const rules_list &rules, const item &it )
+void auto_pickup::create_rule( const auto_pickup_rule_list &rules, const item &it )
 {
     const std::string to_match = it.tname( 1, false );
 
-    for( const cRules &elem : rules ) {
+    for( const auto_pickup_rule &elem : rules ) {
         if( !elem.bActive ) {
             continue;
         } else if( !check_special_rule( it.made_of(), elem.sRule ) &&
@@ -608,10 +608,10 @@ void auto_pickup::refresh_map_items() const
     ready = true;
 }
 
-void auto_pickup::refresh_map_items( const rules_list &rules,
+void auto_pickup::refresh_map_items( const auto_pickup_rule_list &rules,
                                      std::unordered_map<std::string, const itype *> &temp_items ) const
 {
-    for( const cRules &elem : rules ) {
+    for( const auto_pickup_rule &elem : rules ) {
         if( elem.sRule.empty() || !elem.bActive ) {
             continue;
         }
@@ -722,7 +722,7 @@ void auto_pickup::load( const bool bCharacter )
     ready = false;
 }
 
-void auto_pickup::cRules::serialize( JsonOut &jsout ) const
+void auto_pickup_rule::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.member( "rule", sRule );
@@ -731,16 +731,16 @@ void auto_pickup::cRules::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void auto_pickup::rules_list::serialize( JsonOut &jsout ) const
+void auto_pickup_rule_list::serialize( JsonOut &jsout ) const
 {
     jsout.start_array();
-    for( const cRules &elem : *this ) {
+    for( const auto_pickup_rule &elem : *this ) {
         elem.serialize( jsout );
     }
     jsout.end_array();
 }
 
-void auto_pickup::cRules::deserialize( JsonIn &jsin )
+void auto_pickup_rule::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
     sRule = jo.get_string( "rule" );
@@ -748,13 +748,13 @@ void auto_pickup::cRules::deserialize( JsonIn &jsin )
     bExclude = jo.get_bool( "exclude" );
 }
 
-void auto_pickup::rules_list::deserialize( JsonIn &jsin )
+void auto_pickup_rule_list::deserialize( JsonIn &jsin )
 {
     clear();
 
     jsin.start_array();
     while( !jsin.end_array() ) {
-        cRules tmp;
+        auto_pickup_rule tmp;
         tmp.deserialize( jsin );
         push_back( tmp );
     }
@@ -783,7 +783,7 @@ bool auto_pickup::load_legacy( const bool bCharacter )
     return true;
 }
 
-void auto_pickup::load_legacy_rules( rules_list &rules, std::istream &fin )
+void auto_pickup::load_legacy_rules( auto_pickup_rule_list &rules, std::istream &fin )
 {
     rules.clear();
     ready = false;
@@ -827,7 +827,7 @@ void auto_pickup::load_legacy_rules( rules_list &rules, std::istream &fin )
 
                 } while( iPos != std::string::npos );
 
-                rules.push_back( cRules( sRule, bActive, bExclude ) );
+                rules.push_back( auto_pickup_rule( sRule, bActive, bExclude ) );
             }
         }
     }
