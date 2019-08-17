@@ -902,6 +902,21 @@ int Character::get_fuel_capacity( const itype_id fuel ) const
     return capacity - amount_stored;
 }
 
+int Character::get_total_fuel_capacity( const itype_id fuel ) const
+{
+    int capacity = 0;
+    for( const bionic &bio : *my_bionics ) {
+        for( const itype_id &fl : bio.info().fuel_opts ) {
+            if( get_value( bio.id.c_str() ).empty() || get_value( bio.id.c_str() ) == fl ) {
+                if( fl == fuel ) {
+                    capacity += bio.info().fuel_capacity;
+                }
+            }
+        }
+    }
+    return capacity;
+}
+
 void Character::update_fuel_storage( const item &fuel )
 {
     if( get_value( fuel.typeId() ).empty() ) {

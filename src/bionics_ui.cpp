@@ -59,7 +59,14 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
                                    bionic_menu_mode mode )
 {
     werase( window );
-
+    std::ostringstream fuel_stream;
+    fuel_stream << _( "Available Fuel: " );
+    for( const bionic &bio : *p->my_bionics ) {
+        for( const itype_id fuel : p->get_fuel_available( bio.id ) ) {
+            fuel_stream << item( fuel ).tname() << ": " << "<color_green>" << p->get_value(
+                            fuel ) << "</color>" << "/" << p->get_total_fuel_capacity( fuel ) << " ";
+        }
+    }
     const int pwr_str_pos = right_print( window, 0, 1, c_white,
                                          string_format( _( "Bionic Power: <color_light_blue>%i</color>/<color_light_blue>%i</color>" ),
                                                  p->power_level, p->max_power_level ) );
@@ -73,7 +80,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     }
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     fold_and_print( window, point( 1, 0 ), pwr_str_pos, c_white, desc );
-
+    fold_and_print( window, point( 1, 1 ), pwr_str_pos, c_white, fuel_stream.str() );
     wrefresh( window );
 }
 
