@@ -348,7 +348,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                 iColumn = 1;
             }
         } else if( action == "TEST_RULE" && currentPageNonEmpty && !g->u.name.empty() ) {
-            test_pattern( cur_rules, iLine );
+            cur_rules[iLine].test_pattern();
         } else if( action == "SWITCH_AUTO_PICKUP_OPTION" ) {
             // TODO: Now that NPCs use this function, it could be used for them too
             get_options().get_option( "AUTO_PICKUP" ).setNext();
@@ -378,11 +378,11 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
     }
 }
 
-void auto_pickup::test_pattern( const auto_pickup_rule_list &rules, const int iRow )
+void auto_pickup_rule::test_pattern() const
 {
     std::vector<std::string> vMatchingItems;
 
-    if( rules[iRow].sRule.empty() ) {
+    if( sRule.empty() ) {
         return;
     }
 
@@ -390,8 +390,8 @@ void auto_pickup::test_pattern( const auto_pickup_rule_list &rules, const int iR
     //APU now ignores prefixes, bottled items and suffix combinations still not generated
     for( const itype *e : item_controller->all() ) {
         const std::string sItemName = e->nname( 1 );
-        if( !check_special_rule( e->materials, rules[iRow].sRule ) &&
-            !wildcard_match( sItemName, rules[iRow].sRule ) ) {
+        if( !check_special_rule( e->materials, sRule ) &&
+            !wildcard_match( sItemName, sRule ) ) {
             continue;
         }
 
@@ -416,7 +416,7 @@ void auto_pickup::test_pattern( const auto_pickup_rule_list &rules, const int iR
     int nmatch = vMatchingItems.size();
     const std::string buf = string_format( ngettext( "%1$d item matches: %2$s",
                                            "%1$d items match: %2$s",
-                                           nmatch ), nmatch, rules[iRow].sRule );
+                                           nmatch ), nmatch, sRule );
     draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
     center_print( w_test_rule_border, iContentHeight + 1, red_background( c_white ),
                   _( "Won't display content or suffix matches" ) );
@@ -521,8 +521,8 @@ bool auto_pickup::empty() const
     return global_rules.empty() && character_rules.empty();
 }
 
-bool auto_pickup::check_special_rule( const std::vector<material_id> &materials,
-                                      const std::string &rule ) const
+bool auto_pickup_rule::check_special_rule( const std::vector<material_id> &materials,
+        const std::string &rule )
 {
     char type = ' ';
     std::vector<std::string> filter;
@@ -556,13 +556,14 @@ bool auto_pickup::check_special_rule( const std::vector<material_id> &materials,
 //Special case. Required for NPC harvest autopickup. Ignores material rules.
 void auto_pickup::create_rule( const std::string &to_match )
 {
-    create_rule( global_rules, to_match );
-    create_rule( character_rules, to_match );
+    global_rules.create_rule( map_items, to_match );
+    character_rules.create_rule( map_items, to_match );
 }
 
-void auto_pickup::create_rule( const auto_pickup_rule_list &rules, const std::string &to_match )
+void auto_pickup_rule_list::create_rule( std::unordered_map<std::string, rule_state> &map_items,
+        const std::string &to_match )
 {
-    for( const auto_pickup_rule &elem : rules ) {
+    for( const auto_pickup_rule &elem : *this ) {
         if( !elem.bActive || !wildcard_match( to_match, elem.sRule ) ) {
             continue;
         }
@@ -574,18 +575,19 @@ void auto_pickup::create_rule( const auto_pickup_rule_list &rules, const std::st
 void auto_pickup::create_rule( const item *it )
 {
     // @todo change it to be a reference
-    create_rule( global_rules, *it );
-    create_rule( character_rules, *it );
+    global_rules.create_rule( map_items, *it );
+    character_rules.create_rule( map_items, *it );
 }
 
-void auto_pickup::create_rule( const auto_pickup_rule_list &rules, const item &it )
+void auto_pickup_rule_list::create_rule( std::unordered_map<std::string, rule_state> &map_items,
+        const item &it )
 {
     const std::string to_match = it.tname( 1, false );
 
-    for( const auto_pickup_rule &elem : rules ) {
+    for( const auto_pickup_rule &elem : *this ) {
         if( !elem.bActive ) {
             continue;
-        } else if( !check_special_rule( it.made_of(), elem.sRule ) &&
+        } else if( !auto_pickup_rule::check_special_rule( it.made_of(), elem.sRule ) &&
                    !wildcard_match( to_match, elem.sRule ) ) {
             continue;
         }
@@ -602,16 +604,16 @@ void auto_pickup::refresh_map_items() const
     //process include/exclude in order of rules, global first, then character specific
     //if a specific item is being added, all the rules need to be checked now
     //may have some performance issues since exclusion needs to check all items also
-    refresh_map_items( global_rules, temp_items );
-    refresh_map_items( character_rules, temp_items );
+    global_rules.refresh_map_items( map_items, temp_items );
+    character_rules.refresh_map_items( map_items, temp_items );
 
     ready = true;
 }
 
-void auto_pickup::refresh_map_items( const auto_pickup_rule_list &rules,
-                                     std::unordered_map<std::string, const itype *> &temp_items ) const
+void auto_pickup_rule_list::refresh_map_items( std::unordered_map<std::string, rule_state>
+        &map_items, std::unordered_map<std::string, const itype *> &temp_items ) const
 {
-    for( const auto_pickup_rule &elem : rules ) {
+    for( const auto_pickup_rule &elem : *this ) {
         if( elem.sRule.empty() || !elem.bActive ) {
             continue;
         }
@@ -621,7 +623,8 @@ void auto_pickup::refresh_map_items( const auto_pickup_rule_list &rules,
             for( const itype *e : item_controller->all() ) {
                 const std::string &cur_item = e->nname( 1 );
 
-                if( !check_special_rule( e->materials, elem.sRule ) && !wildcard_match( cur_item, elem.sRule ) ) {
+                if( !auto_pickup_rule::check_special_rule( e->materials, elem.sRule ) &&
+                    !wildcard_match( cur_item, elem.sRule ) ) {
                     continue;
                 }
 
@@ -632,7 +635,7 @@ void auto_pickup::refresh_map_items( const auto_pickup_rule_list &rules,
             //only re-exclude items from the existing mapping for now
             //new exclusions will process during pickup attempts
             for( auto &map_item : map_items ) {
-                if( !check_special_rule( temp_items[ map_item.first ]->materials, elem.sRule ) &&
+                if( !auto_pickup_rule::check_special_rule( temp_items[ map_item.first ]->materials, elem.sRule ) &&
                     !wildcard_match( map_item.first, elem.sRule ) ) {
                     continue;
                 }
@@ -768,10 +771,12 @@ bool auto_pickup::load_legacy( const bool bCharacter )
         sFile = g->get_player_base_save_path() + ".apu.txt";
     }
 
+    ready = false;
+
     auto &rules = bCharacter ? character_rules : global_rules;
 
     using namespace std::placeholders;
-    const auto &reader = std::bind( &auto_pickup::load_legacy_rules, this, std::ref( rules ), _1 );
+    const auto &reader = std::bind( &auto_pickup_rule_list::load_legacy_rules, std::ref( rules ), _1 );
     if( !read_from_file_optional( sFile, reader ) ) {
         if( !bCharacter ) {
             return read_from_file_optional( FILENAMES["legacy_autopickup"], reader );
@@ -783,10 +788,9 @@ bool auto_pickup::load_legacy( const bool bCharacter )
     return true;
 }
 
-void auto_pickup::load_legacy_rules( auto_pickup_rule_list &rules, std::istream &fin )
+void auto_pickup_rule_list::load_legacy_rules( std::istream &fin )
 {
-    rules.clear();
-    ready = false;
+    clear();
 
     std::string sLine;
     while( !fin.eof() ) {
@@ -827,7 +831,7 @@ void auto_pickup::load_legacy_rules( auto_pickup_rule_list &rules, std::istream 
 
                 } while( iPos != std::string::npos );
 
-                rules.push_back( auto_pickup_rule( sRule, bActive, bExclude ) );
+                push_back( auto_pickup_rule( sRule, bActive, bExclude ) );
             }
         }
     }
