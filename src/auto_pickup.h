@@ -98,7 +98,6 @@ class auto_pickup
 
         bool empty() const;
 
-        void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 };
 

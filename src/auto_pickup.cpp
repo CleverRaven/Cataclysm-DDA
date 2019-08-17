@@ -689,7 +689,7 @@ bool auto_pickup::save( const bool bCharacter )
 
     return write_to_file( savefile, [&]( std::ostream & fout ) {
         JsonOut jout( fout, true );
-        serialize( jout );
+        ( bChar ? character_rules : global_rules ).serialize( jout );
     }, _( "autopickup configuration" ) );
 }
 
@@ -741,11 +741,6 @@ void auto_pickup::rules_list::serialize( JsonOut &jsout ) const
         elem.serialize( jsout );
     }
     jsout.end_array();
-}
-
-void auto_pickup::serialize( JsonOut &jsout ) const
-{
-    ( bChar ? character_rules : global_rules ).serialize( jsout );
 }
 
 void auto_pickup::cRules::deserialize( JsonIn &jsin )
