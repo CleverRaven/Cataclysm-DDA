@@ -93,6 +93,18 @@
     "magazines": [ [ "45", [ "m1911mag", "m1911bigmag" ] ] ]
   },
   {
+    "id": "1911_MEU",
+    "copy-from": "m1911",
+    "type": "GUN",
+    "name": "M45A1",
+    "description": "The M45A1 supplanted earlier M45 MEUSOC pistols in use by Force Recon elements of Marine Expeditionary Units.  Where the original M45 pistols were gutted M1911A1's hand-fitted by USMC armorers, the updated M45A1's are hardly different from any other commercial 1911 design save for their dual recoil springs.  Most were replaced in 2016 by Glock 19's due to logistics issues.",
+    "weight": 1105,
+    "price": 169900,
+    "color": "brown_yellow",
+    "dispersion": 420,
+    "durability": 8
+  },
+  {
     "id": "mac_10",
     "type": "GUN",
     "reload_noise_volume": 10,
@@ -269,7 +281,17 @@
     "ammo": "45",
     "ranged_damage": 0,
     "built_in_mods": [ "match_trigger" ],
-    "default_mods": [ "suppressor" ],
     "magazines": [ [ "45", [ "usp45mag" ] ] ]
+  },
+  {
+    "id": "mk23",
+    "copy-from": "usp_45",
+    "type": "GUN",
+    "name": "MK 23 MOD 0",
+    "description": "Jokingly referred to as \"The World's Only Crew-Served Pistol\", this massive pistol was intended for use as a primary weapon for select \"special operators\".  Its cumbersome nature, the introduction of the derivative HK USP series and the logistics of getting .45 ACP ammunition in theater doomed this behemoth to US SOCOM armories.  Like the USP, the Mk 23 is a remarkably reliable gun; someone could probably take out a nuclear equipped walking tank with this in their holster.",
+    "weight": 1200,
+    "volume": 3,
+    "default_mods": [ "suppressor", "laser_sight" ],
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   }
 ]
