@@ -1,0 +1,52 @@
+[
+  {
+    "result": "oxyacetylene",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "45 m",
+    "charges": 120,
+    "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 5 ], [ "atomic_survival", 3 ] ],
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "components": [ [ [ "oxygen", 24 ] ], [ [ "acetylene", 96 ] ] ]
+  },
+  {
+    "result": "acetylene",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "60 m",
+    "charges": 12,
+    "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 5 ], [ "atomic_survival", 3 ] ],
+    "tools": [ [ [ "acetylene_machine", -1 ] ] ],
+    "components": [ [ [ "water", 12 ], [ "water_clean", 12 ] ], [ [ "chem_carbide", 48 ] ] ]
+  },
+  {
+    "result": "tinyweldtank",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "20 m",
+    "book_learn": [ [ "welding_book", 2 ] ],
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "components": [ [ [ "tinyweldtank", 1 ] ], [ [ "oxyacetylene", 60 ] ] ]
+  },
+  {
+    "result": "weldtank",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "90 m",
+    "book_learn": [ [ "welding_book", 2 ] ],
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "components": [ [ [ "weldtank", 1 ] ], [ [ "oxyacetylene", 240 ] ] ]
+  }
+]

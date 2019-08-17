@@ -41,6 +41,7 @@
       [ "oxy_torch", 5 ],
       { "item": "weldtank", "prob": 2, "count": [ 1, 2 ] },
       { "item": "tinyweldtank", "prob": 2, "count": [ 1, 3 ] },
+      { "item": "oxygen_cylinder", "prob": 10, "count": [ 1, 2 ] },
       [ "polisher", 1 ],
       [ "welder", 2 ]
     ]

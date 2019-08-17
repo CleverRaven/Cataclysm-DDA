@@ -12,7 +12,7 @@
 #include "lru_cache.h"
 #include "point.h"
 
-static constexpr tripoint p1{ 0, 0, 1 };
+static constexpr tripoint p1{ tripoint_above };
 static constexpr tripoint p2{ 0, 0, 2 };
 static constexpr tripoint p3{ 0, 0, 3 };
 

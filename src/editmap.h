@@ -33,13 +33,10 @@ struct editmap_hilight {
     std::map<tripoint, char> points;
     nc_color( *getbg )( const nc_color & );
     void setup() {
-        getbg = ( color == c_red ? &red_background :
-                  ( color == c_magenta ? &magenta_background :
-                    ( color == c_cyan ? &cyan_background :
-                      ( color == c_yellow ? &yellow_background : &green_background )
-                    )
-                  )
-                );
+        getbg = color == c_red ? &red_background :
+                color == c_magenta ? &magenta_background :
+                color == c_cyan ? &cyan_background :
+                color == c_yellow ? &yellow_background : &green_background;
     }
     void draw( editmap &em, bool update = false );
 };
@@ -115,8 +112,7 @@ class editmap
         std::map<std::string, editmap_hilight> hilights;
         bool blink;
         bool altblink;
-        int tmaxx;
-        int tmaxy;
+        point tmax;
         bool uberdraw;
 
         editmap();

@@ -67,6 +67,7 @@
     * 2.5.18 "graffiti"
     * 2.5.19 "translate_ter"
     * 2.5.20 "zones"
+    * 2.5.21 "ter_furn_transforms"
   * 2.6 "rotation"
   * 2.7 "predecessor_mapgen"
 * 3 update_mapgen
@@ -705,6 +706,11 @@ Places a zone for an NPC faction.  NPCs in the faction will use the zone to infl
 - "type": (required, string) must be one of NPC_RETREAT, NPC_NO_INVESTIGATE, or NPC_INVESTIGATE_ONLY.  NPCs will prefer to retreat towards NPC_RETREAT zones.  They will not move to the see the source of unseen sounds coming from NPC_NO_INVESTIGATE zones.  They will not move to the see the source of unseen sounds coming from outside NPC_INVESTIGATE_ONLY zones.
 - "faction": (required, string) the faction id of the NPC faction that will use the zone.
 - "name": (optional, string) the name of the zone.
+
+### 2.5.21 "ter_furn_transforms"
+Run a `ter_furn_transform` at the specified location.  This is mostly useful for applying transformations as part of
+an update_mapgen, as normal mapgen can just specify the terrain directly.
+- "transform": (required, string) the id of the `ter_furn_transform` to run.
 
 # 2.6 "rotation"
 Rotates the generated map after all the other mapgen stuff has been done. The value can be a single integer or a range (out of which a value will be randomly chosen). Example:

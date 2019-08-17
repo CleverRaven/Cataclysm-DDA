@@ -84,7 +84,7 @@
 #include "string_id.h"
 #include "units.h"
 #include "type_id.h"
-#include "event.h"
+#include "timed_event.h"
 #include "options.h"
 #include "colony.h"
 #include "color.h"
@@ -108,6 +108,7 @@ const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_milked( "milked" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_under_op( "under_operation" );
+const efftype_id effect_pet( "pet" );
 
 using namespace activity_handlers;
 
@@ -155,6 +156,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_HACKSAW" ), hacksaw_do_turn },
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_do_turn },
     { activity_id( "ACT_CHOP_LOGS" ), chop_tree_do_turn },
+    { activity_id( "ACT_CHOP_PLANKS" ), chop_tree_do_turn },
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_do_turn },
     { activity_id( "ACT_DIG" ), dig_do_turn },
     { activity_id( "ACT_DIG_CHANNEL" ), dig_channel_do_turn },
@@ -223,6 +225,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_HACKSAW" ), hacksaw_finish },
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_finish },
     { activity_id( "ACT_CHOP_LOGS" ), chop_logs_finish },
+    { activity_id( "ACT_CHOP_PLANKS" ), chop_planks_finish },
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_finish },
     { activity_id( "ACT_DIG" ), dig_finish },
     { activity_id( "ACT_DIG_CHANNEL" ), dig_channel_finish },
@@ -619,94 +622,6 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     return time_to_cut;
 }
 
-// The below function exists to allow mods to migrate their content fully to the new harvest system. This function should be removed eventually.
-static harvest_id butchery_flags_deprecate( const mtype &mt )
-{
-    std::string harvest_id_name = "null";
-    if( mt.has_flag( MF_CBM_CIV ) ) {
-        harvest_id_name = "CBM_CIV";
-    } else if( mt.has_flag( MF_CBM_SCI ) ) {
-        harvest_id_name = "CBM_SCI";
-    } else if( mt.has_flag( MF_CBM_TECH ) ) {
-        harvest_id_name = "CBM_TECH";
-    } else if( mt.has_flag( MF_CBM_SUBS ) ) {
-        harvest_id_name = "CBM_SUBS";
-    } else if( mt.has_flag( MF_CBM_OP ) ) {
-        harvest_id_name = "CBM_OP";
-    } else if( mt.has_flag( MF_POISON ) ) { // POISON tag means tainted meat
-        if( mt.made_of( material_id( "veggy" ) ) ) {
-            harvest_id_name = "fungaloid";
-        } else if( mt.made_of( material_id( "bone" ) ) ) {
-            harvest_id_name = "mr_bones";
-        } else if( mt.has_flag( MF_CHITIN ) ) { // only arachnids drop chitin
-            harvest_id_name = "arachnid_tainted";
-            // acid ants have ACIDPROOF and do not have the CHITIN flag
-        } else if( mt.has_flag( MF_ACIDPROOF ) ) {
-            harvest_id_name = "arachnid_acid";
-        } else if( mt.has_flag( MF_LEATHER ) ) {
-            harvest_id_name = "zombie_leather";
-        } else if( mt.has_flag( MF_FUR ) ) {
-            harvest_id_name = "zombie_fur";
-        } else if( mt.has_flag( MF_BONES ) ) {
-            harvest_id_name = "zombie";
-        } else {
-            harvest_id_name = "zombie_meatslug";
-        }
-    } else { // drops regular edible meat
-        if( mt.made_of( material_id( "veggy" ) ) ) {
-            harvest_id_name = "triffid_small";
-        } else if( mt.size == MS_TINY ) {
-            if( mt.has_flag( MF_FEATHER ) ) {
-                harvest_id_name = "bird_tiny";
-            } else if( mt.has_flag( MF_AQUATIC ) ) {
-                harvest_id_name = "fish_small";
-            } else {
-                harvest_id_name = "mammal_tiny";
-            }
-        } else if( mt.has_flag( MF_HUMAN ) ) {
-            harvest_id_name = "human";
-        } else if( mt.size >= MS_SMALL && mt.size <= MS_MEDIUM ) {
-            if( mt.has_flag( MF_LEATHER ) ) {
-                harvest_id_name = "mammal_leather";
-            } else if( mt.has_flag( MF_FUR ) ) {
-                harvest_id_name = "mammal_fur";
-            } else if( mt.has_flag( MF_WOOL ) ) {
-                harvest_id_name = "mammal_wool";
-            } else if( mt.has_flag( MF_FEATHER ) ) {
-                harvest_id_name = "bird_small";
-            } else if( mt.has_flag( MF_AQUATIC ) ) {
-                harvest_id_name = "fish_large";
-            } else if( mt.has_flag( MF_CHITIN ) ) {
-                harvest_id_name = "arachnid";
-            } else if( mt.has_flag( MF_BONES ) ) {
-                harvest_id_name = "animal_noskin";
-            } else {
-                harvest_id_name = "meatslug";
-            }
-        } else if( mt.size >= MS_LARGE ) {
-            if( mt.has_flag( MF_LEATHER ) ) {
-                harvest_id_name = "mammal_large_leather";
-            } else if( mt.has_flag( MF_FUR ) ) {
-                harvest_id_name = "mammal_large_fur";
-            } else if( mt.has_flag( MF_WOOL ) ) {
-                harvest_id_name = "mammal_large_wool";
-            } else if( mt.has_flag( MF_FEATHER ) ) {
-                harvest_id_name = "bird_large";
-            } else if( mt.has_flag( MF_AQUATIC ) ) {
-                harvest_id_name = "fish_large";
-            } else if( mt.has_flag( MF_CHITIN ) ) {
-                harvest_id_name = "arachnid";
-            } else if( mt.has_flag( MF_BONES ) ) {
-                harvest_id_name = "animal_large_noskin";
-            } else {
-                harvest_id_name = "meatslug";
-            }
-        }
-    }
-
-    return harvest_id( harvest_id_name );
-}
-
 // this function modifies the input weight by its damage level, depending on the bodypart
 static int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
 {
@@ -784,10 +699,12 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
 
-    const harvest_id hid = mt.harvest.is_null() ? butchery_flags_deprecate( mt ) : mt.harvest;
-    const harvest_list &harvest = *hid;
+    if( mt.harvest.is_null() ) {
+        debugmsg( "ERROR: %s has no harvest entry.", mt.id.c_str() );
+        return;
+    }
 
-    for( const auto &entry : harvest ) {
+    for( const harvest_entry &entry : *mt.harvest ) {
         const int butchery = roll_butchery();
         const float min_num = entry.base_num.first + butchery * entry.scale_num.first;
         const float max_num = entry.base_num.second + butchery * entry.scale_num.second;
@@ -950,7 +867,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 // apply skill before converting to items, but only if mass_ratio is defined
                 roll *= roll_drops();
                 monster_weight_remaining -= roll;
-                roll = ceil( roll / to_gram( ( item::find_type( entry.drop ) )->weight ) );
+                roll = ceil( static_cast<double>( roll ) /
+                             to_gram( ( item::find_type( entry.drop ) )->weight ) );
             } else {
                 monster_weight_remaining -= roll * to_gram( ( item::find_type( entry.drop ) )->weight );
             }
@@ -1274,6 +1192,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 }
 
             }
+            act->targets.pop_back();
             break;
         case SKIN:
             switch( rng( 1, 4 ) ) {
@@ -1295,6 +1214,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                     break;
             }
             corpse_item.set_flag( "SKINNED" );
+            act->targets.pop_back();
             break;
         case DISMEMBER:
             switch( rng( 1, 3 ) ) {
@@ -1428,6 +1348,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                     if( !liquid.charges ) {
                         act_ref.set_to_null();
                     } else {
+                        if( act_ref.str_values.empty() ) {
+                            act_ref.str_values.push_back( std::string() );
+                        }
                         act_ref.str_values.at( 0 ) = serialize( liquid );
                     }
                 } else {
@@ -1816,7 +1739,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                         units::legacy_volume_factor ) ) { // Splatter some blood around
                 // Splatter a bit more randomly, so that it looks cooler
                 const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
-                const tripoint dest( pos.x + rng( -radius, radius ), pos.y + rng( -radius, radius ), pos.z );
+                const tripoint dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
                 const field_type_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
                                                  corpse.get_mtype()->gibType() :
                                                  corpse.get_mtype()->bloodType();
@@ -1935,7 +1858,7 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
     p->consume_charges( it, it.type->charges_to_use() );
     p->practice( skill_survival, act->index, 5 );
 
-    actor->resolve_firestarter_use( *p, act->placement );
+    firestarter_actor::resolve_firestarter_use( *p, act->placement );
     act->set_to_null();
 }
 
@@ -2067,6 +1990,9 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
         p->mod_fatigue( 1 );
         if( hand_crank_item.ammo_capacity() > hand_crank_item.ammo_remaining() ) {
             hand_crank_item.ammo_set( "battery", hand_crank_item.ammo_remaining() + 1 );
+        } else {
+            act->moves_left = 0;
+            add_msg( m_info, _( "You've charged the battery completely." ) );
         }
     }
     if( p->get_fatigue() >= DEAD_TIRED ) {
@@ -2236,9 +2162,9 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         g->m.spawn_item( pos, "spike", rng( 1, 19 ) );
         g->m.spawn_item( pos, "scrap", rng( 1, 8 ) );
     } else if( ter == t_bars ) {
-        if( g->m.ter( {pos.x + 1, pos.y, pos.z} ) == t_sewage || g->m.ter( {pos.x, pos.y + 1, pos.z} ) ==
+        if( g->m.ter( pos + point_east ) == t_sewage || g->m.ter( pos + point_south ) ==
             t_sewage ||
-            g->m.ter( {pos.x - 1, pos.y, pos.z} ) == t_sewage || g->m.ter( {pos.x, pos.y - 1, pos.z} ) ==
+            g->m.ter( pos + point_west ) == t_sewage || g->m.ter( pos + point_north ) ==
             t_sewage ) {
             g->m.ter_set( pos, t_sewage );
             g->m.spawn_item( p->pos(), "pipe", rng( 1, 2 ) );
@@ -2403,7 +2329,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
         // TODO: Allow setting this in the actor
         // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
-        if( !used_tool->ammo_sufficient() ) {
+        if( !used_tool->units_sufficient( *p ) ) {
             p->add_msg_if_player( _( "Your %s ran out of charges" ), used_tool->tname() );
             act->set_to_null();
             return;
@@ -2524,8 +2450,8 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
         return;
     }
 
-    const auto inv = p->crafting_inventory();
-    const auto &reqs = f->obj().requirements();
+    const inventory inv = p->crafting_inventory();
+    const requirement_data &reqs = f->obj().requirements();
     if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
         add_msg( m_info, _( "You are currently unable to mend the %s." ), target->tname() );
     }
@@ -2726,7 +2652,7 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
             return;
         }
         tripoint sm_tri = g->m.getlocal( sm_to_ms_copy( omt_to_sm_copy( p->omt_path.back() ) ) );
-        tripoint centre_sub = tripoint( sm_tri.x + SEEX, sm_tri.y + SEEY, sm_tri.z );
+        tripoint centre_sub = sm_tri + point( SEEX, SEEY );
         if( !g->m.passable( centre_sub ) ) {
             auto candidates = g->m.points_in_radius( centre_sub, 2 );
             for( const auto &elem : candidates ) {
@@ -2985,7 +2911,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     const time_duration half_op_duration = difficulty * 10_minutes;
     time_duration time_left = time_duration::from_turns( act->moves_left / 100 ) ;
 
-    if( autodoc ) {
+    if( autodoc && g->m.inbounds( p->pos() ) ) {
         const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
                                              furn_str_id( "f_autodoc" ) );
 
@@ -3000,7 +2926,6 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                                           _( "The Autodoc's failure damages you greatly." ),
                                           _( "The Autodoc's failure damages <npcname> greatly." ) );
             }
-
             if( act->values.size() > 4 ) {
                 for( size_t i = 4; i < act->values.size(); i++ ) {
                     p->add_effect( effect_bleed, 1_turns, body_part( act->values[i] ), true, difficulty );
@@ -3015,7 +2940,6 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                     if( body_part( act->values[i] ) == bp_eyes ) {
                         p->add_effect( effect_blind, 1_hours, num_bp );
                     }
-                    p->remove_effect( effect_under_op, body_part( act->values[i] ) );
                 }
             } else {
                 p->add_effect( effect_bleed, 1_turns, num_bp, true, difficulty );
@@ -3071,7 +2995,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                 p->perform_install( bionic_id( act->str_values[cbm_id] ),
                                     bionic_id( act->str_values[upgraded_cbm_id] ), act->values[0], act->values[1], act->values[3],
                                     act->str_values[cbm_name], act->str_values[upgraded_cbm_name], act->str_values[installer_name],
-                                    trait_to_rem );
+                                    trait_to_rem, p->pos() );
             } else {
                 debugmsg( _( "%s is no a valid bionic_id" ), act->str_values[cbm_id] );
                 p->remove_effect( effect_under_op );
@@ -3102,6 +3026,19 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                                       _( "The Autodoc is moving erratically through the rest of its program, not actually stitching <npcname>'s wounds." ) );
         }
     }
+
+    // Makes sure NPC is still under anesthesia
+    if( p->has_effect( effect_narcosis ) ) {
+        const time_duration remaining_time = p->get_effect_dur( effect_narcosis );
+        if( remaining_time <= time_left ) {
+            const time_duration top_off_time = time_left - remaining_time;
+            p->add_effect( effect_narcosis, top_off_time );
+            p->add_effect( effect_sleep, top_off_time );
+        }
+    } else {
+        p->add_effect( effect_narcosis, time_left );
+        p->add_effect( effect_sleep, time_left );
+    }
     p->set_moves( 0 );
 }
 
@@ -3115,25 +3052,36 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 
 void activity_handlers::operation_finish( player_activity *act, player *p )
 {
-    if( act->values[1] > 0 ) {
-        add_msg( m_good,
-                 _( "The Autodoc retuns to its resting position after succesfully performing the operation." ) );
-        const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
-                                             furn_str_id( "f_autodoc" ) );
-        sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
-                       _( "a short upbeat jingle: \"Operation successful\"" ), true,
-                       "Autodoc",
-                       "success" );
+    if( act->str_values[6] == "true" ) {
+        if( act->values[1] > 0 ) {
+            add_msg( m_good,
+                     _( "The Autodoc returns to its resting position after successfully performing the operation." ) );
+            const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
+                                                 furn_str_id( "f_autodoc" ) );
+            sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
+                           _( "a short upbeat jingle: \"Operation successful\"" ), true,
+                           "Autodoc",
+                           "success" );
+        } else {
+            add_msg( m_bad,
+                     _( "The Autodoc jerks back to its resting position after failing the operation." ) );
+            const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
+                                                 furn_str_id( "f_autodoc" ) );
+            sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
+                           _( "a sad beeping noise: \"Operation failed\"" ), true,
+                           "Autodoc",
+                           "failure" );
+        }
     } else {
-        add_msg( m_bad,
-                 _( "The Autodoc jerks back to its resting position after failing the operation." ) );
-        const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
-                                             furn_str_id( "f_autodoc" ) );
-        sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
-                       _( "a sad beeping noise: \"Operation failed\"" ), true,
-                       "Autodoc",
-                       "failure" );
+        if( act->values[1] > 0 ) {
+            add_msg( m_good,
+                     _( "The operation is a success." ) );
+        } else {
+            add_msg( m_bad,
+                     _( "The operation is a failure." ) );
+        }
     }
+    p->remove_effect( effect_under_op );
     act->set_to_null();
 }
 
@@ -3469,9 +3417,9 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
         g->m.spawn_item( p->pos(), "spike", 19 );
         g->m.spawn_item( p->pos(), "scrap", 8 );
     } else if( ter == t_bars ) {
-        if( g->m.ter( { pos.x + 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y + 1, pos.z } )
+        if( g->m.ter( pos + point_east ) == t_sewage || g->m.ter( pos + point_south )
             == t_sewage ||
-            g->m.ter( { pos.x - 1, pos.y, pos.z } ) == t_sewage || g->m.ter( { pos.x, pos.y - 1, pos.z } ) ==
+            g->m.ter( pos + point_west ) == t_sewage || g->m.ter( pos + point_north ) ==
             t_sewage ) {
             g->m.ter_set( pos, t_sewage );
             g->m.spawn_item( p->pos(), "pipe", 3 );
@@ -3516,7 +3464,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
         // try again
     }
 
-    const tripoint to = pos + point( 3 * direction.x + rng( -1, 1 ), 3 * direction.y + rng( -1, 1 ) );
+    const tripoint to = pos + 3 * direction.xy() + point( rng( -1, 1 ), rng( -1, 1 ) );
     std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
     for( auto &elem : tree ) {
         g->m.destroy( elem );
@@ -3553,6 +3501,29 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
+    act->set_to_null();
+}
+
+void activity_handlers::chop_planks_finish( player_activity *act, player *p )
+{
+    const int max_planks = 10;
+    /** @EFFECT_FABRICATION increases number of planks cut from a log */
+    int planks = normal_roll( 2 + p->get_skill_level( skill_id( "fabrication" ) ), 1 );
+    int wasted_planks = max_planks - planks;
+    int scraps = rng( wasted_planks, wasted_planks * 3 ) ;
+    planks = std::min( planks, max_planks );
+
+    if( planks > 0 ) {
+        g->m.spawn_item( act->placement, "2x4", planks, 0, calendar::turn );
+        p->add_msg_if_player( m_good, _( "You produce %d planks." ), planks );
+    }
+    if( scraps > 0 ) {
+        g->m.spawn_item( act->placement, "splinter", scraps, 0, calendar::turn );
+        p->add_msg_if_player( m_good, _( "You produce %d splinters." ), scraps );
+    }
+    if( planks < max_planks / 2 ) {
+        p->add_msg_if_player( m_bad, _( "You waste a lot of the wood." ) );
+    }
     act->set_to_null();
 }
 
@@ -4022,12 +3993,20 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
 
     /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
     /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
-    const float success = p->get_skill_level( skill_id( "computer" ) ) - 1.5 * ( z->type->difficulty ) /
-                          ( ( rng( 2, p->int_cur ) / 2 ) + ( p->get_skill_level( skill_id( "computer" ) ) / 2 ) );
+    const int computer_skill = p->get_skill_level( skill_id( "computer" ) );
+    const float randomized_skill = rng( 2, p->int_cur ) + computer_skill;
+    float success = computer_skill - 3 * z->type->difficulty / randomized_skill;
+    if( z->has_flag( MF_RIDEABLE_MECH ) ) {
+        success = randomized_skill - rng( 1, 11 );
+    }
+    // rideable mechs are not hostile, they have no AI, they do not resist control as much.
     if( success >= 0 ) {
         p->add_msg_if_player( _( "You successfully override the %s's IFF protocols!" ),
                               z->name() );
         z->friendly = -1;
+        if( z->has_flag( MF_RIDEABLE_MECH ) ) {
+            z->add_effect( effect_pet, 1_turns, num_bp, true );
+        }
     } else if( success >= -2 ) { //A near success
         p->add_msg_if_player( _( "The %s short circuits as you attempt to reprogram it!" ),
                               z->name() );
@@ -4092,7 +4071,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
         }
         for( int dx = -1; dx <= 1; dx++ ) {
             for( int dy = -1; dy <= 1; dy++ ) {
-                tripoint neighbor = tripoint( tpt.x + dx, tpt.y + dy, tpt.z );
+                tripoint neighbor = tpt + point( dx, dy );
                 if( seen.find( neighbor ) != seen.end() ) {
                     continue;
                 }
@@ -4197,8 +4176,9 @@ void activity_handlers::hack_safe_finish( player_activity *act, player *p )
                              pgettext( "memorial_female", "Set off an alarm." ) );
         sounds::sound( p->pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
-        if( act->placement.z > 0 && !g->events.queued( EVENT_WANTED ) ) {
-            g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p->global_sm_location() );
+        if( act->placement.z > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+            g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+                                 p->global_sm_location() );
         }
     } else if( result == HACK_SUCCESS ) {
         add_msg( m_good, _( "The door on the safe swings open." ) );
