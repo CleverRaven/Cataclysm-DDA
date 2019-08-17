@@ -717,38 +717,53 @@ void auto_pickup::load( const bool bCharacter )
     ready = false;
 }
 
-void auto_pickup::serialize( JsonOut &json ) const
+void auto_pickup::cRules::serialize( JsonOut &jsout ) const
 {
-    json.start_array();
+    jsout.start_object();
+    jsout.member( "rule", sRule );
+    jsout.member( "active", bActive );
+    jsout.member( "exclude", bExclude );
+    jsout.end_object();
+}
 
-    for( auto &elem : vRules[bChar ? CHARACTER_TAB : GLOBAL_TAB] ) {
-        json.start_object();
-
-        json.member( "rule", elem.sRule );
-        json.member( "active", elem.bActive );
-        json.member( "exclude", elem.bExclude );
-
-        json.end_object();
+void auto_pickup::rules_list::serialize( JsonOut &jsout ) const
+{
+    jsout.start_array();
+    for( const cRules &elem : *this ) {
+        elem.serialize( jsout );
     }
+    jsout.end_array();
+}
 
-    json.end_array();
+void auto_pickup::serialize( JsonOut &jsout ) const
+{
+    vRules[bChar ? CHARACTER_TAB : GLOBAL_TAB].serialize( jsout );
+}
+
+void auto_pickup::cRules::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    sRule = jo.get_string( "rule" );
+    bActive = jo.get_bool( "active" );
+    bExclude = jo.get_bool( "exclude" );
+}
+
+void auto_pickup::rules_list::deserialize( JsonIn &jsin )
+{
+    clear();
+
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        cRules tmp;
+        tmp.deserialize( jsin );
+        push_back( tmp );
+    }
 }
 
 void auto_pickup::deserialize( JsonIn &jsin )
 {
-    vRules[bChar ? CHARACTER_TAB : GLOBAL_TAB].clear();
     ready = false;
-
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        JsonObject jo = jsin.get_object();
-
-        const std::string sRule = jo.get_string( "rule" );
-        const bool bActive = jo.get_bool( "active" );
-        const bool bExclude = jo.get_bool( "exclude" );
-
-        vRules[bChar ? CHARACTER_TAB : GLOBAL_TAB].push_back( cRules( sRule, bActive, bExclude ) );
-    }
+    vRules[bChar ? CHARACTER_TAB : GLOBAL_TAB].deserialize( jsin );
 }
 
 bool auto_pickup::load_legacy( const bool bCharacter )
@@ -774,7 +789,7 @@ bool auto_pickup::load_legacy( const bool bCharacter )
     return true;
 }
 
-void auto_pickup::load_legacy_rules( std::vector<cRules> &rules, std::istream &fin )
+void auto_pickup::load_legacy_rules( rules_list &rules, std::istream &fin )
 {
     rules.clear();
     ready = false;

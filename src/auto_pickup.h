@@ -45,6 +45,16 @@ class auto_pickup
                     this->bActive = bActiveIn;
                     this->bExclude = bExcludeIn;
                 }
+
+                void serialize( JsonOut &json ) const;
+                void deserialize( JsonIn &jsin );
+        };
+
+        class rules_list : public std::vector<cRules>
+        {
+            public:
+                void serialize( JsonOut &json ) const;
+                void deserialize( JsonIn &jsin );
         };
 
         mutable bool ready; //< true if map_items has been populated from vRules
@@ -61,9 +71,9 @@ class auto_pickup
          * - vRules[0,1] aka vRules[GLOBAL,CHARACTER]: current rules split into global and
          *      character-specific. Allows the editor to show one or the other.
          */
-        std::array<std::vector<cRules>, MAX_TAB> vRules;
+        std::array<rules_list, MAX_TAB> vRules;
 
-        void load_legacy_rules( std::vector<cRules> &rules, std::istream &fin );
+        void load_legacy_rules( rules_list &rules, std::istream &fin );
 
         void refresh_map_items() const; //< Only modifies mutable state
 
