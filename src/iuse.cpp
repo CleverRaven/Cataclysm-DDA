@@ -256,7 +256,7 @@ struct extended_photo_def;
 struct object_names_collection;
 
 static void item_save_monsters( player &p, item &it, const std::vector<monster *> &monster_vec,
-                                const int photo_quality );
+                                int photo_quality );
 static bool show_photo_selection( player &p, item &it, const std::string &var_name );
 
 static bool item_read_extended_photos( item &, std::vector<extended_photo_def> &,
@@ -275,19 +275,19 @@ static std::string colorized_trap_name_at( const tripoint &point );
 static std::string colorized_ter_name_flags_at( const tripoint &point,
         const std::vector<std::string> &flags = {}, const std::vector<ter_str_id> &ter_whitelist = {} );
 static std::string colorized_feature_description_at( const tripoint &center_point, bool &item_found,
-        const units::volume min_visible_volume );
+        units::volume min_visible_volume );
 
 static std::string colorized_item_name( const item &item );
 static std::string colorized_item_description( const item &item );
 static item get_top_item_at_point( const tripoint &point,
-                                   const units::volume min_visible_volume );
+                                   units::volume min_visible_volume );
 
-static std::string effects_description_for_creature( Creature *const creature, std::string &pose,
+static std::string effects_description_for_creature( Creature *creature, std::string &pose,
         const std::string &pronoun_sex );
 
 static object_names_collection enumerate_objects_around_point( const tripoint &point,
-        const int radius, const tripoint &bounds_center_point, const int bounds_radius,
-        const tripoint &camera_pos, const units::volume min_visible_volume, bool create_figure_desc,
+        int radius, const tripoint &bounds_center_point, int bounds_radius,
+        const tripoint &camera_pos, units::volume min_visible_volume, bool create_figure_desc,
         std::unordered_set<tripoint> &ignored_points,
         std::unordered_set<const vehicle *> &vehicles_recorded );
 static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
@@ -412,9 +412,6 @@ static int alcohol( player &p, const item &it, const int strength )
         duration -= alc_strength( strength, 12_minutes, 30_minutes, 45_minutes );
     } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
         duration += alc_strength( strength, 12_minutes, 30_minutes, 45_minutes );
-    }
-    if( !( p.has_trait( trait_ALCMET ) ) ) {
-        p.mod_painkiller( to_turns<int>( alc_strength( strength, 24_seconds, 48_seconds, 72_seconds ) ) );
     }
     p.add_effect( effect_drunk, duration );
     return it.type->charges_to_use();
@@ -808,8 +805,8 @@ int iuse::vaccine( player *p, item *it, bool, const tripoint & )
 int iuse::flu_vaccine( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You inject the vaccine." ) );
-    p->add_msg_if_player( m_good, _( "You no longer need to fear the flu." ) );
-    p->add_effect( effect_flushot, 1_turns, num_bp, true );
+    p->add_msg_if_player( m_good, _( "You no longer need to fear the flu, at least for some time." ) );
+    p->add_effect( effect_flushot, 30_days, num_bp, true );
     p->mod_pain( 3 );
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
@@ -845,7 +842,8 @@ int iuse::meditate( player *p, item *it, bool t, const tripoint & )
     }
 
     if( p->has_trait( trait_SPIRITUAL ) ) {
-        p->assign_activity( activity_id( "ACT_MEDITATE" ), 2000 );
+        const int moves = to_moves<int>( 20_minutes );
+        p->assign_activity( activity_id( "ACT_MEDITATE" ), moves );
     } else {
         p->add_msg_if_player( _( "This %s probably meant a lot to someone at one time." ),
                               it->tname() );
@@ -1893,6 +1891,7 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
 
 int iuse::rm13armor_off( player *p, item *it, bool, const tripoint & )
 {
+    // This allows it to turn on for a turn, because ammo_sufficient assumes non-tool non-weapons need zero ammo, for some reason.
     if( !it->ammo_sufficient() ) {
         p->add_msg_if_player( m_info, _( "The RM13 combat armor's fuel cells are dead." ) );
         return 0;
@@ -1907,6 +1906,7 @@ int iuse::rm13armor_off( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( _( "Electro-reactive armor system:  ONLINE." ) );
         p->add_msg_if_player( _( "All systems nominal." ) );
         it->convert( oname ).active = true;
+        p->reset_encumbrance();
         return it->type->charges_to_use();
     }
 }
@@ -1926,6 +1926,7 @@ int iuse::rm13armor_on( player *p, item *it, bool t, const tripoint & )
         p->add_msg_if_player( _( "Shutting down." ) );
         p->add_msg_if_player( _( "Your RM13 combat armor turns off." ) );
         it->convert( oname ).active = false;
+        p->reset_encumbrance();
     }
     return it->type->charges_to_use();
 }
@@ -2707,10 +2708,10 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
 
     const tripoint dig_point = p->pos();
 
-    tripoint north = dig_point + point( 0, -1 );
-    tripoint south = dig_point + point( 0, 1 );
-    tripoint west = dig_point + point( -1, 0 );
-    tripoint east = dig_point + point( 1, 0 );
+    tripoint north = dig_point + point_north;
+    tripoint south = dig_point + point_south;
+    tripoint west = dig_point + point_west;
+    tripoint east = dig_point + point_east;
 
     const bool can_dig_here = g->m.has_flag( "DIGGABLE", dig_point ) && !g->m.has_furn( dig_point ) &&
                               g->m.tr_at( dig_point ).is_null() && g->m.i_at( dig_point ).empty() && !g->m.veh_at( dig_point ) &&
@@ -2782,11 +2783,11 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
 
     if( g->m.ter( pnt ) == t_pit || g->m.ter( pnt ) == t_pit_spiked ||
         g->m.ter( pnt ) == t_pit_glass || g->m.ter( pnt ) == t_pit_corpsed ) {
-        moves = to_turns<int>( time_duration::from_minutes( 15 ) );
+        moves = to_moves<int>( time_duration::from_minutes( 15 ) );
     } else if( g->m.ter( pnt ) == t_pit_shallow ) {
-        moves = to_turns<int>( time_duration::from_minutes( 10 ) );
+        moves = to_moves<int>( time_duration::from_minutes( 10 ) );
     } else if( g->m.ter( pnt ) == t_dirtmound ) {
-        moves = to_turns<int>( time_duration::from_minutes( 5 ) );
+        moves = to_moves<int>( time_duration::from_minutes( 5 ) );
     } else {
         p->add_msg_if_player( _( "There is nothing to fill." ) );
         return 0;
@@ -3085,21 +3086,21 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    int turns = to_moves<int>( 30_minutes );
+    int moves = to_moves<int>( 30_minutes );
     if( g->m.move_cost( pnt ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
-        turns /= 2;
+        moves /= 2;
     }
 
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    turns *= ( 1 - ( helpersize / 10 ) );
+    moves *= ( 1 - ( helpersize / 10 ) );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task..." ), np->name );
         break;
     }
 
-    p->assign_activity( activity_id( "ACT_JACKHAMMER" ), turns, -1, p->get_item_position( it ) );
+    p->assign_activity( activity_id( "ACT_JACKHAMMER" ), moves, -1, p->get_item_position( it ) );
     p->activity.placement = pnt;
     p->add_msg_if_player( _( "You start drilling into the %1$s with your %2$s." ),
                           g->m.tername( pnt ), it->tname() );
@@ -3541,7 +3542,7 @@ int iuse::grenade_inc_act( player *p, item *it, bool t, const tripoint &pos )
     } else {  // blow up
         int num_flames = rng( 3, 5 );
         for( int current_flame = 0; current_flame < num_flames; current_flame++ ) {
-            tripoint dest( pos.x + rng( -5, 5 ), pos.y + rng( -5, 5 ), pos.z );
+            tripoint dest( pos + point( rng( -5, 5 ), rng( -5, 5 ) ) );
             std::vector<tripoint> flames = line_to( pos, dest, 0, 0 );
             for( auto &flame : flames ) {
                 g->m.add_field( flame, fd_fire, rng( 0, 2 ) );
@@ -4191,10 +4192,10 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
         }
 
         //Play in 15-minute chunks
-        int time = to_turns<int>( 15_minutes );
+        const int moves = to_moves<int>( 15_minutes );
 
         p->add_msg_if_player( _( "You play on your %s for a while." ), it->tname() );
-        p->assign_activity( activity_id( "ACT_GAME" ), time, -1, p->get_item_position( it ), "gaming" );
+        p->assign_activity( activity_id( "ACT_GAME" ), moves, -1, p->get_item_position( it ), "gaming" );
 
         std::map<std::string, std::string> game_data;
         game_data.clear();
@@ -4239,11 +4240,11 @@ int iuse::hand_crank( player *p, item *it, bool, const tripoint & )
     if( magazine && magazine->has_flag( "RECHARGE" ) ) {
         // 1600 minutes. It shouldn't ever run this long, but it's an upper bound.
         // expectation is it runs until the player is too tired.
-        int time = to_moves<int>( 1600_minutes );
+        int moves = to_moves<int>( 1600_minutes );
         if( it->ammo_capacity() > it->ammo_remaining() ) {
             p->add_msg_if_player( string_format( _( "You start cranking the %s to charge its %s." ),
                                                  it->tname(), it->magazine_current()->tname() ) ) ;
-            p->assign_activity( activity_id( "ACT_HAND_CRANK" ), time, -1, p->get_item_position( it ),
+            p->assign_activity( activity_id( "ACT_HAND_CRANK" ), moves, -1, p->get_item_position( it ),
                                 "hand-cranking" );
         } else {
             p->add_msg_if_player( string_format(
@@ -4278,7 +4279,7 @@ int iuse::vibe( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "*Your* batteries are dead." ) );
         return 0;
     } else {
-        int time = to_turns<int>( 20_minutes );
+        int moves = to_moves<int>( 20_minutes );
         if( it->ammo_remaining() > 0 ) {
             p->add_msg_if_player( _( "You fire up your %s and start getting the tension out." ),
                                   it->tname() );
@@ -4286,7 +4287,7 @@ int iuse::vibe( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( _( "You whip out your %s and start getting the tension out." ),
                                   it->tname() );
         }
-        p->assign_activity( activity_id( "ACT_VIBE" ), time, -1, p->get_item_position( it ),
+        p->assign_activity( activity_id( "ACT_VIBE" ), moves, -1, p->get_item_position( it ),
                             "de-stressing" );
     }
     return it->type->charges_to_use();
@@ -4440,7 +4441,7 @@ int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
 
 void iuse::cut_log_into_planks( player &p )
 {
-    int moves = to_moves<int>( 20_minutes );
+    const int moves = to_moves<int>( 20_minutes );
     p.add_msg_if_player( _( "You cut the log into planks." ) );
 
     p.assign_activity( activity_id( "ACT_CHOP_PLANKS" ), moves, -1 );
@@ -4603,6 +4604,7 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
     }
 
     const int charges = turns * it->ammo_required();
+    int moves = to_moves<int>( time_duration::from_turns( turns ) );
 
     if( charges > it->ammo_remaining() ) {
         add_msg( m_info, _( "Your torch doesn't have enough acetylene to cut that." ) );
@@ -4610,7 +4612,7 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
     }
 
     // placing ter here makes resuming tasks work better
-    p->assign_activity( activity_id( "ACT_OXYTORCH" ), turns, static_cast<int>( ter ),
+    p->assign_activity( activity_id( "ACT_OXYTORCH" ), moves, static_cast<int>( ter ),
                         p->get_item_position( it ) );
     p->activity.placement = pnt;
     p->activity.values.push_back( charges );
@@ -5482,7 +5484,7 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
 
 int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
 {
-    if( !it->ammo_sufficient() ) {
+    if( !it->units_sufficient( *p ) ) {
         return 0;
     }
     if( p->is_underwater() ) {
@@ -8608,14 +8610,16 @@ int iuse::shavekit( player *p, item *it, bool, const tripoint & )
     if( !it->ammo_sufficient() ) {
         p->add_msg_if_player( _( "You need soap to use this." ) );
     } else {
-        p->assign_activity( activity_id( "ACT_SHAVE" ), 3000 );
+        const int moves = to_moves<int>( 5_minutes );
+        p->assign_activity( activity_id( "ACT_SHAVE" ), moves );
     }
     return it->type->charges_to_use();
 }
 
 int iuse::hairkit( player *p, item *it, bool, const tripoint & )
 {
-    p->assign_activity( activity_id( "ACT_HAIRCUT" ), 3000 );
+    const int moves = to_moves<int>( 30_minutes );
+    p->assign_activity( activity_id( "ACT_HAIRCUT" ), moves );
     return it->type->charges_to_use();
 }
 
@@ -8896,7 +8900,7 @@ washing_requirements washing_requirements_for_volume( const units::volume vol )
 {
     int water = divide_round_up( vol, 125_ml );
     int cleanser = divide_round_up( vol, 1000_ml );
-    int time = to_turns<int>( 10_seconds * ( vol / 250_ml ) );
+    int time = to_moves<int>( 10_seconds * ( vol / 250_ml ) );
     return { water, cleanser, time };
 }
 

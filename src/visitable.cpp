@@ -757,9 +757,10 @@ std::list<item> visitable<vehicle_selector>::remove_items_with( const
     return res;
 }
 
-template <typename T>
-static int charges_of_internal( const T &self, const itype_id &id, int limit,
-                                const std::function<bool( const item & )> &filter )
+template <typename T, typename M>
+static int charges_of_internal( const T &self, const M &main, const itype_id &id, int limit,
+                                const std::function<bool( const item & )> &filter,
+                                std::function<void( int )> visitor )
 {
     int qty = 0;
 
@@ -789,7 +790,10 @@ static int charges_of_internal( const T &self, const itype_id &id, int limit,
     } );
 
     if( qty < limit && found_tool_with_UPS ) {
-        qty += self.charges_of( "UPS", limit - qty );
+        qty += main.charges_of( "UPS", limit - qty );
+        if( visitor ) {
+            visitor( qty );
+        }
     }
 
     return std::min( qty, limit );
@@ -798,15 +802,17 @@ static int charges_of_internal( const T &self, const itype_id &id, int limit,
 /** @relates visitable */
 template <typename T>
 int visitable<T>::charges_of( const std::string &what, int limit,
-                              const std::function<bool( const item & )> &filter ) const
+                              const std::function<bool( const item & )> &filter,
+                              std::function<void( int )> visitor ) const
 {
-    return charges_of_internal( *this, what, limit, filter );
+    return charges_of_internal( *this, *this, what, limit, filter, visitor );
 }
 
 /** @relates visitable */
 template <>
 int visitable<inventory>::charges_of( const std::string &what, int limit,
-                                      const std::function<bool( const item & )> &filter ) const
+                                      const std::function<bool( const item & )> &filter,
+                                      std::function<void( int )> visitor ) const
 {
     if( what == "UPS" ) {
         int qty = 0;
@@ -822,19 +828,19 @@ int visitable<inventory>::charges_of( const std::string &what, int limit,
 
     int res = 0;
     for( const item *it : iter->second ) {
-        res = sum_no_wrap( res, charges_of_internal( *it, what, limit, filter ) );
+        res = sum_no_wrap( res, charges_of_internal( *it, *this, what, limit, filter, visitor ) );
         if( res >= limit ) {
             break;
         }
     }
-
     return std::min( limit, res );
 }
 
 /** @relates visitable */
 template <>
 int visitable<Character>::charges_of( const std::string &what, int limit,
-                                      const std::function<bool( const item & )> &filter ) const
+                                      const std::function<bool( const item & )> &filter,
+                                      std::function<void( int )> visitor ) const
 {
     auto self = static_cast<const Character *>( this );
     auto p = dynamic_cast<const player *>( self );
@@ -863,7 +869,7 @@ int visitable<Character>::charges_of( const std::string &what, int limit,
         return std::min( qty, limit );
     }
 
-    return charges_of_internal( *this, what, limit, filter );
+    return charges_of_internal( *this, *this, what, limit, filter, visitor );
 }
 
 template <typename T>

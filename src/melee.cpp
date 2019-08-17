@@ -423,7 +423,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
                 }
             }
 
-            if( has_miss_recovery_tec( cur_weapon ) ) {
+            if( can_miss_recovery( cur_weapon ) ) {
                 ma_technique tec = get_miss_recovery_tec( cur_weapon );
                 add_msg( _( tec.player_message ), t.disp_name() );
             } else if( stumble_pen >= 60 ) {
@@ -1012,6 +1012,7 @@ matec_id player::pick_technique( Creature &t, const item &weap,
     std::vector<matec_id> possible;
 
     bool downed = t.has_effect( effect_downed );
+    bool stunned = t.has_effect( effect_stunned );
 
     // first add non-aoe tecs
     for( auto &tec_id : all ) {
@@ -1045,6 +1046,16 @@ matec_id player::pick_technique( Creature &t, const item &weap,
 
         // don't apply downing techniques to someone who's already downed
         if( downed && tec.down_dur > 0 ) {
+            continue;
+        }
+
+        // don't apply "downed only" techniques to someone who's not downed
+        if( !downed && tec.downed_target ) {
+            continue;
+        }
+
+        // don't apply "stunned only" techniques to someone who's not stunned
+        if( !stunned && tec.stunned_target ) {
             continue;
         }
 

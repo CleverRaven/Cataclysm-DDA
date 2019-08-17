@@ -390,7 +390,6 @@
       "SPACE TELEPORTATION - TRUTH OR FICTION?  Scientists addressed a growing conspiracy theory today \"The plutonium consumed is massive.  We cannot use teleportation to reach aliens, unless they live on some kind of parallel world.\"",
       "LASERS - NEXT BIG THING?: Top defense researchers remarked during demonstration of a prototype today: \"We are still working on it, the laser weapon lacks power, but has a technically almost unlimited range,\" one said",
       "DRUG USE ON THE RISE: Recent statistic suggest drug use has climbed more than 40% in the last two years.  \"People are scared for their jobs, their country, even their life...  of course some will turn to drugs,\" said an expert.",
-      "WAR ON DRUGS DEAD: The government has finally reacted to long accumulated evidence that suggests that decriminalized drugs cause fewer health problems and are generally better managed while providing valuable tax revenues.",
       "FEELING BLUE?  Try \"Greens\" for Magazines!  Your local Supermarket!  Nothing cheers you up like a good magazine...  Unless it's JUNK FOOD!  Or why not buy an MP3 PLAYER or a GAME CONSOLE?  Chase those blues away at GREENS Supermarket",
       "GLAMOPOLITAN!  We've got ALL the latest tips!  Whether you want to know what the elite are eating, wearing or discussing, Glamopolitan is YOUR magazine!  So pick up a copy today and \"Sizzle Like A Star\"!",
       "POPULAR MECHANICS: People say mechanics is boring?  We say, Prove them Wrong!  We've got all the articles that make it interesting to talk about, so you can \"Make Mechanics Popular\"!",
@@ -484,28 +483,28 @@
       "By the blade or by the gun?  How will you kill this time?",
       "Ahh, how delightful would it be to kill something.",
       "You are death, and you are coming for them.  Soon.",
-      "You whisper a song to yourself. \"Stab stab stab stab stab, and then you die!  Yeah!\"",
-      "You whisper to yourself. \"Come, oh sweet death of yours.\"",
-      "You whisper a song to yourself. \"I've seen the future, baby!  It is murder!\""
+      "You feel restless.  It's been too long since your last kill.",
+      "Killing something would be nice right now.",
+      "Just one more death, one more kill and then you'd be right."
     ]
   },
   {
     "type": "snippet",
     "category": "killer_on_kill",
     "text": [
-      "You whisper to yourself. \"Now I am become death, the destroyer of worlds!\"",
-      "You whisper to yourself. \"Another one bites the dust!\"",
-      "You whisper to yourself. \"Death takes you away.\"",
+      "You feel the rush of the kill.",
+      "Your urge to kill is sated, for now.",
+      "You have the power of life and death, it feels good to be in control.",
       "You exhale in bliss.",
-      "You whisper to yourself. \"Your death is my life.\"",
-      "You whisper to yourself. \"No light for you anymore.\"",
-      "You whisper to yourself. \"Yet another one.\"",
-      "You whisper to yourself. \"Keep'em coming.\"",
-      "You whisper to yourself. \"Next!\"",
-      "You whisper to yourself. \"The goal of all life is death!\"",
-      "You whisper to yourself. \"By my hand!\"",
-      "You whisper to yourself. \"Die!\"",
-      "You whisper to yourself. \"Your time is up!\""
+      "A calm feeling washes over.",
+      "This feels right.",
+      "You kill and your world is in order again.",
+      "Your worries evaporate as the creature dies by your hand.",
+      "That was nice!  Maybe one more?",
+      "This feels so good!  You could do this all day.",
+      "This brings a smile to your face.",
+      "You feel tension leave your body as your need to kill is satisfied.",
+      "You feel much better now."
     ]
   },
   {

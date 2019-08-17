@@ -131,7 +131,9 @@ class effect_type
         std::string remove_memorial_log;
 
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
-        std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double> mod_data;
+        std::unordered_map <
+        std::tuple<std::string, bool, std::string, std::string>, double, cata::tuple_hash
+        > mod_data;
 };
 
 class effect
@@ -288,8 +290,8 @@ class effect
 void load_effect_type( JsonObject &jo );
 void reset_effect_types();
 
-std::string texitify_base_healing_power( const int power );
-std::string texitify_healing_power( const int power );
+std::string texitify_base_healing_power( int power );
+std::string texitify_healing_power( int power );
 
 // Inheritance here allows forward declaration of the map in class Creature.
 // Storing body_part as an int to make things easier for hash and JSON

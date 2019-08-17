@@ -414,23 +414,23 @@ point direction_XY( const direction dir )
 {
     switch( dir % 9 ) {
         case NORTHWEST:
-            return point( -1, -1 );
+            return point_north_west;
         case NORTH:
-            return point( 0, -1 );
+            return point_north;
         case NORTHEAST:
-            return point( 1, -1 );
+            return point_north_east;
         case WEST:
-            return point( -1,  0 );
+            return point_west;
         case CENTER:
-            return point( 0,  0 );
+            return point_zero;
         case EAST:
-            return point( 1,  0 );
+            return point_east;
         case SOUTHWEST:
-            return point( -1,  1 );
+            return point_south_west;
         case SOUTH:
-            return point( 0,  1 );
+            return point_south;
         case SOUTHEAST:
-            return point( 1,  1 );
+            return point_south_east;
     }
 
     return point_zero;
@@ -520,29 +520,29 @@ std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &t
     const int ax = std::abs( dx );
     const int ay = std::abs( dy );
     if( dz != 0 ) {
-        adjacent_closer_squares.push_back( { from.x + sgn( dx ), from.y + sgn( dy ), from.z + sgn( dz ) } );
+        adjacent_closer_squares.push_back( from + tripoint( sgn( dx ), sgn( dy ), sgn( dz ) ) );
     }
     if( ax > ay ) {
         // X dominant.
-        adjacent_closer_squares.push_back( { from.x + sgn( dx ), from.y, from.z } );
-        adjacent_closer_squares.push_back( { from.x + sgn( dx ), from.y + 1, from.z } );
-        adjacent_closer_squares.push_back( { from.x + sgn( dx ), from.y - 1, from.z } );
+        adjacent_closer_squares.push_back( from + point( sgn( dx ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( sgn( dx ), 1 ) );
+        adjacent_closer_squares.push_back( from + point( sgn( dx ), -1 ) );
         if( dy != 0 ) {
-            adjacent_closer_squares.push_back( { from.x, from.y + sgn( dy ), from.z } );
+            adjacent_closer_squares.push_back( from + point( 0, sgn( dy ) ) );
         }
     } else if( ax < ay ) {
         // Y dominant.
-        adjacent_closer_squares.push_back( { from.x, from.y + sgn( dy ), from.z } );
-        adjacent_closer_squares.push_back( { from.x + 1, from.y + sgn( dy ), from.z } );
-        adjacent_closer_squares.push_back( { from.x - 1, from.y + sgn( dy ), from.z } );
+        adjacent_closer_squares.push_back( from + point( 0, sgn( dy ) ) );
+        adjacent_closer_squares.push_back( from + point( 1, sgn( dy ) ) );
+        adjacent_closer_squares.push_back( from + point( -1, sgn( dy ) ) );
         if( dx != 0 ) {
-            adjacent_closer_squares.push_back( { from.x + sgn( dx ), from.y, from.z } );
+            adjacent_closer_squares.push_back( from + point( sgn( dx ), 0 ) );
         }
     } else if( dx != 0 ) {
         // Pure diagonal.
-        adjacent_closer_squares.push_back( { from.x + sgn( dx ), from.y + sgn( dy ), from.z } );
-        adjacent_closer_squares.push_back( { from.x + sgn( dx ), from.y, from.z } );
-        adjacent_closer_squares.push_back( { from.x, from.y + sgn( dy ), from.z } );
+        adjacent_closer_squares.push_back( from + point( sgn( dx ), sgn( dy ) ) );
+        adjacent_closer_squares.push_back( from + point( sgn( dx ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( 0, sgn( dy ) ) );
     }
 
     return adjacent_closer_squares;

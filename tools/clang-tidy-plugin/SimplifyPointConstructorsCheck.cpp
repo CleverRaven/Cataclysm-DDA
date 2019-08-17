@@ -14,13 +14,6 @@ namespace tidy
 namespace cata
 {
 
-static auto isPointConstructor()
-{
-    return cxxConstructorDecl(
-               ofClass( cxxRecordDecl( anyOf( hasName( "point" ), hasName( "tripoint" ) ) ) )
-           );
-}
-
 static auto isMemberExpr( const std::string &type, const std::string &member_,
                           const std::string &objBind )
 {
@@ -39,10 +32,7 @@ void SimplifyPointConstructorsCheck::registerMatchers( MatchFinder *Finder )
     Finder->addMatcher(
         cxxConstructExpr(
             hasDeclaration( isPointConstructor().bind( "constructorDecl" ) ),
-            anyOf(
-                hasParent( materializeTemporaryExpr().bind( "temp" ) ),
-                anything()
-            ),
+            testWhetherConstructingTemporary(),
             hasArgument( 0, isMemberExpr( "point", "x", "xobj" ) ),
             hasArgument( 1, isMemberExpr( "point", "y", "yobj" ) )
         ).bind( "constructorCallFromPoint" ),
@@ -51,10 +41,7 @@ void SimplifyPointConstructorsCheck::registerMatchers( MatchFinder *Finder )
     Finder->addMatcher(
         cxxConstructExpr(
             hasDeclaration( isPointConstructor().bind( "constructorDecl" ) ),
-            anyOf(
-                hasParent( materializeTemporaryExpr().bind( "temp" ) ),
-                anything()
-            ),
+            testWhetherConstructingTemporary(),
             hasArgument( 0, isMemberExpr( "tripoint", "x", "xobj" ) ),
             hasArgument( 1, isMemberExpr( "tripoint", "y", "yobj" ) ),
             anyOf(
@@ -114,8 +101,7 @@ static void CheckFromTripoint( SimplifyPointConstructorsCheck &Check,
         Result.Nodes.getNodeAs<CXXConstructExpr>( "constructorCallFromTripoint" );
     const CXXConstructorDecl *ConstructorDecl =
         Result.Nodes.getNodeAs<CXXConstructorDecl>( "constructorDecl" );
-    const MaterializeTemporaryExpr *TempParent =
-        Result.Nodes.getNodeAs<MaterializeTemporaryExpr>( "temp" );
+    const Expr *TempParent = Result.Nodes.getNodeAs<Expr>( "temp" );
     const Expr *XExpr = Result.Nodes.getNodeAs<Expr>( "xobj" );
     const Expr *YExpr = Result.Nodes.getNodeAs<Expr>( "yobj" );
     const Expr *ZExpr = Result.Nodes.getNodeAs<Expr>( "zobj" );

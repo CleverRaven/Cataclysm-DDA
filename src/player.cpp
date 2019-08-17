@@ -744,7 +744,7 @@ void player::apply_persistent_morale()
                 if( dist > max_dist ) {
                     continue;
                 }
-                const point pos = point( ompos.x + dx, ompos.y + dy );
+                const point pos = ompos.xy() + point( dx, dy );
                 if( overmap_time.find( pos ) == overmap_time.end() ) {
                     continue;
                 }
@@ -1566,13 +1566,6 @@ int player::run_cost( int base_cost, bool diag ) const
     // The "FLAT" tag includes soft surfaces, so not a good fit.
     const bool on_road = flatground && g->m.has_flag( "ROAD", pos() );
     const bool on_fungus = g->m.has_flag_ter_or_furn( "FUNGUS", pos() );
-
-    if( movecost > 100 ) {
-        movecost *= Character::mutation_value( "movecost_obstacle_modifier" );
-        if( movecost < 100 ) {
-            movecost = 100;
-        }
-    }
 
     if( !is_mounted() ) {
         if( movecost > 100 ) {
@@ -3905,6 +3898,11 @@ void player::check_needs_extremes()
         add_msg_if_player( m_bad, _( "Your heart spasms and stops." ) );
         add_memorial_log( pgettext( "memorial_male", "Died of adrenaline overdose." ),
                           pgettext( "memorial_female", "Died of adrenaline overdose." ) );
+        hp_cur[hp_torso] = 0;
+    } else if( get_effect_int( effect_drunk ) > 4 ) {
+        add_msg_if_player( m_bad, _( "Your breathing slows down to a stop." ) );
+        add_memorial_log( pgettext( "memorial_male", "Died of an alcohol overdose." ),
+                          pgettext( "memorial_female", "Died of an alcohol overdose." ) );
         hp_cur[hp_torso] = 0;
     }
 
@@ -6922,6 +6920,7 @@ std::list<item> player::use_charges( const itype_id &what, int qty,
             res.splice( res.end(), found );
             qty -= std::min( qty, ups );
         }
+        return res;
     }
 
     std::vector<item *> del;
@@ -7467,7 +7466,7 @@ item::reload_option player::select_ammo( const item &base,
     uistate.lastreload[ ammotype( base.ammo_default() ) ] = sel->is_ammo_container() ?
             sel->contents.front().typeId() :
             sel->typeId();
-    return std::move( opts[ menu.ret ] );
+    return opts[ menu.ret ] ;
 }
 
 bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
@@ -7555,12 +7554,12 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
     } );
 
     if( is_npc() ) {
-        return std::move( ammo_list[ 0 ] );
+        return ammo_list[ 0 ] ;
     }
 
     if( !prompt && ammo_list.size() == 1 ) {
         // unconditionally suppress the prompt if there's only one option
-        return std::move( ammo_list[ 0 ] );
+        return ammo_list[ 0 ] ;
     }
 
     return select_ammo( base, std::move( ammo_list ) );
@@ -8102,7 +8101,7 @@ void player::mend_item( item_location &&obj, bool interactive )
 
 int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
 {
-    if( ammo.is_ammo() ) {
+    if( ammo.is_ammo() || ammo.is_frozen_liquid() ) {
         qty = std::max( std::min( ammo.charges, qty ), 1 );
     } else if( ammo.is_ammo_container() || ammo.is_container() ) {
         qty = std::max( std::min( ammo.contents.front().charges, qty ), 1 );
@@ -9169,9 +9168,10 @@ void player::gunmod_add( item &gun, item &mod )
         actions[ prompt.ret ]();
     }
 
-    int turns = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
+    const int turns = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
+    const int moves = to_moves<int>( time_duration::from_turns( turns ) );
 
-    assign_activity( activity_id( "ACT_GUNMOD_ADD" ), turns, -1, get_item_position( &gun ), tool );
+    assign_activity( activity_id( "ACT_GUNMOD_ADD" ), moves, -1, get_item_position( &gun ), tool );
     activity.values.push_back( get_item_position( &mod ) );
     activity.values.push_back( roll ); // chance of success (%)
     activity.values.push_back( risk ); // chance of damage (%)
@@ -10189,10 +10189,9 @@ int player::get_env_resist( body_part bp ) const
     }
 
     for( const bionic &bio : *my_bionics ) {
-        for( const auto &element : bio.info().env_protec ) {
-            if( element.first == bp || ( bp == bp_eyes && element.first == bp_head ) ) {
-                ret += element.second;
-            }
+        const auto EP = bio.info().env_protec.find( bp );
+        if( EP != bio.info().env_protec.end() ) {
+            ret += EP->second;
         }
     }
 
@@ -10483,7 +10482,7 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
     }
     if( is_npc() ) {
         npc *guy = dynamic_cast<npc *>( this );
-        guy->current_activity = activity.get_verb();
+        guy->current_activity_id = activity.id();
     }
 }
 
@@ -10666,6 +10665,7 @@ void player::store( item &container, item &put, bool penalties, int base_cost )
 {
     moves -= item_store_cost( put, container, penalties, base_cost );
     container.put_in( i_rem( &put ) );
+    reset_encumbrance();
 }
 
 nc_color encumb_color( int level )
@@ -10889,16 +10889,14 @@ bool player::defer_move( const tripoint &next )
     return true;
 }
 
-void player::shift_destination( int shiftx, int shifty )
+void player::shift_destination( const point &shift )
 {
     if( next_expected_position ) {
-        next_expected_position->x += shiftx;
-        next_expected_position->y += shifty;
+        *next_expected_position += shift;
     }
 
     for( auto &elem : auto_move_route ) {
-        elem.x += shiftx;
-        elem.y += shifty;
+        elem += shift;
     }
 }
 
@@ -11119,7 +11117,7 @@ void player::dismount()
                 mounted_creature = nullptr;
                 setpos( *pnt );
                 g->refresh_all();
-                critter->setpos( tripoint( pos().x + xdiff, pos().y + ydiff, pos().z ) );
+                critter->setpos( pos() + point( xdiff, ydiff ) );
                 critter->add_effect( effect_controlled, 5_turns );
                 mod_moves( -100 );
                 set_movement_mode( PMM_WALK );
@@ -11390,7 +11388,7 @@ std::string player::short_description() const
 
 int player::print_info( const catacurses::window &w, int vStart, int, int column ) const
 {
-    mvwprintw( w, vStart++, column, _( "You (%s)" ), name );
+    mvwprintw( w, point( column, vStart++ ), _( "You (%s)" ), name );
     return vStart;
 }
 
@@ -11471,7 +11469,7 @@ void player::place_corpse()
 void player::place_corpse( const tripoint &om_target )
 {
     tinymap bay;
-    bay.load( om_target.x * 2, om_target.y * 2, om_target.z, false );
+    bay.load( tripoint( om_target.x * 2, om_target.y * 2, om_target.z ), false );
     int finX = rng( 1, SEEX * 2 - 2 );
     int finY = rng( 1, SEEX * 2 - 2 );
     if( bay.furn( finX, finY ) != furn_str_id( "f_null" ) ) {
@@ -11640,6 +11638,47 @@ std::vector<const item *> player::all_items_with_flag( const std::string &flag )
     return items_with( [&flag]( const item & it ) {
         return it.has_flag( flag );
     } );
+}
+
+item &player::item_with_best_of_quality( const quality_id &qid )
+{
+    int maxq = max_quality( qid );
+    auto items_with_quality = items_with( [qid]( const item & it ) {
+        return it.has_quality( qid );
+    } );
+    for( item *it : items_with_quality ) {
+        if( it->get_quality( qid ) == maxq ) {
+            return *it;
+        }
+    }
+    return null_item_reference();
+}
+
+bool player::crush_frozen_liquid( item_location loc )
+{
+
+    player &u = g->u;
+
+    if( u.has_quality( quality_id( "HAMMER" ) ) ) {
+        item hammering_item = u.item_with_best_of_quality( quality_id( "HAMMER" ) );
+        if( query_yn( _( "Do you want to crush up %s with your %s?\n%s" ), loc.get_item()->display_name(),
+                      hammering_item.tname(),
+                      colorize( _( "Be wary of fragile items nearby!" ), c_red ) ) ) {
+
+            //Risk smashing tile with hammering tool, risk is lower with higher dex, damage lower with lower strength
+            if( one_in( 1 + u.dex_cur / 4 ) ) {
+                add_msg_if_player( colorize( _( "You swing your %s wildly!" ), c_red ),
+                                   hammering_item.tname() );
+                int smashskill = u.str_cur + hammering_item.damage_melee( DT_BASH );
+                g->m.bash( loc.position(), smashskill );
+            }
+            add_msg_if_player( _( "You crush up and gather %s" ), loc.get_item()->display_name() );
+            return true;
+        }
+    } else {
+        popup( _( "You need a hammering tool to crush up frozen liquids!" ) );
+    }
+    return false;
 }
 
 bool player::has_item_with_flag( const std::string &flag, bool need_charges ) const

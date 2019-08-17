@@ -15,6 +15,8 @@ class mission;
 
 namespace dialogue_data
 {
+// when updating this, please also update `dynamic_line_string_keys` in
+// `lang/extract_json_string.py` so the lines are properly extracted for translation
 const std::unordered_set<std::string> simple_string_conds = { {
         "u_male", "u_female", "npc_male", "npc_female",
         "has_no_assigned_mission", "has_assigned_mission", "has_many_assigned_missions",
@@ -40,7 +42,8 @@ const std::unordered_set<std::string> complex_conds = { {
         "u_has_cash", "u_are_owed",
         "npc_aim_rule", "npc_engagement_rule", "npc_rule", "npc_override",
         "npc_cbm_reserve_rule", "npc_cbm_recharge_rule",
-        "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var"
+        "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var",
+        "u_has_skill", "npc_has_skill"
     }
 };
 } // namespace dialogue_data
@@ -127,6 +130,7 @@ struct conditional_t {
         void set_has_pickup_list();
         void set_has_reason();
         void set_is_gender( bool is_male, bool is_npc = false );
+        void set_has_skill( JsonObject &jo, const std::string &member, bool is_npc = false );
 
         bool operator()( const T &d ) const {
             if( !condition ) {

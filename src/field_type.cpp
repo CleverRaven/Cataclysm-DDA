@@ -65,13 +65,9 @@ int_id<field_type>::int_id( const string_id<field_type> &id ) : _id( id.id() )
 
 const field_intensity_level &field_type::get_intensity_level( int level ) const
 {
-    if( intensity_levels.empty() ) {
-        static const field_intensity_level fallback;
-        debugmsg( "No intensity levels defined for field id %s", id.str() );
-        return fallback;
-    } else if( level < 0 || static_cast<size_t>( level ) >= intensity_levels.size() ) {
+    if( level < 0 || static_cast<size_t>( level ) >= intensity_levels.size() ) {
         // level + 1 for the original intensity number
-        debugmsg( "Unknown intensity index %d for field id %s", level + 1, id.str() );
+        debugmsg( "Unknown intensity level %d for field type %s.", level + 1, id.str() );
         return intensity_levels.back();
     }
     return intensity_levels[level];
@@ -81,6 +77,9 @@ void field_type::load( JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "legacy_enum_id", legacy_enum_id, -1 );
     JsonArray ja = jo.get_array( "intensity_levels" );
+    if( !jo.has_array( "intensity_levels" ) || ja.empty() ) {
+        jo.throw_error( "No intensity levels defined for field type", "id" );
+    }
     for( size_t i = 0; i < ja.size(); ++i ) {
         field_intensity_level intensity_level;
         field_intensity_level fallback_intensity_level = i > 0 ? intensity_levels[i - 1] : intensity_level;
@@ -177,14 +176,11 @@ void field_type::load( JsonObject &jo, const std::string & )
 void field_type::finalize()
 {
     wandering_field = field_type_id( wandering_field_id );
-    wandering_field_id.empty();
+    wandering_field_id.clear();
 }
 
 void field_type::check() const
 {
-    if( intensity_levels.empty() ) {
-        debugmsg( "No intensity levels defined for field type \"%s\".", id.c_str() );
-    }
     int i = 0;
     for( auto &intensity_level : intensity_levels ) {
         i++;

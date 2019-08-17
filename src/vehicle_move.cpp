@@ -511,24 +511,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         ret.target = critter;
         e = 0.30;
         part_dens = 15;
-        switch( critter->get_size() ) {
-            case MS_TINY:    // Rodent
-                mass2 = 1;
-                break;
-            case MS_SMALL:   // Half human
-                mass2 = 41;
-                break;
-            default:
-            case MS_MEDIUM:  // Human
-                mass2 = 82;
-                break;
-            case MS_LARGE:   // Cow
-                mass2 = 400;
-                break;
-            case MS_HUGE:     // TAAAANK
-                mass2 = 1000;
-                break;
-        }
+        mass2 = units::to_kilogram( critter->get_weight() );
         ret.target_name = critter->disp_name();
     } else if( ( bash_floor && g->m.is_bashable_ter_furn( p, true ) ) ||
                ( g->m.is_bashable_ter_furn( p, false ) && g->m.move_cost_ter_furn( p ) != 2 &&

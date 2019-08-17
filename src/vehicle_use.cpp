@@ -399,9 +399,10 @@ bool vehicle::interact_vehicle_locked()
                           name ) ) {
                 ///\EFFECT_MECHANICS speeds up vehicle hotwiring
                 int mechanics_skill = g->u.get_skill_level( skill_mechanics );
-                int hotwire_time = 6000 / ( ( mechanics_skill > 0 ) ? mechanics_skill : 1 );
+                const int hotwire_time = 6000 / ( ( mechanics_skill > 0 ) ? mechanics_skill : 1 );
+                const int moves = to_moves<int>( time_duration::from_turns( hotwire_time ) );
                 //assign long activity
-                g->u.assign_activity( activity_id( "ACT_HOTWIRE_CAR" ), hotwire_time, -1, INT_MIN, _( "Hotwire" ) );
+                g->u.assign_activity( activity_id( "ACT_HOTWIRE_CAR" ), moves, -1, INT_MIN, _( "Hotwire" ) );
                 // use part 0 as the reference point
                 point q = coord_translate( parts[0].mount );
                 g->u.activity.values.push_back( global_pos3().x + q.x ); //[0]

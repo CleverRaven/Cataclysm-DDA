@@ -249,11 +249,6 @@
       [ "seed_tobacco", 5 ],
       [ "rolling_paper", 45 ],
       [ "pipe_glass", 20 ],
-      [ "coke", 5 ],
-      [ "meth", 2 ],
-      [ "heroin", 1 ],
-      [ "crack", 4 ],
-      [ "crackpipe", 7 ],
       [ "cig", 60 ],
       [ "chaw", 60 ]
     ]

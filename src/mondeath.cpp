@@ -80,6 +80,7 @@ static const trait_id trait_PRED2( "PRED2" );
 static const trait_id trait_PRED3( "PRED3" );
 static const trait_id trait_PRED4( "PRED4" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_KILLER( "KILLER" );
 
 void mdeath::normal( monster &z )
 {
@@ -427,7 +428,7 @@ void mdeath::guilt( monster &z )
     guilt_tresholds[25] = _( "You feel remorse for killing %s." );
 
     if( g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait( trait_PRED3 ) ||
-        g->u.has_trait( trait_PRED4 ) ) {
+        g->u.has_trait( trait_PRED4 ) || g->u.has_trait( trait_KILLER ) ) {
         return;
     }
     if( rl_dist( z.pos(), g->u.pos() ) > MAX_GUILT_DISTANCE ) {

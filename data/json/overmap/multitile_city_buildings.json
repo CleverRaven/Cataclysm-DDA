@@ -851,9 +851,13 @@
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 1, 1, 0 ], "overmap": "apartments_con_tower_NW_south" },
+      { "point": [ 1, 1, 1 ], "overmap": "apartments_con_tower_114_south" },
       { "point": [ 0, 1, 0 ], "overmap": "apartments_con_tower_NE_south" },
+      { "point": [ 0, 1, 1 ], "overmap": "apartments_con_tower_014_south" },
       { "point": [ 1, 0, 0 ], "overmap": "apartments_con_tower_SW_south" },
-      { "point": [ 0, 0, 0 ], "overmap": "apartments_con_tower_SE_south" }
+      { "point": [ 1, 0, 1 ], "overmap": "apartments_con_tower_104_south" },
+      { "point": [ 0, 0, 0 ], "overmap": "apartments_con_tower_SE_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "apartments_con_tower_004_south" }
     ]
   },
   {
@@ -862,9 +866,13 @@
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 1, 1, 0 ], "overmap": "apartments_mod_tower_NW_south" },
+      { "point": [ 1, 1, 1 ], "overmap": "apartments_mod_tower_113_south" },
       { "point": [ 0, 1, 0 ], "overmap": "apartments_mod_tower_NE_south" },
+      { "point": [ 0, 1, 1 ], "overmap": "apartments_mod_tower_013_south" },
       { "point": [ 1, 0, 0 ], "overmap": "apartments_mod_tower_SW_south" },
-      { "point": [ 0, 0, 0 ], "overmap": "apartments_mod_tower_SE_south" }
+      { "point": [ 1, 0, 1 ], "overmap": "apartments_mod_tower_103_south" },
+      { "point": [ 0, 0, 0 ], "overmap": "apartments_mod_tower_SE_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "apartments_mod_tower_003_south" }
     ]
   },
   {

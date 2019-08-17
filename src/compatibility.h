@@ -12,7 +12,7 @@
 //--------------------------------------------------------------------------------------------------
 #include <string>
 
-#define CATA_GCC_VER (__GNUC__ * 10000) + (__GNUC_MINOR__ * 100) + (__GNUC_PATCHLEVEL__)
+#define CATA_GCC_VER ((__GNUC__ * 10000) + (__GNUC_MINOR__ * 100) + (__GNUC_PATCHLEVEL__))
 
 #if defined(__MINGW32__) && !defined(__MINGW64__)
 #   define CATA_NO_CPP11_STRING_CONVERSIONS
@@ -117,7 +117,7 @@ template < typename T, typename std::enable_if < std::is_arithmetic<T>::value &&
            !std::is_same<T, bool>::value &&!std::is_same<T, wchar_t>::value &&
            !std::is_same<T, char>::value &&!std::is_same<T, char16_t>::value &&
            !std::is_same<T, char32_t>::value >::type * = nullptr >
-std::string to_string( const T n )
+std::string to_string( T n )
 {
     return std::to_string( n );
 }

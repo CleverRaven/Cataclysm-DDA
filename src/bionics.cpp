@@ -227,7 +227,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             stow_item( weapon );
         }
         if( g->u.sees( pos() ) ) {
-            add_msg( m_info, "%s activates their %s", disp_name(), bionics[bio.id].name );
+            add_msg( m_info, _( "%s activates their %s." ), disp_name(), bionics[bio.id].name );
         }
 
         weapon = item( bionics[bio.id].fake_item );
@@ -439,17 +439,17 @@ bool player::activate_bionic( int b, bool eff_only )
 
         const size_t win_h = std::min( static_cast<size_t>( TERMY ), bad.size() + good.size() + 2 );
         const int win_w = 46;
-        catacurses::window w = catacurses::newwin( win_h, win_w, ( TERMY - win_h ) / 2,
-                               ( TERMX - win_w ) / 2 );
+        catacurses::window w = catacurses::newwin( win_h, win_w, point( ( TERMX - win_w ) / 2,
+                               ( TERMY - win_h ) / 2 ) );
         draw_border( w, c_red, string_format( " %s ", _( "Blood Test Results" ) ) );
         if( good.empty() && bad.empty() ) {
-            trim_and_print( w, 1, 2, win_w - 3, c_white, _( "No effects." ) );
+            trim_and_print( w, point( 2, 1 ), win_w - 3, c_white, _( "No effects." ) );
         } else {
             for( size_t line = 1; line < ( win_h - 1 ) && line <= good.size() + bad.size(); ++line ) {
                 if( line <= bad.size() ) {
-                    trim_and_print( w, line, 2, win_w - 3, c_red, bad[line - 1] );
+                    trim_and_print( w, point( 2, line ), win_w - 3, c_red, bad[line - 1] );
                 } else {
-                    trim_and_print( w, line, 2, win_w - 3, c_green,
+                    trim_and_print( w, point( 2, line ), win_w - 3, c_green,
                                     good[line - 1 - bad.size()] );
                 }
             }
@@ -1382,7 +1382,7 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
 
     if( installer.ammo[ammo_type] <= 0 ) {
         if( g->u.sees( installer ) ) {
-            add_msg( "The %s's anesthesia kit looks empty", installer.name() );
+            add_msg( _( "The %s's anesthesia kit looks empty." ), installer.name() );
         }
         return false;
     }
@@ -1413,9 +1413,9 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
     patient.add_effect( effect_sleep, duration );
 
     if( patient.is_player() ) {
-        add_msg( "You fall asleep and %1$s starts operating.", installer.disp_name() );
+        add_msg( _( "You fall asleep and %1$s starts operating." ), installer.disp_name() );
     } else if( g->u.sees( patient ) ) {
-        add_msg( "%1$s falls asleep and %2$s starts operating.", patient.disp_name(),
+        add_msg( _( "%1$s falls asleep and %2$s starts operating." ), patient.disp_name(),
                  installer.disp_name() );
     }
 

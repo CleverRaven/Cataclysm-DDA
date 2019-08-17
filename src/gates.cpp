@@ -178,7 +178,7 @@ void gates::open_gate( const tripoint &pos )
 
     for( int i = 0; i < 4; ++i ) {
         static constexpr tripoint dir[4] = {
-            { 1, 0, 0 }, { 0, 1, 0 }, { -1, 0, 0 }, { 0, -1, 0 }
+            { tripoint_east }, { tripoint_south }, { tripoint_west }, { tripoint_north }
         };
         const tripoint wall_pos = pos + dir[i];
 

@@ -144,12 +144,12 @@ void computer::use()
 {
     if( !w_border ) {
         w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                       TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                                       TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+                                       point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                                              TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
     }
     if( !w_terminal ) {
         w_terminal = catacurses::newwin( getmaxy( w_border ) - 2, getmaxx( w_border ) - 2,
-                                         getbegy( w_border ) + 1, getbegx( w_border ) + 1 );
+                                         point( getbegx( w_border ) + 1, getbegy( w_border ) + 1 ) );
     }
     draw_border( w_border );
     wrefresh( w_border );
@@ -663,7 +663,7 @@ void computer::activate_function( computer_action action )
             // For each level between here and the surface, remove the missile
             for( int level = g->get_levz(); level <= 0; level++ ) {
                 map tmpmap;
-                tmpmap.load( g->get_levx(), g->get_levy(), level, false );
+                tmpmap.load( tripoint( g->get_levx(), g->get_levy(), level ), false );
 
                 if( level < 0 ) {
                     tmpmap.translate( t_missile, t_hole );
@@ -750,7 +750,7 @@ void computer::activate_function( computer_action action )
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     if( g->m.ter( x, y ) == t_elevator_control_off ) {
-                        g->m.ter_set( x, y, t_elevator_control );
+                        g->m.ter_set( point( x, y ), t_elevator_control );
                     }
                 }
             }
@@ -1227,7 +1227,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                 for( int x = 0; x < MAPSIZE_X; x++ ) {
                     for( int y = 0; y < MAPSIZE_Y; y++ ) {
                         if( g->m.ter( x, y ) == t_elevator_control_off ) {
-                            g->m.ter_set( x, y, t_elevator_control );
+                            g->m.ter_set( point( x, y ), t_elevator_control );
 
                         }
                     }
@@ -1499,7 +1499,7 @@ void computer::activate_failure( computer_failure_type fail )
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     if( g->m.has_flag( "CONSOLE", x, y ) ) {
-                        g->m.ter_set( x, y, t_console_broken );
+                        g->m.ter_set( point( x, y ), t_console_broken );
                         add_msg( m_bad, _( "The console shuts down." ) );
                     }
                 }
@@ -1586,23 +1586,23 @@ void computer::activate_failure( computer_failure_type fail )
                         for( int i = 0; i < leak_size; i++ ) {
                             std::vector<point> next_move;
                             if( g->m.passable( p.x, p.y - 1 ) ) {
-                                next_move.push_back( point( p.x, p.y - 1 ) );
+                                next_move.push_back( p + point_north );
                             }
                             if( g->m.passable( p.x + 1, p.y ) ) {
-                                next_move.push_back( point( p.x + 1, p.y ) );
+                                next_move.push_back( p + point_east );
                             }
                             if( g->m.passable( p.x, p.y + 1 ) ) {
-                                next_move.push_back( point( p.x, p.y + 1 ) );
+                                next_move.push_back( p + point_south );
                             }
                             if( g->m.passable( p.x - 1, p.y ) ) {
-                                next_move.push_back( point( p.x - 1, p.y ) );
+                                next_move.push_back( p + point_west );
                             }
 
                             if( next_move.empty() ) {
                                 i = leak_size;
                             } else {
                                 p = random_entry( next_move );
-                                g->m.ter_set( p.x, p.y, t_sewage );
+                                g->m.ter_set( p, t_sewage );
                             }
                         }
                     }
@@ -1796,7 +1796,7 @@ void computer::print_text( const char *const text, Args &&... args )
     const std::string formated_text = string_format( text, std::forward<Args>( args )... );
     int y = getcury( w_terminal );
     int w = getmaxx( w_terminal ) - 2;
-    fold_and_print( w_terminal, y, 1, w, c_green, formated_text );
+    fold_and_print( w_terminal, point( 1, y ), w, c_green, formated_text );
     print_newline();
     print_newline();
     wrefresh( w_terminal );
@@ -1809,15 +1809,15 @@ void computer::print_gibberish_line()
     for( int i = 0; i < length; i++ ) {
         switch( rng( 0, 4 ) ) {
             case 0:
-                gibberish += '0' + rng( 0, 9 );
+                gibberish += static_cast<char>( '0' + rng( 0, 9 ) );
                 break;
             case 1:
             case 2:
-                gibberish += 'a' + rng( 0, 25 );
+                gibberish += static_cast<char>( 'a' + rng( 0, 25 ) );
                 break;
             case 3:
             case 4:
-                gibberish += 'A' + rng( 0, 25 );
+                gibberish += static_cast<char>( 'A' + rng( 0, 25 ) );
                 break;
         }
     }
@@ -1829,7 +1829,7 @@ void computer::print_gibberish_line()
 void computer::reset_terminal()
 {
     werase( w_terminal );
-    wmove( w_terminal, 0, 0 );
+    wmove( w_terminal, point_zero );
     wrefresh( w_terminal );
 }
 

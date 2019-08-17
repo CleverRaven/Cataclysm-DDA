@@ -140,7 +140,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         );
 #endif
 
-    fold_and_print( catacurses::stdscr, 0, 0, getmaxx( catacurses::stdscr ), c_light_red,
+    fold_and_print( catacurses::stdscr, point_zero, getmaxx( catacurses::stdscr ), c_light_red,
                     "\n \n" // Looks nicer with some space
                     " %s\n" // translated user string: error notification
                     " -----------------------------------------------------------\n"
@@ -549,7 +549,7 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
         cmd << nm_variant << ' ' << binary << " 2>&1";
         FILE *nm = popen( cmd.str().c_str(), "re" );
         if( !nm ) {
-            out << "\tbacktrace: popen(nm) failed\n";
+            out << "\tbacktrace: popen(nm) failed: " << strerror( errno ) << "\n";
             return cata::nullopt;
         }
 

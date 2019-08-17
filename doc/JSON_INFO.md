@@ -157,7 +157,7 @@ Some json strings are extracted for translation, for example item names, descrip
 "name": { "ctxt": "foo", "str": "bar" }
 ```
 
-Currently, only effect names, item action names, and item category names support this syntax. If you want other json strings to support this format, look at `translations.h|cpp` and migrate the corresponding code to it. Changes to `extract_json_strings.py` might also be needed, as with the new syntax "name" would be a `dict`, which may break unmigrated script.
+Currently, only effect names, item action names, item category names, and activity verbs support this syntax. If you want other json strings to support this format, look at `translations.h|cpp` and migrate the corresponding code to it. Changes to `extract_json_strings.py` might also be needed, as with the new syntax "name" would be a `dict`, which may break unmigrated script.
 
 ### Bionics
 
@@ -270,8 +270,8 @@ The syntax listed here is still valid.
 | `vitamins`       | Vitamins in a material. Usually overridden by item specific values.
 | `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186.
 | `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108.
-| `latent_heat`    | Latent heat of a material (J/g). Default 334.
-| `freeze_point`    | Freezing point of this material (F). Default 32 F ( 0 C ).
+| `latent_heat`    | Latent heat of fusion for a material (J/g). Default 334.
+| `freeze_point`   | Freezing point of this material (F). Default 32 F ( 0 C ).
 
 ```C++
 {
@@ -1180,7 +1180,8 @@ Gun mods can be defined like this:
 "sub": "hotplate",    // optional; this tool has the same functions as another tool
 "charge_factor": 5,   // this tool uses charge_factor charges for every charge required in a recipe; intended for tools that have a "sub" field but use a different ammo that the original tool
 "charges_per_use": 1, // Charges consumed per tool use
-"turns_per_charge": 20, // Charges consumed over time
+"turns_per_charge": 20, // Charges consumed over time, deprecated in favor of power_draw
+"power_draw": 50,       // Energy consumption rate in mW
 "ammo": [ "NULL" ],       // Ammo types used for reloading
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "use_action": "firestarter" // Action performed when tool is used, see special definition below

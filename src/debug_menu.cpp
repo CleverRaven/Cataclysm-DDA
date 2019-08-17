@@ -746,7 +746,7 @@ void character_edit_menu()
             const auto all_missions = mission_type::get_all();
             std::vector<const mission_type *> mts;
             for( size_t i = 0; i < all_missions.size(); i++ ) {
-                types.addentry( i, true, -1, all_missions[i].name );
+                types.addentry( i, true, -1, all_missions[i].tname() );
                 mts.push_back( &all_missions[i] );
             }
 
@@ -1292,16 +1292,15 @@ void debug()
 #if defined(TILES)
                 // *INDENT-OFF*
                 const point offset{
-                    POSX - u.posx() + u.view_offset.x,
-                    POSY - u.posy() + u.view_offset.y
+                    u.view_offset.xy() + point( POSX - u.posx(), POSY - u.posy() )
                 }; // *INDENT-ON*
                 g->draw_ter();
                 auto sounds_to_draw = sounds::get_monster_sounds();
                 for( const auto &sound : sounds_to_draw.first ) {
-                    mvwputch( g->w_terrain, offset.y + sound.y, offset.x + sound.x, c_yellow, '?' );
+                    mvwputch( g->w_terrain, offset + sound.xy(), c_yellow, '?' );
                 }
                 for( const auto &sound : sounds_to_draw.second ) {
-                    mvwputch( g->w_terrain, offset.y + sound.y, offset.x + sound.x, c_red, '?' );
+                    mvwputch( g->w_terrain, offset + sound.xy(), c_red, '?' );
                 }
                 wrefresh( g->w_terrain );
                 g->draw_panels();
@@ -1485,11 +1484,12 @@ void debug()
                 mx_menu.query();
                 int mx_choice = mx_menu.ret;
                 if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
-                    const tripoint where( ui::omap::choose_point() );
-                    if( where != overmap::invalid_tripoint ) {
+                    const tripoint where_omt( ui::omap::choose_point() );
+                    if( where_omt != overmap::invalid_tripoint ) {
+                        tripoint where_sm = omt_to_sm_copy( where_omt );
                         tinymap mx_map;
-                        mx_map.load( where.x * 2, where.y * 2, where.z, false );
-                        MapExtras::apply_function( mx_str[mx_choice], mx_map, where );
+                        mx_map.load( where_sm, false );
+                        MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
                     }
                 }
                 break;

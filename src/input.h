@@ -183,14 +183,14 @@ struct action_attributes {
 #define JOY_6        6
 #define JOY_7        7
 
-#define JOY_LEFT        256 + 1
-#define JOY_RIGHT       256 + 2
-#define JOY_UP          256 + 3
-#define JOY_DOWN        256 + 4
-#define JOY_RIGHTUP     256 + 5
-#define JOY_RIGHTDOWN   256 + 6
-#define JOY_LEFTUP      256 + 7
-#define JOY_LEFTDOWN    256 + 8
+#define JOY_LEFT        (256 + 1)
+#define JOY_RIGHT       (256 + 2)
+#define JOY_UP          (256 + 3)
+#define JOY_DOWN        (256 + 4)
+#define JOY_RIGHTUP     (256 + 5)
+#define JOY_RIGHTDOWN   (256 + 6)
+#define JOY_LEFTUP      (256 + 7)
+#define JOY_LEFTDOWN    (256 + 8)
 
 /**
  * Manages the translation from action IDs to associated input.
@@ -535,8 +535,8 @@ class input_context
          *                   described.
          */
         std::string get_desc( const std::string &action_descriptor,
-                              const unsigned int max_limit = 0,
-                              const std::function<bool( const input_event & )> evt_filter =
+                              unsigned int max_limit = 0,
+                              std::function<bool( const input_event & )> evt_filter =
         []( const input_event & ) {
             return true;
         } ) const;
@@ -557,7 +557,7 @@ class input_context
          */
         std::string get_desc( const std::string &action_descriptor,
                               const std::string &text,
-                              const std::function<bool( const input_event & )> evt_filter =
+                              std::function<bool( const input_event & )> evt_filter =
         []( const input_event & ) {
             return true;
         } ) const;

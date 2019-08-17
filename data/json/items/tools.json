@@ -1075,7 +1075,7 @@
     "to_hit": -5,
     "bashing": 4,
     "cutting": 70,
-    "turns_per_charge": 1,
+    "power_draw": 150000,
     "revert_to": "chainsaw_off",
     "techniques": "SWEEP",
     "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
@@ -1522,8 +1522,8 @@
     "techniques": [ "WBLOCK_1" ],
     "weight": 907,
     "volume": "1 L",
-    "bashing": 12,
-    "cutting": 6,
+    "bashing": 13,
+    "cutting": 7,
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
     "to_hit": 1,
     "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "PRY", 2 ], [ "BUTCHER", 16 ] ]
@@ -4368,6 +4368,20 @@
     "properties": [ [ "monster_size_capacity", "SMALL" ] ],
     "use_action": "CAPTURE_MONSTER_ACT",
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "pet_carrier_wooden",
+    "copy-from": "pet_carrier",
+    "type": "TOOL",
+    "name": "wooden pet carrier",
+    "description": "A wooden container meant to hold pets for transport.  Use it on a suitable animal to capture, use it on an empty tile to release.",
+    "weight": 1500,
+    "volume": "6250 ml",
+    "price": 800,
+    "material": [ "wood" ],
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "pet_carrier"
   },
   {
     "id": "chicken_cage",
@@ -7349,7 +7363,7 @@
     "symbol": "#",
     "color": "brown",
     "looks_like": "frame_wood_light",
-    "flags": [ "NONCONDUCTIVE" ],
+    "flags": [ "NONCONDUCTIVE", "ALLOWS_REMOTE_USE" ],
     "use_action": {
       "target": "adobe_pallet_done",
       "msg": "You test the bricks, and they're solid enough to use.",
@@ -7536,7 +7550,7 @@
     "weight": 8000,
     "volume": "3 L",
     "price": "3200",
-    "to-hit": -4,
+    "to_hit": -4,
     "bashing": 12,
     "material": "steel"
   }

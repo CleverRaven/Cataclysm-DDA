@@ -26,11 +26,11 @@ class map_memory
 
         /** Memorizes a given tile; finalize_tile_memory needs to be called after it */
         void memorize_tile( int limit, const tripoint &pos, const std::string &ter,
-                            const int subtile, const int rotation );
+                            int subtile, int rotation );
         /** Returns last stored map tile in given location */
         memorized_terrain_tile get_tile( const tripoint &pos ) const;
 
-        void memorize_symbol( int limit, const tripoint &pos, const int symbol );
+        void memorize_symbol( int limit, const tripoint &pos, int symbol );
         int get_symbol( const tripoint &pos ) const;
 
         void clear_memorized_tile( const tripoint &pos );
