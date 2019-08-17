@@ -1567,13 +1567,6 @@ int player::run_cost( int base_cost, bool diag ) const
     const bool on_road = flatground && g->m.has_flag( "ROAD", pos() );
     const bool on_fungus = g->m.has_flag_ter_or_furn( "FUNGUS", pos() );
 
-    if( movecost > 100 ) {
-        movecost *= Character::mutation_value( "movecost_obstacle_modifier" );
-        if( movecost < 100 ) {
-            movecost = 100;
-        }
-    }
-
     if( !is_mounted() ) {
         if( movecost > 100 ) {
             movecost *= Character::mutation_value( "movecost_obstacle_modifier" );
