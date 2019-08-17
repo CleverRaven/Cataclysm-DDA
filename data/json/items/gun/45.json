@@ -288,9 +288,9 @@
     "copy-from": "usp_45",
     "type": "GUN",
     "name": "MK 23 MOD 0",
-    "description": "Jokingly referred to as \"The World's Only Crew-Served Pistol\", this massive pistol was intended for use as a primary weapon for select \"special operators\".  Its cumbersome nature, the introduction of the derivative HK USP series and the logistics of getting .45 ACP ammunition in theater doomed this behemoth to US SOCOM armories.  Like the USP, the Mk 23 is a remarkably reliable gun; someone could probably take out a nuclear equipped walking tank with this in their holster.",
+    "description": "Jokingly referred to as \"The World's Only Crew-Served Pistol\", this massive pistol was designed as a primary weapon for select \"special operators\".  Its cumbersome nature, the introduction of the derivative HK USP series and the logistics of getting .45 ACP ammunition in theater doomed this behemoth to US SOCOM armories.  Like the USP, the Mk 23 is a remarkably reliable gun; someone could probably take out a nuclear equipped walking tank with this in their holster.",
     "weight": 1200,
-    "volume": 3,
+    "volume": "1607 ml",
     "default_mods": [ "suppressor", "laser_sight" ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   }
