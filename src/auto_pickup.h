@@ -26,8 +26,6 @@ class auto_pickup
         bool save( bool bCharacter );
         bool load_legacy( bool bCharacter );
 
-        bool bChar;
-
         class cRules
         {
             public:
@@ -77,7 +75,7 @@ class auto_pickup
         void create_rule( const rules_list &rules, const item &it );
 
     public:
-        auto_pickup() : bChar( false ), ready( false ) {}
+        auto_pickup() : ready( false ) {}
 
         void create_rule( const std::string &to_match );
         void create_rule( const item *it );

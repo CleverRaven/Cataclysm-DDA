@@ -675,7 +675,6 @@ bool auto_pickup::save_global()
 
 bool auto_pickup::save( const bool bCharacter )
 {
-    bChar = bCharacter;
     auto savefile = FILENAMES["autopickup"];
 
     if( bCharacter ) {
@@ -689,7 +688,7 @@ bool auto_pickup::save( const bool bCharacter )
 
     return write_to_file( savefile, [&]( std::ostream & fout ) {
         JsonOut jout( fout, true );
-        ( bChar ? character_rules : global_rules ).serialize( jout );
+        ( bCharacter ? character_rules : global_rules ).serialize( jout );
     }, _( "autopickup configuration" ) );
 }
 
@@ -705,15 +704,13 @@ void auto_pickup::load_global()
 
 void auto_pickup::load( const bool bCharacter )
 {
-    bChar = bCharacter;
-
     std::string sFile = FILENAMES["autopickup"];
     if( bCharacter ) {
         sFile = g->get_player_base_save_path() + ".apu.json";
     }
 
-    if( !read_from_file_optional_json( sFile, [this]( JsonIn & jsin ) {
-    ( bChar ? character_rules : global_rules ).deserialize( jsin );
+    if( !read_from_file_optional_json( sFile, [&]( JsonIn & jsin ) {
+    ( bCharacter ? character_rules : global_rules ).deserialize( jsin );
     } ) ) {
         if( load_legacy( bCharacter ) ) {
             if( save( bCharacter ) ) {
@@ -771,7 +768,7 @@ bool auto_pickup::load_legacy( const bool bCharacter )
         sFile = g->get_player_base_save_path() + ".apu.txt";
     }
 
-    auto &rules = ( bChar ? character_rules : global_rules );
+    auto &rules = bCharacter ? character_rules : global_rules;
 
     using namespace std::placeholders;
     const auto &reader = std::bind( &auto_pickup::load_legacy_rules, this, std::ref( rules ), _1 );
