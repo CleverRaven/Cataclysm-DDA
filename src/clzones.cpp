@@ -591,13 +591,13 @@ std::unordered_set<tripoint> zone_manager::get_point_set( const zone_type_id &ty
 }
 
 std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &where,
-        const int radius, const faction_id &fac ) const
+        int radius, const faction_id &fac ) const
 {
     return get_point_set_loot( where, radius, false, fac );
 }
 
 std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &where,
-        const int radius, const bool npc_search, const faction_id &fac ) const
+        int radius, bool npc_search, const faction_id &fac ) const
 {
     ( void )fac;
     std::unordered_set<tripoint> res;
