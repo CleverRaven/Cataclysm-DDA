@@ -8907,7 +8907,7 @@ washing_requirements washing_requirements_for_volume( const units::volume vol )
     return { water, cleanser, time };
 }
 
-int iuse::washclothes( player *p, item *, bool, const tripoint & )
+int iuse::wash_soft_items( player *p, item *, bool, const tripoint & )
 {
     if( p->fine_detail_vision_mod() > 4 ) {
         p->add_msg_if_player( _( "You can't see to do that!" ) );
@@ -8921,11 +8921,11 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
         return 0;
     }
 
-    wash_items( p, false );
+    wash_items( p, true, false );
     return 0;
 }
 
-int iuse::washcbms( player *p, item *, bool, const tripoint & )
+int iuse::wash_hard_items( player *p, item *, bool, const tripoint & )
 {
     if( p->fine_detail_vision_mod() > 4 ) {
         p->add_msg_if_player( _( "You can't see to do that!" ) );
@@ -8939,11 +8939,29 @@ int iuse::washcbms( player *p, item *, bool, const tripoint & )
         return 0;
     }
 
-    wash_items( p, true );
+    wash_items( p, false, true );
     return 0;
 }
 
-int iuse::wash_items( player *p, bool cbm )
+int iuse::wash_all_items( player *p, item *, bool, const tripoint & )
+{
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( _( "You can't see to do that!" ) );
+        return 0;
+    }
+
+    // Check that player isn't over volume limit as this might cause it to break... this is a hack.
+    // TODO: find a better solution.
+    if( p->volume_capacity() < p->volume_carried() ) {
+        p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
+        return 0;
+    }
+
+    wash_items( p, true, true );
+    return 0;
+}
+
+int iuse::wash_items( player *p, bool soft_items, bool hard_items )
 {
     p->inv.restack( *p );
     const inventory &crafting_inv = p->crafting_inventory();
@@ -8958,12 +8976,9 @@ int iuse::wash_items( player *p, bool cbm )
     int available_cleanser = std::max( crafting_inv.charges_of( "soap" ),
                                        crafting_inv.charges_of( "detergent" ) );
 
-    const inventory_filter_preset preset( [cbm]( const item_location & location ) {
-        if( cbm ) {
-            return location->item_tags.find( "FILTHY" ) != location->item_tags.end() && location->is_bionic();
-        } else {
-            return location->item_tags.find( "FILTHY" ) != location->item_tags.end() && !location->is_bionic();
-        }
+    const inventory_filter_preset preset( [soft_items, hard_items]( const item_location & location ) {
+        return location->has_flag( "FILTHY" ) && ( ( soft_items && location->is_soft() ) ||
+                ( hard_items && !location->is_soft() ) );
     } );
     auto make_raw_stats = [available_water, available_cleanser](
                               const std::map<const item *, int> &items

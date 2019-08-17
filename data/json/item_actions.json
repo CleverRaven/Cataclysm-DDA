@@ -936,13 +936,18 @@
   },
   {
     "type": "item_action",
-    "id": "WASHCLOTHES",
-    "name": "Wash clothes"
+    "id": "WASH_SOFT_ITEMS",
+    "name": "Wash soft items"
   },
   {
     "type": "item_action",
-    "id": "WASHCBMS",
-    "name": "Wash CBMs"
+    "id": "WASH_HARD_ITEMS",
+    "name": "Wash hard items"
+  },
+  {
+    "type": "item_action",
+    "id": "WASH_ALL_ITEMS",
+    "name": "Wash items"
   },
   {
     "type": "item_action",

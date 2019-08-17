@@ -4849,7 +4849,21 @@
     "material": "plastic",
     "symbol": "s",
     "color": "yellow",
-    "use_action": "WASHCBMS",
+    "use_action": "WASH_HARD_ITEMS",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "wash_kit",
+    "type": "TOOL",
+    "name": "washing kit",
+    "description": "A combination kit of a washboard and a sponge.  Everything you need to clean items after the apocalypse.",
+    "weight": 80,
+    "volume": "250 ml",
+    "price": 0,
+    "material": "plastic",
+    "symbol": "%",
+    "color": "yellow",
+    "use_action": "WASH_ALL_ITEMS",
     "flags": [ "NO_SALVAGE" ]
   },
   {
@@ -6908,7 +6922,7 @@
     "material": "wood",
     "symbol": ";",
     "color": "white",
-    "use_action": "WASHCLOTHES",
+    "use_action": "WASH_SOFT_ITEMS",
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {

@@ -383,8 +383,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```TOURISTMAP``` Learn of local points-of-interest that a tourist would like to visit, and show roads.
 - ```TOWEL``` Dry your character using the item as towel.
 - ```TURRET``` Activate a turret.
-- ```WASHCLOTHES``` Wash clothes with FILTHY flag.
-- ```WASHCBMS``` Wash CBMs with FILTHY flag.
+- ```WASH_ALL_ITEMS``` Wash items with FILTHY flag.
+- ```WASH_HARD_ITEMS``` Wash hard items with FILTHY flag.
+- ```WASH_SOFT_ITEMS``` Wash soft items with FILTHY flag.
 - ```WATER_PURIFIER``` Purify water.
 
 
