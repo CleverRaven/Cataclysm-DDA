@@ -557,7 +557,7 @@ void mission_start::ranch_scavenger_2( mission *miss )
     tripoint site = mission_util::target_om_ter_random( "ranch_camp_48", 1, miss, false, RANCH_SIZE );
     tinymap bay;
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
-    bay.add_vehicle( vproto_id( "car_chassis" ), 20, 15, 0 );
+    bay.add_vehicle( vproto_id( "car_chassis" ), point( 20, 15 ), 0 );
     bay.draw_square_ter( t_wall_half, point( 18, 19 ), point( 21, 22 ) );
     bay.draw_square_ter( t_dirt, point( 19, 20 ), point( 20, 21 ) );
     bay.ter_set( point( 19, 19 ), t_door_frame );

@@ -560,7 +560,7 @@ static void mx_roadblock( map &m, const tripoint &abs_sub )
             m.add_spawn( mon_chickenbot, 1, point( 12, 12 ) );
         } else if( one_in( 2 ) ) { // TAAANK
             // The truck's wrecked...with fuel.  Explosive barrel?
-            m.add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 8, 0, 70, -1 );
+            m.add_vehicle( vproto_id( "military_cargo_truck" ), point( 12, SEEY * 2 - 8 ), 0, 70, -1 );
             m.add_spawn( mon_tankbot, 1, point( 12, 12 ) );
         } else {  // Vehicle & turrets
             m.add_vehicle( vgroup_id( "military_vehicles" ), tripoint( 12, SEEY * 2 - 10, abs_sub.z ), 0, 70,
@@ -615,8 +615,8 @@ static void mx_roadblock( map &m, const tripoint &abs_sub )
             m.add_spawn( mon_turret, 1, point( 1, 12 ) );
         }
 
-        m.add_vehicle( vproto_id( "policecar" ), 8, 6, 20 );
-        m.add_vehicle( vproto_id( "policecar" ), 16, SEEY * 2 - 6, 145 );
+        m.add_vehicle( vproto_id( "policecar" ), point( 8, 6 ), 20 );
+        m.add_vehicle( vproto_id( "policecar" ), point( 16, SEEY * 2 - 6 ), 145 );
         int num_bodies = dice( 1, 6 );
         for( int i = 0; i < num_bodies; i++ ) {
             if( const auto p = random_point( m, [&m]( const tripoint & n ) {
@@ -917,7 +917,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
 
         //50% chance to spawn a humvee in the left block
         if( one_in( 2 ) ) {
-            m.add_vehicle( vproto_id( "humvee" ), 5, 3, 270, 70, -1 );
+            m.add_vehicle( vproto_id( "humvee" ), point( 5, 3 ), 270, 70, -1 );
         }
 
         //Sandbag block at the right edge
@@ -1057,8 +1057,8 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
 
         //50% chance to spawn two humvees blocking the road
         if( one_in( 2 ) ) {
-            m.add_vehicle( vproto_id( "humvee" ), 7, 19, 0, 70, -1 );
-            m.add_vehicle( vproto_id( "humvee" ), 15, 20, 180, 70, -1 );
+            m.add_vehicle( vproto_id( "humvee" ), point( 7, 19 ), 0, 70, -1 );
+            m.add_vehicle( vproto_id( "humvee" ), point( 15, 20 ), 180, 70, -1 );
         }
 
         //Spawn 6-20 mines in the upper submap.
@@ -1130,7 +1130,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
             m.add_field( { 1, 6, abs_sub.z }, fd_gibs_flesh, 1 );
 
             //Add the culprit
-            m.add_vehicle( vproto_id( "car_fbi" ), 7, 7, 0, 70, 1 );
+            m.add_vehicle( vproto_id( "car_fbi" ), point( 7, 7 ), 0, 70, 1 );
 
             //Remove tent parts after drive-through
             square_furn( &m, f_null, 0, 6, 8, 9 );
@@ -1245,7 +1245,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
 
     if( bridge_at_east && !bridge_at_center && road_at_west ) {
         //Spawn military cargo truck blocking the entry
-        m.add_vehicle( vproto_id( "military_cargo_truck" ), 15, 11, 270, 70, 1 );
+        m.add_vehicle( vproto_id( "military_cargo_truck" ), point( 15, 11 ), 270, 70, 1 );
 
         //Spawn sandbag and barbed wire fence barricades around the truck
         line_furn( &m, f_sandbag_half, 14, 2, 14, 8 );
@@ -1387,7 +1387,7 @@ static void mx_crater( map &m, const tripoint &abs_sub )
             //Pythagoras to the rescue, x^2 + y^2 = hypotenuse^2
             if( !trigdist || ( i - x ) * ( i - x ) + ( j - y ) * ( j - y ) <= size_squared ) {
                 m.destroy( tripoint( i,  j, abs_sub.z ), true );
-                m.adjust_radiation( i, j, rng( 20, 40 ) );
+                m.adjust_radiation( point( i, j ), rng( 20, 40 ) );
             }
         }
     }
@@ -1520,7 +1520,7 @@ static void mx_portal_in( map &m, const tripoint &abs_sub )
                     if( trig_dist( x, y, i, j ) + rng( 0, 3 ) <= rad ) {
                         const tripoint loc( i, j, abs_sub.z );
                         dead_vegetation_parser( m, loc );
-                        m.adjust_radiation( loc.x, loc.y, rng( 20, 40 ) );
+                        m.adjust_radiation( loc.xy(), rng( 20, 40 ) );
                     }
                 }
             }
@@ -2306,10 +2306,10 @@ static void mx_roadworks( map &m, const tripoint &abs_sub )
     // vehicle placer
     switch( rng( 1, 6 ) ) {
         case 1:
-            m.add_vehicle( vproto_id( "road_roller" ), veh.x, veh.y, rng( 0, 360 ) );
+            m.add_vehicle( vproto_id( "road_roller" ), veh, rng( 0, 360 ) );
             break;
         case 2:
-            m.add_vehicle( vproto_id( "excavator" ), veh.x, veh.y, rng( 0, 360 ) );
+            m.add_vehicle( vproto_id( "excavator" ), veh, rng( 0, 360 ) );
             break;
         case 3:
         case 4:
@@ -2331,8 +2331,8 @@ static void mx_mayhem( map &m, const tripoint &abs_sub )
     switch( rng( 1, 3 ) ) {
         //Car accident resulted in a shootout with two victims
         case 1: {
-            m.add_vehicle( vproto_id( "car" ), 18, 9, 270 );
-            m.add_vehicle( vproto_id( "4x4_car" ), 20, 5, 0 );
+            m.add_vehicle( vproto_id( "car" ), point( 18, 9 ), 270 );
+            m.add_vehicle( vproto_id( "4x4_car" ), point( 20, 5 ), 0 );
 
             m.spawn_item( { 16, 10, abs_sub.z }, "shot_hull" );
             m.add_corpse( { 16, 9, abs_sub.z } );
@@ -2350,7 +2350,7 @@ static void mx_mayhem( map &m, const tripoint &abs_sub )
         }
         //Some cocky moron with friends got dragged out of limo and shooted down by a military
         case 2: {
-            m.add_vehicle( vproto_id( "limousine" ), 18, 9, 270 );
+            m.add_vehicle( vproto_id( "limousine" ), point( 18, 9 ), 270 );
 
             m.add_corpse( { 16, 9, abs_sub.z } );
             m.add_corpse( { 16, 11, abs_sub.z } );
@@ -2367,7 +2367,7 @@ static void mx_mayhem( map &m, const tripoint &abs_sub )
         }
         //Some unfortunate stopped at the roadside to change tire, but was ambushed and killed
         case 3: {
-            m.add_vehicle( vproto_id( "car" ), 18, 12, 270 );
+            m.add_vehicle( vproto_id( "car" ), point( 18, 12 ), 270 );
 
             m.add_field( { 16, 15, abs_sub.z }, fd_blood, rng( 1, 3 ) );
 
