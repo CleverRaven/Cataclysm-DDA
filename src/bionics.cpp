@@ -273,7 +273,7 @@ bool player::activate_bionic( int b, bool eff_only )
             return false;
         }
 
-        if( !bio.info().fuel_opts.empty() ) {
+        if( !bio.info().fuel_opts.empty() && !bio.is_muscle_powered() ) {
             if( get_fuel_available( bio.id ).empty() ) {
                 add_msg_player_or_npc( m_bad, _( "Your %s does not have enought fuel to start." ),
                                        _( "<npcname>'s %s does not have enought fuel to start." ), bio.info().name );
@@ -886,7 +886,7 @@ void player::process_bionic( int b )
             }
         }
     }
-    if( !bio.info().fuel_opts.empty() ) {
+    if( !bio.info().fuel_opts.empty() && !bio.is_muscle_powered() ) {
         for( const itype_id fuel : get_fuel_available( bio.id ) ) {
             const item tmp_fuel( fuel.c_str() );
             int temp = std::stoi( get_value( fuel ) );
@@ -2148,6 +2148,16 @@ int bionic::get_quality( const quality_id &quality ) const
     }
 
     return item( i.fake_item ).get_quality( quality );
+}
+
+bool bionic::is_muscle_powered() const
+{
+    for( const itype_id fuel : this->info().fuel_opts ) {
+        if( fuel == "muscle" ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void bionic::serialize( JsonOut &json ) const

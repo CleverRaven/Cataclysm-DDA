@@ -144,6 +144,8 @@ struct bionic {
 
     int get_quality( const quality_id &quality ) const;
 
+    bool is_muscle_powered() const;
+
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
 };
