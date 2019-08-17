@@ -1683,7 +1683,7 @@ static bool good_fishing_spot( tripoint pos )
 int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ) {
-        // Long actions - NPCs don't like those yet
+        // Long actions - NPCs don't like those yet.
         return 0;
     }
     if( p->is_mounted() ) {
