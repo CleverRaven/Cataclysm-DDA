@@ -39,17 +39,8 @@ void auto_pickup::show()
     show( _( " AUTO PICKUP MANAGER " ), true );
 }
 
-void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
+void auto_pickup_ui::show()
 {
-    const auto old_global_rules = global_rules;
-    const auto old_character_rules = character_rules;
-
-    enum : int {
-        GLOBAL_TAB,
-        CHARACTER_TAB,
-        MAX_TAB
-    };
-
     const int iHeaderHeight = 4;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
 
@@ -75,7 +66,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
     */
     const auto initial_draw = [&]() {
         // Redraw the border
-        draw_border( w_border, BORDER_COLOR, custom_name );
+        draw_border( w_border, BORDER_COLOR, title );
         mvwputch( w_border, point( 0, 3 ), c_light_gray, LINE_XXXO ) ; // |-
         mvwputch( w_border, point( 79, 3 ), c_light_gray, LINE_XOXX ); // -|
         mvwputch( w_border, point( 5, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX ); // _|_
@@ -116,17 +107,22 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
     };
 
     initial_draw();
-    int iTab = GLOBAL_TAB;
+    size_t iTab = 0;
+    while( !tabs[iTab].available && iTab + 1 < tabs.size() ) {
+        iTab++;
+    }
     int iLine = 0;
     int iColumn = 1;
     int iStartPos = 0;
-    bool bStuffChanged = false;
+    bStuffChanged = false;
     input_context ctxt( "AUTO_PICKUP" );
     ctxt.register_cardinal();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "NEXT_TAB" );
-    ctxt.register_action( "PREV_TAB" );
+    if( tabs.size() > 1 ) {
+        ctxt.register_action( "NEXT_TAB" );
+        ctxt.register_action( "PREV_TAB" );
+    }
     ctxt.register_action( "ADD_RULE" );
     ctxt.register_action( "REMOVE_RULE" );
     ctxt.register_action( "COPY_RULE" );
@@ -137,20 +133,24 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
     ctxt.register_action( "TEST_RULE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
+    const bool allow_swapping = tabs.size() == 2 && tabs[0].available && tabs[1].available;
+    if( allow_swapping ) {
+        ctxt.register_action( "SWAP_RULE_GLOBAL_CHAR" );
+    }
+
     if( is_autopickup ) {
         ctxt.register_action( "SWITCH_AUTO_PICKUP_OPTION" );
-        ctxt.register_action( "SWAP_RULE_GLOBAL_CHAR" );
     }
 
     std::ostringstream sTemp;
 
     while( true ) {
-        auto_pickup_rule_list &cur_rules = iTab == GLOBAL_TAB ? global_rules : character_rules;
+        auto_pickup_rule_list &cur_rules = tabs[iTab].new_rules;
         int locx = 17;
-        locx += shortcut_print( w_header, point( locx, 2 ), c_white,
-                                iTab == GLOBAL_TAB ? hilite( c_white ) : c_white, _( "[<Global>]" ) ) + 1;
-        shortcut_print( w_header, point( locx, 2 ), c_white,
-                        iTab == CHARACTER_TAB ? hilite( c_white ) : c_white, _( "[<Character>]" ) );
+        for( size_t i = 0; i < tabs.size(); i++ ) {
+            const auto color = iTab == i ? hilite( c_white ) : c_white;
+            locx += shortcut_print( w_header, point( locx, 2 ), c_white, color, tabs[i].title ) + 1;
+        }
 
         locx = 55;
         mvwprintz( w_header, point( locx, 0 ), c_white, _( "Auto pickup enabled:" ) );
@@ -176,10 +176,9 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
         const bool currentPageNonEmpty = !cur_rules.empty();
 
-        if( iTab == CHARACTER_TAB && g->u.name.empty() ) {
+        if( !tabs[iTab].available ) {
             cur_rules.clear();
-            mvwprintz( w, point( 15, 8 ), c_white,
-                       _( "Please load a character first to use this page!" ) );
+            mvwprintz( w, point( 15, 8 ), c_white, "%s", tabs[iTab].unavailable_msg );
         }
 
         draw_scrollbar( w_border, iLine, iContentHeight, cur_rules.size(), 5 );
@@ -220,20 +219,22 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
         if( action == "NEXT_TAB" ) {
             iTab++;
-            if( iTab >= MAX_TAB ) {
+            if( iTab >= tabs.size() ) {
                 iTab = 0;
-                iLine = 0;
             }
+            iLine = 0;
         } else if( action == "PREV_TAB" ) {
-            iTab--;
-            if( iTab < 0 ) {
-                iTab = MAX_TAB - 1;
-                iLine = 0;
+            if( iTab > 0 ) {
+                iTab--;
+            } else {
+                iTab = tabs.size() - 1;
             }
+            iLine = 0;
         } else if( action == "QUIT" ) {
             break;
-        } else if( iTab == CHARACTER_TAB && g->u.name.empty() ) {
-            //Only allow loaded games to use the char sheet
+        } else if( !tabs[iTab].available ) {
+            // this effectively disables all the following else branches, which are only useful
+            // for available tabs.
         } else if( action == "DOWN" ) {
             iLine++;
             iColumn = 1;
@@ -259,18 +260,16 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
             bStuffChanged = true;
             cur_rules.push_back( cur_rules[iLine] );
             iLine = cur_rules.size() - 1;
-        } else if( action == "SWAP_RULE_GLOBAL_CHAR" && currentPageNonEmpty ) {
-            if( ( iTab == GLOBAL_TAB && !g->u.name.empty() ) || iTab == CHARACTER_TAB ) {
-                auto_pickup_rule_list &other_rules = iTab == CHARACTER_TAB ? global_rules : character_rules;
-                bStuffChanged = true;
-                //copy over
-                other_rules.push_back( cur_rules[iLine] );
-
-                //remove old
-                cur_rules.erase( cur_rules.begin() + iLine );
-                iLine = other_rules.size() - 1;
-                iTab = iTab == GLOBAL_TAB ? CHARACTER_TAB : GLOBAL_TAB;
-            }
+        } else if( allow_swapping && action == "SWAP_RULE_GLOBAL_CHAR" && currentPageNonEmpty ) {
+            const size_t other_iTab = ( iTab + 1 ) % 2;
+            auto_pickup_rule_list &other_rules = tabs[other_iTab].new_rules;
+            bStuffChanged = true;
+            //copy over
+            other_rules.push_back( cur_rules[iLine] );
+            //remove old
+            cur_rules.erase( cur_rules.begin() + iLine );
+            iTab = other_iTab;
+            iLine = other_rules.size() - 1;
         } else if( action == "ADD_RULE" || ( action == "CONFIRM" && currentPageNonEmpty ) ) {
             const int old_iLine = iLine;
             if( action == "ADD_RULE" ) {
@@ -362,20 +361,43 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
         return;
     }
 
-    if( query_yn( _( "Save changes?" ) ) ) {
-        // NPC pickup rules don't need to be saved explicitly
-        if( is_autopickup ) {
-            save_global();
-            if( !g->u.name.empty() ) {
-                save_character();
-            }
-        }
-
-        map_items.ready = false;
-    } else {
-        global_rules = old_global_rules;
-        character_rules = old_character_rules;
+    if( !query_yn( _( "Save changes?" ) ) ) {
+        return;
     }
+
+    for( tab &t : tabs ) {
+        t.rules.get() = t.new_rules;
+    }
+}
+
+void auto_pickup::show( const std::string &custom_name, const bool is_autopickup )
+{
+    auto_pickup_ui ui;
+
+    ui.title = custom_name;
+    ui.tabs.emplace_back( _( "[<Global>]" ), global_rules );
+    if( g->u.name.empty() ) {
+        ui.tabs.emplace_back( _( "[<Character>]" ),
+                              _( "Please load a character first to use this page!" ) );
+    } else {
+        ui.tabs.emplace_back( _( "[<Character>]" ), character_rules );
+    }
+    ui.is_autopickup = is_autopickup;
+
+    ui.show();
+
+    if( !ui.bStuffChanged ) {
+        return;
+    }
+
+    // NPC pickup rules don't need to be saved explicitly
+    if( is_autopickup ) {
+        save_global();
+        if( !g->u.name.empty() ) {
+            save_character();
+        }
+    }
+    map_items.ready = false;
 }
 
 void auto_pickup_rule::test_pattern() const

@@ -77,6 +77,33 @@ class auto_pickup_rule_list : public std::vector<auto_pickup_rule>
         void create_rule( auto_pickup_cache &map_items, const item &it );
 };
 
+class auto_pickup_ui
+{
+    public:
+        class tab
+        {
+            public:
+                std::string title;
+                bool available;
+                std::string unavailable_msg;
+                auto_pickup_rule_list new_rules;
+                std::reference_wrapper<auto_pickup_rule_list> rules;
+
+                tab( const std::string &t, auto_pickup_rule_list &r ) : title( t ), available( true ),
+                    new_rules( r ), rules( r ) { }
+                tab( const std::string &t, const std::string &u ) : title( t ), available( false ),
+                    unavailable_msg( u ), new_rules(), rules( new_rules ) { }
+        };
+
+        std::string title;
+        std::vector<tab> tabs;
+        bool is_autopickup = false;
+
+        void show();
+
+        bool bStuffChanged = false;
+};
+
 class auto_pickup
 {
     private:
