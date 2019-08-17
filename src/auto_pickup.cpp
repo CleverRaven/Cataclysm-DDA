@@ -371,7 +371,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
             }
         }
 
-        ready = false;
+        map_items.ready = false;
     } else {
         global_rules = old_global_rules;
         character_rules = old_character_rules;
@@ -510,7 +510,7 @@ void auto_pickup::remove_rule( const item *it )
         if( sRule.length() == it->sRule.length() &&
             ci_find_substr( sRule, it->sRule ) != -1 ) {
             character_rules.erase( it );
-            ready = false;
+            map_items.ready = false;
             break;
         }
     }
@@ -560,8 +560,7 @@ void auto_pickup::create_rule( const std::string &to_match )
     character_rules.create_rule( map_items, to_match );
 }
 
-void auto_pickup_rule_list::create_rule( std::unordered_map<std::string, rule_state> &map_items,
-        const std::string &to_match )
+void auto_pickup_rule_list::create_rule( auto_pickup_cache &map_items, const std::string &to_match )
 {
     for( const auto_pickup_rule &elem : *this ) {
         if( !elem.bActive || !wildcard_match( to_match, elem.sRule ) ) {
@@ -579,8 +578,7 @@ void auto_pickup::create_rule( const item *it )
     character_rules.create_rule( map_items, *it );
 }
 
-void auto_pickup_rule_list::create_rule( std::unordered_map<std::string, rule_state> &map_items,
-        const item &it )
+void auto_pickup_rule_list::create_rule( auto_pickup_cache &map_items, const item &it )
 {
     const std::string to_match = it.tname( 1, false );
 
@@ -599,19 +597,19 @@ void auto_pickup_rule_list::create_rule( std::unordered_map<std::string, rule_st
 void auto_pickup::refresh_map_items() const
 {
     map_items.clear();
-    std::unordered_map<std::string, const itype *> temp_items;
+    map_items.temp_items.clear();
 
     //process include/exclude in order of rules, global first, then character specific
     //if a specific item is being added, all the rules need to be checked now
     //may have some performance issues since exclusion needs to check all items also
-    global_rules.refresh_map_items( map_items, temp_items );
-    character_rules.refresh_map_items( map_items, temp_items );
+    global_rules.refresh_map_items( map_items );
+    character_rules.refresh_map_items( map_items );
 
-    ready = true;
+    map_items.ready = true;
+    map_items.temp_items.clear();
 }
 
-void auto_pickup_rule_list::refresh_map_items( std::unordered_map<std::string, rule_state>
-        &map_items, std::unordered_map<std::string, const itype *> &temp_items ) const
+void auto_pickup_rule_list::refresh_map_items( auto_pickup_cache &map_items ) const
 {
     for( const auto_pickup_rule &elem : *this ) {
         if( elem.sRule.empty() || !elem.bActive ) {
@@ -629,13 +627,14 @@ void auto_pickup_rule_list::refresh_map_items( std::unordered_map<std::string, r
                 }
 
                 map_items[ cur_item ] = RULE_WHITELISTED;
-                temp_items[ cur_item ] = e;
+                map_items.temp_items[ cur_item ] = e;
             }
         } else {
             //only re-exclude items from the existing mapping for now
             //new exclusions will process during pickup attempts
             for( auto &map_item : map_items ) {
-                if( !auto_pickup_rule::check_special_rule( temp_items[ map_item.first ]->materials, elem.sRule ) &&
+                if( !auto_pickup_rule::check_special_rule( map_items.temp_items[ map_item.first ]->materials,
+                        elem.sRule ) &&
                     !wildcard_match( map_item.first, elem.sRule ) ) {
                     continue;
                 }
@@ -648,7 +647,7 @@ void auto_pickup_rule_list::refresh_map_items( std::unordered_map<std::string, r
 
 rule_state auto_pickup::check_item( const std::string &sItemName ) const
 {
-    if( !ready ) {
+    if( !map_items.ready ) {
         refresh_map_items();
     }
 
@@ -663,7 +662,7 @@ rule_state auto_pickup::check_item( const std::string &sItemName ) const
 void auto_pickup::clear_character_rules()
 {
     character_rules.clear();
-    ready = false;
+    map_items.ready = false;
 }
 
 bool auto_pickup::save_character()
@@ -722,7 +721,7 @@ void auto_pickup::load( const bool bCharacter )
         }
     }
 
-    ready = false;
+    map_items.ready = false;
 }
 
 void auto_pickup_rule::serialize( JsonOut &jsout ) const
@@ -771,7 +770,7 @@ bool auto_pickup::load_legacy( const bool bCharacter )
         sFile = g->get_player_base_save_path() + ".apu.txt";
     }
 
-    ready = false;
+    map_items.ready = false;
 
     auto &rules = bCharacter ? character_rules : global_rules;
 

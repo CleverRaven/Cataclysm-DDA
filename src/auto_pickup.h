@@ -17,6 +17,22 @@ class item;
 struct itype;
 
 /**
+ * The currently-active set of auto-pickup rules, in a form that allows quick
+ * lookup. When this is filled (by @ref auto_pickup::create_rule()), every
+ * item existing in the game that matches a rule (either white- or blacklist)
+ * is added as the key, with RULE_WHITELISTED or RULE_BLACKLISTED as the values.
+ */
+class auto_pickup_cache : public std::unordered_map<std::string, rule_state>
+{
+    public:
+        /// Defines whether this cache has been filled.
+        bool ready = false;
+
+        /// Temporary data used while filling the cache.
+        std::unordered_map<std::string, const itype *> temp_items;
+};
+
+/**
  * A single entry in the list of auto pickup entries @ref auto_pickup_rule_list.
  * The data contained can be edited by the player and determines what to pick/ignore.
  */
@@ -55,12 +71,10 @@ class auto_pickup_rule_list : public std::vector<auto_pickup_rule>
 
         void load_legacy_rules( std::istream &fin );
 
-        void refresh_map_items( std::unordered_map<std::string, rule_state> &map_items,
-                                std::unordered_map<std::string, const itype *> &temp_items ) const;
+        void refresh_map_items( auto_pickup_cache &map_items ) const;
 
-        void create_rule( std::unordered_map<std::string, rule_state> &map_items,
-                          const std::string &to_match );
-        void create_rule( std::unordered_map<std::string, rule_state> &map_items, const item &it );
+        void create_rule( auto_pickup_cache &map_items, const std::string &to_match );
+        void create_rule( auto_pickup_cache &map_items, const item &it );
 };
 
 class auto_pickup
@@ -70,15 +84,7 @@ class auto_pickup
         bool save( bool bCharacter );
         bool load_legacy( bool bCharacter );
 
-        mutable bool ready; //< true if map_items has been populated from vRules
-
-        /**
-         * The currently-active set of auto-pickup rules, in a form that allows quick
-         * lookup. When this is filled (by @ref auto_pickup::create_rule()), every
-         * item existing in the game that matches a rule (either white- or blacklist)
-         * is added as the key, with RULE_WHITELISTED or RULE_BLACKLISTED as the values.
-         */
-        mutable std::unordered_map<std::string, rule_state> map_items;
+        mutable auto_pickup_cache map_items;
 
         auto_pickup_rule_list global_rules;
         auto_pickup_rule_list character_rules;
@@ -86,8 +92,6 @@ class auto_pickup
         void refresh_map_items() const; //< Only modifies mutable state
 
     public:
-        auto_pickup() : ready( false ) {}
-
         void create_rule( const std::string &to_match );
         void create_rule( const item *it );
         bool has_rule( const item *it );
