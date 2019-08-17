@@ -252,17 +252,20 @@ bool Creature_tracker::kill_marked_for_death()
     // Important: `Creature::die` must not be called after creature objects (NPCs, monsters) have
     // been removed, the dying creature could still have a pointer (the killer) to another creature.
     bool monster_is_dead = false;
-    for( const auto &mon_ptr : monsters_list ) {
-        if( mon_ptr != nullptr ) {
-            monster &critter = *mon_ptr;
-            if( critter.is_dead() ) {
-                dbg( D_INFO ) << string_format( "cleanup_dead: critter %d,%d,%d hp:%d %s",
-                                                critter.posx(), critter.posy(), critter.posz(),
-                                                critter.get_hp(), critter.name() );
-                critter.die( nullptr );
-                monster_is_dead = true;
-            }
+    // Copy the list so we can iterate the copy safely *and* add new monsters from within monster::die
+    // This happens for example with blob monsters (they split into two smaller monsters).
+    const auto copy = monsters_list;
+    for( const std::shared_ptr<monster> &mon_ptr : copy ) {
+        assert( mon_ptr );
+        monster &critter = *mon_ptr;
+        if( !critter.is_dead() ) {
+            continue;
         }
+        dbg( D_INFO ) << string_format( "cleanup_dead: critter %d,%d,%d hp:%d %s",
+                                        critter.posx(), critter.posy(), critter.posz(),
+                                        critter.get_hp(), critter.name() );
+        critter.die( nullptr );
+        monster_is_dead = true;
     }
 
     return monster_is_dead;
