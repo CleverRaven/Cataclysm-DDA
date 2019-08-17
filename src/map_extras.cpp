@@ -125,7 +125,7 @@ void mx_roa_crash( map &m, const tripoint &abs_sub )
     auto crashed_cars = vgroup_id( "city_wrecks" )->pick();
 
     // Create the vehicle so we can rotate it and calculate its bounding box, but don't place it on the map.
-    auto veh = std::unique_ptr<vehicle>( new vehicle( city_wrecks, rng( 1, 33 ), 1 ) );
+    auto veh = std::make_unique<vehicle>( city_wrecks, rng( 1, 33 ), 1 );
 
     veh->turn( dir1 );
 
