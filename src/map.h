@@ -595,10 +595,13 @@ class map
         }
 
         std::string name( int x, int y );
+        std::string name( const point &p );
         bool has_furn( int x, int y ) const;
+        bool has_furn( const point &p ) const;
 
         // Furniture at coordinates (x, y); {x|y}=(0, SEE{X|Y}*3]
         furn_id furn( int x, int y ) const;
+        furn_id furn( const point &p ) const;
 
         void furn_set( int x, int y, const furn_id &new_furniture );
 
@@ -607,6 +610,7 @@ class map
         }
 
         std::string furnname( int x, int y );
+        std::string furnname( const point &p );
         // Furniture: 3D
         void set( const tripoint &p, const ter_id &new_terrain, const furn_id &new_furniture );
 
@@ -637,6 +641,7 @@ class map
         }
 
         std::string tername( int x, int y ) const; // Name of terrain at (x, y)
+        std::string tername( const point &p ) const; // Name of terrain at (x, y)
         // Terrain: 3D
         ter_id ter( const tripoint &p ) const;
 
@@ -698,26 +703,35 @@ class map
         // Flags: 2D overloads
         // Words relevant to terrain (sharp, etc)
         std::string features( int x, int y );
+        std::string features( const point &p );
         // checks terrain, furniture and vehicles
         bool has_flag( const std::string &flag, int x, int y ) const;
+        bool has_flag( const std::string &flag, const point &p ) const;
         // True if items can be placed in this tile
         bool can_put_items_ter_furn( int x, int y ) const;
+        bool can_put_items_ter_furn( const point &p ) const;
         // checks terrain
         bool has_flag_ter( const std::string &flag, int x, int y ) const;
         bool has_flag_ter( const std::string &flag, const point &p ) const;
         // checks furniture
         bool has_flag_furn( const std::string &flag, int x, int y ) const;
+        bool has_flag_furn( const std::string &flag, const point &p ) const;
         // checks terrain or furniture
         bool has_flag_ter_or_furn( const std::string &flag, int x, int y ) const;
+        bool has_flag_ter_or_furn( const std::string &flag, const point &p ) const;
         // fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
         // checks terrain, furniture and vehicles
         bool has_flag( ter_bitflags flag, int x, int y ) const;
+        bool has_flag( ter_bitflags flag, const point &p ) const;
         // checks terrain
         bool has_flag_ter( ter_bitflags flag, int x, int y ) const;
+        bool has_flag_ter( ter_bitflags flag, const point &p ) const;
         // checks furniture
         bool has_flag_furn( ter_bitflags flag, int x, int y ) const;
+        bool has_flag_furn( ter_bitflags flag, const point &p ) const;
         // checks terrain or furniture
         bool has_flag_ter_or_furn( ter_bitflags flag, int x, int y ) const;
+        bool has_flag_ter_or_furn( ter_bitflags flag, const point &p ) const;
         // Flags: 3D
         // Words relevant to terrain (sharp, etc)
         std::string features( const tripoint &p );
@@ -751,6 +765,13 @@ class map
         int bash_strength( int x, int y ) const;
         int bash_resistance( int x, int y ) const;
         int bash_rating( int str, int x, int y ) const;
+        bool is_bashable( const point &p ) const;
+        bool is_bashable_ter( const point &p ) const;
+        bool is_bashable_furn( const point &p ) const;
+        bool is_bashable_ter_furn( const point &p ) const;
+        int bash_strength( const point &p ) const;
+        int bash_resistance( const point &p ) const;
+        int bash_rating( int str, const point &p ) const;
         // Bashable: 3D
         /** Returns true if there is a bashable vehicle part or the furn/terrain is bashable at p */
         bool is_bashable( const tripoint &p, bool allow_floor = false ) const;
@@ -778,6 +799,9 @@ class map
         bool is_divable( int x, int y ) const;
         bool is_water_shallow_current( int x, int y ) const;
         bool is_outside( int x, int y ) const;
+        bool is_divable( const point &p ) const;
+        bool is_water_shallow_current( const point &p ) const;
+        bool is_outside( const point &p ) const;
         bool is_divable( const tripoint &p ) const;
         bool is_outside( const tripoint &p ) const;
         bool is_water_shallow_current( const tripoint &p ) const;
@@ -792,6 +816,8 @@ class map
          *  @return true if from x to xmax or y to ymax depending on direction
          *  all terrain is floor and the last terrain is a wall */
         bool is_last_ter_wall( bool no_furn, int x, int y,
+                               int xmax, int ymax, direction dir ) const;
+        bool is_last_ter_wall( bool no_furn, const point &p,
                                int xmax, int ymax, direction dir ) const;
 
         /**
