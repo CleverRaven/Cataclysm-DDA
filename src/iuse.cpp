@@ -2132,12 +2132,14 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
             message = messtream.str();
         }
         sounds::ambient_sound( pos, 6, sounds::sound_t::speech, message );
-        if( one_in( 10 ) ) {
-            sfx::play_variant_sound( "radio", "static", 100, 21, 100 );
-            sfx::fade_audio_channel( 21, 100 );
-        } else if( one_in( 10 ) ) {
-            sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, 21, 100 );
-            sfx::fade_audio_channel( 21, 100 );
+        if( !sfx::is_channel_playing( 21 ) ) {
+            if( one_in( 10 ) ) {
+                sfx::play_variant_sound( "radio", "static", 100, 21, 100 );
+                sfx::fade_audio_channel( 21, 100 );
+            } else if( one_in( 10 ) ) {
+                sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, 21, 100 );
+                sfx::fade_audio_channel( 21, 100 );
+            }
         }
     } else { // Activated
         int ch = 1;
