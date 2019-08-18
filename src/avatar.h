@@ -45,6 +45,9 @@ class avatar : public player
         void randomize( bool random_scenario, points_left &points, bool play_now = false );
         bool load_template( const std::string &template_name, points_left &points );
 
+        bool is_avatar() const override {
+            return true;
+        }
         avatar *as_avatar() override {
             return this;
         }

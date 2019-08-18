@@ -785,7 +785,7 @@ class jmapgen_npc : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mon_density*/, mission *miss = nullptr ) const override {
-            int npc_id = dat.m.place_npc( point( x.get(), y.get() ), npc_class );
+            character_id npc_id = dat.m.place_npc( point( x.get(), y.get() ), npc_class );
             if( miss && target ) {
                 miss->set_target_npc_id( npc_id );
             }
@@ -6618,10 +6618,10 @@ void map::place_vending( const point &p, const std::string &type, bool reinforce
     }
 }
 
-int map::place_npc( const point &p, const string_id<npc_template> &type, bool force )
+character_id map::place_npc( const point &p, const string_id<npc_template> &type, bool force )
 {
     if( !force && !get_option<bool>( "STATIC_NPC" ) ) {
-        return -1; //Do not generate an npc.
+        return character_id(); //Do not generate an npc.
     }
     std::shared_ptr<npc> temp = std::make_shared<npc>();
     temp->normalize();

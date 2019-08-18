@@ -1692,7 +1692,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
             // NPC
             if( id.substr( 4 ) == "npc_" ) {
                 if( npc *const guy = g->critter_at<npc>( pos ) ) {
-                    seed = guy->getID();
+                    seed = guy->getID().get_value();
                     break;
                 }
             }

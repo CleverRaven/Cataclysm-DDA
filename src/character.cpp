@@ -160,18 +160,18 @@ Character::~Character() = default;
 Character::Character( Character && ) = default;
 Character &Character::operator=( Character && ) = default;
 
-void Character::setID( int i )
+void Character::setID( character_id i )
 {
-    if( id >= 0 ) {
-        debugmsg( "tried to set id of a npc/player, but has already a id: %d", id );
-    } else if( i < -1 ) {
-        debugmsg( "tried to set invalid id of a npc/player: %d", i );
+    if( id.is_valid() ) {
+        debugmsg( "tried to set id of a npc/player, but has already a id: %d", id.get_value() );
+    } else if( !i.is_valid() ) {
+        debugmsg( "tried to set invalid id of a npc/player: %d", i.get_value() );
     } else {
         id = i;
     }
 }
 
-int Character::getID() const
+character_id Character::getID() const
 {
     return this->id;
 }

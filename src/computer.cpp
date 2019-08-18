@@ -1706,7 +1706,7 @@ SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT ... " ) );
     } );
 
     if( !has_mission ) {
-        const auto mission = mission::reserve_new( mission_type, -1 );
+        const auto mission = mission::reserve_new( mission_type, character_id() );
         mission->assign( g->u );
         mission_target = mission->get_target();
     }

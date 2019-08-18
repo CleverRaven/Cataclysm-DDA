@@ -1921,14 +1921,14 @@ bool veh_interact::do_assign_crew( std::string &msg )
         }
 
         for( const npc *e : g->allies() ) {
-            menu.addentry( e->getID(), true, -1, e->name );
+            menu.addentry( e->getID().get_value(), true, -1, e->name );
         }
 
         menu.query();
         if( menu.ret == 0 ) {
             pt.unset_crew();
         } else if( menu.ret > 0 ) {
-            const auto &who = *g->critter_by_id<npc>( menu.ret );
+            const auto &who = *g->critter_by_id<npc>( character_id( menu.ret ) );
             veh->assign_seat( pt, who );
         }
 

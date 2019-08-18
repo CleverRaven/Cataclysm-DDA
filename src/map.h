@@ -47,7 +47,7 @@ class monster;
 class Creature;
 struct rl_vec2d;
 class tripoint_range;
-
+class character_id;
 class field;
 class field_entry;
 class vehicle;
@@ -1224,7 +1224,8 @@ class map
         void place_toilet( const point &p, int charges = 6 * 4 );
         void place_vending( const point &p, const std::string &type, bool reinforced = false );
         // places an NPC, if static NPCs are enabled or if force is true
-        int place_npc( const point &p, const string_id<npc_template> &type, bool force = false );
+        character_id place_npc( const point &p, const string_id<npc_template> &type,
+                                bool force = false );
         void apply_faction_ownership( const point &p1, const point &p2, faction_id id );
         void add_spawn( const mtype_id &type, int count, const point &p,
                         bool friendly = false,

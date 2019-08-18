@@ -977,7 +977,7 @@ tripoint overmapbuffer::find_random( const tripoint &origin, const std::string &
     return find_random( origin, params );
 }
 
-std::shared_ptr<npc> overmapbuffer::find_npc( int id )
+std::shared_ptr<npc> overmapbuffer::find_npc( character_id id )
 {
     for( auto &it : overmaps ) {
         if( auto p = it.second->find_npc( id ) ) {
@@ -1005,14 +1005,14 @@ void overmapbuffer::insert_npc( const std::shared_ptr<npc> &who )
     get( npc_om_pos ).insert_npc( who );
 }
 
-std::shared_ptr<npc> overmapbuffer::remove_npc( const int id )
+std::shared_ptr<npc> overmapbuffer::remove_npc( const character_id id )
 {
     for( auto &it : overmaps ) {
         if( const auto p = it.second->erase_npc( id ) ) {
             return p;
         }
     }
-    debugmsg( "overmapbuffer::remove_npc: NPC (%d) not found.", id );
+    debugmsg( "overmapbuffer::remove_npc: NPC (%d) not found.", id.get_value() );
     return nullptr;
 }
 

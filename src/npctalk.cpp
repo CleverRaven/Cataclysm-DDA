@@ -727,7 +727,7 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     } else if( g->u.activity.id() == activity_id( "ACT_TRAIN" ) ||
                g->u.activity.id() == activity_id( "ACT_WAIT_NPC" ) ||
                g->u.activity.id() == activity_id( "ACT_SOCIALIZE" ) ||
-               g->u.activity.index == getID() ) {
+               g->u.activity.index == getID().get_value() ) {
         return;
     }
 

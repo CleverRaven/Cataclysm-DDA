@@ -774,7 +774,8 @@ void talk_function::player_weapon_drop( npc &p )
 
 void talk_function::lead_to_safety( npc &p )
 {
-    const auto mission = mission::reserve_new( mission_type_id( "MISSION_REACH_SAFETY" ), -1 );
+    const auto mission = mission::reserve_new( mission_type_id( "MISSION_REACH_SAFETY" ),
+                         character_id() );
     mission->assign( g->u );
     p.goal = mission->get_target();
     p.set_attitude( NPCATT_LEAD );
@@ -816,7 +817,8 @@ void talk_function::start_training( npc &p )
     } else if( !npc_trading::pay_npc( p, cost ) ) {
         return;
     }
-    g->u.assign_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ), p.getID(), 0, name );
+    g->u.assign_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ),
+                          p.getID().get_value(), 0, name );
     p.add_effect( effect_asked_to_train, 6_hours );
 }
 
