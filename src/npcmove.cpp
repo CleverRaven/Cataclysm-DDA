@@ -1604,7 +1604,7 @@ bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
 {
     invslice slice = inv.slice();
     int index = -1;
-    for( unsigned int i = 0; i < slice.size(); i++ ) {
+    for( size_t i = 0; i < slice.size(); i++ ) {
         const item &it = slice[i]->front();
         const item &real_item = it.is_container() ?  it.contents.front() : it;
         if( filter( real_item ) ) {
@@ -2825,7 +2825,7 @@ void npc::drop_items( int weight, int volume )
 
     // First fill our ratio vectors, so we know which things to drop first
     invslice slice = inv.slice();
-    for( unsigned int i = 0; i < slice.size(); i++ ) {
+    for( size_t i = 0; i < slice.size(); i++ ) {
         item &it = slice[i]->front();
         double wgt_ratio = 0.0;
         double vol_ratio = 0.0;
@@ -3027,9 +3027,9 @@ bool npc::do_player_activity()
         if( !backlog.empty() ) {
             activity = backlog.front();
             backlog.pop_front();
-            current_activity = activity.get_verb();
+            current_activity_id = activity.id();
         } else {
-            current_activity.clear();
+            current_activity_id = activity_id::NULL_ID();
             revert_after_activity();
             // if we loaded after being out of the bubble for a while, we might have more
             // moves than we need, so clear them
@@ -3478,7 +3478,7 @@ bool npc::consume_food()
     int want_hunger = get_hunger();
     int want_quench = get_thirst();
     invslice slice = inv.slice();
-    for( unsigned int i = 0; i < slice.size(); i++ ) {
+    for( size_t i = 0; i < slice.size(); i++ ) {
         const item &it = slice[i]->front();
         const item &food_item = it.is_food_container() ?
                                 it.contents.front() : it;
@@ -3553,7 +3553,7 @@ void npc::mug_player( player &mark )
     double best_value = minimum_item_value() * value_mod;
     int item_index = INT_MIN;
     invslice slice = mark.inv.slice();
-    for( unsigned int i = 0; i < slice.size(); i++ ) {
+    for( size_t i = 0; i < slice.size(); i++ ) {
         if( value( slice[i]->front() ) >= best_value &&
             can_pickVolume( slice[i]->front(), true ) &&
             can_pickWeight( slice[i]->front(), true ) ) {
@@ -3791,7 +3791,7 @@ void npc::go_to_omt_destination()
         omt_path.pop_back();
     }
     if( !omt_path.empty() ) {
-        point omt_diff = point( omt_path.back().x - omt_pos.x, omt_path.back().y - omt_pos.y );
+        point omt_diff = omt_path.back().xy() - omt_pos.xy();
         if( omt_diff.x > 3 || omt_diff.x < -3 || omt_diff.y > 3 || omt_diff.y < -3 ) {
             // we've gone wandering somehow, reset destination.
             if( !is_player_ally() ) {
@@ -3803,7 +3803,7 @@ void npc::go_to_omt_destination()
         }
     }
     tripoint sm_tri = g->m.getlocal( sm_to_ms_copy( omt_to_sm_copy( omt_path.back() ) ) );
-    tripoint centre_sub = tripoint( sm_tri.x + SEEX, sm_tri.y + SEEY, sm_tri.z );
+    tripoint centre_sub = sm_tri + point( SEEX, SEEY );
     if( !g->m.passable( centre_sub ) ) {
         auto candidates = g->m.points_in_radius( centre_sub, 2 );
         for( const auto &elem : candidates ) {

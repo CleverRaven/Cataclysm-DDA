@@ -14,6 +14,7 @@
 #include <memory>
 #include <unordered_map>
 
+#include "activity_type.h"
 #include "avatar.h"
 #include "cata_utility.h"
 // needed for the workaround for the std::to_string bug in some compilers
@@ -972,7 +973,7 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
                                        const bool first )
 {
     talk_response result = talk_response();
-    result.truetext = text;
+    result.truetext = no_translation( text );
     result.truefalse_condition = []( const dialogue & ) {
         return true;
     };
@@ -1072,7 +1073,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                           p->chatbin.missions.front(), true );
         } else {
             for( auto &mission : p->chatbin.missions ) {
-                add_response( mission->get_type().name, "TALK_MISSION_OFFER", mission, true );
+                add_response( mission->get_type().tname(), "TALK_MISSION_OFFER", mission, true );
             }
         }
     } else if( topic == "TALK_MISSION_LIST_ASSIGNED" ) {
@@ -1080,7 +1081,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response( _( "I have news." ), "TALK_MISSION_INQUIRE", missions_assigned.front() );
         } else {
             for( auto &miss_it : missions_assigned ) {
-                add_response( miss_it->get_type().name, "TALK_MISSION_INQUIRE", miss_it );
+                add_response( miss_it->get_type().tname(), "TALK_MISSION_INQUIRE", miss_it );
             }
         }
     } else if( topic == "TALK_TRAIN" ) {
@@ -1389,10 +1390,10 @@ void parse_tags( std::string &phrase, const player &u, const player &me, const i
         } else if( tag == "<current_activity>" ) {
             std::string activity_name;
             const npc *guy = dynamic_cast<const npc *>( &me );
-            if( !guy->current_activity.empty() ) {
-                activity_name = guy->current_activity;
+            if( guy->current_activity_id ) {
+                activity_name = guy->current_activity_id.obj().verb().translated();
             } else {
-                activity_name = "doing this and that";
+                activity_name = _( "doing this and that" );
             }
             phrase.replace( fa, l, activity_name );
         } else if( tag == "<punc>" ) {
@@ -1443,7 +1444,7 @@ void dialogue::add_topic( const talk_topic &topic )
 talk_data talk_response::create_option_line( const dialogue &d, const char letter )
 {
     std::string ftext;
-    text = truefalse_condition( d ) ? truetext : falsetext;
+    text = ( truefalse_condition( d ) ? truetext : falsetext ).translated();
     // dialogue w/ a % chance to work
     if( trial.type == TALK_TRIAL_NONE || trial.type == TALK_TRIAL_CONDITION ) {
         // regular dialogue
@@ -2450,10 +2451,10 @@ talk_response::talk_response( JsonObject jo )
     if( jo.has_member( "truefalsetext" ) ) {
         JsonObject truefalse_jo = jo.get_object( "truefalsetext" );
         read_condition<dialogue>( truefalse_jo, "condition", truefalse_condition, true );
-        truetext = _( truefalse_jo.get_string( "true" ) );
-        falsetext = _( truefalse_jo.get_string( "false" ) );
+        truetext = translation( truefalse_jo.get_string( "true" ) );
+        falsetext = translation( truefalse_jo.get_string( "false" ) );
     } else {
-        truetext = _( jo.get_string( "text" ) );
+        truetext = translation( jo.get_string( "text" ) );
         truefalse_condition = []( const dialogue & ) {
             return true;
         };
@@ -2641,7 +2642,7 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         const std::string line = jo.get_string( "gendered_line" );
         if( !jo.has_array( "relevant_genders" ) ) {
             jo.throw_error(
-                "dynamic line with \"gendered_line\" must also have \"relevant_genders\"" );
+                R"(dynamic line with "gendered_line" must also have "relevant_genders")" );
         }
         JsonArray ja = jo.get_array( "relevant_genders" );
         std::vector<std::string> relevant_genders;

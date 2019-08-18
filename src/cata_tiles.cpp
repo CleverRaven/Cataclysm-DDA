@@ -351,7 +351,7 @@ void tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, const
     for( const SDL_Rect rect : input_range ) {
         assert( offset.x % sprite_width == 0 );
         assert( offset.y % sprite_height == 0 );
-        const point pos( offset.x + rect.x, offset.y + rect.y );
+        const point pos( offset + point( rect.x, rect.y ) );
         assert( pos.x % sprite_width == 0 );
         assert( pos.y % sprite_height == 0 );
         const size_t index = this->offset + ( pos.x / sprite_width ) + ( pos.y / sprite_height ) *
@@ -1070,7 +1070,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             if( iso_mode ) {
                 //in isometric, rows and columns represent a checkerboard screen space, and we place
                 //the appropriate tile in valid squares by getting position relative to the screen center.
-                if( ( row + o.y ) % 2 != ( col + o.x ) % 2 ) {
+                if( modulo( row + o.y, 2 ) != modulo( col + o.x, 2 ) ) {
                     continue;
                 }
                 x = ( col - row - sx / 2 + sy / 2 ) / 2 + o.x;
@@ -1205,10 +1205,11 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             int height_3d = 0;
             if( iso_mode ) {
                 //Iso_mode skips in a checkerboard
-                if( ( mem_y ) % 2 != ( mem_x ) % 2 ) {
+                if( modulo( mem_y, 2 ) != modulo( mem_x, 2 ) ) {
                     continue;
                 }
-                //iso_mode does weird things to x and y... replicate that
+                //in isometric, rows and columns represent a checkerboard screen space, and we place
+                //the appropriate tile in valid squares by getting position relative to the screen center.
                 //The MAPSIZE_X/2 offset is to keep the rectangle in the upper right quadrant.
                 p.x = ( mem_x - mem_y - MAPSIZE_X / 2 + MAPSIZE_Y / 2 ) / 2 + MAPSIZE_X / 2;
                 p.y = ( mem_y + mem_x - MAPSIZE_Y / 2 - MAPSIZE_X / 2 ) / 2 + MAPSIZE_Y / 2;
@@ -1282,11 +1283,9 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     }
     if( g->u.controlling_vehicle ) {
         if( cata::optional<tripoint> indicator_offset = g->get_veh_dir_indicator_location( true ) ) {
-            draw_from_id_string( "cursor", C_NONE, empty_string, {
-                indicator_offset->x + g->u.posx(),
-                indicator_offset->y + g->u.posy(), center.z
-            },
-            0, 0, LL_LIT, false );
+            draw_from_id_string( "cursor", C_NONE, empty_string, indicator_offset->xy() + tripoint( g->u.posx(),
+                                 g->u.posy(), center.z ),
+                                 0, 0, LL_LIT, false );
         }
     }
 
@@ -2045,10 +2044,10 @@ bool cata_tiles::draw_furniture( const tripoint &p, lit_level ll, int &height_3d
 
     // for rotation information
     const int neighborhood[4] = {
-        static_cast<int>( g->m.furn( tripoint( p.x, p.y + 1, p.z ) ) ), // south
-        static_cast<int>( g->m.furn( tripoint( p.x + 1, p.y, p.z ) ) ), // east
-        static_cast<int>( g->m.furn( tripoint( p.x - 1, p.y, p.z ) ) ), // west
-        static_cast<int>( g->m.furn( tripoint( p.x, p.y - 1, p.z ) ) ) // north
+        static_cast<int>( g->m.furn( p + point_south ) ),
+        static_cast<int>( g->m.furn( p + point_east ) ),
+        static_cast<int>( g->m.furn( p + point_west ) ),
+        static_cast<int>( g->m.furn( p + point_north ) )
     };
 
     int subtile = 0;
@@ -2074,10 +2073,10 @@ bool cata_tiles::draw_trap( const tripoint &p, lit_level ll, int &height_3d )
     }
 
     const int neighborhood[4] = {
-        static_cast<int>( g->m.tr_at( tripoint( p.x, p.y + 1, p.z ) ).loadid ), // south
-        static_cast<int>( g->m.tr_at( tripoint( p.x + 1, p.y, p.z ) ).loadid ), // east
-        static_cast<int>( g->m.tr_at( tripoint( p.x - 1, p.y, p.z ) ).loadid ), // west
-        static_cast<int>( g->m.tr_at( tripoint( p.x, p.y - 1, p.z ) ).loadid ) // north
+        static_cast<int>( g->m.tr_at( p + point_south ).loadid ),
+        static_cast<int>( g->m.tr_at( p + point_east ).loadid ),
+        static_cast<int>( g->m.tr_at( p + point_west ).loadid ),
+        static_cast<int>( g->m.tr_at( p + point_north ).loadid )
     };
 
     int subtile = 0;
@@ -2110,10 +2109,10 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
     if( fld_type.display_field ) {
         // for rotation information
         const int neighborhood[4] = {
-            static_cast<int>( g->m.field_at( tripoint( p.x, p.y + 1, p.z ) ).displayed_field_type() ), // south
-            static_cast<int>( g->m.field_at( tripoint( p.x + 1, p.y, p.z ) ).displayed_field_type() ), // east
-            static_cast<int>( g->m.field_at( tripoint( p.x - 1, p.y, p.z ) ).displayed_field_type() ), // west
-            static_cast<int>( g->m.field_at( tripoint( p.x, p.y - 1, p.z ) ).displayed_field_type() ) // north
+            static_cast<int>( g->m.field_at( p + point_south ).displayed_field_type() ),
+            static_cast<int>( g->m.field_at( p + point_east ).displayed_field_type() ),
+            static_cast<int>( g->m.field_at( p + point_west ).displayed_field_type() ),
+            static_cast<int>( g->m.field_at( p + point_north ).displayed_field_type() )
         };
 
         int subtile = 0;
@@ -2545,27 +2544,27 @@ void cata_tiles::draw_explosion_frame()
         subtile = corner;
         rotation = 0;
 
-        draw_from_id_string( exp_name, { exp_pos.x - i, exp_pos.y - i, exp_pos.z },
+        draw_from_id_string( exp_name, exp_pos + point( -i, -i ),
                              subtile, rotation++, LL_LIT, nv_goggles_activated );
-        draw_from_id_string( exp_name, { exp_pos.x - i, exp_pos.y + i, exp_pos.z },
+        draw_from_id_string( exp_name, exp_pos + point( -i, i ),
                              subtile, rotation++, LL_LIT, nv_goggles_activated );
-        draw_from_id_string( exp_name, { exp_pos.x + i, exp_pos.y + i, exp_pos.z },
+        draw_from_id_string( exp_name, exp_pos + point( i, i ),
                              subtile, rotation++, LL_LIT, nv_goggles_activated );
-        draw_from_id_string( exp_name, { exp_pos.x + i, exp_pos.y - i, exp_pos.z },
+        draw_from_id_string( exp_name, exp_pos + point( i, -i ),
                              subtile, rotation++, LL_LIT, nv_goggles_activated );
 
         subtile = edge;
         for( int j = 1 - i; j < 0 + i; j++ ) {
             rotation = 0;
-            draw_from_id_string( exp_name, { exp_pos.x + j, exp_pos.y - i, exp_pos.z },
+            draw_from_id_string( exp_name, exp_pos + point( j, -i ),
                                  subtile, rotation, LL_LIT, nv_goggles_activated );
-            draw_from_id_string( exp_name, { exp_pos.x + j, exp_pos.y + i, exp_pos.z },
+            draw_from_id_string( exp_name, exp_pos + point( j, i ),
                                  subtile, rotation, LL_LIT, nv_goggles_activated );
 
             rotation = 1;
-            draw_from_id_string( exp_name, { exp_pos.x - i, exp_pos.y + j, exp_pos.z },
+            draw_from_id_string( exp_name, exp_pos + point( -i, j ),
                                  subtile, rotation, LL_LIT, nv_goggles_activated );
-            draw_from_id_string( exp_name, { exp_pos.x + i, exp_pos.y + j, exp_pos.z },
+            draw_from_id_string( exp_name, exp_pos + point( i, j ),
                                  subtile, rotation, LL_LIT, nv_goggles_activated );
         }
     }
@@ -2745,8 +2744,8 @@ void cata_tiles::draw_zones_frame()
     for( int iY = zone_start.y; iY <= zone_end.y; ++ iY ) {
         for( int iX = zone_start.x; iX <= zone_end.x; ++iX ) {
             draw_from_id_string( "highlight", C_NONE, empty_string,
-            { iX + zone_offset.x, iY + zone_offset.y, g->u.pos().z },
-            0, 0, LL_LIT, false );
+                                 zone_offset.xy() + tripoint( iX, iY, g->u.pos().z ),
+                                 0, 0, LL_LIT, false );
         }
     }
 
@@ -2777,10 +2776,10 @@ void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &sub
 
     // get terrain neighborhood
     const ter_id neighborhood[4] = {
-        g->m.ter( tripoint( p.x, p.y + 1, p.z ) ), // south
-        g->m.ter( tripoint( p.x + 1, p.y, p.z ) ), // east
-        g->m.ter( tripoint( p.x - 1, p.y, p.z ) ), // west
-        g->m.ter( tripoint( p.x, p.y - 1, p.z ) ) // north
+        g->m.ter( p + point_south ),
+        g->m.ter( p + point_east ),
+        g->m.ter( p + point_west ),
+        g->m.ter( p + point_north )
     };
 
     bool connects[4];

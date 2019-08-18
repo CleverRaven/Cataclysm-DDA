@@ -18,10 +18,10 @@ class item;
 class auto_pickup
 {
     private:
-        void test_pattern( const int iTab, const int iRow );
-        void load( const bool bCharacter );
-        bool save( const bool bCharacter );
-        bool load_legacy( const bool bCharacter );
+        void test_pattern( int iTab, int iRow );
+        void load( bool bCharacter );
+        bool save( bool bCharacter );
+        bool load_legacy( bool bCharacter );
 
         bool bChar;
 

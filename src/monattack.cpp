@@ -1001,6 +1001,11 @@ bool mattack::smash( monster *z )
         return false;
     }
 
+    //Don't try to smash immobile targets
+    if( target->has_flag( MF_IMMOBILE ) ) {
+        return false;
+    }
+
     // Costs lots of moves to give you a little bit of a chance to get away.
     z->moves -= 400;
 
@@ -2605,7 +2610,7 @@ bool mattack::grab( monster *z )
     ///\EFFECT_DEX increases chance to avoid being grabbed if DEX>STR
 
     ///\EFFECT_STR increases chance to avoid being grabbed if STR>DEX
-    if( pl->has_grab_break_tec() && pl->get_grab_resist() > 0 && pl->get_dex() > pl->get_str() ?
+    if( pl->can_grab_break() && pl->get_grab_resist() > 0 && pl->get_dex() > pl->get_str() ?
         rng( 0, pl->get_dex() ) : rng( 0, pl->get_str() ) > rng( 0,
                 z->type->melee_sides + z->type->melee_dice ) ) {
         if( target->has_effect( effect_grabbed ) ) {
@@ -2774,7 +2779,7 @@ bool mattack::fear_paralyze( monster *z )
         } else if( rng( 0, 20 ) > g->u.get_int() ) {
             add_msg( m_bad, _( "The terrifying visage of the %s paralyzes you." ), z->name() );
             g->u.add_effect( effect_fearparalyze, 5_turns );
-            g->u.moves -= 400;
+            g->u.moves -= 4 * g->u.get_speed();
         } else {
             add_msg( _( "You manage to avoid staring at the horrendous %s." ), z->name() );
         }
@@ -2786,7 +2791,7 @@ bool mattack::nurse_check_up( monster *z )
 {
     bool found_target = false;
     player *target = nullptr;
-    tripoint tmp_pos( z->pos().x + 12, z->pos().y + 12, z->pos().z );
+    tripoint tmp_pos( z->pos() + point( 12, 12 ) );
     for( auto critter : g->m.get_creatures_in_radius( z->pos(), 6 ) ) {
         player *tmp_player = dynamic_cast<player *>( critter );
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
@@ -2836,7 +2841,7 @@ bool mattack::nurse_assist( monster *z )
 
     bool found_target = false;
     player *target = nullptr;
-    tripoint tmp_pos( z->pos().x + 12, z->pos().y + 12, z->pos().z );
+    tripoint tmp_pos( z->pos() + point( 12, 12 ) );
     for( auto critter : g->m.get_creatures_in_radius( z->pos(), 6 ) ) {
         player *tmp_player = dynamic_cast<player *>( critter );
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
@@ -2891,7 +2896,7 @@ bool mattack::nurse_operate( monster *z )
 
     bool found_target = false;
     player *target = nullptr;
-    tripoint tmp_pos( z->pos().x + 12, z->pos().y + 12, z->pos().z );
+    tripoint tmp_pos( z->pos() + point( 12, 12 ) );
     for( auto critter : g->m.get_creatures_in_radius( z->pos(), 6 ) ) {
         player *tmp_player = dynamic_cast< player *>( critter );
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
@@ -2951,7 +2956,7 @@ bool mattack::nurse_operate( monster *z )
         } else {
             grab( z );
             if( target->has_effect( effect_grabbed ) ) { // check if we succesfully grabbed the target
-                z->dragged_foe = target;
+                z->dragged_foe_id = target->getID();
                 z->add_effect( effect_dragging, 1_turns, num_bp, true );
                 return true;
             }
@@ -3522,7 +3527,7 @@ void mattack::flame( monster *z, Creature *target )
             if( g->m.hit_with_fire( tripoint( i.xy(), z->posz() ) ) ) {
                 if( g->u.sees( i ) ) {
                     add_msg( _( "The tongue of flame hits the %s!" ),
-                             g->m.tername( i.x, i.y ) );
+                             g->m.tername( i.xy() ) );
                 }
                 return;
             }
@@ -3545,7 +3550,7 @@ void mattack::flame( monster *z, Creature *target )
         if( g->m.hit_with_fire( tripoint( i.xy(), z->posz() ) ) ) {
             if( g->u.sees( i ) ) {
                 add_msg( _( "The tongue of flame hits the %s!" ),
-                         g->m.tername( i.x, i.y ) );
+                         g->m.tername( i.xy() ) );
             }
             return;
         }

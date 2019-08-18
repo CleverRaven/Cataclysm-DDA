@@ -588,7 +588,7 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
 
     if( has_flag( line_drawing ) ) {
         if( has_flag( no_rotate ) ) {
-            jo.throw_error( "Mutually exclusive flags: \"NO_ROTATE\" and \"LINEAR\"." );
+            jo.throw_error( R"(Mutually exclusive flags: "NO_ROTATE" and "LINEAR".)" );
         }
 
         for( const auto &elem : om_lines::mapgen_suffixes ) {
@@ -1379,9 +1379,9 @@ void overmap::add_extra( const tripoint &p, const string_id<map_extra> &id )
     } );
 
     if( it == std::end( extras ) ) {
-        extras.emplace_back( om_map_extra{ std::move( id ), p.xy() } );
+        extras.emplace_back( om_map_extra{ id, p.xy() } );
     } else if( !id.is_null() ) {
-        it->id = std::move( id );
+        it->id = id ;
     } else {
         extras.erase( it );
     }
@@ -1491,7 +1491,7 @@ bool overmap::generate_sub( const int z )
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             tripoint p( i, j, z );
-            oter_id oter_above = ter( p + tripoint( 0, 0, 1 ) );
+            oter_id oter_above = ter( p + tripoint_above );
             oter_id oter_ground = ter( tripoint( p.xy(), 0 ) );
             //oter_id oter_sewer = ter(i, j, -1);
             //oter_id oter_underground = ter(i, j, -2);

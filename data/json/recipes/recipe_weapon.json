@@ -1762,7 +1762,13 @@
     "reversible": true,
     "decomp_learn": 3,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "makeshift_machete", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "makeshift_machete", 1 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "aux_pressurized_tank", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1776,7 +1782,13 @@
     "decomp_learn": 4,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
     "using": [ [ "welding_standard", 2 ] ],
-    "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "machete", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "machete", 1 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "aux_pressurized_tank", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1790,7 +1802,13 @@
     "decomp_learn": 4,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
     "using": [ [ "welding_standard", 2 ] ],
-    "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "broadsword", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "broadsword", 1 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "aux_pressurized_tank", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1804,7 +1822,13 @@
     "decomp_learn": 4,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
     "using": [ [ "welding_standard", 2 ] ],
-    "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "katana", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "katana", 1 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "aux_pressurized_tank", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1818,7 +1842,13 @@
     "decomp_learn": 4,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
     "using": [ [ "welding_standard", 2 ] ],
-    "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "zweihander", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "zweihander", 1 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "aux_pressurized_tank", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1971,18 +2001,6 @@
       [ [ "rebar", 1 ], [ "pipe", 1 ] ],
       [ [ "e_scrap", 20 ] ]
     ]
-  },
-  {
-    "type": "recipe",
-    "result": "flamethrower_crude",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "time": "5 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "spray_can", 1 ] ], [ [ "duct_tape", 25 ] ], [ [ "lighter", 1 ] ] ]
   },
   {
     "type": "recipe",

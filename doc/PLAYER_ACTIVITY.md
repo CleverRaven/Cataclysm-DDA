@@ -12,7 +12,7 @@ Activities are long term actions, that can be interrupted and (optionally) conti
 
 ## JSON Properties
 
-* verb: A descriptive term to describe the activity to be used in the query to stop the activity, and strings that describe it, example : `verb: "mining"`.
+* verb: A descriptive term to describe the activity to be used in the query to stop the activity, and strings that describe it, example : `"verb": "mining"` or `"verb": { "ctxt": "instrument", "str": "playing" }`.
 * suspendable (true): If true, the activity can be continued without starting from scratch again. This is only possible if `can_resume_with()` returns true.
 * rooted (false): If true, then during the activity, recoil is reduced, plant mutants sink their roots into the ground, etc.
 * based_on: Can be 'time', 'speed', or 'neither'.

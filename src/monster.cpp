@@ -448,7 +448,7 @@ void monster::try_reproduce()
         if( season_match && female && one_in( chance ) ) {
             int spawn_cnt = rng( 1, type->baby_count );
             if( type->baby_monster ) {
-                g->m.add_spawn( type->baby_monster, spawn_cnt, pos().x, pos().y );
+                g->m.add_spawn( type->baby_monster, spawn_cnt, pos().xy() );
             } else {
                 g->m.add_item_or_charges( pos(), item( type->baby_egg, DAYS( baby_timer ), spawn_cnt ), true );
             }
@@ -606,7 +606,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 {
     const int vEnd = vStart + vLines;
 
-    mvwprintz( w, vStart, column, c_white, "%s ", name() );
+    mvwprintz( w, point( column, vStart ), c_white, "%s ", name() );
 
     const auto att = get_attitude();
     wprintz( w, att.second, att.first );
@@ -617,16 +617,16 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 
     std::string effects = get_effect_status();
     size_t used_space = att.first.length() + name().length() + 3;
-    trim_and_print( w, vStart++, used_space, getmaxx( w ) - used_space - 2,
+    trim_and_print( w, point( used_space, vStart++ ), getmaxx( w ) - used_space - 2,
                     h_white, effects );
 
     const auto hp_desc = hp_description( hp, type->hp );
-    mvwprintz( w, vStart++, column, hp_desc.second, hp_desc.first );
+    mvwprintz( w, point( column, vStart++ ), hp_desc.second, hp_desc.first );
 
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
     int numlines = lines.size();
     for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
-        mvwprintz( w, vStart++, column, c_white, lines[i] );
+        mvwprintz( w, point( column, vStart++ ), c_white, lines[i] );
     }
 
     return vStart;
@@ -2204,7 +2204,7 @@ void monster::drop_items_on_death()
 
     if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
         for( const auto &it : dropped ) {
-            if( it->is_armor() ) {
+            if( it->is_armor() || it->is_pet_armor() ) {
                 it->item_tags.insert( "FILTHY" );
             }
         }

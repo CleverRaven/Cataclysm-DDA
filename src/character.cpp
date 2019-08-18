@@ -611,6 +611,8 @@ void Character::process_turn()
     }
 
     Creature::process_turn();
+
+    check_item_encumbrance_flag();
 }
 
 void Character::recalc_hp()
@@ -784,6 +786,21 @@ float Character::get_vision_threshold( float light_level ) const
 
     return std::min( static_cast<float>( LIGHT_AMBIENT_LOW ),
                      threshold_for_range( range ) * dimming_from_light );
+}
+
+void Character::check_item_encumbrance_flag()
+{
+    bool update_required = false;
+    for( auto &i : worn ) {
+        if( !update_required && i.has_flag( "ENCUMBRANCE_UPDATE" ) ) {
+            update_required = true;
+        }
+        i.unset_flag( "ENCUMBRANCE_UPDATE" );
+    }
+
+    if( update_required ) {
+        reset_encumbrance();
+    }
 }
 
 bool Character::has_bionic( const bionic_id &b ) const
@@ -1098,8 +1115,11 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 return VisitResponse::SKIP;
             }
             if( !node->made_of( SOLID ) ) {
-                // some liquids are ammo but we can't reload with them unless within a container
+                // some liquids are ammo but we can't reload with them unless within a container or frozen
                 return VisitResponse::SKIP;
+            }
+            if( node->is_frozen_liquid() ) {
+                out = item_location( src, node );
             }
             if( node->is_ammo_container() && !node->contents.empty() &&
                 !node->contents_made_of( SOLID ) ) {
@@ -1680,6 +1700,7 @@ units::mass Character::get_weight() const
     ret += inv.weight();           // Weight of the stored inventory
     ret += wornWeight;             // Weight of worn items
     ret += weapon.weight();        // Weight of wielded item
+    ret += bionics_weight();       // Weight of installed bionics
     return ret;
 }
 
@@ -3353,6 +3374,17 @@ std::string Character::get_weight_description() const
 units::mass Character::bodyweight() const
 {
     return units::from_kilogram( get_bmi() * pow( height() / 100.0f, 2 ) );
+}
+
+units::mass Character::bionics_weight() const
+{
+    units::mass bio_weight = 0_gram;
+    for( const auto bio : *my_bionics ) {
+        if( !bio.info().included ) {
+            bio_weight += item::find_type( bio.id.c_str() )->weight;
+        }
+    }
+    return bio_weight;
 }
 
 int Character::height() const
