@@ -440,7 +440,7 @@ This places "mon_secubot" at random coordinate (7-18, 7-18). The monster is plac
 
 Example: { "item": "weed", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [1, 3], "chance": 20 }
 
-#### 2.6.0.0 "x" / "y"
+#### 2.5.0.0 "x" / "y"
 **required** Spawn coordinates ( specific or random )
 > Value: 0-23
 
@@ -450,7 +450,7 @@ Example: { "item": "weed", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [1,
 
 Example: "x": 12, "y": [ 5, 15 ]
 
-#### 2.6.0.1 "amount"
+#### 2.5.0.1 "amount"
 **required** Spawn this amount [ or, range ]
 > Value: *number*
 
@@ -460,11 +460,11 @@ Example: "x": 12, "y": [ 5, 15 ]
 
 Example: "amount": [ 5, 15 ]
 
-#### 2.6.0.2 "chance"
+#### 2.5.0.2 "chance"
 **optional** one-in-??? chance to apply
 > Value: *number*
 
-#### 2.6.0.3 "repeat"
+#### 2.5.0.3 "repeat"
 **optional** repeat this randomly between ??? and ??? times. Only makes sense if the coordinates are random
 > Value: [ *number*, *number* ]
 
