@@ -22,7 +22,7 @@
   "ammo": "barb",
   "clip_size": 1,
   "weight": 540,
-  "volume": 3,
+  "volume": "750ml",
   "bashing": 2,
   "to_hit": 1,
   "reload_noise_volume": 2,
