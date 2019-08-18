@@ -811,8 +811,7 @@ bool player::burn_fuel( int b, bool start )
     for( const itype_id &fuel : get_fuel_available( bio.id ) ) {
         const item tmp_fuel( fuel );
         int temp = std::stoi( get_value( fuel ) );
-        if( power_level + tmp_fuel.fuel_energy() * ( bio.info().fuel_efficiency / 100 ) >
-            max_power_level ) {
+        if( power_level + tmp_fuel.fuel_energy() *bio.info().fuel_efficiency > max_power_level ) {
             if( start ) {
                 add_msg_player_or_npc( m_info, _( "Your %s does not start as to not waste fuel." ),
                                        _( "<npcname>'s %s does not start as to not waste fuel." ), bio.info().name );
@@ -828,7 +827,7 @@ bool player::burn_fuel( int b, bool start )
         } else {
             if( temp > 0 ) {
                 temp -= 1;
-                charge_power( tmp_fuel.fuel_energy() * ( bio.info().fuel_efficiency / 100 ) );
+                charge_power( tmp_fuel.fuel_energy() *bio.info().fuel_efficiency );
                 set_value( fuel, std::to_string( temp ) );
                 update_fuel_storage( item( fuel ) );
             } else if( !start ) {
@@ -2043,6 +2042,8 @@ void load_bionic( JsonObject &jsobj )
                                 false );
     new_bionic.shockproof = get_bool_or_flag( jsobj, "shockproof", "BIONIC_SHOCKPROOF", false );
 
+    new_bionic.fuel_efficiency = jsobj.get_float( "fuel_efficiency", 0 );
+
     if( new_bionic.gun_bionic && new_bionic.weapon_bionic ) {
         debugmsg( "Bionic %s specified as both gun and weapon bionic", id.c_str() );
     }
@@ -2055,7 +2056,7 @@ void load_bionic( JsonObject &jsobj )
     jsobj.read( "upgraded_bionic", new_bionic.upgraded_bionic );
     jsobj.read( "fuel_options", new_bionic.fuel_opts );
     jsobj.read( "fuel_capacity", new_bionic.fuel_capacity );
-    jsobj.read( "fuel_efficiency", new_bionic.fuel_efficiency );
+
     JsonArray jsar = jsobj.get_array( "encumbrance" );
     if( !jsar.empty() ) {
         while( jsar.has_more() ) {

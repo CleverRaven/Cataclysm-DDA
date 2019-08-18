@@ -79,7 +79,7 @@ struct bionic_data {
     /**How much fuel this bionic can hold*/
     int fuel_capacity;
     /**Percentage of fuel energy converted to bionic power*/
-    int fuel_efficiency;
+    float fuel_efficiency;
     /**Amount of environemental protection offered by this bionic*/
     std::map<body_part, size_t> env_protec;
     /**
