@@ -384,6 +384,8 @@ class player : public Character
         bool activate_bionic( int b, bool eff_only = false );
         /** Handles bionic deactivation effects of the entered bionic, returns if anything deactivated */
         bool deactivate_bionic( int b, bool eff_only = false );
+        /**Convert fuel to bionic power*/
+        bool burn_fuel( int b, bool start = false );
         /** Handles bionic effects over time of the entered bionic */
         void process_bionic( int b );
         /** Randomly removes a bionic from my_bionics[] */

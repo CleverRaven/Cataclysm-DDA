@@ -273,30 +273,8 @@ bool player::activate_bionic( int b, bool eff_only )
             return false;
         }
 
-        if( !bio.info().fuel_opts.empty() && !bio.is_muscle_powered() ) {
-            if( get_fuel_available( bio.id ).empty() ) {
-                add_msg_player_or_npc( m_bad, _( "Your %s does not have enought fuel to start." ),
-                                       _( "<npcname>'s %s does not have enought fuel to start." ), bio.info().name );
-                return deactivate_bionic( b );
-            }
-            for( const itype_id fuel : get_fuel_available( bio.id ) ) {
-                const item tmp_fuel( fuel.c_str() );
-                if( power_level + tmp_fuel.fuel_energy() * ( bio.info().fuel_efficiency / 100 ) >
-                    max_power_level ) {
-                    add_msg_player_or_npc( m_info, _( "Your %s does not start as to not waste fuel." ),
-                                           _( "<npcname>'s %s does not start as to not waste fuel." ), bio.info().name );
-                    bio.powered = false;
-                    return deactivate_bionic( b );
-
-                }
-                int temp = std::stoi( get_value( fuel ) );
-                if( temp > 0 ) {
-                    temp -= 1;
-                    charge_power( tmp_fuel.fuel_energy() * ( bio.info().fuel_efficiency / 100 ) );
-                    set_value( fuel, std::to_string( temp ) );
-                    update_fuel_storage( item( fuel ) );
-                }
-            }
+        if( !burn_fuel( b, true ) ) {
+            return false;
         }
 
         //We can actually activate now, do activation-y things
@@ -816,6 +794,56 @@ bool player::deactivate_bionic( int b, bool eff_only )
     return true;
 }
 
+bool player::burn_fuel( int b, bool start )
+{
+    bionic &bio = ( *my_bionics )[b];
+    if( bio.info().fuel_opts.empty() || bio.is_muscle_powered() ) {
+        return true;
+    }
+
+    if( start && get_fuel_available( bio.id ).empty() ) {
+        add_msg_player_or_npc( m_bad, _( "Your %s does not have enought fuel to start." ),
+                               _( "<npcname>'s %s does not have enought fuel to start." ), bio.info().name );
+        deactivate_bionic( b );
+        return false;
+    }
+
+    for( const itype_id &fuel : get_fuel_available( bio.id ) ) {
+        const item tmp_fuel( fuel );
+        int temp = std::stoi( get_value( fuel ) );
+        if( power_level + tmp_fuel.fuel_energy() * ( bio.info().fuel_efficiency / 100 ) >
+            max_power_level ) {
+            if( start ) {
+                add_msg_player_or_npc( m_info, _( "Your %s does not start as to not waste fuel." ),
+                                       _( "<npcname>'s %s does not start as to not waste fuel." ), bio.info().name );
+            } else {
+                add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
+                                       _( "<npcname>'s %s turns off to not waste fuel." ), bio.info().name );
+            }
+
+            bio.powered = false;
+            deactivate_bionic( b, true );
+            return false;
+
+        } else {
+            if( temp > 0 ) {
+                temp -= 1;
+                charge_power( tmp_fuel.fuel_energy() * ( bio.info().fuel_efficiency / 100 ) );
+                set_value( fuel, std::to_string( temp ) );
+                update_fuel_storage( item( fuel ) );
+            } else if( !start ) {
+                remove_value( fuel );
+                add_msg_player_or_npc( m_info, _( "Your %s runs out of fuel and turn off." ),
+                                       _( "<npcname>'s %s runs out of fuel and turn off." ), bio.info().name );
+                bio.powered = false;
+                deactivate_bionic( b, true );
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 /**
  * @param p the player
  * @param bio the bionic that is meant to be recharged.
@@ -886,33 +914,8 @@ void player::process_bionic( int b )
             }
         }
     }
-    if( !bio.info().fuel_opts.empty() && !bio.is_muscle_powered() ) {
-        for( const itype_id fuel : get_fuel_available( bio.id ) ) {
-            const item tmp_fuel( fuel.c_str() );
-            int temp = std::stoi( get_value( fuel ) );
-            if( power_level + tmp_fuel.fuel_energy() * ( bio.info().fuel_efficiency / 100 ) >
-                max_power_level ) {
-                add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
-                                       _( "<npcname>'s %s turns off to not waste fuel." ), bio.info().name );
-                bio.powered = false;
-                deactivate_bionic( b, true );
-
-            } else {
-                if( temp > 0 ) {
-                    temp -= 1;
-                    charge_power( tmp_fuel.fuel_energy() * ( bio.info().fuel_efficiency / 100 ) );
-                    set_value( fuel, std::to_string( temp ) );
-                    update_fuel_storage( item( fuel ) );
-                } else {
-                    remove_value( fuel );
-                    add_msg_player_or_npc( m_info, _( "Your %s runs out of fuel and turn off." ),
-                                           _( "<npcname>'s %s runs out of fuel and turn off." ), bio.info().name );
-                    bio.powered = false;
-                    deactivate_bionic( b, true );
-                }
-            }
-        }
-    }
+    // Convert fuel to bionic power
+    burn_fuel( b );
     // Bionic effects on every turn they are active go here.
     if( bio.id == "bio_night" ) {
         if( calendar::once_every( 5_turns ) ) {
@@ -2152,7 +2155,7 @@ int bionic::get_quality( const quality_id &quality ) const
 
 bool bionic::is_muscle_powered() const
 {
-    for( const itype_id fuel : this->info().fuel_opts ) {
+    for( const itype_id &fuel : this->info().fuel_opts ) {
         if( fuel == "muscle" ) {
             return true;
         }
