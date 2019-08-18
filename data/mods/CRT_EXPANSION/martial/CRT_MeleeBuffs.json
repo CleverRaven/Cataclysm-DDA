@@ -79,8 +79,9 @@
       "tec_crt_cqb_precise",
       "tec_crt_cqb_arpen",
       "tec_feint"
-    ],
-{
+    ]
+    },
+  {
     "type": "technique",
     "id": "tec_crt_cqb_normal",
     "name": "Measured Footwork",
