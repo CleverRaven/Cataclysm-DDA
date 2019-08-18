@@ -404,7 +404,7 @@ These values will produce a rectangle for map::place_items from ( 12, 5 ) to ( 1
 > Value: *number*
 
 ## 2.4 "place_monster"
-**optional** Spawn single monster. Either specific monster or a random monster from a monster group. Is effected by spawn density game setting.
+**optional** Spawn single monster. Either specific monster or a random monster from a monster group. Is affected by spawn density game setting.
 > Value: [ array of {objects} ]: [ { "monster": ... } ]
 
 | Identifier | Description
@@ -412,11 +412,11 @@ These values will produce a rectangle for map::place_items from ( 12, 5 ) to ( 1
 | monster | ID of the monster to spawn.
 | group | ID of the monster group from which the spawned monster is selected. `monster` and `group` should not be used together. `group` will act over `monster`.
 | x, y  | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or [ 0-23, 0-23 ] - random point between [ a, b ]. When using a range, the minimum and maximum values will be used in creating rectangle coordinates to be used by map::place_spawns. Each monster generated from the monster group will be placed in a different random location within the rectangle. Example: "x": 12, "y": [ 5, 15 ] These values will produce a rectangle for map::place_spawns from ( 12, 5 ) to ( 12, 15 ) inclusive.
-| chance | Percentage chance to do spawning.
-| repeat | The spawning is repeated
+| chance | Percentage chance to do spawning. If repeat is used each repeat has separate chance.
+| repeat | The spawning is repeated this many times. Can be a number or a range.
 | pack_size | How many monsters are spawned. Can be single number or range like [1-4]. Is affected by the chance and spawn density. Ignored when spawning from a group.
-| one_or_none | Do not allow more than one to spawn due to high spawn density. If repeat is not defined or pack size is defined this is true. Ignored when spawning from a group.
-| friendly | Make the monster friendly. Default false.
+| one_or_none | Do not allow more than one to spawn due to high spawn density. If repeat is not defined or pack size is defined this defaults to true true, otherwise this defaults to false. Ignored when spawning from a group.
+| friendly | Set true to make the monster friendly. Default false.
 | name | Extra name to display on the monster.
 |target | Set to true to make this into mission target. Only works when the monster is spawned from a mission.
 
@@ -426,7 +426,7 @@ Example: `"place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Se
 This places a single random monster from group "GROUP_REFUGEE_BOSS_ZOMBIE", sets the name to "Sean McLaughlin", spawns the monster at coordinate (10, 10) and also sets the monster as the target of this mission.
 
 Example: `"place_monster": [ { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": [1, 3] } ]`  
-This places "mon_secubot" at random coordinate (7-18, 7-18). The monster is placed with 30% probablity. The placement is repeated one, two or three times.
+This places "mon_secubot" at random coordinate (7-18, 7-18). The monster is placed with 30% probablity. The placement is repeated by random number of times [1-3].
 
 ## 2.5 "place_item"
 **optional** A list of *specific* things to add. WIP: Monsters and vehicles will be here too
