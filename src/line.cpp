@@ -310,17 +310,19 @@ double atan2_degrees( const point &p )
 }
 
 // This more general version of this function gives correct values for larger values.
-unsigned make_xyz( const int x, const int y, const int z )
+unsigned make_xyz( const tripoint &p )
 {
     static constexpr double sixteenth_arc = M_PI / 8;
-    int vertical_position = ( ( z > 0 ) ? 2u : ( z < 0 ) ? 1u : 0u ) * 9u;
-    if( x == 0 && y == 0 ) {
+    int vertical_position = ( ( p.z > 0 ) ? 2u : ( p.z < 0 ) ? 1u : 0u ) * 9u;
+    if( p.xy() == point_zero ) {
         return vertical_position;
     }
     // Get the arctan of the angle and divide by approximately 22.5 deg to get the octant.
     // the angle is in, then truncate it and map to the right direction.
     // You can read 'octant' as being "number of 22.5 degree sections away from due south".
-    int octant = atan2( x, y ) / sixteenth_arc;
+    // FIXME: atan2 normally takes arguments in ( y, x ) order.  This is
+    // passing ( x, y ).
+    int octant = atan2( p.x, p.y ) / sixteenth_arc;
     switch( octant ) {
         case 0:
             return SOUTH + vertical_position;
@@ -394,9 +396,14 @@ std::vector<tripoint> continue_line( const std::vector<tripoint> &line, const in
     return line_to( line.back(), move_along_line( line.back(), line, distance ) );
 }
 
-direction direction_from( const int x, const int y, const int z ) noexcept
+direction direction_from( const point &p ) noexcept
 {
-    return static_cast<direction>( make_xyz( tripoint( x, y, z ) ) );
+    return static_cast<direction>( make_xyz( tripoint( p, 0 ) ) );
+}
+
+direction direction_from( const tripoint &p ) noexcept
+{
+    return static_cast<direction>( make_xyz( p ) );
 }
 
 direction direction_from( const int x1, const int y1, const int x2, const int y2 ) noexcept
