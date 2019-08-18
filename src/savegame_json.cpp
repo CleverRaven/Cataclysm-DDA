@@ -148,27 +148,6 @@ static void deserialize( std::weak_ptr<monster> &obj, JsonIn &jsin )
     //    }
 }
 
-template<typename T>
-void serialize( const cata::optional<T> &obj, JsonOut &jsout )
-{
-    if( obj ) {
-        jsout.write( *obj );
-    } else {
-        jsout.write_null();
-    }
-}
-
-template<typename T>
-void deserialize( cata::optional<T> &obj, JsonIn &jsin )
-{
-    if( jsin.test_null() ) {
-        obj.reset();
-    } else {
-        obj.emplace();
-        jsin.read( *obj );
-    }
-}
-
 std::vector<item> item::magazine_convert()
 {
     std::vector<item> res;
@@ -1807,7 +1786,11 @@ void monster::load( JsonObject &data )
     upgrade_time = data.get_int( "upgrade_time", -1 );
 
     reproduces = data.get_bool( "reproduces", type->reproduces );
-    baby_timer = data.get_int( "baby_timer", -1 );
+    baby_timer.reset();
+    data.read( "baby_timer", baby_timer );
+    if( baby_timer && *baby_timer == calendar::before_time_starts ) {
+        baby_timer.reset();
+    }
 
     biosignatures = data.get_bool( "biosignatures", type->biosignatures );
     biosig_timer = data.get_int( "biosig_timer", -1 );

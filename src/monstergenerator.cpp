@@ -743,7 +743,12 @@ void mtype::load( JsonObject &jo, const std::string &src )
     if( jo.has_member( "reproduction" ) ) {
         JsonObject repro = jo.get_object( "reproduction" );
         optional( repro, was_loaded, "baby_count", baby_count, -1 );
-        optional( repro, was_loaded, "baby_timer", baby_timer, -1 );
+        if( repro.has_int( "baby_timer" ) ) {
+            baby_timer = time_duration::from_days( repro.get_int( "baby_timer" ) );
+        } else if( repro.has_string( "baby_timer" ) ) {
+            baby_timer = read_from_json_string<time_duration>( *repro.get_raw( "baby_timer" ),
+                         time_duration::units );
+        }
         optional( repro, was_loaded, "baby_monster", baby_monster, auto_flags_reader<mtype_id> {},
                   mtype_id::NULL_ID() );
         optional( repro, was_loaded, "baby_egg", baby_egg, auto_flags_reader<itype_id> {},
@@ -762,7 +767,14 @@ void mtype::load( JsonObject &jo, const std::string &src )
 
     if( jo.has_member( "biosignature" ) ) {
         JsonObject biosig = jo.get_object( "biosignature" );
-        optional( biosig, was_loaded, "biosig_timer", biosig_timer, -1 );
+        if( biosig.has_int( "biosig_timer" ) ) {
+            biosig_timer = time_duration::from_days( biosig.get_int( "biosig_timer" ) );
+        } else if( biosig.has_string( "biosig_timer" ) ) {
+            biosig_timer = read_from_json_string<time_duration>( *biosig.get_raw( "biosig_timer" ),
+                           time_duration::units );
+        }
+
+
         optional( biosig, was_loaded, "biosig_item", biosig_item, auto_flags_reader<itype_id> {},
                   "null" );
         biosignatures = true;
@@ -1085,9 +1097,9 @@ void MonsterGenerator::check_monster_definitions() const
         }
 
         if( mon.reproduces ) {
-            if( mon.baby_timer < 1 ) {
+            if( !mon.baby_timer || *mon.baby_timer <= 0_seconds ) {
                 debugmsg( "Time between reproductions (%d) is invalid for %s",
-                          mon.baby_timer, mon.id.c_str() );
+                          mon.baby_timer ? to_turns<int>( *mon.baby_timer ) : -1, mon.id.c_str() );
             }
             if( mon.baby_count < 1 ) {
                 debugmsg( "Number of children (%d) is invalid for %s",
@@ -1110,9 +1122,9 @@ void MonsterGenerator::check_monster_definitions() const
         }
 
         if( mon.biosignatures ) {
-            if( mon.biosig_timer < 1 ) {
+            if( !mon.biosig_timer || *mon.biosig_timer <= 0_seconds ) {
                 debugmsg( "Time between biosignature drops (%d) is invalid for %s",
-                          mon.biosig_timer, mon.id.c_str() );
+                          mon.biosig_timer ? to_turns<int>( *mon.biosig_timer ) : -1, mon.id.c_str() );
             }
             if( mon.biosig_item == "null" ) {
                 debugmsg( "No biosignature drop defined for monster %s", mon.id.c_str() );
