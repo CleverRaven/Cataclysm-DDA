@@ -110,6 +110,7 @@ enum m_flag : int {
     MF_RIDEABLE_MECH,       // A rideable mech that is immobile until ridden.
     MF_MILITARY_MECH,        // A rideable mech that was designed for military work.
     MF_MECH_RECON_VISION,   // This mech gives you IR night-vision.
+    MF_MECH_DEFENSIVE,      //This mech gives you thorough protection.
     MF_HIT_AND_RUN,         // Flee for several turns after a melee attack
     MF_GUILT,               // You feel guilty for killing it
     MF_HUMAN,               // It's a live human, as long as it's alive

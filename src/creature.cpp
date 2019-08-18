@@ -487,11 +487,15 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     }
     // If carrying a rider, there is a chance the hits may hit rider instead.
     if( has_effect( effect_ridden ) ) {
-        // big mounts and small player = big shield for player.
-        if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
-            g->u.deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam );
-            return;
+        if( !has_flag( MF_MECH_DEFENSIVE ) ) {
+            // If carrying a rider, there is a chance the hits may hit rider instead.
+            // big mounts and small player = big shield for player.
+            if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
+                g->u.deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam );
+                return;
+            }
         }
+        //otherwise it would thoroughly protect the rider(or pilot actually)
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
     body_part bp_hit = select_body_part( source, hit_spread );
@@ -548,11 +552,16 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
     // If carrying a rider, there is a chance the hits may hit rider instead.
     if( has_effect( effect_ridden ) ) {
-        // big mounts and small player = big shield for player.
-        if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
-            g->u.deal_projectile_attack( source, attack, print_messages );
-            return;
+        if( !has_flag( MF_MECH_DEFENSIVE ) ) {
+            // If carrying a rider, there is a chance the hits may hit rider instead.
+            // big mounts and small player = big shield for player.
+            if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
+                g->u.deal_projectile_attack( source, attack, print_messages );
+                return;
+            }
         }
+        //otherwise it would thoroughly protect the rider(or pilot actually)
+
     }
     const projectile &proj = attack.proj;
     dealt_damage_instance &dealt_dam = attack.dealt_dam;
