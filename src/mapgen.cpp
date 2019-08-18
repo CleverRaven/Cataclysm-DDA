@@ -2442,7 +2442,8 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset, mission 
             }
             break;
             case JMAPGEN_SETMAP_LINE_TRAP: {
-                const std::vector<point> line = line_to( x_get(), y_get(), x2_get(), y2_get(), 0 );
+                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                                0 );
                 for( auto &i : line ) {
                     // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
                     mtrap_set( &m, i.x, i.y, trap_id( val.get() ) );
@@ -2450,7 +2451,8 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset, mission 
             }
             break;
             case JMAPGEN_SETMAP_LINE_RADIATION: {
-                const std::vector<point> line = line_to( x_get(), y_get(), x2_get(), y2_get(), 0 );
+                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                                0 );
                 for( auto &i : line ) {
                     m.set_radiation( i, static_cast<int>( val.get() ) );
                 }
@@ -4346,7 +4348,7 @@ void map::draw_silo( const oter_id &terrain_type, mapgendata &dat, const time_po
         if( dat.zlevel == 0 ) { // We're on ground level
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
-                    if( trig_dist( i, j, SEEX, SEEY ) <= 6 ) {
+                    if( trig_dist( point( i, j ), point( SEEX, SEEY ) ) <= 6 ) {
                         ter_set( point( i, j ), t_metal_floor );
                     } else {
                         ter_set( point( i, j ), dat.groundcover() );
@@ -4387,14 +4389,14 @@ void map::draw_silo( const oter_id &terrain_type, mapgendata &dat, const time_po
         } else { // We are NOT above ground.
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
-                    if( trig_dist( i, j, SEEX, SEEY ) > 7 ) {
+                    if( trig_dist( point( i, j ), point( SEEX, SEEY ) ) > 7 ) {
                         ter_set( point( i, j ), t_rock );
-                    } else if( trig_dist( i, j, SEEX, SEEY ) > 5 ) {
+                    } else if( trig_dist( point( i, j ), point( SEEX, SEEY ) ) > 5 ) {
                         ter_set( point( i, j ), t_metal_floor );
                         if( one_in( 30 ) ) {
                             add_field( {i, j, abs_sub.z}, fd_nuke_gas, 2 );
                         }
-                    } else if( trig_dist( i, j, SEEX, SEEY ) == 5 ) {
+                    } else if( trig_dist( point( i, j ), point( SEEX, SEEY ) ) == 5 ) {
                         ter_set( point( i, j ), t_hole );
                     } else {
                         ter_set( point( i, j ), t_missile );
@@ -7613,8 +7615,7 @@ void silo_rooms( map *m )
         int best_dist = 999;
         int closest = 0;
         for( size_t i = 1; i < rooms.size(); i++ ) {
-            int dist = trig_dist( first_room_position.x, first_room_position.y, rooms[i].first.x,
-                                  rooms[i].first.y );
+            int dist = trig_dist( first_room_position, rooms[i].first );
             if( dist < best_dist ) {
                 best_dist = dist;
                 closest = i;
@@ -7928,7 +7929,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
             for( int i = cx - 5; i <= cx + 5; i++ ) {
                 for( int j = cy - 5; j <= cy + 5; j++ ) {
                     if( furn( point( i, j ) ) == f_rubble ) {
-                        add_field( {i, j, abs_sub.z}, fd_fire_vent, 1 + ( rl_dist( cx, cy, i, j ) % 3 ) );
+                        add_field( {i, j, abs_sub.z}, fd_fire_vent, 1 + ( rl_dist( point( cx, cy ), point( i, j ) ) % 3 ) );
                     }
                 }
             }

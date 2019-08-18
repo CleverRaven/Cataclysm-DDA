@@ -648,7 +648,7 @@ void mapgen_fungal_bloom( map *m, oter_id, mapgendata dat, const time_point &, f
     ( void )dat;
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
-            if( one_in( rl_dist( i, j, 12, 12 ) * 4 ) ) {
+            if( one_in( rl_dist( point( i, j ), point( 12, 12 ) ) * 4 ) ) {
                 m->ter_set( point( i, j ), t_marloss );
             } else if( one_in( 10 ) ) {
                 if( one_in( 3 ) ) {
@@ -698,7 +698,7 @@ void mapgen_fungal_flowers( map *m, oter_id, mapgendata dat, const time_point &,
     ( void )dat;
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
-            if( one_in( rl_dist( i, j, 12, 12 ) * 6 ) ) {
+            if( one_in( rl_dist( point( i, j ), point( 12, 12 ) ) * 6 ) ) {
                 m->ter_set( point( i, j ), t_fungus );
                 m->furn_set( point( i, j ), f_flower_marloss );
             } else if( one_in( 10 ) ) {
@@ -1517,10 +1517,10 @@ void mapgen_sewer_four_way( map *m, oter_id, mapgendata dat, const time_point &t
             } else {
                 m->ter_set( point( i, j ), t_sewage );
             }
-            if( rn == 0 && ( trig_dist( i, j, SEEX - 1, SEEY - 1 ) <= 6 ||
-                             trig_dist( i, j, SEEX - 1, SEEY ) <= 6 ||
-                             trig_dist( i, j, SEEX,     SEEY - 1 ) <= 6 ||
-                             trig_dist( i, j, SEEX,     SEEY ) <= 6 ) ) {
+            if( rn == 0 && ( trig_dist( point( i, j ), point( SEEX - 1, SEEY - 1 ) ) <= 6 ||
+                             trig_dist( point( i, j ), point( SEEX - 1, SEEY ) ) <= 6 ||
+                             trig_dist( point( i, j ), point( SEEX, SEEY - 1 ) ) <= 6 ||
+                             trig_dist( point( i, j ), point( SEEX, SEEY ) ) <= 6 ) ) {
                 m->ter_set( point( i, j ), t_sewage );
             }
             if( rn == 0 && ( i == SEEX - 1 || i == SEEX ) && ( j == SEEY - 1 || j == SEEY ) ) {
@@ -3008,7 +3008,7 @@ void mapgen_cave( map *m, oter_id, mapgendata dat, const time_point &turn, float
                     origy = rng( SEEY - 1, SEEY ),
                     hermx = rng( SEEX - 6, SEEX + 5 ),
                     hermy = rng( SEEX - 6, SEEY + 5 );
-                std::vector<point> bloodline = line_to( origx, origy, hermx, hermy, 0 );
+                std::vector<point> bloodline = line_to( point( origx, origy ), point( hermx, hermy ), 0 );
                 for( auto &ii : bloodline ) {
                     madd_field( m, ii.x, ii.y, fd_blood, 2 );
                 }
@@ -3052,7 +3052,7 @@ void mapgen_cave( map *m, oter_id, mapgendata dat, const time_point &turn, float
             pathx = ( one_in( 2 ) ? SEEX - 8 : SEEX + 7 );
             pathy = rng( SEEY - 6, SEEY + 5 );
         }
-        std::vector<point> pathline = line_to( pathx, pathy, SEEX - 1, SEEY - 1, 0 );
+        std::vector<point> pathline = line_to( point( pathx, pathy ), point( SEEX - 1, SEEY - 1 ), 0 );
         for( auto &ii : pathline ) {
             square( m, t_dirt, ii.x, ii.y,
                     ii.x + 1, ii.y + 1 );
@@ -3109,7 +3109,7 @@ void mapgen_cave_rat( map *m, oter_id, mapgendata dat, const time_point &turn, f
         // Now draw some extra passages!
         do {
             int tox = ( one_in( 2 ) ? 2 : SEEX * 2 - 3 ), toy = rng( 2, SEEY * 2 - 3 );
-            std::vector<point> path = line_to( centerx, SEEY - 1, tox, toy, 0 );
+            std::vector<point> path = line_to( point( centerx, SEEY - 1 ), point( tox, toy ), 0 );
             for( auto &i : path ) {
                 for( int cx = i.x - 1; cx <= i.x + 1; cx++ ) {
                     for( int cy = i.y - 1; cy <= i.y + 1; cy++ ) {
@@ -3613,7 +3613,7 @@ static void mapgen_ants_generic( map *m, oter_id terrain_type, mapgendata dat,
         } while( m->ter( point( x, y ) ) == t_rock );
         for( int i = x - cw; i <= x + cw; i++ ) {
             for( int j = y - cw; j <= y + cw; j++ ) {
-                if( trig_dist( x, y, i, j ) <= cw ) {
+                if( trig_dist( point( x, y ), point( i, j ) ) <= cw ) {
                     m->ter_set( point( i, j ), t_rock_floor );
                 }
             }

@@ -3452,7 +3452,7 @@ bool mattack::searchlight( monster *z )
                 }
             }
 
-            if( rl_dist( x, y, zposx, zposy ) > 50 ) {
+            if( rl_dist( point( x, y ), point( zposx, zposy ) ) > 50 ) {
                 if( x > zposx ) {
                     x--;
                 }

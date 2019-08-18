@@ -293,8 +293,8 @@ TEST_CASE( "squares_closer_to_test" )
 
 static void line_to_comparison( const int iterations )
 {
-    REQUIRE( trig_dist( 0, 0, 0, 0 ) == 0 );
-    REQUIRE( trig_dist( 0, 0, 1, 0 ) == 1 );
+    REQUIRE( trig_dist( point_zero, point_zero ) == 0 );
+    REQUIRE( trig_dist( point_zero, point_east ) == 1 );
 
     const int seed = time( nullptr );
     std::srand( seed );
@@ -306,7 +306,8 @@ static void line_to_comparison( const int iterations )
         const int y2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
         int t1 = 0;
         int t2 = 0;
-        REQUIRE( line_to( x1, y1, x2, y2, t1 ) == canonical_line_to( x1, y1, x2, y2, t2 ) );
+        REQUIRE( line_to( point( x1, y1 ), point( x2, y2 ), t1 ) == canonical_line_to( x1, y1, x2, y2,
+                 t2 ) );
     }
 
     {
@@ -319,7 +320,7 @@ static void line_to_comparison( const int iterations )
         int count1 = 0;
         const auto start1 = std::chrono::high_resolution_clock::now();
         while( count1 < iterations ) {
-            line_to( x1, y1, x2, y2, t1 );
+            line_to( point( x1, y1 ), point( x2, y2 ), t1 );
             count1++;
         }
         const auto end1 = std::chrono::high_resolution_clock::now();
@@ -359,7 +360,7 @@ TEST_CASE( "line_to_boundaries" )
             const int st( ( ideal_start_offset > 0 ) - ( ideal_start_offset < 0 ) );
             const int max_start_offset = std::abs( ideal_start_offset ) * 2 + 1;
             for( int k = -1; k <= max_start_offset; ++k ) {
-                auto line = line_to( 0, 0, i, j, k * st );
+                auto line = line_to( point_zero, point( i, j ), k * st );
                 if( line.back() != point( i, j ) ) {
                     WARN( "Expected (" << i << "," << j << ") but got (" <<
                           line.back().x << "," << line.back().y << ") with t == " << k );

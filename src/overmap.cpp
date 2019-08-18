@@ -1819,7 +1819,7 @@ void mongroup::wander( const overmap &om )
         // Find a nearby city to return to..
         for( const city &check_city : om.cities ) {
             // Check if this is the nearest city so far.
-            int distance = rl_dist( check_city.pos.x * 2, check_city.pos.y * 2, pos.x, pos.y );
+            int distance = rl_dist( point( check_city.pos.x * 2, check_city.pos.y * 2 ), pos.xy() );
             if( !target_city || distance < target_distance ) {
                 target_distance = distance;
                 target_city = &check_city;
@@ -2097,8 +2097,8 @@ void overmap::place_forest_trails()
             // center point and use that.
             point actual_center_point = *std::min_element( forest_points.begin(),
             forest_points.end(), [&center_point]( const point & lhs, const point & rhs ) {
-                return square_dist( lhs.x, lhs.y, center_point.x, center_point.y ) < square_dist( rhs.x, rhs.y,
-                        center_point.x, center_point.y );
+                return square_dist( lhs, center_point ) < square_dist( rhs,
+                        center_point );
             } );
 
             // Figure out how many random points we'll add to our trail system, based on the forest
@@ -2341,7 +2341,7 @@ void overmap::place_lakes()
                         if( !ter( p )->is_river() ) {
                             continue;
                         }
-                        const int distance = square_dist( lake_connection_point.x, lake_connection_point.y, x, y );
+                        const int distance = square_dist( lake_connection_point, point( x, y ) );
                         if( distance < closest_distance || closest_distance < 0 ) {
                             closest_point = p.xy();
                             closest_distance = distance;
@@ -2863,8 +2863,7 @@ void overmap::place_building( const tripoint &p, om_direction::type dir, const c
     const tripoint building_pos = p + om_direction::displace( dir );
     const om_direction::type building_dir = om_direction::opposite( dir );
 
-    const int town_dist = ( trig_dist( building_pos.x, building_pos.y, town.pos.x,
-                                       town.pos.y ) * 100 ) / std::max( town.size, 1 );
+    const int town_dist = ( trig_dist( building_pos.xy(), town.pos ) * 100 ) / std::max( town.size, 1 );
 
     for( size_t retries = 10; retries > 0; --retries ) {
         const overmap_special_id building_tid = pick_random_building_to_place( town_dist );
@@ -3458,7 +3457,8 @@ void overmap::connect_closest_points( const std::vector<point> &points, int z,
         int closest = -1;
         int k = 0;
         for( size_t j = i + 1; j < points.size(); j++ ) {
-            const int distance = trig_dist( points[i].x, points[i].y, points[j].x, points[j].y );
+            const int distance = trig_dist( point( points[i].x, points[i].y ), point( points[j].x,
+                                            points[j].y ) );
             if( distance < closest || closest < 0 ) {
                 closest = distance;
                 k = j;
@@ -4030,8 +4030,8 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         // in the 5x5 area surrounding the initial overmap, bounding the amount of work we will do.
         for( point candidate_addr : closest_points_first( 2, custom_overmap_specials.get_origin() ) ) {
             if( !overmap_buffer.has( candidate_addr ) ) {
-                int current_distance = square_dist( pos().x, pos().y,
-                                                    candidate_addr.x, candidate_addr.y );
+                int current_distance = square_dist( pos(),
+                                                    candidate_addr );
                 if( nearest_candidates.empty() || current_distance == previous_distance ) {
                     nearest_candidates.push_back( candidate_addr );
                     previous_distance = current_distance;
@@ -4254,7 +4254,8 @@ void overmap::add_mon_group( const mongroup &group )
     int xpop = 0;
     for( int x = -rad; x <= rad; x++ ) {
         for( int y = -rad; y <= rad; y++ ) {
-            const int dist = group.diffuse ? square_dist( x, y, 0, 0 ) : trig_dist( x, y, 0, 0 );
+            const int dist = group.diffuse ? square_dist( point( x, y ), point_zero ) : trig_dist( point( x,
+                             y ), point_zero );
             if( dist > rad ) {
                 continue;
             }

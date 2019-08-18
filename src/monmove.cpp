@@ -1156,7 +1156,7 @@ static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tri
     zone.reserve( 3 * maxdepth );
     tripoint previous = bashee;
     for( const tripoint &p : path ) {
-        std::vector<point> swath = squares_in_direction( previous.x, previous.y, p.x, p.y );
+        std::vector<point> swath = squares_in_direction( previous.xy(), p.xy() );
         for( point q : swath ) {
             zone.push_back( tripoint( q, bashee.z ) );
         }
@@ -1765,7 +1765,7 @@ bool monster::will_reach( const point &p )
     }
 
     if( can_hear() && wandf > 0 && rl_dist( wander_pos.xy(), p ) <= 2 &&
-        rl_dist( posx(), posy(), wander_pos.x, wander_pos.y ) <= wandf ) {
+        rl_dist( point( posx(), posy() ), wander_pos.xy() ) <= wandf ) {
         return true;
     }
 

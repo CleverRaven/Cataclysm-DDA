@@ -36,7 +36,7 @@ void draw_rough_circle( std::function<void( const point & )>set, const point &p,
 {
     for( int i = p.x - rad; i <= p.x + rad; i++ ) {
         for( int j = p.y - rad; j <= p.y + rad; j++ ) {
-            if( trig_dist( p.x, p.y, i, j ) + rng( 0, 3 ) <= rad ) {
+            if( trig_dist( p, point( i, j ) ) + rng( 0, 3 ) <= rad ) {
                 set( point( i, j ) );
             }
         }
@@ -58,7 +58,7 @@ void draw_circle( std::function<void( const point & )>set, const point &p, int r
 {
     for( int i = p.x - rad; i <= p.x + rad; i++ ) {
         for( int j = p.y - rad; j <= p.y + rad; j++ ) {
-            if( trig_dist( p.x, p.y, i, j ) <= rad ) {
+            if( trig_dist( p, point( i, j ) ) <= rad ) {
                 set( point( i, j ) );
             }
         }
