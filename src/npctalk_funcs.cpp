@@ -861,8 +861,7 @@ void talk_function::copy_npc_rules( npc &p )
 
 void talk_function::set_npc_pickup( npc &p )
 {
-    const std::string title = string_format( _( "Pickup rules for %s" ), p.name );
-    p.rules.pickup_whitelist->show( title, false );
+    p.rules.pickup_whitelist->show( p.name );
 }
 
 void talk_function::npc_die( npc &p )

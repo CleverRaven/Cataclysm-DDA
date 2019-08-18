@@ -99,36 +99,65 @@ class auto_pickup_ui
         bool bStuffChanged = false;
 };
 
-class auto_pickup
+class auto_pickup_base
+{
+    protected:
+        mutable auto_pickup_cache map_items;
+
+        void invalidate();
+
+    private:
+        virtual void refresh_map_items( auto_pickup_cache &map_items ) const = 0;
+
+        void recreate() const;
+
+    public:
+        rule_state check_item( const std::string &sItemName ) const;
+};
+
+class auto_pickup : public auto_pickup_base
 {
     private:
         void load( bool bCharacter );
         bool save( bool bCharacter );
         bool load_legacy( bool bCharacter );
 
-        mutable auto_pickup_cache map_items;
-
         auto_pickup_rule_list global_rules;
         auto_pickup_rule_list character_rules;
 
-        void refresh_map_items() const; //< Only modifies mutable state
+        void refresh_map_items( auto_pickup_cache &map_items ) const override;
 
     public:
-        void create_rule( const std::string &to_match );
         void create_rule( const item *it );
         bool has_rule( const item *it );
         void add_rule( const item *it );
         void remove_rule( const item *it );
 
         void clear_character_rules();
-        rule_state check_item( const std::string &sItemName ) const;
 
         void show();
-        void show( const std::string &custom_name, bool is_autopickup = true );
         bool save_character();
         bool save_global();
         void load_character();
         void load_global();
+
+        bool empty() const;
+};
+
+class npc_auto_pickup : public auto_pickup_base
+{
+    private:
+        auto_pickup_rule_list rules;
+
+        void refresh_map_items( auto_pickup_cache &map_items ) const override;
+
+    public:
+        void create_rule( const std::string &to_match );
+
+        void show( const std::string &name );
+
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 
         bool empty() const;
 };
