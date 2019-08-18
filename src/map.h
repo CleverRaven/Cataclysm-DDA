@@ -345,16 +345,17 @@ class map
          * @param update_vehicles If true, add vehicles to the vehicle cache.
          */
         void load( int wx, int wy, int wz, bool update_vehicles );
-        void load( const tripoint &p, const bool update_vehicles ) {
+        void load( const tripoint &p, bool update_vehicles ) {
             load( p.x, p.y, p.z, update_vehicles );
         }
         /**
-         * Shift the map along the vector (sx,sy).
+         * Shift the map along the vector s.
          * This is like loading the map with coordinates derived from the current
          * position of the map (@ref abs_sub) plus the shift vector.
          * Note: the map must have been loaded before this can be called.
          */
         void shift( int sx, int sy );
+        void shift( const point &s );
         /**
          * Moves the map vertically to (not by!) newz.
          * Does not actually shift anything, only forces cache updates.
@@ -1052,6 +1053,8 @@ class map
         bool process_fields(); // See fields.cpp
         bool process_fields_in_submap( submap *current_submap,
                                        int submap_x, int submap_y, int submap_z ); // See fields.cpp
+        bool process_fields_in_submap( submap *current_submap,
+                                       const tripoint &submap_pos ); // See fields.cpp
         /**
          * Apply field effects to the creature when it's on a square with fields.
          */
@@ -1626,6 +1629,8 @@ class map
         template<typename Functor>
         void function_over( const tripoint &start, const tripoint &end, Functor fun ) const;
         template<typename Functor>
+        void function_over( int stx, int sty, int stz, const tripoint &end, Functor fun ) const;
+        template<typename Functor>
         void function_over( int stx, int sty, int stz, int enx, int eny, int enz, Functor fun ) const;
         /*@}*/
 
@@ -1703,6 +1708,8 @@ class map
 
 template<int SIZE, int MULTIPLIER>
 void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, int sx, int sy );
+template<int SIZE, int MULTIPLIER>
+void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point &s );
 
 std::vector<point> closest_points_first( int radius, const point &center );
 // Does not build "piles" - does the same as above functions, except in tripoints

@@ -125,6 +125,7 @@ struct w_map {
 };
 
 bool is_valid_in_w_terrain( int x, int y );
+bool is_valid_in_w_terrain( const point &p );
 
 // There is only one game instance, so losing a few bytes of memory
 // due to padding is not much of a concern.
@@ -640,6 +641,7 @@ class game
 
         /** open vehicle interaction screen */
         void exam_vehicle( vehicle &veh, int cx = 0, int cy = 0 );
+        void exam_vehicle( vehicle &veh, const point &cp );
 
         // Forcefully close a door at p.
         // The function checks for creatures/items/vehicles at that point and
@@ -799,13 +801,14 @@ class game
         void replace_stair_monsters();
         void update_stair_monsters();
         /**
-         * Shift all active monsters, the shift vector (x,y,z) is the number of
+         * Shift all active monsters, the shift vector is the number of
          * shifted submaps. Monsters that are outside of the reality bubble after
          * shifting are despawned.
          * Note on z-levels: this works with vertical shifts, but currently all
          * monsters are despawned upon a vertical shift.
          */
         void shift_monsters( int shiftx, int shifty, int shiftz );
+        void shift_monsters( const tripoint &shift );
     public:
         /**
          * Despawn a specific monster, it's stored on the overmap. Also removes
