@@ -473,13 +473,13 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "Firearm-quality gunpowder, mixed without concern for composition, burn rate or shape.  It has been slightly ground to make its properties more uniform.  Only the truly desperate would attempt to reload with this.",
-    "container": "bottle_plastic_small",
+    "container": "bottle_plastic",
     "material": "powder",
     "flags": [ "TINDER" ],
     "volume": "250 ml",
     "weight": 1,
     "ammo_type": "components",
-    "count": 200,
+    "count": 454,
     "effects": [ "COOKOFF" ]
   },
   {
