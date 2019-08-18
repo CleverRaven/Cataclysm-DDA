@@ -51,7 +51,7 @@ const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_riding( "riding" );
 const efftype_id effect_ridden( "ridden" );
 const efftype_id effect_tied( "tied" );
-const efftype_id effect_paralyzepoison("paralyzepoison");
+const efftype_id effect_paralyzepoison( "paralyzepoison" );
 
 
 const std::map<std::string, m_size> Creature::size_map = {
@@ -720,9 +720,9 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     if( proj_effects.count( "APPLY_SAP" ) ) {
         add_effect( effect_sap, 1_turns * dealt_dam.total_damage() );
     }
-    if (proj_effects.count("PARALYZEPOISON") &&  dealt_dam.total_damage() > 0 ) {
-        add_msg_if_player(m_bad, _("You feel poison enter your body!"));
-        add_effect(effect_paralyzepoison, 5_minutes);
+    if( proj_effects.count( "PARALYZEPOISON" ) &&  dealt_dam.total_damage() > 0 ) {
+        add_msg_if_player( m_bad, _( "You feel poison enter your body!" ) );
+        add_effect( effect_paralyzepoison, 5_minutes );
     }
 
     int stun_strength = 0;
