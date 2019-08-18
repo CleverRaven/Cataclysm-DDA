@@ -41,8 +41,6 @@ enum class mon_trigger;
 
 class monster;
 
-using mfactions = std::map< mfaction_id, std::set< monster * > >;
-
 class mon_special_attack
 {
     public:
@@ -106,7 +104,7 @@ class monster : public Creature
         void try_biosignature();
         void spawn( const tripoint &p );
         m_size get_size() const override;
-        units::mass get_weight() const;
+        units::mass get_weight() const override;
         units::volume get_volume() const;
         int get_hp( hp_part ) const override;
         int get_hp() const override;
@@ -193,9 +191,7 @@ class monster : public Creature
 
         // How good of a target is given creature (checks for visibility)
         float rate_target( Creature &c, float best, bool smart = false ) const;
-        // Pass all factions to mon, so that hordes of same-faction mons
-        // do not iterate over each other
-        void plan( const mfactions &factions );
+        void plan();
         void move(); // Actual movement
         void footsteps( const tripoint &p ); // noise made by movement
         void shove_vehicle( const tripoint &remote_destination,

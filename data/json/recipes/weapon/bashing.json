@@ -47,5 +47,31 @@
     "qualities": [ { "id": "DRILL", "level": 1 } ],
     "tools": [ [ [ "forge", 100 ], [ "oxy_torch", 20 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "shillelagh", 1 ] ], [ [ "weights", 15, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "blackjack",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "survival", 1 ],
+    "time": "60 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "leather", 5 ] ], [ [ "weights", 10, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "makeshift_sap",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "survival",
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "leather", 2 ] ], [ [ "steel_tiny", 1, "LIST" ], [ "weights", 8, "LIST" ] ] ]
   }
 ]

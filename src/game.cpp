@@ -4211,32 +4211,7 @@ void game::monmove()
 {
     cleanup_dead();
 
-    // Make sure these don't match the first time around.
-    tripoint cached_lev = m.get_abs_sub() + tripoint_east;
-
-    // used to force update of the monster factions if a monster has changed its z-level.
-    bool force_mfactions_update = false;
-
-    mfactions monster_factions;
-    const auto &playerfaction = mfaction_str_id( "player" );
     for( monster &critter : all_monsters() ) {
-        // The first time through, and any time the map has been shifted, or a monster changed its z-level
-        // recalculate monster factions.
-        if( cached_lev != m.get_abs_sub() || force_mfactions_update ) {
-            force_mfactions_update = false;
-            // monster::plan() needs to know about all monsters on the same team as the monster.
-            monster_factions.clear();
-            for( monster &critter : all_monsters() ) {
-                if( critter.friendly == 0 ) {
-                    // Only 1 faction per mon at the moment.
-                    monster_factions[ critter.faction ].insert( &critter );
-                } else {
-                    monster_factions[ playerfaction ].insert( &critter );
-                }
-            }
-            cached_lev = m.get_abs_sub();
-        }
-
         // Critters in impassable tiles get pushed away, unless it's not impassable for them
         if( !critter.is_dead() && m.impassable( critter.pos() ) && !critter.can_move_to( critter.pos() ) ) {
             dbg( D_ERROR ) << "game:monmove: " << critter.name()
@@ -4270,21 +4245,11 @@ void game::monmove()
             // Controlled critters don't make their own plans
             if( !critter.has_effect( effect_controlled ) ) {
                 // Formulate a path to follow
-                critter.plan( monster_factions );
+                critter.plan();
             }
             critter.move(); // Move one square, possibly hit u
             critter.process_triggers();
             m.creature_in_field( critter );
-        }
-
-        // FIX #28679
-        // It is possible that a monster has fallen down a z-level during critter.move() above, if it stepped on a trap.
-        // In this case the monster is deleted during the iteration of this `for` loop in
-        //  game::non_dead_range<monster>::iterator::operator++().
-        // We must make sure that we update the monster_factions so we don't pass a deleted monster later in critter.plan().
-        // Note that this only applies if z-levels are not active.
-        if( !g->m.has_zlevels() && critter.posz() != g->u.posz() ) {
-            force_mfactions_update = true;
         }
 
         if( !critter.is_dead() &&
@@ -4422,7 +4387,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
             add_msg( _( "%s was stunned!" ), targ->name() );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
-            if( m.impassable( traj[i].x, traj[i].y ) ) {
+            if( m.impassable( point( traj[i].x, traj[i].y ) ) ) {
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -4480,7 +4445,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
             add_msg( _( "%s was stunned!" ), targ->name );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
-            if( m.impassable( traj[i].x, traj[i].y ) ) { // oops, we hit a wall!
+            if( m.impassable( point( traj[i].x, traj[i].y ) ) ) { // oops, we hit a wall!
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -4818,11 +4783,6 @@ bool game::spawn_hallucination( const tripoint &p )
     } else {
         return false;
     }
-}
-
-void game::rebuild_mon_at_cache()
-{
-    critter_tracker->rebuild_cache();
 }
 
 bool game::swap_critters( Creature &a, Creature &b )
@@ -5192,11 +5152,11 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
             return false;
         }
     }
-    if( bash_dmg < 0 && !m.i_at( x, y ).empty() ) {
+    if( bash_dmg < 0 && !m.i_at( point( x, y ) ).empty() ) {
         return false;
     }
     if( bash_dmg == 0 ) {
-        for( auto &elem : m.i_at( x, y ) ) {
+        for( auto &elem : m.i_at( point( x, y ) ) ) {
             if( elem.made_of( LIQUID ) ) {
                 // Liquids are OK, will be destroyed later
                 continue;
@@ -5210,8 +5170,8 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     }
 
     m.ter_set( point( x, y ), door_type );
-    if( m.has_flag( "NOITEM", x, y ) ) {
-        map_stack items = m.i_at( x, y );
+    if( m.has_flag( "NOITEM", point( x, y ) ) ) {
+        map_stack items = m.i_at( point( x, y ) );
         for( map_stack::iterator it = items.begin(); it != items.end(); ) {
             if( it->made_of( LIQUID ) ) {
                 it = items.erase( it );
@@ -5226,7 +5186,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
                 it = items.erase( it );
                 continue;
             }
-            m.add_item_or_charges( kbx, kby, *it );
+            m.add_item_or_charges( point( kbx, kby ), *it );
             it = items.erase( it );
         }
     }
@@ -8538,6 +8498,12 @@ void game::reload( item_location &loc, bool prompt, bool empty )
                               item::reload_option( &u, it, it, u.ammo_location ) :
                               u.select_ammo( *it, prompt, empty );
 
+    if( opt.ammo.get_item() != nullptr && opt.ammo.get_item()->is_frozen_liquid() ) {
+        if( !u.crush_frozen_liquid( opt.ammo ) ) {
+            return;
+        }
+    }
+
     if( opt ) {
         u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
         if( use_loc ) {
@@ -8867,11 +8833,11 @@ bool game::disable_robot( const tripoint &p )
         query_yn( _( "Deactivate the %s?" ), critter.name() ) ) {
 
         u.moves -= 100;
-        m.add_item_or_charges( p.x, p.y, critter.to_item() );
+        m.add_item_or_charges( p.xy(), critter.to_item() );
         if( !critter.has_flag( MF_INTERIOR_AMMO ) ) {
             for( auto &ammodef : critter.ammo ) {
                 if( ammodef.second > 0 ) {
-                    m.spawn_item( p.x, p.y, ammodef.first, 1, ammodef.second, calendar::turn );
+                    m.spawn_item( p.xy(), ammodef.first, 1, ammodef.second, calendar::turn );
                 }
             }
         }
@@ -9085,7 +9051,7 @@ bool game::walk_move( const tripoint &dest_loc )
             return false;
         }
         const double base_moves = u.run_cost( mcost, diag ) * 100.0 / crit->get_speed();
-        const double encumb_moves = u.get_weight() / 4800_gram;
+        const double encumb_moves = u.get_weight() / 4800.0_gram;
         u.moves -= static_cast<int>( ceil( base_moves + encumb_moves ) );
         if( u.movement_mode_is( PMM_WALK ) ) {
             crit->use_mech_power( -2 );
@@ -10979,6 +10945,8 @@ void game::despawn_monster( monster &critter )
 
     critter.on_unload();
     remove_zombie( critter );
+    // simulate it being dead so further processing of it (e.g. in monmove) will yield
+    critter.set_hp( 0 );
 }
 
 void game::shift_monsters( const int shiftx, const int shifty, const int shiftz )
@@ -11003,7 +10971,7 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
     }
     // The order in which zombies are shifted may cause zombies to briefly exist on
     // the same square. This messes up the mon_at cache, so we need to rebuild it.
-    rebuild_mon_at_cache();
+    critter_tracker->rebuild_cache();
 }
 
 void game::perhaps_add_random_npc()

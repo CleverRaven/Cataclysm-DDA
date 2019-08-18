@@ -3027,9 +3027,9 @@ bool npc::do_player_activity()
         if( !backlog.empty() ) {
             activity = backlog.front();
             backlog.pop_front();
-            current_activity = activity.get_verb();
+            current_activity_id = activity.id();
         } else {
-            current_activity.clear();
+            current_activity_id = activity_id::NULL_ID();
             revert_after_activity();
             // if we loaded after being out of the bubble for a while, we might have more
             // moves than we need, so clear them

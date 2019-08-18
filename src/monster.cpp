@@ -448,7 +448,7 @@ void monster::try_reproduce()
         if( season_match && female && one_in( chance ) ) {
             int spawn_cnt = rng( 1, type->baby_count );
             if( type->baby_monster ) {
-                g->m.add_spawn( type->baby_monster, spawn_cnt, pos().x, pos().y );
+                g->m.add_spawn( type->baby_monster, spawn_cnt, pos().xy() );
             } else {
                 g->m.add_item_or_charges( pos(), item( type->baby_egg, DAYS( baby_timer ), spawn_cnt ), true );
             }
@@ -2204,7 +2204,7 @@ void monster::drop_items_on_death()
 
     if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
         for( const auto &it : dropped ) {
-            if( it->is_armor() ) {
+            if( it->is_armor() || it->is_pet_armor() ) {
                 it->item_tags.insert( "FILTHY" );
             }
         }

@@ -567,6 +567,10 @@ class player : public Character
         bool has_grab_break_tec() const override;
         /** Returns the grab breaking technique if available */
         ma_technique get_grab_break_tec() const;
+        /** Returns true if the player is able to use a grab breaking technique */
+        bool can_grab_break() const;
+        /** Returns true if the player is able to use a miss recovery technique */
+        bool can_miss_recovery( const item &weap ) const;
         /** Returns true if the player has the leg block technique available */
         bool can_leg_block() const;
         /** Returns true if the player has the arm block technique available */
@@ -1338,6 +1342,15 @@ class player : public Character
 
         // Carried items may leak radiation or chemicals
         int  leak_level( const std::string &flag ) const;
+
+        /** Returns the item in the player's inventory with the highest of the specified quality*/
+        item &item_with_best_of_quality( const quality_id &qid );
+
+        /**
+        * Prompts user about crushing item at item_location loc, for harvesting of frozen liquids
+        * @param loc Location for item to crush
+        */
+        bool crush_frozen_liquid( item_location loc );
 
         // Has a weapon, inventory item or worn item with flag
         bool has_item_with_flag( const std::string &flag, bool need_charges = false ) const;

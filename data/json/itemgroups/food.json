@@ -65,6 +65,7 @@
     "items": [
       [ "yeast", 50 ],
       [ "sugar", 40 ],
+      [ "sprinkles", 5 ],
       [ "salt", 40 ],
       [ "pepper", 30 ],
       [ "cinnamon", 15 ],

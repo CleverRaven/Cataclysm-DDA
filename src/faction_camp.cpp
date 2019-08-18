@@ -1641,7 +1641,7 @@ void basecamp::start_relay_hide_site()
         tinymap target_bay;
         target_bay.load( tripoint( forest.x * 2, forest.y * 2, forest.z ), false );
         std::vector<item *> hide_inv;
-        for( item &i : target_bay.i_at( 11, 10 ) ) {
+        for( item &i : target_bay.i_at( point( 11, 10 ) ) ) {
             hide_inv.push_back( &i );
         }
         std::vector<item *> gaining_equipment;
@@ -3009,10 +3009,10 @@ bool om_set_hide_site( npc &comp, const tripoint &omt_tgt,
     target_bay.ter_set( point( 11, 10 ), t_improvised_shelter );
     for( auto i : itms_rem ) {
         comp.companion_mission_inv.add_item( *i );
-        target_bay.i_rem( 11, 10, i );
+        target_bay.i_rem( point( 11, 10 ), i );
     }
     for( auto i : itms ) {
-        target_bay.add_item_or_charges( 11, 10, *i );
+        target_bay.add_item_or_charges( point( 11, 10 ), *i );
         g->u.use_amount( i->typeId(), 1 );
     }
     target_bay.save();
@@ -3603,7 +3603,7 @@ void apply_camp_ownership( const tripoint &camp_pos, int radius )
 {
     for( const tripoint &p : g->m.points_in_rectangle( camp_pos + point( -radius, -radius ),
             camp_pos + point( radius, radius ) ) ) {
-        auto items = g->m.i_at( p.x, p.y );
+        auto items = g->m.i_at( p.xy() );
         for( item &elem : items ) {
             elem.set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
         }

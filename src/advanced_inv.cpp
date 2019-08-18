@@ -1165,7 +1165,7 @@ void advanced_inventory::redraw_pane( side p )
 
     const char *fprefix = _( "[F]ilter" );
     const char *fsuffix = _( "[R]eset" );
-    if( ! filter_edit ) {
+    if( !filter_edit ) {
         if( !pane.filter.empty() ) {
             mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s: %s >", fprefix, pane.filter );
         } else {
@@ -1175,10 +1175,10 @@ void advanced_inventory::redraw_pane( side p )
     if( active ) {
         wattroff( w, c_white );
     }
-    if( ! filter_edit && !pane.filter.empty() ) {
-        mvwprintz( w, point( 6 + std::strlen( fprefix ), getmaxy( w ) - 1 ), c_white,
+    if( !filter_edit && !pane.filter.empty() ) {
+        mvwprintz( w, point( 6 + utf8_width( fprefix ), getmaxy( w ) - 1 ), c_white,
                    pane.filter );
-        mvwprintz( w, point( getmaxx( w ) - std::strlen( fsuffix ) - 2, getmaxy( w ) - 1 ), c_white, "%s",
+        mvwprintz( w, point( getmaxx( w ) - utf8_width( fsuffix ) - 2, getmaxy( w ) - 1 ), c_white, "%s",
                    fsuffix );
     }
     wrefresh( w );
@@ -2162,7 +2162,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     amount = input_amount;
 
     // Includes moving from/to inventory and around on the map.
-    if( it.made_of_from_type( LIQUID ) ) {
+    if( it.made_of_from_type( LIQUID ) && !it.is_frozen_liquid() ) {
         popup( _( "You can't pick up a liquid." ) );
         redraw = true;
         return false;
