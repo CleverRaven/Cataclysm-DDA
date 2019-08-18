@@ -3380,7 +3380,9 @@ units::mass Character::bionics_weight() const
 {
     units::mass bio_weight = 0_gram;
     for( const auto bio : *my_bionics ) {
-        bio_weight += item::find_type( bio.id.c_str() )->weight;
+        if( !bio.info().included ) {
+            bio_weight += item::find_type( bio.id.c_str() )->weight;
+        }
     }
     return bio_weight;
 }
