@@ -1233,7 +1233,7 @@ class jmapgen_monster : public jmapgen_piece
 
             if( m_id != mongroup_id::NULL_ID() ) {
                 // Spawn single monster from a group
-                dat.m.place_spawns( m_id, 1, x.val, y.val, x.valmax, y.valmax, 1.0f, true, false,
+                dat.m.place_spawns( m_id, 1, point(x.get(), y.get()), point(x.get(), y.get()), 1.0f, true, false,
                                     name, mission_id );
             } else {
                 int spawn_count = roll_remainder( density_multiplier );
