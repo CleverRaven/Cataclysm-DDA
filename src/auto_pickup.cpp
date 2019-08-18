@@ -41,6 +41,10 @@ void auto_pickup::show()
 
 void auto_pickup_ui::show()
 {
+    if( tabs.empty() ) {
+        return;
+    }
+
     const int iHeaderHeight = 4;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
 
@@ -108,9 +112,6 @@ void auto_pickup_ui::show()
 
     initial_draw();
     size_t iTab = 0;
-    while( !tabs[iTab].available && iTab + 1 < tabs.size() ) {
-        iTab++;
-    }
     int iLine = 0;
     int iColumn = 1;
     int iStartPos = 0;
@@ -133,7 +134,7 @@ void auto_pickup_ui::show()
     ctxt.register_action( "TEST_RULE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    const bool allow_swapping = tabs.size() == 2 && tabs[0].available && tabs[1].available;
+    const bool allow_swapping = tabs.size() == 2;
     if( allow_swapping ) {
         ctxt.register_action( "SWAP_RULE_GLOBAL_CHAR" );
     }
@@ -175,11 +176,6 @@ void auto_pickup_ui::show()
         }
 
         const bool currentPageNonEmpty = !cur_rules.empty();
-
-        if( !tabs[iTab].available ) {
-            cur_rules.clear();
-            mvwprintz( w, point( 15, 8 ), c_white, "%s", tabs[iTab].unavailable_msg );
-        }
 
         draw_scrollbar( w_border, iLine, iContentHeight, cur_rules.size(), 5 );
         wrefresh( w_border );
@@ -232,9 +228,6 @@ void auto_pickup_ui::show()
             iLine = 0;
         } else if( action == "QUIT" ) {
             break;
-        } else if( !tabs[iTab].available ) {
-            // this effectively disables all the following else branches, which are only useful
-            // for available tabs.
         } else if( action == "DOWN" ) {
             iLine++;
             iColumn = 1;
@@ -376,10 +369,7 @@ void auto_pickup::show( const std::string &custom_name, const bool is_autopickup
 
     ui.title = custom_name;
     ui.tabs.emplace_back( _( "[<Global>]" ), global_rules );
-    if( g->u.name.empty() ) {
-        ui.tabs.emplace_back( _( "[<Character>]" ),
-                              _( "Please load a character first to use this page!" ) );
-    } else {
+    if( !g->u.name.empty() ) {
         ui.tabs.emplace_back( _( "[<Character>]" ), character_rules );
     }
     ui.is_autopickup = is_autopickup;
