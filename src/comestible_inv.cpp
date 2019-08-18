@@ -6,7 +6,6 @@
 #include "catacharset.h"
 #include "debug.h"
 #include "field.h"
-#include "game.h"
 #include "input.h"
 #include "item_category.h"
 #include "item_search.h"
@@ -79,25 +78,28 @@ comestible_inventory::comestible_inventory()
 	, redraw(true)
 	, filter_edit(false)
 	// panes don't need initialization, they are recalculated immediately
-	, squares({
-	{
-			//               hx  hy  x    y   z
-			{ AIM_INVENTORY, 25, 2, {0,   0,  0}, _("Inventory"),          _("IN") },
-			{ AIM_SOUTHWEST, 30, 3, { -1,  1,  0}, _("South West"),         _("SW") },
-			{ AIM_SOUTH,     33, 3, {0,   1,  0}, _("South"),              _("S")  },
-			{ AIM_SOUTHEAST, 36, 3, {1,   1,  0}, _("South East"),         _("SE") },
-			{ AIM_WEST,      30, 2, { -1,  0,  0}, _("West"),               _("W")  },
-			{ AIM_CENTER,    33, 2, {0,   0,  0}, _("Directly below you"), _("DN") },
-			{ AIM_EAST,      36, 2, {1,   0,  0}, _("East"),               _("E")  },
-			{ AIM_NORTHWEST, 30, 1, { -1, -1,  0}, _("North West"),         _("NW") },
-			{ AIM_NORTH,     33, 1, {0,  -1,  0}, _("North"),              _("N")  },
-			{ AIM_NORTHEAST, 36, 1, {1,  -1,  0}, _("North East"),         _("NE") },
-			{ AIM_DRAGGED,   25, 1, {0,   0,  0}, _("Grabbed Vehicle"),    _("GR") },
-			{ AIM_ALL,       22, 3, {0,   0,  0}, _("Surrounding area"),   _("AL") },
-			{ AIM_CONTAINER, 22, 1, {0,   0,  0}, _("Container"),          _("CN") },
-			{ AIM_WORN,      25, 3, {0,   0,  0}, _("Worn Items"),         _("WR") }
-		}
-		})
+    ,squares({
+        {
+            //               hx  hy
+            { AIM_INVENTORY, 25, 2, tripoint_zero,       _("Inventory"),          _("IN"), "I", AIM_INVENTORY, "ITEMS_INVENTORY" },
+
+            { AIM_SOUTHWEST, 30, 3, tripoint_south_west, _("South West"),         _("SW"),"1",AIM_WEST ,"ITEMS_SW" },
+            { AIM_SOUTH,     33, 3, tripoint_south,      _("South"),              _("S"),"2",AIM_SOUTHWEST   ,"ITEMS_S"},
+            { AIM_SOUTHEAST, 36, 3, tripoint_south_east, _("South East"),         _("SE"),"3",AIM_SOUTH  ,"ITEMS_SE"},
+            { AIM_WEST,      30, 2, tripoint_west,       _("West"),               _("W"),"4",AIM_NORTHWEST  ,"ITEMS_W" },
+            { AIM_CENTER,    33, 2, tripoint_zero,       _("Directly below you"), _("DN"),"5",AIM_CENTER  ,"ITEMS_CE"},
+            { AIM_EAST,      36, 2, tripoint_east,       _("East"),               _("E"),"6",AIM_SOUTHEAST ,"ITEMS_E"  },
+            { AIM_NORTHWEST, 30, 1, tripoint_north_west, _("North West"),         _("NW"),"7",AIM_NORTH  ,"ITEMS_NW"},
+            { AIM_NORTH,     33, 1, tripoint_north,      _("North"),              _("N"),"8",AIM_NORTHEAST  ,"ITEMS_N" },
+            { AIM_NORTHEAST, 36, 1, tripoint_north_east, _("North East"),         _("NE"),"9",AIM_EAST ,"ITEMS_NE" },
+
+            { AIM_DRAGGED,   25, 1, tripoint_zero,       _("Grabbed Vehicle"),    _("GR"),"D",AIM_DRAGGED ,"ITEMS_DRAGGED_CONTAINER" },
+            { AIM_ALL,       22, 3, tripoint_zero,       _("Surrounding area"),   _("AL"),"A",AIM_ALL ,"ITEMS_AROUND" },
+            { AIM_CONTAINER, 22, 1, tripoint_zero,       _("Container"),          _("CN"),"C",AIM_CONTAINER ,"ITEMS_CONTAINER"},
+            { AIM_WORN,      25, 3, tripoint_zero,       _("Worn Items"),         _("WR"),"W",AIM_WORN ,"ITEMS_WORN"},
+            //{ NUM_AIM_LOCATIONS,      22, 3, tripoint_zero,       _("Surrounding area and Inventory"),         _("A+I") }
+        }
+        })
 {
 	// initialize screen coordinates for small overview 3x3 grid, depending on control scheme
 	if (tile_iso && use_tiles) {
@@ -117,7 +119,7 @@ comestible_inventory::comestible_inventory()
 comestible_inventory::~comestible_inventory()
 {
     save_settings( false );
-    auto &aim_code = uistate.adv_inv_exit_code;
+    auto &aim_code = uistate.comestible_save.exit_code;
     if( aim_code != exit_re_entry ) {
         aim_code = exit_okay;
     }
@@ -133,27 +135,23 @@ comestible_inventory::~comestible_inventory()
 
 void comestible_inventory::save_settings( bool only_panes )
 {
-    if (!only_panes) {
-    //  uistate.adv_inv_last_coords = g->u.pos();
-    //  uistate.adv_inv_src = src;
-    //  uistate.adv_inv_dest = dest;
+    if( !only_panes ) {
+        //  uistate.adv_inv_last_coords = g->u.pos();
+        //  uistate.adv_inv_src = src;
+        //  uistate.adv_inv_dest = dest;
     }
-    uistate.adv_inv_in_vehicle[0] = pane.in_vehicle();
-    uistate.adv_inv_area[0] = pane.get_area();
-    uistate.adv_inv_index[0] = pane.index;
-    uistate.adv_inv_filter[0] = pane.filter;
+    uistate.comestible_save.in_vehicle = pane.in_vehicle();
+    uistate.comestible_save.area_idx = pane.get_area();
+    uistate.comestible_save.selected_idx = pane.index;
+    uistate.comestible_save.filter = pane.filter;
 }
 
 //TODO: fix settings
 void comestible_inventory::load_settings()
 {
-    aim_exit aim_code = static_cast<aim_exit>( uistate.adv_inv_exit_code );
+    aim_exit aim_code = static_cast<aim_exit>( uistate.comestible_save.exit_code );
     aim_location location;
-    if( get_option<bool>( "OPEN_DEFAULT_ADV_INV" ) ) {
-        location = static_cast<aim_location>( uistate.adv_inv_default_areas[0] );
-    } else {
-        location = static_cast<aim_location>( uistate.adv_inv_area[0] );
-    }
+    location = static_cast<aim_location>( uistate.comestible_save.area_idx );
     auto square = squares[location];
     // determine the square's vehicle/map item presence
     bool has_veh_items = square.can_store_in_vehicle() ?
@@ -161,15 +159,15 @@ void comestible_inventory::load_settings()
     bool has_map_items = !g->m.i_at( square.pos ).empty();
     // determine based on map items and settings to show cargo
     bool show_vehicle = aim_code == exit_re_entry ?
-                        uistate.adv_inv_in_vehicle[0] : has_veh_items ? true :
+                        uistate.comestible_save.in_vehicle : has_veh_items ? true :
                         has_map_items ? false : square.can_store_in_vehicle();
     pane.set_area( square, show_vehicle );
-    //pane.sortby = static_cast<advanced_inv_sortby>(uistate.adv_inv_sort[0]);
-    pane.index = uistate.adv_inv_index[0];
-    pane.filter = uistate.adv_inv_filter[0];
-    uistate.adv_inv_exit_code = exit_none;
+    pane.sortby = static_cast<comestible_inv_sortby>( uistate.comestible_save.sort_idx );
+    pane.index = uistate.comestible_save.selected_idx;
+    pane.filter = uistate.comestible_save.filter;
+    uistate.comestible_save.exit_code = exit_none;
 
-    pane.filter_show_food = true;
+    pane.filter_show_food = uistate.comestible_save.food_filter;
 }
 
 std::string comestible_inventory::get_sortname( comestible_inv_sortby sortby )
@@ -193,40 +191,14 @@ std::string comestible_inventory::get_sortname( comestible_inv_sortby sortby )
     return "!BUG!";
 }
 
-bool comestible_inventory::get_square( const std::string &action, aim_location &ret )
+comestible_inv_area *comestible_inventory::get_square( const std::string &action )
 {
-    if( action == "ITEMS_INVENTORY" ) {
-        ret = AIM_INVENTORY;
-    } else if( action == "ITEMS_WORN" ) {
-        ret = AIM_WORN;
-    } else if( action == "ITEMS_NW" ) {
-        ret = screen_relative_location( AIM_NORTHWEST );
-    } else if( action == "ITEMS_N" ) {
-        ret = screen_relative_location( AIM_NORTH );
-    } else if( action == "ITEMS_NE" ) {
-        ret = screen_relative_location( AIM_NORTHEAST );
-    } else if( action == "ITEMS_W" ) {
-        ret = screen_relative_location( AIM_WEST );
-    } else if( action == "ITEMS_CE" ) {
-        ret = AIM_CENTER;
-    } else if( action == "ITEMS_E" ) {
-        ret = screen_relative_location( AIM_EAST );
-    } else if( action == "ITEMS_SW" ) {
-        ret = screen_relative_location( AIM_SOUTHWEST );
-    } else if( action == "ITEMS_S" ) {
-        ret = screen_relative_location( AIM_SOUTH );
-    } else if( action == "ITEMS_SE" ) {
-        ret = screen_relative_location( AIM_SOUTHEAST );
-    } else if( action == "ITEMS_AROUND" ) {
-        ret = AIM_ALL;
-    } else if( action == "ITEMS_DRAGGED_CONTAINER" ) {
-        ret = AIM_DRAGGED;
-    } else if( action == "ITEMS_CONTAINER" ) {
-        ret = AIM_CONTAINER;
-    } else {
-        return false;
+    for( size_t i = 0; i < squares.size(); i++ ) {
+        if( action == squares[i].actionname ) {
+            return &squares[i];
+        }
     }
-    return true;
+    return nullptr;
 }
 
 void comestible_inventory::print_items( comestible_inventory_pane &pane )
@@ -287,7 +259,7 @@ void comestible_inventory::print_items( comestible_inventory_pane &pane )
                                             format_volume( maxvolume ),
                                             volume_units_abbr() );
         }
-        mvwprintz( window, 4, max_width - 1 - formatted_head.length(), norm, formatted_head );
+        mvwprintz( window, point( max_width - 1 - formatted_head.length(), 4 ), norm, formatted_head );
     }
 
     const size_t last_x = max_width - 2;
@@ -319,7 +291,7 @@ void comestible_inventory::print_items( comestible_inventory_pane &pane )
     //~ Items list header. Table fields length without spaces: src - 2, amt - 4, weight - 5, vol - 4.
     //const int table_hdr_len2 = utf8_width( _( "src amt weight vol" ) ); // Header length type 2
 
-    mvwprintz( window, 5, compact ? 1 : 4, c_light_gray, _( "Name (charges)" ) );
+    mvwprintz( window, point( compact ? 1 : 4, 5 ), c_light_gray, _( "Name (charges)" ) );
     //if (pane.get_area() == AIM_ALL && !compact) {
     //  mvwprintz(window, 5, last_x - table_hdr_len2 + 1, c_light_gray, _("src amt weight vol"));
     //  max_name_length = src_startpos - name_startpos - 1; // 1 for space
@@ -328,14 +300,14 @@ void comestible_inventory::print_items( comestible_inventory_pane &pane )
     //  mvwprintz(window, 5, last_x - table_hdr_len1 + 1, c_light_gray, _("amt weight vol"));
     //}
 
-    mvwprintz( window, 5, src_startpos, c_light_gray, _( "src" ) );
-    mvwprintz( window, 5, amt_startpos + 1, c_light_gray, _( "amt" ) );
-    mvwprintz( window, 5, weight_startpos, c_light_gray, _( "weight" ) );
-    mvwprintz( window, 5, vol_startpos + 2, c_light_gray, _( "vol" ) );
-    mvwprintz( window, 5, cal_startpos, c_light_gray, _( "calories" ) );
-    mvwprintz( window, 5, quench_startpos, c_light_gray, _( "quench" ) );
-    mvwprintz( window, 5, joy_startpos, c_light_gray, _( "joy" ) );
-    mvwprintz( window, 5, expires_startpos, c_light_gray, _( "expires in" ) );
+    mvwprintz( window, point( src_startpos, 5 ), c_light_gray, _( "src" ) );
+    mvwprintz( window, point( amt_startpos + 1, 5 ), c_light_gray, _( "amt" ) );
+    mvwprintz( window, point( weight_startpos, 5 ), c_light_gray, _( "weight" ) );
+    mvwprintz( window, point( vol_startpos + 2, 5 ), c_light_gray, _( "vol" ) );
+    mvwprintz( window, point( cal_startpos, 5 ), c_light_gray, _( "calories" ) );
+    mvwprintz( window, point( quench_startpos, 5 ), c_light_gray, _( "quench" ) );
+    mvwprintz( window, point( joy_startpos, 5 ), c_light_gray, _( "joy" ) );
+    mvwprintz( window, point( expires_startpos, 5 ), c_light_gray, _( "expires in" ) );
 
     player &p = g->u;
 
@@ -343,7 +315,7 @@ void comestible_inventory::print_items( comestible_inventory_pane &pane )
          x < itemsPerPage; i++, x++ ) {
         const auto &sitem = items[i];
         if( sitem.is_category_header() ) {
-            mvwprintz( window, 6 + x, ( max_width - utf8_width( sitem.name ) - 6 ) / 2, c_cyan, "[%s]",
+            mvwprintz( window, point( ( max_width - utf8_width( sitem.name ) - 6 ) / 2, 6 + x ), c_cyan, "[%s]",
                        sitem.name );
             continue;
         }
@@ -365,9 +337,9 @@ void comestible_inventory::print_items( comestible_inventory_pane &pane )
             thiscolor = inCategoryMode ? c_white_red : hilite( c_white );
             thiscolordark = hilite( thiscolordark );
             if( compact ) {
-                mvwprintz( window, 6 + x, 1, thiscolor, "  %s", spaces );
+                mvwprintz( window, point( 1, 6 + x ), thiscolor, "  %s", spaces );
             } else {
-                mvwprintz( window, 6 + x, 1, thiscolor, ">>%s", spaces );
+                mvwprintz( window, point( 1, 6 + x ), thiscolor, ">>%s", spaces );
             }
         }
 
@@ -407,12 +379,12 @@ void comestible_inventory::print_items( comestible_inventory_pane &pane )
         }
 
         //print item name
-        trim_and_print( window, 6 + x, compact ? 1 : 4, max_name_length, thiscolor, item_name );
+        trim_and_print( window, point( compact ? 1 : 4, 6 + x ), max_name_length, thiscolor, item_name );
 
         //print src column
         // TODO: specify this is coming from a vehicle!
         if( pane.get_area() == AIM_ALL && !compact ) {
-            mvwprintz( window, 6 + x, src_startpos, thiscolor, squares[sitem.area].shortname );
+            mvwprintz( window, point( src_startpos, 6 + x ), thiscolor, squares[sitem.area].shortname );
         }
 
         //print "amount" column
@@ -423,7 +395,7 @@ void comestible_inventory::print_items( comestible_inventory_pane &pane )
                 it_amt = 9999;
                 print_color = selected ? hilite( c_red ) : c_red;
             }
-            mvwprintz( window, 6 + x, amt_startpos, print_color, "%4d", it_amt );
+            mvwprintz( window, point( amt_startpos, 6 + x ), print_color, "%4d", it_amt );
         }
 
         //print weight column
@@ -442,7 +414,7 @@ void comestible_inventory::print_items( comestible_inventory_pane &pane )
         } else {
             w_precision = 2;
         }
-        mvwprintz( window, 6 + x, weight_startpos, print_color, "%5.*f", w_precision, it_weight );
+        mvwprintz( window, point( weight_startpos, 6 + x ), print_color, "%5.*f", w_precision, it_weight );
 
         //print volume column
         bool it_vol_truncated = false;
@@ -453,10 +425,10 @@ void comestible_inventory::print_items( comestible_inventory_pane &pane )
         } else {
             print_color = sitem.volume.value() > 0 ? thiscolor : thiscolordark;
         }
-        mvwprintz( window, 6 + x, vol_startpos, print_color, it_vol );
+        mvwprintz( window, point( vol_startpos, 6 + x ), print_color, it_vol );
 
         if( sitem.autopickup ) {
-            mvwprintz( window, 6 + x, 1, magenta_background( it.color_in_inventory() ),
+            mvwprintz( window, point( 1, 6 + x ), magenta_background( it.color_in_inventory() ),
                        compact ? it.tname().substr( 0, 1 ) : ">" );
         }
         //get_consumable_item
@@ -466,17 +438,17 @@ void comestible_inventory::print_items( comestible_inventory_pane &pane )
         //print "CALORIES" column
         int it_cal = p.kcal_for( it );
         string_format = set_string_params( print_color, it_cal, selected );
-        mvwprintz( window, 6 + x, cal_startpos, print_color, string_format, it_cal );
+        mvwprintz( window, point( cal_startpos, 6 + x ), print_color, string_format, it_cal );
 
         //print "QUENCH" column
         int it_q = it_c.quench;
         string_format = set_string_params( print_color, it_q, selected );
-        mvwprintz( window, 6 + x, quench_startpos, print_color, string_format, it_q );
+        mvwprintz( window, point( quench_startpos, 6 + x ), print_color, string_format, it_q );
 
         //print "JOY" column
         int it_joy = p.fun_for( it ).first;
         string_format = set_string_params( print_color, it_joy, selected, it.has_flag( "MUSHY" ) );
-        mvwprintz( window, 6 + x, joy_startpos, print_color, string_format, it_joy );
+        mvwprintz( window, point( joy_startpos, 6 + x ), print_color, string_format, it_joy );
 
         //TODO: g->u.can_estimate_rot()
         //print "SPOILS IN" column
@@ -487,7 +459,7 @@ void comestible_inventory::print_items( comestible_inventory_pane &pane )
             }
         }
         print_color = selected ? hilite( c_white ) : c_cyan;
-        mvwprintz( window, 6 + x, expires_startpos, print_color, "%s", it_spoils_string );
+        mvwprintz( window, point( expires_startpos, 6 + x ), print_color, "%s", it_spoils_string );
 
         /*
             append_cell( [ this, &p ]( const item_location & loc ) {
@@ -607,97 +579,19 @@ struct comestible_inv_sorter {
     }
 };
 
-void comestible_inventory::menu_square( uilist &menu )
+inline std::string comestible_inventory::get_location_key( aim_location area )
 {
-    assert( menu.entries.size() >= 9 );
-    int ofs = -25 - 4;
-    int sel = screen_relative_location( static_cast <aim_location>( menu.selected + 1 ) );
-    for( int i = 1; i < 10; i++ ) {
-        aim_location loc = screen_relative_location( static_cast <aim_location>( i ) );
-        char key = get_location_key( loc );
-        bool in_vehicle = squares[loc].can_store_in_vehicle();
-        const char *bracket = in_vehicle ? "<>" : "[]";
-        // always show storage option for vehicle storage, if applicable
-        bool canputitems = menu.entries[i - 1].enabled && squares[loc].canputitems();
-        nc_color bcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_dark_gray;
-        nc_color kcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_dark_gray;
-        const int x = squares[loc].hscreen.x + ofs;
-        const int y = squares[loc].hscreen.y + 5;
-        mvwprintz( menu.window, y, x, bcolor, "%c", bracket[0] );
-        wprintz( menu.window, kcolor, "%c", key );
-        wprintz( menu.window, bcolor, "%c", bracket[1] );
-    }
-}
-
-inline char comestible_inventory::get_location_key( aim_location area )
-{
-    switch( area ) {
-        case AIM_INVENTORY:
-            return 'I';
-        case AIM_WORN:
-            return 'W';
-        case AIM_CENTER:
-            return '5';
-        case AIM_ALL:
-            return 'A';
-        case AIM_DRAGGED:
-            return 'D';
-        case AIM_CONTAINER:
-            return 'C';
-        case AIM_NORTH:
-        case AIM_SOUTH:
-        case AIM_EAST:
-        case AIM_WEST:
-        case AIM_NORTHEAST:
-        case AIM_NORTHWEST:
-        case AIM_SOUTHEAST:
-        case AIM_SOUTHWEST:
-            return  get_direction_key( area );
-        default:
-            debugmsg( "invalid [aim_location] in get_location_key()!" );
-            return ' ';
-    }
-}
-
-char comestible_inventory::get_direction_key( aim_location area )
-{
-
-    if( area == screen_relative_location( AIM_SOUTHWEST ) ) {
-        return '1';
-    }
-    if( area == screen_relative_location( AIM_SOUTH ) ) {
-        return '2';
-    }
-    if( area == screen_relative_location( AIM_SOUTHEAST ) ) {
-        return '3';
-    }
-    if( area == screen_relative_location( AIM_WEST ) ) {
-        return '4';
-    }
-    if( area == screen_relative_location( AIM_EAST ) ) {
-        return '6';
-    }
-    if( area == screen_relative_location( AIM_NORTHWEST ) ) {
-        return '7';
-    }
-    if( area == screen_relative_location( AIM_NORTH ) ) {
-        return '8';
-    }
-    if( area == screen_relative_location( AIM_NORTHEAST ) ) {
-        return '9';
-    }
-    debugmsg( "invalid [aim_location] in get_direction_key()!" );
-    return '0';
+    return squares[squares[area].get_relative_location()].minimapname;
 }
 
 int comestible_inventory::print_header( comestible_inventory_pane &pane, aim_location sel )
 {
     const catacurses::window &window = pane.window;
-    int area = pane.get_area();
+    size_t area = pane.get_area();
     int wwidth = getmaxx( window );
     int ofs = wwidth - 25 - 2 - 14;
-    for( int i = 0; i < NUM_AIM_LOCATIONS; ++i ) {
-        const char key = get_location_key( static_cast<aim_location>( i ) );
+    for( size_t i = 0; i < squares.size(); ++i ) {
+        std::string key = get_location_key( static_cast<aim_location>( i ) );
         const char *bracket = squares[i].can_store_in_vehicle() ? "<>" : "[]";
         bool in_vehicle = pane.in_vehicle() && squares[i].id == area && sel == area && area != AIM_ALL;
         bool all_brackets = area == AIM_ALL && ( i >= AIM_SOUTHWEST && i <= AIM_NORTHEAST );
@@ -710,8 +604,8 @@ int comestible_inventory::print_header( comestible_inventory_pane &pane, aim_loc
         }
         const int x = squares[i].hscreen.x + ofs;
         const int y = squares[i].hscreen.y;
-        mvwprintz( window, y, x, bcolor, "%c", bracket[0] );
-        wprintz( window, kcolor, "%c", in_vehicle && sel != AIM_DRAGGED ? 'V' : key );
+        mvwprintz( window, point( x, y ), bcolor, "%c", bracket[0] );
+        wprintz( window, kcolor, "%s", in_vehicle && sel != AIM_DRAGGED ? "V" : key );
         wprintz( window, bcolor, "%c", bracket[1] );
     }
     return squares[AIM_INVENTORY].hscreen.y + ofs;
@@ -872,12 +766,12 @@ void comestible_inventory::init()
     headstart = 0; //(TERMY>w_height)?(TERMY-w_height)/2:0;
     colstart = TERMX > w_width ? ( TERMX - w_width ) / 2 : 0;
 
-    head = catacurses::newwin( head_height, w_width - minimap_width, headstart, colstart );
-    mm_border = catacurses::newwin( minimap_height + 2, minimap_width + 2, headstart,
-                                    colstart + ( w_width - ( minimap_width + 2 ) ) );
-    minimap = catacurses::newwin( minimap_height, minimap_width, headstart + 1,
-                                  colstart + ( w_width - ( minimap_width + 1 ) ) );
-    window = catacurses::newwin( w_height, w_width, headstart + head_height, colstart );
+    head = catacurses::newwin( head_height, w_width - minimap_width, point( colstart, headstart ) );
+    mm_border = catacurses::newwin( minimap_height + 2, minimap_width + 2,
+                                    point( colstart + ( w_width - ( minimap_width + 2 ) ), headstart ) );
+    minimap = catacurses::newwin( minimap_height, minimap_width,
+                                  point( colstart + ( w_width - ( minimap_width + 1 ) ), headstart + 1 ) );
+    window = catacurses::newwin( w_height, w_width, point( colstart, headstart + head_height ) );
 
     itemsPerPage = w_height - 2 - 5; // 2 for the borders, 5 for the header stuff
 
@@ -1142,14 +1036,16 @@ void comestible_inventory_pane::paginate( size_t itemsPerPage )
 
 void comestible_inventory::recalc_pane()
 {
+    add_msg( m_info, "~~~~~~~~~ here" );
+
     pane.recalc = false;
     pane.items.clear();
     // Add items from the source location or in case of all 9 surrounding squares,
     // add items from several locations.
     if( pane.get_area() == AIM_ALL ) {
         auto &alls = squares[AIM_ALL];
-        auto &there = pane;// s[-p + 1];
-        auto &other = squares[there.get_area()];
+        //auto &there = pane;// s[-p + 1];
+        //auto &other = squares[there.get_area()];
         alls.volume = 0_ml;
         alls.weight = 0_gram;
         for( auto &s : squares ) {
@@ -1158,42 +1054,33 @@ void comestible_inventory::recalc_pane()
                 continue;
             }
 
-            // To allow the user to transfer all items from all surrounding squares to
-            // a specific square, filter out items that are already on that square.
-            // e.g. left pane AIM_ALL, right pane AIM_NORTH. The user holds the
-            // enter key down in the left square and moves all items to the other side.
-            const bool same = other.is_same( s );
-
             // Deal with squares with ground + vehicle storage
             // Also handle the case when the other tile covers vehicle
             // or the ground below the vehicle.
-            if( s.can_store_in_vehicle() && !( same && there.in_vehicle() ) ) {
-                bool do_vehicle = there.get_area() == s.id ? !there.in_vehicle() : true;
-                pane.add_items_from_area( s, do_vehicle );
+            if( s.can_store_in_vehicle() ) {
+                pane.add_items_from_area( s, true );
                 alls.volume += s.volume;
                 alls.weight += s.weight;
             }
 
             // Add map items
-            if( !same || there.in_vehicle() ) {
-                pane.add_items_from_area( s );
-                alls.volume += s.volume;
-                alls.weight += s.weight;
-            }
+            pane.add_items_from_area( s );
+            alls.volume += s.volume;
+            alls.weight += s.weight;
         }
     } else {
         pane.add_items_from_area( squares[pane.get_area()] );
     }
 
     //TODO: just put it as a part of the header instead of one of the items
-    
+
     // Insert category headers (only expected when sorting by category)
-    std::set<const item_category*> categories;
-    for (auto& it : pane.items) {
-        categories.insert(it.cat);
+    std::set<const item_category *> categories;
+    for( auto &it : pane.items ) {
+        categories.insert( it.cat );
     }
-    for (auto& cat : categories) {
-        pane.items.push_back(comestible_inv_listitem(cat));
+    for( auto &cat : categories ) {
+        pane.items.push_back( comestible_inv_listitem( cat ) );
     }
 
     // Finally sort all items (category headers will now be moved to their proper position)
@@ -1218,9 +1105,6 @@ void comestible_inventory_pane::fix_index()
 void comestible_inventory::redraw_pane()
 {
     // don't update ui if processing demands
-    if( is_processing() ) {
-        return;
-    }
     if( recalc || pane.recalc ) {
         recalc_pane();
     } else if( !( redraw || pane.redraw ) ) {
@@ -1246,45 +1130,45 @@ void comestible_inventory::redraw_pane()
     auto name = utf8_truncate( car ? sq.veh->name : sq.name, width );
     auto desc = utf8_truncate( sq.desc[car], width );
     width -= 2 + 1; // starts at offset 2, plus space between the header and the text
-    mvwprintz( w, 1, 2, c_green, name );
-    mvwprintz( w, 2, 2, c_light_blue, desc );
-    trim_and_print( w, 3, 2, width, c_cyan, square.flags );
+    mvwprintz( w, point( 2, 1 ), c_green, name );
+    mvwprintz( w, point( 2, 2 ), c_light_blue, desc );
+    trim_and_print( w, point( 2, 3 ), width, c_cyan, square.flags );
 
     const int max_page = ( pane.items.size() + itemsPerPage - 1 ) / itemsPerPage;
     if( max_page > 1 ) {
         const int page = pane.index / itemsPerPage;
-        mvwprintz( w, 4, 2, c_light_blue, _( "[<] page %d of %d [>]" ), page + 1, max_page );
+        mvwprintz( w, point( 2, 4 ), c_light_blue, _( "[<] page %d of %d [>]" ), page + 1, max_page );
     }
 
     wattron( w, c_cyan );
     // draw a darker border around the inactive pane
     draw_border( w, BORDER_COLOR );
-    mvwprintw( w, 0, 3, _( "< [s]ort: %s >" ), get_sortname( pane.sortby ) );
+    mvwprintw( w, point( 3, 0 ), _( "< [s]ort: %s >" ), get_sortname( pane.sortby ) );
     int max = square.max_size;
     if( max > 0 ) {
         int itemcount = square.get_item_count();
         int fmtw = 7 + ( itemcount > 99 ? 3 : itemcount > 9 ? 2 : 1 ) +
                    ( max > 99 ? 3 : max > 9 ? 2 : 1 );
-        mvwprintw( w, 0, w_width / 2 - fmtw, "< %d/%d >", itemcount, max );
+        mvwprintw( w, point( w_width / 2 - fmtw, 0 ), "< %d/%d >", itemcount, max );
     }
 
     const char *fprefix = _( "[F]ilter" );
     const char *fsuffix = _( "[R]eset" );
     if( !filter_edit ) {
         if( !pane.filter.empty() ) {
-            mvwprintw( w, getmaxy( w ) - 1, 2, "< %s: %s >", fprefix, pane.filter );
+            mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s: %s >", fprefix, pane.filter );
         } else {
-            mvwprintw( w, getmaxy( w ) - 1, 2, "< %s >", fprefix );
+            mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s >", fprefix );
         }
     }
 
     wattroff( w, c_white );
 
     if( !filter_edit && !pane.filter.empty() ) {
-        mvwprintz( w, getmaxy( w ) - 1, 6 + std::strlen( fprefix ), c_white,
+        mvwprintz( w, point( 6 + std::strlen( fprefix ), getmaxy( w ) - 1 ), c_white,
                    pane.filter );
-        mvwprintz( w, getmaxy( w ) - 1,
-                   getmaxx( w ) - std::strlen( fsuffix ) - 2, c_white, "%s", fsuffix );
+        mvwprintz( w, point( getmaxx( w ) - std::strlen( fsuffix ) - 2, getmaxy( w ) - 1 ), c_white, "%s",
+                   fsuffix );
     }
     wrefresh( w );
 }
@@ -1325,21 +1209,21 @@ static tripoint aim_vector( aim_location id )
 {
     switch( id ) {
         case AIM_SOUTHWEST:
-            return tripoint( -1, 1, 0 );
+            return tripoint_south_west;
         case AIM_SOUTH:
-            return tripoint( 0, 1, 0 );
+            return tripoint_south;
         case AIM_SOUTHEAST:
-            return tripoint( 1, 1, 0 );
+            return tripoint_south_east;
         case AIM_WEST:
-            return tripoint( -1, 0, 0 );
+            return tripoint_west;
         case AIM_EAST:
-            return tripoint( 1, 0, 0 );
+            return tripoint_east;
         case AIM_NORTHWEST:
-            return tripoint( -1, -1, 0 );
+            return tripoint_north_west;
         case AIM_NORTH:
-            return tripoint( 0, -1, 0 );
+            return tripoint_north;
         case AIM_NORTHEAST:
-            return tripoint( 1, -1, 0 );
+            return tripoint_north_east;
         default:
             return tripoint_zero;
     }
@@ -1387,6 +1271,7 @@ void comestible_inventory::display()
     ctxt.register_action( "ITEMS_DEFAULT" );
     ctxt.register_action( "SAVE_DEFAULT" );
 
+    ctxt.register_action( "CONSUME_FOOD" );
     ctxt.register_action( "SWITCH_FOOD" );
     ctxt.register_action( "HEAT_UP" );
 
@@ -1402,7 +1287,7 @@ void comestible_inventory::display()
 
         redraw_pane();
 
-        if( redraw && !is_processing() ) {
+        if( redraw ) {
             werase( head );
             werase( minimap );
             werase( mm_border );
@@ -1410,12 +1295,11 @@ void comestible_inventory::display()
             Messages::display_messages( head, 2, 1, w_width - 1, head_height - 2 );
             draw_minimap();
             const std::string msg = _( "< [?] show help >" );
-            mvwprintz( head, 0,
-                       w_width - ( minimap_width + 2 ) - utf8_width( msg ) - 1,
+            mvwprintz( head, point( w_width - ( minimap_width + 2 ) - utf8_width( msg ) - 1, 0 ),
                        c_white, msg );
             if( g->u.has_watch() ) {
                 const std::string time = to_string_time_of_day( calendar::turn );
-                mvwprintz( head, 0, 2, c_white, time );
+                mvwprintz( head, point( 2, 0 ), c_white, time );
             }
             wrefresh( head );
             refresh_minimap();
@@ -1425,7 +1309,8 @@ void comestible_inventory::display()
 
         // current item in source pane, might be null
         comestible_inv_listitem *sitem = pane.get_cur_item_ptr();
-        aim_location changeSquare = NUM_AIM_LOCATIONS;
+        //aim_location changeSquare = NUM_AIM_LOCATIONS;
+        comestible_inv_area *new_square;
 
         const std::string action = ctxt.handle_input();
         if( action == "CATEGORY_SELECTION" ) {
@@ -1433,42 +1318,30 @@ void comestible_inventory::display()
             pane.redraw = true; // We redraw to force the color change of the highlighted line and header text.
         } else if( action == "HELP_KEYBINDINGS" ) {
             redraw = true;
-        } else if( action == "ITEMS_DEFAULT" ) {
-            aim_location location = static_cast<aim_location>( uistate.adv_inv_default_areas[0] );
-            if( pane.get_area() != location || location == AIM_ALL ) {
-                pane.recalc = true;
-            }
-            pane.set_area( squares[location] );
-            redraw = true;
-        } else if( action == "SAVE_DEFAULT" ) {
-            uistate.adv_inv_default_areas[0] = pane.get_area();
-            popup( _( "Default layout was saved." ) );
-            redraw = true;
-        } else if( get_square( action, changeSquare ) ) {
-            if( pane.get_area() == changeSquare ) {
+        }   else if( ( new_square = get_square( action ) ) != nullptr ) {
+            if( pane.get_area() == new_square->get_relative_location() ) {
                 //DO NOTHING
-            } else if( squares[changeSquare].canputitems( pane.get_cur_item_ptr() ) ) {
+            } else if( new_square->canputitems( pane.get_cur_item_ptr() ) ) {
                 bool in_vehicle_cargo = false;
-                if( changeSquare == AIM_CONTAINER ) {
-                    squares[changeSquare].set_container( pane.get_cur_item_ptr() );
+                if( new_square->get_relative_location() == AIM_CONTAINER ) {
+                    new_square->set_container( pane.get_cur_item_ptr() );
                 } else if( pane.get_area() == AIM_CONTAINER ) {
-                    squares[changeSquare].set_container( nullptr );
+                    new_square->set_container( nullptr );
                     // auto select vehicle if items exist at said square, or both are empty
-                } else if( squares[changeSquare].can_store_in_vehicle() ) {
-                    if( changeSquare == AIM_DRAGGED ) {
+                } else if( new_square->can_store_in_vehicle() ) {
+                    if( new_square->get_relative_location() == AIM_DRAGGED ) {
                         in_vehicle_cargo = true;
                     } else {
                         // check item stacks in vehicle and map at said square
-                        auto sq = squares[changeSquare];
-                        auto map_stack = g->m.i_at( sq.pos );
-                        auto veh_stack = sq.veh->get_items( sq.vstor );
+                        auto map_stack = g->m.i_at( new_square->pos );
+                        auto veh_stack = new_square->veh->get_items( new_square->vstor );
                         // auto switch to vehicle storage if vehicle items are there, or neither are there
                         if( !veh_stack.empty() || map_stack.empty() ) {
                             in_vehicle_cargo = true;
                         }
                     }
                 }
-                pane.set_area( squares[changeSquare], in_vehicle_cargo );
+                pane.set_area( *new_square, in_vehicle_cargo );
                 pane.index = 0;
                 pane.recalc = true;
                 redraw = true;
@@ -1492,9 +1365,7 @@ void comestible_inventory::display()
         } else if( action == "SORT" ) {
             if( show_sort_menu( pane ) ) {
                 recalc = true;
-
-                //TODO: find all uistate, no settings?
-                uistate.adv_inv_sort[0] = pane.sortby;
+                uistate.comestible_save.sort_idx = pane.sortby;
             }
             redraw = true;
         } else if( action == "FILTER" ) {
@@ -1514,8 +1385,8 @@ void comestible_inventory::display()
 #endif
 
             do {
-                mvwprintz( pane.window, getmaxy( pane.window ) - 1, 2, c_cyan, "< " );
-                mvwprintz( pane.window, getmaxy( pane.window ) - 1, w_width / 2 - 4, c_cyan, " >" );
+                mvwprintz( pane.window, point( 2, getmaxy( pane.window ) - 1 ), c_cyan, "< " );
+                mvwprintz( pane.window, point( w_width / 2 - 4, getmaxy( pane.window ) - 1 ), c_cyan, " >" );
                 std::string new_filter = spopup.query_string( false );
                 if( spopup.context().get_raw_input().get_first_input() == KEY_ESCAPE ) {
                     // restore original filter
@@ -1623,6 +1494,41 @@ void comestible_inventory::display()
             recalc = true;
         } else if( action == "HEAT_UP" ) {
             heat_up( sitem->items.front() );
+        } else if( action == "CONSUME_FOOD" ) {
+            player &p = g->u;
+            item *it = sitem->items.front();
+            int pos = p.get_item_position( it );
+            if( pos != INT_MIN ) {
+                p.consume( pos );
+
+            } else if( p.consume_item( *it ) ) {
+                if( it->is_food_container() ) {
+                    it->contents.erase( it->contents.begin() );
+                    add_msg( _( "You leave the empty %s." ), it->tname() );
+                } else {
+                    tripoint target = p.pos() + squares[sitem->area].off;
+                    item_location loc;
+                    if( sitem->from_vehicle ) {
+                        const cata::optional<vpart_reference> vp = g->m.veh_at( target ).part_with_feature( "CARGO", true );
+                        if( !vp ) {
+                            add_msg( _( "~~~~~~~~~ not vehicle?" ) );
+                            return;
+                        }
+                        vehicle *const veh = &vp->vehicle();
+                        const int part = vp->part_index();
+
+                        loc = item_location( vehicle_cursor( *veh, part ), it );
+                    } else {
+                        if( sitem->area == AIM_INVENTORY || sitem->area == AIM_WORN ) {
+                            loc = item_location( p, it );
+                        } else {
+                            loc = item_location( map_cursor( target ), it );
+                        }
+                    }
+
+                    loc.remove_item();
+                }
+            }
         }
     }
 }
@@ -1737,7 +1643,7 @@ bool comestible_inventory::move_content( item &src_container, item &dest_contain
     }
     dest_container.fill_with( src_contents, amount );
 
-    uistate.adv_inv_container_content_type = dest_container.contents.front().typeId();
+    uistate.comestible_save.container_content_type = dest_container.contents.front().typeId();
     if( src_contents.charges <= 0 ) {
         src_container.contents.clear();
     }
@@ -1752,131 +1658,6 @@ units::volume comestible_inv_area::free_volume( bool in_vehicle ) const
         return g->u.volume_capacity() - g->u.volume_carried();
     }
     return in_vehicle ? veh->free_volume( vstor ) : g->m.free_volume( pos );
-}
-//
-//bool comestible_inventory::query_charges(aim_location destarea, const comestible_inv_listitem& sitem,
-//  const std::string& action, int& amount)
-//{
-//  assert(destarea != AIM_ALL); // should be a specific location instead
-//  assert(!sitem.items.empty()); // valid item is obviously required
-//  const item& it = *sitem.items.front();
-//  comestible_inv_area& p = squares[destarea];
-//  const bool by_charges = it.count_by_charges();
-//  const units::volume free_volume = p.free_volume(panes[dest].in_vehicle());
-//  // default to move all, unless if being equipped
-//  const int input_amount = by_charges ? it.charges : action == "MOVE_SINGLE_ITEM" ? 1 : sitem.stacks;
-//  assert(input_amount > 0); // there has to be something to begin with
-//  amount = input_amount;
-//
-//  // Includes moving from/to inventory and around on the map.
-//  if (it.made_of_from_type(LIQUID)) {
-//      popup(_("You can't pick up a liquid."));
-//      redraw = true;
-//      return false;
-//  }
-//
-//  // Check volume, this should work the same for inventory, map and vehicles, but not for worn
-//  const int room_for = it.charges_per_volume(free_volume);
-//  if (amount > room_for && squares[destarea].id != AIM_WORN) {
-//      if (room_for <= 0) {
-//          popup(_("Destination area is full.  Remove some items first."));
-//          redraw = true;
-//          return false;
-//      }
-//      amount = std::min(room_for, amount);
-//  }
-//  // Map and vehicles have a maximal item count, check that. Inventory does not have this.
-//  if (destarea != AIM_INVENTORY &&
-//      destarea != AIM_WORN &&
-//      destarea != AIM_CONTAINER) {
-//      const int cntmax = p.max_size - p.get_item_count();
-//      // For items counted by charges, adding it adds 0 items if something there stacks with it.
-//      const bool adds0 = by_charges && std::any_of(pane.items.begin(), pane.items.end(),
-//          [&it](const comestible_inv_listitem& li) {
-//              return li.is_item_entry() && li.items.front()->stacks_with(it);
-//          });
-//      if (cntmax <= 0 && !adds0) {
-//          popup(_("Destination area has too many items.  Remove some first."));
-//          redraw = true;
-//          return false;
-//      }
-//      // Items by charge count as a single item, regardless of the charges. As long as the
-//      // destination can hold another item, one can move all charges.
-//      if (!by_charges) {
-//          amount = std::min(cntmax, amount);
-//      }
-//  }
-//  // Inventory has a weight capacity, map and vehicle don't have that
-//  if (destarea == AIM_INVENTORY || destarea == AIM_WORN) {
-//      const units::mass unitweight = it.weight() / (by_charges ? it.charges : 1);
-//      const units::mass max_weight = g->u.has_trait(trait_id("DEBUG_STORAGE")) ?
-//          units::mass_max : g->u.weight_capacity() * 4 - g->u.weight_carried();
-//      if (unitweight > 0_gram && unitweight * amount > max_weight) {
-//          const int weightmax = max_weight / unitweight;
-//          if (weightmax <= 0) {
-//              popup(_("This is too heavy!"));
-//              redraw = true;
-//              return false;
-//          }
-//          amount = std::min(weightmax, amount);
-//      }
-//  }
-//  // handle how many of armor type we can equip (max of 2 per type)
-//  if (destarea == AIM_WORN) {
-//      const auto& id = sitem.items.front()->typeId();
-//      // how many slots are available for the item?
-//      const int slots_available = MAX_WORN_PER_TYPE - g->u.amount_worn(id);
-//      // base the amount to equip on amount of slots available
-//      amount = std::min(slots_available, input_amount);
-//  }
-//  // Now we have the final amount. Query if requested or limited room left.
-//  if (action == "MOVE_VARIABLE_ITEM" || amount < input_amount) {
-//      const int count = by_charges ? it.charges : sitem.stacks;
-//      const char* msg = nullptr;
-//      std::string popupmsg;
-//      if (amount >= input_amount) {
-//          msg = _("How many do you want to move? [Have %d] (0 to cancel)");
-//          popupmsg = string_format(msg, count);
-//      }
-//      else {
-//          msg = _("Destination can only hold %d! Move how many? [Have %d] (0 to cancel)");
-//          popupmsg = string_format(msg, amount, count);
-//      }
-//      // At this point amount contains the maximal amount that the destination can hold.
-//      const int possible_max = std::min(input_amount, amount);
-//      if (amount <= 0) {
-//          popup(_("The destination is already full!"));
-//      }
-//      else {
-//          amount = string_input_popup()
-//              .title(popupmsg)
-//              .width(20)
-//              .only_digits(true)
-//              .query_int();
-//      }
-//      if (amount <= 0) {
-//          redraw = true;
-//          return false;
-//      }
-//      if (amount > possible_max) {
-//          amount = possible_max;
-//      }
-//  }
-//  return true;
-//}
-
-bool comestible_inv_area::is_same( const comestible_inv_area &other ) const
-{
-    // All locations (sans the below) are compared by the coordinates,
-    // e.g. dragged vehicle (to the south) and AIM_SOUTH are the same.
-    if( id != AIM_INVENTORY && other.id != AIM_INVENTORY &&
-        id != AIM_WORN && other.id != AIM_WORN &&
-        id != AIM_CONTAINER && other.id != AIM_CONTAINER ) {
-        //     have a vehicle?...     ...do the cargo index and pos match?...    ...at least pos?
-        return veh == other.veh ? pos == other.pos && vstor == other.vstor : pos == other.pos;
-    }
-    //      ...is the id?
-    return id == other.id;
 }
 
 bool comestible_inv_area::canputitems( const comestible_inv_listitem *advitem )
@@ -1908,14 +1689,14 @@ item *comestible_inv_area::get_container( bool in_vehicle )
 {
     item *container = nullptr;
 
-    if( uistate.adv_inv_container_location != -1 ) {
+    if( uistate.comestible_save.container_location != -1 ) {
         // try to find valid container in the area
-        if( uistate.adv_inv_container_location == AIM_INVENTORY ) {
+        if( uistate.comestible_save.container_location == AIM_INVENTORY ) {
             const invslice &stacks = g->u.inv.slice();
 
             // check index first
-            if( stacks.size() > static_cast<size_t>( uistate.adv_inv_container_index ) ) {
-                auto &it = stacks[uistate.adv_inv_container_index]->front();
+            if( stacks.size() > static_cast<size_t>( uistate.comestible_save.container_index ) ) {
+                auto &it = stacks[uistate.comestible_save.container_index]->front();
                 if( is_container_valid( &it ) ) {
                     container = &it;
                 }
@@ -1927,14 +1708,14 @@ item *comestible_inv_area::get_container( bool in_vehicle )
                     auto &it = stacks[x]->front();
                     if( is_container_valid( &it ) ) {
                         container = &it;
-                        uistate.adv_inv_container_index = x;
+                        uistate.comestible_save.container_index = x;
                         break;
                     }
                 }
             }
-        } else if( uistate.adv_inv_container_location == AIM_WORN ) {
+        } else if( uistate.comestible_save.container_location == AIM_WORN ) {
             auto &worn = g->u.worn;
-            size_t idx = static_cast<size_t>( uistate.adv_inv_container_index );
+            size_t idx = static_cast<size_t>( uistate.comestible_save.container_index );
             if( worn.size() > idx ) {
                 auto iter = worn.begin();
                 std::advance( iter, idx );
@@ -1949,7 +1730,7 @@ item *comestible_inv_area::get_container( bool in_vehicle )
                 for( size_t i = 0; i < worn.size(); ++i, ++iter ) {
                     if( is_container_valid( &*iter ) ) {
                         container = &*iter;
-                        uistate.adv_inv_container_index = i;
+                        uistate.comestible_save.container_index = i;
                         break;
                     }
                 }
@@ -1957,15 +1738,15 @@ item *comestible_inv_area::get_container( bool in_vehicle )
         } else {
             map &m = g->m;
             bool is_in_vehicle = veh &&
-                                 ( uistate.adv_inv_container_in_vehicle || ( can_store_in_vehicle() && in_vehicle ) );
+                                 ( uistate.comestible_save.in_vehicle || ( can_store_in_vehicle() && in_vehicle ) );
 
             const itemstack &stacks = is_in_vehicle ?
                                       i_stacked( veh->get_items( vstor ) ) :
                                       i_stacked( m.i_at( pos ) );
 
             // check index first
-            if( stacks.size() > static_cast<size_t>( uistate.adv_inv_container_index ) ) {
-                auto it = stacks[uistate.adv_inv_container_index].front();
+            if( stacks.size() > static_cast<size_t>( uistate.comestible_save.container_index ) ) {
+                auto it = stacks[uistate.comestible_save.container_index].front();
                 if( is_container_valid( it ) ) {
                     container = it;
                 }
@@ -1977,7 +1758,7 @@ item *comestible_inv_area::get_container( bool in_vehicle )
                     auto it = stacks[x].front();
                     if( is_container_valid( it ) ) {
                         container = it;
-                        uistate.adv_inv_container_index = x;
+                        uistate.comestible_save.container_index = x;
                         break;
                     }
                 }
@@ -1998,32 +1779,32 @@ void comestible_inv_area::set_container( const comestible_inv_listitem *advitem 
 {
     if( advitem != nullptr ) {
         item *it( advitem->items.front() );
-        uistate.adv_inv_container_location = advitem->area;
-        uistate.adv_inv_container_in_vehicle = advitem->from_vehicle;
-        uistate.adv_inv_container_index = advitem->idx;
-        uistate.adv_inv_container_type = it->typeId();
-        uistate.adv_inv_container_content_type = !it->is_container_empty() ?
+        uistate.comestible_save.container_location = advitem->area;
+        uistate.comestible_save.in_vehicle = advitem->from_vehicle;
+        uistate.comestible_save.container_index = advitem->idx;
+        uistate.comestible_save.container_type = it->typeId();
+        uistate.comestible_save.container_content_type = !it->is_container_empty() ?
                 it->contents.front().typeId() : "null";
         set_container_position();
     } else {
-        uistate.adv_inv_container_location = -1;
-        uistate.adv_inv_container_index = 0;
-        uistate.adv_inv_container_in_vehicle = false;
-        uistate.adv_inv_container_type = "null";
-        uistate.adv_inv_container_content_type = "null";
+        uistate.comestible_save.container_location = -1;
+        uistate.comestible_save.container_index = 0;
+        uistate.comestible_save.in_vehicle = false;
+        uistate.comestible_save.container_type = "null";
+        uistate.comestible_save.container_content_type = "null";
     }
 }
 
 bool comestible_inv_area::is_container_valid( const item *it ) const
 {
     if( it != nullptr ) {
-        if( it->typeId() == uistate.adv_inv_container_type ) {
+        if( it->typeId() == uistate.comestible_save.container_type ) {
             if( it->is_container_empty() ) {
-                if( uistate.adv_inv_container_content_type == "null" ) {
+                if( uistate.comestible_save.container_content_type == "null" ) {
                     return true;
                 }
             } else {
-                if( it->contents.front().typeId() == uistate.adv_inv_container_content_type ) {
+                if( it->contents.front().typeId() == uistate.comestible_save.container_content_type ) {
                     return true;
                 }
             }
@@ -2036,10 +1817,10 @@ bool comestible_inv_area::is_container_valid( const item *it ) const
 void comestible_inv_area::set_container_position()
 {
     // update the offset of the container based on location
-    if( uistate.adv_inv_container_location == AIM_DRAGGED ) {
+    if( uistate.comestible_save.container_location == AIM_DRAGGED ) {
         off = g->u.grab_point;
     } else {
-        off = aim_vector( static_cast<aim_location>( uistate.adv_inv_container_location ) );
+        off = aim_vector( static_cast<aim_location>( uistate.comestible_save.container_location ) );
     }
     // update the absolute position
     pos = g->u.pos() + off;
@@ -2054,23 +1835,71 @@ void comestible_inv_area::set_container_position()
     }
 }
 
+static const trait_id trait_GRAZER( "GRAZER" );
+static const trait_id trait_RUMINANT( "RUMINANT" );
 void comestible_inv()
 {
+    player &p = g->u;
+    map &m = g->m;
+
+    if( ( p.has_active_mutation( trait_RUMINANT ) || p.has_active_mutation( trait_GRAZER ) ) &&
+        ( m.ter( p.pos() ) == t_underbrush || m.ter( p.pos() ) == t_shrub ) ) {
+        if( p.get_hunger() < 20 ) {
+            add_msg( _( "You're too full to eat the leaves from the %s." ), m.ter( p.pos() )->name() );
+            return;
+        } else {
+            p.moves -= 400;
+            m.ter_set( p.pos(), t_grass );
+            add_msg( _( "You eat the underbrush." ) );
+            item food( "underbrush", calendar::turn, 1 );
+            p.eat( food );
+            return;
+        }
+    }
+    if( p.has_active_mutation( trait_GRAZER ) && ( m.ter( p.pos() ) == t_grass ||
+            m.ter( p.pos() ) == t_grass_long || m.ter( p.pos() ) == t_grass_tall ) ) {
+        if( p.get_hunger() < 8 ) {
+            add_msg( _( "You're too full to graze." ) );
+            return;
+        } else {
+            p.moves -= 400;
+            add_msg( _( "You eat the grass." ) );
+            item food( item( "grass", calendar::turn, 1 ) );
+            p.eat( food );
+            m.ter_set( p.pos(), t_dirt );
+            if( m.ter( p.pos() ) == t_grass_tall ) {
+                m.ter_set( p.pos(), t_grass_long );
+            } else if( m.ter( p.pos() ) == t_grass_long ) {
+                m.ter_set( p.pos(), t_grass );
+            } else {
+                m.ter_set( p.pos(), t_dirt );
+            }
+            return;
+        }
+    }
+    if( p.has_active_mutation( trait_GRAZER ) ) {
+        if( m.ter( p.pos() ) == t_grass_golf ) {
+            add_msg( _( "This grass is too short to graze." ) );
+            return;
+        } else if( m.ter( p.pos() ) == t_grass_dead ) {
+            add_msg( _( "This grass is dead and too mangled for you to graze." ) );
+            return;
+        } else if( m.ter( p.pos() ) == t_grass_white ) {
+            add_msg( _( "This grass is tainted with paint and thus inedible." ) );
+            return;
+        }
+    }
     comestible_inventory new_inv;
     new_inv.display();
 }
 
 void comestible_inventory::refresh_minimap()
 {
-    // don't update ui if processing demands
-    if( is_processing() ) {
-        return;
-    }
     // redraw border around minimap
     draw_border( mm_border );
     // minor addition to border for AIM_ALL, sorta hacky
     if( pane.get_area() == AIM_ALL ) {
-        mvwprintz( mm_border, 0, 1, c_light_gray, utf8_truncate( _( "All" ), minimap_width ) );
+        mvwprintz( mm_border, point( 1, 0 ), c_light_gray, utf8_truncate( _( "All" ), minimap_width ) );
     }
     // refresh border, then minimap
     wrefresh( mm_border );
@@ -2080,75 +1909,73 @@ void comestible_inventory::refresh_minimap()
 void comestible_inventory::draw_minimap()
 {
     // if player is in one of the below, invert the player cell
-    //static const std::array<aim_location, 3> player_locations = {
-    //    {AIM_CENTER, AIM_INVENTORY, AIM_WORN}
-    //};
+    static const std::array<aim_location, 3> player_locations = {
+        {AIM_CENTER, AIM_INVENTORY, AIM_WORN}
+    };
     // get the center of the window
-    //tripoint pc = { getmaxx( minimap ) / 2, getmaxy( minimap ) / 2, 0 };
+    tripoint pc = { getmaxx( minimap ) / 2, getmaxy( minimap ) / 2, 0 };
     // draw the 3x3 tiles centered around player
     g->m.draw( minimap, g->u.pos() );
-    //auto sq = squares[pane.get_area()];
-    //auto pt = pc + sq.off;
-    // invert the color if pointing to the player's position
-    //auto cl = sq.id == AIM_INVENTORY || sq.id == AIM_WORN ?
-    //          invert_color( c_light_cyan ) : c_light_cyan.blink();
+    char sym = get_minimap_sym();
+    if( sym != '\0' ) {
+        auto sq = squares[pane.get_area()];
+        auto pt = pc + sq.off;
+        // invert the color if pointing to the player's position
+        auto cl = sq.id == AIM_INVENTORY || sq.id == AIM_WORN ?
+                  invert_color( c_light_cyan ) : c_light_cyan.blink();
+        mvwputch( minimap, pt.xy(), cl, sym );
+    }
 
     // Invert player's tile color if exactly one pane points to player's tile
-    //bool invert_left = false;
-    //bool invert_right = false;
-    //const auto is_selected = [this](const aim_location& where, size_t side) {
-    //  return where == this->panes[side].get_area();
+    bool player_selected = false;
+    //const auto is_selected = [this](const aim_location& where) {
+    //    return where == this->pane.get_area();
     //};
-    //for (auto& loc : player_locations) {
-    //  invert_left |= is_selected(loc, 0);
-    //  invert_right |= is_selected(loc, 1);
-    //}
+    for( auto &loc : player_locations ) {
+        if( loc == pane.get_area() ) {
+            player_selected = true;
+            break;
+        }
+    }
 
-    //if (!invert_left || !invert_right) {
-    //  g->u.draw(minimap, g->u.pos(), invert_left || invert_right);
-    //}
 
-    g->u.draw( minimap, g->u.pos(), false );
+    g->u.draw( minimap, g->u.pos(), player_selected );
+
+    //if (player_selected) {
+    //}
 }
 
-//char comestible_inventory::get_minimap_sym(side p) const
-//{
-//  static const std::array<char, 2> c_side = { {'L', 'R'} };
-//  static const std::array<char, 2> d_side = { {'^', 'v'} };
-//  static const std::array<char, NUM_AIM_LOCATIONS> g_nome = { {
-//          '@', '#', '#', '#', '#', '@', '#',
-//          '#', '#', '#', 'D', '^', 'C', '@'
-//      }
-//  };
-//  char ch = g_nome[pane.get_area()];
-//
-//
-//  //TODO: don't get this code exactly, just simplify for now
-//  ch = pane.in_vehicle() ? 'V' : c_side[p];
-//
-//  switch (ch) {
-//  case '@': // '^' or 'v'
-//      ch = d_side[panes[-p + 1].get_area() == AIM_CENTER];
-//      break;
-//  case '#': // 'L' or 'R'
-//      ch = panes[p].in_vehicle() ? 'V' : c_side[p];
-//      break;
-//  case '^': // do not show anything
-//      ch ^= ch;
-//      break;
-//  }
-//  return ch;
-//}
-
-aim_location comestible_inv_area::offset_to_location() const
+char comestible_inventory::get_minimap_sym() const
 {
-    static aim_location loc_array[3][3] = {
-        {AIM_NORTHWEST,     AIM_NORTH,      AIM_NORTHEAST},
-        {AIM_WEST,          AIM_CENTER,     AIM_EAST},
-        {AIM_SOUTHWEST,     AIM_SOUTH,      AIM_SOUTHEAST}
+    static const std::array<char, NUM_AIM_LOCATIONS> g_nome = { {
+            '@', '#', '#', '#', '#', '@', '#',
+            '#', '#', '#', 'D', '^', 'C', '@'
+        }
     };
-    return loc_array[off.y + 1][off.x + 1];
+    char ch = g_nome[pane.get_area()];
+    switch( ch ) {
+        case '@':
+            ch = '^';
+            break;
+        case '#':
+            ch = pane.in_vehicle() ? 'V' : '\0';
+            break;
+        case '^': // do not show anything
+            ch = '\0';
+            break;
+    }
+    return ch;
 }
+
+//aim_location comestible_inv_area::offset_to_location() const
+//{
+//    static aim_location loc_array[3][3] = {
+//        {AIM_NORTHWEST,     AIM_NORTH,      AIM_NORTHEAST},
+//        {AIM_WEST,          AIM_CENTER,     AIM_EAST},
+//        {AIM_SOUTHWEST,     AIM_SOUTH,      AIM_SOUTHEAST}
+//    };
+//    return loc_array[off.y + 1][off.x + 1];
+//}
 
 void comestible_inventory::do_return_entry()
 {
@@ -2156,52 +1983,11 @@ void comestible_inventory::do_return_entry()
     //save_settings(true);
     g->u.assign_activity( activity_id( "ACT_COMESTIBLE_INVENTORY" ) );
     g->u.activity.auto_resume = true;
-    uistate.adv_inv_exit_code = exit_re_entry;
+    uistate.comestible_save.exit_code = exit_re_entry;
 }
 
-bool comestible_inventory::is_processing() const
-{
-    return uistate.adv_inv_re_enter_move_all != ENTRY_START;
-}
-
-aim_location comestible_inventory::screen_relative_location( aim_location area )
-{
-
-    if( !( tile_iso && use_tiles ) ) {
-        return area;
-    }
-    switch( area ) {
-
-        case AIM_SOUTHWEST:
-            return AIM_WEST;
-
-        case AIM_SOUTH:
-            return AIM_SOUTHWEST;
-
-        case AIM_SOUTHEAST:
-            return AIM_SOUTH;
-
-        case AIM_WEST:
-            return AIM_NORTHWEST;
-
-        case AIM_EAST:
-            return AIM_SOUTHEAST;
-
-        case AIM_NORTHWEST:
-            return AIM_NORTH;
-
-        case AIM_NORTH:
-            return AIM_NORTHEAST;
-
-        case AIM_NORTHEAST:
-            return AIM_EAST;
-
-        default:
-            return area;
-    }
-}
-
-char const *comestible_inventory::set_string_params( nc_color &print_color, int value, bool selected,
+char const *comestible_inventory::set_string_params( nc_color &print_color, int value,
+        bool selected,
         bool need_highlight )
 {
     char const *string_format;
@@ -2402,13 +2188,15 @@ void comestible_inventory::heat_up( item *it_to_heat )
             counter++;
         }
 
-        for (size_t i = 0; i < hotplates.size(); i++) {
-            sm.addentry(counter, true, counter, string_format(_("%s in inventory"), hotplates.at(i)->display_name()));
+        for( size_t i = 0; i < hotplates.size(); i++ ) {
+            sm.addentry( counter, true, counter, string_format( _( "%s in inventory" ),
+                         hotplates.at( i )->display_name() ) );
             counter++;
         }
 
-        for (size_t i = 0; i < hotplates_map.size(); i++) {
-            sm.addentry(counter, true, counter, string_format(_("%s nearby"), hotplates_map.at(i)->display_name()));
+        for( size_t i = 0; i < hotplates_map.size(); i++ ) {
+            sm.addentry( counter, true, counter, string_format( _( "%s nearby" ),
+                         hotplates_map.at( i )->display_name() ) );
             counter++;
         }
         //sm.selected = pane.sortby - SORTBY_NONE;
@@ -2431,7 +2219,7 @@ void comestible_inventory::heat_up( item *it_to_heat )
                 choice--;
             }
             item *it_choice;
-            if( static_cast<size_t>(choice) < hotplates.size() ) {
+            if( static_cast<size_t>( choice ) < hotplates.size() ) {
                 it_choice = hotplates[choice];
             } else {
                 choice -= hotplates.size();
@@ -2470,8 +2258,3 @@ void comestible_inventory::heat_up( item *it_to_heat )
     }
     p.mod_moves( -move_mod ); // time needed to actually heat up
 }
-
-//void cancel_aim_processing()
-//{
-//  uistate.adv_inv_re_enter_move_all = ENTRY_START;
-//}

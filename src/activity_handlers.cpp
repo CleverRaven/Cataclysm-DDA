@@ -2612,7 +2612,7 @@ void activity_handlers::adv_inventory_do_turn( player_activity *, player *p )
     advanced_inv();
 }
 
-void activity_handlers::comestible_inventory_do_turn(player_activity*, player* p)
+void activity_handlers::comestible_inventory_do_turn( player_activity *, player *p )
 {
     p->cancel_activity();
     comestible_inv();

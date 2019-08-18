@@ -174,8 +174,6 @@ void advanced_inventory::load_settings()
         panes[i].filter = uistate.adv_inv_filter[i];
     }
     uistate.adv_inv_exit_code = exit_none;
-
-    add_msg(m_info, "~~~ %d %d", uistate.wishitem_selected, uistate.save_var);
 }
 
 std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )

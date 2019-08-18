@@ -13,16 +13,22 @@
 
 class item;
 
-//struct comestible_inv_save_state {
-//public:
-//    int sort_idx = 1;
-//    std::string filter = "";
-//    int area_idx = 5;
-//    int selected_idx = 0;
-//
-//    bool in_vehicle = false;
-//    int exit_code = 0;
-//};
+struct comestible_inv_save_state {
+    public:
+        int sort_idx = 1;
+        std::string filter = "";
+        int area_idx = 5;
+        int selected_idx = 0;
+
+        bool in_vehicle = false;
+        int exit_code = 0;
+        bool food_filter = true;
+
+        int container_location = -1;
+        int container_index = 0;
+        itype_id container_type = "null";
+        itype_id container_content_type = "null";
+};
 
 /*
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
@@ -64,9 +70,7 @@ class uistatedata
         std::map<int, std::list<item>> adv_inv_veh_items, adv_inv_map_items;
         bool adv_inv_container_in_vehicle = false;
 
-        int save_var = 5;
-
-        //comestible_inv_save_state comestible_save;
+        comestible_inv_save_state comestible_save;
 
         bool editmap_nsa_viewmode = false;      // true: ignore LOS and lighting
         bool overmap_blinking = true;           // toggles active blinking of overlays.

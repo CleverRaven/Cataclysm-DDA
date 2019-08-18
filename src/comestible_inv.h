@@ -14,6 +14,7 @@
 #include "cursesdef.h"
 #include "point.h"
 #include "units.h"
+#include "game.h"
 
 #include "advanced_inv.h"
 #include "itype.h"
@@ -80,8 +81,14 @@ struct comestible_inv_area {
     tripoint off;
     /** Long name, displayed, translated */
     const std::string name = "fake";
-    /** Shorter name (2 letters) */
+    /** Appears as part of the list */
     const std::string shortname = "FK"; // FK in my coffee
+    /** Appears as part of the legend at the top right */
+    const std::string minimapname = "FKM"; // FK in my coffee
+
+    const aim_location relative_location;
+
+    const std::string actionname = "FKA";
     // absolute position of the map point.
     tripoint pos;
     /** Can we put items there? Only checks if location is valid, not if
@@ -100,10 +107,13 @@ struct comestible_inv_area {
     // maximal count / volume of items there.
     int max_size;
 
-    comestible_inv_area( aim_location id ) : id( id ) {}
+    comestible_inv_area( aim_location id ) : id( id ), relative_location( id ) {}
     comestible_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off,
-                         const std::string &name, const std::string &shortname ) : id( id ),
+                         const std::string &name, const std::string &shortname,
+                         const std::string &minimapname, const aim_location relative_location,
+                         const std::string &actionname ) : id( id ),
         hscreen( hscreenx, hscreeny ), off( off ), name( name ), shortname( shortname ),
+        minimapname( minimapname ), relative_location( relative_location ), actionname( actionname ),
         canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0_ml ),
         weight( 0_gram ), max_size( 0 ) {
     }
@@ -113,7 +123,7 @@ struct comestible_inv_area {
     units::volume free_volume( bool in_vehicle = false ) const;
     int get_item_count() const;
     // Other area is actually the same item source, e.g. dragged vehicle to the south and AIM_SOUTH
-    bool is_same( const comestible_inv_area &other ) const;
+    //bool is_same( const comestible_inv_area &other ) const;
     // does _not_ check vehicle storage, do that with `can_store_in_vehicle()' below
     bool canputitems( const comestible_inv_listitem *advitem = nullptr );
     // if you want vehicle cargo, specify so via `in_vehicle'
@@ -129,6 +139,18 @@ struct comestible_inv_area {
         }
         return veh != nullptr && vstor >= 0;
     }
+
+    aim_location get_relative_location() {
+        if( !( tile_iso && use_tiles ) ) {
+            return id;
+        } else {
+            return relative_location;
+        }
+    }
+
+    //std::string get_minimap_sym() {
+
+    //}
 };
 
 // see item_factory.h
@@ -394,7 +416,7 @@ class comestible_inventory
         void do_return_entry();
         // returns true if currently processing a routine
         // (such as `MOVE_ALL_ITEMS' with `AIM_ALL' source)
-        bool is_processing() const;
+        //bool is_processing() const;
 
         static std::string get_sortname( comestible_inv_sortby sortby );
         //bool move_all_items(bool nested_call = false);
@@ -413,7 +435,7 @@ class comestible_inventory
          * @return true if the action did refer to an location (which has been
          * stored in ret), false otherwise.
          */
-        static bool get_square( const std::string &action, aim_location &ret );
+        comestible_inv_area *get_square( const std::string &action );
         /**
          * Show the sort-by menu and change the sorting of this pane accordingly.
          * @return whether the sort order was actually changed.
@@ -448,19 +470,19 @@ class comestible_inventory
         /*bool query_charges(aim_location destarea, const comestible_inv_listitem& sitem,
             const std::string& action, int& amount);*/
 
-        void menu_square( uilist &menu );
+        //void menu_square( uilist &menu );
 
-        static char get_location_key( aim_location area );
-        static char get_direction_key( aim_location area );
+        std::string get_location_key( aim_location area );
+        char get_direction_key( aim_location area );
 
         /**
          * Converts from screen relative location to game-space relative location
          * for control rotation in isometric mode.
         */
-        static aim_location screen_relative_location( aim_location area );
+        //static aim_location screen_relative_location( aim_location area );
 
         char const *set_string_params( nc_color &print_color, int value, bool selected,
-                bool need_highlight = false );
+                                       bool need_highlight = false );
         //nc_color set_string_params(int value, bool need_highlight = false);
         time_duration get_time_left( player &p, const item &it ) const;
         const islot_comestible &get_edible_comestible( player &p, const item &it ) const;
