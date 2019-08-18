@@ -694,6 +694,7 @@
       [ "bucket", 30 ],
       { "group": "glass_of_wine", "prob": 50 },
       { "group": "wines_worthy", "prob": 20 },
+      { "group": "glass_set", "prob": 20 },
       { "group": "tinware", "prob": 20 },
       [ "knife_swissarmy", 10 ],
       [ "funnel", 10 ]
