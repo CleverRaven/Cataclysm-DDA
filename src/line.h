@@ -84,6 +84,8 @@ enum direction : unsigned {
 direction direction_from( const point &p ) noexcept;
 direction direction_from( const tripoint &p ) noexcept;
 direction direction_from( int x1, int y1, int x2, int y2 ) noexcept;
+direction direction_from( const point &p1, int x2, int y2 ) noexcept;
+direction direction_from( const point &p1, const point &p2 ) noexcept;
 direction direction_from( const tripoint &p, const tripoint &q );
 
 point direction_XY( direction dir );
@@ -99,6 +101,10 @@ std::string direction_suffix( const tripoint &p, const tripoint &q );
  */
 void bresenham( int x1, int y1, int x2, int y2, int t,
                 const std::function<bool( const point & )> &interact );
+void bresenham( const point &p1, int x2, int y2, int t,
+                const std::function<bool( const point & )> &interact );
+void bresenham( const point &p1, const point &p2, int t,
+                const std::function<bool( const point & )> &interact );
 void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 const std::function<bool( const tripoint & )> &interact );
 
@@ -106,18 +112,22 @@ tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line
                           int distance );
 // The "t" value decides WHICH Bresenham line is used.
 std::vector<point> line_to( int x1, int y1, int x2, int y2, int t = 0 );
+std::vector<point> line_to( const point &p1, int x2, int y2, int t = 0 );
 std::vector<point> line_to( const point &p1, const point &p2, int t = 0 );
 // t and t2 decide which Bresenham line is used.
 std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t = 0, int t2 = 0 );
 // sqrt(dX^2 + dY^2)
 float trig_dist( int x1, int y1, int x2, int y2 );
+float trig_dist( const point &p1, int x2, int y2 );
 float trig_dist( const point &loc1, const point &loc2 );
 float trig_dist( const tripoint &loc1, const tripoint &loc2 );
 // Roguelike distance; minimum of dX and dY
 int square_dist( int x1, int y1, int x2, int y2 );
+int square_dist( const point &p1, int x2, int y2 );
 int square_dist( const point &loc1, const point &loc2 );
 int square_dist( const tripoint &loc1, const tripoint &loc2 );
 int rl_dist( int x1, int y1, int x2, int y2 );
+int rl_dist( const point &p1, int x2, int y2 );
 int rl_dist( const tripoint &loc1, const tripoint &loc2 );
 int rl_dist( const point &a, const point &b );
 // Sum of distance in both axes
@@ -131,6 +141,8 @@ double atan2_degrees( const point & );
 float get_normalized_angle( const point &start, const point &end );
 std::vector<tripoint> continue_line( const std::vector<tripoint> &line, int distance );
 std::vector<point> squares_in_direction( int x1, int y1, int x2, int y2 );
+std::vector<point> squares_in_direction( const point &p1, int x2, int y2 );
+std::vector<point> squares_in_direction( const point &p1, const point &p2 );
 // Returns a vector of squares adjacent to @from that are closer to @to than @from is.
 // Currently limited to the same z-level as @from.
 std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to );
