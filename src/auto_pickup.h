@@ -16,13 +16,16 @@ class JsonIn;
 class item;
 struct itype;
 
+namespace auto_pickup
+{
+
 /**
  * The currently-active set of auto-pickup rules, in a form that allows quick
  * lookup. When this is filled (by @ref auto_pickup::create_rule()), every
  * item existing in the game that matches a rule (either white- or blacklist)
  * is added as the key, with RULE_WHITELISTED or RULE_BLACKLISTED as the values.
  */
-class auto_pickup_cache : public std::unordered_map<std::string, rule_state>
+class cache : public std::unordered_map<std::string, rule_state>
 {
     public:
         /// Defines whether this cache has been filled.
@@ -33,20 +36,19 @@ class auto_pickup_cache : public std::unordered_map<std::string, rule_state>
 };
 
 /**
- * A single entry in the list of auto pickup entries @ref auto_pickup_rule_list.
+ * A single entry in the list of auto pickup entries @ref rule_list.
  * The data contained can be edited by the player and determines what to pick/ignore.
  */
-class auto_pickup_rule
+class rule
 {
     public:
         std::string sRule;
         bool bActive = false;
         bool bExclude = false;
 
-        auto_pickup_rule() = default;
+        rule() = default;
 
-        auto_pickup_rule( const std::string &r, const bool a, const bool e ) : sRule( r ), bActive( a ),
-            bExclude( e ) {
+        rule( const std::string &r, const bool a, const bool e ) : sRule( r ), bActive( a ), bExclude( e ) {
         }
 
         void serialize( JsonOut &json ) const;
@@ -61,7 +63,7 @@ class auto_pickup_rule
 /**
  * A list of rules. This is primarily a container with a few convenient functions (like saving/loading).
  */
-class auto_pickup_rule_list : public std::vector<auto_pickup_rule>
+class rule_list : public std::vector<rule>
 {
     public:
         void serialize( JsonOut &json ) const;
@@ -69,23 +71,23 @@ class auto_pickup_rule_list : public std::vector<auto_pickup_rule>
 
         void load_legacy_rules( std::istream &fin );
 
-        void refresh_map_items( auto_pickup_cache &map_items ) const;
+        void refresh_map_items( cache &map_items ) const;
 
-        void create_rule( auto_pickup_cache &map_items, const std::string &to_match );
-        void create_rule( auto_pickup_cache &map_items, const item &it );
+        void create_rule( cache &map_items, const std::string &to_match );
+        void create_rule( cache &map_items, const item &it );
 };
 
-class auto_pickup_ui
+class user_interface
 {
     public:
         class tab
         {
             public:
                 std::string title;
-                auto_pickup_rule_list new_rules;
-                std::reference_wrapper<auto_pickup_rule_list> rules;
+                rule_list new_rules;
+                std::reference_wrapper<rule_list> rules;
 
-                tab( const std::string &t, auto_pickup_rule_list &r ) : title( t ), new_rules( r ), rules( r ) { }
+                tab( const std::string &t, rule_list &r ) : title( t ), new_rules( r ), rules( r ) { }
         };
 
         std::string title;
@@ -97,15 +99,15 @@ class auto_pickup_ui
         bool bStuffChanged = false;
 };
 
-class auto_pickup_base
+class base_settings
 {
     protected:
-        mutable auto_pickup_cache map_items;
+        mutable cache map_items;
 
         void invalidate();
 
     private:
-        virtual void refresh_map_items( auto_pickup_cache &map_items ) const = 0;
+        virtual void refresh_map_items( cache &map_items ) const = 0;
 
         void recreate() const;
 
@@ -113,17 +115,17 @@ class auto_pickup_base
         rule_state check_item( const std::string &sItemName ) const;
 };
 
-class auto_pickup : public auto_pickup_base
+class player_settings : public base_settings
 {
     private:
         void load( bool bCharacter );
         bool save( bool bCharacter );
         bool load_legacy( bool bCharacter );
 
-        auto_pickup_rule_list global_rules;
-        auto_pickup_rule_list character_rules;
+        rule_list global_rules;
+        rule_list character_rules;
 
-        void refresh_map_items( auto_pickup_cache &map_items ) const override;
+        void refresh_map_items( cache &map_items ) const override;
 
     public:
         void create_rule( const item *it );
@@ -142,12 +144,12 @@ class auto_pickup : public auto_pickup_base
         bool empty() const;
 };
 
-class npc_auto_pickup : public auto_pickup_base
+class npc_settings : public base_settings
 {
     private:
-        auto_pickup_rule_list rules;
+        rule_list rules;
 
-        void refresh_map_items( auto_pickup_cache &map_items ) const override;
+        void refresh_map_items( cache &map_items ) const override;
 
     public:
         void create_rule( const std::string &to_match );
@@ -160,6 +162,8 @@ class npc_auto_pickup : public auto_pickup_base
         bool empty() const;
 };
 
-auto_pickup &get_auto_pickup();
+} // namespace auto_pickup
+
+auto_pickup::player_settings &get_auto_pickup();
 
 #endif

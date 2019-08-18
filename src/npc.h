@@ -33,7 +33,10 @@
 #include "item.h"
 #include "point.h"
 
-class npc_auto_pickup;
+namespace auto_pickup
+{
+class npc_settings;
+} // namespace auto_pickup
 struct bionic_data;
 class JsonObject;
 class JsonIn;
@@ -422,7 +425,7 @@ struct npc_follower_rules {
     ally_rule override_enable;
     ally_rule overrides;
 
-    pimpl<npc_auto_pickup> pickup_whitelist;
+    pimpl<auto_pickup::npc_settings> pickup_whitelist;
 
     npc_follower_rules();
 

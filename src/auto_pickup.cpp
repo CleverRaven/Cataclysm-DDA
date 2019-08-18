@@ -28,13 +28,15 @@
 #include "cursesdef.h"
 #include "item.h"
 
-auto_pickup &get_auto_pickup()
+using namespace auto_pickup;
+
+auto_pickup::player_settings &get_auto_pickup()
 {
-    static auto_pickup single_instance;
+    static auto_pickup::player_settings single_instance;
     return single_instance;
 }
 
-void auto_pickup_ui::show()
+void user_interface::show()
 {
     if( tabs.empty() ) {
         return;
@@ -141,7 +143,7 @@ void auto_pickup_ui::show()
     std::ostringstream sTemp;
 
     while( true ) {
-        auto_pickup_rule_list &cur_rules = tabs[iTab].new_rules;
+        rule_list &cur_rules = tabs[iTab].new_rules;
         int locx = 17;
         for( size_t i = 0; i < tabs.size(); i++ ) {
             const auto color = iTab == i ? hilite( c_white ) : c_white;
@@ -250,7 +252,7 @@ void auto_pickup_ui::show()
             iLine = cur_rules.size() - 1;
         } else if( allow_swapping && action == "SWAP_RULE_GLOBAL_CHAR" && currentPageNonEmpty ) {
             const size_t other_iTab = ( iTab + 1 ) % 2;
-            auto_pickup_rule_list &other_rules = tabs[other_iTab].new_rules;
+            rule_list &other_rules = tabs[other_iTab].new_rules;
             bStuffChanged = true;
             //copy over
             other_rules.push_back( cur_rules[iLine] );
@@ -261,7 +263,7 @@ void auto_pickup_ui::show()
         } else if( action == "ADD_RULE" || ( action == "CONFIRM" && currentPageNonEmpty ) ) {
             const int old_iLine = iLine;
             if( action == "ADD_RULE" ) {
-                cur_rules.push_back( auto_pickup_rule( "", true, false ) );
+                cur_rules.push_back( rule( "", true, false ) );
                 iLine = cur_rules.size() - 1;
             }
 
@@ -358,9 +360,9 @@ void auto_pickup_ui::show()
     }
 }
 
-void auto_pickup::show()
+void player_settings::show()
 {
-    auto_pickup_ui ui;
+    user_interface ui;
 
     ui.title = _( " AUTO PICKUP MANAGER " );
     ui.tabs.emplace_back( _( "[<Global>]" ), global_rules );
@@ -382,7 +384,7 @@ void auto_pickup::show()
     invalidate();
 }
 
-void auto_pickup_rule::test_pattern() const
+void rule::test_pattern() const
 {
     std::vector<std::string> vMatchingItems;
 
@@ -483,7 +485,7 @@ void auto_pickup_rule::test_pattern() const
     }
 }
 
-bool auto_pickup::has_rule( const item *it )
+bool player_settings::has_rule( const item *it )
 {
     const std::string &name = it->tname( 1 );
     for( auto &elem : character_rules ) {
@@ -494,9 +496,9 @@ bool auto_pickup::has_rule( const item *it )
     return false;
 }
 
-void auto_pickup::add_rule( const item *it )
+void player_settings::add_rule( const item *it )
 {
-    character_rules.push_back( auto_pickup_rule( it->tname( 1, false ), true, false ) );
+    character_rules.push_back( rule( it->tname( 1, false ), true, false ) );
     create_rule( it );
 
     if( !get_option<bool>( "AUTO_PICKUP" ) &&
@@ -506,7 +508,7 @@ void auto_pickup::add_rule( const item *it )
     }
 }
 
-void auto_pickup::remove_rule( const item *it )
+void player_settings::remove_rule( const item *it )
 {
     const std::string sRule = it->tname( 1, false );
     for( auto it = character_rules.begin();
@@ -520,13 +522,13 @@ void auto_pickup::remove_rule( const item *it )
     }
 }
 
-bool auto_pickup::empty() const
+bool player_settings::empty() const
 {
     return global_rules.empty() && character_rules.empty();
 }
 
-bool auto_pickup_rule::check_special_rule( const std::vector<material_id> &materials,
-        const std::string &rule )
+bool rule::check_special_rule( const std::vector<material_id> &materials,
+                               const std::string &rule )
 {
     char type = ' ';
     std::vector<std::string> filter;
@@ -558,14 +560,14 @@ bool auto_pickup_rule::check_special_rule( const std::vector<material_id> &mater
 }
 
 //Special case. Required for NPC harvest autopickup. Ignores material rules.
-void npc_auto_pickup::create_rule( const std::string &to_match )
+void npc_settings::create_rule( const std::string &to_match )
 {
     rules.create_rule( map_items, to_match );
 }
 
-void auto_pickup_rule_list::create_rule( auto_pickup_cache &map_items, const std::string &to_match )
+void rule_list::create_rule( cache &map_items, const std::string &to_match )
 {
-    for( const auto_pickup_rule &elem : *this ) {
+    for( const rule &elem : *this ) {
         if( !elem.bActive || !wildcard_match( to_match, elem.sRule ) ) {
             continue;
         }
@@ -574,21 +576,21 @@ void auto_pickup_rule_list::create_rule( auto_pickup_cache &map_items, const std
     }
 }
 
-void auto_pickup::create_rule( const item *it )
+void player_settings::create_rule( const item *it )
 {
     // @todo change it to be a reference
     global_rules.create_rule( map_items, *it );
     character_rules.create_rule( map_items, *it );
 }
 
-void auto_pickup_rule_list::create_rule( auto_pickup_cache &map_items, const item &it )
+void rule_list::create_rule( cache &map_items, const item &it )
 {
     const std::string to_match = it.tname( 1, false );
 
-    for( const auto_pickup_rule &elem : *this ) {
+    for( const rule &elem : *this ) {
         if( !elem.bActive ) {
             continue;
-        } else if( !auto_pickup_rule::check_special_rule( it.made_of(), elem.sRule ) &&
+        } else if( !rule::check_special_rule( it.made_of(), elem.sRule ) &&
                    !wildcard_match( to_match, elem.sRule ) ) {
             continue;
         }
@@ -597,7 +599,7 @@ void auto_pickup_rule_list::create_rule( auto_pickup_cache &map_items, const ite
     }
 }
 
-void auto_pickup::refresh_map_items( auto_pickup_cache &map_items ) const
+void player_settings::refresh_map_items( cache &map_items ) const
 {
     //process include/exclude in order of rules, global first, then character specific
     //if a specific item is being added, all the rules need to be checked now
@@ -606,9 +608,9 @@ void auto_pickup::refresh_map_items( auto_pickup_cache &map_items ) const
     character_rules.refresh_map_items( map_items );
 }
 
-void auto_pickup_rule_list::refresh_map_items( auto_pickup_cache &map_items ) const
+void rule_list::refresh_map_items( cache &map_items ) const
 {
-    for( const auto_pickup_rule &elem : *this ) {
+    for( const rule &elem : *this ) {
         if( elem.sRule.empty() || !elem.bActive ) {
             continue;
         }
@@ -618,7 +620,7 @@ void auto_pickup_rule_list::refresh_map_items( auto_pickup_cache &map_items ) co
             for( const itype *e : item_controller->all() ) {
                 const std::string &cur_item = e->nname( 1 );
 
-                if( !auto_pickup_rule::check_special_rule( e->materials, elem.sRule ) &&
+                if( !rule::check_special_rule( e->materials, elem.sRule ) &&
                     !wildcard_match( cur_item, elem.sRule ) ) {
                     continue;
                 }
@@ -630,8 +632,8 @@ void auto_pickup_rule_list::refresh_map_items( auto_pickup_cache &map_items ) co
             //only re-exclude items from the existing mapping for now
             //new exclusions will process during pickup attempts
             for( auto &map_item : map_items ) {
-                if( !auto_pickup_rule::check_special_rule( map_items.temp_items[ map_item.first ]->materials,
-                        elem.sRule ) &&
+                if( !rule::check_special_rule( map_items.temp_items[ map_item.first ]->materials,
+                                               elem.sRule ) &&
                     !wildcard_match( map_item.first, elem.sRule ) ) {
                     continue;
                 }
@@ -642,7 +644,7 @@ void auto_pickup_rule_list::refresh_map_items( auto_pickup_cache &map_items ) co
     }
 }
 
-rule_state auto_pickup_base::check_item( const std::string &sItemName ) const
+rule_state base_settings::check_item( const std::string &sItemName ) const
 {
     if( !map_items.ready ) {
         recreate();
@@ -656,23 +658,23 @@ rule_state auto_pickup_base::check_item( const std::string &sItemName ) const
     return RULE_NONE;
 }
 
-void auto_pickup::clear_character_rules()
+void player_settings::clear_character_rules()
 {
     character_rules.clear();
     invalidate();
 }
 
-bool auto_pickup::save_character()
+bool player_settings::save_character()
 {
     return save( true );
 }
 
-bool auto_pickup::save_global()
+bool player_settings::save_global()
 {
     return save( false );
 }
 
-bool auto_pickup::save( const bool bCharacter )
+bool player_settings::save( const bool bCharacter )
 {
     auto savefile = FILENAMES["autopickup"];
 
@@ -691,17 +693,17 @@ bool auto_pickup::save( const bool bCharacter )
     }, _( "autopickup configuration" ) );
 }
 
-void auto_pickup::load_character()
+void player_settings::load_character()
 {
     load( true );
 }
 
-void auto_pickup::load_global()
+void player_settings::load_global()
 {
     load( false );
 }
 
-void auto_pickup::load( const bool bCharacter )
+void player_settings::load( const bool bCharacter )
 {
     std::string sFile = FILENAMES["autopickup"];
     if( bCharacter ) {
@@ -721,7 +723,7 @@ void auto_pickup::load( const bool bCharacter )
     invalidate();
 }
 
-void auto_pickup_rule::serialize( JsonOut &jsout ) const
+void rule::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.member( "rule", sRule );
@@ -730,16 +732,16 @@ void auto_pickup_rule::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void auto_pickup_rule_list::serialize( JsonOut &jsout ) const
+void rule_list::serialize( JsonOut &jsout ) const
 {
     jsout.start_array();
-    for( const auto_pickup_rule &elem : *this ) {
+    for( const rule &elem : *this ) {
         elem.serialize( jsout );
     }
     jsout.end_array();
 }
 
-void auto_pickup_rule::deserialize( JsonIn &jsin )
+void rule::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
     sRule = jo.get_string( "rule" );
@@ -747,19 +749,19 @@ void auto_pickup_rule::deserialize( JsonIn &jsin )
     bExclude = jo.get_bool( "exclude" );
 }
 
-void auto_pickup_rule_list::deserialize( JsonIn &jsin )
+void rule_list::deserialize( JsonIn &jsin )
 {
     clear();
 
     jsin.start_array();
     while( !jsin.end_array() ) {
-        auto_pickup_rule tmp;
+        rule tmp;
         tmp.deserialize( jsin );
         push_back( tmp );
     }
 }
 
-bool auto_pickup::load_legacy( const bool bCharacter )
+bool player_settings::load_legacy( const bool bCharacter )
 {
     std::string sFile = FILENAMES["legacy_autopickup2"];
 
@@ -772,7 +774,7 @@ bool auto_pickup::load_legacy( const bool bCharacter )
     auto &rules = bCharacter ? character_rules : global_rules;
 
     using namespace std::placeholders;
-    const auto &reader = std::bind( &auto_pickup_rule_list::load_legacy_rules, std::ref( rules ), _1 );
+    const auto &reader = std::bind( &rule_list::load_legacy_rules, std::ref( rules ), _1 );
     if( !read_from_file_optional( sFile, reader ) ) {
         if( !bCharacter ) {
             return read_from_file_optional( FILENAMES["legacy_autopickup"], reader );
@@ -784,7 +786,7 @@ bool auto_pickup::load_legacy( const bool bCharacter )
     return true;
 }
 
-void auto_pickup_rule_list::load_legacy_rules( std::istream &fin )
+void rule_list::load_legacy_rules( std::istream &fin )
 {
     clear();
 
@@ -827,15 +829,15 @@ void auto_pickup_rule_list::load_legacy_rules( std::istream &fin )
 
                 } while( iPos != std::string::npos );
 
-                push_back( auto_pickup_rule( sRule, bActive, bExclude ) );
+                push_back( rule( sRule, bActive, bExclude ) );
             }
         }
     }
 }
 
-void npc_auto_pickup::show( const std::string &name )
+void npc_settings::show( const std::string &name )
 {
-    auto_pickup_ui ui;
+    user_interface ui;
     ui.title = string_format( _( "Pickup rules for %s" ), name );
     ui.tabs.emplace_back( name, rules );
     ui.show();
@@ -846,27 +848,27 @@ void npc_auto_pickup::show( const std::string &name )
     invalidate();
 }
 
-void npc_auto_pickup::serialize( JsonOut &jsout ) const
+void npc_settings::serialize( JsonOut &jsout ) const
 {
     rules.serialize( jsout );
 }
 
-void npc_auto_pickup::deserialize( JsonIn &jsin )
+void npc_settings::deserialize( JsonIn &jsin )
 {
     rules.deserialize( jsin );
 }
 
-void npc_auto_pickup::refresh_map_items( auto_pickup_cache &map_items ) const
+void npc_settings::refresh_map_items( cache &map_items ) const
 {
     rules.refresh_map_items( map_items );
 }
 
-bool npc_auto_pickup::empty() const
+bool npc_settings::empty() const
 {
     return rules.empty();
 }
 
-void auto_pickup_base::recreate() const
+void base_settings::recreate() const
 {
     map_items.clear();
     map_items.temp_items.clear();
@@ -875,7 +877,7 @@ void auto_pickup_base::recreate() const
     map_items.temp_items.clear();
 }
 
-void auto_pickup_base::invalidate()
+void base_settings::invalidate()
 {
     map_items.ready = false;
 }
