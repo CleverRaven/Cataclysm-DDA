@@ -558,8 +558,8 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return res.str();
             } else if( cbm == rechargeable_cbm::battery && p.power_level >= p.max_power_level ) {
                 return _( "You're fully charged" );
-            } else if( cbm == rechargeable_cbm::other && ( p.get_fuel_capacity( loc->typeId() ) <= 0 ) ) {
-                return string_format( _( "No space to store more %s" ), loc->tname() );
+            } else if( cbm == rechargeable_cbm::other && ( p.get_fuel_capacity( it.typeId() ) <= 0 ) ) {
+                return string_format( _( "No space to store more %s" ), it.tname() );
             }
 
             return inventory_selector_preset::get_denial( loc );
