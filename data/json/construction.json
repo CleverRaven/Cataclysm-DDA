@@ -848,7 +848,6 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": 40,
     "components": [ [ [ "splinter", 50 ] ] ],
-    "pre_special": "check_empty",
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_woodchips"
   },
