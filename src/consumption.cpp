@@ -1320,11 +1320,7 @@ bool player::fuel_bionic_with( item &it )
     const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
 
     const int loadable = std::min( it.charges, get_fuel_capacity( it.typeId() ) );
-    if( loadable <= 0 ) {
-        add_msg_player_or_npc( m_info, _( "You don't have enough space to store more %s" ),
-                               _( "<npcname> doesn't have enough space to store more %s" ), it.tname() );
-        return false;
-    }
+
     const std::string loaded_charge = std::to_string( loadable );
 
     it.charges -= loadable;
