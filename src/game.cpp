@@ -9833,7 +9833,7 @@ void game::on_move_effects()
             }
             for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
                 if( u.has_active_bionic( bid ) ) {
-                    u.charge_power( muscle.fuel_energy() * ( bid->fuel_efficiency / 100 ) );
+                    u.charge_power( muscle.fuel_energy() * bid->fuel_efficiency );
                 }
             }
         }
@@ -9843,7 +9843,7 @@ void game::on_move_effects()
             }
             for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
                 if( u.has_active_bionic( bid ) ) {
-                    u.charge_power( muscle.fuel_energy() * ( bid->fuel_efficiency / 100 ) );
+                    u.charge_power( muscle.fuel_energy() * bid->fuel_efficiency );
                 }
             }
         }

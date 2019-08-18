@@ -844,7 +844,7 @@ std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
 
 bionic_id Character::get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const
 {
-    int temp_eff = 0;
+    float temp_eff = 0;
     bionic_id bio( "null" );
     for( const bionic_id &bid : bids ) {
         if( bid->fuel_efficiency > temp_eff ) {

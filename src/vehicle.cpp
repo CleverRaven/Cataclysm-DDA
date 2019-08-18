@@ -4046,12 +4046,12 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
         for( const bionic_id &bid : g->u.get_bionic_fueled_with( muscle ) ) {
             if( g->u.has_active_bionic( bid ) ) {
                 if( one_in( 1000 / load ) ) { // more pedaling = more power
-                    g->u.charge_power( muscle.fuel_energy() * ( bid->fuel_efficiency / 100 ) );
+                    g->u.charge_power( muscle.fuel_energy() * bid->fuel_efficiency );
                 }
                 mod += load / 5;
             }
             if( one_in( 1000 / load ) && one_in( 20 ) ) { // intentional double chance check
-                g->u.charge_power( muscle.fuel_energy() * ( bid->fuel_efficiency / 100 ) );
+                g->u.charge_power( muscle.fuel_energy() * bid->fuel_efficiency );
             }
             mod += load / 10;
         }
