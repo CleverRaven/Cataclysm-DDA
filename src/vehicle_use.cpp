@@ -1416,6 +1416,9 @@ void vehicle::use_washing_machine( int p )
         parts[p].enabled = false;
         add_msg( m_bad,
                  _( "You turn the washing machine off before it's finished the program, and open its lid." ) );
+    } else if( items.empty() ) {
+        add_msg( m_bad,
+                 _( "The washing machine is empty, there's no point in starting it." ) );
     } else if( fuel_left( "water" ) < 24 && fuel_left( "water_clean" ) < 24 ) {
         add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the washing machine." ),
                  name );
@@ -1471,6 +1474,9 @@ void vehicle::use_dishwasher( int p )
         parts[p].enabled = false;
         add_msg( m_bad,
                  _( "You turn the dishwasher off before it's finished the program, and open its lid." ) );
+    } else if( items.empty() ) {
+        add_msg( m_bad,
+                 _( "The dishwasher is empty, there's no point in starting it." ) );
     } else if( fuel_left( "water" ) < 24 && fuel_left( "water_clean" ) < 24 ) {
         add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the dishwasher." ),
                  name );
