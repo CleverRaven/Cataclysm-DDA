@@ -2155,12 +2155,8 @@ int bionic::get_quality( const quality_id &quality ) const
 
 bool bionic::is_muscle_powered() const
 {
-    for( const itype_id &fuel : this->info().fuel_opts ) {
-        if( fuel == "muscle" ) {
-            return true;
-        }
-    }
-    return false;
+    const std::vector<itype_id> fuel_op = info().fuel_opts;
+    return std::find( fuel_op.begin(), fuel_op.end(), "muscle" ) != fuel_op.end();
 }
 
 void bionic::serialize( JsonOut &json ) const
