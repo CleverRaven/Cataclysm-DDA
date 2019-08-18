@@ -7538,7 +7538,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     if( goes_bad() ) {
         time = std::max( std::min( last_rot_check, last_temp_check ), calendar::start_of_cataclysm );
     } else {
-        time = std::max( last_temp_check, calendar::start_of_cataclysm );//last_temp_check;
+        time = std::max( last_temp_check, calendar::start_of_cataclysm );
     }
 
     if( now - time > 1_hours ) {
