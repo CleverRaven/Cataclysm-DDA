@@ -545,6 +545,11 @@ bool item::is_unarmed_weapon() const
     return has_flag( "UNARMED_WEAPON" ) || is_null();
 }
 
+bool item::is_frozen_liquid() const
+{
+    return made_of( SOLID ) && made_of_from_type( LIQUID );
+}
+
 bool item::covers( const body_part bp ) const
 {
     return get_covered_body_parts().test( bp );
@@ -1377,7 +1382,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
         }
         if( parts->test( iteminfo_parts::MAGAZINE_RELOAD ) ) {
-            info.emplace_back( "MAGAZINE", _( "Reload time: " ), _( "<num> per round" ),
+            info.emplace_back( "MAGAZINE", _( "Reload time: " ), _( "<num> moves per round" ),
                                iteminfo::lower_is_better, type->magazine->reload_time );
         }
         insert_separation_line();
@@ -1543,9 +1548,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.emplace_back( "GUN", _( "Even chance of good hit at range: " ),
                                    _( "<num>" ), iteminfo::no_flags, range );
                 int aim_mv = g->u.gun_engagement_moves( *mod, type.threshold );
-                info.emplace_back( "GUN", _( "Time to reach aim level: " ), _( "<num> seconds" ),
+                info.emplace_back( "GUN", _( "Time to reach aim level: " ), _( "<num> moves " ),
                                    iteminfo::is_decimal | iteminfo::lower_is_better,
-                                   TICKS_TO_SECONDS( aim_mv ) );
+                                   aim_mv );
             }
         }
 
@@ -1681,9 +1686,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         if( parts->test( iteminfo_parts::GUN_RELOAD_TIME ) ) {
             info.emplace_back( "GUN", _( "Reload time: " ),
-                               has_flag( "RELOAD_ONE" ) ? _( "<num> seconds per round" ) : _( "<num> seconds" ),
+                               has_flag( "RELOAD_ONE" ) ? _( "<num> moves per round" ) : _( "<num> moves " ),
                                iteminfo::lower_is_better,
-                               static_cast<int>( mod->get_reload_time() / 16.67 ) );
+                               mod->get_reload_time() );
         }
 
         if( parts->test( iteminfo_parts::GUN_FIRE_MODES ) ) {
@@ -3174,6 +3179,9 @@ void item::on_wield( player &p, int mv )
     if( p.style_selected != matype_id( "style_none" ) ) {
         p.martialart_use_message();
     }
+
+    // Update encumbrance in case we were wearing it
+    p.reset_encumbrance();
 }
 
 void item::handle_pickup_ownership( Character &c )
@@ -3247,6 +3255,8 @@ void item::on_contents_changed()
     if( is_non_resealable_container() ) {
         convert( type->container->unseals_into );
     }
+
+    set_flag( "ENCUMBRANCE_UPDATE" );
 }
 
 void item::on_damage( int, damage_type )
@@ -4271,9 +4281,17 @@ void item::calc_rot( time_point time, int temp )
     if( item_tags.count( "COLD" ) ) {
         temp = temperatures::fridge;
     }
-
+	
+	
+	//const time_point since;
     // last_rot_check might be zero, if both are then we want calendar::start_of_cataclysm
-    const time_point since = std::max( {last_rot_check, time_point( calendar::start_of_cataclysm )} );
+	//if( to_turn<int>( last_rot_check ) == 0){
+	//	since = time_point( calendar::start_of_cataclysm );
+	//} else {
+	//	since = last_rot_check;
+	//}
+    const time_point since = std::max( last_rot_check, calendar::start_of_cataclysm );
+	
 
     // simulation of different age of food at the start of the game and good/bad storage
     // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
@@ -4285,6 +4303,14 @@ void item::calc_rot( time_point time, int temp )
     }
 
     time_duration time_delta = time - since;
+	
+	add_msg( _( "Last: %i" ), to_turn<int>( last_rot_check ) );
+	add_msg( _( "start: %i" ), to_turn<int>( time_point( calendar::start_of_cataclysm ) ) );
+	add_msg( _( "since: %i" ), to_turn<int>( since ) );
+	add_msg( _( "Now: %i" ), to_turn<int>( time ) );
+	add_msg( _( "time_delta: %i" ), to_turns<int>( time_delta ) );
+	
+	
     rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temp ) * 1_turns;
     last_rot_check = time;
 }
@@ -6626,11 +6652,6 @@ bool item::reload( player &u, item_location loc, int qty )
             debugmsg( "Tried to reload liquid container with non-liquid." );
             return false;
         }
-        if( !ammo->made_of( LIQUID ) ) {
-            u.add_msg_if_player( m_bad, _( "The %s froze solid before you could finish." ),
-                                 ammo->tname() );
-            return false;
-        }
         if( container ) {
             container->on_contents_changed();
         }
@@ -7536,7 +7557,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     time_point time;
     item_internal::goes_bad_cache_set( goes_bad() );
     if( goes_bad() ) {
-        time = std::min( { last_rot_check, last_temp_check } );
+        time = std::max( std::min( last_rot_check, last_temp_check ), calendar::start_of_cataclysm );
     } else {
         time = last_temp_check;
     }
