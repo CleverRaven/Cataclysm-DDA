@@ -18,6 +18,7 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "character_id.h"
 #include "creature.h"
 #include "game_constants.h"
 #include "inventory.h"
@@ -165,9 +166,9 @@ class Character : public Creature, public visitable<Character>
     public:
         ~Character() override;
 
-        int getID() const;
-        // sets the ID, will *only* succeed when the current id is 0 (=not initialized)
-        void setID( int i );
+        character_id getID() const;
+        // sets the ID, will *only* succeed when the current id is not valid
+        void setID( character_id i );
 
         field_type_id bloodType() const override;
         field_type_id gibType() const override;
@@ -966,7 +967,8 @@ class Character : public Creature, public visitable<Character>
         mutable pimpl<pathfinding_settings> path_settings;
 
     private:
-        int id; // A unique ID number, assigned by the game class. Values should never be reused.
+        // A unique ID number, assigned by the game class. Values should never be reused.
+        character_id id;
 
         /** Needs (hunger, starvation, thirst, fatigue, etc.) */
         int stored_calories;

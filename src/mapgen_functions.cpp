@@ -12,6 +12,7 @@
 #include <utility>
 #include <vector>
 
+#include "character_id.h"
 #include "debug.h"
 #include "field.h"
 #include "flood_fill.h"

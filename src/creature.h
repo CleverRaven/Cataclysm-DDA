@@ -78,6 +78,9 @@ class Creature
         virtual bool is_player() const {
             return false;
         }
+        virtual bool is_avatar() const {
+            return false;
+        }
         virtual bool is_npc() const {
             return false;
         }

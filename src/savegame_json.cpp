@@ -320,6 +320,19 @@ void SkillLevel::deserialize( JsonIn &jsin )
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+///// character_id.h
+
+void character_id::serialize( JsonOut &jsout ) const
+{
+    jsout.write( value );
+}
+
+void character_id::deserialize( JsonIn &jsin )
+{
+    value = jsin.get_int();
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// Character.h, avatar + npc
 
 void Character::trait_data::serialize( JsonOut &json ) const
@@ -686,7 +699,7 @@ void player::load( JsonObject &data )
     Character::load( data );
 
     JsonArray parray;
-    int tmpid = 0;
+    character_id tmpid;
 
     if( !data.read( "posx", position.x ) ) { // uh-oh.
         debugmsg( "BAD PLAYER/NPC JSON: no 'posx'?" );
@@ -768,7 +781,7 @@ void player::load( JsonObject &data )
     on_stat_change( "pkill", pkill );
     on_stat_change( "perceived_pain", get_perceived_pain() );
 
-    int tmptar = 0;
+    int tmptar;
     int tmptartyp = 0;
 
     data.read( "last_target", tmptar );
@@ -781,7 +794,7 @@ void player::load( JsonObject &data )
     }
     if( tmptartyp == +1 ) {
         // Use overmap_buffer because game::active_npc is not filled yet.
-        last_target = overmap_buffer.find_npc( tmptar );
+        last_target = overmap_buffer.find_npc( character_id( tmptar ) );
     } else if( tmptartyp == -1 ) {
         // Need to do this *after* the monsters have been loaded!
         last_target = g->critter_tracker->from_temporary_id( tmptar );

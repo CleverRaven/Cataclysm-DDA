@@ -293,7 +293,7 @@ npc::~npc() = default;
 
 void npc::randomize( const npc_class_id &type )
 {
-    if( getID() <= 0 ) {
+    if( !getID().is_valid() ) {
         setID( g->assign_npc_id() );
     }
 
@@ -2181,11 +2181,6 @@ std::string npc_attitude_name( npc_attitude att )
 
     debugmsg( "Invalid attitude: %d", att );
     return _( "Unknown attitude" );
-}
-
-void npc::setID( int i )
-{
-    this->player::setID( i );
 }
 
 //message related stuff

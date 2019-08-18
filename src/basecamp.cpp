@@ -447,7 +447,7 @@ void basecamp::validate_assignees()
             ++it2;
         }
     }
-    for( auto elem : g->get_follower_list() ) {
+    for( character_id elem : g->get_follower_list() ) {
         npc_ptr npc_to_add = overmap_buffer.find_npc( elem );
         if( !npc_to_add ) {
             continue;
