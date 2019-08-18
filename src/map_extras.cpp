@@ -97,7 +97,7 @@ void mx_roa_crash( map &m, const tripoint &abs_sub )
                     y <= cy + dice( 1, 6 ) ) {
                     if( !one_in( 5 ) ) {
                         m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
-                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                        if( m.has_flag_ter( TFLAG_DIGGABLE, tripoint( x, y, abs_sub.z ) ) ) {
                             m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
                         }
                     } else if( m.is_bashable( x, y ) ) {
