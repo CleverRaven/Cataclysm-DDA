@@ -1507,9 +1507,9 @@ static bool tidy_activity( player &p, const tripoint src_loc, activity_id activi
         dest_veh = nullptr;
         dest_part = -1;
     }
-    for( auto it = items_there.begin(); it != items_there.end(); it++ ) {
-        if( it->has_var( "activity_var" ) && it->get_var( "activity_var", "" ) == p.name ) {
-            move_item( p, ( *it ), it->count(), src_loc, loot_src_lot, dest_veh, dest_part,
+    for( auto it : items_there ) {
+        if( it.has_var( "activity_var" ) && it.get_var( "activity_var", "" ) == p.name ) {
+            move_item( p, it, it.count(), src_loc, loot_src_lot, dest_veh, dest_part,
                        activity_to_restore );
             break;
         }

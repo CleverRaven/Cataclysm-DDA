@@ -52,6 +52,7 @@ logg.txt
 *.suo
 *.user
 *.vcxproj.filters
+*.vcxproj
 .vs/
 .vscode/
 Debug*/

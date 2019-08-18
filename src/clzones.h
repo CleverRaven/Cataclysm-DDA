@@ -394,7 +394,7 @@ class zone_manager
         cata::optional<std::string> query_name( const std::string &default_name = "" ) const;
         cata::optional<zone_type_id> query_type() const;
         void swap( zone_data &a, zone_data &b );
-        void rotate_zones( map &target_map, const int turns );
+        void rotate_zones( map &target_map, int turns );
         // list of tripoints of zones that are loot zones only
         std::unordered_set<tripoint> get_point_set_loot( const tripoint &where, int radius,
                 const faction_id &fac = your_fac ) const;
