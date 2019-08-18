@@ -310,7 +310,7 @@
         ],
         "topic": "TALK_ROBOFAC_INTERCOM"
       },
-      { "text": "I have to give it a thought", "topic": "TALK_ROBOFAC_INTERCOM" }
+      { "text": "I have to give it a thought.", "topic": "TALK_ROBOFAC_INTERCOM" }
     ]
   },
   {
