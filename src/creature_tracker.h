@@ -24,7 +24,7 @@ class Creature_tracker
         {
             public:
                 bool operator()( const std::weak_ptr<monster> &lhs, const std::weak_ptr<monster> &rhs ) const {
-                    return lhs.lock().get() == rhs.lock().get();
+                    return lhs.lock().get() < rhs.lock().get();
                 }
         };
 
