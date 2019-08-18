@@ -396,18 +396,18 @@ std::vector<tripoint> continue_line( const std::vector<tripoint> &line, const in
 
 direction direction_from( const int x, const int y, const int z ) noexcept
 {
-    return static_cast<direction>( make_xyz( x, y, z ) );
+    return static_cast<direction>( make_xyz( tripoint( x, y, z ) ) );
 }
 
 direction direction_from( const int x1, const int y1, const int x2, const int y2 ) noexcept
 {
-    return direction_from( x2 - x1, y2 - y1 );
+    return direction_from( point( x2 - x1, y2 - y1 ) );
 }
 
 direction direction_from( const tripoint &p, const tripoint &q )
 {
     // Note: Z-coordinate has to be inverted either here or in direction definitions
-    return direction_from( q.x - p.x, q.y - p.y, -( q.z - p.z ) );
+    return direction_from( tripoint( q.x - p.x, q.y - p.y, -( q.z - p.z ) ) );
 }
 
 point direction_XY( const direction dir )

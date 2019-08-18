@@ -3335,7 +3335,7 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
 {
     const int my = POSY + ( critter.posy() - center.y );
     const int mx = POSX + ( critter.posx() - center.x );
-    if( !is_valid_in_w_terrain( mx, my ) ) {
+    if( !is_valid_in_w_terrain( point( mx, my ) ) ) {
         return;
     }
     if( critter.posz() != center.z && m.has_zlevels() ) {
@@ -3897,7 +3897,7 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
         const int mx = POSX + ( c->posx() - view.x );
         const int my = POSY + ( c->posy() - view.y );
         int index = 8;
-        if( !is_valid_in_w_terrain( mx, my ) ) {
+        if( !is_valid_in_w_terrain( point( mx, my ) ) ) {
             // for compatibility with old code, see diagram below, it explains the values for index,
             // also might need revisiting one z-levels are in.
             switch( dir_to_mon ) {
@@ -10234,7 +10234,7 @@ void game::vertical_move( int movez, bool force )
         if( mons != nullptr ) {
             critter_tracker->remove( *mons );
         }
-        shift_monsters( 0, 0, movez );
+        shift_monsters( tripoint( 0, 0, movez ) );
     }
 
     std::vector<std::shared_ptr<npc>> npcs_to_bring;
@@ -10514,7 +10514,7 @@ void game::vertical_shift( const int z_after )
         m.set_transparency_cache_dirty( z_before );
         m.set_outside_cache_dirty( z_before );
         m.load( tripoint( get_levx(), get_levy(), z_after ), true );
-        shift_monsters( 0, 0, z_after - z_before );
+        shift_monsters( tripoint( 0, 0, z_after - z_before ) );
         reload_npcs();
     } else {
         // Shift the map itself
@@ -10607,10 +10607,10 @@ point game::update_map( int &x, int &y )
     }
 
     // this handles loading/unloading submaps that have scrolled on or off the viewport
-    m.shift( shift.x, shift.y );
+    m.shift( shift );
 
     // Shift monsters
-    shift_monsters( shift.x, shift.y, 0 );
+    shift_monsters( tripoint( shift, 0 ) );
     const point shift_ms = sm_to_ms_copy( shift );
     u.shift_destination( -shift_ms );
 
