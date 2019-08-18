@@ -55,9 +55,6 @@ class rule
         void deserialize( JsonIn &jsin );
 
         void test_pattern() const;
-
-        static bool check_special_rule( const std::vector<material_id> &materials,
-                                        const std::string &rule );
 };
 
 /**
