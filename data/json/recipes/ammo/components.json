@@ -19,9 +19,9 @@
     "subcategory": "CSC_AMMO_COMPONENTS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "45 s",
+    "time": "15 s",
     "book_learn": [ [ "pocket_firearms", 3 ], [ "manual_gun", 2 ], [ "recipe_bullets", 1 ], [ "textbook_anarch", 0 ] ],
-    "using": [ [ "mortar_pestle", -1 ] ],
+    "tools": [ [ [ "mortar_pestle", -1 ] ], [ [ "sieve_steel", -1 ] ] ],
     "components": [
       [
         [ "gunpowder_pistol", 1 ],
