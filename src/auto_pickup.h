@@ -45,10 +45,8 @@ class auto_pickup_rule
 
         auto_pickup_rule() = default;
 
-        auto_pickup_rule( const std::string &sRuleIn, bool bActiveIn, bool bExcludeIn ) {
-            this->sRule = sRuleIn;
-            this->bActive = bActiveIn;
-            this->bExclude = bExcludeIn;
+        auto_pickup_rule( const std::string &r, const bool a, const bool e ) : sRule( r ), bActive( a ),
+            bExclude( e ) {
         }
 
         void serialize( JsonOut &json ) const;
