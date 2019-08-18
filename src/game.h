@@ -124,7 +124,6 @@ struct w_map {
     catacurses::window win;
 };
 
-bool is_valid_in_w_terrain( int x, int y );
 bool is_valid_in_w_terrain( const point &p );
 
 // There is only one game instance, so losing a few bytes of memory
@@ -640,8 +639,7 @@ class game
         void set_safe_mode( safe_mode_type mode );
 
         /** open vehicle interaction screen */
-        void exam_vehicle( vehicle &veh, int cx = 0, int cy = 0 );
-        void exam_vehicle( vehicle &veh, const point &cp );
+        void exam_vehicle( vehicle &veh, const point &cp = point_zero );
 
         // Forcefully close a door at p.
         // The function checks for creatures/items/vehicles at that point and
@@ -807,7 +805,6 @@ class game
          * Note on z-levels: this works with vertical shifts, but currently all
          * monsters are despawned upon a vertical shift.
          */
-        void shift_monsters( int shiftx, int shifty, int shiftz );
         void shift_monsters( const tripoint &shift );
     public:
         /**

@@ -6454,14 +6454,14 @@ void map::save()
     }
 }
 
-void map::load( const int wx, const int wy, const int wz, const bool update_vehicle )
+void map::load( const tripoint &w, const bool update_vehicle )
 {
     for( auto &traps : traplocs ) {
         traps.clear();
     }
     field_furn_locs.clear();
     submaps_with_active_items.clear();
-    set_abs_sub( tripoint( wx, wy, wz ) );
+    set_abs_sub( w );
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             loadn( point( gridx, gridy ), update_vehicle );
@@ -6499,10 +6499,10 @@ void map::shift_traps( const tripoint &shift )
 }
 
 template<int SIZE, int MULTIPLIER>
-void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const int sx, const int sy )
+void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point &s )
 {
     // sx shifts by MULTIPLIER rows, sy shifts by MULTIPLIER columns.
-    int shift_amount = sx * MULTIPLIER + sy * SIZE * MULTIPLIER;
+    int shift_amount = s.x * MULTIPLIER + s.y * SIZE * MULTIPLIER;
     if( shift_amount > 0 ) {
         cache >>= static_cast<size_t>( shift_amount );
     } else if( shift_amount < 0 ) {
@@ -6510,10 +6510,10 @@ void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const int sx, const int
     }
     // Shifting in the y direction shifted in 0 values, no no additional clearing is necessary, but
     // a shift in the x direction makes values "wrap" to the next row, and they need to be zeroed.
-    if( sx == 0 ) {
+    if( s.x == 0 ) {
         return;
     }
-    const size_t x_offset = sx > 0 ? SIZE - MULTIPLIER : 0;
+    const size_t x_offset = s.x > 0 ? SIZE - MULTIPLIER : 0;
     for( size_t y = 0; y < SIZE; ++y ) {
         size_t y_offset = y * SIZE;
         for( size_t x = 0; x < MULTIPLIER; ++x ) {
@@ -6524,34 +6524,32 @@ void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const int sx, const int
 
 template void
 shift_bitset_cache<MAPSIZE_X, SEEX>( std::bitset<MAPSIZE_X *MAPSIZE_X> &cache,
-                                     const int sx, const int sy );
+                                     const point &s );
 template void
-shift_bitset_cache<MAPSIZE, 1>( std::bitset<MAPSIZE *MAPSIZE> &cache, const int sx, const int sy );
+shift_bitset_cache<MAPSIZE, 1>( std::bitset<MAPSIZE *MAPSIZE> &cache, const point &s );
 
-void map::shift( const int sx, const int sy )
+void map::shift( const point &sp )
 {
     // Special case of 0-shift; refresh the map
-    if( sx == 0 && sy == 0 ) {
+    if( sp == point_zero ) {
         return; // Skip this?
     }
-    const int absx = get_abs_sub().x;
-    const int absy = get_abs_sub().y;
-    const int wz = get_abs_sub().z;
+    const tripoint abs = get_abs_sub();
 
-    set_abs_sub( tripoint( absx + sx, absy + sy, wz ) );
+    set_abs_sub( abs + sp );
 
     // if player is in vehicle, (s)he must be shifted with vehicle too
     if( g->u.in_vehicle ) {
-        g->u.setx( g->u.posx() - sx * SEEX );
-        g->u.sety( g->u.posy() - sy * SEEY );
+        g->u.setx( g->u.posx() - sp.x * SEEX );
+        g->u.sety( g->u.posy() - sp.y * SEEY );
     }
 
-    shift_traps( tripoint( sx, sy, 0 ) );
+    shift_traps( tripoint( sp, 0 ) );
 
     vehicle *remoteveh = g->remoteveh();
 
-    const int zmin = zlevels ? -OVERMAP_DEPTH : wz;
-    const int zmax = zlevels ? OVERMAP_HEIGHT : wz;
+    const int zmin = zlevels ? -OVERMAP_DEPTH : abs.z;
+    const int zmax = zlevels ? OVERMAP_HEIGHT : abs.z;
     for( int gridz = zmin; gridz <= zmax; gridz++ ) {
         for( vehicle *veh : get_cache( gridz ).vehicle_list ) {
             veh->zones_dirty = true;
@@ -6565,18 +6563,18 @@ void map::shift( const int sx, const int sy )
         // Clear vehicle list and rebuild after shift
         clear_vehicle_cache( gridz );
         clear_vehicle_list( gridz );
-        shift_bitset_cache<MAPSIZE_X, SEEX>( get_cache( gridz ).map_memory_seen_cache, point( sx, sy ) );
-        shift_bitset_cache<MAPSIZE, 1>( get_cache( gridz ).field_cache, point( sx, sy ) );
-        if( sx >= 0 ) {
+        shift_bitset_cache<MAPSIZE_X, SEEX>( get_cache( gridz ).map_memory_seen_cache, sp );
+        shift_bitset_cache<MAPSIZE, 1>( get_cache( gridz ).field_cache, sp );
+        if( sp.x >= 0 ) {
             for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
-                if( sy >= 0 ) {
+                if( sp.y >= 0 ) {
                     for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
                         if( gridx == 0 || gridy == 0 ) {
-                            submaps_with_active_items.erase( { absx + gridx, absy + gridy, gridz } );
+                            submaps_with_active_items.erase( { abs.x + gridx, abs.y + gridy, gridz } );
                         }
-                        if( gridx + sx < my_MAPSIZE && gridy + sy < my_MAPSIZE ) {
+                        if( gridx + sp.x < my_MAPSIZE && gridy + sp.y < my_MAPSIZE ) {
                             copy_grid( tripoint( gridx, gridy, gridz ),
-                                       tripoint( gridx + sx, gridy + sy, gridz ) );
+                                       tripoint( gridx + sp.x, gridy + sp.y, gridz ) );
                             update_vehicle_list( get_submap_at_grid( {gridx, gridy, gridz} ), gridz );
                         } else {
                             loadn( tripoint( gridx, gridy, gridz ), true );
@@ -6585,11 +6583,11 @@ void map::shift( const int sx, const int sy )
                 } else { // sy < 0; work through it backwards
                     for( int gridy = my_MAPSIZE - 1; gridy >= 0; gridy-- ) {
                         if( gridx == 0 || gridy == my_MAPSIZE - 1 ) {
-                            submaps_with_active_items.erase( { absx + gridx, absy + gridy, gridz } );
+                            submaps_with_active_items.erase( { abs.x + gridx, abs.y + gridy, gridz } );
                         }
-                        if( gridx + sx < my_MAPSIZE && gridy + sy >= 0 ) {
+                        if( gridx + sp.x < my_MAPSIZE && gridy + sp.y >= 0 ) {
                             copy_grid( tripoint( gridx, gridy, gridz ),
-                                       tripoint( gridx + sx, gridy + sy, gridz ) );
+                                       tripoint( gridx + sp.x, gridy + sp.y, gridz ) );
                             update_vehicle_list( get_submap_at_grid( { gridx, gridy, gridz } ), gridz );
                         } else {
                             loadn( tripoint( gridx, gridy, gridz ), true );
@@ -6599,14 +6597,14 @@ void map::shift( const int sx, const int sy )
             }
         } else { // sx < 0; work through it backwards
             for( int gridx = my_MAPSIZE - 1; gridx >= 0; gridx-- ) {
-                if( sy >= 0 ) {
+                if( sp.y >= 0 ) {
                     for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
                         if( gridx == my_MAPSIZE - 1 || gridy == 0 ) {
-                            submaps_with_active_items.erase( { absx + gridx, absy + gridy, gridz } );
+                            submaps_with_active_items.erase( { abs.x + gridx, abs.y + gridy, gridz } );
                         }
-                        if( gridx + sx >= 0 && gridy + sy < my_MAPSIZE ) {
+                        if( gridx + sp.x >= 0 && gridy + sp.y < my_MAPSIZE ) {
                             copy_grid( tripoint( gridx, gridy, gridz ),
-                                       tripoint( gridx + sx, gridy + sy, gridz ) );
+                                       tripoint( gridx + sp.x, gridy + sp.y, gridz ) );
                             update_vehicle_list( get_submap_at_grid( { gridx, gridy, gridz } ), gridz );
                         } else {
                             loadn( tripoint( gridx, gridy, gridz ), true );
@@ -6615,11 +6613,11 @@ void map::shift( const int sx, const int sy )
                 } else { // sy < 0; work through it backwards
                     for( int gridy = my_MAPSIZE - 1; gridy >= 0; gridy-- ) {
                         if( gridx == my_MAPSIZE - 1 || gridy == my_MAPSIZE - 1 ) {
-                            submaps_with_active_items.erase( { absx + gridx, absy + gridy, gridz } );
+                            submaps_with_active_items.erase( { abs.x + gridx, abs.y + gridy, gridz } );
                         }
-                        if( gridx + sx >= 0 && gridy + sy >= 0 ) {
+                        if( gridx + sp.x >= 0 && gridy + sp.y >= 0 ) {
                             copy_grid( tripoint( gridx, gridy, gridz ),
-                                       tripoint( gridx + sx, gridy + sy, gridz ) );
+                                       tripoint( gridx + sp.x, gridy + sp.y, gridz ) );
                             update_vehicle_list( get_submap_at_grid( { gridx, gridy, gridz } ), gridz );
                         } else {
                             loadn( tripoint( gridx, gridy, gridz ), true );
@@ -6638,7 +6636,7 @@ void map::shift( const int sx, const int sy )
         std::set<tripoint> old_cache = std::move( support_cache_dirty );
         support_cache_dirty.clear();
         for( const auto &pt : old_cache ) {
-            support_cache_dirty.insert( pt + point( -sx * SEEX, -sy * SEEY ) );
+            support_cache_dirty.insert( pt + point( -sp.x * SEEX, -sp.y * SEEY ) );
         }
     }
 }
@@ -8228,21 +8226,14 @@ void map::creature_on_trap( Creature &c, const bool may_avoid )
 template<typename Functor>
 void map::function_over( const tripoint &start, const tripoint &end, Functor fun ) const
 {
-    function_over( start.x, start.y, start.z, end.x, end.y, end.z, fun );
-}
-
-template<typename Functor>
-void map::function_over( const int stx, const int sty, const int stz,
-                         const int enx, const int eny, const int enz, Functor fun ) const
-{
     // start and end are just two points, end can be "before" start
     // Also clip the area to map area
-    const int minx = std::max( std::min( stx, enx ), 0 );
-    const int miny = std::max( std::min( sty, eny ), 0 );
-    const int minz = std::max( std::min( stz, enz ), -OVERMAP_DEPTH );
-    const int maxx = std::min( std::max( stx, enx ), SEEX * my_MAPSIZE - 1 );
-    const int maxy = std::min( std::max( sty, eny ), SEEY * my_MAPSIZE - 1 );
-    const int maxz = std::min( std::max( stz, enz ), OVERMAP_HEIGHT );
+    const int minx = std::max( std::min( start.x, end.x ), 0 );
+    const int miny = std::max( std::min( start.y, end.y ), 0 );
+    const int minz = std::max( std::min( start.z, end.z ), -OVERMAP_DEPTH );
+    const int maxx = std::min( std::max( start.x, end.x ), SEEX * my_MAPSIZE - 1 );
+    const int maxy = std::min( std::max( start.y, end.y ), SEEY * my_MAPSIZE - 1 );
+    const int maxz = std::min( std::max( start.z, end.z ), OVERMAP_HEIGHT );
 
     // Submaps that contain the bounding points
     const int min_smx = minx / SEEX;
@@ -8316,7 +8307,7 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
         return ITER_CONTINUE;
     };
 
-    function_over( min.x, min.y, abs_sub.z, max.x, max.y, abs_sub.z, fill_values );
+    function_over( tripoint( min, abs_sub.z ), tripoint( max, abs_sub.z ), fill_values );
 
     const rectangle local_bounds( min, max );
 

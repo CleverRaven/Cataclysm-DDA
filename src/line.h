@@ -47,7 +47,6 @@ inline constexpr unsigned make_xyz_unit( const int x, const int y, const int z )
 }
 
 // This more general version of this function gives correct values for larger inputs.
-unsigned make_xyz( int x, int y, int z );
 unsigned make_xyz( const tripoint & );
 
 enum direction : unsigned {
@@ -82,7 +81,6 @@ enum direction : unsigned {
     BELOWSOUTHEAST = make_xyz_unit( 1,  1,  1 ),
 };
 
-direction direction_from( int x, int y, int z = 0 ) noexcept;
 direction direction_from( const point &p ) noexcept;
 direction direction_from( const tripoint &p ) noexcept;
 direction direction_from( int x1, int y1, int x2, int y2 ) noexcept;
