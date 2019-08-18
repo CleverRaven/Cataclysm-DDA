@@ -4680,7 +4680,7 @@ bool mattack::flesh_tendril( monster *z )
 
     if( target == nullptr || !z->sees( *target ) ) {
         if( one_in( 70 ) ) {
-            add_msg( _( "The floor trembles underneath your feet" ) );
+            add_msg( _( "The floor trembles underneath your feet." ) );
             z->moves -= 200;
             sounds::sound( z->pos(), 60, sounds::sound_t::alert, _( "a deafening roar!" ), false, "shout",
                            "roar" );
