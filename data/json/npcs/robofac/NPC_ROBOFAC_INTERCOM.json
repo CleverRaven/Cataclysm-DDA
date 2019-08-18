@@ -42,6 +42,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_1",
     "type": "mission_definition",
     "name": "Return Field Data",
+    "description": "Investigate a nearby field and return with Dr. Prado and the robot prototype she was testing.  Failing that, retrieve the I/O recorder stored within the robot.  If the robot remains operational, avoid direct confrontation and use EMP grenades to disable it.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "item": "robofac_test_data",
@@ -106,6 +107,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_2",
     "type": "mission_definition",
     "name": "Steal a dead man's mind",
+    "description": "Find the corpse of a Hub 01's AI researcher and use the mind splicer kit to recover the memories stored inside their memory implant.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "item": "mind_scan_robofac",
@@ -122,13 +124,14 @@
           "om_special": "hub_01",
           "place_nested": [ { "chunks": [ "robofac_hq_surface_freemerchant_camp" ], "x": 4, "y": 0 } ]
         }
-      ]
+      ],
+      "effect": [ { "u_buy_item": "RobofacCoin", "count": 2 } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "...",
       "offer": "When the portal storms started, the Government issued an evacuation order for critical XEDRA personnel and sent convoys to retrieve them, with our head of AI research among the recalled.  We recently discovered that he died when the convoy transferring him was ambushed in the initial chaos, but his corpse and memory bionic might remain intact enough for us to extract valuable knowledge.  We want you to travel to the location, make a copy of his Bionic Memory Unit, and return it to us.",
-      "accepted": "Remember, do extraction /exactly/ as specified, otherwise the bionic will self-destruct.",
+      "accepted": "Remember, perform the extraction /exactly/ as specified, otherwise the bionic will self-destruct.",
       "rejected": "Yes, we recognize that our request is exceptional.  Return if you change your mind.",
       "advice": " You do know what a memory unit looks like, right?  Matte gray, pill-sized, right in front of the corpus callosum.  We suggest a forceps through the eye socket, shaking slightly, then slowly and carefully...",
       "inquire": "Do you have the scan?",
