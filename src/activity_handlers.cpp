@@ -870,7 +870,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 roll *= roll_drops();
                 monster_weight_remaining -= roll;
                 roll = ceil( static_cast<double>( roll ) /
-                             to_gram( ( item::find_type( entry.drop ) )->weight ) );
+                             to_gram( item::find_type( entry.drop )->weight ) );
             } else {
                 monster_weight_remaining -= roll * to_gram( ( item::find_type( entry.drop ) )->weight );
             }
