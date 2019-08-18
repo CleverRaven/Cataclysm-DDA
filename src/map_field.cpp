@@ -1228,7 +1228,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             clear_path( p, g->u.pos(), 10, 0, 100 ) ) {
 
                             std::vector<point> candidate_positions =
-                                squares_in_direction( p.x, p.y, g->u.posx(), g->u.posy() );
+                                squares_in_direction( p.xy(), point( g->u.posx(), g->u.posy() ) );
                             for( point &candidate_position : candidate_positions ) {
                                 field &target_field =
                                     get_field( tripoint( candidate_position, p.z ) );
