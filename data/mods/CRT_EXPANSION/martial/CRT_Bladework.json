@@ -29,12 +29,7 @@
         "unarmed_allowed": true,
         "melee_allowed": true,
         "min_unarmed": 2,
-        "flat_bonuses": [
-          [ "damage", "stab", 1 ],
-          [ "damage", "cut", 1 ],
-          [ "arpen", "stab", 1 ],
-          [ "arpen", "cut", 1 ]
-        ]
+        "flat_bonuses": [ [ "damage", "stab", 1 ], [ "damage", "cut", 1 ], [ "arpen", "stab", 1 ], [ "arpen", "cut", 1 ] ]
       }
     ],
     "onhit_buffs": [
@@ -43,15 +38,11 @@
         "name": "C.R.I.T Intensity",
         "description": "Additional DMG, and Arpen per stack. Max of 5 stacks",
         "unarmed_allowed": false,
-        "melee_allowed": true,  
+        "melee_allowed": true,
         "min_unarmed": 3,
         "buff_duration": 3,
         "max_stacks": 5,
-        "flat_bonuses": [
-          [ "damage", "stab", 0.5 ],
-          [ "damage", "cut",  0.5 ],
-          [ "arpen", "cut", 1 ]
-        ]
+        "flat_bonuses": [ [ "damage", "stab", 0.5 ], [ "damage", "cut", 0.5 ], [ "arpen", "cut", 1 ] ]
       }
     ],
     "techniques": [ "tec_crt_blade_normal", "tec_crt_blade_rapid", "tec_crt_blade_precise", "tec_crt_blade_arpen", "tec_feint" ],
@@ -72,7 +63,7 @@
       "knife_meat_cleaver",
       "knife_bread",
       "knife_chef",
-      "knife_butcher", 
+      "knife_butcher",
       "makeshift_knife",
       "primitive_knife",
       "pockknife",
@@ -112,7 +103,7 @@
     "min_unarmed": 3,
     "min_melee": 3,
     "unarmed_allowed": true,
-    "melee_allowed": true,  
+    "melee_allowed": true,
     "mult_bonuses": [ [ "movecost", 0.8 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 1.05 ], [ "damage", "stab", 1.0 ] ],
     "crit_tec": true,
     "messages": [ "You release a debilitating swipe at %s", "<npcname> releases a debilitating swipe at %s" ],
@@ -131,7 +122,7 @@
       [ "damage", "bash", 0.5 ],
       [ "damage", "cut", 1.1 ],
       [ "damage", "stab", 1.1 ],
-      [ "arpen", "stab", 0.25 ],  
+      [ "arpen", "stab", 0.25 ],
       [ "arpen", "cut", 0.5 ]
     ],
     "crit_tec": true,
