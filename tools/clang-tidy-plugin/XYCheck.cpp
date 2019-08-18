@@ -94,6 +94,10 @@ static void CheckParam( XYCheck &Check, const MatchFinder::MatchResult &Result )
     if( !XParam || !Function ) {
         return;
     }
+    // Don't mess with the methods of point and tripoint themselves
+    if( isPointMethod( Function ) ) {
+        return;
+    }
     const NameConvention NameMatcher( XParam->getName() );
 
     const ParmVarDecl *YParam = nullptr;
