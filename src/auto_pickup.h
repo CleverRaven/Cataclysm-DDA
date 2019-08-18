@@ -84,15 +84,10 @@ class auto_pickup_ui
         {
             public:
                 std::string title;
-                bool available;
-                std::string unavailable_msg;
                 auto_pickup_rule_list new_rules;
                 std::reference_wrapper<auto_pickup_rule_list> rules;
 
-                tab( const std::string &t, auto_pickup_rule_list &r ) : title( t ), available( true ),
-                    new_rules( r ), rules( r ) { }
-                tab( const std::string &t, const std::string &u ) : title( t ), available( false ),
-                    unavailable_msg( u ), new_rules(), rules( new_rules ) { }
+                tab( const std::string &t, auto_pickup_rule_list &r ) : title( t ), new_rules( r ), rules( r ) { }
         };
 
         std::string title;
