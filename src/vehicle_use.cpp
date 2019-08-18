@@ -1370,6 +1370,9 @@ void vehicle::use_autoclave( int p )
         parts[p].enabled = false;
         add_msg( m_bad,
                  _( "You turn the autoclave off before it's finished the program, and open its door." ) );
+    } else if( items.empty() ) {
+        add_msg( m_bad,
+                 _( "The autoclave is empty, there's no point in starting it." ) );
     } else if( fuel_left( "water" ) < 8 && fuel_left( "water_clean" ) < 8 ) {
         add_msg( m_bad, _( "You need 8 charges of water in tanks of the %s for the autoclave to run." ),
                  name );
