@@ -4712,7 +4712,7 @@ bool mattack::flesh_tendril( monster *z )
                 summoned->make_ally( *z );
                 g->m.propagate_field( z->pos(), fd_gibs_flesh, 75, 1 );
                 if( g->u.sees( *z ) ) {
-                    add_msg( m_warning, _( "A %s stuggles itself free from the %s!" ), summoned->name(),
+                    add_msg( m_warning, _( "A %s struggles to pull itself free from the %s!" ), summoned->name(),
                              z->name() );
                 }
             }
