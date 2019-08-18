@@ -326,12 +326,7 @@
         "                                                "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": {
-        ">": "t_ladder_down",
-        "X": "t_radio_tower",
-        "H": "t_sconc_wall",
-        "B": "t_door_metal_pickable"
-        },
+      "terrain": { ">": "t_ladder_down", "X": "t_radio_tower", "H": "t_sconc_wall", "B": "t_door_metal_pickable" },
       "place_nested": [
         {
           "chunks": [ [ "null", 20 ], [ "roof_4x4_utility", 50 ], [ "roof_4x4_utility_1", 40 ] ],
