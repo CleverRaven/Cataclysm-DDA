@@ -19,7 +19,6 @@
 #include "optional.h"
 #include "pimpl.h"
 #include "player.h"
-#include "auto_pickup.h"
 #include "color.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -34,6 +33,7 @@
 #include "item.h"
 #include "point.h"
 
+class auto_pickup;
 struct bionic_data;
 class JsonObject;
 class JsonIn;
