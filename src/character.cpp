@@ -123,7 +123,8 @@ Character::Character() :
     hp_cur( {{ 0 }} ),
     hp_max( {{ 0 }} ),
     damage_bandaged( {{ 0 }} ),
-    damage_disinfected( {{ 0 }} )
+    damage_disinfected( {{ 0 }} ),
+    id( -1 )
 {
     str_max = 0;
     dex_max = 0;
@@ -158,6 +159,22 @@ Character::Character() :
 Character::~Character() = default;
 Character::Character( Character && ) = default;
 Character &Character::operator=( Character && ) = default;
+
+void Character::setID( int i )
+{
+    if( id >= 0 ) {
+        debugmsg( "tried to set id of a npc/player, but has already a id: %d", id );
+    } else if( i < -1 ) {
+        debugmsg( "tried to set invalid id of a npc/player: %d", i );
+    } else {
+        id = i;
+    }
+}
+
+int Character::getID() const
+{
+    return this->id;
+}
 
 field_type_id Character::bloodType() const
 {
