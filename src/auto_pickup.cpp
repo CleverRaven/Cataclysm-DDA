@@ -29,6 +29,9 @@
 
 using namespace auto_pickup;
 
+static bool check_special_rule( const std::vector<material_id> &materials,
+                                const std::string &rule );
+
 auto_pickup::player_settings &get_auto_pickup()
 {
     static auto_pickup::player_settings single_instance;
@@ -391,8 +394,7 @@ void rule::test_pattern() const
     //APU now ignores prefixes, bottled items and suffix combinations still not generated
     for( const itype *e : item_controller->all() ) {
         const std::string sItemName = e->nname( 1 );
-        if( !check_special_rule( e->materials, sRule ) &&
-            !wildcard_match( sItemName, sRule ) ) {
+        if( !check_special_rule( e->materials, sRule ) && !wildcard_match( sItemName, sRule ) ) {
             continue;
         }
 
@@ -519,8 +521,7 @@ bool player_settings::empty() const
     return global_rules.empty() && character_rules.empty();
 }
 
-bool rule::check_special_rule( const std::vector<material_id> &materials,
-                               const std::string &rule )
+bool check_special_rule( const std::vector<material_id> &materials, const std::string &rule )
 {
     char type = ' ';
     std::vector<std::string> filter;
@@ -582,7 +583,7 @@ void rule_list::create_rule( cache &map_items, const item &it )
     for( const rule &elem : *this ) {
         if( !elem.bActive ) {
             continue;
-        } else if( !rule::check_special_rule( it.made_of(), elem.sRule ) &&
+        } else if( !check_special_rule( it.made_of(), elem.sRule ) &&
                    !wildcard_match( to_match, elem.sRule ) ) {
             continue;
         }
@@ -612,8 +613,7 @@ void rule_list::refresh_map_items( cache &map_items ) const
             for( const itype *e : item_controller->all() ) {
                 const std::string &cur_item = e->nname( 1 );
 
-                if( !rule::check_special_rule( e->materials, elem.sRule ) &&
-                    !wildcard_match( cur_item, elem.sRule ) ) {
+                if( !check_special_rule( e->materials, elem.sRule ) && !wildcard_match( cur_item, elem.sRule ) ) {
                     continue;
                 }
 
@@ -624,8 +624,7 @@ void rule_list::refresh_map_items( cache &map_items ) const
             //only re-exclude items from the existing mapping for now
             //new exclusions will process during pickup attempts
             for( auto &map_item : map_items ) {
-                if( !rule::check_special_rule( map_items.temp_items[ map_item.first ]->materials,
-                                               elem.sRule ) &&
+                if( !check_special_rule( map_items.temp_items[ map_item.first ]->materials, elem.sRule ) &&
                     !wildcard_match( map_item.first, elem.sRule ) ) {
                     continue;
                 }
