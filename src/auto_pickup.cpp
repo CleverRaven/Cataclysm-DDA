@@ -2,7 +2,6 @@
 
 #include <cstddef>
 #include <algorithm>
-#include <sstream>
 #include <functional>
 #include <map>
 #include <memory>
@@ -140,8 +139,6 @@ void user_interface::show()
         ctxt.register_action( "SWITCH_AUTO_PICKUP_OPTION" );
     }
 
-    std::ostringstream sTemp;
-
     while( true ) {
         rule_list &cur_rules = tabs[iTab].new_rules;
         int locx = 17;
@@ -186,9 +183,7 @@ void user_interface::show()
                                   static_cast<int>( cur_rules.size() ) : iContentHeight ) ) {
                 nc_color cLineColor = cur_rules[i].bActive ? c_white : c_light_gray;
 
-                sTemp.str( "" );
-                sTemp << i + 1;
-                mvwprintz( w, point( 1, i - iStartPos ), cLineColor, sTemp.str() );
+                mvwprintz( w, point( 1, i - iStartPos ), cLineColor, "%d", i + 1 );
                 mvwprintz( w, point( 5, i - iStartPos ), cLineColor, "" );
 
                 if( iLine == i ) {
@@ -411,7 +406,6 @@ void rule::test_pattern() const
     int iStartPos = 0;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 8;
     const int iContentWidth = FULL_SCREEN_WIDTH - 30;
-    std::ostringstream sTemp;
 
     const catacurses::window w_test_rule_border = catacurses::newwin( iContentHeight + 2, iContentWidth,
             point( iOffsetX, iOffsetY ) );
@@ -451,9 +445,7 @@ void rule::test_pattern() const
                                   static_cast<int>( vMatchingItems.size() ) : iContentHeight ) ) {
                 nc_color cLineColor = c_white;
 
-                sTemp.str( "" );
-                sTemp << i + 1;
-                mvwprintz( w_test_rule_content, point( 0, i - iStartPos ), cLineColor, sTemp.str() );
+                mvwprintz( w_test_rule_content, point( 0, i - iStartPos ), cLineColor, "%d", i + 1 );
                 mvwprintz( w_test_rule_content, point( 4, i - iStartPos ), cLineColor, "" );
 
                 if( iLine == i ) {
