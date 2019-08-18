@@ -34,11 +34,6 @@ auto_pickup &get_auto_pickup()
     return single_instance;
 }
 
-void auto_pickup::show()
-{
-    show( _( " AUTO PICKUP MANAGER " ), true );
-}
-
 void auto_pickup_ui::show()
 {
     if( tabs.empty() ) {
@@ -363,16 +358,16 @@ void auto_pickup_ui::show()
     }
 }
 
-void auto_pickup::show( const std::string &custom_name, const bool is_autopickup )
+void auto_pickup::show()
 {
     auto_pickup_ui ui;
 
-    ui.title = custom_name;
+    ui.title = _( " AUTO PICKUP MANAGER " );
     ui.tabs.emplace_back( _( "[<Global>]" ), global_rules );
     if( !g->u.name.empty() ) {
         ui.tabs.emplace_back( _( "[<Character>]" ), character_rules );
     }
-    ui.is_autopickup = is_autopickup;
+    ui.is_autopickup = true;
 
     ui.show();
 
@@ -380,14 +375,11 @@ void auto_pickup::show( const std::string &custom_name, const bool is_autopickup
         return;
     }
 
-    // NPC pickup rules don't need to be saved explicitly
-    if( is_autopickup ) {
-        save_global();
-        if( !g->u.name.empty() ) {
-            save_character();
-        }
+    save_global();
+    if( !g->u.name.empty() ) {
+        save_character();
     }
-    map_items.ready = false;
+    invalidate();
 }
 
 void auto_pickup_rule::test_pattern() const
@@ -522,7 +514,7 @@ void auto_pickup::remove_rule( const item *it )
         if( sRule.length() == it->sRule.length() &&
             ci_find_substr( sRule, it->sRule ) != -1 ) {
             character_rules.erase( it );
-            map_items.ready = false;
+            invalidate();
             break;
         }
     }
@@ -566,10 +558,9 @@ bool auto_pickup_rule::check_special_rule( const std::vector<material_id> &mater
 }
 
 //Special case. Required for NPC harvest autopickup. Ignores material rules.
-void auto_pickup::create_rule( const std::string &to_match )
+void npc_auto_pickup::create_rule( const std::string &to_match )
 {
-    global_rules.create_rule( map_items, to_match );
-    character_rules.create_rule( map_items, to_match );
+    rules.create_rule( map_items, to_match );
 }
 
 void auto_pickup_rule_list::create_rule( auto_pickup_cache &map_items, const std::string &to_match )
@@ -606,19 +597,13 @@ void auto_pickup_rule_list::create_rule( auto_pickup_cache &map_items, const ite
     }
 }
 
-void auto_pickup::refresh_map_items() const
+void auto_pickup::refresh_map_items( auto_pickup_cache &map_items ) const
 {
-    map_items.clear();
-    map_items.temp_items.clear();
-
     //process include/exclude in order of rules, global first, then character specific
     //if a specific item is being added, all the rules need to be checked now
     //may have some performance issues since exclusion needs to check all items also
     global_rules.refresh_map_items( map_items );
     character_rules.refresh_map_items( map_items );
-
-    map_items.ready = true;
-    map_items.temp_items.clear();
 }
 
 void auto_pickup_rule_list::refresh_map_items( auto_pickup_cache &map_items ) const
@@ -657,10 +642,10 @@ void auto_pickup_rule_list::refresh_map_items( auto_pickup_cache &map_items ) co
     }
 }
 
-rule_state auto_pickup::check_item( const std::string &sItemName ) const
+rule_state auto_pickup_base::check_item( const std::string &sItemName ) const
 {
     if( !map_items.ready ) {
-        refresh_map_items();
+        recreate();
     }
 
     const auto iter = map_items.find( sItemName );
@@ -674,7 +659,7 @@ rule_state auto_pickup::check_item( const std::string &sItemName ) const
 void auto_pickup::clear_character_rules()
 {
     character_rules.clear();
-    map_items.ready = false;
+    invalidate();
 }
 
 bool auto_pickup::save_character()
@@ -733,7 +718,7 @@ void auto_pickup::load( const bool bCharacter )
         }
     }
 
-    map_items.ready = false;
+    invalidate();
 }
 
 void auto_pickup_rule::serialize( JsonOut &jsout ) const
@@ -782,7 +767,7 @@ bool auto_pickup::load_legacy( const bool bCharacter )
         sFile = g->get_player_base_save_path() + ".apu.txt";
     }
 
-    map_items.ready = false;
+    invalidate();
 
     auto &rules = bCharacter ? character_rules : global_rules;
 
@@ -846,4 +831,51 @@ void auto_pickup_rule_list::load_legacy_rules( std::istream &fin )
             }
         }
     }
+}
+
+void npc_auto_pickup::show( const std::string &name )
+{
+    auto_pickup_ui ui;
+    ui.title = string_format( _( "Pickup rules for %s" ), name );
+    ui.tabs.emplace_back( name, rules );
+    ui.show();
+    // Don't need to save the rules here, it will be save along with the NPC object itself.
+    if( !ui.bStuffChanged ) {
+        return;
+    }
+    invalidate();
+}
+
+void npc_auto_pickup::serialize( JsonOut &jsout ) const
+{
+    rules.serialize( jsout );
+}
+
+void npc_auto_pickup::deserialize( JsonIn &jsin )
+{
+    rules.deserialize( jsin );
+}
+
+void npc_auto_pickup::refresh_map_items( auto_pickup_cache &map_items ) const
+{
+    rules.refresh_map_items( map_items );
+}
+
+bool npc_auto_pickup::empty() const
+{
+    return rules.empty();
+}
+
+void auto_pickup_base::recreate() const
+{
+    map_items.clear();
+    map_items.temp_items.clear();
+    refresh_map_items( map_items );
+    map_items.ready = true;
+    map_items.temp_items.clear();
+}
+
+void auto_pickup_base::invalidate()
+{
+    map_items.ready = false;
 }
