@@ -1970,7 +1970,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
             g->refresh_all();
             // TODO: Z (and also where the activity is queued)
             // Or not, because the vehicle coordinates are dropped anyway
-            g->exam_vehicle( vp->vehicle(), act->values[ 2 ], act->values[ 3 ] );
+            g->exam_vehicle( vp->vehicle(), point( act->values[ 2 ], act->values[ 3 ] ) );
             return;
         } else {
             dbg( D_ERROR ) << "game:process_activity: ACT_VEHICLE: vehicle not found";
