@@ -9,6 +9,8 @@
 #include <clang/Basic/DiagnosticIDs.h>
 #include <clang/Basic/Specifiers.h>
 
+#include "Utils.h"
+
 using namespace clang::ast_matchers;
 
 namespace clang
@@ -23,10 +25,10 @@ void XYCheck::registerMatchers( MatchFinder *Finder )
     Finder->addMatcher(
         fieldDecl(
             hasType( asString( "int" ) ),
-            matchesName( "x$" ),
+            isXParam(),
             hasParent(
                 cxxRecordDecl(
-                    forEachDescendant( fieldDecl( matchesName( "y$" ) ).bind( "yfield" ) )
+                    forEachDescendant( fieldDecl( isYParam() ).bind( "yfield" ) )
                 ).bind( "record" )
             )
         ).bind( "xfield" ),
@@ -35,12 +37,8 @@ void XYCheck::registerMatchers( MatchFinder *Finder )
     Finder->addMatcher(
         parmVarDecl(
             hasType( asString( "int" ) ),
-            matchesName( "x$" ),
-            hasAncestor(
-                functionDecl(
-                    hasAnyParameter( parmVarDecl( matchesName( "y$" ) ).bind( "yparam" ) )
-                ).bind( "function" )
-            )
+            isXParam(),
+            hasAncestor( functionDecl().bind( "function" ) )
         ).bind( "xparam" ),
         this
     );
@@ -54,16 +52,14 @@ static void CheckField( XYCheck &Check, const MatchFinder::MatchResult &Result )
     if( !XVar || !YVar || !Record ) {
         return;
     }
-    llvm::StringRef XPrefix = XVar->getName().drop_back();
-    llvm::StringRef YPrefix = YVar->getName().drop_back();
-    if( XPrefix != YPrefix ) {
+    const NameConvention NameMatcher( XVar->getName() );
+    if( NameMatcher.Match( YVar->getName() ) != NameConvention::YName ) {
         return;
     }
 
     const FieldDecl *ZVar = nullptr;
     for( FieldDecl *Field : Record->fields() ) {
-        StringRef Name = Field->getName();
-        if( Name.endswith( "z" ) && Name.drop_back() == XPrefix ) {
+        if( NameMatcher.Match( Field->getName() ) == NameConvention::ZName ) {
             ZVar = Field;
             break;
         }
@@ -94,28 +90,28 @@ static void CheckField( XYCheck &Check, const MatchFinder::MatchResult &Result )
 static void CheckParam( XYCheck &Check, const MatchFinder::MatchResult &Result )
 {
     const ParmVarDecl *XParam = Result.Nodes.getNodeAs<ParmVarDecl>( "xparam" );
-    const ParmVarDecl *YParam = Result.Nodes.getNodeAs<ParmVarDecl>( "yparam" );
     const FunctionDecl *Function = Result.Nodes.getNodeAs<FunctionDecl>( "function" );
-    if( !XParam || !YParam || !Function ) {
+    if( !XParam || !Function ) {
         return;
     }
-    llvm::StringRef XPrefix = XParam->getName().drop_back();
+    const NameConvention NameMatcher( XParam->getName() );
 
+    const ParmVarDecl *YParam = nullptr;
     const ParmVarDecl *ZParam = nullptr;
     for( ParmVarDecl *Parameter : Function->parameters() ) {
-        StringRef Name = Parameter->getName();
-        if( Name.drop_back() == XPrefix ) {
-            if( Name.endswith( "z" ) ) {
+        switch( NameMatcher.Match( Parameter->getName() ) ) {
+            case NameConvention::ZName:
                 ZParam = Parameter;
-            }
-            if( Name.endswith( "y" ) ) {
+                break;
+            case NameConvention::YName:
                 YParam = Parameter;
-            }
+                break;
+            default:
+                break;
         }
     }
 
-    llvm::StringRef YPrefix = YParam->getName().drop_back();
-    if( XPrefix != YPrefix ) {
+    if( !YParam ) {
         return;
     }
 

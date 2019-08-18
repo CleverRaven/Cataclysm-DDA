@@ -27,3 +27,6 @@ int x1 = h<1>( 0, 0 );
 
 // Verify that there are no warnings for non-int types
 void i( float x, float y );
+
+void f5( int x1, int y1 );
+// CHECK-MESSAGES: warning: 'f5' has parameters 'x1' and 'y1'.  Consider combining into a single point parameter. [cata-xy]

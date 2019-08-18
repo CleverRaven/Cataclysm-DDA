@@ -104,6 +104,12 @@ inline auto isXParam()
     return matchesName( "[xX]" );
 }
 
+inline auto isYParam()
+{
+    using namespace clang::ast_matchers;
+    return matchesName( "[yY]" );
+}
+
 inline bool isPointType( const CXXRecordDecl *R )
 {
     if( !R ) {
@@ -127,7 +133,7 @@ class NameConvention
             None
         };
 
-        MatchResult Match( StringRef name );
+        MatchResult Match( StringRef name ) const;
 
         bool operator!() const {
             return !valid;
