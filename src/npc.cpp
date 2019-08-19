@@ -184,8 +184,6 @@ npc &npc::operator=( npc && ) = default;
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
 
-npc_template::npc_template() = default;
-
 void npc_template::load( JsonObject &jsobj )
 {
     npc guy;
@@ -255,7 +253,7 @@ const npc_template &string_id<npc_template>::obj() const
     const auto found = npc_templates.find( *this );
     if( found == npc_templates.end() ) {
         debugmsg( "Tried to get invalid npc: %s", c_str() );
-        static const npc_template dummy;
+        static const npc_template dummy{};
         return dummy;
     }
     return found->second;
