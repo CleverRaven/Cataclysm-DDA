@@ -98,6 +98,7 @@ const std::map<std::string, m_flag> flag_map = {
     { "RIDEABLE_MECH", MF_RIDEABLE_MECH },
     { "MILITARY_MECH", MF_MILITARY_MECH },
     { "MECH_RECON_VISION", MF_MECH_RECON_VISION },
+    { "MECH_DEFENSIVE", MF_MECH_DEFENSIVE },
     { "HIT_AND_RUN", MF_HIT_AND_RUN },
     { "GUILT", MF_GUILT },
     { "HUMAN", MF_HUMAN },

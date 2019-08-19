@@ -740,7 +740,7 @@ void player::apply_persistent_morale()
         const int max_dist = 5;
         for( int dx = -max_dist; dx <= max_dist; dx++ ) {
             for( int dy = -max_dist; dy <= max_dist; dy++ ) {
-                const float dist = rl_dist( 0, 0, dx, dy );
+                const float dist = rl_dist( point_zero, point( dx, dy ) );
                 if( dist > max_dist ) {
                     continue;
                 }
@@ -2980,7 +2980,7 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
         if( is_player() && source ) {
             //monster hits player melee
             SCT.add( posx(), posy(),
-                     direction_from( 0, 0, posx() - source->posx(), posy() - source->posy() ),
+                     direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
                      get_hp_bar( dam, get_hp_max( player::bp_to_hp( bp ) ) ).first, m_bad,
                      body_part_name( bp ), m_neutral );
         }
