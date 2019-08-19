@@ -17,6 +17,7 @@ if [ -n "$TEST_STAGE" ]
 then
     build-scripts/lint-json.sh
     make -j "$num_jobs" style-json
+    make -j "$num_jobs" astyle-check
 
     tools/dialogue_validator.py data/json/npcs/* data/json/npcs/*/* data/json/npcs/*/*/*
     # Also build chkjson (even though we're not using it), to catch any
