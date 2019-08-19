@@ -1100,8 +1100,12 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
 
             // Look for containers with the same type of liquid as that already in our container
             src.visit_items( [&src, &nested, &out, &contents_id, &obj]( item * node ) {
-                if( node == &obj ) {
-                    // This stops containers and magazines counting *themselves* as ammo sources.
+                if( node == &obj || ( node->is_watertight_container() && node->contents_made_of( SOLID ) ) ) {
+                    // This stops containers and magazines counting *themselves* as ammo sources and prevents reloading with items frozen in watertight containers.
+                    return VisitResponse::SKIP;
+                }
+
+                if( node->is_watertight_container() && node->contents_made_of( SOLID ) ) {
                     return VisitResponse::SKIP;
                 }
 
@@ -1112,9 +1116,13 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
             } );
         } else {
-            // Look for containers with any liquid
+            // Look for containers with any liquid and loose frozen liquids
             src.visit_items( [&src, &nested, &out]( item * node ) {
-                if( node->is_container() && node->contents_made_of( LIQUID ) ) {
+                if( node->is_watertight_container() && node->contents_made_of( SOLID ) ) {
+                    return VisitResponse::SKIP;
+                }
+
+                if( ( node->is_container() && node->contents_made_of( LIQUID ) ) || node->is_frozen_liquid() ) {
                     out = item_location( src, node );
                 }
                 return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
@@ -1131,12 +1139,9 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 // guns/tools never contain usable ammo so most efficient to skip them now
                 return VisitResponse::SKIP;
             }
-            if( !node->made_of( SOLID ) ) {
+            if( !node->made_of_from_type( SOLID ) ) {
                 // some liquids are ammo but we can't reload with them unless within a container or frozen
                 return VisitResponse::SKIP;
-            }
-            if( node->is_frozen_liquid() ) {
-                out = item_location( src, node );
             }
             if( node->is_ammo_container() && !node->contents.empty() &&
                 !node->contents_made_of( SOLID ) ) {
