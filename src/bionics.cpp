@@ -897,24 +897,30 @@ void player::process_bionic( int b )
         bio.charge_timer -= discharge_rate;
     } else {
         if( bio.info().charge_time > 0 ) {
-            // Try to recharge our bionic if it is made for it
-            int cost = 0;
-            bool recharged = attempt_recharge( *this, bio, cost, discharge_factor, discharge_rate );
-            if( !recharged ) {
-                // No power to recharge, so deactivate
-                bio.powered = false;
-                add_msg_if_player( m_neutral, _( "Your %s powers down." ), bio.info().name );
-                // This purposely bypasses the deactivation cost
-                deactivate_bionic( b, true );
-                return;
-            }
-            if( cost ) {
-                charge_power( -cost );
+            if( bio.info().power_source ) {
+                // Convert fuel to bionic power
+                burn_fuel( b );
+                // Reset timer
+                bio.charge_timer = bio.info().charge_time;
+            } else {
+                // Try to recharge our bionic if it is made for it
+                int cost = 0;
+                bool recharged = attempt_recharge( *this, bio, cost, discharge_factor, discharge_rate );
+                if( !recharged ) {
+                    // No power to recharge, so deactivate
+                    bio.powered = false;
+                    add_msg_if_player( m_neutral, _( "Your %s powers down." ), bio.info().name );
+                    // This purposely bypasses the deactivation cost
+                    deactivate_bionic( b, true );
+                    return;
+                }
+                if( cost ) {
+                    charge_power( -cost );
+                }
             }
         }
     }
-    // Convert fuel to bionic power
-    burn_fuel( b );
+
     // Bionic effects on every turn they are active go here.
     if( bio.id == "bio_night" ) {
         if( calendar::once_every( 5_turns ) ) {
