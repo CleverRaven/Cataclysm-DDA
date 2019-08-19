@@ -58,7 +58,7 @@
     "color": "light_gray",
     "description": "A thin foil made of aluminum.  Sometimes called 'tin foil' due to being made of tin in the past.",
     "material": "aluminum",
-    "volume": "0 L",
+    "volume": 0,
     "weight": 4,
     "ammo_type": "components",
     "count": 200
@@ -73,7 +73,7 @@
     "color": "light_gray",
     "description": "IF YOU ARE SEEING THIS IT IS A BUG.",
     "flags": "TRADER_AVOID",
-    "volume": "0 L",
+    "volume": 0,
     "ammo_type": "money"
   },
   {
@@ -745,7 +745,7 @@
     "symbol": "=",
     "color": "red",
     "description": "IF YOU ARE SEEING THIS IT IS A BUG.",
-    "volume": "0 L",
+    "volume": 0,
     "ammo_type": "NULL",
     "flags": [ "UNRECOVERABLE" ]
   },

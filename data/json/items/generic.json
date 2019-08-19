@@ -8,7 +8,7 @@
     "description": "A dead body.",
     "//": "most of the properties depend on the monster type and are created at runtime!",
     "price": 0,
-    "volume": "0 L",
+    "volume": 0,
     "flags": [ "NO_UNLOAD", "TRADER_AVOID" ]
   },
   {
@@ -22,7 +22,7 @@
     "description": "seeing this is a bug",
     "stackable": true,
     "price": 0,
-    "volume": "0 L",
+    "volume": 0,
     "flags": [ "PSEUDO", "PERPETUAL" ],
     "fuel": { "energy": 1 }
   },
@@ -36,7 +36,7 @@
     "name_plural": "none",
     "description": "seeing this is a bug",
     "price": 0,
-    "volume": "0 L",
+    "volume": 0,
     "flags": [ "PSEUDO" ]
   },
   {
@@ -50,7 +50,7 @@
     "description": "seeing this is a bug",
     "stackable": true,
     "price": 0,
-    "volume": "0 L",
+    "volume": 0,
     "flags": [ "PSEUDO", "PERPETUAL" ],
     "fuel": { "energy": 1 }
   },
@@ -65,7 +65,7 @@
     "description": "seeing this is a bug",
     "stackable": true,
     "price": 0,
-    "volume": "0 L",
+    "volume": 0,
     "flags": [ "PSEUDO", "PERPETUAL" ],
     "fuel": { "energy": 1 }
   },
@@ -79,7 +79,7 @@
     "name_plural": "none",
     "description": "seeing this is a bug",
     "price": 0,
-    "volume": "0 L",
+    "volume": 0,
     "flags": [ "PSEUDO" ]
   },
   {
@@ -91,7 +91,7 @@
     "name_plural": "none",
     "description": "seeing this is a bug",
     "price": 0,
-    "volume": "0 L",
+    "volume": 0,
     "flags": [ "PSEUDO", "UNARMED_WEAPON" ],
     "//": "Fist is internally represented as 'wielding a none as a weapon'"
   },
@@ -418,7 +418,7 @@
     "price_postapoc": 100,
     "material": "plastic",
     "weight": 18,
-    "volume": "0 L",
+    "volume": 0,
     "to_hit": -3
   },
   {
@@ -432,7 +432,7 @@
     "price_postapoc": 100,
     "material": "plastic",
     "weight": 18,
-    "volume": "0 L",
+    "volume": 0,
     "to_hit": -3
   },
   {
@@ -649,7 +649,7 @@
     "material": "bone",
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
     "weight": 10,
-    "volume": "0 L",
+    "volume": 0,
     "to_hit": -5,
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -1348,7 +1348,7 @@
     "price": 120000,
     "material": "glass",
     "weight": 340,
-    "volume": "0 L",
+    "volume": 0,
     "to_hit": -3,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 30000, "need_sunlight": true },
     "flags": [ "FIRESTARTER" ]
@@ -1379,7 +1379,7 @@
     "price": 1000,
     "material": "glass",
     "weight": 340,
-    "volume": "0 L",
+    "volume": 0,
     "to_hit": -3
   },
   {
@@ -1463,7 +1463,7 @@
     "price": 5000,
     "material": "plastic",
     "weight": 26,
-    "volume": "0 L",
+    "volume": 0,
     "to_hit": 2
   },
   {
@@ -1477,7 +1477,7 @@
     "price": 3000,
     "material": "aluminum",
     "weight": 14,
-    "volume": "0 L",
+    "volume": 0,
     "to_hit": 2
   },
   {
@@ -1854,7 +1854,7 @@
     "color": "light_red",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": "0 L",
+    "volume": 0,
     "price": 200
   },
   {
@@ -2472,7 +2472,7 @@
     "name_plural": "autoclave pouches",
     "description": "This is a medical device that bears the approval of the FDA (Food and Drug Administration).  If used properly, these pouches can keep things sterile indefinitely.",
     "weight": 2,
-    "volume": "0 L",
+    "volume": 0,
     "price": 5,
     "use_action": "PACK_CBM",
     "to_hit": -1,
@@ -2613,7 +2613,7 @@
     "material": "plastic",
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "weight": 6,
-    "volume": "0 L",
+    "volume": 0,
     "to_hit": -3,
     "max_charges": 200000000,
     "rand_charges": [
@@ -2669,7 +2669,7 @@
     "price": 500,
     "material": "plastic",
     "weight": 6,
-    "volume": "0 L",
+    "volume": 0,
     "to_hit": -3
   },
   {
@@ -2697,7 +2697,7 @@
     "material": "plastic",
     "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_1" ],
     "weight": 6,
-    "volume": "0 L",
+    "volume": 0,
     "to_hit": -3
   },
   {
@@ -2712,7 +2712,7 @@
     "material": "plastic",
     "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_2" ],
     "weight": 6,
-    "volume": "0 L",
+    "volume": 0,
     "to_hit": -3
   },
   {
@@ -2727,7 +2727,7 @@
     "material": "plastic",
     "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_3" ],
     "weight": 6,
-    "volume": "0 L",
+    "volume": 0,
     "to_hit": -3
   },
   {
@@ -2741,7 +2741,7 @@
     "price_postapoc": 5000,
     "material": "plastic",
     "weight": 6,
-    "volume": "0 L",
+    "volume": 0,
     "to_hit": -3
   },
   {
@@ -2755,7 +2755,7 @@
     "price_postapoc": 10000,
     "material": "plastic",
     "weight": 6,
-    "volume": "0 L",
+    "volume": 0,
     "to_hit": -3
   },
   {
@@ -2770,7 +2770,7 @@
     "price_postapoc": 10000,
     "material": "plastic",
     "weight": 6,
-    "volume": "0 L",
+    "volume": 0,
     "to_hit": -3
   },
   {

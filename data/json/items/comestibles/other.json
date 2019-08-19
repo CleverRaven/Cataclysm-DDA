@@ -125,7 +125,7 @@
     "description": "This looks like a handful of lemon-colored liquid which has taken a set, much like pre-cataclysm jello.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.",
     "price": 0,
     "material": "fruit",
-    "volume": "0 L",
+    "volume": 0,
     "stack_size": 10,
     "fun": 30
   },

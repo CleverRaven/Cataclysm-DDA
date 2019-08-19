@@ -44,7 +44,7 @@
     "name": "combination gun shotgun",
     "description": "The integrated underbarrel shotgun of a combination gun which holds two shots.  It's irremovable.",
     "weight": 2600,
-    "volume": "0 L",
+    "volume": 0,
     "price": 95000,
     "to_hit": -1,
     "material": [ "steel" ],
@@ -159,7 +159,7 @@
     "name": "LeMat revolver shotgun",
     "description": "The integrated underbarrel shotgun of a modified LeMat revolver which holds a single shot.  It's irremovable.",
     "weight": 500,
-    "volume": "0 L",
+    "volume": 0,
     "price": 95000,
     "material": [ "steel" ],
     "symbol": ":",
@@ -330,7 +330,7 @@
     "name": "LW underbarrel laser sight",
     "description": "A Leadworks built in visible-light laser that mounts under a firearm's barrel to enhance ease and speed of target acquisition.",
     "weight": 0,
-    "volume": "0 L",
+    "volume": 0,
     "price": 0,
     "flags": [ "PUMP_RAIL_COMPATIBLE", "IRREMOVABLE" ]
   },
@@ -341,7 +341,7 @@
     "name": "LW forward grip",
     "description": "A Leadworks built in grip placed forward on the barrel allows for greater control.",
     "weight": 0,
-    "volume": "0 L",
+    "volume": 0,
     "price": 0,
     "flags": [ "PUMP_RAIL_COMPATIBLE", "IRREMOVABLE" ]
   },
@@ -352,7 +352,7 @@
     "name": "LW bipod",
     "description": "Leadworks built in bipod designed to provide a forward rest and reduce motion.  Although it greatly improve handling of recoil it is usable only on certain surfaces and are slow to equip.",
     "weight": 0,
-    "volume": "0 L",
+    "volume": 0,
     "price": 0,
     "flags": [ "BIPOD", "SLOW_WIELD", "IRREMOVABLE" ]
   },
@@ -363,7 +363,7 @@
     "name": "LW underslung shotgun",
     "description": "Leadworks built in minimalist pump action shotgun module.  It allows 4 shotgun shells to be loaded and fired.",
     "weight": 0,
-    "volume": "0 L",
+    "volume": 0,
     "price": 0,
     "dispersion_modifier": 0,
     "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
@@ -376,7 +376,7 @@
     "name_plural": "LW GLM",
     "description": "The Leadworks built in Grenade Launcher Module offers the functionality of larger launchers in a very small package.",
     "weight": 0,
-    "volume": "0 L",
+    "volume": 0,
     "price": 0,
     "dispersion_modifier": 0,
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "IRREMOVABLE" ]
