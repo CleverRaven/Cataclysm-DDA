@@ -73,7 +73,10 @@ class event
         template<event_type Type, typename... Args>
         static event make( time_point time, Args &&... args ) {
             using Spec = event_detail::event_spec<Type>;
-            static_assert( &Spec::fields != nullptr, "spec for this event type must be defined" );
+            // Using is_empty mostly just to verify that the type is defined at
+            // all, but it so happens that it ought to be empty too.
+            static_assert( std::is_empty<Spec>::value,
+                           "spec for this event type must be defined and empty" );
             static_assert( sizeof...( Args ) == Spec::fields.size(),
                            "wrong number of arguments for event type" );
 
