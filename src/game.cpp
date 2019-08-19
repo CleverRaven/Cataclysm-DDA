@@ -1079,10 +1079,10 @@ bool game::cleanup_at_end()
         draw_border( w_rip );
 
         sfx::do_player_death_hurt( g->u, true );
-        sfx::fade_audio_group( 1, 2000 );
-        sfx::fade_audio_group( 2, 2000 );
-        sfx::fade_audio_group( 3, 2000 );
-        sfx::fade_audio_group( 4, 2000 );
+        sfx::fade_audio_group( sfx::group::weather, 2000 );
+        sfx::fade_audio_group( sfx::group::time_of_day, 2000 );
+        sfx::fade_audio_group( sfx::group::context_themes, 2000 );
+        sfx::fade_audio_group( sfx::group::fatigue, 2000 );
 
         for( size_t iY = 0; iY < vRip.size(); ++iY ) {
             for( size_t iX = 0; iX < vRip[iY].length(); ++iX ) {
@@ -1236,11 +1236,11 @@ bool game::cleanup_at_end()
     }
 
     //clear all sound channels
-    sfx::fade_audio_channel( -1, 300 );
-    sfx::fade_audio_group( 1, 300 );
-    sfx::fade_audio_group( 2, 300 );
-    sfx::fade_audio_group( 3, 300 );
-    sfx::fade_audio_group( 4, 300 );
+    sfx::fade_audio_channel( sfx::channel::any, 300 );
+    sfx::fade_audio_group( sfx::group::weather, 300 );
+    sfx::fade_audio_group( sfx::group::time_of_day, 300 );
+    sfx::fade_audio_group( sfx::group::context_themes, 300 );
+    sfx::fade_audio_group( sfx::group::fatigue, 300 );
 
     MAPBUFFER.reset();
     overmap_buffer.clear();

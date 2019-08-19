@@ -529,51 +529,50 @@ std::string sounds::sound_at( const tripoint &location )
 }
 
 #if defined(SDL_SOUND)
-void sfx::fade_audio_group( int tag, int duration )
+void sfx::fade_audio_group( group group, int duration )
 {
-    Mix_FadeOutGroup( tag, duration );
+    Mix_FadeOutGroup( static_cast<int>( group ), duration );
 }
 
-void sfx::fade_audio_channel( int tag, int duration )
+void sfx::fade_audio_channel( channel channel, int duration )
 {
-    Mix_FadeOutChannel( tag, duration );
+    Mix_FadeOutChannel( static_cast<int>( channel ), duration );
 }
 
-bool sfx::is_channel_playing( int channel )
+bool sfx::is_channel_playing( channel channel )
 {
-    return Mix_Playing( channel ) != 0;
+    return Mix_Playing( static_cast<int>( channel ) ) != 0;
 }
 
-void sfx::stop_sound_effect_fade( int channel, int duration )
+void sfx::stop_sound_effect_fade( channel channel, int duration )
 {
-    if( Mix_FadeOutChannel( channel, duration ) == -1 ) {
+    if( Mix_FadeOutChannel( static_cast<int>( channel ), duration ) == -1 ) {
         dbg( D_ERROR ) << "Failed to stop sound effect: " << Mix_GetError();
     }
 }
 
-int sfx::set_channel_volume( int channel, int volume )
+int sfx::set_channel_volume( channel channel, int volume )
 {
-    if( !Mix_Playing( channel ) ) {
+    int ch = static_cast<int>( channel );
+    if( !Mix_Playing( ch ) ) {
         return -1;
     }
-    if( Mix_FadingChannel( channel ) != MIX_NO_FADING ) {
+    if( Mix_FadingChannel( ch ) != MIX_NO_FADING ) {
         return -1;
     }
-    return Mix_Volume( channel, volume );
+    return Mix_Volume( ch, volume );
 }
 
 void sfx::do_vehicle_engine_sfx()
 {
-    /** Channel Assignments:
-        23: engine working internal
-    **/
+    static const channel ch = channel::interior_engine_sound;
     if( !g->u.in_vehicle ) {
-        fade_audio_channel( 23, 300 );
-        add_msg( m_debug, "STOP 23, OUT OF CAR" );
+        fade_audio_channel( ch, 300 );
+        add_msg( m_debug, "STOP interior_engine_sound, OUT OF CAR" );
         return;
     }
     if( g->u.in_sleep_state() && !audio_muted ) {
-        fade_audio_channel( -1, 300 );
+        fade_audio_channel( channel::any, 300 );
         audio_muted = true;
         return;
     } else if( g->u.in_sleep_state() && audio_muted ) {
@@ -587,8 +586,8 @@ void sfx::do_vehicle_engine_sfx()
         return;
     }
     if( !veh->engine_on ) {
-        fade_audio_channel( 23, 100 );
-        add_msg( m_debug, "STOP 23" );
+        fade_audio_channel( ch, 100 );
+        add_msg( m_debug, "STOP interior_engine_sound" );
         return;
     }
 
@@ -612,9 +611,9 @@ void sfx::do_vehicle_engine_sfx()
         }
     }
 
-    if( !is_channel_playing( 23 ) ) {
+    if( !is_channel_playing( ch ) ) {
         play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
-                                    sfx::get_heard_volume( g->u.pos() ), 23, 1000 );
+                                    sfx::get_heard_volume( g->u.pos() ), ch, 1000 );
         add_msg( m_debug, "START %s %s", id_and_variant.first, id_and_variant.second );
     } else {
         add_msg( m_debug, "PLAYING" );
@@ -671,10 +670,10 @@ void sfx::do_vehicle_engine_sfx()
     }
 
     if( current_speed != previous_speed ) {
-        Mix_HaltChannel( 23 );
+        Mix_HaltChannel( static_cast<int>( ch ) );
         add_msg( m_debug, "STOP speed %d =/= %d", current_speed, previous_speed );
         play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
-                                    sfx::get_heard_volume( g->u.pos() ), 23, 1000, pitch );
+                                    sfx::get_heard_volume( g->u.pos() ), ch, 1000, pitch );
         add_msg( m_debug, string_format( "PITCH %f", pitch ) );
     }
     previous_speed = current_speed;
@@ -683,19 +682,16 @@ void sfx::do_vehicle_engine_sfx()
 
 void sfx::do_vehicle_exterior_engine_sfx()
 {
-
-    /** Channel Assignments:
-        22: engine working external
-    **/
-
+    static const channel ch = channel::exterior_engine_sound;
+    static const int ch_int = static_cast<int>( ch );
     // early bail-outs for efficiency
     if( g->u.in_vehicle ) {
-        fade_audio_channel( 22, 300 );
-        add_msg( m_debug, "STOP 22, IN CAR" );
+        fade_audio_channel( ch, 300 );
+        add_msg( m_debug, "STOP exterior_engine_sound, IN CAR" );
         return;
     }
     if( g->u.in_sleep_state() && !audio_muted ) {
-        fade_audio_channel( -1, 300 );
+        fade_audio_channel( channel::any, 300 );
         audio_muted = true;
         return;
     } else if( g->u.in_sleep_state() && audio_muted ) {
@@ -716,8 +712,8 @@ void sfx::do_vehicle_exterior_engine_sfx()
         }
     }
     if( !noise_factor || !veh ) {
-        fade_audio_channel( 22, 300 );
-        add_msg( m_debug, "STOP 22, NO NOISE" );
+        fade_audio_channel( ch, 300 );
+        add_msg( m_debug, "STOP exterior_engine_sound, NO NOISE" );
         return;
     }
 
@@ -742,67 +738,38 @@ void sfx::do_vehicle_exterior_engine_sfx()
         }
     }
 
-    if( is_channel_playing( 22 ) ) {
+    if( is_channel_playing( ch ) ) {
         if( engine_external_id_and_variant == id_and_variant ) {
-            Mix_SetPosition( 22, get_heard_angle( veh->global_pos3() ), 0 );
-            set_channel_volume( 22, vol );
-            add_msg( m_debug, "PLAYING, vol: ex:%d true:%d", vol, Mix_Volume( 22, -1 ) );
+            Mix_SetPosition( ch_int, get_heard_angle( veh->global_pos3() ), 0 );
+            set_channel_volume( ch, vol );
+            add_msg( m_debug, "PLAYING exterior_engine_sound, vol: ex:%d true:%d", vol, Mix_Volume( ch_int,
+                     -1 ) );
         } else {
             engine_external_id_and_variant = id_and_variant;
-            Mix_HaltChannel( 22 );
-            add_msg( m_debug, "STOP, change id/var" );
-            play_ambient_variant_sound( id_and_variant.first, id_and_variant.second, 128, 22, 0 );
-            Mix_SetPosition( 22, get_heard_angle( veh->global_pos3() ), 0 );
-            set_channel_volume( 22, vol );
-            add_msg( m_debug, "START22 %s %s vol: %d", id_and_variant.first, id_and_variant.second,
-                     Mix_Volume( 22, -1 ) );
+            Mix_HaltChannel( ch_int );
+            add_msg( m_debug, "STOP exterior_engine_sound, change id/var" );
+            play_ambient_variant_sound( id_and_variant.first, id_and_variant.second, 128, ch, 0 );
+            Mix_SetPosition( ch_int, get_heard_angle( veh->global_pos3() ), 0 );
+            set_channel_volume( ch, vol );
+            add_msg( m_debug, "START exterior_engine_sound %s %s vol: %d", id_and_variant.first,
+                     id_and_variant.second,
+                     Mix_Volume( ch_int, -1 ) );
         }
     } else {
-        play_ambient_variant_sound( id_and_variant.first, id_and_variant.second, 128, 22, 0 );
-        add_msg( m_debug, "Vol: %d %d", vol, Mix_Volume( 22, -1 ) );
-        Mix_SetPosition( 22, get_heard_angle( veh->global_pos3() ), 0 );
-        add_msg( m_debug, "Vol: %d %d", vol, Mix_Volume( 22, -1 ) );
-        set_channel_volume( 22, vol );
-        add_msg( m_debug, "START22 NEW %s %s vol: ex:%d true:%d", id_and_variant.first,
-                 id_and_variant.second, vol, Mix_Volume( 22, -1 ) );
+        play_ambient_variant_sound( id_and_variant.first, id_and_variant.second, 128, ch, 0 );
+        add_msg( m_debug, "Vol: %d %d", vol, Mix_Volume( ch_int, -1 ) );
+        Mix_SetPosition( ch_int, get_heard_angle( veh->global_pos3() ), 0 );
+        add_msg( m_debug, "Vol: %d %d", vol, Mix_Volume( ch_int, -1 ) );
+        set_channel_volume( ch, vol );
+        add_msg( m_debug, "START exterior_engine_sound NEW %s %s vol: ex:%d true:%d", id_and_variant.first,
+                 id_and_variant.second, vol, Mix_Volume( ch_int, -1 ) );
     }
 }
 
 void sfx::do_ambient()
 {
-    /* Channel assignments:
-    0: Daytime outdoors env
-    1: Nighttime outdoors env
-    2: Underground env
-    3: Indoors env
-    4: Indoors rain env
-    5: Outdoors snow env
-    6: Outdoors flurry env
-    7: Outdoors thunderstorm env
-    8: Outdoors rain env
-    9: Outdoors drizzle env
-    10: Deafness tone
-    11: Danger high theme
-    12: Danger medium theme
-    13: Danger low theme
-    14: Danger extreme theme
-    15: Stamina 75%
-    16: Stamina 50%
-    17: Stamina 35%
-    18: Idle chainsaw
-    19: Chainsaw theme
-    20: Outdoor blizzard
-    21: Player activities
-    22: Exterior engine sound
-    23: Interior engine sound
-    Group Assignments:
-    1: SFX related to weather
-    2: SFX related to time of day
-    3: SFX related to context themes
-    4: SFX related to Fatigue
-    */
     if( g->u.in_sleep_state() && !audio_muted ) {
-        fade_audio_channel( -1, 300 );
+        fade_audio_channel( channel::any, 300 );
         audio_muted = true;
         return;
     } else if( g->u.in_sleep_state() && audio_muted ) {
@@ -816,77 +783,86 @@ void sfx::do_ambient()
     const bool weather_changed = g->weather.weather != previous_weather;
     // Step in at night time / we are not indoors
     if( is_night( calendar::turn ) && !is_sheltered &&
-        !is_channel_playing( 1 ) && !is_deaf ) {
-        fade_audio_group( 2, 1000 );
-        play_ambient_variant_sound( "environment", "nighttime", heard_volume, 1, 1000 );
+        !is_channel_playing( channel::nighttime_outdoors_env ) && !is_deaf ) {
+        fade_audio_group( group::time_of_day, 1000 );
+        play_ambient_variant_sound( "environment", "nighttime", heard_volume,
+                                    channel::nighttime_outdoors_env, 1000 );
         // Step in at day time / we are not indoors
-    } else if( !is_night( calendar::turn ) && !is_channel_playing( 0 ) &&
+    } else if( !is_night( calendar::turn ) && !is_channel_playing( channel::daytime_outdoors_env ) &&
                !is_sheltered && !is_deaf ) {
-        fade_audio_group( 2, 1000 );
-        play_ambient_variant_sound( "environment", "daytime", heard_volume, 0, 1000 );
+        fade_audio_group( group::time_of_day, 1000 );
+        play_ambient_variant_sound( "environment", "daytime", heard_volume, channel::daytime_outdoors_env,
+                                    1000 );
     }
     // We are underground
-    if( ( is_underground && !is_channel_playing( 2 ) &&
+    if( ( is_underground && !is_channel_playing( channel::underground_env ) &&
           !is_deaf ) || ( is_underground &&
                           weather_changed && !is_deaf ) ) {
-        fade_audio_group( 1, 1000 );
-        fade_audio_group( 2, 1000 );
-        play_ambient_variant_sound( "environment", "underground", heard_volume, 2,
+        fade_audio_group( group::weather, 1000 );
+        fade_audio_group( group::time_of_day, 1000 );
+        play_ambient_variant_sound( "environment", "underground", heard_volume, channel::underground_env,
                                     1000 );
         // We are indoors
     } else if( ( is_sheltered && !is_underground &&
-                 !is_channel_playing( 3 ) && !is_deaf ) ||
+                 !is_channel_playing( channel::indoors_env ) && !is_deaf ) ||
                ( is_sheltered && !is_underground &&
                  weather_changed && !is_deaf ) ) {
-        fade_audio_group( 1, 1000 );
-        fade_audio_group( 2, 1000 );
-        play_ambient_variant_sound( "environment", "indoors", heard_volume, 3, 1000 );
+        fade_audio_group( group::weather, 1000 );
+        fade_audio_group( group::time_of_day, 1000 );
+        play_ambient_variant_sound( "environment", "indoors", heard_volume, channel::indoors_env, 1000 );
     }
     // We are indoors and it is also raining
     if( g->weather.weather >= WEATHER_DRIZZLE && g->weather.weather <= WEATHER_ACID_RAIN &&
         !is_underground
-        && is_sheltered && !is_channel_playing( 4 ) ) {
-        play_ambient_variant_sound( "environment", "indoors_rain", heard_volume, 4,
+        && is_sheltered && !is_channel_playing( channel::indoors_rain_env ) ) {
+        play_ambient_variant_sound( "environment", "indoors_rain", heard_volume, channel::indoors_rain_env,
                                     1000 );
     }
-    if( ( !is_sheltered && g->weather.weather != WEATHER_CLEAR
-          && !is_channel_playing( 5 ) &&
-          !is_channel_playing( 6 ) && !is_channel_playing( 7 ) && !is_channel_playing( 8 )
-          &&
-          !is_channel_playing( 9 ) && !is_deaf )
+    if( ( !is_sheltered && g->weather.weather != WEATHER_CLEAR && !is_deaf &&
+          !is_channel_playing( channel::outdoors_snow_env ) &&
+          !is_channel_playing( channel::outdoors_flurry_env ) &&
+          !is_channel_playing( channel::outdoors_thunderstorm_env ) &&
+          !is_channel_playing( channel::outdoors_rain_env ) &&
+          !is_channel_playing( channel::outdoors_drizzle_env ) &&
+          !is_channel_playing( channel::outdoor_blizzard ) )
         || ( !is_sheltered &&
              weather_changed  && !is_deaf ) ) {
-        fade_audio_group( 1, 1000 );
+        fade_audio_group( group::weather, 1000 );
         // We are outside and there is precipitation
         switch( g->weather.weather ) {
             case WEATHER_ACID_DRIZZLE:
             case WEATHER_DRIZZLE:
-                play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", heard_volume, 9,
+                play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", heard_volume,
+                                            channel::outdoors_drizzle_env,
                                             1000 );
                 break;
             case WEATHER_RAINY:
-                play_ambient_variant_sound( "environment", "WEATHER_RAINY", heard_volume, 8,
+                play_ambient_variant_sound( "environment", "WEATHER_RAINY", heard_volume,
+                                            channel::outdoors_rain_env,
                                             1000 );
                 break;
             case WEATHER_ACID_RAIN:
             case WEATHER_THUNDER:
             case WEATHER_LIGHTNING:
-                play_ambient_variant_sound( "environment", "WEATHER_THUNDER", heard_volume, 7,
+                play_ambient_variant_sound( "environment", "WEATHER_THUNDER", heard_volume,
+                                            channel::outdoors_thunderstorm_env,
                                             1000 );
                 break;
             case WEATHER_FLURRIES:
-                play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", heard_volume, 6,
+                play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", heard_volume,
+                                            channel::outdoors_flurry_env,
                                             1000 );
                 break;
             case WEATHER_CLEAR:
             case WEATHER_SUNNY:
             case WEATHER_CLOUDY:
             case WEATHER_SNOWSTORM:
-                play_ambient_variant_sound( "environment", "WEATHER_SNOWSTORM", heard_volume, 20,
+                play_ambient_variant_sound( "environment", "WEATHER_SNOWSTORM", heard_volume,
+                                            channel::outdoor_blizzard,
                                             1000 );
                 break;
             case WEATHER_SNOW:
-                play_ambient_variant_sound( "environment", "WEATHER_SNOW", heard_volume, 5,
+                play_ambient_variant_sound( "environment", "WEATHER_SNOW", heard_volume, channel::outdoors_snow_env,
                                             1000 );
                 break;
             case WEATHER_NULL:
@@ -1106,11 +1082,12 @@ void sfx::do_player_death_hurt( const player &target, bool death )
 void sfx::do_danger_music()
 {
     if( g->u.in_sleep_state() && !audio_muted ) {
-        fade_audio_channel( -1, 100 );
+        fade_audio_channel( channel::any, 100 );
         audio_muted = true;
         return;
-    } else if( ( g->u.in_sleep_state() && audio_muted ) || is_channel_playing( 19 ) ) {
-        fade_audio_group( 3, 1000 );
+    } else if( ( g->u.in_sleep_state() && audio_muted ) ||
+               is_channel_playing( channel::chainsaw_theme ) ) {
+        fade_audio_group( group::context_themes, 1000 );
         return;
     }
     audio_muted = false;
@@ -1124,27 +1101,28 @@ void sfx::do_danger_music()
         return;
     }
     if( hostiles <= 4 ) {
-        fade_audio_group( 3, 1000 );
+        fade_audio_group( group::context_themes, 1000 );
         prev_hostiles = hostiles;
         return;
-    } else if( hostiles >= 5 && hostiles <= 9 && !is_channel_playing( 13 ) ) {
-        fade_audio_group( 3, 1000 );
-        play_ambient_variant_sound( "danger_low", "default", 100, 13, 1000 );
+    } else if( hostiles >= 5 && hostiles <= 9 && !is_channel_playing( channel::danger_low_theme ) ) {
+        fade_audio_group( group::context_themes, 1000 );
+        play_ambient_variant_sound( "danger_low", "default", 100, channel::danger_low_theme, 1000 );
         prev_hostiles = hostiles;
         return;
-    } else if( hostiles >= 10 && hostiles <= 14 && !is_channel_playing( 12 ) ) {
-        fade_audio_group( 3, 1000 );
-        play_ambient_variant_sound( "danger_medium", "default", 100, 12, 1000 );
+    } else if( hostiles >= 10 && hostiles <= 14 &&
+               !is_channel_playing( channel::danger_medium_theme ) ) {
+        fade_audio_group( group::context_themes, 1000 );
+        play_ambient_variant_sound( "danger_medium", "default", 100, channel::danger_medium_theme, 1000 );
         prev_hostiles = hostiles;
         return;
-    } else if( hostiles >= 15 && hostiles <= 19 && !is_channel_playing( 11 ) ) {
-        fade_audio_group( 3, 1000 );
-        play_ambient_variant_sound( "danger_high", "default", 100, 11, 1000 );
+    } else if( hostiles >= 15 && hostiles <= 19 && !is_channel_playing( channel::danger_high_theme ) ) {
+        fade_audio_group( group::context_themes, 1000 );
+        play_ambient_variant_sound( "danger_high", "default", 100, channel::danger_high_theme, 1000 );
         prev_hostiles = hostiles;
         return;
-    } else if( hostiles >= 20 && !is_channel_playing( 14 ) ) {
-        fade_audio_group( 3, 1000 );
-        play_ambient_variant_sound( "danger_extreme", "default", 100, 14, 1000 );
+    } else if( hostiles >= 20 && !is_channel_playing( channel::danger_extreme_theme ) ) {
+        fade_audio_group( group::context_themes, 1000 );
+        play_ambient_variant_sound( "danger_extreme", "default", 100, channel::danger_extreme_theme, 1000 );
         prev_hostiles = hostiles;
         return;
     }
@@ -1157,41 +1135,41 @@ void sfx::do_fatigue()
     16: Stamina 50%
     17: Stamina 25%*/
     if( g->u.stamina >= g->u.get_stamina_max() * .75 ) {
-        fade_audio_group( 4, 2000 );
+        fade_audio_group( group::fatigue, 2000 );
         return;
     } else if( g->u.stamina <= g->u.get_stamina_max() * .74
                && g->u.stamina >= g->u.get_stamina_max() * .5 &&
-               g->u.male && !is_channel_playing( 15 ) ) {
-        fade_audio_group( 4, 1000 );
-        play_ambient_variant_sound( "plmove", "fatigue_m_low", 100, 15, 1000 );
+               g->u.male && !is_channel_playing( channel::stamina_75 ) ) {
+        fade_audio_group( group::fatigue, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_m_low", 100, channel::stamina_75, 1000 );
         return;
     } else if( g->u.stamina <= g->u.get_stamina_max() * .49
                && g->u.stamina >= g->u.get_stamina_max() * .25 &&
-               g->u.male && !is_channel_playing( 16 ) ) {
-        fade_audio_group( 4, 1000 );
-        play_ambient_variant_sound( "plmove", "fatigue_m_med", 100, 16, 1000 );
+               g->u.male && !is_channel_playing( channel::stamina_50 ) ) {
+        fade_audio_group( group::fatigue, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_m_med", 100, channel::stamina_50, 1000 );
         return;
     } else if( g->u.stamina <= g->u.get_stamina_max() * .24 && g->u.stamina >= 0 &&
-               g->u.male && !is_channel_playing( 17 ) ) {
-        fade_audio_group( 4, 1000 );
-        play_ambient_variant_sound( "plmove", "fatigue_m_high", 100, 17, 1000 );
+               g->u.male && !is_channel_playing( channel::stamina_35 ) ) {
+        fade_audio_group( group::fatigue, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_m_high", 100, channel::stamina_35, 1000 );
         return;
     } else if( g->u.stamina <= g->u.get_stamina_max() * .74
                && g->u.stamina >= g->u.get_stamina_max() * .5 &&
-               !g->u.male && !is_channel_playing( 15 ) ) {
-        fade_audio_group( 4, 1000 );
-        play_ambient_variant_sound( "plmove", "fatigue_f_low", 100, 15, 1000 );
+               !g->u.male && !is_channel_playing( channel::stamina_75 ) ) {
+        fade_audio_group( group::fatigue, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_f_low", 100, channel::stamina_75, 1000 );
         return;
     } else if( g->u.stamina <= g->u.get_stamina_max() * .49
                && g->u.stamina >= g->u.get_stamina_max() * .25 &&
-               !g->u.male && !is_channel_playing( 16 ) ) {
-        fade_audio_group( 4, 1000 );
-        play_ambient_variant_sound( "plmove", "fatigue_f_med", 100, 16, 1000 );
+               !g->u.male && !is_channel_playing( channel::stamina_50 ) ) {
+        fade_audio_group( group::fatigue, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_f_med", 100, channel::stamina_50, 1000 );
         return;
     } else if( g->u.stamina <= g->u.get_stamina_max() * .24 && g->u.stamina >= 0 &&
-               !g->u.male && !is_channel_playing( 17 ) ) {
-        fade_audio_group( 4, 1000 );
-        play_ambient_variant_sound( "plmove", "fatigue_f_high", 100, 17, 1000 );
+               !g->u.male && !is_channel_playing( channel::stamina_35 ) ) {
+        fade_audio_group( group::fatigue, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_f_high", 100, channel::stamina_35, 1000 );
         return;
     }
 }
@@ -1199,8 +1177,8 @@ void sfx::do_fatigue()
 void sfx::do_hearing_loss( int turns )
 {
     g_sfx_volume_multiplier = .1;
-    fade_audio_group( 1, 50 );
-    fade_audio_group( 2, 50 );
+    fade_audio_group( group::weather, 50 );
+    fade_audio_group( group::time_of_day, 50 );
     // Negative duration is just insuring we stay in sync with player condition,
     // don't play any of the sound effects for going deaf.
     if( turns == -1 ) {
@@ -1209,17 +1187,18 @@ void sfx::do_hearing_loss( int turns )
     play_variant_sound( "environment", "deafness_shock", 100 );
     play_variant_sound( "environment", "deafness_tone_start", 100 );
     if( turns <= 35 ) {
-        play_ambient_variant_sound( "environment", "deafness_tone_light", 90, 10, 100 );
+        play_ambient_variant_sound( "environment", "deafness_tone_light", 90, channel::deafness_tone, 100 );
     } else if( turns <= 90 ) {
-        play_ambient_variant_sound( "environment", "deafness_tone_medium", 90, 10, 100 );
+        play_ambient_variant_sound( "environment", "deafness_tone_medium", 90, channel::deafness_tone,
+                                    100 );
     } else if( turns >= 91 ) {
-        play_ambient_variant_sound( "environment", "deafness_tone_heavy", 90, 10, 100 );
+        play_ambient_variant_sound( "environment", "deafness_tone_heavy", 90, channel::deafness_tone, 100 );
     }
 }
 
 void sfx::remove_hearing_loss()
 {
-    stop_sound_effect_fade( 10, 300 );
+    stop_sound_effect_fade( channel::deafness_tone, 300 );
     g_sfx_volume_multiplier = 1;
     do_ambient();
 }
@@ -1394,14 +1373,14 @@ void sfx::play_activity_sound( const std::string &id, const std::string &variant
 {
     if( act != g->u.activity.id() ) {
         act = g->u.activity.id();
-        play_ambient_variant_sound( id, variant, volume, 21, 0 );
+        play_ambient_variant_sound( id, variant, volume, channel::player_activities, 0 );
     }
 }
 
 void sfx::end_activity_sounds()
 {
     act = activity_id::NULL_ID();
-    fade_audio_channel( 21, 2000 );
+    fade_audio_channel( channel::player_activities, 2000 );
 }
 
 #else // if defined(SDL_SOUND)
@@ -1413,7 +1392,7 @@ void sfx::load_sound_effect_preload( JsonObject & ) { }
 void sfx::load_playlist( JsonObject & ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int, int, float, float ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int ) { }
-void sfx::play_ambient_variant_sound( const std::string &, const std::string &, int, int, int,
+void sfx::play_ambient_variant_sound( const std::string &, const std::string &, int, channel, int,
                                       float ) { }
 void sfx::play_activity_sound( const std::string &, const std::string &, int ) { }
 void sfx::end_activity_sounds() { }
@@ -1428,13 +1407,13 @@ void sfx::do_danger_music() { }
 void sfx::do_vehicle_engine_sfx() { }
 void sfx::do_vehicle_exterior_engine_sfx() { }
 void sfx::do_ambient() { }
-void sfx::fade_audio_group( int, int ) { }
-void sfx::fade_audio_channel( int, int ) { }
+void sfx::fade_audio_group( group, int ) { }
+void sfx::fade_audio_channel( channel, int ) { }
 bool sfx::is_channel_playing( int )
 {
     return false;
 }
-int sfx::set_channel_volume( int, int )
+int sfx::set_channel_volume( channel, int )
 {
     return 0;
 }
@@ -1442,7 +1421,7 @@ bool sfx::has_variant_sound( const std::string &, const std::string & )
 {
     return false;
 }
-void sfx::stop_sound_effect_fade( int, int ) { }
+void sfx::stop_sound_effect_fade( channel, int ) { }
 void sfx::do_player_death_hurt( const player &, bool ) { }
 void sfx::do_fatigue() { }
 void sfx::do_obstacle( const std::string & ) { }
