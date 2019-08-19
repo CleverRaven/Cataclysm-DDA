@@ -456,7 +456,7 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
     Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );
     Mix_VolumeChunk( effect_to_play,
                      selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
-    Mix_PlayChannel( -1, effect_to_play, 0 );
+    Mix_PlayChannel( static_cast<int>( channel::any ), effect_to_play, 0 );
 }
 
 void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume,
@@ -477,7 +477,7 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
     Mix_Chunk *shifted_effect = do_pitch_shift( effect_to_play, pitch_random );
     Mix_VolumeChunk( shifted_effect,
                      selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
-    int channel = Mix_PlayChannel( -1, shifted_effect, 0 );
+    int channel = Mix_PlayChannel( static_cast<int>( sfx::channel::any ), shifted_effect, 0 );
     Mix_RegisterEffect( channel, empty_effect, cleanup_when_channel_finished, shifted_effect );
     Mix_SetPosition( channel, angle, 1 );
 }
@@ -500,15 +500,19 @@ void sfx::play_variant_sound_pitch( const std::string &id, const std::string &va
     Mix_Chunk *shifted_effect = do_pitch_shift( effect_to_play, pitch );
     Mix_VolumeChunk( shifted_effect,
                      selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
-    int channel = Mix_PlayChannel( -1, shifted_effect, 0 );
+    int channel = Mix_PlayChannel( static_cast<int>( sfx::channel::any ), shifted_effect, 0 );
     Mix_RegisterEffect( channel, empty_effect, cleanup_when_channel_finished, shifted_effect );
     Mix_SetPosition( channel, angle, 1 );
 }
 
 void sfx::play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume,
-                                      int channel, int duration, float pitch )
+                                      channel channel, int duration, float pitch )
 {
     if( !check_sound( volume ) ) {
+        return;
+    }
+
+    if( is_channel_playing( channel ) ) {
         return;
     }
 
@@ -523,16 +527,17 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
     Mix_VolumeChunk( shifted_effect,
                      selected_sound_effect.volume * get_option<int>( "AMBIENT_SOUND_VOLUME" ) * volume / ( 100 * 100 ) );
     if( duration ) {
-        if( Mix_FadeInChannel( channel, shifted_effect, -1, duration ) == -1 ) {
+        if( Mix_FadeInChannel( static_cast<int>( channel ), shifted_effect, -1, duration ) == -1 ) {
             dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
         }
     } else {
-        if( Mix_PlayChannel( channel, shifted_effect, -1 ) == -1 ) {
+        if( Mix_PlayChannel( static_cast<int>( channel ), shifted_effect, -1 ) == -1 ) {
             dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
         }
     }
 
-    Mix_RegisterEffect( channel, empty_effect, cleanup_when_channel_finished, shifted_effect );
+    Mix_RegisterEffect( static_cast<int>( channel ), empty_effect, cleanup_when_channel_finished,
+                        shifted_effect );
 }
 
 void load_soundset()
