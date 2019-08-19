@@ -807,36 +807,33 @@ bool player::burn_fuel( int b, bool start )
         deactivate_bionic( b );
         return false;
     }
+    if( !start ) {// don't produce power on start to avoid instant recharge exploit by turning bionic ON/OFF in the menu
+        for( const itype_id &fuel : get_fuel_available( bio.id ) ) {
+            const item tmp_fuel( fuel );
+            int temp = std::stoi( get_value( fuel ) );
+            if( power_level + tmp_fuel.fuel_energy() *bio.info().fuel_efficiency > max_power_level ) {
 
-    for( const itype_id &fuel : get_fuel_available( bio.id ) ) {
-        const item tmp_fuel( fuel );
-        int temp = std::stoi( get_value( fuel ) );
-        if( power_level + tmp_fuel.fuel_energy() *bio.info().fuel_efficiency > max_power_level ) {
-            if( start ) {
-                add_msg_player_or_npc( m_info, _( "Your %s does not start as to not waste fuel." ),
-                                       _( "<npcname>'s %s does not start as to not waste fuel." ), bio.info().name );
-            } else {
                 add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
                                        _( "<npcname>'s %s turns off to not waste fuel." ), bio.info().name );
-            }
 
-            bio.powered = false;
-            deactivate_bionic( b, true );
-            return false;
-
-        } else {
-            if( temp > 0 ) {
-                temp -= 1;
-                charge_power( tmp_fuel.fuel_energy() *bio.info().fuel_efficiency );
-                set_value( fuel, std::to_string( temp ) );
-                update_fuel_storage( item( fuel ) );
-            } else if( !start ) {
-                remove_value( fuel );
-                add_msg_player_or_npc( m_info, _( "Your %s runs out of fuel and turn off." ),
-                                       _( "<npcname>'s %s runs out of fuel and turn off." ), bio.info().name );
                 bio.powered = false;
                 deactivate_bionic( b, true );
                 return false;
+
+            } else {
+                if( temp > 0 ) {
+                    temp -= 1;
+                    charge_power( tmp_fuel.fuel_energy() *bio.info().fuel_efficiency );
+                    set_value( fuel, std::to_string( temp ) );
+                    update_fuel_storage( item( fuel ) );
+                } else {
+                    remove_value( fuel );
+                    add_msg_player_or_npc( m_info, _( "Your %s runs out of fuel and turn off." ),
+                                           _( "<npcname>'s %s runs out of fuel and turn off." ), bio.info().name );
+                    bio.powered = false;
+                    deactivate_bionic( b, true );
+                    return false;
+                }
             }
         }
     }
