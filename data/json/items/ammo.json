@@ -484,11 +484,19 @@
   },
   {
     "type": "AMMO",
+    "id": "gunpowder_shotgun",
+    "copy-from": "gunpowder",
+    "price": 3000,
+    "name": "smokeless shotgun powder",
+    "description": "Firearm-quality gunpowder, intended for use in shotgun ammunition.",
+  },
+  {
+    "type": "AMMO",
     "id": "gunpowder_pistol",
     "copy-from": "gunpowder",
     "price": 3000,
     "name": "smokeless pistol powder",
-    "description": "Firearm-quality gunpowder, intended for use in shotgun and pistol ammunition.",
+    "description": "Firearm-quality gunpowder, intended for use in pistol ammunition.",
   },
   {
     "type": "AMMO",
@@ -511,8 +519,8 @@
     "id": "gunpowder_large_rifle",
     "copy-from": "gunpowder",
     "price": 3000,
-    "name": "smokeless hunting rifle powder",
-    "description": "Firearm-quality gunpowder intended for use in magnum rifle ammunition.",
+    "name": "smokeless overbore rifle powder",
+    "description": "Firearm-quality gunpowder intended for use in large rifle ammunition.",
   },
   {
     "type": "AMMO",

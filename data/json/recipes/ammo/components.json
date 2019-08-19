@@ -24,6 +24,7 @@
     "tools": [ [ [ "mortar_pestle", -1 ] ], [ [ "sieve_steel", -1 ] ] ],
     "components": [
       [
+        [ "gunpowder_shotgun", 1 ],
         [ "gunpowder_pistol", 1 ],
         [ "gunpowder_magnum_pistol", 1 ],
         [ "gunpowder_rifle", 1 ],
