@@ -5,7 +5,7 @@
     "name": "talking doll",
     "description": "This is a talking doll, meant for children.  Fortunately it still works, and you could unload the batteries out of it.",
     "weight": 907,
-    "volume": 3,
+    "volume": "750 ml",
     "price": 2000,
     "to_hit": -1,
     "material": "plastic",
@@ -37,7 +37,7 @@
     "name": "talking doll",
     "description": "This is a talking doll, meant for children.  Fortunately it still works, and you could unload the batteries out of it.",
     "weight": 907,
-    "volume": 3,
+    "volume": "750 ml",
     "price": 2000,
     "to_hit": -1,
     "material": "plastic",
@@ -74,7 +74,7 @@
     "price": 1000,
     "material": "leather",
     "weight": 150,
-    "volume": 1,
+    "volume": "250 ml",
     "bashing": 6,
     "to_hit": 3
   },
@@ -89,7 +89,7 @@
     "price": 1000,
     "material": "leather",
     "weight": 400,
-    "volume": 3,
+    "volume": "750 ml",
     "bashing": 4,
     "to_hit": -1
   },
@@ -104,7 +104,7 @@
     "price": 1200,
     "material": "leather",
     "weight": 800,
-    "volume": 4,
+    "volume": "1 L",
     "bashing": 6,
     "to_hit": -1
   },
@@ -119,7 +119,7 @@
     "price": 1000,
     "material": "plastic",
     "weight": 170,
-    "volume": 1,
+    "volume": "250 ml",
     "bashing": 7,
     "to_hit": 2
   }

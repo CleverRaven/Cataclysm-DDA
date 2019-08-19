@@ -5,7 +5,7 @@
     "category": "bionics",
     "name": "abstract bionic module",
     "weight": 2041,
-    "volume": 10,
+    "volume": "2500 ml",
     "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": ":",

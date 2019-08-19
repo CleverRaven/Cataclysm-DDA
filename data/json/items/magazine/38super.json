@@ -5,7 +5,7 @@
     "name": "M1911 .38 Super magazine",
     "description": "A compact single stack box magazine for the M1911.",
     "weight": 80,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 3400,
     "material": "steel",
     "symbol": "#",

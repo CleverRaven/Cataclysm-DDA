@@ -17,7 +17,7 @@
     "price": 550,
     "material": [ "milk", "wheat" ],
     "primary_material": "wheat",
-    "volume": 1,
+    "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
     "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ] ]
@@ -41,7 +41,7 @@
     "price": 1200,
     "material": [ "flesh", "veggy", "wheat", "milk" ],
     "primary_material": "processed_food",
-    "volume": 6,
+    "volume": "1500 ml",
     "charges": 2,
     "fun": 12,
     "vitamins": [ [ "vitA", 8 ], [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ], [ "vitB", 389 ] ]
@@ -62,7 +62,7 @@
     "calories": 516,
     "description": "A refreshing cucumber sandwich.  Not very filling, but quite tasty.",
     "price": 400,
-    "volume": 5,
+    "volume": "1250 ml",
     "material": [ "wheat", "veggy" ],
     "flags": [ "EATEN_COLD" ],
     "fun": 8,
@@ -85,7 +85,7 @@
     "price": 500,
     "material": [ "milk", "wheat" ],
     "primary_material": "wheat",
-    "volume": 2,
+    "volume": "500 ml",
     "fun": 8,
     "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ] ]
   },
@@ -106,7 +106,7 @@
     "price": 200,
     "material": [ "fruit", "wheat" ],
     "primary_material": "wheat",
-    "volume": 2,
+    "volume": "500 ml",
     "fun": 15,
     "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
   },
@@ -147,7 +147,7 @@
     "price": 500,
     "material": [ "honey", "wheat" ],
     "primary_material": "wheat",
-    "volume": 2,
+    "volume": "500 ml",
     "fun": 10,
     "vitamins": [ [ "calcium", 10 ], [ "iron", 24 ] ]
   },
@@ -183,7 +183,7 @@
     "description": "Bread and vegetables, that's it.",
     "price": 800,
     "material": [ "veggy", "wheat" ],
-    "volume": 3,
+    "volume": "750 ml",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
     "vitamins": [ [ "vitA", 16 ], [ "vitC", 36 ], [ "calcium", 14 ], [ "iron", 28 ] ]
@@ -203,7 +203,7 @@
     "description": "Bread and meat, that's it.",
     "price": 900,
     "material": [ "flesh", "wheat" ],
-    "volume": 4,
+    "volume": "1 L",
     "charges": 2,
     "fun": 2,
     "vitamins": [ [ "vitC", 8 ], [ "calcium", 6 ], [ "iron", 47 ], [ "vitB", 389 ] ]
@@ -224,7 +224,7 @@
     "description": "Some peanut butter smothered between two pieces of bread.  Not very filling and will stick to the roof of your mouth like glue.",
     "price": 250,
     "material": "wheat",
-    "volume": 1,
+    "volume": "250 ml",
     "fun": 3,
     "vitamins": [ [ "calcium", 10 ], [ "iron", 28 ] ]
   },
@@ -245,7 +245,7 @@
     "price": 175,
     "material": [ "fruit", "wheat" ],
     "primary_material": "wheat",
-    "volume": 2,
+    "volume": "500 ml",
     "fun": 6,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 7 ], [ "iron", 14 ] ]
   },
@@ -266,7 +266,7 @@
     "price": 175,
     "material": [ "wheat", "honey" ],
     "primary_material": "wheat",
-    "volume": 2,
+    "volume": "500 ml",
     "fun": 6,
     "vitamins": [ [ "calcium", 8 ], [ "iron", 16 ] ]
   },
@@ -286,7 +286,7 @@
     "description": "Who knew you could mix maple syrup and peanut butter to create yet another different sandwich?",
     "price": 175,
     "material": "wheat",
-    "volume": 2,
+    "volume": "500 ml",
     "fun": 6,
     "vitamins": [ [ "calcium", 12 ], [ "iron", 28 ] ]
   },
@@ -305,7 +305,7 @@
     "description": "A delicious fish sandwich.",
     "price": 800,
     "material": [ "flesh", "wheat" ],
-    "volume": 3,
+    "volume": "750 ml",
     "fun": 14,
     "vitamins": [ [ "vitA", 4 ], [ "vitC", 5 ], [ "calcium", 19 ], [ "iron", 17 ] ]
   },
@@ -326,7 +326,7 @@
     "price": 400,
     "material": [ "flesh", "veggy", "wheat", "tomato" ],
     "primary_material": "processed_food",
-    "volume": 4,
+    "volume": "1 L",
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 5,

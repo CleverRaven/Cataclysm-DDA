@@ -6,7 +6,7 @@
     "name": "flaregun",
     "description": "A plastic single shot pistol that can be loaded with signal flares.",
     "weight": 213,
-    "volume": 2,
+    "volume": "500 ml",
     "price": 5000,
     "material": [ "plastic", "steel" ],
     "symbol": "(",

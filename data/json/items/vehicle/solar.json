@@ -9,7 +9,7 @@
     "color": "yellow",
     "symbol": "]",
     "material": [ "glass" ],
-    "volume": 12,
+    "volume": "3 L",
     "bashing": 1,
     "category": "veh_parts",
     "price": 90000
@@ -22,7 +22,7 @@
     "weight": 24153,
     "color": "light_blue",
     "material": [ "glass", "steel" ],
-    "volume": 26,
+    "volume": "6500 ml",
     "price": 120000,
     "copy-from": "solar_panel"
   },
@@ -32,7 +32,7 @@
     "name": "upgraded solar panel",
     "description": "Electronic device that can convert solar radiation into electric power.  This panel has been upgraded to convert more sunlight into power.  Useful for a vehicle.",
     "weight": 18494,
-    "volume": 18,
+    "volume": "4500 ml",
     "price": 190000,
     "copy-from": "solar_panel"
   },
@@ -43,7 +43,7 @@
     "description": "An upgraded solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from zombies or errant baseballs.  The glass causes this panel to produce slightly less power than a normal upgraded panel.  Useful for a vehicle.",
     "weight": 29062,
     "to_hit": -5,
-    "volume": 30,
+    "volume": "7500 ml",
     "price": 240000,
     "copy-from": "reinforced_solar_panel"
   },
@@ -54,7 +54,7 @@
     "description": "This solar panel is obviously cutting-edge technology and given where you found it, should probably provide a LOT of power.  It's covered in strange-looking material, but the covering looks rather fragile; it doesn't look like it could support a reinforcing sheet, either.",
     "to_hit": -5,
     "material": [ "glass", "steel" ],
-    "volume": 18,
+    "volume": "4500 ml",
     "price": 900000,
     "copy-from": "solar_panel"
   },
@@ -65,7 +65,7 @@
     "description": "A small electronic device that can convert solar radiation into electric power.  Useful for crafting.",
     "weight": 500,
     "symbol": ";",
-    "volume": 1,
+    "volume": "250 ml",
     "category": "spare_parts",
     "price": 5000,
     "copy-from": "solar_panel"

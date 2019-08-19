@@ -9,7 +9,7 @@
     "material": "plastic",
     "category": "veh_parts",
     "weight": 1000,
-    "volume": 4,
+    "volume": "1 L",
     "price": 3000
   },
   {
@@ -18,7 +18,7 @@
     "name": "motorcycle headlight",
     "description": "A motorcycle headlight to light up the way.",
     "weight": 500,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 5000,
     "copy-from": "car_headlight"
   },
@@ -29,7 +29,7 @@
     "description": "A wide-angle vehicle headlight to light up the way.",
     "looks_like": "car_headlight",
     "weight": 2000,
-    "volume": 5,
+    "volume": "1250 ml",
     "price": 4000,
     "copy-from": "car_headlight"
   },
@@ -53,7 +53,7 @@
     "name": "reinforced wide-angle headlight",
     "description": "A wide-angle vehicle headlight with a cage built around it to protect it from damage without reducing its effectiveness.",
     "weight": 1400,
-    "volume": 5,
+    "volume": "1250 ml",
     "copy-from": "headlight_reinforced"
   },
   {
@@ -87,7 +87,7 @@
     "weight": 2500,
     "to_hit": 1,
     "material": [ "plastic", "steel" ],
-    "volume": 8,
+    "volume": "2 L",
     "bashing": 5,
     "price": 90000,
     "copy-from": "car_headlight"

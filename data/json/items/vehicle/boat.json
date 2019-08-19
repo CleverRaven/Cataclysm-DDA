@@ -10,7 +10,7 @@
     "price": 8000,
     "material": [ "wood" ],
     "weight": 3000,
-    "volume": 50,
+    "volume": "12500 ml",
     "bashing": 8,
     "to_hit": -1,
     "category": "veh_parts"
@@ -27,7 +27,7 @@
     "price_postapoc": 8000,
     "material": [ "plastic" ],
     "weight": 1500,
-    "volume": 50,
+    "volume": "12500 ml",
     "bashing": 8,
     "to_hit": -1,
     "category": "veh_parts"
@@ -44,7 +44,7 @@
     "price_postapoc": 8000,
     "material": [ "kevlar" ],
     "weight": 500,
-    "volume": 50,
+    "volume": "12500 ml",
     "bashing": 8,
     "to_hit": -1,
     "category": "veh_parts"
@@ -60,7 +60,7 @@
     "color": "light_gray",
     "symbol": ":",
     "material": [ "wood" ],
-    "volume": 2,
+    "volume": "500 ml",
     "bashing": 10,
     "category": "veh_parts",
     "price": 9000
@@ -76,7 +76,7 @@
     "color": "light_gray",
     "symbol": ":",
     "material": [ "wood", "cotton" ],
-    "volume": 30,
+    "volume": "7500 ml",
     "bashing": 4,
     "category": "veh_parts",
     "price": 9000
@@ -92,7 +92,7 @@
     "price": 8000,
     "material": [ "plastic" ],
     "weight": 3000,
-    "volume": 50,
+    "volume": "12500 ml",
     "bashing": 8,
     "to_hit": -1,
     "category": "veh_parts"
@@ -108,7 +108,7 @@
     "price": 8000,
     "material": [ "plastic" ],
     "weight": 3000,
-    "volume": 50,
+    "volume": "12500 ml",
     "bashing": 8,
     "to_hit": -1,
     "category": "veh_parts"

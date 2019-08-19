@@ -10,7 +10,7 @@
     "symbol": "]",
     "material": [ "steel" ],
     "techniques": [ "DEF_DISARM" ],
-    "volume": 40,
+    "volume": "10 L",
     "bashing": 15,
     "category": "veh_parts",
     "price": 4000
@@ -31,7 +31,7 @@
     "weight": 20000,
     "to_hit": -5,
     "color": "cyan",
-    "volume": 60,
+    "volume": "15 L",
     "bashing": 20,
     "price": 5500,
     "copy-from": "foldframe"
@@ -45,7 +45,7 @@
     "to_hit": -6,
     "color": "green",
     "material": [ "hardsteel", "steel" ],
-    "volume": 80,
+    "volume": "20 L",
     "bashing": 25,
     "price": 12000,
     "qualities": [ [ "ANVIL", 1 ] ],
@@ -60,7 +60,7 @@
     "to_hit": -5,
     "color": "brown",
     "material": [ "wood" ],
-    "volume": 60,
+    "volume": "15 L",
     "bashing": 16,
     "cutting": 4,
     "price": 3500,
@@ -74,7 +74,7 @@
     "weight": 4000,
     "color": "brown",
     "material": [ "wood" ],
-    "volume": 50,
+    "volume": "12500 ml",
     "copy-from": "foldframe"
   },
   {
@@ -86,7 +86,7 @@
     "to_hit": -5,
     "color": "brown",
     "material": [ "wood" ],
-    "volume": 35,
+    "volume": "8750 ml",
     "bashing": 8,
     "cutting": 1,
     "price": 1000,

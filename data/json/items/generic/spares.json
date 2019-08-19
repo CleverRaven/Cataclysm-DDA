@@ -17,7 +17,7 @@
     "description": "A synthetic rubber V-belt with steel reinforcement fibers commonly fitted to engines or other industrial equipment.",
     "material": [ "plastic", "steel" ],
     "weight": 850,
-    "volume": 2,
+    "volume": "500 ml",
     "price": 1200
   },
   {
@@ -28,7 +28,7 @@
     "description": "An improvised belt useful for repairing engines or other industrial equipment when no better alternative is available.",
     "material": [ "cotton", "leather" ],
     "weight": 1250,
-    "volume": 3,
+    "volume": "750 ml",
     "price": 200
   },
   {
@@ -39,7 +39,7 @@
     "description": "A plastic box containing crêped paper used to filter the air supply for combustion engines or other industrial equipment.",
     "material": [ "plastic", "paper" ],
     "weight": 360,
-    "volume": 2,
+    "volume": "500 ml",
     "price": 1900
   },
   {
@@ -50,7 +50,7 @@
     "description": "An improvised air filter useful for repairing engines or other industrial equipment when no better alternative is available.",
     "material": [ "plastic", "paper" ],
     "weight": 480,
-    "volume": 3,
+    "volume": "750 ml",
     "price": 200
   },
   {
@@ -61,7 +61,7 @@
     "description": "A steel can containing filter paper designed for automotive use.",
     "material": [ "steel", "paper" ],
     "weight": 480,
-    "volume": 2,
+    "volume": "500 ml",
     "price": 1900
   },
   {
@@ -72,7 +72,7 @@
     "description": "An improvised automotive filter useful for repairing engines or other industrial equipment when no better alternative is available.",
     "material": [ "steel", "paper" ],
     "weight": 690,
-    "volume": 3,
+    "volume": "750 ml",
     "price": 200
   },
   {
@@ -83,7 +83,7 @@
     "description": "A cylindrical heating device designed to be screwed in to a diesel engine to aid starting in cold weather.",
     "material": [ "plastic", "copper" ],
     "weight": 260,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 2300
   },
   {
@@ -94,7 +94,7 @@
     "description": "An complex mechanical pump capable of achieving high pressures.  Far beyond anything you could reasonably improvise.",
     "material": "iron",
     "weight": 2800,
-    "volume": 5,
+    "volume": "1250 ml",
     "price": 28900
   },
   {
@@ -105,7 +105,7 @@
     "description": "An simple cast iron mechanical impeller pump.  It's not good for much of anything on its own.",
     "material": "iron",
     "weight": 2400,
-    "volume": 4,
+    "volume": "1 L",
     "price": 1800
   }
 ]

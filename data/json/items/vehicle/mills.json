@@ -9,7 +9,7 @@
     "color": "yellow",
     "symbol": "T",
     "material": [ "steel" ],
-    "volume": 80,
+    "volume": "20 L",
     "bashing": 1,
     "category": "veh_parts",
     "price": 60000
@@ -22,7 +22,7 @@
     "weight": 150000,
     "to_hit": -7,
     "symbol": "Y",
-    "volume": 240,
+    "volume": "60 L",
     "price": 150000,
     "copy-from": "wind_turbine"
   },
@@ -35,7 +35,7 @@
     "to_hit": -5,
     "symbol": "*",
     "material": [ "wood" ],
-    "volume": 120,
+    "volume": "30 L",
     "bashing": 3,
     "price": 120000,
     "copy-from": "wind_turbine"
@@ -47,7 +47,7 @@
     "description": "A large water wheel with wooden supports.  Will recharge the vehicle's electrical power when built over shallow moving water.",
     "weight": 600000,
     "symbol": "o",
-    "volume": 240,
+    "volume": "60 L",
     "price": 200000,
     "copy-from": "water_wheel"
   }

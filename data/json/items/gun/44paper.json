@@ -7,7 +7,7 @@
     "name_plural": "Colt M1860 Army",
     "description": "The Colt Army Model 1860 is a cap & ball .44-caliber revolver.  It was used during the American Civil War, and made by Colt's Manufacturing Company.",
     "weight": 1220,
-    "volume": 3,
+    "volume": "750 ml",
     "price": 43000,
     "to_hit": -1,
     "bashing": 8,

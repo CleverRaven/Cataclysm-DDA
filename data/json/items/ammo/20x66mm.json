@@ -106,7 +106,7 @@
     "//": "2.5x the Generic Rate of $1/shot",
     "description": "20x66mm caseless shotgun rounds, buckshot type.  Proprietary ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "weight": 56,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 9000,
     "material": [ "steel", "powder" ],
     "symbol": "=",

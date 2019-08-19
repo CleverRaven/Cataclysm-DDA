@@ -5,7 +5,7 @@
     "name": "RA110 5x50mm flechette",
     "description": "Designed to defeat modern body armor, the Rivtech 5x50mm flechette round features a biodegradable sabot and a single, fin-stabilized penetrator.",
     "weight": 8,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 1125,
     "material": [ "plastic", "powder", "steel" ],
     "symbol": "=",

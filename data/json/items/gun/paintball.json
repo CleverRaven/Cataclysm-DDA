@@ -13,7 +13,7 @@
     "skill": "smg",
     "ammo": "paintball",
     "weight": 1600,
-    "volume": 5,
+    "volume": "1250 ml",
     "bashing": 5,
     "to_hit": -1,
     "range": 8,

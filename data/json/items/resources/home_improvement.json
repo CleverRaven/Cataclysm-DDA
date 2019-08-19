@@ -10,7 +10,7 @@
     "color": "red",
     "description": "A can of red paint.",
     "material": "steel",
-    "volume": 5,
+    "volume": "1250 ml",
     "weight": 10,
     "ammo_type": "NULL",
     "count": 100
@@ -26,7 +26,7 @@
     "color": "blue",
     "description": "A can of blue paint.",
     "material": "steel",
-    "volume": 5,
+    "volume": "1250 ml",
     "weight": 10,
     "ammo_type": "NULL",
     "count": 100
@@ -42,7 +42,7 @@
     "color": "white",
     "description": "A can of white paint.",
     "material": "steel",
-    "volume": 5,
+    "volume": "1250 ml",
     "weight": 10,
     "ammo_type": "NULL",
     "count": 100
@@ -58,7 +58,7 @@
     "color": "green",
     "description": "A can of green paint.",
     "material": "steel",
-    "volume": 5,
+    "volume": "1250 ml",
     "weight": 10,
     "ammo_type": "NULL",
     "count": 100
@@ -74,7 +74,7 @@
     "color": "magenta",
     "description": "A can of purple paint.",
     "material": "steel",
-    "volume": 5,
+    "volume": "1250 ml",
     "weight": 10,
     "ammo_type": "NULL",
     "count": 100
@@ -90,7 +90,7 @@
     "color": "yellow",
     "description": "A can of yellow paint.",
     "material": "steel",
-    "volume": 5,
+    "volume": "1250 ml",
     "weight": 10,
     "ammo_type": "NULL",
     "count": 100
@@ -105,7 +105,7 @@
     "color": "red",
     "description": "A roll of red carpet.",
     "material": "cotton",
-    "volume": 7,
+    "volume": "1750 ml",
     "weight": 45,
     "ammo_type": "NULL",
     "count": 5
@@ -120,7 +120,7 @@
     "color": "green",
     "description": "A roll of green carpet.",
     "material": "cotton",
-    "volume": 7,
+    "volume": "1750 ml",
     "weight": 45,
     "ammo_type": "NULL",
     "count": 5
@@ -135,7 +135,7 @@
     "color": "yellow",
     "description": "A roll of yellow carpet.",
     "material": "cotton",
-    "volume": 7,
+    "volume": "1750 ml",
     "weight": 45,
     "ammo_type": "NULL",
     "count": 5
@@ -150,7 +150,7 @@
     "color": "magenta",
     "description": "A roll of purple carpet.",
     "material": "cotton",
-    "volume": 7,
+    "volume": "1750 ml",
     "weight": 45,
     "ammo_type": "NULL",
     "count": 5
@@ -166,7 +166,7 @@
     "price": 12000,
     "material": [ "aluminum", "glass" ],
     "weight": 5,
-    "volume": 1,
+    "volume": "250 ml",
     "to_hit": -3
   }
 ]

@@ -5,7 +5,7 @@
     "name": ".500 5-round speedloader",
     "description": "This speedloader can hold 5 rounds of .500 and quickly reload a compatible revolver.",
     "weight": 118,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 2500,
     "material": "steel",
     "symbol": "#",

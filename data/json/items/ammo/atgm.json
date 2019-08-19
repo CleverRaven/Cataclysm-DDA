@@ -8,7 +8,7 @@
     "color": "dark_gray",
     "description": "A tube-launched, optically tracked, wire-guided missile contained in a steel tube.  Designed to be highly effective against vehicles and structures.",
     "material": [ "steel", "powder" ],
-    "volume": 60,
+    "volume": "15 L",
     "weight": 22600,
     "bashing": 1,
     "ammo_type": "atgm",

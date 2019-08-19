@@ -6,7 +6,7 @@
     "name": "abstract map",
     "description": "seeing this is a bug",
     "weight": 30,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 1000,
     "to_hit": -1,
     "material": "paper",

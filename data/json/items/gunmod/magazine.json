@@ -5,7 +5,7 @@
     "name": "Leadworks magazine adapter",
     "description": "A bootleg adapter for permanently converting a firearm to accept proprietary Leadworks magazines.  Guaranteed to void your warranty.",
     "weight": 140,
-    "volume": 1,
+    "volume": "250 ml",
     "integral_volume": 1,
     "price": 48000,
     "material": "steel",

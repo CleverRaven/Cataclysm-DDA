@@ -15,7 +15,7 @@
     "name": ".50 BMG Ball",
     "description": "The .50 BMG is a very powerful rifle round designed for long-range use.  Its stupendous accuracy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.",
     "weight": 114,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 32500,
     "material": [ "brass", "powder" ],
     "symbol": "=",

@@ -5,7 +5,7 @@
     "name": ".410 000 shot",
     "description": "A .410 shell with 5 000 pellets.  Good for a hunting or combat load.",
     "weight": 32,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 3500,
     "material": [ "plastic", "powder" ],
     "symbol": "=",

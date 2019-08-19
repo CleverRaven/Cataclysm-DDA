@@ -7,7 +7,7 @@
     "//": "Spices are inedible in their base form but useful in crafting",
     "flags": "NUTRIENT_OVERRIDE",
     "weight": 5,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 250,
     "container": "bag_plastic",
     "material": "powder",

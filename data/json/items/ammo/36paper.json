@@ -5,7 +5,7 @@
     "name": ".36 paper cartridge",
     "description": "A paper cartridge containing a premeasured amount of black powder and a .36 projectile.  Used by the Colt M1861 Navy.",
     "weight": 6,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 5000,
     "material": [ "paper", "powder", "lead" ],
     "symbol": "=",

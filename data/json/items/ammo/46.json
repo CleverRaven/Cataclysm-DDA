@@ -5,7 +5,7 @@
     "name": "4.6x30mm",
     "description": "4.6x30mm ammunition with 31gr copper plated steel bullets.  The 4.6x30mm round was developed by H&K to compete with FN Herstal's 5.7x28mm cartridge.  It has low recoil and excellent armor penetration.",
     "weight": 5,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 5200,
     "material": [ "steel", "powder" ],
     "symbol": "=",

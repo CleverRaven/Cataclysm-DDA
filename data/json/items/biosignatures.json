@@ -15,7 +15,7 @@
     "description": "Bird dropping, feathers, and soiled bits of rubbish.",
     "price": 0,
     "material": "feces",
-    "volume": 1,
+    "volume": "250 ml",
     "charges": 4,
     "stack_size": 4,
     "fun": -25
@@ -26,7 +26,7 @@
     "name": "cow pie",
     "copy-from": "feces_bird",
     "weight": 750,
-    "volume": 4,
+    "volume": "1 L",
     "description": "A fresh cow pie, could probably be used to make some great fertilizer."
   },
   {
@@ -42,7 +42,7 @@
     "name": "manure",
     "copy-from": "feces_bird",
     "weight": 250,
-    "volume": 2,
+    "volume": "500 ml",
     "description": "Common manure, could probably be used to make some great fertilizer."
   },
   {

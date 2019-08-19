@@ -79,7 +79,7 @@
     "price": 5000,
     "material": [ "steel" ],
     "weight": 150,
-    "volume": 3,
+    "volume": "750 ml",
     "bashing": 1,
     "to_hit": -1,
     "artifact_data": { "effects_wielded": [ "AEP_CLAIRVOYANCE_PLUS" ] }
@@ -111,7 +111,7 @@
     "skill": "archery",
     "ammo": "arrow",
     "weight": 340,
-    "volume": 6,
+    "volume": "1500 ml",
     "bashing": 6,
     "ranged_damage": 3,
     "range": 5,

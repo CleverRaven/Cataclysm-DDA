@@ -5,7 +5,7 @@
     "name": ".700 NX",
     "description": "The .700 Nitro Express is a very powerful rifle round designed for long-range use.  Its stupendous accuracy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.",
     "weight": 80,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 75000,
     "material": [ "brass", "powder" ],
     "symbol": "=",

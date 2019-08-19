@@ -26,7 +26,7 @@
     "name": ".22 LR",
     "description": ".22 Long Rifle ammunition with 40gr unjacketed bullets.  The .22LR round is extremely weak with very low stopping power, short range, and negligible recoil.  It is most useful for rifle training, and hunting small animals.",
     "weight": 3,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 2500,
     "material": [ "brass", "lead", "powder" ],
     "symbol": "=",

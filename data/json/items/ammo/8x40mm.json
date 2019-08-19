@@ -16,7 +16,7 @@
     "//": "Cased ammo tends to be roughly $1/shot, more or less.  Rivtech ammo, being New and Proprietary and Expensive, $2-2.50 or so.",
     "description": "8x40mm caseless rounds.  Proprietary ammunition for Rivtech firearms.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "weight": 12,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 12500,
     "material": [ "plastic", "powder" ],
     "symbol": "=",
