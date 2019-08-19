@@ -3079,7 +3079,7 @@
     "//": "DDA monocle is optical-grade.  Costume ones go for about $10.",
     "description": "An essential article of the gentleman's apparel.  Also corrects near-sightedness.  The concave lenses diffuse the sunlight, rendering them useless for starting fires.",
     "weight": 16,
-    "volume": "0 L",
+    "volume": "5 ml",
     "price": 4000,
     "to_hit": -2,
     "material": [ "glass", "plastic" ],
