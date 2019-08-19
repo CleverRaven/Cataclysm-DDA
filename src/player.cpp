@@ -740,11 +740,11 @@ void player::apply_persistent_morale()
         const int max_dist = 5;
         for( int dx = -max_dist; dx <= max_dist; dx++ ) {
             for( int dy = -max_dist; dy <= max_dist; dy++ ) {
-                const float dist = rl_dist( 0, 0, dx, dy );
+                const float dist = rl_dist( point_zero, point( dx, dy ) );
                 if( dist > max_dist ) {
                     continue;
                 }
-                const point pos = point( ompos.x + dx, ompos.y + dy );
+                const point pos = ompos.xy() + point( dx, dy );
                 if( overmap_time.find( pos ) == overmap_time.end() ) {
                     continue;
                 }
@@ -1103,8 +1103,8 @@ void player::update_bodytemp()
             // Spread the morale bonus in time.
             if( comfortable_warmth > 0 &&
                 // @todo make this simpler and use time_duration/time_point
-                to_turn<int>( calendar::turn ) % to_turns<int>( 1_minutes ) == ( MINUTES( bp ) / MINUTES(
-                            num_bp ) ) &&
+                to_turn<int>( calendar::turn ) % to_turns<int>( 1_minutes ) == to_turns<int>
+                ( 1_minutes * bp ) / to_turns<int>( 1_minutes * num_bp ) &&
                 get_effect_int( effect_cold, num_bp ) == 0 &&
                 get_effect_int( effect_hot, num_bp ) == 0 &&
                 temp_cur[bp] > BODYTEMP_COLD && temp_cur[bp] <= BODYTEMP_NORM ) {
@@ -1566,13 +1566,6 @@ int player::run_cost( int base_cost, bool diag ) const
     // The "FLAT" tag includes soft surfaces, so not a good fit.
     const bool on_road = flatground && g->m.has_flag( "ROAD", pos() );
     const bool on_fungus = g->m.has_flag_ter_or_furn( "FUNGUS", pos() );
-
-    if( movecost > 100 ) {
-        movecost *= Character::mutation_value( "movecost_obstacle_modifier" );
-        if( movecost < 100 ) {
-            movecost = 100;
-        }
-    }
 
     if( !is_mounted() ) {
         if( movecost > 100 ) {
@@ -2987,7 +2980,7 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
         if( is_player() && source ) {
             //monster hits player melee
             SCT.add( posx(), posy(),
-                     direction_from( 0, 0, posx() - source->posx(), posy() - source->posy() ),
+                     direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
                      get_hp_bar( dam, get_hp_max( player::bp_to_hp( bp ) ) ).first, m_bad,
                      body_part_name( bp ), m_neutral );
         }
@@ -3688,7 +3681,8 @@ void player::update_body( const time_point &from, const time_point &to )
         update_needs( five_mins );
         regen( five_mins );
         // Note: mend ticks once per 5 minutes, but wants rate in TURNS, not 5 minute intervals
-        mend( five_mins * MINUTES( 5 ) );
+        //@todo change @ref med to take time_duration
+        mend( five_mins * to_turns<int>( 5_minutes ) );
     }
     if( ticks_between( from, to, 24_hours ) > 0 ) {
         enforce_minimum_healing();
@@ -4282,7 +4276,7 @@ void player::regen( int rate_multiplier )
     }
 
     float rest = rest_quality();
-    float heal_rate = healing_rate( rest ) * MINUTES( 5 );
+    float heal_rate = healing_rate( rest ) * to_turns<int>( 5_minutes );
     if( heal_rate > 0.0f ) {
         healall( roll_remainder( rate_multiplier * heal_rate ) );
     } else if( heal_rate < 0.0f ) {
@@ -4296,7 +4290,7 @@ void player::regen( int rate_multiplier )
     // include healing effects
     for( int i = 0; i < num_hp_parts; i++ ) {
         body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
-        float healing = healing_rate_medicine( rest, bp ) * MINUTES( 5 ) ;
+        float healing = healing_rate_medicine( rest, bp ) * to_turns<int>( 5_minutes );
 
         int healing_apply = roll_remainder( healing );
         healed_bp( i, healing_apply );
@@ -5658,7 +5652,7 @@ void player::suffer()
     // Spread less radiation when sleeping (slower metabolism etc.)
     // Otherwise it can quickly get to the point where you simply can't sleep at all
     const bool rad_mut_proc = rad_mut > 0 &&
-                              x_in_y( rad_mut, in_sleep_state() ? HOURS( 3 ) : MINUTES( 30 ) );
+                              x_in_y( rad_mut, to_turns<int>( in_sleep_state() ? 3_hours : 30_minutes ) );
 
     bool has_helmet = false;
     const bool power_armored = is_wearing_power_armor( &has_helmet );
@@ -6448,7 +6442,7 @@ void player::update_body_wetness( const w_point &weather )
 {
     // Average number of turns to go from completely soaked to fully dry
     // assuming average temperature and humidity
-    constexpr int average_drying = HOURS( 2 );
+    constexpr time_duration average_drying = 2_hours;
 
     // A modifier on drying time
     double delay = 1.0;
@@ -6465,7 +6459,7 @@ void player::update_body_wetness( const w_point &weather )
         delay *= 1.5;
     }
 
-    if( !x_in_y( 1, average_drying / 100.0 * delay ) ) {
+    if( !x_in_y( 1, to_turns<int>( average_drying * delay / 100.0 ) ) ) {
         // No drying this turn
         return;
     }
@@ -6927,6 +6921,7 @@ std::list<item> player::use_charges( const itype_id &what, int qty,
             res.splice( res.end(), found );
             qty -= std::min( qty, ups );
         }
+        return res;
     }
 
     std::vector<item *> del;
@@ -7472,7 +7467,7 @@ item::reload_option player::select_ammo( const item &base,
     uistate.lastreload[ ammotype( base.ammo_default() ) ] = sel->is_ammo_container() ?
             sel->contents.front().typeId() :
             sel->typeId();
-    return std::move( opts[ menu.ret ] );
+    return opts[ menu.ret ] ;
 }
 
 bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
@@ -7560,12 +7555,12 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
     } );
 
     if( is_npc() ) {
-        return std::move( ammo_list[ 0 ] );
+        return ammo_list[ 0 ] ;
     }
 
     if( !prompt && ammo_list.size() == 1 ) {
         // unconditionally suppress the prompt if there's only one option
-        return std::move( ammo_list[ 0 ] );
+        return ammo_list[ 0 ] ;
     }
 
     return select_ammo( base, std::move( ammo_list ) );
@@ -8107,7 +8102,7 @@ void player::mend_item( item_location &&obj, bool interactive )
 
 int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
 {
-    if( ammo.is_ammo() ) {
+    if( ammo.is_ammo() || ammo.is_frozen_liquid() ) {
         qty = std::max( std::min( ammo.charges, qty ), 1 );
     } else if( ammo.is_ammo_container() || ammo.is_container() ) {
         qty = std::max( std::min( ammo.contents.front().charges, qty ), 1 );
@@ -10488,7 +10483,7 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
     }
     if( is_npc() ) {
         npc *guy = dynamic_cast<npc *>( this );
-        guy->current_activity = activity.get_verb();
+        guy->current_activity_id = activity.id();
     }
 }
 
@@ -10671,6 +10666,7 @@ void player::store( item &container, item &put, bool penalties, int base_cost )
 {
     moves -= item_store_cost( put, container, penalties, base_cost );
     container.put_in( i_rem( &put ) );
+    reset_encumbrance();
 }
 
 nc_color encumb_color( int level )
@@ -11127,7 +11123,7 @@ void player::dismount()
                 mounted_creature = nullptr;
                 setpos( *pnt );
                 g->refresh_all();
-                critter->setpos( tripoint( pos().x + xdiff, pos().y + ydiff, pos().z ) );
+                critter->setpos( pos() + point( xdiff, ydiff ) );
                 critter->add_effect( effect_controlled, 5_turns );
                 mod_moves( -100 );
                 set_movement_mode( PMM_WALK );
@@ -11482,10 +11478,10 @@ void player::place_corpse( const tripoint &om_target )
     bay.load( tripoint( om_target.x * 2, om_target.y * 2, om_target.z ), false );
     int finX = rng( 1, SEEX * 2 - 2 );
     int finY = rng( 1, SEEX * 2 - 2 );
-    if( bay.furn( finX, finY ) != furn_str_id( "f_null" ) ) {
+    if( bay.furn( point( finX, finY ) ) != furn_str_id( "f_null" ) ) {
         for( int x = 0; x < SEEX * 2 - 1; x++ ) {
             for( int y = 0; y < SEEY * 2 - 1; y++ ) {
-                if( bay.furn( x, y ) == furn_str_id( "f_null" ) ) {
+                if( bay.furn( point( x, y ) ) == furn_str_id( "f_null" ) ) {
                     finX = x;
                     finY = y;
                 }
@@ -11496,7 +11492,7 @@ void player::place_corpse( const tripoint &om_target )
     std::vector<item *> tmp = inv_dump();
     item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
     for( auto itm : tmp ) {
-        bay.add_item_or_charges( finX, finY, *itm );
+        bay.add_item_or_charges( point( finX, finY ), *itm );
     }
     for( auto &bio : *my_bionics ) {
         if( item::type_is_defined( bio.id.str() ) ) {
@@ -11512,7 +11508,7 @@ void player::place_corpse( const tripoint &om_target )
     for( int i = 0; i < storage_modules.second; ++i ) {
         body.emplace_back( "bio_power_storage_mkII" );
     }
-    bay.add_item_or_charges( finX, finY, body );
+    bay.add_item_or_charges( point( finX, finY ), body );
 }
 
 bool player::sees_with_infrared( const Creature &critter ) const
@@ -11531,10 +11527,11 @@ bool player::sees_with_infrared( const Creature &critter ) const
     if( is_player() || critter.is_player() ) {
         // Players should not use map::sees
         // Likewise, players should not be "looked at" with map::sees, not to break symmetry
-        return g->m.pl_line_of_sight( critter.pos(), sight_range( DAYLIGHT_LEVEL ) );
+        return g->m.pl_line_of_sight( critter.pos(),
+                                      sight_range( current_daylight_level( calendar::turn ) ) );
     }
 
-    return g->m.sees( pos(), critter.pos(), sight_range( DAYLIGHT_LEVEL ) );
+    return g->m.sees( pos(), critter.pos(), sight_range( current_daylight_level( calendar::turn ) ) );
 }
 
 std::vector<std::string> player::get_overlay_ids() const
@@ -11648,6 +11645,47 @@ std::vector<const item *> player::all_items_with_flag( const std::string &flag )
     return items_with( [&flag]( const item & it ) {
         return it.has_flag( flag );
     } );
+}
+
+item &player::item_with_best_of_quality( const quality_id &qid )
+{
+    int maxq = max_quality( qid );
+    auto items_with_quality = items_with( [qid]( const item & it ) {
+        return it.has_quality( qid );
+    } );
+    for( item *it : items_with_quality ) {
+        if( it->get_quality( qid ) == maxq ) {
+            return *it;
+        }
+    }
+    return null_item_reference();
+}
+
+bool player::crush_frozen_liquid( item_location loc )
+{
+
+    player &u = g->u;
+
+    if( u.has_quality( quality_id( "HAMMER" ) ) ) {
+        item hammering_item = u.item_with_best_of_quality( quality_id( "HAMMER" ) );
+        if( query_yn( _( "Do you want to crush up %s with your %s?\n%s" ), loc.get_item()->display_name(),
+                      hammering_item.tname(),
+                      colorize( _( "Be wary of fragile items nearby!" ), c_red ) ) ) {
+
+            //Risk smashing tile with hammering tool, risk is lower with higher dex, damage lower with lower strength
+            if( one_in( 1 + u.dex_cur / 4 ) ) {
+                add_msg_if_player( colorize( _( "You swing your %s wildly!" ), c_red ),
+                                   hammering_item.tname() );
+                int smashskill = u.str_cur + hammering_item.damage_melee( DT_BASH );
+                g->m.bash( loc.position(), smashskill );
+            }
+            add_msg_if_player( _( "You crush up and gather %s" ), loc.get_item()->display_name() );
+            return true;
+        }
+    } else {
+        popup( _( "You need a hammering tool to crush up frozen liquids!" ) );
+    }
+    return false;
 }
 
 bool player::has_item_with_flag( const std::string &flag, bool need_charges ) const

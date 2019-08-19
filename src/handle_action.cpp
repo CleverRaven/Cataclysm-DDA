@@ -203,7 +203,7 @@ input_context game::get_player_input( std::string &action )
                     for( auto &elem : wPrint.vdrops ) {
                         const tripoint location( elem.first + offset_x, elem.second + offset_y, get_levz() );
                         const lit_level lighting = visibility_cache[location.x][location.y];
-                        wmove( w_terrain, point( location.x - offset_x, location.y - offset_y ) );
+                        wmove( w_terrain, location.xy() + point( -offset_x, -offset_y ) );
                         if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
                             m.drawsq( w_terrain, u, location, false, true,
                                       u.pos() + u.view_offset,
@@ -243,7 +243,7 @@ input_context game::get_player_input( std::string &action )
                             for( size_t i = 0; i < elem.getText().length(); ++i ) {
                                 const tripoint location( elem.getPosX() + i, elem.getPosY(), get_levz() );
                                 const lit_level lighting = visibility_cache[location.x][location.y];
-                                wmove( w_terrain, point( location.x - offset_x, location.y - offset_y ) );
+                                wmove( w_terrain, location.xy() + point( -offset_x, -offset_y ) );
                                 if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
                                     m.drawsq( w_terrain, u, location, false, true,
                                               u.pos() + u.view_offset,
@@ -340,7 +340,7 @@ static void rcdrive( int dx, int dy )
     int cz = 0;
     car_location_string >> cx >> cy >> cz;
 
-    auto rc_pairs = m.get_rc_items( cx, cy, cz );
+    auto rc_pairs = m.get_rc_items( tripoint( cx, cy, cz ) );
     auto rc_pair = rc_pairs.begin();
     for( ; rc_pair != rc_pairs.end(); ++rc_pair ) {
         if( rc_pair->second->typeId() == "radio_car_on" && rc_pair->second->active ) {

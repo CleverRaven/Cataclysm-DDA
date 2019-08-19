@@ -148,27 +148,6 @@ static void deserialize( std::weak_ptr<monster> &obj, JsonIn &jsin )
     //    }
 }
 
-template<typename T>
-void serialize( const cata::optional<T> &obj, JsonOut &jsout )
-{
-    if( obj ) {
-        jsout.write( *obj );
-    } else {
-        jsout.write_null();
-    }
-}
-
-template<typename T>
-void deserialize( cata::optional<T> &obj, JsonIn &jsin )
-{
-    if( jsin.test_null() ) {
-        obj.reset();
-    } else {
-        obj.emplace();
-        jsin.read( *obj );
-    }
-}
-
 std::vector<item> item::magazine_convert()
 {
     std::vector<item> res;
@@ -1360,6 +1339,7 @@ void npc::load( JsonObject &data )
     std::string companion_mission_role;
     time_point companion_mission_t = 0;
     time_point companion_mission_t_r = 0;
+    std::string act_id;
 
     data.read( "name", name );
     data.read( "marked_for_death", marked_for_death );
@@ -1385,7 +1365,7 @@ void npc::load( JsonObject &data )
         if( data.read( "omy", o ) ) {
             old_coords.y += o * OMAPY * 2;
         }
-        submap_coords = point( old_coords.x + posx() / SEEX, old_coords.y + posy() / SEEY );
+        submap_coords = old_coords + point( posx() / SEEX, posy() / SEEY );
     }
 
     if( !data.read( "mapz", position.z ) ) {
@@ -1414,7 +1394,11 @@ void npc::load( JsonObject &data )
     data.read( "guardx", guard_pos.x );
     data.read( "guardy", guard_pos.y );
     data.read( "guardz", guard_pos.z );
-    data.read( "current_activity", current_activity );
+    if( data.read( "current_activity_id", act_id ) ) {
+        current_activity_id = activity_id( act_id );
+    } else if( activity ) {
+        current_activity_id = activity.id();
+    }
 
     if( data.has_member( "pulp_locationx" ) ) {
         pulp_location.emplace();
@@ -1592,7 +1576,7 @@ void npc::store( JsonOut &json ) const
     json.member( "guardx", guard_pos.x );
     json.member( "guardy", guard_pos.y );
     json.member( "guardz", guard_pos.z );
-    json.member( "current_activity", current_activity );
+    json.member( "current_activity_id", current_activity_id.str() );
     json.member( "pulp_location", pulp_location );
 
     json.member( "mission", mission ); // TODO: stringid
@@ -1602,7 +1586,7 @@ void npc::store( JsonOut &json ) const
         json.member( "my_fac", fac_id.c_str() );
     }
     json.member( "attitude", static_cast<int>( attitude ) );
-    json.member( "previous_attitude", static_cast<int>( attitude ) );
+    json.member( "previous_attitude", static_cast<int>( previous_attitude ) );
     json.member( "op_of_u", op_of_u );
     json.member( "chatbin", chatbin );
     json.member( "rules", rules );
@@ -1802,7 +1786,11 @@ void monster::load( JsonObject &data )
     upgrade_time = data.get_int( "upgrade_time", -1 );
 
     reproduces = data.get_bool( "reproduces", type->reproduces );
-    baby_timer = data.get_int( "baby_timer", -1 );
+    baby_timer.reset();
+    data.read( "baby_timer", baby_timer );
+    if( baby_timer && *baby_timer == calendar::before_time_starts ) {
+        baby_timer.reset();
+    }
 
     biosignatures = data.get_bool( "biosignatures", type->biosignatures );
     biosig_timer = data.get_int( "biosig_timer", -1 );
@@ -1811,7 +1799,6 @@ void monster::load( JsonObject &data )
 
     data.read( "inv", inv );
     data.read( "dragged_foe_id", dragged_foe_id );
-    dragged_foe = nullptr;
 
     if( data.has_int( "ammo" ) && !type->starting_ammo.empty() ) {
         // Legacy loading for ammo.
@@ -1889,10 +1876,7 @@ void monster::store( JsonOut &json ) const
     }
     json.member( "inv", inv );
 
-    if( dragged_foe ) {
-        json.member( "dragged_foe_id", dragged_foe->getID() );
-    }
-
+    json.member( "dragged_foe_id", dragged_foe_id );
     json.member( "path", path );
 }
 
@@ -3435,9 +3419,19 @@ void submap::store( JsonOut &jsout ) const
         jsout.end_array();
     }
     jsout.end_array();
-    // Output the computer
-    if( comp != nullptr ) {
-        jsout.member( "computers", comp->save_data() );
+
+    if( legacy_computer ) {
+        // it's possible that no access to computers has been made and legacy_computer
+        // is not cleared
+        jsout.member( "computers", legacy_computer->save_data() );
+    } else if( !computers.empty() ) {
+        jsout.member( "computers" );
+        jsout.start_array();
+        for( auto &elem : computers ) {
+            jsout.write( elem.first );
+            jsout.write( elem.second.save_data() );
+        }
+        jsout.end_array();
     }
 
     // Output base camp if any
@@ -3693,11 +3687,22 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
             partial_constructions[pt] = pc;
         }
     } else if( member_name == "computers" ) {
-        std::string computer_data = jsin.get_string();
-        std::unique_ptr<computer> new_comp =
-            std::make_unique<computer>( "BUGGED_COMPUTER", -100 );
-        new_comp->load_data( computer_data );
-        comp = std::move( new_comp );
+        if( jsin.test_array() ) {
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                point loc;
+                jsin.read( loc );
+                std::string computer_data = jsin.get_string();
+                auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100 ) ).first;
+                new_comp_it->second.load_data( computer_data );
+            }
+        } else {
+            // only load legacy data here, but do not update to std::map, since
+            // the terrain may not have been loaded yet.
+            std::string computer_data = jsin.get_string();
+            legacy_computer = std::make_unique<computer>( "BUGGED_COMPUTER", -100 );
+            legacy_computer->load_data( computer_data );
+        }
     } else if( member_name == "camp" ) {
         jsin.read( camp );
     } else {

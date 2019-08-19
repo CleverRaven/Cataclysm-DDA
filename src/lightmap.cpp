@@ -528,14 +528,14 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
             std::array<quadrant, 2> quadrants;
         };
         static constexpr std::array<offset_and_quadrants, 8> adjacent_offsets = {{
-                { { 0, 1 }, {{ quadrant::SE, quadrant::SW }} },
-                { { 0, -1 }, {{ quadrant::NE, quadrant::NW }} },
-                { { 1, 0 }, {{ quadrant::SE, quadrant::NE }} },
-                { { 1, 1 }, {{ quadrant::SE, quadrant::SE }} },
-                { { 1, -1 }, {{ quadrant::NE, quadrant::NE }} },
-                { {-1, 0 }, {{ quadrant::SW, quadrant::NW }} },
-                { {-1, 1 }, {{ quadrant::SW, quadrant::SW }} },
-                { {-1, -1 }, {{ quadrant::NW, quadrant::NW }} },
+                { point_south,      {{ quadrant::SE, quadrant::SW }} },
+                { point_north,      {{ quadrant::NE, quadrant::NW }} },
+                { point_east,       {{ quadrant::SE, quadrant::NE }} },
+                { point_south_east, {{ quadrant::SE, quadrant::SE }} },
+                { point_north_east, {{ quadrant::NE, quadrant::NE }} },
+                { point_west,       {{ quadrant::SW, quadrant::NW }} },
+                { point_south_west, {{ quadrant::SW, quadrant::SW }} },
+                { point_north_west, {{ quadrant::NW, quadrant::NW }} },
             }
         };
 
@@ -668,10 +668,10 @@ void cast_zlight_segment(
     const std::array<T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
     const std::array<const T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
     const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
-    const tripoint &offset, const int offset_distance,
-    const T numerator = 1.0f, const int row = 1,
-    float start_major = 0.0f, const float end_major = 1.0f,
-    float start_minor = 0.0f, const float end_minor = 1.0f,
+    const tripoint &offset, int offset_distance,
+    T numerator = 1.0f, int row = 1,
+    float start_major = 0.0f, float end_major = 1.0f,
+    float start_minor = 0.0f, float end_minor = 1.0f,
     T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
 
 template<int xx, int xy, int xz, int yx, int yy, int yz, int zz, typename T,
@@ -700,7 +700,6 @@ void cast_zlight_segment(
     float new_start_minor = 1.0f;
 
     T last_intensity = 0.0;
-    static constexpr tripoint origin( 0, 0, 0 );
     tripoint delta;
     tripoint current;
     for( int distance = row; distance <= radius; distance++ ) {
@@ -759,7 +758,7 @@ void cast_zlight_segment(
                     current_transparency = new_transparency;
                 }
 
-                const int dist = rl_dist( origin, delta ) + offset_distance;
+                const int dist = rl_dist( tripoint_zero, delta ) + offset_distance;
                 last_intensity = calc( numerator, cumulative_transparency, dist );
 
                 if( !floor_block ) {
@@ -943,9 +942,9 @@ template<int xx, int xy, int yx, int yy, typename T, typename Out,
          T( *accumulate )( const T &, const T &, const int & )>
 void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                 const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
-                const int offsetX, const int offsetY, const int offsetDistance,
-                const T numerator = 1.0,
-                const int row = 1, float start = 1.0f, const float end = 0.0f,
+                int offsetX, int offsetY, int offsetDistance,
+                T numerator = 1.0,
+                int row = 1, float start = 1.0f, float end = 0.0f,
                 T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
 
 template<int xx, int xy, int yx, int yy, typename T, typename Out,
@@ -965,7 +964,6 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
         return;
     }
     T last_intensity = 0.0;
-    static constexpr tripoint origin( 0, 0, 0 );
     tripoint delta;
     for( int distance = row; distance <= radius; distance++ ) {
         delta.y = -distance;
@@ -995,7 +993,7 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                 current_transparency = input_array[ currentX ][ currentY ];
             }
 
-            const int dist = rl_dist( origin, delta ) + offsetDistance;
+            const int dist = rl_dist( tripoint_zero, delta ) + offsetDistance;
             last_intensity = calc( numerator, cumulative_transparency, dist );
 
             T new_transparency = input_array[ currentX ][ currentY ];

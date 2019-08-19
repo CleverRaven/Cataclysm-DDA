@@ -56,6 +56,9 @@ struct point {
     constexpr point operator*( const int rhs ) const {
         return point( x * rhs, y * rhs );
     }
+    friend constexpr point operator*( int lhs, const point &rhs ) {
+        return rhs * lhs;
+    }
     point &operator*=( const int rhs ) {
         x *= rhs;
         y *= rhs;
@@ -69,7 +72,7 @@ struct point {
      * Rotate point clockwise @param turns times, 90 degrees per turn,
      * around the center of a rectangle with the dimensions specified
      * by @param dim. By default rotates around the origin (0, 0).
-     */
+     * NOLINTNEXTLINE(cata-use-named-point-constants) */
     point rotate( int turns, const point &dim = { 1, 1 } ) const {
         assert( turns >= 0 );
         assert( turns <= 4 );
@@ -134,6 +137,9 @@ struct tripoint {
     constexpr tripoint operator*( const int rhs ) const {
         return tripoint( x * rhs, y * rhs, z * rhs );
     }
+    friend constexpr tripoint operator*( int lhs, const tripoint &rhs ) {
+        return rhs * lhs;
+    }
     tripoint &operator*=( const int rhs ) {
         x *= rhs;
         y *= rhs;
@@ -143,6 +149,9 @@ struct tripoint {
     /*** some point operators and functions ***/
     constexpr tripoint operator+( const point &rhs ) const {
         return tripoint( x + rhs.x, y + rhs.y, z );
+    }
+    friend constexpr tripoint operator+( const point &lhs, const tripoint &rhs ) {
+        return rhs + lhs;
     }
     constexpr tripoint operator-( const point &rhs ) const {
         return tripoint( x - rhs.x, y - rhs.y, z );
@@ -291,6 +300,11 @@ inline point abs( const point &p )
     return point( abs( p.x ), abs( p.y ) );
 }
 
+inline tripoint abs( const tripoint &p )
+{
+    return tripoint( abs( p.x ), abs( p.y ), abs( p.z ) );
+}
+
 static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 static constexpr tripoint tripoint_max{ INT_MAX, INT_MAX, INT_MAX };
 
@@ -336,14 +350,14 @@ static constexpr std::array<point, 4> four_adjacent_offsets{{
     }};
 
 static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
-        { -1, -1, 0 },
-        {  0, -1, 0 },
-        { +1, -1, 0 },
-        { -1,  0, 0 },
-        { +1,  0, 0 },
-        { -1, +1, 0 },
-        {  0, +1, 0 },
-        { +1, +1, 0 },
+        { tripoint_north_west },
+        { tripoint_north },
+        { tripoint_north_east },
+        { tripoint_west },
+        { tripoint_east },
+        { tripoint_south_west },
+        { tripoint_south },
+        { tripoint_south_east },
     }
 };
 

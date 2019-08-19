@@ -80,7 +80,7 @@ struct mapgendata {
         }
         const oter_id &neighbor_at( om_direction::type dir ) const;
         void fill_groundcover();
-        void square_groundcover( const int x1, const int y1, const int x2, const int y2 );
+        void square_groundcover( int x1, int y1, int x2, int y2 );
         ter_id groundcover();
         bool is_groundcover( const ter_id &iid ) const;
         bool has_basement() const;

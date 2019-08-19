@@ -80,11 +80,9 @@ const efftype_id effect_winded( "winded" );
 
 // 1 kJ per battery charge
 const int bat_energy_j = 1000;
-
-inline int modulo( int v, int m );
 //
 // Point dxs for the adjacent cardinal tiles.
-point vehicles::cardinal_d[5] = { point( -1, 0 ), point( 1, 0 ), point( 0, -1 ), point( 0, 1 ), point_zero };
+point vehicles::cardinal_d[5] = { point_west, point_east, point_north, point_south, point_zero };
 
 // Vehicle stack methods.
 vehicle_stack::iterator vehicle_stack::erase( vehicle_stack::const_iterator it )
@@ -554,7 +552,7 @@ void vehicle::do_autodrive()
         omt_path.pop_back();
     }
 
-    point omt_diff = point( omt_path.back().x - veh_omt_pos.x, omt_path.back().y - veh_omt_pos.y );
+    point omt_diff = omt_path.back().xy() - veh_omt_pos.xy();
     if( omt_diff.x > 3 || omt_diff.x < -3 || omt_diff.y > 3 || omt_diff.y < -3 ) {
         // we've gone walkabout somehow, call off the whole thing
         is_autodriving = false;
@@ -582,8 +580,7 @@ void vehicle::do_autodrive()
     tripoint autodrive_local_target = ( global_a + tripoint( x_side, y_side,
                                         sm_pos.z ) - g->m.getabs( vehpos ) ) + global_pos3();
     rl_vec2d facevec = face_vec();
-    point rel_pos_target = point( autodrive_local_target.x - vehpos.x,
-                                  autodrive_local_target.y - vehpos.y );
+    point rel_pos_target = autodrive_local_target.xy() - vehpos.xy();
     rl_vec2d targetvec = rl_vec2d( rel_pos_target.x, rel_pos_target.y );
     // cross product
     double crossy = ( facevec.x * targetvec.y ) - ( targetvec.x * facevec.y );
@@ -667,8 +664,8 @@ void vehicle::smash( float hp_percent_loss_min, float hp_percent_loss_max,
         int roll = dice( 1, 1000 );
         int pct_af = ( percent_of_parts_to_affect * 1000.0f );
         if( roll < pct_af ) {
-            float dist = 1.0f - trig_dist( damage_origin.x, damage_origin.y, part.precalc[0].x,
-                                           part.precalc[0].y ) / damage_size;
+            float dist = 1.0f - trig_dist( damage_origin, point( part.precalc[0].x,
+                                           part.precalc[0].y ) ) / damage_size;
             dist = clamp( dist, 0.0f, 1.0f );
             if( damage_size == 0 ) {
                 dist = 1.0f;
@@ -899,10 +896,10 @@ int vehicle::part_epower_w( const int index ) const
     return e * parts[ index ].health_percent();
 }
 
-int vehicle::power_to_energy_bat( const int power_w, const int t_seconds ) const
+int vehicle::power_to_energy_bat( const int power_w, const time_duration &d ) const
 {
     // Integrate constant epower (watts) over time to get units of battery energy
-    int energy_j = power_w * t_seconds;
+    int energy_j = power_w * to_seconds<int>( d );
     int energy_bat = energy_j / bat_energy_j;
     int sign = power_w >= 0 ? 1 : -1;
     // energy_bat remainder results in chance at additional charge/discharge
@@ -1001,10 +998,10 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
     if( !parts.empty() ) {
         if( !is_structural_part_removed() &&
             !has_structural_part( dp ) &&
-            !has_structural_part( dp + point( +1,  0 ) ) &&
-            !has_structural_part( dp + point( 0, +1 ) ) &&
-            !has_structural_part( dp + point( -1,  0 ) ) &&
-            !has_structural_part( dp + point( 0, -1 ) ) ) {
+            !has_structural_part( dp + point_east ) &&
+            !has_structural_part( dp + point_south ) &&
+            !has_structural_part( dp + point_west ) &&
+            !has_structural_part( dp + point_north ) ) {
             return false;
         }
     }
@@ -1760,7 +1757,7 @@ bool vehicle::remove_part( int p )
 
     for( auto &i : get_items( p ) ) {
         // Note: this can spawn items on the other side of the wall!
-        tripoint dest( part_loc.x + rng( -3, 3 ), part_loc.y + rng( -3, 3 ), part_loc.z );
+        tripoint dest( part_loc + point( rng( -3, 3 ), rng( -3, 3 ) ) );
         g->m.add_item_or_charges( dest, i );
     }
     g->m.dirty_vehicle_list.insert( this );
@@ -4160,7 +4157,7 @@ void vehicle::power_parts()
     int epower = total_epower_w( engine_epower );
 
     bool reactor_online = false;
-    int delta_energy_bat = power_to_energy_bat( epower, to_turns<int>( 1_turns ) );
+    int delta_energy_bat = power_to_energy_bat( epower, 1_turns );
     int storage_deficit_bat = std::max( 0, fuel_capacity( fuel_type_battery ) -
                                         fuel_left( fuel_type_battery ) - delta_energy_bat );
     if( !reactors.empty() && storage_deficit_bat > 0 ) {
@@ -4175,8 +4172,7 @@ void vehicle::power_parts()
             // Keep track whether or not the vehicle has any reactors activated
             reactor_online = true;
             // the amount of energy the reactor generates each turn
-            const int gen_energy_bat = power_to_energy_bat( part_epower_w( elem ),
-                                       to_turns<int>( 1_turns ) );
+            const int gen_energy_bat = power_to_energy_bat( part_epower_w( elem ), 1_turns );
             if( parts[ elem ].is_unavailable() ) {
                 continue;
             } else if( parts[ elem ].info().has_flag( "PERPETUAL" ) ) {
@@ -5280,7 +5276,7 @@ void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &imp
 
     for( const vpart_reference &vp : get_all_parts() ) {
         const size_t p = vp.part_index();
-        int distance = 1 + square_dist( vp.mount().x, vp.mount().y, impact.x, impact.y );
+        int distance = 1 + square_dist( vp.mount(), impact );
         if( distance > 1 && part_info( p ).location == part_location_structure &&
             !part_info( p ).has_flag( "PROTRUSION" ) ) {
             damage_direct( p, rng( dmg1, dmg2 ) / ( distance * distance ), type );
@@ -5624,15 +5620,6 @@ bool vpart_reference::has_feature( const vpart_bitflags f ) const
     return info().has_flag( f );
 }
 
-inline int modulo( int v, int m )
-{
-    // C++11: negative v and positive m result in negative v%m (or 0),
-    // but this is supposed to be mathematical modulo: 0 <= v%m < m,
-    const int r = v % m;
-    // Adding m in that (and only that) case.
-    return r >= 0 ? r : r + m;
-}
-
 static bool is_sm_tile_over_water( const tripoint &real_global_pos )
 {
 
@@ -5766,8 +5753,8 @@ void vehicle::update_time( const time_point &update_to )
 
             epower_w += part_epower_w( part );
         }
-        double intensity = accum_weather.sunlight / DAYLIGHT_LEVEL / to_turns<double>( elapsed );
-        int energy_bat = power_to_energy_bat( epower_w * intensity, to_turns<int>( elapsed ) );
+        double intensity = accum_weather.sunlight / default_daylight_level() / to_turns<double>( elapsed );
+        int energy_bat = power_to_energy_bat( epower_w * intensity, elapsed );
         if( energy_bat > 0 ) {
             add_msg( m_debug, "%s got %d kJ energy from solar panels", name, energy_bat );
             charge_battery( energy_bat );
@@ -5793,7 +5780,7 @@ void vehicle::update_time( const time_point &update_to )
             }
             epower_w += part_epower_w( part ) * windpower;
         }
-        int energy_bat = power_to_energy_bat( epower_w, to_turns<int>( elapsed ) );
+        int energy_bat = power_to_energy_bat( epower_w, elapsed );
         if( energy_bat > 0 ) {
             add_msg( m_debug, "%s got %d kJ energy from wind turbines", name, energy_bat );
             charge_battery( energy_bat );
@@ -5813,7 +5800,7 @@ void vehicle::update_time( const time_point &update_to )
             epower_w += part_epower_w( part );
         }
         // TODO: river current intensity changes power - flat for now.
-        int energy_bat = power_to_energy_bat( epower_w, to_turns<int>( elapsed ) );
+        int energy_bat = power_to_energy_bat( epower_w, elapsed );
         if( energy_bat > 0 ) {
             add_msg( m_debug, "%s got %d kJ energy from water wheels", name, energy_bat );
             charge_battery( energy_bat );

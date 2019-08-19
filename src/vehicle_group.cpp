@@ -72,6 +72,11 @@ void VehicleGroup::load( JsonObject &jo )
     }
 }
 
+void VehicleGroup::reset()
+{
+    vgroups.clear();
+}
+
 VehicleFacings::VehicleFacings( JsonObject &jo, const std::string &key )
 {
     if( jo.has_array( key ) ) {
@@ -96,6 +101,11 @@ void VehiclePlacement::load( JsonObject &jo )
         placement.add( jmapgen_int( jloc, "x" ), jmapgen_int( jloc, "y" ),
                        VehicleFacings( jloc, "facing" ) );
     }
+}
+
+void VehiclePlacement::reset()
+{
+    vplacements.clear();
 }
 
 const VehicleLocation *VehiclePlacement::pick() const
@@ -182,6 +192,11 @@ void VehicleSpawn::load( JsonObject &jo )
             type.throw_error( "load_vehicle_spawn: missing required vehicle_json (object) or vehicle_function (string)." );
         }
     }
+}
+
+void VehicleSpawn::reset()
+{
+    vspawns.clear();
 }
 
 void VehicleSpawn::apply( map &m, const std::string &terrain_name ) const

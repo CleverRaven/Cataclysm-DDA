@@ -105,7 +105,7 @@ class basecamp
         std::vector<std::string> directions;
         std::vector<tripoint> fortifications;
         std::string name;
-        void faction_display( const catacurses::window &fac_w, const int width ) const;
+        void faction_display( const catacurses::window &fac_w, int width ) const;
 
         //change name of camp
         void set_name( const std::string &new_name );
@@ -127,7 +127,7 @@ class basecamp
         bool can_expand();
         /// Returns the name of the building the current building @ref dir upgrades into,
         /// "null" if there isn't one
-        std::string next_upgrade( const std::string &dir, const int offset = 1 ) const;
+        std::string next_upgrade( const std::string &dir, int offset = 1 ) const;
         std::vector<basecamp_upgrade> available_upgrades( const std::string &dir );
 
         // camp utility functions
@@ -150,7 +150,7 @@ class basecamp
         // recipes, gathering, and craft support functions
         std::map<std::string, std::string> recipe_deck( const std::string &dir ) const;
         int recipe_batch_max( const recipe &making ) const;
-        void form_crafting_inventory( const bool by_radio = false );
+        void form_crafting_inventory( bool by_radio = false );
         void form_crafting_inventory( map &target_map );
         std::list<item> use_charges( const itype_id &fake_id, int &quantity );
         void consume_components( const recipe &making, int batch_size, bool by_radio = false );
