@@ -1325,7 +1325,7 @@ bool player::fuel_bionic_with( item &it )
 
     it.charges -= loadable;
     set_value( it.typeId(), loaded_charge );// type and amount of fuel
-    update_fuel_storage( it );
+    update_fuel_storage( it.typeId() );
     add_msg_player_or_npc( m_info,
                            ngettext( "You load %i charge of %s in your %s.",
                                      "You load %i charges of %s in your %s.", loadable ),

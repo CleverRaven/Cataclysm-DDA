@@ -825,7 +825,7 @@ bool player::burn_fuel( int b, bool start )
                     temp -= 1;
                     charge_power( tmp_fuel.fuel_energy() *bio.info().fuel_efficiency );
                     set_value( fuel, std::to_string( temp ) );
-                    update_fuel_storage( item( fuel ) );
+                    update_fuel_storage( fuel );
                 } else {
                     remove_value( fuel );
                     add_msg_player_or_npc( m_info, _( "Your %s runs out of fuel and turn off." ),
