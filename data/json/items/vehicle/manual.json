@@ -10,7 +10,7 @@
     "color": "light_gray",
     "symbol": ":",
     "material": [ "steel" ],
-    "volume": 2,
+    "volume": "500 ml",
     "bashing": 10,
     "category": "veh_parts",
     "price": 9000

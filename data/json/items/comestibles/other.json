@@ -27,7 +27,7 @@
     "calories": 174,
     "description": "A little hunk of glop that fell off a blob monster.  It doesn't seem hostile, but it does wiggle occasionally.",
     "price": 0,
-    "volume": 1,
+    "volume": "250 ml",
     "fun": -10
   },
   {
@@ -44,7 +44,7 @@
     "description": "A large chunk of wax filled with honey.  Very tasty.",
     "price": 3500,
     "material": "honey",
-    "volume": 1,
+    "volume": "250 ml",
     "fun": 9
   },
   {
@@ -61,7 +61,7 @@
     "calories": 35,
     "description": "A large chunk of beeswax.  Not very tasty or nourishing, but okay in an emergency.",
     "price": 1500,
-    "volume": 1,
+    "volume": "250 ml",
     "fun": -5
   },
   {
@@ -80,7 +80,7 @@
     "description": "A translucent hexagonal chunk of wax, filled with dense, milky jelly.  Delicious, and rich with the most beneficial substances the hive can produce, it is useful for curing all sorts of afflictions.",
     "price": 20000,
     "//": "Didn't precisely exist pre-cataclysm, so tough to price.",
-    "volume": 1,
+    "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 7
   },
@@ -102,7 +102,7 @@
     "description": "This looks like a blueberry the size of your fist, but pinkish in color.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.",
     "price": 0,
     "material": "fruit",
-    "volume": 1,
+    "volume": "250 ml",
     "stack_size": 4,
     "flags": [ "MYCUS_OK" ],
     "fun": 30
@@ -125,7 +125,7 @@
     "description": "This looks like a handful of lemon-colored liquid which has taken a set, much like pre-cataclysm jello.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.",
     "price": 0,
     "material": "fruit",
-    "volume": 0,
+    "volume": "0 L",
     "stack_size": 10,
     "fun": 30
   },
@@ -145,7 +145,7 @@
     "description": "Humans might call this a Gray Delicious apple: large, gray, and smells even better than the Marloss.  If they didn't reject it for its alien origins.  But we know better.",
     "price": 0,
     "material": "fruit",
-    "volume": 1,
+    "volume": "250 ml",
     "stack_size": 4,
     "flags": [ "MYCUS_OK" ],
     "fun": 30
@@ -164,7 +164,7 @@
     "description": "A powder-like mix of cultured yeast, good for baking and brewing alike.",
     "price": 150,
     "material": "powder",
-    "volume": 1,
+    "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 25,
     "fun": -10
@@ -180,7 +180,7 @@
     "description": "This bone meal can be used to craft fertilizer and some other things.",
     "price": 25,
     "material": "powder",
-    "volume": 1,
+    "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": -10
@@ -197,7 +197,7 @@
     "description": "This is a grayish bone meal made from rotten bones.",
     "price": 0,
     "material": "powder",
-    "volume": 1,
+    "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": -10
@@ -216,7 +216,7 @@
     "description": "This chitin powder can be used to craft fertilizer and some other things.",
     "price": 25,
     "material": "powder",
-    "volume": 1,
+    "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": -10
@@ -234,7 +234,7 @@
     "description": "A piece of paper.  Can be used for fires.",
     "price": 0,
     "material": "paper",
-    "volume": 1,
+    "volume": "250 ml",
     "freezing_point": -490,
     "charges": 50,
     "fun": -20
@@ -255,7 +255,7 @@
     "description": "Canned beans.  A staple among canned goods, these are reputedly good for one's coronary health.",
     "price": 150,
     "material": "bean",
-    "volume": 1,
+    "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "calcium", 9 ], [ "iron", 24 ] ]
   },
@@ -276,7 +276,7 @@
     "description": "Dehydrated great northern beans.  Tasty and nutritious when cooked, virtually inedible when dry.",
     "price": 300,
     "material": "bean",
-    "volume": 1,
+    "volume": "250 ml",
     "cooks_like": "beans_cooked",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 6,
@@ -299,7 +299,7 @@
     "description": "A hearty serving of cooked great northern beans.",
     "price": 100,
     "material": "bean",
-    "volume": 1,
+    "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 1,
     "vitamins": [ [ "calcium", 8 ], [ "vitB", 32 ] ]
@@ -413,7 +413,7 @@
     "description": "A humble but nutrient-rich legume.  Should be cooked prior to consumption.",
     "price": 20,
     "material": "veggy",
-    "volume": 1,
+    "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2,
     "vitamins": [ [ "calcium", 4 ], [ "iron", 47 ], [ "vitC", 7 ] ],
@@ -431,7 +431,7 @@
     "quench": 1,
     "description": "Some delicious cooked lentils.  Humble but nutrient-rich.",
     "price": 0,
-    "volume": 1,
+    "volume": "250 ml",
     "fun": 1,
     "flags": [ "EATEN_HOT" ],
     "rot_spawn": "GROUP_ROTTING_PLANT",
@@ -454,7 +454,7 @@
     "description": "Ground coffee beans.  You can boil it into a mediocre stimulant, or something better if you had an atomic coffee pot.",
     "price": 900,
     "material": "powder",
-    "volume": 1,
+    "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "calories": 23,
     "charges": 20,
@@ -482,7 +482,7 @@
     "price": 800,
     "material": "honey",
     "weight": 51,
-    "volume": 1,
+    "volume": "250 ml",
     "comestible_type": "FOOD",
     "container": "jar_glass",
     "quench": 1,
@@ -508,7 +508,7 @@
     "description": "Canned tomato.  A staple in many pantries, and useful for many recipes.",
     "price": 350,
     "material": "tomato",
-    "volume": 1,
+    "volume": "250 ml",
     "stack_size": 2,
     "vitamins": [ [ "vitA", 3 ], [ "vitC", 26 ], [ "calcium", 9 ], [ "iron", 18 ] ]
   },
@@ -531,7 +531,7 @@
     "price": 80,
     "material": "hflesh",
     "flags": "TRADER_AVOID",
-    "volume": 1,
+    "volume": "250 ml",
     "fun": -30
   },
   {
@@ -542,7 +542,7 @@
     "name_plural": "cattle fodder",
     "description": "What cattle eat.  Mainly made of grass, silage or legumes.  It's perfect for ruminants.",
     "weight": 300,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 100,
     "to_hit": -5,
     "material": "veggy",
@@ -564,7 +564,7 @@
     "name_plural": "bird food",
     "description": "What birds eat.  Mainly made of seeds, silage or legumes.  It's perfect for small birds.",
     "weight": 60,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 20,
     "to_hit": -5,
     "material": "veggy",
@@ -587,7 +587,7 @@
     "weight": 554,
     "spoils_in": "1 day",
     "container": "can_food",
-    "volume": 1,
+    "volume": "250 ml",
     "price": 300,
     "to_hit": -5,
     "material": "flesh",
@@ -611,7 +611,7 @@
     "weight": 223,
     "spoils_in": "1 day",
     "container": "can_food",
-    "volume": 1,
+    "volume": "250 ml",
     "price": 300,
     "to_hit": -5,
     "material": "flesh",

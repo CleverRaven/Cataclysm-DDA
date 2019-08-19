@@ -8,7 +8,7 @@
     "description": "A dead body.",
     "//": "most of the properties depend on the monster type and are created at runtime!",
     "price": 0,
-    "volume": 0,
+    "volume": "0 L",
     "flags": [ "NO_UNLOAD", "TRADER_AVOID" ]
   },
   {
@@ -22,7 +22,7 @@
     "description": "seeing this is a bug",
     "stackable": true,
     "price": 0,
-    "volume": 0,
+    "volume": "0 L",
     "flags": [ "PSEUDO", "PERPETUAL" ],
     "fuel": { "energy": 1 }
   },
@@ -36,7 +36,7 @@
     "name_plural": "none",
     "description": "seeing this is a bug",
     "price": 0,
-    "volume": 0,
+    "volume": "0 L",
     "flags": [ "PSEUDO" ]
   },
   {
@@ -50,7 +50,7 @@
     "description": "seeing this is a bug",
     "stackable": true,
     "price": 0,
-    "volume": 0,
+    "volume": "0 L",
     "flags": [ "PSEUDO", "PERPETUAL" ],
     "fuel": { "energy": 1 }
   },
@@ -65,7 +65,7 @@
     "description": "seeing this is a bug",
     "stackable": true,
     "price": 0,
-    "volume": 0,
+    "volume": "0 L",
     "flags": [ "PSEUDO", "PERPETUAL" ],
     "fuel": { "energy": 1 }
   },
@@ -79,7 +79,7 @@
     "name_plural": "none",
     "description": "seeing this is a bug",
     "price": 0,
-    "volume": 0,
+    "volume": "0 L",
     "flags": [ "PSEUDO" ]
   },
   {
@@ -91,7 +91,7 @@
     "name_plural": "none",
     "description": "seeing this is a bug",
     "price": 0,
-    "volume": 0,
+    "volume": "0 L",
     "flags": [ "PSEUDO", "UNARMED_WEAPON" ],
     "//": "Fist is internally represented as 'wielding a none as a weapon'"
   },
@@ -106,7 +106,7 @@
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
-    "volume": 1,
+    "volume": "250 ml",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -132,7 +132,7 @@
     "description": "A dead plant.  Good for starting fires or making a pile of leaves to sleep on.",
     "material": "paper",
     "weight": 20,
-    "volume": 1,
+    "volume": "250 ml",
     "to_hit": -2,
     "flags": [ "TRADER_AVOID" ]
   },
@@ -147,7 +147,7 @@
     "material": [ "fur", "leather" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": 114,
-    "volume": 1,
+    "volume": "250 ml",
     "category": "spare_parts"
   },
   {
@@ -171,7 +171,7 @@
     "material": [ "leather", "flesh" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": 100,
-    "volume": 1,
+    "volume": "250 ml",
     "category": "spare_parts",
     "to_hit": -1
   },
@@ -187,7 +187,7 @@
     "material": [ "wool" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": 100,
-    "volume": 1,
+    "volume": "250 ml",
     "category": "spare_parts",
     "to_hit": -1
   },
@@ -218,7 +218,7 @@
     "price": 1800,
     "material": "plastic",
     "weight": 45,
-    "volume": 1,
+    "volume": "250 ml",
     "to_hit": -2,
     "flags": [ "UNRECOVERABLE" ]
   },
@@ -233,7 +233,7 @@
     "price": 1800,
     "material": "bone",
     "weight": 45,
-    "volume": 1,
+    "volume": "250 ml",
     "to_hit": -2,
     "flags": [ "UNRECOVERABLE" ]
   },
@@ -257,7 +257,7 @@
     "symbol": "/",
     "material": [ "steel" ],
     "techniques": [ "WRAP" ],
-    "volume": 4,
+    "volume": "1 L",
     "bashing": 12,
     "price": 8000
   },
@@ -273,7 +273,7 @@
     "price": 0,
     "material": "chitin",
     "weight": 89,
-    "volume": 1,
+    "volume": "250 ml",
     "bashing": 1,
     "to_hit": -2
   },
@@ -289,7 +289,7 @@
     "price": 0,
     "material": "lightceramic",
     "weight": 100,
-    "volume": 1,
+    "volume": "250 ml",
     "bashing": 1,
     "to_hit": -3
   },
@@ -312,7 +312,7 @@
     "name_plural": "bundles of rags",
     "description": "Cotton rags, bundled tightly together for storage.  Disassemble to unpack.",
     "weight": 800,
-    "volume": 3,
+    "volume": "750 ml",
     "price": 0,
     "material": "cotton",
     "symbol": ",",
@@ -326,7 +326,7 @@
     "name_plural": "bundles of leather",
     "description": "Leather patches, bundled tightly together for storage.  Disassemble to unpack.",
     "weight": 1000,
-    "volume": 4,
+    "volume": "1 L",
     "price": 20000,
     "material": "leather",
     "symbol": ",",
@@ -340,7 +340,7 @@
     "name_plural": "bundles of felt",
     "description": "Felt patches, bundled tightly together for storage.  Disassemble to unpack.",
     "weight": 1000,
-    "volume": 4,
+    "volume": "1 L",
     "price": 20000,
     "material": "wool",
     "symbol": ",",
@@ -356,7 +356,7 @@
     "price": 0,
     "material": "veggy",
     "weight": 60,
-    "volume": 1,
+    "volume": "250 ml",
     "to_hit": -3
   },
   {
@@ -368,7 +368,7 @@
     "description": "An empty canister, which may have once held tear gas or other substances.",
     "material": "steel",
     "weight": 158,
-    "volume": 1,
+    "volume": "250 ml",
     "bashing": 2,
     "to_hit": -1,
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
@@ -385,7 +385,7 @@
     "price_postapoc": 1000,
     "material": "stone",
     "weight": 907,
-    "volume": 1,
+    "volume": "250 ml",
     "bashing": 6,
     "to_hit": -1,
     "qualities": [ [ "HAMMER", 1 ] ]
@@ -402,7 +402,7 @@
     "price_postapoc": 1000,
     "material": "stone",
     "weight": 493,
-    "volume": 1,
+    "volume": "250 ml",
     "bashing": 6,
     "to_hit": -1,
     "qualities": [ [ "HAMMER", 1 ] ]
@@ -418,7 +418,7 @@
     "price_postapoc": 100,
     "material": "plastic",
     "weight": 18,
-    "volume": 0,
+    "volume": "0 L",
     "to_hit": -3
   },
   {
@@ -432,7 +432,7 @@
     "price_postapoc": 100,
     "material": "plastic",
     "weight": 18,
-    "volume": 0,
+    "volume": "0 L",
     "to_hit": -3
   },
   {
@@ -442,7 +442,7 @@
     "name": "golf tee",
     "description": "A pin shaped piece of wood meant for holding a golf ball slightly off the ground.",
     "weight": 3,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 1000,
     "material": "wood",
     "symbol": "-",
@@ -455,7 +455,7 @@
     "name": "golf ball",
     "description": "A small ball with round indentations on it.",
     "weight": 50,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 2000,
     "material": "plastic",
     "symbol": "*",
@@ -475,7 +475,7 @@
     "price_postapoc": 0,
     "material": "plastic",
     "weight": 170,
-    "volume": 1,
+    "volume": "250 ml",
     "bashing": 8,
     "to_hit": -3
   },
@@ -490,7 +490,7 @@
     "price": 30,
     "material": "ceramic",
     "weight": 2000,
-    "volume": 10,
+    "volume": "2500 ml",
     "bashing": 16,
     "to_hit": -2
   },
@@ -506,7 +506,7 @@
     "price_postapoc": 100,
     "material": "gold",
     "weight": 1500,
-    "volume": 1,
+    "volume": "250 ml",
     "bashing": 9
   },
   {
@@ -521,7 +521,7 @@
     "price_postapoc": 1000,
     "material": "steel",
     "weight": 553,
-    "volume": 3,
+    "volume": "750 ml",
     "bashing": 6,
     "cutting": 8,
     "to_hit": -2,
@@ -539,7 +539,7 @@
     "price_postapoc": 1000,
     "material": "steel",
     "weight": 1000,
-    "volume": 6,
+    "volume": "1500 ml",
     "bashing": 6,
     "cutting": 8,
     "to_hit": -2,
@@ -557,7 +557,7 @@
     "price_postapoc": 1000,
     "material": "steel",
     "weight": 349,
-    "volume": 1,
+    "volume": "250 ml",
     "cutting": 14,
     "flags": [ "HURT_WHEN_WIELDED" ],
     "to_hit": -4
@@ -587,7 +587,7 @@
     "price_postapoc": 300,
     "material": "steel",
     "weight": 151,
-    "volume": 2,
+    "volume": "500 ml",
     "to_hit": -2
   },
   {
@@ -601,7 +601,7 @@
     "price_postapoc": 500,
     "material": "steel",
     "weight": 302,
-    "volume": 2,
+    "volume": "500 ml",
     "to_hit": -2
   },
   {
@@ -616,7 +616,7 @@
     "price_postapoc": 1000,
     "material": "steel",
     "weight": 908,
-    "volume": 6,
+    "volume": "1500 ml",
     "bashing": 12,
     "to_hit": 2,
     "qualities": [ [ "HAMMER", 1 ] ]
@@ -635,7 +635,7 @@
     "price_postapoc": 100,
     "material": "powder",
     "weight": 2340,
-    "volume": 4,
+    "volume": "1 L",
     "bashing": 4
   },
   {
@@ -649,7 +649,7 @@
     "material": "bone",
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
     "weight": 10,
-    "volume": 0,
+    "volume": "0 L",
     "to_hit": -5,
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -664,7 +664,7 @@
     "category": "other",
     "material": "wood",
     "weight": 751,
-    "volume": 3,
+    "volume": "750 ml",
     "bashing": 8,
     "to_hit": 3,
     "flags": [ "TRADER_AVOID" ]
@@ -681,7 +681,7 @@
     "material": "plastic",
     "flags": "TRADER_AVOID",
     "weight": 39,
-    "volume": 1,
+    "volume": "250 ml",
     "to_hit": -1
   },
   {
@@ -724,7 +724,7 @@
     "price_postapoc": 500,
     "material": [ "steel", "iron" ],
     "weight": 22680,
-    "volume": 25,
+    "volume": "6250 ml",
     "bashing": 6,
     "to_hit": -4
   },
@@ -738,7 +738,7 @@
     "price": 6500,
     "material": [ "plastic", "aluminum" ],
     "weight": 1133,
-    "volume": 10,
+    "volume": "2500 ml",
     "bashing": 4,
     "to_hit": -3,
     "flags": [ "TRADER_AVOID" ]
@@ -753,7 +753,7 @@
     "price": 10000,
     "material": [ "plastic", "aluminum" ],
     "weight": 2266,
-    "volume": 40,
+    "volume": "10 L",
     "bashing": 4,
     "to_hit": -3,
     "flags": [ "TRADER_AVOID" ]
@@ -796,7 +796,7 @@
     "price": 0,
     "material": "plastic",
     "weight": 22600,
-    "volume": 12,
+    "volume": "3 L",
     "bashing": 5,
     "to_hit": -5
   },
@@ -849,7 +849,7 @@
     "price": 1000,
     "material": [ "plastic", "aluminum" ],
     "weight": 2721,
-    "volume": 3,
+    "volume": "750 ml",
     "bashing": 6
   },
   {
@@ -863,7 +863,7 @@
     "price": 1000,
     "material": [ "steel", "plastic" ],
     "weight": 31520,
-    "volume": 60,
+    "volume": "15 L",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
@@ -880,7 +880,7 @@
     "price": 1000,
     "material": [ "steel", "plastic" ],
     "weight": 62650,
-    "volume": 120,
+    "volume": "30 L",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
@@ -915,7 +915,7 @@
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
     "weight": 140000,
-    "volume": 250,
+    "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
@@ -933,7 +933,7 @@
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
     "weight": 140000,
-    "volume": 250,
+    "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
@@ -957,7 +957,7 @@
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
     "weight": 140000,
-    "volume": 250,
+    "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
@@ -975,7 +975,7 @@
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
     "weight": 140000,
-    "volume": 250,
+    "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
@@ -993,7 +993,7 @@
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
     "weight": 170200,
-    "volume": 250,
+    "volume": "62500 ml",
     "bashing": 6,
     "cutting": 10,
     "to_hit": -3,
@@ -1010,7 +1010,7 @@
     "price": 1000,
     "material": [ "steel", "plastic" ],
     "weight": 430000,
-    "volume": 750,
+    "volume": "187500 ml",
     "bashing": 10,
     "cutting": 6,
     "to_hit": -2,
@@ -1027,7 +1027,7 @@
     "price": 1000,
     "material": [ "steel", "plastic" ],
     "weight": 1223850,
-    "volume": 3500,
+    "volume": "875 L",
     "bashing": 20,
     "cutting": 15,
     "to_hit": -3,
@@ -1123,7 +1123,7 @@
     "price": 1000,
     "material": [ "aluminum", "plastic" ],
     "weight": 5400,
-    "volume": 3,
+    "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
@@ -1141,7 +1141,7 @@
     "price_postapoc": 1000,
     "material": [ "aluminum", "plastic" ],
     "weight": 4480,
-    "volume": 3,
+    "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
@@ -1159,7 +1159,7 @@
     "price_postapoc": 1000,
     "material": [ "aluminum", "plastic" ],
     "weight": 25000,
-    "volume": 75,
+    "volume": "18750 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
@@ -1177,7 +1177,7 @@
     "price_postapoc": 1000,
     "material": [ "aluminum", "plastic" ],
     "weight": 5360,
-    "volume": 3,
+    "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
@@ -1195,7 +1195,7 @@
     "price_postapoc": 1000,
     "material": [ "aluminum", "plastic" ],
     "weight": 4700,
-    "volume": 3,
+    "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
@@ -1213,7 +1213,7 @@
     "price_postapoc": 1000,
     "material": [ "aluminum", "plastic" ],
     "weight": 4536,
-    "volume": 3,
+    "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
@@ -1231,7 +1231,7 @@
     "price_postapoc": 1000,
     "material": [ "aluminum", "plastic" ],
     "weight": 5870,
-    "volume": 3,
+    "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
@@ -1248,7 +1248,7 @@
     "price": 12000,
     "material": [ "plastic" ],
     "weight": 56,
-    "volume": 1,
+    "volume": "250 ml",
     "to_hit": -1
   },
   {
@@ -1262,7 +1262,7 @@
     "price": 9000,
     "material": [ "plastic" ],
     "weight": 30,
-    "volume": 1,
+    "volume": "250 ml",
     "to_hit": -1
   },
   {
@@ -1276,7 +1276,7 @@
     "price": 17000,
     "material": [ "aluminum", "plastic" ],
     "weight": 113,
-    "volume": 4,
+    "volume": "1 L",
     "bashing": 5,
     "to_hit": -1
   },
@@ -1291,7 +1291,7 @@
     "price": 20000,
     "material": [ "plastic" ],
     "weight": 114,
-    "volume": 1,
+    "volume": "250 ml",
     "to_hit": -1
   },
   {
@@ -1305,7 +1305,7 @@
     "price": 14000,
     "material": [ "aluminum", "plastic" ],
     "weight": 480,
-    "volume": 1,
+    "volume": "250 ml",
     "to_hit": -1
   },
   {
@@ -1319,7 +1319,7 @@
     "price": 13500,
     "material": [ "aluminum", "plastic" ],
     "weight": 114,
-    "volume": 1,
+    "volume": "250 ml",
     "to_hit": -1
   },
   {
@@ -1333,7 +1333,7 @@
     "price": 24000,
     "material": "plastic",
     "weight": 500,
-    "volume": 1,
+    "volume": "250 ml",
     "to_hit": -4
   },
   {
@@ -1348,7 +1348,7 @@
     "price": 120000,
     "material": "glass",
     "weight": 340,
-    "volume": 0,
+    "volume": "0 L",
     "to_hit": -3,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 30000, "need_sunlight": true },
     "flags": [ "FIRESTARTER" ]
@@ -1379,7 +1379,7 @@
     "price": 1000,
     "material": "glass",
     "weight": 340,
-    "volume": 0,
+    "volume": "0 L",
     "to_hit": -3
   },
   {
@@ -1393,7 +1393,7 @@
     "price": 13500,
     "material": [ "steel", "plastic" ],
     "weight": 317,
-    "volume": 10,
+    "volume": "2500 ml",
     "to_hit": -1,
     "flags": [ "TRADER_AVOID" ]
   },
@@ -1409,7 +1409,7 @@
     "price_postapoc": 15000,
     "material": [ "steel", "plastic" ],
     "weight": 317,
-    "volume": 1,
+    "volume": "250 ml",
     "to_hit": -1,
     "flags": [ "NANOFAB_TEMPLATE", "TRADER_AVOID" ]
   },
@@ -1424,7 +1424,7 @@
     "price": 8000,
     "material": "aluminum",
     "weight": 68,
-    "volume": 1,
+    "volume": "250 ml",
     "to_hit": 2
   },
   {
@@ -1451,7 +1451,7 @@
     "price": 5000,
     "material": "plastic",
     "weight": 26,
-    "volume": 0,
+    "volume": "0 L",
     "to_hit": 2
   },
   {
@@ -1465,7 +1465,7 @@
     "price": 3000,
     "material": "aluminum",
     "weight": 14,
-    "volume": 0,
+    "volume": "0 L",
     "to_hit": 2
   },
   {
@@ -1479,7 +1479,7 @@
     "price": 25000,
     "material": [ "aluminum", "plastic" ],
     "weight": 21000,
-    "volume": 8,
+    "volume": "2 L",
     "bashing": 4,
     "to_hit": 1
   },
@@ -1508,7 +1508,7 @@
     "price_postapoc": 1000,
     "material": "ceramic",
     "weight": 362,
-    "volume": 2,
+    "volume": "500 ml",
     "bashing": 4
   },
   {
@@ -1522,7 +1522,7 @@
     "price": 100,
     "material": "glass",
     "weight": 7042,
-    "volume": 4,
+    "volume": "1 L",
     "to_hit": -6
   },
   {
@@ -1543,7 +1543,7 @@
     "name": "pipe cleaner",
     "description": "This is a tool designed to clean interior surface of pipes, bottles, and similar objects.  This one is thin enough to be used for cleaning firearm barrels from dirt and fouling.",
     "weight": 50,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 500,
     "material": [ "steel", "cotton" ],
     "symbol": ";",
@@ -1560,7 +1560,7 @@
     "price_postapoc": 0,
     "material": [ "plastic", "steel" ],
     "weight": 725,
-    "volume": 1,
+    "volume": "250 ml",
     "bashing": 4,
     "to_hit": -3
   },
@@ -1590,7 +1590,7 @@
     "description": "This not-so-little bundle of joy contains Leadworks, LLC's premier offerings: the Enforcer autorevolver (with holster) and Long Ranger rifle.  Maintenance kit, batteries for same, and a complimentary copy of the Gun Owner's Handbook are included.  The perfect investment for a new family starting out!  Disassemble to unpack and enjoy.",
     "price": 463500,
     "weight": 8932,
-    "volume": 18,
+    "volume": "4500 ml",
     "to_hit": -2,
     "material": [ "wood", "steel" ]
   },
@@ -1605,7 +1605,7 @@
     "description": "A beautiful wooden stock and hardware built to support common Mosin-Nagant actions.  With gunsmithing tools, some skill, and a few hours, you could take a 'tacti-cool' rifle and convert it to the classic Russian design.",
     "price": 12000,
     "weight": 2000,
-    "volume": 11,
+    "volume": "2750 ml",
     "to_hit": -2,
     "material": [ "wood", "steel" ]
   },
@@ -1620,7 +1620,7 @@
     "description": "A synthetic stock and hardware designed to accommodate common Mosin-Nagant actions.  With gunsmithing tools, some skill, and a few hours, you could give the classic Russian design modern furniture and customization capacity.",
     "price": 12000,
     "weight": 2000,
-    "volume": 11,
+    "volume": "2750 ml",
     "to_hit": -2,
     "material": [ "plastic", "steel" ]
   },
@@ -1635,7 +1635,7 @@
     "description": "All the parts necessary to convert an L523 to the Carbine configuration, Leadworks LLC's choice for close-quarters work.  In order to reconfigure an already-configured L523, you'll need to disassemble it to the base platform, then assemble with the parts you prefer.",
     "price": 170000,
     "weight": 400,
-    "volume": 2,
+    "volume": "500 ml",
     "to_hit": -2,
     "material": [ "steel", "plastic" ]
   },
@@ -1650,7 +1650,7 @@
     "description": "All the parts necessary to convert an L523 to a Main Battle Rifle, a balanced weapon for all situations.  In order to reconfigure an already-configured L523, you'll need to disassemble it to the base platform, then assemble with the parts you prefer.",
     "price": 170000,
     "weight": 700,
-    "volume": 3,
+    "volume": "750 ml",
     "to_hit": -2,
     "material": [ "steel", "plastic" ]
   },
@@ -1665,7 +1665,7 @@
     "description": "All the parts necessary to convert an L523 to a Designated Shootist Rifle, suitable for long-ranged work.  In order to reconfigure an already-configured L523, you'll need to disassemble it to the base platform, then assemble with the parts you prefer.",
     "price": 200000,
     "weight": 1900,
-    "volume": 10,
+    "volume": "2500 ml",
     "to_hit": -2,
     "material": [ "steel", "plastic" ]
   },
@@ -1680,7 +1680,7 @@
     "description": "All the parts necessary to convert an L523 to a light machine gun.  In order to reconfigure an already-configured L523, you'll need to disassemble it to the base platform, then assemble with the parts you prefer.",
     "price": 270000,
     "weight": 2300,
-    "volume": 11,
+    "volume": "2750 ml",
     "to_hit": -2,
     "material": [ "steel", "plastic" ]
   },
@@ -1774,7 +1774,7 @@
     "price": 15000,
     "material": "glass",
     "weight": 300,
-    "volume": 3,
+    "volume": "750 ml",
     "bashing": 2,
     "to_hit": -3
   },
@@ -1790,7 +1790,7 @@
     "material": "iron",
     "flags": [ "DURABLE_MELEE", "TRADER_AVOID" ],
     "weight": 36287,
-    "volume": 12,
+    "volume": "3 L",
     "bashing": 20,
     "to_hit": -5
   },
@@ -1803,7 +1803,7 @@
     "description": "A branch from a pine tree, oozing sticky sap and bristling with prickly needles.",
     "material": "wood",
     "weight": 220,
-    "volume": 2,
+    "volume": "500 ml",
     "to_hit": -2,
     "flags": [ "TRADER_AVOID", "FIREWOOD" ]
   },
@@ -1815,7 +1815,7 @@
     "name": "pinecone",
     "description": "A spiny pod from a pine tree.  Dry seeds rattle around inside when you shake it.",
     "weight": 90,
-    "volume": 1,
+    "volume": "250 ml",
     "to_hit": -2,
     "flags": [ "TRADER_AVOID" ]
   },
@@ -1829,7 +1829,7 @@
     "color": "light_red",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -1842,7 +1842,7 @@
     "color": "light_red",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 0,
+    "volume": "0 L",
     "price": 200
   },
   {
@@ -1855,7 +1855,7 @@
     "color": "blue",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -1868,7 +1868,7 @@
     "color": "blue",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 200
   },
   {
@@ -1881,7 +1881,7 @@
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -1894,7 +1894,7 @@
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 200
   },
   {
@@ -1907,7 +1907,7 @@
     "color": "red",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -1920,7 +1920,7 @@
     "color": "red",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 200
   },
   {
@@ -1933,7 +1933,7 @@
     "color": "light_blue",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -1946,7 +1946,7 @@
     "color": "light_blue",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 200
   },
   {
@@ -1959,7 +1959,7 @@
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -1972,7 +1972,7 @@
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 200
   },
   {
@@ -1985,7 +1985,7 @@
     "color": "light_green",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -1998,7 +1998,7 @@
     "color": "light_green",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 200
   },
   {
@@ -2011,7 +2011,7 @@
     "color": "yellow",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -2024,7 +2024,7 @@
     "color": "yellow",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 200
   },
   {
@@ -2037,7 +2037,7 @@
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -2050,7 +2050,7 @@
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 200
   },
   {
@@ -2063,7 +2063,7 @@
     "color": "yellow",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -2076,7 +2076,7 @@
     "color": "yellow",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 200
   },
   {
@@ -2089,7 +2089,7 @@
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -2102,7 +2102,7 @@
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 200
   },
   {
@@ -2115,7 +2115,7 @@
     "color": "yellow",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 6,
+    "volume": "1500 ml",
     "price": 0
   },
   {
@@ -2128,7 +2128,7 @@
     "color": "white",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -2143,7 +2143,7 @@
     "price": 531,
     "material": "freshclay",
     "weight": 530,
-    "volume": 1,
+    "volume": "250 ml",
     "to_hit": -4
   },
   {
@@ -2157,7 +2157,7 @@
     "price": 2500,
     "material": [ "clay", "stone" ],
     "weight": 969,
-    "volume": 2,
+    "volume": "500 ml",
     "bashing": 8,
     "to_hit": -2,
     "qualities": [ [ "HAMMER", 1 ] ]
@@ -2175,7 +2175,7 @@
     "price": 5000,
     "material": "powder",
     "weight": 2340,
-    "volume": 4,
+    "volume": "1 L",
     "bashing": 4
   },
   {
@@ -2190,7 +2190,7 @@
     "price": 0,
     "material": "soil",
     "weight": 1750,
-    "volume": 3,
+    "volume": "750 ml",
     "bashing": 2,
     "to_hit": -3,
     "use_action": {
@@ -2215,7 +2215,7 @@
     "material": "soil",
     "flags": "NONCONDUCTIVE",
     "weight": 1500,
-    "volume": 3,
+    "volume": "750 ml",
     "bashing": 10,
     "to_hit": -2,
     "price": 2000,
@@ -2234,7 +2234,7 @@
     "price": 200,
     "material": "soil",
     "weight": 2340,
-    "volume": 4,
+    "volume": "1 L",
     "bashing": 4
   },
   {
@@ -2247,7 +2247,7 @@
     "price": 0,
     "material": "wood",
     "weight": 323,
-    "volume": 1,
+    "volume": "250 ml",
     "bashing": 4,
     "to_hit": 1
   },
@@ -2261,7 +2261,7 @@
     "price": 0,
     "material": "wood",
     "weight": 323,
-    "volume": 1,
+    "volume": "250 ml",
     "bashing": 4,
     "to_hit": 1
   },
@@ -2275,7 +2275,7 @@
     "price": 0,
     "material": "wood",
     "weight": 323,
-    "volume": 1,
+    "volume": "250 ml",
     "bashing": 4,
     "to_hit": 1
   },
@@ -2290,7 +2290,7 @@
     "price_postapoc": 100,
     "material": "diamond",
     "weight": 120,
-    "volume": 1,
+    "volume": "250 ml",
     "to_hit": -5
   },
   {
@@ -2305,7 +2305,7 @@
     "material": [ "flesh" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": 600,
-    "volume": 3,
+    "volume": "750 ml",
     "category": "spare_parts",
     "to_hit": -1
   },
@@ -2320,7 +2320,7 @@
     "price": 5000,
     "material": [ "leather" ],
     "weight": 600,
-    "volume": 6,
+    "volume": "1500 ml",
     "category": "spare_parts",
     "to_hit": -1
   },
@@ -2336,7 +2336,7 @@
     "material": [ "fur", "flesh" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": 684,
-    "volume": 4,
+    "volume": "1 L",
     "category": "spare_parts",
     "to_hit": -1
   },
@@ -2351,7 +2351,7 @@
     "price": 5000,
     "material": [ "fur" ],
     "weight": 684,
-    "volume": 6,
+    "volume": "1500 ml",
     "category": "spare_parts",
     "to_hit": -1
   },
@@ -2367,7 +2367,7 @@
     "material": [ "paper" ],
     "flags": "TRADER_AVOID",
     "weight": 20,
-    "volume": 1,
+    "volume": "250 ml",
     "to_hit": -2
   },
   {
@@ -2393,7 +2393,7 @@
     "price": 1000,
     "material": [ "cotton" ],
     "weight": 514,
-    "volume": 4,
+    "volume": "1 L",
     "flags": [ "SLEEP_AID" ],
     "category": "other"
   },
@@ -2407,7 +2407,7 @@
     "price": 1500,
     "material": [ "cotton" ],
     "weight": 774,
-    "volume": 7,
+    "volume": "1750 ml",
     "flags": [ "SLEEP_AID" ],
     "category": "other"
   },
@@ -2421,7 +2421,7 @@
     "price": 1000,
     "material": [ "cotton" ],
     "weight": 514,
-    "volume": 4,
+    "volume": "1 L",
     "flags": [ "SLEEP_AID" ],
     "category": "other"
   },
@@ -2435,7 +2435,7 @@
     "price": 200,
     "material": [ "cotton" ],
     "weight": 514,
-    "volume": 3,
+    "volume": "750 ml",
     "flags": [ "SLEEP_AID" ]
   },
   {
@@ -2448,7 +2448,7 @@
     "color": "green",
     "symbol": ",",
     "material": [ "paper" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -2460,7 +2460,7 @@
     "name_plural": "autoclave pouches",
     "description": "This is a medical device that bears the approval of the FDA (Food and Drug Administration).  If used properly, these pouches can keep things sterile indefinitely.",
     "weight": 2,
-    "volume": 0,
+    "volume": "0 L",
     "price": 5,
     "use_action": "PACK_CBM",
     "to_hit": -1,
@@ -2601,7 +2601,7 @@
     "material": "plastic",
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "weight": 6,
-    "volume": 0,
+    "volume": "0 L",
     "to_hit": -3,
     "max_charges": 200000000,
     "rand_charges": [
@@ -2657,7 +2657,7 @@
     "price": 500,
     "material": "plastic",
     "weight": 6,
-    "volume": 0,
+    "volume": "0 L",
     "to_hit": -3
   },
   {
@@ -2670,7 +2670,7 @@
     "category": "other",
     "material": "hflesh",
     "price": 0,
-    "volume": 30,
+    "volume": "7500 ml",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -2685,7 +2685,7 @@
     "material": "plastic",
     "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_1" ],
     "weight": 6,
-    "volume": 0,
+    "volume": "0 L",
     "to_hit": -3
   },
   {
@@ -2700,7 +2700,7 @@
     "material": "plastic",
     "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_2" ],
     "weight": 6,
-    "volume": 0,
+    "volume": "0 L",
     "to_hit": -3
   },
   {
@@ -2715,7 +2715,7 @@
     "material": "plastic",
     "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_3" ],
     "weight": 6,
-    "volume": 0,
+    "volume": "0 L",
     "to_hit": -3
   },
   {
@@ -2729,7 +2729,7 @@
     "price_postapoc": 5000,
     "material": "plastic",
     "weight": 6,
-    "volume": 0,
+    "volume": "0 L",
     "to_hit": -3
   },
   {
@@ -2743,7 +2743,7 @@
     "price_postapoc": 10000,
     "material": "plastic",
     "weight": 6,
-    "volume": 0,
+    "volume": "0 L",
     "to_hit": -3
   },
   {
@@ -2758,7 +2758,7 @@
     "price_postapoc": 10000,
     "material": "plastic",
     "weight": 6,
-    "volume": 0,
+    "volume": "0 L",
     "to_hit": -3
   },
   {
@@ -2772,7 +2772,7 @@
     "material": "neoprene",
     "flags": [ "NO_SALVAGE" ],
     "weight": 80,
-    "volume": 1,
+    "volume": "250 ml",
     "category": "spare_parts"
   },
   {
@@ -2785,7 +2785,7 @@
     "price": 5000000,
     "material": [ "steel", "plastic" ],
     "weight": 5000,
-    "volume": 3,
+    "volume": "750 ml",
     "category": "spare_parts"
   },
   {
@@ -2797,7 +2797,7 @@
     "color": "white",
     "material": "glass",
     "weight": 10,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 500
   },
   {
@@ -2806,7 +2806,7 @@
     "name": "shrapnel",
     "description": "A twisted shard of jagged metal.",
     "weight": 5,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0,
     "stack_size": 50,
     "material": [ "steel" ],
@@ -2821,7 +2821,7 @@
     "name": "clay flower pot",
     "description": "A nice looking clay pot used for planting.",
     "weight": 480,
-    "volume": 10,
+    "volume": "2500 ml",
     "price": 600,
     "bashing": 1,
     "material": "clay",
@@ -2835,7 +2835,7 @@
     "name": "plastic flower pot",
     "description": "A cheap plastic pot used for planting.",
     "weight": 190,
-    "volume": 10,
+    "volume": "2500 ml",
     "price": 300,
     "bashing": 1,
     "material": "plastic",
@@ -2849,7 +2849,7 @@
     "name": "fluid preserved brain",
     "description": "This 3L jar contains a human brain preserved in a formaldehyde solution.",
     "weight": 365,
-    "volume": 12,
+    "volume": "3 L",
     "price": 100,
     "to_hit": -1,
     "bashing": 5,
@@ -2865,7 +2865,7 @@
     "name": "evaporator coil",
     "description": "A set of long, snakelike tubes for evaporating refrigerant.",
     "weight": 20000,
-    "volume": 8,
+    "volume": "2 L",
     "price": 1000,
     "material": "steel",
     "symbol": "#",
@@ -2878,7 +2878,7 @@
     "name": "condensor coil",
     "description": "A compressor and a fan work together to cool down the refrigerant.",
     "weight": 20000,
-    "volume": 8,
+    "volume": "2 L",
     "price": 1000,
     "material": "steel",
     "symbol": "#",
@@ -2910,7 +2910,7 @@
     "price": 10000,
     "material": "hardsteel",
     "weight": 1500,
-    "volume": 2,
+    "volume": "500 ml",
     "bashing": 6
   },
   {
@@ -2924,7 +2924,7 @@
     "price": 9000,
     "material": "steel",
     "weight": 1000,
-    "volume": 2,
+    "volume": "500 ml",
     "bashing": 5
   },
   {
@@ -2938,7 +2938,7 @@
     "price": 500,
     "material": "steel",
     "weight": 5,
-    "volume": 1,
+    "volume": "250 ml",
     "bashing": 1
   },
   {
@@ -2950,7 +2950,7 @@
     "description": "This is an in progress craft.",
     "price": 0,
     "weight": 1,
-    "volume": 1,
+    "volume": "250 ml",
     "max_charges": 20,
     "use_action": "CRAFT",
     "flags": [ "NO_SALVAGE", "TRADER_AVOID", "CAN_HAVE_CHARGES" ]
@@ -2966,7 +2966,7 @@
     "price": 3500,
     "material": "steel",
     "weight": 5000,
-    "volume": 20,
+    "volume": "5 L",
     "bashing": 8
   },
   {
@@ -2980,7 +2980,7 @@
     "description": "A set of components useful for constructing a full-featured welding station, complete with soldering capability.",
     "price": 9000,
     "weight": 4500,
-    "volume": 12,
+    "volume": "3 L",
     "bashing": 8
   },
   {
