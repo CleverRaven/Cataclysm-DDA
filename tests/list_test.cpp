@@ -196,7 +196,7 @@ TEST_CASE( "list basics", "[list]" )
             }
 
             CHECK( count == 200 );
-            CHECK( test_list.size() == 0 );
+            CHECK( test_list.empty() );
         }
 
         SECTION( "negative iteration" ) {
@@ -297,7 +297,7 @@ TEST_CASE( "list insert and erase", "[list]" )
 
         } while( !test_list.empty() );
 
-        CHECK( test_list.size() == 0 );
+        CHECK( test_list.empty() );
     }
 
     SECTION( "erase randomly till half empty" ) {

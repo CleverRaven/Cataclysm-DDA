@@ -186,7 +186,7 @@ TEST_CASE( "colony basics", "[colony]" )
     // Full erase reverse iteration test
     CHECK( count == 200 );
     // Post-erase size test
-    CHECK( test_colony.size() == 0 );
+    CHECK( test_colony.empty() );
 
     // Restore previous state after erasure
     for( int temp = 0; temp < 200; ++temp ) {
@@ -288,7 +288,7 @@ TEST_CASE( "colony insert and erase", "[colony]" )
     } while( !test_colony.empty() );
 
     //Erase randomly till-empty
-    CHECK( test_colony.size() == 0 );
+    CHECK( test_colony.empty() );
 
     test_colony.clear();
     test_colony.change_minimum_group_size( 10000 );
@@ -349,7 +349,7 @@ TEST_CASE( "colony insert and erase", "[colony]" )
     } while( !test_colony.empty() );;
 
     // Random insert/erase till empty
-    CHECK( test_colony.size() == 0 );
+    CHECK( test_colony.empty() );
 
     for( int i = 0; i != 500000; ++i ) {
         test_colony.insert( 10 );
@@ -679,7 +679,7 @@ TEST_CASE( "colony range erase", "[colony]" )
     }
 
     // "Fuzz-test range-erase randomly until empty"
-    CHECK( test_colony.size() == 0 );
+    CHECK( test_colony.empty() );
 
     for( loop_count = 0; loop_count < 50; ++loop_count ) {
         test_colony.clear();
@@ -731,12 +731,12 @@ TEST_CASE( "colony range erase", "[colony]" )
     }
 
     // Fuzz-test range-erase + fill-insert randomly until empty
-    CHECK( test_colony.size() == 0 );
+    CHECK( test_colony.empty() );
 
     test_colony.erase( test_colony.begin(), test_colony.end() );
 
     // Range-erase when colony is empty test (crash test)
-    CHECK( test_colony.size() == 0 );
+    CHECK( test_colony.empty() );
 
     test_colony.insert( 10, 1 );
     test_colony.erase( test_colony.begin(), test_colony.begin() );
@@ -1143,6 +1143,6 @@ TEST_CASE( "colony splice", "[colony]" )
         } while( !test_colony_1.empty() );
 
         // Post-splice insert-and-erase randomly till-empty
-        CHECK( test_colony_1.size() == 0 );
+        CHECK( test_colony_1.empty() );
     }
 }

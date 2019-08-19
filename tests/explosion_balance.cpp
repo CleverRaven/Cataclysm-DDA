@@ -60,7 +60,7 @@ static void check_lethality( const std::string &explosive_id, const int range, f
             total_hp += survivor->get_hp();
             deaths.add( false );
         }
-        if( survivors.size() > 0 ) {
+        if( !survivors.empty() ) {
             survivor_stats << std::endl;
         }
         for( int i = survivors.size(); i < num_subjects_this_time; ++i ) {

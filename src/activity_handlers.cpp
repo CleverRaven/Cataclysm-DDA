@@ -2800,7 +2800,7 @@ void activity_handlers::butcher_do_turn( player_activity * /*act*/, player *p )
 void activity_handlers::read_do_turn( player_activity *act, player *p )
 {
     if( !act->str_values.empty() && act->str_values[0] == "martial_art" && one_in( 3 ) ) {
-        if( act->values.size() == 0 ) {
+        if( act->values.empty() ) {
             act->values.push_back( p->stamina );
         }
         p->stamina = act->values[0] - 1;

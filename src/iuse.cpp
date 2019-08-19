@@ -1800,7 +1800,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
             for( int i = 0; i < fishes; i++ ) {
                 p->practice( skill_survival, rng( 3, 10 ) );
-                if( fishables.size() >= 1 ) {
+                if( !fishables.empty() ) {
                     monster *chosen_fish = random_entry( fishables );
                     // reduce the abstract fish_population marker of that fish
                     chosen_fish->fish_population -= 1;
@@ -7359,14 +7359,14 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                             blinded_names.push_back( player_p->name );
                         }
                     }
-                    if( blinded_names.size() > 0 ) {
+                    if( !blinded_names.empty() ) {
                         p->add_msg_if_player( _( "%s looks blinded." ), enumerate_as_string( blinded_names.begin(),
                         blinded_names.end(), []( const std::string & it ) {
                             return colorize( it, c_light_blue );
                         } ) );
                     }
                 }
-                if( monster_vec.size() > 0 ) {
+                if( !monster_vec.empty() ) {
                     item_save_monsters( *p, *it, monster_vec, photo_quality );
                 }
                 return it->type->charges_to_use();
