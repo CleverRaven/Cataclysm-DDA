@@ -12,6 +12,7 @@
 #include "avatar.h"
 #include "coordinate_conversions.h"
 #include "effect.h"
+#include "event_bus.h"
 #include "game.h"
 #include "item_group.h"
 #include "itype.h"
@@ -2062,8 +2063,12 @@ void npc::die( Creature *nkiller )
         add_msg( _( "%s dies!" ), name );
     }
 
+    if( Character *ch = dynamic_cast<Character *>( killer ) ) {
+        g->events().send( event::make<event_type::character_kills_character>(
+                              calendar::turn, ch->getID(), getID(), get_name() ) );
+    }
+
     if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
-        g->record_npc_kill( *this );
         bool cannibal = g->u.has_trait( trait_CANNIBAL );
         bool psycho = g->u.has_trait( trait_PSYCHOPATH );
         if( g->u.has_trait( trait_SAPIOVORE ) ) {

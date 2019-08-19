@@ -84,6 +84,8 @@ struct special_game;
 
 using itype_id = std::string;
 class avatar;
+class event_bus;
+class kill_tracker;
 class map;
 class faction_manager;
 class new_faction_manager;
@@ -437,14 +439,7 @@ class game
     public:
         /** Unloads, then loads the NPCs */
         void reload_npcs();
-        /** Returns the number of kills of the given mon_id by the player. */
-        int kill_count( const mtype_id &id );
-        /** Returns the number of kills of the given monster species by the player. */
-        int kill_count( const species_id &spec );
-        /** Increments the number of kills of the given mtype_id by the player upwards. */
-        void increase_kill_count( const mtype_id &id );
-        /** Record the fact that the player murdered an NPC. */
-        void record_npc_kill( const npc &p );
+        const kill_tracker &get_kill_tracker() const;
         /** Add follower id to set of followers. */
         void add_npc_follower( const character_id &id );
         /** Remove follower id from follower set. */
@@ -455,8 +450,6 @@ class game
         void validate_npc_followers();
         /** validate camps to ensure they are on the overmap list */
         void validate_camps();
-        /** Return list of killed NPC */
-        std::list<std::string> get_npc_kill();
 
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport( player *p = nullptr, bool add_teleglow = true );
@@ -671,9 +664,6 @@ class game
         // Regular movement. Returns false if it failed for any reason
         bool walk_move( const tripoint &dest );
         void on_move_effects();
-
-        // returns player's "kill xp" for monsters via STK
-        int kill_xp() const;
     private:
         // Game-start procedures
         void load( const save_t &name ); // Load a player-specific save file
@@ -860,7 +850,6 @@ class game
         bool handle_mouseview( input_context &ctxt, std::string &action );
 
         // On-request draw functions
-        void disp_kills();          // Display the player's kill counts
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings
 
@@ -875,7 +864,7 @@ class game
         void move_save_to_graveyard();
         bool save_player_data();
         // ########################## DATA ################################
-    protected:
+    private:
         // May be a bit hacky, but it's probably better than the header spaghetti
         pimpl<map> map_ptr;
         pimpl<avatar> u_ptr;
@@ -883,6 +872,8 @@ class game
         live_view &liveview;
         pimpl<scent_map> scent_ptr;
         pimpl<timed_event_manager> timed_event_manager_ptr;
+        pimpl<event_bus> event_bus_ptr;
+        pimpl<kill_tracker> kill_tracker_ptr;
 
     public:
         /** Make map a reference here, to avoid map.h in game.h */
@@ -890,6 +881,8 @@ class game
         avatar &u;
         scent_map &scent;
         timed_event_manager &timed_events;
+
+        event_bus &events();
 
         pimpl<Creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr;
@@ -961,8 +954,6 @@ class game
         character_id next_npc_id;
         int next_mission_id;
         std::set<character_id> follower_ids; // Keep track of follower NPC IDs
-        std::map<mtype_id, int> kills;         // Player's kill count
-        std::list<std::string> npc_kills;      // names of NPCs the player killed
         int moves_since_last_save;
         time_t last_save_timestamp;
         mutable std::array<float, OVERMAP_LAYERS> latest_lightlevels;

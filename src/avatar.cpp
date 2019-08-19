@@ -24,6 +24,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "itype.h"
+#include "kill_tracker.h"
 #include "map.h"
 #include "martialarts.h"
 #include "messages.h"
@@ -204,13 +205,12 @@ void avatar::memorial( std::ostream &memorial_file, const std::string &epitaph )
     std::map<std::tuple<std::string, std::string>, int> kill_counts;
 
     // map <name, sym> to kill count
+    const kill_tracker &kills = g->get_kill_tracker();
     for( const mtype &type : MonsterGenerator::generator().get_all_mtypes() ) {
-        if( g->kill_count( type.id ) > 0 ) {
-            kill_counts[std::tuple<std::string, std::string>(
-                                                    type.nname(),
-                                                    type.sym
-                                                )] += g->kill_count( type.id );
-            total_kills += g->kill_count( type.id );
+        int this_count = kills.kill_count( type.id );
+        if( this_count > 0 ) {
+            kill_counts[std::make_tuple( type.nname(), type.sym )] += this_count;
+            total_kills += this_count;
         }
     }
 
@@ -1480,8 +1480,7 @@ int avatar::get_per_base() const
 
 int avatar::kill_xp() const
 {
-    // TODO: game::kills probably should be avatar::kills
-    return g->kill_xp();
+    return g->get_kill_tracker().kill_xp();
 }
 
 // based on  D&D 5e level progression

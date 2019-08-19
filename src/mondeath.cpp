@@ -20,6 +20,7 @@
 #include "harvest.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "kill_tracker.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -416,7 +417,7 @@ void mdeath::disappear( monster &z )
 void mdeath::guilt( monster &z )
 {
     const int MAX_GUILT_DISTANCE = 5;
-    int kill_count = g->kill_count( z.type->id );
+    int kill_count = g->get_kill_tracker().kill_count( z.type->id );
     int maxKills = 100; // this is when the player stop caring altogether.
 
     // different message as we kill more of the same monster

@@ -38,6 +38,7 @@
 #include "item.h"
 #include "item_factory.h"
 #include "json.h"
+#include "kill_tracker.h"
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"
@@ -3232,6 +3233,42 @@ void basecamp::deserialize( JsonIn &jsin )
         tripoint restore_pos;
         edata.read( "pos", restore_pos );
         fortifications.push_back( restore_pos );
+    }
+}
+
+void kill_tracker::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "kills" );
+    jsout.start_object();
+    for( auto &elem : kills ) {
+        jsout.member( elem.first.str(), elem.second );
+    }
+    jsout.end_object();
+
+    jsout.member( "npc_kills" );
+    jsout.start_array();
+    for( auto &elem : npc_kills ) {
+        jsout.write( elem );
+    }
+    jsout.end_array();
+    jsout.end_object();
+}
+
+void kill_tracker::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    JsonObject kills_obj = data.get_object( "kills" );
+    std::set<std::string> members = kills_obj.get_member_names();
+    for( const auto &member : members ) {
+        kills[mtype_id( member )] = kills_obj.get_int( member );
+    }
+
+    JsonArray npc_kills_array = data.get_array( "npc_kills" );
+    while( npc_kills_array.has_more() ) {
+        std::string npc_name;
+        npc_kills_array.read_next( npc_name );
+        npc_kills.push_back( npc_name );
     }
 }
 

@@ -63,6 +63,7 @@
 #include "item_location.h"
 #include "iuse_actor.h"
 #include "json.h"
+#include "kill_tracker.h"
 #include "lightmap.h"
 #include "line.h"
 #include "live_view.h"
@@ -276,6 +277,7 @@ game::game() :
 {
     player_was_sleeping = false;
     reset_light_level();
+    events().subscribe( &*kill_tracker_ptr );
     world_generator = std::make_unique<worldfactory>();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
@@ -658,8 +660,7 @@ void game::setup()
     SCT.vSCT.clear(); //Delete pending messages
 
     // reset kill counts
-    kills.clear();
-    npc_kills.clear();
+    kill_tracker_ptr->clear();
     // reset follower list
     follower_ids.clear();
     scent.reset();
@@ -933,6 +934,11 @@ void game::reload_npcs()
     load_npcs();
 }
 
+const kill_tracker &game::get_kill_tracker() const
+{
+    return *kill_tracker_ptr;
+}
+
 void game::create_starting_npcs()
 {
     if( !get_option<bool>( "STATIC_NPC" ) ||
@@ -1129,14 +1135,7 @@ bool game::cleanup_at_end()
 
         center_print( w_rip, iInfoLine++, c_white, sTemp );
 
-        int iTotalKills = 0;
-
-        for( const auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
-            if( kill_count( type.id ) > 0 ) {
-                iTotalKills += kill_count( type.id );
-            }
-        }
-
+        const int iTotalKills = get_kill_tracker().monster_kill_count();
         ssTemp << iTotalKills;
 
         sTemp = _( "Kills:" );
@@ -1843,45 +1842,6 @@ npc *game::find_npc( character_id id )
     return overmap_buffer.find_npc( id ).get();
 }
 
-int game::kill_count( const mtype_id &mon )
-{
-    if( kills.find( mon ) != kills.end() ) {
-        return kills[mon];
-    }
-    return 0;
-}
-
-int game::kill_count( const species_id &spec )
-{
-    int result = 0;
-    for( const auto &pair : kills ) {
-        if( pair.first->in_species( spec ) ) {
-            result += pair.second;
-        }
-    }
-    return result;
-}
-
-void game::increase_kill_count( const mtype_id &id )
-{
-    kills[id]++;
-}
-
-int game::kill_xp() const
-{
-    int ret = 0;
-    for( const std::pair<mtype_id, int> &pair : kills ) {
-        ret += ( pair.first->difficulty + pair.first->difficulty_base ) * pair.second;
-    }
-    ret += npc_kills.size() * 10;
-    return ret;
-}
-
-void game::record_npc_kill( const npc &p )
-{
-    npc_kills.push_back( p.get_name() );
-}
-
 void game::add_npc_follower( const character_id &id )
 {
     follower_ids.insert( id );
@@ -1943,11 +1903,6 @@ void game::validate_camps()
 std::set<character_id> game::get_follower_list()
 {
     return follower_ids;
-}
-
-std::list<std::string> game::get_npc_kill()
-{
-    return npc_kills;
 }
 
 void game::handle_key_blocking_activity()
@@ -2584,7 +2539,7 @@ void game::death_screen()
 {
     gamemode->game_over();
     Messages::display_messages();
-    disp_kills();
+    get_kill_tracker().disp_kills();
     disp_NPC_epilogues();
     follower_ids.clear();
     disp_faction_ends();
@@ -2903,6 +2858,11 @@ bool game::save_player_data()
            ;
 }
 
+event_bus &game::events()
+{
+    return *event_bus_ptr;
+}
+
 bool game::save()
 {
     try {
@@ -3001,68 +2961,6 @@ void game::write_memorial_file( std::string sLastWords )
     write_to_file( memorial_file_path.str(), [&]( std::ostream & fout ) {
         u.memorial( fout, sLastWords );
     }, _( "player memorial" ) );
-}
-
-void game::disp_kills()
-{
-    catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                           point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ), std::max( 0,
-                                   ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
-
-    std::vector<std::string> data;
-    int totalkills = 0;
-    const int colum_width = ( getmaxx( w ) - 2 ) / 3; // minus border
-
-    std::map<std::tuple<std::string, std::string, std::string>, int> kill_counts;
-
-    // map <name, sym, color> to kill count
-    for( auto &elem : kills ) {
-        const mtype &m = elem.first.obj();
-        kill_counts[std::tuple<std::string, std::string, std::string>(
-                                                m.nname(),
-                                                m.sym,
-                                                string_from_color( m.color )
-                                            )] += elem.second;
-        totalkills += elem.second;
-    }
-
-    for( const auto &entry : kill_counts ) {
-        std::ostringstream buffer;
-        buffer << "<color_" << std::get<2>( entry.first ) << ">";
-        buffer << std::get<1>( entry.first ) << "</color>" << " ";
-        buffer << "<color_light_gray>" << std::get<0>( entry.first ) << "</color>";
-        const int w = colum_width - utf8_width( std::get<0>( entry.first ) );
-        buffer.width( w - 3 ); // gap between cols, monster sym, space
-        buffer.fill( ' ' );
-        buffer << entry.second;
-        buffer.width( 0 );
-        data.push_back( buffer.str() );
-    }
-    for( const auto &npc_name : npc_kills ) {
-        totalkills += 1;
-        std::ostringstream buffer;
-        buffer << "<color_magenta>@ " << npc_name << "</color>";
-        const int w = colum_width - utf8_width( npc_name );
-        buffer.width( w - 3 ); // gap between cols, monster sym, space
-        buffer.fill( ' ' );
-        buffer << "1";
-        buffer.width( 0 );
-        data.push_back( buffer.str() );
-    }
-    std::ostringstream buffer;
-    if( data.empty() ) {
-        buffer << _( "You haven't killed any monsters yet!" );
-    } else {
-        buffer << string_format( _( "KILL COUNT: %d" ), totalkills );
-        if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
-            buffer << "    ";
-            buffer << string_format( _( "Experience: %d (%d points available)" ), kill_xp(),
-                                     u.free_upgrade_points() );
-        }
-    }
-    display_table( w, buffer.str(), 3, data );
-
-    refresh_all();
 }
 
 void game::disp_NPC_epilogues()
