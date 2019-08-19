@@ -109,6 +109,7 @@ class base_settings
         void recreate() const;
 
     public:
+        virtual ~base_settings() = default;
         rule_state check_item( const std::string &sItemName ) const;
 };
 
@@ -125,6 +126,7 @@ class player_settings : public base_settings
         void refresh_map_items( cache &map_items ) const override;
 
     public:
+        ~player_settings() override = default;
         void create_rule( const item *it );
         bool has_rule( const item *it );
         void add_rule( const item *it );
@@ -149,6 +151,7 @@ class npc_settings : public base_settings
         void refresh_map_items( cache &map_items ) const override;
 
     public:
+        ~npc_settings() override = default;
         void create_rule( const std::string &to_match );
 
         void show( const std::string &name );
