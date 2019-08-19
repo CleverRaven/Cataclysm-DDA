@@ -174,7 +174,7 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
             case search_type::quality_result: {
                 const auto &quals = item::find_type( r->result() )->qualities;
                 return std::any_of( quals.begin(), quals.end(), [&]( const std::pair<quality_id, int> &e ) {
-                    return lcmatch( e.first->name, txt );
+                    return lcmatch( e.first->name.translated(), txt );
                 } );
             }
 

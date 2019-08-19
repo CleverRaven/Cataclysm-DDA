@@ -10,6 +10,7 @@
 #include <utility>
 
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 class nc_color;
@@ -36,8 +37,7 @@ enum component_type : int {
 struct quality {
     bool was_loaded = false;
     quality_id id;
-    // Translated name
-    std::string name;
+    translation name;
 
     std::vector<std::pair<int, std::string>> usages;
 
