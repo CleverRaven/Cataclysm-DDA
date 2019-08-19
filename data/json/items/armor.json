@@ -6465,7 +6465,7 @@
     "name": "dust mask",
     "description": "A simple piece of cotton that straps over the mouth.  Provides a small amount of protection from airborne illness and dust.",
     "weight": 168,
-    "volume": "0 L",
+    "volume": "100 ml",
     "price": 800,
     "to_hit": -3,
     "material": [ "cotton" ],
