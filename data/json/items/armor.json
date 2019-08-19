@@ -7036,7 +7036,7 @@
     "name": "pearl collar",
     "description": "A collar made from round and lustrous pearls, its former owner must be a wealthy individual.",
     "weight": 30,
-    "volume": "0 L",
+    "volume": "300 ml",
     "price": 590000,
     "price_postapoc": 2000,
     "material": [ "stone" ],
