@@ -24,6 +24,7 @@
 #include "item_group.h"
 #include "itype.h"
 #include "line.h"
+#include "kill_tracker.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -3323,7 +3324,7 @@ int basecamp::recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, i
         sbonus += 10;
     }
     //Survival of the fittest
-    if( g->get_npc_kill().size() > 10 ) {
+    if( g->get_kill_tracker().npc_kill_count() > 10 ) {
         sbonus += 10;
     }
     return sbase + sexpansions + sfaction + sbonus;
