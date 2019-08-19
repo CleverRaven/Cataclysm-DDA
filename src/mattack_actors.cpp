@@ -212,18 +212,18 @@ void melee_actor::load_internal( JsonObject &obj, const std::string & )
     move_cost = obj.get_int( "move_cost", 100 );
     accuracy = obj.get_int( "accuracy", INT_MIN );
 
-    optional( obj, was_loaded, "miss_msg_u", miss_msg_u, translated_string_reader,
-              _( "The %s lunges at you, but you dodge!" ) );
-    optional( obj, was_loaded, "no_dmg_msg_u", no_dmg_msg_u, translated_string_reader,
-              _( "The %1$s bites your %2$s, but fails to penetrate armor!" ) );
-    optional( obj, was_loaded, "hit_dmg_u", hit_dmg_u, translated_string_reader,
-              _( "The %1$s bites your %2$s!" ) );
-    optional( obj, was_loaded, "miss_msg_npc", miss_msg_npc, translated_string_reader,
-              _( "The %s lunges at <npcname>, but they dodge!" ) );
-    optional( obj, was_loaded, "no_dmg_msg_npc", no_dmg_msg_npc, translated_string_reader,
-              _( "The %1$s bites <npcname>'s %2$s, but fails to penetrate armor!" ) );
-    optional( obj, was_loaded, "hit_dmg_npc", hit_dmg_npc, translated_string_reader,
-              _( "The %1$s bites <npcname>'s %2$s!" ) );
+    optional( obj, was_loaded, "miss_msg_u", miss_msg_u,
+              translation( "The %s lunges at you, but you dodge!" ) );
+    optional( obj, was_loaded, "no_dmg_msg_u", no_dmg_msg_u,
+              translation( "The %1$s bites your %2$s, but fails to penetrate armor!" ) );
+    optional( obj, was_loaded, "hit_dmg_u", hit_dmg_u,
+              translation( "The %1$s bites your %2$s!" ) );
+    optional( obj, was_loaded, "miss_msg_npc", miss_msg_npc,
+              translation( "The %s lunges at <npcname>, but they dodge!" ) );
+    optional( obj, was_loaded, "no_dmg_msg_npc", no_dmg_msg_npc,
+              translation( "The %1$s bites <npcname>'s %2$s, but fails to penetrate armor!" ) );
+    optional( obj, was_loaded, "hit_dmg_npc", hit_dmg_npc,
+              translation( "The %1$s bites <npcname>'s %2$s!" ) );
 
     if( obj.has_array( "body_parts" ) ) {
         JsonArray jarr = obj.get_array( "body_parts" );
@@ -277,7 +277,8 @@ bool melee_actor::call( monster &z ) const
         auto msg_type = target == &g->u ? m_warning : m_info;
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
-        target->add_msg_player_or_npc( msg_type, miss_msg_u, miss_msg_npc, z.name() );
+        target->add_msg_player_or_npc( msg_type, miss_msg_u.translated(), miss_msg_npc.translated(),
+                                       z.name() );
         return true;
     }
 
@@ -301,8 +302,8 @@ bool melee_actor::call( monster &z ) const
     } else {
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
-        target->add_msg_player_or_npc( m_neutral, no_dmg_msg_u, no_dmg_msg_npc, z.name(),
-                                       body_part_name_accusative( bp_hit ) );
+        target->add_msg_player_or_npc( m_neutral, no_dmg_msg_u.translated(), no_dmg_msg_npc.translated(),
+                                       z.name(), body_part_name_accusative( bp_hit ) );
     }
 
     return true;
@@ -317,7 +318,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
     }
     auto msg_type = target.attitude_to( g->u ) == Creature::A_FRIENDLY ? m_bad : m_neutral;
     const body_part bp = dealt.bp_hit;
-    target.add_msg_player_or_npc( msg_type, hit_dmg_u, hit_dmg_npc, z.name(),
+    target.add_msg_player_or_npc( msg_type, hit_dmg_u.translated(), hit_dmg_npc.translated(), z.name(),
                                   body_part_name_accusative( bp ) );
 
     for( const auto &eff : effects ) {

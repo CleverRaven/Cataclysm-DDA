@@ -12,6 +12,7 @@
 #include "mattack_common.h"
 #include "magic.h"
 #include "mtype.h"
+#include "translations.h"
 #include "type_id.h"
 #include "weighted_list.h"
 #include "bodypart.h"
@@ -84,18 +85,18 @@ class melee_actor : public mattack_actor
         std::vector<mon_effect_data> effects;
 
         /** Message for missed attack against the player. */
-        std::string miss_msg_u;
+        translation miss_msg_u;
         /** Message for 0 damage hit against the player. */
-        std::string no_dmg_msg_u;
+        translation no_dmg_msg_u;
         /** Message for damaging hit against the player. */
-        std::string hit_dmg_u;
+        translation hit_dmg_u;
 
         /** Message for missed attack against a non-player. */
-        std::string miss_msg_npc;
+        translation miss_msg_npc;
         /** Message for 0 damage hit against a non-player. */
-        std::string no_dmg_msg_npc;
+        translation no_dmg_msg_npc;
         /** Message for damaging hit against a non-player. */
-        std::string hit_dmg_npc;
+        translation hit_dmg_npc;
 
         melee_actor();
         ~melee_actor() override = default;
