@@ -425,12 +425,12 @@ int construction_menu( bool blueprint )
                             current_line << _( "Result: " );
                             if( current_con->post_is_furniture ) {
                                 current_line << colorize(
-                                                 furn_str_id( current_con->post_terrain ).obj().description,
+                                                 furn_str_id( current_con->post_terrain ).obj().description.translated(),
                                                  color_data
                                              );
                             } else {
                                 current_line << colorize(
-                                                 ter_str_id( current_con->post_terrain ).obj().description,
+                                                 ter_str_id( current_con->post_terrain ).obj().description.translated(),
                                                  color_data
                                              );
                             }
@@ -444,12 +444,12 @@ int construction_menu( bool blueprint )
                             current_line << _( "Result: " );
                             if( current_con->post_is_furniture ) {
                                 current_line << colorize(
-                                                 furn_str_id( current_con->post_terrain ).obj().description,
+                                                 furn_str_id( current_con->post_terrain ).obj().description.translated(),
                                                  color_data
                                              );
                             } else {
                                 current_line << colorize(
-                                                 ter_str_id( current_con->post_terrain ).obj().description,
+                                                 ter_str_id( current_con->post_terrain ).obj().description.translated(),
                                                  color_data
                                              );
                             }

@@ -13,6 +13,7 @@
 #include "int_id.h"
 #include "optional.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -244,7 +245,7 @@ struct map_data_common_t {
         int coverage; // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         units::volume max_volume; // Maximal volume of items that can be stored in/on this furniture
 
-        std::string description;
+        translation description;
 
         std::array<nc_color, NUM_SEASONS> color_; //The color the sym will draw in on the GUI.
         void load_symbol( JsonObject &jo );
