@@ -55,14 +55,14 @@ jobs:
   include:
     # Initial test stage, if this fails everything else is cancelled.
     - stage: Test
-      # Clang is consistently the fastest to build, so use it for the initial test. clang7 is installed on bionic by default.
-      env: CLANG=clang++ MODS=--mods=RL_Classes TEST_STAGE=1
-      name: "Clang 7 Make build with curses, style check and RL_Classes test"
+      # Clang is consistently the fastest to build, so use it for the initial test.
+      env: CLANG=clang++-3.8 MODS=--mods=RL_Classes TEST_STAGE=1 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
+      name: "Clang 3.8 Make build with curses, style check and RL_Classes test"
       compiler: clang
-      addons:
+      addons: &clang38
         apt:
           packages: ["astyle"]
-          sources: [*apt_sources]
+          sources: [*apt_sources, llvm-toolchain-bionic-3.8]
 
     # Then build different configurations and targets in parallel.
     - stage: "Main Compilers"
@@ -71,7 +71,7 @@ jobs:
       compiler: gcc
       addons: &gcc53
         apt:
-          packages: ["g++-5=5.3.1-14ubuntu2", "libstdc++-5-dev=5.3.1-14ubuntu2", "gcc-5=5.3.1-14ubuntu2", "gcc-5-base=5.3.1-14ubuntu2", "cpp-5=5.3.1-14ubuntu2", "libgcc-5-dev=5.3.1-14ubuntu2", "libasan2=5.3.1-14ubuntu2", "libmpx0=5.3.1-14ubuntu2"]
+          packages: ["clang-3.8", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6", "astyle"]
           sources: [*apt_sources]
 
     - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1 SANITIZE=address
@@ -197,6 +197,15 @@ jobs:
         apt:
           packages: ["clang-6.0", "g++-multilib", "libc6-dbg", "g++-6", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
           sources: [*apt_sources, llvm-toolchain-xenial-6.0]
+
+    - env: CLANG=clang++-7
+      name: "Clang 7 Make build with Curses"
+      if: type != pull_request
+      compiler: clang
+      addons: &clang7
+        apt:
+          packages: ["clang-7", "libc6-dbg", "libc6-dbg:i386"]
+          sources: [*apt_sources, llvm-toolchain-xenial-7]
 
 before_script:
   - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi
