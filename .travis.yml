@@ -1,6 +1,6 @@
 # this file is HEAVILY influenced by https://github.com/boostorg/hana/blob/master/.travis.yml
 
-dist: xenial
+dist: bionic
 language: c++
 
 cache: ccache
