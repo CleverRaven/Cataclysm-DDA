@@ -38,7 +38,7 @@
     "stim": -5,
     "addiction_potential": 6,
     "container": "test_tube",
-    "tools_needed": "syringe",
+    "tool": "syringe",
     "flags": [ "NO_INGEST" ]
   },
   {

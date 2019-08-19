@@ -14,6 +14,7 @@
 #include <memory>
 #include <unordered_map>
 
+#include "activity_type.h"
 #include "avatar.h"
 #include "cata_utility.h"
 // needed for the workaround for the std::to_string bug in some compilers
@@ -1389,10 +1390,10 @@ void parse_tags( std::string &phrase, const player &u, const player &me, const i
         } else if( tag == "<current_activity>" ) {
             std::string activity_name;
             const npc *guy = dynamic_cast<const npc *>( &me );
-            if( !guy->current_activity.empty() ) {
-                activity_name = guy->current_activity;
+            if( guy->current_activity_id ) {
+                activity_name = guy->current_activity_id.obj().verb().translated();
             } else {
-                activity_name = "doing this and that";
+                activity_name = _( "doing this and that" );
             }
             phrase.replace( fa, l, activity_name );
         } else if( tag == "<punc>" ) {

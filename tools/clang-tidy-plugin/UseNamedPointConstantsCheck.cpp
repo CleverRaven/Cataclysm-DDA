@@ -77,17 +77,17 @@ static const std::map<std::pair<int, int>, std::string> PointConstants = {
 };
 
 static const std::map<std::tuple<int, int, int>, std::string> TripointConstants = {
-    { { 0, 0, 0 }, "tripoint_zero" },
-    { { 0, 0, 1 }, "tripoint_above" },
-    { { 0, 0, -1 }, "tripoint_below" },
-    { { 0, -1, 0 }, "tripoint_north" },
-    { { 1, -1, 0 }, "tripoint_north_east" },
-    { { 1, 0, 0 }, "tripoint_east" },
-    { { 1, 1, 0 }, "tripoint_south_east" },
-    { { 0, 1, 0 }, "tripoint_south" },
-    { { -1, 1, 0 }, "tripoint_south_west" },
-    { { -1, 0, 0 }, "tripoint_west" },
-    { { -1, -1, 0 }, "tripoint_north_west" },
+    { std::make_tuple( 0, 0, 0 ), "tripoint_zero" },
+    { std::make_tuple( 0, 0, 1 ), "tripoint_above" },
+    { std::make_tuple( 0, 0, -1 ), "tripoint_below" },
+    { std::make_tuple( 0, -1, 0 ), "tripoint_north" },
+    { std::make_tuple( 1, -1, 0 ), "tripoint_north_east" },
+    { std::make_tuple( 1, 0, 0 ), "tripoint_east" },
+    { std::make_tuple( 1, 1, 0 ), "tripoint_south_east" },
+    { std::make_tuple( 0, 1, 0 ), "tripoint_south" },
+    { std::make_tuple( -1, 1, 0 ), "tripoint_south_west" },
+    { std::make_tuple( -1, 0, 0 ), "tripoint_west" },
+    { std::make_tuple( -1, -1, 0 ), "tripoint_north_west" },
 };
 
 static void CheckConstructor( UseNamedPointConstantsCheck &Check,

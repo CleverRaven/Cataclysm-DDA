@@ -565,7 +565,7 @@ int avatar::time_to_read( const item &book, const player &reader, const player *
     int retval = type->time * reading_speed;
     retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
 
-    const int effective_int = std::min( {int_cur, reader.get_int(), learner ? learner->get_int() : INT_MAX } );
+    const int effective_int = std::min( { get_int(), reader.get_int(), learner ? learner->get_int() : INT_MAX } );
     if( type->intel > effective_int && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
         retval += type->time * ( type->intel - effective_int ) * 100;
     }
@@ -816,9 +816,10 @@ bool avatar::read( int inventory_position, const bool continuous )
                  reader->disp_name() );
     }
 
-    const bool complex_penalty = type->intel > std::min( int_cur, reader->get_int() ) &&
+    const int intelligence = get_int();
+    const bool complex_penalty = type->intel > std::min( intelligence, reader->get_int() ) &&
                                  !reader->has_trait( trait_PROF_DICEMASTER );
-    const player *complex_player = reader->get_int() < int_cur ? reader : this;
+    const player *complex_player = reader->get_int() < intelligence ? reader : this;
     if( complex_penalty && !continuous ) {
         add_msg( m_warning,
                  _( "This book is too complex for %s to easily understand. It will take longer to read." ),

@@ -403,7 +403,8 @@
       [ "pike_fake", 50 ],
       { "group": "broadsword_fake+scabbard", "prob": 17 },
       [ "mace_fake", 6 ],
-      [ "morningstar_fake", 5 ]
+      [ "morningstar_fake", 5 ],
+      [ "shillelagh_fake", 5 ]
     ]
   },
   {
@@ -421,7 +422,14 @@
     "id": "soa_real_weapon_decor",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "pike", 50 ], { "group": "broadsword+scabbard", "prob": 17 }, [ "mace", 6 ], [ "morningstar", 5 ] ]
+    "items": [
+      [ "pike", 50 ],
+      { "group": "broadsword+scabbard", "prob": 17 },
+      [ "mace", 6 ],
+      [ "morningstar", 5 ],
+      [ "shillelagh", 5 ],
+      [ "shillelagh_weighted", 3 ]
+    ]
   },
   {
     "id": "soa_fake_weapon_plate",
@@ -431,7 +439,8 @@
       [ "pike_fake", 17 ],
       { "group": "broadsword_fake+scabbard", "prob": 5 },
       [ "mace_fake", 50 ],
-      [ "morningstar_fake", 6 ]
+      [ "morningstar_fake", 6 ],
+      [ "shillelagh_fake", 6 ]
     ]
   },
   {

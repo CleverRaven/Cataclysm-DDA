@@ -423,7 +423,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
                 }
             }
 
-            if( has_miss_recovery_tec( cur_weapon ) ) {
+            if( can_miss_recovery( cur_weapon ) ) {
                 ma_technique tec = get_miss_recovery_tec( cur_weapon );
                 add_msg( _( tec.player_message ), t.disp_name() );
             } else if( stumble_pen >= 60 ) {
@@ -1960,14 +1960,14 @@ void player_hit_message( player *attacker, const std::string &message,
         //player hits monster melee
         SCT.add( t.posx(),
                  t.posy(),
-                 direction_from( 0, 0, t.posx() - attacker->posx(), t.posy() - attacker->posy() ),
+                 direction_from( point_zero, point( t.posx() - attacker->posx(), t.posy() - attacker->posy() ) ),
                  get_hp_bar( dam, t.get_hp_max(), true ).first, m_good,
                  sSCTmod, gmtSCTcolor );
 
         if( t.get_hp() > 0 ) {
             SCT.add( t.posx(),
                      t.posy(),
-                     direction_from( 0, 0, t.posx() - attacker->posx(), t.posy() - attacker->posy() ),
+                     direction_from( point_zero, point( t.posx() - attacker->posx(), t.posy() - attacker->posy() ) ),
                      get_hp_bar( t.get_hp(), t.get_hp_max(), true ).first, m_good,
                      //~ "hit points", used in scrolling combat text
                      _( "hp" ), m_neutral,

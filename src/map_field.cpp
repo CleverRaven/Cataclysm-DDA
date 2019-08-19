@@ -136,7 +136,7 @@ bool map::process_fields()
             for( int y = 0; y < my_MAPSIZE; y++ ) {
                 if( field_cache[ x + y * MAPSIZE ] ) {
                     submap *const current_submap = get_submap_at_grid( { x, y, z } );
-                    const bool cur_dirty = process_fields_in_submap( current_submap, x, y, z );
+                    const bool cur_dirty = process_fields_in_submap( current_submap, tripoint( x, y, z ) );
                     zlev_dirty |= cur_dirty;
                 }
             }
@@ -365,9 +365,9 @@ This is the general update function for field effects. This should only be calle
 If you need to insert a new field behavior per unit time add a case statement in the switch below.
 */
 bool map::process_fields_in_submap( submap *const current_submap,
-                                    const int submap_x, const int submap_y, const int submap_z )
+                                    const tripoint &submap )
 {
-    scent_block sblk( submap_x, submap_y, submap_z, g->scent );
+    scent_block sblk( submap.x, submap.y, submap.z, g->scent );
 
     // This should be true only when the field changes transparency
     // More correctly: not just when the field is opaque, but when it changes state
@@ -378,7 +378,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
     field_entry *tmpfld = nullptr;
 
     tripoint thep;
-    thep.z = submap_z;
+    thep.z = submap.z;
 
     // Initialize the map tile wrapper
     maptile map_tile( current_submap, 0, 0 );
@@ -389,8 +389,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
         for( locy = 0; locy < SEEY; locy++ ) {
             // This is a translation from local coordinates to submap coordinates.
             // All submaps are in one long 1d array.
-            thep.x = locx + submap_x * SEEX;
-            thep.y = locy + submap_y * SEEY;
+            thep.x = locx + submap.x * SEEX;
+            thep.y = locy + submap.y * SEEY;
             // A const reference to the tripoint above, so that the code below doesn't accidentally change it
             const tripoint &p = thep;
             // Get a reference to the field variable from the submap;
@@ -1082,7 +1082,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         cur.monster_spawn_radius() ), [this]( const tripoint & n ) {
                         return passable( n );
                         } ) ) {
-                            add_spawn( spawn_details.name, spawn_details.pack_size, spawn_point->x, spawn_point->y );
+                            add_spawn( spawn_details.name, spawn_details.pack_size, point( spawn_point->x, spawn_point->y ) );
                         }
                     }
                 }
@@ -1228,7 +1228,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             clear_path( p, g->u.pos(), 10, 0, 100 ) ) {
 
                             std::vector<point> candidate_positions =
-                                squares_in_direction( p.x, p.y, g->u.posx(), g->u.posy() );
+                                squares_in_direction( p.xy(), point( g->u.posx(), g->u.posy() ) );
                             for( point &candidate_position : candidate_positions ) {
                                 field &target_field =
                                     get_field( tripoint( candidate_position, p.z ) );
@@ -1299,10 +1299,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
     }
     const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    for( int z = std::max( submap_z - 1, minz ); z <= std::min( submap_z + 1, maxz ); ++z ) {
+    for( int z = std::max( submap.z - 1, minz ); z <= std::min( submap.z + 1, maxz ); ++z ) {
         auto &field_cache = get_cache( z ).field_cache;
-        for( int y = std::max( submap_y - 1, 0 ); y <= std::min( submap_y + 1, MAPSIZE - 1 ); ++y ) {
-            for( int x = std::max( submap_x - 1, 0 ); x <= std::min( submap_x + 1, MAPSIZE - 1 ); ++x ) {
+        for( int y = std::max( submap.y - 1, 0 ); y <= std::min( submap.y + 1, MAPSIZE - 1 ); ++y ) {
+            for( int x = std::max( submap.x - 1, 0 ); x <= std::min( submap.x + 1, MAPSIZE - 1 ); ++x ) {
                 if( get_submap_at_grid( { x, y, z } )->field_count > 0 ) {
                     field_cache.set( x + y * MAPSIZE );
                 } else {

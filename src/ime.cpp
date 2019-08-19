@@ -5,6 +5,10 @@
 #include "sdltiles.h"
 
 #ifdef _WIN32
+
+#include <windows.h>
+#include <imm.h>
+
 class imm_wrapper
 {
     private:

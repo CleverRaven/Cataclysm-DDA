@@ -153,5 +153,19 @@
     "type": "TOOL",
     "name": "bionic firestarter",
     "flags": [ "FIRESTARTER" ]
+  },
+  {
+    "id": "migo_bio_gun",
+    "type": "GUN",
+    "copy-from": "fake_item",
+    "name": "mi-go bio-gun",
+    "description": "Fake gun that fires some sort of solidified organic matter at very high speed by unknown means of propulsion.",
+    "flags": [ "NEVER_JAMS" ],
+    "ammo_effects": [ "NEVER_MISFIRES" ],
+    "skill": "rifle",
+    "durability": 10,
+    "range": 100,
+    "dispersion": 1000,
+    "ranged_damage": { "damage_type": "stab", "amount": 30 }
   }
 ]
