@@ -79,8 +79,32 @@
       "tec_crt_cqb_precise",
       "tec_crt_cqb_arpen",
       "tec_feint"
+    ],
+    "weapons": [
+      "blade_crt",
+      "knife_crt",
+      "knife_combat",
+      "knife_hunting",
+      "knife_rambo",
+      "knife_rm42",
+      "knife_steak",
+      "knife_swissarmy",
+      "knife_trench",
+      "knife_butter",
+      "knife_folding",
+      "makeshift_knife",
+      "primitive_knife",
+      "pockknife",
+      "copper_knife",
+      "diveknife",
+      "kris",
+      "switchblade",
+      "honey_scraper",
+      "fork",
+      "glass_shiv",
+      "scissors"
     ]
-    },
+  },
   {
     "type": "technique",
     "id": "tec_crt_cqb_normal",
