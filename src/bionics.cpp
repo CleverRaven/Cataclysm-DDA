@@ -1100,7 +1100,7 @@ bool player::has_enough_anesth( const itype *cbm, player &patient )
     } );
 
     return req_anesth.can_make_with_inventory( crafting_inventory(), is_crafting_component ) ||
-           b_filter.size() > 0;
+           !b_filter.empty();
 }
 
 // bionic manipulation adjusted skill
