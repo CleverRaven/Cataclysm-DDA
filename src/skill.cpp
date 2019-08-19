@@ -133,6 +133,8 @@ bool Skill::is_contextual_skill() const
     return _tags.count( "contextual_skill" ) > 0;
 }
 
+SkillLevel::SkillLevel() = default;
+
 void SkillLevel::train( int amount, bool skip_scaling )
 {
     // Working off rust to regain levels goes twice as fast as reaching levels in the first place

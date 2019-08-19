@@ -184,6 +184,8 @@ npc &npc::operator=( npc && ) = default;
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
 
+npc_template::npc_template() = default;
+
 void npc_template::load( JsonObject &jsobj )
 {
     npc guy;

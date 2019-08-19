@@ -79,7 +79,7 @@ class SkillLevel
         int _highestLevel = 0;
 
     public:
-        SkillLevel() {}
+        SkillLevel();
 
         bool isTraining() const {
             return _isTraining;
