@@ -69,6 +69,7 @@ void scenario::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "points", _point_cost );
 
     optional( jo, was_loaded, "blacklist_professions", blacklist );
+    optional( jo, was_loaded, "add_professions", extra_professions );
     optional( jo, was_loaded, "professions", professions,
               auto_flags_reader<string_id<profession>> {} );
 
@@ -229,6 +230,10 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
                                         p.ident() ) != professions.end();
         if( blacklist || professions.empty() ) {
             if( !present && !p.has_flag( "SCEN_ONLY" ) ) {
+                res.push_back( p.ident() );
+            }
+        } else if( extra_professions ) {
+            if( present || !p.has_flag( "SCEN_ONLY" ) ) {
                 res.push_back( p.ident() );
             }
         } else if( present ) {

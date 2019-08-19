@@ -18,7 +18,7 @@
       [ "cig_butt", 10 ],
       [ "string_36", 5 ],
       [ "scrap", 10 ],
-      [ "glass_shard", 10 ],
+      { "item": "glass_shard", "prob": 10, "count": [ 1, 8 ] },
       [ "wire", 5 ],
       [ "splinter", 10 ],
       [ "rag", 15 ],
@@ -47,7 +47,10 @@
     "type": "item_group",
     "items": [
       [ "blazer", 75 ],
-      [ "skinny_tie", 65 ],
+      [ "tie_skinny", 40 ],
+      [ "tie_necktie", 40 ],
+      [ "tie_bow", 30 ],
+      [ "tie_clipon", 20 ],
       [ "tieclip", 25 ],
       [ "polo_shirt", 35 ],
       [ "dress_shirt", 70 ],
@@ -246,11 +249,6 @@
       [ "seed_tobacco", 5 ],
       [ "rolling_paper", 45 ],
       [ "pipe_glass", 20 ],
-      [ "coke", 5 ],
-      [ "meth", 2 ],
-      [ "heroin", 1 ],
-      [ "crack", 4 ],
-      [ "crackpipe", 7 ],
       [ "cig", 60 ],
       [ "chaw", 60 ]
     ]

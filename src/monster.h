@@ -41,8 +41,6 @@ enum class mon_trigger;
 
 class monster;
 
-using mfactions = std::map< mfaction_id, std::set< monster * > >;
-
 class mon_special_attack
 {
     public:
@@ -106,7 +104,7 @@ class monster : public Creature
         void try_biosignature();
         void spawn( const tripoint &p );
         m_size get_size() const override;
-        units::mass get_weight() const;
+        units::mass get_weight() const override;
         units::volume get_volume() const;
         int get_hp( hp_part ) const override;
         int get_hp() const override;
@@ -135,7 +133,7 @@ class monster : public Creature
 
         std::string extended_description() const override;
         // Inverts color if inv==true
-        bool has_flag( const m_flag f ) const override; // Returns true if f is set (see mtype.h)
+        bool has_flag( m_flag f ) const override; // Returns true if f is set (see mtype.h)
         bool can_see() const;      // MF_SEES and no ME_BLIND
         bool can_hear() const;     // MF_HEARS and no ME_DEAF
         bool can_submerge() const; // MF_AQUATIC or MF_SWIMS or MF_NO_BREATH, and not MF_ELECTRONIC
@@ -157,7 +155,8 @@ class monster : public Creature
         Creature *attack_target(); // Returns the creature at the end of plans (if hostile)
 
         // Movement
-        void shift( int sx, int sy ); // Shifts the monster to the appropriate submap
+        void shift( const point &sp ); // Shifts the monster to the appropriate submap
+        void set_goal( const tripoint &p );
         // Updates current pos AND our plans
         bool wander(); // Returns true if we have no plans
 
@@ -169,8 +168,8 @@ class monster : public Creature
          */
         bool can_move_to( const tripoint &p ) const;
 
-        bool will_reach( int x, int y ); // Do we have plans to get to (x, y)?
-        int  turns_to_reach( int x, int y ); // How long will it take?
+        bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
+        int  turns_to_reach( const point &p ); // How long will it take?
 
         // Go in a straight line to p
         void set_dest( const tripoint &p );
@@ -192,9 +191,7 @@ class monster : public Creature
 
         // How good of a target is given creature (checks for visibility)
         float rate_target( Creature &c, float best, bool smart = false ) const;
-        // Pass all factions to mon, so that hordes of same-faction mons
-        // do not iterate over each other
-        void plan( const mfactions &factions );
+        void plan();
         void move(); // Actual movement
         void footsteps( const tripoint &p ); // noise made by movement
         void shove_vehicle( const tripoint &remote_destination,
@@ -204,7 +201,7 @@ class monster : public Creature
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
         int calc_climb_cost( const tripoint &f, const tripoint &t ) const;
 
-        bool is_immune_field( const field_type_id fid ) const override;
+        bool is_immune_field( field_type_id fid ) const override;
 
         /**
          * Attempt to move to p.
@@ -260,7 +257,7 @@ class monster : public Creature
         int group_bash_skill( const tripoint &target );
 
         void stumble();
-        void knock_back_from( const tripoint &p ) override;
+        void knock_back_to( const tripoint &p ) override;
 
         // Combat
         bool is_fleeing( player &u ) const; // True if we're fleeing
@@ -275,7 +272,7 @@ class monster : public Creature
         bool is_dead_state() const override; // check if we should be dead or not
         bool is_elec_immune() const override;
         bool is_immune_effect( const efftype_id & ) const override;
-        bool is_immune_damage( const damage_type ) const override;
+        bool is_immune_damage( damage_type ) const override;
 
         void absorb_hit( body_part bp, damage_instance &dam ) override;
         bool block_hit( Creature *source, body_part &bp_hit, damage_instance &d ) override;
@@ -287,7 +284,7 @@ class monster : public Creature
         void deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
                                       int &pain ) override;
         void apply_damage( Creature *source, body_part bp, int amount,
-                           const bool bypass_med = false ) override;
+                           bool bypass_med = false ) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
         void explode();
         // Let the monster die and let its body explode into gibs
@@ -305,6 +302,9 @@ class monster : public Creature
 
         /** Processes monster-specific effects before calling Creature::process_effects(). */
         void process_effects() override;
+
+        /** Returns true if the monster has its movement impaired */
+        bool movement_impaired();
         /** Processes effects which may prevent the monster from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
@@ -349,7 +349,7 @@ class monster : public Creature
         void on_dodge( Creature *source, float difficulty ) override;
         // Something hit us (possibly null source)
         void on_hit( Creature *source, body_part bp_hit = num_bp,
-                     float difficulty = INT_MIN, dealt_projectile_attack const *const proj = nullptr ) override;
+                     float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
         // Get torso - monsters don't have body parts (yet?)
         body_part get_random_body_part( bool main ) const override;
         /** Returns vector containing all body parts this monster has. That is, { bp_torso } */
@@ -384,7 +384,10 @@ class monster : public Creature
         void make_ally( const monster &z );
         // Add an item to inventory
         void add_item( const item &it );
-
+        // check mech power levels and modify it.
+        bool use_mech_power( int amt );
+        bool check_mech_powered() const;
+        int mech_str_addition() const;
         /**
          * Makes monster react to heard sound
          *
@@ -412,8 +415,9 @@ class monster : public Creature
         tripoint wander_pos; // Wander destination - Just try to move in that direction
         int wandf;           // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
-        player *dragged_foe; // player being dragged by the monster
+        int dragged_foe_id = -1; // id of player being dragged by the monster
         cata::optional<item> tied_item; // item used to tie the monster
+        cata::optional<item> battery_item; // item to power mechs
         // DEFINING VALUES
         int friendly;
         int anger = 0;
@@ -471,7 +475,7 @@ class monster : public Creature
          */
         void init_from_item( const item &itm );
 
-        time_point last_updated = calendar::time_of_cataclysm;
+        time_point last_updated = calendar::turn_zero;
         int last_baby;
         int last_biosig;
 
@@ -501,20 +505,23 @@ class monster : public Creature
         tripoint position;
         bool dead;
         /** Legacy loading logic for monsters that are packing ammo. **/
-        void normalize_ammo( const int old_ammo );
+        void normalize_ammo( int old_ammo );
         /** Normal upgrades **/
         int next_upgrade_time();
         bool upgrades;
         int upgrade_time;
         bool reproduces;
-        int baby_timer;
+        cata::optional<time_point> baby_timer;
         bool biosignatures;
-        int biosig_timer;
+        cata::optional<time_point> biosig_timer;
         monster_horde_attraction horde_attraction;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
         std::bitset<NUM_MEFF> effect_cache;
         cata::optional<time_duration> summon_time_limit = cata::nullopt;
+
+        player *find_dragged_foe();
+        void nursebot_operate( player *dragged_foe );
 
     protected:
         void store( JsonOut &jsout ) const;

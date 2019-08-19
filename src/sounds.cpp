@@ -161,7 +161,7 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
     const int num_seed_clusters = std::max( std::min( recent_sounds.size(), static_cast<size_t>( 10 ) ),
                                             static_cast<size_t>( log( recent_sounds.size() ) ) );
     const size_t stopping_point = recent_sounds.size() - num_seed_clusters;
-    const size_t max_map_distance = rl_dist( 0, 0, MAPSIZE_X, MAPSIZE_Y );
+    const size_t max_map_distance = rl_dist( point_zero, point( MAPSIZE_X, MAPSIZE_Y ) );
     // Randomly choose cluster seeds.
     for( size_t i = recent_sounds.size(); i > stopping_point; i-- ) {
         size_t index = rng( 0, i - 1 );
@@ -246,9 +246,9 @@ void sounds::process_sounds()
         int sig_power = get_signal_for_hordes( this_centroid );
         if( sig_power > 0 ) {
 
-            const point abs_ms = g->m.getabs( source.x, source.y );
+            const point abs_ms = g->m.getabs( source.xy() );
             const point abs_sm = ms_to_sm_copy( abs_ms );
-            const tripoint target( abs_sm.x, abs_sm.y, source.z );
+            const tripoint target( abs_sm, source.z );
             overmap_buffer.signal_hordes( target, sig_power );
         }
         // Alert all monsters (that can hear) to the sound.
@@ -264,14 +264,43 @@ void sounds::process_sounds()
     recent_sounds.clear();
 }
 
-// skip most movement sounds
-static bool describe_sound( sounds::sound_t category )
+// skip some sounds to avoid message spam
+static bool describe_sound( sounds::sound_t category, bool from_player_position )
 {
-    if( category == sounds::sound_t::combat || category == sounds::sound_t::speech ||
-        category == sounds::sound_t::alert ) {
-        return true;
+    if( from_player_position ) {
+        switch( category ) {
+            case sounds::sound_t::background:
+            case sounds::sound_t::weather:
+            case sounds::sound_t::music: // detailed music descriptions are printed in iuse::play_music
+            case sounds::sound_t::movement:
+            case sounds::sound_t::activity:
+            case sounds::sound_t::destructive_activity:
+            case sounds::sound_t::combat:
+                return false;
+            case sounds::sound_t::speech: // radios also produce speech sound
+            case sounds::sound_t::alarm:
+            case sounds::sound_t::alert:
+            case sounds::sound_t::order:
+                return true;
+        }
+    } else {
+        switch( category ) {
+            case sounds::sound_t::background:
+            case sounds::sound_t::weather:
+            case sounds::sound_t::music:
+            case sounds::sound_t::movement:
+            case sounds::sound_t::activity:
+            case sounds::sound_t::destructive_activity:
+                return one_in( 100 );
+            case sounds::sound_t::speech:
+            case sounds::sound_t::alarm:
+            case sounds::sound_t::combat:
+            case sounds::sound_t::alert:
+            case sounds::sound_t::order:
+                return true;
+        }
     }
-    return one_in( 5 );
+    return true;
 }
 
 void sounds::process_sound_markers( player *p )
@@ -282,7 +311,7 @@ void sounds::process_sound_markers( player *p )
     for( const auto &sound_event_pair : sounds_since_last_turn ) {
         const tripoint &pos = sound_event_pair.first;
         const sound_event &sound = sound_event_pair.second;
-        const int distance_to_sound = rl_dist( p->pos().x, p->pos().y, pos.x, pos.y ) +
+        const int distance_to_sound = rl_dist( p->pos().xy(), pos.xy() ) +
                                       abs( p->pos().z - pos.z ) * 10;
         const int raw_volume = sound.volume;
 
@@ -367,10 +396,8 @@ void sounds::process_sound_markers( player *p )
             }
         }
 
-        // skip most movement sounds and our own sounds
-        // unless our own sound is an alarm
-        if( ( pos != p->pos() || ( pos == p->pos() && sound.category == sound_t::alarm ) ) &&
-            describe_sound( sound.category ) ) {
+        // skip some sounds to avoid message spam
+        if( describe_sound( sound.category, pos == p->pos() ) ) {
             game_message_type severity = m_info;
             if( sound.category == sound_t::combat || sound.category == sound_t::alarm ) {
                 severity = m_warning;
@@ -601,7 +628,7 @@ void sfx::do_vehicle_engine_sfx()
     float pitch = 1.0f;
     int safe_speed = veh->safe_velocity();
     int current_gear;
-    if( in_reverse == true ) {
+    if( in_reverse ) {
         current_gear = -1;
     } else if( current_speed == 0 ) {
         current_gear = 0;
@@ -788,12 +815,12 @@ void sfx::do_ambient()
     const bool is_sheltered = g->is_sheltered( g->u.pos() );
     const bool weather_changed = g->weather.weather != previous_weather;
     // Step in at night time / we are not indoors
-    if( calendar::turn.is_night() && !is_sheltered &&
+    if( is_night( calendar::turn ) && !is_sheltered &&
         !is_channel_playing( 1 ) && !is_deaf ) {
         fade_audio_group( 2, 1000 );
         play_ambient_variant_sound( "environment", "nighttime", heard_volume, 1, 1000 );
         // Step in at day time / we are not indoors
-    } else if( !calendar::turn.is_night() && !is_channel_playing( 0 ) &&
+    } else if( !is_night( calendar::turn ) && !is_channel_playing( 0 ) &&
                !is_sheltered && !is_deaf ) {
         fade_audio_group( 2, 1000 );
         play_ambient_variant_sound( "environment", "daytime", heard_volume, 0, 1000 );

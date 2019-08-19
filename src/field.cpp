@@ -10,6 +10,81 @@ int field_entry::move_cost() const
     return type.obj().get_move_cost( intensity - 1 );
 }
 
+int field_entry::extra_radiation_min() const
+{
+    return type.obj().get_extra_radiation_min( intensity - 1 );
+}
+
+int field_entry::extra_radiation_max() const
+{
+    return type.obj().get_extra_radiation_max( intensity - 1 );
+}
+
+int field_entry::radiation_hurt_damage_min() const
+{
+    return type.obj().get_radiation_hurt_damage_min( intensity - 1 );
+}
+
+int field_entry::radiation_hurt_damage_max() const
+{
+    return type.obj().get_radiation_hurt_damage_max( intensity - 1 );
+}
+
+std::string field_entry::radiation_hurt_message() const
+{
+    return type.obj().get_radiation_hurt_message( intensity - 1 );
+}
+
+int field_entry::intensity_upgrade_chance() const
+{
+    return type.obj().get_intensity_upgrade_chance( intensity - 1 );
+}
+
+time_duration field_entry::intensity_upgrade_duration() const
+{
+    return type.obj().get_intensity_upgrade_duration( intensity - 1 );
+}
+
+int field_entry::monster_spawn_chance() const
+{
+    return type.obj().get_monster_spawn_chance( intensity - 1 );
+}
+
+int field_entry::monster_spawn_count() const
+{
+    return type.obj().get_monster_spawn_count( intensity - 1 );
+}
+
+int field_entry::monster_spawn_radius() const
+{
+    return type.obj().get_monster_spawn_radius( intensity - 1 );
+}
+
+mongroup_id field_entry::monster_spawn_group() const
+{
+    return type.obj().get_monster_spawn_group( intensity - 1 );
+}
+
+float field_entry::light_emitted() const
+{
+    return type.obj().get_light_emitted( intensity - 1 );
+}
+
+float field_entry::translucency() const
+{
+    return type.obj().get_translucency( intensity - 1 );
+}
+
+bool field_entry::is_transparent() const
+{
+    return type.obj().get_transparent( intensity - 1 );
+}
+
+int field_entry::convection_temperature_mod() const
+{
+    return type.obj().get_convection_temperature_mod( intensity - 1 );
+}
+
 nc_color field_entry::color() const
 {
     return type.obj().get_color( intensity - 1 );

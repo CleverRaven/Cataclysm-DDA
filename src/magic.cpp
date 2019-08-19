@@ -46,7 +46,10 @@ const std::map<std::string, valid_target> target_map = {
     { "hostile", valid_target::target_hostile },
     { "self", valid_target::target_self },
     { "ground", valid_target::target_ground },
-    { "none", valid_target::target_none }
+    { "none", valid_target::target_none },
+    { "item", valid_target::target_item },
+    { "fd_fire", valid_target::target_fd_fire },
+    { "fd_blood", valid_target::target_fd_blood }
 };
 const std::map<std::string, body_part> bp_map = {
     { "TORSO", body_part::bp_torso },
@@ -169,10 +172,39 @@ static damage_type damage_type_from_string( const std::string &str )
 
 void spell_type::load( JsonObject &jo, const std::string & )
 {
+    static const
+    std::map<std::string, std::function<void( const spell &, Creature &, const tripoint & )>>
+    effect_map{
+        { "pain_split", spell_effect::pain_split },
+        { "target_attack", spell_effect::target_attack },
+        { "projectile_attack", spell_effect::projectile_attack },
+        { "cone_attack", spell_effect::cone_attack },
+        { "line_attack", spell_effect::line_attack },
+        { "teleport_random", spell_effect::teleport_random },
+        { "spawn_item", spell_effect::spawn_ethereal_item },
+        { "recover_energy", spell_effect::recover_energy },
+        { "summon", spell_effect::spawn_summoned_monster },
+        { "translocate", spell_effect::translocate },
+        { "area_pull", spell_effect::area_pull },
+        { "area_push", spell_effect::area_push },
+        { "ter_transform", spell_effect::transform_blast },
+        { "none", spell_effect::none }
+    };
+
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
     mandatory( jo, was_loaded, "description", description, translated_string_reader );
-    mandatory( jo, was_loaded, "effect", effect );
+    mandatory( jo, was_loaded, "effect", effect_name );
+    const auto found_effect = effect_map.find( effect_name );
+    if( found_effect == effect_map.cend() ) {
+        effect = spell_effect::none;
+        debugmsg( "ERROR: spell %s has invalid effect %s", id.c_str(), effect_name );
+    } else {
+        effect = found_effect->second;
+    }
+
+    const auto effect_targets_reader = enum_flags_reader<valid_target> { "effect_targets" };
+    optional( jo, was_loaded, "effect_filter", effect_targets, effect_targets_reader );
 
     const auto trigger_reader = enum_flags_reader<valid_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
@@ -375,32 +407,43 @@ int spell::field_intensity() const
 
 int spell::damage() const
 {
-    if( type->min_damage >= 0 ) {
-        return std::min( static_cast<int>( type->min_damage + round( get_level() *
-                                           type->damage_increment ) ), type->max_damage );
+    const int leveled_damage = type->min_damage + round( get_level() * type->damage_increment );
+    if( type->min_damage >= 0 || type->max_damage >= type->min_damage ) {
+        return std::min( leveled_damage, type->max_damage );
     } else { // if it's negative, min and max work differently
-        return std::max( static_cast<int>( type->min_damage + round( get_level() *
-                                           type->damage_increment ) ), type->max_damage );
+        return std::max( leveled_damage, type->max_damage );
     }
 }
 
 int spell::aoe() const
 {
-    return std::min( static_cast<int>( type->min_aoe + round( get_level() * type->aoe_increment ) ),
-                     type->max_aoe );
+    const int leveled_aoe = type->min_aoe + round( get_level() * type->aoe_increment );
+    if( type->max_aoe >= type->min_aoe ) {
+        return std::min( leveled_aoe, type->max_aoe );
+    } else {
+        return std::max( leveled_aoe, type->max_aoe );
+    }
 }
 
 int spell::range() const
 {
-    return std::min( static_cast<int>( type->min_range + round( get_level() * type->range_increment ) ),
-                     type->max_range );
+    const int leveled_range = type->min_range + round( get_level() * type->range_increment );
+    if( type->max_range >= type->min_range ) {
+        return std::min( leveled_range, type->max_range );
+    } else {
+        return std::max( leveled_range, type->max_range );
+    }
 }
 
 int spell::duration() const
 {
-    return std::min( static_cast<int>( type->min_duration + round( get_level() *
-                                       type->duration_increment ) ),
-                     type->max_duration );
+    const int leveled_duration = type->min_duration + round( get_level() *
+                                 type->duration_increment );
+    if( type->max_duration >= type->min_duration ) {
+        return std::min( leveled_duration, type->max_duration );
+    } else {
+        return std::max( leveled_duration, type->max_duration );
+    }
 }
 
 time_duration spell::duration_turns() const
@@ -458,11 +501,6 @@ bool spell::is_spell_class( const trait_id &mid ) const
 
 bool spell::can_cast( const player &p ) const
 {
-    if( !p.magic.knows_spell( type->id ) ) {
-        // how in the world can this happen?
-        debugmsg( "ERROR: owner of spell does not know spell" );
-        return false;
-    }
     switch( type->energy_source ) {
         case mana_energy:
             return p.magic.available_mana() >= energy_cost( p );
@@ -705,7 +743,7 @@ void spell::make_sound( const tripoint &target ) const
 
 std::string spell::effect() const
 {
-    return type->effect;
+    return type->effect_name;
 }
 
 energy_type spell::energy_source() const
@@ -732,6 +770,11 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
         valid = valid || is_valid_target( target_self );
     }
     return valid;
+}
+
+bool spell::is_valid_effect_target( valid_target t ) const
+{
+    return type->effect_targets[t];
 }
 
 std::string spell::description() const
@@ -916,49 +959,15 @@ int spell::heal( const tripoint &target ) const
     return -1;
 }
 
-bool spell::cast_spell_effect( const Creature &source, const tripoint &target ) const
+void spell::cast_spell_effect( Creature &source, const tripoint &target ) const
 {
-    // figure out which function is the effect (maybe change this into how iuse or activity_handlers does it)
-    // TODO: refactor these so make_sound can be called inside each of these functions
-    const std::string fx = effect();
-    if( fx == "pain_split" ) {
-        spell_effect::pain_split();
-        make_sound( source.pos() );
-    } else if( fx == "move_earth" ) {
-        spell_effect::move_earth( target );
-        make_sound( target );
-    } else if( fx == "target_attack" ) {
-        spell_effect::target_attack( *this, source, target );
-    } else if( fx == "projectile_attack" ) {
-        spell_effect::projectile_attack( *this, source, target );
-    } else if( fx == "cone_attack" ) {
-        spell_effect::cone_attack( *this, source, target );
-    } else if( fx == "line_attack" ) {
-        spell_effect::line_attack( *this, source, target );
-    } else if( fx == "teleport_random" ) {
-        spell_effect::teleport( range(), range() + aoe() );
-        make_sound( source.pos() );
-    } else if( fx == "spawn_item" ) {
-        spell_effect::spawn_ethereal_item( *this );
-        make_sound( source.pos() );
-    } else if( fx == "recover_energy" ) {
-        spell_effect::recover_energy( *this, target );
-        make_sound( target );
-    } else if( fx == "summon" ) {
-        spell_effect::spawn_summoned_monster( *this, source, target );
-    } else if( fx == "translocate" ) {
-        spell_effect::translocate( *this, source, target, g->u.translocators );
-    } else {
-        debugmsg( "ERROR: Spell effect not defined properly." );
-        return false;
-    }
-    return true;
+    type->effect( *this, source, target );
 }
 
-bool spell::cast_all_effects( const Creature &source, const tripoint &target ) const
+void spell::cast_all_effects( Creature &source, const tripoint &target ) const
 {
     // first call the effect of the main spell
-    bool success = cast_spell_effect( source, target );
+    cast_spell_effect( source, target );
     for( const fake_spell &extra_spell : type->additional_spells ) {
         spell sp( extra_spell.id );
         int level = sp.get_max_level();
@@ -970,12 +979,11 @@ bool spell::cast_all_effects( const Creature &source, const tripoint &target ) c
             sp.gain_level();
         }
         if( extra_spell.self ) {
-            success = success && sp.cast_all_effects( source, source.pos() );
+            sp.cast_all_effects( source, source.pos() );
         } else {
-            success = success && sp.cast_all_effects( source, target );
+            sp.cast_all_effects( source, target );
         }
     }
-    return success;
 }
 
 // player
@@ -1111,7 +1119,7 @@ void known_magic::forget_spell( const spell_id &sp )
 
 bool known_magic::can_learn_spell( const player &p, const spell_id &sp ) const
 {
-    const spell_type sp_t = sp.obj();
+    const spell_type &sp_t = sp.obj();
     if( sp_t.spell_class == trait_id( "NONE" ) ) {
         return true;
     }
@@ -1244,14 +1252,15 @@ class spellcasting_callback : public uilist_callback
         }
 
         void select( int entnum, uilist *menu ) override {
-            mvwputch( menu->window, 0, menu->w_width - menu->pad_right, c_magenta, LINE_OXXX );
-            mvwputch( menu->window, menu->w_height - 1, menu->w_width - menu->pad_right, c_magenta, LINE_XXOX );
+            mvwputch( menu->window, point( menu->w_width - menu->pad_right, 0 ), c_magenta, LINE_OXXX );
+            mvwputch( menu->window, point( menu->w_width - menu->pad_right, menu->w_height - 1 ), c_magenta,
+                      LINE_XXOX );
             for( int i = 1; i < menu->w_height - 1; i++ ) {
-                mvwputch( menu->window, i, menu->w_width - menu->pad_right, c_magenta, LINE_XOXO );
+                mvwputch( menu->window, point( menu->w_width - menu->pad_right, i ), c_magenta, LINE_XOXO );
             }
             std::string ignore_string = casting_ignore ? _( "Ignore Distractions" ) :
                                         _( "Popup Distractions" );
-            mvwprintz( menu->window, 0, menu->w_width - menu->pad_right + 2,
+            mvwprintz( menu->window, point( menu->w_width - menu->pad_right + 2, 0 ),
                        casting_ignore ? c_red : c_light_green, string_format( "%s %s", "[I]", ignore_string ) );
             draw_spell_info( *known_spells[entnum], menu );
         }
@@ -1282,10 +1291,7 @@ static bool casting_time_encumbered( const spell &sp, const player &p )
         // the first 20 points of encumbrance combined is ignored
         encumb += std::max( 0, p.encumb( bp_arm_l ) + p.encumb( bp_arm_r ) - 20 );
     }
-    if( encumb > 0 ) {
-        return true;
-    }
-    return false;
+    return encumb > 0;
 }
 
 static bool energy_cost_encumbered( const spell &sp, const player &p )
@@ -1339,57 +1345,58 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     nc_color light_green = c_light_green;
     nc_color yellow = c_yellow;
 
-    print_colored_text( w_menu, line++, h_col1, yellow, yellow,
+    print_colored_text( w_menu, point( h_col1, line++ ), yellow, yellow,
                         sp.spell_class() == trait_id( "NONE" ) ? _( "Classless" ) : sp.spell_class()->name() );
 
-    line += fold_and_print( w_menu, line, h_col1, info_width, gray, sp.description() );
+    line += fold_and_print( w_menu, point( h_col1, line ), info_width, gray, sp.description() );
 
     line++;
 
-    line += fold_and_print( w_menu, line, h_col1, info_width, gray, enumerate_spell_data( sp ) );
+    line += fold_and_print( w_menu, point( h_col1, line ), info_width, gray,
+                            enumerate_spell_data( sp ) );
 
     line++;
 
-    print_colored_text( w_menu, line, h_col1, gray, gray,
+    print_colored_text( w_menu, point( h_col1, line ), gray, gray,
                         string_format( "%s: %d %s", _( "Spell Level" ), sp.get_level(),
                                        sp.is_max_level() ? _( "(MAX)" ) : "" ) );
-    print_colored_text( w_menu, line++, h_col2, gray, gray,
+    print_colored_text( w_menu, point( h_col2, line++ ), gray, gray,
                         string_format( "%s: %d", _( "Max Level" ), sp.get_max_level() ) );
 
-    print_colored_text( w_menu, line, h_col1, gray, gray,
+    print_colored_text( w_menu, point( h_col1, line ), gray, gray,
                         sp.colorized_fail_percent( g->u ) );
-    print_colored_text( w_menu, line++, h_col2, gray, gray,
+    print_colored_text( w_menu, point( h_col2, line++ ), gray, gray,
                         string_format( "%s: %d", _( "Difficulty" ), sp.get_difficulty() ) );
 
-    print_colored_text( w_menu, line, h_col1, gray, gray,
+    print_colored_text( w_menu, point( h_col1, line ), gray, gray,
                         string_format( "%s: %s", _( "to Next Level" ), colorize( to_string( sp.xp() ), light_green ) ) );
-    print_colored_text( w_menu, line++, h_col2, gray, gray,
+    print_colored_text( w_menu, point( h_col2, line++ ), gray, gray,
                         string_format( "%s: %s", _( "to Next Level" ), colorize( to_string( sp.exp_to_next_level() ),
                                        light_green ) ) );
 
     line++;
 
     const bool cost_encumb = energy_cost_encumbered( sp, g->u );
-    print_colored_text( w_menu, line++, h_col1, gray, gray,
+    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                         string_format( "%s: %s %s%s", cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" ),
                                        sp.energy_cost_string( g->u ), sp.energy_string(),
                                        sp.energy_source() == hp_energy ? "" :  string_format( " ( %s current )",
                                                sp.energy_cur_string( g->u ) ) ) );
     const bool c_t_encumb = casting_time_encumbered( sp, g->u );
-    print_colored_text( w_menu, line++, h_col1, gray, gray, colorize(
+    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, colorize(
                             string_format( "%s: %s", c_t_encumb ? _( "Casting Time (impeded)" ) : _( "Casting Time" ),
                                            moves_to_string( sp.casting_time( g->u ) ) ),
                             c_t_encumb  ? c_red : c_light_gray ) );
 
     line++;
 
-    std::string targets = "";
+    std::string targets;
     if( sp.is_valid_target( target_none ) ) {
         targets = "self";
     } else {
         targets = sp.enumerate_targets();
     }
-    print_colored_text( w_menu, line++, h_col1, gray, gray,
+    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                         string_format( "%s: %s", _( "Valid Targets" ), _( targets ) ) );
 
     line++;
@@ -1410,7 +1417,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         }
         if( sp.aoe() > 0 ) {
             std::string aoe_string_temp = "Spell Radius";
-            std::string degree_string = "";
+            std::string degree_string;
             if( fx == "cone_attack" ) {
                 aoe_string_temp = "Cone Arc";
                 degree_string = "degrees";
@@ -1432,15 +1439,15 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         aoe_string = string_format( "%s: %d", _( "Spell Radius" ), sp.aoe() );
     }
 
-    print_colored_text( w_menu, line, h_col1, gray, gray, damage_string );
-    print_colored_text( w_menu, line++, h_col2, gray, gray, aoe_string );
+    print_colored_text( w_menu, point( h_col1, line ), gray, gray, damage_string );
+    print_colored_text( w_menu, point( h_col2, line++ ), gray, gray, aoe_string );
 
-    print_colored_text( w_menu, line++, h_col1, gray, gray,
+    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                         string_format( "%s: %s", _( "Range" ), sp.range() <= 0 ? _( "self" ) : to_string( sp.range() ) ) );
 
     // todo: damage over time here, when it gets implemeted
 
-    print_colored_text( w_menu, line++, h_col2, gray, gray, sp.duration() <= 0 ? "" :
+    print_colored_text( w_menu, point( h_col2, line++ ), gray, gray, sp.duration() <= 0 ? "" :
                         string_format( "%s: %s", _( "Duration" ), moves_to_string( sp.duration() ) ) );
 }
 
@@ -1510,7 +1517,7 @@ void known_magic::on_mutation_gain( const trait_id &mid, player &p )
     for( const std::pair<spell_id, int> &sp : mid->spells_learned ) {
         learn_spell( sp.first, p, true );
         spell &temp_sp = get_spell( sp.first );
-        for( int level = 0; level <= sp.second; level++ ) {
+        for( int level = 0; level < sp.second; level++ ) {
             temp_sp.gain_level();
         }
     }
@@ -1573,19 +1580,20 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     const std::string spell_name = colorize( _( sp.name ), c_light_green );
     const std::string spell_class = sp.spell_class == trait_id( "NONE" ) ? _( "Classless" ) :
                                     sp.spell_class->name();
-    print_colored_text( w, line, start_x, gray, gray, spell_name );
-    print_colored_text( w, line++, menu->pad_left - spell_class.length() - 1, yellow, yellow,
+    print_colored_text( w, point( start_x, line ), gray, gray, spell_name );
+    print_colored_text( w, point( menu->pad_left - spell_class.length() - 1, line++ ), yellow, yellow,
                         spell_class );
     line++;
-    line += fold_and_print( w, line, start_x, width, gray, _( sp.description ) );
+    line += fold_and_print( w, point( start_x, line ), width, gray, _( sp.description ) );
     line++;
 
-    mvwprintz( w, line, start_x, c_light_gray, string_format( "%s: %d", _( "Difficulty" ),
+    mvwprintz( w, point( start_x, line ), c_light_gray, string_format( "%s: %d", _( "Difficulty" ),
                sp.difficulty ) );
-    mvwprintz( w, line++, start_x + width / 2, c_light_gray, string_format( "%s: %d", _( "Max Level" ),
+    mvwprintz( w, point( start_x + width / 2, line++ ), c_light_gray, string_format( "%s: %d",
+               _( "Max Level" ),
                sp.max_level ) );
 
-    const std::string fx = sp.effect;
+    const std::string fx = sp.effect_name;
     std::string damage_string;
     std::string aoe_string;
     bool has_damage_type = false;
@@ -1600,15 +1608,18 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
         damage_string = _( "Recover" );
     } else if( fx == "teleport_random" ) {
         aoe_string = _( "Variance" );
+    } else if( fx == "area_pull" || fx == "area_push" ) {
+        aoe_string = _( "AoE" );
     }
 
     if( has_damage_type ) {
-        print_colored_text( w, line++, start_x, gray, gray, string_format( "%s: %s", _( "Damage Type" ),
+        print_colored_text( w, point( start_x, line++ ), gray, gray, string_format( "%s: %s",
+                            _( "Damage Type" ),
                             colorize( fake_spell.damage_type_string(), fake_spell.damage_type_color() ) ) );
     }
     line++;
 
-    print_colored_text( w, line++, start_x, gray, gray,
+    print_colored_text( w, point( start_x, line++ ), gray, gray,
                         string_format( "%-10s %-7s %-7s %-7s", _( "Stat Gain" ), _( "lvl 0" ), _( "per lvl" ),
                                        _( "max lvl" ) ) );
     std::vector<std::tuple<std::string, int, float, int>> rows;
@@ -1622,7 +1633,7 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     }
 
     if( sp.min_aoe != 0 && sp.max_aoe != 0 && !aoe_string.empty() ) {
-        rows.emplace_back( aoe_string, sp.min_aoe, sp.range_increment, sp.max_aoe );
+        rows.emplace_back( aoe_string, sp.min_aoe, sp.aoe_increment, sp.max_aoe );
     }
 
     if( sp.min_duration != 0 && sp.max_duration != 0 ) {
@@ -1635,20 +1646,23 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
                        sp.final_casting_time );
 
     for( std::tuple<std::string, int, float, int> &row : rows ) {
-        mvwprintz( w, line, start_x, c_light_gray, std::get<0>( row ) );
-        print_colored_text( w, line, start_x + 11, gray, gray, color_number( std::get<1>( row ) ) );
-        print_colored_text( w, line, start_x + 19, gray, gray, color_number( std::get<2>( row ) ) );
-        print_colored_text( w, line, start_x + 27, gray, gray, color_number( std::get<3>( row ) ) );
+        mvwprintz( w, point( start_x, line ), c_light_gray, std::get<0>( row ) );
+        print_colored_text( w, point( start_x + 11, line ), gray, gray,
+                            color_number( std::get<1>( row ) ) );
+        print_colored_text( w, point( start_x + 19, line ), gray, gray,
+                            color_number( std::get<2>( row ) ) );
+        print_colored_text( w, point( start_x + 27, line ), gray, gray,
+                            color_number( std::get<3>( row ) ) );
         line++;
     }
 }
 
 void spellbook_callback::select( int entnum, uilist *menu )
 {
-    mvwputch( menu->window, 0, menu->pad_left, c_magenta, LINE_OXXX );
-    mvwputch( menu->window, menu->w_height - 1, menu->pad_left, c_magenta, LINE_XXOX );
+    mvwputch( menu->window, point( menu->pad_left, 0 ), c_magenta, LINE_OXXX );
+    mvwputch( menu->window, point( menu->pad_left, menu->w_height - 1 ), c_magenta, LINE_XXOX );
     for( int i = 1; i < menu->w_height - 1; i++ ) {
-        mvwputch( menu->window, i, menu->pad_left, c_magenta, LINE_XOXO );
+        mvwputch( menu->window, point( menu->pad_left, i ), c_magenta, LINE_XOXO );
     }
     draw_spellbook_info( spells[entnum], menu );
 }

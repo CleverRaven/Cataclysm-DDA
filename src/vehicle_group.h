@@ -42,6 +42,7 @@ class VehicleGroup
         }
 
         static void load( JsonObject &jo );
+        static void reset();
 
     private:
         weighted_int_list<vproto_id> vehicles;
@@ -87,6 +88,7 @@ struct VehiclePlacement {
 
     const VehicleLocation *pick() const;
     static void load( JsonObject &jo );
+    static void reset();
 
     using LocationMap = std::vector<VehicleLocation>;
     LocationMap locations;
@@ -178,6 +180,7 @@ class VehicleSpawn
         static void apply( const vspawn_id &id, map &m, const std::string &terrain_name );
 
         static void load( JsonObject &jo );
+        static void reset();
 
     private:
         weighted_float_list<std::shared_ptr<VehicleFunction>> types;

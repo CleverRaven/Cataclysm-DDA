@@ -33,9 +33,9 @@ class Creature;
 
 static void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {
-    calendar::turn = to_turn<int>( calendar::time_of_cataclysm + from );
+    calendar::turn = to_turn<int>( calendar::turn_zero + from );
     who.on_unload();
-    calendar::turn = to_turn<int>( calendar::time_of_cataclysm + to );
+    calendar::turn = to_turn<int>( calendar::turn_zero + to );
     who.on_load();
 }
 
@@ -138,8 +138,8 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
         const int five_min_ticks = 2;
         on_load_test( on_load_npc, 0_turns, 5_minutes * five_min_ticks );
         for( time_duration turn = 0_turns; turn < 5_minutes * five_min_ticks; turn += 1_turns ) {
-            iterated_npc.update_body( calendar::time_of_cataclysm + turn,
-                                      calendar::time_of_cataclysm + turn + 1_turns );
+            iterated_npc.update_body( calendar::turn_zero + turn,
+                                      calendar::turn_zero + turn + 1_turns );
         }
 
         const int margin = 2;
@@ -156,8 +156,8 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
         const auto five_min_ticks = 6_hours / 5_minutes;
         on_load_test( on_load_npc, 0_turns, 5_minutes * five_min_ticks );
         for( time_duration turn = 0_turns; turn < 5_minutes * five_min_ticks; turn += 1_turns ) {
-            iterated_npc.update_body( calendar::time_of_cataclysm + turn,
-                                      calendar::time_of_cataclysm + turn + 1_turns );
+            iterated_npc.update_body( calendar::turn_zero + turn,
+                                      calendar::turn_zero + turn + 1_turns );
         }
 
         const int margin = 10;
@@ -348,8 +348,8 @@ TEST_CASE( "npc-movement" )
             if( type == 'V' || type == 'W' || type == 'M' ) {
                 vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p, 270, 0, 0 );
                 REQUIRE( veh != nullptr );
-                veh->install_part( point( 0, 0 ), vpart_frame_vertical );
-                veh->install_part( point( 0, 0 ), vpart_seat );
+                veh->install_part( point_zero, vpart_frame_vertical );
+                veh->install_part( point_zero, vpart_seat );
                 g->m.add_vehicle_to_cache( veh );
             }
             // spawn npcs
@@ -429,7 +429,7 @@ TEST_CASE( "npc-movement" )
 TEST_CASE( "npc_can_target_player" )
 {
     // Set to daytime for visibiliity
-    calendar::turn = HOURS( 12 );
+    calendar::turn = calendar::turn_zero + 12_hours;
 
     g->faction_manager_ptr->create_if_needed();
 
@@ -440,7 +440,7 @@ TEST_CASE( "npc_can_target_player" )
 
     const auto spawn_npc = []( const int x, const int y, const std::string & npc_class ) {
         const string_id<npc_template> test_guy( npc_class );
-        const int model_id = g->m.place_npc( 10, 10, test_guy, true );
+        const int model_id = g->m.place_npc( point( 10, 10 ), test_guy, true );
         g->load_npcs();
 
         npc *guy = g->find_npc( model_id );

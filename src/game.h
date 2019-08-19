@@ -97,7 +97,7 @@ class save_t;
 
 using WORLDPTR = WORLD *;
 class overmap;
-class event_manager;
+class timed_event_manager;
 
 enum event_type : int;
 class live_view;
@@ -124,7 +124,7 @@ struct w_map {
     catacurses::window win;
 };
 
-bool is_valid_in_w_terrain( int x, int y );
+bool is_valid_in_w_terrain( const point &p );
 
 // There is only one game instance, so losing a few bytes of memory
 // due to padding is not much of a concern.
@@ -186,7 +186,7 @@ class game
         void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
     public:
         /** Initializes the UI. */
-        void init_ui( const bool resized = false );
+        void init_ui( bool resized = false );
         void setup();
         /** Saving and loading functions. */
         void serialize( std::ostream &fout ); // for save
@@ -410,7 +410,7 @@ class game
         bool cancel_activity_query( const std::string &message );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
          *  if the player wants to ignore further distractions. */
-        bool cancel_activity_or_ignore_query( const distraction_type type, const std::string &reason );
+        bool cancel_activity_or_ignore_query( distraction_type type, const std::string &reason );
         /** Handles players exiting from moving vehicles. */
         void moving_vehicle_dismount( const tripoint &p );
 
@@ -639,7 +639,7 @@ class game
         void set_safe_mode( safe_mode_type mode );
 
         /** open vehicle interaction screen */
-        void exam_vehicle( vehicle &veh, int cx = 0, int cy = 0 );
+        void exam_vehicle( vehicle &veh, const point &cp = point_zero );
 
         // Forcefully close a door at p.
         // The function checks for creatures/items/vehicles at that point and
@@ -779,10 +779,10 @@ class game
         void print_terrain_info( const tripoint &lp, const catacurses::window &w_look,
                                  const std::string &area_name, int column,
                                  int &line );
-        void print_trap_info( const tripoint &lp, const catacurses::window &w_look, const int column,
+        void print_trap_info( const tripoint &lp, const catacurses::window &w_look, int column,
                               int &line );
         void print_creature_info( const Creature *creature, const catacurses::window &w_look, int column,
-                                  int &line, const int last_line );
+                                  int &line, int last_line );
         void print_vehicle_info( const vehicle *veh, int veh_part, const catacurses::window &w_look,
                                  int column, int &line, int last_line );
         void print_visibility_info( const catacurses::window &w_look, int column, int &line,
@@ -799,13 +799,14 @@ class game
         void replace_stair_monsters();
         void update_stair_monsters();
         /**
-         * Shift all active monsters, the shift vector (x,y,z) is the number of
+         * Shift all active monsters, the shift vector is the number of
          * shifted submaps. Monsters that are outside of the reality bubble after
          * shifting are despawned.
          * Note on z-levels: this works with vertical shifts, but currently all
          * monsters are despawned upon a vertical shift.
          */
-        void shift_monsters( const int shiftx, const int shifty, const int shiftz );
+        void shift_monsters( const tripoint &shift );
+    public:
         /**
          * Despawn a specific monster, it's stored on the overmap. Also removes
          * it from the creature tracker. Keep in mind that any monster index may
@@ -813,8 +814,8 @@ class game
          */
         void despawn_monster( monster &critter );
 
+    private:
         void perhaps_add_random_npc();
-        void rebuild_mon_at_cache();
 
         // Routine loop functions, approximately in order of execution
         void monmove();          // Monster movement
@@ -850,17 +851,7 @@ class game
         void quicksave();        // Saves the game without quitting
         void disp_NPCs();        // Currently for debug use.  Lists global NPCs.
 
-        /** Used to implement mouse "edge scrolling". Returns a
-         *  tripoint which is a vector of the resulting "move", i.e.
-         *  (0, 0, 0) if the mouse is not at the edge of the screen,
-         *  otherwise some (x, y, 0) depending on which edges are
-         *  hit.
-         *  This variant adjust scrolling speed according to zoom
-         *  level, making it suitable when viewing the "terrain".
-         */
-        tripoint mouse_edge_scrolling_terrain( input_context &ctxt );
-        /** This variant is suitable for the overmap. */
-        tripoint mouse_edge_scrolling_overmap( input_context &ctxt );
+        void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
     private:
         void quickload();        // Loads the previously saved game if it exists
 
@@ -872,12 +863,12 @@ class game
         void disp_kills();          // Display the player's kill counts
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings
-        void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
 
         // Debug functions
         void display_scent();   // Displays the scent map
         void display_temperature();    // Displays temperature map
         void display_visibility(); // Displays visibility map
+        void display_radiation(); // Displays radiation map
 
         Creature *is_hostile_within( int distance );
 
@@ -891,14 +882,14 @@ class game
         pimpl<live_view> liveview_ptr;
         live_view &liveview;
         pimpl<scent_map> scent_ptr;
-        pimpl<event_manager> event_manager_ptr;
+        pimpl<timed_event_manager> timed_event_manager_ptr;
 
     public:
         /** Make map a reference here, to avoid map.h in game.h */
         map &m;
         avatar &u;
         scent_map &scent;
-        event_manager &events;
+        timed_event_manager &timed_events;
 
         pimpl<Creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr;
@@ -913,9 +904,7 @@ class game
         std::vector<monster> coming_to_stairs;
         int monstairz;
 
-        int ter_view_x;
-        int ter_view_y;
-        int ter_view_z;
+        tripoint ter_view_p;
         catacurses::window w_terrain;
         catacurses::window w_overmap;
         catacurses::window w_omlegend;
@@ -939,6 +928,7 @@ class game
         bool displaying_visibility;
         /** Creature for which to display the visibility map */
         Creature *displaying_visibility_creature;
+        bool displaying_radiation;
 
         bool show_panel_adm;
         bool right_sidebar;
@@ -1001,9 +991,22 @@ class game
         std::vector<tripoint> destination_preview;
 
         std::chrono::time_point<std::chrono::steady_clock> last_mouse_edge_scroll;
-        tripoint last_mouse_edge_scroll_vector;
-        tripoint mouse_edge_scrolling( input_context ctxt, const int speed );
-
+        tripoint last_mouse_edge_scroll_vector_terrain;
+        tripoint last_mouse_edge_scroll_vector_overmap;
+        std::pair<tripoint, tripoint> mouse_edge_scrolling( input_context ctxt, int speed,
+                const tripoint &last, bool iso );
+    public:
+        /** Used to implement mouse "edge scrolling". Returns a
+         *  tripoint which is a vector of the resulting "move", i.e.
+         *  (0, 0, 0) if the mouse is not at the edge of the screen,
+         *  otherwise some (x, y, 0) depending on which edges are
+         *  hit.
+         *  This variant adjust scrolling speed according to zoom
+         *  level, making it suitable when viewing the "terrain".
+         */
+        tripoint mouse_edge_scrolling_terrain( input_context &ctxt );
+        /** This variant is suitable for the overmap. */
+        tripoint mouse_edge_scrolling_overmap( input_context &ctxt );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

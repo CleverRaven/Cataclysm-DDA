@@ -14,6 +14,7 @@
 #include <stdexcept>
 
 #include "colony.h"
+#include "optional.h"
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
@@ -70,7 +71,7 @@ class InvalidEnumString : public std::runtime_error
 template<typename E>
 E string_to_enum( const std::string &data );
 template<typename E>
-const std::string enum_to_string( E data );
+std::string enum_to_string( E data );
 
 // Helper function to do the lookup in a container (map or unordered_map)
 template<typename C, typename E = typename C::mapped_type>
@@ -686,12 +687,12 @@ class JsonObject
         bool final_separator;
         JsonIn *jsin;
         int verify_position( const std::string &name,
-                             const bool throw_exception = true );
+                             bool throw_exception = true );
 
     public:
         JsonObject( JsonIn &jsin );
         JsonObject( const JsonObject &jsobj );
-        JsonObject() : start( 0 ), end( 0 ), jsin( NULL ) {}
+        JsonObject() : start( 0 ), end( 0 ), jsin( nullptr ) {}
         ~JsonObject() {
             finish();
         }
@@ -713,11 +714,11 @@ class JsonObject
         // variants with no fallback throw an error if the name is not found.
         // variants with a fallback return the fallback value in stead.
         bool get_bool( const std::string &name );
-        bool get_bool( const std::string &name, const bool fallback );
+        bool get_bool( const std::string &name, bool fallback );
         int get_int( const std::string &name );
-        int get_int( const std::string &name, const int fallback );
+        int get_int( const std::string &name, int fallback );
         double get_float( const std::string &name );
-        double get_float( const std::string &name, const double fallback );
+        double get_float( const std::string &name, double fallback );
         std::string get_string( const std::string &name );
         std::string get_string( const std::string &name, const std::string &fallback );
 
@@ -863,7 +864,7 @@ class JsonArray
     public:
         JsonArray( JsonIn &jsin );
         JsonArray( const JsonArray &jsarr );
-        JsonArray() : start( 0 ), index( 0 ), end( 0 ), jsin( NULL ) {}
+        JsonArray() : start( 0 ), index( 0 ), end( 0 ), jsin( nullptr ) {}
         ~JsonArray() {
             finish();
         }
@@ -1062,5 +1063,26 @@ class JsonDeserializer
 };
 
 std::ostream &operator<<( std::ostream &stream, const JsonError &err );
+
+template<typename T>
+void serialize( const cata::optional<T> &obj, JsonOut &jsout )
+{
+    if( obj ) {
+        jsout.write( *obj );
+    } else {
+        jsout.write_null();
+    }
+}
+
+template<typename T>
+void deserialize( cata::optional<T> &obj, JsonIn &jsin )
+{
+    if( jsin.test_null() ) {
+        obj.reset();
+    } else {
+        obj.emplace();
+        jsin.read( *obj );
+    }
+}
 
 #endif

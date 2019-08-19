@@ -172,12 +172,12 @@ bool trap::detect_trap( const tripoint &pos, const player &p ) const
     //   noticing a buried landmine if standing right next to it.
     // Effective Perception...
     ///\EFFECT_PER increases chance of detecting a trap
-    return ( p.per_cur - ( p.encumb( bp_eyes ) / 10 ) ) +
+    return p.per_cur - p.encumb( bp_eyes ) / 10 +
            // ...small bonus from stimulants...
            ( p.stim > 10 ? rng( 1, 2 ) : 0 ) +
            // ...bonus from trap skill...
            ///\EFFECT_TRAPS increases chance of detecting a trap
-           ( p.get_skill_level( skill_traps ) * 2 ) +
+           p.get_skill_level( skill_traps ) * 2 +
            // ...luck, might be good, might be bad...
            rng( -4, 4 ) -
            // ...malus if we are tired...
@@ -226,10 +226,10 @@ bool trap::is_funnel() const
 void trap::on_disarmed( map &m, const tripoint &p ) const
 {
     for( auto &i : components ) {
-        const std::string item_type = std::get<0>( i );
+        const std::string &item_type = std::get<0>( i );
         const int quantity = std::get<1>( i );
         const int charges = std::get<2>( i );
-        m.spawn_item( p.x, p.y, item_type, quantity, charges );
+        m.spawn_item( p.xy(), item_type, quantity, charges );
     }
     for( const tripoint &dest : m.points_in_radius( p, trap_radius ) ) {
         m.remove_trap( dest );
@@ -285,7 +285,7 @@ void trap::check_consistency()
 {
     for( const auto &t : trap_factory.get_all() ) {
         for( auto &i : t.components ) {
-            std::string item_type = std::get<0>( i );
+            const std::string &item_type = std::get<0>( i );
             if( !item::type_is_defined( item_type ) ) {
                 debugmsg( "trap %s has unknown item as component %s", t.id.c_str(), item_type.c_str() );
             }

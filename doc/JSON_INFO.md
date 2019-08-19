@@ -10,6 +10,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | anatomy.json                | a listing of player body parts - do not edit
 | bionics.json                | bionics, does NOT include bionic effects
 | body_parts.json             | an expansion of anatomy.json - do not edit
+| clothing_mods.json          | definition of clothing mods
 | construction.json           | definition of construction menu tasks
 | default_blacklist.json      | a standard blacklist of joke monsters
 | doll_speech.json            | talk doll speech messages
@@ -156,7 +157,7 @@ Some json strings are extracted for translation, for example item names, descrip
 "name": { "ctxt": "foo", "str": "bar" }
 ```
 
-Currently, only effect names, item action names, and item category names support this syntax. If you want other json strings to support this format, look at `translations.h|cpp` and migrate the corresponding code to it. Changes to `extract_json_strings.py` might also be needed, as with the new syntax "name" would be a `dict`, which may break unmigrated script.
+Currently, only effect names, item action names, item category names, and activity verbs support this syntax. If you want other json strings to support this format, look at `translations.h|cpp` and migrate the corresponding code to it. Changes to `extract_json_strings.py` might also be needed, as with the new syntax "name" would be a `dict`, which may break unmigrated script.
 
 ### Bionics
 
@@ -170,9 +171,12 @@ Currently, only effect names, item action names, and item category names support
 | cost               | How many PUs it costs to use the bionic. (default: `0`)
 | time               | How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
 | description        | In-game description.
+| encumbrance        | (_optional_) A list of body parts and how much this bionic encumber them.
 | canceled_mutations | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
 | included_bionics   | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 | included           | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
+| env_protec         | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
+| occupied_bodyparts | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
 
 ```C++
 {
@@ -183,9 +187,19 @@ Currently, only effect names, item action names, and item category names support
     "faulty"       : false,
     "cost"         : 0,
     "time"         : 0,
+    "encumbrance"  : [ [ "TORSO", 10 ], [ "ARM_L", 10 ], [ "ARM_R", 10 ], [ "LEG_L", 10 ], [ "LEG_R", 10 ], [ "FOOT_L", 10 ], [ "FOOT_R", 10 ] ],
     "description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries. Use 'E' to consume batteries.",
     "canceled_mutations": ["HYPEROPIC"],
     "included_bionics": ["bio_blindfold"]
+},
+{
+    "id": "bio_purifier",
+    "type": "bionic",
+    "name": "Air Filtration System",
+    "description": "Surgically implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.",
+    "occupied_bodyparts": [ [ "TORSO", 4 ], [ "MOUTH", 2 ] ],
+    "env_protec": [ [ "MOUTH", 7 ] ],
+    "flags": [ "BIONIC_NPC_USABLE" ]
 }
 ```
 
@@ -256,8 +270,8 @@ The syntax listed here is still valid.
 | `vitamins`       | Vitamins in a material. Usually overridden by item specific values.
 | `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186.
 | `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108.
-| `latent_heat`    | Latent heat of a material (J/g). Default 334.
-| `freeze_point`    | Freezing point of this material (F). Default 32 F ( 0 C ).
+| `latent_heat`    | Latent heat of fusion for a material (J/g). Default 334.
+| `freeze_point`   | Freezing point of this material (F). Default 32 F ( 0 C ).
 
 ```C++
 {
@@ -711,6 +725,7 @@ Vehicle components when installed on a vehicle.
                                *    power       = base engine power in watts
                                *    bonus       = bonus granted; muffler = noise reduction%, seatbelt = bonus to not being thrown from vehicle
                                *    par1        = generic value used for unique bonuses, like the headlight's light intensity */
+"cargo_weight_modifier": 33,  // (Optional, default = 100) Modifies cargo weight by set percentage
 "fuel_type": "NULL",          // (Optional, default = "NULL") Type of fuel/ammo the part consumes, as an item id
 
 "item": "wheel",              // The item used to install this part, and the item obtained when removing this part
@@ -1133,6 +1148,14 @@ Gun mods can be defined like this:
 "min_str_required_mod": 14,    // Optional field increasing or decreasing minimum strength required to use gun
 ```
 
+### Batteries
+```C++
+"type": "BATTERY",    // Defines this as a BATTERY
+...                   // Same entries as above for the generic item
+                      // Additionally some battery specific entries:
+"max_energy": "30 kJ" // Mandatory. Maximum energy quantity the battery can hold
+```
+
 ### Tools
 
 ```C++
@@ -1157,7 +1180,8 @@ Gun mods can be defined like this:
 "sub": "hotplate",    // optional; this tool has the same functions as another tool
 "charge_factor": 5,   // this tool uses charge_factor charges for every charge required in a recipe; intended for tools that have a "sub" field but use a different ammo that the original tool
 "charges_per_use": 1, // Charges consumed per tool use
-"turns_per_charge": 20, // Charges consumed over time
+"turns_per_charge": 20, // Charges consumed over time, deprecated in favor of power_draw
+"power_draw": 50,       // Energy consumption rate in mW
 "ammo": [ "NULL" ],       // Ammo types used for reloading
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "use_action": "firestarter" // Action performed when tool is used, see special definition below
@@ -1575,6 +1599,18 @@ The contents of use_action fields can either be a string indicating a built-in f
     "practice": 4, // How much practice to the "traps" skill placing the trap gives.
     "moves": 10 // (optional, default is 100): the move points that are used by placing the trap.
 }
+"use_action": {
+    "type": "sew_advanced",  // Modify clothing
+    "materials": [           // materials to deal with.
+        "cotton",
+        "leather"
+    ],
+    "skill": "tailor",       // Skill used.
+    "clothing_mods": [       // Clothing mods to deal with.
+        "leather_padded",
+        "kevlar_padded"
+    ]
+}
 ```
 
 ###random Descriptions
@@ -1649,6 +1685,21 @@ The format also support snippet ids like above.
     { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
   ]
 },
+{
+  "id": "CBM_SCI",
+  "type": "harvest",
+  "entries": [
+    {
+      "drop": "bionics_sci",
+      "type": "bionic_group",
+      "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+      "faults": [ "fault_bionic_salvaged" ]
+    },
+    { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+    { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+    { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+  ]
+},
 ```
 
 #### `id`
@@ -1676,6 +1727,10 @@ Array of dictionaries defining possible items produced on butchering and their l
     `bone`: the "bones" of the creature. you will get some amount of these from field dressing, and the rest of them from butchering the carcass.
     `bionic`: an item gained by dissecting the creature. not restricted to CBMs.
     `bionic_group`: an item group that will give an item by dissecting a creature. not restricted to groups containing CBMs.
+
+`flags` value should be an array of strings.  It's the flags that will be added to te items of that entry upon harvesting.
+
+`faults` value should be an array of `fault_id` strings.  It's the faults that will be added to te items of that entry upon harvesting.
 
 For every `type` other then `bionic` and `bionic_group` following entries scale the results:
     `base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number.
@@ -1984,6 +2039,28 @@ A flat multiplier on the growth speed on the plant. For numbers greater than one
 #### `harvest_multiplier`
 
 A flat multiplier on the harvest count of the plant. For numbers greater than one, the plant will give more produce from harvest, for numbers less than one it will give less produce from harvest.
+
+### clothing_mod
+
+```JSON
+"type": "clothing_mod",
+"id": "leather_padded",   // Unique ID.
+"flag": "leather_padded", // flag to add to clothing.
+"item": "leather",        // item to consume.
+"implement_prompt": "Pad with leather",      // prompt to show when implement mod.
+"destroy_prompt": "Destroy leather padding", // prompt to show when destroy mod.
+"mod_value": [            // List of mod effect.
+    {
+        "type": "bash",   // "bash", "cut", "fire", "acid", "warmth", "storage", and "encumbrance" is available.
+        "value": 1,       // value of effect.
+        "round_up": false // (optional) round up value of effect. defaults to false.
+        "proportion": [   // (optional) value of effect propotions to clothing's parameter.
+            "thickness",  //            "thickness" and "coverage" is available.
+            "coverage"
+        ]
+    }
+]
+```
 
 # Scenarios
 

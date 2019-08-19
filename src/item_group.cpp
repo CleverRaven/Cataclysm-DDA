@@ -224,8 +224,7 @@ void Item_modifier::modify( item &new_item ) const
             if( !new_item.ammo_types().empty() && qty > 0 ) {
                 new_item.ammo_set( new_item.ammo_default(), qty );
             }
-        } else if( !new_item.is_gun() ) {
-            //not gun, food, ammo or tool.
+        } else if( new_item.type->can_have_charges() ) {
             new_item.charges = ch;
         }
     }

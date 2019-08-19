@@ -397,7 +397,7 @@ void map_data_common_t::load_symbol( JsonObject &jo )
     } else if( has_bgcolor ) {
         load_season_array( jo, "bgcolor", color_, bgcolor_from_string );
     } else {
-        jo.throw_error( "Missing member: one of: \"color\", \"bgcolor\" must exist." );
+        jo.throw_error( R"(Missing member: one of: "color", "bgcolor" must exist.)" );
     }
 }
 
@@ -941,6 +941,7 @@ furn_id f_null,
         f_floor_canvas,
         f_tatami,
         f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
+        f_arcfurnace_empty, f_arcfurnace_full,
         f_smoking_rack, f_smoking_rack_active, f_metal_smoking_rack, f_metal_smoking_rack_active,
         f_water_mill, f_water_mill_active,
         f_wind_mill, f_wind_mill_active,
@@ -1049,6 +1050,8 @@ void set_furn_ids()
     f_kiln_full = furn_id( "f_kiln_full" );
     f_kiln_metal_empty = furn_id( "f_kiln_metal_empty" );
     f_kiln_metal_full = furn_id( "f_kiln_metal_full" );
+    f_arcfurnace_empty = furn_id( "f_arcfurnace_empty" );
+    f_arcfurnace_full = furn_id( "f_arcfurnace_full" );
     f_smoking_rack = furn_id( "f_smoking_rack" );
     f_smoking_rack_active = furn_id( "f_smoking_rack_active" );
     f_metal_smoking_rack = furn_id( "f_metal_smoking_rack" );
@@ -1115,7 +1118,7 @@ void map_data_common_t::load( JsonObject &jo, const std::string &src )
             } else if( harvest_jo.has_string( "id" ) ) {
                 hl = harvest_id( harvest_jo.get_string( "id" ) );
             } else {
-                jo.throw_error( "Each harvest entry must specify either \"entries\" or \"id\"",
+                jo.throw_error( R"(Each harvest entry must specify either "entries" or "id")",
                                 "harvest_by_season" );
             }
 

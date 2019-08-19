@@ -34,14 +34,14 @@ std::string player_activity::get_stop_phrase() const
     return type->stop_phrase();
 }
 
-std::string player_activity::get_verb() const
+const translation &player_activity::get_verb() const
 {
     return type->verb();
 }
 
 int player_activity::get_value( size_t index, int def ) const
 {
-    return ( index < values.size() ) ? values[index] : def;
+    return index < values.size() ? values[index] : def;
 }
 
 bool player_activity::is_suspendable() const
@@ -51,19 +51,11 @@ bool player_activity::is_suspendable() const
 
 std::string player_activity::get_str_value( size_t index, const std::string &def ) const
 {
-    return ( index < str_values.size() ) ? str_values[index] : def;
+    return index < str_values.size() ? str_values[index] : def;
 }
 
 void player_activity::do_turn( player &p )
 {
-    // Activities should never excessively drain stamina.
-    if( p.stamina < p.get_stamina_max() / 3 ) {
-        if( one_in( 50 ) ) {
-            p.add_msg_if_player( _( "You pause for a second to catch your breath." ) );
-        }
-        p.moves = 0;
-        return;
-    }
     // Should happen before activity or it may fail du to 0 moves
     if( *this && type->will_refuel_fires() ) {
         try_fuel_fire( *this, p );
@@ -80,10 +72,21 @@ void player_activity::do_turn( player &p )
             moves_left = 0;
         }
     }
-
+    int previous_stamina = p.stamina;
     // This might finish the activity (set it to null)
     type->call_do_turn( this, &p );
 
+    // Activities should never excessively drain stamina.
+    if( p.stamina < previous_stamina && p.stamina < p.get_stamina_max() / 3 ) {
+        if( one_in( 50 ) ) {
+            p.add_msg_if_player( _( "You pause for a moment to catch your breath." ) );
+        }
+        auto_resume = true;
+        player_activity new_act( activity_id( "ACT_WAIT_STAMINA" ), to_moves<int>( 1_minutes ) );
+        new_act.values.push_back( 200 + p.get_stamina_max() / 3 );
+        p.assign_activity( new_act );
+        return;
+    }
     if( *this && type->rooted() ) {
         p.rooted();
         p.pause();
@@ -92,7 +95,7 @@ void player_activity::do_turn( player &p )
     if( *this && moves_left <= 0 ) {
         // Note: For some activities "finish" is a misnomer; that's why we explicitly check if the
         // type is ACT_NULL below.
-        if( !( type->call_finish( this, &p ) ) ) {
+        if( !type->call_finish( this, &p ) ) {
             // "Finish" is never a misnomer for any activity without a finish function
             set_to_null();
         }

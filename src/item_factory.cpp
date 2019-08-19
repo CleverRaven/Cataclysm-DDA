@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <memory>
 #include <sstream>
 #include <array>
 #include <iterator>
@@ -58,7 +59,7 @@ static DynamicDataLoader::deferred_json deferred;
 
 std::unique_ptr<Item_factory> item_controller = std::make_unique<Item_factory>();
 
-static const std::string calc_category( const itype &obj );
+static std::string calc_category( const itype &obj );
 static void set_allergy_flags( itype &item_template );
 static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
@@ -104,8 +105,8 @@ static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
         } else {
             parts.set( get_body_part_token( val ) );
         }
-        sided |= ( val == "ARM_EITHER" || val == "HAND_EITHER" ||
-                   val == "LEG_EITHER" || val == "FOOT_EITHER" );
+        sided |= val == "ARM_EITHER" || val == "HAND_EITHER" ||
+                 val == "LEG_EITHER" || val == "FOOT_EITHER";
     };
 
     if( jo.has_array( key ) ) {
@@ -127,7 +128,7 @@ static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
 void Item_factory::finalize_pre( itype &obj )
 {
     // TODO: separate repairing from reinforcing/enhancement
-    if( obj.damage_max == obj.damage_min ) {
+    if( obj.damage_max() == obj.damage_min() ) {
         obj.item_tags.insert( "NO_REPAIR" );
     }
 
@@ -194,7 +195,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
     // for ammo and comestibles stack size defaults to count of initial charges
     // Set max stack size to 200 to prevent integer overflow
-    if( obj.stackable ) {
+    if( obj.count_by_charges() ) {
         if( obj.stack_size == 0 ) {
             obj.stack_size = obj.charges_default();
         } else if( obj.stack_size > 200 ) {
@@ -353,14 +354,18 @@ void Item_factory::finalize_pre( itype &obj )
         obj.drop_action.get_actor_ptr()->finalize( obj.id );
     }
 
-    if( obj.item_tags.count( "SKINTIGHT" ) ) {
-        obj.layer = UNDERWEAR;
+    if( obj.item_tags.count( "PERSONAL" ) ) {
+        obj.layer = PERSONAL_LAYER;
+    } else if( obj.item_tags.count( "SKINTIGHT" ) ) {
+        obj.layer = UNDERWEAR_LAYER;
     } else if( obj.item_tags.count( "WAIST" ) ) {
         obj.layer = WAIST_LAYER;
     } else if( obj.item_tags.count( "OUTER" ) ) {
         obj.layer = OUTER_LAYER;
     } else if( obj.item_tags.count( "BELTED" ) ) {
         obj.layer = BELTED_LAYER;
+    } else if( obj.item_tags.count( "AURA" ) ) {
+        obj.layer = AURA_LAYER;
     } else {
         obj.layer = REGULAR_LAYER;
     }
@@ -574,7 +579,7 @@ void Item_factory::add_item_type( const itype &def )
     }
 
     auto &new_item_ptr = m_runtimes[ def.id ];
-    new_item_ptr.reset( new itype( def ) );
+    new_item_ptr = std::make_unique<itype>( def );
     if( frozen ) {
         finalize_pre( *new_item_ptr );
         finalize_post( *new_item_ptr );
@@ -595,6 +600,7 @@ void Item_factory::init()
     add_iuse( "ARROW_FLAMABLE", &iuse::arrow_flammable );
     add_iuse( "ARTIFACT", &iuse::artifact );
     add_iuse( "ATOMIC_CAFF", &iuse::atomic_caff );
+    add_iuse( "AUTOCLAVE", &iuse::autoclave );
     add_iuse( "BELL", &iuse::bell );
     add_iuse( "BLECH", &iuse::blech );
     add_iuse( "BOLTCUTTERS", &iuse::boltcutters );
@@ -708,6 +714,7 @@ void Item_factory::init()
     add_iuse( "NOISE_EMITTER_ON", &iuse::noise_emitter_on );
     add_iuse( "OXYGEN_BOTTLE", &iuse::oxygen_bottle );
     add_iuse( "OXYTORCH", &iuse::oxytorch );
+    add_iuse( "PACK_CBM", &iuse::pack_cbm );
     add_iuse( "PACK_ITEM", &iuse::pack_item );
     add_iuse( "PANACEA", &iuse::panacea );
     add_iuse( "PHEROMONE", &iuse::pheromone );
@@ -735,7 +742,6 @@ void Item_factory::init()
     add_iuse( "ROYAL_JELLY", &iuse::royal_jelly );
     add_iuse( "SEED", &iuse::seed );
     add_iuse( "SEWAGE", &iuse::sewage );
-    add_iuse( "SEW_ADVANCED", &iuse::sew_advanced );
     add_iuse( "SHAVEKIT", &iuse::shavekit );
     add_iuse( "SHOCKTONFA_OFF", &iuse::shocktonfa_off );
     add_iuse( "SHOCKTONFA_ON", &iuse::shocktonfa_on );
@@ -764,6 +770,7 @@ void Item_factory::init()
     add_iuse( "HAND_CRANK", &iuse::hand_crank );
     add_iuse( "VORTEX", &iuse::vortex );
     add_iuse( "WASHCLOTHES", &iuse::washclothes );
+    add_iuse( "WASHCBMS", &iuse::washcbms );
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
     add_iuse( "WEAK_ANTIBIOTIC", &iuse::weak_antibiotic );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
@@ -807,9 +814,11 @@ void Item_factory::init()
     add_actor( new learn_spell_actor() );
     add_actor( new cast_spell_actor() );
     add_actor( new weigh_self_actor() );
+    add_actor( new sew_advanced_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
-    m_template_groups["EMPTY_GROUP"].reset( new Item_group( Item_group::G_COLLECTION, 100, 0, 0 ) );
+    m_template_groups["EMPTY_GROUP"] = std::make_unique<Item_group>( Item_group::G_COLLECTION, 100, 0,
+                                       0 );
 }
 
 bool Item_factory::check_ammo_type( std::ostream &msg, const ammotype &ammo ) const
@@ -857,7 +866,7 @@ void Item_factory::check_definitions() const
         if( type->price < 0 ) {
             msg << "negative price" << "\n";
         }
-        if( type->damage_min > 0 || type->damage_max < 0 || type->damage_min > type->damage_max ) {
+        if( type->damage_min() > 0 || type->damage_max() < 0 || type->damage_min() > type->damage_max() ) {
             msg << "invalid damage range" << "\n";
         }
         if( type->description.empty() ) {
@@ -971,6 +980,11 @@ void Item_factory::check_definitions() const
             }
             if( type->ammo->drop != "null" && !has_template( type->ammo->drop ) ) {
                 msg << string_format( "invalid drop item %s", type->ammo->drop.c_str() ) << "\n";
+            }
+        }
+        if( type->battery ) {
+            if( type->battery->max_capacity < 0_mJ ) {
+                msg << "battery cannot have negative maximum charge\n";
             }
         }
         if( type->gun ) {
@@ -1265,16 +1279,6 @@ bool Item_factory::load_definition( JsonObject &jo, const std::string &src, ityp
     if( !jo.has_string( "copy-from" ) ) {
         // if this is a new definition ensure we start with a clean itype
         def = itype();
-
-        // adjust type specific defaults
-        auto opt = jo.get_string( "type" );
-
-        // ammo and comestibles by default lack differing damage levels and are always stackable
-        if( opt == "AMMO" || opt == "COMESTIBLE" ) {
-            def.damage_min = 0;
-            def.damage_max = 0;
-            def.stackable = true;
-        }
         return true;
     }
 
@@ -1888,6 +1892,21 @@ void Item_factory::load_magazine( JsonObject &jo, const std::string &src )
     }
 }
 
+void Item_factory::load( islot_battery &slot, JsonObject &jo, const std::string & )
+{
+    slot.max_capacity = read_from_json_string<units::energy>( *jo.get_raw( "max_capacity" ),
+                        units::energy_units );
+}
+
+void Item_factory::load_battery( JsonObject &jo, const std::string &src )
+{
+    itype def;
+    if( load_definition( jo, src, def ) ) {
+        load_slot( def.battery, jo, src );
+        load_basic_info( jo, def, src );
+    }
+}
+
 void Item_factory::load( islot_bionic &slot, JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
@@ -2016,7 +2035,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     assign( jo, "volume", def.volume );
     assign( jo, "price", def.price );
     assign( jo, "price_postapoc", def.price_post );
-    assign( jo, "stackable", def.stackable, strict );
+    assign( jo, "stackable", def.stackable_, strict );
     assign( jo, "integral_volume", def.integral_volume );
     assign( jo, "bashing", def.melee[DT_BASH], strict, 0 );
     assign( jo, "cutting", def.melee[DT_CUT], strict, 0 );
@@ -2043,8 +2062,8 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
 
     if( jo.has_member( "damage_states" ) ) {
         auto arr = jo.get_array( "damage_states" );
-        def.damage_min = arr.get_int( 0 ) * itype::damage_scale;
-        def.damage_max = arr.get_int( 1 ) * itype::damage_scale;
+        def.damage_min_ = arr.get_int( 0 ) * itype::damage_scale;
+        def.damage_max_ = arr.get_int( 1 ) * itype::damage_scale;
     }
 
     def.name = jo.get_string( "name" );
@@ -2445,12 +2464,12 @@ void Item_factory::add_entry( Item_group &ig, JsonObject &obj )
     int probability = obj.get_int( "prob", 100 );
     JsonArray jarr;
     if( obj.has_member( "collection" ) ) {
-        gptr.reset( new Item_group( Item_group::G_COLLECTION, probability, ig.with_ammo,
-                                    ig.with_magazine ) );
+        gptr = std::make_unique<Item_group>( Item_group::G_COLLECTION, probability, ig.with_ammo,
+                                             ig.with_magazine );
         jarr = obj.get_array( "collection" );
     } else if( obj.has_member( "distribution" ) ) {
-        gptr.reset( new Item_group( Item_group::G_DISTRIBUTION, probability, ig.with_ammo,
-                                    ig.with_magazine ) );
+        gptr = std::make_unique<Item_group>( Item_group::G_DISTRIBUTION, probability, ig.with_ammo,
+                                             ig.with_magazine );
         jarr = obj.get_array( "distribution" );
     }
     if( gptr ) {
@@ -2464,11 +2483,11 @@ void Item_factory::add_entry( Item_group &ig, JsonObject &obj )
 
     std::unique_ptr<Single_item_creator> sptr;
     if( obj.has_member( "item" ) ) {
-        sptr.reset( new Single_item_creator( obj.get_string( "item" ), Single_item_creator::S_ITEM,
-                                             probability ) );
+        sptr = std::make_unique<Single_item_creator>(
+                   obj.get_string( "item" ), Single_item_creator::S_ITEM, probability );
     } else if( obj.has_member( "group" ) ) {
-        sptr.reset( new Single_item_creator( obj.get_string( "group" ), Single_item_creator::S_ITEM_GROUP,
-                                             probability ) );
+        sptr = std::make_unique<Single_item_creator>(
+                   obj.get_string( "group" ), Single_item_creator::S_ITEM_GROUP, probability );
     }
     if( !sptr ) {
         return;
@@ -2664,7 +2683,7 @@ phase_id string_to_enum<phase_id>( const std::string &data )
 }
 } // namespace io
 
-const std::string calc_category( const itype &obj )
+std::string calc_category( const itype &obj )
 {
     if( obj.artifact ) {
         return "artifacts";

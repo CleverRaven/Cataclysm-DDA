@@ -101,7 +101,7 @@ class main_menu
          * @param iMenuOffsetX Menu location in window, x coordinate
          * @param iMenuOffsetY Menu location in window, y coordinate
          */
-        void print_menu( const catacurses::window &w_open, int iSel, const int iMenuOffsetX,
+        void print_menu( const catacurses::window &w_open, int iSel, int iMenuOffsetX,
                          int iMenuOffsetY );
 
         void display_text( const std::string &text, const std::string &title, int &selected );

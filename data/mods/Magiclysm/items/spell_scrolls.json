@@ -593,5 +593,13 @@
     "name": "Scroll of Necrotic Gaze",
     "description": "You use the power of your own blood to imbue necrotic energy into your gaze, damaging the target you look at.",
     "use_action": { "type": "learn_spell", "spells": [ "necrotic_gaze" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_purification_seed",
+    "name": "Scroll of Purification Seed",
+    "description": "You summon a gift of the earth which will purify water. Greater levels yield greater numbers of seeds.",
+    "use_action": { "type": "learn_spell", "spells": [ "purify_seed" ] }
   }
 ]

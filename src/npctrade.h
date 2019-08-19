@@ -25,7 +25,7 @@ class player;
 class item_pricing
 {
     public:
-        item_pricing( Character &c, item *it, int v, int count ) : loc( c, it ), price( v ) {
+        item_pricing( Character &c, item &it, int v, int count ) : loc( c, &it ), price( v ) {
             set_values( count );
         }
 
@@ -33,7 +33,7 @@ class item_pricing
             set_values( count );
         }
         void set_values( int ip_count );
-        void adjust_values( const double adjust, faction *fac );
+        void adjust_values( double adjust, faction *fac );
 
         item_location loc;
         int price;
@@ -46,8 +46,8 @@ class item_pricing
         int npc_has = 0;
         int u_charges = 0;
         int npc_charges = 0;
-        units::mass weight = units::from_gram( 0 );
-        units::volume vol = units::from_milliliter( 0 );
+        units::mass weight = 0_gram;
+        units::volume vol = 0_ml;
 };
 
 class trading_window
@@ -56,15 +56,13 @@ class trading_window
         trading_window() = default;
         std::vector<item_pricing> theirs;
         std::vector<item_pricing> yours;
-        bool exchange;
-        int u_get;
-        int npc_requires;
+        int your_balance;
 
         void setup_win( npc &np );
         void setup_trade( int cost, npc &np );
-        void update_win( npc &p, const std::string &deal, const int adjusted_u_get );
+        void update_win( npc &np, const std::string &deal );
         void show_item_data( npc &np, size_t offset, std::vector<item_pricing> &target_list );
-        bool perform_trade( npc &p, const std::string &deal );
+        bool perform_trade( npc &np, const std::string &deal );
         void update_npc_owed( npc &np );
 
     private:
@@ -85,6 +83,8 @@ class trading_window
         units::mass weight_left;
 
         int get_var_trade( const item &it, int total_count );
+        bool npc_will_accept_trade( const npc &np ) const;
+        int calc_npc_owes_you( const npc &np ) const;
 };
 
 namespace npc_trading

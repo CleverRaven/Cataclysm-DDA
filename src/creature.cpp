@@ -174,6 +174,10 @@ bool Creature::is_dangerous_field( const field_entry &entry ) const
 
 bool Creature::sees( const Creature &critter ) const
 {
+    if( &critter == this ) {
+        return true;    // Can always see ourselves.
+    }
+
     if( critter.is_hallucination() ) {
         // hallucinations are imaginations of the player character, npcs or monsters don't hallucinate.
         // Invisible hallucinations would be pretty useless (nobody would see them at all), therefor
@@ -181,20 +185,24 @@ bool Creature::sees( const Creature &critter ) const
         return is_player();
     }
 
-    const player *p = critter.as_player();
-    if( p != nullptr && p->is_invisible() ) {
-        // Let invisible players see themselves (simplifies drawing)
-        return p == this;
-    }
-
     if( !fov_3d && !debug_mode && posz() != critter.posz() ) {
         return false;
     }
 
+    // Creatures always see themselves (simplifies drawing).
+    if( this == &critter ) {
+        return true;
+    }
+    // This check is ridiculously expensive so defer it to after everything else.
+    auto visible = []( const player * p ) {
+        return p == nullptr || !p->is_invisible();
+    };
+
+    const player *p = critter.as_player();
     const int wanted_range = rl_dist( pos(), critter.pos() );
     if( wanted_range <= 1 &&
         ( posz() == critter.posz() || g->m.valid_move( pos(), critter.pos(), false, true ) ) ) {
-        return true;
+        return visible( p );
     } else if( ( wanted_range > 1 && critter.digging() ) ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= LL_LOW ) ||
                ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos() ) ) ||
@@ -207,7 +215,7 @@ bool Creature::sees( const Creature &critter ) const
         if( p->movement_mode_is( PMM_CROUCH ) ) {
             const int coverage = g->m.obstacle_coverage( pos(), critter.pos() );
             if( coverage < 30 ) {
-                return sees( critter.pos(), critter.is_player() );
+                return sees( critter.pos(), critter.is_player() ) && visible( p );
             }
             float size_modifier = 1.0;
             switch( p->get_size() ) {
@@ -228,12 +236,12 @@ bool Creature::sees( const Creature &critter ) const
             }
             const int vision_modifier = 30 - 0.5 * coverage * size_modifier;
             if( vision_modifier > 1 ) {
-                return sees( critter.pos(), critter.is_player(), vision_modifier );
+                return sees( critter.pos(), critter.is_player(), vision_modifier ) && visible( p );
             }
             return false;
         }
     }
-    return sees( critter.pos(), critter.is_player() );
+    return sees( critter.pos(), p != nullptr ) && visible( p );
 }
 
 bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
@@ -243,7 +251,7 @@ bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
     }
 
     const int range_cur = sight_range( g->m.ambient_light_at( t ) );
-    const int range_day = sight_range( DAYLIGHT_LEVEL );
+    const int range_day = sight_range( current_daylight_level( calendar::turn ) );
     const int range_night = sight_range( 0 );
     const int range_max = std::max( range_day, range_night );
     const int range_min = std::min( range_cur, range_max );
@@ -479,11 +487,15 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     }
     // If carrying a rider, there is a chance the hits may hit rider instead.
     if( has_effect( effect_ridden ) ) {
-        // big mounts and small player = big shield for player.
-        if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
-            g->u.deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam );
-            return;
+        if( !has_flag( MF_MECH_DEFENSIVE ) ) {
+            // If carrying a rider, there is a chance the hits may hit rider instead.
+            // big mounts and small player = big shield for player.
+            if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
+                g->u.deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam );
+                return;
+            }
         }
+        //otherwise it would thoroughly protect the rider(or pilot actually)
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
     body_part bp_hit = select_body_part( source, hit_spread );
@@ -540,11 +552,16 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
     // If carrying a rider, there is a chance the hits may hit rider instead.
     if( has_effect( effect_ridden ) ) {
-        // big mounts and small player = big shield for player.
-        if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
-            g->u.deal_projectile_attack( source, attack, print_messages );
-            return;
+        if( !has_flag( MF_MECH_DEFENSIVE ) ) {
+            // If carrying a rider, there is a chance the hits may hit rider instead.
+            // big mounts and small player = big shield for player.
+            if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
+                g->u.deal_projectile_attack( source, attack, print_messages );
+                return;
+            }
         }
+        //otherwise it would thoroughly protect the rider(or pilot actually)
+
     }
     const projectile &proj = attack.proj;
     dealt_damage_instance &dealt_dam = attack.dealt_dam;
@@ -760,14 +777,13 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             if( source->is_player() ) {
                 //player hits monster ranged
                 SCT.add( posx(), posy(),
-                         direction_from( 0, 0, posx() - source->posx(), posy() - source->posy() ),
+                         direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
                          get_hp_bar( dealt_dam.total_damage(), get_hp_max(), true ).first,
                          m_good, message, gmtSCTcolor );
 
                 if( get_hp() > 0 ) {
                     SCT.add( posx(), posy(),
-                             direction_from( 0, 0, posx() - source->posx(),
-                                             posy() - source->posy() ),
+                             direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
                              get_hp_bar( get_hp(), get_hp_max(), true ).first, m_good,
                              //~ "hit points", used in scrolling combat text
                              _( "hp" ), m_neutral, "hp" );
@@ -1531,9 +1547,9 @@ units::mass Creature::weight_capacity() const
 /*
  * Drawing-related functions
  */
-void Creature::draw( const catacurses::window &w, int origin_x, int origin_y, bool inverted ) const
+void Creature::draw( const catacurses::window &w, const point &origin, bool inverted ) const
 {
-    draw( w, tripoint( origin_x, origin_y, posz() ), inverted );
+    draw( w, tripoint( origin, posz() ), inverted );
 }
 
 void Creature::draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const
@@ -1545,11 +1561,11 @@ void Creature::draw( const catacurses::window &w, const tripoint &origin, bool i
     int draw_x = getmaxx( w ) / 2 + posx() - origin.x;
     int draw_y = getmaxy( w ) / 2 + posy() - origin.y;
     if( inverted ) {
-        mvwputch_inv( w, draw_y, draw_x, basic_symbol_color(), symbol() );
+        mvwputch_inv( w, point( draw_x, draw_y ), basic_symbol_color(), symbol() );
     } else if( is_symbol_highlighted() ) {
-        mvwputch_hi( w, draw_y, draw_x, basic_symbol_color(), symbol() );
+        mvwputch_hi( w, point( draw_x, draw_y ), basic_symbol_color(), symbol() );
     } else {
-        mvwputch( w, draw_y, draw_x, symbol_color(), symbol() );
+        mvwputch( w, point( draw_x, draw_y ), symbol_color(), symbol() );
     }
 }
 
@@ -1577,7 +1593,7 @@ void Creature::check_dead_state()
     }
 }
 
-const std::string Creature::attitude_raw_string( Attitude att )
+std::string Creature::attitude_raw_string( Attitude att )
 {
     switch( att ) {
         case Creature::A_HOSTILE:
@@ -1615,4 +1631,30 @@ std::string Creature::replace_with_npc_name( std::string input ) const
 {
     replace_substring( input, "<npcname>", disp_name(), true );
     return input;
+}
+
+void Creature::knock_back_from( const tripoint &p )
+{
+    if( p == pos() ) {
+        return; // No effect
+    }
+    if( is_hallucination() ) {
+        die( nullptr );
+        return;
+    }
+    tripoint to = pos();
+    if( p.x < posx() ) {
+        to.x++;
+    }
+    if( p.x > posx() ) {
+        to.x--;
+    }
+    if( p.y < posy() ) {
+        to.y++;
+    }
+    if( p.y > posy() ) {
+        to.y--;
+    }
+
+    knock_back_to( to );
 }

@@ -49,7 +49,7 @@
     "category": "DIG",
     "required_skills": [ [ "survival", 1 ] ],
     "time": "30 m",
-    "components": [ [ [ "glass_shard", 20 ] ] ],
+    "components": [ [ [ "glass_shard", 168 ] ] ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_pit_glass"
   },
@@ -354,6 +354,7 @@
     "category": "REPAIR",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
+    "byproducts": [ { "item": "glass_shard", "count": [ 8, 16 ] } ],
     "pre_terrain": "t_window_frame",
     "post_terrain": "t_window_empty"
   },
@@ -2008,7 +2009,7 @@
   },
   {
     "type": "construction",
-    "description": "Paint Wall white",
+    "description": "Paint Wall White",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "40 m",
@@ -2364,7 +2365,7 @@
     "byproducts": [ { "item": "straw_pile" } ],
     "pre_terrain": "t_grass_long",
     "post_terrain": "t_grass",
-    "tools": [ [ [ "scythe", -1 ], [ "sickle", -1 ] ] ]
+    "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ]
   },
   {
     "type": "construction",
@@ -2375,7 +2376,7 @@
     "byproducts": [ { "item": "straw_pile", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_grass_tall",
     "post_terrain": "t_grass",
-    "tools": [ [ [ "scythe", -1 ], [ "sickle", -1 ] ] ]
+    "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ]
   },
   {
     "type": "construction",
@@ -2869,6 +2870,53 @@
   },
   {
     "type": "construction",
+    "description": "Extrude Resin Lattice",
+    "category": "CONSTRUCT",
+    "skill": "fabrication",
+    "difficulty": 1,
+    "time": "120 m",
+    "//": "Fairly time consuming as you have to extrude the resin slowly and wait for it to dry, then layer it on itself",
+    "components": [ [ [ "alien_pod_resin", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_wall_resin_cage"
+  },
+  {
+    "type": "construction",
+    "description": "Extrude Resin Wall",
+    "category": "CONSTRUCT",
+    "skill": "fabrication",
+    "difficulty": 0,
+    "time": "30 m",
+    "components": [ [ [ "alien_pod_resin", 2 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_wall_resin"
+  },
+  {
+    "type": "construction",
+    "description": "Extrude Resin Floor and Roof",
+    "category": "CONSTRUCT",
+    "skill": "fabrication",
+    "difficulty": 2,
+    "time": "90 m",
+    "qualities": [ { "id": "SMOOTH", "level": 1 } ],
+    "components": [ [ [ "alien_pod_resin", 2 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_floor_resin"
+  },
+  {
+    "type": "construction",
+    "description": "Extrude Resin Floor (no roof)",
+    "category": "CONSTRUCT",
+    "skill": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "qualities": [ { "id": "SMOOTH", "level": 1 } ],
+    "components": [ [ [ "alien_pod_resin", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_platform_resin"
+  },
+  {
+    "type": "construction",
     "skill": "survival",
     "description": "Build Pine Lean-To",
     "category": "CONSTRUCT",
@@ -2915,5 +2963,32 @@
     "qualities": [ { "id": "DIG", "level": 2 } ],
     "pre_flags": [ "DIGGABLE", "FLAT" ],
     "post_terrain": "t_pit"
+  },
+  {
+    "type": "construction",
+    "description": "Build Arc Furnace",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "120 m",
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "SAW_M", "level": 1 } ],
+      [ { "id": "WELD", "level": 2 } ],
+      [ { "id": "DRILL", "level": 3 } ],
+      [ { "id": "WRENCH", "level": 2 } ]
+    ],
+    "components": [
+      [ [ "fire_brick", 40 ] ],
+      [ [ "cu_pipe", 4 ] ],
+      [ [ "cable", 12 ] ],
+      [ [ "pipe", 4 ] ],
+      [ [ "hand_vice", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "medium_storage_battery", 2 ] ],
+      [ [ "frame", 1 ] ],
+      [ [ "mortar_build", 10 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_arcfurnace_empty"
   }
 ]

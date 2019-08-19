@@ -211,7 +211,7 @@
   },
   {
     "type": "recipe",
-    "result": "faction_base_modular_hub_core_nw_wood_center",
+    "result": "faction_base_modular_hub_core_shack_nw_wood_center",
     "description": "A central building can act as a core and dining hall.  We should build the northwest quarter of one from wood panel.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",

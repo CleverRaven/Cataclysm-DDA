@@ -23,6 +23,8 @@
     "volume": "22000 ml",
     "price": 10000,
     "material": "alien_resin",
+    "count": 4,
+    "stack_size": 4,
     "symbol": "0",
     "color": "light_blue",
     "flags": [ "NO_SALVAGE" ]

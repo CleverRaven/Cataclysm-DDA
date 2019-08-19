@@ -16,7 +16,7 @@
 
 TEST_CASE( "set_and_get_overmap_scents" )
 {
-    std::unique_ptr<overmap> test_overmap = std::make_unique<overmap>( 0, 0 );
+    std::unique_ptr<overmap> test_overmap = std::make_unique<overmap>( point_zero );
 
     // By default there are no scents set.
     for( int x = 0; x < 180; ++x ) {
@@ -36,7 +36,7 @@ TEST_CASE( "set_and_get_overmap_scents" )
 TEST_CASE( "default_overmap_generation_always_succeeds" )
 {
     int overmaps_to_construct = 10;
-    for( point candidate_addr : closest_points_first( 10, { 0, 0 } ) ) {
+    for( point candidate_addr : closest_points_first( 10, point_zero ) ) {
         // Skip populated overmaps.
         if( overmap_buffer.has( candidate_addr ) ) {
             continue;
@@ -57,7 +57,7 @@ TEST_CASE( "default_overmap_generation_always_succeeds" )
 
 TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin" )
 {
-    const point origin = point( 0, 0 );
+    const point origin = point_zero;
 
     overmap_special mandatory;
     overmap_special optional;
@@ -93,7 +93,7 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin" )
     bool found_optional = false;
     for( int x = 0; x < OMAPX; ++x ) {
         for( int y = 0; y < OMAPY; ++y ) {
-            const oter_id t = test_overmap->get_ter( x, y, 0 );
+            const oter_id t = test_overmap->get_ter( { x, y, 0 } );
             if( t->id == "cabin" ||
                 t->id == "cabin_north" || t->id == "cabin_east" ||
                 t->id == "cabin_south" || t->id == "cabin_west" ) {

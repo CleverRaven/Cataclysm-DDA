@@ -1,0 +1,150 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_bridge",
+    "name": "walkway",
+    "description": "A metallic bridge commonly used in industrial settings to meet specified safety standards.",
+    "symbol": "#",
+    "color": "yellow",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_dock",
+    "name": "dock",
+    "description": "A wooden platform held by a support made of logs dug into the ground.",
+    "symbol": "8",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ],
+    "deconstruct": { "ter_set": "t_water_sh", "items": [ { "item": "nail", "charges": [ 6, 12 ] }, { "item": "2x4", "count": 8 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_water_moving_sh",
+      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sh_bridge",
+    "name": "shallow bridge",
+    "description": "A wooden platform held by a support made of logs dug into the ground.",
+    "looks_like": "t_dock",
+    "symbol": "8",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ],
+    "deconstruct": { "ter_set": "t_water_sh", "items": [ { "item": "nail", "charges": [ 6, 12 ] }, { "item": "2x4", "count": 8 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_water_sh",
+      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_pontoon_dp",
+    "name": "pontoon bridge",
+    "description": "A floating temporary bridge, like the ones army used to make to cross rivers.",
+    "symbol": "8",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ],
+    "deconstruct": {
+      "ter_set": "t_water_dp",
+      "items": [ { "item": "rope_makeshift_6", "count": [ 3, 4 ] }, { "item": "2x4", "count": 8 } ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_water_dp",
+      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_riverbridge_dp",
+    "name": "river bridge",
+    "description": "A floating temporary bridge, like the ones army used to make to cross rivers.",
+    "looks_like": "t_pontoon",
+    "symbol": "8",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ],
+    "deconstruct": {
+      "ter_set": "t_water_moving_dp",
+      "items": [ { "item": "rope_makeshift_6", "count": [ 3, 4 ] }, { "item": "2x4", "count": 8 } ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_water_dp",
+      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_pavement_bg_dp",
+    "name": "bridge pavement",
+    "description": "A bridge section made out of metal and concrete.",
+    "symbol": ".",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 300,
+      "sound": "concrete cracking and metal screeching!",
+      "sound_fail": "whump!",
+      "ter_set": "t_water_dp",
+      "items": [ { "item": "rock", "count": [ 4, 20 ] }, { "item": "rebar", "count": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_pavement_y_bg_dp",
+    "name": "bridge yellow pavement",
+    "description": "A bridge section made out of metal and concrete.  It's painted yellow.",
+    "symbol": ".",
+    "color": "yellow",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 300,
+      "sound": "concrete cracking and metal screeching!",
+      "sound_fail": "whump!",
+      "ter_set": "t_water_dp",
+      "items": [ { "item": "rock", "count": [ 4, 20 ] }, { "item": "rebar", "count": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sidewalk_bg_dp",
+    "name": "bridge sidewalk",
+    "description": "The sidewalk section of a concrete bridge.",
+    "symbol": ".",
+    "color": "light_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 300,
+      "sound": "concrete cracking and metal screeching!",
+      "sound_fail": "whump!",
+      "ter_set": "t_water_dp",
+      "items": [ { "item": "rock", "count": [ 4, 20 ] }, { "item": "rebar", "count": [ 10, 20 ] } ]
+    }
+  }
+]

@@ -74,6 +74,7 @@ struct damage_unit;
 class map;
 
 enum damage_type : int;
+enum clothing_mod_type : int;
 
 const std::string &rad_badge_color( int rad );
 
@@ -210,6 +211,17 @@ class item : public visitable<item>
 
         /** Filter converting instance to active state */
         item &activate();
+
+        /**
+         * Add or remove energy from a battery.
+         * If adding the specified energy quantity would go over the battery's capacity fill
+         * the battery and ignore the remainder.
+         * If adding the specified energy quantity would reduce the battery's charge level
+         * below 0 do nothing and return how far below 0 it would have gone.
+         * @param qty energy quantity to add (can be negative)
+         * @return 0 valued energy quantity on success
+         */
+        units::energy set_energy( const units::energy &qty );
 
         /**
          * Filter setting the ammo for this instance
@@ -424,8 +436,6 @@ class item : public visitable<item>
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
 
-        // Legacy function, don't use.
-        void load_info( const std::string &data );
         const std::string &symbol() const;
         /**
          * Returns the monetary value of an item.
@@ -434,6 +444,14 @@ class item : public visitable<item>
          */
         int price( bool practical ) const;
 
+        /**
+         * Whether two items should stack when displayed in a inventory menu.
+         * This is different from stacks_with, when two previously non-stackable
+         * items are now stackable and mergeable because, for example, they
+         * reaches the same temperature. This is necessary to avoid misleading
+         * stacks like "3 items-count-by-charge (5)".
+         */
+        bool display_stacked_with( const item &rhs, bool check_components = false ) const;
         bool stacks_with( const item &rhs, bool check_components = false ) const;
         /**
          * Merge charges of the other item into this item.
@@ -688,7 +706,7 @@ class item : public visitable<item>
          * @param flag to specify special temperature situations
          */
         void process_temperature_rot( float insulation, const tripoint &pos, player *carrier,
-                                      const temperature_flag flag = temperature_flag::TEMP_NORMAL );
+                                      temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /** Set the item to HOT */
         void heat_up();
@@ -700,7 +718,7 @@ class item : public visitable<item>
         void set_item_temperature( float new_temperature );
 
         /** Sets the item to new temperature and energy based new specific energy (J/g)*/
-        void set_item_specific_energy( const float specific_energy );
+        void set_item_specific_energy( float specific_energy );
 
         /** reset the last_temp_check used when crafting new items and the like */
         void reset_temp_check();
@@ -834,7 +852,7 @@ class item : public visitable<item>
         /**
          * If contents nonempty, return true if item phase is same, else false
          */
-        bool contents_made_of( const phase_id phase ) const;
+        bool contents_made_of( phase_id phase ) const;
         /**
          * Are we solid, liquid, gas, plasma?
          */
@@ -944,7 +962,7 @@ class item : public visitable<item>
          * @param dt type of damage which may be passed to @ref on_damage callback
          * @return whether item should be destroyed
          */
-        bool inc_damage( const damage_type dt );
+        bool inc_damage( damage_type dt );
         /// same as other inc_damage, but uses @ref DT_NULL as damage type.
         bool inc_damage();
 
@@ -994,7 +1012,7 @@ class item : public visitable<item>
          * Returns false if the item is not destroyed.
          */
         bool process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
-                      const temperature_flag flag = temperature_flag::TEMP_NORMAL );
+                      temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /**
          * Gets the point (vehicle tile) the cable is connected to.
@@ -1033,6 +1051,7 @@ class item : public visitable<item>
         bool is_medication() const;            // Is it a medication that only pretends to be food?
         bool is_bionic() const;
         bool is_magazine() const;
+        bool is_battery() const;
         bool is_ammo_belt() const;
         bool is_bandolier() const;
         bool is_holster() const;
@@ -1065,6 +1084,10 @@ class item : public visitable<item>
         bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
 
         bool has_temperature() const;
+
+        /** Returns true if the item is A: is SOLID and if it B: is of type LIQUID */
+        bool is_frozen_liquid() const;
+
         float get_specific_heat_liquid() const;
         float get_specific_heat_solid() const;
         float get_latent_heat() const;
@@ -1288,6 +1311,9 @@ class item : public visitable<item>
         /** Removes all item specific flags. */
         void unset_flags();
         /*@}*/
+
+        /**Does this item have the specified fault*/
+        bool has_fault( fault_id fault ) const;
 
         /**
          * @name Item properties
@@ -1559,6 +1585,9 @@ class item : public visitable<item>
          *  @note an item can be both a gun and melee weapon concurrently
          */
         bool is_gun() const;
+
+        /** Quantity of energy currently loaded in tool or battery */
+        units::energy energy_remaining() const;
 
         /** Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod */
         int ammo_remaining() const;
@@ -1941,7 +1970,7 @@ class item : public visitable<item>
          * @param insulation Amount of insulation item has
          * @param time time point which the item is processed to
          */
-        void calc_temp( const int temp, const float insulation, const time_point &time );
+        void calc_temp( int temp, float insulation, const time_point &time );
 
         /**
          * Get the thermal energy of the item in Joules.
@@ -1949,7 +1978,7 @@ class item : public visitable<item>
         float get_item_thermal_energy();
 
         /** Calculates item specific energy (J/g) from temperature (K)*/
-        float get_specific_energy_from_temperature( const float new_temperature );
+        float get_specific_energy_from_temperature( float new_temperature );
 
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
@@ -2013,19 +2042,19 @@ class item : public visitable<item>
 
     public:
         int charges;
+        units::energy energy;      // Amount of energy currently stored in a battery
 
-        // The number of charges a recipe creates.  Used for comestible consumption.
-        int recipe_charges = 1;
-        int burnt = 0;           // How badly we're burnt
-        int poison = 0;          // How badly poisoned is it?
-        int frequency = 0;       // Radio frequency
-        int note = 0;            // Associated dynamic text snippet.
-        int irradiation = 0;      // Tracks radiation dosage.
-        int item_counter = 0; // generic counter to be used with item flags
+        int recipe_charges = 1;    // The number of charges a recipe creates.
+        int burnt = 0;             // How badly we're burnt
+        int poison = 0;            // How badly poisoned is it?
+        int frequency = 0;         // Radio frequency
+        int note = 0;              // Associated dynamic text snippet.
+        int irradiation = 0;       // Tracks radiation dosage.
+        int item_counter = 0;      // generic counter to be used with item flags
         int specific_energy = -10; // Specific energy (0.00001 J/g). Negative value for unprocessed.
-        int temperature = 0; // Temperature of the item (in 0.00001 K).
-        int mission_id = -1; // Refers to a mission in game's master list
-        int player_id = -1; // Only give a mission to the right player!
+        int temperature = 0;       // Temperature of the item (in 0.00001 K).
+        int mission_id = -1;       // Refers to a mission in game's master list
+        int player_id = -1;        // Only give a mission to the right player!
 
     private:
         /**
@@ -2035,9 +2064,9 @@ class item : public visitable<item>
          */
         time_duration rot = 0_turns;
         /** Time when the rot calculation was last performed. */
-        time_point last_rot_check = calendar::time_of_cataclysm;
+        time_point last_rot_check = calendar::turn_zero;
         /** the last time the temperature was updated for this item */
-        time_point last_temp_check = calendar::time_of_cataclysm;
+        time_point last_temp_check = calendar::turn_zero;
         /// The time the item was created.
         time_point bday;
         /**
@@ -2059,7 +2088,10 @@ class item : public visitable<item>
         bool active = false; // If true, it has active effects to be processed
         bool is_favorite = false;
 
-        void set_favorite( const bool favorite );
+        void set_favorite( bool favorite );
+        bool has_clothing_mod() const;
+        float get_clothing_mod_val( clothing_mod_type type ) const;
+        void update_clothing_mod_val();
 };
 
 bool item_compare_by_charges( const item &left, const item &right );

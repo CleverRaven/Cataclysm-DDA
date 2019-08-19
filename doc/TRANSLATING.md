@@ -230,6 +230,12 @@ with context is as follows:
 "name": { "ctxt": "foo", "str": "bar" }
 ```
 
+Do note that currently this syntax is only supported for effect names, item
+action name, item category names, and activity verbs. If you want other json strings to support
+this format, look at `translations.h|cpp` and migrate the corresponding code to
+it. Changes to `extract_json_strings.py` might also be needed, since with the
+new syntax "name" would be a `dict`, which may break unmigrated script.
+
 ### Recommendations
 
 In Cataclysm: DDA, some classes, like `itype` and `mtype`, provide a wrapper

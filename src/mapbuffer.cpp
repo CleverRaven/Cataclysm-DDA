@@ -170,9 +170,9 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
     std::vector<point> offsets;
     std::vector<tripoint> submap_addrs;
     offsets.push_back( point_zero );
-    offsets.push_back( point( 0, 1 ) );
-    offsets.push_back( point( 1, 0 ) );
-    offsets.push_back( point( 1, 1 ) );
+    offsets.push_back( point_south );
+    offsets.push_back( point_east );
+    offsets.push_back( point_south_east );
 
     bool all_uniform = true;
     for( auto &offsets_offset : offsets ) {
@@ -201,42 +201,42 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
 
     // Don't create the directory if it would be empty
     assure_dir_exist( dirname );
-    ofstream_wrapper_exclusive fout( filename );
-    JsonOut jsout( fout );
-    jsout.start_array();
-    for( auto &submap_addr : submap_addrs ) {
-        if( submaps.count( submap_addr ) == 0 ) {
-            continue;
-        }
-
-        submap *sm = submaps[submap_addr];
-
-        if( sm == nullptr ) {
-            continue;
-        }
-
-        jsout.start_object();
-
-        jsout.member( "version", savegame_version );
-        jsout.member( "coordinates" );
-
+    write_to_file( filename, [&]( std::ostream & fout ) {
+        JsonOut jsout( fout );
         jsout.start_array();
-        jsout.write( submap_addr.x );
-        jsout.write( submap_addr.y );
-        jsout.write( submap_addr.z );
-        jsout.end_array();
+        for( auto &submap_addr : submap_addrs ) {
+            if( submaps.count( submap_addr ) == 0 ) {
+                continue;
+            }
 
-        sm->store( jsout );
+            submap *sm = submaps[submap_addr];
 
-        jsout.end_object();
+            if( sm == nullptr ) {
+                continue;
+            }
 
-        if( delete_after_save ) {
-            submaps_to_delete.push_back( submap_addr );
+            jsout.start_object();
+
+            jsout.member( "version", savegame_version );
+            jsout.member( "coordinates" );
+
+            jsout.start_array();
+            jsout.write( submap_addr.x );
+            jsout.write( submap_addr.y );
+            jsout.write( submap_addr.z );
+            jsout.end_array();
+
+            sm->store( jsout );
+
+            jsout.end_object();
+
+            if( delete_after_save ) {
+                submaps_to_delete.push_back( submap_addr );
+            }
         }
-    }
 
-    jsout.end_array();
-    fout.close();
+        jsout.end_array();
+    } );
 }
 
 // We're reading in way too many entities here to mess around with creating sub-objects and

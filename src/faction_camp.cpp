@@ -1497,7 +1497,7 @@ void basecamp::start_cut_logs()
         sample_npc.set_fake( true );
         int tree_est = om_cutdown_trees_est( forest, 50 );
         int tree_young_est = om_harvest_ter_est( sample_npc, forest, ter_id( "t_tree_young" ), 50 );
-        int dist = rl_dist( forest.x, forest.y, omt_pos.x, omt_pos.y );
+        int dist = rl_dist( forest.xy(), omt_pos.xy() );
         //Very roughly what the player does + 6 hours for prep, clean up, breaks
         time_duration chop_time = 6_hours + 1_hours * tree_est + 7_minutes * tree_young_est;
         //Generous to believe the NPC can move ~ 2 logs or ~8 heavy sticks (3 per young tree?)
@@ -1554,7 +1554,7 @@ void basecamp::start_clearcut()
         sample_npc.set_fake( true );
         int tree_est = om_cutdown_trees_est( forest, 95 );
         int tree_young_est = om_harvest_ter_est( sample_npc, forest, ter_id( "t_tree_young" ), 95 );
-        int dist = rl_dist( forest.x, forest.y, omt_pos.x, omt_pos.y );
+        int dist = rl_dist( forest.xy(), omt_pos.xy() );
         //Very roughly what the player does + 6 hours for prep, clean up, breaks
         time_duration chop_time = 6_hours + 1_hours * tree_est + 7_minutes * tree_young_est;
         time_duration travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, 2 );
@@ -1588,7 +1588,7 @@ void basecamp::start_setup_hide_site()
     popup( _( "Forests, swamps, and fields are valid hide site locations." ) );
     tripoint forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true, omt_pos, true );
     if( forest != tripoint( -999, -999, -999 ) ) {
-        int dist = rl_dist( forest.x, forest.y, omt_pos.x, omt_pos.y );
+        int dist = rl_dist( forest.xy(), omt_pos.xy() );
         inventory tgt_inv = g->u.inv;
         std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
             return !itm.can_revive();
@@ -1627,7 +1627,7 @@ void basecamp::start_relay_hide_site()
     popup( _( "You must select an existing hide site." ) );
     tripoint forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true, omt_pos, true );
     if( forest != tripoint( -999, -999, -999 ) ) {
-        int dist = rl_dist( forest.x, forest.y, omt_pos.x, omt_pos.y );
+        int dist = rl_dist( forest.xy(), omt_pos.xy() );
         inventory tgt_inv = g->u.inv;
         std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
             return !itm.can_revive();
@@ -1639,9 +1639,9 @@ void basecamp::start_relay_hide_site()
         }
         //Check items in improvised shelters at hide site
         tinymap target_bay;
-        target_bay.load( forest.x * 2, forest.y * 2, forest.z, false );
+        target_bay.load( tripoint( forest.x * 2, forest.y * 2, forest.z ), false );
         std::vector<item *> hide_inv;
-        for( item &i : target_bay.i_at( 11, 10 ) ) {
+        for( item &i : target_bay.i_at( point( 11, 10 ) ) ) {
             hide_inv.push_back( &i );
         }
         std::vector<item *> gaining_equipment;
@@ -1743,7 +1743,7 @@ void basecamp::start_fortifications( std::string &bldg_exp, bool by_radio )
             }
             trips += 2;
             build_time += making.batch_duration();
-            dist += rl_dist( fort_om.x, fort_om.y, omt_pos.x, omt_pos.y );
+            dist += rl_dist( fort_om.xy(), omt_pos.xy() );
             travel_time += companion_travel_time_calc( fort_om, omt_pos, 0_minutes, 2 );
         }
         time_duration total_time = base_camps::to_workdays( travel_time + build_time );
@@ -1866,10 +1866,10 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
 
     //farm_json is what the area should look like according to jsons
     tinymap farm_json;
-    farm_json.generate( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, calendar::turn );
+    farm_json.generate( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), calendar::turn );
     //farm_map is what the area actually looks like
     tinymap farm_map;
-    farm_map.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
+    farm_map.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z );
     bool done_planting = false;
@@ -2222,7 +2222,7 @@ bool basecamp::gathering_return( const std::string &task, time_duration min_time
         danger = 10;
         favor = 0;
         skill_group = "hunting";
-        skill = 1.5 * comp->get_skill_level( skill_gun ) + comp->per_cur / 2;
+        skill = 1.5 * comp->get_skill_level( skill_gun ) + comp->per_cur / 2.0;
         threat = 12;
         checks_per_cycle = 2;
     }
@@ -2474,7 +2474,7 @@ bool basecamp::survey_return()
         return false;
     }
 
-    int dist = rl_dist( where.x, where.y, omt_pos.x, omt_pos.y );
+    int dist = rl_dist( where.xy(), omt_pos.xy() );
     if( dist != 1 ) {
         popup( _( "You must select a tile within %d range of the camp" ), 1 );
         return false;
@@ -2539,7 +2539,7 @@ void talk_function::draw_camp_tabs( const catacurses::window &win, const camp_ta
 {
     werase( win );
     const int width = getmaxx( win );
-    mvwhline( win, 2, 0, LINE_OXOX, width );
+    mvwhline( win, point( 0, 2 ), LINE_OXOX, width );
 
     std::vector<std::string> tabs;
     tabs.push_back( _( "MAIN" ) );
@@ -2708,7 +2708,7 @@ int om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f, int c
 {
     const furn_t &furn_tgt = f.obj();
     tinymap target_bay;
-    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
+    target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
     int harvested = 0;
     int total = 0;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
@@ -2751,7 +2751,7 @@ int om_harvest_ter( npc &comp, const tripoint &omt_tgt, const ter_id &t, int cha
 {
     const ter_t &ter_tgt = t.obj();
     tinymap target_bay;
-    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
+    target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
     int harvested = 0;
     int total = 0;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
@@ -2794,7 +2794,7 @@ int om_cutdown_trees_trunks( const tripoint &omt_tgt, int chance )
 int om_cutdown_trees( const tripoint &omt_tgt, int chance, bool estimate, bool force_cut_trunk )
 {
     tinymap target_bay;
-    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
+    target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
     int harvested = 0;
     int total = 0;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
@@ -2840,7 +2840,7 @@ int om_cutdown_trees( const tripoint &omt_tgt, int chance, bool estimate, bool f
 mass_volume om_harvest_itm( npc_ptr comp, const tripoint &omt_tgt, int chance, bool take )
 {
     tinymap target_bay;
-    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
+    target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
     units::mass harvested_m = 0_gram;
     units::volume harvested_v = 0_ml;
     units::mass total_m = 0_gram;
@@ -2896,7 +2896,7 @@ tripoint om_target_tile( const tripoint &omt_pos, int min_range, int range,
     if( where == overmap::invalid_tripoint ) {
         return tripoint( -999, -999, -999 );
     }
-    int dist = rl_dist( where.x, where.y, omt_pos.x, omt_pos.y );
+    int dist = rl_dist( where.xy(), omt_pos.xy() );
     if( dist > range || dist < min_range ) {
         popup( _( "You must select a target between %d and %d range from the base.  Range: %d" ),
                min_range, range, dist );
@@ -3005,21 +3005,21 @@ bool om_set_hide_site( npc &comp, const tripoint &omt_tgt,
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt );
     omt_ref = oter_id( omt_ref.id().c_str() );
     tinymap target_bay;
-    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
-    target_bay.ter_set( 11, 10, t_improvised_shelter );
+    target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
+    target_bay.ter_set( point( 11, 10 ), t_improvised_shelter );
     for( auto i : itms_rem ) {
         comp.companion_mission_inv.add_item( *i );
-        target_bay.i_rem( 11, 10, i );
+        target_bay.i_rem( point( 11, 10 ), i );
     }
     for( auto i : itms ) {
-        target_bay.add_item_or_charges( 11, 10, *i );
+        target_bay.add_item_or_charges( point( 11, 10 ), *i );
         g->u.use_amount( i->typeId(), 1 );
     }
     target_bay.save();
 
     omt_ref = oter_id( "faction_hide_site_0" );
 
-    overmap_buffer.reveal( point( omt_tgt.x, omt_tgt.y ), 3, 0 );
+    overmap_buffer.reveal( omt_tgt.xy(), 3, 0 );
     return true;
 }
 
@@ -3101,7 +3101,7 @@ std::vector<tripoint> om_companion_path( const tripoint &start, int range_start,
         std::vector<tripoint> note_pts = line_to( last, spt );
         scout_points.insert( scout_points.end(), note_pts.begin(), note_pts.end() );
         om_line_mark( last, spt );
-        range -= rl_dist( spt.x, spt.y, last.x, last.y );
+        range -= rl_dist( spt.xy(), last.xy() );
         last = spt;
 
         oter_id &omt_ref = overmap_buffer.ter( last );
@@ -3150,7 +3150,7 @@ bool basecamp::validate_sort_points()
     if( g->m.check_vehicle_zones( g->get_levz() ) ) {
         mgr.cache_vzones();
     }
-    tripoint src_loc = bb_pos + point( 0, -1 );
+    tripoint src_loc = bb_pos + point_north;
     const auto abspos = g->m.getabs( g->u.pos() );
     if( !mgr.has_near( z_loot_unsorted, abspos ) ||
         !mgr.has_near( z_camp_food, abspos ) || !mgr.has_loot_dest_near( abspos ) ) {
@@ -3204,10 +3204,10 @@ point talk_function::om_dir_to_offset( const std::string &dir )
 {
     std::map<const std::string, point> dir2pt = { {
             { "[B]", point_zero },
-            { "[N]", point( 0, -1 ) }, { "[S]", point( 0, 1 ) },
-            { "[E]", point( 1, 0 ) }, { "[W]", point( -1, 0 ) },
-            { "[NE]", point( 1, -1 ) }, { "[SE]", point( 1, 1 ) },
-            { "[NW]", point( -1, -1 ) }, { "[SW]", point( -1, 1 ) }
+            { "[N]", point_north }, { "[S]", point_south },
+            { "[E]", point_east }, { "[W]", point_west },
+            { "[NE]", point_north_east }, { "[SE]", point_south_east },
+            { "[NW]", point_north_west }, { "[SW]", point_south_west }
         }
     };
     return dir2pt[ dir ];
@@ -3570,7 +3570,7 @@ void basecamp::place_results( item result, bool by_radio )
 {
     if( by_radio ) {
         tinymap target_bay;
-        target_bay.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
+        target_bay.load( tripoint( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z ), false );
         const tripoint &new_spot = target_bay.getlocal( get_dumping_spot() );
         target_bay.add_item_or_charges( new_spot, result, true );
         apply_camp_ownership( new_spot, 10 );
@@ -3601,10 +3601,9 @@ void basecamp::place_results( item result, bool by_radio )
 
 void apply_camp_ownership( const tripoint &camp_pos, int radius )
 {
-    for( const tripoint &p : g->m.points_in_rectangle( tripoint( camp_pos.x - radius,
-            camp_pos.y - radius, camp_pos.z ), tripoint( camp_pos.x + radius, camp_pos.y + radius,
-                    camp_pos.z ) ) ) {
-        auto items = g->m.i_at( p.x, p.y );
+    for( const tripoint &p : g->m.points_in_rectangle( camp_pos + point( -radius, -radius ),
+            camp_pos + point( radius, radius ) ) ) {
+        auto items = g->m.i_at( p.xy() );
         for( item &elem : items ) {
             elem.set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
         }

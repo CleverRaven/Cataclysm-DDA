@@ -7,6 +7,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <queue>
 
 #include "bodypart.h"
 #include "damage.h"
@@ -21,6 +22,7 @@ class player;
 class JsonObject;
 class JsonOut;
 class JsonIn;
+class spell;
 class teleporter_list;
 class time_duration;
 class nc_color;
@@ -56,6 +58,9 @@ enum valid_target {
     target_self,
     target_ground,
     target_none,
+    target_item,
+    target_fd_fire,
+    target_fd_blood,
     _LAST
 };
 
@@ -95,7 +100,8 @@ class spell_type
         // spell description
         std::string description;
         // spell effect string. used to look up spell function
-        std::string effect;
+        std::string effect_name;
+        std::function<void( const spell &, Creature &, const tripoint & )> effect;
         // extra information about spell effect. allows for combinations for effects
         std::string effect_str;
         // list of additional "spell effects"
@@ -193,6 +199,9 @@ class spell_type
         energy_type energy_source;
 
         damage_type dmg_type;
+
+        // list of valid targets to be affected by the area of effect.
+        enum_bitset<valid_target> effect_targets;
 
         // list of valid targets enum
         enum_bitset<valid_target> valid_targets;
@@ -322,13 +331,14 @@ class spell
         int heal( const tripoint &target ) const;
 
         // casts the spell effect. returns true if successful
-        bool cast_spell_effect( const Creature &source, const tripoint &target ) const;
+        void cast_spell_effect( Creature &source, const tripoint &target ) const;
         // goes through the spell effect and all of its internal spells
-        bool cast_all_effects( const Creature &source, const tripoint &target ) const;
+        void cast_all_effects( Creature &source, const tripoint &target ) const;
 
         // is the target valid for this spell?
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
         bool is_valid_target( valid_target t ) const;
+        bool is_valid_effect_target( valid_target t ) const;
 };
 
 class known_magic
@@ -395,32 +405,36 @@ class known_magic
 
 namespace spell_effect
 {
-void teleport( int min_distance, int max_distance );
-void pain_split(); // only does g->u
-void move_earth( const tripoint &target );
-void target_attack( const spell &sp, const Creature &caster,
+
+void teleport_random( const spell &sp, Creature &caster, const tripoint & );
+void pain_split( const spell &, Creature &, const tripoint & );
+void target_attack( const spell &sp, Creature &caster,
                     const tripoint &target );
-void projectile_attack( const spell &sp, const Creature &caster,
+void projectile_attack( const spell &sp, Creature &caster,
                         const tripoint &target );
-void cone_attack( const spell &sp, const Creature &caster,
+void cone_attack( const spell &sp, Creature &caster,
                   const tripoint &target );
-void line_attack( const spell &sp, const Creature &caster,
+void line_attack( const spell &sp, Creature &caster,
                   const tripoint &target );
+
+void area_pull( const spell &sp, Creature &caster, const tripoint &target );
+void area_push( const spell &sp, Creature &caster, const tripoint &target );
 
 std::set<tripoint> spell_effect_blast( const spell &, const tripoint &, const tripoint &target,
-                                       const int aoe_radius, const bool ignore_walls );
+                                       int aoe_radius, bool ignore_walls );
 std::set<tripoint> spell_effect_cone( const spell &sp, const tripoint &source,
                                       const tripoint &target,
-                                      const int aoe_radius, const bool ignore_walls );
+                                      int aoe_radius, bool ignore_walls );
 std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
                                       const tripoint &target,
-                                      const int aoe_radius, const bool ignore_walls );
+                                      int aoe_radius, bool ignore_walls );
 
-void spawn_ethereal_item( const spell &sp );
-void recover_energy( const spell &sp, const tripoint &target );
-void spawn_summoned_monster( const spell &sp, const Creature &caster, const tripoint &target );
-void translocate( const spell &sp, const Creature &caster, const tripoint &target,
-                  teleporter_list &tp_list );
+void spawn_ethereal_item( const spell &sp, Creature &, const tripoint & );
+void recover_energy( const spell &sp, Creature &, const tripoint &target );
+void spawn_summoned_monster( const spell &sp, Creature &caster, const tripoint &target );
+void translocate( const spell &sp, Creature &caster, const tripoint &target );
+void transform_blast( const spell &sp, Creature &caster, const tripoint &target );
+void none( const spell &sp, Creature &, const tripoint &target );
 } // namespace spell_effect
 
 class spellbook_callback : public uilist_callback
@@ -430,6 +444,58 @@ class spellbook_callback : public uilist_callback
     public:
         void add_spell( const spell_id &sp );
         void select( int entnum, uilist *menu ) override;
+};
+
+// Utility structure to run area queries over weight map. It uses shortest-path-expanding-tree,
+// similar to the ones used in pathfinding. Some spell effects, like area_pull use the final
+// tree to determine where to move affected objects.
+struct area_expander {
+    // A single node for a tree.
+    struct node {
+        // Expanded position
+        tripoint position;
+        // Previous position
+        tripoint from;
+        // Accumulated cost.
+        float cost = 0;
+    };
+
+    int max_range = -1;
+    int max_expand = -1;
+
+    // The area we have visited already.
+    std::vector<node> area;
+
+    // Maps coordinate to expanded node.
+    std::map<tripoint, int> area_search;
+
+    struct area_node_comparator {
+        area_node_comparator( std::vector<area_expander::node> &area ) : area( area ) {
+        }
+
+        bool operator()( int a, int b ) const {
+            return area[a].cost < area[b].cost;
+        }
+
+        std::vector<area_expander::node> &area;
+    };
+
+    std::priority_queue<int, std::vector<int>, area_node_comparator> frontier;
+
+    area_expander();
+    // Check whether we have already visited this node.
+    int contains( const tripoint &pt ) const;
+
+    // Adds node to a search tree. Returns true if new node is allocated.
+    bool enqueue( const tripoint &from, const tripoint &to, float cost );
+
+    // Run wave propagation
+    int run( const tripoint &center );
+
+    // Sort nodes by its cost.
+    void sort_ascending();
+
+    void sort_descending();
 };
 
 #endif

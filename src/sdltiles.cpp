@@ -24,8 +24,12 @@
 
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL_image.h>
+#   include <SDL2/SDL_syswm.h>
 #else
 #   include <SDL_image.h>
+#ifdef _WIN32
+#   include <SDL_syswm.h>
+#endif
 #endif
 
 #include "avatar.h"
@@ -91,7 +95,7 @@ static uint32_t interval = 25;
 static bool needupdate = false;
 
 // used to replace SDL_RenderFillRect with a more efficient SDL_RenderCopy
-SDL_Texture_Ptr alt_rect_tex = NULL;
+SDL_Texture_Ptr alt_rect_tex = nullptr;
 bool alt_rect_tex_enabled = false;
 
 std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
@@ -246,7 +250,7 @@ static void generate_alt_rect_texture()
 
     SDL_Surface_Ptr alt_surf( SDL_CreateRGBSurface( 0, 1, 1, 32, rmask, gmask, bmask, amask ) );
     if( alt_surf ) {
-        FillRect( alt_surf, NULL, SDL_MapRGB( alt_surf->format, 255, 255, 255 ) );
+        FillRect( alt_surf, nullptr, SDL_MapRGB( alt_surf->format, 255, 255, 255 ) );
 
         alt_rect_tex.reset( SDL_CreateTextureFromSurface( renderer.get(), alt_surf.get() ) );
         alt_surf.reset();
@@ -267,7 +271,7 @@ void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
                     Uint32 r, Uint32 g, Uint32 b )
 {
     SetTextureColorMod( alt_rect_tex, r, g, b );
-    RenderCopy( renderer, alt_rect_tex, NULL, &rect );
+    RenderCopy( renderer, alt_rect_tex, nullptr, &rect );
 }
 
 static bool operator==( const cata_cursesport::WINDOW *const lhs, const catacurses::window &rhs )
@@ -294,7 +298,7 @@ static void InitSDL()
     // https://bugzilla.libsdl.org/show_bug.cgi?id=3472#c5
     if( SDL_COMPILEDVERSION == SDL_VERSIONNUM( 2, 0, 5 ) ) {
         const char *xmod = getenv( "XMODIFIERS" );
-        if( xmod && strstr( xmod, "@im=ibus" ) != NULL ) {
+        if( xmod && strstr( xmod, "@im=ibus" ) != nullptr ) {
             setenv( "XMODIFIERS", "@im=none", 1 );
         }
     }
@@ -505,7 +509,7 @@ static void WinCreate()
                           "SDL_JoystickEventState(SDL_ENABLE) failed" );
         }
     } else {
-        joystick = NULL;
+        joystick = nullptr;
     }
 
     // Set up audio mixer.
@@ -533,7 +537,7 @@ static void WinDestroy()
         SDL_JoystickClose( joystick );
         alt_rect_tex.reset();
 
-        joystick = 0;
+        joystick = nullptr;
     }
     format.reset();
     display_buffer.reset();
@@ -600,7 +604,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
     SDL_Surface_Ptr sglyph( function( font.get(), ch.c_str(), windowsPalette[color] ) );
     if( !sglyph ) {
         dbg( D_ERROR ) << "Failed to create glyph for " << ch << ": " << TTF_GetError();
-        return NULL;
+        return nullptr;
     }
     /* SDL interprets each pixel as a 32-bit number, so our masks must depend
        on the endianness (byte order) of the machine */
@@ -648,7 +652,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
 void CachedTTFFont::OutputChar( const std::string &ch, const int x, const int y,
                                 const unsigned char color )
 {
-    key_t    key {std::move( ch ), static_cast<unsigned char>( color & 0xf )};
+    key_t    key {ch, static_cast<unsigned char>( color & 0xf )};
 
     auto it = glyph_cache_map.find( key );
     if( it == std::end( glyph_cache_map ) ) {
@@ -796,7 +800,7 @@ void refresh_display()
 
     // Select default target (the window), copy rendered buffer
     // there, present it, select the buffer as target again.
-    SetRenderTarget( renderer, NULL );
+    SetRenderTarget( renderer, nullptr );
 #if defined(__ANDROID__)
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth,
                        TERMINAL_HEIGHT * fontheight );
@@ -804,7 +808,7 @@ void refresh_display()
     RenderClear( renderer );
     RenderCopy( renderer, display_buffer, NULL, &dstrect );
 #else
-    RenderCopy( renderer, display_buffer, NULL, NULL );
+    RenderCopy( renderer, display_buffer, nullptr, nullptr );
 #endif
 #if defined(__ANDROID__)
     draw_terminal_size_preview();
@@ -843,8 +847,8 @@ static void find_videodisplays()
     }
 
     int current_display = get_option<int>( "DISPLAY" );
-    get_options().add( "DISPLAY", "graphics", _( "Display" ),
-                       _( "Sets which video display will be used to show the game. Requires restart." ),
+    get_options().add( "DISPLAY", "graphics", translate_marker( "Display" ),
+                       translate_marker( "Sets which video display will be used to show the game. Requires restart." ),
                        displays, current_display, 0, options_manager::COPT_CURSES_HIDE, true
                      );
 }
@@ -961,8 +965,8 @@ static void invalidate_framebuffer_proportion( cata_cursesport::WINDOW *win )
     }
 
     // track the dimensions for conversion
-    const int termpixel_x = win->x * font->fontwidth;
-    const int termpixel_y = win->y * font->fontheight;
+    const int termpixel_x = win->pos.x * font->fontwidth;
+    const int termpixel_y = win->pos.y * font->fontheight;
     const int termpixel_x2 = termpixel_x + win->width * font->fontwidth - 1;
     const int termpixel_y2 = termpixel_y + win->height * font->fontheight - 1;
 
@@ -1004,7 +1008,7 @@ void cata_cursesport::handle_additional_window_clear( WINDOW *win )
 void clear_window_area( const catacurses::window &win_ )
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
-    FillRectDIB( win->x * fontwidth, win->y * fontheight,
+    FillRectDIB( win->pos.x * fontwidth, win->pos.y * fontheight,
                  win->width * fontwidth, win->height * fontheight, catacurses::black );
 }
 
@@ -1026,9 +1030,9 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         // game::w_terrain can be drawn by the tilecontext.
         // skip the normal drawing code for it.
         tilecontext->draw(
-            win->x * fontwidth,
-            win->y * fontheight,
-            tripoint( g->ter_view_x, g->ter_view_y, g->ter_view_z ),
+            win->pos.x * fontwidth,
+            win->pos.y * fontheight,
+            g->ter_view_p,
             TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
             TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight,
             overlay_strings,
@@ -1078,8 +1082,8 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             }
 
             for( size_t i = 0; i < text.display_width(); ++i ) {
-                const int x0 = win->x * fontwidth;
-                const int y0 = win->y * fontheight;
+                const int x0 = win->pos.x * fontwidth;
+                const int y0 = win->pos.y * fontheight;
                 const int x = x0 + ( x_offset - alignment_offset + i ) * map_font->fontwidth + coord.x;
                 const int y = y0 + coord.y;
 
@@ -1097,8 +1101,8 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             x_offset = text.display_width();
         }
 
-        invalidate_framebuffer( terminal_framebuffer, win->x, win->y, TERRAIN_WINDOW_TERM_WIDTH,
-                                TERRAIN_WINDOW_TERM_HEIGHT );
+        invalidate_framebuffer( terminal_framebuffer, win->pos.x, win->pos.y,
+                                TERRAIN_WINDOW_TERM_WIDTH, TERRAIN_WINDOW_TERM_HEIGHT );
 
         update = true;
     } else if( g && w == g->w_terrain && map_font ) {
@@ -1113,14 +1117,17 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                                        map_font->fontheight, 0 );
         //Gap between terrain and lower window edge
         if( partial_height > 0 ) {
-            FillRectDIB( win->x * map_font->fontwidth,
-                         ( win->y + TERRAIN_WINDOW_HEIGHT ) * map_font->fontheight,
+            FillRectDIB( win->pos.x * map_font->fontwidth,
+                         ( win->pos.y + TERRAIN_WINDOW_HEIGHT ) * map_font->fontheight,
                          TERRAIN_WINDOW_WIDTH * map_font->fontwidth + partial_width, partial_height, catacurses::black );
         }
         //Gap between terrain and sidebar
         if( partial_width > 0 ) {
-            FillRectDIB( ( win->x + TERRAIN_WINDOW_WIDTH ) * map_font->fontwidth, win->y * map_font->fontheight,
-                         partial_width, TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height, catacurses::black );
+            FillRectDIB( ( win->pos.x + TERRAIN_WINDOW_WIDTH ) * map_font->fontwidth,
+                         win->pos.y * map_font->fontheight,
+                         partial_width,
+                         TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height,
+                         catacurses::black );
         }
         // Special font for the terrain window
         update = map_font->draw_window( w );
@@ -1131,14 +1138,14 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         // The animation window overlays the terrain window,
         // it uses the same font, but it's only 1 square in size.
         // The offset must not use the global font, but the map font
-        int offsetx = win->x * map_font->fontwidth;
-        int offsety = win->y * map_font->fontheight;
+        int offsetx = win->pos.x * map_font->fontwidth;
+        int offsety = win->pos.y * map_font->fontheight;
         update = map_font->draw_window( w, offsetx, offsety );
     } else if( g && w == g->w_blackspace ) {
         // fill-in black space window skips draw code
         // so as not to confuse framebuffer any more than necessary
-        int offsetx = win->x * font->fontwidth;
-        int offsety = win->y * font->fontheight;
+        int offsetx = win->pos.x * font->fontwidth;
+        int offsety = win->pos.y * font->fontheight;
         int wwidth = win->width * font->fontwidth;
         int wheight = win->height * font->fontheight;
         FillRectDIB( offsetx, offsety, wwidth, wheight, catacurses::black );
@@ -1152,8 +1159,8 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         // Make sure the entire minimap window is black before drawing.
         clear_window_area( w );
         tilecontext->draw_minimap(
-            win->x * fontwidth, win->y * fontheight,
-            tripoint( g->u.pos().x, g->u.pos().y, g->ter_view_z ),
+            win->pos.x * fontwidth, win->pos.y * fontheight,
+            tripoint( g->u.pos().xy(), g->ter_view_p.z ),
             win->width * font->fontwidth, win->height * font->fontheight );
         update = true;
 
@@ -1171,7 +1178,7 @@ bool Font::draw_window( const catacurses::window &w )
     cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
     // Use global font sizes here to make this independent of the
     // font used for this window.
-    return draw_window( w, win->x * ::fontwidth, win->y * ::fontheight );
+    return draw_window( w, win->pos.x * ::fontwidth, win->pos.y * ::fontheight );
 }
 
 bool Font::draw_window( const catacurses::window &w, const int offsetx, const int offsety )
@@ -1239,7 +1246,7 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
             continue;
         }
 
-        const int fby = win->y + j;
+        const int fby = win->pos.y + j;
         if( fby >= static_cast<int>( framebuffer.size() ) ) {
             // prevent indexing outside the frame buffer. This might happen for some parts of the window. FIX #28953.
             break;
@@ -1248,7 +1255,7 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
         update = true;
         win->line[j].touched = false;
         for( int i = 0; i < win->width; i++ ) {
-            const int fbx = win->x + i;
+            const int fbx = win->pos.x + i;
             if( fbx >= static_cast<int>( framebuffer[fby].chars.size() ) ) {
                 // prevent indexing outside the frame buffer. This might happen for some parts of the window.
                 break;
@@ -3129,7 +3136,7 @@ static bool ends_with( const std::string &text, const std::string &suffix )
 //Pseudo-Curses Functions           *
 //***********************************
 
-static void font_folder_list( std::ofstream &fout, const std::string &path,
+static void font_folder_list( std::ostream &fout, const std::string &path,
                               std::set<std::string> &bitmap_fonts )
 {
     for( const auto &f : get_files_from_path( "", path, true, false ) ) {
@@ -3152,7 +3159,7 @@ static void font_folder_list( std::ofstream &fout, const std::string &path,
 
             // Add font family
             char *fami = TTF_FontFaceFamilyName( fnt.get() );
-            if( fami != NULL ) {
+            if( fami != nullptr ) {
                 fout << fami;
             } else {
                 continue;
@@ -3161,7 +3168,7 @@ static void font_folder_list( std::ofstream &fout, const std::string &path,
             // Add font style
             char *style = TTF_FontFaceStyleName( fnt.get() );
             bool isbitmap = ends_with( f, ".fon" );
-            if( style != NULL && !isbitmap && strcasecmp( style, "Regular" ) != 0 ) {
+            if( style != nullptr && !isbitmap && strcasecmp( style, "Regular" ) != 0 ) {
                 fout << " " << style;
             }
             if( isbitmap ) {
@@ -3196,36 +3203,43 @@ static void font_folder_list( std::ofstream &fout, const std::string &path,
 
 static void save_font_list()
 {
-    std::set<std::string> bitmap_fonts;
-    std::ofstream fout( FILENAMES["fontlist"].c_str(), std::ios_base::trunc );
-
-    font_folder_list( fout, FILENAMES["fontdir"], bitmap_fonts );
+    try {
+        std::set<std::string> bitmap_fonts;
+        write_to_file( FILENAMES["fontlist"], [&]( std::ostream & fout ) {
+            font_folder_list( fout, FILENAMES["fontdir"], bitmap_fonts );
 
 #if defined(_WIN32)
-    char buf[256];
-    GetSystemWindowsDirectory( buf, 256 );
-    strcat( buf, "\\fonts" );
-    font_folder_list( fout, buf, bitmap_fonts );
+            char buf[256];
+            GetSystemWindowsDirectory( buf, 256 );
+            strcat( buf, "\\fonts" );
+            font_folder_list( fout, buf, bitmap_fonts );
 #elif defined(_APPLE_) && defined(_MACH_)
-    /*
-    // Well I don't know how osx actually works ....
-    font_folder_list(fout, "/System/Library/Fonts", bitmap_fonts);
-    font_folder_list(fout, "/Library/Fonts", bitmap_fonts);
+            /*
+            // Well I don't know how osx actually works ....
+            font_folder_list(fout, "/System/Library/Fonts", bitmap_fonts);
+            font_folder_list(fout, "/Library/Fonts", bitmap_fonts);
 
-    wordexp_t exp;
-    wordexp("~/Library/Fonts", &exp, 0);
-    font_folder_list(fout, exp.we_wordv[0], bitmap_fonts);
-    wordfree(&exp);*/
+            wordexp_t exp;
+            wordexp("~/Library/Fonts", &exp, 0);
+            font_folder_list(fout, exp.we_wordv[0], bitmap_fonts);
+            wordfree(&exp);*/
 #else // Other POSIX-ish systems
-    font_folder_list( fout, "/usr/share/fonts", bitmap_fonts );
-    font_folder_list( fout, "/usr/local/share/fonts", bitmap_fonts );
-    char *home;
-    if( ( home = getenv( "HOME" ) ) ) {
-        std::string userfontdir = home;
-        userfontdir += "/.fonts";
-        font_folder_list( fout, userfontdir, bitmap_fonts );
-    }
+            font_folder_list( fout, "/usr/share/fonts", bitmap_fonts );
+            font_folder_list( fout, "/usr/local/share/fonts", bitmap_fonts );
+            char *home;
+            if( ( home = getenv( "HOME" ) ) ) {
+                std::string userfontdir = home;
+                userfontdir += "/.fonts";
+                font_folder_list( fout, userfontdir, bitmap_fonts );
+            }
 #endif
+        } );
+    } catch( const std::exception &err ) {
+        // This is called during startup, the UI system may not be initialized (because that
+        // needs the font file in order to load the font for it).
+        dbg( D_ERROR ) << "Faied to create fontlist file \"" << FILENAMES["fontlist"] << "\": " <<
+                       err.what();
+    }
 }
 
 static cata::optional<std::string> find_system_font( const std::string &name, int &faceIndex )
@@ -3271,13 +3285,13 @@ static int test_face_size( const std::string &f, int size, int faceIndex )
     const TTF_Font_Ptr fnt( TTF_OpenFontIndex( f.c_str(), size, faceIndex ) );
     if( fnt ) {
         char *style = TTF_FontFaceStyleName( fnt.get() );
-        if( style != NULL ) {
+        if( style != nullptr ) {
             int faces = TTF_FontFaces( fnt.get() );
             for( int i = faces - 1; i >= 0; i-- ) {
                 const TTF_Font_Ptr tf( TTF_OpenFontIndex( f.c_str(), size, i ) );
-                char *ts = NULL;
+                char *ts = nullptr;
                 if( tf ) {
-                    if( NULL != ( ts = TTF_FontFaceStyleName( tf.get() ) ) ) {
+                    if( nullptr != ( ts = TTF_FontFaceStyleName( tf.get() ) ) ) {
                         if( 0 == strcasecmp( ts, style ) && TTF_FontHeight( tf.get() ) <= size ) {
                             return i;
                         }
@@ -3430,7 +3444,7 @@ void catacurses::init_interface()
     WinCreate();
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
-    tilecontext.reset( new cata_tiles( renderer ) );
+    tilecontext = std::make_unique<cata_tiles>( renderer );
     try {
         tilecontext->load_tileset( get_option<std::string>( "TILES" ), true );
     } catch( const std::exception &err ) {
@@ -3456,7 +3470,7 @@ void catacurses::init_interface()
                                 fl.fontblending );
     overmap_font = Font::load_font( fl.overmap_typeface, fl.overmap_fontsize,
                                     fl.overmap_fontwidth, fl.overmap_fontheight, fl.fontblending );
-    stdscr = newwin( get_terminal_height(), get_terminal_width(), 0, 0 );
+    stdscr = newwin( get_terminal_height(), get_terminal_width(), point_zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 
 #if defined(__ANDROID__)
@@ -3514,14 +3528,10 @@ template<>
 SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int b )
 {
     SDL_Color result;
-    //Blue
-    result.b = b;
-    //Green
-    result.g = g;
-    //Red
-    result.r = r;
-    //The Alpha, is not used, so just set it to 0
-    result.a = 0;
+    result.b = b;       //Blue
+    result.g = g;       //Green
+    result.r = r;       //Red
+    result.a = 0xFF;    // Opaque
     return result;
 }
 
@@ -3571,7 +3581,7 @@ input_event input_manager::get_input_event()
     }
 
     if( last_input.type == CATA_INPUT_MOUSE ) {
-        SDL_GetMouseState( &last_input.mouse_x, &last_input.mouse_y );
+        SDL_GetMouseState( &last_input.mouse_pos.x, &last_input.mouse_pos.y );
     } else if( last_input.type == CATA_INPUT_KEYBOARD ) {
         previously_pressed_key = last_input.get_first_input();
 #if defined(__ANDROID__)
@@ -3589,7 +3599,7 @@ input_event input_manager::get_input_event()
 
 bool gamepad_available()
 {
-    return joystick != NULL;
+    return joystick != nullptr;
 }
 
 void rescale_tileset( int size )
@@ -3631,45 +3641,38 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 
     // Translate mouse coordinates to map coordinates based on tile size,
     // the window position is *always* in standard font dimensions!
-    const int win_left = capture_win->x * fontwidth;
-    const int win_top = capture_win->y * fontheight;
+    const point win_min( capture_win->pos.x * fontwidth, capture_win->pos.y * fontheight );
     // But the size of the window is in the font dimensions of the window.
-    const int win_right = win_left + ( capture_win->width * fw );
-    const int win_bottom = win_top + ( capture_win->height * fh );
+    const point win_size( capture_win->width * fw, capture_win->height * fh );
+    const point win_max = win_min + win_size;
     // add_msg( m_info, "win_ left %d top %d right %d bottom %d", win_left,win_top,win_right,win_bottom);
     // add_msg( m_info, "coordinate_ x %d y %d", coordinate_x, coordinate_y);
     // Check if click is within bounds of the window we care about
-    if( coordinate_x < win_left || coordinate_x > win_right ||
-        coordinate_y < win_top || coordinate_y > win_bottom ) {
+    const rectangle win_bounds( win_min, win_max );
+    if( !win_bounds.contains_inclusive( coordinate ) ) {
         return cata::nullopt;
     }
 
-    int view_offset_x = 0;
-    int view_offset_y = 0;
+    point view_offset;
     if( capture_win == g->w_terrain ) {
-        view_offset_x = g->ter_view_x;
-        view_offset_y = g->ter_view_y;
+        view_offset = g->ter_view_p.xy();
     }
 
-    int x, y;
+    const point screen_pos = coordinate - win_min;
+    point p;
     if( tile_iso && use_tiles ) {
-        const int screen_column = round( static_cast<float>( coordinate_x - win_left - ( (
-                                             win_right - win_left ) / 2 + win_left ) ) / ( fw / 2 ) );
-        const int screen_row = round( static_cast<float>( coordinate_y - win_top -
-                                      ( win_bottom - win_top ) / 2 + win_top ) / ( fw / 4 ) );
-        const int selected_x = ( screen_column - screen_row ) / 2;
-        const int selected_y = ( screen_row + screen_column ) / 2;
-        x = view_offset_x + selected_x;
-        y = view_offset_y + selected_y;
+        const float win_mid_x = win_min.x + win_size.x / 2.0f;
+        const float win_mid_y = -win_min.y + win_size.y / 2.0f;
+        const int screen_col = round( ( screen_pos.x - win_mid_x ) / ( fw / 2.0 ) );
+        const int screen_row = round( ( screen_pos.y - win_mid_y ) / ( fw / 4.0 ) );
+        const point selected( ( screen_col - screen_row ) / 2, ( screen_row + screen_col ) / 2 );
+        p = view_offset + selected;
     } else {
-        const int selected_column = ( coordinate_x - win_left ) / fw;
-        const int selected_row = ( coordinate_y - win_top ) / fh;
-
-        x = view_offset_x + selected_column - capture_win->width / 2;
-        y = view_offset_y + selected_row - capture_win->height / 2;
+        const point selected( screen_pos.x / fw, screen_pos.y / fh );
+        p = view_offset + selected - point( capture_win->width / 2, capture_win->height / 2 );
     }
 
-    return tripoint( x, y, g->get_levz() );
+    return tripoint( p, g->get_levz() );
 }
 
 int get_terminal_width()
@@ -3908,5 +3911,15 @@ bool save_screenshot( const std::string &file_path )
 
     return true;
 }
+
+#ifdef _WIN32
+HWND getWindowHandle()
+{
+    SDL_SysWMinfo info;
+    SDL_VERSION( &info.version );
+    SDL_GetWindowWMInfo( ::window.get(), &info );
+    return info.info.win.window;
+}
+#endif
 
 #endif // TILES

@@ -115,7 +115,8 @@
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.25,
       "lake_size_min": 20,
-      "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ]
+      "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
+      "shore_extendable_overmap_terrain_aliases": [  ]
     },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.2,
@@ -409,17 +410,15 @@
       "forest": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 40,
+          "mx_helicopter": 8,
           "mx_military": 8,
           "mx_science": 20,
           "mx_collegekids": 25,
-          "mx_drugdeal": 20,
-          "mx_supplydrop": 10,
+          "mx_drugdeal": 8,
+          "mx_supplydrop": 8,
           "mx_portal": 3,
           "mx_crater": 10,
-          "mx_fumarole": 8,
-          "mx_portal_in": 1,
-          "mx_anomaly": 3,
+          "mx_portal_in": 3,
           "mx_spider": 200,
           "mx_grove": 500,
           "mx_shrubbery": 500,
@@ -434,7 +433,7 @@
       "forest_thick": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 40,
+          "mx_helicopter": 8,
           "mx_military": 8,
           "mx_science": 20,
           "mx_collegekids": 25,
@@ -442,9 +441,7 @@
           "mx_supplydrop": 10,
           "mx_portal": 3,
           "mx_crater": 10,
-          "mx_fumarole": 8,
-          "mx_portal_in": 1,
-          "mx_anomaly": 3,
+          "mx_portal_in": 3,
           "mx_shia": 1,
           "mx_spider": 200,
           "mx_jabberwock": 1,
@@ -461,7 +458,7 @@
       "forest_water": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 40,
+          "mx_helicopter": 8,
           "mx_military": 8,
           "mx_science": 20,
           "mx_collegekids": 25,
@@ -469,9 +466,7 @@
           "mx_supplydrop": 10,
           "mx_portal": 3,
           "mx_crater": 10,
-          "mx_fumarole": 8,
-          "mx_portal_in": 1,
-          "mx_anomaly": 3,
+          "mx_portal_in": 3,
           "mx_spider": 200,
           "mx_grove": 500,
           "mx_shrubbery": 500,
@@ -486,7 +481,7 @@
       "field": {
         "chance": 90,
         "extras": {
-          "mx_helicopter": 40,
+          "mx_helicopter": 8,
           "mx_military": 8,
           "mx_science": 20,
           "mx_collegekids": 25,
@@ -494,9 +489,7 @@
           "mx_supplydrop": 10,
           "mx_portal": 3,
           "mx_crater": 10,
-          "mx_fumarole": 8,
-          "mx_portal_in": 1,
-          "mx_anomaly": 3,
+          "mx_portal_in": 3,
           "mx_point_dead_vegetation": 50,
           "mx_point_burned_ground": 50,
           "mx_casings": 50
@@ -505,7 +498,7 @@
       "road": {
         "chance": 75,
         "extras": {
-          "mx_helicopter": 40,
+          "mx_helicopter": 25,
           "mx_military": 25,
           "mx_science": 40,
           "mx_collegekids": 50,
@@ -516,9 +509,7 @@
           "mx_portal": 5,
           "mx_minefield": 80,
           "mx_crater": 10,
-          "mx_fumarole": 8,
-          "mx_portal_in": 2,
-          "mx_anomaly": 3,
+          "mx_portal_in": 4,
           "mx_roadworks": 100,
           "mx_mayhem": 50,
           "mx_casings": 100
@@ -534,9 +525,7 @@
           "mx_collegekids": 15,
           "mx_portal": 5,
           "mx_crater": 60,
-          "mx_fumarole": 8,
-          "mx_portal_in": 1,
-          "mx_anomaly": 3,
+          "mx_portal_in": 3,
           "mx_point_burned_ground": 5,
           "mx_casings": 30
         }
@@ -544,28 +533,17 @@
       "marloss": { "chance": 20, "extras": { "mx_marloss_pilgrimage": 100 } },
       "subway": {
         "chance": 75,
-        "extras": {
-          "mx_military": 5,
-          "mx_science": 12,
-          "mx_collegekids": 15,
-          "mx_portal": 7,
-          "mx_fumarole": 20,
-          "mx_portal_in": 1,
-          "mx_anomaly": 3,
-          "mx_casings": 30
-        }
+        "extras": { "mx_military": 5, "mx_science": 12, "mx_collegekids": 15, "mx_portal": 7, "mx_portal_in": 3, "mx_casings": 30 }
       },
       "research_facility_lot": {
         "chance": 3,
         "extras": {
-          "mx_helicopter": 90,
+          "mx_helicopter": 65,
           "mx_military": 65,
           "mx_collegekids": 1,
           "mx_portal": 200,
           "mx_crater": 180,
-          "mx_fumarole": 10,
-          "mx_portal_in": 20,
-          "mx_anomaly": 10,
+          "mx_portal_in": 30,
           "mx_point_burned_ground": 100,
           "mx_casings": 30
         }
@@ -654,6 +632,7 @@
         "s_hardware_1": 400,
         "s_hardware_2": 400,
         "s_hardware_3": 400,
+        "s_hunting": 300,
         "s_sports": 500,
         "dojo": 200,
         "dojo_1": 200,

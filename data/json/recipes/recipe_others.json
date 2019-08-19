@@ -24,7 +24,7 @@
     "time": "25 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "glass_shard", 3 ], [ "glass_sheet", 1 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+    "components": [ [ [ "glass_shard", 322 ], [ "glass_sheet", 1 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -979,7 +979,7 @@
     "reversible": true,
     "decomp_learn": 1,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 2 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ]
   },
   {
@@ -2028,7 +2028,7 @@
     "time": "20 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "bowl_plastic", 4 ] ] ]
+    "components": [ [ [ "bowl_plastic", 4 ], [ "plastic_chunk", 12 ] ] ]
   },
   {
     "type": "recipe",
@@ -3030,7 +3030,7 @@
   {
     "type": "recipe",
     "result": "glass_shard",
-    "byproducts": [ [ "glass_shard", 4 ] ],
+    "byproducts": [ [ "glass_shard", 33 ] ],
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -3064,7 +3064,7 @@
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 150 ] ] ],
-    "components": [ [ [ "glass_shard", 28 ], [ "flask_glass", 6 ], [ "jar_glass", 4 ] ] ]
+    "components": [ [ [ "glass_shard", 5 ], [ "flask_glass", 6 ], [ "jar_glass", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -3077,7 +3077,7 @@
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
-    "components": [ [ [ "glass_shard", 12 ], [ "flask_glass", 3 ], [ "jar_glass", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 3 ], [ "flask_glass", 3 ], [ "jar_glass", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -3155,7 +3155,7 @@
     "book_learn": [ [ "glassblowing_book", 6 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
-    "components": [ [ [ "glass_shard", 4 ] ] ]
+    "components": [ [ [ "glass_shard", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -3167,7 +3167,7 @@
     "time": "60 m",
     "autolearn": true,
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
-    "components": [ [ [ "glass_shard", 16 ], [ "flask_glass", 4 ], [ "jar_glass", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 322 ], [ "flask_glass", 80 ], [ "jar_glass", 40 ] ] ]
   },
   {
     "type": "recipe",
@@ -3669,6 +3669,18 @@
   },
   {
     "type": "recipe",
+    "result": "birchbark_funnel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": "60 m",
+    "autolearn": true,
+    "components": [ [ [ "birchbark", 12 ] ], [ [ "adhesive", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "chem_sulphur",
     "result_mult": 5,
     "category": "CC_OTHER",
@@ -3918,6 +3930,24 @@
     "batch_time_factors": [ 75, 4 ],
     "using": [ [ "earthenware_firing", 60 ] ],
     "components": [ [ [ "clay_lump", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "fire_brick",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "40 m",
+    "autolearn": true,
+    "batch_time_factors": [ 70, 4 ],
+    "using": [ [ "earthenware_firing", 60 ] ],
+    "components": [
+      [ [ "clay_lump", 1 ] ],
+      [ [ "material_sand", 5 ] ],
+      [ [ "rock", 1 ], [ "pebble", 10 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -4517,5 +4547,18 @@
     "using": [ [ "forging_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "tin", 12 ] ], [ [ "copper", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "pet_carrier_wooden",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "90 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ]
   }
 ]

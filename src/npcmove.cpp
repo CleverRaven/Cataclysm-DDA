@@ -80,6 +80,7 @@ const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_infection( "infection" );
 const efftype_id effect_lying_down( "lying_down" );
+const efftype_id effect_under_op( "under_operation" );
 const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_onfire( "onfire" );
@@ -313,7 +314,8 @@ std::vector<sphere> npc::find_dangerous_explosives() const
 {
     std::vector<sphere> result;
 
-    const auto active_items = g->m.get_active_items_in_radius( pos(), MAX_VIEW_DISTANCE );
+    const auto active_items = g->m.get_active_items_in_radius( pos(), MAX_VIEW_DISTANCE,
+                              special_item_type::explosive );
 
     for( const auto &elem : active_items ) {
         const auto use = elem->type->get_use( "explosion" );
@@ -545,6 +547,7 @@ void npc::assess_danger()
         } else if( is_friendly( g->u ) ) {
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
             assessment = std::max( min_danger, assessment - player_diff * 0.5f );
+            ai_cache.friends.emplace_back( g->shared_from( g->u ) );
         }
     }
     assessment *= 0.1f;
@@ -662,6 +665,11 @@ void npc::move()
     }
     regen_ai_cache();
     adjust_power_cbms();
+
+    if( activity.id() == "ACT_OPERATION" ) {
+        execute_action( npc_player_activity );
+        return;// NPCs under operation should just stay still
+    }
 
     npc_action action = npc_undecided;
 
@@ -1495,7 +1503,7 @@ item_location npc::find_usable_ammo( const item &weap )
     return loc;
 }
 
-const item_location npc::find_usable_ammo( const item &weap ) const
+item_location npc::find_usable_ammo( const item &weap ) const
 {
     return const_cast<npc *>( this )->find_usable_ammo( weap );
 }
@@ -1596,7 +1604,7 @@ bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
 {
     invslice slice = inv.slice();
     int index = -1;
-    for( unsigned int i = 0; i < slice.size(); i++ ) {
+    for( size_t i = 0; i < slice.size(); i++ ) {
         const item &it = slice[i]->front();
         const item &real_item = it.is_container() ?  it.contents.front() : it;
         if( filter( real_item ) ) {
@@ -2155,7 +2163,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
                 realnomove = nomove;
             } else {
                 // create the no-move list
-                newnomove.reset( new std::set<tripoint>() );
+                newnomove = std::make_unique<std::set<tripoint>>();
                 realnomove = newnomove.get();
             }
             // other npcs should not try to move into this npc anymore,
@@ -2572,8 +2580,7 @@ void npc::find_item()
     const auto consider_terrain =
     [ this, whitelisting, volume_allowed, &wanted, &wanted_name ]( const tripoint & p ) {
         // We only want to pick plants when there are no items to pick
-        if( !whitelisting || wanted != nullptr || !wanted_name.empty() ||
-            volume_allowed < units::from_milliliter( 250 ) ) {
+        if( !whitelisting || wanted != nullptr || !wanted_name.empty() || volume_allowed < 250_ml ) {
             return;
         }
 
@@ -2818,7 +2825,7 @@ void npc::drop_items( int weight, int volume )
 
     // First fill our ratio vectors, so we know which things to drop first
     invslice slice = inv.slice();
-    for( unsigned int i = 0; i < slice.size(); i++ ) {
+    for( size_t i = 0; i < slice.size(); i++ ) {
         item &it = slice[i]->front();
         double wgt_ratio = 0.0;
         double vol_ratio = 0.0;
@@ -2826,8 +2833,8 @@ void npc::drop_items( int weight, int volume )
             wgt_ratio = 99999;
             vol_ratio = 99999;
         } else {
-            wgt_ratio = it.weight() / 1_gram / value( it );
-            vol_ratio = it.volume() / units::legacy_volume_factor / value( it );
+            wgt_ratio = units::to_gram<double>( it.weight() ) / value( it );
+            vol_ratio = it.volume() * 1.0 / units::legacy_volume_factor / value( it );
         }
         bool added_wgt = false;
         bool added_vol = false;
@@ -2965,7 +2972,8 @@ bool npc::find_corpse_to_pulp()
     if( corpse == nullptr ) {
         // If we're following the player, don't wander off to pulp corpses
         const tripoint &around = is_walking_with() ? g->u.pos() : pos();
-        for( const item_location &location : g->m.get_active_items_in_radius( around, range ) ) {
+        for( const item_location &location : g->m.get_active_items_in_radius( around, range,
+                special_item_type::corpse ) ) {
             corpse = check_tile( location.position() );
 
             if( corpse != nullptr ) {
@@ -3019,9 +3027,9 @@ bool npc::do_player_activity()
         if( !backlog.empty() ) {
             activity = backlog.front();
             backlog.pop_front();
-            current_activity = activity.get_verb();
+            current_activity_id = activity.id();
         } else {
-            current_activity.clear();
+            current_activity_id = activity_id::NULL_ID();
             revert_after_activity();
             // if we loaded after being out of the bubble for a while, we might have more
             // moves than we need, so clear them
@@ -3470,7 +3478,7 @@ bool npc::consume_food()
     int want_hunger = get_hunger();
     int want_quench = get_thirst();
     invslice slice = inv.slice();
-    for( unsigned int i = 0; i < slice.size(); i++ ) {
+    for( size_t i = 0; i < slice.size(); i++ ) {
         const item &it = slice[i]->front();
         const item &food_item = it.is_food_container() ?
                                 it.contents.front() : it;
@@ -3545,7 +3553,7 @@ void npc::mug_player( player &mark )
     double best_value = minimum_item_value() * value_mod;
     int item_index = INT_MIN;
     invslice slice = mark.inv.slice();
-    for( unsigned int i = 0; i < slice.size(); i++ ) {
+    for( size_t i = 0; i < slice.size(); i++ ) {
         if( value( slice[i]->front() ) >= best_value &&
             can_pickVolume( slice[i]->front(), true ) &&
             can_pickWeight( slice[i]->front(), true ) ) {
@@ -3783,7 +3791,7 @@ void npc::go_to_omt_destination()
         omt_path.pop_back();
     }
     if( !omt_path.empty() ) {
-        point omt_diff = point( omt_path.back().x - omt_pos.x, omt_path.back().y - omt_pos.y );
+        point omt_diff = omt_path.back().xy() - omt_pos.xy();
         if( omt_diff.x > 3 || omt_diff.x < -3 || omt_diff.y > 3 || omt_diff.y < -3 ) {
             // we've gone wandering somehow, reset destination.
             if( !is_player_ally() ) {
@@ -3795,7 +3803,7 @@ void npc::go_to_omt_destination()
         }
     }
     tripoint sm_tri = g->m.getlocal( sm_to_ms_copy( omt_to_sm_copy( omt_path.back() ) ) );
-    tripoint centre_sub = tripoint( sm_tri.x + SEEX, sm_tri.y + SEEY, sm_tri.z );
+    tripoint centre_sub = sm_tri + point( SEEX, SEEY );
     if( !g->m.passable( centre_sub ) ) {
         auto candidates = g->m.points_in_radius( centre_sub, 2 );
         for( const auto &elem : candidates ) {

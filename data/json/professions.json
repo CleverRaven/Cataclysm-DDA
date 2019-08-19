@@ -923,6 +923,19 @@
   },
   {
     "type": "profession",
+    "ident": "pillhead",
+    "name": "Pillhead",
+    "description": "After an accident in your youth, you got addicted to the opiates treating your pain.  With the pharmacies shut down and dealers turned undead, satisfying your fix just got a lot more difficult.",
+    "points": -1,
+    "items": {
+      "both": [ "sneakers", "socks", "jeans", "tshirt", "wristwatch", "oxycodone" ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "panties", "bra" ]
+    },
+    "addictions": [ { "intensity": 20, "type": "opiate" } ]
+  },
+  {
+    "type": "profession",
     "ident": "k9_cop",
     "name": "K9 Officer",
     "description": "You spent your career busting drug smugglers with your faithful canine companion.  Now the world has ended and none of that matters anymore.  But at least you have a loyal friend.",
@@ -1005,7 +1018,7 @@
         "items": [
           "pants",
           "dress_shirt",
-          "skinny_tie",
+          "tie_skinny",
           "waistcoat",
           "trenchcoat",
           "badge_detective",
@@ -2131,7 +2144,7 @@
       "both": {
         "items": [
           "dress_shirt",
-          "skinny_tie",
+          "tie_skinny",
           "sunglasses",
           "pants",
           "socks",
@@ -2296,7 +2309,7 @@
     "name": { "male": "Razor Boy", "female": "Razor Girl" },
     "description": "Through a series of painful and expensive surgeries you became a walking bionic weapon, your services as a mercenary available to the highest bidder.  Now that the world has ended, those bionic enhancements may spell the difference between life and death.",
     "points": 5,
-    "CBMs": [ "bio_razors", "bio_sunglasses", "bio_dex_enhancer", "bio_ears", "bio_carbon" ],
+    "CBMs": [ "bio_razors", "bio_armor_eyes", "bio_sunglasses", "bio_dex_enhancer", "bio_ears", "bio_carbon" ],
     "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "unarmed" }, { "level": 2, "name": "dodge" } ],
     "items": {
       "both": [
@@ -2398,7 +2411,7 @@
     "items": {
       "both": [
         "suit",
-        "skinny_tie",
+        "tie_necktie",
         "tieclip",
         "socks",
         "dress_shoes",
@@ -2425,7 +2438,7 @@
       "both": {
         "items": [
           "suit",
-          "skinny_tie",
+          "tie_skinny",
           "tieclip",
           "socks",
           "dress_shoes",
@@ -3127,7 +3140,6 @@
           "trenchcoat_fur",
           "backpack_leather",
           "boots_fur",
-          "footrags_fur",
           "gloves_fur",
           "hat_fur",
           "scarf_fur",
@@ -3147,8 +3159,7 @@
           { "item": "arrow_wood", "charges": 20, "container-item": "quiver" }
         ]
       }
-    },
-    "flags": [ "SCEN_ONLY" ]
+    }
   },
   {
     "type": "profession",
@@ -3400,7 +3411,7 @@
         "pants",
         "socks",
         "dress_shoes",
-        "skinny_tie",
+        "tie_clipon",
         "tieclip",
         "fancy_sunglasses",
         "knit_scarf",
@@ -3487,7 +3498,7 @@
           "pants",
           "socks",
           "dress_shoes",
-          "skinny_tie",
+          "tie_skinny",
           "tieclip",
           "poetry_book",
           "permanent_marker",
@@ -3575,7 +3586,7 @@
     "ident": "miner",
     "name": "Miner",
     "description": "You're a miner, not a minor!  Your canteen is dry, your jackhammer is out of gas, and you're on your last pair of batteries for your mining helmet...",
-    "points": 0,
+    "points": 2,
     "items": {
       "both": {
         "items": [
@@ -3602,8 +3613,7 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "boy_shorts", "sports_bra" ]
-    },
-    "flags": [ "SCEN_ONLY" ]
+    }
   },
   {
     "type": "profession",
@@ -3656,8 +3666,7 @@
     "ident": "naked",
     "name": "Naked and Afraid",
     "description": "You were out filming a reality TV show in the woods and the cast and crew all seemed to have turned into zombies.  Looks like it's for real now...",
-    "points": -1,
-    "flags": [ "SCEN_ONLY" ]
+    "points": -1
   },
   {
     "type": "profession",
@@ -3846,7 +3855,7 @@
         "smart_phone",
         "gold_watch",
         "briefcase",
-        "skinny_tie",
+        "tie_skinny",
         "file",
         "ref_lighter",
         "cigar"

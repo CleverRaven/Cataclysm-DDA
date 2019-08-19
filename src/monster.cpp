@@ -16,6 +16,7 @@
 #include "field.h"
 #include "game.h"
 #include "item.h"
+#include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -66,6 +67,7 @@ const mtype_id mon_ant_soldier( "mon_ant_soldier" );
 const mtype_id mon_bee( "mon_bee" );
 const mtype_id mon_beekeeper( "mon_beekeeper" );
 const mtype_id mon_boomer( "mon_boomer" );
+const mtype_id mon_boomer_huge( "mon_boomer_huge" );
 const mtype_id mon_boomer_fungus( "mon_boomer_fungus" );
 const mtype_id mon_fungaloid( "mon_fungaloid" );
 const mtype_id mon_triffid( "mon_triffid" );
@@ -82,10 +84,13 @@ const mtype_id mon_zombie_fat( "mon_zombie_fat" );
 const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
 const mtype_id mon_zombie_fungus( "mon_zombie_fungus" );
 const mtype_id mon_zombie_gasbag( "mon_zombie_gasbag" );
+const mtype_id mon_zombie_gasbag_fungus( "mon_zombie_gasbag_fungus" );
 const mtype_id mon_zombie_grabber( "mon_zombie_grabber" );
 const mtype_id mon_zombie_hazmat( "mon_zombie_hazmat" );
 const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
 const mtype_id mon_skeleton_hulk( "mon_skeleton_hulk" );
+const mtype_id mon_skeleton_hulk_fungus( "mon_skeleton_hulk_fungus" );
+const mtype_id mon_skeleton_brute( "mon_skeleton_brute" );
 const mtype_id mon_zombie_hunter( "mon_zombie_hunter" );
 const mtype_id mon_zombie_master( "mon_zombie_master" );
 const mtype_id mon_zombie_necro( "mon_zombie_necro" );
@@ -94,6 +99,7 @@ const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
 const mtype_id mon_zombie_scorched( "mon_zombie_scorched" );
 const mtype_id mon_zombie_shrieker( "mon_zombie_shrieker" );
 const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
+const mtype_id mon_zombie_smoker_fungus( "mon_zombie_smoker_fungus" );
 const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 const mtype_id mon_zombie_survivor( "mon_zombie_survivor" );
@@ -107,6 +113,7 @@ const mtype_id mon_zombie_sproglodyte( "mon_zombie_sproglodyte" );
 const mtype_id mon_zombie_shriekling( "mon_zombie_shriekling" );
 const mtype_id mon_zombie_snotgobbler( "mon_zombie_snotgobbler" );
 const mtype_id mon_zombie_waif( "mon_zombie_waif" );
+const mtype_id mon_spider_fungus( "mon_spider_fungus" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id FUNGUS( "FUNGUS" );
@@ -116,6 +123,7 @@ const species_id ABERRATION( "ABERRATION" );
 const species_id MOLLUSK( "MOLLUSK" );
 const species_id ROBOT( "ROBOT" );
 const species_id FISH( "FISH" );
+const species_id SPIDER( "SPIDER" );
 
 const efftype_id effect_badpoison( "badpoison" );
 const efftype_id effect_beartrap( "beartrap" );
@@ -200,7 +208,6 @@ monster::monster()
     upgrades = false;
     upgrade_time = -1;
     last_updated = 0;
-    baby_timer = -1;
     last_baby = 0;
     biosig_timer = -1;
     last_biosig = 0;
@@ -225,6 +232,14 @@ monster::monster( const mtype_id &id ) : monster()
     biosignatures = type->biosignatures;
     if( monster::has_flag( MF_AQUATIC ) ) {
         fish_population = dice( 1, 20 );
+    }
+    if( monster::has_flag( MF_RIDEABLE_MECH ) ) {
+        itype_id mech_bat = itype_id( type->mech_battery );
+        const itype &type = *item::find_type( mech_bat );
+        int max_charge = type.magazine->capacity;
+        item mech_bat_item = item( mech_bat, 0 );
+        mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero );
+        battery_item = mech_bat_item;
     }
 }
 
@@ -330,7 +345,7 @@ void monster::try_upgrade( bool pin_time )
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - time_point( calendar::start ) );
+    const int current_day = to_days<int>( calendar::turn - time_point( calendar::start_of_cataclysm ) );
     //This should only occur when a monster is created or upgraded to a new form
     if( upgrade_time < 0 ) {
         upgrade_time = next_upgrade_time();
@@ -342,7 +357,8 @@ void monster::try_upgrade( bool pin_time )
             upgrade_time += current_day;
         } else {
             // offset by starting season
-            upgrade_time += calendar::start;
+            // @todo revisit this and make it simpler
+            upgrade_time += to_turn<int>( calendar::start_of_cataclysm );
         }
     }
 
@@ -383,14 +399,14 @@ void monster::try_reproduce()
     if( !reproduces ) {
         return;
     }
+    // This can happen if the monster type has changed (from reproducing to non-reproducing monster)
+    if( !type->baby_timer ) {
+        return;
+    }
 
-    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
-    if( baby_timer < 0 ) {
-        baby_timer = type->baby_timer;
-        if( baby_timer < 0 ) {
-            return;
-        }
-        baby_timer += current_day;
+    if( !baby_timer ) {
+        // Assume this is a freshly spawned monster (because baby_timer is not set yet), set the point when it reproduce to somewhere in the future.
+        baby_timer.emplace( calendar::turn + *type->baby_timer );
     }
 
     bool season_spawn = false;
@@ -407,21 +423,17 @@ void monster::try_reproduce()
     // add a decreasing chance of additional spawns when "catching up" an existing animal
     int chance = -1;
     while( true ) {
-        if( baby_timer > current_day ) {
-            return;
-        }
-        const int next_baby = type->baby_timer;
-        if( next_baby < 0 ) {
+        if( *baby_timer > calendar::turn ) {
             return;
         }
 
         if( season_spawn ) {
             season_match = false;
             for( auto &elem : type->baby_flags ) {
-                if( ( season_of_year( DAYS( baby_timer ) ) == SUMMER && elem == "SUMMER" ) ||
-                    ( season_of_year( DAYS( baby_timer ) ) == WINTER && elem == "WINTER" ) ||
-                    ( season_of_year( DAYS( baby_timer ) ) == SPRING && elem == "SPRING" ) ||
-                    ( season_of_year( DAYS( baby_timer ) ) == AUTUMN && elem == "AUTUMN" ) ) {
+                if( ( season_of_year( *baby_timer ) == SUMMER && elem == "SUMMER" ) ||
+                    ( season_of_year( *baby_timer ) == WINTER && elem == "WINTER" ) ||
+                    ( season_of_year( *baby_timer ) == SPRING && elem == "SPRING" ) ||
+                    ( season_of_year( *baby_timer ) == AUTUMN && elem == "AUTUMN" ) ) {
                     season_match = true;
                 }
             }
@@ -431,13 +443,13 @@ void monster::try_reproduce()
         if( season_match && female && one_in( chance ) ) {
             int spawn_cnt = rng( 1, type->baby_count );
             if( type->baby_monster ) {
-                g->m.add_spawn( type->baby_monster, spawn_cnt, pos().x, pos().y );
+                g->m.add_spawn( type->baby_monster, spawn_cnt, pos().xy() );
             } else {
-                g->m.add_item_or_charges( pos(), item( type->baby_egg, DAYS( baby_timer ), spawn_cnt ), true );
+                g->m.add_item_or_charges( pos(), item( type->baby_egg, *baby_timer, spawn_cnt ), true );
             }
         }
 
-        baby_timer += next_baby;
+        *baby_timer += *type->baby_timer;
     }
 }
 
@@ -446,27 +458,21 @@ void monster::try_biosignature()
     if( !biosignatures ) {
         return;
     }
+    if( !type->biosig_timer ) {
+        return;
+    }
 
-    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
-    if( biosig_timer < 0 ) {
-        biosig_timer = type->biosig_timer;
-        if( biosig_timer < 0 ) {
-            return;
-        }
-        biosig_timer += current_day;
+    if( !biosig_timer ) {
+        biosig_timer.emplace( calendar::turn + *type->biosig_timer );
     }
 
     while( true ) {
-        if( biosig_timer > current_day ) {
+        if( *biosig_timer > calendar::turn ) {
             return;
         }
 
-        g->m.add_item_or_charges( pos(), item( type->biosig_item, DAYS( biosig_timer ), 1 ), true );
-        const int next_biosig = type->biosig_timer;
-        if( next_biosig < 0 ) {
-            return;
-        }
-        biosig_timer += next_biosig;
+        g->m.add_item_or_charges( pos(), item( type->biosig_item, *biosig_timer, 1 ), true );
+        *biosig_timer += *type->biosig_timer;
     }
 }
 
@@ -488,8 +494,7 @@ std::string monster::name( unsigned int quantity ) const
         return std::string();
     }
     if( !unique_name.empty() ) {
-        return string_format( "%s: %s",
-                              ( type->nname( quantity ) ), unique_name );
+        return string_format( "%s: %s", type->nname( quantity ), unique_name );
     }
     return type->nname( quantity );
 }
@@ -547,7 +552,7 @@ void monster::get_HP_Bar( nc_color &color, std::string &text ) const
 
 std::pair<std::string, nc_color> monster::get_attitude() const
 {
-    const auto att = attitude_names.at( attitude( &( g->u ) ) );
+    const auto att = attitude_names.at( attitude( &g->u ) );
     return {
         _( att.first ),
         all_colors.get( att.second )
@@ -590,7 +595,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 {
     const int vEnd = vStart + vLines;
 
-    mvwprintz( w, vStart, column, c_white, "%s ", name() );
+    mvwprintz( w, point( column, vStart ), c_white, "%s ", name() );
 
     const auto att = get_attitude();
     wprintz( w, att.second, att.first );
@@ -601,16 +606,16 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 
     std::string effects = get_effect_status();
     size_t used_space = att.first.length() + name().length() + 3;
-    trim_and_print( w, vStart++, used_space, getmaxx( w ) - used_space - 2,
+    trim_and_print( w, point( used_space, vStart++ ), getmaxx( w ) - used_space - 2,
                     h_white, effects );
 
     const auto hp_desc = hp_description( hp, type->hp );
-    mvwprintz( w, vStart++, column, hp_desc.second, hp_desc.first );
+    mvwprintz( w, point( column, vStart++ ), hp_desc.second, hp_desc.first );
 
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
     int numlines = lines.size();
     for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
-        mvwprintz( w, vStart++, column, c_white, lines[i] );
+        mvwprintz( w, point( column, vStart++ ), c_white, lines[i] );
     }
 
     return vStart;
@@ -738,7 +743,7 @@ nc_color monster::symbol_color() const
 
 bool monster::is_symbol_highlighted() const
 {
-    return ( friendly != 0 );
+    return friendly != 0;
 }
 
 nc_color monster::color_with_effects() const
@@ -816,9 +821,9 @@ int monster::sight_range( const int light_level ) const
         return 1;
     }
 
-    int range = ( light_level * type->vision_day ) +
-                ( ( DAYLIGHT_LEVEL - light_level ) * type->vision_night );
-    range /= DAYLIGHT_LEVEL;
+    int range = light_level * type->vision_day + ( default_daylight_level() - light_level ) *
+                type->vision_night;
+    range /= default_daylight_level();
 
     return range;
 }
@@ -838,17 +843,18 @@ bool monster::made_of( phase_id p ) const
     return type->phase == p;
 }
 
-void monster::shift( int sx, int sy )
+void monster::set_goal( const tripoint &p )
 {
-    const int xshift = sx * SEEX;
-    const int yshift = sy * SEEY;
-    position.x -= xshift;
-    position.y -= yshift;
-    goal.x -= xshift;
-    goal.y -= yshift;
+    goal = p;
+}
+
+void monster::shift( const point &sm_shift )
+{
+    const point ms_shift = sm_to_ms_copy( sm_shift );
+    position -= ms_shift;
+    goal -= ms_shift;
     if( wandf > 0 ) {
-        wander_pos.x -= xshift;
-        wander_pos.y -= yshift;
+        wander_pos -= ms_shift;
     }
 }
 
@@ -877,8 +883,11 @@ bool monster::is_fleeing( player &u ) const
     if( effect_cache[FLEEING] ) {
         return true;
     }
+    if( anger >= 100 || morale >= 100 ) {
+        return false;
+    }
     monster_attitude att = attitude( &u );
-    return ( att == MATT_FLEE || ( att == MATT_FOLLOW && rl_dist( pos(), u.pos() ) <= 4 ) );
+    return att == MATT_FLEE || ( att == MATT_FOLLOW && rl_dist( pos(), u.pos() ) <= 4 );
 }
 
 Creature::Attitude monster::attitude_to( const Creature &other ) const
@@ -1036,7 +1045,7 @@ monster_attitude monster::attitude( const Character *u ) const
 
 int monster::hp_percentage() const
 {
-    return ( get_hp( hp_torso ) * 100 ) / get_hp_max();
+    return get_hp( hp_torso ) * 100 / get_hp_max();
 }
 
 void monster::process_triggers()
@@ -1148,6 +1157,10 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
         effect == effect_poison ) {
         return !has_flag( MF_WARM ) ||
                ( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ) );
+    }
+
+    if( effect == effect_stunned ) {
+        return has_flag( MF_STUN_IMMUNE );
     }
 
     return false;
@@ -1472,6 +1485,11 @@ void monster::die_in_explosion( Creature *source )
     die( source );
 }
 
+bool monster::movement_impaired()
+{
+    return effect_cache[MOVEMENT_IMPAIRED];
+}
+
 bool monster::move_effects( bool )
 {
     // This function is relatively expensive, we want that cached
@@ -1605,7 +1623,7 @@ bool monster::move_effects( bool )
         }
     }
     if( has_effect( effect_grabbed ) ) {
-        if( ( dice( type->melee_dice + type->melee_sides, 3 ) < get_effect_int( effect_grabbed ) ) ||
+        if( dice( type->melee_dice + type->melee_sides, 3 ) < get_effect_int( effect_grabbed ) ||
             !one_in( 4 ) ) {
             return false;
         } else {
@@ -1874,7 +1892,7 @@ void monster::normalize_ammo( const int old_ammo )
     // Previous code gave robots 100 rounds of ammo.
     // This reassigns whatever is left from that in the appropriate proportions.
     for( const auto &ammo_entry : type->starting_ammo ) {
-        ammo[ammo_entry.first] = ( old_ammo * ammo_entry.second ) / ( 100 * total_ammo );
+        ammo[ammo_entry.first] = old_ammo * ammo_entry.second / ( 100 * total_ammo );
     }
 }
 
@@ -2132,6 +2150,37 @@ void monster::die( Creature *nkiller )
     }
 }
 
+bool monster::use_mech_power( int amt )
+{
+    if( is_hallucination() || !has_flag( MF_RIDEABLE_MECH ) || !battery_item ) {
+        return false;
+    }
+    amt = -amt;
+    battery_item->ammo_consume( amt, pos() );
+    return battery_item->ammo_remaining() > 0;
+}
+
+int monster::mech_str_addition() const
+{
+    return type->mech_str_bonus;
+}
+
+bool monster::check_mech_powered() const
+{
+    if( is_hallucination() || !has_flag( MF_RIDEABLE_MECH ) || !battery_item ) {
+        return false;
+    }
+    if( battery_item->ammo_remaining() <= 0 ) {
+        return false;
+    }
+    const itype &type = *battery_item->type;
+    if( battery_item->ammo_remaining() <= type.magazine->capacity / 10 && one_in( 10 ) ) {
+        add_msg( m_bad, _( "Your %s emits a beeping noise as its batteries start to get low." ),
+                 get_name() );
+    }
+    return true;
+}
+
 void monster::drop_items_on_death()
 {
     if( is_hallucination() ) {
@@ -2140,11 +2189,12 @@ void monster::drop_items_on_death()
     if( type->death_drops.empty() ) {
         return;
     }
-    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(), calendar::start );
+    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(),
+                         calendar::start_of_cataclysm );
 
     if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
         for( const auto &it : dropped ) {
-            if( it->is_armor() ) {
+            if( it->is_armor() || it->is_pet_armor() ) {
                 it->item_tags.insert( "FILTHY" );
             }
         }
@@ -2287,7 +2337,7 @@ bool monster::make_fungus()
     } else if( tid == mon_zombie || tid == mon_zombie_shrieker || tid == mon_zombie_electric ||
                tid == mon_zombie_spitter || tid == mon_zombie_brute ||
                tid == mon_zombie_hulk || tid == mon_zombie_soldier || tid == mon_zombie_tough ||
-               tid == mon_zombie_scientist || tid == mon_zombie_hunter || tid == mon_skeleton_hulk ||
+               tid == mon_zombie_scientist || tid == mon_zombie_hunter || tid == mon_skeleton_brute ||
                tid == mon_zombie_bio_op || tid == mon_zombie_survivor || tid == mon_zombie_fireman ||
                tid == mon_zombie_cop || tid == mon_zombie_fat || tid == mon_zombie_rot ||
                tid == mon_zombie_swimmer || tid == mon_zombie_grabber || tid == mon_zombie_technician ||
@@ -2298,7 +2348,7 @@ bool monster::make_fungus()
         // Necro and Master have enough Goo to resist conversion.
         // Firefighter, hazmat, and scarred/beekeeper have the PPG on.
         return true;
-    } else if( tid == mon_boomer || tid == mon_zombie_gasbag || tid == mon_zombie_smoker ) {
+    } else if( tid == mon_boomer || tid == mon_boomer_huge ) {
         polypick = 3;
     } else if( tid == mon_triffid || tid == mon_triffid_young || tid == mon_triffid_queen ) {
         polypick = 4;
@@ -2306,6 +2356,14 @@ bool monster::make_fungus()
                tid == mon_zombie_shriekling || tid == mon_zombie_snotgobbler || tid == mon_zombie_sproglodyte ||
                tid == mon_zombie_waif ) {
         polypick = 5;
+    } else if( tid == mon_skeleton_hulk ) {
+        polypick = 6;
+    } else if( tid == mon_zombie_smoker ) {
+        polypick = 7;
+    } else if( tid == mon_zombie_gasbag ) {
+        polypick = 8;
+    } else if( type->in_species( SPIDER ) && get_size() > MS_TINY ) {
+        polypick = 9;
     }
 
     const std::string old_name = name();
@@ -2324,6 +2382,18 @@ bool monster::make_fungus()
             break;
         case 5:
             poly( mon_zombie_child_fungus );
+            break;
+        case 6:
+            poly( mon_skeleton_hulk_fungus );
+            break;
+        case 7:
+            poly( mon_zombie_smoker_fungus );
+            break;
+        case 8:
+            poly( mon_zombie_gasbag_fungus );
+            break;
+        case 9:
+            poly( mon_spider_fungus );
             break;
         default:
             return false;
@@ -2567,7 +2637,7 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
     }
 
     const bool goodhearing = has_flag( MF_GOODHEARING );
-    const int volume = goodhearing ? ( ( 2 * vol ) - dist ) : ( vol - dist );
+    const int volume = goodhearing ? 2 * vol - dist : vol - dist;
     // Error is based on volume, louder sound = less error
     if( volume <= 0 ) {
         return;
@@ -2651,10 +2721,10 @@ void monster::on_load()
     } else if( has_flag( MF_REGENERATES_10 ) ) {
         regen = 10.0f;
     } else if( has_flag( MF_REVIVES ) ) {
-        regen = 1.0f / HOURS( 1 );
+        regen = 1.0f / to_turns<int>( 1_hours );
     } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "veggy" ) ) ) {
         // Most living stuff here
-        regen = 0.25f / HOURS( 1 );
+        regen = 0.25f / to_turns<int>( 1_hours );
     }
 
     const int heal_amount = roll_remainder( regen * to_turns<int>( dt ) );

@@ -25,7 +25,7 @@
 #include "type_id.h"
 #include "point.h"
 
-static const tripoint reveal_destination( const std::string &type )
+static tripoint reveal_destination( const std::string &type )
 {
     const tripoint your_pos = g->u.global_omt_location();
     const tripoint center_pos = overmap_buffer.find_random( your_pos, type, rng( 40, 80 ), false );
@@ -155,8 +155,7 @@ tripoint mission_util::target_closest_lab_entrance( const tripoint &origin, int 
     underground.z = 0;
 
     tripoint closest;
-    if( square_dist( surface.x, surface.y, origin.x, origin.y ) <= square_dist( underground.x,
-            underground.y, origin.x, origin.y ) ) {
+    if( square_dist( surface.xy(), origin.xy() ) <= square_dist( underground.xy(), origin.xy() ) ) {
         closest = surface;
     } else {
         closest = underground;
@@ -329,10 +328,12 @@ tripoint mission_util::target_om_ter_random( const std::string &omter, int revea
     if( places.empty() ) {
         return g->u.global_omt_location();
     }
-    const auto loc_om = overmap_buffer.get_existing_om_global( loc );
+    const overmap *loc_om = overmap_buffer.get_existing_om_global( loc ).om;
+    assert( loc_om );
+
     std::vector<tripoint> places_om;
     for( auto &i : places ) {
-        if( loc_om == overmap_buffer.get_existing_om_global( i ) ) {
+        if( loc_om == overmap_buffer.get_existing_om_global( i ).om ) {
             places_om.push_back( i );
         }
     }
@@ -385,7 +386,7 @@ mission_target_params mission_util::parse_mission_om_target( JsonObject &jo )
         p.min_distance = std::max( 1, jo.get_int( "min_distance" ) );
     }
     if( jo.has_int( "offset_x" ) || jo.has_int( "offset_y" ) || jo.has_int( "offset_z" ) ) {
-        tripoint offset = tripoint( 0, 0, 0 );
+        tripoint offset;
         if( jo.has_int( "offset_x" ) ) {
             offset.x = jo.get_int( "offset_x" );
         }

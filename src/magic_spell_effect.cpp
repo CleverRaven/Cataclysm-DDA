@@ -10,6 +10,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <queue>
 
 #include "magic.h"
 #include "avatar.h"
@@ -18,6 +19,7 @@
 #include "color.h"
 #include "creature.h"
 #include "enums.h"
+#include "field.h"
 #include "game.h"
 #include "item.h"
 #include "line.h"
@@ -33,6 +35,7 @@
 #include "debug.h"
 #include "explosion.h"
 #include "magic_teleporter_list.h"
+#include "magic_ter_furn_transform.h"
 #include "point.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -44,16 +47,18 @@ static tripoint random_point( int min_distance, int max_distance, const tripoint
     const int dist = rng( min_distance, max_distance );
     const int x = round( dist * cos( angle ) );
     const int y = round( dist * sin( angle ) );
-    return tripoint( x + player_pos.x, y + player_pos.y, player_pos.z );
+    return player_pos + point( x, y );
 }
 
-void spell_effect::teleport( int min_distance, int max_distance )
+void spell_effect::teleport_random( const spell &sp, Creature &caster, const tripoint & )
 {
+    const int min_distance = sp.range();
+    const int max_distance = sp.range() + sp.aoe();
     if( min_distance > max_distance || min_distance < 0 || max_distance < 0 ) {
         debugmsg( "ERROR: Teleport argument(s) invalid" );
         return;
     }
-    const tripoint player_pos = g->u.pos();
+    const tripoint player_pos = caster.pos();
     tripoint target;
     // limit the loop just in case it's impossble to find a valid point in the range
     int tries = 0;
@@ -65,57 +70,35 @@ void spell_effect::teleport( int min_distance, int max_distance )
         add_msg( m_bad, _( "Unable to find a valid target for teleport." ) );
         return;
     }
-    g->place_player( target );
+    // TODO: make this spell work for non players
+    if( caster.is_player() ) {
+        sp.make_sound( caster.pos() );
+        g->place_player( target );
+    }
 }
 
-void spell_effect::pain_split()
+void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint & )
 {
-    player &p = g->u;
+    player *p = caster.as_player();
+    if( p == nullptr ) {
+        return;
+    }
+    sp.make_sound( caster.pos() );
     add_msg( m_info, _( "Your injuries even out." ) );
     int num_limbs = 0; // number of limbs effected (broken don't count)
     int total_hp = 0; // total hp among limbs
 
-    for( const int &part : p.hp_cur ) {
+    for( const int &part : p->hp_cur ) {
         if( part != 0 ) {
             num_limbs++;
             total_hp += part;
         }
     }
-    for( int &part : p.hp_cur ) {
+    for( int &part : p->hp_cur ) {
         const int hp_each = total_hp / num_limbs;
         if( part != 0 ) {
             part = hp_each;
         }
-    }
-}
-
-void spell_effect::move_earth( const tripoint &target )
-{
-    ter_id ter_here = g->m.ter( target );
-
-    std::set<ter_id> empty_air = { t_hole };
-    std::set<ter_id> deep_pit = { t_pit, t_slope_down };
-    std::set<ter_id> shallow_pit = { t_pit_corpsed, t_pit_covered, t_pit_glass, t_pit_glass_covered, t_pit_shallow, t_pit_spiked, t_pit_spiked_covered, t_rootcellar };
-    std::set<ter_id> soft_dirt = { t_grave, t_dirt, t_sand, t_clay, t_dirtmound, t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_dirtfloor, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_sandbox };
-    // rock: can still be dug through with patience, converts to sand upon completion
-    std::set<ter_id> hard_dirt = { t_pavement, t_pavement_y, t_sidewalk, t_concrete, t_thconc_floor, t_thconc_floor_olight, t_strconc_floor, t_floor, t_floor_waxed, t_carpet_red, t_carpet_yellow, t_carpet_purple, t_carpet_green, t_linoleum_white, t_linoleum_gray, t_slope_up, t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue, t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp };
-
-    if( empty_air.count( ter_here ) == 1 ) {
-        add_msg( m_bad, _( "All the dust in the air here falls to the ground." ) );
-    } else if( deep_pit.count( ter_here ) == 1 ) {
-        g->m.ter_set( target, t_hole );
-        add_msg( _( "The pit has deepened further." ) );
-    } else if( shallow_pit.count( ter_here ) == 1 ) {
-        g->m.ter_set( target, t_pit );
-        add_msg( _( "More debris shifts out of the pit." ) );
-    } else if( soft_dirt.count( ter_here ) == 1 ) {
-        g->m.ter_set( target, t_pit_shallow );
-        add_msg( _( "The earth moves out of the way for you." ) );
-    } else if( hard_dirt.count( ter_here ) == 1 ) {
-        g->m.ter_set( target, t_sand );
-        add_msg( _( "The rocks here are ground into sand." ) );
-    } else {
-        add_msg( m_bad, _( "The earth here does not listen to your command to move." ) );
     }
 }
 
@@ -346,7 +329,7 @@ static void damage_targets( const spell &sp, const Creature &caster,
     }
 }
 
-void spell_effect::projectile_attack( const spell &sp, const Creature &caster,
+void spell_effect::projectile_attack( const spell &sp, Creature &caster,
                                       const tripoint &target )
 {
     std::vector<tripoint> trajectory = line_to( caster.pos(), target );
@@ -363,28 +346,210 @@ void spell_effect::projectile_attack( const spell &sp, const Creature &caster,
     target_attack( sp, caster, trajectory.back() );
 }
 
-void spell_effect::target_attack( const spell &sp, const Creature &caster,
+void spell_effect::target_attack( const spell &sp, Creature &caster,
                                   const tripoint &epicenter )
 {
     damage_targets( sp, caster, spell_effect_area( sp, epicenter, spell_effect_blast, caster,
                     sp.has_flag( spell_flag::IGNORE_WALLS ) ) );
 }
 
-void spell_effect::cone_attack( const spell &sp, const Creature &caster,
+void spell_effect::cone_attack( const spell &sp, Creature &caster,
                                 const tripoint &target )
 {
     damage_targets( sp, caster, spell_effect_area( sp, target, spell_effect_cone, caster,
                     sp.has_flag( spell_flag::IGNORE_WALLS ) ) );
 }
 
-void spell_effect::line_attack( const spell &sp, const Creature &caster,
+void spell_effect::line_attack( const spell &sp, Creature &caster,
                                 const tripoint &target )
 {
     damage_targets( sp, caster, spell_effect_area( sp, target, spell_effect_line, caster,
                     sp.has_flag( spell_flag::IGNORE_WALLS ) ) );
 }
 
-void spell_effect::spawn_ethereal_item( const spell &sp )
+area_expander::area_expander() : frontier( area_node_comparator( area ) )
+{
+}
+
+// Check whether we have already visited this node.
+int area_expander::contains( const tripoint &pt ) const
+{
+    return area_search.count( pt ) > 0;
+}
+
+// Adds node to a search tree. Returns true if new node is allocated.
+bool area_expander::enqueue( const tripoint &from, const tripoint &to, float cost )
+{
+    if( contains( to ) ) {
+        // We will modify existing node if its cost is lower.
+        int index = area_search[to];
+        node &node = area[index];
+        if( cost < node.cost ) {
+            node.from = from;
+            node.cost = cost;
+        }
+        return false;
+    }
+    int index = area.size();
+    area.push_back( {to, from, cost} );
+    frontier.push( index );
+    area_search[to] = index;
+    return true;
+}
+
+// Run wave propagation
+int area_expander::run( const tripoint &center )
+{
+    enqueue( center, center, 0.0 );
+
+    static constexpr std::array<int, 8> x_offset = {{ -1, 1,  0, 0,  1, -1, -1, 1  }};
+    static constexpr std::array<int, 8> y_offset = {{  0, 0, -1, 1, -1,  1, -1, 1  }};
+
+    // Number of nodes expanded.
+    int expanded = 0;
+
+    while( !frontier.empty() ) {
+        int best_index = frontier.top();
+        frontier.pop();
+        node &best = area[best_index];
+
+        for( size_t i = 0; i < 8; i++ ) {
+            tripoint pt = best.position + point( x_offset[ i ], y_offset[ i ] );
+
+            if( g->m.impassable( pt ) ) {
+                continue;
+            }
+
+            float center_range = static_cast<float>( rl_dist( center, pt ) );
+            if( max_range > 0 && center_range > max_range ) {
+                continue;
+            }
+
+            if( max_expand > 0 && expanded > max_expand && contains( pt ) ) {
+                continue;
+            }
+
+            float delta_range = trig_dist( best.position, pt );
+
+            if( enqueue( best.position, pt, best.cost + delta_range ) ) {
+                expanded++;
+            }
+        }
+    }
+    return expanded;
+}
+
+// Sort nodes by its cost.
+void area_expander::sort_ascending()
+{
+    // Since internal caches like 'area_search' and 'frontier' use indexes inside 'area',
+    // these caches will be invalidated.
+    std::sort( area.begin(), area.end(),
+    []( const node & a, const node & b )  -> bool {
+        return a.cost < b.cost;
+    } );
+}
+
+void area_expander::sort_descending()
+{
+    // Since internal caches like 'area_search' and 'frontier' use indexes inside 'area',
+    // these caches will be invalidated.
+    std::sort( area.begin(), area.end(),
+    []( const node & a, const node & b ) -> bool {
+        return a.cost > b.cost;
+    } );
+}
+
+// Moving all objects from one point to another by the power of magic.
+static void spell_move( const spell &sp, const Creature &caster,
+                        const tripoint &from, const tripoint &to )
+{
+    if( from == to ) {
+        return;
+    }
+
+    // Moving creatures
+    bool can_target_creature = sp.is_valid_effect_target( target_self ) ||
+                               sp.is_valid_effect_target( target_ally ) ||
+                               sp.is_valid_effect_target( target_hostile );
+
+    if( can_target_creature ) {
+        if( Creature *victim = g->critter_at<Creature>( from ) ) {
+            Creature::Attitude cr_att = victim->attitude_to( g->u );
+            bool valid = cr_att != Creature::A_FRIENDLY && sp.is_valid_effect_target( target_hostile );
+            valid |= cr_att == Creature::A_FRIENDLY && sp.is_valid_effect_target( target_ally );
+            valid |= victim == &caster && sp.is_valid_effect_target( target_self );
+            if( valid ) {
+                victim->knock_back_to( to );
+            }
+        }
+    }
+
+    // Moving items
+    if( sp.is_valid_effect_target( target_item ) ) {
+        auto src_items = g->m.i_at( from );
+        auto dst_items = g->m.i_at( to );
+        for( const item &item : src_items ) {
+            dst_items.insert( item );
+        }
+        src_items.clear();
+    }
+
+    // Helper function to move particular field type if corresponding target flag is enabled.
+    auto move_field = [&sp, from, to]( valid_target target, field_type_id fid ) {
+        if( !sp.is_valid_effect_target( target ) ) {
+            return;
+        }
+        auto &src_field = g->m.field_at( from );
+        if( field_entry *entry = src_field.find_field( fid ) ) {
+            int intensity = entry->get_field_intensity();
+            g->m.remove_field( from, fid );
+            g->m.set_field_intensity( to, fid, intensity );
+        }
+    };
+    // Moving fields.
+    move_field( target_fd_fire, fd_fire );
+    move_field( target_fd_blood, fd_blood );
+    move_field( target_fd_blood, fd_gibs_flesh );
+}
+
+void spell_effect::area_pull( const spell &sp, Creature &caster, const tripoint &center )
+{
+    area_expander expander;
+
+    expander.max_range = sp.aoe();
+    expander.run( center );
+    expander.sort_ascending();
+
+    for( const auto &node : expander.area ) {
+        if( node.from == node.position ) {
+            continue;
+        }
+
+        spell_move( sp, caster, node.position, node.from );
+    }
+    sp.make_sound( caster.pos() );
+}
+
+void spell_effect::area_push( const spell &sp, Creature &caster, const tripoint &center )
+{
+    area_expander expander;
+
+    expander.max_range = sp.aoe();
+    expander.run( center );
+    expander.sort_descending();
+
+    for( const auto &node : expander.area ) {
+        if( node.from == node.position ) {
+            continue;
+        }
+
+        spell_move( sp, caster, node.from, node.position );
+    }
+    sp.make_sound( caster.pos() );
+}
+
+void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const tripoint & )
 {
     item granted( sp.effect_data(), calendar::turn );
     if( !granted.is_comestible() && !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level() ) ) {
@@ -407,9 +572,10 @@ void spell_effect::spawn_ethereal_item( const spell &sp )
             g->u.i_add( granted );
         }
     }
+    sp.make_sound( caster.pos() );
 }
 
-void spell_effect::recover_energy( const spell &sp, const tripoint &target )
+void spell_effect::recover_energy( const spell &sp, Creature &caster, const tripoint &target )
 {
     // this spell is not appropriate for healing
     const int healing = sp.damage();
@@ -442,6 +608,7 @@ void spell_effect::recover_energy( const spell &sp, const tripoint &target )
     } else {
         debugmsg( "Invalid effect_str %s for spell %s", energy_source, sp.name() );
     }
+    sp.make_sound( caster.pos() );
 }
 
 static bool is_summon_friendly( const spell &sp )
@@ -457,6 +624,10 @@ static bool is_summon_friendly( const spell &sp )
 static bool add_summoned_mon( const mtype_id &id, const tripoint &pos, const time_duration &time,
                               const spell &sp )
 {
+    if( g->critter_at( pos ) ) {
+        // add_zombie doesn't check if there's a critter at the location already
+        return false;
+    }
     const bool permanent = sp.has_flag( spell_flag::PERMANENT );
     monster spawned_mon( id, pos );
     if( is_summon_friendly( sp ) ) {
@@ -471,7 +642,7 @@ static bool add_summoned_mon( const mtype_id &id, const tripoint &pos, const tim
     return g->add_zombie( spawned_mon );
 }
 
-void spell_effect::spawn_summoned_monster( const spell &sp, const Creature &caster,
+void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
         const tripoint &target )
 {
     const mtype_id mon_id( sp.effect_data() );
@@ -494,8 +665,29 @@ void spell_effect::spawn_summoned_monster( const spell &sp, const Creature &cast
     }
 }
 
-void spell_effect::translocate( const spell &sp, const Creature &caster,
-                                const tripoint &target, teleporter_list &tp_list )
+void spell_effect::translocate( const spell &sp, Creature &caster, const tripoint &target )
 {
-    tp_list.translocate( spell_effect_area( sp, target, spell_effect_blast, caster, true ) );
+    avatar *you = caster.as_avatar();
+    if( you == nullptr ) {
+        return;
+    }
+    you->translocators.translocate( spell_effect_area( sp, target, spell_effect_blast, caster, true ) );
+}
+
+void spell_effect::none( const spell &sp, Creature &, const tripoint & )
+{
+    debugmsg( "ERROR: %s has invalid spell effect.", sp.name() );
+}
+
+void spell_effect::transform_blast( const spell &sp, Creature &caster,
+                                    const tripoint &target )
+{
+    ter_furn_transform_id transform( sp.effect_data() );
+    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), true );
+    for( const tripoint &location : area ) {
+        if( one_in( sp.damage() ) ) {
+            transform->transform( location );
+            transform->add_all_messages( caster, location );
+        }
+    }
 }

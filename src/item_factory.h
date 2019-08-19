@@ -164,6 +164,7 @@ class Item_factory
         void load_fuel( JsonObject &jo, const std::string &src );
         void load_gunmod( JsonObject &jo, const std::string &src );
         void load_magazine( JsonObject &jo, const std::string &src );
+        void load_battery( JsonObject &jo, const std::string &src );
         void load_generic( JsonObject &jo, const std::string &src );
         void load_bionic( JsonObject &jo, const std::string &src );
         /*@}*/
@@ -302,6 +303,7 @@ class Item_factory
         void load( islot_gun &slot, JsonObject &jo, const std::string &src );
         void load( islot_gunmod &slot, JsonObject &jo, const std::string &src );
         void load( islot_magazine &slot, JsonObject &jo, const std::string &src );
+        void load( islot_battery &slot, JsonObject &jo, const std::string &src );
         void load( islot_bionic &slot, JsonObject &jo, const std::string &src );
         void load( islot_ammo &slot, JsonObject &jo, const std::string &src );
         void load( islot_seed &slot, JsonObject &jo, const std::string &src );
@@ -352,8 +354,8 @@ class Item_factory
         //iuse stuff
         std::map<Item_tag, use_function> iuse_function_list;
 
-        void add_iuse( const std::string &type, const use_function_pointer f );
-        void add_iuse( const std::string &type, const use_function_pointer f,
+        void add_iuse( const std::string &type, use_function_pointer f );
+        void add_iuse( const std::string &type, use_function_pointer f,
                        const std::string &info );
         void add_actor( iuse_actor *ptr );
 

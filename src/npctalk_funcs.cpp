@@ -34,6 +34,7 @@
 #include "enums.h"
 #include "faction.h"
 #include "game_constants.h"
+#include "game_inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "optional.h"
@@ -354,52 +355,22 @@ void talk_function::insult_combat( npc &p )
 
 void talk_function::bionic_install( npc &p )
 {
-    std::vector<item *> bionic_inv = g->u.items_with( []( const item & itm ) {
-        return itm.is_bionic();
-    } );
-    if( bionic_inv.empty() ) {
-        popup( _( "You have no bionics to install!" ) );
+    item_location bionic = game_menus::inv::install_bionic( g->u, g->u, true );
+
+    if( !bionic ) {
         return;
     }
 
-    std::vector<itype_id> bionic_types;
-    std::vector<std::string> bionic_names;
-    for( auto &bio : bionic_inv ) {
-        if( std::find( bionic_types.begin(), bionic_types.end(), bio->typeId() ) == bionic_types.end() ) {
-            if( !g->u.has_bionic( bionic_id( bio->typeId() ) ) || bio->typeId() == "bio_power_storage" ||
-                bio->typeId() == "bio_power_storage_mkII" ) {
+    const item *tmp = bionic.get_item();
+    const itype &it = *tmp->type;
 
-                bionic_types.push_back( bio->typeId() );
-                bionic_names.push_back( bio->tname() + " - " + format_money( bio->price( true ) * 2 ) );
-            }
-        }
-    }
-    // Choose bionic if applicable
-    int bionic_index = uilist( _( "Which bionic do you wish to have installed?" ),
-                               bionic_names );
-    // Did we cancel?
-    if( bionic_index < 0 ) {
-        popup( _( "You decide to hold off..." ) );
-        return;
-    }
-
-    const item tmp = item( bionic_types[bionic_index], 0 );
-    const itype &it = *tmp.type;
-    signed int price = tmp.price( true ) * 2;
-
-    if( price > g->u.cash ) {
-        popup( _( "You can't afford the procedure..." ) );
-        return;
-    }
+    signed int price = tmp->price( true ) * 2;
 
     //Makes the doctor awesome at installing but not perfect
     if( g->u.can_install_bionics( it, p, false, 20 ) ) {
         g->u.cash -= price;
         p.cash += price;
-        g->u.amount_of( bionic_types[bionic_index] );
-        std::vector<item_comp> comps;
-        comps.push_back( item_comp( tmp.typeId(), 1 ) );
-        g->u.consume_items( comps, 1 );
+        bionic.remove_item();
         g->u.install_bionics( it, p, false, 20 );
     }
 }
@@ -501,7 +472,8 @@ void talk_function::give_aid( npc &p )
             g->u.remove_effect( effect_infected, bp_healed );
         }
     }
-    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 10000 );
+    const int moves = to_moves<int>( 100_minutes );
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), moves );
     g->u.activity.str_values.push_back( p.name );
 }
 
@@ -575,7 +547,8 @@ void talk_function::barber_hair( npc &p )
 void talk_function::buy_haircut( npc &p )
 {
     g->u.add_morale( MORALE_HAIRCUT, 5, 5, 720_minutes, 3_minutes );
-    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 300 );
+    const int moves = to_moves<int>( 20_minutes );
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), moves );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "%s gives you a decent haircut..." ), p.name );
 }
@@ -583,7 +556,8 @@ void talk_function::buy_haircut( npc &p )
 void talk_function::buy_shave( npc &p )
 {
     g->u.add_morale( MORALE_SHAVE, 10, 10, 360_minutes, 3_minutes );
-    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 100 );
+    const int moves = to_moves<int>( 5_minutes );
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), moves );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "%s gives you a decent shave..." ), p.name );
 }
@@ -596,7 +570,8 @@ void talk_function::morale_chat( npc &p )
 
 void talk_function::morale_chat_activity( npc &p )
 {
-    g->u.assign_activity( activity_id( "ACT_SOCIALIZE" ), 10000 );
+    const int moves = to_moves<int>( 10_minutes );
+    g->u.assign_activity( activity_id( "ACT_SOCIALIZE" ), moves );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "That was a pleasant conversation with %s." ), p.disp_name() );
     g->u.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
@@ -613,15 +588,15 @@ void talk_function::buy_10_logs( npc &p )
     const auto &cur_om = g->get_cur_om();
     std::vector<tripoint> places_om;
     for( auto &i : places ) {
-        if( &cur_om == overmap_buffer.get_existing_om_global( i ) ) {
+        if( &cur_om == overmap_buffer.get_existing_om_global( i ).om ) {
             places_om.push_back( i );
         }
     }
 
     const tripoint site = random_entry( places_om );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
-    bay.spawn_item( 7, 15, "log", 10 );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
+    bay.spawn_item( point( 7, 15 ), "log", 10 );
     bay.save();
 
     p.add_effect( effect_currently_busy, 1_days );
@@ -639,15 +614,15 @@ void talk_function::buy_100_logs( npc &p )
     const auto &cur_om = g->get_cur_om();
     std::vector<tripoint> places_om;
     for( auto &i : places ) {
-        if( &cur_om == overmap_buffer.get_existing_om_global( i ) ) {
+        if( &cur_om == overmap_buffer.get_existing_om_global( i ).om ) {
             places_om.push_back( i );
         }
     }
 
     const tripoint site = random_entry( places_om );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
-    bay.spawn_item( 7, 15, "log", 100 );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
+    bay.spawn_item( point( 7, 15 ), "log", 100 );
     bay.save();
 
     p.add_effect( effect_currently_busy, 7_days );

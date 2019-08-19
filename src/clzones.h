@@ -169,6 +169,39 @@ class blueprint_options : public zone_options, public mark_option
         void deserialize( JsonObject &jo_zone ) override;
 };
 
+class loot_options : public zone_options, public mark_option
+{
+    private:
+        std::string mark; // basic item filter.
+
+        enum query_loot_result {
+            canceled,
+            successful,
+            changed,
+        };
+
+        query_loot_result query_loot();
+
+    public:
+        std::string get_mark() const override {
+            return mark;
+        }
+
+        bool has_options() const override {
+            return true;
+        }
+
+        bool query_at_creation() override;
+        bool query() override;
+
+        std::string get_zone_name_suggestion() const override;
+
+        std::vector<std::pair<std::string, std::string>> get_descriptions() const override;
+
+        void serialize( JsonOut &json ) const override;
+        void deserialize( JsonObject &jo_zone ) override;
+};
+
 /**
  * These are zones the player can designate.
  */
@@ -191,8 +224,8 @@ class zone_data
             invert = false;
             enabled = false;
             is_vehicle = false;
-            start = tripoint( 0, 0, 0 );
-            end = tripoint( 0, 0, 0 );
+            start = tripoint_zero;
+            end = tripoint_zero;
             options = nullptr;
         }
 
@@ -219,9 +252,9 @@ class zone_data
 
         bool set_name(); // returns true if name is changed
         bool set_type(); // returns true if type is changed
-        void set_position( const std::pair<tripoint, tripoint> &position, const bool manual = true );
-        void set_enabled( const bool enabled_arg );
-        void set_is_vehicle( const bool is_vehicle_arg );
+        void set_position( const std::pair<tripoint, tripoint> &position, bool manual = true );
+        void set_enabled( bool enabled_arg );
+        void set_is_vehicle( bool is_vehicle_arg );
 
         static std::string make_type_hash( const zone_type_id &_type, const faction_id &_fac ) {
             return _type.c_str() + type_fac_hash_str + _fac.c_str();
@@ -321,10 +354,10 @@ class zone_manager
         }
 
         void add( const std::string &name, const zone_type_id &type, const faction_id &faction,
-                  const bool invert, const bool enabled,
+                  bool invert, bool enabled,
                   const tripoint &start, const tripoint &end,
                   std::shared_ptr<zone_options> options = nullptr );
-
+        const zone_data *get_zone_at( const tripoint &where, const zone_type_id &type ) const;
         void create_vehicle_loot_zone( class vehicle &vehicle, const point &mount_point,
                                        zone_data &new_zone );
 
@@ -346,8 +379,9 @@ class zone_manager
         bool has_near( const zone_type_id &type, const tripoint &where, int range = MAX_DISTANCE,
                        const faction_id &fac = your_fac ) const;
         bool has_loot_dest_near( const tripoint &where ) const;
+        bool custom_loot_has( const tripoint &where, const item *it ) const;
         std::unordered_set<tripoint> get_near( const zone_type_id &type, const tripoint &where,
-                                               int range = MAX_DISTANCE,
+                                               int range = MAX_DISTANCE, const item *it = nullptr,
                                                const faction_id &fac = your_fac ) const;
         cata::optional<tripoint> get_nearest( const zone_type_id &type, const tripoint &where,
                                               int range = MAX_DISTANCE,
@@ -360,7 +394,7 @@ class zone_manager
         cata::optional<std::string> query_name( const std::string &default_name = "" ) const;
         cata::optional<zone_type_id> query_type() const;
         void swap( zone_data &a, zone_data &b );
-        void rotate_zones( map &target_map, const int turns );
+        void rotate_zones( map &target_map, int turns );
 
         void start_sort( const std::vector<tripoint> &src_sorted );
         void end_sort();

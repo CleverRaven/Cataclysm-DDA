@@ -29,8 +29,7 @@ struct ma_requirements {
 
     bool unarmed_allowed; // does this bonus work when unarmed?
     bool melee_allowed; // what about with a melee weapon?
-    bool strictly_unarmed; // If unarmed, what about unarmed weapons?
-    bool strictly_melee; // Does it only work with weapons?
+    bool unarmed_weapons_allowed; // If unarmed, what about unarmed weapons?
 
     /** Minimum amount of given skill to trigger this bonus */
     std::map<skill_id, int> min_skill;
@@ -46,8 +45,7 @@ struct ma_requirements {
     ma_requirements() {
         unarmed_allowed = false;
         melee_allowed = false;
-        strictly_unarmed = false;
-        strictly_melee = false;
+        unarmed_weapons_allowed = true;
     }
 
     std::string get_description( bool buff = false ) const;
@@ -106,6 +104,10 @@ class ma_technique
         bool grab_break; // allows grab_breaks, like tec_break
 
         int weighting; //how often this technique is used
+
+        // conditional
+        bool downed_target; // only works on downed enemies
+        bool stunned_target; // only works on stunned enemies
 
         /** All kinds of bonuses by types to damage, hit etc. */
         bonus_container bonuses;
@@ -276,7 +278,7 @@ void load_martial_art( JsonObject &jo, const std::string &src );
 void check_martialarts();
 void clear_techniques_and_martial_arts();
 void finialize_martial_arts();
-const std::string martialart_difficulty( matype_id mstyle );
+std::string martialart_difficulty( matype_id mstyle );
 
 std::vector<matype_id> all_martialart_types();
 std::vector<matype_id> autolearn_martialart_types();

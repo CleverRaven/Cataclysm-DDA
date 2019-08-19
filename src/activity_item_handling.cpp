@@ -632,7 +632,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     comps1.push_back( item_comp( "detergent", required.cleanser ) );
     p->consume_items( comps1 );
 
-    p->add_msg_if_player( m_good, _( "You washed your clothing." ) );
+    p->add_msg_if_player( m_good, _( "You washed your items." ) );
 
     // Make sure newly washed components show up as available if player attempts to craft immediately
     p->invalidate_crafting_inventory();
@@ -674,7 +674,10 @@ void activity_on_turn_pickup()
     // Otherwise, we are done.
     if( !keep_going || g->u.activity.targets.empty() ) {
         g->u.cancel_activity();
-        // TODO: Move this to advanced inventory instead of hacking it in here
+    }
+
+    // TODO: Move this to advanced inventory instead of hacking it in here
+    if( !keep_going ) {
         cancel_aim_processing();
     }
 }
@@ -1138,7 +1141,9 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
         pc.id = built_chosen.id;
         pc.counter = 0;
         // Set the trap that has the examine function
-        g->m.trap_set( src_loc, tr_unfinished_construction );
+        if( g->m.tr_at( src_loc ).loadid == tr_null ) {
+            g->m.trap_set( src_loc, tr_unfinished_construction );
+        }
         // Use up the components
         for( const std::vector<item_comp> &it : built_chosen.requirements->get_components() ) {
             std::list<item> tmp = p.consume_items( it, 1, is_crafting_component );
@@ -1163,7 +1168,7 @@ void activity_on_turn_blueprint_move( player_activity &, player &p )
     // If we got here without restarting the activity, it means we're done.
     if( p.is_npc() ) {
         npc *guy = dynamic_cast<npc *>( &p );
-        guy->current_activity.clear();
+        guy->current_activity_id = activity_id::NULL_ID();
         guy->revert_after_activity();
     }
 }
@@ -1266,7 +1271,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
             // if it is, we can skip such item, if not we move the item to correct pile
             // think empty bag on food pile, after you ate the content
             if( !mgr.has( id, src ) ) {
-                const auto &dest_set = mgr.get_near( id, abspos );
+                const auto &dest_set = mgr.get_near( id, abspos, 60, thisitem );
 
                 for( auto &dest : dest_set ) {
                     const auto &dest_loc = g->m.getlocal( dest );
@@ -1356,7 +1361,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
     add_msg( m_info, string_format( _( "%s sorted out every item possible." ), p.disp_name() ) );
     if( p.is_npc() ) {
         npc *guy = dynamic_cast<npc *>( &p );
-        guy->current_activity.clear();
+        guy->current_activity_id = activity_id::NULL_ID();
     }
     mgr.end_sort();
 }

@@ -47,11 +47,11 @@
     "id": "NC_BEGGAR_2_worn",
     "subtype": "collection",
     "entries": [
-      { "item": "dinosuit" },
-      { "item": "coat_winter" },
       { "item": "boxer_shorts" },
       { "item": "socks_wool" },
-      { "item": "boots_winter" }
+      { "item": "dinosuit" },
+      { "item": "boots_winter" },
+      { "item": "coat_winter" }
     ]
   },
   {

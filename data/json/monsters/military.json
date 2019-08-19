@@ -18,7 +18,6 @@
     "morale": 100,
     "armor_bash": 14,
     "armor_cut": 16,
-    "luminance": 200,
     "revert_to_itype": "bot_laserturret",
     "special_attacks": [
       {
@@ -31,8 +30,8 @@
         "require_sunlight": true
       }
     ],
-    "death_drops": { "groups": [ [ "robots", 10 ], [ "laserturret", 1 ] ] },
-    "death_function": [ "EXPLODE" ],
+    "death_drops": {  },
+    "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
   },
   {
@@ -54,7 +53,7 @@
     "morale": 100,
     "armor_bash": 14,
     "armor_cut": 16,
-    "luminance": 210,
+    "vision_night": 3,
     "revert_to_itype": "bot_antimateriel",
     "starting_ammo": { "50bmg": 100 },
     "special_attacks": [
@@ -66,7 +65,7 @@
         "ammo_type": "50bmg",
         "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "fake_dex": 12,
-        "ranges": [ [ 0, 30, "DEFAULT" ] ],
+        "ranges": [ [ 0, 40, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
         "laser_lock": true,
@@ -77,15 +76,15 @@
         "no_ammo_sound": "a chk!"
       }
     ],
-    "death_drops": { "groups": [ [ "robots", 9 ], [ "turret_bmg", 2 ] ] },
-    "death_function": [ "EXPLODE" ],
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
+    "death_drops": {  },
+    "death_function": [ "BROKEN" ],
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
   },
   {
     "id": "mon_turret_rifle",
     "type": "MONSTER",
     "name": "milspec turret",
-    "description": "Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General Atomics' TX-1 9x19mm model and an automated M4 carbine.",
+    "description": "Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General Atomics' TX-1 9x19mm model and an automated 5.56mm carbine.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "diff": 20,
@@ -100,7 +99,7 @@
     "morale": 100,
     "armor_bash": 14,
     "armor_cut": 16,
-    "luminance": 210,
+    "vision_night": 3,
     "revert_to_itype": "bot_rifleturret",
     "starting_ammo": { "556": 100 },
     "special_attacks": [
@@ -112,11 +111,11 @@
         "fake_skills": [ [ "gun", 6 ], [ "rifle", 8 ] ],
         "fake_dex": 10,
         "range": 18,
-        "ranges": [ [ 0, 8, "AUTO" ], [ 9, 16, "DEFAULT" ] ]
+        "ranges": [ [ 0, 10, "AUTO" ], [ 11, 30, "DEFAULT" ] ]
       }
     ],
-    "death_drops": { "groups": [ [ "robots", 9 ], [ "turret_rifle", 2 ] ] },
-    "death_function": [ "EXPLODE" ],
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
+    "death_drops": {  },
+    "death_function": [ "BROKEN" ],
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
   }
 ]

@@ -64,7 +64,9 @@
       [ "longshirt", 30 ],
       [ "polo_shirt", 30 ],
       [ "dress_shirt", 30 ],
-      [ "skinny_tie", 10 ],
+      [ "tie_skinny", 10 ],
+      [ "tie_necktie", 10 ],
+      [ "tie_clipon", 10 ],
       [ "tieclip", 10 ],
       [ "collarpin", 10 ],
       [ "blazer", 35 ],
@@ -183,14 +185,13 @@
   {
     "id": "energy_weapon_armory",
     "type": "item_group",
-    "subtype": "collection",
+    "subtype": "distribution",
     "items": [
-      { "group": "guns_energy", "prob": 50 },
+      { "group": "guns_energy", "prob": 20 },
+      { "group": "gunmod_energy", "prob": 40 },
       [ "plut_cell", 30 ],
-      [ "adv_UPS_off", 20 ],
-      [ "electrolaser_conversion", 5 ],
-      [ "high_density_capacitor", 5 ],
-      [ "beam_scatterer", 5 ]
+      [ "plasma", 30 ],
+      [ "adv_UPS_off", 20 ]
     ]
   },
   {
@@ -210,17 +211,24 @@
   {
     "id": "petstore_misc",
     "type": "item_group",
-    "items": [ [ "dogfood", 35 ], [ "catfood", 35 ], [ "birdfood", 15 ], [ "dog_whistle", 15 ], [ "flashlight", 5 ] ]
+    "items": [
+      { "item": "dogfood", "prob": 35, "container-item": "can_food" },
+      { "item": "catfood", "prob": 35, "container-item": "can_food" },
+      [ "birdfood", 15 ],
+      [ "dog_whistle", 15 ],
+      [ "flashlight", 5 ]
+    ]
   },
   {
     "id": "petstore_shelves",
     "type": "item_group",
     "items": [
-      [ "dogfood", 30 ],
-      [ "catfood", 30 ],
+      { "item": "dogfood", "prob": 30, "container-item": "can_food" },
+      { "item": "catfood", "prob": 30, "container-item": "can_food" },
       [ "birdfood", 15 ],
       [ "can_tuna", 15 ],
       [ "can_chicken", 15 ],
+      [ "petpack", 10 ],
       [ "kevlar_harness", 5 ],
       [ "leather_harness_dog", 5 ],
       [ "rubber_harness_dog", 5 ]
@@ -286,6 +294,7 @@
       [ "beer", 60 ],
       [ "european_pilsner", 50 ],
       [ "pale_ale", 50 ],
+      [ "wine_barley", 45 ],
       [ "india_pale_ale", 47 ],
       [ "stout", 46 ],
       [ "belgian_ale", 40 ],
@@ -819,6 +828,7 @@
       [ "towel", 50 ],
       [ "scissors", 50 ],
       [ "fungicide", 10 ],
+      [ "insecticide", 10 ],
       [ "soap", 20 ],
       [ "chem_hydrogen_peroxide", 10 ],
       [ "canister_empty", 5 ],
@@ -841,8 +851,9 @@
     "items": [
       [ "dog_whistle", 10 ],
       [ "pet_carrier", 30 ],
-      [ "dogfood", 30 ],
-      [ "catfood", 30 ],
+      [ "petpack", 3 ],
+      { "item": "dogfood", "prob": 30, "container-item": "can_food" },
+      { "item": "catfood", "prob": 30, "container-item": "can_food" },
       [ "birdfood", 10 ],
       [ "towel", 20 ],
       [ "soap", 10 ],
@@ -884,6 +895,7 @@
       [ "scissors", 1 ],
       [ "phonebook", 2 ],
       [ "flashlight", 2 ],
+      [ "petpack", 1 ],
       [ "mag_comic", 5 ]
     ]
   },
@@ -958,7 +970,7 @@
     "entries": [
       { "group": "female_underwear_top" },
       { "group": "female_underwear_bottom" },
-      { "item": "ring" },
+      { "item": "gold_ring" },
       { "item": "veil_wedding" },
       { "item": "dress_wedding" },
       { "item": "corpse" }
@@ -1213,7 +1225,7 @@
     "id": "oa_ig_rd_glass_trash",
     "//": "for ws_regional_dump",
     "items": [
-      { "item": "glass_shard", "prob": 100, "count-min": 1, "count-max": 20 },
+      { "item": "glass_shard", "prob": 100, "count-min": 8, "count-max": 168 },
       [ "bottle_glass", 30 ],
       [ "jar_glass", 20 ],
       [ "jar_3l_glass", 10 ]
@@ -1383,6 +1395,38 @@
       { "item": "gold_bracelet", "prob": 30 },
       { "item": "diamond_ring", "prob": 20 },
       { "item": "diamond", "prob": 10 }
+    ]
+  },
+  {
+    "id": "fishing_items",
+    "type": "item_group",
+    "//": "For fishing themed locations",
+    "items": [
+      [ "flotation_vest", 50 ],
+      [ "plastic_sheet", 10 ],
+      [ "fishing_waders", 5 ],
+      [ "wetsuit", 10 ],
+      [ "wetsuit_spring", 10 ],
+      [ "wetsuit_gloves", 20 ],
+      [ "wetsuit_booties", 20 ],
+      [ "wetsuit_hood", 10 ],
+      [ "scuba_tank", 5 ],
+      [ "small_scuba_tank", 5 ],
+      [ "dive_bag", 10 ],
+      [ "rebreather", 2 ],
+      [ "rebreather_filter", 4 ],
+      [ "glowstick", 60 ],
+      [ "handflare", 40 ],
+      [ "grapnel", 40 ],
+      [ "fishing_rod_professional", 60 ],
+      [ "fishing_rod_basic", 60 ],
+      [ "rope_6", 60 ],
+      [ "rope_30", 60 ],
+      [ "fish_bait", 100 ],
+      [ "fish_trap", 100 ],
+      [ "bucket", 100 ],
+      [ "fishing_hook_basic", 100 ],
+      [ "fishing_hook_bone", 100 ]
     ]
   },
   {

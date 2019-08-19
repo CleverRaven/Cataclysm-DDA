@@ -25,7 +25,7 @@
 #include "craft_command.h"
 #include "debug.h"
 #include "effect.h"
-#include "event.h"
+#include "timed_event.h"
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -576,9 +576,10 @@ void iexamine::vending( player &p, const tripoint &examp )
 
     constexpr int first_item_offset = 3; // header size
 
-    catacurses::window const w = catacurses::newwin( window_h, w_items_w, padding_y, padding_x );
-    catacurses::window const w_item_info = catacurses::newwin( window_h, w_info_w,  padding_y,
-                                           padding_x + w_items_w );
+    catacurses::window const w = catacurses::newwin( window_h, w_items_w, point( padding_x,
+                                 padding_y ) );
+    catacurses::window const w_item_info = catacurses::newwin( window_h, w_info_w,
+                                           point( padding_x + w_items_w, padding_y ) );
 
     bool used_machine = false;
     input_context ctxt( "VENDING_MACHINE" );
@@ -616,11 +617,11 @@ void iexamine::vending( player &p, const tripoint &examp )
         werase( w );
         wborder( w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-        mvwhline( w, first_item_offset - 1, 1, LINE_OXOX, w_items_w - 2 );
-        mvwaddch( w, first_item_offset - 1, 0, LINE_XXXO ); // |-
-        mvwaddch( w, first_item_offset - 1, w_items_w - 1, LINE_XOXX ); // -|
+        mvwhline( w, point( 1, first_item_offset - 1 ), LINE_OXOX, w_items_w - 2 );
+        mvwaddch( w, point( 0, first_item_offset - 1 ), LINE_XXXO ); // |-
+        mvwaddch( w, point( w_items_w - 1, first_item_offset - 1 ), LINE_XOXX ); // -|
 
-        trim_and_print( w, 1, 2, w_items_w - 3, c_light_gray,
+        trim_and_print( w, point( 2, 1 ), w_items_w - 3, c_light_gray,
                         _( "Money left: %s" ), format_money( money ) );
 
         // Keep the item selector centered in the page.
@@ -638,7 +639,7 @@ void iexamine::vending( player &p, const tripoint &examp )
             const auto &elem = item_list[i];
             const int count = elem->second.size();
             const char c = ( count < 10 ) ? ( '0' + count ) : '*';
-            trim_and_print( w, first_item_offset + line, 1, w_items_w - 3, color, "%c %s", c,
+            trim_and_print( w, point( 1, first_item_offset + line ), w_items_w - 3, color, "%c %s", c,
                             elem->first.c_str() );
         }
 
@@ -652,7 +653,7 @@ void iexamine::vending( player &p, const tripoint &examp )
         werase( w_item_info );
         // | {line}|
         // 12      3
-        fold_and_print( w_item_info, 1, 2, w_info_w - 3, c_light_gray, cur_item->info( true ) );
+        fold_and_print( w_item_info, point( 2, 1 ), w_info_w - 3, c_light_gray, cur_item->info( true ) );
         wborder( w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
@@ -660,7 +661,7 @@ void iexamine::vending( player &p, const tripoint &examp )
         //12      34
         const std::string name = utf8_truncate( cur_item->display_name(),
                                                 static_cast<size_t>( w_info_w - 4 ) );
-        mvwprintw( w_item_info, 0, 1, "<%s>", name );
+        mvwprintw( w_item_info, point_east, "<%s>", name );
         wrefresh( w_item_info );
 
         const std::string &action = ctxt.handle_input();
@@ -894,9 +895,9 @@ void iexamine::rubble( player &p, const tripoint &examp )
 {
     int moves;
     if( p.has_quality( quality_id( "DIG" ), 3 ) || p.has_trait( trait_BURROW ) ) {
-        moves = to_turns<int>( 1_minutes );
+        moves = to_moves<int>( 1_minutes );
     } else if( p.has_quality( quality_id( "DIG" ), 2 ) ) {
-        moves = to_turns<int>( 2_minutes );
+        moves = to_moves<int>( 2_minutes );
     } else {
         add_msg( m_info, _( "If only you had a shovel..." ) );
         return;
@@ -1285,7 +1286,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 void iexamine::bulletin_board( player &p, const tripoint &examp )
 {
     g->validate_camps();
-    point omt = ms_to_omt_copy( g->m.getabs( examp.x, examp.y ) );
+    point omt = ms_to_omt_copy( g->m.getabs( examp.xy() ) );
     cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
@@ -1346,7 +1347,7 @@ void iexamine::pedestal_wyrm( player &p, const tripoint &examp )
     sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous grinding noise..." ), true,
                    "misc", "stones_grinding" );
     g->m.ter_set( examp, t_rock_floor );
-    g->events.add( EVENT_SPAWN_WYRMS, calendar::turn + rng( 30_seconds, 60_seconds ) );
+    g->timed_events.add( TIMED_EVENT_SPAWN_WYRMS, calendar::turn + rng( 30_seconds, 60_seconds ) );
 }
 
 /**
@@ -1359,13 +1360,13 @@ void iexamine::pedestal_temple( player &p, const tripoint &examp )
         add_msg( _( "The pedestal sinks into the ground..." ) );
         g->m.ter_set( examp, t_dirt );
         g->m.i_clear( examp );
-        g->events.add( EVENT_TEMPLE_OPEN, calendar::turn + 10_seconds );
+        g->timed_events.add( TIMED_EVENT_TEMPLE_OPEN, calendar::turn + 10_seconds );
     } else if( p.has_amount( "petrified_eye", 1 ) &&
                query_yn( _( "Place your petrified eye on the pedestal?" ) ) ) {
         p.use_amount( "petrified_eye", 1 );
         add_msg( _( "The pedestal sinks into the ground..." ) );
         g->m.ter_set( examp, t_dirt );
-        g->events.add( EVENT_TEMPLE_OPEN, calendar::turn + 10_seconds );
+        g->timed_events.add( TIMED_EVENT_TEMPLE_OPEN, calendar::turn + 10_seconds );
     } else {
         add_msg( _( "This pedestal is engraved in eye-shaped diagrams, and has a \
 large semi-spherical indentation at the top." ) );
@@ -1467,7 +1468,7 @@ void iexamine::fswitch( player &p, const tripoint &examp )
         }
     }
     add_msg( m_warning, _( "You hear the rumble of rock shifting." ) );
-    g->events.add( EVENT_TEMPLE_SPAWN, calendar::turn + 3_turns );
+    g->timed_events.add( TIMED_EVENT_TEMPLE_SPAWN, calendar::turn + 3_turns );
 }
 
 /**
@@ -1808,7 +1809,7 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
         }
     }
     int roll = rng( 1, 5 );
-    bool drop_eggs = ( monster_count >= 1 ? true : false );
+    bool drop_eggs = monster_count >= 1;
     for( int i = 0; i < roll; i++ ) {
         handle_harvest( p, "spider_egg", drop_eggs );
     }
@@ -2121,7 +2122,7 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
     }
 
     // TODO: item should probably clamp the value on its own
-    seed->set_birthday( std::max( calendar::time_of_cataclysm, seed->birthday() - fertilizerEpoch ) );
+    seed->set_birthday( seed->birthday() - fertilizerEpoch );
     // The plant furniture has the NOITEM token which prevents adding items on that square,
     // spawned items are moved to an adjacent field instead, but the fertilizer token
     // must be on the square of the plant, therefore this hack:
@@ -2331,17 +2332,256 @@ void iexamine::kiln_full( player &, const tripoint &examp )
     g->m.furn_set( examp, next_kiln_type );
     add_msg( _( "It has finished burning, yielding %d charcoal." ), result.charges );
 }
+//arc furnance start
+void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
+{
+    furn_id cur_arcfurnace_type = g->m.furn( examp );
+    furn_id next_arcfurnace_type = f_null;
+    if( cur_arcfurnace_type == f_arcfurnace_empty ) {
+        next_arcfurnace_type = f_arcfurnace_full;
+    } else {
+        debugmsg( "Examined furniture has action arcfurnace_empty, but is of type %s",
+                  g->m.furn( examp ).id().c_str() );
+        return;
+    }
+
+    static const std::set<material_id> arcfurnaceable{ material_id( "cac2powder" ) };
+    bool fuel_present = false;
+    auto items = g->m.i_at( examp );
+    for( const item &i : items ) {
+        if( i.typeId() == "chem_carbide" ) {
+            add_msg( _( "This furnace already contains calcium carbide." ) );
+            add_msg( _( "Remove it before activating the arc furnace again." ) );
+            return;
+        } else if( i.made_of_any( arcfurnaceable ) ) {
+            fuel_present = true;
+        } else {
+            add_msg( m_bad, _( "This furnace contains %s, which can't be made into calcium carbide!" ),
+                     i.tname( 1, false ) );
+            return;
+        }
+    }
+
+    if( !fuel_present ) {
+        add_msg( _( "This furance is empty. Fill it with powdered coke and lime mix, and try again." ) );
+        return;
+    }
+
+    ///\EFFECT_FABRICATION decreases loss when firing a furnace
+    const int skill = p.get_skill_level( skill_fabrication );
+    int loss = 60 - 2 *
+               skill; // Inefficency is still fine, coal and limestone is abundant
+
+    // Burn stuff that should get charred, leave out the rest
+    units::volume total_volume = 0_ml;
+    for( const item &i : items ) {
+        total_volume += i.volume();
+    }
+
+    auto char_type = item::find_type( "unfinished_cac2" );
+    int char_charges = char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
+    if( char_charges < 1 ) {
+        add_msg( _( "The batch in this furance is too small to yield usable calcium carbide." ) );
+        return;
+    }
+    //arc furnaces require a huge amount of current, so 1 full storage battery would work as a stand in
+    if( !p.has_charges( "UPS", 1250 ) ) {
+        add_msg( _( "This furnace is ready to be turned on, but you lack a UPS with sufficient power." ) );
+        return;
+    } else {
+        add_msg( _( "This furnace contains %s %s of material, and is ready to be turned on." ),
+                 format_volume( total_volume ), volume_units_abbr() );
+        if( !query_yn( _( "Turn on the furnace?" ) ) ) {
+            return;
+        }
+    }
+
+    p.use_charges( "UPS", 1250 );
+    g->m.i_clear( examp );
+    g->m.furn_set( examp, next_arcfurnace_type );
+    item result( "unfinished_cac2", calendar::turn );
+    result.charges = char_charges;
+    g->m.add_item( examp, result );
+    add_msg( _( "You turn on the furnace." ) );
+}
+
+void iexamine::arcfurnace_full( player &, const tripoint &examp )
+{
+    furn_id cur_arcfurnace_type = g->m.furn( examp );
+    furn_id next_arcfurnace_type = f_null;
+    if( cur_arcfurnace_type == f_arcfurnace_full ) {
+        next_arcfurnace_type = f_arcfurnace_empty;
+    } else {
+        debugmsg( "Examined furniture has action arcfurnace_full, but is of type %s",
+                  g->m.furn( examp ).id().c_str() );
+        return;
+    }
+
+    map_stack items = g->m.i_at( examp );
+    if( items.empty() ) {
+        add_msg( _( "This furnace is empty..." ) );
+        g->m.furn_set( examp, next_arcfurnace_type );
+        return;
+    }
+    auto char_type = item::find_type( "chem_carbide" );
+    add_msg( _( "There's an arc furnace there." ) );
+    const time_duration firing_time = 2_hours; // Arc furnaces work really fast in reality
+    const time_duration time_left = firing_time - items.only_item().age();
+    if( time_left > 0_turns ) {
+        int hours = to_hours<int>( time_left );
+        int minutes = to_minutes<int>( time_left ) + 1;
+        if( minutes > 60 ) {
+            add_msg( ngettext( "It will finish burning in about %d hour.",
+                               "It will finish burning in about %d hours.",
+                               hours ), hours );
+        } else if( minutes > 30 ) {
+            add_msg( _( "It will finish burning in less than an hour." ) );
+        } else {
+            add_msg( _( "It should take about %d minutes to finish burning." ), minutes );
+        }
+        return;
+    }
+
+    units::volume total_volume = 0_ml;
+    // Burn stuff that should get charred, leave out the rest
+    for( auto item_it = items.begin(); item_it != items.end(); ) {
+        if( item_it->typeId() == "unfinished_cac2" || item_it->typeId() == "chem_carbide" ) {
+            total_volume += item_it->volume();
+            item_it = items.erase( item_it );
+        } else {
+            item_it++;
+        }
+    }
+
+    item result( "chem_carbide", calendar::turn );
+    result.charges = char_type->charges_per_volume( total_volume );
+    g->m.add_item( examp, result );
+    g->m.furn_set( examp, next_arcfurnace_type );
+    add_msg( _( "It has finished burning, yielding %d calcium carbide." ), result.charges );
+}
+//arc furnace end
+
+void iexamine::fireplace( player &p, const tripoint &examp );
+
+void iexamine::autoclave_empty( player &p, const tripoint &examp )
+{
+    furn_id cur_autoclave_type = g->m.furn( examp );
+    furn_id next_autoclave_type = f_null;
+    if( cur_autoclave_type == furn_id( "f_autoclave" ) ) {
+        next_autoclave_type = furn_id( "f_autoclave_full" );
+    } else {
+        debugmsg( "Examined furniture has action autoclave_empty, but is of type %s",
+                  g->m.furn( examp ).id().c_str() );
+        return;
+    }
+
+    map_stack items = g->m.i_at( examp );
+    bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
+        return i.is_bionic();
+    } );
+
+    bool filthy_cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
+        return i.is_bionic() && i.has_flag( "FILTHY" );
+    } );
+
+    if( items.empty() ) {
+        add_msg( _( "This autoclave is empty..." ) );
+        return;
+    }
+    if( !cbms ) {
+        add_msg( m_bad,
+                 _( "You need to remove all non-CBM items from the autoclave to start the program." ) );
+        return;
+    }
+    if( filthy_cbms ) {
+        add_msg( m_bad,
+                 _( "Some of those CBMs are filthy, you should wash them first for the sterilization process to work properly." ) );
+        return;
+    }
+    auto reqs = *requirement_id( "autoclave" );
+
+    if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
+        popup( "%s", reqs.list_missing() );
+        return;
+    }
+
+    if( query_yn( _( "Start the autoclave?" ) ) ) {
+
+        for( const auto &e : reqs.get_components() ) {
+            p.consume_items( e, 1, is_crafting_component );
+        }
+        for( const auto &e : reqs.get_tools() ) {
+            p.consume_tools( e );
+        }
+        p.invalidate_crafting_inventory();
+        for( item &it : items ) {
+            it.set_birthday( calendar::turn );
+        }
+        g->m.furn_set( examp, next_autoclave_type );
+        add_msg( _( "You start the autoclave." ) );
+    }
+}
+
+void iexamine::autoclave_full( player &, const tripoint &examp )
+{
+    furn_id cur_autoclave_type = g->m.furn( examp );
+    furn_id next_autoclave_type = f_null;
+    if( cur_autoclave_type == furn_id( "f_autoclave_full" ) ) {
+        next_autoclave_type = furn_id( "f_autoclave" );
+    } else {
+        debugmsg( "Examined furniture has action autoclave_full, but is of type %s",
+                  g->m.furn( examp ).id().c_str() );
+        return;
+    }
+
+    map_stack items = g->m.i_at( examp );
+    bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
+        return i.is_bionic();
+    } );
+
+    bool cbms_not_packed = std::all_of( items.begin(), items.end(), []( const item & i ) {
+        return i.is_bionic() && i.has_flag( "NO_PACKED" );
+    } );
+
+    if( items.empty() ) {
+        add_msg( _( "This autoclave is empty..." ) );
+        g->m.furn_set( examp, next_autoclave_type );
+        return;
+    }
+    if( !cbms ) {
+        add_msg( m_bad,
+                 _( "ERROR Autoclave can't process non CBM items." ) );
+        return;
+    }
+    add_msg( _( "The autoclave is running." ) );
+
+    const item &clock = *items.begin();
+    const time_duration Cycle_time = 90_minutes;
+    const time_duration time_left = Cycle_time - clock.age();
+
+    if( time_left > 0_turns ) {
+        add_msg( _( "The cycle will be complete in %s." ), to_string( time_left ) );
+        return;
+    }
+
+    g->m.furn_set( examp, next_autoclave_type );
+    for( auto &it : items ) {
+        it.unset_flag( "NO_STERILE" );
+        it.set_var( "sterile", 1 ); // sterile for 1s if not (packed)
+    }
+    add_msg( m_good, _( "The cycle is complete, the CBMs are now sterile." ) );
+
+    if( cbms_not_packed ) {
+        add_msg( m_info,
+                 _( "CBMs in direct contact with the environment will almost immediately become contaminated." ) );
+    }
+    g->m.furn_set( examp, next_autoclave_type );
+}
 
 void iexamine::fireplace( player &p, const tripoint &examp )
 {
     const bool already_on_fire = g->m.has_nearby_fire( examp, 0 );
     const bool furn_is_deployed = !g->m.furn( examp ).obj().deployed_item.empty();
-
-    if( already_on_fire && !furn_is_deployed ) {
-        none( p, examp );
-        Pickup::pick_up( examp, 0 );
-        return;
-    }
 
     std::multimap<int, item *> firestarters;
     for( item *it : p.items_with( []( const item & it ) {
@@ -2360,15 +2600,23 @@ void iexamine::fireplace( player &p, const tripoint &examp )
     const bool has_bionic_firestarter = p.has_bionic( bionic_id( "bio_lighter" ) ) &&
                                         p.power_level >= bionic_id( "bio_lighter" )->power_activate;
 
+    auto firequenchers = p.items_with( []( const item & it ) {
+        return it.damage_melee( DT_BASH );
+    } );
+
     uilist selection_menu;
     selection_menu.text = _( "Select an action" );
-    selection_menu.addentry( 0, true, 'e', _( "Examine" ) );
+    selection_menu.addentry( 0, true, 'g', _( "Get items" ) );
     if( !already_on_fire ) {
         selection_menu.addentry( 1, has_firestarter, 'f',
                                  has_firestarter ? _( "Start a fire" ) : _( "Start a fire... you'll need a fire source." ) );
         if( has_bionic_firestarter ) {
             selection_menu.addentry( 2, true, 'b', _( "Use a CBM to start a fire" ) );
         }
+    } else if( !firequenchers.empty() ) {
+        selection_menu.addentry( 4, true, 'e', _( "Extinguish fire" ) );
+    } else {
+        selection_menu.addentry( 4, false, 'e', _( "Extinguish fire (bashing item required)" ) );
     }
     if( furn_is_deployed ) {
         selection_menu.addentry( 3, true, 't', string_format( _( "Take down the %s" ),
@@ -2420,6 +2668,13 @@ void iexamine::fireplace( player &p, const tripoint &examp )
             const auto furn_item = g->m.furn( examp ).obj().deployed_item;
             g->m.add_item_or_charges( examp, item( furn_item, calendar::turn ) );
             g->m.furn_set( examp, f_null );
+            return;
+        }
+        case 4: {
+            g->m.remove_field( examp, fd_fire );
+            p.mod_moves( -200 );
+            p.add_msg_if_player( m_info, _( "With a few determined moves you put out the fire in the %s." ),
+                                 g->m.furnname( examp ) );
             return;
         }
         default:
@@ -3325,9 +3580,6 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
             return;
         }
     }
-    //~ %1$s - furniture, %2$d - number, %3$s items.
-    add_msg( _( "The %1$s contains %2$d %3$s." ), f.name(), amount_in_furn,
-             ammo->nname( amount_in_furn ) );
 
     const int max_amount_in_furn = ammo->charges_per_volume( f.max_volume );
     const int max_reload_amount = max_amount_in_furn - amount_in_furn;
@@ -3366,6 +3618,12 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
         item it( ammo, calendar::turn, amount );
         g->m.add_item( examp, it );
     }
+
+    const int amount_in_furn_after_placing = count_charges_in_list( ammo, items );
+    //~ %1$s - furniture, %2$d - number, %3$s items.
+    add_msg( _( "The %1$s contains %2$d %3$s." ), f.name(), amount_in_furn_after_placing,
+             ammo->nname( amount_in_furn_after_placing ) );
+
     add_msg( _( "You reload the %s." ), g->m.furnname( examp ) );
     p.moves -= to_moves<int>( 5_seconds );
 }
@@ -3812,8 +4070,9 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
                                     pgettext( "memorial_female", "Set off an alarm." ) );
                 sounds::sound( p.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
                                "alarm" );
-                if( examp.z > 0 && !g->events.queued( EVENT_WANTED ) ) {
-                    g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p.global_sm_location() );
+                if( examp.z > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+                    g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+                                         p.global_sm_location() );
                 }
                 break;
             case HACK_NOTHING:
@@ -4086,9 +4345,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
                 case 2: {
                     std::vector<std::string> choice_names;
-                    choice_names.push_back( "Personality_Override" );
+                    choice_names.push_back( _( "Personality_Override" ) );
                     for( size_t i = 0; i < 6; i++ ) {
-                        choice_names.push_back( "C0RR#PTED?D#TA" );
+                        choice_names.push_back( _( "C0RR#PTED?D#TA" ) );
                     }
                     int choice_index = uilist( _( "Choose bionic to uninstall" ), choice_names );
                     if( choice_index == 0 ) {
@@ -4107,6 +4366,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
             return;
         }
+    } else if( patient.activity.id() == "ACT_OPERATION" ) {
+        popup( _( "Operation underway.  Please wait until the end of the current procedure.  Estimated time remaining: %s." ),
+               to_string( time_duration::from_turns( patient.activity.moves_left / 100 ) ) );
+        p.add_msg_if_player( m_info, _( "The autodoc is working on %s." ), patient.disp_name() );
+        return;
     }
 
     uilist amenu;
@@ -4147,40 +4411,46 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     switch( amenu.ret ) {
         case INSTALL_CBM: {
-            const item_location bionic = game_menus::inv::install_bionic( p, patient );
+            item_location bionic = game_menus::inv::install_bionic( p, patient );
 
             if( !bionic ) {
                 return;
             }
 
-            const item *it = bionic.get_item();
-            const itype *itemtype = it->type;
+            const itype *itemtype = bionic.get_item()->type;
 
             player &installer = best_installer( p, null_player, itemtype->bionic->difficulty );
             if( &installer == &null_player ) {
                 return;
             }
 
-            const float volume_anesth = itemtype->bionic->difficulty * 20 * 2; // 2ml/min
+            const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
+            const int surgery_duration = itemtype->bionic->difficulty * 2;
+            const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+                                                surgery_duration * weight;
 
             if( patient.can_install_bionics( ( *itemtype ), installer, true ) ) {
                 const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
-                std::vector<item_comp> comps;
-                comps.push_back( item_comp( it->typeId(), 1 ) );
-                p.consume_items( comps, 1, is_crafting_component );
+                bionic.remove_item();
                 if( needs_anesthesia ) {
                     // Consume obsolete anesthesia first
                     if( acomps.empty() ) {
-                        p.consume_tools( anesth_kit, volume_anesth );
+                        for( const auto &e : req_anesth.get_components() ) {
+                            p.consume_items( e, 1, is_crafting_component );
+                        }
+                        for( const auto &e : req_anesth.get_tools() ) {
+                            p.consume_tools( e );
+                        }
+                        p.invalidate_crafting_inventory();
                     } else {
                         // Legacy
                         p.consume_items( acomps, 1, is_crafting_component );
                     }
 
                 }
-                patient.install_bionics( ( *itemtype ), installer, true );
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
+                patient.install_bionics( ( *itemtype ), installer, true );
             }
             break;
         }
@@ -4200,6 +4470,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     if( item::type_is_defined( bio.id.str() ) ) {// put cbm items in your inventory
                         item bionic_to_uninstall( bio.id.str(), calendar::turn );
                         bionic_to_uninstall.set_flag( "IN_CBM" );
+                        bionic_to_uninstall.set_flag( "NO_STERILE" );
+                        bionic_to_uninstall.set_flag( "NO_PACKED" );
                         g->u.i_add( bionic_to_uninstall );
                     }
                 }
@@ -4241,8 +4513,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     }
 
                 }
-                patient.uninstall_bionic( bid, installer, true );
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
+                patient.uninstall_bionic( bid, installer, true );
             }
             break;
         }
@@ -4251,7 +4523,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             int broken_limbs_count = 0;
             for( int i = 0; i < num_hp_parts; i++ ) {
                 const bool broken = patient.get_hp( static_cast<hp_part>( i ) ) <= 0;
-                body_part part = patient.hp_to_bp( static_cast<hp_part>( i ) );
+                body_part part = player::hp_to_bp( static_cast<hp_part>( i ) );
                 effect &existing_effect = patient.get_effect( effect_mending, part );
                 // Skip part if not broken or already healed 50%
                 if( !broken || ( !existing_effect.is_null() &&
@@ -4422,8 +4694,8 @@ static void smoker_activate( player &p, const tripoint &examp )
                      false ) );
             add_msg( _( "You remove %s from the rack." ), it.tname() );
             g->m.add_item_or_charges( p.pos(), it );
-            g->m.i_rem( examp, &it );
             p.mod_moves( -p.item_handling_cost( it ) );
+            g->m.i_rem( examp, &it );
             return;
         }
         if( it.has_flag( "SMOKED" ) && it.has_flag( "SMOKABLE" ) ) {
@@ -4662,8 +4934,8 @@ static void smoker_load_food( player &p, const tripoint &examp,
     for( const item &m : moved ) {
         g->m.add_item( examp, m );
         p.mod_moves( -p.item_handling_cost( m ) );
-        add_msg( m_info, _( "You carefully place %s %s in the rack." ), amount, m.nname( m.typeId(),
-                 amount ) );
+        add_msg( m_info, _( "You carefully place %s %s in the rack." ), amount,
+                 item::nname( m.typeId(), amount ) );
     }
     p.invalidate_crafting_inventory();
 }
@@ -4770,8 +5042,7 @@ static void mill_load_food( player &p, const tripoint &examp,
         g->m.add_item( examp, m );
         p.mod_moves( -p.item_handling_cost( m ) );
         add_msg( m_info, pgettext( "item amount and name", "You carefully place %s %s in the mill." ),
-                 amount, m.nname( m.typeId(),
-                                  amount ) );
+                 amount, item::nname( m.typeId(), amount ) );
     }
     p.invalidate_crafting_inventory();
 }
@@ -4907,7 +5178,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
                             "\n ";
                         continue;
                     }
-                    pop << "-> " << it.nname( it.typeId(), it.charges );
+                    pop << "-> " << item::nname( it.typeId(), it.charges );
                     pop << " (" << std::to_string( it.charges ) << ") \n ";
                 }
             }
@@ -5111,7 +5382,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                             "\n ";
                         continue;
                     }
-                    pop << "-> " << it.nname( it.typeId(), it.charges );
+                    pop << "-> " << item::nname( it.typeId(), it.charges );
                     pop << " (" << std::to_string( it.charges ) << ") \n ";
                 }
             }
@@ -5196,6 +5467,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
 {
     std::vector<item_location> crafts;
     std::string name;
+    bool is_undeployable = false;
 
     bool items_at_loc = false;
 
@@ -5210,6 +5482,9 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
         }
     } else {
         name = g->m.furn( examp ).obj().name();
+        if( item::type_is_defined( g->m.furn( examp ).obj().deployed_item ) ) {
+            is_undeployable = true;
+        }
 
         auto items_at_furn = g->m.i_at( examp );
         items_at_loc = !items_at_furn.empty();
@@ -5228,7 +5503,8 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
         repeat_craft,
         start_long_craft,
         work_on_craft,
-        get_items
+        get_items,
+        undeploy
     };
 
     amenu.text = string_format( pgettext( "furniture", "What to do at the %s?" ), name );
@@ -5237,7 +5513,10 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
     amenu.addentry( start_long_craft, true,            '3', _( "Craft as long as possible" ) );
     amenu.addentry( work_on_craft,    !crafts.empty(), '4', _( "Work on craft" ) );
     if( !part ) {
-        amenu.addentry( get_items,    items_at_loc,    '5', _( "Get items" ) );
+        amenu.addentry( get_items,    items_at_loc,    'g', _( "Get items" ) );
+    }
+    if( is_undeployable ) {
+        amenu.addentry( undeploy,     true,            't', _( "Take down the %s" ), name );
     }
 
     amenu.query();
@@ -5308,6 +5587,10 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
         }
         case get_items: {
             Pickup::pick_up( examp, 0 );
+            break;
+        }
+        case undeploy: {
+            deployed_furniture( p, examp );
             break;
         }
     }
@@ -5389,6 +5672,10 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "locked_object", &iexamine::locked_object },
             { "kiln_empty", &iexamine::kiln_empty },
             { "kiln_full", &iexamine::kiln_full },
+            { "arcfurnace_empty", &iexamine::arcfurnace_empty },
+            { "arcfurnace_full", &iexamine::arcfurnace_full },
+            { "autoclave_empty", &iexamine::autoclave_empty },
+            { "autoclave_full", &iexamine::autoclave_full },
             { "fireplace", &iexamine::fireplace },
             { "ledge", &iexamine::ledge },
             { "autodoc", &iexamine::autodoc },

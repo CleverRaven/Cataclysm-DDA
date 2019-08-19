@@ -107,6 +107,71 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "lighthouse_ground",
+    "name": "lighthouse",
+    "sym": "0",
+    "color": "cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lighthouse_z1",
+    "name": "lighthouse",
+    "sym": "0",
+    "color": "cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lighthouse_z2",
+    "name": "lighthouse",
+    "sym": "0",
+    "color": "cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lighthouse_z3",
+    "name": "lighthouse",
+    "sym": "&",
+    "color": "blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lighthouse_z4",
+    "name": "lighthouse",
+    "sym": "0",
+    "color": "cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lighthouse_z5",
+    "name": "lighthouse",
+    "sym": "0",
+    "color": "cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lighthouse_roof",
+    "name": "lighthouse",
+    "sym": "0",
+    "color": "cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cabin_isherwood",
+    "name": "forest",
+    "sym": "C",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "riverside_dwelling",
     "name": "riverside dwelling",
     "sym": "+",
@@ -114,6 +179,42 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cabin_lake",
+    "name": "forest",
+    "sym": "F",
+    "color": "green",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cabin_lake_roof",
+    "name": "forest",
+    "sym": "F",
+    "color": "green",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_cabin_boathouse",
+    "name": "forest",
+    "sym": "F",
+    "color": "green",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_cabin_boathouse_roof",
+    "name": "forest",
+    "sym": "F",
+    "color": "green",
+    "see_cost": 5,
+    "extras": "field"
   },
   {
     "type": "overmap_terrain",
@@ -791,6 +892,353 @@
     "name": "irradiation plant",
     "sym": "i",
     "color": "light_green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_1a",
+    "name": "field",
+    "sym": ".",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2a",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_3a",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_1b",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2b",
+    "name": "crashed airliner",
+    "sym": "A",
+    "color": "red",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_3b",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_1c",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2c",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_3c",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_1d",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2d",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_3d",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_1e",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2e",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_3e",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_1f",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2f",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_3f",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_1g",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2g",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_3g",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_1h",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2h",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_3h",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_1i",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2i",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_3i",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_1j",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2j",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_3j",
+    "copy-from": "airliner_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2a_1",
+    "name": "open air",
+    "sym": ".",
+    "color": "blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2b_1",
+    "copy-from": "airliner_2b"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2c_1",
+    "copy-from": "airliner_2a_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2b_-1",
+    "copy-from": "airliner_2b"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airliner_2c_-1",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "dark_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_2",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_3",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_4",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_5",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_6",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_7",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_8",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_9",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_1_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_2_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_3_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_4_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_5_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_6_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_7_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_8_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_9_1",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_1_2",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cground_2_2",
+    "name": "campground",
+    "sym": "┼",
+    "color": "green",
     "see_cost": 5
   }
 ]

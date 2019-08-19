@@ -609,7 +609,7 @@ static const std::array<artifact_dream_datum, NUM_ACRS> artifact_dream_data = { 
 };
 
 // Constructors for artifact itypes.
-it_artifact_tool::it_artifact_tool() : itype()
+it_artifact_tool::it_artifact_tool()
 {
     tool.emplace();
     artifact.emplace();
@@ -625,7 +625,7 @@ it_artifact_tool::it_artifact_tool() : itype()
     use_methods.emplace( "ARTIFACT", use_function( "ARTIFACT", &iuse::artifact ) );
 }
 
-it_artifact_tool::it_artifact_tool( JsonObject &jo ) : itype()
+it_artifact_tool::it_artifact_tool( JsonObject &jo )
 {
     tool.emplace();
     artifact.emplace();
@@ -633,7 +633,7 @@ it_artifact_tool::it_artifact_tool( JsonObject &jo ) : itype()
     deserialize( jo );
 }
 
-it_artifact_armor::it_artifact_armor() : itype()
+it_artifact_armor::it_artifact_armor()
 {
     armor.emplace();
     artifact.emplace();
@@ -641,7 +641,7 @@ it_artifact_armor::it_artifact_armor() : itype()
     price = 0;
 }
 
-it_artifact_armor::it_artifact_armor( JsonObject &jo ) : itype()
+it_artifact_armor::it_artifact_armor( JsonObject &jo )
 {
     armor.emplace();
     artifact.emplace();
@@ -1292,7 +1292,7 @@ void it_artifact_armor::deserialize( JsonObject &jo )
 
 bool save_artifacts( const std::string &path )
 {
-    return write_to_file_exclusive( path, [&]( std::ostream & fout ) {
+    return write_to_file( path, [&]( std::ostream & fout ) {
         JsonOut json( fout, true );
         json.start_array();
         // We only want runtime types, otherwise static artifacts are loaded twice (on init and then on game load)

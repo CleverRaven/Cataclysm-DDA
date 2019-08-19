@@ -135,74 +135,73 @@
   },
   {
     "type": "furniture",
-    "id": "f_indoor_plant",
-    "name": "indoor plant",
-    "symbol": "^",
-    "color": "green",
-    "move_cost_mod": 2,
-    "description": "A variety of plant, used for decoration.",
-    "required_str": 5,
-    "max_volume": 40,
-    "flags": [ "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "id": "f_exercise",
+    "name": "exercise machine",
+    "symbol": "T",
+    "description": "Typically used for, well, exercising.  You're getting quite enough of that; running for your life.",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "coverage": 35,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "MINEABLE" ],
     "deconstruct": {
       "items": [
-        { "item": "withered" },
-        { "item": "wrapper", "prob": 5 },
-        { "item": "can_drink_unsealed", "prob": 5 },
-        { "item": "bag_plastic", "prob": 5 },
-        { "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
-        { "group": "flower_pots" }
+        { "item": "pipe", "count": 1 },
+        { "item": "steel_chunk", "count": 1 },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "lead", "charges": [ 1000, 2000 ] }
       ]
     },
     "bash": {
-      "str_min": 2,
-      "str_max": 18,
-      "sound": "smash!",
-      "sound_fail": "whump.",
+      "str_min": 18,
+      "str_max": 60,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
       "items": [
-        { "item": "withered", "prob": 50 },
-        { "item": "wrapper", "prob": 5 },
-        { "item": "can_drink_unsealed", "prob": 5 },
-        { "item": "bag_plastic", "prob": 5 },
-        { "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
-        { "group": "flower_pots_broken" }
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "prob": 50 },
+        { "item": "pipe", "count": 1 },
+        { "item": "lead", "charges": [ 1000, 2000 ] }
       ]
     }
   },
   {
     "type": "furniture",
-    "id": "f_indoor_plant_y",
-    "name": "yellow indoor plant",
-    "description": "A variety of plant for decoration.  It's yellow.",
-    "symbol": "^",
-    "color": "yellow",
-    "move_cost_mod": 2,
-    "required_str": 5,
-    "max_volume": 40,
-    "flags": [ "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "withered" },
-        { "item": "wrapper", "prob": 5 },
-        { "item": "can_drink_unsealed", "prob": 5 },
-        { "item": "bag_plastic", "prob": 5 },
-        { "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
-        { "group": "flower_pots" }
-      ]
-    },
+    "id": "f_ball_mach",
+    "name": "ball machine",
+    "description": "An unpowered machine that seems like it could've been used to launch various balls for different types of sports.  It's only good for parts now if disassembled.",
+    "symbol": "T",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "MINEABLE" ],
     "bash": {
-      "str_min": 2,
-      "str_max": 18,
+      "str_min": 18,
+      "str_max": 60,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": [ 2, 6 ] }, { "item": "steel_chunk", "prob": 50 }, { "item": "pipe", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sign",
+    "name": "sign",
+    "symbol": "P",
+    "description": "Read it.  Warnings ahead.",
+    "color": "brown",
+    "examine_action": "sign",
+    "move_cost_mod": 1,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SIGN" ],
+    "deconstruct": { "items": [ { "item": "2x4", "count": 3 }, { "item": "nail", "charges": [ 2, 5 ] } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [
-        { "item": "withered", "prob": 50 },
-        { "item": "wrapper", "prob": 5 },
-        { "item": "can_drink_unsealed", "prob": 5 },
-        { "item": "bag_plastic", "prob": 5 },
-        { "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
-        { "group": "flower_pots_broken" }
-      ]
+      "items": [ { "item": "2x4", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 2, 4 ] }, { "item": "splinter", "count": 2 } ]
     }
   },
   {
@@ -227,253 +226,6 @@
       "sound_fail": "whump.",
       "items": [ { "item": "withered", "count": [ 45, 50 ] } ]
     }
-  },
-  {
-    "type": "furniture",
-    "id": "f_woodstove",
-    "name": "wood stove",
-    "symbol": "#",
-    "bgcolor": "red",
-    "description": "Wood stove for heating and cooking.  Much more efficient than an open flame.",
-    "move_cost_mod": 2,
-    "coverage": 60,
-    "required_str": 10,
-    "max_volume": 1000,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MOUNTABLE" ],
-    "examine_action": "fireplace",
-    "bash": {
-      "str_min": 8,
-      "str_max": 30,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 3, 6 ] }, { "item": "pipe", "prob": 50 } ]
-    },
-    "deconstruct": { "items": [ { "item": "metal_tank", "count": 1 }, { "item": "pipe", "count": 1 } ] }
-  },
-  {
-    "type": "furniture",
-    "id": "f_fireplace",
-    "name": "fireplace",
-    "symbol": "#",
-    "description": "Ah.  The relaxation of sitting in front of a fire as the world around you crumbles.  Towards the End, you could also get this service on your television.",
-    "bgcolor": "white",
-    "move_cost_mod": 2,
-    "coverage": 50,
-    "required_str": -1,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MINEABLE" ],
-    "examine_action": "fireplace",
-    "bash": {
-      "str_min": 30,
-      "str_max": 210,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "items": [ { "item": "rock", "count": [ 15, 30 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_stool",
-    "name": "stool",
-    "symbol": "#",
-    "looks_like": "f_chair",
-    "description": "Sit down, have a drink.",
-    "color": "brown",
-    "move_cost_mod": 1,
-    "coverage": 30,
-    "bonus_fire_warmth_feet": 1000,
-    "required_str": 3,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
-    "deconstruct": { "items": [ { "item": "2x4", "count": 3 }, { "item": "nail", "charges": [ 2, 6 ] } ] },
-    "max_volume": 3500,
-    "bash": {
-      "str_min": 6,
-      "str_max": 20,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": 1 }, { "item": "nail", "charges": [ 1, 5 ] }, { "item": "splinter", "count": 3 } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_chair",
-    "name": "chair",
-    "symbol": "#",
-    "description": "Sit down, have a drink.",
-    "color": "brown",
-    "move_cost_mod": 1,
-    "coverage": 40,
-    "comfort": 1,
-    "floor_bedding_warmth": -1500,
-    "bonus_fire_warmth_feet": 1000,
-    "required_str": 4,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
-    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
-    "max_volume": 4000,
-    "bash": {
-      "str_min": 6,
-      "str_max": 20,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 1, 3 ] }, { "item": "nail", "charges": [ 2, 6 ] }, { "item": "splinter", "count": 1 } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_armchair",
-    "name": "arm chair",
-    "symbol": "H",
-    "description": "A more comfortable way of sitting down.",
-    "color": "green",
-    "move_cost_mod": 1,
-    "coverage": 45,
-    "comfort": 3,
-    "floor_bedding_warmth": 500,
-    "bonus_fire_warmth_feet": 1000,
-    "required_str": 7,
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 10 }, { "item": "rag", "count": [ 30, 33 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
-    },
-    "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [
-        { "item": "2x4", "count": [ 1, 3 ] },
-        { "item": "nail", "charges": [ 2, 6 ] },
-        { "item": "splinter", "count": 1 },
-        { "item": "rag", "count": [ 20, 30 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_sofa",
-    "name": "sofa",
-    "symbol": "H",
-    "description": "Lie down OR sit down!  Perfect!",
-    "bgcolor": "red",
-    "move_cost_mod": 1,
-    "coverage": 60,
-    "comfort": 4,
-    "floor_bedding_warmth": 500,
-    "required_str": 10,
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 12 }, { "item": "rag", "count": [ 30, 33 ] }, { "item": "nail", "charges": [ 8, 10 ] } ]
-    },
-    "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "CAN_SIT" ],
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [
-        { "item": "2x4", "count": [ 2, 5 ] },
-        { "item": "nail", "charges": [ 3, 8 ] },
-        { "item": "splinter", "count": [ 1, 2 ] },
-        { "item": "rag", "count": [ 20, 30 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_cupboard",
-    "name": "cupboard",
-    "symbol": "#",
-    "description": "Store your cups.",
-    "color": "blue",
-    "move_cost_mod": 1,
-    "coverage": 55,
-    "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE" ],
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 3 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 8 ] } ]
-    },
-    "max_volume": 4000,
-    "bash": {
-      "str_min": 8,
-      "str_max": 30,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [
-        { "item": "2x4", "count": [ 1, 3 ] },
-        { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "nail", "charges": [ 2, 6 ] },
-        { "item": "splinter", "count": 1 }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_trashcan",
-    "name": "trash can",
-    "symbol": "&",
-    "description": "One man's trash is another man's dinner.",
-    "color": "light_cyan",
-    "move_cost_mod": 1,
-    "required_str": 5,
-    "max_volume": 80,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
-    "bash": {
-      "str_min": 8,
-      "str_max": 30,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_recycle_bin",
-    "name": "recycle bin",
-    "description": "Stores items for recycling.",
-    "symbol": "{",
-    "color": "light_green",
-    "move_cost_mod": -1,
-    "coverage": 40,
-    "required_str": 5,
-    "max_volume": 80,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
-    "bash": {
-      "str_min": 8,
-      "str_max": 30,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "plastic_chunk", "count": [ 2, 7 ] }, { "item": "pipe", "count": [ 1, 2 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_desk",
-    "name": "desk",
-    "symbol": "#",
-    "description": "Sit down at it or work on it.",
-    "color": "light_red",
-    "move_cost_mod": 1,
-    "coverage": 45,
-    "required_str": 8,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF" ],
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 8 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 16, 24 ] } ]
-    },
-    "max_volume": 4000,
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [
-        { "item": "2x4", "count": [ 4, 7 ] },
-        { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "nail", "charges": [ 10, 16 ] },
-        { "item": "splinter", "count": [ 4, 12 ] }
-      ]
-    },
-    "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
   },
   {
     "type": "furniture",
@@ -645,34 +397,6 @@
   },
   {
     "type": "furniture",
-    "id": "f_mailbox",
-    "name": "mailbox",
-    "symbol": "P",
-    "description": "A metal box attached to the top of a wooden post.  Mail delivery hasn't come for awhile.  Doesn't look like it's coming again anytime soon.",
-    "color": "light_gray",
-    "move_cost_mod": 1,
-    "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": [ 2, 5 ] }, { "item": "sheet_metal", "count": 1 } ]
-    },
-    "max_volume": 40,
-    "bash": {
-      "str_min": 12,
-      "str_max": 50,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [
-        { "item": "2x4", "count": 1 },
-        { "item": "nail", "charges": [ 1, 5 ] },
-        { "item": "splinter", "count": 2 },
-        { "item": "sheet_metal_small", "count": [ 6, 10 ] },
-        { "item": "scrap", "count": [ 4, 10 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
     "id": "f_pool_table",
     "name": "pool table",
     "symbol": "#",
@@ -706,191 +430,6 @@
   },
   {
     "type": "furniture",
-    "id": "f_counter",
-    "name": "counter",
-    "description": "Affixed to the wall or found in kitchens or stores.",
-    "symbol": "#",
-    "color": "blue",
-    "move_cost_mod": 2,
-    "coverage": 60,
-    "required_str": 10,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 10 ] } ]
-    },
-    "max_volume": 4000,
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
-    },
-    "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
-  },
-  {
-    "type": "furniture",
-    "id": "f_counter_gate_c",
-    "name": "closed counter gate",
-    "description": "A commercial quality swinging door made of wood that allows passage behind counters.",
-    "symbol": "+",
-    "color": "blue",
-    "move_cost": 3,
-    "move_cost_mod": 2,
-    "required_str": 4,
-    "coverage": 60,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "ORGANIC" ],
-    "connects_to": "COUNTER",
-    "open": "f_counter_gate_o",
-    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": 10 } ] },
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_counter_gate_o",
-    "name": "open counter gate",
-    "description": "A commercial quality swinging door made of wood that allows passage behind counters.",
-    "symbol": ".",
-    "color": "blue",
-    "move_cost": 2,
-    "move_cost_mod": 2,
-    "required_str": 4,
-    "connects_to": "COUNTER",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ROAD", "ORGANIC" ],
-    "close": "f_counter_gate_c",
-    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": 10 } ] },
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_dresser",
-    "name": "dresser",
-    "symbol": "{",
-    "description": "Dress yourself for the zombie prom, or other occasions.",
-    "color": "brown",
-    "move_cost_mod": -1,
-    "coverage": 70,
-    "required_str": 8,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 6 }, { "item": "wood_panel", "count": [ 0, 1 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
-    },
-    "max_volume": 8000,
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_locker",
-    "name": "locker",
-    "symbol": "{",
-    "description": "Usually used for storing equipment or items.",
-    "color": "light_gray",
-    "move_cost_mod": -1,
-    "coverage": 90,
-    "required_str": 9,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
-    "deconstruct": {
-      "items": [
-        { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
-        { "item": "lock", "count": [ 0, 1 ] },
-        { "item": "pipe", "count": [ 4, 8 ] }
-      ]
-    },
-    "max_volume": 2000,
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
-        { "item": "sheet_metal_small", "count": [ 6, 10 ] },
-        { "item": "pipe", "count": 1 }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_rack",
-    "name": "display rack",
-    "description": "Display your items.",
-    "symbol": "{",
-    "color": "light_gray",
-    "move_cost_mod": -1,
-    "coverage": 70,
-    "required_str": 8,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
-    "deconstruct": {
-      "items": [
-        { "item": "pipe", "count": [ 6, 12 ] },
-        { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "sheet_metal_small", "count": [ 0, 4 ] }
-      ]
-    },
-    "max_volume": 7000,
-    "bash": {
-      "str_min": 6,
-      "str_max": 30,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
-        { "item": "sheet_metal_small", "count": [ 6, 10 ] },
-        { "item": "pipe", "count": 1 }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_bookcase",
-    "name": "bookcase",
-    "symbol": "{",
-    "description": "Stores books.  Y'know, those things.  Who reads books anymore?",
-    "color": "brown",
-    "move_cost_mod": -1,
-    "coverage": 80,
-    "required_str": 9,
-    "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR" ],
-    "deconstruct": {
-      "items": [
-        { "item": "2x4", "count": 12 },
-        { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "nail", "charges": [ 12, 16 ] }
-      ]
-    },
-    "max_volume": 8000,
-    "bash": {
-      "str_min": 6,
-      "str_max": 40,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 12 ] }, { "item": "splinter", "count": 1 } ]
-    }
-  },
-  {
-    "type": "furniture",
     "id": "f_bigmirror",
     "name": "standing mirror",
     "symbol": "{",
@@ -907,7 +446,7 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "furn_set": "f_bigmirror_b",
-      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
     }
   },
   {
@@ -949,7 +488,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 12,
       "furn_set": "f_vending_o",
-      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
     }
   },
   {
@@ -1016,140 +555,6 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [ { "item": "plastic_chunk", "count": [ 2, 4 ] }, { "item": "pipe", "count": [ 0, 2 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_coffin_c",
-    "name": "coffin",
-    "description": "Holds the bodies of the countless killed in the Cataclysm.",
-    "symbol": "0",
-    "bgcolor": "brown",
-    "move_cost_mod": -1,
-    "coverage": 40,
-    "required_str": 14,
-    "flags": [
-      "TRANSPARENT",
-      "CONTAINER",
-      "SEALED",
-      "ALLOW_FIELD_EFFECT",
-      "FLAMMABLE",
-      "PLACE_ITEM",
-      "ORGANIC",
-      "MOUNTABLE",
-      "SHORT",
-      "FLAT_SURF"
-    ],
-    "deconstruct": {
-      "items": [
-        { "item": "2x4", "count": 12 },
-        { "item": "nail", "charges": [ 12, 24 ] },
-        { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "rag", "count": [ 15, 20 ] }
-      ]
-    },
-    "max_volume": 3500,
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "smash!",
-      "sound_fail": "wham!",
-      "items": [
-        { "item": "2x4", "count": [ 1, 5 ] },
-        { "item": "splinter", "count": [ 2, 6 ] },
-        { "item": "nail", "charges": [ 2, 10 ] },
-        { "item": "rag", "count": [ 8, 12 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_coffin_o",
-    "name": "open coffin",
-    "description": "You can only hope you'll look good enough for one of these, when the time comes.",
-    "symbol": "O",
-    "bgcolor": "brown",
-    "move_cost_mod": -1,
-    "coverage": 35,
-    "required_str": 12,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "2x4", "count": 12 },
-        { "item": "nail", "charges": [ 12, 24 ] },
-        { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "rag", "count": [ 15, 20 ] }
-      ]
-    },
-    "max_volume": 3500,
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "smash!",
-      "sound_fail": "wham!",
-      "items": [
-        { "item": "2x4", "count": [ 1, 5 ] },
-        { "item": "splinter", "count": [ 2, 6 ] },
-        { "item": "nail", "charges": [ 2, 10 ] },
-        { "item": "rag", "count": [ 8, 12 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_crate_c",
-    "name": "crate",
-    "description": "What's inside?  Pry it open to find out!  Or just smash it, but you might break the contents.",
-    "symbol": "X",
-    "bgcolor": "brown",
-    "move_cost_mod": -1,
-    "coverage": 60,
-    "required_str": 12,
-    "flags": [
-      "TRANSPARENT",
-      "CONTAINER",
-      "SEALED",
-      "ALLOW_FIELD_EFFECT",
-      "FLAMMABLE",
-      "PLACE_ITEM",
-      "ORGANIC",
-      "MOUNTABLE",
-      "SHORT"
-    ],
-    "examine_action": "locked_object",
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 6, 10 ] } ]
-    },
-    "max_volume": 4000,
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "smash!",
-      "sound_fail": "wham!",
-      "items": [ { "item": "2x4", "count": [ 1, 5 ] }, { "item": "nail", "charges": [ 2, 10 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_crate_o",
-    "name": "open crate",
-    "description": "What's inside?  Look in it!",
-    "symbol": "O",
-    "bgcolor": "brown",
-    "move_cost_mod": -1,
-    "coverage": 60,
-    "required_str": 10,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": [ 0, 1 ] }, { "item": "nail", "charges": [ 6, 10 ] } ]
-    },
-    "max_volume": 4000,
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "smash!",
-      "sound_fail": "wham!",
-      "items": [ { "item": "2x4", "count": [ 1, 5 ] }, { "item": "nail", "charges": [ 2, 10 ] } ]
     }
   },
   {
@@ -1496,382 +901,6 @@
   },
   {
     "type": "furniture",
-    "id": "f_safe_c",
-    "name": "safe",
-    "description": "Holds items.  Securely.",
-    "symbol": "X",
-    "color": "light_gray",
-    "move_cost_mod": -1,
-    "coverage": 30,
-    "required_str": 14,
-    "max_volume": 1000,
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
-    "open": "f_safe_o",
-    "examine_action": "open_safe",
-    "bash": {
-      "str_min": 40,
-      "str_max": 200,
-      "sound": "screeching metal!",
-      "sound_fail": "whump!",
-      "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "rock", "count": [ 1, 2 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_safe_l",
-    "name": "safe",
-    "symbol": "X",
-    "description": "What needs protection like this?",
-    "color": "light_gray",
-    "move_cost_mod": -1,
-    "coverage": 30,
-    "required_str": 14,
-    "max_volume": 1000,
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
-    "examine_action": "safe",
-    "bash": {
-      "str_min": 40,
-      "str_max": 200,
-      "sound": "screeching metal!",
-      "sound_fail": "whump!",
-      "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "rock", "count": [ 1, 2 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_gunsafe_ml",
-    "name": "gun safe",
-    "description": "Oooooohhhh.  Shiny.",
-    "symbol": "X",
-    "color": "light_gray",
-    "move_cost_mod": -1,
-    "coverage": 30,
-    "required_str": 14,
-    "max_volume": 1000,
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
-    "examine_action": "gunsafe_ml",
-    "bash": {
-      "str_min": 40,
-      "str_max": 200,
-      "sound": "screeching metal!",
-      "sound_fail": "whump!",
-      "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "rock", "count": [ 1, 2 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_gunsafe_mj",
-    "name": "jammed gun safe",
-    "description": "Does it have guns in it?  You won't find out.  It's jammed.",
-    "symbol": "X",
-    "color": "light_gray",
-    "move_cost_mod": -1,
-    "coverage": 30,
-    "required_str": 14,
-    "max_volume": 1000,
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
-    "bash": {
-      "str_min": 40,
-      "str_max": 200,
-      "sound": "screeching metal!",
-      "sound_fail": "whump!",
-      "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "rock", "count": [ 1, 2 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_gun_safe_el",
-    "name": "electronic gun safe",
-    "description": "Can you hack it open to get the firearms?",
-    "symbol": "X",
-    "color": "light_gray",
-    "move_cost_mod": -1,
-    "coverage": 30,
-    "required_str": 14,
-    "max_volume": 1000,
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
-    "examine_action": "gunsafe_el",
-    "bash": {
-      "str_min": 40,
-      "str_max": 200,
-      "sound": "screeching metal!",
-      "sound_fail": "whump!",
-      "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "rock", "count": [ 1, 2 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_safe_o",
-    "name": "open safe",
-    "description": "Grab the firearms!",
-    "symbol": "O",
-    "color": "light_gray",
-    "move_cost_mod": -1,
-    "coverage": 30,
-    "required_str": 14,
-    "max_volume": 1000,
-    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
-    "close": "f_safe_c",
-    "bash": {
-      "str_min": 40,
-      "str_max": 200,
-      "sound": "screeching metal!",
-      "sound_fail": "whump!",
-      "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "rock", "count": [ 1, 2 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_plant_seed",
-    "name": "seed",
-    "description": "A humble planted seed.  Actions are the seed of fate deeds grow into destiny.",
-    "symbol": "^",
-    "color": "brown",
-    "move_cost_mod": 0,
-    "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEED" ],
-    "examine_action": "aggie_plant",
-    "bash": { "str_min": 1, "str_max": 5, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_data": { "transform": "f_plant_seedling", "base": "f_null" }
-  },
-  {
-    "type": "furniture",
-    "id": "f_plant_seedling",
-    "name": "seedling",
-    "description": "This plant is just getting started.",
-    "symbol": "^",
-    "color": "green",
-    "move_cost_mod": 0,
-    "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEEDLING" ],
-    "examine_action": "aggie_plant",
-    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_data": { "transform": "f_plant_mature", "base": "f_null" }
-  },
-  {
-    "type": "furniture",
-    "id": "f_plant_mature",
-    "name": "mature plant",
-    "description": "This plant has matured.",
-    "symbol": "#",
-    "color": "green",
-    "move_cost_mod": 0,
-    "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE" ],
-    "examine_action": "aggie_plant",
-    "bash": { "str_min": 3, "str_max": 8, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_data": { "transform": "f_plant_harvest", "base": "f_null" }
-  },
-  {
-    "type": "furniture",
-    "id": "f_plant_harvest",
-    "name": "harvestable plant",
-    "description": "This plant is ready for harvest.  Examine it more closely to identify how to harvest the plant appropriately.",
-    "symbol": "#",
-    "color": "light_green",
-    "move_cost_mod": 0,
-    "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
-    "examine_action": "aggie_plant",
-    "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_data": { "transform": "f_null", "base": "f_null" }
-  },
-  {
-    "type": "furniture",
-    "id": "f_planter",
-    "name": "planter",
-    "description": "A garden planter full of soil and slatted to allow adequate drainage.  Can be used for planting crops.",
-    "symbol": "^",
-    "color": "green",
-    "move_cost_mod": 1,
-    "required_str": 10,
-    "looks_like": "t_dirtmound",
-    "flags": [ "TRANSPARENT", "PLANTABLE", "FLAT", "MOUNTABLE" ],
-    "deconstruct": {
-      "items": [
-        { "item": "2x4", "count": [ 11, 12 ] },
-        { "item": "nail", "charges": [ 30, 36 ] },
-        { "item": "pebble", "charges": [ 180, 200 ] },
-        { "item": "material_soil", "count": [ 70, 75 ] }
-      ]
-    },
-    "bash": {
-      "str_min": 6,
-      "str_max": 14,
-      "sound": "crunch.",
-      "sound_fail": "whish.",
-      "items": [
-        { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "charges": [ 15, 30 ] },
-        { "item": "pebble", "charges": [ 150, 200 ] },
-        { "item": "material_soil", "count": [ 60, 75 ] }
-      ]
-    },
-    "plant_data": { "transform": "f_planter_seed" },
-    "examine_action": "dirtmound"
-  },
-  {
-    "type": "furniture",
-    "id": "f_planter_seed",
-    "name": "planter with seed",
-    "description": "A garden planter full of soil and slatted to allow adequate drainage.  Can be used for planting crops.  This one contains a planted seed",
-    "symbol": "^",
-    "color": "brown",
-    "looks_like": "f_plant_seed",
-    "move_cost_mod": 1,
-    "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEED" ],
-    "examine_action": "aggie_plant",
-    "deconstruct": {
-      "items": [
-        { "item": "2x4", "count": [ 11, 12 ] },
-        { "item": "nail", "charges": [ 30, 36 ] },
-        { "item": "pebble", "charges": [ 180, 200 ] },
-        { "item": "material_soil", "count": [ 70, 75 ] }
-      ]
-    },
-    "bash": {
-      "str_min": 6,
-      "str_max": 14,
-      "sound": "crunch.",
-      "sound_fail": "whish.",
-      "items": [
-        { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "charges": [ 15, 30 ] },
-        { "item": "pebble", "charges": [ 150, 200 ] },
-        { "item": "material_soil", "count": [ 60, 75 ] }
-      ]
-    },
-    "plant_data": { "transform": "f_planter_seedling", "base": "f_planter" }
-  },
-  {
-    "type": "furniture",
-    "id": "f_planter_seedling",
-    "name": "planter with seedling",
-    "description": "A garden planter full of soil and slatted to allow adequate drainage.  Can be used for planting crops.  This one contains a planted seedling",
-    "symbol": "^",
-    "color": "green",
-    "looks_like": "f_plant_seedling",
-    "move_cost_mod": 1,
-    "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEEDLING" ],
-    "examine_action": "aggie_plant",
-    "deconstruct": {
-      "items": [
-        { "item": "2x4", "count": [ 11, 12 ] },
-        { "item": "nail", "charges": [ 30, 36 ] },
-        { "item": "pebble", "charges": [ 180, 200 ] },
-        { "item": "material_soil", "count": [ 70, 75 ] }
-      ]
-    },
-    "bash": {
-      "str_min": 6,
-      "str_max": 14,
-      "sound": "crunch.",
-      "sound_fail": "whish.",
-      "items": [
-        { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "charges": [ 15, 30 ] },
-        { "item": "pebble", "charges": [ 150, 200 ] },
-        { "item": "material_soil", "count": [ 60, 75 ] }
-      ]
-    },
-    "plant_data": { "transform": "f_planter_mature", "base": "f_planter" }
-  },
-  {
-    "type": "furniture",
-    "id": "f_planter_mature",
-    "name": "planter with mature plant",
-    "description": "A garden planter full of soil and slatted to allow adequate drainage.  Can be used for planting crops.  This one contains a planted seed",
-    "symbol": "#",
-    "color": "green",
-    "looks_like": "f_plant_mature",
-    "move_cost_mod": 0,
-    "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE" ],
-    "examine_action": "aggie_plant",
-    "deconstruct": {
-      "items": [
-        { "item": "2x4", "count": [ 11, 12 ] },
-        { "item": "nail", "charges": [ 30, 36 ] },
-        { "item": "pebble", "charges": [ 180, 200 ] },
-        { "item": "material_soil", "count": [ 70, 75 ] }
-      ]
-    },
-    "bash": {
-      "str_min": 6,
-      "str_max": 14,
-      "sound": "crunch.",
-      "sound_fail": "whish.",
-      "items": [
-        { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "charges": [ 15, 30 ] },
-        { "item": "pebble", "charges": [ 150, 200 ] },
-        { "item": "material_soil", "count": [ 60, 75 ] }
-      ]
-    },
-    "plant_data": { "transform": "f_planter_harvest", "base": "f_planter" }
-  },
-  {
-    "type": "furniture",
-    "id": "f_planter_harvest",
-    "name": "planter with harvestable plant",
-    "description": "A garden planter full of soil and slatted to allow adequate drainage.  Can be used for planting crops.  This one contains a planted seed",
-    "symbol": "#",
-    "color": "light_green",
-    "looks_like": "f_plant_harvest",
-    "move_cost_mod": 0,
-    "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
-    "examine_action": "aggie_plant",
-    "deconstruct": {
-      "items": [
-        { "item": "2x4", "count": [ 11, 12 ] },
-        { "item": "nail", "charges": [ 30, 36 ] },
-        { "item": "pebble", "charges": [ 180, 200 ] },
-        { "item": "material_soil", "count": [ 70, 75 ] }
-      ]
-    },
-    "bash": {
-      "str_min": 6,
-      "str_max": 14,
-      "sound": "crunch.",
-      "sound_fail": "whish.",
-      "items": [
-        { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "charges": [ 15, 30 ] },
-        { "item": "pebble", "charges": [ 150, 200 ] },
-        { "item": "material_soil", "count": [ 60, 75 ] }
-      ]
-    },
-    "plant_data": { "transform": "f_planter", "base": "f_planter" }
-  },
-  {
-    "type": "furniture",
     "id": "f_fvat_empty",
     "name": "fermenting vat",
     "description": "A sealable vat for fermenting vinegar and various alcoholic brews.",
@@ -1936,43 +965,6 @@
         { "item": "water_faucet", "prob": 50 },
         { "item": "sheet_metal_small", "count": [ 2, 6 ] },
         { "item": "scrap", "count": [ 5, 10 ] },
-        { "item": "splinter", "count": 1 }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_wood_keg",
-    "name": "wooden keg",
-    "description": "A keg made mostly of wood.  Holds liquids, preferably alcoholic.",
-    "symbol": "H",
-    "color": "brown",
-    "move_cost_mod": -1,
-    "coverage": 70,
-    "required_str": -1,
-    "flags": [ "NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT" ],
-    "examine_action": "keg",
-    "keg_capacity": 500,
-    "deconstruct": {
-      "items": [
-        { "item": "2x4", "count": 18 },
-        { "item": "nail", "charges": [ 7, 14 ] },
-        { "item": "water_faucet", "count": 1 },
-        { "item": "sheet_metal_small", "count": [ 12, 20 ] },
-        { "item": "scrap", "count": [ 5, 10 ] }
-      ]
-    },
-    "bash": {
-      "str_min": 12,
-      "str_max": 50,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [
-        { "item": "2x4", "count": [ 6, 12 ] },
-        { "item": "nail", "charges": [ 4, 8 ] },
-        { "item": "water_faucet", "prob": 50 },
-        { "item": "sheet_metal_small", "count": [ 6, 12 ] },
-        { "item": "scrap", "count": [ 10, 20 ] },
         { "item": "splinter", "count": 1 }
       ]
     }
@@ -2137,7 +1129,9 @@
     "move_cost_mod": 2,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "BASHABLE" ],
-    "deconstruct": { "items": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 2 }, { "item": "cable", "count": 10 } ] },
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 2 }, { "item": "cable", "charges": 10 } ]
+    },
     "bash": {
       "str_min": 6,
       "str_max": 10,
@@ -2626,7 +1620,7 @@
       "sound_fail": "whack!",
       "furn_set": "f_vending_o",
       "items": [
-        { "item": "glass_shard", "count": [ 1, 3 ] },
+        { "item": "glass_shard", "count": [ 8, 25 ] },
         { "item": "sheet_metal", "count": [ 0, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 5 ] }
       ]
@@ -2713,7 +1707,7 @@
         { "item": "power_supply", "prob": 50 },
         { "item": "RAM", "prob": 50 },
         { "item": "pipe", "count": [ 0, 2 ] },
-        { "item": "glass_shard", "count": [ 4, 8 ] },
+        { "item": "glass_shard", "count": [ 33, 67 ] },
         { "item": "plastic_chunk", "count": [ 1, 3 ] },
         { "item": "bearing", "charges": [ 0, 16 ] }
       ]
@@ -2818,7 +1812,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 12,
       "furn_set": "f_displaycase_b",
-      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
     }
   },
   {
@@ -2984,6 +1978,58 @@
     "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
     "bash": {
       "str_min": 12,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "pipe", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_arcfurnace_empty",
+    "name": "arc furnace",
+    "description": "An arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.",
+    "symbol": "U",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "examine_action": "arcfurnace_empty",
+    "max_volume": 800,
+    "crafting_pseudo_item": "arcfurnace",
+    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
+    "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "pipe", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_arcfurnace_full",
+    "name": "filled arc furnace",
+    "description": "An arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.",
+    "symbol": "U",
+    "color": "blue_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "examine_action": "arcfurnace_full",
+    "flags": [ "NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM" ],
+    "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
+    "bash": {
+      "str_min": 18,
       "str_max": 40,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
@@ -3245,7 +2291,7 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "items": [ { "item": "rock", "count": [ 1, 6 ] } ]
+      "items": [ { "item": "rock", "count": [ 1, 6 ] }, { "item": "sharp_rock", "count": [ 0, 2 ] } ]
     }
   },
   {
@@ -3265,7 +2311,7 @@
       "str_max": 80,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "items": [ { "item": "rock", "count": [ 5, 11 ] } ]
+      "items": [ { "item": "rock", "count": [ 5, 11 ] }, { "item": "sharp_rock", "count": [ 1, 4 ] } ]
     }
   },
   {
@@ -3286,6 +2332,7 @@
       "sound_fail": "thump.",
       "items": [
         { "item": "rock", "count": [ 10, 22 ] },
+        { "item": "sharp_rock", "count": [ 3, 7 ] },
         { "item": "material_limestone", "charges": [ 2, 5 ], "prob": 30 },
         { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 }
       ]
@@ -3758,95 +2805,6 @@
   },
   {
     "type": "furniture",
-    "id": "f_tourist_table",
-    "name": "tourist table",
-    "description": "Small metal folding table, ideal for off-road trips into the wild.",
-    "symbol": "#",
-    "bgcolor": "light_gray",
-    "move_cost_mod": 2,
-    "coverage": 40,
-    "required_str": -1,
-    "deployed_item": "tourist_table",
-    "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
-    "deconstruct": { "items": [ { "item": "tourist_table", "count": 1 } ] },
-    "bash": {
-      "str_min": 16,
-      "str_max": 50,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "pipe", "count": [ 1, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 4, 8 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_leather_tarp",
-    "name": "leather tarp",
-    "description": "A large sheet of sewn leather that can be used instead of a picnic blanket, but it's more valuable as a butchery appliance as it does not soak in blood.",
-    "symbol": "D",
-    "bgcolor": "brown",
-    "move_cost_mod": 0,
-    "required_str": 3,
-    "deployed_item": "leather_tarp",
-    "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF", "CAN_SIT" ],
-    "deconstruct": { "items": [ { "item": "leather_tarp", "count": 1 } ] },
-    "bash": {
-      "str_min": 5,
-      "str_max": 10,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "leather_tarp", "count": [ 1, 1 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_plastic_groundsheet",
-    "name": "plastic groundsheet",
-    "description": "A large sheet of thick plastic has been tossed on the ground here.  It would be a useful place to do some butchery, perhaps.",
-    "symbol": "D",
-    "bgcolor": "light_blue",
-    "move_cost_mod": 0,
-    "required_str": 3,
-    "deployed_item": "plastic_sheet",
-    "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF", "CAN_SIT" ],
-    "deconstruct": { "items": [ { "item": "plastic_sheet", "count": 1 } ] },
-    "bash": {
-      "str_min": 5,
-      "str_max": 10,
-      "sound": "whuff!",
-      "sound_fail": "crinkle.",
-      "items": [ { "item": "plastic_sheet", "count": 1 } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_fiber_mat",
-    "name": "fiber mat",
-    "description": "A large mat woven from fibrous material that can be used instead of a picnic blanket, but it's more valuable as a butchery appliance.  Too thin to be a comfortable sleeping place.",
-    "symbol": "Q",
-    "bgcolor": "yellow",
-    "move_cost_mod": 0,
-    "required_str": 3,
-    "deployed_item": "fiber_mat",
-    "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF", "CAN_SIT" ],
-    "deconstruct": { "items": [ { "item": "fiber_mat", "count": 1 } ] },
-    "bash": {
-      "str_min": 5,
-      "str_max": 10,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "fiber_mat", "count": [ 1, 1 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
     "id": "f_pillow_fort",
     "name": "pillow fort",
     "symbol": "^",
@@ -3980,7 +2938,7 @@
       "str_max": 15,
       "sound": "crumple!",
       "sound_fail": "thud.",
-      "items": [ { "item": "paper", "count": [ 50, 100 ] } ]
+      "items": [ { "item": "paper", "charges": [ 50, 100 ] } ]
     }
   },
   {
@@ -4582,75 +3540,6 @@
   },
   {
     "type": "furniture",
-    "id": "f_utility_shelf",
-    "name": "utility shelf",
-    "symbol": "{",
-    "looks_like": "f_rack",
-    "description": "A simple heavy-duty plastic and metal shelving unit.",
-    "color": "light_gray",
-    "move_cost_mod": -1,
-    "coverage": 55,
-    "required_str": 6,
-    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
-        { "item": "plastic_chunk", "count": [ 2, 12 ] },
-        { "item": "pipe", "count": [ 4, 8 ] }
-      ]
-    },
-    "max_volume": 2000,
-    "bash": {
-      "str_min": 16,
-      "str_max": 40,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "plastic_chunk", "count": [ 1, 6 ] },
-        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
-        { "item": "pipe", "count": 1 }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_glass_cabinet",
-    "name": "glass front cabinet",
-    "symbol": "[",
-    "looks_like": "f_display_rack",
-    "description": "A tall storage cabinet with a clear glass window.",
-    "color": "light_gray",
-    "move_cost_mod": -1,
-    "coverage": 30,
-    "required_str": 8,
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "BLOCKSDOOR" ],
-    "deconstruct": {
-      "items": [
-        { "item": "2x4", "count": [ 2, 6 ] },
-        { "item": "nail", "charges": [ 4, 16 ] },
-        { "item": "glass_sheet", "count": [ 1, 2 ] },
-        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
-        { "item": "pipe", "count": [ 0, 4 ] }
-      ]
-    },
-    "max_volume": 1600,
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "glass breaking!",
-      "sound_fail": "crunch!",
-      "items": [
-        { "item": "2x4", "count": [ 1, 4 ] },
-        { "item": "splinter", "count": [ 1, 4 ] },
-        { "item": "nail", "charges": [ 4, 8 ] },
-        { "item": "glass_shard", "count": [ 2, 12 ] },
-        { "item": "scrap", "count": [ 0, 2 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
     "id": "f_floor_lamp",
     "name": "floor lamp",
     "symbol": "T",
@@ -4678,7 +3567,7 @@
         { "item": "scrap", "count": [ 1, 2 ] },
         { "item": "cable", "charges": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 0, 1 ] },
-        { "item": "glass_shard", "count": [ 0, 1 ] },
+        { "item": "glass_shard", "count": [ 0, 8 ] },
         { "item": "pipe", "count": [ 0, 1 ] }
       ]
     }
@@ -4766,7 +3655,7 @@
         { "item": "element", "count": [ 1, 3 ] },
         { "item": "plastic_chunk", "count": [ 30, 50 ] },
         { "item": "pipe", "count": 1 },
-        { "item": "glass_shard", "count": [ 3, 12 ] },
+        { "item": "glass_shard", "count": [ 25, 100 ] },
         { "item": "cable", "charges": [ 1, 2 ] }
       ]
     }
@@ -4829,6 +3718,7 @@
       "items": [
         { "item": "pipe", "count": 1 },
         { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "e_scrap", "count": [ 2, 6 ] },
         { "item": "steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
@@ -4838,6 +3728,52 @@
         { "item": "cu_pipe", "count": [ 2, 5 ] }
       ]
     },
+    "examine_action": "autoclave_empty",
+    "bash": {
+      "str_min": 40,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_autoclave_full",
+    "name": "filled autoclave",
+    "description": "This thing is basically an extremely high tech laundry machine or dishwasher.  It steams things at temperatures that will kill almost anything.",
+    "symbol": "0",
+    "color": "light_blue_white",
+    "move_cost_mod": 3,
+    "coverage": 60,
+    "required_str": 16,
+    "max_volume": 4000,
+    "insulation": 2,
+    "looks_like": "f_washer",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "SEALED" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 1 },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 1, 2 ] },
+        { "item": "motor_small", "count": 1 },
+        { "item": "cu_pipe", "count": [ 2, 5 ] }
+      ]
+    },
+    "examine_action": "autoclave_full",
     "bash": {
       "str_min": 40,
       "str_max": 80,
@@ -4996,7 +3932,7 @@
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "glass_shard", "count": [ 5, 10 ] },
+        { "item": "glass_shard", "count": [ 42, 84 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
@@ -5041,7 +3977,7 @@
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "glass_shard", "count": [ 5, 10 ] },
+        { "item": "glass_shard", "count": [ 42, 84 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
@@ -5325,7 +4261,7 @@
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "glass_shard", "count": [ 5, 10 ] },
+        { "item": "glass_shard", "count": [ 42, 84 ] },
         { "item": "metal_tank_little", "count": [ 0, 1 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 0, 1 ] },
@@ -5413,7 +4349,7 @@
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "glass_shard", "count": [ 5, 10 ] },
+        { "item": "glass_shard", "count": [ 42, 84 ] },
         { "item": "metal_tank_little", "count": [ 0, 1 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 0, 1 ] },
@@ -5916,9 +4852,8 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "deployed_item": "alien_pod_resin",
-    "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "alien_pod_resin", "charges": [ 2, 6 ] } ] },
     "bash": { "str_min": 25, "str_max": 60, "sound": "splorch!", "sound_fail": "whump." }
   },
   {

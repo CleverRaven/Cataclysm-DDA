@@ -74,10 +74,16 @@ struct bionic_data {
     * If true, this bionic is included with another.
     */
     bool included = false;
+    /**Amount of environemental protection offered by this bionic*/
+    std::map<body_part, size_t> env_protec;
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
     std::map<body_part, size_t> occupied_bodyparts;
+    /**
+     * Body part encumbered by this bionic, mapped to the amount of encumbrance caused.
+     */
+    std::map<body_part, int> encumbrance;
     /**
      * Fake item created for crafting with this bionic available.
      * Also the item used for gun bionics.
@@ -148,7 +154,7 @@ void reset_bionics();
 void load_bionic( JsonObject &jsobj ); // load a bionic from JSON
 char get_free_invlet( player &p );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
-                               const bool each_bp_on_new_line = true );
+                               bool each_bp_on_new_line = true );
 
 int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty );
 

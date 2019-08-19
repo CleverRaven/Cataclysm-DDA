@@ -1,6 +1,12 @@
 [
   {
     "type": "item_group",
+    "id": "dragon_books",
+    "//": "puts all the dragon books in one group, so it's easy to add more later",
+    "items": [ [ "black_dragons", 10 ] ]
+  },
+  {
+    "type": "item_group",
     "id": "religious_books",
     "items": [ [ "priest_beginner", 1 ], [ "priest_advanced", 1 ], [ "druid_spellbook", 1 ], [ "summon_undead_spellbook", 1 ] ]
   },
@@ -17,29 +23,37 @@
   {
     "type": "item_group",
     "id": "manuals",
-    "items": [ { "group": "spellbook_loot_0", "prob": 3 } ]
+    "items": [ { "group": "spellbook_loot_0", "prob": 3 }, { "group": "dragon_books", "prob": 4 } ]
   },
   {
     "type": "item_group",
     "id": "lab_bookshelves",
-    "items": [ { "group": "spellbook_loot_1", "prob": 3 }, [ "alchemy_basic", 3 ] ]
+    "items": [
+      { "group": "spellbook_loot_1", "prob": 3 },
+      { "group": "magic_recipe_basic", "prob": 3 },
+      { "group": "dragon_books", "prob": 3 }
+    ]
   },
   {
     "type": "item_group",
     "id": "mansion_books",
-    "items": [ { "group": "spellbook_loot_0", "prob": 6 }, [ "alchemy_basic", 10 ] ]
+    "items": [
+      { "group": "spellbook_loot_0", "prob": 6 },
+      { "group": "magic_recipe_basic", "prob": 6 },
+      { "group": "dragon_books", "prob": 5 }
+    ]
   },
   {
     "type": "item_group",
     "id": "exotic_books",
-    "items": [ { "group": "spellbook_loot_1", "prob": 3 } ]
+    "items": [ { "group": "spellbook_loot_1", "prob": 3 }, { "group": "dragon_books", "prob": 2 } ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_rare",
     "items": [
-      { "item": "wand_magic_missile", "prob": 35, "charges-min": 12, "charges-max": 34 },
-      { "item": "wand_fireball", "prob": 25, "charges-min": 3, "charges-max": 24 }
+      { "item": "wand_magic_missile_minor", "prob": 35, "charges-min": 12, "charges-max": 34 },
+      { "item": "wand_fireball_minor", "prob": 25, "charges-min": 3, "charges-max": 24 }
     ]
   },
   {
@@ -90,15 +104,15 @@
       { "group": "spellbook_tier_1", "prob": 50 },
       { "group": "spellbook_tier_2", "prob": 35 },
       { "group": "spellbook_tier_3", "prob": 20 },
-      [ "alchemy_basic", 30 ]
+      { "group": "magic_recipe_basic", "prob": 50 }
     ]
   },
   {
     "type": "item_group",
     "id": "magic_shop_wands",
     "items": [
-      { "item": "wand_magic_missile", "prob": 35, "charges-min": 12, "charges-max": 34 },
-      { "item": "wand_fireball", "prob": 25, "charges-min": 3, "charges-max": 24 }
+      { "item": "wand_magic_missile_minor", "prob": 35, "charges-min": 12, "charges-max": 34 },
+      { "item": "wand_fireball_minor", "prob": 25, "charges-min": 3, "charges-max": 24 }
     ]
   },
   {

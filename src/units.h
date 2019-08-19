@@ -28,13 +28,6 @@ class quantity
         constexpr quantity() : value_() {
         }
         /**
-         * Constructor for initializing from literal 0, but not from any other literal
-         * number. It allows `quantity<foo> x = 0;` but does forbid `quantity<foo> x = 1;`.
-         * The former does not require an explicit unit as 0 is always 0 regardless of the unit.
-         */
-        constexpr quantity( std::nullptr_t ) : value_() {
-        }
-        /**
          * Construct from value. This is supposed to be wrapped into a static
          * function (e.g. `from_liter(int)` ) to provide context.
          */
@@ -129,6 +122,9 @@ class quantity
         constexpr this_type operator-() const {
             return this_type( -value_, unit_type{} );
         }
+
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
 
     private:
         value_type value_;
@@ -386,12 +382,14 @@ inline constexpr value_type to_millijoule( const quantity<value_type, energy_in_
     return v / from_millijoule<value_type>( 1 );
 }
 
-inline constexpr double to_joule( const energy &v )
+template<typename value_type>
+inline constexpr value_type to_joule( const quantity<value_type, energy_in_millijoule_tag> &v )
 {
     return to_millijoule( v ) / 1000.0;
 }
 
-inline constexpr double to_kilojoule( const energy &v )
+template<typename value_type>
+inline constexpr value_type to_kilojoule( const quantity<value_type, energy_in_millijoule_tag> &v )
 {
     return to_joule( v ) / 1000.0;
 }
@@ -490,6 +488,16 @@ inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operat
     return units::from_kilojoule( v );
 }
 
+namespace units
+{
+static const std::vector<std::pair<std::string, energy>> energy_units = { {
+        { "mJ", 1_mJ },
+        { "J", 1_J },
+        { "kJ", 1_kJ },
+    }
+};
+} // namespace units
+
 template<typename T>
 T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, T>> &units )
 {
@@ -526,7 +534,7 @@ T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, 
     if( skip_spaces() ) {
         error( "invalid quantity string: empty string" );
     }
-    T result = 0;
+    T result{};
     do {
         int sign_value = +1;
         if( s[i] == '-' ) {

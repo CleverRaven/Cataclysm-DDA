@@ -2,11 +2,11 @@
 
 #include <algorithm>
 #include <cmath>
-#include <fstream>
 #include <random>
 #include <string>
 
 #include "game_constants.h"
+#include "cata_utility.h"
 #include "json.h"
 #include "math_defines.h"
 #include "rng.h"
@@ -170,7 +170,7 @@ weather_type weather_generator::get_weather_conditions( const tripoint &location
     w_point w( get_weather( location, t, seed ) );
     weather_type wt = get_weather_conditions( w );
     // Make sure we don't say it's sunny at night! =P
-    if( wt == WEATHER_SUNNY && calendar( to_turn<int>( t ) ).is_night() ) {
+    if( wt == WEATHER_SUNNY && is_night( t ) ) {
         return WEATHER_CLEAR;
     }
     return wt;
@@ -256,7 +256,7 @@ int weather_generator::get_water_temperature() const
     **/
 
     int season_length = to_days<int>( calendar::season_length() );
-    int day = calendar::turn.day_of_year();
+    int day = to_days<int>( time_past_new_year( calendar::turn ) );
     int hour = hour_of_day<int>( calendar::turn );
 
     int water_temperature = 0;
@@ -282,33 +282,33 @@ void weather_generator::test_weather() const
     // Usage:
     // weather_generator WEATHERGEN; // Instantiate the class.
     // WEATHERGEN.test_weather(); // Runs this test.
-    std::ofstream testfile;
-    testfile.open( "weather.output", std::ofstream::trunc );
-    testfile <<
-             "|;year;season;day;hour;minute;temperature(F);humidity(%);pressure(mB);weatherdesc;windspeed(mph);winddirection"
-             << std::endl;
+    write_to_file( "weather.output", [&]( std::ostream & testfile ) {
+        testfile <<
+                 "|;year;season;day;hour;minute;temperature(F);humidity(%);pressure(mB);weatherdesc;windspeed(mph);winddirection"
+                 << std::endl;
 
-    const time_point begin = calendar::turn;
-    const time_point end = begin + 2 * calendar::year_length();
-    for( time_point i = begin; i < end; i += 20_minutes ) {
-        w_point w = get_weather( tripoint_zero, to_turn<int>( i ), 1000 );
-        weather_type c = get_weather_conditions( w );
-        weather_datum wd = weather_data( c );
+        const time_point begin = calendar::turn;
+        const time_point end = begin + 2 * calendar::year_length();
+        for( time_point i = begin; i < end; i += 20_minutes ) {
+            w_point w = get_weather( tripoint_zero, to_turn<int>( i ), 1000 );
+            weather_type c = get_weather_conditions( w );
+            weather_datum wd = weather_data( c );
 
-        int year = to_turns<int>( i - calendar::time_of_cataclysm ) / to_turns<int>
-                   ( calendar::year_length() ) + 1;
-        const int hour = hour_of_day<int>( i );
-        const int minute = minute_of_hour<int>( i );
-        int day;
-        if( calendar::eternal_season() ) {
-            day = to_days<int>( time_past_new_year( i ) );
-        } else {
-            day = day_of_season<int>( i );
+            int year = to_turns<int>( i - calendar::turn_zero ) / to_turns<int>
+                       ( calendar::year_length() ) + 1;
+            const int hour = hour_of_day<int>( i );
+            const int minute = minute_of_hour<int>( i );
+            int day;
+            if( calendar::eternal_season() ) {
+                day = to_days<int>( time_past_new_year( i ) );
+            } else {
+                day = day_of_season<int>( i );
+            }
+            testfile << "|;" << year << ";" << season_of_year( i ) << ";" << day << ";" << hour << ";" << minute
+                     << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure << ";" << wd.name << ";" <<
+                     w.windpower << ";" << w.winddirection << std::endl;
         }
-        testfile << "|;" << year << ";" << season_of_year( i ) << ";" << day << ";" << hour << ";" << minute
-                 << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure << ";" << wd.name << ";" <<
-                 w.windpower << ";" << w.winddirection << std::endl;
-    }
+    }, "weather test file" );
 }
 
 weather_generator weather_generator::load( JsonObject &jo )

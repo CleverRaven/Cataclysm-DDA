@@ -130,31 +130,11 @@ bool map::build_transparency_cache( const int zlev )
                     }
                     for( const auto &fld : cur_submap->fld[sx][sy] ) {
                         const field_entry &cur = fld.second;
-                        const field_type_id type = cur.get_field_type();
-                        const int intensity = cur.get_field_intensity();
-
-                        if( type.obj().get_transparent( intensity - 1 ) ) {
+                        if( cur.is_transparent() ) {
                             continue;
                         }
-
                         // Fields are either transparent or not, however we want some to be translucent
-                        if( type == fd_cigsmoke || type == fd_weedsmoke || type == fd_cracksmoke ||
-                            type == fd_methsmoke || type == fd_relax_gas ) {
-                            value *= 5;
-                        } else if( type == fd_smoke || type == fd_incendiary || type == fd_toxic_gas ||
-                                   type == fd_tear_gas ) {
-                            if( intensity == 3 ) {
-                                value = LIGHT_TRANSPARENCY_SOLID;
-                            } else if( intensity == 2 ) {
-                                value *= 10;
-                            }
-                        } else if( type == fd_nuke_gas ) {
-                            value *= 10;
-                        } else if( type == fd_fire ) {
-                            value *= 1.0 - ( intensity * 0.3 );
-                        } else {
-                            value = LIGHT_TRANSPARENCY_SOLID;
-                        }
+                        value = value * cur.translucency();
                     }
                     // TODO: [lightmap] Have glass reduce light as well
                 }
@@ -224,7 +204,7 @@ void map::build_sunlight_cache( int zlev )
     // Replace this with a calculated shift based on time of day and date.
     // At first compress the angle such that it takes no more than one tile of shift per level.
     // To exceed that, we'll have to handle casting light from the side instead of the top.
-    point offset( 0, 0 );
+    point offset;
     const level_cache &prev_map_cache = get_cache_ref( zlev + 1 );
     const auto &prev_lm = prev_map_cache.lm;
     const auto &prev_transparency_cache = prev_map_cache.transparency_cache;
@@ -232,9 +212,9 @@ void map::build_sunlight_cache( int zlev )
     const auto &outside_cache = map_cache.outside_cache;
     const float sight_penalty = weather::sight_penalty( g->weather.weather );
     for( int x = 0, prev_x = offset.x; x < MAPSIZE_X; x++, prev_x++ ) {
-        bool x_inbounds = ( prev_x < 0 || prev_x >= MAPSIZE_X ) ? false : true;
+        bool x_inbounds = prev_x >= 0 && prev_x < MAPSIZE_X;
         for( int y = 0, prev_y = offset.y; y < MAPSIZE_Y; y++, prev_y++ ) {
-            bool inbounds = ( !x_inbounds || prev_y < 0 || prev_y >= MAPSIZE_Y ) ? false : true;
+            bool inbounds = x_inbounds && prev_y >= 0 && prev_y < MAPSIZE_Y;
             four_quadrants prev_light( outside_light_level );
             float prev_transparency = static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR );
             if( inbounds ) {
@@ -352,48 +332,9 @@ void map::generate_lightmap( const int zlev )
 
                     for( auto &fld : cur_submap->fld[sx][sy] ) {
                         const field_entry *cur = &fld.second;
-                        // TODO: [lightmap] Attach light brightness to fields
-                        const auto ft = cur->get_field_type();
-                        if( ft == fd_fire ) {
-                            if( 3 == cur->get_field_intensity() ) {
-                                add_light_source( p, 160 );
-                            } else if( 2 == cur->get_field_intensity() ) {
-                                add_light_source( p, 60 );
-                            } else {
-                                add_light_source( p, 20 );
-                            }
-                        }
-                        if( ft == fd_fire_vent || ft == fd_flame_burst ) {
-                            add_light_source( p, 20 );
-                        }
-                        if( ft == fd_electricity || ft == fd_plasma ) {
-
-                            if( 3 == cur->get_field_intensity() ) {
-                                add_light_source( p, 20 );
-                            } else if( 2 == cur->get_field_intensity() ) {
-                                add_light_source( p, 4 );
-                            } else {
-                                // Kinda a hack as the square will still get marked.
-                                apply_light_source( p, LIGHT_SOURCE_LOCAL );
-                            }
-                        }
-                        if( ft == fd_incendiary ) {
-                            if( 3 == cur->get_field_intensity() ) {
-                                add_light_source( p, 160 );
-                            } else if( 2 == cur->get_field_intensity() ) {
-                                add_light_source( p, 60 );
-                            } else {
-                                add_light_source( p, 20 );
-                            }
-                        }
-                        if( ft == fd_laser ) {
-                            apply_light_source( p, 4 );
-                        }
-                        if( ft == fd_spotlight ) {
-                            add_light_source( p, 80 );
-                        }
-                        if( ft == fd_dazzling ) {
-                            add_light_source( p, 5 );
+                        const int light_emitted = cur->light_emitted();
+                        if( light_emitted > 0 ) {
+                            add_light_source( p, light_emitted );
                         }
                     }
                 }
@@ -587,14 +528,14 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
             std::array<quadrant, 2> quadrants;
         };
         static constexpr std::array<offset_and_quadrants, 8> adjacent_offsets = {{
-                { { 0, 1 }, {{ quadrant::SE, quadrant::SW }} },
-                { { 0, -1 }, {{ quadrant::NE, quadrant::NW }} },
-                { { 1, 0 }, {{ quadrant::SE, quadrant::NE }} },
-                { { 1, 1 }, {{ quadrant::SE, quadrant::SE }} },
-                { { 1, -1 }, {{ quadrant::NE, quadrant::NE }} },
-                { {-1, 0 }, {{ quadrant::SW, quadrant::NW }} },
-                { {-1, 1 }, {{ quadrant::SW, quadrant::SW }} },
-                { {-1, -1 }, {{ quadrant::NW, quadrant::NW }} },
+                { point_south,      {{ quadrant::SE, quadrant::SW }} },
+                { point_north,      {{ quadrant::NE, quadrant::NW }} },
+                { point_east,       {{ quadrant::SE, quadrant::NE }} },
+                { point_south_east, {{ quadrant::SE, quadrant::SE }} },
+                { point_north_east, {{ quadrant::NE, quadrant::NE }} },
+                { point_west,       {{ quadrant::SW, quadrant::NW }} },
+                { point_south_west, {{ quadrant::SW, quadrant::SW }} },
+                { point_north_west, {{ quadrant::NW, quadrant::NW }} },
             }
         };
 
@@ -727,10 +668,10 @@ void cast_zlight_segment(
     const std::array<T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
     const std::array<const T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
     const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
-    const tripoint &offset, const int offset_distance,
-    const T numerator = 1.0f, const int row = 1,
-    float start_major = 0.0f, const float end_major = 1.0f,
-    float start_minor = 0.0f, const float end_minor = 1.0f,
+    const tripoint &offset, int offset_distance,
+    T numerator = 1.0f, int row = 1,
+    float start_major = 0.0f, float end_major = 1.0f,
+    float start_minor = 0.0f, float end_minor = 1.0f,
     T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
 
 template<int xx, int xy, int xz, int yx, int yy, int yz, int zz, typename T,
@@ -759,9 +700,8 @@ void cast_zlight_segment(
     float new_start_minor = 1.0f;
 
     T last_intensity = 0.0;
-    static constexpr tripoint origin( 0, 0, 0 );
-    tripoint delta( 0, 0, 0 );
-    tripoint current( 0, 0, 0 );
+    tripoint delta;
+    tripoint current;
     for( int distance = row; distance <= radius; distance++ ) {
         delta.y = distance;
         bool started_block = false;
@@ -818,7 +758,7 @@ void cast_zlight_segment(
                     current_transparency = new_transparency;
                 }
 
-                const int dist = rl_dist( origin, delta ) + offset_distance;
+                const int dist = rl_dist( tripoint_zero, delta ) + offset_distance;
                 last_intensity = calc( numerator, cumulative_transparency, dist );
 
                 if( !floor_block ) {
@@ -1002,9 +942,9 @@ template<int xx, int xy, int yx, int yy, typename T, typename Out,
          T( *accumulate )( const T &, const T &, const int & )>
 void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                 const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
-                const int offsetX, const int offsetY, const int offsetDistance,
-                const T numerator = 1.0,
-                const int row = 1, float start = 1.0f, const float end = 0.0f,
+                int offsetX, int offsetY, int offsetDistance,
+                T numerator = 1.0,
+                int row = 1, float start = 1.0f, float end = 0.0f,
                 T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
 
 template<int xx, int xy, int yx, int yy, typename T, typename Out,
@@ -1024,8 +964,7 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
         return;
     }
     T last_intensity = 0.0;
-    static constexpr tripoint origin( 0, 0, 0 );
-    tripoint delta( 0, 0, 0 );
+    tripoint delta;
     for( int distance = row; distance <= radius; distance++ ) {
         delta.y = -distance;
         bool started_row = false;
@@ -1054,7 +993,7 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                 current_transparency = input_array[ currentX ][ currentY ];
             }
 
-            const int dist = rl_dist( origin, delta ) + offsetDistance;
+            const int dist = rl_dist( tripoint_zero, delta ) + offsetDistance;
             last_intensity = calc( numerator, cumulative_transparency, dist );
 
             T new_transparency = input_array[ currentX ][ currentY ];

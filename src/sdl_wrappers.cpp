@@ -51,6 +51,18 @@ void RenderCopy( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &textur
                   "SDL_RenderCopy failed" );
 }
 
+SDL_Texture_Ptr CreateTexture( const SDL_Renderer_Ptr &renderer, Uint32 format, int access,
+                               int w, int h )
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "Tried to create texture with a null renderer";
+        return SDL_Texture_Ptr();
+    }
+    SDL_Texture_Ptr result( SDL_CreateTexture( renderer.get(), format, access, w, h ) );
+    printErrorIf( !result, "SDL_CreateTexture failed" );
+    return result;
+}
+
 SDL_Texture_Ptr CreateTextureFromSurface( const SDL_Renderer_Ptr &renderer,
         const SDL_Surface_Ptr &surface )
 {
@@ -99,6 +111,16 @@ void FillRect( const SDL_Surface_Ptr &surface, const SDL_Rect *const rect, Uint3
         return;
     }
     printErrorIf( SDL_FillRect( surface.get(), rect, color ) != 0, "SDL_FillRect failed" );
+}
+
+void SetTextureBlendMode( const SDL_Texture_Ptr &texture, SDL_BlendMode blendMode )
+{
+    if( !texture ) {
+        dbg( D_ERROR ) << "Tried to use a null texture";
+    }
+
+    throwErrorIf( SDL_SetTextureBlendMode( texture.get(), blendMode ) != 0,
+                  "SDL_SetTextureBlendMode failed" );
 }
 
 bool SetTextureColorMod( const SDL_Texture_Ptr &texture, Uint32 r, Uint32 g, Uint32 b )

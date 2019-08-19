@@ -43,13 +43,13 @@
       "PERMEABLE"
     ],
     "examine_action": "chainfence",
-    "deconstruct": { "items": [ { "item": "sandbag", "count": 16 } ] },
+    "deconstruct": { "items": [ { "item": "earthbag", "count": 16 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 60,
       "sound": "rrrip!",
       "sound_fail": "whump.",
-      "items": [ { "item": "bag_canvas", "count": [ 10, 16 ] }, { "item": "material_sand", "charges": [ 40, 48 ] } ]
+      "items": [ { "item": "bag_canvas", "count": [ 10, 16 ] }, { "item": "material_soil", "charges": [ 40, 48 ] } ]
     }
   },
   {
@@ -71,7 +71,7 @@
       "sound": "rrrip!",
       "sound_fail": "whump.",
       "furn_set": "f_earthbag_half",
-      "items": [ { "item": "bag_canvas", "count": [ 15, 20 ] }, { "item": "material_sand", "charges": [ 50, 60 ] } ]
+      "items": [ { "item": "bag_canvas", "count": [ 15, 20 ] }, { "item": "material_soil", "charges": [ 50, 60 ] } ]
     }
   },
   {

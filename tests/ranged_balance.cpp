@@ -54,7 +54,7 @@ static void arm_shooter( npc &shooter, const std::string &gun_type,
 {
     shooter.remove_weapon();
 
-    const itype_id gun_id( gun_type );
+    const itype_id &gun_id( gun_type );
     // Give shooter a loaded gun of the requested type.
     item &gun = shooter.i_add( item( gun_id ) );
     const itype_id ammo_id = gun.ammo_default();
@@ -249,7 +249,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 {
     clear_map();
     standard_npc shooter( "Shooter", {}, 5, 10, 10, 10, 10 );
-    equip_shooter( shooter, { "cloak_wool", "footrags_wool", "gloves_wraps_fur", "veil_wedding" } );
+    equip_shooter( shooter, { "cloak_wool", "footrags_wool", "gloves_wraps_fur", "glasses_safety", "balclava" } );
     assert_encumbrance( shooter, 5 );
 
     SECTION( "a skilled shooter with an accurate pistol" ) {

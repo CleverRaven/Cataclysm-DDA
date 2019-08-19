@@ -36,6 +36,7 @@
 #include "pldata.h"
 #include "type_id.h"
 #include "magic.h"
+#include "monster.h"
 #include "craft_command.h"
 #include "point.h"
 #include "faction.h"
@@ -223,13 +224,8 @@ class player : public Character
         /** Returns what color the player should be drawn as */
         nc_color basic_symbol_color() const override;
 
-        /** Deserializes string data when loading files */
-        virtual void load_info( std::string data );
-        /** Outputs a serialized json string for saving */
-        virtual std::string save_info() const;
-
         /** Returns an enumeration of visible mutations with colors */
-        std::string visible_mutations( const int visibility_cap ) const;
+        std::string visible_mutations( int visibility_cap ) const;
         std::vector<std::string> short_description_parts() const;
         std::string short_description() const;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
@@ -340,31 +336,44 @@ class player : public Character
                                       const skill_id &important_skill,
                                       const skill_id &least_important_skill,
                                       int skill_level = -1 );
+        /** Calculate non adjusted skill for (un)installing bionics */
+        int bionics_pl_skill( const skill_id &most_important_skill,
+                              const skill_id &important_skill,
+                              const skill_id &least_important_skill,
+                              int skill_level = -1 );
         /**Is the installation possible*/
         bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
                                   int skill_level = -1 );
-        /** Attempts to install bionics, returns false if the player cancels prior to installation */
+        /** Initialize all the values needed to start the operation player_activity */
         bool install_bionics( const itype &type, player &installer, bool autodoc = false,
                               int skill_level = -1 );
-        void bionics_install_failure( player &installer, int difficulty, int success,
-                                      float adjusted_skill );
+        /**Success or failure of installation happens here*/
+        void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
+                              int pl_skill,
+                              std::string cbm_name, std::string upcbm_name, std::string installer_name,
+                              std::vector<trait_id> trait_to_rem, tripoint patient_pos );
+        void bionics_install_failure( bionic_id bid, std::string installer, int difficulty, int success,
+                                      float adjusted_skill, tripoint patient_pos );
         /**Is The uninstallation possible*/
         bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                    int skill_level = -1 );
-        /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
+        /** Initialize all the values needed to start the operation player_activity */
         bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                int skill_level = -1 );
+        /**Succes or failure of removal happens here*/
+        void perform_uninstall( bionic_id bid, int difficulty, int success, int power_lvl, int pl_skill,
+                                std::string cbm_name );
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
                                float adjusted_skill, bool autodoc = false );
         /**When a player fails the surgery*/
-        void bionics_uninstall_failure( player &installer, int difficulty, int success,
+        void bionics_uninstall_failure( int difficulty, int success,
                                         float adjusted_skill );
         /**When a monster fails the surgery*/
         void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
                                         float adjusted_skill );
         /**Has enough anesthetic for surgery*/
-        bool has_enough_anesth( const itype *cbm );
+        bool has_enough_anesth( const itype *cbm, player &patient );
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power( int amount );
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -468,8 +477,8 @@ class player : public Character
 
         void pause(); // '.' command; pauses & reduces recoil
 
-        void set_movement_mode( const player_movemode mode );
-        bool movement_mode_is( const player_movemode mode ) const;
+        void set_movement_mode( player_movemode mode );
+        bool movement_mode_is( player_movemode mode ) const;
 
         void cycle_move_mode(); // Cycles to the next move mode.
         void reset_move_mode(); // Resets to walking.
@@ -546,7 +555,7 @@ class player : public Character
         /** Returns true if the player is immune to this kind of effect */
         bool is_immune_effect( const efftype_id & ) const override;
         /** Returns true if the player is immune to this kind of damage */
-        bool is_immune_damage( const damage_type ) const override;
+        bool is_immune_damage( damage_type ) const override;
         /** Returns true if the player is protected from radiation */
         bool is_rad_immune() const;
 
@@ -558,6 +567,10 @@ class player : public Character
         bool has_grab_break_tec() const override;
         /** Returns the grab breaking technique if available */
         ma_technique get_grab_break_tec() const;
+        /** Returns true if the player is able to use a grab breaking technique */
+        bool can_grab_break() const;
+        /** Returns true if the player is able to use a miss recovery technique */
+        bool can_miss_recovery( const item &weap ) const;
         /** Returns true if the player has the leg block technique available */
         bool can_leg_block() const;
         /** Returns true if the player has the arm block technique available */
@@ -649,7 +662,7 @@ class player : public Character
         void on_dodge( Creature *source, float difficulty ) override;
         /** Handles special defenses from an attack that hit us (source can be null) */
         void on_hit( Creature *source, body_part bp_hit = num_bp,
-                     float difficulty = INT_MIN, dealt_projectile_attack const *const proj = nullptr ) override;
+                     float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
         /** Handles effects that happen when the player is damaged and aware of the fact. */
         void on_hurt( Creature *source, bool disturb = true );
 
@@ -769,7 +782,7 @@ class player : public Character
         int reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt );
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
         void apply_damage( Creature *source, body_part bp, int amount,
-                           const bool bypass_med = false ) override;
+                           bool bypass_med = false ) override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
         void mod_pain( int npain ) override;
         /** Sets new intensity of pain an reacts to it */
@@ -797,8 +810,8 @@ class player : public Character
         void hurtall( int dam, Creature *source, bool disturb = true );
         /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
         int hitall( int dam, int vary, Creature *source );
-        /** Knocks the player back one square from a tile */
-        void knock_back_from( const tripoint &p ) override;
+        /** Knocks the player to a specified tile */
+        void knock_back_to( const tripoint &p ) override;
 
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         float fall_damage_mod() const override;
@@ -966,6 +979,10 @@ class player : public Character
         bool can_lift( const T &obj ) const {
             // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
             int str = get_str();
+            if( mounted_creature ) {
+                auto mons = mounted_creature.get();
+                str = mons->mech_str_addition() == 0 ? str : mons->mech_str_addition();
+            }
             const int npc_str = get_lift_assist();
             if( has_trait( trait_id( "STRONGBACK" ) ) ) {
                 str *= 1.35;
@@ -1073,7 +1090,7 @@ class player : public Character
         void drop( const std::list<std::pair<int, int>> &what, const tripoint &where, bool stash = false );
 
         /** So far only called by unload() from game.cpp */
-        bool add_or_drop_with_msg( item &it, const bool unloading = false );
+        bool add_or_drop_with_msg( item &it, bool unloading = false );
 
         bool unload( item &it );
 
@@ -1155,7 +1172,7 @@ class player : public Character
 
     private:
         /** last time we checked for sleep */
-        time_point last_sleep_check = calendar::time_of_cataclysm;
+        time_point last_sleep_check = calendar::turn_zero;
         bool bio_soporific_powered_at_last_sleep_check;
 
     public:
@@ -1216,8 +1233,6 @@ class player : public Character
         double armwear_factor() const;
         /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both, and zero if on neither */
         int shoe_type_count( const itype_id &it ) const;
-        /** Returns true if the player is wearing power armor */
-        bool is_wearing_power_armor( bool *hasHelmet = nullptr ) const;
         /** Returns wind resistance provided by armor, etc **/
         int get_wind_resistance( body_part bp ) const;
         /** Returns the effect of pain on stats */
@@ -1328,6 +1343,15 @@ class player : public Character
         // Carried items may leak radiation or chemicals
         int  leak_level( const std::string &flag ) const;
 
+        /** Returns the item in the player's inventory with the highest of the specified quality*/
+        item &item_with_best_of_quality( const quality_id &qid );
+
+        /**
+        * Prompts user about crushing item at item_location loc, for harvesting of frozen liquids
+        * @param loc Location for item to crush
+        */
+        bool crush_frozen_liquid( item_location loc );
+
         // Has a weapon, inventory item or worn item with flag
         bool has_item_with_flag( const std::string &flag, bool need_charges = false ) const;
 
@@ -1356,21 +1380,21 @@ class player : public Character
         /** Returns all known recipes. */
         const recipe_subset &get_learned_recipes() const;
         /** Returns all recipes that are known from the books (either in inventory or nearby). */
-        const recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
+        recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
         /**
           * Returns all available recipes (from books and npc companions)
           * @param crafting_inv Current available items to craft
           * @param helpers List of NPCs that could help with crafting.
           */
-        const recipe_subset get_available_recipes( const inventory &crafting_inv,
-                const std::vector<npc *> *helpers = nullptr ) const;
+        recipe_subset get_available_recipes( const inventory &crafting_inv,
+                                             const std::vector<npc *> *helpers = nullptr ) const;
         /**
           * Returns the set of book types in crafting_inv that provide the
           * given recipe.
           * @param crafting_inv Current available items that may contain readable books
           * @param r Recipe to search for in the available books
           */
-        const std::set<itype_id> get_books_for_recipe( const inventory &crafting_inv,
+        std::set<itype_id> get_books_for_recipe( const inventory &crafting_inv,
                 const recipe *r ) const;
 
         // crafting.cpp
@@ -1471,7 +1495,7 @@ class player : public Character
         select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
                                const std::string &hotkeys = DEFAULT_HOTKEYS,
                                bool can_cancel = false, bool player_inv = true,
-        const std::function<int( int )> charges_required_modifier = []( int i ) {
+        std::function<int( int )> charges_required_modifier = []( int i ) {
             return i;
         } );
         /** Consume tools for the next multiplier * 5% progress of the craft */
@@ -1497,7 +1521,7 @@ class player : public Character
         std::vector<tripoint> &get_auto_move_route();
         action_id get_next_auto_move_direction();
         bool defer_move( const tripoint &next );
-        void shift_destination( int shiftx, int shifty );
+        void shift_destination( const point &shift );
         void forced_dismount();
         void dismount();
 
@@ -1537,7 +1561,7 @@ class player : public Character
             setpos( tripoint( position.x, y, position.z ) );
         }
         inline void setz( int z ) {
-            setpos( tripoint( position.x, position.y, z ) );
+            setpos( tripoint( position.xy(), z ) );
         }
         inline void setpos( const tripoint &p ) override {
             position = p;
@@ -1576,7 +1600,6 @@ class player : public Character
         int stim;
         int cash;
         int movecounter;
-        std::shared_ptr<monster> mounted_creature;
         bool death_drops;// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
         std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
         // Equalizes heat between body parts
@@ -1612,9 +1635,9 @@ class player : public Character
         int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
-        int get_used_bionics_slots( const body_part bp ) const;
-        int get_total_bionics_slots( const body_part bp ) const;
-        int get_free_bionics_slots( const body_part bp ) const;
+        int get_used_bionics_slots( body_part bp ) const;
+        int get_total_bionics_slots( body_part bp ) const;
+        int get_free_bionics_slots( body_part bp ) const;
         std::map<body_part, int> bionic_installation_issues( const bionic_id &bioid );
 
         //Dumps all memorial events into a single newline-delimited string
@@ -1643,7 +1666,7 @@ class player : public Character
         bool is_invisible() const;
         bool is_deaf() const;
         // Checks whether a player can hear a sound at a given volume and location.
-        bool can_hear( const tripoint &source, const int volume ) const;
+        bool can_hear( const tripoint &source, int volume ) const;
         // Returns a multiplier indicating the keenness of a player's hearing.
         float hearing_ability() const;
         int visibility( bool check_color = false,
@@ -1817,8 +1840,8 @@ class player : public Character
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const trait_id &mutation );
         void deactivate_mutation( const trait_id &mut );
-        bool has_fire( const int quantity ) const;
-        void use_fire( const int quantity );
+        bool has_fire( int quantity ) const;
+        void use_fire( int quantity );
 
         /** Determine player's capability of recharging their CBMs. */
         bool can_feed_battery_with( const item &it ) const;

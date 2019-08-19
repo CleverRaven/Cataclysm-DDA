@@ -337,7 +337,7 @@ inline typename
 std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value, bool>::type assign(
     JsonObject &jo, const std::string &name, T &val, bool strict, const T &factor )
 {
-    T out = 0;
+    T out{};
     double scalar;
 
     // Object via which to report errors which differs for proportional/relative values

@@ -29,8 +29,8 @@ enum face_type : int {
 namespace overmap_ui
 {
 void draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
-                         const tripoint &global_omt, const int start_y, const int start_x, const int width,
-                         const int height );
+                         const tripoint &global_omt, int start_y, int start_x, int width,
+                         int height );
 } // namespace overmap_ui
 
 bool default_render();
@@ -74,7 +74,7 @@ class panel_manager
         }
 
         std::vector<window_panel> &get_current_layout();
-        const std::string get_current_layout_id() const;
+        std::string get_current_layout_id() const;
         int get_width_right();
         int get_width_left();
 

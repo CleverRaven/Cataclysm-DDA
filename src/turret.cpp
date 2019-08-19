@@ -58,7 +58,7 @@ turret_data vehicle::turret_query( vehicle_part &pt )
     return turret_data( this, &pt );
 }
 
-const turret_data vehicle::turret_query( const vehicle_part &pt ) const
+turret_data vehicle::turret_query( const vehicle_part &pt ) const
 {
     return const_cast<vehicle *>( this )->turret_query( const_cast<vehicle_part &>( pt ) );
 }
@@ -69,7 +69,7 @@ turret_data vehicle::turret_query( const tripoint &pos )
     return !res.empty() ? turret_query( *res.front() ) : turret_data();
 }
 
-const turret_data vehicle::turret_query( const tripoint &pos ) const
+turret_data vehicle::turret_query( const tripoint &pos ) const
 {
     return const_cast<vehicle *>( this )->turret_query( pos );
 }
@@ -84,7 +84,7 @@ item_location turret_data::base()
     return item_location( vehicle_cursor( *veh, veh->index_of_part( part ) ), &part->base );
 }
 
-const item_location turret_data::base() const
+item_location turret_data::base() const
 {
     return item_location( vehicle_cursor( *veh, veh->index_of_part( part ) ), &part->base );
 }
@@ -402,10 +402,10 @@ bool vehicle::turrets_aim( bool manual, bool automatic, vehicle_part *tur_part )
         const int rng = gun.range();
 
         int res = 0;
-        res = std::max( res, rl_dist( g->u.pos(), { pos.x + rng, pos.y, pos.z } ) );
-        res = std::max( res, rl_dist( g->u.pos(), { pos.x - rng, pos.y, pos.z } ) );
-        res = std::max( res, rl_dist( g->u.pos(), { pos.x, pos.y + rng, pos.z } ) );
-        res = std::max( res, rl_dist( g->u.pos(), { pos.x, pos.y - rng, pos.z } ) );
+        res = std::max( res, rl_dist( g->u.pos(), pos + point( rng, 0 ) ) );
+        res = std::max( res, rl_dist( g->u.pos(), pos + point( -rng, 0 ) ) );
+        res = std::max( res, rl_dist( g->u.pos(), pos + point( 0, rng ) ) );
+        res = std::max( res, rl_dist( g->u.pos(), pos + point( 0, -rng ) ) );
         return std::max( lhs, res );
     } );
 
@@ -497,7 +497,7 @@ npc vehicle::get_targeting_npc( const vehicle_part &pt )
     // Make a fake NPC to represent the targeting system
     npc cpu;
     cpu.set_fake( true );
-    cpu.name = string_format( pgettext( "vehicle turret", "The %s" ), pt.name() );
+    cpu.name = "fake targeting npc";
     // turrets are subject only to recoil_vehicle()
     cpu.recoil = 0;
 
@@ -552,6 +552,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         Creature *auto_target = cpu.auto_find_hostile_target( range, boo_hoo, area );
         if( auto_target == nullptr ) {
             if( boo_hoo ) {
+                cpu.name = string_format( pgettext( "vehicle turret", "The %s" ), pt.name() );
                 if( u_see ) {
                     add_msg( m_warning, ngettext( "%s points in your direction and emits an IFF warning beep.",
                                                   "%s points in your direction and emits %d annoyed sounding beeps.",

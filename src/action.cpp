@@ -312,6 +312,8 @@ std::string action_ident( action_id act )
             return "debug_temp";
         case ACTION_DISPLAY_VISIBILITY:
             return "debug_visibility";
+        case ACTION_DISPLAY_RADIATION:
+            return "debug_radiation";
         case ACTION_TOGGLE_DEBUG_MODE:
             return "debug_mode";
         case ACTION_ZOOM_OUT:
@@ -415,6 +417,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_DISPLAY_SCENT:
         case ACTION_DISPLAY_TEMPERATURE:
         case ACTION_DISPLAY_VISIBILITY:
+        case ACTION_DISPLAY_RADIATION:
         case ACTION_ZOOM_OUT:
         case ACTION_ZOOM_IN:
         case ACTION_TOGGLE_PIXEL_MINIMAP:
@@ -813,6 +816,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );
             REGISTER_ACTION( ACTION_DISPLAY_TEMPERATURE );
             REGISTER_ACTION( ACTION_DISPLAY_VISIBILITY );
+            REGISTER_ACTION( ACTION_DISPLAY_RADIATION );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
         } else if( category == _( "Interact" ) ) {
             REGISTER_ACTION( ACTION_EXAMINE );
@@ -903,8 +907,8 @@ action_id handle_action_menu()
         int ix = TERMX > width ? ( TERMX - width ) / 2 - 1 : 0;
         int iy = TERMY > static_cast<int>( entries.size() ) + 2 ? ( TERMY - static_cast<int>
                  ( entries.size() ) - 2 ) / 2 - 1 : 0;
-        int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
-                                std::max( iy, 0 ), title, entries );
+        int selection = uilist( point( std::max( ix, 0 ), std::max( iy, 0 ) ),
+                                std::min( width, TERMX - 2 ), title, entries );
 
         g->draw();
 
@@ -960,8 +964,8 @@ action_id handle_main_menu()
     const int ix = TERMX > width ? ( TERMX - width ) / 2 - 1 : 0;
     const int iy = TERMY > static_cast<int>( entries.size() ) + 2 ? ( TERMY - static_cast<int>
                    ( entries.size() ) - 2 ) / 2 - 1 : 0;
-    int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
-                            std::max( iy, 0 ), _( "MAIN MENU" ), entries );
+    int selection = uilist( point( std::max( ix, 0 ), std::max( iy, 0 ) ),
+                            std::min( width, TERMX - 2 ), _( "MAIN MENU" ), entries );
 
     g->draw();
 
@@ -1006,9 +1010,9 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
     } else if( action == "pause" ) {
         return tripoint_zero;
     } else if( action == "LEVEL_UP" ) {
-        return tripoint( 0, 0, 1 );
+        return tripoint_above;
     } else if( action == "LEVEL_DOWN" ) {
-        return tripoint( 0, 0, -1 );
+        return tripoint_below;
     }
 
     add_msg( _( "Invalid direction." ) );

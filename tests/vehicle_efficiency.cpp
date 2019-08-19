@@ -46,11 +46,11 @@ static void clear_game( const ter_id &terrain )
 
     // Move player somewhere safe
     CHECK( !g->u.in_vehicle );
-    g->u.setpos( tripoint( 0, 0, 0 ) );
+    g->u.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
     g->u.add_effect( effect_blind, 1_turns, num_bp, true );
 
-    for( const tripoint &p : g->m.points_in_rectangle( tripoint( 0, 0, 0 ),
+    for( const tripoint &p : g->m.points_in_rectangle( tripoint_zero,
             tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
         g->m.furn_set( p, furn_id( "f_null" ) );
         g->m.ter_set( p, terrain );
@@ -58,7 +58,7 @@ static void clear_game( const ter_id &terrain )
         g->m.i_clear( p );
     }
 
-    for( wrapped_vehicle &veh : g->m.get_vehicles( tripoint( 0, 0, 0 ), tripoint( MAPSIZE * SEEX,
+    for( wrapped_vehicle &veh : g->m.get_vehicles( tripoint_zero, tripoint( MAPSIZE * SEEX,
             MAPSIZE * SEEY, 0 ) ) ) {
         g->m.destroy_vehicle( veh.v );
     }
@@ -432,14 +432,14 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
 {
     test_vehicle( "beetle", 767373, 294400, 235600, 77390, 58340 );
     test_vehicle( "car", 1072322, 530700, 312700, 47890, 28180 );
-    test_vehicle( "car_sports", 1098408, 456500, 297800, 39400, 21740 );
+    test_vehicle( "car_sports", 1105918, 444100, 317900, 39180, 23440 );
     test_vehicle( "electric_car", 1070791, 212500, 121700, 17430, 9118 );
     test_vehicle( "suv", 1271990, 998800, 492900, 71890, 34300 );
     test_vehicle( "motorcycle", 162785, 76870, 62950, 47530, 38890 );
     test_vehicle( "quad_bike", 264745, 75950, 75950, 35080, 35080 );
     test_vehicle( "scooter", 62287, 266900, 258300, 195200, 189700 );
     test_vehicle( "superbike", 241785, 72120, 46710, 34580, 21720 );
-    test_vehicle( "ambulance", 1783889, 433100, 351300, 65530, 48600 );
+    test_vehicle( "ambulance", 1783929, 433100, 351300, 65530, 48600 );
     test_vehicle( "fire_engine", 2563241, 1171000, 970800, 248500, 219000 );
     test_vehicle( "fire_truck", 6259233, 308500, 200800, 19950, 4747 );
     test_vehicle( "truck_swat", 5939334, 505800, 349500, 30060, 7719 );

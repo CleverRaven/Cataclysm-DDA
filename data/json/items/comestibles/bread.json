@@ -50,7 +50,7 @@
     "type": "GENERIC",
     "category": "food",
     "name": "sourdough starter",
-    "description": "This jar contains precious mix of flour, water, and molds and bacteria from the air.  When you add flour and water to it, after a few hours it froths and rises.",
+    "description": "This jar contains a precious mix of flour, water, molds and bacteria from the air.  When you add flour and water to it, after a few hours it froths and rises.",
     "weight": 52,
     "looks_like": "jar_glass",
     "volume": 1,

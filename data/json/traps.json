@@ -540,6 +540,20 @@
   },
   {
     "type": "trap",
+    "id": "tr_birchbark_funnel",
+    "name": "birchbark funnel",
+    "color": "white",
+    "symbol": "v",
+    "visibility": -1,
+    "avoidance": 0,
+    "difficulty": 0,
+    "action": "none",
+    "drops": [ "birchbark_funnel" ],
+    "benign": true,
+    "funnel_radius": 200
+  },
+  {
+    "type": "trap",
     "id": "tr_downspout_funnel",
     "name": "downspout funnel",
     "color": "brown",

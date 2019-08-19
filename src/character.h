@@ -47,6 +47,7 @@ class JsonOut;
 class vehicle;
 struct mutation_branch;
 class bionic_collection;
+struct points_left;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -100,7 +101,7 @@ struct layer_details {
     int total = 0;
 
     void reset();
-    int layer( const int encumbrance );
+    int layer( int encumbrance );
 
     bool operator ==( const layer_details &rhs ) const {
         return max == rhs.max &&
@@ -117,8 +118,8 @@ struct encumbrance_data {
     std::array<layer_details, static_cast<size_t>( layer_level::MAX_CLOTHING_LAYER )>
     layer_penalty_details;
 
-    void layer( const layer_level level, const int emcumbrance ) {
-        layer_penalty += layer_penalty_details[static_cast<size_t>( level )].layer( emcumbrance );
+    void layer( const layer_level level, const int encumbrance ) {
+        layer_penalty += layer_penalty_details[static_cast<size_t>( level )].layer( encumbrance );
     }
 
     void reset() {
@@ -312,14 +313,16 @@ class Character : public Creature, public visitable<Character>
         int encumb( body_part bp ) const;
 
         /** Returns body weight plus weight of inventory and worn/wielded items */
-        units::mass get_weight() const;
+        units::mass get_weight() const override;
         /** Get encumbrance for all body parts. */
         std::array<encumbrance_data, num_bp> get_encumbrance() const;
         /** Get encumbrance for all body parts as if `new_item` was also worn. */
         std::array<encumbrance_data, num_bp> get_encumbrance( const item &new_item ) const;
         /** Get encumbrance penalty per layer & body part */
-        int extraEncumbrance( const layer_level level, const int bp ) const;
+        int extraEncumbrance( layer_level level, int bp ) const;
 
+        /** Returns true if the character is wearing power armor */
+        bool is_wearing_power_armor( bool *hasHelmet = nullptr ) const;
         /** Returns true if the character is wearing active power */
         bool is_wearing_active_power_armor() const;
 
@@ -359,6 +362,11 @@ class Character : public Creature, public visitable<Character>
          * to simulate glare, etc, night vision only works if you are in the dark.
          */
         float get_vision_threshold( float light_level ) const;
+        /**
+         * Checks worn items for the "RESET_ENCUMBRANCE" flag, which indicates
+         * that encumbrance may have changed and require recalculating.
+         */
+        void check_item_encumbrance_flag();
         // --------------- Mutation Stuff ---------------
         // In newcharacter.cpp
         /** Returns the id of a random starting trait that costs >= 0 points */
@@ -387,6 +395,7 @@ class Character : public Creature, public visitable<Character>
         /** Converts an hp_part to a body_part */
         static body_part hp_to_bp( hp_part hpart );
 
+        bool is_mounted() const;
         /**
          * Displays menu with body part hp, optionally with hp estimation after healing.
          * Returns selected part.
@@ -547,7 +556,7 @@ class Character : public Creature, public visitable<Character>
          * @param unloading Do not try to add to a container when the item was intentionally unloaded.
          * @return Remaining charges which could not be stored in a container.
          */
-        int i_add_to_container( const item &it, const bool unloading );
+        int i_add_to_container( const item &it, bool unloading );
         item &i_add( item it, bool should_stack = true );
 
         /**
@@ -676,7 +685,7 @@ class Character : public Creature, public visitable<Character>
 
         void drop_invalid_inventory();
 
-        virtual bool has_artifact_with( const art_effect_passive effect ) const;
+        virtual bool has_artifact_with( art_effect_passive effect ) const;
 
         // --------------- Clothing Stuff ---------------
         /** Returns true if the player is wearing the item. */
@@ -739,7 +748,7 @@ class Character : public Creature, public visitable<Character>
         }
         virtual bool query_yn( const std::string &msg ) const = 0;
 
-        bool is_immune_field( const field_type_id fid ) const override;
+        bool is_immune_field( field_type_id fid ) const override;
 
         /** Returns true if the player has some form of night vision */
         bool has_nv();
@@ -756,7 +765,7 @@ class Character : public Creature, public visitable<Character>
         /**
          * Average hit points healed per turn from healing effects.
          */
-        float healing_rate_medicine( float at_rest_quality, const body_part bp ) const;
+        float healing_rate_medicine( float at_rest_quality, body_part bp ) const;
 
         /**
          * Goes over all mutations, gets min and max of a value with given name
@@ -767,7 +776,7 @@ class Character : public Creature, public visitable<Character>
         /**
          * Goes over all mutations, returning the sum of the social modifiers
          */
-        const social_modifiers get_mutation_social_mods() const;
+        social_modifiers get_mutation_social_mods() const;
 
         /** Color's character's tile's background */
         nc_color symbol_color() const override;
@@ -787,8 +796,12 @@ class Character : public Creature, public visitable<Character>
         }
         /** Empties the trait list */
         void empty_traits();
-        /** Adds mandatory scenario and profession traits unless you already have them */
+        /**
+         * Adds mandatory scenario and profession traits unless you already have them
+         * And if you do already have them, refunds the points for the trait
+         */
         void add_traits();
+        void add_traits( points_left &points );
 
         // --------------- Values ---------------
         std::string name;
@@ -813,6 +826,8 @@ class Character : public Creature, public visitable<Character>
         int stamina;
         int radiation;
 
+        std::shared_ptr<monster> mounted_creature;
+
         void initialize_stomach_contents();
 
         /** Stable base metabolic rate due to traits */
@@ -831,6 +846,8 @@ class Character : public Creature, public visitable<Character>
         int height() const;
         // returns bodyweight of the Character
         units::mass bodyweight() const;
+        // returns total weight of installed bionics
+        units::mass bionics_weight() const;
         // increases the activity level to the next level
         // does not decrease activity level
         void increase_activity_level( float new_level );

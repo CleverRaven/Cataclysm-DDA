@@ -9,7 +9,6 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_REFUGEE_Stan_1",
-    "mission_offered": "MISSION_REFUGEE_Stan_1",
     "faction": "free_merchants"
   },
   {
@@ -40,7 +39,7 @@
     "entries": [
       { "item": "briefs" },
       { "item": "socks" },
-      { "item": "skinny_tie" },
+      { "item": "tie_skinny" },
       { "item": "dress_shirt" },
       { "item": "pants" },
       { "item": "blazer" },
