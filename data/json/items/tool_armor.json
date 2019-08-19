@@ -95,7 +95,6 @@
       "menu_text": "Raise"
     },
     "material_thickness": 2,
-    "qualities": [ [ "GLARE", 2 ] ],
     "delete": { "qualities": [ [ "GLARE", 3 ] ], "flags": [ "BLIND" ] },
     "extend": { "qualities": [ [ "GLARE", 2 ] ] }
   },
