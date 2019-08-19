@@ -256,7 +256,7 @@ void timed_event::actualize()
                 y = rng( g->u.posy() - 5, g->u.posy() + 5 );
                 tries++;
             } while( tries < 20 && !g->is_empty( {x, y, g->u.posz()} ) &&
-                     rl_dist( x, y, g->u.posx(), g->u.posy() ) <= 2 );
+                     rl_dist( point( x, y ), point( g->u.posx(), g->u.posy() ) ) <= 2 );
             if( tries < 20 ) {
                 g->summon_mon( montype, tripoint( x, y, g->u.posz() ) );
             }

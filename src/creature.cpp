@@ -777,14 +777,13 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             if( source->is_player() ) {
                 //player hits monster ranged
                 SCT.add( posx(), posy(),
-                         direction_from( 0, 0, posx() - source->posx(), posy() - source->posy() ),
+                         direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
                          get_hp_bar( dealt_dam.total_damage(), get_hp_max(), true ).first,
                          m_good, message, gmtSCTcolor );
 
                 if( get_hp() > 0 ) {
                     SCT.add( posx(), posy(),
-                             direction_from( 0, 0, posx() - source->posx(),
-                                             posy() - source->posy() ),
+                             direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
                              get_hp_bar( get_hp(), get_hp_max(), true ).first, m_good,
                              //~ "hit points", used in scrolling combat text
                              _( "hp" ), m_neutral, "hp" );

@@ -708,7 +708,7 @@ void draw_sct_curses( game &g )
         const int dy = off.y + text.getPosY();
         const int dx = off.x + text.getPosX();
 
-        if( !is_valid_in_w_terrain( dx, dy ) ) {
+        if( !is_valid_in_w_terrain( point( dx, dy ) ) ) {
             continue;
         }
 
