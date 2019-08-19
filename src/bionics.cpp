@@ -1826,17 +1826,15 @@ int player::get_free_bionics_slots( const body_part bp ) const
 
 void player::add_bionic( const bionic_id &b )
 {
-    if( has_bionic( b ) ) {
+    if( has_bionic( b ) && !bionics[b].allow_duplicates ) {
         debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
         return;
     }
 
     int pow_up = bionics[b].capacity;
     max_power_level += pow_up;
-    if( b == "bio_power_storage" || b == "bio_power_storage_mkII" ) {
+    if( pow_up > 0 ) {
         add_msg_if_player( m_good, _( "Increased storage capacity by %i." ), pow_up );
-        // Power Storage CBMs are not real bionic units, so return without adding it to my_bionics
-        return;
     }
 
     my_bionics->push_back( bionic( b, get_free_invlet( *this ) ) );
@@ -1855,8 +1853,13 @@ void player::add_bionic( const bionic_id &b )
 void player::remove_bionic( const bionic_id &b )
 {
     bionic_collection new_my_bionics;
+    // Multiple copies of power storage bionics may be installed
+    // now. This prevents all with the same id from getting
+    // uninstalled at the same time.
+    bool already_removed = false;
     for( auto &i : *my_bionics ) {
-        if( b == i.id ) {
+        if( b == i.id && !already_removed ) {
+            already_removed = true;
             continue;
         }
 
@@ -1987,6 +1990,9 @@ void load_bionic( JsonObject &jsobj )
     new_bionic.sleep_friendly = get_bool_or_flag( jsobj, "sleep_friendly", "BIONIC_SLEEP_FRIENDLY",
                                 false );
     new_bionic.shockproof = get_bool_or_flag( jsobj, "shockproof", "BIONIC_SHOCKPROOF", false );
+    new_bionic.allow_duplicates = get_bool_or_flag( jsobj, "allow_duplicates",
+                                  "BIONIC_ALLOW_DUPLICATES",
+                                  false );
 
     if( new_bionic.gun_bionic && new_bionic.weapon_bionic ) {
         debugmsg( "Bionic %s specified as both gun and weapon bionic", id.c_str() );

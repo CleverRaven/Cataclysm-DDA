@@ -71,6 +71,10 @@ struct bionic_data {
     */
     bool shockproof = false;
     /**
+    * If true, multiple instances of this bionic may be installed in the player. Only for power storage right now.
+    */
+    bool allow_duplicates = false;
+    /**
     * If true, this bionic is included with another.
     */
     bool included = false;
