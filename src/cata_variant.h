@@ -6,6 +6,7 @@
 #include <cassert>
 #include <utility>
 
+#include "character_id.h"
 #include "debug.h"
 #include "type_id.h"
 
@@ -15,8 +16,10 @@ using itype_id = std::string;
 // types.  All types are stored by converting them to a string.
 
 enum class cata_variant_type : int {
+    character_id,
     itype_id,
     mtype_id,
+    string,
     num_types, // last
 };
 
@@ -65,6 +68,20 @@ constexpr cata_variant_type type_for()
 }
 
 // These are the specializations of convert for each value type.
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 4,
+               "This assert is a reminder to add conversion support for any new types to the "
+               "below specializations" );
+
+template<>
+struct convert<cata_variant_type::character_id> {
+    using type = character_id;
+    static std::string to_string( const character_id &v ) {
+        return std::to_string( v.get_value() );
+    }
+    static character_id from_string( const std::string &v ) {
+        return character_id( std::stoi( v ) );
+    }
+};
 
 template<>
 struct convert<cata_variant_type::itype_id> {
@@ -85,6 +102,17 @@ struct convert<cata_variant_type::mtype_id> {
     }
     static mtype_id from_string( const std::string &v ) {
         return mtype_id( v );
+    }
+};
+
+template<>
+struct convert<cata_variant_type::string> {
+    using type = std::string;
+    static std::string to_string( const std::string &v ) {
+        return v;
+    }
+    static std::string from_string( const std::string &v ) {
+        return v;
     }
 };
 
