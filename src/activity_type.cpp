@@ -129,5 +129,5 @@ void activity_type::reset()
 
 std::string activity_type::stop_phrase() const
 {
-    return string_format( _( "Stop %s?" ), verb_.translated() );
+    return string_format( _( "Stop %s?" ), verb_ );
 }

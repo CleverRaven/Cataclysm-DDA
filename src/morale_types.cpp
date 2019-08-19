@@ -239,12 +239,11 @@ void morale_type_data::check() const
 
 std::string morale_type_data::describe( const itype *it ) const
 {
-    std::string msg = text.translated();
     if( it ) {
-        return string_format( msg, it->nname( 1 ) );
+        return string_format( text, it->nname( 1 ) );
     } else {
         // if `msg` contains conversion specification (e.g. %s) but `it` is nullptr,
         // `string_format` will return an error message
-        return string_format( msg );
+        return string_format( text );
     }
 }
