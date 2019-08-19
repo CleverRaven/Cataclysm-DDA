@@ -37,30 +37,36 @@ function isJson(path) {
 }
 
 function handlePath(p) {
-  if (isJson(p)) {
+  if (isJson(p))
     handleFile(p);
-  } else if (isDir(p)) {
+  else if (isDir(p))
     handleDir(p);
-  } else if (exists(p)) {
+  else if (exists(p))
     L('path is not .json or directory:', p);
-  } else {
+  else
     L('path not found:', p);
-  }
 }
 
 function handleDir(dir) {
+
   FS.readdir(dir, (err, files) => {
+    if (err)
+      throw err;
+
     L('processing ' + pad(files.length) + ' files in:', dir);
     files
     .map(file => dir + PATH.sep + file)
     .forEach(p => {
-      isJson(p) && handleFile(p);
-      isDir(p) && handleDir(p);
+      if (isJson(p))
+        handleFile(p);
+      else if (isDir(p))
+        handleDir(p);
     });
   });
 }
 
 function handleFile(file) {
+
   FS.readFile(file, 'utf8', (err, data) => {
     if (err)
       throw err;
@@ -76,6 +82,7 @@ function handleFile(file) {
       FS.writeFile(file, newData, 'utf-8', function (err) {
         if (err)
           throw err;
+
         L('updating ' + pad(matches.length) + ' match(es) in:', file);
       });
     } else {
@@ -85,16 +92,17 @@ function handleFile(file) {
 }
 
 function fixVolume(fullMatch, whiteSpace, key, volume, EOL, offset, fullText) {
+
   if (fullText.includes('musical_instrument') && whiteSpace.length === 6) { // ugly and not robust, but works for now
     return fullMatch;
   }
 
   const liters = Number(volume) / 4;
   let volumeStr = '';
-  if (Number.isInteger(liters)) {
+  if (Number.isInteger(liters))
     volumeStr = '"' + liters + ' L"';
-  } else {
+  else
     volumeStr = '"' + liters * 1000 + ' ml"';
-  }
+
   return whiteSpace + key + volumeStr + EOL;
 }
