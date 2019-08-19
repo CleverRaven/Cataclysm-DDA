@@ -90,7 +90,7 @@
     "name_plural": "Kel-Tec KSG",
     "description": "A bullpup pump-action shotgun, the Kel-Tec KSG uses a pair of magazine tubes to increase its capacity.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.",
     "weight": 1550,
-    "volume": "0 L",
+    "volume": 0,
     "price": 99000,
     "to_hit": -1,
     "bashing": 9,

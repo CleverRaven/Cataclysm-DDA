@@ -4,7 +4,7 @@
     "type": "GUNMOD",
     "name": "shortened barrel",
     "description": "A shortened barrel results in markedly reduced accuracy, and a minor increase in noise, but also greatly improves the ease with which the weapon can be carried and wielded.",
-    "volume": "0 L",
+    "volume": 0,
     "price": 12000,
     "material": [ "steel" ],
     "symbol": ":",
@@ -59,7 +59,7 @@
     "name": "LW shortened barrel",
     "description": "A Leadworks built in shortened barrel results in reduced weapon range, and a minor increase in noise, but also greatly improves the ease with which the weapon can be carried and wielded.",
     "price": 0,
-    "volume": "0 L",
+    "volume": 0,
     "dispersion_modifier": 0,
     "range_modifier": -6,
     "flags": [ "IRREMOVABLE" ]

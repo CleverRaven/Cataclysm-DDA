@@ -25,7 +25,7 @@
     "name": "foldable plastic bottle",
     "description": "A non-rigid plastic bottle for easy storage, holds 500 ml of liquid.",
     "weight": 13,
-    "volume": "0 L",
+    "volume": 0,
     "price": 0,
     "to_hit": 1,
     "rigid": false,

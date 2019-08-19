@@ -35,7 +35,7 @@
     "name": "shiny cable",
     "description": "This is the cable of the gods: 50 meters long, no power loss, light as a feather and fits in a matchbook.  You're sure this wasn't supposed to exist, and the way it shimmers makes you uneasy.",
     "weight": 1,
-    "volume": "0 L",
+    "volume": 0,
     "max_charges": 50,
     "initial_charges": 50,
     "copy-from": "jumper_cable"

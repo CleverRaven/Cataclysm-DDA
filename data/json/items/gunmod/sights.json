@@ -173,7 +173,7 @@
     "name": "RS1219 scope",
     "description": "An integral component of the RM11B rifle system, the RS1219 Accipiter digital scope provides auto-adjusting focal length, a user-selectable reticle, and an offset reflex sight for close objectives.",
     "weight": 0,
-    "volume": "0 L",
+    "volume": 0,
     "price": 0,
     "material": [ "superalloy", "ceramic" ],
     "aim_speed": 2,
@@ -227,7 +227,7 @@
     "name": "LW red dot sight",
     "description": "Built in red-dot sight for the Leadworks weapon.",
     "weight": 0,
-    "volume": "0 L",
+    "volume": 0,
     "price": 0,
     "flags": [ "DISABLE_SIGHTS", "IRREMOVABLE" ]
   },
@@ -238,7 +238,7 @@
     "name": "LW rifle scope",
     "description": "Built in rifle scope for the Leadworks weapon.",
     "weight": 0,
-    "volume": "0 L",
+    "volume": 0,
     "price": 0,
     "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
   },
@@ -249,7 +249,7 @@
     "name": "LW ACOG scope",
     "description": "An Leadworks built in Advanced Combat Optical Gunsight, a milspec medium magnification scope.  Improves accuracy significantly.",
     "weight": 0,
-    "volume": "0 L",
+    "volume": 0,
     "price": 0,
     "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
   },

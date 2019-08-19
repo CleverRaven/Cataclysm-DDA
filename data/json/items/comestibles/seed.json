@@ -168,7 +168,7 @@
     "name": "sugar beet seeds",
     "name_plural": "sugar beet seeds",
     "description": "Some sugar beet seeds.",
-    "volume": "0 L",
+    "volume": 0,
     "weight": 5,
     "stack_size": 40,
     "seed_data": { "plant_name": "sugar beet", "fruit": "sugar_beet", "grow": "90 days" }
@@ -454,7 +454,7 @@
     "price": 0,
     "material": "fruit",
     "primary_material": "dried_vegetable",
-    "volume": "0 L",
+    "volume": 0,
     "stack_size": 10,
     "fun": 30,
     "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "marloss berry", "grow": "91 days" }

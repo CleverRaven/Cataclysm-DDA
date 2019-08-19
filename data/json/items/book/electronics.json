@@ -80,7 +80,7 @@
     "name": "computer printout",
     "description": "One side of this sheet is printed with a meaningless jumble of characters, but the other side shows a complicated, hand-drawn circuit diagram.",
     "weight": 10,
-    "volume": "0 L",
+    "volume": 0,
     "price": 40000,
     "material": [ "paper" ],
     "symbol": "?",
