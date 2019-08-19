@@ -9,20 +9,17 @@ using itype_id = std::string;
 TEST_CASE( "construct_event", "[event]" )
 {
     time_point time = calendar::turn_zero + 3_hours;
-    event e = event::make<event_type::kill_monster>(
-                  time, mtype_id( "zombie" ), itype_id( "knife_spear" ) );
-    CHECK( e.type() == event_type::kill_monster );
+    event e = event::make<event_type::character_kills_monster>(
+                  time, character_id( 7 ), mtype_id( "zombie" ) );
+    CHECK( e.type() == event_type::character_kills_monster );
     CHECK( e.time() == time );
+    CHECK( e.get<cata_variant_type::character_id>( "killer_id" ) == character_id( 7 ) );
     CHECK( e.get<cata_variant_type::mtype_id>( "victim_type" ) == mtype_id( "zombie" ) );
-    CHECK( e.get<cata_variant_type::itype_id>( "weapon_type" ) == itype_id( "knife_spear" ) );
+    CHECK( e.get<character_id>( "killer_id" ) == character_id( 7 ) );
     CHECK( e.get<mtype_id>( "victim_type" ) == mtype_id( "zombie" ) );
-    CHECK( e.get<itype_id>( "weapon_type" ) == itype_id( "knife_spear" ) );
 }
 
-struct test_subscriber : event_subscriber {
-    test_subscriber( event_bus &bus ) {
-        bus.subscribe( this );
-    }
+struct test_subscriber : public event_subscriber {
     void notify( const event &e ) override {
         events.push_back( e );
     }
@@ -33,15 +30,28 @@ struct test_subscriber : event_subscriber {
 TEST_CASE( "send_event_through_bus", "[event]" )
 {
     event_bus bus;
-    test_subscriber sub( bus );
+    test_subscriber sub;
+    bus.subscribe( &sub );
 
     time_point time = calendar::turn_zero + 5_days;
-    bus.send( event::make<event_type::kill_monster>(
-                  time, mtype_id( "zombie" ), itype_id( "knife_spear" ) ) );
+    bus.send( event::make<event_type::character_kills_monster>(
+                  time, character_id( 5 ), mtype_id( "zombie" ) ) );
     REQUIRE( sub.events.size() == 1 );
     const event &e = sub.events[0];
-    CHECK( e.type() == event_type::kill_monster );
+    CHECK( e.type() == event_type::character_kills_monster );
     CHECK( e.time() == time );
+    CHECK( e.get<character_id>( "killer_id" ) == character_id( 5 ) );
     CHECK( e.get<mtype_id>( "victim_type" ) == mtype_id( "zombie" ) );
-    CHECK( e.get<itype_id>( "weapon_type" ) == itype_id( "knife_spear" ) );
+}
+
+TEST_CASE( "destroy_bus_before_subscriber", "[event]" )
+{
+    test_subscriber sub;
+    event_bus bus;
+    bus.subscribe( &sub );
+
+    time_point time = calendar::turn_zero + 5_days;
+    bus.send( event::make<event_type::character_kills_monster>(
+                  time, character_id( 5 ), mtype_id( "zombie" ) ) );
+    CHECK( sub.events.size() == 1 );
 }
