@@ -230,11 +230,26 @@ with context is as follows:
 "name": { "ctxt": "foo", "str": "bar" }
 ```
 
-Do note that currently this syntax is only supported for effect names, item
-action name, item category names, and activity verbs. If you want other json strings to support
+Do note that currently this syntax is only supported for some JSON values, which
+are listed below. If you want other json strings to support
 this format, look at `translations.h|cpp` and migrate the corresponding code to
 it. Changes to `extract_json_strings.py` might also be needed, since with the
 new syntax "name" would be a `dict`, which may break unmigrated script.
+
+| Supported JSON values
+|---
+| Effect names
+| Item action names
+| Item category names
+| Activity verbs
+| Gate action messages
+| Spell names and descriptions
+| Terrain/furniture descriptions
+| Monster melee attack messages
+| Morale effect descriptions
+| Mutation names/descriptions
+| NPC class names/descriptions
+| Tool quality names
 
 ### Recommendations
 
