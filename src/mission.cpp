@@ -12,6 +12,7 @@
 #include "avatar.h"
 #include "debug.h"
 #include "game.h"
+#include "kill_tracker.h"
 #include "line.h"
 #include "npc.h"
 #include "npc_class.h"
@@ -222,10 +223,11 @@ void mission::assign( avatar &u )
     player_id = u.getID();
     u.on_mission_assignment( *this );
     if( status == mission_status::yet_to_start ) {
+        const kill_tracker &kills = g->get_kill_tracker();
         if( type->goal == MGOAL_KILL_MONSTER_TYPE && monster_type != mtype_id::NULL_ID() ) {
-            kill_count_to_reach = g->kill_count( monster_type ) + monster_kill_goal;
+            kill_count_to_reach = kills.kill_count( monster_type ) + monster_kill_goal;
         } else if( type->goal == MGOAL_KILL_MONSTER_SPEC ) {
-            kill_count_to_reach = g->kill_count( monster_species ) + monster_kill_goal;
+            kill_count_to_reach = kills.kill_count( monster_species ) + monster_kill_goal;
         }
         type->start( this );
         status = mission_status::in_progress;
@@ -429,10 +431,10 @@ bool mission::is_complete( const character_id _npc_id ) const
             return step >= 1;
 
         case MGOAL_KILL_MONSTER_TYPE:
-            return g->kill_count( monster_type ) >= kill_count_to_reach;
+            return g->get_kill_tracker().kill_count( monster_type ) >= kill_count_to_reach;
 
         case MGOAL_KILL_MONSTER_SPEC:
-            return g->kill_count( monster_species ) >= kill_count_to_reach;
+            return g->get_kill_tracker().kill_count( monster_species ) >= kill_count_to_reach;
 
         case MGOAL_CONDITION: {
             // For now, we only allow completing when talking to the mission originator.
