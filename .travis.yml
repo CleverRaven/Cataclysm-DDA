@@ -55,8 +55,8 @@ jobs:
   include:
     # Initial test stage, if this fails everything else is cancelled.
     - stage: Test
-      # Clang is consistently the fastest to build, so use it for the initial test.
-      env: CLANG=clang++-7 MODS=--mods=RL_Classes TEST_STAGE=1
+      # Clang is consistently the fastest to build, so use it for the initial test. clang7 is installed on bionic by default.
+      env: CLANG=clang++ MODS=--mods=RL_Classes TEST_STAGE=1
       name: "Clang 7 Make build with curses, style check and RL_Classes test"
       compiler: clang
       addons:
