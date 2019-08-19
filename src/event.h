@@ -17,7 +17,9 @@ using itype_id = std::string;
 // Each event is of a specific type, taken from the event_type enum.
 
 enum class event_type {
-    kill_monster,
+    character_kills_character,
+    character_kills_monster,
+    num_event_types // last
 };
 
 class event;
@@ -33,11 +35,20 @@ template<event_type Type>
 struct event_spec;
 
 template<>
-struct event_spec<event_type::kill_monster> {
-    static constexpr const char *name = "kill_monster";
+struct event_spec<event_type::character_kills_monster> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "killer_id", cata_variant_type::character_id },
             { "victim_type", cata_variant_type::mtype_id },
-            { "weapon_type", cata_variant_type::itype_id },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_kills_character> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
+            { "killer_id", cata_variant_type::character_id },
+            { "victim_id", cata_variant_type::character_id },
+            { "victim_name", cata_variant_type::string },
         }
     };
 };
@@ -62,7 +73,7 @@ class event
         template<event_type Type, typename... Args>
         static event make( time_point time, Args &&... args ) {
             using Spec = event_detail::event_spec<Type>;
-            static_assert( Spec::name != nullptr, "spec for this event type must be defined" );
+            static_assert( &Spec::fields != nullptr, "spec for this event type must be defined" );
             static_assert( sizeof...( Args ) == Spec::fields.size(),
                            "wrong number of arguments for event type" );
 

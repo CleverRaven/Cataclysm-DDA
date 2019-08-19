@@ -100,7 +100,6 @@ using WORLDPTR = WORLD *;
 class overmap;
 class timed_event_manager;
 
-enum event_type : int;
 class live_view;
 struct visibility_variables;
 class scent_map;
