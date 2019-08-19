@@ -31,7 +31,7 @@ struct bionic_data {
     int power_deactivate = 0;
     /** Power cost over time, does nothing without a non-zero charge_time */
     int power_over_time = 0;
-    /** How often a bionic draws power while active in turns */
+    /** How often a bionic draws or produces power while active in turns */
     int charge_time = 0;
     /** Power bank size **/
     int capacity = 0;
