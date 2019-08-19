@@ -1392,6 +1392,32 @@ static cata::optional<tripoint> find_best_fire(
     return best_fire;
 }
 
+static cata::optional<tripoint> find_best_refuel_spot( const tripoint &center )
+{
+    const zone_manager &mgr = zone_manager::get_manager();
+    const zone_type_id zone_loot_wood( "LOOT_WOOD" );
+    const tripoint center_abs = g->m.getabs( center );
+
+    const std::unordered_set<tripoint> &tiles_abs_unordered =
+            mgr.get_near( zone_loot_wood, center_abs, PICKUP_RANGE );
+    const std::vector<tripoint> &tiles_abs =
+            get_sorted_tiles_by_distance( center_abs, tiles_abs_unordered );
+
+    cata::optional<tripoint> best_tile;
+
+    for( const tripoint &tile_abs : tiles_abs ) {
+        const tripoint tile = g->m.getlocal( tile_abs );
+        if( g->m.has_items( tile ) &&
+                g->m.accessible_items( tile ) &&
+                g->m.clear_path( center, tile, PICKUP_RANGE, 1, 100 ) ) {
+            best_tile = tile;
+            break;
+        }
+    }
+
+    return best_tile;
+}
+
 void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 {
     const tripoint pos = p.pos();
@@ -1405,14 +1431,8 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
         return;
     }
 
-    const auto refuel_spot = std::find_if( adjacent.begin(), adjacent.end(),
-    [pos]( const tripoint & pt ) {
-        // Hacky - firewood spot is a trap and it's ID-checked
-        // TODO: Something cleaner than ID-checking a trap
-        return g->m.tr_at( pt ).id == tr_firewood_source && g->m.has_items( pt ) &&
-               g->m.accessible_items( pt ) && g->m.clear_path( pos, pt, PICKUP_RANGE, 1, 100 );
-    } );
-    if( refuel_spot == adjacent.end() ) {
+    const cata::optional<tripoint> refuel_spot = find_best_refuel_spot( pos );
+    if( !refuel_spot ) {
         return;
     }
 
