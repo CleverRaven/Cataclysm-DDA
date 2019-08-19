@@ -5,6 +5,7 @@
 #include <string>
 
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -15,10 +16,8 @@ class morale_type_data
 {
     private:
         bool permanent = false;
-        // Translated, may contain '%s' format string
-        std::string text;
-        // If true, this morale type needs an item paired with every instance
-        bool needs_item = false;
+        // May contain '%s' format string
+        translation text;
     public:
         morale_type id;
         bool was_loaded = false;

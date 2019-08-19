@@ -228,30 +228,23 @@ void morale_type_data::reset()
 void morale_type_data::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
-    mandatory( jo, was_loaded, "text", text, translated_string_reader );
+    mandatory( jo, was_loaded, "text", text );
 
     optional( jo, was_loaded, "permanent", permanent, false );
-    needs_item = text.find( "%s" ) != std::string::npos;
 }
 
 void morale_type_data::check() const
 {
-    if( needs_item != ( text.find( "%s" ) != std::string::npos ) ) {
-        debugmsg( "Morale type %s has exactly one of: needs_item or format string '%%s'", id.c_str() );
-    }
 }
 
 std::string morale_type_data::describe( const itype *it ) const
 {
-    if( it != nullptr ) {
-        if( !needs_item ) {
-            debugmsg( "Item type supplied but not needed" );
-        }
-        return string_format( text, it->nname( 1 ) );
+    std::string msg = text.translated();
+    if( it ) {
+        return string_format( msg, it->nname( 1 ) );
+    } else {
+        // if `msg` contains conversion specification (e.g. %s) but `it` is nullptr,
+        // `string_format` will return an error message
+        return string_format( msg );
     }
-
-    if( needs_item ) {
-        debugmsg( "Item type needed but not supplied" );
-    }
-    return text;
 }
