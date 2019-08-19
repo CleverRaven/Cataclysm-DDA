@@ -180,7 +180,7 @@ Currently, only effect names, item action names, and item category names support
 | capacity           | (_optional_) Amount of power storage added by this bionic.
 | fuel_options       | (_optional_) A list of fuel that this bionic can use to produce bionic power.
 | fuel_capacity      | (_optional_) Volume of fuel this bionic can store.
-| fuel_efficiency    | (_optional_) Percentage of fuel energy converted into power.
+| fuel_efficiency    | (_optional_) Fraction of fuel energy converted into power. (default: `0`)
 
 ```C++
 {
@@ -190,7 +190,10 @@ Currently, only effect names, item action names, and item category names support
     "power_source" : false,
     "faulty"       : false,
     "cost"         : 0,
-    "time"         : 0,
+    "time"         : 1,
+    "fuel_efficiency": 1,
+    "fuel_options": [ "battery" ],
+    "fuel_capacity": 500,
     "encumbrance"  : [ [ "TORSO", 10 ], [ "ARM_L", 10 ], [ "ARM_R", 10 ], [ "LEG_L", 10 ], [ "LEG_R", 10 ], [ "FOOT_L", 10 ], [ "FOOT_R", 10 ] ],
     "description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries. Use 'E' to consume batteries.",
     "canceled_mutations": ["HYPEROPIC"],
