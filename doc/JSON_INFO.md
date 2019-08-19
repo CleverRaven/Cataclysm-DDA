@@ -169,7 +169,7 @@ Currently, only effect names, item action names, item category names, and activi
 | power_source       | Whether the bionic provides power. (default: `false`)
 | faulty             | Whether it is a faulty type. (default: `false`)
 | cost               | How many PUs it costs to use the bionic. (default: `0`)
-| time               | How long, when activated, between drawing cost/converting fuel to power. If 0, it draws/produces power once. (default: `0`)
+| time               | How long, when activated, between drawing cost/converting fuel to power. If 0, it draws power once and never produce any in the case of a fueled bionic. (default: `0`)
 | description        | In-game description.
 | encumbrance        | (_optional_) A list of body parts and how much this bionic encumber them.
 | canceled_mutations | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
