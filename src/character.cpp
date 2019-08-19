@@ -931,13 +931,13 @@ void Character::update_fuel_storage( const itype_id &fuel )
     int amount_fuel_loaded = std::stoi( get_value( fuel ) );
     std::vector<bionic_id> loaded_bio;
 
-    // Sort bionic in order of increasing capacity
-    // To fill the smaller ones firts.
+    // Sort bionic in order of decreasing capacity
+    // To fill the bigger ones firts.
     bool swap = true;
     while( swap ) {
         swap = false;
         for( size_t i = 0; i < bids.size() - 1; i++ ) {
-            if( bids[i + 1]->fuel_capacity < bids[i]->fuel_capacity ) {
+            if( bids[i + 1]->fuel_capacity > bids[i]->fuel_capacity ) {
                 std::swap( bids[i + 1], bids[i] );
                 swap = true;
             }
