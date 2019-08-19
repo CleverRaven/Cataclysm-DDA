@@ -221,11 +221,11 @@ void gates::open_gate( const tripoint &pos )
 
     if( g->u.sees( pos ) ) {
         if( open ) {
-            add_msg( gate.open_message.translated() );
+            add_msg( gate.open_message );
         } else if( close ) {
-            add_msg( gate.close_message.translated() );
+            add_msg( gate.close_message );
         } else if( fail ) {
-            add_msg( gate.fail_message.translated() );
+            add_msg( gate.fail_message );
         } else {
             add_msg( _( "Nothing happens." ) );
         }
@@ -243,7 +243,7 @@ void gates::open_gate( const tripoint &pos, player &p )
 
     const gate_data &gate = gates_data.obj( gid );
 
-    p.add_msg_if_player( gate.pull_message.translated() );
+    p.add_msg_if_player( gate.pull_message );
     p.assign_activity( activity_id( "ACT_OPEN_GATE" ), gate.moves );
     p.activity.placement = pos;
 }

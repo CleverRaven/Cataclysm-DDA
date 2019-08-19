@@ -13,6 +13,8 @@
 // TODO: replace with std::optional
 #include "optional.h"
 
+class translation;
+
 namespace cata
 {
 
@@ -71,6 +73,11 @@ template<typename T>
 using is_cstring = typename std::conditional <
                    std::is_same<typename std::decay<T>::type, const char *>::value ||
                    std::is_same<typename std::decay<T>::type, char *>::value, std::true_type, std::false_type >::type;
+// Test for class translation
+template<typename T>
+using is_translation = typename std::conditional <
+                       std::is_same<typename std::decay<T>::type, translation>::value, std::true_type,
+                       std::false_type >::type;
 
 template<typename RT, typename T>
 inline typename std::enable_if < is_integer<RT>::value &&is_integer<T>::value,
@@ -112,6 +119,12 @@ inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_cstr
     return value;
 }
 template<typename RT, typename T>
+inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_translation<T>::value,
+       const char * >::type convert( RT *, const string_formatter &sf, T &&value, int )
+{
+    return string_formatter_set_temp_buffer( sf, value.translated() );
+}
+template<typename RT, typename T>
 inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_numeric<T>::value
 &&!is_char<T>::value, const char * >::type convert( RT *, const string_formatter &sf, T &&value,
         int )
@@ -126,17 +139,17 @@ inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_nume
     return string_formatter_set_temp_buffer( sf, std::string( 1, value ) );
 }
 // Catch all remaining conversions (the '...' makes this the lowest overload priority).
-// The enable_if is used to restrict the input type to those that can actually be printed,
-// calling `string_format` with an unknown type will trigger a compile error because no
-// `convert` function will match, not even this one.
+// The static_assert is used to restrict the input type to those that can actually be printed,
+// calling `string_format` with an unknown type will trigger a compile error because no other
+// `convert` function will match, while this one will give a static_assert error.
 template<typename RT, typename T>
-inline typename std::enable_if < std::is_pointer<typename std::decay<T>::type>::value ||
-is_numeric<T>::value || is_string<T>::value || is_char<T>::value ||
-std::is_enum<typename std::decay<T>::type>::value ||
-is_cstring<T>::value, RT >::type
 // NOLINTNEXTLINE(cert-dcl50-cpp)
-convert( RT *, const string_formatter &sf, T &&, ... )
+inline RT convert( RT *, const string_formatter &sf, T &&, ... )
 {
+    static_assert( std::is_pointer<typename std::decay<T>::type>::value ||
+                   is_numeric<T>::value || is_string<T>::value || is_char<T>::value ||
+                   std::is_enum<typename std::decay<T>::type>::value ||
+                   is_cstring<T>::value || is_translation<T>::value, "Unsupported argument type" );
     throw_error( sf, "Tried to convert argument of type " +
                  std::string( typeid( T ).name() ) + " to " +
                  std::string( typeid( RT ).name() ) + ", which is not possible" );
@@ -403,6 +416,12 @@ template<typename ...Args>
 inline std::string string_format( const char *const format, Args &&...args )
 {
     return string_format( std::string( format ), std::forward<Args>( args )... );
+}
+template<typename T, typename ...Args>
+inline typename std::enable_if<cata::is_translation<T>::value, std::string>::type
+string_format( T &&format, Args &&...args )
+{
+    return string_format( format.translated(), std::forward<Args>( args )... );
 }
 /**@}*/
 

@@ -2276,12 +2276,12 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( q.first == quality_jack || q.first == quality_lift ) {
             str = string_format(
                       _( "Has level <info>%1$d %2$s</info> quality and is rated at <info>%3$d</info> %4$s" ),
-                      q.second, q.first.obj().name.translated(),
+                      q.second, q.first.obj().name,
                       static_cast<int>( convert_weight( q.second * TOOL_LIFT_FACTOR ) ),
                       weight_units() );
         } else {
             str = string_format( _( "Has level <info>%1$d %2$s</info> quality." ),
-                                 q.second, q.first.obj().name.translated() );
+                                 q.second, q.first.obj().name );
         }
         info.emplace_back( "QUALITIES", "", str );
     };

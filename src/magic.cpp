@@ -1103,7 +1103,7 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
     }
     if( force || can_learn_spell( p, sp->id ) ) {
         spellbook.emplace( sp->id, temp_spell );
-        p.add_msg_if_player( m_good, _( "You learned %s!" ), sp->name.translated() );
+        p.add_msg_if_player( m_good, _( "You learned %s!" ), sp->name );
     } else {
         p.add_msg_if_player( m_bad, _( "You can't learn this spell." ) );
     }
@@ -1120,7 +1120,7 @@ void known_magic::forget_spell( const spell_id &sp )
         debugmsg( "Can't forget a spell you don't know!" );
         return;
     }
-    add_msg( m_bad, _( "All knowledge of %s leaves you." ), sp->name.translated() );
+    add_msg( m_bad, _( "All knowledge of %s leaves you." ), sp->name );
     spellbook.erase( sp );
 }
 

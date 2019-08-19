@@ -269,7 +269,7 @@ ret_val<bool> iuse_transform::can_use( const player &p, const item &, bool,
     }
     std::string unmet_reqs_string = enumerate_as_string( unmet_reqs.begin(), unmet_reqs.end(),
     [&]( const std::pair<quality_id, int> &unmet_req ) {
-        return string_format( "%s %d", unmet_req.first.obj().name.translated(), unmet_req.second );
+        return string_format( "%s %d", unmet_req.first.obj().name, unmet_req.second );
     } );
     return ret_val<bool>::make_failure( string_format( ngettext( "You need a tool with %s.",
                                         "You need tools with %s.", unmet_reqs.size() ),
@@ -2354,8 +2354,7 @@ void cast_spell_actor::load( JsonObject &obj )
 void cast_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
     const std::string message = string_format( _( "This item casts %s at level %i." ),
-                                item_spell->name.translated(),
-                                spell_level );
+                                item_spell->name, spell_level );
     dump.emplace_back( "DESCRIPTION", message );
     if( no_fail ) {
         dump.emplace_back( "DESCRIPTION", _( "This item never fails." ) );

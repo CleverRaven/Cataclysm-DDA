@@ -99,7 +99,7 @@ std::string quality_requirement::to_string( int ) const
 {
     return string_format( ngettext( "%d tool with %s of %d or more.",
                                     "%d tools with %s of %d or more.", count ),
-                          count, type.obj().name.translated(), level );
+                          count, type.obj().name, level );
 }
 
 bool tool_comp::by_charges() const

@@ -13,6 +13,7 @@
 
 class JsonOut;
 class JsonObject;
+class translation;
 
 namespace catacurses
 {
@@ -43,6 +44,11 @@ inline void add_msg( const std::string &msg, Args &&... args )
 }
 template<typename ...Args>
 inline void add_msg( const char *const msg, Args &&... args )
+{
+    return add_msg( string_format( msg, std::forward<Args>( args )... ) );
+}
+template<typename ...Args>
+inline void add_msg( const translation &msg, Args &&... args )
 {
     return add_msg( string_format( msg, std::forward<Args>( args )... ) );
 }

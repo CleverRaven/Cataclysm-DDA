@@ -773,7 +773,7 @@ bool veh_interact::can_install_part()
         str_string = string_format( _( "strength %d" ), str );
     }
     std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
-                                            qual.obj().name.translated(), lvl );
+                                            qual.obj().name, lvl );
     msg << string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
                           colorize( aid_string, aid_color ),
                           colorize( str_string, str_color ) ) << "\n";
@@ -1677,12 +1677,12 @@ bool veh_interact::can_remove_part( int idx )
     if( !helpers.empty() ) {
         msg << string_format(
                 _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength ( assisted ) %5$i</color>" ),
-                status_color( use_aid ), qual.obj().name.translated(), lvl,
+                status_color( use_aid ), qual.obj().name, lvl,
                 status_color( use_str ), str ) << "\n";
     } else {
         msg << string_format(
                 _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength %5$i</color>" ),
-                status_color( use_aid ), qual.obj().name.translated(), lvl,
+                status_color( use_aid ), qual.obj().name, lvl,
                 status_color( use_str ), str ) << "\n";
     }
     std::string reason;
