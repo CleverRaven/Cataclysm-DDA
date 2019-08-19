@@ -2248,7 +2248,7 @@ void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
     dump.emplace_back( "DESCRIPTION", message );
     dump.emplace_back( "DESCRIPTION", _( "Spells Contained:" ) );
     for( const std::string sp : spells ) {
-        dump.emplace_back( "SPELL", spell_id( sp ).obj().name );
+        dump.emplace_back( "SPELL", spell_id( sp ).obj().name.translated() );
     }
 }
 
@@ -2265,8 +2265,7 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     for( const std::string sp_id_str : spells ) {
         const spell_id sp_id( sp_id_str );
         sp_cb.add_spell( sp_id );
-        const std::string sp_nm = sp_id.obj().name;
-        uilist_entry entry( sp_nm );
+        uilist_entry entry( sp_id.obj().name.translated() );
         if( p.magic.knows_spell( sp_id ) ) {
             const spell sp = p.magic.get_spell( sp_id );
             entry.ctxt = string_format( _( "Level %u" ), sp.get_level() );
@@ -2355,7 +2354,7 @@ void cast_spell_actor::load( JsonObject &obj )
 void cast_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
     const std::string message = string_format( _( "This item casts %s at level %i." ),
-                                _( item_spell->name ),
+                                item_spell->name.translated(),
                                 spell_level );
     dump.emplace_back( "DESCRIPTION", message );
     if( no_fail ) {

@@ -197,8 +197,8 @@ void spell_type::load( JsonObject &jo, const std::string & )
     };
 
     mandatory( jo, was_loaded, "id", id );
-    mandatory( jo, was_loaded, "name", name, translated_string_reader );
-    mandatory( jo, was_loaded, "description", description, translated_string_reader );
+    mandatory( jo, was_loaded, "name", name );
+    mandatory( jo, was_loaded, "description", description );
     mandatory( jo, was_loaded, "effect", effect_name );
     const auto found_effect = effect_map.find( effect_name );
     if( found_effect == effect_map.cend() ) {
@@ -562,7 +562,7 @@ int spell::casting_time( const player &p ) const
 
 std::string spell::name() const
 {
-    return _( type->name );
+    return type->name.translated();
 }
 
 float spell::spell_fail( const player &p ) const
@@ -784,7 +784,7 @@ bool spell::is_valid_effect_target( valid_target t ) const
 
 std::string spell::description() const
 {
-    return _( type->description );
+    return type->description.translated();
 }
 
 nc_color spell::damage_type_color() const
@@ -1103,7 +1103,7 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
     }
     if( force || can_learn_spell( p, sp->id ) ) {
         spellbook.emplace( sp->id, temp_spell );
-        p.add_msg_if_player( m_good, _( "You learned %s!" ), _( sp->name ) );
+        p.add_msg_if_player( m_good, _( "You learned %s!" ), sp->name.translated() );
     } else {
         p.add_msg_if_player( m_bad, _( "You can't learn this spell." ) );
     }
@@ -1120,7 +1120,7 @@ void known_magic::forget_spell( const spell_id &sp )
         debugmsg( "Can't forget a spell you don't know!" );
         return;
     }
-    add_msg( m_bad, _( "All knowledge of %s leaves you." ), sp->name );
+    add_msg( m_bad, _( "All knowledge of %s leaves you." ), sp->name.translated() );
     spellbook.erase( sp );
 }
 
@@ -1584,14 +1584,14 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     nc_color yellow = c_yellow;
     const spell fake_spell( &sp );
 
-    const std::string spell_name = colorize( _( sp.name ), c_light_green );
+    const std::string spell_name = colorize( sp.name.translated(), c_light_green );
     const std::string spell_class = sp.spell_class == trait_id( "NONE" ) ? _( "Classless" ) :
                                     sp.spell_class->name();
     print_colored_text( w, point( start_x, line ), gray, gray, spell_name );
     print_colored_text( w, point( menu->pad_left - spell_class.length() - 1, line++ ), yellow, yellow,
                         spell_class );
     line++;
-    line += fold_and_print( w, point( start_x, line ), width, gray, _( sp.description ) );
+    line += fold_and_print( w, point( start_x, line ), width, gray, sp.description.translated() );
     line++;
 
     mvwprintz( w, point( start_x, line ), c_light_gray, string_format( "%s: %d", _( "Difficulty" ),

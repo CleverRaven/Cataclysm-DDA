@@ -15,6 +15,7 @@
 #include "type_id.h"
 #include "ui.h"
 #include "string_id.h"
+#include "translations.h"
 
 struct tripoint;
 class Creature;
@@ -96,9 +97,9 @@ class spell_type
 
         spell_id id;
         // spell name
-        std::string name;
+        translation name;
         // spell description
-        std::string description;
+        translation description;
         // spell effect string. used to look up spell function
         std::string effect_name;
         std::function<void( const spell &, Creature &, const tripoint & )> effect;
