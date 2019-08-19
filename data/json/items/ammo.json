@@ -488,7 +488,7 @@
     "copy-from": "gunpowder",
     "price": 3000,
     "name": "smokeless shotgun powder",
-    "description": "Firearm-quality gunpowder, intended for use in shotgun ammunition.",
+    "description": "Firearm-quality gunpowder, intended for use in shotgun shells."
   },
   {
     "type": "AMMO",
@@ -496,7 +496,7 @@
     "copy-from": "gunpowder",
     "price": 3000,
     "name": "smokeless pistol powder",
-    "description": "Firearm-quality gunpowder, intended for use in pistol ammunition.",
+    "description": "Firearm-quality gunpowder, intended for use in pistol ammunition."
   },
   {
     "type": "AMMO",
@@ -504,7 +504,7 @@
     "copy-from": "gunpowder",
     "price": 3000,
     "name": "smokeless magnum powder",
-    "description": "Firearm-quality gunpowder intended for use in magnum pistol ammunition.",
+    "description": "Firearm-quality gunpowder intended for use in magnum pistol ammunition."
   },
   {
     "type": "AMMO",
@@ -512,7 +512,7 @@
     "copy-from": "gunpowder",
     "price": 3000,
     "name": "smokeless rifle powder",
-    "description": "Firearm-quality gunpowder intended for use in rifle ammunition.",
+    "description": "Firearm-quality gunpowder intended for use in rifle ammunition."
   },
   {
     "type": "AMMO",
@@ -520,7 +520,7 @@
     "copy-from": "gunpowder",
     "price": 3000,
     "name": "smokeless overbore rifle powder",
-    "description": "Firearm-quality gunpowder intended for use in large rifle ammunition.",
+    "description": "Firearm-quality gunpowder intended for use in large rifle ammunition."
   },
   {
     "type": "AMMO",
@@ -528,7 +528,7 @@
     "copy-from": "gunpowder",
     "price": 3000,
     "name": "artillery propellant",
-    "description": "Single base smokeless gunpowder intended for use in artillery propelling charges.",
+    "description": "Single base smokeless gunpowder intended for use in artillery propelling charges."
   },
   {
     "type": "AMMO",
