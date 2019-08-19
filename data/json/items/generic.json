@@ -1415,6 +1415,18 @@
   },
   {
     "type": "GENERIC",
+    "id": "template_photonics",
+    "copy-from": "standard_template_construct",
+    "color": "yellow",
+    "name": "nanofabricator template (silicon photonics)",
+    "description": "A state-of-the-art optical storage system, containing the instruction set required for the fabrication of complex silicon photonic circuitry.  The data within was once clearly worth millions, but now, you are not sure if it's anything more than a fancy, high-tech paperweight.",
+    "price": 200000000,
+    "//": "actually worth millions",
+    "price_postapoc": 350,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "antenna",
     "symbol": ",",
     "color": "light_gray",
