@@ -262,8 +262,8 @@ void mutation_branch::load_trait( JsonObject &jo, const std::string &src )
 void mutation_branch::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
-    mandatory( jo, was_loaded, "name", raw_name, translated_string_reader );
-    mandatory( jo, was_loaded, "description", raw_desc, translated_string_reader );
+    mandatory( jo, was_loaded, "name", raw_name );
+    mandatory( jo, was_loaded, "description", raw_desc );
     mandatory( jo, was_loaded, "points", points );
 
     optional( jo, was_loaded, "visibility", visibility, 0 );
@@ -469,12 +469,12 @@ std::string mutation_branch::ranged_mutation_message() const
 
 std::string mutation_branch::name() const
 {
-    return _( raw_name );
+    return raw_name.translated();
 }
 
 std::string mutation_branch::desc() const
 {
-    return _( raw_desc );
+    return raw_desc.translated();
 }
 
 static void check_consistency( const std::vector<trait_id> &mvec, const trait_id &mid,
