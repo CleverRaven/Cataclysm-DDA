@@ -391,7 +391,7 @@
     "phase": "liquid",
     "category": "chems",
     "fun": -45,
-	"freezing_point": 25,
+    "freezing_point": 25,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_splash" ], "scale_qty": true }
   },
   {
@@ -468,6 +468,7 @@
     "charges": 2,
     "phase": "liquid",
     "container": "bottle_glass",
+    "freezing_point": 25,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
@@ -505,6 +506,7 @@
     "charges": 2,
     "phase": "liquid",
     "container": "bottle_glass",
+    "freezing_point": -44,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
