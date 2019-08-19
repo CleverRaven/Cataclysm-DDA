@@ -8,16 +8,17 @@ namespace cata_variant_detail
 std::string to_string( cata_variant_type type )
 {
     switch( type ) {
+        case cata_variant_type::character_id:
+            return "character_id";
         case cata_variant_type::itype_id:
             return "itype_id";
         case cata_variant_type::mtype_id:
             return "mtype_id";
+        case cata_variant_type::string:
+            return "string";
         case cata_variant_type::num_types:
             break;
     };
-    static_assert( cata_variant_type::num_types == static_cast<cata_variant_type>( 2 ),
-                   "A new type has been added; update the above switch statement and then tweak "
-                   "this assertion accordingly" );
     debugmsg( "unknown cata_variant_type %d", static_cast<int>( type ) );
     return "";
 }
