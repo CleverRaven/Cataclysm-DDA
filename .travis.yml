@@ -18,7 +18,7 @@ addons:
   # these apt sources will be referenced later (by using *name)
   apt:
     sources: &apt_sources
-      - ubuntu-toolchain-r-test
+      - sourceline: "ppa:ubuntu-toolchain-r/test"
     config:
       retries: true
 
