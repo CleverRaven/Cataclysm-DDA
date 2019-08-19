@@ -9,6 +9,9 @@ class event_bus;
 class event_subscriber
 {
     public:
+        event_subscriber() = default;
+        event_subscriber( const event_subscriber & ) = delete;
+        event_subscriber &operator=( const event_subscriber & ) = delete;
         virtual ~event_subscriber();
         virtual void notify( const event & ) = 0;
     private:
@@ -21,6 +24,9 @@ class event_subscriber
 class event_bus
 {
     public:
+        event_bus() = default;
+        event_bus( const event_bus & ) = delete;
+        event_bus &operator=( const event_bus & ) = delete;
         ~event_bus();
         void subscribe( event_subscriber * );
         void unsubscribe( event_subscriber * );
