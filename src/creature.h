@@ -49,10 +49,10 @@ struct trap;
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel
-    MS_SMALL,      // Dog
-    MS_MEDIUM,    // Human
-    MS_LARGE,    // Cow
-    MS_HUGE     // TAAAANK
+    MS_SMALL = 1,      // Dog
+    MS_MEDIUM = 2,    // Human
+    MS_LARGE = 3,    // Cow
+    MS_HUGE = 4    // TAAAANK
 };
 
 enum FacingDirection {

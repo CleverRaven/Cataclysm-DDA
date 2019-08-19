@@ -131,6 +131,7 @@ const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_got_checked( "got_checked" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_grown_of_fuse( "grown_of_fuse" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
 const efftype_id effect_onfire( "onfire" );
@@ -5133,6 +5134,34 @@ bool mattack::stretch_attack( monster *z )
     target->on_hit( z, hit,  z->type->melee_skill );
 
     return true;
+}
+
+bool mattack::zombie_fuse( monster *z )
+{
+    const species_id zombo = species_id( "ZOMBIE" );
+    const tripoint zpos = z->pos();
+    for(int x = zpos.x-1; x < zpos.x+2; x++) {
+        for(int y = zpos.y-1; y < zpos.y+2; y++){
+            Creature *critter = g->critter_at( tripoint(x, y, zpos.z) );
+            if( target != nullptr && critter->faction == zombo && target != z && target->get_size() <= z->get_size() ) {
+                break;
+            }
+        }
+    }
+
+    if( target == nullptr ||
+        ( z->get_effect_int( effect_grown_of_fuse ) == effect_grown_of_fuse.obj()->get_max_intensity() ) )
+    {
+        return false;
+    }
+    if( z->has_effect( effect_grown_of_fuse ) )
+    const effect growth = z->get_effect( effect_grown_of_fuse );
+    // check if adding would overflow the effect stack max ...
+    z->moves -= 200;
+    z->add_effect( effect_grown_of_fuse, 0, num_bp, true, critter->max_hp() );
+    z->heal( critter->get_hp() ); //use overheal?
+    critter->death_drops = false;
+    critter->die();
 }
 
 bool mattack::doot( monster *z )

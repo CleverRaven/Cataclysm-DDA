@@ -1739,6 +1739,24 @@
   },
   {
     "type": "effect_type",
+    "id": "grown_of_fuse",
+    "name": [ "Grown of Fusion" ],
+    "desc": [ "AI effect to increase stats after fusing with another critter. 1 stack means one absorbed max_hp." ],
+    "//": "stats modified by the zombie_fuse special attack.
+        scaling:
+        /48 HP: +0,5 melee_skill, +0,5 dode_skill (unexpected movement), +5 Speed (bigger steps&more to attack with), +4 bash (3 sides)
+        /160 HP: +1 range, +1 size
+        TODO: h_mod, range_add_mod, scale_mod"
+    "max_intensity": 480,
+    "base_mods": {
+      "h_mod_min": [ 1 ], "hit_mod": [ 0,0104 ], "dodge_mod": [ 0,0104 ], "speed_mod": [ 0.1042 ], "bash_mod": [ 0.08333 ]
+	},
+    "scaling_mods": {
+      "h_mod_min": [ 1 ], "hit_mod": [ 0,0104 ], "dodge_mod": [ 0,0104 ], "speed_mod": [ 0.1042 ], "bash_mod": [ 0.08333 ], +0,00625 range (N = range 0), +0,00625 (MEDIUM to LARGE to HUGE, not neccesary?)
+	}
+}
+  {
+    "type": "effect_type",
     "id": "has_og_comm_freq"
   },
   {

@@ -370,7 +370,7 @@ class monster : public Creature
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
 
-        void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mon
+        void die( Creature *killer ) override;
         void drop_items_on_death();
 
         // Other

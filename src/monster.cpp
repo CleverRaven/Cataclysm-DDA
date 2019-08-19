@@ -2222,7 +2222,14 @@ void monster::process_one_effect( effect &it, bool is_new )
         return it.get_mod( arg, reduced );
     };
 
+    mod_speed_bonus( get_effect( "HEALTH", reduced ) );
     mod_speed_bonus( get_effect( "SPEED", reduced ) );
+    mod_dodge_bonus( get_effect( "DODGE", reduced ) );
+    mod_block_bonus( get_effect( "BLOCK", reduced ) );
+    mod_hit_bonus( get_effect( "HIT", reduced ) );
+    mod_bash_bonus( get_effect( "BASH", reduced ) );
+    mod_cut_bonus( get_effect( "CUT", reduced ) );
+
 
     int val = get_effect( "HURT", reduced );
     if( val > 0 ) {
