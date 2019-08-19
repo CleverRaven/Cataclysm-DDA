@@ -251,7 +251,7 @@ bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
     }
 
     const int range_cur = sight_range( g->m.ambient_light_at( t ) );
-    const int range_day = sight_range( DAYLIGHT_LEVEL );
+    const int range_day = sight_range( current_daylight_level( calendar::turn ) );
     const int range_night = sight_range( 0 );
     const int range_max = std::max( range_day, range_night );
     const int range_min = std::min( range_cur, range_max );
@@ -487,11 +487,15 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     }
     // If carrying a rider, there is a chance the hits may hit rider instead.
     if( has_effect( effect_ridden ) ) {
-        // big mounts and small player = big shield for player.
-        if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
-            g->u.deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam );
-            return;
+        if( !has_flag( MF_MECH_DEFENSIVE ) ) {
+            // If carrying a rider, there is a chance the hits may hit rider instead.
+            // big mounts and small player = big shield for player.
+            if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
+                g->u.deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam );
+                return;
+            }
         }
+        //otherwise it would thoroughly protect the rider(or pilot actually)
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
     body_part bp_hit = select_body_part( source, hit_spread );
@@ -548,11 +552,16 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
     // If carrying a rider, there is a chance the hits may hit rider instead.
     if( has_effect( effect_ridden ) ) {
-        // big mounts and small player = big shield for player.
-        if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
-            g->u.deal_projectile_attack( source, attack, print_messages );
-            return;
+        if( !has_flag( MF_MECH_DEFENSIVE ) ) {
+            // If carrying a rider, there is a chance the hits may hit rider instead.
+            // big mounts and small player = big shield for player.
+            if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
+                g->u.deal_projectile_attack( source, attack, print_messages );
+                return;
+            }
         }
+        //otherwise it would thoroughly protect the rider(or pilot actually)
+
     }
     const projectile &proj = attack.proj;
     dealt_damage_instance &dealt_dam = attack.dealt_dam;
@@ -768,14 +777,13 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             if( source->is_player() ) {
                 //player hits monster ranged
                 SCT.add( posx(), posy(),
-                         direction_from( 0, 0, posx() - source->posx(), posy() - source->posy() ),
+                         direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
                          get_hp_bar( dealt_dam.total_damage(), get_hp_max(), true ).first,
                          m_good, message, gmtSCTcolor );
 
                 if( get_hp() > 0 ) {
                     SCT.add( posx(), posy(),
-                             direction_from( 0, 0, posx() - source->posx(),
-                                             posy() - source->posy() ),
+                             direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
                              get_hp_bar( get_hp(), get_hp_max(), true ).first, m_good,
                              //~ "hit points", used in scrolling combat text
                              _( "hp" ), m_neutral, "hp" );
