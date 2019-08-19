@@ -9,7 +9,6 @@
       [ "steel_mill_3_1_2", "steel_mill_3_2_2", "steel_mill_3_3_2", "steel_mill_rail_1_2" ],
       [ "steel_mill_4_1_2", "steel_mill_4_2_2", "steel_mill_4_3_2", "steel_mill_rail_2_2" ]
     ],
-    "weight": 200,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -40,7 +39,7 @@
         ":::::]FFFFEGaaaaGGG]rrrrrrrrrrrrr:::::::::::::::::::::::::::::::::::::::",
         ":::::]FaaFGGaaaaaGG]rrrrrrrrrrrrr:::::::::::::::::::::::::::::::::::::::",
         ":::::]FaaFGaaaaaaGGRrrrrrrrrrrrrrrrrrrrrrrrrrrr:::::::::::::::::::::::::",
-        ":::::]FFFFGaaaaaaGG]]]]]]]]]]rrrrrrrrrrrrrrrrr:::::::::::::::::::::::::",
+        ":::::]FFFFGaaaaaaGG]]]]]]]]]]]rrrrrrrrrrrrrrrrr:::::::::::::::::::::::::",
         ":::::]MMMMGaaaaaaGGGGGGGGGGGG]rrrrrrrrrrrrrrrrr:::::::::::::rrrrrrrrrr::",
         ":::::]FFFFGaaaaaaGGGGGGGGGGGG]rrrrrrrrrrrrrrrrr:::::::::::::rrrrrrrrrr::",
         ":::::]FaaFGaaaaaaaaaaaaaaaaGG]rrrrrrrrrrrrrrrrr:::::::::::::rrrrrrrrrr::",

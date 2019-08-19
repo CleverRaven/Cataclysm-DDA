@@ -9,7 +9,6 @@
       [ "steel_mill_3_1", "steel_mill_3_2", "steel_mill_3_3", "steel_mill_rail_1" ],
       [ "steel_mill_4_1", "steel_mill_4_2", "steel_mill_4_3", "steel_mill_rail_2" ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
