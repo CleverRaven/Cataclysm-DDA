@@ -233,8 +233,8 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sleeping_bag", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "ds_pulse_rifle", "ammo-item": "pulsesb", "contents-item": [ "shoulder_strap", "bipod" ] },
-          { "item": "pulsesb", "count": 2 },
+          { "item": "l_lmg_223", "ammo-item": "223"},
+          { "item": "lw223bigmag", "count": 1 },
           { "item": "m9", "ammo-item": "9mm", "container-item": "holster" },
           { "item": "m9mag", "ammo-item": "9mm", "count": 2 }
         ]
