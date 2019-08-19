@@ -772,17 +772,7 @@
     "points": 1,
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "socks",
-          "boots_combat",
-          "longshirt",
-          "jacket_light",
-          "baton",
-          "knife_folding",
-          "hat_ball",
-          "wristwatch"
-        ],
+        "items": [ "pants", "socks", "boots_combat", "longshirt", "jacket_light", "baton", "knife_folding", "hat_ball", "wristwatch" ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "group": "charged_flashlight" },
@@ -3117,10 +3107,7 @@
           "pockknife",
           "wristwatch"
         ],
-        "entries": [
-          { "group": "charged_cell_phone" },
-          { "group": "charged_flashlight" }
-        ]
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_flashlight" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
@@ -3400,10 +3387,7 @@
           "wristwatch",
           "whistle"
         ],
-        "entries": [
-          { "group": "charged_cell_phone" },
-          { "group": "charged_flashlight" }
-        ]
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_flashlight" } ]
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
