@@ -6649,7 +6649,7 @@
     "name": "protective mouthpiece",
     "description": "A protective piece of equipment commonly used by athletes, which is worn inside the mouth to protect your teeth.",
     "weight": 20,
-    "volume": "0 L",
+    "volume": "430 ml",
     "price": 800,
     "bashing": 2,
     "material": [ "plastic" ],
