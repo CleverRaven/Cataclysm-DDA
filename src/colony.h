@@ -550,7 +550,7 @@ class colony : private element_allocator_type
                     return !( rh.it > it );
                 }
 
-                colony_reverse_iterator() noexcept {}
+                colony_reverse_iterator() noexcept = default;
 
                 colony_reverse_iterator( const colony_reverse_iterator &source ) noexcept:
                     it( source.it ) {}
@@ -3219,7 +3219,7 @@ class colony : private element_allocator_type
                 stored_instance( function_instance )
             {}
 
-            sort_dereferencer() noexcept {}
+            sort_dereferencer() noexcept = default;
 
             bool operator()( const pointer first, const pointer second ) {
                 return stored_instance( *first, *second );

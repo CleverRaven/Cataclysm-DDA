@@ -35,7 +35,7 @@ class leap_actor : public mattack_actor
         // Don't jump if distance to target is more than this
         float max_consider_range;
 
-        leap_actor() { }
+        leap_actor() = default;
         ~leap_actor() override = default;
 
         void load_internal( JsonObject &jo, const std::string &src ) override;
@@ -51,7 +51,7 @@ class mon_spellcasting_actor : public mattack_actor
         spell spell_data;
         int move_cost;
 
-        mon_spellcasting_actor() {}
+        mon_spellcasting_actor() = default;
         ~mon_spellcasting_actor() override = default;
 
         void load_internal( JsonObject &jo, const std::string &src ) override;

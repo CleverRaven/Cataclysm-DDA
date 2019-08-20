@@ -36,8 +36,6 @@ readability-*,\
 -modernize-use-auto,\
 -modernize-use-default-member-init,\
 -modernize-use-emplace,\
--modernize-use-equals-default,\
--modernize-use-equals-delete,\
 -modernize-use-transparent-functors,\
 -performance-for-range-copy,\
 -performance-inefficient-vector-operation,\

@@ -333,9 +333,7 @@ mattack_actor *melee_actor::clone() const
     return new melee_actor( *this );
 }
 
-bite_actor::bite_actor()
-{
-}
+bite_actor::bite_actor() = default;
 
 void bite_actor::load_internal( JsonObject &obj, const std::string &src )
 {

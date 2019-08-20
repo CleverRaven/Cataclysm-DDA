@@ -81,10 +81,10 @@ bool inventory_entry::operator==( const inventory_entry &other ) const
     return get_category_ptr() == other.get_category_ptr() && locations == other.locations;
 }
 
-class selection_column_preset: public inventory_selector_preset
+class selection_column_preset : public inventory_selector_preset
 {
     public:
-        selection_column_preset() {}
+        selection_column_preset() = default;
 
         std::string get_caption( const inventory_entry &entry ) const override {
             std::ostringstream res;
@@ -125,7 +125,7 @@ class selection_column_preset: public inventory_selector_preset
         }
 };
 
-static const selection_column_preset selection_preset;
+static const selection_column_preset selection_preset{};
 
 int inventory_entry::get_total_charges() const
 {

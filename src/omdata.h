@@ -186,7 +186,7 @@ struct oter_type_t {
 
         std::string get_symbol() const;
 
-        oter_type_t() {}
+        oter_type_t() = default;
 
         oter_id get_first() const;
         oter_id get_rotated( om_direction::type dir ) const;
@@ -359,7 +359,7 @@ struct overmap_special_spawns : public overmap_spawns {
 };
 
 struct overmap_special_terrain {
-    overmap_special_terrain() {}
+    overmap_special_terrain() = default;
     tripoint p;
     oter_str_id terrain;
     std::set<std::string> flags;

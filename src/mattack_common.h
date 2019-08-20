@@ -14,7 +14,7 @@ using mon_action_attack = bool ( * )( monster * );
 class mattack_actor
 {
     protected:
-        mattack_actor() { }
+        mattack_actor() = default;
     public:
         mattack_actor( const mattack_id &new_id ) : id( new_id ) { }
 

@@ -76,7 +76,7 @@ oter_id  ot_null,
          ot_forest_water,
          ot_river_center;
 
-const oter_type_t oter_type_t::null_type;
+const oter_type_t oter_type_t::null_type{};
 
 namespace om_lines
 {
@@ -874,7 +874,7 @@ const overmap_special_terrain &overmap_special::get_terrain_at( const tripoint &
         return elem.p == p;
     } );
     if( iter == terrains.end() ) {
-        static const overmap_special_terrain null_terrain;
+        static const overmap_special_terrain null_terrain{};
         return null_terrain;
     }
     return *iter;

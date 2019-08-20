@@ -1012,9 +1012,9 @@ class JsonSerializer
 class JsonDeserializer
 {
     public:
-        virtual ~JsonDeserializer() {}
+        virtual ~JsonDeserializer() = default;
         virtual void deserialize( JsonIn &jsin ) = 0;
-        JsonDeserializer() { }
+        JsonDeserializer() = default;
         JsonDeserializer( JsonDeserializer && ) = default;
         JsonDeserializer( const JsonDeserializer & ) = default;
         JsonDeserializer &operator=( JsonDeserializer && ) = default;

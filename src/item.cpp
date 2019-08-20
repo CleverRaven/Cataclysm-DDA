@@ -6487,21 +6487,9 @@ bool item::units_sufficient( const Character &ch, int qty ) const
     return units_remaining( ch, qty ) == qty;
 }
 
-item::reload_option::reload_option( const reload_option &rhs ) :
-    who( rhs.who ), target( rhs.target ), ammo( rhs.ammo ),
-    qty_( rhs.qty_ ), max_qty( rhs.max_qty ), parent( rhs.parent ) {}
+item::reload_option::reload_option( const reload_option & ) = default;
 
-item::reload_option &item::reload_option::operator=( const reload_option &rhs )
-{
-    who = rhs.who;
-    target = rhs.target;
-    ammo = rhs.ammo;
-    qty_ = rhs.qty_;
-    max_qty = rhs.max_qty;
-    parent = rhs.parent;
-
-    return *this;
-}
+item::reload_option &item::reload_option::operator=( const reload_option & ) = default;
 
 item::reload_option::reload_option( const player *who, const item *target, const item *parent,
                                     const item_location &ammo ) :
