@@ -80,6 +80,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     }
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     fold_and_print( window, point( 1, 0 ), pwr_str_pos, c_white, desc );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     fold_and_print( window, point( 1, 1 ), pwr_str_pos, c_white, fuel_stream.str() );
     wrefresh( window );
 }
