@@ -1994,7 +1994,7 @@ void load_bionic( JsonObject &jsobj )
 
     new_bionic.fake_item = jsobj.get_string( "fake_item", "" );
 
-    new_bionic.weight_capacity_modifier = jsobj.get_float( "weight_capacity_modifier", 1 );
+    new_bionic.weight_capacity_modifier = jsobj.get_float( "weight_capacity_modifier", 1.0 );
     jsobj.read( "weight_capacity_bonus", new_bionic.weight_capacity_bonus );
 
     jsobj.read( "canceled_mutations", new_bionic.canceled_mutations );

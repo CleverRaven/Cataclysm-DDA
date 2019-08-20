@@ -250,11 +250,11 @@ struct islot_armor {
     /**
     * Factor modifiying weight capacity
     */
-    float weight_capacity_modifier = 1;
+    float weight_capacity_modifier = 1.0;
     /**
     * Bonus to weight capacity
     */
-    int weight_capacity_bonus = 0;
+    float weight_capacity_bonus = 0;
     /**
      * Whether this is a power armor item.
      */

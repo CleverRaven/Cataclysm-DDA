@@ -2049,9 +2049,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( get_weight_capacity_bonus() != 0 ) {
             std::string bonus;
             if( get_weight_capacity_bonus() < 0 ) {
-                bonus = string_format( "<bad>%ikg</bad>", get_weight_capacity_bonus() );
+                bonus = string_format( "<bad>%.2fkg</bad>", get_weight_capacity_bonus() );
             } else {
-                bonus = string_format( "<good>+%ikg</good>", get_weight_capacity_bonus() );
+                bonus = string_format( "<good>+%.2fkg</good>", get_weight_capacity_bonus() );
             }
             info.push_back( iteminfo( "ARMOR", _( "<bold>Weight capacity bonus</bold>: " ) + bonus ) );
         }
@@ -2692,7 +2692,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                           _( "<bold>Environmental Protection:</bold> " ) + Ep.str() ) );
             }
 
-            const int weight_bonus = bid->weight_capacity_bonus;
+            const float weight_bonus = bid->weight_capacity_bonus;
             const float weight_modif = bid->weight_capacity_modifier;
             if( weight_modif != 1 ) {
                 std::string modifier;
@@ -2707,9 +2707,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( weight_bonus != 0 ) {
                 std::string bonus;
                 if( weight_bonus < 0 ) {
-                    bonus = string_format( "<bad>%ikg</bad>", weight_bonus );
+                    bonus = string_format( "<bad>%.2fkg</bad>", weight_bonus );
                 } else {
-                    bonus = string_format( "<good>+%ikg</good>", weight_bonus );
+                    bonus = string_format( "<good>+%.2fkg</good>", weight_bonus );
                 }
                 info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Weight capacity bonus</bold>: " ) + bonus ) );
             }
@@ -4397,7 +4397,7 @@ float item::get_weight_capacity_modifier() const
     return t->weight_capacity_modifier;
 }
 
-int item::get_weight_capacity_bonus() const
+float item::get_weight_capacity_bonus() const
 {
     const islot_armor *t = find_armor_data();
     if( t == nullptr ) {
