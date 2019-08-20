@@ -1037,8 +1037,7 @@ void npc::execute_action( npc_action action )
             if( path.size() == 1 ) { // We're adjacent to u, and thus can heal u
                 heal_player( *patient );
             } else if( !path.empty() ) {
-                say( string_format( _( "Hold still %s, I'm coming to help you." ),
-                                    patient->disp_name() ) );
+                say( _( "Hold still %s, I'm coming to help you." ), patient->disp_name() );
                 move_to_next();
             } else {
                 move_pause();
@@ -3023,7 +3022,7 @@ bool npc::do_player_activity()
     }
     /* if the activity is finished, grab any backlog or change the mission */
     if( !has_destination() && !activity ) {
-        add_msg( m_info, string_format( "%s completed the assigned task.", disp_name() ) );
+        add_msg( m_info, "%s completed the assigned task.", disp_name() );
         if( !backlog.empty() ) {
             activity = backlog.front();
             backlog.pop_front();

@@ -474,9 +474,9 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     auto nameExists = [&]( const std::string & name ) {
         return world_generator->active_world->save_exists( save_t::from_player_name( name ) ) &&
-               !query_yn( string_format( _( "A character with the name '%s' already exists in this world.\n"
-                                            "Saving will override the already existing character.\n\n"
-                                            "Continue anyways?" ), name ) );
+               !query_yn( _( "A character with the name '%s' already exists in this world.\n"
+                             "Saving will override the already existing character.\n\n"
+                             "Continue anyways?" ), name );
     };
 
     const bool allow_reroll = type == PLTYPE_RANDOM;

@@ -271,9 +271,8 @@ ret_val<bool> iuse_transform::can_use( const player &p, const item &, bool,
     [&]( const std::pair<quality_id, int> &unmet_req ) {
         return string_format( "%s %d", unmet_req.first.obj().name, unmet_req.second );
     } );
-    return ret_val<bool>::make_failure( string_format( ngettext( "You need a tool with %s.",
-                                        "You need tools with %s.", unmet_reqs.size() ),
-                                        unmet_reqs_string ) );
+    return ret_val<bool>::make_failure( ngettext( "You need a tool with %s.", "You need tools with %s.",
+                                        unmet_reqs.size() ), unmet_reqs_string );
 }
 
 std::string iuse_transform::get_name() const
@@ -2687,12 +2686,11 @@ int bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
     std::vector<std::function<void()>> actions;
 
     menu.addentry( -1, it.contents.empty() || it.contents.front().charges < capacity,
-                   'r', string_format( _( "Store ammo in %s" ), it.type_name() ) );
+                   'r', _( "Store ammo in %s" ), it.type_name() );
 
     actions.emplace_back( [&] { reload( p, it ); } );
 
-    menu.addentry( -1, !it.contents.empty(), 'u', string_format( _( "Unload %s" ),
-                   it.type_name() ) );
+    menu.addentry( -1, !it.contents.empty(), 'u', _( "Unload %s" ), it.type_name() );
 
     actions.emplace_back( [&] {
         if( p.i_add_or_drop( it.contents.front() ) )
@@ -4323,7 +4321,7 @@ int weigh_self_actor::use( player &p, item &, bool, const tripoint & ) const
     if( weight > convert_weight( max_weight ) ) {
         popup( _( "ERROR: Max weight of %.0f %s exceeded" ), convert_weight( max_weight ), weight_units() );
     } else {
-        popup( string_format( "%.0f %s", weight, weight_units() ) );
+        popup( "%.0f %s", weight, weight_units() );
     }
     return 0;
 }
