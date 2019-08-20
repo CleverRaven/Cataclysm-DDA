@@ -169,7 +169,7 @@ Currently, only some JSON values support this syntax (see [here](https://github.
 | power_source       | Whether the bionic provides power. (default: `false`)
 | faulty             | Whether it is a faulty type. (default: `false`)
 | cost               | How many PUs it costs to use the bionic. (default: `0`)
-| time               | How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
+| time               | How long, when activated, between drawing cost/converting fuel to power. If 0, it draws power once and never produce any in the case of a fueled bionic. (default: `0`)
 | description        | In-game description.
 | encumbrance        | (_optional_) A list of body parts and how much this bionic encumber them.
 | canceled_mutations | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
@@ -177,6 +177,10 @@ Currently, only some JSON values support this syntax (see [here](https://github.
 | included           | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
 | env_protec         | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
 | occupied_bodyparts | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
+| capacity           | (_optional_) Amount of power storage added by this bionic.
+| fuel_options       | (_optional_) A list of fuel that this bionic can use to produce bionic power.
+| fuel_capacity      | (_optional_) Volume of fuel this bionic can store.
+| fuel_efficiency    | (_optional_) Fraction of fuel energy converted into power. (default: `0`)
 
 ```C++
 {
@@ -186,7 +190,10 @@ Currently, only some JSON values support this syntax (see [here](https://github.
     "power_source" : false,
     "faulty"       : false,
     "cost"         : 0,
-    "time"         : 0,
+    "time"         : 1,
+    "fuel_efficiency": 1,
+    "fuel_options": [ "battery" ],
+    "fuel_capacity": 500,
     "encumbrance"  : [ [ "TORSO", 10 ], [ "ARM_L", 10 ], [ "ARM_R", 10 ], [ "LEG_L", 10 ], [ "LEG_R", 10 ], [ "FOOT_L", 10 ], [ "FOOT_R", 10 ] ],
     "description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries. Use 'E' to consume batteries.",
     "canceled_mutations": ["HYPEROPIC"],

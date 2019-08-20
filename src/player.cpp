@@ -7105,7 +7105,7 @@ bool player::consume_item( item &target )
         eat( comest ) ||
         feed_battery_with( comest ) ||
         feed_reactor_with( comest ) ||
-        feed_furnace_with( comest ) ) {
+        feed_furnace_with( comest ) || fuel_bionic_with( comest ) ) {
 
         if( target.is_container() ) {
             target.on_contents_changed();
@@ -10982,6 +10982,11 @@ void player::burn_move_stamina( int moves )
     int burn_ratio = get_option<int>( "PLAYER_BASE_STAMINA_BURN_RATE" );
     if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
         burn_ratio = burn_ratio * 2 - 3;
+    }
+    for( const bionic_id &bid : get_bionic_fueled_with( item( "muscle" ) ) ) {
+        if( has_active_bionic( bid ) ) {
+            burn_ratio = burn_ratio * 2 - 3;
+        }
     }
     burn_ratio += overburden_percentage;
     if( move_mode == PMM_RUN ) {

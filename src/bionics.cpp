@@ -273,13 +273,17 @@ bool player::activate_bionic( int b, bool eff_only )
             return false;
         }
 
+        if( !burn_fuel( b, true ) ) {
+            return false;
+        }
+
         //We can actually activate now, do activation-y things
         charge_power( -bionics[bio.id].power_activate );
         if( bionics[bio.id].toggled || bionics[bio.id].charge_time > 0 ) {
             bio.powered = true;
         }
         if( bionics[bio.id].charge_time > 0 ) {
-            bio.charge = bionics[bio.id].charge_time;
+            bio.charge_timer = bionics[bio.id].charge_time;
         }
         add_msg_if_player( m_info, _( "You activate your %s." ), bionics[bio.id].name );
     }
@@ -790,6 +794,52 @@ bool player::deactivate_bionic( int b, bool eff_only )
     return true;
 }
 
+bool player::burn_fuel( int b, bool start )
+{
+    bionic &bio = ( *my_bionics )[b];
+    if( bio.info().fuel_opts.empty() || bio.is_muscle_powered() ) {
+        return true;
+    }
+
+    if( start && get_fuel_available( bio.id ).empty() ) {
+        add_msg_player_or_npc( m_bad, _( "Your %s does not have enought fuel to start." ),
+                               _( "<npcname>'s %s does not have enought fuel to start." ), bio.info().name );
+        deactivate_bionic( b );
+        return false;
+    }
+    if( !start ) {// don't produce power on start to avoid instant recharge exploit by turning bionic ON/OFF in the menu
+        for( const itype_id &fuel : get_fuel_available( bio.id ) ) {
+            const item tmp_fuel( fuel );
+            int temp = std::stoi( get_value( fuel ) );
+            if( power_level + tmp_fuel.fuel_energy() *bio.info().fuel_efficiency > max_power_level ) {
+
+                add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
+                                       _( "<npcname>'s %s turns off to not waste fuel." ), bio.info().name );
+
+                bio.powered = false;
+                deactivate_bionic( b, true );
+                return false;
+
+            } else {
+                if( temp > 0 ) {
+                    temp -= 1;
+                    charge_power( tmp_fuel.fuel_energy() *bio.info().fuel_efficiency );
+                    set_value( fuel, std::to_string( temp ) );
+                    update_fuel_storage( fuel );
+                } else {
+                    remove_value( fuel );
+                    add_msg_player_or_npc( m_info, _( "Your %s runs out of fuel and turn off." ),
+                                           _( "<npcname>'s %s runs out of fuel and turn off." ), bio.info().name );
+                    bio.powered = false;
+                    deactivate_bionic( b, true );
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
 /**
  * @param p the player
  * @param bio the bionic that is meant to be recharged.
@@ -820,7 +870,7 @@ static bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 
             // Set the recharging cost and charge the bionic.
             amount = power_cost;
             // This is our first turn of charging, so subtract a turn from the recharge delay.
-            bio.charge = info.charge_time - rate;
+            bio.charge_timer = info.charge_time - rate;
             recharged = true;
         }
     }
@@ -840,23 +890,30 @@ void player::process_bionic( int b )
     int discharge_factor = 1;
     int discharge_rate = 1;
 
-    if( bio.charge > 0 ) {
-        bio.charge -= discharge_rate;
+    if( bio.charge_timer > 0 ) {
+        bio.charge_timer -= discharge_rate;
     } else {
         if( bio.info().charge_time > 0 ) {
-            // Try to recharge our bionic if it is made for it
-            int cost = 0;
-            bool recharged = attempt_recharge( *this, bio, cost, discharge_factor, discharge_rate );
-            if( !recharged ) {
-                // No power to recharge, so deactivate
-                bio.powered = false;
-                add_msg_if_player( m_neutral, _( "Your %s powers down." ), bio.info().name );
-                // This purposely bypasses the deactivation cost
-                deactivate_bionic( b, true );
-                return;
-            }
-            if( cost ) {
-                charge_power( -cost );
+            if( bio.info().power_source ) {
+                // Convert fuel to bionic power
+                burn_fuel( b );
+                // Reset timer
+                bio.charge_timer = bio.info().charge_time;
+            } else {
+                // Try to recharge our bionic if it is made for it
+                int cost = 0;
+                bool recharged = attempt_recharge( *this, bio, cost, discharge_factor, discharge_rate );
+                if( !recharged ) {
+                    // No power to recharge, so deactivate
+                    bio.powered = false;
+                    add_msg_if_player( m_neutral, _( "Your %s powers down." ), bio.info().name );
+                    // This purposely bypasses the deactivation cost
+                    deactivate_bionic( b, true );
+                    return;
+                }
+                if( cost ) {
+                    charge_power( -cost );
+                }
             }
         }
     }
@@ -1988,6 +2045,8 @@ void load_bionic( JsonObject &jsobj )
                                 false );
     new_bionic.shockproof = get_bool_or_flag( jsobj, "shockproof", "BIONIC_SHOCKPROOF", false );
 
+    new_bionic.fuel_efficiency = jsobj.get_float( "fuel_efficiency", 0 );
+
     if( new_bionic.gun_bionic && new_bionic.weapon_bionic ) {
         debugmsg( "Bionic %s specified as both gun and weapon bionic", id.c_str() );
     }
@@ -1998,6 +2057,8 @@ void load_bionic( JsonObject &jsobj )
     jsobj.read( "included_bionics", new_bionic.included_bionics );
     jsobj.read( "included", new_bionic.included );
     jsobj.read( "upgraded_bionic", new_bionic.upgraded_bionic );
+    jsobj.read( "fuel_options", new_bionic.fuel_opts );
+    jsobj.read( "fuel_capacity", new_bionic.fuel_capacity );
 
     JsonArray jsar = jsobj.get_array( "encumbrance" );
     if( !jsar.empty() ) {
@@ -2096,13 +2157,19 @@ int bionic::get_quality( const quality_id &quality ) const
     return item( i.fake_item ).get_quality( quality );
 }
 
+bool bionic::is_muscle_powered() const
+{
+    const std::vector<itype_id> fuel_op = info().fuel_opts;
+    return std::find( fuel_op.begin(), fuel_op.end(), "muscle" ) != fuel_op.end();
+}
+
 void bionic::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "id", id );
     json.member( "invlet", static_cast<int>( invlet ) );
     json.member( "powered", powered );
-    json.member( "charge", charge );
+    json.member( "charge", charge_timer );
     json.member( "ammo_loaded", ammo_loaded );
     json.member( "ammo_count", ammo_count );
     if( incapacitated_time > 0_turns ) {
@@ -2117,7 +2184,7 @@ void bionic::deserialize( JsonIn &jsin )
     id = bionic_id( jo.get_string( "id" ) );
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );
-    charge = jo.get_int( "charge" );
+    charge_timer = jo.get_int( "charge" );
     if( jo.has_string( "ammo_loaded" ) ) {
         ammo_loaded = jo.get_string( "ammo_loaded" );
     }

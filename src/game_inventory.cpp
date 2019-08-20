@@ -520,6 +520,13 @@ class comestible_inventory_preset : public inventory_selector_preset
                     case rechargeable_cbm::furnace:
                         cbm_name = _( "Furnace" );
                         break;
+                    case rechargeable_cbm::other:
+                        std::vector<bionic_id> bids = p.get_bionic_fueled_with( get_consumable_item( loc ) );
+                        if( !bids.empty() ) {
+                            bionic_id bid = p.get_most_efficient_bionic( bids );
+                            cbm_name = bid->name;
+                        }
+                        break;
                 }
 
                 if( !cbm_name.empty() ) {
@@ -551,6 +558,8 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return res.str();
             } else if( cbm == rechargeable_cbm::battery && p.power_level >= p.max_power_level ) {
                 return _( "You're fully charged" );
+            } else if( cbm == rechargeable_cbm::other && ( p.get_fuel_capacity( it.typeId() ) <= 0 ) ) {
+                return string_format( _( "No space to store more %s" ), it.tname() );
             }
 
             return inventory_selector_preset::get_denial( loc );
