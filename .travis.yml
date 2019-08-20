@@ -61,8 +61,8 @@ jobs:
       compiler: clang
       addons: &clang38
         apt:
-          packages: ["astyle"]
-          sources: [*apt_sources, llvm-toolchain-bionic-3.8]
+          packages: ["clang-3.8", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6", "astyle"]
+          sources: [*apt_sources, llvm-toolchain-precise-3.8]
 
     # Then build different configurations and targets in parallel.
     - stage: "Main Compilers"
@@ -71,7 +71,7 @@ jobs:
       compiler: gcc
       addons: &gcc53
         apt:
-          packages: ["clang-3.8", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6", "astyle"]
+          packages: ["g++-5=5.3.1-14ubuntu2", "libstdc++-5-dev=5.3.1-14ubuntu2", "gcc-5=5.3.1-14ubuntu2", "gcc-5-base=5.3.1-14ubuntu2", "cpp-5=5.3.1-14ubuntu2", "libgcc-5-dev=5.3.1-14ubuntu2", "libasan2=5.3.1-14ubuntu2", "libmpx0=5.3.1-14ubuntu2"]
           sources: [*apt_sources]
 
     - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1 SANITIZE=address
