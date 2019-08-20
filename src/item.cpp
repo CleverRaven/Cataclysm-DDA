@@ -2040,11 +2040,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( get_weight_capacity_modifier() != 1 ) {
             std::string modifier;
             if( get_weight_capacity_modifier() < 1 ) {
-                modifier = string_format( "<bad>%.2f</bad>", get_weight_capacity_modifier() );
+                modifier = string_format( "<bad>x%.2f</bad>", get_weight_capacity_modifier() );
             } else {
-                modifier = string_format( "<good>%.2f</good>", get_weight_capacity_modifier() );
+                modifier = string_format( "<good>x%.2f</good>", get_weight_capacity_modifier() );
             }
-            info.push_back( iteminfo( "ARMOR", _( "<bold>Weight capacity modifier</bold>: x" ) + modifier ) );
+            info.push_back( iteminfo( "ARMOR", _( "<bold>Weight capacity modifier</bold>: " ) + modifier ) );
         }
         if( get_weight_capacity_bonus() != 0 ) {
             std::string bonus;
@@ -2664,10 +2664,56 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         // TODO: Unhide when enforcing limits
-        if( is_bionic() && get_option < bool >( "CBM_SLOTS_ENABLED" )
-            && parts->test( iteminfo_parts::DESCRIPTION_CBM_SLOTS ) ) {
-            info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( type->bionic->id,
-                                      _( "This bionic is installed in the following body part(s):" ) ) ) );
+        if( is_bionic() ) {
+            if( get_option < bool >( "CBM_SLOTS_ENABLED" )
+                && parts->test( iteminfo_parts::DESCRIPTION_CBM_SLOTS ) ) {
+                info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( type->bionic->id,
+                                          _( "This bionic is installed in the following body part(s):" ) ) ) );
+            }
+            insert_separation_line();
+            const bionic_id bid( typeId() );
+
+            if( !bid->encumbrance.empty() ) {
+                std::ostringstream encumb;
+                for( const auto &element : bid->encumbrance ) {
+                    encumb << body_part_name_as_heading( element.first,
+                                                         1 ) << ": " << "<color_yellow>" << element.second << "</color>" << " ";
+                }
+                info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance:</bold> " ) + encumb.str() ) );
+            }
+
+            if( !bid->env_protec.empty() ) {
+                std::ostringstream Ep;
+                for( const auto &element : bid->env_protec ) {
+                    Ep << body_part_name_as_heading( element.first,
+                                                     1 ) << ": " << "<color_yellow>" << element.second << "</color>" << " ";
+                }
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "<bold>Environmental Protection:</bold> " ) + Ep.str() ) );
+            }
+
+            const int weight_bonus = bid->weight_capacity_bonus;
+            const float weight_modif = bid->weight_capacity_modifier;
+            if( weight_modif != 1 ) {
+                std::string modifier;
+                if( weight_modif < 1 ) {
+                    modifier = string_format( "<bad>x%.2f</bad>", weight_modif );
+                } else {
+                    modifier = string_format( "<good>x%.2f</good>", weight_modif );
+                }
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "<bold>Weight capacity modifier</bold>: " ) + modifier ) );
+            }
+            if( weight_bonus != 0 ) {
+                std::string bonus;
+                if( weight_bonus < 0 ) {
+                    bonus = string_format( "<bad>%ikg</bad>", weight_bonus );
+                } else {
+                    bonus = string_format( "<good>+%ikg</good>", weight_bonus );
+                }
+                info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Weight capacity bonus</bold>: " ) + bonus ) );
+            }
+
         }
 
         if( is_gun() && has_flag( "FIRE_TWOHAND" ) &&
