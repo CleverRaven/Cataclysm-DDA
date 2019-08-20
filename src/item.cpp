@@ -6462,9 +6462,9 @@ bool item::units_sufficient( const Character &ch, int qty ) const
     return units_remaining( ch, qty ) == qty;
 }
 
-item::reload_option::reload_option( const reload_option &rhs ) = default;
+item::reload_option::reload_option( const reload_option & ) = default;
 
-item::reload_option &item::reload_option::operator=( const reload_option &rhs ) = default;
+item::reload_option &item::reload_option::operator=( const reload_option & ) = default;
 
 item::reload_option::reload_option( const player *who, const item *target, const item *parent,
                                     const item_location &ammo ) :
