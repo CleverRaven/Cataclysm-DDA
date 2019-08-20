@@ -646,6 +646,11 @@ std::string colorize( const std::string &text, const nc_color &color )
     return get_tag_from_color( color ) + text + "</color>";
 }
 
+std::string colorize( const translation &text, const nc_color &color )
+{
+    return colorize( text.translated(), color );
+}
+
 std::string get_note_string_from_color( const nc_color &color )
 {
     for( auto i : color_by_string_map ) {

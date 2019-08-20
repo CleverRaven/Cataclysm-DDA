@@ -10,6 +10,7 @@
 #include <iosfwd>
 
 class nc_color;
+class translation;
 
 #define all_colors get_all_colors()
 
@@ -497,6 +498,7 @@ nc_color bgcolor_from_string( const std::string &color );
 color_tag_parse_result get_color_from_tag( const std::string &s );
 std::string get_tag_from_color( const nc_color &color );
 std::string colorize( const std::string &text, const nc_color &color );
+std::string colorize( const translation &text, const nc_color &color );
 
 std::string get_note_string_from_color( const nc_color &color );
 nc_color get_note_color( const std::string &note_id );

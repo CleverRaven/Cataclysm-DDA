@@ -1584,7 +1584,7 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     nc_color yellow = c_yellow;
     const spell fake_spell( &sp );
 
-    const std::string spell_name = colorize( sp.name.translated(), c_light_green );
+    const std::string spell_name = colorize( sp.name, c_light_green );
     const std::string spell_class = sp.spell_class == trait_id( "NONE" ) ? _( "Classless" ) :
                                     sp.spell_class->name();
     print_colored_text( w, point( start_x, line ), gray, gray, spell_name );
