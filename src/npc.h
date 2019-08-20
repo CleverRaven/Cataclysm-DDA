@@ -1295,7 +1295,7 @@ class standard_npc : public npc
 class npc_template
 {
     public:
-        npc_template() {}
+        npc_template() = default;
 
         npc guy;
 
