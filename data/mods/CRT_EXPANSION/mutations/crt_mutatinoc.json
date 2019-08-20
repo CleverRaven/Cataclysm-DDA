@@ -24,8 +24,8 @@
     "category": [ "VAMP" ],
     "stealth_modifier": 5,
     "noise_modifier": 0.2,
-    "movecost_modifier": 0.90,
-    "attackcost_modifier": 0.90  
+    "movecost_modifier": 0.9,
+    "attackcost_modifier": 0.9
   },
   {
     "type": "mutation",
