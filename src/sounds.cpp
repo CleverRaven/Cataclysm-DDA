@@ -667,7 +667,7 @@ void sfx::do_vehicle_engine_sfx()
         } else if( current_gear == -1 ) {
             pitch = 1.2;
         } else {
-            pitch = 1.0 - current_speed / safe_speed;
+            pitch = 1.0 - static_cast<double>( current_speed ) / static_cast<double>( safe_speed );
         }
     }
     if( pitch <= 0.5 ) {
