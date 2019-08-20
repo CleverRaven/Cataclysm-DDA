@@ -1529,7 +1529,7 @@ void debug()
 
                 // Take a screenshot of the viewport.
                 if ( g->take_screenshot( current_file_path ) ) {
-                    popup( string_format( _( "Successfully saved your screenshot to: %s" ), map_directory.str() ) );
+                    popup( _( "Successfully saved your screenshot to: %s" ), map_directory.str() );
                 }
                 else {
                     popup( _( "An error occurred while trying to save the screenshot." ) );

@@ -1358,7 +1358,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
     }
 
     // If we got here without restarting the activity, it means we're done
-    add_msg( m_info, string_format( _( "%s sorted out every item possible." ), p.disp_name() ) );
+    add_msg( m_info, _( "%s sorted out every item possible." ), p.disp_name() );
     if( p.is_npc() ) {
         npc *guy = dynamic_cast<npc *>( &p );
         guy->current_activity_id = activity_id::NULL_ID();
