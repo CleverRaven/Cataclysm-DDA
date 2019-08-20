@@ -133,7 +133,7 @@
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
-  },  
+  },
   {
     "id": "crt_cqb_si",
     "type": "GUN",
