@@ -78,10 +78,9 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     } else if( mode == EXAMINING ) {
         desc = _( "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
     }
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    fold_and_print( window, point( 1, 0 ), pwr_str_pos, c_white, desc );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    fold_and_print( window, point( 1, 1 ), pwr_str_pos, c_white, fuel_stream.str() );
+    int n_pt_y = 0;
+    fold_and_print( window, point( 1, n_pt_y++ ), pwr_str_pos, c_white, desc );
+    fold_and_print( window, point( 1, n_pt_y++ ), pwr_str_pos, c_white, fuel_stream.str() );
     wrefresh( window );
 }
 
