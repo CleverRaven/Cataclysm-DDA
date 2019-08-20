@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <regex>
 
 #include "avatar.h"
 #include "mission.h"
@@ -123,10 +124,27 @@ void game::list_missions()
             y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, col,
                                  miss->name() + for_npc );
 
+            auto format_tokenized_description = []( const std::string description,
+            std::vector<std::pair<int, std::string>> rewards ) {
+                std::string formatted_description = description;
+                std::regex token( "<reward_count:([a-zA-Z0-9]+)>" );
+                std::smatch match;
+                for( int i = 0; i < rewards.size(); i++ ) {
+                    if( std::regex_search( formatted_description, match, token ) ) {
+                        if( match.str( 1 ) == rewards[i].second ) {
+                            formatted_description = std::regex_replace( formatted_description, token, string_format( "%d",
+                                                    rewards[i].first ) );
+                        }
+                    }
+
+                }
+                return formatted_description;
+            };
+
             y++;
             if( !miss->get_description().empty() ) {
                 y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, c_white,
-                                     miss->get_description() );
+                                     format_tokenized_description( miss->get_description(), miss->get_likely_rewards() ) );
             }
             if( miss->has_deadline() ) {
                 const time_point deadline = miss->get_deadline();

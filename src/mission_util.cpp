@@ -14,6 +14,7 @@
 #include "mapgen_functions.h"
 #include "messages.h"
 #include "npc.h"
+#include "npctalk.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "rng.h"
@@ -527,5 +528,32 @@ bool mission_type::parse_funcs( JsonObject &jo, std::function<void( mission * )>
             mission_function( miss );
         }
     };
+
+    // This is a terrible mess.
+    auto parse = [&]( JsonObject jo, std::vector<std::pair<int, std::string>> &list ) {
+        if( jo.has_int( "cost" ) ) {
+            return;
+        }
+        if( jo.has_string( "u_buy_item" ) && jo.has_int( "count" ) ) {
+            list.push_back( std::pair<int, std::string>( jo.get_int( "count" ),
+                            jo.get_string( "u_buy_item" ) ) );
+        }
+    };
+    talk_effect_t talk_effect = talk_effect_t();
+    const std::string effect = "effect";
+    if( jo.has_object( effect ) ) {
+        JsonObject sub_effect = jo.get_object( effect );
+        parse( sub_effect, likely_rewards );
+    } else if( jo.has_array( effect ) ) {
+        JsonArray ja = jo.get_array( effect );
+        while( ja.has_more() ) {
+            if( ja.test_object() ) {
+                JsonObject sub_effect = ja.next_object();
+                parse( sub_effect, likely_rewards );
+            } else {
+                ja.skip_value();
+            }
+        }
+    }
     return true;
 }
