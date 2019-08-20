@@ -341,7 +341,7 @@ void main_menu::display_text( const std::string &text, const std::string &title,
 
     fold_and_print_from( w_text, point_zero, width, selected, c_light_gray, text );
 
-    draw_scrollbar( w_border, selected, height, iLines, 1, 0, BORDER_COLOR, true );
+    draw_scrollbar( w_border, selected, height, iLines, point_south, BORDER_COLOR, true );
     wrefresh( w_border );
     wrefresh( w_text );
     catacurses::refresh();

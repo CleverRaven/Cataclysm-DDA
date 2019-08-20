@@ -854,8 +854,8 @@ input_event draw_item_info( const catacurses::window &win, const std::string &sI
 
             fold_and_print_from( win, point( b, line_num ), width - 1, selected, c_light_gray, buffer.str() );
 
-            draw_scrollbar( win, selected, height, iLines, ( without_border && use_full_win ? 0 : 1 ),
-                            scrollbar_left ? 0 : getmaxx( win ) - 1, BORDER_COLOR, true );
+            draw_scrollbar( win, selected, height, iLines, point( scrollbar_left ? 0 : getmaxx( win ) - 1,
+                            ( without_border && use_full_win ? 0 : 1 ) ), BORDER_COLOR, true );
         }
 
         if( !without_border ) {
