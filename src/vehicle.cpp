@@ -2117,7 +2117,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             // remove the passenger from the old vehicle
             if( passenger ) {
                 parts[ mov_part ].remove_flag( vehicle_part::passenger_flag );
-                parts[ mov_part ].passenger_id = 0;
+                parts[ mov_part ].passenger_id = character_id();
             }
             // indicate the part needs to be removed from the old vehicle
             parts[ mov_part].removed = true;

@@ -1649,14 +1649,10 @@ class player : public Character
         void load_memorial_file( std::istream &fin );
         //Notable events, to be printed in memorial
         std::vector <std::string> memorial_log;
-        std::set<int> follower_ids;
+        std::set<character_id> follower_ids;
         //Record of player stats, for posterity only
         stats lifetime_stats;
         void mod_stat( const std::string &stat, float modifier ) override;
-
-        int getID() const;
-        // sets the ID, will *only* succeed when the current id is 0 (=not initialized)
-        void setID( int i );
 
         bool is_underwater() const override;
         void set_underwater( bool );
@@ -1891,9 +1887,6 @@ class player : public Character
         // TODO: move this to avatar
         pimpl<player_morale> morale;
     private:
-
-        int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
-        //NPCs also use this ID value. Values should never be reused.
 
         /** smart pointer to targeting data stored for aiming the player's weapon across turns. */
         std::shared_ptr<targeting_data> tdata;

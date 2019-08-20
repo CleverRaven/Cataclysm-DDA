@@ -459,7 +459,6 @@ player::player() :
     next_climate_control_check( calendar::before_time_starts )
     , cached_time( calendar::before_time_starts )
 {
-    id = -1; // -1 is invalid
     str_cur = 8;
     str_max = 8;
     dex_cur = 8;
@@ -10689,22 +10688,6 @@ nc_color encumb_color( int level )
 float player::get_melee() const
 {
     return get_skill_level( skill_id( "melee" ) );
-}
-
-void player::setID( int i )
-{
-    if( id >= 0 ) {
-        debugmsg( "tried to set id of a npc/player, but has already a id: %d", id );
-    } else if( i < -1 ) {
-        debugmsg( "tried to set invalid id of a npc/player: %d", i );
-    } else {
-        id = i;
-    }
-}
-
-int player::getID() const
-{
-    return this->id;
 }
 
 bool player::uncanny_dodge()
