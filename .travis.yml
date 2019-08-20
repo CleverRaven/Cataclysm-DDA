@@ -1,6 +1,6 @@
 # this file is HEAVILY influenced by https://github.com/boostorg/hana/blob/master/.travis.yml
 
-dist: bionic
+dist: xenial
 language: c++
 
 cache: ccache
@@ -18,7 +18,7 @@ addons:
   # these apt sources will be referenced later (by using *name)
   apt:
     sources: &apt_sources
-      - sourceline: "ppa:ubuntu-toolchain-r/test"
+      - ubuntu-toolchain-r-test
     config:
       retries: true
 
@@ -61,8 +61,8 @@ jobs:
       compiler: clang
       addons: &clang38
         apt:
-          packages: ["clang-3.8", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6", "astyle"]
-          sources: [*apt_sources, llvm-toolchain-xenial-3.8]
+          packages: ["clang-3.8", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
+          sources: [*apt_sources]
 
     # Then build different configurations and targets in parallel.
     - stage: "Main Compilers"
@@ -74,12 +74,13 @@ jobs:
           packages: ["g++-5=5.3.1-14ubuntu2", "libstdc++-5-dev=5.3.1-14ubuntu2", "gcc-5=5.3.1-14ubuntu2", "gcc-5-base=5.3.1-14ubuntu2", "cpp-5=5.3.1-14ubuntu2", "libgcc-5-dev=5.3.1-14ubuntu2", "libasan2=5.3.1-14ubuntu2", "libmpx0=5.3.1-14ubuntu2"]
           sources: [*apt_sources]
 
-    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1 SANITIZE=address
-      name: "GCC 8 Make build with Tiles, Sound and address sanitization"
+    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1 SANITIZE=address ASTYLE=1
+      name: "GCC 8 Make build with Tiles, Sound, astyle and address sanitization"
+      dist: bionic
       compiler: gcc
       addons: &gcc8
         apt:
-          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev", "astyle"]
           sources: *apt_sources
 
     - env: CLANG=clang++-8 SANITIZE=address EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency ~vehicle_drag ~starting_items"
