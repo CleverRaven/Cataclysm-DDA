@@ -91,10 +91,10 @@ enum class channel : int {
     outdoors_drizzle_env,
     outdoor_blizzard,
     deafness_tone,
+    danger_extreme_theme,
     danger_high_theme,
     danger_medium_theme,
     danger_low_theme,
-    danger_extreme_theme,
     stamina_75,
     stamina_50,
     stamina_35,
@@ -103,6 +103,8 @@ enum class channel : int {
     player_activities,
     exterior_engine_sound,
     interior_engine_sound,
+    radio,
+    MAX_CHANNEL                 //the last reserved channel
 };
 
 //Group Assignments:
@@ -110,20 +112,17 @@ enum class group : int {
     weather = 1,    //SFX related to weather
     time_of_day,    //SFX related to time of day
     context_themes, //SFX related to context themes
-    fatigue,        //SFX related to Fatigue
+    fatigue         //SFX related to fatigue
 };
 
 void load_sound_effects( JsonObject &jsobj );
 void load_sound_effect_preload( JsonObject &jsobj );
 void load_playlist( JsonObject &jsobj );
-void play_variant_sound_pitch( const std::string &id, const std::string &variant, int volume,
-                               int angle,
-                               float pitch );
 void play_variant_sound( const std::string &id, const std::string &variant, int volume, int angle,
-                         float pitch_min = 1.0, float pitch_max = 1.0 );
+                         double pitch_min = -1.0, double pitch_max = -1.0 );
 void play_variant_sound( const std::string &id, const std::string &variant, int volume );
 void play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume,
-                                 channel channel, int duration, float pitch = 1.0 );
+                                 channel channel, int fade_in_duration, double pitch = -1.0, int loops = -1 );
 void play_activity_sound( const std::string &id, const std::string &variant, int volume );
 void end_activity_sounds();
 void generate_gun_sound( const player &source_arg, const item &firing );
@@ -144,6 +143,7 @@ void fade_audio_channel( channel channel, int duration );
 bool is_channel_playing( channel channel );
 bool has_variant_sound( const std::string &id, const std::string &variant );
 void stop_sound_effect_fade( channel channel, int duration );
+void stop_sound_effect_timed( channel channel, int time );
 int set_channel_volume( channel channel, int volume );
 void do_player_death_hurt( const player &target, bool death );
 void do_fatigue();

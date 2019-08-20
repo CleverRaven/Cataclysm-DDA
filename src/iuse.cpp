@@ -2132,14 +2132,12 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
             message = messtream.str();
         }
         sounds::ambient_sound( pos, 6, sounds::sound_t::speech, message );
-        if( !sfx::is_channel_playing( sfx::channel::player_activities ) ) {
+        if( !sfx::is_channel_playing( sfx::channel::radio ) ) {
             if( one_in( 10 ) ) {
-                sfx::play_ambient_variant_sound( "radio", "static", 100, sfx::channel::player_activities, 100 );
-                sfx::fade_audio_channel( sfx::channel::player_activities, 100 );
+                sfx::play_ambient_variant_sound( "radio", "static", 100, sfx::channel::radio, 300, -1, 0 );
             } else if( one_in( 10 ) ) {
-                sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, sfx::channel::player_activities,
-                                                 100 );
-                sfx::fade_audio_channel( sfx::channel::player_activities, 100 );
+                sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, sfx::channel::radio, 300, -1,
+                                                 0 );
             }
         }
     } else { // Activated
@@ -2177,6 +2175,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
             case 1:
                 p->add_msg_if_player( _( "The radio dies." ) );
                 it->convert( "radio" ).active = false;
+                sfx::fade_audio_channel( sfx::channel::radio, 300 );
                 break;
             default:
                 break;
