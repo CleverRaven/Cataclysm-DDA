@@ -516,8 +516,7 @@ bool main_menu::opening_screen()
                     xlen += spec_name.size() + 2;
                 }
                 xlen += special_names.size() - 1;
-                point offset( 32 + menu_offset.x + extra_w / 2 - ( xlen / 4 ),
-                              menu_offset.y - 2 );
+                point offset( menu_offset + point( -( xlen / 4 ) + 32 + extra_w / 2, -2 ) );
                 print_menu_items( w_open, special_names, sel2, offset );
 
                 wrefresh( w_open );
@@ -753,11 +752,11 @@ bool main_menu::new_character_tab()
         } else if( layer == 3 && sel1 == 1 ) {
             // Then view presets
             if( templates.empty() ) {
-                mvwprintz( w_open, point( menu_offset.x + 20 + extra_w / 2, menu_offset.y - 4 ),
+                mvwprintz( w_open, menu_offset + point( 20 + extra_w / 2, -4 ),
                            c_red, "%s", _( "No templates found!" ) );
                 on_error();
             } else {
-                mvwprintz( w_open, point( menu_offset.x + 20 + extra_w / 2, menu_offset.y - 2 ),
+                mvwprintz( w_open, menu_offset + point( 20 + extra_w / 2, -2 ),
                            c_white, "%s", _( "Press 'd' to delete a preset." ) );
                 for( int i = 0; i < static_cast<int>( templates.size() ); i++ ) {
                     int line = menu_offset.y - 4 - i;
@@ -872,7 +871,7 @@ bool main_menu::load_character_tab()
         print_menu( w_open, 2, menu_offset );
         if( layer == 2 && sel1 == 2 ) {
             if( all_worldnames.empty() ) {
-                mvwprintz( w_open, point( 15 + menu_offset.x + extra_w / 2, menu_offset.y - 2 ),
+                mvwprintz( w_open, menu_offset + point( 15 + extra_w / 2, -2 ),
                            c_red, "%s", _( "No Worlds found!" ) );
                 on_error();
             } else {
@@ -930,12 +929,11 @@ bool main_menu::load_character_tab()
                 savegames.erase( new_end, savegames.end() );
             }
 
-            mvwprintz( w_open, point( 15 + menu_offset.x + extra_w / 2, menu_offset.y - 2 - sel2 ), h_white,
-                       "%s",
-                       wn );
+            mvwprintz( w_open, menu_offset + point( 15 + extra_w / 2, -2 - sel2 ), h_white,
+                       "%s", wn );
 
             if( savegames.empty() ) {
-                mvwprintz( w_open, point( 40 + menu_offset.x + extra_w / 2, menu_offset.y - 2 - sel2 ),
+                mvwprintz( w_open, menu_offset + point( 40 + extra_w / 2, -2 - sel2 ),
                            c_red, "%s", _( "No save games found!" ) );
                 on_error();
             } else {
@@ -1104,7 +1102,7 @@ void main_menu::world_tab()
                 continue;
             }
 
-            mvwprintz( w_open, point( 25 + menu_offset.x + extra_w / 2, menu_offset.y - 2 ),
+            mvwprintz( w_open, menu_offset + point( 25 + extra_w / 2, -2 ),
                        ( sel2 == 0 ? h_white : c_white ), "%s", _( "Create World" ) );
 
             int i = 1;
