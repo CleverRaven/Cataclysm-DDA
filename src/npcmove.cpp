@@ -3022,7 +3022,7 @@ bool npc::do_player_activity()
     }
     /* if the activity is finished, grab any backlog or change the mission */
     if( !has_destination() && !activity ) {
-        add_msg( m_info, "%s completed the assigned task.", disp_name() );
+        add_msg( m_info, _( "%s completed the assigned task." ), disp_name() );
         if( !backlog.empty() ) {
             activity = backlog.front();
             backlog.pop_front();

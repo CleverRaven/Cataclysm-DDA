@@ -916,13 +916,14 @@ std::string spell::enumerate_targets() const
         return all_valid_targets[0];
     }
     std::string ret;
+    // @todo if only we had a function to enumerate strings and concatenate them...
     for( auto iter = all_valid_targets.begin(); iter != all_valid_targets.end(); iter++ ) {
         if( iter + 1 == all_valid_targets.end() ) {
-            ret = string_format( "%s and %s", ret, *iter );
+            ret = string_format( _( "%s and %s" ), ret, *iter );
         } else if( iter == all_valid_targets.begin() ) {
             ret = *iter;
         } else {
-            ret = string_format( "%s, %s", ret, *iter );
+            ret = string_format( _( "%s, %s" ), ret, *iter );
         }
     }
     return ret;
@@ -1077,14 +1078,14 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
             for( const trait_id &cancel : sp->spell_class->cancels ) {
                 if( cancel == sp->spell_class->cancels.back() &&
                     sp->spell_class->cancels.back() != sp->spell_class->cancels.front() ) {
-                    trait_cancel = string_format( "%s and %s", trait_cancel, cancel->name() );
+                    trait_cancel = string_format( _( "%s and %s" ), trait_cancel, cancel->name() );
                 } else if( cancel == sp->spell_class->cancels.front() ) {
                     trait_cancel = cancel->name();
                     if( sp->spell_class->cancels.size() == 1 ) {
                         trait_cancel = string_format( "%s: %s", trait_cancel, cancel->desc() );
                     }
                 } else {
-                    trait_cancel = string_format( "%s, %s", trait_cancel, cancel->name() );
+                    trait_cancel = string_format( _( "%s, %s" ), trait_cancel, cancel->name() );
                 }
                 if( cancel == sp->spell_class->cancels.back() ) {
                     trait_cancel += ".";
