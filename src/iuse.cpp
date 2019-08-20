@@ -6982,8 +6982,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
             map_deincrement_or_erase( obj_coll.items, item_name );
         }
         if( found_furniture_aim_point && !furn_aim->description.empty() ) {
-            photo_text += "\n\n" + colorize( furn_aim->name(), c_yellow ) + ":\n"
-                          + furn_aim->description.translated();
+            photo_text += "\n\n" + colorize( furn_aim->name(), c_yellow ) + ":\n" + furn_aim->description;
         }
         if( found_item_aim_point ) {
             photo_text += "\n\n" + item_name + ":\n" + colorized_item_description( item );
@@ -6996,7 +6995,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
         map_deincrement_or_erase( obj_coll.furniture, ter_name );
 
         if( !ter_aim->description.empty() ) {
-            photo_text += "\n\n" + photo.name + ":\n" + ter_aim->description.translated();
+            photo_text += "\n\n" + photo.name + ":\n" + ter_aim->description;
         }
     }
 
