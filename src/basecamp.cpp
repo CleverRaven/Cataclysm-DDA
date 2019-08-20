@@ -79,9 +79,7 @@ int base_camps::max_upgrade_by_type( const std::string &type )
     return max_upgrade_cache[type];
 }
 
-basecamp::basecamp()
-{
-}
+basecamp::basecamp() = default;
 
 basecamp::basecamp( const std::string &name_, const tripoint &omt_pos_ ): name( name_ ),
     omt_pos( omt_pos_ )

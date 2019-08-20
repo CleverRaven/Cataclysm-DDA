@@ -1114,7 +1114,7 @@ Guns can be defined like this:
 ```
 Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
 ```json
-"type" : "TOOL",      // Or any other item type
+"type": "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
 "gun_data" : {        // additionally the same gun data like above
     "skill": ...,
@@ -1146,6 +1146,16 @@ Gun mods can be defined like this:
 "ups_charges": 200,            // Optional field increasing or decreasing base gun UPS consumption (per shot)
 "reload_modifier": -10,        // Optional field increasing or decreasing base gun reload time in percent
 "min_str_required_mod": 14,    // Optional field increasing or decreasing minimum strength required to use gun
+```
+Alternately, every item (book, tool, armor, even food) can be used as a gunmod if it has gunmod_data:
+```
+"type": "TOOL",       // Or any other item type
+...                   // same entries as for the type (e.g. same entries as for any tool),
+"gunmod_data" : {
+    "location": ...,
+    "mod_targets": ...,
+    ... 
+}
 ```
 
 ### Batteries

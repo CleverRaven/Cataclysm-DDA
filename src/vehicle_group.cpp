@@ -25,7 +25,7 @@ const VehicleGroup &string_id<VehicleGroup>::obj() const
     const auto iter = vgroups.find( *this );
     if( iter == vgroups.end() ) {
         debugmsg( "invalid vehicle group id %s", c_str() );
-        static const VehicleGroup dummy;
+        static const VehicleGroup dummy{};
         return dummy;
     }
     return iter->second;
@@ -49,7 +49,7 @@ const VehiclePlacement &string_id<VehiclePlacement>::obj() const
     const auto iter = vplacements.find( *this );
     if( iter == vplacements.end() ) {
         debugmsg( "invalid vehicle placement id %s", c_str() );
-        static const VehiclePlacement dummy;
+        static const VehiclePlacement dummy{};
         return dummy;
     }
     return iter->second;
@@ -158,7 +158,7 @@ const VehicleSpawn &string_id<VehicleSpawn>::obj() const
     const auto iter = vspawns.find( *this );
     if( iter == vspawns.end() ) {
         debugmsg( "invalid vehicle spawn id %s", c_str() );
-        static const VehicleSpawn dummy;
+        static const VehicleSpawn dummy{};
         return dummy;
     }
     return iter->second;
