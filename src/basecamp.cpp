@@ -482,7 +482,7 @@ void basecamp::query_new_name()
 {
     std::string camp_name;
     string_input_popup popup;
-    popup.title( string_format( _( "Name this camp" ) ) )
+    popup.title( _( "Name this camp" ) )
     .width( 40 )
     .text( "" )
     .max_length( 25 )

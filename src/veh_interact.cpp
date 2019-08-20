@@ -2810,7 +2810,7 @@ void act_vehicle_siphon( vehicle *veh )
         return;
     }
 
-    std::string title = string_format( _( "Select tank to siphon:" ) );
+    std::string title = _( "Select tank to siphon:" );
     auto sel = []( const vehicle_part & pt ) {
         return pt.is_tank() && pt.get_base().contents_made_of( LIQUID );
     };

@@ -390,9 +390,9 @@ void game::chat()
             message = _( "loudly." );
             break;
         case NPC_CHAT_SENTENCE: {
-            std::string popupdesc = string_format( _( "Enter a sentence to yell" ) );
+            std::string popupdesc = _( "Enter a sentence to yell" );
             string_input_popup popup;
-            popup.title( string_format( _( "Yell a sentence" ) ) )
+            popup.title( _( "Yell a sentence" ) )
             .width( 64 )
             .description( popupdesc )
             .identifier( "sentence" )
@@ -3050,22 +3050,22 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         reason += "\n" + string_format( _( "(new weapon value: %.1f vs %.1f)." ), new_weapon_value,
                                         cur_weapon_value );
         if( !given.is_gun() && given.is_armor() ) {
-            reason += "\n" + string_format( _( "It's too encumbering to wear." ) );
+            reason += std::string( "\n" ) + _( "It's too encumbering to wear." );
         }
     }
     if( allow_carry ) {
         if( !p.can_pickVolume( given ) ) {
             const units::volume free_space = p.volume_capacity() - p.volume_carried();
-            reason += "\n" + string_format( _( "I have no space to store it." ) ) + "\n";
+            reason += "\n" + std::string( _( "I have no space to store it." ) ) + "\n";
             if( free_space > 0_ml ) {
                 reason += string_format( _( "I can only store %s %s more." ),
                                          format_volume( free_space ), volume_units_long() );
             } else {
-                reason += string_format( _( "...or to store anything else for that matter." ) );
+                reason += _( "...or to store anything else for that matter." );
             }
         }
         if( !p.can_pickWeight( given ) ) {
-            reason += "\n" + string_format( _( "It is too heavy for me to carry." ) );
+            reason += std::string( "\n" ) + _( "It is too heavy for me to carry." );
         }
     }
 

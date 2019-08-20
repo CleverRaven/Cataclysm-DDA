@@ -920,7 +920,7 @@ std::string spell::enumerate_targets() const
         if( iter + 1 == all_valid_targets.end() ) {
             ret = string_format( "%s and %s", ret, *iter );
         } else if( iter == all_valid_targets.begin() ) {
-            ret = string_format( "%s", *iter );
+            ret = *iter;
         } else {
             ret = string_format( "%s, %s", ret, *iter );
         }

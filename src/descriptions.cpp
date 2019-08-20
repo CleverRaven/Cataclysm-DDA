@@ -98,8 +98,8 @@ c to describe creatures, f to describe furniture, t to describe terrain, Esc/Ent
 
         std::string signage = m.get_signage( p );
         if( !signage.empty() ) {
-            desc += u.has_trait( trait_ILLITERATE ) ? string_format( _( "\nSign: ???" ) ) : string_format(
-                        _( "\nSign: %s" ), signage );
+            desc += u.has_trait( trait_ILLITERATE ) ? _( "\nSign: ???" ) : string_format( _( "\nSign: %s" ),
+                    signage );
         }
 
         werase( w_main );
