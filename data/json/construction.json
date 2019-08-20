@@ -2720,7 +2720,10 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "15 m",
     "pre_special": "check_empty",
-    "components": [ [ [ "pillow", 19 ], [ "down_pillow", 19 ] ], [ [ "down_blanket", 3 ], [ "blanket", 3 ], [ "fur_blanket", 3 ] ] ],
+    "components": [
+      [ [ "pillow", 19 ], [ "down_pillow", 19 ], [ "mattress", 4 ] ],
+      [ [ "down_blanket", 3 ], [ "blanket", 3 ], [ "fur_blanket", 3 ] ]
+    ],
     "pre_terrain": "t_floor",
     "post_terrain": "f_pillow_fort"
   },
