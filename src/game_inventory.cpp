@@ -1453,7 +1453,7 @@ static item_location autodoc_internal( player &u, player &patient,
                 }
             }
 
-            if( b_filter.size() > 0 ) {
+            if( !b_filter.empty() ) {
                 hint = string_format( _( "<color_yellow>Available kit: %i</color>" ), b_filter.size() );// legacy
             } else {
                 hint = string_format( _( "<color_yellow>Available anesthetic: %i mL</color>" ), drug_count );
@@ -1613,7 +1613,7 @@ class bionic_install_preset: public inventory_selector_preset
                 return it.has_flag( "ANESTHESIA" ); // legacy
             } );
 
-            if( b_filter.size() > 0 ) {
+            if( !b_filter.empty() ) {
                 return  _( "kit available" );// legacy
             } else {
                 return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
@@ -1815,7 +1815,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
                 return it.has_flag( "ANESTHESIA" ); // legacy
             } );
 
-            if( b_filter.size() > 0 ) {
+            if( !b_filter.empty() ) {
                 return  _( "kit available" ); // legacy
             } else {
                 return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
