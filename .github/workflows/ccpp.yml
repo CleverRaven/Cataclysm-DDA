@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: install dependencies
-      run: apt-get install libncursesw5-dev
+      run: sudo apt-get install libncursesw5-dev
     - name: make
       run: make
     - name: make test
