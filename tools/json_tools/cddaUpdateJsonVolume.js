@@ -9,7 +9,7 @@ const PATH = require('path');
 const pad = (str, n = 3) => String(str).padStart(n);
 const L = (str, ...args) => console.info(pad(str, 30), ...args);
 
-const matchVolume = /( *)("(?:min_|max_)?volume": )(\d+)(,\r?\n)/g;
+const matchVolume = /( *)("(?:min_|max_|min_pet_|min_pet_|integral_)?volume": )(\d+)(,\r?\n)/g;
 
 if (process.argv.length !== 3) {
   L('must have exactly one argument');
@@ -93,9 +93,8 @@ function handleFile(file) {
 
 function fixVolume(fullMatch, whiteSpace, key, volume, EOL, offset, fullText) {
 
-  if (fullText.includes('musical_instrument') && whiteSpace.length === 6) { // ugly and not robust, but works for now
+  if (fullText.includes('musical_instrument') && whiteSpace.length === 6) // ugly and not robust, but works for now
     return fullMatch;
-  }
   if (volume === '0')
     return fullMatch;
 
