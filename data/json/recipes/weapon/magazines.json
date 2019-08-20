@@ -25,10 +25,8 @@
     "time": "20 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "tools": [
-      [ [ "762_casing", -1 ], [ "762_m43", -1 ], [ "762_m87", -1 ], [ "reloaded_762_m43", -1 ], [ "reloaded_762_m87", -1 ] ],
-      [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ]
-    ],
+    "using": [ [ "762_casehead", 1 ] ],
+    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
     "components": [ [ [ "sheet_metal_small", 1 ] ] ]
   },
   {
@@ -42,10 +40,8 @@
     "time": "20 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "tools": [
-      [ [ "762R_casing", -1 ], [ "762_54R", -1 ], [ "reloaded_762_54R", -1 ] ],
-      [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ]
-    ],
+    "using": [ [ "762R_casehead", 1 ] ],
+    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
     "components": [ [ [ "sheet_metal_small", 1 ] ] ]
   },
   {

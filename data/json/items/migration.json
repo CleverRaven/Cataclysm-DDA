@@ -637,11 +637,21 @@
   {
     "id": "smg_38",
     "type": "MIGRATION",
-    "replace": "smg_22"
+    "replace": "smg_45"
   },
   {
     "id": "smg_38_mag",
     "type": "MIGRATION",
-    "replace": "smg_22_mag"
+    "replace": "smg_45_mag"
+  },
+  {
+    "id": "smg_22",
+    "type": "MIGRATION",
+    "replace": "smg_9"
+  },
+  {
+    "id": "smg_22_mag",
+    "type": "MIGRATION",
+    "replace": "survivor9mm_mag"
   }
 ]

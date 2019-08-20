@@ -179,5 +179,19 @@
         [ "reloaded_270win_jsp", -1 ]
       ]
     ]
+  },
+  {
+    "id": "762_casehead",
+    "type": "requirement",
+    "//": "References needed for boltfaces and magazines using 7.62x39 or derivatives",
+    "tools": [
+      [ [ "762_casing", -1 ], [ "762_m43", -1 ], [ "762_m87", -1 ], [ "reloaded_762_m43", -1 ], [ "reloaded_762_m87", -1 ] ]
+    ]
+  },
+  {
+    "id": "762r_casehead",
+    "type": "requirement",
+    "//": "References needed for boltfaces and magazines using 7.62x54R or derivatives",
+    "tools": [ [ [ "762R_casing", -1 ], [ "762_54R", -1 ], [ "reloaded_762_54R", -1 ] ] ]
   }
 ]
