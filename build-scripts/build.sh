@@ -26,9 +26,6 @@ elif [ -n "$JUST_JSON" ]
 then
     echo "Early exit on just-json change"
     exit 0
-elif [ -n "$ASTYLE" ]
-then
-    make -j "$num_jobs" astyle-check
 fi
 
 ccache --zero-stats
