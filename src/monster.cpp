@@ -504,20 +504,20 @@ std::string monster::name_with_armor() const
 {
     std::string ret;
     if( type->in_species( INSECT ) ) {
-        ret = string_format( _( "carapace" ) );
+        ret = _( "carapace" );
     } else if( made_of( material_id( "veggy" ) ) ) {
-        ret = string_format( _( "thick bark" ) );
+        ret = _( "thick bark" );
     } else if( made_of( material_id( "bone" ) ) ) {
-        ret = string_format( _( "exoskeleton" ) );
+        ret = _( "exoskeleton" );
     } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ||
                made_of( material_id( "iflesh" ) ) ) {
-        ret = string_format( _( "thick hide" ) );
+        ret = _( "thick hide" );
     } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) ) {
-        ret = string_format( _( "armor plating" ) );
+        ret = _( "armor plating" );
     } else if( made_of( LIQUID ) ) {
-        ret = string_format( _( "dense jelly mass" ) );
+        ret = _( "dense jelly mass" );
     } else {
-        ret = string_format( _( "armor" ) );
+        ret = _( "armor" );
     }
     if( has_effect( effect_monster_armor ) && !inv.empty() ) {
         for( const item &armor : inv ) {

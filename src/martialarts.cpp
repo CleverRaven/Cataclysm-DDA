@@ -450,7 +450,7 @@ std::string ma_requirements::get_description( bool buff ) const
     }
 
     if( !req_buffs.empty() ) {
-        dump << string_format( _( "<bold>Requires:</bold> " ) );
+        dump << _( "<bold>Requires:</bold> " );
 
         dump << enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id & bid ) {
             return _( bid->name );
