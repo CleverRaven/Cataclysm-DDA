@@ -213,6 +213,9 @@ struct mission_type {
         // If true, the NPC will press this mission!
         bool urgent = false;
 
+        // A limited subset of the talk_effects on the mission
+        std::vector<std::pair<int, std::string>> likely_rewards;
+
         // Points of origin
         std::vector<mission_origin> origins;
         itype_id item_id = "null";
@@ -363,6 +366,7 @@ class mission
         int get_id() const;
         const std::string &get_item_id() const;
         character_id get_npc_id() const;
+        std::vector<std::pair<int, std::string>> get_likely_rewards();
         /**
          * Whether the mission is assigned to a player character. If not, the mission is free and
          * can be assigned.

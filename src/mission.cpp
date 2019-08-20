@@ -593,6 +593,11 @@ character_id mission::get_npc_id() const
     return npc_id;
 }
 
+std::vector<std::pair<int, std::string>> mission::get_likely_rewards()
+{
+    return type->likely_rewards;
+}
+
 void mission::set_target( const tripoint &p )
 {
     target = p;
