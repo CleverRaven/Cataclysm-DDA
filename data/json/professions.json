@@ -22,6 +22,14 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "charged_flashlight",
+    "ammo": 100,
+    "magazine": 100,
+    "entries": [ { "item": "flashlight" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "army_mags_m2010",
     "entries": [
       { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 },
@@ -764,20 +772,10 @@
     "points": 1,
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "socks",
-          "boots_combat",
-          "flashlight",
-          "longshirt",
-          "jacket_light",
-          "baton",
-          "knife_folding",
-          "hat_ball",
-          "wristwatch"
-        ],
+        "items": [ "pants", "socks", "boots_combat", "longshirt", "jacket_light", "baton", "knife_folding", "hat_ball", "wristwatch" ],
         "entries": [
           { "group": "charged_cell_phone" },
+          { "group": "charged_flashlight" },
           { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
           { "item": "9mm", "charges": 35 }
         ]
@@ -847,7 +845,6 @@
     "items": {
       "both": {
         "items": [
-          "flashlight",
           "pants_cargo",
           "boots",
           "hat_boonie",
@@ -862,6 +859,7 @@
         ],
         "entries": [
           { "group": "charged_cell_phone" },
+          { "group": "charged_flashlight" },
           { "item": "lighter", "charges": 100 },
           { "item": "knife_rambo", "container-item": "scabbard" }
         ]
@@ -3101,7 +3099,6 @@
           "pants",
           "socks",
           "boots",
-          "flashlight",
           "longshirt",
           "jacket_light",
           "baton",
@@ -3110,7 +3107,7 @@
           "pockknife",
           "wristwatch"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_flashlight" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
@@ -3386,12 +3383,11 @@
           "water_clean",
           "scissors",
           "magnifying_glass",
-          "flashlight",
           "1st_aid",
           "wristwatch",
           "whistle"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_flashlight" } ]
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
