@@ -1289,9 +1289,14 @@ units::mass Character::weight_capacity() const
     if( has_artifact_with( AEP_CARRY_MORE ) ) {
         ret += 22500_gram;
     }
-    if( has_bionic( bionic_id( "bio_weight" ) ) ) {
-        ret += 20_kilogram;
+
+    int bio_weight_bonus = 0;
+    for( const bionic &bio : *my_bionics ) {
+        ret *= bio.info().weight_capacity_modifier;
+        bio_weight_bonus += bio.info().weight_capacity_bonus;
     }
+    ret += units::from_kilogram( bio_weight_bonus );
+
     if( ret < 0_gram ) {
         ret = 0_gram;
     }

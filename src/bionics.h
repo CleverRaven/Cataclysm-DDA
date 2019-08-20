@@ -74,6 +74,10 @@ struct bionic_data {
     * If true, this bionic is included with another.
     */
     bool included = false;
+    /**Factor modifiying weight capacity*/
+    float weight_capacity_modifier;
+    /**Bonus to weight capacity*/
+    int weight_capacity_bonus;
     /**Amount of environemental protection offered by this bionic*/
     std::map<body_part, size_t> env_protec;
     /**
