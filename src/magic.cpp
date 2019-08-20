@@ -1276,15 +1276,10 @@ class spellcasting_callback : public uilist_callback
 
 static std::string moves_to_string( const int moves )
 {
-    const int turns = moves / 100;
-    if( moves < 200 ) {
-        return _( string_format( "%d %s", moves, "moves" ) );
-    } else if( moves < to_moves<int>( 2_minutes ) ) {
-        return _( string_format( "%d %s", turns, "turns" ) );
-    } else if( moves < to_moves<int>( 2_hours ) ) {
-        return _( string_format( "%d %s", to_minutes<int>( turns * 1_turns ), "minutes" ) );
+    if( moves < to_moves<int>( 2_seconds ) ) {
+        return string_format( _( "%d moves" ), moves );
     } else {
-        return _( string_format( "%d %s", to_hours<int>( turns * 1_turns ), "hours" ) );
+        return to_string( time_duration::from_turns( moves / 100 ) );
     }
 }
 
