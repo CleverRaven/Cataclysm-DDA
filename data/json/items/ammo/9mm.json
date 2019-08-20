@@ -25,7 +25,7 @@
     "copy-from": "9mm",
     "type": "AMMO",
     "name": "9x19mm FMJ",
-    "description": "9x19mm ammunition with a brass jacketed 115gr bullet.  It has been a popular round for military, law enforcement, and civilian use for over a century.",
+    "description": "9x19mm ammunition with a brass jacketed 115gr bullet.  It is a popular round for military, law enforcement, and civilian use even after almost 150 years.",
     "relative": { "damage": -2, "pierce": 4 }
   },
   {

@@ -116,7 +116,8 @@ enum class rechargeable_cbm {
     none = 0,
     battery,
     reactor,
-    furnace
+    furnace,
+    other
 };
 
 enum class comfort_level {
@@ -383,6 +384,8 @@ class player : public Character
         bool activate_bionic( int b, bool eff_only = false );
         /** Handles bionic deactivation effects of the entered bionic, returns if anything deactivated */
         bool deactivate_bionic( int b, bool eff_only = false );
+        /**Convert fuel to bionic power*/
+        bool burn_fuel( int b, bool start = false );
         /** Handles bionic effects over time of the entered bionic */
         void process_bionic( int b );
         /** Randomly removes a bionic from my_bionics[] */
@@ -1850,6 +1853,7 @@ class player : public Character
         bool feed_battery_with( item &it );
         bool feed_reactor_with( item &it );
         bool feed_furnace_with( item &it );
+        bool fuel_bionic_with( item &it );
         /** Check whether player can consume this very item */
         bool can_consume_as_is( const item &it ) const;
         /**

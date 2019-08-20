@@ -479,6 +479,20 @@ class Character : public Creature, public visitable<Character>
         bool has_active_bionic( const bionic_id &b ) const;
         /**Returns true if the player has any bionic*/
         bool has_any_bionic() const;
+        /**Returns true if the character can fuel a bionic with the item*/
+        bool can_fuel_bionic_with( const item &it ) const;
+        /**Return bionic_id of bionics able to use fuel*/
+        std::vector<bionic_id> get_bionic_fueled_with( const item &it ) const;
+        /**Return bionic_id of bionic of most fuel efficient bionic*/
+        bionic_id get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const;
+        /**Return list of available fuel for this bionic*/
+        std::vector<itype_id> get_fuel_available( const bionic_id &bio ) const;
+        /**Return available space to store specified fuel*/
+        int get_fuel_capacity( itype_id fuel ) const;
+        /**Return total space to store specified fuel*/
+        int get_total_fuel_capacity( itype_id fuel ) const;
+        /**Updates which bionic contain fuel and which is empty*/
+        void update_fuel_storage( const itype_id &fuel );
         // route for overmap-scale travelling
         std::vector<tripoint> omt_path;
         // --------------- Generic Item Stuff ---------------
