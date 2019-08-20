@@ -29,7 +29,6 @@
       [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ]
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
     "components": [ [ [ "steel_chunk", 1 ] ] ]
   },
   {
