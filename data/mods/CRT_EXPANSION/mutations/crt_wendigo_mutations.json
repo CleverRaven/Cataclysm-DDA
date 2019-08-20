@@ -66,6 +66,18 @@
   },
   {
     "type": "mutation",
+    "id": "REGEN",
+    "name": "Regeneration",
+    "points": 6,
+    "description": "Your flesh regenerates from wounds incredibly quickly.",
+    "types": [ "HEALING" ],
+    "prereqs": [ "FASTHEALER2" ],
+    "category": [ "SLIME", "TROGLOBITE", "WENDIGO" ],
+    "healing_awake": 2.0,
+    "healing_resting": 1.5
+  },  
+  {
+    "type": "mutation",
     "id": "SLASHERS",
     "name": "Slashers",
     "points": 5,
@@ -76,7 +88,7 @@
     "purifiable": false,
     "threshreq": [ "THRESH_WENDIGO" ],
     "category": [ "WENDIGO" ],
-    "social_modifiers": { "intimidate": 15 },
+    "social_modifiers": { "intimidate": 30 },
     "attacks": [
       {
         "attack_text_u": "You tear into %s with your blades",
