@@ -6699,10 +6699,10 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 werase( w_info );
                 draw_border( w_info );
 
-                static const char *title_prefix = "< ";
+                static const std::string title_prefix = "< ";
                 static const char *title = _( "Look Around" );
-                static const char *title_suffix = " >";
-                static const std::string full_title = string_format( "%s%s%s", title_prefix, title, title_suffix );
+                static const std::string title_suffix = " >";
+                static const std::string full_title = title_prefix + title + title_suffix;
                 const int start_pos = center_text_pos( full_title, 0, getmaxx( w_info ) - 1 );
                 mvwprintz( w_info, point( start_pos, 0 ), c_white, title_prefix );
                 wprintz( w_info, c_green, title );
