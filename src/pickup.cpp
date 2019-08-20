@@ -800,7 +800,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     if( this_item.has_owner() ) {
                         const faction *item_fac = this_item.get_owner();
                         if( item_fac != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
-                            stolen = string_format( "<color_light_red>!</color>" );
+                            stolen = "<color_light_red>!</color>";
                             stealing = true;
                         }
                     }
