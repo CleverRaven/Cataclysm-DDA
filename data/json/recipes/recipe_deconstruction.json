@@ -1647,7 +1647,7 @@
       [ [ "l_long_45", 1 ] ],
       [ [ "l_enforcer_45", 1 ] ],
       [ [ "small_repairkit", 1 ] ],
-      [ [ "light_battery_cell", 3 ] ],
+      [ [ "medium_battery_cell", 1 ] ],
       [ [ "manual_gun", 1 ] ],
       [ [ "holster", 1 ] ]
     ],
