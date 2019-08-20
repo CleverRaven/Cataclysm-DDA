@@ -127,16 +127,10 @@ void game::list_missions()
             auto format_tokenized_description = []( const std::string description,
             std::vector<std::pair<int, std::string>> rewards ) {
                 std::string formatted_description = description;
-                std::regex token( "<reward_count:([a-zA-Z0-9]+)>" );
-                std::smatch match;
                 for( int i = 0; i < rewards.size(); i++ ) {
-                    if( std::regex_search( formatted_description, match, token ) ) {
-                        if( match.str( 1 ) == rewards[i].second ) {
-                            formatted_description = std::regex_replace( formatted_description, token, string_format( "%d",
-                                                    rewards[i].first ) );
-                        }
-                    }
-
+                    std::regex token("<reward_count:" + rewards[i].second + ">");
+                    formatted_description = std::regex_replace( formatted_description, token, string_format( "%d",
+                                            rewards[i].first ) );
                 }
                 return formatted_description;
             };
