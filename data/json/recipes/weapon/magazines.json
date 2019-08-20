@@ -9,25 +9,8 @@
     "skills_required": [ "gun", 2 ],
     "time": "20 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [
-      [
-        [ "3006_casing", -1 ],
-        [ "270win_casing", -1 ],
-        [ "3006", -1 ],
-        [ "3006_casing", -1 ],
-        [ "3006fmj", -1 ],
-        [ "3006_incendiary", -1 ],
-        [ "270win_jsp", -1 ],
-        [ "reloaded_270win_jsp", -1 ],
-        [ "3006_incendiary", -1 ],
-        [ "reloaded_3006", -1 ],
-        [ "reloaded_3006fmj", -1 ],
-        [ "reloaded_3006_incendiary", -1 ],
-        [ "270win_jsp", -1 ],
-        [ "reloaded_270win_jsp", -1 ]
-      ],
-      [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ]
-    ],
+    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
+    "using": [ [ "3006_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "steel_chunk", 1 ] ] ]
   },
@@ -75,6 +58,7 @@
     "skills_required": [ "gun", 2 ],
     "time": "20 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
+    "using": [ [ "3006_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "garand", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
     "components": [ [ [ "steel_chunk", 1 ] ] ]
@@ -103,7 +87,7 @@
     "skills_required": [ "gun", 2 ],
     "time": "8 m",
     "autolearn": true,
-    "tools": [ [ [ "nail", -1 ], [ "combatnail", -1 ] ] ],
+    "tools": [ [ [ "nailgun", -1 ], [ "nailrifle", -1 ], [ "coilgun", -1 ] ], [ [ "nail", -1 ], [ "combatnail", -1 ] ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ], [ "canister_empty", 1 ] ],
@@ -150,6 +134,7 @@
       ],
       [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ]
     ],
+    "using": [ [ "223_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
@@ -176,6 +161,7 @@
     "skills_required": [ "gun", 1 ],
     "time": "20 m",
     "tools": [ [ [ "smg_22", -1 ] ] ],
+    "using": [ [ "22_casehead", 1 ] ],
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
@@ -204,6 +190,7 @@
     "time": "20 m",
     "autolearn": true,
     "tools": [ [ [ "smg_40", -1 ] ] ],
+    "using": [ [ "40_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
@@ -218,6 +205,7 @@
     "time": "20 m",
     "autolearn": true,
     "tools": [ [ [ "smg_45", -1 ] ] ],
+    "using": [ [ "45_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
@@ -232,6 +220,7 @@
     "time": "20 m",
     "autolearn": true,
     "tools": [ [ [ "smg_9mm", -1 ], [ "sten", -1 ] ] ],
+    "using": [ [ "9mm_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
