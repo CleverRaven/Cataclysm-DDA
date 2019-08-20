@@ -1414,7 +1414,7 @@ void sfx::do_vehicle_exterior_engine_sfx() { }
 void sfx::do_ambient() { }
 void sfx::fade_audio_group( group, int ) { }
 void sfx::fade_audio_channel( channel, int ) { }
-bool sfx::is_channel_playing( int )
+bool sfx::is_channel_playing( channel )
 {
     return false;
 }
@@ -1427,7 +1427,7 @@ bool sfx::has_variant_sound( const std::string &, const std::string & )
     return false;
 }
 void sfx::stop_sound_effect_fade( channel, int ) { }
-void sfx::stop_sound_effect_timed( channel channel, int time ) {}
+void sfx::stop_sound_effect_timed( channel, int ) {}
 void sfx::do_player_death_hurt( const player &, bool ) { }
 void sfx::do_fatigue() { }
 void sfx::do_obstacle( const std::string & ) { }
