@@ -12,7 +12,7 @@
     "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
     "using": [ [ "3006_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 1 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 1 ] ] ]
   },
   {
     "result": "762x39_clip",
@@ -29,7 +29,7 @@
       [ [ "762_casing", -1 ], [ "762_m43", -1 ], [ "762_m87", -1 ], [ "reloaded_762_m43", -1 ], [ "reloaded_762_m87", -1 ] ],
       [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ]
     ],
-    "components": [ [ [ "steel_chunk", 2 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 1 ] ] ]
   },
   {
     "result": "762R_clip",
@@ -46,7 +46,7 @@
       [ [ "762R_casing", -1 ], [ "762_54R", -1 ], [ "reloaded_762_54R", -1 ] ],
       [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ]
     ],
-    "components": [ [ [ "steel_chunk", 1 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 1 ] ] ]
   },
   {
     "result": "garandclip",
@@ -61,7 +61,7 @@
     "using": [ [ "3006_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "garand", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "components": [ [ [ "steel_chunk", 1 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 1 ] ] ]
   },
   {
     "result": "marlin_tubeloader",
