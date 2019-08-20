@@ -6463,7 +6463,7 @@ static std::string colorized_field_description_at( const tripoint &point )
             }
         }
         if( affix.empty() ) {
-            field_text = string_format( " in %s cloud", colorize( entry->name(), entry->color() ) );
+            field_text = string_format( _( " in %s cloud" ), colorize( entry->name(), entry->color() ) );
         } else {
             field_text = string_format( affix, colorize( entry->name(), entry->color() ) );
         }
