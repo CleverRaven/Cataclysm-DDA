@@ -2037,6 +2037,24 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
         }
 
+        if( get_weight_capacity_modifier() != 1 ) {
+            std::string modifier;
+            if( get_weight_capacity_modifier() < 1 ) {
+                modifier = string_format( "<bad>%.2f</bad>", get_weight_capacity_modifier() );
+            } else {
+                modifier = string_format( "<good>%.2f</good>", get_weight_capacity_modifier() );
+            }
+            info.push_back( iteminfo( "ARMOR", _( "<bold>Weight capacity modifier</bold>: x" ) + modifier ) );
+        }
+        if( get_weight_capacity_bonus() != 0 ) {
+            std::string bonus;
+            if( get_weight_capacity_bonus() < 0 ) {
+                bonus = string_format( "<bad>%ikg</bad>", get_weight_capacity_bonus() );
+            } else {
+                bonus = string_format( "<good>+%ikg</good>", get_weight_capacity_bonus() );
+            }
+            info.push_back( iteminfo( "ARMOR", _( "<bold>Weight capacity bonus</bold>: " ) + bonus ) );
+        }
     }
     if( is_book() ) {
         insert_separation_line();
