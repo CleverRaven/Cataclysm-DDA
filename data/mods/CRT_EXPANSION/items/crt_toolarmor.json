@@ -218,5 +218,30 @@
     "material_thickness": 1,
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": "HOTPLATE"
-  }
+  },
+  {
+    "id": "bandana_wet",
+    "type": "ARMOR",
+    "name": "wet bandana",
+    "description": "A dampened cotton bandana, worn over the mouth for a extra protection from dust and other contaminants.",
+    "weight": 42,
+    "volume": 1,
+    "price": 600,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "blue",
+    "covers": [ "MOUTH" ],
+    "coverage": 95,
+    "encumbrance": 7,
+    "warmth": 0,
+    "material_thickness": 1,
+    "environmental_protection": 3
+    "flags": [ "WET" ],
+    "revert_to": "bandana",
+    "max_charges": 60,
+    "initial_charges": 50,
+    "charges_per_use": 1,
+    "turns_per_charge": 5  
+  }    
 ]
