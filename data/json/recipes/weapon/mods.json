@@ -365,8 +365,8 @@
   {
     "type": "recipe",
     "result": "bottle_suppressor",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_CONTAINERS",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "6 m",
