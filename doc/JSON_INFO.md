@@ -161,22 +161,24 @@ Currently, only effect names, item action names, item category names, and activi
 
 ### Bionics
 
-| Identifier         | Description
-|---                 |---
-| id                 | Unique ID. Must be one continuous word, use underscores if necessary.
-| name               | In-game name displayed.
-| active             | Whether the bionic is active or passive. (default: `passive`)
-| power_source       | Whether the bionic provides power. (default: `false`)
-| faulty             | Whether it is a faulty type. (default: `false`)
-| cost               | How many PUs it costs to use the bionic. (default: `0`)
-| time               | How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
-| description        | In-game description.
-| encumbrance        | (_optional_) A list of body parts and how much this bionic encumber them.
-| canceled_mutations | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
-| included_bionics   | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
-| included           | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
-| env_protec         | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
-| occupied_bodyparts | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
+| Identifier               | Description
+|---                       |---
+| id                       | Unique ID. Must be one continuous word, use underscores if necessary.
+| name                     | In-game name displayed.
+| active                   | Whether the bionic is active or passive. (default: `passive`)
+| power_source             | Whether the bionic provides power. (default: `false`)
+| faulty                   | Whether it is a faulty type. (default: `false`)
+| cost                     | How many PUs it costs to use the bionic. (default: `0`)
+| time                     | How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
+| description              | In-game description.
+| encumbrance              | (_optional_) A list of body parts and how much this bionic encumber them.
+| weight_capacity_bonus    | (_optional_) Bonus to weight carrying capacity in kg, can be negative. (default: `0`)
+| weight_capacity_modifier | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
+| canceled_mutations       | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
+| included_bionics         | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
+| included                 | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
+| env_protec               | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
+| occupied_bodyparts       | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
 
 ```C++
 {
@@ -909,6 +911,8 @@ Armor can be defined like this:
 "warmth" : 10,        //  (Optional, default = 0) How much warmth clothing provides
 "environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
 "encumbrance" : 0,    // Base encumbrance (unfitted value)
+"weight_capacity_bonus": 20,    // (Optional, default = 0) Bonus to weight carrying capacity in kg, can be negative.
+"weight_capacity_modifier": 1.5, // (Optional, default = 1) Factor modifying base weight carrying capacity.
 "coverage" : 80,      // What percentage of body part
 "material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
 "power_armor" : false, // If this is a power armor item (those are special).
