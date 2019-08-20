@@ -1399,15 +1399,15 @@ static cata::optional<tripoint> find_best_refuel_spot( const tripoint &center )
     const tripoint center_abs = g->m.getabs( center );
 
     const std::unordered_set<tripoint> &tiles_abs_unordered =
-            mgr.get_near( zone_loot_wood, center_abs, PICKUP_RANGE );
+        mgr.get_near( zone_loot_wood, center_abs, PICKUP_RANGE );
     const std::vector<tripoint> &tiles_abs =
-            get_sorted_tiles_by_distance( center_abs, tiles_abs_unordered );
+        get_sorted_tiles_by_distance( center_abs, tiles_abs_unordered );
 
     for( const tripoint &tile_abs : tiles_abs ) {
         const tripoint tile = g->m.getlocal( tile_abs );
         if( g->m.has_items( tile ) &&
-                g->m.accessible_items( tile ) &&
-                g->m.clear_path( center, tile, PICKUP_RANGE, 1, 100 ) ) {
+            g->m.accessible_items( tile ) &&
+            g->m.clear_path( center, tile, PICKUP_RANGE, 1, 100 ) ) {
             return tile;
         }
     }
