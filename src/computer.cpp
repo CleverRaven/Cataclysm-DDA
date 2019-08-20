@@ -564,7 +564,8 @@ void computer::activate_function( computer_action action )
 
         case COMPACT_RADIO_ARCHIVE: {
             g->u.moves -= 300;
-            sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, sfx::channel::player_activities,
+            sfx::fade_audio_channel( sfx::channel::radio, 100 );
+            sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, sfx::channel::radio,
                                              2000 );
             print_text( "Accessing archive. Playing audio recording nr %d.\n%s", rng( 1, 9999 ),
                         SNIPPET.random_from_category( "radio_archive" ) );
@@ -574,7 +575,7 @@ void computer::activate_function( computer_action action )
             } else {
                 query_any( _( "Press any key..." ) );
             }
-            sfx::fade_audio_channel( sfx::channel::player_activities, 100 );
+            sfx::fade_audio_channel( sfx::channel::radio, 100 );
         }
         break;
 

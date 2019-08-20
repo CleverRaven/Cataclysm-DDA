@@ -551,6 +551,11 @@ void sfx::stop_sound_effect_fade( channel channel, int duration )
     }
 }
 
+void sfx::stop_sound_effect_timed( channel channel, int time )
+{
+    Mix_ExpireChannel( static_cast<int>( channel ), time );
+}
+
 int sfx::set_channel_volume( channel channel, int volume )
 {
     int ch = static_cast<int>( channel );
@@ -624,7 +629,7 @@ void sfx::do_vehicle_engine_sfx()
         current_speed = current_speed * -1;
         in_reverse = true;
     }
-    float pitch = 1.0f;
+    double pitch = 1.0;
     int safe_speed = veh->safe_velocity();
     int current_gear;
     if( in_reverse ) {
@@ -650,23 +655,23 @@ void sfx::do_vehicle_engine_sfx()
     }
 
     if( current_gear > previous_gear ) {
-        play_variant_sound_pitch( "vehicle", "gear_shift", get_heard_volume( g->u.pos() ), 0, 0.8 );
+        play_variant_sound( "vehicle", "gear_shift", get_heard_volume( g->u.pos() ), 0, 0.8, 0.8 );
         add_msg( m_debug, "GEAR UP" );
     } else if( current_gear < previous_gear ) {
-        play_variant_sound_pitch( "vehicle", "gear_shift", get_heard_volume( g->u.pos() ), 0, 1.2 );
+        play_variant_sound( "vehicle", "gear_shift", get_heard_volume( g->u.pos() ), 0, 1.2, 1.2 );
         add_msg( m_debug, "GEAR DOWN" );
     }
     if( ( safe_speed != 0 ) ) {
         if( current_gear == 0 ) {
-            pitch = 1.0f;
+            pitch = 1.0;
         } else if( current_gear == -1 ) {
-            pitch = 1.2f;
+            pitch = 1.2;
         } else {
-            pitch = 1.0f - static_cast<float>( current_speed ) / static_cast<float>( safe_speed );
+            pitch = 1.0 - current_speed / safe_speed;
         }
     }
-    if( pitch <= 0.5f ) {
-        pitch = 0.5f;
+    if( pitch <= 0.5 ) {
+        pitch = 0.5;
     }
 
     if( current_speed != previous_speed ) {
@@ -1390,10 +1395,10 @@ void sfx::end_activity_sounds()
 void sfx::load_sound_effects( JsonObject & ) { }
 void sfx::load_sound_effect_preload( JsonObject & ) { }
 void sfx::load_playlist( JsonObject & ) { }
-void sfx::play_variant_sound( const std::string &, const std::string &, int, int, float, float ) { }
+void sfx::play_variant_sound( const std::string &, const std::string &, int, int, double, double ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int ) { }
 void sfx::play_ambient_variant_sound( const std::string &, const std::string &, int, channel, int,
-                                      float ) { }
+                                      double, int ) { }
 void sfx::play_activity_sound( const std::string &, const std::string &, int ) { }
 void sfx::end_activity_sounds() { }
 void sfx::generate_gun_sound( const player &, const item & ) { }
@@ -1422,6 +1427,7 @@ bool sfx::has_variant_sound( const std::string &, const std::string & )
     return false;
 }
 void sfx::stop_sound_effect_fade( channel, int ) { }
+void sfx::stop_sound_effect_timed( channel channel, int time ) {}
 void sfx::do_player_death_hurt( const player &, bool ) { }
 void sfx::do_fatigue() { }
 void sfx::do_obstacle( const std::string & ) { }
