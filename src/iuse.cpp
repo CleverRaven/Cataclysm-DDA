@@ -9124,14 +9124,14 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
         }
     }
 
-    const std::string craft_name = p->weapon.tname();
+    const std::string craft_name = it->tname();
 
-    if( !p->weapon.is_craft() ) {
+    if( !it->is_craft() ) {
         debugmsg( "Attempted to start working on non craft '%s.'  Aborting.", craft_name );
         return 0;
     }
 
-    if( !p->can_continue_craft( p->weapon ) ) {
+    if( !p->can_continue_craft( *it ) ) {
         return 0;
     }
     const recipe &rec = it->get_making();
@@ -9149,7 +9149,7 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
         string_format( pgettext( "in progress craft", "<npcname> starts working on the %s." ),
                        craft_name ) );
     p->assign_activity( activity_id( "ACT_CRAFT" ) );
-    p->activity.targets.push_back( item_location( *p, &p->weapon ) );
+    p->activity.targets.push_back( item_location( *p, it ) );
     p->activity.values.push_back( 0 ); // Not a long craft
 
     return 0;
