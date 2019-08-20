@@ -1,46 +1,59 @@
-{
-  "type": "mapgen",
-  "method": "json",
-  "nested_mapgen_id": "robofac_mi2_convoy_ambush_chunk",
-  "object": {
-    "mapgensize": [ 24, 24 ],
-    "rows": [
-      "                        ",
-      "                        ",
-      "  #########   ##        ",
-      "     A    ####          ",
-      "         # # #    #     ",
-      "          #   ## # #### ",
-      "         ####### ###    ",
-      "      ###     #         ",
-      "     #                  ",
-      "             #          ",
-      "       ##      #        ",
-      "     #                  ",
-      "   ###           ##     ",
-      "     ##     #  #        ",
-      "                ##  ##  ",
-      "           # ### ##  #  ",
-      "     M         ######## ",
-      "              @   ####  ",
-      "                  ####  ",
-      "       ##     ##########",
-      "                 ####   ",
-      "         A ##           ",
-      "            #####       ",
-      "                        "
-    ],
-    "terrain": { "@": "t_pavement", "A": "t_pavement", "M": "t_pavement", "#": "t_pavement" },
-    "furniture": { "#": "f_wreckage" },
-    "place_vehicles": [
-      { "vehicle": "humvee", "x": 18, "y": 15, "fuel": 0, "status": 1, "chance": 100 },
-      { "vehicle": "humvee", "x": 16, "y": 4, "fuel": 0, "status": 1, "chance": 100 },
-      { "vehicle": "aapc-mg", "x": 10, "y": 10, "fuel": 0, "status": 1, "chance": 100 }
-    ],
-    "items": { "@": { "item": "lab_torso", "chance": 100 } },
-    "item": { "@": [ { "item": "rmi2_corpse" } ] },
-    "place_loot": [ { "item": "223_casing", "charges": [ 1, 1 ], "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100, "repeat": [ 20, 60 ] } ],
-    "monster": { "M": { "monster": "mon_zombie_armored" }, "A": { "monster": "mon_zombie_soldier_acid_1" } },
-    "place_monsters": [ { "monster": "GROUP_MIL_STRONG", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 1.6 } ]
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "robofac_mi2_convoy_ambush_chunk",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "  #########   ##        ",
+        "     A    ####          ",
+        "         # # #    #     ",
+        "          #   ## # #### ",
+        "         ####### ###    ",
+        "      ###     #         ",
+        "     #                  ",
+        "             #          ",
+        "       ##      #        ",
+        "     #                  ",
+        "   ###           ##     ",
+        "     ##     #  #        ",
+        "                ##  ##  ",
+        "           # ### ##  #  ",
+        "     M         ######## ",
+        "              @   ####  ",
+        "                  ####  ",
+        "       ##     ##########",
+        "                 ####   ",
+        "         A ##           ",
+        "            #####       ",
+        "                        "
+      ],
+      "terrain": { "@": "t_pavement", "A": "t_pavement", "M": "t_pavement", "#": "t_pavement" },
+      "furniture": { "#": "f_wreckage" },
+      "place_vehicles": [
+        { "vehicle": "humvee", "x": 18, "y": 15, "fuel": 0, "status": 1, "chance": 100 },
+        { "vehicle": "humvee", "x": 16, "y": 4, "fuel": 0, "status": 1, "chance": 100 },
+        { "vehicle": "aapc-mg", "x": 10, "y": 10, "fuel": 0, "status": 1, "chance": 100 }
+      ],
+      "items": { "@": { "item": "lab_torso", "chance": 100 } },
+      "item": { "@": [ { "item": "rmi2_corpse" } ] },
+      "place_loot": [ { "item": "223_casing", "charges": [ 1, 1 ], "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100, "repeat": [ 20, 60 ] } ],
+      "monster": { "M": { "monster": "mon_zombie_armored" }, "A": { "monster": "mon_zombie_soldier_acid_1" } },
+      "place_monsters": [ { "monster": "GROUP_MIL_STRONG", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 1.6 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "robofac_mi3_photonics_chunk",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "T" ],
+      "terrain": { "T": "t_metal_floor" },
+      "item": { "T": { "item": "template_photonics", "chance": 100 } }
+    }
   }
-}
+]

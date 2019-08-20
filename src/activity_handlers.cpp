@@ -868,7 +868,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 roll *= roll_drops();
                 monster_weight_remaining -= roll;
                 roll = ceil( static_cast<double>( roll ) /
-                             to_gram( ( item::find_type( entry.drop ) )->weight ) );
+                             to_gram( item::find_type( entry.drop )->weight ) );
             } else {
                 monster_weight_remaining -= roll * to_gram( ( item::find_type( entry.drop ) )->weight );
             }
@@ -1968,7 +1968,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
             g->refresh_all();
             // TODO: Z (and also where the activity is queued)
             // Or not, because the vehicle coordinates are dropped anyway
-            g->exam_vehicle( vp->vehicle(), act->values[ 2 ], act->values[ 3 ] );
+            g->exam_vehicle( vp->vehicle(), point( act->values[ 2 ], act->values[ 3 ] ) );
             return;
         } else {
             dbg( D_ERROR ) << "game:process_activity: ACT_VEHICLE: vehicle not found";
@@ -3487,11 +3487,11 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
     const tripoint &pos = act->placement;
 
     if( g->m.ter( pos ) == t_trunk ) {
-        g->m.spawn_item( pos.x, pos.y, "log", rng( 2, 3 ), 0, calendar::turn );
-        g->m.spawn_item( pos.x, pos.y, "stick_long", rng( 0, 1 ), 0, calendar::turn );
+        g->m.spawn_item( pos.xy(), "log", rng( 2, 3 ), 0, calendar::turn );
+        g->m.spawn_item( pos.xy(), "stick_long", rng( 0, 1 ), 0, calendar::turn );
     } else if( g->m.ter( pos ) == t_stump ) {
-        g->m.spawn_item( pos.x, pos.y, "log", rng( 0, 2 ), 0, calendar::turn );
-        g->m.spawn_item( pos.x, pos.y, "splinter", rng( 5, 15 ), 0, calendar::turn );
+        g->m.spawn_item( pos.xy(), "log", rng( 0, 2 ), 0, calendar::turn );
+        g->m.spawn_item( pos.xy(), "splinter", rng( 5, 15 ), 0, calendar::turn );
     }
 
     g->m.ter_set( pos, t_dirt );

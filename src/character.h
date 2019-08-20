@@ -163,6 +163,8 @@ inline social_modifiers operator+( social_modifiers lhs, const social_modifiers 
 class Character : public Creature, public visitable<Character>
 {
     public:
+        Character( const Character & ) = delete;
+        Character &operator=( const Character & ) = delete;
         ~Character() override;
 
         field_type_id bloodType() const override;
@@ -887,9 +889,7 @@ class Character : public Creature, public visitable<Character>
         std::array<int, num_hp_parts> healed_total;
     protected:
         Character();
-        Character( const Character & ) = delete;
         Character( Character && );
-        Character &operator=( const Character & ) = delete;
         Character &operator=( Character && );
         struct trait_data {
             /** Whether the mutation is activated. */
