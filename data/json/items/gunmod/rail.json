@@ -79,7 +79,7 @@
     "description": "An advanced unit that straps onto the side of your firearm and reduces vibration, greatly reducing recoil and slightly increasing accuracy.",
     "weight": 286,
     "volume": "750 ml",
-    "integral_volume": 2,
+    "integral_volume": "500 ml",
     "price": 68000,
     "material": [ "aluminum", "plastic" ],
     "symbol": ":",

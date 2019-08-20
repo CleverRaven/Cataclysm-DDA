@@ -293,7 +293,7 @@
     "description": "A kit providing the necessary parts for permanently converting a firearm from magazine to belt-feed.  Guaranteed to void your warranty.",
     "weight": 950,
     "volume": "750 ml",
-    "integral_volume": 1,
+    "integral_volume": "250 ml",
     "price": 32000,
     "material": "steel",
     "symbol": ":",
