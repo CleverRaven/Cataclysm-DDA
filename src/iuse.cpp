@@ -9117,6 +9117,8 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
                 // wielding something that can't be unwielded
                 return 0;
             }
+            // `it` is no longer the item we are using (note that `player::wielded` is a value).
+            it = &p->weapon;
         } else {
             return 0;
         }
