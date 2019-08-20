@@ -933,7 +933,7 @@ void Item_factory::check_definitions() const
             }
 
             if( type->brewable->results.empty() ) {
-                msg << string_format( "empty product list" ) << "\n";
+                msg << "empty product list" << "\n";
             }
 
             for( auto &b : type->brewable->results ) {
@@ -957,7 +957,7 @@ void Item_factory::check_definitions() const
         }
         if( type->book ) {
             if( type->book->skill && !type->book->skill.is_valid() ) {
-                msg << string_format( "uses invalid book skill." ) << "\n";
+                msg << "uses invalid book skill." << "\n";
             }
             if( type->book->martial_art && !type->book->martial_art.is_valid() ) {
                 msg << string_format( "trains invalid martial art '%s'.",
@@ -1017,18 +1017,18 @@ void Item_factory::check_definitions() const
             }
 
             if( !type->gun->skill_used ) {
-                msg << string_format( "uses no skill" ) << "\n";
+                msg << "uses no skill" << "\n";
             } else if( !type->gun->skill_used.is_valid() ) {
                 msg << "uses an invalid skill " << type->gun->skill_used.str() << "\n";
             }
             for( auto &gm : type->gun->default_mods ) {
                 if( !has_template( gm ) ) {
-                    msg << string_format( "invalid default mod." ) << "\n";
+                    msg << "invalid default mod." << "\n";
                 }
             }
             for( auto &gm : type->gun->built_in_mods ) {
                 if( !has_template( gm ) ) {
-                    msg << string_format( "invalid built-in mod." ) << "\n";
+                    msg << "invalid built-in mod." << "\n";
                 }
             }
         }

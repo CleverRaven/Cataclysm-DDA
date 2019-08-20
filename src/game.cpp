@@ -5451,9 +5451,9 @@ static std::string get_fire_fuel_string( const tripoint &examp )
         field_entry *fire = g->m.get_field( examp, fd_fire );
         if( fire ) {
             std::stringstream ss;
-            ss << string_format( _( "There is a fire here." ) ) << " ";
+            ss << _( "There is a fire here." ) << " ";
             if( fire->get_field_intensity() > 1 ) {
-                ss << string_format( _( "It's too big and unpredictable to evaluate how long it will last." ) );
+                ss << _( "It's too big and unpredictable to evaluate how long it will last." );
                 return ss.str();
             }
             time_duration fire_age = fire->get_field_age();
@@ -5462,7 +5462,7 @@ static std::string get_fire_fuel_string( const tripoint &examp )
             mod = std::max( mod, 0 );
             if( fire_age >= 0_turns ) {
                 if( mod >= 4 ) { // = survival level 0-1
-                    ss << string_format( _( "It's going to go out soon without extra fuel." ) );
+                    ss << _( "It's going to go out soon without extra fuel." );
                     return ss.str();
                 } else {
                     fire_age = 30_minutes - fire_age;
@@ -5483,15 +5483,13 @@ static std::string get_fire_fuel_string( const tripoint &examp )
                 fire_age = fire_age * -1 + 30_minutes;
                 if( mod >= 4 ) { // = survival level 0-1
                     if( fire_age <= 1_hours ) {
-                        ss << string_format(
-                               _( "It's quite decent and looks like it'll burn for a bit without extra fuel." ) );
+                        ss << _( "It's quite decent and looks like it'll burn for a bit without extra fuel." );
                         return ss.str();
                     } else if( fire_age <= 3_hours ) {
-                        ss << string_format( _( "It looks solid, and will burn for a few hours without extra fuel." ) );
+                        ss << _( "It looks solid, and will burn for a few hours without extra fuel." );
                         return ss.str();
                     } else {
-                        ss << string_format(
-                               _( "It's very well supplied and even without extra fuel might burn for at least a part of a day." ) );
+                        ss << _( "It's very well supplied and even without extra fuel might burn for at least a part of a day." );
                         return ss.str();
                     }
                 } else {
