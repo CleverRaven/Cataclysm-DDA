@@ -158,12 +158,18 @@ class translation
          * Be especially careful when using these to sort translations, as the
          * translated result will change when switching the language.
          **/
-        bool operator<( const translation &that ) const;
+        bool translated_lt( const translation &that ) const;
+        bool translated_eq( const translation &that ) const;
+        bool translated_ne( const translation &that ) const;
+
+        /**
+         * Compare translations by their context, raw string, and no-translation flag
+         */
         bool operator==( const translation &that ) const;
         bool operator!=( const translation &that ) const;
     private:
         struct no_translation_tag {};
-        translation( const std::string &str, const no_translation_tag );
+        translation( const std::string &str, no_translation_tag );
 
         cata::optional<std::string> ctxt;
         std::string raw;

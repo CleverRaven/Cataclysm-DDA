@@ -340,7 +340,7 @@ static void rcdrive( int dx, int dy )
     int cz = 0;
     car_location_string >> cx >> cy >> cz;
 
-    auto rc_pairs = m.get_rc_items( cx, cy, cz );
+    auto rc_pairs = m.get_rc_items( tripoint( cx, cy, cz ) );
     auto rc_pair = rc_pairs.begin();
     for( ; rc_pair != rc_pairs.end(); ++rc_pair ) {
         if( rc_pair->second->typeId() == "radio_car_on" && rc_pair->second->active ) {

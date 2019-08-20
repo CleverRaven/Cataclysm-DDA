@@ -531,7 +531,7 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool /*t*/, const tripoint &/
         }
     }
 
-    vehicle *veh = g->m.add_vehicle( vehicle_id, p.posx(), p.posy(), 0, 0, 0, false );
+    vehicle *veh = g->m.add_vehicle( vehicle_id, p.pos().xy(), 0, 0, 0, false );
     if( veh == nullptr ) {
         p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
         return 0;
@@ -898,6 +898,7 @@ int ups_based_armor_actor::use( player &p, item &it, bool t, const tripoint & ) 
         return 0;
     }
     it.active = !it.active;
+    p.reset_encumbrance();
     if( it.active ) {
         if( activate_msg.empty() ) {
             p.add_msg_if_player( m_info, _( "You activate your %s." ), it.tname() );
@@ -1520,6 +1521,8 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     remove_ammo( *cut.get_item(), p );
     // Original item has been consumed.
     cut.remove_item();
+    // Force an encumbrance update in case they were wearing that item.
+    p.reset_encumbrance();
 
     for( const auto &salvaged : materials_salvaged ) {
         std::string mat_name = salvaged.first;
@@ -1535,7 +1538,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
                 p.i_add_or_drop( result, amount );
             } else {
                 for( int i = 0; i < amount; i++ ) {
-                    g->m.spawn_an_item( pos.x, pos.y, result, amount, 0 );
+                    g->m.spawn_an_item( pos.xy(), result, amount, 0 );
                 }
             }
         } else {
@@ -1809,7 +1812,7 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
         return 0;
     }
 
-    auto items = g->m.i_at( p.posx(), p.posy() );
+    auto items = g->m.i_at( point( p.posx(), p.posy() ) );
     std::vector<const item *> corpses;
 
     for( auto &it : items ) {

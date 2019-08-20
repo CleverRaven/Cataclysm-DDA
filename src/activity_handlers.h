@@ -29,7 +29,7 @@ enum butcher_type : int {
     DISSECT         // dissect a corpse for CBMs
 };
 
-int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher_type action );
+int butcher_time_to_cut( const player &u, const item &corpse_item, butcher_type action );
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
@@ -38,7 +38,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p );
 void activity_on_turn_blueprint_move( player_activity &, player &p );
 void activity_on_turn_pickup();
 void activity_on_turn_wear( player_activity &act, player &p );
-void try_fuel_fire( player_activity &act, player &p, const bool starting_fire = false );
+void try_fuel_fire( player_activity &act, player &p, bool starting_fire = false );
 
 enum class item_drop_reason {
     deliberate,

@@ -25,6 +25,7 @@
 #include "font_loader.h"
 #include "platform_win.h"
 #include "mmsystem.h"
+#include "wcwidth.h"
 
 //***********************************
 //Globals                           *
@@ -630,7 +631,7 @@ void catacurses::init_interface()
     }
     init_colors();
 
-    stdscr = newwin( get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ), 0, 0 );
+    stdscr = newwin( get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ), point_zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 
     initialized = true;

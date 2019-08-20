@@ -57,7 +57,7 @@ struct component {
     // If true, it's not actually a component but a requirement (list of components)
     bool requirement = false;
 
-    component() { }
+    component() = default;
     component( const itype_id &TYPE, int COUNT ) : type( TYPE ), count( COUNT ) { }
     component( const itype_id &TYPE, int COUNT, bool RECOVERABLE ) :
         type( TYPE ), count( COUNT ), recoverable( RECOVERABLE ) { }
@@ -71,7 +71,7 @@ struct component {
 };
 
 struct tool_comp : public component {
-    tool_comp() { }
+    tool_comp() = default;
     tool_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
 
     void load( JsonArray &ja );
@@ -87,7 +87,7 @@ struct tool_comp : public component {
 };
 
 struct item_comp : public component {
-    item_comp() { }
+    item_comp() = default;
     item_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
 
     void load( JsonArray &ja );

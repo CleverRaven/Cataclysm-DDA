@@ -3021,6 +3021,7 @@ void veh_interact::complete_vehicle()
             if( pt.is_tank() && src->is_container() && !contents.empty() ) {
 
                 pt.base.fill_with( contents.front() );
+                src->on_contents_changed();
 
                 if( pt.ammo_remaining() != pt.ammo_capacity() ) {
                     //~ 1$s vehicle name, 2$s tank name
@@ -3139,7 +3140,7 @@ void veh_interact::complete_vehicle()
                 }
                 // Place the removed wheel on the map last so consume_vpart_item() doesn't pick it.
                 if( !broken ) {
-                    g->m.add_item_or_charges( g->u.posx(), g->u.posy(), removed_wheel );
+                    g->m.add_item_or_charges( point( g->u.posx(), g->u.posy() ), removed_wheel );
                 }
                 add_msg( _( "You replace one of the %1$s's tires with a %2$s." ),
                          veh->name, veh->parts[ partnum ].name() );

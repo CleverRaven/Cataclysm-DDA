@@ -184,9 +184,9 @@ tab_direction set_points( const catacurses::window &w, avatar &u, points_left &p
 tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &points );
 tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &points );
 tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left &points,
-                            const tab_direction direction );
+                            tab_direction direction );
 tab_direction set_profession( const catacurses::window &w, avatar &u, points_left &points,
-                              const tab_direction direction );
+                              tab_direction direction );
 tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &points );
 tab_direction set_description( const catacurses::window &w, avatar &you, bool allow_reroll,
                                points_left &points );
@@ -579,6 +579,15 @@ bool avatar::create( character_type type, const std::string &tempname )
     }
     if( has_trait( trait_id( "SAVINGS" ) ) ) {
         cash = rng( 1500000, 2000000 );
+    }
+
+    if( has_trait( trait_id( "XS" ) ) ) {
+        set_stored_kcal( 10000 );
+        toggle_trait( trait_id( "XS" ) );
+    }
+    if( has_trait( trait_id( "XXXL" ) ) ) {
+        set_stored_kcal( 125000 );
+        toggle_trait( trait_id( "XXXL" ) );
     }
 
     // Learn recipes

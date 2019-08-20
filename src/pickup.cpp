@@ -181,7 +181,8 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
 
     // We already checked in do_pickup if this was a nullptr
     // Make copies so the original remains untouched if we bail out
-    item newit = *loc.get_item();
+    item_location newloc = loc;
+    item newit = *newloc.get_item();
     item leftovers = newit;
 
     const auto wield_check = u.can_wield( newit );
@@ -213,7 +214,11 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     if( newit.is_ammo() && newit.charges == 0 ) {
         picked_up = true;
         option = NUM_ANSWERS; //Skip the options part
-    } else if( newit.made_of_from_type( LIQUID ) ) {
+    } else if( newit.is_frozen_liquid() ) {
+        if( !( got_water = !( u.crush_frozen_liquid( newloc ) ) ) ) {
+            option = STASH;
+        }
+    } else if( newit.made_of_from_type( LIQUID ) && !newit.is_frozen_liquid() ) {
         got_water = true;
     } else if( !u.can_pickWeight( newit, false ) ) {
         if( !autopickup ) {
@@ -388,11 +393,11 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         bool isEmpty = ( g->m.i_at( p ).empty() );
 
         // Hide the pickup window if this is a toilet and there's nothing here
-        // but water.
+        // but non-frozen water.
         if( ( !isEmpty ) && g->m.furn( p ) == f_toilet ) {
             isEmpty = true;
             for( const item &maybe_water : g->m.i_at( p ) ) {
-                if( maybe_water.typeId() != "water" ) {
+                if( maybe_water.typeId() != "water"  || maybe_water.is_frozen_liquid() ) {
                     isEmpty = false;
                     break;
                 }

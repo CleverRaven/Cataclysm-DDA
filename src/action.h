@@ -397,7 +397,7 @@ std::string action_ident( action_id act );
  * @param act action ID to lookup in table
  * @returns true if action has potential to alter world state, otherwise returns false.
  */
-bool can_action_change_worldstate( const action_id act );
+bool can_action_change_worldstate( action_id act );
 
 /**
  * Lookup the action ID assigned to a given key.
@@ -506,7 +506,7 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::function<bool( tripoint )> &should_highlight, const bool allow_vertical );
+        const std::function<bool( tripoint )> &should_highlight, bool allow_vertical );
 
 // (Press X (or Y)|Try) to Z
 std::string press_x( action_id act );
@@ -538,7 +538,7 @@ std::string press_x( action_id act, const std::string &act_desc );
  * @param[in] dz Z component of direction, should be -1, 0, or 1
  * @returns ID of corresponding move action (usually... see note above)
  */
-action_id get_movement_direction_from_delta( const int dx, const int dy, const int dz = 0 );
+action_id get_movement_direction_from_delta( int dx, int dy, int dz = 0 );
 
 // Helper function to convert movement direction to coordinate delta point
 point get_delta_from_movement_direction( action_id act );

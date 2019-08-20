@@ -253,7 +253,7 @@ const npc_template &string_id<npc_template>::obj() const
     const auto found = npc_templates.find( *this );
     if( found == npc_templates.end() ) {
         debugmsg( "Tried to get invalid npc: %s", c_str() );
-        static const npc_template dummy;
+        static const npc_template dummy{};
         return dummy;
     }
     return found->second;
@@ -602,7 +602,7 @@ void npc::revert_after_activity()
     mission = previous_mission;
     attitude = previous_attitude;
     activity = player_activity();
-    current_activity.clear();
+    current_activity_id = activity_id::NULL_ID();
     clear_destination();
     backlog.clear();
 }
@@ -2723,7 +2723,7 @@ void npc::set_mission( npc_mission new_mission )
         mission = new_mission;
     }
     if( mission == NPC_MISSION_ACTIVITY ) {
-        current_activity = activity.get_verb();
+        current_activity_id = activity.id();
     }
 }
 

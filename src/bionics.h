@@ -154,7 +154,7 @@ void reset_bionics();
 void load_bionic( JsonObject &jsobj ); // load a bionic from JSON
 char get_free_invlet( player &p );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
-                               const bool each_bp_on_new_line = true );
+                               bool each_bp_on_new_line = true );
 
 int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty );
 

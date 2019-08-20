@@ -739,5 +739,39 @@
     "bashing": 10,
     "to_hit": 2,
     "category": "weapons"
+  },
+  {
+    "id": "blackjack",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "dark_gray",
+    "name": "blackjack",
+    "description": "This is a short, easily concealed bludgeoning weapon consisting of a weight embedded at the end of a short leather shaft.  Formerly used by law enforcement, this weapon is meant to stun or knock out the subject, although head strikes have a high risk of causing a permanent, disabling brain injury or being fatal.",
+    "price": 17500,
+    "material": [ "leather", "lead" ],
+    "techniques": [ "PRECISE", "RAPID" ],
+    "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
+    "weight": 450,
+    "volume": "350 ml",
+    "bashing": 13,
+    "to_hit": 1,
+    "category": "weapons"
+  },
+  {
+    "id": "makeshift_sap",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "dark_gray",
+    "name": "makeshift sap",
+    "description": "This is an improvised sap, also known as a cosh, slapjack and slapper.  A short and flat bludgeoning weapon consisting of a weight embedded between two patches of leather.",
+    "price": 5000,
+    "material": [ "leather", "steel" ],
+    "techniques": [ "PRECISE", "RAPID" ],
+    "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
+    "weight": 400,
+    "volume": "350 ml",
+    "bashing": 9,
+    "to_hit": 1,
+    "category": "weapons"
   }
 ]
