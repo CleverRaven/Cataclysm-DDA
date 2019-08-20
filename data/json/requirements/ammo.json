@@ -104,7 +104,7 @@
   {
     "id": "9mm_casehead",
     "type": "requirement",
-    "//": "References needed for boltfaces and magazines using .30-06 or derivatives",
+    "//": "References needed for boltfaces and magazines using 9mm or derivatives",
     "tools": [
       [
         [ "9mm_casing", -1 ],
