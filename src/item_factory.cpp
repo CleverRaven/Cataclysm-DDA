@@ -1203,8 +1203,7 @@ const itype *Item_factory::find_template( const itype_id &id ) const
         ( making_id.is_valid() && making_id.obj().is_blueprint() ) ) {
         itype *def = new itype();
         def->id = id;
-        def->name = string_format( "DEBUG: %s", id.c_str() );
-        def->name_plural = string_format( "%s", id.c_str() );
+        def->name = def->name_plural = string_format( "DEBUG: %s", id.c_str() );
         def->description = making_id.obj().description;
         m_runtimes[ id ].reset( def );
         return def;
