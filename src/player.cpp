@@ -8974,10 +8974,14 @@ bool player::invoke_item( item *used, const std::string &method, const tripoint 
     }
 
     int charges_used = actually_used->type->invoke( *this, *actually_used, pt, method );
+    if( charges_used == 0 ) {
+        return false;
+    }
+    // Prevent accessing the item as it may have been deleted by the invoked iuse function.
 
     if( used->is_tool() || used->is_medication() || used->get_contained().is_medication() ) {
         return consume_charges( *actually_used, charges_used );
-    } else if( ( used->is_bionic() || used->is_deployable() ) && charges_used > 0 ) {
+    } else if( used->is_bionic() || used->is_deployable() ) {
         i_rem( used );
         return true;
     }
