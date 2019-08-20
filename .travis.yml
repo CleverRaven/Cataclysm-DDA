@@ -74,7 +74,7 @@ jobs:
           packages: ["g++-5=5.3.1-14ubuntu2", "libstdc++-5-dev=5.3.1-14ubuntu2", "gcc-5=5.3.1-14ubuntu2", "gcc-5-base=5.3.1-14ubuntu2", "cpp-5=5.3.1-14ubuntu2", "libgcc-5-dev=5.3.1-14ubuntu2", "libasan2=5.3.1-14ubuntu2", "libmpx0=5.3.1-14ubuntu2"]
           sources: [*apt_sources]
 
-    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1 SANITIZE=address ASTYLE=1
+    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1 SANITIZE=address
       name: "GCC 8 Make build with Tiles, Sound, astyle and address sanitization"
       dist: bionic
       compiler: gcc
