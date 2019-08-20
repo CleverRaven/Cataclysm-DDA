@@ -236,12 +236,12 @@
     "encumbrance": 7,
     "warmth": 0,
     "material_thickness": 1,
-    "environmental_protection": 3
-    "flags": [ "WET" ],
+    "environmental_protection": 3,
     "revert_to": "bandana",
     "max_charges": 60,
     "initial_charges": 50,
     "charges_per_use": 1,
-    "turns_per_charge": 5  
-  }    
+    "turns_per_charge": 5,
+    "flags": [ "WET" ]
+  }
 ]
