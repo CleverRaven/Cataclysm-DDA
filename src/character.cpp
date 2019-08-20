@@ -1286,8 +1286,10 @@ units::mass Character::weight_capacity() const
     ret += get_str() * 4_kilogram;
     ret *= mutation_value( "weight_capacity_modifier" );
 
-    if( has_artifact_with( AEP_CARRY_MORE ) ) {
-        ret += 22500_gram;
+    int worn_weight_bonus = 0;
+    for( const item &it : worn ) {
+        ret *= it.get_weight_capacity_modifier();
+        worn_weight_bonus += it.get_weight_capacity_bonus();
     }
 
     int bio_weight_bonus = 0;
@@ -1295,7 +1297,12 @@ units::mass Character::weight_capacity() const
         ret *= bio.info().weight_capacity_modifier;
         bio_weight_bonus += bio.info().weight_capacity_bonus;
     }
-    ret += units::from_kilogram( bio_weight_bonus );
+
+    ret += units::from_kilogram( bio_weight_bonus + worn_weight_bonus );
+
+    if( has_artifact_with( AEP_CARRY_MORE ) ) {
+        ret += 22500_gram;
+    }
 
     if( ret < 0_gram ) {
         ret = 0_gram;

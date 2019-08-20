@@ -4324,6 +4324,24 @@ units::volume item::get_storage() const
     return storage;
 }
 
+float item::get_weight_capacity_modifier() const
+{
+    const islot_armor *t = find_armor_data();
+    if( t == nullptr ) {
+        return 1;
+    }
+    return t->weight_capacity_modifier;
+}
+
+int item::get_weight_capacity_bonus() const
+{
+    const islot_armor *t = find_armor_data();
+    if( t == nullptr ) {
+        return 0;
+    }
+    return t->weight_capacity_bonus;
+}
+
 int item::get_env_resist( int override_base_resist ) const
 {
     const islot_armor *t = find_armor_data();
