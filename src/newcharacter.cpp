@@ -1569,7 +1569,7 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
         if( !sorted_profs[cur_id]->spells().empty() ) {
             buffer << "<color_light_blue>" << _( "Spells:" ) << "</color>\n";
             for( const std::pair<spell_id, int> spell_pair : sorted_profs[cur_id]->spells() ) {
-                buffer << spell_pair.first->name.translated() << _( " level " ) << spell_pair.second << "\n";
+                buffer << spell_pair.first->name << _( " level " ) << spell_pair.second << "\n";
             }
         }
         werase( w_items );
