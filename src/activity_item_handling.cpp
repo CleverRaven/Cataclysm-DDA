@@ -1403,19 +1403,16 @@ static cata::optional<tripoint> find_best_refuel_spot( const tripoint &center )
     const std::vector<tripoint> &tiles_abs =
             get_sorted_tiles_by_distance( center_abs, tiles_abs_unordered );
 
-    cata::optional<tripoint> best_tile;
-
     for( const tripoint &tile_abs : tiles_abs ) {
         const tripoint tile = g->m.getlocal( tile_abs );
         if( g->m.has_items( tile ) &&
                 g->m.accessible_items( tile ) &&
                 g->m.clear_path( center, tile, PICKUP_RANGE, 1, 100 ) ) {
-            best_tile = tile;
-            break;
+            return tile;
         }
     }
 
-    return best_tile;
+    return cata::optional<tripoint>();
 }
 
 void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
