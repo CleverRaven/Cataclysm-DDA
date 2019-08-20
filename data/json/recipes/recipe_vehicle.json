@@ -378,6 +378,6 @@
     "time": "40 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "stick", 2 ], [ "2x4", 2 ] ], [ [ "towel", 3 ] ] ]
+    "components": [ [ [ "nail", 4 ] ], [ [ "2x4", 2 ] ], [ [ "stick", 2 ], [ "2x4", 2 ] ], [ [ "towel", 3 ] ] ]
   }
 ]
