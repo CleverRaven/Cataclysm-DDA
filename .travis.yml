@@ -62,7 +62,7 @@ jobs:
       addons: &clang38
         apt:
           packages: ["clang-3.8", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6", "astyle"]
-          sources: [*apt_sources, llvm-toolchain-precise-3.8]
+          sources: [*apt_sources, llvm-toolchain-xenial-3.8]
 
     # Then build different configurations and targets in parallel.
     - stage: "Main Compilers"
