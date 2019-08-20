@@ -81,6 +81,11 @@ bool lcmatch( const std::string &str, const std::string &qry )
     return haystack.find( needle ) != std::string::npos;
 }
 
+bool lcmatch( const translation &str, const std::string &qry )
+{
+    return lcmatch( str.translated(), qry );
+}
+
 bool match_include_exclude( const std::string &text, std::string filter )
 {
     size_t iPos;

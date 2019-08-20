@@ -42,7 +42,7 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
             return [filter]( const item & i ) {
                 return std::any_of( i.quality_of().begin(), i.quality_of().end(),
                 [&filter]( const std::pair<quality_id, int> &e ) {
-                    return lcmatch( e.first->name.translated(), filter );
+                    return lcmatch( e.first->name, filter );
                 } );
             };
         // both
