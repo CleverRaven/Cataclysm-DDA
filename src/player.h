@@ -1743,7 +1743,7 @@ class player : public Character
 
         // formats and prints encumbrance info to specified window
         void print_encumbrance( const catacurses::window &win, int line = -1,
-                                item *selected_limb = nullptr ) const;
+                                const item *selected_limb = nullptr ) const;
 
         // Prints message(s) about current health
         void print_health() const;

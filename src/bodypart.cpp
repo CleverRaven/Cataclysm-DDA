@@ -233,26 +233,29 @@ void body_part_struct::check() const
     }
 }
 
+// Some languages do not have plural forms, so we don't use ngettext()/npgettext()
+// in the 3 following methods so the singular and plural strings can be properly
+// translated for these languages.
 std::string body_part_name( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    return ngettext( bdy.name.c_str(),
-                     bdy.name_multiple.c_str(), number );
+    return number > 1 ? _( bdy.name_multiple ) : _( bdy.name );
 }
 
 std::string body_part_name_accusative( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    return npgettext( "bodypart_accusative",
-                      bdy.name.c_str(),
-                      bdy.name_multiple.c_str(), number );
+    if( number > 1 ) {
+        return pgettext( "bodypart_accusative", bdy.name_multiple.c_str() );
+    } else {
+        return pgettext( "bodypart_accusative", bdy.name.c_str() );
+    }
 }
 
 std::string body_part_name_as_heading( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    return ngettext( bdy.name_as_heading_singular.c_str(), bdy.name_as_heading_multiple.c_str(),
-                     number );
+    return number > 1 ? _( bdy.name_as_heading_multiple ) : _( bdy.name_as_heading_singular );
 }
 
 std::string body_part_hp_bar_ui_text( body_part bp )
