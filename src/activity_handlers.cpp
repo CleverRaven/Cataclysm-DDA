@@ -246,19 +246,21 @@ activity_handlers::finish_functions = {
 
 static void messages_in_process( const player_activity &act, const player &p )
 {
-    if( act.moves_left <= 91000 && act.moves_left > 89000 ) {
+    const time_duration act_time_left = time_duration::from_turns<int>( act.moves_left /
+                                        p.get_speed() );
+    if( act_time_left <= 90_minutes + 30_seconds && act_time_left > 90_minutes - 30_seconds ) {
         p.add_msg_if_player( m_info, _( "You figure it'll take about an hour and a half at this rate." ) );
         return;
     }
-    if( act.moves_left <= 61000 && act.moves_left > 59000 ) {
+    if( act_time_left <= 60_minutes + 30_seconds && act_time_left > 60_minutes - 30_seconds ) {
         p.add_msg_if_player( m_info, _( "About an hour left to go." ) );
         return;
     }
-    if( act.moves_left <= 31000 && act.moves_left > 29000 ) {
+    if( act_time_left <= 30_minutes + 30_seconds && act_time_left > 30_minutes - 30_seconds ) {
         p.add_msg_if_player( m_info, _( "Shouldn't be more than half an hour or so now!" ) );
         return;
     }
-    if( act.moves_left <= 11000 && act.moves_left > 9000 ) {
+    if( act_time_left <= 10_minutes + 30_seconds && act_time_left > 10_minutes - 30_seconds ) {
         p.add_msg_if_player( m_info, _( "Almost there! Ten more minutes of work and you'll be through." ) );
         return;
     }
