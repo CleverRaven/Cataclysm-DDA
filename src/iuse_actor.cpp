@@ -943,6 +943,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     cata::optional<tripoint> pnt_;
     //select adjacent point with locked door, but only if it is the only one
+    bool found = false;
     for( const tripoint &pos : g->m.points_in_radius( p.pos(), 1 ) ) {
         if( pos == g->u.pos() ) {
             continue;
@@ -956,7 +957,12 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
                 break;
             }
             pnt_ = pos;
+            found = true;
         }
+    }
+    if( !found ) {
+        p.add_msg_if_player( m_info, _( "No lock to pick." ) );
+        return 0;
     }
     if( !pnt_ ) {
         pnt_ = choose_adjacent( _( "Use your lockpick where?" ) );
