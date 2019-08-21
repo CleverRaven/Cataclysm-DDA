@@ -786,7 +786,7 @@
     "coverage": 30,
     "encumbrance": 10,
     "storage": 40,
-    "warmth": 5,
+    "warmth": 6,
     "material_thickness": 2,
     "flags": [ "BELTED" ]
   },
@@ -824,7 +824,7 @@
     "coverage": 30,
     "encumbrance": 11,
     "storage": 40,
-    "warmth": 10,
+    "warmth": 9,
     "material_thickness": 3,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
@@ -7401,7 +7401,7 @@
     "coverage": 40,
     "encumbrance": 20,
     "storage": 80,
-    "warmth": 10,
+    "warmth": 8,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
@@ -10023,15 +10023,15 @@
     "weight": 3539,
     "volume": "21 L",
     "price": 20000,
-    "material": [ "steel", "leather" ],
+    "material": [ "leather" ],
     "symbol": "[",
     "color": "black",
     "covers": [ "TORSO" ],
-    "coverage": 95,
+    "coverage": 50,
     "encumbrance": 100,
     "storage": 400,
-    "warmth": 5,
-    "material_thickness": 6,
+    "warmth": 10,
+    "material_thickness": 2,
     "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ]
   },
   {
@@ -10075,11 +10075,11 @@
     "symbol": "[",
     "color": "blue",
     "covers": [ "TORSO" ],
-    "coverage": 45,
+    "coverage": 40,
     "encumbrance": 14,
     "storage": 15,
-    "warmth": 3,
-    "material_thickness": 3,
+    "warmth": 8,
+    "material_thickness": 2,
     "properties": [ [ "monster_size_capacity", "SMALL" ] ],
     "use_action": "CAPTURE_MONSTER_ACT",
     "flags": [ "BELTED", "WATERPROOF" ]
@@ -10096,11 +10096,11 @@
     "symbol": "[",
     "color": "green",
     "covers": [ "TORSO" ],
-    "coverage": 75,
+    "coverage": 50,
     "encumbrance": 65,
     "storage": 260,
-    "warmth": 5,
-    "material_thickness": 6,
+    "warmth": 10,
+    "material_thickness": 2,
     "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ]
   },
   {
@@ -10115,11 +10115,11 @@
     "symbol": "[",
     "color": "yellow",
     "covers": [ "TORSO" ],
-    "coverage": 25,
+    "coverage": 40,
     "encumbrance": 25,
     "storage": 100,
-    "warmth": 5,
-    "material_thickness": 5,
+    "warmth": 8,
+    "material_thickness": 2,
     "flags": [ "BELTED", "WATERPROOF" ]
   }
 ]
