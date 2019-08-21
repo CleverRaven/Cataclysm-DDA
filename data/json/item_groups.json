@@ -2151,7 +2151,7 @@
       [ "hotplate", 10 ],
       [ "popcan_stove", 10 ],
       [ "coffeemaker", 5 ],
-      [ "tinware", 10 ],
+      { "group": "tinware", "prob": 10 },
       [ "kukri", 4 ],
       [ "knife_hunting", 18 ],
       [ "knife_rambo", 20 ],
@@ -2693,7 +2693,7 @@
       [ "plastic_sheet", 5 ],
       [ "box_medium", 5 ],
       [ "thermos", 30 ],
-      [ "tinware", 15 ]
+      { "group": "tinware", "prob": 15 }
     ]
   },
   {
@@ -2703,7 +2703,7 @@
       [ "bottle_plastic", 5 ],
       [ "bottle_plastic_small", 15 ],
       [ "bottle_glass", 2 ],
-      [ "tinware", 2 ],
+      { "group": "tinware", "prob": 2 },
       [ "can_drink_unsealed", 5 ],
       [ "plastic_shopping_bag", 13 ],
       [ "bag_plastic", 15 ],
@@ -4108,7 +4108,7 @@
       [ "spiral_stone", 20 ],
       [ "cane", 10 ],
       [ "candlestick", 20 ],
-      [ "tinware", 5 ],
+      { "group": "tinware", "prob": 5 },
       [ "heels", 50 ],
       [ "coat_fur_sf", 1 ],
       [ "tricorne", 3 ],
@@ -4230,7 +4230,7 @@
       [ "canteen_wood", 5 ],
       [ "apron_leather", 1 ],
       [ "pot_copper", 3 ],
-      [ "tinware", 10 ]
+      { "group": "tinware", "prob": 10 }
     ]
   },
   {
@@ -8271,7 +8271,7 @@
       [ "bag_canvas_small", 1 ],
       [ "cup_plastic_unsealed", 3 ],
       [ "bottle_glass", 1 ],
-      [ "tinware", 3 ],
+      { "group": "tinware", "prob": 3 },
       [ "can_drink_unsealed", 2 ],
       [ "can_food_unsealed", 1 ],
       [ "box_small", 2 ],
@@ -8585,7 +8585,7 @@
       [ "ceramic_cup", 15 ],
       [ "ceramic_bowl", 15 ],
       [ "ceramic_plate", 15 ],
-      [ "tinware", 25 ],
+      { "group": "tinware", "prob": 25 },
       [ "bowling_ball", 12 ],
       [ "spiral_stone", 1 ],
       [ "petrified_eye", 1 ],
@@ -8963,7 +8963,7 @@
       [ "ceramic_bowl", 90 ],
       [ "clay_hydria", 50 ],
       [ "ceramic_cup", 90 ],
-      [ "tinware", 50 ],
+      { "group": "tinware", "prob": 50 },
       [ "crown_golden", 10 ],
       [ "fluid_preserved_brain", 20 ]
     ]
@@ -9783,7 +9783,7 @@
       [ "pan", 15 ],
       [ "pot", 15 ],
       [ "teapot", 15 ],
-      [ "tinware", 8 ]
+      { "group": "tinware", "prob": 8 }
     ]
   },
   {
