@@ -4688,7 +4688,7 @@ bool mattack::flesh_tendril( monster *z )
         return false;
     }
 
-    int distance_to_target = rl_dist( z->pos(), target->pos() );
+    const int distance_to_target = rl_dist( z->pos(), target->pos() );
 
     if( distance_to_target > 3 && one_in( 12 ) ) { // the monster summons stuff to fight you
 
