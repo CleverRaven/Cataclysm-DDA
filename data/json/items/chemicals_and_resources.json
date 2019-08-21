@@ -378,7 +378,7 @@
     "name_plural": "concentrated acid",
     "weight": 250,
     "color": "green",
-    "flags": [ "ACID" ],
+    "flags": [ "ACID", "DROP_ACTION_ONLY_IF_LIQUID" ],
     "use_action": "BLECH",
     "container": "jug_plastic",
     "comestible_type": "DRINK",
@@ -391,6 +391,7 @@
     "phase": "liquid",
     "category": "chems",
     "fun": -45,
+    "freezing_point": 25,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_splash" ], "scale_qty": true }
   },
   {
@@ -458,6 +459,7 @@
     "name_plural": "sulfuric acid",
     "symbol": "=",
     "color": "white",
+    "flags": [ "DROP_ACTION_ONLY_IF_LIQUID" ],
     "description": "Sulfuric acid: viscous, foul-smelling and extremely corrosive, particularly to organic matter and evil clowns.  Although used to prepare a number of chemicals, it is mostly known as battery acid, due to its widest commercial application.",
     "volume": "250 ml",
     "weight": 460,
@@ -466,6 +468,7 @@
     "charges": 2,
     "phase": "liquid",
     "container": "bottle_glass",
+    "freezing_point": 25,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
@@ -494,6 +497,7 @@
     "name_plural": "nitric acid",
     "symbol": "=",
     "color": "white",
+    "flags": [ "DROP_ACTION_ONLY_IF_LIQUID" ],
     "description": "Nitric acid, a strong oxidant and extremely corrosive material.  Mainly used in the production of synthetic fertilizers, for etching of circuit boards and in woodworking.  Remains quite useful both for making a vast array of pyrotechnic and explosive agents and as a direct weapon: not many beings enjoy being doused in nitric acid.",
     "volume": "250 ml",
     "weight": 375,
@@ -502,6 +506,7 @@
     "charges": 2,
     "phase": "liquid",
     "container": "bottle_glass",
+    "freezing_point": -44,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
