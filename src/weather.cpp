@@ -79,7 +79,7 @@ void weather_effect::glare( int intensity )
     if( season == WINTER ) {
         //Winter snow glare: for both clear & sunny weather
         effect = &effect_snow_glare;
-        dur = ( !g->u.has_effect( *effect ) ) ? 2_turns : 1_turns;
+        dur = g->u.has_effect( *effect ) ? 1_turns : 2_turns;
     } else if( intensity > 1 ) {
         //Sun glare: only for bright sunny weather
         effect = &effect_glare;
