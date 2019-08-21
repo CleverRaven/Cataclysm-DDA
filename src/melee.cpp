@@ -1273,6 +1273,37 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         }
     }
 
+    if ( technique.side_switch ) {
+        const tripoint b = t.pos();
+        int newx;
+        int newy;
+
+        if( b.x > posx() ) {
+            newx = posx() - 1;
+        }
+        else if( b.x < posx() ) {
+            newx = posx() + 1;
+        }
+        else {
+            newx = b.x;
+        }
+
+        if( b.y > posy() ) {
+            newy = posy() - 1;
+        }
+        else if( b.y < posy() ) {
+            newy = posy() + 1;
+        }
+        else {
+            newy = b.y;
+        }
+
+        const tripoint& dest = tripoint( newx, newy, b.z );
+        if( g->is_empty( dest ) ) {
+            t.setpos( dest );
+        }
+    }
+
     if( technique.stun_dur > 0 ) {
         t.add_effect( effect_stunned, rng( 1_turns, time_duration::from_turns( technique.stun_dur ) ) );
     }

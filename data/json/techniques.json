@@ -750,6 +750,73 @@
   },
   {
     "type": "technique",
+    "id": "tec_judo_throw",
+    "name": "Throw",
+    "messages": [ "You throw %s to the ground", "<npcname> throws %s to the ground" ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "unarmed_weapons_allowed": false,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.25 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_judo_disarm",
+    "name": "Disarming Throw",
+    "messages": [ "You disarm and throw %s", "<npcname> disarms and throws %s" ],
+    "min_unarmed": 1,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "unarmed_weapons_allowed": false,
+    "disarms": true,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.25 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_judo_backthrow",
+    "name": "Back Throw",
+    "messages": [ "You flip %s head over heels", "<npcname> flips %s head over heels" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "unarmed_weapons_allowed": false,
+    "crit_tec": true,
+    "side_switch": true,
+    "down_dur": 1,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_judo_break",
+    "name": "Grab Break",
+    "messages": [
+      "The %s tries to grab you, but you break their feeble grapple!",
+      "The %s tries to grab <npcname>, but they break its feeble grapple!"
+    ],
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_judo_counter",
+    "name": "Counter Throw",
+    "messages": [ "You evade and toss %s to the ground", "<npcname> evades and tosses %s to the ground" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "unarmed_weapons_allowed": false,
+    "dodge_counter": true,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
     "id": "tec_karate_rapid",
     "name": "quick punch",
     "min_unarmed": 0,
@@ -836,26 +903,6 @@
     "mult_bonuses": [ [ "damage", "bash", 1.35 ] ],
     "req_buffs": [ "pankration_grappling" ],
     "messages": [ "You put %s in a chokehold", "<npcname> puts %s in a chokehold" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_judo_throw",
-    "name": "throw",
-    "min_unarmed": 3,
-    "unarmed_allowed": true,
-    "down_dur": 1,
-    "knockback_dist": 1,
-    "knockback_spread": 1,
-    "messages": [ "You throw %s", "<npcname> throws %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_judo_grab",
-    "name": "grab",
-    "min_unarmed": 2,
-    "unarmed_allowed": true,
-    "down_dur": 2,
-    "messages": [ "You grab %s", "<npcname> grabs %s" ]
   },
   {
     "type": "technique",

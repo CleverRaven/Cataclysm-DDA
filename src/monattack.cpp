@@ -2616,6 +2616,10 @@ bool mattack::grab( monster *z )
         if( target->has_effect( effect_grabbed ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        z->name() );
+        }
+        else if( pl->is_throw_immune() && ( !pl->is_armed() || pl->style_selected.obj().has_weapon( pl->weapon.typeId() ) ) ) {
+            target->add_msg_if_player( m_info, _( "The %s tries to grab you..." ), z->name() );
+            thrown_by_judo( z );
         } else if( pl->has_grab_break_tec() ) {
             ma_technique tech = pl->get_grab_break_tec();
             target->add_msg_player_or_npc( m_info, _( tech.player_message ), _( tech.npc_message ), z->name() );
@@ -4462,8 +4466,10 @@ bool mattack::thrown_by_judo( monster *z )
             }
             // Monster is down,
             z->add_effect( effect_downed, 5_turns );
+            const int min_damage = 10 + foe->get_skill_level( skill_unarmed );
+            const int max_damage = 20 + foe->get_skill_level( skill_unarmed );
             // Deal moderate damage
-            const auto damage = rng( 10, 20 );
+            const auto damage = rng( min_damage, max_damage );
             z->apply_damage( foe, bp_torso, damage );
             z->check_dead_state();
         } else {
@@ -4748,7 +4754,7 @@ bool mattack::bio_op_takedown( monster *z )
             }
             foe->add_effect( effect_downed, 3_turns );
         }
-    } else if( !thrown_by_judo( z ) ) {
+    } else if( ( !foe->is_armed() || foe->style_selected.obj().has_weapon( foe->weapon.typeId() ) ) && !thrown_by_judo( z ) ) {
         // Saved by the tentacle-bracing! :)
         hit = bp_torso;
         dam = rng( 3, 9 );

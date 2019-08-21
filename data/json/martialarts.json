@@ -492,6 +492,28 @@
   },
   {
     "type": "martial_art",
+    "id": "style_judo",
+    "name": "Judo",
+    "description": "Judo is a martial art that focuses on grabs and throws, both defensive and offensive.  You are resistant to most effects that can knock you down and can counter grab and takedown attacks with strong judo throw.",
+    "initiate": [ "You prepare yourself for a grapple.", "%s prepares for a grapple." ],
+    "learn_difficulty": 4,
+    "static_buffs": [
+      {
+        "id": "buff_judo_static",
+        "name": "Judo Stance",
+        "description": "Your knowledge of grappling allows you to recover from knock down effects instantly.\nIn addition, you can counter grabs and takedown attacks with a judo throw.",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "unarmed_weapons_allowed": false,
+        "min_unarmed": 0,
+        "throw_immune": true
+      }
+    ],
+    "techniques": [ "tec_judo_backthrow", "tec_judo_counter", "tec_judo_disarm", "tec_judo_break", "tec_judo_throw" ],
+    "weapons": [ "bagh_nakha", "bio_claws_weapon", "cestus", "knuckle_brass", "knuckle_nail", "knuckle_steel" ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_karate",
     "name": "Karate",
     "description": "Karate is a popular martial art, originating from Japan.  It focuses on rapid, precise attacks, blocks, and fluid movement.  A successful hit allows you an extra dodge and two extra blocks on the following round.",
@@ -512,28 +534,6 @@
       }
     ],
     "techniques": [ "tec_karate_rapid", "tec_karate_precise" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_judo",
-    "name": "Judo",
-    "description": "Judo is a martial art that focuses on grabs and throws, both defensive and offensive.  It also focuses on recovering from throws; while using judo, you will not lose any turns to being thrown or knocked down.",
-    "initiate": [ "You prepare yourself for a grapple.", "%s prepares for a grapple." ],
-    "learn_difficulty": 4,
-    "arm_block": 99,
-    "leg_block": 99,
-    "static_buffs": [
-      {
-        "id": "judo_recovery",
-        "name": "Judo",
-        "unarmed_allowed": true,
-        "min_unarmed": 0,
-        "buff_duration": 2,
-        "throw_immune": true,
-        "description": "Immune to throws and knockdowns."
-      }
-    ],
-    "techniques": [ "tec_judo_grab", "tec_judo_throw" ]
   },
   {
     "type": "martial_art",

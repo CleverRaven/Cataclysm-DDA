@@ -82,6 +82,7 @@ class ma_technique
         std::string npc_message;
 
         bool defensive;
+        bool side_switch; // moves the target behind user
         bool dummy;
         bool crit_tec;
         bool crit_ok;

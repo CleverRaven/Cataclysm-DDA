@@ -111,6 +111,7 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
+    optional( jo, was_loaded, "side_switch", side_switch, false );
     optional( jo, was_loaded, "dummy", dummy, false );
     optional( jo, was_loaded, "dodge_counter", dodge_counter, false );
     optional( jo, was_loaded, "block_counter", block_counter, false );
@@ -478,6 +479,7 @@ ma_technique::ma_technique()
     crit_tec = false;
     crit_ok = false;
     defensive = false;
+    side_switch = false; // moves the target behind user
     dummy = false;
 
     down_dur = 0;
@@ -1173,6 +1175,10 @@ std::string ma_technique::get_description() const
         dump << _( "* Can activate on a <info>normal</info> or a <info>crit</info> hit" ) << std::endl;
     } else if( crit_tec ) {
         dump << _( "* Will only activate on a <info>crit</info>" ) << std::endl;
+    }
+
+    if  ( side_switch ) {
+        dump << _( "* Moves target <info>behind</info> you" ) << std::endl;
     }
 
     if( downed_target ) {
