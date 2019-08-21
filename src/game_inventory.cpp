@@ -524,7 +524,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                         std::vector<bionic_id> bids = p.get_bionic_fueled_with( get_consumable_item( loc ) );
                         if( !bids.empty() ) {
                             bionic_id bid = p.get_most_efficient_bionic( bids );
-                            cbm_name = bid->name;
+                            cbm_name = bid->name.translated();
                         }
                         break;
                 }
