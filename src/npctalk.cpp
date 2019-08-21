@@ -1809,9 +1809,8 @@ void talk_effect_fun_t::set_u_buy_item( const std::string &item_name, int cost, 
     };
 
     // Update structure used by mission descriptions.
-    if (cost <= 0)
-    {
-        likely_rewards.push_back(std::pair<int, std::string>(count, item_name));
+    if( cost <= 0 ) {
+        likely_rewards.push_back( std::pair<int, std::string>( count, item_name ) );
     }
 }
 
