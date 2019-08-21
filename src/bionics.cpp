@@ -147,8 +147,8 @@ bool bionic_data::is_included( const bionic_id &id ) const
     return std::find( included_bionics.begin(), included_bionics.end(), id ) != included_bionics.end();
 }
 
-bionic_data::bionic_data() : name( translation( "bad bionic" ) ),
-    description( translation( "This bionic was not set up correctly, this is a bug" ) )
+bionic_data::bionic_data() : name( no_translation( "bad bionic" ) ),
+    description( no_translation( "This bionic was not set up correctly, this is a bug" ) )
 {
 }
 
