@@ -2036,25 +2036,30 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                              "item</info>." ) ) );
             }
         }
-
-        if( get_weight_capacity_modifier() != 1 ) {
+        const float weight_bonus = get_weight_capacity_bonus();
+        const float weight_modif = get_weight_capacity_modifier();
+        if( weight_modif != 1 ) {
             std::string modifier;
-            if( get_weight_capacity_modifier() < 1 ) {
-                modifier = string_format( "<bad>x%.2f</bad>", get_weight_capacity_modifier() );
+            if( weight_modif < 1 ) {
+                modifier = string_format( "<num><bad>x</bad>" );
             } else {
-                modifier = string_format( "<good>x%.2f</good>", get_weight_capacity_modifier() );
+                modifier = string_format( "<num><color_light_green>x</color>" );
             }
-            info.push_back( iteminfo( "ARMOR", _( "<bold>Weight capacity modifier</bold>: " ) + modifier ) );
+            info.push_back( iteminfo( "ARMOR",
+                                      _( "<bold>Weight capacity modifier</bold>: " ), modifier,
+                                      iteminfo::no_newline | iteminfo::is_decimal, weight_modif ) );
         }
-        if( get_weight_capacity_bonus() != 0 ) {
+        if( weight_bonus != 0 ) {
             std::string bonus;
-            if( get_weight_capacity_bonus() < 0 ) {
-                bonus = string_format( "<bad>%.2fkg</bad>", get_weight_capacity_bonus() );
+            if( weight_bonus < 0 ) {
+                bonus = string_format( "<num> <bad>%s</bad>", weight_units() );
             } else {
-                bonus = string_format( "<good>+%.2fkg</good>", get_weight_capacity_bonus() );
+                bonus = string_format( "<num> <color_light_green> %s</color>", weight_units() );
             }
-            info.push_back( iteminfo( "ARMOR", _( "<bold>Weight capacity bonus</bold>: " ) + bonus ) );
+            info.push_back( iteminfo( "ARMOR", _( "<bold>Weight capacity bonus</bold>: " ), bonus,
+                                      iteminfo::no_newline | iteminfo::is_decimal, weight_bonus ) );
         }
+
     }
     if( is_book() ) {
         insert_separation_line();
@@ -2674,22 +2679,23 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             const bionic_id bid( typeId() );
 
             if( !bid->encumbrance.empty() ) {
-                std::ostringstream encumb;
+                info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance:</bold> " ),
+                                          iteminfo::no_newline ) );
                 for( const auto &element : bid->encumbrance ) {
-                    encumb << body_part_name_as_heading( element.first,
-                                                         1 ) << ": " << "<color_yellow>" << element.second << "</color>" << " ";
+                    info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ), " <num> ",
+                                              iteminfo::no_newline, element.second ) );
                 }
-                info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance:</bold> " ) + encumb.str() ) );
+
             }
 
             if( !bid->env_protec.empty() ) {
-                std::ostringstream Ep;
+                info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Environmental Protection:</bold> " ),
+                                          iteminfo::no_newline ) );
                 for( const auto &element : bid->env_protec ) {
-                    Ep << body_part_name_as_heading( element.first,
-                                                     1 ) << ": " << "<color_yellow>" << element.second << "</color>" << " ";
+                    info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ), " <num> ",
+                                              iteminfo::no_newline, element.second ) );
                 }
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "<bold>Environmental Protection:</bold> " ) + Ep.str() ) );
+
             }
 
             const float weight_bonus = bid->weight_capacity_bonus;
@@ -2697,21 +2703,23 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( weight_modif != 1 ) {
                 std::string modifier;
                 if( weight_modif < 1 ) {
-                    modifier = string_format( "<bad>x%.2f</bad>", weight_modif );
+                    modifier = string_format( "<num><bad>x</bad>" );
                 } else {
-                    modifier = string_format( "<good>x%.2f</good>", weight_modif );
+                    modifier = string_format( "<num><color_light_green>x</color>" );
                 }
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "<bold>Weight capacity modifier</bold>: " ) + modifier ) );
+                info.push_back( iteminfo( "CBM",
+                                          _( "<bold>Weight capacity modifier</bold>: " ), modifier,
+                                          iteminfo::no_newline | iteminfo::is_decimal, weight_modif ) );
             }
             if( weight_bonus != 0 ) {
                 std::string bonus;
                 if( weight_bonus < 0 ) {
-                    bonus = string_format( "<bad>%.2fkg</bad>", weight_bonus );
+                    bonus = string_format( "<num> <bad>%s</bad>", weight_units() );
                 } else {
-                    bonus = string_format( "<good>+%.2fkg</good>", weight_bonus );
+                    bonus = string_format( "<num> <color_light_green>%s</color>", weight_units() );
                 }
-                info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Weight capacity bonus</bold>: " ) + bonus ) );
+                info.push_back( iteminfo( "CBM", _( "<bold>Weight capacity bonus</bold>: " ), bonus,
+                                          iteminfo::no_newline | iteminfo::is_decimal, weight_bonus ) );
             }
 
         }
