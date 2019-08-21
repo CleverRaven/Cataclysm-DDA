@@ -156,7 +156,6 @@ automatically_convertible = {
     "TOOLMOD",
     "TOOL_ARMOR",
     "tool_quality",
-    "trap",
     "tutorial_messages",
     "VAR_VEH_PART",
     "vehicle",
@@ -569,6 +568,11 @@ def extract_talk_topic(item):
         for r in item["responses"]:
             extract_talk_response(r, outfile)
 
+def extract_trap(item):
+    outfile = get_outfile("trap")
+    writestr(outfile, item["name"])
+    if "vehicle_data" in item and "sound" in item["vehicle_data"]:
+        writestr(outfile, item["vehicle_data"]["sound"], comment="Trap-vehicle collision message for trap '{}'".format(item["name"]))
 
 def extract_missiondef(item):
     outfile = get_outfile("mission_def")
@@ -731,6 +735,7 @@ extract_specials = {
     "recipe_group": extract_recipe_group,
     "scenario": extract_scenarios,
     "talk_topic": extract_talk_topic,
+    "trap": extract_trap,
     "gate": extract_gate,
     "vehicle_spawn": extract_vehspawn,
     "field_type": extract_field_type,
