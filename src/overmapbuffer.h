@@ -19,6 +19,7 @@
 #include "point.h"
 #include "string_id.h"
 
+class character_id;
 struct mongroup;
 class monster;
 class npc;
@@ -244,7 +245,7 @@ class overmapbuffer
          * Returns NULL if the npc could not be found.
          * Searches all loaded overmaps.
          */
-        std::shared_ptr<npc> find_npc( int id );
+        std::shared_ptr<npc> find_npc( character_id id );
         /**
          * Get all NPCs active on the overmap
          */
@@ -253,7 +254,7 @@ class overmapbuffer
          * Find npc by id and if found, erase it from the npc list
          * and return it ( or return nullptr if not found ).
          */
-        std::shared_ptr<npc> remove_npc( int id );
+        std::shared_ptr<npc> remove_npc( character_id id );
         /**
          * Adds the npc to an overmap ( based on the npcs current location )
          * and stores it there. The overmap takes ownership of the pointer.

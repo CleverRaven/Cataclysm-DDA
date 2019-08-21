@@ -6,7 +6,7 @@
     "name": "shredder",
     "description": "This menacing looking attachment is meant to be powered by a vehicle's engine.  Upon doing so, the circular blades of this device will rotate rapidly; anything in front of it is likely to be ripped to shreds.  It is sturdy enough to withstand multiple impacts, and is designed to detach if it would take a hit that would break it.",
     "weight": 29955,
-    "volume": 30,
+    "volume": "7500 ml",
     "price": 10500,
     "to_hit": -1,
     "bashing": 6,

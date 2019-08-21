@@ -208,7 +208,6 @@ monster::monster()
     upgrades = false;
     upgrade_time = -1;
     last_updated = 0;
-    baby_timer = -1;
     last_baby = 0;
     biosig_timer = -1;
     last_biosig = 0;
@@ -400,14 +399,14 @@ void monster::try_reproduce()
     if( !reproduces ) {
         return;
     }
+    // This can happen if the monster type has changed (from reproducing to non-reproducing monster)
+    if( !type->baby_timer ) {
+        return;
+    }
 
-    const int current_day = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
-    if( baby_timer < 0 ) {
-        baby_timer = type->baby_timer;
-        if( baby_timer < 0 ) {
-            return;
-        }
-        baby_timer += current_day;
+    if( !baby_timer ) {
+        // Assume this is a freshly spawned monster (because baby_timer is not set yet), set the point when it reproduce to somewhere in the future.
+        baby_timer.emplace( calendar::turn + *type->baby_timer );
     }
 
     bool season_spawn = false;
@@ -424,21 +423,17 @@ void monster::try_reproduce()
     // add a decreasing chance of additional spawns when "catching up" an existing animal
     int chance = -1;
     while( true ) {
-        if( baby_timer > current_day ) {
-            return;
-        }
-        const int next_baby = type->baby_timer;
-        if( next_baby < 0 ) {
+        if( *baby_timer > calendar::turn ) {
             return;
         }
 
         if( season_spawn ) {
             season_match = false;
             for( auto &elem : type->baby_flags ) {
-                if( ( season_of_year( DAYS( baby_timer ) ) == SUMMER && elem == "SUMMER" ) ||
-                    ( season_of_year( DAYS( baby_timer ) ) == WINTER && elem == "WINTER" ) ||
-                    ( season_of_year( DAYS( baby_timer ) ) == SPRING && elem == "SPRING" ) ||
-                    ( season_of_year( DAYS( baby_timer ) ) == AUTUMN && elem == "AUTUMN" ) ) {
+                if( ( season_of_year( *baby_timer ) == SUMMER && elem == "SUMMER" ) ||
+                    ( season_of_year( *baby_timer ) == WINTER && elem == "WINTER" ) ||
+                    ( season_of_year( *baby_timer ) == SPRING && elem == "SPRING" ) ||
+                    ( season_of_year( *baby_timer ) == AUTUMN && elem == "AUTUMN" ) ) {
                     season_match = true;
                 }
             }
@@ -448,13 +443,13 @@ void monster::try_reproduce()
         if( season_match && female && one_in( chance ) ) {
             int spawn_cnt = rng( 1, type->baby_count );
             if( type->baby_monster ) {
-                g->m.add_spawn( type->baby_monster, spawn_cnt, pos().x, pos().y );
+                g->m.add_spawn( type->baby_monster, spawn_cnt, pos().xy() );
             } else {
-                g->m.add_item_or_charges( pos(), item( type->baby_egg, DAYS( baby_timer ), spawn_cnt ), true );
+                g->m.add_item_or_charges( pos(), item( type->baby_egg, *baby_timer, spawn_cnt ), true );
             }
         }
 
-        baby_timer += next_baby;
+        *baby_timer += *type->baby_timer;
     }
 }
 
@@ -463,27 +458,21 @@ void monster::try_biosignature()
     if( !biosignatures ) {
         return;
     }
+    if( !type->biosig_timer ) {
+        return;
+    }
 
-    const int current_day = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
-    if( biosig_timer < 0 ) {
-        biosig_timer = type->biosig_timer;
-        if( biosig_timer < 0 ) {
-            return;
-        }
-        biosig_timer += current_day;
+    if( !biosig_timer ) {
+        biosig_timer.emplace( calendar::turn + *type->biosig_timer );
     }
 
     while( true ) {
-        if( biosig_timer > current_day ) {
+        if( *biosig_timer > calendar::turn ) {
             return;
         }
 
-        g->m.add_item_or_charges( pos(), item( type->biosig_item, DAYS( biosig_timer ), 1 ), true );
-        const int next_biosig = type->biosig_timer;
-        if( next_biosig < 0 ) {
-            return;
-        }
-        biosig_timer += next_biosig;
+        g->m.add_item_or_charges( pos(), item( type->biosig_item, *biosig_timer, 1 ), true );
+        *biosig_timer += *type->biosig_timer;
     }
 }
 
@@ -832,8 +821,9 @@ int monster::sight_range( const int light_level ) const
         return 1;
     }
 
-    int range = light_level * type->vision_day + ( DAYLIGHT_LEVEL - light_level ) * type->vision_night;
-    range /= DAYLIGHT_LEVEL;
+    int range = light_level * type->vision_day + ( default_daylight_level() - light_level ) *
+                type->vision_night;
+    range /= default_daylight_level();
 
     return range;
 }
@@ -2204,7 +2194,7 @@ void monster::drop_items_on_death()
 
     if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
         for( const auto &it : dropped ) {
-            if( it->is_armor() ) {
+            if( it->is_armor() || it->is_pet_armor() ) {
                 it->item_tags.insert( "FILTHY" );
             }
         }
@@ -2731,10 +2721,10 @@ void monster::on_load()
     } else if( has_flag( MF_REGENERATES_10 ) ) {
         regen = 10.0f;
     } else if( has_flag( MF_REVIVES ) ) {
-        regen = 1.0f / HOURS( 1 );
+        regen = 1.0f / to_turns<int>( 1_hours );
     } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "veggy" ) ) ) {
         // Most living stuff here
-        regen = 0.25f / HOURS( 1 );
+        regen = 0.25f / to_turns<int>( 1_hours );
     }
 
     const int heal_amount = roll_remainder( regen * to_turns<int>( dt ) );

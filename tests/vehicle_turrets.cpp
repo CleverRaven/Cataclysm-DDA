@@ -63,7 +63,7 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
 {
     for( auto e : turret_types() ) {
         SECTION( e->name() ) {
-            vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), 65, 65, 270, 0, 0 );
+            vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), point( 65, 65 ), 270, 0, 0 );
             REQUIRE( veh );
 
             const int idx = veh->install_part( point_zero, e->get_id(), true );

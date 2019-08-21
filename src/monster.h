@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "character_id.h"
 #include "creature.h"
 #include "enums.h"
 #include "bodypart.h"
@@ -415,7 +416,7 @@ class monster : public Creature
         tripoint wander_pos; // Wander destination - Just try to move in that direction
         int wandf;           // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
-        int dragged_foe_id = -1; // id of player being dragged by the monster
+        character_id dragged_foe_id; // id of character being dragged by the monster
         cata::optional<item> tied_item; // item used to tie the monster
         cata::optional<item> battery_item; // item to power mechs
         // DEFINING VALUES
@@ -511,9 +512,9 @@ class monster : public Creature
         bool upgrades;
         int upgrade_time;
         bool reproduces;
-        int baby_timer;
+        cata::optional<time_point> baby_timer;
         bool biosignatures;
-        int biosig_timer;
+        cata::optional<time_point> biosig_timer;
         monster_horde_attraction horde_attraction;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;

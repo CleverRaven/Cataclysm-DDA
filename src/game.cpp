@@ -243,9 +243,9 @@ std::unique_ptr<game> g;
 //The one and only uistate instance
 uistatedata uistate;
 
-bool is_valid_in_w_terrain( int x, int y )
+bool is_valid_in_w_terrain( const point &p )
 {
-    return x >= 0 && x < TERRAIN_WINDOW_WIDTH && y >= 0 && y < TERRAIN_WINDOW_HEIGHT;
+    return p.x >= 0 && p.x < TERRAIN_WINDOW_WIDTH && p.y >= 0 && p.y < TERRAIN_WINDOW_HEIGHT;
 }
 
 // This is the main game set-up process.
@@ -545,7 +545,7 @@ void game::init_ui( const bool resized )
 
     // Only refresh if we are in-game, otherwise all resources are not initialized
     // and this refresh will crash the game.
-    if( resized && u.getID() != -1 ) {
+    if( resized && u.getID().is_valid() ) {
         refresh_all();
     }
 }
@@ -628,7 +628,7 @@ void game::setup()
 
     m = map( get_option<bool>( "ZLEVELS" ) );
 
-    next_npc_id = 1;
+    next_npc_id = character_id( 1 );
     next_mission_id = 1;
     new_game = true;
     uquit = QUIT_NO;   // We haven't quit the game
@@ -855,7 +855,7 @@ bool game::start_game()
     }
     // Assign all of this scenario's missions to the player.
     for( const mission_type_id &m : scen->missions() ) {
-        const auto mission = mission::reserve_new( m, -1 );
+        const auto mission = mission::reserve_new( m, character_id() );
         mission->assign( u );
     }
 
@@ -1079,10 +1079,10 @@ bool game::cleanup_at_end()
         draw_border( w_rip );
 
         sfx::do_player_death_hurt( g->u, true );
-        sfx::fade_audio_group( 1, 2000 );
-        sfx::fade_audio_group( 2, 2000 );
-        sfx::fade_audio_group( 3, 2000 );
-        sfx::fade_audio_group( 4, 2000 );
+        sfx::fade_audio_group( sfx::group::weather, 2000 );
+        sfx::fade_audio_group( sfx::group::time_of_day, 2000 );
+        sfx::fade_audio_group( sfx::group::context_themes, 2000 );
+        sfx::fade_audio_group( sfx::group::fatigue, 2000 );
 
         for( size_t iY = 0; iY < vRip.size(); ++iY ) {
             for( size_t iX = 0; iX < vRip[iY].length(); ++iX ) {
@@ -1236,11 +1236,11 @@ bool game::cleanup_at_end()
     }
 
     //clear all sound channels
-    sfx::fade_audio_channel( -1, 300 );
-    sfx::fade_audio_group( 1, 300 );
-    sfx::fade_audio_group( 2, 300 );
-    sfx::fade_audio_group( 3, 300 );
-    sfx::fade_audio_group( 4, 300 );
+    sfx::fade_audio_channel( sfx::channel::any, 300 );
+    sfx::fade_audio_group( sfx::group::weather, 300 );
+    sfx::fade_audio_group( sfx::group::time_of_day, 300 );
+    sfx::fade_audio_group( sfx::group::context_themes, 300 );
+    sfx::fade_audio_group( sfx::group::fatigue, 300 );
 
     MAPBUFFER.reset();
     overmap_buffer.clear();
@@ -1838,7 +1838,7 @@ int game::assign_mission_id()
     return ret;
 }
 
-npc *game::find_npc( int id )
+npc *game::find_npc( character_id id )
 {
     return overmap_buffer.find_npc( id ).get();
 }
@@ -1882,13 +1882,13 @@ void game::record_npc_kill( const npc &p )
     npc_kills.push_back( p.get_name() );
 }
 
-void game::add_npc_follower( const int &id )
+void game::add_npc_follower( const character_id &id )
 {
     follower_ids.insert( id );
     u.follower_ids.insert( id );
 }
 
-void game::remove_npc_follower( const int &id )
+void game::remove_npc_follower( const character_id &id )
 {
     follower_ids.erase( id );
     u.follower_ids.erase( id );
@@ -1940,7 +1940,7 @@ void game::validate_camps()
     }
 }
 
-std::set<int> game::get_follower_list()
+std::set<character_id> game::get_follower_list()
 {
     return follower_ids;
 }
@@ -2501,8 +2501,8 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
         return false;
     }
 
-    const bool is_adjacent = square_dist( mouse_target.x, mouse_target.y, u.posx(), u.posy() ) <= 1;
-    const bool is_self = square_dist( mouse_target.x, mouse_target.y, u.posx(), u.posy() ) <= 0;
+    const bool is_adjacent = square_dist( mouse_target.xy(), point( u.posx(), u.posy() ) ) <= 1;
+    const bool is_self = square_dist( mouse_target.xy(), point( u.posx(), u.posy() ) ) <= 0;
     if( const monster *const mon = critter_at<monster>( mouse_target ) ) {
         if( !u.sees( *mon ) ) {
             add_msg( _( "Nothing relevant here." ) );
@@ -2715,7 +2715,7 @@ void game::load( const save_t &name )
         e->set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
     }
     // legacy, needs to be here as we access the map.
-    if( u.getID() == 0 || u.getID() == -1 ) {
+    if( !u.getID().is_valid() ) {
         // player does not have a real id, so assign a new one,
         u.setID( assign_npc_id() );
         // The vehicle stores the IDs of the boarded players, so update it, too.
@@ -3194,8 +3194,8 @@ struct npc_dist_to_player {
     bool operator()( const std::shared_ptr<npc> &a, const std::shared_ptr<npc> &b ) const {
         const tripoint apos = a->global_omt_location();
         const tripoint bpos = b->global_omt_location();
-        return square_dist( ppos.x, ppos.y, apos.x, apos.y ) <
-               square_dist( ppos.x, ppos.y, bpos.x, bpos.y );
+        return square_dist( ppos.xy(), apos.xy() ) <
+               square_dist( ppos.xy(), bpos.xy() );
     }
 };
 
@@ -3335,7 +3335,7 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
 {
     const int my = POSY + ( critter.posy() - center.y );
     const int mx = POSX + ( critter.posx() - center.x );
-    if( !is_valid_in_w_terrain( mx, my ) ) {
+    if( !is_valid_in_w_terrain( point( mx, my ) ) ) {
         return;
     }
     if( critter.posz() != center.z && m.has_zlevels() ) {
@@ -3701,7 +3701,7 @@ float game::natural_light_level( const int zlev ) const
         ret = sunlight( calendar::turn );
     } else {
         // Recent lightning strike has lit the area
-        ret = DAYLIGHT_LEVEL;
+        ret = default_daylight_level();
     }
 
     ret += weather::light_modifier( weather.weather );
@@ -3725,7 +3725,7 @@ float game::natural_light_level( const int zlev ) const
     }
     if( timed_events.queued( TIMED_EVENT_ARTIFACT_LIGHT ) ) {
         // TIMED_EVENT_ARTIFACT_LIGHT causes everywhere to become as bright as day.
-        mod_ret = std::max<float>( ret, DAYLIGHT_LEVEL );
+        mod_ret = std::max<float>( ret, default_daylight_level() );
     }
     // If we had a changed light level due to an artifact event then it overwrites
     // the natural light level.
@@ -3755,10 +3755,10 @@ void game::reset_light_level()
 }
 
 //Gets the next free ID, also used for player ID's.
-int game::assign_npc_id()
+character_id game::assign_npc_id()
 {
-    int ret = next_npc_id;
-    next_npc_id++;
+    character_id ret = next_npc_id;
+    ++next_npc_id;
     return ret;
 }
 
@@ -3893,11 +3893,11 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
     for( auto &c : u.get_visible_creatures( MAPSIZE_X ) ) {
         const auto m = dynamic_cast<monster *>( c );
         const auto p = dynamic_cast<npc *>( c );
-        const auto dir_to_mon = direction_from( view.x, view.y, c->posx(), c->posy() );
+        const auto dir_to_mon = direction_from( view.xy(), point( c->posx(), c->posy() ) );
         const int mx = POSX + ( c->posx() - view.x );
         const int my = POSY + ( c->posy() - view.y );
         int index = 8;
-        if( !is_valid_in_w_terrain( mx, my ) ) {
+        if( !is_valid_in_w_terrain( point( mx, my ) ) ) {
             // for compatibility with old code, see diagram below, it explains the values for index,
             // also might need revisiting one z-levels are in.
             switch( dir_to_mon ) {
@@ -4387,7 +4387,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
             add_msg( _( "%s was stunned!" ), targ->name() );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
-            if( m.impassable( traj[i].x, traj[i].y ) ) {
+            if( m.impassable( point( traj[i].x, traj[i].y ) ) ) {
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -4445,7 +4445,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
             add_msg( _( "%s was stunned!" ), targ->name );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
-            if( m.impassable( traj[i].x, traj[i].y ) ) { // oops, we hit a wall!
+            if( m.impassable( point( traj[i].x, traj[i].y ) ) ) { // oops, we hit a wall!
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -4681,7 +4681,7 @@ template std::shared_ptr<monster> game::shared_from<monster>( const monster & );
 template std::shared_ptr<npc> game::shared_from<npc>( const npc & );
 
 template<typename T>
-T *game::critter_by_id( const int id )
+T *game::critter_by_id( const character_id id )
 {
     if( id == u.getID() ) {
         // player is always alive, therefore no is-dead check
@@ -4691,9 +4691,9 @@ T *game::critter_by_id( const int id )
 }
 
 // monsters don't have ids
-template player *game::critter_by_id<player>( int );
-template npc *game::critter_by_id<npc>( int );
-template Creature *game::critter_by_id<Creature>( int );
+template player *game::critter_by_id<player>( character_id );
+template npc *game::critter_by_id<npc>( character_id );
+template Creature *game::critter_by_id<Creature>( character_id );
 
 monster *game::summon_mon( const mtype_id &id, const tripoint &p )
 {
@@ -5063,9 +5063,9 @@ void game::use_item( int pos )
     u.invalidate_crafting_inventory();
 }
 
-void game::exam_vehicle( vehicle &veh, int cx, int cy )
+void game::exam_vehicle( vehicle &veh, const point &c )
 {
-    auto act = veh_interact::run( veh, point( cx, cy ) );
+    auto act = veh_interact::run( veh, c );
     if( act ) {
         u.moves = 0;
         u.assign_activity( act );
@@ -5152,11 +5152,11 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
             return false;
         }
     }
-    if( bash_dmg < 0 && !m.i_at( x, y ).empty() ) {
+    if( bash_dmg < 0 && !m.i_at( point( x, y ) ).empty() ) {
         return false;
     }
     if( bash_dmg == 0 ) {
-        for( auto &elem : m.i_at( x, y ) ) {
+        for( auto &elem : m.i_at( point( x, y ) ) ) {
             if( elem.made_of( LIQUID ) ) {
                 // Liquids are OK, will be destroyed later
                 continue;
@@ -5170,8 +5170,8 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     }
 
     m.ter_set( point( x, y ), door_type );
-    if( m.has_flag( "NOITEM", x, y ) ) {
-        map_stack items = m.i_at( x, y );
+    if( m.has_flag( "NOITEM", point( x, y ) ) ) {
+        map_stack items = m.i_at( point( x, y ) );
         for( map_stack::iterator it = items.begin(); it != items.end(); ) {
             if( it->made_of( LIQUID ) ) {
                 it = items.erase( it );
@@ -5186,7 +5186,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
                 it = items.erase( it );
                 continue;
             }
-            m.add_item_or_charges( kbx, kby, *it );
+            m.add_item_or_charges( point( kbx, kby ), *it );
             it = items.erase( it );
         }
     }
@@ -7145,7 +7145,7 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
 
 void game::list_items_monsters()
 {
-    std::vector<Creature *> mons = u.get_visible_creatures( DAYLIGHT_LEVEL );
+    std::vector<Creature *> mons = u.get_visible_creatures( current_daylight_level( calendar::turn ) );
     ///\EFFECT_PER increases range of interacting with items on the ground from a list
     const std::vector<map_item_stack> items = find_nearby_items( 2 * u.per_cur + 12 );
 
@@ -7507,8 +7507,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                         const int y = iter->vIG[iThisPage].pos.y;
                         mvwprintz( w_items, point( width - 6 - numw, iNum - iStartPos ),
                                    iNum == iActive ? c_light_green : c_light_gray,
-                                   "%*d %s", numw, rl_dist( 0, 0, x, y ),
-                                   direction_name_short( direction_from( 0, 0, x, y ) ) );
+                                   "%*d %s", numw, rl_dist( point_zero, point( x, y ) ),
+                                   direction_name_short( direction_from( point_zero, point( x, y ) ) ) );
                         ++iter;
                     }
                 } else {
@@ -8833,11 +8833,11 @@ bool game::disable_robot( const tripoint &p )
         query_yn( _( "Deactivate the %s?" ), critter.name() ) ) {
 
         u.moves -= 100;
-        m.add_item_or_charges( p.x, p.y, critter.to_item() );
+        m.add_item_or_charges( p.xy(), critter.to_item() );
         if( !critter.has_flag( MF_INTERIOR_AMMO ) ) {
             for( auto &ammodef : critter.ammo ) {
                 if( ammodef.second > 0 ) {
-                    m.spawn_item( p.x, p.y, ammodef.first, 1, ammodef.second, calendar::turn );
+                    m.spawn_item( p.xy(), ammodef.first, 1, ammodef.second, calendar::turn );
                 }
             }
         }
@@ -9051,7 +9051,7 @@ bool game::walk_move( const tripoint &dest_loc )
             return false;
         }
         const double base_moves = u.run_cost( mcost, diag ) * 100.0 / crit->get_speed();
-        const double encumb_moves = u.get_weight() / 4800_gram;
+        const double encumb_moves = u.get_weight() / 4800.0_gram;
         u.moves -= static_cast<int>( ceil( base_moves + encumb_moves ) );
         if( u.movement_mode_is( PMM_WALK ) ) {
             crit->use_mech_power( -2 );
@@ -9825,14 +9825,25 @@ void game::on_move_effects()
 {
     // TODO: Move this to a character method
     if( !u.is_mounted() ) {
+        const item muscle( "muscle" );
         if( u.lifetime_stats.squares_walked % 8 == 0 ) {
             if( u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
                 u.charge_power( 1 );
+            }
+            for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
+                if( u.has_active_bionic( bid ) ) {
+                    u.charge_power( muscle.fuel_energy() * bid->fuel_efficiency );
+                }
             }
         }
         if( u.lifetime_stats.squares_walked % 160 == 0 ) {
             if( u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
                 u.charge_power( 1 );
+            }
+            for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
+                if( u.has_active_bionic( bid ) ) {
+                    u.charge_power( muscle.fuel_energy() * bid->fuel_efficiency );
+                }
             }
         }
         if( u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
@@ -10022,7 +10033,7 @@ static cata::optional<tripoint> point_selection_menu( const std::vector<tripoint
     int num = 0;
     for( const tripoint &pt : pts ) {
         // TODO: Sort the menu so that it can be used with numpad directions
-        const std::string &direction = direction_name( direction_from( upos.x, upos.y, pt.x, pt.y ) );
+        const std::string &direction = direction_name( direction_from( upos.xy(), pt.xy() ) );
         // TODO: Inform player what is on said tile
         // But don't just print terrain name (in many cases it will be "open air")
         pmenu.addentry( num++, true, MENU_AUTOASSIGN, _( "Climb %s" ), direction );
@@ -10234,7 +10245,7 @@ void game::vertical_move( int movez, bool force )
         if( mons != nullptr ) {
             critter_tracker->remove( *mons );
         }
-        shift_monsters( 0, 0, movez );
+        shift_monsters( tripoint( 0, 0, movez ) );
     }
 
     std::vector<std::shared_ptr<npc>> npcs_to_bring;
@@ -10514,7 +10525,7 @@ void game::vertical_shift( const int z_after )
         m.set_transparency_cache_dirty( z_before );
         m.set_outside_cache_dirty( z_before );
         m.load( tripoint( get_levx(), get_levy(), z_after ), true );
-        shift_monsters( 0, 0, z_after - z_before );
+        shift_monsters( tripoint( 0, 0, z_after - z_before ) );
         reload_npcs();
     } else {
         // Shift the map itself
@@ -10607,10 +10618,10 @@ point game::update_map( int &x, int &y )
     }
 
     // this handles loading/unloading submaps that have scrolled on or off the viewport
-    m.shift( shift.x, shift.y );
+    m.shift( shift );
 
     // Shift monsters
-    shift_monsters( shift.x, shift.y, 0 );
+    shift_monsters( tripoint( shift, 0 ) );
     const point shift_ms = sm_to_ms_copy( shift );
     u.shift_destination( -shift_ms );
 
@@ -10949,18 +10960,18 @@ void game::despawn_monster( monster &critter )
     critter.set_hp( 0 );
 }
 
-void game::shift_monsters( const int shiftx, const int shifty, const int shiftz )
+void game::shift_monsters( const tripoint &shift )
 {
     // If either shift argument is non-zero, we're shifting.
-    if( shiftx == 0 && shifty == 0 && shiftz == 0 ) {
+    if( shift == tripoint_zero ) {
         return;
     }
     for( monster &critter : all_monsters() ) {
-        if( shiftx != 0 || shifty != 0 ) {
-            critter.shift( point( shiftx, shifty ) );
+        if( shift.xy() != point_zero ) {
+            critter.shift( shift.xy() );
         }
 
-        if( m.inbounds( critter.pos() ) && ( shiftz == 0 || m.has_zlevels() ) ) {
+        if( m.inbounds( critter.pos() ) && ( shift.z == 0 || m.has_zlevels() ) ) {
             // We're inbounds, so don't despawn after all.
             // No need to shift Z-coordinates, they are absolute
             continue;
@@ -11534,9 +11545,9 @@ void game::start_calendar()
                              scen->has_flag( "SUM_ADV_START" );
 
     if( scen_season ) {
-        // Configured starting date overridden by scenario, calendar::start_of_cataclysm is left as Spring 1
-        calendar::start_of_cataclysm = HOURS( get_option<int>( "INITIAL_TIME" ) );
-        calendar::turn = HOURS( get_option<int>( "INITIAL_TIME" ) );
+        // Configured starting date overridden by scenario, calendar::start is left as Spring 1
+        calendar::start_of_cataclysm = calendar::turn_zero + 1_hours * get_option<int>( "INITIAL_TIME" );
+        calendar::turn = calendar::turn_zero + 1_hours * get_option<int>( "INITIAL_TIME" );
         if( scen->has_flag( "SPR_START" ) ) {
             calendar::initial_season = SPRING;
         } else if( scen->has_flag( "SUM_START" ) ) {

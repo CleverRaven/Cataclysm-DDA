@@ -605,7 +605,7 @@ bool avatar::read( int inventory_position, const bool continuous )
 
     add_msg( m_debug, "avatar::read: time_taken = %d", time_taken );
     player_activity act( activity_id( "ACT_READ" ), time_taken, continuous ? activity.index : 0,
-                         reader->getID() );
+                         reader->getID().get_value() );
     act.targets.emplace_back( item_location( *this, &it ) );
 
     // If the player hasn't read this book before, skim it to get an idea of what's in it.
@@ -660,11 +660,11 @@ bool avatar::read( int inventory_position, const bool continuous )
         } else if( skill && lvl < type->level ) {
             const double penalty = static_cast<double>( time_taken ) / time_to_read( it, *reader, elem );
             learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : ""} );
-            act.values.push_back( elem->getID() );
+            act.values.push_back( elem->getID().get_value() );
             act.str_values.push_back( to_string( penalty ) );
         } else {
             fun_learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : "" } );
-            act.values.push_back( elem->getID() );
+            act.values.push_back( elem->getID().get_value() );
             act.str_values.emplace_back( "1" );
         }
     }
@@ -709,7 +709,7 @@ bool avatar::read( int inventory_position, const bool continuous )
 
             if( skill ) {
                 const int lvl = get_skill_level( skill );
-                menu.addentry( getID(), lvl < type->level, '0',
+                menu.addentry( getID().get_value(), lvl < type->level, '0',
                                string_format( _( "Read until you gain a level | current level: %d" ), lvl ) );
             } else {
                 menu.addentry( -1, false, '0', _( "Read until you gain a level" ) );
@@ -719,7 +719,8 @@ bool avatar::read( int inventory_position, const bool continuous )
             if( skill && !learners.empty() ) {
                 add_header( _( "Read until this NPC gains a level:" ) );
                 for( const auto &elem : learners ) {
-                    menu.addentry( elem.first->getID(), true, -1, get_text( learners, elem ) );
+                    menu.addentry( elem.first->getID().get_value(), true, -1,
+                                   get_text( learners, elem ) );
                 }
             }
             if( !fun_learners.empty() ) {
@@ -754,7 +755,7 @@ bool avatar::read( int inventory_position, const bool continuous )
             menu.title = string_format( _( "Train %s from manual:" ),
                                         martial_art_learned_from( *it.type )->name );
             menu.addentry( -1, true, 1, _( "Train once." ) );
-            menu.addentry( getID(), true, 2, _( "Train until tired or success." ) );
+            menu.addentry( getID().get_value(), true, 2, _( "Train until tired or success." ) );
             menu.query( true );
             if( menu.ret == UILIST_CANCEL ) {
                 add_msg( m_info, _( "Never mind." ) );
@@ -779,10 +780,11 @@ bool avatar::read( int inventory_position, const bool continuous )
 
     if( !continuous ||
     !std::all_of( learners.begin(), learners.end(), [&]( const std::pair<npc *, std::string> &elem ) {
-    return std::count( activity.values.begin(), activity.values.end(), elem.first->getID() ) != 0;
+    return std::count( activity.values.begin(), activity.values.end(),
+                       elem.first->getID().get_value() ) != 0;
     } ) ||
     !std::all_of( activity.values.begin(), activity.values.end(), [&]( int elem ) {
-        return learners.find( g->find_npc( elem ) ) != learners.end();
+        return learners.find( g->find_npc( character_id( elem ) ) ) != learners.end();
     } ) ) {
 
         if( learners.size() == 1 ) {
@@ -943,7 +945,7 @@ void avatar::do_read( item &book )
 
     std::vector<std::pair<player *, double>> learners; //learners and their penalties
     for( size_t i = 0; i < activity.values.size(); i++ ) {
-        player *n = g->find_npc( activity.values[i] );
+        player *n = g->find_npc( character_id( activity.values[i] ) );
         if( n != nullptr ) {
             const std::string &s = activity.get_str_value( i, "1" );
             learners.push_back( { n, strtod( s.c_str(), nullptr ) } );
@@ -1015,7 +1017,7 @@ void avatar::do_read( item &book )
                 }
             } else {
                 //skill_level == originalSkillLevel
-                if( activity.index == learner->getID() ) {
+                if( activity.index == learner->getID().get_value() ) {
                     continuous = true;
                 }
                 if( learner->is_player() ) {
@@ -1077,7 +1079,7 @@ void avatar::do_read( item &book )
             m->second.call( *this, book, false, pos() );
             continuous = false;
         } else {
-            if( activity.index == g->u.getID() ) {
+            if( activity.index == g->u.getID().get_value() ) {
                 continuous = true;
                 switch( rng( 1, 5 ) ) {
                     case 1:

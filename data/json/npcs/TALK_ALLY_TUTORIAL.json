@@ -84,8 +84,8 @@
       "and": [
         {
           "npc_has_trait": "PROF_MED",
-          "yes": "Hey, I'm a doctor!  I know how to treat trauma.  You give me some bandages or a bottle of disinfectant, I'm get you fixed when I see you hurting.",
-          "no": "Yeah, I can perform first aid.  You give me some bandages or a bottle of disinfectant, I'll treat your wounds as best I can."
+          "yes": "Hey, I'm a doctor!  I know how to treat trauma.  You give me some bandages or a bottle of antiseptic, I'm get you fixed when I see you hurting.",
+          "no": "Yeah, I can perform first aid.  You give me some bandages or a bottle of antiseptic, I'll treat your wounds as best I can."
         },
         "  But remember, I like you, but I like me more - so I'm going to use those items on myself first, then you, then any of your other friends."
       ]

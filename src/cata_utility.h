@@ -14,6 +14,7 @@
 
 class JsonIn;
 class JsonOut;
+class translation;
 
 /**
  * Greater-than comparison operator; required by the sort interface
@@ -107,6 +108,7 @@ bool isBetween( int test, int down, int up );
  *         string, otherwise returns false
  */
 bool lcmatch( const std::string &str, const std::string &qry );
+bool lcmatch( const translation &str, const std::string &qry );
 
 /**
  * Matches text case insensitive with the include/exclude rules of the filter

@@ -8,6 +8,7 @@
 #include <string>
 
 #include "color.h"
+#include "optional.h"
 #include "damage.h"
 #include "enum_bitset.h"
 #include "enums.h"
@@ -110,6 +111,7 @@ enum m_flag : int {
     MF_RIDEABLE_MECH,       // A rideable mech that is immobile until ridden.
     MF_MILITARY_MECH,        // A rideable mech that was designed for military work.
     MF_MECH_RECON_VISION,   // This mech gives you IR night-vision.
+    MF_MECH_DEFENSIVE,      // This mech gives you thorough protection.
     MF_HIT_AND_RUN,         // Flee for several turns after a melee attack
     MF_GUILT,               // You feel guilty for killing it
     MF_HUMAN,               // It's a live human, as long as it's alive
@@ -292,14 +294,14 @@ struct mtype {
         mtype_id burn_into;
 
         // Monster reproduction variables
-        int baby_timer;
+        cata::optional<time_duration> baby_timer;
         int baby_count;
         mtype_id baby_monster;
         itype_id baby_egg;
         std::vector<std::string> baby_flags;
 
         // Monster biosignature variables
-        int biosig_timer;
+        cata::optional<time_duration> biosig_timer;
         itype_id biosig_item;
 
         // Monster's ability to destroy terrain and vehicles

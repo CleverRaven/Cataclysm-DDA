@@ -17,6 +17,7 @@
 #include <unordered_set>
 
 #include "calendar.h"
+#include "character_id.h"
 #include "cursesdef.h"
 #include "enums.h"
 #include "game_constants.h"
@@ -124,7 +125,7 @@ struct w_map {
     catacurses::window win;
 };
 
-bool is_valid_in_w_terrain( int x, int y );
+bool is_valid_in_w_terrain( const point &p );
 
 // There is only one game instance, so losing a few bytes of memory
 // due to padding is not much of a concern.
@@ -242,7 +243,7 @@ class game
          * Currently only the player character and npcs have ids.
          */
         template<typename T = Creature>
-        T * critter_by_id( int id );
+        T * critter_by_id( character_id id );
         /**
          * Returns the Creature at the given location. Optionally casted to the given
          * type of creature: @ref npc, @ref player, @ref monster - if there is a creature,
@@ -422,7 +423,7 @@ class game
         /** Returns the next available mission id. */
         int assign_mission_id();
         /** Find the npc with the given ID. Returns NULL if the npc could not be found. Searches all loaded overmaps. */
-        npc *find_npc( int id );
+        npc *find_npc( character_id id );
         /** Makes any nearby NPCs on the overmap active. */
         void load_npcs();
     private:
@@ -446,11 +447,11 @@ class game
         /** Record the fact that the player murdered an NPC. */
         void record_npc_kill( const npc &p );
         /** Add follower id to set of followers. */
-        void add_npc_follower( const int &id );
+        void add_npc_follower( const character_id &id );
         /** Remove follower id from follower set. */
-        void remove_npc_follower( const int &id );
+        void remove_npc_follower( const character_id &id );
         /** Get set of followers. */
-        std::set<int> get_follower_list();
+        std::set<character_id> get_follower_list();
         /** validate list of followers to account for overmap buffers */
         void validate_npc_followers();
         /** validate camps to ensure they are on the overmap list */
@@ -487,7 +488,7 @@ class game
          */
         unsigned char light_level( int zlev ) const;
         void reset_light_level();
-        int assign_npc_id();
+        character_id assign_npc_id();
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close();
         void refresh_all();
@@ -639,7 +640,7 @@ class game
         void set_safe_mode( safe_mode_type mode );
 
         /** open vehicle interaction screen */
-        void exam_vehicle( vehicle &veh, int cx = 0, int cy = 0 );
+        void exam_vehicle( vehicle &veh, const point &cp = point_zero );
 
         // Forcefully close a door at p.
         // The function checks for creatures/items/vehicles at that point and
@@ -799,13 +800,13 @@ class game
         void replace_stair_monsters();
         void update_stair_monsters();
         /**
-         * Shift all active monsters, the shift vector (x,y,z) is the number of
+         * Shift all active monsters, the shift vector is the number of
          * shifted submaps. Monsters that are outside of the reality bubble after
          * shifting are despawned.
          * Note on z-levels: this works with vertical shifts, but currently all
          * monsters are despawned upon a vertical shift.
          */
-        void shift_monsters( int shiftx, int shifty, int shiftz );
+        void shift_monsters( const tripoint &shift );
     public:
         /**
          * Despawn a specific monster, it's stored on the overmap. Also removes
@@ -958,8 +959,9 @@ class game
         std::vector<std::shared_ptr<monster>> new_seen_mon;
         bool safe_mode_warning_logged;
         bool bVMonsterLookFire;
-        int next_npc_id, next_mission_id; // Keep track of UIDs
-        std::set<int> follower_ids; // Keep track of follower NPC IDs
+        character_id next_npc_id;
+        int next_mission_id;
+        std::set<character_id> follower_ids; // Keep track of follower NPC IDs
         std::map<mtype_id, int> kills;         // Player's kill count
         std::list<std::string> npc_kills;      // names of NPCs the player killed
         int moves_since_last_save;
