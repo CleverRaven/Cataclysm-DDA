@@ -59,7 +59,7 @@ int live_view::draw( const catacurses::window &win, const int max_height )
     static const char *title_suffix = " >";
     static const std::string full_title = string_format( "%s%s%s", title_prefix, title, title_suffix );
     const int start_pos = center_text_pos( full_title, 0, getmaxx( win ) - 1 );
-    mvwprintz( win, 0, start_pos, c_white, title_prefix );
+    mvwprintz( win, point( start_pos, 0 ), c_white, title_prefix );
     wprintz( win, c_green, title );
     wprintz( win, c_white, title_suffix );
 

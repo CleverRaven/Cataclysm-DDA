@@ -107,6 +107,62 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "lighthouse_ground",
+    "name": "lighthouse",
+    "sym": "0",
+    "color": "cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lighthouse_z1",
+    "name": "lighthouse",
+    "sym": "0",
+    "color": "cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lighthouse_z2",
+    "name": "lighthouse",
+    "sym": "0",
+    "color": "cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lighthouse_z3",
+    "name": "lighthouse",
+    "sym": "&",
+    "color": "blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lighthouse_z4",
+    "name": "lighthouse",
+    "sym": "0",
+    "color": "cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lighthouse_z5",
+    "name": "lighthouse",
+    "sym": "0",
+    "color": "cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lighthouse_roof",
+    "name": "lighthouse",
+    "sym": "0",
+    "color": "cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": "cabin_isherwood",
     "name": "forest",
     "sym": "C",
@@ -286,19 +342,29 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "radio_tower_even",
+    "copy-from": "radio_tower"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "radio_tower_odd",
+    "copy-from": "radio_tower"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "radio_tower_top",
+    "copy-from": "radio_tower"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "radio_tower_1",
-    "name": "radio tower",
-    "sym": "X",
-    "color": "light_gray",
-    "see_cost": 2
+    "copy-from": "radio_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "radio_tower_roof_1",
     "name": "radio tower roof",
-    "sym": "X",
-    "color": "light_gray",
-    "see_cost": 2
+    "copy-from": "radio_tower"
   },
   {
     "type": "overmap_terrain",

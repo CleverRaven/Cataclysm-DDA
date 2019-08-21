@@ -164,14 +164,14 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
 static void check_shamble_speed( const std::string &monster_type, const tripoint &destination )
 {
     // Scale the scaling factor based on the ratio of diagonal to cardinal steps.
-    const float slope = get_normalized_angle( {0, 0}, destination.xy() );
+    const float slope = get_normalized_angle( point_zero, destination.xy() );
     const float diagonal_multiplier = 1.0 + ( get_option<bool>( "CIRCLEDIST" ) ?
                                       ( slope * 0.41 ) : 0.0 );
     INFO( monster_type << " " << destination );
     // Wandering makes things nondeterministic, so look at the distribution rather than a target number.
     move_statistics move_stats;
     for( int i = 0; i < 10; ++i ) {
-        move_stats.add( moves_to_destination( monster_type, {0, 0, 0}, destination ) );
+        move_stats.add( moves_to_destination( monster_type, tripoint_zero, destination ) );
         if( ( move_stats.avg() / ( 10000.0 * diagonal_multiplier ) ) ==
             Approx( 1.0 ).epsilon( 0.02 ) ) {
             break;
@@ -263,11 +263,11 @@ static void monster_check()
 {
     const float diagonal_multiplier = ( get_option<bool>( "CIRCLEDIST" ) ? 1.41 : 1.0 );
     // Have a monster walk some distance in a direction and measure how long it takes.
-    float vert_move = moves_to_destination( "mon_pig", {0, 0, 0}, {100, 0, 0} );
+    float vert_move = moves_to_destination( "mon_pig", tripoint_zero, {100, 0, 0} );
     CHECK( ( vert_move / 10000.0 ) == Approx( 1.0 ) );
-    int horiz_move = moves_to_destination( "mon_pig", {0, 0, 0}, {0, 100, 0} );
+    int horiz_move = moves_to_destination( "mon_pig", tripoint_zero, {0, 100, 0} );
     CHECK( ( horiz_move / 10000.0 ) == Approx( 1.0 ) );
-    int diag_move = moves_to_destination( "mon_pig", {0, 0, 0}, {100, 100, 0} );
+    int diag_move = moves_to_destination( "mon_pig", tripoint_zero, {100, 100, 0} );
     CHECK( ( diag_move / ( 10000.0 * diagonal_multiplier ) ) == Approx( 1.0 ).epsilon( 0.05 ) );
 
     check_shamble_speed( "mon_pig", {100, 0, 0} );
@@ -292,10 +292,10 @@ static void monster_check()
 
     // Verify that a walking player can escape from a zombie, but is caught by a zombie dog.
     INFO( "Trigdist is " << ( get_option<bool>( "CIRCLEDIST" ) ? "on" : "off" ) );
-    CHECK( can_catch_player( "mon_zombie", {1, 0, 0} ) < 0 );
-    CHECK( can_catch_player( "mon_zombie", {1, 1, 0} ) < 0 );
-    CHECK( can_catch_player( "mon_zombie_dog", {1, 0, 0} ) > 0 );
-    CHECK( can_catch_player( "mon_zombie_dog", {1, 1, 0} ) > 0 );
+    CHECK( can_catch_player( "mon_zombie", tripoint_east ) < 0 );
+    CHECK( can_catch_player( "mon_zombie", tripoint_south_east ) < 0 );
+    CHECK( can_catch_player( "mon_zombie_dog", tripoint_east ) > 0 );
+    CHECK( can_catch_player( "mon_zombie_dog", tripoint_south_east ) > 0 );
 }
 
 // Write out a map of slope at which monster is moving to time required to reach their destination.

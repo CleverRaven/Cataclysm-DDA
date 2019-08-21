@@ -348,8 +348,8 @@ TEST_CASE( "npc-movement" )
             if( type == 'V' || type == 'W' || type == 'M' ) {
                 vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p, 270, 0, 0 );
                 REQUIRE( veh != nullptr );
-                veh->install_part( point( 0, 0 ), vpart_frame_vertical );
-                veh->install_part( point( 0, 0 ), vpart_seat );
+                veh->install_part( point_zero, vpart_frame_vertical );
+                veh->install_part( point_zero, vpart_seat );
                 g->m.add_vehicle_to_cache( veh );
             }
             // spawn npcs
@@ -429,7 +429,7 @@ TEST_CASE( "npc-movement" )
 TEST_CASE( "npc_can_target_player" )
 {
     // Set to daytime for visibiliity
-    calendar::turn = HOURS( 12 );
+    calendar::turn = calendar::turn_zero + 12_hours;
 
     g->faction_manager_ptr->create_if_needed();
 
@@ -440,7 +440,7 @@ TEST_CASE( "npc_can_target_player" )
 
     const auto spawn_npc = []( const int x, const int y, const std::string & npc_class ) {
         const string_id<npc_template> test_guy( npc_class );
-        const int model_id = g->m.place_npc( 10, 10, test_guy, true );
+        const character_id model_id = g->m.place_npc( point( 10, 10 ), test_guy, true );
         g->load_npcs();
 
         npc *guy = g->find_npc( model_id );

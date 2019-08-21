@@ -165,13 +165,13 @@ class teleporter_callback : public uilist_callback
         teleporter_callback( std::map<int, tripoint> &ip ) : index_pairs( ip ) {}
         void select( int entnum, uilist *menu ) override {
             const int start_x = menu->w_width - menu->pad_right;
-            mvwputch( menu->window, 0, start_x, c_magenta, LINE_OXXX );
-            mvwputch( menu->window, menu->w_height - 1, start_x, c_magenta, LINE_XXOX );
+            mvwputch( menu->window, point( start_x, 0 ), c_magenta, LINE_OXXX );
+            mvwputch( menu->window, point( start_x, menu->w_height - 1 ), c_magenta, LINE_XXOX );
             for( int i = 1; i < menu->w_height - 1; i++ ) {
-                mvwputch( menu->window, i, start_x, c_magenta, LINE_XOXO );
+                mvwputch( menu->window, point( start_x, i ), c_magenta, LINE_XOXO );
             }
             overmap_ui::draw_overmap_chunk( menu->window, g->u, index_pairs[entnum], 1, start_x + 1, 29, 21 );
-            mvwprintz( menu->window, 1, start_x + 2, c_white,
+            mvwprintz( menu->window, point( start_x + 2, 1 ), c_white,
                        string_format( "Distance: %d (%d, %d)",
                                       rl_dist( ms_to_omt_copy( g->m.getabs( g->u.pos() ) ), index_pairs[entnum] ),
                                       index_pairs[entnum].x, index_pairs[entnum].y ) );

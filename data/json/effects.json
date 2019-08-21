@@ -1022,6 +1022,8 @@
   {
     "type": "effect_type",
     "id": "flushot",
+    "name": [ "Vaccinated" ],
+    "desc": [ "You have been vaccinated for the flu recently." ],
     "blocks_effects": [ "flu" ]
   },
   {
@@ -1653,6 +1655,17 @@
     "int_dur_factor": "1 s",
     "scaling_mods": { "speed_mod": [ -0.1 ], "dex_mod": [ -0.05 ] },
     "miss_messages": [ [ "You feel woozy.", 1 ] ]
+  },
+  {
+    "type": "effect_type",
+    "id": "stim_overdose",
+    "name": [ "Stimulant Overdose" ],
+    "desc": [ "You can't sit still as you feel your heart pounding out of your chest.  You probably overdosed on those stims." ],
+    "max_intensity": 1000,
+    "int_dur_factor": 1,
+    "base_mods": { "dex_mod": [ -0.88 ], "per_mod": [ -0.25 ] },
+    "scaling_mods": { "speed_mod": [ -0.25 ], "per_mod": [ -0.071 ] },
+    "miss_messages": [ [ "You shake with the excess stimulation.", 1 ] ]
   },
   {
     "type": "effect_type",

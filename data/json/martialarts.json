@@ -254,6 +254,244 @@
   },
   {
     "type": "martial_art",
+    "id": "style_eskrima",
+    "name": "Eskrima",
+    "description": "Eskrima, also known as Kali, is a Filipino martial art.  It emphasizes rapid strikes with knife and baton weapons, along with a variety of improvised substitutes.",
+    "initiate": [ "You enter an open guard stance and prepare to strike.", "%s enters an open stance." ],
+    "learn_difficulty": 8,
+    "primary_skill": "bashing",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "buff_eskrima_static",
+        "name": "Eskrima Stance",
+        "description": "You are skilled at getting the most out of your weapons.  The term 'weapon' might be very subjective,\n\n+2 Accuracy.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "mult_bonuses": [ [ "hit", 2.0 ] ]
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "buff_eskrima_oncrit",
+        "name": "Eskrima Combination",
+        "description": "You can follow up a critical hit with a stronger attack if the opportunity presents itself.\n\n+15%% bonus to all damage.\nEnables \"Combination Strike\" technique.\nLasts 3 turns.  Stacks 3 times.",
+        "min_melee": 2,
+        "melee_allowed": true,
+        "buff_duration": 3,
+        "max_stacks": 3,
+        "mult_bonuses": [ [ "damage", "bash", 1.15 ], [ "damage", "cut", 1.15 ], [ "damage", "stab", 1.15 ] ]
+      }
+    ],
+    "techniques": [
+      "tec_eskrima_round",
+      "tec_eskrima_fan",
+      "tec_eskrima_snap",
+      "tec_eskrima_puno",
+      "tec_eskrima_low",
+      "tec_eskrima_combination"
+    ],
+    "weapons": [
+      "2x4",
+      "bagh_nakha",
+      "baton-extended",
+      "bee_sting",
+      "bowling_pin",
+      "cane",
+      "copper_knife",
+      "cudgel",
+      "cu_pipe",
+      "diveknife",
+      "fighter_sting",
+      "firemachete_off",
+      "firemachete_on",
+      "glass_shiv",
+      "hammer",
+      "knife_combat",
+      "knife_hunting",
+      "knife_trench",
+      "kukri",
+      "knife_rambo",
+      "knife_rm42",
+      "machete",
+      "makeshift_knife",
+      "makeshift_machete",
+      "pipe",
+      "pockknife",
+      "pool_cue",
+      "PR24-extended",
+      "primitive_knife",
+      "primitive_hammer",
+      "punch_dagger",
+      "scissors",
+      "screwdriver",
+      "sharp_toothbrush",
+      "shishkebab_off",
+      "shishkebab_on",
+      "shocktonfa_off",
+      "shocktonfa_on",
+      "stick",
+      "survivor_machete",
+      "switchblade",
+      "tanto",
+      "tanto_inferior",
+      "tanto_fake",
+      "tonfa",
+      "tonfa_wood",
+      "umbrella",
+      "wasp_sting",
+      "wrench"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_fencing",
+    "name": "Fencing",
+    "description": "The noble art of fencing is taught with flexible competition blades, but the techniques are derived from (and applicable to) more functional examples.  Skilled fencers can take advantage of blocks and feints to deliver accurate strikes.",
+    "initiate": [ "You move into the en-garde stance.", "%s moves into a fencing stance." ],
+    "learn_difficulty": 5,
+    "primary_skill": "stabbing",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "buff_fencing_static",
+        "name": "Fencing Stance",
+        "description": "Your side stance minimizes the chances you will be harmed in a combat.\n\nBlocked damage reduced by 50%% of Dexterity.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "flat_bonuses": [ [ "block", "dex", 0.5 ] ]
+      }
+    ],
+    "onblock_buffs": [
+      {
+        "id": "buff_fencing_onblock",
+        "name": "Parry",
+        "description": "Your next strike will find it's mark much easier from your parry.\n\n+1 Accuracy.\nLasts 1 turn.",
+        "min_melee": 1,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "hit", 1.0 ] ]
+      }
+    ],
+    "onmiss_buffs": [
+      {
+        "id": "buff_fencing_onmiss",
+        "name": "Remise",
+        "description": "Your feint is the perfect setup for a devistating followup attack!\n\n+1 Accuracy.\nEnables \"Compound Attack\" technique.\nLasts 1 turn.",
+        "min_melee": 3,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "hit", 1.0 ] ]
+      }
+    ],
+    "techniques": [ "tec_fencing_feint", "tec_fencing_lunge", "tec_fencing_riposte", "tec_fencing_compound" ],
+    "weapons": [
+      "baton-extended",
+      "broadsword",
+      "broadsword_inferior",
+      "broadsword_fake",
+      "broadfire_off",
+      "broadfire_on",
+      "cane",
+      "cavalry_sabre",
+      "cavalry_sabre_fake",
+      "cudgel",
+      "fencing_foil",
+      "fencing_sabre",
+      "fencing_epee",
+      "pointy_stick",
+      "pipe",
+      "PR24-extended",
+      "rapier",
+      "rapier_fake",
+      "umbrella"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_medievalpole",
+    "name": "Fior Di Battaglia",
+    "description": "Medieval Europe's martial techniques for fighting with polearms.  The \"Flower of Battle\" places great focus on countering one's opponent and knocking them down before landing a killing blow",
+    "initiate": [ "You hold your weapon in a firm grip, ready to block any attack.", "%s grips their weapon tightly." ],
+    "learn_difficulty": 6,
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "buff_medievalpole_static",
+        "name": "Stand Your Ground",
+        "description": "You stalwart and will not budge against any threat.\n\n+2 Block attempts, -1.0 Dodge skill, blocked damage reduced by 50%% of Strength.",
+        "melee_allowed": true,
+        "min_melee": 0,
+        "bonus_blocks": 2,
+        "flat_bonuses": [ [ "block", "str", 0.5 ], [ "dodge", -1.0 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_medievalpole_onmove",
+        "name": "Tactical Retreat",
+        "description": "You moved and nullified the effects of Stand Your Ground!\n\n-2 Block attempts, +1.0 Dodge skill, blocked damaged increased by 50%% of Strength.\nLasts 1 turn.",
+        "melee_allowed": true,
+        "min_melee": 0,
+        "buff_duration": 1,
+        "bonus_blocks": -2,
+        "flat_bonuses": [ [ "block", "str", -0.5 ], [ "dodge", 1.0 ] ]
+      }
+    ],
+    "onmiss_buffs": [
+      {
+        "id": "buff_medievalpole_onmiss",
+        "name": "Tactical Feinting",
+        "description": "They fell for your feint!\n\nEnables \"Hook and Drag\" technique.\nLasts 1 turn.",
+        "melee_allowed": true,
+        "min_melee": 3,
+        "buff_duration": 1
+      }
+    ],
+    "onblock_buffs": [
+      {
+        "id": "buff_medievalpole_onblock",
+        "name": "Defense Break",
+        "description": "Each successful block reveals an opening in your opponent's guard.\n\n+1 Accuracy.\nLasts 1 turn.  Stacks 3 times.",
+        "melee_allowed": true,
+        "min_melee": 1,
+        "buff_duration": 1,
+        "max_stacks": 3,
+        "flat_bonuses": [ [ "hit", 1.0 ] ]
+      }
+    ],
+    "techniques": [
+      "tec_medievalpole_counter",
+      "tec_medievalpole_highround",
+      "tec_medievalpole_feint",
+      "tec_medievalpole_hook",
+      "tec_medievalpole_execute",
+      "tec_medievalpole_break"
+    ],
+    "weapons": [
+      "ax",
+      "battleaxe",
+      "battleaxe_fake",
+      "battleaxe_inferior",
+      "copper_ax",
+      "fire_ax",
+      "glaive",
+      "halberd",
+      "halberd_fake",
+      "hammer_sledge",
+      "hockey_stick",
+      "hoe",
+      "ji",
+      "lobotomizer",
+      "lucern_hammer",
+      "lucern_hammerfake",
+      "makeshift_halberd",
+      "pickaxe",
+      "primitive_axe"
+    ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_karate",
     "name": "Karate",
     "description": "Karate is a popular martial art, originating from Japan.  It focuses on rapid, precise attacks, blocks, and fluid movement.  A successful hit allows you an extra dodge and two extra blocks on the following round.",
@@ -622,47 +860,6 @@
   },
   {
     "type": "martial_art",
-    "id": "style_fencing",
-    "name": "Fencing",
-    "description": "The noble art of fencing is taught with flexible competition blades, but the techniques are derived from (and applicable to) more functional examples.  Skilled fencers can take advantage of advances and retreats to deliver accurate strikes.",
-    "initiate": [ "You move into the en-garde stance.", "%s moves into a fencing stance." ],
-    "learn_difficulty": 5,
-    "primary_skill": "stabbing",
-    "arm_block": 99,
-    "leg_block": 99,
-    "strictly_melee": true,
-    "onmove_buffs": [
-      {
-        "id": "fencing_move_buff",
-        "name": "Fencing Footwork",
-        "description": "+2 stab and +1 acc per stack",
-        "min_melee": 2,
-        "buff_duration": 2,
-        "max_stacks": 2,
-        "flat_bonuses": [ [ "damage", "stab", 2.0 ], [ "hit", 1.0 ] ]
-      }
-    ],
-    "techniques": [ "tec_feint", "tec_fencing_lunge", "tec_fencing_stop_thrust", "tec_fencing_thrust" ],
-    "weapons": [
-      "broadsword",
-      "broadsword_inferior",
-      "broadsword_fake",
-      "broadfire_off",
-      "broadfire_on",
-      "rapier",
-      "rapier_fake",
-      "cavalry_sabre",
-      "cavalry_sabre_fake",
-      "fencing_foil",
-      "fencing_sabre",
-      "fencing_epee",
-      "umbrella",
-      "cane",
-      "cudgel"
-    ]
-  },
-  {
-    "type": "martial_art",
     "id": "style_niten",
     "name": "Niten Ichi-Ryu",
     "description": "Niten Ichi-Ryu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.",
@@ -733,101 +930,6 @@
       "nodachi",
       "nodachi_inferior",
       "nodachi_fake"
-    ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_eskrima",
-    "name": "Eskrima",
-    "description": "Eskrima, also known as Kali, is a Filipino martial art.  It emphasizes rapid strikes with knife and baton weapons, along with a variety of improvised substitutes.",
-    "initiate": [ "You enter an open guard stance and prepare to strike.", "%s enters an open stance." ],
-    "learn_difficulty": 8,
-    "primary_skill": "bashing",
-    "arm_block": 99,
-    "leg_block": 99,
-    "strictly_melee": true,
-    "static_buffs": [
-      {
-        "id": "eskrima_bash",
-        "name": "Eskrima Bashing",
-        "melee_allowed": true,
-        "min_melee": 1,
-        "mult_bonuses": [ [ "damage", "bash", 1.2 ] ],
-        "description": "Increased bashing damage."
-      }
-    ],
-    "onhit_buffs": [
-      {
-        "id": "eskrima_hit_buff",
-        "name": "Eskrima Combination",
-        "description": "Combination",
-        "melee_allowed": true,
-        "min_melee": 2,
-        "buff_duration": 3,
-        "max_stacks": 1,
-        "mult_bonuses": [ [ "damage", "bash", 1.1 ], [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.1 ] ]
-      }
-    ],
-    "techniques": [
-      "tec_eskrima_round",
-      "tec_eskrima_fan",
-      "tec_eskrima_snap",
-      "tec_eskrima_puno",
-      "tec_eskrima_kick",
-      "tec_eskrima_combination"
-    ],
-    "weapons": [
-      "2x4",
-      "baton-extended",
-      "bee_sting",
-      "bio_blade_weapon",
-      "bowling_pin",
-      "cane",
-      "cudgel",
-      "cu_pipe",
-      "diveknife",
-      "fighter_sting",
-      "firemachete_off",
-      "firemachete_on",
-      "glass_shiv",
-      "hammer",
-      "knife_combat",
-      "knife_hunting",
-      "knife_trench",
-      "copper_knife",
-      "machete",
-      "survivor_machete",
-      "makeshift_knife",
-      "makeshift_machete",
-      "pipe",
-      "pockknife",
-      "pool_cue",
-      "PR24-extended",
-      "primitive_knife",
-      "primitive_hammer",
-      "punch_dagger",
-      "scissors",
-      "screwdriver",
-      "sharp_toothbrush",
-      "shishkebab_off",
-      "shishkebab_on",
-      "shocktonfa_off",
-      "shocktonfa_on",
-      "stick",
-      "switchblade",
-      "tanto",
-      "tanto_inferior",
-      "tanto_fake",
-      "tonfa",
-      "tonfa_wood",
-      "umbrella",
-      "wasp_sting",
-      "wrench",
-      "kukri",
-      "knife_rambo",
-      "knife_rm42",
-      "l-stick",
-      "l-stick_on"
     ]
   },
   {
@@ -1065,80 +1167,6 @@
       "tec_wingchun_disarm"
     ],
     "weapons": [ "butterfly_swords", "long_pole" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_medievalpole",
-    "name": "Fior Di Battaglia",
-    "description": "Medieval Europe's martial techniques for fighting with polearms, great focus is given in countering one's opponent and knocking them down before landing a killing blow",
-    "initiate": [ "You set your feet apart and turn your torso slightly.", "%s sets their feet apart and turns their torso slightly." ],
-    "learn_difficulty": 6,
-    "arm_block": 99,
-    "leg_block": 99,
-    "strictly_melee": true,
-    "static_buffs": [
-      {
-        "id": "medievalpole_static",
-        "name": "Stand Your Ground",
-        "description": "+2 blocks -1 dodge, halves your dodge and damage is reduced by your strength when blocking",
-        "strictly_melee": true,
-        "flat_bonuses": [ [ "block", "str", 1.0 ] ],
-        "mult_bonuses": [ [ "dodge", 0.5 ] ],
-        "bonus_dodges": -1,
-        "bonus_blocks": 2
-      }
-    ],
-    "onmove_buffs": [
-      {
-        "id": "medievalpole_move",
-        "name": "You moved",
-        "description": "Nullifies Stand Your Ground, don't move, stand there and counter!",
-        "melee_allowed": true,
-        "flat_bonuses": [ [ "block", "str", -1.0 ] ],
-        "mult_bonuses": [ [ "dodge", 1.0 ] ],
-        "buff_duration": 2,
-        "max_stacks": 1,
-        "bonus_dodges": 1,
-        "bonus_blocks": -2
-      }
-    ],
-    "onmiss_buffs": [
-      {
-        "id": "medievalpole_setup",
-        "name": "Setup",
-        "description": "They fell for your feint!",
-        "melee_allowed": true,
-        "min_melee": 0,
-        "buff_duration": 2,
-        "max_stacks": 1
-      }
-    ],
-    "techniques": [
-      "tec_medievalpole_counter",
-      "tec_medievalpole_highround",
-      "tec_medievalpole_feint",
-      "tec_medievalpole_highstab",
-      "tec_medievalpole_break"
-    ],
-    "weapons": [
-      "halberd",
-      "halberd_fake",
-      "lucern_hammer",
-      "lucern_hammerfake",
-      "glaive",
-      "makeshift_halberd",
-      "battleaxe_fake",
-      "battleaxe_inferior",
-      "battleaxe",
-      "fire_ax",
-      "pickaxe",
-      "ax",
-      "lobotomizer",
-      "primitive_axe",
-      "copper_ax",
-      "ji",
-      "hoe"
-    ]
   },
   {
     "type": "martial_art",

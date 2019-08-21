@@ -545,6 +545,11 @@ bool item::is_unarmed_weapon() const
     return has_flag( "UNARMED_WEAPON" ) || is_null();
 }
 
+bool item::is_frozen_liquid() const
+{
+    return made_of( SOLID ) && made_of_from_type( LIQUID );
+}
+
 bool item::covers( const body_part bp ) const
 {
     return get_covered_body_parts().test( bp );
@@ -1377,7 +1382,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
         }
         if( parts->test( iteminfo_parts::MAGAZINE_RELOAD ) ) {
-            info.emplace_back( "MAGAZINE", _( "Reload time: " ), _( "<num> per round" ),
+            info.emplace_back( "MAGAZINE", _( "Reload time: " ), _( "<num> moves per round" ),
                                iteminfo::lower_is_better, type->magazine->reload_time );
         }
         insert_separation_line();
@@ -1543,9 +1548,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.emplace_back( "GUN", _( "Even chance of good hit at range: " ),
                                    _( "<num>" ), iteminfo::no_flags, range );
                 int aim_mv = g->u.gun_engagement_moves( *mod, type.threshold );
-                info.emplace_back( "GUN", _( "Time to reach aim level: " ), _( "<num> seconds" ),
+                info.emplace_back( "GUN", _( "Time to reach aim level: " ), _( "<num> moves " ),
                                    iteminfo::is_decimal | iteminfo::lower_is_better,
-                                   TICKS_TO_SECONDS( aim_mv ) );
+                                   aim_mv );
             }
         }
 
@@ -1681,9 +1686,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         if( parts->test( iteminfo_parts::GUN_RELOAD_TIME ) ) {
             info.emplace_back( "GUN", _( "Reload time: " ),
-                               has_flag( "RELOAD_ONE" ) ? _( "<num> seconds per round" ) : _( "<num> seconds" ),
+                               has_flag( "RELOAD_ONE" ) ? _( "<num> moves per round" ) : _( "<num> moves " ),
                                iteminfo::lower_is_better,
-                               static_cast<int>( mod->get_reload_time() / 16.67 ) );
+                               mod->get_reload_time() );
         }
 
         if( parts->test( iteminfo_parts::GUN_FIRE_MODES ) ) {
@@ -3103,7 +3108,7 @@ void item::on_wear( Character &p )
         g->add_artifact_messages( type->artifact->effects_worn );
     }
     // if game is loaded - dont want ownership assigned during char creation
-    if( g->u.getID() != -1 ) {
+    if( g->u.getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
     p.on_item_wear( *this );
@@ -3166,7 +3171,7 @@ void item::on_wield( player &p, int mv )
         msg = _( "You wield your %s." );
     }
     // if game is loaded - dont want ownership assigned during char creation
-    if( g->u.getID() != -1 ) {
+    if( g->u.getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
     p.add_msg_if_player( m_neutral, msg, tname() );
@@ -3174,6 +3179,9 @@ void item::on_wield( player &p, int mv )
     if( p.style_selected != matype_id( "style_none" ) ) {
         p.martialart_use_message();
     }
+
+    // Update encumbrance in case we were wearing it
+    p.reset_encumbrance();
 }
 
 void item::handle_pickup_ownership( Character &c )
@@ -3230,7 +3238,7 @@ void item::on_pickup( Character &p )
         g->add_artifact_messages( type->artifact->effects_carried );
     }
     // if game is loaded - dont want ownership assigned during char creation
-    if( g->u.getID() != -1 ) {
+    if( g->u.getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
     if( is_bucket_nonempty() ) {
@@ -3247,6 +3255,8 @@ void item::on_contents_changed()
     if( is_non_resealable_container() ) {
         convert( type->container->unseals_into );
     }
+
+    set_flag( "ENCUMBRANCE_UPDATE" );
 }
 
 void item::on_damage( int, damage_type )
@@ -4272,19 +4282,16 @@ void item::calc_rot( time_point time, int temp )
         temp = temperatures::fridge;
     }
 
-    // last_rot_check might be zero, if both are then we want calendar::start_of_cataclysm
-    const time_point since = std::max( {last_rot_check, time_point( calendar::start_of_cataclysm )} );
-
     // simulation of different age of food at the start of the game and good/bad storage
     // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
     // positive = food was produced some time before calendar::start and/or bad storage
     // negative = food was stored in good conditions before calendar::start
-    if( since <= calendar::start_of_cataclysm ) {
+    if( last_rot_check <= calendar::start_of_cataclysm ) {
         time_duration spoil_variation = get_shelf_life() * 0.2f;
-        rot += factor * rng( -spoil_variation, spoil_variation );
+        rot += rng( -spoil_variation, spoil_variation );
     }
 
-    time_duration time_delta = time - since;
+    time_duration time_delta = time - last_rot_check;
     rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temp ) * 1_turns;
     last_rot_check = time;
 }
@@ -5539,13 +5546,13 @@ int item::get_chapters() const
 
 int item::get_remaining_chapters( const player &u ) const
 {
-    const std::string var = string_format( "remaining-chapters-%d", u.getID() );
+    const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
     return get_var( var, get_chapters() );
 }
 
 void item::mark_chapter_as_read( const player &u )
 {
-    const std::string var = string_format( "remaining-chapters-%d", u.getID() );
+    const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
     if( type->book && type->book->chapters == 0 ) {
         // books without chapters will always have remaining chapters == 0, so we don't need to store them
         erase_var( var );
@@ -6452,21 +6459,9 @@ bool item::units_sufficient( const Character &ch, int qty ) const
     return units_remaining( ch, qty ) == qty;
 }
 
-item::reload_option::reload_option( const reload_option &rhs ) :
-    who( rhs.who ), target( rhs.target ), ammo( rhs.ammo ),
-    qty_( rhs.qty_ ), max_qty( rhs.max_qty ), parent( rhs.parent ) {}
+item::reload_option::reload_option( const reload_option & ) = default;
 
-item::reload_option &item::reload_option::operator=( const reload_option &rhs )
-{
-    who = rhs.who;
-    target = rhs.target;
-    ammo = rhs.ammo;
-    qty_ = rhs.qty_;
-    max_qty = rhs.max_qty;
-    parent = rhs.parent;
-
-    return *this;
-}
+item::reload_option &item::reload_option::operator=( const reload_option & ) = default;
 
 item::reload_option::reload_option( const player *who, const item *target, const item *parent,
                                     const item_location &ammo ) :
@@ -6624,11 +6619,6 @@ bool item::reload( player &u, item_location loc, int qty )
     } else if( is_watertight_container() ) {
         if( !ammo->made_of_from_type( LIQUID ) ) {
             debugmsg( "Tried to reload liquid container with non-liquid." );
-            return false;
-        }
-        if( !ammo->made_of( LIQUID ) ) {
-            u.add_msg_if_player( m_bad, _( "The %s froze solid before you could finish." ),
-                                 ammo->tname() );
             return false;
         }
         if( container ) {
@@ -7399,7 +7389,7 @@ bool item::already_used_by_player( const player &p ) const
     // USED_BY_IDS always starts *and* ends with a ';', the search string
     // ';<id>;' matches at most one part of USED_BY_IDS, and only when exactly that
     // id has been added.
-    const std::string needle = string_format( ";%d;", p.getID() );
+    const std::string needle = string_format( ";%d;", p.getID().get_value() );
     return it->second.find( needle ) != std::string::npos;
 }
 
@@ -7411,7 +7401,7 @@ void item::mark_as_used_by_player( const player &p )
         used_by_ids = ";";
     }
     // and always end with a ';'
-    used_by_ids += string_format( "%d;", p.getID() );
+    used_by_ids += string_format( "%d;", p.getID().get_value() );
 }
 
 bool item::can_holster( const item &obj, bool ignore ) const
@@ -7536,7 +7526,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     time_point time;
     item_internal::goes_bad_cache_set( goes_bad() );
     if( goes_bad() ) {
-        time = std::min( { last_rot_check, last_temp_check } );
+        time = std::min( last_rot_check, last_temp_check );
     } else {
         time = last_temp_check;
     }

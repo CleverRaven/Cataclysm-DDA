@@ -2365,7 +2365,7 @@
     "byproducts": [ { "item": "straw_pile" } ],
     "pre_terrain": "t_grass_long",
     "post_terrain": "t_grass",
-    "tools": [ [ [ "scythe", -1 ], [ "sickle", -1 ] ] ]
+    "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ]
   },
   {
     "type": "construction",
@@ -2376,7 +2376,7 @@
     "byproducts": [ { "item": "straw_pile", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_grass_tall",
     "post_terrain": "t_grass",
-    "tools": [ [ [ "scythe", -1 ], [ "sickle", -1 ] ] ]
+    "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ]
   },
   {
     "type": "construction",
@@ -2721,7 +2721,10 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "15 m",
     "pre_special": "check_empty",
-    "components": [ [ [ "pillow", 19 ], [ "down_pillow", 19 ] ], [ [ "down_blanket", 3 ], [ "blanket", 3 ], [ "fur_blanket", 3 ] ] ],
+    "components": [
+      [ [ "pillow", 19 ], [ "down_pillow", 19 ], [ "mattress", 4 ] ],
+      [ [ "down_blanket", 3 ], [ "blanket", 3 ], [ "fur_blanket", 3 ] ]
+    ],
     "pre_terrain": "t_floor",
     "post_terrain": "f_pillow_fort"
   },

@@ -4,6 +4,7 @@
 #include <array>
 #include <memory>
 
+#include "ime.h"
 #include "input.h"
 #include "output.h"
 #include "catacharset.h"
@@ -220,14 +221,14 @@ void query_popup::show() const
 
     for( size_t line = 0; line < folded_msg.size(); ++line ) {
         nc_color col = default_text_color;
-        print_colored_text( win, border_width + line, border_width, col, col,
+        print_colored_text( win, point( border_width, border_width + line ), col, col,
                             folded_msg[line] );
     }
 
     for( size_t ind = 0; ind < buttons.size(); ++ind ) {
         nc_color col = ind == cur ? hilite( c_white ) : c_white;
         const auto &btn = buttons[ind];
-        print_colored_text( win, border_width + btn.pos.y, border_width + btn.pos.x,
+        print_colored_text( win, btn.pos + point( border_width, border_width ),
                             col, col, btn.text );
     }
 
@@ -323,6 +324,8 @@ query_popup::result query_popup::query_once()
 
 query_popup::result query_popup::query()
 {
+    ime_sentry sentry( ime_sentry::disable );
+
     result res;
     do {
         res = query_once();

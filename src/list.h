@@ -108,8 +108,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         struct node_base {
             node_pointer_type next, previous;
 
-            node_base()
-            {}
+            node_base() = default;
 
             node_base( const node_pointer_type &n, const node_pointer_type &p ):
                 next( n ),
@@ -250,6 +249,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
                 group_vector &operator = ( group_vector &&source ) noexcept {
                     if LIST_CONSTEXPR( std::is_trivial<group_pointer_type>::value ) {
+                        // NOLINTNEXTLINE(bugprone-undefined-memory-manipulation)
                         std::memcpy( static_cast<void *>( this ), &source, sizeof( group_vector ) );
                     } else {
                         last_endpoint_group = std::move( source.last_endpoint_group );
@@ -264,8 +264,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     return *this;
                 }
 
-                ~group_vector() noexcept
-                {}
+                ~group_vector() noexcept = default;
 
                 void destroy_all_data( const node_pointer_type last_endpoint_node ) noexcept {
                     if( block_pointer == nullptr ) {
@@ -1909,8 +1908,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 stored_instance( function_instance )
             {}
 
-            sort_dereferencer() noexcept
-            {}
+            sort_dereferencer() noexcept = default;
 
             inline bool operator()( const node_pointer_type first, const node_pointer_type second ) {
                 return stored_instance( first->element, second->element );
@@ -2282,8 +2280,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 value( store_value )
             {}
 
-            eq_to() noexcept
-            {}
+            eq_to() noexcept = default;
 
             inline bool operator()( const element_type compare_value ) const noexcept {
                 return value == compare_value;

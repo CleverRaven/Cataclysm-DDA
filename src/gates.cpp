@@ -54,10 +54,10 @@ struct gate_data {
     ter_str_id floor;
     std::vector<ter_str_id> walls;
 
-    std::string pull_message;
-    std::string open_message;
-    std::string close_message;
-    std::string fail_message;
+    translation pull_message;
+    translation open_message;
+    translation close_message;
+    translation fail_message;
 
     int moves;
     int bash_dmg;
@@ -87,10 +87,10 @@ void gate_data::load( JsonObject &jo, const std::string & )
     if( !was_loaded || jo.has_member( "messages" ) ) {
         JsonObject messages_obj = jo.get_object( "messages" );
 
-        optional( messages_obj, was_loaded, "pull", pull_message, translated_string_reader );
-        optional( messages_obj, was_loaded, "open", open_message, translated_string_reader );
-        optional( messages_obj, was_loaded, "close", close_message, translated_string_reader );
-        optional( messages_obj, was_loaded, "fail", fail_message, translated_string_reader );
+        optional( messages_obj, was_loaded, "pull", pull_message );
+        optional( messages_obj, was_loaded, "open", open_message );
+        optional( messages_obj, was_loaded, "close", close_message );
+        optional( messages_obj, was_loaded, "fail", fail_message );
     }
 
     optional( jo, was_loaded, "moves", moves, 0 );
@@ -178,7 +178,7 @@ void gates::open_gate( const tripoint &pos )
 
     for( int i = 0; i < 4; ++i ) {
         static constexpr tripoint dir[4] = {
-            { 1, 0, 0 }, { 0, 1, 0 }, { -1, 0, 0 }, { 0, -1, 0 }
+            { tripoint_east }, { tripoint_south }, { tripoint_west }, { tripoint_north }
         };
         const tripoint wall_pos = pos + dir[i];
 

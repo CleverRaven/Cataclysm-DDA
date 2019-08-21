@@ -14,6 +14,7 @@
 
 class JsonIn;
 class JsonOut;
+class translation;
 
 /**
  * Greater-than comparison operator; required by the sort interface
@@ -107,6 +108,7 @@ bool isBetween( int test, int down, int up );
  *         string, otherwise returns false
  */
 bool lcmatch( const std::string &str, const std::string &qry );
+bool lcmatch( const translation &str, const std::string &qry );
 
 /**
  * Matches text case insensitive with the include/exclude rules of the filter
@@ -178,7 +180,7 @@ int bound_mod_to_vals( int val, int mod, int max, int min );
  *
  * @return name of unit.
  */
-const char *velocity_units( const units_type vel_units );
+const char *velocity_units( units_type vel_units );
 
 /**
  * Create a units label for a weight value.
@@ -219,7 +221,7 @@ const char *volume_units_long();
  * @returns Velocity in the user selected measurement system and in appropriate
  *          units for the object being measured.
  */
-double convert_velocity( int velocity, const units_type vel_units );
+double convert_velocity( int velocity, units_type vel_units );
 
 /**
  * Convert weight in grams to units defined by user (kg or lbs)
@@ -504,4 +506,7 @@ bool return_true( const T & )
  * Joins a vector of `std::string`s into a single string with a delimiter/joiner
  */
 std::string join( const std::vector<std::string> &strings, const std::string &joiner );
+
+int modulo( int v, int m );
+
 #endif // CAT_UTILITY_H

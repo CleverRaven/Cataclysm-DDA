@@ -19,7 +19,6 @@
 #include "optional.h"
 #include "pimpl.h"
 #include "player.h"
-#include "auto_pickup.h"
 #include "color.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -34,6 +33,10 @@
 #include "item.h"
 #include "point.h"
 
+namespace auto_pickup
+{
+class npc_settings;
+} // namespace auto_pickup
 struct bionic_data;
 class JsonObject;
 class JsonIn;
@@ -422,7 +425,7 @@ struct npc_follower_rules {
     ally_rule override_enable;
     ally_rule overrides;
 
-    pimpl<auto_pickup> pickup_whitelist;
+    pimpl<auto_pickup::npc_settings> pickup_whitelist;
 
     npc_follower_rules();
 
@@ -657,7 +660,7 @@ enum talk_topic_enum {
 };
 
 // Function for conversion of legacy topics, defined in savegame_legacy.cpp
-std::string convert_talk_topic( talk_topic_enum const old_value );
+std::string convert_talk_topic( talk_topic_enum old_value );
 
 struct npc_chatbin {
     /**
@@ -764,7 +767,7 @@ class npc : public player
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
         std::string opinion_text() const;
-        int faction_display( const catacurses::window &fac_w, const int width ) const;
+        int faction_display( const catacurses::window &fac_w, int width ) const;
 
         // Interaction with the player
         void form_opinion( const player &u );
@@ -799,7 +802,7 @@ class npc : public player
         int get_faction_ver() const;
         void set_faction_ver( int new_version );
         bool has_faction_relationship( const player &guy,
-                                       const npc_factions::relationship flag ) const;
+                                       npc_factions::relationship flag ) const;
         // We want to kill/mug/etc the player
         bool is_enemy() const;
         // Traveling w/ player (whether as a friend or a slave)
@@ -877,6 +880,10 @@ class npc : public player
         bool wants_to_buy( const item &it ) const;
         bool wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const;
 
+        bool will_exchange_items_freely() const;
+        int max_credit_extended() const;
+        int max_willing_to_owe() const;
+
         // AI helpers
         void regen_ai_cache();
         const Creature *current_target() const;
@@ -898,7 +905,7 @@ class npc : public player
         void say( const char *const line, Args &&... args ) const {
             return say( string_format( line, std::forward<Args>( args )... ) );
         }
-        void say( const std::string &line, const int priority = 0 ) const;
+        void say( const std::string &line, int priority = 0 ) const;
         void decide_needs();
         void die( Creature *killer ) override;
         bool is_dead() const;
@@ -939,8 +946,8 @@ class npc : public player
         // @param force true if the complaint should happen even if not enough time has elapsed since last complaint
         // @param speech words of this complaint
         bool complain_about( const std::string &issue, const time_duration &dur,
-                             const std::string &speech, const bool force = false,
-                             const int priority = 0 );
+                             const std::string &speech, bool force = false,
+                             int priority = 0 );
         // wrapper for complain_about that warns about a specific type of threat, with
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
@@ -1018,7 +1025,7 @@ class npc : public player
          * @returns If it updated the path.
          */
         bool update_path( const tripoint &p, bool no_bashing = false, bool force = true );
-        bool can_open_door( const tripoint &p, const bool inside ) const;
+        bool can_open_door( const tripoint &p, bool inside ) const;
         bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
 
         // nomove is used to resolve recursive invocation
@@ -1137,7 +1144,7 @@ class npc : public player
         void revert_after_activity();
 
         // #############   VALUES   ################
-        std::string current_activity = "";
+        activity_id current_activity_id = activity_id::NULL_ID();
         npc_class_id myclass; // What's our archetype?
         // A temp variable used to inform the game which npc json to use as a template
         std::string idz;
@@ -1268,7 +1275,6 @@ class npc : public player
         // the index of the bionics for the fake gun;
         int cbm_weapon_index = -1;
 
-        void setID( int id );
         bool dead;  // If true, we need to be cleaned up
 
         bool sees_dangerous_field( const tripoint &p ) const;
@@ -1291,7 +1297,7 @@ class standard_npc : public npc
 class npc_template
 {
     public:
-        npc_template() {}
+        npc_template() = default;
 
         npc guy;
 

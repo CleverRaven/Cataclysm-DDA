@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "character_id.h"
 #include "creature.h"
 #include "enums.h"
 #include "bodypart.h"
@@ -40,8 +41,6 @@ struct trap;
 enum class mon_trigger;
 
 class monster;
-
-using mfactions = std::map< mfaction_id, std::set< monster * > >;
 
 class mon_special_attack
 {
@@ -106,7 +105,7 @@ class monster : public Creature
         void try_biosignature();
         void spawn( const tripoint &p );
         m_size get_size() const override;
-        units::mass get_weight() const;
+        units::mass get_weight() const override;
         units::volume get_volume() const;
         int get_hp( hp_part ) const override;
         int get_hp() const override;
@@ -135,7 +134,7 @@ class monster : public Creature
 
         std::string extended_description() const override;
         // Inverts color if inv==true
-        bool has_flag( const m_flag f ) const override; // Returns true if f is set (see mtype.h)
+        bool has_flag( m_flag f ) const override; // Returns true if f is set (see mtype.h)
         bool can_see() const;      // MF_SEES and no ME_BLIND
         bool can_hear() const;     // MF_HEARS and no ME_DEAF
         bool can_submerge() const; // MF_AQUATIC or MF_SWIMS or MF_NO_BREATH, and not MF_ELECTRONIC
@@ -193,9 +192,7 @@ class monster : public Creature
 
         // How good of a target is given creature (checks for visibility)
         float rate_target( Creature &c, float best, bool smart = false ) const;
-        // Pass all factions to mon, so that hordes of same-faction mons
-        // do not iterate over each other
-        void plan( const mfactions &factions );
+        void plan();
         void move(); // Actual movement
         void footsteps( const tripoint &p ); // noise made by movement
         void shove_vehicle( const tripoint &remote_destination,
@@ -205,7 +202,7 @@ class monster : public Creature
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
         int calc_climb_cost( const tripoint &f, const tripoint &t ) const;
 
-        bool is_immune_field( const field_type_id fid ) const override;
+        bool is_immune_field( field_type_id fid ) const override;
 
         /**
          * Attempt to move to p.
@@ -276,7 +273,7 @@ class monster : public Creature
         bool is_dead_state() const override; // check if we should be dead or not
         bool is_elec_immune() const override;
         bool is_immune_effect( const efftype_id & ) const override;
-        bool is_immune_damage( const damage_type ) const override;
+        bool is_immune_damage( damage_type ) const override;
 
         void absorb_hit( body_part bp, damage_instance &dam ) override;
         bool block_hit( Creature *source, body_part &bp_hit, damage_instance &d ) override;
@@ -288,7 +285,7 @@ class monster : public Creature
         void deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
                                       int &pain ) override;
         void apply_damage( Creature *source, body_part bp, int amount,
-                           const bool bypass_med = false ) override;
+                           bool bypass_med = false ) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
         void explode();
         // Let the monster die and let its body explode into gibs
@@ -353,7 +350,7 @@ class monster : public Creature
         void on_dodge( Creature *source, float difficulty ) override;
         // Something hit us (possibly null source)
         void on_hit( Creature *source, body_part bp_hit = num_bp,
-                     float difficulty = INT_MIN, dealt_projectile_attack const *const proj = nullptr ) override;
+                     float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
         // Get torso - monsters don't have body parts (yet?)
         body_part get_random_body_part( bool main ) const override;
         /** Returns vector containing all body parts this monster has. That is, { bp_torso } */
@@ -419,7 +416,7 @@ class monster : public Creature
         tripoint wander_pos; // Wander destination - Just try to move in that direction
         int wandf;           // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
-        int dragged_foe_id = -1; // id of player being dragged by the monster
+        character_id dragged_foe_id; // id of character being dragged by the monster
         cata::optional<item> tied_item; // item used to tie the monster
         cata::optional<item> battery_item; // item to power mechs
         // DEFINING VALUES
@@ -509,15 +506,15 @@ class monster : public Creature
         tripoint position;
         bool dead;
         /** Legacy loading logic for monsters that are packing ammo. **/
-        void normalize_ammo( const int old_ammo );
+        void normalize_ammo( int old_ammo );
         /** Normal upgrades **/
         int next_upgrade_time();
         bool upgrades;
         int upgrade_time;
         bool reproduces;
-        int baby_timer;
+        cata::optional<time_point> baby_timer;
         bool biosignatures;
-        int biosig_timer;
+        cata::optional<time_point> biosig_timer;
         monster_horde_attraction horde_attraction;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;

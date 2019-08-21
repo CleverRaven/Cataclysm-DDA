@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "character_id.h"
 #include "enums.h"
 #include "npc_favor.h"
 #include "overmap.h"
@@ -200,88 +201,96 @@ struct mission_goal_condition_context {
 };
 
 struct mission_type {
-    // Matches it to a mission_type_id above
-    mission_type_id id = mission_type_id( "MISSION_NULL" );
-    bool was_loaded = false;
-    // The name the mission is given in menus
-    std::string name = "Bugged mission type";
-    std::string description = "";
-    // The basic goal type
-    mission_goal goal;
-    // Difficulty; TODO: come up with a scale
-    int difficulty = 0;
-    // Value; determines rewards and such
-    int value = 0;
-    // Low and high deadlines
-    time_duration deadline_low = 0_turns;
-    time_duration deadline_high = 0_turns;
-    // If true, the NPC will press this mission!
-    bool urgent = false;
+    public:
+        // Matches it to a mission_type_id above
+        mission_type_id id = mission_type_id( "MISSION_NULL" );
+        bool was_loaded = false;
+    private:
+        // The untranslated name of the mission
+        std::string name = translate_marker( "Bugged mission type" );
+    public:
+        std::string description = "";
+        // The basic goal type
+        mission_goal goal;
+        // Difficulty; TODO: come up with a scale
+        int difficulty = 0;
+        // Value; determines rewards and such
+        int value = 0;
+        // Low and high deadlines
+        time_duration deadline_low = 0_turns;
+        time_duration deadline_high = 0_turns;
+        // If true, the NPC will press this mission!
+        bool urgent = false;
 
-    // Points of origin
-    std::vector<mission_origin> origins;
-    itype_id item_id = "null";
-    Group_tag group_id = "null";
-    itype_id container_id = "null";
-    bool remove_container = false;
-    itype_id empty_container = "null";
-    int item_count = 1;
-    npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
-    int target_npc_id = -1;
-    mtype_id monster_type = mtype_id::NULL_ID();
-    species_id monster_species;
-    int monster_kill_goal = -1;
-    string_id<oter_type_t> target_id;
-    mission_type_id follow_up = mission_type_id( "MISSION_NULL" );
+        // Points of origin
+        std::vector<mission_origin> origins;
+        itype_id item_id = "null";
+        Group_tag group_id = "null";
+        itype_id container_id = "null";
+        bool remove_container = false;
+        itype_id empty_container = "null";
+        int item_count = 1;
+        npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
+        character_id target_npc_id;
+        mtype_id monster_type = mtype_id::NULL_ID();
+        species_id monster_species;
+        int monster_kill_goal = -1;
+        string_id<oter_type_t> target_id;
+        mission_type_id follow_up = mission_type_id( "MISSION_NULL" );
 
-    std::function<bool( const tripoint & )> place = mission_place::always;
-    std::function<void( mission * )> start = mission_start::standard;
-    std::function<void( mission * )> end = mission_end::standard;
-    std::function<void( mission * )> fail = mission_fail::standard;
+        std::function<bool( const tripoint & )> place = mission_place::always;
+        std::function<void( mission * )> start = mission_start::standard;
+        std::function<void( mission * )> end = mission_end::standard;
+        std::function<void( mission * )> fail = mission_fail::standard;
 
-    std::map<std::string, std::string> dialogue;
+        std::map<std::string, std::string> dialogue;
 
-    // A dynamic goal condition invoked by MGOAL_CONDITION.
-    std::function<bool( const mission_goal_condition_context & )> goal_condition;
+        // A dynamic goal condition invoked by MGOAL_CONDITION.
+        std::function<bool( const mission_goal_condition_context & )> goal_condition;
 
-    mission_type() = default;
-    mission_type( mission_type_id ID, const std::string &NAME, mission_goal GOAL, int DIF, int VAL,
-                  bool URGENT,
-                  std::function<bool( const tripoint & )> PLACE,
-                  std::function<void( mission * )> START,
-                  std::function<void( mission * )> END,
-                  std::function<void( mission * )> FAIL );
+        mission_type() = default;
+        mission_type( mission_type_id ID, const std::string &NAME, mission_goal GOAL, int DIF, int VAL,
+                      bool URGENT,
+                      std::function<bool( const tripoint & )> PLACE,
+                      std::function<void( mission * )> START,
+                      std::function<void( mission * )> END,
+                      std::function<void( mission * )> FAIL );
 
-    mission create( int npc_id ) const;
+        mission create( character_id npc_id ) const;
 
-    /**
-     * Get the mission_type object of the given id. Returns null if the input is invalid!
-     */
-    static const mission_type *get( const mission_type_id &id );
-    /**
-     * Converts the legacy int id to a string_id.
-     */
-    static mission_type_id from_legacy( int old_id );
-    /**
-     * Returns a random id of a mission type that can be started at the defined origin
-     * around tripoint p, see @ref mission_start.
-     * Returns @ref MISSION_NULL if no suitable type could be found.
-     */
-    static mission_type_id get_random_id( mission_origin origin, const tripoint &p );
-    /**
-     * Get all mission types at once.
-     */
-    static const std::vector<mission_type> &get_all();
+        /**
+         * Get the mission_type object of the given id. Returns null if the input is invalid!
+         */
+        static const mission_type *get( const mission_type_id &id );
+        /**
+         * Converts the legacy int id to a string_id.
+         */
+        static mission_type_id from_legacy( int old_id );
+        /**
+         * Returns a random id of a mission type that can be started at the defined origin
+         * around tripoint p, see @ref mission_start.
+         * Returns @ref MISSION_NULL if no suitable type could be found.
+         */
+        static mission_type_id get_random_id( mission_origin origin, const tripoint &p );
+        /**
+         * Get all mission types at once.
+         */
+        static const std::vector<mission_type> &get_all();
 
-    bool test_goal_condition( const mission_goal_condition_context &d ) const;
+        bool test_goal_condition( const mission_goal_condition_context &d ) const;
 
-    static void reset();
-    static void load_mission_type( JsonObject &jo, const std::string &src );
-    static void finalize();
-    static void check_consistency();
+        static void reset();
+        static void load_mission_type( JsonObject &jo, const std::string &src );
+        static void finalize();
+        static void check_consistency();
 
-    bool parse_funcs( JsonObject &jo, std::function<void( mission * )> &phase_func );
-    void load( JsonObject &jo, const std::string &src );
+        bool parse_funcs( JsonObject &jo, std::function<void( mission * )> &phase_func );
+        void load( JsonObject &jo, const std::string &src );
+
+        /**
+         * Returns the translated name
+         */
+        std::string tname() const;
 };
 
 class mission
@@ -320,7 +329,7 @@ class mission
         // The type of NPC you are to recruit
         npc_class_id recruit_class;
         // The ID of a specific NPC to interact with
-        int target_npc_id;
+        character_id target_npc_id;
         // Monster ID that are to be killed
         mtype_id monster_type;
         // Monster species that are to be killed
@@ -331,7 +340,7 @@ class mission
         int kill_count_to_reach;
         time_point deadline;
         // ID of a related npc
-        int npc_id;
+        character_id npc_id;
         // IDs of the protagonist/antagonist factions
         int good_fac_id, bad_fac_id;
         // How much have we completed?
@@ -339,7 +348,7 @@ class mission
         // What mission do we get after this succeeds?
         mission_type_id follow_up;
         // The id of the player that has accepted this mission.
-        int player_id;
+        character_id player_id;
     public:
 
         std::string name();
@@ -361,7 +370,7 @@ class mission
         int get_value() const;
         int get_id() const;
         const std::string &get_item_id() const;
-        int get_npc_id() const;
+        character_id get_npc_id() const;
         /**
          * Whether the mission is assigned to a player character. If not, the mission is free and
          * can be assigned.
@@ -371,14 +380,14 @@ class mission
          * To which player the mission is assigned. It returns the id (@ref player::getID) of the
          * player.
          */
-        int get_assigned_player_id() const;
+        character_id get_assigned_player_id() const;
         /*@}*/
 
         /**
          * Simple setters, no checking if the values is performed. */
         /*@{*/
         void set_target( const tripoint &p );
-        void set_target_npc_id( const int npc_id );
+        void set_target_npc_id( character_id npc_id );
         /*@}*/
 
         /** Assigns the mission to the player. */
@@ -391,7 +400,7 @@ class mission
         /** Handles partial mission completion (kill complete, now report back!). */
         void step_complete( int step );
         /** Checks if the player has completed the matching mission and returns true if they have. */
-        bool is_complete( int npc_id ) const;
+        bool is_complete( character_id npc_id ) const;
         /** Checks if the player has failed the matching mission and returns true if they have. */
         bool has_failed() const;
         /** Checks if the mission is started, but not failed and not succeeded. */
@@ -399,7 +408,7 @@ class mission
         /** Processes this mission. */
         void process();
         /** Called when the player talks with an NPC. May resolve mission goals, e.g. MGOAL_TALK_TO_NPC. */
-        void on_talk_with_npc( const int npc_id );
+        void on_talk_with_npc( character_id npc_id );
 
         // TODO: Give topics a string_id
         std::string dialogue_for_topic( const std::string &topic ) const;
@@ -408,8 +417,9 @@ class mission
          * Create a new mission of the given type and assign it to the given npc.
          * Returns the new mission.
          */
-        static mission *reserve_new( const mission_type_id &type, int npc_id );
-        static mission *reserve_random( mission_origin origin, const tripoint &p, int npc_id );
+        static mission *reserve_new( const mission_type_id &type, character_id npc_id );
+        static mission *reserve_random( mission_origin origin, const tripoint &p,
+                                        character_id npc_id );
         /**
          * Returns the mission with the matching id (@ref uid). Returns NULL if no mission with that
          * id exists.
@@ -446,7 +456,7 @@ class mission
         static std::string status_to_string( mission_status st );
 
         /** Used to handle saves from before player_id was a member of mission */
-        void set_player_id_legacy_0c( int id );
+        void set_player_id_legacy_0c( character_id id );
 
     private:
         bool legacy_no_player_id = false;

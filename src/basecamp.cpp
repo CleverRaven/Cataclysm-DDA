@@ -79,9 +79,7 @@ int base_camps::max_upgrade_by_type( const std::string &type )
     return max_upgrade_cache[type];
 }
 
-basecamp::basecamp()
-{
-}
+basecamp::basecamp() = default;
 
 basecamp::basecamp( const std::string &name_, const tripoint &omt_pos_ ): name( name_ ),
     omt_pos( omt_pos_ )
@@ -447,7 +445,7 @@ void basecamp::validate_assignees()
             ++it2;
         }
     }
-    for( auto elem : g->get_follower_list() ) {
+    for( character_id elem : g->get_follower_list() ) {
         npc_ptr npc_to_add = overmap_buffer.find_npc( elem );
         if( !npc_to_add ) {
             continue;
