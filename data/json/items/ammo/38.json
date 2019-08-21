@@ -13,7 +13,7 @@
     "name": ".38 Special",
     "description": ".38 Special ammunition with 130gr FMJ bullets.  The .38 Special round was extremely common among US police forces during the 20th century.",
     "weight": 8,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 2200,
     "material": [ "brass", "powder" ],
     "symbol": "=",

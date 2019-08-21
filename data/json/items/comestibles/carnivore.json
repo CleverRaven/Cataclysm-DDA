@@ -19,7 +19,7 @@
     "description": "Freshly caught fish.  Makes a passable meal raw.",
     "//": "Nutrition information based on cod",
     "weight": 148,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 500,
     "spoils_in": "12 hours",
     "flags": [ "SMOKABLE" ],
@@ -118,7 +118,7 @@
     "name": "butchery refuse",
     "name_plural": "butchery refuse",
     "charges": 15,
-    "volume": 10,
+    "volume": "2500 ml",
     "weight": 250,
     "color": "black",
     "looks_like": "feces_manure",
@@ -186,7 +186,7 @@
     "name": "pickled offal",
     "name_plural": "pickled offal",
     "description": "This is a mass of entrails and organ meat, preserved in brine.  Packed with essential vitamins, and although it looks like a lab specimen, it actually tastes pretty palatable.",
-    "volume": 2,
+    "volume": "500 ml",
     "stack_size": 2,
     "parasites": 0,
     "healthy": 1,
@@ -203,7 +203,7 @@
     "name": "canned offal",
     "name_plural": "canned offal",
     "description": "Freshly cooked organ meat and entrails, preserved by canning.  Unappetizing, but filled with essential vitamins.",
-    "volume": 2,
+    "volume": "500 ml",
     "stack_size": 2,
     "parasites": 0,
     "healthy": 1,
@@ -218,7 +218,7 @@
     "name": "stomach",
     "description": "The stomach of a woodland creature.  It is surprisingly durable.",
     "weight": 72,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 200,
     "spoils_in": "8 hours",
     "calories": 40,
@@ -246,7 +246,7 @@
     "container": "bag_plastic",
     "color": "brown",
     "spoils_in": "24 days",
-    "volume": 1,
+    "volume": "250 ml",
     "charges": 2,
     "parasites": 0,
     "healthy": 0,
@@ -286,7 +286,7 @@
     "color": "brown",
     "spoils_in": "24 days",
     "healthy": 0,
-    "volume": 1,
+    "volume": "250 ml",
     "charges": 2,
     "parasites": 0,
     "quench": -5,
@@ -344,7 +344,7 @@
     "name_plural": "pieces of raw lung",
     "description": "A portion of lung from an animal.  It's spongy and pink, and spoils very quickly.  It can be a delicacy if properly prepared - but if improperly prepared, it's a chewy lump of flavorless connective tissue.",
     "weight": 56,
-    "volume": 1,
+    "volume": "250 ml",
     "color": "pink",
     "charges": 4,
     "spoils_in": "1 day",
@@ -477,7 +477,7 @@
     "description": "Blood, possibly that of a human.  Disgusting!",
     "price": 0,
     "material": "hflesh",
-    "volume": 1,
+    "volume": "250 ml",
     "phase": "liquid",
     "fun": -50
   },
@@ -492,7 +492,7 @@
     "description": "A bone from some creature or other.  Could be used to make some stuff, like needles.",
     "price": 0,
     "material": "bone",
-    "volume": 1,
+    "volume": "250 ml",
     "vitamins": [ [ "calcium", 96 ] ]
   },
   {
@@ -511,7 +511,7 @@
     "description": "Freshly butchered fat.  You could eat it raw, but it is better used as an ingredient in other foods or projects.",
     "price": 0,
     "material": "flesh",
-    "volume": 1,
+    "volume": "250 ml",
     "stack_size": 1,
     "fun": -20
   },
@@ -531,7 +531,7 @@
     "price": 500,
     "//": "*May* have been commercially traded.",
     "material": "flesh",
-    "volume": 1,
+    "volume": "250 ml",
     "charges": 2,
     "stack_size": 4,
     "vitamins": [  ],
@@ -560,7 +560,7 @@
     "description": "Meat that's obviously unhealthy.  You could eat it, but it will poison you.",
     "price": 0,
     "material": "flesh",
-    "volume": 1,
+    "volume": "250 ml",
     "fun": -10,
     "flags": [ "TRADER_AVOID", "SMOKABLE" ],
     "smoking_result": "dry_meat_tainted"
@@ -581,7 +581,7 @@
     "price": 0,
     "//": "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes except for charcoal.",
     "material": "bone",
-    "volume": 1,
+    "volume": "250 ml",
     "fun": -10
   },
   {
@@ -609,7 +609,7 @@
     "price": 0,
     "//": "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes.",
     "material": "flesh",
-    "volume": 1,
+    "volume": "250 ml",
     "fun": -10
   },
   {
@@ -629,7 +629,7 @@
     "price": 0,
     "//": "Not for use in edible/foodsafe recipes.  Inefficiency is handled by tainted tallow recipe requiring 200% as much materials input as regular tallow recipe.",
     "material": "flesh",
-    "volume": 1,
+    "volume": "250 ml",
     "charges": 2,
     "stack_size": 4,
     "fun": -18
@@ -647,7 +647,7 @@
     "description": "A boiled stomach from an animal, nothing else.  It looks all but appetizing.",
     "price": 750,
     "material": "flesh",
-    "volume": 1,
+    "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": -5
   },
@@ -672,7 +672,7 @@
     "description": "A small boiled stomach from an animal, nothing else.  It looks all but appetizing.",
     "price": 375,
     "material": "flesh",
-    "volume": 1,
+    "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": -3
   },
@@ -769,7 +769,7 @@
     "description": "A thick mass of flesh superficially resembling a mammalian heart, covered in dimpled grooves and the size of your fist.",
     "price": 3000,
     "material": [ "flesh" ],
-    "volume": 2,
+    "volume": "500 ml",
     "fun": -25,
     "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": false }
   },
@@ -787,7 +787,7 @@
     "description": "A thick, hulking mass of flesh superficially resembling a mammalian heart, covered in ribbed grooves and easily the size of your head.  It's still full of, er, whatever passes for blood in jabberwocks, and is heavy in your hands.  After everything you've seen lately, you can't help but remember old sayings about eating the hearts of your enemies...",
     "price": 6500,
     "material": [ "flesh" ],
-    "volume": 4,
+    "volume": "1 L",
     "fun": -25,
     "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": true }
   },
@@ -804,7 +804,7 @@
     "description": "A huge strip of muscle - all that remains of a putrid heart that has been sliced open and drained of blood.  It could be eaten if you're hungry, but looks *disgusting*.",
     "price": 1000,
     "material": [ "flesh" ],
-    "volume": 1,
+    "volume": "250 ml",
     "fun": -30
   }
 ]
