@@ -7459,11 +7459,21 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
                 tmp.friendly = -1;
             }
 
-            if( const cata::optional<tripoint> pos = random_point( points, [&]( const tripoint & p ) {
-            return g->is_empty( p ) && tmp.can_move_to( p );
-            } ) ) {
-                tmp.spawn( *pos );
+            const auto valid_location = [&]( const tripoint & p ) {
+                return g->is_empty( p ) && tmp.can_move_to( p );
+            };
+
+            const auto place_it = [&]( const tripoint & p ) {
+                tmp.spawn( p );
                 g->add_zombie( tmp );
+            };
+
+            // First check out defined spawn location for a valid placement, and if that doesn't work
+            // then fall back to picking a random point that is a valid location.
+            if( valid_location( center ) ) {
+                place_it( center );
+            } else if( const cata::optional<tripoint> pos = random_point( points, valid_location ) ) {
+                place_it( *pos );
             }
         }
     }
