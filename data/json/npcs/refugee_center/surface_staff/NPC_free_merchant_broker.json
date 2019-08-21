@@ -194,8 +194,9 @@
   {
     "id": "MISSION_BROKER_1",
     "type": "mission_definition",
-    "name": "Find 50 3L jars",
-    "goal": "MGOAL_FIND_ITEM_GROUP",
+    "name": "In a Pickle Pt. 2",
+    "description": "Deliver 50 large three-liter jars in exchange for <reward_count:FMCNote> certified notes.",
+    "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
     "item": "jar_3l_glass",
