@@ -50,7 +50,7 @@
   {
     "type": "SPELL",
     "id": "mon_summon_zombie_gasbag_crawler",
-    "name": "Summon Gangrenous Crawler",
+    "name": "Summon Gangrenous Crawlers",
     "description": "Summons 2 permanent gangrenous crawlers.",
     "flags": [ "HOSTILE_SUMMON", "PERMANENT" ],
     "valid_targets": [ "ground", "self" ],
