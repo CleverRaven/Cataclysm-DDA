@@ -854,7 +854,7 @@
     "time": "90 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ] ],
-    "components": [ [ [ "tag", 36 ] ], [ [ "cordage", 1, "LIST" ] ] ]
+    "components": [ [ [ "rag", 36 ] ], [ [ "cordage", 1, "LIST" ] ] ]
   },
   {
     "result": "petpack",
