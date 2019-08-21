@@ -5,7 +5,7 @@
     "name": ".223 Remington",
     "description": ".223 Remington ammunition with 36gr JHP bullets.  The .223 round has been very popular with civilian shooters for almost a century, finding use in a wide variety of weapons.  It generates lower pressure than 5.56 NATO leading to slightly decreased accuracy and recoil.",
     "weight": 12,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 6580,
     "material": [ "brass", "powder" ],
     "symbol": "=",

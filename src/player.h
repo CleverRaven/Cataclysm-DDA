@@ -116,7 +116,8 @@ enum class rechargeable_cbm {
     none = 0,
     battery,
     reactor,
-    furnace
+    furnace,
+    other
 };
 
 enum class comfort_level {
@@ -383,6 +384,8 @@ class player : public Character
         bool activate_bionic( int b, bool eff_only = false );
         /** Handles bionic deactivation effects of the entered bionic, returns if anything deactivated */
         bool deactivate_bionic( int b, bool eff_only = false );
+        /**Convert fuel to bionic power*/
+        bool burn_fuel( int b, bool start = false );
         /** Handles bionic effects over time of the entered bionic */
         void process_bionic( int b );
         /** Randomly removes a bionic from my_bionics[] */
@@ -1649,14 +1652,10 @@ class player : public Character
         void load_memorial_file( std::istream &fin );
         //Notable events, to be printed in memorial
         std::vector <std::string> memorial_log;
-        std::set<int> follower_ids;
+        std::set<character_id> follower_ids;
         //Record of player stats, for posterity only
         stats lifetime_stats;
         void mod_stat( const std::string &stat, float modifier ) override;
-
-        int getID() const;
-        // sets the ID, will *only* succeed when the current id is 0 (=not initialized)
-        void setID( int i );
 
         bool is_underwater() const override;
         void set_underwater( bool );
@@ -1747,7 +1746,7 @@ class player : public Character
 
         // formats and prints encumbrance info to specified window
         void print_encumbrance( const catacurses::window &win, int line = -1,
-                                item *selected_limb = nullptr ) const;
+                                const item *selected_limb = nullptr ) const;
 
         // Prints message(s) about current health
         void print_health() const;
@@ -1854,6 +1853,7 @@ class player : public Character
         bool feed_battery_with( item &it );
         bool feed_reactor_with( item &it );
         bool feed_furnace_with( item &it );
+        bool fuel_bionic_with( item &it );
         /** Check whether player can consume this very item */
         bool can_consume_as_is( const item &it ) const;
         /**
@@ -1891,9 +1891,6 @@ class player : public Character
         // TODO: move this to avatar
         pimpl<player_morale> morale;
     private:
-
-        int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
-        //NPCs also use this ID value. Values should never be reused.
 
         /** smart pointer to targeting data stored for aiming the player's weapon across turns. */
         std::shared_ptr<targeting_data> tdata;

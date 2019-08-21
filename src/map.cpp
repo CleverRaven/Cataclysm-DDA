@@ -4287,10 +4287,12 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
     if( ( !has_flag( "NOITEM", pos ) || ( has_flag( "LIQUIDCONT", pos ) && obj.made_of( LIQUID ) ) )
         && valid_limits( pos ) ) {
         // Pass map into on_drop, because this map may not be the global map object (in mapgen, for instance).
-        if( obj.on_drop( pos, *this ) ) {
-            return null_item_reference();
-        }
+        if( obj.made_of( LIQUID ) || !obj.has_flag( "DROP_ACTION_ONLY_IF_LIQUID" ) ) {
+            if( obj.on_drop( pos, *this ) ) {
+                return null_item_reference();
+            }
 
+        }
         // If tile can contain items place here...
         return place_item( pos );
 
@@ -4302,9 +4304,10 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
             if( !inbounds( e ) ) {
                 continue;
             }
-
-            if( obj.on_drop( e, *this ) ) {
-                return null_item_reference();
+            if( obj.made_of( LIQUID ) || !obj.has_flag( "DROP_ACTION_ONLY_IF_LIQUID" ) ) {
+                if( obj.on_drop( e, *this ) ) {
+                    return null_item_reference();
+                }
             }
 
             if( !valid_tile( e ) || !valid_limits( e ) ||
@@ -7456,11 +7459,21 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
                 tmp.friendly = -1;
             }
 
-            if( const cata::optional<tripoint> pos = random_point( points, [&]( const tripoint & p ) {
-            return g->is_empty( p ) && tmp.can_move_to( p );
-            } ) ) {
-                tmp.spawn( *pos );
+            const auto valid_location = [&]( const tripoint & p ) {
+                return g->is_empty( p ) && tmp.can_move_to( p );
+            };
+
+            const auto place_it = [&]( const tripoint & p ) {
+                tmp.spawn( p );
                 g->add_zombie( tmp );
+            };
+
+            // First check out defined spawn location for a valid placement, and if that doesn't work
+            // then fall back to picking a random point that is a valid location.
+            if( valid_location( center ) ) {
+                place_it( center );
+            } else if( const cata::optional<tripoint> pos = random_point( points, valid_location ) ) {
+                place_it( *pos );
             }
         }
     }

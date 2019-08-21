@@ -78,5 +78,24 @@
     "reload": 0,
     "ammo_effects": [ "PLASMA", "EXPLOSIVE_HUGE", "STREAM_BIG", "INCENDIARY", "WIDE" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "TRADER_AVOID" ]
+  },
+  {
+    "id": "yeet_cannon",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "Yeet Cannon",
+    "description": "You can YEET all the bullets with this baby. YEET them right into all of the zombies in your path, all the hulks, the spiders, and those damned mole rats.",
+    "weight": 709,
+    "volume": "539 ml",
+    "price": 7500,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "steel", "zinc" ],
+    "color": "dark_gray",
+    "ammo": "9mm",
+    "dispersion": 480,
+    "durability": 7,
+    "magazine_well": 1,
+    "magazines": [ [ "9mm", [ "hptc9mag_8rd", "hptc9mag_10rd", "hptc9mag_15rd" ] ] ]
   }
 ]

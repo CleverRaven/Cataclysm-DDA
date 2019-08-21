@@ -471,7 +471,7 @@ void draw_hit_mon_curses( const tripoint &center, const monster &m, const player
                           const bool dead )
 {
     const tripoint p = relative_view_pos( u, center );
-    hit_animation( p.x, p.y, red_background( m.type->color ), dead ? "%" : m.symbol() );
+    hit_animation( p.xy(), red_background( m.type->color ), dead ? "%" : m.symbol() );
 }
 
 } // namespace
@@ -507,7 +507,7 @@ void draw_hit_player_curses( const game &g, const player &p, const int dam )
     if( q.z == 0 ) {
         nc_color const col = !dam ? yellow_background( p.symbol_color() ) : red_background(
                                  p.symbol_color() );
-        hit_animation( q.x, q.y, col, p.symbol() );
+        hit_animation( q.xy(), col, p.symbol() );
     }
 }
 } //namespace

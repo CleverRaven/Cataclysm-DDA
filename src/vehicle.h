@@ -16,6 +16,7 @@
 
 #include "active_item_cache.h"
 #include "calendar.h"
+#include "character_id.h"
 #include "colony.h"
 #include "clzones.h"
 #include "damage.h"
@@ -365,7 +366,7 @@ struct vehicle_part {
         int flags = 0;
 
         /** ID of player passenger */
-        int passenger_id = 0;
+        character_id passenger_id;
 
         /** door is open */
         bool open = false;
@@ -397,7 +398,7 @@ struct vehicle_part {
          *  What NPC (if any) is assigned to this part (seat, turret etc)?
          *  @see vehicle_part::crew() accessor which excludes dead and non-allied NPC's
          */
-        int crew_id = -1;
+        character_id crew_id;
 
     public:
         /** Get part definition common to all parts of this type */

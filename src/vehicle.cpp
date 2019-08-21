@@ -17,6 +17,7 @@
 #include <list>
 
 #include "avatar.h"
+#include "bionics.h"
 #include "cata_utility.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
@@ -2117,7 +2118,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             // remove the passenger from the old vehicle
             if( passenger ) {
                 parts[ mov_part ].remove_flag( vehicle_part::passenger_flag );
-                parts[ mov_part ].passenger_id = 0;
+                parts[ mov_part ].passenger_id = character_id();
             }
             // indicate the part needs to be removed from the old vehicle
             parts[ mov_part].removed = true;
@@ -4026,6 +4027,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
         int base_burn = -3 + static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) );
         base_burn = ( load / 3 ) > base_burn ? ( load / 3 ) : base_burn;
         //charge bionics when using muscle engine
+        const item muscle( "muscle" );
         if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             if( one_in( 1000 / load ) ) { // more pedaling = more power
                 g->u.charge_power( 1 );
@@ -4035,6 +4037,18 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
         if( g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             if( one_in( 1000 / load ) && one_in( 20 ) ) { // intentional double chance check
                 g->u.charge_power( 1 );
+            }
+            mod += load / 10;
+        }
+        for( const bionic_id &bid : g->u.get_bionic_fueled_with( muscle ) ) {
+            if( g->u.has_active_bionic( bid ) ) {
+                if( one_in( 1000 / load ) ) { // more pedaling = more power
+                    g->u.charge_power( muscle.fuel_energy() * bid->fuel_efficiency );
+                }
+                mod += load / 5;
+            }
+            if( one_in( 1000 / load ) && one_in( 20 ) ) { // intentional double chance check
+                g->u.charge_power( muscle.fuel_energy() * bid->fuel_efficiency );
             }
             mod += load / 10;
         }

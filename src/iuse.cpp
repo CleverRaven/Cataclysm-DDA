@@ -1800,7 +1800,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
             for( int i = 0; i < fishes; i++ ) {
                 p->practice( skill_survival, rng( 3, 10 ) );
-                if( fishables.size() >= 1 ) {
+                if( !fishables.empty() ) {
                     monster *chosen_fish = random_entry( fishables );
                     // reduce the abstract fish_population marker of that fish
                     chosen_fish->fish_population -= 1;
@@ -2132,12 +2132,13 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
             message = messtream.str();
         }
         sounds::ambient_sound( pos, 6, sounds::sound_t::speech, message );
-        if( one_in( 10 ) ) {
-            sfx::play_variant_sound( "radio", "static", 100, 21, 100 );
-            sfx::fade_audio_channel( 21, 100 );
-        } else if( one_in( 10 ) ) {
-            sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, 21, 100 );
-            sfx::fade_audio_channel( 21, 100 );
+        if( !sfx::is_channel_playing( sfx::channel::radio ) ) {
+            if( one_in( 10 ) ) {
+                sfx::play_ambient_variant_sound( "radio", "static", 100, sfx::channel::radio, 300, -1, 0 );
+            } else if( one_in( 10 ) ) {
+                sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, sfx::channel::radio, 300, -1,
+                                                 0 );
+            }
         }
     } else { // Activated
         int ch = 1;
@@ -2174,6 +2175,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
             case 1:
                 p->add_msg_if_player( _( "The radio dies." ) );
                 it->convert( "radio" ).active = false;
+                sfx::fade_audio_channel( sfx::channel::radio, 300 );
                 break;
             default:
                 break;
@@ -2867,8 +2869,9 @@ static int toolweapon_off( player &p, item &it, const bool fast_startup,
             sfx::play_variant_sound( "chainsaw_cord", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
             sfx::play_variant_sound( "chainsaw_start", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
             sfx::play_ambient_variant_sound( "chainsaw_idle", "chainsaw_on", sfx::get_heard_volume( p.pos() ),
-                                             18, 1000 );
-            sfx::play_ambient_variant_sound( "weapon_theme", "chainsaw", sfx::get_heard_volume( p.pos() ), 19,
+                                             sfx::channel::idle_chainsaw, 1000 );
+            sfx::play_ambient_variant_sound( "weapon_theme", "chainsaw", sfx::get_heard_volume( p.pos() ),
+                                             sfx::channel::chainsaw_theme,
                                              3000 );
         }
         sounds::sound( p.pos(), volume, sounds::sound_t::combat, msg_success );
@@ -2977,8 +2980,8 @@ static int toolweapon_on( player &p, item &it, const bool t,
     } else { // Toggling
         if( it.typeId() == "chainsaw_on" ) {
             sfx::play_variant_sound( "chainsaw_stop", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
-            sfx::fade_audio_channel( 18, 100 );
-            sfx::fade_audio_channel( 19, 3000 );
+            sfx::fade_audio_channel( sfx::channel::idle_chainsaw, 100 );
+            sfx::fade_audio_channel( sfx::channel::chainsaw_theme, 3000 );
         }
         p.add_msg_if_player( _( "Your %s goes quiet." ), tname );
         it.convert( off_type ).active = false;
@@ -7354,14 +7357,14 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                             blinded_names.push_back( player_p->name );
                         }
                     }
-                    if( blinded_names.size() > 0 ) {
+                    if( !blinded_names.empty() ) {
                         p->add_msg_if_player( _( "%s looks blinded." ), enumerate_as_string( blinded_names.begin(),
                         blinded_names.end(), []( const std::string & it ) {
                             return colorize( it, c_light_blue );
                         } ) );
                     }
                 }
-                if( monster_vec.size() > 0 ) {
+                if( !monster_vec.empty() ) {
                     item_save_monsters( *p, *it, monster_vec, photo_quality );
                 }
                 return it->type->charges_to_use();
@@ -8904,7 +8907,7 @@ washing_requirements washing_requirements_for_volume( const units::volume vol )
     return { water, cleanser, time };
 }
 
-int iuse::washclothes( player *p, item *, bool, const tripoint & )
+int iuse::wash_soft_items( player *p, item *, bool, const tripoint & )
 {
     if( p->fine_detail_vision_mod() > 4 ) {
         p->add_msg_if_player( _( "You can't see to do that!" ) );
@@ -8918,11 +8921,11 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
         return 0;
     }
 
-    wash_items( p, false );
+    wash_items( p, true, false );
     return 0;
 }
 
-int iuse::washcbms( player *p, item *, bool, const tripoint & )
+int iuse::wash_hard_items( player *p, item *, bool, const tripoint & )
 {
     if( p->fine_detail_vision_mod() > 4 ) {
         p->add_msg_if_player( _( "You can't see to do that!" ) );
@@ -8936,11 +8939,29 @@ int iuse::washcbms( player *p, item *, bool, const tripoint & )
         return 0;
     }
 
-    wash_items( p, true );
+    wash_items( p, false, true );
     return 0;
 }
 
-int iuse::wash_items( player *p, bool cbm )
+int iuse::wash_all_items( player *p, item *, bool, const tripoint & )
+{
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( _( "You can't see to do that!" ) );
+        return 0;
+    }
+
+    // Check that player isn't over volume limit as this might cause it to break... this is a hack.
+    // TODO: find a better solution.
+    if( p->volume_capacity() < p->volume_carried() ) {
+        p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
+        return 0;
+    }
+
+    wash_items( p, true, true );
+    return 0;
+}
+
+int iuse::wash_items( player *p, bool soft_items, bool hard_items )
 {
     p->inv.restack( *p );
     const inventory &crafting_inv = p->crafting_inventory();
@@ -8955,12 +8976,9 @@ int iuse::wash_items( player *p, bool cbm )
     int available_cleanser = std::max( crafting_inv.charges_of( "soap" ),
                                        crafting_inv.charges_of( "detergent" ) );
 
-    const inventory_filter_preset preset( [cbm]( const item_location & location ) {
-        if( cbm ) {
-            return location->item_tags.find( "FILTHY" ) != location->item_tags.end() && location->is_bionic();
-        } else {
-            return location->item_tags.find( "FILTHY" ) != location->item_tags.end() && !location->is_bionic();
-        }
+    const inventory_filter_preset preset( [soft_items, hard_items]( const item_location & location ) {
+        return location->has_flag( "FILTHY" ) && ( ( soft_items && location->is_soft() ) ||
+                ( hard_items && !location->is_soft() ) );
     } );
     auto make_raw_stats = [available_water, available_cleanser](
                               const std::map<const item *, int> &items
@@ -9114,19 +9132,21 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
                 // wielding something that can't be unwielded
                 return 0;
             }
+            // `it` is no longer the item we are using (note that `player::wielded` is a value).
+            it = &p->weapon;
         } else {
             return 0;
         }
     }
 
-    const std::string craft_name = p->weapon.tname();
+    const std::string craft_name = it->tname();
 
-    if( !p->weapon.is_craft() ) {
+    if( !it->is_craft() ) {
         debugmsg( "Attempted to start working on non craft '%s.'  Aborting.", craft_name );
         return 0;
     }
 
-    if( !p->can_continue_craft( p->weapon ) ) {
+    if( !p->can_continue_craft( *it ) ) {
         return 0;
     }
     const recipe &rec = it->get_making();
@@ -9144,7 +9164,7 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
         string_format( pgettext( "in progress craft", "<npcname> starts working on the %s." ),
                        craft_name ) );
     p->assign_activity( activity_id( "ACT_CRAFT" ) );
-    p->activity.targets.push_back( item_location( *p, &p->weapon ) );
+    p->activity.targets.push_back( item_location( *p, it ) );
     p->activity.values.push_back( 0 ); // Not a long craft
 
     return 0;

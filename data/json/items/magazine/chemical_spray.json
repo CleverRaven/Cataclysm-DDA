@@ -5,7 +5,7 @@
     "name": "pressurized chemical tank",
     "description": "A makeshift pressurized 2L canister designed to feed a makeshift chemical thrower.",
     "weight": 800,
-    "volume": 8,
+    "volume": "2 L",
     "price": 5000,
     "material": "steel",
     "symbol": "#",

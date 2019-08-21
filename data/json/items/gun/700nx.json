@@ -6,7 +6,7 @@
     "name": "Elephant gun",
     "description": "A custom-made single shot rifle specially designed for the hunting of huge game.  You could obviously kill everything with this, EVERYTHING.  If you ever find enough ammo of course.",
     "weight": 8082,
-    "volume": 12,
+    "volume": "3 L",
     "price": 2000000,
     "to_hit": 1,
     "bashing": 12,

@@ -11,7 +11,7 @@
     "price_postapoc": 3000,
     "material": [ "kevlar" ],
     "weight": 4290,
-    "volume": 18,
+    "volume": "4500 ml",
     "bashing": 5,
     "to_hit": -1,
     "flags": [ "IS_PET_ARMOR", "NO_SALVAGE" ],

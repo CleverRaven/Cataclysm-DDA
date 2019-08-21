@@ -4,7 +4,7 @@
     "copy-from": "45_jhp",
     "type": "AMMO",
     "name": ".45 ACP FMJ",
-    "description": ".45 ACP ammunition with 230gr FMJ bullets.  Noted for its stopping power, the .45 ACP round has been common for over a century.",
+    "description": ".45 ACP ammunition with 230gr FMJ bullets.  Noted for its stopping power, the .45 ACP round has been common for almost 150 years.",
     "relative": { "damage": -3, "pierce": 6 }
   },
   {
@@ -13,7 +13,7 @@
     "name": ".45 ACP JHP",
     "description": ".45 ACP ammunition with 185gr JHP bullets.  The .45 ACP round was developed to replace the .38 Long Colt cartridge in the early 20th century.  It has good stopping power but above average recoil.",
     "weight": 10,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 2000,
     "material": [ "brass", "powder" ],
     "symbol": "=",

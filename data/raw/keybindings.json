@@ -1745,8 +1745,7 @@
     "type": "keybinding",
     "name": "Toggle Auto Travel Mode",
     "category": "DEFAULTMODE",
-    "id": "auto_travel_mode",
-    "bindings": [ { "input_method": "keyboard", "key": "" } ]
+    "id": "auto_travel_mode"
   },
   {
     "type": "keybinding",

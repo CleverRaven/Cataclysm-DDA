@@ -5,7 +5,7 @@
     "category": "veh_parts",
     "name": "vehicle crafting rig",
     "weight": 40000,
-    "volume": 80,
+    "volume": "20 L",
     "price": 40000,
     "material": "steel",
     "symbol": "&",
