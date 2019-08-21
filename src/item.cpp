@@ -4308,19 +4308,16 @@ void item::calc_rot( time_point time, int temp )
         temp = temperatures::fridge;
     }
 
-    // last_rot_check might be zero, if both are then we want calendar::start_of_cataclysm
-    const time_point since = std::max( {last_rot_check, time_point( calendar::start_of_cataclysm )} );
-
     // simulation of different age of food at the start of the game and good/bad storage
     // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
     // positive = food was produced some time before calendar::start and/or bad storage
     // negative = food was stored in good conditions before calendar::start
-    if( since <= calendar::start_of_cataclysm ) {
+    if( last_rot_check <= calendar::start_of_cataclysm ) {
         time_duration spoil_variation = get_shelf_life() * 0.2f;
-        rot += factor * rng( -spoil_variation, spoil_variation );
+        rot += rng( -spoil_variation, spoil_variation );
     }
 
-    time_duration time_delta = time - since;
+    time_duration time_delta = time - last_rot_check;
     rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temp ) * 1_turns;
     last_rot_check = time;
 }
@@ -7554,7 +7551,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     time_point time;
     item_internal::goes_bad_cache_set( goes_bad() );
     if( goes_bad() ) {
-        time = std::min( { last_rot_check, last_temp_check } );
+        time = std::min( last_rot_check, last_temp_check );
     } else {
         time = last_temp_check;
     }

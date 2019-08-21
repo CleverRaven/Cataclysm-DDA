@@ -907,7 +907,7 @@ class map
         void i_rem( const point &p, item *it );
         void spawn_item( const point &p, const std::string &itype_id,
                          unsigned quantity = 1, int charges = 0,
-                         const time_point &birthday = calendar::turn_zero, int damlevel = 0 );
+                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 );
 
         item &add_item_or_charges( const point &p, item obj, bool overflow = true );
 
@@ -932,7 +932,7 @@ class map
         void spawn_natural_artifact( const tripoint &p, artifact_natural_property prop );
         void spawn_item( const tripoint &p, const std::string &itype_id,
                          unsigned quantity = 1, int charges = 0,
-                         const time_point &birthday = calendar::turn_zero, int damlevel = 0 );
+                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 );
         units::volume max_volume( const tripoint &p );
         units::volume free_volume( const tripoint &p );
         units::volume stored_volume( const tripoint &p );
@@ -1021,7 +1021,7 @@ class map
         * @return Vector of pointers to placed items (can be empty, but no nulls).
         */
         std::vector<item *> put_items_from_loc( const items_location &loc, const tripoint &p,
-                                                const time_point &turn = calendar::turn_zero );
+                                                const time_point &turn = calendar::start_of_cataclysm );
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
         std::vector<item *> spawn_items( const tripoint &p, const std::vector<item> &new_items );

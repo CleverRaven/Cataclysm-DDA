@@ -2060,7 +2060,7 @@ void mapgen_parking_lot( map *m, oter_id, mapgendata dat, const time_point &turn
 void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata &dat )
 {
     // TODO: change this into a parameter
-    const time_point turn = calendar::turn_zero;
+    const time_point turn = calendar::start_of_cataclysm;
     int pos_x1 = 0;
     int pos_y1 = 0;
 
