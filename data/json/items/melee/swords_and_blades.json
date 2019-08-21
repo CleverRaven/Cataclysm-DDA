@@ -1132,7 +1132,6 @@
     "volume": "1200 ml",
     "bashing": 2,
     "cutting": 25,
-    "to_hit": 0,
     "use_action": { "type": "transform", "target": "sword_cane", "msg": "You sheath your sword cane." },
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [ "STAB" ]
