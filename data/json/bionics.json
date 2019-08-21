@@ -1111,6 +1111,18 @@
     "act_cost": 50
   },
   {
+    "id": "bio_diesel_generator",
+    "type": "bionic",
+    "name": "Diesel Generator CBM",
+    "description": "A small diesel generator inserted into you're abdominal cavity, a set of metal bracings spread its weight against your bone structure to minimize discomfort.  A diffuse network of bio-plastic bladders has been meshed with your circulator system and serves as diesel tank.",
+    "occupied_bodyparts": [ [ "TORSO", 8 ] ],
+    "fuel_options": [ "diesel" ],
+    "fuel_capacity": 500,
+    "fuel_efficiency": 0.3,
+    "time": 1,
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE" ]
+  },
+  {
     "id": "bio_syringe",
     "type": "bionic",
     "name": "Intravenous Needletip",
