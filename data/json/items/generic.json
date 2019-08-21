@@ -3090,7 +3090,7 @@
     "type": "GENERIC",
     "category": "tools",
     "name": "survival kit",
-    "description": "A small box filled with tools and items help you surviva in case of an emergency.  Disassemble to get its content.",
+    "description": "A small box filled with tools and items help you survive in case of an emergency.  Disassemble to get its content.",
     "weight": 1400,
     "volume": "1 L",
     "price": 5000,
