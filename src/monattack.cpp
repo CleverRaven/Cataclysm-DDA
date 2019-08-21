@@ -4705,7 +4705,6 @@ bool mattack::flesh_tendril( monster *z )
             }
         }
         if( !free.empty() ) {
-
             z->moves -= 100;
             const tripoint target = random_entry( free );
             if( monster *const summoned = g->summon_mon( spawned, target ) ) {
