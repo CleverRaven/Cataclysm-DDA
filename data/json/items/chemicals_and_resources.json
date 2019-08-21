@@ -1088,7 +1088,7 @@
     "fun": -20,
     "color": "light_cyan",
     "container": "bottle_glass",
-    "description": "This useful stuff is a potent solvent and has a wide range of reactive applications.  It can be used to make a huge number of plastics and polymers, it can be a disinfectant, it can strip paint and break down epoxy, and it can burn your skin away like tissue paper under a heat gun.  Wear gloves.",
+    "description": "This useful stuff is a potent solvent and has a wide range of reactive applications.  It can be used to make a huge number of plastics and polymers, it can be an antiseptic, it can strip paint and break down epoxy, and it can burn your skin away like tissue paper under a heat gun.  Wear gloves.",
     "volume": "1 ml",
     "phase": "liquid"
   },
