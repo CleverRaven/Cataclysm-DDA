@@ -4257,6 +4257,7 @@
       [ "cop_38", 5 ],
       [ "cigar", 5 ],
       [ "sword_cane", 5 ],
+      [ "hollow_cane", 5 ],
       [ "advanced_ecig", 5 ],
       [ "television", 10 ],
       [ "microwave", 5 ],
@@ -8559,6 +8560,7 @@
       [ "cow_bell", 15 ],
       [ "sickle", 2 ],
       [ "scythe", 2 ],
+      [ "hollow_cane", 2 ],
       [ "sword_cane", 2 ],
       [ "pipe_tobacco", 10 ],
       [ "talking_doll", 10 ],
@@ -8859,6 +8861,7 @@
     "id": "museum_melee",
     "items": [
       [ "katana", 2 ],
+      [ "hollow_cane", 2 ],
       [ "sword_cane", 2 ],
       [ "katana_fake", 8 ],
       [ "katana_inferior", 10 ],
