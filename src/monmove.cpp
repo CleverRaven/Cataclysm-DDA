@@ -11,6 +11,7 @@
 
 #include "avatar.h"
 #include "bionics.h"
+#include "calendar.h"
 #include "cell_list.h"
 #include "debug.h"
 #include "field.h"
@@ -371,7 +372,7 @@ void monster::plan()
         }
     }
 
-    const int range_day = sight_range( DAYLIGHT_LEVEL );
+    const int range_day = sight_range( default_daylight_level() );
     const int range_night = sight_range( 0 );
     const int range_max = std::max( range_day, range_night );
     fleeing = fleeing || ( mood == MATT_FLEE );
