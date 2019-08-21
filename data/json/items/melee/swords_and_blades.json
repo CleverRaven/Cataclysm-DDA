@@ -1124,7 +1124,7 @@
     "symbol": "/",
     "color": "light_gray",
     "name": "sword cane",
-    "description": "A cane containing a hidden blade.  The sword cane was a popular fashion accessory for the wealthy during the 18th and 19th centuries.  Activate to sheath the blade.",
+    "description": "A sword with a thin blade designed to be hidden inside an hollow cane.  Activate to sheath the blade.",
     "price": 2000,
     "price_postapoc": 1000,
     "material": [ "steel", "wood" ],
