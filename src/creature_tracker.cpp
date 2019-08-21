@@ -86,7 +86,6 @@ bool Creature_tracker::add( monster &critter )
     return true;
 }
 
-
 void Creature_tracker::add_to_faction_map( std::shared_ptr<monster> critter_ptr )
 {
     assert( critter_ptr );
@@ -94,10 +93,10 @@ void Creature_tracker::add_to_faction_map( std::shared_ptr<monster> critter_ptr 
 
     // Only 1 faction per mon at the moment.
     if( critter.friendly == 0 ) {
-        monster_faction_map_[ critter.faction ].add( critter.pos().xy(), critter_ptr );
+        monster_faction_map_[ critter.faction ].add( critter.pos(), critter_ptr );
     } else {
         static const mfaction_str_id playerfaction( "player" );
-        monster_faction_map_[ playerfaction ].add( critter.pos().xy(), critter_ptr );
+        monster_faction_map_[ playerfaction ].add( critter.pos(), critter_ptr );
     }
 }
 
@@ -132,6 +131,8 @@ bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_p
         return ptr.get() == &critter;
     } );
     if( iter != monsters_list.end() ) {
+        remove_from_faction_map( *iter );
+        add_to_faction_map( *iter );
         monsters_by_location.erase( critter.pos() );
         monsters_by_location[new_pos] = *iter;
         return true;
@@ -145,6 +146,16 @@ bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_p
         // Rebuild cache in case the monster actually IS in the game, just bugged
         rebuild_cache();
         return false;
+    }
+}
+
+void Creature_tracker::remove_from_faction_map( std::shared_ptr<monster> critter_ptr )
+{
+    if( critter_ptr->friendly == 0 ) {
+        monster_faction_map_[ critter_ptr->faction ].remove( critter_ptr->pos() );
+    } else {
+        static const mfaction_str_id playerfaction( "player" );
+        monster_faction_map_[ playerfaction ].remove( critter_ptr->pos() );
     }
 }
 
@@ -178,15 +189,7 @@ void Creature_tracker::remove( const monster &critter )
         return;
     }
 
-    for( auto &pair : monster_faction_map_ ) {
-        const auto fac_iter = pair.second.find( *iter );
-        if( fac_iter != pair.second.end() ) {
-            // Need to do this manually because the shared pointer containing critter is kept valid
-            // within removed_ and so the weak pointer in monster_faction_map_ is also valid.
-            pair.second.erase( fac_iter );
-            break;
-        }
-    }
+    remove_from_faction_map( *iter );
     remove_from_location_map( critter );
     removed_.push_back( *iter );
     monsters_list.erase( iter );

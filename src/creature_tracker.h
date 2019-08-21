@@ -8,6 +8,8 @@
 #include <set>
 #include <vector>
 
+#include "cell_list.h"
+#include "game_constants.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -19,17 +21,10 @@ class Creature_tracker
 {
     private:
         void add_to_faction_map( std::shared_ptr<monster> critter );
-
-        class weak_ptr_comparator
-        {
-            public:
-                bool operator()( const std::weak_ptr<monster> &lhs, const std::weak_ptr<monster> &rhs ) const {
-                    return lhs.lock().get() < rhs.lock().get();
-                }
-        };
+        void remove_from_faction_map( std::shared_ptr<monster> critter_ptr );
 
         std::unordered_map<mfaction_id, cell_list< std::weak_ptr<monster>, 8, MAPSIZE_X, MAPSIZE_Y > >
-                monster_faction_map_;
+        monster_faction_map_;
 
         /**
          * Creatures that get removed via @ref remove are stored here until the end of the turn.

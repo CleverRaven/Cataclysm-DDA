@@ -3,7 +3,7 @@
 #define CELL_LIST_H
 
 #include <algorithm>
-#include <list>
+#include <map>
 #include <vector>
 
 #include "cata_utility.h"
@@ -25,10 +25,14 @@ class cell_list
 {
     public:
         cell_list() = default;
-        void add( const point &p, T value ) {
-            cells[p.x / CELL_SIZE][p.y / CELL_SIZE].emplace_back( p, value );
+        void add( const tripoint &p, T value ) {
+            cells[p.x / CELL_SIZE][p.y / CELL_SIZE].emplace( p, value );
         }
-        cell_list_range< T, CELL_SIZE, MAXX, MAXY > get( const point &p, int distance ) const {
+        void remove( const tripoint &p ) {
+            std::map<tripoint, T> &cell = cells[p.x / CELL_SIZE][p.y / CELL_SIZE];
+            cell.erase( p );
+        }
+        cell_list_range< T, CELL_SIZE, MAXX, MAXY > get( const tripoint &p, int distance ) const {
             return cell_list_range<T, CELL_SIZE, MAXX, MAXY>( *this, p, distance );
         }
         static constexpr int num_cells_x() {
@@ -39,10 +43,10 @@ class cell_list
         }
         friend class cell_list_range< T, CELL_SIZE, MAXX, MAXY >;
     private:
-        std::vector<std::pair<point, T>> cells[num_cells_x()][num_cells_y()];
+        std::map<tripoint, T> cells[num_cells_x()][num_cells_y()];
 };
 /*
- * A cell list range handles iteration over elements in the Cell List near some origin point in
+ * A cell list range handles iteration over elements in the Cell List near some origin tripoint in
  * nearest-first order and terminates at some specified threshold.
  * It does this by visiting one "rank" of cells at a time.
  * First it visits the cell the origin is in, determining the distance to the nearest cell wall,
@@ -54,10 +58,10 @@ template< typename T, int CELL_SIZE, int MAXX, int MAXY >
 class cell_list_range
 {
     public:
-        cell_list_range( const cell_list< T, CELL_SIZE, MAXX, MAXY > &list, const point &p,
-                         int distance ) : list( &list ), origin( p ), origin_cell( p / CELL_SIZE ),
+        cell_list_range( const cell_list< T, CELL_SIZE, MAXX, MAXY > &list, const tripoint &p,
+                         int distance ) : list( &list ), origin( p ), origin_cell( p.xy() / CELL_SIZE ),
             max_distance( distance ), sorted_elements( distance + 1,
-                    std::vector<const std::pair<point, T >*>() ) {
+                    std::vector<const std::pair<tripoint, T >*>() ) {
             min_bounds = origin_cell * CELL_SIZE;
             max_bounds = min_bounds + point( CELL_SIZE - 1, CELL_SIZE - 1 );
             distance_to_nearest_cell_wall = calc_distance();
@@ -71,7 +75,7 @@ class cell_list_range
         iterator end() {
             return iterator();
         }
-        point get_origin() const {
+        tripoint get_origin() const {
             return origin;
         }
         int get_distance() const {
@@ -95,12 +99,12 @@ class cell_list_range
             }
             return distance;
         }
-        void add( const std::vector<std::pair<point, T>> &cells ) {
-            for( const std::pair<point, T> &candidate : cells ) {
+        void add( const std::map<tripoint, T> &cells ) {
+            for( const std::pair<tripoint, T> &candidate : cells ) {
                 add( candidate );
             }
         }
-        void add( const std::pair<point, T> &candidate ) {
+        void add( const std::pair<tripoint, T> &candidate ) {
             const int distance = rl_dist( candidate.first, origin );
             if( distance > max_distance ) {
                 return;
@@ -145,10 +149,10 @@ class cell_list_range
             }
         }
         const cell_list<T, CELL_SIZE, MAXX, MAXY> *list;
-        const point origin;
+        const tripoint origin;
         const point origin_cell; // = origin / CELL_SIZE
         const int max_distance;
-        std::vector<std::vector<const std::pair<point, T>*>> sorted_elements;
+        std::vector<std::vector<const std::pair<tripoint, T>*>> sorted_elements;
         // Upper left and lower right corners of area, used to determine loaded distance to scan.
         point min_bounds;
         point max_bounds;
@@ -175,11 +179,11 @@ class cell_list_iterator
                 ++( *this );
             }
         }
-        const std::pair<point, T> &operator*() const {
+        const std::pair<tripoint, T> &operator*() const {
             assert( range );
             return **current;
         }
-        const std::pair<point, T> *operator->() const {
+        const std::pair<tripoint, T> *operator->() const {
             assert( range );
             return & **current;
         }
@@ -220,7 +224,7 @@ class cell_list_iterator
     private:
         cell_list_range<T, CELL_SIZE, MAXX, MAXY> *range;
         int current_distance = 1;
-        typename std::vector<const std::pair<point, T>*>::iterator current;
+        typename std::vector<const std::pair<tripoint, T>*>::iterator current;
 };
 
 #endif

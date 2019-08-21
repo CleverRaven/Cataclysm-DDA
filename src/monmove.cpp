@@ -11,6 +11,7 @@
 
 #include "avatar.h"
 #include "bionics.h"
+#include "cell_list.h"
 #include "debug.h"
 #include "field.h"
 #include "game.h"
@@ -381,9 +382,9 @@ void monster::plan()
                 continue;
             }
             bool found = false;
-            for( const std::pair<point, std::weak_ptr<monster>> &entry :
-		   fac.second.get( pos().xy(), range_max ) ) {
-                const std::shared_ptr<monster> shared = entry.second->lock();
+            for( const std::pair<tripoint, std::weak_ptr<monster>> &entry :
+                 fac.second.get( pos(), range_max ) ) {
+                const std::shared_ptr<monster> shared = entry.second.lock();
                 if( !shared ) {
                     continue;
                 }
@@ -419,9 +420,9 @@ void monster::plan()
     }
     swarms = swarms && target == nullptr; // Only swarm if we have no target
     if( group_morale || swarms ) {
-        for( const std::pair<point, std::weak_ptr<monster>> &entry :
-             fac.second.get( pos().xy(), range_max ) ) {
-            const std::shared_ptr<monster> shared = entry.second->lock();
+        for( const std::pair<tripoint, std::weak_ptr<monster>> &entry :
+             myfaction_iter->second.get( pos(), range_max ) ) {
+            const std::shared_ptr<monster> shared = entry.second.lock();
             if( !shared ) {
                 continue;
             }
