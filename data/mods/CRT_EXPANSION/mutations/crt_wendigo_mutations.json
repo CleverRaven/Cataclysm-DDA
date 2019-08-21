@@ -75,7 +75,7 @@
     "category": [ "SLIME", "TROGLOBITE", "WENDIGO" ],
     "healing_awake": 2.0,
     "healing_resting": 1.5
-  },  
+  },
   {
     "type": "mutation",
     "id": "SLASHERS",
