@@ -1807,6 +1807,12 @@ void talk_effect_fun_t::set_u_buy_item( const std::string &item_name, int cost, 
             popup( _( "%1$s gives you a %2$s." ), p.name, container.tname() );
         }
     };
+
+    // Update structure used by mission descriptions.
+    if (cost <= 0)
+    {
+        likely_rewards.push_back(std::pair<int, std::string>(count, item_name));
+    }
 }
 
 void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost, int count )
@@ -2095,6 +2101,11 @@ void talk_effect_fun_t::set_add_mission( const std::string mission_id )
         miss->assign( g->u );
         p.chatbin.missions_assigned.push_back( miss );
     };
+}
+
+std::vector<std::pair<int, std::string>> talk_effect_fun_t::get_likely_rewards()
+{
+    return likely_rewards;
 }
 
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con )
