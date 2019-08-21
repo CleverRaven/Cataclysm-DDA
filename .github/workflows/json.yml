@@ -13,8 +13,9 @@ on:
     - "*.json"
 
 jobs:
-  build:
-
+  style-json:
+    name: JSON style check
+ 
     runs-on: ubuntu-latest
     
     steps:
