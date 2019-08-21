@@ -8335,6 +8335,7 @@
 "items" : [
       ["trex_gun", 4],
       ["spiral_stone", 2],
+      ["sword_cane", 2],
       ["cutlass", 2],
       ["broadsword", 2],
       ["nodachi", 2],
@@ -8483,6 +8484,7 @@
 "type" : "item_group",
 "id" : "museum_melee",
 "items" : [
+      ["sword_cane", 2],
       ["katana", 2],
       ["katana_fake", 8],
       ["katana_inferior", 10],
