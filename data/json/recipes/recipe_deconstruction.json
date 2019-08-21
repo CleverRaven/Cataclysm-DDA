@@ -1773,6 +1773,32 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "mininuke",
+    "type": "uncraft",
+    "time": "6 h",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "skills_required": [ [ "fabrication", 4 ], [ "mechanics", 6 ] ],
+    "using": [ [ "soldering_standard", 150 ], [ "welding_standard", 6 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "SAW_M_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "cable", 12 ] ],
+      [ [ "chem_rdx", 20 ] ],
+      [ [ "circuit", 6 ] ],
+      [ [ "plut_cell", 6 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "scrap", 200 ] ],
+      [ [ "small_storage_battery", 2 ] ]
+    ]
+  },
+  {
     "result": "money_bundle",
     "type": "uncraft",
     "time": "30 s",
