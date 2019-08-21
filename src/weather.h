@@ -89,8 +89,14 @@ struct weather_printable {
  */
 namespace weather_effect
 {
+
+enum sun_intensity : int {
+    normal = 1,
+    high
+};
+
 void none();        //!< Fallback weather.
-void glare( int );
+void glare( sun_intensity );
 void wet();
 void very_wet();
 void thunder();
