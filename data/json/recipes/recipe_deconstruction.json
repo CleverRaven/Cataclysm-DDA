@@ -2624,6 +2624,23 @@
     "flags": [ "BLIND_EASY", "UNCRAFT_LIQUIDS_CONTAINED" ]
   },
   {
+    "result": "survival_kit",
+    "type": "uncraft",
+    "time": "6 s",
+    "components": [
+      [ [ "knife_folding", 1 ] ],
+      [ [ "flint_steel", 1 ] ],
+      [ [ "whistle_multitool", 1 ] ],
+      [ [ "bottle_folding", 1 ] ],
+      [ [ "glowstick", 1 ] ],
+      [ [ "flaregun", 1 ] ],
+      [ [ "signal_flare", 8 ] ],
+      [ [ "pur_tablets", 15 ] ],
+      [ [ "survivormap", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY", "UNCRAFT_LIQUIDS_CONTAINED" ]
+  },
+  {
     "result": "garlic",
     "type": "uncraft",
     "time": "6 s",
