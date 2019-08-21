@@ -254,6 +254,7 @@ new syntax "name" would be a `dict`, which may break unmigrated script.
 | Bionic names/descriptions
 | Terrain bash sound descriptions
 | Trap-vehicle collision sound descriptions
+| Vehicle part names/descriptions
 
 ### Recommendations
 
