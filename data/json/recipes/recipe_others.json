@@ -428,6 +428,25 @@
   },
   {
     "type": "recipe",
+    "result": "analytical_set_basic",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "ph_meter", 1 ] ],
+      [ [ "spectrophotometer", 1 ] ],
+      [ [ "paper", 1 ] ],
+      [ [ "balance_small", 1 ] ],
+      [ [ "melting_point", 1 ] ],
+      [ [ "box_medium", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "survivor_light",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
