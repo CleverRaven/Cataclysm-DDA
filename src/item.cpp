@@ -2041,9 +2041,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( weight_modif != 1 ) {
             std::string modifier;
             if( weight_modif < 1 ) {
-                modifier = string_format( "<num><bad>x</bad>" );
+                modifier = "<num><bad>x</bad>";
             } else {
-                modifier = string_format( "<num><color_light_green>x</color>" );
+                modifier = "<num><color_light_green>x</color>";
             }
             info.push_back( iteminfo( "ARMOR",
                                       _( "<bold>Weight capacity modifier</bold>: " ), modifier,
@@ -2677,7 +2677,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
             insert_separation_line();
 
-            const bionic_id bid = this->type->bionic->id;
+            const bionic_id bid = type->bionic->id;
 
             if( !bid->encumbrance.empty() ) {
                 info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance:</bold> " ),
@@ -2704,9 +2704,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( weight_modif != 1 ) {
                 std::string modifier;
                 if( weight_modif < 1 ) {
-                    modifier = string_format( "<num><bad>x</bad>" );
+                    modifier = "<num><bad>x</bad>";
                 } else {
-                    modifier = string_format( "<num><color_light_green>x</color>" );
+                    modifier = "<num><color_light_green>x</color>";
                 }
                 info.push_back( iteminfo( "CBM",
                                           _( "<bold>Weight capacity modifier</bold>: " ), modifier,
