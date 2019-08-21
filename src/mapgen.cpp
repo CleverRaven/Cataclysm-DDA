@@ -1233,7 +1233,8 @@ class jmapgen_monster : public jmapgen_piece
 
             if( m_id != mongroup_id::NULL_ID() ) {
                 // Spawn single monster from a group
-                dat.m.place_spawns( m_id, 1, point(x.get(), y.get()), point(x.get(), y.get()), 1.0f, true, false,
+                dat.m.place_spawns( m_id, 1, point( x.get(), y.get() ), point( x.get(), y.get() ), 1.0f, true,
+                                    false,
                                     name, mission_id );
             } else {
                 int spawn_count = roll_remainder( density_multiplier );
@@ -6587,7 +6588,8 @@ void map::place_spawns( const mongroup_id &group, const int chance,
         // Pick a monster type
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
 
-        add_spawn( spawn_details.name, spawn_details.pack_size, point( x, y ), friendly, -1, mission_id, name );
+        add_spawn( spawn_details.name, spawn_details.pack_size, point( x, y ), friendly, -1, mission_id,
+                   name );
     }
 }
 
