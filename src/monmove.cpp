@@ -101,8 +101,13 @@ bool monster::is_immune_field( const field_type_id fid ) const
 bool monster::can_move_to( const tripoint &p ) const
 {
     const bool can_climb = has_flag( MF_CLIMBS ) || has_flag( MF_FLIES );
+    // Using this complex check instead of generic check for DIGGABLE flag
+    // to prevent burrowing creatures appear from under certain terrain like
+    // concrete floor, doors or windows
     const bool non_diggable = g->m.has_flag( "ROAD", p ) ||
                               g->m.has_flag( "WALL", p ) ||
+                              g->m.has_flag( "DOOR", p ) ||
+                              g->m.has_flag( "WINDOW", p ) ||
                               g->m.has_flag( "SUPPORTS_ROOF", p );
     if( g->m.impassable( p ) &&
         !( can_climb && g->m.has_flag( "CLIMBABLE", p ) ) &&
