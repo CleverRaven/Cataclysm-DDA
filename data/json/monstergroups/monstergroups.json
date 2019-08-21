@@ -4367,9 +4367,8 @@
   {
     "type": "monstergroup",
     "name": "GROUP_TURRET",
-    "default": "mon_turret",
+    "default": "mon_turret_rifle",
     "monsters": [
-      { "monster": "mon_turret_rifle", "freq": 300, "cost_multiplier": 1 },
       { "monster": "mon_turret_bmg", "freq": 50, "cost_multiplier": 2 }
     ]
   },
