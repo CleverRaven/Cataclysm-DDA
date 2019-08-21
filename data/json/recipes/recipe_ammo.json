@@ -22,32 +22,6 @@
   },
   {
     "type": "recipe",
-    "result": "plut_slurry_dense",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_OTHER",
-    "skill_used": "fabrication",
-    "skills_required": [ "electronics", 7 ],
-    "difficulty": 8,
-    "time": "95 m",
-    "book_learn": [ [ "recipe_lab_elec", 10 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "plut_cell", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "plut_slurry",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_OTHER",
-    "skill_used": "fabrication",
-    "skills_required": [ "electronics", 7 ],
-    "difficulty": 8,
-    "time": "95 m",
-    "book_learn": [ [ "recipe_lab_elec", 10 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "plut_slurry_dense", 5 ] ], [ [ "water", 5 ], [ "water_clean", 5 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "pebble",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
