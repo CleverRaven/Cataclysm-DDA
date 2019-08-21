@@ -2676,7 +2676,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                           _( "This bionic is installed in the following body part(s):" ) ) ) );
             }
             insert_separation_line();
-            const bionic_id bid( typeId() );
+
+            const bionic_id bid = this->type->bionic->id;
 
             if( !bid->encumbrance.empty() ) {
                 info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance:</bold> " ),
