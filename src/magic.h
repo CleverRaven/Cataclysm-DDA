@@ -227,7 +227,7 @@ class spell
 {
     private:
         // basic spell data
-        const spell_type *type;
+        spell_id type;
 
         // once you accumulate enough exp you level the spell
         int experience;
@@ -236,7 +236,6 @@ class spell
 
     public:
         spell() = default;
-        spell( const spell_type *sp, int xp = 0 );
         spell( spell_id sp, int xp = 0 );
 
         // how much exp you need for the spell to gain a level

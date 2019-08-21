@@ -385,17 +385,14 @@ bool spell_type::is_valid() const
 
 // spell
 
-spell::spell( const spell_type *sp, int xp )
-{
-    type = sp;
-    experience = xp;
-}
-
-spell::spell( spell_id sp, int xp ) : spell( &sp.obj(), xp ) {}
+spell::spell( spell_id sp, int xp ) :
+    type( sp ),
+    experience( xp )
+{}
 
 spell_id spell::id() const
 {
-    return type->id;
+    return type;
 }
 
 trait_id spell::spell_class() const
@@ -704,10 +701,7 @@ std::string spell::energy_cur_string( const player &p ) const
 
 bool spell::is_valid() const
 {
-    if( type == nullptr ) {
-        return false;
-    }
-    return type->is_valid();
+    return type.is_valid();
 }
 
 bool spell::bp_is_affected( body_part bp ) const
@@ -1067,7 +1061,7 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
         debugmsg( "Tried to learn invalid spell" );
         return;
     }
-    spell temp_spell( sp );
+    spell temp_spell( sp->id );
     if( !temp_spell.is_valid() ) {
         debugmsg( "Tried to learn invalid spell" );
         return;
@@ -1578,7 +1572,7 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     const catacurses::window w = menu->window;
     nc_color gray = c_light_gray;
     nc_color yellow = c_yellow;
-    const spell fake_spell( &sp );
+    const spell fake_spell( sp.id );
 
     const std::string spell_name = colorize( sp.name, c_light_green );
     const std::string spell_class = sp.spell_class == trait_id( "NONE" ) ? _( "Classless" ) :
