@@ -175,7 +175,16 @@
     "id": "glass_of_wine",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "item": "wines_worthy", "container-group": "wine_glasses" } ]
+    "items": [
+      { "item": "wine_riesling", "prob": 20, "container-group": "wine_glasses" },
+      { "item": "wine_chardonnay", "prob": 30, "container-group": "wine_glasses" },
+      { "item": "wine_cabernet", "prob": 30, "container-group": "wine_glasses" },
+      { "item": "wine_marsala", "prob": 15, "container-group": "wine_glasses" },
+      { "item": "wine_noir", "prob": 20, "container-group": "wine_glasses" },
+      { "item": "wine_vermouth", "prob": 25, "container-group": "wine_glasses" },
+      { "item": "wine_marsala", "prob": 15, "container-group": "wine_glasses" },
+      { "item": "fruit_wine", "prob": 5, "container-group": "wine_glasses" }
+    ]
   },
   {
     "id": "crate_wine",
