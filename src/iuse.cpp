@@ -2132,12 +2132,13 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
             message = messtream.str();
         }
         sounds::ambient_sound( pos, 6, sounds::sound_t::speech, message );
-        if( one_in( 10 ) ) {
-            sfx::play_variant_sound( "radio", "static", 100, 21, 100 );
-            sfx::fade_audio_channel( 21, 100 );
-        } else if( one_in( 10 ) ) {
-            sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, 21, 100 );
-            sfx::fade_audio_channel( 21, 100 );
+        if( !sfx::is_channel_playing( sfx::channel::radio ) ) {
+            if( one_in( 10 ) ) {
+                sfx::play_ambient_variant_sound( "radio", "static", 100, sfx::channel::radio, 300, -1, 0 );
+            } else if( one_in( 10 ) ) {
+                sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, sfx::channel::radio, 300, -1,
+                                                 0 );
+            }
         }
     } else { // Activated
         int ch = 1;
@@ -2174,6 +2175,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
             case 1:
                 p->add_msg_if_player( _( "The radio dies." ) );
                 it->convert( "radio" ).active = false;
+                sfx::fade_audio_channel( sfx::channel::radio, 300 );
                 break;
             default:
                 break;
@@ -2867,8 +2869,9 @@ static int toolweapon_off( player &p, item &it, const bool fast_startup,
             sfx::play_variant_sound( "chainsaw_cord", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
             sfx::play_variant_sound( "chainsaw_start", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
             sfx::play_ambient_variant_sound( "chainsaw_idle", "chainsaw_on", sfx::get_heard_volume( p.pos() ),
-                                             18, 1000 );
-            sfx::play_ambient_variant_sound( "weapon_theme", "chainsaw", sfx::get_heard_volume( p.pos() ), 19,
+                                             sfx::channel::idle_chainsaw, 1000 );
+            sfx::play_ambient_variant_sound( "weapon_theme", "chainsaw", sfx::get_heard_volume( p.pos() ),
+                                             sfx::channel::chainsaw_theme,
                                              3000 );
         }
         sounds::sound( p.pos(), volume, sounds::sound_t::combat, msg_success );
@@ -2977,8 +2980,8 @@ static int toolweapon_on( player &p, item &it, const bool t,
     } else { // Toggling
         if( it.typeId() == "chainsaw_on" ) {
             sfx::play_variant_sound( "chainsaw_stop", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
-            sfx::fade_audio_channel( 18, 100 );
-            sfx::fade_audio_channel( 19, 3000 );
+            sfx::fade_audio_channel( sfx::channel::idle_chainsaw, 100 );
+            sfx::fade_audio_channel( sfx::channel::chainsaw_theme, 3000 );
         }
         p.add_msg_if_player( _( "Your %s goes quiet." ), tname );
         it.convert( off_type ).active = false;
