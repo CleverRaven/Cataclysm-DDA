@@ -18,18 +18,17 @@
     "id": "style_crt_enforcement",
     "name": "C.R.I.T Enforcement",
     "description": "A defensive style that is centered around stunning swings, knockback and grounding enemies. Each attack landed increases your armor by 0.125 and offers other combat bonuses based on stats.",
-    "initiate": [ "Initiate enforcement.", "%s initiates enforcement." ],
+    "initiate": [ "You ready yourself to stand your ground.", "%s draws a line in the sand." ],
     "arm_block": 2,
     "leg_block": 10,
     "static_buffs": [
       {
         "id": "crt_enforcement_static",
         "name": "C.R.I.T Guard",
-        "description": "+1 armor. STR provides accuracy and minor bash damage and arpen.",
+        "description": "+1 armor. STR provides accuracy and minor bash arpen.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "flat_bonuses": [
-          [ "damage", "bash", "str", 0.15 ],
           [ "arpen", "bash", "str", 0.15 ],
           [ "armor", "bash", 1 ],
           [ "armor", "cut", 1 ],
@@ -41,7 +40,7 @@
     "onhit_buffs": [
       {
         "id": "crt_enforcement_hit_buff",
-        "name": "C.R.I.T Endurance",
+        "name": "C.R.I.T Buildup",
         "description": "+0.05 armor, +0.1 bash and other small bonuses per stack. Max of 10 stacks",
         "unarmed_allowed": true,
         "melee_allowed": true,
@@ -57,11 +56,11 @@
           [ "armor", "bash", "str", 0.15 ],
           [ "armor", "cut", "str", 0.125 ],
           [ "armor", "stab", "str", 0.075 ],
-          [ "movecost", "str", -0.075 ]
+          [ "movecost", "str", -0.015 ]
         ]
       }
     ],
-    "techniques": [ "tec_crt_enforcement_normal", "tec_crt_enforcement_rapid", "tec_crt_enforcement_brutal", "tec_feint" ],
+    "techniques": [ "tec_crt_enforcement_normal", "tec_crt_enforcement_rapid", "tec_crt_enforcement_brutal", "tec_disarm" ],
     "weapons": [
       "knife_crt",
       "crt_nstick",
@@ -89,7 +88,7 @@
   {
     "type": "technique",
     "id": "tec_crt_enforcement_normal",
-    "name": "Blindside",
+    "name": "Harsh Reprimand",
     "min_unarmed": 1,
     "min_melee": 1,
     "unarmed_allowed": true,
@@ -108,7 +107,7 @@
     "min_melee": 2,
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 1.0 ], [ "damage", "bash", 1.0 ], [ "damage", "cut", 0.1 ], [ "damage", "stab", 0.15 ] ],
+    "mult_bonuses": [ [ "movecost", 1.15 ], [ "damage", "bash", 1.05 ], [ "damage", "cut", 1.05 ], [ "damage", "stab", 0.75 ] ],
     "flat_bonuses": [ [ "damage", "bash", "str", 0.2 ], [ "movecost", "str", -2 ] ],
     "messages": [ "You swiftly swipe your weapon's tip at %s", "<npcname> swiftly jabs their weapon into %s" ]
   },
