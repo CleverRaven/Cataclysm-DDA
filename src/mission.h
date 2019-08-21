@@ -366,7 +366,7 @@ class mission
         int get_id() const;
         const std::string &get_item_id() const;
         character_id get_npc_id() const;
-        std::vector<std::pair<int, std::string>> get_likely_rewards();
+        const std::vector<std::pair<int, std::string>> &get_likely_rewards() const;
         /**
          * Whether the mission is assigned to a player character. If not, the mission is free and
          * can be assigned.

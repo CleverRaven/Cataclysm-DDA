@@ -2103,7 +2103,7 @@ void talk_effect_fun_t::set_add_mission( const std::string mission_id )
     };
 }
 
-std::vector<std::pair<int, std::string>> talk_effect_fun_t::get_likely_rewards()
+const std::vector<std::pair<int, std::string>> &talk_effect_fun_t::get_likely_rewards() const
 {
     return likely_rewards;
 }

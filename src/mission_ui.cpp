@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <regex>
 
 #include "avatar.h"
 #include "mission.h"
@@ -125,12 +124,12 @@ void game::list_missions()
                                  miss->name() + for_npc );
 
             auto format_tokenized_description = []( const std::string description,
-            std::vector<std::pair<int, std::string>> rewards ) {
+            const std::vector<std::pair<int, std::string>> rewards ) {
                 std::string formatted_description = description;
                 for( size_t i = 0; i < rewards.size(); i++ ) {
-                    std::regex token("<reward_count:" + rewards[i].second + ">");
-                    formatted_description = std::regex_replace( formatted_description, token, string_format( "%d",
-                                            rewards[i].first ) );
+                    std::string token = "<reward_count:" + rewards[i].second + ">";
+                    formatted_description = string_replace( formatted_description, token, string_format( "%d",
+                                                            rewards[i].first ) );
                 }
                 return formatted_description;
             };

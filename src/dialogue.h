@@ -122,7 +122,7 @@ struct talk_effect_fun_t {
         void set_bulk_trade_accept( bool is_trade, bool is_npc = false );
         void set_npc_gets_item( bool to_use );
         void set_add_mission( std::string mission_id );
-        std::vector<std::pair<int, std::string>> get_likely_rewards();
+        const std::vector<std::pair<int, std::string>> &get_likely_rewards() const;
 
         void operator()( const dialogue &d ) const {
             if( !function ) {

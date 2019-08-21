@@ -593,7 +593,7 @@ character_id mission::get_npc_id() const
     return npc_id;
 }
 
-std::vector<std::pair<int, std::string>> mission::get_likely_rewards()
+const std::vector<std::pair<int, std::string>> &mission::get_likely_rewards() const
 {
     return type->likely_rewards;
 }
