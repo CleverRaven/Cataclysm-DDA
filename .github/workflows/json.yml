@@ -6,12 +6,12 @@ on:
     branches:
     - master
   paths:
-    - *.json
+    - '*.json'
   pull_request:
     branches:
     - master
     paths:
-    - *.json
+    - '*.json'
 
 jobs:
   build:
