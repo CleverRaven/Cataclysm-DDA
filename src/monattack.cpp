@@ -4689,14 +4689,9 @@ bool mattack::flesh_tendril( monster *z )
 
     const int distance_to_target = rl_dist( z->pos(), target->pos() );
 
-    if( distance_to_target > 3 && one_in( 12 ) ) { // the monster summons stuff to fight you
-
+    // the monster summons stuff to fight you
+    if( distance_to_target > 3 && one_in( 12 ) ) {
         std::vector<tripoint> free;
-
-        mtype_id spawned = mon_zombie_gasbag_crawler;
-        if( one_in( 2 ) ) {
-            spawned = mon_zombie_gasbag_impaler;
-        }
 
         for( const tripoint &dest : g->m.points_in_radius( z->pos(), 1 ) ) {
             if( g->is_empty( dest ) ) {
@@ -4704,6 +4699,11 @@ bool mattack::flesh_tendril( monster *z )
             }
         }
         if( !free.empty() ) {
+            mtype_id spawned = mon_zombie_gasbag_crawler;
+            if( one_in( 2 ) ) {
+                spawned = mon_zombie_gasbag_impaler;
+            }
+
             z->moves -= 100;
             const tripoint target = random_entry( free );
             if( monster *const summoned = g->summon_mon( spawned, target ) ) {
@@ -4718,8 +4718,8 @@ bool mattack::flesh_tendril( monster *z )
         }
     }
 
-    if( 2 <= distance_to_target && distance_to_target <= 3 && one_in( 4 ) ) {
-        //it  it pulls you to then knock you away
+    if( ( distance_to_target == 2 || distance_to_target == 3 ) && one_in( 4 ) ) {
+        //it pulls you towards itself and then knocks you away
         bool pulled = ranged_pull( z );
         if( pulled && one_in( 4 ) ) {
             sounds::sound( z->pos(), 60, sounds::sound_t::alarm, _( "a deafening roar!" ), false, "shout",
