@@ -624,7 +624,7 @@
     "symbol": "V",
     "visibility": -1,
     "avoidance": 0,
-    "difficulty": 99,
+    "difficulty": 0,
     "action": "none",
     "drops": [ "tarp_raincatcher" ],
     "benign": true,
