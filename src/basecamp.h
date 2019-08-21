@@ -197,7 +197,7 @@ class basecamp
         std::string gathering_description( const std::string &bldg );
         /// Returns a string for the number of plants that are harvestable, plots ready to plany,
         /// and ground that needs tilling
-        std::string farm_description( const tripoint &omt_pos, size_t &plots_count,
+        std::string farm_description( const tripoint &farm_pos, size_t &plots_count,
                                       farm_ops operation );
         /// Returns the description of a camp crafting options. converts fire charges to charcoal,
         /// allows dark crafting
@@ -271,7 +271,7 @@ class basecamp
         * @param omt_trg the overmap pos3 of the farm_ops
         * @param op whether to plow, plant, or harvest
         */
-        bool farm_return( const std::string &task, const tripoint &omt_trg, farm_ops op );
+        bool farm_return( const std::string &task, const tripoint &omt_tgt, farm_ops op );
         void fortifications_return();
 
         void combat_mission_return( const std::string &miss );

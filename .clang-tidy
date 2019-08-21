@@ -49,7 +49,6 @@ readability-*,\
 -readability-else-after-return,\
 -readability-function-size,\
 -readability-implicit-bool-conversion,\
--readability-inconsistent-declaration-parameter-name,\
 -readability-isolate-declaration,\
 -readability-magic-numbers,\
 -readability-named-parameter,\

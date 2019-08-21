@@ -416,9 +416,9 @@ class player : public Character
         /** Removes a mutation, downgrading to the previous level if possible */
         void remove_mutation( const trait_id &mut, bool silent = false );
         /** Returns true if the player has the entered mutation child flag */
-        bool has_child_flag( const trait_id &mut ) const;
+        bool has_child_flag( const trait_id &flag ) const;
         /** Removes the mutation's child flag from the player's list */
-        void remove_child_flag( const trait_id &mut );
+        void remove_child_flag( const trait_id &flag );
 
         const tripoint &pos() const override;
         /** Returns the player's sight range */
@@ -448,7 +448,7 @@ class player : public Character
         bool has_watch() const;
 
         // see Creature::sees
-        bool sees( const tripoint &c, bool is_player = false, int range_mod = 0 ) const override;
+        bool sees( const tripoint &t, bool is_player = false, int range_mod = 0 ) const override;
         // see Creature::sees
         bool sees( const Creature &critter ) const override;
         /**
@@ -609,7 +609,7 @@ class player : public Character
         dispersion_sources get_weapon_dispersion( const item &obj ) const;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
-        bool handle_gun_damage( item &firing );
+        bool handle_gun_damage( item &it, int shots_fired );
 
         /** Get maximum recoil penalty due to vehicle motion */
         double recoil_vehicle() const;
@@ -638,7 +638,7 @@ class player : public Character
         int fire_gun( const tripoint &target, int shots, item &gun );
 
         /** Handles reach melee attacks */
-        void reach_attack( const tripoint &target );
+        void reach_attack( const tripoint &p );
 
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
         bool block_hit( Creature *source, body_part &bp_hit, damage_instance &dam ) override;
@@ -676,7 +676,7 @@ class player : public Character
         /** Returns the player's basic hit roll that is compared to the target's dodge roll */
         float hit_roll() const override;
         /** Returns the chance to critical given a hit roll and target's dodge roll */
-        double crit_chance( float hit_roll, float target_dodge, const item &weap ) const;
+        double crit_chance( float roll_hit, float target_dodge, const item &weap ) const;
         /** Returns true if the player scores a critical hit */
         bool scored_crit( float target_dodge, const item &weap ) const;
         /** Returns cost (in moves) of attacking with given item (no modifiers, like stuck) */
@@ -702,7 +702,7 @@ class player : public Character
         std::vector<matec_id> get_all_techniques( const item &weap ) const;
 
         /** Returns true if the player has a weapon or martial arts skill available with the entered technique */
-        bool has_technique( const matec_id &tec, const item &weap ) const;
+        bool has_technique( const matec_id &id, const item &weap ) const;
         /** Returns a random valid technique */
         matec_id pick_technique( Creature &t, const item &weap,
                                  bool crit, bool dodge_counter, bool block_counter );
@@ -753,14 +753,14 @@ class player : public Character
 
         // ranged.cpp
         /** Execute a throw */
-        dealt_projectile_attack throw_item( const tripoint &target, const item &thrown,
+        dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,
                                             const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 
         // Mental skills and stats
         /** Returns the player's reading speed */
-        int read_speed( bool real_life = true ) const;
+        int read_speed( bool return_stat_effect = true ) const;
         /** Returns the player's skill rust rate */
-        int rust_rate( bool real_life = true ) const;
+        int rust_rate( bool return_stat_effect = true ) const;
         /** Returns a value used when attempting to convince NPC's of something */
         int talk_skill() const;
         /** Returns a value used when attempting to intimidate NPC's */
@@ -784,7 +784,7 @@ class player : public Character
         /** Reduce healing effect intensity, return initial intensity of the effect */
         int reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt );
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
-        void apply_damage( Creature *source, body_part bp, int amount,
+        void apply_damage( Creature *source, body_part hurt, int dam,
                            bool bypass_med = false ) override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
         void mod_pain( int npain ) override;
@@ -793,7 +793,7 @@ class player : public Character
         /** Returns perceived pain (reduced with painkillers)*/
         int get_perceived_pain() const override;
 
-        void cough( bool harmful = false, int volume = 4 );
+        void cough( bool harmful = false, int loudness = 4 );
 
         void add_pain_msg( int val, body_part bp ) const;
 
@@ -814,7 +814,7 @@ class player : public Character
         /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
         int hitall( int dam, int vary, Creature *source );
         /** Knocks the player to a specified tile */
-        void knock_back_to( const tripoint &p ) override;
+        void knock_back_to( const tripoint &to ) override;
 
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         float fall_damage_mod() const override;
@@ -864,10 +864,10 @@ class player : public Character
         /** used for drinking from hands, returns how many charges were consumed */
         int drink_from_hands( item &water );
         /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
-        bool consume( int pos );
+        bool consume( int target_position );
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
-        bool consume_item( item &eat );
+        bool consume_item( item &target );
         /** Returns allergy type or MORALE_NULL if not allergic for this player */
         morale_type allergy_type( const item &food ) const;
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
@@ -957,7 +957,7 @@ class player : public Character
         /** Current metabolic rate due to traits, hunger, speed, etc. */
         float metabolic_rate() const;
         /** Handles the effects of consuming an item */
-        bool consume_effects( item &eaten );
+        bool consume_effects( item &food );
         /** Handles rooting effects */
         void rooted_message() const;
         void rooted();
@@ -1067,7 +1067,7 @@ class player : public Character
         int item_reload_cost( const item &it, const item &ammo, int qty ) const;
 
         /** Calculate (but do not deduct) the number of moves required to wear an item */
-        int item_wear_cost( const item &to_wear ) const;
+        int item_wear_cost( const item &it ) const;
 
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         cata::optional<std::list<item>::iterator>
@@ -1090,7 +1090,7 @@ class player : public Character
         bool takeoff( int pos );
         /** Drops an item to the specified location */
         void drop( int pos, const tripoint &where );
-        void drop( const std::list<std::pair<int, int>> &what, const tripoint &where, bool stash = false );
+        void drop( const std::list<std::pair<int, int>> &what, const tripoint &target, bool stash = false );
 
         /** So far only called by unload() from game.cpp */
         bool add_or_drop_with_msg( item &it, bool unloading = false );
@@ -1118,7 +1118,7 @@ class player : public Character
         /** Draws the UI and handles player input for the armor re-ordering window */
         void sort_armor();
         /** Uses a tool */
-        void use( int pos );
+        void use( int inventory_position );
         /** Uses a tool at location */
         void use( item_location loc );
         /** Uses the current wielded weapon */
@@ -1245,7 +1245,7 @@ class player : public Character
         static int thirst_speed_penalty( int thirst );
 
         int adjust_for_focus( int amount ) const;
-        void practice( const skill_id &s, int amount, int cap = 99 );
+        void practice( const skill_id &id, int amount, int cap = 99 );
 
         /** Legacy activity assignment, should not be used where resuming is important. */
         void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
@@ -1487,9 +1487,9 @@ class player : public Character
         select_item_component( const std::vector<item_comp> &components,
                                int batch, inventory &map_inv, bool can_cancel = false,
                                const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true );
-        std::list<item> consume_items( const comp_selection<item_comp> &cs, int batch,
+        std::list<item> consume_items( const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter = return_true<item> );
-        std::list<item> consume_items( map &m, const comp_selection<item_comp> &cs, int batch,
+        std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter = return_true<item>,
                                        const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
@@ -1502,7 +1502,7 @@ class player : public Character
             return i;
         } );
         /** Consume tools for the next multiplier * 5% progress of the craft */
-        bool craft_consume_tools( item &craft, int multiplier, bool start_craft );
+        bool craft_consume_tools( item &craft, int mulitplier, bool start_craft );
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
                             const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,
@@ -1746,7 +1746,7 @@ class player : public Character
 
         // formats and prints encumbrance info to specified window
         void print_encumbrance( const catacurses::window &win, int line = -1,
-                                const item *selected_limb = nullptr ) const;
+                                const item *selected_clothing = nullptr ) const;
 
         // Prints message(s) about current health
         void print_health() const;
@@ -1793,11 +1793,11 @@ class player : public Character
 
         trap_map known_traps;
 
-        void store( JsonOut &jsout ) const;
-        void load( JsonObject &jsin );
+        void store( JsonOut &json ) const;
+        void load( JsonObject &data );
 
         /** Processes human-specific effects of an effect. */
-        void process_one_effect( effect &e, bool is_new ) override;
+        void process_one_effect( effect &it, bool is_new ) override;
 
     private:
 

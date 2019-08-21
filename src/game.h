@@ -233,7 +233,7 @@ class game
         /** Returns the other end of the stairs (if any). May query, affect u etc.  */
         cata::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder );
         /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc. */
-        void vertical_shift( int dest_z );
+        void vertical_shift( int z_after );
         /** Add goes up/down auto_notes (if turned on) */
         void vertical_notes( int z_before, int z_after );
         /** Checks to see if a player can use a computer (not illiterate, etc.) and uses if able. */
@@ -286,7 +286,7 @@ class game
         /** Spawns a hallucination at a determined position. */
         bool spawn_hallucination( const tripoint &p );
         /** Swaps positions of two creatures */
-        bool swap_critters( Creature &first, Creature &second );
+        bool swap_critters( Creature &, Creature & );
 
     private:
         friend class monster_range;
@@ -405,16 +405,16 @@ class game
          * If the monster was revived, the caller should remove the corpse item.
          * If reviving failed, the item is unchanged, as is the environment (no new monsters).
          */
-        bool revive_corpse( const tripoint &location, item &corpse );
+        bool revive_corpse( const tripoint &p, item &it );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
         void save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer );
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
-        bool cancel_activity_query( const std::string &message );
+        bool cancel_activity_query( const std::string &text );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
          *  if the player wants to ignore further distractions. */
-        bool cancel_activity_or_ignore_query( distraction_type type, const std::string &reason );
+        bool cancel_activity_or_ignore_query( distraction_type type, const std::string &text );
         /** Handles players exiting from moving vehicles. */
-        void moving_vehicle_dismount( const tripoint &p );
+        void moving_vehicle_dismount( const tripoint &dest_loc );
 
         /** Returns the current remotely controlled vehicle. */
         vehicle *remoteveh();
@@ -510,7 +510,7 @@ class game
                                         const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
 
         // Shared method to print "look around" info
-        void pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,
+        void pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_info,
                                       int &line, int last_line, const visibility_variables &cache );
 
         // Shared method to print "look around" info
@@ -606,12 +606,13 @@ class game
         void knockback( std::vector<tripoint> &traj, int force, int stun, int dam_mult );
 
         // Animation related functions
-        void draw_bullet( const tripoint &pos, int i, const std::vector<tripoint> &trajectory,
+        void draw_bullet( const tripoint &t, int i, const std::vector<tripoint> &trajectory,
                           char bullet );
-        void draw_hit_mon( const tripoint &p, const monster &critter, bool dead = false );
+        void draw_hit_mon( const tripoint &p, const monster &m, bool dead = false );
         void draw_hit_player( const player &p, int dam );
-        void draw_line( const tripoint &p, const tripoint &center_point, const std::vector<tripoint> &ret );
-        void draw_line( const tripoint &p, const std::vector<tripoint> &ret );
+        void draw_line( const tripoint &p, const tripoint &center_point,
+                        const std::vector<tripoint> &points );
+        void draw_line( const tripoint &p, const std::vector<tripoint> &points );
         void draw_weather( const weather_printable &wPrint );
         void draw_sct();
         void draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset );

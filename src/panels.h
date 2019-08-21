@@ -39,7 +39,7 @@ class window_panel
 {
     public:
         window_panel( std::function<void( avatar &, const catacurses::window & )> draw_func,
-                      const std::string &nm, int ht, int wd, bool default_toggle,
+                      const std::string &nm, int ht, int wd, bool default_toggle_,
                       std::function<bool()> render_func = default_render, bool force_draw = false );
 
         std::function<void( avatar &, const catacurses::window & )> draw;

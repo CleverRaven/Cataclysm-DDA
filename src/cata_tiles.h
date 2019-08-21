@@ -182,7 +182,7 @@ class tileset_loader
 
         void process_variations_after_loading( weighted_int_list<std::vector<int>> &v );
 
-        void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int fg,
+        void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int sprite_id,
                                 const std::string &s_id );
         void load_ascii_set( JsonObject &entry );
         /**
@@ -309,8 +309,8 @@ class cata_tiles
         /* Tile Picking */
         void get_tile_values( int t, const int *tn, int &subtile, int &rotation );
         void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group );
-        void get_terrain_orientation( const tripoint &p, int &rota, int &subtype );
-        void get_rotation_and_subtile( char val, int &rota, int &subtype );
+        void get_terrain_orientation( const tripoint &p, int &rota, int &subtile );
+        void get_rotation_and_subtile( char val, int &rota, int &subtile );
 
         /** Drawing Layers */
         bool apply_vision_effects( const tripoint &pos, visibility_type visibility );

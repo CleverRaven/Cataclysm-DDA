@@ -142,14 +142,14 @@ class ma_buff
         int block_bonus( const player &u ) const;
 
         // returns the armor bonus for various armor stats (equivalent to armor)
-        int armor_bonus( const player &u, damage_type type ) const;
+        int armor_bonus( const player &u, damage_type dt ) const;
 
         // returns the stat bonus for the various damage stats (for rolls)
-        float damage_bonus( const player &u, damage_type type ) const;
+        float damage_bonus( const player &u, damage_type dt ) const;
 
         // returns damage multipliers for the various damage stats (applied after
         // bonuses)
-        float damage_mult( const player &u, damage_type type ) const;
+        float damage_mult( const player &u, damage_type dt ) const;
 
         // returns various boolean flags
         bool is_throw_immune() const;
@@ -218,11 +218,11 @@ class martialart
         void apply_onkill_buffs( player &u ) const;
 
         // determines if a technique is valid or not for this style
-        bool has_technique( const player &u, const matec_id &tech ) const;
+        bool has_technique( const player &u, const matec_id &tec_id ) const;
         // determines if a weapon is valid for this style
-        bool has_weapon( const std::string &item ) const;
+        bool has_weapon( const std::string &itt ) const;
         // Is this weapon OK with this art?
-        bool weapon_valid( const item &u ) const;
+        bool weapon_valid( const item &it ) const;
         // Getter for player style change message
         std::string get_initiate_player_message() const;
         // Getter for NPC style change message

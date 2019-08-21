@@ -4470,20 +4470,21 @@ int player::addiction_level( add_type type ) const
     return iter != addictions.end() ? iter->intensity : 0;
 }
 
-void player::siphon( vehicle &veh, const itype_id &type )
+void player::siphon( vehicle &veh, const itype_id &desired_liquid )
 {
     auto qty = veh.fuel_left( type );
     if( qty <= 0 ) {
-        add_msg( m_bad, _( "There is not enough %s left to siphon it." ), item::nname( type ) );
+        add_msg( m_bad, _( "There is not enough %s left to siphon it." ),
+                 item::nname( desired_liquid ) );
         return;
     }
 
-    item liquid( type, calendar::turn, qty );
+    item liquid( desired_liquid, calendar::turn, qty );
     if( liquid.is_food() ) {
-        liquid.set_item_specific_energy( veh.fuel_specific_energy( type ) );
+        liquid.set_item_specific_energy( veh.fuel_specific_energy( desired_liquid ) );
     }
     if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
-        veh.drain( type, qty - liquid.charges );
+        veh.drain( desired_liquid, qty - liquid.charges );
     }
 }
 

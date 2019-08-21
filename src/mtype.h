@@ -215,8 +215,8 @@ struct mtype {
         void remove_special_attacks( JsonObject &jo, const std::string &member_name,
                                      const std::string &src );
 
-        void add_special_attack( JsonArray jarr, const std::string &src );
-        void add_special_attack( JsonObject jo, const std::string &src );
+        void add_special_attack( JsonArray inner, const std::string &src );
+        void add_special_attack( JsonObject obj, const std::string &src );
 
     public:
         mtype_id id;

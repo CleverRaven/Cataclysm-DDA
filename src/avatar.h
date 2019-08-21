@@ -35,8 +35,8 @@ class avatar : public player
 
         void store( JsonOut &json ) const;
         void load( JsonObject &data );
-        void serialize( JsonOut &josn ) const override;
-        void deserialize( JsonIn &json ) override;
+        void serialize( JsonOut &json ) const override;
+        void deserialize( JsonIn &jsin ) override;
         void serialize_map_memory( JsonOut &jsout ) const;
         void deserialize_map_memory( JsonIn &jsin );
 

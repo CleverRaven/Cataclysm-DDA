@@ -112,7 +112,7 @@ struct quality_requirement {
     quality_requirement( const quality_id &TYPE, int COUNT, int LEVEL ) : type( TYPE ), count( COUNT ),
         level( LEVEL ) { }
 
-    void load( JsonArray &ja );
+    void load( JsonArray &jsarr );
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int = 0,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int = 0 ) const;

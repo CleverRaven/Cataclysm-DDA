@@ -184,7 +184,7 @@ class Item_modifier
         Item_modifier();
         Item_modifier( Item_modifier && ) = default;
 
-        void modify( item &it ) const;
+        void modify( item &new_item ) const;
         void check_consistency() const;
         bool remove_item( const Item_tag &itemid );
 

@@ -100,7 +100,7 @@ class Item_factory
          * ("old" is a distribution, too).
          * @throw std::string if the json object contains invalid data.
          */
-        void load_item_group( JsonObject &jsobj, const Group_tag &ident, const std::string &subtype );
+        void load_item_group( JsonObject &jsobj, const Group_tag &group_id, const std::string &subtype );
         /**
          * Like above, but the above loads data from several members of the object, this function
          * assume the given array is the "entries" member of the item group.
@@ -119,12 +119,12 @@ class Item_factory
          * Note that each entry in the array has to be a JSON object. The other function above
          * can also load data from arrays of strings, where the strings are item or group ids.
          */
-        void load_item_group( JsonArray &entries, const Group_tag &ident, bool is_collection,
+        void load_item_group( JsonArray &entries, const Group_tag &group_id, bool is_collection,
                               int ammo_chance, int magazine_chance );
         /**
          * Get the item group object. Returns null if the item group does not exists.
          */
-        Item_spawn_data *get_group( const Group_tag &id );
+        Item_spawn_data *get_group( const Group_tag &group_tag );
         /**
          * Returns the idents of all item groups that are known.
          */
@@ -137,7 +137,7 @@ class Item_factory
          * group.
          * @return false if the group doesn't exist.
          */
-        bool add_item_to_group( const Group_tag &group_id, const Item_tag &item_id, int weight );
+        bool add_item_to_group( const Group_tag &group_id, const Item_tag &item_id, int chance );
         /*@}*/
 
         /**
@@ -222,7 +222,7 @@ class Item_factory
             return iuse_function_list.find( type ) != iuse_function_list.end();
         }
 
-        void load_item_blacklist( JsonObject &jo );
+        void load_item_blacklist( JsonObject &json );
 
         /** Get all item templates (both static and runtime) */
         std::vector<const itype *> all() const;
@@ -333,7 +333,7 @@ class Item_factory
         bool load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObject &obj,
                            const std::string &name, const Item_group &parent );
         bool load_string( std::vector<std::string> &vec, JsonObject &obj, const std::string &name );
-        void add_entry( Item_group &sg, JsonObject &obj );
+        void add_entry( Item_group &ig, JsonObject &obj );
 
         void load_basic_info( JsonObject &jo, itype &def, const std::string &src );
         void set_qualities_from_json( JsonObject &jo, const std::string &member, itype &def );

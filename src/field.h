@@ -158,7 +158,7 @@ class field
          * function returns true.
          * @return True if the field was removed, false if it did not exist in the first place.
          */
-        bool remove_field( field_type_id type_to_remove );
+        bool remove_field( field_type_id field_to_remove );
         /**
          * Make sure to decrement the field counter in the submap.
          * Removes the field entry, the iterator must point into @ref _field_type_list and must be valid.

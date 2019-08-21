@@ -409,7 +409,7 @@ namespace spell_effect
 void teleport_random( const spell &sp, Creature &caster, const tripoint & );
 void pain_split( const spell &, Creature &, const tripoint & );
 void target_attack( const spell &sp, Creature &caster,
-                    const tripoint &target );
+                    const tripoint &epicenter );
 void projectile_attack( const spell &sp, Creature &caster,
                         const tripoint &target );
 void cone_attack( const spell &sp, Creature &caster,
@@ -417,8 +417,8 @@ void cone_attack( const spell &sp, Creature &caster,
 void line_attack( const spell &sp, Creature &caster,
                   const tripoint &target );
 
-void area_pull( const spell &sp, Creature &caster, const tripoint &target );
-void area_push( const spell &sp, Creature &caster, const tripoint &target );
+void area_pull( const spell &sp, Creature &caster, const tripoint &center );
+void area_push( const spell &sp, Creature &caster, const tripoint &center );
 
 std::set<tripoint> spell_effect_blast( const spell &, const tripoint &, const tripoint &target,
                                        int aoe_radius, bool ignore_walls );

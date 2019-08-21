@@ -348,7 +348,7 @@ class mission
 
         std::string name();
         mission_type_id mission_id();
-        void serialize( JsonOut &jsout ) const;
+        void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 
         mission();

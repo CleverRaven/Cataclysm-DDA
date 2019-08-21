@@ -89,7 +89,7 @@ class faction : public faction_template
         faction( const faction_template &templ );
 
         void deserialize( JsonIn &jsin );
-        void serialize( JsonOut &jsout ) const;
+        void serialize( JsonOut &json ) const;
 
         std::string describe() const;
 

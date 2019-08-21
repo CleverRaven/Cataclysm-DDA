@@ -160,7 +160,7 @@ class SkillLevel
             return !( *this < b );
         }
 
-        void serialize( JsonOut &jsout ) const;
+        void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 };
 
