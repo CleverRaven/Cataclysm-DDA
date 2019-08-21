@@ -729,7 +729,8 @@ static void draw_skills_tab( const catacurses::window &w_skills, const catacurse
         }
     }
 
-    draw_scrollbar( w_skills, line, skill_win_size_y, static_cast<int>( skillslist.size() ), 1 );
+    draw_scrollbar( w_skills, line, skill_win_size_y, static_cast<int>( skillslist.size() ),
+                    point_south );
     wrefresh( w_skills );
 
     werase( w_info );
