@@ -2036,7 +2036,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                              "item</info>." ) ) );
             }
         }
-        const float weight_bonus = get_weight_capacity_bonus();
+        const units::mass weight_bonus = get_weight_capacity_bonus();
         const float weight_modif = get_weight_capacity_modifier();
         if( weight_modif != 1 ) {
             std::string modifier;
@@ -2049,15 +2049,15 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                       _( "<bold>Weight capacity modifier</bold>: " ), modifier,
                                       iteminfo::no_newline | iteminfo::is_decimal, weight_modif ) );
         }
-        if( weight_bonus != 0 ) {
+        if( weight_bonus != 0_gram ) {
             std::string bonus;
-            if( weight_bonus < 0 ) {
+            if( weight_bonus < 0_gram ) {
                 bonus = string_format( "<num> <bad>%s</bad>", weight_units() );
             } else {
                 bonus = string_format( "<num> <color_light_green> %s</color>", weight_units() );
             }
             info.push_back( iteminfo( "ARMOR", _( "<bold>Weight capacity bonus</bold>: " ), bonus,
-                                      iteminfo::no_newline | iteminfo::is_decimal, weight_bonus ) );
+                                      iteminfo::no_newline | iteminfo::is_decimal, convert_weight( weight_bonus ) ) );
         }
 
     }
@@ -2698,7 +2698,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
             }
 
-            const float weight_bonus = bid->weight_capacity_bonus;
+            const units::mass weight_bonus = bid->weight_capacity_bonus;
             const float weight_modif = bid->weight_capacity_modifier;
             if( weight_modif != 1 ) {
                 std::string modifier;
@@ -2711,15 +2711,15 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                           _( "<bold>Weight capacity modifier</bold>: " ), modifier,
                                           iteminfo::no_newline | iteminfo::is_decimal, weight_modif ) );
             }
-            if( weight_bonus != 0 ) {
+            if( weight_bonus != 0_gram ) {
                 std::string bonus;
-                if( weight_bonus < 0 ) {
+                if( weight_bonus < 0_gram ) {
                     bonus = string_format( "<num> <bad>%s</bad>", weight_units() );
                 } else {
                     bonus = string_format( "<num> <color_light_green>%s</color>", weight_units() );
                 }
                 info.push_back( iteminfo( "CBM", _( "<bold>Weight capacity bonus</bold>: " ), bonus,
-                                          iteminfo::no_newline | iteminfo::is_decimal, weight_bonus ) );
+                                          iteminfo::no_newline | iteminfo::is_decimal, convert_weight( weight_bonus ) ) );
             }
 
         }
@@ -4405,11 +4405,11 @@ float item::get_weight_capacity_modifier() const
     return t->weight_capacity_modifier;
 }
 
-float item::get_weight_capacity_bonus() const
+units::mass item::get_weight_capacity_bonus() const
 {
     const islot_armor *t = find_armor_data();
     if( t == nullptr ) {
-        return 0;
+        return 0_gram;
     }
     return t->weight_capacity_bonus;
 }

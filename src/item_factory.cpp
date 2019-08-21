@@ -1510,10 +1510,16 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &s
     assign( jo, "warmth", slot.warmth, strict, 0 );
     assign( jo, "storage", slot.storage, strict, 0_ml );
     assign( jo, "weight_capacity_modifier", slot.weight_capacity_modifier );
-    assign( jo, "weight_capacity_bonus", slot.weight_capacity_bonus );
     assign( jo, "power_armor", slot.power_armor, strict );
 
     assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
+
+    if( jo.has_int( "weight_capacity_bonus" ) ) {
+        assign( jo, "weight_capacity_bonus", slot.weight_capacity_bonus );
+    } else if( jo.has_string( "weight_capacity_bonus" ) ) {
+        slot.weight_capacity_bonus = read_from_json_string<units::mass>
+                                     ( *jo.get_raw( "weight_capacity_bonus" ), units::mass_units );
+    }
 }
 
 void Item_factory::load( islot_pet_armor &slot, JsonObject &jo, const std::string &src )

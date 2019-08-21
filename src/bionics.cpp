@@ -59,6 +59,7 @@
 #include "item_location.h"
 #include "monster.h"
 #include "point.h"
+#include "assign.h"
 
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
@@ -1959,6 +1960,7 @@ static bool get_bool_or_flag( JsonObject &jsobj, const std::string &name, const 
 
 void load_bionic( JsonObject &jsobj )
 {
+
     bionic_data new_bionic;
 
     const bionic_id id( jsobj.get_string( "id" ) );
@@ -1995,7 +1997,13 @@ void load_bionic( JsonObject &jsobj )
     new_bionic.fake_item = jsobj.get_string( "fake_item", "" );
 
     new_bionic.weight_capacity_modifier = jsobj.get_float( "weight_capacity_modifier", 1.0 );
-    jsobj.read( "weight_capacity_bonus", new_bionic.weight_capacity_bonus );
+    if( jsobj.has_int( "weight_capacity_bonus" ) ) {
+        assign( jsobj, "weight_capacity_bonus", new_bionic.weight_capacity_bonus );
+    } else if( jsobj.has_string( "weight_capacity_bonus" ) ) {
+        new_bionic.weight_capacity_bonus = read_from_json_string<units::mass>
+                                           ( *jsobj.get_raw( "weight_capacity_bonus" ), units::mass_units );
+    }
+
 
     jsobj.read( "canceled_mutations", new_bionic.canceled_mutations );
     jsobj.read( "included_bionics", new_bionic.included_bionics );

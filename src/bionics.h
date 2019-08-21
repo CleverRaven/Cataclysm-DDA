@@ -13,6 +13,7 @@
 #include "calendar.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "units.h"
 
 class player;
 class JsonObject;
@@ -77,7 +78,7 @@ struct bionic_data {
     /**Factor modifiying weight capacity*/
     float weight_capacity_modifier;
     /**Bonus to weight capacity*/
-    float weight_capacity_bonus;
+    units::mass weight_capacity_bonus;
     /**Amount of environemental protection offered by this bionic*/
     std::map<body_part, size_t> env_protec;
     /**
