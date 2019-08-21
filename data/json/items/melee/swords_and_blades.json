@@ -1115,6 +1115,7 @@
     "volume": "1531 ml",
     "bashing": 3,
     "to_hit": 2,
+    "looks_like": "cane",
     "use_action": {
       "type": "holster",
       "holster_prompt": "Sheath sword",
@@ -1139,6 +1140,7 @@
     "volume": "1200 ml",
     "bashing": 2,
     "cutting": 25,
+    "looks_like": "rapier",
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [ "STAB", "SHEATH_SWORD" ]
   },
