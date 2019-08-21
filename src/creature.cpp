@@ -721,7 +721,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         add_effect( effect_sap, 1_turns * dealt_dam.total_damage() );
     }
     if( proj_effects.count( "PARALYZEPOISON" ) && dealt_dam.total_damage() > 0 ) {
-        add_msg_if_player( m_bad, _( "You feel poison enter your body!" ) );
+        add_msg_if_player( m_bad, _( "You feel poison coursing through your body!" ) );
         add_effect( effect_paralyzepoison, 5_minutes );
     }
 
