@@ -4675,7 +4675,6 @@ bool mattack::riotbot( monster *z )
 
 bool mattack::flesh_tendril( monster *z )
 {
-
     Creature *target = z->attack_target();
 
     if( target == nullptr || !z->sees( *target ) ) {
