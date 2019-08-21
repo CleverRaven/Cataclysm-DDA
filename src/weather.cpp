@@ -61,44 +61,37 @@ static bool is_player_outside()
 /**
  * Glare.
  * Causes glare effect to player's eyes if they are not wearing applicable eye protection.
+ * @param intensity Level of sun brighthess (1 = clear, 2 = sunny)
  */
-
-void weather_effect::glare( bool snowglare )
+void weather_effect::glare( int intensity )
 {
-    season_type season = season_of_year( calendar::turn );
-    if( is_player_outside() && g->is_in_sunlight( g->u.pos() ) && !g->u.in_sleep_state() &&
-        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() && !snowglare &&
-        !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
-        if( !g->u.has_effect( effect_glare ) ) {
-            if( g->u.has_trait( trait_CEPH_VISION ) ) {
-                g->u.add_env_effect( effect_glare, bp_eyes, 2, 4_turns );
-            } else {
-                g->u.add_env_effect( effect_glare, bp_eyes, 2, 2_turns );
-            }
-        } else {
-            if( g->u.has_trait( trait_CEPH_VISION ) ) {
-                g->u.add_env_effect( effect_glare, bp_eyes, 2, 2_turns );
-            } else {
-                g->u.add_env_effect( effect_glare, bp_eyes, 2, 1_turns );
-            }
-        }
+    //General prepequisites for glare
+    if( !is_player_outside() || !g->is_in_sunlight( g->u.pos() ) || g->u.in_sleep_state() ||
+        g->u.worn_with_flag( "SUN_GLASSES" ) ||
+        g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ||
+        g->u.is_blind() ) {
+        return;
     }
-    if( is_player_outside() && !g->u.in_sleep_state() && season == WINTER &&
-        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() && snowglare &&
-        !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
-        if( !g->u.has_effect( effect_snow_glare ) ) {
-            if( g->u.has_trait( trait_CEPH_VISION ) ) {
-                g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 4_turns );
-            } else {
-                g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 2_turns );
-            }
-        } else {
-            if( g->u.has_trait( trait_CEPH_VISION ) ) {
-                g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 2_turns );
-            } else {
-                g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 1_turns );
-            }
+
+    time_duration dur = 0_turns;
+    const efftype_id *effect = nullptr;
+    season_type season = season_of_year( calendar::turn );
+    if( season == WINTER ) {
+        //Winter snow glare: for both clear & sunny weather
+        effect = &effect_snow_glare;
+        dur = ( !g->u.has_effect( *effect ) ) ? 2_turns : 1_turns;
+    } else if( intensity > 1 ) {
+        //Sun glare: only for bright sunny weather
+        effect = &effect_glare;
+        dur = ( !g->u.has_effect( *effect ) ) ? 2_turns : 1_turns;
+    }
+    //apply final glare effect
+    if( dur > 0_turns && effect != nullptr ) {
+        //enhance/reduce by some traits
+        if( g->u.has_trait( trait_CEPH_VISION ) ) {
+            dur = dur * 2;
         }
+        g->u.add_env_effect( *effect, bp_eyes, 2, dur );
     }
 }
 
@@ -399,12 +392,15 @@ static void generic_very_wet( bool acid )
     wet_player( 60 );
 }
 
-void weather_effect::none()      {}
+void weather_effect::none()
+{
+    glare( 1 );
+}
 void weather_effect::flurry()    {}
 
 void weather_effect::sunny()
 {
-    glare( false );
+    glare( 2 );
 }
 
 /**
@@ -428,7 +424,6 @@ void weather_effect::very_wet()
 void weather_effect::snow()
 {
     wet_player( 10 );
-    glare( true );
 }
 
 void weather_effect::snowstorm()
