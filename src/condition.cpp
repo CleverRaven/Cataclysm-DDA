@@ -15,6 +15,7 @@
 #include "game.h"
 #include "item_category.h"
 #include "item.h"
+#include "auto_pickup.h"
 #include "json.h"
 #include "map.h"
 #include "mission.h"

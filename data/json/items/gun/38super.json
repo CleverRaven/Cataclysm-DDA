@@ -6,7 +6,7 @@
     "name": "M1911A1",
     "description": "The M1911A1 is an extremely popular pistol known for its reliability.  This one is chambered for .38 Super.",
     "weight": 1035,
-    "volume": 2,
+    "volume": "500 ml",
     "price": 78400,
     "to_hit": -2,
     "bashing": 12,

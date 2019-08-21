@@ -440,7 +440,7 @@ TEST_CASE( "npc_can_target_player" )
 
     const auto spawn_npc = []( const int x, const int y, const std::string & npc_class ) {
         const string_id<npc_template> test_guy( npc_class );
-        const int model_id = g->m.place_npc( point( 10, 10 ), test_guy, true );
+        const character_id model_id = g->m.place_npc( point( 10, 10 ), test_guy, true );
         g->load_npcs();
 
         npc *guy = g->find_npc( model_id );

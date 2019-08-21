@@ -459,7 +459,6 @@ player::player() :
     next_climate_control_check( calendar::before_time_starts )
     , cached_time( calendar::before_time_starts )
 {
-    id = -1; // -1 is invalid
     str_cur = 8;
     str_max = 8;
     dex_cur = 8;
@@ -7106,7 +7105,7 @@ bool player::consume_item( item &target )
         eat( comest ) ||
         feed_battery_with( comest ) ||
         feed_reactor_with( comest ) ||
-        feed_furnace_with( comest ) ) {
+        feed_furnace_with( comest ) || fuel_bionic_with( comest ) ) {
 
         if( target.is_container() ) {
             target.on_contents_changed();
@@ -8975,10 +8974,14 @@ bool player::invoke_item( item *used, const std::string &method, const tripoint 
     }
 
     int charges_used = actually_used->type->invoke( *this, *actually_used, pt, method );
+    if( charges_used == 0 ) {
+        return false;
+    }
+    // Prevent accessing the item as it may have been deleted by the invoked iuse function.
 
     if( used->is_tool() || used->is_medication() || used->get_contained().is_medication() ) {
         return consume_charges( *actually_used, charges_used );
-    } else if( ( used->is_bionic() || used->is_deployable() ) && charges_used > 0 ) {
+    } else if( used->is_bionic() || used->is_deployable() ) {
         i_rem( used );
         return true;
     }
@@ -10691,22 +10694,6 @@ float player::get_melee() const
     return get_skill_level( skill_id( "melee" ) );
 }
 
-void player::setID( int i )
-{
-    if( id >= 0 ) {
-        debugmsg( "tried to set id of a npc/player, but has already a id: %d", id );
-    } else if( i < -1 ) {
-        debugmsg( "tried to set invalid id of a npc/player: %d", i );
-    } else {
-        id = i;
-    }
-}
-
-int player::getID() const
-{
-    return this->id;
-}
-
 bool player::uncanny_dodge()
 {
     bool is_u = this == &g->u;
@@ -10995,6 +10982,11 @@ void player::burn_move_stamina( int moves )
     int burn_ratio = get_option<int>( "PLAYER_BASE_STAMINA_BURN_RATE" );
     if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
         burn_ratio = burn_ratio * 2 - 3;
+    }
+    for( const bionic_id &bid : get_bionic_fueled_with( item( "muscle" ) ) ) {
+        if( has_active_bionic( bid ) ) {
+            burn_ratio = burn_ratio * 2 - 3;
+        }
     }
     burn_ratio += overburden_percentage;
     if( move_mode == PMM_RUN ) {

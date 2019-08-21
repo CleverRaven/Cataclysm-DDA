@@ -31,7 +31,7 @@
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-mission mission_type::create( const int npc_id ) const
+mission mission_type::create( const character_id npc_id ) const
 {
     mission ret;
     ret.uid = g->assign_mission_id();
@@ -61,7 +61,7 @@ std::string mission_type::tname() const
 
 static std::unordered_map<int, mission> world_missions;
 
-mission *mission::reserve_new( const mission_type_id &type, const int npc_id )
+mission *mission::reserve_new( const mission_type_id &type, const character_id npc_id )
 {
     const auto tmp = mission_type::get( type )->create( npc_id );
     // TODO: Warn about overwrite?
@@ -155,7 +155,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
         // Must be the player
         for( auto &miss : g->u.get_active_missions() ) {
             // mission is free and can be reused
-            miss->player_id = -1;
+            miss->player_id = character_id();
         }
         // The missions remains assigned to the (dead) character. This should not cause any problems
         // as the character is dismissed anyway.
@@ -183,7 +183,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
     }
 }
 
-void mission::on_talk_with_npc( const int npc_id )
+void mission::on_talk_with_npc( const character_id npc_id )
 {
     switch( type->goal ) {
         case MGOAL_TALK_TO_NPC:
@@ -198,7 +198,8 @@ void mission::on_talk_with_npc( const int npc_id )
     }
 }
 
-mission *mission::reserve_random( const mission_origin origin, const tripoint &p, const int npc_id )
+mission *mission::reserve_random( const mission_origin origin, const tripoint &p,
+                                  const character_id npc_id )
 {
     const auto type = mission_type::get_random_id( origin, p );
     if( type.is_null() ) {
@@ -213,9 +214,9 @@ void mission::assign( avatar &u )
         debugmsg( "strange: player is already assigned to mission %d", uid );
         return;
     }
-    if( player_id != -1 ) {
-        debugmsg( "tried to assign mission %d to player, but mission is already assigned to %d", uid,
-                  player_id );
+    if( player_id.is_valid() ) {
+        debugmsg( "tried to assign mission %d to player, but mission is already assigned to %d",
+                  uid, player_id.get_value() );
         return;
     }
     player_id = u.getID();
@@ -277,8 +278,8 @@ void mission::wrap_up()
     if( u.getID() != player_id ) {
         // This is called from npctalk.cpp, the npc should only offer the option to wrap up mission
         // that have been assigned to the current player.
-        debugmsg( "mission::wrap_up called, player %d was assigned, but current player is %d", player_id,
-                  u.getID() );
+        debugmsg( "mission::wrap_up called, player %d was assigned, but current player is %d",
+                  player_id.get_value(), u.getID().get_value() );
     }
 
     status = mission_status::success;
@@ -336,7 +337,7 @@ void mission::wrap_up()
     type->end( this );
 }
 
-bool mission::is_complete( const int _npc_id ) const
+bool mission::is_complete( const character_id _npc_id ) const
 {
     if( status == mission_status::success ) {
         return true;
@@ -380,7 +381,7 @@ bool mission::is_complete( const int _npc_id ) const
         return false;
 
         case MGOAL_FIND_ITEM: {
-            if( npc_id != -1 && npc_id != _npc_id ) {
+            if( npc_id.is_valid() && npc_id != _npc_id ) {
                 return false;
             }
             const inventory &tmp_inv = u.crafting_inventory();
@@ -392,10 +393,10 @@ bool mission::is_complete( const int _npc_id ) const
         return true;
 
         case MGOAL_FIND_ANY_ITEM:
-            return u.has_mission_item( uid ) && ( npc_id == -1 || npc_id == _npc_id );
+            return u.has_mission_item( uid ) && ( !npc_id.is_valid() || npc_id == _npc_id );
 
         case MGOAL_FIND_MONSTER:
-            if( npc_id != -1 && npc_id != _npc_id ) {
+            if( npc_id.is_valid() && npc_id != _npc_id ) {
                 return false;
             }
             return g->get_creature_if( [&]( const Creature & critter ) {
@@ -582,12 +583,12 @@ void mission::process()
 
     if( deadline > 0 && calendar::turn > deadline ) {
         fail();
-    } else if( npc_id < 0 && is_complete( npc_id ) ) { // No quest giver.
+    } else if( !npc_id.is_valid() && is_complete( npc_id ) ) { // No quest giver.
         wrap_up();
     }
 }
 
-int mission::get_npc_id() const
+character_id mission::get_npc_id() const
 {
     return npc_id;
 }
@@ -597,25 +598,25 @@ void mission::set_target( const tripoint &p )
     target = p;
 }
 
-void mission::set_target_npc_id( const int npc_id )
+void mission::set_target_npc_id( const character_id npc_id )
 {
     target_npc_id = npc_id;
 }
 
 bool mission::is_assigned() const
 {
-    return player_id != -1 || legacy_no_player_id;
+    return player_id.is_valid() || legacy_no_player_id;
 }
 
-int mission::get_assigned_player_id() const
+character_id mission::get_assigned_player_id() const
 {
     return player_id;
 }
 
-void mission::set_player_id_legacy_0c( int id )
+void mission::set_player_id_legacy_0c( character_id id )
 {
-    if( !legacy_no_player_id || player_id != -1 ) {
-        debugmsg( "Not a legacy mission, tried to set id %d", id );
+    if( !legacy_no_player_id || player_id.is_valid() ) {
+        debugmsg( "Not a legacy mission, tried to set id %d", id.get_value() );
     } else {
         player_id = id;
         legacy_no_player_id = false;
@@ -679,14 +680,14 @@ mission::mission()
     item_count = 1;
     target_id = string_id<oter_type_t>::NULL_ID();
     recruit_class = NC_NONE;
-    target_npc_id = -1;
+    target_npc_id = character_id();
     monster_type = mtype_id::NULL_ID();
     monster_kill_goal = -1;
-    npc_id = -1;
+    npc_id = character_id();
     good_fac_id = -1;
     bad_fac_id = -1;
     step = 0;
-    player_id = -1;
+    player_id = character_id();
 }
 
 mission_type::mission_type( mission_type_id ID, const std::string &NAME, mission_goal GOAL, int DIF,

@@ -4,7 +4,7 @@
     "type": "AMMO",
     "name": "40mm grenade",
     "weight": 230,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 40000,
     "material": [ "steel", "powder" ],
     "symbol": "=",

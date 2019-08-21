@@ -10,7 +10,7 @@
     "symbol": "0",
     "material": [ "wood" ],
     "flags": "TRADER_AVOID",
-    "volume": 42,
+    "volume": "10500 ml",
     "bashing": 6,
     "category": "veh_parts",
     "price": 20000
