@@ -1830,5 +1830,15 @@
     "type": "recipe",
     "result": "bio_advreactoruncraft",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "plut_slurry_dense",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "plut_slurry",
+    "obsolete": true
   }
 ]
