@@ -488,7 +488,7 @@
     "id": "disinfectant",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": "antispetic",
+    "name": "antiseptic",
     "description": "A powerful antiseptic commonly used for contaminated wounds.",
     "weight": 27,
     "volume": "250 ml",
@@ -506,7 +506,7 @@
     "type": "COMESTIBLE",
     "name": "makeshift antiseptic",
     "copy-from": "disinfectant",
-    "description": "Makeshift anitseptic made from ethanol.  Can be used to disinfect a wound.",
+    "description": "Makeshift antiseptic made from ethanol.  Can be used to disinfect a wound.",
     "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.95, "move_cost": 100 }
   },
