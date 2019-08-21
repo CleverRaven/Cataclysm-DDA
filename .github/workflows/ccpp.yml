@@ -19,5 +19,5 @@ jobs:
       run: sudo apt-get install libncursesw5-dev
     - name: make
       run: make
-    - name: make tests
-      run: make tests
+    - name: run tests
+      run: make check
