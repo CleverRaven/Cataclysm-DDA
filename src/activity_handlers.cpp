@@ -2093,7 +2093,7 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
                                "Some of the %s's engines start up.", non_muscle_started ), veh->name );
         } else if( non_combustion_started > 0 ) {
             //Non-combustions "engines" started
-            add_msg( "The %s is ready for movement.", veh->name );
+            add_msg( _( "The %s is ready for movement." ), veh->name );
         } else {
             //All of the non-muscle engines failed
             add_msg( m_bad, ngettext( "The %s's engine fails to start.",
