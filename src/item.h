@@ -1476,7 +1476,7 @@ class item : public visitable<item>
         float get_weight_capacity_modifier() const;
         /**
          * Returns the weight capacity bonus (@ref islot_armor::weight_capacity_modifier) that this item provides when worn.
-         * For non-armor it returns 1. The bonus is added to the total weight capacity of the character that wears the item.
+         * For non-armor it returns 0. The bonus is added to the total weight capacity of the character that wears the item.
          */
         units::mass get_weight_capacity_bonus() const;
         /**

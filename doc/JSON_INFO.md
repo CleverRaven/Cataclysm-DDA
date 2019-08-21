@@ -172,7 +172,7 @@ Currently, only effect names, item action names, item category names, and activi
 | time                     | How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
 | description              | In-game description.
 | encumbrance              | (_optional_) A list of body parts and how much this bionic encumber them.
-| weight_capacity_bonus    | (_optional_) Bonus to weight carrying capacity in kg, can be negative. (default: `0`)
+| weight_capacity_bonus    | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings can be used - "5000 g" or "5 kg" (default: `0`)
 | weight_capacity_modifier | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
 | canceled_mutations       | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
 | included_bionics         | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
@@ -911,7 +911,7 @@ Armor can be defined like this:
 "warmth" : 10,        //  (Optional, default = 0) How much warmth clothing provides
 "environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
 "encumbrance" : 0,    // Base encumbrance (unfitted value)
-"weight_capacity_bonus": 20,    // (Optional, default = 0) Bonus to weight carrying capacity in kg, can be negative.
+"weight_capacity_bonus": 20,    // (Optional, default = 0) Bonus to weight carrying capacity in grams, can be negative. Strings can be used - "5000 g" or "5 kg"
 "weight_capacity_modifier": 1.5, // (Optional, default = 1) Factor modifying base weight carrying capacity.
 "coverage" : 80,      // What percentage of body part
 "material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
