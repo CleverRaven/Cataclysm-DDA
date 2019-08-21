@@ -809,7 +809,7 @@ def writestr(filename, string, plural=None, context=None, format_strings=False, 
     # don't write empty strings
     if not string: return
 
-    with open(filename, 'a', encoding="utf-8") as fs:
+    with open(filename, 'a', encoding="utf-8", newline='\n') as fs:
         # Append developers comment
         if comment:
             tlcomment(fs, comment)
