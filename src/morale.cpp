@@ -577,7 +577,7 @@ void player_morale::display( int focus_eq )
         mvwprintz( w, point( getmaxx( w ) - 8, win_h - 2 ), c_white, "%d", focus_eq );
         fold_and_print_from( w, point( 2, win_h - 2 ), getmaxx( w ) - 9, 0, c_white, focus_equilibrium );
 
-        draw_scrollbar( w, offset, rows_visible, rows_total, 4, 0 );
+        draw_scrollbar( w, offset, rows_visible, rows_total, point( 0, 4 ) );
 
         wrefresh( w );
 

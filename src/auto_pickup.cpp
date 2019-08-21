@@ -174,7 +174,7 @@ void user_interface::show()
 
         const bool currentPageNonEmpty = !cur_rules.empty();
 
-        draw_scrollbar( w_border, iLine, iContentHeight, cur_rules.size(), 5 );
+        draw_scrollbar( w_border, iLine, iContentHeight, cur_rules.size(), point( 0, 5 ) );
         wrefresh( w_border );
 
         calcStartPos( iStartPos, iLine, iContentHeight, cur_rules.size() );

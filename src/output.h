@@ -530,7 +530,7 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt );
 
 // short visual animation (player, monster, ...) (hit, dodge, ...)
 // cTile is a UTF-8 strings, and must be a single cell wide!
-void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile );
+void hit_animation( const point &p, nc_color cColor, const std::string &cTile );
 
 /**
  * @return Pair of a string containing the bar, and its color
@@ -679,7 +679,7 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &
                   bool bDecorate = true, bool bDisabled = false );
 // Legacy function, use class scrollbar instead!
 void draw_scrollbar( const catacurses::window &window, int iCurrentLine,
-                     int iContentHeight, int iNumLines, int iOffsetY = 0, int iOffsetX = 0,
+                     int iContentHeight, int iNumLines, const point &offset = point_zero,
                      nc_color bar_color = c_white, bool bDoNotScrollToEnd = false );
 void calcStartPos( int &iStartPos, int iCurrentLine, int iContentHeight,
                    int iNumEntries );
@@ -779,7 +779,7 @@ class scrollingcombattext
 
         std::vector<cSCT> vSCT;
 
-        void add( int p_iPosX, int p_iPosY, direction p_oDir,
+        void add( const point &pos, direction p_oDir,
                   const std::string &p_sText, game_message_type p_gmt,
                   const std::string &p_sText2 = "", game_message_type p_gmt2 = m_neutral,
                   const std::string &p_sType = "" );

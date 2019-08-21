@@ -1233,7 +1233,7 @@ tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &p
             }
 
             for( int i = 0; i < used_pages; i++ ) {
-                draw_scrollbar( w, iCurrentLine[i], iContentHeight, traits_size[i], 5, page_width * i );
+                draw_scrollbar( w, iCurrentLine[i], iContentHeight, traits_size[i], point( page_width * i, 5 ) );
             }
         }
 
@@ -1591,7 +1591,7 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
                    ctxt.get_desc( "CHANGE_GENDER" ),
                    sorted_profs[cur_id]->gender_appropriate_name( !u.male ) );
 
-        draw_scrollbar( w, cur_id, iContentHeight, profs_length, 5 );
+        draw_scrollbar( w, cur_id, iContentHeight, profs_length, point( 0, 5 ) );
 
         wrefresh( w );
         wrefresh( w_description );
@@ -1782,7 +1782,7 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
                              selected, COL_SKILL_USED, rec_disp );
 
         draw_scrollbar( w, selected, iContentHeight, iLines,
-                        5, getmaxx( w ) - 1, BORDER_COLOR, true );
+                        point( getmaxx( w ) - 1, 5 ), BORDER_COLOR, true );
 
         calcStartPos( cur_offset, cur_pos, iContentHeight, num_skills );
         for( int i = cur_offset; i < num_skills && i - cur_offset < iContentHeight; ++i ) {
@@ -1809,7 +1809,7 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
             }
         }
 
-        draw_scrollbar( w, cur_pos, iContentHeight, num_skills, 5 );
+        draw_scrollbar( w, cur_pos, iContentHeight, num_skills, point( 0, 5 ) );
 
         wrefresh( w );
         wrefresh( w_description );
@@ -2138,7 +2138,7 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
             wprintz( w_flags, c_light_gray, ( "\n" ) );
         }
 
-        draw_scrollbar( w, cur_id, iContentHeight, scens_length, 5 );
+        draw_scrollbar( w, cur_id, iContentHeight, scens_length, point( 0, 5 ) );
         wrefresh( w );
         wrefresh( w_description );
         wrefresh( w_sorting );

@@ -651,7 +651,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
         }
 
-        draw_scrollbar( w_data, line, dataLines, recmax, 0 );
+        draw_scrollbar( w_data, line, dataLines, recmax, point_zero );
         wrefresh( w_data );
 
         if( isWide ) {

@@ -787,7 +787,7 @@ void color_manager::show_gui()
 
         calcStartPos( iStartPos, iCurrentLine, iContentHeight, iMaxColors );
 
-        draw_scrollbar( w_colors_border, iCurrentLine, iContentHeight, iMaxColors, 5 );
+        draw_scrollbar( w_colors_border, iCurrentLine, iContentHeight, iMaxColors, point( 0, 5 ) );
         wrefresh( w_colors_border );
 
         auto iter = name_color_map.begin();

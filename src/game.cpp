@@ -6452,7 +6452,7 @@ void game::zones_manager()
 
             calcStartPos( start_index, active_index, max_rows, zone_cnt );
 
-            draw_scrollbar( w_zones_border, active_index, max_rows, zone_cnt, 1 );
+            draw_scrollbar( w_zones_border, active_index, max_rows, zone_cnt, point_south );
             wrefresh( w_zones_border );
 
             int iNum = 0;
@@ -7537,7 +7537,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 centerlistview( active_pos, width );
                 draw_trail_to_square( active_pos, true );
             }
-            draw_scrollbar( w_items_border, iActive, iMaxRows, iItemNum, 1 );
+            draw_scrollbar( w_items_border, iActive, iMaxRows, iItemNum, point_south );
             wrefresh( w_items_border );
         }
 
@@ -7810,7 +7810,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             centerlistview( iActivePos, width );
             draw_trail_to_square( iActivePos, false );
 
-            draw_scrollbar( w_monsters_border, iActive, iMaxRows, static_cast<int>( monster_list.size() ), 1 );
+            draw_scrollbar( w_monsters_border, iActive, iMaxRows, static_cast<int>( monster_list.size() ),
+                            point_south );
             wrefresh( w_monsters_border );
         }
 

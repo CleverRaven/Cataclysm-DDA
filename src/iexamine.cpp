@@ -643,7 +643,7 @@ void iexamine::vending( player &p, const tripoint &examp )
                             elem->first.c_str() );
         }
 
-        draw_scrollbar( w, cur_pos, list_lines, num_items, first_item_offset );
+        draw_scrollbar( w, cur_pos, list_lines, num_items, point( 0, first_item_offset ) );
         wrefresh( w );
 
         // Item info
