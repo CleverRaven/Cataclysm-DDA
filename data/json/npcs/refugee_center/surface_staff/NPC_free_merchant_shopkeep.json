@@ -417,7 +417,7 @@
       "update_mapgen": {
         "om_terrain": "evac_center_9",
         "om_special": "evac_center",
-        "place_monster": [ { "monster": "mon_zombie_electric", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]
+        "place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]
       }
     },
     "end": {
