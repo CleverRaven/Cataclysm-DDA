@@ -61,9 +61,9 @@ static bool is_player_outside()
 /**
  * Glare.
  * Causes glare effect to player's eyes if they are not wearing applicable eye protection.
- * @param intensity Level of sun brighthess (1 = clear, 2 = sunny)
+ * @param intensity Level of sun brighthess
  */
-void weather_effect::glare( int intensity )
+void weather_effect::glare( sun_intensity intensity )
 {
     //General prepequisites for glare
     if( !is_player_outside() || !g->is_in_sunlight( g->u.pos() ) || g->u.in_sleep_state() ||
@@ -83,7 +83,7 @@ void weather_effect::glare( int intensity )
     } else if( intensity > 1 ) {
         //Sun glare: only for bright sunny weather
         effect = &effect_glare;
-        dur = ( !g->u.has_effect( *effect ) ) ? 2_turns : 1_turns;
+        dur = g->u.has_effect( *effect ) ? 1_turns : 2_turns;
     }
     //apply final glare effect
     if( dur > 0_turns && effect != nullptr ) {
@@ -394,13 +394,13 @@ static void generic_very_wet( bool acid )
 
 void weather_effect::none()
 {
-    glare( 1 );
+    glare( sun_intensity::normal );
 }
 void weather_effect::flurry()    {}
 
 void weather_effect::sunny()
 {
-    glare( 2 );
+    glare( sun_intensity::high );
 }
 
 /**
