@@ -8,7 +8,7 @@
     "weight": 10,
     "volume": "250 ml",
     "price": 100,
-    "price_postapoc":2900,
+    "price_postapoc": 2900,
     "material": [ "steel", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -30,7 +30,7 @@
     "name": "5.45x39mm 7N22",
     "description": "Armor piercing 5.45x39mm ammunition with 57gr bullets containing a steel penetrator.  Developed in 1998 by the Russian military.",
     "price": 350,
-    "price_postapoc":6500,
+    "price_postapoc": 6500,
     "symbol": "=",
     "color": "yellow",
     "relative": { "damage": -2, "pierce": 8 }
