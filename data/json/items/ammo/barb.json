@@ -1,0 +1,24 @@
+{
+  "type": "AMMO",
+  "id": "barb_paralysis",
+  "price": 400,
+  "name": "paralyzing barb",
+  "symbol": "=",
+  "color": "green",
+  "description": "Tiny droplets of venom trickle out of the sponge-like tissue of this sharp barb.",
+  "material": "bone",
+  "volume": "250ml",
+  "weight": 37,
+  "bashing": 6,
+  "cutting": 2,
+  "ammo_type": "barb",
+  "damage": 5,
+  "pierce": 5,
+  "dispersion": 120,
+  "loudness": 0,
+  "count": 10,
+  "show_stats": true,
+  "effects": [
+    "PARALYZEPOISON"
+  ]
+}

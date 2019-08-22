@@ -972,25 +972,6 @@
   },
   {
     "type": "city_building",
-    "id": "office_tower_collapsed",
-    "locations": [ "land" ],
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "office_tower_collapse_a0_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "office_tower_collapse_a1_north" },
-      { "point": [ 2, 0, 0 ], "overmap": "office_tower_collapse_a2_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "office_tower_collapse_b0_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "office_tower_collapse_b1_north" },
-      { "point": [ 2, 1, 0 ], "overmap": "office_tower_collapse_b2_north" },
-      { "point": [ 0, 0, -1 ], "overmap": "office_tower_collapse_b_a0_north" },
-      { "point": [ 1, 0, -1 ], "overmap": "office_tower_collapse_b_a1_north" },
-      { "point": [ 2, 0, -1 ], "overmap": "office_tower_collapse_b_a2_north" },
-      { "point": [ 0, 1, -1 ], "overmap": "office_tower_collapse_b_b0_north" },
-      { "point": [ 1, 1, -1 ], "overmap": "office_tower_collapse_b_b1_north" },
-      { "point": [ 2, 1, -1 ], "overmap": "office_tower_collapse_b_b2_north" }
-    ]
-  },
-  {
-    "type": "city_building",
     "id": "office_tower_hiddenlab",
     "locations": [ "land" ],
     "overmaps": [

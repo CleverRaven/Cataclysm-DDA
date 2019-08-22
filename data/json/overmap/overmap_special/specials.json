@@ -135,9 +135,9 @@
       { "point": [ 2, 1, -1 ], "overmap": "office_tower_collapse_b_b2_north" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" }, { "point": [ 2, -1, 0 ], "terrain": "road" } ],
-    "city_distance": [ 0, 1 ],
+    "city_distance": [ 0, 25 ],
     "locations": [ "land" ],
-    "city_sizes": [ 0, 12 ],
+    "city_sizes": [ 0, 16 ],
     "occurrences": [ 0, 0 ]
   },
   {

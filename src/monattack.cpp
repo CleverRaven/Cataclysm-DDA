@@ -98,6 +98,8 @@ const mtype_id mon_headless_dog_thing( "mon_headless_dog_thing" );
 const mtype_id mon_manhack( "mon_manhack" );
 const mtype_id mon_shadow( "mon_shadow" );
 const mtype_id mon_triffid( "mon_triffid" );
+const mtype_id mon_zombie_gasbag_impaler( "mon_zombie_gasbag_impaler" );
+const mtype_id mon_zombie_gasbag_crawler( "mon_zombie_gasbag_crawler" );
 const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
 const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
 const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
@@ -2566,8 +2568,13 @@ bool mattack::ranged_pull( monster *z )
         }
     }
     if( seen ) {
-        add_msg( _( "The %1$s's arms fly out and pull and grab %2$s!" ), z->name(),
-                 target->disp_name() );
+        if( z->type->bodytype == "human" || z->type->bodytype == "angel" ) {
+            add_msg( _( "The %1$s's arms fly out and pull and grab %2$s!" ), z->name(),
+                     target->disp_name() );
+        } else {
+            add_msg( _( "The %1$s reaches out and pulls %2$s!" ), z->name(),
+                     target->disp_name() );
+        }
     }
 
     const int prev_effect = target->get_effect_int( effect_grabbed );
@@ -4675,6 +4682,73 @@ bool mattack::riotbot( monster *z )
     }
 
     return true;
+}
+
+bool mattack::flesh_tendril( monster *z )
+{
+    Creature *target = z->attack_target();
+
+    if( target == nullptr || !z->sees( *target ) ) {
+        if( one_in( 70 ) ) {
+            add_msg( _( "The floor trembles underneath your feet." ) );
+            z->moves -= 200;
+            sounds::sound( z->pos(), 60, sounds::sound_t::alert, _( "a deafening roar!" ), false, "shout",
+                           "roar" );
+        }
+        return false;
+    }
+
+    const int distance_to_target = rl_dist( z->pos(), target->pos() );
+
+    // the monster summons stuff to fight you
+    if( distance_to_target > 3 && one_in( 12 ) ) {
+        std::vector<tripoint> free;
+
+        for( const tripoint &dest : g->m.points_in_radius( z->pos(), 1 ) ) {
+            if( g->is_empty( dest ) ) {
+                free.push_back( dest );
+            }
+        }
+        if( !free.empty() ) {
+            mtype_id spawned = mon_zombie_gasbag_crawler;
+            if( one_in( 2 ) ) {
+                spawned = mon_zombie_gasbag_impaler;
+            }
+
+            z->moves -= 100;
+            const tripoint target = random_entry( free );
+            if( monster *const summoned = g->summon_mon( spawned, target ) ) {
+                summoned->make_ally( *z );
+                g->m.propagate_field( z->pos(), fd_gibs_flesh, 75, 1 );
+                if( g->u.sees( *z ) ) {
+                    add_msg( m_warning, _( "A %s struggles to pull itself free from the %s!" ), summoned->name(),
+                             z->name() );
+                }
+            }
+            return true;
+        }
+    }
+
+    if( ( distance_to_target == 2 || distance_to_target == 3 ) && one_in( 4 ) ) {
+        //it pulls you towards itself and then knocks you away
+        bool pulled = ranged_pull( z );
+        if( pulled && one_in( 4 ) ) {
+            sounds::sound( z->pos(), 60, sounds::sound_t::alarm, _( "a deafening roar!" ), false, "shout",
+                           "roar" );
+        }
+        return pulled;
+    }
+
+    if( distance_to_target <= 1 ) {
+        if( one_in( 8 ) ) {
+            g->fling_creature( target, coord_to_angle( z->pos(), target->pos() ),
+                               z->type->melee_sides * z->type->melee_dice * 3 );
+        } else {
+            grab( z );
+        }
+    }
+
+    return false;
 }
 
 bool mattack::bio_op_takedown( monster *z )
