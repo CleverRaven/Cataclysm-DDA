@@ -13,7 +13,7 @@
     "covers": [ "TORSO" ],
     "coverage": 30,
     "encumbrance": 10,
-    "storage": 40,
+    "storage": "10 L",
     "warmth": 6,
     "material_thickness": 2,
     "flags": [ "BELTED" ]
@@ -32,7 +32,7 @@
     "covers": [ "TORSO" ],
     "coverage": 50,
     "encumbrance": 55,
-    "storage": 220,
+    "storage": "55 L",
     "warmth": 10,
     "material_thickness": 2,
     "use_action": {
@@ -61,7 +61,7 @@
     "covers": [ "TORSO", "LEGS" ],
     "coverage": 75,
     "encumbrance": 100,
-    "storage": 140,
+    "storage": "35 L",
     "warmth": 5,
     "material_thickness": 2,
     "flags": [ "BELTED" ]
@@ -80,7 +80,7 @@
     "covers": [ "TORSO" ],
     "coverage": 30,
     "encumbrance": 11,
-    "storage": 40,
+    "storage": "10 L",
     "warmth": 9,
     "material_thickness": 3,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
@@ -99,7 +99,7 @@
     "covers": [ "TORSO" ],
     "coverage": 50,
     "encumbrance": 65,
-    "storage": 260,
+    "storage": "65 L",
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ]
@@ -118,7 +118,7 @@
     "covers": [ "TORSO" ],
     "coverage": 50,
     "encumbrance": 100,
-    "storage": 400,
+    "storage": "100 L",
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ]
@@ -137,7 +137,7 @@
     "covers": [ "TORSO" ],
     "coverage": 40,
     "encumbrance": 10,
-    "storage": 38,
+    "storage": "9500 ml",
     "material_thickness": 1,
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
@@ -155,7 +155,7 @@
     "covers": [ "TORSO" ],
     "coverage": 50,
     "encumbrance": 30,
-    "storage": 120,
+    "storage": "30 L",
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
@@ -174,7 +174,7 @@
     "covers": [ "TORSO" ],
     "coverage": 40,
     "encumbrance": 14,
-    "storage": 15,
+    "storage": "3750 ml",
     "warmth": 8,
     "material_thickness": 2,
     "properties": [ [ "monster_size_capacity", "SMALL" ] ],
@@ -215,7 +215,7 @@
     "covers": [ "TORSO" ],
     "coverage": 30,
     "encumbrance": 10,
-    "storage": 20,
+    "storage": "5 L",
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
@@ -235,7 +235,7 @@
     "covers": [ "TORSO" ],
     "coverage": 40,
     "encumbrance": 40,
-    "storage": 30,
+    "storage": "7500 ml",
     "warmth": 10,
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY" ]
@@ -257,7 +257,7 @@
     "covers": [ "TORSO" ],
     "coverage": 30,
     "encumbrance": 5,
-    "storage": 25,
+    "storage": "6250 ml",
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
@@ -275,7 +275,7 @@
     "covers": [ "TORSO" ],
     "coverage": 35,
     "encumbrance": 9,
-    "storage": 48,
+    "storage": "12 L",
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
@@ -296,7 +296,7 @@
     "covers": [ "TORSO" ],
     "coverage": 10,
     "encumbrance": 7,
-    "storage": 20,
+    "storage": "5 L",
     "material_thickness": 2,
     "flags": [ "FANCY", "BELTED", "WATER_FRIENDLY" ]
   },
@@ -314,7 +314,7 @@
     "covers": [ "TORSO" ],
     "coverage": 40,
     "encumbrance": 20,
-    "storage": 80,
+    "storage": "20 L",
     "warmth": 8,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
@@ -335,7 +335,7 @@
     "covers": [ "TORSO" ],
     "coverage": 20,
     "encumbrance": 3,
-    "storage": 16,
+    "storage": "4 L",
     "warmth": 2,
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
@@ -356,7 +356,7 @@
     "covers": [ "TORSO" ],
     "coverage": 30,
     "encumbrance": 7,
-    "storage": 32,
+    "storage": "8 L",
     "warmth": 2,
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
@@ -375,7 +375,7 @@
     "covers": [ "TORSO" ],
     "coverage": 40,
     "encumbrance": 25,
-    "storage": 150,
+    "storage": "37500 ml",
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
   },
@@ -393,7 +393,7 @@
     "covers": [ "TORSO" ],
     "coverage": 30,
     "encumbrance": 8,
-    "storage": 50,
+    "storage": "12500 ml",
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ]
   },
@@ -411,7 +411,7 @@
     "covers": [ "TORSO" ],
     "coverage": 40,
     "encumbrance": 18,
-    "storage": 100,
+    "storage": "25 L",
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
   },
@@ -429,7 +429,7 @@
     "covers": [ "TORSO" ],
     "coverage": 30,
     "encumbrance": 2,
-    "storage": 18,
+    "storage": "4500 ml",
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ]
   },
@@ -447,7 +447,7 @@
     "covers": [ "TORSO" ],
     "coverage": 35,
     "encumbrance": 16,
-    "storage": 60,
+    "storage": "15 L",
     "warmth": 5,
     "material_thickness": 3,
     "flags": [ "BELTED", "OVERSIZE" ],
@@ -474,7 +474,7 @@
     "covers": [ "TORSO" ],
     "coverage": 40,
     "encumbrance": 25,
-    "storage": 100,
+    "storage": "25 L",
     "warmth": 8,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATERPROOF" ]

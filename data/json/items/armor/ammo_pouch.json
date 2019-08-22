@@ -93,7 +93,7 @@
     "coverage": 20,
     "encumbrance": 2,
     "material_thickness": 2,
-    "storage": 12,
+    "storage": "3 L",
     "use_action": {
       "type": "holster",
       "holster_prompt": "Stash ammo",
@@ -177,7 +177,7 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 7,
-    "storage": 10,
+    "storage": "2500 ml",
     "warmth": 15,
     "material_thickness": 4,
     "use_action": {
@@ -210,7 +210,7 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 15,
-    "storage": 4,
+    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 5,
     "use_action": {
@@ -243,7 +243,7 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 45,
-    "storage": 4,
+    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 4,
     "use_action": {
@@ -276,7 +276,7 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 8,
-    "storage": 4,
+    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 5,
     "use_action": {
@@ -309,7 +309,7 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 30,
-    "storage": 4,
+    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 5,
     "use_action": {
@@ -342,7 +342,7 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 15,
-    "storage": 4,
+    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 5,
     "use_action": {
@@ -375,7 +375,7 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 17,
-    "storage": 10,
+    "storage": "2500 ml",
     "warmth": 15,
     "material_thickness": 4,
     "use_action": {

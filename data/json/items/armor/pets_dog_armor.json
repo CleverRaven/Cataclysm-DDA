@@ -16,7 +16,7 @@
     "to_hit": -1,
     "flags": [ "IS_PET_ARMOR", "NO_SALVAGE" ],
     "material_thickness": 2,
-    "storage": 50,
+    "storage": "12500 ml",
     "max_pet_vol": "35000 ml",
     "min_pet_vol": "25000 ml",
     "pet_bodytype": "dog"
@@ -114,7 +114,7 @@
     "price_postapoc": 13000,
     "material": [ "superalloy" ],
     "weight": 3125,
-    "storage": 100,
+    "storage": "25 L",
     "min_pet_vol": "20000 ml"
   }
 ]
