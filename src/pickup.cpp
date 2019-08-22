@@ -182,7 +182,10 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     // We already checked in do_pickup if this was a nullptr
     // Make copies so the original remains untouched if we bail out
     item_location newloc = loc;
-    item newit = *newloc.get_item();
+    //original item reference
+    item &it = *newloc.get_item();
+    //new item (copy)
+    item newit = it;
     item leftovers = newit;
 
     const auto wield_check = u.can_wield( newit );
@@ -263,7 +266,8 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             break;
         case WIELD:
             if( wield_check.success() ) {
-                picked_up = u.wield( newit );
+                //using original item, possibly modifying it
+                picked_up = u.wield( it );
                 if( u.weapon.invlet ) {
                     add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
                              u.weapon.display_name() );
@@ -279,8 +283,8 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                 debugmsg( "Tried to spill contents from an empty container" );
                 break;
             }
-
-            picked_up = loc.get_item()->spill_contents( u );
+            //using original item, possibly modifying it
+            picked_up = it.spill_contents( u );
             if( !picked_up ) {
                 break;
             }

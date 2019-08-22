@@ -776,13 +776,13 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         } else if( source != nullptr ) {
             if( source->is_player() ) {
                 //player hits monster ranged
-                SCT.add( posx(), posy(),
+                SCT.add( point( posx(), posy() ),
                          direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
                          get_hp_bar( dealt_dam.total_damage(), get_hp_max(), true ).first,
                          m_good, message, gmtSCTcolor );
 
                 if( get_hp() > 0 ) {
-                    SCT.add( posx(), posy(),
+                    SCT.add( point( posx(), posy() ),
                              direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
                              get_hp_bar( get_hp(), get_hp_max(), true ).first, m_good,
                              //~ "hit points", used in scrolling combat text
@@ -1657,4 +1657,46 @@ void Creature::knock_back_from( const tripoint &p )
     }
 
     knock_back_to( to );
+}
+
+void Creature::add_msg_if_player( const translation &msg ) const
+{
+    return add_msg_if_player( msg.translated() );
+}
+
+void Creature::add_msg_if_player( game_message_type type, const translation &msg ) const
+{
+    return add_msg_if_player( type, msg.translated() );
+}
+
+void Creature::add_msg_if_npc( const translation &msg ) const
+{
+    return add_msg_if_npc( msg.translated() );
+}
+
+void Creature::add_msg_if_npc( game_message_type type, const translation &msg ) const
+{
+    return add_msg_if_npc( type, msg.translated() );
+}
+
+void Creature::add_msg_player_or_npc( const translation &pc, const translation &npc ) const
+{
+    return add_msg_player_or_npc( pc.translated(), npc.translated() );
+}
+
+void Creature::add_msg_player_or_npc( game_message_type type, const translation &pc,
+                                      const translation &npc ) const
+{
+    return add_msg_player_or_npc( type, pc.translated(), npc.translated() );
+}
+
+void Creature::add_msg_player_or_say( const translation &pc, const translation &npc ) const
+{
+    return add_msg_player_or_say( pc.translated(), npc.translated() );
+}
+
+void Creature::add_msg_player_or_say( game_message_type type, const translation &pc,
+                                      const translation &npc ) const
+{
+    return add_msg_player_or_say( type, pc.translated(), npc.translated() );
 }

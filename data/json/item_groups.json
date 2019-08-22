@@ -8204,7 +8204,6 @@
       [ "small_repairkit", 14 ],
       [ "grapnel", 6 ],
       [ "misc_repairkit", 8 ],
-      { "item": "flamethrower_simple", "prob": 2, "charges-min": 0, "charges-max": 500 },
       [ "toolbox", 1 ],
       [ "survivor_belt", 2 ],
       [ "survivor_machete", 2 ],

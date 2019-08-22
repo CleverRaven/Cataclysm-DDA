@@ -6,7 +6,7 @@
     "name": "steel bottle",
     "description": "A stainless steel water bottle, holds 750ml of liquid.",
     "weight": 200,
-    "volume": 3,
+    "volume": "750 ml",
     "price": 0,
     "to_hit": 1,
     "bashing": 4,

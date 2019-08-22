@@ -76,7 +76,7 @@ oter_id  ot_null,
          ot_forest_water,
          ot_river_center;
 
-const oter_type_t oter_type_t::null_type;
+const oter_type_t oter_type_t::null_type{};
 
 namespace om_lines
 {
@@ -775,9 +775,6 @@ bool oter_t::is_hardcoded() const
         "office_tower_1_entrance",
         "office_tower_b",
         "office_tower_b_entrance",
-        "sewage_treatment",
-        "sewage_treatment_hub",
-        "sewage_treatment_under",
         "silo",
         "silo_finale",
         "slimepit",
@@ -877,7 +874,7 @@ const overmap_special_terrain &overmap_special::get_terrain_at( const tripoint &
         return elem.p == p;
     } );
     if( iter == terrains.end() ) {
-        static const overmap_special_terrain null_terrain;
+        static const overmap_special_terrain null_terrain{};
         return null_terrain;
     }
     return *iter;
@@ -1240,7 +1237,7 @@ void overmap::insert_npc( std::shared_ptr<npc> who )
     g->set_npcs_dirty();
 }
 
-std::shared_ptr<npc> overmap::erase_npc( const int id )
+std::shared_ptr<npc> overmap::erase_npc( const character_id id )
 {
     const auto iter = std::find_if( npcs.begin(), npcs.end(), [id]( const std::shared_ptr<npc> &n ) {
         return n->getID() == id;
@@ -4324,7 +4321,7 @@ void overmap::for_each_npc( const std::function<void( const npc & )> &callback )
     }
 }
 
-std::shared_ptr<npc> overmap::find_npc( const int id ) const
+std::shared_ptr<npc> overmap::find_npc( const character_id id ) const
 {
     for( const auto &guy : npcs ) {
         if( guy->getID() == id ) {

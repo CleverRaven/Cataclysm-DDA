@@ -47,7 +47,7 @@ class monster;
 class Creature;
 struct rl_vec2d;
 class tripoint_range;
-
+class character_id;
 class field;
 class field_entry;
 class vehicle;
@@ -907,7 +907,7 @@ class map
         void i_rem( const point &p, item *it );
         void spawn_item( const point &p, const std::string &itype_id,
                          unsigned quantity = 1, int charges = 0,
-                         const time_point &birthday = calendar::turn_zero, int damlevel = 0 );
+                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 );
 
         item &add_item_or_charges( const point &p, item obj, bool overflow = true );
 
@@ -932,7 +932,7 @@ class map
         void spawn_natural_artifact( const tripoint &p, artifact_natural_property prop );
         void spawn_item( const tripoint &p, const std::string &itype_id,
                          unsigned quantity = 1, int charges = 0,
-                         const time_point &birthday = calendar::turn_zero, int damlevel = 0 );
+                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 );
         units::volume max_volume( const tripoint &p );
         units::volume free_volume( const tripoint &p );
         units::volume stored_volume( const tripoint &p );
@@ -1021,7 +1021,7 @@ class map
         * @return Vector of pointers to placed items (can be empty, but no nulls).
         */
         std::vector<item *> put_items_from_loc( const items_location &loc, const tripoint &p,
-                                                const time_point &turn = calendar::turn_zero );
+                                                const time_point &turn = calendar::start_of_cataclysm );
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
         std::vector<item *> spawn_items( const tripoint &p, const std::vector<item> &new_items );
@@ -1217,14 +1217,16 @@ class map
         void generate( const tripoint &p, const time_point &when );
         void place_spawns( const mongroup_id &group, int chance,
                            const point &p1, const point &p2, float intensity,
-                           bool individual = false, bool friendly = false );
+                           bool individual = false, bool friendly = false, const std::string &name = "NONE",
+                           int mission_id = -1 );
         void place_gas_pump( const point &p, int charges );
         void place_gas_pump( const point &p, int charges, const std::string &fuel_type );
         // 6 liters at 250 ml per charge
         void place_toilet( const point &p, int charges = 6 * 4 );
         void place_vending( const point &p, const std::string &type, bool reinforced = false );
         // places an NPC, if static NPCs are enabled or if force is true
-        int place_npc( const point &p, const string_id<npc_template> &type, bool force = false );
+        character_id place_npc( const point &p, const string_id<npc_template> &type,
+                                bool force = false );
         void apply_faction_ownership( const point &p1, const point &p2, faction_id id );
         void add_spawn( const mtype_id &type, int count, const point &p,
                         bool friendly = false,
@@ -1425,8 +1427,6 @@ class map
                         float density );
         void draw_temple( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
                           float density );
-        void draw_sewer( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                         float density );
         void draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
                         float density );
         void draw_spiral( const oter_id &terrain_type, mapgendata &dat, const time_point &when,

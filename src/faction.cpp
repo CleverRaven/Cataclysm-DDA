@@ -659,7 +659,7 @@ void new_faction_manager::display() const
             case tab_mode::TAB_MYFACTION:
                 if( active_vec_size > 0 ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
-                                    3, 0 );
+                                    point( 0, 3 ) );
                     for( size_t i = top_of_page; i < active_vec_size; i++ ) {
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
@@ -679,7 +679,7 @@ void new_faction_manager::display() const
             case tab_mode::TAB_FOLLOWERS:
                 if( !followers.empty() ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
-                                    3, 0 );
+                                    point( 0, 3 ) );
                     for( size_t i = top_of_page; i < active_vec_size; i++ ) {
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,

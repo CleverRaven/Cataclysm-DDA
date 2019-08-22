@@ -1618,37 +1618,34 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
             body->set_var( "zlave", "mutilated" );
         }
 
+    } else if( success > -20 ) {
+
+        p->practice( skill_firstaid, rng( 3, 6 ) );
+        p->practice( skill_survival, rng( 3, 6 ) );
+
+        p->add_msg_if_player( m_warning,
+                              _( "You hack into the corpse and chop off some body parts.  You think the zombie won't be able to attack when it reanimates." ) );
+
+        success += rng( 1, 20 );
+
+        if( success > 0 && !one_in( 5 ) ) {
+            body->set_var( "zlave", "zlave" );
+        } else {
+            body->set_var( "zlave", "mutilated" );
+        }
+
     } else {
 
-        if( success > -20 ) {
+        p->practice( skill_firstaid, rng( 1, 8 ) );
+        p->practice( skill_survival, rng( 1, 8 ) );
 
-            p->practice( skill_firstaid, rng( 3, 6 ) );
-            p->practice( skill_survival, rng( 3, 6 ) );
-
-            p->add_msg_if_player( m_warning,
-                                  _( "You hack into the corpse and chop off some body parts.  You think the zombie won't be able to attack when it reanimates." ) );
-
-            success += rng( 1, 20 );
-
-            if( success > 0 && !one_in( 5 ) ) {
-                body->set_var( "zlave", "zlave" );
-            } else {
-                body->set_var( "zlave", "mutilated" );
-            }
-
+        body->mod_damage( rng( 0, body->max_damage() - body->damage() ), DT_STAB );
+        if( body->damage() == body->max_damage() ) {
+            body->active = false;
+            p->add_msg_if_player( m_warning, _( "You cut up the corpse too much, it is thoroughly pulped." ) );
         } else {
-
-            p->practice( skill_firstaid, rng( 1, 8 ) );
-            p->practice( skill_survival, rng( 1, 8 ) );
-
-            body->mod_damage( rng( 0, body->max_damage() - body->damage() ), DT_STAB );
-            if( body->damage() == body->max_damage() ) {
-                body->active = false;
-                p->add_msg_if_player( m_warning, _( "You cut up the corpse too much, it is thoroughly pulped." ) );
-            } else {
-                p->add_msg_if_player( m_warning,
-                                      _( "You cut into the corpse trying to make it unable to attack, but you don't think you have it right." ) );
-            }
+            p->add_msg_if_player( m_warning,
+                                  _( "You cut into the corpse trying to make it unable to attack, but you don't think you have it right." ) );
         }
     }
 }
@@ -2789,7 +2786,7 @@ void activity_handlers::butcher_do_turn( player_activity * /*act*/, player *p )
 void activity_handlers::read_do_turn( player_activity *act, player *p )
 {
     if( !act->str_values.empty() && act->str_values[0] == "martial_art" && one_in( 3 ) ) {
-        if( act->values.size() == 0 ) {
+        if( act->values.empty() ) {
             act->values.push_back( p->stamina );
         }
         p->stamina = act->values[0] - 1;

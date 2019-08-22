@@ -7,7 +7,7 @@
     "description": "A large rigid steel boom.  If attached to a frame it could be used to lift up to 20 metric tonnes.",
     "price": 23400,
     "weight": 31600,
-    "volume": 50,
+    "volume": "12500 ml",
     "material": "steel",
     "symbol": "&",
     "color": "dark_gray"
@@ -20,7 +20,7 @@
     "description": "A small steel telescoping cantilever.  If attached to a frame it could be used to lift up to 3.5 metric tonnes.",
     "price": 7900,
     "weight": 12000,
-    "volume": 12,
+    "volume": "3 L",
     "material": "steel",
     "symbol": "&",
     "color": "dark_gray"
@@ -33,7 +33,7 @@
     "description": "A makeshift pallet lifter.  If attached to a frame it could be used to lift up to 0.5 metric tonnes.",
     "price": 7900,
     "weight": 12000,
-    "volume": 12,
+    "volume": "3 L",
     "material": "steel",
     "symbol": "&",
     "color": "dark_gray"
@@ -62,7 +62,7 @@
     "material": "steel",
     "category": "veh_parts",
     "price": 8500,
-    "volume": 35,
+    "volume": "8750 ml",
     "qualities": [ [ "SELF_JACK", 17 ] ]
   },
   {
@@ -76,7 +76,7 @@
     "material": "steel",
     "category": "veh_parts",
     "price": 500,
-    "volume": 2,
+    "volume": "500 ml",
     "qualities": [ [ "SELF_JACK", 1 ] ]
   }
 ]

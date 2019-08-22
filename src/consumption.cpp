@@ -10,6 +10,7 @@
 
 #include "addiction.h"
 #include "avatar.h"
+#include "bionics.h"
 #include "calendar.h" // ticks_between
 #include "cata_utility.h"
 #include "debug.h"
@@ -1310,6 +1311,30 @@ bool player::feed_furnace_with( item &it )
     return true;
 }
 
+bool player::fuel_bionic_with( item &it )
+{
+    if( !can_fuel_bionic_with( it ) ) {
+        return false;
+    }
+
+    const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
+
+    const int loadable = std::min( it.charges, get_fuel_capacity( it.typeId() ) );
+
+    const std::string loaded_charge = std::to_string( loadable );
+
+    it.charges -= loadable;
+    set_value( it.typeId(), loaded_charge );// type and amount of fuel
+    update_fuel_storage( it.typeId() );
+    add_msg_player_or_npc( m_info,
+                           ngettext( "You load %i charge of %s in your %s.",
+                                     "You load %i charges of %s in your %s.", loadable ),
+                           ngettext( "<npcname> load %i charge of %s in their %s.",
+                                     "<npcname> load %i charges of %s in their %s.", loadable ), loadable, it.tname(), bio->name );
+    mod_moves( -250 );
+    return true;
+}
+
 rechargeable_cbm player::get_cbm_rechargeable_with( const item &it ) const
 {
     if( can_feed_reactor_with( it ) ) {
@@ -1323,6 +1348,10 @@ rechargeable_cbm player::get_cbm_rechargeable_with( const item &it ) const
         return rechargeable_cbm::battery;
     } else if( can_feed_furnace_with( it ) ) {
         return rechargeable_cbm::furnace;
+    }
+
+    if( can_fuel_bionic_with( it ) ) {
+        return rechargeable_cbm::other;
     }
 
     return rechargeable_cbm::none;
@@ -1366,6 +1395,12 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
 
             return amount;
         }
+        case rechargeable_cbm::other:
+            const int to_consume = std::min( it.charges, std::numeric_limits<int>::max() );
+            const int to_charge = std::min( static_cast<int>( it.fuel_energy() * to_consume ),
+                                            max_power_level - power_level );
+            return to_charge;
+            break;
     }
 
     return 0;

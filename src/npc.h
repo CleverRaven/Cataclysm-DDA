@@ -19,7 +19,6 @@
 #include "optional.h"
 #include "pimpl.h"
 #include "player.h"
-#include "auto_pickup.h"
 #include "color.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -34,6 +33,10 @@
 #include "item.h"
 #include "point.h"
 
+namespace auto_pickup
+{
+class npc_settings;
+} // namespace auto_pickup
 struct bionic_data;
 class JsonObject;
 class JsonIn;
@@ -422,7 +425,7 @@ struct npc_follower_rules {
     ally_rule override_enable;
     ally_rule overrides;
 
-    pimpl<auto_pickup> pickup_whitelist;
+    pimpl<auto_pickup::npc_settings> pickup_whitelist;
 
     npc_follower_rules();
 
@@ -1272,7 +1275,6 @@ class npc : public player
         // the index of the bionics for the fake gun;
         int cbm_weapon_index = -1;
 
-        void setID( int id );
         bool dead;  // If true, we need to be cleaned up
 
         bool sees_dangerous_field( const tripoint &p ) const;
@@ -1295,7 +1297,7 @@ class standard_npc : public npc
 class npc_template
 {
     public:
-        npc_template() {}
+        npc_template() = default;
 
         npc guy;
 

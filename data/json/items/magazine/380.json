@@ -62,5 +62,37 @@
     "capacity": 32,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "hptcf380mag_8rd",
+    "type": "MAGAZINE",
+    "name": "CF-380 magazine",
+    "description": "An 8-round steel box magazine for use with the Hi-Point CF-380.",
+    "weight": 110,
+    "volume": "236 ml",
+    "price": 2500,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "380",
+    "capacity": 8,
+    "reliability": 8,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "hptcf380mag_10rd",
+    "type": "MAGAZINE",
+    "name": "CF-380 magazine",
+    "description": "A 10-round steel box magazine for use with the Hi-Point CF-380.",
+    "weight": 110,
+    "volume": "236 ml",
+    "price": 2500,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "380",
+    "capacity": 10,
+    "reliability": 8,
+    "flags": [ "MAG_COMPACT" ]
   }
 ]
