@@ -7,7 +7,7 @@
     "weight": 6,
     "volume": "250 ml",
     "price": 140,
-    "price_postapoc":2600,
+    "price_postapoc": 2600,
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -37,7 +37,7 @@
     "name": ".380 ACP +P",
     "description": "Overpressure .380 ACP ammunition with a 90gr jacketed hollow point bullet.  These defensive loadings are designed to maximize performance and tend to be more accurate than practice ammo.  One should be careful not to chamber it in 9x18mm Makarov or 9x19mm firearms.",
     "price": 190,
-    "price_postapoc":3800,
+    "price_postapoc": 3800,
     "count": 25,
     "relative": { "damage": 4, "pierce": 2, "dispersion": -15 },
     "proportional": { "recoil": 1.1 }
