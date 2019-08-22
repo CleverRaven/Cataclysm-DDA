@@ -13,6 +13,7 @@
 #include "calendar.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "units.h"
 
 class player;
 class JsonObject;
@@ -74,6 +75,10 @@ struct bionic_data {
     * If true, this bionic is included with another.
     */
     bool included = false;
+    /**Factor modifiying weight capacity*/
+    float weight_capacity_modifier;
+    /**Bonus to weight capacity*/
+    units::mass weight_capacity_bonus;
     /**Fuel types that can be used by this bionic*/
     std::vector<itype_id> fuel_opts;
     /**How much fuel this bionic can hold*/

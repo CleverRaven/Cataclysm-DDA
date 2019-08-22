@@ -248,6 +248,14 @@ struct islot_armor {
      */
     units::volume storage = 0_ml;
     /**
+    * Factor modifiying weight capacity
+    */
+    float weight_capacity_modifier = 1.0;
+    /**
+    * Bonus to weight capacity
+    */
+    units::mass weight_capacity_bonus = 0_gram;
+    /**
      * Whether this is a power armor item.
      */
     bool power_armor = false;

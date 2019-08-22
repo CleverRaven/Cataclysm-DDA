@@ -2037,6 +2037,29 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                              "item</info>." ) ) );
             }
         }
+        const units::mass weight_bonus = get_weight_capacity_bonus();
+        const float weight_modif = get_weight_capacity_modifier();
+        if( weight_modif != 1 ) {
+            std::string modifier;
+            if( weight_modif < 1 ) {
+                modifier = "<num><bad>x</bad>";
+            } else {
+                modifier = "<num><color_light_green>x</color>";
+            }
+            info.push_back( iteminfo( "ARMOR",
+                                      _( "<bold>Weight capacity modifier</bold>: " ), modifier,
+                                      iteminfo::no_newline | iteminfo::is_decimal, weight_modif ) );
+        }
+        if( weight_bonus != 0_gram ) {
+            std::string bonus;
+            if( weight_bonus < 0_gram ) {
+                bonus = string_format( "<num> <bad>%s</bad>", weight_units() );
+            } else {
+                bonus = string_format( "<num> <color_light_green> %s</color>", weight_units() );
+            }
+            info.push_back( iteminfo( "ARMOR", _( "<bold>Weight capacity bonus</bold>: " ), bonus,
+                                      iteminfo::no_newline | iteminfo::is_decimal, convert_weight( weight_bonus ) ) );
+        }
 
     }
     if( is_book() ) {
@@ -2643,10 +2666,60 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         // TODO: Unhide when enforcing limits
-        if( is_bionic() && get_option < bool >( "CBM_SLOTS_ENABLED" )
-            && parts->test( iteminfo_parts::DESCRIPTION_CBM_SLOTS ) ) {
-            info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( type->bionic->id,
-                                      _( "This bionic is installed in the following body part(s):" ) ) ) );
+        if( is_bionic() ) {
+            if( get_option < bool >( "CBM_SLOTS_ENABLED" )
+                && parts->test( iteminfo_parts::DESCRIPTION_CBM_SLOTS ) ) {
+                info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( type->bionic->id,
+                                          _( "This bionic is installed in the following body part(s):" ) ) ) );
+            }
+            insert_separation_line();
+
+            const bionic_id bid = type->bionic->id;
+
+            if( !bid->encumbrance.empty() ) {
+                info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance:</bold> " ),
+                                          iteminfo::no_newline ) );
+                for( const auto &element : bid->encumbrance ) {
+                    info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ), " <num> ",
+                                              iteminfo::no_newline, element.second ) );
+                }
+
+            }
+
+            if( !bid->env_protec.empty() ) {
+                info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Environmental Protection:</bold> " ),
+                                          iteminfo::no_newline ) );
+                for( const auto &element : bid->env_protec ) {
+                    info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ), " <num> ",
+                                              iteminfo::no_newline, element.second ) );
+                }
+
+            }
+
+            const units::mass weight_bonus = bid->weight_capacity_bonus;
+            const float weight_modif = bid->weight_capacity_modifier;
+            if( weight_modif != 1 ) {
+                std::string modifier;
+                if( weight_modif < 1 ) {
+                    modifier = "<num><bad>x</bad>";
+                } else {
+                    modifier = "<num><color_light_green>x</color>";
+                }
+                info.push_back( iteminfo( "CBM",
+                                          _( "<bold>Weight capacity modifier</bold>: " ), modifier,
+                                          iteminfo::no_newline | iteminfo::is_decimal, weight_modif ) );
+            }
+            if( weight_bonus != 0_gram ) {
+                std::string bonus;
+                if( weight_bonus < 0_gram ) {
+                    bonus = string_format( "<num> <bad>%s</bad>", weight_units() );
+                } else {
+                    bonus = string_format( "<num> <color_light_green>%s</color>", weight_units() );
+                }
+                info.push_back( iteminfo( "CBM", _( "<bold>Weight capacity bonus</bold>: " ), bonus,
+                                          iteminfo::no_newline | iteminfo::is_decimal, convert_weight( weight_bonus ) ) );
+            }
+
         }
 
         if( is_gun() && has_flag( "FIRE_TWOHAND" ) &&
@@ -4341,6 +4414,24 @@ units::volume item::get_storage() const
     storage += lround( mod ) * units::legacy_volume_factor;
 
     return storage;
+}
+
+float item::get_weight_capacity_modifier() const
+{
+    const islot_armor *t = find_armor_data();
+    if( t == nullptr ) {
+        return 1;
+    }
+    return t->weight_capacity_modifier;
+}
+
+units::mass item::get_weight_capacity_bonus() const
+{
+    const islot_armor *t = find_armor_data();
+    if( t == nullptr ) {
+        return 0_gram;
+    }
+    return t->weight_capacity_bonus;
 }
 
 int item::get_env_resist( int override_base_resist ) const

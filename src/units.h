@@ -496,6 +496,11 @@ static const std::vector<std::pair<std::string, energy>> energy_units = { {
         { "kJ", 1_kJ },
     }
 };
+static const std::vector<std::pair<std::string, mass>> mass_units = { {
+        { "g", 1_gram },
+        { "kg", 1_kilogram },
+    }
+};
 } // namespace units
 
 template<typename T>

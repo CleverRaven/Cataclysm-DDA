@@ -1085,6 +1085,7 @@
     "name": "Titanium Skeletal Bracing",
     "description": "Titanium bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds.",
     "occupied_bodyparts": [ [ "TORSO", 8 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
+    "weight_capacity_bonus": "20 kg",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
