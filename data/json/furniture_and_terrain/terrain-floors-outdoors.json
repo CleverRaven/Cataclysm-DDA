@@ -40,7 +40,7 @@
     "symbol": "#",
     "color": "brown",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "BURROWABLE" ],
     "bash": {
       "str_min": 2,
       "str_max": 4,
@@ -58,7 +58,7 @@
     "symbol": "#",
     "color": "brown",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "BURROWABLE" ],
     "bash": {
       "str_min": 2,
       "str_max": 4,
