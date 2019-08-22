@@ -2616,8 +2616,8 @@ bool mattack::grab( monster *z )
         if( target->has_effect( effect_grabbed ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        z->name() );
-        }
-        else if( pl->is_throw_immune() && ( !pl->is_armed() || pl->style_selected.obj().has_weapon( pl->weapon.typeId() ) ) ) {
+        } else if( pl->is_throw_immune() && ( !pl->is_armed() ||
+                                              pl->style_selected.obj().has_weapon( pl->weapon.typeId() ) ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you..." ), z->name() );
             thrown_by_judo( z );
         } else if( pl->has_grab_break_tec() ) {
