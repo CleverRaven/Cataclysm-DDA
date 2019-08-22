@@ -7,6 +7,8 @@
 #include "magic.h"
 #include "translations.h"
 
+#include <math.h>
+
 void relic::add_active_effect( const fake_spell &sp )
 {
     active_effects.emplace_back( sp );
@@ -28,7 +30,8 @@ void relic::load( JsonObject &jo )
         JsonArray jarray = jo.get_array( "active_effects" );
         while( jarray.has_more() ) {
             fake_spell sp;
-            sp.load( jarray.next_object() );
+            JsonObject jobj = jarray.next_object();
+            sp.load( jobj );
             add_active_effect( sp );
         }
     }
@@ -36,7 +39,8 @@ void relic::load( JsonObject &jo )
         JsonArray jarray = jo.get_array( "passive_effects" );
         while( jarray.has_more() ) {
             enchantment ench;
-            ench.load( jarray.next_object() );
+            JsonObject jobj = jarray.next_object();
+            ench.load( jobj );
             add_passive_effect( ench );
         }
     }
@@ -47,7 +51,8 @@ void relic::load( JsonObject &jo )
 
 void relic::deserialize( JsonIn &jsin )
 {
-    load( jsin.get_object() );
+    JsonObject jobj = jsin.get_object();
+    load( jobj );
 }
 
 void relic::serialize( JsonOut &jsout ) const
@@ -64,8 +69,7 @@ int relic::activate( Creature &caster, const tripoint &target ) const
     return charges_per_activation;
 }
 
-int relic::modify_value( const enchantment::mod value_type, const int value,
-                         const Character &guy, const item &parent ) const
+int relic::modify_value( const enchantment::mod value_type, const int value ) const
 {
     int add_modifier = 0;
     double multiply_modifier = 0.0;
