@@ -8982,7 +8982,7 @@ bool player::invoke_item( item *used, const std::string &method, const tripoint 
 
     if( used->is_tool() || used->is_medication() || used->get_contained().is_medication() ) {
         return consume_charges( *actually_used, charges_used );
-    } else if( used->is_bionic() || used->is_deployable() ) {
+    } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
         i_rem( used );
         return true;
     }
