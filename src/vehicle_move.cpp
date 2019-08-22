@@ -808,21 +808,6 @@ void vehicle::handle_trap( const tripoint &p, int part )
         }
     }
 
-    if( t == tr_beartrap || t == tr_beartrap_buried ) {
-        g->m.spawn_item( p, "beartrap" );
-    } else if( t == tr_crossbow ) {
-        g->m.spawn_item( p, "crossbow" );
-        g->m.spawn_item( p, "string_6" );
-        if( !one_in( 10 ) ) {
-            g->m.spawn_item( p, "bolt_steel" );
-        }
-    } else if( t == tr_shotgun_2 ) {
-        g->m.trap_set( p, tr_shotgun_1 );
-    } else if( t == tr_shotgun_1 ) {
-        g->m.spawn_item( p, "shotgun_s" );
-        g->m.spawn_item( p, "string_6" );
-    }
-
     if( veh_data.chance >= rng( 1, 100 ) ) {
         if( veh_data.sound_volume > 0 ) {
             sounds::sound( p, veh_data.sound_volume, sounds::sound_t::combat, veh_data.sound, false,
@@ -836,6 +821,15 @@ void vehicle::handle_trap( const tripoint &p, int part )
         }
         if( veh_data.remove_trap || veh_data.do_explosion ) {
             g->m.remove_trap( p );
+        }
+        for( const auto &it : veh_data.spawn_items ) {
+            int cnt = roll_remainder( it.second );
+            if( cnt > 0 ) {
+                g->m.spawn_item( p, it.first, cnt );
+            }
+        }
+        if( veh_data.set_trap ) {
+            g->m.trap_set( p, veh_data.set_trap.id() );
         }
     }
 }
