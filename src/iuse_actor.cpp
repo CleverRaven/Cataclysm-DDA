@@ -929,7 +929,43 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( p.is_npc() ) {
         return 0;
     }
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Use your lockpick where?" ) );
+
+    std::set<ter_id> allowed_ter_id {
+        t_chaingate_l,
+        t_door_locked,
+        t_door_locked_alarm,
+        t_door_locked_interior,
+        t_door_locked_peep,
+        t_door_metal_pickable,
+        t_door_bar_locked
+    };
+
+    cata::optional<tripoint> pnt_;
+    //select adjacent point with locked door, but only if it is the only one
+    bool found = false;
+    for( const tripoint &pos : g->m.points_in_radius( p.pos(), 1 ) ) {
+        if( pos == g->u.pos() ) {
+            continue;
+        }
+        const ter_id type = g->m.ter( pos );
+        //is allowed?
+        if( allowed_ter_id.find( type ) != allowed_ter_id.end() ) {
+            if( pnt_ ) {
+                //found more that one
+                pnt_.reset();
+                break;
+            }
+            pnt_ = pos;
+            found = true;
+        }
+    }
+    if( !found ) {
+        p.add_msg_if_player( m_info, _( "No lock to pick." ) );
+        return 0;
+    }
+    if( !pnt_ ) {
+        pnt_ = choose_adjacent( _( "Use your lockpick where?" ) );
+    }
     if( !pnt_ ) {
         return 0;
     }
