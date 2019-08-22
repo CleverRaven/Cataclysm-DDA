@@ -343,7 +343,7 @@
     "type": "profession",
     "ident": "crt_juggernaught",
     "name": "CRIT Lone Wolf",
-    "description": "STR 10 recommended. You are fully armored badass granted the full authority of a U.S Marshal. Sent in as the one man army capable of handling anything. Dropped into warzones, you singlehandedly laid out entire battalions by yourself. Time to hang them all.",
+    "description": "STR 12 recommended. You are fully armored badass granted the full authority of a U.S Marshal. Sent in as the one man army capable of handling anything. Dropped into warzones, you singlehandedly laid out entire battalions by yourself. Time to hang them all.",
     "traits": [ "MARTIAL_CRT", "PROF_FED" ],
     "CBMs": [
       "bio_weight",
