@@ -15,7 +15,7 @@
     "weight": 8,
     "volume": "250 ml",
     "price": 210,
-    "price_postapoc":2200,
+    "price_postapoc": 2200,
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -36,7 +36,7 @@
     "name": ".38 Super",
     "description": ".38 Super ammunition with 90gr JHP bullets.  Designed in 1929, the .38 super cartridge was designed to penetrate body armor and vehicles.",
     "price": 240,
-    "price_postapoc":2700,
+    "price_postapoc": 2700,
     "count": 20,
     "relative": { "damage": 5, "pierce": 4, "dispersion": -10 },
     "proportional": { "recoil": 1.5 }
