@@ -1294,7 +1294,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
             newy = b.y;
         }
 
-        const tripoint& dest = tripoint( newx, newy, b.z );
+        const tripoint &dest = tripoint( newx, newy, b.z );
         if( g->is_empty( dest ) ) {
             t.setpos( dest );
         }
