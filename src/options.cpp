@@ -2483,7 +2483,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         }
 
         draw_scrollbar( w_options_border, iCurrentLine, iContentHeight,
-                        mPageItems[iCurrentPage].size(), iTooltipHeight + 2 + iWorldOffset, 0, BORDER_COLOR );
+                        mPageItems[iCurrentPage].size(), point( 0, iTooltipHeight + 2 + iWorldOffset ), BORDER_COLOR );
         wrefresh( w_options_border );
 
         //Draw Tabs

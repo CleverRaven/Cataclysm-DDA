@@ -12,6 +12,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
+#include "event_bus.h"
 #include "explosion.h"
 #include "field.h"
 #include "game.h"
@@ -2046,10 +2047,8 @@ void monster::die( Creature *nkiller )
             // has guilt flag or player is pacifist && monster is humanoid
             mdeath::guilt( *this );
         }
-        // TODO: add a kill counter to npcs?
-        if( ch->is_player() ) {
-            g->increase_kill_count( type->id );
-        }
+        g->events().send( event::make<event_type::character_kills_monster>(
+                              calendar::turn, ch->getID(), type->id ) );
         if( type->difficulty >= 30 ) {
             ch->add_memorial_log( pgettext( "memorial_male", "Killed a %s." ),
                                   pgettext( "memorial_female", "Killed a %s." ),

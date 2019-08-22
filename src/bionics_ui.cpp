@@ -468,7 +468,7 @@ void player::power_bionics()
                 }
             }
 
-            draw_scrollbar( wBio, cursor, LIST_HEIGHT, current_bionic_list->size(), list_start_y );
+            draw_scrollbar( wBio, cursor, LIST_HEIGHT, current_bionic_list->size(), point( 0, list_start_y ) );
 
 #if defined(__ANDROID__)
             ctxt.get_registered_manual_keys().clear();

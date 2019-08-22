@@ -51,6 +51,8 @@ const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_riding( "riding" );
 const efftype_id effect_ridden( "ridden" );
 const efftype_id effect_tied( "tied" );
+const efftype_id effect_paralyzepoison( "paralyzepoison" );
+
 
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
@@ -727,6 +729,10 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     if( proj_effects.count( "APPLY_SAP" ) ) {
         add_effect( effect_sap, 1_turns * dealt_dam.total_damage() );
     }
+    if( proj_effects.count( "PARALYZEPOISON" ) && dealt_dam.total_damage() > 0 ) {
+        add_msg_if_player( m_bad, _( "You feel poison coursing through your body!" ) );
+        add_effect( effect_paralyzepoison, 5_minutes );
+    }
 
     int stun_strength = 0;
     if( proj.proj_effects.count( "BEANBAG" ) ) {
@@ -776,13 +782,13 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         } else if( source != nullptr ) {
             if( source->is_player() ) {
                 //player hits monster ranged
-                SCT.add( posx(), posy(),
+                SCT.add( point( posx(), posy() ),
                          direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
                          get_hp_bar( dealt_dam.total_damage(), get_hp_max(), true ).first,
                          m_good, message, gmtSCTcolor );
 
                 if( get_hp() > 0 ) {
-                    SCT.add( posx(), posy(),
+                    SCT.add( point( posx(), posy() ),
                              direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
                              get_hp_bar( get_hp(), get_hp_max(), true ).first, m_good,
                              //~ "hit points", used in scrolling combat text

@@ -24,6 +24,7 @@
 #include "item_group.h"
 #include "itype.h"
 #include "line.h"
+#include "kill_tracker.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -2254,6 +2255,8 @@ bool basecamp::gathering_return( const std::string &task, time_duration min_time
             case WINTER:
                 itemlist = "foraging_faction_camp_winter";
                 break;
+            default:
+                debugmsg( "Invalid season" );
         }
     }
     if( task == "_faction_camp_trapping" || task == "_faction_camp_hunting" ) {
@@ -3321,7 +3324,7 @@ int basecamp::recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, i
         sbonus += 10;
     }
     //Survival of the fittest
-    if( g->get_npc_kill().size() > 10 ) {
+    if( g->get_kill_tracker().npc_kill_count() > 10 ) {
         sbonus += 10;
     }
     return sbase + sexpansions + sfaction + sbonus;

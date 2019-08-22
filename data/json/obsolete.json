@@ -200,5 +200,10 @@
     "stack_size": 40,
     "count": 20,
     "effects": [ "COOKOFF", "RECYCLED" ]
+  },
+  {
+    "type": "recipe",
+    "result": "flamethrower_simple",
+    "obsolete": true
   }
 ]

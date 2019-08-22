@@ -14,6 +14,7 @@
 #include <stdexcept>
 
 #include "colony.h"
+#include "enum_conversions.h"
 #include "optional.h"
 
 /* Cataclysm-DDA homegrown JSON tools
@@ -43,48 +44,6 @@ class JsonError : public std::runtime_error
             return what();
         }
 };
-
-namespace io
-{
-/**
- * @name Enumeration (de)serialization to/from string.
- *
- * @ref enum_to_string converts an enumeration value to a string (which can be written to JSON).
- * The result must be an non-empty string.
- *
- * @ref string_to_enum converts the string value back into an enumeration value. The input
- * is expected to be one of the outputs of @ref enum_to_string. If the given string does
- * not match an enumeration, an @ref InvalidEnumString is to be thrown.
- *
- * @code string_to_enum<E>(enum_to_string<E>(X)) == X @endcode must yield true for all values
- * of the enumeration E.
- *
- * The functions need to be implemented somewhere for each enumeration type they are used on.
- */
-/*@{*/
-class InvalidEnumString : public std::runtime_error
-{
-    public:
-        InvalidEnumString() : std::runtime_error( "invalid enum string" ) { }
-        InvalidEnumString( const std::string &msg ) : std::runtime_error( msg ) { }
-};
-template<typename E>
-E string_to_enum( const std::string &data );
-template<typename E>
-std::string enum_to_string( E data );
-
-// Helper function to do the lookup in a container (map or unordered_map)
-template<typename C, typename E = typename C::mapped_type>
-inline E string_to_enum_look_up( const C &container, const std::string &data )
-{
-    const auto iter = container.find( data );
-    if( iter == container.end() ) {
-        throw InvalidEnumString{};
-    }
-    return iter->second;
-}
-/*@}*/
-} // namespace io
 
 /* JsonIn
  * ======
