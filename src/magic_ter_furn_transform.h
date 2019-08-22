@@ -72,8 +72,8 @@ class ter_furn_transform
         void add_all_messages( const Creature &critter, const tripoint &location ) const;
         void add_all_messages( const map &m, const Creature &critter, const tripoint &location ) const;
 
-        void transform( const tripoint &pos ) const;
-        void transform( map &m, const tripoint &pos ) const;
+        void transform( const tripoint &location ) const;
+        void transform( map &m, const tripoint &location ) const;
 
         static void load_transform( JsonObject &jo, const std::string &src );
         void load( JsonObject &jo, const std::string & );

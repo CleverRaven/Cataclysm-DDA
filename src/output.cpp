@@ -615,7 +615,7 @@ int popup( const std::string &text, PopupFlags flags )
     }
 }
 
-void popup_status( const char *const title, const std::string &fmt )
+void popup_status( const char *const title, const std::string &mes )
 {
     std::string text;
     if( !test_mode && title != nullptr ) {
@@ -623,7 +623,7 @@ void popup_status( const char *const title, const std::string &fmt )
         text += "\n";
     }
 
-    popup( text + fmt, PF_NO_WAIT );
+    popup( text + mes, PF_NO_WAIT );
 }
 
 //note that passing in iteminfo instances with sType == "DESCRIPTION" does special things

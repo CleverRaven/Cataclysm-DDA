@@ -2196,7 +2196,7 @@ void bionic::deserialize( JsonIn &jsin )
 }
 
 void player::introduce_into_anesthesia( const time_duration &duration, player &installer,
-                                        bool anesthetic ) //used by the Autodoc
+                                        bool needs_anesthesia ) //used by the Autodoc
 {
     installer.add_msg_player_or_npc( m_info,
                                      _( "You set up the operation step-by-step, configuring the Autodoc to manipulate a CBM." ),
@@ -2205,7 +2205,7 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
     add_msg_player_or_npc( m_info,
                            _( "You settle into position, sliding your right wrist into the couch's strap." ),
                            _( "<npcname> settles into position, sliding their wrist into the couch's strap." ) );
-    if( anesthetic ) {
+    if( needs_anesthesia ) {
         //post-threshold medical mutants do not fear operations.
         if( has_trait( trait_THRESH_MEDICAL ) ) {
             add_msg_if_player( m_mixed,
