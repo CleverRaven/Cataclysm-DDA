@@ -2,10 +2,11 @@
   {
     "type": "monstergroup",
     "name": "GROUP_necromorph",
-    "default": "mon_slasher",
+    "default": "mon_slasher_weak",
     "monsters": [
-      { "monster": "mon_fungaloid", "freq": 300, "cost_multiplier": 0 },
-      { "monster": "mon_fungaloid_young", "freq": 100, "cost_multiplier": 0, "pack_size": [ 2, 3 ] }
+      { "monster": "mon_slasher_weak", "freq": 300, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_waster", "freq": 50, "cost_multiplier": 3  },
+      { "monster": "mon_slasher", "freq": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },  
     ]
   }
 ]
