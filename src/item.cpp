@@ -583,6 +583,7 @@ body_part_set item::get_covered_body_parts( const side s ) const
 
     switch( s ) {
         case side::BOTH:
+        case side::num_sides:
             break;
 
         case side::LEFT:
@@ -2370,8 +2371,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             int attack_cost = g->u.attack_speed( *this );
             insert_separation_line();
             if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          string_format( _( "<bold>Average melee damage:</bold>" ) ) ) );
+                info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Average melee damage:</bold>" ) ) );
             }
             if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CRIT ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
@@ -2449,15 +2449,12 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         if( parts->test( iteminfo_parts::DESCRIPTION_CONDUCTIVITY ) ) {
             if( !conductive() ) {
-                info.push_back( iteminfo( "BASE",
-                                          string_format( _( "* This item <good>does not conduct</good> electricity." ) ) ) );
+                info.push_back( iteminfo( "BASE", _( "* This item <good>does not conduct</good> electricity." ) ) );
             } else if( has_flag( "CONDUCTIVE" ) ) {
                 info.push_back( iteminfo( "BASE",
-                                          string_format(
-                                              _( "* This item effectively <bad>conducts</bad> electricity, as it has no guard." ) ) ) );
+                                          _( "* This item effectively <bad>conducts</bad> electricity, as it has no guard." ) ) );
             } else {
-                info.push_back( iteminfo( "BASE",
-                                          string_format( _( "* This item <bad>conducts</bad> electricity." ) ) ) );
+                info.push_back( iteminfo( "BASE", _( "* This item <bad>conducts</bad> electricity." ) ) );
             }
         }
 
@@ -3108,7 +3105,7 @@ void item::on_wear( Character &p )
         g->add_artifact_messages( type->artifact->effects_worn );
     }
     // if game is loaded - dont want ownership assigned during char creation
-    if( g->u.getID() != -1 ) {
+    if( g->u.getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
     p.on_item_wear( *this );
@@ -3171,7 +3168,7 @@ void item::on_wield( player &p, int mv )
         msg = _( "You wield your %s." );
     }
     // if game is loaded - dont want ownership assigned during char creation
-    if( g->u.getID() != -1 ) {
+    if( g->u.getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
     p.add_msg_if_player( m_neutral, msg, tname() );
@@ -3238,7 +3235,7 @@ void item::on_pickup( Character &p )
         g->add_artifact_messages( type->artifact->effects_carried );
     }
     // if game is loaded - dont want ownership assigned during char creation
-    if( g->u.getID() != -1 ) {
+    if( g->u.getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
     if( is_bucket_nonempty() ) {
@@ -3503,6 +3500,7 @@ std::string item::display_name( unsigned int quantity ) const
 
     switch( get_side() ) {
         case side::BOTH:
+        case side::num_sides:
             break;
         case side::LEFT:
             sidetxt = string_format( " (%s)", _( "left" ) );
@@ -4282,19 +4280,16 @@ void item::calc_rot( time_point time, int temp )
         temp = temperatures::fridge;
     }
 
-    // last_rot_check might be zero, if both are then we want calendar::start_of_cataclysm
-    const time_point since = std::max( {last_rot_check, time_point( calendar::start_of_cataclysm )} );
-
     // simulation of different age of food at the start of the game and good/bad storage
     // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
     // positive = food was produced some time before calendar::start and/or bad storage
     // negative = food was stored in good conditions before calendar::start
-    if( since <= calendar::start_of_cataclysm ) {
+    if( last_rot_check <= calendar::start_of_cataclysm ) {
         time_duration spoil_variation = get_shelf_life() * 0.2f;
-        rot += factor * rng( -spoil_variation, spoil_variation );
+        rot += rng( -spoil_variation, spoil_variation );
     }
 
-    time_duration time_delta = time - since;
+    time_duration time_delta = time - last_rot_check;
     rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temp ) * 1_turns;
     last_rot_check = time;
 }
@@ -5549,13 +5544,13 @@ int item::get_chapters() const
 
 int item::get_remaining_chapters( const player &u ) const
 {
-    const std::string var = string_format( "remaining-chapters-%d", u.getID() );
+    const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
     return get_var( var, get_chapters() );
 }
 
 void item::mark_chapter_as_read( const player &u )
 {
-    const std::string var = string_format( "remaining-chapters-%d", u.getID() );
+    const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
     if( type->book && type->book->chapters == 0 ) {
         // books without chapters will always have remaining chapters == 0, so we don't need to store them
         erase_var( var );
@@ -7392,7 +7387,7 @@ bool item::already_used_by_player( const player &p ) const
     // USED_BY_IDS always starts *and* ends with a ';', the search string
     // ';<id>;' matches at most one part of USED_BY_IDS, and only when exactly that
     // id has been added.
-    const std::string needle = string_format( ";%d;", p.getID() );
+    const std::string needle = string_format( ";%d;", p.getID().get_value() );
     return it->second.find( needle ) != std::string::npos;
 }
 
@@ -7404,7 +7399,7 @@ void item::mark_as_used_by_player( const player &p )
         used_by_ids = ";";
     }
     // and always end with a ';'
-    used_by_ids += string_format( "%d;", p.getID() );
+    used_by_ids += string_format( "%d;", p.getID().get_value() );
 }
 
 bool item::can_holster( const item &obj, bool ignore ) const
@@ -7529,7 +7524,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     time_point time;
     item_internal::goes_bad_cache_set( goes_bad() );
     if( goes_bad() ) {
-        time = std::min( { last_rot_check, last_temp_check } );
+        time = std::min( last_rot_check, last_temp_check );
     } else {
         time = last_temp_check;
     }
@@ -8515,8 +8510,7 @@ std::string item::type_name( unsigned int quantity ) const
         }
     } else if( typeId() == "blood" ) {
         if( corpse == nullptr || corpse->id.is_null() ) {
-            return string_format( npgettext( "item name", "human blood",
-                                             "human blood", quantity ) );
+            return npgettext( "item name", "human blood", "human blood", quantity );
         } else {
             return string_format( npgettext( "item name", "%s blood",
                                              "%s blood",  quantity ),

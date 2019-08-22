@@ -564,7 +564,9 @@ void computer::activate_function( computer_action action )
 
         case COMPACT_RADIO_ARCHIVE: {
             g->u.moves -= 300;
-            sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, 21, 2000 );
+            sfx::fade_audio_channel( sfx::channel::radio, 100 );
+            sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, sfx::channel::radio,
+                                             2000 );
             print_text( "Accessing archive. Playing audio recording nr %d.\n%s", rng( 1, 9999 ),
                         SNIPPET.random_from_category( "radio_archive" ) );
             if( one_in( 3 ) ) {
@@ -573,7 +575,7 @@ void computer::activate_function( computer_action action )
             } else {
                 query_any( _( "Press any key..." ) );
             }
-            sfx::fade_audio_channel( 21, 100 );
+            sfx::fade_audio_channel( sfx::channel::radio, 100 );
         }
         break;
 
@@ -1706,7 +1708,7 @@ SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT ... " ) );
     } );
 
     if( !has_mission ) {
-        const auto mission = mission::reserve_new( mission_type, -1 );
+        const auto mission = mission::reserve_new( mission_type, character_id() );
         mission->assign( g->u );
         mission_target = mission->get_target();
     }

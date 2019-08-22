@@ -31,7 +31,7 @@ struct bionic_data {
     int power_deactivate = 0;
     /** Power cost over time, does nothing without a non-zero charge_time */
     int power_over_time = 0;
-    /** How often a bionic draws power while active in turns */
+    /** How often a bionic draws or produces power while active in turns */
     int charge_time = 0;
     /** Power bank size **/
     int capacity = 0;
@@ -74,6 +74,12 @@ struct bionic_data {
     * If true, this bionic is included with another.
     */
     bool included = false;
+    /**Fuel types that can be used by this bionic*/
+    std::vector<itype_id> fuel_opts;
+    /**How much fuel this bionic can hold*/
+    int fuel_capacity;
+    /**Fraction of fuel energy converted to bionic power*/
+    float fuel_efficiency;
     /**Amount of environemental protection offered by this bionic*/
     std::map<body_part, size_t> env_protec;
     /**
@@ -116,7 +122,7 @@ struct bionic_data {
 
 struct bionic {
     bionic_id id;
-    int         charge  = 0;
+    int         charge_timer  = 0;
     char        invlet  = 'a';
     bool        powered = false;
     /* Ammunition actually loaded in this bionic gun in deactivated state */
@@ -137,6 +143,8 @@ struct bionic {
     }
 
     int get_quality( const quality_id &quality ) const;
+
+    bool is_muscle_powered() const;
 
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );

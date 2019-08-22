@@ -769,8 +769,9 @@ void Item_factory::init()
     add_iuse( "VIBE", &iuse::vibe );
     add_iuse( "HAND_CRANK", &iuse::hand_crank );
     add_iuse( "VORTEX", &iuse::vortex );
-    add_iuse( "WASHCLOTHES", &iuse::washclothes );
-    add_iuse( "WASHCBMS", &iuse::washcbms );
+    add_iuse( "WASH_SOFT_ITEMS", &iuse::wash_soft_items );
+    add_iuse( "WASH_HARD_ITEMS", &iuse::wash_hard_items );
+    add_iuse( "WASH_ALL_ITEMS", &iuse::wash_all_items );
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
     add_iuse( "WEAK_ANTIBIOTIC", &iuse::weak_antibiotic );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
@@ -932,7 +933,7 @@ void Item_factory::check_definitions() const
             }
 
             if( type->brewable->results.empty() ) {
-                msg << string_format( "empty product list" ) << "\n";
+                msg << "empty product list" << "\n";
             }
 
             for( auto &b : type->brewable->results ) {
@@ -956,7 +957,7 @@ void Item_factory::check_definitions() const
         }
         if( type->book ) {
             if( type->book->skill && !type->book->skill.is_valid() ) {
-                msg << string_format( "uses invalid book skill." ) << "\n";
+                msg << "uses invalid book skill." << "\n";
             }
             if( type->book->martial_art && !type->book->martial_art.is_valid() ) {
                 msg << string_format( "trains invalid martial art '%s'.",
@@ -1016,18 +1017,18 @@ void Item_factory::check_definitions() const
             }
 
             if( !type->gun->skill_used ) {
-                msg << string_format( "uses no skill" ) << "\n";
+                msg << "uses no skill" << "\n";
             } else if( !type->gun->skill_used.is_valid() ) {
                 msg << "uses an invalid skill " << type->gun->skill_used.str() << "\n";
             }
             for( auto &gm : type->gun->default_mods ) {
                 if( !has_template( gm ) ) {
-                    msg << string_format( "invalid default mod." ) << "\n";
+                    msg << "invalid default mod." << "\n";
                 }
             }
             for( auto &gm : type->gun->built_in_mods ) {
                 if( !has_template( gm ) ) {
-                    msg << string_format( "invalid built-in mod." ) << "\n";
+                    msg << "invalid built-in mod." << "\n";
                 }
             }
         }
@@ -1202,9 +1203,8 @@ const itype *Item_factory::find_template( const itype_id &id ) const
         ( making_id.is_valid() && making_id.obj().is_blueprint() ) ) {
         itype *def = new itype();
         def->id = id;
-        def->name = string_format( "DEBUG: %s", id.c_str() );
-        def->name_plural = string_format( "%s", id.c_str() );
-        def->description = string_format( making_id.obj().description );
+        def->name = def->name_plural = string_format( "DEBUG: %s", id.c_str() );
+        def->description = making_id.obj().description;
         m_runtimes[ id ].reset( def );
         return def;
     }
@@ -2669,17 +2669,22 @@ use_function Item_factory::usage_from_string( const std::string &type ) const
 
 namespace io
 {
-static const std::unordered_map<std::string, phase_id> phase_id_values = { {
-        { "liquid", LIQUID },
-        { "solid", SOLID },
-        { "gas", GAS },
-        { "plasma", PLASMA },
-    }
-};
 template<>
-phase_id string_to_enum<phase_id>( const std::string &data )
+std::string enum_to_string<phase_id>( phase_id data )
 {
-    return string_to_enum_look_up( phase_id_values, data );
+    switch( data ) {
+        // *INDENT-OFF*
+        case PNULL: return "null";
+        case LIQUID: return "liquid";
+        case SOLID: return "solid";
+        case GAS: return "gas";
+        case PLASMA: return "plasma";
+        // *INDENT-ON*
+        case num_phases:
+            break;
+    }
+    debugmsg( "Invalid phase" );
+    abort();
 }
 } // namespace io
 

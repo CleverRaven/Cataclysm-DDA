@@ -470,7 +470,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
                 mvwprintz( w_list, point( 1, i + 2 ), col, "  %s", cur_key_list[current].name_display );
             }
 
-            draw_scrollbar( w_list, sel, info_height + 1, cur_key_list.size(), 1 );
+            draw_scrollbar( w_list, sel, info_height + 1, cur_key_list.size(), point_south );
             wrefresh( w_list );
             werase( w_info );
 
@@ -1445,6 +1445,8 @@ bool talk_function::forage_return( npc &p )
                 case WINTER:
                     itemlist = "forage_winter";
                     break;
+                default:
+                    debugmsg( "Invalid season" );
             }
         }
         auto result = item_group::item_from( itemlist );

@@ -1075,17 +1075,21 @@ size_t ter_t::count()
 
 namespace io
 {
-static const std::map<std::string, season_type> season_map = {{
-        { "spring", season_type::SPRING },
-        { "summer", season_type::SUMMER },
-        { "autumn", season_type::AUTUMN },
-        { "winter", season_type::WINTER }
-    }
-};
 template<>
-season_type string_to_enum<season_type>( const std::string &data )
+std::string enum_to_string<season_type>( season_type data )
 {
-    return string_to_enum_look_up( season_map, data );
+    switch( data ) {
+        // *INDENT-OFF*
+        case season_type::SPRING: return "spring";
+        case season_type::SUMMER: return "summer";
+        case season_type::AUTUMN: return "autumn";
+        case season_type::WINTER: return "winter";
+        // *INDENT-ON*
+        case season_type::NUM_SEASONS:
+            break;
+    }
+    debugmsg( "Invalid season_type" );
+    abort();
 }
 } // namespace io
 
@@ -1104,10 +1108,7 @@ void map_data_common_t::load( JsonObject &jo, const std::string &src )
             auto season_strings = harvest_jo.get_tags( "seasons" );
             std::set<season_type> seasons;
             std::transform( season_strings.begin(), season_strings.end(), std::inserter( seasons,
-                            seasons.begin() ),
-            []( const std::string & data ) {
-                return io::string_to_enum<season_type>( data );
-            } );
+                            seasons.begin() ), io::string_to_enum<season_type> );
 
             harvest_id hl;
             if( harvest_jo.has_array( "entries" ) ) {
@@ -1128,7 +1129,7 @@ void map_data_common_t::load( JsonObject &jo, const std::string &src )
         }
     }
 
-    mandatory( jo, was_loaded, "description", description, translated_string_reader );
+    mandatory( jo, was_loaded, "description", description );
 }
 
 void ter_t::load( JsonObject &jo, const std::string &src )

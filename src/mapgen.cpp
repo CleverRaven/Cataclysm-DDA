@@ -785,7 +785,7 @@ class jmapgen_npc : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mon_density*/, mission *miss = nullptr ) const override {
-            int npc_id = dat.m.place_npc( point( x.get(), y.get() ), npc_class );
+            character_id npc_id = dat.m.place_npc( point( x.get(), y.get() ), npc_class );
             if( miss && target ) {
                 miss->set_target_npc_id( npc_id );
             }
@@ -1035,7 +1035,7 @@ class jmapgen_liquid_item : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mon_density*/, mission * /*miss*/ ) const override {
             if( one_in( chance.get() ) ) {
-                item newliquid( liquid, calendar::turn_zero );
+                item newliquid( liquid, calendar::start_of_cataclysm );
                 if( amount.valmax > 0 ) {
                     newliquid.charges = amount.get();
                 }
@@ -1105,7 +1105,7 @@ class jmapgen_loot : public jmapgen_piece
                     const float /*mon_density*/, mission * ) const override {
             if( rng( 0, 99 ) < chance ) {
                 const Item_spawn_data *const isd = &result_group;
-                const std::vector<item> spawn = isd->create( calendar::turn_zero );
+                const std::vector<item> spawn = isd->create( calendar::start_of_cataclysm );
                 dat.m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ),
                                              dat.m.get_abs_sub().z ), spawn );
             }
@@ -1158,6 +1158,7 @@ class jmapgen_monster : public jmapgen_piece
 {
     public:
         weighted_int_list<mtype_id> ids;
+        mongroup_id m_id = mongroup_id::NULL_ID();
         jmapgen_int chance;
         jmapgen_int pack_size;
         bool one_or_none;
@@ -1172,7 +1173,13 @@ class jmapgen_monster : public jmapgen_piece
             , friendly( jsi.get_bool( "friendly", false ) )
             , name( jsi.get_string( "name", "NONE" ) )
             , target( jsi.get_bool( "target", false ) ) {
-            if( jsi.has_array( "monster" ) ) {
+            if( jsi.has_string( "group" ) ) {
+                m_id = mongroup_id( jsi.get_string( "group" ) );
+                if( !m_id.is_valid() ) {
+                    set_mapgen_defer( jsi, "group", "no such monster group" );
+                    return;
+                }
+            } else if( jsi.has_array( "monster" ) ) {
                 JsonArray jarr = jsi.get_array( "monster" );
                 while( jarr.has_more() ) {
                     mtype_id id;
@@ -1201,6 +1208,7 @@ class jmapgen_monster : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mdensity*/, mission *miss = nullptr ) const override {
+
             int raw_odds = chance.get();
 
             // Handle spawn density: Increase odds, but don't let the odds of absence go below half the odds at density 1.
@@ -1217,21 +1225,30 @@ class jmapgen_monster : public jmapgen_piece
             if( !x_in_y( odds_after_density, 100 ) ) {
                 return;
             }
-            int spawn_count = roll_remainder( density_multiplier );
 
-            if( one_or_none ) { // don't let high spawn density alone cause more than 1 to spawn.
-                spawn_count = std::min( spawn_count, 1 );
-            }
-            if( raw_odds == 100 ) { // don't spawn less than 1 if odds were 100%, even with low spawn density.
-                spawn_count = std::max( spawn_count, 1 );
-            }
             int mission_id = -1;
             if( miss && target ) {
                 mission_id = miss->get_id();
             }
 
-            dat.m.add_spawn( *( ids.pick() ), spawn_count * pack_size.get(), point( x.get(), y.get() ),
-                             friendly, -1, mission_id, name );
+            if( m_id != mongroup_id::NULL_ID() ) {
+                // Spawn single monster from a group
+                dat.m.place_spawns( m_id, 1, point( x.get(), y.get() ), point( x.get(), y.get() ), 1.0f, true,
+                                    false,
+                                    name, mission_id );
+            } else {
+                int spawn_count = roll_remainder( density_multiplier );
+
+                if( one_or_none ) { // don't let high spawn density alone cause more than 1 to spawn.
+                    spawn_count = std::min( spawn_count, 1 );
+                }
+                if( raw_odds == 100 ) { // don't spawn less than 1 if odds were 100%, even with low spawn density.
+                    spawn_count = std::max( spawn_count, 1 );
+                }
+
+                dat.m.add_spawn( *( ids.pick() ), spawn_count * pack_size.get(), point( x.get(), y.get() ),
+                                 friendly, -1, mission_id, name );
+            }
         }
 };
 
@@ -6528,7 +6545,7 @@ void map::draw_connections( const oter_id &terrain_type, mapgendata &dat,
 
 void map::place_spawns( const mongroup_id &group, const int chance,
                         const point &p1, const point &p2, const float density,
-                        const bool individual, const bool friendly )
+                        const bool individual, const bool friendly, const std::string &name, const int mission_id )
 {
     if( !group.is_valid() ) {
         const tripoint omt = sm_to_omt_copy( get_abs_sub() );
@@ -6571,7 +6588,8 @@ void map::place_spawns( const mongroup_id &group, const int chance,
         // Pick a monster type
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
 
-        add_spawn( spawn_details.name, spawn_details.pack_size, point( x, y ), friendly );
+        add_spawn( spawn_details.name, spawn_details.pack_size, point( x, y ), friendly, -1, mission_id,
+                   name );
     }
 }
 
@@ -6618,10 +6636,10 @@ void map::place_vending( const point &p, const std::string &type, bool reinforce
     }
 }
 
-int map::place_npc( const point &p, const string_id<npc_template> &type, bool force )
+character_id map::place_npc( const point &p, const string_id<npc_template> &type, bool force )
 {
     if( !force && !get_option<bool>( "STATIC_NPC" ) ) {
-        return -1; //Do not generate an npc.
+        return character_id(); //Do not generate an npc.
     }
     std::shared_ptr<npc> temp = std::make_shared<npc>();
     temp->normalize();

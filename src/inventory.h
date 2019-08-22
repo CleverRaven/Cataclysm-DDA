@@ -122,9 +122,9 @@ class inventory : public visitable<inventory>
          * the player's worn items / weapon
          */
         void restack( player &p );
-        void form_from_map( const tripoint &origin, int distance, bool assign_invlet = true,
+        void form_from_map( const tripoint &origin, int range, bool assign_invlet = true,
                             bool clear_path = true );
-        void form_from_map( map &m, const tripoint &origin, int distance, bool assign_invlet = true,
+        void form_from_map( map &m, const tripoint &origin, int range, bool assign_invlet = true,
                             bool clear_path = true );
 
         /**
@@ -195,8 +195,8 @@ class inventory : public visitable<inventory>
         void json_load_invcache( JsonIn &jsin );
         void json_load_items( JsonIn &jsin );
 
-        void json_save_invcache( JsonOut &jsout ) const;
-        void json_save_items( JsonOut &jsout ) const;
+        void json_save_invcache( JsonOut &json ) const;
+        void json_save_items( JsonOut &json ) const;
 
         // Assigns an invlet if any remain.  If none do, will assign ` if force is
         // true, empty (invlet = 0) otherwise.

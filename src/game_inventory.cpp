@@ -520,6 +520,13 @@ class comestible_inventory_preset : public inventory_selector_preset
                     case rechargeable_cbm::furnace:
                         cbm_name = _( "Furnace" );
                         break;
+                    case rechargeable_cbm::other:
+                        std::vector<bionic_id> bids = p.get_bionic_fueled_with( get_consumable_item( loc ) );
+                        if( !bids.empty() ) {
+                            bionic_id bid = p.get_most_efficient_bionic( bids );
+                            cbm_name = bid->name;
+                        }
+                        break;
                 }
 
                 if( !cbm_name.empty() ) {
@@ -551,6 +558,8 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return res.str();
             } else if( cbm == rechargeable_cbm::battery && p.power_level >= p.max_power_level ) {
                 return _( "You're fully charged" );
+            } else if( cbm == rechargeable_cbm::other && ( p.get_fuel_capacity( it.typeId() ) <= 0 ) ) {
+                return string_format( _( "No space to store more %s" ), it.tname() );
             }
 
             return inventory_selector_preset::get_denial( loc );
@@ -1453,7 +1462,7 @@ static item_location autodoc_internal( player &u, player &patient,
                 }
             }
 
-            if( b_filter.size() > 0 ) {
+            if( !b_filter.empty() ) {
                 hint = string_format( _( "<color_yellow>Available kit: %i</color>" ), b_filter.size() );// legacy
             } else {
                 hint = string_format( _( "<color_yellow>Available anesthetic: %i mL</color>" ), drug_count );
@@ -1613,7 +1622,7 @@ class bionic_install_preset: public inventory_selector_preset
                 return it.has_flag( "ANESTHESIA" ); // legacy
             } );
 
-            if( b_filter.size() > 0 ) {
+            if( !b_filter.empty() ) {
                 return  _( "kit available" );// legacy
             } else {
                 return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
@@ -1815,7 +1824,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
                 return it.has_flag( "ANESTHESIA" ); // legacy
             } );
 
-            if( b_filter.size() > 0 ) {
+            if( !b_filter.empty() ) {
                 return  _( "kit available" ); // legacy
             } else {
                 return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );

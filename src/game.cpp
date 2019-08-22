@@ -63,6 +63,7 @@
 #include "item_location.h"
 #include "iuse_actor.h"
 #include "json.h"
+#include "kill_tracker.h"
 #include "lightmap.h"
 #include "line.h"
 #include "live_view.h"
@@ -276,6 +277,7 @@ game::game() :
 {
     player_was_sleeping = false;
     reset_light_level();
+    events().subscribe( &*kill_tracker_ptr );
     world_generator = std::make_unique<worldfactory>();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
@@ -545,7 +547,7 @@ void game::init_ui( const bool resized )
 
     // Only refresh if we are in-game, otherwise all resources are not initialized
     // and this refresh will crash the game.
-    if( resized && u.getID() != -1 ) {
+    if( resized && u.getID().is_valid() ) {
         refresh_all();
     }
 }
@@ -628,7 +630,7 @@ void game::setup()
 
     m = map( get_option<bool>( "ZLEVELS" ) );
 
-    next_npc_id = 1;
+    next_npc_id = character_id( 1 );
     next_mission_id = 1;
     new_game = true;
     uquit = QUIT_NO;   // We haven't quit the game
@@ -658,8 +660,7 @@ void game::setup()
     SCT.vSCT.clear(); //Delete pending messages
 
     // reset kill counts
-    kills.clear();
-    npc_kills.clear();
+    kill_tracker_ptr->clear();
     // reset follower list
     follower_ids.clear();
     scent.reset();
@@ -855,7 +856,7 @@ bool game::start_game()
     }
     // Assign all of this scenario's missions to the player.
     for( const mission_type_id &m : scen->missions() ) {
-        const auto mission = mission::reserve_new( m, -1 );
+        const auto mission = mission::reserve_new( m, character_id() );
         mission->assign( u );
     }
 
@@ -931,6 +932,11 @@ void game::reload_npcs()
     // and not invoke "on_load" for those NPCs that avoided unloading this way.
     unload_npcs();
     load_npcs();
+}
+
+const kill_tracker &game::get_kill_tracker() const
+{
+    return *kill_tracker_ptr;
 }
 
 void game::create_starting_npcs()
@@ -1079,10 +1085,10 @@ bool game::cleanup_at_end()
         draw_border( w_rip );
 
         sfx::do_player_death_hurt( g->u, true );
-        sfx::fade_audio_group( 1, 2000 );
-        sfx::fade_audio_group( 2, 2000 );
-        sfx::fade_audio_group( 3, 2000 );
-        sfx::fade_audio_group( 4, 2000 );
+        sfx::fade_audio_group( sfx::group::weather, 2000 );
+        sfx::fade_audio_group( sfx::group::time_of_day, 2000 );
+        sfx::fade_audio_group( sfx::group::context_themes, 2000 );
+        sfx::fade_audio_group( sfx::group::fatigue, 2000 );
 
         for( size_t iY = 0; iY < vRip.size(); ++iY ) {
             for( size_t iX = 0; iX < vRip[iY].length(); ++iX ) {
@@ -1129,14 +1135,7 @@ bool game::cleanup_at_end()
 
         center_print( w_rip, iInfoLine++, c_white, sTemp );
 
-        int iTotalKills = 0;
-
-        for( const auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
-            if( kill_count( type.id ) > 0 ) {
-                iTotalKills += kill_count( type.id );
-            }
-        }
-
+        const int iTotalKills = get_kill_tracker().monster_kill_count();
         ssTemp << iTotalKills;
 
         sTemp = _( "Kills:" );
@@ -1236,11 +1235,11 @@ bool game::cleanup_at_end()
     }
 
     //clear all sound channels
-    sfx::fade_audio_channel( -1, 300 );
-    sfx::fade_audio_group( 1, 300 );
-    sfx::fade_audio_group( 2, 300 );
-    sfx::fade_audio_group( 3, 300 );
-    sfx::fade_audio_group( 4, 300 );
+    sfx::fade_audio_channel( sfx::channel::any, 300 );
+    sfx::fade_audio_group( sfx::group::weather, 300 );
+    sfx::fade_audio_group( sfx::group::time_of_day, 300 );
+    sfx::fade_audio_group( sfx::group::context_themes, 300 );
+    sfx::fade_audio_group( sfx::group::fatigue, 300 );
 
     MAPBUFFER.reset();
     overmap_buffer.clear();
@@ -1838,57 +1837,18 @@ int game::assign_mission_id()
     return ret;
 }
 
-npc *game::find_npc( int id )
+npc *game::find_npc( character_id id )
 {
     return overmap_buffer.find_npc( id ).get();
 }
 
-int game::kill_count( const mtype_id &mon )
-{
-    if( kills.find( mon ) != kills.end() ) {
-        return kills[mon];
-    }
-    return 0;
-}
-
-int game::kill_count( const species_id &spec )
-{
-    int result = 0;
-    for( const auto &pair : kills ) {
-        if( pair.first->in_species( spec ) ) {
-            result += pair.second;
-        }
-    }
-    return result;
-}
-
-void game::increase_kill_count( const mtype_id &id )
-{
-    kills[id]++;
-}
-
-int game::kill_xp() const
-{
-    int ret = 0;
-    for( const std::pair<mtype_id, int> &pair : kills ) {
-        ret += ( pair.first->difficulty + pair.first->difficulty_base ) * pair.second;
-    }
-    ret += npc_kills.size() * 10;
-    return ret;
-}
-
-void game::record_npc_kill( const npc &p )
-{
-    npc_kills.push_back( p.get_name() );
-}
-
-void game::add_npc_follower( const int &id )
+void game::add_npc_follower( const character_id &id )
 {
     follower_ids.insert( id );
     u.follower_ids.insert( id );
 }
 
-void game::remove_npc_follower( const int &id )
+void game::remove_npc_follower( const character_id &id )
 {
     follower_ids.erase( id );
     u.follower_ids.erase( id );
@@ -1940,14 +1900,9 @@ void game::validate_camps()
     }
 }
 
-std::set<int> game::get_follower_list()
+std::set<character_id> game::get_follower_list()
 {
     return follower_ids;
-}
-
-std::list<std::string> game::get_npc_kill()
-{
-    return npc_kills;
 }
 
 void game::handle_key_blocking_activity()
@@ -2584,7 +2539,7 @@ void game::death_screen()
 {
     gamemode->game_over();
     Messages::display_messages();
-    disp_kills();
+    get_kill_tracker().disp_kills();
     disp_NPC_epilogues();
     follower_ids.clear();
     disp_faction_ends();
@@ -2715,7 +2670,7 @@ void game::load( const save_t &name )
         e->set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
     }
     // legacy, needs to be here as we access the map.
-    if( u.getID() == 0 || u.getID() == -1 ) {
+    if( !u.getID().is_valid() ) {
         // player does not have a real id, so assign a new one,
         u.setID( assign_npc_id() );
         // The vehicle stores the IDs of the boarded players, so update it, too.
@@ -2903,6 +2858,11 @@ bool game::save_player_data()
            ;
 }
 
+event_bus &game::events()
+{
+    return *event_bus_ptr;
+}
+
 bool game::save()
 {
     try {
@@ -3001,68 +2961,6 @@ void game::write_memorial_file( std::string sLastWords )
     write_to_file( memorial_file_path.str(), [&]( std::ostream & fout ) {
         u.memorial( fout, sLastWords );
     }, _( "player memorial" ) );
-}
-
-void game::disp_kills()
-{
-    catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                           point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ), std::max( 0,
-                                   ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
-
-    std::vector<std::string> data;
-    int totalkills = 0;
-    const int colum_width = ( getmaxx( w ) - 2 ) / 3; // minus border
-
-    std::map<std::tuple<std::string, std::string, std::string>, int> kill_counts;
-
-    // map <name, sym, color> to kill count
-    for( auto &elem : kills ) {
-        const mtype &m = elem.first.obj();
-        kill_counts[std::tuple<std::string, std::string, std::string>(
-                                                m.nname(),
-                                                m.sym,
-                                                string_from_color( m.color )
-                                            )] += elem.second;
-        totalkills += elem.second;
-    }
-
-    for( const auto &entry : kill_counts ) {
-        std::ostringstream buffer;
-        buffer << "<color_" << std::get<2>( entry.first ) << ">";
-        buffer << std::get<1>( entry.first ) << "</color>" << " ";
-        buffer << "<color_light_gray>" << std::get<0>( entry.first ) << "</color>";
-        const int w = colum_width - utf8_width( std::get<0>( entry.first ) );
-        buffer.width( w - 3 ); // gap between cols, monster sym, space
-        buffer.fill( ' ' );
-        buffer << entry.second;
-        buffer.width( 0 );
-        data.push_back( buffer.str() );
-    }
-    for( const auto &npc_name : npc_kills ) {
-        totalkills += 1;
-        std::ostringstream buffer;
-        buffer << "<color_magenta>@ " << npc_name << "</color>";
-        const int w = colum_width - utf8_width( npc_name );
-        buffer.width( w - 3 ); // gap between cols, monster sym, space
-        buffer.fill( ' ' );
-        buffer << "1";
-        buffer.width( 0 );
-        data.push_back( buffer.str() );
-    }
-    std::ostringstream buffer;
-    if( data.empty() ) {
-        buffer << _( "You haven't killed any monsters yet!" );
-    } else {
-        buffer << string_format( _( "KILL COUNT: %d" ), totalkills );
-        if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
-            buffer << "    ";
-            buffer << string_format( _( "Experience: %d (%d points available)" ), kill_xp(),
-                                     u.free_upgrade_points() );
-        }
-    }
-    display_table( w, buffer.str(), 3, data );
-
-    refresh_all();
 }
 
 void game::disp_NPC_epilogues()
@@ -3755,10 +3653,10 @@ void game::reset_light_level()
 }
 
 //Gets the next free ID, also used for player ID's.
-int game::assign_npc_id()
+character_id game::assign_npc_id()
 {
-    int ret = next_npc_id;
-    next_npc_id++;
+    character_id ret = next_npc_id;
+    ++next_npc_id;
     return ret;
 }
 
@@ -4681,7 +4579,7 @@ template std::shared_ptr<monster> game::shared_from<monster>( const monster & );
 template std::shared_ptr<npc> game::shared_from<npc>( const npc & );
 
 template<typename T>
-T *game::critter_by_id( const int id )
+T *game::critter_by_id( const character_id id )
 {
     if( id == u.getID() ) {
         // player is always alive, therefore no is-dead check
@@ -4691,9 +4589,9 @@ T *game::critter_by_id( const int id )
 }
 
 // monsters don't have ids
-template player *game::critter_by_id<player>( int );
-template npc *game::critter_by_id<npc>( int );
-template Creature *game::critter_by_id<Creature>( int );
+template player *game::critter_by_id<player>( character_id );
+template npc *game::critter_by_id<npc>( character_id );
+template Creature *game::critter_by_id<Creature>( character_id );
 
 monster *game::summon_mon( const mtype_id &id, const tripoint &p )
 {
@@ -5451,9 +5349,9 @@ static std::string get_fire_fuel_string( const tripoint &examp )
         field_entry *fire = g->m.get_field( examp, fd_fire );
         if( fire ) {
             std::stringstream ss;
-            ss << string_format( _( "There is a fire here." ) ) << " ";
+            ss << _( "There is a fire here." ) << " ";
             if( fire->get_field_intensity() > 1 ) {
-                ss << string_format( _( "It's too big and unpredictable to evaluate how long it will last." ) );
+                ss << _( "It's too big and unpredictable to evaluate how long it will last." );
                 return ss.str();
             }
             time_duration fire_age = fire->get_field_age();
@@ -5462,7 +5360,7 @@ static std::string get_fire_fuel_string( const tripoint &examp )
             mod = std::max( mod, 0 );
             if( fire_age >= 0_turns ) {
                 if( mod >= 4 ) { // = survival level 0-1
-                    ss << string_format( _( "It's going to go out soon without extra fuel." ) );
+                    ss << _( "It's going to go out soon without extra fuel." );
                     return ss.str();
                 } else {
                     fire_age = 30_minutes - fire_age;
@@ -5483,15 +5381,13 @@ static std::string get_fire_fuel_string( const tripoint &examp )
                 fire_age = fire_age * -1 + 30_minutes;
                 if( mod >= 4 ) { // = survival level 0-1
                     if( fire_age <= 1_hours ) {
-                        ss << string_format(
-                               _( "It's quite decent and looks like it'll burn for a bit without extra fuel." ) );
+                        ss << _( "It's quite decent and looks like it'll burn for a bit without extra fuel." );
                         return ss.str();
                     } else if( fire_age <= 3_hours ) {
-                        ss << string_format( _( "It looks solid, and will burn for a few hours without extra fuel." ) );
+                        ss << _( "It looks solid, and will burn for a few hours without extra fuel." );
                         return ss.str();
                     } else {
-                        ss << string_format(
-                               _( "It's very well supplied and even without extra fuel might burn for at least a part of a day." ) );
+                        ss << _( "It's very well supplied and even without extra fuel might burn for at least a part of a day." );
                         return ss.str();
                     }
                 } else {
@@ -6452,7 +6348,7 @@ void game::zones_manager()
 
             calcStartPos( start_index, active_index, max_rows, zone_cnt );
 
-            draw_scrollbar( w_zones_border, active_index, max_rows, zone_cnt, 1 );
+            draw_scrollbar( w_zones_border, active_index, max_rows, zone_cnt, point_south );
             wrefresh( w_zones_border );
 
             int iNum = 0;
@@ -6699,10 +6595,10 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 werase( w_info );
                 draw_border( w_info );
 
-                static const char *title_prefix = "< ";
+                static const std::string title_prefix = "< ";
                 static const char *title = _( "Look Around" );
-                static const char *title_suffix = " >";
-                static const std::string full_title = string_format( "%s%s%s", title_prefix, title, title_suffix );
+                static const std::string title_suffix = " >";
+                static const std::string full_title = title_prefix + title + title_suffix;
                 const int start_pos = center_text_pos( full_title, 0, getmaxx( w_info ) - 1 );
                 mvwprintz( w_info, point( start_pos, 0 ), c_white, title_prefix );
                 wprintz( w_info, c_green, title );
@@ -7537,7 +7433,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 centerlistview( active_pos, width );
                 draw_trail_to_square( active_pos, true );
             }
-            draw_scrollbar( w_items_border, iActive, iMaxRows, iItemNum, 1 );
+            draw_scrollbar( w_items_border, iActive, iMaxRows, iItemNum, point_south );
             wrefresh( w_items_border );
         }
 
@@ -7810,7 +7706,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             centerlistview( iActivePos, width );
             draw_trail_to_square( iActivePos, false );
 
-            draw_scrollbar( w_monsters_border, iActive, iMaxRows, static_cast<int>( monster_list.size() ), 1 );
+            draw_scrollbar( w_monsters_border, iActive, iMaxRows, static_cast<int>( monster_list.size() ),
+                            point_south );
             wrefresh( w_monsters_border );
         }
 
@@ -9825,14 +9722,25 @@ void game::on_move_effects()
 {
     // TODO: Move this to a character method
     if( !u.is_mounted() ) {
+        const item muscle( "muscle" );
         if( u.lifetime_stats.squares_walked % 8 == 0 ) {
             if( u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
                 u.charge_power( 1 );
+            }
+            for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
+                if( u.has_active_bionic( bid ) ) {
+                    u.charge_power( muscle.fuel_energy() * bid->fuel_efficiency );
+                }
             }
         }
         if( u.lifetime_stats.squares_walked % 160 == 0 ) {
             if( u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
                 u.charge_power( 1 );
+            }
+            for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
+                if( u.has_active_bionic( bid ) ) {
+                    u.charge_power( muscle.fuel_energy() * bid->fuel_efficiency );
+                }
             }
         }
         if( u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
