@@ -2655,7 +2655,7 @@
       [ [ "flaregun", 1 ] ],
       [ [ "signal_flare", 8 ] ],
       [ [ "pur_tablets", 15 ] ],
-      [ [ "survivormap", 1 ] ]
+      [ [ "survival_kit_box", 1 ] ]
     ],
     "flags": [ "BLIND_EASY", "UNCRAFT_LIQUIDS_CONTAINED" ]
   },
