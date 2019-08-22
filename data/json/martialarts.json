@@ -233,10 +233,10 @@
       {
         "id": "buff_dragon_static",
         "name": "Dragon's Knowledge",
-        "description": "You plan your attack far in advance relying on your intution instead of your speed to strike true. Intelligence increases Accuracy instead of Dexterity.\n\nAccuracy increased by 25%% of Intelligence but decreased by 25%% of Dexterity.",
+        "description": "You plan your attack far in advance relying on your intution instead of your speed to strike true. Intelligence increases Accuracy instead of Dexterity increases melee damage instead of Strength.\n\nAccuracy increased by 25%% of Intelligence but decreased by 25%% of Dexterity.\nBash damage increased by 75%% of Intelligence but decreased by 75%% of Strength.",
         "min_unarmed": 0,
         "unarmed_allowed": true,
-        "flat_bonuses": [ [ "hit", "int", 0.25 ], [ "hit", "dex", -0.25 ] ]
+        "flat_bonuses": [ [ "hit", "int", 0.25 ], [ "hit", "dex", -0.25 ], [ "damage", "bash", "int", 0.75 ], [ "damage", "bash", "str", -0.75 ] ]
       }
     ],
     "onhit_buffs": [
