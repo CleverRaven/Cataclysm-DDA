@@ -2061,13 +2061,17 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     } else if( jo.has_string( "weight" ) ) {
         def.weight = read_from_json_string<units::mass>
                      ( *jo.get_raw( "weight" ), units::mass_units );
+    } else {
+        def.weight = 0_gram;
     }
 
     if( jo.has_int( "integral_weight" ) ) {
         assign( jo, "integral_weight", def.integral_weight, strict, 0_gram );
     } else if( jo.has_string( "integral_weight" ) ) {
-        def.weight = read_from_json_string<units::mass>
-                     ( *jo.get_raw( "integral_weight" ), units::mass_units );
+        def.integral_weight = read_from_json_string<units::mass>
+                              ( *jo.get_raw( "integral_weight" ), units::mass_units );
+    } else {
+        def.integral_weight = 0_gram;
     }
 
     if( jo.has_member( "thrown_damage" ) ) {
