@@ -1273,7 +1273,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         }
     }
 
-    if ( technique.side_switch ) {
+    if( technique.side_switch ) {
         const tripoint b = t.pos();
         int newx;
         int newy;
