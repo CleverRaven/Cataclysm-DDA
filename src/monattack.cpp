@@ -4754,7 +4754,8 @@ bool mattack::bio_op_takedown( monster *z )
             }
             foe->add_effect( effect_downed, 3_turns );
         }
-    } else if( ( !foe->is_armed() || foe->style_selected.obj().has_weapon( foe->weapon.typeId() ) ) && !thrown_by_judo( z ) ) {
+    } else if( ( !foe->is_armed() || foe->style_selected.obj().has_weapon( foe->weapon.typeId() ) ) &&
+               !thrown_by_judo( z ) ) {
         // Saved by the tentacle-bracing! :)
         hit = bp_torso;
         dam = rng( 3, 9 );
