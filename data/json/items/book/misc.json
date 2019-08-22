@@ -1021,7 +1021,9 @@
       {
         "id": "philosophy30",
         "text": "This is a copy of both \"On The Genealogy of Morals\" and \"The Gay Science\" by Friederich Nietzsche."
-      }
+      },
+      { "id": "philosophy31", "text": "This is a copy of \"The Myth of Sisyphus\", and other essays, by Albert Camus.  The cover depicts a bare-chested man and a large boulder." },
+      { "id": "philosophy32", "text": "This is a copy of \"The Sickness Unto Death\" by Søren Kierkegaard.  The pages are dotted with post-it notes." }
     ],
     "weight": 350,
     "volume": 3,
