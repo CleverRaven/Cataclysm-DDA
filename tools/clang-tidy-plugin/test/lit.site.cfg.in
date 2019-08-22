@@ -1,0 +1,8 @@
+import os
+
+config.cata_source_dir = "@CMAKE_SOURCE_DIR@"
+config.plugin_build_root = "@CMAKE_CURRENT_BINARY_DIR@"
+config.cata_check_clang_tidy = "@CATA_CHECK_CLANG_TIDY@"
+
+lit_config.load_config(
+        config, os.path.join("@CMAKE_CURRENT_SOURCE_DIR@", "test", "lit.cfg"))

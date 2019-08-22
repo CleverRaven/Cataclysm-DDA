@@ -36,7 +36,7 @@
         " ": "t_floor",
         "+": "t_door_glass_c",
         ",": "t_pavement_y",
-        "-": "t_wall",
+        "-": "t_wall_w",
         ".": [ [ "t_dirt", 5 ], [ "t_grass", 16 ], [ "t_grass_long", 5 ], [ "t_underbrush", 10 ] ],
         "F": "t_sidewalk",
         "O": "t_window",
@@ -44,7 +44,7 @@
         "M": "t_door_metal_pickable",
         "4": "t_gutter_downspout",
         "<": "t_ladder_up",
-        "|": "t_wall"
+        "|": "t_wall_w"
       },
       "furniture": { "#": "f_counter", "T": "f_displaycase", "l": "f_bookcase", "L": "f_stool" },
       "place_items": [

@@ -1,111 +1,12 @@
 [
   {
-    "id": "elecsto_cameras",
-    "type": "item_group",
-    "items": [ [ "camera", 75 ], [ "camera_pro", 25 ] ]
-  },
-  {
-    "id": "elecsto_lights",
-    "type": "item_group",
-    "items": [ [ "flashlight", 95 ], [ "wearable_light", 65 ], [ "floodlight", 10 ], [ "atomic_light", 1 ] ]
-  },
-  {
-    "id": "elecsto_pcs",
-    "type": "item_group",
-    "items": [ [ "eink_tablet_pc", 60 ], [ "laptop", 75 ] ]
-  },
-  {
-    "id": "elecsto_entapl",
-    "type": "item_group",
-    "items": [ [ "television", 50 ], [ "radio", 20 ], [ "stereo", 40 ] ]
-  },
-  {
-    "id": "elecsto_persele",
-    "type": "item_group",
-    "items": [
-      [ "portable_game", 65 ],
-      [ "cell_phone", 30 ],
-      [ "smart_phone", 65 ],
-      [ "mp3", 65 ],
-      [ "radio_car_box", 35 ],
-      [ "vibrator", 1 ]
-    ]
-  },
-  {
-    "id": "elecsto_homapl",
-    "type": "item_group",
-    "items": [
-      [ "microwave", 65 ],
-      [ "toaster", 65 ],
-      [ "mess_kit", 25 ],
-      [ "hotplate", 30 ],
-      [ "multi_cooker", 15 ],
-      [ "coffeemaker", 45 ],
-      [ "water_purifier", 15 ],
-      [ "dehydrator", 30 ],
-      [ "vac_sealer", 45 ],
-      [ "forge", 5 ],
-      [ "atomic_coffeepot", 2 ]
-    ]
-  },
-  {
-    "id": "elecsto_diy",
-    "type": "item_group",
-    "items": [
-      [ "cable", 95 ],
-      { "group": "ammo_pocket_batteries_full", "prob": 85 },
-      [ "scrap", 70 ],
-      [ "e_scrap", 95 ],
-      [ "antenna", 50 ],
-      [ "circuit", 35 ],
-      [ "small_lcd_screen", 20 ],
-      [ "RAM", 35 ],
-      [ "processor", 10 ],
-      [ "amplifier", 7 ],
-      [ "transponder", 5 ],
-      [ "receiver", 5 ],
-      [ "soldering_iron", 65 ],
-      [ "solder_wire", 50 ],
-      [ "superglue", 55 ],
-      [ "screwdriver", 60 ],
-      [ "motor_small", 30 ]
-    ]
-  },
-  {
-    "id": "elecsto_displ",
-    "type": "item_group",
-    "items": [ [ "television", 50 ], [ "eink_tablet_pc", 50 ], [ "stereo", 30 ], [ "microwave", 40 ] ]
-  },
-  {
-    "id": "elecsto_books",
-    "type": "item_group",
-    "items": [
-      [ "mag_electronics", 60 ],
-      [ "manual_electronics", 50 ],
-      [ "advanced_electronics", 35 ],
-      [ "textbook_electronics", 30 ],
-      [ "radio_book", 40 ]
-    ]
-  },
-  {
-    "id": "elecsto_stor",
-    "type": "item_group",
-    "items": [
-      [ "usb_drive", 65 ],
-      [ "mobile_memory_card", 95 ],
-      [ "software_math", 15 ],
-      [ "software_useless", 25 ],
-      [ "software_medical", 5 ],
-      [ "software_hacking", 1 ]
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_electronics" ],
     "weight": 150,
     "//": "It's not as valuable as the gunsmithing shops are, but it's based on the same model and should be a figurative silver mine, if not a gold mine.",
     "object": {
+      "fill_ter": "t_linoleum_gray",
       "rows": [
         "zs______,______,______sz",
         "zs______,______,______sz",
@@ -117,7 +18,7 @@
         "_--5555--5555--+--55555_",
         "_|.CCCC..CCCC.^.^|rrrr8_",
         "_8r.............r|L---|_",
-        "_8r..CCCCrr......x....8_",
+        "_8r..CCCCrr......x...^8_",
         "_8r..###rr1......#q...8_",
         "_|r..............#...r|_",
         "_|...######......#c..r|_",
@@ -125,47 +26,35 @@
         "_8r..........|EEEEt..F|_",
         "_8r..xxxwyw..|E.c...cE8_",
         "_8r..xxxywy..I.......E8_",
-        "_|...........|.##llll^|_",
+        "_|..........^|.##llll^|_",
         "_|D---D|------L----55-|_",
-        "_|.S|S.|sssssssddd______",
-        "_|T#|#T|_______ddd______",
+        "4|.S|S.|d<dsssssss______",
+        "_|T#|#T|_dd_____________",
         "_-------________________",
         "________________________"
       ],
       "terrain": {
-        "#": "t_linoleum_gray",
         "%": "t_shrub",
         "+": "t_door_metal_pickable",
         ",": "t_pavement_y",
-        "-": "t_wall",
+        "-": "t_wall_w",
         ".": "t_linoleum_gray",
         "1": "t_column",
         "5": "t_window_bars_alarm",
         "8": "t_window_bars_alarm",
-        "C": "t_linoleum_gray",
         "D": "t_door_c",
-        "E": "t_linoleum_gray",
-        "F": "t_linoleum_gray",
         "H": "t_window",
         "I": "t_door_locked_interior",
         "L": "t_door_metal_pickable",
-        "S": "t_linoleum_gray",
-        "T": "t_linoleum_gray",
         "W": "t_curtains",
-        "^": "t_linoleum_gray",
         "_": "t_pavement",
-        "c": "t_linoleum_gray",
         "d": "t_pavement",
-        "l": "t_linoleum_gray",
-        "q": "t_linoleum_gray",
-        "r": "t_linoleum_gray",
         "s": "t_sidewalk",
-        "t": "t_linoleum_gray",
-        "w": "t_linoleum_gray",
         "x": "t_console_broken",
-        "y": "t_linoleum_gray",
         "z": "t_shrub",
-        "|": "t_wall"
+        "|": "t_wall_w",
+        "4": "t_gutter_downspout",
+        "<": "t_ladder_up"
       },
       "furniture": {
         "#": "f_counter",
@@ -173,9 +62,9 @@
         "E": "f_desk",
         "F": "f_fridge",
         "S": "f_sink",
-        "^": "f_indoor_plant",
+        "^": [ "f_indoor_plant_y", "f_indoor_plant" ],
         "c": "f_chair",
-        "d": "f_dumpster",
+        "d": [ "f_dumpster", "f_recycle_bin" ],
         "l": "f_locker",
         "q": "f_stool",
         "r": "f_rack",
@@ -218,57 +107,218 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_electronics" ],
-    "weight": 1000,
+    "om_terrain": "s_electronics_roof",
     "object": {
+      "fill_ter": "t_flat_roof",
       "rows": [
         "                        ",
         "                        ",
         "                        ",
-        "   -------::-+--:::---  ",
-        "   |{{{{{........#...|  ",
-        "   |{............#S..|  ",
-        "   |{............#...|  ",
-        "   |{............###.|  ",
-        "   |{................|  ",
-        "   |{................:  ",
-        "   |{................:  ",
-        "   |{................:  ",
-        "   |{................|  ",
-        "   |{................|  ",
-        "   |{................:  ",
-        "   |#....{.....{....#:  ",
-        "   |#....{.....{....#:  ",
-        "   |#....{.....{....#|  ",
-        "   |#....{.....{....#|  ",
-        "   |#....{.....{....#|  ",
-        "   |#################|  ",
-        "   -------------------  ",
         "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |...............:....3 ",
+        " |.=..........%....X..3 ",
+        " |.....3###-----------3 ",
+        " 5..&..3#>#             ",
+        " |.....3                ",
+        " |-----3                ",
         "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ">": "t_ladder_down" },
+      "furniture": { "%": "f_TV_antenna" },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 40 ],
+            [ "roof_6x6_survivor", 3 ],
+            [ "roof_3x3_wine", 5 ]
+          ],
+          "x": [ 5, 15 ],
+          "y": [ 9, 11 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_electronics_1" ],
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "          xxxxxxx     9 ",
+        "    9    xxxpJpxxx  9   ",
+        "        xxxxxxxxxxxxxxxx",
+        "   ------:::-+--:::--- x",
+        " 9 |{{{{{y.......#..Y| x",
+        "   |{............#S..| x",
+        "   |{..{{..{{....#...| x",
+        "   |{..{{..{{....###.| x",
+        "   |{..{{..{{........| x",
+        "   |{...........HH..#:px",
+        "   |{..{{..{{.......#:px",
+        "   |{..{{..{{...HH..#:px",
+        "   |{..{{..{{...tt..#:px",
+        "   |{................|px",
+        "   |#####.########..y|4x",
+        "   |-----+---:::---+-|px",
+        "   |@@@t|.|FttGtt.|..:px",
+        "   |....|.|...S..Y|s&| x",
+        "   :t...+.+.....{{|--| x",
+        "   |....|.|I..M..{|.&| x",
+        "   |LLyF|Y|Ih.....+.s| x",
+        "   ------:-----+------ x",
+        "        xxU<UUxxxxxxxxxx",
+        "         xUUxxxxxxx     "
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "#": "t_floor",
-        "S": "t_floor",
-        "+": "t_door_c",
-        "-": "t_wall",
         ".": "t_floor",
+        "p": "t_grass",
+        "J": "t_grass",
+        "+": "t_door_c",
+        "-": "t_brick_wall",
         ":": "t_window",
-        "{": "t_floor",
-        "|": "t_wall"
+        "|": "t_brick_wall",
+        "U": "t_sidewalk",
+        "x": "t_sidewalk",
+        "9": [
+          "t_tree_blackjack",
+          "t_tree_walnut",
+          "t_tree_chestnut",
+          "t_tree_beech",
+          "t_tree_hazelnut",
+          "t_tree_cottonwood",
+          "t_tree",
+          "t_tree_elm",
+          "t_tree_dead",
+          "t_tree_apple",
+          "t_tree_pear",
+          "t_tree_cherry",
+          "t_tree_peach",
+          "t_tree_apricot",
+          "t_tree_plum",
+          "t_tree_mulberry",
+          "t_tree_elderberry",
+          "t_tree_pine",
+          "t_tree_birch",
+          "t_tree_willow",
+          "t_tree_maple",
+          "t_tree_hickory",
+          "t_tree_almond",
+          "t_tree_pecan"
+        ],
+        "<": "t_ladder_up",
+        "4": "t_gutter_downspout"
       },
-      "furniture": { "#": "f_counter", "{": "f_rack", "S": "f_stool" },
-      "place_items": [
-        { "item": "consumer_electronics", "x": [ 4, 20 ], "y": 20, "chance": 85, "repeat": [ 1, 5 ] },
-        { "item": "consumer_electronics", "x": 4, "y": [ 15, 19 ], "chance": 85, "repeat": [ 1, 5 ] },
-        { "item": "consumer_electronics", "x": 20, "y": [ 15, 19 ], "chance": 85, "repeat": [ 1, 5 ] },
-        { "item": "consumer_electronics", "x": 9, "y": [ 15, 19 ], "chance": 85, "repeat": [ 1, 5 ] },
-        { "item": "consumer_electronics", "x": 15, "y": [ 15, 19 ], "chance": 85, "repeat": [ 1, 5 ] },
-        { "item": "consumer_electronics", "x": 4, "y": [ 4, 14 ], "chance": 85, "repeat": [ 1, 5 ] },
-        { "item": "consumer_electronics", "x": [ 5, 8 ], "y": 4, "chance": 85, "repeat": [ 1, 5 ] }
-      ],
+      "furniture": {
+        "#": "f_counter",
+        "{": "f_rack",
+        "S": "f_stool",
+        "s": "f_sink",
+        "U": [ "f_dumpster", "f_recycle_bin" ],
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "M": [ "f_crate_c", "f_cardboard_box" ],
+        "t": "f_table",
+        "Y": "f_trashcan",
+        "H": "f_displaycase",
+        "h": "f_chair",
+        "L": "f_locker",
+        "J": "f_birdbath",
+        "I": "f_desk",
+        "F": "f_filing_cabinet",
+        "@": "f_sofa",
+        "G": "f_workbench",
+        "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ]
+      },
+      "toilets": { "&": {  } },
+      "items": {
+        "I": { "item": "office", "chance": 30 },
+        "F": { "item": "office_paper", "chance": 30 },
+        "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
+        "M": { "item": "consumer_electronics", "chance": 20, "repeat": [ 1, 2 ] },
+        "#": { "item": "consumer_electronics", "chance": 25, "repeat": [ 1, 2 ] },
+        "{": { "item": "consumer_electronics", "chance": 25, "repeat": [ 1, 2 ] },
+        "H": { "item": "elecsto_persele", "chance": 25, "repeat": [ 1, 2 ] },
+        "G": { "item": "elecsto_diy", "chance": 25, "repeat": [ 1, 2 ] },
+        "t": { "item": "elecsto_homapl", "chance": 25, "repeat": [ 1, 2 ] },
+        "L": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ],
+        "U": { "item": "trash", "chance": 25, "repeat": [ 1, 4 ] }
+      },
       "place_monsters": [ { "monster": "GROUP_ELECTRO", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_electronics_roof_1",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "   |222222222222222223  ",
+        "   |.................3  ",
+        "   |.................3  ",
+        "   |.................3  ",
+        "   |.................3  ",
+        "   |.................3  ",
+        "   |.................3  ",
+        "   |.................3  ",
+        "   |.................3  ",
+        "   |.................3  ",
+        "   |.................3  ",
+        "   |.................5  ",
+        "   |.................3  ",
+        "   |.................3  ",
+        "   |.................3  ",
+        "   |..............R..3  ",
+        "   |............U....3  ",
+        "   |.................3  ",
+        "   |------###--------3  ",
+        "          #>#           ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ">": "t_ladder_down" },
+      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 5, 15 ],
+          "y": [ 5, 7 ]
+        },
+        {
+          "chunks": [ [ "null", 20 ], [ "roof_4x4_utility", 40 ], [ "roof_6x6_utility", 20 ], [ "roof_6x6_survivor", 10 ] ],
+          "x": [ 5, 13 ],
+          "y": [ 9, 11 ]
+        }
+      ]
     }
   }
 ]

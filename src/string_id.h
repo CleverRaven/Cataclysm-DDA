@@ -206,6 +206,6 @@ struct hash< string_id<T> > {
         return hash<std::string>()( v.str() );
     }
 };
-}
+} // namespace std
 
 #endif

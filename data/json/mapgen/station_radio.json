@@ -1,16 +1,12 @@
 [
   {
-    "id": "record_weather",
-    "type": "item_group",
-    "items": [ [ "record_weather", 100 ] ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "station_radio" ],
     "weight": 500,
     "//": "Eventually the northern shed will house the main breaker or generator that must be activated prior to transmitting.",
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "  sssssssssssssssssssss ",
         " sssssssFffffffffffffFss",
@@ -22,18 +18,18 @@
         "  ssssssG____________Gss",
         " |--------|__________Fss",
         " |tS|eSc.r|__________Fss",
-        " w..+.....=__________Fss",
+        " w..+.....=_____<____Fss",
         " |-----|..|----------|ss",
-        " |..doo|..|..dW..h...|ss",
+        " |7ddoo|..|..dW..h..y|ss",
         " w..h..|..D.hxW.c6c..|ss",
-        " |a....|..|...+......|ss",
-        " |--+--|..|-----WWW--|ss",
+        " |a...y|..|...+......|ss",
+        " |--+--|..|-----WWW--|4s",
         " |.+.................|ss",
         " |l|..............ch.|ss",
-        " |--+--|--+--|....c..|ss",
+        " |--+--|--+--|y...c.7|ss",
         " |o....|....o|--==-w-|ss",
-        " |o.d..|..d.o|ssssssssss",
-        " |o.h..|..h..|ssssssssss",
+        " |o.h.7|7.h.o|ssssssssss",
+        " |odd.y|7.ddy|ssssssssss",
         " |-www-|-www-|sssssssss ",
         "                        "
       ],
@@ -42,29 +38,20 @@
         "+": "t_door_c",
         "=": "t_door_locked_alarm",
         "D": "t_door_locked",
-        "|": "t_wall",
-        "-": "t_wall",
+        "|": "t_wall_w",
+        "-": "t_wall_w",
         "w": "t_window_alarm",
         "W": "t_window",
         ".": "t_floor",
-        "o": "t_floor",
-        "d": "t_floor",
-        "h": "t_floor",
-        "a": "t_floor",
-        "l": "t_floor",
-        "c": "t_floor",
-        "t": "t_floor",
-        "S": "t_floor",
-        "e": "t_floor",
-        "r": "t_floor",
-        "6": "t_floor",
         "_": "t_pavement",
         "&": "t_radio_tower",
         "s": "t_sidewalk",
         "x": "t_console_broken",
         "F": "t_chainfence",
         "f": "t_chainfence",
-        "G": "t_chaingate_l"
+        "G": "t_chaingate_l",
+        "4": "t_gutter_downspout",
+        "<": "t_ladder_up"
       },
       "furniture": {
         "o": "f_bookcase",
@@ -75,7 +62,9 @@
         "c": "f_counter",
         "S": "f_sink",
         "e": "f_fridge",
-        "r": "f_trashcan"
+        "r": "f_trashcan",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "7": "f_filing_cabinet"
       },
       "toilets": { "t": {  } },
       "computers": {
@@ -84,7 +73,8 @@
           "security": 2,
           "options": [
             { "name": "ERROR:  SIGNAL DISCONNECT", "action": "tower_unresponsive" },
-            { "name": "Install Repeater Mod", "action": "repeater_mod" }
+            { "name": "Install Repeater Mod", "action": "repeater_mod" },
+            { "name": "Browse Audio Archive", "action": "radio_archive" }
           ]
         }
       },
@@ -92,7 +82,8 @@
         "o": { "item": "novels", "chance": 70 },
         "r": { "item": "trash", "chance": 70 },
         "d": { "item": "office", "chance": 70 },
-        "e": { "item": "fridge", "chance": 70, "repeat": [ 2, 3 ] }
+        "e": { "item": "fridge", "chance": 70, "repeat": [ 2, 3 ] },
+        "7": { "item": "office_paper", "chance": 30 }
       },
       "place_loot": [
         { "group": "record_weather", "x": 18, "y": 13 },
@@ -104,10 +95,61 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "station_radio" ],
+    "om_terrain": "station_radio_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "   ******               ",
+        "   ******               ",
+        "   ******               ",
+        "   ******               ",
+        "                        ",
+        " |222222223             ",
+        " |......:.3             ",
+        " |...&....3    #>#      ",
+        " |........3222#####223  ",
+        " |...................3  ",
+        " |...................3  ",
+        " |...................3  ",
+        " |...................5  ",
+        " |...................3  ",
+        " |...................3  ",
+        " |...................3  ",
+        " |...........3-------3  ",
+        " |..N...X....3          ",
+        " |...........3          ",
+        " |-----------3          ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { "*": "t_tar_flat_roof", ">": "t_ladder_down" },
+      "furniture": { "N": "f_TV_antenna" },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 4, 17 ],
+          "y": [ 13, 15 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "station_radio_1" ],
     "weight": 500,
     "//": "Eventually the northern shed will house the main breaker or generator that must be activated prior to transmitting.",
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "ss                ##w###",
         "ss       #ffffffff#xxxP#",
@@ -119,7 +161,7 @@
         "ss#l+...c#______&&&___F ",
         "ss#####+####RR__&&&___F ",
         "ss#tS#e.cSc#RR__&&&___F ",
-        "ss#..+.....#RR________F ",
+        "ss#..+.....#RR______<_F ",
         "ss#######..###=######## ",
         "ss#d..oo#..#..dW..a...# ",
         "sswda.ad#..+.hxW.c6c..# ",
@@ -129,7 +171,7 @@
         "ss=....ccc....#o.h.dao# ",
         "ss###+#####+###o.h.d.o# ",
         "ss#o.........o######w## ",
-        "ss#o.hd.hd.hdo#         ",
+        "ss#o.hd.hd.hdo#4        ",
         "ss#occdccdccdo#         ",
         "ss##www###www##         ",
         "ss                      "
@@ -139,31 +181,22 @@
         "+": "t_door_c",
         "=": "t_door_locked_alarm",
         "D": "t_door_locked",
-        "|": "t_wall",
-        "-": "t_wall",
+        "|": "t_wall_w",
+        "-": "t_wall_w",
         "w": "t_window_alarm",
         "W": "t_window",
         ".": "t_floor",
-        "o": "t_floor",
-        "d": "t_floor",
-        "h": "t_floor",
-        "a": "t_floor",
-        "l": "t_floor",
-        "P": "t_floor",
-        "c": "t_floor",
-        "t": "t_floor",
-        "S": "t_floor",
-        "e": "t_floor",
-        "R": "t_floor",
-        "6": "t_floor",
         "_": "t_pavement",
+        "R": "t_pavement",
         "&": "t_radio_tower",
         "s": "t_sidewalk",
         "x": "t_console_broken",
         "F": "t_chainfence",
         "f": "t_chainfence",
         "G": "t_chaingate_l",
-        "#": "t_brick_wall"
+        "#": "t_brick_wall",
+        "4": "t_gutter_downspout",
+        "<": "t_ladder_up"
       },
       "furniture": {
         "o": "f_bookcase",
@@ -197,6 +230,56 @@
         "l": { "item": "cleaning", "chance": 70 }
       },
       "place_loot": [ { "group": "record_weather", "x": 19, "y": 13 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "station_radio_roof_1",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                  ******",
+        "                  ******",
+        "                  ***X**",
+        "    |22223        ******",
+        "    |....3        ******",
+        "  |22....3              ",
+        "  |......3              ",
+        "  |..N...3              ",
+        "  |......323            ",
+        "  |........3            ",
+        "  |..=.&...3       #>#  ",
+        "  |........32222222###3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...........5-------3 ",
+        "  |.....:.....3         ",
+        "  |...........3         ",
+        "  |-----------3         ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { "*": "t_tar_flat_roof", ">": "t_ladder_down" },
+      "furniture": { "N": "f_TV_antenna" },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 4, 17 ],
+          "y": [ 14, 16 ]
+        }
+      ]
     }
   }
 ]

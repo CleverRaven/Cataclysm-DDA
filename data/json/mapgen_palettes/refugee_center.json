@@ -57,5 +57,26 @@
       "~": "f_shower"
     },
     "toilets": { "t": {  } }
+  },
+  {
+    "type": "palette",
+    "id": "rc_grounds",
+    "terrain": {
+      "'": [ [ "t_grass", 30 ], [ "t_dirt", 10 ], [ "t_grass_dead", 3 ] ],
+      ",": [ [ "t_pavement_y", 300 ], [ "t_dirt", 2 ], "t_grass_dead" ],
+      ".": [
+        [ "t_grass", 600 ],
+        [ "t_dirt", 200 ],
+        [ "t_grass_dead", 60 ],
+        [ "t_shrub", 15 ],
+        [ "t_tree_young", 10 ],
+        [ "t_tree", 3 ],
+        [ "t_tree_dead", 2 ],
+        "t_water_sh",
+        "t_tree_pine"
+      ],
+      "|": [ [ "t_chainfence", 30 ], [ "t_chainfence_posts", 4 ], [ "t_grass", 2 ], "t_shrub" ],
+      "_": [ [ "t_pavement", 300 ], [ "t_dirt", 2 ], "t_grass_dead" ]
+    }
   }
 ]

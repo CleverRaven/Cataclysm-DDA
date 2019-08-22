@@ -17,11 +17,11 @@
     "name": "Merchant",
     "job_description": "I'm a local shopkeeper.",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
-    "//": "This is a unique NPC who doesn't get randomly selected background traits",
     "common": false,
     "bonus_int": { "one_in": 4 },
     "bonus_per": { "one_in": 4 },
     "shopkeeper_item_group": "NC_EVAC_SHOPKEEP_misc",
+    "carry_override": "NC_EVAC_SHOPKEEP_misc",
     "skills": [
       {
         "skill": "ALL",
@@ -46,8 +46,35 @@
   {
     "type": "item_group",
     "id": "NC_EVAC_SHOPKEEP_misc",
+    "subtype": "collection",
     "items": [
-      { "item": "FMCNote", "count-min": 50, "count-max": 300, "prob": 100 },
+      { "item": "RobofacCoin", "count-min": 5, "count-max": 30, "prob": 30 },
+      { "item": "FlatCoin", "count-min": 50, "count-max": 300, "prob": 30 },
+      { "group": "tools_general", "prob": 80, "repeat": [ 1, 3 ] },
+      { "group": "tools_home", "prob": 80, "repeat": [ 1, 3 ] },
+      { "group": "tools_construction", "prob": 30, "repeat": [ 1, 3 ] },
+      { "group": "tools_carpentry", "prob": 30, "repeat": [ 1, 3 ] },
+      { "group": "tools_earthworking", "prob": 30, "repeat": [ 1, 3 ] },
+      { "group": "tools_electronics", "prob": 20, "repeat": [ 1, 3 ] },
+      { "group": "tools_lighting_industrial", "prob": 20, "repeat": [ 1, 3 ] },
+      { "group": "tools_mechanic", "prob": 20, "repeat": [ 1, 3 ] },
+      { "group": "tools_plumbing", "prob": 20, "repeat": [ 1, 3 ] },
+      { "group": "supplies_electronics", "prob": 20, "repeat": [ 1, 3 ] },
+      { "group": "supplies_plumbing", "prob": 20, "repeat": [ 1, 3 ] },
+      { "group": "supplies_hardware", "prob": 20, "repeat": [ 1, 3 ] },
+      { "group": "supplies_fuel", "prob": 20, "repeat": [ 1, 3 ] },
+      { "group": "supplies_metal", "prob": 20, "repeat": [ 1, 3 ] },
+      { "group": "supplies_mechanics", "prob": 20, "repeat": [ 1, 3 ] },
+      { "group": "ammo_any_batteries_full", "prob": 20, "repeat": [ 1, 3 ] },
+      { "group": "magazines", "prob": 30, "repeat": [ 1, 3 ] },
+      { "group": "book_gunref", "prob": 15 },
+      { "group": "hardware_books", "prob": 30, "repeat": [ 1, 3 ] },
+      { "group": "religious_books", "prob": 30, "repeat": [ 1, 3 ] },
+      { "group": "homebooks", "prob": 40, "repeat": [ 1, 3 ] },
+      { "group": "manuals", "prob": 30 },
+      { "group": "book_survival", "prob": 15 },
+      { "group": "novels", "prob": 50, "repeat": [ 1, 3 ] },
+      { "group": "textbooks", "prob": 30 },
       [ "vest", 40 ],
       [ "kevlar", 15 ],
       [ "jacket_army", 30 ],
@@ -119,13 +146,13 @@
       [ "makeshift_machete", 15 ],
       [ "flamethrower_crude", 20 ],
       [ "fungicide", 20 ],
+      [ "insecticide", 20 ],
       [ "antifungal", 20 ],
       [ "antiparasitic", 20 ],
       [ "diazepam", 15 ],
       [ "small_repairkit", 20 ],
       [ "grapnel", 5 ],
       [ "misc_repairkit", 15 ],
-      [ "flamethrower_simple", 15 ],
       [ "toolbox", 20 ],
       [ "crowbar", 25 ],
       [ "machete", 25 ],
@@ -185,14 +212,39 @@
     ]
   },
   {
-    "id": "TALK_EVAC_MERCHANT",
+    "//": "table of contents: common response strings appearing in this list of topics",
+    "id": [
+      "TALK_EVAC_MERCHANT",
+      "TALK_EVAC_MERCHANT_NEW",
+      "TALK_EVAC_MERCHANT_PLANS2",
+      "TALK_EVAC_MERCHANT_PLANS3",
+      "TALK_EVAC_MERCHANT_WORLD",
+      "TALK_EVAC_MERCHANT_RANCH2",
+      "TALK_EVAC_MERCHANT_HORDES",
+      "TALK_EVAC_MERCHANT_PRIME_LOOT",
+      "TALK_EVAC_MERCHANT_BACKGROUND"
+    ],
     "type": "talk_topic",
-    "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "Welcome marshal...", "no": "Welcome..." },
     "responses": [
-      { "text": "I'm actually new...", "topic": "TALK_EVAC_MERCHANT_NEW" },
+      { "text": "I heard this place was a refugee center...", "topic": "TALK_EVAC_MERCHANT_NEW" },
       { "text": "What are you doing here?", "topic": "TALK_EVAC_MERCHANT_PLANS" },
       { "text": "Heard anything about the outside world?", "topic": "TALK_EVAC_MERCHANT_WORLD" },
       { "text": "Is there any way I can join your group?", "topic": "TALK_EVAC_MERCHANT_ASK_JOIN" },
+      {
+        "text": "What's with these beggars?",
+        "condition": { "not": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" } },
+        "topic": "TALK_EVAC_MERCHANT_BEGGARS1"
+      },
+      {
+        "text": "I took care of your beggar problem.",
+        "condition": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" },
+        "topic": "TALK_EVAC_MERCHANT_BEGGARS2"
+      },
+      {
+        "text": "Tell me more about that ranch of yours.",
+        "condition": { "u_has_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" },
+        "topic": "TALK_EVAC_MERCHANT_RANCH"
+      },
       { "text": "Can I do anything for the center?", "topic": "TALK_MISSION_LIST" },
       { "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_EVAC_MERCHANT" },
       {
@@ -201,45 +253,53 @@
         "effect": { "companion_mission": "REFUGEE_MERCHANT" },
         "condition": { "u_has_any_trait": [ "NPC_MISSION_LEV_1" ] }
       },
-      { "text": "Well, bye.", "topic": "TALK_DONE" }
+      { "text": "What's your story?", "topic": "TALK_EVAC_MERCHANT_BACKGROUND" },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT",
+    "type": "talk_topic",
+    "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "Welcome marshal...", "no": "Welcome..." }
   },
   {
     "id": "TALK_EVAC_MERCHANT_NEW",
     "type": "talk_topic",
-    "dynamic_line": "Before you say anything else, we're full.  Few days ago we had an outbreak due to lett'n in too many new refugees.  We do desperately need supplies and are willing to trade what we can for it.  Pay top dollar for jerky if you have any.",
-    "responses": [ { "text": "No rest for the weary...", "topic": "TALK_EVAC_MERCHANT" } ]
+    "dynamic_line": "Before you say anything else, we're full.  We don't have the space, nor the food, to take in more refugees.  We do desperately need supplies and are willing to trade what we can for it.  Pay top dollar for jerky if you have any; just talk to the broker in the back."
   },
   {
     "id": "TALK_EVAC_MERCHANT_PLANS",
     "type": "talk_topic",
-    "dynamic_line": "To be honest, we started out with six buses full of office workers and soccer moms... after the refugee outbreak a day or two ago the more courageous ones in our party ended up dead.  The only thing we want now is to run enough trade through here to keep us alive.  Don't care who your goods come from or how you got them, just don't bring trouble.",
-    "responses": [ { "text": "It's just as bad out here, if not worse.", "topic": "TALK_EVAC_MERCHANT_PLANS2" } ]
+    "dynamic_line": "To be honest, we started out with six buses full of office workers and soccer moms... we did what we could to sort through the masses, take the people with the best chance of survival first.  It sounds harsh but it was the only option.  The only thing we want now is to run enough trade through here to keep us alive... with our address in the evac shelter computers, people keep coming here and we have to turn them away, but we've found we can trade their salvage for what we've got.  We plan to turn that into a business model.  Don't care who your goods come from or how you got them, just don't bring trouble.",
+    "responses": [ { "text": "It's just as bad out there, if not worse.", "topic": "TALK_EVAC_MERCHANT_PLANS2" } ]
   },
   {
     "id": "TALK_EVAC_MERCHANT_PLANS2",
     "type": "talk_topic",
     "dynamic_line": "I'm sorry, but the only way we're going to make it is if we keep our gates buttoned fast.  The guards in the basement have orders to shoot on sight, if you so much as peep your head in the lower levels.  I don't know what made the scavengers out there so ruthless but some of us have had to kill our own bloody kids... don't even think about strong arming us.",
     "responses": [
-      { "text": "Guess shit's a mess everywhere...", "topic": "TALK_EVAC_MERCHANT" },
       {
-        "text": "[INT 12] Wait, six buses and refugees... how many people do you still have crammed in here?",
+        "text": "[INT 10] Wait, six buses and refugees... how many people do you still have crammed in here?",
         "topic": "TALK_EVAC_MERCHANT_PLANS3",
-        "condition": { "u_has_intelligence": 12 }
+        "condition": { "u_has_intelligence": 10 }
       }
     ]
   },
   {
     "id": "TALK_EVAC_MERCHANT_PLANS3",
     "type": "talk_topic",
-    "dynamic_line": "Well the refugees were staying here on the first floor when one their parties tried to sneak a dying guy in through the loading bay, we ended up being awoken to shrieks and screams.  Maybe two dozen people died that night.  The remaining refugees were banished the next day and went on to form a couple of scavenging bands.  I'd say we got twenty decent men or women still here but our real strength comes from all of our business partners that are accustomed to doing whatever is needed to survive.",
-    "responses": [ { "text": "Guess it works for you...", "topic": "TALK_EVAC_MERCHANT" } ]
+    "dynamic_line": "Downstairs, a few dozen.  Seventeen more living up here, until we can figure out a way to make space for them.  There used to be quite a few more, but things were handled poorly in the chaos, and we lost a few, and their loss triggered a few more.  It wasn't a good time."
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_BACKGROUND",
+    "type": "talk_topic",
+    "dynamic_line": "Well, like many, I'd rather not get into my life before this.  That's all gone, dead, risen, dead again.  I used to own a little store though, that's why they've got me up here doing this... and that's all I'm going to say about myself.  I'm on the clock, after all."
   },
   {
     "id": "TALK_EVAC_MERCHANT_HORDES",
     "type": "talk_topic",
-    "dynamic_line": "Had one guy pop in here a while back saying he had tried to drive into Syracuse after the outbreak.  Didn't even make it downtown before he ran into a wall of the living dead that could stop a tank.  He hightailed it out but claims there were several thousand at least.  Guess when you get a bunch of them together they end up making enough noise to attract everyone in the neighborhood.  Luckily we haven't had a mob like that pass by here.",
-    "responses": [ { "text": "Thanks for the tip.", "topic": "TALK_EVAC_MERCHANT" } ]
+    "dynamic_line": "Had one guy pop in here a while back saying he had tried to drive into Syracuse after the outbreak.  Didn't even make it downtown before he ran into a wall of the living dead that could stop a tank.  He hightailed it out but claims there were several thousand at least.  Guess when you get a bunch of them together they end up making enough noise to attract everyone in the neighborhood.  Luckily we haven't had a mob like that pass by here."
   },
   {
     "id": "TALK_EVAC_MERCHANT_PRIME_LOOT",
@@ -290,9 +350,65 @@
     ]
   },
   {
+    "id": "TALK_EVAC_MERCHANT_BEGGARS1",
+    "type": "talk_topic",
+    "dynamic_line": "They're folks that wanted to come down to our shelter, but we're too full and have neither space nor supplies to share.  Most like them have turned and gone seeking their own place, but these ones... these ones didn't.  We've been trying to find them a safe place, but there's a shortage of safety going around.  Until then we're letting them crash here so long as they don't mess the place up.",
+    "responses": [
+      {
+        "text": "I don't suppose there'd be some kind of reward if I could clear them out of here?",
+        "topic": "TALK_EVAC_MERCHANT_BEGGARS1_Reward",
+        "effect": { "npc_add_var": "beggars_reward_agreed", "type": "general", "context": "recruit", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_BEGGARS1_Reward",
+    "type": "talk_topic",
+    "dynamic_line": "We don't have much to share, but I'm sure we could pay you in our own currency if you could clean up our burgeoning health hazard without anyone getting hurt, yeah.",
+    "responses": [ { "text": "I'll see what I can do.", "topic": "TALK_EVAC_MERCHANT" } ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_BEGGARS2",
+    "type": "talk_topic",
+    "dynamic_line": "It was a fine thing you did, taking those poor souls somewhere safe.  I assume that's what you did.  If you have other plans, I still appreciate having the lobby clear, but please let me live in my happy imaginings.  I'm sure they're out frolicking in a nice field somewhere.  It's a shame that cardboard fellow didn't go too, but he's relatively easy to handle alone.",
+    "responses": [
+      {
+        "text": "I do believe we discussed a reward?",
+        "topic": "TALK_EVAC_MERCHANT_BEGGARS2_Reward",
+        "condition": { "npc_has_var": "beggars_reward_agreed", "type": "general", "context": "recruit", "value": "yes" }
+      },
+      { "text": "Just glad to help.", "topic": "TALK_EVAC_MERCHANT" }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_BEGGARS2_Reward",
+    "type": "talk_topic",
+    "dynamic_line": "And so we did.  You didn't do the full job, but we're fair people here.  Here's five merch a head for the folks you found a new home for.",
+    "speaker_effect": { "effect": { "u_buy_item": "FMCNote", "count": 20 } },
+    "responses": [ { "text": "Thanks.", "topic": "TALK_EVAC_MERCHANT" } ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_RANCH",
+    "type": "talk_topic",
+    "dynamic_line": "One of the people that got evacuated here was actually on a charter bus taking him back to his ranch, 'til it was commandeered to be an evacuation vehicle and brought him here.  Once the dust shook out we made a deal to get him home and provide him with labor in return for making the ranch into a subsidiary of our dealings here.  It worked out pretty well for everyone, most of the people with skills for that kind of work are already out there.",
+    "responses": [
+      {
+        "text": "Didn't that free up some space for the beggars and people stuck upstairs?",
+        "topic": "TALK_EVAC_MERCHANT_RANCH2"
+      },
+      { "text": "Thanks for the story.", "topic": "TALK_EVAC_MERCHANT" }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_RANCH2",
+    "type": "talk_topic",
+    "dynamic_line": "Unfortunately, no.  Most of the people who left were already stuck upstairs, they were taking on less risk than those with a safe bed already.  We only got a few people out of the basement, and it was already overcrowded when we started.  We're kind of hoping more folk will head out to the ranch for sun, fresh air, and hard work... but people are a bit afraid of getting attacked by zombie hordes, as you might guess."
+  },
+  {
     "id": "MISSION_FREE_MERCHANTS_EVAC_1",
     "type": "mission_definition",
     "name": "Clear Back Bay",
+    "description": "Clear out the barricaded back area in the refugee center and lay the former leader of the Free Merchants to rest, in exchange for the local currency: Free Merchant certified notes.",
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 2,
     "value": 50000,
@@ -301,19 +417,25 @@
       "update_mapgen": {
         "om_terrain": "evac_center_9",
         "om_special": "evac_center",
-        "place_monster": [ { "monster": "mon_zombie_electric", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]
+        "place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]
       }
+    },
+    "end": {
+      "effect": [
+        { "u_buy_item": "FMCNote", "count": 25 },
+        { "u_add_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+      ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_2",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "If you really want to lend a hand we could use your help clearing out the dead in the back bay.  Fearful of going outside during the first days of the cataclysm we ended up throwing our dead and the zombies we managed to kill in the sealed back bay.  Our promising leader at the time even fell... he turned into something different.  Kill all of them and make sure they won't bother us again.  We can't pay much but it would help us to reclaim the bay.",
+      "offer": "If you really want to lend a hand we could use your help clearing out the dead in the back bay.  Fearful of going outside during the first days of the cataclysm we ended up throwing our dead and the zombies we managed to kill in the sealed back bay.  Our promising leader at the time even fell... he turned into something different.  Kill all of them and make sure they won't bother us again.  We can't pay much, besides some of our own internal money which isn't good for that much yet, but it would help us to reclaim the bay.",
       "accepted": "Please be careful, we don't need any more deaths.",
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
       "advice": "If you can, get a friend or two to help you.",
       "inquire": "Will they be bothering us any longer?",
-      "success": "Thank you, having that big of a threat close to home was nerve wrecking.",
+      "success": "Thank you, having that big of a threat close to home was nerve wracking.  Here's some of our local certified notes, we've been paying these to our workers in exchange for supplies.  They're getting some value in the center as a trade item, I'm afraid they're all we have to spare at the moment.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
     }
@@ -322,6 +444,7 @@
     "id": "MISSION_FREE_MERCHANTS_EVAC_2",
     "type": "mission_definition",
     "name": "Missing Caravan",
+    "description": "Investigate the last known location of a disappeared scavenger trading party, and eliminate any bandits or raiders in the vicinity in exchange for <reward_count:FMCNote> certified notes.",
     "goal": "MGOAL_ASSASSINATE",
     "difficulty": 5,
     "value": 5000,
@@ -357,7 +480,7 @@
         "terrain": { "g": "t_grass", ".": "t_dirt", "a": "t_dirt", "b": "t_dirt", "R": "t_dirt", "F": "t_dirt" },
         "furniture": { "a": "f_ash" },
         "traps": { "F": "tr_fur_rollmat", "R": "tr_rollmat" },
-        "fields": { "b": { "field": "fd_blood", "density": 1 } },
+        "fields": { "b": { "field": "fd_blood", "intensity": 1 } },
         "place_loot": [
           { "group": "cannedfood", "x": [ 6, 18 ], "y": [ 3, 15 ], "chance": 100 },
           { "group": "alcohol_bottled_canned", "x": [ 6, 18 ], "y": [ 3, 15 ], "repeat": 2, "chance": 75 },
@@ -383,11 +506,17 @@
         ]
       }
     },
+    "end": {
+      "effect": [
+        { "u_buy_item": "FMCNote", "count": 30 },
+        { "u_add_var": "FMShopkeep_Mission2", "type": "mission", "context": "flag", "value": "yes" }
+      ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_3",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "This is a bit more involved than the last request, we recently lost a scavenger party coming to trade with us and would like you to investigate.  We strongly suspect a raider band or horde caught them off-guard.  I can give you the coordinates of their last radio message but little else.  In either case, deal with the threat so that the scavengers can continue to pass through in relative safety.  The best reward I can offer is a claim to the supplies they were carrying.",
+      "offer": "This is a bit more involved than the last request, we recently lost a scavenger party coming to trade with us and would like you to investigate.  We strongly suspect a raider band or horde caught them off-guard.  I can give you the coordinates of their last radio message but little else.  In either case, deal with the threat so that the scavengers can continue to pass through in relative safety.  The best reward I can offer is a claim to the supplies they were carrying, plus thirty certified notes - that's our own internal money, good for trading and such.",
       "accepted": "Our community survives on trade, we appreciate it.",
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
       "advice": "If you can, get a friend or two to help you.",
@@ -401,6 +530,7 @@
     "id": "MISSION_FREE_MERCHANTS_EVAC_3",
     "type": "mission_definition",
     "name": "Retrieve Prospectus",
+    "description": "Visit the farming commune and bring the foreman's prospectus back to the refugee center, for <reward_count:FMCNote> certified notes.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -412,18 +542,25 @@
           { "class": "ranch_foreman", "x": 16, "y": 15, "target": true, "add_trait": "NPC_MISSION_LEV_1" },
           { "class": "ranch_construction_1", "x": 9, "y": 17 }
         ]
-      }
+      },
+      "effect": [ { "u_add_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" } ]
+    },
+    "end": {
+      "effect": [
+        { "u_buy_item": "FMCNote", "count": 50 },
+        { "u_add_var": "FMShopkeep_Mission3", "type": "mission", "context": "flag", "value": "yes" }
+      ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_FREE_MERCHANTS_EVAC_5",
+    "followup": "MISSION_FREE_MERCHANTS_EVAC_4",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "The new outpost that we've started could use your assistance.  I need you to get the foreman's prospectus before we begin to send additional refugees to the farming commune.  Consult with the foreman to get more detailed tasks.",
+      "offer": "We recently set out some skilled people to start an outpost, to secure us some food supplies in a safer location.  The new outpost that we've started could use your assistance.  I need you to get the foreman's prospectus before we begin to send additional refugees to the farming commune.  Consult with the foreman to get more detailed tasks.  We've got 50 Certified Notes for you if you can do this for us.",
       "accepted": "I'm sure the outpost will expand quickly with your assistance.",
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
       "advice": "Just follow your map.",
       "inquire": "Do you have the prospectus?",
-      "success": "With this we'll be able to convince others to invest in the commune.  Thank you.",
+      "success": "With this we'll be able to convince others to invest in the commune.  Thank you, here's your money.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
     }
@@ -431,19 +568,27 @@
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_4",
     "type": "mission_definition",
-    "name": "Find 25 Plutonium Fuel Cells",
+    "name": "Solar Power",
+    "description": "Deliver 10 solar panels to help the Free Merchants set up a renewable power grid, in exchange for a handsome reward.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 400000,
-    "item": "plut_cell",
-    "count": 25,
+    "item": "solar_panel",
+    "count": 10,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_FREE_MERCHANTS_EVAC_5",
+    "end": {
+      "effect": [
+        { "u_buy_item": "FMCNote", "count": 100 },
+        { "u_add_var": "FMShopkeep_Mission4", "type": "mission", "context": "flag", "value": "yes" }
+      ]
+    },
     "dialogue": {
       "describe": "We need help...",
-      "offer": "We are starting to build new infrastructure here and would like to get a few new electrical systems online... unfortunately our existing system relies on an array of something called RTGs.  Running generators isn't a viable option underground, of course.  The military was using some kind of high density energy batteries for experimental weaponry before the cataclysm, and I'm told that we can use those for a temporary solution, and when we burn through the high density part our eggheads say they might be able to reuse the plutonium core to build more RTGs.  It's a big job.",
+      "offer": "We are starting to build new infrastructure here and would like to get a few new electrical systems online... unfortunately our existing system relies on an array of something called RTGs.  Running generators isn't a viable option underground, of course.  We have a big flat roof up top, and if we had a few solar panels we could use them to top up our usage.  We could pay you pretty handsomely to bring us, say, ten solar panels?",
       "accepted": "If you can do this for us our survival options would vastly increase.",
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
-      "advice": "Can't help you much, I've never even seen one of these plutonium batteries... or whatever they are, I keep getting a lecture whenever I call them that.",
+      "advice": "Solar panels are pretty common on electric cars and on rooftops.",
       "inquire": "How is the search going?",
       "success": "Great, I know it isn't much but we hope to continue to expand thanks to your help.",
       "success_lie": "What good does this do us?",
@@ -453,51 +598,28 @@
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_5",
     "type": "mission_definition",
-    "name": "Find 40 Canned Food",
-    "goal": "MGOAL_FIND_ITEM_GROUP",
+    "name": "In a Pickle",
+    "description": "Deliver 100 half-liter glass canning jars to the Free Merchants to kickstart their food storage plans.",
+    "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 400000,
-    "item_group": "foodintincan",
-    "count": 40,
-    "required_container": "can_food",
-    "remove_container": true,
-    "empty_container": "can_food_unsealed",
+    "item": "jar_glass",
+    "count": 100,
     "end": {
-      "update_mapgen": {
-        "om_terrain": "evac_center_19",
-        "om_special": "evac_center",
-        "place_loot": [
-          { "item": "can_beans", "x": 1, "y": 5, "chance": 100, "repeat": 3 },
-          { "item": "can_spam", "x": 1, "y": 6, "chance": 100, "repeat": 2 },
-          { "item": "can_tomato", "x": 1, "y": 7, "chance": 100, "repeat": 3 },
-          { "item": "can_sardine", "x": 2, "y": 5, "chance": 100, "repeat": 2 },
-          { "item": "soup_veggy", "x": 2, "y": 6, "chance": 100, "repeat": 3 },
-          { "item": "soup_dumplings", "x": 2, "y": 7, "chance": 100, "repeat": 2 },
-          { "item": "soup_meat", "x": 1, "y": 10, "chance": 100, "repeat": 3 },
-          { "item": "soup_tomato", "x": 1, "y": 11, "chance": 100, "repeat": 2 },
-          { "item": "soup_fish", "x": 1, "y": 12, "chance": 100, "repeat": 3 },
-          { "item": "fish_canned", "x": 2, "y": 10, "chance": 100, "repeat": 2 },
-          { "item": "curry_veggy", "x": 2, "y": 11, "chance": 100, "repeat": 3 },
-          { "item": "ravioli", "x": 2, "y": 12, "chance": 100, "repeat": 2 },
-          { "item": "curry_meat", "x": 1, "y": 15, "chance": 100, "repeat": 3 },
-          { "item": "chili", "x": 1, "y": 16, "chance": 100, "repeat": 2 },
-          { "item": "soup_chicken", "x": 1, "y": 17, "chance": 100, "repeat": 3 },
-          { "item": "pork_beans", "x": 2, "y": 15, "chance": 100, "repeat": 2 },
-          { "item": "soup_mushroom", "x": 2, "y": 16, "chance": 100, "repeat": 3 },
-          { "item": "can_tuna", "x": 2, "y": 17, "chance": 100, "repeat": 2 }
-        ]
-      }
+      "effect": [
+        { "u_buy_item": "FMCNote", "count": 25 },
+        { "u_add_var": "FMShopkeep_Mission5", "type": "mission", "context": "flag", "value": "yes" }
+      ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_FREE_MERCHANTS_EVAC_4",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "While we've managed to secure day to day food supplies, it's very much hand to mouth. Our reserves would barely last a few days if something kept our people locked in. We need a stockpile to avoid that. It would have to be made of something that would be long lasting though, so canned food's the way to go. Get us about 40 cans and we should be able to ride out anything that comes our way.",
+      "offer": "While we've managed to secure day to day food supplies, it's very much hand to mouth. Our reserves would barely last a few days if something kept our people locked in.  We need a stockpile to avoid that.  Thanks to our outpost we have a bit of meat and vegetables coming in, but we need a better way to preserve them.  Some of our people know enough about food canning that if we had a good stock of canning jars, we could make pickles and canned meats to get us set for the winter.  I'll pay you a premium rate if you can bring us around a hundred jars to get us started.",
       "accepted": "It'll take a load off my shoulders if I can finally stop worrying about this.",
-      "rejected": "We'll hold for the moment, but I'll get an ulcer if I have to keep worrying. If you reconsider let me know.",
+      "rejected": "We'll hold for the moment, but I'll get an ulcer if I have to keep worrying.  If you reconsider let me know.",
       "advice": "Grocery stores, house kitchens, there's plenty of places to look.",
       "inquire": "How is the search going?",
-      "success": "That's one less thing to worry about. Glad to have someone like you on our side.",
+      "success": "That's one less thing to worry about.  Glad to have someone like you on our side.  Here's 25 merch, and the broker will buy any further glass jars you can find - at a reduced price, we can't keep up the premium rate.  Actually, the broker was saying they had some jobs like this for you, and that it might be easier to just go straight through their office if you want more work.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
     }

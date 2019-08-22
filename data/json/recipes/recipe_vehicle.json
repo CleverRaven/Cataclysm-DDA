@@ -40,6 +40,23 @@
     "components": [ [ [ "sheet_metal", 3 ] ] ]
   },
   {
+    "result": "yoke_harness",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 120000,
+    "book_learn": [ [ "textbook_fabrication", 5 ], [ "textbook_carpentry", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "using": [ [ "sewing_standard", 100 ] ],
+    "components": [
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
+      [ [ "2x4", 4 ] ],
+      [ [ "rope_6", 2 ] ]
+    ]
+  },
+  {
     "result": "bike_rack",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -106,6 +123,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
+    "skill_required": [ "fabrication", 5 ],
     "difficulty": 5,
     "time": "180 m",
     "reversible": true,
@@ -133,6 +151,14 @@
     "result": "minifridge",
     "type": "recipe",
     "copy-from": "minifreezer",
+    "skill_required": [ "fabrication", 4 ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
     "components": [
       [ [ "sheet_metal", 10 ] ],
       [ [ "condensor_coil", 1 ] ],
@@ -183,6 +209,20 @@
     ]
   },
   {
+    "result": "vh_autoclave",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skill_required": [ "electronics", 4 ],
+    "difficulty": 4,
+    "time": "30 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 5 ] ],
+    "components": [ [ [ "autoclave", 1 ] ], [ [ "cable", 2 ] ], [ [ "power_supply", 2 ] ] ]
+  },
+  {
     "result": "washing_machine",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -204,6 +244,31 @@
       [ [ "steel_chunk", 2 ] ],
       [ [ "metal_tank", 1 ] ],
       [ [ "motor_small", 1 ] ]
+    ],
+    "byproducts": [ [ "scrap", 6 ] ]
+  },
+  {
+    "result": "dishwasher",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skill_required": [ "mechanics", 5 ],
+    "difficulty": 5,
+    "time": "170 m",
+    "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
+    "using": [ [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ],
+    "components": [
+      [ [ "sheet_metal", 3 ] ],
+      [ [ "wire", 6 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "e_scrap", 3 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "steel_chunk", 2 ] ],
+      [ [ "metal_tank", 1 ] ],
+      [ [ "motor_tiny", 1 ] ]
     ],
     "byproducts": [ [ "scrap", 6 ] ]
   },
@@ -301,6 +366,18 @@
     "time": "60 m",
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "sheet_metal", 3 ] ], [ [ "clockworks", 2 ] ] ]
+    "components": [ [ [ "sheet_metal", 3 ] ], [ [ "hinge", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "towel_hanger",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLES",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "40 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "2x4", 2 ] ], [ [ "stick", 2 ], [ "2x4", 2 ] ], [ [ "towel", 3 ] ] ]
   }
 ]

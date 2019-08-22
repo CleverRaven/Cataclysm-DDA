@@ -163,6 +163,8 @@ const morale_type MORALE_BOOK( "morale_book" );
 const morale_type MORALE_COMFY( "morale_comfy" );
 const morale_type MORALE_SCREAM( "morale_scream" );
 const morale_type MORALE_PERM_MASOCHIST( "morale_perm_masochist" );
+const morale_type MORALE_PERM_NOFACE( "morale_perm_noface" );
+const morale_type MORALE_PERM_FPMODE_ON( "morale_perm_fpmode_on" );
 const morale_type MORALE_PERM_HOARDER( "morale_perm_hoarder" );
 const morale_type MORALE_PERM_FANCY( "morale_perm_fancy" );
 const morale_type MORALE_PERM_OPTIMIST( "morale_perm_optimist" );
@@ -194,7 +196,7 @@ namespace
 
 generic_factory<morale_type_data> morale_data( "morale type" );
 
-}
+} // namespace
 
 template<>
 const morale_type_data &morale_type::obj() const
@@ -226,30 +228,22 @@ void morale_type_data::reset()
 void morale_type_data::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
-    mandatory( jo, was_loaded, "text", text, translated_string_reader );
+    mandatory( jo, was_loaded, "text", text );
 
     optional( jo, was_loaded, "permanent", permanent, false );
-    needs_item = text.find( "%s" ) != std::string::npos;
 }
 
 void morale_type_data::check() const
 {
-    if( needs_item != ( text.find( "%s" ) != std::string::npos ) ) {
-        debugmsg( "Morale type %s has exactly one of: needs_item or format string '%%s'", id.c_str() );
-    }
 }
 
 std::string morale_type_data::describe( const itype *it ) const
 {
-    if( it != nullptr ) {
-        if( !needs_item ) {
-            debugmsg( "Item type supplied but not needed" );
-        }
+    if( it ) {
         return string_format( text, it->nname( 1 ) );
+    } else {
+        // if `msg` contains conversion specification (e.g. %s) but `it` is nullptr,
+        // `string_format` will return an error message
+        return string_format( text );
     }
-
-    if( needs_item ) {
-        debugmsg( "Item type needed but not supplied" );
-    }
-    return text;
 }

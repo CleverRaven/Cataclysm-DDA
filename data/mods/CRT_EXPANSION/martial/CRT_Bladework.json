@@ -5,7 +5,8 @@
     "type": "GENERIC",
     "name": "C.R.I.T Blade-work manual",
     "name_plural": "C.R.I.T Blade-work manuals",
-    "description": "An advanced military manual on C.R.I.T Blade-work."
+    "description": "An advanced military manual on C.R.I.T Blade-work.",
+    "book_data": { "martial_art": "style_crt_blade" }
   },
   {
     "id": "book_martial",

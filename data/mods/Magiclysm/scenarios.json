@@ -1,0 +1,24 @@
+[
+  {
+    "type": "scenario",
+    "ident": "lost_faith",
+    "name": "Lost Faith",
+    "flags": [ "SUR_START", "LONE_START" ],
+    "points": 2,
+    "description": "You've been preaching your faith for a long time, but the recent events have begun to make you doubt it. Wandering in your temple, you just found books that may restore your faith or shatter it completely.",
+    "start_name": "Church",
+    "allowed_locs": [ "church_3rdfloor_1", "church_1", "church_steeple_end", "church" ],
+    "professions": [ "priest_magic2", "shinto_priest_magic2", "imam_magic2", "rabbi_magic2", "guru_magic2", "preacher_magic2" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "magic_basement",
+    "name": "The Wizard's Apprentice",
+    "flags": [ "LONE_START" ],
+    "points": 3,
+    "description": "You have been an apprentice to a wizard for some time now, working on a prototype device that could perhaps be used to escape from the Cataclysm.  Something went wrong with the maiden voyage though, and your teacher teleported his insides into his outsides.  Now you have to figure out how to survive on your own.  At least he left his notebook...",
+    "start_name": "Wizard's Secret Basement Study",
+    "allowed_locs": [ "magic_basement" ],
+    "professions": [ "wizard_novice", "novice_necromancer", "novice_earthshaper", "novice_technomancer", "novice_stormshaper" ]
+  }
+]

@@ -60,7 +60,10 @@
     "min_melee": 5,
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "messages": [ "You kick %s and spin around", "<npcname> kicks %s and spins around" ],
+    "messages": [
+      "The %s tries to grab you, but you kick free and spin around!",
+      "The %s tries to grab <npcname>, but they kick free and spin around!"
+    ],
     "aoe": "spin",
     "knockback_dist": 1,
     "defensive": true,

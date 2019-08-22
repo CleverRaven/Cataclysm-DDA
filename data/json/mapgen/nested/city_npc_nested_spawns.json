@@ -71,5 +71,66 @@
         "t": { "item": "cannedfood", "chance": 100, "repeat": [ 2, 3 ] }
       }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "foodperson_break_room",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "WWWWWWWWW",
+        ",,sWh,,sW",
+        ",,,WT,,,W",
+        "WDWWWWDWW",
+        ",,bWl,,bW",
+        ",,bWl,,bW",
+        "WDWWWWDWW",
+        ",,,M@,,,W",
+        ",,,,,,,aW"
+      ],
+      "terrain": { "W": "t_wall_p", "D": "t_door_c", ",": "t_floor" },
+      "toilets": { "T": {  } },
+      "furniture": {
+        "l": "f_locker",
+        "b": "f_bench",
+        "h": "f_shower",
+        "s": "f_sink",
+        "M": "f_bigmirror",
+        "@": "f_mannequin",
+        "a": "f_armchair"
+      },
+      "place_nested": [ { "chunks": [ [ "foodperson_barred_bathroom", 20 ], [ "null", 80 ] ], "x": 3, "y": 1 } ],
+      "place_npcs": [ { "chance": 100, "class": "true_foodperson", "x": 4, "y": 8 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "foodperson_barred_bathroom",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "Wh,,sW",
+        "WT,,,W",
+        "WWWDWW",
+        "Wl,,bW",
+        "Wl,,bW",
+        "WWWXWW"
+      ],
+      "terrain": { "W": "t_wall_p", "D": "t_door_c", "X": "t_rdoor_boarded", ",": "t_floor" },
+      "toilets": { "T": {  } },
+      "furniture": { "l": "f_locker", "b": "f_bench", "h": "f_shower", "s": "f_sink" },
+      "place_loot": [
+        { "item": "corpse", "x": 0, "y": [ 0, 1 ], "repeat": 3, "chance": 100 },
+        { "item": "foodperson_mask", "x": 0, "y": [ 0, 1 ], "repeat": 3, "chance": 100 },
+        { "item": "cape_fp", "x": 0, "y": [ 0, 1 ], "repeat": 3, "chance": 100 },
+        { "item": "chestguard_hard", "x": 0, "y": [ 0, 1 ], "repeat": 3, "chance": 100 },
+        { "item": "legguard_hard", "x": 0, "y": [ 0, 1 ], "repeat": 3, "chance": 100 },
+        { "item": "armguard_hard", "x": 0, "y": [ 0, 1 ], "repeat": 3, "chance": 100 },
+        { "item": "gloves_rubber", "x": 0, "y": [ 0, 1 ], "repeat": 3, "chance": 100 },
+        { "item": "boots_rubber", "x": 0, "y": [ 0, 1 ], "repeat": 3, "chance": 100 }
+      ]
+    }
   }
 ]

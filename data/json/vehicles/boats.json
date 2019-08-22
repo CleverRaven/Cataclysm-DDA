@@ -112,5 +112,35 @@
       { "x": 1, "y": 1, "parts": [ "inflatable_section", "inflatable_airbag" ] },
       { "x": 0, "y": 1, "parts": [ "inflatable_section", "inflatable_airbag" ] }
     ]
+  },
+  {
+    "type": "vehicle",
+    "id": "boat_motor_single",
+    "name": "motor boat",
+    "blueprint": [
+      [ "|--\\" ],
+      [ "|==O>" ],
+      [ "|--/ " ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_vertical", "metal_boat_hull" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_horizontal", "metal_boat_hull" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_horizontal", "metal_boat_hull" ] },
+      { "x": 3, "y": 0, "parts": [ "frame_sw", "metal_boat_hull" ] },
+      {
+        "x": 0,
+        "y": 1,
+        "parts": [ "frame_vertical", "metal_boat_hull", "engine_1cyl_large", "alternator_bicycle", "battery_motorbike" ]
+      },
+      { "x": 1, "y": 1, "parts": [ "frame_cross", "metal_boat_hull", "trunk" ] },
+      { "x": 2, "y": 1, "parts": [ "frame_cross", "metal_boat_hull" ] },
+      { "x": 2, "y": 1, "part": "tank", "fuel": "gasoline" },
+      { "x": 3, "y": 1, "parts": [ "frame_cross", "metal_boat_hull", "seat", "seatbelt", "controls", "dashboard" ] },
+      { "x": 4, "y": 1, "parts": [ "frame_horizontal", "metal_boat_hull", "windshield" ] },
+      { "x": 0, "y": 2, "parts": [ "frame_vertical", "metal_boat_hull" ] },
+      { "x": 1, "y": 2, "parts": [ "frame_horizontal", "metal_boat_hull" ] },
+      { "x": 2, "y": 2, "parts": [ "frame_horizontal", "metal_boat_hull" ] },
+      { "x": 3, "y": 2, "parts": [ "frame_ne", "metal_boat_hull" ] }
+    ]
   }
 ]

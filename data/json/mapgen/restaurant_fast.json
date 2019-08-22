@@ -45,7 +45,7 @@
         "%": "t_wall_glass",
         "+": "t_door_glass_c",
         ",": "t_pavement_y",
-        "-": "t_wall",
+        "-": "t_wall_w",
         ".": "t_floor",
         "5": "t_wall_glass",
         "=": "t_linoleum_gray",
@@ -63,7 +63,7 @@
         "w": "t_linoleum_white",
         "x": "t_console_broken",
         "4": "t_gutter_downspout",
-        "|": "t_wall"
+        "|": "t_wall_w"
       },
       "furniture": {
         "H": "f_chair",
@@ -199,7 +199,7 @@
         "+": "t_door_glass_c",
         ",": "t_pavement_y",
         "!": "t_wall_wood",
-        "-": "t_wall",
+        "-": "t_wall_w",
         ".": "t_floor",
         "5": "t_wall_glass",
         "=": "t_linoleum_gray",
@@ -220,7 +220,7 @@
         "w": "t_linoleum_white",
         "x": "t_console_broken",
         "4": "t_gutter_downspout",
-        "|": "t_wall"
+        "|": "t_wall_w"
       },
       "furniture": {
         "H": "f_chair",

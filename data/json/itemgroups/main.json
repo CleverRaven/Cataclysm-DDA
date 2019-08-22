@@ -22,8 +22,8 @@
       [ "dump_pouch", 100 ],
       [ "electrohack", 30 ],
       [ "fetus", 10 ],
-      [ "ftk93", 10 ],
       [ "hazmat_suit", 50 ],
+      [ "plasma_gun", 10 ],
       [ "hk_g80", 20 ],
       [ "hk_g80mag", 35 ],
       [ "emp_gun", 20 ],
@@ -34,7 +34,6 @@
       [ "l-stick", 10 ],
       [ "large_repairkit", 20 ],
       [ "standard_template_construct", 15 ],
-      [ "laser_pack", 100 ],
       [ "laser_rifle", 10 ],
       [ "m240", 10 ],
       [ "m249", 10 ],
@@ -44,6 +43,7 @@
       [ "mininuke", 10 ],
       [ "mutagen", 80 ],
       [ "optical_cloak", 20 ],
+      [ "holo_cloak", 20 ],
       [ "pickaxe", 10 ],
       [ "plasma", 80 ],
       [ "plasma_rifle", 10 ],
@@ -67,6 +67,10 @@
       [ "royal_jelly", 80 ],
       [ "RPG", 10 ],
       [ "RPG-7_ammo", 10 ],
+      [ "RPG-7_og7v", 25 ],
+      [ "RPG-7_tbg7v", 8 ],
+      [ "RPG-7_pg7vr", 8 ],
+      [ "atgm_heat", 1 ],
       [ "rx11_stimpack", 50 ],
       [ "rx12_injector", 50 ],
       [ "stimpack_ammo", 100 ],
@@ -85,7 +89,7 @@
       [ "12mm", 10 ],
       [ "bot_laserturret", 10 ],
       [ "alloy_plate", 10 ],
-      [ "ftk93", 10 ],
+      [ "plasma_gun", 10 ],
       [ "solar_panel_v3", 10 ],
       [ "q_solarpack", 10 ],
       [ "can_sealer", 10 ],
@@ -95,7 +99,6 @@
       [ "hk_g80mag", 10 ],
       [ "emp_gun", 10 ],
       [ "knife_rm42", 10 ],
-      [ "laser_pack", 10 ],
       [ "laser_rifle", 10 ],
       [ "mininuke", 10 ],
       [ "adv_UPS_off", 10 ],
@@ -148,8 +151,7 @@
       [ "mutagen_alpha", 0 ],
       [ "mutagen_chimera", 0 ],
       [ "mutagen_elfa", 0 ],
-      [ "mutagen_medical", 0 ],
-      [ "unbio_blaster_gun", 0 ]
+      [ "mutagen_medical", 0 ]
     ]
   },
   {
@@ -175,7 +177,12 @@
       [ "m3_carlgustav", 10 ],
       [ "m202_flash", 20 ],
       [ "RPG", 40 ],
-      [ "RPG-7_ammo", 40 ],
+      [ "RPG-7_ammo", 35 ],
+      [ "RPG-7_og7v", 45 ],
+      [ "RPG-7_tbg7v", 15 ],
+      [ "RPG-7_pg7vr", 20 ],
+      [ "atgm_launcher", 3 ],
+      [ "atgm_heat", 6 ],
       [ "flamethrower", 50 ],
       [ "rm451_flamethrower", 40 ]
     ]
@@ -232,11 +239,26 @@
   {
     "type": "item_group",
     "id": "archery_mods",
-    "items": [ [ "bow_sight", 50 ], [ "bow_stabilizer", 50 ], [ "arrowrest", 50 ], [ "gun_crossbow", 40 ] ]
+    "items": [
+      [ "arrowrest", 50 ],
+      [ "bow_scope", 30 ],
+      [ "bow_sight", 50 ],
+      [ "bow_sight_pin", 50 ],
+      [ "bow_silencer", 50 ],
+      [ "bow_stabilizer", 50 ],
+      [ "bow_stabilizer_set", 40 ],
+      [ "gun_crossbow", 40 ]
+    ]
   },
   {
     "type": "item_group",
     "id": "archery_ammo",
-    "items": [ [ "arrow_wood", 100 ], [ "arrow_metal", 50 ], [ "arrow_cf", 50 ], [ "bolt_steel", 50 ] ]
+    "items": [
+      [ "arrow_wood", 100 ],
+      [ "arrow_field_point_fletched", 50 ],
+      [ "arrow_cf", 100 ],
+      [ "bolt_wood", 100 ],
+      [ "bolt_wood_bodkin", 50 ]
+    ]
   }
 ]

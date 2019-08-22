@@ -10,12 +10,10 @@
 #include <limits>
 #include <map>
 #include <memory>
-#include <set>
 #include <utility>
 #include <vector>
 
 #include "activity_handlers.h"
-#include "ammo.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "craft_command.h"
@@ -41,7 +39,6 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "veh_type.h"
 #include "cata_utility.h"
 #include "color.h"
@@ -61,6 +58,15 @@
 #include "string_id.h"
 #include "units.h"
 #include "type_id.h"
+#include "clzones.h"
+#include "colony.h"
+#include "faction.h"
+#include "flat_set.h"
+#include "iuse.h"
+#include "point.h"
+#include "weather.h"
+
+class basecamp;
 
 const efftype_id effect_contacts( "contacts" );
 
@@ -74,7 +80,7 @@ static const trait_id trait_BURROW( "BURROW" );
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
     if( p.morale_crafting_speed_multiplier( rec ) <= 0.0f ) {
-        add_msg( m_info, _( "Your morale is too low to craft..." ) );
+        add_msg( m_info, _( "Your morale is too low to craft such a difficult thing..." ) );
         return false;
     }
 
@@ -398,8 +404,11 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
         }
 
         if( charges_to_store > 0 ) {
-            popup( _( "You don't have anything to store %s in!" ), prod.tname() );
-            return false;
+            if( !query_yn(
+                    _( "You don't have anything in which to store %s and may have to pour it out or consume it as soon as it is prepared! Proceed?" ),
+                    prod.tname() ) ) {
+                return false;
+            }
         }
     }
 
@@ -474,14 +483,64 @@ bool player::can_make( const recipe *r, int batch_size )
             batch_size );
 }
 
-const inventory &player::crafting_inventory()
+bool player::can_start_craft( const recipe *rec, int batch_size )
 {
+    if( !rec ) {
+        return false;
+    }
+
+    const std::vector<std::vector<tool_comp>> &tool_reqs = rec->requirements().get_tools();
+
+    // For tools adjust the reqired charges
+    std::vector<std::vector<tool_comp>> adjusted_tool_reqs;
+    for( const std::vector<tool_comp> &alternatives : tool_reqs ) {
+        std::vector<tool_comp> adjusted_alternatives;
+        for( const tool_comp &alternative : alternatives ) {
+            tool_comp adjusted_alternative = alternative;
+            if( adjusted_alternative.count > 0 ) {
+                adjusted_alternative.count *= batch_size;
+                // Only for the first 5% progress
+                adjusted_alternative.count = std::max( adjusted_alternative.count / 20, 1 );
+            }
+            adjusted_alternatives.push_back( adjusted_alternative );
+        }
+        adjusted_tool_reqs.push_back( adjusted_alternatives );
+    }
+
+    const std::vector<std::vector<item_comp>> &comp_reqs = rec->requirements().get_components();
+
+    // For components we need to multiply by batch size to stay even with tools
+    std::vector<std::vector<item_comp>> adjusted_comp_reqs;
+    for( const std::vector<item_comp> &alternatives : comp_reqs ) {
+        std::vector<item_comp> adjusted_alternatives;
+        for( const item_comp &alternative : alternatives ) {
+            item_comp adjusted_alternative = alternative;
+            adjusted_alternative.count *= batch_size;
+            adjusted_alternatives.push_back( adjusted_alternative );
+        }
+        adjusted_comp_reqs.push_back( adjusted_alternatives );
+    }
+
+    // Qualities don't need adjustment
+    const requirement_data start_reqs( adjusted_tool_reqs,
+                                       rec->requirements().get_qualities(),
+                                       adjusted_comp_reqs );
+
+    return start_reqs.can_make_with_inventory( crafting_inventory(), rec->get_component_filter() );
+}
+
+const inventory &player::crafting_inventory( const tripoint &src_pos, int radius )
+{
+    tripoint inv_pos = src_pos;
+    if( src_pos == tripoint_zero ) {
+        inv_pos = pos();
+    }
     if( cached_moves == moves
         && cached_time == calendar::turn
-        && cached_position == pos() ) {
+        && cached_position == inv_pos ) {
         return cached_crafting_inventory;
     }
-    cached_crafting_inventory.form_from_map( pos(), PICKUP_RANGE, false );
+    cached_crafting_inventory.form_from_map( inv_pos, radius, false );
     cached_crafting_inventory += inv;
     cached_crafting_inventory += weapon;
     cached_crafting_inventory += worn;
@@ -500,7 +559,7 @@ const inventory &player::crafting_inventory()
 
     cached_moves = moves;
     cached_time = calendar::turn;
-    cached_position = pos();
+    cached_position = inv_pos;
     return cached_crafting_inventory;
 }
 
@@ -636,29 +695,21 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
     if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( "CARGO",
             false ) ) {
 
-        if( vp->vehicle().add_item( vp->part_index(), newit ) ) {
-
-            // Since add succeded, we know that the craft is the last item in the vehicle_stack
-            auto items_at_part = vp->vehicle().get_items( vp->part_index() );
-            item *newit_in_vehicle = &items_at_part[items_at_part.size() - 1];
-
+        if( const cata::optional<vehicle_stack::iterator> it = vp->vehicle().add_item( vp->part_index(),
+                newit ) ) {
             p.add_msg_player_or_npc(
-                string_format( pgettext( "item, furniture", "You put the %s on the %s." ),
-                               newit.tname(), vp->part().name() ),
-                string_format( pgettext( "item, furniture", "<npcname> puts the %s on the %s." ),
-                               newit.tname(), vp->part().name() ) );
+                pgettext( "item, furniture", "You put the %s on the %s." ),
+                pgettext( "item, furniture", "<npcname> puts the %s on the %s." ),
+                ( *it )->tname(), vp->part().name() );
 
-            return item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), newit_in_vehicle );
+            return item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), & **it );
         }
 
         // Couldn't add the in progress craft to the target part, so drop it to the map.
         p.add_msg_player_or_npc(
-            string_format( pgettext( "furniture, item",
-                                     "Not enough space on the %s. You drop the %s on the ground." ),
-                           vp->part().name(), newit.tname() ),
-            string_format( pgettext( "furniture, item",
-                                     "Not enough space on the %s. <npcname> drops the %s on the ground." ),
-                           vp->part().name(), newit.tname() ) );
+            pgettext( "furniture, item", "Not enough space on the %s. You drop the %s on the ground." ),
+            pgettext( "furniture, item", "Not enough space on the %s. <npcname> drops the %s on the ground." ),
+            vp->part().name(), newit.tname() );
 
         return set_item_map( loc, newit );
 
@@ -666,16 +717,14 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
         if( g->m.has_furn( loc ) ) {
             const furn_t &workbench = g->m.furn( loc ).obj();
             p.add_msg_player_or_npc(
-                string_format( pgettext( "item, furniture", "You put the %s on the %s." ),
-                               newit.tname(), workbench.name() ),
-                string_format( pgettext( "item, furniture", "<npcname> puts the %s on the %s." ),
-                               newit.tname(), workbench.name() ) );
+                pgettext( "item, furniture", "You put the %s on the %s." ),
+                pgettext( "item, furniture", "<npcname> puts the %s on the %s." ),
+                newit.tname(), workbench.name() );
         } else {
             p.add_msg_player_or_npc(
-                string_format( pgettext( "item", "You put the %s on the ground." ),
-                               newit.tname() ),
-                string_format( pgettext( "item", "<npcname> puts the %s on the ground." ),
-                               newit.tname() ) );
+                pgettext( "item", "You put the %s on the ground." ),
+                pgettext( "item", "<npcname> puts the %s on the ground." ),
+                newit.tname() );
         }
         return set_item_map( loc, newit );
     }
@@ -689,7 +738,6 @@ void player::start_craft( craft_command &command, const tripoint &loc )
     }
 
     item craft = command.create_in_progress_craft();
-    craft.set_next_failure_point( *this );
 
     // In case we were wearing something just consumed
     if( !craft.components.empty() ) {
@@ -724,7 +772,7 @@ void player::start_craft( craft_command &command, const tripoint &loc )
     if( target == tripoint_zero ) {
         if( !is_armed() ) {
             if( cata::optional<item_location> it_loc = wield_craft( *this, craft ) ) {
-                craft_in_world = it_loc->clone();
+                craft_in_world = *it_loc;
             }  else {
                 // This almost certianly shouldn't happen
                 put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, {craft} );
@@ -741,7 +789,7 @@ void player::start_craft( craft_command &command, const tripoint &loc )
             amenu.text = string_format( pgettext( "in progress craft", "What to do with the %s?" ),
                                         craft.display_name() );
             amenu.addentry( WIELD_CRAFT, !weapon.has_flag( "NO_UNWIELD" ), '1',
-                            string_format( _( "Dispose of your wielded %s and start working." ), weapon.tname() ) );
+                            _( "Dispose of your wielded %s and start working." ), weapon.tname() );
             amenu.addentry( DROP_CRAFT, true, '2', _( "Put it down and start working." ) );
             const bool can_stash = can_pickVolume( craft ) &&
                                    can_pickWeight( craft, !get_option<bool>( "DANGEROUS_PICKUPS" ) );
@@ -753,7 +801,7 @@ void player::start_craft( craft_command &command, const tripoint &loc )
             switch( choice ) {
                 case WIELD_CRAFT: {
                     if( cata::optional<item_location> it_loc = wield_craft( *this, craft ) ) {
-                        craft_in_world = it_loc->clone();
+                        craft_in_world = *it_loc;
                     } else {
                         // This almost certianly shouldn't happen
                         put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, {craft} );
@@ -785,14 +833,13 @@ void player::start_craft( craft_command &command, const tripoint &loc )
     }
 
     assign_activity( activity_id( "ACT_CRAFT" ) );
-    activity.targets.push_back( craft_in_world.clone() );
+    activity.targets.push_back( craft_in_world );
     activity.values.push_back( command.is_long() );
 
     add_msg_player_or_npc(
-        string_format( pgettext( "in progress craft", "You start working on the %s." ),
-                       craft.tname() ),
-        string_format( pgettext( "in progress craft", "<npcname> starts working on the %s." ),
-                       craft.tname() ) );
+        pgettext( "in progress craft", "You start working on the %s." ),
+        pgettext( "in progress craft", "<npcname> starts working on the %s." ),
+        craft.tname() );
 }
 
 void player::craft_skill_gain( const item &craft, const int &multiplier )
@@ -946,10 +993,8 @@ static void destroy_random_component( item &craft, const player &crafter )
 
     item destroyed = random_entry_removed( craft.components );
 
-    crafter.add_msg_player_or_npc(
-        string_format( _( "You mess up and destroy the %s." ), destroyed.tname() ),
-        string_format( _( "<npcname> messes up and destroys the %s" ), destroyed.tname() )
-    );
+    crafter.add_msg_player_or_npc( _( "You mess up and destroy the %s." ),
+                                   _( "<npcname> messes up and destroys the %s" ), destroyed.tname() );
 }
 
 void item::handle_craft_failure( player &crafter )
@@ -980,10 +1025,8 @@ void item::handle_craft_failure( player &crafter )
     const double percent_progress_loss = rng_exponential( 0.25, 0.35 ) *
                                          ( 1.0 - std::min( success_roll, 1.0 ) );
     const int progess_loss = item_counter * percent_progress_loss;
-    crafter.add_msg_player_or_npc(
-        string_format( _( "You mess up and lose %d%% progress." ), progess_loss / 100000 ),
-        string_format( _( "<npcname> messes up and loses %d%% progress." ), progess_loss / 100000 )
-    );
+    crafter.add_msg_player_or_npc( _( "You mess up and lose %d%% progress." ),
+                                   _( "<npcname> messes up and loses %d%% progress." ), progess_loss / 100000 );
     item_counter = clamp( item_counter - progess_loss, 0, 10000000 );
 
     set_next_failure_point( crafter );
@@ -994,13 +1037,13 @@ void item::handle_craft_failure( player &crafter )
     }
 }
 
-requirement_data item::get_continue_reqs()
+requirement_data item::get_continue_reqs() const
 {
     if( !is_craft() ) {
         debugmsg( "get_continue_reqs() called on non-craft '%s.'  Aborting.", tname() );
         return requirement_data();
     }
-    return making->requirements().continue_requirements( *this );
+    return requirement_data::continue_requirements( comps_used, components );
 }
 
 void player::complete_craft( item &craft, const tripoint &loc )
@@ -1028,9 +1071,9 @@ void player::complete_craft( item &craft, const tripoint &loc )
             first = false;
             // TODO: reconsider recipe memorization
             if( knows_recipe( &making ) ) {
-                add_msg( _( "You craft %s from memory." ), newit.type_name( 1 ) );
+                add_msg( _( "You craft %s from memory." ), making.result_name() );
             } else {
-                add_msg( _( "You craft %s using a book as a reference." ), newit.type_name( 1 ) );
+                add_msg( _( "You craft %s using a book as a reference." ), making.result_name() );
                 // If we made it, but we don't know it,
                 // we're making it from a book and have a chance to learn it.
                 // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
@@ -1040,12 +1083,14 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
                 int difficulty = has_recipe( &making, crafting_inventory(), get_crafting_helpers() );
                 ///\EFFECT_INT increases chance to learn recipe when crafting from a book
-                if( x_in_y( making.time, ( 1000 * 8 *
-                                           ( difficulty * difficulty * difficulty * difficulty ) ) /
-                            ( std::max( get_skill_level( making.skill_used ), 1 ) * std::max( get_int(), 1 ) ) ) ) {
+                const double learning_speed =
+                    std::max( get_skill_level( making.skill_used ), 1 ) *
+                    std::max( get_int(), 1 );
+                const double time_to_learn = 1000 * 8 * pow( difficulty, 4 ) / learning_speed;
+                if( x_in_y( making.time, time_to_learn ) ) {
                     learn_recipe( &making );
                     add_msg( m_good, _( "You memorized the recipe for %s!" ),
-                             newit.type_name( 1 ) );
+                             making.result_name() );
                 }
             }
 
@@ -1165,15 +1210,6 @@ bool player::can_continue_craft( item &craft )
     }
 
     const recipe &rec = craft.get_making();
-    if( has_recipe( &rec, crafting_inventory(), get_crafting_helpers() ) == -1 ) {
-        add_msg_player_or_npc(
-            string_format( _( "You don't know the recipe for the %s and can't continue crafting." ),
-                           rec.result_name() ),
-            string_format( _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
-                           rec.result_name() )
-        );
-        return false;
-    }
 
     const requirement_data continue_reqs = craft.get_continue_reqs();
 
@@ -1181,7 +1217,8 @@ bool player::can_continue_craft( item &craft )
     if( !continue_reqs.is_empty() ) {
 
         const std::function<bool( const item & )> filter = rec.get_component_filter();
-        const int batch_size = craft.charges;
+        // continue_reqs are for all batches at once
+        const int batch_size = 1;
 
         if( !continue_reqs.can_make_with_inventory( crafting_inventory(), filter, batch_size ) ) {
             std::ostringstream buffer;
@@ -1214,6 +1251,57 @@ bool player::can_continue_craft( item &craft )
         for( const auto &it : item_selections ) {
             craft.components.splice( craft.components.end(), consume_items( it, batch_size, filter ) );
         }
+    }
+
+    if( !craft.has_tools_to_continue() ) {
+
+        const std::vector<std::vector<tool_comp>> &tool_reqs = rec.requirements().get_tools();
+        const int batch_size = craft.charges;
+
+        std::vector<std::vector<tool_comp>> adjusted_tool_reqs;
+        for( const std::vector<tool_comp> &alternatives : tool_reqs ) {
+            std::vector<tool_comp> adjusted_alternatives;
+            for( const tool_comp &alternative : alternatives ) {
+                tool_comp adjusted_alternative = alternative;
+                if( adjusted_alternative.count > 0 ) {
+                    adjusted_alternative.count *= batch_size;
+                    // Only for the next 5% progress
+                    adjusted_alternative.count = std::max( adjusted_alternative.count / 20, 1 );
+                }
+                adjusted_alternatives.push_back( adjusted_alternative );
+            }
+            adjusted_tool_reqs.push_back( adjusted_alternatives );
+        }
+
+        const requirement_data tool_continue_reqs( adjusted_tool_reqs,
+                std::vector<std::vector<quality_requirement>>(),
+                std::vector<std::vector<item_comp>>() );
+
+        if( !tool_continue_reqs.can_make_with_inventory( crafting_inventory(), return_true<item> ) ) {
+            std::ostringstream buffer;
+            buffer << _( "You don't have the necessary tools to continue crafting!" ) << "\n";
+            buffer << tool_continue_reqs.list_missing();
+            popup( buffer.str(), PF_NONE );
+            return false;
+        }
+
+        inventory map_inv;
+        map_inv.form_from_map( pos(), PICKUP_RANGE );
+
+        std::vector<comp_selection<tool_comp>> new_tool_selections;
+        for( const std::vector<tool_comp> &alternatives : tool_reqs ) {
+            comp_selection<tool_comp> selection = select_tool_component( alternatives, batch_size,
+            map_inv, DEFAULT_HOTKEYS, true, true, []( int charges ) {
+                return charges / 20;
+            } );
+            if( selection.use_from == cancel ) {
+                return false;
+            }
+            new_tool_selections.push_back( selection );
+        }
+
+        craft.set_cached_tool_selections( new_tool_selections );
+        craft.set_tools_to_continue( true );
     }
 
     return true;
@@ -1468,7 +1556,8 @@ std::list<item> player::consume_items( const std::vector<item_comp> &components,
 
 comp_selection<tool_comp>
 player::select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
-                               const std::string &hotkeys, bool can_cancel, bool player_inv )
+                               const std::string &hotkeys, bool can_cancel, bool player_inv,
+                               const std::function<int( int )> charges_required_modifier )
 {
 
     comp_selection<tool_comp> selected;
@@ -1480,7 +1569,8 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
     for( auto it = tools.begin(); it != tools.end() && !found_nocharge; ++it ) {
         itype_id type = it->type;
         if( it->count > 0 ) {
-            const int count = item::find_type( type )->charge_factor() * it->count * batch;
+            const int count = charges_required_modifier( item::find_type( type )->charge_factor() * it->count *
+                              batch );
             if( player_inv ) {
                 if( has_charges( type, count ) ) {
                     player_has.push_back( *it );
@@ -1566,6 +1656,93 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
     return selected;
 }
 
+bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft )
+{
+    if( !craft.is_craft() ) {
+        debugmsg( "craft_consume_tools() called on non-craft '%s.' Aborting.", craft.tname() );
+        return false;
+    }
+
+    const auto calc_charges = [&craft, &start_craft, &mulitplier]( int charges ) {
+        int ret = charges;
+
+        if( ret <= 0 ) {
+            return ret;
+        }
+
+        // Account for batch size
+        ret *= craft.charges;
+
+        // Only for the next 5% progress
+        ret /= 20;
+
+        // In case more than 5% progress was accomplished in one turn
+        ret *= mulitplier;
+
+        // If just starting consume the remainder as well
+        if( start_craft ) {
+            ret += ( charges * craft.charges ) % 20;
+        }
+        return ret;
+    };
+
+    // First check if we still have our cached selections
+    const std::vector<comp_selection<tool_comp>> &cached_tool_selections =
+                craft.get_cached_tool_selections();
+
+    inventory map_inv;
+    map_inv.form_from_map( pos(), PICKUP_RANGE );
+
+    for( const comp_selection<tool_comp> &tool_sel : cached_tool_selections ) {
+        itype_id type = tool_sel.comp.type;
+        if( tool_sel.comp.count > 0 ) {
+            const int count = calc_charges( tool_sel.comp.count );
+            switch( tool_sel.use_from ) {
+                case use_from_player:
+                    if( !has_charges( type, count ) ) {
+                        add_msg_player_or_npc(
+                            _( "You have insufficient %s charges and can't continue crafting" ),
+                            _( "<npcname> has insufficient %s charges and can't continue crafting" ),
+                            item::nname( type ) );
+                        craft.set_tools_to_continue( false );
+                        return false;
+                    }
+                    break;
+                case use_from_map:
+                    if( !map_inv.has_charges( type, count ) ) {
+                        add_msg_player_or_npc(
+                            _( "You have insufficient %s charges and can't continue crafting" ),
+                            _( "<npcname> has insufficient %s charges and can't continue crafting" ),
+                            item::nname( type ) );
+                        craft.set_tools_to_continue( false );
+                        return false;
+                    }
+                    break;
+                case use_from_both:
+                case use_from_none:
+                case cancel:
+                case num_usages:
+                    break;
+            }
+        } else if( !has_amount( type, 1 ) && !map_inv.has_tools( type, 1 ) ) {
+            add_msg_player_or_npc(
+                _( "You no longer have a %s and can't continue crafting" ),
+                _( "<npcname> no longer has a %s and can't continue crafting" ),
+                item::nname( type ) );
+            craft.set_tools_to_continue( false );
+            return false;
+        }
+    }
+
+    // We have the selections, so consume them
+    for( const comp_selection<tool_comp> &tool : cached_tool_selections ) {
+        comp_selection<tool_comp> to_consume = tool;
+        to_consume.comp.count = calc_charges( to_consume.comp.count );
+        consume_tools( to_consume, 1 );
+    }
+    return true;
+}
+
 void player::consume_tools( const comp_selection<tool_comp> &tool, int batch )
 {
     consume_tools( g->m, tool, batch, pos(), PICKUP_RANGE );
@@ -1606,7 +1783,7 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
 {
     const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
 
-    if( !r ) {
+    if( !r || obj.has_flag( "ETHEREAL_ITEM" ) ) {
         return ret_val<bool>::make_failure( _( "You cannot disassemble this." ) );
     }
 
@@ -1646,7 +1823,7 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
         const bool found = std::any_of( opts.begin(), opts.end(),
         [&]( const tool_comp & tool ) {
             return ( tool.count <= 0 && inv.has_tools( tool.type, 1 ) ) ||
-                   ( tool.count >  0 && inv.has_charges( tool.type, tool.count ) );
+                   ( tool.count  > 0 && inv.has_charges( tool.type, tool.count ) );
         } );
 
         if( !found ) {
@@ -1668,25 +1845,17 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
 
 bool player::disassemble()
 {
-    auto loc = game_menus::inv::disassemble( *this );
+    return disassemble( game_menus::inv::disassemble( *this ), false );
+}
 
-    if( !loc ) {
+bool player::disassemble( item_location target, bool interactive )
+{
+    if( !target ) {
         add_msg( _( "Never mind." ) );
         return false;
     }
 
-    loc.set_should_stack( false );
-
-    return disassemble( loc.obtain( *this ) );
-}
-
-bool player::disassemble( int dis_pos )
-{
-    return disassemble( i_at( dis_pos ), dis_pos, false );
-}
-
-bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
-{
+    const item &obj = *target;
     const auto ret = can_disassemble( obj, crafting_inventory() );
 
     if( !ret.success() ) {
@@ -1725,8 +1894,9 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
         activity.moves_left = r.time;
     }
 
-    activity.values.push_back( pos );
-    activity.coords.push_back( ground ? this->pos() : tripoint_min );
+    // index is used as a bool that indicates if we want recursive uncraft.
+    activity.index = false;
+    activity.targets.emplace_back( std::move( target ) );
     activity.str_values.push_back( r.result() );
 
     return true;
@@ -1736,23 +1906,18 @@ void player::disassemble_all( bool one_pass )
 {
     // Reset all the activity values
     assign_activity( activity_id( "ACT_DISASSEMBLE" ), 0 );
-    auto items = g->m.i_at( pos() );
-    bool found_any = false;
-    if( !one_pass ) {
-        // Kinda hacky
-        // That INT_MIN notes we want infinite uncraft
-        // If INT_MIN is reached in complete_disassemble,
-        // we will call this function again.
-        activity.values.push_back( INT_MIN );
-        activity.str_values.push_back( "" );
-        activity.coords.push_back( tripoint_min );
-    }
 
-    for( size_t i = 0; i < items.size(); i++ ) {
-        if( disassemble( items[i], i, true, false ) ) {
+    bool found_any = false;
+    for( item &it : g->m.i_at( pos() ) ) {
+        if( disassemble( item_location( map_cursor( pos() ), &it ), false ) ) {
             found_any = true;
         }
     }
+
+    // index is used as a bool that indicates if we want recursive uncraft.
+    // Upon calling complete_disassemble, if we have no targets left,
+    // we will call this function again.
+    activity.index = !one_pass;
 
     if( !found_any ) {
         // Reset the activity - don't loop if there is nothing to do
@@ -1760,77 +1925,49 @@ void player::disassemble_all( bool one_pass )
     }
 }
 
-static item &get_item_for_uncraft( player &p, int item_pos,
-                                   const tripoint &loc, bool from_ground )
-{
-    item *org_item;
-    if( from_ground ) {
-        auto items_on_ground = g->m.i_at( loc );
-        if( static_cast<size_t>( item_pos ) >= items_on_ground.size() ) {
-            return null_item_reference();
-        }
-        org_item = &items_on_ground[item_pos];
-    } else {
-        org_item = &p.i_at( item_pos );
-    }
-
-    return *org_item;
-}
-
 void player::complete_disassemble()
 {
-    // Clean up old settings
-    // Warning: Breaks old saves with disassembly in progress!
-    // But so would adding a new recipe...
-    if( activity.values.empty() ||
-        activity.values.size() != activity.str_values.size() ||
-        activity.values.size() != activity.coords.size() ) {
+    // Cancel the activity if we have bad (possibly legacy) values
+    if( activity.targets.empty() || !activity.targets.back() ||
+        activity.targets.size() != activity.str_values.size() ) {
         debugmsg( "bad disassembly activity values" );
         activity.set_to_null();
         return;
     }
 
-    // Disassembly activity is now saved in 3 parallel vectors:
-    // item position, tripoint location (tripoint_min for inventory) and recipe
+    // Disassembly has 2 parallel vectors:
+    // item location, and recipe id
+    const recipe &rec = recipe_dictionary::get_uncraft( activity.str_values.back() );
 
-    // Note: we're reading from the back (in inverse order)
-    // This is to avoid having to maintain indices
-    const int item_pos = activity.values.back();
-    const tripoint loc = activity.coords.back();
-    const auto recipe_name = activity.str_values.back();
-
-    activity.values.pop_back();
-    activity.str_values.pop_back();
-    activity.coords.pop_back();
-
-    if( item_pos == INT_MIN ) {
-        disassemble_all( false );
-        return;
-    }
-
-    const bool from_ground = loc != tripoint_min;
-
-    complete_disassemble( item_pos, loc, from_ground, recipe_dictionary::get_uncraft( recipe_name ) );
-
-    if( !activity ) {
-        // Something above went wrong, don't continue
-        return;
-    }
-
-    // Try to get another disassembly target from the activity
-    if( activity.values.empty() ) {
-        // No more targets
+    if( rec ) {
+        complete_disassemble( activity.targets.back(), rec );
+    } else {
+        debugmsg( "bad disassembly recipe: %d", activity.str_values.back() );
         activity.set_to_null();
         return;
     }
 
-    if( activity.values.back() == INT_MIN ) {
-        disassemble_all( false );
-        return;
+    activity.targets.pop_back();
+    activity.str_values.pop_back();
+
+    // If we have no more targets end the activity or start a second round
+    if( activity.targets.empty() ) {
+        // index is used as a bool that indicates if we want recursive uncraft.
+        if( activity.index ) {
+            disassemble_all( false );
+            return;
+        } else {
+            // No more targets
+            activity.set_to_null();
+            return;
+        }
     }
 
-    const auto &next_recipe = recipe_dictionary::get_uncraft( activity.str_values.back() );
+    // Set get and set duration of next uncraft
+    const recipe &next_recipe = recipe_dictionary::get_uncraft( activity.str_values.back() );
+
     if( !next_recipe ) {
+        debugmsg( "bad disassembly recipe: %d", activity.str_values.back() );
         activity.set_to_null();
         return;
     }
@@ -1838,24 +1975,14 @@ void player::complete_disassemble()
     activity.moves_left = next_recipe.time;
 }
 
-void player::complete_disassemble( int item_pos, const tripoint &loc,
-                                   bool from_ground, const recipe &dis )
+void player::complete_disassemble( item_location &target, const recipe &dis )
 {
     // Get the proper recipe - the one for disassembly, not assembly
     const auto dis_requirements = dis.disassembly_requirements();
-    item &org_item = get_item_for_uncraft( *this, item_pos, loc, from_ground );
-    bool filthy = org_item.is_filthy();
-    if( org_item.is_null() ) {
-        add_msg( _( "The item has vanished." ) );
-        activity.set_to_null();
-        return;
-    }
+    item &org_item = *target;
+    const bool filthy = org_item.is_filthy();
+    const tripoint loc = target.position();
 
-    if( org_item.typeId() != dis.result() ) {
-        add_msg( _( "The item might be gone, at least it is not at the expected position anymore." ) );
-        activity.set_to_null();
-        return;
-    }
     // Make a copy to keep its data (damage/components) even after it
     // has been removed.
     item dis_item = org_item;
@@ -1873,11 +2000,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
     }
     // remove the item, except when it's counted by charges and still has some
     if( !org_item.count_by_charges() || org_item.charges <= 0 ) {
-        if( from_ground ) {
-            g->m.i_rem( loc, item_pos );
-        } else {
-            i_rem( item_pos );
-        }
+        target.remove_item();
     }
 
     // Consume tool charges
@@ -1941,7 +2064,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
 
             // If the recipe has a `FULL_MAGAZINE` flag, spawn any magazines full of ammo
             if( newit.is_magazine() && dis.has_flag( "FULL_MAGAZINE" ) ) {
-                newit.ammo_set( newit.type->magazine->type.obj().default_ammotype(), newit.ammo_capacity() );
+                newit.ammo_set( newit.ammo_default(), newit.ammo_capacity() );
             }
 
             for( ; compcount > 0; compcount-- ) {
@@ -2056,10 +2179,10 @@ void remove_ammo( item &dis_item, player &p )
         drop_or_handle( ammodrop, p );
         dis_item.charges = 0;
     }
-    if( dis_item.is_tool() && dis_item.charges > 0 && dis_item.ammo_type() ) {
-        item ammodrop( dis_item.ammo_type()->default_ammotype(), calendar::turn );
+    if( dis_item.is_tool() && dis_item.charges > 0 && dis_item.ammo_current() != "null" ) {
+        item ammodrop( dis_item.ammo_current(), calendar::turn );
         ammodrop.charges = dis_item.charges;
-        if( dis_item.ammo_type() == ammotype( "plutonium" ) ) {
+        if( dis_item.ammo_current() == "plut_cell" ) {
             ammodrop.charges /= PLUTONIUM_CHARGES;
         }
         drop_or_handle( ammodrop, p );

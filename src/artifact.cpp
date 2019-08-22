@@ -609,7 +609,7 @@ static const std::array<artifact_dream_datum, NUM_ACRS> artifact_dream_data = { 
 };
 
 // Constructors for artifact itypes.
-it_artifact_tool::it_artifact_tool() : itype()
+it_artifact_tool::it_artifact_tool()
 {
     tool.emplace();
     artifact.emplace();
@@ -625,7 +625,7 @@ it_artifact_tool::it_artifact_tool() : itype()
     use_methods.emplace( "ARTIFACT", use_function( "ARTIFACT", &iuse::artifact ) );
 }
 
-it_artifact_tool::it_artifact_tool( JsonObject &jo ) : itype()
+it_artifact_tool::it_artifact_tool( JsonObject &jo )
 {
     tool.emplace();
     artifact.emplace();
@@ -633,7 +633,7 @@ it_artifact_tool::it_artifact_tool( JsonObject &jo ) : itype()
     deserialize( jo );
 }
 
-it_artifact_armor::it_artifact_armor() : itype()
+it_artifact_armor::it_artifact_armor()
 {
     armor.emplace();
     artifact.emplace();
@@ -641,7 +641,7 @@ it_artifact_armor::it_artifact_armor() : itype()
     price = 0;
 }
 
-it_artifact_armor::it_artifact_armor( JsonObject &jo ) : itype()
+it_artifact_armor::it_artifact_armor( JsonObject &jo )
 {
     armor.emplace();
     artifact.emplace();
@@ -782,14 +782,14 @@ std::string new_artifact()
         def.tool->def_charges = def.tool->max_charges;
         // If we have charges, pick a recharge mechanism
         if( def.tool->max_charges > 0 ) {
-            def.artifact->charge_type = art_charge( rng( ARTC_NULL + 1, NUM_ARTCS - 1 ) );
+            def.artifact->charge_type = static_cast<art_charge>( rng( ARTC_NULL + 1, NUM_ARTCS - 1 ) );
         }
         if( one_in( 8 ) && num_bad + num_good >= 4 ) {
             def.artifact->charge_type = ARTC_NULL;    // 1 in 8 chance that it can't recharge!
         }
         // Maybe pick an extra recharge requirement
         if( one_in( std::max( 1, 6 - num_good ) ) && def.artifact->charge_type != ARTC_NULL ) {
-            def.artifact->charge_req = art_charge_req( rng( ACR_NULL + 1, NUM_ACRS - 1 ) );
+            def.artifact->charge_req = static_cast<art_charge_req>( rng( ACR_NULL + 1, NUM_ACRS - 1 ) );
         }
         // Assign dream data (stored individually so they can be overridden in json)
         def.artifact->dream_msg_unmet  = artifact_dream_data[static_cast<int>
@@ -923,8 +923,8 @@ std::string new_natural_artifact( artifact_natural_property prop )
     const artifact_shape_datum &shape_data = random_entry_ref( artifact_shape_data );
     // Pick a property
     const artifact_natural_property property = ( prop > ARTPROP_NULL ? prop :
-            artifact_natural_property( rng( ARTPROP_NULL + 1,
-                                            ARTPROP_MAX - 1 ) ) );
+            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1,
+                    ARTPROP_MAX - 1 ) ) );
     const artifact_property_datum &property_data = artifact_property_data[property];
 
     def.sym = ":";
@@ -968,25 +968,25 @@ std::string new_natural_artifact( artifact_natural_property prop )
         if( good_passive ) {
             aep_good = random_entry_ref( property_data.passive_good );
             if( aep_good == AEP_NULL || one_in( 4 ) ) {
-                aep_good = art_effect_passive( rng( AEP_NULL + 1, AEP_SPLIT - 1 ) );
+                aep_good = static_cast<art_effect_passive>( rng( AEP_NULL + 1, AEP_SPLIT - 1 ) );
             }
         }
         if( bad_passive ) {
             aep_bad = random_entry_ref( property_data.passive_bad );
             if( aep_bad == AEP_NULL || one_in( 4 ) ) {
-                aep_bad = art_effect_passive( rng( AEP_SPLIT + 1, NUM_AEAS - 1 ) );
+                aep_bad = static_cast<art_effect_passive>( rng( AEP_SPLIT + 1, NUM_AEAS - 1 ) );
             }
         }
         if( good_active ) {
             aea_good = random_entry_ref( property_data.active_good );
             if( aea_good == AEA_NULL || one_in( 4 ) ) {
-                aea_good = art_effect_active( rng( AEA_NULL + 1, AEA_SPLIT - 1 ) );
+                aea_good = static_cast<art_effect_active>( rng( AEA_NULL + 1, AEA_SPLIT - 1 ) );
             }
         }
         if( bad_active ) {
             aea_bad = random_entry_ref( property_data.active_bad );
             if( aea_bad == AEA_NULL || one_in( 4 ) ) {
-                aea_bad = art_effect_active( rng( AEA_SPLIT + 1, NUM_AEAS - 1 ) );
+                aea_bad = static_cast<art_effect_active>( rng( AEA_SPLIT + 1, NUM_AEAS - 1 ) );
             }
         }
 
@@ -1012,10 +1012,10 @@ std::string new_natural_artifact( artifact_natural_property prop )
     // (When "implanting" them in a mundane item, this ability may be lost
     if( !def.artifact->effects_activated.empty() ) {
         def.tool->def_charges = def.tool->max_charges = rng( 1, 4 );
-        def.artifact->charge_type = art_charge( rng( ARTC_NULL + 1, NUM_ARTCS - 1 ) );
+        def.artifact->charge_type = static_cast<art_charge>( rng( ARTC_NULL + 1, NUM_ARTCS - 1 ) );
         //Maybe pick an extra recharge requirement
         if( one_in( 6 ) ) {
-            def.artifact->charge_req = art_charge_req( rng( ACR_NULL + 1, NUM_ACRS - 1 ) );
+            def.artifact->charge_req = static_cast<art_charge_req>( rng( ACR_NULL + 1, NUM_ACRS - 1 ) );
         }
     }
     // Assign dream data (stored individually so they can be overridden in json)
@@ -1062,7 +1062,7 @@ std::vector<art_effect_passive> fill_good_passive()
 {
     std::vector<art_effect_passive> ret;
     for( int i = AEP_NULL + 1; i < AEP_SPLIT; i++ ) {
-        ret.push_back( art_effect_passive( i ) );
+        ret.push_back( static_cast<art_effect_passive>( i ) );
     }
     return ret;
 }
@@ -1071,7 +1071,7 @@ std::vector<art_effect_passive> fill_bad_passive()
 {
     std::vector<art_effect_passive> ret;
     for( int i = AEP_SPLIT + 1; i < NUM_AEPS; i++ ) {
-        ret.push_back( art_effect_passive( i ) );
+        ret.push_back( static_cast<art_effect_passive>( i ) );
     }
     return ret;
 }
@@ -1080,7 +1080,7 @@ std::vector<art_effect_active> fill_good_active()
 {
     std::vector<art_effect_active> ret;
     for( int i = AEA_NULL + 1; i < AEA_SPLIT; i++ ) {
-        ret.push_back( art_effect_active( i ) );
+        ret.push_back( static_cast<art_effect_active>( i ) );
     }
     return ret;
 }
@@ -1089,7 +1089,7 @@ std::vector<art_effect_active> fill_bad_active()
 {
     std::vector<art_effect_active> ret;
     for( int i = AEA_SPLIT + 1; i < NUM_AEAS; i++ ) {
-        ret.push_back( art_effect_active( i ) );
+        ret.push_back( static_cast<art_effect_active>( i ) );
     }
     return ret;
 }
@@ -1160,12 +1160,24 @@ void it_artifact_tool::deserialize( JsonObject &jo )
     m_to_hit = jo.get_int( "m_to_hit" );
     item_tags = jo.get_tags( "item_flags" );
 
-    tool->max_charges = jo.get_long( "max_charges" );
-    tool->def_charges = jo.get_long( "def_charges" );
+    tool->max_charges = jo.get_int( "max_charges" );
+    tool->def_charges = jo.get_int( "def_charges" );
 
     tool->charges_per_use = jo.get_int( "charges_per_use" );
     tool->turns_per_charge = jo.get_int( "turns_per_charge" );
-    tool->ammo_id = ammotype( jo.get_string( "ammo" ) );
+
+    // Artifacts in older saves store ammo as string.
+    if( jo.has_array( "ammo" ) ) {
+        JsonArray atypes = jo.get_array( "ammo" );
+        for( size_t i = 0; i < atypes.size(); ++i ) {
+            tool->ammo_id.insert( ammotype( atypes.get_string( i ) ) );
+        }
+    } else if( jo.has_string( "ammo" ) ) {
+        tool->ammo_id.insert( ammotype( jo.get_string( "ammo" ) ) );
+    } else {
+        jo.throw_error( "\"ammo\" node is neither array, not string" );
+    }
+
     tool->revert_to.emplace( jo.get_string( "revert_to", "null" ) );
     if( *tool->revert_to == "null" ) {
         tool->revert_to.reset();
@@ -1280,7 +1292,7 @@ void it_artifact_armor::deserialize( JsonObject &jo )
 
 bool save_artifacts( const std::string &path )
 {
-    return write_to_file_exclusive( path, [&]( std::ostream & fout ) {
+    return write_to_file( path, [&]( std::ostream & fout ) {
         JsonOut json( fout, true );
         json.start_array();
         // We only want runtime types, otherwise static artifacts are loaded twice (on init and then on game load)
@@ -1415,129 +1427,144 @@ void it_artifact_armor::serialize( JsonOut &json ) const
 
 namespace io
 {
-#define PAIR(x) { #x, x }
-static const std::unordered_map<std::string, art_effect_passive> art_effect_passive_values = { {
-        //PAIR( AEP_NULL ), // not really used
-        PAIR( AEP_STR_UP ),
-        PAIR( AEP_DEX_UP ),
-        PAIR( AEP_PER_UP ),
-        PAIR( AEP_INT_UP ),
-        PAIR( AEP_ALL_UP ),
-        PAIR( AEP_SPEED_UP ),
-        PAIR( AEP_PBLUE ),
-        PAIR( AEP_SNAKES ),
-        PAIR( AEP_INVISIBLE ),
-        PAIR( AEP_CLAIRVOYANCE ),
-        PAIR( AEP_CLAIRVOYANCE_PLUS ),
-        PAIR( AEP_SUPER_CLAIRVOYANCE ),
-        PAIR( AEP_STEALTH ),
-        PAIR( AEP_EXTINGUISH ),
-        PAIR( AEP_GLOW ),
-        PAIR( AEP_PSYSHIELD ),
-        PAIR( AEP_RESIST_ELECTRICITY ),
-        PAIR( AEP_CARRY_MORE ),
-        PAIR( AEP_SAP_LIFE ),
-        PAIR( AEP_FUN ),
-        //PAIR( AEP_SPLIT, // not really used
-        PAIR( AEP_HUNGER ),
-        PAIR( AEP_THIRST ),
-        PAIR( AEP_SMOKE ),
-        PAIR( AEP_EVIL ),
-        PAIR( AEP_SCHIZO ),
-        PAIR( AEP_RADIOACTIVE ),
-        PAIR( AEP_MUTAGENIC ),
-        PAIR( AEP_ATTENTION ),
-        PAIR( AEP_STR_DOWN ),
-        PAIR( AEP_DEX_DOWN ),
-        PAIR( AEP_PER_DOWN ),
-        PAIR( AEP_INT_DOWN ),
-        PAIR( AEP_ALL_DOWN ),
-        PAIR( AEP_SPEED_DOWN ),
-        PAIR( AEP_FORCE_TELEPORT ),
-        PAIR( AEP_MOVEMENT_NOISE ),
-        PAIR( AEP_BAD_WEATHER ),
-        PAIR( AEP_SICK ),
+#define PAIR(x) case x: return #x;
+template<>
+std::string enum_to_string<art_effect_passive>( art_effect_passive data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        PAIR( AEP_NULL )
+        PAIR( AEP_STR_UP )
+        PAIR( AEP_DEX_UP )
+        PAIR( AEP_PER_UP )
+        PAIR( AEP_INT_UP )
+        PAIR( AEP_ALL_UP )
+        PAIR( AEP_SPEED_UP )
+        PAIR( AEP_PBLUE )
+        PAIR( AEP_SNAKES )
+        PAIR( AEP_INVISIBLE )
+        PAIR( AEP_CLAIRVOYANCE )
+        PAIR( AEP_CLAIRVOYANCE_PLUS )
+        PAIR( AEP_SUPER_CLAIRVOYANCE )
+        PAIR( AEP_STEALTH )
+        PAIR( AEP_EXTINGUISH )
+        PAIR( AEP_GLOW )
+        PAIR( AEP_PSYSHIELD )
+        PAIR( AEP_RESIST_ELECTRICITY )
+        PAIR( AEP_CARRY_MORE )
+        PAIR( AEP_SAP_LIFE )
+        PAIR( AEP_FUN )
+        PAIR( AEP_SPLIT )
+        PAIR( AEP_HUNGER )
+        PAIR( AEP_THIRST )
+        PAIR( AEP_SMOKE )
+        PAIR( AEP_EVIL )
+        PAIR( AEP_SCHIZO )
+        PAIR( AEP_RADIOACTIVE )
+        PAIR( AEP_MUTAGENIC )
+        PAIR( AEP_ATTENTION )
+        PAIR( AEP_STR_DOWN )
+        PAIR( AEP_DEX_DOWN )
+        PAIR( AEP_PER_DOWN )
+        PAIR( AEP_INT_DOWN )
+        PAIR( AEP_ALL_DOWN )
+        PAIR( AEP_SPEED_DOWN )
+        PAIR( AEP_FORCE_TELEPORT )
+        PAIR( AEP_MOVEMENT_NOISE )
+        PAIR( AEP_BAD_WEATHER )
+        PAIR( AEP_SICK )
+        // *INDENT-ON*
+        case NUM_AEPS:
+            break;
     }
-};
-static const std::unordered_map<std::string, art_effect_active> art_effect_active_values = { {
-        //PAIR( AEA_NULL ), // not really used
-        PAIR( AEA_STORM ),
-        PAIR( AEA_FIREBALL ),
-        PAIR( AEA_ADRENALINE ),
-        PAIR( AEA_MAP ),
-        PAIR( AEA_BLOOD ),
-        PAIR( AEA_FATIGUE ),
-        PAIR( AEA_ACIDBALL ),
-        PAIR( AEA_PULSE ),
-        PAIR( AEA_HEAL ),
-        PAIR( AEA_CONFUSED ),
-        PAIR( AEA_ENTRANCE ),
-        PAIR( AEA_BUGS ),
-        PAIR( AEA_TELEPORT ),
-        PAIR( AEA_LIGHT ),
-        PAIR( AEA_GROWTH ),
-        PAIR( AEA_HURTALL ),
-        PAIR( AEA_FUN ),
-        //PAIR( AEA_SPLIT ), // not really used
-        PAIR( AEA_RADIATION ),
-        PAIR( AEA_PAIN ),
-        PAIR( AEA_MUTATE ),
-        PAIR( AEA_PARALYZE ),
-        PAIR( AEA_FIRESTORM ),
-        PAIR( AEA_ATTENTION ),
-        PAIR( AEA_TELEGLOW ),
-        PAIR( AEA_NOISE ),
-        PAIR( AEA_SCREAM ),
-        PAIR( AEA_DIM ),
-        PAIR( AEA_FLASH ),
-        PAIR( AEA_VOMIT ),
-        PAIR( AEA_SHADOWS ),
-        PAIR( AEA_STAMINA_EMPTY ),
+    debugmsg( "Invalid AEP" );
+    abort();
+}
+template<>
+std::string enum_to_string<art_effect_active>( art_effect_active data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        PAIR( AEA_NULL )
+        PAIR( AEA_STORM )
+        PAIR( AEA_FIREBALL )
+        PAIR( AEA_ADRENALINE )
+        PAIR( AEA_MAP )
+        PAIR( AEA_BLOOD )
+        PAIR( AEA_FATIGUE )
+        PAIR( AEA_ACIDBALL )
+        PAIR( AEA_PULSE )
+        PAIR( AEA_HEAL )
+        PAIR( AEA_CONFUSED )
+        PAIR( AEA_ENTRANCE )
+        PAIR( AEA_BUGS )
+        PAIR( AEA_TELEPORT )
+        PAIR( AEA_LIGHT )
+        PAIR( AEA_GROWTH )
+        PAIR( AEA_HURTALL )
+        PAIR( AEA_FUN )
+        PAIR( AEA_SPLIT )
+        PAIR( AEA_RADIATION )
+        PAIR( AEA_PAIN )
+        PAIR( AEA_MUTATE )
+        PAIR( AEA_PARALYZE )
+        PAIR( AEA_FIRESTORM )
+        PAIR( AEA_ATTENTION )
+        PAIR( AEA_TELEGLOW )
+        PAIR( AEA_NOISE )
+        PAIR( AEA_SCREAM )
+        PAIR( AEA_DIM )
+        PAIR( AEA_FLASH )
+        PAIR( AEA_VOMIT )
+        PAIR( AEA_SHADOWS )
+        PAIR( AEA_STAMINA_EMPTY )
+        // *INDENT-ON*
+        case NUM_AEAS:
+            break;
     }
-};
-static const std::unordered_map<std::string, art_charge> art_charge_values = { {
-        PAIR( ARTC_NULL ),
-        PAIR( ARTC_TIME ),
-        PAIR( ARTC_SOLAR ),
-        PAIR( ARTC_PAIN ),
-        PAIR( ARTC_HP ),
-        PAIR( ARTC_FATIGUE ),
-        PAIR( ARTC_PORTAL ),
+    debugmsg( "Invalid AEA" );
+    abort();
+}
+
+template<>
+std::string enum_to_string<art_charge>( art_charge data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        PAIR( ARTC_NULL )
+        PAIR( ARTC_TIME )
+        PAIR( ARTC_SOLAR )
+        PAIR( ARTC_PAIN )
+        PAIR( ARTC_HP )
+        PAIR( ARTC_FATIGUE )
+        PAIR( ARTC_PORTAL )
+        // *INDENT-ON*
+        case NUM_ARTCS:
+            break;
     }
-};
-static const std::unordered_map<std::string, art_charge_req> art_charge_req_values = { {
-        PAIR( ACR_NULL ),
-        PAIR( ACR_EQUIP ),
-        PAIR( ACR_SKIN ),
-        PAIR( ACR_SLEEP ),
-        PAIR( ACR_RAD ),
-        PAIR( ACR_WET ),
-        PAIR( ACR_SKY ),
+    debugmsg( "Invalid ARTC" );
+    abort();
+}
+
+template<>
+std::string enum_to_string<art_charge_req>( art_charge_req data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        PAIR( ACR_NULL )
+        PAIR( ACR_EQUIP )
+        PAIR( ACR_SKIN )
+        PAIR( ACR_SLEEP )
+        PAIR( ACR_RAD )
+        PAIR( ACR_WET )
+        PAIR( ACR_SKY )
+        // *INDENT-ON*
+        case NUM_ACRS:
+            break;
     }
-};
+    debugmsg( "Invalid ACR" );
+    abort();
+}
 #undef PAIR
 
-template<>
-art_effect_passive string_to_enum<art_effect_passive>( const std::string &data )
-{
-    return string_to_enum_look_up( art_effect_passive_values, data );
-}
-
-template<>
-art_effect_active string_to_enum<art_effect_active>( const std::string &data )
-{
-    return string_to_enum_look_up( art_effect_active_values, data );
-}
-
-template<>
-art_charge string_to_enum<art_charge>( const std::string &data )
-{
-    return string_to_enum_look_up( art_charge_values, data );
-}
-
-template<>
-art_charge_req string_to_enum<art_charge_req>( const std::string &data )
-{
-    return string_to_enum_look_up( art_charge_req_values, data );
-}
 } // namespace io

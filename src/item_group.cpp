@@ -4,9 +4,7 @@
 #include <cassert>
 #include <list>
 #include <set>
-#include <type_traits>
 
-#include "ammo.h"
 #include "debug.h"
 #include "item.h"
 #include "item_factory.h"
@@ -16,8 +14,8 @@
 #include "calendar.h"
 #include "compatibility.h"
 #include "enums.h"
-#include "string_id.h"
 #include "type_id.h"
+#include "flat_set.h"
 
 static const std::string null_item_id( "null" );
 
@@ -223,11 +221,10 @@ void Item_modifier::modify( item &new_item ) const
         } else if( new_item.is_tool() ) {
             const int qty = std::min( ch, new_item.ammo_capacity() );
             new_item.charges = qty;
-            if( new_item.ammo_type() && qty > 0 ) {
-                new_item.ammo_set( new_item.ammo_type()->default_ammotype(), qty );
+            if( !new_item.ammo_types().empty() && qty > 0 ) {
+                new_item.ammo_set( new_item.ammo_default(), qty );
             }
-        } else if( !new_item.is_gun() ) {
-            //not gun, food, ammo or tool.
+        } else if( new_item.type->can_have_charges() ) {
             new_item.charges = ch;
         }
     }
@@ -235,8 +232,8 @@ void Item_modifier::modify( item &new_item ) const
     if( ch > 0 && ( new_item.is_gun() || new_item.is_magazine() ) ) {
         if( ammo == nullptr ) {
             // In case there is no explicit ammo item defined, use the default ammo
-            if( new_item.ammo_type() ) {
-                new_item.ammo_set( new_item.ammo_type()->default_ammotype(), ch );
+            if( !new_item.ammo_types().empty() ) {
+                new_item.ammo_set( new_item.ammo_default(), ch );
             }
         } else {
             const item am = ammo->create_single( new_item.birthday() );
@@ -265,7 +262,7 @@ void Item_modifier::modify( item &new_item ) const
                 const item am = ammo->create_single( new_item.birthday() );
                 new_item.ammo_set( am.typeId() );
             } else {
-                new_item.ammo_set( new_item.ammo_type()->default_ammotype() );
+                new_item.ammo_set( new_item.ammo_default() );
             }
         }
     }
@@ -348,16 +345,14 @@ Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_c
 
 void Item_group::add_item_entry( const Item_tag &itemid, int probability )
 {
-    std::unique_ptr<Item_spawn_data> ptr( new Single_item_creator( itemid, Single_item_creator::S_ITEM,
-                                          probability ) );
-    add_entry( std::move( ptr ) );
+    add_entry( std::make_unique<Single_item_creator>(
+                   itemid, Single_item_creator::S_ITEM, probability ) );
 }
 
 void Item_group::add_group_entry( const Group_tag &groupid, int probability )
 {
-    std::unique_ptr<Item_spawn_data> ptr( new Single_item_creator( groupid,
-                                          Single_item_creator::S_ITEM_GROUP, probability ) );
-    add_entry( std::move( ptr ) );
+    add_entry( std::make_unique<Single_item_creator>(
+                   groupid, Single_item_creator::S_ITEM_GROUP, probability ) );
 }
 
 void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )

@@ -39,7 +39,8 @@
       [ "recoil_stock", 60 ],
       [ "shot_suppressor", 10 ],
       [ "u_shotgun", 60 ],
-      [ "waterproof_gunmod", 40 ]
+      [ "waterproof_gunmod", 40 ],
+      [ "retool_ar15_300blk", 40 ]
     ]
   },
   {
@@ -55,6 +56,18 @@
       [ "masterkey", 30 ],
       [ "rm121aux", 10 ],
       [ "sword_bayonet", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "gunmod_energy",
+    "//": "Gunmods for energy weaponry found only at military sites and laboratories.",
+    "items": [
+      [ "beam_scatterer", 80 ],
+      [ "focusing_lens", 60 ],
+      [ "electrolaser_conversion", 40 ],
+      [ "effective_emitter", 40 ],
+      [ "high_density_capacitor", 60 ]
     ]
   },
   {

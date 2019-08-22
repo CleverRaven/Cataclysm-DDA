@@ -1,20 +1,25 @@
-#include "catch/catch.hpp"
+#include <memory>
+#include <string>
 
+#include "catch/catch.hpp"
 #include "behavior.h"
 #include "behavior_oracle.h"
 #include "behavior_strategy.h"
-
 #include "game.h"
 #include "npc.h"
+#include "item.h"
+#include "material.h"
+#include "string_id.h"
+#include "weather.h"
 
 namespace behavior
 {
 extern sequential_t default_sequential;
 extern fallback_t default_fallback;
 extern sequential_until_done_t default_until_done;
-}
+} // namespace behavior
 
-static behavior::node_t make_test_node( std::string goal, behavior::status_t *status )
+static behavior::node_t make_test_node( std::string goal, const behavior::status_t *status )
 {
     behavior::node_t node;
     if( !goal.empty() ) {

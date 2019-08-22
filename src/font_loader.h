@@ -10,6 +10,7 @@
 #include "filesystem.h"
 #include "json.h"
 #include "path_info.h"
+#include "cata_utility.h"
 
 class font_loader
 {
@@ -43,17 +44,18 @@ class font_loader
             }
         }
         void save( const std::string &path ) const {
-            std::ofstream stream( path.c_str(), std::ofstream::binary );
-            JsonOut json( stream, true ); // pretty-print
-            json.start_object();
-            json.member( "typeface", typeface );
-            json.member( "map_typeface", map_typeface );
-            json.member( "overmap_typeface", overmap_typeface );
-            json.end_object();
-            stream << "\n";
-            stream.close();
-            if( !stream.good() ) {
-                DebugLog( D_ERROR, D_SDL ) << "saving font settings to " << path << " failed";
+            try {
+                write_to_file( path, [&]( std::ostream & stream ) {
+                    JsonOut json( stream, true ); // pretty-print
+                    json.start_object();
+                    json.member( "typeface", typeface );
+                    json.member( "map_typeface", map_typeface );
+                    json.member( "overmap_typeface", overmap_typeface );
+                    json.end_object();
+                    stream << "\n";
+                } );
+            } catch( const std::exception &err ) {
+                DebugLog( D_ERROR, D_SDL ) << "saving font settings to " << path << " failed: " << err.what();
             }
         }
 

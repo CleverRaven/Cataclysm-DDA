@@ -1,6 +1,5 @@
 #include "tutorial.h"
 
-#include <cstddef>
 #include <array>
 #include <memory>
 #include <string>
@@ -24,15 +23,15 @@
 #include "translations.h"
 #include "trap.h"
 #include "calendar.h"
-#include "enums.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_stack.h"
 #include "pldata.h"
 #include "units.h"
 #include "type_id.h"
+#include "point.h"
+#include "weather.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 
@@ -42,7 +41,7 @@ bool tutorial_game::init()
 {
     // TODO: clean up old tutorial
 
-    calendar::turn = HOURS( 12 ); // Start at noon
+    calendar::turn = calendar::turn_zero + 12_hours; // Start at noon
     for( auto &elem : tutorials_seen ) {
         elem = false;
     }
@@ -65,18 +64,18 @@ bool tutorial_game::init()
     g->u.name = _( "John Smith" );
     g->u.prof = profession::generic();
     // overmap terrain coordinates
-    const int lx = 50;
-    const int ly = 50;
-    auto &starting_om = overmap_buffer.get( 0, 0 );
+    const tripoint lp( 50, 50, 0 );
+    auto &starting_om = overmap_buffer.get( point_zero );
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
-            starting_om.ter( i, j, -1 ) = rock;
+            tripoint p( i, j, 0 );
+            starting_om.ter( p + tripoint_below ) = rock;
             // Start with the overmap revealed
-            starting_om.seen( i, j, 0 ) = true;
+            starting_om.seen( p ) = true;
         }
     }
-    starting_om.ter( lx, ly, 0 ) = oter_id( "tutorial" );
-    starting_om.ter( lx, ly, -1 ) = oter_id( "tutorial" );
+    starting_om.ter( lp ) = oter_id( "tutorial" );
+    starting_om.ter( lp + tripoint_below ) = oter_id( "tutorial" );
     starting_om.clear_mon_groups();
 
     g->u.toggle_trait( trait_id( "QUICK" ) );
@@ -85,7 +84,7 @@ bool tutorial_game::init()
     g->u.inv.add_item( lighter, true, false );
     g->u.set_skill_level( skill_id( "gun" ), 5 );
     g->u.set_skill_level( skill_id( "melee" ), 5 );
-    g->load_map( omt_to_sm_copy( tripoint( lx, ly, 0 ) ) );
+    g->load_map( omt_to_sm_copy( lp ) );
     g->u.setx( 2 );
     g->u.sety( 4 );
 
@@ -118,10 +117,10 @@ void tutorial_game::per_turn()
     }
 
     if( !tutorials_seen[LESSON_BUTCHER] ) {
-        for( size_t i = 0; i < g->m.i_at( g->u.posx(), g->u.posy() ).size(); i++ ) {
-            if( g->m.i_at( g->u.posx(), g->u.posy() )[i].is_corpse() ) {
+        for( const item &it : g->m.i_at( point( g->u.posx(), g->u.posy() ) ) ) {
+            if( it.is_corpse() ) {
                 add_message( LESSON_BUTCHER );
-                i = g->m.i_at( g->u.posx(), g->u.posy() ).size();
+                break;
             }
         }
     }
@@ -129,29 +128,29 @@ void tutorial_game::per_turn()
     bool showed_message = false;
     for( int x = g->u.posx() - 1; x <= g->u.posx() + 1 && !showed_message; x++ ) {
         for( int y = g->u.posy() - 1; y <= g->u.posy() + 1 && !showed_message; y++ ) {
-            if( g->m.ter( x, y ) == t_door_o ) {
+            if( g->m.ter( point( x, y ) ) == t_door_o ) {
                 add_message( LESSON_OPEN );
                 showed_message = true;
-            } else if( g->m.ter( x, y ) == t_door_c ) {
+            } else if( g->m.ter( point( x, y ) ) == t_door_c ) {
                 add_message( LESSON_CLOSE );
                 showed_message = true;
-            } else if( g->m.ter( x, y ) == t_window ) {
+            } else if( g->m.ter( point( x, y ) ) == t_window ) {
                 add_message( LESSON_SMASH );
                 showed_message = true;
-            } else if( g->m.furn( x, y ) == f_rack && !g->m.i_at( x, y ).empty() ) {
+            } else if( g->m.furn( point( x, y ) ) == f_rack && !g->m.i_at( point( x, y ) ).empty() ) {
                 add_message( LESSON_EXAMINE );
                 showed_message = true;
-            } else if( g->m.ter( x, y ) == t_stairs_down ) {
+            } else if( g->m.ter( point( x, y ) ) == t_stairs_down ) {
                 add_message( LESSON_STAIRS );
                 showed_message = true;
-            } else if( g->m.ter( x, y ) == t_water_sh ) {
+            } else if( g->m.ter( point( x, y ) ) == t_water_sh ) {
                 add_message( LESSON_PICKUP_WATER );
                 showed_message = true;
             }
         }
     }
 
-    if( !g->m.i_at( g->u.posx(), g->u.posy() ).empty() ) {
+    if( !g->m.i_at( point( g->u.posx(), g->u.posy() ) ).empty() ) {
         add_message( LESSON_PICKUP );
     }
 }

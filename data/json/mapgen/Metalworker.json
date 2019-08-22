@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "craft_shop" ],
+    "om_terrain": [ "craft_shop_1" ],
     "weight": 200,
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -12,11 +12,11 @@
         "__________8_|--||--||_8_",
         "_8888^^^^^8_-P.k...P|_8_",
         "_8__________+..kh..N|_8_",
-        "_8__________-..kk.||||8_",
-        "_8________s_|.....|.t|8_",
+        "_8__________-b.kk.||||8_",
+        "_8________s_|b....|.t|8_",
         "_8__|=====%||N....+.S|8_",
         "_8__|.....sLLR...|||||8_",
-        "_8__|..............q|_8_",
+        "_8__|..............q|<8_",
         "_8__|..........Q...Y|_8_",
         "_8__|........Q.Q...Y|_8_",
         "_8__|q.......Q.Q.#.m|_8_",
@@ -24,7 +24,7 @@
         "_8__|q.............P|_8_",
         "_8_U|........?||+-|||_8_",
         "_8_U|R....sRm?|...HHP_8_",
-        "_8__|=====%|--|......_8_",
+        "_8_4|=====%|--|......_8_",
         "_8________s___________8_",
         "_8_v1__________v3v____8_",
         "_8_vv________vvvvv___28_",
@@ -42,13 +42,15 @@
         "v": "t_junk_wall",
         "^": "t_chaingate_l",
         "+": "t_door_glass_c",
-        "_": "t_rock_floor_no_roof",
-        "U": "t_rock_floor_no_roof",
-        "2": "t_rock_floor_no_roof",
+        "_": "t_pavement",
+        "U": "t_pavement",
+        "2": "t_pavement",
         ".": "t_strconc_floor",
         "3": "t_machinery_heavy",
         "1": "t_machinery_old",
-        "#": "t_strconc_floor"
+        "#": "t_strconc_floor",
+        "<": "t_ladder_up",
+        "4": "t_gutter_downspout"
       },
       "furniture": {
         "H": "f_bench",
@@ -66,7 +68,8 @@
         "q": "f_crate_c",
         "U": "f_dumpster",
         "2": "f_standing_tank",
-        "?": "f_sofa"
+        "?": "f_sofa",
+        "b": "f_bench"
       },
       "toilets": { "t": {  } },
       "place_items": [
@@ -95,6 +98,71 @@
       ],
       "place_vehicles": [ { "vehicle": "workshop_vehicles", "x": [ 6, 11 ], "y": [ 9, 15 ], "chance": 50, "fuel": 20, "status": 0 } ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 4 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "craft_shop_roof_1",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "            |22222223   ",
+        "            |.......3   ",
+        "            |.......3   ",
+        "            |.......33  ",
+        "            |........3  ",
+        "    |2222222|........3  ",
+        "    |...............### ",
+        "    |...............#># ",
+        "    |..............H### ",
+        "    |..............H3   ",
+        "    |...............3   ",
+        "    |...............3   ",
+        "    |...............3   ",
+        "    |...............3   ",
+        "    |...............3   ",
+        "    5---------------3   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ">": "t_ladder_down" },
+      "furniture": { "H": "f_chimney" },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ],
+            [ "roof_2x2_golf", 20 ],
+            [ "roof_3x3_wine", 30 ]
+          ],
+          "x": 14,
+          "y": 4
+        },
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_4x4_party", 15 ],
+            [ "roof_4x4_holdout", 5 ],
+            [ "roof_4x4_utility", 40 ],
+            [ "roof_4x4_utility_1", 30 ],
+            [ "roof_6x6_survivor", 20 ],
+            [ "roof_6x6_utility", 20 ]
+          ],
+          "x": [ 6, 13 ],
+          "y": [ 9, 10 ]
+        }
+      ]
     }
   }
 ]

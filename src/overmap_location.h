@@ -41,6 +41,6 @@ void load( JsonObject &jo, const std::string &src );
 void check_consistency();
 void reset();
 
-}
+} // namespace overmap_locations
 
 #endif // OVERMAP_LOCATION_H

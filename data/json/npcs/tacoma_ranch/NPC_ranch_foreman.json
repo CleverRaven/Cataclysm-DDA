@@ -33,6 +33,11 @@
         "topic": "TALK_RANCH_FOREMAN",
         "effect": { "companion_mission": "FOREMAN" }
       },
+      {
+        "text": "Hey, are you looking for workers here?  I know a couple people back at the refugee center that might be willing to come.",
+        "topic": "TALK_RANCH_FOREMAN_Nunez",
+        "condition": { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_1" }
+      },
       { "text": "I've got to go...", "topic": "TALK_DONE" }
     ]
   },
@@ -65,6 +70,13 @@
     "id": "TALK_RANCH_FOREMAN_JOB",
     "dynamic_line": "I'm the engineer in charge of turning this place into a working camp.  This is going to be an uphill battle, we used most of our initial supplies getting here and boarding up the windows.  I've got a huge list of tasks that need to get done so if you could help us keep supplied I'd appreciate it.  If you have material to drop off you can just back your vehicle into here and dump it on the ground, we'll sort it.",
     "responses": [ { "text": "I'll keep that in mind.", "topic": "TALK_RANCH_FOREMAN" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_FOREMAN_Nunez",
+    "dynamic_line": "we're still in early stages of getting set up, but we're not overly flush for hands, that's for sure.  If they're willing to put in a hard day's work, we can get them busy.",
+    "speaker_effect": { "u_add_var": { "u_add_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_2" } },
+    "responses": [ { "text": "I'll tell them that, but they seemed good for a bit of hard labor.", "topic": "TALK_RANCH_FOREMAN" } ]
   },
   {
     "id": "MISSION_RANCH_FOREMAN_1",

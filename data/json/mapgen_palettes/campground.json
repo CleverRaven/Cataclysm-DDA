@@ -31,7 +31,7 @@
     "c": [ [ "t_dirt", 10 ], [ "t_grass", 15 ], [ "t_grass_long", 2 ] ],
     "s": [ [ "t_dirt", 5 ], [ "t_grass", 16 ], [ "t_grass_long", 1 ] ],
     "t": [ [ "t_dirt", 10 ], [ "t_grass", 15 ], [ "t_grass_long", 2 ] ],
-    "|": "t_wall",
+    "|": "t_wall_w",
     "w": "t_window",
     "o": "t_pit_shallow",
     "O": "t_gutter_downspout"

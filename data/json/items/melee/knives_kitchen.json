@@ -51,7 +51,7 @@
     "copy-from": "base_kitchen_knife",
     "looks_like": "knife_steak",
     "weight": 100,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 250,
     "to_hit": -1,
     "bashing": 1,

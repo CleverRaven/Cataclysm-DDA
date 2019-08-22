@@ -1,0 +1,23 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "cholla_bud",
+    "name": "cholla bud",
+    "weight": 92,
+    "color": "red",
+    "spoils_in": "6 days 16 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 6,
+    "healthy": 2,
+    "calories": 62,
+    "description": "The candy of the Mojave Indigenous peoples.",
+    "price": 900,
+    "material": "fruit",
+    "volume": "175 ml",
+    "fun": 6,
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_fruit",
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 18 ], [ "iron", 1 ] ]
+  }
+]

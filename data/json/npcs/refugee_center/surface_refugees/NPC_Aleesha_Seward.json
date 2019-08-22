@@ -1,5 +1,17 @@
 [
   {
+    "type": "npc",
+    "id": "refugee_AleeshaSeward",
+    "name_unique": "Aleesha Seward",
+    "gender": "female",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_Aleesha",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_Aleesha_1",
+    "faction": "free_merchants"
+  },
+  {
     "type": "npc_class",
     "id": "NC_REFUGEE_Aleesha",
     "name": "Refugee",
@@ -20,14 +32,14 @@
     "id": "REFUGEE_Aleesha_worn",
     "subtype": "collection",
     "entries": [
-      { "item": "tshirt_text" },
-      { "item": "skirt" },
-      { "item": "blanket" },
       { "item": "sports_bra" },
       { "item": "boxer_shorts" },
       { "item": "socks" },
+      { "item": "tshirt_text" },
+      { "item": "skirt" },
       { "item": "sneakers" },
-      { "item": "mbag" }
+      { "item": "mbag" },
+      { "item": "blanket" }
     ]
   },
   {
@@ -43,32 +55,32 @@
     "entries": [ { "item": "cudgel" } ]
   },
   {
-    "type": "npc",
-    "id": "refugee_AleeshaSeward",
-    "name_unique": "Aleesha Seward",
-    "gender": "female",
-    "name_suffix": "refugee",
-    "class": "NC_REFUGEE_Aleesha",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_REFUGEE_Aleesha_1",
-    "faction": "free_merchants"
-  },
-  {
-    "type": "effect_type",
-    "id": "u_met_Aleesha_Seward",
-    "//": "Use this flag to indicate if the player has met this NPC before."
+    "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [
+      "TALK_REFUGEE_Aleesha_2",
+      "TALK_REFUGEE_Aleesha_Background",
+      "TALK_REFUGEE_Aleesha_Background_caretaker",
+      "TALK_REFUGEE_Aleesha_Situation"
+    ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_REFUGEE_Aleesha_Background" },
+      { "text": "What's your take on the situation here?", "topic": "TALK_REFUGEE_Aleesha_Situation" }
+    ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Aleesha_1",
     "dynamic_line": {
-      "u_has_effect": "u_met_Aleesha_Seward",
+      "u_has_var": "u_met_Aleesha_Seward",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
       "yes": [
         "Hey there.",
         "Oh, hey, it's you again.",
         "What's up?",
-        "You're back, and still alive!  Woah.",
+        "You're back, and still alive!  Whoa.",
         "Aw hey, look who's back."
       ],
       "no": "Oh, uh... hi.  You look new.  I'm Aleesha."
@@ -76,44 +88,24 @@
     "responses": [
       {
         "text": "Nice to meet you, kid.  What's up?",
-        "condition": { "not": { "u_has_effect": "u_met_Aleesha_Seward" } },
-        "effect": { "u_add_effect": "u_met_Aleesha_Seward", "duration": "PERMANENT" },
-        "topic": "TALK_REFUGEE_Aleesha_1_firstmeet",
-        "switch": true
+        "effect": { "u_add_var": "u_met_Aleesha_Seward", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Aleesha_Seward", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_REFUGEE_Aleesha_1_firstmeet"
       },
       {
         "text": "Hi, Aleesha.  What's up?",
-        "condition": { "days_since_cataclysm": 180 },
-        "topic": "TALK_REFUGEE_Aleesha_2_late",
-        "switch": true
-      },
-      {
-        "text": "Hi, Aleesha.  What's up?",
-        "condition": { "days_since_cataclysm": 60 },
-        "topic": "TALK_REFUGEE_Aleesha_2_mid",
-        "switch": true
-      },
-      {
-        "text": "Hi, Aleesha.  What's up?",
-        "condition": { "days_since_cataclysm": 30 },
-        "topic": "TALK_REFUGEE_Aleesha_2_early",
-        "switch": true
-      },
-      {
-        "text": "Hi, Aleesha.  What's up?",
-        "condition": { "u_has_effect": "u_met_Aleesha_Seward" },
-        "topic": "TALK_REFUGEE_Aleesha_2_veryearly",
-        "switch": true
+        "topic": "TALK_REFUGEE_Aleesha_2",
+        "condition": { "u_has_var": "u_met_Aleesha_Seward", "type": "general", "context": "meeting", "value": "yes" }
       },
       {
         "text": "Hi Aleesha, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_effect": "u_met_Aleesha_Seward", "duration": "PERMANENT" },
-        "condition": { "not": { "u_has_effect": "u_met_Aleesha_Seward" } },
+        "effect": { "u_add_var": "u_met_Aleesha_Seward", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Aleesha_Seward", "type": "general", "context": "meeting", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
-        "text": "Hi Aleesha, nice to see you too.  I gotta go though.",
-        "condition": { "u_has_effect": "u_met_Aleesha_Seward" },
+        "text": "Hi Aleesha.  I can't stay to talk.",
+        "condition": { "u_has_var": "u_met_Aleesha_Seward", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
@@ -127,99 +119,45 @@
       "no": "I'm not a kid, okay?  I'm fourteen."
     },
     "responses": [
-      {
-        "text": "Sorry, I didn't mean anything by it.  What's up?",
-        "condition": { "days_since_cataclysm": 180 },
-        "topic": "TALK_REFUGEE_Aleesha_2_late",
-        "switch": true
-      },
-      {
-        "text": "Sorry, I didn't mean anything by it.  What's up?",
-        "condition": { "days_since_cataclysm": 60 },
-        "topic": "TALK_REFUGEE_Aleesha_2_mid",
-        "switch": true
-      },
-      {
-        "text": "Sorry, I didn't mean anything by it.  What's up?",
-        "condition": { "days_since_cataclysm": 30 },
-        "topic": "TALK_REFUGEE_Aleesha_2_early",
-        "switch": true
-      },
-      {
-        "text": "Sorry, I didn't mean anything by it.  What's up?",
-        "topic": "TALK_REFUGEE_Aleesha_2_veryearly",
-        "switch": true
-      },
+      { "text": "Sorry, I didn't mean anything by it.  What's up?", "topic": "TALK_REFUGEE_Aleesha_2" },
       { "text": "Sorry, I didn't mean anything by it.  I'll be on my way.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Aleesha_2_veryearly",
-    "dynamic_line": "I don't know what's up.  I'm not sure what we've even doing here.  They say we're supposed to wait until we can be moved to the shelter downstairs, but we've been here days and there's no word on how long we'll be waiting.  It's all so stupid, and nobody can tell me anything.",
+    "id": "TALK_REFUGEE_Aleesha_2",
+    "dynamic_line": {
+      "days_since_cataclysm": 30,
+      "yes": "We're just standing around here waiting, like a bunch of idiots.  We're supposedly waiting to go downstairs to the shelter, but it's been over a month.  I don't think it's happening.  I don't know what we're doing here.  I've read all the books, and there's zombies outside so we're stuck in here.  We can hear them at night.",
+      "no": "I don't know what's up.  I'm not sure what we've even doing here.  They say we're supposed to wait until we can be moved to the shelter downstairs, but we've been here days and there's no word on how long we'll be waiting.  It's all so stupid, and nobody can tell me anything."
+    },
+    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Aleesha_Background",
+    "dynamic_line": "You can't just go asking people questions like that nowadays.  I'm a teenaged girl alone in an evacuation center after, like, literally everyone in the world died and came back as zombies.  What do you think my story is?  My entire family died, came back as zombies, and I somehow wound up here.",
     "responses": [
-      { "text": "What's your story?  How did you get here?", "topic": "TALK_REFUGEE_Aleesha_2_Story1" },
-      {
-        "text": "Can you tell me anything about the other refugees here?",
-        "topic": "TALK_REFUGEE_Aleesha_2_Refugees1"
-      },
+      { "text": "Who takes care of you here?", "topic": "TALK_REFUGEE_Aleesha_Background_caretaker" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Aleesha_2_early",
-    "dynamic_line": "We're just standing around here waiting, like a bunch of idiots.  We're supposedly waiting to go downstairs to the shelter, but it's been over a month.  I don't think it's happening.  I don't know what we're doing here.  I've read all the books, and there's zombies outside so we're stuck in here.  We can hear them at night.",
+    "id": "TALK_REFUGEE_Aleesha_Background_caretaker",
+    "dynamic_line": "Nobody really.  I'm old enough to work and get merch for my rations.  Jenny and Rhy look out for me though.  They think I don't notice that they're looking out for me, but I do.  It's okay, they're both cool.",
     "responses": [
-      { "text": "Can you tell me anything about the other refugees here?", "topic": "TALK_REFUGEE_Aleesha_2_Refugees1" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Aleesha_2_mid",
-    "//": "TK: not written yet",
-    "dynamic_line": "We're just standing around here waiting, like a bunch of idiots.  We're supposedly waiting to go downstairs to the shelter, but it's been over a month.  I don't think it's happening.  I don't know what we're doing here.  I've read all the books, and there's zombies outside so we're stuck in here.  We can hear them at night.",
+    "id": "TALK_REFUGEE_Aleesha_Situation",
+    "dynamic_line": "I don't have much of a hot take besides what I just said.  It's shit.  Not enough to do to stay busy, not enough to eat, and even if I had internet, all the YouTubers I follow are dead.",
     "responses": [
-      { "text": "What's your story?  How did you get here?", "topic": "TALK_REFUGEE_Aleesha_2_Story1" },
-      {
-        "text": "Can you tell me anything about the other refugees here?",
-        "topic": "TALK_REFUGEE_Aleesha_2_Refugees1"
-      },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_REFUGEE_Aleesha_2_late",
-    "//": "TK: not written yet",
-    "dynamic_line": "We're just standing around here waiting, like a bunch of idiots.  We're supposedly waiting to go downstairs to the shelter, but it's been over a month.  I don't think it's happening.  I don't know what we're doing here.  I've read all the books, and there's zombies outside so we're stuck in here.  We can hear them at night.",
-    "responses": [
-      { "text": "What's your story?  How did you get here?", "topic": "TALK_REFUGEE_Aleesha_2_Story1" },
-      {
-        "text": "Can you tell me anything about the other refugees here?",
-        "topic": "TALK_REFUGEE_Aleesha_2_Refugees1"
-      },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_REFUGEE_Aleesha_2_Story1",
-    "//": "TK: not written yet",
-    "dynamic_line": "I don't really want to talk about that right now.",
-    "responses": [
-      { "text": "Can you tell me anything about the other refugees here?", "topic": "TALK_REFUGEE_Aleesha_2_Refugees1" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_REFUGEE_Aleesha_2_Refugees1",
-    "//": "TK: not written yet",
-    "dynamic_line": "I don't really want to talk about that right now.",
-    "responses": [
-      { "text": "What's your story?  How did you get here?", "topic": "TALK_REFUGEE_Aleesha_2_Story1" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   }

@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <cstddef>
+#include <memory>
 #include <numeric>
 #include <sstream>
 #include <unordered_map>
@@ -23,13 +24,13 @@
 #include "requirements.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
 #include "assign.h"
 #include "cata_utility.h"
 #include "game_constants.h"
 #include "item.h"
-#include "player.h"
 #include "mapdata.h"
 
 class npc;
@@ -96,7 +97,9 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "RECHARGE", VPFLAG_RECHARGE },
     { "VISION", VPFLAG_EXTENDS_VISION },
     { "ENABLED_DRAINS_EPOWER", VPFLAG_ENABLED_DRAINS_EPOWER },
+    { "AUTOCLAVE", VPFLAG_AUTOCLAVE },
     { "WASHING_MACHINE", VPFLAG_WASHING_MACHINE },
+    { "DISHWASHER", VPFLAG_DISHWASHER },
     { "FLUIDTANK", VPFLAG_FLUIDTANK },
     { "REACTOR", VPFLAG_REACTOR },
     { "RAIL", VPFLAG_RAIL },
@@ -318,14 +321,38 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "energy_consumption", def.energy_consumption );
     assign( jo, "power", def.power );
     assign( jo, "epower", def.epower );
+    assign( jo, "emissions", def.emissions );
     assign( jo, "fuel_type", def.fuel_type );
     assign( jo, "default_ammo", def.default_ammo );
     assign( jo, "folded_volume", def.folded_volume );
     assign( jo, "size", def.size );
     assign( jo, "difficulty", def.difficulty );
     assign( jo, "bonus", def.bonus );
+    assign( jo, "cargo_weight_modifier", def.cargo_weight_modifier );
     assign( jo, "flags", def.flags );
     assign( jo, "description", def.description );
+
+    if( jo.has_member( "transform_terrain" ) ) {
+        JsonObject jttd = jo.get_object( "transform_terrain" );
+        JsonArray jpf = jttd.get_array( "pre_flags" );
+        while( jpf.has_more() ) {
+            std::string pre_flag = jpf.next_string();
+            def.transform_terrain.pre_flags.emplace( pre_flag );
+        }
+        def.transform_terrain.post_terrain = jttd.get_string( "post_terrain", "t_null" );
+        def.transform_terrain.post_furniture = jttd.get_string( "post_furniture", "f_null" );
+        def.transform_terrain.post_field = jttd.get_string( "post_field", "fd_null" );
+        def.transform_terrain.post_field_intensity = jttd.get_int( "post_field_intensity", 0 );
+        if( jttd.has_int( "post_field_age" ) ) {
+            def.transform_terrain.post_field_age = time_duration::from_turns(
+                    jttd.get_int( "post_field_age" ) );
+        } else if( jttd.has_string( "post_field_age" ) ) {
+            def.transform_terrain.post_field_age = read_from_json_string<time_duration>(
+                    *jttd.get_raw( "post_field_age" ), time_duration::units );
+        } else {
+            def.transform_terrain.post_field_age = 0_turns;
+        }
+    }
 
     if( jo.has_member( "requirements" ) ) {
         auto reqs = jo.get_object( "requirements" );
@@ -374,8 +401,6 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     if( jo.has_member( "damage_reduction" ) ) {
         JsonObject dred = jo.get_object( "damage_reduction" );
         def.damage_reduction = load_damage_array( dred );
-    } else {
-        def.damage_reduction.fill( 0.0f );
     }
 
     if( def.has_flag( "ENGINE" ) ) {
@@ -627,6 +652,21 @@ void vpart_info::check()
         if( part.has_flag( "TURRET" ) && !base_item_type.gun ) {
             debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str() );
         }
+        if( !part.emissions.empty() && !part.has_flag( "EMITTER" ) ) {
+            debugmsg( "vehicle part %s has emissions set, but the EMITTER flag is not set", part.id.c_str() );
+        }
+        if( part.has_flag( "EMITTER" ) ) {
+            if( part.emissions.empty() ) {
+                debugmsg( "vehicle part %s has the EMITTER flag, but no emissions were set", part.id.c_str() );
+            } else {
+                for( const emit_id &e : part.emissions ) {
+                    if( !e.is_valid() ) {
+                        debugmsg( "vehicle part %s has the EMITTER flag, but invalid emission %s was set",
+                                  part.id.c_str(), e.str().c_str() );
+                    }
+                }
+            }
+        }
         for( auto &q : part.qualities ) {
             if( !q.first.is_valid() ) {
                 debugmsg( "vehicle part %s has undefined tool quality %s", part.id.c_str(), q.first.c_str() );
@@ -782,7 +822,7 @@ static int scale_time( const std::map<skill_id, int> &sk, int mv, const Characte
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
     return mv * ( 1.0 - std::min( static_cast<double>( lvl ) / sk.size() / 10.0,
-                                  0.5 ) ) * ( 1 - ( helpersize / 10 ) );
+                                  0.5 ) ) * ( 1 - ( helpersize / 10.0 ) );
 }
 
 int vpart_info::install_time( const Character &ch ) const
@@ -912,7 +952,7 @@ void vehicle_prototype::load( JsonObject &jo )
     // If the json does not contain a name (the prototype would have no name), it means appending
     // to the existing prototype (the parts are not cleared).
     if( !vproto.parts.empty() && jo.has_string( "name" ) ) {
-        vproto =  vehicle_prototype();
+        vproto = vehicle_prototype();
     }
     if( vproto.parts.empty() ) {
         vproto.name = jo.get_string( "name" );
@@ -1021,7 +1061,7 @@ void vehicle_prototype::finalize()
         // Calls the default constructor to create an empty vehicle. Calling the constructor with
         // the type as parameter would make it look up the type in the map and copy the
         // (non-existing) blueprint.
-        proto.blueprint.reset( new vehicle() );
+        proto.blueprint = std::make_unique<vehicle>();
         vehicle &blueprint = *proto.blueprint;
         blueprint.type = id;
         blueprint.name = _( proto.name );
@@ -1055,13 +1095,15 @@ void vehicle_prototype::finalize()
             } else {
                 for( const auto &e : pt.ammo_types ) {
                     const auto ammo = item::find_type( e );
-                    if( !ammo->ammo && ammo->ammo->type.count( base->gun->ammo ) ) {
+                    if( !ammo->ammo && base->gun->ammo.count( ammo->ammo->type ) ) {
                         debugmsg( "init_vehicles: turret %s has invalid ammo_type %s in %s",
                                   pt.part.c_str(), e.c_str(), id.c_str() );
                     }
                 }
                 if( pt.ammo_types.empty() ) {
-                    pt.ammo_types.insert( base->gun->ammo->default_ammotype() );
+                    if( !base->gun->ammo.empty() ) {
+                        pt.ammo_types.insert( ammotype( *base->gun->ammo.begin() )->default_ammotype() );
+                    }
                 }
             }
 

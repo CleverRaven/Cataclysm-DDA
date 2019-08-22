@@ -64,5 +64,5 @@ std::vector<std::pair<std::string, tripoint>> om_building_region( const tripoint
 std::string om_simple_dir( const tripoint &omt_pos, const tripoint &omt_tar );
 /// Converts a direction into a point offset
 point om_dir_to_offset( const std::string &dir );
-}
+} // namespace talk_function
 #endif

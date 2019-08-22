@@ -9,6 +9,7 @@
 #include <vector>
 #include <set>
 
+#include "enums.h"
 #include "mapdata.h"
 #include "omdata.h"
 #include "weather_gen.h"
@@ -188,11 +189,18 @@ struct overmap_forest_settings {
     overmap_forest_settings() = default;
 };
 
+struct shore_extendable_overmap_terrain_alias {
+    std::string overmap_terrain;
+    ot_match_type match_type;
+    oter_str_id alias;
+};
+
 struct overmap_lake_settings {
     double noise_threshold_lake = 0.25;
     int lake_size_min = 20;
     std::vector<std::string> unfinalized_shore_extendable_overmap_terrain;
     std::vector<oter_id> shore_extendable_overmap_terrain;
+    std::vector<shore_extendable_overmap_terrain_alias> shore_extendable_overmap_terrain_aliases;
 
     void finalize();
     overmap_lake_settings() = default;
@@ -213,7 +221,7 @@ struct map_extras {
 struct regional_settings {
     std::string id;           //
     oter_str_id default_oter; // 'field'
-
+    double river_scale;
     weighted_int_list<ter_id> default_groundcover; // ie, 'grass_or_dirt'
     std::shared_ptr<weighted_int_list<ter_str_id>> default_groundcover_str;
 

@@ -1,0 +1,10 @@
+[
+  {
+    "type": "MONSTER_FACTION",
+    "name": "magical_beast"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dragon_black"
+  }
+]

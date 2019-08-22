@@ -16,6 +16,8 @@
 #include "itype.h"
 #include "optional.h"
 #include "rng.h"
+#include "character.h"
+#include "options.h"
 
 stomach_contents::stomach_contents() = default;
 
@@ -94,6 +96,9 @@ units::volume stomach_contents::contains() const
 
 bool stomach_contents::store_absorbed( player &p )
 {
+    if( p.is_npc() && get_option<bool>( "NO_NPC_FOOD" ) ) {
+        return false;
+    }
     bool absorbed = false;
     if( calories_absorbed != 0 ) {
         p.mod_stored_kcal( calories_absorbed );
@@ -228,7 +233,7 @@ void stomach_contents::ingest( player &p, item &food, int charges = 1 )
 
     last_ate = calendar::turn;
 
-    mod_calories( comest_t->get_calories() );
+    mod_calories( p.kcal_for( comest ) );
 }
 
 void stomach_contents::absorb_water( player &p, units::volume amount )
@@ -260,7 +265,7 @@ void stomach_contents::absorb_kcal( int amount )
     }
 }
 
-bool stomach_contents::absorb_vitamin( vitamin_id vit, int amount )
+bool stomach_contents::absorb_vitamin( const vitamin_id &vit, int amount )
 {
     if( amount <= 0 ) {
         return false;
@@ -274,7 +279,7 @@ bool stomach_contents::absorb_vitamin( vitamin_id vit, int amount )
     return true;
 }
 
-bool stomach_contents::absorb_vitamin( std::pair<vitamin_id, int> vit )
+bool stomach_contents::absorb_vitamin( const std::pair<vitamin_id, int> &vit )
 {
     return absorb_vitamin( vit.first, vit.second );
 }
@@ -299,9 +304,9 @@ stomach_pass_rates stomach_contents::get_pass_rates( bool stomach )
     // 3 hours will be accounted here as stomach
     // the rest will be guts
     if( stomach ) {
-        rates.min_vol = std::max( capacity() / 50, 100_ml );
+        rates.min_vol = capacity() / 6;
         // 3 hours to empty in 30 minute increments
-        rates.percent_vol = 4.0f / 6.0f;
+        rates.percent_vol = 1.0f / 6.0f;
         rates.min_vit = 1;
         rates.percent_vit = 1.0f / 6.0f;
         rates.min_kcal = 5;

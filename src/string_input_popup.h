@@ -2,6 +2,7 @@
 #ifndef STRING_INPUT_POPUP_H
 #define STRING_INPUT_POPUP_H
 
+#include <stdint.h>
 #include <cstddef>
 #include <functional>
 #include <map>
@@ -40,7 +41,7 @@ class utf8_wrapper;
  * ignored and the returned string is never longer than this.
  * @param only_digits Whether to only allow digits in the string.
  */
-class string_input_popup
+class string_input_popup // NOLINT(cata-xy)
 {
     private:
         std::string _title;
@@ -219,7 +220,7 @@ class string_input_popup
         /**@{*/
         void query( bool loop = true, bool draw_only = false );
         int query_int( bool loop = true, bool draw_only = false );
-        long query_long( bool loop = true, bool draw_only = false );
+        int64_t query_int64_t( bool loop = true, bool draw_only = false );
         const std::string &query_string( bool loop = true, bool draw_only = false );
         /**@}*/
         /**
@@ -244,6 +245,8 @@ class string_input_popup
          */
         /**@{*/
         void edit( std::string &value );
+        // Acceptable to use long as part of overload set
+        // NOLINTNEXTLINE(cata-no-long)
         void edit( long &value );
         void edit( int &value );
         /**@}*/

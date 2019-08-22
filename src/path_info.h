@@ -29,6 +29,6 @@ void set_standard_filenames();
  */
 std::string find_translated_file( const std::string &pathid, const std::string &extension,
                                   const std::string &fallbackid );
-}
+} // namespace PATH_INFO
 
 #endif

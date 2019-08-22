@@ -15,8 +15,8 @@
 #include "catacharset.h"
 #include "color.h"
 #include "common_types.h"
-#include "enums.h"
 #include "int_id.h"
+#include "point.h"
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
@@ -97,14 +97,14 @@ type random();
 /** Whether these directions are parallel. */
 bool are_parallel( type dir1, type dir2 );
 
-}
+} // namespace om_direction
 
 class overmap_land_use_code
 {
     public:
         overmap_land_use_code_id id = overmap_land_use_code_id::NULL_ID();
 
-        int land_use_code;
+        int land_use_code = 0;
         std::string name;
         std::string detailed_definition;
         uint32_t symbol;
@@ -186,7 +186,7 @@ struct oter_type_t {
 
         std::string get_symbol() const;
 
-        oter_type_t() {}
+        oter_type_t() = default;
 
         oter_id get_first() const;
         oter_id get_rotated( om_direction::type dir ) const;
@@ -238,7 +238,7 @@ struct oter_t {
         std::string get_mapgen_id() const;
         oter_id get_rotated( om_direction::type dir ) const;
 
-        const std::string get_name() const {
+        std::string get_name() const {
             return _( type->name );
         }
 
@@ -277,7 +277,7 @@ struct oter_t {
             return type->static_spawns;
         }
 
-        const overmap_land_use_code_id get_land_use_code() const {
+        overmap_land_use_code_id get_land_use_code() const {
             return type->land_use_code;
         }
 
@@ -359,7 +359,7 @@ struct overmap_special_spawns : public overmap_spawns {
 };
 
 struct overmap_special_terrain {
-    overmap_special_terrain() {}
+    overmap_special_terrain() = default;
     tripoint p;
     oter_str_id terrain;
     std::set<std::string> flags;
@@ -442,7 +442,7 @@ void reset();
 
 const std::vector<oter_t> &get_all();
 
-}
+} // namespace overmap_terrains
 
 namespace overmap_land_use_codes
 {
@@ -454,7 +454,7 @@ void reset();
 
 const std::vector<overmap_land_use_code> &get_all();
 
-}
+} // namespace overmap_land_use_codes
 
 namespace overmap_specials
 {
@@ -472,13 +472,13 @@ overmap_special_batch get_default_batch( const point &origin );
  */
 overmap_special_id create_building_from( const string_id<oter_type_t> &base );
 
-}
+} // namespace overmap_specials
 
 namespace city_buildings
 {
 
 void load( JsonObject &jo, const std::string &src );
 
-}
+} // namespace city_buildings
 
 #endif

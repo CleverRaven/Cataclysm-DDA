@@ -10,7 +10,7 @@
 
 #include "color.h"
 #include "cursesdef.h"
-#include "enums.h"
+#include "point.h"
 #include "string_formatter.h"
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -27,6 +27,8 @@ const int MENU_ALIGN_CENTER = 0;
 const int MENU_ALIGN_RIGHT = 1;
 const int MENU_WIDTH_ENTRIES = -2;
 const int MENU_AUTOASSIGN = -1;
+// NOLINTNEXTLINE(cata-use-named-point-constants)
+constexpr point MENU_AUTOASSIGN_POS( MENU_AUTOASSIGN, MENU_AUTOASSIGN );
 
 struct input_event;
 class input_context;
@@ -39,7 +41,7 @@ struct mvwzstr {
     int left = 0;
     nc_color color = c_unset;
     std::string txt;
-    long sym = 0;
+    int sym = 0;
 };
 
 /**
@@ -89,7 +91,7 @@ struct uilist_entry {
 /**
  * Virtual base class for windowed ui stuff (like uilist)
  */
-class ui_container
+class ui_container // NOLINT(cata-xy)
 {
     public:
         virtual ~ui_container() = default;
@@ -211,18 +213,18 @@ class uilist: public ui_container
         uilist( const std::string &msg, const std::vector<uilist_entry> &opts );
         uilist( const std::string &msg, const std::vector<std::string> &opts );
         uilist( const std::string &msg, std::initializer_list<const char *const> opts );
-        uilist( int startx, int width, int starty, const std::string &msg,
+        uilist( const point &start, int width, const std::string &msg,
                 const std::vector<uilist_entry> &opts );
-        uilist( int startx, int width, int starty, const std::string &msg,
+        uilist( const point &start, int width, const std::string &msg,
                 const std::vector<std::string> &opts );
-        uilist( int startx, int width, int starty, const std::string &msg,
+        uilist( const point &start, int width, const std::string &msg,
                 std::initializer_list<const char *const> opts );
 
         void init();
         void setup();
         void show();
         bool scrollby( int scrollby );
-        int scroll_amount_from_key( const int key );
+        int scroll_amount_from_key( int key );
         int scroll_amount_from_action( const std::string &action );
         void query( bool loop = true, int timeout = -1 );
         void filterlist();
@@ -232,8 +234,8 @@ class uilist: public ui_container
         void redraw( bool redraw_callback = true );
         void addentry( const std::string &str );
         void addentry( int r, bool e, int k, const std::string &str );
-        // K is templated so it matches a `char` literal and a `long` value.
-        // Using a fixed type (either `char` or `long`) will lead to ambiguity with the
+        // K is templated so it matches a `char` literal and a `int` value.
+        // Using a fixed type (either `char` or `int`) will lead to ambiguity with the
         // other overload when called with the wrong type.
         template<typename K, typename ...Args>
         void addentry( const int r, const bool e, K k, const char *const format, Args &&... args ) {

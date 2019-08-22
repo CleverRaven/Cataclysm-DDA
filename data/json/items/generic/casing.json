@@ -38,6 +38,15 @@
     "volume": "10ml"
   },
   {
+    "id": "270win_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".270 Winchester casing",
+    "description": "An empty casing from a .270 Winchester round.",
+    "weight": 7,
+    "volume": "10ml"
+  },
+  {
     "id": "300_casing",
     "copy-from": "casing",
     "type": "GENERIC",
@@ -83,11 +92,29 @@
     "volume": "4ml"
   },
   {
+    "id": "38super_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".38 Super casing",
+    "description": "An empty casing from a .38 Super round.",
+    "weight": 3,
+    "volume": "4ml"
+  },
+  {
     "id": "40_casing",
     "copy-from": "casing",
     "type": "GENERIC",
     "name": ".40 S&W casing",
     "description": "An empty casing from a .40 S&W round.",
+    "weight": 3,
+    "volume": "5ml"
+  },
+  {
+    "id": "10mm_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": "10mm Auto casing",
+    "description": "An empty casing from a 10mm Auto round.",
     "weight": 3,
     "volume": "5ml"
   },
@@ -127,6 +154,15 @@
     "type": "GENERIC",
     "name": ".45 ACP casing",
     "description": "An empty casing from a .45 ACP round.",
+    "weight": 4,
+    "volume": "6ml"
+  },
+  {
+    "id": "45colt_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".45 Colt casing",
+    "description": "An empty casing from a .45 Colt round.",
     "weight": 4,
     "volume": "6ml"
   },
@@ -259,6 +295,15 @@
     "volume": "5ml"
   },
   {
+    "id": "357mag_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".357 magnum casing",
+    "description": "An empty casing from a .357 magnum round.",
+    "weight": 3,
+    "volume": "5ml"
+  },
+  {
     "id": "9x18mm_casing",
     "copy-from": "casing",
     "type": "GENERIC",
@@ -277,6 +322,17 @@
     "volume": "5ml"
   },
   {
+    "id": "atgm_spent",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": "152mm ATGM tube",
+    "color": "dark_gray",
+    "description": "An empty steel tube which once contained a 152mm ATGM.  Now it's essentially just a huge pipe.",
+    "material": "steel",
+    "weight": 9500,
+    "volume": 30
+  },
+  {
     "id": "shot_hull",
     "type": "GENERIC",
     "category": "spare_parts",
@@ -289,5 +345,28 @@
     "symbol": "=",
     "color": "red",
     "damage_states": [ 0, 0 ]
+  },
+  {
+    "id": "410shot_hull",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": ".410 hull",
+    "description": "An empty hull from a .410 shotgun shell.",
+    "weight": 8,
+    "volume": "12ml",
+    "stackable": true,
+    "material": "plastic",
+    "symbol": "=",
+    "color": "red",
+    "damage_states": [ 0, 0 ]
+  },
+  {
+    "id": "300blk_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".300BLK casing",
+    "description": "An empty casing from a .300 AAC Blackout round.",
+    "weight": 6,
+    "volume": "9ml"
   }
 ]

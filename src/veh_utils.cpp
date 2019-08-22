@@ -11,7 +11,6 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "craft_command.h"
 #include "game.h"
 #include "map.h"
 #include "player.h"
@@ -24,6 +23,8 @@
 #include "item.h"
 #include "requirements.h"
 #include "translations.h"
+#include "color.h"
+#include "point.h"
 
 namespace veh_utils
 {
@@ -176,4 +177,4 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     return true;
 }
 
-}
+} // namespace veh_utils

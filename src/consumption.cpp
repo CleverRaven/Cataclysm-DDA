@@ -10,6 +10,7 @@
 
 #include "addiction.h"
 #include "avatar.h"
+#include "bionics.h"
 #include "calendar.h" // ticks_between
 #include "cata_utility.h"
 #include "debug.h"
@@ -32,6 +33,8 @@
 #include "vpart_position.h"
 #include "rng.h"
 #include "string_id.h"
+#include "enums.h"
+#include "flat_set.h"
 
 namespace
 {
@@ -80,7 +83,7 @@ const std::map<itype_id, int> plut_charges = {
     { "plut_slurry",       PLUTONIUM_CHARGES / 2 }
 };
 
-}
+} // namespace
 
 int player::stomach_capacity() const
 {
@@ -586,7 +589,7 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
     }
 
     if( stomach.stomach_remaining() < food.volume() / food.charges && !food.has_infinite_charges() ) {
-        if( food.has_flag( "USE_EAT_VERB" ) ) {
+        if( edible ) {
             add_consequence( _( "You're full already and will be forcing yourself to eat." ), TOO_FULL );
         } else {
             add_consequence( _( "You're full already and will be forcing yourself to drink." ), TOO_FULL );
@@ -1089,7 +1092,7 @@ bool player::consume_effects( item &food )
     // Moved here and changed a bit - it was too complex
     // Incredibly minor stuff like this shouldn't require complexity
     if( !is_npc() && has_trait( trait_id( "SLIMESPAWNER" ) ) &&
-        ( get_healthy_kcal() < get_stored_kcal() + 4000 ||
+        ( get_healthy_kcal() < get_stored_kcal() + 4000 &&
           get_thirst() - stomach.get_water() / 5_ml < 40 ) ) {
         add_msg_if_player( m_mixed,
                            _( "You feel as though you're going to split open!  In a good way?" ) );
@@ -1158,7 +1161,7 @@ bool player::can_feed_battery_with( const item &it ) const
         return false;
     }
 
-    return it.type->ammo->type.count( ammotype( "battery" ) );
+    return it.ammo_type() == ammotype( "battery" );
 }
 
 bool player::feed_battery_with( item &it )
@@ -1205,7 +1208,7 @@ bool player::can_feed_reactor_with( const item &it ) const
     }
 
     return std::any_of( acceptable.begin(), acceptable.end(), [ &it ]( const ammotype & elem ) {
-        return it.type->ammo->type.count( elem );
+        return it.ammo_type() == elem;
     } );
 }
 
@@ -1261,7 +1264,7 @@ bool player::feed_furnace_with( item &it )
         return false;
     }
 
-    const long consumed_charges = std::min( it.charges, it.charges_per_volume( furnace_max_volume ) );
+    const int consumed_charges = std::min( it.charges, it.charges_per_volume( furnace_max_volume ) );
     const int energy = get_acquirable_energy( it, rechargeable_cbm::furnace );
 
     if( energy == 0 ) {
@@ -1308,6 +1311,30 @@ bool player::feed_furnace_with( item &it )
     return true;
 }
 
+bool player::fuel_bionic_with( item &it )
+{
+    if( !can_fuel_bionic_with( it ) ) {
+        return false;
+    }
+
+    const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
+
+    const int loadable = std::min( it.charges, get_fuel_capacity( it.typeId() ) );
+
+    const std::string loaded_charge = std::to_string( loadable );
+
+    it.charges -= loadable;
+    set_value( it.typeId(), loaded_charge );// type and amount of fuel
+    update_fuel_storage( it.typeId() );
+    add_msg_player_or_npc( m_info,
+                           ngettext( "You load %i charge of %s in your %s.",
+                                     "You load %i charges of %s in your %s.", loadable ),
+                           ngettext( "<npcname> load %i charge of %s in their %s.",
+                                     "<npcname> load %i charges of %s in their %s.", loadable ), loadable, it.tname(), bio->name );
+    mod_moves( -250 );
+    return true;
+}
+
 rechargeable_cbm player::get_cbm_rechargeable_with( const item &it ) const
 {
     if( can_feed_reactor_with( it ) ) {
@@ -1323,6 +1350,10 @@ rechargeable_cbm player::get_cbm_rechargeable_with( const item &it ) const
         return rechargeable_cbm::furnace;
     }
 
+    if( can_fuel_bionic_with( it ) ) {
+        return rechargeable_cbm::other;
+    }
+
     return rechargeable_cbm::none;
 }
 
@@ -1333,7 +1364,7 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
             break;
 
         case rechargeable_cbm::battery:
-            return std::min<long>( it.charges, std::numeric_limits<int>::max() );
+            return std::min( it.charges, std::numeric_limits<int>::max() );
 
         case rechargeable_cbm::reactor:
             if( it.charges > 0 ) {
@@ -1364,6 +1395,12 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
 
             return amount;
         }
+        case rechargeable_cbm::other:
+            const int to_consume = std::min( it.charges, std::numeric_limits<int>::max() );
+            const int to_charge = std::min( static_cast<int>( it.fuel_energy() * to_consume ),
+                                            max_power_level - power_level );
+            return to_charge;
+            break;
     }
 
     return 0;
@@ -1389,8 +1426,8 @@ bool player::can_consume( const item &it ) const
     if( can_consume_as_is( it ) ) {
         return true;
     }
-    // checking NO_UNLOAD to prevent consumption of `battery` when contained in `battery_car` (#20012)
-    return !it.is_container_empty() && !it.has_flag( "NO_UNLOAD" ) &&
+    // checking NO_RELOAD to prevent consumption of `battery` when contained in `battery_car` (#20012)
+    return !it.is_container_empty() && !it.has_flag( "NO_RELOAD" ) &&
            can_consume_as_is( it.contents.front() );
 }
 

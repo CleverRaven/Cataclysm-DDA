@@ -2,7 +2,31 @@
 #ifndef AVATAR_H
 #define AVATAR_H
 
+#include <stddef.h>
+#include <iosfwd>
+#include <string>
+#include <unordered_set>
+#include <vector>
+
+#include "enums.h"
 #include "player.h"
+#include "magic_teleporter_list.h"
+#include "calendar.h"
+#include "item.h"
+#include "map_memory.h"
+#include "pldata.h"
+#include "point.h"
+
+class JsonIn;
+class JsonObject;
+class JsonOut;
+class mission;
+class npc;
+namespace debug_menu
+{
+class mission_debug;
+}  // namespace debug_menu
+struct points_left;
 
 class avatar : public player
 {
@@ -11,8 +35,8 @@ class avatar : public player
 
         void store( JsonOut &json ) const;
         void load( JsonObject &data );
-        void serialize( JsonOut &josn ) const override;
-        void deserialize( JsonIn &json ) override;
+        void serialize( JsonOut &json ) const override;
+        void deserialize( JsonIn &jsin ) override;
         void serialize_map_memory( JsonOut &jsout ) const;
         void deserialize_map_memory( JsonIn &jsin );
 
@@ -21,23 +45,44 @@ class avatar : public player
         void randomize( bool random_scenario, points_left &points, bool play_now = false );
         bool load_template( const std::string &template_name, points_left &points );
 
+        bool is_avatar() const override {
+            return true;
+        }
+        avatar *as_avatar() override {
+            return this;
+        }
+        const avatar *as_avatar() const override {
+            return this;
+        }
+
         /** Prints out the player's memorial file */
         void memorial( std::ostream &memorial_file, const std::string &epitaph );
 
         void toggle_map_memory();
         bool should_show_map_memory();
         /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
-        void memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
-                            const int rotation );
+        void memorize_tile( const tripoint &pos, const std::string &ter, int subtile,
+                            int rotation );
         /** Returns last stored map tile in given location in tiles mode */
         memorized_terrain_tile get_memorized_tile( const tripoint &p ) const;
         /** Memorizes a given tile in curses mode; finalize_terrain_memory_curses needs to be called after it */
-        void memorize_symbol( const tripoint &pos, const long symbol );
+        void memorize_symbol( const tripoint &pos, int symbol );
         /** Returns last stored map tile in given location in curses mode */
-        long get_memorized_symbol( const tripoint &p ) const;
+        int get_memorized_symbol( const tripoint &p ) const;
         /** Returns the amount of tiles survivor can remember. */
         size_t max_memorized_tiles() const;
         void clear_memorized_tile( const tripoint &pos );
+
+        /** Provides the window and detailed morale data */
+        void disp_morale();
+        /** Uses morale and other factors to return the player's focus target goto value */
+        int calc_focus_equilibrium() const;
+        /** Calculates actual focus gain/loss value from focus equilibrium*/
+        int calc_focus_change() const;
+        /** Uses calc_focus_change to update the player's current focus */
+        void update_mental_focus();
+        /** Resets stats, and applies effects in an idempotent manner */
+        void reset_stats() override;
 
         std::vector<mission *> get_active_missions() const;
         std::vector<mission *> get_completed_missions() const;
@@ -84,7 +129,7 @@ class avatar : public player
          */
         int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
         /** Handles reading effects and returns true if activity started */
-        bool read( int inventory_position, const bool continuous = false );
+        bool read( int inventory_position, bool continuous = false );
         /** Completes book reading action. **/
         void do_read( item &book );
         /** Note that we've read a book at least once. **/
@@ -92,6 +137,32 @@ class avatar : public player
 
         hint_rating rate_action_read( const item &it ) const;
 
+        void wake_up();
+        // Grab furniture / vehicle
+        void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
+        object_type get_grab_type() const;
+        /** Handles player vomiting effects */
+        void vomit();
+
+        /**
+         * Try to steal an item from the NPC's inventory. May result in fail attempt, when NPC not notices you,
+         * notices your steal attempt and getting angry with you, and you successfully stealing the item.
+         * @param target Target NPC to steal from
+         */
+        void steal( npc &target );
+
+        teleporter_list translocators;
+
+        int get_str_base() const override;
+        int get_dex_base() const override;
+        int get_int_base() const override;
+        int get_per_base() const override;
+
+        void upgrade_stat_prompt( const Character::stat &stat_name );
+        // how many points are available to upgrade via STK
+        int free_upgrade_points() const;
+        // how much "kill xp" you have
+        int kill_xp() const;
     private:
         map_memory player_map_memory;
         bool show_map_memory;
@@ -120,6 +191,15 @@ class avatar : public player
 
         // Items the player has identified.
         std::unordered_set<std::string> items_identified;
+
+        object_type grab_type;
+
+        // these are the stat upgrades from stats through kills
+
+        int str_upgrade = 0;
+        int dex_upgrade = 0;
+        int int_upgrade = 0;
+        int per_upgrade = 0;
 };
 
 #endif

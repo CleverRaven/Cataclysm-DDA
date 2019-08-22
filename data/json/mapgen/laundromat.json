@@ -1,20 +1,11 @@
 [
   {
-    "id": "laundromat_bleach",
-    "type": "item_group",
-    "items": [ [ "bleach", 50 ] ]
-  },
-  {
-    "id": "laundromat_containers",
-    "type": "item_group",
-    "items": [ [ "duffelbag", 5 ], [ "backpack", 5 ], [ "bag_plastic", 30 ], [ "basket_laundry", 30 ] ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_laundromat" ],
     "weight": 400,
     "object": {
+      "fill_ter": "t_linoleum_white",
       "rows": [
         "s______________________s",
         "s______________________s",
@@ -25,13 +16,13 @@
         "s|t..#.............&|sss",
         "s|C.Bt.............D|sss",
         "s|ttt#....rrrr.....D|sss",
-        "s|WWWWWWWWWWWt.....D|sss",
-        "s|.................D|%ss",
         "s|WWWWWWWWWWWt.....D|%ss",
-        "s|.................D|sss",
+        "s|.................D|%ss",
         "s|WWWWWWWWWWWt.....D|sss",
-        "s|t................D|sss",
-        "s|c...DDD####t.....D|sss",
+        "s|.................D|LLs",
+        "s|WWWWWWWWWWWt.....D|ass",
+        "s|t................D|oss",
+        "s|c...DDD####t.....D|4ss",
         "s|c...-------......|--|s",
         "s|c...WWWWWWWt.....|lS|s",
         "s|6................+lT|s",
@@ -42,39 +33,26 @@
         "ssssssssssssssssssssssss"
       ],
       "terrain": {
-        "#": "t_linoleum_white",
         "%": "t_sidewalk",
-        "&": "t_linoleum_white",
         "+": "t_door_c",
-        "-": "t_wall",
+        "-": "t_wall_w",
         ".": "t_linoleum_white",
-        "6": "t_linoleum_white",
         "=": "t_wall_glass",
         "A": "t_atm",
-        "B": "t_linoleum_white",
         "C": "t_console_broken",
-        "D": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "T": "t_linoleum_white",
-        "V": "t_linoleum_white",
-        "W": "t_linoleum_white",
         "[": "t_door_glass_c",
-        "]": "t_linoleum_white",
-        "^": "t_linoleum_white",
         "_": "t_pavement",
-        "c": "t_linoleum_white",
         "l": "t_linoleum_gray",
-        "r": "t_linoleum_white",
         "s": "t_sidewalk",
-        "t": "t_linoleum_white",
-        "w": "t_linoleum_white",
-        "y": "t_linoleum_white",
-        "|": "t_wall",
-        "~": "t_linoleum_white"
+        "L": "t_sidewalk",
+        "a": "t_sidewalk",
+        "o": "t_sidewalk",
+        "|": "t_wall_w",
+        "4": "t_gutter_downspout"
       },
       "furniture": {
         "#": "f_counter",
-        "%": "f_trashcan",
+        "%": [ "f_dumpster", "f_recycle_bin" ],
         "&": "f_trashcan",
         "6": "f_arcade_machine",
         "B": "f_stool",
@@ -86,7 +64,10 @@
         "^": "f_indoor_plant",
         "c": "f_chair",
         "r": "f_rack",
-        "t": "f_table"
+        "t": "f_table",
+        "o": "f_water_heater",
+        "a": "f_water_purifier",
+        "L": "f_standing_tank"
       },
       "toilets": { "T": {  } },
       "place_items": [
@@ -116,14 +97,52 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_laundromat" ],
+    "om_terrain": "s_laundromat_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |2222222222222222223   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |....R.............3   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |..................523 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |.................U..3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "place_items": [ { "item": "roof_trash", "x": [ 6, 20 ], "y": [ 4, 17 ], "chance": 50, "repeat": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_laundromat_1" ],
     "weight": 400,
     "object": {
+      "fill_ter": "t_linoleum_white",
       "rows": [
         "________________ssssssss",
         "________________sssddsss",
         "________________ss    ss",
-        "________________sd    ds",
+        "________________sd H  ds",
         "-----______-----sd    ds",
         "________________ss    ss",
         "________________sssddsss",
@@ -143,45 +162,29 @@
         "s|D.D|+|+|+|+|.|,,,,,}|s",
         "s|DDD|T|T|T|T|.+,p,P,}|s",
         "s|||||||||||||+|,p,Pp}|s",
-        "sssssssssssssss||||||||s"
+        "sss4sssssssssss||||||||s"
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_dirt", "t_grass", "t_shrub", "t_tree_young" ],
-        "#": "t_linoleum_white",
         "P": "t_floor",
         "p": "t_floor",
         ",": "t_floor",
         "}": "t_floor",
         "%": "t_pavement",
-        "&": "t_linoleum_white",
         "+": "t_door_c",
         ".": "t_linoleum_white",
-        "6": "t_linoleum_white",
         "=": "t_wall_glass",
         "A": "t_atm",
-        "B": "t_linoleum_white",
-        "b": "t_linoleum_white",
         "C": "t_console_broken",
-        "D": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "T": "t_linoleum_white",
-        "V": "t_linoleum_white",
-        "W": "t_linoleum_white",
         "[": "t_door_glass_c",
-        "]": "t_linoleum_white",
-        "^": "t_linoleum_white",
         "_": "t_pavement",
         "-": "t_pavement_y",
-        "c": "t_linoleum_white",
         "l": "t_linoleum_gray",
-        "r": "t_linoleum_white",
         "d": "t_sidewalk",
         "s": "t_sidewalk",
-        "t": "t_linoleum_white",
-        "w": "t_linoleum_white",
-        "y": "t_linoleum_white",
-        "|": "t_wall",
-        "~": "t_linoleum_white"
+        "|": "t_wall_w",
+        "H": "t_grass",
+        "4": "t_gutter_downspout"
       },
       "furniture": {
         "#": "f_counter",
@@ -201,7 +204,8 @@
         "^": "f_indoor_plant",
         "c": "f_chair",
         "r": "f_rack",
-        "t": "f_table"
+        "t": "f_table",
+        "H": "f_birdbath"
       },
       "toilets": { "T": {  } },
       "items": {
@@ -222,6 +226,43 @@
         { "vehicle": "shopping_cart", "x": 17, "y": 21, "chance": 10 },
         { "vehicle": "car", "x": [ 3, 10 ], "y": [ 2, 3 ], "chance": 20 }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_laundromat_roof_1",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                 |22223 ",
+        " |222222222222222|....3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |...U................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |.............R......3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |-5-----------|......3 ",
+        "               |------3 "
+      ],
+      "palettes": [ "roof_palette" ],
+      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "place_items": [ { "item": "roof_trash", "x": [ 3, 19 ], "y": [ 11, 20 ], "chance": 50, "repeat": [ 1, 3 ] } ]
     }
   }
 ]

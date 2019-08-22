@@ -2,8 +2,8 @@
 #ifndef OVERMAP_NOISE_H
 #define OVERMAP_NOISE_H
 
-#include "enums.h"
 #include "game_constants.h"
+#include "point.h"
 
 namespace om_noise
 {
@@ -77,6 +77,6 @@ class om_noise_layer_lake : public om_noise_layer
         float noise_at( const point &local_omt_pos ) const override;
 };
 
-}
+} // namespace om_noise
 
 #endif

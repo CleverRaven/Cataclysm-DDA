@@ -1,5 +1,7 @@
 [
     { symbol: ["M_PI", "private", "\"math_defines.h\"", "public"] },
+    { symbol: ["M_PI_2", "private", "\"math_defines.h\"", "public"] },
+    { symbol: ["M_SQRT2", "private", "\"math_defines.h\"", "public"] },
     { symbol: ["nanosleep", "private", "\"posix_time.h\"", "public"] },
     { symbol: ["timespec", "private", "\"posix_time.h\"", "public"] },
 ]

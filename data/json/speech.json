@@ -1423,6 +1423,12 @@
   },
   {
     "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Hold on, I want to pulp that zombie corpse.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
     "speaker": "mon_mutant_experimental",
     "sound": "\"Burning...  from the inside...\"",
     "volume": 10
@@ -1639,6 +1645,42 @@
   },
   {
     "type": "speech",
+    "speaker": "mon_broken_cyborg",
+    "sound": "\"I told you to let me die.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_broken_cyborg",
+    "sound": "\"W-where am I?  Why does it hur-REBOOTING IN 59 SECONDS.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_broken_cyborg",
+    "sound": "\"THIS UNIT IS BROKEN.  PLEASE CALL AN ATTENDANT.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_broken_cyborg",
+    "sound": "\"Can't... breathe...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_broken_cyborg",
+    "sound": "\"This cannot continue.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_broken_cyborg",
+    "sound": "\"USER PASSWORD UNRECOGNIZED.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
     "speaker": "mon_prototype_cyborg",
     "sound": "\"Have you seen my friend?  He went into surgery yesterday... or maybe the day before...\"",
     "volume": 10
@@ -1658,8 +1700,38 @@
   {
     "type": "speech",
     "speaker": "mon_prototype_cyborg",
+    "sound": "\"I cannot... yet I must.  How do you calculate that?\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_prototype_cyborg",
+    "sound": "\"This is a dream.  This has to be a dream.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_prototype_cyborg",
+    "sound": "\"This is my life now... this is my life now... this is my life now...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_prototype_cyborg",
+    "sound": "\"Wanna go home...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_prototype_cyborg",
     "sound": "screams of pain.",
     "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_prototype_cyborg",
+    "sound": "muffled sobbing.",
+    "volume": 5
   },
   {
     "type": "speech",
@@ -1846,5 +1918,311 @@
     "speaker": "mon_eyebot",
     "sound": "\"Police inbound.  Stay where you are!\"",
     "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"I AM FOODPERSON. AND I BRING SUSTENANCE!\"",
+    "volume": 17
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"Come to FoodPlace today and buy food!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"FoodPlace: The best restaurant in an area!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"Our food contains up to 95% real food.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"FoodPlace: It's the Calories.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"You need food, don't you? Then come with me to FOODPLACE!!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"FoodPlace: Edible food is OUR guarantee!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Wanna play with me?",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Sing with me!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "I love you!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Please take me with you!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "May I have a cookie?",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Let's play together!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Time to play!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Om nom nom!  Delicious!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Are you my mommy?",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Oh, how fun!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "You're my best friend!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Heehee!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Let's have fun!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "Let's have a tea party!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "talking_doll",
+    "sound": "You're the best!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "You shouldn't have done that.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "Let's play... Russian roulette.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "I hate you.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "Go kill yourself!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "Big Brother is watching you...",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "Die for me!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "Why won't you die?",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "Blood... Delicious.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "See you... IN HELL!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "AAAIEEEEEEE!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "FUCK YOU!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "What did you do with my Mommy?",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "Stay with me... forever!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "Hey kids.  Want some candy?",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "Down here, they ALL float!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "Do you really need that much honey?",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "creepy_doll",
+    "sound": "My previous owner squealed like a pig when I gutted her!",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog",
+    "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_bull",
+    "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_pitbullmix",
+    "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_beagle",
+    "sound": "YAP!",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_bcollie",
+    "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_boxer",
+    "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_chihuahua",
+    "sound": "YAP!",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_dachshund",
+    "sound": "YAP!",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_gshepherd",
+    "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_gpyrenees",
+    "sound": "WOOF!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_rottweiler",
+    "sound": "WOOF!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_auscattle",
+    "sound": "BARK!",
+    "volume": 40
   }
 ]

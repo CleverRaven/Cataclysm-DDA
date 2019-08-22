@@ -1,0 +1,207 @@
+[
+  {
+    "type": "npc",
+    "id": "refugee_beggar5",
+    "//": "Mutant beggar in the refugee center.",
+    "name_unique": "Yusuke Taylor",
+    "gender": "male",
+    "name_suffix": "beggar",
+    "class": "NC_BEGGAR_5",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_BEGGAR_5",
+    "faction": "lobby_beggars"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_BEGGAR_5",
+    "name": "Beggar",
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "This is the only beggar with some skills, sort of the leader.",
+    "bonus_str": { "rng": [ -2, 4 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, 2 ] },
+    "bonus_per": { "rng": [ 0, 4 ] },
+    "worn_override": "NC_BEGGAR_5_worn",
+    "carry_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
+    "traits": [
+      { "trait": "FUR" },
+      { "trait": "OPTIMISTIC" },
+      { "trait": "LIGHTSTEP" },
+      { "trait": "CLAWS_RETRACT" },
+      { "group": "Appearance_Mixed" }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "computer", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 0, 5 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 0, 5 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BEGGAR_5_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "socks" },
+      { "item": "boxer_briefs" },
+      { "item": "hoodie" },
+      { "item": "pants_cargo" },
+      { "item": "jacket_jean" },
+      { "item": "boots" },
+      { "item": "backpack" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5",
+    "dynamic_line": "Hey there, friend.",
+    "//": "STUB FILE: not all text implemented yet.  TK: different greetings and a whole segment on getting the beggars to join up.",
+    "responses": [
+      { "text": "What are you doing out here?", "topic": "TALK_REFUGEE_BEGGAR_5_TALK1" },
+      { "text": "I couldn't help but notice, you're covered in fur.", "topic": "TALK_REFUGEE_BEGGAR_5_FUR" },
+      { "text": "Would you like something to eat?", "topic": "TALK_REFUGEE_BEGGAR_5_FOOD" },
+      { "text": "Sorry, not interested.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5_TALK1",
+    "dynamic_line": "I live here.  Too mutant to join the cool kids club, but not mutant enough to kill on sight.",
+    "responses": [
+      { "text": "Why live out here?", "topic": "TALK_REFUGEE_BEGGAR_5_TALK2" },
+      { "text": "I couldn't help but notice, you're covered in fur.", "topic": "TALK_REFUGEE_BEGGAR_5_FUR" },
+      {
+        "text": "You seem like you can hold your own.  Why not travel with me?",
+        "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL1"
+      },
+      { "text": "Would you like something to eat?", "topic": "TALK_REFUGEE_BEGGAR_5_FOOD" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5_TALK2",
+    "dynamic_line": "It's safer than making my own home.  I head out and forage when I have to.  As long as we keep it clean and do our part when a zombie comes, they let us squat here as an extra defense.  They don't like that I've been bringing food for the other squatters though...  I think they are trying to slowly starve us out, and even though I can't keep everyone's bellies full, I've been able to bring back enough to keep these folk in better shape.  I suspect they'll find an excuse to kick me out eventually.",
+    "responses": [
+      { "text": "I couldn't help but notice, you're covered in fur.", "topic": "TALK_REFUGEE_BEGGAR_5_FUR" },
+      {
+        "text": "You seem like you can hold your own.  Why not travel with me?",
+        "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL1"
+      },
+      { "text": "Would you like something to eat?", "topic": "TALK_REFUGEE_BEGGAR_5_FOOD" },
+      { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST1" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5_FUR",
+    "dynamic_line": "Gross, isn't it? Feels like pubes.  I just started growing it everywhere a little while after the cataclysm.  No idea what caused it.  I can't blame them for hating it, I hate it.",
+    "responses": [
+      { "text": "Why live out here?", "topic": "TALK_REFUGEE_BEGGAR_5_TALK2" },
+      {
+        "text": "You seem like you can hold your own.  Why not travel with me?",
+        "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL1"
+      },
+      { "text": "Would you like something to eat?", "topic": "TALK_REFUGEE_BEGGAR_5_FOOD" },
+      { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST1" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5_FOOD",
+    "dynamic_line": "I do okay for myself actually.  I eat a lot of things close to spoilage while I'm foraging.  If you've got food to spare, please give it to my friends.",
+    "responses": [
+      { "text": "Why live out here?", "topic": "TALK_REFUGEE_BEGGAR_5_TALK2" },
+      { "text": "I couldn't help but notice, you're covered in fur.", "topic": "TALK_REFUGEE_BEGGAR_5_FUR" },
+      {
+        "text": "You seem like you can hold your own.  Why not travel with me?",
+        "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL1"
+      },
+      { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST1" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5_PAST1",
+    "dynamic_line": "Nothing too exciting.  I was in trade college, learning to be a computer technician.  Those skills aren't too helpful, but when I was a kid I was an Eagle scout.  I learned all kinds of useful stuff about plants and foraging, and that's come in pretty handy.",
+    "responses": [
+      { "text": "What about your family, stuff like that?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST2" },
+      { "text": "Why live out here?", "topic": "TALK_REFUGEE_BEGGAR_5_TALK2" },
+      { "text": "I couldn't help but notice, you're covered in fur.", "topic": "TALK_REFUGEE_BEGGAR_5_FUR" },
+      {
+        "text": "You seem like you can hold your own.  Why not travel with me?",
+        "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL1"
+      },
+      { "text": "Would you like something to eat?", "topic": "TALK_REFUGEE_BEGGAR_5_FOOD" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5_PAST2",
+    "dynamic_line": "I don't want to think about it.  I grew up in Rhode Island, they're still there.  I haven't heard from them since the insanity with the Governor and that secession stuff.  All communication lines got closed off.  I haven't met anyone who knows what happened to the people there but I don't have much hope.",
+    "responses": [
+      { "text": "Why don't you go back there?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST_RETURN" },
+      {
+        "text": "Could you tell me more about what happened with Rhode Island?",
+        "topic": "TALK_REFUGEE_BEGGAR_5_PAST_RHODE"
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5_PAST_RETURN",
+    "dynamic_line": "Same reason as I'm stuck here... it's way too dangerous, for one thing.  Almost a hundred miles, through zombie infested territory, on foot, to get to the shoreline?  No <swear> thank you.  And then, how would I get from the shore to Block Island?  My family moved out there when Dad retired, and I get the impression the ferry probably isn't running anymore.  Even if I got there, I don't know what I'd find, and I think maybe that scares me the most.",
+    "responses": [
+      { "text": "Could you tell me more about what happened with Rhode Island?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST_RHODE" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5_PAST_RHODE",
+    "dynamic_line": "You don't know?  The governor went nuts, like a lot of people did leading up to the end, only he had a lot more power to work with.  One day he just showed up to work with a militia of rowdies and loyalists and staged a coup, taking over the government completely, killing those that opposed him, and moving as many people as he could get behind him onto the islands.  The rumors I've heard is that most of them survived the cataclysm and are still running the show there, but that seems kind of impossible to me.",
+    "responses": [
+      { "text": "Do you think you'd go back and look for your family?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST_RETURN" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5_TRAVEL1",
+    "dynamic_line": "Well now, that's quite a kind offer, and I appreciate you looking past my full-body pubic hair.  Sorry though.  I've come to feel sort of responsible for this little gaggle of squatters.  As long as I'm the only one providing for them, I don't think I can leave.",
+    "responses": [
+      {
+        "condition": {
+          "and": [
+            { "u_has_var": "reena_recruited", "type": "general", "context": "recruit", "value": "yes" },
+            { "u_has_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" },
+            { "u_has_var": "brendan_recruited", "type": "general", "context": "recruit", "value": "yes" }
+          ]
+        },
+        "text": "I've spoken to all your friends, and except for Dave, they're good to go.  Dave wants to stay here.  How about you?",
+        "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL2"
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5_TRAVEL2",
+    "dynamic_line": "Huh.  Getting those three to sign on to a suicide mission is quite the feat... sounds like you're pretty dedicated to this.  OK, I'm with you.  Let's round up the others and hit the road.",
+    "speaker_effect": [ { "effect": { "u_add_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" } } ],
+    "responses": [ { "text": "Right.  Let's go.", "topic": "TALK_DONE", "effect": "follow" } ]
+  }
+]

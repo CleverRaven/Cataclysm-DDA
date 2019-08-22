@@ -4,9 +4,12 @@
     "id": "shelter",
     "terrain": {
       " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+      "!": "t_pavement",
+      "`": "t_pavement_y",
+      "&": "t_sidewalk",
       "#": "t_rock",
       "+": "t_door_c",
-      "-": "t_wall",
+      "-": "t_wall_w",
       ".": "t_floor",
       "_": "t_rock_floor",
       "6": "t_console",
@@ -17,10 +20,11 @@
       "c": "t_floor",
       "l": "t_floor",
       "x": "t_console_broken",
-      "|": "t_wall",
+      "|": "t_wall_w",
       ";": "t_concrete_wall",
       "*": "t_ladder_up",
-      "=": "t_door_locked_interior"
+      "=": "t_door_locked_interior",
+      "4": "t_gutter_downspout"
     },
     "furniture": { "b": "f_bench", "c": "f_counter", "l": "f_locker" }
   }

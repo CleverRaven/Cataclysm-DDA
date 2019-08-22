@@ -1,0 +1,109 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_sand_singing",
+    "name": "singing sand",
+    "description": "A formation of sand containing special minerals to produce whistling noises when stepped on and from the wind.",
+    "symbol": ".",
+    "color": "yellow",
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "//": "Missing feature to produce whistling noise when walked on.",
+    "bash": {
+      "str_min": 50,
+      "str_max": 100,
+      "sound": "splosh!",
+      "sound_fail": "fweet!",
+      "ter_set": "t_null",
+      "str_min_supported": 100,
+      "bash_below": true
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_outcrop",
+    "name": "outcrop",
+    "description": "An assortment of various large, sharp rocks that jut out from the surrounding terrain.  Could be as a surface for a number of things or climbed on if worn with proper footwear.",
+    "symbol": "O",
+    "color": "dark_gray",
+    "move_cost": 8,
+    "coverage": 100,
+    "flags": [ "BLOCK_WIND", "BUTCHER_EQ", "FLAT_SURF", "MINEABLE", "ROUGH", "SEEN_FROM_ABOVE", "UNSTABLE" ],
+    "//": "Missing feature to allow survivors to climb to increase overmap vision range.",
+    "bash": {
+      "str_min": 64,
+      "str_max": 160,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "ter_set": "t_rock_floor",
+      "str_min_supported": 100,
+      "bash_below": false,
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sanddune",
+    "name": "dune",
+    "description": "A huge sand dune that is continually reshaped by the wind.  Climbing it will be troublesome.",
+    "symbol": "/",
+    "color": "yellow",
+    "move_cost": 6,
+    "coverage": 60,
+    "flags": [ "BLOCK_WIND", "UNSTABLE" ],
+    "bash": { "sound": "thump", "ter_set": "t_sand", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_desertpavement",
+    "name": "desert pavement",
+    "description": "Not that kind of pavement!  Naturally occurring pockets of densely packed rock fragments that is easier to traverse than sand, with the right footwear.",
+    "symbol": ".",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "DIGGABLE", "FLAT", "ROUGH", "TRANSPARENT" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 100,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "ter_set": "t_rock_floor",
+      "str_min_supported": 100,
+      "bash_below": true,
+      "items": [ { "item": "rock", "count": [ 5, 11 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_searth",
+    "name": "scorched earth",
+    "description": "Cracked and dry soil that doesn't look like it will be capable of supporting anything in your lifetime.",
+    "symbol": ".",
+    "color": "light_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_cactus",
+    "name": "cactus",
+    "description": "A tall cactus.",
+    "symbol": "#",
+    "color": "green",
+    "move_cost": 8,
+    "coverage": 40,
+    "looks_like": "f_mutcactus_test",
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHARP" ],
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "spring" ], "entries": [ { "drop": "cholla_bud", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] } ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 30,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_sand",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  }
+]

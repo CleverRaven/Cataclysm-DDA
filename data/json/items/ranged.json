@@ -14,7 +14,7 @@
     "skill": "rifle",
     "ammo": "BB",
     "weight": 1723,
-    "volume": 6,
+    "volume": "1500 ml",
     "bashing": 9,
     "to_hit": -1,
     "range": 12,
@@ -22,8 +22,16 @@
     "dispersion": 150,
     "durability": 7,
     "clip_size": 150,
-    "reload": 50,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
+    "reload": 500,
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "sling",
@@ -39,7 +47,7 @@
     "skill": "throw",
     "ammo": "pebble",
     "weight": 96,
-    "volume": 1,
+    "volume": "250 ml",
     "to_hit": -2,
     "ranged_damage": 6,
     "range": 8,
@@ -60,13 +68,14 @@
     "skill": "archery",
     "ammo": "pebble",
     "weight": 254,
-    "volume": 1,
+    "volume": "250 ml",
     "to_hit": -2,
     "ranged_damage": 3,
     "range": 5,
     "dispersion": 75,
     "durability": 6,
-    "clip_size": 1
+    "clip_size": 1,
+    "valid_mod_locations": [ [ "grip mount", 1 ], [ "underbarrel mount", 1 ] ]
   },
   {
     "id": "wristrocket",
@@ -81,13 +90,14 @@
     "skill": "archery",
     "ammo": "pebble",
     "weight": 322,
-    "volume": 2,
+    "volume": "500 ml",
     "to_hit": -2,
     "ranged_damage": 5,
     "range": 8,
     "dispersion": 45,
     "durability": 7,
-    "clip_size": 1
+    "clip_size": 1,
+    "valid_mod_locations": [ [ "grip mount", 1 ], [ "underbarrel mount", 1 ] ]
   },
   {
     "id": "bullet_crossbow",
@@ -103,7 +113,7 @@
     "skill": "rifle",
     "ammo": "pebble",
     "weight": 1906,
-    "volume": 5,
+    "volume": "1250 ml",
     "bashing": 9,
     "ranged_damage": 10,
     "range": 10,
@@ -116,40 +126,6 @@
       [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ]
-  },
-  {
-    "id": "ftk93",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "symbol": "(",
-    "color": "magenta",
-    "name": "FTK-93 fusion gun",
-    "description": "A very powerful fusion rifle developed shortly before the influx of monsters.  It can only hold two rounds at a time, but a special superheating unit causes its bolts to be extremely deadly.",
-    "price": 980000,
-    "material": [ "steel", "plastic" ],
-    "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME" ],
-    "flags": [ "NEVER_JAMS" ],
-    "ups_charges": 5,
-    "skill": "rifle",
-    "ammo": "fusion",
-    "weight": 2267,
-    "volume": 14,
-    "bashing": 10,
-    "to_hit": -1,
-    "ranged_damage": 40,
-    "dispersion": 30,
-    "durability": 9,
-    "clip_size": 2,
-    "reload": 600,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "grip", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -172,14 +148,21 @@
     "skill": "launcher",
     "ammo": "66mm",
     "weight": 700,
-    "volume": 10,
+    "volume": "2500 ml",
     "bashing": 6,
     "to_hit": -3,
     "dispersion": 300,
     "durability": 9,
     "clip_size": 1,
     "reload": 150,
-    "valid_mod_locations": [ [ "accessories", 1 ], [ "sling", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "TANK",
@@ -194,7 +177,7 @@
     "skill": "launcher",
     "ammo": "120mm",
     "weight": 2500,
-    "volume": 10,
+    "volume": "2500 ml",
     "bashing": 6,
     "to_hit": -3,
     "dispersion": 60,
@@ -218,7 +201,7 @@
     "skill": "rifle",
     "ammo": "plasma",
     "weight": 4535,
-    "volume": 15,
+    "volume": "3750 ml",
     "bashing": 12,
     "to_hit": -1,
     "ranged_damage": 5,
@@ -229,8 +212,46 @@
     "reload": 700,
     "valid_mod_locations": [
       [ "accessories", 4 ],
+      [ "emitter", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ]
+  },
+  {
+    "id": "plasma_gun",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "symbol": "(",
+    "color": "light_gray",
+    "name": "PPA-5",
+    "description": "Portable Plasma Accelerator Model Five, developed by Lockheed Martin Corporation. This device uses highly advanced capacitor banks to create a torus of superheated hydrogen plasma and accelerate it to incredible speed. It was designed to take down heavy vehicles, and was expected to fully enter US Army service not long before the Cataclysm.",
+    "price": 980000,
+    "material": [ "steel", "plastic" ],
+    "ammo_effects": [ "PLASMA", "FLAME", "EMP", "EXPLOSIVE_SMALL" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD" ],
+    "ups_charges": 100,
+    "skill": "rifle",
+    "ammo": "plasma",
+    "weight": 10500,
+    "volume": "4L",
+    "bashing": 12,
+    "to_hit": -2,
+    "range": 25,
+    "ranged_damage": 22,
+    "pierce": 60,
+    "dispersion": 90,
+    "durability": 6,
+    "clip_size": 25,
+    "reload": 200,
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "emitter", 1 ],
+      [ "grip", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -254,7 +275,7 @@
     "ammo": "3006",
     "weight": 2267,
     "//": "Attached mod will now have weight.",
-    "volume": 8,
+    "volume": "2 L",
     "bashing": 12,
     "to_hit": -1,
     "dispersion": 550,
@@ -263,7 +284,15 @@
     "loudness": 25,
     "barrel_length": 2,
     "built_in_mods": [ "combination_gun_shotgun_pipe" ],
-    "valid_mod_locations": [ [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [
+      [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "tihar",
@@ -279,7 +308,7 @@
     "skill": "rifle",
     "ammo": "pebble",
     "weight": 4211,
-    "volume": 11,
+    "volume": "2750 ml",
     "bashing": 8,
     "to_hit": -1,
     "ranged_damage": 15,
@@ -288,9 +317,18 @@
     "durability": 7,
     "burst": 5,
     "clip_size": 15,
-    "reload": 1000,
+    "reload": 6000,
     "loudness": 18,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "helsing",
@@ -306,7 +344,7 @@
     "skill": "rifle",
     "ammo": "bolt",
     "weight": 3110,
-    "volume": 12,
+    "volume": "3 L",
     "bashing": 12,
     "to_hit": -1,
     "ranged_damage": 20,
@@ -314,9 +352,55 @@
     "dispersion": 30,
     "durability": 7,
     "clip_size": 8,
-    "reload": 1000,
+    "reload": 6000,
     "loudness": 22,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
+  },
+  {
+    "id": "pneumatic_shotgun",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "symbol": "(",
+    "color": "dark_gray",
+    "looks_like": "pipe_double_shotgun",
+    "name": "pneumatic shotgun",
+    "description": "A double-barreled pneumatic air shotgun handcrafted from scrap.  Though it's firepower is lacking compared to more conventional shotguns, this thing can still pack quite a punch.  That is, if your target is directly in front of you.",
+    "price": 220000,
+    "material": [ "steel", "wood" ],
+    "flags": [ "RELOAD_ONE", "STR_RELOAD" ],
+    "skill": "shotgun",
+    "ammo": "shotcanister",
+    "weight": 3410,
+    "volume": "2500 ml",
+    "bashing": 8,
+    "to_hit": -1,
+    "ranged_damage": 15,
+    "range": 3,
+    "dispersion": 350,
+    "durability": 7,
+    "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
+    "clip_size": 2,
+    "reload": 6000,
+    "loudness": 22,
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "mininuke_launcher",
@@ -332,7 +416,7 @@
     "skill": "launcher",
     "ammo": "mininuke_mod",
     "weight": 11260,
-    "volume": 11,
+    "volume": "2750 ml",
     "bashing": 12,
     "to_hit": -1,
     "range": 40,
@@ -340,7 +424,7 @@
     "durability": 7,
     "clip_size": 1,
     "reload": 800,
-    "valid_mod_locations": [ [ "sling", 1 ] ]
+    "valid_mod_locations": [ [ "sling", 1 ], [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ]
   },
   {
     "id": "m202_flash",
@@ -357,7 +441,7 @@
     "skill": "launcher",
     "ammo": "m235",
     "weight": 5220,
-    "volume": 24,
+    "volume": "6 L",
     "bashing": 12,
     "to_hit": -3,
     "dispersion": 300,
@@ -366,7 +450,15 @@
     "clip_size": 4,
     "reload": 600,
     "loudness": 200,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "sling", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "RPG",
@@ -384,14 +476,22 @@
     "skill": "launcher",
     "ammo": "RPG-7",
     "weight": 7000,
-    "volume": 18,
+    "volume": "4500 ml",
     "bashing": 10,
     "to_hit": -3,
     "dispersion": 600,
     "durability": 10,
     "clip_size": 1,
     "reload": 150,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "sling", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "speargun",
@@ -407,7 +507,7 @@
     "skill": "rifle",
     "ammo": "fishspear",
     "weight": 2100,
-    "volume": 7,
+    "volume": "1750 ml",
     "bashing": 7,
     "to_hit": -2,
     "ranged_damage": 6,
@@ -416,7 +516,15 @@
     "durability": 8,
     "clip_size": 1,
     "reload": 700,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "minispeargun",
@@ -432,14 +540,21 @@
     "skill": "pistol",
     "ammo": "fishspear",
     "weight": 840,
-    "volume": 4,
+    "volume": "1 L",
     "bashing": 7,
     "to_hit": -2,
     "dispersion": 120,
     "durability": 8,
     "clip_size": 1,
     "reload": 600,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "grip", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "doublespeargun",
@@ -455,7 +570,7 @@
     "skill": "rifle",
     "ammo": "fishspear",
     "weight": 3060,
-    "volume": 8,
+    "volume": "2 L",
     "bashing": 8,
     "to_hit": -2,
     "ranged_damage": 6,
@@ -464,7 +579,15 @@
     "durability": 7,
     "clip_size": 2,
     "reload": 700,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "airspeargun",
@@ -480,7 +603,7 @@
     "skill": "rifle",
     "ammo": "fishspear",
     "weight": 3460,
-    "volume": 8,
+    "volume": "2 L",
     "bashing": 8,
     "to_hit": -2,
     "ranged_damage": 12,
@@ -488,9 +611,17 @@
     "dispersion": 105,
     "durability": 8,
     "clip_size": 4,
-    "reload": 1000,
+    "reload": 6000,
     "loudness": 11,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "combination_gun",
@@ -506,7 +637,7 @@
     "skill": "rifle",
     "ammo": "3006",
     "weight": 4200,
-    "volume": 12,
+    "volume": "3 L",
     "bashing": 12,
     "to_hit": -1,
     "durability": 8,
@@ -524,7 +655,8 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      [ "underbarrel", 1 ],
+      [ "rail mount", 1 ]
     ]
   },
   {
@@ -541,7 +673,7 @@
     "skill": "launcher",
     "ammo": "homebrew_rocket",
     "weight": 7430,
-    "volume": 20,
+    "volume": "5 L",
     "bashing": 10,
     "to_hit": -3,
     "dispersion": 300,
@@ -550,7 +682,7 @@
     "clip_size": 1,
     "reload": 800,
     "loudness": 200,
-    "valid_mod_locations": [ [ "sling", 1 ] ]
+    "valid_mod_locations": [ [ "sling", 1 ], [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ]
   },
   {
     "id": "watercannon",
@@ -566,7 +698,7 @@
     "skill": "launcher",
     "ammo": "water",
     "weight": 24500,
-    "volume": 50,
+    "volume": "12500 ml",
     "bashing": 10,
     "to_hit": -5,
     "range": 10,

@@ -15,11 +15,9 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "map_selector.h"
 #include "messages.h"
 #include "mission.h"
 #include "morale_types.h"
-#include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
 #include "npctrade.h"
@@ -36,6 +34,7 @@
 #include "enums.h"
 #include "faction.h"
 #include "game_constants.h"
+#include "game_inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "optional.h"
@@ -44,6 +43,9 @@
 #include "player_activity.h"
 #include "pldata.h"
 #include "string_id.h"
+#include "material.h"
+#include "monster.h"
+#include "point.h"
 
 struct itype;
 
@@ -94,7 +96,7 @@ void talk_function::mission_success( npc &p )
         return;
     }
 
-    int miss_val = cash_to_favor( p, miss->get_value() );
+    int miss_val = npc_trading::cash_to_favor( p, miss->get_value() );
     npc_opinion tmp( 0, 0, 1 + miss_val / 5, -1, 0 );
     p.op_of_u += tmp;
     if( p.my_fac != nullptr ) {
@@ -152,7 +154,7 @@ void talk_function::mission_reward( npc &p )
 
     int mission_value = miss->get_value();
     p.op_of_u.owed += mission_value;
-    trade( p, 0, _( "Reward" ) );
+    npc_trading::trade( p, 0, _( "Reward" ) );
 }
 
 void talk_function::buy_chicken( npc &p )
@@ -188,21 +190,47 @@ void spawn_animal( npc &p, const mtype_id &mon )
 
 void talk_function::start_trade( npc &p )
 {
-    trade( p, 0, _( "Trade" ) );
+    npc_trading::trade( p, 0, _( "Trade" ) );
+}
+
+void talk_function::sort_loot( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
+void talk_function::do_construction( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
+void talk_function::do_blueprint_construction( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_BLUEPRINT_CONSTRUCTION" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
+void talk_function::revert_activity( npc &p )
+{
+    p.revert_after_activity();
 }
 
 void talk_function::goto_location( npc &p )
 {
     int i = 0;
     uilist selection_menu;
-    selection_menu.text = string_format( _( "Select a destination" ) );
+    selection_menu.text = _( "Select a destination" );
     std::vector<basecamp *> camps;
     tripoint destination;
     for( auto elem : g->u.camps ) {
         if( elem == p.global_omt_location() ) {
             continue;
         }
-        cata::optional<basecamp *> camp = overmap_buffer.find_camp( elem.x, elem.y );
+        cata::optional<basecamp *> camp = overmap_buffer.find_camp( elem.xy() );
         if( !camp ) {
             continue;
         }
@@ -229,9 +257,10 @@ void talk_function::goto_location( npc &p )
         destination = selected_camp->camp_omt_pos();
     }
     p.set_companion_mission( p.global_omt_location(), "TRAVELLER", "travelling", destination );
-    p.mission = NPC_MISSION_TRAVELLING;
+    p.set_mission( NPC_MISSION_TRAVELLING );
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.goal = destination;
+    p.omt_path = overmap_buffer.get_npc_path( p.global_omt_location(), p.goal );
     p.guard_pos = npc::no_goal_point;
     p.set_attitude( NPCATT_NULL );
     return;
@@ -240,7 +269,7 @@ void talk_function::goto_location( npc &p )
 void talk_function::assign_guard( npc &p )
 {
     if( !p.is_player_ally() ) {
-        p.mission = NPC_MISSION_GUARD;
+        p.set_mission( NPC_MISSION_GUARD );
         p.set_omt_destination();
         return;
     }
@@ -251,11 +280,10 @@ void talk_function::assign_guard( npc &p )
         }
     }
     p.set_attitude( NPCATT_NULL );
-    p.mission = NPC_MISSION_GUARD_ALLY;
+    p.set_mission( NPC_MISSION_GUARD_ALLY );
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.set_omt_destination();
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().x,
-                                     p.global_omt_location().y );
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         temp_camp->validate_assignees();
@@ -281,18 +309,17 @@ void talk_function::stop_guard( npc &p )
 {
     if( p.mission != NPC_MISSION_GUARD_ALLY ) {
         p.set_attitude( NPCATT_NULL );
-        p.mission = NPC_MISSION_NULL;
+        p.set_mission( NPC_MISSION_NULL );
         return;
     }
 
     p.set_attitude( NPCATT_FOLLOW );
     add_msg( _( "%s begins to follow you." ), p.name );
-    p.mission = NPC_MISSION_NULL;
+    p.set_mission( NPC_MISSION_NULL );
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
     p.guard_pos = npc::no_goal_point;
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().x,
-                                     p.global_omt_location().y );
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         temp_camp->validate_assignees();
@@ -328,52 +355,23 @@ void talk_function::insult_combat( npc &p )
 
 void talk_function::bionic_install( npc &p )
 {
-    std::vector<item *> bionic_inv = g->u.items_with( []( const item & itm ) {
-        return itm.is_bionic();
-    } );
-    if( bionic_inv.empty() ) {
-        popup( _( "You have no bionics to install!" ) );
+    item_location bionic = game_menus::inv::install_bionic( g->u, g->u, true );
+
+    if( !bionic ) {
         return;
     }
 
-    std::vector<itype_id> bionic_types;
-    std::vector<std::string> bionic_names;
-    for( auto &bio : bionic_inv ) {
-        if( std::find( bionic_types.begin(), bionic_types.end(), bio->typeId() ) == bionic_types.end() ) {
-            if( !g->u.has_bionic( bionic_id( bio->typeId() ) ) || bio->typeId() ==  "bio_power_storage" ||
-                bio->typeId() ==  "bio_power_storage_mkII" ) {
+    const item *tmp = bionic.get_item();
+    const itype &it = *tmp->type;
 
-                bionic_types.push_back( bio->typeId() );
-                bionic_names.push_back( bio->tname() + " - " + format_money( bio->price( true ) * 2 ) );
-            }
-        }
-    }
-    // Choose bionic if applicable
-    int bionic_index = uilist( _( "Which bionic do you wish to have installed?" ),
-                               bionic_names );
-    // Did we cancel?
-    if( bionic_index < 0 ) {
-        popup( _( "You decide to hold off..." ) );
-        return;
-    }
-
-    const item tmp = item( bionic_types[bionic_index], 0 );
-    const itype &it = *tmp.type;
-    unsigned int price = tmp.price( true ) * 2;
-
-    if( price > g->u.cash ) {
-        popup( _( "You can't afford the procedure..." ) );
-        return;
-    }
+    signed int price = tmp->price( true ) * 2;
 
     //Makes the doctor awesome at installing but not perfect
-    if( g->u.install_bionics( it, p, false, 20 ) ) {
+    if( g->u.can_install_bionics( it, p, false, 20 ) ) {
         g->u.cash -= price;
         p.cash += price;
-        g->u.amount_of( bionic_types[bionic_index] );
-        std::vector<item_comp> comps;
-        comps.push_back( item_comp( tmp.typeId(), 1 ) );
-        g->u.consume_items( comps, 1 );
+        bionic.remove_item();
+        g->u.install_bionics( it, p, false, 20 );
     }
 }
 
@@ -410,7 +408,7 @@ void talk_function::bionic_remove( npc &p )
         return;
     }
 
-    unsigned int price;
+    signed int price;
     if( item::type_is_defined( bionic_types[bionic_index] ) ) {
         price = 50000 + ( item( bionic_types[bionic_index], 0 ).price( true ) / 4 );
     } else {
@@ -422,17 +420,18 @@ void talk_function::bionic_remove( npc &p )
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if( g->u.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false ) ) {
+    if( g->u.can_uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false ) ) {
         g->u.cash -= price;
         p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
+        g->u.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false );
     }
 
 }
 
 void talk_function::give_equipment( npc &p )
 {
-    std::vector<item_pricing> giving = init_selling( p );
+    std::vector<item_pricing> giving = npc_trading::init_selling( p );
     int chosen = -1;
     while( chosen == -1 && giving.size() > 1 ) {
         int index = rng( 0, giving.size() - 1 );
@@ -461,8 +460,8 @@ void talk_function::give_aid( npc &p )
 {
     p.add_effect( effect_currently_busy, 30_minutes );
     for( int i = 0; i < num_hp_parts; i++ ) {
-        const body_part bp_healed = player::hp_to_bp( hp_part( i ) );
-        g->u.heal( hp_part( i ), 5 * rng( 2, 5 ) );
+        const body_part bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
+        g->u.heal( static_cast<hp_part>( i ), 5 * rng( 2, 5 ) );
         if( g->u.has_effect( effect_bite, bp_healed ) ) {
             g->u.remove_effect( effect_bite, bp_healed );
         }
@@ -473,7 +472,8 @@ void talk_function::give_aid( npc &p )
             g->u.remove_effect( effect_infected, bp_healed );
         }
     }
-    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 10000 );
+    const int moves = to_moves<int>( 100_minutes );
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), moves );
     g->u.activity.str_values.push_back( p.name );
 }
 
@@ -484,8 +484,8 @@ void talk_function::give_all_aid( npc &p )
     for( npc &guy : g->all_npcs() ) {
         if( guy.is_walking_with() && rl_dist( guy.pos(), g->u.pos() ) < PICKUP_RANGE ) {
             for( int i = 0; i < num_hp_parts; i++ ) {
-                const body_part bp_healed = player::hp_to_bp( hp_part( i ) );
-                guy.heal( hp_part( i ), 5 * rng( 2, 5 ) );
+                const body_part bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
+                guy.heal( static_cast<hp_part>( i ), 5 * rng( 2, 5 ) );
                 if( guy.has_effect( effect_bite, bp_healed ) ) {
                     guy.remove_effect( effect_bite, bp_healed );
                 }
@@ -547,7 +547,8 @@ void talk_function::barber_hair( npc &p )
 void talk_function::buy_haircut( npc &p )
 {
     g->u.add_morale( MORALE_HAIRCUT, 5, 5, 720_minutes, 3_minutes );
-    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 300 );
+    const int moves = to_moves<int>( 20_minutes );
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), moves );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "%s gives you a decent haircut..." ), p.name );
 }
@@ -555,7 +556,8 @@ void talk_function::buy_haircut( npc &p )
 void talk_function::buy_shave( npc &p )
 {
     g->u.add_morale( MORALE_SHAVE, 10, 10, 360_minutes, 3_minutes );
-    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 100 );
+    const int moves = to_moves<int>( 5_minutes );
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), moves );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "%s gives you a decent shave..." ), p.name );
 }
@@ -568,7 +570,8 @@ void talk_function::morale_chat( npc &p )
 
 void talk_function::morale_chat_activity( npc &p )
 {
-    g->u.assign_activity( activity_id( "ACT_SOCIALIZE" ), 10000 );
+    const int moves = to_moves<int>( 10_minutes );
+    g->u.assign_activity( activity_id( "ACT_SOCIALIZE" ), moves );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "That was a pleasant conversation with %s." ), p.disp_name() );
     g->u.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
@@ -585,15 +588,15 @@ void talk_function::buy_10_logs( npc &p )
     const auto &cur_om = g->get_cur_om();
     std::vector<tripoint> places_om;
     for( auto &i : places ) {
-        if( &cur_om == overmap_buffer.get_existing_om_global( i ) ) {
+        if( &cur_om == overmap_buffer.get_existing_om_global( i ).om ) {
             places_om.push_back( i );
         }
     }
 
     const tripoint site = random_entry( places_om );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
-    bay.spawn_item( 7, 15, "log", 10 );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
+    bay.spawn_item( point( 7, 15 ), "log", 10 );
     bay.save();
 
     p.add_effect( effect_currently_busy, 1_days );
@@ -611,15 +614,15 @@ void talk_function::buy_100_logs( npc &p )
     const auto &cur_om = g->get_cur_om();
     std::vector<tripoint> places_om;
     for( auto &i : places ) {
-        if( &cur_om == overmap_buffer.get_existing_om_global( i ) ) {
+        if( &cur_om == overmap_buffer.get_existing_om_global( i ).om ) {
             places_om.push_back( i );
         }
     }
 
     const tripoint site = random_entry( places_om );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
-    bay.spawn_item( 7, 15, "log", 100 );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
+    bay.spawn_item( point( 7, 15 ), "log", 100 );
     bay.save();
 
     p.add_effect( effect_currently_busy, 7_days );
@@ -771,27 +774,21 @@ void talk_function::player_weapon_drop( npc &p )
 
 void talk_function::lead_to_safety( npc &p )
 {
-    const auto mission = mission::reserve_new( mission_type_id( "MISSION_REACH_SAFETY" ), -1 );
+    const auto mission = mission::reserve_new( mission_type_id( "MISSION_REACH_SAFETY" ),
+                         character_id() );
     mission->assign( g->u );
     p.goal = mission->get_target();
     p.set_attitude( NPCATT_LEAD );
 }
 
-static bool pay_npc( npc &np, int cost )
+bool npc_trading::pay_npc( npc &np, int cost )
 {
     if( np.op_of_u.owed >= cost ) {
         np.op_of_u.owed -= cost;
         return true;
     }
 
-    if( g->u.cash + static_cast<unsigned long>( np.op_of_u.owed ) >= static_cast<unsigned long>
-        ( cost ) ) {
-        g->u.cash -= cost - np.op_of_u.owed;
-        np.op_of_u.owed = 0;
-        return true;
-    }
-
-    return trade( np, -cost, _( "Pay:" ) );
+    return npc_trading::trade( np, cost, _( "Pay:" ) );
 }
 
 void talk_function::start_training( npc &p )
@@ -817,10 +814,11 @@ void talk_function::start_training( npc &p )
     mission *miss = p.chatbin.mission_selected;
     if( miss != nullptr && miss->get_assigned_player_id() == g->u.getID() ) {
         clear_mission( p );
-    } else if( !pay_npc( p, cost ) ) {
+    } else if( !npc_trading::pay_npc( p, cost ) ) {
         return;
     }
-    g->u.assign_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ), p.getID(), 0, name );
+    g->u.assign_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ),
+                          p.getID().get_value(), 0, name );
     p.add_effect( effect_asked_to_train, 6_hours );
 }
 
@@ -865,8 +863,7 @@ void talk_function::copy_npc_rules( npc &p )
 
 void talk_function::set_npc_pickup( npc &p )
 {
-    const std::string title = string_format( _( "Pickup rules for %s" ), p.name );
-    p.rules.pickup_whitelist->show( title, false );
+    p.rules.pickup_whitelist->show( p.name );
 }
 
 void talk_function::npc_die( npc &p )

@@ -36,7 +36,7 @@
         "#": "t_linoleum_gray",
         "+": "t_door_c",
         ",": "t_pavement_y",
-        "-": "t_wall",
+        "-": "t_wall_w",
         ".": "t_grass",
         "=": "t_sidewalk",
         "G": "t_linoleum_gray",
@@ -52,7 +52,7 @@
         "l": "t_linoleum_white",
         "t": "t_linoleum_gray",
         "4": "t_gutter_downspout",
-        "|": "t_wall"
+        "|": "t_wall_w"
       },
       "furniture": {
         "#": "f_counter",

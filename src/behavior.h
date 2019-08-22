@@ -6,8 +6,9 @@
 #include <string>
 #include <vector>
 
-#include "json.h"
 #include "string_id.h"
+
+class JsonObject;
 
 namespace behavior
 {
@@ -87,6 +88,6 @@ void finalize();
 
 void check_consistency();
 
-}
+} // namespace behavior
 
 #endif

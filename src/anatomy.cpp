@@ -23,7 +23,7 @@ namespace
 
 generic_factory<anatomy> anatomy_factory( "anatomy" );
 
-}
+} // namespace
 
 template<>
 bool anatomy_id::is_valid() const

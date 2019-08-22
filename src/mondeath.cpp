@@ -13,13 +13,14 @@
 
 #include "avatar.h"
 #include "explosion.h"
-#include "event.h"
+#include "timed_event.h"
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "kill_tracker.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -43,6 +44,8 @@
 #include "units.h"
 #include "weighted_list.h"
 #include "type_id.h"
+#include "colony.h"
+#include "point.h"
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -78,6 +81,7 @@ static const trait_id trait_PRED2( "PRED2" );
 static const trait_id trait_PRED3( "PRED3" );
 static const trait_id trait_PRED4( "PRED4" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_KILLER( "KILLER" );
 
 void mdeath::normal( monster &z )
 {
@@ -132,7 +136,7 @@ static void scatter_chunks( const std::string &chunk_name, int chunk_amt, monste
 
         for( size_t j = 0; j < traj.size(); j++ ) {
             tarp = traj[j];
-            if( one_in( 2 ) && z.bloodType() != fd_null ) {
+            if( one_in( 2 ) && z.bloodType().id() ) {
                 g->m.add_splatter( z.bloodType(), tarp );
             } else {
                 g->m.add_splatter( z.gibType(), tarp, rng( 1, j + 1 ) );
@@ -173,8 +177,8 @@ void mdeath::splatter( monster &z )
         }
     }
 
-    const field_id type_blood = z.bloodType();
-    const field_id type_gib = z.gibType();
+    const field_type_id type_blood = z.bloodType();
+    const field_type_id type_gib = z.gibType();
 
     if( gibbable ) {
         const auto area = g->m.points_in_radius( z.pos(), 1 );
@@ -191,7 +195,7 @@ void mdeath::splatter( monster &z )
         }
     }
     // 1% of the weight of the monster is the base, with overflow damage as a multiplier
-    int gibbed_weight = rng( 0, round( to_gram( z.get_weight() ) / 100 *
+    int gibbed_weight = rng( 0, round( to_gram( z.get_weight() ) / 100.0 *
                                        ( overflow_damage / max_hp + 1 ) ) );
     // limit gibbing to 15%
     gibbed_weight = std::min( gibbed_weight, to_gram( z.get_weight() ) * 15 / 100 );
@@ -351,16 +355,11 @@ void mdeath::triffid_heart( monster &z )
     if( g->u.sees( z ) ) {
         add_msg( m_warning, _( "The surrounding roots begin to crack and crumble." ) );
     }
-    g->events.add( EVENT_ROOTS_DIE, calendar::turn + 10_minutes );
+    g->timed_events.add( TIMED_EVENT_ROOTS_DIE, calendar::turn + 10_minutes );
 }
 
 void mdeath::fungus( monster &z )
 {
-    // If the fungus died from anti-fungal poison, don't pouf
-    if( g->m.get_field_strength( z.pos(), fd_fungicidal_gas ) ) {
-        return;
-    }
-
     //~ the sound of a fungus dying
     sounds::sound( z.pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
 
@@ -418,7 +417,7 @@ void mdeath::disappear( monster &z )
 void mdeath::guilt( monster &z )
 {
     const int MAX_GUILT_DISTANCE = 5;
-    int kill_count = g->kill_count( z.type->id );
+    int kill_count = g->get_kill_tracker().kill_count( z.type->id );
     int maxKills = 100; // this is when the player stop caring altogether.
 
     // different message as we kill more of the same monster
@@ -430,7 +429,7 @@ void mdeath::guilt( monster &z )
     guilt_tresholds[25] = _( "You feel remorse for killing %s." );
 
     if( g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait( trait_PRED3 ) ||
-        g->u.has_trait( trait_PRED4 ) ) {
+        g->u.has_trait( trait_PRED4 ) || g->u.has_trait( trait_KILLER ) ) {
         return;
     }
     if( rl_dist( z.pos(), g->u.pos() ) > MAX_GUILT_DISTANCE ) {
@@ -599,10 +598,12 @@ void mdeath::explode( monster &z )
 
 void mdeath::focused_beam( monster &z )
 {
-
-    for( int k = g->m.i_at( z.pos() ).size() - 1; k >= 0; k-- ) {
-        if( g->m.i_at( z.pos() )[k].typeId() == "processor" ) {
-            g->m.i_rem( z.pos(), k );
+    map_stack items = g->m.i_at( z.pos() );
+    for( map_stack::iterator it = items.begin(); it != items.end(); ) {
+        if( it->typeId() == "processor" ) {
+            it = items.erase( it );
+        } else {
+            ++it;
         }
     }
 
@@ -644,7 +645,6 @@ void mdeath::broken( monster &z )
     }
     // make "broken_manhack", or "broken_eyebot", ...
     item_id.insert( 0, "broken_" );
-
     item broken_mon( item_id, calendar::turn );
     const int max_hp = std::max( z.get_hp_max(), 1 );
     const float overflow_damage = std::max( -z.get_hp(), 0 );
@@ -653,6 +653,17 @@ void mdeath::broken( monster &z )
 
     g->m.add_item_or_charges( z.pos(), broken_mon );
 
+
+    // adds ammo drop
+    if( z.type->has_flag( MF_DROPS_AMMO ) ) {
+        for( const std::pair<std::string, int> &ammo_entry : z.type->starting_ammo ) {
+            if( z.ammo[ammo_entry.first] > 0 ) {
+                g->m.spawn_item( z.pos(), ammo_entry.first, z.ammo[ammo_entry.first], 1,
+                                 calendar::turn );
+            }
+        }
+    }
+    // end adds ammo drop
     //TODO: make mdeath::splatter work for robots
     if( ( broken_mon.damage() >= broken_mon.max_damage() ) && g->u.sees( z.pos() ) ) {
         add_msg( m_good, _( "The %s is destroyed!" ), z.name() );
@@ -701,6 +712,21 @@ void mdeath::smokeburst( monster &z )
     g->m.emit_field( z.pos(), emit_id( "emit_smoke_blast" ) );
 }
 
+void mdeath::fungalburst( monster &z )
+{
+    // If the fungus died from anti-fungal poison, don't pouf
+    if( g->m.get_field_intensity( z.pos(), fd_fungicidal_gas ) ) {
+        if( g->u.sees( z ) ) {
+            add_msg( m_good, _( "The %s inflates and melts away." ), z.name() );
+        }
+        return;
+    }
+
+    std::string explode = string_format( _( "a %s explodes!" ), z.name() );
+    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
+    g->m.emit_field( z.pos(), emit_id( "emit_fungal_blast" ) );
+}
+
 void mdeath::jabberwock( monster &z )
 {
     player *ch = dynamic_cast<player *>( z.get_killer() );
@@ -708,7 +734,7 @@ void mdeath::jabberwock( monster &z )
     bool vorpal = ch && ch->is_player() &&
                   rl_dist( z.pos(), ch->pos() ) <= 1 &&
                   ch->weapon.has_flag( "DIAMOND" ) &&
-                  ch->weapon.volume() > units::from_milliliter( 750 );
+                  ch->weapon.volume() > 750_ml;
 
     if( vorpal && !ch->weapon.has_technique( matec_id( "VORPAL" ) ) ) {
         if( ch->sees( z ) ) {

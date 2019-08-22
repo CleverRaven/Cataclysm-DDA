@@ -110,7 +110,7 @@
         "{": "t_floor",
         "<": "t_stairs_up",
         "3": "t_gutter_downspout",
-        "|": "t_wall"
+        "|": "t_wall_g"
       }
     },
     "om_terrain": "dispensary",
@@ -278,7 +278,7 @@
         "{": "t_sidewalk",
         "3": "t_gutter_downspout",
         "<": "t_ladder_up",
-        "|": "t_wall"
+        "|": "t_wall_g"
       }
     },
     "om_terrain": "dispensary_1",
@@ -400,7 +400,7 @@
         "M": "t_floor",
         "3": "t_gutter_downspout",
         "<": "t_ladder_up",
-        "|": "t_wall"
+        "|": "t_wall_g"
       },
       "furniture": {
         "&": "f_toilet",

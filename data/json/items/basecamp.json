@@ -21,6 +21,26 @@
     "charge_factor": 25
   },
   {
+    "id": "fake_forge",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "name": "basecamp forge",
+    "description": "A fake forge used for basecamps.",
+    "sub": "char_forge",
+    "ammo": "charcoal",
+    "max_charges": 2000
+  },
+  {
+    "id": "fake_char_kiln",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "name": "basecamp kiln",
+    "description": "A fake kiln used for basecamps.",
+    "sub": "char_kiln",
+    "ammo": "charcoal",
+    "max_charges": 2000
+  },
+  {
     "id": "fake_stove",
     "type": "TOOL",
     "copy-from": "fake_item",

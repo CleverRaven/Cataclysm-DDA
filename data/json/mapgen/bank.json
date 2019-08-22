@@ -34,7 +34,7 @@
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt", "t_shrub" ],
-        "#": "t_wall",
+        "#": "t_wall_w",
         "$": "t_metal_floor",
         "%": [ "t_door_c", "t_door_c", "t_door_locked_interior" ],
         "*": [ "t_door_c", "t_door_c", "t_door_c", "t_door_locked_interior" ],
@@ -170,8 +170,8 @@
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "_": "t_metal_floor",
-        "|": [ "t_door_c", "t_wall", "t_wall", "t_wall", "t_wall", "t_wall", "t_wall", "t_wall", "t_wall" ],
-        "I": "t_wall",
+        "|": [ "t_door_c", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w" ],
+        "I": "t_wall_w",
         "#": "t_brick_wall",
         "$": "t_metal_floor",
         "%": [ "t_door_c", "t_door_c", "t_door_locked_interior" ],

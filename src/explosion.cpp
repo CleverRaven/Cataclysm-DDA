@@ -19,6 +19,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "color.h"
+#include "coordinate_conversions.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
@@ -50,6 +51,13 @@
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "flat_set.h"
+#include "int_id.h"
+#include "material.h"
+#include "monster.h"
+#include "mtype.h"
+#include "point.h"
+#include "type_id.h"
 
 static const itype_id null_itype( "null" );
 
@@ -173,7 +181,7 @@ static void do_blast( const tripoint &p, const float power,
         // Don't check up/down (for now) - this will make 2D/3D balancing easier
         int empty_neighbors = 0;
         for( size_t i = 0; i < 8; i++ ) {
-            tripoint dest( pt.x + x_offset[i], pt.y + y_offset[i], pt.z + z_offset[i] );
+            tripoint dest( pt + tripoint( x_offset[i], y_offset[i], z_offset[i] ) );
             if( closed.count( dest ) == 0 && g->m.valid_move( pt, dest, false, true ) ) {
                 empty_neighbors++;
             }
@@ -182,7 +190,7 @@ static void do_blast( const tripoint &p, const float power,
         empty_neighbors = std::max( 1, empty_neighbors );
         // Iterate over all neighbors. Bash all of them, propagate to some
         for( size_t i = 0; i < max_index; i++ ) {
-            tripoint dest( pt.x + x_offset[i], pt.y + y_offset[i], pt.z + z_offset[i] );
+            tripoint dest( pt + tripoint( x_offset[i], y_offset[i], z_offset[i] ) );
             if( closed.count( dest ) != 0 || !g->m.inbounds( dest ) ) {
                 continue;
             }
@@ -251,18 +259,18 @@ static void do_blast( const tripoint &p, const float power,
         g->m.smash_items( pt, force );
 
         if( fire ) {
-            int density = ( force > 50.0f ) + ( force > 100.0f );
+            int intensity = ( force > 50.0f ) + ( force > 100.0f );
             if( force > 10.0f || x_in_y( force, 10.0f ) ) {
-                density++;
+                intensity++;
             }
 
-            if( !g->m.has_zlevels() && g->m.is_outside( pt ) && density == 2 ) {
+            if( !g->m.has_zlevels() && g->m.is_outside( pt ) && intensity == 2 ) {
                 // In 3D mode, it would have fire fields above, which would then fall
                 // and fuel the fire on this tile
-                density++;
+                intensity++;
             }
 
-            g->m.add_field( pt, fd_fire, density );
+            g->m.add_field( pt, fd_fire, intensity );
         }
 
         if( const optional_vpart_position vp = g->m.veh_at( pt ) ) {
@@ -280,8 +288,8 @@ static void do_blast( const tripoint &p, const float power,
         player *pl = dynamic_cast<player *>( critter );
         if( pl == nullptr ) {
             // TODO: player's fault?
-            const int dmg = force - ( critter->get_armor_bash( bp_torso ) / 2 );
-            const int actual_dmg = rng( dmg * 2, dmg * 3 );
+            const double dmg = force - critter->get_armor_bash( bp_torso ) / 2.0;
+            const int actual_dmg = rng_float( dmg * 2, dmg * 3 );
             critter->apply_damage( nullptr, bp_torso, actual_dmg );
             critter->check_dead_state();
             add_msg( m_debug, "Blast hits %s for %d damage", critter->disp_name(), actual_dmg );
@@ -610,22 +618,22 @@ void emp_blast( const tripoint &p )
     int x = p.x;
     int y = p.y;
     const bool sight = g->u.sees( p );
-    if( g->m.has_flag( "CONSOLE", x, y ) ) {
+    if( g->m.has_flag( "CONSOLE", point( x, y ) ) ) {
         if( sight ) {
-            add_msg( _( "The %s is rendered non-functional!" ), g->m.tername( x, y ) );
+            add_msg( _( "The %s is rendered non-functional!" ), g->m.tername( point( x, y ) ) );
         }
-        g->m.ter_set( x, y, t_console_broken );
+        g->m.ter_set( point( x, y ), t_console_broken );
         return;
     }
     // TODO: More terrain effects.
-    if( g->m.ter( x, y ) == t_card_science || g->m.ter( x, y ) == t_card_military ||
-        g->m.ter( x, y ) == t_card_industrial ) {
+    if( g->m.ter( point( x, y ) ) == t_card_science || g->m.ter( point( x, y ) ) == t_card_military ||
+        g->m.ter( point( x, y ) ) == t_card_industrial ) {
         int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
                 add_msg( _( "The card reader is rendered non-functional." ) );
             }
-            g->m.ter_set( x, y, t_card_reader_broken );
+            g->m.ter_set( point( x, y ), t_card_reader_broken );
         }
         if( rn > 80 ) {
             if( sight ) {
@@ -633,8 +641,8 @@ void emp_blast( const tripoint &p )
             }
             for( int i = -3; i <= 3; i++ ) {
                 for( int j = -3; j <= 3; j++ ) {
-                    if( g->m.ter( x + i, y + j ) == t_door_metal_locked ) {
-                        g->m.ter_set( x + i, y + j, t_floor );
+                    if( g->m.ter( point( x + i, y + j ) ) == t_door_metal_locked ) {
+                        g->m.ter_set( point( x + i, y + j ), t_floor );
                     }
                 }
             }
@@ -666,10 +674,10 @@ void emp_blast( const tripoint &p )
                 if( sight ) {
                     add_msg( _( "The %s beeps erratically and deactivates!" ), critter.name() );
                 }
-                g->m.add_item_or_charges( x, y, critter.to_item() );
+                g->m.add_item_or_charges( point( x, y ), critter.to_item() );
                 for( auto &ammodef : critter.ammo ) {
                     if( ammodef.second > 0 ) {
-                        g->m.spawn_item( x, y, ammodef.first, 1, ammodef.second, calendar::turn );
+                        g->m.spawn_item( point( x, y ), ammodef.first, 1, ammodef.second, calendar::turn );
                     }
                 }
                 g->remove_zombie( critter );
@@ -719,8 +727,8 @@ void emp_blast( const tripoint &p )
         }
     }
     // Drain any items of their battery charge
-    for( auto &it : g->m.i_at( x, y ) ) {
-        if( it.is_tool() && it.ammo_type() == ammotype( "battery" ) ) {
+    for( auto &it : g->m.i_at( point( x, y ) ) ) {
+        if( it.is_tool() && it.ammo_current() == "battery" ) {
             it.charges = 0;
         }
     }
@@ -730,11 +738,11 @@ void emp_blast( const tripoint &p )
 void resonance_cascade( const tripoint &p )
 {
     const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p, g->u.pos() ) );
-    const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p,
-                                            g->u.pos() ) ) );
     MonsterGroupResult spawn_details;
     monster invader;
     if( maxglow > 0_turns ) {
+        const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p,
+                                                g->u.pos() ) ) );
         g->u.add_effect( efftype_id( "teleglow" ), rng( minglow, maxglow ) * 100 );
     }
     int startx = ( p.x < 8 ? 0 : p.x - 8 ), endx = ( p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8 );
@@ -752,7 +760,7 @@ void resonance_cascade( const tripoint &p )
                 case 5:
                     for( int k = i - 1; k <= i + 1; k++ ) {
                         for( int l = j - 1; l <= j + 1; l++ ) {
-                            field_id type = fd_null;
+                            field_type_id type = fd_null;
                             switch( rng( 1, 7 ) ) {
                                 case 1:
                                     type = fd_blood;
@@ -815,10 +823,9 @@ void nuke( const tripoint &p )
 {
     // TODO: nukes hit above surface, not critter = 0
     // TODO: Z
-    int x = p.x;
-    int y = p.y;
+    tripoint p_surface( p.xy(), 0 );
     tinymap tmpmap;
-    tmpmap.load( x * 2, y * 2, 0, false );
+    tmpmap.load( omt_to_sm_copy( p_surface ), false );
     tripoint dest( 0, 0, p.z );
     int &i = dest.x;
     int &j = dest.y;
@@ -834,14 +841,14 @@ void nuke( const tripoint &p )
         }
     }
     tmpmap.save();
-    overmap_buffer.ter( x, y, 0 ) = oter_id( "crater" );
+    overmap_buffer.ter( p_surface ) = oter_id( "crater" );
     // Kill any npcs on that omap location.
-    for( const auto &npc : overmap_buffer.get_npcs_near_omt( x, y, 0, 0 ) ) {
+    for( const auto &npc : overmap_buffer.get_npcs_near_omt( p_surface, 0 ) ) {
         npc->marked_for_death = true;
     }
 }
 
-}
+} // namespace explosion_handler
 
 // This is only ever used to zero the cloud values, which is what makes it work.
 fragment_cloud &fragment_cloud::operator=( const float &value )

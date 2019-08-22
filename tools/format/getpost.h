@@ -44,7 +44,7 @@ inline std::string urlDecode( std::string str )
                 tmp[2] = str[i + 1];
                 tmp[3] = str[i + 2];
                 tmp[4] = '\0';
-                tmpchar = ( char )strtol( tmp, NULL, 0 );
+                tmpchar = static_cast<char>( strtol( tmp, NULL, 0 ) );
                 temp += tmpchar;
                 i += 2;
                 continue;
@@ -116,7 +116,8 @@ inline void initializePost( std::map <std::string, std::string> &Post )
         Post.clear();
         return;
     }
-    if( fread( buffer, sizeof( char ), content_length, stdin ) != ( unsigned int )content_length ) {
+    if( fread( buffer, sizeof( char ), content_length,
+               stdin ) != static_cast<unsigned int>( content_length ) ) {
         Post.clear();
         return;
     }

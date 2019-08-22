@@ -1,5 +1,6 @@
 #include "requirements.h"
 
+#include <limits.h>
 #include <cstdlib>
 #include <algorithm>
 #include <limits>
@@ -20,12 +21,12 @@
 #include "itype.h"
 #include "json.h"
 #include "output.h"
-#include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "color.h"
 #include "item.h"
 #include "visitable.h"
+#include "point.h"
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
@@ -68,7 +69,7 @@ void quality::load_static( JsonObject &jo, const std::string &src )
 
 void quality::load( JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "name", name, translated_string_reader );
+    mandatory( jo, was_loaded, "name", name );
 
     JsonArray arr = jo.get_array( "usages" );
     while( arr.has_more() ) {
@@ -121,7 +122,7 @@ std::string item_comp::to_string( int batch ) const
 {
     const int c = std::abs( count ) * batch;
     const auto type_ptr = item::find_type( type );
-    if( type_ptr->stackable ) {
+    if( type_ptr->count_by_charges() ) {
         return string_format( "%s (%d)", type_ptr->nname( 1 ), c );
     }
     //~ <item-count> <item-name>
@@ -240,13 +241,12 @@ void requirement_data::load_requirement( JsonObject &jsobj, const requirement_id
 {
     requirement_data req;
 
-    JsonArray jsarr;
-    jsarr = jsobj.get_array( "components" );
-    req.load_obj_list( jsarr, req.components );
+    JsonArray jsarr = jsobj.get_array( "components" );
+    requirement_data::load_obj_list( jsarr, req.components );
     jsarr = jsobj.get_array( "qualities" );
-    req.load_obj_list( jsarr, req.qualities );
+    requirement_data::load_obj_list( jsarr, req.qualities );
     jsarr = jsobj.get_array( "tools" );
-    req.load_obj_list( jsarr, req.tools );
+    requirement_data::load_obj_list( jsarr, req.tools );
 
     if( !id.is_null() ) {
         req.id_ = id;
@@ -615,6 +615,7 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
             total_UPS_charges_used += UPS_charges_used;
         }
     }
+
     if( total_UPS_charges_used > 0 &&
         total_UPS_charges_used > crafting_inv.charges_of( "UPS" ) ) {
         return false;
@@ -628,7 +629,6 @@ bool quality_requirement::has( const inventory &crafting_inv,
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
-
     return crafting_inv.has_quality( type, level, count );
 }
 
@@ -648,38 +648,12 @@ bool tool_comp::has( const inventory &crafting_inv,
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
-
     if( !by_charges() ) {
         return crafting_inv.has_tools( type, std::abs( count ), filter );
     } else {
         const int charges_required = count * batch * item::find_type( type )->charge_factor();
-        int charges_found = crafting_inv.charges_of( type, charges_required, filter );
-        if( charges_found == charges_required ) {
-            return true;
-        }
-        const auto &binned = crafting_inv.get_binned_items();
-        const auto iter = binned.find( type );
-        if( iter == binned.end() ) {
-            return false;
-        }
-        bool has_UPS = false;
-        for( const item *it : iter->second ) {
-            it->visit_items( [&has_UPS]( const item * e ) {
-                if( e->has_flag( "USE_UPS" ) ) {
-                    has_UPS = true;
-                    return VisitResponse::ABORT;
-                }
-                return VisitResponse::NEXT;
-            } );
-        }
-        if( has_UPS ) {
-            const int UPS_charges_used =
-                crafting_inv.charges_of( "UPS", charges_required - charges_found, filter );
-            if( visitor && UPS_charges_used + charges_found >= charges_required ) {
-                visitor( UPS_charges_used );
-            }
-            charges_found += UPS_charges_used;
-        }
+
+        int charges_found = crafting_inv.charges_of( type, charges_required, filter, visitor );
         return charges_found == charges_required;
     }
 }
@@ -702,7 +676,6 @@ bool item_comp::has( const inventory &crafting_inv,
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
-
     const int cnt = std::abs( count ) * batch;
     if( item::count_by_charges( type ) ) {
         return crafting_inv.has_charges( type, cnt, filter );
@@ -859,6 +832,7 @@ requirement_data requirement_data::disassembly_requirements() const
     // Maybe TODO: Cache it somewhere and return a reference instead
     requirement_data ret = *this;
     auto new_qualities = std::vector<quality_requirement>();
+    bool remove_fire = false;
     for( auto &it : ret.tools ) {
         bool replaced = false;
         for( const auto &tool : it ) {
@@ -880,6 +854,17 @@ requirement_data requirement_data::disassembly_requirements() const
             }
 
             if( type == "crucible" ) {
+                replaced = true;
+                break;
+            }
+            //This ensures that you don't need a hand press to break down reloaded ammo.
+            if( type == "press" ) {
+                replaced = true;
+                remove_fire = true;
+                new_qualities.emplace_back( quality_id( "PULL" ), 1, 1 );
+                break;
+            }
+            if( type == "fire" && remove_fire ) {
                 replaced = true;
                 break;
             }
@@ -956,30 +941,143 @@ requirement_data requirement_data::disassembly_requirements() const
     return ret;
 }
 
-requirement_data requirement_data::continue_requirements( const item &craft ) const
+requirement_data requirement_data::continue_requirements( const std::vector<item_comp>
+        &required_comps, const std::list<item> &remaining_comps )
 {
-    // Make a copy
-    requirement_data ret = *this;
+    // Create an empty requirement_data
+    requirement_data ret;
 
-    // Tools and qualities are not checked upon resuming yet
-    // TODO: Check tools and qualities
-    ret.tools.clear();
-    ret.qualities.clear();
+    // For items we cant change what alternative we selected half way through
+    for( const item_comp &it : required_comps ) {
+        ret.components.emplace_back( std::vector<item_comp>( {it} ) );
+    }
 
-    const int batch_size = craft.charges;
     inventory craft_components;
-    craft_components += craft.components;
+    craft_components += remaining_comps;
 
-    // Remove requirements that are fulfilled by current craft components
+    // Remove requirements that are completely fulfilled by current craft components
+    // For each requirement that isn't completely fulfilled, reduce the requirement by the amount
+    // that we still have
+    // We also need to consume whatever charges we use in case two requirements share a common type
     ret.components.erase( std::remove_if( ret.components.begin(), ret.components.end(),
-    [craft_components, batch_size]( std::vector<item_comp> &comps ) {
-        for( item_comp &comp : comps ) {
-            if( comp.has( craft_components, return_true<item>, batch_size ) ) {
-                return true;
-            }
+    [&craft_components]( std::vector<item_comp> &comps ) {
+        item_comp &comp = comps.front();
+        if( item::count_by_charges( comp.type ) && comp.count > 0 ) {
+            int qty = craft_components.charges_of( comp.type, comp.count );
+            comp.count -= qty;
+            // This is terrible but inventory doesn't have a use_charges() function so...
+            std::vector<item *> del;
+            craft_components.visit_items( [&comp, &qty, &del]( item * e ) {
+                std::list<item> used;
+                if( e->use_charges( comp.type, qty, used, tripoint_zero ) ) {
+                    del.push_back( e );
+                }
+                return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
+            } );
+            craft_components.remove_items_with( [&del]( const item & e ) {
+                for( const item *it : del ) {
+                    if( it == &e ) {
+                        return true;
+                    }
+                }
+                return false;
+            } );
+        } else {
+            int amount = craft_components.amount_of( comp.type, comp.count );
+            comp.count -= amount;
+            craft_components.use_amount( comp.type, amount );
         }
-        return false;
+        return comp.count <= 0;
     } ), ret.components.end() );
 
     return ret;
+}
+
+void requirement_data::consolidate()
+{
+    std::map<quality_id, quality_requirement> all_quals;
+    for( const std::vector<quality_requirement> &qual_vector : qualities ) {
+        for( const quality_requirement &qual_data : qual_vector ) {
+            if( all_quals.find( qual_data.type ) == all_quals.end() ) {
+                all_quals[qual_data.type] = qual_data;
+            } else {
+                all_quals[qual_data.type].count = std::max( all_quals[qual_data.type].count,
+                                                  qual_data.count );
+                all_quals[qual_data.type].level = std::max( all_quals[qual_data.type].level,
+                                                  qual_data.level );
+            }
+        }
+    }
+    qualities.clear();
+    std::transform( all_quals.begin(), all_quals.end(), std::back_inserter( qualities ),
+    []( auto & qual_data ) {
+        return std::vector<quality_requirement>( { qual_data.second } );
+    } );
+
+    // elegance?  I've heard of it
+    std::vector<std::vector<tool_comp>> all_tools;
+    for( const std::vector<tool_comp> &old_tool_vector : tools ) {
+        bool match = false;
+        for( std::vector<tool_comp> &con_tool_vector : all_tools ) {
+            size_t need_matches = con_tool_vector.size();
+            size_t has_matches = 0;
+            for( const tool_comp &old_tool : old_tool_vector ) {
+                for( const tool_comp &con_tool : con_tool_vector ) {
+                    if( old_tool.type == con_tool.type ) {
+                        has_matches += 1;
+                        break;
+                    }
+                }
+            }
+            if( has_matches == need_matches ) {
+                match = true;
+                for( const tool_comp &old_tool : old_tool_vector ) {
+                    for( tool_comp &con_tool : con_tool_vector ) {
+                        if( old_tool.type == con_tool.type ) {
+                            con_tool.count += old_tool.count;
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+        }
+        if( !match ) {
+            all_tools.emplace_back( old_tool_vector );
+        }
+    }
+    tools = std::move( all_tools );
+
+    std::vector<std::vector<item_comp>> all_comps;
+    for( const std::vector<item_comp> &old_item_vector : components ) {
+        bool match = false;
+        for( auto &con_item_vector : all_comps ) {
+            size_t need_matches = con_item_vector.size();
+            size_t has_matches = 0;
+            for( const item_comp &old_item : old_item_vector ) {
+                for( const item_comp &con_item : con_item_vector ) {
+                    if( old_item.type == con_item.type ) {
+                        has_matches += 1;
+                        break;
+                    }
+                }
+            }
+            if( has_matches == need_matches ) {
+                match = true;
+                for( const item_comp &old_item : old_item_vector ) {
+                    for( item_comp &con_item : con_item_vector ) {
+                        if( old_item.type == con_item.type ) {
+                            con_item.count += old_item.count;
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+        }
+        if( !match ) {
+            all_comps.emplace_back( old_item_vector );
+        }
+    }
+    components = std::move( all_comps );
 }

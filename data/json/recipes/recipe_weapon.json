@@ -88,7 +88,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
-    "time": "0 m",
+    "time": "48 s",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ] ] ]
@@ -105,6 +105,33 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "bolas",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "survival",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 2,
+    "time": "40 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rope_6", 3 ], [ "rope_makeshift_6", 3 ] ], [ [ "rock", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "net",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "survival",
+    "skills_required": [ "tailor", 2 ],
+    "difficulty": 2,
+    "time": "100 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 40 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "string_36", 32 ] ], [ [ "rock", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -285,19 +312,101 @@
   },
   {
     "type": "recipe",
+    "result": "spear_spike",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "time": "2 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "stick_long", 1 ], [ "long_pole", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ] ],
+      [
+        [ "spike", 1 ],
+        [ "knife_steak", 1 ],
+        [ "knife_paring", 1 ],
+        [ "knife_folding", 1 ],
+        [ "scalpel", 1 ],
+        [ "xacto", 1 ]
+      ],
+      [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "spear_knife",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
-    "time": "1 m",
+    "time": "2 m",
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "stick_long", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ] ],
-      [ [ "spike", 1 ] ],
+      [ [ "stick_long", 1 ], [ "long_pole", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ] ],
+      [
+        [ "knife_butcher", 1 ],
+        [ "knife_chef", 1 ],
+        [ "knife_carving", 1 ],
+        [ "knife_vegetable_cleaver", 1 ],
+        [ "knife_meat_cleaver", 1 ],
+        [ "blade", 1 ],
+        [ "knife_combat", 1 ],
+        [ "knife_hunting", 1 ],
+        [ "knife_rambo", 1 ],
+        [ "knife_rm42", 1 ],
+        [ "knife_trench", 1 ],
+        [ "tanto", 1 ],
+        [ "kirpan", 1 ]
+      ],
       [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "spear_knife_superior",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [
+      [ [ "stick_long", 1 ], [ "long_pole", 1 ], [ "pool_cue", 1 ] ],
+      [
+        [ "knife_butcher", 1 ],
+        [ "knife_chef", 1 ],
+        [ "knife_carving", 1 ],
+        [ "knife_vegetable_cleaver", 1 ],
+        [ "knife_meat_cleaver", 1 ],
+        [ "blade", 1 ],
+        [ "knife_combat", 1 ],
+        [ "knife_hunting", 1 ],
+        [ "knife_rambo", 1 ],
+        [ "knife_rm42", 1 ],
+        [ "knife_trench", 1 ],
+        [ "tanto", 1 ],
+        [ "kirpan", 1 ]
+      ],
+      [ [ "nail", 2 ] ],
+      [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "spear_knife_superior",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "id_suffix": "from simple version",
+    "difficulty": 1,
+    "time": "30 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [ [ [ "spear_knife", 1 ] ], [ [ "nail", 2 ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ] ]
   },
   {
     "type": "recipe",
@@ -1022,25 +1131,6 @@
   },
   {
     "type": "recipe",
-    "result": "flamethrower_simple",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 3 ],
-    "difficulty": 6,
-    "time": "30 m",
-    "reversible": true,
-    "autolearn": true,
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [
-      [ [ "pilot_light", 2 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "hose", 2 ] ],
-      [ [ "bottle_glass", 4 ], [ "bottle_plastic", 6 ], [ "bottle_plastic_small", 12 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "launcher_simple",
     "note": "standalone_weapon",
     "category": "CC_WEAPON",
@@ -1189,7 +1279,7 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "0 m",
+    "time": "30 s",
     "reversible": true,
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
@@ -1216,7 +1306,7 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "0 m",
+    "time": "30 s",
     "reversible": true,
     "autolearn": true,
     "using": [ [ "cordage_short", 2 ] ],
@@ -1230,7 +1320,7 @@
     "skill_used": "mechanics",
     "skills_required": [ "gun", 1 ],
     "difficulty": 1,
-    "time": "0 m",
+    "time": "39 s",
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [ [ [ "rag", 4 ], [ "plastic_chunk", 4 ], [ "felt_patch", 4 ], [ "leather", 4 ] ], [ [ "pipe", 1 ] ] ]
@@ -1653,7 +1743,13 @@
     "reversible": true,
     "decomp_learn": 3,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "makeshift_machete", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "makeshift_machete", 1 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "aux_pressurized_tank", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1667,7 +1763,13 @@
     "decomp_learn": 4,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
     "using": [ [ "welding_standard", 2 ] ],
-    "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "machete", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "machete", 1 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "aux_pressurized_tank", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1681,7 +1783,13 @@
     "decomp_learn": 4,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
     "using": [ [ "welding_standard", 2 ] ],
-    "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "broadsword", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "broadsword", 1 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "aux_pressurized_tank", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1695,7 +1803,13 @@
     "decomp_learn": 4,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
     "using": [ [ "welding_standard", 2 ] ],
-    "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "katana", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "katana", 1 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "aux_pressurized_tank", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1709,7 +1823,13 @@
     "decomp_learn": 4,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
     "using": [ [ "welding_standard", 2 ] ],
-    "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "zweihander", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "zweihander", 1 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "aux_pressurized_tank", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1775,6 +1895,26 @@
       [ [ "2x4", 1 ], [ "stick", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "pneumatic_shotgun",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 7,
+    "time": "180 m",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 30 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "components": [
+      [ [ "pipe", 3 ] ],
+      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "2x4", 1 ], [ "stick", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
     ]
   },
   {
@@ -1845,18 +1985,6 @@
   },
   {
     "type": "recipe",
-    "result": "flamethrower_crude",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "time": "5 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "spray_can", 1 ] ], [ [ "duct_tape", 25 ] ], [ [ "lighter", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "knuckle_steel",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
@@ -1919,6 +2047,24 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 300 ], [ "oxy_torch", 60 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ], [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "crash_axe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "360 m",
+    "book_learn": [ [ "textbook_fireman", 6 ] ],
+    "using": [ [ "forging_standard", 8 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ],
+      [ [ "filament", 100, "LIST" ] ],
+      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -2161,26 +2307,6 @@
     "autolearn": true,
     "flags": [ "BLIND_EASY" ],
     "components": [ [ [ "rock", 1 ] ], [ [ "socks", 1 ], [ "socks_wool", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "unbio_blaster_gun",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "electronics",
-    "skills_required": [ "fabrication", 4, "gun", 2 ],
-    "difficulty": 6,
-    "time": "30 m",
-    "book_learn": [ [ "recipe_lab_elec", 5 ] ],
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "tools": [ [ [ "soldering_standard", 20, "LIST" ], [ "small_repairkit", 20 ], [ "large_repairkit", 10 ] ] ],
-    "components": [
-      [ [ "bio_blaster", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "2x4", 1 ], [ "stick", 1 ] ],
-      [ [ "cable", 3 ] ],
-      [ [ "plastic_chunk", 3 ] ]
-    ]
   },
   {
     "type": "recipe",
@@ -2965,6 +3091,88 @@
       [ [ "2x4", 1 ] ],
       [ [ "pipe", 1 ] ],
       [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "2h_flail_wood",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "skills_required": [ "bashing", 2 ],
+    "difficulty": 3,
+    "time": "32 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "2x4", 1 ], [ "stick_long", 1 ] ], [ [ "leather", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "2h_flail_steel",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "420 m",
+    "book_learn": [ [ "textbook_weapwest", 6 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 350 ], [ "oxy_torch", 70 ] ] ],
+    "components": [
+      [ [ "steel_lump", 3 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ],
+      [ [ "stick_long", 1 ] ],
+      [ [ "fur", 2 ], [ "leather", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "butterfly_swords",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": 800000,
+    "book_learn": [ [ "textbook_weapeast", 6 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "//": "basically 2.5x the resources of a single machete to cover the fact that it's two weapons, each with a hand guard",
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 500 ], [ "oxy_torch", 100 ] ] ],
+    "components": [
+      [ [ "steel_lump", 5 ], [ "steel_chunk", 20 ], [ "scrap", 60 ] ],
+      [ [ "2x4", 2 ], [ "stick", 4 ] ],
+      [ [ "fur", 4 ], [ "leather", 4 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "long_pole",
+    "byproducts": [ [ "splinter", 30 ] ],
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": 340000,
+    "book_learn": [ [ "textbook_weapeast", 6 ] ],
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "//": "a long pole is a single piece of wood, and the heavy stick just isn't large enough.",
+    "components": [
+      [ [ "log", 1 ] ],
+      [ [ "tallow", 4 ], [ "tallow_tainted", 4 ], [ "cooking_oil", 32 ], [ "cooking_oil2", 32 ], [ "lamp_oil", 500 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "lucern_hammer",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "360 m",
+    "book_learn": [ [ "textbook_weapwest", 6 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 350 ], [ "oxy_torch", 70 ] ] ],
+    "components": [
+      [ [ "steel_lump", 3 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ],
+      [ [ "stick_long", 1 ] ],
+      [ [ "fur", 2 ], [ "leather", 2 ] ]
     ]
   }
 ]

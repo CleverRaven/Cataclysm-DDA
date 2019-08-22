@@ -5,7 +5,7 @@
     "name": "9x19mm JHP",
     "description": "9x19mm ammunition with a 116gr jacketed hollow point bullet.  JHP rounds have inferior penetration to FMJ rounds but their expansion slightly increases stopping power against unarmored targets and reduces overpenetration.",
     "weight": 7,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 2400,
     "material": [ "brass", "powder" ],
     "symbol": "=",
@@ -49,6 +49,24 @@
     "count": 10,
     "relative": { "damage": 4, "pierce": 4, "dispersion": -30 },
     "proportional": { "recoil": 1.2 }
+  },
+  {
+    "id": "bp_9mm",
+    "copy-from": "9mm",
+    "type": "AMMO",
+    "name": "9x19mm JHP blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.65, "recoil": 0.65, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_9mmfmj",
+    "copy-from": "9mmfmj",
+    "type": "AMMO",
+    "name": "9x19mm FMJ blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.65, "recoil": 0.65, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
     "id": "reloaded_9mm",

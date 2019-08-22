@@ -101,15 +101,26 @@
   {
     "id": "TALK_SCAVENGER_MERC_HIRE",
     "type": "talk_topic",
-    "dynamic_line": "I'm currently waiting for a customer to return... I'll make you a deal though, $8,000 will cover my expenses if I get a small cut of the loot.  I can't accept cash cards, so you'll have to find an ATM to deposit money into your bank account.",
+    "dynamic_line": "I'm currently waiting for a customer to return... I'll make you a deal though, 2500 Merch will cover my expenses if I get a small cut of the loot.",
     "responses": [
+      { "text": "What the heck is a Merch?", "topic": "TALK_SCAVENGER_MERC_MERCH" },
       { "text": "I might be back.", "topic": "TALK_SCAVENGER_MERC" },
       {
-        "text": "[$8000] You have a deal.",
+        "text": "[FMC2500] You have a deal.",
         "topic": "TALK_SCAVENGER_MERC_HIRE_SUCCESS",
-        "condition": { "u_has_cash": 800000 },
-        "effect": { "u_spend_cash": 800000 }
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 2500 } },
+        "effect": { "u_consume_item": "FMCNote", "count": 2500 }
       }
+    ]
+  },
+  {
+    "id": "TALK_SCAVENGER_MERC_MERCH",
+    "type": "talk_topic",
+    "dynamic_line": "Merchs are what they call dollar bills around here.  Free Merchant Credit Notes or something.  If you want to buy stuff around here and you don't want to barter away your guns, you need Merch.",
+    "responses": [
+      { "text": "I see.  Let's try this again from the start.", "topic": "TALK_SCAVENGER_MERC" },
+      { "text": "Okay, how much Merch do I need?", "topic": "TALK_SCAVENGER_MERC_HIRE" },
+      { "text": "Well, thanks for the info.  Bye!", "topic": "TALK_DONE" }
     ]
   },
   {

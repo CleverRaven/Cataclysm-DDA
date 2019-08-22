@@ -680,6 +680,20 @@
   {
     "type": "keybinding",
     "id": "DELETE_NOTE",
+    "category": "OVERMAP_NOTES",
+    "name": "Delete Note",
+    "bindings": [ { "input_method": "keyboard", "key": "D" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EDIT_NOTE",
+    "category": "OVERMAP_NOTES",
+    "name": "Edit Note",
+    "bindings": [ { "input_method": "keyboard", "key": "E" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DELETE_NOTE",
     "category": "OVERMAP",
     "name": "Delete Note",
     "bindings": [ { "input_method": "keyboard", "key": "D" } ]
@@ -718,6 +732,13 @@
     "category": "OVERMAP",
     "name": "Toggle Land Use Codes",
     "bindings": [ { "input_method": "keyboard", "key": "A" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_MAP_NOTES",
+    "category": "OVERMAP",
+    "name": "Toggle Map Notes",
+    "bindings": [ { "input_method": "keyboard", "key": "G" } ]
   },
   {
     "type": "keybinding",
@@ -763,6 +784,13 @@
   },
   {
     "type": "keybinding",
+    "name": "View Missions",
+    "category": "OVERMAP",
+    "id": "MISSIONS",
+    "bindings": [ { "input_method": "keyboard", "key": "M" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ROTATE",
     "category": "OVERMAP_EDITOR",
     "name": "Rotate",
@@ -785,6 +813,12 @@
       { "input_method": "keyboard", "key": "SPACE" },
       { "input_method": "gamepad", "key": "JOY_3" }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CHOOSE_DESTINATION",
+    "name": "Choose destination",
+    "bindings": [ { "input_method": "keyboard", "key": "W" } ]
   },
   {
     "type": "keybinding",
@@ -1586,8 +1620,7 @@
     "type": "keybinding",
     "name": "Reload Wielded Item",
     "category": "DEFAULTMODE",
-    "id": "reload_weapon",
-    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
+    "id": "reload_weapon"
   },
   {
     "type": "keybinding",
@@ -1712,8 +1745,7 @@
     "type": "keybinding",
     "name": "Toggle Auto Travel Mode",
     "category": "DEFAULTMODE",
-    "id": "auto_travel_mode",
-    "bindings": [ { "input_method": "keyboard", "key": "" } ]
+    "id": "auto_travel_mode"
   },
   {
     "type": "keybinding",
@@ -1850,6 +1882,18 @@
   },
   {
     "type": "keybinding",
+    "name": "View Visibility Map",
+    "category": "DEFAULTMODE",
+    "id": "debug_visibility"
+  },
+  {
+    "type": "keybinding",
+    "name": "View Radiation Map",
+    "category": "DEFAULTMODE",
+    "id": "debug_radiation"
+  },
+  {
+    "type": "keybinding",
     "name": "Switch Sidebar Style",
     "category": "DEFAULTMODE",
     "id": "toggle_sidebar_style"
@@ -1878,7 +1922,8 @@
     "type": "keybinding",
     "name": "Reload Item",
     "category": "DEFAULTMODE",
-    "id": "reload_item"
+    "id": "reload_item",
+    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
   },
   {
     "type": "keybinding",
@@ -1909,6 +1954,12 @@
     "name": "Toggle Auto Foraging",
     "category": "DEFAULTMODE",
     "id": "toggle_auto_foraging"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Auto Pickup",
+    "category": "DEFAULTMODE",
+    "id": "toggle_auto_pickup"
   },
   {
     "type": "keybinding",

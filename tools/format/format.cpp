@@ -15,8 +15,7 @@ static void format( JsonIn &jsin, JsonOut &jsout, int depth = -1, bool force_wra
 static void erase_char( std::string &s, const char &c )
 {
     size_t pos = std::string::npos;
-    while( ( pos  = s.find( c ) ) != std::string::npos )
-    {
+    while( ( pos  = s.find( c ) ) != std::string::npos ) {
         s.erase( pos, 1 );
     }
 }
@@ -59,7 +58,7 @@ static void write_object( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wr
 }
 
 static void format_collection( JsonIn &jsin, JsonOut &jsout, int depth,
-                               std::function<void(JsonIn &, JsonOut &, int, bool )>write_func,
+                               std::function<void( JsonIn &, JsonOut &, int, bool )>write_func,
                                bool force_wrap )
 {
     if( depth > 1 && !force_wrap ) {

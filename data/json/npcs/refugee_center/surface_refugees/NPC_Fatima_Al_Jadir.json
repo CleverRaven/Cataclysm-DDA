@@ -1,0 +1,173 @@
+[
+  {
+    "type": "npc",
+    "id": "refugee_FatimaalJadir",
+    "name_unique": "Fatima al Jadir",
+    "gender": "female",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_Fatima",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_Fatima_1",
+    "faction": "free_merchants",
+    "mission_offered": "MISSION_REFUGEE_Fatima_1"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_REFUGEE_Fatima",
+    "name": "Refugee",
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "A welder, culturally muslim but only recently practicing since the Cataclysm has made her rethink her connections to her family's religion",
+    "bonus_str": { "rng": [ -1, 3 ] },
+    "bonus_dex": { "rng": [ -2, 2 ] },
+    "bonus_int": { "rng": [ -2, 1 ] },
+    "bonus_per": { "rng": [ -2, 2 ] },
+    "worn_override": "REFUGEE_Fatima_worn",
+    "carry_override": "REFUGEE_Fatima_carried",
+    "weapon_override": "REFUGEE_Fatima_wield",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_SouthAsian" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ -2, 1 ] } ] } ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 3, 5 ] } },
+      { "skill": "mechanics", "bonus": { "rng": [ 3, 5 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Fatima_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bra" },
+      { "item": "panties" },
+      { "item": "socks" },
+      { "item": "technician_pants_gray" },
+      { "item": "technician_shirt_gray" },
+      { "item": "jacket_evac" },
+      { "item": "headscarf" },
+      { "item": "boots_steel" },
+      { "item": "slingpack" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Fatima_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "weldtank" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Fatima_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "oxy_torch" } ]
+  },
+  {
+    "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [
+      "TALK_REFUGEE_Fatima_1_firstmeet",
+      "TALK_REFUGEE_Fatima_2",
+      "TALK_REFUGEE_Fatima_Background",
+      "TALK_REFUGEE_Fatima_Situation",
+      "TALK_REFUGEE_Fatima_Welding",
+      "TALK_REFUGEE_Fatima_Cataclysm"
+    ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_REFUGEE_Fatima_Background" },
+      { "text": "How are things here?", "topic": "TALK_REFUGEE_Fatima_Situation" },
+      { "text": "How did you wind up here at the center?", "topic": "TALK_REFUGEE_Fatima_Cataclysm" },
+      { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Fatima_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_Fatima_al_Jadir",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [ "Hello again.", "Good to see you're still around.", "Oh, hi." ],
+      "no": "Oh, hey, a new face.  Hi, I'm Fatima.  Just visiting I hope?  It's nice to meet new people but there are no beds to share."
+    },
+    "speaker_effect": { "effect": { "u_add_var": "u_met_Fatima_al_Jadir", "type": "general", "context": "meeting", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Nice to meet you too, Fatima.  I'm just passing through.",
+        "condition": { "not": { "u_has_var": "u_met_Fatima_al_Jadir", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_REFUGEE_Fatima_1_firstmeet"
+      },
+      {
+        "text": "Hi, Fatima.  How are things?",
+        "condition": { "u_has_var": "u_met_Fatima_al_Jadir", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_REFUGEE_Fatima_2"
+      },
+      { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Fatima_1_firstmeet",
+    "dynamic_line": "Well, cool.  Anything I can help you with?"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Fatima_2",
+    "dynamic_line": "Oh, you know, the usual.  Trapped in a tight space with a bunch of strangers getting along tenuously at best.  Good times, good times."
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Fatima_Background",
+    "dynamic_line": "Before <the_cataclysm> I had just finished welding school actually, and was about to start looking for a job.  That was fun, being a young Muslim woman in a Massachusetts trade college, let me tell you.",
+    "responses": [
+      {
+        "text": "Welding seems like a pretty non-traditional occupational choice; is there a story there?",
+        "topic": "TALK_REFUGEE_Fatima_Welding"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Fatima_Welding",
+    "dynamic_line": "You'd be surprised actually!  Metal art has been part of Muslim traditions for years, although that's not why I got into it.  I'm not a very traditional girl.  My parents aren't very traditional either, but my grandparents are really old fashioned and strict.  My sister came out as gay and they made her life really hard; mom and dad thought she should keep it secret, but she didn't believe in that.  I always loved mechanics and working with my hands, so when they started harassing my parents about getting my sister and I married off to nice men so we'd stop being so immoral, I decided to pick a job I liked that would bother them as much as possible.  It was a good choice, not only did it make them livid but I love welding.  I love the feel of standing back and looking at my work, knowing I took a few chunks of scrap metal and made them into something useful.  I love how it feels to make it fit together perfectly.  It just puts me at peace.\n\nI... I do hope my grandparents are okay though.  They were old fashioned, and they made choices I didn't like, but they were family and I still have sweet memories of them from when I was little.  I've had to do a lot more thinking about God since <the_cataclysm>, and while I'd never agree with the decisions they made, I understand more why they thought they had to make them.  They just wanted the whole family to share their relationship with God, in their messed up way."
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Fatima_Cataclysm",
+    "dynamic_line": "I was on my way to visit my parents back in Burlington, waiting at a bus station, when the evacuation notices started sounding.  I'd been a little out of touch for a bit and didn't realize how bad the rioting was getting.  When my bus arrived it got repurposed into an evacuation vehicle, and took me here.  I... I didn't used to be very religious, it's just something I was born to, but since this happened I've been thinking a lot more about God, and how grateful I am for His help in surviving.  With things still so difficult, it helps to know He's got some plan for me.\n\nAnyway, mine was the second bus to arrive, and they were just getting some triage and processing stuff set up.  I was put in charge of helping with the wounded, along with Uyen.  Things went a little strange later on... one of the women doing triage and processing had a bit of a hang-up about particular, um, colors of people being allowed into the center.  She claimed to have lost our 'papers', along with a lot of other peoples'.  Thankfully because we'd helped so many we were able to argue that they couldn't leave us out, but there was no space left downstairs by the time we got that sorted, so here we are."
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Fatima_Situation",
+    "dynamic_line": "It's tense here.  I know I'd feel a lot better if I had something to do with my skills, or even if I just had a quiet place to pray sometimes.  I feel a bit self-conscious praying in the common areas.  Jenny was talking about some project ideas she had that could get me doing my job again, but I admit I'm pretty nervous about going outside."
+  },
+  {
+    "id": "MISSION_REFUGEE_Fatima_1",
+    "type": "mission_definition",
+    "name": "Find a copy of the Quran",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 0,
+    "item": "holybook_quran",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "I could use a bit of help to find a copy of the Quran.",
+      "offer": "I feel silly asking this, but here goes.  I've never been really into reading holy books and stuff like that.  I usually went to the mosque on Friday, and I try to pray five times a day but I hardly ever manage it.  I guess I'm not a very good Muslim, but with all that's happened I would really love to have a copy of the Quran to read.  This seems like a time to get back in touch with God, you know?",
+      "accepted": "Thank you.  I'll see if I can save up a little reward for you.",
+      "rejected": "That's okay.  Thanks for offering.",
+      "advice": "It's not as common as the bible, but you should be able to find copies in most libraries and bookstores.  Make sure you get the translated version, I can't read Arabic!",
+      "inquire": "How is the search going?",
+      "success": "Thank you so much.  Just having a copy to keep at hand does actually feel pretty comforting.  I did a few extra rounds of chores and saved the proceeds for if you managed this, here you go.  It's not much but I hope it helps.",
+      "success_lie": "What good does this do me?",
+      "failure": "It's okay.  I don't know how much comfort I'd have found in an old book anyway."
+    },
+    "end": {
+      "effect": [
+        { "u_buy_item": "FMCNote", "count": 5 },
+        { "u_add_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+      ]
+    }
+  }
+]

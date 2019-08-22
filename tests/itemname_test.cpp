@@ -1,13 +1,12 @@
 #include <memory>
 #include <string>
-#include <vector>
 
 #include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
-#include "iteminfo_query.h"
-#include "player.h"
+#include "flat_set.h"
+#include "type_id.h"
 
 TEST_CASE( "item_name_check", "[item][iteminfo]" )
 {

@@ -5,7 +5,6 @@
 #include <list>
 #include <unordered_set>
 
-#include "action.h"
 #include "avatar_action.h"
 #include "field.h"
 #include "game.h"
@@ -15,18 +14,14 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "translations.h"
-#include "ui.h"
-#include "int_id.h"
-#include "messages.h"
 #include "omdata.h"
-#include "optional.h"
 #include "player_activity.h"
 #include "rng.h"
 #include "string_id.h"
+#include "enums.h"
 
 const efftype_id effect_stunned( "stunned" );
 
@@ -414,7 +409,7 @@ void player::activate_mutation( const trait_id &mut )
         bool adjacent_tree = false;
         for( int dx = -1; dx <= 1; dx++ ) {
             for( int dy = -1; dy <= 1; dy++ ) {
-                const tripoint p2 = tripoint( p.x + dx, p.y + dy, p.z );
+                const tripoint p2 = p + point( dx, dy );
                 if( g->m.has_flag( "TREE", p2 ) ) {
                     adjacent_tree = true;
                 }
@@ -474,7 +469,7 @@ void player::deactivate_mutation( const trait_id &mut )
     recalc_sight_limits();
 }
 
-trait_id Character::trait_by_invlet( const long ch ) const
+trait_id Character::trait_by_invlet( const int ch ) const
 {
     for( auto &mut : my_mutations ) {
         if( mut.second.key == ch ) {
@@ -532,17 +527,18 @@ void player::mutate()
     std::vector<trait_id> downgrades;
 
     // For each mutation...
-    for( auto &traits_iter : mutation_branch::get_all() ) {
-        const auto &base_mutation = traits_iter.id;
-        const auto &base_mdata = traits_iter;
+    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
+        const trait_id &base_mutation = traits_iter.id;
+        const mutation_branch &base_mdata = traits_iter;
         bool thresh_save = base_mdata.threshold;
         bool prof_save = base_mdata.profession;
-        bool purify_save = base_mdata.purifiable;
+        // are we unpurifiable? (saved from mutating away)
+        bool purify_save = !base_mdata.purifiable;
 
         // ...that we have...
         if( has_trait( base_mutation ) ) {
             // ...consider the mutations that replace it.
-            for( auto &mutation : base_mdata.replacements ) {
+            for( const trait_id &mutation : base_mdata.replacements ) {
                 bool valid_ok = mutation->valid;
 
                 if( ( mutation_ok( mutation, force_good, force_bad ) ) &&
@@ -552,7 +548,7 @@ void player::mutate()
             }
 
             // ...consider the mutations that add to it.
-            for( auto &mutation : base_mdata.additions ) {
+            for( const trait_id &mutation : base_mdata.additions ) {
                 bool valid_ok = mutation->valid;
 
                 if( ( mutation_ok( mutation, force_good, force_bad ) ) &&
@@ -566,7 +562,7 @@ void player::mutate()
                 // Starting traits don't count toward categories
                 std::vector<trait_id> group = mutations_category[cat];
                 bool in_cat = false;
-                for( auto &elem : group ) {
+                for( const trait_id &elem : group ) {
                     if( elem == base_mutation ) {
                         in_cat = true;
                         break;
@@ -575,11 +571,9 @@ void player::mutate()
 
                 // mark for removal
                 // no removing Thresholds/Professions this way!
-                if( !in_cat && !thresh_save && !prof_save ) {
-                    // non-purifiable stuff should be pretty tenacious
-                    // category-enforcement only targets it 25% of the time
-                    // (purify_save defaults true, = false for non-purifiable)
-                    if( purify_save || one_in( 4 ) ) {
+                // unpurifiable traits also cannot be purified
+                if( !in_cat && !thresh_save && !prof_save && !purify_save ) {
+                    if( one_in( 4 ) ) {
                         downgrades.push_back( base_mutation );
                     }
                 }
@@ -622,7 +616,7 @@ void player::mutate()
 
         if( cat.empty() ) {
             // Pull the full list
-            for( auto &traits_iter : mutation_branch::get_all() ) {
+            for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
                 if( traits_iter.valid ) {
                     valid.push_back( traits_iter.id );
                 }
@@ -691,17 +685,7 @@ void player::mutate_category( const std::string &cat )
         }
     }
 
-    // if we can't mutate in the category do nothing
-    if( valid.empty() ) {
-        return;
-    }
-
-    if( mutate_towards( random_entry( valid ) ) ) {
-        return;
-    } else {
-        // if mutation failed (errors, post-threshold pick), try again once.
-        mutate_towards( random_entry( valid ) );
-    }
+    mutate_towards( valid, 2 );
 }
 
 static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
@@ -718,6 +702,22 @@ static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
         ret.insert( ret.end(), these_prereqs.begin(), these_prereqs.end() );
     }
     return ret;
+}
+
+bool player::mutate_towards( std::vector<trait_id> muts, int num_tries )
+{
+    while( !muts.empty() && num_tries > 0 ) {
+        int i = rng( 0, muts.size() - 1 );
+
+        if( mutate_towards( muts[i] ) ) {
+            return true;
+        }
+
+        muts.erase( muts.begin() + i );
+        --num_tries;
+    }
+
+    return false;
 }
 
 bool player::mutate_towards( const trait_id &mut )
@@ -787,9 +787,9 @@ bool player::mutate_towards( const trait_id &mut )
 
     if( !has_prereqs && ( !prereq.empty() || !prereqs2.empty() ) ) {
         if( !prereq1 && !prereq.empty() ) {
-            return mutate_towards( random_entry( prereq ) );
+            return mutate_towards( prereq );
         } else if( !prereq2 && !prereqs2.empty() ) {
-            return mutate_towards( random_entry( prereqs2 ) );
+            return mutate_towards( prereqs2 );
         }
     }
 

@@ -3,6 +3,7 @@
     "id": "f_file_cabinet",
     "type": "furniture",
     "name": "filing cabinet",
+    "description": "",
     "symbol": "}",
     "color": [ "dark_gray" ],
     "move_cost_mod": 2,

@@ -36,7 +36,7 @@
       "rotation": 0,
       "palettes": [ "missile_silo" ],
       "terrain": { "*": "t_metal_floor" },
-      "fields": { "*": { "field": "fd_nuke_gas", "chance": 3, "density": 2, "age": 0 } },
+      "fields": { "*": { "field": "fd_nuke_gas", "chance": 3, "intensity": 2, "age": 0 } },
       "monster": { "z": { "monster": "mon_zombie_soldier" }, "Z": { "monster": "mon_zombie_bio_op" } }
     }
   }

@@ -1,0 +1,11 @@
+[
+  {
+    "type": "SPECIES",
+    "id": "MAGICAL_BEAST"
+  },
+  {
+    "type": "SPECIES",
+    "id": "DRAGON",
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK", "STALK" ]
+  }
+]

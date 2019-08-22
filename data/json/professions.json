@@ -22,21 +22,20 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "army_mags_rm51",
-    "entries": [
-      { "item": "8x40_50_mag", "ammo-item": "8mm_fmj", "charges": 50 },
-      { "item": "8x40_50_mag", "ammo-item": "8mm_fmj", "charges": 50 }
-    ]
+    "id": "charged_flashlight",
+    "ammo": 100,
+    "magazine": 100,
+    "entries": [ { "item": "flashlight" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "army_mags_rm25",
+    "id": "army_mags_m2010",
     "entries": [
-      { "item": "8x40_25_mag", "ammo-item": "8mm_fmj", "charges": 25 },
-      { "item": "8x40_25_mag", "ammo-item": "8mm_fmj", "charges": 25 },
-      { "item": "8x40_25_mag", "ammo-item": "8mm_fmj", "charges": 25 },
-      { "item": "8x40_25_mag", "ammo-item": "8mm_fmj", "charges": 25 }
+      { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 },
+      { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 },
+      { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 },
+      { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 }
     ]
   },
   {
@@ -69,10 +68,10 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "army_mags_lw21",
+    "id": "army_mags_glock17",
     "entries": [
-      { "item": "lw21mag", "ammo-item": "9mmfmj", "charges": 21 },
-      { "item": "lw21mag", "ammo-item": "9mmfmj", "charges": 21 }
+      { "item": "glock17_22", "ammo-item": "9mmfmj", "charges": 22 },
+      { "item": "glock17_22", "ammo-item": "9mmfmj", "charges": 22 }
     ]
   },
   {
@@ -554,6 +553,33 @@
   },
   {
     "type": "profession",
+    "ident": "true_foodperson",
+    "name": "True Foodperson",
+    "description": "You are the true Foodperson, some might think Foodperson is just a mascot, but you know better.  You are Foodperson, the mask has become your face, you are real and the only thing standing between this world and oblivion is you.",
+    "points": 0,
+    "traits": [ "PROF_FOODP" ],
+    "skills": [ { "level": 2, "name": "speech" } ],
+    "items": {
+      "both": {
+        "items": [
+          "foodperson_mask",
+          "pants_cargo",
+          "briefs",
+          "cape_fp",
+          "dress_shirt",
+          "armguard_hard",
+          "legguard_hard",
+          "gloves_rubber",
+          "socks",
+          "chestguard_hard",
+          "boots_rubber"
+        ],
+        "entries": [ { "item": "medium_disposable_cell" }, { "group": "snacks_fancy" }, { "group": "snacks" }, { "item": "bat" } ]
+      }
+    }
+  },
+  {
+    "type": "profession",
     "ident": "cyclist",
     "name": "Professional Cyclist",
     "description": "You were a promising young cyclist with a bright career in front of you before this all happened.  Perhaps you'll never get to participate in the grand tours now, but as the saying goes: Life is like riding a bicycle, you got to keep moving.",
@@ -746,20 +772,10 @@
     "points": 1,
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "socks",
-          "boots_combat",
-          "flashlight",
-          "longshirt",
-          "jacket_light",
-          "baton",
-          "knife_folding",
-          "hat_ball",
-          "wristwatch"
-        ],
+        "items": [ "pants", "socks", "boots_combat", "longshirt", "jacket_light", "baton", "knife_folding", "hat_ball", "wristwatch" ],
         "entries": [
           { "group": "charged_cell_phone" },
+          { "group": "charged_flashlight" },
           { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
           { "item": "9mm", "charges": 35 }
         ]
@@ -829,7 +845,6 @@
     "items": {
       "both": {
         "items": [
-          "flashlight",
           "pants_cargo",
           "boots",
           "hat_boonie",
@@ -844,6 +859,7 @@
         ],
         "entries": [
           { "group": "charged_cell_phone" },
+          { "group": "charged_flashlight" },
           { "item": "lighter", "charges": 100 },
           { "item": "knife_rambo", "container-item": "scabbard" }
         ]
@@ -902,6 +918,19 @@
     "points": -2,
     "items": { "both": [ "pants", "boxer_shorts" ], "male": [ "undershirt" ], "female": [ "camisole" ] },
     "addictions": [ { "intensity": 30, "type": "amphetamine" } ]
+  },
+  {
+    "type": "profession",
+    "ident": "pillhead",
+    "name": "Pillhead",
+    "description": "After an accident in your youth, you got addicted to the opiates treating your pain.  With the pharmacies shut down and dealers turned undead, satisfying your fix just got a lot more difficult.",
+    "points": -1,
+    "items": {
+      "both": [ "sneakers", "socks", "jeans", "tshirt", "wristwatch", "oxycodone" ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "panties", "bra" ]
+    },
+    "addictions": [ { "intensity": 20, "type": "opiate" } ]
   },
   {
     "type": "profession",
@@ -987,7 +1016,7 @@
         "items": [
           "pants",
           "dress_shirt",
-          "skinny_tie",
+          "tie_skinny",
           "waistcoat",
           "trenchcoat",
           "badge_detective",
@@ -1003,8 +1032,8 @@
         ],
         "entries": [
           { "group": "charged_cell_phone" },
-          { "item": "l_enforcer_45", "ammo-item": "45_acp", "charges": 6, "container-item": "sholster" },
-          { "item": "45_acp", "charges": 24 }
+          { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 6, "container-item": "sholster" },
+          { "item": "357mag_fmj", "charges": 24 }
         ]
       },
       "male": [ "briefs" ],
@@ -1241,8 +1270,7 @@
           { "group": "charged_cell_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "shotgun_d", "ammo-item": "shot_00", "charges": 2, "contents-item": "shoulder_strap" },
-          { "item": "shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
-          { "item": "shot_00", "charges": 6 },
+          { "item": "shot_00", "charges": 18, "container-item": "bandolier_shotgun" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
       },
@@ -1263,8 +1291,8 @@
         "entries": [
           { "group": "charged_cell_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "remington_700", "ammo-item": "270", "charges": 4, "contents-item": "shoulder_strap" },
-          { "item": "270", "charges": 16, "container-item": "bandolier_rifle" },
+          { "item": "remington700_270", "ammo-item": "270win_jsp", "charges": 4, "contents-item": "shoulder_strap" },
+          { "item": "270win_jsp", "charges": 16, "container-item": "bandolier_rifle" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
       },
@@ -1666,8 +1694,8 @@
           "two_way_radio"
         ],
         "entries": [
-          { "item": "l_mp_9mm", "ammo-item": "9mmP", "container-item": "holster" },
-          { "item": "chestrig", "container-group": "army_mags_lw21" }
+          { "item": "glock_18c", "ammo-item": "9mmP", "container-item": "holster" },
+          { "item": "chestrig", "container-group": "army_mags_glock17" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1762,12 +1790,8 @@
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sheath", "contents-item": "knife_combat" },
-          {
-            "item": "rm51_assault_rifle",
-            "ammo-item": "8mm_fmj",
-            "contents-item": [ "shoulder_strap", "acog_scope" ]
-          },
-          { "item": "modularvestceramic", "contents-group": "army_mags_rm51" }
+          { "item": "h&k416a5", "ammo-item": "556", "contents-item": [ "shoulder_strap", "acog_scope" ] },
+          { "item": "modularvestceramic", "contents-group": "army_mags_m4" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1825,11 +1849,15 @@
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "hat_boonie", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "rm11b_sniper_rifle", "ammo-item": "8mm_fmj", "contents-item": [ "shoulder_strap" ] },
+          {
+            "item": "m2010",
+            "ammo-item": "300_winmag",
+            "contents-item": [ "shoulder_strap", "rifle_scope", "bipod" ]
+          },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
           { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
-          { "item": "chestrig", "contents-group": [ "army_mags_rm25" ] }
+          { "item": "chestrig", "contents-group": [ "army_mags_m2010" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2114,7 +2142,7 @@
       "both": {
         "items": [
           "dress_shirt",
-          "skinny_tie",
+          "tie_skinny",
           "sunglasses",
           "pants",
           "socks",
@@ -2165,7 +2193,11 @@
     "description": "The cataclysm gave you a chance to escape, but freedom comes with a steep price.",
     "points": 0,
     "skills": [ { "level": 1, "name": "melee" } ],
-    "items": { "both": [ "striped_shirt", "striped_pants", "glass_shiv" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
+    "items": {
+      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "glass_shiv" ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
   },
   {
     "type": "profession",
@@ -2175,7 +2207,71 @@
     "points": 0,
     "skills": [ { "level": 1, "name": "melee" } ],
     "traits": [ "KILLER" ],
-    "items": { "both": [ "striped_shirt", "striped_pants", "glass_shiv" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
+    "items": {
+      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "glass_shiv" ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "convict_embezzler",
+    "name": "Embezzler",
+    "description": "You had a genius plan to skim fractions of cents out of your company's accounts. This plan immediately failed and got you arrested. They said you were too soft for prison, except right now they're dead and you're not.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "barter" }, { "level": 2, "name": "computer" } ],
+    "items": {
+      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "rock_sock" ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "ident": "convict_drugs",
+    "name": "Meth Cook",
+    "description": "You clawed your way out of poverty by selling products everyone wanted, and they had the nerve to put you in jail for it. Too bad you can't sell drugs to zombies or aliens.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "firstaid" } ],
+    "items": {
+      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "adderall", "matches" ],
+      "entries": [ { "item": "condom", "contents_item": "dayquil" } ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "ident": "convict_political",
+    "name": "Political Prisoner",
+    "description": "Exposing what was going on in those labs was a noble idea. You insist you could have stopped the Cataclysm if it weren't for that misdemeanor charge.",
+    "points": 1,
+    "skills": [ { "level": 3, "name": "speech" } ],
+    "items": {
+      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "gum" ],
+      "entries": [ { "group": "charged_cell_phone" } ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "ident": "convict_ratman",
+    "name": { "male": "Rat Prince", "female": "Rat Princess" },
+    "description": "You probably needed psychiatric help instead of a prison sentence. At least your loyal subjects have agreed to hold the line as you make your daring escape.",
+    "points": 3,
+    "skills": [ { "level": 1, "name": "speech" }, { "level": 1, "name": "survival" } ],
+    "traits": [ "ANIMALEMPATH" ],
+    "pets": [ { "name": "mon_black_rat", "amount": 13 } ],
+    "items": {
+      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "fried_seeds" ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",
@@ -2211,7 +2307,7 @@
     "name": { "male": "Razor Boy", "female": "Razor Girl" },
     "description": "Through a series of painful and expensive surgeries you became a walking bionic weapon, your services as a mercenary available to the highest bidder.  Now that the world has ended, those bionic enhancements may spell the difference between life and death.",
     "points": 5,
-    "CBMs": [ "bio_razors", "bio_sunglasses", "bio_dex_enhancer", "bio_ears", "bio_carbon" ],
+    "CBMs": [ "bio_razors", "bio_armor_eyes", "bio_sunglasses", "bio_dex_enhancer", "bio_ears", "bio_carbon" ],
     "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "unarmed" }, { "level": 2, "name": "dodge" } ],
     "items": {
       "both": [
@@ -2313,7 +2409,7 @@
     "items": {
       "both": [
         "suit",
-        "skinny_tie",
+        "tie_necktie",
         "tieclip",
         "socks",
         "dress_shoes",
@@ -2324,6 +2420,39 @@
         "money_bundle",
         "file"
       ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "millionaire",
+    "name": "Millionaire",
+    "description": "You had a fortune, whether inherited, built by hard work, or gained by pure luck.  You invested in trade and nothing was beyond your reach.  Now it's not worth a dime and no money in the world can guarantee your safety and well being.  Hard times are ahead, so it's time to undust your skills and try to sell some ice to the Innuit.  What currency do they accept?",
+    "points": 3,
+    "traits": [ "MILLIONAIRE" ],
+    "skills": [ { "level": 3, "name": "barter" }, { "level": 2, "name": "speech" } ],
+    "items": {
+      "both": {
+        "items": [
+          "suit",
+          "tie_skinny",
+          "tieclip",
+          "socks",
+          "dress_shoes",
+          "smart_phone",
+          "money_bundle",
+          "gold_watch",
+          "gold_ear",
+          "gold_bracelet",
+          "gasdiscount_platinum",
+          "diamond_ring",
+          "gold_small",
+          "silver_small",
+          "platinum_small"
+        ],
+        "entries": [ { "item": "cash_card", "charges": 1000000 }, { "item": "diamond", "count": 5 } ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -2691,7 +2820,7 @@
     "items": {
       "both": {
         "items": [ "shorts", "tshirt", "socks", "lowtops", "wristwatch" ],
-        "entries": [ { "group": "charged_cell_phone" }, { "item": "gobag", "custom-flags": [ "FIT" ] } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "personal_gobag", "custom-flags": [ "FIT" ] } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -2856,8 +2985,7 @@
         "entries": [
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "XL_holster", "contents-group": "shotgun_d_roadwarrior" },
-          { "item": "reloaded_shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
-          { "item": "reloaded_shot_00", "charges": 6 }
+          { "item": "reloaded_shot_00", "charges": 18, "container-item": "bandolier_shotgun" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2898,8 +3026,7 @@
         "entries": [
           { "item": "knife_trench", "container-item": "sheath" },
           { "item": "ashot", "ammo-item": "reloaded_shot_00", "container-item": "holster" },
-          { "item": "reloaded_shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
-          { "item": "reloaded_shot_00", "charges": 7 },
+          { "item": "reloaded_shot_00", "charges": 19, "container-item": "bandolier_shotgun" },
           { "item": "helsing", "ammo-item": "bolt_steel", "contents-item": "shoulder_strap" },
           { "item": "bolt_steel", "charges": 12, "container-item": "quiver" },
           { "item": "survivor_mess_kit", "charges": [ 20, 30 ] }
@@ -2972,7 +3099,6 @@
           "pants",
           "socks",
           "boots",
-          "flashlight",
           "longshirt",
           "jacket_light",
           "baton",
@@ -2981,7 +3107,7 @@
           "pockknife",
           "wristwatch"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_flashlight" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
@@ -3011,7 +3137,6 @@
           "trenchcoat_fur",
           "backpack_leather",
           "boots_fur",
-          "footrags_fur",
           "gloves_fur",
           "hat_fur",
           "scarf_fur",
@@ -3031,8 +3156,7 @@
           { "item": "arrow_wood", "charges": 20, "container-item": "quiver" }
         ]
       }
-    },
-    "flags": [ "SCEN_ONLY" ]
+    }
   },
   {
     "type": "profession",
@@ -3259,12 +3383,11 @@
           "water_clean",
           "scissors",
           "magnifying_glass",
-          "flashlight",
           "1st_aid",
           "wristwatch",
           "whistle"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_flashlight" } ]
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
@@ -3284,7 +3407,7 @@
         "pants",
         "socks",
         "dress_shoes",
-        "skinny_tie",
+        "tie_clipon",
         "tieclip",
         "fancy_sunglasses",
         "knit_scarf",
@@ -3371,7 +3494,7 @@
           "pants",
           "socks",
           "dress_shoes",
-          "skinny_tie",
+          "tie_skinny",
           "tieclip",
           "poetry_book",
           "permanent_marker",
@@ -3459,7 +3582,7 @@
     "ident": "miner",
     "name": "Miner",
     "description": "You're a miner, not a minor!  Your canteen is dry, your jackhammer is out of gas, and you're on your last pair of batteries for your mining helmet...",
-    "points": 0,
+    "points": 2,
     "items": {
       "both": {
         "items": [
@@ -3486,8 +3609,7 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "boy_shorts", "sports_bra" ]
-    },
-    "flags": [ "SCEN_ONLY" ]
+    }
   },
   {
     "type": "profession",
@@ -3540,8 +3662,7 @@
     "ident": "naked",
     "name": "Naked and Afraid",
     "description": "You were out filming a reality TV show in the woods and the cast and crew all seemed to have turned into zombies.  Looks like it's for real now...",
-    "points": -1,
-    "flags": [ "SCEN_ONLY" ]
+    "points": -1
   },
   {
     "type": "profession",
@@ -3582,7 +3703,7 @@
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "survival" } ],
     "items": {
       "both": {
-        "items": [ "jeans", "tshirt", "socks", "sneakers", "mbag", "pizza_cheese", "cola", "dnd_handbook", "wristwatch" ],
+        "items": [ "jeans", "tshirt", "socks", "sneakers", "mbag", "pizza_cheese", "cola", "dnd_handbook", "wristwatch", "RPG_die" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "briefs" ],
@@ -3711,6 +3832,111 @@
         "entries": [ { "item": "bokken_inferior", "container-item": "scabbard" } ]
       },
       "female": [ "chestwrap" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "politician",
+    "name": "Career Politician",
+    "description": "You've spent your life appealing to the people, persuading many and promising much throughout your time in office.  Now that your voting base wants to eat you alive, winning hearts and minds just got that much harder.",
+    "points": 4,
+    "skills": [ { "level": 4, "name": "barter" }, { "level": 6, "name": "speech" } ],
+    "traits": [ "LIAR" ],
+    "items": {
+      "both": [
+        "suit",
+        "tieclip",
+        "socks_wool",
+        "dress_shoes",
+        "smart_phone",
+        "gold_watch",
+        "briefcase",
+        "tie_skinny",
+        "file",
+        "ref_lighter",
+        "cigar"
+      ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "rancher",
+    "name": "Rancher",
+    "description": "You've raised cows or horses most of your life, now we'll see what happens next.",
+    "points": 2,
+    "skills": { "level": 2, "name": "survival" },
+    "items": {
+      "both": [
+        "jeans",
+        "dress_shirt",
+        "jacket_leather",
+        "socks",
+        "cowboy_hat",
+        "boots_western",
+        "wristwatch",
+        "riding_saddle",
+        "pockknife",
+        "cattlefodder",
+        "cattlefodder",
+        "cig"
+      ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "roadie",
+    "name": "Roadie",
+    "description": "You worked just outside of the limelight, ensuring that the performers got what they needed and that everything ran smoothly.  The stakes are higher these days, but the show must go on.",
+    "points": 3,
+    "skills": [
+      { "level": 2, "name": "fabrication" },
+      { "level": 1, "name": "driving" },
+      { "level": 2, "name": "electronics" },
+      { "level": 1, "name": "dodge" },
+      { "level": 1, "name": "mechanics" }
+    ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "magazine": 100,
+        "items": [
+          "tshirt_tour",
+          "jeans",
+          "socks",
+          "boots_steel",
+          "multitool",
+          "wristwatch",
+          "gloves_work",
+          "mbag",
+          "soldering_iron",
+          "matches"
+        ],
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "jacket_jean", "snippet_category": "patched" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "musician",
+    "name": "Musician",
+    "description": "You were just about to hit the stage when the Cataclysm struck.  You weren't able to grab much during the panic, but at least you have your loaded six string on your back.",
+    "points": -1,
+    "skills": [ { "level": 1, "name": "barter" }, { "level": 2, "name": "speech" } ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "magazine": 100,
+        "items": [ "tshirt_tour", "shorts_cargo", "socks", "sneakers", "wristwatch", "water_clean", "guitar_electric" ],
+        "entries": [ { "item": "towel", "custom-flags": [ "no_auto_equip" ] }, { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
     }
   }
 ]

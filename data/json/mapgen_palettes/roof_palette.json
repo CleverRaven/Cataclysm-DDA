@@ -39,7 +39,7 @@
       "t": "f_table",
       "r": "f_rack",
       "L": "f_locker",
-      "C": "f_crate_c",
+      "C": [ "f_crate_c", "f_cardboard_box" ],
       "Y": "f_stool",
       "s": "f_sofa",
       "S": "f_sink",

@@ -6,6 +6,7 @@
 
 #include "game_constants.h"
 #include "string_id.h"
+#include "translations.h"
 
 class activity_type;
 class JsonObject;
@@ -30,7 +31,7 @@ class activity_type
     private:
         activity_id id_;
         bool rooted_ = false;
-        std::string stop_phrase_ = "THIS IS A BUG";
+        translation verb_ = translation( "THIS IS A BUG" );
         bool suspendable_ = true;
         based_on_type based_on_ = based_on_type::SPEED;
         bool no_resume_ = false;
@@ -47,8 +48,9 @@ class activity_type
         bool suspendable() const {
             return suspendable_;
         }
-        std::string stop_phrase() const {
-            return stop_phrase_;
+        std::string stop_phrase() const;
+        const translation &verb() const {
+            return verb_;
         }
         based_on_type based_on() const {
             return based_on_;

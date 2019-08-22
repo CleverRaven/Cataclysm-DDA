@@ -9,7 +9,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ], [ [ "food_processor", 10 ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [ [ "milk", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [
@@ -42,7 +42,7 @@
     "skill_used": "cooking",
     "time": "12 m",
     "autolearn": true,
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ], [ [ "food_processor", 10 ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [ [ "milk", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [
@@ -77,7 +77,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ], [ [ "food_processor", 10 ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [ [ "milk", 2 ], [ "con_milk", 2 ], [ "can_coconut", 2 ] ],
       [
@@ -167,7 +167,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ], [ [ "food_processor", 10 ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [ [ "milk", 2 ], [ "con_milk", 2 ], [ "can_coconut", 2 ] ],
       [
@@ -200,7 +200,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ], [ [ "food_processor", 10 ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [ [ [ "milk", 2 ], [ "con_milk", 2 ], [ "can_coconut", 2 ] ], [ [ "yoghurt", 1 ] ], [ [ "sugar", 5 ] ] ]
   },
   {
@@ -212,7 +212,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ], [ [ "food_processor", 10 ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [ [ "water_clean", 1 ], [ "kompot", 1 ] ],
       [ [ "juice", 1 ], [ "oj", 1 ], [ "apple_cider", 1 ], [ "lemonade", 1 ], [ "cranberry_juice", 1 ] ],
@@ -229,7 +229,7 @@
     "time": "20 m",
     "book_learn": [ [ "cookbook_italian", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ], [ [ "food_processor", 10 ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [ [ "milk", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [

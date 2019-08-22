@@ -14,11 +14,12 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
 	"valid_targets": [ "hostile", "ground", "self", "ally" ], // if a valid target is not included, you cannot cast the spell on that target.
 	"effect": "shallow_pit",                                  // effects are coded in C++. A list will be provided below of possible effects that have been coded.
 	"effect_str": "template"                                  // special. see below
+	"extra_effects": [ { "id": "fireball", "hit_self": false, "max_level": 3 } ],	// this allows you to cast multiple spells with only one spell
 	"effected_body_parts": [ "HEAD", "TORSO", "MOUTH", "EYES", "ARM_L", "ARM_R", "HAND_R", "HAND_L", "LEG_L", "FOOT_L", "FOOT_R" ], // body parts affected by effects
 	"spell_class": "NONE"                                     // 
 	"base_casting_time": 100,                                 // this is the casting time (in moves)
 	"base_energy_cost": 10,                                   // the amount of energy (of the requisite type) to cast the spell
-	"energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, NONE (none will not use mana)
+	"energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, FATIGUE, NONE (none will not use mana)
 	"difficulty": 12,                                         // the difficulty to learn/cast the spell
 	"max_level": 10,                                          // maximum level you can achieve in the spell
 	"min_damage": 0,                                          // minimum damage (or "starting" damage)
@@ -38,7 +39,13 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
 	"duration_increment": 4,
 	"min_pierce": 0,                                          // how much of the spell pierces armor (currently not implemented)
 	"max_pierce": 1,
-	"pierce_increment": 0.1
+	"pierce_increment": 0.1,
+	"field_id": "fd_blood",                                   // the string id of the field (currently hardcoded)
+	"field_chance": 100,                                      // one_in( field_chance ) chance of spawning a field per tile in aoe
+	"min_field_intensity": 10,                                // field intensity of fields generated
+	"max_field_intensity": 10,
+	"field_intensity_increment": 1,
+	"field_intensity_variance": 0.1                           // the field can range in intensity from -variance as a percent to +variance as a percent i.e. this spell would be 9-11
   }
 ```
 Most of the default values for the above are either 0 or "NONE", so you may leave out most of the values if they do not pertain to your spell.
@@ -74,6 +81,15 @@ Any aoe will manifest as a circular area centered on the target, and will only d
 
 * "teleport_random" - teleports the player randomly range spaces with aoe variation
 
+* "recover_energy" - recovers an energy source (defined in the effect_str, shown below) equal to damage of the spell
+- "MANA"
+- "STAMINA"
+- "FATIGUE"
+- "PAIN"
+- "BIONIC"
+
+* "ter_transform" - transform the terrain and furniture in an area centered at the target.  The chance of any one of the points in the area of effect changing is one_in( damage ).  The effect_str is the id of a ter_furn_transform.
+
 ##### For Spells that have an attack type, these are the available damage types:
 * "fire"
 * "acid"
@@ -85,7 +101,35 @@ Any aoe will manifest as a circular area centered on the target, and will only d
 * "stab"
 * "none" - this damage type goes through armor altogether. it is the default.
 
-#### Learning Spells
+#### Spells that level up
+
+Spells that change effects as they level up must have a min and max effect and an increment. The min effect is what the spell will do at level 0, and the max effect is where it stops growing.  The increment is how much it changes per level. For example:
+
+```json
+"min_range": 1,
+"max_range": 25,
+"range_increment": 5,
+```
+
+Min and max values must always have the same sign, but it can be negative eg. in the case of spells that use a negative 'recover' effect to cause pain or stamina damage. For example:
+
+```json
+  {
+    "id": "stamina_damage",
+    "type": "SPELL",
+    "name": "Tired",
+    "description": "decreases stamina",
+    "valid_targets": [ "hostile" ],
+    "min_damage": -2000,
+    "max_damage": -10000,
+    "damage_increment": -3000,
+    "max_level": 10,
+    "effect": "recover_energy",
+    "effect_str": "STAMINA"
+  }
+```
+
+### Learning Spells
 
 Currently there is only one way of learning spells that is implemented: learning a spell from an item, through a use_action.  An example is shown below:
 ```C++
@@ -105,3 +149,24 @@ Currently there is only one way of learning spells that is implemented: learning
 },
 ```
 You can study this spellbook for a rate of ~1 experience per turn depending on intelligence, spellcraft, and focus.
+
+
+#### Spells in professions
+
+You can add a "spell" member to professions like so:
+```json
+"spells": [ { "id": "summon_zombie", "level": 0 }, { "id": "magic_missile", "level": 10 } ]
+```
+NOTE: This makes it possible to learn spells that conflict with a class. It also does not give the prompt to gain the class. Be judicious upon adding this to a profession!
+
+
+#### Monsters
+
+You can assign a spell as a special attack for a monster.
+```json
+{ "type": "spell", "spell_id": "burning_hands", "spell_level": 10, "cooldown": 10 }
+```
+* spell_id: the id for the spell being cast.
+* spell_level: the level at which the spell is cast. Spells cast by monsters do not gain levels like player spells.
+* cooldown: how often the monster can cast this spell
+

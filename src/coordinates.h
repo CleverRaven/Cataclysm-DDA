@@ -6,6 +6,7 @@
 
 #include "enums.h"
 #include "game_constants.h"
+#include "point.h"
 
 /* find appropriate subdivided coordinates for absolute tile coordinate.
  * This is less obvious than one might think, for negative coordinates, so this

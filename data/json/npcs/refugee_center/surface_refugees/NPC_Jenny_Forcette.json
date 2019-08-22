@@ -26,12 +26,12 @@
     "id": "REFUGEE_Jenny_worn",
     "subtype": "collection",
     "entries": [
-      { "item": "linuxtshirt" },
-      { "item": "jeans" },
-      { "item": "hoodie" },
       { "item": "sports_bra" },
       { "item": "panties" },
       { "item": "socks" },
+      { "item": "linuxtshirt" },
+      { "item": "jeans" },
+      { "item": "hoodie" },
       { "item": "sneakers" },
       { "item": "backpack" }
     ]
@@ -148,7 +148,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Refugees1_veryearly",
-    "dynamic_line": "I don't know the other folks very well yet.  There's Boris, Garry, and Stan, they seem to keep to each other.  They've gone through something, but I haven't pried.  Dana and her husband lost their baby, that was a big deal right when they arrived.  There's that counsellor lady with the unusual name, she's nice enough.  Fatima just showed up a little while ago, but I've been trying to get to know her better, I think we've at least got our professional stuff in common a bit.  I haven't really spoken much to anyone else.",
+    "dynamic_line": "I don't know the other folks very well yet.  There's Boris, Garry, and Stan, they seem to keep to each other.  They've gone through something, but I haven't pried.  Dana and her husband lost their baby, that was a big deal right when they arrived.  There's that counselor lady with the unusual name, she's nice enough.  Fatima just showed up a little while ago, but I've been trying to get to know her better, I think we've at least got our professional stuff in common a bit.  I haven't really spoken much to anyone else.",
     "responses": [
       { "text": "What was that you said about living here?", "topic": "TALK_REFUGEE_JENNY_Personal1_veryearly" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -263,7 +263,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_FreeMerchants",
-    "dynamic_line": "They run this place, and they don't run a charity.  We get paid for working around the place, maintaining it, what have you, and we trade cash for food.  The thing is, supply and demand and all... there's a lot more cash than food around.  It's easier to buy a laptop than a piece of beef jerky, and there's no sign of that getting better.  The balance is way off right now, a hard day of work barely gets you enough to fill your belly.  I shouldn't bitch too much though.  I don't know much better way to run it, although rumour is that the folks living downstairs have it a lot easier than we do.  I try not to think too much on that.",
+    "dynamic_line": "They run this place, and they don't run a charity.  We get paid for working around the place, maintaining it, what have you, and we trade cash for food.  The thing is, supply and demand and all... there's a lot more cash than food around.  It's easier to buy a laptop than a piece of beef jerky, and there's no sign of that getting better.  The balance is way off right now, a hard day of work barely gets you enough to fill your belly.  I shouldn't bitch too much though.  I don't know much better way to run it, although rumor is that the folks living downstairs have it a lot easier than we do.  I try not to think too much on that.",
     "responses": [
       { "text": "Can you tell me about Fatima?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Fatima" },
       {
@@ -297,7 +297,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Refugees2_Friends",
-    "dynamic_line": "Well, Dana lost her baby right after <the_cataclysm>, in a bus rollover.  She was lucky to make it out alive.  She and Pedro had one of the rougher trips here, I guess.  We just kinda click as friends, I'm grateful there's someone else here I can really get along with.  Her husband, Pedro, is still pretty shellshocked.  He doesn't talk much.  I like him though, when he opens up he's just hilarious.  Draco is just a cantankerous old fart who hasn't actually got old yet, give him twenty years and he'll be there.  I like grumpy people.  We also have pretty similar taste in music.  Aleesha's a sweet kid, and we've all kind of adopted her, but she seems to hang out with me and Dana the most.  She's a great artist, and she's full of crazy ideas.  I guess I like her because of all of us, she seems to have the most hope that there's a future to be had.",
+    "dynamic_line": "Well, Dana lost her baby right after <the_cataclysm>, in a bus rollover.  She was lucky to make it out alive.  She and Pedro had one of the rougher trips here, I guess.  We just kinda click as friends, I'm grateful there's someone else here I can really get along with.  Her husband, Pedro, is still pretty shell-shocked.  He doesn't talk much.  I like him though, when he opens up he's just hilarious.  Draco is just a cantankerous old fart who hasn't actually got old yet, give him twenty years and he'll be there.  I like grumpy people.  We also have pretty similar taste in music.  Aleesha's a sweet kid, and we've all kind of adopted her, but she seems to hang out with me and Dana the most.  She's a great artist, and she's full of crazy ideas.  I guess I like her because of all of us, she seems to have the most hope that there's a future to be had.",
     "responses": [
       { "text": "Can you tell me about the Free Merchants?", "topic": "TALK_REFUGEE_JENNY_FreeMerchants" },
       { "text": "Can you tell me about Fatima?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Fatima" },
@@ -374,7 +374,7 @@
   {
     "id": "MISSION_REFUGEE_Jenny_GET_MOTOR",
     "type": "mission_definition",
-    "name": "Bring Jenny a motor for her compressor.",
+    "name": "Find an electric motor",
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
@@ -396,7 +396,7 @@
   {
     "id": "MISSION_REFUGEE_Jenny_GET_TANK",
     "type": "mission_definition",
-    "name": "Bring Jenny a tank for her compressor.",
+    "name": "Bring back a 60L metal tank",
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",

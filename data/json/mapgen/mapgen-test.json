@@ -24,6 +24,11 @@
     "mondensity": 1
   },
   {
+    "type": "ter_furn_transform",
+    "id": "mapgen_test",
+    "terrain": [ { "result": "t_dirt", "valid_terrain": [ "t_grass" ] } ]
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mapgen-test" ],
@@ -31,7 +36,7 @@
       "//": "Some of the squares should have a frame, but not all.",
       "fill_ter": "t_grass",
       "rows": [
-        "                        ",
+        "                       r",
         "                        ",
         "                        ",
         "                        ",
@@ -71,8 +76,8 @@
       "place_furniture": [ { "furn": "f_rack", "x": 9, "y": 3 } ],
       "place_traps": [ { "trap": "tr_funnel", "x": 7, "y": 3 } ],
       "traps": { "F": "tr_cot", "f": { "trap": "tr_funnel" }, "g": { "trap": "tr_funnel" } },
-      "fields": { "B": { "field": "fd_blood", "density": 1, "age": 10 } },
-      "place_fields": [ { "field": "fd_bile", "x": 5, "y": 1, "density": 2, "age": 20 } ],
+      "fields": { "B": { "field": "fd_blood", "intensity": 1, "age": 10 } },
+      "place_fields": [ { "field": "fd_bile", "x": 5, "y": 1, "intensity": 2, "age": 20 } ],
       "place_signs": [
         { "signage": "it works again.", "x": 7, "y": 1 },
         { "signage": "<given_name> <family_name> owned <full_name> at <city>", "x": 7, "y": 2 },
@@ -112,7 +117,9 @@
       "vehicles": {
         "o": { "vehicle": "welding_cart", "chance": 100, "fuel": 40, "status": 1 },
         "s": { "vehicle": "wheelchair", "chance": 100, "status": 1 }
-      }
+      },
+      "place_ter_furn_transforms": [ { "transform": "mapgen_test", "x": 22, "y": 0 } ],
+      "ter_furn_transforms": { "r": { "transform": "mapgen_test" } }
     }
   }
 ]

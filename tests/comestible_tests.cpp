@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <list>
 #include <map>
-#include <string>
 #include <utility>
 #include <vector>
 
@@ -15,14 +14,13 @@
 #include "item.h"
 #include "optional.h"
 #include "string_id.h"
-#include "type_id.h"
 
 struct all_stats {
     statistics<int> calories;
 };
 
 // given a list of components, adds all the calories together
-static int comp_calories( std::vector<item_comp> components )
+static int comp_calories( const std::vector<item_comp> &components )
 {
     int calories = 0;
     for( item_comp it : components ) {
@@ -93,7 +91,7 @@ static int byproduct_calories( const recipe &recipe_obj )
     return kcal;
 }
 
-static all_stats run_stats( std::vector<std::vector<item_comp>> permutations,
+static all_stats run_stats( const std::vector<std::vector<item_comp>> &permutations,
                             int byproduct_calories )
 {
     all_stats mystats;
@@ -103,16 +101,16 @@ static all_stats run_stats( std::vector<std::vector<item_comp>> permutations,
     return mystats;
 }
 
-static item food_or_food_container( item it )
+static item food_or_food_container( const item &it )
 {
     return it.is_food_container() ? it.contents.front() : it;
 }
 
 TEST_CASE( "recipe_permutations" )
 {
-    for( auto i = recipe_dict.begin(); i != recipe_dict.end(); i++ ) {
+    for( const auto &recipe_pair : recipe_dict ) {
         // the resulting item
-        const recipe &recipe_obj = i->first.obj();
+        const recipe &recipe_obj = recipe_pair.first.obj();
         item res_it = food_or_food_container( recipe_obj.create_result() );
         const bool is_food = res_it.is_food();
         const bool has_override = res_it.has_flag( "NUTRIENT_OVERRIDE" );
@@ -133,8 +131,9 @@ TEST_CASE( "recipe_permutations" )
             if( mystats.calories.min() != mystats.calories.max() ) {
                 if( mystats.calories.min() < 0 || lower_bound >= mystats.calories.avg() ||
                     mystats.calories.avg() >= upper_bound ) {
-                    printf( "\n\nRecipeID: %s, Lower Bound: %f, Average: %f, Upper Bound: %f\n\n", i->first.c_str(),
-                            lower_bound, mystats.calories.avg(), upper_bound );
+                    printf( "\n\nRecipeID: %s, Lower Bound: %f, Average: %f, Upper Bound: %f\n\n",
+                            recipe_pair.first.c_str(), lower_bound, mystats.calories.avg(),
+                            upper_bound );
                 }
                 CHECK( mystats.calories.min() >= 0 );
                 CHECK( lower_bound < mystats.calories.avg() );

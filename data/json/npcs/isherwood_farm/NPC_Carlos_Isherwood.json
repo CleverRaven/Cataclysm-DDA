@@ -1,0 +1,213 @@
+[
+  {
+    "type": "npc",
+    "id": "isherwood_carlos",
+    "//": "Dairy farmer the Isherwood family.",
+    "name_unique": "Carlos Isherwood",
+    "gender": "male",
+    "class": "NC_ISHERWOOD_CARLOS",
+    "worn_override": "NC_Isherwood_worn",
+    "carry_override": "NC_ISHERWOOD_rifle",
+    "weapon_override": "NC_ISHERWOOD_archery",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ISHERWOOD_CARLOS",
+    "mission_offered": "MISSION_ISHERWOOD_CARLOS_1",
+    "faction": "isherwood_family"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ISHERWOOD_CARLOS",
+    "name": "Carlos Isherwood",
+    "job_description": "I'm Jesse's husband, part of the Isherwood family",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "common": false,
+    "bonus_per": { "one_in": 4 },
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 7, 10 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 7, 10 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 8, 10 ] } }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CARLOS",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "I see that badge, I think you need ot keep on walking, straight off this property.",
+      "no": { "u_male": true, "yes": "Hello Sir, what brings you here?", "no": "Hello Ma'am, what brings you here?" }
+    },
+    "responses": [
+      {
+        "text": "Yeah, I'm a Marshal, what are you going to do about it?",
+        "topic": "TALK_LEAVE_NOW",
+        "effect": "hostile",
+        "opinion": { "trust": -20, "value": -20 },
+        "condition": { "u_is_wearing": "badge_marshal" }
+      },
+      {
+        "text": "...",
+        "topic": "TALK_LEAVE_NOW",
+        "opinion": { "trust": -20, "value": -20 },
+        "condition": { "u_is_wearing": "badge_marshal" }
+      },
+      {
+        "text": "Hi, looks like you are building a forage setup.",
+        "topic": "TALK_ISHERWOOD_CARLOS_TALK1",
+        "speaker_effect": { "effect": { "u_add_var": "u_met_carlos_isherwood", "type": "general", "context": "meeting", "value": "yes" } }
+      },
+      {
+        "text": "Hi, Jack and Claire suggested I come talk to you about a job.",
+        "topic": "TALK_CARLOS_FORGE",
+        "condition": {
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "u_has_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "Can I do anything for you?",
+        "topic": "TALK_MISSION_LIST",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      },
+      {
+        "text": "I'd better get going.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CARLOS_TALK1",
+    "dynamic_line": "It is coming together.  I want to make our own tools, repair our items and even create some weapons and ammuntion reloading.",
+    "responses": [
+      { "text": "What do you need?", "topic": "TALK_MISSION_LIST" },
+      {
+        "text": "I heard about Barry, can you tell me what killed him?",
+        "topic": "TALK_CARLOS_BARRY",
+        "condition": {
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "u_has_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        }
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_carlos_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARLOS_BARRY",
+    "dynamic_line": "It was pink and really fast, it had lots of limbs, definitly not human. It easily kept up with us when we tried to escape, horrifying stuff.  We burned the corpse to be safe.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARLOS_FORGE",
+    "dynamic_line": "The big item I need is an anvil, once I have that I can get a lot of repairs done.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARLOS_CHRIS",
+    "dynamic_line": "Chris is hiking the perimeter of our land, planning some defense options.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LEAVE_NOW",
+    "dynamic_line": "You should get off my farm, I won't deal with a a government stooge.",
+    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CARLOS_TOPICS",
+    "dynamic_line": "Go on...",
+    "responses": [
+      { "text": "Is your forge operational?", "topic": "TALK_CARLOS_FORGE" },
+      { "text": "Where can I find Chris?", "topic": "TALK_CARLOS_CHRIS" },
+      { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_ISHERWOOD_CARLOS_1",
+    "type": "mission_definition",
+    "name": "Find an anvil",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "anvil",
+    "count": 1,
+    "origins": [ "ORIGIN_ANY_NPC" ],
+    "followup": "MISSION_ISHERWOOD_CARLOS_2",
+    "dialogue": {
+      "describe": "I need an anvil to do advanced metal work.",
+      "offer": "I could really use an anvil.",
+      "accepted": "You might be able to find one in a hardware store or similar.",
+      "rejected": "Thanks anyway, we'll find the time to make it ourselves.",
+      "advice": "If you can't find one, maybe you can make one for me.",
+      "inquire": "Do you have the anvil?",
+      "success": "I appreciate it, this will really make a difference, here's some horse armor I've been working on, eventually I'll have the whole herd outfitted.",
+      "success_lie": "What good does this do me?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "opinion": { "trust": 1, "value": 1 },
+      "effect": [
+        { "u_buy_item": "chainmail_armor_horse", "count": 1 },
+        { "u_add_var": "u_did_carlos_missions", "type": "general", "context": "recruit", "value": "yes" }
+      ],
+      "update_mapgen": [
+        {
+          "om_terrain": "horse_farm_isherwood_4",
+          "om_special": "Isherwood Farms",
+          "set": [ { "point": "furniture", "id": "f_anvil", "x": 6, "y": 12 } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_ISHERWOOD_CARLOS_2",
+    "type": "mission_definition",
+    "name": "Find Chris Isherwood",
+    "goal": "MGOAL_TALK_TO_NPC",
+    "difficulty": 3,
+    "value": 20000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "cabin_isherwood", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 8 },
+      "update_mapgen": { "place_npcs": [ { "class": "isherwood_chris", "x": 8, "y": 17, "target": true } ] }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Our son still isn't back, I'm getting concerned.",
+      "offer": "Can you go find my son and tell him to check in with us.",
+      "accepted": "Thank you.",
+      "rejected": "Oh well.  I hope he turns up soon.",
+      "advice": "He should be on the property somewhere, maybe by that old cabin near the entrance, sometimes he camps there.",
+      "inquire": "How is the search going?",
+      "success": "Thanks, I was getting ready to go look myself.",
+      "success_lie": "What good does this do us?",
+      "failure": "I hope he didn't meet Barry's fate..."
+    }
+  }
+]

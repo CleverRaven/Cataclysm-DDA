@@ -69,7 +69,7 @@
     "color": "red",
     "count": 250,
     "stack_size": 200,
-    "ammo_type": [ "bfeed" ],
+    "ammo_type": "bfeed",
     "range": 4,
     "damage": 5,
     "pierce": 5

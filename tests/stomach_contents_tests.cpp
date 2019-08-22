@@ -14,7 +14,7 @@
 
 static void reset_time()
 {
-    calendar::turn = calendar( 0 );
+    calendar::turn = calendar::start_of_cataclysm;
     player &p = g->u;
     p.set_stored_kcal( p.get_healthy_kcal() );
     p.set_hunger( 0 );
@@ -24,7 +24,7 @@ static void reset_time()
 static void pass_time( player &p, time_duration amt )
 {
     for( auto turns = 1_turns; turns < amt; turns += 1_turns ) {
-        calendar::turn.increment();
+        calendar::turn += 1_turns;
         p.update_body();
     }
 }
@@ -158,8 +158,8 @@ TEST_CASE( "starve_test_hunger3" )
     if( print_tests ) {
         printf( "\n\n" );
     }
-    CHECK( day <= 15 );
-    CHECK( day >= 14 );
+    CHECK( day <= 11 );
+    CHECK( day >= 10 );
 }
 
 // does eating enough food per day keep you alive
@@ -267,8 +267,8 @@ TEST_CASE( "hunger" )
         printf( "%d minutes til hunger sets in\n", hunger_time );
         print_stomach_contents( dummy, print_tests );
     }
-    CHECK( hunger_time <= 300 );
-    CHECK( hunger_time >= 240 );
+    CHECK( hunger_time <= 390 );
+    CHECK( hunger_time >= 360 );
     if( print_tests ) {
         printf( "eat 16 veggy with extreme metabolism\n" );
     }
@@ -286,6 +286,6 @@ TEST_CASE( "hunger" )
         printf( "%d minutes til hunger sets in\n", hunger_time );
         print_stomach_contents( dummy, print_tests );
     }
-    CHECK( hunger_time <= 210 );
-    CHECK( hunger_time >= 120 );
+    CHECK( hunger_time <= 240 );
+    CHECK( hunger_time >= 210 );
 }

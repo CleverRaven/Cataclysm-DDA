@@ -36,7 +36,7 @@
         ".": "t_grass",
         ",": "t_dirt",
         " ": "t_floor",
-        "'": "t_concrete",
+        "'": "t_thconc_floor",
         "=": "t_sidewalk",
         "b": "t_shrub",
         "o": "t_wall_p",
@@ -65,7 +65,7 @@
         "V": "f_vending_c",
         "v": "f_vending_c"
       },
-      "place_vehicles": [ { "vehicle": "oa_vg_cs_vehicles", "x": 16, "y": 7, "rotation": 270, "chance": 100 } ],
+      "place_vehicles": [ { "vehicle": "oa_vg_cs_vehicles", "x": 16, "y": 7, "rotation": 270, "chance": 100, "status": 0 } ],
       "items": {
         "c": { "item": "oa_custom_trash", "chance": 70 },
         "C": { "item": "oa_custom_trash", "chance": 70 },
@@ -145,11 +145,11 @@
         "f": "f_filing_cabinet"
       },
       "place_vehicles": [
-        { "vehicle": "showroom_small_vehicles", "x": 14, "y": 6, "rotation": 270, "chance": 100 },
-        { "vehicle": "showroom_small_vehicles", "x": 14, "y": 11, "rotation": 270, "chance": 100 },
-        { "vehicle": "showroom_small_vehicles", "x": 19, "y": 6, "rotation": 270, "chance": 100 },
-        { "vehicle": "showroom_small_vehicles", "x": 19, "y": 11, "rotation": 270, "chance": 100 },
-        { "vehicle": "showroom_small_vehicles", "x": 4, "y": 6, "rotation": 270, "chance": 100 }
+        { "vehicle": "showroom_small_vehicles", "x": 14, "y": 6, "rotation": 270, "chance": 100, "status": 0 },
+        { "vehicle": "showroom_small_vehicles", "x": 14, "y": 11, "rotation": 270, "chance": 100, "status": 0 },
+        { "vehicle": "showroom_small_vehicles", "x": 19, "y": 6, "rotation": 270, "chance": 100, "status": 0 },
+        { "vehicle": "showroom_small_vehicles", "x": 19, "y": 11, "rotation": 270, "chance": 100, "status": 0 },
+        { "vehicle": "showroom_small_vehicles", "x": 4, "y": 6, "rotation": 270, "chance": 100, "status": 0 }
       ],
       "items": {
         "d": { "item": "oa_ig_cs_desks", "chance": 70 },

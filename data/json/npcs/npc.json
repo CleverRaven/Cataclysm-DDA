@@ -1,41 +1,6 @@
 [
   {
     "type": "npc",
-    "id": "old_guard_soldier",
-    "//": "Generic guard for the old guard.",
-    "name_suffix": "Soldier",
-    "class": "NC_SOLDIER",
-    "attitude": 0,
-    "mission": 8,
-    "chat": "TALK_OLD_GUARD_SOLDIER",
-    "faction": "old_guard"
-  },
-  {
-    "type": "npc",
-    "id": "old_guard_necropolis_cpt",
-    "//": "Commander in Necropolis",
-    "name_suffix": "CPT",
-    "class": "NC_SOLDIER",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_OLD_GUARD_NEC_CPT",
-    "faction": "old_guard",
-    "mission_offered": "MISSION_OLD_GUARD_NEC_1"
-  },
-  {
-    "type": "npc",
-    "id": "old_guard_necropolis_commo",
-    "//": "In charge of outside communications in Necropolis",
-    "name_suffix": "SFC",
-    "class": "NC_SOLDIER",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_OLD_GUARD_NEC_COMMO",
-    "faction": "old_guard",
-    "mission_offered": "MISSION_OLD_GUARD_NEC_COMMO_1"
-  },
-  {
-    "type": "npc",
     "id": "thug",
     "//": "Generic melee focused guard for the Hell's Raiders faction.",
     "name_suffix": "Thug",
@@ -77,7 +42,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_DONE",
-    "faction": "hells_raiders"
+    "faction": "apis_hive"
   },
   {
     "type": "npc",
@@ -103,8 +68,20 @@
   },
   {
     "type": "npc",
+    "id": "true_foodperson",
+    "//": "Foodperson mascot, except if you ask them Foodperson is a real hero and it's them!",
+    "name_unique": "Foodperson",
+    "class": "NC_TRUE_FOODPERSON",
+    "attitude": 7,
+    "mission": 7,
+    "chat": "TALK_TRUE_FOODPERSON",
+    "mission_offered": "MISSION_PROVE_YOUR_WORTH",
+    "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "npc",
     "id": "cyborg_rescued",
-    "//": "A broken cyborg you saved.",
+    "//": "A prototype cyborg you saved.",
     "name_suffix": "Cyborg",
     "class": "NC_CYBORG",
     "attitude": 1,

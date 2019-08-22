@@ -109,7 +109,11 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "dock_small" ]
+      "palettes": [ "dock_small" ],
+      "place_vehicles": [
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 8, "y": 5, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 13, "y": 5, "rotation": 270 }
+      ]
     }
   },
   {

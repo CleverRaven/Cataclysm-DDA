@@ -1,0 +1,73 @@
+[
+  {
+    "id": "mon_kangaroo_hook",
+    "type": "MONSTER",
+    "name": "hook kangaroo",
+    "description": "Grotesque and deformed kangaroo body that has black goo seeping from its orifices.  The most unnerving is its forearms have reformed into a raptorial shape, like that of a praying mantis.",
+    "default_faction": "zombie",
+    "bodytype": "kangaroo",
+    "species": [ "ZOMBIE" ],
+    "volume": "90718 ml",
+    "weight": 90718,
+    "hp": 125,
+    "speed": 130,
+    "material": [ "flesh" ],
+    "symbol": "K",
+    "color": "red",
+    "aggression": 50,
+    "morale": 100,
+    "melee_skill": 6,
+    "melee_dice": 3,
+    "melee_dice_sides": 6,
+    "melee_cut": 3,
+    "dodge": 2,
+    "armor_bash": 3,
+    "armor_cut": 1,
+    "vision_day": 30,
+    "vision_night": 5,
+    "harvest": "zombie_leather",
+    "special_attacks": [
+      [ "SMASH", 20 ],
+      [ "LUNGE", 20 ],
+      { "type": "leap", "cooldown": 15, "move_cost": 0, "max_range": 12, "min_consider_range": 4 }
+    ],
+    "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "FIRE" ],
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "SWIMS" ]
+  },
+  {
+    "id": "mon_bushelephant_fungal",
+    "type": "MONSTER",
+    "copy-from": "mon_bushelephant",
+    "name": "fungal elephant",
+    "description": "A horrifying image with tendrils seeping out of many oozing wounds, this elephant's form appears more eldritch than animal.",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "speed": 120,
+    "material": [ "veggy" ],
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "armor_bash": 3,
+    "armor_cut": 1,
+    "death_function": [ "NORMAL", "FUNGUS" ],
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "SMASH", 15 ], [ "FUNGUS_BRISTLE", 20 ], [ "FUNGUS_BIG_BLOSSOM", 30 ] ],
+    "extend": { "flags": [ "POISON", "NO_BREATHE" ] },
+    "delete": {
+      "flags": [ "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BLEED", "CATTLEFODDER", "GROUP_MORALE", "GOODHEARING", "SWARMS" ]
+    }
+  },
+  {
+    "id": "mon_zandcrawler",
+    "type": "MONSTER",
+    "copy-from": "mon_beekeeper",
+    "name": "zandcrawler",
+    "description": "A calloused and misshapened form that seems to have adapted to the harsh, dry environment.",
+    "speed": 90,
+    "death_drops": "mon_zombie_swimmer_death_drops",
+    "extend": { "flags": [ "CAN_DIG" ] }
+  }
+]

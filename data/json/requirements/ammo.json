@@ -27,5 +27,47 @@
     "type": "requirement",
     "//": "Components required for shotgun and signal flare ammo",
     "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ] ]
+  },
+  {
+    "id": "ammo_357mag",
+    "type": "requirement",
+    "//": "Components required for .357 Magnum ammo",
+    "components": [ [ [ "357mag_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ] ]
+  },
+  {
+    "id": "ammo_10mm",
+    "type": "requirement",
+    "//": "Components required for 10mm Auto ammo",
+    "components": [ [ [ "10mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+  },
+  {
+    "id": "ammo_45colt",
+    "type": "requirement",
+    "//": "Components required for .45 Colt ammo",
+    "components": [ [ [ "45colt_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ] ]
+  },
+  {
+    "id": "ammo_38super",
+    "type": "requirement",
+    "//": "Components required for .38 Super ammo",
+    "components": [ [ [ "38super_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+  },
+  {
+    "id": "ammo_410shot",
+    "type": "requirement",
+    "//": "Components required for .410 ammo",
+    "components": [ [ [ "410shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ] ]
+  },
+  {
+    "id": "ammo_270win",
+    "type": "requirement",
+    "//": "Components required for .270 Winchester ammo",
+    "components": [ [ [ "270win_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
+  },
+  {
+    "id": "ammo_300blk",
+    "type": "requirement",
+    "//": "Components required for .300 AAC Blackout ammo",
+    "components": [ [ [ "300blk_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ] ]
   }
 ]

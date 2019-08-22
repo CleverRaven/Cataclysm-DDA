@@ -5,7 +5,6 @@
 #include <cstdio>
 #include <algorithm>
 #include <cassert>
-#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
@@ -34,6 +33,7 @@
 #include "translations.h"
 #include "worldfactory.h"
 #include "mod_manager.h"
+#include "type_id.h"
 
 #if !defined(_MSC_VER)
 #include <sys/time.h>
@@ -95,7 +95,7 @@ namespace
 
 std::set<std::string> ignored_messages;
 
-}
+} // namespace
 
 void realDebugmsg( const char *filename, const char *line, const char *funcname,
                    const std::string &text )
@@ -140,7 +140,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         );
 #endif
 
-    fold_and_print( catacurses::stdscr, 0, 0, getmaxx( catacurses::stdscr ), c_light_red,
+    fold_and_print( catacurses::stdscr, point_zero, getmaxx( catacurses::stdscr ), c_light_red,
                     "\n \n" // Looks nicer with some space
                     " %s\n" // translated user string: error notification
                     " -----------------------------------------------------------\n"
@@ -291,7 +291,7 @@ static time_info get_time() noexcept
     const auto current = localtime( &tt );
 
     return time_info { current->tm_hour, current->tm_min, current->tm_sec,
-                       static_cast<int>( tv.tv_usec / 1000.0 + 0.5 )
+                       static_cast<int>( lround( tv.tv_usec / 1000.0 ) )
                      };
 }
 #endif
@@ -538,7 +538,7 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
     // things (e.g. dladdr1 in GNU libdl) but this approach might
     // perhaps be more portable and adds no link-time dependencies.
 
-    uintptr_t offset_within_symbol = std::stoull( offset_within_symbol_s, 0, 0 );
+    uintptr_t offset_within_symbol = std::stoull( offset_within_symbol_s, nullptr, 0 );
     std::string string_sought = " " + symbol;
 
     // We need to try calling nm in two different ways, because one
@@ -549,7 +549,7 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
         cmd << nm_variant << ' ' << binary << " 2>&1";
         FILE *nm = popen( cmd.str().c_str(), "re" );
         if( !nm ) {
-            out << "\tbacktrace: popen(nm) failed\n";
+            out << "\tbacktrace: popen(nm) failed: " << strerror( errno ) << "\n";
             return cata::nullopt;
         }
 
@@ -588,14 +588,15 @@ void debug_write_backtrace( std::ostream &out )
     for( USHORT i = 0; i < num_bt; ++i ) {
         DWORD64 off;
         out << "\n\t(";
-        if( SymFromAddr( proc, ( DWORD64 ) bt[i], &off, &sym ) ) {
+        if( SymFromAddr( proc, reinterpret_cast<DWORD64>( bt[i] ), &off, &sym ) ) {
             out << sym.Name << "+0x" << std::hex << off << std::dec;
         }
         out << "@" << bt[i];
-        DWORD64 mod_base = SymGetModuleBase64( proc, ( DWORD64 ) bt[i] );
+        DWORD64 mod_base = SymGetModuleBase64( proc, reinterpret_cast<DWORD64>( bt[i] ) );
         if( mod_base ) {
             out << "[";
-            DWORD mod_len = GetModuleFileName( ( HMODULE ) mod_base, mod_path, module_path_len );
+            DWORD mod_len = GetModuleFileName( reinterpret_cast<HMODULE>( mod_base ), mod_path,
+                                               module_path_len );
             // mod_len == module_path_len means insufficient buffer
             if( mod_len > 0 && mod_len < module_path_len ) {
                 const char *mod_name = mod_path + mod_len;
@@ -605,7 +606,8 @@ void debug_write_backtrace( std::ostream &out )
             } else {
                 out << "0x" << std::hex << mod_base << std::dec;
             }
-            out << "+0x" << std::hex << ( uintptr_t ) bt[i] - mod_base << std::dec << "]";
+            out << "+0x" << std::hex << reinterpret_cast<uintptr_t>( bt[i] ) - mod_base <<
+                std::dec << "]";
         }
         out << "), ";
     }
@@ -763,7 +765,7 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
 
     // Error are always logged, they are important,
     // Messages from D_MAIN come from debugmsg and are equally important.
-    if( ( ( lev & debugLevel ) && ( cl & debugClass ) ) || lev & D_ERROR || cl & D_MAIN ) {
+    if( ( lev & debugLevel && cl & debugClass ) || lev & D_ERROR || cl & D_MAIN ) {
         std::ostream &out = *debugFile.file;
         out << std::endl;
         out << get_time() << " ";
@@ -1018,7 +1020,7 @@ static std::string windows_version()
 #if defined (__MINGW32__) || defined (__MINGW64__) || defined (__CYGWIN__) || defined (MSYS2)
         output = "MINGW/CYGWIN/MSYS2 on unknown Windows version";
 #else
-        output = "";
+        output.clear();
         using RtlGetVersion = LONG( WINAPI * )( PRTL_OSVERSIONINFOW );
         const HMODULE handle_ntdll = GetModuleHandleA( "ntdll" );
         if( handle_ntdll != nullptr ) {

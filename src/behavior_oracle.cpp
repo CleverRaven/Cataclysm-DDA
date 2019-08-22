@@ -1,12 +1,19 @@
 #include "behavior_oracle.h"
 
+#include <functional>
+#include <array>
+#include <list>
+
 #include "behavior.h"
 #include "bodypart.h"
 #include "itype.h"
 #include "player.h"
 #include "weather.h"
-
-#include <functional>
+#include "character.h"
+#include "inventory.h"
+#include "item.h"
+#include "optional.h"
+#include "ret_val.h"
 
 using namespace behavior;
 
@@ -135,4 +142,4 @@ std::unordered_map<std::string, std::function<status_t( const oracle_t * )>> pre
         { "npc_has_food", make_function( &character_oracle_t::has_food ) }
     }
 };
-}
+} // namespace behavior

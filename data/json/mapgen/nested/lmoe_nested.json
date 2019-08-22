@@ -1,0 +1,73 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lmoe3_storage_11x11",
+    "//": "This is done in a nested map to make the flooring under the furniture look right, nothing much else.",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "lllll|#####",
+        "u___U|#####",
+        "u_u_U|#####",
+        "u_u_U|#####",
+        "u_u_U|#####",
+        "u_u_U|#####",
+        "__v_U|#####",
+        "u_v_U|#####",
+        "u_v_U|#####",
+        "u___U|#####",
+        "AV_VU|#####"
+      ],
+      "palettes": [ "bunker", "empty_bunker_items" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lmoe3_tankroom_11x11",
+    "//": "This is done in a nested map to make the flooring under the furniture look right, nothing much else.",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "_{|l__aa|{_",
+        "_{|l__aa||+",
+        "_{|l____ll_",
+        "_{|l_______",
+        "__+________",
+        "|||||||||||",
+        "###########",
+        "###########",
+        "###########",
+        "###########",
+        "###########"
+      ],
+      "palettes": [ "bunker", "empty_bunker_items" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lmoe3_crafting_11x11",
+    "//": "This is done in a nested map to make the flooring under the furniture look right, nothing much else.",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "l__RRRR=_G",
+        "l______*_a",
+        "l_____c=_a",
+        "__h___c=_l",
+        "TTTcccc=_A",
+        "||||||||||",
+        "##########",
+        "##########",
+        "##########",
+        "##########"
+      ],
+      "palettes": [ "bunker", "empty_bunker_items" ]
+    }
+  }
+]

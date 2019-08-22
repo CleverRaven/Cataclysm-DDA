@@ -13,6 +13,10 @@
 #include <set>
 #include <stdexcept>
 
+#include "colony.h"
+#include "enum_conversions.h"
+#include "optional.h"
+
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
  *
@@ -40,48 +44,6 @@ class JsonError : public std::runtime_error
             return what();
         }
 };
-
-namespace io
-{
-/**
- * @name Enumeration (de)serialization to/from string.
- *
- * @ref enum_to_string converts an enumeration value to a string (which can be written to JSON).
- * The result must be an non-empty string.
- *
- * @ref string_to_enum converts the string value back into an enumeration value. The input
- * is expected to be one of the outputs of @ref enum_to_string. If the given string does
- * not match an enumeration, an @ref InvalidEnumString is to be thrown.
- *
- * @code string_to_enum<E>(enum_to_string<E>(X)) == X @endcode must yield true for all values
- * of the enumeration E.
- *
- * The functions need to be implemented somewhere for each enumeration type they are used on.
- */
-/*@{*/
-class InvalidEnumString : public std::runtime_error
-{
-    public:
-        InvalidEnumString() : std::runtime_error( "invalid enum string" ) { }
-        InvalidEnumString( const std::string &msg ) : std::runtime_error( msg ) { }
-};
-template<typename E>
-E string_to_enum( const std::string &data );
-template<typename E>
-const std::string enum_to_string( E data );
-
-// Helper function to do the lookup in a container (map or unordered_map)
-template<typename C, typename E = typename C::mapped_type>
-inline E string_to_enum_look_up( const C &container, const std::string &data )
-{
-    const auto iter = container.find( data );
-    if( iter == container.end() ) {
-        throw InvalidEnumString{};
-    }
-    return iter->second;
-}
-/*@}*/
-}
 
 /* JsonIn
  * ======
@@ -209,7 +171,6 @@ class JsonIn
         // data parsing
         std::string get_string(); // get the next value as a string
         int get_int(); // get the next value as an int
-        long get_long(); // get the next value as an long
         bool get_bool(); // get the next value as a bool
         double get_float(); // get the next value as a double
         std::string get_member_name(); // also strips the ':'
@@ -259,8 +220,6 @@ class JsonIn
         bool read( short int &s );
         bool read( int &i );
         bool read( unsigned int &u );
-        bool read( long &l );
-        bool read( unsigned long &ul );
         bool read( float &f );
         bool read( double &d );
         bool read( std::string &s );
@@ -361,6 +320,31 @@ class JsonIn
                 v.clear();
                 while( !end_array() ) {
                     typename T::value_type element;
+                    if( read( element ) ) {
+                        v.insert( std::move( element ) );
+                    } else {
+                        skip_value();
+                    }
+                }
+            } catch( const JsonError & ) {
+                return false;
+            }
+
+            return true;
+        }
+
+        // special case for colony as it uses `insert()` instead of `push_back()`
+        // and therefore doesn't fit with vector/deque/list
+        template <typename T>
+        bool read( cata::colony<T> &v ) {
+            if( !test_array() ) {
+                return false;
+            }
+            try {
+                start_array();
+                v.clear();
+                while( !end_array() ) {
+                    T element;
                     if( read( element ) ) {
                         v.insert( std::move( element ) );
                     } else {
@@ -564,6 +548,12 @@ class JsonOut
             write_as_array( container );
         }
 
+        // special case for colony, since it doesn't fit in other categories
+        template <typename T>
+        void write( const cata::colony<T> &container ) {
+            write_as_array( container );
+        }
+
         // containers with unmatching key_type and value_type ~> object
         // map, unordered_map ~> object
         template < typename T, typename std::enable_if <
@@ -656,12 +646,12 @@ class JsonObject
         bool final_separator;
         JsonIn *jsin;
         int verify_position( const std::string &name,
-                             const bool throw_exception = true );
+                             bool throw_exception = true );
 
     public:
         JsonObject( JsonIn &jsin );
-        JsonObject( const JsonObject &jsobj );
-        JsonObject() : start( 0 ), end( 0 ), jsin( NULL ) {}
+        JsonObject( const JsonObject &jo );
+        JsonObject() : start( 0 ), end( 0 ), jsin( nullptr ) {}
         ~JsonObject() {
             finish();
         }
@@ -683,13 +673,11 @@ class JsonObject
         // variants with no fallback throw an error if the name is not found.
         // variants with a fallback return the fallback value in stead.
         bool get_bool( const std::string &name );
-        bool get_bool( const std::string &name, const bool fallback );
+        bool get_bool( const std::string &name, bool fallback );
         int get_int( const std::string &name );
-        int get_int( const std::string &name, const int fallback );
-        long get_long( const std::string &name );
-        long get_long( const std::string &name, const long fallback );
+        int get_int( const std::string &name, int fallback );
         double get_float( const std::string &name );
-        double get_float( const std::string &name, const double fallback );
+        double get_float( const std::string &name, double fallback );
         std::string get_string( const std::string &name );
         std::string get_string( const std::string &name, const std::string &fallback );
 
@@ -834,8 +822,8 @@ class JsonArray
 
     public:
         JsonArray( JsonIn &jsin );
-        JsonArray( const JsonArray &jsarr );
-        JsonArray() : start( 0 ), index( 0 ), end( 0 ), jsin( NULL ) {}
+        JsonArray( const JsonArray &ja );
+        JsonArray() : start( 0 ), index( 0 ), end( 0 ), jsin( nullptr ) {}
         ~JsonArray() {
             finish();
         }
@@ -853,7 +841,6 @@ class JsonArray
         // iterative access
         bool next_bool();
         int next_int();
-        long next_long();
         double next_float();
         std::string next_string();
         JsonArray next_array();
@@ -863,7 +850,6 @@ class JsonArray
         // static access
         bool get_bool( int index );
         int get_int( int index );
-        long get_long( int index );
         double get_float( int index );
         std::string get_string( int index );
         JsonArray get_array( int index );
@@ -1026,9 +1012,9 @@ class JsonSerializer
 class JsonDeserializer
 {
     public:
-        virtual ~JsonDeserializer() {}
+        virtual ~JsonDeserializer() = default;
         virtual void deserialize( JsonIn &jsin ) = 0;
-        JsonDeserializer() { }
+        JsonDeserializer() = default;
         JsonDeserializer( JsonDeserializer && ) = default;
         JsonDeserializer( const JsonDeserializer & ) = default;
         JsonDeserializer &operator=( JsonDeserializer && ) = default;
@@ -1036,5 +1022,26 @@ class JsonDeserializer
 };
 
 std::ostream &operator<<( std::ostream &stream, const JsonError &err );
+
+template<typename T>
+void serialize( const cata::optional<T> &obj, JsonOut &jsout )
+{
+    if( obj ) {
+        jsout.write( *obj );
+    } else {
+        jsout.write_null();
+    }
+}
+
+template<typename T>
+void deserialize( cata::optional<T> &obj, JsonIn &jsin )
+{
+    if( jsin.test_null() ) {
+        obj.reset();
+    } else {
+        obj.emplace();
+        jsin.read( *obj );
+    }
+}
 
 #endif

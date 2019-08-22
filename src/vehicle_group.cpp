@@ -5,12 +5,12 @@
 #include <utility>
 
 #include "debug.h"
-#include "enums.h"
 #include "json.h"
 #include "map.h"
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "point.h"
 
 using vplacement_id = string_id<VehiclePlacement>;
 
@@ -25,7 +25,7 @@ const VehicleGroup &string_id<VehicleGroup>::obj() const
     const auto iter = vgroups.find( *this );
     if( iter == vgroups.end() ) {
         debugmsg( "invalid vehicle group id %s", c_str() );
-        static const VehicleGroup dummy;
+        static const VehicleGroup dummy{};
         return dummy;
     }
     return iter->second;
@@ -49,7 +49,7 @@ const VehiclePlacement &string_id<VehiclePlacement>::obj() const
     const auto iter = vplacements.find( *this );
     if( iter == vplacements.end() ) {
         debugmsg( "invalid vehicle placement id %s", c_str() );
-        static const VehiclePlacement dummy;
+        static const VehiclePlacement dummy{};
         return dummy;
     }
     return iter->second;
@@ -70,6 +70,11 @@ void VehicleGroup::load( JsonObject &jo )
         JsonArray pair = vehicles.next_array();
         group.add_vehicle( vproto_id( pair.get_string( 0 ) ), pair.get_int( 1 ) );
     }
+}
+
+void VehicleGroup::reset()
+{
+    vgroups.clear();
 }
 
 VehicleFacings::VehicleFacings( JsonObject &jo, const std::string &key )
@@ -96,6 +101,11 @@ void VehiclePlacement::load( JsonObject &jo )
         placement.add( jmapgen_int( jloc, "x" ), jmapgen_int( jloc, "y" ),
                        VehicleFacings( jloc, "facing" ) );
     }
+}
+
+void VehiclePlacement::reset()
+{
+    vplacements.clear();
 }
 
 const VehicleLocation *VehiclePlacement::pick() const
@@ -148,7 +158,7 @@ const VehicleSpawn &string_id<VehicleSpawn>::obj() const
     const auto iter = vspawns.find( *this );
     if( iter == vspawns.end() ) {
         debugmsg( "invalid vehicle spawn id %s", c_str() );
-        static const VehicleSpawn dummy;
+        static const VehicleSpawn dummy{};
         return dummy;
     }
     return iter->second;
@@ -182,6 +192,11 @@ void VehicleSpawn::load( JsonObject &jo )
             type.throw_error( "load_vehicle_spawn: missing required vehicle_json (object) or vehicle_function (string)." );
         }
     }
+}
+
+void VehicleSpawn::reset()
+{
+    vspawns.clear();
 }
 
 void VehicleSpawn::apply( map &m, const std::string &terrain_name ) const
@@ -283,7 +298,7 @@ static void builtin_parkinglot( map &m, const std::string & )
     }
 }
 
-}// end of VehicleSpawnFunction namespace
+} // namespace VehicleSpawnFunction
 
 VehicleSpawn::FunctionMap VehicleSpawn::builtin_functions = {
     { "no_vehicles", VehicleSpawnFunction::builtin_no_vehicles },

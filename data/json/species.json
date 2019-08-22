@@ -36,7 +36,8 @@
   },
   {
     "type": "SPECIES",
-    "id": "BLOB"
+    "id": "BLOB",
+    "footsteps": "plop."
   },
   {
     "type": "SPECIES",
@@ -68,15 +69,18 @@
   {
     "type": "SPECIES",
     "id": "WORM",
+    "footsteps": "rustle.",
     "fear_triggers": [ "HURT" ]
   },
   {
     "type": "SPECIES",
-    "id": "ZOMBIE"
+    "id": "ZOMBIE",
+    "footsteps": "shuffling."
   },
   {
     "type": "SPECIES",
-    "id": "ROBOT"
+    "id": "ROBOT",
+    "footsteps": "mechanical whirring."
   },
   {
     "type": "SPECIES",

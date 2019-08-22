@@ -2,6 +2,7 @@
 #ifndef CATA_SDLTILES_H
 #define CATA_SDLTILES_H
 
+#include <array>
 #if defined(TILES)
 
 #include <string>
@@ -16,7 +17,6 @@ extern SDL_Texture_Ptr alt_rect_tex;
 extern bool alt_rect_tex_enabled;
 extern std::unique_ptr<cata_tiles> tilecontext;
 extern std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
-
 
 void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
                     Uint32 r, Uint32 g, Uint32 b );
