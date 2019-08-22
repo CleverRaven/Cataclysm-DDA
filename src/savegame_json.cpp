@@ -2503,6 +2503,16 @@ void vehicle::deserialize( JsonIn &jsin )
     for( const vpart_reference &vp : get_any_parts( "TURRET" ) ) {
         install_part( vp.mount(), vpart_id( "turret_mount" ), false );
     }
+	
+	for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_LIGHT" ) ) {
+        install_part( vp.mount(), vpart_id( "wheel_mount_light" ), false );
+    }
+	for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_MEDIUM" ) ) {
+        install_part( vp.mount(), vpart_id( "wheel_mount_medium" ), false );
+    }
+	for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_HEAVY" ) ) {
+        install_part( vp.mount(), vpart_id( "wheel_mount_heavy" ), false );
+    }
 
     /* After loading, check if the vehicle is from the old rules and is missing
      * frames. */

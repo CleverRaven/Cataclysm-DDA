@@ -11,16 +11,16 @@
     "damage_modifier": 80,
     "durability": 120,
     "description": "Connection where wheels can be connected on. This particular one is fit for light wheels like bike wheels.",
-    "item": "pipe",
+    "item": "wheel_mount_light",
     "difficulty": 2,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "welding_standard", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "SAW_M", "level": 2 } ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "qualities": [ { "id": "SAW_M", "level": 2 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_LIGHT" ],
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
-    "damage_reduction": { "all": 54 }
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
+    "damage_reduction": { "all": 10 }
   },
   {
     "type": "vehicle_part",
@@ -34,15 +34,16 @@
     "damage_modifier": 80,
     "durability": 120,
     "description": "Connection where wheels can be connected on. This particular one is fit for normal car wheels.",
-    "item": "pipe",
+    "item": "wheel_mount_medium",
     "difficulty": 2,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 2 } ], "using": [ [ "welding_standard", 10 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ], "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SAW_M", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ], "using": [ [ "welding_standard", 10 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SAW_M", "level": 2 } ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_MEDIUM" ],
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ]
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
+	"damage_reduction": { "all": 30 }
   },
   {
     "type": "vehicle_part",
@@ -56,15 +57,16 @@
     "damage_modifier": 80,
     "durability": 120,
     "description": "Connection where wheels can be connected on. This particular one is fit for large car wheels.",
-    "item": "pipe",
+    "item": "wheel_mount_heavy",
     "difficulty": 2,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 2 } ], "using": [ [ "welding_standard", 15 ] ] },
-      "removal": { "skills": [ [ "mechanics", 5 ] ], "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SAW_M", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "qualities": [ { "id": "WRENCH", "level": 2 } ], "using": [ [ "welding_standard", 15 ] ] },
+      "removal": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SAW_M", "level": 2 } ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_HEAVY" ],
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ]
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
+	"damage_reduction": { "all": 40 }
   },
   {
     "id": "metal_wheel",
