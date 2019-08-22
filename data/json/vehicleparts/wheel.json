@@ -15,7 +15,7 @@
     "difficulty": 2,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "welding_standard", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], { "id": "SAW_M", "level": 2 } ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "SAW_M", "level": 2 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_LIGHT" ],
@@ -42,7 +42,7 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_MEDIUM" ],
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ]
   },
   {
     "type": "vehicle_part",
@@ -63,8 +63,8 @@
       "removal": { "skills": [ [ "mechanics", 5 ] ], "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SAW_M", "level": 2 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
-    "flags": [ "WHEEL_MOUNT_MEDIUM" ],
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
+    "flags": [ "WHEEL_MOUNT_HEAVY" ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ]
   },
   {
     "id": "metal_wheel",
@@ -561,8 +561,8 @@
     "damage_modifier": 50,
     "breaks_into": [ { "item": "2x4", "count": [ 0, 4 ] }, { "item": "nail", "charges": [ 5, 15 ] } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": 30000, "qualities": [ { "id": "WRENCH", "level": 2  },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "WRENCH", "level": 2  },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": 30000, "qualities": [ { "id": "WRENCH", "level": 2  } ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "WRENCH", "level": 2  } ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": 5000, "using": [ [ "adhesive", 1 ] ] }
     },
     "rolling_resistance": 2.15,
