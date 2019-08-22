@@ -439,7 +439,6 @@
       [ "pot_canning", 15 ],
       [ "pressure_cooker", 5 ],
       [ "thermometer", 5 ],
-      [ "bowl_pewter", 25 ],
       [ "teapot", 15 ],
       [ "pan", 25 ],
       [ "waffleiron", 25 ],
@@ -1210,7 +1209,8 @@
       [ "glass", 90 ],
       [ "glass_bowl", 90 ],
       [ "glass_plate", 90 ],
-      [ "bottle_glass", 10 ]
+      [ "bottle_glass", 10 ],
+      { "group": "tinware", "prob": 10 }
     ]
   },
   {
@@ -2143,7 +2143,6 @@
       [ "inflatable_boat", 25 ],
       [ "hand_pump", 5 ],
       [ "pot_copper", 5 ],
-      [ "bowl_pewter", 25 ],
       [ "teapot", 5 ],
       [ "pan", 20 ],
       [ "waffleiron", 25 ],
@@ -2152,7 +2151,7 @@
       [ "hotplate", 10 ],
       [ "popcan_stove", 10 ],
       [ "coffeemaker", 5 ],
-      [ "tin_plate", 10 ],
+      { "group": "tinware", "prob": 10 },
       [ "kukri", 4 ],
       [ "knife_hunting", 18 ],
       [ "knife_rambo", 20 ],
@@ -2693,7 +2692,8 @@
       [ "eclipse_glasses", 1 ],
       [ "plastic_sheet", 5 ],
       [ "box_medium", 5 ],
-      [ "thermos", 30 ]
+      [ "thermos", 30 ],
+      { "group": "tinware", "prob": 15 }
     ]
   },
   {
@@ -2703,6 +2703,7 @@
       [ "bottle_plastic", 5 ],
       [ "bottle_plastic_small", 15 ],
       [ "bottle_glass", 2 ],
+      { "group": "tinware", "prob": 2 },
       [ "can_drink_unsealed", 5 ],
       [ "plastic_shopping_bag", 13 ],
       [ "bag_plastic", 15 ],
@@ -4107,6 +4108,7 @@
       [ "spiral_stone", 20 ],
       [ "cane", 10 ],
       [ "candlestick", 20 ],
+      { "group": "tinware", "prob": 5 },
       [ "heels", 50 ],
       [ "coat_fur_sf", 1 ],
       [ "tricorne", 3 ],
@@ -4227,7 +4229,8 @@
       [ "flint_steel", 7 ],
       [ "canteen_wood", 5 ],
       [ "apron_leather", 1 ],
-      [ "pot_copper", 3 ]
+      [ "pot_copper", 3 ],
+      { "group": "tinware", "prob": 10 }
     ]
   },
   {
@@ -4642,7 +4645,8 @@
       [ "coin_quarter", 2 ],
       [ "bronze_medal", 3 ],
       [ "silver_medal", 2 ],
-      [ "gold_medal", 1 ]
+      [ "gold_medal", 1 ],
+      { "group": "tinware", "prob": 10 }
     ]
   },
   {
@@ -4962,6 +4966,7 @@
       [ "eyedrops", 15 ],
       [ "charcoal", 10 ],
       [ "magnesium", 10 ],
+      [ "tin", 10 ],
       [ "chem_hydrogen_peroxide", 10 ],
       [ "chem_sulphur", 10 ],
       [ "chem_aluminium_powder", 5 ],
@@ -5006,6 +5011,7 @@
       [ "sm_extinguisher", 20 ],
       [ "eyedrops", 25 ],
       [ "charcoal", 15 ],
+      [ "tin", 15 ],
       [ "chem_hydrogen_peroxide", 15 ],
       [ "chem_carbide", 10 ],
       [ "chem_zinc_powder", 10 ],
@@ -5054,6 +5060,7 @@
       [ "lye_powder", 10 ],
       [ "oxy_powder", 12 ],
       [ "magnesium", 12 ],
+      [ "tin", 12 ],
       [ "chemistry_set", 5 ],
       [ "sm_extinguisher", 10 ],
       [ "charcoal", 10 ],
@@ -7384,6 +7391,7 @@
       [ "magnifying_glass", 1 ],
       [ "material_quicklime", 10 ],
       [ "bio_meteorologist", 10 ],
+      [ "tin", 5 ],
       [ "chem_nitric_acid", 1 ],
       [ "chem_sulphuric_acid", 1 ],
       [ "chem_hexamine", 2 ],
@@ -8262,6 +8270,7 @@
       [ "bag_canvas_small", 1 ],
       [ "cup_plastic_unsealed", 3 ],
       [ "bottle_glass", 1 ],
+      { "group": "tinware", "prob": 3 },
       [ "can_drink_unsealed", 2 ],
       [ "can_food_unsealed", 1 ],
       [ "box_small", 2 ],
@@ -8575,11 +8584,11 @@
       [ "ceramic_cup", 15 ],
       [ "ceramic_bowl", 15 ],
       [ "ceramic_plate", 15 ],
+      { "group": "tinware", "prob": 25 },
       [ "bowling_ball", 12 ],
       [ "spiral_stone", 1 ],
       [ "petrified_eye", 1 ],
       [ "teapot", 15 ],
-      [ "bowl_pewter", 15 ],
       [ "briefcase", 10 ],
       [ "gold_watch", 5 ],
       [ "silver_watch", 10 ],
@@ -8953,6 +8962,7 @@
       [ "ceramic_bowl", 90 ],
       [ "clay_hydria", 50 ],
       [ "ceramic_cup", 90 ],
+      { "group": "tinware", "prob": 50 },
       [ "crown_golden", 10 ],
       [ "fluid_preserved_brain", 20 ]
     ]
@@ -9177,7 +9187,6 @@
       [ "teapot", 50 ],
       [ "binoculars", 30 ],
       [ "firecracker_pack", 20 ],
-      [ "tin_plate", 50 ],
       [ "knife_hunting", 50 ],
       [ "glock_19", 5 ],
       [ "backpack", 100 ],
@@ -9772,7 +9781,8 @@
       [ "knife_butter", 25 ],
       [ "pan", 15 ],
       [ "pot", 15 ],
-      [ "teapot", 15 ]
+      [ "teapot", 15 ],
+      { "group": "tinware", "prob": 8 }
     ]
   },
   {

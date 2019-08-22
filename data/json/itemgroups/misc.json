@@ -37,6 +37,12 @@
     "items": [ [ "knife_butter", 30 ], [ "knife_steak", 10 ], [ "fork", 30 ], [ "spoon", 30 ] ]
   },
   {
+    "id": "tinware",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "bowl_pewter", 100 ], [ "tin_plate", 100 ], [ "tin_cup", 100 ] ]
+  },
+  {
     "id": "dinnerware",
     "type": "item_group",
     "//": "Plates, bowls, cups, etc.",

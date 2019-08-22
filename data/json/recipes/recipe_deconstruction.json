@@ -427,13 +427,6 @@
     "components": [ [ [ "leather", 8 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
-    "result": "bowl_pewter",
-    "type": "uncraft",
-    "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "tin", 100 ] ] ]
-  },
-  {
     "result": "box_cigarette",
     "type": "uncraft",
     "time": "6 s",
@@ -2348,13 +2341,6 @@
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ] ]
-  },
-  {
-    "result": "tin_plate",
-    "type": "uncraft",
-    "time": "1 m",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "tin", 100 ] ] ]
   },
   {
     "result": "toaster",
