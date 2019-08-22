@@ -1280,21 +1280,17 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
 
         if( b.x > posx() ) {
             newx = posx() - 1;
-        }
-        else if( b.x < posx() ) {
+        } else if( b.x < posx() ) {
             newx = posx() + 1;
-        }
-        else {
+        } else {
             newx = b.x;
         }
 
         if( b.y > posy() ) {
             newy = posy() - 1;
-        }
-        else if( b.y < posy() ) {
+        } else if( b.y < posy() ) {
             newy = posy() + 1;
-        }
-        else {
+        } else {
             newy = b.y;
         }
 
