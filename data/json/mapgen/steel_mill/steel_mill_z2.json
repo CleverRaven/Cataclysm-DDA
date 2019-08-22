@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [
       [ "steel_mill_0_1_2", "steel_mill_0_2_2", "steel_mill_0_3_2", "steel_mill_0_4_2" ],
-      [ "steel_mill_1_1_2", "steel_mill_1_2_2", "steel_mill_1_3_2", "steel_mill_0_4_2" ],
+      [ "steel_mill_1_1_2", "steel_mill_1_2_2", "steel_mill_1_3_2", "steel_mill_1_4_2" ],
       [ "steel_mill_2_1_2", "steel_mill_2_2_2", "steel_mill_2_3_2", "steel_mill_2_4_2" ],
       [ "steel_mill_3_1_2", "steel_mill_3_2_2", "steel_mill_3_3_2", "steel_mill_rail_1_2" ],
       [ "steel_mill_4_1_2", "steel_mill_4_2_2", "steel_mill_4_3_2", "steel_mill_rail_2_2" ]
