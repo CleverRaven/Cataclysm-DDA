@@ -1177,7 +1177,7 @@ std::string ma_technique::get_description() const
         dump << _( "* Will only activate on a <info>crit</info>" ) << std::endl;
     }
 
-    if  ( side_switch ) {
+    if( side_switch ) {
         dump << _( "* Moves target <info>behind</info> you" ) << std::endl;
     }
 
