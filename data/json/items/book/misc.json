@@ -1022,7 +1022,10 @@
         "id": "philosophy30",
         "text": "This is a copy of both \"On The Genealogy of Morals\" and \"The Gay Science\" by Friederich Nietzsche."
       },
-      { "id": "philosophy31", "text": "This is a copy of \"The Defence of Terrorism\" by Leon Trotsky.  Despite the title, it does not actually appear to be defending terrorism." }
+      {
+        "id": "philosophy31",
+        "text": "This is a copy of \"The Defence of Terrorism\" by Leon Trotsky.  Despite the title, it does not actually appear to be defending terrorism."
+      }
     ],
     "weight": 350,
     "volume": "750 ml",
