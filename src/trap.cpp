@@ -273,6 +273,7 @@ tr_caltrops_glass,
 tr_tripwire,
 tr_crossbow,
 tr_shotgun_2,
+tr_shotgun_2_1,
 tr_shotgun_1,
 tr_engine,
 tr_blade,
@@ -340,6 +341,7 @@ void trap::finalize()
     tr_tripwire = trapfind( "tr_tripwire" );
     tr_crossbow = trapfind( "tr_crossbow" );
     tr_shotgun_2 = trapfind( "tr_shotgun_2" );
+    tr_shotgun_2_1 = trapfind( "tr_shotgun_2_1" );
     tr_shotgun_1 = trapfind( "tr_shotgun_1" );
     tr_engine = trapfind( "tr_engine" );
     tr_blade = trapfind( "tr_blade" );

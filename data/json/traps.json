@@ -251,7 +251,30 @@
       "sound": "Bang!",
       "sound_type": "fire_gun",
       "sound_variant": "shotgun_d",
-      "set_trap": "tr_shotgun_1"
+      "set_trap": "tr_shotgun_2_1"
+    }
+  },
+  {
+    "type": "trap",
+    "id": "tr_shotgun_2_1",
+    "trigger_weight": 200,
+    "name": "shotgun trap",
+    "color": "red",
+    "symbol": "^",
+    "visibility": 4,
+    "avoidance": 5,
+    "difficulty": 6,
+    "action": "shotgun",
+    "drops": [ "string_36", "shotgun_d", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
+    "vehicle_data": {
+      "chance": 70,
+      "damage": 300,
+      "sound_volume": 60,
+      "sound": "Bang!",
+      "sound_type": "fire_gun",
+      "sound_variant": "shotgun_d",
+      "remove_trap": true,
+      "spawn_items": [ "shotgun_d", "string_6" ]
     }
   },
   {
