@@ -396,6 +396,7 @@
       "cavalry_sabre",
       "cavalry_sabre_fake",
       "cudgel",
+      "hollow_cane",
       "fencing_foil",
       "fencing_sabre",
       "fencing_epee",
@@ -404,6 +405,7 @@
       "PR24-extended",
       "rapier",
       "rapier_fake",
+      "sword_cane",
       "umbrella"
     ]
   },
