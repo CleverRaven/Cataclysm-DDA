@@ -3724,9 +3724,7 @@ void player::update_stomach( const time_point &from, const time_point &to )
     }
     const needs_rates rates = calc_needs_rates();
     // No food/thirst/fatigue clock at all
-    const bool debug_ls = has_trait( trait_DEBUG_LS );
-    // No food/thirst, capped fatigue clock (only up to tired)
-    const bool foodless = debug_ls;
+    const bool foodless = has_trait( trait_DEBUG_LS );
     const bool mouse = has_trait( trait_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );
     const float kcal_per_time = get_bmr() / ( 12.0f * 24.0f );
