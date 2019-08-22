@@ -7,7 +7,7 @@
     "weight": 6,
     "volume": "250 ml",
     "price": 350,
-    "price_postapoc":5000,
+    "price_postapoc": 5000,
     "material": [ "steel", "powder" ],
     "symbol": "=",
     "color": "dark_gray",
