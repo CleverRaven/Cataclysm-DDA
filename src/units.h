@@ -321,6 +321,13 @@ const mass mass_max = units::mass( std::numeric_limits<units::mass::value_type>:
                                    units::mass::unit_type{} );
 
 template<typename value_type>
+inline constexpr quantity<value_type, mass_in_gram_tag> from_milligram(
+    const value_type v )
+{
+    return from_gram( v / 1000 );
+}
+
+template<typename value_type>
 inline constexpr quantity<value_type, mass_in_gram_tag> from_gram(
     const value_type v )
 {
@@ -433,6 +440,10 @@ inline constexpr units::quantity<double, units::volume_in_milliliter_tag> operat
 }
 
 // Implicitly converted to mass, which has int as value_type!
+inline constexpr units::mass operator"" _milligram( const unsigned long long v )
+{
+    return units::from_milligram( v );
+}
 inline constexpr units::mass operator"" _gram( const unsigned long long v )
 {
     return units::from_gram( v );
@@ -441,6 +452,12 @@ inline constexpr units::mass operator"" _gram( const unsigned long long v )
 inline constexpr units::mass operator"" _kilogram( const unsigned long long v )
 {
     return units::from_kilogram( v );
+}
+
+inline constexpr units::quantity<double, units::mass_in_gram_tag> operator"" _milligram(
+    const long double v )
+{
+    return units::from_milligram( v );
 }
 
 inline constexpr units::quantity<double, units::mass_in_gram_tag> operator"" _gram(
@@ -497,6 +514,7 @@ static const std::vector<std::pair<std::string, energy>> energy_units = { {
     }
 };
 static const std::vector<std::pair<std::string, mass>> mass_units = { {
+        { "mg", 1_milligram },
         { "g", 1_gram },
         { "kg", 1_kilogram },
     }
