@@ -7,7 +7,7 @@
     "weight": 8,
     "volume": "250 ml",
     "price": 100,
-    "price_postapoc":2600,
+    "price_postapoc": 2600,
     "material": [ "steel", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -29,7 +29,7 @@
     "name": "9x18mm SP-7",
     "description": "9x18mm Makarov SP-7 ammunition.  The 9x18mm round was very common in the Eastern Bloc during the 20th century and remained in Russian military service into the 21st century.",
     "price": 150,
-    "price_postapoc":2900,
+    "price_postapoc": 2900,
     "count": 25,
     "relative": { "range": 2, "damage": 4, "dispersion": -10 },
     "proportional": { "recoil": 1.1 }
@@ -41,7 +41,7 @@
     "name": "9x18mm RG028",
     "description": "9x18mm Makarov RG028 ammunition.  The RG028 round uses bullets with a hardened steel core to improve armor penetration.",
     "price": 200,
-    "price_postapoc":3100,
+    "price_postapoc": 3100,
     "relative": { "damage": -2, "pierce": 8 }
   },
   {
