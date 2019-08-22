@@ -2,7 +2,7 @@ name: 'PR SUMMARY validator'
 description: 'Validate that PR descriptions contain a matching SUMMARY entry,'
 author: 'KevinGranade'
 inputs:
-  myInput:
+  description-regex:
     description: 'Description regex to match'
     required: true
     default: '.*SUMMARY:.*'
