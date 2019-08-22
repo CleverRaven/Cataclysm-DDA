@@ -17,6 +17,7 @@
 #include "optional.h"
 #include "rng.h"
 #include "character.h"
+#include "options.h"
 
 stomach_contents::stomach_contents() = default;
 
@@ -95,6 +96,9 @@ units::volume stomach_contents::contains() const
 
 bool stomach_contents::store_absorbed( player &p )
 {
+    if( p.is_npc() && get_option<bool>( "NO_NPC_FOOD" ) ) {
+        return false;
+    }
     bool absorbed = false;
     if( calories_absorbed != 0 ) {
         p.mod_stored_kcal( calories_absorbed );
