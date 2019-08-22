@@ -117,6 +117,6 @@ void cast_zlight(
     const std::array<T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
     const std::array<const T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
     const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
-    const tripoint &offset, int offset_distance, T numerator );
+    const tripoint &origin, int offset_distance, T numerator );
 
 #endif

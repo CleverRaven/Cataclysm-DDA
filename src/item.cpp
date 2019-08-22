@@ -583,6 +583,7 @@ body_part_set item::get_covered_body_parts( const side s ) const
 
     switch( s ) {
         case side::BOTH:
+        case side::num_sides:
             break;
 
         case side::LEFT:
@@ -2370,8 +2371,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             int attack_cost = g->u.attack_speed( *this );
             insert_separation_line();
             if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          string_format( _( "<bold>Average melee damage:</bold>" ) ) ) );
+                info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Average melee damage:</bold>" ) ) );
             }
             if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CRIT ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
@@ -2449,15 +2449,12 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         if( parts->test( iteminfo_parts::DESCRIPTION_CONDUCTIVITY ) ) {
             if( !conductive() ) {
-                info.push_back( iteminfo( "BASE",
-                                          string_format( _( "* This item <good>does not conduct</good> electricity." ) ) ) );
+                info.push_back( iteminfo( "BASE", _( "* This item <good>does not conduct</good> electricity." ) ) );
             } else if( has_flag( "CONDUCTIVE" ) ) {
                 info.push_back( iteminfo( "BASE",
-                                          string_format(
-                                              _( "* This item effectively <bad>conducts</bad> electricity, as it has no guard." ) ) ) );
+                                          _( "* This item effectively <bad>conducts</bad> electricity, as it has no guard." ) ) );
             } else {
-                info.push_back( iteminfo( "BASE",
-                                          string_format( _( "* This item <bad>conducts</bad> electricity." ) ) ) );
+                info.push_back( iteminfo( "BASE", _( "* This item <bad>conducts</bad> electricity." ) ) );
             }
         }
 
@@ -3503,6 +3500,7 @@ std::string item::display_name( unsigned int quantity ) const
 
     switch( get_side() ) {
         case side::BOTH:
+        case side::num_sides:
             break;
         case side::LEFT:
             sidetxt = string_format( " (%s)", _( "left" ) );
@@ -8512,8 +8510,7 @@ std::string item::type_name( unsigned int quantity ) const
         }
     } else if( typeId() == "blood" ) {
         if( corpse == nullptr || corpse->id.is_null() ) {
-            return string_format( npgettext( "item name", "human blood",
-                                             "human blood", quantity ) );
+            return npgettext( "item name", "human blood", "human blood", quantity );
         } else {
             return string_format( npgettext( "item name", "%s blood",
                                              "%s blood",  quantity ),

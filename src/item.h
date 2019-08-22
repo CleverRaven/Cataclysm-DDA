@@ -282,7 +282,7 @@ class item : public visitable<item>
          * null pointer.
          * TODO: change this to take a reference instead.
          */
-        void set_mtype( const mtype *corpse );
+        void set_mtype( const mtype *m );
         /**
          * Whether this is a corpse item. Corpses always have valid monster type (@ref corpse)
          * associated (@ref get_mtype return a non-null pointer) and have been created
@@ -322,7 +322,7 @@ class item : public visitable<item>
          */
         std::string tname( unsigned int quantity = 1, bool with_prefix = true,
                            unsigned int truncate = 0 ) const;
-        std::string display_money( unsigned int quantity, unsigned int charge ) const;
+        std::string display_money( unsigned int quantity, unsigned int amount ) const;
         /**
          * Returns the item name and the charges or contained charges (if the item can have
          * charges at all). Calls @ref tname with given quantity and with_prefix being true.
@@ -348,7 +348,7 @@ class item : public visitable<item>
          * @param dump The properties (encapsulated into @ref iteminfo) are added to this vector,
          * the vector can be used to compare them to properties of another item.
          */
-        std::string info( bool showtext, std::vector<iteminfo> &dump ) const;
+        std::string info( bool showtext, std::vector<iteminfo> &iteminfo ) const;
 
         /**
         * Return all the information about the item and its type, and dump to vector.
@@ -361,7 +361,7 @@ class item : public visitable<item>
         * the vector can be used to compare them to properties of another item.
         * @param batch The batch crafting number to multiply data by
         */
-        std::string info( bool showtext, std::vector<iteminfo> &dump, int batch ) const;
+        std::string info( bool showtext, std::vector<iteminfo> &iteminfo, int batch ) const;
 
         /**
         * Return all the information about the item and its type, and dump to vector.
@@ -374,7 +374,7 @@ class item : public visitable<item>
         * the vector can be used to compare them to properties of another item.
         * @param batch The batch crafting number to multiply data by
         */
-        std::string info( std::vector<iteminfo> &dump, const iteminfo_query *parts = nullptr,
+        std::string info( std::vector<iteminfo> &info, const iteminfo_query *parts = nullptr,
                           int batch = 1 ) const;
 
         /**
@@ -382,9 +382,9 @@ class item : public visitable<item>
          * DO apply them to @ref fire_data argument, though.
          * @return Amount of "burn" that would be applied to the item.
          */
-        float simulate_burn( fire_data &bd ) const;
+        float simulate_burn( fire_data &frd ) const;
         /** Burns the item. Returns true if the item was destroyed. */
-        bool burn( fire_data &bd );
+        bool burn( fire_data &frd );
 
         // Returns the category of this item.
         const item_category &get_category() const;
@@ -433,7 +433,7 @@ class item : public visitable<item>
         void io( Archive & );
         using archive_type_tag = io::object_archive_tag;
 
-        void serialize( JsonOut &jsout ) const;
+        void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 
         const std::string &symbol() const;
@@ -693,7 +693,7 @@ class item : public visitable<item>
          * is outside the reality bubble.
          * @param smoking_duration
          */
-        void calc_rot_while_processing( time_duration smoking_duration );
+        void calc_rot_while_processing( time_duration processing_duration );
 
         /**
          * Update temperature for things like food
@@ -1018,11 +1018,11 @@ class item : public visitable<item>
          * Gets the point (vehicle tile) the cable is connected to.
          * Returns nothing if not connected to anything.
          */
-        cata::optional<tripoint> get_cable_target( player *carrier, const tripoint &pos ) const;
+        cata::optional<tripoint> get_cable_target( player *p, const tripoint &pos ) const;
         /**
          * Helper to bring a cable back to its initial state.
          */
-        void reset_cable( player *carrier );
+        void reset_cable( player *p );
 
         /**
          * Whether the item should be processed (by calling @ref process).
@@ -1738,7 +1738,7 @@ class item : public visitable<item>
          * @param u The player that uses the weapon, their strength might affect this.
          * It's optional and can be null.
          */
-        int gun_range( const player *u ) const;
+        int gun_range( const player *p ) const;
         /**
          * Summed range value of a gun, including values from mods. Returns 0 on non-gun items.
          */
@@ -1847,7 +1847,7 @@ class item : public visitable<item>
         /**
          * Returns the item type of the given identifier. Never returns null.
          */
-        static const itype *find_type( const itype_id &id );
+        static const itype *find_type( const itype_id &type );
         /**
          * Whether the item is counted by charges, this is a static wrapper
          * around @ref count_by_charges, that does not need an items instance.
@@ -1888,7 +1888,7 @@ class item : public visitable<item>
         void set_age( const time_duration &age );
         time_point birthday() const;
         void set_birthday( const time_point &bday );
-        void handle_pickup_ownership( Character &p );
+        void handle_pickup_ownership( Character &c );
         int get_gun_ups_drain() const;
         inline void set_old_owner( const faction *temp_owner ) {
             old_owner = temp_owner;
@@ -2010,7 +2010,7 @@ class item : public visitable<item>
         // Place conditions that should remove fake smoke item in this sub-function
         bool process_fake_smoke( player *carrier, const tripoint &pos );
         bool process_fake_mill( player *carrier, const tripoint &pos );
-        bool process_cable( player *carrier, const tripoint &pos );
+        bool process_cable( player *p, const tripoint &pos );
         bool process_blackpowder_fouling( player *carrier );
         bool process_tool( player *carrier, const tripoint &pos );
 

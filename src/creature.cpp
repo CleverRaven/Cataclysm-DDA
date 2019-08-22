@@ -51,6 +51,8 @@ const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_riding( "riding" );
 const efftype_id effect_ridden( "ridden" );
 const efftype_id effect_tied( "tied" );
+const efftype_id effect_paralyzepoison( "paralyzepoison" );
+
 
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
@@ -486,16 +488,15 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         return;
     }
     // If carrying a rider, there is a chance the hits may hit rider instead.
-    if( has_effect( effect_ridden ) ) {
-        if( !has_flag( MF_MECH_DEFENSIVE ) ) {
-            // If carrying a rider, there is a chance the hits may hit rider instead.
-            // big mounts and small player = big shield for player.
-            if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
-                g->u.deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam );
-                return;
-            }
+    if( has_effect( effect_riding ) ) {
+        monster *mon = g->u.mounted_creature.get(); //only the player can ride a monster
+        // If carrying a rider, there is a chance the hits may hit rider instead.
+        // big mounts and small player = big shield for player.
+        if( mon->has_flag( MF_MECH_DEFENSIVE ) ||
+            !one_in( std::max( 2, mon->get_size() - g->u.get_size() ) ) ) {
+            mon->deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam );
+            return;
         }
-        //otherwise it would thoroughly protect the rider(or pilot actually)
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
     body_part bp_hit = select_body_part( source, hit_spread );
@@ -551,17 +552,15 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         return;
     }
     // If carrying a rider, there is a chance the hits may hit rider instead.
-    if( has_effect( effect_ridden ) ) {
-        if( !has_flag( MF_MECH_DEFENSIVE ) ) {
-            // If carrying a rider, there is a chance the hits may hit rider instead.
-            // big mounts and small player = big shield for player.
-            if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
-                g->u.deal_projectile_attack( source, attack, print_messages );
-                return;
-            }
+    if( has_effect( effect_riding ) ) {
+        monster *mon = g->u.mounted_creature.get(); //only the player can ride a monster
+        // If carrying a rider, there is a chance the hits may hit rider instead.
+        // big mounts and small player = big shield for player.
+        if( mon->has_flag( MF_MECH_DEFENSIVE ) ||
+            !one_in( std::max( 2, mon->get_size() - g->u.get_size() ) ) ) {
+            mon->deal_projectile_attack( source, attack, print_messages );
+            return;
         }
-        //otherwise it would thoroughly protect the rider(or pilot actually)
-
     }
     const projectile &proj = attack.proj;
     dealt_damage_instance &dealt_dam = attack.dealt_dam;
@@ -726,6 +725,10 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     if( proj_effects.count( "APPLY_SAP" ) ) {
         add_effect( effect_sap, 1_turns * dealt_dam.total_damage() );
+    }
+    if( proj_effects.count( "PARALYZEPOISON" ) && dealt_dam.total_damage() > 0 ) {
+        add_msg_if_player( m_bad, _( "You feel poison coursing through your body!" ) );
+        add_effect( effect_paralyzepoison, 5_minutes );
     }
 
     int stun_strength = 0;

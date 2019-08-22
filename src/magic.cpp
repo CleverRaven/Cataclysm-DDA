@@ -39,64 +39,69 @@
 #include "point.h"
 #include "string_formatter.h"
 
-namespace
-{
-const std::map<std::string, valid_target> target_map = {
-    { "ally", valid_target::target_ally },
-    { "hostile", valid_target::target_hostile },
-    { "self", valid_target::target_self },
-    { "ground", valid_target::target_ground },
-    { "none", valid_target::target_none },
-    { "item", valid_target::target_item },
-    { "fd_fire", valid_target::target_fd_fire },
-    { "fd_blood", valid_target::target_fd_blood }
-};
-const std::map<std::string, body_part> bp_map = {
-    { "TORSO", body_part::bp_torso },
-    { "HEAD", body_part::bp_head },
-    { "EYES", body_part::bp_eyes },
-    { "MOUTH", body_part::bp_mouth },
-    { "ARM_L", body_part::bp_arm_l },
-    { "ARM_R", body_part::bp_arm_r },
-    { "HAND_L", body_part::bp_hand_l },
-    { "HAND_R", body_part::bp_hand_r },
-    { "LEG_L", body_part::bp_leg_l },
-    { "LEG_R", body_part::bp_leg_r },
-    { "FOOT_L", body_part::bp_foot_l },
-    { "FOOT_R", body_part::bp_foot_r }
-};
-const std::map<std::string, spell_flag> flag_map = {
-    { "PERMANENT", spell_flag::PERMANENT },
-    { "IGNORE_WALLS", spell_flag::IGNORE_WALLS },
-    { "HOSTILE_SUMMON", spell_flag::HOSTILE_SUMMON },
-    { "HOSTILE_50", spell_flag::HOSTILE_50 },
-    { "SILENT", spell_flag::SILENT },
-    { "LOUD", spell_flag::LOUD },
-    { "VERBAL", spell_flag::VERBAL },
-    { "SOMATIC", spell_flag::SOMATIC },
-    { "NO_HANDS", spell_flag::NO_HANDS },
-    { "NO_LEGS", spell_flag::NO_LEGS },
-    { "CONCENTRATE", spell_flag::CONCENTRATE }
-};
-} // namespace
-
 namespace io
 {
+// *INDENT-OFF*
 template<>
-valid_target string_to_enum<valid_target>( const std::string &trigger )
+std::string enum_to_string<valid_target>( valid_target data )
 {
-    return string_to_enum_look_up( target_map, trigger );
+    switch( data ) {
+        case valid_target::target_ally: return "ally";
+        case valid_target::target_hostile: return "hostile";
+        case valid_target::target_self: return "self";
+        case valid_target::target_ground: return "ground";
+        case valid_target::target_none: return "none";
+        case valid_target::target_item: return "item";
+        case valid_target::target_fd_fire: return "fd_fire";
+        case valid_target::target_fd_blood: return "fd_blood";
+        case valid_target::_LAST: break;
+    }
+    debugmsg( "Invalid valid_target" );
+    abort();
 }
 template<>
-body_part string_to_enum<body_part>( const std::string &trigger )
+std::string enum_to_string<body_part>( body_part data )
 {
-    return string_to_enum_look_up( bp_map, trigger );
+    switch( data ) {
+        case body_part::bp_torso: return "TORSO";
+        case body_part::bp_head: return "HEAD";
+        case body_part::bp_eyes: return "EYES";
+        case body_part::bp_mouth: return "MOUTH";
+        case body_part::bp_arm_l: return "ARM_L";
+        case body_part::bp_arm_r: return "ARM_R";
+        case body_part::bp_hand_l: return "HAND_L";
+        case body_part::bp_hand_r: return "HAND_R";
+        case body_part::bp_leg_l: return "LEG_L";
+        case body_part::bp_leg_r: return "LEG_R";
+        case body_part::bp_foot_l: return "FOOT_L";
+        case body_part::bp_foot_r: return "FOOT_R";
+        case body_part::num_bp: break;
+    }
+    debugmsg( "Invalid body_part" );
+    abort();
 }
 template<>
-spell_flag string_to_enum<spell_flag>( const std::string &trigger )
+std::string enum_to_string<spell_flag>( spell_flag data )
 {
-    return string_to_enum_look_up( flag_map, trigger );
+    switch( data ) {
+        case spell_flag::PERMANENT: return "PERMANENT";
+        case spell_flag::IGNORE_WALLS: return "IGNORE_WALLS";
+        case spell_flag::HOSTILE_SUMMON: return "HOSTILE_SUMMON";
+        case spell_flag::HOSTILE_50: return "HOSTILE_50";
+        case spell_flag::SILENT: return "SILENT";
+        case spell_flag::LOUD: return "LOUD";
+        case spell_flag::VERBAL: return "VERBAL";
+        case spell_flag::SOMATIC: return "SOMATIC";
+        case spell_flag::NO_HANDS: return "NO_HANDS";
+        case spell_flag::NO_LEGS: return "NO_LEGS";
+        case spell_flag::CONCENTRATE: return "CONCENTRATE";
+        case spell_flag::LAST: break;
+    }
+    debugmsg( "Invalid spell_flag" );
+    abort();
 }
+// *INDENT-ON*
+
 } // namespace io
 
 // LOADING
@@ -380,17 +385,14 @@ bool spell_type::is_valid() const
 
 // spell
 
-spell::spell( const spell_type *sp, int xp )
-{
-    type = sp;
-    experience = xp;
-}
-
-spell::spell( spell_id sp, int xp ) : spell( &sp.obj(), xp ) {}
+spell::spell( spell_id sp, int xp ) :
+    type( sp ),
+    experience( xp )
+{}
 
 spell_id spell::id() const
 {
-    return type->id;
+    return type;
 }
 
 trait_id spell::spell_class() const
@@ -699,10 +701,7 @@ std::string spell::energy_cur_string( const player &p ) const
 
 bool spell::is_valid() const
 {
-    if( type == nullptr ) {
-        return false;
-    }
-    return type->is_valid();
+    return type.is_valid();
 }
 
 bool spell::bp_is_affected( body_part bp ) const
@@ -900,22 +899,25 @@ int spell::casting_exp( const player &p ) const
 std::string spell::enumerate_targets() const
 {
     std::vector<std::string> all_valid_targets;
-    for( const std::pair<std::string, valid_target> pair : target_map ) {
-        if( is_valid_target( pair.second ) && pair.second != target_none ) {
-            all_valid_targets.emplace_back( pair.first );
+    int last_target = static_cast<int>( valid_target::_LAST );
+    for( int i = 0; i < last_target; ++i ) {
+        valid_target t = static_cast<valid_target>( i );
+        if( is_valid_target( t ) && t != target_none ) {
+            all_valid_targets.emplace_back( io::enum_to_string( t ) );
         }
     }
     if( all_valid_targets.size() == 1 ) {
         return all_valid_targets[0];
     }
     std::string ret;
+    // @todo if only we had a function to enumerate strings and concatenate them...
     for( auto iter = all_valid_targets.begin(); iter != all_valid_targets.end(); iter++ ) {
         if( iter + 1 == all_valid_targets.end() ) {
-            ret = string_format( "%s and %s", ret, *iter );
+            ret = string_format( _( "%s and %s" ), ret, *iter );
         } else if( iter == all_valid_targets.begin() ) {
-            ret = string_format( "%s", *iter );
+            ret = *iter;
         } else {
-            ret = string_format( "%s, %s", ret, *iter );
+            ret = string_format( _( "%s, %s" ), ret, *iter );
         }
     }
     return ret;
@@ -1059,7 +1061,7 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
         debugmsg( "Tried to learn invalid spell" );
         return;
     }
-    spell temp_spell( sp );
+    spell temp_spell( sp->id );
     if( !temp_spell.is_valid() ) {
         debugmsg( "Tried to learn invalid spell" );
         return;
@@ -1070,14 +1072,14 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
             for( const trait_id &cancel : sp->spell_class->cancels ) {
                 if( cancel == sp->spell_class->cancels.back() &&
                     sp->spell_class->cancels.back() != sp->spell_class->cancels.front() ) {
-                    trait_cancel = string_format( "%s and %s", trait_cancel, cancel->name() );
+                    trait_cancel = string_format( _( "%s and %s" ), trait_cancel, cancel->name() );
                 } else if( cancel == sp->spell_class->cancels.front() ) {
                     trait_cancel = cancel->name();
                     if( sp->spell_class->cancels.size() == 1 ) {
                         trait_cancel = string_format( "%s: %s", trait_cancel, cancel->desc() );
                     }
                 } else {
-                    trait_cancel = string_format( "%s, %s", trait_cancel, cancel->name() );
+                    trait_cancel = string_format( _( "%s, %s" ), trait_cancel, cancel->name() );
                 }
                 if( cancel == sp->spell_class->cancels.back() ) {
                     trait_cancel += ".";
@@ -1268,15 +1270,10 @@ class spellcasting_callback : public uilist_callback
 
 static std::string moves_to_string( const int moves )
 {
-    const int turns = moves / 100;
-    if( moves < 200 ) {
-        return _( string_format( "%d %s", moves, "moves" ) );
-    } else if( moves < to_moves<int>( 2_minutes ) ) {
-        return _( string_format( "%d %s", turns, "turns" ) );
-    } else if( moves < to_moves<int>( 2_hours ) ) {
-        return _( string_format( "%d %s", to_minutes<int>( turns * 1_turns ), "minutes" ) );
+    if( moves < to_moves<int>( 2_seconds ) ) {
+        return string_format( _( "%d moves" ), moves );
     } else {
-        return _( string_format( "%d %s", to_hours<int>( turns * 1_turns ), "hours" ) );
+        return to_string( time_duration::from_turns( moves / 100 ) );
     }
 }
 
@@ -1575,7 +1572,7 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     const catacurses::window w = menu->window;
     nc_color gray = c_light_gray;
     nc_color yellow = c_yellow;
-    const spell fake_spell( &sp );
+    const spell fake_spell( sp.id );
 
     const std::string spell_name = colorize( sp.name, c_light_green );
     const std::string spell_class = sp.spell_class == trait_id( "NONE" ) ? _( "Classless" ) :

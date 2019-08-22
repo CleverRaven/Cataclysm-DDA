@@ -391,5 +391,44 @@
     "durability": 6,
     "relative": { "reload": 2 },
     "magazines": [ [ "flammable", [ "aux_pressurized_tank", "pressurized_tank" ] ] ]
+  },
+  {
+    "id": "bio_advreactor",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": "Advanced Microreactor CBM",
+    "description": "This module upgrades a pre-installed microreactor with enhanced maximum yield and limited automatic radiation scrubbing capabilities.",
+    "price": 900000,
+    "difficulty": 13
+  },
+  {
+    "id": "bio_plut_filter",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": "Plutonium Filter CBM",
+    "description": "A system of tanks and filters that are connected to a microreactor to extract plutonium from radioactive slurry.",
+    "price": 60000,
+    "weight": 1000,
+    "difficulty": 6
+  },
+  {
+    "id": "bio_reactor",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": "Internal Microreactor CBM",
+    "description": "This stripped down mini-reactor will generate impressive amounts of bionic power, but may not be the safest thing to install.  Once active, it cannot be shut down and will slowly contaminate the user's body with radiation.",
+    "price": 900000,
+    "difficulty": 11
+  },
+  {
+    "id": "bio_reactor_upgrade",
+    "bionic_id": "bio_advreactor",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": "Microreactor Upgrade CBM",
+    "description": "A kit for upgrading a pre-installed microreactor with enhanced maximum yield and limited automatic radiation scrubbing capabilities.",
+    "price": 250000,
+    "difficulty": 11,
+    "is_upgrade": true
   }
 ]
