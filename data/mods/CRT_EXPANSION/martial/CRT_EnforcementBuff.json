@@ -92,9 +92,9 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "mult_bonuses": [ [ "damage", "bash", 1 ], [ "damage", "cut", 1 ], [ "damage", "stab", 1 ] ],
-    "flat_bonuses": [ [ "damage", "bash", "str", 0.15 ], [ "movecost", "str", -0.70 ] ],
+    "flat_bonuses": [ [ "damage", "bash", "str", 0.15 ], [ "movecost", "str", -0.7 ] ],
     "messages": [ "You clock %s's in a weak spot to knock em down", "<npcname> smashes in %s's face" ],
-    "down_dur": 1"
+    "down_dur": 1
   },
   {
     "type": "technique",
