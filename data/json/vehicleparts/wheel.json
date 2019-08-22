@@ -1,5 +1,72 @@
 [
   {
+    "type": "vehicle_part",
+    "id": "wheel_mount_light",
+    "name": "light wheel mount",
+    "symbol": "-",
+    "color": "light_gray",
+	"location": "axle",
+    "broken_symbol": "X",
+    "broken_color": "light_gray",
+    "damage_modifier": 80,
+    "durability": 120,
+    "description": "Connection where wheels can be connected on. This particular one is fit for light wheels like bike wheels.",
+    "item": "pipe",
+    "difficulty": 2,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "welding_standard", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], { "id": "SAW_M", "level": 2 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
+    },
+    "flags": [ "WHEEL_MOUNT_LIGHT" ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
+    "damage_reduction": { "all": 54 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "wheel_mount_medium",
+    "name": "medium wheel mount",
+    "symbol": "-",
+    "color": "light_gray",
+	"location": "axle",
+    "broken_symbol": "X",
+    "broken_color": "light_gray",
+    "damage_modifier": 80,
+    "durability": 120,
+    "description": "Connection where wheels can be connected on. This particular one is fit for normal car wheels.",
+    "item": "pipe",
+    "difficulty": 2,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 2 } ], "using": [ [ "welding_standard", 10 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SAW_M", "level": 2 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
+    },
+    "flags": [ "WHEEL_MOUNT_MEDIUM" ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
+  },
+  {
+    "type": "vehicle_part",
+    "id": "wheel_mount_heavy",
+    "name": "heavy wheel mount",
+    "symbol": "-",
+    "color": "light_gray",
+	"location": "axle",
+    "broken_symbol": "X",
+    "broken_color": "light_gray",
+    "damage_modifier": 80,
+    "durability": 120,
+    "description": "Connection where wheels can be connected on. This particular one is fit for large car wheels.",
+    "item": "pipe",
+    "difficulty": 2,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 2 } ], "using": [ [ "welding_standard", 15 ] ] },
+      "removal": { "skills": [ [ "mechanics", 5 ] ], "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SAW_M", "level": 2 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
+    },
+    "flags": [ "WHEEL_MOUNT_MEDIUM" ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
+  },
+  {
     "id": "metal_wheel",
     "type": "vehicle_part",
     "name": "metal wheel",
@@ -15,7 +82,11 @@
     "rolling_resistance": 0.375,
     "wheel_type": "rigid",
     "contact_area": 80,
-    "flags": [ "WHEEL" ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
     "damage_reduction": { "all": 66 }
   },
   {
@@ -89,7 +160,11 @@
     "rolling_resistance": 1,
     "wheel_type": "standard",
     "contact_area": 153,
-    "flags": [ "WHEEL" ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
     "damage_reduction": { "bash": 20 }
   },
   {
@@ -138,7 +213,11 @@
     "rolling_resistance": 0.6,
     "wheel_type": "standard",
     "contact_area": 480,
-    "flags": [ "WHEEL" ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_WHEEL_MOUNT_HEAVY" ],
     "damage_reduction": { "all": 60, "cut": 30, "stab": 16 }
   },
   {
@@ -166,7 +245,11 @@
     "rolling_resistance": 1.62,
     "wheel_type": "off-road",
     "contact_area": 30,
-    "flags": [ "WHEEL", "STABLE", "TOOL_WRENCH", "STEERABLE", "FOLDABLE" ],
+	"requirements": {
+      "install": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+    },
+    "flags": [ "WHEEL", "STABLE", "STEERABLE", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "bash": 10 }
   },
   {
@@ -191,7 +274,11 @@
     "rolling_resistance": 0.45,
     "wheel_type": "standard",
     "contact_area": 40,
-    "flags": [ "WHEEL", "FOLDABLE", "TOOL_WRENCH" ],
+	"requirements": {
+      "install": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+    },
+    "flags": [ "WHEEL", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "bash": 6 }
   },
   {
@@ -262,7 +349,11 @@
     "rolling_resistance": 1.9,
     "wheel_type": "standard",
     "contact_area": 66,
-    "flags": [ "WHEEL" ],
+	"requirements": {
+      "install": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "bash": 10 }
   },
   {
@@ -307,7 +398,11 @@
     "rolling_resistance": 1.5,
     "wheel_type": "racing",
     "contact_area": 30,
-    "flags": [ "WHEEL", "NO_JACK", "FOLDABLE" ]
+	"requirements": {
+      "install": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+    },
+    "flags": [ "WHEEL", "NO_JACK", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ]
   },
   {
     "id": "wheel_small_steerable",
@@ -363,7 +458,11 @@
     "rolling_resistance": 0.45,
     "wheel_type": "standard",
     "contact_area": 20,
-    "flags": [ "WHEEL", "STABLE", "FOLDABLE", "TOOL_WRENCH", "STEERABLE" ],
+	"requirements": {
+      "install": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+    },
+    "flags": [ "WHEEL", "STABLE", "FOLDABLE", "STEERABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "bash": 8 }
   },
   {
@@ -388,7 +487,11 @@
     "rolling_resistance": 1.95,
     "wheel_type": "racing",
     "contact_area": 40,
-    "flags": [ "WHEEL", "STABLE", "FOLDABLE", "TOOL_WRENCH", "STEERABLE" ],
+	"requirements": {
+      "install": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+    },
+    "flags": [ "WHEEL", "STABLE", "FOLDABLE", "STEERABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "bash": 6 }
   },
   {
@@ -412,7 +515,11 @@
     "rolling_resistance": 0.575,
     "wheel_type": "standard",
     "contact_area": 360,
-    "flags": [ "WHEEL" ],
+	"requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
     "damage_reduction": { "bash": 25 }
   },
   {
@@ -454,8 +561,8 @@
     "damage_modifier": 50,
     "breaks_into": [ { "item": "2x4", "count": [ 0, 4 ] }, { "item": "nail", "charges": [ 5, 15 ] } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": 30000, "using": "vehicle_bolt" },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "using": "vehicle_bolt" },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": 30000, "qualities": [ { "id": "WRENCH", "level": 2  },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "WRENCH", "level": 2  },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": 5000, "using": [ [ "adhesive", 1 ] ] }
     },
     "rolling_resistance": 2.15,
