@@ -61,7 +61,7 @@ class cell_list_range
         cell_list_range( const cell_list< T, CELL_SIZE, MAXX, MAXY > &list, const tripoint &p,
                          int distance ) : list( &list ), origin( p ), origin_cell( p.xy() / CELL_SIZE ),
             max_distance( distance ), sorted_elements( distance + 1,
-                    std::vector<const std::pair<tripoint, T >*>() ) {
+                    std::vector<const std::pair<const tripoint, T >*>() ) {
             min_bounds = origin_cell * CELL_SIZE;
             max_bounds = min_bounds + point( CELL_SIZE - 1, CELL_SIZE - 1 );
             distance_to_nearest_cell_wall = calc_distance();
@@ -100,11 +100,11 @@ class cell_list_range
             return distance;
         }
         void add( const std::map<tripoint, T> &cells ) {
-            for( const std::pair<tripoint, T> &candidate : cells ) {
+            for( const std::pair<const tripoint, T> &candidate : cells ) {
                 add( candidate );
             }
         }
-        void add( const std::pair<tripoint, T> &candidate ) {
+        void add( const std::pair<const tripoint, T> &candidate ) {
             const int distance = rl_dist( candidate.first, origin );
             if( distance > max_distance ) {
                 return;
@@ -152,7 +152,7 @@ class cell_list_range
         const tripoint origin;
         const point origin_cell; // = origin / CELL_SIZE
         const int max_distance;
-        std::vector<std::vector<const std::pair<tripoint, T>*>> sorted_elements;
+        std::vector<std::vector<const std::pair<const tripoint, T>*>> sorted_elements;
         // Upper left and lower right corners of area, used to determine loaded distance to scan.
         point min_bounds;
         point max_bounds;
@@ -179,11 +179,11 @@ class cell_list_iterator
                 ++( *this );
             }
         }
-        const std::pair<tripoint, T> &operator*() const {
+        const std::pair<const tripoint, T> &operator*() const {
             assert( range );
             return **current;
         }
-        const std::pair<tripoint, T> *operator->() const {
+        const std::pair<const tripoint, T> *operator->() const {
             assert( range );
             return & **current;
         }
@@ -224,7 +224,7 @@ class cell_list_iterator
     private:
         cell_list_range<T, CELL_SIZE, MAXX, MAXY> *range;
         int current_distance = 1;
-        typename std::vector<const std::pair<tripoint, T>*>::iterator current;
+        typename std::vector<const std::pair<const tripoint, T>*>::iterator current;
 };
 
 #endif

@@ -12,7 +12,7 @@ TEST_CASE( "cell_list", "[cell_list]" )
     auto it = range.begin();
     auto end = range.end();
     while( it != end ) {
-        const std::pair<tripoint, int> &ref = *it;
+        const std::pair<const tripoint, int> &ref = *it;
         CHECK( ref.first == tripoint( 2, 2, 0 ) );
         CHECK( ref.second == 0 );
         ++it;
@@ -20,15 +20,15 @@ TEST_CASE( "cell_list", "[cell_list]" )
 }
 
 template< typename T, int CELL_SIZE, int MAXX, int MAXY>
-static std::vector<std::pair<tripoint, int>>
+static std::vector<std::pair<const tripoint, int>>
         check_range( cell_list_range<T, CELL_SIZE, MAXX, MAXY> &range )
 {
-    std::vector<std::pair<tripoint, int>> found;
+    std::vector<std::pair<const tripoint, int>> found;
     auto it = range.begin();
     auto end = range.end();
     int prev_dist = 0;
     while( it != end ) {
-        const std::pair<tripoint, int> &ref = *it;
+        const std::pair<const tripoint, int> &ref = *it;
         int dist = rl_dist( ref.first, range.get_origin() );
         INFO( ref.first );
         CHECK( prev_dist <= dist );
@@ -47,7 +47,7 @@ static void set_trig( bool trig )
 }
 
 template< typename T, int CELL_SIZE, int MAXX, int MAXY>
-static std::vector<std::pair<tripoint, int>>check_range( cell_list<T, CELL_SIZE, MAXX, MAXY> &list,
+static std::vector<std::pair<const tripoint, int>>check_range( cell_list<T, CELL_SIZE, MAXX, MAXY> &list,
         tripoint origin, int distance, bool trig )
 {
     set_trig( trig );
