@@ -18,7 +18,7 @@
     "weight": 12,
     "volume": "250 ml",
     "price": 225,
-    "price_postapoc":12500
+    "price_postapoc": 12500
     "material": [ "plastic", "powder" ],
     "symbol": "=",
     "color": "pink",
@@ -56,7 +56,7 @@
     "name": "8x40mm HVP",
     "description": "8x40mm caseless rounds, saboted high-velocity penetrator type.  Advanced military grade, armor-piercing ammunition that fires a single depleted uranium flechette.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "price": 2500,
-    price_postapoc":50000
+    price_postapoc": 50000
     "count": 20,
     "relative": { "damage": 5, "pierce": 20 }
   },
