@@ -147,7 +147,9 @@ void Creature::process_turn()
     reset_stats();
 
     // add an appropriate number of moves
-    moves += get_speed();
+    if( !has_effect( effect_ridden ) ) {
+        moves += get_speed();
+    }
 }
 
 // MF_DIGS or MF_CAN_DIG and diggable terrain
