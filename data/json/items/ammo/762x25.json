@@ -7,7 +7,7 @@
     "weight": 10,
     "volume": "250 ml",
     "price": 100,
-    "price_postapoc":3000,
+    "price_postapoc": 3000,
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "light_gray",
