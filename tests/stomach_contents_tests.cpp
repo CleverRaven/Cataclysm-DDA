@@ -14,7 +14,7 @@
 
 static void reset_time()
 {
-    calendar::turn = calendar::turn_zero;
+    calendar::turn = calendar::start_of_cataclysm;
     player &p = g->u;
     p.set_stored_kcal( p.get_healthy_kcal() );
     p.set_hunger( 0 );
