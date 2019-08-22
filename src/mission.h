@@ -33,6 +33,7 @@ class JsonOut;
 class overmapbuffer;
 class item;
 class npc;
+template<typename T> struct enum_traits;
 
 enum npc_mission : int;
 
@@ -49,6 +50,11 @@ enum mission_origin {
     ORIGIN_SECONDARY,  // Given at the end of another mission
     ORIGIN_COMPUTER,   // Taken after reading investigation provoking entries in computer terminal
     NUM_ORIGIN
+};
+
+template<>
+struct enum_traits<mission_origin> {
+    static constexpr mission_origin last = mission_origin::NUM_ORIGIN;
 };
 
 enum mission_goal {
@@ -71,25 +77,10 @@ enum mission_goal {
     MGOAL_CONDITION,         // Satisfy the dynamically created condition and talk to the mission giver
     NUM_MGOAL
 };
-const std::unordered_map<std::string, mission_goal> mission_goal_strs = { {
-        { "MGOAL_NULL", MGOAL_NULL },
-        { "MGOAL_GO_TO", MGOAL_GO_TO },
-        { "MGOAL_GO_TO_TYPE", MGOAL_GO_TO_TYPE },
-        { "MGOAL_FIND_ITEM", MGOAL_FIND_ITEM },
-        { "MGOAL_FIND_ITEM_GROUP", MGOAL_FIND_ITEM_GROUP },
-        { "MGOAL_FIND_ANY_ITEM", MGOAL_FIND_ANY_ITEM },
-        { "MGOAL_FIND_MONSTER", MGOAL_FIND_MONSTER },
-        { "MGOAL_FIND_NPC", MGOAL_FIND_NPC },
-        { "MGOAL_ASSASSINATE", MGOAL_ASSASSINATE },
-        { "MGOAL_KILL_MONSTER", MGOAL_KILL_MONSTER },
-        { "MGOAL_KILL_MONSTER_TYPE", MGOAL_KILL_MONSTER_TYPE },
-        { "MGOAL_RECRUIT_NPC", MGOAL_RECRUIT_NPC },
-        { "MGOAL_RECRUIT_NPC_CLASS", MGOAL_RECRUIT_NPC_CLASS },
-        { "MGOAL_COMPUTER_TOGGLE", MGOAL_COMPUTER_TOGGLE },
-        { "MGOAL_KILL_MONSTER_SPEC", MGOAL_KILL_MONSTER_SPEC },
-        { "MGOAL_TALK_TO_NPC", MGOAL_TALK_TO_NPC },
-        { "MGOAL_CONDITION", MGOAL_CONDITION }
-    }
+
+template<>
+struct enum_traits<mission_goal> {
+    static constexpr mission_goal last = mission_goal::NUM_MGOAL;
 };
 
 struct mission_place {
@@ -300,7 +291,8 @@ class mission
             yet_to_start,
             in_progress,
             success,
-            failure
+            failure,
+            num_mission_status
         };
     private:
         // So mission_type::create is simpler
@@ -471,6 +463,11 @@ class mission
             const itype_id &actual_container,
             bool &specific_container_required );
 
+};
+
+template<>
+struct enum_traits<mission::mission_status> {
+    static constexpr mission::mission_status last = mission::mission_status::num_mission_status;
 };
 
 #endif

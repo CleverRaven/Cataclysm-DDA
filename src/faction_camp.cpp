@@ -2254,6 +2254,8 @@ bool basecamp::gathering_return( const std::string &task, time_duration min_time
             case WINTER:
                 itemlist = "foraging_faction_camp_winter";
                 break;
+            default:
+                debugmsg( "Invalid season" );
         }
     }
     if( task == "_faction_camp_trapping" || task == "_faction_camp_hunting" ) {
