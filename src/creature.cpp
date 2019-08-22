@@ -147,7 +147,7 @@ void Creature::process_turn()
     reset_stats();
 
     // add an appropriate number of moves
-    if( !has_effect( effect_ridden ) ){
+    if( !has_effect( effect_ridden ) ) {
         moves += get_speed();
     }
 }
