@@ -36,7 +36,7 @@
     "name": "9x19mm +P",
     "description": "Overpressure 9x19mm ammunition.  The round's increased velocity results in superior accuracy and stopping power at the cost of higher recoil.",
     "price": 300,
-    "price_postapoc":3800,
+    "price_postapoc": 3800,
     "count": 25,
     "relative": { "damage": 2, "pierce": 2, "dispersion": -15 },
     "proportional": { "recoil": 1.1 }
