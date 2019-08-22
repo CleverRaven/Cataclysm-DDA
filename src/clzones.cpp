@@ -134,6 +134,11 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "LOOT_IGNORE" ),
                    zone_type( translate_marker( "Loot: Ignore" ),
                               translate_marker( "Items inside of this zone are ignored by \"sort out loot\" zone-action." ) ) );
+    types.emplace( zone_type_id( "SOURCE_FIREWOOD" ),
+                   zone_type( translate_marker( "Source: Firewood" ),
+                              translate_marker( "Source for firewood or other flammable materials in this zone may be used to automatically refuel fires.  "
+                                      "This will be done to maintain light during long-running tasks that require it such as crafting or reading, "
+                                      "but not (for example) if you are simply waiting nearby." ) ) );
     types.emplace( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
                    zone_type( translate_marker( "Construction: Blueprint" ),
                               translate_marker( "Designate a blueprint zone for construction." ) ) );
