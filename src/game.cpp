@@ -11678,8 +11678,9 @@ void game::add_artifact_dreams( )
     for( auto &it : art_items ) {
         //Pick only the ones with an applicable dream
         auto art = it->type->artifact;
-        if( art->charge_req != ACR_NULL && ( it->ammo_remaining() < it->ammo_capacity() ||
-                                             it->ammo_capacity() == 0 ) ) { //or max 0 in case of wacky mod shenanigans
+        if( art.has_value() && art->charge_req != ACR_NULL &&
+            ( it->ammo_remaining() < it->ammo_capacity() ||
+              it->ammo_capacity() == 0 ) ) { //or max 0 in case of wacky mod shenanigans
             add_msg( m_debug, "Checking artifact %s", it->tname() );
             if( check_art_charge_req( *it ) ) {
                 add_msg( m_debug, "   Has freq %s,%s", art->dream_freq_met, art->dream_freq_unmet );
