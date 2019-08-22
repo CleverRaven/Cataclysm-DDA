@@ -11013,6 +11013,8 @@ void player::forced_dismount()
     bool mech = false;
     if( mounted_creature ) {
         auto mon = mounted_creature.get();
+        // monster has been storing up moves while riding, reset them now so it dosnt zoom off.
+        mon->moves = 0;
         if( mon->has_flag( MF_RIDEABLE_MECH ) && !mon->type->mech_weapon.empty() ) {
             mech = true;
             remove_item( g->u.weapon );
@@ -11100,6 +11102,8 @@ void player::dismount()
                 int ydiff = pos().y - temp_pt.y;
                 remove_effect( effect_riding );
                 monster *critter = mounted_creature.get();
+                // monster has been storing up moves while riding, reset them now so it dosnt zoom off.
+                critter->moves = 0;
                 if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.empty() ) {
                     remove_item( g->u.weapon );
                 }
