@@ -9,7 +9,7 @@
     "description": "Tiny droplets of venom trickle out of the sponge-like tissue of this sharp barb.",
     "material": "bone",
     "volume": "250ml",
-    "weight": 37,
+    "weight": "37 g",
     "bashing": 6,
     "cutting": 2,
     "ammo_type": "barb",

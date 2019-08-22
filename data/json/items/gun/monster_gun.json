@@ -20,7 +20,7 @@
     "skill": "pistol",
     "ammo": "barb",
     "clip_size": 1,
-    "weight": 540,
+    "weight": "540 g",
     "volume": "750ml",
     "bashing": 2,
     "to_hit": 1,
