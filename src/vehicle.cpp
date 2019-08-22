@@ -1174,10 +1174,34 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
     }
 
     // Wheels that need axles must be installed on a wheel mount
-    if( part.has_flag( "NEEDS_WHEEL_MOUNT" ) ) {
+    if( part.has_flag( "NEEDS_WHEEL_MOUNT_LIGHT" ) ) {
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "WHEEL_MOUNT" ) ) {
+            if( part_info( elem ).has_flag( "WHEEL_MOUNT_LIGHT" ) ) {
+                anchor_found = true;
+                break;
+            }
+        }
+        if( !anchor_found ) {
+            return false;
+        }
+    }
+    if( part.has_flag( "NEEDS_WHEEL_MOUNT_MEDIUM" ) ) {
+        bool anchor_found = false;
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "WHEEL_MOUNT_MEDIUM" ) ) {
+                anchor_found = true;
+                break;
+            }
+        }
+        if( !anchor_found ) {
+            return false;
+        }
+    }
+    if( part.has_flag( "NEEDS_WHEEL_MOUNT_HEAVY" ) ) {
+        bool anchor_found = false;
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "WHEEL_MOUNT_HEAVY" ) ) {
                 anchor_found = true;
                 break;
             }
@@ -1240,7 +1264,15 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
     }
 
     //Can't remove a wheel mount if there's still a wheel there
-    if( part_flag( p, "WHEEL_MOUNT" ) && part_with_feature( p, "NEEDS_WHEEL_MOUNT", true ) >= 0 ) {
+    if( part_flag( p, "WHEEL_MOUNT_LIGHT" ) && part_with_feature( p, "NEEDS_WHEEL_MOUNT_LIGHT", true ) >= 0 ) {
+        reason = _( "Remove attached wheel first." );
+        return false;
+    }
+	if( part_flag( p, "WHEEL_MOUNT_MEDIUM" ) && part_with_feature( p, "NEEDS_WHEEL_MOUNT_MEDIUM", true ) >= 0 ) {
+        reason = _( "Remove attached wheel first." );
+        return false;
+    }
+	if( part_flag( p, "WHEEL_MOUNT_HEAVY" ) && part_with_feature( p, "NEEDS_WHEEL_MOUNT_HEAVY", true ) >= 0 ) {
         reason = _( "Remove attached wheel first." );
         return false;
     }
