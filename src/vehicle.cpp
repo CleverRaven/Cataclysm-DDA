@@ -1173,6 +1173,20 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
         }
     }
 
+    // Wheels that need axles must be installed on a wheel mount
+    if( part.has_flag( "NEEDS_WHEEL_MOUNT" ) ) {
+        bool anchor_found = false;
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "WHEEL_MOUNT" ) ) {
+                anchor_found = true;
+                break;
+            }
+        }
+        if( !anchor_found ) {
+            return false;
+        }
+    }
+
     //Anything not explicitly denied is permitted
     return true;
 }
@@ -1222,6 +1236,12 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
     //Can't remove a turret mount if there's still a turret there
     if( part_flag( p, "TURRET_MOUNT" ) && part_with_feature( p, "TURRET", true ) >= 0 ) {
         reason = _( "Remove attached mounted weapon first." );
+        return false;
+    }
+
+    //Can't remove a wheel mount if there's still a wheel there
+    if( part_flag( p, "WHEEL_MOUNT" ) && part_with_feature( p, "NEEDS_WHEEL_MOUNT", true ) >= 0 ) {
+        reason = _( "Remove attached wheel first." );
         return false;
     }
 
