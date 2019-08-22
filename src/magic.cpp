@@ -910,13 +910,14 @@ std::string spell::enumerate_targets() const
         return all_valid_targets[0];
     }
     std::string ret;
+    // @todo if only we had a function to enumerate strings and concatenate them...
     for( auto iter = all_valid_targets.begin(); iter != all_valid_targets.end(); iter++ ) {
         if( iter + 1 == all_valid_targets.end() ) {
-            ret = string_format( "%s and %s", ret, *iter );
+            ret = string_format( _( "%s and %s" ), ret, *iter );
         } else if( iter == all_valid_targets.begin() ) {
-            ret = string_format( "%s", *iter );
+            ret = *iter;
         } else {
-            ret = string_format( "%s, %s", ret, *iter );
+            ret = string_format( _( "%s, %s" ), ret, *iter );
         }
     }
     return ret;
@@ -1071,14 +1072,14 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
             for( const trait_id &cancel : sp->spell_class->cancels ) {
                 if( cancel == sp->spell_class->cancels.back() &&
                     sp->spell_class->cancels.back() != sp->spell_class->cancels.front() ) {
-                    trait_cancel = string_format( "%s and %s", trait_cancel, cancel->name() );
+                    trait_cancel = string_format( _( "%s and %s" ), trait_cancel, cancel->name() );
                 } else if( cancel == sp->spell_class->cancels.front() ) {
                     trait_cancel = cancel->name();
                     if( sp->spell_class->cancels.size() == 1 ) {
                         trait_cancel = string_format( "%s: %s", trait_cancel, cancel->desc() );
                     }
                 } else {
-                    trait_cancel = string_format( "%s, %s", trait_cancel, cancel->name() );
+                    trait_cancel = string_format( _( "%s, %s" ), trait_cancel, cancel->name() );
                 }
                 if( cancel == sp->spell_class->cancels.back() ) {
                     trait_cancel += ".";
@@ -1269,15 +1270,10 @@ class spellcasting_callback : public uilist_callback
 
 static std::string moves_to_string( const int moves )
 {
-    const int turns = moves / 100;
-    if( moves < 200 ) {
-        return _( string_format( "%d %s", moves, "moves" ) );
-    } else if( moves < to_moves<int>( 2_minutes ) ) {
-        return _( string_format( "%d %s", turns, "turns" ) );
-    } else if( moves < to_moves<int>( 2_hours ) ) {
-        return _( string_format( "%d %s", to_minutes<int>( turns * 1_turns ), "minutes" ) );
+    if( moves < to_moves<int>( 2_seconds ) ) {
+        return string_format( _( "%d moves" ), moves );
     } else {
-        return _( string_format( "%d %s", to_hours<int>( turns * 1_turns ), "hours" ) );
+        return to_string( time_duration::from_turns( moves / 100 ) );
     }
 }
 
