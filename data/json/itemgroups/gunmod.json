@@ -39,7 +39,8 @@
       [ "recoil_stock", 60 ],
       [ "shot_suppressor", 10 ],
       [ "u_shotgun", 60 ],
-      [ "waterproof_gunmod", 40 ]
+      [ "waterproof_gunmod", 40 ],
+      [ "retool_ar15_300blk", 40 ]
     ]
   },
   {

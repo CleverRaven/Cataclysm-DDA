@@ -365,7 +365,7 @@
     "copy-from": "casing",
     "type": "GENERIC",
     "name": ".300BLK casing",
-    "description": "An empty casing from a .300BLK round.",
+    "description": "An empty casing from a .300 AAC Blackout round.",
     "weight": 6,
     "volume": "9ml"
   }

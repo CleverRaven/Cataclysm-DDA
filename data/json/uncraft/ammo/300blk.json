@@ -14,5 +14,21 @@
       [ [ "copper", 2 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
+    "result": "300blk_ss",
+    "type": "uncraft",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "lead", 5 ] ],
+      [ [ "300blk_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 3 ] ],
+      [ [ "copper", 2 ] ]
+    ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   }
 ]

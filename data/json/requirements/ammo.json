@@ -63,5 +63,11 @@
     "type": "requirement",
     "//": "Components required for .270 Winchester ammo",
     "components": [ [ [ "270win_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
+  },
+  {
+    "id": "ammo_300blk",
+    "type": "requirement",
+    "//": "Components required for .300 AAC Blackout ammo",
+    "components": [ [ [ "300blk_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ] ]
   }
 ]

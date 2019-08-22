@@ -1,0 +1,23 @@
+[
+  {
+    "id": "retool_ar15_300blk",
+    "type": "GUNMOD",
+    "name": ".300 AAC Blackout AR-15 conversion kit",
+    "description": "A complete AR-15 upper assembly with a .300 AAC Blackout barrel.",
+    "weight": 1000,
+    "volume": "500 ml",
+    "integral_volume": 0,
+    "integral_weight": 0,
+    "price": 50000,
+    "material": "steel",
+    "symbol": ":",
+    "color": "green",
+    "location": "bore",
+    "mod_targets": [ "ar15", "m4a1", "h&k416a5", "m27iar" ],
+    "install_time": "1 m",
+    "ammo_modifier": "300blk",
+    "magazine_adaptor": [ [ "300blk", [ "stanag30", "stanag50" ] ] ],
+    "min_skills": [ [ "weapon", 1 ] ],
+    "flags": [ "IRREMOVABLE" ]
+  }
+]
