@@ -2657,7 +2657,7 @@
       [ [ "pur_tablets", 15 ] ],
       [ [ "survival_kit_box", 1 ] ]
     ],
-    "flags": [ "BLIND_EASY", "UNCRAFT_LIQUIDS_CONTAINED" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "garlic",
