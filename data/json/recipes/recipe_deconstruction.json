@@ -1677,6 +1677,13 @@
     "components": [ [ [ "plastic_chunk", 20 ] ] ]
   },
   {
+    "result": "teleumbrella",
+    "type": "uncraft",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "scrap", 1 ] ], [ [ "wire", 5 ] ] ]
+  },
+  {
     "result": "lawnmower",
     "type": "uncraft",
     "time": "1 m",
