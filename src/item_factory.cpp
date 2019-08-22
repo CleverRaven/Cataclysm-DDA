@@ -1574,7 +1574,7 @@ void Item_factory::load_tool( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( relic &slot, JsonObject &jo, const std::string &src )
+void Item_factory::load( relic &slot, JsonObject &jo, const std::string & )
 {
     slot.load( jo );
 }
