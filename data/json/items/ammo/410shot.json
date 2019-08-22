@@ -7,7 +7,7 @@
     "weight": 32,
     "volume": "250 ml",
     "price": 175,
-    "price_postapoc":3500,
+    "price_postapoc": 3500,
     "material": [ "plastic", "powder" ],
     "symbol": "=",
     "color": "red",
