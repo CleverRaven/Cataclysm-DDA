@@ -5,8 +5,8 @@
     "default": "mon_slasher_weak",
     "monsters": [
       { "monster": "mon_slasher_weak", "freq": 300, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_waster", "freq": 50, "cost_multiplier": 3  },
-      { "monster": "mon_slasher", "freq": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },  
+      { "monster": "mon_waster", "freq": 50, "cost_multiplier": 3 },
+      { "monster": "mon_slasher", "freq": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] }
     ]
   }
 ]
