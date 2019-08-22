@@ -46,5 +46,42 @@
     "min_duration": 1000,
     "max_duration": 10000,
     "duration_increment": 2000
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_summon_zombie_gasbag_crawler",
+    "name": "Summon Gangrenous Crawlers",
+    "description": "Summons 2 permanent gangrenous crawlers.",
+    "flags": [ "HOSTILE_SUMMON", "PERMANENT" ],
+    "valid_targets": [ "ground", "self" ],
+    "max_level": 1,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 0,
+    "max_range": 0,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "base_casting_time": 3,
+    "effect": "summon",
+    "effect_str": "mon_zombie_gasbag_crawler"
+  },
+  {
+    "type": "SPELL",
+    "id": "crushed_giant_summoning",
+    "name": "Summon Gangrenous Monsters",
+    "description": "Summons 2 permanent gangrenous impalers.",
+    "flags": [ "HOSTILE_SUMMON", "PERMANENT" ],
+    "valid_targets": [ "ground" ],
+    "extra_effects": [ { "id": "mon_summon_zombie_gasbag_crawler" } ],
+    "max_level": 1,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 0,
+    "max_range": 0,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "base_casting_time": 3,
+    "effect": "summon",
+    "effect_str": "mon_zombie_gasbag_impaler"
   }
 ]

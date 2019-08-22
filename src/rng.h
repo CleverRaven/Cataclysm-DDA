@@ -24,7 +24,7 @@ cata_default_random_engine &rng_get_engine();
 unsigned int rng_bits();
 
 int rng( int lo, int hi );
-double rng_float( double val1, double val2 );
+double rng_float( double lo, double hi );
 bool one_in( int chance );
 bool one_turn_in( const time_duration &duration );
 bool x_in_y( double x, double y );

@@ -5,7 +5,7 @@
     "name": "nail rifle magazine",
     "description": "An improvised magazine for use with a nail rifle.  Little more than a tin can, spring and some duct tape it is awkward to reload and not especially reliable.",
     "weight": 60,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 1920,
     "material": "steel",
     "symbol": "#",

@@ -7,7 +7,7 @@
     "name_plural": "blunderbusses",
     "description": "A homemade version of a crude precursor to the shotgun.  Able to fire just about anything you put down the barrel, but it will degrade pretty quick.",
     "weight": 8267,
-    "volume": 12,
+    "volume": "3 L",
     "price": 15000,
     "to_hit": -1,
     "bashing": 12,

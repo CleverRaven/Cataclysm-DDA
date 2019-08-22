@@ -434,3 +434,23 @@ translation no_translation( const std::string &str )
 {
     return translation::no_translation( str );
 }
+
+std::ostream &operator<<( std::ostream &out, const translation &t )
+{
+    return out << t.translated();
+}
+
+std::string operator+( const translation &lhs, const std::string &rhs )
+{
+    return lhs.translated() + rhs;
+}
+
+std::string operator+( const std::string &lhs, const translation &rhs )
+{
+    return lhs + rhs.translated();
+}
+
+std::string operator+( const translation &lhs, const translation &rhs )
+{
+    return lhs.translated() + rhs.translated();
+}

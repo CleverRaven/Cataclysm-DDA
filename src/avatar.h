@@ -35,8 +35,8 @@ class avatar : public player
 
         void store( JsonOut &json ) const;
         void load( JsonObject &data );
-        void serialize( JsonOut &josn ) const override;
-        void deserialize( JsonIn &json ) override;
+        void serialize( JsonOut &json ) const override;
+        void deserialize( JsonIn &jsin ) override;
         void serialize_map_memory( JsonOut &jsout ) const;
         void deserialize_map_memory( JsonIn &jsin );
 
@@ -45,6 +45,9 @@ class avatar : public player
         void randomize( bool random_scenario, points_left &points, bool play_now = false );
         bool load_template( const std::string &template_name, points_left &points );
 
+        bool is_avatar() const override {
+            return true;
+        }
         avatar *as_avatar() override {
             return this;
         }

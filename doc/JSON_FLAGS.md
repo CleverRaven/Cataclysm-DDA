@@ -383,8 +383,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```TOURISTMAP``` Learn of local points-of-interest that a tourist would like to visit, and show roads.
 - ```TOWEL``` Dry your character using the item as towel.
 - ```TURRET``` Activate a turret.
-- ```WASHCLOTHES``` Wash clothes with FILTHY flag.
-- ```WASHCBMS``` Wash CBMs with FILTHY flag.
+- ```WASH_ALL_ITEMS``` Wash items with FILTHY flag.
+- ```WASH_HARD_ITEMS``` Wash hard items with FILTHY flag.
+- ```WASH_SOFT_ITEMS``` Wash soft items with FILTHY flag.
 - ```WATER_PURIFIER``` Purify water.
 
 
@@ -505,6 +506,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```BARRICADABLE_WINDOW``` Window that can be barricaded.
 - ```BASHABLE``` Players + Monsters can bash this.
 - ```BLOCK_WIND``` This terrain will block the effects of wind.
+- ```BURROWABLE``` Burrowing monsters can travel under this terrain, while most others can't (e.g. graboid will traverse under the chain link fence, while ordinary zombie will be stopped by it).
 - ```BUTCHER_EQ``` Butcher's equipment - required for full butchery of corpses.
 - ```CAN_SIT``` Furniture the player can sit on. Player sitting near furniture with the "FLAT_SURF" tag will get mood bonus for eating.
 - ```CHIP``` Used in construction menu to determine if wall can have paint chipped off.
@@ -909,6 +911,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```LEATHER``` May produce leather when butchered.
 - ```LOUDMOVES``` Mkes move noises as if ~2 sizes louder, even if flying.
 - ```MECH_RECON_VISION``` This mech grants you night-vision and enhanced overmap sight radius when piloted.
+- ```MECH_DEFENSIVE``` This mech can protect you thoroughly when piloted.
 - ```MILITARY_MECH``` Is a military-grade mech.
 - ```MILKABLE``` Produces milk when milked.
 - ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.

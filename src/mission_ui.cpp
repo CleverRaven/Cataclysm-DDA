@@ -97,7 +97,7 @@ void game::list_missions()
                   tab == tab_mode::TAB_COMPLETED ? LINE_XOXX : LINE_XXXX ); // + || -|
         mvwputch( w_missions, point( 30, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
 
-        draw_scrollbar( w_missions, selection, entries_per_page, umissions.size(), 3, 0 );
+        draw_scrollbar( w_missions, selection, entries_per_page, umissions.size(), point( 0, 3 ) );
 
         for( int i = top_of_page; i <= bottom_of_page; i++ ) {
             const auto miss = umissions[i];
@@ -112,7 +112,7 @@ void game::list_missions()
             const auto miss = umissions[selection];
             const nc_color col = u.get_active_mission() == miss ? c_light_green : c_white;
             std::string for_npc;
-            if( miss->get_npc_id() >= 0 ) {
+            if( miss->get_npc_id().is_valid() ) {
                 npc *guy = g->find_npc( miss->get_npc_id() );
                 if( guy ) {
                     for_npc = string_format( _( " for %s" ), guy->disp_name() );

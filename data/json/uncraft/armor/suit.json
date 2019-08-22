@@ -6,7 +6,7 @@
     "difficulty": 3,
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 33 ] ], [ [ "leather", 35 ] ], [ [ "scrap", 24 ] ], [ [ "kevlar", 48 ] ] ]
+    "components": [ [ [ "rag", 33 ] ], [ [ "leather", 35 ] ], [ [ "scrap", 24 ] ], [ [ "kevlar_plate", 48 ] ] ]
   },
   {
     "result": "xlsurvivor_suit",
@@ -15,6 +15,6 @@
     "difficulty": 3,
     "time": "150 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 23 ] ], [ [ "leather", 25 ] ], [ [ "scrap", 12 ] ], [ [ "kevlar", 24 ] ] ]
+    "components": [ [ [ "rag", 23 ] ], [ [ "leather", 25 ] ], [ [ "scrap", 12 ] ], [ [ "kevlar_plate", 24 ] ] ]
   }
 ]

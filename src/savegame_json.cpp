@@ -38,6 +38,7 @@
 #include "item.h"
 #include "item_factory.h"
 #include "json.h"
+#include "kill_tracker.h"
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"
@@ -146,27 +147,6 @@ static void deserialize( std::weak_ptr<monster> &obj, JsonIn &jsin )
     //     data.read( "unique_id", unique_id );
     //     obj = g->id_registry->from_id( unique_id)
     //    }
-}
-
-template<typename T>
-void serialize( const cata::optional<T> &obj, JsonOut &jsout )
-{
-    if( obj ) {
-        jsout.write( *obj );
-    } else {
-        jsout.write_null();
-    }
-}
-
-template<typename T>
-void deserialize( cata::optional<T> &obj, JsonIn &jsin )
-{
-    if( jsin.test_null() ) {
-        obj.reset();
-    } else {
-        obj.emplace();
-        jsin.read( *obj );
-    }
 }
 
 std::vector<item> item::magazine_convert()
@@ -338,6 +318,19 @@ void SkillLevel::deserialize( JsonIn &jsin )
     if( _highestLevel < _level ) {
         _highestLevel = _level;
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+///// character_id.h
+
+void character_id::serialize( JsonOut &jsout ) const
+{
+    jsout.write( value );
+}
+
+void character_id::deserialize( JsonIn &jsin )
+{
+    value = jsin.get_int();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -707,7 +700,7 @@ void player::load( JsonObject &data )
     Character::load( data );
 
     JsonArray parray;
-    int tmpid = 0;
+    character_id tmpid;
 
     if( !data.read( "posx", position.x ) ) { // uh-oh.
         debugmsg( "BAD PLAYER/NPC JSON: no 'posx'?" );
@@ -789,7 +782,7 @@ void player::load( JsonObject &data )
     on_stat_change( "pkill", pkill );
     on_stat_change( "perceived_pain", get_perceived_pain() );
 
-    int tmptar = 0;
+    int tmptar;
     int tmptartyp = 0;
 
     data.read( "last_target", tmptar );
@@ -802,7 +795,7 @@ void player::load( JsonObject &data )
     }
     if( tmptartyp == +1 ) {
         // Use overmap_buffer because game::active_npc is not filled yet.
-        last_target = overmap_buffer.find_npc( tmptar );
+        last_target = overmap_buffer.find_npc( character_id( tmptar ) );
     } else if( tmptartyp == -1 ) {
         // Need to do this *after* the monsters have been loaded!
         last_target = g->critter_tracker->from_temporary_id( tmptar );
@@ -1607,7 +1600,7 @@ void npc::store( JsonOut &json ) const
         json.member( "my_fac", fac_id.c_str() );
     }
     json.member( "attitude", static_cast<int>( attitude ) );
-    json.member( "previous_attitude", static_cast<int>( attitude ) );
+    json.member( "previous_attitude", static_cast<int>( previous_attitude ) );
     json.member( "op_of_u", op_of_u );
     json.member( "chatbin", chatbin );
     json.member( "rules", rules );
@@ -1807,7 +1800,11 @@ void monster::load( JsonObject &data )
     upgrade_time = data.get_int( "upgrade_time", -1 );
 
     reproduces = data.get_bool( "reproduces", type->reproduces );
-    baby_timer = data.get_int( "baby_timer", -1 );
+    baby_timer.reset();
+    data.read( "baby_timer", baby_timer );
+    if( baby_timer && *baby_timer == calendar::before_time_starts ) {
+        baby_timer.reset();
+    }
 
     biosignatures = data.get_bool( "biosignatures", type->biosignatures );
     biosig_timer = data.get_int( "biosig_timer", -1 );
@@ -1995,7 +1992,7 @@ void item::io( Archive &archive )
     archive.io( "note", note, 0 );
     // NB! field is named `irridation` in legacy files
     archive.io( "irridation", irradiation, 0 );
-    archive.io( "bday", bday, calendar::turn_zero );
+    archive.io( "bday", bday, calendar::start_of_cataclysm );
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
@@ -2006,8 +2003,8 @@ void item::io( Archive &archive )
     archive.io( "is_favorite", is_favorite, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
     archive.io( "rot", rot, 0_turns );
-    archive.io( "last_rot_check", last_rot_check, calendar::turn_zero );
-    archive.io( "last_temp_check", last_temp_check, calendar::turn_zero );
+    archive.io( "last_rot_check", last_rot_check, calendar::start_of_cataclysm );
+    archive.io( "last_temp_check", last_temp_check, calendar::start_of_cataclysm );
     archive.io( "current_phase", cur_phase, static_cast<int>( type->phase ) );
     archive.io( "techniques", techniques, io::empty_default_tag() );
     archive.io( "faults", faults, io::empty_default_tag() );
@@ -3236,6 +3233,42 @@ void basecamp::deserialize( JsonIn &jsin )
         tripoint restore_pos;
         edata.read( "pos", restore_pos );
         fortifications.push_back( restore_pos );
+    }
+}
+
+void kill_tracker::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "kills" );
+    jsout.start_object();
+    for( auto &elem : kills ) {
+        jsout.member( elem.first.str(), elem.second );
+    }
+    jsout.end_object();
+
+    jsout.member( "npc_kills" );
+    jsout.start_array();
+    for( auto &elem : npc_kills ) {
+        jsout.write( elem );
+    }
+    jsout.end_array();
+    jsout.end_object();
+}
+
+void kill_tracker::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    JsonObject kills_obj = data.get_object( "kills" );
+    std::set<std::string> members = kills_obj.get_member_names();
+    for( const auto &member : members ) {
+        kills[mtype_id( member )] = kills_obj.get_int( member );
+    }
+
+    JsonArray npc_kills_array = data.get_array( "npc_kills" );
+    while( npc_kills_array.has_more() ) {
+        std::string npc_name;
+        npc_kills_array.read_next( npc_name );
+        npc_kills.push_back( npc_name );
     }
 }
 

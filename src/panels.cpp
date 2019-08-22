@@ -62,15 +62,15 @@ const efftype_id effect_got_checked( "got_checked" );
 
 // constructor
 window_panel::window_panel( std::function<void( avatar &, const catacurses::window & )>
-                            draw_func, const std::string &nm, int ht, int wd, bool def_toggle,
+                            draw_func, const std::string &nm, int ht, int wd, bool default_toggle_,
                             std::function<bool()> render_func,  bool force_draw )
 {
     draw = draw_func;
     name = nm;
     height = ht;
     width = wd;
-    toggle = def_toggle;
-    default_toggle = def_toggle;
+    toggle = default_toggle_;
+    default_toggle = default_toggle_;
     always_draw = force_draw;
     render = render_func;
 }

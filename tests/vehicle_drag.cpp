@@ -54,8 +54,8 @@ static void clear_game_drag( const ter_id &terrain )
     g->m.invalidate_map_cache( 0 );
     g->m.build_map_cache( 0, true );
     // hard force a rebuild of caches
-    g->m.shift( 0, 1 );
-    g->m.shift( 0, -1 );
+    g->m.shift( point_south );
+    g->m.shift( point_north );
 }
 
 

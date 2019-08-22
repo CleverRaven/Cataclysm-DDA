@@ -604,7 +604,8 @@ void editmap::update_view( bool update_info )
                    rl_dist( g->u.pos(), target ), static_cast<int>( g->u.sees( target ) ),
                    veh_in, g->scent.get( target ) );
         mvwprintw( w_info, point( 1, off++ ), _( "sight_range: %d, daylight_sight_range: %d," ),
-                   g->u.sight_range( g->light_level( g->u.posz() ) ), g->u.sight_range( DAYLIGHT_LEVEL ) );
+                   g->u.sight_range( g->light_level( g->u.posz() ) ),
+                   g->u.sight_range( current_daylight_level( calendar::turn ) ) );
         mvwprintw( w_info, point( 1, off++ ), _( "transparency: %.5f, visibility: %.5f," ),
                    map_cache.transparency_cache[target.x][target.y],
                    map_cache.seen_cache[target.x][target.y] );
