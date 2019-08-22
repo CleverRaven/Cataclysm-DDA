@@ -105,7 +105,7 @@
     "copy-from": "chestrig",
     "type": "ARMOR",
     "name": "CRIT chestrig",
-    "description": "C.R.I.T standard-issue chestrig, has mesh and MOLLE loops for gear and slots for light-armor padding.",
+    "description": "C.R.I.T standard-issue chestrig, has mesh and MOLLE loops for gear and slots with light-armor padding.",
     "color": "dark_gray",
     "material": [ "kevlar", "plastic" ],
     "flags": [ "STURDY", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
@@ -199,7 +199,7 @@
     "artifact_data": { "charge_type": "ARTC_NULL", "effects_worn": [ "AEP_ALL_UP" ] },
     "material_thickness": 10,
     "environmental_protection": 0,
-    "flags": [ "ONLY_ONE", "TRADER_AVOID", "BELTED" ]
+    "flags": [ "ONLY_ONE", "TRADER_AVOID", "BELTED", "NO_TAKEOFF" ]
   },
   {
     "id": "ds_armor",
