@@ -781,7 +781,7 @@ struct itype {
         cata::optional<islot_ammo> ammo;
         cata::optional<islot_seed> seed;
         cata::optional<islot_artifact> artifact;
-        cata::optional<relic> relic;
+        cata::optional<relic> relic_data;
         /*@}*/
 
     private:

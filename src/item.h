@@ -2055,7 +2055,7 @@ class item : public visitable<item>
         bool tools_to_continue = false;
         std::vector<comp_selection<tool_comp>> cached_tool_selections;
         // any relic data specific to this item
-        cata::optional<relic> relic;
+        cata::optional<relic> relic_data;
     public:
         int charges;
         units::energy energy;      // Amount of energy currently stored in a battery
