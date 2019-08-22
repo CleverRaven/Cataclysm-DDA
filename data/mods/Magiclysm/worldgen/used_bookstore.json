@@ -36,7 +36,7 @@
         ".": "t_sidewalk",
         "W": "t_window_domestic",
         "+": "t_door_white_c",
-		"$": "t_rock_wall",
+        "$": "t_rock_wall",
         "#": "t_wall_w",
         "D": "t_door_metal_c",
         "*": "t_pavement",
