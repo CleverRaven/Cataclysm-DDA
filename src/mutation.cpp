@@ -6,6 +6,7 @@
 #include <unordered_set>
 
 #include "avatar_action.h"
+#include "event_bus.h"
 #include "field.h"
 #include "game.h"
 #include "item.h"
@@ -13,6 +14,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "memorial_logger.h"
 #include "monster.h"
 #include "overmapbuffer.h"
 #include "player.h"
@@ -51,6 +53,29 @@ static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
+
+namespace io
+{
+
+template<>
+std::string enum_to_string<mutagen_technique>( mutagen_technique data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case mutagen_technique::consumed_mutagen: return "consumed_mutagen";
+        case mutagen_technique::injected_mutagen: return "injected_mutagen";
+        case mutagen_technique::consumed_purifier: return "consumed_purifier";
+        case mutagen_technique::injected_purifier: return "injected_purifier";
+        case mutagen_technique::injected_smart_purifier: return "injected_smart_purifier";
+        // *INDENT-ON*
+        case mutagen_technique::num_mutagen_techniques:
+            break;
+    }
+    debugmsg( "Invalid mutagen_technique" );
+    abort();
+}
+
+}
 
 bool Character::has_trait( const trait_id &b ) const
 {
@@ -876,9 +901,9 @@ bool player::mutate_towards( const trait_id &mut )
                                _( "Your %1$s mutation turns into %2$s!" ),
                                _( "<npcname>'s %1$s mutation turns into %2$s!" ),
                                replace_mdata.name(), mdata.name() );
-        add_memorial_log( pgettext( "memorial_male", "'%s' mutation turned into '%s'" ),
-                          pgettext( "memorial_female", "'%s' mutation turned into '%s'" ),
-                          replace_mdata.name(), mdata.name() );
+
+        g->events().send( event::make<event_type::evolves_mutation>(
+                              getID(), replace_mdata.id, mdata.id ) );
         unset_mutation( replacing );
         mutation_loss_effect( replacing );
         mutation_effect( mut );
@@ -899,9 +924,8 @@ bool player::mutate_towards( const trait_id &mut )
                                _( "Your %1$s mutation turns into %2$s!" ),
                                _( "<npcname>'s %1$s mutation turns into %2$s!" ),
                                replace_mdata.name(), mdata.name() );
-        add_memorial_log( pgettext( "memorial_male", "'%s' mutation turned into '%s'" ),
-                          pgettext( "memorial_female", "'%s' mutation turned into '%s'" ),
-                          replace_mdata.name(), mdata.name() );
+        g->events().send( event::make<event_type::evolves_mutation>(
+                              getID(), replace_mdata.id, mdata.id ) );
         unset_mutation( replacing2 );
         mutation_loss_effect( replacing2 );
         mutation_effect( mut );
@@ -925,9 +949,8 @@ bool player::mutate_towards( const trait_id &mut )
                                _( "Your innate %1$s trait turns into %2$s!" ),
                                _( "<npcname>'s innate %1$s trait turns into %2$s!" ),
                                cancel_mdata.name(), mdata.name() );
-        add_memorial_log( pgettext( "memorial_male", "'%s' mutation turned into '%s'" ),
-                          pgettext( "memorial_female", "'%s' mutation turned into '%s'" ),
-                          cancel_mdata.name(), mdata.name() );
+        g->events().send( event::make<event_type::evolves_mutation>(
+                              getID(), cancel_mdata.id, mdata.id ) );
         unset_mutation( i );
         mutation_loss_effect( i );
         mutation_effect( mut );
@@ -948,9 +971,7 @@ bool player::mutate_towards( const trait_id &mut )
                                _( "You gain a mutation called %s!" ),
                                _( "<npcname> gains a mutation called %s!" ),
                                mdata.name() );
-        add_memorial_log( pgettext( "memorial_male", "Gained the mutation '%s'." ),
-                          pgettext( "memorial_female", "Gained the mutation '%s'." ),
-                          mdata.name() );
+        g->events().send( event::make<event_type::gains_mutation>( getID(), mdata.id ) );
         mutation_effect( mut );
     }
 
@@ -1161,8 +1182,11 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
             p.has_trait( trait_M_BLOSSOMS ) || p.has_trait( trait_M_BLOOM ) ) {
             p.add_msg_if_player( m_good, _( "We decontaminate it with spores." ) );
             g->m.ter_set( p.pos(), t_fungus );
-            p.add_memorial_log( pgettext( "memorial_male", "Destroyed a harmful invader." ),
-                                pgettext( "memorial_female", "Destroyed a harmful invader." ) );
+            if( p.is_avatar() ) {
+                g->memorial().add_memorial_log(
+                    pgettext( "memorial_male", "Destroyed a harmful invader." ),
+                    pgettext( "memorial_female", "Destroyed a harmful invader." ) );
+            }
             return mutagen_rejection::destroyed;
         } else {
             p.add_msg_if_player( m_bad,
@@ -1189,15 +1213,22 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
             p.add_msg_if_player( m_warning,
                                  _( "It was probably that marloss -- how did you know to call it \"marloss\" anyway?" ) );
             p.add_msg_if_player( m_warning, _( "Best to stay clear of that alien crap in future." ) );
-            p.add_memorial_log( pgettext( "memorial_male",
-                                          "Burned out a particularly nasty fungal infestation." ),
-                                pgettext( "memorial_female", "Burned out a particularly nasty fungal infestation." ) );
+            if( p.is_avatar() ) {
+                g->memorial().add_memorial_log(
+                    pgettext( "memorial_male",
+                              "Burned out a particularly nasty fungal infestation." ),
+                    pgettext( "memorial_female",
+                              "Burned out a particularly nasty fungal infestation." ) );
+            }
         } else {
             p.add_msg_if_player( m_warning,
                                  _( "That was some toxic %s!  Let's stick with Marloss next time, that's safe." ),
                                  it.tname() );
-            p.add_memorial_log( pgettext( "memorial_male", "Suffered a toxic marloss/mutagen reaction." ),
-                                pgettext( "memorial_female", "Suffered a toxic marloss/mutagen reaction." ) );
+            if( p.is_avatar() ) {
+                g->memorial().add_memorial_log(
+                    pgettext( "memorial_male", "Suffered a toxic marloss/mutagen reaction." ),
+                    pgettext( "memorial_female", "Suffered a toxic marloss/mutagen reaction." ) );
+            }
         }
 
         return mutagen_rejection::destroyed;
@@ -1207,13 +1238,13 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
 }
 
 mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
-                                       const std::string &memorial_male, const std::string &memorial_female )
+                                       const mutagen_technique technique )
 {
+    g->events().send( event::make<event_type::administers_mutagen>( p.getID(), technique ) );
     mutagen_rejection status = try_reject_mutagen( p, it, strong );
     if( status == mutagen_rejection::rejected ) {
         return mutagen_attempt( false, 0 );
     }
-    p.add_memorial_log( memorial_male.c_str(), memorial_female.c_str() );
     if( status == mutagen_rejection::destroyed ) {
         return mutagen_attempt( false, it.type->charges_to_use() );
     }
@@ -1259,8 +1290,8 @@ void test_crossing_threshold( player &p, const mutation_category_trait &m_catego
             p.add_msg_if_player( m_good,
                                  _( "Something strains mightily for a moment... and then... you're... FREE!" ) );
             p.set_mutation( mutation_thresh );
-            p.add_memorial_log( m_category.memorial_message_male(),
-                                m_category.memorial_message_female() );
+            g->events().send( event::make<event_type::crosses_mutation_threshold>(
+                                  p.getID(), m_category.id ) );
             // Manually removing Carnivore, since it tends to creep in
             // This is because carnivore is a prerequisite for the
             // predator-style post-threshold mutations.

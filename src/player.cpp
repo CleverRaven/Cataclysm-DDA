@@ -27,6 +27,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
+#include "event_bus.h"
 #include "fault.h"
 #include "filesystem.h"
 #include "fungal_effects.h"
@@ -45,6 +46,7 @@
 #include "mapdata.h"
 #include "martialarts.h"
 #include "material.h"
+#include "memorial_logger.h"
 #include "messages.h"
 #include "monster.h"
 #include "morale.h"
@@ -517,8 +519,6 @@ player::player() :
     for( const auto &v : vitamin::all() ) {
         vitamin_levels[ v.first ] = 0;
     }
-
-    memorial_log.clear();
 
     drench_capacity[bp_eyes] = 1;
     drench_capacity[bp_mouth] = 1;
@@ -1895,66 +1895,6 @@ nc_color player::basic_symbol_color() const
         return c_dark_gray;
     }
     return c_white;
-}
-
-/**
- * Adds an event to the memorial log, to be written to the memorial file when
- * the character dies. The message should contain only the informational string,
- * as the timestamp and location will be automatically prepended.
- */
-void player::add_memorial_log( const std::string &male_msg, const std::string &female_msg )
-{
-    const std::string &msg = male ? male_msg : female_msg;
-
-    if( msg.empty() ) {
-        return;
-    }
-
-    const oter_id &cur_ter = overmap_buffer.ter( global_omt_location() );
-    const std::string &location = cur_ter->get_name();
-
-    std::stringstream log_message;
-    log_message << "| " << to_string( time_point( calendar::turn ) ) << " | " << location << " | " <<
-                msg;
-
-    memorial_log.push_back( log_message.str() );
-
-}
-
-/**
- * Loads the data in a memorial file from the given ifstream. All the memorial
- * entry lines begin with a pipe (|).
- * @param fin The ifstream to read the memorial entries from.
- */
-void player::load_memorial_file( std::istream &fin )
-{
-    std::string entry;
-    memorial_log.clear();
-    while( fin.peek() == '|' ) {
-        getline( fin, entry );
-        // strip all \r from end of string
-        while( *entry.rbegin() == '\r' ) {
-            entry.pop_back();
-        }
-        memorial_log.push_back( entry );
-    }
-}
-
-/**
- * Concatenates all of the memorial log entries, delimiting them with newlines,
- * and returns the resulting string. Used for saving and for writing out to the
- * memorial file.
- */
-std::string player::dump_memorial() const
-{
-    static const char *eol = cata_files::eol();
-    std::stringstream output;
-
-    for( auto &elem : memorial_log ) {
-        output << elem << eol;
-    }
-
-    return output.str();
 }
 
 void player::mod_stat( const std::string &stat, float modifier )
@@ -3875,13 +3815,13 @@ void player::check_needs_extremes()
     // Check if we've overdosed... in any deadly way.
     if( stim > 250 ) {
         add_msg_if_player( m_bad, _( "You have a sudden heart attack!" ) );
-        add_memorial_log( pgettext( "memorial_male", "Died of a drug overdose." ),
-                          pgettext( "memorial_female", "Died of a drug overdose." ) );
+        g->events().send( event::make<event_type::dies_from_drug_overdose>(
+                              getID(), efftype_id() ) );
         hp_cur[hp_torso] = 0;
     } else if( stim < -200 || get_painkiller() > 240 ) {
         add_msg_if_player( m_bad, _( "Your breathing stops completely." ) );
-        add_memorial_log( pgettext( "memorial_male", "Died of a drug overdose." ),
-                          pgettext( "memorial_female", "Died of a drug overdose." ) );
+        g->events().send( event::make<event_type::dies_from_drug_overdose>(
+                              getID(), efftype_id() ) );
         hp_cur[hp_torso] = 0;
     } else if( has_effect( effect_jetinjector ) && get_effect_dur( effect_jetinjector ) > 40_minutes ) {
         if( !( has_trait( trait_NOPAIN ) ) ) {
@@ -3889,18 +3829,18 @@ void player::check_needs_extremes()
         } else {
             add_msg_if_player( _( "Your heart spasms and stops." ) );
         }
-        add_memorial_log( pgettext( "memorial_male", "Died of a healing stimulant overdose." ),
-                          pgettext( "memorial_female", "Died of a healing stimulant overdose." ) );
+        g->events().send( event::make<event_type::dies_from_drug_overdose>(
+                              getID(), effect_jetinjector ) );
         hp_cur[hp_torso] = 0;
     } else if( get_effect_dur( effect_adrenaline ) > 50_minutes ) {
         add_msg_if_player( m_bad, _( "Your heart spasms and stops." ) );
-        add_memorial_log( pgettext( "memorial_male", "Died of adrenaline overdose." ),
-                          pgettext( "memorial_female", "Died of adrenaline overdose." ) );
+        g->events().send( event::make<event_type::dies_from_drug_overdose>(
+                              getID(), effect_adrenaline ) );
         hp_cur[hp_torso] = 0;
     } else if( get_effect_int( effect_drunk ) > 4 ) {
         add_msg_if_player( m_bad, _( "Your breathing slows down to a stop." ) );
-        add_memorial_log( pgettext( "memorial_male", "Died of an alcohol overdose." ),
-                          pgettext( "memorial_female", "Died of an alcohol overdose." ) );
+        g->events().send( event::make<event_type::dies_from_drug_overdose>(
+                              getID(), effect_drunk ) );
         hp_cur[hp_torso] = 0;
     }
 
@@ -3908,8 +3848,7 @@ void player::check_needs_extremes()
     if( is_player() ) {
         if( get_stored_kcal() <= 0 ) {
             add_msg_if_player( m_bad, _( "You have starved to death." ) );
-            add_memorial_log( pgettext( "memorial_male", "Died of starvation." ),
-                              pgettext( "memorial_female", "Died of starvation." ) );
+            g->events().send( event::make<event_type::dies_of_starvation>( getID() ) );
             hp_cur[hp_torso] = 0;
         } else {
             if( calendar::once_every( 1_hours ) ) {
@@ -3931,8 +3870,7 @@ void player::check_needs_extremes()
             guts.get_water() == 0_ml ) ) {
         if( get_thirst() >= 1200 ) {
             add_msg_if_player( m_bad, _( "You have died of dehydration." ) );
-            add_memorial_log( pgettext( "memorial_male", "Died of thirst." ),
-                              pgettext( "memorial_female", "Died of thirst." ) );
+            g->events().send( event::make<event_type::dies_of_thirst>( getID() ) );
             hp_cur[hp_torso] = 0;
         } else if( get_thirst() >= 1000 && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "Even your eyes feel dry..." ) );
@@ -3947,8 +3885,7 @@ void player::check_needs_extremes()
     if( get_fatigue() >= EXHAUSTED + 25 && !in_sleep_state() ) {
         if( get_fatigue() >= MASSIVE_FATIGUE ) {
             add_msg_if_player( m_bad, _( "Survivor sleep now." ) );
-            add_memorial_log( pgettext( "memorial_male", "Succumbed to lack of sleep." ),
-                              pgettext( "memorial_female", "Succumbed to lack of sleep." ) );
+            g->events().send( event::make<event_type::falls_asleep_from_exhaustion>( getID() ) );
             mod_fatigue( -10 );
             fall_asleep();
         } else if( get_fatigue() >= 800 && calendar::once_every( 30_minutes ) ) {
@@ -4425,13 +4362,10 @@ void player::add_addiction( add_type type, int strength )
     const int roll = rng( 0, 100 );
     add_msg( m_debug, "Addiction: roll %d vs strength %d", roll, strength );
     if( roll < strength ) {
-        //~ %s is addiction name
         const std::string &type_name = addiction_type_name( type );
-        add_memorial_log( pgettext( "memorial_male", "Became addicted to %s." ),
-                          pgettext( "memorial_female", "Became addicted to %s." ),
-                          type_name );
         add_msg( m_debug, "%s got addicted to %s", disp_name(), type_name );
         addictions.emplace_back( type, 1 );
+        g->events().send( event::make<event_type::gains_addiction>( getID(), type ) );
     }
 }
 
@@ -4451,11 +4385,8 @@ void player::rem_addiction( add_type type )
     } );
 
     if( iter != addictions.end() ) {
-        //~ %s is addiction name
-        add_memorial_log( pgettext( "memorial_male", "Overcame addiction to %s." ),
-                          pgettext( "memorial_female", "Overcame addiction to %s." ),
-                          addiction_type_name( type ) );
         addictions.erase( iter );
+        g->events().send( event::make<event_type::loses_addiction>( getID(), type ) );
     }
 }
 
@@ -6229,10 +6160,7 @@ void player::mend( int rate_multiplier )
         if( eff.get_duration() >= eff.get_max_duration() ) {
             hp_cur[i] = 1;
             remove_effect( effect_mending, part );
-            //~ %s is bodypart
-            add_memorial_log( pgettext( "memorial_male", "Broken %s began to mend." ),
-                              pgettext( "memorial_female", "Broken %s began to mend." ),
-                              body_part_name( part ) );
+            g->events().send( event::make<event_type::broken_bone_mends>( getID(), part ) );
             //~ %s is bodypart
             add_msg_if_player( m_good, _( "Your %s has started to mend!" ),
                                body_part_name( part ) );
@@ -9657,8 +9585,10 @@ void player::fall_asleep()
     }
     if( has_active_mutation( trait_id( "HIBERNATE" ) ) &&
         get_kcal_percent() > 0.8f ) {
-        add_memorial_log( pgettext( "memorial_male", "Entered hibernation." ),
-                          pgettext( "memorial_female", "Entered hibernation." ) );
+        if( is_avatar() ) {
+            g->memorial().add_memorial_log( pgettext( "memorial_male", "Entered hibernation." ),
+                                            pgettext( "memorial_female", "Entered hibernation." ) );
+        }
         // some days worth of round-the-clock Snooze.  Cata seasons default to 91 days.
         fall_asleep( 10_days );
         // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
@@ -9959,10 +9889,13 @@ int player::get_armor_fire( body_part bp ) const
 
 static void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
 {
-    //~ %s is armor name
-    who.add_memorial_log( pgettext( "memorial_male", "Worn %s was completely destroyed." ),
-                          pgettext( "memorial_female", "Worn %s was completely destroyed." ),
-                          pre_damage_name );
+    if( who.is_avatar() ) {
+        g->memorial().add_memorial_log(
+            //~ %s is armor name
+            pgettext( "memorial_male", "Worn %s was completely destroyed." ),
+            pgettext( "memorial_female", "Worn %s was completely destroyed." ),
+            pre_damage_name );
+    }
     who.add_msg_player_or_npc( m_bad, _( "Your %s is completely destroyed!" ),
                                _( "<npcname>'s %s is completely destroyed!" ),
                                pre_damage_name );
@@ -11072,8 +11005,11 @@ void player::forced_dismount()
         if( damage > 0 ) {
             add_msg( m_bad, _( "You hurt yourself!" ) );
             deal_damage( nullptr, hit, damage_instance( DT_BASH, damage ) );
-            add_memorial_log( pgettext( "memorial_male", "Fell off a mount." ),
-                              pgettext( "memorial_female", "Fell off a mount." ) );
+            if( is_avatar() ) {
+                g->memorial().add_memorial_log(
+                    pgettext( "memorial_male", "Fell off a mount." ),
+                    pgettext( "memorial_female", "Fell off a mount." ) );
+            }
             check_dead_state();
         }
         add_effect( effect_downed, 5_turns, num_bp, true );

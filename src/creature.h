@@ -336,8 +336,9 @@ class Creature
                              const time_duration &dur,
                              body_part bp = num_bp, bool permanent = false, int intensity = 1,
                              bool force = false );
-        /** Removes a listed effect, adding the removal memorial log if needed. bp = num_bp means to remove
-         *  all effects of a given type, targeted or untargeted. Returns true if anything was removed. */
+        /** Removes a listed effect. bp = num_bp means to remove all effects of
+         * a given type, targeted or untargeted. Returns true if anything was
+         * removed. */
         bool remove_effect( const efftype_id &eff_id, body_part bp = num_bp );
         /** Remove all effects. */
         void clear_effects();
@@ -706,20 +707,6 @@ class Creature
             }
             return add_msg_player_or_say( type, string_format( player_msg, std::forward<Args>( args )... ),
                                           string_format( npc_speech, std::forward<Args>( args )... ) );
-        }
-
-        virtual void add_memorial_log( const std::string &/*male_msg*/,
-                                       const std::string &/*female_msg*/ ) {}
-        template<typename ...Args>
-        void add_memorial_log( const char *const male_msg, const char *const female_msg, Args &&... args ) {
-            return add_memorial_log( string_format( male_msg, std::forward<Args>( args )... ),
-                                     string_format( female_msg, std::forward<Args>( args )... ) );
-        }
-        template<typename ...Args>
-        void add_memorial_log( const std::string &male_msg, const std::string &female_msg,
-                               Args &&... args ) {
-            return add_memorial_log( string_format( male_msg, std::forward<Args>( args )... ),
-                                     string_format( female_msg, std::forward<Args>( args )... ) );
         }
 
         virtual std::string extended_description() const = 0;

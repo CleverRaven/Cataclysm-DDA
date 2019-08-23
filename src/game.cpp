@@ -74,6 +74,7 @@
 #include "mapbuffer.h"
 #include "mapdata.h"
 #include "mapsharing.h"
+#include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
 #include "mod_manager.h"
@@ -278,6 +279,7 @@ game::game() :
     player_was_sleeping = false;
     reset_light_level();
     events().subscribe( &*kill_tracker_ptr );
+    events().subscribe( &*memorial_logger_ptr );
     world_generator = std::make_unique<worldfactory>();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
@@ -860,10 +862,7 @@ bool game::start_game()
         mission->assign( u );
     }
 
-    //~ %s is player name
-    u.add_memorial_log( pgettext( "memorial_male", "%s began their journey into the Cataclysm." ),
-                        pgettext( "memorial_female", "%s began their journey into the Cataclysm." ),
-                        u.name );
+    g->events().send( event::make<event_type::game_start>() );
     return true;
 }
 
@@ -1163,24 +1162,12 @@ bool game::cleanup_at_end()
                                  .max_length( iMaxWidth - 4 - 1 )
                                  .query_string();
         death_screen();
-        if( uquit == QUIT_SUICIDE ) {
-            u.add_memorial_log( pgettext( "memorial_male", "%s committed suicide." ),
-                                pgettext( "memorial_female", "%s committed suicide." ),
-                                u.name );
-        } else {
-            u.add_memorial_log( pgettext( "memorial_male", "%s was killed." ),
-                                pgettext( "memorial_female", "%s was killed." ),
-                                u.name );
-        }
-        if( !sLastWords.empty() ) {
-            u.add_memorial_log( pgettext( "memorial_male", "Last words: %s" ),
-                                pgettext( "memorial_female", "Last words: %s" ),
-                                sLastWords );
-        }
+        const bool is_suicide = uquit == QUIT_SUICIDE;
+        events().send( event::make<event_type::game_over>( is_suicide, sLastWords ) );
         // Struck the save_player_data here to forestall Weirdness
         move_save_to_graveyard();
         write_memorial_file( sLastWords );
-        u.memorial_log.clear();
+        memorial().clear();
         std::vector<std::string> characters = list_active_characters();
         // remove current player from the active characters list, as they are dead
         std::vector<std::string>::iterator curchar = std::find( characters.begin(),
@@ -2635,7 +2622,7 @@ void game::load( const save_t &name )
     weather.nextweather = calendar::turn;
 
     read_from_file_optional( worldpath + name.base_path() + ".log",
-                             std::bind( &player::load_memorial_file, &u, _1 ) );
+                             std::bind( &memorial_logger::load_memorial_log, &memorial(), _1 ) );
 
 #if defined(__ANDROID__)
     read_from_file_optional( worldpath + name.base_path() + ".shortcuts",
@@ -2843,7 +2830,7 @@ bool game::save_player_data()
         save_weather( fout );
     }, _( "weather state" ) );
     const bool saved_log = write_to_file( playerfile + ".log", [&]( std::ostream & fout ) {
-        fout << u.dump_memorial();
+        fout << memorial().dump_memorial_log();
     }, _( "player memorial" ) );
 #if defined(__ANDROID__)
     const bool saved_shortcuts = write_to_file( playerfile + ".shortcuts", [&]( std::ostream & fout ) {
@@ -2861,6 +2848,11 @@ bool game::save_player_data()
 event_bus &game::events()
 {
     return *event_bus_ptr;
+}
+
+memorial_logger &game::memorial()
+{
+    return *memorial_logger_ptr;
 }
 
 bool game::save()
@@ -2959,7 +2951,7 @@ void game::write_memorial_file( std::string sLastWords )
 
     const std::string path_string = memorial_file_path.str();
     write_to_file( memorial_file_path.str(), [&]( std::ostream & fout ) {
-        u.memorial( fout, sLastWords );
+        memorial().write_memorial( fout, sLastWords );
     }, _( "player memorial" ) );
 }
 
@@ -10976,13 +10968,13 @@ void game::teleport( player *p, bool add_teleglow )
     p->setx( new_pos.x );
     p->sety( new_pos.y );
     if( m.impassable( new_pos ) ) { //Teleported into a wall
+        const std::string obstacle_name = m.obstacle_name( new_pos );
+        g->events().send( event::make<event_type::teleports_into_wall>(
+                              p->getID(), obstacle_name ) );
         if( can_see ) {
             if( is_u ) {
                 add_msg( _( "You teleport into the middle of a %s!" ),
                          m.obstacle_name( new_pos ) );
-                p->add_memorial_log( pgettext( "memorial_male", "Teleported into a %s." ),
-                                     pgettext( "memorial_female", "Teleported into a %s." ),
-                                     m.obstacle_name( new_pos ) );
             } else {
                 add_msg( _( "%1$s teleports into the middle of a %2$s!" ),
                          p->name, m.obstacle_name( new_pos ) );
@@ -10990,20 +10982,18 @@ void game::teleport( player *p, bool add_teleglow )
         }
         p->apply_damage( nullptr, bp_torso, 500 );
         p->check_dead_state();
-    } else if( can_see ) {
-        if( monster *const mon_ptr = critter_at<monster>( new_pos ) ) {
-            monster &critter = *mon_ptr;
+    } else if( monster *const mon_ptr = critter_at<monster>( new_pos ) ) {
+        g->events().send( event::make<event_type::telefrags_creature>(
+                              p->getID(), mon_ptr->name() ) );
+        if( can_see ) {
             if( is_u ) {
                 add_msg( _( "You teleport into the middle of a %s!" ),
-                         critter.name() );
-                u.add_memorial_log( pgettext( "memorial_male", "Telefragged a %s." ),
-                                    pgettext( "memorial_female", "Telefragged a %s." ),
-                                    critter.name() );
+                         mon_ptr->name() );
             } else {
                 add_msg( _( "%1$s teleports into the middle of a %2$s!" ),
-                         p->name, critter.name() );
+                         p->name, mon_ptr->name() );
             }
-            critter.die_in_explosion( p );
+            mon_ptr->die_in_explosion( p );
         }
     }
     if( is_u ) {

@@ -21,6 +21,7 @@
 #include "map.h"
 #include "mapdata.h"
 #include "map_iterator.h"
+#include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
 #include "morale_types.h"
@@ -2060,37 +2061,17 @@ void npc::die( Creature *nkiller )
 
     if( Character *ch = dynamic_cast<Character *>( killer ) ) {
         g->events().send( event::make<event_type::character_kills_character>(
-                              calendar::turn, ch->getID(), getID(), get_name() ) );
+                              ch->getID(), getID(), get_name() ) );
     }
 
     if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
         bool cannibal = g->u.has_trait( trait_CANNIBAL );
         bool psycho = g->u.has_trait( trait_PSYCHOPATH );
-        if( g->u.has_trait( trait_SAPIOVORE ) ) {
-            g->u.add_memorial_log( pgettext( "memorial_male",
-                                             "Caught and killed an ape.  Prey doesn't have a name." ),
-                                   pgettext( "memorial_female", "Caught and killed an ape.  Prey doesn't have a name." ) );
-        } else if( psycho && cannibal ) {
-            g->u.add_memorial_log( pgettext( "memorial_male",
-                                             "Killed a delicious-looking innocent, %s, in cold blood." ),
-                                   pgettext( "memorial_female", "Killed a delicious-looking innocent, %s, in cold blood." ),
-                                   name );
-        } else if( psycho ) {
-            g->u.add_memorial_log( pgettext( "memorial_male",
-                                             "Killed an innocent, %s, in cold blood.  They were weak." ),
-                                   pgettext( "memorial_female", "Killed an innocent, %s, in cold blood.  They were weak." ),
-                                   name );
+        if( g->u.has_trait( trait_SAPIOVORE ) || psycho ) {
+            // No morale effect
         } else if( cannibal ) {
-            g->u.add_memorial_log( pgettext( "memorial_male", "Killed an innocent, %s." ),
-                                   pgettext( "memorial_female", "Killed an innocent, %s." ),
-                                   name );
             g->u.add_morale( MORALE_KILLED_INNOCENT, -5, 0, 2_days, 3_hours );
         } else {
-            g->u.add_memorial_log( pgettext( "memorial_male",
-                                             "Killed an innocent person, %s, in cold blood and felt terrible afterwards." ),
-                                   pgettext( "memorial_female",
-                                             "Killed an innocent person, %s, in cold blood and felt terrible afterwards." ),
-                                   name );
             g->u.add_morale( MORALE_KILLED_INNOCENT, -100, 0, 2_days, 3_hours );
         }
     }

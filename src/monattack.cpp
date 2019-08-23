@@ -32,6 +32,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
+#include "memorial_logger.h"
 #include "messages.h"
 #include "mondefense.h"
 #include "monfaction.h"
@@ -1901,8 +1902,9 @@ bool mattack::fungus_fortify( monster *z )
                 g->u.set_mutation( trait_THRESH_MARLOSS );
                 g->m.ter_set( g->u.pos(),
                               t_marloss ); // We only show you the door.  You walk through it on your own.
-                g->u.add_memorial_log( pgettext( "memorial_male", "Was shown to the Marloss Gateway." ),
-                                       pgettext( "memorial_female", "Was shown to the Marloss Gateway." ) );
+                g->memorial().add_memorial_log(
+                    pgettext( "memorial_male", "Was shown to the Marloss Gateway." ),
+                    pgettext( "memorial_female", "Was shown to the Marloss Gateway." ) );
                 g->u.add_msg_if_player( m_good,
                                         _( "You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
                 //~ Beginning to hear the Mycus while conscious: this is it speaking
@@ -2133,8 +2135,7 @@ bool mattack::dermatik( monster *z )
                                body_part_name_accusative( targeted ) );
     if( !foe->has_trait( trait_PARAIMMUNE ) || !foe->has_trait( trait_ACIDBLOOD ) ) {
         foe->add_effect( effect_dermatik, 1_turns, targeted, true );
-        foe->add_memorial_log( pgettext( "memorial_male", "Injected with dermatik eggs." ),
-                               pgettext( "memorial_female", "Injected with dermatik eggs." ) );
+        g->events().send( event::make<event_type::dermatik_eggs_injected>( foe->getID() ) );
     }
 
     return true;

@@ -25,6 +25,7 @@
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
+#include "event_bus.h"
 #include "explosion.h"
 #include "timed_event.h"
 #include "field.h"
@@ -41,6 +42,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
+#include "memorial_logger.h"
 #include "messages.h"
 #include "monattack.h"
 #include "mongroup.h"
@@ -345,8 +347,7 @@ int iuse::sewage( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    p->add_memorial_log( pgettext( "memorial_male", "Ate a sewage sample." ),
-                         pgettext( "memorial_female", "Ate a sewage sample." ) );
+    g->events().send( event::make<event_type::eats_sewage>() );
     p->vomit();
     if( one_in( 4 ) ) {
         p->mutate();
@@ -1048,9 +1049,8 @@ static void do_purify( player &p )
 
 int iuse::purifier( player *p, item *it, bool, const tripoint & )
 {
-    mutagen_attempt checks = mutagen_common_checks( *p, *it, false,
-                             pgettext( "memorial_male", "Consumed purifier." ), pgettext( "memorial_female",
-                                     "Consumed purifier." ) );
+    mutagen_attempt checks =
+        mutagen_common_checks( *p, *it, false, mutagen_technique::consumed_purifier );
     if( !checks.allowed ) {
         return checks.charges_used;
     }
@@ -1061,9 +1061,8 @@ int iuse::purifier( player *p, item *it, bool, const tripoint & )
 
 int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
 {
-    mutagen_attempt checks = mutagen_common_checks( *p, *it, false,
-                             pgettext( "memorial_male", "Injected purifier." ), pgettext( "memorial_female",
-                                     "Injected purifier." ) );
+    mutagen_attempt checks =
+        mutagen_common_checks( *p, *it, false, mutagen_technique::injected_purifier );
     if( !checks.allowed ) {
         return checks.charges_used;
     }
@@ -1104,9 +1103,8 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
 
 int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
 {
-    mutagen_attempt checks = mutagen_common_checks( *p, *it, false,
-                             pgettext( "memorial_male", "Injected smart purifier." ), pgettext( "memorial_female",
-                                     "Injected smart purifier." ) );
+    mutagen_attempt checks =
+        mutagen_common_checks( *p, *it, false, mutagen_technique::injected_smart_purifier );
     if( !checks.allowed ) {
         return checks.charges_used;
     }
@@ -1253,8 +1251,11 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         // Mycus Rejection.  Goo already present fights off the fungus.
         p.add_msg_if_player( m_bad,
                              _( "You feel a familiar warmth, but suddenly it surges into an excruciating burn as you convulse, vomiting, and black out..." ) );
-        p.add_memorial_log( pgettext( "memorial_male", "Suffered Marloss Rejection." ),
-                            pgettext( "memorial_female", "Suffered Marloss Rejection." ) );
+        if( p.is_avatar() ) {
+            g->memorial().add_memorial_log(
+                pgettext( "memorial_male", "Suffered Marloss Rejection." ),
+                pgettext( "memorial_female", "Suffered Marloss Rejection." ) );
+        }
         p.vomit();
         p.mod_pain( 90 );
         p.hurtall( rng( 40, 65 ), nullptr ); // No good way to say "lose half your current HP"
@@ -1279,8 +1280,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
 
         p.set_mutation( trait_THRESH_MARLOSS );
         g->m.ter_set( p.pos(), t_marloss );
-        p.add_memorial_log( pgettext( "memorial_male", "Opened the Marloss Gateway." ),
-                            pgettext( "memorial_female", "Opened the Marloss Gateway." ) );
+        g->events().send( event::make<event_type::crosses_marloss_threshold>( p.getID() ) );
         p.add_msg_if_player( m_good,
                              _( "You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
         //~ Beginning to hear the Mycus while conscious: that's it speaking
@@ -1326,8 +1326,7 @@ int iuse::marloss( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    p->add_memorial_log( pgettext( "memorial_male", "Consumed a marloss product." ),
-                         pgettext( "memorial_female", "Consumed a marloss product." ) );
+    g->events().send( event::make<event_type::consumes_marloss_item>( p->getID(), it->typeId() ) );
 
     marloss_common( *p, *it, trait_MARLOSS );
     return it->type->charges_to_use();
@@ -1344,8 +1343,7 @@ int iuse::marloss_seed( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    p->add_memorial_log( pgettext( "memorial_male", "Consumed a marloss seed." ),
-                         pgettext( "memorial_female", "Consumed a marloss seed." ) );
+    g->events().send( event::make<event_type::consumes_marloss_item>( p->getID(), it->typeId() ) );
 
     marloss_common( *p, *it, trait_MARLOSS_BLUE );
     return it->type->charges_to_use();
@@ -1357,8 +1355,7 @@ int iuse::marloss_gel( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    p->add_memorial_log( pgettext( "memorial_male", "Consumed some marloss jelly." ),
-                         pgettext( "memorial_female", "Consumed some marloss jelly." ) );
+    g->events().send( event::make<event_type::consumes_marloss_item>( p->getID(), it->typeId() ) );
 
     marloss_common( *p, *it, trait_MARLOSS_YELLOW );
     return it->type->charges_to_use();
@@ -1371,8 +1368,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
     }
     // Welcome our guide.  Welcome.  To. The Mycus.
     if( p->has_trait( trait_THRESH_MARLOSS ) ) {
-        p->add_memorial_log( pgettext( "memorial_male", "Became one with the Mycus." ),
-                             pgettext( "memorial_female", "Became one with the Mycus." ) );
+        g->events().send( event::make<event_type::crosses_mycus_threshold>( p->getID() ) );
         p->add_msg_if_player( m_neutral,
                               _( "It tastes amazing, and you finish it quickly." ) );
         p->add_msg_if_player( m_good, _( "You feel better all over." ) );
@@ -2441,8 +2437,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
             g->m.spawn_item( pnt, "manhole_cover" );
         }
         if( type == t_door_locked_alarm ) {
-            p->add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
-                                 pgettext( "memorial_female", "Set off an alarm." ) );
+            g->events().send( event::make<event_type::triggers_alarm>( p->getID() ) );
             sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
             if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
@@ -3746,10 +3741,7 @@ int iuse::mininuke( player *p, item *it, bool, const tripoint & )
     }
     p->add_msg_if_player( _( "You set the timer to %s." ),
                           to_string( time_duration::from_turns( time ) ) );
-    if( !p->is_npc() ) {
-        p->add_memorial_log( pgettext( "memorial_male", "Activated a mininuke." ),
-                             pgettext( "memorial_female", "Activated a mininuke." ) );
-    }
+    g->events().send( event::make<event_type::activates_mininuke>( p->getID() ) );
     it->convert( "mininuke_act" );
     it->charges = time;
     it->active = true;
@@ -4845,12 +4837,8 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                   it->tname() );
         return 0;
     }
-    if( !p->is_npc() ) {
-        //~ %s is artifact name
-        p->add_memorial_log( pgettext( "memorial_male", "Activated the %s." ),
-                             pgettext( "memorial_female", "Activated the %s." ),
-                             it->tname( 1, false ) );
-    }
+    g->events().send( event::make<event_type::activates_artifact>(
+                          p->getID(), it->tname( 1, false ) ) );
 
     const auto &art = it->type->artifact;
     size_t num_used = rng( 1, art->effects_activated.size() );

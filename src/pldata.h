@@ -5,6 +5,7 @@
 #include <string>
 
 #include "calendar.h"
+#include "enum_traits.h"
 
 class JsonIn;
 class JsonOut;
@@ -24,6 +25,12 @@ enum add_type : int {
     ADD_CAFFEINE, ADD_ALCOHOL, ADD_SLEEP, ADD_PKILLER, ADD_SPEED, ADD_CIG,
     ADD_COKE, ADD_CRACK, ADD_MUTAGEN, ADD_DIAZEPAM, ADD_MARLOSS_R, ADD_MARLOSS_B,
     ADD_MARLOSS_Y,
+    NUM_ADD_TYPES // last
+};
+
+template<>
+struct enum_traits<add_type> {
+    static constexpr add_type last = NUM_ADD_TYPES;
 };
 
 enum hp_part : int {

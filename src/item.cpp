@@ -7991,10 +7991,6 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
                 }
             }
         } else {
-            //~ %s is corpse name
-            carrier->add_memorial_log( pgettext( "memorial_male", "Had a %s revive while carrying it." ),
-                                       pgettext( "memorial_female", "Had a %s revive while carrying it." ),
-                                       tname() );
             if( corpse->in_species( ROBOT ) ) {
                 carrier->add_msg_if_player( m_warning,
                                             _( "Oh dear god, a robot you're carrying has started moving!" ) );

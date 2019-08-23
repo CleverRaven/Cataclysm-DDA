@@ -4,6 +4,8 @@
 #include <set>
 
 #include "debug.h"
+#include "event_bus.h"
+#include "game.h"
 #include "generic_factory.h"
 #include "int_id.h"
 #include "json.h"
@@ -219,8 +221,15 @@ bool trap::can_see( const tripoint &pos, const player &p ) const
 
 void trap::trigger( const tripoint &pos, Creature *creature, item *item ) const
 {
-    if( ( creature != nullptr && !creature->is_hallucination() ) || item != nullptr ) {
-        act( pos, creature, item );
+    const bool is_real_creature = creature != nullptr && !creature->is_hallucination();
+    if( is_real_creature || item != nullptr ) {
+        bool triggered = act( pos, creature, item );
+        if( triggered && is_real_creature ) {
+            if( Character *ch = creature->as_character() ) {
+                g->events().send( event::make<event_type::character_triggers_trap>(
+                                      ch->getID(), id ) );
+            }
+        }
     }
 }
 
