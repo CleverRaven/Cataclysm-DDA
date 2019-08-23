@@ -2639,7 +2639,7 @@
     "type": "ARMOR",
     "name": "pair of attached ear plugs (in)",
     "name_plural": "pairs of attached ear plugs",
-    "description": "A pair of Industrial grade ear plugs, they're attached together by some string. they're inside your ears, use them to take them out.",
+    "description": "A pair of Industrial grade ear plugs attached together by some string. They're inside your ears, activate them to take them out.",
     "weight": 22,
     "volume": 0,
     "price": 10,
