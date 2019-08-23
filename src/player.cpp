@@ -146,6 +146,7 @@ const efftype_id effect_frostbite_recovery( "frostbite_recovery" );
 const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_glowy_led( "glowy_led" );
+const efftype_id effect_got_checked( "got_checked" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_happy( "happy" );
@@ -11893,6 +11894,27 @@ std::pair<std::string, nc_color> player::get_hunger_description() const
     }
 
     return std::make_pair( hunger_string, hunger_color );
+}
+
+std::pair<std::string, nc_color> player::get_pain_description() const
+{
+    auto pain = Creature::get_pain_description();
+    nc_color pain_color = pain.second;
+    std::string pain_string;
+    // get pain color
+    if( get_perceived_pain() >= 60 ) {
+        pain_color = c_red;
+    } else if( get_perceived_pain() >= 40 ) {
+        pain_color = c_light_red;
+    }
+    // get pain string
+    if( ( has_trait( trait_SELFAWARE ) || has_effect( effect_got_checked ) ) &&
+        get_perceived_pain() > 0 ) {
+        pain_string = string_format( "%s %d", _( "Pain " ), get_perceived_pain() );
+    } else if( get_perceived_pain() > 0 ) {
+        pain_string = pain.first;
+    }
+    return std::make_pair( pain_string, pain_color );
 }
 
 void player::enforce_minimum_healing()
