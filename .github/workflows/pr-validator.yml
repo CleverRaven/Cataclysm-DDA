@@ -7,9 +7,7 @@ on:
 jobs:
   validate:
     name: Validate PR
- 
     runs-on: ubuntu-latest
-    
     steps:
       - name: "Validate SUMMARY"
         uses: CleverRaven/pr-validator@master
