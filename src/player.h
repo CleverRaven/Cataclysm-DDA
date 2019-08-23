@@ -914,6 +914,8 @@ class player : public Character
 
         std::pair<std::string, nc_color> get_hunger_description() const override;
 
+        std::pair<std::string, nc_color> get_pain_description() const override;
+
         /** Get vitamin contents for a comestible */
         std::map<vitamin_id, int> vitamins_from( const item &it ) const;
         std::map<vitamin_id, int> vitamins_from( const itype_id &id ) const;
