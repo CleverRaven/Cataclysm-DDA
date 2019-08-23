@@ -2633,5 +2633,51 @@
     "revert_to": "foodperson_mask",
     "use_action": "FOODPERSON",
     "flags": [ "OUTER", "SUN_GLASSES", "NO_TAKEOFF", "LIGHT_10", "WATCH", "NO_UNLOAD" ]
+  },
+  {
+    "id": "attached_ear_plugs_on",
+    "type": "ARMOR",
+    "name": "pair of attached ear plugs (in)",
+    "name_plural": "pairs of attached ear plugs",
+    "description": "A pair of Industrial grade ear plugs, they're attached together by some string. they're inside your ears, use them to take them out.",
+    "weight": 22,
+    "volume": 0,
+    "price": 10,
+    "material": [ "cotton" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "coverage": 1,
+    "material_thickness": 1,
+    "use_action": {
+      "type": "transform",
+      "msg": "You take the ear plugs out.",
+      "target": "attached_ear_plugs_off",
+	  "menu_text": "Unplug",
+      "active": false
+    },
+    "flags": [ "DEAF", "OVERSIZE" ]
+  },
+  {
+    "id": "attached_ear_plugs_off",
+    "type": "ARMOR",
+    "name": "pair of attached ear plugs (out)",
+    "name_plural": "pairs of attached ear plugs",
+    "description": "A pair of Industrial grade ear plugs, they're attached together by some string. They hang around your neck, use them to plug them in.",
+    "weight": 22,
+    "volume": 0,
+    "price": 10,
+    "material": [ "cotton" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "coverage": 1,
+    "material_thickness": 1,
+    "use_action": {
+      "type": "transform",
+      "msg": "You plug up your ears.",
+      "target": "attached_ear_plugs_on",
+	  "menu_text": "Plug in",
+      "active": true
+    },
+    "flags": [ "OVERSIZE" ]
   }
 ]
