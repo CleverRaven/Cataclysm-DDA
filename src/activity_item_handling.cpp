@@ -674,6 +674,7 @@ void activity_on_turn_pickup()
     // Otherwise, we are done.
     if( !keep_going || g->u.activity.targets.empty() ) {
         g->u.cancel_activity();
+        g->u.thief = THIEF_UNSET;
     }
 
     // TODO: Move this to advanced inventory instead of hacking it in here

@@ -175,6 +175,12 @@ enum player_movemode : unsigned char {
     PMM_COUNT
 };
 
+enum thief_mode : unsigned char {
+    THIEF_UNSET = 0,
+    THIEF_HONEST = 1,
+    THIEF_STEAL = 2
+};
+
 static const std::array< std::string, PMM_COUNT > player_movemode_str = { {
         "walk",
         "run",
@@ -185,6 +191,10 @@ static const std::array< std::string, PMM_COUNT > player_movemode_str = { {
 class player : public Character
 {
     public:
+
+        // player has toggled on "I am willing to steal"
+        thief_mode thief;
+
         player();
         player( const player & ) = delete;
         player( player && );

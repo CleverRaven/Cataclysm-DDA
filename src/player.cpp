@@ -460,6 +460,7 @@ player::player() :
     next_climate_control_check( calendar::before_time_starts )
     , cached_time( calendar::before_time_starts )
 {
+    thief = THIEF_UNSET;
     str_cur = 8;
     str_max = 8;
     dex_cur = 8;
