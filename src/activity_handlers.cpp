@@ -4280,7 +4280,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                        false );
     }
 
-    p->add_msg_if_player( _(casting.message()), casting.name() );
+    p->add_msg_if_player( _( casting.message() ), casting.name() );
 
     casting.cast_all_effects( *p, target );
 
