@@ -168,6 +168,13 @@ class Character : public Creature, public visitable<Character>
         Character &operator=( const Character & ) = delete;
         ~Character() override;
 
+        Character *as_character() override {
+            return this;
+        }
+        const Character *as_character() const override {
+            return this;
+        }
+
         character_id getID() const;
         // sets the ID, will *only* succeed when the current id is not valid
         void setID( character_id i );

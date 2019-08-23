@@ -29,6 +29,7 @@ namespace catacurses
 class window;
 } // namespace catacurses
 class avatar;
+class Character;
 class field;
 class field_entry;
 class JsonObject;
@@ -87,6 +88,12 @@ class Creature
         }
         virtual bool is_monster() const {
             return false;
+        }
+        virtual Character *as_character() {
+            return nullptr;
+        }
+        virtual const Character *as_character() const {
+            return nullptr;
         }
         virtual player *as_player() {
             return nullptr;
