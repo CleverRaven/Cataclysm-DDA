@@ -17,7 +17,7 @@
       [ [ "circuit", 1 ] ],
       [ [ "transponder", 1 ] ],
       [ [ "pipe", 8 ] ],
-      [ [ "chem_rocket_fuel", 1750 ] ]
+      [ [ "chem_rocket_fuel", 33 ] ]
     ]
   },
   {
