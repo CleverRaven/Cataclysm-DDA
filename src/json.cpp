@@ -103,16 +103,7 @@ JsonObject::JsonObject( const JsonObject &jo )
     final_separator = jo.final_separator;
 }
 
-JsonObject &JsonObject::operator=( const JsonObject &jo )
-{
-    jsin = jo.jsin;
-    start = jo.start;
-    positions = jo.positions;
-    end = jo.end;
-    final_separator = jo.final_separator;
-
-    return *this;
-}
+JsonObject &JsonObject::operator=( const JsonObject &jo ) = default;
 
 void JsonObject::finish()
 {

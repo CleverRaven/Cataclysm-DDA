@@ -69,7 +69,7 @@ void quality::load_static( JsonObject &jo, const std::string &src )
 
 void quality::load( JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "name", name, translated_string_reader );
+    mandatory( jo, was_loaded, "name", name );
 
     JsonArray arr = jo.get_array( "usages" );
     while( arr.has_more() ) {

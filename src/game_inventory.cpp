@@ -520,6 +520,13 @@ class comestible_inventory_preset : public inventory_selector_preset
                     case rechargeable_cbm::furnace:
                         cbm_name = _( "Furnace" );
                         break;
+                    case rechargeable_cbm::other:
+                        std::vector<bionic_id> bids = p.get_bionic_fueled_with( get_consumable_item( loc ) );
+                        if( !bids.empty() ) {
+                            bionic_id bid = p.get_most_efficient_bionic( bids );
+                            cbm_name = bid->name;
+                        }
+                        break;
                 }
 
                 if( !cbm_name.empty() ) {
@@ -551,6 +558,8 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return res.str();
             } else if( cbm == rechargeable_cbm::battery && p.power_level >= p.max_power_level ) {
                 return _( "You're fully charged" );
+            } else if( cbm == rechargeable_cbm::other && ( p.get_fuel_capacity( it.typeId() ) <= 0 ) ) {
+                return string_format( _( "No space to store more %s" ), it.tname() );
             }
 
             return inventory_selector_preset::get_denial( loc );
@@ -656,6 +665,22 @@ class comestible_inventory_preset : public inventory_selector_preset
         const player &p;
 };
 
+static std::string get_consume_needs_hint( player &p )
+{
+    const auto &cmgr = get_all_colors();
+    auto hint = std::string();
+    auto desc = p.get_hunger_description();
+    hint.append( string_format( "[%s <color_%s>%s</color>] ", _( "Food :" ),
+                                cmgr.get_name( desc.second ), desc.first ) );
+    desc = p.get_thirst_description();
+    hint.append( string_format( "[%s <color_%s>%s</color>] ", _( "Drink:" ),
+                                cmgr.get_name( desc.second ), desc.first ) );
+    desc = p.get_pain_description();
+    hint.append( string_format( "[%s <color_%s>%s</color>] ", _( "Pain :" ),
+                                cmgr.get_name( desc.second ), desc.first ) );
+    return hint;
+}
+
 item_location game_menus::inv::consume( player &p )
 {
     if( !g->u.has_activity( activity_id( "ACT_EAT_MENU" ) ) ) {
@@ -664,7 +689,8 @@ item_location game_menus::inv::consume( player &p )
 
     return inv_internal( p, comestible_inventory_preset( p ),
                          _( "Consume item" ), 1,
-                         _( "You have nothing to consume." ) );
+                         _( "You have nothing to consume." ),
+                         get_consume_needs_hint( p ) );
 }
 
 class comestible_filtered_inventory_preset : public comestible_inventory_preset
@@ -693,7 +719,8 @@ item_location game_menus::inv::consume_food( player &p )
                it.has_flag( "USE_EAT_VERB" );
     } ),
     _( "Consume food" ), 1,
-    _( "You have no food to consume." ) );
+    _( "You have no food to consume." ),
+    get_consume_needs_hint( p ) );
 }
 
 item_location game_menus::inv::consume_drink( player &p )
@@ -707,7 +734,8 @@ item_location game_menus::inv::consume_drink( player &p )
                !it.has_flag( "USE_EAT_VERB" );
     } ),
     _( "Consume drink" ), 1,
-    _( "You have no drink to consume." ) );
+    _( "You have no drink to consume." ),
+    get_consume_needs_hint( p ) );
 }
 
 item_location game_menus::inv::consume_meds( player &p )
@@ -720,7 +748,8 @@ item_location game_menus::inv::consume_meds( player &p )
         return it.is_medication();
     } ),
     _( "Consume medication" ), 1,
-    _( "You have no medication to consume." ) );
+    _( "You have no medication to consume." ),
+    get_consume_needs_hint( p ) );
 }
 
 class activatable_inventory_preset : public pickup_inventory_preset
@@ -1453,7 +1482,7 @@ static item_location autodoc_internal( player &u, player &patient,
                 }
             }
 
-            if( b_filter.size() > 0 ) {
+            if( !b_filter.empty() ) {
                 hint = string_format( _( "<color_yellow>Available kit: %i</color>" ), b_filter.size() );// legacy
             } else {
                 hint = string_format( _( "<color_yellow>Available anesthetic: %i mL</color>" ), drug_count );
@@ -1613,7 +1642,7 @@ class bionic_install_preset: public inventory_selector_preset
                 return it.has_flag( "ANESTHESIA" ); // legacy
             } );
 
-            if( b_filter.size() > 0 ) {
+            if( !b_filter.empty() ) {
                 return  _( "kit available" );// legacy
             } else {
                 return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
@@ -1815,7 +1844,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
                 return it.has_flag( "ANESTHESIA" ); // legacy
             } );
 
-            if( b_filter.size() > 0 ) {
+            if( !b_filter.empty() ) {
                 return  _( "kit available" ); // legacy
             } else {
                 return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );

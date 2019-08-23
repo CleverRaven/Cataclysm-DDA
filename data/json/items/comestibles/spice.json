@@ -76,11 +76,24 @@
     "price": 387,
     "material": [ "powder", "junk" ],
     "primary_material": "powder",
-    "volume": 1,
+    "volume": "250 ml",
     "calories": 19,
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "//": "a tbps is 4.2g of sugar, meaning the volume needed to be adjusted.",
     "charges": 71
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "sprinkles",
+    "name": "sprinkles",
+    "name_plural": "sprinkles",
+    "weight": 4,
+    "copy-from": "sugar",
+    "container": "bottle_plastic_small",
+    "description": "Known as nonpareils, sprinkles, jimmies, sugar strands or 'hundreds-and-thousands', these colorful balls, rods or flakes of sugar and starch are intended for use decorating soft surfaces of sweets.  Like sugar, they are bad for your teeth and surprisingly not very tasty on their own.",
+    "price": 399,
+    "calories": 20,
+    "charges": 66
   },
   {
     "type": "COMESTIBLE",
@@ -96,7 +109,7 @@
     "description": "A tasty collection of wild herbs including violet, sassafras, mint, clover, purslane, fireweed, and burdock.",
     "price": 190,
     "material": "veggy",
-    "volume": 1,
+    "volume": "250 ml",
     "charges": 20,
     "flags": [ "EDIBLE_FROZEN" ],
     "stack_size": 100,
@@ -112,7 +125,7 @@
     "description": "Salty fermented soybean sauce.",
     "price": 190,
     "weight": 24,
-    "volume": 1,
+    "volume": "250 ml",
     "calories": 17,
     "comestible_type": "DRINK",
     "container": "bottle_glass",
@@ -137,7 +150,7 @@
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   }
 ]

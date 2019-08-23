@@ -17,34 +17,8 @@
       [ [ "circuit", 1 ] ],
       [ [ "transponder", 1 ] ],
       [ [ "pipe", 8 ] ],
-      [ [ "chem_rocket_fuel", 1750 ] ]
+      [ [ "chem_rocket_fuel", 33 ] ]
     ]
-  },
-  {
-    "type": "recipe",
-    "result": "plut_slurry_dense",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_OTHER",
-    "skill_used": "fabrication",
-    "skills_required": [ "electronics", 7 ],
-    "difficulty": 8,
-    "time": "95 m",
-    "book_learn": [ [ "recipe_lab_elec", 10 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "plut_cell", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "plut_slurry",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_OTHER",
-    "skill_used": "fabrication",
-    "skills_required": [ "electronics", 7 ],
-    "difficulty": 8,
-    "time": "95 m",
-    "book_learn": [ [ "recipe_lab_elec", 10 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "plut_slurry_dense", 5 ] ], [ [ "water", 5 ], [ "water_clean", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -95,17 +69,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 1 ] ],
     "tools": [ [ [ "press", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
-    "components": [
-      [
-        [ "lead", 50 ],
-        [ "gold_small", 50 ],
-        [ "silver_small", 50 ],
-        [ "platinum_small", 50 ],
-        [ "tin", 50 ],
-        [ "bismuth", 50 ],
-        [ "solder_wire", 50 ]
-      ]
-    ]
+    "components": [ [ [ "weights", 10, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -901,7 +865,7 @@
       [ "textbook_anarch", 2, "Stuff THE MAN doesn't want you to know" ],
       [ "manual_launcher", 2 ]
     ],
-    "components": [ [ [ "gasoline", 125 ], [ "diesel", 125 ] ] ]
+    "components": [ [ [ "gasoline", 125 ] ], [ [ "diesel", 125 ] ] ]
   },
   {
     "type": "recipe",

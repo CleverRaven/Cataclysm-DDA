@@ -450,7 +450,7 @@ std::string ma_requirements::get_description( bool buff ) const
     }
 
     if( !req_buffs.empty() ) {
-        dump << string_format( _( "<bold>Requires:</bold> " ) );
+        dump << _( "<bold>Requires:</bold> " );
 
         dump << enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id & bid ) {
             return _( bid->name );
@@ -815,6 +815,50 @@ ma_technique player::get_grab_break_tec() const
         }
     }
     return tec;
+}
+
+bool player::can_grab_break() const
+{
+    if( !has_grab_break_tec() ) {
+        return false;
+    }
+
+    ma_technique tec = get_grab_break_tec();
+    bool cqb = has_active_bionic( bionic_id( "bio_cqb" ) );
+
+    std::map<skill_id, int> min_skill = tec.reqs.min_skill;
+
+    // Failure conditions.
+    for( const auto &pr : min_skill ) {
+        if( ( cqb ? 5 : get_skill_level( pr.first ) ) < pr.second ) {
+            return false;
+        }
+    }
+
+    // otherwise, can grab break
+    return true;
+}
+
+bool player::can_miss_recovery( const item &weap ) const
+{
+    if( !has_miss_recovery_tec( weap ) ) {
+        return false;
+    }
+
+    ma_technique tec = get_miss_recovery_tec( weap );
+    bool cqb = has_active_bionic( bionic_id( "bio_cqb" ) );
+
+    std::map<skill_id, int> min_skill = tec.reqs.min_skill;
+
+    // Failure conditions.
+    for( const auto &pr : min_skill ) {
+        if( ( cqb ? 5 : get_skill_level( pr.first ) ) < pr.second ) {
+            return false;
+        }
+    }
+
+    // otherwise, can miss recovery
+    return true;
 }
 
 bool player::can_leg_block() const
@@ -1299,7 +1343,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             werase( w );
             fold_and_print_from( w, point( 2, 1 ), width, selected, c_light_gray, text );
             draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), _( ma.name ) ) );
-            draw_scrollbar( w, selected, height, iLines, 1, 0, BORDER_COLOR, true );
+            draw_scrollbar( w, selected, height, iLines, point_south, BORDER_COLOR, true );
             wrefresh( w );
             catacurses::refresh();
 

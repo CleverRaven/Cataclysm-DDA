@@ -5,7 +5,7 @@
     "name": ".380 ACP FMJ",
     "description": ".380 ACP ammunition with a brass jacketed 95gr bullet.  Popular in pocket pistols for over a century, it is often considered the weakest caliber to consider carrying.  One should be careful not to chamber it in 9x18mm Makarov or 9x19mm firearms.",
     "weight": 6,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 2600,
     "material": [ "brass", "powder" ],
     "symbol": "=",

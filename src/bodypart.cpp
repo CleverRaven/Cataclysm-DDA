@@ -21,6 +21,9 @@ side opposite_side( side s )
             return side::RIGHT;
         case side::RIGHT:
             return side::LEFT;
+        case side::num_sides:
+            debugmsg( "invalid side %d", static_cast<int>( s ) );
+            break;
     }
 
     return s;
@@ -29,17 +32,20 @@ side opposite_side( side s )
 namespace io
 {
 
-static const std::map<std::string, side> side_map = {{
-        { "left", side::LEFT },
-        { "right", side::RIGHT },
-        { "both", side::BOTH }
-    }
-};
-
 template<>
-side string_to_enum<side>( const std::string &data )
+std::string enum_to_string<side>( side data )
 {
-    return string_to_enum_look_up( side_map, data );
+    switch( data ) {
+        // *INDENT-OFF*
+        case side::LEFT: return "left";
+        case side::RIGHT: return "right";
+        case side::BOTH: return "both";
+        // *INDENT-ON*
+        case side::num_sides:
+            break;
+    }
+    debugmsg( "Invalid side" );
+    abort();
 }
 
 } // namespace io
@@ -227,26 +233,29 @@ void body_part_struct::check() const
     }
 }
 
+// Some languages do not have plural forms, so we don't use ngettext()/npgettext()
+// in the 3 following methods so the singular and plural strings can be properly
+// translated for these languages.
 std::string body_part_name( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    return ngettext( bdy.name.c_str(),
-                     bdy.name_multiple.c_str(), number );
+    return number > 1 ? _( bdy.name_multiple ) : _( bdy.name );
 }
 
 std::string body_part_name_accusative( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    return npgettext( "bodypart_accusative",
-                      bdy.name.c_str(),
-                      bdy.name_multiple.c_str(), number );
+    if( number > 1 ) {
+        return pgettext( "bodypart_accusative", bdy.name_multiple.c_str() );
+    } else {
+        return pgettext( "bodypart_accusative", bdy.name.c_str() );
+    }
 }
 
 std::string body_part_name_as_heading( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    return ngettext( bdy.name_as_heading_singular.c_str(), bdy.name_as_heading_multiple.c_str(),
-                     number );
+    return number > 1 ? _( bdy.name_as_heading_multiple ) : _( bdy.name_as_heading_singular );
 }
 
 std::string body_part_hp_bar_ui_text( body_part bp )

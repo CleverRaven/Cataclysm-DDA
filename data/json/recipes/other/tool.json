@@ -12,18 +12,7 @@
     "book_learn": [ [ "mag_survival", 4 ], [ "manual_survival", 4 ], [ "textbook_survival", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 50, "LIST" ] ] ],
-    "components": [
-      [ [ "plastic_chunk", 3 ] ],
-      [ [ "wire", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [
-        [ "bismuth", 200 ],
-        [ "lead", 200 ],
-        [ "gold_small", 200 ],
-        [ "silver_small", 200 ],
-        [ "platinum_small", 200 ]
-      ]
-    ]
+    "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "wire", 1 ] ], [ [ "scrap", 1 ] ], [ [ "weights", 40, "LIST" ] ] ]
   },
   {
     "result": "riding_saddle",

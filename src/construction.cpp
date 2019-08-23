@@ -579,7 +579,7 @@ int construction_menu( bool blueprint )
             }
         } // Finished updating
 
-        draw_scrollbar( w_con, select, w_list_height, constructs.size(), 3 );
+        draw_scrollbar( w_con, select, w_list_height, constructs.size(), point( 0, 3 ) );
         wrefresh( w_con );
         wrefresh( w_list );
 
@@ -862,7 +862,7 @@ void complete_construction( player *p )
         }
         if( p->is_npc() ) {
             npc *guy = dynamic_cast<npc *>( p );
-            guy->current_activity.clear();
+            guy->current_activity_id = activity_id::NULL_ID();
             guy->revert_after_activity();
             guy->set_moves( 0 );
         }
@@ -972,11 +972,11 @@ bool construct::check_support( const tripoint &p )
 
 bool construct::check_deconstruct( const tripoint &p )
 {
-    if( g->m.has_furn( p.x, p.y ) ) {
-        return g->m.furn( p.x, p.y ).obj().deconstruct.can_do;
+    if( g->m.has_furn( p.xy() ) ) {
+        return g->m.furn( p.xy() ).obj().deconstruct.can_do;
     }
     // terrain can only be deconstructed when there is no furniture in the way
-    return g->m.ter( p.x, p.y ).obj().deconstruct.can_do;
+    return g->m.ter( p.xy() ).obj().deconstruct.can_do;
 }
 
 bool construct::check_empty_up_OK( const tripoint &p )
