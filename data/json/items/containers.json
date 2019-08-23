@@ -13,7 +13,7 @@
     "material": "plastic",
     "symbol": ")",
     "color": "dark_gray",
-    "contains": 10,
+    "contains": "2500 ml",
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "TORSO" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
@@ -33,7 +33,7 @@
     "material": "plastic",
     "symbol": "0",
     "color": "light_blue",
-    "contains": 450,
+    "contains": "112500 ml",
     "seals": true,
     "watertight": true,
     "qualities": [ [ "CONTAIN", 1 ] ]
@@ -53,7 +53,7 @@
     "material": "steel",
     "symbol": "0",
     "color": "dark_gray",
-    "contains": 400,
+    "contains": "100 L",
     "seals": true,
     "watertight": true,
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -73,7 +73,7 @@
     "material": "steel",
     "symbol": "0",
     "color": "dark_gray",
-    "contains": 800,
+    "contains": "200 L",
     "seals": true,
     "watertight": true,
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -92,7 +92,7 @@
     "material": "cotton",
     "symbol": ")",
     "color": "brown",
-    "contains": 60,
+    "contains": "15 L",
     "seals": true
   },
   {
@@ -109,7 +109,7 @@
     "material": "cotton",
     "symbol": ")",
     "color": "brown",
-    "contains": 4,
+    "contains": "1 L",
     "seals": true
   },
   {
@@ -126,7 +126,7 @@
     "material": "plastic",
     "symbol": ")",
     "color": "light_gray",
-    "contains": 24,
+    "contains": "6 L",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -143,7 +143,7 @@
     "material": "plastic",
     "symbol": ")",
     "color": "light_gray",
-    "contains": 1,
+    "contains": "250 ml",
     "seals": true,
     "flags": [ "TRADER_AVOID" ]
   },
@@ -162,7 +162,7 @@
     "material": "plastic",
     "symbol": ")",
     "color": "dark_gray",
-    "contains": 100,
+    "contains": "25 L",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -179,7 +179,7 @@
     "material": "glass",
     "symbol": ")",
     "color": "cyan",
-    "contains": 3,
+    "contains": "750 ml",
     "seals": true,
     "watertight": true,
     "qualities": [ [ "BOIL", 1 ] ]
@@ -197,7 +197,7 @@
     "material": "plastic",
     "symbol": ")",
     "color": "light_cyan",
-    "contains": 2,
+    "contains": "500 ml",
     "seals": true,
     "watertight": true
   },
@@ -214,7 +214,7 @@
     "material": "plastic",
     "symbol": ")",
     "color": "white",
-    "contains": 1,
+    "contains": "250 ml",
     "seals": true,
     "watertight": true
   },
@@ -231,7 +231,7 @@
     "material": "plastic",
     "symbol": ")",
     "color": "cyan",
-    "contains": 8,
+    "contains": "2 L",
     "seals": true,
     "watertight": true
   },
@@ -248,7 +248,7 @@
     "material": "clay",
     "symbol": ")",
     "color": "brown",
-    "contains": 1,
+    "contains": "250 ml",
     "seals": true,
     "watertight": true,
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -313,7 +313,7 @@
     "material": "paper",
     "symbol": ")",
     "color": "brown",
-    "contains": 20,
+    "contains": "5 L",
     "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" }
   },
   {
@@ -329,7 +329,7 @@
     "material": "steel",
     "symbol": ")",
     "color": "light_gray",
-    "contains": 20,
+    "contains": "5 L",
     "watertight": true,
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
@@ -347,7 +347,7 @@
     "material": [ "cotton", "plastic" ],
     "symbol": ")",
     "color": "dark_gray",
-    "contains": 8,
+    "contains": "2 L",
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "storage": 4, "material_thickness": 1 },
@@ -367,7 +367,7 @@
     "material": "aluminum",
     "symbol": ")",
     "color": "light_blue",
-    "contains": 1,
+    "contains": "250 ml",
     "watertight": true,
     "preserves": true,
     "unseals_into": "can_drink_unsealed"
@@ -397,7 +397,7 @@
     "material": [ "plastic", "aluminum", "paper" ],
     "symbol": ")",
     "color": "light_cyan",
-    "contains": 8,
+    "contains": "2 L",
     "watertight": true,
     "preserves": true,
     "unseals_into": "carton_unsealed"
@@ -424,7 +424,7 @@
     "description": "This is a bag of vacuum-packed food.",
     "weight": 2,
     "volume": 0,
-    "contains": 2,
+    "contains": "500 ml",
     "price": 0,
     "material": "plastic",
     "symbol": "%",
@@ -446,7 +446,7 @@
     "material": "steel",
     "symbol": ")",
     "color": "blue",
-    "contains": 1,
+    "contains": "250 ml",
     "watertight": true,
     "preserves": true,
     "unseals_into": "can_food_unsealed"
@@ -476,7 +476,7 @@
     "material": "plastic",
     "symbol": ")",
     "color": "green",
-    "contains": 6,
+    "contains": "1500 ml",
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 5, "encumbrance": 2, "material_thickness": 2 },
@@ -492,7 +492,7 @@
     "weight": 530,
     "price": 1595,
     "volume": "1250 ml",
-    "contains": 4,
+    "contains": "1 L",
     "material": "steel",
     "symbol": "I",
     "color": "green",
@@ -513,7 +513,7 @@
     "material": "clay",
     "symbol": "*",
     "color": "brown",
-    "contains": 1,
+    "contains": "250 ml",
     "seals": true,
     "watertight": true,
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -532,7 +532,7 @@
     "material": "clay",
     "symbol": ")",
     "color": "brown",
-    "contains": 60,
+    "contains": "15 L",
     "seals": true,
     "watertight": true,
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -550,7 +550,7 @@
     "material": "clay",
     "symbol": ")",
     "color": "brown",
-    "contains": 150,
+    "contains": "37500 ml",
     "seals": true,
     "watertight": true,
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -568,7 +568,7 @@
     "material": "plastic",
     "symbol": ")",
     "color": "light_cyan",
-    "contains": 1,
+    "contains": "250 ml",
     "watertight": true,
     "unseals_into": "cup_plastic_unsealed"
   },
@@ -597,7 +597,7 @@
     "material": "glass",
     "symbol": ")",
     "color": "light_cyan",
-    "contains": 1,
+    "contains": "250 ml",
     "seals": true,
     "watertight": true,
     "qualities": [ [ "BOIL", 1 ] ]
@@ -689,7 +689,7 @@
     "material": "iron",
     "symbol": ")",
     "color": "light_gray",
-    "contains": 1,
+    "contains": "250 ml",
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 2, "material_thickness": 1 },
@@ -709,7 +709,7 @@
     "material": "glass",
     "symbol": ")",
     "color": "light_cyan",
-    "contains": 12,
+    "contains": "3 L",
     "seals": true,
     "watertight": true,
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ]
@@ -740,7 +740,7 @@
     "material": "glass",
     "symbol": ")",
     "color": "light_cyan",
-    "contains": 2,
+    "contains": "500 ml",
     "seals": true,
     "watertight": true,
     "unseals_into": "null",
@@ -807,7 +807,7 @@
     "material": "clay",
     "symbol": ")",
     "color": "brown",
-    "contains": 4,
+    "contains": "1 L",
     "seals": true,
     "watertight": true,
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
@@ -825,7 +825,7 @@
     "material": "plastic",
     "symbol": ")",
     "color": "light_cyan",
-    "contains": 15,
+    "contains": "3750 ml",
     "seals": true,
     "watertight": true
   },
@@ -843,7 +843,7 @@
     "material": "aluminum",
     "symbol": ")",
     "color": "light_cyan",
-    "contains": 200,
+    "contains": "50 L",
     "seals": true,
     "watertight": true,
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -862,7 +862,7 @@
     "material": "steel",
     "symbol": ")",
     "color": "light_cyan",
-    "contains": 200,
+    "contains": "50 L",
     "seals": true,
     "watertight": true,
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -882,7 +882,7 @@
     "material": "flesh",
     "symbol": ")",
     "color": "brown",
-    "contains": 12,
+    "contains": "3 L",
     "seals": true,
     "watertight": true
   },
@@ -939,7 +939,7 @@
     "material": "wood",
     "symbol": ")",
     "color": "brown",
-    "contains": 6,
+    "contains": "1500 ml",
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "encumbrance": 5, "material_thickness": 2 },
@@ -960,7 +960,7 @@
     "material": "flesh",
     "symbol": ")",
     "color": "brown",
-    "contains": 6,
+    "contains": "1500 ml",
     "seals": true,
     "watertight": true
   },
@@ -979,7 +979,7 @@
     "material": "leather",
     "symbol": ")",
     "color": "brown",
-    "contains": 6,
+    "contains": "1500 ml",
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 5, "material_thickness": 2 },
@@ -1000,7 +1000,7 @@
     "material": "leather",
     "symbol": ")",
     "color": "brown",
-    "contains": 12,
+    "contains": "3 L",
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "TORSO" ], "coverage": 10, "material_thickness": 2 },
@@ -1021,7 +1021,7 @@
     "material": "leather",
     "symbol": ")",
     "color": "brown",
-    "contains": 20,
+    "contains": "5 L",
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "material_thickness": 2 },
@@ -1041,7 +1041,7 @@
     "material": [ "wood", "steel" ],
     "symbol": ")",
     "color": "brown",
-    "contains": 400,
+    "contains": "100 L",
     "seals": true,
     "watertight": true,
     "qualities": [ [ "CONTAIN", 1 ] ]
@@ -1060,7 +1060,7 @@
     "material": "paper",
     "symbol": ",",
     "color": "light_gray",
-    "contains": 10,
+    "contains": "2500 ml",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -1075,7 +1075,7 @@
     "material": "plastic",
     "symbol": ")",
     "color": "white",
-    "contains": 2,
+    "contains": "500 ml",
     "seals": true,
     "watertight": true
   },
@@ -1092,7 +1092,7 @@
     "material": "plastic",
     "symbol": ")",
     "color": "white",
-    "contains": 17,
+    "contains": "4250 ml",
     "seals": true,
     "watertight": true
   },
@@ -1110,7 +1110,7 @@
     "material": "plastic",
     "symbol": ")",
     "color": "white",
-    "contains": 15,
+    "contains": "3750 ml",
     "watertight": true,
     "seals": true,
     "properties": [ [ "burst_when_filled", "75" ] ]
@@ -1127,7 +1127,7 @@
     "material": "steel",
     "symbol": ")",
     "color": "blue",
-    "contains": 12,
+    "contains": "3 L",
     "watertight": true,
     "preserves": true,
     "unseals_into": "can_food_big_unsealed"
