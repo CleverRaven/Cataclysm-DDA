@@ -32,6 +32,7 @@
 #include "json.h"
 #include "line.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "mapgen_functions.h"
 #include "martialarts.h"
 #include "messages.h"
@@ -2303,6 +2304,14 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
         subeffect_fun.set_npc_cbm_recharge_rule( setting );
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
+    } else if( jo.has_string( "u_buy_monster" ) ) {
+        const std::string &monster_type_id = jo.get_string( "u_buy_monster" );
+        const int cost = jo.get_int( "cost", 0 );
+        const int count = jo.get_int( "count", 1 );
+        const bool pacified = jo.get_bool( "pacified", false );
+        translation name;
+        jo.read( "name", name );
+        subeffect_fun.set_u_buy_monster( monster_type_id, cost, count, pacified, name );
     } else {
         jo.throw_error( "invalid sub effect syntax :" + jo.str() );
     }
