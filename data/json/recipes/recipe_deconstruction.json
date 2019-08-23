@@ -2654,6 +2654,7 @@
       [ [ "glowstick", 1 ] ],
       [ [ "handflare", 4 ] ],
       [ [ "pur_tablets", 15 ] ],
+      [ [ "pocket_survival", 1 ] ],
       [ [ "survival_kit_box", 1 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
