@@ -199,7 +199,8 @@ void spell_type::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
-    optional( jo, was_loaded, "message", message, "You cast %s! DEFAULT" );
+    translation default_msg("You cast %s!");
+    optional( jo, was_loaded, "message", message, default_msg );
     mandatory( jo, was_loaded, "effect", effect_name );
     const auto found_effect = effect_map.find( effect_name );
     if( found_effect == effect_map.cend() ) {
