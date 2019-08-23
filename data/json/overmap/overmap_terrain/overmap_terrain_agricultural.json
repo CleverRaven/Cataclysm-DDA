@@ -17,6 +17,86 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "rural_road",
+    "name": "rural road",
+    "sym": "│",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "rural_road_3way",
+    "name": "rural road",
+    "sym": "┬",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "rural_road_turn",
+    "name": "rural road",
+    "sym": "┐",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "rural_road_turn1",
+    "name": "rural road",
+    "sym": "┌",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "rural_road_forest",
+    "name": "rural road",
+    "sym": "│",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "rural_road_turn_forest",
+    "name": "rural road",
+    "sym": "┐",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "rural_road_turn1_forest",
+    "name": "rural road",
+    "sym": "┌",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "rural_road_3way_forest",
+    "name": "rural road",
+    "sym": "┬",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "farm_1",
     "name": "farm field",
     "sym": "#",

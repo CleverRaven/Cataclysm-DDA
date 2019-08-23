@@ -223,7 +223,7 @@ void talk_function::goto_location( npc &p )
 {
     int i = 0;
     uilist selection_menu;
-    selection_menu.text = string_format( _( "Select a destination" ) );
+    selection_menu.text = _( "Select a destination" );
     std::vector<basecamp *> camps;
     tripoint destination;
     for( auto elem : g->u.camps ) {

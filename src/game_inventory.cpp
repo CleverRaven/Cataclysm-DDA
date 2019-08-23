@@ -665,6 +665,22 @@ class comestible_inventory_preset : public inventory_selector_preset
         const player &p;
 };
 
+static std::string get_consume_needs_hint( player &p )
+{
+    const auto &cmgr = get_all_colors();
+    auto hint = std::string();
+    auto desc = p.get_hunger_description();
+    hint.append( string_format( "[%s <color_%s>%s</color>] ", _( "Food :" ),
+                                cmgr.get_name( desc.second ), desc.first ) );
+    desc = p.get_thirst_description();
+    hint.append( string_format( "[%s <color_%s>%s</color>] ", _( "Drink:" ),
+                                cmgr.get_name( desc.second ), desc.first ) );
+    desc = p.get_pain_description();
+    hint.append( string_format( "[%s <color_%s>%s</color>] ", _( "Pain :" ),
+                                cmgr.get_name( desc.second ), desc.first ) );
+    return hint;
+}
+
 item_location game_menus::inv::consume( player &p )
 {
     if( !g->u.has_activity( activity_id( "ACT_EAT_MENU" ) ) ) {
@@ -673,7 +689,8 @@ item_location game_menus::inv::consume( player &p )
 
     return inv_internal( p, comestible_inventory_preset( p ),
                          _( "Consume item" ), 1,
-                         _( "You have nothing to consume." ) );
+                         _( "You have nothing to consume." ),
+                         get_consume_needs_hint( p ) );
 }
 
 class comestible_filtered_inventory_preset : public comestible_inventory_preset
@@ -702,7 +719,8 @@ item_location game_menus::inv::consume_food( player &p )
                it.has_flag( "USE_EAT_VERB" );
     } ),
     _( "Consume food" ), 1,
-    _( "You have no food to consume." ) );
+    _( "You have no food to consume." ),
+    get_consume_needs_hint( p ) );
 }
 
 item_location game_menus::inv::consume_drink( player &p )
@@ -716,7 +734,8 @@ item_location game_menus::inv::consume_drink( player &p )
                !it.has_flag( "USE_EAT_VERB" );
     } ),
     _( "Consume drink" ), 1,
-    _( "You have no drink to consume." ) );
+    _( "You have no drink to consume." ),
+    get_consume_needs_hint( p ) );
 }
 
 item_location game_menus::inv::consume_meds( player &p )
@@ -729,7 +748,8 @@ item_location game_menus::inv::consume_meds( player &p )
         return it.is_medication();
     } ),
     _( "Consume medication" ), 1,
-    _( "You have no medication to consume." ) );
+    _( "You have no medication to consume." ),
+    get_consume_needs_hint( p ) );
 }
 
 class activatable_inventory_preset : public pickup_inventory_preset

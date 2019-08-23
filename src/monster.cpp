@@ -12,6 +12,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
+#include "event_bus.h"
 #include "explosion.h"
 #include "field.h"
 #include "game.h"
@@ -504,20 +505,20 @@ std::string monster::name_with_armor() const
 {
     std::string ret;
     if( type->in_species( INSECT ) ) {
-        ret = string_format( _( "carapace" ) );
+        ret = _( "carapace" );
     } else if( made_of( material_id( "veggy" ) ) ) {
-        ret = string_format( _( "thick bark" ) );
+        ret = _( "thick bark" );
     } else if( made_of( material_id( "bone" ) ) ) {
-        ret = string_format( _( "exoskeleton" ) );
+        ret = _( "exoskeleton" );
     } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ||
                made_of( material_id( "iflesh" ) ) ) {
-        ret = string_format( _( "thick hide" ) );
+        ret = _( "thick hide" );
     } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) ) {
-        ret = string_format( _( "armor plating" ) );
+        ret = _( "armor plating" );
     } else if( made_of( LIQUID ) ) {
-        ret = string_format( _( "dense jelly mass" ) );
+        ret = _( "dense jelly mass" );
     } else {
-        ret = string_format( _( "armor" ) );
+        ret = _( "armor" );
     }
     if( has_effect( effect_monster_armor ) && !inv.empty() ) {
         for( const item &armor : inv ) {
@@ -2046,10 +2047,8 @@ void monster::die( Creature *nkiller )
             // has guilt flag or player is pacifist && monster is humanoid
             mdeath::guilt( *this );
         }
-        // TODO: add a kill counter to npcs?
-        if( ch->is_player() ) {
-            g->increase_kill_count( type->id );
-        }
+        g->events().send( event::make<event_type::character_kills_monster>(
+                              calendar::turn, ch->getID(), type->id ) );
         if( type->difficulty >= 30 ) {
             ch->add_memorial_log( pgettext( "memorial_male", "Killed a %s." ),
                                   pgettext( "memorial_female", "Killed a %s." ),
