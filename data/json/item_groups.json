@@ -4973,6 +4973,7 @@
       [ "chem_sulphur", 10 ],
       [ "chem_aluminium_powder", 5 ],
       [ "chem_zinc_powder", 10 ],
+      [ "chem_manganese_dioxide", 10 ],
       [ "chem_saltpetre", 10 ],
       [ "chem_carbide", 10 ],
       [ "denat_alcohol", 10 ]
@@ -5017,6 +5018,7 @@
       [ "chem_hydrogen_peroxide", 15 ],
       [ "chem_carbide", 10 ],
       [ "chem_zinc_powder", 10 ],
+      [ "chem_manganese_dioxide", 5 ],
       [ "denat_alcohol", 10 ]
     ]
   },
@@ -5077,6 +5079,7 @@
       [ "chem_nitric_acid", 15 ],
       [ "chem_chromium_oxide", 10 ],
       [ "chem_zinc_powder", 10 ],
+      [ "chem_manganese_dioxide", 5 ],
       [ "denat_alcohol", 10 ]
     ]
   },

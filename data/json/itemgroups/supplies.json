@@ -236,6 +236,7 @@
       [ "chem_ammonium_nitrate", 10 ],
       [ "chem_chromium_oxide", 10 ],
       [ "chem_zinc_powder", 10 ],
+      [ "chem_manganese_dioxide", 10 ],
       [ "chem_hydrogen_peroxide_conc", 10 ],
       [ "material_rocksalt", 2 ],
       [ "ether", 10 ],
