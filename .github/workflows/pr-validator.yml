@@ -6,11 +6,12 @@ on:
 
 jobs:
   validate:
-    name: Validate SUMMARY
+    name: Validate PR
  
     runs-on: ubuntu-latest
     
-    actions:
-    - uses: CleverRaven/pr-validator@master
-      with:
-        description-regex: '.*SUMMARY.*'
+    steps:
+      - name: "Validate SUMMARY"
+        uses: CleverRaven/pr-validator@master
+        with:
+          description-regex: '.*SUMMARY.*'
