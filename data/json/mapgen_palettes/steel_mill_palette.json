@@ -44,7 +44,10 @@
       "a": [ "t_open_air_rooved" ],
       "r": [ "t_metal_flat_roof" ],
       "g": [ "t_generator_broken" ],
-      "G": [ "t_grate" ]
+      "G": [ "t_grate" ],
+      "2": [ "t_sai_box" ],
+      "5": [ "t_switchgear_l" ],
+      "`": [ "t_thconc_y"]
     },
     "furniture": {
       "h": [ "f_chair" ],
@@ -62,7 +65,8 @@
       "U": [ "f_home_furnace" ],
       "f": [ "f_fridge" ],
       "D": [ "f_vending_c" ],
-      "V": [ "f_vending_c" ]
+      "V": [ "f_vending_c" ],
+      "7": [ "f_filing_cabinet" ]
     },
     "toilets": { "t": { } },
     "vendingmachines": { "D": { "itemgroup": "vending_drink" }, "V": { "itemgroup": "vending_food" } }

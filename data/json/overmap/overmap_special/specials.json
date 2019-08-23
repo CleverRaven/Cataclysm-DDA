@@ -5578,7 +5578,7 @@
       { "point": [ 3, 4, 2 ], "overmap": "steel_mill_rail_2_3_north" }
     ],
     "locations": [ "wilderness", "land" ],
-    "connections": [ { "point": [ 2, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, -2, 0 ] } ],
+    "connections": [ { "point": [ 2, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, 0, 0 ] } ],
     "city_distance": [ 10, 100 ],
     "city_sizes": [ 3, 12 ],
     "occurrences": [ 0, 1 ],
