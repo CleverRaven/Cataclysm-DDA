@@ -176,9 +176,9 @@ enum player_movemode : unsigned char {
 };
 
 enum thief_mode : unsigned char {
-    THIEF_UNSET = 0,
-    THIEF_HONEST = 1,
-    THIEF_STEAL = 2
+    THIEF_UNSET = 0, // Player will be queried on attempting to steal
+    THIEF_HONEST = 1, // Do not pick up stolen items
+    THIEF_STEAL = 2 // Pick up stolen items
 };
 
 static const std::array< std::string, PMM_COUNT > player_movemode_str = { {
@@ -192,15 +192,21 @@ class player : public Character
 {
     public:
 
-        // player has toggled on "I am willing to steal"
-        thief_mode thief;
-
         player();
         player( const player & ) = delete;
         player( player && );
         ~player() override;
         player &operator=( const player & ) = delete;
         player &operator=( player && );
+
+        /**
+         * Toggle attitude towards stolen goods, ask if UNSET
+         *
+         * UNSET: Ask player when attempting to steal
+         * HONEST: Do not pick up stolen items, even if selected in pickup
+         * STEAL: Pick up stolen items without query
+         */
+        thief_mode thief;
 
         /** Calls Character::normalize()
          *  normalizes HP and body temperature

@@ -514,7 +514,7 @@ player::player() :
     nv_cached = false;
     volume = 0;
 
-    thief = THIEF_UNSET; // Is player willing to steal
+    thief = THIEF_UNSET;
 
     for( const auto &v : vitamin::all() ) {
         vitamin_levels[ v.first ] = 0;

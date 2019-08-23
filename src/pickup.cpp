@@ -192,7 +192,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     if( newit.has_owner() &&
         newit.get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
         if( u.thief == THIEF_UNSET ) { // Has the player given input on if stealing is ok?
-            if( query_yn( "Picking up this item will be considered stealing, continue?" ) ) {
+            if( query_yn( _( "Picking up this item will be considered stealing, continue?" ) ) ) {
                 u.thief = THIEF_STEAL;
             } else {
                 u.thief = THIEF_HONEST;
