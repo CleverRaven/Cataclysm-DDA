@@ -121,6 +121,8 @@ struct talk_effect_fun_t {
         void set_bulk_trade_accept( bool is_trade, bool is_npc = false );
         void set_npc_gets_item( bool to_use );
         void set_add_mission( std::string mission_id );
+        void set_u_buy_monster( const std::string &monster_id, int cost, int count, bool pacified,
+                                const translation &name );
 
         void operator()( const dialogue &d ) const {
             if( !function ) {
