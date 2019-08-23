@@ -366,7 +366,7 @@ class Creature
         virtual void set_pain( int npain );
         virtual int get_pain() const;
         virtual int get_perceived_pain() const;
-        virtual std::string get_pain_description() const;
+        virtual std::pair<std::string, nc_color> get_pain_description() const;
 
         int get_moves() const;
         void mod_moves( int nmoves );

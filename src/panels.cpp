@@ -669,26 +669,6 @@ static std::pair<nc_color, std::string> temp_stat( const avatar &u )
     return std::make_pair( temp_color, temp_string );
 }
 
-static std::pair<nc_color, std::string> pain_stat( const avatar &u )
-{
-    nc_color pain_color = c_yellow;
-    std::string pain_string;
-    // get pain color
-    if( u.get_perceived_pain() >= 60 ) {
-        pain_color = c_red;
-    } else if( u.get_perceived_pain() >= 40 ) {
-        pain_color = c_light_red;
-    }
-    // get pain string
-    if( ( u.has_trait( trait_SELFAWARE ) || u.has_effect( effect_got_checked ) ) &&
-        u.get_perceived_pain() > 0 ) {
-        pain_string = string_format( "%s %d", _( "Pain " ), u.get_perceived_pain() );
-    } else if( u.get_perceived_pain() > 0 ) {
-        pain_string = u.get_pain_description();
-    }
-    return std::make_pair( pain_color, pain_string );
-}
-
 static std::string get_armor( const avatar &u, body_part bp, unsigned int truncate = 0 )
 {
     for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
@@ -1118,12 +1098,12 @@ static void draw_needs_compact( const avatar &u, const catacurses::window &w )
     hunger_pair = u.get_fatigue_description();
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 0, 1 ), hunger_pair.second, hunger_pair.first );
-    auto pair = pain_stat( u );
-    mvwprintz( w, point( 0, 2 ), pair.first, pair.second );
+    auto pain_pair = u.get_pain_description();
+    mvwprintz( w, point( 0, 2 ), pain_pair.second, pain_pair.first );
 
     hunger_pair = u.get_thirst_description();
     mvwprintz( w, point( 17, 0 ), hunger_pair.second, hunger_pair.first );
-    pair = temp_stat( u );
+    auto pair = temp_stat( u );
     mvwprintz( w, point( 17, 1 ), pair.first, pair.second );
     const auto arrow = temp_delta_arrows( u );
     mvwprintz( w, point( 17 + utf8_width( pair.second ), 1 ), arrow.first, arrow.second );
@@ -1431,7 +1411,7 @@ static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
     std::pair<std::string, nc_color> thirst_pair = u.get_thirst_description();
     std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
-    std::pair<nc_color, std::string> pain_pair = pain_stat( u );
+    std::pair<std::string, nc_color> pain_pair = u.get_pain_description();
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Food :" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1442,7 +1422,7 @@ static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 8, 0 ), hunger_pair.second, hunger_pair.first );
     mvwprintz( w, point( 8, 1 ), thirst_pair.second, thirst_pair.first );
     mvwprintz( w, point( 8, 2 ), rest_pair.second, rest_pair.first );
-    mvwprintz( w, point( 8, 3 ), pain_pair.first, pain_pair.second );
+    mvwprintz( w, point( 8, 3 ), pain_pair.second, pain_pair.first );
     mvwprintz( w, point( 8, 4 ), temp_pair.first, temp_pair.second );
     wrefresh( w );
 }
@@ -1454,7 +1434,7 @@ static void draw_needs_wide( const avatar &u, const catacurses::window &w )
     std::pair<std::string, nc_color> thirst_pair = u.get_thirst_description();
     std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
-    std::pair<nc_color, std::string> pain_pair = pain_stat( u );
+    std::pair<std::string, nc_color> pain_pair = u.get_pain_description();
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Rest :" ) );
     mvwprintz( w, point( 16, 0 ), c_light_gray, _( "Pain :" ) );
@@ -1463,7 +1443,7 @@ static void draw_needs_wide( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Food :" ) );
     mvwprintz( w, point( 23, 1 ), c_light_gray, _( "Drink:" ) );
     mvwprintz( w, point( 8, 0 ), rest_pair.second, rest_pair.first );
-    mvwprintz( w, point( 23, 0 ), pain_pair.first, pain_pair.second );
+    mvwprintz( w, point( 23, 0 ), pain_pair.second, pain_pair.first );
     mvwprintz( w, point( 38, 0 ), temp_pair.first, temp_pair.second );
     mvwprintz( w, point( 8, 1 ), hunger_pair.second, hunger_pair.first );
     mvwprintz( w, point( 30, 1 ), thirst_pair.second, thirst_pair.first );
@@ -1564,8 +1544,8 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 27, 4 ), c_white, to_string( u.focus_pool ) );
     needs_pair = u.get_fatigue_description();
     mvwprintz( w, point( 21, 3 ), needs_pair.second, needs_pair.first );
-    auto pain_pair = pain_stat( u );
-    mvwprintz( w, point( 21, 0 ), pain_pair.first, pain_pair.second );
+    auto pain_pair = u.get_pain_description();
+    mvwprintz( w, point( 21, 0 ), pain_pair.second, pain_pair.first );
 
     // print mood
     std::pair<nc_color, int> morale_pair = morale_stat( u );
