@@ -2099,7 +2099,7 @@ void talk_effect_fun_t::set_add_mission( const std::string mission_id )
 }
 
 void talk_effect_fun_t::set_u_buy_monster( const std::string &monster_type_id, int cost, int count,
-        bool pacified, const std::string &name )
+        bool pacified, const translation &name )
 {
     function = [monster_type_id, cost, count, pacified, name]( const dialogue & d ) {
         npc &p = *d.beta;
@@ -2126,7 +2126,7 @@ void talk_effect_fun_t::set_u_buy_monster( const std::string &monster_type_id, i
             }
 
             if( !name.empty() ) {
-                tmp.unique_name = name;
+                tmp.unique_name = name.translated();
             }
 
             if( const cata::optional<tripoint> pos = random_point( points, [&]( const tripoint & p ) {
@@ -2348,7 +2348,8 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
         const int cost = jo.get_int( "cost", 0 );
         const int count = jo.get_int( "count", 1 );
         const bool pacified = jo.get_bool( "pacified", false );
-        const std::string &name = jo.get_string( "name", "" );
+        translation name;
+        jo.read( "name", name );
         subeffect_fun.set_u_buy_monster( monster_type_id, cost, count, pacified, name );
     } else {
         jo.throw_error( "invalid sub effect syntax :" + jo.str() );

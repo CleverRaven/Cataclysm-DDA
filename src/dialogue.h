@@ -122,7 +122,7 @@ struct talk_effect_fun_t {
         void set_npc_gets_item( bool to_use );
         void set_add_mission( std::string mission_id );
         void set_u_buy_monster( const std::string &monster_id, int cost, int count, bool pacified,
-                                const std::string &name );
+                                const translation &name );
 
         void operator()( const dialogue &d ) const {
             if( !function ) {
