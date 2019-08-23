@@ -2504,6 +2504,7 @@ void vehicle::deserialize( JsonIn &jsin )
         install_part( vp.mount(), vpart_id( "turret_mount" ), false );
     }
 	
+	// Add vehicle mounts to cars that are missing them.
 	for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_LIGHT" ) ) {
         install_part( vp.mount(), vpart_id( "wheel_mount_light" ), false );
     }

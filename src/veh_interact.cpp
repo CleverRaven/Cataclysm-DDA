@@ -565,13 +565,6 @@ task_reason veh_interact::cant_do( char mode )
                 }
             }
             break;
-        case 'c': // change tire
-            valid_target = wheel != nullptr;
-            ///\EFFECT_STR allows changing tires on heavier vehicles without a jack
-            has_tools = has_wrench && has_wheel && ( g->u.can_lift( *veh ) || has_jack );
-            enough_light = g->u.fine_detail_vision_mod() <= 4;
-            break;
-
         case 'w': // assign crew
             if( g->allies().empty() ) {
                 return INVALID_TARGET;
@@ -2448,7 +2441,6 @@ void veh_interact::display_mode()
             { _( "rem<o>ve" ) },
             { _( "<s>iphon" ) },
             { _( "unloa<d>" ) },
-            { _( "<c>hange tire" ) },
             { _( "cre<w>" ) },
             { _( "r<e>name" ) },
             { _( "l<a>bel" ) },
