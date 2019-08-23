@@ -10,7 +10,7 @@
     "move_cost_mod": -1,
     "coverage": 55,
     "required_str": -1,
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -92,7 +92,7 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": 13,
-    "max_volume": "200 L",
+    "max_volume": 800,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
     "deconstruct": {
       "items": [
@@ -136,7 +136,7 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": 12,
-    "max_volume": "37500 ml",
+    "max_volume": 150,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
     "deconstruct": {
       "items": [
@@ -192,7 +192,7 @@
         { "item": "motor_tiny", "count": 1 }
       ]
     },
-    "max_volume": "200 L",
+    "max_volume": 800,
     "bash": {
       "str_min": 18,
       "str_max": 50,
@@ -237,7 +237,7 @@
         { "item": "motor_tiny", "count": 1 }
       ]
     },
-    "max_volume": "250 L",
+    "max_volume": 1000,
     "bash": {
       "str_min": 12,
       "str_max": 50,
@@ -268,7 +268,7 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": -1,
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "flags": [ "CONTAINER", "PLACE_ITEM", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "BLOCKSDOOR" ],
     "examine_action": "fireplace",
     "deconstruct": {
@@ -309,7 +309,7 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": 12,
-    "max_volume": "30 L",
+    "max_volume": 120,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
     "deconstruct": {
       "items": [
@@ -365,7 +365,7 @@
         { "item": "pilot_light", "count": 1 }
       ]
     },
-    "max_volume": "40 L",
+    "max_volume": 160,
     "bash": {
       "str_min": 8,
       "str_max": 30,
