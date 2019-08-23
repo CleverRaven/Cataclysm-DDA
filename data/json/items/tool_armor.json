@@ -2653,7 +2653,7 @@
       "msg": "You take the ear plugs out.",
       "target": "attached_ear_plugs_off",
 	  "menu_text": "Unplug",
-      "active": false
+	  "menu_text": "Unplug"
     },
     "flags": [ "DEAF", "OVERSIZE" ]
   },
