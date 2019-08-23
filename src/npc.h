@@ -1109,9 +1109,6 @@ class npc : public player
         using player::add_msg_if_player;
         void add_msg_if_player( const std::string &/*msg*/ ) const override {}
         void add_msg_if_player( game_message_type /*type*/, const std::string &/*msg*/ ) const override {}
-        using player::add_memorial_log;
-        void add_memorial_log( const std::string &/*male_msg*/,
-                               const std::string &/*female_msg*/ ) override {}
         using player::add_msg_player_or_say;
         void add_msg_player_or_say( const std::string &player_msg,
                                     const std::string &npc_speech ) const override;

@@ -14,8 +14,8 @@
 #include "avatar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
+#include "event_bus.h"
 #include "explosion.h"
-#include "timed_event.h"
 #include "field.h"
 #include "game.h"
 #include "input.h"
@@ -38,6 +38,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
+#include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
 #include "color.h"
@@ -452,8 +453,7 @@ void computer::activate_function( computer_action action )
             break;
 
         case COMPACT_RELEASE:
-            g->u.add_memorial_log( pgettext( "memorial_male", "Released subspace specimens." ),
-                                   pgettext( "memorial_female", "Released subspace specimens." ) );
+            g->events().send( event::make<event_type::releases_subspace_specimens>() );
             sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
                            "alarm" );
             g->m.translate_radius( t_reinforced_glass, t_thconc_floor, 25.0, g->u.pos(), true );
@@ -472,8 +472,7 @@ void computer::activate_function( computer_action action )
             break;
 
         case COMPACT_TERMINATE:
-            g->u.add_memorial_log( pgettext( "memorial_male", "Terminated subspace specimens." ),
-                                   pgettext( "memorial_female", "Terminated subspace specimens." ) );
+            g->events().send( event::make<event_type::terminates_subspace_specimens>() );
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     tripoint p( x, y, g->u.posz() );
@@ -491,8 +490,7 @@ void computer::activate_function( computer_action action )
             break;
 
         case COMPACT_PORTAL: {
-            g->u.add_memorial_log( pgettext( "memorial_male", "Opened a portal." ),
-                                   pgettext( "memorial_female", "Opened a portal." ) );
+            g->events().send( event::make<event_type::opens_portal>() );
             tripoint tmp = g->u.pos();
             int &i = tmp.x;
             int &j = tmp.y;
@@ -525,8 +523,7 @@ void computer::activate_function( computer_action action )
             if( !query_bool( _( "WARNING: Resonance cascade carries severe risk!  Continue?" ) ) ) {
                 return;
             }
-            g->u.add_memorial_log( pgettext( "memorial_male", "Caused a resonance cascade." ),
-                                   pgettext( "memorial_female", "Caused a resonance cascade." ) );
+            g->events().send( event::make<event_type::causes_resonance_cascade>() );
             std::vector<tripoint> cascade_points;
             for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 10 ) ) {
                 if( g->m.ter( dest ) == t_radio_tower ) {
@@ -676,10 +673,7 @@ void computer::activate_function( computer_action action )
             }
 
             const oter_id oter = overmap_buffer.ter( target );
-            //~ %s is terrain name
-            g->u.add_memorial_log( pgettext( "memorial_male", "Launched a nuke at a %s." ),
-                                   pgettext( "memorial_female", "Launched a nuke at a %s." ),
-                                   oter->get_name() );
+            g->events().send( event::make<event_type::launches_nuke>( oter ) );
             for( int x = target.x - 2; x <= target.x + 2; x++ ) {
                 for( int y = target.y - 2; y <= target.y + 2; y++ ) {
                     // give it a nice rounded shape
@@ -700,8 +694,7 @@ void computer::activate_function( computer_action action )
 
         case COMPACT_MISS_DISARM: // TODO: stop the nuke from creating radioactive clouds.
             if( query_yn( _( "Disarm missile." ) ) ) {
-                g->u.add_memorial_log( pgettext( "memorial_male", "Disarmed a nuclear missile." ),
-                                       pgettext( "memorial_female", "Disarmed a nuclear missile." ) );
+                g->events().send( event::make<event_type::disarms_nuke>() );
                 add_msg( m_info, _( "Nuclear missile disarmed!" ) );
                 //disable missile.
                 options.clear();
@@ -1188,8 +1181,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
             break;
 
         case COMPACT_SRCF_SEAL:
-            g->u.add_memorial_log( pgettext( "memorial_male", "Sealed a Hazardous Material Sarcophagus." ),
-                                   pgettext( "memorial_female", "Sealed a Hazardous Material Sarcophagus." ) );
+            g->events().send( event::make<event_type::seals_hazardous_material_sarcophagus>() );
             print_line( _( "Charges Detonated" ) );
             print_line( _( "Backup Generator Power Failing" ) );
             print_line( _( "Evacuate Immediately" ) );
@@ -1509,8 +1501,7 @@ void computer::activate_failure( computer_failure_type fail )
             break;
 
         case COMPFAIL_ALARM:
-            g->u.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
-                                   pgettext( "memorial_female", "Set off an alarm." ) );
+            g->events().send( event::make<event_type::triggers_alarm>( g->u.getID() ) );
             sounds::sound( g->u.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
                            "alarm" );
             if( g->get_levz() > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {

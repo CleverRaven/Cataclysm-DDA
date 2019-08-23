@@ -15,6 +15,38 @@
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_shakes( "shakes" );
 
+namespace io
+{
+
+template<>
+std::string enum_to_string<add_type>( add_type data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case add_type::ADD_NULL: return "NULL";
+        case add_type::ADD_CAFFEINE: return "CAFFEINE";
+        case add_type::ADD_ALCOHOL: return "ALCOHOL";
+        case add_type::ADD_SLEEP: return "SLEEP";
+        case add_type::ADD_PKILLER: return "PKILLER";
+        case add_type::ADD_SPEED: return "SPEED";
+        case add_type::ADD_CIG: return "CIG";
+        case add_type::ADD_COKE: return "COKE";
+        case add_type::ADD_CRACK: return "CRACK";
+        case add_type::ADD_MUTAGEN: return "MUTAGEN";
+        case add_type::ADD_DIAZEPAM: return "DIAZEPAM";
+        case add_type::ADD_MARLOSS_R: return "MARLOSS_R";
+        case add_type::ADD_MARLOSS_B: return "MARLOSS_B";
+        case add_type::ADD_MARLOSS_Y: return "MARLOSS_Y";
+        // *INDENT-ON*
+        case add_type::NUM_ADD_TYPES:
+            break;
+    }
+    debugmsg( "Invalid add_type" );
+    abort();
+}
+
+}
+
 void marloss_add( player &u, int in, const char *msg );
 
 void addict_effect( player &u, addiction &add )
@@ -200,6 +232,7 @@ void addict_effect( player &u, addiction &add )
             marloss_add( u, in, _( "You daydream about succulent, pale golden gel, sweet but light." ) );
             break;
         case ADD_NULL:
+        case NUM_ADD_TYPES:
             break;
     }
 }

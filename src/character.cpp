@@ -16,6 +16,7 @@
 #include "cata_utility.h"
 #include "debug.h"
 #include "effect.h"
+#include "event_bus.h"
 #include "field.h"
 #include "game.h"
 #include "game_constants.h"
@@ -818,6 +819,15 @@ void Character::check_item_encumbrance_flag()
     if( update_required ) {
         reset_encumbrance();
     }
+}
+
+std::vector<bionic_id> Character::get_bionics() const
+{
+    std::vector<bionic_id> result;
+    for( const bionic &b : *my_bionics ) {
+        result.push_back( b.id );
+    }
+    return result;
 }
 
 bool Character::has_bionic( const bionic_id &b ) const
@@ -3787,8 +3797,7 @@ void Character::shout( std::string msg, bool order )
 
 void Character::vomit()
 {
-    add_memorial_log( pgettext( "memorial_male", "Threw up." ),
-                      pgettext( "memorial_female", "Threw up." ) );
+    g->events().send( event::make<event_type::throws_up>( getID() ) );
 
     if( stomach.contains() != 0_ml ) {
         // empty stomach contents

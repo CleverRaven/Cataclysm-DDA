@@ -12,6 +12,7 @@
 #include "bionics.h"
 #include "debug.h"
 #include "game.h"
+#include "event_bus.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -678,9 +679,7 @@ void talk_function::hostile( npc &p )
         add_msg( _( "%s turns hostile!" ), p.name );
     }
 
-    g->u.add_memorial_log( pgettext( "memorial_male", "%s became hostile." ),
-                           pgettext( "memorial_female", "%s became hostile." ),
-                           p.name );
+    g->events().send( event::make<event_type::npc_becomes_hostile>( p.getID(), p.name ) );
     p.set_attitude( NPCATT_KILL );
 }
 

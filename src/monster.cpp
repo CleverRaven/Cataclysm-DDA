@@ -2057,12 +2057,7 @@ void monster::die( Creature *nkiller )
             mdeath::guilt( *this );
         }
         g->events().send( event::make<event_type::character_kills_monster>(
-                              calendar::turn, ch->getID(), type->id ) );
-        if( type->difficulty >= 30 ) {
-            ch->add_memorial_log( pgettext( "memorial_male", "Killed a %s." ),
-                                  pgettext( "memorial_female", "Killed a %s." ),
-                                  name() );
-        }
+                              ch->getID(), type->id ) );
         if( ch->is_player() && ch->has_trait( trait_KILLER ) ) {
             if( one_in( 4 ) ) {
                 std::string snip = SNIPPET.random_from_category( "killer_on_kill" );

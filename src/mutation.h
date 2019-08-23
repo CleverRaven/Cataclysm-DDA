@@ -414,6 +414,20 @@ std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids )
 std::vector<trait_id> get_mutations_in_type( const std::string &id );
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
 
+enum class mutagen_technique : int {
+    consumed_mutagen,
+    injected_mutagen,
+    consumed_purifier,
+    injected_purifier,
+    injected_smart_purifier,
+    num_mutagen_techniques // last
+};
+
+template<>
+struct enum_traits<mutagen_technique> {
+    static constexpr mutagen_technique last = mutagen_technique::num_mutagen_techniques;
+};
+
 enum class mutagen_rejection {
     accepted,
     rejected,
@@ -427,7 +441,7 @@ struct mutagen_attempt {
 };
 
 mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
-                                       const std::string &memorial_male, const std::string &memorial_female );
+                                       const mutagen_technique technique );
 
 void test_crossing_threshold( player &p, const mutation_category_trait &m_category );
 

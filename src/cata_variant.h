@@ -8,7 +8,12 @@
 
 #include "character_id.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "type_id.h"
+
+enum add_type : int;
+enum body_part : int;
+enum class mutagen_technique : int;
 
 using itype_id = std::string;
 
@@ -16,10 +21,23 @@ using itype_id = std::string;
 // types.  All types are stored by converting them to a string.
 
 enum class cata_variant_type : int {
+    add_type,
+    bionic_id,
+    body_part,
+    bool_,
     character_id,
+    efftype_id,
+    int_,
     itype_id,
+    matype_id,
     mtype_id,
+    mutagen_technique,
+    mutation_category_id,
+    oter_id,
+    skill_id,
     string,
+    trait_id,
+    trap_str_id,
     num_types, // last
 };
 
@@ -67,10 +85,84 @@ constexpr cata_variant_type type_for()
     return type_for_impl<SimpleT>( std::make_index_sequence<num_types> {} );
 }
 
+// Inherit from this struct to easily implement convert specializations for any
+// string type
+template<typename T>
+struct convert_string {
+    using type = T;
+    static_assert( std::is_same<T, std::string>::value,
+                   "Intended for use only with string typedefs" );
+    static std::string to_string( const T &v ) {
+        return v;
+    }
+    static T from_string( const std::string &v ) {
+        return v;
+    }
+};
+
+// Inherit from this struct to easily implement convert specializations for any
+// string_id type
+template<typename T>
+struct convert_string_id {
+    using type = T;
+    static std::string to_string( const T &v ) {
+        return v.str();
+    }
+    static T from_string( const std::string &v ) {
+        return T( v );
+    }
+};
+
+// Inherit from this struct to easily implement convert specializations for any
+// int_id type
+template<typename T>
+struct convert_int_id {
+    using type = T;
+    static std::string to_string( const T &v ) {
+        return v.id().str();
+    }
+    static T from_string( const std::string &v ) {
+        return T( v );
+    }
+};
+
+// Inherit from this struct to easily implement convert specializations for any
+// enum type
+template<typename T>
+struct convert_enum {
+    using type = T;
+    static std::string to_string( const T &v ) {
+        return io::enum_to_string( v );
+    }
+    static T from_string( const std::string &v ) {
+        return io::string_to_enum<T>( v );
+    }
+};
+
 // These are the specializations of convert for each value type.
-static_assert( static_cast<int>( cata_variant_type::num_types ) == 4,
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 17,
                "This assert is a reminder to add conversion support for any new types to the "
                "below specializations" );
+
+template<>
+struct convert<cata_variant_type::add_type> : convert_enum<add_type> {};
+
+template<>
+struct convert<cata_variant_type::bionic_id> : convert_string_id<bionic_id> {};
+
+template<>
+struct convert<cata_variant_type::body_part> : convert_enum<body_part> {};
+
+template<>
+struct convert<cata_variant_type::bool_> {
+    using type = bool;
+    static std::string to_string( const bool v ) {
+        return std::to_string( static_cast<int>( v ) );
+    }
+    static bool from_string( const std::string &v ) {
+        return std::stoi( v );
+    }
+};
 
 template<>
 struct convert<cata_variant_type::character_id> {
@@ -84,37 +176,48 @@ struct convert<cata_variant_type::character_id> {
 };
 
 template<>
-struct convert<cata_variant_type::itype_id> {
-    using type = itype_id;
-    static std::string to_string( const itype_id &v ) {
-        return v;
+struct convert<cata_variant_type::efftype_id> : convert_string_id<efftype_id> {};
+
+template<>
+struct convert<cata_variant_type::int_> {
+    using type = int;
+    static std::string to_string( const int v ) {
+        return std::to_string( v );
     }
-    static itype_id from_string( const std::string &v ) {
-        return v;
+    static int from_string( const std::string &v ) {
+        return std::stoi( v );
     }
 };
 
 template<>
-struct convert<cata_variant_type::mtype_id> {
-    using type = mtype_id;
-    static std::string to_string( const mtype_id &v ) {
-        return v.str();
-    }
-    static mtype_id from_string( const std::string &v ) {
-        return mtype_id( v );
-    }
-};
+struct convert<cata_variant_type::itype_id> : convert_string<itype_id> {};
 
 template<>
-struct convert<cata_variant_type::string> {
-    using type = std::string;
-    static std::string to_string( const std::string &v ) {
-        return v;
-    }
-    static std::string from_string( const std::string &v ) {
-        return v;
-    }
-};
+struct convert<cata_variant_type::matype_id> : convert_string_id<matype_id> {};
+
+template<>
+struct convert<cata_variant_type::mtype_id> : convert_string_id<mtype_id> {};
+
+template<>
+struct convert<cata_variant_type::mutagen_technique> : convert_enum<mutagen_technique> {};
+
+template<>
+struct convert<cata_variant_type::mutation_category_id> : convert_string<std::string> {};
+
+template<>
+struct convert<cata_variant_type::oter_id> : convert_int_id<oter_id> {};
+
+template<>
+struct convert<cata_variant_type::skill_id> : convert_string_id<skill_id> {};
+
+template<>
+struct convert<cata_variant_type::string> : convert_string<std::string> {};
+
+template<>
+struct convert<cata_variant_type::trait_id> : convert_string_id<trait_id> {};
+
+template<>
+struct convert<cata_variant_type::trap_str_id> : convert_string_id<trap_str_id> {};
 
 } // namespace cata_variant_detail
 

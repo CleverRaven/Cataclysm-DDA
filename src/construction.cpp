@@ -12,6 +12,7 @@
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
+#include "event_bus.h"
 #include "game.h"
 #include "input.h"
 #include "item_group.h"
@@ -1024,10 +1025,6 @@ void construct::done_grave( const tripoint &p )
                     } else {
                         add_msg( m_neutral, _( "You bury remains of a human, whose name is lost in the Cataclysm." ) );
                     }
-                    g->u.add_memorial_log( pgettext( "memorial_male",
-                                                     string_format( "You buried unknown victim of the Cataclysm.", it.type_name() ).c_str() ),
-                                           pgettext( "memorial_female", string_format( "You buried unknown victim of The Cataclysm.",
-                                                     it.type_name() ).c_str() ) );
                 }
             } else {
                 if( g->u.has_trait( trait_SPIRITUAL ) ) {
@@ -1040,10 +1037,9 @@ void construct::done_grave( const tripoint &p )
                              _( "You bury remains of %s, who joined uncounted masses perished in the Cataclysm." ),
                              it.get_corpse_name() );
                 }
-                g->u.add_memorial_log( pgettext( "memorial_male", string_format( "You buried %s.",
-                                                 it.get_corpse_name() ).c_str() ),
-                                       pgettext( "memorial_female", string_format( "You buried %s.", it.get_corpse_name() ).c_str() ) );
             }
+            g->events().send( event::make<event_type::buries_corpse>(
+                                  g->u.getID(), it.get_mtype()->id, it.get_corpse_name() ) );
         }
     }
     if( g->u.has_quality( quality_id( "CUT" ) ) ) {
@@ -1185,8 +1181,7 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
             unroll_digging( dig ? 8 : 12 );
         } else {
             add_msg( m_warning, _( "You just tunneled into lava!" ) );
-            g->u.add_memorial_log( pgettext( "memorial_male", "Dug a shaft into lava." ),
-                                   pgettext( "memorial_female", "Dug a shaft into lava." ) );
+            g->events().send( event::make<event_type::digs_into_lava>() );
             g->m.ter_set( p, t_hole );
         }
 
