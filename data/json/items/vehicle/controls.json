@@ -10,7 +10,7 @@
     "color": "light_cyan",
     "symbol": "$",
     "material": [ "plastic", "steel" ],
-    "volume": 12,
+    "volume": "3 L",
     "bashing": 2,
     "category": "veh_parts",
     "price": 40000
@@ -25,7 +25,7 @@
     "color": "cyan",
     "symbol": "$",
     "material": [ "plastic", "steel" ],
-    "volume": 40,
+    "volume": "10 L",
     "bashing": 1,
     "category": "veh_parts",
     "price": 8000
@@ -39,7 +39,7 @@
     "weight": 1311,
     "to_hit": -4,
     "material": [ "plastic" ],
-    "volume": 6,
+    "volume": "1500 ml",
     "price": 4000
   },
   {
@@ -50,7 +50,7 @@
     "description": "Fully electronic vehicle control system.  You could control it remotely if you had proper tools.",
     "weight": 3000,
     "color": "red",
-    "volume": 15,
+    "volume": "3750 ml",
     "bashing": 1,
     "price": 200000,
     "copy-from": "vehicle_controls"
@@ -64,7 +64,7 @@
     "weight": 2000,
     "color": "white",
     "symbol": "&",
-    "volume": 20,
+    "volume": "5 L",
     "bashing": 1,
     "price": 20000,
     "copy-from": "vehicle_controls"

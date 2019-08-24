@@ -1028,7 +1028,7 @@ void input_context::display_menu()
         werase( w_help );
         draw_border( w_help, BORDER_COLOR, _( "Keybindings" ), c_light_red );
         draw_scrollbar( w_help, scroll_offset, display_height,
-                        filtered_registered_actions.size(), 10, 0, c_white, true );
+                        filtered_registered_actions.size(), point( 0, 10 ), c_white, true );
         fold_and_print( w_help, point( 2, 1 ), legwidth, c_white, legend.str() );
 
         for( size_t i = 0; i + scroll_offset < filtered_registered_actions.size() &&

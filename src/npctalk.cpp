@@ -32,6 +32,7 @@
 #include "json.h"
 #include "line.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "mapgen_functions.h"
 #include "martialarts.h"
 #include "messages.h"
@@ -390,9 +391,9 @@ void game::chat()
             message = _( "loudly." );
             break;
         case NPC_CHAT_SENTENCE: {
-            std::string popupdesc = string_format( _( "Enter a sentence to yell" ) );
+            std::string popupdesc = _( "Enter a sentence to yell" );
             string_input_popup popup;
-            popup.title( string_format( _( "Yell a sentence" ) ) )
+            popup.title( _( "Yell a sentence" ) )
             .width( 64 )
             .description( popupdesc )
             .identifier( "sentence" )
@@ -727,7 +728,7 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     } else if( g->u.activity.id() == activity_id( "ACT_TRAIN" ) ||
                g->u.activity.id() == activity_id( "ACT_WAIT_NPC" ) ||
                g->u.activity.id() == activity_id( "ACT_SOCIALIZE" ) ||
-               g->u.activity.index == getID() ) {
+               g->u.activity.index == getID().get_value() ) {
         return;
     }
 
@@ -2097,6 +2098,55 @@ void talk_effect_fun_t::set_add_mission( const std::string mission_id )
     };
 }
 
+void talk_effect_fun_t::set_u_buy_monster( const std::string &monster_type_id, int cost, int count,
+        bool pacified, const translation &name )
+{
+    function = [monster_type_id, cost, count, pacified, name]( const dialogue & d ) {
+        npc &p = *d.beta;
+        player &u = *d.alpha;
+        if( !npc_trading::pay_npc( p, cost ) ) {
+            popup( _( "You can't afford it!" ) );
+            return;
+        }
+
+        const mtype_id mtype( monster_type_id );
+        const efftype_id effect_pet( "pet" );
+        const efftype_id effect_pacified( "pacified" );
+        const tripoint_range points = g->m.points_in_radius( u.pos(), 3 );
+
+        for( int i = 0; i < count; i++ ) {
+            monster tmp( mtype );
+
+            // Our monster is always a pet.
+            tmp.friendly = -1;
+            tmp.add_effect( effect_pet, 1_turns, num_bp, true );
+
+            if( pacified ) {
+                tmp.add_effect( effect_pacified, 1_turns, num_bp, true );
+            }
+
+            if( !name.empty() ) {
+                tmp.unique_name = name.translated();
+            }
+
+            if( const cata::optional<tripoint> pos = random_point( points, [&]( const tripoint & p ) {
+            return g->is_empty( p ) && tmp.can_move_to( p );
+            } ) ) {
+                tmp.spawn( *pos );
+                g->add_zombie( tmp );
+            } else {
+                add_msg( m_debug, "Cannot place u_buy_monster, no valid placement locations." );
+            }
+        }
+
+        if( name.empty() ) {
+            popup( _( "%1$s gives you %2$d %3$s." ), p.name, count, mtype.obj().nname( count ) );
+        } else {
+            popup( _( "%1$s gives you %2$s." ), p.name, name );
+        }
+    };
+}
+
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con )
 {
     effects.push_back( fun );
@@ -2293,6 +2343,14 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
         subeffect_fun.set_npc_cbm_recharge_rule( setting );
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
+    } else if( jo.has_string( "u_buy_monster" ) ) {
+        const std::string &monster_type_id = jo.get_string( "u_buy_monster" );
+        const int cost = jo.get_int( "cost", 0 );
+        const int count = jo.get_int( "count", 1 );
+        const bool pacified = jo.get_bool( "pacified", false );
+        translation name;
+        jo.read( "name", name );
+        subeffect_fun.set_u_buy_monster( monster_type_id, cost, count, pacified, name );
     } else {
         jo.throw_error( "invalid sub effect syntax :" + jo.str() );
     }
@@ -3039,22 +3097,22 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         reason += "\n" + string_format( _( "(new weapon value: %.1f vs %.1f)." ), new_weapon_value,
                                         cur_weapon_value );
         if( !given.is_gun() && given.is_armor() ) {
-            reason += "\n" + string_format( _( "It's too encumbering to wear." ) );
+            reason += std::string( "\n" ) + _( "It's too encumbering to wear." );
         }
     }
     if( allow_carry ) {
         if( !p.can_pickVolume( given ) ) {
             const units::volume free_space = p.volume_capacity() - p.volume_carried();
-            reason += "\n" + string_format( _( "I have no space to store it." ) ) + "\n";
+            reason += "\n" + std::string( _( "I have no space to store it." ) ) + "\n";
             if( free_space > 0_ml ) {
                 reason += string_format( _( "I can only store %s %s more." ),
                                          format_volume( free_space ), volume_units_long() );
             } else {
-                reason += string_format( _( "...or to store anything else for that matter." ) );
+                reason += _( "...or to store anything else for that matter." );
             }
         }
         if( !p.can_pickWeight( given ) ) {
-            reason += "\n" + string_format( _( "It is too heavy for me to carry." ) );
+            reason += std::string( "\n" ) + _( "It is too heavy for me to carry." );
         }
     }
 

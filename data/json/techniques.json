@@ -684,6 +684,72 @@
   },
   {
     "type": "technique",
+    "id": "tec_medievalpole_counter",
+    "name": "Displace and Hook",
+    "messages": [ "You parry and hook %s down", "<npcname> parries and hooks %s down" ],
+    "min_melee": 4,
+    "melee_allowed": true,
+    "block_counter": true,
+    "down_dur": 2,
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_medievalpole_highround",
+    "name": "High Round Strike",
+    "messages": [ "You swing high and strike at %s", "<npcname> swings high and strikes %s" ],
+    "min_melee": 2,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.2 ], [ "damage", "cut", 1.2 ], [ "damage", "stab", 1.2 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_medievalpole_feint",
+    "name": "High Round Feint",
+    "messages": [ "You fake a high round strike at %s", "<npcname> feints at %s" ],
+    "min_melee": 3,
+    "melee_allowed": true,
+    "defensive": true,
+    "miss_recovery": true,
+    "mult_bonuses": [ [ "movecost", 0.8 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_medievalpole_break",
+    "name": "Grab Break",
+    "messages": [ "The %s tries to grab you, but you push away!", "The %s tries to grab <npcname>, but they push away!" ],
+    "min_melee": 4,
+    "melee_allowed": true,
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_medievalpole_hook",
+    "name": "Hook and Drag",
+    "messages": [ "You hook and drag %s down", "<npcname> hooks and drags %s down" ],
+    "min_melee": 3,
+    "melee_allowed": true,
+    "req_buffs": "buff_medievalpole_onmiss",
+    "crit_ok": true,
+    "weighting": 2,
+    "down_dur": 2,
+    "mult_bonuses": [ [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_medievalpole_execute",
+    "name": "Colpo di Grazia",
+    "messages": [ "You swing down hard and execute %s", "<npcname> swings down hard and executes %s" ],
+    "min_melee": 5,
+    "melee_allowed": true,
+    "downed_target": true,
+    "crit_tec": true,
+    "weighting": 2,
+    "mult_bonuses": [ [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ]
+  },
+  {
+    "type": "technique",
     "id": "tec_karate_rapid",
     "name": "quick punch",
     "min_unarmed": 0,
@@ -1251,58 +1317,6 @@
     "unarmed_allowed": true,
     "disarms": true,
     "messages": [ "You disarm %s", "<npcname> disarms %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_medievalpole_counter",
-    "name": "Displace and Hook",
-    "min_melee": 3,
-    "melee_allowed": true,
-    "down_dur": 2,
-    "block_counter": true,
-    "crit_ok": true,
-    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ],
-    "messages": [ "You parry %s attack and hook them down", "<npcname> parries %s attack and hooks them down" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_medievalpole_highround",
-    "name": "High Round Strike",
-    "min_melee": 3,
-    "melee_allowed": true,
-    "mult_bonuses": [ [ "damage", "bash", 1.2 ], [ "damage", "cut", 1.2 ], [ "damage", "stab", 1.2 ] ],
-    "messages": [ "You swing high and strike at %s", "<npcname> swings high and strikes %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_medievalpole_feint",
-    "name": "High Round Feint",
-    "min_melee": 3,
-    "melee_allowed": true,
-    "defensive": true,
-    "miss_recovery": true,
-    "mult_bonuses": [ [ "movecost", 0.8 ] ],
-    "messages": [ "You fake a high round strike at %s", "<npcname> feints at %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_medievalpole_break",
-    "name": "grab break",
-    "min_melee": 3,
-    "unarmed_allowed": true,
-    "melee_allowed": true,
-    "defensive": true,
-    "grab_break": true
-  },
-  {
-    "type": "technique",
-    "id": "tec_medievalpole_highstab",
-    "name": "High Round Stab",
-    "req_buffs": "medievalpole_setup",
-    "min_melee": 3,
-    "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.75 ] ],
-    "messages": [ "You quickly stab %s", "<npcname> quickly stabs %s" ]
   },
   {
     "type": "technique",

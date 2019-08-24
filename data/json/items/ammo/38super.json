@@ -5,7 +5,7 @@
     "name": ".38 Super FMJ",
     "description": ".38 Super ammunition with 147gr FMJ bullets.  The .38 Super round was developed from .38 ACP in the 1920s, designed to penetrate the body armor of the era.",
     "weight": 8,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 2200,
     "material": [ "brass", "powder" ],
     "symbol": "=",

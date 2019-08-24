@@ -880,9 +880,10 @@ bool vehicle::start_engine( const int e )
                            "engine_single_click_fail" );
             return false;
         }
+        // @todo start_moves is in moves, but it's an integer, convert it to some time class
         const int start_draw_bat = power_to_energy_bat( engine_power *
                                    ( 1.0 + dmg / 2 + cold_factor / 5 ) * 10,
-                                   TICKS_TO_SECONDS( start_moves ) );
+                                   1_turns * start_moves / 100 );
         if( discharge_battery( start_draw_bat, true ) != 0 ) {
             sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::alarm,
                            string_format( _( "the %s rapidly clicking" ), eng.name() ), true, "vehicle",
@@ -1370,6 +1371,9 @@ void vehicle::use_autoclave( int p )
         parts[p].enabled = false;
         add_msg( m_bad,
                  _( "You turn the autoclave off before it's finished the program, and open its door." ) );
+    } else if( items.empty() ) {
+        add_msg( m_bad,
+                 _( "The autoclave is empty, there's no point in starting it." ) );
     } else if( fuel_left( "water" ) < 8 && fuel_left( "water_clean" ) < 8 ) {
         add_msg( m_bad, _( "You need 8 charges of water in tanks of the %s for the autoclave to run." ),
                  name );
@@ -1413,6 +1417,9 @@ void vehicle::use_washing_machine( int p )
         parts[p].enabled = false;
         add_msg( m_bad,
                  _( "You turn the washing machine off before it's finished the program, and open its lid." ) );
+    } else if( items.empty() ) {
+        add_msg( m_bad,
+                 _( "The washing machine is empty, there's no point in starting it." ) );
     } else if( fuel_left( "water" ) < 24 && fuel_left( "water_clean" ) < 24 ) {
         add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the washing machine." ),
                  name );
@@ -1468,6 +1475,9 @@ void vehicle::use_dishwasher( int p )
         parts[p].enabled = false;
         add_msg( m_bad,
                  _( "You turn the dishwasher off before it's finished the program, and open its lid." ) );
+    } else if( items.empty() ) {
+        add_msg( m_bad,
+                 _( "The dishwasher is empty, there's no point in starting it." ) );
     } else if( fuel_left( "water" ) < 24 && fuel_left( "water_clean" ) < 24 ) {
         add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the dishwasher." ),
                  name );

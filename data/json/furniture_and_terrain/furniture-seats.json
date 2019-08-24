@@ -13,7 +13,7 @@
     "bonus_fire_warmth_feet": 1000,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT" ],
-    "max_volume": 4000,
+    "max_volume": "1000 L",
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
     "bash": {
       "str_min": 12,
@@ -39,7 +39,7 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 10 }, { "item": "rag", "count": [ 30, 33 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
     },
-    "max_volume": 4000,
+    "max_volume": "1000 L",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
     "bash": {
       "str_min": 12,
@@ -70,7 +70,7 @@
     "bonus_fire_warmth_feet": 1000,
     "required_str": 7,
     "deconstruct": { "items": [ { "item": "pipe", "count": 10 }, { "item": "rag", "count": [ 30, 33 ] }, { "item": "rope_6" } ] },
-    "max_volume": 4000,
+    "max_volume": "1000 L",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
     "bash": {
       "str_min": 12,
@@ -100,7 +100,7 @@
     "required_str": 4,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
-    "max_volume": 4000,
+    "max_volume": "1000 L",
     "bash": {
       "str_min": 6,
       "str_max": 20,
@@ -124,7 +124,7 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 12 }, { "item": "rag", "count": [ 30, 33 ] }, { "item": "nail", "charges": [ 8, 10 ] } ]
     },
-    "max_volume": 4000,
+    "max_volume": "1000 L",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "CAN_SIT" ],
     "bash": {
       "str_min": 12,
@@ -153,7 +153,7 @@
     "required_str": 3,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 3 }, { "item": "nail", "charges": [ 2, 6 ] } ] },
-    "max_volume": 3500,
+    "max_volume": "875 L",
     "bash": {
       "str_min": 6,
       "str_max": 20,

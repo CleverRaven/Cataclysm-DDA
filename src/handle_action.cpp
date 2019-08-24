@@ -28,6 +28,7 @@
 #include "help.h"
 #include "input.h"
 #include "itype.h"
+#include "kill_tracker.h"
 #include "magic.h"
 #include "map.h"
 #include "mapdata.h"
@@ -340,7 +341,7 @@ static void rcdrive( int dx, int dy )
     int cz = 0;
     car_location_string >> cx >> cy >> cz;
 
-    auto rc_pairs = m.get_rc_items( cx, cy, cz );
+    auto rc_pairs = m.get_rc_items( tripoint( cx, cy, cz ) );
     auto rc_pair = rc_pairs.begin();
     for( ; rc_pair != rc_pairs.end(); ++rc_pair ) {
         if( rc_pair->second->typeId() == "radio_car_on" && rc_pair->second->active ) {
@@ -2161,7 +2162,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_KILLS:
-                disp_kills();
+                get_kill_tracker().disp_kills();
                 break;
 
             case ACTION_FACTIONS:

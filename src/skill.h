@@ -79,7 +79,7 @@ class SkillLevel
         int _highestLevel = 0;
 
     public:
-        SkillLevel() {}
+        SkillLevel() = default;
 
         bool isTraining() const {
             return _isTraining;
@@ -160,7 +160,7 @@ class SkillLevel
             return !( *this < b );
         }
 
-        void serialize( JsonOut &jsout ) const;
+        void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 };
 

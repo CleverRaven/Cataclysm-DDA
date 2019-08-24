@@ -5,7 +5,7 @@
     "name": "signal flare",
     "description": "A heavy plastic cartridge made for use in flare guns.  It appears to be a modified 12 gauge shotgun shell.",
     "weight": 32,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 2500,
     "material": [ "plastic", "powder" ],
     "symbol": "=",

@@ -275,12 +275,12 @@ class overmap
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( std::shared_ptr<npc> who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
-        std::shared_ptr<npc> erase_npc( int id );
+        std::shared_ptr<npc> erase_npc( character_id id );
 
         void for_each_npc( const std::function<void( npc & )> &callback );
         void for_each_npc( const std::function<void( const npc & )> &callback ) const;
 
-        std::shared_ptr<npc> find_npc( int id ) const;
+        std::shared_ptr<npc> find_npc( character_id id ) const;
 
         const std::vector<std::shared_ptr<npc>> &get_npcs() const {
             return npcs;
@@ -327,9 +327,9 @@ class overmap
         // Parse per-player overmap view data.
         void unserialize_view( std::istream &fin );
         // Save data in an opened overmap file
-        void serialize( std::ostream &fin ) const;
+        void serialize( std::ostream &fout ) const;
         // Save per-player overmap view data.
-        void serialize_view( std::ostream &fin ) const;
+        void serialize_view( std::ostream &fout ) const;
     private:
         void generate( const overmap *north, const overmap *east,
                        const overmap *south, const overmap *west,
@@ -370,8 +370,8 @@ class overmap
                         const std::string &prefix, int train_odds );
         void build_anthill( const tripoint &p, int s );
         void build_tunnel( const tripoint &p, int s, om_direction::type dir );
-        bool build_slimepit( const tripoint &p, int s );
-        void build_mine( const tripoint &p, int s );
+        bool build_slimepit( const tripoint &origin, int s );
+        void build_mine( const tripoint &origin, int s );
 
         // Connection laying
         pf::path lay_out_connection( const overmap_connection &connection, const point &source,
@@ -432,8 +432,8 @@ class overmap
 
         void add_mon_group( const mongroup &group );
 
-        void load_monster_groups( JsonIn &jo );
-        void load_legacy_monstergroups( JsonIn &jo );
+        void load_monster_groups( JsonIn &jsin );
+        void load_legacy_monstergroups( JsonIn &jsin );
         void save_monster_groups( JsonOut &jo ) const;
     public:
         static void load_obsolete_terrains( JsonObject &jo );
