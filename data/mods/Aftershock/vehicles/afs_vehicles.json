@@ -6,7 +6,11 @@
     "blueprint": [ "o#o" ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "afs_lightweight_frame_vertical_2", "saddle", "foot_pedals" ] },
-      { "x": 1, "y": 0, "parts": [ "afs_lightweight_frame_vertical", "wheel_mount_light", "wheel_bicycle_steerable" ] },
+      {
+        "x": 1,
+        "y": 0,
+        "parts": [ "afs_lightweight_frame_vertical", "wheel_mount_light", "wheel_bicycle_steerable" ]
+      },
       { "x": -1, "y": 0, "parts": [ "afs_lightweight_frame_vertical", "wheel_mount_light", "wheel_bicycle" ] }
     ]
   },

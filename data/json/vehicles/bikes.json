@@ -63,7 +63,11 @@
     "name": "Street-Legal Dirt Bike",
     "blueprint": [ "o#o" ],
     "parts": [
-      { "x": 1, "y": 0, "parts": [ "frame_vertical_2", "motorcycle_headlight", "wheel_mount_light", "wheel_motorbike_or_steerable" ] },
+      {
+        "x": 1,
+        "y": 0,
+        "parts": [ "frame_vertical_2", "motorcycle_headlight", "wheel_mount_light", "wheel_motorbike_or_steerable" ]
+      },
       {
         "x": 0,
         "y": 0,

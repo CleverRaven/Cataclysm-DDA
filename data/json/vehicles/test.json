@@ -55,11 +55,19 @@
       { "x": 1, "y": 0, "parts": [ "xlframe_horizontal", "windshield" ] },
       { "x": 1, "y": 1, "parts": [ "xlframe_horizontal", "windshield" ] },
       { "x": 1, "y": 2, "parts": [ "xlframe_horizontal", "windshield" ] },
-      { "x": 2, "y": -1, "parts": [ "xlframe_nw", "halfboard_nw", "wheel_mount_medium", "wheel_steerable", "headlight" ] },
+      {
+        "x": 2,
+        "y": -1,
+        "parts": [ "xlframe_nw", "halfboard_nw", "wheel_mount_medium", "wheel_steerable", "headlight" ]
+      },
       { "x": 2, "y": 0, "parts": [ "xlframe_horizontal", "halfboard_nw" ] },
       { "x": 2, "y": 0, "part": "engine_electric_large" },
       { "x": 2, "y": 1, "parts": [ "xlframe_horizontal", "halfboard_ne" ] },
-      { "x": 2, "y": 2, "parts": [ "xlframe_ne", "halfboard_ne", "wheel_mount_medium", "wheel_steerable", "headlight" ] },
+      {
+        "x": 2,
+        "y": 2,
+        "parts": [ "xlframe_ne", "halfboard_ne", "wheel_mount_medium", "wheel_steerable", "headlight" ]
+      },
       { "x": -1, "y": -1, "parts": [ "xlframe_vertical", "door" ] },
       { "x": -1, "y": 0, "parts": [ "xlframe_vertical_2", "roof" ] },
       { "x": -1, "y": 0, "parts": [ "seat", "seatbelt" ] },

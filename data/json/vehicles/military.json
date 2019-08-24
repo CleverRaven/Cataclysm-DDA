@@ -388,11 +388,19 @@
       { "y": 1, "x": -2, "parts": [ "hdframe_horizontal_2", "trunk", "hdroof" ] },
       { "y": 0, "x": -2, "parts": [ "hdframe_horizontal_2", "trunk", "hdroof" ] },
       { "y": -1, "x": -2, "parts": [ "hdframe_vertical", "hdboard_vertical", "plating_military" ] },
-      { "y": 3, "x": -3, "parts": [ "hdframe_se", "hdboard_se", "plating_military", "wheel_mount_heavy", "wheel_armor" ] },
+      {
+        "y": 3,
+        "x": -3,
+        "parts": [ "hdframe_se", "hdboard_se", "plating_military", "wheel_mount_heavy", "wheel_armor" ]
+      },
       { "y": 2, "x": -3, "parts": [ "hdframe_horizontal", "hddoor_trunk", "plating_military" ] },
       { "y": 1, "x": -3, "parts": [ "hdframe_horizontal", "hddoor_trunk", "plating_military" ] },
       { "y": 0, "x": -3, "parts": [ "hdframe_horizontal", "hddoor_trunk", "muffler", "plating_military" ] },
-      { "y": -1, "x": -3, "parts": [ "hdframe_sw", "hdboard_sw", "plating_military", "wheel_mount_heavy", "wheel_armor" ] }
+      {
+        "y": -1,
+        "x": -3,
+        "parts": [ "hdframe_sw", "hdboard_sw", "plating_military", "wheel_mount_heavy", "wheel_armor" ]
+      }
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 5, "items": [ "id_military" ] },
@@ -462,11 +470,19 @@
       { "y": 1, "x": -2, "parts": [ "hdframe_horizontal_2", "trunk", "hdroof" ] },
       { "y": 0, "x": -2, "parts": [ "hdframe_horizontal_2", "trunk", "hdroof" ] },
       { "y": -1, "x": -2, "parts": [ "hdframe_vertical", "hdboard_vertical", "plating_military" ] },
-      { "y": 3, "x": -3, "parts": [ "hdframe_se", "hdboard_se", "plating_military", "wheel_mount_heavy", "wheel_armor" ] },
+      {
+        "y": 3,
+        "x": -3,
+        "parts": [ "hdframe_se", "hdboard_se", "plating_military", "wheel_mount_heavy", "wheel_armor" ]
+      },
       { "y": 2, "x": -3, "parts": [ "hdframe_horizontal", "hddoor_trunk", "plating_military" ] },
       { "y": 1, "x": -3, "parts": [ "hdframe_horizontal", "hddoor_trunk", "plating_military" ] },
       { "y": 0, "x": -3, "parts": [ "hdframe_horizontal", "hddoor_trunk", "muffler", "plating_military" ] },
-      { "y": -1, "x": -3, "parts": [ "hdframe_sw", "hdboard_sw", "plating_military", "wheel_mount_heavy", "wheel_armor" ] }
+      {
+        "y": -1,
+        "x": -3,
+        "parts": [ "hdframe_sw", "hdboard_sw", "plating_military", "wheel_mount_heavy", "wheel_armor" ]
+      }
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 5, "items": [ "id_military" ] },
