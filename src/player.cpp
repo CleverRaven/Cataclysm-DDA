@@ -9586,8 +9586,8 @@ void player::fall_asleep()
     if( has_active_mutation( trait_id( "HIBERNATE" ) ) &&
         get_kcal_percent() > 0.8f ) {
         if( is_avatar() ) {
-            g->memorial().add_memorial_log( pgettext( "memorial_male", "Entered hibernation." ),
-                                            pgettext( "memorial_female", "Entered hibernation." ) );
+            g->memorial().add( pgettext( "memorial_male", "Entered hibernation." ),
+                               pgettext( "memorial_female", "Entered hibernation." ) );
         }
         // some days worth of round-the-clock Snooze.  Cata seasons default to 91 days.
         fall_asleep( 10_days );
@@ -9890,7 +9890,7 @@ int player::get_armor_fire( body_part bp ) const
 static void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
 {
     if( who.is_avatar() ) {
-        g->memorial().add_memorial_log(
+        g->memorial().add(
             //~ %s is armor name
             pgettext( "memorial_male", "Worn %s was completely destroyed." ),
             pgettext( "memorial_female", "Worn %s was completely destroyed." ),
@@ -11006,7 +11006,7 @@ void player::forced_dismount()
             add_msg( m_bad, _( "You hurt yourself!" ) );
             deal_damage( nullptr, hit, damage_instance( DT_BASH, damage ) );
             if( is_avatar() ) {
-                g->memorial().add_memorial_log(
+                g->memorial().add(
                     pgettext( "memorial_male", "Fell off a mount." ),
                     pgettext( "memorial_female", "Fell off a mount." ) );
             }

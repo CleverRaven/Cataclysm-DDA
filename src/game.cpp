@@ -2622,7 +2622,7 @@ void game::load( const save_t &name )
     weather.nextweather = calendar::turn;
 
     read_from_file_optional( worldpath + name.base_path() + ".log",
-                             std::bind( &memorial_logger::load_memorial_log, &memorial(), _1 ) );
+                             std::bind( &memorial_logger::load, &memorial(), _1 ) );
 
 #if defined(__ANDROID__)
     read_from_file_optional( worldpath + name.base_path() + ".shortcuts",
@@ -2830,7 +2830,7 @@ bool game::save_player_data()
         save_weather( fout );
     }, _( "weather state" ) );
     const bool saved_log = write_to_file( playerfile + ".log", [&]( std::ostream & fout ) {
-        fout << memorial().dump_memorial_log();
+        fout << memorial().dump();
     }, _( "player memorial" ) );
 #if defined(__ANDROID__)
     const bool saved_shortcuts = write_to_file( playerfile + ".shortcuts", [&]( std::ostream & fout ) {
@@ -2951,7 +2951,7 @@ void game::write_memorial_file( std::string sLastWords )
 
     const std::string path_string = memorial_file_path.str();
     write_to_file( memorial_file_path.str(), [&]( std::ostream & fout ) {
-        memorial().write_memorial( fout, sLastWords );
+        memorial().write( fout, sLastWords );
     }, _( "player memorial" ) );
 }
 

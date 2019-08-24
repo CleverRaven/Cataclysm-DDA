@@ -65,7 +65,7 @@ void timed_event::actualize()
             if( g->get_levz() >= 0 ) {
                 return;
             }
-            g->memorial().add_memorial_log(
+            g->memorial().add(
                 pgettext( "memorial_male", "Drew the attention of more dark wyrms!" ),
                 pgettext( "memorial_female", "Drew the attention of more dark wyrms!" ) );
             int num_wyrms = rng( 1, 4 );
@@ -221,12 +221,12 @@ void timed_event::actualize()
             if( flood_buf[g->u.posx()][g->u.posy()] != g->m.ter( point( g->u.posx(), g->u.posy() ) ) ) {
                 if( flood_buf[g->u.posx()][g->u.posy()] == t_water_sh ) {
                     add_msg( m_warning, _( "Water quickly floods up to your knees." ) );
-                    g->memorial().add_memorial_log(
+                    g->memorial().add(
                         pgettext( "memorial_male", "Water level reached knees." ),
                         pgettext( "memorial_female", "Water level reached knees." ) );
                 } else { // Must be deep water!
                     add_msg( m_warning, _( "Water fills nearly to the ceiling!" ) );
-                    g->memorial().add_memorial_log(
+                    g->memorial().add(
                         pgettext( "memorial_male", "Water level reached the ceiling." ),
                         pgettext( "memorial_female", "Water level reached the ceiling." ) );
                     avatar_action::swim( g->m, g->u, g->u.pos() );

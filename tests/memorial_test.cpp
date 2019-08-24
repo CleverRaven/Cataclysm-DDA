@@ -16,7 +16,7 @@ void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, A
     m.clear();
     b.send( event::make<Type>( args... ) );
 
-    std::string result = m.dump_memorial_log();
+    std::string result = m.dump();
     CAPTURE( result );
     std::vector<std::string> result_lines = string_split( result, '\n' );
     REQUIRE( !result_lines.empty() );

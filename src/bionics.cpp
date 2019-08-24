@@ -1758,7 +1758,7 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
                         add_msg( m_bad, _( "%s lose power capacity!" ), disp_name() );
                         max_power_level = rng( 0, max_power_level - 25 );
                         if( is_player() ) {
-                            g->memorial().add_memorial_log(
+                            g->memorial().add(
                                 pgettext( "memorial_male", "Lost %d units of power capacity." ),
                                 pgettext( "memorial_female", "Lost %d units of power capacity." ),
                                 old_power - max_power_level );

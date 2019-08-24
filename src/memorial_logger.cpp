@@ -69,8 +69,8 @@ void memorial_logger::clear()
  * the character dies. The message should contain only the informational string,
  * as the timestamp and location will be automatically prepended.
  */
-void memorial_logger::add_memorial_log( const std::string &male_msg,
-                                        const std::string &female_msg )
+void memorial_logger::add( const std::string &male_msg,
+                           const std::string &female_msg )
 {
     const std::string &msg = g->u.male ? male_msg : female_msg;
 
@@ -93,7 +93,7 @@ void memorial_logger::add_memorial_log( const std::string &male_msg,
  * entry lines begin with a pipe (|).
  * @param fin The ifstream to read the memorial entries from.
  */
-void memorial_logger::load_memorial_log( std::istream &fin )
+void memorial_logger::load( std::istream &fin )
 {
     std::string entry;
     log.clear();
@@ -112,7 +112,7 @@ void memorial_logger::load_memorial_log( std::istream &fin )
  * and returns the resulting string. Used for saving and for writing out to the
  * memorial file.
  */
-std::string memorial_logger::dump_memorial_log() const
+std::string memorial_logger::dump() const
 {
     static const char *eol = cata_files::eol();
     std::stringstream output;
@@ -124,7 +124,7 @@ std::string memorial_logger::dump_memorial_log() const
     return output.str();
 }
 
-void memorial_logger::write_memorial( std::ostream &file, const std::string &epitaph ) const
+void memorial_logger::write( std::ostream &file, const std::string &epitaph ) const
 {
     avatar &u = g->u;
     static const char *eol = cata_files::eol();
@@ -340,7 +340,7 @@ void memorial_logger::write_memorial( std::ostream &file, const std::string &epi
 
     //History
     file << _( "Game History" ) << eol;
-    file << dump_memorial_log();
+    file << dump();
 }
 
 void memorial_logger::notify( const event &e )
@@ -351,17 +351,17 @@ void memorial_logger::notify( const event &e )
             if( ch == g->u.getID() ) {
                 std::string item_name = e.get<cata_variant_type::string>( "item_name" );
                 //~ %s is artifact name
-                add_memorial_log( pgettext( "memorial_male", "Activated the %s." ),
-                                  pgettext( "memorial_female", "Activated the %s." ),
-                                  item_name );
+                add( pgettext( "memorial_male", "Activated the %s." ),
+                     pgettext( "memorial_female", "Activated the %s." ),
+                     item_name );
             }
             break;
         }
         case event_type::activates_mininuke: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                add_memorial_log( pgettext( "memorial_male", "Activated a mininuke." ),
-                                  pgettext( "memorial_female", "Activated a mininuke." ) );
+                add( pgettext( "memorial_male", "Activated a mininuke." ),
+                     pgettext( "memorial_female", "Activated a mininuke." ) );
             }
             break;
         }
@@ -371,29 +371,24 @@ void memorial_logger::notify( const event &e )
                 mutagen_technique technique = e.get<mutagen_technique>( "technique" );
                 switch( technique ) {
                     case mutagen_technique::consumed_mutagen:
-                        add_memorial_log(
-                            pgettext( "memorial_male", "Consumed mutagen." ),
-                            pgettext( "memorial_female", "Consumed mutagen." ) );
+                        add( pgettext( "memorial_male", "Consumed mutagen." ),
+                             pgettext( "memorial_female", "Consumed mutagen." ) );
                         break;
                     case mutagen_technique::injected_mutagen:
-                        add_memorial_log(
-                            pgettext( "memorial_male", "Injected mutagen." ),
-                            pgettext( "memorial_female", "Injected mutagen." ) );
+                        add( pgettext( "memorial_male", "Injected mutagen." ),
+                             pgettext( "memorial_female", "Injected mutagen." ) );
                         break;
                     case mutagen_technique::consumed_purifier:
-                        add_memorial_log(
-                            pgettext( "memorial_male", "Consumed purifier." ),
-                            pgettext( "memorial_female", "Consumed purifier." ) );
+                        add( pgettext( "memorial_male", "Consumed purifier." ),
+                             pgettext( "memorial_female", "Consumed purifier." ) );
                         break;
                     case mutagen_technique::injected_purifier:
-                        add_memorial_log(
-                            pgettext( "memorial_male", "Injected purifier." ),
-                            pgettext( "memorial_female", "Injected purifier." ) );
+                        add( pgettext( "memorial_male", "Injected purifier." ),
+                             pgettext( "memorial_female", "Injected purifier." ) );
                         break;
                     case mutagen_technique::injected_smart_purifier:
-                        add_memorial_log(
-                            pgettext( "memorial_male", "Injected smart purifier." ),
-                            pgettext( "memorial_female", "Injected smart purifier." ) );
+                        add( pgettext( "memorial_male", "Injected smart purifier." ),
+                             pgettext( "memorial_female", "Injected smart purifier." ) );
                         break;
                     case mutagen_technique::num_mutagen_techniques:
                         break;
@@ -402,23 +397,20 @@ void memorial_logger::notify( const event &e )
             break;
         }
         case event_type::angers_amigara_horrors: {
-            add_memorial_log(
-                pgettext( "memorial_male", "Angered a group of amigara horrors!" ),
-                pgettext( "memorial_female", "Angered a group of amigara horrors!" ) );
+            add( pgettext( "memorial_male", "Angered a group of amigara horrors!" ),
+                 pgettext( "memorial_female", "Angered a group of amigara horrors!" ) );
             break;
         }
         case event_type::awakes_dark_wyrms: {
-            add_memorial_log(
-                pgettext( "memorial_male", "Awoke a group of dark wyrms!" ),
-                pgettext( "memorial_female", "Awoke a group of dark wyrms!" ) );
+            add( pgettext( "memorial_male", "Awoke a group of dark wyrms!" ),
+                 pgettext( "memorial_female", "Awoke a group of dark wyrms!" ) );
             break;
         }
         case event_type::becomes_wanted: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                add_memorial_log(
-                    pgettext( "memorial_male", "Became wanted by the police!" ),
-                    pgettext( "memorial_female", "Became wanted by the police!" ) );
+                add( pgettext( "memorial_male", "Became wanted by the police!" ),
+                     pgettext( "memorial_female", "Became wanted by the police!" ) );
             }
             break;
         }
@@ -427,9 +419,9 @@ void memorial_logger::notify( const event &e )
             if( ch == g->u.getID() ) {
                 body_part part = e.get<body_part>( "part" );
                 //~ %s is bodypart
-                add_memorial_log( pgettext( "memorial_male", "Broken %s began to mend." ),
-                                  pgettext( "memorial_female", "Broken %s began to mend." ),
-                                  body_part_name( part ) );
+                add( pgettext( "memorial_male", "Broken %s began to mend." ),
+                     pgettext( "memorial_female", "Broken %s began to mend." ),
+                     body_part_name( part ) );
             }
             break;
         }
@@ -440,23 +432,22 @@ void memorial_logger::notify( const event &e )
                 std::string corpse_name = e.get<cata_variant_type::string>( "corpse_name" );
                 if( corpse_name.empty() ) {
                     if( corpse_type.has_flag( MF_HUMAN ) ) {
-                        add_memorial_log(
-                            pgettext( "memorial_male",
-                                      "You buried an unknown victim of the Cataclysm." ),
-                            pgettext( "memorial_female",
-                                      "You buried an unknown victim of The Cataclysm." ) );
+                        add( pgettext( "memorial_male",
+                                       "You buried an unknown victim of the Cataclysm." ),
+                             pgettext( "memorial_female",
+                                       "You buried an unknown victim of The Cataclysm." ) );
                     }
                 } else {
-                    add_memorial_log( pgettext( "memorial_male", "You buried %s." ),
-                                      pgettext( "memorial_female", "You buried %s." ),
-                                      corpse_name );
+                    add( pgettext( "memorial_male", "You buried %s." ),
+                         pgettext( "memorial_female", "You buried %s." ),
+                         corpse_name );
                 }
             }
             break;
         }
         case event_type::causes_resonance_cascade: {
-            add_memorial_log( pgettext( "memorial_male", "Caused a resonance cascade." ),
-                              pgettext( "memorial_female", "Caused a resonance cascade." ) );
+            add( pgettext( "memorial_male", "Caused a resonance cascade." ),
+                 pgettext( "memorial_female", "Caused a resonance cascade." ) );
             break;
         }
         case event_type::character_gains_effect: {
@@ -465,8 +456,8 @@ void memorial_logger::notify( const event &e )
                 const effect_type &type = e.get<efftype_id>( "effect" ).obj();
                 const std::string message = type.get_apply_memorial_log();
                 if( !message.empty() ) {
-                    add_memorial_log( pgettext( "memorial_male", message.c_str() ),
-                                      pgettext( "memorial_female", message.c_str() ) );
+                    add( pgettext( "memorial_male", message.c_str() ),
+                         pgettext( "memorial_female", message.c_str() ) );
                 }
             }
             break;
@@ -478,39 +469,34 @@ void memorial_logger::notify( const event &e )
                 bool cannibal = g->u.has_trait( trait_CANNIBAL );
                 bool psycho = g->u.has_trait( trait_PSYCHOPATH );
                 if( g->u.has_trait( trait_SAPIOVORE ) ) {
-                    add_memorial_log(
-                        pgettext( "memorial_male",
-                                  "Caught and killed an ape.  Prey doesn't have a name." ),
-                        pgettext( "memorial_female",
-                                  "Caught and killed an ape.  Prey doesn't have a name." ) );
+                    add( pgettext( "memorial_male",
+                                   "Caught and killed an ape.  Prey doesn't have a name." ),
+                         pgettext( "memorial_female",
+                                   "Caught and killed an ape.  Prey doesn't have a name." ) );
                 } else if( psycho && cannibal ) {
-                    add_memorial_log(
-                        pgettext( "memorial_male",
-                                  "Killed a delicious-looking innocent, %s, in cold blood." ),
-                        pgettext( "memorial_female",
-                                  "Killed a delicious-looking innocent, %s, in cold blood." ),
-                        name );
+                    add( pgettext( "memorial_male",
+                                   "Killed a delicious-looking innocent, %s, in cold blood." ),
+                         pgettext( "memorial_female",
+                                   "Killed a delicious-looking innocent, %s, in cold blood." ),
+                         name );
                 } else if( psycho ) {
-                    add_memorial_log(
-                        pgettext( "memorial_male",
-                                  "Killed an innocent, %s, in cold blood.  They were weak." ),
-                        pgettext( "memorial_female",
-                                  "Killed an innocent, %s, in cold blood.  They were weak." ),
-                        name );
+                    add( pgettext( "memorial_male",
+                                   "Killed an innocent, %s, in cold blood.  They were weak." ),
+                         pgettext( "memorial_female",
+                                   "Killed an innocent, %s, in cold blood.  They were weak." ),
+                         name );
                 } else if( cannibal ) {
-                    add_memorial_log(
-                        pgettext( "memorial_male", "Killed an innocent, %s." ),
-                        pgettext( "memorial_female", "Killed an innocent, %s." ),
-                        name );
+                    add( pgettext( "memorial_male", "Killed an innocent, %s." ),
+                         pgettext( "memorial_female", "Killed an innocent, %s." ),
+                         name );
                 } else {
-                    add_memorial_log(
-                        pgettext( "memorial_male",
-                                  "Killed an innocent person, %s, in cold blood and "
-                                  "felt terrible afterwards." ),
-                        pgettext( "memorial_female",
-                                  "Killed an innocent person, %s, in cold blood and "
-                                  "felt terrible afterwards." ),
-                        name );
+                    add( pgettext( "memorial_male",
+                                   "Killed an innocent person, %s, in cold blood and "
+                                   "felt terrible afterwards." ),
+                         pgettext( "memorial_female",
+                                   "Killed an innocent person, %s, in cold blood and "
+                                   "felt terrible afterwards." ),
+                         name );
                 }
             }
             break;
@@ -520,9 +506,9 @@ void memorial_logger::notify( const event &e )
             if( ch == g->u.getID() ) {
                 mtype_id victim_type = e.get<mtype_id>( "victim_type" );
                 if( victim_type->difficulty >= 30 ) {
-                    add_memorial_log( pgettext( "memorial_male", "Killed a %s." ),
-                                      pgettext( "memorial_female", "Killed a %s." ),
-                                      victim_type->nname() );
+                    add( pgettext( "memorial_male", "Killed a %s." ),
+                         pgettext( "memorial_female", "Killed a %s." ),
+                         victim_type->nname() );
                 }
             }
             break;
@@ -533,8 +519,8 @@ void memorial_logger::notify( const event &e )
                 const effect_type &type = e.get<efftype_id>( "effect" ).obj();
                 const std::string message = type.get_remove_memorial_log();
                 if( !message.empty() ) {
-                    add_memorial_log( pgettext( "memorial_male", message.c_str() ),
-                                      pgettext( "memorial_female", message.c_str() ) );
+                    add( pgettext( "memorial_male", message.c_str() ),
+                         pgettext( "memorial_female", message.c_str() ) );
                 }
             }
             break;
@@ -544,86 +530,86 @@ void memorial_logger::notify( const event &e )
             if( ch == g->u.getID() ) {
                 trap_str_id trap = e.get<trap_str_id>( "trap" );
                 if( trap == tr_bubblewrap ) {
-                    add_memorial_log( pgettext( "memorial_male", "Stepped on bubble wrap." ),
-                                      pgettext( "memorial_female", "Stepped on bubble wrap." ) );
+                    add( pgettext( "memorial_male", "Stepped on bubble wrap." ),
+                         pgettext( "memorial_female", "Stepped on bubble wrap." ) );
                 } else if( trap == tr_glass ) {
-                    add_memorial_log( pgettext( "memorial_male", "Stepped on glass." ),
-                                      pgettext( "memorial_female", "Stepped on glass." ) );
+                    add( pgettext( "memorial_male", "Stepped on glass." ),
+                         pgettext( "memorial_female", "Stepped on glass." ) );
                 } else if( trap == tr_beartrap ) {
-                    add_memorial_log( pgettext( "memorial_male", "Caught by a beartrap." ),
-                                      pgettext( "memorial_female", "Caught by a beartrap." ) );
+                    add( pgettext( "memorial_male", "Caught by a beartrap." ),
+                         pgettext( "memorial_female", "Caught by a beartrap." ) );
                 } else if( trap == tr_nailboard ) {
-                    add_memorial_log( pgettext( "memorial_male", "Stepped on a spiked board." ),
-                                      pgettext( "memorial_female", "Stepped on a spiked board." ) );
+                    add( pgettext( "memorial_male", "Stepped on a spiked board." ),
+                         pgettext( "memorial_female", "Stepped on a spiked board." ) );
                 } else if( trap == tr_caltrops ) {
-                    add_memorial_log( pgettext( "memorial_male", "Stepped on a caltrop." ),
-                                      pgettext( "memorial_female", "Stepped on a caltrop." ) );
+                    add( pgettext( "memorial_male", "Stepped on a caltrop." ),
+                         pgettext( "memorial_female", "Stepped on a caltrop." ) );
                 } else if( trap == tr_caltrops_glass ) {
-                    add_memorial_log( pgettext( "memorial_male", "Stepped on a glass caltrop." ),
-                                      pgettext( "memorial_female", "Stepped on a glass caltrop." ) );
+                    add( pgettext( "memorial_male", "Stepped on a glass caltrop." ),
+                         pgettext( "memorial_female", "Stepped on a glass caltrop." ) );
                 } else if( trap == tr_tripwire ) {
-                    add_memorial_log( pgettext( "memorial_male", "Tripped on a tripwire." ),
-                                      pgettext( "memorial_female", "Tripped on a tripwire." ) );
+                    add( pgettext( "memorial_male", "Tripped on a tripwire." ),
+                         pgettext( "memorial_female", "Tripped on a tripwire." ) );
                 } else if( trap == tr_crossbow ) {
-                    add_memorial_log( pgettext( "memorial_male", "Triggered a crossbow trap." ),
-                                      pgettext( "memorial_female", "Triggered a crossbow trap." ) );
+                    add( pgettext( "memorial_male", "Triggered a crossbow trap." ),
+                         pgettext( "memorial_female", "Triggered a crossbow trap." ) );
                 } else if( trap == tr_shotgun_1 || trap == tr_shotgun_2 ) {
-                    add_memorial_log( pgettext( "memorial_male", "Triggered a shotgun trap." ),
-                                      pgettext( "memorial_female", "Triggered a shotgun trap." ) );
+                    add( pgettext( "memorial_male", "Triggered a shotgun trap." ),
+                         pgettext( "memorial_female", "Triggered a shotgun trap." ) );
                 } else if( trap == tr_blade ) {
-                    add_memorial_log( pgettext( "memorial_male", "Triggered a blade trap." ),
-                                      pgettext( "memorial_female", "Triggered a blade trap." ) );
+                    add( pgettext( "memorial_male", "Triggered a blade trap." ),
+                         pgettext( "memorial_female", "Triggered a blade trap." ) );
                 } else if( trap == tr_light_snare ) {
-                    add_memorial_log( pgettext( "memorial_male", "Triggered a light snare." ),
-                                      pgettext( "memorial_female", "Triggered a light snare." ) );
+                    add( pgettext( "memorial_male", "Triggered a light snare." ),
+                         pgettext( "memorial_female", "Triggered a light snare." ) );
                 } else if( trap == tr_heavy_snare ) {
-                    add_memorial_log( pgettext( "memorial_male", "Triggered a heavy snare." ),
-                                      pgettext( "memorial_female", "Triggered a heavy snare." ) );
+                    add( pgettext( "memorial_male", "Triggered a heavy snare." ),
+                         pgettext( "memorial_female", "Triggered a heavy snare." ) );
                 } else if( trap == tr_landmine ) {
-                    add_memorial_log( pgettext( "memorial_male", "Stepped on a land mine." ),
-                                      pgettext( "memorial_female", "Stepped on a land mine." ) );
+                    add( pgettext( "memorial_male", "Stepped on a land mine." ),
+                         pgettext( "memorial_female", "Stepped on a land mine." ) );
                 } else if( trap == tr_boobytrap ) {
-                    add_memorial_log( pgettext( "memorial_male", "Triggered a booby trap." ),
-                                      pgettext( "memorial_female", "Triggered a booby trap." ) );
+                    add( pgettext( "memorial_male", "Triggered a booby trap." ),
+                         pgettext( "memorial_female", "Triggered a booby trap." ) );
                 } else if( trap == tr_telepad || trap == tr_portal ) {
-                    add_memorial_log( pgettext( "memorial_male", "Triggered a teleport trap." ),
-                                      pgettext( "memorial_female", "Triggered a teleport trap." ) );
+                    add( pgettext( "memorial_male", "Triggered a teleport trap." ),
+                         pgettext( "memorial_female", "Triggered a teleport trap." ) );
                 } else if( trap == tr_goo ) {
-                    add_memorial_log( pgettext( "memorial_male", "Stepped into thick goo." ),
-                                      pgettext( "memorial_female", "Stepped into thick goo." ) );
+                    add( pgettext( "memorial_male", "Stepped into thick goo." ),
+                         pgettext( "memorial_female", "Stepped into thick goo." ) );
                 } else if( trap == tr_dissector ) {
-                    add_memorial_log( pgettext( "memorial_male", "Stepped into a dissector." ),
-                                      pgettext( "memorial_female", "Stepped into a dissector." ) );
+                    add( pgettext( "memorial_male", "Stepped into a dissector." ),
+                         pgettext( "memorial_female", "Stepped into a dissector." ) );
                 } else if( trap == tr_pit ) {
-                    add_memorial_log( pgettext( "memorial_male", "Fell in a pit." ),
-                                      pgettext( "memorial_female", "Fell in a pit." ) );
+                    add( pgettext( "memorial_male", "Fell in a pit." ),
+                         pgettext( "memorial_female", "Fell in a pit." ) );
                 } else if( trap == tr_spike_pit ) {
-                    add_memorial_log( pgettext( "memorial_male", "Fell into a spiked pit." ),
-                                      pgettext( "memorial_female", "Fell into a spiked pit." ) );
+                    add( pgettext( "memorial_male", "Fell into a spiked pit." ),
+                         pgettext( "memorial_female", "Fell into a spiked pit." ) );
                 } else if( trap == tr_glass_pit ) {
-                    add_memorial_log( pgettext( "memorial_male", "Fell into a pit filled with glass shards." ),
-                                      pgettext( "memorial_female", "Fell into a pit filled with glass shards." ) );
+                    add( pgettext( "memorial_male", "Fell into a pit filled with glass shards." ),
+                         pgettext( "memorial_female", "Fell into a pit filled with glass shards." ) );
                 } else if( trap == tr_lava ) {
-                    add_memorial_log( pgettext( "memorial_male", "Stepped into lava." ),
-                                      pgettext( "memorial_female", "Stepped into lava." ) );
+                    add( pgettext( "memorial_male", "Stepped into lava." ),
+                         pgettext( "memorial_female", "Stepped into lava." ) );
                 } else if( trap == tr_sinkhole ) {
-                    add_memorial_log( pgettext( "memorial_male", "Stepped into a sinkhole." ),
-                                      pgettext( "memorial_female", "Stepped into a sinkhole." ) );
+                    add( pgettext( "memorial_male", "Stepped into a sinkhole." ),
+                         pgettext( "memorial_female", "Stepped into a sinkhole." ) );
                 } else if( trap == tr_ledge ) {
-                    add_memorial_log( pgettext( "memorial_male", "Fell down a ledge." ),
-                                      pgettext( "memorial_female", "Fell down a ledge." ) );
+                    add( pgettext( "memorial_male", "Fell down a ledge." ),
+                         pgettext( "memorial_female", "Fell down a ledge." ) );
                 } else if( trap == tr_temple_flood ) {
-                    add_memorial_log( pgettext( "memorial_male", "Triggered a flood trap." ),
-                                      pgettext( "memorial_female", "Triggered a flood trap." ) );
+                    add( pgettext( "memorial_male", "Triggered a flood trap." ),
+                         pgettext( "memorial_female", "Triggered a flood trap." ) );
                 } else if( trap == tr_shadow ) {
-                    add_memorial_log( pgettext( "memorial_male", "Triggered a shadow trap." ),
-                                      pgettext( "memorial_female", "Triggered a shadow trap." ) );
+                    add( pgettext( "memorial_male", "Triggered a shadow trap." ),
+                         pgettext( "memorial_female", "Triggered a shadow trap." ) );
                 } else if( trap == tr_drain ) {
-                    add_memorial_log( pgettext( "memorial_male", "Triggered a life-draining trap." ),
-                                      pgettext( "memorial_female", "Triggered a life-draining trap." ) );
+                    add( pgettext( "memorial_male", "Triggered a life-draining trap." ),
+                         pgettext( "memorial_female", "Triggered a life-draining trap." ) );
                 } else if( trap == tr_snake ) {
-                    add_memorial_log( pgettext( "memorial_male", "Triggered a shadow snake trap." ),
-                                      pgettext( "memorial_female", "Triggered a shadow snake trap." ) );
+                    add( pgettext( "memorial_male", "Triggered a shadow snake trap." ),
+                         pgettext( "memorial_female", "Triggered a shadow snake trap." ) );
                 }
             }
             break;
@@ -634,16 +620,16 @@ void memorial_logger::notify( const event &e )
                 const itype *it = item_controller->find_template(
                                       e.get<cata_variant_type::itype_id>( "itype" ) );
                 std::string itname = it->nname( 1 );
-                add_memorial_log( pgettext( "memorial_male", "Consumed a %s." ),
-                                  pgettext( "memorial_female", "Consumed a %s." ), itname );
+                add( pgettext( "memorial_male", "Consumed a %s." ),
+                     pgettext( "memorial_female", "Consumed a %s." ), itname );
             }
             break;
         }
         case event_type::crosses_marloss_threshold: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                add_memorial_log( pgettext( "memorial_male", "Opened the Marloss Gateway." ),
-                                  pgettext( "memorial_female", "Opened the Marloss Gateway." ) );
+                add( pgettext( "memorial_male", "Opened the Marloss Gateway." ),
+                     pgettext( "memorial_female", "Opened the Marloss Gateway." ) );
             }
             break;
         }
@@ -654,45 +640,45 @@ void memorial_logger::notify( const event &e )
                     e.get<cata_variant_type::mutation_category_id>( "category" );
                 const mutation_category_trait &category =
                     mutation_category_trait::get_category( category_id );
-                add_memorial_log( category.memorial_message_male(),
-                                  category.memorial_message_female() );
+                add( category.memorial_message_male(),
+                     category.memorial_message_female() );
             }
             break;
         }
         case event_type::crosses_mycus_threshold: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                add_memorial_log( pgettext( "memorial_male", "Became one with the Mycus." ),
-                                  pgettext( "memorial_female", "Became one with the Mycus." ) );
+                add( pgettext( "memorial_male", "Became one with the Mycus." ),
+                     pgettext( "memorial_female", "Became one with the Mycus." ) );
             }
             break;
         }
         case event_type::dermatik_eggs_hatch: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                add_memorial_log( pgettext( "memorial_male", "Dermatik eggs hatched." ),
-                                  pgettext( "memorial_female", "Dermatik eggs hatched." ) );
+                add( pgettext( "memorial_male", "Dermatik eggs hatched." ),
+                     pgettext( "memorial_female", "Dermatik eggs hatched." ) );
             }
             break;
         }
         case event_type::dermatik_eggs_injected: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                add_memorial_log( pgettext( "memorial_male", "Injected with dermatik eggs." ),
-                                  pgettext( "memorial_female", "Injected with dermatik eggs." ) );
+                add( pgettext( "memorial_male", "Injected with dermatik eggs." ),
+                     pgettext( "memorial_female", "Injected with dermatik eggs." ) );
             }
             break;
         }
         case event_type::destroys_triffid_grove: {
-            add_memorial_log( pgettext( "memorial_male", "Destroyed a triffid grove." ),
-                              pgettext( "memorial_female", "Destroyed a triffid grove." ) );
+            add( pgettext( "memorial_male", "Destroyed a triffid grove." ),
+                 pgettext( "memorial_female", "Destroyed a triffid grove." ) );
             break;
         }
         case event_type::dies_from_asthma_attack: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                add_memorial_log( pgettext( "memorial_male", "Succumbed to an asthma attack." ),
-                                  pgettext( "memorial_female", "Succumbed to an asthma attack." ) );
+                add( pgettext( "memorial_male", "Succumbed to an asthma attack." ),
+                     pgettext( "memorial_female", "Succumbed to an asthma attack." ) );
             }
             break;
         }
@@ -701,21 +687,20 @@ void memorial_logger::notify( const event &e )
             if( ch == g->u.getID() ) {
                 efftype_id effect = e.get<efftype_id>( "effect" );
                 if( effect == effect_datura ) {
-                    add_memorial_log( pgettext( "memorial_male", "Died of datura overdose." ),
-                                      pgettext( "memorial_female", "Died of datura overdose." ) );
+                    add( pgettext( "memorial_male", "Died of datura overdose." ),
+                         pgettext( "memorial_female", "Died of datura overdose." ) );
                 } else if( effect == effect_jetinjector ) {
-                    add_memorial_log(
-                        pgettext( "memorial_male", "Died of a healing stimulant overdose." ),
-                        pgettext( "memorial_female", "Died of a healing stimulant overdose." ) );
+                    add( pgettext( "memorial_male", "Died of a healing stimulant overdose." ),
+                         pgettext( "memorial_female", "Died of a healing stimulant overdose." ) );
                 } else if( effect == effect_adrenaline ) {
-                    add_memorial_log( pgettext( "memorial_male", "Died of adrenaline overdose." ),
-                                      pgettext( "memorial_female", "Died of adrenaline overdose." ) );
+                    add( pgettext( "memorial_male", "Died of adrenaline overdose." ),
+                         pgettext( "memorial_female", "Died of adrenaline overdose." ) );
                 } else if( effect == effect_drunk ) {
-                    add_memorial_log( pgettext( "memorial_male", "Died of an alcohol overdose." ),
-                                      pgettext( "memorial_female", "Died of an alcohol overdose." ) );
+                    add( pgettext( "memorial_male", "Died of an alcohol overdose." ),
+                         pgettext( "memorial_female", "Died of an alcohol overdose." ) );
                 } else {
-                    add_memorial_log( pgettext( "memorial_male", "Died of a drug overdose." ),
-                                      pgettext( "memorial_female", "Died of a drug overdose." ) );
+                    add( pgettext( "memorial_male", "Died of a drug overdose." ),
+                         pgettext( "memorial_female", "Died of a drug overdose." ) );
                 }
             }
             break;
@@ -723,40 +708,40 @@ void memorial_logger::notify( const event &e )
         case event_type::dies_of_infection: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                add_memorial_log( pgettext( "memorial_male", "Succumbed to the infection." ),
-                                  pgettext( "memorial_female", "Succumbed to the infection." ) );
+                add( pgettext( "memorial_male", "Succumbed to the infection." ),
+                     pgettext( "memorial_female", "Succumbed to the infection." ) );
             }
             break;
         }
         case event_type::dies_of_starvation: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                add_memorial_log( pgettext( "memorial_male", "Died of starvation." ),
-                                  pgettext( "memorial_female", "Died of starvation." ) );
+                add( pgettext( "memorial_male", "Died of starvation." ),
+                     pgettext( "memorial_female", "Died of starvation." ) );
             }
             break;
         }
         case event_type::dies_of_thirst: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                add_memorial_log( pgettext( "memorial_male", "Died of thirst." ),
-                                  pgettext( "memorial_female", "Died of thirst." ) );
+                add( pgettext( "memorial_male", "Died of thirst." ),
+                     pgettext( "memorial_female", "Died of thirst." ) );
             }
             break;
         }
         case event_type::digs_into_lava: {
-            add_memorial_log( pgettext( "memorial_male", "Dug a shaft into lava." ),
-                              pgettext( "memorial_female", "Dug a shaft into lava." ) );
+            add( pgettext( "memorial_male", "Dug a shaft into lava." ),
+                 pgettext( "memorial_female", "Dug a shaft into lava." ) );
             break;
         }
         case event_type::disarms_nuke: {
-            add_memorial_log( pgettext( "memorial_male", "Disarmed a nuclear missile." ),
-                              pgettext( "memorial_female", "Disarmed a nuclear missile." ) );
+            add( pgettext( "memorial_male", "Disarmed a nuclear missile." ),
+                 pgettext( "memorial_female", "Disarmed a nuclear missile." ) );
             break;
         }
         case event_type::eats_sewage: {
-            add_memorial_log( pgettext( "memorial_male", "Ate a sewage sample." ),
-                              pgettext( "memorial_female", "Ate a sewage sample." ) );
+            add( pgettext( "memorial_male", "Ate a sewage sample." ),
+                 pgettext( "memorial_female", "Ate a sewage sample." ) );
             break;
         }
         case event_type::evolves_mutation: {
@@ -764,17 +749,17 @@ void memorial_logger::notify( const event &e )
             if( ch == g->u.getID() ) {
                 trait_id from = e.get<trait_id>( "from_trait" );
                 trait_id to = e.get<trait_id>( "to_trait" );
-                add_memorial_log( pgettext( "memorial_male", "'%s' mutation turned into '%s'" ),
-                                  pgettext( "memorial_female", "'%s' mutation turned into '%s'" ),
-                                  from->name(), to->name() );
+                add( pgettext( "memorial_male", "'%s' mutation turned into '%s'" ),
+                     pgettext( "memorial_female", "'%s' mutation turned into '%s'" ),
+                     from->name(), to->name() );
             }
             break;
         }
         case event_type::exhumes_grave: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                add_memorial_log( pgettext( "memorial_male", "Exhumed a grave." ),
-                                  pgettext( "memorial_female", "Exhumed a grave." ) );
+                add( pgettext( "memorial_male", "Exhumed a grave." ),
+                     pgettext( "memorial_female", "Exhumed a grave." ) );
             }
             break;
         }
@@ -782,9 +767,9 @@ void memorial_logger::notify( const event &e )
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 std::string cbm_name = e.get<bionic_id>( "bionic" )->name;
-                add_memorial_log( pgettext( "memorial_male", "Failed install of bionic: %s." ),
-                                  pgettext( "memorial_female", "Failed install of bionic: %s." ),
-                                  cbm_name );
+                add( pgettext( "memorial_male", "Failed install of bionic: %s." ),
+                     pgettext( "memorial_female", "Failed install of bionic: %s." ),
+                     cbm_name );
             }
             break;
         }
@@ -792,25 +777,25 @@ void memorial_logger::notify( const event &e )
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 std::string cbm_name = e.get<bionic_id>( "bionic" )->name;
-                add_memorial_log( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
-                                  pgettext( "memorial_female", "Failed to remove bionic: %s." ),
-                                  cbm_name );
+                add( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
+                     pgettext( "memorial_female", "Failed to remove bionic: %s." ),
+                     cbm_name );
             }
             break;
         }
         case event_type::falls_asleep_from_exhaustion: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                add_memorial_log( pgettext( "memorial_male", "Succumbed to lack of sleep." ),
-                                  pgettext( "memorial_female", "Succumbed to lack of sleep." ) );
+                add( pgettext( "memorial_male", "Succumbed to lack of sleep." ),
+                     pgettext( "memorial_female", "Succumbed to lack of sleep." ) );
             }
             break;
         }
         case event_type::fuel_tank_explodes: {
             std::string name = e.get<cata_variant_type::string>( "vehicle_name" );
-            add_memorial_log( pgettext( "memorial_male", "The fuel tank of the %s exploded!" ),
-                              pgettext( "memorial_female", "The fuel tank of the %s exploded!" ),
-                              name );
+            add( pgettext( "memorial_male", "The fuel tank of the %s exploded!" ),
+                 pgettext( "memorial_female", "The fuel tank of the %s exploded!" ),
+                 name );
             break;
         }
         case event_type::gains_addiction: {
@@ -819,9 +804,9 @@ void memorial_logger::notify( const event &e )
                 add_type type = e.get<add_type>( "add_type" );
                 const std::string &type_name = addiction_type_name( type );
                 //~ %s is addiction name
-                add_memorial_log( pgettext( "memorial_male", "Became addicted to %s." ),
-                                  pgettext( "memorial_female", "Became addicted to %s." ),
-                                  type_name );
+                add( pgettext( "memorial_male", "Became addicted to %s." ),
+                     pgettext( "memorial_female", "Became addicted to %s." ),
+                     type_name );
             }
             break;
         }
@@ -829,9 +814,9 @@ void memorial_logger::notify( const event &e )
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 trait_id trait = e.get<trait_id>( "trait" );
-                add_memorial_log( pgettext( "memorial_male", "Gained the mutation '%s'." ),
-                                  pgettext( "memorial_female", "Gained the mutation '%s'." ),
-                                  trait->name() );
+                add( pgettext( "memorial_male", "Gained the mutation '%s'." ),
+                     pgettext( "memorial_female", "Gained the mutation '%s'." ),
+                     trait->name() );
             }
             break;
         }
@@ -842,11 +827,11 @@ void memorial_logger::notify( const event &e )
                 int new_level = e.get<int>( "new_level" );
                 if( new_level % 4 == 0 ) {
                     //~ %d is skill level %s is skill name
-                    add_memorial_log( pgettext( "memorial_male",
-                                                "Reached skill level %1$d in %2$s." ),
-                                      pgettext( "memorial_female",
-                                                "Reached skill level %1$d in %2$s." ),
-                                      new_level, skill->name() );
+                    add( pgettext( "memorial_male",
+                                   "Reached skill level %1$d in %2$s." ),
+                         pgettext( "memorial_female",
+                                   "Reached skill level %1$d in %2$s." ),
+                         new_level, skill->name() );
                 }
             }
             break;
@@ -855,24 +840,23 @@ void memorial_logger::notify( const event &e )
             bool suicide = e.get<bool>( "is_suicide" );
             std::string last_words = e.get<cata_variant_type::string>( "last_words" );
             if( suicide ) {
-                add_memorial_log( pgettext( "memorial_male", "%s committed suicide." ),
-                                  pgettext( "memorial_female", "%s committed suicide." ),
-                                  g->u.name );
+                add( pgettext( "memorial_male", "%s committed suicide." ),
+                     pgettext( "memorial_female", "%s committed suicide." ),
+                     g->u.name );
             } else {
-                add_memorial_log( pgettext( "memorial_male", "%s was killed." ),
-                                  pgettext( "memorial_female", "%s was killed." ),
-                                  g->u.name );
+                add( pgettext( "memorial_male", "%s was killed." ),
+                     pgettext( "memorial_female", "%s was killed." ),
+                     g->u.name );
             }
             if( !last_words.empty() ) {
-                add_memorial_log( pgettext( "memorial_male", "Last words: %s" ),
-                                  pgettext( "memorial_female", "Last words: %s" ),
-                                  last_words );
+                add( pgettext( "memorial_male", "Last words: %s" ),
+                     pgettext( "memorial_female", "Last words: %s" ),
+                     last_words );
             }
             break;
         }
         case event_type::game_start: {
-            add_memorial_log(
-                //~ %s is player name
+            add( //~ %s is player name
                 pgettext( "memorial_male", "%s began their journey into the Cataclysm." ),
                 pgettext( "memorial_female", "%s began their journey into the Cataclysm." ),
                 g->u.name );
@@ -882,9 +866,9 @@ void memorial_logger::notify( const event &e )
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 std::string cbm_name = e.get<bionic_id>( "bionic" )->name;
-                add_memorial_log( pgettext( "memorial_male", "Installed bionic: %s." ),
-                                  pgettext( "memorial_female", "Installed bionic: %s." ),
-                                  cbm_name );
+                add( pgettext( "memorial_male", "Installed bionic: %s." ),
+                     pgettext( "memorial_female", "Installed bionic: %s." ),
+                     cbm_name );
             }
             break;
         }
@@ -892,18 +876,18 @@ void memorial_logger::notify( const event &e )
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 std::string cbm_name = e.get<bionic_id>( "bionic" )->name;
-                add_memorial_log( pgettext( "memorial_male", "Installed bad bionic: %s." ),
-                                  pgettext( "memorial_female", "Installed bad bionic: %s." ),
-                                  cbm_name );
+                add( pgettext( "memorial_male", "Installed bad bionic: %s." ),
+                     pgettext( "memorial_female", "Installed bad bionic: %s." ),
+                     cbm_name );
             }
             break;
         }
         case event_type::launches_nuke: {
             oter_id oter = e.get<oter_id>( "target_terrain" );
             //~ %s is terrain name
-            add_memorial_log( pgettext( "memorial_male", "Launched a nuke at a %s." ),
-                              pgettext( "memorial_female", "Launched a nuke at a %s." ),
-                              oter->get_name() );
+            add( pgettext( "memorial_male", "Launched a nuke at a %s." ),
+                 pgettext( "memorial_female", "Launched a nuke at a %s." ),
+                 oter->get_name() );
             break;
         }
         case event_type::learns_martial_art: {
@@ -911,9 +895,9 @@ void memorial_logger::notify( const event &e )
             if( ch == g->u.getID() ) {
                 matype_id mastyle = e.get<matype_id>( "martial_art" );
                 //~ %s is martial art
-                add_memorial_log( pgettext( "memorial_male", "Learned %s." ),
-                                  pgettext( "memorial_female", "Learned %s." ),
-                                  mastyle->name );
+                add( pgettext( "memorial_male", "Learned %s." ),
+                     pgettext( "memorial_female", "Learned %s." ),
+                     mastyle->name );
             }
             break;
         }
@@ -923,65 +907,64 @@ void memorial_logger::notify( const event &e )
                 add_type type = e.get<add_type>( "add_type" );
                 const std::string &type_name = addiction_type_name( type );
                 //~ %s is addiction name
-                add_memorial_log( pgettext( "memorial_male", "Overcame addiction to %s." ),
-                                  pgettext( "memorial_female", "Overcame addiction to %s." ),
-                                  type_name );
+                add( pgettext( "memorial_male", "Overcame addiction to %s." ),
+                     pgettext( "memorial_female", "Overcame addiction to %s." ),
+                     type_name );
             }
             break;
         }
         case event_type::npc_becomes_hostile: {
             std::string name = e.get<cata_variant_type::string>( "npc_name" );
-            add_memorial_log( pgettext( "memorial_male", "%s became hostile." ),
-                              pgettext( "memorial_female", "%s became hostile." ),
-                              name );
+            add( pgettext( "memorial_male", "%s became hostile." ),
+                 pgettext( "memorial_female", "%s became hostile." ),
+                 name );
             break;
         }
         case event_type::opens_portal: {
-            add_memorial_log( pgettext( "memorial_male", "Opened a portal." ),
-                              pgettext( "memorial_female", "Opened a portal." ) );
+            add( pgettext( "memorial_male", "Opened a portal." ),
+                 pgettext( "memorial_female", "Opened a portal." ) );
             break;
         }
         case event_type::opens_temple: {
-            add_memorial_log( pgettext( "memorial_male", "Opened a strange temple." ),
-                              pgettext( "memorial_female", "Opened a strange temple." ) );
+            add( pgettext( "memorial_male", "Opened a strange temple." ),
+                 pgettext( "memorial_female", "Opened a strange temple." ) );
             break;
         }
         case event_type::releases_subspace_specimens: {
-            add_memorial_log( pgettext( "memorial_male", "Released subspace specimens." ),
-                              pgettext( "memorial_female", "Released subspace specimens." ) );
+            add( pgettext( "memorial_male", "Released subspace specimens." ),
+                 pgettext( "memorial_female", "Released subspace specimens." ) );
             break;
         }
         case event_type::removes_cbm: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 std::string cbm_name = e.get<bionic_id>( "bionic" )->name;
-                add_memorial_log( pgettext( "memorial_male", "Removed bionic: %s." ),
-                                  pgettext( "memorial_female", "Removed bionic: %s." ),
-                                  cbm_name );
+                add( pgettext( "memorial_male", "Removed bionic: %s." ),
+                     pgettext( "memorial_female", "Removed bionic: %s." ),
+                     cbm_name );
             }
             break;
         }
         case event_type::seals_hazardous_material_sarcophagus: {
-            add_memorial_log(
-                pgettext( "memorial_male", "Sealed a Hazardous Material Sarcophagus." ),
-                pgettext( "memorial_female", "Sealed a Hazardous Material Sarcophagus." ) );
+            add( pgettext( "memorial_male", "Sealed a Hazardous Material Sarcophagus." ),
+                 pgettext( "memorial_female", "Sealed a Hazardous Material Sarcophagus." ) );
             break;
         }
         case event_type::telefrags_creature: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 std::string victim_name = e.get<cata_variant_type::string>( "victim_name" );
-                add_memorial_log( pgettext( "memorial_male", "Telefragged a %s." ),
-                                  pgettext( "memorial_female", "Telefragged a %s." ),
-                                  victim_name );
+                add( pgettext( "memorial_male", "Telefragged a %s." ),
+                     pgettext( "memorial_female", "Telefragged a %s." ),
+                     victim_name );
             }
             break;
         }
         case event_type::teleglow_teleports: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                add_memorial_log( pgettext( "memorial_male", "Spontaneous teleport." ),
-                                  pgettext( "memorial_female", "Spontaneous teleport." ) );
+                add( pgettext( "memorial_male", "Spontaneous teleport." ),
+                     pgettext( "memorial_female", "Spontaneous teleport." ) );
             }
             break;
         }
@@ -989,28 +972,28 @@ void memorial_logger::notify( const event &e )
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 std::string obstacle_name = e.get<cata_variant_type::string>( "obstacle_name" );
-                add_memorial_log( pgettext( "memorial_male", "Teleported into a %s." ),
-                                  pgettext( "memorial_female", "Teleported into a %s." ),
-                                  obstacle_name );
+                add( pgettext( "memorial_male", "Teleported into a %s." ),
+                     pgettext( "memorial_female", "Teleported into a %s." ),
+                     obstacle_name );
             }
             break;
         }
         case event_type::terminates_subspace_specimens: {
-            add_memorial_log( pgettext( "memorial_male", "Terminated subspace specimens." ),
-                              pgettext( "memorial_female", "Terminated subspace specimens." ) );
+            add( pgettext( "memorial_male", "Terminated subspace specimens." ),
+                 pgettext( "memorial_female", "Terminated subspace specimens." ) );
             break;
         }
         case event_type::throws_up: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                add_memorial_log( pgettext( "memorial_male", "Threw up." ),
-                                  pgettext( "memorial_female", "Threw up." ) );
+                add( pgettext( "memorial_male", "Threw up." ),
+                     pgettext( "memorial_female", "Threw up." ) );
             }
             break;
         }
         case event_type::triggers_alarm: {
-            add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
-                              pgettext( "memorial_female", "Set off an alarm." ) );
+            add( pgettext( "memorial_male", "Set off an alarm." ),
+                 pgettext( "memorial_female", "Set off an alarm." ) );
             break;
         }
         case event_type::num_event_types: {

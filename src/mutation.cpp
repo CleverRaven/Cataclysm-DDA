@@ -1183,7 +1183,7 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
             p.add_msg_if_player( m_good, _( "We decontaminate it with spores." ) );
             g->m.ter_set( p.pos(), t_fungus );
             if( p.is_avatar() ) {
-                g->memorial().add_memorial_log(
+                g->memorial().add(
                     pgettext( "memorial_male", "Destroyed a harmful invader." ),
                     pgettext( "memorial_female", "Destroyed a harmful invader." ) );
             }
@@ -1214,7 +1214,7 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
                                  _( "It was probably that marloss -- how did you know to call it \"marloss\" anyway?" ) );
             p.add_msg_if_player( m_warning, _( "Best to stay clear of that alien crap in future." ) );
             if( p.is_avatar() ) {
-                g->memorial().add_memorial_log(
+                g->memorial().add(
                     pgettext( "memorial_male",
                               "Burned out a particularly nasty fungal infestation." ),
                     pgettext( "memorial_female",
@@ -1225,7 +1225,7 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
                                  _( "That was some toxic %s!  Let's stick with Marloss next time, that's safe." ),
                                  it.tname() );
             if( p.is_avatar() ) {
-                g->memorial().add_memorial_log(
+                g->memorial().add(
                     pgettext( "memorial_male", "Suffered a toxic marloss/mutagen reaction." ),
                     pgettext( "memorial_female", "Suffered a toxic marloss/mutagen reaction." ) );
             }
