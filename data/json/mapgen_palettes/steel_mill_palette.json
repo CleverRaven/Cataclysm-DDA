@@ -54,7 +54,7 @@
       "T": [ "f_table" ],
       "A": [ "f_air_conditioner" ],
       "d": [ "f_desk" ],
-      "s": [ "f_utility_shelf"],
+      "s": [ "f_utility_shelf" ],
       "l": [ "f_locker" ],
       "S": [ "f_bookcase" ],
       "b": [ "f_crate_c", "f_crate_c", "f_crate_o" ],
