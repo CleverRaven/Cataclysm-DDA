@@ -383,11 +383,11 @@ class Character : public Creature, public visitable<Character>
 
         // In mutation.cpp
         /** Returns true if the player has the entered trait */
-        bool has_trait( const trait_id &flag ) const override;
+        bool has_trait( const trait_id &b ) const override;
         /** Returns true if the player has the entered starting trait */
-        bool has_base_trait( const trait_id &flag ) const;
+        bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */
-        bool has_trait_flag( const std::string &flag ) const;
+        bool has_trait_flag( const std::string &b ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         trait_id trait_by_invlet( int ch ) const;
 
@@ -898,7 +898,7 @@ class Character : public Creature, public visitable<Character>
         // how loud a character can shout. based on mutations and clothing
         int get_shout_volume() const;
         // shouts a message
-        void shout( std::string text = "", bool order = false );
+        void shout( std::string msg = "", bool order = false );
         /** Handles Character vomiting effects */
         void vomit();
         // adds total healing to the bodypart. this is only a counter.
@@ -960,8 +960,8 @@ class Character : public Creature, public visitable<Character>
          */
         std::vector<const mutation_branch *> cached_mutations;
 
-        void store( JsonOut &jsout ) const;
-        void load( JsonObject &jsin );
+        void store( JsonOut &json ) const;
+        void load( JsonObject &data );
 
         // --------------- Values ---------------
         pimpl<SkillLevelMap> _skills;

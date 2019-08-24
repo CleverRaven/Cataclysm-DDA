@@ -53,8 +53,6 @@ struct tripoint;
 using t_string_set = std::set<std::string>;
 static t_string_set item_blacklist;
 
-static std::set<std::string> repair_actions;
-
 static DynamicDataLoader::deferred_json deferred;
 
 std::unique_ptr<Item_factory> item_controller = std::make_unique<Item_factory>();
@@ -933,7 +931,7 @@ void Item_factory::check_definitions() const
             }
 
             if( type->brewable->results.empty() ) {
-                msg << string_format( "empty product list" ) << "\n";
+                msg << "empty product list" << "\n";
             }
 
             for( auto &b : type->brewable->results ) {
@@ -957,7 +955,7 @@ void Item_factory::check_definitions() const
         }
         if( type->book ) {
             if( type->book->skill && !type->book->skill.is_valid() ) {
-                msg << string_format( "uses invalid book skill." ) << "\n";
+                msg << "uses invalid book skill." << "\n";
             }
             if( type->book->martial_art && !type->book->martial_art.is_valid() ) {
                 msg << string_format( "trains invalid martial art '%s'.",
@@ -1017,18 +1015,18 @@ void Item_factory::check_definitions() const
             }
 
             if( !type->gun->skill_used ) {
-                msg << string_format( "uses no skill" ) << "\n";
+                msg << "uses no skill" << "\n";
             } else if( !type->gun->skill_used.is_valid() ) {
                 msg << "uses an invalid skill " << type->gun->skill_used.str() << "\n";
             }
             for( auto &gm : type->gun->default_mods ) {
                 if( !has_template( gm ) ) {
-                    msg << string_format( "invalid default mod." ) << "\n";
+                    msg << "invalid default mod." << "\n";
                 }
             }
             for( auto &gm : type->gun->built_in_mods ) {
                 if( !has_template( gm ) ) {
-                    msg << string_format( "invalid built-in mod." ) << "\n";
+                    msg << "invalid built-in mod." << "\n";
                 }
             }
         }
@@ -1203,9 +1201,8 @@ const itype *Item_factory::find_template( const itype_id &id ) const
         ( making_id.is_valid() && making_id.obj().is_blueprint() ) ) {
         itype *def = new itype();
         def->id = id;
-        def->name = string_format( "DEBUG: %s", id.c_str() );
-        def->name_plural = string_format( "%s", id.c_str() );
-        def->description = string_format( making_id.obj().description );
+        def->name = def->name_plural = string_format( "DEBUG: %s", id.c_str() );
+        def->description = making_id.obj().description;
         m_runtimes[ id ].reset( def );
         return def;
     }
@@ -1510,9 +1507,16 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &s
     assign( jo, "environmental_protection_with_filter", slot.env_resist_w_filter, strict, 0 );
     assign( jo, "warmth", slot.warmth, strict, 0 );
     assign( jo, "storage", slot.storage, strict, 0_ml );
+    assign( jo, "weight_capacity_modifier", slot.weight_capacity_modifier );
     assign( jo, "power_armor", slot.power_armor, strict );
 
     assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
+
+    if( jo.has_string( "weight_capacity_bonus" ) ) {
+        slot.weight_capacity_bonus = read_from_json_string<units::mass>
+                                     ( *jo.get_raw( "weight_capacity_bonus" ), units::mass_units );
+    }
+
 }
 
 void Item_factory::load( islot_pet_armor &slot, JsonObject &jo, const std::string &src )
@@ -2329,6 +2333,8 @@ void Item_factory::clear()
 
     repair_tools.clear();
     gun_tools.clear();
+    misc_tools.clear();
+    repair_actions.clear();
 
     frozen = false;
 }
@@ -2670,17 +2676,22 @@ use_function Item_factory::usage_from_string( const std::string &type ) const
 
 namespace io
 {
-static const std::unordered_map<std::string, phase_id> phase_id_values = { {
-        { "liquid", LIQUID },
-        { "solid", SOLID },
-        { "gas", GAS },
-        { "plasma", PLASMA },
-    }
-};
 template<>
-phase_id string_to_enum<phase_id>( const std::string &data )
+std::string enum_to_string<phase_id>( phase_id data )
 {
-    return string_to_enum_look_up( phase_id_values, data );
+    switch( data ) {
+        // *INDENT-OFF*
+        case PNULL: return "null";
+        case LIQUID: return "liquid";
+        case SOLID: return "solid";
+        case GAS: return "gas";
+        case PLASMA: return "plasma";
+        // *INDENT-ON*
+        case num_phases:
+            break;
+    }
+    debugmsg( "Invalid phase" );
+    abort();
 }
 } // namespace io
 

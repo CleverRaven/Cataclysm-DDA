@@ -1273,6 +1273,33 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         }
     }
 
+    if( technique.side_switch ) {
+        const tripoint b = t.pos();
+        int newx;
+        int newy;
+
+        if( b.x > posx() ) {
+            newx = posx() - 1;
+        } else if( b.x < posx() ) {
+            newx = posx() + 1;
+        } else {
+            newx = b.x;
+        }
+
+        if( b.y > posy() ) {
+            newy = posy() - 1;
+        } else if( b.y < posy() ) {
+            newy = posy() + 1;
+        } else {
+            newy = b.y;
+        }
+
+        const tripoint &dest = tripoint( newx, newy, b.z );
+        if( g->is_empty( dest ) ) {
+            t.setpos( dest );
+        }
+    }
+
     if( technique.stun_dur > 0 ) {
         t.add_effect( effect_stunned, rng( 1_turns, time_duration::from_turns( technique.stun_dur ) ) );
     }
@@ -1958,15 +1985,13 @@ void player_hit_message( player *attacker, const std::string &message,
 
     if( dam > 0 && attacker->is_player() ) {
         //player hits monster melee
-        SCT.add( t.posx(),
-                 t.posy(),
+        SCT.add( point( t.posx(), t.posy() ),
                  direction_from( point_zero, point( t.posx() - attacker->posx(), t.posy() - attacker->posy() ) ),
                  get_hp_bar( dam, t.get_hp_max(), true ).first, m_good,
                  sSCTmod, gmtSCTcolor );
 
         if( t.get_hp() > 0 ) {
-            SCT.add( t.posx(),
-                     t.posy(),
+            SCT.add( point( t.posx(), t.posy() ),
                      direction_from( point_zero, point( t.posx() - attacker->posx(), t.posy() - attacker->posy() ) ),
                      get_hp_bar( t.get_hp(), t.get_hp_max(), true ).first, m_good,
                      //~ "hit points", used in scrolling combat text

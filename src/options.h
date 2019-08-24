@@ -200,8 +200,8 @@ class options_manager
         bool save();
         std::string show( bool ingame = false, bool world_options_only = false );
 
-        void add_value( const std::string &myoption, const std::string &myval,
-                        const translation &myvaltxt );
+        void add_value( const std::string &lvar, const std::string &lval,
+                        const translation &lvalname );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );

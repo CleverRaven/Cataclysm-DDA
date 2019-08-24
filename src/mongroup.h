@@ -152,9 +152,9 @@ struct mongroup {
     void io( Archive & );
     using archive_type_tag = io::object_archive_tag;
 
-    void deserialize( JsonIn &jsin );
-    void deserialize_legacy( JsonIn &jsin );
-    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &data );
+    void deserialize_legacy( JsonIn &json );
+    void serialize( JsonOut &json ) const;
 };
 
 class MonsterGroupManager
@@ -165,9 +165,9 @@ class MonsterGroupManager
         static void LoadMonsterWhitelist( JsonObject &jo );
         static void FinalizeMonsterGroups();
         static MonsterGroupResult GetResultFromGroup( const mongroup_id &group, int *quantity = nullptr );
-        static bool IsMonsterInGroup( const mongroup_id &group, const mtype_id &id );
+        static bool IsMonsterInGroup( const mongroup_id &group, const mtype_id &monster );
         static bool isValidMonsterGroup( const mongroup_id &group );
-        static const mongroup_id &Monster2Group( const mtype_id &id );
+        static const mongroup_id &Monster2Group( const mtype_id &monster );
         static std::vector<mtype_id> GetMonstersFromGroup( const mongroup_id &group );
         static const MonsterGroup &GetMonsterGroup( const mongroup_id &group );
         static const MonsterGroup &GetUpgradedMonsterGroup( const mongroup_id &group );

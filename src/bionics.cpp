@@ -751,8 +751,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
         if( weapon.typeId() == bionics[ bio.id ].fake_item ) {
             add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
             if( g->u.sees( pos() ) ) {
-                add_msg_if_npc( m_info, string_format( _( "%s withdraws %s %s." ), disp_name(), disp_name( true ),
-                                                       weapon.tname() ) );
+                add_msg_if_npc( m_info, _( "<npcname> withdraws %s %s." ), disp_name( true ), weapon.tname() );
             }
             bio.ammo_loaded = weapon.ammo_data() != nullptr ? weapon.ammo_data()->get_id() : "null";
             bio.ammo_count = static_cast<unsigned int>( weapon.ammo_remaining() );
@@ -2016,6 +2015,7 @@ static bool get_bool_or_flag( JsonObject &jsobj, const std::string &name, const 
 
 void load_bionic( JsonObject &jsobj )
 {
+
     bionic_data new_bionic;
 
     const bionic_id id( jsobj.get_string( "id" ) );
@@ -2052,6 +2052,14 @@ void load_bionic( JsonObject &jsobj )
     }
 
     new_bionic.fake_item = jsobj.get_string( "fake_item", "" );
+
+    new_bionic.weight_capacity_modifier = jsobj.get_float( "weight_capacity_modifier", 1.0 );
+
+    if( jsobj.has_string( "weight_capacity_bonus" ) ) {
+        new_bionic.weight_capacity_bonus = read_from_json_string<units::mass>
+                                           ( *jsobj.get_raw( "weight_capacity_bonus" ), units::mass_units );
+    }
+
 
     jsobj.read( "canceled_mutations", new_bionic.canceled_mutations );
     jsobj.read( "included_bionics", new_bionic.included_bionics );
@@ -2197,7 +2205,7 @@ void bionic::deserialize( JsonIn &jsin )
 }
 
 void player::introduce_into_anesthesia( const time_duration &duration, player &installer,
-                                        bool anesthetic ) //used by the Autodoc
+                                        bool needs_anesthesia ) //used by the Autodoc
 {
     installer.add_msg_player_or_npc( m_info,
                                      _( "You set up the operation step-by-step, configuring the Autodoc to manipulate a CBM." ),
@@ -2206,7 +2214,7 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
     add_msg_player_or_npc( m_info,
                            _( "You settle into position, sliding your right wrist into the couch's strap." ),
                            _( "<npcname> settles into position, sliding their wrist into the couch's strap." ) );
-    if( anesthetic ) {
+    if( needs_anesthesia ) {
         //post-threshold medical mutants do not fear operations.
         if( has_trait( trait_THRESH_MEDICAL ) ) {
             add_msg_if_player( m_mixed,

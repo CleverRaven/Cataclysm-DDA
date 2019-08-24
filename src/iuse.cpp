@@ -4245,14 +4245,13 @@ int iuse::hand_crank( player *p, item *it, bool, const tripoint & )
         // expectation is it runs until the player is too tired.
         int moves = to_moves<int>( 1600_minutes );
         if( it->ammo_capacity() > it->ammo_remaining() ) {
-            p->add_msg_if_player( string_format( _( "You start cranking the %s to charge its %s." ),
-                                                 it->tname(), it->magazine_current()->tname() ) ) ;
+            p->add_msg_if_player( _( "You start cranking the %s to charge its %s." ), it->tname(),
+                                  it->magazine_current()->tname() );
             p->assign_activity( activity_id( "ACT_HAND_CRANK" ), moves, -1, p->get_item_position( it ),
                                 "hand-cranking" );
         } else {
-            p->add_msg_if_player( string_format(
-                                      _( "You could use the %s to charge its %s, but it's already charged." ), it->tname(),
-                                      magazine->tname() ) ) ;
+            p->add_msg_if_player( _( "You could use the %s to charge its %s, but it's already charged." ),
+                                  it->tname(), magazine->tname() );
         }
     } else {
         p->add_msg_if_player( m_info, _( "You need a rechargeable battery cell to charge." ) );
@@ -6464,7 +6463,7 @@ static std::string colorized_field_description_at( const tripoint &point )
             }
         }
         if( affix.empty() ) {
-            field_text = string_format( " in %s cloud", colorize( entry->name(), entry->color() ) );
+            field_text = string_format( _( " in %s cloud" ), colorize( entry->name(), entry->color() ) );
         } else {
             field_text = string_format( affix, colorize( entry->name(), entry->color() ) );
         }
@@ -6566,7 +6565,7 @@ static std::string format_object_pair( const std::pair<std::string, int> &pair,
                                        const std::string &article )
 {
     if( pair.second == 1 ) {
-        return string_format( "%s%s", article, pair.first );
+        return article + pair.first;
     } else if( pair.second > 1 ) {
         return string_format( "%s%i %s", article, pair.second, pair.first );
     }
@@ -8082,9 +8081,8 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
         static const int power_need = ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>
                                         ( 90_minutes ) ) / 1000 + 100;
         if( power_need > it->ammo_remaining() ) {
-            popup( string_format(
-                       _( "The autoclave doesn't have enough battery for one cycle.  You need at least %s charges." ),
-                       power_need ) );
+            popup( _( "The autoclave doesn't have enough battery for one cycle.  You need at least %s charges." ),
+                   power_need );
             return 0;
         }
 
@@ -9152,17 +9150,14 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
     const recipe &rec = it->get_making();
     if( p->has_recipe( &rec, p->crafting_inventory(), p->get_crafting_helpers() ) == -1 ) {
         p->add_msg_player_or_npc(
-            string_format( _( "You don't know the recipe for the %s and can't continue crafting." ),
-                           rec.result_name() ),
-            string_format( _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
-                           rec.result_name() )
-        );
+            _( "You don't know the recipe for the %s and can't continue crafting." ),
+            _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
+            rec.result_name() );
         return 0;
     }
     p->add_msg_player_or_npc(
-        string_format( pgettext( "in progress craft", "You start working on the %s." ), craft_name ),
-        string_format( pgettext( "in progress craft", "<npcname> starts working on the %s." ),
-                       craft_name ) );
+        pgettext( "in progress craft", "You start working on the %s." ),
+        pgettext( "in progress craft", "<npcname> starts working on the %s." ), craft_name );
     p->assign_activity( activity_id( "ACT_CRAFT" ) );
     p->activity.targets.push_back( item_location( *p, it ) );
     p->activity.values.push_back( 0 ); // Not a long craft

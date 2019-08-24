@@ -27,24 +27,6 @@
     "magazines": [ [ "flammable", [ "pressurized_tank" ] ] ]
   },
   {
-    "id": "flamethrower_simple",
-    "copy-from": "flamethrower_base",
-    "type": "GUN",
-    "name": "simple flamethrower",
-    "description": "A simple, home-made flamethrower.  While its capacity is not superb, it is more than capable of igniting terrain and monsters alike.",
-    "weight": 907,
-    "volume": "5 L",
-    "price": 20000,
-    "to_hit": -1,
-    "bashing": 8,
-    "material": [ "steel", "plastic" ],
-    "range": 4,
-    "dispersion": 600,
-    "durability": 6,
-    "relative": { "reload": 2 },
-    "magazines": [ [ "flammable", [ "aux_pressurized_tank", "pressurized_tank" ] ] ]
-  },
-  {
     "id": "rm451_flamethrower",
     "copy-from": "flamethrower_base",
     "type": "GUN",

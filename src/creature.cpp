@@ -51,6 +51,8 @@ const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_riding( "riding" );
 const efftype_id effect_ridden( "ridden" );
 const efftype_id effect_tied( "tied" );
+const efftype_id effect_paralyzepoison( "paralyzepoison" );
+
 
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
@@ -145,7 +147,9 @@ void Creature::process_turn()
     reset_stats();
 
     // add an appropriate number of moves
-    moves += get_speed();
+    if( !has_effect( effect_ridden ) ) {
+        moves += get_speed();
+    }
 }
 
 // MF_DIGS or MF_CAN_DIG and diggable terrain
@@ -486,16 +490,15 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         return;
     }
     // If carrying a rider, there is a chance the hits may hit rider instead.
-    if( has_effect( effect_ridden ) ) {
-        if( !has_flag( MF_MECH_DEFENSIVE ) ) {
-            // If carrying a rider, there is a chance the hits may hit rider instead.
-            // big mounts and small player = big shield for player.
-            if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
-                g->u.deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam );
-                return;
-            }
+    if( has_effect( effect_riding ) ) {
+        monster *mon = g->u.mounted_creature.get(); //only the player can ride a monster
+        // If carrying a rider, there is a chance the hits may hit rider instead.
+        // big mounts and small player = big shield for player.
+        if( mon->has_flag( MF_MECH_DEFENSIVE ) ||
+            !one_in( std::max( 2, mon->get_size() - g->u.get_size() ) ) ) {
+            mon->deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam );
+            return;
         }
-        //otherwise it would thoroughly protect the rider(or pilot actually)
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
     body_part bp_hit = select_body_part( source, hit_spread );
@@ -551,17 +554,15 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         return;
     }
     // If carrying a rider, there is a chance the hits may hit rider instead.
-    if( has_effect( effect_ridden ) ) {
-        if( !has_flag( MF_MECH_DEFENSIVE ) ) {
-            // If carrying a rider, there is a chance the hits may hit rider instead.
-            // big mounts and small player = big shield for player.
-            if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
-                g->u.deal_projectile_attack( source, attack, print_messages );
-                return;
-            }
+    if( has_effect( effect_riding ) ) {
+        monster *mon = g->u.mounted_creature.get(); //only the player can ride a monster
+        // If carrying a rider, there is a chance the hits may hit rider instead.
+        // big mounts and small player = big shield for player.
+        if( mon->has_flag( MF_MECH_DEFENSIVE ) ||
+            !one_in( std::max( 2, mon->get_size() - g->u.get_size() ) ) ) {
+            mon->deal_projectile_attack( source, attack, print_messages );
+            return;
         }
-        //otherwise it would thoroughly protect the rider(or pilot actually)
-
     }
     const projectile &proj = attack.proj;
     dealt_damage_instance &dealt_dam = attack.dealt_dam;
@@ -727,6 +728,10 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     if( proj_effects.count( "APPLY_SAP" ) ) {
         add_effect( effect_sap, 1_turns * dealt_dam.total_damage() );
     }
+    if( proj_effects.count( "PARALYZEPOISON" ) && dealt_dam.total_damage() > 0 ) {
+        add_msg_if_player( m_bad, _( "You feel poison coursing through your body!" ) );
+        add_effect( effect_paralyzepoison, 5_minutes );
+    }
 
     int stun_strength = 0;
     if( proj.proj_effects.count( "BEANBAG" ) ) {
@@ -776,13 +781,13 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         } else if( source != nullptr ) {
             if( source->is_player() ) {
                 //player hits monster ranged
-                SCT.add( posx(), posy(),
+                SCT.add( point( posx(), posy() ),
                          direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
                          get_hp_bar( dealt_dam.total_damage(), get_hp_max(), true ).first,
                          m_good, message, gmtSCTcolor );
 
                 if( get_hp() > 0 ) {
-                    SCT.add( posx(), posy(),
+                    SCT.add( point( posx(), posy() ),
                              direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
                              get_hp_bar( get_hp(), get_hp_max(), true ).first, m_good,
                              //~ "hit points", used in scrolling combat text
@@ -1233,28 +1238,32 @@ int Creature::get_perceived_pain() const
     return get_pain();
 }
 
-std::string Creature::get_pain_description() const
+std::pair<std::string, nc_color> Creature::get_pain_description() const
 {
     float scale = get_perceived_pain() / 10.f;
+    std::string pain_string;
+    nc_color pain_color = c_yellow;
     if( scale > 7 ) {
-        return _( "Severe pain" );
+        pain_string = _( "Severe pain" );
     } else if( scale > 6 ) {
-        return _( "Intense pain" );
+        pain_string = _( "Intense pain" );
     } else if( scale > 5 ) {
-        return _( "Unmanageable pain" );
+        pain_string = _( "Unmanageable pain" );
     } else if( scale > 4 ) {
-        return _( "Distressing pain" );
+        pain_string = _( "Distressing pain" );
     } else if( scale > 3 ) {
-        return _( "Distracting pain" );
+        pain_string = _( "Distracting pain" );
     } else if( scale > 2 ) {
-        return _( "Moderate pain" );
+        pain_string = _( "Moderate pain" );
     } else if( scale > 1 ) {
-        return _( "Mild pain" );
+        pain_string = _( "Mild pain" );
     } else if( scale > 0 ) {
-        return _( "Minimal pain" );
+        pain_string = _( "Minimal pain" );
     } else {
-        return _( "No pain" );
+        pain_string = _( "No pain" );
+        pain_color = c_white;
     }
+    return std::make_pair( pain_string, pain_color );
 }
 
 int Creature::get_moves() const
