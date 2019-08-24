@@ -24,7 +24,7 @@
   {
     "type": "vehicle_part",
     "id": "wheel_mount_medium",
-    "name": "medium hub assembly",
+    "name": "hub assembly",
     "symbol": "-",
     "color": "light_gray",
 	"location": "axle",
@@ -212,8 +212,8 @@
     "wheel_type": "standard",
     "contact_area": 480,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] }
+      "install": { "time": "20 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "removal": { "time": "20 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] }
 	  "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_HEAVY" ],
