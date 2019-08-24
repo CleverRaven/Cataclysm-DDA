@@ -71,7 +71,7 @@
       "tec_crt_cqb_arpen",
       "tec_feint"
     ],
-    "weapons": [ "knife_butter", "knife_plastic", "honey_scraper", "fork", "glass_shiv", "scissors" ]
+    "weapons": [ "knife_butter", "honey_scraper", "fork", "glass_shiv", "scissors" ]
   },
   {
     "type": "technique",
