@@ -1123,10 +1123,10 @@ class map
          */
         field_entry *get_field( const tripoint &p, const field_type_id type );
         bool dangerous_field_at( const tripoint &p );
-          /**
-         * Add field entry at point, or set intensity if present
-         * @return false if the field could not be created (out of bounds), otherwise true.
-         */
+        /**
+        * Add field entry at point, or set intensity if present
+        * @return false if the field could not be created (out of bounds), otherwise true.
+        */
         bool add_field( const tripoint &p, field_type_id type, int intensity = INT_MAX,
                         const time_duration &age = 0_turns );
         /**

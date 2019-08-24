@@ -809,7 +809,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
             return zone_type_id( "LOOT_WOOD" );
         }
     }
-    if( it.is_corpse() ){
+    if( it.is_corpse() ) {
         if( has_near( zone_type_id( "LOOT_CORPSE" ), where, range ) ) {
             return zone_type_id( "LOOT_CORPSE" );
         }

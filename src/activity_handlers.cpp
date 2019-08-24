@@ -530,7 +530,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
     if( is_human && !( u.has_trait_flag( "CANNIBAL" ) || u.has_trait_flag( "PSYCHOPATH" ) ||
                        u.has_trait_flag( "SAPIOVORE" ) ) ) {
 
-        if( u.is_player() ){
+        if( u.is_player() ) {
             if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
                 switch( rng( 1, 3 ) ) {
                     case 1:
@@ -902,7 +902,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                     obj.faults.emplace( flt );
                 }
                 // TODO : smarter NPC liquid handling
-                if( p.is_npc() ){
+                if( p.is_npc() ) {
                     drop_on_map( p, item_drop_reason::deliberate, { obj }, p.pos() );
                 } else {
                     liquid_handler::handle_all_liquid( obj, 1 );
@@ -921,7 +921,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
                 }
-                if( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ){
+                if( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
                     obj.set_var( "activity_var", p.name );
                 }
                 g->m.add_item_or_charges( p.pos(), obj );
@@ -940,7 +940,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
                 }
-                if( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ){
+                if( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
                     obj.set_var( "activity_var", p.name );
                 }
                 for( int i = 0; i != roll; ++i ) {
@@ -979,7 +979,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             ruined_parts.set_mtype( &mt );
             ruined_parts.set_item_temperature( 0.00001 * corpse_item->temperature );
             ruined_parts.set_rot( corpse_item->get_rot() );
-            if( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ){
+            if( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
                 ruined_parts.set_var( "activity_var", p.name );
             }
             g->m.add_item_or_charges( p.pos(), ruined_parts );
@@ -1268,7 +1268,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // Ready to move on to the next item, if there is one (for example if multibutchering)
     act->index = true;
     // if its mutli-tile butchering,then restart the backlog.
-    if( p->backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ){
+    if( p->backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
         p->activity = player_activity();
     }
 }
@@ -2738,8 +2738,8 @@ static void rod_fish( player *p, std::vector<monster *> &fishables )
             p->add_msg_if_player( m_good, _( "You caught a %s." ), chosen_fish->type->nname() );
         }
     }
-    for( auto &elem : g->m.i_at( p->pos() ) ){
-        if( elem.is_corpse() && !elem.has_var( "activity_var" ) ){
+    for( auto &elem : g->m.i_at( p->pos() ) ) {
+        if( elem.is_corpse() && !elem.has_var( "activity_var" ) ) {
             elem.set_var( "activity_var", p->name );
         }
     }
@@ -2785,7 +2785,7 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
     ( void )p;
     act->set_to_null();
     p->add_msg_if_player( m_info, _( "You finish fishing" ) );
-    if( p->backlog.front().id() == activity_id( "ACT_MULTIPLE_FISH" ) ){
+    if( p->backlog.front().id() == activity_id( "ACT_MULTIPLE_FISH" ) ) {
         p->backlog.clear();
         p->assign_activity( activity_id( "ACT_TIDY_UP" ) );
     }
@@ -3452,7 +3452,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     const tripoint &pos = act->placement;
 
     tripoint direction;
-    if( p->is_player() ){
+    if( p->is_player() ) {
         while( true ) {
             if( const cata::optional<tripoint> dir = choose_direction(
                         _( "Select a direction for the tree to fall in." ) ) ) {
@@ -3462,18 +3462,18 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
             // try again
         }
     } else {
-        for( const auto elem : g->m.points_in_radius( pos, 1 ) ){
+        for( const auto elem : g->m.points_in_radius( pos, 1 ) ) {
             bool cantuse = false;
             tripoint direc = elem - pos;
             tripoint proposed_to = pos + point( 3 * direction.x, 3 * direction.y );
             std::vector<tripoint> rough_tree_line = line_to( pos, proposed_to );
-            for( const auto elem : rough_tree_line ){
-                if( g->critter_at( elem ) ){
+            for( const auto elem : rough_tree_line ) {
+                if( g->critter_at( elem ) ) {
                     cantuse = true;
                     break;
                 }
             }
-            if( !cantuse ){
+            if( !cantuse ) {
                 direction = direc;
             }
         }
