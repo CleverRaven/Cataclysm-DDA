@@ -841,7 +841,7 @@
     "type": "technique",
     "id": "tec_karate_rapid",
     "name": "Backfist Strike",
-    "messages": [ "You quickly punch %s", "<npcname> quickly punches %s" ],
+    "messages": [ "You quickly strike %s with the back of your fist", "<npcname> quickly strikes %s with the back of their fist" ],
     "min_unarmed": 1,
     "unarmed_allowed": true,
     "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
