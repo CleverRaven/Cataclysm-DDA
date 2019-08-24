@@ -1264,15 +1264,18 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
     }
 
     //Can't remove a wheel mount if there's still a wheel there
-    if( part_flag( p, "WHEEL_MOUNT_LIGHT" ) && part_with_feature( p, "NEEDS_WHEEL_MOUNT_LIGHT", true ) >= 0 ) {
+    if( part_flag( p, "WHEEL_MOUNT_LIGHT" ) &&
+        part_with_feature( p, "NEEDS_WHEEL_MOUNT_LIGHT", true ) >= 0 ) {
         reason = _( "Remove attached wheel first." );
         return false;
     }
-	if( part_flag( p, "WHEEL_MOUNT_MEDIUM" ) && part_with_feature( p, "NEEDS_WHEEL_MOUNT_MEDIUM", true ) >= 0 ) {
+    if( part_flag( p, "WHEEL_MOUNT_MEDIUM" ) &&
+        part_with_feature( p, "NEEDS_WHEEL_MOUNT_MEDIUM", true ) >= 0 ) {
         reason = _( "Remove attached wheel first." );
         return false;
     }
-	if( part_flag( p, "WHEEL_MOUNT_HEAVY" ) && part_with_feature( p, "NEEDS_WHEEL_MOUNT_HEAVY", true ) >= 0 ) {
+    if( part_flag( p, "WHEEL_MOUNT_HEAVY" ) &&
+        part_with_feature( p, "NEEDS_WHEEL_MOUNT_HEAVY", true ) >= 0 ) {
         reason = _( "Remove attached wheel first." );
         return false;
     }

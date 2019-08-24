@@ -175,11 +175,11 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
         skills.emplace( skill_id( cur.get_string( 0 ) ), cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
     }
 
-	if( src.has_int( "time" ) ) {
+    if( src.has_int( "time" ) ) {
         moves = src.get_int( "time" );
     } else if( src.has_string( "time" ) ) {
         moves = to_moves<int>( read_from_json_string<time_duration>( *src.get_raw( "time" ),
-                                 time_duration::units ) );
+                               time_duration::units ) );
     }
 
     if( src.has_string( "using" ) ) {
