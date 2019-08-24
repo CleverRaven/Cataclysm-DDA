@@ -29,6 +29,12 @@ TEST_CASE( "variant_construction", "[variant]" )
         CHECK( v2.get<cata_variant_type::mtype_id>() == mtype_id( "zombie" ) );
         CHECK( v2.get<mtype_id>() == mtype_id( "zombie" ) );
     }
+    SECTION( "construction_from_const_lvalue" ) {
+        const character_id i;
+        cata_variant v( i );
+        CHECK( v.type() == cata_variant_type::character_id );
+        CHECK( v.get<character_id>() == i );
+    }
 }
 
 TEST_CASE( "variant_copy_move", "[variant]" )

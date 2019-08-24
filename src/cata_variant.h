@@ -82,7 +82,7 @@ template<typename T>
 constexpr cata_variant_type type_for()
 {
     constexpr size_t num_types = static_cast<size_t>( cata_variant_type::num_types );
-    using SimpleT = std::remove_reference_t<T>;
+    using SimpleT = std::remove_cv_t<std::remove_reference_t<T>>;
     return type_for_impl<SimpleT>( std::make_index_sequence<num_types> {} );
 }
 
