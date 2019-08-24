@@ -434,6 +434,22 @@ static bool sees_veh( const Creature &c, vehicle &veh, bool force_recalc )
 
 vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing )
 {
+    // Split the movement into horizontal and vertical for easier processing
+    if( dp.xy() != point_zero && dp.z != 0 ) {
+        vehicle *const new_pointer = move_vehicle( veh, tripoint( dp.xy(), 0 ), facing );
+        if( !new_pointer ) {
+            return nullptr;
+        }
+
+        vehicle *const result = move_vehicle( *new_pointer, tripoint( 0, 0, dp.z ), facing );
+        if( !result ) {
+            return nullptr;
+        }
+
+        result->is_falling = false;
+        return result;
+    }
+
     const bool vertical = dp.z != 0;
     if( ( dp.x == 0 && dp.y == 0 && dp.z == 0 ) ||
         ( abs( dp.x ) > 1 || abs( dp.y ) > 1 || abs( dp.z ) > 1 ) ||
