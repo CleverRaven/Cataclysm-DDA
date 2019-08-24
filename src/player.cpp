@@ -514,7 +514,7 @@ player::player() :
     nv_cached = false;
     volume = 0;
 
-    thief = THIEF_UNSET;
+    set_value("THIEF_MODE", "THIEF_ASK");
 
     for( const auto &v : vitamin::all() ) {
         vitamin_levels[ v.first ] = 0;
