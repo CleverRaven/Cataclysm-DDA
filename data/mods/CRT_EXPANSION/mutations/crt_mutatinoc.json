@@ -22,7 +22,10 @@
     "description": "Aside from your appearances, your movements are incredibly graceful and allow you to seemingly glide through every task.",
     "thresheq": [ "THRESH_VAMP" ],
     "category": [ "VAMP" ],
-    "stealth_modifier": 5
+    "stealth_modifier": 5,
+    "noise_modifier": 0.2,
+    "movecost_modifier": 0.9,
+    "attackcost_modifier": 0.9
   },
   {
     "type": "mutation",
@@ -36,6 +39,6 @@
     "prereqs": [ "BEAUTIFUL" ],
     "cancels": [ "BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES", "ELFAEYES" ],
     "category": [ "VAMP" ],
-    "social_modifiers": { "lie": 1, "persuade": 7, "intimidate": 1 }
+    "social_modifiers": { "lie": 5, "persuade": 10, "intimidate": 1 }
   }
 ]

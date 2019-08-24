@@ -17,14 +17,14 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "knockback_dist": 1,
-    "mult_bonuses": [ [ "movecost", 0.75 ], [ "damage", "bash", 0.6 ], [ "damage", "cut", 0.6 ], [ "damage", "stab", 0.6 ] ],
+    "mult_bonuses": [ [ "movecost", 0.6 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ],
     "flat_bonuses": [
       [ "movecost", "str", -1.0 ],
       [ "damage", "bash", "str", 0.1 ],
       [ "damage", "stab", "str", 0.1 ],
       [ "damage", "cut", "str", 0.1 ]
     ],
-    "messages": [ "Your momentum causes your weapon to strike %s", "<npcname> inertially strikes %s" ],
+    "messages": [ "Your momentum causes your weapon to glance off of %s", "<npcname> inertially strikes %s" ],
     "aoe": "wide",
     "description": "75% moves, 60% damage, wide arc, STR (S) dramatically reduces action cost, and adds a (C) damage bonus, min 4 melee"
   },
@@ -36,7 +36,7 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "crit_tec": true,
-    "mult_bonuses": [ [ "movecost", 1.15 ], [ "damage", "bash", 1.05 ], [ "damage", "cut", 1.25 ], [ "damage", "stab", 1.05 ] ],
+    "mult_bonuses": [ [ "movecost", 1.18 ], [ "damage", "bash", 1.05 ], [ "damage", "cut", 1.25 ], [ "damage", "stab", 1.05 ] ],
     "flat_bonuses": [
       [ "movecost", "dex", -0.2 ],
       [ "movecost", "per", -0.125 ],
@@ -45,7 +45,7 @@
       [ "damage", "stab", "per", 0.15 ]
     ],
     "messages": [ "You draw back your arm and release a well placed chop %s", "<npcname> chops %s" ],
-    "description": "Crit only, 115% move cost, 105% Bash, 105% Stab, 125% Cut, DEX (D) and PER (E) reduces action cost and increases overall (B) damage, min 2 melee"
+    "description": "Crit only, 118% move cost, 105% Bash and Stab, 125% Cut, DEX (D) and PER (E) reduces action cost and increases overall (B) damage, min 2 melee"
   },
   {
     "type": "technique",
@@ -55,7 +55,7 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "crit_tec": true,
-    "mult_bonuses": [ [ "movecost", 1.1 ], [ "damage", "bash", 1.2 ], [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.05 ] ],
+    "mult_bonuses": [ [ "movecost", 1.18 ], [ "damage", "bash", 1.2 ], [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.05 ] ],
     "flat_bonuses": [
       [ "movecost", "dex", -0.2 ],
       [ "movecost", "str", -0.125 ],
@@ -79,7 +79,7 @@
     "flat_bonuses": [ [ "movecost", "str", -0.8 ] ],
     "messages": [
       "You lunge forward with all your weight and swing upwards at %s",
-      "<npcname> swings upwards with all their weight %s"
+      "<npcname> swings upwards with all their weight at %s"
     ],
     "description": "Crit only, 120% moves, 125% damage, Stun for 1.5 turns, STR (A) dramatically reduces action cost, min melee 1"
   },
@@ -104,10 +104,10 @@
     "unarmed_allowed": false,
     "melee_allowed": true,
     "knockback_dist": 2,
-    "mult_bonuses": [ [ "movecost", 0.65 ], [ "damage", "bash", 1.1 ], [ "damage", "cut", 0 ], [ "damage", "stab", 1.1 ] ],
+    "mult_bonuses": [ [ "movecost", 0.75 ], [ "damage", "bash", 1.1 ], [ "damage", "cut", 0 ], [ "damage", "stab", 1.1 ] ],
     "flat_bonuses": [ [ "movecost", "str", -0.3 ], [ "movecost", "dex", -0.15 ] ],
     "messages": [ "You quickly shove %s out of the way with your weapon", "<npcname> quickly shoves %s" ],
-    "description": "65% moves, no cut damage, 110% Bash and Stab damage, knockback 2 tiles, STR (B) and DEX (C) reduce action cost, min melee 1"
+    "description": "75% moves, no cut damage, 110% Bash and Stab damage, knockback 2 tiles, STR (B) and DEX (C) reduce action cost, min melee 1"
   },
   {
     "type": "technique",

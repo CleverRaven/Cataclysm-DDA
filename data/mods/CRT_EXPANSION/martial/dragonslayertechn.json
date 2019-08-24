@@ -4,6 +4,8 @@
     "id": "BERSERK",
     "name": "BERSERK",
     "min_melee": 1,
+    "unarmed_allowed": false,
+    "melee_allowed": true,
     "mult_bonuses": [ [ "movecost", 0.3 ], [ "damage", "bash", 0.77 ], [ "damage", "cut", 0.77 ], [ "damage", "stab", 0.77 ] ],
     "flat_bonuses": [
       [ "movecost", "str", -10 ],
