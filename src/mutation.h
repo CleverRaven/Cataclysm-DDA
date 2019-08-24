@@ -16,6 +16,7 @@
 #include "damage.h"
 #include "string_id.h"
 #include "tuple_hash.h"
+#include "translations.h"
 #include "type_id.h"
 #include "point.h"
 
@@ -219,8 +220,8 @@ struct mutation_branch {
         std::vector<matype_id>
         initial_ma_styles; // Martial art styles that can be chosen upon character generation
     private:
-        std::string raw_name;
-        std::string raw_desc;
+        translation raw_name;
+        translation raw_desc;
     public:
         std::string name() const;
         std::string desc() const;

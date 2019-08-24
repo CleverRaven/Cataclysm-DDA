@@ -28,6 +28,7 @@
 #include "help.h"
 #include "input.h"
 #include "itype.h"
+#include "kill_tracker.h"
 #include "magic.h"
 #include "map.h"
 #include "mapdata.h"
@@ -2164,7 +2165,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_KILLS:
-                disp_kills();
+                get_kill_tracker().disp_kills();
                 break;
 
             case ACTION_FACTIONS:

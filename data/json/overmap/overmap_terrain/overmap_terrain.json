@@ -342,19 +342,29 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "radio_tower_even",
+    "copy-from": "radio_tower"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "radio_tower_odd",
+    "copy-from": "radio_tower"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "radio_tower_top",
+    "copy-from": "radio_tower"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "radio_tower_1",
-    "name": "radio tower",
-    "sym": "X",
-    "color": "light_gray",
-    "see_cost": 2
+    "copy-from": "radio_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "radio_tower_roof_1",
     "name": "radio tower roof",
-    "sym": "X",
-    "color": "light_gray",
-    "see_cost": 2
+    "copy-from": "radio_tower"
   },
   {
     "type": "overmap_terrain",

@@ -24,6 +24,7 @@
 #include "item_group.h"
 #include "itype.h"
 #include "line.h"
+#include "kill_tracker.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -1497,7 +1498,7 @@ void basecamp::start_cut_logs()
         sample_npc.set_fake( true );
         int tree_est = om_cutdown_trees_est( forest, 50 );
         int tree_young_est = om_harvest_ter_est( sample_npc, forest, ter_id( "t_tree_young" ), 50 );
-        int dist = rl_dist( forest.x, forest.y, omt_pos.x, omt_pos.y );
+        int dist = rl_dist( forest.xy(), omt_pos.xy() );
         //Very roughly what the player does + 6 hours for prep, clean up, breaks
         time_duration chop_time = 6_hours + 1_hours * tree_est + 7_minutes * tree_young_est;
         //Generous to believe the NPC can move ~ 2 logs or ~8 heavy sticks (3 per young tree?)
@@ -1554,7 +1555,7 @@ void basecamp::start_clearcut()
         sample_npc.set_fake( true );
         int tree_est = om_cutdown_trees_est( forest, 95 );
         int tree_young_est = om_harvest_ter_est( sample_npc, forest, ter_id( "t_tree_young" ), 95 );
-        int dist = rl_dist( forest.x, forest.y, omt_pos.x, omt_pos.y );
+        int dist = rl_dist( forest.xy(), omt_pos.xy() );
         //Very roughly what the player does + 6 hours for prep, clean up, breaks
         time_duration chop_time = 6_hours + 1_hours * tree_est + 7_minutes * tree_young_est;
         time_duration travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, 2 );
@@ -1588,7 +1589,7 @@ void basecamp::start_setup_hide_site()
     popup( _( "Forests, swamps, and fields are valid hide site locations." ) );
     tripoint forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true, omt_pos, true );
     if( forest != tripoint( -999, -999, -999 ) ) {
-        int dist = rl_dist( forest.x, forest.y, omt_pos.x, omt_pos.y );
+        int dist = rl_dist( forest.xy(), omt_pos.xy() );
         inventory tgt_inv = g->u.inv;
         std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
             return !itm.can_revive();
@@ -1627,7 +1628,7 @@ void basecamp::start_relay_hide_site()
     popup( _( "You must select an existing hide site." ) );
     tripoint forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true, omt_pos, true );
     if( forest != tripoint( -999, -999, -999 ) ) {
-        int dist = rl_dist( forest.x, forest.y, omt_pos.x, omt_pos.y );
+        int dist = rl_dist( forest.xy(), omt_pos.xy() );
         inventory tgt_inv = g->u.inv;
         std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
             return !itm.can_revive();
@@ -1743,7 +1744,7 @@ void basecamp::start_fortifications( std::string &bldg_exp, bool by_radio )
             }
             trips += 2;
             build_time += making.batch_duration();
-            dist += rl_dist( fort_om.x, fort_om.y, omt_pos.x, omt_pos.y );
+            dist += rl_dist( fort_om.xy(), omt_pos.xy() );
             travel_time += companion_travel_time_calc( fort_om, omt_pos, 0_minutes, 2 );
         }
         time_duration total_time = base_camps::to_workdays( travel_time + build_time );
@@ -2254,6 +2255,8 @@ bool basecamp::gathering_return( const std::string &task, time_duration min_time
             case WINTER:
                 itemlist = "foraging_faction_camp_winter";
                 break;
+            default:
+                debugmsg( "Invalid season" );
         }
     }
     if( task == "_faction_camp_trapping" || task == "_faction_camp_hunting" ) {
@@ -2344,13 +2347,13 @@ void basecamp::recruit_return( const std::string &task, int score )
     int appeal = rng( -5, 3 ) + std::min( skill / 3, 3 );
     int food_desire = rng( 0, 5 );
     while( rec_m >= 0 ) {
-        std::string description = string_format( _( "NPC Overview:\n \n" ) );
+        std::string description = _( "NPC Overview:\n \n" );
         description += string_format( _( "Name:  %20s\n \n" ), recruit->name );
         description += string_format( _( "Strength:        %10d\n" ), recruit->str_max );
         description += string_format( _( "Dexterity:       %10d\n" ), recruit->dex_max );
         description += string_format( _( "Intelligence:    %10d\n" ), recruit->int_max );
         description += string_format( _( "Perception:      %10d\n \n" ), recruit->per_max );
-        description += string_format( _( "Top 3 Skills:\n" ) );
+        description += _( "Top 3 Skills:\n" );
 
         const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a,
         const Skill & b ) {
@@ -2366,7 +2369,7 @@ void basecamp::recruit_return( const std::string &task, int score )
         description += string_format( "%12s:          %4d\n \n", skillslist[2]->name(),
                                       recruit->get_skill_level( skillslist[2]->ident() ) );
 
-        description += string_format( _( "Asking for:\n" ) );
+        description += _( "Asking for:\n" );
         description += string_format( _( "> Food:     %10d days\n \n" ), food_desire );
         description += string_format( _( "Faction Food:%9d days\n \n" ),
                                       camp_food_supply( 0, true ) );
@@ -2474,7 +2477,7 @@ bool basecamp::survey_return()
         return false;
     }
 
-    int dist = rl_dist( where.x, where.y, omt_pos.x, omt_pos.y );
+    int dist = rl_dist( where.xy(), omt_pos.xy() );
     if( dist != 1 ) {
         popup( _( "You must select a tile within %d range of the camp" ), 1 );
         return false;
@@ -2896,7 +2899,7 @@ tripoint om_target_tile( const tripoint &omt_pos, int min_range, int range,
     if( where == overmap::invalid_tripoint ) {
         return tripoint( -999, -999, -999 );
     }
-    int dist = rl_dist( where.x, where.y, omt_pos.x, omt_pos.y );
+    int dist = rl_dist( where.xy(), omt_pos.xy() );
     if( dist > range || dist < min_range ) {
         popup( _( "You must select a target between %d and %d range from the base.  Range: %d" ),
                min_range, range, dist );
@@ -3101,7 +3104,7 @@ std::vector<tripoint> om_companion_path( const tripoint &start, int range_start,
         std::vector<tripoint> note_pts = line_to( last, spt );
         scout_points.insert( scout_points.end(), note_pts.begin(), note_pts.end() );
         om_line_mark( last, spt );
-        range -= rl_dist( spt.x, spt.y, last.x, last.y );
+        range -= rl_dist( spt.xy(), last.xy() );
         last = spt;
 
         oter_id &omt_ref = overmap_buffer.ter( last );
@@ -3321,7 +3324,7 @@ int basecamp::recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, i
         sbonus += 10;
     }
     //Survival of the fittest
-    if( g->get_npc_kill().size() > 10 ) {
+    if( g->get_kill_tracker().npc_kill_count() > 10 ) {
         sbonus += 10;
     }
     return sbase + sexpansions + sfaction + sbonus;

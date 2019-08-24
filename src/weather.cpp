@@ -268,7 +268,7 @@ double funnel_charges_per_turn( const double surface_area_mm2, const double rain
                                     water.charges;
 
     const double vol_mm3_per_hour = surface_area_mm2 * rain_depth_mm_per_hour;
-    const double vol_mm3_per_turn = vol_mm3_per_hour / HOURS( 1 );
+    const double vol_mm3_per_turn = vol_mm3_per_hour / to_turns<int>( 1_hours );
 
     const double ml_to_mm3 = 1000;
     const double charges_per_turn = vol_mm3_per_turn / ( charge_ml * ml_to_mm3 );

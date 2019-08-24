@@ -370,6 +370,22 @@
     "components": [ [ [ "545_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder", 6 ] ], [ [ "copper", 1 ] ] ]
   },
   {
+    "result": "reloaded_300blk",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 5 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 5 ], [ "ammo_300blk", 1 ] ],
+    "components": [ [ [ "gunpowder", 4 ] ], [ [ "copper", 2 ] ] ]
+  },
+  {
     "result": "reloaded_556",
     "type": "recipe",
     "category": "CC_AMMO",

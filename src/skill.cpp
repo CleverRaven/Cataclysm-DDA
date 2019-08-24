@@ -225,7 +225,7 @@ bool SkillLevel::can_train() const
 
 const SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident ) const
 {
-    static const SkillLevel null_skill;
+    static const SkillLevel null_skill{};
 
     if( ident && ident->is_contextual_skill() ) {
         debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );

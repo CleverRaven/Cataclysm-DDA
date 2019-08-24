@@ -428,6 +428,25 @@
   },
   {
     "type": "recipe",
+    "result": "analytical_set_basic",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "ph_meter", 1 ] ],
+      [ [ "spectrophotometer", 1 ] ],
+      [ [ "paper", 1 ] ],
+      [ [ "balance_small", 1 ] ],
+      [ [ "melting_point", 1 ] ],
+      [ [ "box_medium", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "survivor_light",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -4016,7 +4035,7 @@
     "time": "5 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ], [ "rock_pot", 1 ] ], [ [ "oil_cooker", 1 ] ] ]
+    "components": [ [ [ "pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ], [ [ "oil_cooker", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -4257,6 +4276,17 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "wash_kit",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "reversible": true,
+    "time": "1 s",
+    "autolearn": true,
+    "components": [ [ [ "washboard", 1 ] ], [ [ "sponge", 1 ] ] ]
   },
   {
     "type": "recipe",
