@@ -46,7 +46,7 @@
         "time": "45 m",
         "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SAW_M", "level": 2 } ]
       },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_MEDIUM", "NEEDS_JACKING" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "steel_chunk", "count": [ 2, 5 ] } ],
@@ -77,7 +77,7 @@
         "time": "60 m",
         "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SAW_M", "level": 2 } ]
       },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ]] }
     },
     "flags": [ "WHEEL_MOUNT_HEAVY", "NEEDS_JACKING" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "steel_chunk", "count": [ 3, 7 ] } ],
