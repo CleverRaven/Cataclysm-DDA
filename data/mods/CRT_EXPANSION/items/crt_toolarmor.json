@@ -36,7 +36,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": "CRIT gasmask (on)",
-    "description": "This is the C.R.I.T Spec Ops modified gasmask. It is currently on and draining power for the HUD, low-level nightvision and other protective elements.",
+    "description": "This is the C.R.I.T Spec Ops modified gasmask. It is currently on and draining power for the HUD, low-level nightvision and other protective elements. The heat this thing generatung is making you distracted.",
     "weight": 5000,
     "volume": 4,
     "price": 2500000,
