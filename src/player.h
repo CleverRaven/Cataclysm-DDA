@@ -175,20 +175,6 @@ enum player_movemode : unsigned char {
     PMM_COUNT
 };
 
-
-/**
- * Toggle attitude towards stolen goods, used in create.set_Value
- *
- * UNSET: Ask player when attempting to steal
- * HONEST: Do not pick up stolen items, even if selected in pickup
- * STEAL: Pick up stolen items without query
- */
-enum thief_mode {
-    THIEF_ASK,
-    THIEF_HONEST,
-    THIEF_STEAL
-};
-
 static const std::array< std::string, PMM_COUNT > player_movemode_str = { {
         "walk",
         "run",
@@ -199,7 +185,6 @@ static const std::array< std::string, PMM_COUNT > player_movemode_str = { {
 class player : public Character
 {
     public:
-
         player();
         player( const player & ) = delete;
         player( player && );
