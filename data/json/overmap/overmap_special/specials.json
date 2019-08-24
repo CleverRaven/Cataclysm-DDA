@@ -4509,7 +4509,7 @@
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC" ],
-    "spawns": { "group": "GROUP_MI-GO_CAMP_OM", "population": [ 50, 200 ], "radius": [ 2, 30 ] }
+    "spawns": { "group": "GROUP_MI-GO_CAMP_OM", "population": [ 20, 50 ], "radius": [ 2, 30 ] }
   },
   {
     "type": "overmap_special",
