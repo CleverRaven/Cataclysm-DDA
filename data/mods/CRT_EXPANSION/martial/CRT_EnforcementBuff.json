@@ -58,7 +58,7 @@
         ]
       }
     ],
-    "techniques": [ "tec_crt_enforcement_normal", "tec_crt_enforcement_rapid", "tec_crt_enforcement_brutal", "tec_disarm" ],
+    "techniques": [ "tec_crt_enforcement_normal", "tec_crt_enforcement_rapid", "tec_crt_enforcement_brutal" ],
     "weapons": [
       "knife_crt",
       "crt_nstick",
