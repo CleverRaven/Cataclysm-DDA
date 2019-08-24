@@ -3063,5 +3063,20 @@
     "bashing": 8,
     "to_hit": -2,
     "qualities": [ [ "HAMMER", 1 ] ]
+  },
+  {
+    "id": "survival_kit",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "survival kit",
+    "description": "A small box filled with tools and items to help you survive in case of an emergency.  Disassemble to get its content.",
+    "weight": 1612,
+    "volume": "1 L",
+    "price": 5000,
+    "material": "aluminum",
+    "symbol": "!",
+    "color": "green",
+    "use_action": "DISASSEMBLE",
+    "flags": [ "NO_REPAIR" ]
   }
 ]

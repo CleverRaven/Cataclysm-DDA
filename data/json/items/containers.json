@@ -1143,5 +1143,22 @@
     "preserves": false,
     "unseals_into": "null",
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+  },
+  {
+    "id": "survival_kit_box",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "survival kit box",
+    "description": "An aluminum box that used to contain a small survival kit. Can hold 1 liter of liquid.",
+    "weight": 200,
+    "volume": "1 L",
+    "price": 0,
+    "material": "aluminum",
+    "symbol": "!",
+    "color": "light_cyan",
+    "contains": "1 L",
+    "seals": true,
+    "watertight": true,
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   }
 ]
