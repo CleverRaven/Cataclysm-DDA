@@ -1013,6 +1013,7 @@
     "name": "Sweet Tooth",
     "points": 1,
     "description": "You have a soft spot for processed foods, and gain a morale bonus from eating them.",
+    "starting_trait": true,
     "cancels": [ "ANTIJUNK" ],
     "changes_to": [ "PROJUNK2" ],
     "category": [ "MOUSE", "INSECT" ]
