@@ -1910,8 +1910,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         if( old_skill_level != new_skill_level ) {
             add_msg( m_good, _( "You finish training %s to level %d." ),
                      skill_name, new_skill_level );
-            g->events().send( event::make<event_type::gains_skill_level>(
-                                  p->getID(), sk, new_skill_level ) );
+            g->events().send<event_type::gains_skill_level>( p->getID(), sk, new_skill_level );
         } else {
             add_msg( m_good, _( "You finish training %s." ), skill_name );
         }
@@ -1924,7 +1923,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         const auto &mastyle = ma_id.obj();
         // Trained martial arts,
         add_msg( m_good, _( "You learn %s." ), mastyle.name );
-        g->events().send( event::make<event_type::learns_martial_art>( p->getID(), ma_id ) );
+        g->events().send<event_type::learns_martial_art>( p->getID(), ma_id );
         p->add_martialart( mastyle.id );
     } else {
         debugmsg( "train_finish without a valid skill or style name" );
@@ -3605,7 +3604,7 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
                 it->set_damage( rng( 1, it->max_damage() - 1 ) );
             }
         }
-        g->events().send( event::make<event_type::exhumes_grave>( p->getID() ) );
+        g->events().send<event_type::exhumes_grave>( p->getID() );
     }
 
     g->m.ter_set( pos, result_terrain );
@@ -4170,7 +4169,7 @@ void activity_handlers::hack_safe_finish( player_activity *act, player *p )
     } else if( result == HACK_FAIL ) {
         act->set_to_null();
 
-        g->events().send( event::make<event_type::triggers_alarm>( p->getID() ) );
+        g->events().send<event_type::triggers_alarm>( p->getID() );
         sounds::sound( p->pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
         if( act->placement.z > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {

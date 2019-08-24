@@ -1012,8 +1012,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
         }
         ( *effects )[eff_id][bp] = e;
         if( Character *ch = as_character() ) {
-            g->events().send( event::make<event_type::character_gains_effect>(
-                                  ch->getID(), eff_id ) );
+            g->events().send<event_type::character_gains_effect>( ch->getID(), eff_id );
             if( is_player() && !type.get_apply_message().empty() ) {
                 add_msg( type.gain_game_message_type(), _( type.get_apply_message() ) );
             }
@@ -1066,8 +1065,7 @@ bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
                 add_msg( type.lose_game_message_type(), _( type.get_remove_message() ) );
             }
         }
-        g->events().send( event::make<event_type::character_loses_effect>(
-                              ch->getID(), eff_id ) );
+        g->events().send<event_type::character_loses_effect>( ch->getID(), eff_id );
     }
 
     // num_bp means remove all of a given effect id

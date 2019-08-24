@@ -1326,7 +1326,7 @@ void iexamine::pedestal_wyrm( player &p, const tripoint &examp )
         return;
     }
     // Send in a few wyrms to start things off.
-    g->events().send( event::make<event_type::awakes_dark_wyrms>() );
+    g->events().send<event_type::awakes_dark_wyrms>();
     int num_wyrms = rng( 1, 4 );
     for( int i = 0; i < num_wyrms; i++ ) {
         int tries = 0;
@@ -4065,7 +4065,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
             case HACK_UNABLE:
                 break;
             case HACK_FAIL:
-                g->events().send( event::make<event_type::triggers_alarm>( p.getID() ) );
+                g->events().send<event_type::triggers_alarm>( p.getID() );
                 sounds::sound( p.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
                                "alarm" );
                 if( examp.z > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {

@@ -3104,7 +3104,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
                        false, "environment", "alarm" );
         // Blame nearby player
         if( rl_dist( g->u.pos(), p ) <= 3 ) {
-            g->events().send( event::make<event_type::triggers_alarm>( g->u.getID() ) );
+            g->events().send<event_type::triggers_alarm>( g->u.getID() );
             const point abs = ms_to_sm_copy( getabs( p.xy() ) );
             g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
                                  tripoint( abs, p.z ) );

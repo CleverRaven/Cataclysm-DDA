@@ -862,7 +862,7 @@ bool game::start_game()
         mission->assign( u );
     }
 
-    g->events().send( event::make<event_type::game_start>() );
+    g->events().send<event_type::game_start>();
     return true;
 }
 
@@ -1163,7 +1163,7 @@ bool game::cleanup_at_end()
                                  .query_string();
         death_screen();
         const bool is_suicide = uquit == QUIT_SUICIDE;
-        events().send( event::make<event_type::game_over>( is_suicide, sLastWords ) );
+        events().send<event_type::game_over>( is_suicide, sLastWords );
         // Struck the save_player_data here to forestall Weirdness
         move_save_to_graveyard();
         write_memorial_file( sLastWords );
@@ -10969,8 +10969,7 @@ void game::teleport( player *p, bool add_teleglow )
     p->sety( new_pos.y );
     if( m.impassable( new_pos ) ) { //Teleported into a wall
         const std::string obstacle_name = m.obstacle_name( new_pos );
-        g->events().send( event::make<event_type::teleports_into_wall>(
-                              p->getID(), obstacle_name ) );
+        g->events().send<event_type::teleports_into_wall>( p->getID(), obstacle_name );
         if( can_see ) {
             if( is_u ) {
                 add_msg( _( "You teleport into the middle of a %s!" ),
@@ -10983,8 +10982,7 @@ void game::teleport( player *p, bool add_teleglow )
         p->apply_damage( nullptr, bp_torso, 500 );
         p->check_dead_state();
     } else if( monster *const mon_ptr = critter_at<monster>( new_pos ) ) {
-        g->events().send( event::make<event_type::telefrags_creature>(
-                              p->getID(), mon_ptr->name() ) );
+        g->events().send<event_type::telefrags_creature>( p->getID(), mon_ptr->name() );
         if( can_see ) {
             if( is_u ) {
                 add_msg( _( "You teleport into the middle of a %s!" ),

@@ -32,6 +32,10 @@ class event_bus
         void unsubscribe( event_subscriber * );
 
         void send( const event & ) const;
+        template<event_type Type, typename... Args>
+        void send( Args &&... args ) const {
+            send( event::make<Type>( std::forward<Args>( args )... ) );
+        }
     private:
         std::vector<event_subscriber *> subscribers;
 };

@@ -3797,7 +3797,7 @@ void Character::shout( std::string msg, bool order )
 
 void Character::vomit()
 {
-    g->events().send( event::make<event_type::throws_up>( getID() ) );
+    g->events().send<event_type::throws_up>( getID() );
 
     if( stomach.contains() != 0_ml ) {
         // empty stomach contents

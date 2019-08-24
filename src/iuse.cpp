@@ -347,7 +347,7 @@ int iuse::sewage( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    g->events().send( event::make<event_type::eats_sewage>() );
+    g->events().send<event_type::eats_sewage>();
     p->vomit();
     if( one_in( 4 ) ) {
         p->mutate();
@@ -1280,7 +1280,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
 
         p.set_mutation( trait_THRESH_MARLOSS );
         g->m.ter_set( p.pos(), t_marloss );
-        g->events().send( event::make<event_type::crosses_marloss_threshold>( p.getID() ) );
+        g->events().send<event_type::crosses_marloss_threshold>( p.getID() );
         p.add_msg_if_player( m_good,
                              _( "You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
         //~ Beginning to hear the Mycus while conscious: that's it speaking
@@ -1326,7 +1326,7 @@ int iuse::marloss( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    g->events().send( event::make<event_type::consumes_marloss_item>( p->getID(), it->typeId() ) );
+    g->events().send<event_type::consumes_marloss_item>( p->getID(), it->typeId() );
 
     marloss_common( *p, *it, trait_MARLOSS );
     return it->type->charges_to_use();
@@ -1343,7 +1343,7 @@ int iuse::marloss_seed( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    g->events().send( event::make<event_type::consumes_marloss_item>( p->getID(), it->typeId() ) );
+    g->events().send<event_type::consumes_marloss_item>( p->getID(), it->typeId() );
 
     marloss_common( *p, *it, trait_MARLOSS_BLUE );
     return it->type->charges_to_use();
@@ -1355,7 +1355,7 @@ int iuse::marloss_gel( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    g->events().send( event::make<event_type::consumes_marloss_item>( p->getID(), it->typeId() ) );
+    g->events().send<event_type::consumes_marloss_item>( p->getID(), it->typeId() );
 
     marloss_common( *p, *it, trait_MARLOSS_YELLOW );
     return it->type->charges_to_use();
@@ -1368,7 +1368,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
     }
     // Welcome our guide.  Welcome.  To. The Mycus.
     if( p->has_trait( trait_THRESH_MARLOSS ) ) {
-        g->events().send( event::make<event_type::crosses_mycus_threshold>( p->getID() ) );
+        g->events().send<event_type::crosses_mycus_threshold>( p->getID() );
         p->add_msg_if_player( m_neutral,
                               _( "It tastes amazing, and you finish it quickly." ) );
         p->add_msg_if_player( m_good, _( "You feel better all over." ) );
@@ -2437,7 +2437,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
             g->m.spawn_item( pnt, "manhole_cover" );
         }
         if( type == t_door_locked_alarm ) {
-            g->events().send( event::make<event_type::triggers_alarm>( p->getID() ) );
+            g->events().send<event_type::triggers_alarm>( p->getID() );
             sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
             if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
@@ -3741,7 +3741,7 @@ int iuse::mininuke( player *p, item *it, bool, const tripoint & )
     }
     p->add_msg_if_player( _( "You set the timer to %s." ),
                           to_string( time_duration::from_turns( time ) ) );
-    g->events().send( event::make<event_type::activates_mininuke>( p->getID() ) );
+    g->events().send<event_type::activates_mininuke>( p->getID() );
     it->convert( "mininuke_act" );
     it->charges = time;
     it->active = true;
@@ -4837,8 +4837,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                   it->tname() );
         return 0;
     }
-    g->events().send( event::make<event_type::activates_artifact>(
-                          p->getID(), it->tname( 1, false ) ) );
+    g->events().send<event_type::activates_artifact>( p->getID(), it->tname( 1, false ) );
 
     const auto &art = it->type->artifact;
     size_t num_used = rng( 1, art->effects_activated.size() );

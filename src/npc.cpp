@@ -2060,8 +2060,7 @@ void npc::die( Creature *nkiller )
     }
 
     if( Character *ch = dynamic_cast<Character *>( killer ) ) {
-        g->events().send( event::make<event_type::character_kills_character>(
-                              ch->getID(), getID(), get_name() ) );
+        g->events().send<event_type::character_kills_character>( ch->getID(), getID(), get_name() );
     }
 
     if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
