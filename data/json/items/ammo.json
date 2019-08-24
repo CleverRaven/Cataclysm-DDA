@@ -948,6 +948,7 @@
     "price": 12000,
     "//": "This seems like the larger medical tank, not an instant-use model with mask attached",
     "name": "oxygen",
+    "name_plural": "oxygen",
     "symbol": "=",
     "color": "light_gray",
     "description": "A canister of oxygen.",
