@@ -2290,7 +2290,8 @@
       [ "whistle_multitool", 5 ],
       [ "esbit_stove", 10 ],
       [ "bottle_folding", 10 ],
-      [ "mess_tin", 10 ]
+      [ "mess_tin", 10 ],
+      [ "survival_kit", 30 ]
     ]
   },
   {
@@ -3226,6 +3227,7 @@
       [ "knife_folding", 6 ],
       [ "knife_swissarmy", 6 ],
       [ "multitool", 8 ],
+      [ "survival_kit", 3 ],
       [ "touring_suit", 20 ],
       [ "helmet_motor", 14 ],
       [ "motorbike_armor", 10 ],
@@ -4706,6 +4708,7 @@
       [ "recipe_arrows", 7 ],
       [ "flashlight", 40 ],
       [ "heavy_flashlight", 30 ],
+      [ "survival_kit", 35 ],
       [ "mess_kit", 9 ],
       [ "popcan_stove", 2 ],
       [ "denat_alcohol", 2 ],
@@ -4782,6 +4785,7 @@
       [ "bandages", 50 ],
       [ "cotton_ball", 50 ],
       [ "1st_aid", 35 ],
+      [ "survival_kit", 35 ],
       [ "saline", 10 ],
       [ "vitamins", 75 ],
       [ "gummy_vitamins", 25 ],
@@ -4857,6 +4861,7 @@
       [ "rollmat", 40 ],
       [ "tent_kit", 17 ],
       [ "large_tent_kit", 17 ],
+      [ "survival_kit", 10 ],
       [ "canteen", 15 ],
       [ "2lcanteen", 10 ],
       [ "camelbak", 5 ],
@@ -5837,7 +5842,8 @@
       [ "solarpack", 5 ],
       [ "chem_hexamine", 3 ],
       [ "esbit_stove", 6 ],
-      [ "mess_tin", 4 ]
+      [ "mess_tin", 4 ],
+      [ "survival_kit", 4 ]
     ]
   },
   {
@@ -6993,6 +6999,7 @@
       [ "legrig", 10 ],
       [ "rucksack", 20 ],
       [ "gobag", 2 ],
+      [ "survival_kit", 3 ],
       [ "recipe_raptor", 2 ],
       [ "tac_helmet", 5 ],
       [ "tac_fullhelmet", 2 ],
@@ -7688,6 +7695,7 @@
       [ "sm_extinguisher", 7 ],
       [ "extinguisher", 2 ],
       [ "1st_aid", 5 ],
+      [ "survival_kit", 3 ],
       { "item": "duct_tape", "prob": 13, "charges-min": 20, "charges-max": 200 },
       [ "screwdriver", 8 ],
       [ "screwdriver_set", 2 ],
@@ -8214,6 +8222,7 @@
       [ "small_repairkit", 14 ],
       [ "grapnel", 6 ],
       [ "misc_repairkit", 8 ],
+      [ "survival_kit", 3 ],
       [ "toolbox", 1 ],
       [ "survivor_belt", 2 ],
       [ "survivor_machete", 2 ],
@@ -9205,6 +9214,7 @@
       [ "rollmat", 60 ],
       [ "tent_kit", 10 ],
       [ "large_tent_kit", 5 ],
+      [ "survival_kit", 5 ],
       [ "canteen", 100 ],
       [ "2lcanteen", 50 ],
       [ "camelbak", 25 ],
@@ -9770,7 +9780,8 @@
       [ "lighter", 25 ],
       [ "pockknife", 15 ],
       [ "metal_file", 15 ],
-      [ "pin_reamer", 10 ]
+      [ "pin_reamer", 10 ],
+      [ "survival_kit", 5 ]
     ]
   },
   {
