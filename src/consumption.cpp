@@ -635,12 +635,14 @@ bool player::eat( item &food, bool force )
         return false;
     }
 
+    int charges_used = 0;
     if( food.type->has_use() ) {
         if( !food.type->can_use( "DOGFOOD" ) &&
             !food.type->can_use( "CATFOOD" ) &&
             !food.type->can_use( "BIRDFOOD" ) &&
             !food.type->can_use( "CATTLEFODDER" ) ) {
-            if( food.type->invoke( *this, food, pos() ) <= 0 ) {
+            charges_used = food.type->invoke( *this, food, pos() );
+            if( charges_used <= 0 ) {
                 return false;
             }
         }
@@ -684,6 +686,10 @@ bool player::eat( item &food, bool force )
         add_msg_if_player( m_good, _( "Mmm, this %s tastes delicious..." ), food.tname() );
     }
     if( !consume_effects( food ) ) {
+        //Already consumed by using `food.type->invoke`?
+        if( charges_used > 0 ) {
+            food.mod_charges( -charges_used );
+        }
         return false;
     }
     food.mod_charges( -1 );
