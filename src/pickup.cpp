@@ -191,15 +191,15 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     const auto wield_check = u.can_wield( newit );
     if( newit.has_owner() &&
         newit.get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
-        std::string &thief_mode  = u.get_value("THIEF_MODE");
-        if( thief_mode == "THIEF_ASK" ) { // Has the player given input on if stealing is ok?
+        if( u.get_value( "THIEF_MODE" ) ==
+            "THIEF_ASK" ) { // Has the player given input on if stealing is ok?
             if( query_yn( _( "Picking up this item will be considered stealing, continue?" ) ) ) {
-                thief_mode = "THIEF_STEAL";
+                u.set_value( "THIEF_MODE", "THIEF_STEAL" );
             } else {
-                thief_mode = "THIEF_HONEST";
+                u.set_value( "THIEF_MODE""THIEF_HONEST" );
             }
         }
-        if(thief_mode == "THIEF_HONEST" ) {
+        if( u.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
             return true; // Since we are honest, return no problem before picking up
         }
     }
