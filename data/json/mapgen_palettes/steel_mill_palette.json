@@ -68,7 +68,7 @@
       "V": [ "f_vending_c" ],
       "7": [ "f_filing_cabinet" ]
     },
-    "toilets": { "t": { } },
+    "toilets": { "t": {  } },
     "vendingmachines": { "D": { "itemgroup": "vending_drink" }, "V": { "itemgroup": "vending_food" } }
   }
 ]
