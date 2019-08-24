@@ -53,8 +53,6 @@ struct tripoint;
 using t_string_set = std::set<std::string>;
 static t_string_set item_blacklist;
 
-static std::set<std::string> repair_actions;
-
 static DynamicDataLoader::deferred_json deferred;
 
 std::unique_ptr<Item_factory> item_controller = std::make_unique<Item_factory>();
@@ -2335,6 +2333,8 @@ void Item_factory::clear()
 
     repair_tools.clear();
     gun_tools.clear();
+    misc_tools.clear();
+    repair_actions.clear();
 
     frozen = false;
 }
