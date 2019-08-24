@@ -698,9 +698,9 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
     }
 
     if( first_line_is_category && iActive == 1 ) {  // Ensure that the scrollbar starts at zero position
-        draw_scrollbar( w, 0, iMaxRows, static_cast<int>( iModNum ), 0 );
+        draw_scrollbar( w, 0, iMaxRows, static_cast<int>( iModNum ), point_zero );
     } else {
-        draw_scrollbar( w, static_cast<int>( iActive ), iMaxRows, static_cast<int>( iModNum ), 0 );
+        draw_scrollbar( w, static_cast<int>( iActive ), iMaxRows, static_cast<int>( iModNum ), point_zero );
     }
 
     wrefresh( w );

@@ -579,7 +579,7 @@ int construction_menu( bool blueprint )
             }
         } // Finished updating
 
-        draw_scrollbar( w_con, select, w_list_height, constructs.size(), 3 );
+        draw_scrollbar( w_con, select, w_list_height, constructs.size(), point( 0, 3 ) );
         wrefresh( w_con );
         wrefresh( w_list );
 

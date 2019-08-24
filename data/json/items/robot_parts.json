@@ -8,7 +8,7 @@
     "color": "cyan",
     "material": [ "plastic", "steel" ],
     "weight": 250,
-    "volume": 2,
+    "volume": "500 ml",
     "price": 32000,
     "category": "spare_parts"
   },
@@ -92,7 +92,7 @@
     "symbol": "W",
     "color": "light_gray",
     "weight": 40000,
-    "volume": 80,
+    "volume": "20 L",
     "price": 200000,
     "material": "steel",
     "category": "spare_parts"
@@ -106,7 +106,7 @@
     "symbol": "w",
     "color": "light_gray",
     "weight": 200,
-    "volume": 2,
+    "volume": "500 ml",
     "price": 50000,
     "material": "steel",
     "category": "spare_parts"
@@ -120,7 +120,7 @@
     "symbol": "k",
     "color": "light_gray",
     "weight": 60000,
-    "volume": 80,
+    "volume": "20 L",
     "price": 500000,
     "material": "steel",
     "category": "spare_parts"
@@ -134,7 +134,7 @@
     "symbol": "o",
     "color": "light_gray",
     "weight": 10000,
-    "volume": 40,
+    "volume": "10 L",
     "price": 100000,
     "material": "steel",
     "category": "spare_parts"
@@ -148,7 +148,7 @@
     "symbol": "#",
     "color": "light_gray",
     "weight": 130,
-    "volume": 2,
+    "volume": "500 ml",
     "price": 40000,
     "material": [ "steel", "plastic" ],
     "category": "spare_parts"
@@ -162,7 +162,7 @@
     "symbol": "M",
     "color": "light_gray",
     "weight": 10000,
-    "volume": 40,
+    "volume": "10 L",
     "price": 100000,
     "material": [ "steel", "plastic" ],
     "category": "spare_parts"
@@ -176,7 +176,7 @@
     "symbol": "m",
     "color": "light_gray",
     "weight": 5000,
-    "volume": 20,
+    "volume": "5 L",
     "price": 100000,
     "material": [ "steel", "plastic" ],
     "category": "spare_parts"
@@ -190,7 +190,7 @@
     "symbol": "=",
     "color": "light_gray",
     "weight": 60000,
-    "volume": 120,
+    "volume": "30 L",
     "price": 600000,
     "material": [ "steel", "plastic" ],
     "category": "spare_parts"
@@ -204,7 +204,7 @@
     "symbol": "c",
     "color": "light_gray",
     "weight": 10000,
-    "volume": 40,
+    "volume": "10 L",
     "price": 100000,
     "material": [ "steel", "plastic" ],
     "category": "spare_parts"

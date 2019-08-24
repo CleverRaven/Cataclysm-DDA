@@ -24,6 +24,7 @@
 #include "item_group.h"
 #include "itype.h"
 #include "line.h"
+#include "kill_tracker.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -2254,6 +2255,8 @@ bool basecamp::gathering_return( const std::string &task, time_duration min_time
             case WINTER:
                 itemlist = "foraging_faction_camp_winter";
                 break;
+            default:
+                debugmsg( "Invalid season" );
         }
     }
     if( task == "_faction_camp_trapping" || task == "_faction_camp_hunting" ) {
@@ -2344,13 +2347,13 @@ void basecamp::recruit_return( const std::string &task, int score )
     int appeal = rng( -5, 3 ) + std::min( skill / 3, 3 );
     int food_desire = rng( 0, 5 );
     while( rec_m >= 0 ) {
-        std::string description = string_format( _( "NPC Overview:\n \n" ) );
+        std::string description = _( "NPC Overview:\n \n" );
         description += string_format( _( "Name:  %20s\n \n" ), recruit->name );
         description += string_format( _( "Strength:        %10d\n" ), recruit->str_max );
         description += string_format( _( "Dexterity:       %10d\n" ), recruit->dex_max );
         description += string_format( _( "Intelligence:    %10d\n" ), recruit->int_max );
         description += string_format( _( "Perception:      %10d\n \n" ), recruit->per_max );
-        description += string_format( _( "Top 3 Skills:\n" ) );
+        description += _( "Top 3 Skills:\n" );
 
         const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a,
         const Skill & b ) {
@@ -2366,7 +2369,7 @@ void basecamp::recruit_return( const std::string &task, int score )
         description += string_format( "%12s:          %4d\n \n", skillslist[2]->name(),
                                       recruit->get_skill_level( skillslist[2]->ident() ) );
 
-        description += string_format( _( "Asking for:\n" ) );
+        description += _( "Asking for:\n" );
         description += string_format( _( "> Food:     %10d days\n \n" ), food_desire );
         description += string_format( _( "Faction Food:%9d days\n \n" ),
                                       camp_food_supply( 0, true ) );
@@ -3321,7 +3324,7 @@ int basecamp::recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, i
         sbonus += 10;
     }
     //Survival of the fittest
-    if( g->get_npc_kill().size() > 10 ) {
+    if( g->get_kill_tracker().npc_kill_count() > 10 ) {
         sbonus += 10;
     }
     return sbase + sexpansions + sfaction + sbonus;

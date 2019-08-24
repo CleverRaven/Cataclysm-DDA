@@ -5,7 +5,7 @@
     "name": "H&K G80 magazine",
     "description": "A magazine for H&K G80 Railgun which can hold up to 20 ferromagnetic projectiles.",
     "weight": 168,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 8000,
     "material": "steel",
     "symbol": "#",

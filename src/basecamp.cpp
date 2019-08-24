@@ -445,7 +445,7 @@ void basecamp::validate_assignees()
             ++it2;
         }
     }
-    for( auto elem : g->get_follower_list() ) {
+    for( character_id elem : g->get_follower_list() ) {
         npc_ptr npc_to_add = overmap_buffer.find_npc( elem );
         if( !npc_to_add ) {
             continue;
@@ -482,7 +482,7 @@ void basecamp::query_new_name()
 {
     std::string camp_name;
     string_input_popup popup;
-    popup.title( string_format( _( "Name this camp" ) ) )
+    popup.title( _( "Name this camp" ) )
     .width( 40 )
     .text( "" )
     .max_length( 25 )

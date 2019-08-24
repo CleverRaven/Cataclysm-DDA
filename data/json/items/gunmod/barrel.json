@@ -21,7 +21,7 @@
     "name": "upstest",
     "description": "Testmod for UPS drain on mods, this should never spawn, if you see this, it's a bug. 50 UPS drain.",
     "weight": 450,
-    "volume": 2,
+    "volume": "500 ml",
     "price": 20000,
     "bashing": 5,
     "material": [ "steel" ],
