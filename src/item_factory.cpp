@@ -2333,6 +2333,7 @@ void Item_factory::clear()
 
     repair_tools.clear();
     gun_tools.clear();
+    misc_tools.clear();
     repair_actions.clear();
 
     frozen = false;
