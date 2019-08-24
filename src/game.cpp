@@ -48,7 +48,6 @@
 #include "dependency_tree.h"
 #include "editmap.h"
 #include "enums.h"
-#include "timed_event.h"
 #include "faction.h"
 #include "filesystem.h"
 #include "game_constants.h"
@@ -104,9 +103,11 @@
 #include "sdltiles.h"
 #include "sounds.h"
 #include "start_location.h"
+#include "stats_tracker.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "submap.h"
+#include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
 #include "uistate.h"
@@ -279,6 +280,7 @@ game::game() :
 {
     player_was_sleeping = false;
     reset_light_level();
+    events().subscribe( &*stats_tracker_ptr );
     events().subscribe( &*kill_tracker_ptr );
     events().subscribe( &*memorial_logger_ptr );
     world_generator = std::make_unique<worldfactory>();
@@ -662,6 +664,7 @@ void game::setup()
 
     SCT.vSCT.clear(); //Delete pending messages
 
+    stats().clear();
     // reset kill counts
     kill_tracker_ptr->clear();
     // reset follower list
@@ -2854,6 +2857,11 @@ bool game::save_player_data()
 event_bus &game::events()
 {
     return *event_bus_ptr;
+}
+
+stats_tracker &game::stats()
+{
+    return *stats_tracker_ptr;
 }
 
 memorial_logger &game::memorial()

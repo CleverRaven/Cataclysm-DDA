@@ -4,7 +4,7 @@
 #include "game.h"
 #include "stats_tracker.h"
 
-TEST_CASE( "stats_tracker_count_events" )
+TEST_CASE( "stats_tracker_count_events", "[stats]" )
 {
     stats_tracker s;
     event_bus b;
@@ -28,4 +28,12 @@ TEST_CASE( "stats_tracker_count_events" )
     CHECK( s.count( kill1 ) == 1 );
     CHECK( s.count( kill2 ) == 1 );
     CHECK( s.count( event_type::character_kills_monster, char_is_player ) == 2 );
+}
+
+TEST_CASE( "stats_tracker_in_game", "[stats]" )
+{
+    g->stats().clear();
+    cata::event e = cata::event::make<event_type::awakes_dark_wyrms>();
+    g->events().send( e );
+    CHECK( g->stats().count( e ) == 1 );
 }
