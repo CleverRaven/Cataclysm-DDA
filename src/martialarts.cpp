@@ -450,7 +450,7 @@ std::string ma_requirements::get_description( bool buff ) const
     }
 
     if( !req_buffs.empty() ) {
-        dump << string_format( _( "<bold>Requires:</bold> " ) );
+        dump << _( "<bold>Requires:</bold> " );
 
         dump << enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id & bid ) {
             return _( bid->name );
@@ -1343,7 +1343,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             werase( w );
             fold_and_print_from( w, point( 2, 1 ), width, selected, c_light_gray, text );
             draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), _( ma.name ) ) );
-            draw_scrollbar( w, selected, height, iLines, 1, 0, BORDER_COLOR, true );
+            draw_scrollbar( w, selected, height, iLines, point_south, BORDER_COLOR, true );
             wrefresh( w );
             catacurses::refresh();
 

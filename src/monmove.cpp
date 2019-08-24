@@ -102,16 +102,25 @@ bool monster::is_immune_field( const field_type_id fid ) const
 bool monster::can_move_to( const tripoint &p ) const
 {
     const bool can_climb = has_flag( MF_CLIMBS ) || has_flag( MF_FLIES );
-    if( g->m.impassable( p ) && !( can_climb && g->m.has_flag( "CLIMBABLE", p ) ) ) {
-        return false;
+
+    if( g->m.impassable( p ) ) {
+        if( digging() ) {
+            if( !g->m.has_flag( "BURROWABLE", p ) ) {
+                return false;
+            }
+        } else if( !( can_climb && g->m.has_flag( "CLIMBABLE", p ) ) ) {
+            return false;
+        }
     }
 
     if( ( !can_submerge() && !has_flag( MF_FLIES ) ) && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
         return false;
     }
-    if( has_flag( MF_DIGS ) && !g->m.has_flag( "DIGGABLE", p ) ) {
+
+    if( has_flag( MF_DIGS ) && !g->m.has_flag( "DIGGABLE", p ) && !g->m.has_flag( "BURROWABLE", p ) ) {
         return false;
     }
+
     if( has_flag( MF_AQUATIC ) && !g->m.has_flag( "SWIMMABLE", p ) ) {
         return false;
     }
@@ -903,8 +912,8 @@ void monster::move()
 player *monster::find_dragged_foe()
 {
     // Make sure they're actually dragging someone.
-    if( dragged_foe_id < 0 || !has_effect( effect_dragging ) ) {
-        dragged_foe_id = -1;
+    if( !dragged_foe_id.is_valid() || !has_effect( effect_dragging ) ) {
+        dragged_foe_id = character_id();
         return nullptr;
     }
 
@@ -915,7 +924,7 @@ player *monster::find_dragged_foe()
 
     if( dragged_foe == nullptr ) {
         // Target no longer valid.
-        dragged_foe_id = -1;
+        dragged_foe_id = character_id();
         remove_effect( effect_dragging );
     }
 
@@ -969,7 +978,7 @@ void monster::nursebot_operate( player *dragged_foe )
 
             dragged_foe->remove_effect( effect_grabbed );
             remove_effect( effect_dragging );
-            dragged_foe_id = -1;
+            dragged_foe_id = character_id();
 
         }
     }
@@ -1156,7 +1165,7 @@ static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tri
     zone.reserve( 3 * maxdepth );
     tripoint previous = bashee;
     for( const tripoint &p : path ) {
-        std::vector<point> swath = squares_in_direction( previous.x, previous.y, p.x, p.y );
+        std::vector<point> swath = squares_in_direction( previous.xy(), p.xy() );
         for( point q : swath ) {
             zone.push_back( tripoint( q, bashee.z ) );
         }
@@ -1417,7 +1426,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
         underwater = g->m.has_flag( "DIGGABLE", pos() );
     }
     // Diggers turn the dirt into dirtmound
-    if( digging() ) {
+    if( digging() && g->m.has_flag( "DIGGABLE", pos() ) ) {
         int factor = 0;
         switch( type->size ) {
             case MS_TINY:
@@ -1436,6 +1445,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
                 factor = 1;
                 break;
         }
+        // TODO: make this take terrain type into account so diggers travelling under sand will create mounds of sand etc.
         if( one_in( factor ) ) {
             g->m.ter_set( pos(), t_dirtmound );
         }
@@ -1765,7 +1775,7 @@ bool monster::will_reach( const point &p )
     }
 
     if( can_hear() && wandf > 0 && rl_dist( wander_pos.xy(), p ) <= 2 &&
-        rl_dist( posx(), posy(), wander_pos.x, wander_pos.y ) <= wandf ) {
+        rl_dist( point( posx(), posy() ), wander_pos.xy() ) <= wandf ) {
         return true;
     }
 

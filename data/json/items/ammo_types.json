@@ -31,6 +31,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "barb",
+    "name": "barb",
+    "default": "barb_paralysis"
+  },
+  {
+    "type": "ammunition_type",
     "id": "BB",
     "name": "BBs",
     "default": "bb"

@@ -16,49 +16,47 @@
 
 extern bool trigdist;
 
-void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
+void bresenham( const point &p1, const point &p2, int t,
                 const std::function<bool( const point & )> &interact )
 {
     // The slope components.
-    const int dx = x2 - x1;
-    const int dy = y2 - y1;
+    const point d = p2 - p1;
     // Signs of slope values.
-    const int sx = ( dx == 0 ) ? 0 : sgn( dx );
-    const int sy = ( dy == 0 ) ? 0 : sgn( dy );
+    const int sx = ( d.x == 0 ) ? 0 : sgn( d.x );
+    const int sy = ( d.y == 0 ) ? 0 : sgn( d.y );
     // Absolute values of slopes x2 to avoid rounding errors.
-    const int ax = abs( dx ) * 2;
-    const int ay = abs( dy ) * 2;
+    const point a = abs( d ) * 2;
 
-    point cur( x1, y1 );
+    point cur = p1;
 
-    if( ax == ay ) {
-        while( cur.x != x2 ) {
+    if( a.x == a.y ) {
+        while( cur.x != p2.x ) {
             cur.y += sy;
             cur.x += sx;
             if( !interact( cur ) ) {
                 break;
             }
         }
-    } else if( ax > ay ) {
-        while( cur.x != x2 ) {
+    } else if( a.x > a.y ) {
+        while( cur.x != p2.x ) {
             if( t > 0 ) {
                 cur.y += sy;
-                t -= ax;
+                t -= a.x;
             }
             cur.x += sx;
-            t += ay;
+            t += a.y;
             if( !interact( cur ) ) {
                 break;
             }
         }
     } else {
-        while( cur.y != y2 ) {
+        while( cur.y != p2.y ) {
             if( t > 0 ) {
                 cur.x += sx;
-                t -= ay;
+                t -= a.y;
             }
             cur.y += sy;
-            t += ax;
+            t += a.x;
             if( !interact( cur ) ) {
                 break;
             }
@@ -198,26 +196,21 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
 
 //Trying to pull points out of a tripoint vector is messy and
 //probably slow, so leaving two full functions for now
-std::vector<point> line_to( const int x1, const int y1, const int x2, const int y2, int t )
+std::vector<point> line_to( const point &p1, const point &p2, int t )
 {
     std::vector<point> line;
     // Preallocate the number of cells we need instead of allocating them piecewise.
-    const int numCells = square_dist( tripoint( x1, y1, 0 ), tripoint( x2, y2, 0 ) );
+    const int numCells = square_dist( p1, p2 );
     if( numCells == 0 ) {
-        line.push_back( {x1, y1} );
+        line.push_back( p1 );
     } else {
         line.reserve( numCells );
-        bresenham( x1, y1, x2, y2, t, [&line]( const point & new_point ) {
+        bresenham( p1, p2, t, [&line]( const point & new_point ) {
             line.push_back( new_point );
             return true;
         } );
     }
     return line;
-}
-
-std::vector<point> line_to( const point &p1, const point &p2, const int t )
-{
-    return line_to( p1.x, p1.y, p2.x, p2.y, t );
 }
 
 std::vector <tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t, int t2 )
@@ -237,11 +230,6 @@ std::vector <tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int 
     return line;
 }
 
-float trig_dist( const int x1, const int y1, const int x2, const int y2 )
-{
-    return trig_dist( tripoint( x1, y1, 0 ), tripoint( x2, y2, 0 ) );
-}
-
 float trig_dist( const point &loc1, const point &loc2 )
 {
     return trig_dist( tripoint( loc1, 0 ), tripoint( loc2, 0 ) );
@@ -254,30 +242,16 @@ float trig_dist( const tripoint &loc1, const tripoint &loc2 )
                  ( ( loc1.z - loc2.z ) * ( loc1.z - loc2.z ) ) );
 }
 
-int square_dist( const int x1, const int y1, const int x2, const int y2 )
-{
-    return square_dist( point( x1, y1 ), point( x2, y2 ) );
-}
-
 int square_dist( const point &loc1, const point &loc2 )
 {
-    const int dx = abs( loc1.x - loc2.x );
-    const int dy = abs( loc1.y - loc2.y );
-    return dx > dy ? dx : dy;
+    const point d = abs( loc1 - loc2 );
+    return std::max( d.x, d.y );
 }
 
 int square_dist( const tripoint &loc1, const tripoint &loc2 )
 {
-    const int dx = abs( loc1.x - loc2.x );
-    const int dy = abs( loc1.y - loc2.y );
-    const int dz = abs( loc1.z - loc2.z );
-    int maxDxDy = ( dx > dy ? dx : dy ); // Sloppy, but should be quick.
-    return ( maxDxDy > dz ? maxDxDy : dz ); // Too bad it doesn't scale.
-}
-
-int rl_dist( const int x1, const int y1, const int x2, const int y2 )
-{
-    return rl_dist( tripoint( x1, y1, 0 ), tripoint( x2, y2, 0 ) );
+    const tripoint d = abs( loc1 - loc2 );
+    return std::max( { d.x, d.y, d.z } );
 }
 
 int rl_dist( const point &a, const point &b )
@@ -310,17 +284,19 @@ double atan2_degrees( const point &p )
 }
 
 // This more general version of this function gives correct values for larger values.
-unsigned make_xyz( const int x, const int y, const int z )
+unsigned make_xyz( const tripoint &p )
 {
     static constexpr double sixteenth_arc = M_PI / 8;
-    int vertical_position = ( ( z > 0 ) ? 2u : ( z < 0 ) ? 1u : 0u ) * 9u;
-    if( x == 0 && y == 0 ) {
+    int vertical_position = ( ( p.z > 0 ) ? 2u : ( p.z < 0 ) ? 1u : 0u ) * 9u;
+    if( p.xy() == point_zero ) {
         return vertical_position;
     }
     // Get the arctan of the angle and divide by approximately 22.5 deg to get the octant.
     // the angle is in, then truncate it and map to the right direction.
     // You can read 'octant' as being "number of 22.5 degree sections away from due south".
-    int octant = atan2( x, y ) / sixteenth_arc;
+    // FIXME: atan2 normally takes arguments in ( y, x ) order.  This is
+    // passing ( x, y ).
+    int octant = atan2( p.x, p.y ) / sixteenth_arc;
     switch( octant ) {
         case 0:
             return SOUTH + vertical_position;
@@ -394,20 +370,25 @@ std::vector<tripoint> continue_line( const std::vector<tripoint> &line, const in
     return line_to( line.back(), move_along_line( line.back(), line, distance ) );
 }
 
-direction direction_from( const int x, const int y, const int z ) noexcept
+direction direction_from( const point &p ) noexcept
 {
-    return static_cast<direction>( make_xyz( x, y, z ) );
+    return static_cast<direction>( make_xyz( tripoint( p, 0 ) ) );
 }
 
-direction direction_from( const int x1, const int y1, const int x2, const int y2 ) noexcept
+direction direction_from( const tripoint &p ) noexcept
 {
-    return direction_from( x2 - x1, y2 - y1 );
+    return static_cast<direction>( make_xyz( p ) );
+}
+
+direction direction_from( const point &p1, const point &p2 ) noexcept
+{
+    return direction_from( p2 - p1 );
 }
 
 direction direction_from( const tripoint &p, const tripoint &q )
 {
     // Note: Z-coordinate has to be inverted either here or in direction definitions
-    return direction_from( q.x - p.x, q.y - p.y, -( q.z - p.z ) );
+    return direction_from( tripoint( q.x - p.x, q.y - p.y, -( q.z - p.z ) ) );
 }
 
 point direction_XY( const direction dir )
@@ -550,24 +531,24 @@ std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &t
 
 // Returns a vector of the adjacent square in the direction of the target,
 // and the two squares flanking it.
-std::vector<point> squares_in_direction( const int x1, const int y1, const int x2, const int y2 )
+std::vector<point> squares_in_direction( const point &p1, const point &p2 )
 {
     int junk = 0;
-    point center_square = line_to( x1, y1, x2, y2, junk )[0];
+    point center_square = line_to( p1, p2, junk )[0];
     std::vector<point> adjacent_squares;
     adjacent_squares.push_back( center_square );
-    if( x1 == center_square.x ) {
+    if( p1.x == center_square.x ) {
         // Horizontally adjacent.
-        adjacent_squares.push_back( point( x1 + 1, center_square.y ) );
-        adjacent_squares.push_back( point( x1 - 1, center_square.y ) );
-    } else if( y1 == center_square.y ) {
+        adjacent_squares.push_back( point( p1.x + 1, center_square.y ) );
+        adjacent_squares.push_back( point( p1.x - 1, center_square.y ) );
+    } else if( p1.y == center_square.y ) {
         // Vertically adjacent.
-        adjacent_squares.push_back( point( center_square.x, y1 + 1 ) );
-        adjacent_squares.push_back( point( center_square.x, y1 - 1 ) );
+        adjacent_squares.push_back( point( center_square.x, p1.y + 1 ) );
+        adjacent_squares.push_back( point( center_square.x, p1.y - 1 ) );
     } else {
         // Diagonally adjacent.
-        adjacent_squares.push_back( point( x1, center_square.y ) );
-        adjacent_squares.push_back( point( center_square.x, y1 ) );
+        adjacent_squares.push_back( point( p1.x, center_square.y ) );
+        adjacent_squares.push_back( point( center_square.x, p1.y ) );
     }
     return adjacent_squares;
 }
