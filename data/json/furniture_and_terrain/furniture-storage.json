@@ -416,6 +416,34 @@
   },
   {
     "type": "furniture",
+    "id": "f_rack_wood",
+    "name": "wooden rack",
+    "symbol": "{",
+    "description": "A simple wooden rack.  Display your items on it.",
+    "color": "brown",
+    "move_cost_mod": -1,
+    "coverage": 70,
+    "required_str": 7,
+    "looks_like": "f_bookcase",
+    "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": 12 },
+        { "item": "wood_panel", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 32, 40 ] }
+      ]
+    },
+    "max_volume": "1500 L",
+    "bash": {
+      "str_min": 6,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 20, 40 ] }, { "item": "splinter", "count": 12 } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_rack_coat",
     "name": "coat rack",
     "description": "A hooked rack for hanging jackets and hats.",

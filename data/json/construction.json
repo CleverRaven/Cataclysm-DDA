@@ -1404,6 +1404,17 @@
   },
   {
     "type": "construction",
+    "description": "Build Wooden Rack",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "80 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 6 ] ], [ [ "wood_sheet", 2 ], [ "wood_panel", 4 ] ], [ [ "nail", 40 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_rack_wood"
+  },
+  {
+    "type": "construction",
     "description": "Build Metal Rack",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ] ],
