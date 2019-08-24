@@ -317,7 +317,6 @@
     "description": "Your skin simply cannot handle ultraviolet radiation, such as sunlight.  It will seriously burn you.",
     "prereqs": [ "ALBINO" ],
     "prereqs2": [ "TROGLO2", "TROGLO3" ],
-    "category": [ "VAMP" ],
-    "category": [ "TROGLOBITE" ]
+    "category": [ "TROGLOBITE", "VAMP" ]
   }
 ]
