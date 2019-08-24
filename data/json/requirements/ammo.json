@@ -70,7 +70,7 @@
     "//": "Components required for .300 AAC Blackout ammo",
     "components": [ [ [ "300blk_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ] ]
   },
-{
+  {
     "id": "22_casehead",
     "type": "requirement",
     "//": "References needed for boltfaces and magazines using .22 lr or derivatives",
