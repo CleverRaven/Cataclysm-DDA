@@ -17,7 +17,7 @@
         ".| ||@@",
         ".|+||@@"
       ],
-      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 2, 3 ], "y": [ 1, 4 ], "repeat": [ 0, 2 ] } ],
+      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 2, 3 ], "y": [ 1, 4 ], "density": 0.02, "repeat": [ 0, 2 ] } ],
       "palettes": [ "mi-go_palette" ]
     }
   },
@@ -40,7 +40,7 @@
         "|||||||@",
         "@@@@@@@@"
       ],
-      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 1, 6 ], "y": [ 2, 4 ], "repeat": [ 1, 3 ] } ],
+      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 1, 6 ], "y": [ 2, 4 ], "density": 0.01, "repeat": [ 1, 3 ] } ],
       "palettes": [ "mi-go_palette" ]
     }
   },
@@ -63,7 +63,7 @@
         "@@@@@@@@",
         "@@@@@@@@"
       ],
-      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_CAPTORS", "x": [ 1, 6 ], "y": 2, "repeat": [ 1, 2 ] } ],
+      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_CAPTORS", "x": [ 1, 6 ], "y": 2, "density": 0.01, "repeat": [ 1, 2 ] } ],
       "palettes": [ "mi-go_palette" ]
     }
   },
@@ -119,7 +119,7 @@
         "||   i@",
         "@|+|||@"
       ],
-      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 2, 5 ], "y": [ 1, 5 ], "repeat": [ 1, 3 ] } ],
+      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 2, 5 ], "y": [ 1, 5 ], "density": 0.02, "repeat": [ 1, 3 ] } ],
       "palettes": [ "mi-go_palette" ]
     }
   },
@@ -164,8 +164,8 @@
         "7": { "class": "mi-go_prisoner", "chance": 20 }
       },
       "place_monsters": [
-        { "monster": "GROUP_MI-GO_BASE_CAPTORS", "x": [ 2, 12 ], "y": [ 5, 10 ], "repeat": [ 2, 3 ] },
-        { "monster": "GROUP_MI-GO_BASE_BOSS", "x": [ 12, 13 ], "y": [ 7, 8 ], "repeat": [ 0, 1 ] }
+        { "monster": "GROUP_MI-GO_BASE_CAPTORS", "x": [ 2, 12 ], "y": [ 5, 10 ], "density": 0.02, "repeat": [ 2, 3 ] },
+        { "monster": "GROUP_MI-GO_BASE_BOSS", "x": [ 12, 13 ], "y": [ 7, 8 ], "density": 0.01, "repeat": [ 0, 1 ] }
       ]
     }
   },
@@ -188,7 +188,7 @@
         ".|||||||",
         "@@@@@@@@"
       ],
-      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 2, 5 ], "y": [ 1, 4 ], "repeat": [ 0, 3 ] } ],
+      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 2, 5 ], "y": [ 1, 4 ], "density": 0.01, "repeat": [ 0, 3 ] } ],
       "palettes": [ "mi-go_palette" ]
     }
   },
@@ -213,11 +213,11 @@
         "|| ||@@@"
       ],
       "place_monsters": [
-        { "monster": "GROUP_MI-GO_BASE_CAPTORS", "x": [ 2, 4 ], "y": [ 2, 5 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_DOMESTIC", "x": 4, "y": 0 },
-        { "monster": "GROUP_FOREST", "x": 6, "y": 1 },
-        { "monster": "GROUP_SWAMP", "x": 7, "y": 3 },
-        { "monster": "GROUP_CAVE", "x": 2, "y": 7 }
+        { "monster": "GROUP_MI-GO_BASE_CAPTORS", "x": [ 2, 4 ], "y": [ 2, 5 ], "density": 0.01, "repeat": [ 1, 2 ] },
+        { "monster": "GROUP_DOMESTIC", "x": 4, "y": 0, "density": 0.01 },
+        { "monster": "GROUP_FOREST", "x": 6, "y": 1, "density": 0.01 },
+        { "monster": "GROUP_SWAMP", "x": 7, "y": 3, "density": 0.01 },
+        { "monster": "GROUP_CAVE", "x": 2, "y": 7, "density": 0.01 }
       ],
       "palettes": [ "mi-go_palette" ]
     }
@@ -243,7 +243,7 @@
         "@@|||V   ",
         "@@@@||||+"
       ],
-      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 1, 8 ], "y": [ 3, 5 ], "repeat": [ 0, 2 ] } ],
+      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 1, 8 ], "y": [ 3, 5 ], "density": 0.01, "repeat": [ 0, 2 ] } ],
       "palettes": [ "mi-go_palette" ]
     }
   },
@@ -268,7 +268,7 @@
         "P |||@@@@",
         "|||@+@@@@"
       ],
-      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 0, 3 ], "y": [ 2, 5 ], "repeat": [ 0, 2 ] } ],
+      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 0, 3 ], "y": [ 2, 5 ], "density": 0.01, "repeat": [ 0, 2 ] } ],
       "palettes": [ "mi-go_palette" ]
     }
   },
@@ -312,6 +312,7 @@
         "@||||+||",
         "@@@@@@@@"
       ],
+      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 1, 3 ], "y": [ 2, 5 ], "density": 0.01, "repeat": [ 0, 2 ] } ],
       "palettes": [ "mi-go_palette" ]
     }
   },
@@ -336,7 +337,7 @@
         "@@@@@@@@@@",
         "@@@@@@@@@@"
       ],
-      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 2, 6 ], "y": [ 1, 4 ], "repeat": [ 0, 1 ] } ],
+      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 2, 6 ], "y": [ 1, 4 ], "density": 0.01, "repeat": [ 0, 1 ] } ],
       "palettes": [ "mi-go_palette" ]
     }
   },
