@@ -72,8 +72,8 @@
       "d": [ { "item": "dresser", "chance": 80, "repeat": [ 1, 6 ] }, { "item": "homeguns", "chance": 20 } ],
       "e": { "item": "fridge", "chance": 65, "repeat": [ 1, 15 ] },
       "o": { "item": "oven", "chance": 65, "repeat": [ 1, 3 ] },
-      "h": { "item": "bedroom", "chance": 65 },
-      "H": { "item": "livingroom", "chance": 65 },
+      "h": { "item": "bedroom", "chance": 10 },
+      "H": { "item": "livingroom", "chance": 15 },
       "k": { "item": "bedroom", "chance": 65 },
       "l": [
         { "item": "tools_earthworking", "chance": 65 },
