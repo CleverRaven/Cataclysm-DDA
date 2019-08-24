@@ -817,22 +817,43 @@
   },
   {
     "type": "technique",
-    "id": "tec_karate_rapid",
-    "name": "quick punch",
-    "min_unarmed": 0,
+    "id": "tec_karate_counter",
+    "name": "Karate Counter",
+    "messages": [ "You counterattack %s", "<npcname> counterattacks %s" ],
+    "min_unarmed": 5,
     "unarmed_allowed": true,
-    "messages": [ "You quickly punch %s", "<npcname> quickly punches %s" ],
-    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
+    "block_counter": true,
+    "crit_ok": true,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
   },
   {
     "type": "technique",
     "id": "tec_karate_precise",
-    "name": "karate chop",
+    "name": "Karate Chop",
+    "messages": [ "You karate chop %s", "<npcname> karate chops %s" ],
     "min_unarmed": 4,
     "unarmed_allowed": true,
     "crit_tec": true,
-    "messages": [ "You karate chop %s", "<npcname> karate chops %s" ],
-    "stun_dur": 2
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.33 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_karate_rapid",
+    "name": "Quick Punch",
+    "messages": [ "You quickly punch %s", "<npcname> quickly punches %s" ],
+    "min_unarmed": 1,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_karate_roundhouse",
+    "name": "Roundhouse Kick",
+    "messages": [ "You roundhouse kick %s", "<npcname> roundhouse kicks %s" ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
   },
   {
     "type": "technique",
