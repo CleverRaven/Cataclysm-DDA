@@ -21,8 +21,8 @@
     "weight": 5000,
     "volume": "6 L",
     "price": 3000,
-	"bashing": 14,
-	"to_hit": -2,
+    "bashing": 14,
+    "to_hit": -2,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray"
@@ -36,8 +36,8 @@
     "weight": 6000,
     "volume": "7 L",
     "price": 5000,
-	"bashing": 14,
-	"to_hit": -2,
+    "bashing": 14,
+    "to_hit": -2,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray"
