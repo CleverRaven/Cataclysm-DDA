@@ -12,7 +12,6 @@
     "durability": 120,
     "description": "A piece of metal with holes suitable for a bike or motorbike wheel.",
     "item": "scrap",
-    "difficulty": 2,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "welding_standard", 3 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "qualities": [ { "id": "SAW_M", "level": 2 } ] },
@@ -35,11 +34,10 @@
     "durability": 120,
     "description": "Connection where wheels can be connected on. This particular one is fit for normal car wheels.",
     "item": "wheel_mount_medium",
-    "difficulty": 2,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ], "using": [ [ "welding_standard", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SAW_M", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_MEDIUM", "NEEDS_JACKING" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] },{ "item": "steel_chunk", "count": [ 2, 5 ] } ],
@@ -58,11 +56,10 @@
     "durability": 120,
     "description": "Connection where wheels can be connected on. This particular one is fit for large car wheels.",
     "item": "wheel_mount_heavy",
-    "difficulty": 2,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "qualities": [ { "id": "WRENCH", "level": 2 } ], "using": [ [ "welding_standard", 15 ] ] },
       "removal": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SAW_M", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_HEAVY", "NEEDS_JACKING" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] },{ "item": "steel_chunk", "count": [ 3, 7 ] } ],
@@ -76,7 +73,6 @@
     "location": "under",
     "symbol": "|",
     "broken_symbol": "x",
-    "difficulty": 2,
     "durability": 180,
     "description": "A strong metal wheel.",
     "damage_modifier": 70,
@@ -151,7 +147,6 @@
     "symbol": "0",
     "broken_symbol": "x",
     "color": "dark_gray",
-    "difficulty": 0,
     "durability": 200,
     "description": "A wheel.",
     "damage_modifier": 50,
@@ -164,9 +159,9 @@
     "wheel_type": "standard",
     "contact_area": 153,
     "requirements": {
-      "install": { "time": "7 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "removal": { "time": "6 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-	  "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
+      "install": { "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "removal": { "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+	  "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
     "damage_reduction": { "bash": 20 }
@@ -205,7 +200,6 @@
     "symbol": "0",
     "broken_symbol": "x",
     "color": "green",
-    "difficulty": 4,
     "durability": 800,
     "description": "A very strong, armored metal wheel.",
     "damage_modifier": 50,
@@ -218,8 +212,9 @@
     "wheel_type": "standard",
     "contact_area": 480,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] }
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] }
+	  "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_HEAVY" ],
     "damage_reduction": { "all": 60, "cut": 30, "stab": 16 }
@@ -240,7 +235,6 @@
     "symbol": "o",
     "broken_symbol": "x",
     "color": "dark_gray",
-    "difficulty": 2,
     "durability": 70,
     "description": "A small wheel.",
     "damage_modifier": 50,
@@ -250,8 +244,9 @@
     "wheel_type": "off-road",
     "contact_area": 30,
 	"requirements": {
-      "install": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "removal": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+      "install": { "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "removal": { "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+	  "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "bash": 10 }
@@ -265,7 +260,6 @@
     "symbol": "|",
     "broken_symbol": "x",
     "color": "dark_gray",
-    "difficulty": 1,
     "durability": 40,
     "description": "A thin bicycle wheel.",
     "damage_modifier": 50,
@@ -279,8 +273,9 @@
     "wheel_type": "standard",
     "contact_area": 40,
 	"requirements": {
-      "install": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "removal": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+      "install": { "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "removal": { "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+	  "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "bash": 6 }
@@ -341,7 +336,6 @@
     "symbol": "o",
     "broken_symbol": "x",
     "color": "dark_gray",
-    "difficulty": 2,
     "durability": 90,
     "description": "A small wheel from a motorcycle.",
     "damage_modifier": 50,
@@ -354,8 +348,9 @@
     "wheel_type": "standard",
     "contact_area": 66,
 	"requirements": {
-      "install": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "removal": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+      "install": { "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "removal": { "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+	  "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "bash": 10 }
@@ -393,7 +388,6 @@
     "symbol": "o",
     "broken_symbol": "x",
     "color": "dark_gray",
-    "difficulty": 2,
     "durability": 70,
     "description": "A small wheel.",
     "damage_modifier": 50,
@@ -403,8 +397,9 @@
     "wheel_type": "racing",
     "contact_area": 30,
 	"requirements": {
-      "install": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "removal": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+      "install": { "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "removal": { "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+	  "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ]
   },
@@ -424,15 +419,14 @@
     "symbol": "|",
     "broken_symbol": "x",
     "color": "dark_gray",
-    "difficulty": 0,
     "durability": 30,
     "description": "A set of three plastic wheels, with a larger one in the front, mounted with bolts.",
     "damage_modifier": 50,
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 3 ] } ],
-    "requirements": {
-      "install": { "time": 30000, "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "removal": { "time": 15000, "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 5000, "using": [ [ "adhesive", 1 ] ] }
+	"requirements": {
+      "install": { "time": "4 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "time": "2 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+	  "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ] ] }
     },
     "rolling_resistance": 10,
     "wheel_type": "standard",
@@ -449,7 +443,6 @@
     "symbol": "|",
     "broken_symbol": "x",
     "color": "dark_gray",
-    "difficulty": 2,
     "durability": 40,
     "description": "A small wheel.",
     "damage_modifier": 50,
@@ -463,8 +456,9 @@
     "wheel_type": "standard",
     "contact_area": 20,
 	"requirements": {
-      "install": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "removal": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+      "install": { "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "removal": { "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+	  "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "STEERABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "bash": 8 }
@@ -478,7 +472,6 @@
     "symbol": "|",
     "broken_symbol": "x",
     "color": "dark_gray",
-    "difficulty": 2,
     "durability": 40,
     "description": "A pair of wheelchair wheels.",
     "damage_modifier": 50,
@@ -492,8 +485,9 @@
     "wheel_type": "racing",
     "contact_area": 40,
 	"requirements": {
-      "install": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "removal": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+      "install": { "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "removal": { "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+	  "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "STEERABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "bash": 6 }
@@ -507,7 +501,6 @@
     "symbol": "O",
     "broken_symbol": "x",
     "color": "dark_gray",
-    "difficulty": 4,
     "durability": 400,
     "description": "A wide wheel that provides more traction and better off-road performance.",
     "damage_modifier": 50,
@@ -520,8 +513,9 @@
     "wheel_type": "standard",
     "contact_area": 360,
 	"requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] }
+      "install": { "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "removal": { "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+	  "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
     "damage_reduction": { "bash": 25 }
@@ -565,8 +559,8 @@
     "damage_modifier": 50,
     "breaks_into": [ { "item": "2x4", "count": [ 0, 4 ] }, { "item": "nail", "charges": [ 5, 15 ] } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": 30000, "qualities": [ { "id": "WRENCH", "level": 2  } ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "WRENCH", "level": 2  } ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 2  } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 2  } ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": 5000, "using": [ [ "adhesive", 1 ] ] }
     },
     "rolling_resistance": 2.15,
