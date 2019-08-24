@@ -1268,7 +1268,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
         }
         for( auto map_elem : temp_map ) {
             total_map[map_elem.first] += map_elem.second;
-            // if its a construction/crafting task, we can discount any items already near the work spot.
+            // if its a construction/crafting task, we can discount any items already near the work spot
             // we dont need to fetch those, they will be used automatically in the construction.
             // a shovel for tilling, for example, however, needs to be picked up, no matter if its near the spot or not.
             if( !pickup_task ) {
