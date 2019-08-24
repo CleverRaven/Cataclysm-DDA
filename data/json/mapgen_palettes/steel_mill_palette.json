@@ -47,7 +47,7 @@
       "G": [ "t_grate" ],
       "2": [ "t_sai_box" ],
       "5": [ "t_switchgear_l" ],
-      "`": [ "t_thconc_y"]
+      "`": [ "t_thconc_y" ]
     },
     "furniture": {
       "h": [ "f_chair" ],
