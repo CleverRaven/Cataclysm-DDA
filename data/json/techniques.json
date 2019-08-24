@@ -829,7 +829,7 @@
   {
     "type": "technique",
     "id": "tec_karate_precise",
-    "name": "Karate Chop",
+    "name": "Knifehand Strike",
     "messages": [ "You karate chop %s", "<npcname> karate chops %s" ],
     "min_unarmed": 4,
     "unarmed_allowed": true,
@@ -840,7 +840,7 @@
   {
     "type": "technique",
     "id": "tec_karate_rapid",
-    "name": "Quick Punch",
+    "name": "Backfist Strike",
     "messages": [ "You quickly punch %s", "<npcname> quickly punches %s" ],
     "min_unarmed": 1,
     "unarmed_allowed": true,
