@@ -476,7 +476,9 @@ struct make_event_helper;
 class event
 {
     public:
-        event( event_type type, time_point time, std::map<std::string, cata_variant> &&data )
+        using data_type = std::map<std::string, cata_variant>;
+
+        event( event_type type, time_point time, data_type &&data )
             : type_( type )
             , time_( time )
             , data_( std::move( data ) )
@@ -526,10 +528,14 @@ class event
         auto get( const std::string &key ) const {
             return get_variant( key ).get<T>();
         }
+
+        const data_type &data() const {
+            return data_;
+        }
     private:
         event_type type_;
         time_point time_;
-        std::map<std::string, cata_variant> data_;
+        data_type data_;
 };
 
 namespace event_detail
