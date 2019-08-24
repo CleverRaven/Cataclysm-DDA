@@ -434,6 +434,14 @@ static bool sees_veh( const Creature &c, vehicle &veh, bool force_recalc )
 
 vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing )
 {
+    if( dp == tripoint_zero ) {
+        debugmsg( "Empty displacement vector" );
+        return &veh;
+    } else if( abs( dp.x ) > 1 || abs( dp.y ) > 1 || abs( dp.z ) > 1 ) {
+        debugmsg( "Invalid displacement vector: %d, %d, %d", dp.x, dp.y, dp.z );
+        return &veh;
+    }
+
     // Split the movement into horizontal and vertical for easier processing
     if( dp.xy() != point_zero && dp.z != 0 ) {
         vehicle *const new_pointer = move_vehicle( veh, tripoint( dp.xy(), 0 ), facing );
@@ -449,14 +457,9 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         result->is_falling = false;
         return result;
     }
-
     const bool vertical = dp.z != 0;
-    if( ( dp.x == 0 && dp.y == 0 && dp.z == 0 ) ||
-        ( abs( dp.x ) > 1 || abs( dp.y ) > 1 || abs( dp.z ) > 1 ) ||
-        ( vertical && ( dp.x != 0 || dp.y != 0 ) ) ) {
-        debugmsg( "move_vehicle called with %d,%d,%d displacement vector", dp.x, dp.y, dp.z );
-        return &veh;
-    }
+    // Ensured by the splitting above
+    assert( vertical == ( dp.xy() == point_zero ) );
 
     const int target_z = dp.z + veh.sm_pos.z;
     if( target_z < -OVERMAP_DEPTH || target_z > OVERMAP_HEIGHT ) {
