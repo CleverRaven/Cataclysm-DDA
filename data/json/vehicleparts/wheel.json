@@ -404,7 +404,7 @@
       "install": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] }
     },
-    "flags": [ "WHEEL", "NEEDS_JACKING", "NO_JACK", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ]
+    "flags": [ "WHEEL", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ]
   },
   {
     "id": "wheel_small_steerable",
