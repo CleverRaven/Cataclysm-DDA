@@ -11,15 +11,15 @@
     "damage_modifier": 80,
     "durability": 120,
     "description": "A piece of metal with holes suitable for a bike or motorbike wheel.",
-    "item": "wheel_mount_light",
+    "item": "scrap",
     "difficulty": 2,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "welding_standard", 3 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "qualities": [ { "id": "SAW_M", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_LIGHT", "NEEDS_JACKING" ],
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 0, 1 ] } ],
     "damage_reduction": { "all": 10 }
   },
   {
@@ -42,7 +42,7 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_MEDIUM", "NEEDS_JACKING" ],
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] },{ "item": "steel_chunk", "count": [ 2, 5 ] } ],
 	"damage_reduction": { "all": 30 }
   },
   {
@@ -65,7 +65,7 @@
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_HEAVY", "NEEDS_JACKING" ],
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] },{ "item": "steel_chunk", "count": [ 3, 7 ] } ],
 	"damage_reduction": { "all": 40 }
   },
   {
@@ -86,7 +86,8 @@
     "contact_area": 80,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] }
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+	  "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
     "damage_reduction": { "all": 66 }
@@ -150,7 +151,7 @@
     "symbol": "0",
     "broken_symbol": "x",
     "color": "dark_gray",
-    "difficulty": 3,
+    "difficulty": 0,
     "durability": 200,
     "description": "A wheel.",
     "damage_modifier": 50,
@@ -163,8 +164,9 @@
     "wheel_type": "standard",
     "contact_area": 153,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] }
+      "install": { "time": "7 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "time": "6 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+	  "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
     "damage_reduction": { "bash": 20 }
