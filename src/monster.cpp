@@ -1288,12 +1288,21 @@ void monster::melee_attack( Creature &target, float accuracy )
                 add_msg( m_bad, _( "The %1$s hits your %2$s." ), name(),
                          body_part_name_accusative( bp_hit ) );
             } else if( target.is_npc() ) {
-                //~ 1$s is attacker name, 2$s is target name, 3$s is bodypart name in accusative.
-                add_msg( _( "The %1$s hits %2$s %3$s." ), name(),
-                         target.disp_name( true ),
-                         body_part_name_accusative( bp_hit ) );
+                if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) && pos() == g->u.pos() ) {
+                    add_msg( m_good, _( "Your %s hits %s for %d damage!" ), name(), target.disp_name(), total_dealt );
+                } else {
+                    //~ 1$s is attacker name, 2$s is target name, 3$s is bodypart name in accusative.
+                    add_msg( _( "The %1$s hits %2$s %3$s." ), name(),
+                             target.disp_name( true ),
+                             body_part_name_accusative( bp_hit ) );
+                }
             } else {
-                add_msg( _( "The %1$s hits %2$s!" ), name(), target.disp_name() );
+                if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) && pos() == g->u.pos() ) {
+                    add_msg( m_good, _( "Your %s hits %s for %d damage!" ), get_name(), target.disp_name(),
+                             total_dealt );
+                } else {
+                    add_msg( _( "The %1$s hits %2$s!" ), name(), target.disp_name() );
+                }
             }
         } else if( target.is_player() ) {
             //~ %s is bodypart name in accusative.
