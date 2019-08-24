@@ -830,7 +830,7 @@
     "type": "technique",
     "id": "tec_karate_precise",
     "name": "Knifehand Strike",
-    "messages": [ "You karate chop %s", "<npcname> karate chops %s" ],
+    "messages": [ "You hit %s with a knifehand strike", "<npcname> hits %s with a knifehand strike" ],
     "min_unarmed": 4,
     "unarmed_allowed": true,
     "crit_tec": true,
