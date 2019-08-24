@@ -674,7 +674,9 @@ void activity_on_turn_pickup()
     // Otherwise, we are done.
     if( !keep_going || g->u.activity.targets.empty() ) {
         g->u.cancel_activity();
-        g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
+        if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+            g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
+        }
     }
 
     // TODO: Move this to advanced inventory instead of hacking it in here

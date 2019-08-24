@@ -1957,6 +1957,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Toggle Thief Mode",
+    "category": "DEFAULTMODE",
+    "id": "toggle_thief_mode"
+  },
+  {
+    "type": "keybinding",
     "name": "Toggle Auto Pickup",
     "category": "DEFAULTMODE",
     "id": "toggle_auto_pickup"
