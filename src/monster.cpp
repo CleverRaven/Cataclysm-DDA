@@ -2222,13 +2222,13 @@ void monster::process_one_effect( effect &it, bool is_new )
         return it.get_mod( arg, reduced );
     };
 
-    mod_speed_bonus( get_effect( "HEALTH", reduced ) );
     mod_speed_bonus( get_effect( "SPEED", reduced ) );
     mod_dodge_bonus( get_effect( "DODGE", reduced ) );
     mod_block_bonus( get_effect( "BLOCK", reduced ) );
     mod_hit_bonus( get_effect( "HIT", reduced ) );
     mod_bash_bonus( get_effect( "BASH", reduced ) );
     mod_cut_bonus( get_effect( "CUT", reduced ) );
+    mod_size_bonus( get_effect( "SIZE", reduced ) );
 
 
     int val = get_effect( "HURT", reduced );
@@ -2461,19 +2461,34 @@ field_type_id monster::gibType() const
     return type->gibType();
 }
 
+int get_size_bonus() const
+{
+    return size_bonus;
+}
+
+void set_size_bonus( int nsize )
+{
+    size_bonus = nsize;
+}
+
+void mod_size_bonus( int nsize )
+{
+    size_bonus += nsize;
+}
+
 m_size monster::get_size() const
 {
-    return type->size;
+    return type->size + get_size_bonus();
 }
 
 units::mass monster::get_weight() const
 {
-    return type->weight;
+    return type->weight * ( get_size() / type->size );
 }
 
 units::volume monster::get_volume() const
 {
-    return type->volume;
+    return type->volume * ( get_size() / type->size );
 }
 
 void monster::add_msg_if_npc( const std::string &msg ) const

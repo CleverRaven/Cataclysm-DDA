@@ -111,6 +111,8 @@ class monster : public Creature
         int get_hp_max( hp_part ) const override;
         int get_hp_max() const override;
         int hp_percentage() const override;
+        int get_size_bonus() const;
+        void set_size_bonus( int nsize );
 
         // Access
         std::string get_name() const override;
@@ -504,6 +506,7 @@ class monster : public Creature
         tripoint goal;
         tripoint position;
         bool dead;
+        int size_bonus;
         /** Legacy loading logic for monsters that are packing ammo. **/
         void normalize_ammo( int old_ammo );
         /** Normal upgrades **/

@@ -5150,7 +5150,7 @@ bool mattack::zombie_fuse( monster *z )
     }
 
     if( target == nullptr ||
-        ( z->get_effect_int( effect_grown_of_fuse ) == effect_grown_of_fuse.obj()->get_max_intensity() ) )
+        ( z->get_hp() + critter->get_hp() > z->get_hp_max() + effect_grown_of_fuse.obj()->get_max_intensity()  ) )
     {
         return false;
     }
@@ -5159,7 +5159,7 @@ bool mattack::zombie_fuse( monster *z )
     // check if adding would overflow the effect stack max ...
     z->moves -= 200;
     z->add_effect( effect_grown_of_fuse, 0, num_bp, true, critter->max_hp() );
-    z->heal( critter->get_hp() ); //use overheal?
+    z->heal( critter->get_hp(), true );
     critter->death_drops = false;
     critter->die();
 }

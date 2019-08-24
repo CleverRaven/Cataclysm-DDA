@@ -559,8 +559,12 @@
     "vision_night": 3,
     "harvest": "",
     "special_attacks": [ [ "grown_of_fuse", 30 ], [ "GRAB", 7 ], [ "scratch", 20 ] ],
-    "death_drops": "",
-    "death_function": [ "" ],
+    "death_drops": {
+        "subtype": "distribution",
+        "items": [ "a", "b" ]
+        }
+    },
+    "death_function": [ "SPLATTER", "BOOMER", "EXPLODE" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "PUSH_MON", "PATH_AVOID_DANGER_1", "FILTHY" ]
   },
   {
