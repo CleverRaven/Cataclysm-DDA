@@ -1,0 +1,15 @@
+name: PR Validator
+on:
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  validate:
+    name: Validate PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Validate SUMMARY"
+        uses: CleverRaven/pr-validator@master
+        with:
+          description-regex: '.*SUMMARY.*'
