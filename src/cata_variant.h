@@ -9,6 +9,7 @@
 #include "character_id.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "hash_utils.h"
 #include "type_id.h"
 
 enum add_type : int;
@@ -271,6 +272,21 @@ class cata_variant
             return value_;
         }
 
+        const std::pair<cata_variant_type, std::string> as_pair() const {
+            return std::make_pair( type_, value_ );
+        }
+
+#define CATA_VARIANT_OPERATOR(op) \
+    friend bool operator op( const cata_variant &l, const cata_variant &r ) { \
+        return l.as_pair() op r.as_pair(); \
+    }
+        CATA_VARIANT_OPERATOR( == );
+        CATA_VARIANT_OPERATOR( != );
+        CATA_VARIANT_OPERATOR( < );
+        CATA_VARIANT_OPERATOR( <= );
+        CATA_VARIANT_OPERATOR( > );
+        CATA_VARIANT_OPERATOR( >= );
+#undef CATA_VARIANT_OPERATOR
     private:
         explicit cata_variant( cata_variant_type t, std::string &&v )
             : type_( t )
@@ -280,5 +296,17 @@ class cata_variant
         cata_variant_type type_;
         std::string value_;
 };
+
+namespace std
+{
+
+template<>
+struct hash<cata_variant> {
+    size_t operator()( const cata_variant &v ) const noexcept {
+        return cata::tuple_hash()( v.as_pair() );
+    }
+};
+
+}
 
 #endif // CATA_VARIANT_H
