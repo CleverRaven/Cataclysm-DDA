@@ -1,0 +1,32 @@
+[
+  {
+    "type": "technique",
+    "id": "Pistol Whip",
+    "name": "HOOK",
+    "min_melee": 2,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.95 ], [ "damage", "bash", 0.88 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
+    "flat_bonuses": [ [ "movecost", "per", -0.25 ] ],
+    "stun_dur": 2,
+    "messages": [ "Your pistol whip sends %s careening", "<npcname> smacks %s" ],
+    "description": "95% moves, 88% Bash, 66% Cut, 66% Stab, Down two turns, STR (C) greatly reduces action cost"
+  },
+  {
+    "type": "technique",
+    "id": "INERTIAL",
+    "name": "Crowd Control",
+    "min_melee": 2,
+    "melee_allowed": true,
+    "knockback_dist": 1,
+    "mult_bonuses": [ [ "movecost", 0.6 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ],
+    "flat_bonuses": [
+      [ "movecost", "str", -1.0 ],
+      [ "damage", "bash", "per", 0.15 ],
+      [ "damage", "stab", "per", 0.1 ],
+      [ "damage", "cut", "per", 0.1 ]
+    ],
+    "messages": [ "Your swing the stock of your weapon at %s", "<npcname> strikes at %s" ],
+    "aoe": "wide",
+    "description": "60% moves, 50% damage, wide arc, STR (S) dramatically reduces action cost, and adds a (C) damage bonus, min 4 melee"
+  }
+]

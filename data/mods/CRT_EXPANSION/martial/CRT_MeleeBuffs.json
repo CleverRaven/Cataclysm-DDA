@@ -18,7 +18,7 @@
     "id": "MARTIAL_CRT",
     "name": "C.R.I.T Melee Training",
     "points": 3,
-    "description": "You have received some defensive training. For every hit you land, gain various miniscule combat bonuses that scale off of your stats.",
+    "description": "You have received defensive training. For every hit you land, gain various miniscule combat bonuses that scale off of your stats.",
     "starting_trait": true,
     "initial_ma_styles": [ "style_crt_cqb", "style_crt_blade", "style_crt_enforcement" ],
     "valid": false
@@ -27,7 +27,7 @@
     "type": "martial_art",
     "id": "style_crt_cqb",
     "name": "C.R.I.T CQB",
-    "description": "A defensive style centered around rapid paralyzing strikes and piercing jabs.  Each attack landed increases your speed by 0.5 along with a slew of combat bonuses. 25 percent bash damage.",
+    "description": "A style centered around rapid strikes and piercing jabs.  Each attack landed adds a plethora of combat bonuses. 25 percent bash damage.",
     "initiate": [ "Initiate CQB.", "%s initiates CQB." ],
     "arm_block": 3,
     "leg_block": 6,
@@ -35,68 +35,43 @@
       {
         "id": "crt_cqb_static",
         "name": "C.R.I.T Initiative",
-        "description": "DEX provides dodge ability, accuracy and minor cut /stab damage with slight piercing capability. 25 Percent Bash Damage that slightly increases per hit stack.",
+        "description": "DEX provides dodge ability, accuracy and minor cut / stab damage with slight piercing capability. 50 Percent Bash Damage.",
         "unarmed_allowed": true,
+        "melee_allowed": true,
         "flat_bonuses": [
-          [ "damage", "stab", "dex", 0.25 ],
-          [ "damage", "cut", "dex", 0.25 ],
-          [ "arpen", "stab", "dex", 0.1 ],
-          [ "arpen", "cut", "dex", 0.05 ],
-          [ "dodge", "dex", 0.05 ],
-          [ "hit", "dex", 0.3 ],
-          [ "movecost", "dex", -0.6 ]
+          [ "damage", "stab", "dex", 0.15 ],
+          [ "damage", "cut", "dex", 0.05 ],
+          [ "arpen", "stab", "dex", 0.25 ],
+          [ "arpen", "cut", "dex", 0.15 ],
+          [ "dodge", "dex", 0.1 ],
+          [ "hit", "dex", 0.15 ]
         ],
-        "mult_bonuses": [ [ "damage", "bash", 0.25 ] ]
+        "mult_bonuses": [ [ "damage", "bash", 0.5 ] ]
       }
     ],
     "onhit_buffs": [
       {
         "id": "crt_cqb_hit_buff",
         "name": "C.R.I.T Tenacity",
-        "description": "+0.5 Atk Speed and other small bonuses based on DEX per stack. Max of 100 stacks",
+        "description": "+Atk Speed and other small bonuses based on DEX per stack. Max of 5 stacks",
         "unarmed_allowed": true,
+        "melee_allowed": true,
         "min_unarmed": 1,
-        "buff_duration": 100,
-        "max_stacks": 100,
-        "flat_bonuses": [
-          [ "hit", "dex", 0.015 ],
-          [ "damage", "bash", "dex", 0.0125 ],
-          [ "damage", "stab", "dex", 0.025 ],
-          [ "damage", "cut", "dex", 0.0125 ],
-          [ "arpen", "stab", "dex", 0.005 ],
-          [ "arpen", "stab", "dex", 0.005 ],
-          [ "dodge", "dex", 0.01 ],
-          [ "movecost", "dex", -0.125 ],
-          [ "movecost", -0.5 ]
-        ]
+        "buff_duration": 2,
+        "max_stacks": 10,
+        "flat_bonuses": [ [ "movecost", "dex", -0.05 ], [ "movecost", 0.1 ], [ "damage", "stab", 0.1 ] ],
+        "mult_bonuses": [ [ "damage", "stab", 1.075 ], [ "damage", "cut", 1.02 ], [ "arpen", "stab", 1.01 ], [ "dodge", 1.02 ] ]
       }
     ],
-    "techniques": [ "tec_crt_cqb_normal", "tec_crt_cqb_rapid", "tec_crt_cqb_precise", "tec_crt_cqb_arpen", "tec_feint" ],
-    "weapons": [
-      "sword_crt",
-      "blade_crt",
-      "knife_crt",
-      "knife_combat",
-      "knife_hunting",
-      "knife_rambo",
-      "knife_rm42",
-      "knife_steak",
-      "knife_swissarmy",
-      "knife_trench",
-      "knife_butter",
-      "knife_folding",
-      "makeshift_knife",
-      "primitive_knife",
-      "pockknife",
-      "copper_knife",
-      "diveknife",
-      "kris",
-      "switchblade",
-      "honey_scraper",
-      "fork",
-      "glass_shiv",
-      "scissors"
-    ]
+    "techniques": [
+      "tec_crt_cqb_normal",
+      "tec_crt_cqb_rapid",
+      "tec_crt_cqb_rapid_wp",
+      "tec_crt_cqb_precise",
+      "tec_crt_cqb_arpen",
+      "tec_feint"
+    ],
+    "weapons": [ "knife_butter", "honey_scraper", "fork", "glass_shiv", "scissors" ]
   },
   {
     "type": "technique",
@@ -104,28 +79,40 @@
     "name": "Measured Footwork",
     "min_unarmed": 1,
     "unarmed_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.85 ], [ "damage", "bash", 0.8 ], [ "damage", "cut", 1.0 ], [ "damage", "stab", 1.1 ] ],
+    "melee_allowed": false,
+    "mult_bonuses": [ [ "movecost", 0.85 ], [ "damage", "bash", 0.8 ], [ "damage", "cut", 1.025 ], [ "damage", "stab", 1.05 ] ],
     "flat_bonuses": [ [ "damage", "stab", "dex", 0.2 ], [ "damage", "cut", "dex", 0.1 ], [ "movecost", "dex", -0.15 ] ],
-    "messages": [ "You quickly batter %s", "<npcname> batters %s" ],
-    "stun_dur": 0.1
+    "messages": [ "You quickly dig your fingers into %s", "<npcname> digs their fingers into %s" ]
   },
   {
     "type": "technique",
     "id": "tec_crt_cqb_rapid",
     "name": "Rapid Burst",
-    "min_unarmed": 2,
+    "min_unarmed": 3,
     "unarmed_allowed": true,
+    "melee_allowed": true,
     "mult_bonuses": [ [ "movecost", 0.7 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.7 ], [ "damage", "stab", 0.8 ] ],
     "flat_bonuses": [ [ "damage", "stab", "dex", 0.015 ], [ "damage", "cut", "dex", 0.0125 ], [ "movecost", "dex", -0.35 ] ],
-    "messages": [ "You swiftly impale your fingers into %s joints", "<npcname> swiftly impales their fingers into %s" ],
-    "stun_dur": 0.05
+    "messages": [ "You swiftly impale your fingers into %s joints", "<npcname> swiftly impales their fingers into %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_cqb_rapid_wp",
+    "name": "Joint Pain",
+    "min_melee": 3,
+    "unarmed_allowed": false,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.8 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.75 ] ],
+    "flat_bonuses": [ [ "damage", "stab", "dex", 0.015 ], [ "damage", "cut", "dex", 0.0125 ], [ "movecost", "dex", -0.35 ] ],
+    "messages": [ "You explosively jab your weapon at %s joints", "<npcname> explosively jabs at %s" ]
   },
   {
     "type": "technique",
     "id": "tec_crt_cqb_precise",
     "name": "Rapid Jab",
-    "min_unarmed": 3,
+    "min_unarmed": 4,
     "unarmed_allowed": true,
+    "melee_allowed": true,
     "mult_bonuses": [ [ "movecost", 0.8 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.25 ] ],
     "flat_bonuses": [ [ "damage", "stab", "dex", 0.2 ], [ "damage", "cut", "dex", 0.01 ], [ "movecost", "dex", -0.2 ] ],
     "crit_tec": true,
@@ -139,6 +126,7 @@
     "min_unarmed": 5,
     "weighting": 2,
     "unarmed_allowed": true,
+    "melee_allowed": true,
     "mult_bonuses": [
       [ "movecost", 0.9 ],
       [ "damage", "bash", 0.2 ],
@@ -150,10 +138,10 @@
     "flat_bonuses": [ [ "damage", "stab", "dex", 0.5 ], [ "damage", "cut", "dex", 0.25 ], [ "movecost", "dex", -0.5 ] ],
     "crit_tec": true,
     "messages": [
-      "You envision a tempest in your hand and then land a piercing blow on %s's top half",
+      "You envision a gathering tempest in and then release it's energy on %s's top half",
       "<npcname> lands a piercing blow on %s's face"
     ],
     "stun_dur": 1,
-    "down_dur": 1.25
+    "down_dur": 2
   }
 ]
