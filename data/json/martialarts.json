@@ -522,20 +522,30 @@
     "initiate": [ "You adopt a classic karate stance.", "%s adopts a classic karate stance." ],
     "learn_difficulty": 5,
     "arm_block": 2,
-    "leg_block": 99,
-    "onhit_buffs": [
+    "static_buffs": [
       {
-        "id": "karate_hit_buff",
-        "name": "Karate Hit",
+        "id": "buff_karate_static",
+        "name": "Karate Stance",
+        "description": "Your no nonsense stance allows you hit more accurately.\n\n+2 Accuracy.",
         "unarmed_allowed": true,
         "min_unarmed": 0,
-        "buff_duration": 3,
-        "description": "+1 Dodges, +2 Blocks",
-        "bonus_dodges": 1,
-        "bonus_blocks": 2
+        "flat_bonuses": [ [ "hit", 2.0 ] ]
       }
     ],
-    "techniques": [ "tec_karate_rapid", "tec_karate_precise" ]
+    "onhit_buffs": [
+      {
+        "id": "buff_karate_onhit",
+        "name": "Karate Strike",
+        "description": "Landing a hit allows you to perfectly position yourself for maximum defense against multiple opponents.\n\n+2 Block attempts, +1 Dodges attempts, blocked damge reduced by 50%% of Strength.\nLasts 2 turns.",
+        "min_unarmed": 3,
+        "unarmed_allowed": true,
+        "buff_duration": 2,
+        "bonus_blocks": 2,
+        "bonus_dodges": 1,
+        "flat_bonuses": [ [ "block", "str", 0.5 ] ]
+      }
+    ],
+    "techniques": [ "tec_karate_rapid", "tec_karate_precise", "tec_karate_roundhouse", "tec_karate_counter" ]
   },
   {
     "type": "martial_art",
