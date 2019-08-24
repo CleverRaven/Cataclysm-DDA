@@ -196,7 +196,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             if( query_yn( _( "Picking up this item will be considered stealing, continue?" ) ) ) {
                 u.set_value( "THIEF_MODE", "THIEF_STEAL" );
             } else {
-                u.set_value( "THIEF_MODE""THIEF_HONEST" );
+                u.set_value( "THIEF_MODE", "THIEF_HONEST" );
             }
         }
         if( u.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
