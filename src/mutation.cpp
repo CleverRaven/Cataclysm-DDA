@@ -902,8 +902,7 @@ bool player::mutate_towards( const trait_id &mut )
                                _( "<npcname>'s %1$s mutation turns into %2$s!" ),
                                replace_mdata.name(), mdata.name() );
 
-        g->events().send( event::make<event_type::evolves_mutation>(
-                              getID(), replace_mdata.id, mdata.id ) );
+        g->events().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
         unset_mutation( replacing );
         mutation_loss_effect( replacing );
         mutation_effect( mut );
@@ -924,8 +923,7 @@ bool player::mutate_towards( const trait_id &mut )
                                _( "Your %1$s mutation turns into %2$s!" ),
                                _( "<npcname>'s %1$s mutation turns into %2$s!" ),
                                replace_mdata.name(), mdata.name() );
-        g->events().send( event::make<event_type::evolves_mutation>(
-                              getID(), replace_mdata.id, mdata.id ) );
+        g->events().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
         unset_mutation( replacing2 );
         mutation_loss_effect( replacing2 );
         mutation_effect( mut );
@@ -949,8 +947,7 @@ bool player::mutate_towards( const trait_id &mut )
                                _( "Your innate %1$s trait turns into %2$s!" ),
                                _( "<npcname>'s innate %1$s trait turns into %2$s!" ),
                                cancel_mdata.name(), mdata.name() );
-        g->events().send( event::make<event_type::evolves_mutation>(
-                              getID(), cancel_mdata.id, mdata.id ) );
+        g->events().send<event_type::evolves_mutation>( getID(), cancel_mdata.id, mdata.id );
         unset_mutation( i );
         mutation_loss_effect( i );
         mutation_effect( mut );
@@ -971,7 +968,7 @@ bool player::mutate_towards( const trait_id &mut )
                                _( "You gain a mutation called %s!" ),
                                _( "<npcname> gains a mutation called %s!" ),
                                mdata.name() );
-        g->events().send( event::make<event_type::gains_mutation>( getID(), mdata.id ) );
+        g->events().send<event_type::gains_mutation>( getID(), mdata.id );
         mutation_effect( mut );
     }
 
@@ -1240,7 +1237,7 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
 mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
                                        const mutagen_technique technique )
 {
-    g->events().send( event::make<event_type::administers_mutagen>( p.getID(), technique ) );
+    g->events().send<event_type::administers_mutagen>( p.getID(), technique );
     mutagen_rejection status = try_reject_mutagen( p, it, strong );
     if( status == mutagen_rejection::rejected ) {
         return mutagen_attempt( false, 0 );
@@ -1290,8 +1287,7 @@ void test_crossing_threshold( player &p, const mutation_category_trait &m_catego
             p.add_msg_if_player( m_good,
                                  _( "Something strains mightily for a moment... and then... you're... FREE!" ) );
             p.set_mutation( mutation_thresh );
-            g->events().send( event::make<event_type::crosses_mutation_threshold>(
-                                  p.getID(), m_category.id ) );
+            g->events().send<event_type::crosses_mutation_threshold>( p.getID(), m_category.id );
             // Manually removing Carnivore, since it tends to creep in
             // This is because carnivore is a prerequisite for the
             // predator-style post-threshold mutations.

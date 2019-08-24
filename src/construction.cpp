@@ -1038,8 +1038,8 @@ void construct::done_grave( const tripoint &p )
                              it.get_corpse_name() );
                 }
             }
-            g->events().send( event::make<event_type::buries_corpse>(
-                                  g->u.getID(), it.get_mtype()->id, it.get_corpse_name() ) );
+            g->events().send<event_type::buries_corpse>(
+                g->u.getID(), it.get_mtype()->id, it.get_corpse_name() );
         }
     }
     if( g->u.has_quality( quality_id( "CUT" ) ) ) {
@@ -1181,7 +1181,7 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
             unroll_digging( dig ? 8 : 12 );
         } else {
             add_msg( m_warning, _( "You just tunneled into lava!" ) );
-            g->events().send( event::make<event_type::digs_into_lava>() );
+            g->events().send<event_type::digs_into_lava>();
             g->m.ter_set( p, t_hole );
         }
 

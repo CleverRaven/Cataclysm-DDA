@@ -53,7 +53,7 @@ void timed_event::actualize()
             if( rl_dist( u_pos, map_point ) <= 4 ) {
                 const mtype_id &robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
 
-                g->events().send( event::make<event_type::becomes_wanted>( g->u.getID() ) );
+                g->events().send<event_type::becomes_wanted>( g->u.getID() );
                 int robx = u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4;
                 int roby = u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4;
                 g->summon_mon( robot_type, tripoint( robx, roby, g->u.posz() ) );
@@ -100,7 +100,7 @@ void timed_event::actualize()
         break;
 
         case TIMED_EVENT_AMIGARA: {
-            g->events().send( event::make<event_type::angers_amigara_horrors>() );
+            g->events().send<event_type::angers_amigara_horrors>();
             int num_horrors = rng( 3, 5 );
             int faultx = -1;
             int faulty = -1;
@@ -145,7 +145,7 @@ void timed_event::actualize()
         break;
 
         case TIMED_EVENT_ROOTS_DIE:
-            g->events().send( event::make<event_type::destroys_triffid_grove>() );
+            g->events().send<event_type::destroys_triffid_grove>();
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     if( g->m.ter( point( x, y ) ) == t_root_wall && one_in( 3 ) ) {
@@ -156,7 +156,7 @@ void timed_event::actualize()
             break;
 
         case TIMED_EVENT_TEMPLE_OPEN: {
-            g->events().send( event::make<event_type::opens_temple>() );
+            g->events().send<event_type::opens_temple>();
             bool saw_grate = false;
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {

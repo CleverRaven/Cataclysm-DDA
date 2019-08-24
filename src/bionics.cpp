@@ -1397,7 +1397,7 @@ void player::perform_uninstall( bionic_id bid, int difficulty, int success, int 
                                 int pl_skill )
 {
     if( success > 0 ) {
-        g->events().send( event::make<event_type::removes_cbm>( getID(), bid ) );
+        g->events().send<event_type::removes_cbm>( getID(), bid );
 
         // until bionics can be flagged as non-removable
         add_msg_player_or_npc( m_neutral, _( "Your parts are jiggled back into their familiar places." ),
@@ -1418,7 +1418,7 @@ void player::perform_uninstall( bionic_id bid, int difficulty, int success, int 
         cbm.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
         g->m.add_item( pos(), cbm );
     } else {
-        g->events().send( event::make<event_type::fails_to_remove_cbm>( getID(), bid ) );
+        g->events().send<event_type::fails_to_remove_cbm>( getID(), bid );
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
         float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
                                static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>
@@ -1657,7 +1657,7 @@ void player::perform_install( bionic_id bid, bionic_id upbid, int difficulty, in
                               std::vector<trait_id> trait_to_rem, tripoint patient_pos )
 {
     if( success > 0 ) {
-        g->events().send( event::make<event_type::installs_cbm>( getID(), bid ) );
+        g->events().send<event_type::installs_cbm>( getID(), bid );
         if( upbid != bionic_id( "" ) ) {
             remove_bionic( upbid );
             //~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
@@ -1677,7 +1677,7 @@ void player::perform_install( bionic_id bid, bionic_id upbid, int difficulty, in
         }
 
     } else {
-        g->events().send( event::make<event_type::fails_to_install_cbm>( getID(), bid ) );
+        g->events().send<event_type::fails_to_install_cbm>( getID(), bid );
 
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
         float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
@@ -1768,7 +1768,7 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
                 } else {
                     const bionic_id &id = random_entry( valid );
                     add_bionic( id );
-                    g->events().send( event::make<event_type::installs_faulty_cbm>( getID(), id ) );
+                    g->events().send<event_type::installs_faulty_cbm>( getID(), id );
                 }
             }
             break;

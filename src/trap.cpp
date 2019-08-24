@@ -226,8 +226,7 @@ void trap::trigger( const tripoint &pos, Creature *creature, item *item ) const
         bool triggered = act( pos, creature, item );
         if( triggered && is_real_creature ) {
             if( Character *ch = creature->as_character() ) {
-                g->events().send( event::make<event_type::character_triggers_trap>(
-                                      ch->getID(), id ) );
+                g->events().send<event_type::character_triggers_trap>( ch->getID(), id );
             }
         }
     }

@@ -783,8 +783,8 @@ void avatar::do_read( item &book )
             std::string skill_name = skill.obj().name();
 
             if( skill_level != originalSkillLevel ) {
-                g->events().send( event::make<event_type::gains_skill_level>(
-                                      learner->getID(), skill, skill_level.level() ) );
+                g->events().send<event_type::gains_skill_level>(
+                    learner->getID(), skill, skill_level.level() );
                 if( learner->is_player() ) {
                     add_msg( m_good, _( "You increase %s to level %d." ), skill.obj().name(),
                              originalSkillLevel + 1 );

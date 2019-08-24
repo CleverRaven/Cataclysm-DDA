@@ -494,7 +494,7 @@ void player::hardcoded_effects( effect &it )
                     num_insects--;
                 }
             }
-            g->events().send( event::make<event_type::dermatik_eggs_hatch>( getID() ) );
+            g->events().send<event_type::dermatik_eggs_hatch>( getID() );
             remove_effect( effect_formication, bp );
             moves -= 600;
             triggered = true;
@@ -615,7 +615,7 @@ void player::hardcoded_effects( effect &it )
                     add_msg( _( "Glowing lights surround you, and you teleport." ) );
                 }
                 g->teleport();
-                g->events().send( event::make<event_type::teleglow_teleports>( getID() ) );
+                g->events().send<event_type::teleglow_teleports>( getID() );
                 if( one_in( 10 ) ) {
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
@@ -718,7 +718,7 @@ void player::hardcoded_effects( effect &it )
             it.set_duration( 0_turns );
         } else if( dur > 2_hours ) {
             add_msg_if_player( m_bad, _( "Your asthma overcomes you.\nYou asphyxiate." ) );
-            g->events().send( event::make<event_type::dies_from_asthma_attack>( getID() ) );
+            g->events().send<event_type::dies_from_asthma_attack>( getID() );
             hurtall( 500, nullptr );
         } else if( dur > 70_minutes ) {
             if( one_in( 120 ) ) {
@@ -839,7 +839,7 @@ void player::hardcoded_effects( effect &it )
                 add_msg_if_player(
                     _( "You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more." ) );
             }
-            g->events().send( event::make<event_type::dies_from_drug_overdose>( getID(), id ) );
+            g->events().send<event_type::dies_from_drug_overdose>( getID(), id );
             hp_cur[hp_torso] = 0;
         }
     } else if( id == effect_grabbed ) {
@@ -966,7 +966,7 @@ void player::hardcoded_effects( effect &it )
             // Death happens
             if( dur > 1_days ) {
                 add_msg_if_player( m_bad, _( "You succumb to the infection." ) );
-                g->events().send( event::make<event_type::dies_of_infection>( getID() ) );
+                g->events().send<event_type::dies_of_infection>( getID() );
                 hurtall( 500, nullptr );
             } else if( has_effect( effect_strong_antibiotic ) ) {
                 it.mod_duration( -1_turns );

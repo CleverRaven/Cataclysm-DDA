@@ -3815,13 +3815,11 @@ void player::check_needs_extremes()
     // Check if we've overdosed... in any deadly way.
     if( stim > 250 ) {
         add_msg_if_player( m_bad, _( "You have a sudden heart attack!" ) );
-        g->events().send( event::make<event_type::dies_from_drug_overdose>(
-                              getID(), efftype_id() ) );
+        g->events().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
         hp_cur[hp_torso] = 0;
     } else if( stim < -200 || get_painkiller() > 240 ) {
         add_msg_if_player( m_bad, _( "Your breathing stops completely." ) );
-        g->events().send( event::make<event_type::dies_from_drug_overdose>(
-                              getID(), efftype_id() ) );
+        g->events().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
         hp_cur[hp_torso] = 0;
     } else if( has_effect( effect_jetinjector ) && get_effect_dur( effect_jetinjector ) > 40_minutes ) {
         if( !( has_trait( trait_NOPAIN ) ) ) {
@@ -3829,18 +3827,15 @@ void player::check_needs_extremes()
         } else {
             add_msg_if_player( _( "Your heart spasms and stops." ) );
         }
-        g->events().send( event::make<event_type::dies_from_drug_overdose>(
-                              getID(), effect_jetinjector ) );
+        g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_jetinjector );
         hp_cur[hp_torso] = 0;
     } else if( get_effect_dur( effect_adrenaline ) > 50_minutes ) {
         add_msg_if_player( m_bad, _( "Your heart spasms and stops." ) );
-        g->events().send( event::make<event_type::dies_from_drug_overdose>(
-                              getID(), effect_adrenaline ) );
+        g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_adrenaline );
         hp_cur[hp_torso] = 0;
     } else if( get_effect_int( effect_drunk ) > 4 ) {
         add_msg_if_player( m_bad, _( "Your breathing slows down to a stop." ) );
-        g->events().send( event::make<event_type::dies_from_drug_overdose>(
-                              getID(), effect_drunk ) );
+        g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_drunk );
         hp_cur[hp_torso] = 0;
     }
 
@@ -3848,7 +3843,7 @@ void player::check_needs_extremes()
     if( is_player() ) {
         if( get_stored_kcal() <= 0 ) {
             add_msg_if_player( m_bad, _( "You have starved to death." ) );
-            g->events().send( event::make<event_type::dies_of_starvation>( getID() ) );
+            g->events().send<event_type::dies_of_starvation>( getID() );
             hp_cur[hp_torso] = 0;
         } else {
             if( calendar::once_every( 1_hours ) ) {
@@ -3870,7 +3865,7 @@ void player::check_needs_extremes()
             guts.get_water() == 0_ml ) ) {
         if( get_thirst() >= 1200 ) {
             add_msg_if_player( m_bad, _( "You have died of dehydration." ) );
-            g->events().send( event::make<event_type::dies_of_thirst>( getID() ) );
+            g->events().send<event_type::dies_of_thirst>( getID() );
             hp_cur[hp_torso] = 0;
         } else if( get_thirst() >= 1000 && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "Even your eyes feel dry..." ) );
@@ -3885,7 +3880,7 @@ void player::check_needs_extremes()
     if( get_fatigue() >= EXHAUSTED + 25 && !in_sleep_state() ) {
         if( get_fatigue() >= MASSIVE_FATIGUE ) {
             add_msg_if_player( m_bad, _( "Survivor sleep now." ) );
-            g->events().send( event::make<event_type::falls_asleep_from_exhaustion>( getID() ) );
+            g->events().send<event_type::falls_asleep_from_exhaustion>( getID() );
             mod_fatigue( -10 );
             fall_asleep();
         } else if( get_fatigue() >= 800 && calendar::once_every( 30_minutes ) ) {
@@ -4365,7 +4360,7 @@ void player::add_addiction( add_type type, int strength )
         const std::string &type_name = addiction_type_name( type );
         add_msg( m_debug, "%s got addicted to %s", disp_name(), type_name );
         addictions.emplace_back( type, 1 );
-        g->events().send( event::make<event_type::gains_addiction>( getID(), type ) );
+        g->events().send<event_type::gains_addiction>( getID(), type );
     }
 }
 
@@ -4386,7 +4381,7 @@ void player::rem_addiction( add_type type )
 
     if( iter != addictions.end() ) {
         addictions.erase( iter );
-        g->events().send( event::make<event_type::loses_addiction>( getID(), type ) );
+        g->events().send<event_type::loses_addiction>( getID(), type );
     }
 }
 
@@ -6160,7 +6155,7 @@ void player::mend( int rate_multiplier )
         if( eff.get_duration() >= eff.get_max_duration() ) {
             hp_cur[i] = 1;
             remove_effect( effect_mending, part );
-            g->events().send( event::make<event_type::broken_bone_mends>( getID(), part ) );
+            g->events().send<event_type::broken_bone_mends>( getID(), part );
             //~ %s is bodypart
             add_msg_if_player( m_good, _( "Your %s has started to mend!" ),
                                body_part_name( part ) );

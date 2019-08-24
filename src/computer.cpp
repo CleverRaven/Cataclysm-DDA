@@ -453,7 +453,7 @@ void computer::activate_function( computer_action action )
             break;
 
         case COMPACT_RELEASE:
-            g->events().send( event::make<event_type::releases_subspace_specimens>() );
+            g->events().send<event_type::releases_subspace_specimens>();
             sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
                            "alarm" );
             g->m.translate_radius( t_reinforced_glass, t_thconc_floor, 25.0, g->u.pos(), true );
@@ -472,7 +472,7 @@ void computer::activate_function( computer_action action )
             break;
 
         case COMPACT_TERMINATE:
-            g->events().send( event::make<event_type::terminates_subspace_specimens>() );
+            g->events().send<event_type::terminates_subspace_specimens>();
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     tripoint p( x, y, g->u.posz() );
@@ -490,7 +490,7 @@ void computer::activate_function( computer_action action )
             break;
 
         case COMPACT_PORTAL: {
-            g->events().send( event::make<event_type::opens_portal>() );
+            g->events().send<event_type::opens_portal>();
             tripoint tmp = g->u.pos();
             int &i = tmp.x;
             int &j = tmp.y;
@@ -523,7 +523,7 @@ void computer::activate_function( computer_action action )
             if( !query_bool( _( "WARNING: Resonance cascade carries severe risk!  Continue?" ) ) ) {
                 return;
             }
-            g->events().send( event::make<event_type::causes_resonance_cascade>() );
+            g->events().send<event_type::causes_resonance_cascade>();
             std::vector<tripoint> cascade_points;
             for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 10 ) ) {
                 if( g->m.ter( dest ) == t_radio_tower ) {
@@ -673,7 +673,7 @@ void computer::activate_function( computer_action action )
             }
 
             const oter_id oter = overmap_buffer.ter( target );
-            g->events().send( event::make<event_type::launches_nuke>( oter ) );
+            g->events().send<event_type::launches_nuke>( oter );
             for( int x = target.x - 2; x <= target.x + 2; x++ ) {
                 for( int y = target.y - 2; y <= target.y + 2; y++ ) {
                     // give it a nice rounded shape
@@ -694,7 +694,7 @@ void computer::activate_function( computer_action action )
 
         case COMPACT_MISS_DISARM: // TODO: stop the nuke from creating radioactive clouds.
             if( query_yn( _( "Disarm missile." ) ) ) {
-                g->events().send( event::make<event_type::disarms_nuke>() );
+                g->events().send<event_type::disarms_nuke>();
                 add_msg( m_info, _( "Nuclear missile disarmed!" ) );
                 //disable missile.
                 options.clear();
@@ -1181,7 +1181,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
             break;
 
         case COMPACT_SRCF_SEAL:
-            g->events().send( event::make<event_type::seals_hazardous_material_sarcophagus>() );
+            g->events().send<event_type::seals_hazardous_material_sarcophagus>();
             print_line( _( "Charges Detonated" ) );
             print_line( _( "Backup Generator Power Failing" ) );
             print_line( _( "Evacuate Immediately" ) );
@@ -1501,7 +1501,7 @@ void computer::activate_failure( computer_failure_type fail )
             break;
 
         case COMPFAIL_ALARM:
-            g->events().send( event::make<event_type::triggers_alarm>( g->u.getID() ) );
+            g->events().send<event_type::triggers_alarm>( g->u.getID() );
             sounds::sound( g->u.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
                            "alarm" );
             if( g->get_levz() > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
