@@ -13,7 +13,6 @@
 #include <numeric>
 #include <sstream>
 #include <array>
-#include <iostream>
 #include <iterator>
 #include <list>
 #include <map>
@@ -469,15 +468,10 @@ void Character::load( JsonObject &data )
     data.read( "weapon", weapon );
 
     if( has_effect( effect_riding ) ) {
-        std::cout << "npc is riding, loading ridden creature " << disp_name() << std::endl;
         int temp_id;
         if( data.read( "mounted_creature", temp_id ) ) {
-            std::cout << "loaded temp_id " << std::endl;
             mounted_creature_id = temp_id;
             mounted_creature = g->critter_tracker->from_temporary_id( temp_id );
-            if( mounted_creature ){
-                std::cout << "assigned mounted_creature to player, the mounts name is " << mounted_creature->get_name() << std::endl;
-            }
         } else {
             mounted_creature = nullptr;
         }
@@ -570,7 +564,6 @@ void Character::store( JsonOut &json ) const
     json.member( "my_bionics", *my_bionics );
     // storing the mount
     if( is_mounted() ) {
-        std::cout << "stored mounted creature " << disp_name() << " " << std::to_string( g->critter_tracker->temporary_id( *mounted_creature )) << std::endl;
         json.member( "mounted_creature", g->critter_tracker->temporary_id( *mounted_creature ) );
     }
     // skills
@@ -1837,7 +1830,6 @@ void monster::load( JsonObject &data )
     last_baby = data.get_int( "last_baby", to_turn<int>( calendar::turn ) );
     last_biosig = data.get_int( "last_biosig", to_turn<int>( calendar::turn ) );
     data.read( "mounted_player_id", mounted_player_id );
-    std::cout << "monster loading mounted player id " << std::to_string( mounted_player_id.get_value() ) << std::endl;
     data.read( "path", path );
 }
 
@@ -1902,7 +1894,6 @@ void monster::store( JsonOut &json ) const
 
     json.member( "dragged_foe_id", dragged_foe_id );
     // storing the rider
-    std::cout << "monster storing mounted player id " << std::to_string( mounted_player_id.get_value() ) << std::endl;
     json.member( "mounted_player_id", mounted_player_id );
     json.member( "path", path );
 }

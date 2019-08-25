@@ -222,22 +222,22 @@ void talk_function::dismount( npc &p )
 void talk_function::find_mount( npc &p )
 {
     // first find one nearby
-    add_msg( "find mount ran ");
+    add_msg( "find mount ran " );
     for( monster &critter : g->all_monsters() ) {
-        add_msg( "all monsters elem ");
-        if( p.can_mount( critter ) ){
-            add_msg( "found a mount to path to");
+        add_msg( "all monsters elem " );
+        if( p.can_mount( critter ) ) {
+            add_msg( "found a mount to path to" );
             p.set_attitude( NPCATT_ACTIVITY );
             // keep the horse still for some time, so that NPC can catch up to it nad mount it.
             p.set_mission( NPC_MISSION_ACTIVITY );
-            p.assign_activity( activity_id( "ACT_FIND_MOUNT") );
+            p.assign_activity( activity_id( "ACT_FIND_MOUNT" ) );
             p.chosen_mount = &critter;
             // we found one, thats all we need.
             return;
         }
     }
     // if we got here and this was prompted by a renewal of the activity, and there are no valid monsters nearby, then cancel whole thing.
-    if( p.has_player_activity() ){
+    if( p.has_player_activity() ) {
         p.revert_after_activity();
     }
 }

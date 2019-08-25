@@ -1864,7 +1864,7 @@ static void update_faction_api( npc *guy )
 void game::validate_mounted_npcs()
 {
     for( monster &m : all_monsters() ) {
-        if( m.has_effect( effect_ridden ) && m.mounted_player_id.is_valid() ){
+        if( m.has_effect( effect_ridden ) && m.mounted_player_id.is_valid() ) {
             player *mounted_pl = g->critter_by_id<player>( m.mounted_player_id );
             if( mounted_pl == nullptr ) {
                 // Target no longer valid.
@@ -1872,14 +1872,10 @@ void game::validate_mounted_npcs()
                 m.remove_effect( effect_ridden );
                 continue;
             }
-            add_msg( "mounted player for horse = %s , pos of this player is %d %d", mounted_pl->disp_name(), mounted_pl->pos().x, mounted_pl->pos().y );
-            if( mounted_pl->is_mounted() ){
-                add_msg( "mounted player is mounted" );
-            } else {
-                if( mounted_pl->is_npc() ){
-                    mounted_pl->mounted_creature = critter_tracker->from_temporary_id( mounted_pl->mounted_creature_id );
-                    mounted_pl->setpos( m.pos() );
-                }
+            if( !mounted_pl->is_mounted() && mounted_pl->is_npc() ) {
+                mounted_pl->mounted_creature = critter_tracker->from_temporary_id(
+                                                   mounted_pl->mounted_creature_id );
+                mounted_pl->setpos( m.pos() );
             }
             m.mounted_player = mounted_pl;
         }
@@ -4552,7 +4548,7 @@ T *game::critter_at( const tripoint &p, bool allow_hallucination, bool rider_onl
         if( !allow_hallucination && mon_ptr->is_hallucination() ) {
             return nullptr;
         }
-        if( !rider_only ){
+        if( !rider_only ) {
             return dynamic_cast<T *>( mon_ptr.get() );
         }
     }
@@ -5258,7 +5254,8 @@ bool game::npc_menu( npc &who )
 
     amenu.text = string_format( _( "What to do with %s?" ), who.disp_name() );
     amenu.addentry( talk, true, 't', _( "Talk" ) );
-    amenu.addentry( swap_pos, obeys && !who.is_mounted() && !u.is_mounted(), 's', _( "Swap positions" ) );
+    amenu.addentry( swap_pos, obeys && !who.is_mounted() &&
+                    !u.is_mounted(), 's', _( "Swap positions" ) );
     amenu.addentry( push, obeys && !who.is_mounted(), 'p', _( "Push away" ) );
     amenu.addentry( examine_wounds, true, 'w', _( "Examine wounds" ) );
     amenu.addentry( use_item, true, 'i', _( "Use item on" ) );
@@ -9247,7 +9244,7 @@ point game::place_player( const tripoint &dest_loc )
                 critter.move_to( u.pos(), true ); // Force the movement even though the player is there right now.
                 add_msg( _( "You displace the %s." ), critter.name() );
             }
-        } else if( !g->u.has_effect( effect_riding ) ){
+        } else if( !g->u.has_effect( effect_riding ) ) {
             add_msg( _( "You cannot move the %s out of the way." ), critter.name() );
             return u.pos().xy();
         }

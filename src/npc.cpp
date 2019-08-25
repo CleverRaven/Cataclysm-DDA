@@ -11,6 +11,7 @@
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "coordinate_conversions.h"
+#include "creature_tracker.h"
 #include "effect.h"
 #include "event_bus.h"
 #include "game.h"
@@ -695,13 +696,15 @@ void npc::place_on_map()
     // value of "submap_coords.x * SEEX + posx()" is unchanged
     setpos( tripoint( offset_x + dmx * SEEX, offset_y + dmy * SEEY, posz() ) );
 
-    if( g->is_empty( pos() ) ) {
+    if( g->is_empty( pos() ) || is_mounted() ) {
+        add_msg( "setpos npc %d %d", pos().x, pos().y );
         return;
     }
 
     for( const tripoint &p : closest_tripoints_first( SEEX + 1, pos() ) ) {
         if( g->is_empty( p ) ) {
             setpos( p );
+            add_msg( "setpos radius, %d %d", pos().x, pos().y );
             return;
         }
     }
@@ -1789,8 +1792,8 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 void npc::npc_dismount()
 {
     tripoint pnt;
-    for( const auto &elem : g->m.points_in_radius( pos(), 1 ) ){
-        if( g->is_empty( elem ) ){
+    for( const auto &elem : g->m.points_in_radius( pos(), 1 ) ) {
+        if( g->is_empty( elem ) ) {
             pnt = elem;
             break;
         }
@@ -2075,7 +2078,7 @@ void npc::die( Creature *nkiller )
     if( in_vehicle ) {
         g->m.unboard_vehicle( pos(), true );
     }
-    if( is_mounted() ){
+    if( is_mounted() ) {
         monster *critter = mounted_creature.get();
         critter->remove_effect( effect_ridden );
         critter->mounted_player = nullptr;
@@ -2337,6 +2340,14 @@ void npc::on_load()
     }
     if( g->m.veh_at( pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
         g->m.board_vehicle( pos(), this );
+    }
+    if( has_effect( effect_riding ) ) {
+        if( monster *const critter = g->critter_at<monster>( pos() ) ) {
+            mounted_creature = g->critter_tracker->find( pos() );
+        } else {
+            add_msg( m_debug, "NPC is meant to be riding, though the mount is not found when % is loaded",
+                     disp_name() );
+        }
     }
     if( has_trait( trait_id( "HALLUCINATION" ) ) ) {
         hallucination = true;

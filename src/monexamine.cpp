@@ -327,7 +327,11 @@ void monexamine::attach_or_remove_saddle( monster &z )
 
 bool player::can_mount( const monster &critter ) const
 {
-    if( ( critter.has_flag( MF_PET_MOUNTABLE ) && critter.friendly == -1 && !critter.has_effect( effect_controlled ) && !critter.has_effect( effect_ridden ) ) && ( (critter.has_effect( effect_saddled ) && get_skill_level( skill_survival ) >= 1 ) || get_skill_level( skill_survival ) >= 4 ) && (critter.get_size() >= ( get_size() + 1 ) && get_weight() <= critter.get_weight() / 5 ) ){
+    if( ( critter.has_flag( MF_PET_MOUNTABLE ) && critter.friendly == -1 &&
+          !critter.has_effect( effect_controlled ) && !critter.has_effect( effect_ridden ) ) &&
+        ( ( critter.has_effect( effect_saddled ) && get_skill_level( skill_survival ) >= 1 ) ||
+          get_skill_level( skill_survival ) >= 4 ) && ( critter.get_size() >= ( get_size() + 1 ) &&
+                  get_weight() <= critter.get_weight() / 5 ) ) {
         return true;
     }
     return false;

@@ -11015,7 +11015,6 @@ void player::burn_move_stamina( int moves )
 
 void player::mount_creature( monster &z )
 {
-    add_msg( "mount_creature ran ");
     tripoint pnt = z.pos();
     auto mons = g->critter_tracker->find( pnt );
     if( mons == nullptr ) {
@@ -11032,7 +11031,6 @@ void player::mount_creature( monster &z )
         }
     }
     z.mounted_player_id = this->getID();
-    add_msg( "mount_creature , mounted_player_id = %d", this->getID().get_value() );
     if( z.has_effect( effect_harnessed ) ) {
         z.remove_effect( effect_harnessed );
         add_msg_if_player( m_info, _( "You remove the %s's harness." ), z.get_name() );
@@ -11042,7 +11040,7 @@ void player::mount_creature( monster &z )
     if( is_hauling() ) {
         stop_hauling();
     }
-    if( !is_npc() ){
+    if( !is_npc() ) {
         if( g->u.get_grab_type() != OBJECT_NONE ) {
             add_msg_if_player( m_warning, _( "You let go of the grabbed object." ) );
             g->u.grab( OBJECT_NONE );
@@ -11092,9 +11090,10 @@ void player::forced_dismount()
         setpos( random_entry( valid ) );
         if( mech ) {
             add_msg_player_or_npc( m_bad, _( "You are ejected from your mech!" ),
-                                      _( "% is ejected from their mech!" ), this->name );
+                                   _( "% is ejected from their mech!" ), this->name );
         } else {
-            add_msg_player_or_npc( m_bad, _( "You fall off your mount!" ), _( "%s falls off their mount!"), this->name );
+            add_msg_player_or_npc( m_bad, _( "You fall off your mount!" ), _( "%s falls off their mount!" ),
+                                   this->name );
         }
         const int dodge = get_dodge();
         const int damage = std::max( 0, rng( 1, 20 ) - rng( dodge, dodge * 2 ) );
@@ -11144,7 +11143,7 @@ void player::forced_dismount()
     } else {
         add_msg( m_debug, "Forced_dismount could not find a square to deposit player" );
     }
-    if( !is_player() ){
+    if( !is_player() ) {
         if( g->u.get_grab_type() != OBJECT_NONE ) {
             add_msg( m_warning, _( "You let go of the grabbed object." ) );
             g->u.grab( OBJECT_NONE );

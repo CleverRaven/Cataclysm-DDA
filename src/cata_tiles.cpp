@@ -2314,9 +2314,9 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
             std::string chosen_id = ent_name.str();
             if( m->has_effect( effect_ridden ) ) {
                 int pl_under_height = 6;
-                if( m->mounted_player ){
+                if( m->mounted_player ) {
                     player *pl = m->mounted_player;
-                    if( pl ){
+                    if( pl ) {
                         draw_entity_with_overlays( *pl, p, ll, pl_under_height );
                     }
                 }
