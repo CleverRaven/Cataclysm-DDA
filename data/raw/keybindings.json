@@ -2603,7 +2603,7 @@
     "id": "SAVE_DEFAULT",
     "category": "ADVANCED_INVENTORY",
     "name": "Save default layout"
-  },  
+  },
   {
     "type": "keybinding",
     "id": "UP",
@@ -2770,7 +2770,7 @@
     "name": "Select items @ all 9 fields",
     "bindings": [ { "input_method": "keyboard", "key": "a" }, { "input_method": "keyboard", "key": "A" } ]
   },
-    {
+  {
     "type": "keybinding",
     "id": "ITEMS_AROUND_I_W",
     "category": "COMESTIBLE_INVENTORY",
@@ -2796,21 +2796,20 @@
     "category": "COMESTIBLE_INVENTORY",
     "name": "Save default layout"
   },
-  
   {
     "type": "keybinding",
     "id": "CONSUME_FOOD",
     "category": "COMESTIBLE_INVENTORY",
     "name": "Consume selected",
     "bindings": [ { "input_method": "keyboard", "key": "RETURN" } ]
-  },  
+  },
   {
     "type": "keybinding",
     "id": "SWITCH_FOOD",
     "category": "COMESTIBLE_INVENTORY",
     "name": "Switch between Food/Drugs",
     "bindings": [ { "input_method": "keyboard", "key": "z" }, { "input_method": "keyboard", "key": "Z" } ]
-  },  
+  },
   {
     "type": "keybinding",
     "id": "HEAT_UP",
