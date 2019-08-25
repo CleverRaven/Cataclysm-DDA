@@ -697,14 +697,12 @@ void npc::place_on_map()
     setpos( tripoint( offset_x + dmx * SEEX, offset_y + dmy * SEEY, posz() ) );
 
     if( g->is_empty( pos() ) || is_mounted() ) {
-        add_msg( "setpos npc %d %d", pos().x, pos().y );
         return;
     }
 
     for( const tripoint &p : closest_tripoints_first( SEEX + 1, pos() ) ) {
         if( g->is_empty( p ) ) {
             setpos( p );
-            add_msg( "setpos radius, %d %d", pos().x, pos().y );
             return;
         }
     }
@@ -2341,7 +2339,7 @@ void npc::on_load()
     if( g->m.veh_at( pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
         g->m.board_vehicle( pos(), this );
     }
-    if( has_effect( effect_riding ) ) {
+    if( has_effect( effect_riding ) && !mounted_creature ) {
         if( monster *const critter = g->critter_at<monster>( pos() ) ) {
             mounted_creature = g->critter_tracker->find( pos() );
         } else {

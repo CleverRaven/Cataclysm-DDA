@@ -2044,7 +2044,9 @@ void monster::die( Creature *nkiller )
             item riding_saddle( "riding_saddle", 0 );
             g->m.add_item_or_charges( pos(), riding_saddle );
         }
-        g->u.forced_dismount();
+        if( mounted_player ) {
+            mounted_player->forced_dismount();
+        }
     }
     g->set_critter_died();
     dead = true;
