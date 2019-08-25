@@ -932,7 +932,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( p.is_npc() ) {
         return 0;
     }
-  
+
     if( p.is_mounted() ) {
         p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
