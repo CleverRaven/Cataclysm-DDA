@@ -918,6 +918,30 @@ void player::process_bionic( int b )
         for( const item *cable : cables ) {
             const cata::optional<tripoint> target = cable->get_cable_target( this, pos() );
             if( !target ) {
+                if( g->m.is_outside( pos() ) && !is_night( calendar::turn ) && cable->get_var( "state" ) == "solar_pack_link" ) {
+                    double modifier =  g->natural_light_level( pos().z ) / default_daylight_level();
+                    // basic solar panel produces 50W = 1 charge/20_seconds = 180 charges/hour(3600)
+                    if( is_wearing( "solarpack_on" ) && x_in_y( 180 * modifier, 3600 ) ) {
+                        add_msg( m_bad, "MOD: %f", modifier * 180 );
+                        charge_power( 1 );
+                    }
+                    // quantum solar backpack = solar panel x6
+                    if( is_wearing( "q_solarpack_on" ) && x_in_y( 6 * 180 * modifier, 3600 ) ) {
+                        charge_power( 1 );
+                    }
+                }
+                if( cable->get_var( "state" ) == "UPS_link" ) {
+                    static const item_filter used_ups = [&]( const item & itm ) {
+                                    return itm.get_var( "cable" ) == "plugged_in";
+                    };
+                    if( has_charges( "UPS_off", 1, used_ups ) ) {
+                        use_charges( "UPS_off", 1, used_ups );
+                        charge_power( 1 );
+                    } else if( has_charges( "adv_UPS_off", 1, used_ups ) ) {
+                        use_charges( "adv_UPS_off", roll_remainder( 0.6 ), used_ups );
+                        charge_power( 1 );
+                    }
+                }
                 continue;
             }
             const optional_vpart_position vp = g->m.veh_at( *target );
