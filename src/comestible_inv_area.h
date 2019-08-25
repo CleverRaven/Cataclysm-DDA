@@ -81,16 +81,18 @@ struct comestible_inv_area_info {
                               const std::string &actionname ) : id( id ),
         hscreen( hscreenx, hscreeny ), default_offset( off ), name( name ), shortname( shortname ),
         minimapname( minimapname ), relative_location( relative_location ), actionname( actionname ) {
-        static const std::array< aim_location, 9> ground_locations = { AIM_SOUTHWEST,
-                                                                       AIM_SOUTH,
-                                                                       AIM_SOUTHEAST,
-                                                                       AIM_WEST,
-                                                                       AIM_CENTER,
-                                                                       AIM_EAST,
-                                                                       AIM_NORTHWEST,
-                                                                       AIM_NORTH,
-                                                                       AIM_NORTHEAST
-                                                                     };
+        static const std::array< aim_location, 9> ground_locations = { {
+                AIM_SOUTHWEST,
+                AIM_SOUTH,
+                AIM_SOUTHEAST,
+                AIM_WEST,
+                AIM_CENTER,
+                AIM_EAST,
+                AIM_NORTHWEST,
+                AIM_NORTH,
+                AIM_NORTHEAST
+            }
+        };
         if( id == AIM_ALL ) {
             type = AREA_TYPE_MULTI;
             multi_locations = std::vector<aim_location>( ground_locations.begin(), ground_locations.end() );
