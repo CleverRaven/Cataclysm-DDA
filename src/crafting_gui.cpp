@@ -149,7 +149,7 @@ static int print_items( const recipe &r, const catacurses::window &w, int ypos, 
     return ypos - oldy;
 }
 
-const recipe *select_crafting_recipe( int &batch_size, std::string filter)
+const recipe *select_crafting_recipe( int &batch_size, std::string filter )
 {
     if( normalized_names.empty() ) {
         translate_all();

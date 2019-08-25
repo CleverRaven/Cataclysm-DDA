@@ -24,7 +24,7 @@ struct comestible_inv_save_state {
         When item is fully consumed we want to keep list at the same index
         */
         int selected_idx = 0;
-        item* selected_itm = nullptr;
+        item *selected_itm = nullptr;
 
         int bio = -1;
         bool show_food = true;

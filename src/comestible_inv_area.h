@@ -55,7 +55,7 @@ struct comestible_inv_area_info {
     point hscreen;
     // relative (to the player) position of the map point
     tripoint default_offset;
-    
+
     area_type type;
 
     /** Long name, displayed, translated */
@@ -70,39 +70,39 @@ struct comestible_inv_area_info {
 
     std::vector<aim_location> multi_locations = {};
 
-    bool has_area(aim_location loc) const {
-        return (std::find(multi_locations.begin(), multi_locations.end(), loc) != multi_locations.end());
+    bool has_area( aim_location loc ) const {
+        return ( std::find( multi_locations.begin(), multi_locations.end(),
+                            loc ) != multi_locations.end() );
     }
 
-    comestible_inv_area_info(aim_location id, int hscreenx, int hscreeny, tripoint off,
-        const std::string& name, const std::string& shortname,
-        const std::string& minimapname, const aim_location relative_location,
-        const std::string& actionname) : id(id),
-        hscreen(hscreenx, hscreeny), default_offset(off), name(name), shortname(shortname),
-        minimapname(minimapname), relative_location(relative_location), actionname(actionname) {
+    comestible_inv_area_info( aim_location id, int hscreenx, int hscreeny, tripoint off,
+                              const std::string &name, const std::string &shortname,
+                              const std::string &minimapname, const aim_location relative_location,
+                              const std::string &actionname ) : id( id ),
+        hscreen( hscreenx, hscreeny ), default_offset( off ), name( name ), shortname( shortname ),
+        minimapname( minimapname ), relative_location( relative_location ), actionname( actionname ) {
         static const std::array< aim_location, 9> ground_locations = { AIM_SOUTHWEST,
-    AIM_SOUTH,
-    AIM_SOUTHEAST,
-    AIM_WEST,
-    AIM_CENTER,
-    AIM_EAST,
-    AIM_NORTHWEST,
-    AIM_NORTH,
-    AIM_NORTHEAST };
-        if (id == AIM_ALL) {
+                                                                       AIM_SOUTH,
+                                                                       AIM_SOUTHEAST,
+                                                                       AIM_WEST,
+                                                                       AIM_CENTER,
+                                                                       AIM_EAST,
+                                                                       AIM_NORTHWEST,
+                                                                       AIM_NORTH,
+                                                                       AIM_NORTHEAST
+                                                                     };
+        if( id == AIM_ALL ) {
             type = AREA_TYPE_MULTI;
-            multi_locations = std::vector<aim_location>(ground_locations.begin(), ground_locations.end());
-        } else if (id == AIM_ALL_I_W) {
+            multi_locations = std::vector<aim_location>( ground_locations.begin(), ground_locations.end() );
+        } else if( id == AIM_ALL_I_W ) {
             type = AREA_TYPE_MULTI;
-            multi_locations = std::vector<aim_location>(ground_locations.begin(), ground_locations.end());
-            multi_locations.push_back(AIM_INVENTORY);
-            multi_locations.push_back(AIM_WORN);
-        } 
-        else {
-            if (id == AIM_INVENTORY || id == AIM_WORN) {
+            multi_locations = std::vector<aim_location>( ground_locations.begin(), ground_locations.end() );
+            multi_locations.push_back( AIM_INVENTORY );
+            multi_locations.push_back( AIM_WORN );
+        } else {
+            if( id == AIM_INVENTORY || id == AIM_WORN ) {
                 type = AREA_TYPE_PLAYER;
-            }
-            else {
+            } else {
                 type = AREA_TYPE_GROUND;
             }
             multi_locations = { id };
@@ -112,8 +112,9 @@ struct comestible_inv_area_info {
 
 
 
-class comestible_inv_area {
-public :
+class comestible_inv_area
+{
+    public :
 
     // *INDENT-OFF*
     static comestible_inv_area_info get_info(comestible_inv_area_info::aim_location loc) {
@@ -141,81 +142,80 @@ public :
     }
     // *INDENT-ON*
 
-    const comestible_inv_area_info info;
+        const comestible_inv_area_info info;
 
-private:
+    private:
 
-    /** Can we put items there? Only checks if location is valid, not if
-        selected container in pane is. For full check use canputitems() **/
-    bool is_valid;
-    // vehicle pointer and cargo part index
-    vehicle* veh;
-    int veh_part;
+        /** Can we put items there? Only checks if location is valid, not if
+            selected container in pane is. For full check use canputitems() **/
+        bool is_valid;
+        // vehicle pointer and cargo part index
+        vehicle *veh;
+        int veh_part;
 
-public:
-    // roll our own, to handle moving stacks better
-    using area_items = std::vector<std::list<item*> >;
-    
-    area_items get_items(bool use_vehicle);
+    public:
+        // roll our own, to handle moving stacks better
+        using area_items = std::vector<std::list<item *> >;
 
-    units::volume get_max_volume(bool use_vehicle);
+        area_items get_items( bool use_vehicle );
 
-    std::string get_name(bool use_vehicle) const;
+        units::volume get_max_volume( bool use_vehicle );
 
-    bool is_vehicle_default() const;
+        std::string get_name( bool use_vehicle ) const;
 
-    // absolute position of the map point.
-    //tripoint pos;
-    // description, e.g. vehicle name, label, or terrain
-    std::array<std::string, 2> desc;
-    // flags, e.g. FIRE, TRAP, WATER
-    std::string flags;
-    // total volume and weight of items currently there
-    //units::volume volume;
-    //units::mass weight;
-    // maximal count / volume of items there.
-    //int max_size;
+        bool is_vehicle_default() const;
 
-    tripoint offset;
+        // absolute position of the map point.
+        //tripoint pos;
+        // description, e.g. vehicle name, label, or terrain
+        std::array<std::string, 2> desc;
+        // flags, e.g. FIRE, TRAP, WATER
+        std::string flags;
+        // total volume and weight of items currently there
+        //units::volume volume;
+        //units::mass weight;
+        // maximal count / volume of items there.
+        //int max_size;
+
+        tripoint offset;
 
 
-    //comestible_inv_area(aim_location id) : id(id), relative_location(id) {}
-    //comestible_inv_area(aim_location id, int hscreenx, int hscreeny, tripoint off,
-    //    const std::string& name, const std::string& shortname,
-    //    const std::string& minimapname, const aim_location relative_location,
-    //    const std::string& actionname) : id(id),
-    //    hscreen(hscreenx, hscreeny), off(off), name(name), shortname(shortname),
-    //    minimapname(minimapname), relative_location(relative_location), actionname(actionname),
-    //    is_valid(false), veh(nullptr), veh_part(-1), volume(0_ml),
-    //    weight(0_gram), max_size(0) {
-    //}
+        //comestible_inv_area(aim_location id) : id(id), relative_location(id) {}
+        //comestible_inv_area(aim_location id, int hscreenx, int hscreeny, tripoint off,
+        //    const std::string& name, const std::string& shortname,
+        //    const std::string& minimapname, const aim_location relative_location,
+        //    const std::string& actionname) : id(id),
+        //    hscreen(hscreenx, hscreeny), off(off), name(name), shortname(shortname),
+        //    minimapname(minimapname), relative_location(relative_location), actionname(actionname),
+        //    is_valid(false), veh(nullptr), veh_part(-1), volume(0_ml),
+        //    weight(0_gram), max_size(0) {
+        //}
 
-     comestible_inv_area(comestible_inv_area_info area_info) : info(area_info),
-        is_valid(false), veh(nullptr), veh_part(-1) {
-    }
-
-    void init();
-    // Other area is actually the same item source, e.g. dragged vehicle to the south and AIM_SOUTH
-    //bool is_same( const comestible_inv_area &other ) const;
-    // does _not_ check vehicle storage, do that with `can_store_in_vehicle()' below
-    bool canputitems();
-    bool has_vehicle() const {
-        //add_msg("XXX veh: %d %d", info.id, info.type);
-        // disallow for non-valid vehicle locations
-        if (info.type != comestible_inv_area_info::AREA_TYPE_GROUND) {
-            return false;
+        comestible_inv_area( comestible_inv_area_info area_info ) : info( area_info ),
+            is_valid( false ), veh( nullptr ), veh_part( -1 ) {
         }
-        return veh != nullptr && veh_part >= 0;
-    }
 
-    std::string get_location_key();
-    comestible_inv_area_info::aim_location get_relative_location() const {
-        if (!(tile_iso && use_tiles)) {
-            return info.id;
+        void init();
+        // Other area is actually the same item source, e.g. dragged vehicle to the south and AIM_SOUTH
+        //bool is_same( const comestible_inv_area &other ) const;
+        // does _not_ check vehicle storage, do that with `can_store_in_vehicle()' below
+        bool canputitems();
+        bool has_vehicle() const {
+            //add_msg("XXX veh: %d %d", info.id, info.type);
+            // disallow for non-valid vehicle locations
+            if( info.type != comestible_inv_area_info::AREA_TYPE_GROUND ) {
+                return false;
+            }
+            return veh != nullptr && veh_part >= 0;
         }
-        else {
-            return info.relative_location;
+
+        std::string get_location_key();
+        comestible_inv_area_info::aim_location get_relative_location() const {
+            if( !( tile_iso && use_tiles ) ) {
+                return info.id;
+            } else {
+                return info.relative_location;
+            }
         }
-    }
 };
 #endif

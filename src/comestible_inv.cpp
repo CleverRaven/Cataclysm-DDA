@@ -68,48 +68,48 @@ enum aim_exit {
 };
 
 comestible_inventory::comestible_inventory()
-	: head_height(5)
-	, min_w_height(10)
-	, min_w_width(FULL_SCREEN_WIDTH)
-	, max_w_width(120)
-	, inCategoryMode(false)
-	, recalc(true)
-	, redraw(true)
-	, filter_edit(false)
-    ,squares({
-        {
-            {comestible_inv_area::get_info(comestible_inv_area_info::AIM_SOUTHWEST)},
-            {comestible_inv_area::get_info(comestible_inv_area_info::AIM_SOUTH)},
-            {comestible_inv_area::get_info(comestible_inv_area_info::AIM_SOUTHEAST)},
-            {comestible_inv_area::get_info(comestible_inv_area_info::AIM_WEST)},
-            {comestible_inv_area::get_info(comestible_inv_area_info::AIM_CENTER)},
-            {comestible_inv_area::get_info(comestible_inv_area_info::AIM_EAST)},
-            {comestible_inv_area::get_info(comestible_inv_area_info::AIM_NORTHWEST)},
-            {comestible_inv_area::get_info(comestible_inv_area_info::AIM_NORTH)},
-            {comestible_inv_area::get_info(comestible_inv_area_info::AIM_NORTHEAST)},
+    : head_height( 5 )
+    , min_w_height( 10 )
+    , min_w_width( FULL_SCREEN_WIDTH )
+    , max_w_width( 120 )
+    , inCategoryMode( false )
+    , recalc( true )
+    , redraw( true )
+    , filter_edit( false )
+    , squares( {
+    {
+        {comestible_inv_area::get_info( comestible_inv_area_info::AIM_SOUTHWEST )},
+        {comestible_inv_area::get_info( comestible_inv_area_info::AIM_SOUTH )},
+        {comestible_inv_area::get_info( comestible_inv_area_info::AIM_SOUTHEAST )},
+        {comestible_inv_area::get_info( comestible_inv_area_info::AIM_WEST )},
+        {comestible_inv_area::get_info( comestible_inv_area_info::AIM_CENTER )},
+        {comestible_inv_area::get_info( comestible_inv_area_info::AIM_EAST )},
+        {comestible_inv_area::get_info( comestible_inv_area_info::AIM_NORTHWEST )},
+        {comestible_inv_area::get_info( comestible_inv_area_info::AIM_NORTH )},
+        {comestible_inv_area::get_info( comestible_inv_area_info::AIM_NORTHEAST )},
 
-            {comestible_inv_area::get_info(comestible_inv_area_info::AIM_DRAGGED)},
-            {comestible_inv_area::get_info(comestible_inv_area_info::AIM_INVENTORY)},
-            {comestible_inv_area::get_info(comestible_inv_area_info::AIM_WORN)},
+        {comestible_inv_area::get_info( comestible_inv_area_info::AIM_DRAGGED )},
+        {comestible_inv_area::get_info( comestible_inv_area_info::AIM_INVENTORY )},
+        {comestible_inv_area::get_info( comestible_inv_area_info::AIM_WORN )},
 
-            {comestible_inv_area::get_info(comestible_inv_area_info::AIM_ALL)},
-            {comestible_inv_area::get_info(comestible_inv_area_info::AIM_ALL_I_W)}
-        }
-        })
+        {comestible_inv_area::get_info( comestible_inv_area_info::AIM_ALL )},
+        {comestible_inv_area::get_info( comestible_inv_area_info::AIM_ALL_I_W )}
+    }
+} )
 {
     //TODO:XXX
-	// initialize screen coordinates for small overview 3x3 grid, depending on control scheme
-	//if (tile_iso && use_tiles) {
-	//	// Rotate the coordinates.
-	//	squares[1].info.hscreen.x = 33;
-	//	squares[2].info.hscreen.x = 36;
-	//	squares[3].info.hscreen.y = 2;
-	//	squares[4].info.hscreen.y = 3;
-	//	squares[6].info.hscreen.y = 1;
-	//	squares[7].info.hscreen.y = 2;
-	//	squares[8].info.hscreen.x = 30;
-	//	squares[9].info.hscreen.x = 33;
-	//}
+    // initialize screen coordinates for small overview 3x3 grid, depending on control scheme
+    //if (tile_iso && use_tiles) {
+    //  // Rotate the coordinates.
+    //  squares[1].info.hscreen.x = 33;
+    //  squares[2].info.hscreen.x = 36;
+    //  squares[3].info.hscreen.y = 2;
+    //  squares[4].info.hscreen.y = 3;
+    //  squares[6].info.hscreen.y = 1;
+    //  squares[7].info.hscreen.y = 2;
+    //  squares[8].info.hscreen.x = 30;
+    //  squares[9].info.hscreen.x = 33;
+    //}
 }
 
 comestible_inventory::~comestible_inventory()
@@ -129,12 +129,13 @@ comestible_inventory::~comestible_inventory()
     }
 }
 
-void comestible_inventory::save_settings() {
+void comestible_inventory::save_settings()
+{
     bool is_reset = uistate.comestible_save.exit_code != exit_re_entry;
-    pane.save_settings(is_reset);
-    if (is_reset) {
-        if (uistate.comestible_save.bio != -1) {
-            g->u.deactivate_bionic(uistate.comestible_save.bio);
+    pane.save_settings( is_reset );
+    if( is_reset ) {
+        if( uistate.comestible_save.bio != -1 ) {
+            g->u.deactivate_bionic( uistate.comestible_save.bio );
         }
         uistate.comestible_save.bio = -1;
     }
@@ -170,59 +171,57 @@ void comestible_inventory::init()
                                   point( colstart + ( w_width - ( minimap_width + 1 ) ), headstart + 1 ) );
     window = catacurses::newwin( w_height, w_width, point( colstart, headstart + head_height ) );
 
-    
+
 
     uistate.comestible_save.exit_code = exit_none;
 
     std::vector<comestible_inv_columns> columns;
-    if (uistate.comestible_save.bio == -1) {
+    if( uistate.comestible_save.bio == -1 ) {
         columns = { COLUMN_CALORIES, COLUMN_QUENCH, COLUMN_JOY };
-        if (g->u.can_estimate_rot()) {
-            columns.emplace_back(COLUMN_EXPIRES);
+        if( g->u.can_estimate_rot() ) {
+            columns.emplace_back( COLUMN_EXPIRES );
+        } else {
+            columns.emplace_back( COLUMN_SHELF_LIFE );
         }
-        else {
-            columns.emplace_back(COLUMN_SHELF_LIFE);
-        }
-    }
-    else {
+    } else {
         columns = { COLUMN_ENERGY, COLUMN_SORTBY_CATEGORY };
     }
     int itemsPerPage = w_height - 2 - 5; // 2 for the borders, 5 for the header stuff
-    pane.init(columns, itemsPerPage, window, &squares);
+    pane.init( columns, itemsPerPage, window, &squares );
     set_pane_legend();
-    if (uistate.comestible_save.bio == -1) {
-        pane.special_filter = [](const item& it) {
+    if( uistate.comestible_save.bio == -1 ) {
+        pane.special_filter = []( const item & it ) {
             const std::string n = it.get_category().name();
-            if (uistate.comestible_save.show_food && n != "FOOD") {
+            if( uistate.comestible_save.show_food && n != "FOOD" ) {
                 return true;
             }
-            if (!uistate.comestible_save.show_food && n != "DRUGS") {
+            if( !uistate.comestible_save.show_food && n != "DRUGS" ) {
                 return true;
             }
 
-            if (!g->u.can_consume(it)) {
+            if( !g->u.can_consume( it ) ) {
                 return true;
             }
             return false;
         };
         pane.title = uistate.comestible_save.show_food ? "FOOD" : "DRUGS";
         pane.default_sortby = COLUMN_EXPIRES;
-    }
-    else {
-        pane.special_filter = [](const item& it) {
-            return !g->u.can_consume(it);
+    } else {
+        pane.special_filter = []( const item & it ) {
+            return !g->u.can_consume( it );
         };
-        pane.title = g->u.bionic_at_index(uistate.comestible_save.bio).id.obj().name;
+        pane.title = g->u.bionic_at_index( uistate.comestible_save.bio ).id.obj().name;
         pane.default_sortby = COLUMN_ENERGY;
     }
 }
 
-void comestible_inventory::set_pane_legend() {
+void comestible_inventory::set_pane_legend()
+{
     std::vector<legend_data> data;
-    if (uistate.comestible_save.bio == -1) {
-        data.push_back({ 'z', c_light_gray, "Switch Food/Drugs" });
-        data.push_back({ 'h', c_light_red, "Warm up food" });
-        data.push_back({ '&', c_cyan, "Craft with" });
+    if( uistate.comestible_save.bio == -1 ) {
+        data.push_back( { 'z', c_light_gray, "Switch Food/Drugs" } );
+        data.push_back( { 'h', c_light_red, "Warm up food" } );
+        data.push_back( { '&', c_cyan, "Craft with" } );
     }
     pane.legend = data;
     pane.needs_redraw = true;
@@ -240,7 +239,7 @@ bool comestible_inventory::show_sort_menu( )
 {
     uilist sm;
     sm.text = _( "Sort by... " );
-    pane.add_sort_enries(sm);
+    pane.add_sort_enries( sm );
     sm.query();
 
     if( sm.ret < 0 ) {
@@ -251,9 +250,9 @@ bool comestible_inventory::show_sort_menu( )
     return true;
 }
 
-void comestible_inventory::display(int bio)
+void comestible_inventory::display( int bio )
 {
-    if (uistate.comestible_save.exit_code != exit_re_entry) {
+    if( uistate.comestible_save.exit_code != exit_re_entry ) {
         uistate.comestible_save.bio = bio;
     }
     init();
@@ -267,17 +266,17 @@ void comestible_inventory::display(int bio)
     ctxt.register_action( "DOWN" );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action("CATEGORY_SELECTION");
-    ctxt.register_action("SORT");
-    ctxt.register_action("FILTER");
-    ctxt.register_action("RESET_FILTER");
+    ctxt.register_action( "CATEGORY_SELECTION" );
+    ctxt.register_action( "SORT" );
+    ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
 
     ctxt.register_action( "TOGGLE_VEH" );
     ctxt.register_action( "EXAMINE" );
     ctxt.register_action( "TOGGLE_AUTO_PICKUP" );
     ctxt.register_action( "TOGGLE_FAVORITE" );
-    ctxt.register_action("ITEMS_DEFAULT");
-    ctxt.register_action("SAVE_DEFAULT");
+    ctxt.register_action( "ITEMS_DEFAULT" );
+    ctxt.register_action( "SAVE_DEFAULT" );
 
     ctxt.register_action( "ITEMS_NW" );
     ctxt.register_action( "ITEMS_N" );
@@ -295,16 +294,16 @@ void comestible_inventory::display(int bio)
     ctxt.register_action( "ITEMS_DRAGGED_CONTAINER" );
     ctxt.register_action( "ITEMS_CONTAINER" );
 
-    if (uistate.comestible_save.bio == -1) {
-        ctxt.register_action("CONSUME_FOOD");
-        ctxt.register_action("SWITCH_FOOD");
-        ctxt.register_action("HEAT_UP");
-        ctxt.register_action("CRAFT_WITH");
+    if( uistate.comestible_save.bio == -1 ) {
+        ctxt.register_action( "CONSUME_FOOD" );
+        ctxt.register_action( "SWITCH_FOOD" );
+        ctxt.register_action( "HEAT_UP" );
+        ctxt.register_action( "CRAFT_WITH" );
     }
 
     exit = false;
-    redo(true, true);
-    
+    redo( true, true );
+
     using ai = comestible_inv_area_info;
     while( !exit ) {
         if( g->u.moves < 0 ) {
@@ -332,7 +331,7 @@ void comestible_inventory::display(int bio)
             wrefresh( head );
             refresh_minimap();
         }
-        redo(false, false);
+        redo( false, false );
 
         // current item in source pane, might be null
         comestible_inv_listitem *sitem = pane.get_cur_item_ptr();
@@ -343,19 +342,20 @@ void comestible_inventory::display(int bio)
 
         if( action == "CATEGORY_SELECTION" ) {
             pane.inCategoryMode = !pane.inCategoryMode;
-            pane.needs_redraw = true; // We redraw to force the color change of the highlighted line and header text.
+            pane.needs_redraw =
+                true; // We redraw to force the color change of the highlighted line and header text.
         } else if( action == "HELP_KEYBINDINGS" ) {
-            redo(recalc, true);
+            redo( recalc, true );
         }   else if( ( new_square = get_square( action ) ) != nullptr ) {
             if( pane.get_area()->info.id == new_square->get_relative_location() ) {
                 //DO NOTHING
-            } else if( new_square->canputitems() ) {                
-                pane.set_area( new_square, new_square->is_vehicle_default());
+            } else if( new_square->canputitems() ) {
+                pane.set_area( new_square, new_square->is_vehicle_default() );
                 pane.index = 0;
-                redo(true, true);
+                redo( true, true );
             } else {
                 popup( _( "You can't put items there!" ) );
-                redo(recalc, true); // to clear the popup
+                redo( recalc, true ); // to clear the popup
             }
         } else if( action == "TOGGLE_FAVORITE" ) {
             if( sitem == nullptr || !sitem->is_item_entry() ) {
@@ -365,15 +365,15 @@ void comestible_inventory::display(int bio)
                 it->set_favorite( !it->is_favorite );
             }
             // recalc = true; In case we've merged faved and unfaved items
-            redo(true, true);
+            redo( true, true );
         } else if( action == "SORT" ) {
             if( show_sort_menu( ) ) {
-                redo(true, redraw);
+                redo( true, redraw );
             }
-            redo(recalc, true);
+            redo( recalc, true );
         } else if( action == "FILTER" ) {
-            draw_item_filter_rules(pane.window, 1, 11, item_filter_type::FILTER);
-            pane.do_filter(w_height - 1, w_width / 2 - 4);
+            draw_item_filter_rules( pane.window, 1, 11, item_filter_type::FILTER );
+            pane.do_filter( w_height - 1, w_width / 2 - 4 );
         } else if( action == "RESET_FILTER" ) {
             pane.set_filter( "" );
         } else if( action == "TOGGLE_AUTO_PICKUP" ) {
@@ -388,7 +388,7 @@ void comestible_inventory::display(int bio)
                 sitem->autopickup = true;
             }
 
-            redo(true, redraw);
+            redo( true, redraw );
         } else if( action == "EXAMINE" ) {
             if( sitem == nullptr || !sitem->is_item_entry() ) {
                 continue;
@@ -418,7 +418,7 @@ void comestible_inventory::display(int bio)
                 if( pane.get_area()->info.id == ai::AIM_INVENTORY ) {
                     g->u.inv.restack( g->u );
                 }
-                redo(true, redraw);
+                redo( true, redraw );
             } else {
                 item &it = *sitem->items.front();
                 std::vector<iteminfo> vThisItem;
@@ -434,17 +434,17 @@ void comestible_inventory::display(int bio)
             } else if( ret == KEY_PPAGE || ret == KEY_UP ) {
                 pane.scroll_by( -1 );
             }
-            redo(recalc, true); // item info window overwrote the other pane and the header
+            redo( recalc, true ); // item info window overwrote the other pane and the header
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "PAGE_DOWN" ) {
             pane.scroll_by( +pane.itemsPerPage );
         } else if( action == "PAGE_UP" ) {
-            pane.scroll_by( -pane.itemsPerPage);
+            pane.scroll_by( -pane.itemsPerPage );
         } else if( action == "DOWN" ) {
-            pane.scroll_by( +1);
+            pane.scroll_by( +1 );
         } else if( action == "UP" ) {
-            pane.scroll_by( -1);
+            pane.scroll_by( -1 );
         } else if( action == "TOGGLE_VEH" ) {
             if( pane.get_area()->has_vehicle() ) {
                 if( pane.get_area()->info.id != ai::AIM_DRAGGED ) {
@@ -452,31 +452,31 @@ void comestible_inventory::display(int bio)
                     pane.set_area( pane.get_area(), !pane.is_in_vehicle() );
                     pane.index = 0;
                     // make sure to update the minimap as well!
-                    redo(recalc, true);
+                    redo( recalc, true );
                     pane.needs_recalc = true;
                 }
             } else {
                 popup( _( "No vehicle there!" ) );
-                redo(recalc, true);
+                redo( recalc, true );
             }
         } else if( action == "SWITCH_FOOD" ) {
             uistate.comestible_save.show_food = !uistate.comestible_save.show_food;
             pane.title = uistate.comestible_save.show_food ? "FOOD" : "DRUGS";
-            redo(true, redraw);
+            redo( true, redraw );
         } else if( action == "HEAT_UP" ) {
             heat_up( sitem->items.front() );
         } else if( action == "CRAFT_WITH" ) {
-            item* it = sitem->items.front();
-            if (it->is_food_container()) {
+            item *it = sitem->items.front();
+            if( it->is_food_container() ) {
                 it = &it->contents.front();
             }
-            std::string food_name = it->nname(it->typeId());
-            g->u.craft(tripoint_zero, string_format("c:%s", food_name));
+            std::string food_name = it->nname( it->typeId() );
+            g->u.craft( tripoint_zero, string_format( "c:%s", food_name ) );
             //TODO: next 2 lines seem hacky - refreshing twice?
             //without 1st line we can see craft menu after it closes
             //without 2nd line we can't see comestible menu after crafting closes
             g->refresh_all();
-            redo(recalc, true);
+            redo( recalc, true );
         } else if( action == "CONSUME_FOOD" ) {
             player &p = g->u;
             item *it = sitem->items.front();
@@ -502,7 +502,7 @@ void comestible_inventory::display(int bio)
 
                         loc = item_location( vehicle_cursor( *veh, part ), it );
                     } else {
-                        if( sitem->area->info.type == ai::AREA_TYPE_PLAYER) {
+                        if( sitem->area->info.type == ai::AREA_TYPE_PLAYER ) {
                             loc = item_location( p, it );
                         } else {
                             loc = item_location( map_cursor( target ), it );
@@ -518,7 +518,7 @@ void comestible_inventory::display(int bio)
 
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
-void comestible_inv(int b)
+void comestible_inv( int b )
 {
     player &p = g->u;
     map &m = g->m;
@@ -572,7 +572,7 @@ void comestible_inv(int b)
         }
     }
     comestible_inventory new_inv;
-    new_inv.display(b);
+    new_inv.display( b );
 }
 
 void comestible_inventory::refresh_minimap()
@@ -595,8 +595,10 @@ void comestible_inventory::draw_minimap()
     // draw the 3x3 tiles centered around player
     g->m.draw( minimap, g->u.pos() );
 
-    if (pane.get_area()->info.type == comestible_inv_area_info::AREA_TYPE_MULTI) return;
-    
+    if( pane.get_area()->info.type == comestible_inv_area_info::AREA_TYPE_MULTI ) {
+        return;
+    }
+
     char sym = minimap_get_sym();
     if( sym != '\0' ) {
         auto sq = pane.get_area();
@@ -612,14 +614,13 @@ void comestible_inventory::draw_minimap()
     g->u.draw( minimap, g->u.pos(), player_selected );
 }
 
-char comestible_inventory::minimap_get_sym() const {
-    if (pane.get_area()->info.type == comestible_inv_area_info::AREA_TYPE_PLAYER) {
+char comestible_inventory::minimap_get_sym() const
+{
+    if( pane.get_area()->info.type == comestible_inv_area_info::AREA_TYPE_PLAYER ) {
         return '^';
-    }
-    else if (pane.is_in_vehicle()) {
+    } else if( pane.is_in_vehicle() ) {
         return 'V';
-    }
-    else {
+    } else {
         return ' ';
     }
 }
@@ -633,7 +634,7 @@ void comestible_inventory::do_return_entry()
     save_settings();
 }
 
-void comestible_inventory::redo(bool needs_recalc, bool needs_redraw)
+void comestible_inventory::redo( bool needs_recalc, bool needs_redraw )
 {
     recalc = needs_recalc;
     pane.needs_recalc = needs_recalc;
@@ -703,14 +704,14 @@ void comestible_inventory::heat_up( item *it_to_heat )
     //check we can actually heat up
     if( !has_heat_item && !can_use_hotplate ) {
         popup( _( "You don't have a suitable container or hotplate with enough charges." ) );
-        redo(recalc, true);
+        redo( recalc, true );
         return;
     }
 
     if( has_heat_item && !can_use_hotplate ) {
         if( !is_near_fire && !can_use_bio ) {
             popup( _( "You need to be near fire to heat an item in a container." ) );
-            redo(recalc, true);
+            redo( recalc, true );
             return;
         }
     }
@@ -742,7 +743,7 @@ void comestible_inventory::heat_up( item *it_to_heat )
 
         if( sm.ret < 0 ) {
             //'Never mind'
-            redo(recalc, true);
+            redo( recalc, true );
             return;
         }
         choice = sm.ret;

@@ -1875,7 +1875,7 @@ bool game::handle_action()
 
             case ACTION_EAT:
                 comestible_inv();
-                if (false) {
+                if( false ) {
                     eat(); //TODO: just to make travis happy; delete after done testing
                 }
                 break;

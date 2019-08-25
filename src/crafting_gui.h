@@ -5,7 +5,7 @@
 class recipe;
 class JsonObject;
 
-const recipe *select_crafting_recipe( int &batch_size);
+const recipe *select_crafting_recipe( int &batch_size );
 
 void load_recipe_category( JsonObject &jsobj );
 void reset_recipe_categories();

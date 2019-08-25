@@ -283,10 +283,10 @@ bool player::has_morale_to_craft() const
     return get_morale_level() >= -50;
 }
 
-void player::craft( const tripoint &loc, std::string filter)
+void player::craft( const tripoint &loc, std::string filter )
 {
     int batch_size = 0;
-    const recipe *rec = select_crafting_recipe( batch_size, filter);
+    const recipe *rec = select_crafting_recipe( batch_size, filter );
     if( rec ) {
         if( crafting_allowed( *this, *rec ) ) {
             make_craft( rec->ident(), batch_size, loc );

@@ -22,7 +22,7 @@ class vehicle;
 class item;
 
 
-void comestible_inv(int bio = -1);
+void comestible_inv( int bio = -1 );
 // see item_factory.h
 class item_category;
 
@@ -32,7 +32,7 @@ class comestible_inventory
         comestible_inventory();
         ~comestible_inventory();
 
-        void display(int bio);
+        void display( int bio );
     private:
         const int head_height;
         const int min_w_height;
@@ -78,7 +78,7 @@ class comestible_inventory
         //void load_settings();
         // used to return back to AIM when other activities queued are finished
         void do_return_entry();
-        void redo(bool needs_recalc, bool needs_redraw);
+        void redo( bool needs_recalc, bool needs_redraw );
         // returns true if currently processing a routine
         // (such as `MOVE_ALL_ITEMS' with `AIM_ALL' source)
         //bool is_processing() const;
