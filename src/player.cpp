@@ -11031,6 +11031,8 @@ void player::mount_creature( monster &z )
             z.tied_item = cata::nullopt;
         }
     }
+    z.mounted_player_id = this->getID();
+    add_msg( "mount_creature , mounted_player_id = %d", this->getID().get_value() );
     if( z.has_effect( effect_harnessed ) ) {
         z.remove_effect( effect_harnessed );
         add_msg_if_player( m_info, _( "You remove the %s's harness." ), z.get_name() );
@@ -11061,7 +11063,6 @@ void player::mount_creature( monster &z )
     }
     // some rideable mechs have night-vision
     recalc_sight_limits();
-    g->refresh_all();
     mod_moves( -100 );
 }
 
@@ -11075,8 +11076,9 @@ void player::forced_dismount()
             mech = true;
             remove_item( weapon );
         }
+        mon->mounted_player_id = character_id();
         mon->remove_effect( effect_ridden );
-        mon->add_effect( effect_controlled, 2_turns );
+        mon->add_effect( effect_controlled, 5_turns );
         mounted_creature = nullptr;
         mon->mounted_player = nullptr;
     }
@@ -11160,6 +11162,7 @@ void player::dismount()
             if( g->is_empty( *pnt ) && mounted_creature ) {
                 remove_effect( effect_riding );
                 monster *critter = mounted_creature.get();
+                critter->mounted_player_id = character_id();
                 if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.empty() ) {
                     remove_item( g->u.weapon );
                 }
@@ -11168,7 +11171,7 @@ void player::dismount()
                     g->u.grab( OBJECT_NONE );
                 }
                 critter->remove_effect( effect_ridden );
-                critter->add_effect( effect_controlled, 2_turns );
+                critter->add_effect( effect_controlled, 5_turns );
                 mounted_creature = nullptr;
                 critter->mounted_player = nullptr;
                 setpos( *pnt );

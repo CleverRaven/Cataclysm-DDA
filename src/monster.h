@@ -415,6 +415,8 @@ class monster : public Creature
         tripoint wander_pos; // Wander destination - Just try to move in that direction
         int wandf;           // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
+        player* mounted_player; // player that is mounting this creature
+        character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
         character_id dragged_foe_id; // id of character being dragged by the monster
         cata::optional<item> tied_item; // item used to tie the monster
         cata::optional<item> battery_item; // item to power mechs
@@ -478,7 +480,6 @@ class monster : public Creature
         time_point last_updated = calendar::turn_zero;
         int last_baby;
         int last_biosig;
-        player* mounted_player;
         /**
          * Do some cleanup and caching as monster is being unloaded from map.
          */

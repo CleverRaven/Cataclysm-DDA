@@ -1861,6 +1861,31 @@ static void update_faction_api( npc *guy )
     }
 }
 
+void game::validate_mounted_npcs()
+{
+    for( monster &m : all_monsters() ) {
+        if( m.has_effect( effect_ridden ) && m.mounted_player_id.is_valid() ){
+            player *mounted_pl = g->critter_by_id<player>( m.mounted_player_id );
+            if( mounted_pl == nullptr ) {
+                // Target no longer valid.
+                m.mounted_player_id = character_id();
+                m.remove_effect( effect_ridden );
+                continue;
+            }
+            add_msg( "mounted player for horse = %s , pos of this player is %d %d", mounted_pl->disp_name(), mounted_pl->pos().x, mounted_pl->pos().y );
+            if( mounted_pl->is_mounted() ){
+                add_msg( "mounted player is mounted" );
+            } else {
+                if( mounted_pl->is_npc() ){
+                    mounted_pl->mounted_creature = critter_tracker->from_temporary_id( mounted_pl->mounted_creature_id );
+                    mounted_pl->setpos( m.pos() );
+                }
+            }
+            m.mounted_player = mounted_pl;
+        }
+    }
+}
+
 void game::validate_npc_followers()
 {
     // Make sure visible followers are in the list.
@@ -2660,9 +2685,9 @@ void game::load( const save_t &name )
         JsonIn jsin( stream );
         uistate.deserialize( jsin );
     } );
-
     reload_npcs();
     validate_npc_followers();
+    validate_mounted_npcs();
     validate_camps();
     update_map( u );
     for( auto &e : u.inv_dump() ) {

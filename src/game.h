@@ -448,6 +448,7 @@ class game
         std::set<character_id> get_follower_list();
         /** validate list of followers to account for overmap buffers */
         void validate_npc_followers();
+        void validate_mounted_npcs();
         /** validate camps to ensure they are on the overmap list */
         void validate_camps();
 

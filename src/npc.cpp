@@ -2075,7 +2075,12 @@ void npc::die( Creature *nkiller )
     if( in_vehicle ) {
         g->m.unboard_vehicle( pos(), true );
     }
-
+    if( is_mounted() ){
+        monster *critter = mounted_creature.get();
+        critter->remove_effect( effect_ridden );
+        critter->mounted_player = nullptr;
+        critter->mounted_player_id = character_id();
+    }
     dead = true;
     Character::die( nkiller );
 

@@ -2198,7 +2198,17 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         moved = true;
     } else if( g->m.passable( p ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
-        moves -= run_cost( g->m.combined_movecost( pos(), p ), diag );
+        if( is_mounted() && mounted_creature ) {
+            auto crit = mounted_creature.get();
+            const double base_moves = run_cost( g->m.combined_movecost( pos(), p ), diag ) * 100.0 / crit->get_speed();
+            const double encumb_moves = get_weight() / 4800.0_gram;
+            moves -= static_cast<int>( ceil( base_moves + encumb_moves ) );
+            if( crit->has_flag( MF_RIDEABLE_MECH ) ){
+                crit->use_mech_power( -1 );
+            }
+        } else {
+            moves -= run_cost( g->m.combined_movecost( pos(), p ), diag );
+        }
         moved = true;
     } else if( g->m.open_door( p, !g->m.is_outside( pos() ), true ) ) {
         if( !is_hallucination() ) { // hallucinations don't open doors
