@@ -225,11 +225,7 @@
       "sound_type": "fire_gun",
       "sound_variant": "crossbow",
       "remove_trap": true,
-      "spawn_items": [
-        "crossbow",
-        "string_6",
-        { "id": "bolt_steel", "chance": 0.9 }
-      ]
+      "spawn_items": [ "crossbow", "string_6", { "id": "bolt_steel", "chance": 0.9 } ]
     }
   },
   {
