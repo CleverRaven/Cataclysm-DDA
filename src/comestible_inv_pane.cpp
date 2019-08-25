@@ -609,8 +609,6 @@ void comestible_inventory_pane::add_items_from_area( comestible_inv_area *area, 
     ret_volume = 0_ml;
     ret_weight = 0_gram;
 
-    units::volume tmp_volume;
-    units::mass tmp_weight;
     // Existing items are *not* cleared on purpose, this might be called
     // several times in case all surrounding squares are to be shown.
     if( area->info.id == comestible_inv_area_info::AIM_INVENTORY ) {

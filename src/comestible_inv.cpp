@@ -206,7 +206,7 @@ void comestible_inventory::init()
         pane.default_sortby = COLUMN_EXPIRES;
     } else {
         pane.special_filter = []( const item & it ) {
-            return !g->u.can_consume( it );
+            return !g->u.can_consume( it ) || g->u.get_acquirable_energy(it) <= 0;
         };
         pane.title = g->u.bionic_at_index( uistate.comestible_save.bio ).id.obj().name;
         pane.default_sortby = COLUMN_ENERGY;
@@ -721,18 +721,18 @@ void comestible_inventory::heat_up( item *it_to_heat )
         sm.text = _( "Choose a way to heat an item..." );
         int counter = 0;
         if( can_use_bio ) {
-            sm.addentry( counter, true, counter, _( "use bio tools" ) );
+            sm.addentry( counter, true, 'a' + counter, _( "use bio tools" ) );
             counter++;
         }
 
         for( size_t i = 0; i < hotplates.size(); i++ ) {
-            sm.addentry( counter, true, counter, string_format( _( "%s in inventory" ),
+            sm.addentry( counter, true, 'a' + counter, string_format( _( "%s in inventory" ),
                          hotplates.at( i )->display_name() ) );
             counter++;
         }
 
         for( size_t i = 0; i < hotplates_map.size(); i++ ) {
-            sm.addentry( counter, true, counter, string_format( _( "%s nearby" ),
+            sm.addentry( counter, true, 'a' + counter, string_format( _( "%s nearby" ),
                          hotplates_map.at( i )->display_name() ) );
             counter++;
         }
