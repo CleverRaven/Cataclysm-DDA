@@ -4372,7 +4372,7 @@ bool mattack::darkman( monster *z )
 
 bool mattack::shadow_hunter( monster *z )
 {
-    bool damaged = z->has_effect( effect_took_damage );
+    const bool damaged = z->has_effect( effect_took_damage );
     Creature *target = z->attack_target();
     if( target == nullptr ) {
         return false;
