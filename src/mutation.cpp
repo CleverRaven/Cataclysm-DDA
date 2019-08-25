@@ -75,7 +75,7 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
     abort();
 }
 
-}
+} // namespace io
 
 bool Character::has_trait( const trait_id &b ) const
 {

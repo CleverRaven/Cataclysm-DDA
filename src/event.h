@@ -89,7 +89,7 @@ namespace io
 template<>
 std::string enum_to_string<event_type>( event_type data );
 
-}
+} // namespace io
 
 class event;
 

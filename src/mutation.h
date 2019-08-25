@@ -441,7 +441,7 @@ struct mutagen_attempt {
 };
 
 mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
-                                       const mutagen_technique technique );
+                                       mutagen_technique technique );
 
 void test_crossing_threshold( player &p, const mutation_category_trait &m_category );
 
