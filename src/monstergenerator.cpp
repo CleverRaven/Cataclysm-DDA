@@ -332,6 +332,14 @@ void MonsterGenerator::finalize_mtypes()
         // adjust for worldgen difficulty parameters
         mon.speed *= get_option<int>( "MONSTER_SPEED" )      / 100.0;
         mon.hp    *= get_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
+        mon.armor_bash    *= get_option<int>( "MONSTER_ARMOR" ) / 100.0;
+        mon.armor_cut     *= get_option<int>( "MONSTER_ARMOR" ) / 100.0;
+        mon.armor_stab    *= get_option<int>( "MONSTER_ARMOR" ) / 100.0;
+        mon.armor_acid    *= get_option<int>( "MONSTER_ARMOR" ) / 100.0;
+        mon.armor_fire    *= get_option<int>( "MONSTER_ARMOR" ) / 100.0;
+        mon.melee_dice    *= get_option<int>( "MONSTER_STRENGTH" ) / 100.0;
+        mon.melee_cut     *= get_option<int>( "MONSTER_STRENGTH" ) / 100.0;
+        mon.grab_strength *= get_option<int>( "MONSTER_STRENGTH" ) / 100.0;
 
         for( monster_adjustment adj : adjustments ) {
             adj.apply( mon );
@@ -340,6 +348,7 @@ void MonsterGenerator::finalize_mtypes()
         if( mon.bash_skill < 0 ) {
             mon.bash_skill = calc_bash_skill( mon );
         }
+        mon.bash_skill    *= get_option<int>( "MONSTER_STRENGTH" ) / 100.0;
 
         if( mon.armor_bash < 0 ) {
             mon.armor_bash = 0;

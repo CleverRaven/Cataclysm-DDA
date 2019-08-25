@@ -1949,6 +1949,16 @@ void options_manager::add_options_world_default()
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
 
+    add( "MONSTER_ARMOR", "world_default", translate_marker( "Monster armor" ),
+         translate_marker( "Determines how much damage monsters can defend.  A higher value makes monsters harder to get hurt and a lower makes them more vulnerable.  Requires world reset." ),
+         10, 1000, 100, COPT_NO_HIDE, "%i%%"
+       );
+
+    add( "MONSTER_STRENGTH", "world_default", translate_marker( "Monster strength" ),
+         translate_marker( "Determines the melee ability, the grab strength and the bashing ability of the monsters.  A higher value makes monsters stronger and a lower makes them weaker.  Requires world reset." ),
+         10, 1000, 100, COPT_NO_HIDE, "%i%%"
+       );
+
     mOptionsSort["world_default"]++;
 
     add( "DEFAULT_REGION", "world_default", translate_marker( "Default region type" ),
