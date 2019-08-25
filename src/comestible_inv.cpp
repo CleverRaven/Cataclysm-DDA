@@ -208,7 +208,7 @@ void comestible_inventory::init()
         pane.special_filter = []( const item & it ) {
             return !g->u.can_consume( it ) || g->u.get_acquirable_energy( it ) <= 0;
         };
-        pane.title = g->u.bionic_at_index( uistate.comestible_save.bio ).id.obj().name;
+        pane.title = g->u.bionic_at_index( uistate.comestible_save.bio ).id.obj().name.translated();
         pane.default_sortby = COLUMN_ENERGY;
     }
 }
