@@ -72,10 +72,8 @@ comestible_inventory::comestible_inventory()
     , min_w_height( 10 )
     , min_w_width( FULL_SCREEN_WIDTH )
     , max_w_width( 120 )
-    , inCategoryMode( false )
     , recalc( true )
     , redraw( true )
-    , filter_edit( false )
     , squares( {
     {
         {comestible_inv_area::get_info( comestible_inv_area_info::AIM_SOUTHWEST )},

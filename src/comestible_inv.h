@@ -48,8 +48,6 @@ class comestible_inventory
         void refresh_minimap();
         char minimap_get_sym() const;
 
-        bool inCategoryMode;
-
         int w_height;
         int w_width;
 
@@ -58,11 +56,6 @@ class comestible_inventory
 
         bool recalc;
         bool redraw;
-        /**
-         * True if (and only if) the filter of the active panel is currently
-         * being edited.
-         */
-        bool filter_edit;
 
         comestible_inventory_pane pane;
         //static const comestible_inventory_pane null_pane;
