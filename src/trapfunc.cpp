@@ -443,7 +443,7 @@ void trapfunc::shotgun( const tripoint &p, Creature *c, item * )
         if( n != nullptr ) {
             ///\EFFECT_STR_MAX increases chance of two shots from shotgun trap
             shots = ( one_in( 8 ) || one_in( 20 - n->str_max ) ? 2 : 1 );
-            if( g->m.tr_at( p ).loadid == tr_shotgun_1 ) {
+            if( g->m.tr_at( p ).loadid != tr_shotgun_2 ) {
                 shots = 1;
             }
             ///\EFFECT_DODGE reduces chance of being hit by shotgun trap
@@ -505,7 +505,7 @@ void trapfunc::shotgun( const tripoint &p, Creature *c, item * )
                     break;
             }
             shots = ( one_in( 8 ) || one_in( chance ) ? 2 : 1 );
-            if( g->m.tr_at( p ).loadid == tr_shotgun_1 ) {
+            if( g->m.tr_at( p ).loadid != tr_shotgun_2 ) {
                 shots = 1;
             }
             if( seen ) {

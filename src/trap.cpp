@@ -148,6 +148,22 @@ void trap::load( JsonObject &jo, const std::string & )
         vehicle_data.sound = jv.get_string( "sound", "" );
         vehicle_data.sound_type = jv.get_string( "sound_type", "" );
         vehicle_data.sound_variant = jv.get_string( "sound_variant", "" );
+        vehicle_data.spawn_items.clear();
+        if( jv.has_array( "spawn_items" ) ) {
+            JsonArray ja = jv.get_array( "spawn_items" );
+            while( ja.has_more() ) {
+                if( ja.test_object() ) {
+                    JsonObject joitm = ja.next_object();
+                    vehicle_data.spawn_items.emplace_back( joitm.get_string( "id" ), joitm.get_float( "chance" ) );
+                } else {
+                    vehicle_data.spawn_items.emplace_back( ja.next_string(), 1.0 );
+                }
+            }
+        }
+        vehicle_data.set_trap = trap_str_id::NULL_ID();
+        if( jv.read( "set_trap", vehicle_data.set_trap ) ) {
+            vehicle_data.remove_trap = false;
+        }
     }
 }
 
@@ -257,6 +273,7 @@ tr_caltrops_glass,
 tr_tripwire,
 tr_crossbow,
 tr_shotgun_2,
+tr_shotgun_2_1,
 tr_shotgun_1,
 tr_engine,
 tr_blade,
@@ -324,6 +341,7 @@ void trap::finalize()
     tr_tripwire = trapfind( "tr_tripwire" );
     tr_crossbow = trapfind( "tr_crossbow" );
     tr_shotgun_2 = trapfind( "tr_shotgun_2" );
+    tr_shotgun_2_1 = trapfind( "tr_shotgun_2_1" );
     tr_shotgun_1 = trapfind( "tr_shotgun_1" );
     tr_engine = trapfind( "tr_engine" );
     tr_blade = trapfind( "tr_blade" );
