@@ -7,6 +7,7 @@
 #include <numeric>
 #include <sstream>
 #include <iterator>
+#include <iostream>
 #include <tuple>
 #include <cmath>
 #include <type_traits>
@@ -446,6 +447,7 @@ void npc::assess_danger()
             continue;
         }
         if( att != A_HOSTILE && ( critter.friendly || !is_enemy() ) ) {
+            std::cout << "igored " << critter.get_name() << std::endl;
             continue;
         }
         if( !sees( critter ) ) {
@@ -2200,11 +2202,10 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         if( is_mounted() && mounted_creature ) {
             auto crit = mounted_creature.get();
-            const double base_moves = run_cost( g->m.combined_movecost( pos(), p ),
-                                                diag ) * 100.0 / crit->get_speed();
+            const double base_moves = run_cost( g->m.combined_movecost( pos(), p ), diag ) * 100.0 / crit->get_speed();
             const double encumb_moves = get_weight() / 4800.0_gram;
             moves -= static_cast<int>( ceil( base_moves + encumb_moves ) );
-            if( crit->has_flag( MF_RIDEABLE_MECH ) ) {
+            if( crit->has_flag( MF_RIDEABLE_MECH ) ){
                 crit->use_mech_power( -1 );
             }
         } else {
@@ -2248,13 +2249,13 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     if( moved ) {
         const tripoint old_pos = pos();
         setpos( p );
-        if( old_pos.x - p.x < 0 ) {
+        if( old_pos.x - p.x < 0 ){
             facing = FD_RIGHT;
         } else {
             facing = FD_LEFT;
         }
-        if( is_mounted() && mounted_creature ) {
-            if( mounted_creature->pos() != pos() ) {
+        if( is_mounted() && mounted_creature ){
+            if( mounted_creature->pos() != pos() ){
                 mounted_creature->setpos( pos() );
                 mounted_creature->facing = facing;
                 mounted_creature->process_triggers();
