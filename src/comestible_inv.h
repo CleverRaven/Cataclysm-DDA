@@ -1,6 +1,12 @@
 #pragma once
 #ifndef comestible_inv_H
 #define comestible_inv_H
+#include "cursesdef.h"
+#include "point.h"
+#include "units.h"
+#include "game.h"
+#include "itype.h"
+#include "comestible_inv_pane.h"
 
 #include <cctype>
 #include <cstddef>
@@ -11,355 +17,14 @@
 #include <string>
 #include <vector>
 
-#include "cursesdef.h"
-#include "point.h"
-#include "units.h"
-#include "game.h"
-
-#include "advanced_inv.h"
-#include "itype.h"
-
 class uilist;
 class vehicle;
 class item;
 
-//enum aim_location {
-//  AIM_INVENTORY = 0,
-//  AIM_SOUTHWEST,
-//  AIM_SOUTH,
-//  AIM_SOUTHEAST,
-//  AIM_WEST,
-//  AIM_CENTER,
-//  AIM_EAST,
-//  AIM_NORTHWEST,
-//  AIM_NORTH,
-//  AIM_NORTHEAST,
-//  AIM_DRAGGED,
-//  AIM_ALL,
-//  AIM_CONTAINER,
-//  AIM_WORN,
-//  NUM_AIM_LOCATIONS,
-//  // only useful for AIM_ALL
-//  AIM_AROUND_BEGIN = AIM_SOUTHWEST,
-//  AIM_AROUND_END = AIM_NORTHEAST
-//};
-//
-enum comestible_inv_sortby {
-    COMESTIBLE_SORTBY_NAME,
-    COMESTIBLE_SORTBY_WEIGHT,
-    COMESTIBLE_SORTBY_VOLUME,
-    COMESTIBLE_SORTBY_CALORIES,
-    COMESTIBLE_SORTBY_QUENCH,
-    COMESTIBLE_SORTBY_JOY,
-    COMESTIBLE_SORTBY_SPOILAGE
-};
 
-//struct sort_case_insensitive_less : public std::binary_function< char, char, bool > {
-//  bool operator()(char x, char y) const {
-//      return toupper(static_cast<unsigned char>(x)) < toupper(static_cast<unsigned char>(y));
-//  }
-//};
-
-void comestible_inv();
-
-/**
- * Cancels ongoing move all action.
- * TODO: Make this not needed.
- */
-void cancel_aim_processing();
-
-struct comestible_inv_listitem;
-
-/**
- * Defines the source of item stacks.
- */
-struct comestible_inv_area {
-    const aim_location id;
-    // Used for the small overview 3x3 grid
-    point hscreen = point_zero;
-    // relative (to the player) position of the map point
-    tripoint off;
-    /** Long name, displayed, translated */
-    const std::string name = "fake";
-    /** Appears as part of the list */
-    const std::string shortname = "FK"; // FK in my coffee
-    /** Appears as part of the legend at the top right */
-    const std::string minimapname = "FKM"; // FK in my coffee
-
-    const aim_location relative_location;
-
-    const std::string actionname = "FKA";
-    // absolute position of the map point.
-    tripoint pos;
-    /** Can we put items there? Only checks if location is valid, not if
-        selected container in pane is. For full check use canputitems() **/
-    bool canputitemsloc;
-    // vehicle pointer and cargo part index
-    vehicle *veh;
-    int vstor;
-    // description, e.g. vehicle name, label, or terrain
-    std::array<std::string, 2> desc;
-    // flags, e.g. FIRE, TRAP, WATER
-    std::string flags;
-    // total volume and weight of items currently there
-    units::volume volume;
-    units::mass weight;
-    // maximal count / volume of items there.
-    int max_size;
-
-    comestible_inv_area( aim_location id ) : id( id ), relative_location( id ) {}
-    comestible_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off,
-                         const std::string &name, const std::string &shortname,
-                         const std::string &minimapname, const aim_location relative_location,
-                         const std::string &actionname ) : id( id ),
-        hscreen( hscreenx, hscreeny ), off( off ), name( name ), shortname( shortname ),
-        minimapname( minimapname ), relative_location( relative_location ), actionname( actionname ),
-        canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0_ml ),
-        weight( 0_gram ), max_size( 0 ) {
-    }
-
-    void init();
-    // if you want vehicle cargo, specify so via `in_vehicle'
-    units::volume free_volume( bool in_vehicle = false ) const;
-    int get_item_count() const;
-    // Other area is actually the same item source, e.g. dragged vehicle to the south and AIM_SOUTH
-    //bool is_same( const comestible_inv_area &other ) const;
-    // does _not_ check vehicle storage, do that with `can_store_in_vehicle()' below
-    bool canputitems( const comestible_inv_listitem *advitem = nullptr );
-    // if you want vehicle cargo, specify so via `in_vehicle'
-    item *get_container( bool in_vehicle = false );
-    void set_container( const comestible_inv_listitem *advitem );
-    bool is_container_valid( const item *it ) const;
-    void set_container_position();
-    aim_location offset_to_location() const;
-    bool can_store_in_vehicle() const {
-        // disallow for non-valid vehicle locations
-        if( id > AIM_DRAGGED || id < AIM_SOUTHWEST ) {
-            return false;
-        }
-        return veh != nullptr && vstor >= 0;
-    }
-
-    aim_location get_relative_location() {
-        if( !( tile_iso && use_tiles ) ) {
-            return id;
-        } else {
-            return relative_location;
-        }
-    }
-
-    //std::string get_minimap_sym() {
-
-    //}
-};
-
+void comestible_inv(int bio = -1);
 // see item_factory.h
 class item_category;
-
-/**
- * Entry that is displayed in a adv. inv. pane. It can either contain a
- * single item or a category header or nothing (empty entry).
- * Most members are used only for sorting.
- */
-struct comestible_inv_listitem {
-    using itype_id = std::string;
-    /**
-     * Index of the item in the itemstack.
-     */
-    int idx;
-    /**
-     * The location of the item, never AIM_ALL.
-     */
-    aim_location area;
-    // the id of the item
-    itype_id id;
-    // The list of items, and empty when a header
-    std::list<item *> items;
-    /**
-     * The displayed name of the item/the category header.
-     */
-    std::string name;
-    /**
-     * Name of the item (singular) without damage (or similar) prefix, used for sorting.
-     */
-    std::string name_without_prefix;
-    /**
-     * Whether auto pickup is enabled for this item (based on the name).
-     */
-    bool autopickup;
-    /**
-     * The stack count represented by this item, should be >= 1, should be 1
-     * for anything counted by charges.
-     */
-    int stacks;
-    /**
-     * The volume of all the items in this stack, used for sorting.
-     */
-    units::volume volume;
-    /**
-     * The weight of all the items in this stack, used for sorting.
-     */
-    units::mass weight;
-
-    /**
-     * TODO:docs
-     */
-    int calories;
-    int quench;
-    int joy;
-
-    /**
-     * The item category, or the category header.
-     */
-    const item_category *cat;
-    /**
-     * Is the item stored in a vehicle?
-     */
-    bool from_vehicle;
-
-
-    //TODO
-    const islot_comestible &get_edible_comestible( player &p, const item &it ) const;
-
-    /**
-     * Whether this is a category header entry, which does *not* have a reference
-     * to an item, only @ref cat is valid.
-     */
-    bool is_category_header() const;
-
-    /** Returns true if this is an item entry */
-    bool is_item_entry() const;
-    /**
-     * Create a category header entry.
-     * @param cat The category reference, must not be null.
-     */
-    comestible_inv_listitem( const item_category *cat );
-
-    /**
-     * Creates an empty entry, both category and item pointer are null.
-     */
-    comestible_inv_listitem();
-    /**
-     * Create a normal item entry.
-     * @param an_item The item pointer. Must not be null.
-     * @param index The index
-     * @param count The stack size
-     * @param area The source area. Must not be AIM_ALL.
-     * @param from_vehicle Is the item from a vehicle cargo space?
-     */
-    comestible_inv_listitem( item *an_item, int index, int count,
-                             aim_location area, bool from_vehicle );
-    /**
-     * Create a normal item entry.
-     * @param list The list of item pointers.
-     * @param index The index
-     * @param area The source area. Must not be AIM_ALL.
-     * @param from_vehicle Is the item from a vehicle cargo space?
-     */
-    comestible_inv_listitem( const std::list<item *> &list, int index,
-                             aim_location area, bool from_vehicle );
-};
-
-/**
- * Displayed pane, what is shown on the screen.
- */
-class comestible_inventory_pane
-{
-    private:
-        aim_location area = NUM_AIM_LOCATIONS;
-        aim_location prev_area = area;
-        // pointer to the square this pane is pointing to
-        bool viewing_cargo = false;
-        bool prev_viewing_cargo = false;
-    public:
-        // set the pane's area via its square, and whether it is viewing a vehicle's cargo
-        void set_area( comestible_inv_area &square, bool in_vehicle_cargo = false ) {
-            prev_area = area;
-            prev_viewing_cargo = viewing_cargo;
-            area = square.id;
-            viewing_cargo = square.can_store_in_vehicle() && in_vehicle_cargo;
-        }
-        void restore_area() {
-            area = prev_area;
-            viewing_cargo = prev_viewing_cargo;
-        }
-        aim_location get_area() const {
-            return area;
-        }
-        bool prev_in_vehicle() const {
-            return prev_viewing_cargo;
-        }
-        bool in_vehicle() const {
-            return viewing_cargo;
-        }
-        bool on_ground() const {
-            return area > AIM_INVENTORY && area < AIM_DRAGGED;
-        }
-        /**
-         * Index of the selected item (index of @ref items),
-         */
-        int index;
-        comestible_inv_sortby sortby;
-        catacurses::window window;
-        std::vector<comestible_inv_listitem> items;
-        /**
-         * The current filter string.
-         */
-        std::string filter;
-        /**
-         * Food or Drug filter. True = show food.
-         */
-        bool filter_show_food;
-        /**
-         * Whether to recalculate the content of this pane.
-         * Implies @ref redraw.
-         */
-        bool recalc;
-        /**
-         * Whether to redraw this pane.
-         */
-        bool redraw;
-
-        void add_items_from_area( comestible_inv_area &square, bool vehicle_override = false );
-        /**
-         * Makes sure the @ref index is valid (if possible).
-         */
-        void fix_index();
-        /**
-         * @param it The item to check, oly the name member is examined.
-         * @return Whether the item should be filtered (and not shown).
-         */
-        bool is_filtered( const comestible_inv_listitem &it ) const;
-        /**
-         * Same as the other, but checks the real item.
-         */
-        bool is_filtered( const item &it ) const;
-        /**
-         * Scroll @ref index, by given offset, set redraw to true,
-         * @param offset Must not be 0.
-         */
-        void scroll_by( int offset, bool scroll_by_category = false );
-        /**
-         * @return either null, if @ref index is invalid, or the selected
-         * item in @ref items.
-         */
-        comestible_inv_listitem *get_cur_item_ptr();
-        /**
-         * Set the filter string, disables filtering when the filter string is empty.
-         */
-        void set_filter( const std::string &new_filter );
-        /**
-         * Insert additional category headers on the top of each page.
-         */
-        void paginate( size_t itemsPerPage );
-    private:
-        /** Scroll to next non-header entry */
-        void skip_category_headers( int offset );
-        /** Only add offset to index, but wrap around! */
-        void mod_index( int offset );
-
-        mutable std::map<std::string, std::function<bool( const item & )>> filtercache;
-};
 
 class comestible_inventory
 {
@@ -367,7 +32,7 @@ class comestible_inventory
         comestible_inventory();
         ~comestible_inventory();
 
-        void display();
+        void display(int bio);
     private:
         const int head_height;
         const int min_w_height;
@@ -381,11 +46,10 @@ class comestible_inventory
         const int minimap_height = 3;
         void draw_minimap();
         void refresh_minimap();
-        char get_minimap_sym() const;
+        char minimap_get_sym() const;
 
         bool inCategoryMode;
 
-        int itemsPerPage;
         int w_height;
         int w_width;
 
@@ -402,7 +66,7 @@ class comestible_inventory
 
         comestible_inventory_pane pane;
         //static const comestible_inventory_pane null_pane;
-        std::array<comestible_inv_area, NUM_AIM_LOCATIONS> squares;
+        std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> squares;
 
         catacurses::window head;
         catacurses::window window;
@@ -410,23 +74,25 @@ class comestible_inventory
         bool exit;
 
         // store/load settings (such as index, filter, etc)
-        void save_settings( bool only_panes );
-        void load_settings();
+        void save_settings();
+        //void load_settings();
         // used to return back to AIM when other activities queued are finished
         void do_return_entry();
+        void redo(bool needs_recalc, bool needs_redraw);
         // returns true if currently processing a routine
         // (such as `MOVE_ALL_ITEMS' with `AIM_ALL' source)
         //bool is_processing() const;
 
-        static std::string get_sortname( comestible_inv_sortby sortby );
+        //static std::string get_sortname( comestible_inv_sortby sortby );
         //bool move_all_items(bool nested_call = false);
-        void print_items( comestible_inventory_pane &pane );
-        void recalc_pane();
-        void redraw_pane();
+        //void print_items( comestible_inventory_pane &pane );
+        //void recalc_pane();
+        //void redraw_pane();
         // Returns the x coordinate where the header started. The header is
         // displayed right of it, everything left of it is till free.
-        int print_header( comestible_inventory_pane &pane, aim_location sel );
+        //int print_header( comestible_inventory_pane &pane, aim_location sel );
         void init();
+        void set_pane_legend();
         /**
          * Translate an action ident from the input context to an aim_location.
          * @param action Action ident to translate
@@ -440,7 +106,7 @@ class comestible_inventory
          * Show the sort-by menu and change the sorting of this pane accordingly.
          * @return whether the sort order was actually changed.
          */
-        bool show_sort_menu( comestible_inventory_pane &pane );
+        bool show_sort_menu();
         /**
          * Checks whether one can put items into the supplied location.
          * If the supplied location is AIM_ALL, query for the actual location
@@ -455,7 +121,7 @@ class comestible_inventory
          * @param src_container Source container
          * @param dest_container Destination container
          */
-        bool move_content( item &src_container, item &dest_container );
+        //bool move_content( item &src_container, item &dest_container );
         /**
          * Setup how many items/charges (if counted by charges) should be moved.
          * @param destarea Where to move to. This must not be AIM_ALL.
@@ -472,8 +138,8 @@ class comestible_inventory
 
         //void menu_square( uilist &menu );
 
-        std::string get_location_key( aim_location area );
-        char get_direction_key( aim_location area );
+        //std::string get_location_key( aim_location area );
+        //char get_direction_key( aim_location area );
 
         /**
          * Converts from screen relative location to game-space relative location
@@ -481,13 +147,13 @@ class comestible_inventory
         */
         //static aim_location screen_relative_location( aim_location area );
 
-        char const *set_string_params( nc_color &print_color, int value, bool selected,
-                                       bool need_highlight = false );
+        //char const *set_string_params( nc_color &print_color, int value, bool selected,
+        //                               bool need_highlight = false );
         //nc_color set_string_params(int value, bool need_highlight = false);
-        time_duration get_time_left( player &p, const item &it ) const;
-        const islot_comestible &get_edible_comestible( player &p, const item &it ) const;
-        std::string get_time_left_rounded( player &p, const item &it ) const;
-        std::string time_to_comestible_str( const time_duration &d ) const;
+        //time_duration get_time_left( player &p, const item &it ) const;
+        //const islot_comestible &get_edible_comestible( player &p, const item &it ) const;
+        //std::string get_time_left_rounded( player &p, const item &it ) const;
+        //std::string time_to_comestible_str( const time_duration &d ) const;
 
         void heat_up( item *it );
 };

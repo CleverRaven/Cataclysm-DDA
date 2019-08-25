@@ -15,10 +15,19 @@ class item;
 
 struct comestible_inv_save_state {
     public:
-        int sort_idx = 1;
+        int sort_idx = -1;
         std::string filter = "";
-        int area_idx = 5;
+        int area_idx = 13; //A+I+W
+
+        /**
+        When we sort by weight and item is consumed it might jump down the list, so we want to keep track of that item with pointer
+        When item is fully consumed we want to keep list at the same index
+        */
         int selected_idx = 0;
+        item* selected_itm = nullptr;
+
+        int bio = -1;
+        bool show_food = true;
 
         bool in_vehicle = false;
         int exit_code = 0;

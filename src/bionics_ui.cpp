@@ -13,6 +13,7 @@
 #include "translations.h"
 #include "options.h"
 #include "string_id.h"
+#include "comestible_inv.h"
 
 // '!', '-' and '=' are uses as default bindings in the menu
 const invlet_wrapper
@@ -623,10 +624,17 @@ void player::power_bionics()
                     if( tmp->powered ) {
                         deactivate_bionic( b );
                     } else {
-                        activate_bionic( b );
-                        // Clear the menu if we are firing a bionic gun
-                        if( tmp->info().gun_bionic || tmp->ammo_count > 0 ) {
+                        if (bio_data.power_source) {
+                            activate_bionic(b);
+                            comestible_inv(b);
                             break;
+                        }
+                        else {
+                            activate_bionic(b);
+                            // Clear the menu if we are firing a bionic gun
+                            if (tmp->info().gun_bionic || tmp->ammo_count > 0) {
+                                break;
+                            }
                         }
                     }
                     // update message log and the menu

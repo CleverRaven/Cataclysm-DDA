@@ -149,7 +149,7 @@ static int print_items( const recipe &r, const catacurses::window &w, int ypos, 
     return ypos - oldy;
 }
 
-const recipe *select_crafting_recipe( int &batch_size )
+const recipe *select_crafting_recipe( int &batch_size, std::string filter)
 {
     if( normalized_names.empty() ) {
         translate_all();
@@ -236,7 +236,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
     const inventory &crafting_inv = g->u.crafting_inventory();
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
-    std::string filterstring;
+    std::string filterstring = filter;
 
     const auto &available_recipes = g->u.get_available_recipes( crafting_inv, &helpers );
     std::map<const recipe *, bool> availability_cache;

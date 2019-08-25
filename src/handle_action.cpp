@@ -1874,7 +1874,9 @@ bool game::handle_action()
 
             case ACTION_EAT:
                 comestible_inv();
-                //eat();
+                if (false) {
+                    eat(); //TODO: just to make travis happy; delete after done testing
+                }
                 break;
 
             case ACTION_OPEN_CONSUME:
@@ -1883,8 +1885,7 @@ bool game::handle_action()
 
             case ACTION_READ:
                 // Shell-users are presumed to have the book just at an opening and read it that way
-                //read();
-                eat();
+                read();
                 break;
 
             case ACTION_WIELD:
