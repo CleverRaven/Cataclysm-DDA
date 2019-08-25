@@ -46,15 +46,15 @@ bool string_id<Skill>::is_valid() const
     return &obj() != &invalid_skill;
 }
 
-Skill::Skill() : Skill( skill_id::NULL_ID(), "nothing", "The zen-most skill there is.",
+Skill::Skill() : Skill( skill_id::NULL_ID(), translation( "nothing" ),
+                            translation( "The zen-most skill there is." ),
                             std::set<std::string> {} )
 {
 }
 
-Skill::Skill( skill_id ident, std::string name, std::string description,
-              std::set<std::string> tags )
-    : _ident( std::move( ident ) ), _name( std::move( name ) ),
-      _description( std::move( description ) ), _tags( std::move( tags ) )
+Skill::Skill( const skill_id &ident, const translation &name, const translation &description,
+              const std::set<std::string> &tags )
+    : _ident( ident ), _name( name ), _description( description ), _tags( tags )
 {
 }
 
@@ -88,8 +88,10 @@ void Skill::load_skill( JsonObject &jsobj )
         return s._ident == ident;
     } ), end( skills ) );
 
-    const Skill sk( ident, _( jsobj.get_string( "name" ) ), _( jsobj.get_string( "description" ) ),
-                    jsobj.get_tags( "tags" ) );
+    translation name, desc;
+    jsobj.read( "name", name );
+    jsobj.read( "description", desc );
+    const Skill sk( ident, name, desc, jsobj.get_tags( "tags" ) );
 
     if( sk.is_contextual_skill() ) {
         contextual_skills[sk.ident()] = sk;

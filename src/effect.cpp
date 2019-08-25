@@ -487,12 +487,12 @@ std::string effect::disp_name() const
         if( d_name.empty() ) {
             return std::string();
         }
-        ret << d_name.translated();
+        ret << d_name;
     } else {
         if( eff_type->name[0].empty() ) {
             return std::string();
         }
-        ret << eff_type->name[0].translated();
+        ret << eff_type->name[0];
         if( intensity > 1 ) {
             if( eff_type->id == "bandaged" || eff_type->id == "disinfected" ) {
                 ret << " [" << texitify_healing_power( intensity ) << "]";

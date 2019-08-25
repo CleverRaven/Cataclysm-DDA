@@ -28,10 +28,10 @@ class snippet_library
          * snippet out of the category is returned (same seed yields same snippet).
          */
         int assign( const std::string &category, unsigned seed ) const;
-        const std::string &get( int index ) const;
+        std::string get( int index ) const;
         bool has_category( const std::string &category ) const;
         int get_snippet_by_id( const std::string &id ) const;
-        const std::string &random_from_category( const std::string &cat ) const;
+        std::string random_from_category( const std::string &cat ) const;
         std::vector<int> all_ids_from_category( const std::string &cat ) const;
         /**
          * Load a single snippet text from the json object. The object should have
@@ -56,10 +56,11 @@ class snippet_library
          * later see add_snippet_from_json).
          */
         // Snippets holds a map from the strings hash to the string.
+        // The strings stored and used for hashing are untranslated in case the language changes.
         // This is so the reference to the string remains stable across
         // changes to the layout and contents of the snippets json file.
         std::map<int, std::string> snippets;
-        // Key is an arbitrary id string (from json), value is the hash of the snippet.
+        // Key is an arbitrary id string (from json), value is the hash of the untranslated snippet.
         std::unordered_map<std::string, int> snippets_by_id;
         // Categories groups snippets by well, category.
         std::multimap<std::string, int> categories;

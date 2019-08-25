@@ -12,6 +12,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -24,8 +25,8 @@ using itype_id = std::string;
 struct bionic_data {
     bionic_data();
 
-    std::string name;
-    std::string description;
+    translation name;
+    translation description;
     /** Power cost on activation */
     int power_activate = 0;
     /** Power cost on deactivation */

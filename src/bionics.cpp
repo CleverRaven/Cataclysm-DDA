@@ -147,10 +147,9 @@ bool bionic_data::is_included( const bionic_id &id ) const
     return std::find( included_bionics.begin(), included_bionics.end(), id ) != included_bionics.end();
 }
 
-bionic_data::bionic_data()
+bionic_data::bionic_data() : name( no_translation( "bad bionic" ) ),
+    description( no_translation( "This bionic was not set up correctly, this is a bug" ) )
 {
-    name = "bad bionic";
-    description = "This bionic was not set up correctly, this is a bug";
 }
 
 static void force_comedown( effect &eff )
@@ -248,7 +247,7 @@ bool player::activate_bionic( int b, bool eff_only )
 
     if( bio.incapacitated_time > 0_turns ) {
         add_msg( m_info, _( "Your %s is shorting out and can't be activated." ),
-                 bionics[bio.id].name.c_str() );
+                 bionics[bio.id].name );
         return false;
     }
 
@@ -714,7 +713,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
 
     if( bio.incapacitated_time > 0_turns ) {
         add_msg( m_info, _( "Your %s is shorting out and can't be deactivated." ),
-                 bionics[bio.id].name.c_str() );
+                 bionics[bio.id].name );
         return false;
     }
 
@@ -1367,8 +1366,8 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     activity.values.push_back( bionics[b_id].capacity );
     activity.values.push_back( pl_skill );
     activity.str_values.push_back( "uninstall" );
-    activity.str_values.push_back( bionics[b_id].name );
-    activity.str_values.push_back( b_id.c_str() );
+    activity.str_values.push_back( "" );
+    activity.str_values.push_back( b_id.str() );
     activity.str_values.push_back( "" );
     activity.str_values.push_back( "" );
     activity.str_values.push_back( "" );
@@ -1385,20 +1384,20 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
 }
 
 void player::perform_uninstall( bionic_id bid, int difficulty, int success, int power_lvl,
-                                int pl_skill, std::string cbm_name )
+                                int pl_skill )
 {
     if( success > 0 ) {
 
         if( is_player() ) {
             add_memorial_log( pgettext( "memorial_male", "Removed bionic: %s." ),
                               pgettext( "memorial_female", "Removed bionic: %s." ),
-                              cbm_name );
+                              bid.obj().name );
         }
 
         // until bionics can be flagged as non-removable
         add_msg_player_or_npc( m_neutral, _( "Your parts are jiggled back into their familiar places." ),
                                _( "<npcname>'s parts are jiggled back into their familiar places." ) );
-        add_msg( m_good, _( "Successfully removed %s." ), cbm_name );
+        add_msg( m_good, _( "Successfully removed %s." ), bid.obj().name );
         remove_bionic( bid );
 
         // remove power bank provided by bionic
@@ -1417,7 +1416,7 @@ void player::perform_uninstall( bionic_id bid, int difficulty, int success, int 
         if( is_player() ) {
             add_memorial_log( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
                               pgettext( "memorial_female", "Failed to remove bionic: %s." ),
-                              cbm_name );
+                              bid.obj().name );
         }
 
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
@@ -1619,11 +1618,11 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     activity.values.push_back( bionics[bioid].capacity );
     activity.values.push_back( pl_skill );
     activity.str_values.push_back( "install" );
-    activity.str_values.push_back( bionics[bioid].name );
-    activity.str_values.push_back( bioid.c_str() );
+    activity.str_values.push_back( "" );
+    activity.str_values.push_back( bioid.str() );
     if( upbioid ) {
-        activity.str_values.push_back( bionics[upbioid].name );
-        activity.str_values.push_back( upbioid.c_str() );
+        activity.str_values.push_back( "" );
+        activity.str_values.push_back( upbioid.str() );
     } else {
         activity.str_values.push_back( "" );
         activity.str_values.push_back( "" );
@@ -1651,7 +1650,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
 }
 
 void player::perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
-                              int pl_skill, std::string cbm_name, std::string upcbm_name, std::string installer_name,
+                              int pl_skill, std::string installer_name,
                               std::vector<trait_id> trait_to_rem, tripoint patient_pos )
 {
     if( success > 0 ) {
@@ -1659,16 +1658,16 @@ void player::perform_install( bionic_id bid, bionic_id upbid, int difficulty, in
         if( is_player() ) {
             add_memorial_log( pgettext( "memorial_male", "Installed bionic: %s." ),
                               pgettext( "memorial_female", "Installed bionic: %s." ),
-                              cbm_name );
+                              bid.obj().name );
         }
         if( upbid != bionic_id( "" ) ) {
             remove_bionic( upbid );
             //~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
             add_msg( m_good, _( "Successfully upgraded %1$s to %2$s." ),
-                     upcbm_name, cbm_name );
+                     upbid.obj().name, bid.obj().name );
         } else {
             //~ %s - name of the bionic.
-            add_msg( m_good, _( "Successfully installed %s." ), cbm_name );
+            add_msg( m_good, _( "Successfully installed %s." ), bid.obj().name );
         }
 
         add_bionic( bid );
@@ -1683,7 +1682,7 @@ void player::perform_install( bionic_id bid, bionic_id upbid, int difficulty, in
         if( is_player() ) {
             add_memorial_log( pgettext( "memorial_male", "Failed install of bionic: %s." ),
                               pgettext( "memorial_female", "Failed install of bionic: %s." ),
-                              cbm_name );
+                              bid.obj().name );
         }
 
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
@@ -2019,8 +2018,8 @@ void load_bionic( JsonObject &jsobj )
     bionic_data new_bionic;
 
     const bionic_id id( jsobj.get_string( "id" ) );
-    new_bionic.name = _( jsobj.get_string( "name" ) );
-    new_bionic.description = _( jsobj.get_string( "description" ) );
+    jsobj.read( "name", new_bionic.name );
+    jsobj.read( "description", new_bionic.description );
     new_bionic.power_activate = jsobj.get_int( "act_cost", 0 );
 
     new_bionic.toggled = get_bool_or_flag( jsobj, "toggled", "BIONIC_TOGGLED", false );

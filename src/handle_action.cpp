@@ -920,7 +920,7 @@ static void sleep()
 
         const auto &info = bio.info();
         if( info.power_over_time > 0 ) {
-            active.push_back( info.name );
+            active.push_back( info.name.translated() );
         }
     }
     for( auto &mut : u.get_mutations() ) {

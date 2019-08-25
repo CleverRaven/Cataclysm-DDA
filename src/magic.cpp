@@ -1581,7 +1581,7 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     print_colored_text( w, point( menu->pad_left - spell_class.length() - 1, line++ ), yellow, yellow,
                         spell_class );
     line++;
-    line += fold_and_print( w, point( start_x, line ), width, gray, sp.description.translated() );
+    line += fold_and_print( w, point( start_x, line ), width, gray, "%s", sp.description );
     line++;
 
     mvwprintz( w, point( start_x, line ), c_light_gray, string_format( "%s: %d", _( "Difficulty" ),

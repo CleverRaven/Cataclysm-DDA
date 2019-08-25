@@ -148,12 +148,12 @@ static void draw_description( const catacurses::window &win, const bionic &bio )
     werase( win );
     const int width = getmaxx( win );
     const std::string poweronly_string = build_bionic_poweronly_string( bio );
-    int ypos = fold_and_print( win, point_zero, width, c_white, bio.id->name );
+    int ypos = fold_and_print( win, point_zero, width, c_white, "%s", bio.id->name );
     if( !poweronly_string.empty() ) {
         ypos += fold_and_print( win, point( 0, ypos ), width, c_light_gray,
                                 _( "Power usage: %s" ), poweronly_string );
     }
-    ypos += 1 + fold_and_print( win, point( 0, ypos ), width, c_light_blue, bio.id->description );
+    ypos += 1 + fold_and_print( win, point( 0, ypos ), width, c_light_blue, "%s", bio.id->description );
 
     // TODO: Unhide when enforcing limits
     if( get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {

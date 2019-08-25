@@ -60,6 +60,17 @@ then
     exit 1
 fi
 
+# convert line endings to unix
+if [[ $(uname -s) =~ ^(CYGWIN|MINGW)* ]]
+then
+    echo "> Converting line endings to Unix"
+    if ! sed -i -e 's/\r$//' lang/po/cataclysm-dda.pot
+    then
+        echo "Line ending conversion failed. Aborting."
+        exit 1
+    fi
+fi
+
 # Final compilation check
 echo "> Testing to compile the .pot file"
 if ! msgfmt -c -o /dev/null lang/po/cataclysm-dda.pot
