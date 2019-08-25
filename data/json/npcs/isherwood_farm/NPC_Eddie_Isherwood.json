@@ -273,7 +273,7 @@
       "effect": [
         { "u_add_var": "u_did_eddie_missions", "type": "general", "context": "mission", "value": "yes" },
         { "u_buy_item": "rope_6", "count": 1 },
-        { "u_buy_monster": "mon_cow", "count": 1, "pacified": true, "name": "Daisy" },
+        { "u_buy_monster": "mon_cow", "count": 1, "name": "Daisy" },
         { "u_buy_item": "cattlefodder", "count": 3 }
       ]
     },

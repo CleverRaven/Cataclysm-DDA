@@ -233,7 +233,7 @@
     "end": {
       "opinion": { "trust": 1, "value": 1 },
       "effect": [
-        { "u_buy_monster": "mon_horse", "count": 1, "pacified": true, "name": "Steve" },
+        { "u_buy_monster": "mon_horse", "count": 1, "name": "Steve" },
         { "u_add_var": "u_did_jesse_missions", "type": "general", "context": "recruit", "value": "yes" }
       ]
     }
