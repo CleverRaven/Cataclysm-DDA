@@ -287,6 +287,9 @@ class cata_variant
             return std::make_pair( type_, value_ );
         }
 
+        void serialize( JsonOut & ) const;
+        void deserialize( JsonIn & );
+
 #define CATA_VARIANT_OPERATOR(op) \
     friend bool operator op( const cata_variant &l, const cata_variant &r ) { \
         return l.as_pair() op r.as_pair(); \
