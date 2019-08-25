@@ -134,7 +134,7 @@
       { "x": 0, "y": 0, "chance": 8, "item_groups": [ "car_misc" ] },
       { "x": 2, "y": 0, "chance": 6, "item_groups": [ "car_kit" ] },
       { "x": 2, "y": 1, "chance": 8, "item_groups": [ "car_kit" ] },
-      { "x": 2, "y": 1, "chance": 8, "items": [ "jack_small", "wheel_mount_medium", "wheel" ] }
+      { "x": 2, "y": 1, "chance": 8, "items": [ "jack_small", "wheel" ] }
     ]
   },
   {
@@ -217,7 +217,7 @@
     ],
     "items": [
       { "x": -2, "y": 0, "chance": 3, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 0, "chance": 3, "items": [ "jack_small", "wheel_mount_medium", "wheel" ] }
+      { "x": -2, "y": 0, "chance": 3, "items": [ "jack_small", "wheel" ] }
     ]
   },
   {
@@ -314,7 +314,7 @@
       { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] },
       { "x": -2, "y": 0, "chance": 11, "item_groups": [ "car_kit" ] },
       { "x": -2, "y": 1, "chance": 15, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel_mount_medium", "wheel" ] }
+      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel" ] }
     ]
   },
   {
@@ -411,7 +411,7 @@
       { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] },
       { "x": -2, "y": 0, "chance": 10, "items": [ "blanket" ] },
       { "x": -2, "y": 1, "chance": 15, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel_mount_medium", "wheel" ] }
+      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel" ] }
     ]
   },
   {
@@ -1119,7 +1119,7 @@
       { "x": -2, "y": 1, "chance": 5, "items": [ "scissors" ] },
       { "x": -2, "y": 1, "chance": 5, "items": [ "crowbar" ] },
       { "x": -2, "y": 1, "chance": 5, "items": [ "jumper_cable" ] },
-      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel_mount_medium", "wheel" ] }
+      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel" ] }
     ]
   },
   {
@@ -1193,7 +1193,7 @@
       { "x": -2, "y": 1, "chance": 5, "items": [ "scissors" ] },
       { "x": -2, "y": 1, "chance": 5, "items": [ "crowbar" ] },
       { "x": -2, "y": 1, "chance": 5, "items": [ "jumper_cable" ] },
-      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel_mount_medium", "wheel" ] }
+      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel" ] }
     ]
   },
   {
@@ -1271,7 +1271,7 @@
       { "x": -2, "y": 1, "chance": 5, "items": [ "scissors" ] },
       { "x": -2, "y": 1, "chance": 5, "items": [ "crowbar" ] },
       { "x": -2, "y": 1, "chance": 5, "items": [ "jumper_cable" ] },
-      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel_mount_medium", "wheel" ] }
+      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel" ] }
     ]
   }
 ]
