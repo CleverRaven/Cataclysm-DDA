@@ -350,8 +350,7 @@ class player : public Character
                               int skill_level = -1 );
         /**Success or failure of installation happens here*/
         void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
-                              int pl_skill,
-                              std::string cbm_name, std::string upcbm_name, std::string installer_name,
+                              int pl_skill, std::string installer_name,
                               std::vector<trait_id> trait_to_rem, tripoint patient_pos );
         void bionics_install_failure( bionic_id bid, std::string installer, int difficulty, int success,
                                       float adjusted_skill, tripoint patient_pos );
@@ -362,8 +361,7 @@ class player : public Character
         bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                int skill_level = -1 );
         /**Succes or failure of removal happens here*/
-        void perform_uninstall( bionic_id bid, int difficulty, int success, int power_lvl, int pl_skill,
-                                std::string cbm_name );
+        void perform_uninstall( bionic_id bid, int difficulty, int success, int power_lvl, int pl_skill );
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
                                float adjusted_skill, bool autodoc = false );

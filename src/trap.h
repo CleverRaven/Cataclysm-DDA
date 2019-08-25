@@ -11,6 +11,7 @@
 #include "color.h"
 #include "int_id.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -72,7 +73,7 @@ struct vehicle_handle_trap_data {
     int damage = 0;
     int shrapnel = 0;
     int sound_volume = 0;
-    std::string sound;
+    translation sound;
     std::string sound_type;
     std::string sound_variant;
     // the double represents the count or chance to spawn.

@@ -30,7 +30,7 @@ void snippet_library::add_snippets_from_json( const std::string &category, JsonA
 {
     while( jarr.has_more() ) {
         if( jarr.test_string() ) {
-            const std::string text = _( jarr.next_string() );
+            const std::string text = jarr.next_string();
             add_snippet( category, text );
         } else {
             JsonObject jo = jarr.next_object();
@@ -41,7 +41,7 @@ void snippet_library::add_snippets_from_json( const std::string &category, JsonA
 
 void snippet_library::add_snippet_from_json( const std::string &category, JsonObject &jo )
 {
-    const std::string text = _( jo.get_string( "text" ) );
+    const std::string text = jo.get_string( "text" );
     const int hash = add_snippet( category, text );
     if( jo.has_member( "id" ) ) {
         const std::string id = jo.get_string( "id" );
@@ -99,16 +99,16 @@ int snippet_library::assign( const std::string &category, const unsigned seed ) 
     return it->second;
 }
 
-const std::string &snippet_library::get( const int index ) const
+std::string snippet_library::get( const int index ) const
 {
     const std::map<int, std::string>::const_iterator chosen_snippet = snippets.find( index );
     if( chosen_snippet == snippets.end() ) {
         return null_string;
     }
-    return chosen_snippet->second;
+    return _( chosen_snippet->second );
 }
 
-const std::string &snippet_library::random_from_category( const std::string &cat ) const
+std::string snippet_library::random_from_category( const std::string &cat ) const
 {
     const auto iters = categories.equal_range( cat );
     if( iters.first == iters.second ) {

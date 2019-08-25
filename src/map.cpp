@@ -3054,7 +3054,7 @@ static bool furn_is_supported( const map &m, const tripoint &p )
 
 void map::bash_ter_furn( const tripoint &p, bash_params &params )
 {
-    std::string sound;
+    translation sound;
     int sound_volume = 0;
     std::string soundfxid;
     std::string soundfxvariant;
