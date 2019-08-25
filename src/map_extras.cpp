@@ -118,6 +118,11 @@ static const mtype_id mon_wasp( "mon_wasp" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
 static const mtype_id mon_wolf( "mon_wolf" );
 
+const generic_factory<map_extra>& mapExtraFactory()
+{
+	return extras;
+}
+
 static void mx_null( map &, const tripoint & )
 {
     debugmsg( "Tried to generate null map extra." );

@@ -8,6 +8,7 @@
 
 #include "catacharset.h"
 #include "color.h"
+#include "generic_factory.h"
 #include "string_id.h"
 
 class JsonObject;
@@ -64,6 +65,9 @@ void apply_function( const std::string &id, map &m, const tripoint &abs_sub );
 
 void load( JsonObject &jo, const std::string &src );
 void check_consistency();
+
+/// This function provides access to all loaded map extras.
+const generic_factory<map_extra>& mapExtraFactory();
 
 } // namespace MapExtras
 

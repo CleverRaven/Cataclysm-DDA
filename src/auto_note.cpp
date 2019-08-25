@@ -14,6 +14,7 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "avatar.h"
+#include "map_extras.h"
 
 namespace auto_notes
 {
@@ -81,6 +82,16 @@ namespace auto_notes
 		{
 			this->autoNoteEnabled.erase(mapExtId);
 		}
+	}
+	
+	bool auto_note_settings::has_auto_note_enabled(const string_id<map_extra>& mapExtId) const
+	{
+		return this->has_auto_note_enabled(mapExtId.str());
+	}
+	
+	void auto_note_settings::set_auto_note_status(const string_id<map_extra>& mapExtId, const bool enabled)
+	{
+		this->set_auto_note_status(mapExtId.str(), enabled);
 	}
 }
 

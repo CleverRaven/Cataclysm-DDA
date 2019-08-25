@@ -5,6 +5,9 @@
 #include <string>
 #include <unordered_set>
 
+#include "string_id.h"
+#include "map_extras.h"
+
 namespace auto_notes
 {
 	/**
@@ -28,6 +31,13 @@ namespace auto_notes
 		friend class auto_note_manager_gui;
 	
 		public:
+			/// Check whether the user has enabled auto note for given map extra ID
+			bool has_auto_note_enabled(const string_id<map_extra>& mapExtId) const;
+			
+			/// Update the auto note enabled status for given map extra ID
+			void set_auto_note_status(const string_id<map_extra>& mapExtId, const bool enabled);
+		
+		protected:
 			/// Check whether the user has enabled auto note for given map extra ID string.
 			bool has_auto_note_enabled(const std::string& mapExtId) const;
 			
