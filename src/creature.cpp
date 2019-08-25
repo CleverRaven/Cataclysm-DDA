@@ -170,7 +170,7 @@ bool Creature::is_dangerous_fields( const field &fld ) const
     return false;
 }
 
-bool Creature::is_dangerous_field( const field_entry &entry ) const
+bool Creature::is_dangerous_field( const field_entry &entry, int perception ) const
 {
     // If it's dangerous and we're not immune return true, else return false
     return entry.is_dangerous() && !is_immune_field( entry.get_field_type() );
@@ -207,6 +207,8 @@ bool Creature::sees( const Creature &critter ) const
     if( wanted_range <= 1 &&
         ( posz() == critter.posz() || g->m.valid_move( pos(), critter.pos(), false, true ) ) ) {
         return visible( p );
+    } else if( ( wanted_range > (perception / 3) && critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= LL_LOW ) ) {
+        return false;
     } else if( ( wanted_range > 1 && critter.digging() ) ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= LL_LOW ) ||
                ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos() ) ) ||

@@ -914,7 +914,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```MECH_DEFENSIVE``` This mech can protect you thoroughly when piloted.
 - ```MILITARY_MECH``` Is a military-grade mech.
 - ```MILKABLE``` Produces milk when milked.
-- ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.
+- ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's too far away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision, but is affected by perception.
 - ```NOGIB``` Does not leave gibs / meat chunks when killed with huge damage.
 - ```NOHEAD``` Headshots not allowed!
 - ```NO_BREATHE``` Creature can't drown and is unharmed by gas, smoke or poison.
