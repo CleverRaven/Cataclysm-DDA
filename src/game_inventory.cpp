@@ -667,17 +667,13 @@ class comestible_inventory_preset : public inventory_selector_preset
 
 static std::string get_consume_needs_hint( player &p )
 {
-    const auto &cmgr = get_all_colors();
     auto hint = std::string();
     auto desc = p.get_hunger_description();
-    hint.append( string_format( "[%s <color_%s>%s</color>] ", _( "Food :" ),
-                                cmgr.get_name( desc.second ), desc.first ) );
+    hint.append( string_format( _( "[%s %s] " ), _( "Food :" ), colorize( desc.first, desc.second ) ) );
     desc = p.get_thirst_description();
-    hint.append( string_format( "[%s <color_%s>%s</color>] ", _( "Drink:" ),
-                                cmgr.get_name( desc.second ), desc.first ) );
+    hint.append( string_format( _( "[%s %s] " ), _( "Drink:" ), colorize( desc.first, desc.second ) ) );
     desc = p.get_pain_description();
-    hint.append( string_format( "[%s <color_%s>%s</color>] ", _( "Pain :" ),
-                                cmgr.get_name( desc.second ), desc.first ) );
+    hint.append( string_format( _( "[%s %s] " ), _( "Pain :" ), colorize( desc.first, desc.second ) ) );
     return hint;
 }
 
