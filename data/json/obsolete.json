@@ -207,13 +207,6 @@
     "obsolete": true
   },
   {
-    "id": "rail_wheel_steerable",
-    "copy-from": "rail_wheel",
-    "type": "vehicle_part",
-    "name": "rail wheel (steerable)",
-    "extend": { "flags": [ "STEERABLE" ] }
-  },
-  {
     "id": "wheel_steerable",
     "copy-from": "wheel",
     "type": "vehicle_part",

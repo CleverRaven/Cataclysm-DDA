@@ -147,6 +147,13 @@
     "damage_reduction": { "all": 66 }
   },
   {
+    "id": "rail_wheel_steerable",
+    "copy-from": "rail_wheel",
+    "type": "vehicle_part",
+    "name": "rail wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
     "id": "roller_drum",
     "type": "vehicle_part",
     "name": "roller drum",
