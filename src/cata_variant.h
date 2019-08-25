@@ -23,6 +23,7 @@ using itype_id = std::string;
 // types.  All types are stored by converting them to a string.
 
 enum class cata_variant_type : int {
+    void_, // Special type for empty variants
     add_type,
     bionic_id,
     body_part,
@@ -142,9 +143,14 @@ struct convert_enum {
 };
 
 // These are the specializations of convert for each value type.
-static_assert( static_cast<int>( cata_variant_type::num_types ) == 17,
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 18,
                "This assert is a reminder to add conversion support for any new types to the "
                "below specializations" );
+
+template<>
+struct convert<cata_variant_type::void_> {
+    using type = void;
+};
 
 template<>
 struct convert<cata_variant_type::add_type> : convert_enum<add_type> {};
@@ -226,6 +232,10 @@ struct convert<cata_variant_type::trap_str_id> : convert_string_id<trap_str_id> 
 class cata_variant
 {
     public:
+        // Default constructor for an 'empty' variant (you can't get a value
+        // from it).
+        cata_variant() : type_( cata_variant_type::void_ ) {}
+
         // Constructor that attempts to infer the type from the type of the
         // value passed.
         template < typename Value,
