@@ -232,5 +232,67 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "hose", 2 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mark19unmounted",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ [ "fabrication", 6 ], [ "launcher", 4 ] ],
+    "difficulty": 8,
+    "time": "8 h",
+    "autolearn": true,
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "GLARE", "level": 2 }
+    ],
+    "tools": [
+      [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ],
+      [ [ "large_repairkit", 80 ] ]
+    ],
+    "components": [
+      [ [ "mark19", 1 ] ],
+      [ [ "2x4", 1 ] ],
+      [ [ "pipe", 2 ] ],
+      [ [ "spring", 6 ] ],
+      [ [ "sheet_metal_small", 2 ] ],
+      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "m2browningunmounted",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ [ "fabrication", 6 ], [ "gun", 4 ] ],
+    "difficulty": 8,
+    "time": "6 h",
+    "autolearn": true,
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "GLARE", "level": 2 }
+    ],
+    "tools": [
+      [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ],
+      [ [ "large_repairkit", 80 ] ]
+    ],
+    "components": [
+      [ [ "m2browning", 1 ] ],
+      [ [ "2x4", 1 ] ],
+      [ [ "pipe", 2 ] ],
+      [ [ "spring", 4 ] ],
+      [ [ "sheet_metal_small", 3 ] ],
+      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
+    ]
   }
 ]
