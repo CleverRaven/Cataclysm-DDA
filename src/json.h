@@ -296,6 +296,24 @@ class JsonIn
             return true;
         }
 
+        /// Overload for std::pair
+        template<typename T, typename U>
+        bool read( std::pair<T, U> &p ) {
+            if( !test_array() ) {
+                return false;
+            }
+            try {
+                start_array();
+                return !end_array() &&
+                       read( p.first ) &&
+                       !end_array() &&
+                       read( p.second ) &&
+                       end_array();
+            } catch( const JsonError & ) {
+                return false;
+            }
+        }
+
         // array ~> vector, deque, list
         template < typename T, typename std::enable_if <
                        !std::is_same<void, typename T::value_type>::value >::type * = nullptr
@@ -566,6 +584,14 @@ class JsonOut
         template<typename T>
         void write_as_string( const string_id<T> &s ) {
             write( s );
+        }
+
+        template<typename T, typename U>
+        void write( const std::pair<T, U> &p ) {
+            start_array();
+            write( p.first );
+            write( p.second );
+            end_array();
         }
 
         template <typename T>
