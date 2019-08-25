@@ -1931,7 +1931,7 @@
         { "id": "crossbow_trap", "fg": 857, "rotates": false },
         { "id": "tr_nailboard", "fg": 858, "rotates": false },
         { "id": "board_trap", "fg": 859, "rotates": false },
-        { "id": [ "tr_shotgun_1", "tr_shotgun_2" ], "fg": 860, "rotates": false },
+        { "id": [ "tr_shotgun_1", "tr_shotgun_2", "tr_shotgun_2_1" ], "fg": 860, "rotates": false },
         { "id": "shotgun_trap", "fg": 861, "rotates": false },
         { "id": "tr_tripwire", "fg": 862, "rotates": false },
         { "id": "tripwire", "fg": 863, "rotates": false },

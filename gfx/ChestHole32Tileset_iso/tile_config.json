@@ -12635,8 +12635,8 @@
           "rotates": false
         },
         {
-          "fg": 2602,
-          "id": ["shotgun_trap", "tr_shotgun_2", "tr_shotgun_1"]
+          "id": [ "shotgun_trap", "tr_shotgun_2", "tr_shotgun_2_1", "tr_shotgun_1" ],
+          "fg": 2602
         },
         {
           "fg": 2603,

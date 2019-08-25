@@ -799,28 +799,15 @@ void vehicle::handle_trap( const tripoint &p, int part )
         return;
     }
 
-    if( g->u.sees( p ) ) {
-        if( g->u.knows_trap( p ) ) {
+    const bool seen = g->u.sees( p );
+    const bool known = g->u.knows_trap( p );
+    if( seen ) {
+        if( known ) {
             //~ %1$s: name of the vehicle; %2$s: name of the related vehicle part; %3$s: trap name
             add_msg( m_bad, _( "The %1$s's %2$s runs over %3$s." ), name, parts[ part ].name(), tr.name() );
         } else {
             add_msg( m_bad, _( "The %1$s's %2$s runs over something." ), name, parts[ part ].name() );
         }
-    }
-
-    if( t == tr_beartrap || t == tr_beartrap_buried ) {
-        g->m.spawn_item( p, "beartrap" );
-    } else if( t == tr_crossbow ) {
-        g->m.spawn_item( p, "crossbow" );
-        g->m.spawn_item( p, "string_6" );
-        if( !one_in( 10 ) ) {
-            g->m.spawn_item( p, "bolt_steel" );
-        }
-    } else if( t == tr_shotgun_2 ) {
-        g->m.trap_set( p, tr_shotgun_1 );
-    } else if( t == tr_shotgun_1 ) {
-        g->m.spawn_item( p, "shotgun_s" );
-        g->m.spawn_item( p, "string_6" );
     }
 
     if( veh_data.chance >= rng( 1, 100 ) ) {
@@ -834,8 +821,32 @@ void vehicle::handle_trap( const tripoint &p, int part )
             // Hit the wheel directly since it ran right over the trap.
             damage_direct( pwh, veh_data.damage );
         }
+        bool still_has_trap = true;
         if( veh_data.remove_trap || veh_data.do_explosion ) {
             g->m.remove_trap( p );
+            still_has_trap = false;
+        }
+        for( const auto &it : veh_data.spawn_items ) {
+            int cnt = roll_remainder( it.second );
+            if( cnt > 0 ) {
+                g->m.spawn_item( p, it.first, cnt );
+            }
+        }
+        if( veh_data.set_trap ) {
+            g->m.trap_set( p, veh_data.set_trap.id() );
+            still_has_trap = true;
+        }
+        if( still_has_trap ) {
+            const trap &tr = g->m.tr_at( p );
+            if( seen || known ) {
+                // known status has been reset by map::trap_set()
+                g->u.add_known_trap( p, tr );
+            }
+            if( seen && !known ) {
+                // hard to miss!
+                const std::string direction = direction_name( direction_from( g->u.pos(), p ) );
+                add_msg( _( "You've spotted a %1$s to the %2$s!" ), tr.name(), direction );
+            }
         }
     }
 }

@@ -63,6 +63,8 @@ void snake( const tripoint &p, Creature *c, item *i );
 } // namespace trapfunc
 
 struct vehicle_handle_trap_data {
+    using itype_id = std::string;
+
     bool remove_trap = false;
     bool do_explosion = false;
     bool is_falling = false;
@@ -73,6 +75,9 @@ struct vehicle_handle_trap_data {
     std::string sound;
     std::string sound_type;
     std::string sound_variant;
+    // the double represents the count or chance to spawn.
+    std::vector<std::pair<itype_id, double>> spawn_items;
+    trap_str_id set_trap = trap_str_id::NULL_ID();
 };
 
 using trap_function = std::function<void( const tripoint &, Creature *, item * )>;
@@ -254,6 +259,7 @@ tr_caltrops_glass,
 tr_tripwire,
 tr_crossbow,
 tr_shotgun_2,
+tr_shotgun_2_1,
 tr_shotgun_1,
 tr_engine,
 tr_blade,
