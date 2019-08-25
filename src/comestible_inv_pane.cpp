@@ -78,7 +78,7 @@ struct col_data {
 };
 
 // *INDENT-OFF*
-static const col_data get_col_data(comestible_inv_columns col) {
+static col_data get_col_data(comestible_inv_columns col) {
     static std::array<col_data, COLUMN_NUM_ENTRIES> col_data = { {
         {COLUMN_NAME,       _("Name (charges)"),0, 'n', _("name")},
 
@@ -549,8 +549,8 @@ void comestible_inventory_pane::recalc()
         volume = 0_ml;
         weight = 0_gram;
         std::vector<comestible_inv_area_info::aim_location> loc = cur_area->info.multi_locations;
-        for( size_t i = 0; i < loc.size(); i++ ) {
-            comestible_inv_area *s = &( ( *squares )[loc[i]] );
+        for( auto &i : loc ) {
+            comestible_inv_area *s = &( ( *squares )[i] );
             // Deal with squares with ground + vehicle storage
             // Also handle the case when the other tile covers vehicle
             // or the ground below the vehicle.
@@ -709,7 +709,7 @@ void comestible_inventory_pane::redraw()
     draw_border( w, BORDER_COLOR );
     mvwprintw( w, point( 3, 0 ), _( "< [s]ort: %s >" ), get_col_data( sortby ).sort_name );
 
-    if( title.size() != 0 ) {
+    if( !title.empty() ) {
         std::string title_string = string_format( "<< %s >>", title );
         mvwprintz( w, point( ( getmaxx( w ) - title_string.size() ) / 2, 0 ), c_light_cyan, title_string );
     }

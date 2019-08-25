@@ -1639,6 +1639,8 @@ bool game::handle_action()
         switch( act ) {
             case ACTION_NULL:
             case NUM_ACTIONS:
+                //TODO:delete eat();
+                eat();
                 break; // dummy entries
             case ACTION_ACTIONMENU:
             case ACTION_MAIN_MENU:
@@ -1875,9 +1877,6 @@ bool game::handle_action()
 
             case ACTION_EAT:
                 comestible_inv();
-                if( false ) {
-                    eat(); //TODO: just to make travis happy; delete after done testing
-                }
                 break;
 
             case ACTION_OPEN_CONSUME:

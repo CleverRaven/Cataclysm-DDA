@@ -141,11 +141,17 @@ void comestible_inventory::save_settings()
 
 comestible_inv_area *comestible_inventory::get_square( const std::string &action )
 {
-    for( size_t i = 0; i < squares.size(); i++ ) {
-        if( action == squares[i].info.actionname ) {
-            return &squares[i];
+    for( auto &i : squares ) {
+        if( action == i.info.actionname ) {
+            return &i;
         }
     }
+
+    //for( size_t i = 0; i < squares.size(); i++ ) {
+    //    if( action == squares[i].info.actionname ) {
+    //        return &squares[i];
+    //    }
+    //}
     return nullptr;
 }
 
@@ -466,8 +472,8 @@ void comestible_inventory::display( int bio )
             if( it->is_food_container() ) {
                 it = &it->contents.front();
             }
-            std::string food_name = it->nname( it->typeId() );
-            g->u.craft( tripoint_zero, string_format( "c:%s", food_name ) );
+            std::string food_name = item::nname( it->typeId() );
+            g->u.craft( tripoint_zero, string_format( "c:%s,", food_name ) );
             //TODO: next 2 lines seem hacky - refreshing twice?
             //without 1st line we can see craft menu after it closes
             //without 2nd line we can't see comestible menu after crafting closes
@@ -577,7 +583,8 @@ void comestible_inventory::refresh_minimap()
     draw_border( mm_border );
     // minor addition to border for AIM_ALL, sorta hacky
     if( pane.get_area()->info.type == comestible_inv_area_info::AREA_TYPE_MULTI ) {
-        mvwprintz( mm_border, point( 1, 0 ), c_light_gray, utf8_truncate( _( "Mul" ), minimap_width ) );
+        //point(1,0) - point_east so travis is happy
+        mvwprintz( mm_border, point_east, c_light_gray, utf8_truncate( _( "Mul" ), minimap_width ) );
     }
     // refresh border, then minimap
     wrefresh( mm_border );
@@ -695,7 +702,7 @@ void comestible_inventory::heat_up( item *it_to_heat )
     std::vector<item *> hotplates_map = map_inv.items_with( filter );
     //hotplates.insert(hotplates.end(), hotplates_map.begin(), hotplates_map.end());
 
-    can_use_hotplate = ( hotplates.size() > 0 ) || ( hotplates_map.size() > 0 );
+    can_use_hotplate = ( !hotplates.empty() ) || ( !hotplates_map.empty() );
 
     //check we can actually heat up
     if( !has_heat_item && !can_use_hotplate ) {
@@ -723,15 +730,14 @@ void comestible_inventory::heat_up( item *it_to_heat )
             counter++;
         }
 
-        for( size_t i = 0; i < hotplates.size(); i++ ) {
+        for( auto &i : hotplates ) {
             sm.addentry( counter, true, 'a' + counter, string_format( _( "%s in inventory" ),
-                         hotplates.at( i )->display_name() ) );
+                         i->display_name() ) );
             counter++;
         }
-
-        for( size_t i = 0; i < hotplates_map.size(); i++ ) {
+        for( auto &i : hotplates_map ) {
             sm.addentry( counter, true, 'a' + counter, string_format( _( "%s nearby" ),
-                         hotplates_map.at( i )->display_name() ) );
+                         i->display_name() ) );
             counter++;
         }
         sm.query();
