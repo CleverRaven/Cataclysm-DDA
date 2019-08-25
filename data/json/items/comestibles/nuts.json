@@ -425,7 +425,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -5,
-    "//": "most acorns contain various amount of tannins, which can make you fairly sick.  it also tastes pretty bad.",
+    "//": "no vitamins here",
     "healthy": -5,
     "calories": 114,
     "description": "A handful of acorns, still in their shells.  Squirrels like them, but they're not very good for you to eat in this state.",
@@ -434,7 +434,6 @@
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "charges": 4,
-    "//": "no vitamins here",
     "fun": -20
   },
   {
@@ -465,6 +464,6 @@
     "price": 90,
     "material": "nut",
     "vitamins": [ [ "calcium", 4 ], [ "iron", 4 ] ],
-    "volume": 1
+    "volume": "250 ml"
   }
 ]
