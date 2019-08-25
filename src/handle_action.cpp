@@ -883,7 +883,10 @@ static void wait()
 static void sleep()
 {
     player &u = g->u;
-
+    if( u.is_mounted() ) {
+        u.add_msg_if_player( m_info, _( "You cannot sleep while mounted." ) );
+        return;
+    }
     uilist as_m;
     as_m.text = _( "Are you sure you want to sleep?" );
     // (Y)es/(S)ave before sleeping/(N)o

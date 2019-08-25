@@ -520,7 +520,10 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool /*t*/, const tripoint &/
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return 0;
     }
-
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        return 0;
+    }
     for( const auto &tool : tools_needed ) {
         // Amount == -1 means need one, but don't consume it.
         if( !p.has_amount( tool.first, 1 ) ) {
@@ -930,6 +933,11 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         return 0;
     }
 
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        return 0;
+    }
+
     std::set<ter_id> allowed_ter_id {
         t_chaingate_l,
         t_door_locked,
@@ -966,6 +974,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( !pnt_ ) {
         pnt_ = choose_adjacent( _( "Use your lockpick where?" ) );
     }
+
     if( !pnt_ ) {
         return 0;
     }
@@ -1109,6 +1118,10 @@ void deploy_furn_actor::load( JsonObject &obj )
 
 int deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) const
 {
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        return 0;
+    }
     tripoint pnt = pos;
     if( pos == p.pos() ) {
         if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
@@ -1771,7 +1784,10 @@ int cauterize_actor::use( player &p, item &it, bool t, const tripoint & ) const
     if( t ) {
         return 0;
     }
-
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        return 0;
+    }
     bool has_disease = p.has_effect( effect_bite ) || p.has_effect( effect_bleed );
     bool did_cauterize = false;
 
@@ -1811,6 +1827,9 @@ ret_val<bool> cauterize_actor::can_use( const player &p, const item &it, bool,
         return ret_val<bool>::make_failure(
                    _( "You are not bleeding or bitten, there is no need to cauterize yourself." ) );
     }
+    if( p.is_mounted() ) {
+        return ret_val<bool>::make_failure( _( "You cannot cauterize while mounted." ) );
+    }
 
     if( flame ) {
         if( !p.has_charges( "fire", 4 ) ) {
@@ -1846,7 +1865,10 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     if( t ) {
         return 0;
     }
-
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        return 0;
+    }
     auto items = g->m.i_at( point( p.posx(), p.posy() ) );
     std::vector<const item *> corpses;
 
@@ -1965,7 +1987,9 @@ ret_val<bool> enzlave_actor::can_use( const player &p, const item &, bool, const
         return ret_val<bool>::make_failure( _( "You need at least %s 1." ),
                                             skill_survival->name() );
     }
-
+    if( p.is_mounted() ) {
+        return ret_val<bool>::make_failure( _( "You cannot do that while mounted." ) );
+    }
     if( p.get_skill_level( skill_firstaid ) < 1 ) {
         //~ %s - name of the required skill.
         return ret_val<bool>::make_failure( _( "You need at least %s 1." ),
@@ -2147,6 +2171,12 @@ void musical_instrument_actor::load( JsonObject &obj )
 
 int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint & ) const
 {
+    if( p.is_mounted() ) {
+        p.add_msg_player_or_npc( m_bad, _( "You can't play music while mounted." ),
+                                 _( "<npcname> can't play music while mounted." ) );
+        it.active = false;
+        return 0;
+    }
     if( p.is_underwater() ) {
         p.add_msg_player_or_npc( m_bad,
                                  _( "You can't play music underwater" ),
@@ -2257,6 +2287,9 @@ ret_val<bool> musical_instrument_actor::can_use( const player &p, const item &, 
     // TODO: (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
     if( p.is_underwater() ) {
         return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
+    }
+    if( p.is_mounted() ) {
+        return ret_val<bool>::make_failure( _( "You can't do that while mounted." ) );
     }
 
     return ret_val<bool>::make_success();
@@ -2829,6 +2862,13 @@ bool repair_item_actor::can_use_tool( const player &p, const item &tool, bool pr
         }
         return false;
     }
+    if( p.is_mounted() ) {
+        if( print_msg ) {
+            p.add_msg_player_or_npc( m_bad, _( "You can't do that while mounted." ),
+                                     _( "<npcname> can't do that while mounted." ) );
+        }
+        return false;
+    }
     if( p.fine_detail_vision_mod() > 4 ) {
         if( print_msg ) {
             p.add_msg_if_player( m_info, _( "You can't see to do that!" ) );
@@ -3393,7 +3433,10 @@ int heal_actor::use( player &p, item &it, bool, const tripoint &pos ) const
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return 0;
     }
-
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
+        return 0;
+    }
     if( get_option<bool>( "FILTHY_WOUNDS" ) && it.is_filthy() ) {
         p.add_msg_if_player( m_info, _( "You can't use filthy items for healing." ) );
         return 0;
@@ -3861,6 +3904,10 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return 0;
     }
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
+        return 0;
+    }
     const cata::optional<tripoint> pos_ = choose_adjacent( string_format( _( "Place %s where?" ),
                                           it.tname() ) );
     if( !pos_ ) {
@@ -4021,7 +4068,9 @@ ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bo
     if( !it.is_bionic() ) {
         return ret_val<bool>::make_failure();
     }
-
+    if( p.is_mounted() ) {
+        return ret_val<bool>::make_failure( _( "You can't install bionics while mounted." ) );
+    }
     if( !get_option<bool>( "MANUAL_BIONIC_INSTALLATION" ) &&
         !p.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
         return ret_val<bool>::make_failure( _( "You can't self-install bionics." ) );
@@ -4272,7 +4321,10 @@ void deploy_tent_actor::load( JsonObject &obj )
 int deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     int diam = 2 * radius + 1;
-
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( _( "You cannot do that while mounted." ) );
+        return 0;
+    }
     const cata::optional<tripoint> dir = choose_direction( string_format(
             _( "Put up the %s where (%dx%d clear area)?" ), it.tname(), diam, diam ) );
     if( !dir ) {
@@ -4352,6 +4404,10 @@ void weigh_self_actor::info( const item &, std::vector<iteminfo> &dump ) const
 
 int weigh_self_actor::use( player &p, item &, bool, const tripoint & ) const
 {
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( m_info, _( "You cannot weigh yourself while mounted." ) );
+        return 0;
+    }
     // this is a weight, either in kgs or in lbs.
     double weight = convert_weight( p.get_weight() );
     if( weight > convert_weight( max_weight ) ) {
@@ -4397,7 +4453,10 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( p.is_npc() ) {
         return 0;
     }
-
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        return 0;
+    }
     if( p.is_underwater() ) {
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return 0;
