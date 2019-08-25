@@ -283,5 +283,5 @@
     "type": "vehicle_part",
     "name": "off-road wide wheel (steerable)",
     "extend": { "flags": [ "STEERABLE" ] }
-  },
+  }
 ]
