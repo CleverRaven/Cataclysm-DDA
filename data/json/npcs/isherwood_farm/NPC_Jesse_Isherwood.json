@@ -192,7 +192,7 @@
       "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 8 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_flying_polyp", "x": 11, "y": 11, "target": true } ] }
     },
-    "origins": [ "ORIGIN_ANY_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "We could use some help killing some monsters.",
       "offer": "I don't know what it is, but it is very fast, I'm willing to outfit you with a horse if you succeed.",
