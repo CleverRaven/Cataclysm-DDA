@@ -107,7 +107,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male );
 void starting_inv( npc &who, const npc_class_id &type );
 
 npc::npc()
-    : restock( calendar::before_time_starts )
+    : restock( calendar::turn_zero )
     , companion_mission_time( calendar::before_time_starts )
     , companion_mission_time_ret( calendar::before_time_starts )
     , last_updated( calendar::turn )
@@ -323,11 +323,6 @@ void npc::randomize( const npc_class_id &type )
     dex_max = the_class.roll_dexterity();
     int_max = the_class.roll_intelligence();
     per_max = the_class.roll_perception();
-
-    if( myclass->get_shopkeeper_items() != "EMPTY_GROUP" ) {
-        restock = calendar::turn + 3_days;
-        cash += 100000;
-    }
 
     for( auto &skill : Skill::skills ) {
         int level = myclass->roll_skill( skill.ident() );
@@ -1339,7 +1334,7 @@ int npc::max_willing_to_owe() const
 
 void npc::shop_restock()
 {
-    if( calendar::turn - restock < 3_days ) {
+    if( ( restock != calendar::turn_zero ) && ( ( calendar::turn - restock ) < 3_days ) ) {
         return;
     }
 
