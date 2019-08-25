@@ -199,7 +199,7 @@
     "value": 50000,
     "item": "rock",
     "count": 120,
-    "origins": [ "ORIGIN_ANY_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_ISHERWOOD_EDDIE_2",
     "dialogue": {
       "describe": "We need to build some kilns.",

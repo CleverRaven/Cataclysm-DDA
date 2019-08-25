@@ -260,7 +260,7 @@
     "value": 20000,
     "item": "raw_dandelion",
     "count": 50,
-    "origins": [ "ORIGIN_ANY_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_ISHERWOOD_CLAIRE_2",
     "end": {
       "opinion": { "trust": 1, "value": 1 },

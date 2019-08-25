@@ -158,7 +158,7 @@
     "value": 50000,
     "item": "anvil",
     "count": 1,
-    "origins": [ "ORIGIN_ANY_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_ISHERWOOD_CARLOS_2",
     "dialogue": {
       "describe": "I need an anvil to do advanced metal work.",

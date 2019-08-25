@@ -311,7 +311,7 @@
     "value": 20000,
     "item": "jar_3l_glass",
     "count": 20,
-    "origins": [ "ORIGIN_ANY_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_ISHERWOOD_JACK_2",
     "end": {
       "opinion": { "trust": 1, "value": 1 },
