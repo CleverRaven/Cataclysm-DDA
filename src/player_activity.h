@@ -91,7 +91,7 @@ class player_activity
          */
         bool is_suspendable() const;
 
-        void serialize( JsonOut &jsout ) const;
+        void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
         /** Convert from the old enumeration to the new string_id */
         void deserialize_legacy_type( int legacy_type, activity_id &dest );

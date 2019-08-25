@@ -164,7 +164,7 @@ struct npc_personality {
         altruism   = 0;
     }
 
-    void serialize( JsonOut &jsout ) const;
+    void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
 };
 
@@ -200,7 +200,7 @@ struct npc_opinion {
         return npc_opinion( *this ) += rhs;
     }
 
-    void serialize( JsonOut &jsout ) const;
+    void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
 };
 
@@ -429,7 +429,7 @@ struct npc_follower_rules {
 
     npc_follower_rules();
 
-    void serialize( JsonOut &jsout ) const;
+    void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
 
     bool has_flag( ally_rule test, bool check_override = true ) const;
@@ -440,10 +440,10 @@ struct npc_follower_rules {
     void toggle_specific_override_state( ally_rule rule, bool state );
     bool has_override_enable( ally_rule test ) const;
     void enable_override( ally_rule setit );
-    void disable_override( ally_rule setit );
+    void disable_override( ally_rule clearit );
     bool has_override( ally_rule test ) const;
     void set_override( ally_rule setit );
-    void clear_override( ally_rule setit );
+    void clear_override( ally_rule clearit );
 
     void set_danger_overrides();
     void clear_overrides();
@@ -699,7 +699,7 @@ struct npc_chatbin {
 
     npc_chatbin() = default;
 
-    void serialize( JsonOut &jsout ) const;
+    void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
 };
 
@@ -761,11 +761,11 @@ class npc : public player
 
         // Save & load
         void deserialize( JsonIn &jsin ) override;
-        void serialize( JsonOut &jsout ) const override;
+        void serialize( JsonOut &json ) const override;
 
         // Display
         nc_color basic_symbol_color() const override;
-        int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
+        int print_info( const catacurses::window &w, int line, int vLines, int column ) const override;
         std::string opinion_text() const;
         int faction_display( const catacurses::window &fac_w, int width ) const;
 
@@ -801,7 +801,7 @@ class npc : public player
         // Faction version number
         int get_faction_ver() const;
         void set_faction_ver( int new_version );
-        bool has_faction_relationship( const player &guy,
+        bool has_faction_relationship( const player &p,
                                        npc_factions::relationship flag ) const;
         // We want to kill/mug/etc the player
         bool is_enemy() const;
@@ -865,7 +865,7 @@ class npc : public player
         bool has_painkiller();
         bool took_painkiller() const;
         void use_painkiller();
-        void activate_item( int position );
+        void activate_item( int item_index );
         bool has_identified( const std::string & ) const override {
             return true;
         }
@@ -1000,7 +1000,7 @@ class npc : public player
         int confident_shoot_range( const item &it, int at_recoil ) const;
         int confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const;
         int confident_throw_range( const item &, Creature * ) const;
-        bool wont_hit_friend( const tripoint &p, const item &it, bool throwing ) const;
+        bool wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) const;
         bool enough_time_to_reload( const item &gun ) const;
         /** Can reload currently wielded gun? */
         bool can_reload_current();
@@ -1014,7 +1014,7 @@ class npc : public player
         bool dispose_item( item_location &&obj, const std::string &prompt = std::string() ) override;
 
         void aim();
-        void do_reload( const item &what );
+        void do_reload( const item &it );
 
         // Physical movement from one tile to the next
         /**
@@ -1036,7 +1036,7 @@ class npc : public player
         void avoid_friendly_fire();
         void escape_explosion();
         // nomove is used to resolve recursive invocation
-        void move_away_from( const tripoint &p, bool no_bashing = false,
+        void move_away_from( const tripoint &p, bool no_bash_atk = false,
                              std::set<tripoint> *nomove = nullptr );
         void move_away_from( const std::vector<sphere> &spheres, bool no_bashing = false );
         // Same as if the player pressed '.'
@@ -1049,7 +1049,7 @@ class npc : public player
         // Item discovery and fetching
 
         // Comment on item seen
-        void see_item_say_smth( const itype_id &item, const std::string &smth );
+        void see_item_say_smth( const itype_id &object, const std::string &smth );
         // Look around and pick an item
         void find_item();
         // Move to, or grab, our targeted item
@@ -1061,7 +1061,7 @@ class npc : public player
         std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );
 
         bool has_item_whitelist() const;
-        bool item_name_whitelisted( const std::string &name );
+        bool item_name_whitelisted( const std::string &to_match );
         bool item_whitelisted( const item &it );
 
         /** Returns true if it finds one. */
@@ -1266,8 +1266,8 @@ class npc : public player
         attitude_group get_attitude_group( npc_attitude att ) const;
 
     protected:
-        void store( JsonOut &jsout ) const;
-        void load( JsonObject &jsin );
+        void store( JsonOut &json ) const;
+        void load( JsonObject &data );
 
     private:
         // the weapon we're actually holding when using bionic fake guns
@@ -1290,7 +1290,7 @@ class standard_npc : public npc
 {
     public:
         standard_npc( const std::string &name = "", const std::vector<itype_id> &clothing = {},
-                      int skill = 4, int s_str = 8, int s_dex = 8, int s_int = 8, int s_per = 8 );
+                      int sk_lvl = 4, int s_str = 8, int s_dex = 8, int s_int = 8, int s_per = 8 );
 };
 
 // instances of this can be accessed via string_id<npc_template>.
