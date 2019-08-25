@@ -67,7 +67,8 @@ inline E string_to_enum_look_up( const C &container, const std::string &data )
 {
     const auto iter = container.find( data );
     if( iter == container.end() ) {
-        throw InvalidEnumString{};
+        throw InvalidEnumString( "Invalid enum string '" + data + "' for '" +
+                                 typeid( E ).name() + "'" );
     }
     return iter->second;
 }
