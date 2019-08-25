@@ -118,70 +118,55 @@ class comestible_inv_area
 {
     public :
 
-    // *INDENT-OFF*
-    static comestible_inv_area_info get_info(comestible_inv_area_info::aim_location loc) {
-        using i = comestible_inv_area_info;
-        static const std::array< comestible_inv_area_info, comestible_inv_area_info::NUM_AIM_LOCATIONS> area_info = { {
-            { i::AIM_SOUTHWEST,     30, 3, tripoint_south_west, _("South West"), _("SW"), "1", i::AIM_WEST, "ITEMS_SW" },
-            { i::AIM_SOUTH,         33, 3, tripoint_south,      _("South"),      _("S"), "2", i::AIM_SOUTHWEST, "ITEMS_S"},
-            { i::AIM_SOUTHEAST,     36, 3, tripoint_south_east, _("South East"), _("SE"), "3", i::AIM_SOUTH, "ITEMS_SE"},
-            { i::AIM_WEST,          30, 2, tripoint_west,       _("West"),       _("W"), "4", i::AIM_NORTHWEST, "ITEMS_W" },
-            { i::AIM_CENTER,        33, 2, tripoint_zero,       _("Directly below you"), _("DN"), "5", i::AIM_CENTER, "ITEMS_CE"},
-            { i::AIM_EAST,          36, 2, tripoint_east,       _("East"),       _("E"), "6", i::AIM_SOUTHEAST, "ITEMS_E"  },
-            { i::AIM_NORTHWEST,     30, 1, tripoint_north_west, _("North West"), _("NW"), "7", i::AIM_NORTH, "ITEMS_NW"},
-            { i::AIM_NORTH,         33, 1, tripoint_north,      _("North"),      _("N"), "8", i::AIM_NORTHEAST, "ITEMS_N" },
-            { i::AIM_NORTHEAST,     36, 1, tripoint_north_east, _("North East"), _("NE"), "9", i::AIM_EAST, "ITEMS_NE" },
+        // *INDENT-OFF*
+        static comestible_inv_area_info get_info(comestible_inv_area_info::aim_location loc) {
+            using i = comestible_inv_area_info;
+            static const std::array< comestible_inv_area_info, comestible_inv_area_info::NUM_AIM_LOCATIONS> area_info = { {
+                { i::AIM_SOUTHWEST,     30, 3, tripoint_south_west, _("South West"), _("SW"), "1", i::AIM_WEST, "ITEMS_SW" },
+                { i::AIM_SOUTH,         33, 3, tripoint_south,      _("South"),      _("S"), "2", i::AIM_SOUTHWEST, "ITEMS_S"},
+                { i::AIM_SOUTHEAST,     36, 3, tripoint_south_east, _("South East"), _("SE"), "3", i::AIM_SOUTH, "ITEMS_SE"},
+                { i::AIM_WEST,          30, 2, tripoint_west,       _("West"),       _("W"), "4", i::AIM_NORTHWEST, "ITEMS_W" },
+                { i::AIM_CENTER,        33, 2, tripoint_zero,       _("Directly below you"), _("DN"), "5", i::AIM_CENTER, "ITEMS_CE"},
+                { i::AIM_EAST,          36, 2, tripoint_east,       _("East"),       _("E"), "6", i::AIM_SOUTHEAST, "ITEMS_E"  },
+                { i::AIM_NORTHWEST,     30, 1, tripoint_north_west, _("North West"), _("NW"), "7", i::AIM_NORTH, "ITEMS_NW"},
+                { i::AIM_NORTH,         33, 1, tripoint_north,      _("North"),      _("N"), "8", i::AIM_NORTHEAST, "ITEMS_N" },
+                { i::AIM_NORTHEAST,     36, 1, tripoint_north_east, _("North East"), _("NE"), "9", i::AIM_EAST, "ITEMS_NE" },
 
-            { i::AIM_DRAGGED,       25, 1, tripoint_zero,       _("Grabbed Vehicle"), _("GR"), "D", i::AIM_DRAGGED, "ITEMS_DRAGGED_CONTAINER" },
-            { i::AIM_INVENTORY,     25, 2, tripoint_zero,       _("Inventory"),  _("I"), "I", i::AIM_INVENTORY, "ITEMS_INVENTORY" },
-            { i::AIM_WORN,          22, 2, tripoint_zero,       _("Worn Items"), _("W"), "W", i::AIM_WORN, "ITEMS_WORN"},
+                { i::AIM_DRAGGED,       25, 1, tripoint_zero,       _("Grabbed Vehicle"), _("GR"), "D", i::AIM_DRAGGED, "ITEMS_DRAGGED_CONTAINER" },
+                { i::AIM_INVENTORY,     25, 2, tripoint_zero,       _("Inventory"),  _("I"), "I", i::AIM_INVENTORY, "ITEMS_INVENTORY" },
+                { i::AIM_WORN,          22, 2, tripoint_zero,       _("Worn Items"), _("W"), "W", i::AIM_WORN, "ITEMS_WORN"},
 
-            { i::AIM_ALL,           25, 3, tripoint_zero,       _("Surrounding area"), "", "A", i::AIM_ALL, "ITEMS_AROUND" },
-            { i::AIM_ALL_I_W,       18, 3, tripoint_zero,        _("Everything"), "", "A+I+W", i::AIM_ALL_I_W, "ITEMS_AROUND_I_W" }
-            }
-        };
-        return area_info[loc];
-    }
-    // *INDENT-ON*
+                { i::AIM_ALL,           25, 3, tripoint_zero,       _("Surrounding area"), "", "A", i::AIM_ALL, "ITEMS_AROUND" },
+                { i::AIM_ALL_I_W,       18, 3, tripoint_zero,        _("Everything"), "", "A+I+W", i::AIM_ALL_I_W, "ITEMS_AROUND_I_W" }
+                }
+            };
+            return area_info[loc];
+        }
+        // *INDENT-ON*
 
         const comestible_inv_area_info info;
 
     private:
 
-        /** Can we put items there? Only checks if location is valid, not if
-            selected container in pane is. For full check use canputitems() **/
-        bool is_valid;
+        /** false if blocked by somehting (like a wall)  **/
+        bool is_valid_location;
         // vehicle pointer and cargo part index
         vehicle *veh;
         int veh_part;
 
     public:
-        // roll our own, to handle moving stacks better
-        using area_items = std::vector<std::list<item *> >;
-
-        area_items get_items( bool use_vehicle );
-
-        units::volume get_max_volume( bool use_vehicle );
-
-        std::string get_name( bool use_vehicle ) const;
-
-        bool is_vehicle_default() const;
-
-        // absolute position of the map point.
-        //tripoint pos;
         // description, e.g. vehicle name, label, or terrain
         std::array<std::string, 2> desc;
         // flags, e.g. FIRE, TRAP, WATER
         std::string flags;
-        // total volume and weight of items currently there
-        //units::volume volume;
-        //units::mass weight;
-        // maximal count / volume of items there.
-        //int max_size;
 
+        // use this instead of info.offset, because 'D'ragged containers change original
         tripoint offset;
 
+        // roll our own, to handle moving stacks better
+        using area_items = std::vector<std::list<item *> >;
 
+        //TODO: might want to get rind of info... keep for now
         //comestible_inv_area(aim_location id) : id(id), relative_location(id) {}
         //comestible_inv_area(aim_location id, int hscreenx, int hscreeny, tripoint off,
         //    const std::string& name, const std::string& shortname,
@@ -194,16 +179,23 @@ class comestible_inv_area
         //}
 
         comestible_inv_area( comestible_inv_area_info area_info ) : info( area_info ),
-            is_valid( false ), veh( nullptr ), veh_part( -1 ) {
+            is_valid_location( false ), veh( nullptr ), veh_part( -1 ) {
         }
 
         void init();
-        // Other area is actually the same item source, e.g. dragged vehicle to the south and AIM_SOUTH
-        //bool is_same( const comestible_inv_area &other ) const;
-        // does _not_ check vehicle storage, do that with `can_store_in_vehicle()' below
-        bool canputitems();
+        //just a getter
+        bool is_valid();
+
+        std::string get_name( bool use_vehicle ) const;
+        area_items get_items( bool use_vehicle );
+        units::volume get_max_volume( bool use_vehicle );
+
+        // whether to show vehicle when we open location for the first time
+        bool is_vehicle_default() const;
+
+        std::string get_location_key();
+
         bool has_vehicle() const {
-            //add_msg("XXX veh: %d %d", info.id, info.type);
             // disallow for non-valid vehicle locations
             if( info.type != comestible_inv_area_info::AREA_TYPE_GROUND ) {
                 return false;
@@ -211,7 +203,6 @@ class comestible_inv_area
             return veh != nullptr && veh_part >= 0;
         }
 
-        std::string get_location_key();
         comestible_inv_area_info::aim_location get_relative_location() const {
             if( !( tile_iso && use_tiles ) ) {
                 return info.id;

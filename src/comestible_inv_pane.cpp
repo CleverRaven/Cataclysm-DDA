@@ -177,7 +177,7 @@ void comestible_inventory_pane::add_sort_enries( uilist &sm )
     }
 }
 
-void comestible_inventory_pane::do_filter( int h, int w )
+void comestible_inventory_pane::start_user_filtering( int h, int w )
 {
     string_input_popup spopup;
     std::string old_filter = filter;
@@ -601,7 +601,7 @@ void comestible_inventory_pane::add_items_from_area( comestible_inv_area *area, 
         units::volume &ret_volume, units::mass &ret_weight )
 {
     assert( area->info.type != comestible_inv_area_info::AREA_TYPE_MULTI );
-    if( !area->canputitems() ) {
+    if( !area->is_valid() ) {
         return;
     }
     player &u = g->u;
@@ -670,19 +670,18 @@ void comestible_inventory_pane::redraw()
     print_items();
 
     auto itm = get_cur_item_ptr();
-    int width = print_header( itm != nullptr ? itm->area : get_area() );
-    bool same_as_dragged = ( cur_area->info.id >= comestible_inv_area_info::AIM_SOUTHWEST &&
-                             cur_area->info.id <= comestible_inv_area_info::AIM_NORTHEAST ) &&
+    int width = print_header( itm != nullptr ? itm->area : cur_area );
+    bool same_as_dragged = ( cur_area->info.type == comestible_inv_area_info::AREA_TYPE_GROUND ) &&
                            // only cardinals
-                           cur_area->info.id != comestible_inv_area_info::AIM_CENTER && is_in_vehicle() &&
+                           cur_area->info.id != comestible_inv_area_info::AIM_CENTER && viewing_cargo &&
                            // not where you stand, and pane is in vehicle
                            cur_area->info.default_offset == get_square(
-                               comestible_inv_area_info::AIM_DRAGGED )->info.default_offset; // make sure the offsets are the same as the grab point
+                               comestible_inv_area_info::AIM_DRAGGED )->offset; // make sure the offsets are the same as the grab point
     const comestible_inv_area *sq = same_as_dragged ? get_square(
                                         comestible_inv_area_info::AIM_DRAGGED ) : cur_area;
 
 
-    bool car = cur_area->has_vehicle() && is_in_vehicle() &&
+    bool car = cur_area->has_vehicle() && viewing_cargo &&
                sq->info.id != comestible_inv_area_info::AIM_DRAGGED;
     auto name = utf8_truncate( sq->get_name( viewing_cargo ), width );
     auto desc = utf8_truncate( sq->desc[car], width );
@@ -718,8 +717,6 @@ void comestible_inventory_pane::redraw()
     const char *fprefix = _( "[F]ilter" );
     const char *fsuffix = _( "[R]eset" );
 
-    //TODO:XXX
-    //bool filter_edit = true;
     if( !filter_edit ) {
         if( !filter.empty() ) {
             mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s: %s >", fprefix, filter );
@@ -761,21 +758,9 @@ int comestible_inventory_pane::print_header( comestible_inv_area *sel_area )
         } else {
             is_selected_by_item = get_square( i )->info.id == sel_area->info.id;
         }
-
-        //bool is_selected = get_square(i)->info.has_area(sel_area->info.id);
-
-        //bool q = (sel_area->info.id == get_square(i)->info.id);
-
-
-
-        //bool iterIsMe = (get_square(i).info.id == area);
-        //bool selectIsMe = (sel == area);
-
-        //bool in_vehicle = is_in_vehicle() && get_square(i).info.id == area && sel == area && area != comestible_inv_area_info::AIM_ALL;
-        //bool all_brackets = area == comestible_inv_area_info::AIM_ALL && (i >= comestible_inv_area_info::AIM_SOUTHWEST && i <= comestible_inv_area_info::AIM_NORTHEAST);
         nc_color bcolor = c_red;
         nc_color kcolor = c_red;
-        if( get_square( i )->canputitems() ) {
+        if( get_square( i )->is_valid() ) {
             if( is_single ) {
                 if( is_selected_by_item ) {
                     if( viewing_cargo ) {
@@ -805,25 +790,6 @@ int comestible_inventory_pane::print_header( comestible_inv_area *sel_area )
                     }
                 }
             }
-
-            /* if (is_selected) {
-                 if (is_single) {
-                     if (viewing_cargo) {
-                         bcolor = c_light_gray;
-                     }
-                     kcolor = c_white;
-                 }
-                 else {
-                     bcolor = c_light_gray;
-                     kcolor = c_light_gray;
-                 }
-             }
-             else {
-                 bcolor = kcolor = c_dark_gray;
-             }*/
-            //bcolor = in_vehicle ? c_light_blue :
-            //    area == i || all_brackets ? c_light_gray : c_dark_gray;
-            //kcolor = area == i ? c_white : sel == i ? c_light_gray : c_dark_gray;
         }
 
         const int x = get_square( i )->info.hscreen.x + ofs;
@@ -862,7 +828,8 @@ void comestible_inv_listitem::print_columns( std::vector<comestible_inv_columns>
             continue;
         }
 
-        //TODO: error
+        //we encountered a column that had no printing code
+        assert( false );
     }
     print_name( is_compact, window, right_bound, cur_print_y );
 }
@@ -1029,7 +996,6 @@ void comestible_inv_listitem::print_name( bool is_compact, catacurses::window wi
     item *it = items.front();
     if( it->is_money() ) {
         //Count charges
-        // TODO: transition to the item_location system used for the normal inventory
         unsigned int charges_total = 0;
         for( const auto item : items ) {
             charges_total += item->charges;

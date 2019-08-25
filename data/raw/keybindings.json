@@ -2603,6 +2603,227 @@
     "id": "SAVE_DEFAULT",
     "category": "ADVANCED_INVENTORY",
     "name": "Save default layout"
+  },  
+  {
+    "type": "keybinding",
+    "id": "UP",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Pan up",
+    "bindings": [
+      { "input_method": "keyboard", "key": "k" },
+      { "input_method": "keyboard", "key": "UP" },
+      { "input_method": "gamepad", "key": "JOY_UP" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DOWN",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Pan down",
+    "bindings": [
+      { "input_method": "keyboard", "key": "j" },
+      { "input_method": "keyboard", "key": "DOWN" },
+      { "input_method": "gamepad", "key": "JOY_DOWN" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "PAGE_DOWN",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Page down",
+    "bindings": [ { "input_method": "keyboard", "key": "NPAGE" }, { "input_method": "keyboard", "key": ">" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "PAGE_UP",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Page up",
+    "bindings": [ { "input_method": "keyboard", "key": "PPAGE" }, { "input_method": "keyboard", "key": "<" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_VEH",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Toggle vehicle",
+    "bindings": [ { "input_method": "keyboard", "key": "v" }, { "input_method": "keyboard", "key": "V" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_AUTO_PICKUP",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Toggle auto-pickup for item",
+    "bindings": [ { "input_method": "keyboard", "key": "p" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EXAMINE",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Examine",
+    "bindings": [ { "input_method": "keyboard", "key": "e" }, { "input_method": "keyboard", "key": "E" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SORT",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Change sorting mode",
+    "bindings": [ { "input_method": "keyboard", "key": "s" }, { "input_method": "keyboard", "key": "S" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CATEGORY_SELECTION",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Toggle category selection mode",
+    "bindings": [ { "input_method": "keyboard", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_FAVORITE",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Toggle item as favorite",
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ITEMS_NW",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Select items @ North-West",
+    "bindings": [ { "input_method": "keyboard", "key": "7" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ITEMS_N",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Select items @ North",
+    "bindings": [ { "input_method": "keyboard", "key": "8" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ITEMS_NE",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Select items @ North-East",
+    "bindings": [ { "input_method": "keyboard", "key": "9" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ITEMS_W",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Select items @ West",
+    "bindings": [ { "input_method": "keyboard", "key": "4" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ITEMS_CE",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Select items @ center",
+    "bindings": [ { "input_method": "keyboard", "key": "5" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ITEMS_E",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Select items @ East",
+    "bindings": [ { "input_method": "keyboard", "key": "6" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ITEMS_SW",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Select items @ South-West",
+    "bindings": [ { "input_method": "keyboard", "key": "1" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ITEMS_S",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Select items @ South",
+    "bindings": [ { "input_method": "keyboard", "key": "2" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ITEMS_SE",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Select items @ South-East",
+    "bindings": [ { "input_method": "keyboard", "key": "3" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ITEMS_INVENTORY",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Select items in inventory",
+    "bindings": [
+      { "input_method": "keyboard", "key": "i" },
+      { "input_method": "keyboard", "key": "I" },
+      { "input_method": "keyboard", "key": "0" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ITEMS_WORN",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Select items currently worn",
+    "bindings": [ { "input_method": "keyboard", "key": "w" }, { "input_method": "keyboard", "key": "W" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ITEMS_AROUND",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Select items @ all 9 fields",
+    "bindings": [ { "input_method": "keyboard", "key": "a" }, { "input_method": "keyboard", "key": "A" } ]
+  },
+    {
+    "type": "keybinding",
+    "id": "ITEMS_AROUND_I_W",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Select items @ around, inv and worn",
+    "bindings": [ { "input_method": "keyboard", "key": "x" }, { "input_method": "keyboard", "key": "X" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ITEMS_DRAGGED_CONTAINER",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Select items in dragged container",
+    "bindings": [ { "input_method": "keyboard", "key": "d" }, { "input_method": "keyboard", "key": "D" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ITEMS_DEFAULT",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Restore default layout"
+  },
+  {
+    "type": "keybinding",
+    "id": "SAVE_DEFAULT",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Save default layout"
+  },
+  
+  {
+    "type": "keybinding",
+    "id": "CONSUME_FOOD",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Consume selected",
+    "bindings": [ { "input_method": "keyboard", "key": "RETURN" } ]
+  },  
+  {
+    "type": "keybinding",
+    "id": "SWITCH_FOOD",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Switch between Food/Drugs",
+    "bindings": [ { "input_method": "keyboard", "key": "z" }, { "input_method": "keyboard", "key": "Z" } ]
+  },  
+  {
+    "type": "keybinding",
+    "id": "HEAT_UP",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Heat up selected",
+    "bindings": [ { "input_method": "keyboard", "key": "h" }, { "input_method": "keyboard", "key": "H" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CRAFT_WITH",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Start crafting with selected",
+    "bindings": [ { "input_method": "keyboard", "key": "&" } ]
   },
   {
     "type": "keybinding",

@@ -72,11 +72,11 @@ void comestible_inv_area::init()
     switch( info.id ) {
         case ai::AIM_INVENTORY:
         case ai::AIM_WORN:
-            is_valid = true;
+            is_valid_location = true;
             break;
         case ai::AIM_DRAGGED:
             if( g->u.get_grab_type() != OBJECT_VEHICLE ) {
-                is_valid = false;
+                is_valid_location = false;
                 desc[0] = _( "Not dragging any vehicle!" );
                 break;
             }
@@ -92,21 +92,21 @@ void comestible_inv_area::init()
             }
             if( veh_part >= 0 ) {
                 desc[0] = veh->name;
-                is_valid = true;
+                is_valid_location = true;
                 //max_size = MAX_ITEM_IN_VEHICLE_STORAGE;
             } else {
                 veh = nullptr;
-                is_valid = false;
+                is_valid_location = false;
                 desc[0] = _( "No dragged vehicle!" );
             }
             break;
         case ai::AIM_ALL:
             desc[0] = _( "All 9 squares" );
-            is_valid = true;
+            is_valid_location = true;
             break;
         case ai::AIM_ALL_I_W:
             desc[0] = _( "Around,Inv,Worn" );
-            is_valid = true;
+            is_valid_location = true;
             break;
         case ai::AIM_SOUTHWEST:
         case ai::AIM_SOUTH:
@@ -125,7 +125,7 @@ void comestible_inv_area::init()
                 veh = nullptr;
                 veh_part = -1;
             }
-            is_valid = has_vehicle() || g->m.can_put_items_ter_furn( pos );
+            is_valid_location = has_vehicle() || g->m.can_put_items_ter_furn( pos );
             //max_size = MAX_ITEM_IN_SQUARE;
             if( has_vehicle() ) {
                 desc[1] = vpart_position( *veh, veh_part ).get_label().value_or( "" );
@@ -179,9 +179,9 @@ void comestible_inv_area::init()
     }
 }
 
-bool comestible_inv_area::canputitems()
+bool comestible_inv_area::is_valid()
 {
-    return is_valid;
+    return is_valid_location;
 }
 
 inline std::string comestible_inv_area::get_location_key()

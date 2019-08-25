@@ -199,79 +199,24 @@ class comestible_inv_listitem
 class comestible_inventory_pane
 {
     private:
-        comestible_inv_area *cur_area;
         // pointer to the square this pane is pointing to
+        comestible_inv_area *cur_area;
         bool viewing_cargo = false;
         bool is_compact;
-    public:
-
-        // set the pane's area via its square, and whether it is viewing a vehicle's cargo
-        void set_area( comestible_inv_area *square, bool show_vehicle ) {
-            cur_area = square;
-            viewing_cargo = square->has_vehicle() && show_vehicle;
-        }
-        comestible_inv_area *get_area() const {
-            return cur_area;
-        }
-        bool is_in_vehicle() const {
-            return viewing_cargo;
-        }
-        //bool on_ground() const {
-        //    return area > AIM_INVENTORY && area < AIM_DRAGGED;
-        //}
-        /**
-         * Index of the selected item (index of @ref items),
-         */
-        int index;
-        comestible_inv_columns sortby;
-        catacurses::window window;
-        std::vector<comestible_inv_listitem> items;
-
-        std::function<bool( const item & )> special_filter;
-
-        std::vector<legend_data> legend;
-        std::string title;
-
-        bool inCategoryMode;
 
         units::volume volume;
         units::mass weight;
-        bool filter_edit;
+        //supplied by parent to say which columns need to be displayed
+        std::vector<comestible_inv_columns> columns;
 
+        std::vector<comestible_inv_listitem> items;
+
+        //true when user is editing item filter
+        bool filter_edit;
         /**
          * The current filter string.
          */
         std::string filter;
-        /**
-         * Food or Drug filter. True = show food.
-         */
-        //bool filter_show_food;
-        /**
-         * Whether to recalculate the content of this pane.
-         * Implies @ref redraw.
-         */
-        bool needs_recalc;
-        /**
-         * Whether to redraw this pane.
-         */
-        bool needs_redraw;
-
-        void add_items_from_area( comestible_inv_area *area, bool from_cargo, units::volume &ret_volume,
-                                  units::mass &ret_weight );
-        /**
-         * Makes sure the @ref index is valid (if possible).
-         */
-        void fix_index();
-        void recalc();
-        void redraw();
-        std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> *squares;
-        comestible_inv_area *get_square( comestible_inv_area_info::aim_location loc ) {
-            return  &( ( *squares )[loc] );
-        }
-        comestible_inv_area *get_square( size_t loc ) {
-            return &( ( *squares )[loc] );
-        }
-        int print_header( comestible_inv_area *sel_area );
         /**
          * @param it The item to check, oly the name member is examined.
          * @return Whether the item should be filtered (and not shown).
@@ -281,6 +226,63 @@ class comestible_inventory_pane
          * Same as the other, but checks the real item.
          */
         bool is_filtered( const item &it ) const;
+
+        int print_header( comestible_inv_area *sel_area );
+        /**
+         * Insert additional category headers on the top of each page.
+         */
+        void paginate();
+
+        void add_items_from_area( comestible_inv_area *area, bool from_cargo, units::volume &ret_volume,
+                                  units::mass &ret_weight );
+
+        void print_items();
+
+        /** Scroll to next non-header entry */
+        void skip_category_headers( int offset );
+        /** Only add offset to index, but wrap around! */
+        void mod_index( int offset );
+
+        mutable std::map<std::string, std::function<bool( const item & )>> filtercache;
+
+    public:
+
+        /**
+         * Index of the selected item (index of @ref items),
+         */
+        int index;
+        catacurses::window window;
+        //this filter is supplied by parent, applied before user input filtering
+        std::function<bool( const item & )> special_filter;
+        //list of shortcut reminders (created manually by parent)
+        std::vector<legend_data> legend;
+        std::string title;
+
+        int itemsPerPage;
+
+        bool inCategoryMode;
+
+        comestible_inv_columns sortby;
+        // secondary sort, in case original returns == items
+        comestible_inv_columns default_sortby;
+
+        /**
+         * Whether to recalculate the content of this pane.
+         * Implies @ref redraw.
+         */
+        bool needs_recalc;
+        bool needs_redraw;
+
+        void init( std::vector<comestible_inv_columns> c, int items_per_page, catacurses::window w,
+                   std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> *s );
+        void save_settings( bool reset );
+
+        /**
+         * Makes sure the @ref index is valid (if possible).
+         */
+        void fix_index();
+        void recalc();
+        void redraw();
         /**
          * Scroll @ref index, by given offset, set redraw to true,
          * @param offset Must not be 0.
@@ -292,31 +294,31 @@ class comestible_inventory_pane
          */
         comestible_inv_listitem *get_cur_item_ptr();
         /**
-         * Set the filter string, disables filtering when the filter string is empty.
+         * Set the filter string
          */
         void set_filter( const std::string &new_filter );
-        /**
-         * Insert additional category headers on the top of each page.
-         */
-        void paginate();
+        void start_user_filtering( int h, int w );
 
-        //TODO:docs'n'stuffs
-        int itemsPerPage;
-        std::vector<comestible_inv_columns> columns;
-        comestible_inv_columns default_sortby;
-
+        //adds things this can sort on. List is provided by parent
         void add_sort_enries( uilist &sm );
-        void init( std::vector<comestible_inv_columns> c, int items_per_page, catacurses::window w,
-                   std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> *s );
-        void save_settings( bool reset );
-        void do_filter( int h, int w );
-        void print_items();
-    private:
-        /** Scroll to next non-header entry */
-        void skip_category_headers( int offset );
-        /** Only add offset to index, but wrap around! */
-        void mod_index( int offset );
 
-        mutable std::map<std::string, std::function<bool( const item & )>> filtercache;
+        std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> *squares;
+        comestible_inv_area *get_square( comestible_inv_area_info::aim_location loc ) {
+            return  &( ( *squares )[loc] );
+        }
+        comestible_inv_area *get_square( size_t loc ) {
+            return &( ( *squares )[loc] );
+        }
+        // set the pane's area via its square, and whether it is viewing a vehicle's cargo
+        void set_area( comestible_inv_area *square, bool show_vehicle ) {
+            cur_area = square;
+            viewing_cargo = square->has_vehicle() && show_vehicle;
+        }
+        comestible_inv_area *get_area() const {
+            return cur_area;
+        }
+        bool is_in_vehicle() const {
+            return viewing_cargo;
+        }
 };
 #endif

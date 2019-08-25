@@ -290,7 +290,6 @@ void comestible_inventory::display( int bio )
     ctxt.register_action( "ITEMS_AROUND" );
     ctxt.register_action( "ITEMS_AROUND_I_W" );
     ctxt.register_action( "ITEMS_DRAGGED_CONTAINER" );
-    ctxt.register_action( "ITEMS_CONTAINER" );
 
     if( uistate.comestible_save.bio == -1 ) {
         ctxt.register_action( "CONSUME_FOOD" );
@@ -333,7 +332,6 @@ void comestible_inventory::display( int bio )
 
         // current item in source pane, might be null
         comestible_inv_listitem *sitem = pane.get_cur_item_ptr();
-        //comestible_inv_area_info::aim_location changeSquare = NUM_AIM_LOCATIONS;
         comestible_inv_area *new_square;
 
         const std::string action = ctxt.handle_input();
@@ -347,7 +345,7 @@ void comestible_inventory::display( int bio )
         }   else if( ( new_square = get_square( action ) ) != nullptr ) {
             if( pane.get_area()->info.id == new_square->get_relative_location() ) {
                 //DO NOTHING
-            } else if( new_square->canputitems() ) {
+            } else if( new_square->is_valid() ) {
                 pane.set_area( new_square, new_square->is_vehicle_default() );
                 pane.index = 0;
                 redo( true, true );
@@ -371,7 +369,7 @@ void comestible_inventory::display( int bio )
             redo( recalc, true );
         } else if( action == "FILTER" ) {
             draw_item_filter_rules( pane.window, 1, 11, item_filter_type::FILTER );
-            pane.do_filter( w_height - 1, w_width / 2 - 4 );
+            pane.start_user_filtering( w_height - 1, w_width / 2 - 4 );
         } else if( action == "RESET_FILTER" ) {
             pane.set_filter( "" );
         } else if( action == "TOGGLE_AUTO_PICKUP" ) {
@@ -736,7 +734,6 @@ void comestible_inventory::heat_up( item *it_to_heat )
                          hotplates_map.at( i )->display_name() ) );
             counter++;
         }
-        //sm.selected = pane.sortby - SORTBY_NONE;
         sm.query();
 
         if( sm.ret < 0 ) {
