@@ -50,5 +50,16 @@
       { "monster": "mon_mi_go_myrmidon", "freq": 30, "cost_multiplier": 6, "starts": 840, "pack_size": [ 1, 2 ] },
       { "monster": "mon_mi_go_scout", "freq": 100, "cost_multiplier": 3, "pack_size": [ 1, 2 ] }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MI-GO_SCOUT_TOWER",
+    "//": "Mi-go scout tower prisoner room.",
+    "default": "mon_mi_go",
+    "monsters": [
+      { "monster": "mon_mi_go_surgeon", "freq": 100, "cost_multiplier": 3 },
+      { "monster": "mon_mi_go_guard", "freq": 100, "cost_multiplier": 6 },
+      { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 2, "pack_size": [ 3, 4 ] }
+    ]
   }
 ]
