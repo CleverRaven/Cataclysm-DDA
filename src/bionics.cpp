@@ -244,7 +244,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 bool player::activate_bionic( int b, bool eff_only )
 {
     bionic &bio = ( *my_bionics )[b];
-
+    const bool mounted = is_mounted();
     if( bio.incapacitated_time > 0_turns ) {
         add_msg( m_info, _( "Your %s is shorting out and can't be activated." ),
                  bionics[bio.id].name );
@@ -356,6 +356,10 @@ bool player::activate_bionic( int b, bool eff_only )
 
         mod_moves( -100 );
     } else if( bio.id == "bio_time_freeze" ) {
+        if( mounted ) {
+            add_msg_if_player( m_info, _( "You cannot activate that while mounted." ) );
+            return false;
+        }
         mod_moves( power_level );
         power_level = 0;
         add_msg_if_player( m_good, _( "Your speed suddenly increases!" ) );
@@ -371,6 +375,10 @@ bool player::activate_bionic( int b, bool eff_only )
             add_effect( effect_teleglow, rng( 5_minutes, 40_minutes ) );
         }
     } else if( bio.id == "bio_teleport" ) {
+        if( mounted ) {
+            add_msg_if_player( m_info, _( "You cannot activate that while mounted." ) );
+            return false;
+        }
         g->teleport();
         add_effect( effect_teleglow, 30_minutes );
         mod_moves( -100 );
@@ -1510,6 +1518,9 @@ bool player::can_install_bionics( const itype &type, player &installer, bool aut
 {
     if( !type.bionic ) {
         debugmsg( "Tried to install NULL bionic" );
+        return false;
+    }
+    if( is_mounted() ) {
         return false;
     }
     int assist_bonus = installer.get_effect_int( effect_assisted );
