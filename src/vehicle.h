@@ -1210,7 +1210,8 @@ class vehicle
         /**
          * is the vehicle mostly in water or mostly on fairly dry land?
          */
-        bool is_in_water() const;
+        bool is_in_water( bool deep_water = false ) const;
+        bool is_watercraft() const;
 
         /**
          * Traction coefficient of the vehicle.
@@ -1690,8 +1691,10 @@ class vehicle
         // and that's the bit that controls recalculation.  The intent is to only recalculate
         // the coeffs once per turn, even if multiple parts are destroyed in a collision
         mutable bool coeff_air_changed = true;
-        // is the vehicle currently mostly in water
+        // is the vehicle currently mostly in deep water
         mutable bool is_floating = false;
+        // is the vehicle currently mostly in water
+        mutable bool in_water = false;
 
     public:
         bool is_autodriving = false;
