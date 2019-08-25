@@ -3,7 +3,6 @@ on:
   pull_request:
     branches:
     - master
-
 jobs:
   validate:
     name: Validate PR
