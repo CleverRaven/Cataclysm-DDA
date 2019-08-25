@@ -45,7 +45,7 @@ std::string enum_to_string<add_type>( add_type data )
     abort();
 }
 
-}
+} // namespace io
 
 void marloss_add( player &u, int in, const char *msg );
 

@@ -73,7 +73,7 @@ std::string enum_to_string<event_type>( event_type data )
     abort();
 }
 
-}
+} // namespace io
 
 namespace event_detail
 {
