@@ -157,7 +157,8 @@
     "install_time": "0 m",
     "handling_modifier": 2,
     "consume_divisor": 840,
-    "loudness_modifier": -50
+    "loudness_modifier": -50,
+    "flags": [ "CONSUMABLE" ]
   },
   {
     "id": "mp5sd_suppressor",
@@ -193,6 +194,7 @@
     "consume_chance": 7000,
     "consume_divisor": 85,
     "handling_modifier": 1,
-    "loudness_modifier": -30
+    "loudness_modifier": -30,
+    "flags": [ "CONSUMABLE" ]
   }
 ]
