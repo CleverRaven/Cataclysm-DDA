@@ -4381,7 +4381,7 @@ bool mattack::shadow_hunter( monster *z )
     if( ( damaged && one_in( 3 ) ) || one_in( 15 ) ) {
         int tries = 0;
         const int maxtries = 20;
-        int telerange = 30;
+        const int telerange = 30;
         tripoint newpos = z->pos();
         do {
             newpos.x = rng( z->posx() - telerange, z->posx() + telerange );
