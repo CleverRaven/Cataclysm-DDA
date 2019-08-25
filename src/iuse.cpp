@@ -6446,11 +6446,11 @@ static std::string colorized_field_description_at( const tripoint &point )
     };
     static const std::vector<std::pair<std::unordered_set<field_type_id, std::hash<int>>, std::string>>
     affixes_vec = {
-        { covered_in_affix_ids, _( " covered in %s" ) },
-        { on_affix_ids, _( " on %s" ) },
-        { under_affix_ids, _( " under %s" ) },
-        { illuminated_by_affix_ids, _( " illuminated by %s" ) }
-    }; // anything else is "in %s cloud"
+        { covered_in_affix_ids, translate_marker( " covered in %s" ) },
+        { on_affix_ids, translate_marker( " on %s" ) },
+        { under_affix_ids, translate_marker( " under %s" ) },
+        { illuminated_by_affix_ids, translate_marker( " illuminated by %s" ) }
+    }; // anything else is "in %s"
 
     std::string field_text;
     const field &field = g->m.field_at( point );
@@ -6463,9 +6463,9 @@ static std::string colorized_field_description_at( const tripoint &point )
             }
         }
         if( affix.empty() ) {
-            field_text = string_format( _( " in %s cloud" ), colorize( entry->name(), entry->color() ) );
+            field_text = string_format( _( " in %s" ), colorize( entry->name(), entry->color() ) );
         } else {
-            field_text = string_format( affix, colorize( entry->name(), entry->color() ) );
+            field_text = string_format( _( affix ), colorize( entry->name(), entry->color() ) );
         }
     }
     return field_text;
@@ -6567,7 +6567,7 @@ static std::string format_object_pair( const std::pair<std::string, int> &pair,
     if( pair.second == 1 ) {
         return article + pair.first;
     } else if( pair.second > 1 ) {
-        return string_format( "%s%i %s", article, pair.second, pair.first );
+        return string_format( "%i %s", pair.second, pair.first );
     }
     return std::string();
 }
@@ -6661,7 +6661,7 @@ static std::string effects_description_for_creature( Creature *const creature, s
             figure_effects += _( "A bionic LED is <color_yellow>glowing</color> softly. " );
         }
     }
-    if( !figure_effects.empty() ) { // remove last space
+    if( !figure_effects.empty() && figure_effects.back() == ' ' ) { // remove last space
         figure_effects.erase( figure_effects.end() - 1 );
     }
     return figure_effects;
@@ -6785,6 +6785,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
 
     if( create_figure_desc ) {
         std::vector<std::string> objects_combined_desc;
+        int objects_combined_num = 0;
         std::unordered_map<std::string, int> vecs_to_retrieve[4] = {
             ret_obj.furniture, ret_obj.vehicles, ret_obj.items, ret_obj.terrain
         };
@@ -6793,6 +6794,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
             for( const auto &p : vecs_to_retrieve[ i ] ) {
                 objects_combined_desc.push_back( i == 1 ?  // vehicle name already includes "the"
                                                  format_object_pair_no_article( p ) : format_object_pair_article( p ) );
+                objects_combined_num += p.second;
             }
         }
 
@@ -6810,7 +6812,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
             // store objects to description_figures_status
             std::string objects_text = enumerate_as_string( objects_combined_desc );
             ret_obj.obj_nearby_text = string_format( ngettext( "Nearby is %s.", "Nearby are %s.",
-                                      objects_combined_desc.size() ), objects_text );
+                                      objects_combined_num ), objects_text );
         }
     }
     return ret_obj;
@@ -6997,32 +6999,41 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
         }
     }
 
+    auto num_of = []( const std::unordered_map<std::string, int> &m ) -> int {
+        int ret = 0;
+        for( const auto &it : m )
+        {
+            ret += it.second;
+        }
+        return ret;
+    };
+
     if( !obj_coll.items.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.items.begin(), obj_coll.items.end(),
                                format_object_pair_article );
         photo_text += "\n\n" + string_format( ngettext( "There is something lying on the ground: %s.",
-                                              "There are some things lying on the ground: %s.", obj_coll.items.size() ),
+                                              "There are some things lying on the ground: %s.", num_of( obj_coll.items ) ),
                                               obj_list );
     }
     if( !obj_coll.furniture.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.furniture.begin(), obj_coll.furniture.end(),
                                format_object_pair_article );
         photo_text += "\n\n" + string_format( ngettext( "Something is visible in the background: %s.",
-                                              "Some objects are visible in the background: %s.", obj_coll.furniture.size() ),
+                                              "Some objects are visible in the background: %s.", num_of( obj_coll.furniture ) ),
                                               obj_list );
     }
     if( !obj_coll.vehicles.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.vehicles.begin(), obj_coll.vehicles.end(),
                                format_object_pair_no_article );
         photo_text += "\n\n" + string_format( ngettext( "There is %s parked in the background.",
-                                              "There are %s parked in the background.", obj_coll.vehicles.size() ),
+                                              "There are %s parked in the background.", num_of( obj_coll.vehicles ) ),
                                               obj_list );
     }
     if( !obj_coll.terrain.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.terrain.begin(), obj_coll.terrain.end(),
                                format_object_pair_article );
         photo_text += "\n\n" + string_format( ngettext( "There is %s in the background.",
-                                              "There are %s in the background.", obj_coll.terrain.size() ),
+                                              "There are %s in the background.", num_of( obj_coll.terrain ) ),
                                               obj_list );
     }
 
@@ -7177,7 +7188,7 @@ static bool show_photo_selection( player &p, item &it, const std::string &var_na
 
         size_t index = menu_str.find( p.name );
         if( index != std::string::npos ) {
-            menu_str.replace( index, p.name.length(), "You" );
+            menu_str.replace( index, p.name.length(), _( "You" ) );
         }
 
         descriptions.push_back( extended_photo.description );
