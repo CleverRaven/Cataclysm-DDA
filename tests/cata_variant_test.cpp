@@ -55,7 +55,7 @@ TEST_CASE( "variant_type_name_round_trip", "[variant]" )
     int num_types = static_cast<int>( cata_variant_type::num_types );
     for( int i = 0; i < num_types; ++i ) {
         cata_variant_type type = static_cast<cata_variant_type>( i );
-        std::string type_as_string = cata_variant_detail::to_string( type );
-        CHECK( cata_variant_detail::from_string( type_as_string ) == type );
+        std::string type_as_string = io::enum_to_string( type );
+        CHECK( io::string_to_enum<cata_variant_type>( type_as_string ) == type );
     }
 }

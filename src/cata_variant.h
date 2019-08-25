@@ -9,6 +9,7 @@
 #include "character_id.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "enum_traits.h"
 #include "hash_utils.h"
 #include "type_id.h"
 
@@ -42,16 +43,16 @@ enum class cata_variant_type : int {
     num_types, // last
 };
 
+template<>
+struct enum_traits<cata_variant_type> {
+    static constexpr cata_variant_type last = cata_variant_type::num_types;
+};
+
 // Here follows various implementation details.  Skip to the bottom of the file
 // to see cata_variant itself.
 
 namespace cata_variant_detail
 {
-
-// Converting cata_variant_type enum values to and from string for serialization and error
-// reporting.
-std::string to_string( cata_variant_type );
-cata_variant_type from_string( const std::string & );
 
 // The convert struct is specialized for each cata_variant_type to provide the
 // code for converting that type to or from a string.
@@ -256,8 +257,8 @@ class cata_variant
         auto get() const -> typename cata_variant_detail::convert<Type>::type {
             if( type_ != Type ) {
                 debugmsg( "Tried to extract type %s from cata_variant which contained %s",
-                          cata_variant_detail::to_string( Type ),
-                          cata_variant_detail::to_string( type_ ) );
+                          io::enum_to_string( Type ),
+                          io::enum_to_string( type_ ) );
                 return {};
             }
             return cata_variant_detail::convert<Type>::from_string( value_ );
