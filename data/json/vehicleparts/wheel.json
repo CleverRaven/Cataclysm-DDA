@@ -413,7 +413,7 @@
     "rolling_resistance": 10,
     "wheel_type": "standard",
     "contact_area": 10,
-    "flags": [ "STABLE", "STEERABLE", "TOOL_WRENCH", "WHEEL", "NEEDS_JACKING" ],
+    "flags": [ "STABLE", "STEERABLE", "WHEEL", "NEEDS_JACKING" ],
     "damage_reduction": { "bash": 8 }
   },
   {

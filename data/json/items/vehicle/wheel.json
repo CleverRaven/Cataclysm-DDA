@@ -1,18 +1,5 @@
 [
   {
-    "id": "wheel_mount_light",
-    "type": "GENERIC",
-    "category": "veh_parts",
-    "name": "light wheel mount",
-    "description": "A piece of metal with holes in which a light wheel can be attached. Fit for a bike or a motorcycle wheel.",
-    "weight": 400,
-    "volume": "250 ml",
-    "price": 100,
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "dark_gray"
-  },
-  {
     "id": "wheel_mount_medium",
     "type": "GENERIC",
     "category": "veh_parts",
