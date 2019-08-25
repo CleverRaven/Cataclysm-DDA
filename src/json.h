@@ -321,6 +321,24 @@ class JsonIn
             }
         }
 
+        /// Overload for std::pair
+        template<typename T, typename U>
+        bool read( std::pair<T, U> &p ) {
+            if( !test_array() ) {
+                return false;
+            }
+            try {
+                start_array();
+                return !end_array() &&
+                       read( p.first ) &&
+                       !end_array() &&
+                       read( p.second ) &&
+                       end_array();
+            } catch( const JsonError & ) {
+                return false;
+            }
+        }
+
         // array ~> vector, deque, list
         template < typename T, typename std::enable_if <
                        !std::is_same<void, typename T::value_type>::value >::type * = nullptr
