@@ -147,10 +147,9 @@ bool bionic_data::is_included( const bionic_id &id ) const
     return std::find( included_bionics.begin(), included_bionics.end(), id ) != included_bionics.end();
 }
 
-bionic_data::bionic_data()
+bionic_data::bionic_data() : name( no_translation( "bad bionic" ) ),
+    description( no_translation( "This bionic was not set up correctly, this is a bug" ) )
 {
-    name = "bad bionic";
-    description = "This bionic was not set up correctly, this is a bug";
 }
 
 static void force_comedown( effect &eff )
@@ -248,7 +247,7 @@ bool player::activate_bionic( int b, bool eff_only )
 
     if( bio.incapacitated_time > 0_turns ) {
         add_msg( m_info, _( "Your %s is shorting out and can't be activated." ),
-                 bionics[bio.id].name.c_str() );
+                 bionics[bio.id].name );
         return false;
     }
 
@@ -273,13 +272,17 @@ bool player::activate_bionic( int b, bool eff_only )
             return false;
         }
 
+        if( !burn_fuel( b, true ) ) {
+            return false;
+        }
+
         //We can actually activate now, do activation-y things
         charge_power( -bionics[bio.id].power_activate );
         if( bionics[bio.id].toggled || bionics[bio.id].charge_time > 0 ) {
             bio.powered = true;
         }
         if( bionics[bio.id].charge_time > 0 ) {
-            bio.charge = bionics[bio.id].charge_time;
+            bio.charge_timer = bionics[bio.id].charge_time;
         }
         add_msg_if_player( m_info, _( "You activate your %s." ), bionics[bio.id].name );
     }
@@ -710,7 +713,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
 
     if( bio.incapacitated_time > 0_turns ) {
         add_msg( m_info, _( "Your %s is shorting out and can't be deactivated." ),
-                 bionics[bio.id].name.c_str() );
+                 bionics[bio.id].name );
         return false;
     }
 
@@ -747,8 +750,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
         if( weapon.typeId() == bionics[ bio.id ].fake_item ) {
             add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
             if( g->u.sees( pos() ) ) {
-                add_msg_if_npc( m_info, string_format( _( "%s withdraws %s %s." ), disp_name(), disp_name( true ),
-                                                       weapon.tname() ) );
+                add_msg_if_npc( m_info, _( "<npcname> withdraws %s %s." ), disp_name( true ), weapon.tname() );
             }
             bio.ammo_loaded = weapon.ammo_data() != nullptr ? weapon.ammo_data()->get_id() : "null";
             bio.ammo_count = static_cast<unsigned int>( weapon.ammo_remaining() );
@@ -790,6 +792,52 @@ bool player::deactivate_bionic( int b, bool eff_only )
     return true;
 }
 
+bool player::burn_fuel( int b, bool start )
+{
+    bionic &bio = ( *my_bionics )[b];
+    if( bio.info().fuel_opts.empty() || bio.is_muscle_powered() ) {
+        return true;
+    }
+
+    if( start && get_fuel_available( bio.id ).empty() ) {
+        add_msg_player_or_npc( m_bad, _( "Your %s does not have enought fuel to start." ),
+                               _( "<npcname>'s %s does not have enought fuel to start." ), bio.info().name );
+        deactivate_bionic( b );
+        return false;
+    }
+    if( !start ) {// don't produce power on start to avoid instant recharge exploit by turning bionic ON/OFF in the menu
+        for( const itype_id &fuel : get_fuel_available( bio.id ) ) {
+            const item tmp_fuel( fuel );
+            int temp = std::stoi( get_value( fuel ) );
+            if( power_level + tmp_fuel.fuel_energy() *bio.info().fuel_efficiency > max_power_level ) {
+
+                add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
+                                       _( "<npcname>'s %s turns off to not waste fuel." ), bio.info().name );
+
+                bio.powered = false;
+                deactivate_bionic( b, true );
+                return false;
+
+            } else {
+                if( temp > 0 ) {
+                    temp -= 1;
+                    charge_power( tmp_fuel.fuel_energy() *bio.info().fuel_efficiency );
+                    set_value( fuel, std::to_string( temp ) );
+                    update_fuel_storage( fuel );
+                } else {
+                    remove_value( fuel );
+                    add_msg_player_or_npc( m_info, _( "Your %s runs out of fuel and turn off." ),
+                                           _( "<npcname>'s %s runs out of fuel and turn off." ), bio.info().name );
+                    bio.powered = false;
+                    deactivate_bionic( b, true );
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
 /**
  * @param p the player
  * @param bio the bionic that is meant to be recharged.
@@ -820,7 +868,7 @@ static bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 
             // Set the recharging cost and charge the bionic.
             amount = power_cost;
             // This is our first turn of charging, so subtract a turn from the recharge delay.
-            bio.charge = info.charge_time - rate;
+            bio.charge_timer = info.charge_time - rate;
             recharged = true;
         }
     }
@@ -840,23 +888,30 @@ void player::process_bionic( int b )
     int discharge_factor = 1;
     int discharge_rate = 1;
 
-    if( bio.charge > 0 ) {
-        bio.charge -= discharge_rate;
+    if( bio.charge_timer > 0 ) {
+        bio.charge_timer -= discharge_rate;
     } else {
         if( bio.info().charge_time > 0 ) {
-            // Try to recharge our bionic if it is made for it
-            int cost = 0;
-            bool recharged = attempt_recharge( *this, bio, cost, discharge_factor, discharge_rate );
-            if( !recharged ) {
-                // No power to recharge, so deactivate
-                bio.powered = false;
-                add_msg_if_player( m_neutral, _( "Your %s powers down." ), bio.info().name );
-                // This purposely bypasses the deactivation cost
-                deactivate_bionic( b, true );
-                return;
-            }
-            if( cost ) {
-                charge_power( -cost );
+            if( bio.info().power_source ) {
+                // Convert fuel to bionic power
+                burn_fuel( b );
+                // Reset timer
+                bio.charge_timer = bio.info().charge_time;
+            } else {
+                // Try to recharge our bionic if it is made for it
+                int cost = 0;
+                bool recharged = attempt_recharge( *this, bio, cost, discharge_factor, discharge_rate );
+                if( !recharged ) {
+                    // No power to recharge, so deactivate
+                    bio.powered = false;
+                    add_msg_if_player( m_neutral, _( "Your %s powers down." ), bio.info().name );
+                    // This purposely bypasses the deactivation cost
+                    deactivate_bionic( b, true );
+                    return;
+                }
+                if( cost ) {
+                    charge_power( -cost );
+                }
             }
         }
     }
@@ -1124,7 +1179,7 @@ bool player::has_enough_anesth( const itype *cbm, player &patient )
     } );
 
     return req_anesth.can_make_with_inventory( crafting_inventory(), is_crafting_component ) ||
-           b_filter.size() > 0;
+           !b_filter.empty();
 }
 
 // bionic manipulation adjusted skill
@@ -1335,8 +1390,8 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     activity.values.push_back( bionics[b_id].capacity );
     activity.values.push_back( pl_skill );
     activity.str_values.push_back( "uninstall" );
-    activity.str_values.push_back( bionics[b_id].name );
-    activity.str_values.push_back( b_id.c_str() );
+    activity.str_values.push_back( "" );
+    activity.str_values.push_back( b_id.str() );
     activity.str_values.push_back( "" );
     activity.str_values.push_back( "" );
     activity.str_values.push_back( "" );
@@ -1353,20 +1408,20 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
 }
 
 void player::perform_uninstall( bionic_id bid, int difficulty, int success, int power_lvl,
-                                int pl_skill, std::string cbm_name )
+                                int pl_skill )
 {
     if( success > 0 ) {
 
         if( is_player() ) {
             add_memorial_log( pgettext( "memorial_male", "Removed bionic: %s." ),
                               pgettext( "memorial_female", "Removed bionic: %s." ),
-                              cbm_name );
+                              bid.obj().name );
         }
 
         // until bionics can be flagged as non-removable
         add_msg_player_or_npc( m_neutral, _( "Your parts are jiggled back into their familiar places." ),
                                _( "<npcname>'s parts are jiggled back into their familiar places." ) );
-        add_msg( m_good, _( "Successfully removed %s." ), cbm_name );
+        add_msg( m_good, _( "Successfully removed %s." ), bid.obj().name );
         remove_bionic( bid );
 
         // remove power bank provided by bionic
@@ -1385,7 +1440,7 @@ void player::perform_uninstall( bionic_id bid, int difficulty, int success, int 
         if( is_player() ) {
             add_memorial_log( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
                               pgettext( "memorial_female", "Failed to remove bionic: %s." ),
-                              cbm_name );
+                              bid.obj().name );
         }
 
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
@@ -1587,11 +1642,11 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     activity.values.push_back( bionics[bioid].capacity );
     activity.values.push_back( pl_skill );
     activity.str_values.push_back( "install" );
-    activity.str_values.push_back( bionics[bioid].name );
-    activity.str_values.push_back( bioid.c_str() );
+    activity.str_values.push_back( "" );
+    activity.str_values.push_back( bioid.str() );
     if( upbioid ) {
-        activity.str_values.push_back( bionics[upbioid].name );
-        activity.str_values.push_back( upbioid.c_str() );
+        activity.str_values.push_back( "" );
+        activity.str_values.push_back( upbioid.str() );
     } else {
         activity.str_values.push_back( "" );
         activity.str_values.push_back( "" );
@@ -1619,7 +1674,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
 }
 
 void player::perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
-                              int pl_skill, std::string cbm_name, std::string upcbm_name, std::string installer_name,
+                              int pl_skill, std::string installer_name,
                               std::vector<trait_id> trait_to_rem, tripoint patient_pos )
 {
     if( success > 0 ) {
@@ -1627,16 +1682,16 @@ void player::perform_install( bionic_id bid, bionic_id upbid, int difficulty, in
         if( is_player() ) {
             add_memorial_log( pgettext( "memorial_male", "Installed bionic: %s." ),
                               pgettext( "memorial_female", "Installed bionic: %s." ),
-                              cbm_name );
+                              bid.obj().name );
         }
         if( upbid != bionic_id( "" ) ) {
             remove_bionic( upbid );
             //~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
             add_msg( m_good, _( "Successfully upgraded %1$s to %2$s." ),
-                     upcbm_name, cbm_name );
+                     upbid.obj().name, bid.obj().name );
         } else {
             //~ %s - name of the bionic.
-            add_msg( m_good, _( "Successfully installed %s." ), cbm_name );
+            add_msg( m_good, _( "Successfully installed %s." ), bid.obj().name );
         }
 
         add_bionic( bid );
@@ -1651,7 +1706,7 @@ void player::perform_install( bionic_id bid, bionic_id upbid, int difficulty, in
         if( is_player() ) {
             add_memorial_log( pgettext( "memorial_male", "Failed install of bionic: %s." ),
                               pgettext( "memorial_female", "Failed install of bionic: %s." ),
-                              cbm_name );
+                              bid.obj().name );
         }
 
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
@@ -1983,11 +2038,12 @@ static bool get_bool_or_flag( JsonObject &jsobj, const std::string &name, const 
 
 void load_bionic( JsonObject &jsobj )
 {
+
     bionic_data new_bionic;
 
     const bionic_id id( jsobj.get_string( "id" ) );
-    new_bionic.name = _( jsobj.get_string( "name" ) );
-    new_bionic.description = _( jsobj.get_string( "description" ) );
+    jsobj.read( "name", new_bionic.name );
+    jsobj.read( "description", new_bionic.description );
     new_bionic.power_activate = jsobj.get_int( "act_cost", 0 );
 
     new_bionic.toggled = get_bool_or_flag( jsobj, "toggled", "BIONIC_TOGGLED", false );
@@ -2012,16 +2068,28 @@ void load_bionic( JsonObject &jsobj )
                                 false );
     new_bionic.shockproof = get_bool_or_flag( jsobj, "shockproof", "BIONIC_SHOCKPROOF", false );
 
+    new_bionic.fuel_efficiency = jsobj.get_float( "fuel_efficiency", 0 );
+
     if( new_bionic.gun_bionic && new_bionic.weapon_bionic ) {
         debugmsg( "Bionic %s specified as both gun and weapon bionic", id.c_str() );
     }
 
     new_bionic.fake_item = jsobj.get_string( "fake_item", "" );
 
+    new_bionic.weight_capacity_modifier = jsobj.get_float( "weight_capacity_modifier", 1.0 );
+
+    if( jsobj.has_string( "weight_capacity_bonus" ) ) {
+        new_bionic.weight_capacity_bonus = read_from_json_string<units::mass>
+                                           ( *jsobj.get_raw( "weight_capacity_bonus" ), units::mass_units );
+    }
+
+
     jsobj.read( "canceled_mutations", new_bionic.canceled_mutations );
     jsobj.read( "included_bionics", new_bionic.included_bionics );
     jsobj.read( "included", new_bionic.included );
     jsobj.read( "upgraded_bionic", new_bionic.upgraded_bionic );
+    jsobj.read( "fuel_options", new_bionic.fuel_opts );
+    jsobj.read( "fuel_capacity", new_bionic.fuel_capacity );
 
     JsonArray jsar = jsobj.get_array( "encumbrance" );
     if( !jsar.empty() ) {
@@ -2120,13 +2188,19 @@ int bionic::get_quality( const quality_id &quality ) const
     return item( i.fake_item ).get_quality( quality );
 }
 
+bool bionic::is_muscle_powered() const
+{
+    const std::vector<itype_id> fuel_op = info().fuel_opts;
+    return std::find( fuel_op.begin(), fuel_op.end(), "muscle" ) != fuel_op.end();
+}
+
 void bionic::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "id", id );
     json.member( "invlet", static_cast<int>( invlet ) );
     json.member( "powered", powered );
-    json.member( "charge", charge );
+    json.member( "charge", charge_timer );
     json.member( "ammo_loaded", ammo_loaded );
     json.member( "ammo_count", ammo_count );
     if( incapacitated_time > 0_turns ) {
@@ -2141,7 +2215,7 @@ void bionic::deserialize( JsonIn &jsin )
     id = bionic_id( jo.get_string( "id" ) );
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );
-    charge = jo.get_int( "charge" );
+    charge_timer = jo.get_int( "charge" );
     if( jo.has_string( "ammo_loaded" ) ) {
         ammo_loaded = jo.get_string( "ammo_loaded" );
     }
@@ -2154,7 +2228,7 @@ void bionic::deserialize( JsonIn &jsin )
 }
 
 void player::introduce_into_anesthesia( const time_duration &duration, player &installer,
-                                        bool anesthetic ) //used by the Autodoc
+                                        bool needs_anesthesia ) //used by the Autodoc
 {
     installer.add_msg_player_or_npc( m_info,
                                      _( "You set up the operation step-by-step, configuring the Autodoc to manipulate a CBM." ),
@@ -2163,7 +2237,7 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
     add_msg_player_or_npc( m_info,
                            _( "You settle into position, sliding your right wrist into the couch's strap." ),
                            _( "<npcname> settles into position, sliding their wrist into the couch's strap." ) );
-    if( anesthetic ) {
+    if( needs_anesthesia ) {
         //post-threshold medical mutants do not fear operations.
         if( has_trait( trait_THRESH_MEDICAL ) ) {
             add_msg_if_player( m_mixed,

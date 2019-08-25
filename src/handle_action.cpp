@@ -28,6 +28,7 @@
 #include "help.h"
 #include "input.h"
 #include "itype.h"
+#include "kill_tracker.h"
 #include "magic.h"
 #include "map.h"
 #include "mapdata.h"
@@ -919,7 +920,7 @@ static void sleep()
 
         const auto &info = bio.info();
         if( info.power_over_time > 0 ) {
-            active.push_back( info.name );
+            active.push_back( info.name.translated() );
         }
     }
     for( auto &mut : u.get_mutations() ) {
@@ -2161,7 +2162,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_KILLS:
-                disp_kills();
+                get_kill_tracker().disp_kills();
                 break;
 
             case ACTION_FACTIONS:

@@ -8,6 +8,9 @@
     "class": "NC_ISHERWOOD_JACK",
     "attitude": 0,
     "mission": 7,
+    "worn_override": "NC_Isherwood_worn",
+    "carry_override": "NC_ISHERWOOD_rifle",
+    "weapon_override": "NC_ISHERWOOD_archery",
     "chat": "TALK_ISHERWOOD_JACK",
     "mission_offered": "MISSION_ISHERWOOD_JACK_1",
     "faction": "isherwood_family"
@@ -21,9 +24,6 @@
     "common": false,
     "bonus_per": { "one_in": 4 },
     "shopkeeper_item_group": "NC_ISHERWOOD_JACK_misc",
-    "worn_override": "NC_Isherwood_worn",
-    "carry_override": "NC_ISHERWOOD_rifle",
-    "weapon_override": "NC_ISHERWOOD_archery",
     "skills": [
       {
         "skill": "ALL",

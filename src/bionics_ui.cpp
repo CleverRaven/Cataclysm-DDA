@@ -59,7 +59,14 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
                                    bionic_menu_mode mode )
 {
     werase( window );
-
+    std::ostringstream fuel_stream;
+    fuel_stream << _( "Available Fuel: " );
+    for( const bionic &bio : *p->my_bionics ) {
+        for( const itype_id fuel : p->get_fuel_available( bio.id ) ) {
+            fuel_stream << item( fuel ).tname() << ": " << "<color_green>" << p->get_value(
+                            fuel ) << "</color>" << "/" << p->get_total_fuel_capacity( fuel ) << " ";
+        }
+    }
     const int pwr_str_pos = right_print( window, 0, 1, c_white,
                                          string_format( _( "Bionic Power: <color_light_blue>%i</color>/<color_light_blue>%i</color>" ),
                                                  p->power_level, p->max_power_level ) );
@@ -71,9 +78,9 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     } else if( mode == EXAMINING ) {
         desc = _( "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
     }
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    fold_and_print( window, point( 1, 0 ), pwr_str_pos, c_white, desc );
-
+    int n_pt_y = 0;
+    fold_and_print( window, point( 1, n_pt_y++ ), pwr_str_pos, c_white, desc );
+    fold_and_print( window, point( 1, n_pt_y++ ), pwr_str_pos, c_white, fuel_stream.str() );
     wrefresh( window );
 }
 
@@ -141,12 +148,12 @@ static void draw_description( const catacurses::window &win, const bionic &bio )
     werase( win );
     const int width = getmaxx( win );
     const std::string poweronly_string = build_bionic_poweronly_string( bio );
-    int ypos = fold_and_print( win, point_zero, width, c_white, bio.id->name );
+    int ypos = fold_and_print( win, point_zero, width, c_white, "%s", bio.id->name );
     if( !poweronly_string.empty() ) {
         ypos += fold_and_print( win, point( 0, ypos ), width, c_light_gray,
                                 _( "Power usage: %s" ), poweronly_string );
     }
-    ypos += 1 + fold_and_print( win, point( 0, ypos ), width, c_light_blue, bio.id->description );
+    ypos += 1 + fold_and_print( win, point( 0, ypos ), width, c_light_blue, "%s", bio.id->description );
 
     // TODO: Unhide when enforcing limits
     if( get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
@@ -461,7 +468,7 @@ void player::power_bionics()
                 }
             }
 
-            draw_scrollbar( wBio, cursor, LIST_HEIGHT, current_bionic_list->size(), list_start_y );
+            draw_scrollbar( wBio, cursor, LIST_HEIGHT, current_bionic_list->size(), point( 0, list_start_y ) );
 
 #if defined(__ANDROID__)
             ctxt.get_registered_manual_keys().clear();

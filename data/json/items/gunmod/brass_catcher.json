@@ -5,7 +5,7 @@
     "name": "brass catcher",
     "description": "A bag that hangs off the side of your gun and catches ejected casings so you don't have to pick them up.",
     "weight": 114,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 2000,
     "material": [ "cotton" ],
     "symbol": ":",

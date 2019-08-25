@@ -106,5 +106,28 @@
     "id": "TALK_EVAC_GUARD1_BYE",
     "dynamic_line": "Stay safe out there.  Hate to have to kill you after you've already died.",
     "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_EVAC_SMOKER_GET_CIGARETTES",
+    "type": "mission_definition",
+    "name": "Smokes, let's go.",
+    "description": "Make a friend at the refugee center by handing over around five packs - 100 cigarettes.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 800,
+    "item": "cig",
+    "count": 100,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Come on man, I just need a smoke.",
+      "offer": "With all that's been going on, it's been more and more difficult to find a smoke.  My stash has been running low for a while now.  Think you could help me out here?  A few packs is all I need.",
+      "accepted": "Thanks, it's great to see someone willing to help a guy out.",
+      "rejected": "Well, I'll find someone else to do it for me.",
+      "advice": "Plenty of smokers in towns.  Gotta be some left over cigs in some of them houses.",
+      "inquire": "Got the smokes?",
+      "success": "Thanks! I'll be sure to put in a good word for you around the center.",
+      "success_lie": "OK, then hand it over.",
+      "failure": "Shit happens."
+    }
   }
 ]

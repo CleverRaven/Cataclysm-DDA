@@ -18,6 +18,7 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "character_id.h"
 #include "creature.h"
 #include "game_constants.h"
 #include "inventory.h"
@@ -163,7 +164,13 @@ inline social_modifiers operator+( social_modifiers lhs, const social_modifiers 
 class Character : public Creature, public visitable<Character>
 {
     public:
+        Character( const Character & ) = delete;
+        Character &operator=( const Character & ) = delete;
         ~Character() override;
+
+        character_id getID() const;
+        // sets the ID, will *only* succeed when the current id is not valid
+        void setID( character_id i );
 
         field_type_id bloodType() const override;
         field_type_id gibType() const override;
@@ -376,11 +383,11 @@ class Character : public Creature, public visitable<Character>
 
         // In mutation.cpp
         /** Returns true if the player has the entered trait */
-        bool has_trait( const trait_id &flag ) const override;
+        bool has_trait( const trait_id &b ) const override;
         /** Returns true if the player has the entered starting trait */
-        bool has_base_trait( const trait_id &flag ) const;
+        bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */
-        bool has_trait_flag( const std::string &flag ) const;
+        bool has_trait_flag( const std::string &b ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         trait_id trait_by_invlet( int ch ) const;
 
@@ -472,6 +479,20 @@ class Character : public Creature, public visitable<Character>
         bool has_active_bionic( const bionic_id &b ) const;
         /**Returns true if the player has any bionic*/
         bool has_any_bionic() const;
+        /**Returns true if the character can fuel a bionic with the item*/
+        bool can_fuel_bionic_with( const item &it ) const;
+        /**Return bionic_id of bionics able to use fuel*/
+        std::vector<bionic_id> get_bionic_fueled_with( const item &it ) const;
+        /**Return bionic_id of bionic of most fuel efficient bionic*/
+        bionic_id get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const;
+        /**Return list of available fuel for this bionic*/
+        std::vector<itype_id> get_fuel_available( const bionic_id &bio ) const;
+        /**Return available space to store specified fuel*/
+        int get_fuel_capacity( itype_id fuel ) const;
+        /**Return total space to store specified fuel*/
+        int get_total_fuel_capacity( itype_id fuel ) const;
+        /**Updates which bionic contain fuel and which is empty*/
+        void update_fuel_storage( const itype_id &fuel );
         // route for overmap-scale travelling
         std::vector<tripoint> omt_path;
         // --------------- Generic Item Stuff ---------------
@@ -877,7 +898,7 @@ class Character : public Creature, public visitable<Character>
         // how loud a character can shout. based on mutations and clothing
         int get_shout_volume() const;
         // shouts a message
-        void shout( std::string text = "", bool order = false );
+        void shout( std::string msg = "", bool order = false );
         /** Handles Character vomiting effects */
         void vomit();
         // adds total healing to the bodypart. this is only a counter.
@@ -887,9 +908,7 @@ class Character : public Creature, public visitable<Character>
         std::array<int, num_hp_parts> healed_total;
     protected:
         Character();
-        Character( const Character & ) = delete;
         Character( Character && );
-        Character &operator=( const Character & ) = delete;
         Character &operator=( Character && );
         struct trait_data {
             /** Whether the mutation is activated. */
@@ -941,8 +960,8 @@ class Character : public Creature, public visitable<Character>
          */
         std::vector<const mutation_branch *> cached_mutations;
 
-        void store( JsonOut &jsout ) const;
-        void load( JsonObject &jsin );
+        void store( JsonOut &json ) const;
+        void load( JsonObject &data );
 
         // --------------- Values ---------------
         pimpl<SkillLevelMap> _skills;
@@ -962,6 +981,9 @@ class Character : public Creature, public visitable<Character>
         mutable pimpl<pathfinding_settings> path_settings;
 
     private:
+        // A unique ID number, assigned by the game class. Values should never be reused.
+        character_id id;
+
         /** Needs (hunger, starvation, thirst, fatigue, etc.) */
         int stored_calories;
         int healthy_calories;

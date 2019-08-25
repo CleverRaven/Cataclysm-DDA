@@ -31,7 +31,7 @@ extern std::unordered_map<vgroup_id, VehicleGroup> vgroups;
 class VehicleGroup
 {
     public:
-        VehicleGroup() {}
+        VehicleGroup() = default;
 
         void add_vehicle( const vproto_id &type, const int &probability ) {
             vehicles.add( type, probability );
@@ -80,7 +80,7 @@ struct VehicleLocation {
  * A list of vehicle locations which are valid for spawning new vehicles.
  */
 struct VehiclePlacement {
-    VehiclePlacement() {}
+    VehiclePlacement() = default;
 
     void add( const jmapgen_int &x, const jmapgen_int &y, const VehicleFacings &facings ) {
         locations.emplace_back( x, y, facings );
@@ -158,7 +158,7 @@ class VehicleFunction_json : public VehicleFunction
 class VehicleSpawn
 {
     public:
-        VehicleSpawn() {}
+        VehicleSpawn() = default;
 
         void add( const double &weight, const std::shared_ptr<VehicleFunction> &func ) {
             types.add( func, weight );

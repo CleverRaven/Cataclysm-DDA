@@ -166,6 +166,27 @@
     "groups": [ [ "creepy", 90 ], [ "creepy", 70 ], [ "creepy", 40 ], [ "creepy", 10 ] ]
   },
   {
+    "type": "item_group",
+    "id": "wine_glasses",
+    "subtype": "distribution",
+    "items": [ [ "glass", 75 ], [ "tin_cup", 20 ], [ "bottle_glass", 5 ] ]
+  },
+  {
+    "id": "glass_of_wine",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "wine_riesling", "prob": 20, "container-group": "wine_glasses" },
+      { "item": "wine_chardonnay", "prob": 30, "container-group": "wine_glasses" },
+      { "item": "wine_cabernet", "prob": 30, "container-group": "wine_glasses" },
+      { "item": "wine_marsala", "prob": 15, "container-group": "wine_glasses" },
+      { "item": "wine_noir", "prob": 20, "container-group": "wine_glasses" },
+      { "item": "wine_vermouth", "prob": 25, "container-group": "wine_glasses" },
+      { "item": "wine_marsala", "prob": 15, "container-group": "wine_glasses" },
+      { "item": "fruit_wine", "prob": 5, "container-group": "wine_glasses" }
+    ]
+  },
+  {
     "id": "crate_wine",
     "type": "item_group",
     "subtype": "distribution",
@@ -651,7 +672,6 @@
       [ "toaster", 20 ],
       [ "microwave", 20 ],
       [ "hat_chef", 2 ],
-      [ "bowl_pewter", 25 ],
       [ "pastaextruder", 10 ],
       [ "knife_butter", 90 ],
       [ "knife_steak", 85 ],
@@ -663,6 +683,7 @@
       [ "ceramic_plate", 10 ],
       [ "ceramic_bowl", 10 ],
       [ "ceramic_cup", 10 ],
+      { "group": "tinware", "prob": 10 },
       [ "knife_butcher", 10 ],
       [ "funnel", 50 ],
       [ "jar_glass", 50 ],
@@ -677,12 +698,13 @@
     "subtype": "distribution",
     "items": [
       [ "glass", 80 ],
-      [ "bowl_pewter", 40 ],
       [ "towel", 40 ],
       [ "ceramic_bowl", 30 ],
       [ "bucket", 30 ],
+      { "group": "glass_of_wine", "prob": 50 },
       { "group": "wines_worthy", "prob": 20 },
       { "group": "glass_set", "prob": 20 },
+      { "group": "tinware", "prob": 20 },
       [ "knife_swissarmy", 10 ],
       [ "funnel", 10 ]
     ]
@@ -692,10 +714,11 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      [ "bowl_pewter", 40 ],
       [ "ceramic_bowl", 30 ],
+      { "group": "glass_of_wine", "prob": 50 },
       { "group": "wines_worthy", "prob": 20 },
       { "group": "glass_set", "prob": 20 },
+      { "group": "tinware", "prob": 20 },
       [ "candlestick", 30 ],
       [ "spiral_stone", 2 ]
     ]
@@ -758,6 +781,7 @@
       [ "9mm_casing", 20 ],
       [ "38_casing", 20 ],
       [ "45_casing", 20 ],
+      { "group": "tinware", "prob": 20 },
       { "group": "vending_drink", "prob": 10 },
       [ "permanent_marker", 10 ],
       [ "bone_tainted", 5 ],
@@ -908,6 +932,7 @@
       [ "purse", 20 ],
       [ "heels", 20 ],
       [ "rag", 20 ],
+      { "group": "tinware", "prob": 20 },
       [ "mask_guy_fawkes", 10 ],
       [ "gold_ear", 10 ],
       [ "bone_tainted", 5 ],
@@ -922,12 +947,12 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "item": "wine_chardonnay", "prob": 50, "container-item": "glass" },
+      { "group": "glass_of_wine", "prob": 75 },
       [ "bottle_glass", 50 ],
       [ "glass", 50 ],
       [ "sandwich_cucumber", 40 ],
-      { "item": "wine_riesling", "prob": 30, "container-item": "glass" },
       { "item": "coffee", "prob": 30, "container-item": "ceramic_cup" },
+      { "group": "tinware", "prob": 20 },
       [ "cake2", 20 ],
       { "group": "wines_worthy", "prob": 10 },
       [ "jihelucake", 10 ],
@@ -1013,6 +1038,7 @@
     "subtype": "distribution",
     "items": [
       { "group": "beer_selection", "prob": 30 },
+      { "group": "glass_of_wine", "prob": 30 },
       [ "novel_pulp", 30 ],
       [ "mag_news", 30 ],
       [ "mag_tv", 30 ],
@@ -1036,6 +1062,7 @@
       [ "cigar", 5 ],
       [ "chaw", 5 ],
       [ "ecig", 5 ],
+      { "group": "tinware", "prob": 5 },
       [ "months_old_newspaper", 4 ],
       [ "one_year_old_newspaper", 3 ],
       [ "years_old_newspaper", 2 ],
@@ -1051,6 +1078,7 @@
     "items": [
       { "item": "beer", "prob": 40, "container-item": "glass" },
       { "group": "beer_selection", "prob": 40 },
+      { "group": "glass_of_wine", "prob": 40 },
       [ "cig", 30 ],
       { "group": "vending_drink", "prob": 20 },
       [ "glass", 20 ],
@@ -1071,6 +1099,7 @@
     "items": [
       { "item": "beer", "prob": 40, "container-item": "glass" },
       { "group": "beer_selection", "prob": 40 },
+      { "group": "glass_of_wine", "prob": 40 },
       [ "glass", 40 ],
       [ "cig", 30 ],
       [ "cigar", 20 ],
@@ -1177,6 +1206,7 @@
       [ "inhaler", 20 ],
       [ "cig", 20 ],
       { "item": "water", "prob": 10, "container-item": "glass" },
+      { "group": "glass_of_wine", "prob": 10 },
       [ "gummy_vitamins", 10 ],
       [ "cell_phone", 3 ],
       [ "smart_phone", 10 ],

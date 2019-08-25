@@ -785,7 +785,7 @@ class jmapgen_npc : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mon_density*/, mission *miss = nullptr ) const override {
-            int npc_id = dat.m.place_npc( point( x.get(), y.get() ), npc_class );
+            character_id npc_id = dat.m.place_npc( point( x.get(), y.get() ), npc_class );
             if( miss && target ) {
                 miss->set_target_npc_id( npc_id );
             }
@@ -1035,7 +1035,7 @@ class jmapgen_liquid_item : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mon_density*/, mission * /*miss*/ ) const override {
             if( one_in( chance.get() ) ) {
-                item newliquid( liquid, calendar::turn_zero );
+                item newliquid( liquid, calendar::start_of_cataclysm );
                 if( amount.valmax > 0 ) {
                     newliquid.charges = amount.get();
                 }
@@ -1105,7 +1105,7 @@ class jmapgen_loot : public jmapgen_piece
                     const float /*mon_density*/, mission * ) const override {
             if( rng( 0, 99 ) < chance ) {
                 const Item_spawn_data *const isd = &result_group;
-                const std::vector<item> spawn = isd->create( calendar::turn_zero );
+                const std::vector<item> spawn = isd->create( calendar::start_of_cataclysm );
                 dat.m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ),
                                              dat.m.get_abs_sub().z ), spawn );
             }
@@ -1158,6 +1158,7 @@ class jmapgen_monster : public jmapgen_piece
 {
     public:
         weighted_int_list<mtype_id> ids;
+        mongroup_id m_id = mongroup_id::NULL_ID();
         jmapgen_int chance;
         jmapgen_int pack_size;
         bool one_or_none;
@@ -1172,7 +1173,13 @@ class jmapgen_monster : public jmapgen_piece
             , friendly( jsi.get_bool( "friendly", false ) )
             , name( jsi.get_string( "name", "NONE" ) )
             , target( jsi.get_bool( "target", false ) ) {
-            if( jsi.has_array( "monster" ) ) {
+            if( jsi.has_string( "group" ) ) {
+                m_id = mongroup_id( jsi.get_string( "group" ) );
+                if( !m_id.is_valid() ) {
+                    set_mapgen_defer( jsi, "group", "no such monster group" );
+                    return;
+                }
+            } else if( jsi.has_array( "monster" ) ) {
                 JsonArray jarr = jsi.get_array( "monster" );
                 while( jarr.has_more() ) {
                     mtype_id id;
@@ -1201,6 +1208,7 @@ class jmapgen_monster : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mdensity*/, mission *miss = nullptr ) const override {
+
             int raw_odds = chance.get();
 
             // Handle spawn density: Increase odds, but don't let the odds of absence go below half the odds at density 1.
@@ -1217,21 +1225,30 @@ class jmapgen_monster : public jmapgen_piece
             if( !x_in_y( odds_after_density, 100 ) ) {
                 return;
             }
-            int spawn_count = roll_remainder( density_multiplier );
 
-            if( one_or_none ) { // don't let high spawn density alone cause more than 1 to spawn.
-                spawn_count = std::min( spawn_count, 1 );
-            }
-            if( raw_odds == 100 ) { // don't spawn less than 1 if odds were 100%, even with low spawn density.
-                spawn_count = std::max( spawn_count, 1 );
-            }
             int mission_id = -1;
             if( miss && target ) {
                 mission_id = miss->get_id();
             }
 
-            dat.m.add_spawn( *( ids.pick() ), spawn_count * pack_size.get(), point( x.get(), y.get() ),
-                             friendly, -1, mission_id, name );
+            if( m_id != mongroup_id::NULL_ID() ) {
+                // Spawn single monster from a group
+                dat.m.place_spawns( m_id, 1, point( x.get(), y.get() ), point( x.get(), y.get() ), 1.0f, true,
+                                    false,
+                                    name, mission_id );
+            } else {
+                int spawn_count = roll_remainder( density_multiplier );
+
+                if( one_or_none ) { // don't let high spawn density alone cause more than 1 to spawn.
+                    spawn_count = std::min( spawn_count, 1 );
+                }
+                if( raw_odds == 100 ) { // don't spawn less than 1 if odds were 100%, even with low spawn density.
+                    spawn_count = std::max( spawn_count, 1 );
+                }
+
+                dat.m.add_spawn( *( ids.pick() ), spawn_count * pack_size.get(), point( x.get(), y.get() ),
+                                 friendly, -1, mission_id, name );
+            }
         }
 };
 
@@ -2702,8 +2719,6 @@ void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const o
             draw_triffid( terrain_type, dat, when, density );
         } else if( is_ot_match( "office", terrain_type, ot_match_type::prefix ) ) {
             draw_office_tower( terrain_type, dat, when, density );
-        } else if( is_ot_match( "sewage", terrain_type, ot_match_type::prefix ) ) {
-            draw_sewer( terrain_type, dat, when, density );
         } else if( is_ot_match( "spider", terrain_type, ot_match_type::prefix ) ) {
             draw_spider_pit( terrain_type, dat, when, density );
         } else if( is_ot_match( "spiral", terrain_type, ot_match_type::prefix ) ) {
@@ -4664,268 +4679,6 @@ void map::draw_temple( const oter_id &terrain_type, mapgendata &dat, const time_
     }
 }
 
-void map::draw_sewer( const oter_id &terrain_type, mapgendata &dat, const time_point &/*when*/,
-                      const float /*density*/ )
-{
-    computer *tmpcomp = nullptr;
-
-    if( terrain_type == "sewage_treatment" ) {
-        fill_background( this, t_floor ); // Set all to floor
-        line( this, t_wall,  0,  0, 23,  0 ); // Top wall
-        line( this, t_window,  1,  0,  6,  0 ); // Its windows
-        line( this, t_wall,  0, 23, 23, 23 ); // Bottom wall
-        line( this, t_wall,  1,  5,  6,  5 ); // Interior wall (front office)
-        line( this, t_wall,  1, 14,  6, 14 ); // Interior wall (equipment)
-        line( this, t_wall,  1, 20,  7, 20 ); // Interior wall (stairs)
-        line( this, t_wall, 14, 15, 22, 15 ); // Interior wall (tank)
-        line( this, t_wall,  0,  1,  0, 22 ); // Left wall
-        line( this, t_wall, 23,  1, 23, 22 ); // Right wall
-        line( this, t_wall,  7,  1,  7,  5 ); // Interior wall (front office)
-        line( this, t_wall,  7, 14,  7, 19 ); // Interior wall (stairs)
-        line( this, t_wall,  4, 15,  4, 19 ); // Interior wall (mid-stairs)
-        line( this, t_wall, 14, 15, 14, 20 ); // Interior wall (tank)
-        line( this, t_wall_glass,  7,  6,  7, 13 ); // Interior glass (equipment)
-        line( this, t_wall_glass,  8, 20, 13, 20 ); // Interior glass (flow)
-        line_furn( this, f_counter,  1,  3,  3,  3 ); // Desk (front office);
-        line_furn( this, f_counter,  1,  6,  1, 13 ); // Counter (equipment);
-        // Central tanks:
-        square( this, t_sewage, 10,  3, 13,  6 );
-        square( this, t_sewage, 17,  3, 20,  6 );
-        square( this, t_sewage, 10, 10, 13, 13 );
-        square( this, t_sewage, 17, 10, 20, 13 );
-        // Drainage tank
-        square( this, t_sewage, 16, 16, 21, 18 );
-        square( this, t_grate,  18, 16, 19, 17 );
-        line( this, t_sewage, 17, 19, 20, 19 );
-        line( this, t_sewage, 18, 20, 19, 20 );
-        line( this, t_sewage,  2, 21, 19, 21 );
-        line( this, t_sewage,  2, 22, 19, 22 );
-        // Pipes and pumps
-        line( this, t_sewage_pipe,  1, 15,  1, 19 );
-        line( this, t_sewage_pump,  1, 21,  1, 22 );
-        // Stairs down
-        ter_set( point( 2, 15 ), t_stairs_down );
-        // Now place doors
-        ter_set( point( rng( 2, 5 ), 0 ), t_door_c );
-        ter_set( point( rng( 3, 5 ), 5 ), t_door_c );
-        ter_set( point( 5, 14 ), t_door_c );
-        ter_set( point( 7, rng( 15, 17 ) ), t_door_c );
-        ter_set( point( 14, rng( 17, 19 ) ), t_door_c );
-        if( one_in( 3 ) ) { // back door
-            ter_set( point( 23, rng( 19, 22 ) ), t_door_locked );
-        }
-        ter_set( point( 4, 19 ), t_door_metal_locked );
-        ter_set( point( 2, 19 ), t_console );
-        ter_set( point( 6, 19 ), t_console );
-        // Computers to unlock stair room, and items
-        tmpcomp = add_computer( tripoint( 2,  19, abs_sub.z ), _( "EnviroCom OS v2.03" ), 1 );
-        tmpcomp->add_option( _( "Unlock stairs" ), COMPACT_OPEN, 0 );
-        tmpcomp->add_failure( COMPFAIL_SHUTDOWN );
-
-        tmpcomp = add_computer( tripoint( 6,  19, abs_sub.z ), _( "EnviroCom OS v2.03" ), 1 );
-        tmpcomp->add_option( _( "Unlock stairs" ), COMPACT_OPEN, 0 );
-        tmpcomp->add_failure( COMPFAIL_SHUTDOWN );
-        place_items( "sewage_plant", 80, point( 1, 6 ), point( 1, 13 ), false, 0 );
-
-    } else if( terrain_type == "sewage_treatment_hub" ) {
-        // Stairs up, center of 3x3 of treatment_below
-
-        fill_background( this, t_rock_floor );
-        // Top & left walls; right & bottom are handled by adjacent terrain
-        line( this, t_wall,  0,  0, 23,  0 );
-        line( this, t_wall,  0,  1,  0, 23 );
-        // Top-left room
-        line( this, t_wall,  8,  1,  8,  8 );
-        line( this, t_wall,  1,  9,  9,  9 );
-        line( this, t_wall_glass, rng( 1, 3 ), 9, rng( 4, 7 ), 9 );
-        ter_set( point( 2, 15 ), t_stairs_up );
-        ter_set( point( 8, 8 ), t_door_c );
-        ter_set( point( 3, 0 ), t_door_c );
-
-        // Bottom-left room - stairs and equipment
-        line( this, t_wall,  1, 14,  8, 14 );
-        line( this, t_wall_glass, rng( 1, 3 ), 14, rng( 5, 8 ), 14 );
-        line( this, t_wall,  9, 14,  9, 23 );
-        line( this, t_wall_glass, 9, 16, 9, 19 );
-        square_furn( this, f_counter, 5, 16, 6, 20 );
-        place_items( "sewage_plant", 80, point( 5, 16 ), point( 6, 20 ), false, 0 );
-        ter_set( point( 0, 20 ), t_door_c );
-        ter_set( point( 9, 20 ), t_door_c );
-
-        // Bottom-right room
-        line( this, t_wall, 14, 19, 14, 23 );
-        line( this, t_wall, 14, 18, 19, 18 );
-        line( this, t_wall, 21, 14, 23, 14 );
-        ter_set( point( 14, 18 ), t_wall );
-        ter_set( point( 14, 20 ), t_door_c );
-        ter_set( point( 15, 18 ), t_door_c );
-        line( this, t_wall, 20, 15, 20, 18 );
-
-        // Tanks and their content
-        for( int i = 9; i <= 16; i += 7 ) {
-            for( int j = 2; j <= 9; j += 7 ) {
-                square( this, t_rock, i, j, i + 5, j + 5 );
-                square( this, t_sewage, i + 1, j + 1, i + 4, j + 4 );
-            }
-        }
-        square( this, t_rock, 16, 15, 19, 17 ); // Wall around sewage from above
-        square( this, t_rock, 10, 15, 14, 17 ); // Extra walls for southward flow
-        // Flow in from north, east, and west always connects to the corresponding tank
-        square( this, t_sewage, 10,  0, 13,  2 ); // North -> NE tank
-        square( this, t_sewage, 21, 10, 23, 13 ); // East  -> SE tank
-        square( this, t_sewage,  0, 10,  9, 13 ); // West  -> SW tank
-        // Flow from south may go to SW tank or SE tank
-        square( this, t_sewage, 10, 16, 13, 23 );
-        if( one_in( 2 ) ) { // To SW tank
-            square( this, t_sewage, 10, 14, 13, 17 );
-            // Then, flow from above may be either to flow from south, to SE tank, or both
-            switch( rng( 1, 5 ) ) {
-                case 1:
-                case 2: // To flow from south
-                    square( this, t_sewage, 14, 16, 19, 17 );
-                    line( this, t_bridge, 15, 16, 15, 17 );
-                    if( !one_in( 4 ) ) {
-                        line( this, t_wall_glass, 16, 18, 19, 18 );  // Viewing window
-                    }
-                    break;
-                case 3:
-                case 4: // To SE tank
-                    square( this, t_sewage, 18, 14, 19, 17 );
-                    if( !one_in( 4 ) ) {
-                        line( this, t_wall_glass, 20, 15, 20, 17 );  // Viewing window
-                    }
-                    break;
-                case 5: // Both!
-                    square( this, t_sewage, 14, 16, 19, 17 );
-                    square( this, t_sewage, 18, 14, 19, 17 );
-                    line( this, t_bridge, 15, 16, 15, 17 );
-                    if( !one_in( 4 ) ) {
-                        line( this, t_wall_glass, 16, 18, 19, 18 );  // Viewing window
-                    }
-                    if( !one_in( 4 ) ) {
-                        line( this, t_wall_glass, 20, 15, 20, 17 );  // Viewing window
-                    }
-                    break;
-            }
-        } else { // To SE tank, via flow from above
-            square( this, t_sewage, 14, 16, 19, 17 );
-            square( this, t_sewage, 18, 14, 19, 17 );
-            line( this, t_bridge, 15, 16, 15, 17 );
-            if( !one_in( 4 ) ) {
-                line( this, t_wall_glass, 16, 18, 19, 18 );  // Viewing window
-            }
-            if( !one_in( 4 ) ) {
-                line( this, t_wall_glass, 20, 15, 20, 17 );  // Viewing window
-            }
-        }
-
-        // Next, determine how the tanks interconnect.
-        int rn = rng( 1, 4 ); // Which of the 4 possible connections is missing?
-        if( rn != 1 ) {
-            line( this, t_sewage, 14,  4, 14,  5 );
-            line( this, t_bridge, 15,  4, 15,  5 );
-            line( this, t_sewage, 16,  4, 16,  5 );
-        }
-        if( rn != 2 ) {
-            line( this, t_sewage, 18,  7, 19,  7 );
-            line( this, t_bridge, 18,  8, 19,  8 );
-            line( this, t_sewage, 18,  9, 19,  9 );
-        }
-        if( rn != 3 ) {
-            line( this, t_sewage, 14, 11, 14, 12 );
-            line( this, t_bridge, 15, 11, 15, 12 );
-            line( this, t_sewage, 16, 11, 16, 12 );
-        }
-        if( rn != 4 ) {
-            line( this, t_sewage, 11,  7, 12,  7 );
-            line( this, t_bridge, 11,  8, 12,  8 );
-            line( this, t_sewage, 11,  9, 12,  9 );
-        }
-        // Bridge connecting bottom two rooms
-        line( this, t_bridge, 10, 20, 13, 20 );
-        // Possibility of extra equipment shelves
-        if( !one_in( 3 ) ) {
-            line_furn( this, f_rack, 23, 1, 23, 4 );
-            place_items( "sewage_plant", 60, point( 23, 1 ), point( 23, 4 ), false, 0 );
-        }
-
-        // Finally, choose what the top-left and bottom-right rooms do.
-        if( one_in( 2 ) ) { // Upper left is sampling, lower right valuable finds
-            // Upper left...
-            line( this, t_wall, 1, 3, 2, 3 );
-            line( this, t_wall, 1, 5, 2, 5 );
-            line( this, t_wall, 1, 7, 2, 7 );
-            ter_set( point( 1, 4 ), t_sewage_pump );
-            furn_set( point( 2, 4 ), f_counter );
-            ter_set( point( 1, 6 ), t_sewage_pump );
-            furn_set( point( 2, 6 ), f_counter );
-            ter_set( point( 1, 2 ), t_console );
-            tmpcomp = add_computer( tripoint( 1,  2, abs_sub.z ), _( "EnviroCom OS v2.03" ), 0 );
-            tmpcomp->add_option( _( "Download Sewer Maps" ), COMPACT_MAP_SEWER, 0 );
-            tmpcomp->add_option( _( "Divert sample" ), COMPACT_SAMPLE, 3 );
-            tmpcomp->add_failure( COMPFAIL_PUMP_EXPLODE );
-            tmpcomp->add_failure( COMPFAIL_PUMP_LEAK );
-            // Lower right...
-            line_furn( this, f_counter, 15, 23, 22, 23 );
-            place_items( "sewer", 65, point( 15, 23 ), point( 22, 23 ), false, 0 );
-            line_furn( this, f_counter, 23, 15, 23, 19 );
-            place_items( "sewer", 65, point( 23, 15 ), point( 23, 19 ), false, 0 );
-        } else { // Upper left is valuable finds, lower right is sampling
-            // Upper left...
-            line_furn( this, f_counter,     1, 1, 1, 7 );
-            place_items( "sewer", 65, point_south_east, point( 1, 7 ), false, 0 );
-            line_furn( this, f_counter,     7, 1, 7, 7 );
-            place_items( "sewer", 65, point( 7, 1 ), point( 7, 7 ), false, 0 );
-            // Lower right...
-            line( this, t_wall, 17, 22, 17, 23 );
-            line( this, t_wall, 19, 22, 19, 23 );
-            line( this, t_wall, 21, 22, 21, 23 );
-            ter_set( point( 18, 23 ), t_sewage_pump );
-            furn_set( point( 18, 22 ), f_counter );
-            ter_set( point( 20, 23 ), t_sewage_pump );
-            furn_set( point( 20, 22 ), f_counter );
-            ter_set( point( 16, 23 ), t_console );
-            tmpcomp = add_computer( tripoint( 16,  23, abs_sub.z ), _( "EnviroCom OS v2.03" ), 0 );
-            tmpcomp->add_option( _( "Download Sewer Maps" ), COMPACT_MAP_SEWER, 0 );
-            tmpcomp->add_option( _( "Divert sample" ), COMPACT_SAMPLE, 3 );
-            tmpcomp->add_failure( COMPFAIL_PUMP_EXPLODE );
-            tmpcomp->add_failure( COMPFAIL_PUMP_LEAK );
-        }
-
-    } else if( terrain_type == "sewage_treatment_under" ) {
-        fill_background( this, t_floor );
-        if( dat.north() == "sewage_treatment_under" || dat.north() == "sewage_treatment_hub" ||
-            ( is_ot_match( "sewer", dat.north(), ot_match_type::type ) && connects_to( dat.north(), 2 ) ) ) {
-            if( dat.north() == "sewage_treatment_under" || dat.north() == "sewage_treatment_hub" ) {
-                line( this, t_wall,  0,  0, 23,  0 );
-                ter_set( point( 3, 0 ), t_door_c );
-            }
-            dat.n_fac = 1;
-            square( this, t_sewage, 10, 0, 13, 13 );
-        }
-        if( dat.east() == "sewage_treatment_under" || dat.east() == "sewage_treatment_hub" ||
-            ( is_ot_match( "sewer", dat.east(), ot_match_type::type ) && connects_to( dat.east(), 3 ) ) ) {
-            dat.e_fac = 1;
-            square( this, t_sewage, 10, 10, 23, 13 );
-        }
-        if( dat.south() == "sewage_treatment_under" || dat.south() == "sewage_treatment_hub" ||
-            ( is_ot_match( "sewer", dat.south(), ot_match_type::type ) && connects_to( dat.south(), 0 ) ) ) {
-            dat.s_fac = 1;
-            square( this, t_sewage, 10, 10, 13, 23 );
-        }
-        if( dat.west() == "sewage_treatment_under" || dat.west() == "sewage_treatment_hub" ||
-            ( is_ot_match( "sewer", dat.west(), ot_match_type::type ) && connects_to( dat.west(), 1 ) ) ) {
-            if( dat.west() == "sewage_treatment_under" ||
-                dat.west() == "sewage_treatment_hub" ) {
-                line( this, t_wall,  0,  1,  0, 23 );
-                ter_set( point( 0, 20 ), t_door_c );
-            }
-            dat.w_fac = 1;
-            square( this, t_sewage,  0, 10, 13, 13 );
-        }
-    }
-}
-
 void map::draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_point &/*when*/,
                      const float /*density*/ )
 {
@@ -6792,7 +6545,7 @@ void map::draw_connections( const oter_id &terrain_type, mapgendata &dat,
 
 void map::place_spawns( const mongroup_id &group, const int chance,
                         const point &p1, const point &p2, const float density,
-                        const bool individual, const bool friendly )
+                        const bool individual, const bool friendly, const std::string &name, const int mission_id )
 {
     if( !group.is_valid() ) {
         const tripoint omt = sm_to_omt_copy( get_abs_sub() );
@@ -6835,7 +6588,8 @@ void map::place_spawns( const mongroup_id &group, const int chance,
         // Pick a monster type
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
 
-        add_spawn( spawn_details.name, spawn_details.pack_size, point( x, y ), friendly );
+        add_spawn( spawn_details.name, spawn_details.pack_size, point( x, y ), friendly, -1, mission_id,
+                   name );
     }
 }
 
@@ -6882,10 +6636,10 @@ void map::place_vending( const point &p, const std::string &type, bool reinforce
     }
 }
 
-int map::place_npc( const point &p, const string_id<npc_template> &type, bool force )
+character_id map::place_npc( const point &p, const string_id<npc_template> &type, bool force )
 {
     if( !force && !get_option<bool>( "STATIC_NPC" ) ) {
-        return -1; //Do not generate an npc.
+        return character_id(); //Do not generate an npc.
     }
     std::shared_ptr<npc> temp = std::make_shared<npc>();
     temp->normalize();

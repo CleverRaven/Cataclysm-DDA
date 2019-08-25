@@ -76,7 +76,7 @@
     "price": 387,
     "material": [ "powder", "junk" ],
     "primary_material": "powder",
-    "volume": 1,
+    "volume": "250 ml",
     "calories": 19,
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "//": "a tbps is 4.2g of sugar, meaning the volume needed to be adjusted.",
@@ -109,7 +109,7 @@
     "description": "A tasty collection of wild herbs including violet, sassafras, mint, clover, purslane, fireweed, and burdock.",
     "price": 190,
     "material": "veggy",
-    "volume": 1,
+    "volume": "250 ml",
     "charges": 20,
     "flags": [ "EDIBLE_FROZEN" ],
     "stack_size": 100,
@@ -125,7 +125,7 @@
     "description": "Salty fermented soybean sauce.",
     "price": 190,
     "weight": 24,
-    "volume": 1,
+    "volume": "250 ml",
     "calories": 17,
     "comestible_type": "DRINK",
     "container": "bottle_glass",
@@ -150,7 +150,7 @@
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   }
 ]
