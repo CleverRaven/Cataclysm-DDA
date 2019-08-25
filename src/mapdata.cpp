@@ -222,8 +222,8 @@ bool map_bash_info::load( JsonObject &jsobj, const std::string &member, bool is_
 
     bash_below = j.get_bool( "bash_below", false );
 
-    sound = translation( "smash!" );
-    sound_fail = translation( "thump!" );
+    sound = to_translation( "smash!" );
+    sound_fail = to_translation( "thump!" );
     j.read( "sound", sound );
     j.read( "sound_fail", sound_fail );
 

@@ -46,8 +46,8 @@ bool string_id<Skill>::is_valid() const
     return &obj() != &invalid_skill;
 }
 
-Skill::Skill() : Skill( skill_id::NULL_ID(), translation( "nothing" ),
-                            translation( "The zen-most skill there is." ),
+Skill::Skill() : Skill( skill_id::NULL_ID(), to_translation( "nothing" ),
+                            to_translation( "The zen-most skill there is." ),
                             std::set<std::string> {} )
 {
 }
