@@ -17,7 +17,7 @@
     "name": "nail",
     "description": "A pin-shaped piece of iron, can be used to construct various things with a hammer.",
     "weight": 4,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 6000,
     "material": "iron",
     "symbol": "=",

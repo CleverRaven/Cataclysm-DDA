@@ -190,9 +190,10 @@ class iuse
         int hairkit( player *, item *, bool, const tripoint & );
         int weather_tool( player *, item *, bool, const tripoint & );
         int ladder( player *, item *, bool, const tripoint & );
-        int washclothes( player *, item *, bool, const tripoint & );
-        int washcbms( player *, item *, bool, const tripoint & );
-        int wash_items( player *p, bool cbm );
+        int wash_soft_items( player *, item *, bool, const tripoint & );
+        int wash_hard_items( player *, item *, bool, const tripoint & );
+        int wash_all_items( player *, item *, bool, const tripoint & );
+        int wash_items( player *p, bool soft_items, bool hard_items );
         int solarpack( player *, item *, bool, const tripoint & );
         int solarpack_off( player *, item *, bool, const tripoint & );
         int break_stick( player *, item *, bool, const tripoint & );

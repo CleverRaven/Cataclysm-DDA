@@ -142,7 +142,7 @@
   {
     "type": "item_group",
     "id": "NC_ARSONIST_launcher",
-    "items": [ [ "flamethrower", 50 ], [ "flamethrower_simple", 25 ] ]
+    "items": [ [ "flamethrower", 50 ] ]
   },
   {
     "type": "item_group",
@@ -157,7 +157,6 @@
       [ "gloves_fingerless", 30 ],
       [ "mask_hockey", 20 ],
       [ "flamethrower_crude", 20 ],
-      [ "flamethrower_simple", 20 ],
       [ "pipebomb", 40 ],
       [ "molotov", 100 ],
       [ "ref_lighter", 30 ],

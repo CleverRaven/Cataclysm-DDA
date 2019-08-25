@@ -207,8 +207,12 @@ def extract_bodypart(item):
     outfile = get_outfile("bodypart")
     writestr(outfile, item["name"])
     writestr(outfile, item["name"], context="bodypart_accusative")
+    if "name_plural" in item:
+        writestr(outfile, item["name_plural"])
+        writestr(outfile, item["name_plural"], context="bodypart_accusative")
     writestr(outfile, item["encumbrance_text"])
-    writestr(outfile, item["heading_singular"], item["heading_plural"])
+    writestr(outfile, item["heading_singular"])
+    writestr(outfile, item["heading_plural"])
     if "hp_bar_ui_text" in item:
         writestr(outfile, item["hp_bar_ui_text"])
 

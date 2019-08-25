@@ -5,7 +5,7 @@
     "name": "shoulder strap",
     "description": "A shoulder strap allows the rifle to be worn over your shoulders like a piece of clothing.  However, it offers no protection.",
     "weight": 100,
-    "volume": 1,
+    "volume": "250 ml",
     "integral_volume": 0,
     "price": 480,
     "material": "cotton",

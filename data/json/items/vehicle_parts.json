@@ -10,7 +10,7 @@
     "color": "light_gray",
     "symbol": ":",
     "material": [ "plastic", "steel" ],
-    "volume": 9,
+    "volume": "2250 ml",
     "bashing": 1,
     "category": "veh_parts",
     "price": 1000
@@ -58,7 +58,7 @@
     "color": "light_gray",
     "symbol": ";",
     "material": [ "steel" ],
-    "volume": 3,
+    "volume": "750 ml",
     "bashing": 2,
     "category": "veh_parts",
     "price": 3000
@@ -87,7 +87,7 @@
     "color": "red",
     "symbol": ";",
     "material": [ "plastic", "aluminum" ],
-    "volume": 2,
+    "volume": "500 ml",
     "bashing": 1,
     "category": "veh_parts",
     "price": 80000
@@ -99,7 +99,7 @@
     "category": "veh_parts",
     "description": "A bar and harness to attach a creature to a wheeled vehicle, they then should be able to pull it.",
     "weight": 1000,
-    "volume": 15,
+    "volume": "3750 ml",
     "price": 48000,
     "bashing": 3,
     "to_hit": -1,
@@ -116,7 +116,7 @@
     "name": "bike rack",
     "description": "A collection of pipes, cams, and straps, mounted on the edge of a vehicle and used to support another vehicle for transport.  It must be mounted on a vehicle to be used.",
     "weight": 4000,
-    "volume": 25,
+    "volume": "6250 ml",
     "price": 16000,
     "category": "veh_parts",
     "material": [ "steel", "plastic" ],
@@ -135,7 +135,7 @@
     "color": "light_blue",
     "symbol": "-",
     "material": [ "steel", "plastic" ],
-    "volume": 20,
+    "volume": "5 L",
     "bashing": 5,
     "category": "veh_parts",
     "price": 90000
@@ -151,7 +151,7 @@
     "color": "red",
     "symbol": ";",
     "material": [ "steel" ],
-    "volume": 30,
+    "volume": "7500 ml",
     "bashing": 12,
     "category": "veh_parts",
     "price": 20000
@@ -167,7 +167,7 @@
     "color": "light_cyan",
     "symbol": "C",
     "material": [ "steel" ],
-    "volume": 30,
+    "volume": "7500 ml",
     "bashing": 12,
     "category": "veh_parts",
     "price": 20000
@@ -182,7 +182,7 @@
     "color": "light_blue",
     "symbol": "#",
     "material": [ "plastic" ],
-    "volume": 16,
+    "volume": "4 L",
     "category": "veh_parts",
     "price": 10000
   },
@@ -196,7 +196,7 @@
     "color": "light_blue",
     "symbol": "+",
     "material": [ "plastic" ],
-    "volume": 8,
+    "volume": "2 L",
     "category": "veh_parts",
     "price": 10000
   },
@@ -210,7 +210,7 @@
     "material": "steel",
     "category": "veh_parts",
     "weight": 500,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 800
   },
   {
@@ -223,7 +223,7 @@
     "material": "steel",
     "category": "veh_parts",
     "weight": 10000,
-    "volume": 10,
+    "volume": "2500 ml",
     "price": 5500
   },
   {
@@ -237,7 +237,7 @@
     "material": "steel",
     "category": "veh_parts",
     "weight": 22000,
-    "volume": 220,
+    "volume": "55 L",
     "capacity": 2000,
     "reliability": 10,
     "//": "mods will need to expand",
@@ -254,7 +254,7 @@
     "material": "steel",
     "category": "veh_parts",
     "weight": 27600,
-    "volume": 75,
+    "volume": "18750 ml",
     "price": 37500
   }
 ]

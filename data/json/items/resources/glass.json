@@ -33,7 +33,7 @@
     "price": 5000,
     "material": "glass",
     "weight": 24176,
-    "volume": 50,
+    "volume": "12500 ml",
     "bashing": 4,
     "to_hit": -5,
     "use_action": {
@@ -56,7 +56,7 @@
     "price": 10000,
     "material": [ "glass", "steel" ],
     "weight": 40123,
-    "volume": 50,
+    "volume": "12500 ml",
     "bashing": 6,
     "to_hit": -6
   },
@@ -72,7 +72,7 @@
     "price": 5000,
     "material": [ "glass", "steel" ],
     "weight": 10040,
-    "volume": 12,
+    "volume": "3 L",
     "bashing": 4,
     "to_hit": -2
   }

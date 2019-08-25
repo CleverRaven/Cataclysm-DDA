@@ -9,7 +9,7 @@
     "color": "red",
     "symbol": "0",
     "material": [ "leather", "aluminum" ],
-    "volume": 30,
+    "volume": "7500 ml",
     "bashing": 4,
     "category": "veh_parts",
     "price": 25000
@@ -21,7 +21,7 @@
     "description": "A leather-covered seat designed to be straddled.",
     "weight": 300,
     "material": [ "plastic", "aluminum" ],
-    "volume": 5,
+    "volume": "1250 ml",
     "bashing": 2,
     "price": 2500,
     "copy-from": "seat"

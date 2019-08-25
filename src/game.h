@@ -17,6 +17,7 @@
 #include <unordered_set>
 
 #include "calendar.h"
+#include "character_id.h"
 #include "cursesdef.h"
 #include "enums.h"
 #include "game_constants.h"
@@ -83,6 +84,8 @@ struct special_game;
 
 using itype_id = std::string;
 class avatar;
+class event_bus;
+class kill_tracker;
 class map;
 class faction_manager;
 class new_faction_manager;
@@ -99,7 +102,6 @@ using WORLDPTR = WORLD *;
 class overmap;
 class timed_event_manager;
 
-enum event_type : int;
 class live_view;
 struct visibility_variables;
 class scent_map;
@@ -124,7 +126,7 @@ struct w_map {
     catacurses::window win;
 };
 
-bool is_valid_in_w_terrain( int x, int y );
+bool is_valid_in_w_terrain( const point &p );
 
 // There is only one game instance, so losing a few bytes of memory
 // due to padding is not much of a concern.
@@ -231,7 +233,7 @@ class game
         /** Returns the other end of the stairs (if any). May query, affect u etc.  */
         cata::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder );
         /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc. */
-        void vertical_shift( int dest_z );
+        void vertical_shift( int z_after );
         /** Add goes up/down auto_notes (if turned on) */
         void vertical_notes( int z_before, int z_after );
         /** Checks to see if a player can use a computer (not illiterate, etc.) and uses if able. */
@@ -242,7 +244,7 @@ class game
          * Currently only the player character and npcs have ids.
          */
         template<typename T = Creature>
-        T * critter_by_id( int id );
+        T * critter_by_id( character_id id );
         /**
          * Returns the Creature at the given location. Optionally casted to the given
          * type of creature: @ref npc, @ref player, @ref monster - if there is a creature,
@@ -284,7 +286,7 @@ class game
         /** Spawns a hallucination at a determined position. */
         bool spawn_hallucination( const tripoint &p );
         /** Swaps positions of two creatures */
-        bool swap_critters( Creature &first, Creature &second );
+        bool swap_critters( Creature &, Creature & );
 
     private:
         friend class monster_range;
@@ -403,16 +405,16 @@ class game
          * If the monster was revived, the caller should remove the corpse item.
          * If reviving failed, the item is unchanged, as is the environment (no new monsters).
          */
-        bool revive_corpse( const tripoint &location, item &corpse );
+        bool revive_corpse( const tripoint &p, item &it );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
         void save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer );
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
-        bool cancel_activity_query( const std::string &message );
+        bool cancel_activity_query( const std::string &text );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
          *  if the player wants to ignore further distractions. */
-        bool cancel_activity_or_ignore_query( distraction_type type, const std::string &reason );
+        bool cancel_activity_or_ignore_query( distraction_type type, const std::string &text );
         /** Handles players exiting from moving vehicles. */
-        void moving_vehicle_dismount( const tripoint &p );
+        void moving_vehicle_dismount( const tripoint &dest_loc );
 
         /** Returns the current remotely controlled vehicle. */
         vehicle *remoteveh();
@@ -422,7 +424,7 @@ class game
         /** Returns the next available mission id. */
         int assign_mission_id();
         /** Find the npc with the given ID. Returns NULL if the npc could not be found. Searches all loaded overmaps. */
-        npc *find_npc( int id );
+        npc *find_npc( character_id id );
         /** Makes any nearby NPCs on the overmap active. */
         void load_npcs();
     private:
@@ -437,26 +439,17 @@ class game
     public:
         /** Unloads, then loads the NPCs */
         void reload_npcs();
-        /** Returns the number of kills of the given mon_id by the player. */
-        int kill_count( const mtype_id &id );
-        /** Returns the number of kills of the given monster species by the player. */
-        int kill_count( const species_id &spec );
-        /** Increments the number of kills of the given mtype_id by the player upwards. */
-        void increase_kill_count( const mtype_id &id );
-        /** Record the fact that the player murdered an NPC. */
-        void record_npc_kill( const npc &p );
+        const kill_tracker &get_kill_tracker() const;
         /** Add follower id to set of followers. */
-        void add_npc_follower( const int &id );
+        void add_npc_follower( const character_id &id );
         /** Remove follower id from follower set. */
-        void remove_npc_follower( const int &id );
+        void remove_npc_follower( const character_id &id );
         /** Get set of followers. */
-        std::set<int> get_follower_list();
+        std::set<character_id> get_follower_list();
         /** validate list of followers to account for overmap buffers */
         void validate_npc_followers();
         /** validate camps to ensure they are on the overmap list */
         void validate_camps();
-        /** Return list of killed NPC */
-        std::list<std::string> get_npc_kill();
 
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport( player *p = nullptr, bool add_teleglow = true );
@@ -487,7 +480,7 @@ class game
          */
         unsigned char light_level( int zlev ) const;
         void reset_light_level();
-        int assign_npc_id();
+        character_id assign_npc_id();
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close();
         void refresh_all();
@@ -517,7 +510,7 @@ class game
                                         const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
 
         // Shared method to print "look around" info
-        void pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,
+        void pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_info,
                                       int &line, int last_line, const visibility_variables &cache );
 
         // Shared method to print "look around" info
@@ -613,12 +606,13 @@ class game
         void knockback( std::vector<tripoint> &traj, int force, int stun, int dam_mult );
 
         // Animation related functions
-        void draw_bullet( const tripoint &pos, int i, const std::vector<tripoint> &trajectory,
+        void draw_bullet( const tripoint &t, int i, const std::vector<tripoint> &trajectory,
                           char bullet );
-        void draw_hit_mon( const tripoint &p, const monster &critter, bool dead = false );
+        void draw_hit_mon( const tripoint &p, const monster &m, bool dead = false );
         void draw_hit_player( const player &p, int dam );
-        void draw_line( const tripoint &p, const tripoint &center_point, const std::vector<tripoint> &ret );
-        void draw_line( const tripoint &p, const std::vector<tripoint> &ret );
+        void draw_line( const tripoint &p, const tripoint &center_point,
+                        const std::vector<tripoint> &points );
+        void draw_line( const tripoint &p, const std::vector<tripoint> &points );
         void draw_weather( const weather_printable &wPrint );
         void draw_sct();
         void draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset );
@@ -639,7 +633,7 @@ class game
         void set_safe_mode( safe_mode_type mode );
 
         /** open vehicle interaction screen */
-        void exam_vehicle( vehicle &veh, int cx = 0, int cy = 0 );
+        void exam_vehicle( vehicle &veh, const point &cp = point_zero );
 
         // Forcefully close a door at p.
         // The function checks for creatures/items/vehicles at that point and
@@ -671,9 +665,6 @@ class game
         // Regular movement. Returns false if it failed for any reason
         bool walk_move( const tripoint &dest );
         void on_move_effects();
-
-        // returns player's "kill xp" for monsters via STK
-        int kill_xp() const;
     private:
         // Game-start procedures
         void load( const save_t &name ); // Load a player-specific save file
@@ -799,13 +790,13 @@ class game
         void replace_stair_monsters();
         void update_stair_monsters();
         /**
-         * Shift all active monsters, the shift vector (x,y,z) is the number of
+         * Shift all active monsters, the shift vector is the number of
          * shifted submaps. Monsters that are outside of the reality bubble after
          * shifting are despawned.
          * Note on z-levels: this works with vertical shifts, but currently all
          * monsters are despawned upon a vertical shift.
          */
-        void shift_monsters( int shiftx, int shifty, int shiftz );
+        void shift_monsters( const tripoint &shift );
     public:
         /**
          * Despawn a specific monster, it's stored on the overmap. Also removes
@@ -860,7 +851,6 @@ class game
         bool handle_mouseview( input_context &ctxt, std::string &action );
 
         // On-request draw functions
-        void disp_kills();          // Display the player's kill counts
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings
 
@@ -875,7 +865,7 @@ class game
         void move_save_to_graveyard();
         bool save_player_data();
         // ########################## DATA ################################
-    protected:
+    private:
         // May be a bit hacky, but it's probably better than the header spaghetti
         pimpl<map> map_ptr;
         pimpl<avatar> u_ptr;
@@ -883,6 +873,8 @@ class game
         live_view &liveview;
         pimpl<scent_map> scent_ptr;
         pimpl<timed_event_manager> timed_event_manager_ptr;
+        pimpl<event_bus> event_bus_ptr;
+        pimpl<kill_tracker> kill_tracker_ptr;
 
     public:
         /** Make map a reference here, to avoid map.h in game.h */
@@ -890,6 +882,8 @@ class game
         avatar &u;
         scent_map &scent;
         timed_event_manager &timed_events;
+
+        event_bus &events();
 
         pimpl<Creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr;
@@ -958,10 +952,9 @@ class game
         std::vector<std::shared_ptr<monster>> new_seen_mon;
         bool safe_mode_warning_logged;
         bool bVMonsterLookFire;
-        int next_npc_id, next_mission_id; // Keep track of UIDs
-        std::set<int> follower_ids; // Keep track of follower NPC IDs
-        std::map<mtype_id, int> kills;         // Player's kill count
-        std::list<std::string> npc_kills;      // names of NPCs the player killed
+        character_id next_npc_id;
+        int next_mission_id;
+        std::set<character_id> follower_ids; // Keep track of follower NPC IDs
         int moves_since_last_save;
         time_t last_save_timestamp;
         mutable std::array<float, OVERMAP_LAYERS> latest_lightlevels;

@@ -6,7 +6,7 @@
     "//": "Mainlined from Icecoon's Weapons Pack.",
     "description": "5.45x39mm 7N10 ammunition with 56gr FMJ bullets.  The 5.45x39mm round was introduced along with the AK-74 in 1974.  It has superior wounding potential to the older 7.62x39mm round and quickly replaced it in Soviet military use.",
     "weight": 10,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 2900,
     "material": [ "steel", "powder" ],
     "symbol": "=",

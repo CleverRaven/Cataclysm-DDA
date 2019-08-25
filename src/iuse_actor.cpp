@@ -271,9 +271,8 @@ ret_val<bool> iuse_transform::can_use( const player &p, const item &, bool,
     [&]( const std::pair<quality_id, int> &unmet_req ) {
         return string_format( "%s %d", unmet_req.first.obj().name, unmet_req.second );
     } );
-    return ret_val<bool>::make_failure( string_format( ngettext( "You need a tool with %s.",
-                                        "You need tools with %s.", unmet_reqs.size() ),
-                                        unmet_reqs_string ) );
+    return ret_val<bool>::make_failure( ngettext( "You need a tool with %s.", "You need tools with %s.",
+                                        unmet_reqs.size() ), unmet_reqs_string );
 }
 
 std::string iuse_transform::get_name() const
@@ -531,7 +530,7 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool /*t*/, const tripoint &/
         }
     }
 
-    vehicle *veh = g->m.add_vehicle( vehicle_id, p.posx(), p.posy(), 0, 0, 0, false );
+    vehicle *veh = g->m.add_vehicle( vehicle_id, p.pos().xy(), 0, 0, 0, false );
     if( veh == nullptr ) {
         p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
         return 0;
@@ -930,7 +929,43 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( p.is_npc() ) {
         return 0;
     }
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Use your lockpick where?" ) );
+
+    std::set<ter_id> allowed_ter_id {
+        t_chaingate_l,
+        t_door_locked,
+        t_door_locked_alarm,
+        t_door_locked_interior,
+        t_door_locked_peep,
+        t_door_metal_pickable,
+        t_door_bar_locked
+    };
+
+    cata::optional<tripoint> pnt_;
+    //select adjacent point with locked door, but only if it is the only one
+    bool found = false;
+    for( const tripoint &pos : g->m.points_in_radius( p.pos(), 1 ) ) {
+        if( pos == g->u.pos() ) {
+            continue;
+        }
+        const ter_id type = g->m.ter( pos );
+        //is allowed?
+        if( allowed_ter_id.find( type ) != allowed_ter_id.end() ) {
+            if( pnt_ ) {
+                //found more that one
+                pnt_.reset();
+                break;
+            }
+            pnt_ = pos;
+            found = true;
+        }
+    }
+    if( !found ) {
+        p.add_msg_if_player( m_info, _( "No lock to pick." ) );
+        return 0;
+    }
+    if( !pnt_ ) {
+        pnt_ = choose_adjacent( _( "Use your lockpick where?" ) );
+    }
     if( !pnt_ ) {
         return 0;
     }
@@ -1538,7 +1573,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
                 p.i_add_or_drop( result, amount );
             } else {
                 for( int i = 0; i < amount; i++ ) {
-                    g->m.spawn_an_item( pos.x, pos.y, result, amount, 0 );
+                    g->m.spawn_an_item( pos.xy(), result, amount, 0 );
                 }
             }
         } else {
@@ -1812,7 +1847,7 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
         return 0;
     }
 
-    auto items = g->m.i_at( p.posx(), p.posy() );
+    auto items = g->m.i_at( point( p.posx(), p.posy() ) );
     std::vector<const item *> corpses;
 
     for( auto &it : items ) {
@@ -2248,7 +2283,7 @@ void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
     dump.emplace_back( "DESCRIPTION", message );
     dump.emplace_back( "DESCRIPTION", _( "Spells Contained:" ) );
     for( const std::string sp : spells ) {
-        dump.emplace_back( "SPELL", spell_id( sp ).obj().name );
+        dump.emplace_back( "SPELL", spell_id( sp ).obj().name.translated() );
     }
 }
 
@@ -2265,8 +2300,7 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     for( const std::string sp_id_str : spells ) {
         const spell_id sp_id( sp_id_str );
         sp_cb.add_spell( sp_id );
-        const std::string sp_nm = sp_id.obj().name;
-        uilist_entry entry( sp_nm );
+        uilist_entry entry( sp_id.obj().name.translated() );
         if( p.magic.knows_spell( sp_id ) ) {
             const spell sp = p.magic.get_spell( sp_id );
             entry.ctxt = string_format( _( "Level %u" ), sp.get_level() );
@@ -2355,8 +2389,7 @@ void cast_spell_actor::load( JsonObject &obj )
 void cast_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
     const std::string message = string_format( _( "This item casts %s at level %i." ),
-                                _( item_spell->name ),
-                                spell_level );
+                                item_spell->name, spell_level );
     dump.emplace_back( "DESCRIPTION", message );
     if( no_fail ) {
         dump.emplace_back( "DESCRIPTION", _( "This item never fails." ) );
@@ -2689,12 +2722,11 @@ int bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
     std::vector<std::function<void()>> actions;
 
     menu.addentry( -1, it.contents.empty() || it.contents.front().charges < capacity,
-                   'r', string_format( _( "Store ammo in %s" ), it.type_name() ) );
+                   'r', _( "Store ammo in %s" ), it.type_name() );
 
     actions.emplace_back( [&] { reload( p, it ); } );
 
-    menu.addentry( -1, !it.contents.empty(), 'u', string_format( _( "Unload %s" ),
-                   it.type_name() ) );
+    menu.addentry( -1, !it.contents.empty(), 'u', _( "Unload %s" ), it.type_name() );
 
     actions.emplace_back( [&] {
         if( p.i_add_or_drop( it.contents.front() ) )
@@ -4325,7 +4357,7 @@ int weigh_self_actor::use( player &p, item &, bool, const tripoint & ) const
     if( weight > convert_weight( max_weight ) ) {
         popup( _( "ERROR: Max weight of %.0f %s exceeded" ), convert_weight( max_weight ), weight_units() );
     } else {
-        popup( string_format( "%.0f %s", weight, weight_units() ) );
+        popup( "%.0f %s", weight, weight_units() );
     }
     return 0;
 }
@@ -4476,8 +4508,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                                          format_volume( before ), volume_units_abbr(), format_volume( after ),
                                          volume_units_abbr() ), get_volume_compare_color( before, after, true ) );
 
-        tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, string_format( "%s", _( prompt.c_str() ) ),
-                             desc.str() );
+        tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, _( prompt.c_str() ), desc.str() );
     }
     tmenu.textwidth = 80;
     tmenu.desc_enabled = true;

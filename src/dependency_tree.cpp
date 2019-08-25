@@ -260,9 +260,7 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
     return ret;
 }
 
-dependency_tree::dependency_tree()
-{
-}
+dependency_tree::dependency_tree() = default;
 
 void dependency_tree::init( std::map<mod_id, std::vector<mod_id> > key_dependency_map )
 {

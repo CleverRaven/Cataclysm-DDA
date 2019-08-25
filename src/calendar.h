@@ -11,64 +11,20 @@ class time_duration;
 class time_point;
 class JsonOut;
 class JsonIn;
-
-/**
- * Convert minutes to one-second turns
- *
- * @param n Time in minutes
- * @returns Time in one-second turns
- *
- */
-constexpr int MINUTES( int n )
-{
-    return n * 60;
-}
-
-/**
- * Convert hours to one-second turns
- *
- * @param n Time in hours
- * @returns Time in one-second turns
- */
-constexpr int HOURS( int n )
-{
-    return n * MINUTES( 60 );
-}
-
-/**
- * Convert days to one-second turns
- *
- * @param n Time in days
- * @returns Time in one-second turns
- */
-constexpr int DAYS( int n )
-{
-    return n * HOURS( 24 );
-}
-
-/**
- * Convert ticks to seconds.
- *
- * @param ticks number of ticks
- * @returns Time in seconds
- */
-constexpr int TICKS_TO_SECONDS( int ticks )
-{
-    return static_cast<int>( static_cast<float>( ticks ) / 100 );
-}
-
-/** How much light moon provides per lit-up quarter (Full-moon light is four times this value) */
-#define MOONLIGHT_PER_QUARTER 2.25
-
-/** How much light is provided in full daylight */
-#define DAYLIGHT_LEVEL 100
+template<typename T> struct enum_traits;
 
 /** Real world seasons */
 enum season_type {
     SPRING = 0,
     SUMMER = 1,
     AUTUMN = 2,
-    WINTER = 3
+    WINTER = 3,
+    NUM_SEASONS
+};
+
+template<>
+struct enum_traits<season_type> {
+    static constexpr season_type last = season_type::NUM_SEASONS;
 };
 
 /** Phases of the moon */
@@ -588,6 +544,8 @@ bool is_sunset_now( const time_point &p );
 bool is_sunrise_now( const time_point &p );
 /** Returns the current seasonally-adjusted maximum daylight level */
 double current_daylight_level( const time_point &p );
+/** How much light is provided in full daylight */
+double default_daylight_level();
 /** Returns the current sunlight or moonlight level through the preceding functions. */
 float sunlight( const time_point &p );
 
