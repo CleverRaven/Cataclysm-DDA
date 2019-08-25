@@ -10,6 +10,9 @@ class event_tracker
         int count( const cata::event::data_type &criteria ) const;
 
         void add( const cata::event & );
+
+        void serialize( JsonOut & ) const;
+        void deserialize( JsonIn & );
     private:
         std::unordered_map<cata::event::data_type, int, cata::range_hash> event_counts;
 };
@@ -22,6 +25,9 @@ class stats_tracker : public event_subscriber
 
         void clear();
         void notify( const cata::event & ) override;
+
+        void serialize( JsonOut & ) const;
+        void deserialize( JsonIn & );
     private:
         std::unordered_map<event_type, event_tracker> data;
 };
