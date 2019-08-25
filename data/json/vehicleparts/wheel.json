@@ -22,6 +22,13 @@
     "damage_reduction": { "all": 10 }
   },
   {
+    "id": "wheel_mount_light_steerable",
+    "copy-from": "wheel_mount_light",
+    "type": "vehicle_part",
+    "name": "light wheel mount (steerable)",
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
     "type": "vehicle_part",
     "id": "wheel_mount_medium",
     "name": "hub assembly",
@@ -53,6 +60,13 @@
     "damage_reduction": { "all": 30 }
   },
   {
+    "id": "wheel_mount_medium_steerable",
+    "copy-from": "wheel_mount_medium",
+    "type": "vehicle_part",
+    "name": "hub assembly (steerable)",
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
     "type": "vehicle_part",
     "id": "wheel_mount_heavy",
     "name": "heavy hub assembly",
@@ -82,6 +96,13 @@
     "flags": [ "WHEEL_MOUNT_HEAVY", "NEEDS_JACKING" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "steel_chunk", "count": [ 3, 7 ] } ],
     "damage_reduction": { "all": 40 }
+  },
+  {
+    "id": "wheel_mount_heavy_steerable",
+    "copy-from": "wheel_mount_heavy",
+    "type": "vehicle_part",
+    "name": "heavy hub assembly (steerable)",
+    "extend": { "flags": [ "STEERABLE" ] }
   },
   {
     "id": "metal_wheel",
@@ -124,13 +145,6 @@
     "contact_area": 80,
     "flags": [ "WHEEL", "NEEDS_JACKING", "RAIL" ],
     "damage_reduction": { "all": 66 }
-  },
-  {
-    "id": "rail_wheel_steerable",
-    "copy-from": "rail_wheel",
-    "type": "vehicle_part",
-    "name": "rail wheel (steerable)",
-    "extend": { "flags": [ "STEERABLE" ] }
   },
   {
     "id": "roller_drum",
@@ -185,13 +199,6 @@
     "damage_reduction": { "bash": 20 }
   },
   {
-    "id": "wheel_steerable",
-    "copy-from": "wheel",
-    "type": "vehicle_part",
-    "name": "wheel (steerable)",
-    "extend": { "flags": [ "STEERABLE" ] }
-  },
-  {
     "id": "wheel_slick",
     "copy-from": "wheel",
     "type": "vehicle_part",
@@ -200,14 +207,6 @@
     "wheel_type": "racing",
     "contact_area": 180,
     "damage_reduction": { "bash": 12 }
-  },
-  {
-    "id": "wheel_slick_steerable",
-    "copy-from": "wheel_slick",
-    "type": "vehicle_part",
-    "name": "racing slick (steerable)",
-    "item": "wheel_slick",
-    "extend": { "flags": [ "STEERABLE" ] }
   },
   {
     "id": "wheel_armor",
@@ -236,13 +235,6 @@
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_HEAVY" ],
     "damage_reduction": { "all": 60, "cut": 30, "stab": 16 }
-  },
-  {
-    "id": "wheel_armor_steerable",
-    "copy-from": "wheel_armor",
-    "type": "vehicle_part",
-    "name": "armored wheel (steerable)",
-    "extend": { "flags": [ "STEERABLE" ] }
   },
   {
     "id": "wheel_barrow",
@@ -299,13 +291,6 @@
     "damage_reduction": { "bash": 6 }
   },
   {
-    "id": "wheel_bicycle_steerable",
-    "copy-from": "wheel_bicycle",
-    "type": "vehicle_part",
-    "name": "bicycle wheel (steerable)",
-    "extend": { "flags": [ "STEERABLE" ] }
-  },
-  {
     "id": "wheel_bicycle_or",
     "copy-from": "wheel_bicycle",
     "type": "vehicle_part",
@@ -313,13 +298,6 @@
     "item": "wheel_bicycle_or",
     "wheel_area": 36,
     "wheel_type": "off-road"
-  },
-  {
-    "id": "wheel_bicycle_or_steerable",
-    "copy-from": "wheel_bicycle_or",
-    "type": "vehicle_part",
-    "name": "off-road bicycle wheel (steerable)",
-    "extend": { "flags": [ "STEERABLE" ] }
   },
   {
     "id": "wheel_caster",
@@ -374,13 +352,6 @@
     "damage_reduction": { "bash": 10 }
   },
   {
-    "id": "wheel_motorbike_steerable",
-    "copy-from": "wheel_motorbike",
-    "type": "vehicle_part",
-    "name": "motorbike wheel (steerable)",
-    "extend": { "flags": [ "STEERABLE" ] }
-  },
-  {
     "id": "wheel_motorbike_or",
     "copy-from": "wheel_motorbike",
     "type": "vehicle_part",
@@ -389,13 +360,6 @@
     "contact_area": 60,
     "wheel_type": "off-road",
     "damage_reduction": { "bash": 10, "cut": 8, "stab": 4 }
-  },
-  {
-    "id": "wheel_motorbike_or_steerable",
-    "copy-from": "wheel_motorbike_or",
-    "type": "vehicle_part",
-    "name": "off-road motorbike wheel (steerable)",
-    "extend": { "flags": [ "STEERABLE" ] }
   },
   {
     "id": "wheel_small",
@@ -420,13 +384,6 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ]
-  },
-  {
-    "id": "wheel_small_steerable",
-    "copy-from": "wheel_small",
-    "type": "vehicle_part",
-    "name": "small wheel (steerable)",
-    "extend": { "flags": [ "STEERABLE" ] }
   },
   {
     "id": "wheel_tricycle",
@@ -539,13 +496,6 @@
     "damage_reduction": { "bash": 25 }
   },
   {
-    "id": "wheel_wide_steerable",
-    "copy-from": "wheel_wide",
-    "type": "vehicle_part",
-    "name": "wide wheel (steerable)",
-    "extend": { "flags": [ "STEERABLE" ] }
-  },
-  {
     "id": "wheel_wide_or",
     "copy-from": "wheel_wide",
     "type": "vehicle_part",
@@ -554,13 +504,6 @@
     "wheel_type": "off-road",
     "contact_area": 320,
     "damage_reduction": { "bash": 20, "cut": 15, "stab": 10 }
-  },
-  {
-    "id": "wheel_wide_or_steerable",
-    "copy-from": "wheel_wide_or",
-    "type": "vehicle_part",
-    "name": "off-road wide wheel (steerable)",
-    "extend": { "flags": [ "STEERABLE" ] }
   },
   {
     "id": "wheel_wood",

@@ -4996,7 +4996,8 @@ void vehicle::refresh()
             railwheel_xmax = std::max( railwheel_xmax, pt.x );
             railwheel_ymax = std::max( railwheel_ymax, pt.y );
         }
-        if( vpi.has_flag( "STEERABLE" ) || vpi.has_flag( "TRACKED" ) ) {
+        if( ( vpi.has_flag( "STEERABLE" ) && part_with_feature( vp.part().mount, "WHEEL", true ) ) ||
+            vpi.has_flag( "TRACKED" ) ) {
             // TRACKED contributes to steering effectiveness but
             //  (a) doesn't count as a steering axle for install difficulty
             //  (b) still contributes to drag for the center of steering calculation
