@@ -712,6 +712,7 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
         return true;
     }
     assert( false );
+    return false;
 }
 
 bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
