@@ -1335,18 +1335,7 @@ vehicle *vehicle::act_on_map()
         dp.z = -1;
     }
 
-    vehicle *new_pointer = this;
-    // Split the movement into horizontal and vertical for easier processing
-    if( dp.x != 0 || dp.y != 0 ) {
-        new_pointer = g->m.move_vehicle( *new_pointer, tripoint( dp.xy(), 0 ), mdir );
-    }
-
-    if( new_pointer != nullptr && dp.z != 0 ) {
-        new_pointer = g->m.move_vehicle( *new_pointer, tripoint( 0, 0, dp.z ), mdir );
-        is_falling = false;
-    }
-
-    return new_pointer;
+    return g->m.move_vehicle( *this, dp, mdir );
 }
 
 void vehicle::check_falling_or_floating()
