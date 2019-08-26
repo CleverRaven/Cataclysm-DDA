@@ -143,7 +143,7 @@ A few properties are applicable to most if not all json files and do not need to
 | [copy-from](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                | The identifier of the item you wish to copy properties from. This allows you to make an exact copy of an item __of the same type__ and only provide entries that should change from the item you copied from. 
 | [extends](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                  | Modders can add an "extends" field to their definition to append entries to a list instead of overriding the entire list.
 | [delete](https://github.com/snipercup/Cataclysm-DDA/blob/DOC-move-JSON-inheritance-wiki-page-to-JSON_inheritance.md-and-update-it/doc/JSON_INHERITANCE.md)                   | Modders can also add a "delete" field that removes elements from lists instead of overriding the entire list.
-| [abstract](https://github.com/snipercup/Cataclysm-DDA/blob/DOC-move-JSON-inheritance-wiki-page-to-JSON_inheritance.md-and-update-it/doc/JSON_INHERITANCE.md)                 | Creates an abstract item (an item that does not end up in the game and solely exists in the json to be copied-from. Use this _instead of_ 'id'. 
+| [abstract](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                 | Creates an abstract item (an item that does not end up in the game and solely exists in the json to be copied-from. Use this _instead of_ 'id'. 
 
 
 
