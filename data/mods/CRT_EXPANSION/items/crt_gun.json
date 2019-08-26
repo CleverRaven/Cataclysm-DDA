@@ -39,7 +39,7 @@
     "id": "crt_laser_gatling",
     "type": "GUN",
     "name": "CRIT Chain Laser",
-    "description": "A tried and true favorite from the bowels of R&D hell. Based off of a researcher's video on three taped-together .5 LPs on a hand held power drill, this gun is a relatively light weapon for the amount of UPS it eats and destruction the 5 rotating barrels can cause.",
+    "description": "A tried and true favorite from the bowels of R&D hell. Based off of a researcher's video on three taped-together .5 LPs on a hand held power drill, this gun is a relatively light weapon for the amount of UPS it eats and destruction it can cause.",
     "weight": 2650,
     "volume": 10,
     "price": 1000000,
