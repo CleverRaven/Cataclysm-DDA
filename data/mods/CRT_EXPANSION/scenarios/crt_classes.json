@@ -295,7 +295,7 @@
     "points": 12,
     "skills": [
       { "level": 3, "name": "gun" },
-      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "smg" },
       { "level": 4, "name": "bashing" },
       { "level": 2, "name": "dodge" },
       { "level": 4, "name": "melee" },
@@ -325,8 +325,8 @@
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "crt_canteen" },
           { "item": "knife_swissarmy", "container-item": "crt_belt" },
           { "item": "knife_crt", "container-item": "sheath" },
-          { "item": "m9", "ammo-item": "9mm", "container-item": "holster" },
-          { "item": "m9mag", "ammo-item": "9mm", "count": 2 }
+          { "item": "crt_cqb_si", "ammo-item": "9mmP2" },
+          { "item": "9mm", "count": 1 }
         ]
       },
       "male": [ "boxer_shorts" ],
