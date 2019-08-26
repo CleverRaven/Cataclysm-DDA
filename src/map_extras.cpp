@@ -2659,8 +2659,6 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
     // The player has discovered a map extra of this type.
     autoNoteSettings.set_discovered( id );
 
-    std::cout << "Discovered " << id.str() << std::endl;
-
     if( get_option<bool>( "AUTO_NOTES" ) && get_option<bool>( "AUTO_NOTES_MAP_EXTRAS" ) ) {
 
         // Only place note if the user has not disabled it via the auto note manager
