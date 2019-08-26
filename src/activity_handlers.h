@@ -52,7 +52,7 @@ enum do_activity_reason : int {
     BLOCKING_TILE           // Something has made it's way onto the tile, so the activity cannot proceed
 };
 
-int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher_type action );
+int butcher_time_to_cut( const player &u, const item &corpse_item, butcher_type action );
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();

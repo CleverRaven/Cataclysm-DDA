@@ -1084,7 +1084,7 @@ static std::pair<bool, do_activity_reason> can_do_activity_there( const activity
                 b_rack_present = true;
             }
         }
-        if( corpses.size() > 0 ) {
+        if( corpses.empty() ) {
             if( big_count > 0 && small_count == 0 ) {
                 if( !has_table_nearby || !b_rack_present ) {
                     return std::make_pair( false, NO_ZONE );
@@ -1716,15 +1716,15 @@ static void fetch_activity( player &p, const tripoint src_loc, activity_id activ
 static bool butcher_corpse_activity( player &p, tripoint src_loc, do_activity_reason reason )
 {
     map_stack items = g->m.i_at( src_loc );
-    for( map_stack::iterator it = items.begin(); it != items.end(); ++it ) {
-        if( it->is_corpse() && !it->has_var( "activity_var" ) ) {
-            const mtype &corpse = *( *it ).get_mtype();
+    for( auto &elem : items ) {
+        if( elem.is_corpse() && !elem.has_var( "activity_var" ) ) {
+            const mtype corpse = *elem.get_mtype();
             if( corpse.size >= MS_MEDIUM && reason != NEEDS_BIG_BUTCHERING ) {
                 continue;
             }
-            it->set_var( "activity_var", p.name );
+            elem.set_var( "activity_var", p.name );
             p.assign_activity( activity_id( "ACT_BUTCHER_FULL" ), 0, true );
-            p.activity.targets.emplace_back( map_cursor( src_loc ), &( *it ) );
+            p.activity.targets.emplace_back( map_cursor( src_loc ), &elem );
             return true;
         }
     }
