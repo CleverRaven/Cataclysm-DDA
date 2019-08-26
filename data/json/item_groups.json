@@ -5175,7 +5175,7 @@
       [ "wrapped_rad_badge", 15 ],
       [ "glasses_safety", 40 ],
       [ "goggles_welding", 70 ],
-      [ "recipe_atomic_lab", 7 ],
+      [ "textbook_atomic_lab", 7 ],
       [ "recipe_lab_elec", 15 ],
       [ "recipe_lab_cvd", 8 ],
       [ "recipe_mininuke_launch", 5 ],
