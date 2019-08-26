@@ -11030,7 +11030,7 @@ void player::mount_creature( monster &z )
             z.tied_item = cata::nullopt;
         }
     }
-    z.mounted_player_id = this->getID();
+    z.mounted_player_id = getID();
     if( z.has_effect( effect_harnessed ) ) {
         z.remove_effect( effect_harnessed );
         add_msg_if_player( m_info, _( "You remove the %s's harness." ), z.get_name() );

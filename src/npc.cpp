@@ -2347,7 +2347,7 @@ void npc::on_load()
         if( g->critter_at<monster>( pos() ) ) {
             mounted_creature = g->critter_tracker->find( pos() );
         } else {
-            add_msg( m_debug, "NPC is meant to be riding, though the mount is not found when % is loaded",
+            add_msg( m_debug, "NPC is meant to be riding, though the mount is not found when %s is loaded",
                      disp_name() );
         }
     }
