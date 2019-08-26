@@ -9244,7 +9244,7 @@ point game::place_player( const tripoint &dest_loc )
                 critter.move_to( u.pos(), true ); // Force the movement even though the player is there right now.
                 add_msg( _( "You displace the %s." ), critter.name() );
             }
-        } else if( !g->u.has_effect( effect_riding ) ) {
+        } else if( !u.has_effect( effect_riding ) ) {
             add_msg( _( "You cannot move the %s out of the way." ), critter.name() );
             return u.pos().xy();
         }
