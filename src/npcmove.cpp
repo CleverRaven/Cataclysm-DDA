@@ -2265,7 +2265,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
                 mounted_creature->setpos( pos() );
                 mounted_creature->facing = facing;
                 mounted_creature->process_triggers();
-                g->m.creature_in_field( *mounted_creature.get() );
+                g->m.creature_in_field( *mounted_creature );
             }
         }
         if( g->m.has_flag( "UNSTABLE", pos() ) ) {
