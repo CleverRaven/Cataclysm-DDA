@@ -241,7 +241,7 @@ void auto_note_manager_gui::show()
     int tmpx = 0;
     tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<E>nable" ) ) + 2;
     tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<D>isable" ) ) + 2;
-    shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green,
+    (void)shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green,
                     _( "<Enter>-Toggle" ) ) + 2;
 
     // Draw horizontal line and corner pieces of the table
@@ -303,7 +303,7 @@ void auto_note_manager_gui::show()
                                     get_option<bool>( "AUTO_NOTES" ) ? _( "True" ) : _( "False" ) );
 
         currentX += shortcut_print( w_header, point( currentX, 0 ), c_white, c_light_green, "  " );
-        shortcut_print( w_header, point( currentX, 0 ), c_white, c_light_green,
+        (void)shortcut_print( w_header, point( currentX, 0 ), c_white, c_light_green,
                         _( "<S>witch " ) );
 
 
