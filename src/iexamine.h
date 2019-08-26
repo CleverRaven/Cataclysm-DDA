@@ -136,6 +136,9 @@ void fertilize_plant( player &p, const tripoint &tile, const itype_id &fertilize
 itype_id choose_fertilizer( player &p, const std::string &pname, bool ask_player );
 ret_val<bool> can_fertilize( player &p, const tripoint &tile, const itype_id &fertilizer );
 
+// Skill training common functions
+void practice_survival_while_foraging( player *p );
+
 } //namespace iexamine
 
 using iexamine_function = void ( * )( player &, const tripoint & );
