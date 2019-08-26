@@ -1873,8 +1873,7 @@ void game::validate_mounted_npcs()
                 continue;
             }
             if( !mounted_pl->is_mounted() && mounted_pl->is_npc() ) {
-                mounted_pl->mounted_creature = critter_tracker->from_temporary_id(
-                                                   mounted_pl->mounted_creature_id );
+                mounted_pl->mounted_creature = shared_from( m );
                 mounted_pl->setpos( m.pos() );
             }
             m.mounted_player = mounted_pl;
