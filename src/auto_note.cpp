@@ -232,7 +232,7 @@ void auto_note_manager_gui::show()
     // If the display cache contains no entries, the player might not have discovered any of
     // the map extras. In this case, we switch to a special state that alerts the user of this
     // in order to avoid confusion a completely empty GUI might normally create.
-    bool emptyMode = ( displayCache.size() == 0 );
+    bool emptyMode = ( displayCache.empty() );
 
     int currentLine = 0;
     int startPosition = 0;
@@ -282,7 +282,7 @@ void auto_note_manager_gui::show()
         draw_scrollbar( w_border, currentLine, iContentHeight, cacheSize, point( 0, 4 ) );
 
         if( emptyMode ) {
-            mvwprintz( w, point( 1, 0 ), c_light_gray, _( "discover more map extras to populate this list" ) );
+            mvwprintz( w, point_east, c_light_gray, _( "discover more map extras to populate this list" ) );
         } else {
             calcStartPos( startPosition, currentLine, iContentHeight, displayCache.size() );
             endPosition = startPosition + ( iContentHeight > cacheSize ? cacheSize : iContentHeight );
