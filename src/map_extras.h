@@ -8,13 +8,14 @@
 
 #include "catacharset.h"
 #include "color.h"
-#include "generic_factory.h"
 #include "string_id.h"
+
 
 class JsonObject;
 class map;
 struct tripoint;
 template<typename T> struct enum_traits;
+template<typename T> class generic_factory;
 
 enum class map_extra_method : int {
     null = 0,

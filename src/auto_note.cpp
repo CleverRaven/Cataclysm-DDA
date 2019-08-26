@@ -17,6 +17,7 @@
 #include "translations.h"
 #include "avatar.h"
 #include "map_extras.h"
+#include "generic_factory.h"
 
 namespace auto_notes
 {
@@ -153,10 +154,8 @@ void auto_note_settings::set_auto_note_status( const string_id<map_extra> &mapEx
     set_auto_note_status( mapExtId.str(), enabled );
 }
 
-void auto_note_manager_gui::initialize()
+auto_note_manager_gui::auto_note_manager_gui()
 {
-    mapExtraCache.clear();
-
     const auto_note_settings &settings = get_auto_notes_settings();
 
     for( auto extra : MapExtras::mapExtraFactory().get_all() ) {
@@ -177,12 +176,7 @@ void auto_note_manager_gui::initialize()
     }
 }
 
-auto_note_manager_gui::auto_note_manager_gui()
-{
-    initialize();
-}
-
-bool auto_note_manager_gui::was_changed()
+bool auto_note_manager_gui::was_changed() const
 {
     return wasChanged;
 }
@@ -308,7 +302,7 @@ void auto_note_manager_gui::show()
 
                 const auto lineColor = ( i == currentLine ) ? hilite( c_white ) : c_white;
                 const auto statusColor = ( cacheEntry.second ) ? c_green : c_red;
-                const auto statusString = ( cacheEntry.second ) ? "yes   " : "no    ";
+                const auto statusString = ( cacheEntry.second ) ? _( "yes" ) : _( "no" );
 
                 mvwprintz( w, point( 1, i - startPosition ), lineColor, "" );
 
@@ -319,6 +313,10 @@ void auto_note_manager_gui::show()
                 }
 
                 wprintz( w, lineColor, "%s", cacheEntry.first.name );
+
+                // Since yes is longer than no, we need to clear the space for the status string before
+                // displaying the current text. Otherwise artifacts might occur.
+                mvwprintz( w, point( 64, i - startPosition ), statusColor, "     ", statusString );
                 mvwprintz( w, point( 64, i - startPosition ), statusColor, "%s", statusString );
             }
         }
