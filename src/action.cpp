@@ -976,12 +976,7 @@ action_id handle_main_menu()
     }
 }
 
-cata::optional<tripoint> choose_direction( const std::string &message )
-{
-    return choose_direction( message, false );
-}
-
-cata::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
+cata::optional<tripoint> choose_direction( const std::string &message, bool allow_vertical )
 {
     input_context ctxt( "DEFAULTMODE" );
     ctxt.set_iso( true );
@@ -1019,47 +1014,57 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
     return cata::nullopt;
 }
 
-cata::optional<tripoint> choose_adjacent( const std::string &message )
-{
-    return choose_adjacent( message, false );
-}
-
-cata::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
+cata::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical )
 {
     const cata::optional<tripoint> dir = choose_direction( message, allow_vertical );
     return dir ? *dir + g->u.pos() : dir;
 }
 
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const action_id action_to_highlight )
+        const action_id action, bool allow_vertical )
 {
-    return choose_adjacent_highlight( message, action_to_highlight, false );
-}
-
-cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const action_id action_to_highlight, const bool allow_vertical )
-{
-    const std::function<bool( tripoint )> f = [&action_to_highlight]( tripoint p ) {
-        return can_interact_at( action_to_highlight, p );
+    const std::function<bool( tripoint )> f = [&action]( tripoint p ) {
+        return can_interact_at( action, p );
     };
     return choose_adjacent_highlight( message, f, allow_vertical );
 }
 
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::function<bool ( tripoint )> &should_highlight, const bool allow_vertical )
+        const std::function<bool ( tripoint )> &allowed, bool allow_vertical, bool auto_select_if_single )
 {
     // Highlight nearby terrain according to the highlight function
-    bool highlighted = false;
-    for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-        if( should_highlight( pos ) ) {
-            highlighted = true;
-            g->m.drawsq( g->w_terrain, g->u, pos,
-                         true, true, g->u.pos() + g->u.view_offset );
+    if( allowed != nullptr ) {
+        cata::optional<tripoint> single = cata::nullopt;
+        bool highlighted = false;
+        for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+            if( allowed( pos ) ) {
+                if( !highlighted ) {
+                    single = pos;
+                    highlighted = true;
+                } else {
+                    single = cata::nullopt;
+                }
+                g->m.drawsq( g->w_terrain, g->u, pos,
+                             true, true, g->u.pos() + g->u.view_offset );
+            }
+        }
+        if( highlighted ) {
+            wrefresh( g->w_terrain );
+        } else if( !allow_vertical ) {
+            //Nothing is allowed, nothing to choose from
+            return cata::nullopt;
+        }
+        if( auto_select_if_single && single ) {
+            return single;
         }
     }
-    if( highlighted ) {
-        wrefresh( g->w_terrain );
-    }
 
-    return choose_adjacent( message, allow_vertical );
+    cata::optional<tripoint> vec = choose_adjacent( message, allow_vertical );
+    if( allowed != nullptr && vec ) {
+        if( !allowed( *vec ) ) {
+            add_msg( _( "Invalid direction." ) );
+            return cata::nullopt;
+        }
+    }
+    return vec;
 }

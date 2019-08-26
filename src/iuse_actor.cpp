@@ -948,42 +948,22 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         t_door_bar_locked
     };
 
-    cata::optional<tripoint> pnt_;
-    //select adjacent point with locked door, but only if it is the only one
-    bool found = false;
-    for( const tripoint &pos : g->m.points_in_radius( p.pos(), 1 ) ) {
-        if( pos == g->u.pos() ) {
-            continue;
+    const std::function<bool( tripoint )> f = [&allowed_ter_id]( tripoint p ) {
+        if( p == g->u.pos() ) {
+            return false;
         }
-        const ter_id type = g->m.ter( pos );
-        //is allowed?
-        if( allowed_ter_id.find( type ) != allowed_ter_id.end() ) {
-            if( pnt_ ) {
-                //found more that one
-                pnt_.reset();
-                break;
-            }
-            pnt_ = pos;
-            found = true;
-        }
-    }
-    if( !found ) {
+        const ter_id type = g->m.ter( p );
+        const bool is_allowed_terrain = allowed_ter_id.find( type ) != allowed_ter_id.end();
+        return is_allowed_terrain;
+    };
+
+    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+            _( "Use your lockpick where?" ), f, false, true );
+    if( !pnt_ ) {
         p.add_msg_if_player( m_info, _( "No lock to pick." ) );
         return 0;
     }
-    if( !pnt_ ) {
-        pnt_ = choose_adjacent( _( "Use your lockpick where?" ) );
-    }
-
-    if( !pnt_ ) {
-        return 0;
-    }
     const tripoint pnt = *pnt_;
-
-    if( pnt == p.pos() ) {
-        p.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
-        return 0;
-    }
     if( g->critter_at<npc>( pnt ) ) {
         p.add_msg_if_player( m_info,
                              _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose" ) );
