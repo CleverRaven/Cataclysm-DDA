@@ -67,6 +67,7 @@
     "name": "modified M2 Browning HMG",
     "name_plural": "modified M2 Browning HMG",
     "description": "An M2 Browning Heavy Machine Gun that's had it's trigger assembly replaced, grip, stock, and a box for the ammo added to allow for dismounted use. Even with these modifications it is still incredibly heavy, unweildy to use, nearly impossible to aim, and downright massive but no longer needs to be mounted to fire.",
+    "min_strength": 20,
     "weight": 40000,
     "volume": "7 L",
     "dispersion": 300,

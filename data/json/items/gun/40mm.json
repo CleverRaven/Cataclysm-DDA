@@ -112,6 +112,7 @@
     "type": "GUN",
     "name": "modified Mark 19 grenade launcher",
     "description": "A Mark 19 machine grenade launcher that's had its trigger assembly replaced, grip, stock, and a box for the ammo belt added to allow for dismounted use. It is horrifyingly impractical to use, unwieldy, nearly impossible to aim, and extremely heavy but no longer needs to be mounted to fire.",
+    "min_strength": 18,
     "weight": 37200,
     "volume": "6 L",
     "dispersion": 300,
