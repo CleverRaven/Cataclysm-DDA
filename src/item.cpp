@@ -8209,7 +8209,7 @@ bool item::process_cable( player *p, const tripoint &pos )
         reset_cable( p );
     }
     std::string state = get_var( "state" );
-    if( state == "solar_pack_link" ) {
+    if( state == "solar_pack_link" || state == "solar_pack" ) {
         if( !p->has_item( *this ) || ( !p->is_wearing( "solarpack_on" ) ||
                                        !p->is_wearing( "solarpack_on" ) ) ) {
             p->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
@@ -8219,8 +8219,8 @@ bool item::process_cable( player *p, const tripoint &pos )
     }
 
     static const item_filter used_ups = [&]( const item & itm ) {
-                    return itm.get_var( "cable" ) == "plugged_in";
-                    };
+        return itm.get_var( "cable" ) == "plugged_in";
+    };
 
     if( state == "UPS" ) {
         if( !p->has_item( *this ) || ( !p->has_item_with( used_ups ) ) ) {
@@ -8284,9 +8284,10 @@ bool item::process_UPS( player *p, const tripoint & /*pos*/ )
         return false;
     }
     bool has_connected_cable = p->has_item_with( []( const item & it ) {
-        return it.active && it.has_flag( "CABLE_SPOOL" ) && ( it.get_var( "state" ) == "UPS_link" || it.get_var( "state" ) == " UPS " );
+        return it.active && it.has_flag( "CABLE_SPOOL" ) && ( it.get_var( "state" ) == "UPS_link" ||
+                it.get_var( "state" ) == " UPS " );
     } );
-    if ( !has_connected_cable ) {
+    if( !has_connected_cable ) {
         erase_var( "cable" );
         active = false;
     }

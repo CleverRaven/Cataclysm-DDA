@@ -8483,7 +8483,8 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
                 return 0;
             } else if( choice == 3 ) {
                 int pos = g->inv_for_filter( _( "Choose UPS:" ), [&]( const item & itm ) {
-                    return itm.has_flag( "IS_UPS" ); }, _( "You don't have any UPS." ) );
+                    return itm.has_flag( "IS_UPS" );
+                }, _( "You don't have any UPS." ) );
                 if( pos == INT_MIN ) {
                     add_msg( _( "Never mind" ) );
                     return 0;
@@ -8540,12 +8541,13 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
         kmenu.text = _( "Using cable:" );
         kmenu.addentry( 0, true, -1, _( "Detach and re-spool the cable" ) );
         if( has_bio_cable && loose_ends ) {
-            kmenu.addentry( 1, paying_out && !solar_pack && !UPS, -1, _( "Attach loose end to vehicle" ) );
+            kmenu.addentry( 1, ( paying_out || cable_cbm ) && !solar_pack &&
+                            !UPS, -1, _( "Attach loose end to vehicle" ) );
             kmenu.addentry( 2, !cable_cbm, -1, _( "Attach loose end to self" ) );
             if( wearing_solar_pack ) {
                 kmenu.addentry( 3, !solar_pack && !paying_out && !UPS, -1, _( "Attach loose end to solar pack" ) );
             }
-            if( has_ups ){
+            if( has_ups ) {
                 kmenu.addentry( 4, !UPS && !solar_pack && !paying_out, -1, _( "Attach loose end to UPS" ) );
             }
         }
@@ -8562,31 +8564,32 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             // connecting self, solar backpack connected
             if( solar_pack ) {
                 set_cable_active( p, it, "solar_pack_link" );
-                p->add_msg_if_player( m_good, _( "You will now charge power from the solar backpack." ) );
+                p->add_msg_if_player( m_good, _( "You are now plugged to the solar backpack." ) );
                 return 0;
             }
             // connecting self, UPS connected
             if( UPS ) {
                 set_cable_active( p, it, "UPS_link" );
-                p->add_msg_if_player( m_good, _( "You will now charge power from the UPS." ) );
+                p->add_msg_if_player( m_good, _( "You are now plugged to the UPS." ) );
                 return 0;
             }
             // connecting self, vehicle connected
             const optional_vpart_position source_vp = confirm_source_vehicle( p, it, true );
             if( veh_pointer_or_null( source_vp ) != nullptr ) {
                 set_cable_active( p, it, "cable_charger_link" );
-                p->add_msg_if_player( m_good, _( "You will now charge power from the vehicle." ) );
+                p->add_msg_if_player( m_good, _( "You are now plugged to the vehicle." ) );
             }
             return 0;
         } else if( choice == 3 ) {
             // connecting self to solar backpack
             set_cable_active( p, it, "solar_pack_link" );
-            p->add_msg_if_player( m_good, _( "You will now charge power from the solar backpack." ) );
+            p->add_msg_if_player( m_good, _( "You are now plugged to the solar backpack." ) );
             return 0;
-        } else if( choice == 4 ){
+        } else if( choice == 4 ) {
             // connecting self to UPS
             int pos = g->inv_for_filter( _( "Choose UPS:" ), [&]( const item & itm ) {
-                return itm.has_flag( "IS_UPS" ); }, _( "You don't have any UPS." ) );
+                return itm.has_flag( "IS_UPS" );
+            }, _( "You don't have any UPS." ) );
             if( pos == INT_MIN ) {
                 add_msg( _( "Never mind" ) );
                 return 0;
@@ -8595,8 +8598,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             chosen.set_var( "cable", "plugged_in" );
             chosen.activate();
             set_cable_active( p, it, "UPS_link" );
-            p->add_msg_if_player( m_info, _( "You attach the cable to the UPS." ) );
-            p->add_msg_if_player( m_good, _( "You will now charge power from the UPS." ) );
+            p->add_msg_if_player( m_good, _( "You are now plugged to the UPS." ) );
             return 0;
         }
         // connecting self to vehicle
@@ -8622,7 +8624,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             it->set_var( "source_y", abspos.y );
             it->set_var( "source_z", g->get_levz() );
             set_cable_active( p, it, "cable_charger_link" );
-            p->add_msg_if_player( m_good, _( "You will now charge power from the vehicle." ) );
+            p->add_msg_if_player( m_good, _( "You are now plugged to the vehicle." ) );
             return 0;
         } else {
             vehicle *const target_veh = &target_vp->vehicle();
