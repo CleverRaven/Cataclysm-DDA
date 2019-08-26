@@ -1291,7 +1291,7 @@
     "material": "clay",
     "symbol": ")",
     "color": "brown",
-    "container_data": { "contains": 8, "watertight": true },
+    "container_data": { "contains": "2 L", "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
@@ -1323,7 +1323,7 @@
     "material": "clay",
     "symbol": ")",
     "color": "brown",
-    "container_data": { "contains": 3, "watertight": true },
+    "container_data": { "contains": "750 ml", "watertight": true },
     "qualities": [ [ "BOIL", 1 ] ]
   },
   {
@@ -4989,7 +4989,7 @@
     "material": "stone",
     "symbol": ";",
     "color": "dark_gray",
-    "container_data": { "contains": 6, "watertight": true },
+    "container_data": { "contains": "1500 ml", "watertight": true },
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
@@ -5857,7 +5857,7 @@
     "material": "steel",
     "symbol": ")",
     "color": "dark_gray",
-    "container_data": { "contains": 2, "watertight": true },
+    "container_data": { "contains": "500 ml", "watertight": true },
     "qualities": [ [ "BOIL", 1 ] ]
   },
   {
@@ -6224,7 +6224,7 @@
     "symbol": "*",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": { "power": 250, "shrapnel": { "casing_mass": 2500, "fragment_mass": 2.0, "drop": "scrap", "recovery": 20 } },
+    "explosion": { "power": 250, "shrapnel": { "casing_mass": 2500, "fragment_mass": 2, "drop": "scrap", "recovery": 20 } },
     "use_action": {
       "target": "tool_black_powder_charge_act",
       "msg": "You light the fuse on the black gunpowder charge.  Get rid of it quickly!",
@@ -6252,13 +6252,13 @@
     "max_charges": 20,
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": { "power": 250, "shrapnel": { "casing_mass": 2500, "fragment_mass": 2.0, "drop": "scrap", "recovery": 20 } },
+    "explosion": { "power": 250, "shrapnel": { "casing_mass": 2500, "fragment_mass": 2, "drop": "scrap", "recovery": 20 } },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "Kshhh.",
       "no_deactivate_msg": "You've already lit the fuse - run!",
-      "explosion": { "power": 500, "shrapnel": { "casing_mass": 2500, "fragment_mass": 2.0, "drop": "scrap", "recovery": 20 } }
+      "explosion": { "power": 500, "shrapnel": { "casing_mass": 2500, "fragment_mass": 2, "drop": "scrap", "recovery": 20 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
@@ -7249,7 +7249,7 @@
     "symbol": ")",
     "color": "light_gray",
     "looks_like": "pot_canning",
-    "container_data": { "contains": 8, "seals": true, "watertight": true },
+    "container_data": { "contains": "2 L", "seals": true, "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
