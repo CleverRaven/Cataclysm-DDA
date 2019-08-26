@@ -30,6 +30,10 @@ void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, A
         if( !message.empty() && message.front() == ' ' ) {
             message.erase( message.begin() );
         }
+        // Remove trailing carriage return, if any
+        while( !message.empty() && *message.rbegin() == '\r' ) {
+            message.erase( message.end() - 1 );
+        }
         CHECK( message == ref_lines[i] );
     }
 }
