@@ -45,8 +45,8 @@ bool auto_note_settings::save()
         jout.member( "enabled" );
 
         jout.start_array();
-        for( const std::string &entry : autoNoteEnabled ) {
-            jout.write( entry );
+        for( const string_id<map_extra> &entry : autoNoteEnabled ) {
+            jout.write( entry.str() );
         }
         jout.end_array();
 
@@ -77,7 +77,7 @@ void auto_note_settings::load()
                 jin.start_array();
                 while( !jin.end_array() ) {
                     const std::string entry = jin.get_string();
-                    autoNoteEnabled.insert( entry );
+                    autoNoteEnabled.insert( string_id<map_extra> {entry} );
                 }
             } else if( name == "discovered" ) {
                 jin.start_array();
@@ -104,7 +104,7 @@ void auto_note_settings::default_initialize()
 
     for( auto &extra : MapExtras::mapExtraFactory().get_all() ) {
         if( extra.autonote ) {
-            autoNoteEnabled.insert( extra.id.str() );
+            autoNoteEnabled.insert( extra.id );
         }
     }
 }
@@ -129,29 +129,19 @@ void auto_note_settings::show_gui()
     }
 }
 
-bool auto_note_settings::has_auto_note_enabled( const std::string &mapExtId ) const
+bool auto_note_settings::has_auto_note_enabled( const string_id<map_extra> &mapExtId ) const
 {
     return autoNoteEnabled.count( mapExtId ) != 0;
 }
 
-void auto_note_settings::set_auto_note_status( const std::string &mapExtId, const bool enabled )
+void auto_note_settings::set_auto_note_status( const string_id<map_extra> &mapExtId,
+        const bool enabled )
 {
     if( enabled ) {
         autoNoteEnabled.insert( mapExtId );
     } else if( has_auto_note_enabled( mapExtId ) ) {
         autoNoteEnabled.erase( mapExtId );
     }
-}
-
-bool auto_note_settings::has_auto_note_enabled( const string_id<map_extra> &mapExtId ) const
-{
-    return has_auto_note_enabled( mapExtId.str() );
-}
-
-void auto_note_settings::set_auto_note_status( const string_id<map_extra> &mapExtId,
-        const bool enabled )
-{
-    set_auto_note_status( mapExtId.str(), enabled );
 }
 
 auto_note_manager_gui::auto_note_manager_gui()
@@ -167,11 +157,11 @@ auto_note_manager_gui::auto_note_manager_gui()
 
         bool isAutoNoteEnabled = settings.has_auto_note_enabled( extra.id );
 
-        mapExtraCache.emplace( std::make_pair( extra.id.str(), std::make_pair( extra,
+        mapExtraCache.emplace( std::make_pair( extra.id, std::make_pair( extra,
                                                isAutoNoteEnabled ) ) );
 
         if( settings.was_discovered( extra.id ) ) {
-            displayCache.push_back( extra.id.str() );
+            displayCache.push_back( extra.id );
         }
     }
 }
@@ -220,7 +210,7 @@ void auto_note_manager_gui::show()
     // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green,
                             _( "<Enter>-Toggle" ) ) + 2;
-    
+
 
     // Draw horizontal line and corner pieces of the table
     for( int x = 0; x < 78; x++ ) {
@@ -292,13 +282,13 @@ void auto_note_manager_gui::show()
         draw_scrollbar( w_border, currentLine, iContentHeight, cacheSize, point( 0, 4 ) );
 
         if( emptyMode ) {
-            mvwprintz( w, point( 1, 0 ), c_light_gray, "discover more map extras to populate this list" );
+            mvwprintz( w, point( 1, 0 ), c_light_gray, _( "discover more map extras to populate this list" ) );
         } else {
             calcStartPos( startPosition, currentLine, iContentHeight, displayCache.size() );
             endPosition = startPosition + ( iContentHeight > cacheSize ? cacheSize : iContentHeight );
 
             for( int i = startPosition; i < endPosition; ++i ) {
-                const std::string &displayCacheEntry = displayCache[i];
+                const string_id<map_extra> &displayCacheEntry = displayCache[i];
                 const auto &cacheEntry = mapExtraCache[displayCacheEntry];
 
                 const auto lineColor = ( i == currentLine ) ? hilite( c_white ) : c_white;
@@ -317,7 +307,7 @@ void auto_note_manager_gui::show()
 
                 // Since yes is longer than no, we need to clear the space for the status string before
                 // displaying the current text. Otherwise artifacts might occur.
-                mvwprintz( w, point( 64, i - startPosition ), statusColor, "     ", statusString );
+                mvwprintz( w, point( 64, i - startPosition ), statusColor, "     " );
                 mvwprintz( w, point( 64, i - startPosition ), statusColor, "%s", statusString );
             }
         }
@@ -346,7 +336,7 @@ void auto_note_manager_gui::show()
             continue;
         }
 
-        const std::string &currentItem = displayCache[currentLine];
+        const string_id<map_extra> &currentItem = displayCache[currentLine];
         std::pair<const map_extra, bool> &entry = mapExtraCache[currentItem];
 
         if( currentAction == "UP" ) {

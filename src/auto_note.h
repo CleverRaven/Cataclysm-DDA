@@ -31,10 +31,10 @@ class auto_note_manager_gui
         /// and their auto note status with every call of initialize(). All changes to this
         /// will be applied to the per-character auto notes settings object after the user
         /// closes the GUI.
-        std::unordered_map<std::string, std::pair<const map_extra, bool>> mapExtraCache;
+        std::unordered_map<string_id<map_extra>, std::pair<const map_extra, bool>> mapExtraCache;
 
         /// All map extra types that will be displayed in the GUI.
-        std::vector<std::string> displayCache;
+        std::vector<string_id<map_extra>> displayCache;
 
         bool wasChanged{false};
 };
@@ -61,11 +61,6 @@ class auto_note_settings
 
         bool was_discovered( const string_id<map_extra> &mapExtId ) const;
 
-    protected:
-        bool has_auto_note_enabled( const std::string &mapExtId ) const;
-
-        void set_auto_note_status( const std::string &mapExtId, bool enabled );
-
     public:
         void load();
 
@@ -85,7 +80,7 @@ class auto_note_settings
 
     private:
         /// This set contains the ID strings of all map extras that have auto note enabled.
-        std::unordered_set<std::string> autoNoteEnabled;
+        std::unordered_set<string_id<map_extra>> autoNoteEnabled;
 
         /// This set contains the ID strings of all map extras that were already encountered by the player.
         /// This is used in order to avoid spoilers in the GUI.
