@@ -751,6 +751,7 @@ bool game::start_game()
     get_auto_pickup().clear_character_rules();
     get_safemode().clear_character_rules();
     get_auto_notes_settings().clear();
+    get_auto_notes_settings().default_initialize();
 
     //Put some NPCs in there!
     if( get_option<std::string>( "STARTING_NPC" ) == "always" ||

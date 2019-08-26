@@ -2653,9 +2653,15 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
             break;
     }
     overmap_buffer.add_extra( sm_to_omt_copy( abs_sub ), id );
-    if( get_option<bool>( "AUTO_NOTES" ) && get_option<bool>( "AUTO_NOTES_MAP_EXTRAS" ) ) {
 
-        const auto_notes::auto_note_settings &autoNoteSettings = get_auto_notes_settings();
+    auto_notes::auto_note_settings &autoNoteSettings = get_auto_notes_settings();
+
+    // The player has discovered a map extra of this type.
+    autoNoteSettings.set_discovered( id );
+
+    std::cout << "Discovered " << id.str() << std::endl;
+
+    if( get_option<bool>( "AUTO_NOTES" ) && get_option<bool>( "AUTO_NOTES_MAP_EXTRAS" ) ) {
 
         // Only place note if the user has not disabled it via the auto note manager
         if( autoNoteSettings.has_auto_note_enabled( id ) ) {
