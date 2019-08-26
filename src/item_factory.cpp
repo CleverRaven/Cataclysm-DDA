@@ -2061,7 +2061,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     } else if( jo.has_string( "weight" ) ) {
         def.weight = read_from_json_string<units::mass>
                      ( *jo.get_raw( "weight" ), units::mass_units );
-    } else {
+    } else if( !jo.has_string( "copy-from" ) ) {
         def.weight = 0_gram;
     }
 
@@ -2070,7 +2070,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     } else if( jo.has_string( "integral_weight" ) ) {
         def.integral_weight = read_from_json_string<units::mass>
                               ( *jo.get_raw( "integral_weight" ), units::mass_units );
-    } else {
+    } else if( !jo.has_string( "copy-from" ) ) {
         def.integral_weight = 0_gram;
     }
 
