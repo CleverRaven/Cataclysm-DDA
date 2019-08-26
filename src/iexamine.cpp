@@ -1704,6 +1704,8 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         p.add_msg_if_player( m_bad, _( "You couldn't harvest anything." ) );
     }
 
+    iexamine::practice_survival_while_foraging( &p );
+
     p.mod_moves( -to_moves<int>( rng( 5_seconds, 15_seconds ) ) );
     return true;
 }
@@ -5740,4 +5742,14 @@ hack_result iexamine::hack_attempt( player &p )
     } else {
         return HACK_SUCCESS;
     }
+}
+
+void iexamine::practice_survival_while_foraging( player *p )
+{
+    ///\EFFECT_INT Intelligence caps survival skill gains from foraging
+    const int max_forage_skill = p->int_cur / 3 + 1;
+    ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
+    const int max_exp = 2 * ( max_forage_skill - p->get_skill_level( skill_survival ) );
+    // Award experience for foraging attempt regardless of success
+    p->practice( skill_survival, rng( 1, max_exp ), max_forage_skill );
 }
