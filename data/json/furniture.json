@@ -289,7 +289,7 @@
     "comfort": 1,
     "floor_bedding_warmth": -1500,
     "bonus_fire_warmth_feet": 1000,
-    "required_str": 8,
+    "required_str": 5,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT" ],
     "max_volume": 4000,
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },

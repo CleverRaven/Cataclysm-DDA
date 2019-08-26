@@ -78,7 +78,7 @@
     "color": "light_red",
     "move_cost_mod": 1,
     "coverage": 45,
-    "required_str": 8,
+    "required_str": 5,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 8 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 16, 24 ] } ]
