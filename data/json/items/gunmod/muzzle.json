@@ -168,6 +168,8 @@
     "damage_modifier": -7,
     "weight": 250,
     "integral_volume": 0,
+    "//": "weight is accounted for in gun item",
+    "integral_weight": 0,
     "loudness_modifier": -100,
     "range_modifier": -1,
     "dispersion_modifier": 0,
