@@ -4667,17 +4667,47 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Cut up metal where?" ) );
+    const static std::set<ter_id> allowed_ter_id {
+        t_chainfence_posts,
+        t_window_enhanced,
+        t_window_enhanced_noglass,
+        t_chainfence,
+        t_chaingate_c,
+        t_chaingate_l,
+        t_bars,
+        t_window_bars_alarm,
+        t_window_bars,
+        t_reb_cage,
+        t_door_metal_locked,
+        t_door_metal_c,
+        t_door_bar_c,
+        t_door_bar_locked,
+        t_door_metal_pickable
+    };
+    const static std::set<furn_id> allowed_furn_id {
+        f_rack
+    };
+
+    const std::function<bool( tripoint )> f = []( tripoint p ) {
+        if( p == g->u.pos() ) {
+            return false;
+        }
+        const ter_id ter = g->m.ter( p );
+        const auto furn = g->m.furn( p );
+
+        const bool is_allowed = ( allowed_ter_id.find( ter ) != allowed_ter_id.end() ) ||
+                                ( allowed_furn_id.find( furn ) != allowed_furn_id.end() ) ;
+        return is_allowed;
+    };
+
+    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+            _( "Cut up metal where?" ), f, false, true );
     if( !pnt_ ) {
+        p->add_msg_if_player( m_info, _( "You can't cut that." ) );
         return 0;
     }
+
     const tripoint pnt = *pnt_;
-
-    if( pnt == p->pos() ) {
-        add_msg( m_info, _( "Yuck.  Acetylene gas smells weird." ) );
-        return 0;
-    }
-
     const ter_id ter = g->m.ter( pnt );
     const auto furn = g->m.furn( pnt );
     int turns = 0;
@@ -4725,18 +4755,42 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Cut up metal where?" ) );
+    const static std::set<ter_id> allowed_ter_id {
+        t_chainfence_posts,
+        t_window_enhanced,
+        t_window_enhanced_noglass,
+        t_chainfence,
+        t_chaingate_c,
+        t_chaingate_l,
+        t_window_bars_alarm,
+        t_window_bars,
+        t_reb_cage,
+        t_door_bar_c,
+        t_door_bar_locked,
+        t_bars
+    };
+    const static std::set<furn_id> allowed_furn_id {
+        f_rack
+    };
+    const std::function<bool( tripoint )> f = []( tripoint p ) {
+        if( p == g->u.pos() ) {
+            return false;
+        }
+        const ter_id ter = g->m.ter( p );
+        const auto furn = g->m.furn( p );
+
+        const bool is_allowed = ( allowed_ter_id.find( ter ) != allowed_ter_id.end() ) ||
+                                ( allowed_furn_id.find( furn ) != allowed_furn_id.end() ) ;
+        return is_allowed;
+    };
+
+    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+            _( "Cut up metal where?" ), f, false, true );
     if( !pnt_ ) {
+        p->add_msg_if_player( m_info, _( "You can't cut that." ) );
         return 0;
     }
     const tripoint pnt = *pnt_;
-
-    if( pnt == p->pos() ) {
-        add_msg( m_info, _( "Why would you do that?" ) );
-        p->add_msg_if_player( m_info, _( "You're not even chained to a boiler." ) );
-        return 0;
-    }
-
     const ter_id ter = g->m.ter( pnt );
     int moves;
 
@@ -4767,17 +4821,26 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Cut up metal where?" ) );
+    const static std::set<ter_id> allowed_ter_id {
+        t_chaingate_l,
+        t_chainfence
+    };
+    const std::function<bool( tripoint )> f = []( tripoint p ) {
+        if( p == g->u.pos() ) {
+            return false;
+        }
+        const ter_id ter = g->m.ter( p );
+        const bool is_allowed = allowed_ter_id.find( ter ) != allowed_ter_id.end();
+        return is_allowed;
+    };
+
+    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+            _( "Cut up metal where?" ), f, false, true );
     if( !pnt_ ) {
+        p->add_msg_if_player( m_info, _( "You can't cut that." ) );
         return 0;
     }
     const tripoint pnt = *pnt_;
-
-    if( pnt == p->pos() ) {
-        p->add_msg_if_player(
-            _( "You neatly sever all of the veins and arteries in your body.  Oh wait, Never mind." ) );
-        return 0;
-    }
     if( g->m.ter( pnt ) == t_chaingate_l ) {
         p->moves -= to_moves<int>( 1_seconds );
         g->m.ter_set( pnt, t_chaingate_c );

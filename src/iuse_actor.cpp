@@ -938,7 +938,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         return 0;
     }
 
-    std::set<ter_id> allowed_ter_id {
+    const static std::set<ter_id> allowed_ter_id {
         t_chaingate_l,
         t_door_locked,
         t_door_locked_alarm,
@@ -948,7 +948,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         t_door_bar_locked
     };
 
-    const std::function<bool( tripoint )> f = [&allowed_ter_id]( tripoint p ) {
+    const std::function<bool( tripoint )> f = []( tripoint p ) {
         if( p == g->u.pos() ) {
             return false;
         }
