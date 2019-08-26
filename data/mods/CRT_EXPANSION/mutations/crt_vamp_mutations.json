@@ -104,16 +104,6 @@
   },
   {
     "type": "mutation",
-    "id": "INCONSPICUOUS",
-    "name": "Inconspicuous",
-    "points": 1,
-    "description": "While sleeping or staying still, it is less likely that monsters will wander close to you.",
-    "social_modifiers": { "lie": 2 },
-    "category": [ "VAMP" ],
-    "valid": true
-  },
-  {
-    "type": "mutation",
     "id": "LIGHTSTEP",
     "name": "Light Step",
     "points": 1,
