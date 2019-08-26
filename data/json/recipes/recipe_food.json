@@ -12,7 +12,7 @@
     "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
     "charges": 12,
     "components": [
-      [ [ "flour", 6 ] ],
+      [ [ "flour", 4 ] ],
       [ [ "salt", 12 ] ],
       [ [ "sugar", 24 ] ],
       [ [ "chocolate", 3 ] ],
