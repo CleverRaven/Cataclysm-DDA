@@ -8286,7 +8286,7 @@ bool item::process_UPS( player *p, const tripoint & /*pos*/ )
     }
     bool has_connected_cable = p->has_item_with( []( const item & it ) {
         return it.active && it.has_flag( "CABLE_SPOOL" ) && ( it.get_var( "state" ) == "UPS_link" ||
-                it.get_var( "state" ) == " UPS " );
+                it.get_var( "state" ) == "UPS" );
     } );
     if( !has_connected_cable ) {
         erase_var( "cable" );
