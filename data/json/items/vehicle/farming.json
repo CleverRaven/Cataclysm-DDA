@@ -12,7 +12,7 @@
     "material": "steel",
     "category": "veh_parts",
     "price": 3500,
-    "volume": 28
+    "volume": "7 L"
   },
   {
     "type": "GENERIC",

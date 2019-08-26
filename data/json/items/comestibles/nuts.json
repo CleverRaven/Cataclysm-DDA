@@ -434,7 +434,7 @@
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "charges": 4,
-    "//": "no vitamins here",
+    "//2": "no vitamins here",
     "fun": -20
   },
   {
@@ -465,6 +465,6 @@
     "price": 90,
     "material": "nut",
     "vitamins": [ [ "calcium", 4 ], [ "iron", 4 ] ],
-    "volume": 1
+    "volume": "250 ml"
   }
 ]

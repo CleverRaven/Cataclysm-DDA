@@ -139,7 +139,7 @@
     "symbol": ")",
     "description": "A perfectly ordinary ceramic soup bowl.",
     "copy-from": "base_ceramic_dish",
-    "container_data": { "contains": 2, "watertight": true },
+    "container_data": { "contains": "500 ml", "watertight": true },
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -151,7 +151,7 @@
     "description": "A light ceramic teacup.  Quite classy.",
     "copy-from": "base_ceramic_dish",
     "proportional": { "weight": 0.6 },
-    "container_data": { "contains": 1, "watertight": true },
+    "container_data": { "contains": "250 ml", "watertight": true },
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -163,7 +163,7 @@
     "description": "A ceramic coffee cup with a logo on the side.",
     "copy-from": "base_ceramic_dish",
     "proportional": { "weight": 0.8 },
-    "container_data": { "contains": 1, "watertight": true },
+    "container_data": { "contains": "250 ml", "watertight": true },
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "snippet_category": [
       { "id": "mug1", "text": "The side of the mug reads 'World's Greatest Dad'." },
@@ -211,7 +211,7 @@
     "looks_like": "ceramic_cup",
     "proportional": { "weight": 0.8 },
     "copy-from": "base_tin_dish",
-    "container_data": { "contains": 1, "watertight": true },
+    "container_data": { "contains": "250 ml", "watertight": true },
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -222,7 +222,7 @@
     "description": "A small pewter serving bowl without a lid.  Holds 250 ml of liquid.",
     "copy-from": "base_tin_dish",
     "symbol": "u",
-    "container_data": { "contains": 1, "watertight": true },
+    "container_data": { "contains": "250 ml", "watertight": true },
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -245,7 +245,7 @@
     "symbol": "U",
     "description": "A tall drinking glass.",
     "copy-from": "base_glass_dish",
-    "container_data": { "contains": 2, "watertight": true },
+    "container_data": { "contains": "500 ml", "watertight": true },
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -258,7 +258,7 @@
     "symbol": "Y",
     "description": "A stemmed drinking glass that makes you feel very fancy when you drink from it.",
     "copy-from": "base_glass_dish",
-    "container_data": { "contains": 1, "watertight": true },
+    "container_data": { "contains": "250 ml", "watertight": true },
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
@@ -269,7 +269,7 @@
     "symbol": "u",
     "description": "A glass bowl for soup or dessert.",
     "copy-from": "base_glass_dish",
-    "container_data": { "contains": 2, "watertight": true },
+    "container_data": { "contains": "500 ml", "watertight": true },
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -290,7 +290,7 @@
     "symbol": "U",
     "description": "A durable plastic drinking vessel.  This one is made of clear acrylic and looks almost like glass.",
     "copy-from": "base_plastic_dish",
-    "container_data": { "contains": 2, "watertight": true },
+    "container_data": { "contains": "500 ml", "watertight": true },
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
@@ -302,7 +302,7 @@
     "description": "A plastic bowl with a convenient sealing lid.  Holds 750 ml of liquid.",
     "copy-from": "base_plastic_dish",
     "volume": "750 ml",
-    "container_data": { "contains": 3, "seals": true, "watertight": true },
+    "container_data": { "contains": "750 ml", "seals": true, "watertight": true },
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
@@ -314,7 +314,7 @@
     "proportional": { "weight": 0.6, "volume": 0.5 },
     "description": "A plastic bowl designed for use by children.",
     "copy-from": "base_plastic_dish",
-    "container_data": { "contains": 1, "watertight": true },
+    "container_data": { "contains": "250 ml", "watertight": true },
     "qualities": [ [ "CONTAIN", 1 ] ],
     "snippet_category": [
       { "id": "kbowl1", "text": "This bowl is decorated with cartoon bears." },
@@ -624,7 +624,7 @@
     "weight": 550,
     "volume": "2 L",
     "bashing": 6,
-    "container_data": { "contains": 8, "watertight": true }
+    "container_data": { "contains": "2 L", "watertight": true }
   },
   {
     "type": "GENERIC",
@@ -638,7 +638,7 @@
     "weight": 3000,
     "volume": "2 L",
     "bashing": 10,
-    "container_data": { "contains": 8, "watertight": true }
+    "container_data": { "contains": "2 L", "watertight": true }
   },
   {
     "type": "GENERIC",
@@ -652,7 +652,7 @@
     "weight": 750,
     "volume": "2 L",
     "bashing": 6,
-    "container_data": { "contains": 8, "watertight": true }
+    "container_data": { "contains": "2 L", "watertight": true }
   },
   {
     "type": "GENERIC",
@@ -666,7 +666,7 @@
     "weight": 650,
     "volume": "2 L",
     "bashing": 4,
-    "container_data": { "contains": 8, "watertight": true }
+    "container_data": { "contains": "2 L", "watertight": true }
   },
   {
     "type": "GENERIC",
@@ -681,7 +681,7 @@
     "volume": "9 L",
     "//": "Volume assumes you can stick some stuff in the pot inside your bag",
     "bashing": 8,
-    "container_data": { "contains": 48, "watertight": true }
+    "container_data": { "contains": "12 L", "watertight": true }
   },
   {
     "id": "pot_canning",
@@ -697,7 +697,7 @@
     "material": "steel",
     "symbol": ")",
     "color": "dark_gray",
-    "container_data": { "contains": 100, "watertight": true },
+    "container_data": { "contains": "25 L", "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": "HEAT_FOOD"
   },
@@ -714,7 +714,7 @@
     "weight": 2628,
     "volume": "1 L",
     "bashing": 12,
-    "container_data": { "contains": 4, "watertight": true },
+    "container_data": { "contains": "1 L", "watertight": true },
     "delete": { "qualities": [ [ "COOK", 3 ] ] },
     "extend": { "qualities": [ [ "HAMMER", 1 ], [ "COOK", 2 ] ] }
   },
@@ -731,7 +731,7 @@
     "weight": 528,
     "volume": "1 L",
     "bashing": 8,
-    "container_data": { "contains": 8, "watertight": true },
+    "container_data": { "contains": "2 L", "watertight": true },
     "delete": { "qualities": [ [ "COOK", 3 ] ] },
     "extend": { "qualities": [ [ "COOK", 2 ] ] }
   },
@@ -748,7 +748,7 @@
     "weight": 628,
     "volume": "1 L",
     "bashing": 7,
-    "container_data": { "contains": 4, "watertight": true },
+    "container_data": { "contains": "1 L", "watertight": true },
     "delete": { "qualities": [ [ "COOK", 3 ] ] },
     "extend": { "qualities": [ [ "COOK", 2 ] ] }
   },
@@ -767,7 +767,7 @@
     "material": "steel",
     "symbol": ")",
     "color": "light_gray",
-    "container_data": { "contains": 4, "watertight": true },
+    "container_data": { "contains": "1 L", "watertight": true },
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": "HEAT_FOOD"
   },
@@ -786,7 +786,7 @@
     "material": "copper",
     "symbol": ")",
     "color": "light_red",
-    "container_data": { "contains": 4, "watertight": true },
+    "container_data": { "contains": "1 L", "watertight": true },
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": "HEAT_FOOD"
   },
@@ -802,7 +802,7 @@
     "weight": 728,
     "volume": "1500 ml",
     "bashing": 5,
-    "container_data": { "contains": 6, "watertight": true },
+    "container_data": { "contains": "1500 ml", "watertight": true },
     "delete": { "qualities": [ [ "COOK", 3 ] ] }
   },
   {

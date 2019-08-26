@@ -120,7 +120,7 @@
     "price": 320,
     "material": "veggy",
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
-    "volume": 1
+    "volume": "250 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -136,7 +136,7 @@
     "description": "An irradiated cluster of celery will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
     "price": 220,
     "material": "veggy",
-    "volume": 1
+    "volume": "250 ml"
   },
   {
     "type": "COMESTIBLE",
