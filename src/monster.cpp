@@ -616,7 +616,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     const auto hp_desc = hp_description( hp, type->hp );
     mvwprintz( w, point( column, vStart++ ), hp_desc.second, hp_desc.first );
     if( has_effect( effect_ridden ) && mounted_player ) {
-        std::string rider_name = std::string( "Rider: " ) + mounted_player->disp_name();
+        std::string rider_name = std::string( _( "Rider: " ) ) + mounted_player->disp_name();
         mvwprintz( w, point( column, vStart++ ), c_white, rider_name );
     }
 

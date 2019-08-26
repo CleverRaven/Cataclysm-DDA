@@ -727,7 +727,7 @@ class npc : public player
         }
         void load_npc_template( const string_id<npc_template> &ident );
         void npc_dismount();
-        monster *chosen_mount;
+        std::weak_ptr<monster> chosen_mount;
         // Generating our stats, etc.
         void randomize( const npc_class_id &type = npc_class_id::NULL_ID() );
         void randomize_from_faction( faction *fac );

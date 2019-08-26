@@ -2838,7 +2838,7 @@ void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
         return;
     }
     npc &guy = dynamic_cast<npc &>( *p );
-    monster *mon = guy.chosen_mount;
+    monster *mon = guy.chosen_mount.lock().get();
     if( !mon ) {
         act->set_to_null();
         guy.revert_after_activity();
@@ -2851,7 +2851,7 @@ void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
         if( p->can_mount( *mon ) ) {
             act->set_to_null();
             guy.revert_after_activity();
-            guy.chosen_mount = nullptr;
+            guy.chosen_mount = std::weak_ptr<monster>();
             p->mount_creature( *mon );
         } else {
             if( p->get_skill_level( skill_survival ) < 1 ) {
@@ -2869,7 +2869,7 @@ void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
             return;
         }
     } else {
-        const std::vector<tripoint> route = route_adjacent( *p, guy.chosen_mount->pos() );
+        const std::vector<tripoint> route = route_adjacent( *p, guy.chosen_mount.lock().get()->pos() );
         if( route.empty() ) {
             act->set_to_null();
             guy.revert_after_activity();

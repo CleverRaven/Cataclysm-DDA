@@ -4542,13 +4542,20 @@ void game::use_computer( const tripoint &p )
 }
 
 template<typename T>
-T *game::critter_at( const tripoint &p, bool allow_hallucination, bool rider_only )
+T *game::critter_at( const tripoint &p, bool allow_hallucination )
 {
     if( const std::shared_ptr<monster> mon_ptr = critter_tracker->find( p ) ) {
         if( !allow_hallucination && mon_ptr->is_hallucination() ) {
             return nullptr;
         }
-        if( !rider_only ) {
+        // if we wanted to check for an NPC / player / avatar,
+        // there is sometimes a monster AND an NPC/player there at the same time.
+        // because the NPC/player etc may be riding that monster.
+        // so only return the monster if we were actually looking for a monster.
+        // otherwise, keep looking for the rider.
+        // critter_at<creature> or critter_at() with no template will still default to returning monster first,
+        // which is ok for the occasions where that happens.
+        if( !mon_ptr->has_effect( effect_ridden ) || ( !std::is_same<T, const npc>::value && !std::is_same<T, const player>::value && !std::is_same<T, const avatar>::value && !std::is_same<T, avatar>::value && !std::is_same<T, Character>::value && !std::is_same<T, const Character>::value ) ) {
             return dynamic_cast<T *>( mon_ptr.get() );
         }
     }
@@ -4573,9 +4580,9 @@ template const monster *game::critter_at<monster>( const tripoint &, bool ) cons
 template const npc *game::critter_at<npc>( const tripoint &, bool ) const;
 template const player *game::critter_at<player>( const tripoint &, bool ) const;
 template const avatar *game::critter_at<avatar>( const tripoint &, bool ) const;
-template avatar *game::critter_at<avatar>( const tripoint &, bool, bool );
+template avatar *game::critter_at<avatar>( const tripoint &, bool );
 template const Character *game::critter_at<Character>( const tripoint &, bool ) const;
-template Character *game::critter_at<Character>( const tripoint &, bool, bool );
+template Character *game::critter_at<Character>( const tripoint &, bool );
 template const Creature *game::critter_at<Creature>( const tripoint &, bool ) const;
 
 template<typename T>
@@ -5016,7 +5023,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     }
     const tripoint kbp( kbx, kby, p.z );
     const bool can_see = u.sees( tripoint( x, y, p.z ) );
-    player *npc_or_player = critter_at<player>( tripoint( x, y, p.z ), false, true );
+    player *npc_or_player = critter_at<player>( tripoint( x, y, p.z ), false );
     if( npc_or_player != nullptr ) {
         if( bash_dmg <= 0 ) {
             return false;

@@ -138,11 +138,7 @@ template<class T>
 void conditional_t<T>::set_is_riding( bool is_npc )
 {
     condition = [is_npc]( const T & d ) {
-        Character *actor = dynamic_cast<Character *>( d.alpha );
-        if( is_npc ) {
-            actor = dynamic_cast<Character *>( d.beta );
-        }
-        return actor->is_mounted();
+        return ( is_npc ? d.alpha : d.beta )->is_mounted();
     };
 }
 

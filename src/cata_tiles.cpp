@@ -2316,9 +2316,7 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
                 int pl_under_height = 6;
                 if( m->mounted_player ) {
                     player *pl = m->mounted_player;
-                    if( pl ) {
-                        draw_entity_with_overlays( *pl, p, ll, pl_under_height );
-                    }
+                    draw_entity_with_overlays( *pl, p, ll, pl_under_height );
                 }
                 const std::string prefix = "rid_";
                 std::string copy_id = chosen_id;

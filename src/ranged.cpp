@@ -1293,7 +1293,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         if( dst == pc.pos() ) {
             return true;
         }
-        if( npc *const who_ = g->critter_at<npc>( dst, false, true ) ) {
+        if( npc *const who_ = g->critter_at<npc>( dst, false ) ) {
             const npc &who = *who_;
             if( who.guaranteed_hostile() ) {
                 return true;
@@ -1802,7 +1802,7 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
         if( dst == pc.pos() ) {
             return true;
         }
-        if( npc *const who_ = g->critter_at<npc>( dst, false, true ) ) {
+        if( npc *const who_ = g->critter_at<npc>( dst, false ) ) {
             const npc &who = *who_;
             if( who.guaranteed_hostile() ) {
                 return true;

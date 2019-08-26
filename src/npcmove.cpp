@@ -611,7 +611,7 @@ void npc::regen_ai_cache()
     while( i != std::end( ai_cache.sound_alerts ) ) {
         if( sees( g->m.getlocal( i->abs_pos ) ) ) {
             // if they were responding to a call for guards because of thievery
-            npc *const sound_source = g->critter_at<npc>( g->m.getlocal( i->abs_pos ), false, true );
+            npc *const sound_source = g->critter_at<npc>( g->m.getlocal( i->abs_pos ), false );
             if( sound_source ) {
                 if( my_fac == sound_source->my_fac && sound_source->known_stolen_item ) {
                     sound_source->known_stolen_item = nullptr;
@@ -2206,13 +2206,12 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     } else if( g->m.passable( p ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         if( is_mounted() && mounted_creature ) {
-            auto crit = mounted_creature.get();
             const double base_moves = run_cost( g->m.combined_movecost( pos(), p ),
-                                                diag ) * 100.0 / crit->get_speed();
+                                                diag ) * 100.0 / mounted_creature->get_speed();
             const double encumb_moves = get_weight() / 4800.0_gram;
             moves -= static_cast<int>( ceil( base_moves + encumb_moves ) );
-            if( crit->has_flag( MF_RIDEABLE_MECH ) ) {
-                crit->use_mech_power( -1 );
+            if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+                mounted_creature->use_mech_power( -1 );
             }
         } else {
             moves -= run_cost( g->m.combined_movecost( pos(), p ), diag );

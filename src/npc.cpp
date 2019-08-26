@@ -1789,26 +1789,30 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 
 void npc::npc_dismount()
 {
-    tripoint pnt;
+    if( !mounted_creature ) {
+        add_msg( m_debug, "NPC %s tried to dismount, but they have no mount", disp_name() );
+    }
+    cata::optional<tripoint> pnt;
     for( const auto &elem : g->m.points_in_radius( pos(), 1 ) ) {
         if( g->is_empty( elem ) ) {
             pnt = elem;
             break;
         }
     }
-    if( pnt != tripoint_zero && mounted_creature ) {
-        remove_effect( effect_riding );
-        monster *critter = mounted_creature.get();
-        if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.empty() ) {
-            remove_item( weapon );
-        }
-        critter->remove_effect( effect_ridden );
-        critter->add_effect( effect_controlled, 5_turns );
-        mounted_creature = nullptr;
-        setpos( pnt );
-        mod_moves( -100 );
+    if( !pnt ) {
+        add_msg( m_debug, "NPC %s could not find a place to dismount.", disp_name() );
         return;
     }
+    remove_effect( effect_riding );
+    if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) &&
+        !mounted_creature->type->mech_weapon.empty() ) {
+        remove_item( weapon );
+    }
+    mounted_creature->remove_effect( effect_ridden );
+    mounted_creature->add_effect( effect_controlled, 5_turns );
+    mounted_creature = nullptr;
+    setpos( *pnt );
+    mod_moves( -100 );
 }
 
 int npc::smash_ability() const
@@ -1851,7 +1855,7 @@ bool npc::emergency( float danger ) const
 //Active npcs are the npcs near the player that are actively simulated.
 bool npc::is_active() const
 {
-    return g->critter_at<npc>( pos(), false, true ) == this;
+    return g->critter_at<npc>( pos(), false ) == this;
 }
 
 int npc::follow_distance() const
