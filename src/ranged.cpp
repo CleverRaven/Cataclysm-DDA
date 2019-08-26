@@ -683,10 +683,15 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         proj_effects.insert( "TANGLE" );
     }
 
+    Creature *critter = g->critter_at( target, true );
+    const dispersion_sources dispersion = throwing_dispersion( thrown, critter,
+                                          blind_throw_from_pos.has_value() );
+    const itype *thrown_type = thrown.type;
+
     // Put the item into the projectile
     proj.set_drop( std::move( thrown ) );
-    if( thrown.has_flag( "CUSTOM_EXPLOSION" ) ) {
-        proj.set_custom_explosion( thrown.type->explosion );
+    if( thrown_type->item_tags.count( "CUSTOM_EXPLOSION" ) ) {
+        proj.set_custom_explosion( thrown_type->explosion );
     }
 
     // Throw from the player's position, unless we're blind throwing, in which case
@@ -703,9 +708,6 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // This should generally have values below ~20*sqrt(skill_lvl)
     const float final_xp_mult = range_factor * damage_factor;
 
-    Creature *critter = g->critter_at( target, true );
-    const dispersion_sources dispersion = throwing_dispersion( thrown, critter,
-                                          blind_throw_from_pos.has_value() );
     auto dealt_attack = projectile_attack( proj, throw_from, target, dispersion, this );
 
     const double missed_by = dealt_attack.missed_by;

@@ -21,7 +21,6 @@ readability-*,\
 -bugprone-misplaced-widening-cast,\
 -bugprone-narrowing-conversions,\
 -bugprone-unused-return-value,\
--bugprone-use-after-move,\
 -cert-err34-c,\
 -cert-flp30-c,\
 -cert-msc30-c,\
