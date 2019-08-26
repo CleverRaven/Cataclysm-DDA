@@ -1111,14 +1111,14 @@
     "act_cost": 50
   },
   {
-    "id": "bio_diesel_generator",
+    "id": "bio_fuel_cell_gazoline",
     "type": "bionic",
     "name": "Diesel Generator CBM",
-    "description": "A small diesel generator inserted into your abdominal cavity, with a set of metal bracings spreading its weight against your bone structure to minimize discomfort.  A diffuse network of bio-plastic bladders has been meshed with your circulatory system and serves as diesel tank.",
+    "description": "A small gasoline fuel cell fixed to your scapula, despite limiting its energy output this bionic produce significant amount of heat that's dissipated through heat exhaust protruding from your back.  A diffuse network of bio-plastic bladders has been meshed with your circulatory system and serves as a fuel tank.",
     "occupied_bodyparts": [ [ "TORSO", 8 ] ],
-    "fuel_options": [ "diesel" ],
+    "fuel_options": [ "gazoline" ],
     "fuel_capacity": 500,
-    "fuel_efficiency": 0.3,
+    "fuel_efficiency": 0.25,
     "time": 1,
     "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE" ]
   },
