@@ -7,7 +7,7 @@
     "symbol": "&",
     "color": "green",
     "move_cost": 0,
-    "max_volume": "2000 L",
+    "max_volume": 8000,
     "flags": [ "TRANSPARENT", "REDUCE_SCENT", "PERMEABLE" ],
     "examine_action": "recycle_compactor",
     "bash": {

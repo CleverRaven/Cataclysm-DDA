@@ -10,7 +10,7 @@
     "coverage": 30,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
-    "max_volume": "200 L",
+    "max_volume": 800,
     "examine_action": "keg",
     "keg_capacity": 600,
     "bash": {
@@ -105,7 +105,7 @@
     "move_cost_mod": -1,
     "coverage": 55,
     "required_str": -1,
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED" ],
     "examine_action": "keg",
     "keg_capacity": 240,

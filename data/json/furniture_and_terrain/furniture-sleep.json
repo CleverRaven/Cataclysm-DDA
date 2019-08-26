@@ -12,7 +12,7 @@
     "floor_bedding_warmth": 1000,
     "required_str": -1,
     "deconstruct": { "items": [ { "item": "mattress", "count": 1 } ], "furn_set": "f_bed_frame" },
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 12,
@@ -39,7 +39,7 @@
     "coverage": 40,
     "required_str": 5,
     "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 8, 10 ] } ] },
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
     "bash": {
       "str_min": 10,
@@ -92,7 +92,7 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 4 }, { "item": "rag", "count": [ 30, 35 ] }, { "item": "nail", "charges": [ 4, 6 ] } ]
     },
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT" ],
     "bash": {
       "str_min": 8,
@@ -120,7 +120,7 @@
     "floor_bedding_warmth": 200,
     "required_str": -1,
     "deconstruct": { "items": [ { "item": "stick", "count": 4 }, { "item": "straw_pile", "count": [ 7, 8 ] } ] },
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 6,

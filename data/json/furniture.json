@@ -7,7 +7,7 @@
     "description": "Pile of various metals, bricks, and other building materials.  You could clear it with a shovel.",
     "color": "light_gray",
     "move_cost_mod": 6,
-    "max_volume": "750 L",
+    "max_volume": 3000,
     "required_str": -1,
     "flags": [
       "TRANSPARENT",
@@ -31,7 +31,7 @@
     "symbol": "^",
     "color": "dark_gray",
     "move_cost_mod": 6,
-    "max_volume": "750 L",
+    "max_volume": 3000,
     "required_str": -1,
     "flags": [
       "TRANSPARENT",
@@ -55,7 +55,7 @@
     "symbol": "#",
     "color": "green",
     "move_cost_mod": 8,
-    "max_volume": "750 L",
+    "max_volume": 3000,
     "required_str": -1,
     "flags": [
       "TRANSPARENT",
@@ -79,7 +79,7 @@
     "symbol": "#",
     "color": "cyan",
     "move_cost_mod": 6,
-    "max_volume": "750 L",
+    "max_volume": 3000,
     "required_str": -1,
     "flags": [
       "TRANSPARENT",
@@ -217,7 +217,7 @@
     "floor_bedding_warmth": 50,
     "required_str": -1,
     "deconstruct": { "items": [ { "item": "withered", "count": 50 } ] },
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 2,
@@ -291,7 +291,7 @@
     "bonus_fire_warmth_feet": 1000,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT" ],
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
     "bash": {
       "str_min": 12,
@@ -311,7 +311,7 @@
     "move_cost_mod": 2,
     "coverage": 50,
     "required_str": 8,
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 8 ] } ]
@@ -343,7 +343,7 @@
     "required_str": 4,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
     "deconstruct": { "items": [ { "item": "nail", "charges": [ 2, 6 ] }, { "item": "2x4", "count": 2 } ] },
-    "max_volume": "30 L",
+    "max_volume": 120,
     "bash": {
       "str_min": 6,
       "str_max": 30,
@@ -405,7 +405,7 @@
     "move_cost_mod": 2,
     "coverage": 50,
     "required_str": -1,
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "deconstruct": {
       "items": [
@@ -1903,7 +1903,7 @@
     "coverage": 40,
     "required_str": -1,
     "examine_action": "kiln_empty",
-    "max_volume": "125 L",
+    "max_volume": 500,
     "crafting_pseudo_item": "char_kiln",
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
     "deconstruct": { "items": [ { "item": "rock", "count": [ 35, 40 ] } ] },
@@ -1947,7 +1947,7 @@
     "coverage": 40,
     "required_str": -1,
     "examine_action": "kiln_empty",
-    "max_volume": "125 L",
+    "max_volume": 500,
     "crafting_pseudo_item": "char_kiln",
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
     "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
@@ -1999,7 +1999,7 @@
     "coverage": 40,
     "required_str": -1,
     "examine_action": "arcfurnace_empty",
-    "max_volume": "200 L",
+    "max_volume": 800,
     "crafting_pseudo_item": "arcfurnace",
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
     "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
@@ -2466,7 +2466,7 @@
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "brazier",
     "examine_action": "fireplace",
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -2493,7 +2493,7 @@
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "55gal_firebarrel",
     "examine_action": "fireplace",
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -2520,7 +2520,7 @@
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "30gal_firebarrel",
     "examine_action": "fireplace",
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -2616,7 +2616,7 @@
         { "item": "cable", "charges": [ 1, 2 ], "prob": 50 }
       ]
     },
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
     "bash": {
       "str_min": 10,
@@ -2647,7 +2647,7 @@
     "deployed_item": "camp_chair",
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
-    "max_volume": "875 L",
+    "max_volume": 3500,
     "deconstruct": { "items": [ { "item": "camp_chair", "count": 1 } ] }
   },
   {
@@ -2816,7 +2816,7 @@
     "floor_bedding_warmth": 1000,
     "required_str": -1,
     "deconstruct": { "items": [ { "item": "pillow", "count": 19 }, { "item": "blanket", "count": 3 } ] },
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE_ASH",
@@ -2857,7 +2857,7 @@
         { "item": "pillow", "count": 4 }
       ]
     },
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE_ASH",
@@ -2929,7 +2929,7 @@
     "floor_bedding_warmth": 200,
     "required_str": 3,
     "deconstruct": { "items": [ { "item": "box_large", "count": 1 } ] },
-    "max_volume": "1500 L",
+    "max_volume": 6000,
     "deployed_item": "box_large",
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "BASHABLE", "HIDE_PLACE", "NO_SIGHT" ],
@@ -3017,7 +3017,7 @@
         { "item": "lock", "count": [ 0, 1 ] }
       ]
     },
-    "max_volume": "200 L",
+    "max_volume": 800,
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -3041,7 +3041,7 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 20 }, { "item": "nail", "charges": [ 16, 24 ] }, { "item": "pipe", "count": 2 } ]
     },
-    "max_volume": "500 L",
+    "max_volume": 2000,
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -3594,7 +3594,7 @@
         { "item": "sheet_metal_small", "count": [ 0, 4 ] }
       ]
     },
-    "max_volume": "1750 L",
+    "max_volume": 7000,
     "bash": {
       "str_min": 35,
       "str_max": 80,
@@ -3670,7 +3670,7 @@
     "move_cost_mod": 3,
     "coverage": 45,
     "required_str": 10,
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "looks_like": "f_glass_fridge",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF" ],
     "deconstruct": {
@@ -3710,7 +3710,7 @@
     "move_cost_mod": 3,
     "coverage": 60,
     "required_str": 16,
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "insulation": 2,
     "looks_like": "f_washer",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF" ],
@@ -3756,7 +3756,7 @@
     "move_cost_mod": 3,
     "coverage": 60,
     "required_str": 16,
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "insulation": 2,
     "looks_like": "f_washer",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "SEALED" ],
@@ -3801,7 +3801,7 @@
     "move_cost_mod": 2,
     "coverage": 80,
     "required_str": 18,
-    "max_volume": "1750 L",
+    "max_volume": 7000,
     "insulation": 6,
     "looks_like": "f_fridge",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
@@ -3995,7 +3995,7 @@
     "move_cost_mod": -1,
     "coverage": 45,
     "required_str": -1,
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "looks_like": "t_machinery_heavy",
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
@@ -4037,7 +4037,7 @@
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": -1,
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "looks_like": "t_machinery_heavy",
     "deconstruct": {
       "items": [
@@ -4601,7 +4601,7 @@
         { "item": "sheet_metal_small", "count": [ 2, 4 ] }
       ]
     },
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "bash": {
       "str_min": 35,
       "str_max": 80,
@@ -4668,7 +4668,7 @@
     "move_cost_mod": 0,
     "comfort": 2,
     "floor_bedding_warmth": -1500,
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "required_str": 7,
     "bash": {
       "str_min": 8,
@@ -4711,7 +4711,7 @@
     "color": "blue",
     "move_cost_mod": -1,
     "coverage": 50,
-    "max_volume": "3750 ml",
+    "max_volume": 15,
     "required_str": 7,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
