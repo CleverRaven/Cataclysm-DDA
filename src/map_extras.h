@@ -67,7 +67,7 @@ void load( JsonObject &jo, const std::string &src );
 void check_consistency();
 
 /// This function provides access to all loaded map extras.
-const generic_factory<map_extra>& mapExtraFactory();
+const generic_factory<map_extra> &mapExtraFactory();
 
 } // namespace MapExtras
 

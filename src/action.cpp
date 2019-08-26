@@ -359,7 +359,7 @@ std::string action_ident( action_id act )
         case ACTION_AUTOPICKUP:
             return "open_autopickup";
         case ACTION_AUTONOTES:
-        	return "open_autonotes";
+            return "open_autonotes";
         case ACTION_SAFEMODE:
             return "open_safemode";
         case ACTION_COLOR:

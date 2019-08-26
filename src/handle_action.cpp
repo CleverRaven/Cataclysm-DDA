@@ -2202,7 +2202,7 @@ bool game::handle_action()
                 get_auto_pickup().show();
                 refresh_all();
                 break;
-                
+
             case ACTION_AUTONOTES:
                 get_auto_notes_settings().show_gui();
                 refresh_all();

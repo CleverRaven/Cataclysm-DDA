@@ -2658,7 +2658,7 @@ void game::load( const save_t &name )
 
     init_autosave();
     get_auto_pickup().load_character(); // Load character auto pickup rules
-    get_auto_notes_settings().load();	// Load character auto notes settings
+    get_auto_notes_settings().load();   // Load character auto notes settings
     get_safemode().load_character(); // Load character safemode rules
     zone_manager::get_manager().load_zones(); // Load character world zones
     read_from_file_optional( get_world_base_save_path() + "/uistate.json", []( std::istream & stream ) {
