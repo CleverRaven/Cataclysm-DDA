@@ -52,12 +52,12 @@
     "range": 30,
     "ranged_damage": 9,
     "pierce": 8,
-    "dispersion": 45,
+    "dispersion": 50,
     "durability": 9,
     "loudness": 28,
     "ups_charges": 10,
     "reload": 220,
-    "modes": [ [ "DEFAULT", "burst", 12 ] ],
+    "modes": [ [ "DEFAULT", "burst", 10 ] ],
     "valid_mod_locations": [ [ "accessories", 1 ], [ "emitter", 1 ], [ "grip", 1 ], [ "lens", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
@@ -77,8 +77,8 @@
     "color": "blue",
     "skill": "smg",
     "range": 25,
-    "ranged_damage": 13,
-    "pierce": 9,
+    "ranged_damage": 15,
+    "pierce": 2,
     "dispersion": 15,
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
@@ -275,7 +275,6 @@
     "clip_size": 25,
     "reload": 200,
     "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "sights", 1 ] ],
-    "ammo_effects": [ "FRAG" ],
     "flags": [ "NEVER_JAMS" ]
   },
   {
