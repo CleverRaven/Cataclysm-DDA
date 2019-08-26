@@ -1,6 +1,7 @@
-# JSON file contents
+# Introduction
+This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to learn more about what to find where and what each file and property does.
 
-## File descriptions
+# File descriptions
 Here's a quick summary of what each of the JSON files contain, broken down by folder.
 
 ## `data/json/`
@@ -130,7 +131,24 @@ Groups of vehicle definitions with self-explanatory names of files:
 | vans_busses.json
 | vehicles.json
 
-# Raw JS
+# Generic properties and formatting
+This section describes properties and formatting that are applied to all of the JSON files.
+
+## Generic properties
+A few properties are applicable to most if not all json files and do not need to be described for each json file. These properties are:
+
+| Identifier               | Description
+|---                       |---
+| type                     | The type of object this json entry is describing. Setting this entry to 'armor' for example means the game will expect properties specific to armor in that entry. Also ties in with 'copy-from' (see below), if you want to inherit properties of another object, it must be of the same tipe.
+| copy-from                | The identifier of the item you wish to compy properties from. This allows you to make an exact copy of an item __of the same type__ and only provide entries that should change from the item you copied from. For example, if you created a small wood crate and wanted another but bigger, you can provide the ID of the small wood crate in the 'copy-from' property of the large wood crate so all the properties get copied, and adjust the volume and weight to what you need. This does not apply to all types, only types that have generic_factory implemented.
+| extends                  | Modders can add an "extends" field to their definition to append entries to a list instead of overriding the entire list.
+| delete                   | Modders can also add a "delete" field that removes elements from lists instead of overriding the entire list.
+| abstract                 | Creates an abstract item (an item that does not end up in the game and solely exists in the json to be copied-from. Use this _instead of_ 'id'. 
+
+
+
+## Formatting
+When editing JSON files make sure you apply the correct formatting as shown below.
 
 ### Time duration
 
@@ -145,7 +163,7 @@ Examples:
 - " +1 day -23 hours 50m " `(1*24*60 - 23*60 + 50 == 110 minutes)`
 - "1 turn 1 minutes 9 turns" (1 minute and 10 seconds because 1 turn is 1 second)
 
-### All Files
+### Other formatting
 
 ```C++
 "//" : "comment", // Preferred method of leaving comments inside json files.
@@ -158,6 +176,13 @@ Some json strings are extracted for translation, for example item names, descrip
 ```
 
 Currently, only some JSON values support this syntax (see [here](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/TRANSLATING.md#translation) for a list of supported values). If you want other json strings to support this format, look at `translations.h|cpp` and migrate the corresponding code to it. Changes to `extract_json_strings.py` might also be needed, as with the new syntax "name" would be a `dict`, which may break unmigrated script.
+
+
+# Description and content of each JSON file
+This section describes each json file and their contents. Each json has their own unique properties that are not shared with other Json files (for example 'chapters' property used in books does not apply to armor). This will make sure properties are only described and used within the context of the appropriate JSON file.
+
+
+## `data/json/` JSONs
 
 ### Bionics
 
