@@ -21,7 +21,7 @@ namespace auto_notes
 	{
 		private:
 			/// A type used to store each map extra type and its auto note enabled status
-			using cache_t = std::unordered_map<std::string, std::pair<const map_extra&, bool>>;
+			using cache_t = std::vector<std::pair<const map_extra, bool>>;
 	
 		public:
 			auto_note_manager_gui();
@@ -71,6 +71,10 @@ namespace auto_notes
 			
 			/// Update the auto note enabled status for given map extra ID string.
 			void set_auto_note_status(const std::string& mapExtId, const bool enabled);
+			
+			/// Perform default initialization. This will use the auto note property of
+			/// registered map extras in order to determine their enable status.
+			void default_initialize();
 		
 		public:
 			/// Load auto note settings state from player save.

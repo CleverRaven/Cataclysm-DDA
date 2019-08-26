@@ -260,6 +260,13 @@
   },
   {
     "type": "keybinding",
+    "id": "SWITCH_AUTO_NOTE_OPTION",
+    "category": "AUTO_NOTES",
+    "name": "Toggle auto notes option",
+    "bindings": [ { "input_method": "keyboard", "key": "s" }, { "input_method": "keyboard", "key": "S" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "DISABLE_MAPEXTRA_NOTE",
     "category": "AUTO_NOTES",
     "name": "Disable auto note for map extra",
