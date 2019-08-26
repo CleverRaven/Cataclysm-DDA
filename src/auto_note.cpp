@@ -158,7 +158,7 @@ auto_note_manager_gui::auto_note_manager_gui()
 {
     const auto_note_settings &settings = get_auto_notes_settings();
 
-    for( auto extra : MapExtras::mapExtraFactory().get_all() ) {
+    for( auto& extra : MapExtras::mapExtraFactory().get_all() ) {
         // Ignore all extras that have autonote disabled in the JSON.
         // This filters out lots of extras users shouldnt see (like "normal")
         if( !extra.autonote ) {
