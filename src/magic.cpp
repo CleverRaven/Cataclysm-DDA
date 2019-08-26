@@ -199,7 +199,7 @@ void spell_type::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
-    auto default_msg = translation( "You cast %s!" );
+    translation default_msg = translation( "You cast %s!" );
     optional( jo, was_loaded, "message", message, default_msg );
     mandatory( jo, was_loaded, "effect", effect_name );
     const auto found_effect = effect_map.find( effect_name );
