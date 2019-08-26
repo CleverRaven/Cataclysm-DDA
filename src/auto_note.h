@@ -4,9 +4,13 @@
 
 #include <string>
 #include <unordered_set>
+#include <utility>
+#include <unordered_map>
+#include <vector>
 
 #include "string_id.h"
 #include "map_extras.h"
+
 
 namespace auto_notes
 {
@@ -15,6 +19,30 @@ namespace auto_notes
 	 */
  	class auto_note_manager_gui
 	{
+		private:
+			/// A type used to store each map extra type and its auto note enabled status
+			using cache_t = std::unordered_map<std::string, std::pair<const map_extra&, bool>>;
+	
+		public:
+			auto_note_manager_gui();
+		
+			/// Initializes the internal GUI state. Should be called every time this GUI is opened.
+			void initialize();
+			
+			/// Show the gui.
+			void show();
+			
+			/// Returns flag indicating if any of the auto note settings were changed.
+			bool was_changed();
+	
+		private:
+			/// The map extra type cache. This is initialized with all known map extra types
+			/// and their auto note status with every call of initialize()
+			cache_t mapExtraCache;		
+			
+			/// Flag indicating whether any of the auto note configuration data was changed using this GUI
+			/// instance.
+			bool wasChanged{false};
 	};
 
 
@@ -53,6 +81,9 @@ namespace auto_notes
 			
 			/// Clear all stored data
 			void clear();
+			
+			/// Show the configuration GUI
+			void show_gui();
 			
 		private:
 			/// Build string containing path to the auto notes save file for the active player.

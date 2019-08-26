@@ -2340,6 +2340,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "open_keybindings" );
     ctxt.register_action( "open_options" );
     ctxt.register_action( "open_autopickup" );
+    ctxt.register_action( "open_autonotes" );
     ctxt.register_action( "open_safemode" );
     ctxt.register_action( "open_color" );
     ctxt.register_action( "open_world_mods" );
