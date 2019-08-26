@@ -18,7 +18,7 @@
     "id": "style_crt_enforcement",
     "name": "C.R.I.T Enforcement",
     "description": "A defensive style that is centered around stunning swings, knockback and grounding enemies. Each attack landed increases how well you block and offers other combat bonuses based on stats.",
-    "initiate": [ "You ready yourself to stand your ground.", "%s draws a line in the sand." ],
+    "initiate": [ "You ready yourself to stand your ground.", "%s draws the line." ],
     "arm_block": 2,
     "leg_block": 10,
     "static_buffs": [
