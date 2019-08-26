@@ -4564,6 +4564,12 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
         case TYMPANOPLASTY: {
             if( !patient.has_effect( effect_deaf ) ) {
+                popup_player_or_npc( patient, _( "Your hearing is normal." ),
+                                     _( "%1$s has normal hearing." ) );
+                break;
+            }
+            effect &e = patient.get_effect( effect_deaf );
+            if( e.get_duration() < 2_days ) {
                 popup_player_or_npc( patient, _( "Your eardrums are intact." ),
                                      _( "%1$s has intact eardrums." ) );
                 break;
@@ -4572,7 +4578,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             patient.add_msg_player_or_npc( m_good,
                                            _( "The machine fixes your damaged eardrums. It will take some time to heal completely." ),
                                            _( "The machine fixes <npcname>'s damaged eardrums. It will take some time to heal completely." ) );
-            effect &e = patient.get_effect( effect_deaf );
             e.set_duration( rng( 1_days, 2_days ) );
 
             break;
