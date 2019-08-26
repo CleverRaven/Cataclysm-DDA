@@ -217,9 +217,10 @@ void auto_note_manager_gui::show()
     int tmpx = 0;
     tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<E>nable" ) ) + 2;
     tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<D>isable" ) ) + 2;
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green,
                             _( "<Enter>-Toggle" ) ) + 2;
-    ( void )tmpx;
+    
 
     // Draw horizontal line and corner pieces of the table
     for( int x = 0; x < 78; x++ ) {
@@ -269,9 +270,9 @@ void auto_note_manager_gui::show()
                                     get_option<bool>( "AUTO_NOTES" ) ? _( "True" ) : _( "False" ) );
 
         currentX += shortcut_print( w_header, point( currentX, 0 ), c_white, c_light_green, "  " );
+        // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
         currentX += shortcut_print( w_header, point( currentX, 0 ), c_white, c_light_green,
                                     _( "<S>witch " ) );
-        ( void )currentX;
 
 
         // Clear table
