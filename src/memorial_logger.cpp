@@ -766,7 +766,7 @@ void memorial_logger::notify( const event &e )
         case event_type::fails_to_install_cbm: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                std::string cbm_name = e.get<bionic_id>( "bionic" )->name;
+                std::string cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
                 add( pgettext( "memorial_male", "Failed install of bionic: %s." ),
                      pgettext( "memorial_female", "Failed install of bionic: %s." ),
                      cbm_name );
@@ -776,7 +776,7 @@ void memorial_logger::notify( const event &e )
         case event_type::fails_to_remove_cbm: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                std::string cbm_name = e.get<bionic_id>( "bionic" )->name;
+                std::string cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
                 add( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
                      pgettext( "memorial_female", "Failed to remove bionic: %s." ),
                      cbm_name );
@@ -865,7 +865,7 @@ void memorial_logger::notify( const event &e )
         case event_type::installs_cbm: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                std::string cbm_name = e.get<bionic_id>( "bionic" )->name;
+                std::string cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
                 add( pgettext( "memorial_male", "Installed bionic: %s." ),
                      pgettext( "memorial_female", "Installed bionic: %s." ),
                      cbm_name );
@@ -875,7 +875,7 @@ void memorial_logger::notify( const event &e )
         case event_type::installs_faulty_cbm: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                std::string cbm_name = e.get<bionic_id>( "bionic" )->name;
+                std::string cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
                 add( pgettext( "memorial_male", "Installed bad bionic: %s." ),
                      pgettext( "memorial_female", "Installed bad bionic: %s." ),
                      cbm_name );
@@ -938,7 +938,7 @@ void memorial_logger::notify( const event &e )
         case event_type::removes_cbm: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                std::string cbm_name = e.get<bionic_id>( "bionic" )->name;
+                std::string cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
                 add( pgettext( "memorial_male", "Removed bionic: %s." ),
                      pgettext( "memorial_female", "Removed bionic: %s." ),
                      cbm_name );
