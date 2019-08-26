@@ -39,7 +39,7 @@
         "unarmed_allowed": true,
         "melee_allowed": false,
         "flat_bonuses": [
-          [ "arpen", "bash", "dex", 0.25 ], 
+          [ "arpen", "bash", "dex", 0.25 ],
           [ "arpen", "stab", "dex", 0.25 ],
           [ "arpen", "cut", "dex", 0.25 ],
           [ "dodge", "dex", 0.1 ],
@@ -61,13 +61,7 @@
         "mult_bonuses": [ [ "damage", "stab", 1.1 ], [ "damage", "cut", 1.1 ], [ "arpen", "stab", 1.1 ] ]
       }
     ],
-    "techniques": [
-      "tec_crt_cqb_normal",
-      "tec_crt_cqb_rapid",
-      "tec_crt_cqb_precise",
-      "tec_crt_cqb_arpen",
-      "tec_feint"
-    ]
+    "techniques": [ "tec_crt_cqb_normal", "tec_crt_cqb_rapid", "tec_crt_cqb_precise", "tec_crt_cqb_arpen", "tec_feint" ]
   },
   {
     "type": "technique",
@@ -97,7 +91,7 @@
     "name": "Rapid Jab",
     "min_unarmed": 4,
     "unarmed_allowed": true,
-    "melee_allowed": false,  
+    "melee_allowed": false,
     "mult_bonuses": [ [ "movecost", 0.88 ], [ "damage", "bash", 0.88 ], [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.25 ] ],
     "flat_bonuses": [ [ "movecost", "dex", -0.1 ] ],
     "crit_tec": true,
