@@ -1957,12 +1957,6 @@
   },
   {
     "type": "keybinding",
-    "name": "Toggle Thief Mode",
-    "category": "DEFAULTMODE",
-    "id": "toggle_thief_mode"
-  },
-  {
-    "type": "keybinding",
     "name": "Toggle Auto Pickup",
     "category": "DEFAULTMODE",
     "id": "toggle_auto_pickup"
@@ -2725,6 +2719,42 @@
       { "input_method": "keyboard", "key": "N" },
       { "input_method": "keyboard", "key": "n" },
       { "input_method": "keyboard", "key": "ESC" }
+    ]
+  },
+  {
+    "id": "YES",
+    "category": "YES_NO_ALWAYS_NEVER",
+    "bindings": [
+      { "input_method": "keyboard", "key": [ "Y" ] },
+      { "input_method": "keyboard", "key": [ "y" ] },
+      { "input_method": "keyboard", "key": [ "ESC" ] }
+    ]
+  },
+  {
+    "id": "NO",
+    "category": "YES_NO_ALWAYS_NEVER",
+    "bindings": [
+      { "input_method": "keyboard", "key": [ "N" ] },
+      { "input_method": "keyboard", "key": [ "n" ] },
+      { "input_method": "keyboard", "key": [ "ESC" ] }
+    ]
+  },
+  {
+    "id": "ALWAYS",
+    "category": "YES_NO_ALWAYS_NEVER",
+    "bindings": [
+      { "input_method": "keyboard", "key": [ "A" ] },
+      { "input_method": "keyboard", "key": [ "a" ] },
+      { "input_method": "keyboard", "key": [ "ESC" ] }
+    ]
+  },
+  {
+    "id": "NEVER",
+    "category": "YES_NO_ALWAYS_NEVER",
+    "bindings": [
+      { "input_method": "keyboard", "key": [ "E" ] },
+      { "input_method": "keyboard", "key": [ "e" ] },
+      { "input_method": "keyboard", "key": [ "ESC" ] }
     ]
   },
   {
