@@ -2340,7 +2340,7 @@ void npc::on_load()
         g->m.board_vehicle( pos(), this );
     }
     if( has_effect( effect_riding ) && !mounted_creature ) {
-        if( monster *const critter = g->critter_at<monster>( pos() ) ) {
+        if( g->critter_at<monster>( pos() ) ) {
             mounted_creature = g->critter_tracker->find( pos() );
         } else {
             add_msg( m_debug, "NPC is meant to be riding, though the mount is not found when % is loaded",
