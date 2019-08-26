@@ -73,7 +73,7 @@ class auto_note_settings
         bool has_auto_note_enabled( const string_id<map_extra> &mapExtId ) const;
 
         /// Update the auto note enabled status for given map extra ID
-        void set_auto_note_status( const string_id<map_extra> &mapExtId, const bool enabled );
+        void set_auto_note_status( const string_id<map_extra> &mapExtId, bool enabled );
 
         /// Set given map extra type to discovered.
         void set_discovered( const string_id<map_extra> &mapExtId );
@@ -86,7 +86,7 @@ class auto_note_settings
         bool has_auto_note_enabled( const std::string &mapExtId ) const;
 
         /// Update the auto note enabled status for given map extra ID string.
-        void set_auto_note_status( const std::string &mapExtId, const bool enabled );
+        void set_auto_note_status( const std::string &mapExtId, bool enabled );
 
     public:
         /// Load auto note settings state from player save.
