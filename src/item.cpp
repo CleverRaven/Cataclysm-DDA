@@ -8203,18 +8203,18 @@ cata::optional<tripoint> item::get_cable_target( player *p, const tripoint &pos 
     return g->m.getlocal( source );
 }
 
-bool item::process_cable( player *p, const tripoint &pos )
+bool item::process_cable( player *carrier, const tripoint &pos )
 {
-    if( p == nullptr ) {
-        reset_cable( p );
+    if( carrier == nullptr ) {
+        reset_cable( carrier );
         return false;
     }
     std::string state = get_var( "state" );
     if( state == "solar_pack_link" || state == "solar_pack" ) {
-        if( !p->has_item( *this ) || ( !p->is_wearing( "solarpack_on" ) ||
-                                       !p->is_wearing( "solarpack_on" ) ) ) {
-            p->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-            reset_cable( p );
+        if( !carrier->has_item( *this ) || ( !carrier->is_wearing( "solarpack_on" ) ||
+                                             !carrier->is_wearing( "solarpack_on" ) ) ) {
+            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+            reset_cable( carrier );
             return false;
         }
     }
@@ -8224,25 +8224,25 @@ bool item::process_cable( player *p, const tripoint &pos )
     };
 
     if( state == "UPS" ) {
-        if( !p->has_item( *this ) || ( !p->has_item_with( used_ups ) ) ) {
-            p->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-            for( item *used : p->items_with( used_ups ) ) {
+        if( !carrier->has_item( *this ) || ( !carrier->has_item_with( used_ups ) ) ) {
+            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+            for( item *used : carrier->items_with( used_ups ) ) {
                 used->erase_var( "cable" );
             }
-            reset_cable( p );
+            reset_cable( carrier );
             return false;
         }
     }
-    const cata::optional<tripoint> source = get_cable_target( p, pos );
+    const cata::optional<tripoint> source = get_cable_target( carrier, pos );
     if( !source ) {
         return false;
     }
 
     if( !g->m.veh_at( *source ) || ( source->z != g->get_levz() && !g->m.has_zlevels() ) ) {
-        if( p != nullptr && p->has_item( *this ) ) {
-            p->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+        if( carrier != nullptr && carrier->has_item( *this ) ) {
+            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
         }
-        reset_cable( p );
+        reset_cable( carrier );
         return false;
     }
 
@@ -8251,10 +8251,10 @@ bool item::process_cable( player *p, const tripoint &pos )
     charges = max_charges - distance;
 
     if( charges < 1 ) {
-        if( p != nullptr && p->has_item( *this ) ) {
-            p->add_msg_if_player( m_bad, _( "The over-extended cable breaks loose!" ) );
+        if( carrier != nullptr && carrier->has_item( *this ) ) {
+            carrier->add_msg_if_player( m_bad, _( "The over-extended cable breaks loose!" ) );
         }
-        reset_cable( p );
+        reset_cable( carrier );
     }
 
     return false;
@@ -8277,14 +8277,14 @@ void item::reset_cable( player *p )
     }
 }
 
-bool item::process_UPS( player *p, const tripoint & /*pos*/ )
+bool item::process_UPS( player *carrier, const tripoint & /*pos*/ )
 {
-    if( p == nullptr ) {
+    if( carrier == nullptr ) {
         erase_var( "cable" );
         active = false;
         return false;
     }
-    bool has_connected_cable = p->has_item_with( []( const item & it ) {
+    bool has_connected_cable = carrier->has_item_with( []( const item & it ) {
         return it.active && it.has_flag( "CABLE_SPOOL" ) && ( it.get_var( "state" ) == "UPS_link" ||
                 it.get_var( "state" ) == "UPS" );
     } );
