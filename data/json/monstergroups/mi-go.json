@@ -5,21 +5,13 @@
     "//": "Mi-go raiding parties spawning in the vicinity of a mi-go camp.  Puts slavers later on and keeps large groups from spawning until the player can deal with them.",
     "default": "mon_mi_go_slaver",
     "monsters": [
-      { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 20, "ends": 14 },
-      { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 10, "starts": 14, "ends": 30, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 2, "starts": 30, "pack_size": [ 3, 6 ] },
-      { "monster": "mon_mi_go_slaver", "freq": 100, "cost_multiplier": 10, "starts": 14, "ends": 30 },
-      {
-        "monster": "mon_mi_go_slaver",
-        "freq": 100,
-        "cost_multiplier": 20,
-        "starts": 14,
-        "ends": 30,
-        "pack_size": [ 1, 2 ]
-      },
-      { "monster": "mon_mi_go_slaver", "freq": 100, "cost_multiplier": 5, "starts": 30, "pack_size": [ 3, 6 ] },
-      { "monster": "mon_mi_go_scout", "freq": 100, "cost_multiplier": 50, "starts": 35 },
-      { "monster": "mon_mi_go_myrmidon", "freq": 20, "cost_multiplier": 50, "starts": 45 }
+      { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 20, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 10, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 2, "starts": 720, "pack_size": [ 3, 6 ] },
+      { "monster": "mon_mi_go_slaver", "freq": 30, "cost_multiplier": 10, "starts": 840 },
+      { "monster": "mon_mi_go_slaver", "freq": 30, "cost_multiplier": 20, "starts": 1080, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_mi_go_scout", "freq": 100, "cost_multiplier": 50, "starts": 840 },
+      { "monster": "mon_mi_go_myrmidon", "freq": 10, "cost_multiplier": 50, "starts": 1080 }
     ]
   },
   {
@@ -28,13 +20,12 @@
     "//": "Basic mi-go base defenders.",
     "default": "mon_mi_go_slaver",
     "monsters": [
-      { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 1, "pack_size": [ 2, 4 ] },
       { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_mi_go_guard", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_mi_go_guard", "freq": 100, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_mi_go_slaver", "freq": 100, "cost_multiplier": 2 },
-      { "monster": "mon_mi_go_slaver", "freq": 100, "cost_multiplier": 4, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_mi_go_scout", "freq": 100, "cost_multiplier": 2 }
+      { "monster": "mon_mi_go_guard", "freq": 50, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_mi_go_guard", "freq": 30, "cost_multiplier": 3, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_mi_go_slaver", "freq": 20, "cost_multiplier": 4, "starts": 840, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_mi_go_scout", "freq": 100, "cost_multiplier": 2, "starts": 840 }
     ]
   },
   {
@@ -43,8 +34,8 @@
     "//": "Mi-go base defenders for rooms where captives are being held.",
     "default": "mon_mi_go_guard",
     "monsters": [
-      { "monster": "mon_mi_go_guard", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_mi_go_guard", "freq": 100, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_mi_go_guard", "freq": 50, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_mi_go_guard", "freq": 50, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
       { "monster": "mon_mi_go_surgeon", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_mi_go_surgeon", "freq": 100, "cost_multiplier": 4, "pack_size": [ 1, 2 ] }
     ]
@@ -55,8 +46,8 @@
     "//": "Mi-go base defenders for major boss battles.",
     "default": "mon_mi_go_guard",
     "monsters": [
-      { "monster": "mon_mi_go_guard", "freq": 100, "cost_multiplier": 3, "pack_size": [ 2, 5 ] },
-      { "monster": "mon_mi_go_myrmidon", "freq": 100, "cost_multiplier": 6, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_mi_go_guard", "freq": 70, "cost_multiplier": 3, "pack_size": [ 2, 5 ] },
+      { "monster": "mon_mi_go_myrmidon", "freq": 30, "cost_multiplier": 6, "starts": 840, "pack_size": [ 1, 2 ] },
       { "monster": "mon_mi_go_scout", "freq": 100, "cost_multiplier": 3, "pack_size": [ 1, 2 ] }
     ]
   }

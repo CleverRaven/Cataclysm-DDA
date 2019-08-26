@@ -23,7 +23,8 @@
           { "group": "stash_food", "prob": 40 }
         ]
       },
-      { "item": "cash_card", "charges-min": 25000, "charges-max": 100000 }
+      { "item": "cash_card", "charges-min": 25000, "charges-max": 100000 },
+      { "item": "survival_kit", "prob": 5, "damage": [ 1, 4 ] }
     ]
   },
   {

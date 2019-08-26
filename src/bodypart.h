@@ -39,7 +39,13 @@ struct enum_traits<body_part> {
 enum class side : int {
     BOTH,
     LEFT,
-    RIGHT
+    RIGHT,
+    num_sides
+};
+
+template<>
+struct enum_traits<side> {
+    static constexpr auto last = side::num_sides;
 };
 
 /**

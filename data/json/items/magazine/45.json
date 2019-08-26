@@ -161,5 +161,37 @@
     "capacity": 12,
     "reliability": 10,
     "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "ppq45mag",
+    "type": "MAGAZINE",
+    "name": "PPQ magazine .45 ACP",
+    "description": "A 12 round steel box magazine for the Walther PPQ .45 ACP.",
+    "weight": 80,
+    "volume": "240 ml",
+    "price": 5000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "45",
+    "capacity": 12,
+    "reliability": 9,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "hptjhpmag",
+    "type": "MAGAZINE",
+    "name": "Model JHP magazine",
+    "description": "A 9-round steel box magazine for use with the Hi-Point Model JHP.",
+    "weight": 110,
+    "volume": "353 ml",
+    "price": 2500,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "45",
+    "capacity": 9,
+    "reliability": 8,
+    "flags": [ "MAG_COMPACT" ]
   }
 ]
