@@ -67,8 +67,7 @@
       { "trait": "SQUEAMISH", "prob": 20 },
       { "trait": "TRIGGERHAPPY", "prob": 10 },
       { "trait": "ANTIWHEAT", "prob": 5 },
-      { "trait": "WOOLALLERGY", "prob": 5 },
-      { "trait": "INCONSPICUOUS", "prob": 10 }
+      { "trait": "WOOLALLERGY", "prob": 5 }
     ]
   },
   {
