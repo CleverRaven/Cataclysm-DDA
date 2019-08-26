@@ -2862,7 +2862,7 @@ void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
                          mon->get_name() );
             } else if( ( mon->get_size() < p->get_size() + 1 ) ||
                        ( p->get_weight() > mon->get_weight() / 5 ) ) {
-                add_msg( m_info, _( "%s is too big to ride the %s" ), p->name, mon->get_name() );
+                add_msg( m_info, _( "%s is too big to ride the %s." ), p->name, mon->get_name() );
             }
             act->set_to_null();
             guy.revert_after_activity();
