@@ -150,9 +150,13 @@ int utf8_width( const char *s, const bool ignore_tags )
             continue;
         }
         if( ignore_tags ) {
-            if( ch == '<' ) {
+            const char *const tag1 = "color_";
+            const char *const tag2 = "/color>";
+            if( !inside_tag && ch == '<' &&
+                ( strncmp( ptr, tag1, strlen( tag1 ) ) == 0 || strncmp( ptr, tag2, strlen( tag2 ) ) == 0 ) ) {
+
                 inside_tag = true;
-            } else if( ch == '>' ) {
+            } else if( inside_tag && ch == '>' ) {
                 inside_tag = false;
                 continue;
             }

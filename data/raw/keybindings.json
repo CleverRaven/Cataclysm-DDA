@@ -188,6 +188,18 @@
   },
   {
     "type": "keybinding",
+    "id": "SCROLL_UP",
+    "name": "Scroll up",
+    "bindings": [ { "input_method": "mouse", "key": "SCROLL_UP" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_DOWN",
+    "name": "Scroll down",
+    "bindings": [ { "input_method": "mouse", "key": "SCROLL_DOWN" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SELECT_ALL",
     "category": "PICKUP",
     "name": "Select all",
@@ -1221,16 +1233,13 @@
   {
     "type": "keybinding",
     "id": "CONFIRM_QUIT",
-    "category": "EDITMAP_TERRAIN",
+    "category": "EDITMAP_FEATURE",
     "name": "Confirm & quit",
-    "bindings": [ { "input_method": "keyboard", "key": "g" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "CONFIRM_QUIT",
-    "category": "EDITMAP_TRAPS",
-    "name": "Confirm & quit",
-    "bindings": [ { "input_method": "keyboard", "key": "t" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "e" },
+      { "input_method": "keyboard", "key": "u" },
+      { "input_method": "keyboard", "key": "t" }
+    ]
   },
   {
     "type": "keybinding",
@@ -1243,7 +1252,7 @@
     "type": "keybinding",
     "id": "START",
     "category": "EDITMAP_SHAPE",
-    "name": "Select shape",
+    "name": "To start",
     "bindings": [ { "input_method": "keyboard", "key": "z" } ]
   },
   {
@@ -1283,8 +1292,15 @@
     "type": "keybinding",
     "id": "EDIT_TERRAIN",
     "category": "EDITMAP",
-    "name": "Edit terrain / furniture",
-    "bindings": [ { "input_method": "keyboard", "key": "g" } ]
+    "name": "Edit terrain",
+    "bindings": [ { "input_method": "keyboard", "key": "e" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EDIT_FURNITURE",
+    "category": "EDITMAP",
+    "name": "Edit furniture",
+    "bindings": [ { "input_method": "keyboard", "key": "u" } ]
   },
   {
     "type": "keybinding",
