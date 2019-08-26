@@ -243,5 +243,14 @@
     "type": "recipe",
     "result": "flamethrower_simple",
     "obsolete": true
+  },
+  {
+    "type": "mutation",
+    "id": "INCONSPICUOUS",
+    "name": "Inconspicuous",
+    "points": 1,
+    "description": "While sleeping or staying still, it is less likely that monsters will wander close to you.",
+    "social_modifiers": { "lie": 2 },
+    "valid": false
   }
 ]
