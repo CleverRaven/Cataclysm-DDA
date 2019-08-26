@@ -2690,15 +2690,6 @@
     "components": [ [ [ "sheet_metal_small", 20 ], [ "steel_chunk", 2 ] ] ]
   },
   {
-    "result": "muffler",
-    "type": "uncraft",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "48 s",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 7 ] ], [ [ "steel_chunk", 1 ] ], [ [ "platinum_small", 8 ] ], [ [ "pipe", 2 ] ] ]
-  },
-  {
     "result": "fluid_preserved_brain",
     "type": "uncraft",
     "time": "6 s",
