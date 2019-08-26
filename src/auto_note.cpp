@@ -367,8 +367,6 @@ namespace auto_notes
         
         	// Apply changes
         	for(const std::pair<const map_extra&, bool>& entry: this->mapExtraCache) {
-        		if(entry.second)
-        			std::cout << "Setting TRUE for " << entry.first.id.str() << std::endl;
         		settings.set_auto_note_status(entry.first.id, entry.second);
         	}
     	}
