@@ -481,9 +481,11 @@
     "type": "mutation",
     "id": "INCONSPICUOUS",
     "name": "Inconspicuous",
-    "points": 1,
-    "description": "While sleeping or staying still, it is less likely that monsters will wander close to you.",
-    "social_modifiers": { "lie": 2 },
+    "points": 2,
+    "description": "You’ve mastered the art of making yourself look smaller.  Creatures will notice you less, but intimidating NPCs will be harder.",
+    "social_modifiers": { "intimidate": -10 },
+    "stealth_modifier": 20,
+    "starting_trait": true,
     "valid": false
   },
   {
