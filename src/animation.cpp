@@ -563,27 +563,29 @@ void draw_line_curses( game &g, const tripoint &pos, const tripoint &center,
 } //namespace
 
 #if defined(TILES)
-void game::draw_line( const tripoint &p, const tripoint &center, const std::vector<tripoint> &ret )
+void game::draw_line( const tripoint &p, const tripoint &center,
+                      const std::vector<tripoint> &points )
 {
     if( !u.sees( p ) ) {
         return;
     }
 
     if( !use_tiles ) {
-        draw_line_curses( *this, p, center, ret ); // TODO: needed for tiles ver too??
+        draw_line_curses( *this, p, center, points ); // TODO: needed for tiles ver too??
         return;
     }
 
-    tilecontext->init_draw_line( p, ret, "line_target", true );
+    tilecontext->init_draw_line( p, points, "line_target", true );
 }
 #else
-void game::draw_line( const tripoint &p, const tripoint &center, const std::vector<tripoint> &ret )
+void game::draw_line( const tripoint &p, const tripoint &center,
+                      const std::vector<tripoint> &points )
 {
     if( !u.sees( p ) ) {
         return;
     }
 
-    draw_line_curses( *this, p, center, ret );
+    draw_line_curses( *this, p, center, points );
 }
 #endif
 
@@ -602,17 +604,17 @@ void draw_line_curses( game &g, const std::vector<tripoint> &points )
 } //namespace
 
 #if defined(TILES)
-void game::draw_line( const tripoint &p, const std::vector<tripoint> &vPoint )
+void game::draw_line( const tripoint &p, const std::vector<tripoint> &points )
 {
-    draw_line_curses( *this, vPoint );
-    tilecontext->init_draw_line( p, vPoint, "line_trail", false );
+    draw_line_curses( *this, points );
+    tilecontext->init_draw_line( p, points, "line_trail", false );
 }
 #else
-void game::draw_line( const tripoint &p, const std::vector<tripoint> &vPoint )
+void game::draw_line( const tripoint &p, const std::vector<tripoint> &points )
 {
     ( void )p; //unused
 
-    draw_line_curses( *this, vPoint );
+    draw_line_curses( *this, points );
 }
 #endif
 

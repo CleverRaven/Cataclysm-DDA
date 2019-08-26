@@ -28,6 +28,7 @@
 #include "help.h"
 #include "input.h"
 #include "itype.h"
+#include "kill_tracker.h"
 #include "magic.h"
 #include "map.h"
 #include "mapdata.h"
@@ -882,7 +883,10 @@ static void wait()
 static void sleep()
 {
     player &u = g->u;
-
+    if( u.is_mounted() ) {
+        u.add_msg_if_player( m_info, _( "You cannot sleep while mounted." ) );
+        return;
+    }
     uilist as_m;
     as_m.text = _( "Are you sure you want to sleep?" );
     // (Y)es/(S)ave before sleeping/(N)o
@@ -919,7 +923,7 @@ static void sleep()
 
         const auto &info = bio.info();
         if( info.power_over_time > 0 ) {
-            active.push_back( info.name );
+            active.push_back( info.name.translated() );
         }
     }
     for( auto &mut : u.get_mutations() ) {
@@ -2161,7 +2165,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_KILLS:
-                disp_kills();
+                get_kill_tracker().disp_kills();
                 break;
 
             case ACTION_FACTIONS:

@@ -340,7 +340,7 @@
     "proportional": { "weight": 0.4, "volume": 0.5 },
     "description": "A plastic cup with a spill-proof lid, designed for use by children.",
     "copy-from": "base_plastic_dish",
-    "contains": 1,
+    "contains": "250 ml",
     "watertight": true,
     "seals": true,
     "qualities": [ [ "CONTAIN", 1 ] ],
@@ -402,7 +402,7 @@
     "description": "A plastic spoon designed for use by children.",
     "looks_like": "spoon",
     "copy-from": "base_plastic_silverware",
-    "contains": 1,
+    "contains": "250 ml",
     "watertight": true,
     "qualities": [ [ "CONTAIN", 1 ] ],
     "snippet_category": [

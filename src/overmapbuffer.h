@@ -440,7 +440,7 @@ class overmapbuffer
          * @param force If true, placement will bypass the checks for valid placement.
          * @returns True if the special was placed, else false.
          */
-        bool place_special( const overmap_special &special, const tripoint &location,
+        bool place_special( const overmap_special &special, const tripoint &p,
                             om_direction::type dir,
                             bool must_be_unexplored, bool force );
         /**
@@ -493,7 +493,7 @@ class overmapbuffer
          * overmap terrain coordinates.
          * This function may create a new overmap if needed.
          */
-        bool check_ot( const std::string &otype, ot_match_type match_type, const tripoint &loc );
+        bool check_ot( const std::string &otype, ot_match_type match_type, const tripoint &p );
         bool check_overmap_special_type( const overmap_special_id &id, const tripoint &loc );
 
         /**
@@ -517,7 +517,7 @@ class overmapbuffer
          * The location is in absolute submap coordinates, the radius is in the same system.
          * The overmaps are returned sorted by distance from the provided location (closest first).
          */
-        std::vector<overmap *> get_overmaps_near( const point &location, int radius );
+        std::vector<overmap *> get_overmaps_near( const point &p, int radius );
         std::vector<overmap *> get_overmaps_near( const tripoint &location, int radius );
 };
 
