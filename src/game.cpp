@@ -4555,7 +4555,9 @@ T *game::critter_at( const tripoint &p, bool allow_hallucination )
         // otherwise, keep looking for the rider.
         // critter_at<creature> or critter_at() with no template will still default to returning monster first,
         // which is ok for the occasions where that happens.
-        if( !mon_ptr->has_effect( effect_ridden ) || ( !std::is_same<T, const npc>::value && !std::is_same<T, const player>::value && !std::is_same<T, const avatar>::value && !std::is_same<T, avatar>::value && !std::is_same<T, Character>::value && !std::is_same<T, const Character>::value ) ) {
+        if( !mon_ptr->has_effect( effect_ridden ) || ( std::is_same<T, monster>::value ||
+                std::is_same<T, Creature>::value || std::is_same<T, const monster>::value ||
+                std::is_same<T, const Creature>::value ) ) {
             return dynamic_cast<T *>( mon_ptr.get() );
         }
     }

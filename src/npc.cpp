@@ -1855,7 +1855,7 @@ bool npc::emergency( float danger ) const
 //Active npcs are the npcs near the player that are actively simulated.
 bool npc::is_active() const
 {
-    return g->critter_at<npc>( pos(), false ) == this;
+    return g->critter_at<npc>( pos() ) == this;
 }
 
 int npc::follow_distance() const

@@ -611,7 +611,7 @@ void npc::regen_ai_cache()
     while( i != std::end( ai_cache.sound_alerts ) ) {
         if( sees( g->m.getlocal( i->abs_pos ) ) ) {
             // if they were responding to a call for guards because of thievery
-            npc *const sound_source = g->critter_at<npc>( g->m.getlocal( i->abs_pos ), false );
+            npc *const sound_source = g->critter_at<npc>( g->m.getlocal( i->abs_pos ) );
             if( sound_source ) {
                 if( my_fac == sound_source->my_fac && sound_source->known_stolen_item ) {
                     sound_source->known_stolen_item = nullptr;
