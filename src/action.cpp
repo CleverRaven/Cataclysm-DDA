@@ -1034,7 +1034,7 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
 {
     // Highlight nearby terrain according to the highlight function
     if( allowed != nullptr ) {
-        cata::optional<tripoint> single = cata::nullopt;
+        cata::optional<tripoint> single;
         bool highlighted = false;
         for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
             if( allowed( pos ) ) {
