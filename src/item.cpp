@@ -8207,6 +8207,7 @@ bool item::process_cable( player *p, const tripoint &pos )
 {
     if( p == nullptr ) {
         reset_cable( p );
+        return false;
     }
     std::string state = get_var( "state" );
     if( state == "solar_pack_link" || state == "solar_pack" ) {
