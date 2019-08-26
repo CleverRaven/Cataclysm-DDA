@@ -81,7 +81,7 @@
     "min_melee": 1,
     "melee_allowed": true,
     "mult_bonuses": [ [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.05 ] ],
-    "flat_bonuses": [ [ "damage", "cut", 1 ], [ "damage", "stab", 1 ] ], 
+    "flat_bonuses": [ [ "damage", "cut", 1 ], [ "damage", "stab", 1 ] ],
     "messages": [ "You release a powerful slash at %s", "<npcname> slashes at %s" ]
   },
   {
@@ -120,7 +120,7 @@
       [ "arpen", "stab", 1.1 ],
       [ "arpen", "cut", 1.1 ]
     ],
-    "flat_bonuses": [ [ "damage", "stab", 1 ], [ "damage", "cut", 1 ] ],   
+    "flat_bonuses": [ [ "damage", "stab", 1 ], [ "damage", "cut", 1 ] ],
     "crit_tec": true,
     "messages": [
       "You envision the tension of a fully drawn bow and then launch a piercing blow on %s's top half",
