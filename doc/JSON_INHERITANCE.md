@@ -26,6 +26,8 @@ The following rules apply to the above example:
 
 * Flags can be added via ```extend```. For example ```556``` is military ammo and gains the ```NEVER_MISFIRES``` ammo effect. Any existing flags specified from ```223``` are preserved.
 
+* The entry you copied from must be of the same ```type``` as the item you added or changed (not all types are supported, see 'support' below)
+
 Reloaded ammo is derived from the factory equivalent but with a 10% penalty to ```damage``` and ```dispersion``` and a chance to misfire:
 
 ```
