@@ -1111,12 +1111,13 @@
     "act_cost": 50
   },
   {
-    "id": "bio_fuel_cell_gazoline",
+    "id": "bio_fuel_cell_gasoline",
     "type": "bionic",
-    "name": "Diesel Generator CBM",
+    "name": "Gasoline Fuel Cell CBM",
     "description": "A small gasoline fuel cell fixed to your scapula, despite limiting its energy output this bionic produce significant amount of heat that's dissipated through heat exhaust protruding from your back.  A diffuse network of bio-plastic bladders has been meshed with your circulatory system and serves as a fuel tank.",
     "occupied_bodyparts": [ [ "TORSO", 8 ] ],
-    "fuel_options": [ "gazoline" ],
+    "encumbrance": [ [ "TORSO", 5 ] ],
+    "fuel_options": [ "gasoline" ],
     "fuel_capacity": 500,
     "fuel_efficiency": 0.25,
     "time": 1,

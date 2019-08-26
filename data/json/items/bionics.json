@@ -695,11 +695,11 @@
     "difficulty": 4
   },
   {
-    "id": "bio_fuel_cell_gazoline",
+    "id": "bio_fuel_cell_gasoline",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
-    "name": "Gazoline Fuel Cell CBM",
-    "description": "A small gasoline fuel cell able to convert gazoline to bionic power.  It's connected to a diffuse network of bio-plastic bladders able to hold up to 500 ml of gazoline.",
+    "name": "Gasoline Fuel Cell CBM",
+    "description": "A small gasoline fuel cell able to convert gasoline to bionic power.  It's connected to a diffuse network of bio-plastic bladders able to hold up to 500 ml of gasoline.",
     "price": 450000,
     "weight": 5000,
     "difficulty": 6
