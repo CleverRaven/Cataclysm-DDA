@@ -1272,9 +1272,8 @@ void iexamine::locked_object( player &p, const tripoint &examp )
         return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
     } );
 
-    p.add_msg_if_player( string_format( _( "You attempt to pry open the %s using your %s..." ),
-                                        g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ),
-                                        prying_items[0]->tname() ) );
+    p.add_msg_if_player( _( "You attempt to pry open the %s using your %s..." ),
+                         g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ), prying_items[0]->tname() );
 
     // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
     // changes to the original item.
@@ -2619,8 +2618,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
         selection_menu.addentry( 4, false, 'e', _( "Extinguish fire (bashing item required)" ) );
     }
     if( furn_is_deployed ) {
-        selection_menu.addentry( 3, true, 't', string_format( _( "Take down the %s" ),
-                                 g->m.furnname( examp ) ) );
+        selection_menu.addentry( 3, true, 't', _( "Take down the %s" ), g->m.furnname( examp ) );
     }
     selection_menu.query();
 
@@ -2634,8 +2632,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
                 item *it = firestarter.second;
                 const auto usef = it->type->get_use( "firestarter" );
                 const auto actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-                p.add_msg_if_player( string_format( _( "You attempt to start a fire with your %s..." ),
-                                                    it->tname() ) );
+                p.add_msg_if_player( _( "You attempt to start a fire with your %s..." ), it->tname() );
                 const ret_val<bool> can_use = actor->can_use( p, *it, false, examp );
                 if( can_use.success() ) {
                     const int charges = actor->use( p, *it, false, examp );
@@ -2752,9 +2749,9 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
         uilist selectmenu;
         selectmenu.text = _( "Select an action" );
         selectmenu.addentry( ADD_BREW, ( p.charges_of( brew_type ) > 0 ), MENU_AUTOASSIGN,
-                             string_format( _( "Add more %s to the vat" ), brew_nname ) );
+                             _( "Add more %s to the vat" ), brew_nname );
         selectmenu.addentry( REMOVE_BREW, brew.made_of( LIQUID ), MENU_AUTOASSIGN,
-                             string_format( _( "Remove %s from the vat" ), brew.tname() ) );
+                             _( "Remove %s from the vat" ), brew.tname() );
         selectmenu.addentry( START_FERMENT, true, MENU_AUTOASSIGN, _( "Start fermenting cycle" ) );
         selectmenu.query();
         switch( selectmenu.ret ) {
@@ -4282,9 +4279,9 @@ static player &best_installer( player &p, player &null_player, int difficulty )
             int ally_cos = bionic_manip_cos( ally_skills[ i ].first, true, difficulty );
             if( e->has_effect( effect_sleep ) ) {
                 //~ %1$s is the name of the ally
-                if( !g->u.query_yn( string_format(
-                                        _( "<color_white>%1$s is asleep, but has a <color_green>%2$d<color_white> chance of success compared to your <color_red>%3$d<color_white> chance of success.  Continue with a higher risk of failure?</color>" ),
-                                        ally.disp_name(), ally_cos, player_cos ) ) ) {
+                if( !g->u.query_yn(
+                        _( "<color_white>%1$s is asleep, but has a <color_green>%2$d<color_white> chance of success compared to your <color_red>%3$d<color_white> chance of success.  Continue with a higher risk of failure?</color>" ),
+                        ally.disp_name(), ally_cos, player_cos ) ) {
                     return null_player;
                 } else {
                     continue;
@@ -5568,18 +5565,15 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
             const recipe &rec = selected_craft->get_making();
             if( p.has_recipe( &rec, p.crafting_inventory(), p.get_crafting_helpers() ) == -1 ) {
                 p.add_msg_player_or_npc(
-                    string_format( _( "You don't know the recipe for the %s and can't continue crafting." ),
-                                   rec.result_name() ),
-                    string_format( _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
-                                   rec.result_name() )
-                );
+                    _( "You don't know the recipe for the %s and can't continue crafting." ),
+                    _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
+                    rec.result_name() );
                 break;
             }
             p.add_msg_player_or_npc(
-                string_format( pgettext( "in progress craft", "You start working on the %s." ),
-                               selected_craft->tname() ),
-                string_format( pgettext( "in progress craft", "<npcname> starts working on the %s." ),
-                               selected_craft->tname() ) );
+                pgettext( "in progress craft", "You start working on the %s." ),
+                pgettext( "in progress craft", "<npcname> starts working on the %s." ),
+                selected_craft->tname() );
             p.assign_activity( activity_id( "ACT_CRAFT" ) );
             p.activity.targets.push_back( crafts[amenu2.ret] );
             p.activity.values.push_back( 0 ); // Not a long craft

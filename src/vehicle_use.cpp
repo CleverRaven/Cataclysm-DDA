@@ -1533,6 +1533,10 @@ void vehicle::use_harness( int part, const tripoint &pos )
     }
     const cata::optional<tripoint> target_ = choose_adjacent(
                 _( "Where is the creature to harness?" ) );
+    if( !target_ ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
     const tripoint target = *target_;
     monster *mon_ptr = g->critter_at<monster>( target );
     if( mon_ptr != nullptr ) {

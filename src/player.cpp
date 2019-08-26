@@ -146,6 +146,7 @@ const efftype_id effect_frostbite_recovery( "frostbite_recovery" );
 const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_glowy_led( "glowy_led" );
+const efftype_id effect_got_checked( "got_checked" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_happy( "happy" );
@@ -1560,7 +1561,6 @@ int player::run_cost( int base_cost, bool diag ) const
     if( diag ) {
         movecost *= 0.7071f; // because everything here assumes 100 is base
     }
-    float stamina_modifier;
     const bool flatground = movecost < 105;
     // The "FLAT" tag includes soft surfaces, so not a good fit.
     const bool on_road = flatground && g->m.has_flag( "ROAD", pos() );
@@ -1660,19 +1660,17 @@ int player::run_cost( int base_cost, bool diag ) const
         }
         // Both walk and run speed drop to half their maximums as stamina approaches 0.
         // Convert stamina to a float first to allow for decimal place carrying
-        stamina_modifier = ( static_cast<float>( stamina ) / get_stamina_max() + 1 ) / 2;
-    } else {
-        stamina_modifier = 1.0;
-    }
+        float stamina_modifier = ( static_cast<float>( stamina ) / get_stamina_max() + 1 ) / 2;
+        if( move_mode == PMM_RUN && stamina > 0 ) {
+            // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
+            stamina_modifier *= 2.0;
+        }
+        if( move_mode == PMM_CROUCH ) {
+            stamina_modifier *= 0.5;
+        }
+        movecost /= stamina_modifier;
 
-    if( move_mode == PMM_RUN && stamina > 0 ) {
-        // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
-        stamina_modifier *= 2.0;
     }
-    if( move_mode == PMM_CROUCH ) {
-        stamina_modifier *= 0.5;
-    }
-    movecost /= stamina_modifier;
 
     if( diag ) {
         movecost *= M_SQRT2;
@@ -4470,20 +4468,21 @@ int player::addiction_level( add_type type ) const
     return iter != addictions.end() ? iter->intensity : 0;
 }
 
-void player::siphon( vehicle &veh, const itype_id &type )
+void player::siphon( vehicle &veh, const itype_id &desired_liquid )
 {
     auto qty = veh.fuel_left( type );
     if( qty <= 0 ) {
-        add_msg( m_bad, _( "There is not enough %s left to siphon it." ), item::nname( type ) );
+        add_msg( m_bad, _( "There is not enough %s left to siphon it." ),
+                 item::nname( desired_liquid ) );
         return;
     }
 
-    item liquid( type, calendar::turn, qty );
+    item liquid( desired_liquid, calendar::turn, qty );
     if( liquid.is_food() ) {
-        liquid.set_item_specific_energy( veh.fuel_specific_energy( type ) );
+        liquid.set_item_specific_energy( veh.fuel_specific_energy( desired_liquid ) );
     }
     if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
-        veh.drain( type, qty - liquid.charges );
+        veh.drain( desired_liquid, qty - liquid.charges );
     }
 }
 
@@ -8981,7 +8980,7 @@ bool player::invoke_item( item *used, const std::string &method, const tripoint 
 
     if( used->is_tool() || used->is_medication() || used->get_contained().is_medication() ) {
         return consume_charges( *actually_used, charges_used );
-    } else if( used->is_bionic() || used->is_deployable() ) {
+    } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
         i_rem( used );
         return true;
     }
@@ -11892,6 +11891,27 @@ std::pair<std::string, nc_color> player::get_hunger_description() const
     }
 
     return std::make_pair( hunger_string, hunger_color );
+}
+
+std::pair<std::string, nc_color> player::get_pain_description() const
+{
+    auto pain = Creature::get_pain_description();
+    nc_color pain_color = pain.second;
+    std::string pain_string;
+    // get pain color
+    if( get_perceived_pain() >= 60 ) {
+        pain_color = c_red;
+    } else if( get_perceived_pain() >= 40 ) {
+        pain_color = c_light_red;
+    }
+    // get pain string
+    if( ( has_trait( trait_SELFAWARE ) || has_effect( effect_got_checked ) ) &&
+        get_perceived_pain() > 0 ) {
+        pain_string = string_format( "%s %d", _( "Pain " ), get_perceived_pain() );
+    } else if( get_perceived_pain() > 0 ) {
+        pain_string = pain.first;
+    }
+    return std::make_pair( pain_string, pain_color );
 }
 
 void player::enforce_minimum_healing()

@@ -47,48 +47,6 @@
   },
   {
     "type": "uncraft",
-    "result": "bio_reactor",
-    "skill_used": "electronics",
-    "difficulty": 10,
-    "time": "500 s",
-    "using": [ [ "soldering_standard", 120 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "minireactor", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "result": "bio_plut_filter",
-    "skill_used": "electronics",
-    "difficulty": 10,
-    "time": "500 s",
-    "using": [ [ "soldering_standard", 80 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "laptop", -1 ], [ "control_laptop", -1 ] ] ],
-    "components": [ [ [ "bio_blood_filter", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "burnt_out_bionic", 1 ] ], [ [ "RAM", 1 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "result": "bio_reactor_upgrade",
-    "skill_used": "electronics",
-    "difficulty": 10,
-    "time": "500 s",
-    "using": [ [ "soldering_standard", 120 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "laptop", -1 ], [ "control_laptop", -1 ] ] ],
-    "components": [ [ [ "bio_radscrubber", 1 ] ], [ [ "bio_geiger", 1 ] ], [ [ "RAM", 1 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "result": "bio_advreactor",
-    "skill_used": "electronics",
-    "difficulty": 10,
-    "time": "50 s",
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "bio_reactor", 1 ] ], [ [ "bio_reactor_upgrade", 1 ] ] ]
-  },
-  {
-    "type": "uncraft",
     "result": "bio_ups",
     "skill_used": "electronics",
     "difficulty": 6,

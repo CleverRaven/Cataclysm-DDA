@@ -84,6 +84,8 @@ struct special_game;
 
 using itype_id = std::string;
 class avatar;
+class event_bus;
+class kill_tracker;
 class map;
 class faction_manager;
 class new_faction_manager;
@@ -231,7 +233,7 @@ class game
         /** Returns the other end of the stairs (if any). May query, affect u etc.  */
         cata::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder );
         /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc. */
-        void vertical_shift( int dest_z );
+        void vertical_shift( int z_after );
         /** Add goes up/down auto_notes (if turned on) */
         void vertical_notes( int z_before, int z_after );
         /** Checks to see if a player can use a computer (not illiterate, etc.) and uses if able. */
@@ -284,7 +286,7 @@ class game
         /** Spawns a hallucination at a determined position. */
         bool spawn_hallucination( const tripoint &p );
         /** Swaps positions of two creatures */
-        bool swap_critters( Creature &first, Creature &second );
+        bool swap_critters( Creature &, Creature & );
 
     private:
         friend class monster_range;
@@ -403,16 +405,16 @@ class game
          * If the monster was revived, the caller should remove the corpse item.
          * If reviving failed, the item is unchanged, as is the environment (no new monsters).
          */
-        bool revive_corpse( const tripoint &location, item &corpse );
+        bool revive_corpse( const tripoint &p, item &it );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
         void save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer );
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
-        bool cancel_activity_query( const std::string &message );
+        bool cancel_activity_query( const std::string &text );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
          *  if the player wants to ignore further distractions. */
-        bool cancel_activity_or_ignore_query( distraction_type type, const std::string &reason );
+        bool cancel_activity_or_ignore_query( distraction_type type, const std::string &text );
         /** Handles players exiting from moving vehicles. */
-        void moving_vehicle_dismount( const tripoint &p );
+        void moving_vehicle_dismount( const tripoint &dest_loc );
 
         /** Returns the current remotely controlled vehicle. */
         vehicle *remoteveh();
@@ -437,14 +439,7 @@ class game
     public:
         /** Unloads, then loads the NPCs */
         void reload_npcs();
-        /** Returns the number of kills of the given mon_id by the player. */
-        int kill_count( const mtype_id &id );
-        /** Returns the number of kills of the given monster species by the player. */
-        int kill_count( const species_id &spec );
-        /** Increments the number of kills of the given mtype_id by the player upwards. */
-        void increase_kill_count( const mtype_id &id );
-        /** Record the fact that the player murdered an NPC. */
-        void record_npc_kill( const npc &p );
+        const kill_tracker &get_kill_tracker() const;
         /** Add follower id to set of followers. */
         void add_npc_follower( const character_id &id );
         /** Remove follower id from follower set. */
@@ -455,8 +450,6 @@ class game
         void validate_npc_followers();
         /** validate camps to ensure they are on the overmap list */
         void validate_camps();
-        /** Return list of killed NPC */
-        std::list<std::string> get_npc_kill();
 
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport( player *p = nullptr, bool add_teleglow = true );
@@ -517,7 +510,7 @@ class game
                                         const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
 
         // Shared method to print "look around" info
-        void pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,
+        void pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_info,
                                       int &line, int last_line, const visibility_variables &cache );
 
         // Shared method to print "look around" info
@@ -613,12 +606,13 @@ class game
         void knockback( std::vector<tripoint> &traj, int force, int stun, int dam_mult );
 
         // Animation related functions
-        void draw_bullet( const tripoint &pos, int i, const std::vector<tripoint> &trajectory,
+        void draw_bullet( const tripoint &t, int i, const std::vector<tripoint> &trajectory,
                           char bullet );
-        void draw_hit_mon( const tripoint &p, const monster &critter, bool dead = false );
+        void draw_hit_mon( const tripoint &p, const monster &m, bool dead = false );
         void draw_hit_player( const player &p, int dam );
-        void draw_line( const tripoint &p, const tripoint &center_point, const std::vector<tripoint> &ret );
-        void draw_line( const tripoint &p, const std::vector<tripoint> &ret );
+        void draw_line( const tripoint &p, const tripoint &center_point,
+                        const std::vector<tripoint> &points );
+        void draw_line( const tripoint &p, const std::vector<tripoint> &points );
         void draw_weather( const weather_printable &wPrint );
         void draw_sct();
         void draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset );
@@ -671,9 +665,6 @@ class game
         // Regular movement. Returns false if it failed for any reason
         bool walk_move( const tripoint &dest );
         void on_move_effects();
-
-        // returns player's "kill xp" for monsters via STK
-        int kill_xp() const;
     private:
         // Game-start procedures
         void load( const save_t &name ); // Load a player-specific save file
@@ -860,7 +851,6 @@ class game
         bool handle_mouseview( input_context &ctxt, std::string &action );
 
         // On-request draw functions
-        void disp_kills();          // Display the player's kill counts
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings
 
@@ -875,7 +865,7 @@ class game
         void move_save_to_graveyard();
         bool save_player_data();
         // ########################## DATA ################################
-    protected:
+    private:
         // May be a bit hacky, but it's probably better than the header spaghetti
         pimpl<map> map_ptr;
         pimpl<avatar> u_ptr;
@@ -883,6 +873,8 @@ class game
         live_view &liveview;
         pimpl<scent_map> scent_ptr;
         pimpl<timed_event_manager> timed_event_manager_ptr;
+        pimpl<event_bus> event_bus_ptr;
+        pimpl<kill_tracker> kill_tracker_ptr;
 
     public:
         /** Make map a reference here, to avoid map.h in game.h */
@@ -890,6 +882,8 @@ class game
         avatar &u;
         scent_map &scent;
         timed_event_manager &timed_events;
+
+        event_bus &events();
 
         pimpl<Creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr;
@@ -961,8 +955,6 @@ class game
         character_id next_npc_id;
         int next_mission_id;
         std::set<character_id> follower_ids; // Keep track of follower NPC IDs
-        std::map<mtype_id, int> kills;         // Player's kill count
-        std::list<std::string> npc_kills;      // names of NPCs the player killed
         int moves_since_last_save;
         time_t last_save_timestamp;
         mutable std::array<float, OVERMAP_LAYERS> latest_lightlevels;

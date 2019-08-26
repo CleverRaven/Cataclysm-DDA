@@ -169,7 +169,7 @@ class mod_manager
 class mod_ui
 {
     public:
-        mod_ui( mod_manager &modman );
+        mod_ui( mod_manager &mman );
 
         std::string get_information( const MOD_INFORMATION *mod );
         mod_manager &active_manager;

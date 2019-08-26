@@ -1,5 +1,43 @@
 [
   {
+    "id": "bio_advreactor",
+    "type": "bionic",
+    "name": "Advanced Microreactor System",
+    "description": "This stripped down mini-reactor is more efficient and safer than the base model due to integrated radiation cleansers.  There is no way to shut it down once active, but you can toggle additional fuel intake.",
+    "occupied_bodyparts": [ [ "TORSO", 55 ] ],
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "included_bionics": [ "bio_plutdump" ],
+    "upgraded_bionic": "bio_reactor"
+  },
+  {
+    "id": "bio_plut_filter",
+    "type": "bionic",
+    "name": "Plutonium Filter",
+    "description": "This set of tanks and filters allows you to extract plutonium from radioactive slurry.",
+    "occupied_bodyparts": [ [ "TORSO", 10 ] ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "act_cost": 1,
+    "react_cost": 1,
+    "time": 12
+  },
+  {
+    "id": "bio_plutdump",
+    "type": "bionic",
+    "name": "Plutonium Purger",
+    "included": true,
+    "description": "Triggers an emergency reactor fuel purge that ejects all fuel from your reactor.",
+    "act_cost": 1
+  },
+  {
+    "id": "bio_reactor",
+    "type": "bionic",
+    "name": "Microreactor System",
+    "description": "This stripped down mini-reactor generates impressive amounts of bionic power.  There is no way to shut it down, but you can toggle additional fuel intake.  Irradiates your body when active.",
+    "occupied_bodyparts": [ [ "TORSO", 55 ] ],
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "included_bionics": [ "bio_plutdump" ]
+  },
+  {
     "id": "bio_furnace",
     "type": "bionic",
     "name": "Internal Furnace",

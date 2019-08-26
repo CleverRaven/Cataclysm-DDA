@@ -53,18 +53,20 @@ class npc_template;
 namespace io
 {
 
-static const std::map<std::string, map_extra_method> map_extra_method_map = {{
-        { "null", map_extra_method::null },
-        { "map_extra_function", map_extra_method::map_extra_function },
-        { "mapgen", map_extra_method::mapgen },
-        { "update_mapgen", map_extra_method::update_mapgen },
-    }
-};
-
 template<>
-map_extra_method string_to_enum<map_extra_method>( const std::string &data )
+std::string enum_to_string<map_extra_method>( map_extra_method data )
 {
-    return string_to_enum_look_up( map_extra_method_map, data );
+    switch( data ) {
+        // *INDENT-OFF*
+        case map_extra_method::null: return "null";
+        case map_extra_method::map_extra_function: return "map_extra_function";
+        case map_extra_method::mapgen: return "mapgen";
+        case map_extra_method::update_mapgen: return "update_mapgen";
+        case map_extra_method::num_map_extra_methods: break;
+        // *INDENT-ON*
+    }
+    debugmsg( "Invalid map_extra_method" );
+    abort();
 }
 
 } // namespace io
