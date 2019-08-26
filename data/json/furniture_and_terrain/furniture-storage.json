@@ -17,7 +17,7 @@
         { "item": "nail", "charges": [ 12, 16 ] }
       ]
     },
-    "max_volume": "2000 L",
+    "max_volume": 8000,
     "bash": {
       "str_min": 6,
       "str_max": 40,
@@ -56,7 +56,7 @@
         { "item": "rag", "count": [ 15, 20 ] }
       ]
     },
-    "max_volume": "875 L",
+    "max_volume": 3500,
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -89,7 +89,7 @@
         { "item": "rag", "count": [ 15, 20 ] }
       ]
     },
-    "max_volume": "875 L",
+    "max_volume": 3500,
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -128,7 +128,7 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 6, 10 ] } ]
     },
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -151,7 +151,7 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": [ 0, 1 ] }, { "item": "nail", "charges": [ 6, 10 ] } ]
     },
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -174,7 +174,7 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 3 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 8 ] } ]
     },
-    "max_volume": "1000 L",
+    "max_volume": 4000,
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -202,7 +202,7 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 6 }, { "item": "wood_panel", "count": [ 0, 1 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
     },
-    "max_volume": "2000 L",
+    "max_volume": 8000,
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -232,7 +232,7 @@
         { "item": "pipe", "count": [ 0, 4 ] }
       ]
     },
-    "max_volume": "400 L",
+    "max_volume": 1600,
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -257,7 +257,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 14,
-    "max_volume": "250 L",
+    "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "examine_action": "gunsafe_ml",
     "bash": {
@@ -282,7 +282,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 14,
-    "max_volume": "250 L",
+    "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "bash": {
       "str_min": 40,
@@ -306,7 +306,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 14,
-    "max_volume": "250 L",
+    "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "examine_action": "gunsafe_el",
     "bash": {
@@ -340,7 +340,7 @@
         { "item": "pipe", "count": [ 4, 8 ] }
       ]
     },
-    "max_volume": "500 L",
+    "max_volume": 2000,
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -367,7 +367,7 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": [ 2, 5 ] }, { "item": "sheet_metal", "count": 1 } ]
     },
-    "max_volume": "10 L",
+    "max_volume": 40,
     "bash": {
       "str_min": 12,
       "str_max": 50,
@@ -400,7 +400,7 @@
         { "item": "sheet_metal_small", "count": [ 0, 4 ] }
       ]
     },
-    "max_volume": "1750 L",
+    "max_volume": 7000,
     "bash": {
       "str_min": 6,
       "str_max": 30,
@@ -454,7 +454,7 @@
     "required_str": 4,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
     "deconstruct": { "items": [ { "item": "nail", "charges": [ 2, 6 ] }, { "item": "2x4", "count": 2 } ] },
-    "max_volume": "30 L",
+    "max_volume": 120,
     "bash": {
       "str_min": 6,
       "str_max": 30,
@@ -473,7 +473,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 5,
-    "max_volume": "20 L",
+    "max_volume": 80,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
     "bash": {
       "str_min": 8,
@@ -493,7 +493,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 14,
-    "max_volume": "250 L",
+    "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "open": "f_safe_o",
     "examine_action": "open_safe",
@@ -519,7 +519,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 14,
-    "max_volume": "250 L",
+    "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "examine_action": "safe",
     "bash": {
@@ -544,7 +544,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 14,
-    "max_volume": "250 L",
+    "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "close": "f_safe_c",
     "bash": {
@@ -568,7 +568,7 @@
     "color": "light_cyan",
     "move_cost_mod": 1,
     "required_str": 5,
-    "max_volume": "20 L",
+    "max_volume": 80,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
     "bash": {
       "str_min": 8,
@@ -597,7 +597,7 @@
         { "item": "pipe", "count": [ 4, 8 ] }
       ]
     },
-    "max_volume": "500 L",
+    "max_volume": 2000,
     "bash": {
       "str_min": 16,
       "str_max": 40,
