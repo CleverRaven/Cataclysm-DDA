@@ -1,0 +1,40 @@
+[
+  {
+    "type": "uncraft",
+    "result": "muffler",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "48 s",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 7 ] ], [ [ "steel_chunk", 1 ] ], [ [ "platinum_small", 8 ] ], [ [ "pipe", 2 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "beeper",
+    "skill_used": "mechanics",
+    "difficulty": 1,
+    "time": "500 s",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "cable", 2 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "stereo",
+    "skill_used": "mechanics",
+    "difficulty": 2,
+    "time": "20 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 10 ] ],
+    "components": [ [ [ "power_supply", 1 ] ], [ [ "cable", 40 ] ], [ [ "e_scrap", 7 ] ], [ [ "scrap", 12 ] ], [ [ "beeper", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "chimes",
+    "skill_used": "mechanics",
+    "difficulty": 2,
+    "time": "20 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 10 ] ],
+    "components": [ [ [ "power_supply", 1 ] ], [ [ "cable", 20 ] ], [ [ "e_scrap", 5 ] ], [ [ "scrap", 15 ] ], [ [ "beeper", 1 ] ] ]
+  }
+]
