@@ -115,7 +115,7 @@ class auto_note_settings
 
         /// This set contains the ID strings of all map extras that were already encountered by the player.
         /// This is used in order to avoid spoilers in the GUI.
-        std::unordered_set<std::string> discovered;
+        std::unordered_set<string_id<map_extra>> discovered;
 };
 } // namespace auto_notes
 

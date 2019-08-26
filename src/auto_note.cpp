@@ -27,18 +27,16 @@ std::string auto_note_settings::build_save_path() const
 
 void auto_note_settings::clear()
 {
-    this->autoNoteEnabled.clear();
+    autoNoteEnabled.clear();
 }
 
 bool auto_note_settings::save()
 {
-    // Check if the player is already saved.
     if( !file_exist( g->get_player_base_save_path() + ".sav" ) ) {
-        return true;    // Nothing to do here
+        return true;
     }
 
-    // Serialize contents of map ext set as array of strings
-    return write_to_file( this->build_save_path(), [&]( std::ostream & fstr ) {
+    return write_to_file( build_save_path(), [&]( std::ostream & fstr ) {
         JsonOut jout{ fstr, true };
 
         jout.start_object();
@@ -46,7 +44,7 @@ bool auto_note_settings::save()
         jout.member( "enabled" );
 
         jout.start_array();
-        for( const std::string &entry : this->autoNoteEnabled ) {
+        for( const std::string &entry : autoNoteEnabled ) {
             jout.write( entry );
         }
         jout.end_array();
@@ -54,8 +52,8 @@ bool auto_note_settings::save()
         jout.member( "discovered" );
 
         jout.start_array();
-        for( const std::string &entry : this->discovered ) {
-            jout.write( entry );
+        for( const string_id<map_extra> &entry : discovered ) {
+            jout.write( entry.str() );
         }
         jout.end_array();
 
@@ -66,10 +64,8 @@ bool auto_note_settings::save()
 
 void auto_note_settings::load()
 {
-    // Clear all remaining settings
-    this->clear();
+    clear();
 
-    // Lambda used inside the read from file call
     const auto parseJson = [&]( JsonIn & jin ) {
         jin.start_object();
 
@@ -80,13 +76,13 @@ void auto_note_settings::load()
                 jin.start_array();
                 while( !jin.end_array() ) {
                     const std::string entry = jin.get_string();
-                    this->autoNoteEnabled.insert( entry );
+                    autoNoteEnabled.insert( entry );
                 }
             } else if( name == "discovered" ) {
                 jin.start_array();
                 while( !jin.end_array() ) {
                     const std::string entry = jin.get_string();
-                    this->discovered.insert( entry );
+                    discovered.insert( string_id<map_extra> {entry} );
                 }
             } else {
                 jin.skip_value();
@@ -95,83 +91,74 @@ void auto_note_settings::load()
         }
     };
 
-    // Actually read save file
-    if( !read_from_file_optional_json( this->build_save_path(), parseJson ) ) {
-        // If loading from JSON failed, fall back to default initialization
-        this->default_initialize();
-        this->save();
+    if( !read_from_file_optional_json( build_save_path(), parseJson ) ) {
+        default_initialize();
+        save();
     }
 }
 
 void auto_note_settings::default_initialize()
 {
-    // Perform clear for good measure
-    this->clear();
+    clear();
 
-    // Fetch all know map extra types and iterate over them
-    for( auto extra : MapExtras::mapExtraFactory().get_all() ) {
+    for( auto &extra : MapExtras::mapExtraFactory().get_all() ) {
         if( extra.autonote ) {
-            this->autoNoteEnabled.insert( extra.id.str() );
+            autoNoteEnabled.insert( extra.id.str() );
         }
     }
 }
 
 void auto_note_settings::set_discovered( const string_id<map_extra> &mapExtId )
 {
-    this->discovered.insert( mapExtId.str() );
+    discovered.insert( mapExtId );
 }
 
 bool auto_note_settings::was_discovered( const string_id<map_extra> &mapExtId ) const
 {
-    return this->discovered.count( mapExtId.str() ) != 0;
+    return discovered.count( mapExtId ) != 0;
 }
 
 void auto_note_settings::show_gui()
 {
-    // Create local GUI instance and show
     auto_note_manager_gui gui{ };
     gui.show();
 
-    // If settings were changed, we need to do a save
     if( gui.was_changed() ) {
-        this->save();
+        save();
     }
 }
 
 bool auto_note_settings::has_auto_note_enabled( const std::string &mapExtId ) const
 {
-    return this->autoNoteEnabled.count( mapExtId ) != 0;
+    return autoNoteEnabled.count( mapExtId ) != 0;
 }
 
 void auto_note_settings::set_auto_note_status( const std::string &mapExtId, const bool enabled )
 {
     if( enabled ) {
-        this->autoNoteEnabled.insert( mapExtId );
-    } else if( this->has_auto_note_enabled( mapExtId ) ) {
-        this->autoNoteEnabled.erase( mapExtId );
+        autoNoteEnabled.insert( mapExtId );
+    } else if( has_auto_note_enabled( mapExtId ) ) {
+        autoNoteEnabled.erase( mapExtId );
     }
 }
 
 bool auto_note_settings::has_auto_note_enabled( const string_id<map_extra> &mapExtId ) const
 {
-    return this->has_auto_note_enabled( mapExtId.str() );
+    return has_auto_note_enabled( mapExtId.str() );
 }
 
 void auto_note_settings::set_auto_note_status( const string_id<map_extra> &mapExtId,
         const bool enabled )
 {
-    this->set_auto_note_status( mapExtId.str(), enabled );
+    set_auto_note_status( mapExtId.str(), enabled );
 }
 
 void auto_note_manager_gui::initialize()
 {
-    // Clear all data
-    this->mapExtraCache.clear();
+    mapExtraCache.clear();
 
-    // Fetch reference to current auto note settings
     const auto_note_settings &settings = get_auto_notes_settings();
 
-    // Fetch all know map extra types and iterate over them
     for( auto extra : MapExtras::mapExtraFactory().get_all() ) {
         // Ignore all extras that have autonote disabled in the JSON.
         // This filters out lots of extras users shouldnt see (like "normal")
@@ -179,30 +166,25 @@ void auto_note_manager_gui::initialize()
             continue;
         }
 
-        // Check if auto note is enabled for this map extra type
         bool isAutoNoteEnabled = settings.has_auto_note_enabled( extra.id );
 
-        // Insert into cache
-        this->mapExtraCache.emplace( std::make_pair( extra.id.str(), std::make_pair( extra,
-                                     isAutoNoteEnabled ) ) );
+        mapExtraCache.emplace( std::make_pair( extra.id.str(), std::make_pair( extra,
+                                               isAutoNoteEnabled ) ) );
 
-        // Only insert into display cache if map extra was already discovered. This
-        // is done in order to avoid spoilers
         if( settings.was_discovered( extra.id ) ) {
-            this->displayCache.push_back( extra.id.str() );
+            displayCache.push_back( extra.id.str() );
         }
     }
 }
 
 auto_note_manager_gui::auto_note_manager_gui()
 {
-    // Initialize GUI state
-    this->initialize();
+    initialize();
 }
 
 bool auto_note_manager_gui::was_changed()
 {
-    return this->wasChanged;
+    return wasChanged;
 }
 
 void auto_note_manager_gui::show()
@@ -248,16 +230,13 @@ void auto_note_manager_gui::show()
     // Draw horizontal line and corner pieces of the table
     for( int x = 0; x < 78; x++ ) {
         if( x == 60 ) {
-            // T-piece and start of table column separator
             mvwputch( w_header, point( x, 1 ), c_light_gray, LINE_OXXX );
             mvwputch( w_header, point( x, 2 ), c_light_gray, LINE_XOXO );
         } else {
-            // Horizontal line
             mvwputch( w_header, point( x, 1 ), c_light_gray, LINE_OXOX );
         }
     }
 
-    // Draw table headers
     mvwprintz( w_header, point( 1, 2 ), c_white, _( "Map Extra" ) );
     mvwprintz( w_header, point( 62, 2 ), c_white, _( "Enabled" ) );
 
@@ -268,23 +247,16 @@ void auto_note_manager_gui::show()
     // If the display cache contains no entries, the player might not have discovered any of
     // the map extras. In this case, we switch to a special state that alerts the user of this
     // in order to avoid confusion a completely empty GUI might normally create.
-    bool emptyMode = ( this->displayCache.size() == 0 );
+    bool emptyMode = ( displayCache.size() == 0 );
 
-    // The currently selected line
     int currentLine = 0;
-
-    // At which index we begin drawing cache entries
     int startPosition = 0;
-
-    // At which index we should stop drawing cache entries
     int endPosition = 0;
 
-    // Setup input context with the actions applicable to this GUI
     input_context ctx{ "AUTO_NOTES" };
     ctx.register_action( "QUIT" );
     ctx.register_action( "SWITCH_AUTO_NOTE_OPTION" );
 
-    // Only register modification actions if there are entries to display
     if( !emptyMode ) {
         ctx.register_cardinal();
         ctx.register_action( "CONFIRM" );
@@ -295,7 +267,6 @@ void auto_note_manager_gui::show()
 
 
     while( true ) {
-        // Draw info about auto notes option
         mvwprintz( w_header, point( 39, 0 ), c_white, _( "Auto notes enabled:" ) );
 
         int currentX = 60;
@@ -321,43 +292,32 @@ void auto_note_manager_gui::show()
             }
         }
 
-        // Retrieve number of cache entries
-        const int cacheSize = static_cast<int>( this->displayCache.size() );
+        const int cacheSize = static_cast<int>( displayCache.size() );
 
-        // Draw the scroll bar
         draw_scrollbar( w_border, currentLine, iContentHeight, cacheSize, point( 0, 4 ) );
 
-        // Print informative message if no items are to be displayed
         if( emptyMode ) {
             mvwprintz( w, point( 1, 0 ), c_light_gray, "discover more map extras to populate this list" );
         } else {
-            // Calculate start and stop indices for map extra table display
-            calcStartPos( startPosition, currentLine, iContentHeight, this->displayCache.size() );
+            calcStartPos( startPosition, currentLine, iContentHeight, displayCache.size() );
             endPosition = startPosition + ( iContentHeight > cacheSize ? cacheSize : iContentHeight );
 
-            // Actually draw table entries
             for( int i = startPosition; i < endPosition; ++i ) {
+                const std::string &displayCacheEntry = displayCache[i];
+                const auto &cacheEntry = mapExtraCache[displayCacheEntry];
 
-                // Retrieve current cache entry
-                const std::string &displayCacheEntry = this->displayCache[i];
-                const auto &cacheEntry = this->mapExtraCache[displayCacheEntry];
-
-                // Determine line text style based on selection status
                 const auto lineColor = ( i == currentLine ) ? hilite( c_white ) : c_white;
                 const auto statusColor = ( cacheEntry.second ) ? c_green : c_red;
                 const auto statusString = ( cacheEntry.second ) ? "yes   " : "no    ";
 
-                // Move into position to draw this line
                 mvwprintz( w, point( 1, i - startPosition ), lineColor, "" );
 
-                // Draw chevrons (>>) at currently selected item
                 if( i == currentLine ) {
                     wprintz( w, c_yellow, ">> " );
                 } else {
                     wprintz( w, c_yellow, "   " );
                 }
 
-                // Draw the two column entries
                 wprintz( w, lineColor, "%s", cacheEntry.first.name );
                 mvwprintz( w, point( 64, i - startPosition ), statusColor, "%s", statusString );
             }
@@ -368,15 +328,12 @@ void auto_note_manager_gui::show()
         wrefresh( w_border );
         wrefresh( w );
 
-        // Retrieve pending input action and process it
         const std::string currentAction = ctx.handle_input();
 
         // Actions that also work with no items to display
         if( currentAction == "SWITCH_AUTO_NOTE_OPTION" ) {
             get_options().get_option( "AUTO_NOTES" ).setNext();
 
-            // If we just enabled auto notes and auto notes extras is disabled,
-            // enable that as well
             if( get_option<bool>( "AUTO_NOTES" ) && !get_option<bool>( "AUTO_NOTES_MAP_EXTRAS" ) ) {
                 get_options().get_option( "AUTO_NOTES_MAP_EXTRAS" ).setNext();
             }
@@ -386,15 +343,12 @@ void auto_note_manager_gui::show()
             break;
         }
 
-        // We are done here if no items are to be displayed and thus modified.
         if( emptyMode ) {
             continue;
         }
 
-        // Retrieve currently selected cache entry. This is used in multiple input action handlers.
-        const std::string &currentItem = this->displayCache[currentLine];
-        std::pair<const map_extra, bool> &entry = this->mapExtraCache[currentItem];
-
+        const std::string &currentItem = displayCache[currentLine];
+        std::pair<const map_extra, bool> &entry = mapExtraCache[currentItem];
 
         if( currentAction == "UP" ) {
             if( currentLine > 0 ) {
@@ -409,38 +363,25 @@ void auto_note_manager_gui::show()
                 ++currentLine;
             }
         }  else if( currentAction == "ENABLE_MAPEXTRA_NOTE" ) {
-            // Update cache entry
             entry.second = true;
-
-            // Set dirty flag
-            this->wasChanged = true;
+            wasChanged = true;
         } else if( currentAction == "DISABLE_MAPEXTRA_NOTE" ) {
-            // Update cache entry
             entry.second = false;
-
-            // Set dirty flag
-            this->wasChanged = true;
+            wasChanged = true;
         } else if( currentAction == "CONFIRM" ) {
-            // Update cache entry
             entry.second = !entry.second;
-
-            // Set dirty flag
-            this->wasChanged = true;
+            wasChanged = true;
         }
     }
 
-    // If nothing was changed, we are done here
-    if( !this->was_changed() ) {
+    if( !was_changed() ) {
         return;
     }
 
-    // Ask the user if they want to save the changes they made.
     if( query_yn( _( "Save changes?" ) ) ) {
-        // Retrieve auto note settings object
         auto_notes::auto_note_settings &settings = get_auto_notes_settings();
 
-        // Apply changes
-        for( const auto &entry : this->mapExtraCache ) {
+        for( const auto &entry : mapExtraCache ) {
             settings.set_auto_note_status( entry.second.first.id, entry.second.second );
         }
     }
