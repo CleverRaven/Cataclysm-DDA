@@ -2860,28 +2860,48 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Fill which pit or mound?" ) );
+    const std::set<ter_id> allowed_ter_id {
+        t_pit,
+        t_pit_spiked,
+        t_pit_glass,
+        t_pit_corpsed,
+        t_pit_shallow,
+        t_dirtmound
+    };
+
+    const std::function<bool( const tripoint & )> f = [&allowed_ter_id]( const tripoint & pnt ) {
+        if( pnt == g->u.pos() ) {
+            return false;
+        }
+        const ter_id type = g->m.ter( pnt );
+        return ( allowed_ter_id.find( type ) != allowed_ter_id.end() );
+    };
+
+    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+            _( "Fill which pit or mound?" ), f, false, true );
     if( !pnt_ ) {
         return 0;
     }
-    const tripoint pnt = *pnt_;
-
-    if( pnt == p->pos() ) {
-        p->add_msg_if_player( m_info, _( "You decide not to bury yourself that early." ) );
+    const tripoint &pnt = *pnt_;
+    const ter_id ter = g->m.ter( pnt );
+    if( !f( pnt ) ) {
+        if( pnt == p->pos() ) {
+            p->add_msg_if_player( m_info, _( "You decide not to bury yourself that early." ) );
+        } else {
+            p->add_msg_if_player( m_info, _( "There is nothing to fill." ) );
+        }
         return 0;
     }
 
     int moves;
-
-    if( g->m.ter( pnt ) == t_pit || g->m.ter( pnt ) == t_pit_spiked ||
-        g->m.ter( pnt ) == t_pit_glass || g->m.ter( pnt ) == t_pit_corpsed ) {
+    if( ter == t_pit || ter == t_pit_spiked ||
+        ter == t_pit_glass || ter == t_pit_corpsed ) {
         moves = to_moves<int>( time_duration::from_minutes( 15 ) );
-    } else if( g->m.ter( pnt ) == t_pit_shallow ) {
+    } else if( ter == t_pit_shallow ) {
         moves = to_moves<int>( time_duration::from_minutes( 10 ) );
-    } else if( g->m.ter( pnt ) == t_dirtmound ) {
+    } else if( ter == t_dirtmound ) {
         moves = to_moves<int>( time_duration::from_minutes( 5 ) );
     } else {
-        p->add_msg_if_player( _( "There is nothing to fill." ) );
         return 0;
     }
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
