@@ -2483,12 +2483,12 @@ m_size monster::get_size() const
 
 units::mass monster::get_weight() const
 {
-    return type->weight * ( get_size() / type->size );
+    return ( type->weight * get_size() ) / type->size;
 }
 
 units::volume monster::get_volume() const
 {
-    return type->volume * ( get_size() / type->size );
+    return ( type->volume * get_size() ) / type->size;
 }
 
 void monster::add_msg_if_npc( const std::string &msg ) const
