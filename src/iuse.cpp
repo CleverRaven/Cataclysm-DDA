@@ -1690,23 +1690,21 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Fish where?" ) );
-    if( !pnt_ ) {
-        return 0;
+    cata::optional<tripoint> found;
+    for( const tripoint &pnt : g->m.points_in_radius( p->pos(), 1 ) ) {
+        if( g->m.has_flag( "FISHABLE", pnt ) && good_fishing_spot( pnt ) ) {
+            found = pnt;
+            break;
+        }
     }
-    const tripoint pnt = *pnt_;
-    if( !g->m.has_flag( "FISHABLE", pnt ) ) {
+    if( !found ) {
         p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
-        return 0;
-    }
-    if( !good_fishing_spot( pnt ) ) {
         return 0;
     }
     p->add_msg_if_player( _( "You cast your line and wait to hook something..." ) );
     p->assign_activity( activity_id( "ACT_FISH" ), to_moves<int>( 5_hours ), 0,
                         p->get_item_position( it ), it->tname() );
-    p->activity.coord_set = g->get_fishable_locations( 60, pnt );
-
+    p->activity.coord_set = g->get_fishable_locations( 60, *found );
     return 0;
 }
 
