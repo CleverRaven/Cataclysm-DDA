@@ -91,7 +91,7 @@
     "name": "Tipped Intent",
     "min_melee": 2,
     "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.7 ], [ "damage", "bash", 0.60 ], [ "damage", "cut", 0.8 ], [ "damage", "stab", 0.80 ] ],
+    "mult_bonuses": [ [ "movecost", 0.7 ], [ "damage", "bash", 0.6 ], [ "damage", "cut", 0.8 ], [ "damage", "stab", 0.8 ] ],
     "messages": [ "You swiftly jab your weapon at %s", "<npcname> swiftly jabs their weapon at %s" ]
   },
   {
@@ -114,12 +114,7 @@
     "weighting": 2,
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "mult_bonuses": [
-      [ "damage", "stab", 1.2],
-      [ "damage", "cut", 1.2 ],
-      [ "arpen", "stab", 1.15 ],
-      [ "arpen", "cut", 1.15 ]
-    ],
+    "mult_bonuses": [ [ "damage", "stab", 1.2 ], [ "damage", "cut", 1.2 ], [ "arpen", "stab", 1.15 ], [ "arpen", "cut", 1.15 ] ],
     "flat_bonuses": [ [ "damage", "stab", 2 ], [ "damage", "cut", 2 ] ],
     "crit_tec": true,
     "messages": [
@@ -137,18 +132,15 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "mult_bonuses": [
-      [ "movecost", 1.125 ]
-      [ "damage", "stab", 1.3],
+      [ "movecost", 1.125 ],
+      [ "damage", "stab", 1.3 ],
       [ "damage", "cut", 1.3 ],
       [ "arpen", "stab", 1.2 ],
       [ "arpen", "cut", 1.2 ]
     ],
     "flat_bonuses": [ [ "arpen", "stab", 5 ], [ "arpen", "cut", 5 ] ],
     "crit_tec": true,
-    "messages": [
-      "You slam your weapon down into %s's head area",
-      "<npcname> lands a piercing blow on %s's face"
-    ],
+    "messages": [ "You slam your weapon down into %s's head area", "<npcname> lands a piercing blow on %s's face" ],
     "stun_dur": 2
   }
 ]
