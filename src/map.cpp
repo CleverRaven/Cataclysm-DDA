@@ -5407,6 +5407,17 @@ field_entry *map::get_field( const tripoint &p, const field_type_id type )
     return current_submap->fld[l.x][l.y].find_field( type );
 }
 
+bool map::dangerous_field_at( const tripoint &p )
+{
+    for( auto &pr : field_at( p ) ) {
+        auto &fd = pr.second;
+        if( fd.is_dangerous() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool map::add_field( const tripoint &p, const field_type_id type, int intensity,
                      const time_duration &age )
 {

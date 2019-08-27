@@ -9658,7 +9658,7 @@ std::string player::is_snuggling() const
 //  6.0 is LIGHT_AMBIENT_DIM
 //  7.3 is LIGHT_AMBIENT_MINIMAL, a dark cloudy night, unlit indoors
 // 11.0 is zero light or blindness
-float player::fine_detail_vision_mod() const
+float player::fine_detail_vision_mod( const tripoint &p ) const
 {
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generally see.  There still will be the haze, but
@@ -9674,7 +9674,8 @@ float player::fine_detail_vision_mod() const
     float own_light = std::max( 1.0, LIGHT_AMBIENT_LIT - active_light() - 2 );
 
     // Same calculation as above, but with a result 3 lower.
-    float ambient_light = std::max( 1.0, LIGHT_AMBIENT_LIT - g->m.ambient_light_at( pos() ) + 1.0 );
+    float ambient_light = std::max( 1.0,
+                                    LIGHT_AMBIENT_LIT - g->m.ambient_light_at( p == tripoint_zero ? pos() : p ) + 1.0 );
 
     return std::min( own_light, ambient_light );
 }
@@ -10414,6 +10415,8 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
     }
     if( is_npc() ) {
         npc *guy = dynamic_cast<npc *>( this );
+        guy->set_attitude( NPCATT_ACTIVITY );
+        guy->set_mission( NPC_MISSION_ACTIVITY );
         guy->current_activity_id = activity.id();
     }
 }

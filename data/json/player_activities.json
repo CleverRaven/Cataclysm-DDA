@@ -26,10 +26,10 @@
     "no_resume": true
   },
   {
-    "id": "ACT_BLUEPRINT_CONSTRUCTION",
+    "id": "ACT_TIDY_UP",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
-    "verb": "constructing",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "tidying up",
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true
@@ -307,6 +307,24 @@
     "no_resume": true
   },
   {
+    "id": "ACT_FETCH_REQUIRED",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "fetching components",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_MULTIPLE_FARM",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "farming",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_PLANT_PLOT",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
@@ -532,6 +550,13 @@
     "activity_level": "ACTIVE_EXERCISE",
     "verb": "drilling",
     "based_on": "speed"
+  },
+  {
+    "id": "ACT_CHURN",
+    "type": "activity_type",
+    "activity_level": "EXTRA_EXERCISE",
+    "verb": "churning earth",
+    "based_on": "time"
   },
   {
     "id": "ACT_DIG",

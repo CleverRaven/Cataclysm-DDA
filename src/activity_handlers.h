@@ -29,13 +29,32 @@ enum butcher_type : int {
     DISSECT         // dissect a corpse for CBMs
 };
 
+enum do_activity_reason : int {
+    CAN_DO_CONSTRUCTION,    // Can do construction.
+    CAN_DO_FETCH,           // Can do fetch - this is usually the default result for fetch task
+    CAN_DO_PREREQ,          // for constructions - cant build the main construction, but can build the pre-req
+    CAN_DO_PREREQ_2,        // Can do the second pre-req deep below the desired one.
+    NO_COMPONENTS,          // can't do the activity there due to lack of components /tools
+    NO_COMPONENTS_PREREQ,   // need components to build the pre-requisite for the actual desired construction
+    NO_COMPONENTS_PREREQ_2, // need components to the second pre-req deep.
+    DONT_HAVE_SKILL,        // don't have the required skill
+    NO_ZONE,                // There is no required zone anymore
+    ALREADY_DONE,           // the activity is done already ( maybe by someone else )
+    UNKNOWN_ACTIVITY,       // This is probably an error - got to the end of function with no previous reason
+    NEEDS_HARVESTING,       // For farming - tile is harvestable now.
+    NEEDS_PLANTING,         // For farming - tile can be planted
+    NEEDS_TILLING,          // For farming - tile can be tilled
+    BLOCKING_TILE           // Something has made it's way onto the tile, so the activity cannot proceed
+};
+
 int butcher_time_to_cut( const player &u, const item &corpse_item, butcher_type action );
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
 void activity_on_turn_move_items( player_activity &act, player &p );
 void activity_on_turn_move_loot( player_activity &act, player &p );
-void activity_on_turn_blueprint_move( player_activity &, player &p );
+void generic_multi_activity_handler( player_activity &act, player &p );
+void activity_on_turn_fetch( player_activity &, player *p );
 void activity_on_turn_pickup();
 void activity_on_turn_wear( player_activity &act, player &p );
 void try_fuel_fire( player_activity &act, player &p, bool starting_fire = false );
@@ -50,6 +69,8 @@ enum class item_drop_reason {
 void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items );
 void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items,
                                const tripoint &where, bool force_ground = false );
+void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &items,
+                  const tripoint &where );
 
 namespace activity_handlers
 {
@@ -63,6 +84,7 @@ void drop_do_turn( player_activity *act, player *p );
 void stash_do_turn( player_activity *act, player *p );
 void pulp_do_turn( player_activity *act, player *p );
 void game_do_turn( player_activity *act, player *p );
+void churn_do_turn( player_activity *act, player *p );
 void start_fire_do_turn( player_activity *act, player *p );
 void vibe_do_turn( player_activity *act, player *p );
 void hand_crank_do_turn( player_activity *act, player *p );
@@ -75,8 +97,9 @@ void consume_food_menu_do_turn( player_activity *act, player *p );
 void consume_drink_menu_do_turn( player_activity *act, player *p );
 void consume_meds_menu_do_turn( player_activity *act, player *p );
 void move_items_do_turn( player_activity *act, player *p );
+void multiple_farm_do_turn( player_activity *act, player *p );
 void multiple_construction_do_turn( player_activity *act, player *p );
-void blueprint_construction_do_turn( player_activity *act, player *p );
+void fetch_do_turn( player_activity *act, player *p );
 void move_loot_do_turn( player_activity *act, player *p );
 void travel_do_turn( player_activity *act, player *p );
 void drive_do_turn( player_activity *act, player *p );
@@ -90,6 +113,7 @@ void butcher_do_turn( player_activity *act, player *p );
 void hacksaw_do_turn( player_activity *act, player *p );
 void chop_tree_do_turn( player_activity *act, player *p );
 void jackhammer_do_turn( player_activity *act, player *p );
+void tidy_up_do_turn( player_activity *act, player *p );
 void dig_do_turn( player_activity *act, player *p );
 void build_do_turn( player_activity *act, player *p );
 void dig_channel_do_turn( player_activity *act, player *p );
@@ -126,6 +150,7 @@ void start_fire_finish( player_activity *act, player *p );
 void train_finish( player_activity *act, player *p );
 void vehicle_finish( player_activity *act, player *p );
 void start_engines_finish( player_activity *act, player *p );
+void churn_finish( player_activity *act, player *p );
 void oxytorch_finish( player_activity *act, player *p );
 void cracking_finish( player_activity *act, player *p );
 void open_gate_finish( player_activity *act, player * );

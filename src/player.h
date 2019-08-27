@@ -1181,8 +1181,10 @@ class player : public Character
     public:
         /** Returns a value from 1.0 to 5.0 that acts as a multiplier
          * for the time taken to perform tasks that require detail vision,
-         * above 4.0 means these activities cannot be performed. */
-        float fine_detail_vision_mod() const;
+         * above 4.0 means these activities cannot be performed.
+         * takes pos as a parameter so that remote spots can be judged
+         * if they will potentially have enough light when player gets there */
+        float fine_detail_vision_mod( const tripoint &p = tripoint_zero ) const;
 
         /** Used to determine player feedback on item use for the inventory code.
          *  rates usability lower for non-tools (books, etc.) */
@@ -1579,8 +1581,8 @@ class player : public Character
         bool hauling;
         player_activity activity;
         std::list<player_activity> backlog;
-        int volume;
         cata::optional<tripoint> destination_point;
+        int volume;
         const profession *prof;
 
         start_location_id start_location;
