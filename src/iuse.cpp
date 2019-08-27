@@ -4711,8 +4711,7 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
     const furn_id furn = g->m.furn( pnt );
     if( !f( pnt ) ) {
         if( pnt == p->pos() ) {
-            p->add_msg_if_player( m_info, _( "Why would you do that?" ) );
-            p->add_msg_if_player( m_info, _( "You're not even chained to a boiler." ) );
+            p->add_msg_if_player( m_info, _( "Yuck.  Acetylene gas smells weird." ) );
         } else {
             p->add_msg_if_player( m_info, _( "You can't cut that." ) );
         }
