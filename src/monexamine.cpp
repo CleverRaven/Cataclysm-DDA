@@ -333,14 +333,11 @@ bool player::can_mount( const monster &critter ) const
     if( route.empty() ) {
         return false;
     }
-    if( ( critter.has_flag( MF_PET_MOUNTABLE ) && critter.friendly == -1 &&
-          !critter.has_effect( effect_controlled ) && !critter.has_effect( effect_ridden ) ) &&
-        ( ( critter.has_effect( effect_saddled ) && get_skill_level( skill_survival ) >= 1 ) ||
-          get_skill_level( skill_survival ) >= 4 ) && ( critter.get_size() >= ( get_size() + 1 ) &&
-                  get_weight() <= critter.get_weight() / 5 ) ) {
-        return true;
-    }
-    return false;
+    return ( critter.has_flag( MF_PET_MOUNTABLE ) && critter.friendly == -1 &&
+             !critter.has_effect( effect_controlled ) && !critter.has_effect( effect_ridden ) ) &&
+           ( ( critter.has_effect( effect_saddled ) && get_skill_level( skill_survival ) >= 1 ) ||
+             get_skill_level( skill_survival ) >= 4 ) && ( critter.get_size() >= ( get_size() + 1 ) &&
+                     get_weight() <= critter.get_weight() / 5 );
 }
 
 void monexamine::mount_pet( monster &z )

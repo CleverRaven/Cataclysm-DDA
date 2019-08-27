@@ -222,7 +222,7 @@ class player : public Character
         bool is_npc() const override {
             return false;    // Overloaded for NPCs in npc.h
         }
-        bool can_mount( const monster &z ) const;
+        bool can_mount( const monster &critter ) const;
         void mount_creature( monster &z );
         /** Returns what color the player should be drawn as */
         nc_color basic_symbol_color() const override;
