@@ -268,8 +268,9 @@ void monster::plan()
     // Bots are more intelligent than most living stuff
     bool smart_planning = has_flag( MF_PRIORITIZE_TARGETS );
     Creature *target = nullptr;
+    int max_sight_range = std::max( type->vision_day, type->vision_night );
     // 8.6f is rating for tank drone 60 tiles away, moose 16 or boomer 33
-    float dist = !smart_planning ? 1000 : 8.6f;
+    float dist = !smart_planning ? max_sight_range : 8.6f;
     bool fleeing = false;
     bool docile = friendly != 0 && has_effect( effect_docile );
 
