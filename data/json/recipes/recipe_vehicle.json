@@ -389,7 +389,7 @@
     "difficulty": 1,
     "time": "10 m",
     "autolearn": true,
-	"using": [ [ "welding_standard", 1 ] ],
+    "using": [ [ "welding_standard", 1 ] ],
     "qualities": [ { "id": "DRILL", "level": 3 } ],
     "components": [ [ [ "scrap", 2 ] ] ]
   }
