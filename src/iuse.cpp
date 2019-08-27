@@ -3393,14 +3393,16 @@ int iuse::throwable_extinguisher_act( player *, item *it, bool, const tripoint &
         return 0;
     }
     if( g->m.get_field( pos, fd_fire ) != nullptr ) {
+        sounds::sound( pos, 50, sounds::sound_t::combat, _( "Bang!" ), false, "explosion", "small" );
         // Reduce the strength of fire (if any) in the target tile.
-        g->m.mod_field_intensity( pos, fd_fire, 0 - 1 );
+        g->m.mod_field_intensity( pos, fd_fire, 0 - 2 );
         // Slightly reduce the strength of fire around and in the target tile.
         for( const tripoint &dest : g->m.points_in_radius( pos, 1 ) ) {
             if( g->m.passable( dest ) && dest != pos ) {
-                g->m.mod_field_intensity( dest, fd_fire, 0 - rng( 0, 1 ) );
+                g->m.mod_field_intensity( dest, fd_fire, 0 - rng( 0, 2 ) );
             }
         }
+        it->charges = -1;
         return 1;
     }
     it->active = false;
