@@ -649,7 +649,7 @@ static const Skill *draw_skills_list( const catacurses::window &w_skills,
                                       const size_t skill_win_size_y )
 {
     nc_color cstatus = c_light_gray;
-    if( line != -1 ) {
+    if( line > 100 ) {
         mvwprintz( w_skills, point_zero, h_light_gray, header_spaces );
         cstatus = hilite( cstatus );
     }
@@ -774,7 +774,7 @@ static void draw_skills_tab( const catacurses::window &w_skills, const catacurse
         }
     } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
         werase( w_skills );
-        line = -1;
+        line = 1000;
         draw_skills_list( w_skills, you, line, skillslist, skill_win_size_y );
         wrefresh( w_skills );
         line = 0;
@@ -982,8 +982,7 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     wrefresh( w_effects );
 
     // Next, draw skills.
-    line = -1;
-
+    line = 1000;
     draw_skills_list( w_skills, you, line, skillslist, skill_win_size_y );
     wrefresh( w_skills );
 
