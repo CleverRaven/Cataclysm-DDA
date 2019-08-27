@@ -2,6 +2,7 @@
 
 #include <limits.h>
 #include <stdlib.h>
+#include <cstdint>
 #include <algorithm>
 #include <list>
 #include <map>

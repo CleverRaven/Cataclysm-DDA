@@ -1,6 +1,7 @@
 #include "bionics.h"
 
 #include <climits>
+#include <cstdint>
 #include <cmath>
 #include <cstdlib>
 #include <algorithm> //std::min

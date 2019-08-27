@@ -3,6 +3,7 @@
 #include <climits>
 #include <algorithm>
 #include <cstdlib>
+#include <cstdint>
 #include <sstream>
 #include <array>
 #include <limits>

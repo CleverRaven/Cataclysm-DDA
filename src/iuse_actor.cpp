@@ -2,6 +2,7 @@
 
 #include <cctype>
 #include <cstddef>
+#include <cstdint>
 #include <algorithm>
 #include <sstream>
 #include <array>

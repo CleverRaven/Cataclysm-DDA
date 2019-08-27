@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <climits>
 #include <cstdlib>
+#include <cstdint>
 #include <algorithm>
 #include <numeric>
 #include <sstream>

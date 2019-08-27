@@ -1,6 +1,7 @@
 #include "game.h" // IWYU pragma: associated
 
 #include <cstdlib>
+#include <cstdint>
 #include <algorithm>
 
 #include "avatar.h"

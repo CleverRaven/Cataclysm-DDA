@@ -2,6 +2,7 @@
 
 #include <cctype>
 #include <cstdlib>
+#include <cstdint>
 #include <algorithm>
 #include <array>
 #include <cassert>
@@ -797,6 +798,14 @@ void item::put_in( const item &payload )
 }
 
 void item::set_var( const std::string &name, const int value )
+{
+    std::ostringstream tmpstream;
+    tmpstream.imbue( std::locale::classic() );
+    tmpstream << value;
+    item_vars[name] = tmpstream.str();
+}
+
+void item::set_var( const std::string &name, const std::int_fast64_t value )
 {
     std::ostringstream tmpstream;
     tmpstream.imbue( std::locale::classic() );
