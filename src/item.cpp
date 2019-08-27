@@ -8224,7 +8224,7 @@ bool item::process_cable( player *carrier, const tripoint &pos )
     };
 
     if( state == "UPS" ) {
-        if( !carrier->has_item( *this ) || ( !carrier->has_item_with( used_ups ) ) ) {
+        if( !carrier->has_item( *this ) || !carrier->has_item_with( used_ups ) ) {
             carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
             for( item *used : carrier->items_with( used_ups ) ) {
                 used->erase_var( "cable" );
