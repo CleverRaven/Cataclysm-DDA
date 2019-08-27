@@ -3111,8 +3111,10 @@ void activity_handlers::churn_finish( player_activity *act, player *p )
     // Go back to what we were doing before
     // could be player zone activity, or could be NPC multi-farming
     act->set_to_null();
-    p->activity = p->backlog.front();
-    p->backlog.pop_front();
+    if( !p->backlog.empty() ) {
+        p->activity = p->backlog.front();
+        p->backlog.pop_front();
+    }
 }
 
 void activity_handlers::build_do_turn( player_activity *act, player *p )
@@ -3774,9 +3776,8 @@ void activity_handlers::till_plot_do_turn( player_activity *, player *p )
 
     const auto dig = []( player & p, const tripoint & tile_loc ) {
         p.assign_activity( activity_id( "ACT_CHURN" ), 18000, -1 );
-        p.activity.placement = tile_loc;
+        p.activity.placement = g->m.getabs( tile_loc );
     };
-
     perform_zone_activity_turn( p,
                                 zone_type_id( "FARM_PLOT" ),
                                 reject_tile,
