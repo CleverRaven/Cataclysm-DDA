@@ -2615,7 +2615,7 @@ void activity_handlers::move_items_do_turn( player_activity *act, player *p )
 
 void activity_handlers::move_loot_do_turn( player_activity *act, player *p )
 {
-    generic_multi_activity_handler( *act, *p );
+    activity_on_turn_move_loot( *act, *p );
 }
 
 void activity_handlers::adv_inventory_do_turn( player_activity *, player *p )
