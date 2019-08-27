@@ -51,7 +51,7 @@
     "id": "smg_45_mag",
     "type": "MAGAZINE",
     "name": "makeshift .45 20-round magazine",
-    "description": "A makeshift 20-round single-column steel magazine which fits MAC-10, but may fit some makeshift magazine-fed firearms as well.  Don't expect much reliability.",
+    "description": "An improvised magazine that is mostly compatible with a homemade 'Luty' submachinegun, with a simplified feed system.  It looks like it might feed 20 rounds of .45 ACP.",
     "weight": 300,
     "volume": "750 ml",
     "price": 4000,

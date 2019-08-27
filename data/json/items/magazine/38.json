@@ -1,22 +1,5 @@
 [
   {
-    "id": "smg_38_mag",
-    "type": "MAGAZINE",
-    "name": "makeshift .38 25-round magazine",
-    "description": "A makeshift 25-round single-column steel magazine which fits Taurus Pro .38 pistol, but may fit some makeshift magazine-fed firearms as well.  Don't expect much reliability.",
-    "weight": 300,
-    "volume": "750 ml",
-    "price": 4000,
-    "material": "steel",
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": "38",
-    "capacity": 25,
-    "reliability": 1,
-    "reload_time": 160,
-    "flags": [ "MAG_COMPACT" ]
-  },
-  {
     "id": "taurus38mag",
     "type": "MAGAZINE",
     "name": "Taurus .38 magazine",
