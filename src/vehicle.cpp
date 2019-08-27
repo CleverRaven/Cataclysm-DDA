@@ -1227,57 +1227,26 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
         return false;
     }
 
-    // Can't remove an engine if there's still an alternator there
-    if( part_flag( p, VPFLAG_ENGINE ) && part_with_feature( p, VPFLAG_ALTERNATOR, true ) >= 0 ) {
-        reason = _( "Remove attached alternator first." );
-        return false;
-    }
-
-    //Can't remove a seat if there's still a seatbelt there
-    if( part_flag( p, "BELTABLE" ) && part_with_feature( p, "SEATBELT", true ) >= 0 ) {
-        reason = _( "Remove attached seatbelt first." );
-        return false;
-    }
-
-    // Can't remove a window with curtains still on it
-    if( part_flag( p, "WINDOW" ) && part_with_feature( p, "CURTAIN", true ) >= 0 ) {
-        reason = _( "Remove attached curtains first." );
-        return false;
-    }
-
-    //Can't remove controls if there's something attached
-    if( part_flag( p, "CONTROLS" ) && part_with_feature( p, "ON_CONTROLS", true ) >= 0 ) {
-        reason = _( "Remove attached part first." );
-        return false;
-    }
-
-    //Can't remove a battery mount if there's still a battery there
-    if( part_flag( p, "BATTERY_MOUNT" ) && part_with_feature( p, "NEEDS_BATTERY_MOUNT", true ) >= 0 ) {
-        reason = _( "Remove battery from mount first." );
-        return false;
-    }
-
-    //Can't remove a turret mount if there's still a turret there
-    if( part_flag( p, "TURRET_MOUNT" ) && part_with_feature( p, "TURRET", true ) >= 0 ) {
-        reason = _( "Remove attached mounted weapon first." );
-        return false;
-    }
-
-    //Can't remove a wheel mount if there's still a wheel there
-    if( part_flag( p, "WHEEL_MOUNT_LIGHT" ) &&
-        part_with_feature( p, "NEEDS_WHEEL_MOUNT_LIGHT", true ) >= 0 ) {
-        reason = _( "Remove attached wheel first." );
-        return false;
-    }
-    if( part_flag( p, "WHEEL_MOUNT_MEDIUM" ) &&
-        part_with_feature( p, "NEEDS_WHEEL_MOUNT_MEDIUM", true ) >= 0 ) {
-        reason = _( "Remove attached wheel first." );
-        return false;
-    }
-    if( part_flag( p, "WHEEL_MOUNT_HEAVY" ) &&
-        part_with_feature( p, "NEEDS_WHEEL_MOUNT_HEAVY", true ) >= 0 ) {
-        reason = _( "Remove attached wheel first." );
-        return false;
+    // Check if the part is required by another part. Do not allow removing those.
+	// { "FLAG THAT IS REQUIRED", "FLAG THAT REQUIRES", "Reason why can't remove." }
+    static const std::array<std::tuple<std::string, std::string, std::string>, 9> blocking_flags = {{
+            { "ENGINE", "ALTERNATOR", "Remove attached alternator first." },
+            { "BELTABLE", "SEATBELT", "Remove attached seatbelt first." },
+            { "WINDOW", "CURTAIN", "Remove attached curtains first." },
+            { "CONTROLS", "ON_CONTROLS", "Remove attached part first." },
+            { "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT", "Remove battery from mount first." },
+            { "TURRET_MOUNT", "TURRET", "Remove attached mounted weapon first." },
+            { "WHEEL_MOUNT_LIGHT", "NEEDS_WHEEL_MOUNT_LIGHT", "Remove attached wheel first." },
+            { "WHEEL_MOUNT_MEDIUM", "NEEDS_WHEEL_MOUNT_MEDIUM", "Remove attached wheel first." },
+            { "WHEEL_MOUNT_HEAVY", "NEEDS_WHEEL_MOUNT_HEAVY", "Remove attached wheel first." }
+        }
+    };
+    for( auto &flag_check : blocking_flags ) {
+        if( part_flag( p, std::get<0>( flag_check ) ) &&
+            part_with_feature( p, std::get<1>( flag_check ), false ) >= 0 ) {
+            reason = _( std::get<2>( flag_check ) );
+            return false;
+        }
     }
 
     //Can't remove an animal part if the animal is still contained
