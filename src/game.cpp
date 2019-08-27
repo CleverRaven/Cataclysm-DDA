@@ -5217,8 +5217,8 @@ void game::control_vehicle()
         for( const tripoint &target : veh->get_points() ) {
             u.clear_memorized_tile( m.getabs( target ) );
         }
+        veh->is_following = false;
     }
-    veh->is_following = false;
 }
 
 bool game::npc_menu( npc &who )
