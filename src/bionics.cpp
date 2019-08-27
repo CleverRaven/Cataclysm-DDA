@@ -673,7 +673,7 @@ bool player::activate_bionic( int b, bool eff_only )
         std::vector<item *> cables = items_with( []( const item & it ) {
             return it.has_flag( "CABLE_SPOOL" );
         } );
-        bool has_cable = cables.empty();
+        bool has_cable = !cables.empty();
         bool free_cable = false;
         if( !has_cable ) {
             add_msg_if_player( m_info,
