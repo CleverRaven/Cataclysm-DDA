@@ -760,6 +760,7 @@ class vehicle
         bool handle_potential_theft( player &p, bool check_only = false, bool prompt = true );
         // project a tileray forward to predict obstacles
         std::set<point> immediate_path( int rotate = 0 );
+        void drive_to_local_target( const tripoint &autodrive_local_target, bool follow_protocol );
         void do_autodrive();
         /**
          *  Operate vehicle controls
@@ -774,7 +775,7 @@ class vehicle
         bool start_engine( int e );
 
         // Attempt to start the vehicle's active engines
-        void start_engines( bool take_control = false );
+        void start_engines( bool take_control = false, bool autodrive = false );
 
         // Engine backfire, making a loud noise
         void backfire( int e ) const;
@@ -1285,6 +1286,13 @@ class vehicle
          * @param y direction player is steering
          */
         void pldrive( int x, int y );
+        void activate_animal_follow();
+        /**
+         * vehicle is driving itself
+         * @param x direction player is steering
+         * @param y direction player is steering
+         */
+        void autodrive( int x, int y );
 
         // stub for per-vpart limit
         units::volume max_volume( int part ) const;
@@ -1695,6 +1703,7 @@ class vehicle
 
     public:
         bool is_autodriving = false;
+        bool is_following = false;
         bool all_wheels_on_one_axis;
         // TODO: change these to a bitset + enum?
         // cruise control on/off

@@ -1521,6 +1521,7 @@ bool game::do_turn()
     m.build_floor_caches();
 
     m.process_falling();
+    following_vehicles();
     m.vehmove();
 
     // Process power and fuel consumption for all vehicles, including off-map ones.
@@ -1646,6 +1647,16 @@ void game::process_activity()
 
     while( u.moves > 0 && u.activity ) {
         u.activity.do_turn( u );
+    }
+}
+
+void game::following_vehicles()
+{
+    for( auto &veh : m.get_vehicles() ) {
+        auto &v = veh.v;
+        if( v->is_following ) {
+            v->drive_to_local_target( u.pos(), true );
+        }
     }
 }
 
@@ -5207,6 +5218,7 @@ void game::control_vehicle()
             u.clear_memorized_tile( m.getabs( target ) );
         }
     }
+    veh->is_following = false;
 }
 
 bool game::npc_menu( npc &who )
