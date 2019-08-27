@@ -72,10 +72,21 @@ android {
             applicationId "com.cleverraven.cataclysmdda"
             setProperty("archivesBaseName", "cataclysmdda-" + versionName)
         }
-    ndk {
-        abiFilters "armeabi-v7a"
-        //abiFilters "x86" // use this for testing on emulators
+
+    splits {
+        // Configures multiple APKs based on ABI.
+        abi {
+            // Enables building multiple APKs per ABI.
+            enable true
+            // Resets the list of ABIs that Gradle should create APKs for to none.
+            reset()
+            // Specifies a list of ABIs that Gradle should create APKs for.
+            include "armeabi-v7a"
+            // Specifies that we do not want to also generate a universal APK that includes all ABIs.
+            universalApk false
+        }
     }
+
     externalNativeBuild {
         ndkBuild {
             arguments "APP_PLATFORM=android-16", "-j$njobs"
