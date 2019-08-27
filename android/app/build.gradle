@@ -48,9 +48,7 @@ switch(OperatingSystem.current()) {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "28.0.1"
-
+    compileSdkVersion 28
 
     if(OperatingSystem.current().isLinux()) {
         exec {
@@ -67,7 +65,7 @@ android {
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 26
+        targetSdkVersion 28
         versionCode Integer.valueOf(System.env.UPSTREAM_BUILD_NUMBER ?: 1 )
         versionName new File('app/jni/src/version.h').text.split("\"")[1]
         if (buildAsApplication) {

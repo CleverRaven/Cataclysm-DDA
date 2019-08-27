@@ -9,7 +9,7 @@
     android:installLocation="auto">
 
     <!-- Android 4.0.1 -->
-    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="24" />
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="28" />
 
     <!-- OpenGL ES 2.0 -->
     <uses-feature android:glEsVersion="0x00020000" />
