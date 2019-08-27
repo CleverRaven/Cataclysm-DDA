@@ -21,6 +21,7 @@
 #include "mission.h"
 #include "npc.h"
 #include "overmapbuffer.h"
+#include "recipe.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "vehicle.h"
@@ -801,6 +802,17 @@ void conditional_t<T>::set_has_skill( JsonObject &jo, const std::string &member,
 }
 
 template<class T>
+void conditional_t<T>::set_u_know_recipe( JsonObject &jo, const std::string &member )
+{
+    const std::string &known_recipe_id = jo.get_string( member );
+    condition = [known_recipe_id]( const T & d ) {
+        player *actor = d.alpha;
+        const recipe &r = recipe_id( known_recipe_id ).obj();
+        return actor->knows_recipe( &r );
+    };
+}
+
+template<class T>
 conditional_t<T>::conditional_t( JsonObject jo )
 {
     // improve the clarity of NPC setter functions
@@ -967,6 +979,8 @@ conditional_t<T>::conditional_t( JsonObject jo )
         set_has_skill( jo, "u_has_skill" );
     } else if( jo.has_member( "npc_has_skill" ) ) {
         set_has_skill( jo, "npc_has_skill", is_npc );
+    } else if( jo.has_member( "u_know_recipe" ) ) {
+        set_u_know_recipe( jo, "u_know_recipe" );
     } else {
         for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
             if( jo.has_string( sub_member ) ) {

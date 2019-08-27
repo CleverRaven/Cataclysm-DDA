@@ -68,6 +68,10 @@
     "items": [
       { "item": "m17", "prob": 100, "charges-min": 0, "charges-max": 17 },
       { "item": "glock_18c", "prob": 70, "charges-min": 0, "charges-max": 17 },
+      { "item": "mk23", "prob": 10, "charges-min": 0, "charges-max": 12 },
+      { "item": "usp_45", "prob": 15, "charges-min": 0, "charges-max": 12 },
+      { "item": "m1911_MEU", "prob": 5, "charges-min": 0, "charges-max": 7 },
+      { "item": "glock_19", "prob": 20, "charges-min": 0, "charges-max": 15 },
       { "item": "needlepistol", "prob": 45, "charges-min": 0, "charges-max": 50 },
       { "item": "rm103a_pistol", "prob": 35, "charges-min": 0, "charges-max": 10 }
     ]
@@ -153,7 +157,7 @@
     "type": "item_group",
     "id": "guns_smg_improvised",
     "//": "Makeshift or otherwise poor quality SMGs.",
-    "items": [ [ "smg_22", 50 ], [ "smg_38", 30 ], [ "smg_40", 40 ], [ "smg_45", 40 ], [ "smg_9mm", 100 ] ]
+    "items": [ [ "smg_40", 40 ], [ "smg_45", 40 ], [ "smg_9mm", 100 ] ]
   },
   {
     "type": "item_group",
