@@ -405,14 +405,24 @@ bool translation::empty() const
     return raw.empty();
 }
 
-bool translation::operator<( const translation &that ) const
+bool translation::translated_lt( const translation &that ) const
 {
     return translated() < that.translated();
 }
 
-bool translation::operator==( const translation &that ) const
+bool translation::translated_eq( const translation &that ) const
 {
     return translated() == that.translated();
+}
+
+bool translation::translated_ne( const translation &that ) const
+{
+    return !translated_eq( that );
+}
+
+bool translation::operator==( const translation &that ) const
+{
+    return ctxt == that.ctxt && raw == that.raw && needs_translation == that.needs_translation;
 }
 
 bool translation::operator!=( const translation &that ) const
@@ -423,4 +433,24 @@ bool translation::operator!=( const translation &that ) const
 translation no_translation( const std::string &str )
 {
     return translation::no_translation( str );
+}
+
+std::ostream &operator<<( std::ostream &out, const translation &t )
+{
+    return out << t.translated();
+}
+
+std::string operator+( const translation &lhs, const std::string &rhs )
+{
+    return lhs.translated() + rhs;
+}
+
+std::string operator+( const std::string &lhs, const translation &rhs )
+{
+    return lhs + rhs.translated();
+}
+
+std::string operator+( const translation &lhs, const translation &rhs )
+{
+    return lhs.translated() + rhs.translated();
 }

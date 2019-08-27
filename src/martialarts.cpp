@@ -106,8 +106,12 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
+    optional( jo, was_loaded, "downed_target", downed_target, false );
+    optional( jo, was_loaded, "stunned_target", stunned_target, false );
+
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
+    optional( jo, was_loaded, "side_switch", side_switch, false );
     optional( jo, was_loaded, "dummy", dummy, false );
     optional( jo, was_loaded, "dodge_counter", dodge_counter, false );
     optional( jo, was_loaded, "block_counter", block_counter, false );
@@ -337,7 +341,7 @@ class ma_buff_effect_type : public effect_type
             int_decay_step = -1;
             int_decay_tick = 1;
             int_dur_factor = 0_turns;
-            name.push_back( buff.name );
+            name.push_back( translation( buff.name ) );
             desc.push_back( buff.description );
             rating = e_good;
         }
@@ -355,7 +359,7 @@ void finialize_martial_arts()
     }
 }
 
-const std::string martialart_difficulty( matype_id mstyle )
+std::string martialart_difficulty( matype_id mstyle )
 {
     std::string diff;
     if( mstyle->learn_difficulty <= 2 ) {
@@ -447,7 +451,7 @@ std::string ma_requirements::get_description( bool buff ) const
     }
 
     if( !req_buffs.empty() ) {
-        dump << string_format( _( "<bold>Requires:</bold> " ) );
+        dump << _( "<bold>Requires:</bold> " );
 
         dump << enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id & bid ) {
             return _( bid->name );
@@ -475,6 +479,7 @@ ma_technique::ma_technique()
     crit_tec = false;
     crit_ok = false;
     defensive = false;
+    side_switch = false; // moves the target behind user
     dummy = false;
 
     down_dur = 0;
@@ -487,6 +492,10 @@ ma_technique::ma_technique()
     disarms = false; // like tec_disarm
     dodge_counter = false; // like tec_grab
     block_counter = false; // like tec_counter
+
+    // conditional
+    downed_target = false;    // only works on downed enemies
+    stunned_target = false;   // only works on stunned enemies
 
     miss_recovery = false; // allows free recovery from misses, like tec_feint
     grab_break = false; // allows grab_breaks, like tec_break
@@ -810,6 +819,50 @@ ma_technique player::get_grab_break_tec() const
     return tec;
 }
 
+bool player::can_grab_break() const
+{
+    if( !has_grab_break_tec() ) {
+        return false;
+    }
+
+    ma_technique tec = get_grab_break_tec();
+    bool cqb = has_active_bionic( bionic_id( "bio_cqb" ) );
+
+    std::map<skill_id, int> min_skill = tec.reqs.min_skill;
+
+    // Failure conditions.
+    for( const auto &pr : min_skill ) {
+        if( ( cqb ? 5 : get_skill_level( pr.first ) ) < pr.second ) {
+            return false;
+        }
+    }
+
+    // otherwise, can grab break
+    return true;
+}
+
+bool player::can_miss_recovery( const item &weap ) const
+{
+    if( !has_miss_recovery_tec( weap ) ) {
+        return false;
+    }
+
+    ma_technique tec = get_miss_recovery_tec( weap );
+    bool cqb = has_active_bionic( bionic_id( "bio_cqb" ) );
+
+    std::map<skill_id, int> min_skill = tec.reqs.min_skill;
+
+    // Failure conditions.
+    for( const auto &pr : min_skill ) {
+        if( ( cqb ? 5 : get_skill_level( pr.first ) ) < pr.second ) {
+            return false;
+        }
+    }
+
+    // otherwise, can miss recovery
+    return true;
+}
+
 bool player::can_leg_block() const
 {
     const martialart &ma = style_selected.obj();
@@ -1051,7 +1104,6 @@ bool player::can_autolearn( const matype_id &ma_id ) const
         return false;
     }
 
-
     for( const std::pair<std::string, int> &elem : ma_id.obj().autolearn_skills ) {
         const skill_id skill_req( elem.first );
         const int required_level = elem.second;
@@ -1123,6 +1175,18 @@ std::string ma_technique::get_description() const
         dump << _( "* Can activate on a <info>normal</info> or a <info>crit</info> hit" ) << std::endl;
     } else if( crit_tec ) {
         dump << _( "* Will only activate on a <info>crit</info>" ) << std::endl;
+    }
+
+    if( side_switch ) {
+        dump << _( "* Moves target <info>behind</info> you" ) << std::endl;
+    }
+
+    if( downed_target ) {
+        dump << _( "* Only works on a <info>downed</info> target" ) << std::endl;
+    }
+
+    if( stunned_target ) {
+        dump << _( "* Only works on a <info>stunned</info> target" ) << std::endl;
     }
 
     if( dodge_counter ) {
@@ -1258,8 +1322,8 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         }
 
         catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                               ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                               ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+                               point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                                      TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
 
         std::string text = replace_colors( buffer.str() );
         int width = FULL_SCREEN_WIDTH - 4;
@@ -1283,9 +1347,9 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             }
 
             werase( w );
-            fold_and_print_from( w, 1, 2, width, selected, c_light_gray, text );
+            fold_and_print_from( w, point( 2, 1 ), width, selected, c_light_gray, text );
             draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), _( ma.name ) ) );
-            draw_scrollbar( w, selected, height, iLines, 1, 0, BORDER_COLOR, true );
+            draw_scrollbar( w, selected, height, iLines, point_south, BORDER_COLOR, true );
             wrefresh( w );
             catacurses::refresh();
 

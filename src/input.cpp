@@ -20,6 +20,7 @@
 #include "filesystem.h"
 #include "game.h"
 #include "help.h"
+#include "ime.h"
 #include "json.h"
 #include "optional.h"
 #include "options.h"
@@ -711,9 +712,9 @@ std::string input_context::get_available_single_char_hotkeys( std::string reques
     return requested_keys;
 }
 
-const std::string input_context::get_desc( const std::string &action_descriptor,
-        const unsigned int max_limit,
-        const std::function<bool( const input_event & )> evt_filter ) const
+std::string input_context::get_desc( const std::string &action_descriptor,
+                                     const unsigned int max_limit,
+                                     const std::function<bool( const input_event & )> evt_filter ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
         return "(*)"; // * for wildcard
@@ -763,9 +764,9 @@ const std::string input_context::get_desc( const std::string &action_descriptor,
     return rval.str();
 }
 
-const std::string input_context::get_desc( const std::string &action_descriptor,
-        const std::string &text,
-        const std::function<bool( const input_event & )> evt_filter ) const
+std::string input_context::get_desc( const std::string &action_descriptor,
+                                     const std::string &text,
+                                     const std::function<bool( const input_event & )> evt_filter ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
         //~ keybinding description for anykey
@@ -905,8 +906,8 @@ void rotate_direction_cw( int &dx, int &dy )
     static const std::array<int, 9> rotate_direction_vec = {{ 1, 2, 5, 0, 4, 8, 3, 6, 7 }};
     dir_num = rotate_direction_vec[dir_num];
     // convert back to -1,0,+1
-    dx = ( dir_num % 3 ) - 1;
-    dy = ( dir_num / 3 ) - 1;
+    dx = dir_num % 3 - 1;
+    dy = dir_num / 3 - 1;
 }
 
 cata::optional<tripoint> input_context::get_direction( const std::string &action ) const
@@ -921,21 +922,21 @@ cata::optional<tripoint> input_context::get_direction( const std::string &action
     const auto transform = iso_mode && tile_iso && use_tiles ? rotate : noop;
 
     if( action == "UP" ) {
-        return transform( tripoint( 0, -1, 0 ) );
+        return transform( tripoint_north );
     } else if( action == "DOWN" ) {
-        return transform( tripoint( 0, +1, 0 ) );
+        return transform( tripoint_south );
     } else if( action == "LEFT" ) {
-        return transform( tripoint( -1, 0, 0 ) );
+        return transform( tripoint_west );
     } else if( action == "RIGHT" ) {
-        return transform( tripoint( +1, 0, 0 ) );
+        return transform( tripoint_east );
     } else if( action == "LEFTUP" ) {
-        return transform( tripoint( -1, -1, 0 ) );
+        return transform( tripoint_north_west );
     } else if( action == "RIGHTUP" ) {
-        return transform( tripoint( +1, -1, 0 ) );
+        return transform( tripoint_north_east );
     } else if( action == "LEFTDOWN" ) {
-        return transform( tripoint( -1, +1, 0 ) );
+        return transform( tripoint_south_west );
     } else if( action == "RIGHTDOWN" ) {
-        return transform( tripoint( +1, +1, 0 ) );
+        return transform( tripoint_south_east );
     } else {
         return cata::nullopt;
     }
@@ -974,8 +975,8 @@ void input_context::display_menu()
     int maxheight = max( FULL_SCREEN_HEIGHT, TERMY );
     int height = min( maxheight, static_cast<int>( hotkeys.size() ) + LEGEND_HEIGHT + BORDER_SPACE );
 
-    catacurses::window w_help = catacurses::newwin( height - 2, width - 2, maxheight / 2 - height / 2,
-                                maxwidth / 2 - width / 2 );
+    catacurses::window w_help = catacurses::newwin( height - 2, width - 2,
+                                point( maxwidth / 2 - width / 2, maxheight / 2 - height / 2 ) );
 
     // has the user changed something?
     bool changed = false;
@@ -1021,12 +1022,14 @@ void input_context::display_menu()
     .max_length( legwidth )
     .context( ctxt );
 
+    // do not switch IME mode now, but restore previous mode on return
+    ime_sentry sentry( ime_sentry::keep );
     while( true ) {
         werase( w_help );
         draw_border( w_help, BORDER_COLOR, _( "Keybindings" ), c_light_red );
         draw_scrollbar( w_help, scroll_offset, display_height,
-                        filtered_registered_actions.size(), 10, 0, c_white, true );
-        fold_and_print( w_help, 1, 2, legwidth, c_white, legend.str() );
+                        filtered_registered_actions.size(), point( 0, 10 ), c_white, true );
+        fold_and_print( w_help, point( 2, 1 ), legwidth, c_white, legend.str() );
 
         for( size_t i = 0; i + scroll_offset < filtered_registered_actions.size() &&
              i < display_height; i++ ) {
@@ -1046,13 +1049,13 @@ void input_context::display_menu()
             if( status == s_add_global && overwrite_default ) {
                 // We're trying to add a global, but this action has a local
                 // defined, so gray out the invlet.
-                mvwprintz( w_help, i + 10, 2, c_dark_gray, "%c ", invlet );
+                mvwprintz( w_help, point( 2, i + 10 ), c_dark_gray, "%c ", invlet );
             } else if( status == s_add || status == s_add_global ) {
-                mvwprintz( w_help, i + 10, 2, c_light_blue, "%c ", invlet );
+                mvwprintz( w_help, point( 2, i + 10 ), c_light_blue, "%c ", invlet );
             } else if( status == s_remove ) {
-                mvwprintz( w_help, i + 10, 2, c_light_blue, "%c ", invlet );
+                mvwprintz( w_help, point( 2, i + 10 ), c_light_blue, "%c ", invlet );
             } else {
-                mvwprintz( w_help, i + 10, 2, c_blue, "  " );
+                mvwprintz( w_help, point( 2, i + 10 ), c_blue, "  " );
             }
             nc_color col;
             if( attributes.input_events.empty() ) {
@@ -1062,8 +1065,8 @@ void input_context::display_menu()
             } else {
                 col = global_key;
             }
-            mvwprintz( w_help, i + 10, 4, col, "%s: ", get_action_name( action_id ) );
-            mvwprintz( w_help, i + 10, 52, col, "%s", get_desc( action_id ) );
+            mvwprintz( w_help, point( 4, i + 10 ), col, "%s: ", get_action_name( action_id ) );
+            mvwprintz( w_help, point( 52, i + 10 ), col, "%s", get_desc( action_id ) );
         }
 
         // spopup.query_string() will call wrefresh( w_help )
@@ -1279,7 +1282,7 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 }
 #endif
 
-const std::string input_context::get_action_name( const std::string &action_id ) const
+std::string input_context::get_action_name( const std::string &action_id ) const
 {
     // 1) Check action name overrides specific to this input_context
     const input_manager::t_string_string_map::const_iterator action_name_override =

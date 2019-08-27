@@ -35,6 +35,7 @@
 #include "debug.h"
 #include "explosion.h"
 #include "magic_teleporter_list.h"
+#include "magic_ter_furn_transform.h"
 #include "point.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -46,7 +47,7 @@ static tripoint random_point( int min_distance, int max_distance, const tripoint
     const int dist = rng( min_distance, max_distance );
     const int x = round( dist * cos( angle ) );
     const int y = round( dist * sin( angle ) );
-    return tripoint( x + player_pos.x, y + player_pos.y, player_pos.z );
+    return player_pos + point( x, y );
 }
 
 void spell_effect::teleport_random( const spell &sp, Creature &caster, const tripoint & )
@@ -475,9 +476,9 @@ static void spell_move( const spell &sp, const Creature &caster,
     if( can_target_creature ) {
         if( Creature *victim = g->critter_at<Creature>( from ) ) {
             Creature::Attitude cr_att = victim->attitude_to( g->u );
-            bool valid = ( cr_att != Creature::A_FRIENDLY && sp.is_valid_effect_target( target_hostile ) );
-            valid |= ( cr_att == Creature::A_FRIENDLY && sp.is_valid_effect_target( target_ally ) );
-            valid |= ( victim == &caster && sp.is_valid_effect_target( target_self ) );
+            bool valid = cr_att != Creature::A_FRIENDLY && sp.is_valid_effect_target( target_hostile );
+            valid |= cr_att == Creature::A_FRIENDLY && sp.is_valid_effect_target( target_ally );
+            valid |= victim == &caster && sp.is_valid_effect_target( target_self );
             if( valid ) {
                 victim->knock_back_to( to );
             }
@@ -649,7 +650,7 @@ void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
     // this should never be negative, but this'll keep problems from happening
     size_t num_mons = abs( sp.damage() );
     const time_duration summon_time = sp.duration_turns();
-    while( num_mons > 0 && area.size() > 0 ) {
+    while( num_mons > 0 && !area.empty() ) {
         const size_t mon_spot = rng( 0, area.size() - 1 );
         auto iter = area.begin();
         std::advance( iter, mon_spot );
@@ -676,4 +677,17 @@ void spell_effect::translocate( const spell &sp, Creature &caster, const tripoin
 void spell_effect::none( const spell &sp, Creature &, const tripoint & )
 {
     debugmsg( "ERROR: %s has invalid spell effect.", sp.name() );
+}
+
+void spell_effect::transform_blast( const spell &sp, Creature &caster,
+                                    const tripoint &target )
+{
+    ter_furn_transform_id transform( sp.effect_data() );
+    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), true );
+    for( const tripoint &location : area ) {
+        if( one_in( sp.damage() ) ) {
+            transform->transform( location );
+            transform->add_all_messages( caster, location );
+        }
+    }
 }

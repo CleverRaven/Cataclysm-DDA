@@ -35,8 +35,8 @@ class avatar : public player
 
         void store( JsonOut &json ) const;
         void load( JsonObject &data );
-        void serialize( JsonOut &josn ) const override;
-        void deserialize( JsonIn &json ) override;
+        void serialize( JsonOut &json ) const override;
+        void deserialize( JsonIn &jsin ) override;
         void serialize_map_memory( JsonOut &jsout ) const;
         void deserialize_map_memory( JsonIn &jsin );
 
@@ -45,6 +45,9 @@ class avatar : public player
         void randomize( bool random_scenario, points_left &points, bool play_now = false );
         bool load_template( const std::string &template_name, points_left &points );
 
+        bool is_avatar() const override {
+            return true;
+        }
         avatar *as_avatar() override {
             return this;
         }
@@ -58,12 +61,12 @@ class avatar : public player
         void toggle_map_memory();
         bool should_show_map_memory();
         /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
-        void memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
-                            const int rotation );
+        void memorize_tile( const tripoint &pos, const std::string &ter, int subtile,
+                            int rotation );
         /** Returns last stored map tile in given location in tiles mode */
         memorized_terrain_tile get_memorized_tile( const tripoint &p ) const;
         /** Memorizes a given tile in curses mode; finalize_terrain_memory_curses needs to be called after it */
-        void memorize_symbol( const tripoint &pos, const int symbol );
+        void memorize_symbol( const tripoint &pos, int symbol );
         /** Returns last stored map tile in given location in curses mode */
         int get_memorized_symbol( const tripoint &p ) const;
         /** Returns the amount of tiles survivor can remember. */
@@ -72,9 +75,11 @@ class avatar : public player
 
         /** Provides the window and detailed morale data */
         void disp_morale();
-        /** Uses morale and other factors to return the player's focus gain rate */
+        /** Uses morale and other factors to return the player's focus target goto value */
         int calc_focus_equilibrium() const;
-        /** Uses calc_focus_equilibrium to update the player's current focus */
+        /** Calculates actual focus gain/loss value from focus equilibrium*/
+        int calc_focus_change() const;
+        /** Uses calc_focus_change to update the player's current focus */
         void update_mental_focus();
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
@@ -124,7 +129,7 @@ class avatar : public player
          */
         int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
         /** Handles reading effects and returns true if activity started */
-        bool read( int inventory_position, const bool continuous = false );
+        bool read( int inventory_position, bool continuous = false );
         /** Completes book reading action. **/
         void do_read( item &book );
         /** Note that we've read a book at least once. **/

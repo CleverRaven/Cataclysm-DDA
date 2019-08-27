@@ -82,6 +82,7 @@ class ma_technique
         std::string npc_message;
 
         bool defensive;
+        bool side_switch; // moves the target behind user
         bool dummy;
         bool crit_tec;
         bool crit_ok;
@@ -104,6 +105,10 @@ class ma_technique
         bool grab_break; // allows grab_breaks, like tec_break
 
         int weighting; //how often this technique is used
+
+        // conditional
+        bool downed_target; // only works on downed enemies
+        bool stunned_target; // only works on stunned enemies
 
         /** All kinds of bonuses by types to damage, hit etc. */
         bonus_container bonuses;
@@ -137,14 +142,14 @@ class ma_buff
         int block_bonus( const player &u ) const;
 
         // returns the armor bonus for various armor stats (equivalent to armor)
-        int armor_bonus( const player &u, damage_type type ) const;
+        int armor_bonus( const player &u, damage_type dt ) const;
 
         // returns the stat bonus for the various damage stats (for rolls)
-        float damage_bonus( const player &u, damage_type type ) const;
+        float damage_bonus( const player &u, damage_type dt ) const;
 
         // returns damage multipliers for the various damage stats (applied after
         // bonuses)
-        float damage_mult( const player &u, damage_type type ) const;
+        float damage_mult( const player &u, damage_type dt ) const;
 
         // returns various boolean flags
         bool is_throw_immune() const;
@@ -213,11 +218,11 @@ class martialart
         void apply_onkill_buffs( player &u ) const;
 
         // determines if a technique is valid or not for this style
-        bool has_technique( const player &u, const matec_id &tech ) const;
+        bool has_technique( const player &u, const matec_id &tec_id ) const;
         // determines if a weapon is valid for this style
-        bool has_weapon( const std::string &item ) const;
+        bool has_weapon( const std::string &itt ) const;
         // Is this weapon OK with this art?
-        bool weapon_valid( const item &u ) const;
+        bool weapon_valid( const item &it ) const;
         // Getter for player style change message
         std::string get_initiate_player_message() const;
         // Getter for NPC style change message
@@ -274,7 +279,7 @@ void load_martial_art( JsonObject &jo, const std::string &src );
 void check_martialarts();
 void clear_techniques_and_martial_arts();
 void finialize_martial_arts();
-const std::string martialart_difficulty( matype_id mstyle );
+std::string martialart_difficulty( matype_id mstyle );
 
 std::vector<matype_id> all_martialart_types();
 std::vector<matype_id> autolearn_martialart_types();

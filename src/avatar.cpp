@@ -24,6 +24,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "itype.h"
+#include "kill_tracker.h"
 #include "map.h"
 #include "martialarts.h"
 #include "messages.h"
@@ -71,6 +72,7 @@ const efftype_id effect_depressants( "depressants" );
 const efftype_id effect_happy( "happy" );
 const efftype_id effect_irradiated( "irradiated" );
 const efftype_id effect_pkill( "pkill" );
+const efftype_id effect_riding( "riding" );
 const efftype_id effect_sad( "sad" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_sleep_deprived( "sleep_deprived" );
@@ -203,13 +205,12 @@ void avatar::memorial( std::ostream &memorial_file, const std::string &epitaph )
     std::map<std::tuple<std::string, std::string>, int> kill_counts;
 
     // map <name, sym> to kill count
+    const kill_tracker &kills = g->get_kill_tracker();
     for( const mtype &type : MonsterGenerator::generator().get_all_mtypes() ) {
-        if( g->kill_count( type.id ) > 0 ) {
-            kill_counts[std::tuple<std::string, std::string>(
-                                                    type.nname(),
-                                                    type.sym
-                                                )] += g->kill_count( type.id );
-            total_kills += g->kill_count( type.id );
+        int this_count = kills.kill_count( type.id );
+        if( this_count > 0 ) {
+            kill_counts[std::make_tuple( type.nname(), type.sym )] += this_count;
+            total_kills += this_count;
         }
     }
 
@@ -262,7 +263,7 @@ void avatar::memorial( std::ostream &memorial_file, const std::string &epitaph )
     memorial_file << _( "Bionics:" ) << eol;
     int total_bionics = 0;
     for( size_t i = 0; i < my_bionics->size(); ++i ) {
-        memorial_file << indent << ( i + 1 ) << ": " << ( *my_bionics )[i].id->name << eol;
+        memorial_file << indent << i + 1 << ": " << ( *my_bionics )[i].id->name << eol;
         total_bionics++;
     }
     if( total_bionics == 0 ) {
@@ -564,7 +565,7 @@ int avatar::time_to_read( const item &book, const player &reader, const player *
     int retval = type->time * reading_speed;
     retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
 
-    const int effective_int = std::min( {int_cur, reader.get_int(), learner ? learner->get_int() : INT_MAX } );
+    const int effective_int = std::min( { get_int(), reader.get_int(), learner ? learner->get_int() : INT_MAX } );
     if( type->intel > effective_int && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
         retval += type->time * ( type->intel - effective_int ) * 100;
     }
@@ -604,7 +605,7 @@ bool avatar::read( int inventory_position, const bool continuous )
 
     add_msg( m_debug, "avatar::read: time_taken = %d", time_taken );
     player_activity act( activity_id( "ACT_READ" ), time_taken, continuous ? activity.index : 0,
-                         reader->getID() );
+                         reader->getID().get_value() );
     act.targets.emplace_back( item_location( *this, &it ) );
 
     // If the player hasn't read this book before, skim it to get an idea of what's in it.
@@ -659,11 +660,11 @@ bool avatar::read( int inventory_position, const bool continuous )
         } else if( skill && lvl < type->level ) {
             const double penalty = static_cast<double>( time_taken ) / time_to_read( it, *reader, elem );
             learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : ""} );
-            act.values.push_back( elem->getID() );
+            act.values.push_back( elem->getID().get_value() );
             act.str_values.push_back( to_string( penalty ) );
         } else {
             fun_learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : "" } );
-            act.values.push_back( elem->getID() );
+            act.values.push_back( elem->getID().get_value() );
             act.str_values.emplace_back( "1" );
         }
     }
@@ -692,8 +693,7 @@ bool avatar::read( int inventory_position, const bool continuous )
                 const int lvl = elem.first->get_skill_level( skill );
                 const std::string lvl_text = skill ? string_format( _( " | current level: %d" ), lvl ) : "";
                 const std::string name_text = elem.first->disp_name() + elem.second;
-                return string_format( ( "%-*s%s" ), static_cast<int>( max_length( m ) ),
-                                      name_text, lvl_text );
+                return string_format( "%-*s%s", static_cast<int>( max_length( m ) ), name_text, lvl_text );
             };
 
             auto add_header = [&menu]( const std::string & str ) {
@@ -709,7 +709,7 @@ bool avatar::read( int inventory_position, const bool continuous )
 
             if( skill ) {
                 const int lvl = get_skill_level( skill );
-                menu.addentry( getID(), lvl < type->level, '0',
+                menu.addentry( getID().get_value(), lvl < type->level, '0',
                                string_format( _( "Read until you gain a level | current level: %d" ), lvl ) );
             } else {
                 menu.addentry( -1, false, '0', _( "Read until you gain a level" ) );
@@ -719,7 +719,8 @@ bool avatar::read( int inventory_position, const bool continuous )
             if( skill && !learners.empty() ) {
                 add_header( _( "Read until this NPC gains a level:" ) );
                 for( const auto &elem : learners ) {
-                    menu.addentry( elem.first->getID(), true, -1, get_text( learners, elem ) );
+                    menu.addentry( elem.first->getID().get_value(), true, -1,
+                                   get_text( learners, elem ) );
                 }
             }
             if( !fun_learners.empty() ) {
@@ -754,7 +755,7 @@ bool avatar::read( int inventory_position, const bool continuous )
             menu.title = string_format( _( "Train %s from manual:" ),
                                         martial_art_learned_from( *it.type )->name );
             menu.addentry( -1, true, 1, _( "Train once." ) );
-            menu.addentry( getID(), true, 2, _( "Train until tired or success." ) );
+            menu.addentry( getID().get_value(), true, 2, _( "Train until tired or success." ) );
             menu.query( true );
             if( menu.ret == UILIST_CANCEL ) {
                 add_msg( m_info, _( "Never mind." ) );
@@ -779,10 +780,11 @@ bool avatar::read( int inventory_position, const bool continuous )
 
     if( !continuous ||
     !std::all_of( learners.begin(), learners.end(), [&]( const std::pair<npc *, std::string> &elem ) {
-    return std::count( activity.values.begin(), activity.values.end(), elem.first->getID() ) != 0;
+    return std::count( activity.values.begin(), activity.values.end(),
+                       elem.first->getID().get_value() ) != 0;
     } ) ||
     !std::all_of( activity.values.begin(), activity.values.end(), [&]( int elem ) {
-        return learners.find( g->find_npc( elem ) ) != learners.end();
+        return learners.find( g->find_npc( character_id( elem ) ) ) != learners.end();
     } ) ) {
 
         if( learners.size() == 1 ) {
@@ -816,9 +818,10 @@ bool avatar::read( int inventory_position, const bool continuous )
                  reader->disp_name() );
     }
 
-    const bool complex_penalty = type->intel > std::min( int_cur, reader->get_int() ) &&
+    const int intelligence = get_int();
+    const bool complex_penalty = type->intel > std::min( intelligence, reader->get_int() ) &&
                                  !reader->has_trait( trait_PROF_DICEMASTER );
-    const player *complex_player = reader->get_int() < int_cur ? reader : this;
+    const player *complex_player = reader->get_int() < intelligence ? reader : this;
     if( complex_penalty && !continuous ) {
         add_msg( m_warning,
                  _( "This book is too complex for %s to easily understand. It will take longer to read." ),
@@ -942,7 +945,7 @@ void avatar::do_read( item &book )
 
     std::vector<std::pair<player *, double>> learners; //learners and their penalties
     for( size_t i = 0; i < activity.values.size(); i++ ) {
-        player *n = g->find_npc( activity.values[i] );
+        player *n = g->find_npc( character_id( activity.values[i] ) );
         if( n != nullptr ) {
             const std::string &s = activity.get_str_value( i, "1" );
             learners.push_back( { n, strtod( s.c_str(), nullptr ) } );
@@ -1014,7 +1017,7 @@ void avatar::do_read( item &book )
                 }
             } else {
                 //skill_level == originalSkillLevel
-                if( activity.index == learner->getID() ) {
+                if( activity.index == learner->getID().get_value() ) {
                     continuous = true;
                 }
                 if( learner->is_player() ) {
@@ -1076,7 +1079,7 @@ void avatar::do_read( item &book )
             m->second.call( *this, book, false, pos() );
             continuous = false;
         } else {
-            if( activity.index == g->u.getID() ) {
+            if( activity.index == g->u.getID().get_value() ) {
                 continuous = true;
                 switch( rng( 1, 5 ) ) {
                     case 1:
@@ -1163,14 +1166,22 @@ void avatar::vomit()
 
 void avatar::disp_morale()
 {
-    morale->display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
+    int equilibrium = calc_focus_equilibrium();
+    if( get_fatigue() >= MASSIVE_FATIGUE && ( focus_pool > 20 || equilibrium > 20 ) ) {
+        equilibrium = 20;
+    } else if( get_fatigue() >= EXHAUSTED && ( focus_pool > 40 || equilibrium > 40 ) ) {
+        equilibrium = 40;
+    } else if( get_fatigue() >= DEAD_TIRED && ( focus_pool > 60 || equilibrium > 60 ) ) {
+        equilibrium = 60;
+    } else if( get_fatigue() >= TIRED && ( focus_pool > 80 || equilibrium > 80 ) ) {
+        equilibrium = 80;
+    }
+    morale->display( equilibrium );
 }
 
-// written mostly by FunnyMan3595 in Github issue #613 (DarklingWolf's repo),
-// with some small edits/corrections by Soron
 int avatar::calc_focus_equilibrium() const
 {
-    int focus_gain_rate = 100;
+    int focus_equilibrium = 100;
 
     if( activity.id() == activity_id( "ACT_READ" ) ) {
         const item &book = *activity.targets[0].get_item();
@@ -1179,7 +1190,7 @@ int avatar::calc_focus_equilibrium() const
             // apply a penalty when we're actually learning something
             const SkillLevel &skill_level = get_skill_level_object( bt.skill );
             if( skill_level.can_train() && skill_level < bt.level ) {
-                focus_gain_rate -= 50;
+                focus_equilibrium -= 50;
             }
         }
     }
@@ -1192,73 +1203,85 @@ int avatar::calc_focus_equilibrium() const
     }
 
     if( eff_morale < -99 ) {
-        // At very low morale, focus goes up at 1% of the normal rate.
-        focus_gain_rate = 1;
+        // At very low morale, focus is at it's minimum
+        focus_equilibrium = 1;
     } else if( eff_morale <= 50 ) {
-        // At -99 to +50 morale, each point of morale gives 1% of the normal rate.
-        focus_gain_rate += eff_morale;
+        // At -99 to +50 morale, each point of morale gives or takes 1 point of focus
+        focus_equilibrium += eff_morale;
     } else {
         /* Above 50 morale, we apply strong diminishing returns.
-        * Each block of 50% takes twice as many morale points as the previous one:
-        * 150% focus gain at 50 morale (as before)
-        * 200% focus gain at 150 morale (100 more morale)
-        * 250% focus gain at 350 morale (200 more morale)
+        * Each block of 50 takes twice as many morale points as the previous one:
+        * 50 focus at 50 morale (as before)
+        * 200 focus at 150 morale (100 more morale)
+        * 250 focus at 350 morale (200 more morale)
         * ...
         * Cap out at 400% focus gain with 3,150+ morale, mostly as a sanity check.
         */
 
         int block_multiplier = 1;
         int morale_left = eff_morale;
-        while( focus_gain_rate < 400 ) {
+        while( focus_equilibrium < 400 ) {
             if( morale_left > 50 * block_multiplier ) {
                 // We can afford the entire block.  Get it and continue.
                 morale_left -= 50 * block_multiplier;
-                focus_gain_rate += 50;
+                focus_equilibrium += 50;
                 block_multiplier *= 2;
             } else {
                 // We can't afford the entire block.  Each block_multiplier morale
-                // points give 1% focus gain, and then we're done.
-                focus_gain_rate += morale_left / block_multiplier;
+                // points give 1 focus, and then we're done.
+                focus_equilibrium += morale_left / block_multiplier;
                 break;
             }
         }
     }
 
     // This should be redundant, but just in case...
-    if( focus_gain_rate < 1 ) {
-        focus_gain_rate = 1;
-    } else if( focus_gain_rate > 400 ) {
-        focus_gain_rate = 400;
+    if( focus_equilibrium < 1 ) {
+        focus_equilibrium = 1;
+    } else if( focus_equilibrium > 400 ) {
+        focus_equilibrium = 400;
     }
-
-    return focus_gain_rate;
+    return focus_equilibrium;
 }
 
-void avatar::update_mental_focus()
+int avatar::calc_focus_change() const
 {
-    int focus_gain_rate = calc_focus_equilibrium() - focus_pool;
+    int focus_gap = calc_focus_equilibrium() - focus_pool;
 
     // handle negative gain rates in a symmetric manner
     int base_change = 1;
-    if( focus_gain_rate < 0 ) {
+    if( focus_gap < 0 ) {
         base_change = -1;
-        focus_gain_rate = -focus_gain_rate;
+        focus_gap = -focus_gap;
     }
 
     // for every 100 points, we have a flat gain of 1 focus.
     // for every n points left over, we have an n% chance of 1 focus
-    int gain = focus_gain_rate / 100;
-    if( rng( 1, 100 ) <= ( focus_gain_rate % 100 ) ) {
+    int gain = focus_gap / 100;
+    if( rng( 1, 100 ) <= focus_gap % 100 ) {
         gain++;
     }
 
-    focus_pool += ( gain * base_change );
+    gain *= base_change;
 
-    // Fatigue should at least prevent high focus
-    // This caps focus gain at 60(arbitrary value) if you're Dead Tired
-    if( get_fatigue() >= DEAD_TIRED && focus_pool > 60 ) {
-        focus_pool = 60;
+    // Fatigue will incrementally decrease any focus above related cap
+    if( ( get_fatigue() >= TIRED && focus_pool > 80 ) ||
+        ( get_fatigue() >= DEAD_TIRED && focus_pool > 60 ) ||
+        ( get_fatigue() >= EXHAUSTED && focus_pool > 40 ) ||
+        ( get_fatigue() >= MASSIVE_FATIGUE && focus_pool > 20 ) ) {
+
+        //it can fall faster then 1
+        if( gain > -1 ) {
+            gain = -1;
+        }
     }
+    return gain;
+}
+
+void avatar::update_mental_focus()
+{
+
+    focus_pool += calc_focus_change();
 
     // Moved from calc_focus_equilibrium, because it is now const
     if( activity.id() == activity_id( "ACT_READ" ) ) {
@@ -1379,14 +1402,18 @@ void avatar::reset_stats()
 
     // Dodge-related effects
     mod_dodge_bonus( mabuff_dodge_bonus() -
-                     ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f -
-                     ( encumb( bp_torso ) / 10.0f ) );
+                     ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f - encumb( bp_torso ) / 10.0f );
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !wearing_something_on( bp_mouth ) ) {
         mod_dodge_bonus( 1 );
     }
     if( has_trait( trait_WHISKERS_RAT ) && !wearing_something_on( bp_mouth ) ) {
         mod_dodge_bonus( 2 );
+    }
+    // depending on mounts size, attacks will hit the mount and use their dodge rating.
+    // if they hit the player, the player cannot dodge as effectively.
+    if( is_mounted() ) {
+        mod_dodge_bonus( -4 );
     }
     // Spider hair is basically a full-body set of whiskers, once you get the brain for it
     if( has_trait( trait_CHITIN_FUR3 ) ) {
@@ -1453,8 +1480,7 @@ int avatar::get_per_base() const
 
 int avatar::kill_xp() const
 {
-    // TODO: game::kills probably should be avatar::kills
-    return g->kill_xp();
+    return g->get_kill_tracker().kill_xp();
 }
 
 // based on  D&D 5e level progression

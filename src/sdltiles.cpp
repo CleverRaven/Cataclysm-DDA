@@ -24,8 +24,12 @@
 
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL_image.h>
+#   include <SDL2/SDL_syswm.h>
 #else
 #   include <SDL_image.h>
+#ifdef _WIN32
+#   include <SDL_syswm.h>
+#endif
 #endif
 
 #include "avatar.h"
@@ -648,7 +652,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
 void CachedTTFFont::OutputChar( const std::string &ch, const int x, const int y,
                                 const unsigned char color )
 {
-    key_t    key {std::move( ch ), static_cast<unsigned char>( color & 0xf )};
+    key_t    key {ch, static_cast<unsigned char>( color & 0xf )};
 
     auto it = glyph_cache_map.find( key );
     if( it == std::end( glyph_cache_map ) ) {
@@ -843,8 +847,8 @@ static void find_videodisplays()
     }
 
     int current_display = get_option<int>( "DISPLAY" );
-    get_options().add( "DISPLAY", "graphics", _( "Display" ),
-                       _( "Sets which video display will be used to show the game. Requires restart." ),
+    get_options().add( "DISPLAY", "graphics", translate_marker( "Display" ),
+                       translate_marker( "Sets which video display will be used to show the game. Requires restart." ),
                        displays, current_display, 0, options_manager::COPT_CURSES_HIDE, true
                      );
 }
@@ -961,8 +965,8 @@ static void invalidate_framebuffer_proportion( cata_cursesport::WINDOW *win )
     }
 
     // track the dimensions for conversion
-    const int termpixel_x = win->x * font->fontwidth;
-    const int termpixel_y = win->y * font->fontheight;
+    const int termpixel_x = win->pos.x * font->fontwidth;
+    const int termpixel_y = win->pos.y * font->fontheight;
     const int termpixel_x2 = termpixel_x + win->width * font->fontwidth - 1;
     const int termpixel_y2 = termpixel_y + win->height * font->fontheight - 1;
 
@@ -1004,7 +1008,7 @@ void cata_cursesport::handle_additional_window_clear( WINDOW *win )
 void clear_window_area( const catacurses::window &win_ )
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
-    FillRectDIB( win->x * fontwidth, win->y * fontheight,
+    FillRectDIB( win->pos.x * fontwidth, win->pos.y * fontheight,
                  win->width * fontwidth, win->height * fontheight, catacurses::black );
 }
 
@@ -1026,8 +1030,8 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         // game::w_terrain can be drawn by the tilecontext.
         // skip the normal drawing code for it.
         tilecontext->draw(
-            win->x * fontwidth,
-            win->y * fontheight,
+            win->pos.x * fontwidth,
+            win->pos.y * fontheight,
             g->ter_view_p,
             TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
             TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight,
@@ -1078,8 +1082,8 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             }
 
             for( size_t i = 0; i < text.display_width(); ++i ) {
-                const int x0 = win->x * fontwidth;
-                const int y0 = win->y * fontheight;
+                const int x0 = win->pos.x * fontwidth;
+                const int y0 = win->pos.y * fontheight;
                 const int x = x0 + ( x_offset - alignment_offset + i ) * map_font->fontwidth + coord.x;
                 const int y = y0 + coord.y;
 
@@ -1097,8 +1101,8 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             x_offset = text.display_width();
         }
 
-        invalidate_framebuffer( terminal_framebuffer, win->x, win->y, TERRAIN_WINDOW_TERM_WIDTH,
-                                TERRAIN_WINDOW_TERM_HEIGHT );
+        invalidate_framebuffer( terminal_framebuffer, win->pos.x, win->pos.y,
+                                TERRAIN_WINDOW_TERM_WIDTH, TERRAIN_WINDOW_TERM_HEIGHT );
 
         update = true;
     } else if( g && w == g->w_terrain && map_font ) {
@@ -1113,14 +1117,17 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                                        map_font->fontheight, 0 );
         //Gap between terrain and lower window edge
         if( partial_height > 0 ) {
-            FillRectDIB( win->x * map_font->fontwidth,
-                         ( win->y + TERRAIN_WINDOW_HEIGHT ) * map_font->fontheight,
+            FillRectDIB( win->pos.x * map_font->fontwidth,
+                         ( win->pos.y + TERRAIN_WINDOW_HEIGHT ) * map_font->fontheight,
                          TERRAIN_WINDOW_WIDTH * map_font->fontwidth + partial_width, partial_height, catacurses::black );
         }
         //Gap between terrain and sidebar
         if( partial_width > 0 ) {
-            FillRectDIB( ( win->x + TERRAIN_WINDOW_WIDTH ) * map_font->fontwidth, win->y * map_font->fontheight,
-                         partial_width, TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height, catacurses::black );
+            FillRectDIB( ( win->pos.x + TERRAIN_WINDOW_WIDTH ) * map_font->fontwidth,
+                         win->pos.y * map_font->fontheight,
+                         partial_width,
+                         TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height,
+                         catacurses::black );
         }
         // Special font for the terrain window
         update = map_font->draw_window( w );
@@ -1131,14 +1138,14 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         // The animation window overlays the terrain window,
         // it uses the same font, but it's only 1 square in size.
         // The offset must not use the global font, but the map font
-        int offsetx = win->x * map_font->fontwidth;
-        int offsety = win->y * map_font->fontheight;
+        int offsetx = win->pos.x * map_font->fontwidth;
+        int offsety = win->pos.y * map_font->fontheight;
         update = map_font->draw_window( w, offsetx, offsety );
     } else if( g && w == g->w_blackspace ) {
         // fill-in black space window skips draw code
         // so as not to confuse framebuffer any more than necessary
-        int offsetx = win->x * font->fontwidth;
-        int offsety = win->y * font->fontheight;
+        int offsetx = win->pos.x * font->fontwidth;
+        int offsety = win->pos.y * font->fontheight;
         int wwidth = win->width * font->fontwidth;
         int wheight = win->height * font->fontheight;
         FillRectDIB( offsetx, offsety, wwidth, wheight, catacurses::black );
@@ -1152,7 +1159,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         // Make sure the entire minimap window is black before drawing.
         clear_window_area( w );
         tilecontext->draw_minimap(
-            win->x * fontwidth, win->y * fontheight,
+            win->pos.x * fontwidth, win->pos.y * fontheight,
             tripoint( g->u.pos().xy(), g->ter_view_p.z ),
             win->width * font->fontwidth, win->height * font->fontheight );
         update = true;
@@ -1171,7 +1178,7 @@ bool Font::draw_window( const catacurses::window &w )
     cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
     // Use global font sizes here to make this independent of the
     // font used for this window.
-    return draw_window( w, win->x * ::fontwidth, win->y * ::fontheight );
+    return draw_window( w, win->pos.x * ::fontwidth, win->pos.y * ::fontheight );
 }
 
 bool Font::draw_window( const catacurses::window &w, const int offsetx, const int offsety )
@@ -1239,7 +1246,7 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
             continue;
         }
 
-        const int fby = win->y + j;
+        const int fby = win->pos.y + j;
         if( fby >= static_cast<int>( framebuffer.size() ) ) {
             // prevent indexing outside the frame buffer. This might happen for some parts of the window. FIX #28953.
             break;
@@ -1248,7 +1255,7 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
         update = true;
         win->line[j].touched = false;
         for( int i = 0; i < win->width; i++ ) {
-            const int fbx = win->x + i;
+            const int fbx = win->pos.x + i;
             if( fbx >= static_cast<int>( framebuffer[fby].chars.size() ) ) {
                 // prevent indexing outside the frame buffer. This might happen for some parts of the window.
                 break;
@@ -3437,7 +3444,7 @@ void catacurses::init_interface()
     WinCreate();
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
-    tilecontext.reset( new cata_tiles( renderer ) );
+    tilecontext = std::make_unique<cata_tiles>( renderer );
     try {
         tilecontext->load_tileset( get_option<std::string>( "TILES" ), true );
     } catch( const std::exception &err ) {
@@ -3463,7 +3470,7 @@ void catacurses::init_interface()
                                 fl.fontblending );
     overmap_font = Font::load_font( fl.overmap_typeface, fl.overmap_fontsize,
                                     fl.overmap_fontwidth, fl.overmap_fontheight, fl.fontblending );
-    stdscr = newwin( get_terminal_height(), get_terminal_width(), 0, 0 );
+    stdscr = newwin( get_terminal_height(), get_terminal_width(), point_zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 
 #if defined(__ANDROID__)
@@ -3521,14 +3528,10 @@ template<>
 SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int b )
 {
     SDL_Color result;
-    //Blue
-    result.b = b;
-    //Green
-    result.g = g;
-    //Red
-    result.r = r;
-    //The Alpha, is not used, so just set it to 0
-    result.a = 0;
+    result.b = b;       //Blue
+    result.g = g;       //Green
+    result.r = r;       //Red
+    result.a = 0xFF;    // Opaque
     return result;
 }
 
@@ -3638,7 +3641,7 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 
     // Translate mouse coordinates to map coordinates based on tile size,
     // the window position is *always* in standard font dimensions!
-    const point win_min( capture_win->x * fontwidth, capture_win->y * fontheight );
+    const point win_min( capture_win->pos.x * fontwidth, capture_win->pos.y * fontheight );
     // But the size of the window is in the font dimensions of the window.
     const point win_size( capture_win->width * fw, capture_win->height * fh );
     const point win_max = win_min + win_size;
@@ -3658,10 +3661,10 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
     const point screen_pos = coordinate - win_min;
     point p;
     if( tile_iso && use_tiles ) {
-        const int screen_col = round( static_cast<float>(
-                                          screen_pos.x - ( win_size.x / 2 + win_min.x ) ) / ( fw / 2 ) );
-        const int screen_row = round( static_cast<float>(
-                                          screen_pos.y - win_size.y / 2 + win_min.y ) / ( fw / 4 ) );
+        const float win_mid_x = win_min.x + win_size.x / 2.0f;
+        const float win_mid_y = -win_min.y + win_size.y / 2.0f;
+        const int screen_col = round( ( screen_pos.x - win_mid_x ) / ( fw / 2.0 ) );
+        const int screen_row = round( ( screen_pos.y - win_mid_y ) / ( fw / 4.0 ) );
         const point selected( ( screen_col - screen_row ) / 2, ( screen_row + screen_col ) / 2 );
         p = view_offset + selected;
     } else {
@@ -3908,5 +3911,15 @@ bool save_screenshot( const std::string &file_path )
 
     return true;
 }
+
+#ifdef _WIN32
+HWND getWindowHandle()
+{
+    SDL_SysWMinfo info;
+    SDL_VERSION( &info.version );
+    SDL_GetWindowWMInfo( ::window.get(), &info );
+    return info.info.win.window;
+}
+#endif
 
 #endif // TILES

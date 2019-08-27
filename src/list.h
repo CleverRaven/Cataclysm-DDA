@@ -108,14 +108,12 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         struct node_base {
             node_pointer_type next, previous;
 
-            node_base()
-            {}
+            node_base() = default;
 
             node_base( const node_pointer_type &n, const node_pointer_type &p ):
                 next( n ),
                 previous( p )
             {}
-
 
             node_base( node_pointer_type &&n, node_pointer_type &&p ) noexcept:
                 next( std::move( n ) ),
@@ -251,6 +249,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
                 group_vector &operator = ( group_vector &&source ) noexcept {
                     if LIST_CONSTEXPR( std::is_trivial<group_pointer_type>::value ) {
+                        // NOLINTNEXTLINE(bugprone-undefined-memory-manipulation)
                         std::memcpy( static_cast<void *>( this ), &source, sizeof( group_vector ) );
                     } else {
                         last_endpoint_group = std::move( source.last_endpoint_group );
@@ -265,8 +264,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     return *this;
                 }
 
-                ~group_vector() noexcept
-                {}
+                ~group_vector() noexcept = default;
 
                 void destroy_all_data( const node_pointer_type last_endpoint_node ) noexcept {
                     if( block_pointer == nullptr ) {
@@ -501,7 +499,6 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     bool right_not_beyond_back = ( right < beyond_end_group );
                     bool left_not_beyond_front = ( left >= block_pointer );
 
-
                     // ie. location is within last_search_group
                     if( location_node >= last_searched_group->nodes &&
                         location_node < last_searched_group->beyond_end ) {
@@ -540,7 +537,6 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                                         last_searched_group = right;
                                         left_distance = right - left;
                                     }
-
 
                                     // Otherwise find closest group with freelist - check an equal distance on the right to the distance we've checked on the left:
                                     const group_pointer_type end_group = ( ( ( right + left_distance ) > beyond_end_group ) ?
@@ -818,7 +814,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     return *this;
                 }
 
-                inline list_iterator &operator=( const list_iterator &&rh ) noexcept {
+                inline list_iterator &operator=( list_iterator &&rh ) noexcept {
                     node_pointer = std::move( rh.node_pointer );
                     return *this;
                 }
@@ -923,7 +919,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     return *this;
                 }
 
-                inline list_reverse_iterator &operator=( const list_reverse_iterator &&rh ) noexcept {
+                inline list_reverse_iterator &operator=( list_reverse_iterator &&rh ) noexcept {
                     node_pointer = std::move( rh.node_pointer );
                     return *this;
                 }
@@ -1912,8 +1908,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 stored_instance( function_instance )
             {}
 
-            sort_dereferencer() noexcept
-            {}
+            sort_dereferencer() noexcept = default;
 
             inline bool operator()( const node_pointer_type first, const node_pointer_type second ) {
                 return stored_instance( first->element, second->element );
@@ -2211,7 +2206,6 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             begin_iterator.node_pointer->next = source.begin_iterator.node_pointer;
             source.begin_iterator.node_pointer->previous = begin_iterator.node_pointer;
 
-
             while( ( current1 != this_end ) & ( current2 != source_end ) ) {
                 previous->next = current1;
                 current1->previous = previous;
@@ -2286,8 +2280,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 value( store_value )
             {}
 
-            eq_to() noexcept
-            {}
+            eq_to() noexcept = default;
 
             inline bool operator()( const element_type compare_value ) const noexcept {
                 return value == compare_value;

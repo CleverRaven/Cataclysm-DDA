@@ -164,11 +164,17 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
         // Its effect is meant to be cosmetic and atmospheric only.
         bool has_signage( const point &p ) const;
         // Dependent on furniture + cosmetics.
-        const std::string get_signage( const point &p ) const;
+        std::string get_signage( const point &p ) const;
         // Can be used anytime (prevents code from needing to place sign first.)
         void set_signage( const point &p, const std::string &s );
         // Can be used anytime (prevents code from needing to place sign first.)
         void delete_signage( const point &p );
+
+        bool has_computer( const point &p ) const;
+        const computer *get_computer( const point &p ) const;
+        computer *get_computer( const point &p );
+        void set_computer( const point &p, const computer &c );
+        void delete_computer( const point &p );
 
         bool contains_vehicle( vehicle * );
 
@@ -195,11 +201,14 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
          */
         std::vector<std::unique_ptr<vehicle>> vehicles;
         std::map<tripoint, partial_con> partial_constructions;
-        std::unique_ptr<computer> comp;
         basecamp camp;  // only allowing one basecamp per submap
 
     private:
+        std::map<point, computer> computers;
+        std::unique_ptr<computer> legacy_computer;
         int temperature = 0;
+
+        void update_legacy_computer();
 };
 
 /**
@@ -280,7 +289,7 @@ struct maptile {
             return sm->has_signage( pos() );
         }
 
-        const std::string get_signage() const {
+        std::string get_signage() const {
             return sm->get_signage( pos() );
         }
 

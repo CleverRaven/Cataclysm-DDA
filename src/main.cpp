@@ -613,7 +613,7 @@ int main( int argc, char *argv[] )
 
     rng_set_engine_seed( seed );
 
-    g.reset( new game );
+    g = std::make_unique<game>();
     // First load and initialize everything that does not
     // depend on the mods.
     try {

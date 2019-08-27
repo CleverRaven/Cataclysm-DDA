@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <cstddef>
+#include <memory>
 #include <numeric>
 #include <sstream>
 #include <unordered_map>
@@ -96,7 +97,9 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "RECHARGE", VPFLAG_RECHARGE },
     { "VISION", VPFLAG_EXTENDS_VISION },
     { "ENABLED_DRAINS_EPOWER", VPFLAG_ENABLED_DRAINS_EPOWER },
+    { "AUTOCLAVE", VPFLAG_AUTOCLAVE },
     { "WASHING_MACHINE", VPFLAG_WASHING_MACHINE },
+    { "DISHWASHER", VPFLAG_DISHWASHER },
     { "FLUIDTANK", VPFLAG_FLUIDTANK },
     { "REACTOR", VPFLAG_REACTOR },
     { "RAIL", VPFLAG_RAIL },
@@ -398,8 +401,6 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     if( jo.has_member( "damage_reduction" ) ) {
         JsonObject dred = jo.get_object( "damage_reduction" );
         def.damage_reduction = load_damage_array( dred );
-    } else {
-        def.damage_reduction.fill( 0.0f );
     }
 
     if( def.has_flag( "ENGINE" ) ) {
@@ -435,12 +436,6 @@ void vpart_info::finalize()
     DynamicDataLoader::get_instance().load_deferred( deferred );
 
     for( auto &e : vpart_info_all ) {
-        // if part name specified ensure it is translated
-        // otherwise the name of the base item will be used
-        if( !e.second.name_.empty() ) {
-            e.second.name_ = _( e.second.name_ );
-        }
-
         if( e.second.folded_volume > 0_ml ) {
             e.second.set_flag( "FOLDABLE" );
         }
@@ -706,9 +701,10 @@ const std::map<vpart_id, vpart_info> &vpart_info::all()
 std::string vpart_info::name() const
 {
     if( name_.empty() ) {
-        name_ = item::nname( item ); // cache on first request
+        return item::nname( item );
+    } else {
+        return name_.translated();
     }
-    return name_;
 }
 
 int vpart_info::format_description( std::ostringstream &msg, const std::string &format_color,
@@ -720,7 +716,7 @@ int vpart_info::format_description( std::ostringstream &msg, const std::string &
 
     std::ostringstream long_descrip;
     if( ! description.empty() ) {
-        long_descrip << _( description );
+        long_descrip << description;
     }
     for( const auto &flagid : flags ) {
         if( flagid == "ALARMCLOCK" || flagid == "WATCH" ) {
@@ -821,7 +817,7 @@ static int scale_time( const std::map<skill_id, int> &sk, int mv, const Characte
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
     return mv * ( 1.0 - std::min( static_cast<double>( lvl ) / sk.size() / 10.0,
-                                  0.5 ) ) * ( 1 - ( helpersize / 10 ) );
+                                  0.5 ) ) * ( 1 - ( helpersize / 10.0 ) );
 }
 
 int vpart_info::install_time( const Character &ch ) const
@@ -1060,7 +1056,7 @@ void vehicle_prototype::finalize()
         // Calls the default constructor to create an empty vehicle. Calling the constructor with
         // the type as parameter would make it look up the type in the map and copy the
         // (non-existing) blueprint.
-        proto.blueprint.reset( new vehicle() );
+        proto.blueprint = std::make_unique<vehicle>();
         vehicle &blueprint = *proto.blueprint;
         blueprint.type = id;
         blueprint.name = _( proto.name );

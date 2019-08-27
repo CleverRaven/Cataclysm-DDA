@@ -181,6 +181,16 @@ inventory &inventory::operator+= ( const item &rhs )
     return *this;
 }
 
+inventory &inventory::operator+= ( const item_stack &rhs )
+{
+    for( const auto &p : rhs ) {
+        if( !p.made_of( LIQUID ) ) {
+            add_item( p, true );
+        }
+    }
+    return *this;
+}
+
 inventory inventory::operator+ ( const inventory &rhs )
 {
     return inventory( *this ) += rhs;
@@ -665,7 +675,7 @@ void inventory::dump( std::vector<item *> &dest )
 {
     for( auto &elem : items ) {
         for( auto &elem_stack_iter : elem ) {
-            dest.push_back( &( elem_stack_iter ) );
+            dest.push_back( &elem_stack_iter );
         }
     }
 }
@@ -833,7 +843,7 @@ item *inventory::most_appropriate_painkiller( int pain )
 
         if( diff < difference ) {
             difference = diff;
-            ret = &( elem.front() );
+            ret = &elem.front();
         }
     }
     return ret;

@@ -81,10 +81,6 @@ struct weather_printable {
     std::vector<std::pair<int, int> > vdrops; //!< Coordinates targeted for droplets.
     nc_color colGlyph; //!< Color to draw glyph this animation frame.
     char cGlyph; //!< Glyph to draw this animation frame.
-    int startx;
-    int starty;
-    int endx;
-    int endy;
 };
 
 /**
@@ -130,19 +126,19 @@ struct weather_sum {
     int wind_amount = 0;
 };
 
-weather_datum const weather_data( weather_type const type );
+weather_datum weather_data( weather_type type );
 namespace weather
 {
-std::string name( weather_type const type );
-nc_color color( weather_type const type );
-nc_color map_color( weather_type const type );
-char glyph( weather_type const type );
-int ranged_penalty( weather_type const type );
-float sight_penalty( weather_type const type );
-int light_modifier( weather_type const type );
-int sound_attn( weather_type const type );
-bool dangerous( weather_type const type );
-weather_effect_fn effect( weather_type const type );
+std::string name( weather_type type );
+nc_color color( weather_type type );
+nc_color map_color( weather_type type );
+char glyph( weather_type type );
+int ranged_penalty( weather_type type );
+float sight_penalty( weather_type type );
+int light_modifier( weather_type type );
+int sound_attn( weather_type type );
+bool dangerous( weather_type type );
+weather_effect_fn effect( weather_type type );
 } // namespace weather
 
 std::string get_shortdirstring( int angle );
@@ -181,7 +177,7 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point 
 
 double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_per_hour );
 
-rl_vec2d convert_wind_to_coord( const int angle );
+rl_vec2d convert_wind_to_coord( int angle );
 
 std::string get_wind_arrow( int );
 
@@ -191,7 +187,7 @@ nc_color get_wind_color( double );
 /**
 * Calculates rot per hour at given temperature. Reference in weather_data.cpp
 */
-int get_hourly_rotpoints_at_temp( const int temp );
+int get_hourly_rotpoints_at_temp( int temp );
 
 /**
  * Is it warm enough to plant seeds?

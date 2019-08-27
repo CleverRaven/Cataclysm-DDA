@@ -129,7 +129,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     }
     init_colors();
 
-    g.reset( new game );
+    g = std::make_unique<game>( );
     g->new_game = true;
     g->load_static_data();
 
@@ -152,10 +152,10 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     g->m = map( get_option<bool>( "ZLEVELS" ) );
 
-    overmap_special_batch empty_specials( { 0, 0 } );
+    overmap_special_batch empty_specials( point_zero );
     overmap_buffer.create_custom_overmap( point_zero, empty_specials );
 
-    g->m.load( g->get_levx(), g->get_levy(), g->get_levz(), false );
+    g->m.load( tripoint( g->get_levx(), g->get_levy(), g->get_levz() ), false );
 }
 
 // Checks if any of the flags are in container, removes them all
@@ -230,7 +230,7 @@ static std::string extract_user_dir( std::vector<const char *> &arg_vec )
 struct CataListener : Catch::TestEventListenerBase {
     using TestEventListenerBase::TestEventListenerBase;
 
-    virtual void sectionStarting( Catch::SectionInfo const &sectionInfo ) override {
+    void sectionStarting( Catch::SectionInfo const &sectionInfo ) override {
         TestEventListenerBase::sectionStarting( sectionInfo );
         // Initialize the cata RNG with the Catch seed for reproducible tests
         rng_set_engine_seed( m_config->rngSeed() );

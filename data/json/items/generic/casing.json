@@ -330,7 +330,7 @@
     "description": "An empty steel tube which once contained a 152mm ATGM.  Now it's essentially just a huge pipe.",
     "material": "steel",
     "weight": 9500,
-    "volume": 30
+    "volume": "7500 ml"
   },
   {
     "id": "shot_hull",
@@ -359,5 +359,14 @@
     "symbol": "=",
     "color": "red",
     "damage_states": [ 0, 0 ]
+  },
+  {
+    "id": "300blk_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".300BLK casing",
+    "description": "An empty casing from a .300 AAC Blackout round.",
+    "weight": 6,
+    "volume": "9ml"
   }
 ]

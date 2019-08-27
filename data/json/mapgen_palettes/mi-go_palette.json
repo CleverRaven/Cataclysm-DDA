@@ -23,6 +23,7 @@
       "V": "f_alien_anemone",
       "{": "f_alien_gasper",
       "F": "f_alien_zapper",
+      "T": [ "f_alien_zapper", [ "f_alien_gasper", 2 ], [ "f_alien_tendril", 4 ], [ "f_alien_anemone", 2 ] ],
       "P": [ [ "f_alien_pod", 2 ], [ "f_alien_pod_organ", 2 ], "f_alien_pod_resin" ],
       "p": [ [ "f_alien_pod", 2 ], [ "f_alien_pod_organ", 2 ], "f_alien_pod_resin" ],
       "O": "f_alien_pod_resin"

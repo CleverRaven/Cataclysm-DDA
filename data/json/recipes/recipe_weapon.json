@@ -1131,25 +1131,6 @@
   },
   {
     "type": "recipe",
-    "result": "flamethrower_simple",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 3 ],
-    "difficulty": 6,
-    "time": "30 m",
-    "reversible": true,
-    "autolearn": true,
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [
-      [ [ "pilot_light", 2 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "hose", 2 ] ],
-      [ [ "bottle_glass", 4 ], [ "bottle_plastic", 6 ], [ "bottle_plastic_small", 12 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "launcher_simple",
     "note": "standalone_weapon",
     "category": "CC_WEAPON",
@@ -1762,7 +1743,13 @@
     "reversible": true,
     "decomp_learn": 3,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "makeshift_machete", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "makeshift_machete", 1 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "aux_pressurized_tank", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1776,7 +1763,13 @@
     "decomp_learn": 4,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
     "using": [ [ "welding_standard", 2 ] ],
-    "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "machete", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "machete", 1 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "aux_pressurized_tank", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1790,7 +1783,13 @@
     "decomp_learn": 4,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
     "using": [ [ "welding_standard", 2 ] ],
-    "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "broadsword", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "broadsword", 1 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "aux_pressurized_tank", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1804,7 +1803,13 @@
     "decomp_learn": 4,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
     "using": [ [ "welding_standard", 2 ] ],
-    "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "katana", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "katana", 1 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "aux_pressurized_tank", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1818,7 +1823,13 @@
     "decomp_learn": 4,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
     "using": [ [ "welding_standard", 2 ] ],
-    "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "zweihander", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "zweihander", 1 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "aux_pressurized_tank", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1974,18 +1985,6 @@
   },
   {
     "type": "recipe",
-    "result": "flamethrower_crude",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "time": "5 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "spray_can", 1 ] ], [ [ "duct_tape", 25 ] ], [ [ "lighter", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "knuckle_steel",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
@@ -2048,6 +2047,24 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 300 ], [ "oxy_torch", 60 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ], [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "crash_axe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "360 m",
+    "book_learn": [ [ "textbook_fireman", 6 ] ],
+    "using": [ [ "forging_standard", 8 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ],
+      [ [ "filament", 100, "LIST" ] ],
+      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
+    ]
   },
   {
     "type": "recipe",

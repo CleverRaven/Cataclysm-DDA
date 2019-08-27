@@ -410,12 +410,12 @@
       "forest": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 40,
+          "mx_helicopter": 8,
           "mx_military": 8,
           "mx_science": 20,
           "mx_collegekids": 25,
-          "mx_drugdeal": 20,
-          "mx_supplydrop": 10,
+          "mx_drugdeal": 8,
+          "mx_supplydrop": 8,
           "mx_portal": 3,
           "mx_crater": 10,
           "mx_portal_in": 3,
@@ -433,7 +433,7 @@
       "forest_thick": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 40,
+          "mx_helicopter": 8,
           "mx_military": 8,
           "mx_science": 20,
           "mx_collegekids": 25,
@@ -458,7 +458,7 @@
       "forest_water": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 40,
+          "mx_helicopter": 8,
           "mx_military": 8,
           "mx_science": 20,
           "mx_collegekids": 25,
@@ -481,7 +481,7 @@
       "field": {
         "chance": 90,
         "extras": {
-          "mx_helicopter": 40,
+          "mx_helicopter": 8,
           "mx_military": 8,
           "mx_science": 20,
           "mx_collegekids": 25,
@@ -498,7 +498,7 @@
       "road": {
         "chance": 75,
         "extras": {
-          "mx_helicopter": 40,
+          "mx_helicopter": 25,
           "mx_military": 25,
           "mx_science": 40,
           "mx_collegekids": 50,
@@ -538,7 +538,7 @@
       "research_facility_lot": {
         "chance": 3,
         "extras": {
-          "mx_helicopter": 90,
+          "mx_helicopter": 65,
           "mx_military": 65,
           "mx_collegekids": 1,
           "mx_portal": 200,
@@ -632,6 +632,7 @@
         "s_hardware_1": 400,
         "s_hardware_2": 400,
         "s_hardware_3": 400,
+        "s_hunting": 300,
         "s_sports": 500,
         "dojo": 200,
         "dojo_1": 200,
@@ -684,6 +685,7 @@
         "office_doctor": 200,
         "office_doctor_1": 200,
         "office_doctor_2": 200,
+        "office_tower_collapsed": 250,
         "s_restaurant_fast": 400,
         "s_restaurant_fast_1": 400,
         "s_restaurant_coffee": 200,

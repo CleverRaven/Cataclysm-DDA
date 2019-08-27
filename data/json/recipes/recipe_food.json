@@ -764,12 +764,12 @@
       [ [ "meat_red", 2, "LIST" ], [ "liver", 10 ] ],
       [ [ "fat", 1 ], [ "tallow", 2 ], [ "lard", 2 ] ],
       [
-        [ "salt", 2 ],
-        [ "soysauce", 1 ],
-        [ "seasoning_italian", 10 ],
-        [ "wild_herbs", 10 ],
-        [ "seasoning_salt", 10 ],
-        [ "pepper", 10 ]
+        [ "salt", 4 ],
+        [ "soysauce", 2 ],
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "pepper", 4 ]
       ]
     ]
   },
@@ -909,7 +909,7 @@
   },
   {
     "type": "recipe",
-    "result": "dogfood_canned",
+    "result": "dogfood",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
     "container": "jar_glass_sealed",
@@ -932,7 +932,7 @@
   },
   {
     "type": "recipe",
-    "result": "dogfood_canned",
+    "result": "dogfood",
     "id_suffix": "canned",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -940,6 +940,7 @@
     "difficulty": 5,
     "time": "24 m",
     "autolearn": true,
+    "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [
       { "id": "SAW_M", "level": 1 },
@@ -958,7 +959,7 @@
   },
   {
     "type": "recipe",
-    "result": "dogfood_canned",
+    "result": "dogfood",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
     "container": "jar_3l_glass_sealed",
@@ -994,7 +995,7 @@
   },
   {
     "type": "recipe",
-    "result": "catfood_canned",
+    "result": "catfood",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
     "container": "jar_glass_sealed",
@@ -1012,7 +1013,7 @@
   },
   {
     "type": "recipe",
-    "result": "catfood_canned",
+    "result": "catfood",
     "id_suffix": "canned",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -1020,6 +1021,7 @@
     "difficulty": 5,
     "time": "24 m",
     "autolearn": true,
+    "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [
       { "id": "SAW_M", "level": 1 },
@@ -1037,7 +1039,7 @@
   },
   {
     "type": "recipe",
-    "result": "catfood_canned",
+    "result": "catfood",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
     "container": "jar_3l_glass_sealed",
@@ -4193,7 +4195,8 @@
       [ "adv_chemistry", 6 ],
       [ "atomic_survival", 4 ],
       [ "survival_book", 5 ],
-      [ "recipe_labchem", 5 ]
+      [ "recipe_labchem", 5 ],
+      [ "isherwood_herbal_remedies", 4 ]
     ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [  ],
@@ -4832,6 +4835,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "20 m",
+    "batch_time_factors": [ 83, 5 ],
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 5 ], [ "makeshift_sealer", 10 ] ] ],
@@ -5691,9 +5695,8 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
-    "time": "4 m",
+    "time": "1 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
       [ [ "peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ]
@@ -5705,9 +5708,8 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
-    "time": "4 m",
+    "time": "1 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
       [ [ "jam_fruit", 1 ] ],
@@ -5720,9 +5722,8 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
-    "time": "4 m",
+    "time": "1 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
       [ [ "honeycomb", 2 ], [ "honey_bottled", 2 ], [ "honey_glassed", 2 ] ],
@@ -5735,9 +5736,8 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
-    "time": "4 m",
+    "time": "1 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
       [ [ "syrup", 1 ] ],
@@ -5756,6 +5756,20 @@
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
       [ [ "human_cooked", 1 ], [ "hfleshbologna", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "sandwich_fairy",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "1 m",
+    "book_learn": [ [ "mag_glam", 1 ] ],
+    "components": [
+      [ [ "flatbread", 1 ], [ "bread", 1 ], [ "cornbread", 1 ], [ "wastebread", 1 ], [ "sourdough_bread", 1 ] ],
+      [ [ "butter", 4 ], [ "ghee", 4 ] ],
+      [ [ "sprinkles", 3 ] ]
     ]
   },
   {
@@ -6818,7 +6832,6 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
       [ [ "mayonnaise", 1 ], [ "ketchup", 1 ], [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "mustard", 1 ] ]
@@ -6832,7 +6845,6 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
       [ [ "jam_fruit", 1 ] ]
@@ -6846,7 +6858,6 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
       [ [ "honeycomb", 1 ], [ "honey_bottled", 1 ] ]

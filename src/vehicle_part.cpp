@@ -400,7 +400,7 @@ int vehicle_part::wheel_width() const
 
 npc *vehicle_part::crew() const
 {
-    if( is_broken() || crew_id < 0 ) {
+    if( is_broken() || !crew_id.is_valid() ) {
         return nullptr;
     }
 
@@ -425,7 +425,7 @@ bool vehicle_part::set_crew( const npc &who )
 
 void vehicle_part::unset_crew()
 {
-    crew_id = -1;
+    crew_id = character_id();
 }
 
 void vehicle_part::reset_target( const tripoint &pos )

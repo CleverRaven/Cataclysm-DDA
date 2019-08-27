@@ -14,7 +14,7 @@ using mon_action_attack = bool ( * )( monster * );
 class mattack_actor
 {
     protected:
-        mattack_actor() { }
+        mattack_actor() = default;
     public:
         mattack_actor( const mattack_id &new_id ) : id( new_id ) { }
 
@@ -40,13 +40,16 @@ struct mtype_special_attack {
     public:
         mtype_special_attack( const mattack_id &id, mon_action_attack f );
         mtype_special_attack( mattack_actor *f ) : actor( f ) { }
+        mtype_special_attack( mtype_special_attack && ) = default;
         mtype_special_attack( const mtype_special_attack &other ) :
             mtype_special_attack( other.actor->clone() ) { }
 
         ~mtype_special_attack() = default;
 
-        void operator=( const mtype_special_attack &other ) {
+        mtype_special_attack &operator=( mtype_special_attack && ) = default;
+        mtype_special_attack &operator=( const mtype_special_attack &other ) {
             actor.reset( other.actor->clone() );
+            return *this;
         }
 
         const mattack_actor &operator*() const {

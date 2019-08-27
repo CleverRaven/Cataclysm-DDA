@@ -16,6 +16,7 @@
 #include "damage.h"
 #include "string_id.h"
 #include "tuple_hash.h"
+#include "translations.h"
 #include "type_id.h"
 #include "point.h"
 
@@ -212,14 +213,15 @@ struct mutation_branch {
         std::map<body_part, int> encumbrance_covered;
         // Body parts that now need OVERSIZE gear
         std::set<body_part> restricts_gear;
+        // Mutation stat mods
         /** Key pair is <active: bool, mod type: "STR"> */
-        std::unordered_map<std::pair<bool, std::string>, int> mods; // Mutation stat mods
+        std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> mods;
         std::map<body_part, resistances> armor;
         std::vector<matype_id>
         initial_ma_styles; // Martial art styles that can be chosen upon character generation
     private:
-        std::string raw_name;
-        std::string raw_desc;
+        translation raw_name;
+        translation raw_desc;
     public:
         std::string name() const;
         std::string desc() const;
@@ -320,7 +322,7 @@ struct mutation_branch {
          * can also load data from arrays of strings, where the strings are item or group ids.
          */
         static void load_trait_group( JsonArray &entries, const trait_group::Trait_group_tag &gid,
-                                      const bool is_collection );
+                                      bool is_collection );
 
         /**
          * Create a new trait group as specified by the given JSON object and register

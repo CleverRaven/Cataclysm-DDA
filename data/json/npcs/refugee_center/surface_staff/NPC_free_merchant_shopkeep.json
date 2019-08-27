@@ -146,13 +146,13 @@
       [ "makeshift_machete", 15 ],
       [ "flamethrower_crude", 20 ],
       [ "fungicide", 20 ],
+      [ "insecticide", 20 ],
       [ "antifungal", 20 ],
       [ "antiparasitic", 20 ],
       [ "diazepam", 15 ],
       [ "small_repairkit", 20 ],
       [ "grapnel", 5 ],
       [ "misc_repairkit", 15 ],
-      [ "flamethrower_simple", 15 ],
       [ "toolbox", 20 ],
       [ "crowbar", 25 ],
       [ "machete", 25 ],
@@ -408,6 +408,7 @@
     "id": "MISSION_FREE_MERCHANTS_EVAC_1",
     "type": "mission_definition",
     "name": "Clear Back Bay",
+    "description": "Clear out the barricaded back area in the refugee center and lay the former leader of the Free Merchants to rest, in exchange for the local currency: Free Merchant certified notes.",
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 2,
     "value": 50000,
@@ -416,7 +417,7 @@
       "update_mapgen": {
         "om_terrain": "evac_center_9",
         "om_special": "evac_center",
-        "place_monster": [ { "monster": "mon_zombie_electric", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]
+        "place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]
       }
     },
     "end": {
@@ -443,6 +444,7 @@
     "id": "MISSION_FREE_MERCHANTS_EVAC_2",
     "type": "mission_definition",
     "name": "Missing Caravan",
+    "description": "Investigate the last known location of a disappeared scavenger trading party, and eliminate any bandits or raiders in the vicinity in exchange for <reward_count:FMCNote> certified notes.",
     "goal": "MGOAL_ASSASSINATE",
     "difficulty": 5,
     "value": 5000,
@@ -528,6 +530,7 @@
     "id": "MISSION_FREE_MERCHANTS_EVAC_3",
     "type": "mission_definition",
     "name": "Retrieve Prospectus",
+    "description": "Visit the farming commune and bring the foreman's prospectus back to the refugee center, for <reward_count:FMCNote> certified notes.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -565,7 +568,8 @@
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_4",
     "type": "mission_definition",
-    "name": "Find 10 solar panels",
+    "name": "Solar Power",
+    "description": "Deliver 10 solar panels to help the Free Merchants set up a renewable power grid, in exchange for a handsome reward.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 400000,
@@ -594,8 +598,9 @@
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_5",
     "type": "mission_definition",
-    "name": "Find 100 canning jars",
-    "goal": "MGOAL_FIND_ITEM_GROUP",
+    "name": "In a Pickle",
+    "description": "Deliver 100 half-liter glass canning jars to the Free Merchants to kickstart their food storage plans.",
+    "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 400000,
     "item": "jar_glass",

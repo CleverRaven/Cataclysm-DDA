@@ -12,7 +12,9 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
+#include "units.h"
 
 class player;
 class JsonObject;
@@ -23,15 +25,15 @@ using itype_id = std::string;
 struct bionic_data {
     bionic_data();
 
-    std::string name;
-    std::string description;
+    translation name;
+    translation description;
     /** Power cost on activation */
     int power_activate = 0;
     /** Power cost on deactivation */
     int power_deactivate = 0;
     /** Power cost over time, does nothing without a non-zero charge_time */
     int power_over_time = 0;
-    /** How often a bionic draws power while active in turns */
+    /** How often a bionic draws or produces power while active in turns */
     int charge_time = 0;
     /** Power bank size **/
     int capacity = 0;
@@ -74,10 +76,26 @@ struct bionic_data {
     * If true, this bionic is included with another.
     */
     bool included = false;
+    /**Factor modifiying weight capacity*/
+    float weight_capacity_modifier;
+    /**Bonus to weight capacity*/
+    units::mass weight_capacity_bonus;
+    /**Fuel types that can be used by this bionic*/
+    std::vector<itype_id> fuel_opts;
+    /**How much fuel this bionic can hold*/
+    int fuel_capacity;
+    /**Fraction of fuel energy converted to bionic power*/
+    float fuel_efficiency;
+    /**Amount of environemental protection offered by this bionic*/
+    std::map<body_part, size_t> env_protec;
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
     std::map<body_part, size_t> occupied_bodyparts;
+    /**
+     * Body part encumbered by this bionic, mapped to the amount of encumbrance caused.
+     */
+    std::map<body_part, int> encumbrance;
     /**
      * Fake item created for crafting with this bionic available.
      * Also the item used for gun bionics.
@@ -110,7 +128,7 @@ struct bionic_data {
 
 struct bionic {
     bionic_id id;
-    int         charge  = 0;
+    int         charge_timer  = 0;
     char        invlet  = 'a';
     bool        powered = false;
     /* Ammunition actually loaded in this bionic gun in deactivated state */
@@ -132,6 +150,8 @@ struct bionic {
 
     int get_quality( const quality_id &quality ) const;
 
+    bool is_muscle_powered() const;
+
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
 };
@@ -148,7 +168,7 @@ void reset_bionics();
 void load_bionic( JsonObject &jsobj ); // load a bionic from JSON
 char get_free_invlet( player &p );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
-                               const bool each_bp_on_new_line = true );
+                               bool each_bp_on_new_line = true );
 
 int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty );
 

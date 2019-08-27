@@ -95,19 +95,20 @@ std::string help::get_dir_grid()
 void help::draw_menu( const catacurses::window &win )
 {
     werase( win );
-    int y = fold_and_print( win, 0, 1, getmaxx( win ) - 2, c_white, _( "\
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    int y = fold_and_print( win, point( 1, 0 ), getmaxx( win ) - 2, c_white, _( "\
 Please press one of the following for help on that topic:\n\
 Press ESC to return to the game." ) ) + 1;
 
-    size_t half_size = help_texts.size() / 2;
-    int second_column = getmaxx( win ) / 2;
+    size_t half_size = help_texts.size() / 2 + 1;
+    int second_column = divide_round_up( getmaxx( win ), 2 );
     for( size_t i = 0; i < help_texts.size(); i++ ) {
         std::string cat_name = _( help_texts[i].first );
         if( i < half_size ) {
             second_column = std::max( second_column, utf8_width( cat_name ) + 4 );
         }
 
-        shortcut_print( win, y + i % half_size, i < half_size ? 1 : second_column,
+        shortcut_print( win, point( i < half_size ? 1 : second_column, y + i % half_size ),
                         c_white, c_light_blue, cat_name );
     }
 
@@ -130,11 +131,11 @@ std::string help::get_note_colors()
 void help::display_help()
 {
     catacurses::window w_help_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                       ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                                       ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+                                       point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                                               TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
     catacurses::window w_help = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                                1 + static_cast<int>( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
-                                1 + static_cast<int>( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
+                                point( 1 + static_cast<int>( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ),
+                                       1 + static_cast<int>( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) ) );
 
     ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );

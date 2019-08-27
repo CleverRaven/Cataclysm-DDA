@@ -3,7 +3,7 @@
     "type": "terrain",
     "id": "t_wall_stick",
     "name": "stick wall",
-    "description": "A cheap wall of planks and sticks with a log pillar to keep it together. It is capable of supporting an upper level or roof. Dirt and stones make the wall secure. Somewhat flammable.",
+    "description": "A cheap mish mash of planks and sticks with a log pillar that keeps it together. It is capable of supporting an upper level or roof. Dirt and stones make the wall secure. Somewhat flammable.",
     "symbol": "LINE_OXOX",
     "color": "brown_white",
     "move_cost": 0,
@@ -16,9 +16,9 @@
       "sound_fail": "krick!",
       "ter_set": "t_null",
       "items": [
-        { "item": "stick", "count": [ 0, 2 ] },
+        { "item": "stick", "count": [ 0, 1 ] },
         { "item": "pebble", "charges": [ 1, 5 ] },
-        { "item": "splinter", "count": [ 1, 4 ] }
+        { "item": "splinter", "count": [ 1, 6 ] }
       ]
     }
   }

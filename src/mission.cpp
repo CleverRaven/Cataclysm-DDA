@@ -12,6 +12,7 @@
 #include "avatar.h"
 #include "debug.h"
 #include "game.h"
+#include "kill_tracker.h"
 #include "line.h"
 #include "npc.h"
 #include "npc_class.h"
@@ -31,7 +32,7 @@
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-mission mission_type::create( const int npc_id ) const
+mission mission_type::create( const character_id npc_id ) const
 {
     mission ret;
     ret.uid = g->assign_mission_id();
@@ -54,9 +55,14 @@ mission mission_type::create( const int npc_id ) const
     return ret;
 }
 
+std::string mission_type::tname() const
+{
+    return _( name );
+}
+
 static std::unordered_map<int, mission> world_missions;
 
-mission *mission::reserve_new( const mission_type_id &type, const int npc_id )
+mission *mission::reserve_new( const mission_type_id &type, const character_id npc_id )
 {
     const auto tmp = mission_type::get( type )->create( npc_id );
     // TODO: Warn about overwrite?
@@ -150,7 +156,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
         // Must be the player
         for( auto &miss : g->u.get_active_missions() ) {
             // mission is free and can be reused
-            miss->player_id = -1;
+            miss->player_id = character_id();
         }
         // The missions remains assigned to the (dead) character. This should not cause any problems
         // as the character is dismissed anyway.
@@ -178,7 +184,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
     }
 }
 
-void mission::on_talk_with_npc( const int npc_id )
+void mission::on_talk_with_npc( const character_id npc_id )
 {
     switch( type->goal ) {
         case MGOAL_TALK_TO_NPC:
@@ -193,7 +199,8 @@ void mission::on_talk_with_npc( const int npc_id )
     }
 }
 
-mission *mission::reserve_random( const mission_origin origin, const tripoint &p, const int npc_id )
+mission *mission::reserve_random( const mission_origin origin, const tripoint &p,
+                                  const character_id npc_id )
 {
     const auto type = mission_type::get_random_id( origin, p );
     if( type.is_null() ) {
@@ -208,18 +215,19 @@ void mission::assign( avatar &u )
         debugmsg( "strange: player is already assigned to mission %d", uid );
         return;
     }
-    if( player_id != -1 ) {
-        debugmsg( "tried to assign mission %d to player, but mission is already assigned to %d", uid,
-                  player_id );
+    if( player_id.is_valid() ) {
+        debugmsg( "tried to assign mission %d to player, but mission is already assigned to %d",
+                  uid, player_id.get_value() );
         return;
     }
     player_id = u.getID();
     u.on_mission_assignment( *this );
     if( status == mission_status::yet_to_start ) {
+        const kill_tracker &kills = g->get_kill_tracker();
         if( type->goal == MGOAL_KILL_MONSTER_TYPE && monster_type != mtype_id::NULL_ID() ) {
-            kill_count_to_reach = g->kill_count( monster_type ) + monster_kill_goal;
+            kill_count_to_reach = kills.kill_count( monster_type ) + monster_kill_goal;
         } else if( type->goal == MGOAL_KILL_MONSTER_SPEC ) {
-            kill_count_to_reach = g->kill_count( monster_species ) + monster_kill_goal;
+            kill_count_to_reach = kills.kill_count( monster_species ) + monster_kill_goal;
         }
         type->start( this );
         status = mission_status::in_progress;
@@ -272,8 +280,8 @@ void mission::wrap_up()
     if( u.getID() != player_id ) {
         // This is called from npctalk.cpp, the npc should only offer the option to wrap up mission
         // that have been assigned to the current player.
-        debugmsg( "mission::wrap_up called, player %d was assigned, but current player is %d", player_id,
-                  u.getID() );
+        debugmsg( "mission::wrap_up called, player %d was assigned, but current player is %d",
+                  player_id.get_value(), u.getID().get_value() );
     }
 
     status = mission_status::success;
@@ -331,7 +339,7 @@ void mission::wrap_up()
     type->end( this );
 }
 
-bool mission::is_complete( const int _npc_id ) const
+bool mission::is_complete( const character_id _npc_id ) const
 {
     if( status == mission_status::success ) {
         return true;
@@ -375,7 +383,7 @@ bool mission::is_complete( const int _npc_id ) const
         return false;
 
         case MGOAL_FIND_ITEM: {
-            if( npc_id != -1 && npc_id != _npc_id ) {
+            if( npc_id.is_valid() && npc_id != _npc_id ) {
                 return false;
             }
             const inventory &tmp_inv = u.crafting_inventory();
@@ -387,10 +395,10 @@ bool mission::is_complete( const int _npc_id ) const
         return true;
 
         case MGOAL_FIND_ANY_ITEM:
-            return u.has_mission_item( uid ) && ( npc_id == -1 || npc_id == _npc_id );
+            return u.has_mission_item( uid ) && ( !npc_id.is_valid() || npc_id == _npc_id );
 
         case MGOAL_FIND_MONSTER:
-            if( npc_id != -1 && npc_id != _npc_id ) {
+            if( npc_id.is_valid() && npc_id != _npc_id ) {
                 return false;
             }
             return g->get_creature_if( [&]( const Creature & critter ) {
@@ -423,10 +431,34 @@ bool mission::is_complete( const int _npc_id ) const
             return step >= 1;
 
         case MGOAL_KILL_MONSTER_TYPE:
-            return g->kill_count( monster_type ) >= kill_count_to_reach;
+            return g->get_kill_tracker().kill_count( monster_type ) >= kill_count_to_reach;
 
         case MGOAL_KILL_MONSTER_SPEC:
-            return g->kill_count( monster_species ) >= kill_count_to_reach;
+            return g->get_kill_tracker().kill_count( monster_species ) >= kill_count_to_reach;
+
+        case MGOAL_CONDITION: {
+            // For now, we only allow completing when talking to the mission originator.
+            if( npc_id != _npc_id ) {
+                return false;
+            }
+
+            npc *n = g->find_npc( _npc_id );
+            if( n == nullptr ) {
+                return false;
+            }
+
+            mission_goal_condition_context cc;
+            cc.alpha = &u;
+            cc.beta = n;
+
+            for( auto &mission : n->chatbin.missions_assigned ) {
+                if( mission->get_assigned_player_id() == g->u.getID() ) {
+                    cc.missions_assigned.push_back( mission );
+                }
+            }
+
+            return type->test_goal_condition( cc );
+        }
 
         default:
             return false;
@@ -487,7 +519,7 @@ time_point mission::get_deadline() const
 
 std::string mission::get_description() const
 {
-    return description;
+    return _( type->description );
 }
 
 bool mission::has_target() const
@@ -553,12 +585,12 @@ void mission::process()
 
     if( deadline > 0 && calendar::turn > deadline ) {
         fail();
-    } else if( npc_id < 0 && is_complete( npc_id ) ) { // No quest giver.
+    } else if( !npc_id.is_valid() && is_complete( npc_id ) ) { // No quest giver.
         wrap_up();
     }
 }
 
-int mission::get_npc_id() const
+character_id mission::get_npc_id() const
 {
     return npc_id;
 }
@@ -568,25 +600,25 @@ void mission::set_target( const tripoint &p )
     target = p;
 }
 
-void mission::set_target_npc_id( const int npc_id )
+void mission::set_target_npc_id( const character_id npc_id )
 {
     target_npc_id = npc_id;
 }
 
 bool mission::is_assigned() const
 {
-    return player_id != -1 || legacy_no_player_id;
+    return player_id.is_valid() || legacy_no_player_id;
 }
 
-int mission::get_assigned_player_id() const
+character_id mission::get_assigned_player_id() const
 {
     return player_id;
 }
 
-void mission::set_player_id_legacy_0c( int id )
+void mission::set_player_id_legacy_0c( character_id id )
 {
-    if( !legacy_no_player_id || player_id != -1 ) {
-        debugmsg( "Not a legacy mission, tried to set id %d", id );
+    if( !legacy_no_player_id || player_id.is_valid() ) {
+        debugmsg( "Not a legacy mission, tried to set id %d", id.get_value() );
     } else {
         player_id = id;
         legacy_no_player_id = false;
@@ -598,7 +630,7 @@ std::string mission::name()
     if( type == nullptr ) {
         return "NULL";
     }
-    return _( type->name );
+    return type->tname();
 }
 
 mission_type_id mission::mission_id()
@@ -650,14 +682,14 @@ mission::mission()
     item_count = 1;
     target_id = string_id<oter_type_t>::NULL_ID();
     recruit_class = NC_NONE;
-    target_npc_id = -1;
+    target_npc_id = character_id();
     monster_type = mtype_id::NULL_ID();
     monster_kill_goal = -1;
-    npc_id = -1;
+    npc_id = character_id();
     good_fac_id = -1;
     bad_fac_id = -1;
     step = 0;
-    player_id = -1;
+    player_id = character_id();
 }
 
 mission_type::mission_type( mission_type_id ID, const std::string &NAME, mission_goal GOAL, int DIF,
@@ -674,33 +706,24 @@ mission_type::mission_type( mission_type_id ID, const std::string &NAME, mission
 
 namespace io
 {
-static const std::map<std::string, mission::mission_status> status_map = {{
-        { "yet_to_start", mission::mission_status::yet_to_start },
-        { "in_progress", mission::mission_status::in_progress },
-        { "success", mission::mission_status::success },
-        { "failure", mission::mission_status::failure }
-    }
-};
 template<>
-mission::mission_status string_to_enum<mission::mission_status>( const std::string &data )
+std::string enum_to_string<mission::mission_status>( mission::mission_status data )
 {
-    return string_to_enum_look_up( status_map, data );
+    switch( data ) {
+        // *INDENT-OFF*
+        case mission::mission_status::yet_to_start: return "yet_to_start";
+        case mission::mission_status::in_progress: return "in_progress";
+        case mission::mission_status::success: return "success";
+        case mission::mission_status::failure: return "failure";
+        // *INDENT-ON*
+        case mission::mission_status::num_mission_status:
+            break;
+
+    }
+    debugmsg( "Invalid mission_status" );
+    abort();
 }
 
-template<>
-const std::string enum_to_string<mission::mission_status>( mission::mission_status data )
-{
-    const auto iter = std::find_if( status_map.begin(), status_map.end(),
-    [data]( const std::pair<std::string, mission::mission_status> &pr ) {
-        return pr.second == data;
-    } );
-
-    if( iter == status_map.end() ) {
-        throw InvalidEnumString{};
-    }
-
-    return iter->first;
-}
 } // namespace io
 
 mission::mission_status mission::status_from_string( const std::string &s )
@@ -708,7 +731,7 @@ mission::mission_status mission::status_from_string( const std::string &s )
     return io::string_to_enum<mission::mission_status>( s );
 }
 
-const std::string mission::status_to_string( mission::mission_status st )
+std::string mission::status_to_string( mission::mission_status st )
 {
     return io::enum_to_string<mission::mission_status>( st );
 }

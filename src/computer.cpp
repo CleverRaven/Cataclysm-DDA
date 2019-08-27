@@ -15,7 +15,7 @@
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "explosion.h"
-#include "event.h"
+#include "timed_event.h"
 #include "field.h"
 #include "game.h"
 #include "input.h"
@@ -144,12 +144,12 @@ void computer::use()
 {
     if( !w_border ) {
         w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                       ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                                       ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+                                       point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                                              TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
     }
     if( !w_terminal ) {
         w_terminal = catacurses::newwin( getmaxy( w_border ) - 2, getmaxx( w_border ) - 2,
-                                         getbegy( w_border ) + 1, getbegx( w_border ) + 1 );
+                                         point( getbegx( w_border ) + 1, getbegy( w_border ) + 1 ) );
     }
     draw_border( w_border );
     wrefresh( w_border );
@@ -417,13 +417,13 @@ void computer::activate_function( computer_action action )
             g->u.moves -= 30;
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( x, y ) == t_sewage_pump ) {
+                    if( g->m.ter( point( x, y ) ) == t_sewage_pump ) {
                         for( int x1 = x - 1; x1 <= x + 1; x1++ ) {
                             for( int y1 = y - 1; y1 <= y + 1; y1++ ) {
-                                if( g->m.furn( x1, y1 ) == f_counter ) {
+                                if( g->m.furn( point( x1, y1 ) ) == f_counter ) {
                                     bool found_item = false;
                                     item sewage( "sewage", calendar::turn );
-                                    auto candidates = g->m.i_at( x1, y1 );
+                                    auto candidates = g->m.i_at( point( x1, y1 ) );
                                     for( auto &candidate : candidates ) {
                                         int capa = candidate.get_remaining_capacity_for_liquid( sewage );
                                         if( capa <= 0 ) {
@@ -441,7 +441,7 @@ void computer::activate_function( computer_action action )
                                         break;
                                     }
                                     if( !found_item ) {
-                                        g->m.add_item_or_charges( x1, y1, sewage );
+                                        g->m.add_item_or_charges( point( x1, y1 ), sewage );
                                     }
                                 }
                             }
@@ -479,10 +479,10 @@ void computer::activate_function( computer_action action )
                     tripoint p( x, y, g->u.posz() );
                     monster *const mon = g->critter_at<monster>( p );
                     if( mon &&
-                        ( ( g->m.ter( x, y - 1 ) == t_reinforced_glass &&
-                            g->m.ter( x, y + 1 ) == t_concrete_wall ) ||
-                          ( g->m.ter( x, y + 1 ) == t_reinforced_glass &&
-                            g->m.ter( x, y - 1 ) == t_concrete_wall ) ) ) {
+                        ( ( g->m.ter( point( x, y - 1 ) ) == t_reinforced_glass &&
+                            g->m.ter( point( x, y + 1 ) ) == t_concrete_wall ) ||
+                          ( g->m.ter( point( x, y + 1 ) ) == t_reinforced_glass &&
+                            g->m.ter( point( x, y - 1 ) ) == t_concrete_wall ) ) ) {
                         mon->die( &g->u );
                     }
                 }
@@ -564,7 +564,9 @@ void computer::activate_function( computer_action action )
 
         case COMPACT_RADIO_ARCHIVE: {
             g->u.moves -= 300;
-            sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, 21, 2000 );
+            sfx::fade_audio_channel( sfx::channel::radio, 100 );
+            sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, sfx::channel::radio,
+                                             2000 );
             print_text( "Accessing archive. Playing audio recording nr %d.\n%s", rng( 1, 9999 ),
                         SNIPPET.random_from_category( "radio_archive" ) );
             if( one_in( 3 ) ) {
@@ -573,14 +575,14 @@ void computer::activate_function( computer_action action )
             } else {
                 query_any( _( "Press any key..." ) );
             }
-            sfx::fade_audio_channel( 21, 100 );
+            sfx::fade_audio_channel( sfx::channel::radio, 100 );
         }
         break;
 
         case COMPACT_MAPS: {
             g->u.moves -= 30;
             const tripoint center = g->u.global_omt_location();
-            overmap_buffer.reveal( point( center.x, center.y ), 40, 0 );
+            overmap_buffer.reveal( center.xy(), 40, 0 );
             query_any(
                 _( "Surface map data downloaded.  Local anomalous-access error logged.  Press any key..." ) );
             remove_option( COMPACT_MAPS );
@@ -663,7 +665,7 @@ void computer::activate_function( computer_action action )
             // For each level between here and the surface, remove the missile
             for( int level = g->get_levz(); level <= 0; level++ ) {
                 map tmpmap;
-                tmpmap.load( g->get_levx(), g->get_levy(), level, false );
+                tmpmap.load( tripoint( g->get_levx(), g->get_levy(), level ), false );
 
                 if( level < 0 ) {
                     tmpmap.translate( t_missile, t_hole );
@@ -716,7 +718,7 @@ void computer::activate_function( computer_action action )
             int more = 0;
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    for( auto &elem : g->m.i_at( x, y ) ) {
+                    for( auto &elem : g->m.i_at( point( x, y ) ) ) {
                         if( elem.is_bionic() ) {
                             if( static_cast<int>( names.size() ) < TERMY - 8 ) {
                                 names.push_back( elem.tname() );
@@ -749,8 +751,8 @@ void computer::activate_function( computer_action action )
         case COMPACT_ELEVATOR_ON:
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( x, y ) == t_elevator_control_off ) {
-                        g->m.ter_set( x, y, t_elevator_control );
+                    if( g->m.ter( point( x, y ) ) == t_elevator_control_off ) {
+                        g->m.ter_set( point( x, y ), t_elevator_control );
                     }
                 }
             }
@@ -812,7 +814,7 @@ PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
         }
 
         case COMPACT_AMIGARA_START:
-            g->events.add( EVENT_AMIGARA, calendar::turn + 1_minutes );
+            g->timed_events.add( TIMED_EVENT_AMIGARA, calendar::turn + 1_minutes );
             if( !g->u.has_artifact_with( AEP_PSYSHIELD ) ) {
                 g->u.add_effect( effect_amigara, 2_minutes );
             }
@@ -942,7 +944,7 @@ PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
                         if( items.only_item().typeId() == "black_box" ) {
                             print_line( _( "Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n" ) );
                             item transcript( "black_box_transcript", calendar::turn );
-                            g->m.add_item_or_charges( g->u.posx(), g->u.posy(), transcript );
+                            g->m.add_item_or_charges( point( g->u.posx(), g->u.posy() ), transcript );
                         } else {
                             print_line( _( "Memory Bank:  Unencrypted\nNothing of interest.\n" ) );
                         }
@@ -1195,18 +1197,18 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     tripoint p( x, y, g->get_levz() );
-                    if( g->m.ter( x, y ) == t_elevator || g->m.ter( x, y ) == t_vat ) {
+                    if( g->m.ter( point( x, y ) ) == t_elevator || g->m.ter( point( x, y ) ) == t_vat ) {
                         g->m.make_rubble( p, f_rubble_rock, true );
                         explosion_handler::explosion( p, 40, 0.7, true );
                     }
-                    if( g->m.ter( x, y ) == t_wall_glass ) {
+                    if( g->m.ter( point( x, y ) ) == t_wall_glass ) {
                         g->m.make_rubble( p, f_rubble_rock, true );
                     }
-                    if( g->m.ter( x, y ) == t_sewage_pipe || g->m.ter( x, y ) == t_sewage ||
-                        g->m.ter( x, y ) == t_grate ) {
+                    if( g->m.ter( point( x, y ) ) == t_sewage_pipe || g->m.ter( point( x, y ) ) == t_sewage ||
+                        g->m.ter( point( x, y ) ) == t_grate ) {
                         g->m.make_rubble( p, f_rubble_rock, true );
                     }
-                    if( g->m.ter( x, y ) == t_sewage_pump ) {
+                    if( g->m.ter( point( x, y ) ) == t_sewage_pump ) {
                         g->m.make_rubble( p, f_rubble_rock, true );
                         explosion_handler::explosion( p, 50, 0.7, true );
                     }
@@ -1226,8 +1228,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                     _( "\nPower:         Backup Only\nRadiation Level:  Very Dangerous\nOperational:   Overridden\n\n" ) );
                 for( int x = 0; x < MAPSIZE_X; x++ ) {
                     for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                        if( g->m.ter( x, y ) == t_elevator_control_off ) {
-                            g->m.ter_set( x, y, t_elevator_control );
+                        if( g->m.ter( point( x, y ) ) == t_elevator_control_off ) {
+                            g->m.ter_set( point( x, y ), t_elevator_control );
 
                         }
                     }
@@ -1274,9 +1276,9 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                                                            dest ) > 0 ? rl_dist( radorigin, dest ) : 1 ) );
                                 }
                                 if( g->m.pl_sees( dest, 10 ) ) {
-                                    g->u.irradiate( rng( 50, 250 ) / rl_dist( g->u.pos(), dest ) );
+                                    g->u.irradiate( rng_float( 50, 250 ) / rl_dist( g->u.pos(), dest ) );
                                 } else {
-                                    g->u.irradiate( rng( 20, 100 ) / rl_dist( g->u.pos(), dest ) );
+                                    g->u.irradiate( rng_float( 20, 100 ) / rl_dist( g->u.pos(), dest ) );
                                 }
                                 query_any( _( "EMERGENCY SHUTDOWN!  Press any key..." ) );
                                 error = true;
@@ -1291,7 +1293,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                             }
                             // if unshielded, rad source irradiates player directly, reduced by distance to source
                             if( g->m.pl_sees( dest, 10 ) ) {
-                                g->u.irradiate( rng( 5, 25 ) / rl_dist( g->u.pos(), dest ) );
+                                g->u.irradiate( rng_float( 5, 25 ) / rl_dist( g->u.pos(), dest ) );
                             }
                         }
                         if( !error && platform_exists ) {
@@ -1498,8 +1500,8 @@ void computer::activate_failure( computer_failure_type fail )
             }
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.has_flag( "CONSOLE", x, y ) ) {
-                        g->m.ter_set( x, y, t_console_broken );
+                    if( g->m.has_flag( "CONSOLE", point( x, y ) ) ) {
+                        g->m.ter_set( point( x, y ), t_console_broken );
                         add_msg( m_bad, _( "The console shuts down." ) );
                     }
                 }
@@ -1511,8 +1513,9 @@ void computer::activate_failure( computer_failure_type fail )
                                    pgettext( "memorial_female", "Set off an alarm." ) );
             sounds::sound( g->u.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
                            "alarm" );
-            if( g->get_levz() > 0 && !g->events.queued( EVENT_WANTED ) ) {
-                g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, g->u.global_sm_location() );
+            if( g->get_levz() > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+                g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+                                     g->u.global_sm_location() );
             }
             break;
 
@@ -1566,7 +1569,7 @@ void computer::activate_failure( computer_failure_type fail )
             add_msg( m_warning, _( "The pump explodes!" ) );
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( x, y ) == t_sewage_pump ) {
+                    if( g->m.ter( point( x, y ) ) == t_sewage_pump ) {
                         tripoint p( x, y, g->get_levz() );
                         g->m.make_rubble( p );
                         explosion_handler::explosion( p, 10 );
@@ -1579,29 +1582,29 @@ void computer::activate_failure( computer_failure_type fail )
             add_msg( m_warning, _( "Sewage leaks!" ) );
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( x, y ) == t_sewage_pump ) {
+                    if( g->m.ter( point( x, y ) ) == t_sewage_pump ) {
                         point p( x, y );
                         int leak_size = rng( 4, 10 );
                         for( int i = 0; i < leak_size; i++ ) {
                             std::vector<point> next_move;
-                            if( g->m.passable( p.x, p.y - 1 ) ) {
-                                next_move.push_back( point( p.x, p.y - 1 ) );
+                            if( g->m.passable( p + point_north ) ) {
+                                next_move.push_back( p + point_north );
                             }
-                            if( g->m.passable( p.x + 1, p.y ) ) {
-                                next_move.push_back( point( p.x + 1, p.y ) );
+                            if( g->m.passable( p + point_east ) ) {
+                                next_move.push_back( p + point_east );
                             }
-                            if( g->m.passable( p.x, p.y + 1 ) ) {
-                                next_move.push_back( point( p.x, p.y + 1 ) );
+                            if( g->m.passable( p + point_south ) ) {
+                                next_move.push_back( p + point_south );
                             }
-                            if( g->m.passable( p.x - 1, p.y ) ) {
-                                next_move.push_back( point( p.x - 1, p.y ) );
+                            if( g->m.passable( p + point_west ) ) {
+                                next_move.push_back( p + point_west );
                             }
 
                             if( next_move.empty() ) {
                                 i = leak_size;
                             } else {
                                 p = random_entry( next_move );
-                                g->m.ter_set( p.x, p.y, t_sewage );
+                                g->m.ter_set( p, t_sewage );
                             }
                         }
                     }
@@ -1610,7 +1613,7 @@ void computer::activate_failure( computer_failure_type fail )
             break;
 
         case COMPFAIL_AMIGARA:
-            g->events.add( EVENT_AMIGARA, calendar::turn + 30_seconds );
+            g->timed_events.add( TIMED_EVENT_AMIGARA, calendar::turn + 30_seconds );
             g->u.add_effect( effect_amigara, 2_minutes );
             explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
                                           10,
@@ -1649,8 +1652,8 @@ void computer::activate_failure( computer_failure_type fail )
             print_error( _( "ERROR: ACCESSING DATA MALFUNCTION" ) );
             for( int x = 0; x < SEEX * 2; x++ ) {
                 for( int y = 0; y < SEEY * 2; y++ ) {
-                    if( g->m.ter( x, y ) == t_floor_blue ) {
-                        map_stack items = g->m.i_at( x, y );
+                    if( g->m.ter( point( x, y ) ) == t_floor_blue ) {
+                        map_stack items = g->m.i_at( point( x, y ) );
                         if( items.empty() ) {
                             print_error( _( "ERROR: Please place memory bank in scan area." ) );
                         } else if( items.size() > 1 ) {
@@ -1661,7 +1664,7 @@ void computer::activate_failure( computer_failure_type fail )
                             print_error( _( "ERROR: Memory bank is empty." ) );
                         } else {
                             print_error( _( "ERROR: Data bank destroyed." ) );
-                            g->m.i_clear( x, y );
+                            g->m.i_clear( point( x, y ) );
                         }
                     }
                 }
@@ -1688,8 +1691,11 @@ void computer::mark_refugee_center()
 SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT ... " ) );
 
     const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
-    const std::vector<mission *> missions = g->u.get_active_missions();
     tripoint mission_target;
+    // Check completed missions too, so people can't repeatedly get the mission.
+    const std::vector<mission *> completed_missions = g->u.get_completed_missions();
+    std::vector<mission *> missions = g->u.get_active_missions();
+    missions.insert( missions.end(), completed_missions.begin(), completed_missions.end() );
 
     const bool has_mission = std::any_of( missions.begin(), missions.end(), [ &mission_type,
     &mission_target ]( mission * mission ) {
@@ -1702,7 +1708,7 @@ SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT ... " ) );
     } );
 
     if( !has_mission ) {
-        const auto mission = mission::reserve_new( mission_type, -1 );
+        const auto mission = mission::reserve_new( mission_type, character_id() );
         mission->assign( g->u );
         mission_target = mission->get_target();
     }
@@ -1795,7 +1801,7 @@ void computer::print_text( const char *const text, Args &&... args )
     const std::string formated_text = string_format( text, std::forward<Args>( args )... );
     int y = getcury( w_terminal );
     int w = getmaxx( w_terminal ) - 2;
-    fold_and_print( w_terminal, y, 1, w, c_green, formated_text );
+    fold_and_print( w_terminal, point( 1, y ), w, c_green, formated_text );
     print_newline();
     print_newline();
     wrefresh( w_terminal );
@@ -1808,15 +1814,15 @@ void computer::print_gibberish_line()
     for( int i = 0; i < length; i++ ) {
         switch( rng( 0, 4 ) ) {
             case 0:
-                gibberish += '0' + rng( 0, 9 );
+                gibberish += static_cast<char>( '0' + rng( 0, 9 ) );
                 break;
             case 1:
             case 2:
-                gibberish += 'a' + rng( 0, 25 );
+                gibberish += static_cast<char>( 'a' + rng( 0, 25 ) );
                 break;
             case 3:
             case 4:
-                gibberish += 'A' + rng( 0, 25 );
+                gibberish += static_cast<char>( 'A' + rng( 0, 25 ) );
                 break;
         }
     }
@@ -1828,7 +1834,7 @@ void computer::print_gibberish_line()
 void computer::reset_terminal()
 {
     werase( w_terminal );
-    wmove( w_terminal, 0, 0 );
+    wmove( w_terminal, point_zero );
     wrefresh( w_terminal );
 }
 

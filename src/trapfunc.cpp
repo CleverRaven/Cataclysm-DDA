@@ -8,7 +8,7 @@
 #include "avatar.h"
 #include "debug.h"
 #include "explosion.h"
-#include "event.h"
+#include "timed_event.h"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -321,7 +321,7 @@ void trapfunc::tripwire( const tripoint &p, Creature *c, item * )
         if( c == &g->u ) {
             g->update_map( g->u );
         }
-        if( !n->has_effect( effect_riding ) ) {
+        if( !n->is_mounted() ) {
             ///\EFFECT_DEX decreases chance of taking damage from a tripwire trap
             if( rng( 5, 20 ) > n->dex_cur ) {
                 n->hurtall( rng( 1, 4 ), nullptr );
@@ -443,7 +443,7 @@ void trapfunc::shotgun( const tripoint &p, Creature *c, item * )
         if( n != nullptr ) {
             ///\EFFECT_STR_MAX increases chance of two shots from shotgun trap
             shots = ( one_in( 8 ) || one_in( 20 - n->str_max ) ? 2 : 1 );
-            if( g->m.tr_at( p ).loadid == tr_shotgun_1 ) {
+            if( g->m.tr_at( p ).loadid != tr_shotgun_2 ) {
                 shots = 1;
             }
             ///\EFFECT_DODGE reduces chance of being hit by shotgun trap
@@ -505,7 +505,7 @@ void trapfunc::shotgun( const tripoint &p, Creature *c, item * )
                     break;
             }
             shots = ( one_in( 8 ) || one_in( chance ) ? 2 : 1 );
-            if( g->m.tr_at( p ).loadid == tr_shotgun_1 ) {
+            if( g->m.tr_at( p ).loadid != tr_shotgun_2 ) {
                 shots = 1;
             }
             if( seen ) {
@@ -667,7 +667,7 @@ void trapfunc::telepad( const tripoint &p, Creature *c, item * )
             newposx = rng( z->posx() - SEEX, z->posx() + SEEX );
             newposy = rng( z->posy() - SEEY, z->posy() + SEEY );
             tries++;
-        } while( g->m.impassable( newposx, newposy ) && tries != 10 );
+        } while( g->m.impassable( point( newposx, newposy ) ) && tries != 10 );
 
         if( tries == 10 ) {
             z->die_in_explosion( nullptr );
@@ -1173,15 +1173,9 @@ void trapfunc::ledge( const tripoint &p, Creature *c, item * )
             tripoint dest = c->pos();
             dest.z--;
             c->impact( 20, dest );
-            if( g->m.has_flag( TFLAG_NO_FLOOR, dest ) && m != nullptr ) {
-                // don't kill until they hit the ground so that subsequent ledges will trigger
-                m->set_hp( std::max( m->get_hp(), 1 ) );
-            }
-
             c->setpos( dest );
             if( m != nullptr ) {
-                g->remove_zombie( *m );
-                overmap_buffer.despawn_monster( *m );
+                g->despawn_monster( *m );
             }
         }
 
@@ -1275,7 +1269,7 @@ void trapfunc::temple_flood( const tripoint &p, Creature *c, item * )
                 }
             }
         }
-        g->events.add( EVENT_TEMPLE_FLOOD, calendar::turn + 3_turns );
+        g->timed_events.add( TIMED_EVENT_TEMPLE_FLOOD, calendar::turn + 3_turns );
     }
 }
 

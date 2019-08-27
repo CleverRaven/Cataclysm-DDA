@@ -22,6 +22,7 @@
 #include "vehicle.h"
 #include "requirements.h"
 #include "point.h"
+#include "translations.h"
 
 using itype_id = std::string;
 
@@ -68,7 +69,9 @@ enum vpart_bitflags : int {
     VPFLAG_RECHARGE,
     VPFLAG_EXTENDS_VISION,
     VPFLAG_ENABLED_DRAINS_EPOWER,
+    VPFLAG_AUTOCLAVE,
     VPFLAG_WASHING_MACHINE,
+    VPFLAG_DISHWASHER,
     VPFLAG_FLUIDTANK,
     VPFLAG_REACTOR,
     VPFLAG_RAIL,
@@ -171,7 +174,7 @@ class vpart_info
         int durability = 0;
 
         /** A text description of the part as a vehicle part */
-        std::string description;
+        translation description;
 
         /** Damage modifier (percentage) used when damaging other entities upon collision */
         int dmg_mod = 100;
@@ -270,7 +273,7 @@ class vpart_info
         int cargo_weight_modifier = 100;
 
         /** Flat decrease of damage of a given type. */
-        std::array<float, NUM_DT> damage_reduction;
+        std::array<float, NUM_DT> damage_reduction = {};
 
         /* Contains data for terrain transformer parts */
         transform_terrain_data transform_terrain;
@@ -303,7 +306,7 @@ class vpart_info
 
     private:
         /** Name from vehicle part definition which if set overrides the base item name */
-        mutable std::string name_;
+        translation name_;
 
         std::set<std::string> flags;    // flags
         std::bitset<NUM_VPFLAGS> bitflags; // flags checked so often that things slow down due to string cmp

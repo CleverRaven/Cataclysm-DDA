@@ -10,7 +10,28 @@
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "recipe_bullets", 3 ], [ "textbook_anarch", 0 ] ],
     "using": [ [ "surface_heat", 25 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "components": [ [ [ "magnesium", 100 ] ], [ [ "oxy_powder", 200 ] ] ]
+    "components": [ [ [ "magnesium", 100 ], [ "chem_aluminium_powder", 100 ] ], [ [ "oxy_powder", 200 ] ] ]
+  },
+  {
+    "result": "gunpowder",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 s",
+    "book_learn": [ [ "pocket_firearms", 3 ], [ "manual_gun", 2 ], [ "recipe_bullets", 1 ], [ "textbook_anarch", 0 ] ],
+    "tools": [ [ [ "mortar_pestle", -1 ] ], [ [ "sieve_steel", -1 ] ] ],
+    "components": [
+      [
+        [ "gunpowder_shotgun", 1 ],
+        [ "gunpowder_pistol", 1 ],
+        [ "gunpowder_magnum_pistol", 1 ],
+        [ "gunpowder_rifle", 1 ],
+        [ "gunpowder_large_rifle", 1 ],
+        [ "gunpowder_artillery", 1 ]
+      ]
+    ]
   },
   {
     "type": "recipe",
@@ -40,6 +61,21 @@
     "book_learn": [ [ "manual_pistol", 5 ], [ "recipe_bullets", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ] ] ],
+    "components": [ [ [ "223_casing", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "300blk_casing",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "gun", 4 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "manual_rifle", 5 ], [ "recipe_bullets", 3 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "tools": [ [ [ "press", -1 ] ] ],
     "components": [ [ [ "223_casing", 1 ] ] ]
   }
 ]

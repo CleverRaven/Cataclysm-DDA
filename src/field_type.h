@@ -18,7 +18,6 @@
 #include "string_id.h"
 #include "translations.h"
 
-
 class JsonObject;
 
 enum phase_id : int;
@@ -33,9 +32,18 @@ struct field_intensity_level {
     int move_cost = 0;
     int extra_radiation_min = 0;
     int extra_radiation_max = 0;
+    int radiation_hurt_damage_min = 0;
+    int radiation_hurt_damage_max = 0;
+    std::string radiation_hurt_message;
+    int intensity_upgrade_chance = 0;
+    time_duration intensity_upgrade_duration = 0_turns;
+    int monster_spawn_chance = 0;
+    int monster_spawn_count = 0;
+    int monster_spawn_radius = 0;
+    mongroup_id monster_spawn_group;
     float light_emitted = 0.0f;
     float translucency = 0.0f;
-    int convection_temperature_mod = 0.0f;
+    int convection_temperature_mod = 0;
 };
 
 struct field_type {
@@ -85,41 +93,69 @@ struct field_type {
         field_type_id wandering_field;
 
     public:
+        const field_intensity_level &get_intensity_level( int level = 0 ) const;
         std::string get_name( int level = 0 ) const {
-            return _( intensity_levels[level].name );
+            return _( get_intensity_level( level ).name );
         }
         uint32_t get_codepoint( int level = 0 ) const {
-            return intensity_levels[level].symbol;
+            return get_intensity_level( level ).symbol;
         }
         std::string get_symbol( int level = 0 ) const {
-            return utf32_to_utf8( intensity_levels[level].symbol );
+            return utf32_to_utf8( get_intensity_level( level ).symbol );
         }
         nc_color get_color( int level = 0 ) const {
-            return intensity_levels[level].color;
+            return get_intensity_level( level ).color;
         }
         bool get_dangerous( int level = 0 ) const {
-            return intensity_levels[level].dangerous;
+            return get_intensity_level( level ).dangerous;
         }
         bool get_transparent( int level = 0 ) const {
-            return intensity_levels[level].transparent;
+            return get_intensity_level( level ).transparent;
         }
         int get_move_cost( int level = 0 ) const {
-            return intensity_levels[level].move_cost;
+            return get_intensity_level( level ).move_cost;
         }
         int get_extra_radiation_min( int level = 0 ) const {
-            return intensity_levels[level].extra_radiation_min;
+            return get_intensity_level( level ).extra_radiation_min;
         }
         int get_extra_radiation_max( int level = 0 ) const {
-            return intensity_levels[level].extra_radiation_max;
+            return get_intensity_level( level ).extra_radiation_max;
+        }
+        int get_radiation_hurt_damage_min( int level = 0 ) const {
+            return intensity_levels[level].radiation_hurt_damage_min;
+        }
+        int get_radiation_hurt_damage_max( int level = 0 ) const {
+            return intensity_levels[level].radiation_hurt_damage_max;
+        }
+        std::string get_radiation_hurt_message( int level = 0 ) const {
+            return _( intensity_levels[level].radiation_hurt_message );
+        }
+        int get_intensity_upgrade_chance( int level = 0 ) const {
+            return intensity_levels[level].intensity_upgrade_chance;
+        }
+        time_duration get_intensity_upgrade_duration( int level = 0 ) const {
+            return intensity_levels[level].intensity_upgrade_duration;
+        }
+        int get_monster_spawn_chance( int level = 0 ) const {
+            return intensity_levels[level].monster_spawn_chance;
+        }
+        int get_monster_spawn_count( int level = 0 ) const {
+            return intensity_levels[level].monster_spawn_count;
+        }
+        int get_monster_spawn_radius( int level = 0 ) const {
+            return intensity_levels[level].monster_spawn_radius;
+        }
+        mongroup_id get_monster_spawn_group( int level = 0 ) const {
+            return intensity_levels[level].monster_spawn_group;
         }
         float get_light_emitted( int level = 0 ) const {
-            return intensity_levels[level].light_emitted;
+            return get_intensity_level( level ).light_emitted;
         }
         float get_translucency( int level = 0 ) const {
-            return intensity_levels[level].translucency;
+            return get_intensity_level( level ).translucency;
         }
         int get_convection_temperature_mod( int level = 0 ) const {
-            return intensity_levels[level].convection_temperature_mod;
+            return get_intensity_level( level ).convection_temperature_mod;
         }
 
         bool is_dangerous() const {
@@ -205,6 +241,7 @@ extern field_type_id fd_null,
        fd_hot_air3,
        fd_hot_air4,
        fd_fungicidal_gas,
+       fd_insecticidal_gas,
        fd_smoke_vent
        ;
 

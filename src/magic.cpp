@@ -39,64 +39,69 @@
 #include "point.h"
 #include "string_formatter.h"
 
-namespace
-{
-const std::map<std::string, valid_target> target_map = {
-    { "ally", valid_target::target_ally },
-    { "hostile", valid_target::target_hostile },
-    { "self", valid_target::target_self },
-    { "ground", valid_target::target_ground },
-    { "none", valid_target::target_none },
-    { "item", valid_target::target_item },
-    { "fd_fire", valid_target::target_fd_fire },
-    { "fd_blood", valid_target::target_fd_blood }
-};
-const std::map<std::string, body_part> bp_map = {
-    { "TORSO", body_part::bp_torso },
-    { "HEAD", body_part::bp_head },
-    { "EYES", body_part::bp_eyes },
-    { "MOUTH", body_part::bp_mouth },
-    { "ARM_L", body_part::bp_arm_l },
-    { "ARM_R", body_part::bp_arm_r },
-    { "HAND_L", body_part::bp_hand_l },
-    { "HAND_R", body_part::bp_hand_r },
-    { "LEG_L", body_part::bp_leg_l },
-    { "LEG_R", body_part::bp_leg_r },
-    { "FOOT_L", body_part::bp_foot_l },
-    { "FOOT_R", body_part::bp_foot_r }
-};
-const std::map<std::string, spell_flag> flag_map = {
-    { "PERMANENT", spell_flag::PERMANENT },
-    { "IGNORE_WALLS", spell_flag::IGNORE_WALLS },
-    { "HOSTILE_SUMMON", spell_flag::HOSTILE_SUMMON },
-    { "HOSTILE_50", spell_flag::HOSTILE_50 },
-    { "SILENT", spell_flag::SILENT },
-    { "LOUD", spell_flag::LOUD },
-    { "VERBAL", spell_flag::VERBAL },
-    { "SOMATIC", spell_flag::SOMATIC },
-    { "NO_HANDS", spell_flag::NO_HANDS },
-    { "NO_LEGS", spell_flag::NO_LEGS },
-    { "CONCENTRATE", spell_flag::CONCENTRATE }
-};
-} // namespace
-
 namespace io
 {
+// *INDENT-OFF*
 template<>
-valid_target string_to_enum<valid_target>( const std::string &trigger )
+std::string enum_to_string<valid_target>( valid_target data )
 {
-    return string_to_enum_look_up( target_map, trigger );
+    switch( data ) {
+        case valid_target::target_ally: return "ally";
+        case valid_target::target_hostile: return "hostile";
+        case valid_target::target_self: return "self";
+        case valid_target::target_ground: return "ground";
+        case valid_target::target_none: return "none";
+        case valid_target::target_item: return "item";
+        case valid_target::target_fd_fire: return "fd_fire";
+        case valid_target::target_fd_blood: return "fd_blood";
+        case valid_target::_LAST: break;
+    }
+    debugmsg( "Invalid valid_target" );
+    abort();
 }
 template<>
-body_part string_to_enum<body_part>( const std::string &trigger )
+std::string enum_to_string<body_part>( body_part data )
 {
-    return string_to_enum_look_up( bp_map, trigger );
+    switch( data ) {
+        case body_part::bp_torso: return "TORSO";
+        case body_part::bp_head: return "HEAD";
+        case body_part::bp_eyes: return "EYES";
+        case body_part::bp_mouth: return "MOUTH";
+        case body_part::bp_arm_l: return "ARM_L";
+        case body_part::bp_arm_r: return "ARM_R";
+        case body_part::bp_hand_l: return "HAND_L";
+        case body_part::bp_hand_r: return "HAND_R";
+        case body_part::bp_leg_l: return "LEG_L";
+        case body_part::bp_leg_r: return "LEG_R";
+        case body_part::bp_foot_l: return "FOOT_L";
+        case body_part::bp_foot_r: return "FOOT_R";
+        case body_part::num_bp: break;
+    }
+    debugmsg( "Invalid body_part" );
+    abort();
 }
 template<>
-spell_flag string_to_enum<spell_flag>( const std::string &trigger )
+std::string enum_to_string<spell_flag>( spell_flag data )
 {
-    return string_to_enum_look_up( flag_map, trigger );
+    switch( data ) {
+        case spell_flag::PERMANENT: return "PERMANENT";
+        case spell_flag::IGNORE_WALLS: return "IGNORE_WALLS";
+        case spell_flag::HOSTILE_SUMMON: return "HOSTILE_SUMMON";
+        case spell_flag::HOSTILE_50: return "HOSTILE_50";
+        case spell_flag::SILENT: return "SILENT";
+        case spell_flag::LOUD: return "LOUD";
+        case spell_flag::VERBAL: return "VERBAL";
+        case spell_flag::SOMATIC: return "SOMATIC";
+        case spell_flag::NO_HANDS: return "NO_HANDS";
+        case spell_flag::NO_LEGS: return "NO_LEGS";
+        case spell_flag::CONCENTRATE: return "CONCENTRATE";
+        case spell_flag::LAST: break;
+    }
+    debugmsg( "Invalid spell_flag" );
+    abort();
 }
+// *INDENT-ON*
+
 } // namespace io
 
 // LOADING
@@ -187,12 +192,13 @@ void spell_type::load( JsonObject &jo, const std::string & )
         { "translocate", spell_effect::translocate },
         { "area_pull", spell_effect::area_pull },
         { "area_push", spell_effect::area_push },
+        { "ter_transform", spell_effect::transform_blast },
         { "none", spell_effect::none }
     };
 
     mandatory( jo, was_loaded, "id", id );
-    mandatory( jo, was_loaded, "name", name, translated_string_reader );
-    mandatory( jo, was_loaded, "description", description, translated_string_reader );
+    mandatory( jo, was_loaded, "name", name );
+    mandatory( jo, was_loaded, "description", description );
     mandatory( jo, was_loaded, "effect", effect_name );
     const auto found_effect = effect_map.find( effect_name );
     if( found_effect == effect_map.cend() ) {
@@ -379,17 +385,14 @@ bool spell_type::is_valid() const
 
 // spell
 
-spell::spell( const spell_type *sp, int xp )
-{
-    type = sp;
-    experience = xp;
-}
-
-spell::spell( spell_id sp, int xp ) : spell( &sp.obj(), xp ) {}
+spell::spell( spell_id sp, int xp ) :
+    type( sp ),
+    experience( xp )
+{}
 
 spell_id spell::id() const
 {
-    return type->id;
+    return type;
 }
 
 trait_id spell::spell_class() const
@@ -500,11 +503,6 @@ bool spell::is_spell_class( const trait_id &mid ) const
 
 bool spell::can_cast( const player &p ) const
 {
-    if( !p.magic.knows_spell( type->id ) ) {
-        // how in the world can this happen?
-        debugmsg( "ERROR: owner of spell does not know spell" );
-        return false;
-    }
     switch( type->energy_source ) {
         case mana_energy:
             return p.magic.available_mana() >= energy_cost( p );
@@ -561,7 +559,7 @@ int spell::casting_time( const player &p ) const
 
 std::string spell::name() const
 {
-    return _( type->name );
+    return type->name.translated();
 }
 
 float spell::spell_fail( const player &p ) const
@@ -703,10 +701,7 @@ std::string spell::energy_cur_string( const player &p ) const
 
 bool spell::is_valid() const
 {
-    if( type == nullptr ) {
-        return false;
-    }
-    return type->is_valid();
+    return type.is_valid();
 }
 
 bool spell::bp_is_affected( body_part bp ) const
@@ -783,7 +778,7 @@ bool spell::is_valid_effect_target( valid_target t ) const
 
 std::string spell::description() const
 {
-    return _( type->description );
+    return type->description.translated();
 }
 
 nc_color spell::damage_type_color() const
@@ -904,22 +899,25 @@ int spell::casting_exp( const player &p ) const
 std::string spell::enumerate_targets() const
 {
     std::vector<std::string> all_valid_targets;
-    for( const std::pair<std::string, valid_target> pair : target_map ) {
-        if( is_valid_target( pair.second ) && pair.second != target_none ) {
-            all_valid_targets.emplace_back( pair.first );
+    int last_target = static_cast<int>( valid_target::_LAST );
+    for( int i = 0; i < last_target; ++i ) {
+        valid_target t = static_cast<valid_target>( i );
+        if( is_valid_target( t ) && t != target_none ) {
+            all_valid_targets.emplace_back( io::enum_to_string( t ) );
         }
     }
     if( all_valid_targets.size() == 1 ) {
         return all_valid_targets[0];
     }
     std::string ret;
+    // @todo if only we had a function to enumerate strings and concatenate them...
     for( auto iter = all_valid_targets.begin(); iter != all_valid_targets.end(); iter++ ) {
         if( iter + 1 == all_valid_targets.end() ) {
-            ret = string_format( "%s and %s", ret, *iter );
+            ret = string_format( _( "%s and %s" ), ret, *iter );
         } else if( iter == all_valid_targets.begin() ) {
-            ret = string_format( "%s", *iter );
+            ret = *iter;
         } else {
-            ret = string_format( "%s, %s", ret, *iter );
+            ret = string_format( _( "%s, %s" ), ret, *iter );
         }
     }
     return ret;
@@ -1063,7 +1061,7 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
         debugmsg( "Tried to learn invalid spell" );
         return;
     }
-    spell temp_spell( sp );
+    spell temp_spell( sp->id );
     if( !temp_spell.is_valid() ) {
         debugmsg( "Tried to learn invalid spell" );
         return;
@@ -1074,14 +1072,14 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
             for( const trait_id &cancel : sp->spell_class->cancels ) {
                 if( cancel == sp->spell_class->cancels.back() &&
                     sp->spell_class->cancels.back() != sp->spell_class->cancels.front() ) {
-                    trait_cancel = string_format( "%s and %s", trait_cancel, cancel->name() );
+                    trait_cancel = string_format( _( "%s and %s" ), trait_cancel, cancel->name() );
                 } else if( cancel == sp->spell_class->cancels.front() ) {
                     trait_cancel = cancel->name();
                     if( sp->spell_class->cancels.size() == 1 ) {
                         trait_cancel = string_format( "%s: %s", trait_cancel, cancel->desc() );
                     }
                 } else {
-                    trait_cancel = string_format( "%s, %s", trait_cancel, cancel->name() );
+                    trait_cancel = string_format( _( "%s, %s" ), trait_cancel, cancel->name() );
                 }
                 if( cancel == sp->spell_class->cancels.back() ) {
                     trait_cancel += ".";
@@ -1100,7 +1098,7 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
     }
     if( force || can_learn_spell( p, sp->id ) ) {
         spellbook.emplace( sp->id, temp_spell );
-        p.add_msg_if_player( m_good, _( "You learned %s!" ), _( sp->name ) );
+        p.add_msg_if_player( m_good, _( "You learned %s!" ), sp->name );
     } else {
         p.add_msg_if_player( m_bad, _( "You can't learn this spell." ) );
     }
@@ -1256,14 +1254,15 @@ class spellcasting_callback : public uilist_callback
         }
 
         void select( int entnum, uilist *menu ) override {
-            mvwputch( menu->window, 0, menu->w_width - menu->pad_right, c_magenta, LINE_OXXX );
-            mvwputch( menu->window, menu->w_height - 1, menu->w_width - menu->pad_right, c_magenta, LINE_XXOX );
+            mvwputch( menu->window, point( menu->w_width - menu->pad_right, 0 ), c_magenta, LINE_OXXX );
+            mvwputch( menu->window, point( menu->w_width - menu->pad_right, menu->w_height - 1 ), c_magenta,
+                      LINE_XXOX );
             for( int i = 1; i < menu->w_height - 1; i++ ) {
-                mvwputch( menu->window, i, menu->w_width - menu->pad_right, c_magenta, LINE_XOXO );
+                mvwputch( menu->window, point( menu->w_width - menu->pad_right, i ), c_magenta, LINE_XOXO );
             }
             std::string ignore_string = casting_ignore ? _( "Ignore Distractions" ) :
                                         _( "Popup Distractions" );
-            mvwprintz( menu->window, 0, menu->w_width - menu->pad_right + 2,
+            mvwprintz( menu->window, point( menu->w_width - menu->pad_right + 2, 0 ),
                        casting_ignore ? c_red : c_light_green, string_format( "%s %s", "[I]", ignore_string ) );
             draw_spell_info( *known_spells[entnum], menu );
         }
@@ -1271,15 +1270,10 @@ class spellcasting_callback : public uilist_callback
 
 static std::string moves_to_string( const int moves )
 {
-    const int turns = moves / 100;
-    if( moves < 200 ) {
-        return _( string_format( "%d %s", moves, "moves" ) );
-    } else if( moves < to_moves<int>( 2_minutes ) ) {
-        return _( string_format( "%d %s", turns, "turns" ) );
-    } else if( moves < to_moves<int>( 2_hours ) ) {
-        return _( string_format( "%d %s", to_minutes<int>( turns * 1_turns ), "minutes" ) );
+    if( moves < to_moves<int>( 2_seconds ) ) {
+        return string_format( _( "%d moves" ), moves );
     } else {
-        return _( string_format( "%d %s", to_hours<int>( turns * 1_turns ), "hours" ) );
+        return to_string( time_duration::from_turns( moves / 100 ) );
     }
 }
 
@@ -1348,57 +1342,58 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     nc_color light_green = c_light_green;
     nc_color yellow = c_yellow;
 
-    print_colored_text( w_menu, line++, h_col1, yellow, yellow,
+    print_colored_text( w_menu, point( h_col1, line++ ), yellow, yellow,
                         sp.spell_class() == trait_id( "NONE" ) ? _( "Classless" ) : sp.spell_class()->name() );
 
-    line += fold_and_print( w_menu, line, h_col1, info_width, gray, sp.description() );
+    line += fold_and_print( w_menu, point( h_col1, line ), info_width, gray, sp.description() );
 
     line++;
 
-    line += fold_and_print( w_menu, line, h_col1, info_width, gray, enumerate_spell_data( sp ) );
+    line += fold_and_print( w_menu, point( h_col1, line ), info_width, gray,
+                            enumerate_spell_data( sp ) );
 
     line++;
 
-    print_colored_text( w_menu, line, h_col1, gray, gray,
+    print_colored_text( w_menu, point( h_col1, line ), gray, gray,
                         string_format( "%s: %d %s", _( "Spell Level" ), sp.get_level(),
                                        sp.is_max_level() ? _( "(MAX)" ) : "" ) );
-    print_colored_text( w_menu, line++, h_col2, gray, gray,
+    print_colored_text( w_menu, point( h_col2, line++ ), gray, gray,
                         string_format( "%s: %d", _( "Max Level" ), sp.get_max_level() ) );
 
-    print_colored_text( w_menu, line, h_col1, gray, gray,
+    print_colored_text( w_menu, point( h_col1, line ), gray, gray,
                         sp.colorized_fail_percent( g->u ) );
-    print_colored_text( w_menu, line++, h_col2, gray, gray,
+    print_colored_text( w_menu, point( h_col2, line++ ), gray, gray,
                         string_format( "%s: %d", _( "Difficulty" ), sp.get_difficulty() ) );
 
-    print_colored_text( w_menu, line, h_col1, gray, gray,
+    print_colored_text( w_menu, point( h_col1, line ), gray, gray,
                         string_format( "%s: %s", _( "to Next Level" ), colorize( to_string( sp.xp() ), light_green ) ) );
-    print_colored_text( w_menu, line++, h_col2, gray, gray,
+    print_colored_text( w_menu, point( h_col2, line++ ), gray, gray,
                         string_format( "%s: %s", _( "to Next Level" ), colorize( to_string( sp.exp_to_next_level() ),
                                        light_green ) ) );
 
     line++;
 
     const bool cost_encumb = energy_cost_encumbered( sp, g->u );
-    print_colored_text( w_menu, line++, h_col1, gray, gray,
+    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                         string_format( "%s: %s %s%s", cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" ),
                                        sp.energy_cost_string( g->u ), sp.energy_string(),
                                        sp.energy_source() == hp_energy ? "" :  string_format( " ( %s current )",
                                                sp.energy_cur_string( g->u ) ) ) );
     const bool c_t_encumb = casting_time_encumbered( sp, g->u );
-    print_colored_text( w_menu, line++, h_col1, gray, gray, colorize(
+    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, colorize(
                             string_format( "%s: %s", c_t_encumb ? _( "Casting Time (impeded)" ) : _( "Casting Time" ),
                                            moves_to_string( sp.casting_time( g->u ) ) ),
                             c_t_encumb  ? c_red : c_light_gray ) );
 
     line++;
 
-    std::string targets = "";
+    std::string targets;
     if( sp.is_valid_target( target_none ) ) {
         targets = "self";
     } else {
         targets = sp.enumerate_targets();
     }
-    print_colored_text( w_menu, line++, h_col1, gray, gray,
+    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                         string_format( "%s: %s", _( "Valid Targets" ), _( targets ) ) );
 
     line++;
@@ -1419,7 +1414,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         }
         if( sp.aoe() > 0 ) {
             std::string aoe_string_temp = "Spell Radius";
-            std::string degree_string = "";
+            std::string degree_string;
             if( fx == "cone_attack" ) {
                 aoe_string_temp = "Cone Arc";
                 degree_string = "degrees";
@@ -1441,15 +1436,15 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         aoe_string = string_format( "%s: %d", _( "Spell Radius" ), sp.aoe() );
     }
 
-    print_colored_text( w_menu, line, h_col1, gray, gray, damage_string );
-    print_colored_text( w_menu, line++, h_col2, gray, gray, aoe_string );
+    print_colored_text( w_menu, point( h_col1, line ), gray, gray, damage_string );
+    print_colored_text( w_menu, point( h_col2, line++ ), gray, gray, aoe_string );
 
-    print_colored_text( w_menu, line++, h_col1, gray, gray,
+    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                         string_format( "%s: %s", _( "Range" ), sp.range() <= 0 ? _( "self" ) : to_string( sp.range() ) ) );
 
     // todo: damage over time here, when it gets implemeted
 
-    print_colored_text( w_menu, line++, h_col2, gray, gray, sp.duration() <= 0 ? "" :
+    print_colored_text( w_menu, point( h_col2, line++ ), gray, gray, sp.duration() <= 0 ? "" :
                         string_format( "%s: %s", _( "Duration" ), moves_to_string( sp.duration() ) ) );
 }
 
@@ -1577,21 +1572,22 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     const catacurses::window w = menu->window;
     nc_color gray = c_light_gray;
     nc_color yellow = c_yellow;
-    const spell fake_spell( &sp );
+    const spell fake_spell( sp.id );
 
-    const std::string spell_name = colorize( _( sp.name ), c_light_green );
+    const std::string spell_name = colorize( sp.name, c_light_green );
     const std::string spell_class = sp.spell_class == trait_id( "NONE" ) ? _( "Classless" ) :
                                     sp.spell_class->name();
-    print_colored_text( w, line, start_x, gray, gray, spell_name );
-    print_colored_text( w, line++, menu->pad_left - spell_class.length() - 1, yellow, yellow,
+    print_colored_text( w, point( start_x, line ), gray, gray, spell_name );
+    print_colored_text( w, point( menu->pad_left - spell_class.length() - 1, line++ ), yellow, yellow,
                         spell_class );
     line++;
-    line += fold_and_print( w, line, start_x, width, gray, _( sp.description ) );
+    line += fold_and_print( w, point( start_x, line ), width, gray, "%s", sp.description );
     line++;
 
-    mvwprintz( w, line, start_x, c_light_gray, string_format( "%s: %d", _( "Difficulty" ),
+    mvwprintz( w, point( start_x, line ), c_light_gray, string_format( "%s: %d", _( "Difficulty" ),
                sp.difficulty ) );
-    mvwprintz( w, line++, start_x + width / 2, c_light_gray, string_format( "%s: %d", _( "Max Level" ),
+    mvwprintz( w, point( start_x + width / 2, line++ ), c_light_gray, string_format( "%s: %d",
+               _( "Max Level" ),
                sp.max_level ) );
 
     const std::string fx = sp.effect_name;
@@ -1614,12 +1610,13 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     }
 
     if( has_damage_type ) {
-        print_colored_text( w, line++, start_x, gray, gray, string_format( "%s: %s", _( "Damage Type" ),
+        print_colored_text( w, point( start_x, line++ ), gray, gray, string_format( "%s: %s",
+                            _( "Damage Type" ),
                             colorize( fake_spell.damage_type_string(), fake_spell.damage_type_color() ) ) );
     }
     line++;
 
-    print_colored_text( w, line++, start_x, gray, gray,
+    print_colored_text( w, point( start_x, line++ ), gray, gray,
                         string_format( "%-10s %-7s %-7s %-7s", _( "Stat Gain" ), _( "lvl 0" ), _( "per lvl" ),
                                        _( "max lvl" ) ) );
     std::vector<std::tuple<std::string, int, float, int>> rows;
@@ -1646,20 +1643,23 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
                        sp.final_casting_time );
 
     for( std::tuple<std::string, int, float, int> &row : rows ) {
-        mvwprintz( w, line, start_x, c_light_gray, std::get<0>( row ) );
-        print_colored_text( w, line, start_x + 11, gray, gray, color_number( std::get<1>( row ) ) );
-        print_colored_text( w, line, start_x + 19, gray, gray, color_number( std::get<2>( row ) ) );
-        print_colored_text( w, line, start_x + 27, gray, gray, color_number( std::get<3>( row ) ) );
+        mvwprintz( w, point( start_x, line ), c_light_gray, std::get<0>( row ) );
+        print_colored_text( w, point( start_x + 11, line ), gray, gray,
+                            color_number( std::get<1>( row ) ) );
+        print_colored_text( w, point( start_x + 19, line ), gray, gray,
+                            color_number( std::get<2>( row ) ) );
+        print_colored_text( w, point( start_x + 27, line ), gray, gray,
+                            color_number( std::get<3>( row ) ) );
         line++;
     }
 }
 
 void spellbook_callback::select( int entnum, uilist *menu )
 {
-    mvwputch( menu->window, 0, menu->pad_left, c_magenta, LINE_OXXX );
-    mvwputch( menu->window, menu->w_height - 1, menu->pad_left, c_magenta, LINE_XXOX );
+    mvwputch( menu->window, point( menu->pad_left, 0 ), c_magenta, LINE_OXXX );
+    mvwputch( menu->window, point( menu->pad_left, menu->w_height - 1 ), c_magenta, LINE_XXOX );
     for( int i = 1; i < menu->w_height - 1; i++ ) {
-        mvwputch( menu->window, i, menu->pad_left, c_magenta, LINE_XOXO );
+        mvwputch( menu->window, point( menu->pad_left, i ), c_magenta, LINE_XOXO );
     }
     draw_spellbook_info( spells[entnum], menu );
 }

@@ -139,6 +139,7 @@ enum debug_menu_index {
     DEBUG_DISPLAY_SCENTS_LOCAL,
     DEBUG_DISPLAY_TEMP,
     DEBUG_DISPLAY_VISIBILITY,
+    DEBUG_DISPLAY_RADIATION,
     DEBUG_LEARN_SPELLS,
     DEBUG_LEVEL_SPELLS
 };
@@ -196,6 +197,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_DISPLAY_SCENTS_LOCAL, true, 's', _( "Toggle display local scents" ) ) },
             { uilist_entry( DEBUG_DISPLAY_TEMP, true, 'T', _( "Toggle display temperature" ) ) },
             { uilist_entry( DEBUG_DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_RADIATION, true, 'R', _( "Toggle display radiation" ) ) },
             { uilist_entry( DEBUG_SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( DEBUG_BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
             { uilist_entry( DEBUG_TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
@@ -744,7 +746,7 @@ void character_edit_menu()
             const auto all_missions = mission_type::get_all();
             std::vector<const mission_type *> mts;
             for( size_t i = 0; i < all_missions.size(); i++ ) {
-                types.addentry( i, true, -1, all_missions[i].name );
+                types.addentry( i, true, -1, all_missions[i].tname() );
                 mts.push_back( &all_missions[i] );
             }
 
@@ -761,8 +763,8 @@ void character_edit_menu()
             if( const cata::optional<tripoint> newpos = g->look_around() ) {
                 p.setpos( *newpos );
                 if( p.is_player() ) {
-                    if( p.has_effect( effect_riding ) && p.mounted_creature ) {
-                        p.mounted_creature.get()->setpos( *newpos );
+                    if( p.is_mounted() ) {
+                        p.mounted_creature->setpos( *newpos );
                     }
                     g->update_map( g->u );
                 }
@@ -1142,7 +1144,7 @@ void debug()
                     //Didn't cancel
                     const vproto_id &selected_opt = veh_strings[veh_menu.ret];
                     tripoint dest = u.pos(); // TODO: Allow picking this when add_vehicle has 3d argument
-                    vehicle *veh = m.add_vehicle( selected_opt, dest.x, dest.y, -90, 100, 0 );
+                    vehicle *veh = m.add_vehicle( selected_opt, dest.xy(), -90, 100, 0 );
                     if( veh != nullptr ) {
                         m.board_vehicle( u.pos(), &u );
                     }
@@ -1290,16 +1292,15 @@ void debug()
 #if defined(TILES)
                 // *INDENT-OFF*
                 const point offset{
-                    POSX - u.posx() + u.view_offset.x,
-                    POSY - u.posy() + u.view_offset.y
+                    u.view_offset.xy() + point( POSX - u.posx(), POSY - u.posy() )
                 }; // *INDENT-ON*
                 g->draw_ter();
                 auto sounds_to_draw = sounds::get_monster_sounds();
                 for( const auto &sound : sounds_to_draw.first ) {
-                    mvwputch( g->w_terrain, offset.y + sound.y, offset.x + sound.x, c_yellow, '?' );
+                    mvwputch( g->w_terrain, offset + sound.xy(), c_yellow, '?' );
                 }
                 for( const auto &sound : sounds_to_draw.second ) {
-                    mvwputch( g->w_terrain, offset.y + sound.y, offset.x + sound.x, c_red, '?' );
+                    mvwputch( g->w_terrain, offset + sound.xy(), c_red, '?' );
                 }
                 wrefresh( g->w_terrain );
                 g->draw_panels();
@@ -1319,16 +1320,19 @@ void debug()
             case DEBUG_DISPLAY_SCENTS_LOCAL:
                 g->displaying_temperature = false;
                 g->displaying_visibility = false;
+                g->displaying_radiation = false;
                 g->displaying_scent = !g->displaying_scent;
                 break;
             case DEBUG_DISPLAY_TEMP:
                 g->displaying_scent = false;
                 g->displaying_visibility = false;
+                g->displaying_radiation = false;
                 g->displaying_temperature = !g->displaying_temperature;
                 break;
             case DEBUG_DISPLAY_VISIBILITY: {
                 g->displaying_scent = false;
                 g->displaying_temperature = false;
+                g->displaying_radiation = false;
                 g->displaying_visibility = !g->displaying_visibility;
                 if( g->displaying_visibility ) {
                     std::vector< tripoint > locations;
@@ -1348,14 +1352,20 @@ void debug()
                     creature_menu.callback = &callback;
                     creature_menu.w_y = 0;
                     creature_menu.query();
-                    if( ( creature_menu.ret >= 0 ) &&
-                        ( static_cast<size_t>( creature_menu.ret ) < locations.size() ) ) {
+                    if( creature_menu.ret >= 0 && static_cast<size_t>( creature_menu.ret ) < locations.size() ) {
                         Creature *creature = g->critter_at<Creature>( locations[creature_menu.ret] );
                         g->displaying_visibility_creature = creature;
                     }
                 } else {
                     g->displaying_visibility_creature = nullptr;
                 }
+            }
+            break;
+            case DEBUG_DISPLAY_RADIATION: {
+                g->displaying_scent = false;
+                g->displaying_temperature = false;
+                g->displaying_visibility = false;
+                g->displaying_radiation = !g->displaying_radiation;
             }
             break;
             case DEBUG_CHANGE_TIME: {
@@ -1474,11 +1484,12 @@ void debug()
                 mx_menu.query();
                 int mx_choice = mx_menu.ret;
                 if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
-                    const tripoint where( ui::omap::choose_point() );
-                    if( where != overmap::invalid_tripoint ) {
+                    const tripoint where_omt( ui::omap::choose_point() );
+                    if( where_omt != overmap::invalid_tripoint ) {
+                        tripoint where_sm = omt_to_sm_copy( where_omt );
                         tinymap mx_map;
-                        mx_map.load( where.x * 2, where.y * 2, where.z, false );
-                        MapExtras::apply_function( mx_str[mx_choice], mx_map, where );
+                        mx_map.load( where_sm, false );
+                        MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
                     }
                 }
                 break;
@@ -1518,7 +1529,7 @@ void debug()
 
                 // Take a screenshot of the viewport.
                 if ( g->take_screenshot( current_file_path ) ) {
-                    popup( string_format( _( "Successfully saved your screenshot to: %s" ), map_directory.str() ) );
+                    popup( _( "Successfully saved your screenshot to: %s" ), map_directory.str() );
                 }
                 else {
                     popup( _( "An error occurred while trying to save the screenshot." ) );

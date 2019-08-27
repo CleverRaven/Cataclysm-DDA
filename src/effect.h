@@ -131,7 +131,9 @@ class effect_type
         std::string remove_memorial_log;
 
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
-        std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double> mod_data;
+        std::unordered_map <
+        std::tuple<std::string, bool, std::string, std::string>, double, cata::tuple_hash
+        > mod_data;
 };
 
 class effect
@@ -226,7 +228,7 @@ class effect
         /** Returns the string ids of the effects removed by this effect to be used in remove_effect("id"). */
         const std::vector<efftype_id> &get_removes_effects() const;
         /** Returns the string ids of the effects blocked by this effect to be used in add_effect("id"). */
-        const std::vector<efftype_id> get_blocks_effects() const;
+        std::vector<efftype_id> get_blocks_effects() const;
 
         /** Returns the matching modifier type from an effect, used for getting actual effect effects. */
         int get_mod( std::string arg, bool reduced = false ) const;
@@ -288,8 +290,8 @@ class effect
 void load_effect_type( JsonObject &jo );
 void reset_effect_types();
 
-std::string texitify_base_healing_power( const int power );
-std::string texitify_healing_power( const int power );
+std::string texitify_base_healing_power( int power );
+std::string texitify_healing_power( int power );
 
 // Inheritance here allows forward declaration of the map in class Creature.
 // Storing body_part as an int to make things easier for hash and JSON

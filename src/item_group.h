@@ -184,7 +184,7 @@ class Item_modifier
         Item_modifier();
         Item_modifier( Item_modifier && ) = default;
 
-        void modify( item &it ) const;
+        void modify( item &new_item ) const;
         void check_consistency() const;
         bool remove_item( const Item_tag &itemid );
 
@@ -228,7 +228,7 @@ class Single_item_creator : public Item_spawn_data
         Type type;
         cata::optional<Item_modifier> modifier;
 
-        void inherit_ammo_mag_chances( const int ammo, const int mag );
+        void inherit_ammo_mag_chances( int ammo, int mag );
 
         ItemList create( const time_point &birthday, RecursionList &rec ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;

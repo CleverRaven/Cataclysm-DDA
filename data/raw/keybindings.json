@@ -1620,8 +1620,7 @@
     "type": "keybinding",
     "name": "Reload Wielded Item",
     "category": "DEFAULTMODE",
-    "id": "reload_weapon",
-    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
+    "id": "reload_weapon"
   },
   {
     "type": "keybinding",
@@ -1746,8 +1745,7 @@
     "type": "keybinding",
     "name": "Toggle Auto Travel Mode",
     "category": "DEFAULTMODE",
-    "id": "auto_travel_mode",
-    "bindings": [ { "input_method": "keyboard", "key": "" } ]
+    "id": "auto_travel_mode"
   },
   {
     "type": "keybinding",
@@ -1890,6 +1888,12 @@
   },
   {
     "type": "keybinding",
+    "name": "View Radiation Map",
+    "category": "DEFAULTMODE",
+    "id": "debug_radiation"
+  },
+  {
+    "type": "keybinding",
     "name": "Switch Sidebar Style",
     "category": "DEFAULTMODE",
     "id": "toggle_sidebar_style"
@@ -1918,7 +1922,8 @@
     "type": "keybinding",
     "name": "Reload Item",
     "category": "DEFAULTMODE",
-    "id": "reload_item"
+    "id": "reload_item",
+    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
   },
   {
     "type": "keybinding",

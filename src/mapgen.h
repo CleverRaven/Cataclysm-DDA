@@ -119,12 +119,12 @@ struct jmapgen_setmap {
         x( ix ), y( iy ), x2( ix2 ), y2( iy2 ), op( iop ), val( ival ), chance( ione_in ),
         repeat( irepeat ), rotation( irotation ),
         fuel( ifuel ), status( istatus ) {}
-    bool apply( const mapgendata &dat, int offset_x, int offset_y, mission *miss = nullptr ) const;
+    bool apply( const mapgendata &dat, const point &offset, mission *miss = nullptr ) const;
     /**
      * checks if applying these objects to data would cause cause a collision with vehicles
      * on the same map
      **/
-    bool has_vehicle_collision( const mapgendata &dat, int offset_x, int offset_y ) const;
+    bool has_vehicle_collision( const mapgendata &dat, const point &offset ) const;
 };
 
 /**
@@ -173,9 +173,9 @@ class jmapgen_place
 {
     public:
         jmapgen_place() : x( 0, 0 ), y( 0, 0 ), repeat( 1, 1 ) { }
-        jmapgen_place( const int a, const int b ) : x( a ), y( b ), repeat( 1, 1 ) { }
+        jmapgen_place( const point &p ) : x( p.x ), y( p.y ), repeat( 1, 1 ) { }
         jmapgen_place( JsonObject &jsi );
-        void offset( const int x_offset, const int y_offset );
+        void offset( const point & );
         jmapgen_int x;
         jmapgen_int y;
         jmapgen_int repeat;
@@ -234,9 +234,9 @@ class mapgen_palette
 
 struct jmapgen_objects {
 
-        jmapgen_objects( int offset_x, int offset_y, size_t mapsize_x, size_t mapsize_y );
+        jmapgen_objects( const point &offset, const point &mapsize );
 
-        bool check_bounds( const jmapgen_place place, JsonObject &jso );
+        bool check_bounds( jmapgen_place place, JsonObject &jso );
 
         void add( const jmapgen_place &place, std::shared_ptr<const jmapgen_piece> piece );
 
@@ -258,14 +258,14 @@ struct jmapgen_objects {
         void check( const std::string &oter_name ) const;
 
         void apply( const mapgendata &dat, float density, mission *miss = nullptr ) const;
-        void apply( const mapgendata &dat, int offset_x, int offset_y, float density,
+        void apply( const mapgendata &dat, const point &offset, float density,
                     mission *miss = nullptr ) const;
 
         /**
          * checks if applying these objects to data would cause cause a collision with vehicles
          * on the same map
          **/
-        bool has_vehicle_collision( const mapgendata &dat, int offset_x, int offset_y ) const;
+        bool has_vehicle_collision( const mapgendata &dat, const point &offset ) const;
 
     private:
         /**
@@ -273,17 +273,15 @@ struct jmapgen_objects {
          */
         using jmapgen_obj = std::pair<jmapgen_place, std::shared_ptr<const jmapgen_piece> >;
         std::vector<jmapgen_obj> objects;
-        int offset_x;
-        int offset_y;
-        size_t mapgensize_x;
-        size_t mapgensize_y;
+        point m_offset;
+        point mapgensize;
 };
 
 class mapgen_function_json_base
 {
     public:
         bool check_inbounds( const jmapgen_int &x, const jmapgen_int &y, JsonObject &jso ) const;
-        size_t calc_index( size_t x, size_t y ) const;
+        size_t calc_index( const point &p ) const;
 
     private:
         std::string jdata;
@@ -301,15 +299,13 @@ class mapgen_function_json_base
 
         void check_common( const std::string &oter_name ) const;
 
-        void formatted_set_incredibly_simple( map &m, int offset_x, int offset_y ) const;
+        void formatted_set_incredibly_simple( map &m, const point &offset ) const;
 
         bool do_format;
         bool is_ready;
 
-        size_t mapgensize_x;
-        size_t mapgensize_y;
-        int x_offset;
-        int y_offset;
+        point mapgensize;
+        point m_offset;
         std::vector<ter_furn_id> format;
         std::vector<jmapgen_setmap> setmap_points;
 
@@ -323,7 +319,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         void check( const std::string &oter_name ) const override;
         void generate( map *, const oter_id &, const mapgendata &, const time_point &, float ) override;
         mapgen_function_json( const std::string &s, int w,
-                              const int x_grid_offset = 0, const int y_grid_offset = 0 );
+                              const point &grid_offset = point_zero );
         ~mapgen_function_json() override = default;
 
         ter_id fill_ter;
@@ -345,10 +341,10 @@ class update_mapgen_function_json : public mapgen_function_json_base
         void setup();
         bool setup_update( JsonObject &jo );
         void check( const std::string &oter_name ) const;
-        bool update_map( const tripoint &omt_pos, int offset_x, int offset_y,
+        bool update_map( const tripoint &omt_pos, const point &offset,
                          mission *miss, bool verify = false ) const;
-        bool update_map( mapgendata &md, int offset_x = 0, int offset_y = 0,
-                         mission *miss = nullptr, bool verify = false, int rotation = 0 ) const;
+        bool update_map( mapgendata &md, const point &offset = point_zero,
+                         mission *miss = nullptr, bool verify = false ) const;
 
     protected:
         bool setup_internal( JsonObject &/*jo*/ ) override;
@@ -363,7 +359,7 @@ class mapgen_function_json_nested : public mapgen_function_json_base
         mapgen_function_json_nested( const std::string &s );
         ~mapgen_function_json_nested() override = default;
 
-        void nest( const mapgendata &dat, int offset_x, int offset_y, float density ) const;
+        void nest( const mapgendata &dat, const point &offset, float density ) const;
     protected:
         bool setup_internal( JsonObject &jo ) override;
 
@@ -377,7 +373,7 @@ class mapgen_function_json_nested : public mapgen_function_json_base
  * Load mapgen function of any type from a json object
  */
 std::shared_ptr<mapgen_function> load_mapgen_function( JsonObject &jio, const std::string &id_base,
-        int default_idx, int x_offset = 0, int y_offset = 0 );
+        int default_idx, const point &offset = point_zero );
 /*
  * Load the above directly from a file via init, as opposed to riders attached to overmap_terrain. Added check
  * for oter_mapgen / oter_mapgen_weights key, multiple possible ( ie, [ "house", "house_base" ] )
@@ -430,7 +426,7 @@ void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgend
 bool connects_to( const oter_id &there, int dir );
 void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down = false );
 // wrappers for map:: functions
-void line( map *m, const ter_id type, int x1, int y1, int x2, int y2 );
+void line( map *m, ter_id type, int x1, int y1, int x2, int y2 );
 void line_furn( map *m, furn_id type, int x1, int y1, int x2, int y2 );
 void fill_background( map *m, ter_id type );
 void fill_background( map *m, ter_id( *f )() );

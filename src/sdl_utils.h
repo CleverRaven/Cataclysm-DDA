@@ -3,9 +3,16 @@
 #define SDL_UTILS_H
 
 #include <algorithm>
+#include <cmath>
+#include <unordered_map>
 
 #include "color.h"
 #include "sdl_wrappers.h"
+
+using color_pixel_function_pointer = SDL_Color( * )( const SDL_Color &color );
+using color_pixel_function_map = std::unordered_map<std::string, color_pixel_function_pointer>;
+
+color_pixel_function_pointer get_color_pixel_function( const std::string &name );
 
 inline SDL_Color adjust_color_brightness( const SDL_Color &color, int percent )
 {
@@ -96,7 +103,23 @@ inline SDL_Color color_pixel_overexposed( const SDL_Color &color )
     };
 }
 
-inline SDL_Color color_pixel_memorized( const SDL_Color &color )
+inline SDL_Color color_pixel_darken( const SDL_Color &color )
+{
+    if( is_black( color ) ) {
+        return color;
+    }
+
+    // 85/256 ~ 1/3
+    return {
+        std::max<Uint8>( 85 * color.r >> 8, 0x01 ),
+        std::max<Uint8>( 85 * color.g >> 8, 0x01 ),
+        std::max<Uint8>( 85 * color.b >> 8, 0x01 ),
+        color.a
+    };
+
+}
+
+inline SDL_Color color_pixel_sepia( const SDL_Color &color )
 {
     if( is_black( color ) ) {
         return color;
@@ -128,5 +151,7 @@ SDL_Surface_Ptr create_surface_32( int w, int h );
 // SDL_RenderFillRect replacement handler
 void render_fill_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect, Uint32 r, Uint32 g,
                        Uint32 b );
+
+SDL_Rect fit_rect_inside( const SDL_Rect &inner, const SDL_Rect &outer );
 
 #endif // SDL_UTILS_H

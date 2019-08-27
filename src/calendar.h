@@ -11,64 +11,20 @@ class time_duration;
 class time_point;
 class JsonOut;
 class JsonIn;
-
-/**
- * Convert minutes to one-second turns
- *
- * @param n Time in minutes
- * @returns Time in one-second turns
- *
- */
-constexpr int MINUTES( int n )
-{
-    return n * 60;
-}
-
-/**
- * Convert hours to one-second turns
- *
- * @param n Time in hours
- * @returns Time in one-second turns
- */
-constexpr int HOURS( int n )
-{
-    return n * MINUTES( 60 );
-}
-
-/**
- * Convert days to one-second turns
- *
- * @param n Time in days
- * @returns Time in one-second turns
- */
-constexpr int DAYS( int n )
-{
-    return n * HOURS( 24 );
-}
-
-/**
- * Convert ticks to seconds.
- *
- * @param ticks number of ticks
- * @returns Time in seconds
- */
-constexpr int TICKS_TO_SECONDS( int ticks )
-{
-    return static_cast<int>( static_cast<float>( ticks ) / 100 );
-}
-
-/** How much light moon provides per lit-up quarter (Full-moon light is four times this value) */
-#define MOONLIGHT_PER_QUARTER 2.25
-
-/** How much light is provided in full daylight */
-#define DAYLIGHT_LEVEL 100
+template<typename T> struct enum_traits;
 
 /** Real world seasons */
 enum season_type {
     SPRING = 0,
     SUMMER = 1,
     AUTUMN = 2,
-    WINTER = 3
+    WINTER = 3,
+    NUM_SEASONS
+};
+
+template<>
+struct enum_traits<season_type> {
+    static constexpr season_type last = season_type::NUM_SEASONS;
 };
 
 /** Phases of the moon */
@@ -134,7 +90,7 @@ time_duration year_length();
 
 /** @returns Time of a season (configured in current world settings) */
 time_duration season_length();
-void set_season_length( const int dur );
+void set_season_length( int dur );
 
 /// @returns relative length of game season to real life season.
 float season_ratio();
@@ -147,7 +103,7 @@ float season_ratio();
 float season_from_default_ratio();
 
 /** Returns the translated name of the season (with first letter being uppercase). */
-const std::string name_season( season_type s );
+std::string name_season( season_type s );
 
 extern time_point start_of_cataclysm;
 extern time_point turn;
@@ -162,8 +118,8 @@ extern season_type initial_season;
 extern const time_point before_time_starts;
 /**
  * Represents time point 0.
+ * TODO: flesh out the documentation
  */
-// TODO: flesh out the documentation
 extern const time_point turn_zero;
 } // namespace calendar
 
@@ -186,15 +142,15 @@ template<typename T>
 constexpr T to_turn( const time_point &point );
 
 template<typename T>
-constexpr time_duration operator/( const time_duration &lhs, const T rhs );
+constexpr time_duration operator/( const time_duration &lhs, T rhs );
 template<typename T>
-inline time_duration &operator/=( time_duration &lhs, const T rhs );
+inline time_duration &operator/=( time_duration &lhs, T rhs );
 template<typename T>
-constexpr time_duration operator*( const time_duration &lhs, const T rhs );
+constexpr time_duration operator*( const time_duration &lhs, T rhs );
 template<typename T>
-constexpr time_duration operator*( const T lhs, const time_duration &rhs );
+constexpr time_duration operator*( T lhs, const time_duration &rhs );
 template<typename T>
-inline time_duration &operator*=( time_duration &lhs, const T rhs );
+inline time_duration &operator*=( time_duration &lhs, T rhs );
 
 /**
  * A duration defined as a number of specific time units.
@@ -588,6 +544,8 @@ bool is_sunset_now( const time_point &p );
 bool is_sunrise_now( const time_point &p );
 /** Returns the current seasonally-adjusted maximum daylight level */
 double current_daylight_level( const time_point &p );
+/** How much light is provided in full daylight */
+double default_daylight_level();
 /** Returns the current sunlight or moonlight level through the preceding functions. */
 float sunlight( const time_point &p );
 

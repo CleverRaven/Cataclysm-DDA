@@ -748,6 +748,11 @@
   },
   {
     "type": "recipe",
+    "result": "flamethrower_crude",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "fletching",
     "obsolete": true
   },
@@ -1783,7 +1788,57 @@
   },
   {
     "type": "recipe",
+    "result": "bio_armor_head",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_armor_arms",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_armor_torso",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_armor_legs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "years_old_newspaperuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_reactoruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_plut_filteruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_reactor_upgradeuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_advreactoruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "plut_slurry_dense",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "plut_slurry",
     "obsolete": true
   }
 ]

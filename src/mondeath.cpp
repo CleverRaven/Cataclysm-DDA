@@ -13,13 +13,14 @@
 
 #include "avatar.h"
 #include "explosion.h"
-#include "event.h"
+#include "timed_event.h"
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "kill_tracker.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -80,6 +81,7 @@ static const trait_id trait_PRED2( "PRED2" );
 static const trait_id trait_PRED3( "PRED3" );
 static const trait_id trait_PRED4( "PRED4" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_KILLER( "KILLER" );
 
 void mdeath::normal( monster &z )
 {
@@ -193,7 +195,7 @@ void mdeath::splatter( monster &z )
         }
     }
     // 1% of the weight of the monster is the base, with overflow damage as a multiplier
-    int gibbed_weight = rng( 0, round( to_gram( z.get_weight() ) / 100 *
+    int gibbed_weight = rng( 0, round( to_gram( z.get_weight() ) / 100.0 *
                                        ( overflow_damage / max_hp + 1 ) ) );
     // limit gibbing to 15%
     gibbed_weight = std::min( gibbed_weight, to_gram( z.get_weight() ) * 15 / 100 );
@@ -353,13 +355,11 @@ void mdeath::triffid_heart( monster &z )
     if( g->u.sees( z ) ) {
         add_msg( m_warning, _( "The surrounding roots begin to crack and crumble." ) );
     }
-    g->events.add( EVENT_ROOTS_DIE, calendar::turn + 10_minutes );
+    g->timed_events.add( TIMED_EVENT_ROOTS_DIE, calendar::turn + 10_minutes );
 }
 
 void mdeath::fungus( monster &z )
 {
-
-
     //~ the sound of a fungus dying
     sounds::sound( z.pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
 
@@ -417,7 +417,7 @@ void mdeath::disappear( monster &z )
 void mdeath::guilt( monster &z )
 {
     const int MAX_GUILT_DISTANCE = 5;
-    int kill_count = g->kill_count( z.type->id );
+    int kill_count = g->get_kill_tracker().kill_count( z.type->id );
     int maxKills = 100; // this is when the player stop caring altogether.
 
     // different message as we kill more of the same monster
@@ -429,7 +429,7 @@ void mdeath::guilt( monster &z )
     guilt_tresholds[25] = _( "You feel remorse for killing %s." );
 
     if( g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait( trait_PRED3 ) ||
-        g->u.has_trait( trait_PRED4 ) ) {
+        g->u.has_trait( trait_PRED4 ) || g->u.has_trait( trait_KILLER ) ) {
         return;
     }
     if( rl_dist( z.pos(), g->u.pos() ) > MAX_GUILT_DISTANCE ) {
@@ -645,7 +645,6 @@ void mdeath::broken( monster &z )
     }
     // make "broken_manhack", or "broken_eyebot", ...
     item_id.insert( 0, "broken_" );
-
     item broken_mon( item_id, calendar::turn );
     const int max_hp = std::max( z.get_hp_max(), 1 );
     const float overflow_damage = std::max( -z.get_hp(), 0 );
@@ -654,6 +653,17 @@ void mdeath::broken( monster &z )
 
     g->m.add_item_or_charges( z.pos(), broken_mon );
 
+
+    // adds ammo drop
+    if( z.type->has_flag( MF_DROPS_AMMO ) ) {
+        for( const std::pair<std::string, int> &ammo_entry : z.type->starting_ammo ) {
+            if( z.ammo[ammo_entry.first] > 0 ) {
+                g->m.spawn_item( z.pos(), ammo_entry.first, z.ammo[ammo_entry.first], 1,
+                                 calendar::turn );
+            }
+        }
+    }
+    // end adds ammo drop
     //TODO: make mdeath::splatter work for robots
     if( ( broken_mon.damage() >= broken_mon.max_damage() ) && g->u.sees( z.pos() ) ) {
         add_msg( m_good, _( "The %s is destroyed!" ), z.name() );

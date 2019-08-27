@@ -1,0 +1,566 @@
+[
+  {
+    "id": "t_railroad_rubble",
+    "type": "terrain",
+    "name": "gravel",
+    "description": "A small mallet that a judge uses to call - er, wait.  Oh, gravel!  Gravel is a collection of small stones often used for roads, as railroad ballast, and in many other applications.",
+    "symbol": "^",
+    "color": [ "brown" ],
+    "move_cost": 2,
+    "bash": {
+      "str_min": 4,
+      "str_max": 40,
+      "ter_set": "t_rock_floor",
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "pebble", "count": [ 1, 3 ] }, { "item": "sharp_rock", "count": [ 0, 1 ] } ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "pebble", "count": [ 2, 6 ] }, { "item": "sharp_rock", "count": [ 1, 3 ] } ]
+    },
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track",
+    "type": "terrain",
+    "name": "railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_h",
+    "type": "terrain",
+    "name": "railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_v",
+    "type": "terrain",
+    "name": "railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_d",
+    "type": "terrain",
+    "name": "railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_d1",
+    "type": "terrain",
+    "name": "railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_d2",
+    "type": "terrain",
+    "name": "railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_tie",
+    "type": "terrain",
+    "name": "railroad tie",
+    "description": "This crosstie is used to support the rails.",
+    "symbol": "#",
+    "color": [ "dark_gray_yellow" ],
+    "move_cost": 2,
+    "bash": {
+      "str_min": 10,
+      "str_max": 120,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_tie_h",
+    "type": "terrain",
+    "name": "railroad tie",
+    "description": "This crosstie is used to support the rails.",
+    "symbol": "#",
+    "color": [ "dark_gray_yellow" ],
+    "move_cost": 2,
+    "bash": {
+      "str_min": 10,
+      "str_max": 120,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_tie_v",
+    "type": "terrain",
+    "name": "railroad tie",
+    "description": "This crosstie is used to support the rails.",
+    "symbol": "#",
+    "color": [ "dark_gray_yellow" ],
+    "move_cost": 2,
+    "bash": {
+      "str_min": 10,
+      "str_max": 120,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_tie_d",
+    "type": "terrain",
+    "name": "railroad tie",
+    "description": "This crosstie is used to support the rails.",
+    "symbol": "#",
+    "color": [ "dark_gray_yellow" ],
+    "move_cost": 2,
+    "bash": {
+      "str_min": 10,
+      "str_max": 120,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_on_tie",
+    "type": "terrain",
+    "name": "railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "log", "count": [ 0, 1 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_h_on_tie",
+    "type": "terrain",
+    "name": "railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "log", "count": [ 0, 1 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_v_on_tie",
+    "type": "terrain",
+    "name": "railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "log", "count": [ 0, 1 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_d_on_tie",
+    "type": "terrain",
+    "name": "railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "log", "count": [ 0, 1 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+  },
+  {
+    "id": "t_buffer_stop",
+    "type": "terrain",
+    "name": "buffer stop",
+    "description": "A tiny blockade on the train tracks, meant to signify the end of a track, or mark a 'no-go' zone for trains.",
+    "symbol": "S",
+    "color": [ "brown" ],
+    "move_cost": 3,
+    "bash": {
+      "str_min": 4,
+      "str_max": 12,
+      "ter_set": "t_dirt",
+      "sound": "crack.",
+      "sound_fail": "whump.",
+      "items": [ { "item": "2x4", "count": [ 2, 5 ] }, { "item": "nail", "charges": [ 3, 8 ] }, { "item": "splinter", "count": 2 } ]
+    },
+    "flags": [ "BASHABLE", "TRANSPARENT", "NOITEM", "MOUNTABLE" ]
+  },
+  {
+    "id": "t_railroad_tie_d1",
+    "type": "terrain",
+    "name": "railroad tie",
+    "description": "This crosstie is used to support the rails.",
+    "symbol": "/",
+    "color": [ "dark_gray_yellow" ],
+    "move_cost": 2,
+    "bash": {
+      "str_min": 10,
+      "str_max": 120,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_tie_d2",
+    "type": "terrain",
+    "name": "railroad tie",
+    "description": "This crosstie is used to support the rails.",
+    "symbol": "\\",
+    "color": [ "dark_gray_yellow" ],
+    "move_cost": 2,
+    "bash": {
+      "str_min": 10,
+      "str_max": 120,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_crossing_signal",
+    "type": "terrain",
+    "name": "railroad crossing signal",
+    "description": "Traffic lights meant to light and make noise when a train approaches, to prevent people from turning into meaty mush while they cross the tracks.  Won't stop people from turning into meaty mush by other means, though.",
+    "symbol": "1",
+    "color": [ "light_gray" ],
+    "move_cost": 0,
+    "bash": {
+      "str_min": 16,
+      "str_max": 75,
+      "ter_set": "t_dirt",
+      "sound": "crash!",
+      "sound_fail": "clang.",
+      "items": [
+        { "item": "pipe", "count": [ 2, 4 ] },
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "steel_chunk", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 0, 1 ] },
+        { "item": "power_supply", "count": [ 0, 1 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "NOITEM" ]
+  },
+  {
+    "id": "t_crossbuck_wood",
+    "type": "terrain",
+    "description": "A traffic sign intended to indicate a level railway crossing.  If the trains were still running.",
+    "name": "crossbuck",
+    "symbol": "X",
+    "color": [ "brown" ],
+    "move_cost": 0,
+    "bash": {
+      "str_min": 6,
+      "str_max": 18,
+      "ter_set": "t_dirt",
+      "sound": "crack.",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 1, 3 ] },
+        { "item": "nail", "charges": [ 0, 4 ] },
+        { "item": "splinter", "count": [ 1, 2 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "NOITEM" ]
+  },
+  {
+    "id": "t_crossbuck_metal",
+    "type": "terrain",
+    "name": "crossbuck",
+    "description": "A traffic sign intended to indicate a level railway crossing.  If the trains were still running.",
+    "symbol": "X",
+    "color": [ "light_gray" ],
+    "move_cost": 0,
+    "bash": {
+      "str_min": 10,
+      "str_max": 50,
+      "ter_set": "t_dirt",
+      "sound": "crash!",
+      "sound_fail": "clang.",
+      "items": [ { "item": "pipe", "count": [ 2, 3 ] }, { "item": "scrap", "count": [ 0, 2 ] } ]
+    },
+    "flags": [ "TRANSPARENT", "NOITEM" ]
+  }
+]

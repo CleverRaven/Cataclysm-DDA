@@ -62,7 +62,7 @@ jobs:
       addons: &clang38
         apt:
           packages: ["clang-3.8", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
-          sources: *apt_sources
+          sources: [*apt_sources]
 
     # Then build different configurations and targets in parallel.
     - stage: "Main Compilers"
@@ -75,11 +75,12 @@ jobs:
           sources: [*apt_sources]
 
     - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1 SANITIZE=address
-      name: "GCC 8 Make build with Tiles, Sound and address sanitization"
+      name: "GCC 8 Make build with Tiles, Sound, astyle and address sanitization"
+      dist: bionic
       compiler: gcc
       addons: &gcc8
         apt:
-          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev", "astyle"]
           sources: *apt_sources
 
     - env: CLANG=clang++-8 SANITIZE=address EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency ~vehicle_drag ~starting_items"
@@ -98,6 +99,19 @@ jobs:
       addons: &gcc
         apt:
           packages: ["wine"]
+
+    - env: NATIVE=android COMPILER=gcc
+      name: "Android build"
+      language: android
+      android:
+        components:
+          - build-tools-28.0.1
+          - android-26
+      cache:
+        # The ccache feature in Travis doesn't work for language: android, so
+        # do it ourselves.
+        directories:
+          - $HOME/.ccache
 
     - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1
       name: "Xcode 10.1 Make build with Tiles and sound (macOS)"

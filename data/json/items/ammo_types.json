@@ -31,6 +31,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "barb",
+    "name": "barb",
+    "default": "barb_paralysis"
+  },
+  {
+    "type": "ammunition_type",
     "id": "BB",
     "name": "BBs",
     "default": "bb"
@@ -428,7 +434,7 @@
   {
     "type": "ammunition_type",
     "id": "RPG-7",
-    "name": "93mm RPG-7",
+    "name": "RPG-7 rocket",
     "default": "RPG-7_ammo"
   },
   {
@@ -574,5 +580,11 @@
     "name": "oxygen",
     "default": "oxygen",
     "type": "ammunition_type"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "300blk",
+    "name": ".300 AAC Blackout",
+    "default": "300blk"
   }
 ]

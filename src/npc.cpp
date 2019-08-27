@@ -12,6 +12,7 @@
 #include "avatar.h"
 #include "coordinate_conversions.h"
 #include "effect.h"
+#include "event_bus.h"
 #include "game.h"
 #include "item_group.h"
 #include "itype.h"
@@ -106,7 +107,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male );
 void starting_inv( npc &who, const npc_class_id &type );
 
 npc::npc()
-    : restock( calendar::before_time_starts )
+    : restock( calendar::turn_zero )
     , companion_mission_time( calendar::before_time_starts )
     , companion_mission_time_ret( calendar::before_time_starts )
     , last_updated( calendar::turn )
@@ -253,7 +254,7 @@ const npc_template &string_id<npc_template>::obj() const
     const auto found = npc_templates.find( *this );
     if( found == npc_templates.end() ) {
         debugmsg( "Tried to get invalid npc: %s", c_str() );
-        static const npc_template dummy;
+        static const npc_template dummy{};
         return dummy;
     }
     return found->second;
@@ -293,7 +294,7 @@ npc::~npc() = default;
 
 void npc::randomize( const npc_class_id &type )
 {
-    if( getID() <= 0 ) {
+    if( !getID().is_valid() ) {
         setID( g->assign_npc_id() );
     }
 
@@ -322,11 +323,6 @@ void npc::randomize( const npc_class_id &type )
     dex_max = the_class.roll_dexterity();
     int_max = the_class.roll_intelligence();
     per_max = the_class.roll_perception();
-
-    if( myclass->get_shopkeeper_items() != "EMPTY_GROUP" ) {
-        restock = calendar::turn + 3_days;
-        cash += 100000;
-    }
 
     for( auto &skill : Skill::skills ) {
         int level = myclass->roll_skill( skill.ident() );
@@ -520,12 +516,16 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         ret.push_back( random_item_from( type, "extra" ) );
     }
 
+    for( item &it : who.worn ) {
+        it.on_takeoff( who );
+    }
     who.worn.clear();
     for( item &it : ret ) {
         if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
         }
         if( who.can_wear( it ).success() ) {
+            it.on_wear( who );
             who.worn.push_back( it );
             it.set_owner( who.my_fac );
         }
@@ -598,7 +598,7 @@ void npc::revert_after_activity()
     mission = previous_mission;
     attitude = previous_attitude;
     activity = player_activity();
-    current_activity.clear();
+    current_activity_id = activity_id::NULL_ID();
     clear_destination();
     backlog.clear();
 }
@@ -671,8 +671,7 @@ void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
 
 tripoint npc::global_square_location() const
 {
-    return tripoint( submap_coords.x * SEEX + posx() % SEEX, submap_coords.y * SEEY + posy() % SEEY,
-                     position.z );
+    return sm_to_ms_copy( submap_coords ) + tripoint( posx() % SEEX, posy() % SEEY, position.z );
 }
 
 void npc::place_on_map()
@@ -1060,7 +1059,7 @@ float npc::vehicle_danger( int radius ) const
     int danger = 0;
 
     // TODO: check for most dangerous vehicle?
-    for( unsigned int i = 0; i < vehicles.size(); ++i ) {
+    for( size_t i = 0; i < vehicles.size(); ++i ) {
         const wrapped_vehicle &wrapped_veh = vehicles[i];
         if( wrapped_veh.v->is_moving() ) {
             // FIXME: this can't be the right way to do this
@@ -1178,11 +1177,11 @@ void npc::decide_needs()
     for( auto &i : slice ) {
         item inventory_item = i->front();
         if( inventory_item.is_food( ) ) {
-            needrank[ need_food ] += nutrition_for( inventory_item ) / 4;
-            needrank[ need_drink ] += inventory_item.get_comestible()->quench / 4;
+            needrank[ need_food ] += nutrition_for( inventory_item ) / 4.0;
+            needrank[ need_drink ] += inventory_item.get_comestible()->quench / 4.0;
         } else if( inventory_item.is_food_container() ) {
-            needrank[ need_food ] += nutrition_for( inventory_item.contents.front() ) / 4;
-            needrank[ need_drink ] += inventory_item.contents.front().get_comestible()->quench / 4;
+            needrank[ need_food ] += nutrition_for( inventory_item.contents.front() ) / 4.0;
+            needrank[ need_drink ] += inventory_item.contents.front().get_comestible()->quench / 4.0;
         }
     }
     needs.clear();
@@ -1279,9 +1278,63 @@ bool npc::wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ )
     return at_price >= 80;
 }
 
+// Will the NPC freely exchange items with the player?
+bool npc::will_exchange_items_freely() const
+{
+    return is_player_ally();
+}
+
+// What's the maximum credit the NPC is willing to extend to the player?
+// This is currently very scrooge-like; NPCs are only likely to extend a few dollars
+// of credit at most.
+int npc::max_credit_extended() const
+{
+    if( is_player_ally() ) {
+        return INT_MAX;
+    }
+
+    const int credit_trust    = 50;
+    const int credit_value    = 50;
+    const int credit_fear     = 50;
+    const int credit_altruism = 100;
+    const int credit_anger    = -200;
+
+    return std::max( 0,
+                     op_of_u.trust * credit_trust +
+                     op_of_u.value * credit_value +
+                     op_of_u.fear  * credit_fear  +
+                     personality.altruism * credit_altruism +
+                     op_of_u.anger * credit_anger
+                   );
+}
+
+// How much is the NPC willing to owe the player?
+// This is much more generous, as it's the essentially the player holding the risk here.
+int npc::max_willing_to_owe() const
+{
+    if( is_player_ally() ) {
+        return INT_MAX;
+    }
+
+    const int credit_trust    = 10000;
+    const int credit_value    = 10000;
+    const int credit_fear     = 10000;
+    const int credit_altruism = 0;
+    const int credit_anger    = -10000;
+
+    return std::max( 0,
+                     op_of_u.trust * credit_trust +
+                     op_of_u.value * credit_value +
+                     op_of_u.fear  * credit_fear  +
+                     personality.altruism * credit_altruism +
+                     op_of_u.anger * credit_anger
+                   );
+
+}
+
 void npc::shop_restock()
 {
-    if( calendar::turn - restock < 3_days ) {
+    if( ( restock != calendar::turn_zero ) && ( ( calendar::turn - restock ) < 3_days ) ) {
         return;
     }
 
@@ -1758,7 +1811,7 @@ bool npc::emergency() const
 
 bool npc::emergency( float danger ) const
 {
-    return ( danger > ( personality.bravery * 3 * hp_percentage() ) / 100 );
+    return ( danger > ( personality.bravery * 3 * hp_percentage() ) / 100.0 );
 }
 
 //Check if this npc is currently in the list of active npcs.
@@ -1812,9 +1865,9 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // is a blank line. w is 13 characters tall, and we can't use the last one
     // because it's a border as well; so we have lines 6 through 11.
     // w is also 48 characters wide - 2 characters for border = 46 characters for us
-    mvwprintz( w, line++, column, c_white, _( "NPC: %s" ), name );
+    mvwprintz( w, point( column, line++ ), c_white, _( "NPC: %s" ), name );
     if( is_armed() ) {
-        trim_and_print( w, line++, column, iWidth, c_red, _( "Wielding a %s" ), weapon.tname() );
+        trim_and_print( w, point( column, line++ ), iWidth, c_red, _( "Wielding a %s" ), weapon.tname() );
     }
 
     const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( std::string & str_in,
@@ -1825,9 +1878,9 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
             split = ( str_in.length() <= iWidth ) ? std::string::npos : str_in.find_last_of( ' ',
                     static_cast<int>( iWidth ) );
             if( split == std::string::npos ) {
-                mvwprintz( w, line, column, color, str_in );
+                mvwprintz( w, point( column, line ), color, str_in );
             } else {
-                mvwprintz( w, line, column, color, str_in.substr( 0, split ) );
+                mvwprintz( w, point( column, line ), color, str_in.substr( 0, split ) );
             }
             str_in = str_in.substr( split + 1 );
             line++;
@@ -2005,8 +2058,12 @@ void npc::die( Creature *nkiller )
         add_msg( _( "%s dies!" ), name );
     }
 
+    if( Character *ch = dynamic_cast<Character *>( killer ) ) {
+        g->events().send( event::make<event_type::character_kills_character>(
+                              calendar::turn, ch->getID(), getID(), get_name() ) );
+    }
+
     if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
-        g->record_npc_kill( *this );
         bool cannibal = g->u.has_trait( trait_CANNIBAL );
         bool psycho = g->u.has_trait( trait_PSYCHOPATH );
         if( g->u.has_trait( trait_SAPIOVORE ) ) {
@@ -2124,11 +2181,6 @@ std::string npc_attitude_name( npc_attitude att )
 
     debugmsg( "Invalid attitude: %d", att );
     return _( "Unknown attitude" );
-}
-
-void npc::setID( int i )
-{
-    this->player::setID( i );
 }
 
 //message related stuff
@@ -2666,7 +2718,7 @@ void npc::set_mission( npc_mission new_mission )
         mission = new_mission;
     }
     if( mission == NPC_MISSION_ACTIVITY ) {
-        current_activity = activity.get_verb();
+        current_activity_id = activity.id();
     }
 }
 

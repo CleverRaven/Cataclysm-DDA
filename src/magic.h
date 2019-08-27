@@ -15,6 +15,7 @@
 #include "type_id.h"
 #include "ui.h"
 #include "string_id.h"
+#include "translations.h"
 
 struct tripoint;
 class Creature;
@@ -96,9 +97,9 @@ class spell_type
 
         spell_id id;
         // spell name
-        std::string name;
+        translation name;
         // spell description
-        std::string description;
+        translation description;
         // spell effect string. used to look up spell function
         std::string effect_name;
         std::function<void( const spell &, Creature &, const tripoint & )> effect;
@@ -226,7 +227,7 @@ class spell
 {
     private:
         // basic spell data
-        const spell_type *type;
+        spell_id type;
 
         // once you accumulate enough exp you level the spell
         int experience;
@@ -235,7 +236,6 @@ class spell
 
     public:
         spell() = default;
-        spell( const spell_type *sp, int xp = 0 );
         spell( spell_id sp, int xp = 0 );
 
         // how much exp you need for the spell to gain a level
@@ -409,7 +409,7 @@ namespace spell_effect
 void teleport_random( const spell &sp, Creature &caster, const tripoint & );
 void pain_split( const spell &, Creature &, const tripoint & );
 void target_attack( const spell &sp, Creature &caster,
-                    const tripoint &target );
+                    const tripoint &epicenter );
 void projectile_attack( const spell &sp, Creature &caster,
                         const tripoint &target );
 void cone_attack( const spell &sp, Creature &caster,
@@ -417,23 +417,23 @@ void cone_attack( const spell &sp, Creature &caster,
 void line_attack( const spell &sp, Creature &caster,
                   const tripoint &target );
 
-void area_pull( const spell &sp, Creature &caster, const tripoint &target );
-void area_push( const spell &sp, Creature &caster, const tripoint &target );
-
+void area_pull( const spell &sp, Creature &caster, const tripoint &center );
+void area_push( const spell &sp, Creature &caster, const tripoint &center );
 
 std::set<tripoint> spell_effect_blast( const spell &, const tripoint &, const tripoint &target,
-                                       const int aoe_radius, const bool ignore_walls );
+                                       int aoe_radius, bool ignore_walls );
 std::set<tripoint> spell_effect_cone( const spell &sp, const tripoint &source,
                                       const tripoint &target,
-                                      const int aoe_radius, const bool ignore_walls );
+                                      int aoe_radius, bool ignore_walls );
 std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
                                       const tripoint &target,
-                                      const int aoe_radius, const bool ignore_walls );
+                                      int aoe_radius, bool ignore_walls );
 
 void spawn_ethereal_item( const spell &sp, Creature &, const tripoint & );
 void recover_energy( const spell &sp, Creature &, const tripoint &target );
 void spawn_summoned_monster( const spell &sp, Creature &caster, const tripoint &target );
 void translocate( const spell &sp, Creature &caster, const tripoint &target );
+void transform_blast( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
 } // namespace spell_effect
 
