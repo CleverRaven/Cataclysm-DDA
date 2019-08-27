@@ -862,6 +862,20 @@
     "use_action": "CAN_GOO"
   },
   {
+    "id": "sieve_steel",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "sieve",
+    "description": "This is no mere strainer for noodles; it's a sieve used to separate particles of certain sizes.  You could use this to do a really good job sifting flour, remove dust and soil from grain, or perhaps conduct gradiation tests for any civil engineers you might know.  This one has been constructed from steel mesh.",
+    "weight": 318,
+    "volume": 2,
+    "price": 700,
+    "bashing": 2,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "dark_gray"
+  },
+  {
     "id": "carding_paddles",
     "type": "GENERIC",
     "category": "tools",
