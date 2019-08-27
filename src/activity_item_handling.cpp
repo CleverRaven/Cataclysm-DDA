@@ -1809,18 +1809,6 @@ static bool move_loot_activity( player &p, tripoint src_loc, zone_manager &mgr,
 
         const auto id = mgr.get_near_zone_type_for_item( *thisitem, abspos );
 
-        const auto thisitem = it->first;
-
-        if( thisitem->made_of_from_type( LIQUID ) ) { // skip unpickable liquid
-            continue;
-        }
-
-        // Only if it's from a vehicle do we use the vehicle source location information.
-        vehicle *this_veh = it->second ? src_veh : nullptr;
-        const int this_part = it->second ? src_part : -1;
-
-        const auto id = mgr.get_near_zone_type_for_item( *thisitem, abspos );
-
         // checks whether the item is already on correct loot zone or not
         // if it is, we can skip such item, if not we move the item to correct pile
         // think empty bag on food pile, after you ate the content
