@@ -1230,15 +1230,15 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
     // Check if the part is required by another part. Do not allow removing those.
     // { "FLAG THAT IS REQUIRED", "FLAG THAT REQUIRES", "Reason why can't remove." }
     static const std::array<std::tuple<std::string, std::string, std::string>, 9> blocking_flags = {{
-            { "ENGINE", "ALTERNATOR", "Remove attached alternator first." },
-            { "BELTABLE", "SEATBELT", "Remove attached seatbelt first." },
-            { "WINDOW", "CURTAIN", "Remove attached curtains first." },
-            { "CONTROLS", "ON_CONTROLS", "Remove attached part first." },
-            { "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT", "Remove battery from mount first." },
-            { "TURRET_MOUNT", "TURRET", "Remove attached mounted weapon first." },
-            { "WHEEL_MOUNT_LIGHT", "NEEDS_WHEEL_MOUNT_LIGHT", "Remove attached wheel first." },
-            { "WHEEL_MOUNT_MEDIUM", "NEEDS_WHEEL_MOUNT_MEDIUM", "Remove attached wheel first." },
-            { "WHEEL_MOUNT_HEAVY", "NEEDS_WHEEL_MOUNT_HEAVY", "Remove attached wheel first." }
+            std::make_tuple( "ENGINE", "ALTERNATOR", "Remove attached alternator first." ),
+            std::make_tuple( "BELTABLE", "SEATBELT", "Remove attached seatbelt first." ),
+            std::make_tuple( "WINDOW", "CURTAIN", "Remove attached curtains first." ),
+            std::make_tuple( "CONTROLS", "ON_CONTROLS", "Remove attached part first." ),
+            std::make_tuple( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT", "Remove battery from mount first." ),
+            std::make_tuple( "TURRET_MOUNT", "TURRET", "Remove attached mounted weapon first." ),
+            std::make_tuple( "WHEEL_MOUNT_LIGHT", "NEEDS_WHEEL_MOUNT_LIGHT", "Remove attached wheel first." ),
+            std::make_tuple( "WHEEL_MOUNT_MEDIUM", "NEEDS_WHEEL_MOUNT_MEDIUM", "Remove attached wheel first." ),
+            std::make_tuple( "WHEEL_MOUNT_HEAVY", "NEEDS_WHEEL_MOUNT_HEAVY", "Remove attached wheel first." )
         }
     };
     for( auto &flag_check : blocking_flags ) {
