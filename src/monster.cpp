@@ -346,7 +346,7 @@ void monster::try_upgrade( bool pin_time )
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - time_point( calendar::start_of_cataclysm ) );
+    const int current_day = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
     //This should only occur when a monster is created or upgraded to a new form
     if( upgrade_time < 0 ) {
         upgrade_time = next_upgrade_time();
@@ -359,7 +359,7 @@ void monster::try_upgrade( bool pin_time )
         } else {
             // offset by starting season
             // @todo revisit this and make it simpler
-            upgrade_time += to_turn<int>( calendar::start_of_cataclysm );
+            upgrade_time += to_days<int>( calendar::start_of_cataclysm - calendar::turn_zero );
         }
     }
 
