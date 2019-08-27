@@ -23,7 +23,7 @@
       { "x": 0, "y": -1, "part": "windshield" },
       { "x": 1, "y": -1, "part": "frame_vertical" },
       { "x": 1, "y": -1, "part": "windshield" },
-      { "x": 1, "y": -1, "parts": [ "wheel_mount_medium", "wheel_steerable" ] },
+      { "x": 1, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
       { "x": -4, "y": 0, "part": "frame_vertical" },
       { "x": -4, "y": 0, "part": "door" },
       { "x": -3, "y": 0, "part": "frame_vertical" },
@@ -78,7 +78,7 @@
       { "x": 1, "y": 2, "part": "halfboard_vertical" },
       { "x": 1, "y": 2, "part": "storage_battery_mount" },
       { "x": 1, "y": 2, "part": "storage_battery_removable" },
-      { "x": 1, "y": 2, "parts": [ "wheel_mount_medium", "wheel_steerable" ] }
+      { "x": 1, "y": 2, "parts": [ "wheel_mount_medium_steerable", "wheel" ] }
     ]
   },
   {
