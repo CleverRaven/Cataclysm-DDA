@@ -100,11 +100,12 @@ void talk_function::mission_success( npc &p )
     int miss_val = npc_trading::cash_to_favor( p, miss->get_value() );
     npc_opinion tmp( 0, 0, 1 + miss_val / 5, -1, 0 );
     p.op_of_u += tmp;
-    if( p.my_fac != nullptr ) {
+    faction *p_fac = p.get_faction();
+    if( p_fac != nullptr ) {
         int fac_val = std::min( 1 + miss_val / 10, 10 );
-        p.my_fac->likes_u += fac_val;
-        p.my_fac->respects_u += fac_val;
-        p.my_fac->power += fac_val;
+        p_fac->likes_u += fac_val;
+        p_fac->respects_u += fac_val;
+        p_fac->power += fac_val;
     }
     miss->wrap_up();
 }
@@ -455,7 +456,7 @@ void talk_function::give_equipment( npc &p )
     item it = *giving[chosen].loc.get_item();
     giving[chosen].loc.remove_item();
     popup( _( "%1$s gives you a %2$s" ), p.name, it.tname() );
-    it.set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
+    it.set_owner( g->u.get_faction() );
     g->u.i_add( it );
     p.op_of_u.owed -= giving[chosen].price;
     p.add_effect( effect_asked_for_item, 3_hours );
@@ -718,10 +719,10 @@ void talk_function::drop_stolen_item( npc &p )
 {
     for( auto &elem : g->u.inv_dump() ) {
         if( elem->get_old_owner() ) {
-            if( elem->get_old_owner()->id.str() == p.my_fac->id.str() ) {
+            if( elem->get_old_owner() == p.get_faction() ) {
                 item to_drop = g->u.i_rem( elem );
                 to_drop.remove_old_owner();
-                to_drop.set_owner( p.my_fac );
+                to_drop.set_owner( p.get_faction() );
                 g->m.add_item_or_charges( g->u.pos(), to_drop );
             }
         }

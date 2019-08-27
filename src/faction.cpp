@@ -36,8 +36,6 @@ namespace npc_factions
 std::vector<faction_template> all_templates;
 } // namespace npc_factions
 
-const faction_id your_faction = faction_id( "your_followers" );
-
 faction_template::faction_template()
 {
     likes_u = 0;
@@ -376,7 +374,7 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
         mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Direction : to the " ) + direction );
     }
     mvwprintz( fac_w, point( width, ++y ), col, _( "Location : (%d, %d)" ), camp_pos.x, camp_pos.y );
-    faction *yours = g->faction_manager_ptr->get( your_faction );
+    faction *yours = g->u.get_faction();
     std::string food_text = string_format( _( "Food Supply : %s %d calories" ),
                                            yours->food_supply_text(), yours->food_supply );
     nc_color food_col = yours->food_supply_color();

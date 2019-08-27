@@ -95,7 +95,7 @@ bool pay_npc( npc &np, int cost );
 int cash_to_favor( const npc &, int cash );
 
 void transfer_items( std::vector<item_pricing> &stuff, player &giver, player &receiver,
-                     faction *fac, std::list<item_location *> &from_map, bool npc_gives );
+                     std::list<item_location *> &from_map, bool npc_gives );
 double net_price_adjustment( const player &buyer, const player &seller );
 bool trade( npc &p, int cost, const std::string &deal );
 std::vector<item_pricing> init_selling( npc &p );

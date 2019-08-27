@@ -3453,7 +3453,7 @@ std::string camp_car_description( vehicle *car )
 // food supply
 int camp_food_supply( int change, bool return_days )
 {
-    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
+    faction *yours = g->u.get_faction();
     yours->food_supply += change;
     if( yours->food_supply < 0 ) {
         yours->likes_u += yours->food_supply / 500;
@@ -3557,14 +3557,14 @@ bool basecamp::distribute_food()
 // morale
 int camp_discipline( int change )
 {
-    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
+    faction *yours = g->u.get_faction();
     yours->respects_u += change;
     return yours->respects_u;
 }
 
 int camp_morale( int change )
 {
-    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
+    faction *yours = g->u.get_faction();
     yours->likes_u += change;
     return yours->likes_u;
 }
@@ -3608,7 +3608,7 @@ void apply_camp_ownership( const tripoint &camp_pos, int radius )
             camp_pos + point( radius, radius ) ) ) {
         auto items = g->m.i_at( p.xy() );
         for( item &elem : items ) {
-            elem.set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
+            elem.set_owner( g->u.get_faction() );
         }
     }
 }

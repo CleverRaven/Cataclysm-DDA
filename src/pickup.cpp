@@ -189,8 +189,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     item leftovers = newit;
 
     const auto wield_check = u.can_wield( newit );
-    if( newit.has_owner() &&
-        newit.get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
+    if( newit.has_owner() && newit.get_owner() != g->u.get_faction() ) {
         if( !query_yn( "Picking up this item will be considered stealing, continue?" ) ) {
             return false;
         }
@@ -799,7 +798,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     bool stealing = false;
                     if( this_item.has_owner() ) {
                         const faction *item_fac = this_item.get_owner();
-                        if( item_fac != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
+                        if( item_fac != g->u.get_faction() ) {
                             stolen = "<color_light_red>!</color>";
                             stealing = true;
                         }

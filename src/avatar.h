@@ -160,6 +160,9 @@ class avatar : public player
         int free_upgrade_points() const;
         // how much "kill xp" you have
         int kill_xp() const;
+
+        faction *get_faction() const override;
+
     private:
         map_memory player_map_memory;
         bool show_map_memory;

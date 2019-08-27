@@ -1343,3 +1343,8 @@ void avatar::upgrade_stat_prompt( const Character::stat &stat )
         }
     }
 }
+
+faction *avatar::get_faction() const
+{
+    return g->faction_manager_ptr->get( faction_id( "your_followers" ) );
+}

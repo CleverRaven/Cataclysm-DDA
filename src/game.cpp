@@ -832,7 +832,7 @@ bool game::start_game()
         }
     }
     for( auto &e : u.inv_dump() ) {
-        e->set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
+        e->set_owner( g->u.get_faction() );
     }
     // Now that we're done handling coordinates, ensure the player's submap is in the center of the map
     update_map( u );
@@ -901,8 +901,8 @@ void game::load_npcs()
         if( temp->marked_for_death ) {
             temp->die( nullptr );
         } else {
-            if( temp->my_fac != nullptr ) {
-                temp->my_fac->known_by_u = true;
+            if( temp->get_faction() != nullptr ) {
+                temp->get_faction()->known_by_u = true;
             }
             active_npc.push_back( temp );
             just_added.push_back( temp );
@@ -2654,7 +2654,7 @@ void game::load( const save_t &name )
     validate_camps();
     update_map( u );
     for( auto &e : u.inv_dump() ) {
-        e->set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
+        e->set_owner( g->u.get_faction() );
     }
     // legacy, needs to be here as we access the map.
     if( !u.getID().is_valid() ) {
@@ -6182,8 +6182,8 @@ void game::zones_manager()
                     break;
                 }
 
-                mgr.add( name, id, your_followers, false, true, position->first, position->second,
-                         options );
+                mgr.add( name, id, g->u.get_faction()->id, false, true, position->first,
+                         position->second, options );
 
                 zones = get_zones();
                 active_index = zone_cnt - 1;

@@ -60,7 +60,6 @@
 #include "type_id.h"
 #include "clzones.h"
 #include "colony.h"
-#include "faction.h"
 #include "flat_set.h"
 #include "iuse.h"
 #include "point.h"
@@ -624,14 +623,14 @@ static void set_item_food( item &newit )
     newit.set_birthday( newit.birthday() + 3600_turns - time_duration::from_turns( bday_tmp ) );
 }
 
-static void finalize_crafted_item( item &newit )
+static void finalize_crafted_item( item &newit, faction *maker_fac )
 {
     if( newit.is_food() ) {
         set_item_food( newit );
     }
     // TODO for now this assumes player is doing the crafting
     // this will need to be updated when NPCs do crafting
-    newit.set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
+    newit.set_owner( maker_fac );
 }
 
 static cata::optional<item_location> wield_craft( player &p, item &craft )
@@ -1164,7 +1163,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
             }
         }
 
-        finalize_crafted_item( newit );
+        finalize_crafted_item( newit, get_faction() );
         if( newit.made_of( LIQUID ) ) {
             liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
         } else if( loc == tripoint_zero ) {
@@ -1188,7 +1187,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
                     bp.reset_temp_check();
                 }
             }
-            finalize_crafted_item( bp );
+            finalize_crafted_item( bp, get_faction() );
             if( bp.made_of( LIQUID ) ) {
                 liquid_handler::handle_all_liquid( bp, PICKUP_RANGE );
             } else if( loc == tripoint_zero ) {

@@ -1904,7 +1904,7 @@ void talk_effect_fun_t::set_npc_change_faction( const std::string &faction_name 
 {
     function = [faction_name]( const dialogue & d ) {
         npc &p = *d.beta;
-        p.my_fac = g->faction_manager_ptr->get( faction_id( faction_name ) );
+        p.set_fac( faction_id( faction_name ) );
     };
 }
 
@@ -1920,8 +1920,8 @@ void talk_effect_fun_t::set_change_faction_rep( int rep_change )
 {
     function = [rep_change]( const dialogue & d ) {
         npc &p = *d.beta;
-        p.my_fac->likes_u += rep_change;
-        p.my_fac->respects_u += rep_change;
+        p.get_faction()->likes_u += rep_change;
+        p.get_faction()->respects_u += rep_change;
     };
 }
 
@@ -2054,8 +2054,8 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
         tmp.charges = seller_has;
         if( is_trade ) {
             int price = tmp.price( true ) * ( is_npc ? -1 : 1 ) + d.beta->op_of_u.owed;
-            if( d.beta->my_fac && !d.beta->my_fac->currency.empty() ) {
-                const itype_id &pay_in = d.beta->my_fac->currency;
+            if( d.beta->get_faction() && !d.beta->get_faction()->currency.empty() ) {
+                const itype_id &pay_in = d.beta->get_faction()->currency;
                 item pay( pay_in );
                 if( d.beta->value( pay ) > 0 ) {
                     int required = price / d.beta->value( pay );

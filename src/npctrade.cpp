@@ -35,9 +35,10 @@
 const skill_id skill_barter( "barter" );
 
 void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
-                                  player &receiver, faction *fac,
-                                  std::list<item_location *> &from_map, bool npc_gives )
+                                  player &receiver, std::list<item_location *> &from_map,
+                                  bool npc_gives )
 {
+    faction *fac = receiver.get_faction();
     for( item_pricing &ip : stuff ) {
         if( !ip.selected ) {
             continue;
@@ -139,7 +140,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         np_p = dynamic_cast<npc *>( &seller );
     }
     npc &np = *np_p;
-    faction *fac = np.my_fac;
+    faction *fac = np.get_faction();
 
     double adjust = net_price_adjustment( buyer, seller );
 
@@ -590,10 +591,8 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 
         std::list<item_location *> from_map;
 
-        npc_trading::transfer_items( trade_win.yours, g->u, np, np.my_fac, from_map, false );
-        npc_trading::transfer_items( trade_win.theirs, np, g->u,
-                                     g->faction_manager_ptr->get( faction_id( "your_followers" ) ),
-                                     from_map, true );
+        npc_trading::transfer_items( trade_win.yours, g->u, np, from_map, false );
+        npc_trading::transfer_items( trade_win.theirs, np, g->u, from_map, true );
 
         for( item_location *loc_ptr : from_map ) {
             loc_ptr->remove_item();

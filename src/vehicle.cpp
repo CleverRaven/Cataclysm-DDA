@@ -3803,18 +3803,11 @@ bool vehicle::sufficient_wheel_config() const
 
 bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
 {
-    faction *yours;
-    if( p.is_player() ) {
-        yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
-    } else {
-        npc *guy = dynamic_cast<npc *>( &p );
-        yours = guy->my_fac;
-    }
+    faction *yours = p.get_faction();
     std::vector<npc *> witnesses;
     for( npc &elem : g->all_npcs() ) {
         if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && has_owner() &&
-            elem.my_fac == get_owner() &&
-            elem.sees( p.pos() ) ) {
+            elem.get_faction() == get_owner() && elem.sees( p.pos() ) ) {
             witnesses.push_back( &elem );
         }
     }

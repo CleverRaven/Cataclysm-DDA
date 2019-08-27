@@ -39,10 +39,10 @@
 #include "monster.h"
 #include "craft_command.h"
 #include "point.h"
-#include "faction.h"
 
 class basecamp;
 class effect;
+class faction;
 class map;
 class npc;
 struct pathfinding_settings;
@@ -64,6 +64,7 @@ struct dealt_projectile_attack;
 class dispersion_sources;
 
 using itype_id = std::string;
+using faction_id = string_id<faction>;
 struct trap;
 class profession;
 

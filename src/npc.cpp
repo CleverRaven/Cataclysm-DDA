@@ -129,7 +129,6 @@ npc::npc()
     dex_max = 0;
     int_max = 0;
     per_max = 0;
-    my_fac = nullptr;
     marked_for_death = false;
     death_drops = true;
     dead = false;
@@ -205,7 +204,7 @@ void npc_template::load( JsonObject &jsobj )
         }
     }
     if( jsobj.has_string( "faction" ) ) {
-        guy.fac_id = faction_id( jsobj.get_string( "faction" ) );
+        guy.set_fac_id( jsobj.get_string( "faction" ) );
     }
 
     if( jsobj.has_int( "class" ) ) {
@@ -429,8 +428,7 @@ void npc::randomize( const npc_class_id &type )
 void npc::randomize_from_faction( faction *fac )
 {
     // Personality = aggression, bravery, altruism, collector
-    my_fac = fac;
-    fac_id = fac->id;
+    set_fac( fac->id );
     randomize( npc_class_id::NULL_ID() );
 }
 
@@ -441,6 +439,16 @@ void npc::set_fac( const string_id<faction> &id )
     for( auto &e : inv_dump() ) {
         e->set_owner( my_fac );
     }
+}
+
+string_id<faction> npc::get_fac_id() const
+{
+    return fac_id;
+}
+
+faction *npc::get_faction() const
+{
+    return my_fac;
 }
 
 void npc::clear_fac()
@@ -521,6 +529,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         it.on_takeoff( who );
     }
     who.worn.clear();
+    faction *my_fac = who.get_faction();
     for( item &it : ret ) {
         if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
@@ -528,7 +537,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         if( who.can_wear( it ).success() ) {
             it.on_wear( who );
             who.worn.push_back( it );
-            it.set_owner( who.my_fac );
+            it.set_owner( my_fac );
         }
     }
 }
@@ -588,8 +597,9 @@ void starting_inv( npc &who, const npc_class_id &type )
     res.erase( std::remove_if( res.begin(), res.end(), [&]( const item & e ) {
         return e.has_flag( "TRADER_AVOID" );
     } ), res.end() );
+    faction *my_fac = who.get_faction();
     for( auto &it : res ) {
-        it.set_owner( who.my_fac );
+        it.set_owner( my_fac );
     }
     who.inv += res;
 }
@@ -1592,22 +1602,12 @@ void npc::set_faction_ver( int new_version )
 
 bool npc::has_faction_relationship( const player &p, const npc_factions::relationship flag ) const
 {
-    if( !my_fac ) {
+    faction *p_fac = p.get_faction();
+    if( !my_fac || !p_fac ) {
         return false;
     }
 
-    faction_id your_fac_id;
-    if( p.is_player() ) {
-        your_fac_id = faction_id( "your_followers" );
-    } else {
-        const npc &guy = dynamic_cast<const npc &>( p );
-        if( guy.my_fac ) {
-            your_fac_id = guy.my_fac->id;
-        } else {
-            return false;
-        }
-    }
-    return my_fac->has_relationship( your_fac_id, flag );
+    return my_fac->has_relationship( p_fac->id, flag );
 }
 
 bool npc::is_ally( const player &p ) const
@@ -1630,7 +1630,7 @@ bool npc::is_ally( const player &p ) const
         }
     } else {
         const npc &guy = dynamic_cast<const npc &>( p );
-        if( my_fac && guy.my_fac && my_fac->id == guy.my_fac->id ) {
+        if( my_fac && guy.get_faction() && my_fac->id == guy.get_faction()->id ) {
             return true;
         }
         if( faction_api_version < 2 ) {
