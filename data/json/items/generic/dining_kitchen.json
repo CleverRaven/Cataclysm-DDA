@@ -806,6 +806,29 @@
     "delete": { "qualities": [ [ "COOK", 3 ] ] }
   },
   {
+    "id": "colander_steel",
+    "name": "mesh colander",
+    "category": "other",
+    "description": "A stainless steel mesh colander, for washing rice, vegetables or straining liquid off from noodles or other foods.",
+    "type": "GENERIC",
+    "volume": 2,
+    "weight": 318,
+    "symbol": ")",
+    "price": 600,
+    "price_postapoc": 5
+  },
+  {
+    "id": "splatter_guard",
+    "name": "splatter guard",
+    "description": "A stainless steel mesh screen for preventing flying oil from getting all over your nice counters (or you) when frying.",
+    "type": "GENERIC",
+    "volume": 2,
+    "weight": 357,
+    "symbol": ")",
+    "price": 600,
+    "price_postapoc": 5
+  },
+  {
     "id": "cutting_board",
     "type": "GENERIC",
     "category": "other",

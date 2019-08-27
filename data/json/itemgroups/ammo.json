@@ -343,7 +343,12 @@
     "id": "ammo_parts",
     "//": "Raw materials for assembling ammo excluding casings.",
     "items": [
-      [ "gunpowder", 320 ],
+      [ "gunpowder_shotgun", 20 ],
+      [ "gunpowder_pistol", 105 ],
+      [ "gunpowder_magnum_pistol", 60 ],
+      [ "gunpowder_rifle", 85 ],
+      [ "gunpowder_large_rifle", 40 ],
+      [ "gunpowder_artillery", 5 ],
       [ "incendiary", 20 ],
       [ "lead", 160 ],
       [ "shotgun_primer", 80 ],

@@ -66,6 +66,8 @@
       [ "pressure_cooker", 5 ],
       [ "teapot", 40 ],
       [ "kettle", 40 ],
+      [ "colander_steel", 35 ],
+      [ "splatter_guard", 10 ],
       [ "jar_glass", 50 ],
       [ "jar_3l_glass", 40 ],
       [ "bowl_pewter", 25 ],

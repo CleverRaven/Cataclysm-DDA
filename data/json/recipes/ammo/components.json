@@ -13,6 +13,27 @@
     "components": [ [ [ "magnesium", 100 ], [ "chem_aluminium_powder", 100 ] ], [ [ "oxy_powder", 200 ] ] ]
   },
   {
+    "result": "gunpowder",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 s",
+    "book_learn": [ [ "pocket_firearms", 3 ], [ "manual_gun", 2 ], [ "recipe_bullets", 1 ], [ "textbook_anarch", 0 ] ],
+    "tools": [ [ [ "mortar_pestle", -1 ] ], [ [ "sieve_steel", -1 ] ] ],
+    "components": [
+      [
+        [ "gunpowder_shotgun", 1 ],
+        [ "gunpowder_pistol", 1 ],
+        [ "gunpowder_magnum_pistol", 1 ],
+        [ "gunpowder_rifle", 1 ],
+        [ "gunpowder_large_rifle", 1 ],
+        [ "gunpowder_artillery", 1 ]
+      ]
+    ]
+  },
+  {
     "type": "recipe",
     "result": "460_casing",
     "category": "CC_AMMO",

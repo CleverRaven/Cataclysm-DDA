@@ -468,19 +468,67 @@
     "type": "AMMO",
     "id": "gunpowder",
     "category": "chems",
-    "price": 3000,
-    "name": "gunpowder",
+    "price": 500,
+    "name": "mixed gunpowder",
     "symbol": "=",
     "color": "dark_gray",
-    "description": "Firearm-quality gunpowder.",
-    "container": "bottle_plastic_small",
+    "description": "Firearm-quality gunpowder, mixed without concern for composition, burn rate or shape.  It has been slightly ground to make its properties more uniform.  Only the truly desperate would attempt to reload with this.",
+    "container": "bottle_plastic",
     "material": "powder",
     "flags": [ "TINDER" ],
     "volume": "250 ml",
     "weight": 1,
     "ammo_type": "components",
-    "count": 200,
+    "count": 454,
     "effects": [ "COOKOFF" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "gunpowder_shotgun",
+    "copy-from": "gunpowder",
+    "price": 3000,
+    "name": "smokeless shotgun powder",
+    "description": "Firearm-quality gunpowder, intended for use in shotgun shells."
+  },
+  {
+    "type": "AMMO",
+    "id": "gunpowder_pistol",
+    "copy-from": "gunpowder",
+    "price": 3000,
+    "name": "smokeless pistol powder",
+    "description": "Firearm-quality gunpowder, intended for use in pistol ammunition."
+  },
+  {
+    "type": "AMMO",
+    "id": "gunpowder_magnum_pistol",
+    "copy-from": "gunpowder",
+    "price": 3000,
+    "name": "smokeless magnum powder",
+    "description": "Firearm-quality gunpowder intended for use in magnum pistol ammunition."
+  },
+  {
+    "type": "AMMO",
+    "id": "gunpowder_rifle",
+    "copy-from": "gunpowder",
+    "price": 3000,
+    "name": "smokeless rifle powder",
+    "description": "Firearm-quality gunpowder intended for use in rifle ammunition."
+  },
+  {
+    "type": "AMMO",
+    "id": "gunpowder_large_rifle",
+    "copy-from": "gunpowder",
+    "price": 3000,
+    "name": "smokeless overbore rifle powder",
+    "description": "Firearm-quality gunpowder intended for use in large rifle ammunition."
+  },
+  {
+    "type": "AMMO",
+    "id": "gunpowder_artillery",
+    "copy-from": "gunpowder",
+    "price": 3000,
+    "name": "artillery propellant",
+    "description": "Single base smokeless gunpowder intended for use in artillery propelling charges."
   },
   {
     "type": "AMMO",
