@@ -239,10 +239,10 @@ void talk_function::find_mount( npc &p )
     }
 }
 
-void talk_function::do_blueprint_construction( npc &p )
+void talk_function::do_farming( npc &p )
 {
     p.set_attitude( NPCATT_ACTIVITY );
-    p.assign_activity( activity_id( "ACT_BLUEPRINT_CONSTRUCTION" ) );
+    p.assign_activity( activity_id( "ACT_MULTIPLE_FARM" ) );
     p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
@@ -304,6 +304,10 @@ void talk_function::assign_guard( npc &p )
         p.set_mission( NPC_MISSION_GUARD );
         p.set_omt_destination();
         return;
+    }
+
+    if( p.has_player_activity() ) {
+        p.revert_after_activity();
     }
 
     if( p.is_travelling() ) {

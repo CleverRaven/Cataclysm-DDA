@@ -10,6 +10,7 @@
 
 #include "calendar.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -23,8 +24,8 @@ class Skill
         friend class string_id<Skill>;
         skill_id _ident;
 
-        std::string _name;
-        std::string _description;
+        translation _name;
+        translation _description;
         std::set<std::string> _tags;
         // these are not real skills, they depend on context
         static std::map<skill_id, Skill> contextual_skills;
@@ -42,17 +43,17 @@ class Skill
             std::function<bool ( const Skill &, const Skill & )> pred );
 
         Skill();
-        Skill( skill_id ident, std::string name, std::string description,
-               std::set<std::string> tags );
+        Skill( const skill_id &ident, const translation &name, const translation &description,
+               const std::set<std::string> &tags );
 
         const skill_id &ident() const {
             return _ident;
         }
-        const std::string &name() const {
-            return _name;
+        std::string name() const {
+            return _name.translated();
         }
-        const std::string &description() const {
-            return _description;
+        std::string description() const {
+            return _description.translated();
         }
 
         bool operator==( const Skill &b ) const {

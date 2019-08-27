@@ -123,6 +123,7 @@
       [ "MYCUS_FRIEND", 100 ],
       [ "FLIMSY2", 100 ]
     ],
+    "common": false,
     "worn_override": "NC_VOICE_worn",
     "carry_override": "NC_VOICE_carry",
     "weapon_override": "NC_VOICE_weapon",
