@@ -4644,25 +4644,28 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Chop down which tree?" ) );
+    const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
+        if( pnt == g->u.pos() ) {
+            return false;
+        }
+        return g->m.has_flag( "TREE", pnt );
+    };
+
+    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+            _( "Chop down which tree?" ), f, false, true );
     if( !pnt_ ) {
         return 0;
     }
-    const tripoint pnt = *pnt_;
-
-    if( pnt == p->pos() ) {
-        p->add_msg_if_player( m_info, _( "You're not stern enough to shave yourself with THIS." ) );
+    const tripoint &pnt = *pnt_;
+    if( !f( pnt ) ) {
+        if( pnt == p->pos() ) {
+            p->add_msg_if_player( m_info, _( "You're not stern enough to shave yourself with THIS." ) );
+        } else {
+            p->add_msg_if_player( m_info, _( "You can't chop down that." ) );
+        }
         return 0;
     }
-
-    int moves;
-
-    if( g->m.has_flag( "TREE", pnt ) ) {
-        moves = chop_moves( p, it );
-    } else {
-        p->add_msg_if_player( m_info, _( "You can't chop down that." ) );
-        return 0;
-    }
+    int moves = chop_moves( p, it );
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task..." ), np->name );
@@ -4683,21 +4686,29 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Chop which tree trunk?" ) );
+
+    const std::set<ter_id> allowed_ter_id {
+        t_trunk,
+        t_stump
+    };
+    const std::function<bool( const tripoint & )> f = [&allowed_ter_id]( const tripoint & pnt ) {
+        const ter_id type = g->m.ter( pnt );
+        const bool is_allowed_terrain = allowed_ter_id.find( type ) != allowed_ter_id.end();
+        return is_allowed_terrain;
+    };
+
+    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+            _( "Chop which tree trunk?" ), f, false, true );
     if( !pnt_ ) {
         return 0;
     }
-    const tripoint pnt = *pnt_;
-
-    int moves;
-
-    const ter_id ter = g->m.ter( pnt );
-    if( ter == t_trunk || ter == t_stump ) {
-        moves = chop_moves( p, it );
-    } else {
+    const tripoint &pnt = *pnt_;
+    if( !f( pnt ) ) {
         p->add_msg_if_player( m_info, _( "You can't chop that." ) );
         return 0;
     }
+
+    int moves = chop_moves( p, it );
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task..." ), np->name );
