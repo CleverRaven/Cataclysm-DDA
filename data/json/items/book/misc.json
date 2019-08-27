@@ -804,7 +804,7 @@
     "time": "20 m",
     "chapters": 24,
     "fun": 3,
-        "snippet_category": [
+    "snippet_category": [
       {
         "id": "scifi1_1",
         "text": "This is a copy of Gibson's \"Neuromancer\".  Written in the eighties, it was surprisingly accurate in predicting much of modern society..  Until recently."
