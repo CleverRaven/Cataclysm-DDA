@@ -469,7 +469,7 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::function<bool( tripoint )> &allowed,
+        const std::function<bool( const tripoint & )> &allowed,
         bool allow_vertical = false,
         bool auto_select_if_single = false );
 

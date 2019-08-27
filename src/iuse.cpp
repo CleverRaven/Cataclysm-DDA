@@ -2670,7 +2670,7 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
         }
     }
 
-    const std::function<bool( tripoint )> f = []( tripoint p ) {
+    const std::function<bool( const tripoint & )> f = []( const tripoint & p ) {
         return g->m.passable( p );
     };
 
@@ -2681,7 +2681,7 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     }
     const tripoint deposit_point = *pnt_;
 
-    if( !g->m.passable( deposit_point ) ) {
+    if( !f( deposit_point ) ) {
         p->add_msg_if_player(
             _( "You can't deposit the excavated materials onto an impassable location." ) );
         return 0;
@@ -2757,7 +2757,7 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
 
-    const std::function<bool( tripoint )> f = []( tripoint p ) {
+    const std::function<bool( const tripoint & )> f = []( const tripoint & p ) {
         return g->m.passable( p );
     };
 
@@ -2768,7 +2768,7 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
     }
     const tripoint deposit_point = *pnt_;
 
-    if( !g->m.passable( deposit_point ) ) {
+    if( !f( deposit_point ) ) {
         p->add_msg_if_player(
             _( "You can't deposit the excavated materials onto an impassable location." ) );
         return 0;
@@ -4688,7 +4688,8 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
         f_rack
     };
 
-    const std::function<bool( tripoint )> f = [&allowed_ter_id, &allowed_furn_id]( tripoint p ) {
+    const std::function<bool( const tripoint & )> f = [&allowed_ter_id,
+    &allowed_furn_id]( const tripoint & p ) {
         if( p == g->u.pos() ) {
             return false;
         }
@@ -4705,12 +4706,20 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
     if( !pnt_ ) {
         return 0;
     }
-
-    const tripoint pnt = *pnt_;
+    const tripoint &pnt = *pnt_;
     const ter_id ter = g->m.ter( pnt );
-    const auto furn = g->m.furn( pnt );
-    int turns = 0;
+    const furn_id furn = g->m.furn( pnt );
+    if( !f( pnt ) ) {
+        if( pnt == p->pos() ) {
+            p->add_msg_if_player( m_info, _( "Why would you do that?" ) );
+            p->add_msg_if_player( m_info, _( "You're not even chained to a boiler." ) );
+        } else {
+            p->add_msg_if_player( m_info, _( "You can't cut that." ) );
+        }
+        return 0;
+    }
 
+    int turns = 0;
     if( furn == f_rack || ter == t_chainfence_posts ) {
         turns = to_turns<int>( 2_seconds );
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
@@ -4723,7 +4732,6 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
                ter == t_door_bar_locked || ter == t_door_metal_pickable ) {
         turns = to_turns<int>( 15_seconds );
     } else {
-        p->add_msg_if_player( m_info, _( "You can't cut that." ) );
         return 0;
     }
 
@@ -4771,7 +4779,8 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
     const std::set<furn_id> allowed_furn_id {
         f_rack
     };
-    const std::function<bool( tripoint )> f = [&allowed_ter_id, &allowed_furn_id]( tripoint p ) {
+    const std::function<bool( const tripoint & )> f = [&allowed_ter_id,
+    &allowed_furn_id]( const tripoint & p ) {
         if( p == g->u.pos() ) {
             return false;
         }
@@ -4788,10 +4797,19 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
     if( !pnt_ ) {
         return 0;
     }
-    const tripoint pnt = *pnt_;
+    const tripoint &pnt = *pnt_;
     const ter_id ter = g->m.ter( pnt );
-    int moves;
+    if( !f( pnt ) ) {
+        if( pnt == p->pos() ) {
+            p->add_msg_if_player( m_info, _( "Why would you do that?" ) );
+            p->add_msg_if_player( m_info, _( "You're not even chained to a boiler." ) );
+        } else {
+            p->add_msg_if_player( m_info, _( "You can't cut that." ) );
+        }
+        return 0;
+    }
 
+    int moves;
     if( ter == t_chainfence_posts || g->m.furn( pnt ) == f_rack ) {
         moves = to_moves<int>( 2_minutes );
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
@@ -4802,7 +4820,6 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
     } else if( ter == t_door_bar_c || ter == t_door_bar_locked || ter == t_bars ) {
         moves = to_moves<int>( 15_minutes );
     } else {
-        p->add_msg_if_player( m_info, _( "You can't cut that." ) );
         return 0;
     }
 
@@ -4823,11 +4840,11 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
         t_chaingate_l,
         t_chainfence
     };
-    const std::function<bool( tripoint )> f = [&allowed_ter_id]( tripoint p ) {
-        if( p == g->u.pos() ) {
+    const std::function<bool( const tripoint & )> f = [&allowed_ter_id]( const tripoint & pnt ) {
+        if( pnt == g->u.pos() ) {
             return false;
         }
-        const ter_id ter = g->m.ter( p );
+        const ter_id ter = g->m.ter( pnt );
         const bool is_allowed = allowed_ter_id.find( ter ) != allowed_ter_id.end();
         return is_allowed;
     };
@@ -4837,22 +4854,33 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
     if( !pnt_ ) {
         return 0;
     }
-    const tripoint pnt = *pnt_;
-    if( g->m.ter( pnt ) == t_chaingate_l ) {
+    const tripoint &pnt = *pnt_;
+    const ter_id type = g->m.ter( pnt );
+    if( !f( pnt ) ) {
+        if( pnt == p->pos() ) {
+            p->add_msg_if_player( m_info,
+                                  _( "You neatly sever all of the veins and arteries in your body.  Oh wait, Never mind." ) );
+        } else {
+            p->add_msg_if_player( m_info, _( "You can't cut that." ) );
+        }
+        return 0;
+    }
+
+    if( type == t_chaingate_l ) {
         p->moves -= to_moves<int>( 1_seconds );
         g->m.ter_set( pnt, t_chaingate_c );
         sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Gachunk!" ), true, "tool", "boltcutters" );
         g->m.spawn_item( point( p->posx(), p->posy() ), "scrap", 3 );
-    } else if( g->m.ter( pnt ) == t_chainfence ) {
+    } else if( type == t_chainfence ) {
         p->moves -= to_moves<int>( 5_seconds );
         g->m.ter_set( pnt, t_chainfence_posts );
         sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ), true, "tool",
                        "boltcutters" );
         g->m.spawn_item( pnt, "wire", 20 );
     } else {
-        p->add_msg_if_player( m_info, _( "You can't cut that." ) );
         return 0;
     }
+
     return it->type->charges_to_use();
 }
 

@@ -947,12 +947,11 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         t_door_metal_pickable,
         t_door_bar_locked
     };
-
-    const std::function<bool( tripoint )> f = [&allowed_ter_id]( tripoint p ) {
-        if( p == g->u.pos() ) {
+    const std::function<bool( const tripoint & )> f = [&allowed_ter_id]( const tripoint & pnt ) {
+        if( pnt == g->u.pos() ) {
             return false;
         }
-        const ter_id type = g->m.ter( p );
+        const ter_id type = g->m.ter( pnt );
         const bool is_allowed_terrain = allowed_ter_id.find( type ) != allowed_ter_id.end();
         return is_allowed_terrain;
     };
@@ -962,14 +961,22 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( !pnt_ ) {
         return 0;
     }
-    const tripoint pnt = *pnt_;
-    if( g->critter_at<npc>( pnt ) ) {
-        p.add_msg_if_player( m_info,
-                             _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose" ) );
+    const tripoint &pnt = *pnt_;
+    const ter_id type = g->m.ter( pnt );
+    if( !f( pnt ) ) {
+        if( pnt == p.pos() ) {
+            p.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
+        } else if( g->critter_at<npc>( pnt ) ) {
+            p.add_msg_if_player( m_info,
+                                 _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose" ) );
+        } else if( type == t_door_c ) {
+            p.add_msg_if_player( m_info, _( "That door isn't locked." ) );
+        } else {
+            p.add_msg_if_player( m_info, _( "That cannot be picked." ) );
+        }
         return 0;
     }
 
-    const ter_id type = g->m.ter( pnt );
     ter_id new_type;
     std::string open_message;
     if( type == t_chaingate_l ) {
@@ -989,14 +996,9 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         new_type = t_door_bar_o;
         //Bar doors auto-open (and lock if closed again) so show a different message)
         open_message = _( "The door swings open..." );
-    } else if( type == t_door_c ) {
-        add_msg( m_info, _( "That door isn't locked." ) );
-        return 0;
     } else {
-        add_msg( m_info, _( "That cannot be picked." ) );
         return 0;
     }
-
     p.practice( skill_mechanics, 1 );
 
     /** @EFFECT_DEX speeds up door lock picking */
