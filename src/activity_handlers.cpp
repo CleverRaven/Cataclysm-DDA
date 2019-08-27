@@ -1902,8 +1902,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         const Skill &skill = sk.obj();
         std::string skill_name = skill.name();
         int old_skill_level = p->get_skill_level( sk );
-        int skill_cap = old_skill_level + 2;
-        p->practice( sk, 100, skill_cap );
+        p->practice( sk, 100, old_skill_level + 2 );  // third argument is the cap it can be raised to
         int new_skill_level = p->get_skill_level( sk );
         if( old_skill_level != new_skill_level ) {
             add_msg( m_good, _( "You finish training %s to level %d." ),
