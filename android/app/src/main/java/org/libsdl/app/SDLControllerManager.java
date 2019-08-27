@@ -10,8 +10,7 @@ import android.os.*;
 import android.view.*;
 import android.util.Log;
 
-
-public class SDLControllerManager 
+public class SDLControllerManager
 {
 
     public static native int nativeSetupJNI();
@@ -261,7 +260,6 @@ class SDLJoystickHandler_API12 extends SDLJoystickHandler {
     }
 }
 
-
 class SDLJoystickHandler_API16 extends SDLJoystickHandler_API12 {
 
     @Override
@@ -285,7 +283,7 @@ class SDLHapticHandler {
     }
 
     private ArrayList<SDLHaptic> mHaptics;
-    
+
     public SDLHapticHandler() {
         mHaptics = new ArrayList<SDLHaptic>();
     }
@@ -298,7 +296,7 @@ class SDLHapticHandler {
     }
 
     public void pollHapticDevices() {
-        
+
         final int deviceId_VIBRATOR_SERVICE = 999999;
         boolean hasVibratorService = false;
 
@@ -342,7 +340,7 @@ class SDLHapticHandler {
                     haptic = new SDLHaptic();
                     haptic.device_id = deviceId_VIBRATOR_SERVICE;
                     haptic.name = "VIBRATOR_SERVICE";
-                    haptic.vib = vib; 
+                    haptic.vib = vib;
                     mHaptics.add(haptic);
                     SDLControllerManager.nativeAddHaptic(haptic.device_id, haptic.name);
                 }
@@ -384,7 +382,7 @@ class SDLHapticHandler {
             }
         }
         return null;
-    }   
+    }
 }
 
 class SDLGenericMotionListener_API12 implements View.OnGenericMotionListener {

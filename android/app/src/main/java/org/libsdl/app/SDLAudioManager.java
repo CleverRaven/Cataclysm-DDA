@@ -88,7 +88,7 @@ public class SDLAudioManager
             Log.e(TAG, "Attempted to make audio call with uninitialized audio!");
             return;
         }
-        
+
         for (int i = 0; i < buffer.length; ) {
             int result = mAudioTrack.write(buffer, i, buffer.length - i);
             if (result > 0) {
@@ -154,7 +154,6 @@ public class SDLAudioManager
         //return mAudioRecord.read(buffer, 0, buffer.length, blocking ? AudioRecord.READ_BLOCKING : AudioRecord.READ_NON_BLOCKING);
         return mAudioRecord.read(buffer, 0, buffer.length);
     }
-
 
     /** This method is called by SDL using JNI. */
     public static void audioClose() {
