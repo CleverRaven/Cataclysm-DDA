@@ -3593,7 +3593,7 @@
     "color": "light_gray",
     "techniques": "WBLOCK_1",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -42 ] ],
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE" ]
   },
   {
     "id": "makeshift_hammer",
