@@ -148,6 +148,8 @@ Skill::skill_type Skill::get_skill_type() const
     } else if( _tags.count( "social_skill" ) > 0 ) {
         return social_skill;
     }
+    assert( false );
+    return skill_num_entries;
 }
 
 void SkillLevel::train( int amount, bool skip_scaling )
