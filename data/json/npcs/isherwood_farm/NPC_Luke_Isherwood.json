@@ -167,7 +167,7 @@
     "value": 50000,
     "item": "glassblowing_book",
     "count": 1,
-    "origins": [ "ORIGIN_ANY_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_ISHERWOOD_LUKE_2",
     "dialogue": {
       "describe": "I need more knowledge to get the glass blowing started.",

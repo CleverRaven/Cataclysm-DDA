@@ -434,13 +434,32 @@ static bool sees_veh( const Creature &c, vehicle &veh, bool force_recalc )
 
 vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing )
 {
-    const bool vertical = dp.z != 0;
-    if( ( dp.x == 0 && dp.y == 0 && dp.z == 0 ) ||
-        ( abs( dp.x ) > 1 || abs( dp.y ) > 1 || abs( dp.z ) > 1 ) ||
-        ( vertical && ( dp.x != 0 || dp.y != 0 ) ) ) {
-        debugmsg( "move_vehicle called with %d,%d,%d displacement vector", dp.x, dp.y, dp.z );
+    if( dp == tripoint_zero ) {
+        debugmsg( "Empty displacement vector" );
+        return &veh;
+    } else if( abs( dp.x ) > 1 || abs( dp.y ) > 1 || abs( dp.z ) > 1 ) {
+        debugmsg( "Invalid displacement vector: %d, %d, %d", dp.x, dp.y, dp.z );
         return &veh;
     }
+
+    // Split the movement into horizontal and vertical for easier processing
+    if( dp.xy() != point_zero && dp.z != 0 ) {
+        vehicle *const new_pointer = move_vehicle( veh, tripoint( dp.xy(), 0 ), facing );
+        if( !new_pointer ) {
+            return nullptr;
+        }
+
+        vehicle *const result = move_vehicle( *new_pointer, tripoint( 0, 0, dp.z ), facing );
+        if( !result ) {
+            return nullptr;
+        }
+
+        result->is_falling = false;
+        return result;
+    }
+    const bool vertical = dp.z != 0;
+    // Ensured by the splitting above
+    assert( vertical == ( dp.xy() == point_zero ) );
 
     const int target_z = dp.z + veh.sm_pos.z;
     if( target_z < -OVERMAP_DEPTH || target_z > OVERMAP_HEIGHT ) {
@@ -543,24 +562,6 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         }
     }
 
-    // Now we're gonna handle traps we're standing on (if we're still moving).
-    if( !vertical && can_move ) {
-        const auto wheel_indices = veh.wheelcache; // Don't use a reference here, it causes a crash.
-        for( auto &w : wheel_indices ) {
-            const tripoint wheel_p = veh.global_part_pos3( w );
-            if( one_in( 2 ) && displace_water( wheel_p ) ) {
-                sounds::sound( wheel_p, 4,  sounds::sound_t::movement, _( "splash!" ), false,
-                               "environment", "splash" );
-            }
-
-            veh.handle_trap( wheel_p, w );
-            if( !has_flag( "SEALED", wheel_p ) ) {
-                // TODO: Make this value depend on the wheel
-                smash_items( wheel_p, 5 );
-            }
-        }
-    }
-
     const int last_turn_dec = 1;
     if( veh.last_turn < 0 ) {
         veh.last_turn += last_turn_dec;
@@ -604,6 +605,23 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         if( veh.skidding && can_move ) {
             // TODO: Make skid recovery in air hard
             veh.possibly_recover_from_skid();
+        }
+    }
+    // Now we're gonna handle traps we're standing on (if we're still moving).
+    if( !vertical && can_move ) {
+        const auto wheel_indices = veh.wheelcache; // Don't use a reference here, it causes a crash.
+        for( auto &w : wheel_indices ) {
+            const tripoint wheel_p = veh.global_part_pos3( w );
+            if( one_in( 2 ) && displace_water( wheel_p ) ) {
+                sounds::sound( wheel_p, 4,  sounds::sound_t::movement, _( "splash!" ), false,
+                               "environment", "splash" );
+            }
+
+            veh.handle_trap( wheel_p, w );
+            if( !has_flag( "SEALED", wheel_p ) ) {
+                // TODO: Make this value depend on the wheel
+                smash_items( wheel_p, 5 );
+            }
         }
     }
     // Redraw scene
@@ -3036,7 +3054,7 @@ static bool furn_is_supported( const map &m, const tripoint &p )
 
 void map::bash_ter_furn( const tripoint &p, bash_params &params )
 {
-    std::string sound;
+    translation sound;
     int sound_volume = 0;
     std::string soundfxid;
     std::string soundfxvariant;

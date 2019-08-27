@@ -1261,6 +1261,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
 {
     const requirement_data things_to_fetch = requirement_id( p.backlog.front().str_values[0] ).obj();
     const activity_id activity_to_restore = p.backlog.front().id();
+    // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
     requirement_id things_to_fetch_id = things_to_fetch.id();
     std::vector<std::vector<item_comp>> req_comps = things_to_fetch.get_components();
     std::vector<std::vector<tool_comp>> tool_comps = things_to_fetch.get_tools();
@@ -1808,6 +1809,18 @@ static bool move_loot_activity( player &p, tripoint src_loc, zone_manager &mgr,
 
         const auto id = mgr.get_near_zone_type_for_item( *thisitem, abspos );
 
+        const auto thisitem = it->first;
+
+        if( thisitem->made_of_from_type( LIQUID ) ) { // skip unpickable liquid
+            continue;
+        }
+
+        // Only if it's from a vehicle do we use the vehicle source location information.
+        vehicle *this_veh = it->second ? src_veh : nullptr;
+        const int this_part = it->second ? src_part : -1;
+
+        const auto id = mgr.get_near_zone_type_for_item( *thisitem, abspos );
+
         // checks whether the item is already on correct loot zone or not
         // if it is, we can skip such item, if not we move the item to correct pile
         // think empty bag on food pile, after you ate the content
@@ -1914,6 +1927,7 @@ void generic_multi_activity_handler( player_activity &act, player &p )
     // First get the things that are activity-agnostic.
     zone_manager &mgr = zone_manager::get_manager();
     const tripoint abspos = g->m.getabs( p.pos() );
+    // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
     activity_id activity_to_restore = act.id();
     const tripoint localpos = p.pos();
     bool dark_capable = false;
