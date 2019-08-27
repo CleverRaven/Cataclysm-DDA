@@ -72,10 +72,10 @@ android {
             applicationId "com.cleverraven.cataclysmdda"
             setProperty("archivesBaseName", "cataclysmdda-" + versionName)
         }
-	ndk {
-		abiFilters "armeabi-v7a"
+    ndk {
+        abiFilters "armeabi-v7a"
         //abiFilters "x86" // use this for testing on emulators
-	}
+    }
     externalNativeBuild {
         ndkBuild {
             arguments "APP_PLATFORM=android-16", "-j$njobs"
@@ -110,11 +110,11 @@ android {
                 }
             }
         }
-        
+
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        
+
             externalNativeBuild {
                 ndkBuild {
 
@@ -131,12 +131,12 @@ android {
                 path 'jni/Android.mk'
             }
         }
-       
+
     }
     lintOptions {
         abortOnError false
     }
-    
+
     if (buildAsLibrary) {
         libraryVariants.all { variant ->
             variant.outputs.each { output ->
