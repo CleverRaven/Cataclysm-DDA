@@ -1,4 +1,4 @@
-#include "iuse.h"
+﻿#include "iuse.h"
 
 #include <climits>
 #include <algorithm>
@@ -2299,21 +2299,50 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    // If anyone other than the player wants to use one of these,
-    // they're going to need to figure out how to aim it.
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Pry where?" ) );
+    const std::set<ter_id> allowed_ter_id {
+        t_fence,
+        t_window_boarded,
+        t_window_boarded_noglass,
+        t_door_boarded,
+        t_door_boarded_damaged,
+        t_door_boarded_peep,
+        t_door_boarded_damaged_peep,
+        t_rdoor_boarded,
+        t_rdoor_boarded_damaged
+    };
+
+    const std::function<bool( const tripoint & )> f = [&allowed_ter_id]( const tripoint & pnt ) {
+        if( pnt == g->u.pos() ) {
+            return false;
+        }
+        const ter_id ter = g->m.ter( pnt );
+
+        const bool is_allowed = allowed_ter_id.find( ter ) != allowed_ter_id.end();
+        return is_allowed;
+    };
+
+    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+            _( "Pry where?" ), f, false, true );
     if( !pnt_ ) {
         return 0;
     }
-    const tripoint pnt = *pnt_;
-
-    if( pnt == p->pos() ) {
-        p->add_msg_if_player( _( "You try to hit yourself with the hammer." ) );
-        p->add_msg_if_player( _( "But you can't touch this." ) );
+    const tripoint &pnt = *pnt_;
+    const ter_id type = g->m.ter( pnt );
+    if( !f( pnt ) ) {
+        if( pnt == p->pos() ) {
+            p->add_msg_if_player( _( "You try to hit yourself with the hammer." ) );
+            p->add_msg_if_player( _( "But you can't touch this." ) );
+        } else {
+            p->add_msg_if_player( m_info, _( "You can't pry that." ) );
+        }
         return 0;
     }
 
-    return this->crowbar( p, it, false, pnt );
+    if( pry_nails( *p, type, pnt ) ) {
+        return it->type->charges_to_use();
+    } else {
+        return 0;
+    }
 }
 
 int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
@@ -2322,22 +2351,54 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    // TODO: Make this 3D now that NPCs get to use items
-    tripoint pnt = pos;
-    if( pos == p->pos() ) {
-        const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Pry where?" ) );
-        if( !pnt_ ) {
-            return 0;
-        }
-        pnt = *pnt_;
-    } // else it is already set to pos in the line above if
+    const std::set<ter_id> allowed_ter_id {
+        t_door_locked,
+        t_door_locked_alarm,
+        t_door_locked_interior,
+        t_door_locked_peep,
+        t_door_c,
+        t_door_c_peep,
+        t_manhole_cover,
+        t_window_domestic,
+        t_curtains,
+        t_window_no_curtains
+    };
+    const std::set<furn_id> allowed_furn_id {
+        f_crate_c,
+        f_coffin_c
+    };
 
-    if( pnt == p->pos() ) {
-        p->add_msg_if_player( m_info, _( "You attempt to pry open your wallet "
-                                         "but alas.  You are just too miserly." ) );
+    const std::function<bool( const tripoint & )> f = [&allowed_ter_id,
+    &allowed_furn_id]( const tripoint & pnt ) {
+        if( pnt == g->u.pos() ) {
+            return false;
+        }
+        const ter_id ter = g->m.ter( pnt );
+        const auto furn = g->m.furn( pnt );
+
+        const bool is_allowed = allowed_ter_id.find( ter ) != allowed_ter_id.end() ||
+                                allowed_furn_id.find( furn ) != allowed_furn_id.end();
+        return is_allowed;
+    };
+
+    const cata::optional<tripoint> pnt_ = ( pos != p->pos() ) ? pos :
+                                          choose_adjacent_highlight(
+                                                  _( "Pry where?" ), f, false, true );
+    if( !pnt_ ) {
         return 0;
     }
-    ter_id type = g->m.ter( pnt );
+    const tripoint &pnt = *pnt_;
+    const ter_id type = g->m.ter( pnt );
+    const furn_id furn = g->m.furn( pnt );
+    if( !f( pnt ) ) {
+        if( pnt == p->pos() ) {
+            p->add_msg_if_player( m_info, _( "You attempt to pry open your wallet "
+                                             "but alas.  You are just too miserly." ) );
+        } else {
+            p->add_msg_if_player( m_info, _( "You can't pry that." ) );
+        }
+        return 0;
+    }
     const char *succ_action;
     const char *fail_action;
     ter_id new_type = t_null;
@@ -2376,13 +2437,13 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         new_type = t_manhole;
         noisy = false;
         difficulty = 4;
-    } else if( g->m.furn( pnt ) == f_crate_c ) {
+    } else if( furn == f_crate_c ) {
         succ_action = _( "You pop open the crate." );
         fail_action = _( "You pry, but cannot pop open the crate." );
         pry_quality = 1;
         noisy = true;
         difficulty = 6;
-    } else if( g->m.furn( pnt ) == f_coffin_c ) {
+    } else if( furn == f_coffin_c ) {
         succ_action = _( "You wedge open the coffin." );
         fail_action = _( "You pry, but the coffin remains closed." );
         pry_quality = 2;
@@ -2395,10 +2456,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         pry_quality = 2;
         noisy = true;
         difficulty = 6;
-    } else if( pry_nails( *p, type, pnt ) ) {
-        return it->type->charges_to_use();
     } else {
-        p->add_msg_if_player( m_info, _( "You can't pry that." ) );
         return 0;
     }
 
@@ -2670,8 +2728,8 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
         }
     }
 
-    const std::function<bool( const tripoint & )> f = []( const tripoint & p ) {
-        return g->m.passable( p );
+    const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
+        return g->m.passable( pnt );
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -2757,8 +2815,8 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
 
-    const std::function<bool( const tripoint & )> f = []( const tripoint & p ) {
-        return g->m.passable( p );
+    const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
+        return g->m.passable( pnt );
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -4689,12 +4747,12 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
     };
 
     const std::function<bool( const tripoint & )> f = [&allowed_ter_id,
-    &allowed_furn_id]( const tripoint & p ) {
-        if( p == g->u.pos() ) {
+    &allowed_furn_id]( const tripoint & pnt ) {
+        if( pnt == g->u.pos() ) {
             return false;
         }
-        const ter_id ter = g->m.ter( p );
-        const auto furn = g->m.furn( p );
+        const ter_id ter = g->m.ter( pnt );
+        const auto furn = g->m.furn( pnt );
 
         const bool is_allowed = ( allowed_ter_id.find( ter ) != allowed_ter_id.end() ) ||
                                 ( allowed_furn_id.find( furn ) != allowed_furn_id.end() ) ;
@@ -4779,12 +4837,12 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
         f_rack
     };
     const std::function<bool( const tripoint & )> f = [&allowed_ter_id,
-    &allowed_furn_id]( const tripoint & p ) {
-        if( p == g->u.pos() ) {
+    &allowed_furn_id]( const tripoint & pnt ) {
+        if( pnt == g->u.pos() ) {
             return false;
         }
-        const ter_id ter = g->m.ter( p );
-        const auto furn = g->m.furn( p );
+        const ter_id ter = g->m.ter( pnt );
+        const auto furn = g->m.furn( pnt );
 
         const bool is_allowed = ( allowed_ter_id.find( ter ) != allowed_ter_id.end() ) ||
                                 ( allowed_furn_id.find( furn ) != allowed_furn_id.end() ) ;
