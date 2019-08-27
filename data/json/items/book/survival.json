@@ -145,5 +145,25 @@
     "max_level": 6,
     "intelligence": 8,
     "time": "30 m"
+  },
+  {
+    "id": "isherwood_herbal_remedies",
+    "type": "BOOK",
+    "name": "Natural Remedies of New England",
+    "name_plural": "copies of Natural Remedies of New England",
+    "description": "A leather bound manuscript, it features native herbal remedies with hand colored illustrations of each plant.",
+    "weight": 400,
+    "volume": "1250 ml",
+    "price": 50000,
+    "bashing": 5,
+    "material": [ "paper", "leather" ],
+    "symbol": "?",
+    "color": "light_gray",
+    "skill": "survival",
+    "required_level": 1,
+    "max_level": 5,
+    "intelligence": 8,
+    "time": "20 m",
+    "fun": 4
   }
 ]

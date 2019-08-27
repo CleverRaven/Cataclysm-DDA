@@ -266,7 +266,7 @@
     "material": "paper",
     "symbol": ")",
     "color": "white",
-    "contains": 1
+    "contains": "250 ml"
   },
   {
     "id": "box_small",
@@ -281,7 +281,7 @@
     "material": "paper",
     "symbol": ")",
     "color": "brown",
-    "contains": 4
+    "contains": "1 L"
   },
   {
     "id": "box_medium",
@@ -297,7 +297,7 @@
     "material": "paper",
     "symbol": ")",
     "color": "brown",
-    "contains": 12
+    "contains": "3 L"
   },
   {
     "id": "box_large",
@@ -350,7 +350,7 @@
     "contains": "2 L",
     "seals": true,
     "watertight": true,
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "storage": 4, "material_thickness": 1 },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "storage": "1 L", "material_thickness": 1 },
     "flags": [ "BELTED" ]
   },
   {
@@ -1142,6 +1142,23 @@
     "color": "blue",
     "preserves": false,
     "unseals_into": "null",
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+  },
+  {
+    "id": "survival_kit_box",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "survival kit box",
+    "description": "An aluminum box that used to contain a small survival kit. Can hold 1 liter of liquid.",
+    "weight": 200,
+    "volume": "1 L",
+    "price": 0,
+    "material": "aluminum",
+    "symbol": "!",
+    "color": "light_cyan",
+    "contains": "1 L",
+    "seals": true,
+    "watertight": true,
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   }
 ]

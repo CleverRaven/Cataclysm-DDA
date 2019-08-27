@@ -1876,6 +1876,9 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                 veh.skidding = true;
                 veh.velocity = shove_velocity;
                 if( shove_destination != tripoint_zero ) {
+                    if( shove_destination.z != 0 ) {
+                        veh.vertical_velocity = shove_destination.z < 0 ? -shove_velocity : +shove_velocity;
+                    }
                     g->m.move_vehicle( veh, shove_destination, veh.face );
                 }
                 veh.move = tileray( destination_delta_x, destination_delta_y );

@@ -178,6 +178,7 @@ TEST_CASE( "string_formatter" )
         const std::string expected = "b" + long_string + "b";
         // moving into string_format should *not* consume the string.
         test_for_expected( expected, "b%sb", std::move( long_string ) );
+        // NOLINTNEXTLINE(bugprone-use-after-move)
         CHECK( long_string.size() == 100000 );
     }
 
