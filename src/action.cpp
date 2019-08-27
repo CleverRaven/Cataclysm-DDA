@@ -1021,7 +1021,7 @@ cata::optional<tripoint> choose_adjacent( const std::string &message, bool allow
 }
 
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const action_id action, bool allow_vertical )
+        const action_id action, const bool allow_vertical )
 {
     const std::function<bool( tripoint )> f = [&action]( tripoint p ) {
         return can_interact_at( action, p );
