@@ -11092,7 +11092,7 @@ void player::forced_dismount()
             add_msg_player_or_npc( m_bad, _( "You are ejected from your mech!" ),
                                    _( "% is ejected from their mech!" ), this->name );
         } else {
-            add_msg_player_or_npc( m_bad, _( "You fall off your mount!" ), _( "%s falls off their mount!" ),
+            add_msg_player_or_npc( m_bad, _( "You fall off your mount!" ), _( "<npcname> falls off their mount!" ) );
                                    this->name );
         }
         const int dodge = get_dodge();
