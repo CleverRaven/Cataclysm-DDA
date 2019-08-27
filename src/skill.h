@@ -71,7 +71,7 @@ class Skill
         bool is_contextual_skill() const;
         enum skill_type {
             crafting_skill,
-            melle_skill,
+            melee_skill,
             ranged_skill,
             interaction_skill,
             social_skill,

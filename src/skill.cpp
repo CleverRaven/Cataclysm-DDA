@@ -137,8 +137,8 @@ bool Skill::is_contextual_skill() const
 
 Skill::skill_type Skill::get_skill_type() const
 {
-    if( _tags.count( "melle_skill" ) > 0 ) {
-        return melle_skill;
+    if( _tags.count( "melee_skill" ) > 0 ) {
+        return melee_skill;
     } else if( _tags.count( "ranged_skill" ) > 0 ) {
         return ranged_skill;
     } else if( _tags.count( "crafting_skill" ) > 0 ) {
