@@ -69,6 +69,14 @@ class Skill
 
         bool is_combat_skill() const;
         bool is_contextual_skill() const;
+        enum skill_type {
+            crafting_skill,
+            melle_skill,
+            ranged_skill,
+            interaction_skill,
+            social_skill
+        };
+        skill_type get_skill_type() const;
 };
 
 class SkillLevel
