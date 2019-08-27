@@ -3391,7 +3391,7 @@ int iuse::can_goo( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-int iuse::throwable_extinguisher_act( player *p, item *it, bool, const tripoint &pos )
+int iuse::throwable_extinguisher_act( player *, item *it, bool, const tripoint &pos )
 {
     if( pos.x == -999 || pos.y == -999 ) {
         return 0;
@@ -3406,11 +3406,9 @@ int iuse::throwable_extinguisher_act( player *p, item *it, bool, const tripoint 
                 g->m.mod_field_intensity( dest, fd_fire, 0 - rng( 0, 2 ) );
             }
         }
-        g->m.i_rem( pos, it );
+        it->charges = -1;
         return 1;
-    } else {
-        p->add_msg_if_player( _( "Never mind." ) );
-	}
+    }
     it->active = false;
     return 0;
 }
