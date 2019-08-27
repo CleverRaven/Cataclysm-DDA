@@ -1122,6 +1122,7 @@ class map
          * @return NULL if there is no such field entry at that place.
          */
         field_entry *get_field( const tripoint &p, field_type_id type );
+        bool dangerous_field_at( const tripoint &p );
         /**
          * Add field entry at point, or set intensity if present
          * @return false if the field could not be created (out of bounds), otherwise true.

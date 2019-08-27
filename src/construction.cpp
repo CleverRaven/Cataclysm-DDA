@@ -759,7 +759,6 @@ bool can_construct( const construction &con, const tripoint &p )
     [&p]( const std::string & flag ) {
         return g->m.has_flag( flag, p );
     } );
-
     // make sure the construction would actually do something
     if( !con.post_terrain.empty() ) {
         if( con.post_is_furniture ) {
@@ -936,6 +935,12 @@ void complete_construction( player *p )
     // This comes after clearing the activity, in case the function interrupts
     // activities
     built.post_special( terp );
+    // npcs will automatically resume backlog, players wont.
+    if( p->is_player() && !p->backlog.empty() &&
+        p->backlog.front().id() == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ) {
+        p->backlog.clear();
+        p->assign_activity( activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) );
+    }
 }
 
 bool construct::check_empty( const tripoint &p )
