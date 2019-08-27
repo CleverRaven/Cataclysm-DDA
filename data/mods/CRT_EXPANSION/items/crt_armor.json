@@ -244,7 +244,7 @@
     "encumbrance": 25,
     "warmth": 25,
     "storage": 5,
-    "material_thickness": 5,
+    "material_thickness": 6,
     "environmental_protection": 25,
     "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "COLLAR", "RAINPROOF", "STURDY", "RAD_RESIST", "OUTER" ]
   },
@@ -330,7 +330,7 @@
     "encumbrance": 7,
     "warmth": 20,
     "storage": 10,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "STURDY" ]
   },
@@ -351,7 +351,7 @@
     "encumbrance": 40,
     "warmth": 25,
     "storage": 16,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "environmental_protection": 10,
     "use_action": { "type": "holster", "max_volume": 15, "draw_cost": 155, "skills": [ "smg", "shotgun", "rifle", "launcher" ] },
     "flags": [ "VARSIZE", "WATERPROOF", "OUTER", "OVERSIZE", "COLLAR", "STURDY", "NO_QUICKDRAW" ]
