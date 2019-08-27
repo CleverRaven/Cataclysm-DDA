@@ -582,7 +582,7 @@ void vehicle::drive_to_local_target( const tripoint &autodrive_local_target, boo
         const optional_vpart_position ovp = g->m.veh_at( tripoint( elem, sm_pos.z ) );
         if( g->m.impassable_ter_furn( tripoint( elem, sm_pos.z ) ) || ( ovp &&
                 &ovp->vehicle() != this ) ) {
-            if( follow_protocol && elem == point( g->u.pos().x, g->u.pos().y ) ) {
+            if( follow_protocol && elem == g->u.pos().xy() ) {
                 continue;
             }
             if( velocity > 0 ) {
