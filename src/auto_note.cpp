@@ -279,7 +279,8 @@ void auto_note_manager_gui::show()
         draw_scrollbar( w_border, currentLine, iContentHeight, cacheSize, point( 0, 4 ) );
 
         if( emptyMode ) {
-            mvwprintz( w, point_east, c_light_gray, _( "Discover more map extras to populate this list" ) );
+            mvwprintz( w, point_east, c_light_gray,
+                       _( "Discover more special encounters to populate this list" ) );
         } else {
             calcStartPos( startPosition, currentLine, iContentHeight, displayCache.size() );
             endPosition = startPosition + ( iContentHeight > cacheSize ? cacheSize : iContentHeight );
