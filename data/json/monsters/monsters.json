@@ -547,7 +547,7 @@
     "speed": 60,
     "material": [ "flesh" ],
     "symbol": "Z",
-    "color": "",
+    "color": "dark_gray_yellow",
     "aggression": 100,
     "morale": 100,
     "melee_skill": 4,
@@ -567,7 +567,7 @@
         "groups": [ "default_zombie_death_drops", "default_zombie_death_drops", "default_zombie_death_drops" ]
         },
     "death_function": [ "SPLATTER", "BOOMER", "EXPLODE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "PUSH_MON", "PATH_AVOID_DANGER_1", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "PUSH_MON", "PATH_AVOID_DANGER_1", "FILTHY", "REGENERATES_1" ]
   },
   {
     "id": "mon_breather",

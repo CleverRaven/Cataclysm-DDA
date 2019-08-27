@@ -2459,34 +2459,34 @@ field_type_id monster::gibType() const
     return type->gibType();
 }
 
-int get_size_bonus() const
+int monster::get_size_bonus() const
 {
     return size_bonus;
 }
 
-void set_size_bonus( int nsize )
+void monster::set_size_bonus( int nsize )
 {
     size_bonus = nsize;
 }
 
-void mod_size_bonus( int nsize )
+void monster::mod_size_bonus( int nsize )
 {
     size_bonus += nsize;
 }
 
 m_size monster::get_size() const
 {
-    return type->size + get_size_bonus();
+    return m_size( type->size + get_size_bonus() );
 }
 
 units::mass monster::get_weight() const
 {
-    return ( type->weight * get_size() ) / type->size;
+    return units::from_gram( ( units::to_gram( type->weight ) * get_size() ) / type->size );
 }
 
 units::volume monster::get_volume() const
 {
-    return ( type->volume * get_size() ) / type->size;
+    return units::from_milliliter( ( units::to_milliliter( type->volume ) * get_size() ) / type->size );
 }
 
 void monster::add_msg_if_npc( const std::string &msg ) const

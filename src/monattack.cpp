@@ -5219,30 +5219,29 @@ bool mattack::stretch_attack( monster *z )
 
 bool mattack::zombie_fuse( monster *z )
 {
-    const species_id zombo = species_id( "ZOMBIE" );
+    const mfaction_id zombo = mfaction_id( "zombie" );
     const tripoint zpos = z->pos();
+    monster *critter = nullptr;
     for(int x = zpos.x-1; x < zpos.x+2; x++) {
         for(int y = zpos.y-1; y < zpos.y+2; y++){
-            Creature *critter = g->critter_at( tripoint(x, y, zpos.z) );
-            if( target != nullptr && critter->faction == zombo && target != z && target->get_size() <= z->get_size() ) {
+            critter = static_cast<monster*>( g->critter_at( tripoint(x, y, zpos.z) ) );
+            if( critter != nullptr && critter->is_monster() && critter->faction == zombo && critter != z && critter->get_size() <= z->get_size() ) {
                 break;
             }
         }
     }
 
-    if( target == nullptr ||
-        ( z->get_hp() + critter->get_hp() > z->get_hp_max() + effect_grown_of_fuse.obj()->get_max_intensity()  ) )
+    if( critter == nullptr ||
+        ( z->get_hp() + critter->get_hp() > z->get_hp_max() + effect_grown_of_fuse.obj().get_max_intensity()  ) )
     {
         return false;
     }
-    if( z->has_effect( effect_grown_of_fuse ) )
-    const effect growth = z->get_effect( effect_grown_of_fuse );
-    // check if adding would overflow the effect stack max ...
     z->moves -= 200;
-    z->add_effect( effect_grown_of_fuse, 0, num_bp, true, critter->max_hp() );
+    z->add_effect( effect_grown_of_fuse, 0_turns, num_bp, true, critter->get_hp_max() );
     z->heal( critter->get_hp(), true );
     critter->death_drops = false;
-    critter->die();
+    critter->die( z );
+    return true;
 }
 
 bool mattack::doot( monster *z )
