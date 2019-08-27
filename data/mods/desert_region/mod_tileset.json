@@ -1,0 +1,91 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "MshockXottoplus", "MSX++DEAD_PEOPLE", "UNDEAD_PEOPLE" ],
+    "tiles-new": [
+      {
+        "file": "desert.png",
+        "tiles": [
+{
+          "id": [ "t_sand", "t_searth_test"],
+          "fg": 0,
+		  "bg": 16,
+		  "multitile": true,
+          "additional_tiles": [
+            {
+			  "id": "center",
+              "fg": 0,
+			  "bg": 16
+            },
+            {
+              "id": "corner",
+              "fg": [1, 2, 3, 4],
+			  "bg": 16
+            },
+            {
+              "id": "t_connection",
+              "fg": [5, 6, 7, 8],
+			  "bg": 16
+            },
+            {
+              "id": "edge",
+              "fg": [9, 10],
+			  "bg": 16
+            },
+            {
+              "id": "end_piece",
+              "fg": [11, 12, 13, 14],
+			  "bg": 16
+            },
+            {
+              "id": "unconnected",
+              "fg": 15,
+			  "bg": 16
+            }
+			],
+			"rotates": false
+			},{
+          "id": [ "t_searth_test"],
+          "fg": 16,
+		  "bg": 16,
+		  "multitile": true,
+          "additional_tiles": [
+            {
+			  "id": "center",
+              "fg": 16,
+			  "bg": 16
+            },
+            {
+              "id": "corner",
+              "fg": [17, 18, 19, 20],
+			  "bg": 16
+            },
+            {
+              "id": "t_connection",
+              "fg": [21, 22, 23, 24],
+			  "bg": 16
+            },
+            {
+              "id": "edge",
+              "fg": [25, 26],
+			  "bg": 16
+            },
+            {
+              "id": "end_piece",
+              "fg": [27, 28, 29, 30],
+			  "bg": 16
+            },
+            {
+              "id": "unconnected",
+              "fg": 31,
+			  "bg": 16
+            }
+			],
+			"rotates": false
+			}
+
+        ]
+      }
+    ]
+  }
+]
