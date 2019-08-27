@@ -265,12 +265,9 @@ void monster::setpos( const tripoint &p )
     bool wandering = wander();
     g->update_zombie_pos( *this, p );
     position = p;
-    if( has_effect( effect_ridden ) && mounted_player ) {
-        player *pl = mounted_player;
-        if( pl && position != pl->pos() ) {
-            add_msg( m_debug, "Ridden monster %s moved independently and dumped player", get_name() );
-            pl->forced_dismount();
-        }
+    if( has_effect( effect_ridden ) && mounted_player && mounted_player->pos() != pos() ) {
+        add_msg( m_debug, "Ridden monster %s moved independently and dumped player", get_name() );
+        mounted_player->forced_dismount();
     }
     if( wandering ) {
         unset_dest();
@@ -616,8 +613,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     const auto hp_desc = hp_description( hp, type->hp );
     mvwprintz( w, point( column, vStart++ ), hp_desc.second, hp_desc.first );
     if( has_effect( effect_ridden ) && mounted_player ) {
-        std::string rider_name = std::string( _( "Rider: " ) ) + mounted_player->disp_name();
-        mvwprintz( w, point( column, vStart++ ), c_white, rider_name );
+        mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
     }
 
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );

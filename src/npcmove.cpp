@@ -2205,7 +2205,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         moved = true;
     } else if( g->m.passable( p ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
-        if( is_mounted() && mounted_creature ) {
+        if( is_mounted() ) {
             const double base_moves = run_cost( g->m.combined_movecost( pos(), p ),
                                                 diag ) * 100.0 / mounted_creature->get_speed();
             const double encumb_moves = get_weight() / 4800.0_gram;
@@ -2259,7 +2259,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         } else {
             facing = FD_LEFT;
         }
-        if( is_mounted() && mounted_creature ) {
+        if( is_mounted() ) {
             if( mounted_creature->pos() != pos() ) {
                 mounted_creature->setpos( pos() );
                 mounted_creature->facing = facing;

@@ -2854,16 +2854,6 @@ void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
             guy.chosen_mount = std::weak_ptr<monster>();
             p->mount_creature( *mon );
         } else {
-            if( p->get_skill_level( skill_survival ) < 1 ) {
-                add_msg( m_info, _( "%s lacks enough knowledge to ride the %s." ), p->name, mon->get_name() );
-            } else if( p->get_skill_level( skill_survival ) >= 1 && p->get_skill_level( skill_survival ) < 4 &&
-                       !mon->has_effect( effect_saddled ) ) {
-                add_msg( m_info, _( "%s lacks enough knowledge to ride the %s bareback." ), p->name,
-                         mon->get_name() );
-            } else if( ( mon->get_size() < p->get_size() + 1 ) ||
-                       ( p->get_weight() > mon->get_weight() / 5 ) ) {
-                add_msg( m_info, _( "%s is too big to ride the %s." ), p->name, mon->get_name() );
-            }
             act->set_to_null();
             guy.revert_after_activity();
             return;

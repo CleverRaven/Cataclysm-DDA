@@ -493,11 +493,10 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     // melee attack will start off as targeted at mount
     if( has_effect( effect_ridden ) ) {
         monster *mons = dynamic_cast<monster *>( this );
-        if( mons ) {
-            player *pl = mons->mounted_player;
+        if( mons && mons->mounted_player ) {
             if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
-                one_in( std::max( 2, mons->get_size() - pl->get_size() ) ) ) {
-                pl->deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam );
+                one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
+                mons->mounted_player->deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam );
                 return;
             }
         }
@@ -558,11 +557,10 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     // If carrying a rider, there is a chance the hits may hit rider instead.
     if( has_effect( effect_ridden ) ) {
         monster *mons = dynamic_cast<monster *>( this );
-        if( mons ) {
-            player *pl = mons->mounted_player;
+        if( mons && mons->mounted_player ) {
             if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
-                one_in( std::max( 2, mons->get_size() - pl->get_size() ) ) ) {
-                pl->deal_projectile_attack( source, attack, print_messages );
+                one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
+                mons->mounted_player->deal_projectile_attack( source, attack, print_messages );
                 return;
             }
         }
@@ -922,10 +920,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
             has_effect( effect_riding ) ) ) {
         monster *mons = dynamic_cast<monster *>( this );
         if( mons && mons->mounted_player ) {
-            player *pl = mons->mounted_player;
-            if( pl ) {
-                pl->forced_dismount();
-            }
+            mons->mounted_player->forced_dismount();
         }
     }
 

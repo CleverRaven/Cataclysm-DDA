@@ -11,7 +11,6 @@
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "coordinate_conversions.h"
-#include "creature_tracker.h"
 #include "effect.h"
 #include "event_bus.h"
 #include "game.h"
@@ -2339,8 +2338,8 @@ void npc::on_load()
         g->m.board_vehicle( pos(), this );
     }
     if( has_effect( effect_riding ) && !mounted_creature ) {
-        if( g->critter_at<monster>( pos() ) ) {
-            mounted_creature = g->critter_tracker->find( pos() );
+        if( const monster *const mon = g->critter_at<monster>( pos() ) ) {
+            mounted_creature = g->shared_from( *mon );
         } else {
             add_msg( m_debug, "NPC is meant to be riding, though the mount is not found when %s is loaded",
                      disp_name() );

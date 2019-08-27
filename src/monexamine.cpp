@@ -327,6 +327,12 @@ void monexamine::attach_or_remove_saddle( monster &z )
 
 bool player::can_mount( const monster &critter ) const
 {
+    const auto &avoid = get_path_avoid();
+    auto route = g->m.route( pos(), critter.pos(), get_pathfinding_settings(), avoid );
+
+    if( route.empty() ) {
+        return false;
+    }
     if( ( critter.has_flag( MF_PET_MOUNTABLE ) && critter.friendly == -1 &&
           !critter.has_effect( effect_controlled ) && !critter.has_effect( effect_ridden ) ) &&
         ( ( critter.has_effect( effect_saddled ) && get_skill_level( skill_survival ) >= 1 ) ||
