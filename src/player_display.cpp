@@ -678,7 +678,8 @@ static const Skill *draw_skills_list( const catacurses::window &w_skills,
     }
 
     const Skill *selectedSkill = nullptr;
-    for( size_t i = min, y_pos = 1; i < max; i++, y_pos++ ) {
+    int y_pos = 1;
+    for( size_t i = min; i < max; i++, y_pos++ ) {
         const Skill *aSkill = skillslist[i];
         const SkillLevel &level = you.get_skill_level_object( aSkill->ident() );
 
@@ -706,7 +707,7 @@ static const Skill *draw_skills_list( const catacurses::window &w_skills,
             } else {
                 cstatus = training ? h_light_blue : h_blue;
             }
-            mvwprintz( w_skills, point( 1, static_cast<int>( y_pos ) ), cstatus, "%*s", 25, "" );
+            mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%*s", 25, "" );
         } else {
             if( locked ) {
                 cstatus = c_yellow;
@@ -717,18 +718,14 @@ static const Skill *draw_skills_list( const catacurses::window &w_skills,
             } else {
                 cstatus = training ? c_light_blue : c_blue;
             }
-            mvwprintz( w_skills, point( 1, static_cast<int>( y_pos ) ), c_light_gray, "%*s", 25, "" );
+            mvwprintz( w_skills, point( 1, y_pos ), c_light_gray, "%*s", 25, "" );
         }
-        //"                         ");
-        mvwprintz( w_skills, point( 1, static_cast<int>( y_pos ) ), cstatus, "%s:", aSkill->name() );
-        //if (is_selected) { //fill whole line with color
-        //mvwprintz(w_skills, point(0, cur_print_y), print_color, "%*s", right_bound, "");
-        //}
+        mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%s:", aSkill->name() );
         if( aSkill->ident() == skill_id( "dodge" ) ) {
-            mvwprintz( w_skills, point( 14, static_cast<int>( y_pos ) ), cstatus, "%4.1f/%-2d(%2d%%)",
+            mvwprintz( w_skills, point( 14, y_pos ), cstatus, "%4.1f/%-2d(%2d%%)",
                        you.get_dodge(), level_num, exercise < 0 ? 0 : exercise );
         } else {
-            mvwprintz( w_skills, point( 19, static_cast<int>( y_pos ) ), cstatus, "%-2d(%2d%%)",
+            mvwprintz( w_skills, point( 19, y_pos ), cstatus, "%-2d(%2d%%)",
                        level_num,
                        ( exercise < 0 ? 0 : exercise ) );
         }
@@ -750,9 +747,9 @@ static void draw_skills_tab( const catacurses::window &w_skills, const catacurse
 {
 
     const Skill *selectedSkill = draw_skills_list( w_skills, you, line, skillslist, skill_win_size_y );
-
+    int list_size = skillslist.size() + Skill::skill_num_entries - 1;
     if( skillslist.size() > skill_win_size_y ) {
-        draw_scrollbar( w_skills, line, skill_win_size_y, static_cast<int>( skillslist.size() ),
+        draw_scrollbar( w_skills, line, skill_win_size_y, list_size,
                         point_south );
     }
     wrefresh( w_skills );
@@ -1183,7 +1180,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
             return a.name() < b.name();
         }
     } );
-    unsigned int skill_win_size_y = 1 + skillslist.size();
+    unsigned int skill_win_size_y = skillslist.size() + Skill::skill_num_entries;
     unsigned int info_win_size_y = 6;
 
     unsigned int infooffsetytop = 11;

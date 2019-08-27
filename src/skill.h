@@ -74,7 +74,8 @@ class Skill
             melle_skill,
             ranged_skill,
             interaction_skill,
-            social_skill
+            social_skill,
+            skill_num_entries
         };
         skill_type get_skill_type() const;
 };
