@@ -4667,7 +4667,7 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    const static std::set<ter_id> allowed_ter_id {
+    const std::set<ter_id> allowed_ter_id {
         t_chainfence_posts,
         t_window_enhanced,
         t_window_enhanced_noglass,
@@ -4684,11 +4684,11 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
         t_door_bar_locked,
         t_door_metal_pickable
     };
-    const static std::set<furn_id> allowed_furn_id {
+    const std::set<furn_id> allowed_furn_id {
         f_rack
     };
 
-    const std::function<bool( tripoint )> f = []( tripoint p ) {
+    const std::function<bool( tripoint )> f = [&allowed_ter_id, &allowed_furn_id]( tripoint p ) {
         if( p == g->u.pos() ) {
             return false;
         }
@@ -4703,7 +4703,6 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Cut up metal where?" ), f, false, true );
     if( !pnt_ ) {
-        p->add_msg_if_player( m_info, _( "You can't cut that." ) );
         return 0;
     }
 
@@ -4755,7 +4754,7 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const static std::set<ter_id> allowed_ter_id {
+    const std::set<ter_id> allowed_ter_id {
         t_chainfence_posts,
         t_window_enhanced,
         t_window_enhanced_noglass,
@@ -4769,10 +4768,10 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
         t_door_bar_locked,
         t_bars
     };
-    const static std::set<furn_id> allowed_furn_id {
+    const std::set<furn_id> allowed_furn_id {
         f_rack
     };
-    const std::function<bool( tripoint )> f = []( tripoint p ) {
+    const std::function<bool( tripoint )> f = [&allowed_ter_id, &allowed_furn_id]( tripoint p ) {
         if( p == g->u.pos() ) {
             return false;
         }
@@ -4787,7 +4786,6 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Cut up metal where?" ), f, false, true );
     if( !pnt_ ) {
-        p->add_msg_if_player( m_info, _( "You can't cut that." ) );
         return 0;
     }
     const tripoint pnt = *pnt_;
@@ -4821,11 +4819,11 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const static std::set<ter_id> allowed_ter_id {
+    const std::set<ter_id> allowed_ter_id {
         t_chaingate_l,
         t_chainfence
     };
-    const std::function<bool( tripoint )> f = []( tripoint p ) {
+    const std::function<bool( tripoint )> f = [&allowed_ter_id]( tripoint p ) {
         if( p == g->u.pos() ) {
             return false;
         }
@@ -4837,7 +4835,6 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Cut up metal where?" ), f, false, true );
     if( !pnt_ ) {
-        p->add_msg_if_player( m_info, _( "You can't cut that." ) );
         return 0;
     }
     const tripoint pnt = *pnt_;

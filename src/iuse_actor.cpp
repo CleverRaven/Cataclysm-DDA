@@ -938,7 +938,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         return 0;
     }
 
-    const static std::set<ter_id> allowed_ter_id {
+    const std::set<ter_id> allowed_ter_id {
         t_chaingate_l,
         t_door_locked,
         t_door_locked_alarm,
@@ -948,7 +948,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         t_door_bar_locked
     };
 
-    const std::function<bool( tripoint )> f = []( tripoint p ) {
+    const std::function<bool( tripoint )> f = [&allowed_ter_id]( tripoint p ) {
         if( p == g->u.pos() ) {
             return false;
         }
@@ -960,7 +960,6 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Use your lockpick where?" ), f, false, true );
     if( !pnt_ ) {
-        p.add_msg_if_player( m_info, _( "No lock to pick." ) );
         return 0;
     }
     const tripoint pnt = *pnt_;

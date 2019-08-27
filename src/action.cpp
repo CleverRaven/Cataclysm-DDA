@@ -976,7 +976,7 @@ action_id handle_main_menu()
     }
 }
 
-cata::optional<tripoint> choose_direction( const std::string &message, bool allow_vertical )
+cata::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
 {
     input_context ctxt( "DEFAULTMODE" );
     ctxt.set_iso( true );
@@ -1014,7 +1014,7 @@ cata::optional<tripoint> choose_direction( const std::string &message, bool allo
     return cata::nullopt;
 }
 
-cata::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical )
+cata::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
 {
     const cata::optional<tripoint> dir = choose_direction( message, allow_vertical );
     return dir ? *dir + g->u.pos() : dir;
@@ -1030,7 +1030,8 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
 }
 
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::function<bool ( tripoint )> &allowed, bool allow_vertical, bool auto_select_if_single )
+        const std::function<bool ( tripoint )> &allowed,
+        const bool allow_vertical, const bool auto_select_if_single )
 {
     // Highlight nearby terrain according to the highlight function
     if( allowed != nullptr ) {
