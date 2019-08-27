@@ -135,19 +135,17 @@ bool Skill::is_contextual_skill() const
     return _tags.count( "contextual_skill" ) > 0;
 }
 
-Skill::skill_type Skill::get_skill_type() const {
-    if (_tags.count("melle_skill") > 0) {
+Skill::skill_type Skill::get_skill_type() const
+{
+    if( _tags.count( "melle_skill" ) > 0 ) {
         return melle_skill;
-    } else if(_tags.count("ranged_skill") > 0) {
+    } else if( _tags.count( "ranged_skill" ) > 0 ) {
         return ranged_skill;
-    }
-    else if (_tags.count("crafting_skill") > 0) {
+    } else if( _tags.count( "crafting_skill" ) > 0 ) {
         return crafting_skill;
-    }
-    else if (_tags.count("interaction_skill") > 0) {
+    } else if( _tags.count( "interaction_skill" ) > 0 ) {
         return interaction_skill;
-    }
-    else if (_tags.count("social_skill") > 0) {
+    } else if( _tags.count( "social_skill" ) > 0 ) {
         return social_skill;
     }
 }
