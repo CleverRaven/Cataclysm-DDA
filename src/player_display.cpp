@@ -690,11 +690,11 @@ static const Skill *draw_skills_list( const catacurses::window &w_skills,
             std::string type_name;
             switch( prev_type ) {
             // *INDENT-OFF*
-            case Skill::crafting_skill:     type_name = "Crafting skills";  break;
-            case Skill::melee_skill:        type_name = "Melee skills";     break;
-            case Skill::ranged_skill:       type_name = "Ranged skills";    break;
-            case Skill::interaction_skill:  type_name = "Interaction skills";  break;
-            case Skill::social_skill:       type_name = "Social skills";    break;
+            case Skill::crafting_skill:     type_name = _("Crafting skills");  break;
+            case Skill::melee_skill:        type_name = _("Melee skills");     break;
+            case Skill::ranged_skill:       type_name = _("Ranged skills");    break;
+            case Skill::interaction_skill:  type_name = _("Interaction skills");  break;
+            case Skill::social_skill:       type_name = _("Social skills");    break;
             // *INDENT-ON*
                 case Skill::skill_num_entries:
                 default:
