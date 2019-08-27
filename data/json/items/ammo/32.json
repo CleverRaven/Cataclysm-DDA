@@ -5,7 +5,7 @@
     "name": ".32 ACP",
     "description": "The .32 ACP was a popular handgun cartridge in the 20th century.  Not so powerful as the .38 or the 9x19mm though.",
     "weight": 5,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 1800,
     "material": [ "brass", "powder" ],
     "symbol": "=",

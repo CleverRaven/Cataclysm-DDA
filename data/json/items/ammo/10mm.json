@@ -5,7 +5,7 @@
     "name": "10mm Auto FMJ",
     "description": "A jacketed 10mm Auto round.  The 10mm Auto cartridge is a rather powerful handgun round and the progenitor to the more popular .40 S&W.",
     "weight": 9,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 2800,
     "material": [ "brass", "powder" ],
     "symbol": "=",

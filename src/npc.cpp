@@ -12,6 +12,7 @@
 #include "avatar.h"
 #include "coordinate_conversions.h"
 #include "effect.h"
+#include "event_bus.h"
 #include "game.h"
 #include "item_group.h"
 #include "itype.h"
@@ -106,7 +107,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male );
 void starting_inv( npc &who, const npc_class_id &type );
 
 npc::npc()
-    : restock( calendar::before_time_starts )
+    : restock( calendar::turn_zero )
     , companion_mission_time( calendar::before_time_starts )
     , companion_mission_time_ret( calendar::before_time_starts )
     , last_updated( calendar::turn )
@@ -253,7 +254,7 @@ const npc_template &string_id<npc_template>::obj() const
     const auto found = npc_templates.find( *this );
     if( found == npc_templates.end() ) {
         debugmsg( "Tried to get invalid npc: %s", c_str() );
-        static const npc_template dummy;
+        static const npc_template dummy{};
         return dummy;
     }
     return found->second;
@@ -293,7 +294,7 @@ npc::~npc() = default;
 
 void npc::randomize( const npc_class_id &type )
 {
-    if( getID() <= 0 ) {
+    if( !getID().is_valid() ) {
         setID( g->assign_npc_id() );
     }
 
@@ -322,11 +323,6 @@ void npc::randomize( const npc_class_id &type )
     dex_max = the_class.roll_dexterity();
     int_max = the_class.roll_intelligence();
     per_max = the_class.roll_perception();
-
-    if( myclass->get_shopkeeper_items() != "EMPTY_GROUP" ) {
-        restock = calendar::turn + 3_days;
-        cash += 100000;
-    }
 
     for( auto &skill : Skill::skills ) {
         int level = myclass->roll_skill( skill.ident() );
@@ -1338,7 +1334,7 @@ int npc::max_willing_to_owe() const
 
 void npc::shop_restock()
 {
-    if( calendar::turn - restock < 3_days ) {
+    if( ( restock != calendar::turn_zero ) && ( ( calendar::turn - restock ) < 3_days ) ) {
         return;
     }
 
@@ -2062,8 +2058,12 @@ void npc::die( Creature *nkiller )
         add_msg( _( "%s dies!" ), name );
     }
 
+    if( Character *ch = dynamic_cast<Character *>( killer ) ) {
+        g->events().send( event::make<event_type::character_kills_character>(
+                              calendar::turn, ch->getID(), getID(), get_name() ) );
+    }
+
     if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
-        g->record_npc_kill( *this );
         bool cannibal = g->u.has_trait( trait_CANNIBAL );
         bool psycho = g->u.has_trait( trait_PSYCHOPATH );
         if( g->u.has_trait( trait_SAPIOVORE ) ) {
@@ -2181,11 +2181,6 @@ std::string npc_attitude_name( npc_attitude att )
 
     debugmsg( "Invalid attitude: %d", att );
     return _( "Unknown attitude" );
-}
-
-void npc::setID( int i )
-{
-    this->player::setID( i );
 }
 
 //message related stuff

@@ -1921,14 +1921,14 @@ bool veh_interact::do_assign_crew( std::string &msg )
         }
 
         for( const npc *e : g->allies() ) {
-            menu.addentry( e->getID(), true, -1, e->name );
+            menu.addentry( e->getID().get_value(), true, -1, e->name );
         }
 
         menu.query();
         if( menu.ret == 0 ) {
             pt.unset_crew();
         } else if( menu.ret > 0 ) {
-            const auto &who = *g->critter_by_id<npc>( menu.ret );
+            const auto &who = *g->critter_by_id<npc>( character_id( menu.ret ) );
             veh->assign_seat( pt, who );
         }
 
@@ -2810,7 +2810,7 @@ void act_vehicle_siphon( vehicle *veh )
         return;
     }
 
-    std::string title = string_format( _( "Select tank to siphon:" ) );
+    std::string title = _( "Select tank to siphon:" );
     auto sel = []( const vehicle_part & pt ) {
         return pt.is_tank() && pt.get_base().contents_made_of( LIQUID );
     };
@@ -3140,7 +3140,7 @@ void veh_interact::complete_vehicle()
                 }
                 // Place the removed wheel on the map last so consume_vpart_item() doesn't pick it.
                 if( !broken ) {
-                    g->m.add_item_or_charges( g->u.posx(), g->u.posy(), removed_wheel );
+                    g->m.add_item_or_charges( point( g->u.posx(), g->u.posy() ), removed_wheel );
                 }
                 add_msg( _( "You replace one of the %1$s's tires with a %2$s." ),
                          veh->name, veh->parts[ partnum ].name() );

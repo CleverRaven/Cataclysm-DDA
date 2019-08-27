@@ -26,7 +26,7 @@
     "description": "Sticky, gooey carbohydrate paste extracted from plants.  Spoils rather quickly if not prepared for storage.",
     "price": 0,
     "material": "veggy",
-    "volume": 1,
+    "volume": "250 ml",
     "fun": -14,
     "vitamins": [  ],
     "flags": [ "EDIBLE_FROZEN" ]
@@ -91,7 +91,7 @@
     "description": "A dish in which vegetables are set into a gelatin made from a plant stock.",
     "price": 1500,
     "material": "veggy",
-    "volume": 2,
+    "volume": "500 ml",
     "charges": 2,
     "//": "TODO: Confirm nutrition facts for aspic",
     "flags": [ "EATEN_COLD", "FREEZERBURN" ]
@@ -138,7 +138,7 @@
     "description": "This yellow cornmeal is useful for baking.",
     "price": 450,
     "material": [ "veggy", "powder" ],
-    "volume": 1,
+    "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 10,
     "fun": -5
@@ -159,7 +159,7 @@
     "description": "Slow-cooked beans with vegetables.  Tasty and very filling.",
     "price": 700,
     "material": [ "veggy", "bean" ],
-    "volume": 2,
+    "volume": "500 ml",
     "//": "one beans + one veggy",
     "flags": [ "EATEN_HOT" ],
     "fun": 4
@@ -181,7 +181,7 @@
     "price": 500,
     "material": "veggy",
     "primary_material": "dried_vegetable",
-    "volume": 1,
+    "volume": "250 ml",
     "cooks_like": "rice_cooked",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
@@ -222,7 +222,7 @@
     "description": "Delicious fried rice with vegetables.  Tasty and very filling.",
     "price": 700,
     "material": "veggy",
-    "volume": 1,
+    "volume": "250 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5,
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 3 ] ]
@@ -242,7 +242,7 @@
     "description": "A serving of beans and rice that has been cooked together.  Delicious and healthy!",
     "price": 500,
     "material": [ "veggy", "bean" ],
-    "volume": 1,
+    "volume": "250 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 2,
     "vitamins": [ [ "vitC", 14 ], [ "calcium", 4 ], [ "iron", 16 ] ]
@@ -262,7 +262,7 @@
     "description": "Delicious tofu fried rice with vegetables.  Tasty and very filling.",
     "price": 600,
     "material": "veggy",
-    "volume": 1,
+    "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 5,
     "vitamins": [ [ "calcium", 17 ], [ "iron", 16 ], [ "vitC", 84 ], [ "vitA", 61 ] ]
@@ -283,7 +283,7 @@
     "description": "A tofu stirfry with rice and a sweet bold flavor sure to be on your mind through these dark days.",
     "price": 1200,
     "material": "veggy",
-    "volume": 4,
+    "volume": "1 L",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 19,
     "vitamins": [ [ "vitA", 2 ], [ "calcium", 7 ], [ "iron", 5 ], [ "vitC", 24 ] ]
@@ -303,7 +303,7 @@
     "description": "Slow-cooked beans and rice with vegetables and seasonings.  Tasty and very filling.",
     "price": 750,
     "material": [ "veggy", "bean" ],
-    "volume": 3,
+    "volume": "750 ml",
     "//": "one bean + one rice + one veggy",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
@@ -324,7 +324,7 @@
     "description": "A delicious baked potato.  Got any sour cream?",
     "price": 150,
     "material": "veggy",
-    "volume": 1,
+    "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
     "vitamins": [ [ "vitA", 1 ], [ "vitC", 9 ], [ "calcium", 13 ], [ "iron", 8 ] ]
@@ -341,7 +341,7 @@
     "description": "This is a simple dish made by cooking the pumpkin pulp and then mashing.",
     "price": 50,
     "material": "veggy",
-    "volume": 1,
+    "volume": "250 ml",
     "charges": 1
   },
   {
@@ -360,7 +360,7 @@
     "description": "A delicious baked pie with a delicious vegetable filling.",
     "price": 1250,
     "material": [ "wheat", "veggy" ],
-    "volume": 8,
+    "volume": "2 L",
     "charges": 8,
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
@@ -380,7 +380,7 @@
     "description": "A vegetarian pizza, with delicious tomato sauce and a fluffy crust.  Its smell brings back great memories.",
     "price": 990,
     "material": [ "wheat", "veggy", "tomato" ],
-    "volume": 4,
+    "volume": "1 L",
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
@@ -401,7 +401,7 @@
     "description": "Olive oil, basil, garlic, pine nuts.  Simple and delicious.",
     "price": 230,
     "material": [ "veggy", "nut", "garlic" ],
-    "volume": 1,
+    "volume": "250 ml",
     "charges": 4,
     "phase": "liquid",
     "vitamins": [ [ "vitA", 7 ], [ "calcium", 11 ], [ "iron", 3 ] ],
@@ -423,7 +423,7 @@
     "description": "This mushy pile of vegetable matter was boiled and canned in an earlier life.  Better eat it before it oozes through your fingers.",
     "price": 250,
     "material": "veggy",
-    "volume": 1,
+    "volume": "250 ml",
     "vitamins": [ [ "vitA", 73 ], [ "vitC", 11 ], [ "calcium", 5 ], [ "iron", 9 ] ]
   },
   {
@@ -442,7 +442,7 @@
     "description": "Vegetable chunks pickled in a salt bath.  Goes well with burgers, if only you can find one.",
     "price": 500,
     "material": "veggy",
-    "volume": 1,
+    "volume": "250 ml",
     "vitamins": [ [ "vitA", 46 ], [ "vitC", 7 ], [ "calcium", 5 ], [ "iron", 9 ] ]
   },
   {
@@ -460,7 +460,7 @@
     "description": "Spaghetti, with a generous helping of pesto on top.  Yum!",
     "price": 1000,
     "material": [ "wheat", "veggy", "nut" ],
-    "volume": 2,
+    "volume": "500 ml",
     "charges": 2,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 15,
@@ -477,7 +477,7 @@
     "description": "A pickled cucumber.  Rather sour, but tastes good and lasts for a long time.",
     "price": 250,
     "material": "veggy",
-    "volume": 1,
+    "volume": "250 ml",
     "fun": 5
   },
   {
@@ -497,7 +497,7 @@
     "price": 500,
     "material": "veggy",
     "//": "assumes the saurkraut and onions cook down to half their raw values.  vitamins and calories are the two added together",
-    "volume": 1,
+    "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
     "vitamins": [ [ "vitC", 99 ], [ "calcium", 21 ], [ "iron", 2 ] ]
@@ -528,7 +528,7 @@
     "price": 900,
     "material": "veggy",
     "primary_material": "dried_vegetable",
-    "volume": 1,
+    "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2
   },
@@ -559,7 +559,7 @@
     "description": "Salad with all kind of vegetables.",
     "price": 350,
     "material": "veggy",
-    "volume": 1,
+    "volume": "250 ml",
     "fun": 1,
     "flags": [ "FREEZERBURN" ],
     "vitamins": [ [ "vitC", 30 ], [ "calcium", 6 ], [ "iron", 10 ] ]
@@ -632,7 +632,7 @@
     "description": "A serving of sticky vinegared rice commonly used in sushi.",
     "price": 100,
     "material": "veggy",
-    "volume": 1,
+    "volume": "250 ml",
     "charges": 4,
     "fun": 3,
     "vitamins": [  ]
@@ -653,7 +653,7 @@
     "description": "A triangular block of tasty sushi rice with a healthy green vegetable folded around it.",
     "price": 210,
     "material": "veggy",
-    "volume": 1,
+    "volume": "250 ml",
     "charges": 2,
     "fun": 8,
     "vitamins": [  ]
@@ -674,7 +674,7 @@
     "description": "Delicious chopped vegetables wrapped in tasty sushi rice and rolled up in a healthy green vegetable.",
     "price": 290,
     "material": "veggy",
-    "volume": 1,
+    "volume": "250 ml",
     "fun": 12,
     "vitamins": [ [ "vitA", 28 ], [ "vitC", 80 ], [ "calcium", 2 ], [ "iron", 4 ] ]
   },
@@ -707,7 +707,7 @@
     "description": "This crunchy, sour topping made from lettuce or cabbage is perfect for your hot dogs and hamburgers, or, if you're desperate, straight to your stomach.",
     "price": 450,
     "material": "veggy",
-    "volume": 1,
+    "volume": "250 ml",
     "vitamins": [ [ "vitC", 85 ], [ "calcium", 17 ] ],
     "fun": -2
   },
@@ -725,7 +725,7 @@
     "description": "A less prickly version of cactus pads.",
     "price": 100,
     "material": "veggy",
-    "volume": 1,
+    "volume": "250 ml",
     "vitamins": [ [ "vitA", 27 ], [ "vitC", 30 ], [ "calcium", 32 ], [ "iron", 8 ] ],
     "fun": 3
   }

@@ -130,7 +130,7 @@ static void board_up( map &m, const tripoint &start, const tripoint &end )
     for( x = start.x; x < end.x; x++ ) {
         for( y = start.y; y < end.y; y++ ) {
             bool must_board_around = false;
-            const ter_id t = m.ter( x, y );
+            const ter_id t = m.ter( point( x, y ) );
             if( t == t_window_domestic || t == t_window || t == t_window_no_curtains ) {
                 // Windows are always to the outside and must be boarded
                 must_board_around = true;
@@ -442,7 +442,7 @@ static void add_monsters( const tripoint &omtstart, const mongroup_id &type, flo
     m.load( spawn_location, false );
     // map::place_spawns internally multiplies density by rng(10, 50)
     const float density = expected_points / ( ( 10 + 50 ) / 2.0 );
-    m.place_spawns( type, 1, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, density );
+    m.place_spawns( type, 1, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), density );
     m.save();
 }
 

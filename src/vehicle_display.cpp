@@ -422,7 +422,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x,
             units = _( "mL" );
         }
         if( fuel_type == itype_id( "battery" ) ) {
-            rate += power_to_energy_bat( total_epower_w() + total_reactor_epower_w(), 3600 );
+            rate += power_to_energy_bat( total_epower_w() + total_reactor_epower_w(), 1_hours );
             units = _( "kJ" );
         }
         if( rate != 0 ) {

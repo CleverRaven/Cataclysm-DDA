@@ -433,6 +433,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             } else {
                 cur.remove_item( *target() ); // item within CARGO
             }
+            cur.veh.invalidate_mass();
         }
 };
 

@@ -88,7 +88,7 @@ defense_game::defense_game()
 
 bool defense_game::init()
 {
-    calendar::turn = HOURS( 12 ); // Start at noon
+    calendar::turn = calendar::turn_zero + 12_hours; // Start at noon
     g->weather.temperature = 65;
     if( !g->u.create( PLTYPE_CUSTOM ) ) {
         return false;
@@ -1136,7 +1136,7 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
                     g->u.i_add( tmp );
                 } else { // Could fit it in the inventory!
                     dropped_some = true;
-                    g->m.add_item_or_charges( g->u.posx(), g->u.posy(), tmp );
+                    g->m.add_item_or_charges( point( g->u.posx(), g->u.posy() ), tmp );
                 }
             }
         }

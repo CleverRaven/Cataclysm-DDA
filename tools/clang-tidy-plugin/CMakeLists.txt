@@ -12,6 +12,7 @@ add_library(
     UseNamedPointConstantsCheck.cpp
     UsePointApisCheck.cpp
     UsePointArithmeticCheck.cpp
+    Utils.cpp
     XYCheck.cpp
     )
 

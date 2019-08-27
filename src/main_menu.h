@@ -72,8 +72,7 @@ class main_menu
         int LAST_TERMY = 0;
         catacurses::window w_open;
         catacurses::window w_background;
-        int iMenuOffsetX = 0;
-        int iMenuOffsetY = 0;
+        point menu_offset;
         std::vector<std::string> templates;
         int extra_w;
         std::vector<save_t> savegames;
@@ -85,24 +84,21 @@ class main_menu
          * @param vItems Main menu items
          * @param iSel Which index of vItems is selected. This menu item will be highlighted to
          * make it stand out from the other menu items.
-         * @param iOffsetY Offset of menu items, y coordinate
-         * @param iOffsetX Offset of menu items, x coordinate
+         * @param offset Offset of menu items
          * @param spacing: How many spaces to print between each menu item
          */
-        void print_menu_items( const catacurses::window &w_in, const std::vector<std::string> &vItems,
-                               size_t iSel,
-                               int iOffsetY, int iOffsetX, int spacing = 1 );
+        void print_menu_items( const catacurses::window &w_in,
+                               const std::vector<std::string> &vItems, size_t iSel,
+                               point offset, int spacing = 1 );
 
         /**
          * Called by @ref opening_screen, this prints all the text that you see on the main menu
          *
          * @param w_open Window to print menu in
          * @param iSel which index in vMenuItems is selected
-         * @param iMenuOffsetX Menu location in window, x coordinate
-         * @param iMenuOffsetY Menu location in window, y coordinate
+         * @param offset Menu location in window
          */
-        void print_menu( const catacurses::window &w_open, int iSel, int iMenuOffsetX,
-                         int iMenuOffsetY );
+        void print_menu( const catacurses::window &w_open, int iSel, const point &offset );
 
         void display_text( const std::string &text, const std::string &title, int &selected );
 

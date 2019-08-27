@@ -155,8 +155,7 @@ tripoint mission_util::target_closest_lab_entrance( const tripoint &origin, int 
     underground.z = 0;
 
     tripoint closest;
-    if( square_dist( surface.x, surface.y, origin.x, origin.y ) <= square_dist( underground.x,
-            underground.y, origin.x, origin.y ) ) {
+    if( square_dist( surface.xy(), origin.xy() ) <= square_dist( underground.xy(), origin.xy() ) ) {
         closest = surface;
     } else {
         closest = underground;

@@ -646,6 +646,11 @@ std::string colorize( const std::string &text, const nc_color &color )
     return get_tag_from_color( color ) + text + "</color>";
 }
 
+std::string colorize( const translation &text, const nc_color &color )
+{
+    return colorize( text.translated(), color );
+}
+
 std::string get_note_string_from_color( const nc_color &color )
 {
     for( auto i : color_by_string_map ) {
@@ -782,7 +787,7 @@ void color_manager::show_gui()
 
         calcStartPos( iStartPos, iCurrentLine, iContentHeight, iMaxColors );
 
-        draw_scrollbar( w_colors_border, iCurrentLine, iContentHeight, iMaxColors, 5 );
+        draw_scrollbar( w_colors_border, iCurrentLine, iContentHeight, iMaxColors, point( 0, 5 ) );
         wrefresh( w_colors_border );
 
         auto iter = name_color_map.begin();
