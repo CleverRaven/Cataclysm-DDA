@@ -198,7 +198,7 @@
     "encumbrance": 30,
     "warmth": 5,
     "material_thickness": 2,
-    "container_data": { "contains": 40, "seals": true, "watertight": true },
+    "container_data": { "contains": "10 L", "seals": true, "watertight": true },
     "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY" ]
   },
   {

@@ -197,7 +197,7 @@
     "type": "item_group",
     "id": "mags_smg_makeshift",
     "//": "Makeshift or otherwise poor quality SMG magazines.",
-    "items": [ [ "survivor9mm_mag", 50 ], [ "smg_22_mag", 20 ], [ "smg_38_mag", 15 ], [ "smg_40_mag", 15 ], [ "smg_45_mag", 20 ] ]
+    "items": [ [ "survivor9mm_mag", 50 ], [ "smg_40_mag", 15 ], [ "smg_45_mag", 20 ] ]
   },
   {
     "type": "item_group",
