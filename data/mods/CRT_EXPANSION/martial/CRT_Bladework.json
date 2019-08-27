@@ -50,6 +50,7 @@
       "sword_crt",
       "blade_crt",
       "knife_crt",
+      "crt_hatchet",
       "knife_combat",
       "knife_hunting",
       "knife_rambo",
@@ -80,7 +81,7 @@
     "name": "Shimmer Flurry",
     "min_melee": 1,
     "melee_allowed": true,
-    "mult_bonuses": [ [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.05 ] ],
+    "mult_bonuses": [ [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.1 ] ],
     "flat_bonuses": [ [ "damage", "cut", 1 ], [ "damage", "stab", 1 ] ],
     "messages": [ "You release a powerful slash at %s", "<npcname> slashes at %s" ]
   },
@@ -90,7 +91,7 @@
     "name": "Tipped Intent",
     "min_melee": 2,
     "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.7 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.77 ], [ "damage", "stab", 0.77 ] ],
+    "mult_bonuses": [ [ "movecost", 0.7 ], [ "damage", "bash", 0.60 ], [ "damage", "cut", 0.8 ], [ "damage", "stab", 0.80 ] ],
     "messages": [ "You swiftly jab your weapon at %s", "<npcname> swiftly jabs their weapon at %s" ]
   },
   {
@@ -100,7 +101,7 @@
     "min_melee": 3,
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.8 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 1.05 ], [ "damage", "stab", 1.05 ] ],
+    "mult_bonuses": [ [ "movecost", 0.8 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 1.15 ], [ "damage", "stab", 1.15 ] ],
     "crit_tec": true,
     "messages": [ "You release a debilitating swipe at %s", "<npcname> releases a debilitating swipe at %s" ],
     "down_dur": 2
@@ -114,7 +115,7 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "mult_bonuses": [
-      [ "damage", "bash", 0.5 ],
+      [ "damage", "bash", 1.1 ],
       [ "damage", "cut", 1.1 ],
       [ "damage", "stab", 1.1 ],
       [ "arpen", "stab", 1.1 ],
