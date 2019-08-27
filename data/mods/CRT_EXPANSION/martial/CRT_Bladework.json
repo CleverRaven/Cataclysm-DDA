@@ -115,16 +115,38 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "mult_bonuses": [
-      [ "damage", "bash", 1.1 ],
-      [ "damage", "cut", 1.1 ],
-      [ "damage", "stab", 1.1 ],
-      [ "arpen", "stab", 1.1 ],
-      [ "arpen", "cut", 1.1 ]
+      [ "damage", "stab", 1.2],
+      [ "damage", "cut", 1.2 ],
+      [ "arpen", "stab", 1.15 ],
+      [ "arpen", "cut", 1.15 ]
     ],
-    "flat_bonuses": [ [ "damage", "stab", 1 ], [ "damage", "cut", 1 ] ],
+    "flat_bonuses": [ [ "damage", "stab", 2 ], [ "damage", "cut", 2 ] ],
     "crit_tec": true,
     "messages": [
       "You envision the tension of a fully drawn bow and then launch a piercing blow on %s's top half",
+      "<npcname> lands a piercing blow on %s's face"
+    ],
+    "stun_dur": 2
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_blade_execute",
+    "name": "The Point",
+    "min_melee": 7,
+    "weighting": 3,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "mult_bonuses": [
+      [ "movecost", 1.125 ]
+      [ "damage", "stab", 1.3],
+      [ "damage", "cut", 1.3 ],
+      [ "arpen", "stab", 1.2 ],
+      [ "arpen", "cut", 1.2 ]
+    ],
+    "flat_bonuses": [ [ "arpen", "stab", 5 ], [ "arpen", "cut", 5 ] ],
+    "crit_tec": true,
+    "messages": [
+      "You slam your weapon down into %s's head area",
       "<npcname> lands a piercing blow on %s's face"
     ],
     "stun_dur": 2
