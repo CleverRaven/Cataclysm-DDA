@@ -44,6 +44,7 @@
 #include "npctrade.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "recipe.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
@@ -2108,6 +2109,15 @@ const std::vector<std::pair<int, std::string>> &talk_effect_fun_t::get_likely_re
     return likely_rewards;
 }
 
+void talk_effect_fun_t::set_u_learn_recipe( const std::string &learned_recipe_id )
+{
+    function = [learned_recipe_id]( const dialogue & d ) {
+        const recipe &r = recipe_id( learned_recipe_id ).obj();
+        d.alpha->learn_recipe( &r );
+        popup( _( "You learn how to craft %s." ), r.result_name() );
+    };
+}
+
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con )
 {
     effects.push_back( fun );
@@ -2312,6 +2322,9 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
         translation name;
         jo.read( "name", name );
         subeffect_fun.set_u_buy_monster( monster_type_id, cost, count, pacified, name );
+    } else if( jo.has_string( "u_learn_recipe" ) ) {
+        const std::string recipe_id = jo.get_string( "u_learn_recipe" );
+        subeffect_fun.set_u_learn_recipe( recipe_id );
     } else {
         jo.throw_error( "invalid sub effect syntax :" + jo.str() );
     }

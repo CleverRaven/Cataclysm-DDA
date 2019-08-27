@@ -43,7 +43,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "npc_aim_rule", "npc_engagement_rule", "npc_rule", "npc_override",
         "npc_cbm_reserve_rule", "npc_cbm_recharge_rule",
         "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var",
-        "u_has_skill", "npc_has_skill"
+        "u_has_skill", "npc_has_skill", "u_know_recipe"
     }
 };
 } // namespace dialogue_data
@@ -131,6 +131,7 @@ struct conditional_t {
         void set_has_reason();
         void set_is_gender( bool is_male, bool is_npc = false );
         void set_has_skill( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_u_know_recipe( JsonObject &jo, const std::string &member );
 
         bool operator()( const T &d ) const {
             if( !condition ) {
