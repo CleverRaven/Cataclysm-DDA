@@ -1084,7 +1084,7 @@ static std::pair<bool, do_activity_reason> can_do_activity_there( const activity
                 b_rack_present = true;
             }
         }
-        if( corpses.empty() ) {
+        if( !corpses.empty() ) {
             if( big_count > 0 && small_count == 0 ) {
                 if( !has_table_nearby || !b_rack_present ) {
                     return std::make_pair( false, NO_ZONE );
