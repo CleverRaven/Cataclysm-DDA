@@ -112,7 +112,7 @@
     "name": "Luty SMG: .40 S&W",
     "name_plural": "Luty SMGs: .40 S&W",
     "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using some of the more advanced powered hand tools; likely one of the most complex guns that are feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .40 S&W cartridges and accepts Glock 22 magazines, or alternatively custom-made makeshift ones.",
-    "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game.",
+    "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game. No factory mags until UMP40, mp5/40, or other straight .40 mags are implemented.",
     "weight": 3274,
     "volume": "1750 ml",
     "price": 20000,
@@ -140,7 +140,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "40", [ "glock40mag", "glock40bigmag", "smg_40_mag" ] ] ]
+    "magazines": [ [ "40", [ "smg_40_mag" ] ] ]
   },
   {
     "id": "surv_six_shooter",
