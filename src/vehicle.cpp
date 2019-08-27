@@ -1228,7 +1228,7 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
     }
 
     // Check if the part is required by another part. Do not allow removing those.
-	// { "FLAG THAT IS REQUIRED", "FLAG THAT REQUIRES", "Reason why can't remove." }
+    // { "FLAG THAT IS REQUIRED", "FLAG THAT REQUIRES", "Reason why can't remove." }
     static const std::array<std::tuple<std::string, std::string, std::string>, 9> blocking_flags = {{
             { "ENGINE", "ALTERNATOR", "Remove attached alternator first." },
             { "BELTABLE", "SEATBELT", "Remove attached seatbelt first." },
