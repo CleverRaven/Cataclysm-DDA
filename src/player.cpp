@@ -11016,7 +11016,7 @@ void player::burn_move_stamina( int moves )
 void player::mount_creature( monster &z )
 {
     tripoint pnt = z.pos();
-    auto mons = g->critter_tracker->find( pnt );
+    std::shared_ptr<monster> mons = g->shared_from( z );
     if( mons == nullptr ) {
         add_msg( m_debug, "mount_creature() : monster not found in critter_tracker" );
         return;
