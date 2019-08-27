@@ -4965,7 +4965,7 @@ void vehicle::refresh()
             railwheel_xmax = std::max( railwheel_xmax, pt.x );
             railwheel_ymax = std::max( railwheel_ymax, pt.y );
         }
-        if( ( vpi.has_flag( "STEERABLE" ) && part_with_feature( vp.part().mount, "WHEEL", true ) ) ||
+        if( ( vpi.has_flag( "STEERABLE" ) && part_with_feature( pt, "STEERABLE", true ) != -1 ) ||
             vpi.has_flag( "TRACKED" ) ) {
             // TRACKED contributes to steering effectiveness but
             //  (a) doesn't count as a steering axle for install difficulty
@@ -5082,7 +5082,7 @@ void vehicle::refresh_pivot() const
             // broken wheels don't roll on either axis
             weight_i = contact_area * 2.0;
             weight_p = contact_area * 2.0;
-        } else if( wheel.info().has_flag( "STEERABLE" ) ) {
+        } else if( part_with_feature( wheel.mount, "STEERABLE", true ) != -1 ) {
             // Unbroken steerable wheels can handle motion on both axes
             // (but roll a little more easily inline)
             weight_i = contact_area * 0.1;
