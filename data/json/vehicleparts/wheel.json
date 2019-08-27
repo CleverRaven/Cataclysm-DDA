@@ -11,7 +11,7 @@
     "damage_modifier": 80,
     "durability": 120,
     "description": "A piece of metal with holes suitable for a bike or motorbike wheel.",
-    "item": "scrap",
+    "item": "wheel_mount_light",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "welding_standard", 3 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "qualities": [ { "id": "SAW_M", "level": 2 } ] },
