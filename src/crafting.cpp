@@ -698,22 +698,18 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
         if( const cata::optional<vehicle_stack::iterator> it = vp->vehicle().add_item( vp->part_index(),
                 newit ) ) {
             p.add_msg_player_or_npc(
-                string_format( pgettext( "item, furniture", "You put the %s on the %s." ),
-                               ( *it )->tname(), vp->part().name() ),
-                string_format( pgettext( "item, furniture", "<npcname> puts the %s on the %s." ),
-                               ( *it )->tname(), vp->part().name() ) );
+                pgettext( "item, furniture", "You put the %s on the %s." ),
+                pgettext( "item, furniture", "<npcname> puts the %s on the %s." ),
+                ( *it )->tname(), vp->part().name() );
 
             return item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), & **it );
         }
 
         // Couldn't add the in progress craft to the target part, so drop it to the map.
         p.add_msg_player_or_npc(
-            string_format( pgettext( "furniture, item",
-                                     "Not enough space on the %s. You drop the %s on the ground." ),
-                           vp->part().name(), newit.tname() ),
-            string_format( pgettext( "furniture, item",
-                                     "Not enough space on the %s. <npcname> drops the %s on the ground." ),
-                           vp->part().name(), newit.tname() ) );
+            pgettext( "furniture, item", "Not enough space on the %s. You drop the %s on the ground." ),
+            pgettext( "furniture, item", "Not enough space on the %s. <npcname> drops the %s on the ground." ),
+            vp->part().name(), newit.tname() );
 
         return set_item_map( loc, newit );
 
@@ -721,16 +717,14 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
         if( g->m.has_furn( loc ) ) {
             const furn_t &workbench = g->m.furn( loc ).obj();
             p.add_msg_player_or_npc(
-                string_format( pgettext( "item, furniture", "You put the %s on the %s." ),
-                               newit.tname(), workbench.name() ),
-                string_format( pgettext( "item, furniture", "<npcname> puts the %s on the %s." ),
-                               newit.tname(), workbench.name() ) );
+                pgettext( "item, furniture", "You put the %s on the %s." ),
+                pgettext( "item, furniture", "<npcname> puts the %s on the %s." ),
+                newit.tname(), workbench.name() );
         } else {
             p.add_msg_player_or_npc(
-                string_format( pgettext( "item", "You put the %s on the ground." ),
-                               newit.tname() ),
-                string_format( pgettext( "item", "<npcname> puts the %s on the ground." ),
-                               newit.tname() ) );
+                pgettext( "item", "You put the %s on the ground." ),
+                pgettext( "item", "<npcname> puts the %s on the ground." ),
+                newit.tname() );
         }
         return set_item_map( loc, newit );
     }
@@ -795,7 +789,7 @@ void player::start_craft( craft_command &command, const tripoint &loc )
             amenu.text = string_format( pgettext( "in progress craft", "What to do with the %s?" ),
                                         craft.display_name() );
             amenu.addentry( WIELD_CRAFT, !weapon.has_flag( "NO_UNWIELD" ), '1',
-                            string_format( _( "Dispose of your wielded %s and start working." ), weapon.tname() ) );
+                            _( "Dispose of your wielded %s and start working." ), weapon.tname() );
             amenu.addentry( DROP_CRAFT, true, '2', _( "Put it down and start working." ) );
             const bool can_stash = can_pickVolume( craft ) &&
                                    can_pickWeight( craft, !get_option<bool>( "DANGEROUS_PICKUPS" ) );
@@ -843,10 +837,9 @@ void player::start_craft( craft_command &command, const tripoint &loc )
     activity.values.push_back( command.is_long() );
 
     add_msg_player_or_npc(
-        string_format( pgettext( "in progress craft", "You start working on the %s." ),
-                       craft.tname() ),
-        string_format( pgettext( "in progress craft", "<npcname> starts working on the %s." ),
-                       craft.tname() ) );
+        pgettext( "in progress craft", "You start working on the %s." ),
+        pgettext( "in progress craft", "<npcname> starts working on the %s." ),
+        craft.tname() );
 }
 
 void player::craft_skill_gain( const item &craft, const int &multiplier )
@@ -1000,10 +993,8 @@ static void destroy_random_component( item &craft, const player &crafter )
 
     item destroyed = random_entry_removed( craft.components );
 
-    crafter.add_msg_player_or_npc(
-        string_format( _( "You mess up and destroy the %s." ), destroyed.tname() ),
-        string_format( _( "<npcname> messes up and destroys the %s" ), destroyed.tname() )
-    );
+    crafter.add_msg_player_or_npc( _( "You mess up and destroy the %s." ),
+                                   _( "<npcname> messes up and destroys the %s" ), destroyed.tname() );
 }
 
 void item::handle_craft_failure( player &crafter )
@@ -1034,10 +1025,8 @@ void item::handle_craft_failure( player &crafter )
     const double percent_progress_loss = rng_exponential( 0.25, 0.35 ) *
                                          ( 1.0 - std::min( success_roll, 1.0 ) );
     const int progess_loss = item_counter * percent_progress_loss;
-    crafter.add_msg_player_or_npc(
-        string_format( _( "You mess up and lose %d%% progress." ), progess_loss / 100000 ),
-        string_format( _( "<npcname> messes up and loses %d%% progress." ), progess_loss / 100000 )
-    );
+    crafter.add_msg_player_or_npc( _( "You mess up and lose %d%% progress." ),
+                                   _( "<npcname> messes up and loses %d%% progress." ), progess_loss / 100000 );
     item_counter = clamp( item_counter - progess_loss, 0, 10000000 );
 
     set_next_failure_point( crafter );
@@ -1712,10 +1701,9 @@ bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft 
                 case use_from_player:
                     if( !has_charges( type, count ) ) {
                         add_msg_player_or_npc(
-                            string_format( _( "You have insufficient %s charges and can't continue crafting" ),
-                                           item::nname( type ) ),
-                            string_format( _( "<npcname> has insufficient %s charges and can't continue crafting" ),
-                                           item::nname( type ) ) );
+                            _( "You have insufficient %s charges and can't continue crafting" ),
+                            _( "<npcname> has insufficient %s charges and can't continue crafting" ),
+                            item::nname( type ) );
                         craft.set_tools_to_continue( false );
                         return false;
                     }
@@ -1723,10 +1711,9 @@ bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft 
                 case use_from_map:
                     if( !map_inv.has_charges( type, count ) ) {
                         add_msg_player_or_npc(
-                            string_format( _( "You have insufficient %s charges and can't continue crafting" ),
-                                           item::nname( type ) ),
-                            string_format( _( "<npcname> has insufficient %s charges and can't continue crafting" ),
-                                           item::nname( type ) ) );
+                            _( "You have insufficient %s charges and can't continue crafting" ),
+                            _( "<npcname> has insufficient %s charges and can't continue crafting" ),
+                            item::nname( type ) );
                         craft.set_tools_to_continue( false );
                         return false;
                     }
@@ -1739,10 +1726,9 @@ bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft 
             }
         } else if( !has_amount( type, 1 ) && !map_inv.has_tools( type, 1 ) ) {
             add_msg_player_or_npc(
-                string_format( _( "You no longer have a %s and can't continue crafting" ),
-                               item::nname( type ) ),
-                string_format( _( "<npcname> no longer has a %s and can't continue crafting" ),
-                               item::nname( type ) ) );
+                _( "You no longer have a %s and can't continue crafting" ),
+                _( "<npcname> no longer has a %s and can't continue crafting" ),
+                item::nname( type ) );
             craft.set_tools_to_continue( false );
             return false;
         }

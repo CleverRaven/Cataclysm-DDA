@@ -633,5 +633,25 @@
     "id": "reloaded_270",
     "type": "MIGRATION",
     "replace": "reloaded_270win_jsp"
+  },
+  {
+    "id": "smg_38",
+    "type": "MIGRATION",
+    "replace": "smg_45"
+  },
+  {
+    "id": "smg_38_mag",
+    "type": "MIGRATION",
+    "replace": "smg_45_mag"
+  },
+  {
+    "id": "smg_22",
+    "type": "MIGRATION",
+    "replace": "smg_9mm"
+  },
+  {
+    "id": "smg_22_mag",
+    "type": "MIGRATION",
+    "replace": "survivor9mm_mag"
   }
 ]

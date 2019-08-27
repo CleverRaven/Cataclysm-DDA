@@ -133,6 +133,12 @@ void sounds::sound( const tripoint &p, int vol, sound_t category, const std::str
                                                  false, id, variant} ) );
 }
 
+void sounds::sound( const tripoint &p, int vol, sound_t category, const translation &description,
+                    bool ambient, const std::string &id, const std::string &variant )
+{
+    sounds::sound( p, vol, category, description.translated(), ambient, id, variant );
+}
+
 void sounds::add_footstep( const tripoint &p, int volume, int, monster *,
                            const std::string &footstep )
 {
@@ -679,7 +685,7 @@ void sfx::do_vehicle_engine_sfx()
         add_msg( m_debug, "STOP speed %d =/= %d", current_speed, previous_speed );
         play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
                                     sfx::get_heard_volume( g->u.pos() ), ch, 1000, pitch );
-        add_msg( m_debug, string_format( "PITCH %f", pitch ) );
+        add_msg( m_debug, "PITCH %f", pitch );
     }
     previous_speed = current_speed;
     previous_gear = current_gear;
