@@ -648,8 +648,9 @@ static const Skill *draw_skills_list( const catacurses::window &w_skills,
                                       const std::vector<const Skill *> &skillslist,
                                       const size_t skill_win_size_y )
 {
+    const int col_width = 25;
     nc_color cstatus = c_light_gray;
-    if( line > 100 ) {
+    if( line < 100 ) {
         mvwprintz( w_skills, point_zero, h_light_gray, header_spaces );
         cstatus = hilite( cstatus );
     }
@@ -678,10 +679,33 @@ static const Skill *draw_skills_list( const catacurses::window &w_skills,
     }
 
     const Skill *selectedSkill = nullptr;
+    Skill::skill_type prev_type = Skill::skill_num_entries;
     int y_pos = 1;
     for( size_t i = min; i < max; i++, y_pos++ ) {
         const Skill *aSkill = skillslist[i];
         const SkillLevel &level = you.get_skill_level_object( aSkill->ident() );
+
+        if( prev_type != aSkill->get_skill_type() ) {
+            prev_type = aSkill->get_skill_type();
+            std::string type_name;
+            switch( prev_type ) {
+            // *INDENT-OFF*
+            case Skill::crafting_skill:     type_name = "Crafting skills";  break;
+            case Skill::melee_skill:        type_name = "Melee skills";     break;
+            case Skill::ranged_skill:       type_name = "Ranged skills";    break;
+            case Skill::interaction_skill:  type_name = "Interaction skills";  break;
+            case Skill::social_skill:       type_name = "Social skills";    break;
+            // *INDENT-ON*
+                case Skill::skill_num_entries:
+                default:
+                    assert( false );
+                    type_name = "dummy";
+                    break;
+            }
+            int x_pos = ( col_width - type_name.size() ) / 2;
+            mvwprintz( w_skills, point( x_pos, y_pos ), c_yellow, "%s", type_name );
+            y_pos++;
+        }
 
         const bool can_train = level.can_train();
         const bool training = level.isTraining();
@@ -707,7 +731,7 @@ static const Skill *draw_skills_list( const catacurses::window &w_skills,
             } else {
                 cstatus = training ? h_light_blue : h_blue;
             }
-            mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%*s", 25, "" );
+            mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%*s", col_width, "" );
         } else {
             if( locked ) {
                 cstatus = c_yellow;
@@ -718,7 +742,7 @@ static const Skill *draw_skills_list( const catacurses::window &w_skills,
             } else {
                 cstatus = training ? c_light_blue : c_blue;
             }
-            mvwprintz( w_skills, point( 1, y_pos ), c_light_gray, "%*s", 25, "" );
+            mvwprintz( w_skills, point( 1, y_pos ), c_light_gray, "%*s", col_width, "" );
         }
         mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%s:", aSkill->name() );
         if( aSkill->ident() == skill_id( "dodge" ) ) {
@@ -728,12 +752,6 @@ static const Skill *draw_skills_list( const catacurses::window &w_skills,
             mvwprintz( w_skills, point( 19, y_pos ), cstatus, "%-2d(%2d%%)",
                        level_num,
                        ( exercise < 0 ? 0 : exercise ) );
-        }
-        if( i < max - 1 ) {
-            const Skill *next_Skill = skillslist[i + 1];
-            if( aSkill->get_skill_type() != next_Skill->get_skill_type() ) {
-                y_pos++;
-            }
         }
     }
 
@@ -747,7 +765,7 @@ static void draw_skills_tab( const catacurses::window &w_skills, const catacurse
 {
 
     const Skill *selectedSkill = draw_skills_list( w_skills, you, line, skillslist, skill_win_size_y );
-    int list_size = skillslist.size() + Skill::skill_num_entries - 1;
+    int list_size = skillslist.size() + Skill::skill_num_entries;
     if( skillslist.size() > skill_win_size_y ) {
         draw_scrollbar( w_skills, line, skill_win_size_y, list_size,
                         point_south );
@@ -1179,7 +1197,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
             return a.name() < b.name();
         }
     } );
-    unsigned int skill_win_size_y = skillslist.size() + Skill::skill_num_entries;
+    unsigned int skill_win_size_y = 1 + skillslist.size() + Skill::skill_num_entries;
     unsigned int info_win_size_y = 6;
 
     unsigned int infooffsetytop = 11;

@@ -151,42 +151,42 @@
     "ident": "melee",
     "name": "melee",
     "description": "Your skill and finesse in personal combat, both with and without a weapon.  Higher levels can significantly increase the accuracy and effectiveness of your physical attacks.",
-    "tags": [ "combat_skill", "melle_skill" ]
+    "tags": [ "combat_skill", "melee_skill" ]
   },
   {
     "type": "skill",
     "ident": "bashing",
     "name": "bashing weapons",
     "description": "Your skill in fighting with blunt weaponry, from rocks and sticks to baseball bats and the butts of rifles.  Skill increases damage, and higher levels will improve the accuracy of an attack.",
-    "tags": [ "combat_skill", "melle_skill" ]
+    "tags": [ "combat_skill", "melee_skill" ]
   },
   {
     "type": "skill",
     "ident": "cutting",
     "name": "cutting weapons",
     "description": "Your skill in fighting with weaponry designed to cut, hack and slash an opponent.  Lower levels of skill increase accuracy and damage, while higher levels will help to bypass heavy armor and thick hides.",
-    "tags": [ "combat_skill", "melle_skill" ]
+    "tags": [ "combat_skill", "melee_skill" ]
   },
   {
     "type": "skill",
     "ident": "dodge",
     "name": "dodging",
     "description": "Your ability to dodge an oncoming threat, be it an enemy's attack, a triggered trap, or a falling rock.  This skill is also used in attempts to fall gracefully, and for other acrobatic feats.  The first number shown includes modifiers, and the second does not.",
-    "tags": [ "melle_skill" ]
+    "tags": [ "melee_skill" ]
   },
   {
     "type": "skill",
     "ident": "stabbing",
     "name": "piercing weapons",
     "description": "Your skill in fighting with knives, spears and other such stabbing implements.  Skill increases attack accuracy as well as the chance of inflicting a deadly and critical blow.",
-    "tags": [ "combat_skill", "melle_skill" ]
+    "tags": [ "combat_skill", "melee_skill" ]
   },
   {
     "type": "skill",
     "ident": "unarmed",
     "name": "unarmed combat",
     "description": "Your skill in hand-to-hand fighting.  For the unskilled, it's a good way to get hurt, but those with enough practice can perform special blows and techniques to quickly dispatch enemies.",
-    "tags": [ "combat_skill", "melle_skill" ]
+    "tags": [ "combat_skill", "melee_skill" ]
   },
   {
     "type": "skill",
