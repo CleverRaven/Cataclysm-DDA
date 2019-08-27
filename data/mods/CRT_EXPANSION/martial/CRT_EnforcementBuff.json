@@ -5,7 +5,7 @@
     "type": "GENERIC",
     "name": "C.R.I.T Enforcement manual",
     "name_plural": "C.R.I.T Enforcement manuals",
-    "description": "An advanced military manual on C.R.I.T Enforcer melee.",
+    "description": "An advanced military manual on how a C.R.I.T Enforcer should engage in melee combat.",
     "book_data": { "martial_art": "style_crt_enforcement" }
   },
   {
@@ -60,6 +60,8 @@
       "knife_crt",
       "crt_nstick",
       "crt_knuckledusters",
+      "crt_hatchet",
+      "crt_etool",  
       "baton-extended",
       "cudgel",
       "sword_wood",
