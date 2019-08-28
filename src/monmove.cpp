@@ -1396,9 +1396,9 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
         return true;
     }
 
-    const int sharp_damage = rng( 1, 10 );
-    const int rough_damage = rng( 1, 2 );
     if( type->size != MS_TINY && on_ground ) {
+        const int sharp_damage = rng( 1, 10 );
+        const int rough_damage = rng( 1, 2 );
         if( g->m.has_flag( "SHARP", pos() ) && !one_in( 4 ) && get_armor_cut( bp_torso ) < sharp_damage ) {
             apply_damage( nullptr, bp_torso, sharp_damage );
         }
