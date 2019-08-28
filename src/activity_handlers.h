@@ -49,6 +49,7 @@ enum do_activity_reason : int {
     NEEDS_TREE_CHOPPING,    // There is a tree there that needs to be chopped
     NEEDS_BIG_BUTCHERING,   // There is at least one corpse there to butcher, and it's a big one
     NEEDS_BUTCHERING,       // THere is at least one corpse there to butcher, and theres no need for additional tools
+    ALREADY_WORKING,        // somebody is already working there
     NEEDS_FISHING           // This spot can be fished, if the right tool is present.
 };
 

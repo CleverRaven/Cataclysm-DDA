@@ -1119,6 +1119,15 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     // see activity_handlers.h cant_do_activity_reason enums
     zone_manager &mgr = zone_manager::get_manager();
     std::vector<zone_data> zones;
+    // check if another NPC or player is doing anything where we want to do something.
+    if( g->m.getlocal( g->u.activity.placement ) == src_loc ) {
+        return activity_reason_info::fail( ALREADY_WORKING );
+    }
+    for( const npc &guy : g->all_npcs() ) {
+        if( g->m.getlocal( guy.activity.placement ) == src_loc ) {
+            return activity_reason_info::fail( ALREADY_WORKING );
+        }
+    }
     if( act == activity_id( "ACT_MULTIPLE_FISH" ) ) {
         if( !g->m.has_flag( "FISHABLE", src_loc ) ) {
             return activity_reason_info::fail( NO_ZONE );
@@ -1760,6 +1769,7 @@ static bool butcher_corpse_activity( player &p, tripoint src_loc, do_activity_re
             elem.set_var( "activity_var", p.name );
             p.assign_activity( activity_id( "ACT_BUTCHER_FULL" ), 0, true );
             p.activity.targets.emplace_back( map_cursor( src_loc ), &elem );
+            p.activity.placement = g->m.getabs( src_loc );
             return true;
         }
     }
@@ -1793,7 +1803,7 @@ static bool chop_plank_activity( player &p, tripoint src_loc )
             int moves = to_moves<int>( 20_minutes );
             p.add_msg_if_player( _( "You cut the log into planks." ) );
             p.assign_activity( activity_id( "ACT_CHOP_PLANKS" ), moves, -1 );
-            p.activity.placement = src_loc;
+            p.activity.placement = g->m.getabs( src_loc );
             return true;
         }
     }
@@ -1839,11 +1849,11 @@ static bool chop_tree_activity( player &p, const tripoint &src_loc )
     const ter_id ter = g->m.ter( src_loc );
     if( g->m.has_flag( "TREE", src_loc ) ) {
         p.assign_activity( activity_id( "ACT_CHOP_TREE" ), moves, -1, p.get_item_position( best_qual ) );
-        p.activity.placement = src_loc;
+        p.activity.placement = g->m.getabs( src_loc );
         return true;
     } else if( ter == t_trunk || ter == t_stump ) {
         p.assign_activity( activity_id( "ACT_CHOP_LOGS" ), moves, -1, p.get_item_position( best_qual ) );
-        p.activity.placement = src_loc;
+        p.activity.placement = g->m.getabs( src_loc );
         return true;
     }
     return false;

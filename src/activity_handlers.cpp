@@ -3430,17 +3430,17 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
 
 void activity_handlers::chop_tree_do_turn( player_activity *act, player *p )
 {
-    sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( act->placement ) );
+    sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( g->m.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
-        sounds::sound( act->placement, 15, sounds::sound_t::activity, _( "CHK!" ) );
+        sounds::sound( g->m.getlocal( act->placement ), 15, sounds::sound_t::activity, _( "CHK!" ) );
         messages_in_process( *act, *p );
     }
 }
 
 void activity_handlers::chop_tree_finish( player_activity *act, player *p )
 {
-    const tripoint &pos = act->placement;
+    const tripoint &pos = g->m.getlocal( act->placement );
 
     tripoint direction;
     if( p->is_player() ) {
@@ -3490,7 +3490,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
 
 void activity_handlers::chop_logs_finish( player_activity *act, player *p )
 {
-    const tripoint &pos = act->placement;
+    const tripoint &pos = g->m.getlocal( act->placement );
     int log_quan;
     int stick_quan;
     int splint_quan;
