@@ -236,7 +236,18 @@ item craft_command::create_in_progress_craft()
     for( const comp_selection<item_comp> &selection : item_selections ) {
         item_comp comp_used = selection.comp;
         comp_used.count *= batch_size;
-        comps_used.emplace_back( comp_used );
+
+        //Handle duplicate component requirement
+        auto found_it = std::find_if( comps_used.begin(),
+        comps_used.end(), [&comp_used]( const item_comp & c ) {
+            return c.type == comp_used.type;
+        } );
+        if( found_it != comps_used.end() ) {
+            item_comp &found_comp = *found_it;
+            found_comp.count += comp_used.count;
+        } else {
+            comps_used.emplace_back( comp_used );
+        }
     }
 
     item new_craft( rec, batch_size, used, comps_used );
