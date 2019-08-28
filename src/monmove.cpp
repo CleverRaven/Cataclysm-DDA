@@ -1395,15 +1395,14 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
         //Hallucinations don't do any of the stuff after this point
         return true;
     }
-    // TODO: Make tanks stop taking damage from rubble, because it's just silly
-    if( type->size != MS_TINY && on_ground ) {
+
+    if( type->size != MS_TINY && on_ground && get_armor_cut( bp_torso ) < 12 ) {
         if( g->m.has_flag( "SHARP", pos() ) && !one_in( 4 ) ) {
             apply_damage( nullptr, bp_torso, rng( 1, 10 ) );
         }
         if( g->m.has_flag( "ROUGH", pos() ) && one_in( 6 ) ) {
             apply_damage( nullptr, bp_torso, rng( 1, 2 ) );
         }
-
     }
 
     if( g->m.has_flag( "UNSTABLE", p ) && on_ground ) {
