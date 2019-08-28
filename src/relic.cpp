@@ -55,9 +55,27 @@ void relic::deserialize( JsonIn &jsin )
     load( jobj );
 }
 
-void relic::serialize( JsonOut &jsout ) const
+void relic::serialize( JsonOut &json ) const
 {
+    json.start_object();
 
+    json.member( "moves", moves );
+    json.member( "charges_per_activation", charges_per_activation );
+    json.member( "name", item_name_override );
+
+    json.start_array( "passive_effects" );
+    for( const enchantment &ench : passive_effects ) {
+        ench.serialize( json );
+    }
+    json.end_array();
+
+    json.start_array( "active_effects" );
+    for( const fake_spell &sp : active_effects ) {
+        sp.serialize( json );
+    }
+    json.end_array();
+
+    json.end_object();
 }
 
 int relic::activate( Creature &caster, const tripoint &target ) const
