@@ -381,7 +381,7 @@ class pickup_inventory_preset : public inventory_selector_preset
             if( !p.has_item( *loc ) ) {
                 if( loc->made_of_from_type( LIQUID ) ) {
                     return _( "Can't pick up spilt liquids" );
-                } else if( !p.can_pickVolume( *loc ) ) {
+                } else if( !p.can_pickVolume( *loc ) && p.is_armed() ) {
                     return _( "Too big to pick up" );
                 } else if( !p.can_pickWeight( *loc ) ) {
                     return _( "Too heavy to pick up" );
@@ -524,7 +524,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                         std::vector<bionic_id> bids = p.get_bionic_fueled_with( get_consumable_item( loc ) );
                         if( !bids.empty() ) {
                             bionic_id bid = p.get_most_efficient_bionic( bids );
-                            cbm_name = bid->name;
+                            cbm_name = bid->name.translated();
                         }
                         break;
                 }

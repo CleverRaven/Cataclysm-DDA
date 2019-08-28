@@ -346,7 +346,7 @@ void monster::try_upgrade( bool pin_time )
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - time_point( calendar::start_of_cataclysm ) );
+    const int current_day = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
     //This should only occur when a monster is created or upgraded to a new form
     if( upgrade_time < 0 ) {
         upgrade_time = next_upgrade_time();
@@ -359,7 +359,7 @@ void monster::try_upgrade( bool pin_time )
         } else {
             // offset by starting season
             // @todo revisit this and make it simpler
-            upgrade_time += to_turn<int>( calendar::start_of_cataclysm );
+            upgrade_time += to_days<int>( calendar::start_of_cataclysm - calendar::turn_zero );
         }
     }
 
@@ -1288,12 +1288,21 @@ void monster::melee_attack( Creature &target, float accuracy )
                 add_msg( m_bad, _( "The %1$s hits your %2$s." ), name(),
                          body_part_name_accusative( bp_hit ) );
             } else if( target.is_npc() ) {
-                //~ 1$s is attacker name, 2$s is target name, 3$s is bodypart name in accusative.
-                add_msg( _( "The %1$s hits %2$s %3$s." ), name(),
-                         target.disp_name( true ),
-                         body_part_name_accusative( bp_hit ) );
+                if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) && pos() == g->u.pos() ) {
+                    add_msg( m_good, _( "Your %s hits %s for %d damage!" ), name(), target.disp_name(), total_dealt );
+                } else {
+                    //~ 1$s is attacker name, 2$s is target name, 3$s is bodypart name in accusative.
+                    add_msg( _( "The %1$s hits %2$s %3$s." ), name(),
+                             target.disp_name( true ),
+                             body_part_name_accusative( bp_hit ) );
+                }
             } else {
-                add_msg( _( "The %1$s hits %2$s!" ), name(), target.disp_name() );
+                if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) && pos() == g->u.pos() ) {
+                    add_msg( m_good, _( "Your %s hits %s for %d damage!" ), get_name(), target.disp_name(),
+                             total_dealt );
+                } else {
+                    add_msg( _( "The %1$s hits %2$s!" ), name(), target.disp_name() );
+                }
             }
         } else if( target.is_player() ) {
             //~ %s is bodypart name in accusative.

@@ -536,11 +536,11 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
 
     for( size_t i = min; i < max; i++ ) {
         trim_and_print( w_bionics, point( 1, static_cast<int>( 2 + i - min ) ), getmaxx( w_bionics ) - 1,
-                        i == line ? hilite( c_white ) : c_white, bionicslist[i].info().name );
+                        i == line ? hilite( c_white ) : c_white, "%s", bionicslist[i].info().name );
     }
     if( line < bionicslist.size() ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_white,
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_white, "%s",
                         bionicslist[line].info().description );
     }
     wrefresh( w_bionics );
@@ -565,7 +565,7 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
         for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y - 1; i++ ) {
             mvwprintz( w_bionics, point( 1, static_cast<int>( i + 2 ) ), c_black, "                         " );
             trim_and_print( w_bionics, point( 1, static_cast<int>( i + 2 ) ), getmaxx( w_bionics ) - 1,
-                            c_white, bionicslist[i].info().name );
+                            c_white, "%s", bionicslist[i].info().name );
         }
         wrefresh( w_bionics );
         line = 0;
@@ -982,7 +982,7 @@ static void draw_initial_windows( const catacurses::window &w_stats,
                                    you.power_level, you.max_power_level ) );
     for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y - 1; i++ ) {
         trim_and_print( w_bionics, point( 1, static_cast<int>( i ) + 2 ), getmaxx( w_bionics ) - 1, c_white,
-                        bionicslist[i].info().name );
+                        "%s", bionicslist[i].info().name );
     }
     wrefresh( w_bionics );
 

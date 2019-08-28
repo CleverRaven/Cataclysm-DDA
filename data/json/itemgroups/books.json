@@ -681,6 +681,11 @@
     "items": [ [ "record_weather", 100 ] ]
   },
   {
+    "id": "isherwood_mission_reward_herbal",
+    "type": "item_group",
+    "items": [ [ "isherwood_herbal_remedies", 100 ] ]
+  },
+  {
     "id": "tailorbooks",
     "type": "item_group",
     "items": [ [ "tailor_portfolio", 30 ], [ "mag_tailor", 50 ], [ "manual_tailor", 30 ], [ "textbook_tailor", 30 ] ]
