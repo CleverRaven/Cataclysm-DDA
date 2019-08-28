@@ -3256,13 +3256,7 @@ void item::on_wield( player &p, int mv )
 
 void item::handle_pickup_ownership( Character &c )
 {
-    faction *yours;
-    if( &c == &g->u ) {
-        yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
-    } else {
-        npc *guy = dynamic_cast<npc *>( &c );
-        yours = guy->my_fac;
-    }
+    faction *yours = c.get_faction();
     // Add ownership to item if unowned
     if( !has_owner() ) {
         set_owner( yours );
@@ -3270,8 +3264,8 @@ void item::handle_pickup_ownership( Character &c )
         if( get_owner() != yours && &c == &g->u ) {
             std::vector<npc *> witnesses;
             for( npc &elem : g->all_npcs() ) {
-                if( rl_dist( elem.pos(), g->u.pos() ) < MAX_VIEW_DISTANCE && elem.my_fac == get_owner() &&
-                    elem.sees( g->u.pos() ) ) {
+                if( rl_dist( elem.pos(), g->u.pos() ) < MAX_VIEW_DISTANCE &&
+                    elem.get_faction() == get_owner() && elem.sees( g->u.pos() ) ) {
                     elem.say( "<witnessed_thievery>", 7 );
                     npc *npc_to_add = &elem;
                     witnesses.push_back( npc_to_add );
