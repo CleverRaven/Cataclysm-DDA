@@ -9508,7 +9508,6 @@
       [ "alarmclock", 25 ],
       [ "circuit", 25 ],
       { "item": "cell_phone", "prob": 35, "charges-min": 0, "charges-max": 15 },
-      { "item": "cell_phone_flashlight", "prob": 25, "charges-min": 0, "charges-max": 15 },
       [ "e_scrap", 55 ],
       [ "amplifier", 25 ],
       [ "reading_light", 10 ]
