@@ -2963,17 +2963,47 @@ int iuse::siphon( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Siphon from where?" ) );
-    if( !pnt_ ) {
-        return 0;
+    const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
+        const optional_vpart_position vp = g->m.veh_at( pnt );
+        return !!vp;
+    };
+
+    vehicle *v = nullptr;
+    bool found_more_than_one = false;
+    for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        const optional_vpart_position vp = g->m.veh_at( pos );
+        if( !vp ) {
+            continue;
+        }
+        vehicle *vfound = &vp->vehicle();
+        if( v == nullptr ) {
+            v = vfound;
+        } else {
+            //found more than one vehicle?
+            if( *v != *vfound ) {
+                v = nullptr;
+                found_more_than_one = true;
+                break;
+            }
+        }
+    }
+    if( found_more_than_one ) {
+        cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+                                            _( "Siphon from where?" ), f, false, true );
+        if( !pnt_ ) {
+            return 0;
+        }
+        const optional_vpart_position vp = g->m.veh_at( *pnt_ );
+        if( vp ) {
+            v = &vp->vehicle();
+        }
     }
 
-    const optional_vpart_position vp = g->m.veh_at( *pnt_ );
-    if( !vp ) {
+    if( v == nullptr ) {
         p->add_msg_if_player( m_info, _( "There's no vehicle there." ) );
         return 0;
     }
-    act_vehicle_siphon( &vp->vehicle() );
+    act_vehicle_siphon( v );
     return it->type->charges_to_use();
 }
 
