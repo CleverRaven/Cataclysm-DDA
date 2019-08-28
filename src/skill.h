@@ -26,6 +26,7 @@ class Skill
 
         translation _name;
         translation _description;
+        skill_displayType_id _display_type;
         std::set<std::string> _tags;
         // these are not real skills, they depend on context
         static std::map<skill_id, Skill> contextual_skills;
@@ -44,7 +45,7 @@ class Skill
 
         Skill();
         Skill( const skill_id &ident, const translation &name, const translation &description,
-               const std::set<std::string> &tags );
+               const std::set<std::string> &tags, skill_displayType_id display_type );
 
         const skill_id &ident() const {
             return _ident;
@@ -54,6 +55,9 @@ class Skill
         }
         std::string description() const {
             return _description.translated();
+        }
+        skill_displayType_id display_category() const {
+            return _display_type;
         }
 
         bool operator==( const Skill &b ) const {
@@ -69,15 +73,6 @@ class Skill
 
         bool is_combat_skill() const;
         bool is_contextual_skill() const;
-        enum skill_type {
-            crafting_skill,
-            melee_skill,
-            ranged_skill,
-            interaction_skill,
-            social_skill,
-            skill_num_entries
-        };
-        skill_type get_skill_type() const;
 };
 
 class SkillLevel
@@ -197,6 +192,28 @@ class SkillLevelMap : public std::map<skill_id, SkillLevel>
             const std::map<skill_id, int> &req, const item &context ) const;
         int exceeds_recipe_requirements( const recipe &rec ) const;
         bool has_recipe_requirements( const recipe &rec ) const;
+};
+
+class SkillDisplayType
+{
+        friend class string_id<SkillDisplayType>;
+        skill_displayType_id _ident;
+        translation _display_string;
+    public:
+        static std::vector<SkillDisplayType> skillTypes;
+        static void load( JsonObject &jsobj );
+
+        static const SkillDisplayType &get_skill_type( skill_displayType_id );
+
+        SkillDisplayType();
+        SkillDisplayType( const skill_displayType_id &ident, const translation &display_string );
+
+        const skill_displayType_id &ident() const {
+            return _ident;
+        }
+        std::string display_string() const {
+            return _display_string.translated();
+        }
 };
 
 double price_adjustment( int );
