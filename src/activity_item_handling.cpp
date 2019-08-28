@@ -1020,6 +1020,10 @@ static std::pair<bool, do_activity_reason> can_do_activity_there( const activity
             return std::make_pair( false, ALREADY_WORKING );
         }
     }
+    if( act == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) ){
+        return;
+    }
+
     if( act == activity_id( "ACT_MULTIPLE_FISH" ) ) {
         if( !g->m.has_flag( "FISHABLE", src_loc ) ) {
             return std::make_pair( false, NO_ZONE );
@@ -2057,6 +2061,9 @@ void generic_multi_activity_handler( player_activity &act, player &p )
     if( activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ) {
         src_set = mgr.get_near( zone_type_id( "CHOP_TREES" ), abspos, 60 );
     }
+    if( activity_to_restore == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) ){
+        src_set = mgr.get_near( zone_type_id( "VEHICLE_DECONSTRUCT" ), abspos, 60 );
+    }
     // multiple construction will form a list of targets based on blueprint zones and unfinished constructions
     if( activity_to_restore == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ) {
         src_set = mgr.get_near( zone_type_id( "CONSTRUCTION_BLUEPRINT" ), abspos, 60 );
@@ -2150,6 +2157,7 @@ void generic_multi_activity_handler( player_activity &act, player &p )
                                          activity_to_restore == activity_id( "ACT_MULTIPLE_FARM" ) ||
                                          activity_to_restore == activity_id( "ACT_MULTIPLE_BUTCHER" ) ||
                                          activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ||
+                                         activity_to_restore == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) ||
                                          activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ||
                                          activity_to_restore == activity_id( "ACT_MULTIPLE_FISH" ) ||
                                          ( activity_to_restore == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) &&
