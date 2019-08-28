@@ -1396,7 +1396,9 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
         return true;
     }
 
-    if( type->size != MS_TINY && on_ground && get_armor_cut( bp_torso ) < 12 ) {
+    // Cut protection value of a zombie hulk taken as a reference point
+    const int cut_immunity = 12;
+    if( type->size != MS_TINY && on_ground && get_armor_cut( bp_torso ) < cut_immunity ) {
         if( g->m.has_flag( "SHARP", pos() ) && !one_in( 4 ) ) {
             apply_damage( nullptr, bp_torso, rng( 1, 10 ) );
         }
