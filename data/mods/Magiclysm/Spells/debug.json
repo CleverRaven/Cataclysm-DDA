@@ -197,5 +197,26 @@
     "base_casting_time": 100,
     "energy_source": "MANA",
     "base_energy_cost": 100
+  },
+  {
+    "id": "mon_debug_queen",
+    "type": "MONSTER",
+    "name": "Debug queen",
+    "description": "This gigantic spider is the size of a moving van: you have no idea how it manages to stay together, much less move with that bulk.  Its abdomen is huge and swollen-looking, and an evil intelligence burns in its eyes even as magic crackles around its chitinous barbs.",
+    "copy-from": "mon_demon_spider",
+    "weight": 250000,
+    "hp": 5600,
+    "speed": 28,
+    "aggression": 100,
+    "melee_skill": 10,
+    "melee_dice_sides": 20,
+    "melee_cut": 30,
+    "vision_day": 12,
+    "vision_night": 18,
+    "harvest": "demon_spider_queen",
+    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON", "STUN_IMMUNE" ],
+    "special_attacks": [
+      { "type": "spell", "spell_id": "mon_demon_fireball", "cooldown": 10, "monster_message": "The Queen summons a gigantic fireball and hurls it!" }
+    ]
   }
 ]
