@@ -5414,7 +5414,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
                g->m.veh_at( pp ) || g->m.impassable( pp );
     };
     for( const vpart_reference &vp : veh->get_all_parts() ) {
-        if( vp.info().location != "STRUCTURE" ) {
+        if( vp.info().location != "structure" ) {
             continue;
         }
         const tripoint pp = vp.pos();
