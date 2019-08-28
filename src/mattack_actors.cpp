@@ -153,7 +153,7 @@ void mon_spellcasting_actor::load_internal( JsonObject &obj, const std::string &
     mandatory( obj, was_loaded, "spell_id", sp_id );
     optional( obj, was_loaded, "self", self, false );
     optional( obj, was_loaded, "spell_level", spell_level, 0 );
-    // ~ translator "<Monster Display name> cast <Spell Name>!"
+    //~ translator "<Monster Display name> cast <Spell Name>!"
     std::string default_msg = "%s cast %s!";
     std::string monster_message;
     optional( obj, was_loaded, "monster_message", monster_message, default_msg );
