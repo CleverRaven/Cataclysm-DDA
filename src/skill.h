@@ -26,8 +26,8 @@ class Skill
 
         translation _name;
         translation _description;
-        skill_displayType_id _display_type;
         std::set<std::string> _tags;
+        skill_displayType_id _display_type;
         // these are not real skills, they depend on context
         static std::map<skill_id, Skill> contextual_skills;
     public:
