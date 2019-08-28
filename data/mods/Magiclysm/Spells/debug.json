@@ -201,7 +201,7 @@
   {
     "id": "mon_debug_queen",
     "type": "MONSTER",
-    "name": "Debug queen",
+    "name": "debug queen",
     "description": "This gigantic spider is the size of a moving van: you have no idea how it manages to stay together, much less move with that bulk.  Its abdomen is huge and swollen-looking, and an evil intelligence burns in its eyes even as magic crackles around its chitinous barbs.",
     "copy-from": "mon_demon_spider",
     "weight": 250000,
