@@ -587,6 +587,7 @@ Condition | Type | Description
 `"mission_goal"` | string | `true` if the NPC's current mission has the same goal as `mission_goal`.
 `"mission_complete"` | simple string | `true` if the player has completed the NPC's current mission.
 `"mission_incomplete"` | simple string | `true` if the player hasn't completed the NPC's current mission.
+`"mission_has_generic_rewards"` | simple string | `true` if the NPC's current mission is flagged as having generic rewards.
 `"npc_service"` | int | `true` if the NPC does not have the `"currently_busy"` effect and the player character has at least `npc_service` cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `"and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]`
 `"npc_allies"` | int | `true` if the player character has at least `npc_allies` number of NPC allies.
 `"npc_following"` | simple string | `true` if the NPC is following the player character.
