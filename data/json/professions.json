@@ -3943,7 +3943,7 @@
     "type": "profession",
     "ident": "gunslinger",
     "name": "Wild West Performer",
-    "description": "You made your living on carnival fairs, impressing onlookers with your display or marksmanship. With the world at an end, your targets are looking far more dangerous than bottles. ",
+    "description": "You made your living on Wild West exhibitions, impressing onlookers with your displays of marksmanship. With the world at an end, your targets are looking far more dangerous than bottles and straw bull's-eyes. ",
     "points": 4,
     "skills": [
       { "level": 4, "name": "gun" },
@@ -3960,8 +3960,8 @@
 	  "socks",
 	  "pants",
 	  "gloves_leather",
-          "boots_western",
-          "duster",
+       "boots_western",
+        "duster",
           "badge_deputy"
         ],
         "entries": [
