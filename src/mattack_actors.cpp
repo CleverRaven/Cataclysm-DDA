@@ -153,7 +153,12 @@ void mon_spellcasting_actor::load_internal( JsonObject &obj, const std::string &
     mandatory( obj, was_loaded, "spell_id", sp_id );
     optional( obj, was_loaded, "self", self, false );
     optional( obj, was_loaded, "spell_level", spell_level, 0 );
-    spell_data = spell( spell_id( sp_id ) );
+    // ~ translator "<Monster Display name> cast <Spell Name>!"
+    std::string default_msg = "%s cast %s!";
+    std::string monster_message;
+    optional( obj, was_loaded, "monster_message", monster_message, default_msg );
+    translation msg = translation( monster_message );
+    spell_data = spell( spell_id( sp_id ), msg );
     for( int i = 0; i <= spell_level; i++ ) {
         spell_data.gain_level();
     }
@@ -183,6 +188,8 @@ bool mon_spellcasting_actor::call( monster &mon ) const
     if( targeted_attack && rl_dist( mon.pos(), target ) > spell_data.range() ) {
         return false;
     }
+
+    add_msg( _( spell_data.message() ), mon.disp_name(), spell_data.name() );
 
     spell_data.cast_all_effects( mon, target );
 
