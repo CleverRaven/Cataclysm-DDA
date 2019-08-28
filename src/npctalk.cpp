@@ -1119,14 +1119,18 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         }
         for( auto &trained : trainable ) {
             const int cost = calc_skill_training_cost( *p, trained );
-            const SkillLevel skill_level_obj = g->u.get_skill_level_object( trained );
+            SkillLevel skill_level_obj = g->u.get_skill_level_object( trained );
             const int cur_level = skill_level_obj.level();
             const int cur_level_exercise = skill_level_obj.exercise();
-            //~Skill name: current level (exercise) -> next level (cost in dollars)
-            std::string text = string_format( cost > 0 ? _( "%s: %d (%d%%) -> %d (cost $%d)" ) :
+            skill_level_obj.train( 100 );
+            const int next_level = skill_level_obj.level();
+            const int next_level_exercise = skill_level_obj.exercise();
+          
+            //~Skill name: current level (exercise) -> next level (exercise) (cost in dollars)
+            std::string text = string_format( cost > 0 ? _( "%s: %d (%d%%) -> %d (%d%%) (cost $%d)" ) :
                                               _( "%s: %d (%d%%) -> %d" ),
-                                              trained.obj().name(), cur_level, cur_level_exercise, cur_level + 1,
-                                              cost / 100 );
+                                              trained.obj().name(), cur_level, cur_level_exercise,
+                                              next_level, next_level_exercise, cost / 100 );
             add_response( text, "TALK_TRAIN_START", trained );
         }
         add_response_none( _( "Eh, never mind." ) );
