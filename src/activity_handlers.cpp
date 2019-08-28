@@ -205,6 +205,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_VEHICLE" ), vehicle_finish },
     { activity_id( "ACT_START_ENGINES" ), start_engines_finish },
     { activity_id( "ACT_OXYTORCH" ), oxytorch_finish },
+    { activity_id( "ACT_PULP" ), pulp_finish },
     { activity_id( "ACT_CRACKING" ), cracking_finish },
     { activity_id( "ACT_OPEN_GATE" ), open_gate_finish },
     { activity_id( "ACT_REPAIR_ITEM" ), repair_item_finish },
@@ -1759,7 +1760,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
 
             float stamina_ratio = static_cast<float>( p->stamina ) / p->get_stamina_max();
             moves += 100 / std::max( 0.25f, stamina_ratio );
-            if( stamina_ratio < 0.33 ) {
+            if( stamina_ratio < 0.33 || p->is_npc() ) {
                 p->moves = std::min( 0, p->moves - moves );
                 return;
             }
@@ -1770,7 +1771,6 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
             }
         }
     }
-
     // If we reach this, all corpses have been pulped, finish the activity
     act->moves_left = 0;
     if( num_corpses == 0 ) {
@@ -1782,6 +1782,16 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                                         "The corpses are thoroughly pulped.", num_corpses ),
                               ngettext( "<npcname> finished pulping the corpse.",
                                         "<npcname> finished pulping the corpses.", num_corpses ) );
+}
+
+void activity_handlers::pulp_finish( player_activity *act, player *p )
+{
+    if( p->is_npc() ) {
+        npc *guy = dynamic_cast<npc *>( p );
+        guy->revert_after_activity();
+    } else {
+        act->set_to_null();
+    }
 }
 
 void activity_handlers::reload_finish( player_activity *act, player *p )
