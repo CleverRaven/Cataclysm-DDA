@@ -1236,21 +1236,21 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
 
     // Wielded item
     units::mass weaponweight = 0_gram;
-    auto weapon_it = without.find(&weapon);
-    if (weapon_it == without.end()) {
+    auto weapon_it = without.find( &weapon );
+    if( weapon_it == without.end() ) {
         weaponweight = weapon.weight();
     } else {
-        int subtract_count = (*weapon_it).second;
-        if (weapon.count_by_charges()) {
+        int subtract_count = ( *weapon_it ).second;
+        if( weapon.count_by_charges() ) {
             item copy = weapon;
             copy.charges -= subtract_count;
-            if (copy.charges < 0) {
-                debugmsg("Trying to remove more charges than the wielded item has");
+            if( copy.charges < 0 ) {
+                debugmsg( "Trying to remove more charges than the wielded item has" );
                 copy.charges = 0;
             }
             weaponweight = copy.weight();
-        } else if (subtract_count > 1) {
-            debugmsg("Trying to remove more than one wielded item");
+        } else if( subtract_count > 1 ) {
+            debugmsg( "Trying to remove more than one wielded item" );
         }
     }
     // Exclude wielded item if using lifting tool
