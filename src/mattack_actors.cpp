@@ -189,7 +189,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         return false;
     }
 
-    add_msg( _( spell_data.message() ), mon.disp_name(), spell_data.name() );
+    add_msg( spell_data.message(), mon.disp_name(), spell_data.name() );
 
     spell_data.cast_all_effects( mon, target );
 
