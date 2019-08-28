@@ -683,28 +683,14 @@ static const Skill *draw_skills_list( const catacurses::window &w_skills,
     max = std::min( min + skill_win_size_y, skillslist.size() );
 
     const Skill *selectedSkill = nullptr;
-    Skill::skill_type prev_type = Skill::skill_num_entries;
     int y_pos = 1;
     for( size_t i = min; i < max; i++, y_pos++ ) {
         const Skill *aSkill = skillslist[i].skill;
         const SkillLevel &level = you.get_skill_level_object( aSkill->ident() );
 
         if( skillslist[i].is_header ) {
-            std::string type_name;
-            switch( aSkill->get_skill_type() ) {
-                // *INDENT-OFF*
-            case Skill::crafting_skill:     type_name = _("Crafting skills");  break;
-            case Skill::melee_skill:        type_name = _("Melee skills");     break;
-            case Skill::ranged_skill:       type_name = _("Ranged skills");    break;
-            case Skill::interaction_skill:  type_name = _("Interaction skills");  break;
-            case Skill::social_skill:       type_name = _("Social skills");    break;
-                // *INDENT-ON*
-                case Skill::skill_num_entries:
-                default:
-                    assert( false );
-                    type_name = "dummy";
-                    break;
-            }
+            const SkillDisplayType t = SkillDisplayType::get_skill_type( aSkill->display_category() );
+            std::string type_name = t.display_string();
             mvwprintz( w_skills, point( 0, y_pos ), c_light_gray, header_spaces );
             center_print( w_skills, y_pos, c_yellow, type_name );
         } else {
@@ -1200,8 +1186,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
     const std::vector<const Skill *> player_skill = Skill::get_skills_sorted_by( [&]( const Skill & a,
     const Skill & b ) {
-        Skill::skill_type type_a = a.get_skill_type();
-        Skill::skill_type type_b = b.get_skill_type();
+        skill_displayType_id type_a = a.display_category();
+        skill_displayType_id type_b = b.display_category();
 
         if( type_a != type_b ) {
             return type_a < type_b;
@@ -1211,15 +1197,15 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     } );
 
     std::vector<HeaderSkill> skillslist;
-    Skill::skill_type prev_type = Skill::skill_num_entries;
+    skill_displayType_id prev_type = skill_displayType_id::NULL_ID();
     for( auto &s : player_skill ) {
-        if( s->get_skill_type() != prev_type ) {
-            prev_type = s->get_skill_type();
+        if( s->display_category() != prev_type ) {
+            prev_type = s->display_category();
             skillslist.emplace_back( s, true );
         }
         skillslist.emplace_back( s, false );
     }
-    unsigned int skill_win_size_y = 1 + skillslist.size() + Skill::skill_num_entries;
+    unsigned int skill_win_size_y = 1 + skillslist.size();
     unsigned int info_win_size_y = 6;
 
     unsigned int infooffsetytop = 11;
