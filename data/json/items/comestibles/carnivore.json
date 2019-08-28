@@ -436,7 +436,8 @@
     "description": "No, this is not beans.",
     "healthy": -2,
     "quench": -2,
-    "fun": -3
+    "fun": -3,
+    "parasites": 0
   },
   {
     "id": "sweetbread",
@@ -512,6 +513,7 @@
     "price": 0,
     "material": "flesh",
     "volume": "250 ml",
+    "parasites": 32,
     "stack_size": 1,
     "fun": -20
   },

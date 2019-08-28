@@ -49,7 +49,7 @@
     "material": "steel",
     "category": "veh_parts",
     "price": 8500,
-    "volume": 29
+    "volume": "7250 ml"
   },
   {
     "type": "GENERIC",

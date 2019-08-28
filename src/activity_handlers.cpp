@@ -8,6 +8,7 @@
 #include <array>
 #include <iterator>
 #include <memory>
+
 #include <ostream>
 #include <set>
 #include <stdexcept>
@@ -130,7 +131,8 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_PICKUP" ), pickup_do_turn },
     { activity_id( "ACT_WEAR" ), wear_do_turn },
     { activity_id( "ACT_MULTIPLE_CONSTRUCTION" ), multiple_construction_do_turn },
-    { activity_id( "ACT_BLUEPRINT_CONSTRUCTION" ), blueprint_construction_do_turn },
+    { activity_id( "ACT_MULTIPLE_FARM" ), multiple_farm_do_turn },
+    { activity_id( "ACT_FETCH_REQUIRED" ), fetch_do_turn },
     { activity_id( "ACT_BUILD" ), build_do_turn },
     { activity_id( "ACT_EAT_MENU" ), eat_menu_do_turn },
     { activity_id( "ACT_CONSUME_FOOD_MENU" ), consume_food_menu_do_turn },
@@ -148,6 +150,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_BUTCHER_FULL" ), butcher_do_turn },
     { activity_id( "ACT_TRAVELLING" ), travel_do_turn },
     { activity_id( "ACT_AUTODRIVE" ), drive_do_turn },
+    { activity_id( "ACT_CHURN" ), churn_do_turn },
     { activity_id( "ACT_FIELD_DRESS" ), butcher_do_turn },
     { activity_id( "ACT_SKIN" ), butcher_do_turn },
     { activity_id( "ACT_QUARTER" ), butcher_do_turn },
@@ -157,6 +160,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_do_turn },
     { activity_id( "ACT_CHOP_LOGS" ), chop_tree_do_turn },
     { activity_id( "ACT_CHOP_PLANKS" ), chop_tree_do_turn },
+    { activity_id( "ACT_TIDY_UP" ), tidy_up_do_turn },
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_do_turn },
     { activity_id( "ACT_DIG" ), dig_do_turn },
     { activity_id( "ACT_DIG_CHANNEL" ), dig_channel_do_turn },
@@ -194,6 +198,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_RELOAD" ), reload_finish },
     { activity_id( "ACT_START_FIRE" ), start_fire_finish },
     { activity_id( "ACT_TRAIN" ), train_finish },
+    { activity_id( "ACT_CHURN" ), churn_finish },
     { activity_id( "ACT_VEHICLE" ), vehicle_finish },
     { activity_id( "ACT_START_ENGINES" ), start_engines_finish },
     { activity_id( "ACT_OXYTORCH" ), oxytorch_finish },
@@ -1497,12 +1502,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         add_msg( _( "You didn't find anything." ) );
     }
 
-    ///\EFFECT_INT Intelligence caps survival skill gains from foraging
-    const int max_forage_skill = p->int_cur / 3 + 1;
-    ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
-    const int max_exp = 2 * ( max_forage_skill - p->get_skill_level( skill_survival ) );
-    // Award experience for foraging attempt regardless of success
-    p->practice( skill_survival, rng( 1, max_exp ), max_forage_skill );
+    iexamine::practice_survival_while_foraging( p );
 
     act->set_to_null();
 }
@@ -1907,7 +1907,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         const Skill &skill = sk.obj();
         std::string skill_name = skill.name();
         int old_skill_level = p->get_skill_level( sk );
-        p->practice( sk, 100, old_skill_level );
+        p->practice( sk, 100, old_skill_level + 2 );
         int new_skill_level = p->get_skill_level( sk );
         if( old_skill_level != new_skill_level ) {
             add_msg( m_good, _( "You finish training %s to level %d." ),
@@ -1921,7 +1921,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
                                      new_skill_level, skill_name );
             }
         } else {
-            add_msg( m_good, _( "You finish training %s." ), skill_name );
+            add_msg( m_good, _( "You get some training in %s." ), skill_name );
         }
         act->set_to_null();
         return;
@@ -2097,7 +2097,7 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
                                "Some of the %s's engines start up.", non_muscle_started ), veh->name );
         } else if( non_combustion_started > 0 ) {
             //Non-combustions "engines" started
-            add_msg( "The %s is ready for movement.", veh->name );
+            add_msg( _( "The %s is ready for movement." ), veh->name );
         } else {
             //All of the non-muscle engines failed
             add_msg( m_bad, ngettext( "The %s's engine fails to start.",
@@ -2602,7 +2602,7 @@ void activity_handlers::move_items_do_turn( player_activity *act, player *p )
 
 void activity_handlers::move_loot_do_turn( player_activity *act, player *p )
 {
-    activity_on_turn_move_loot( *act, *p );
+    generic_multi_activity_handler( *act, *p );
 }
 
 void activity_handlers::adv_inventory_do_turn( player_activity *, player *p )
@@ -2885,9 +2885,9 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     - values[3]: pl_skill
     - values[4] and above: occupied body_parts
     - str_values[0]: install/uninstall
-    - str_values[1]: cbm name
+    - str_values[1]: deprecated
     - str_values[2]: bionic_id
-    - str_values[3]: upgraded cbm name
+    - str_values[3]: deprecated
     - str_values[4]: upgraded cbm bionic_id
     - str_values[5]: installer name
     - str_values[6]: bool autodoc
@@ -2903,6 +2903,8 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
         is_autodoc = 6,
         trait_first = 7
     };
+    const bionic_id bid( act->str_values[cbm_id] );
+    const bionic_id upbid( act->str_values[upgraded_cbm_id] );
     const bool autodoc = act->str_values[is_autodoc] == "true";
     const bool u_see = p->is_player() ? true : g->u.sees( p->pos() ) &&
                        !g->u.has_effect( effect_narcosis );
@@ -2972,9 +2974,9 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                 add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
             }
 
-            if( p->has_bionic( bionic_id( act->str_values[cbm_id] ) ) ) {
-                p->perform_uninstall( bionic_id( act->str_values[cbm_id] ), act->values[0], act->values[1],
-                                      act->values[2], act->values[3], act->str_values[cbm_name] );
+            if( p->has_bionic( bid ) ) {
+                p->perform_uninstall( bid, act->values[0], act->values[1],
+                                      act->values[2], act->values[3] );
             } else {
                 debugmsg( _( "Tried to uninstall %s, but you don't have this bionic installed." ),
                           act->str_values[cbm_id] );
@@ -2986,17 +2988,15 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                 add_msg( m_info, _( "The Autodoc attempts to carefully insert the bionic." ) );
             }
 
-            if( bionic_id( act->str_values[cbm_id] ).is_valid() ) {
+            if( bid.is_valid() ) {
                 std::vector<trait_id> trait_to_rem;
                 if( act->str_values.size() > trait_first + 1 ) {
                     for( size_t i = trait_first; i < act->str_values.size(); i++ ) {
                         trait_to_rem.emplace_back( trait_id( act->str_values[i] ) );
                     }
                 }
-                p->perform_install( bionic_id( act->str_values[cbm_id] ),
-                                    bionic_id( act->str_values[upgraded_cbm_id] ), act->values[0], act->values[1], act->values[3],
-                                    act->str_values[cbm_name], act->str_values[upgraded_cbm_name], act->str_values[installer_name],
-                                    trait_to_rem, p->pos() );
+                p->perform_install( bid, upbid, act->values[0], act->values[1], act->values[3],
+                                    act->str_values[installer_name], trait_to_rem, p->pos() );
             } else {
                 debugmsg( _( "%s is no a valid bionic_id" ), act->str_values[cbm_id] );
                 p->remove_effect( effect_under_op );
@@ -3094,6 +3094,26 @@ static bool character_has_skill_for( const player *p, const construction &con )
     } );
 }
 
+void activity_handlers::churn_do_turn( player_activity *act, player *p )
+{
+    ( void )act;
+    ( void )p;
+    p->set_moves( 0 );
+}
+
+void activity_handlers::churn_finish( player_activity *act, player *p )
+{
+    p->add_msg_if_player( _( "You finish churning up the earth here." ) );
+    g->m.ter_set( g->m.getlocal( act->placement ), t_dirtmound );
+    // Go back to what we were doing before
+    // could be player zone activity, or could be NPC multi-farming
+    act->set_to_null();
+    if( !p->backlog.empty() ) {
+        p->activity = p->backlog.front();
+        p->backlog.pop_front();
+    }
+}
+
 void activity_handlers::build_do_turn( player_activity *act, player *p )
 {
     const std::vector<construction> &list_constructions = get_constructions();
@@ -3149,100 +3169,24 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::multiple_construction_do_turn( player_activity *act, player *p )
+void activity_handlers::tidy_up_do_turn( player_activity *act, player *p )
 {
-    ( void )act;
-    const activity_id act_multiple_construction = activity_id( "ACT_MULTIPLE_CONSTRUCTION" );
-    tripoint src_loc_start = p->pos();
-    // search in a radius around unsorted zone to find corpse spots
-    std::vector<tripoint> build_spots;
-    for( tripoint p : g->m.points_in_radius( src_loc_start, 20 ) ) {
-        partial_con *pc = g->m.partial_con_at( p );
-        if( pc ) {
-            build_spots.push_back( p );
-        }
-    }
-    // Nuke the current activity, leaving the backlog alone.
-    p->activity = player_activity();
-
-    // sort source tiles by distance
-    for( auto &src_loc : build_spots ) {
-        if( !g->m.inbounds( src_loc ) ) {
-            if( !g->m.inbounds( p->pos() ) ) {
-                // p is implicitly an NPC that has been moved off the map, so reset the activity
-                // and unload them
-                p->assign_activity( act_multiple_construction );
-                p->set_moves( 0 );
-                g->reload_npcs();
-                return;
-            }
-            std::vector<tripoint> route = route_adjacent( *p, src_loc );
-            if( route.empty() ) {
-                // can't get there, can't do anything, skip it
-                continue;
-            }
-            p->set_destination( route, player_activity( act_multiple_construction ) );
-            return;
-        }
-
-        // skip tiles on fire so as not to try and butcher corpses on fire
-        // and inaccessible furniture, like filled charcoal kiln
-        if( g->m.get_field( src_loc, fd_fire ) != nullptr ) {
-            continue;
-        }
-        bool adjacent = false;
-        for( auto elem : g->m.points_in_radius( src_loc, 1 ) ) {
-            if( p->pos() == elem ) {
-                adjacent = true;
-                break;
-            }
-        }
-        if( !adjacent ) {
-            std::vector<tripoint> route = route_adjacent( *p, src_loc );
-
-            // check if we found path to source / adjacent tile
-            if( route.empty() ) {
-                add_msg( m_info, _( "%s can't reach the source tile to construct" ),
-                         p->disp_name() );
-                return;
-            }
-
-            // set the destination and restart activity after player arrives there
-            // we don't need to check for safe mode,
-            // activity will be restarted only if
-            // player arrives on destination tile
-            p->set_destination( route, player_activity( act_multiple_construction ) );
-            return;
-        }
-        // maybe the construction dissappeared, double check before starting work
-        partial_con *nc = g->m.partial_con_at( src_loc );
-        if( !nc ) {
-            p->assign_activity( act_multiple_construction );
-            return;
-        }
-        p->backlog.push_front( act_multiple_construction );
-        p->assign_activity( activity_id( "ACT_BUILD" ) );
-        p->activity.placement = g->m.getabs( src_loc );
-        return;
-
-    }
-    if( p->moves <= 0 ) {
-        // Restart activity and break from cycle.
-        p->assign_activity( act_multiple_construction );
-        return;
-    }
-
-    // If we got here without restarting the activity, it means we're done.
-    if( p->is_npc() ) {
-        npc *guy = dynamic_cast<npc *>( p );
-        guy->current_activity_id = activity_id::NULL_ID();
-        guy->revert_after_activity();
-    }
+    generic_multi_activity_handler( *act, *p );
 }
 
-void activity_handlers::blueprint_construction_do_turn( player_activity *act, player *p )
+void activity_handlers::multiple_construction_do_turn( player_activity *act, player *p )
 {
-    activity_on_turn_blueprint_move( *act, *p );
+    generic_multi_activity_handler( *act, *p );
+}
+
+void activity_handlers::multiple_farm_do_turn( player_activity *act, player *p )
+{
+    generic_multi_activity_handler( *act, *p );
+}
+
+void activity_handlers::fetch_do_turn( player_activity *act, player *p )
+{
+    generic_multi_activity_handler( *act, *p );
 }
 
 void activity_handlers::craft_do_turn( player_activity *act, player *p )
@@ -3797,42 +3741,41 @@ static void perform_zone_activity_turn( player *p,
         } else { // we are at destination already
             /* Perform action */
             tile_action( *p, tile_loc );
-
             if( p->moves <= 0 ) {
                 return;
             }
         }
     }
-
     add_msg( m_info, finished_msg );
     p->activity.set_to_null();
 }
 
 void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
 {
-    const auto reject_tile = [p]( const tripoint & tile ) {
-        return !p->sees( tile ) || !g->m.has_flag_furn( "GROWTH_HARVEST", tile );
+    const auto reject_tile = []( const tripoint & tile ) {
+        return !g->m.has_flag_furn( "GROWTH_HARVEST", tile );
+    };
+    const auto harvest = [&]( player & p, const tripoint & tile ) {
+        iexamine::harvest_plant( p, tile, false );
     };
     perform_zone_activity_turn( p,
                                 zone_type_id( "FARM_PLOT" ),
                                 reject_tile,
-                                iexamine::harvest_plant,
+                                harvest,
                                 _( "You harvested all the plots you could." ) );
 
 }
 
 void activity_handlers::till_plot_do_turn( player_activity *, player *p )
 {
-    const auto reject_tile = [p]( const tripoint & tile ) {
-        return !p->sees( tile ) || !g->m.has_flag( "PLOWABLE", tile ) || g->m.has_furn( tile );
+    const auto reject_tile = []( const tripoint & tile ) {
+        return !g->m.has_flag( "PLOWABLE", tile ) || g->m.has_furn( tile );
     };
 
     const auto dig = []( player & p, const tripoint & tile_loc ) {
-        p.add_msg_if_player( _( "You churn up the earth here." ) );
-        p.mod_moves( -300 );
-        g->m.ter_set( tile_loc, t_dirtmound );
+        p.assign_activity( activity_id( "ACT_CHURN" ), 18000, -1 );
+        p.activity.placement = g->m.getabs( tile_loc );
     };
-
     perform_zone_activity_turn( p,
                                 zone_type_id( "FARM_PLOT" ),
                                 reject_tile,
@@ -3866,7 +3809,7 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p 
     const auto reject_tile = [&]( const tripoint & tile ) {
         check_fertilizer();
         ret_val<bool> can_fert = iexamine::can_fertilize( *p, tile, fertilizer );
-        return !p->sees( tile ) || !can_fert.success();
+        return !can_fert.success();
     };
 
     const auto fertilize = [&]( player & p, const tripoint & tile ) {
@@ -3917,7 +3860,7 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
 
     // cleanup unwanted tiles (local coords)
     const auto reject_tiles = [&]( const tripoint & tile ) {
-        if( !p->sees( tile ) || !g->m.has_flag_ter_or_furn( "PLANTABLE", tile ) ||
+        if( !g->m.has_flag_ter_or_furn( "PLANTABLE", tile ) ||
             g->m.has_items( tile ) ) {
             return true;
         }
@@ -4280,7 +4223,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                        false );
     }
 
-    p->add_msg_if_player( _( "You cast %s!" ), casting.name() );
+    p->add_msg_if_player( casting.message(), casting.name() );
 
     casting.cast_all_effects( *p, target );
 
