@@ -1723,10 +1723,10 @@ class vehicle
         unsigned char vehicle_noise = 0;
 
     public:
-        constexpr bool operator==( const vehicle &rhs ) const {
+        bool operator==( const vehicle &rhs ) const {
             return om_id == rhs.om_id;
         }
-        constexpr bool operator!=( const vehicle &rhs ) const {
+        bool operator!=( const vehicle &rhs ) const {
             return om_id != rhs.om_id;
         }
 };
