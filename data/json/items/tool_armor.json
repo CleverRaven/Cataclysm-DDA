@@ -540,7 +540,7 @@
       "TRADER_AVOID",
       "CLIMATE_CONTROL"
     ],
-    "turns_per_charge": 3,
+    "turns_per_charge": 18,
     "revert_to": "rm13_armor",
     "use_action": "RM13ARMOR_ON",
     "environmental_protection": 40,
