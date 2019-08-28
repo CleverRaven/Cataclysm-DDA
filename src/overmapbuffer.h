@@ -19,6 +19,7 @@
 #include "point.h"
 #include "string_id.h"
 
+class character_id;
 struct mongroup;
 class monster;
 class npc;
@@ -244,7 +245,7 @@ class overmapbuffer
          * Returns NULL if the npc could not be found.
          * Searches all loaded overmaps.
          */
-        std::shared_ptr<npc> find_npc( int id );
+        std::shared_ptr<npc> find_npc( character_id id );
         /**
          * Get all NPCs active on the overmap
          */
@@ -253,7 +254,7 @@ class overmapbuffer
          * Find npc by id and if found, erase it from the npc list
          * and return it ( or return nullptr if not found ).
          */
-        std::shared_ptr<npc> remove_npc( int id );
+        std::shared_ptr<npc> remove_npc( character_id id );
         /**
          * Adds the npc to an overmap ( based on the npcs current location )
          * and stores it there. The overmap takes ownership of the pointer.
@@ -439,9 +440,9 @@ class overmapbuffer
          * @param force If true, placement will bypass the checks for valid placement.
          * @returns True if the special was placed, else false.
          */
-        bool place_special( const overmap_special &special, const tripoint &location,
+        bool place_special( const overmap_special &special, const tripoint &p,
                             om_direction::type dir,
-                            const bool must_be_unexplored, const bool force );
+                            bool must_be_unexplored, bool force );
         /**
          * Place the specified overmap special using the overmap's placement algorithm. Intended to be used
          * when you have a special that you want placed but it should be placed similarly to as if it were
@@ -492,7 +493,7 @@ class overmapbuffer
          * overmap terrain coordinates.
          * This function may create a new overmap if needed.
          */
-        bool check_ot( const std::string &otype, ot_match_type match_type, const tripoint &loc );
+        bool check_ot( const std::string &otype, ot_match_type match_type, const tripoint &p );
         bool check_overmap_special_type( const overmap_special_id &id, const tripoint &loc );
 
         /**
@@ -516,7 +517,7 @@ class overmapbuffer
          * The location is in absolute submap coordinates, the radius is in the same system.
          * The overmaps are returned sorted by distance from the provided location (closest first).
          */
-        std::vector<overmap *> get_overmaps_near( const point &location, int radius );
+        std::vector<overmap *> get_overmaps_near( const point &p, int radius );
         std::vector<overmap *> get_overmaps_near( const tripoint &location, int radius );
 };
 

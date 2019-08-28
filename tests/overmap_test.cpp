@@ -36,7 +36,7 @@ TEST_CASE( "set_and_get_overmap_scents" )
 TEST_CASE( "default_overmap_generation_always_succeeds" )
 {
     int overmaps_to_construct = 10;
-    for( point candidate_addr : closest_points_first( 10, { 0, 0 } ) ) {
+    for( point candidate_addr : closest_points_first( 10, point_zero ) ) {
         // Skip populated overmaps.
         if( overmap_buffer.has( candidate_addr ) ) {
             continue;
@@ -57,7 +57,7 @@ TEST_CASE( "default_overmap_generation_always_succeeds" )
 
 TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin" )
 {
-    const point origin = point( 0, 0 );
+    const point origin = point_zero;
 
     overmap_special mandatory;
     overmap_special optional;

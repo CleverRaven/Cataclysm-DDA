@@ -57,7 +57,7 @@
     "cancels": [ "MANA_ADD1", "MANA_ADD2", "MANA_ADD3" ],
     "changes_to": [ "MANA_SUB2" ],
     "types": [ "MANA_ADD" ],
-    "mana_modifier": 500
+    "mana_modifier": -500
   },
   {
     "type": "mutation",
@@ -69,7 +69,7 @@
     "changes_to": [ "MANA_SUB3" ],
     "types": [ "MANA_ADD" ],
     "prereqs": [ "MANA_SUB1" ],
-    "mana_modifier": 1000
+    "mana_modifier": -1000
   },
   {
     "type": "mutation",
@@ -80,7 +80,7 @@
     "cancels": [ "MANA_ADD1", "MANA_ADD2", "MANA_ADD3" ],
     "types": [ "MANA_ADD" ],
     "prereqs": [ "MANA_SUB2" ],
-    "mana_modifier": 2000
+    "mana_modifier": -2000
   },
   {
     "type": "mutation",

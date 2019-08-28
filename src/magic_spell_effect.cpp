@@ -47,7 +47,7 @@ static tripoint random_point( int min_distance, int max_distance, const tripoint
     const int dist = rng( min_distance, max_distance );
     const int x = round( dist * cos( angle ) );
     const int y = round( dist * sin( angle ) );
-    return tripoint( x + player_pos.x, y + player_pos.y, player_pos.z );
+    return player_pos + point( x, y );
 }
 
 void spell_effect::teleport_random( const spell &sp, Creature &caster, const tripoint & )
@@ -650,7 +650,7 @@ void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
     // this should never be negative, but this'll keep problems from happening
     size_t num_mons = abs( sp.damage() );
     const time_duration summon_time = sp.duration_turns();
-    while( num_mons > 0 && area.size() > 0 ) {
+    while( num_mons > 0 && !area.empty() ) {
         const size_t mon_spot = rng( 0, area.size() - 1 );
         auto iter = area.begin();
         std::advance( iter, mon_spot );

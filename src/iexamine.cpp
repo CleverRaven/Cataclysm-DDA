@@ -621,7 +621,7 @@ void iexamine::vending( player &p, const tripoint &examp )
         mvwaddch( w, point( 0, first_item_offset - 1 ), LINE_XXXO ); // |-
         mvwaddch( w, point( w_items_w - 1, first_item_offset - 1 ), LINE_XOXX ); // -|
 
-        trim_and_print( w, 1, 2, w_items_w - 3, c_light_gray,
+        trim_and_print( w, point( 2, 1 ), w_items_w - 3, c_light_gray,
                         _( "Money left: %s" ), format_money( money ) );
 
         // Keep the item selector centered in the page.
@@ -639,11 +639,11 @@ void iexamine::vending( player &p, const tripoint &examp )
             const auto &elem = item_list[i];
             const int count = elem->second.size();
             const char c = ( count < 10 ) ? ( '0' + count ) : '*';
-            trim_and_print( w, first_item_offset + line, 1, w_items_w - 3, color, "%c %s", c,
+            trim_and_print( w, point( 1, first_item_offset + line ), w_items_w - 3, color, "%c %s", c,
                             elem->first.c_str() );
         }
 
-        draw_scrollbar( w, cur_pos, list_lines, num_items, first_item_offset );
+        draw_scrollbar( w, cur_pos, list_lines, num_items, point( 0, first_item_offset ) );
         wrefresh( w );
 
         // Item info
@@ -653,7 +653,7 @@ void iexamine::vending( player &p, const tripoint &examp )
         werase( w_item_info );
         // | {line}|
         // 12      3
-        fold_and_print( w_item_info, 1, 2, w_info_w - 3, c_light_gray, cur_item->info( true ) );
+        fold_and_print( w_item_info, point( 2, 1 ), w_info_w - 3, c_light_gray, cur_item->info( true ) );
         wborder( w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
@@ -661,7 +661,7 @@ void iexamine::vending( player &p, const tripoint &examp )
         //12      34
         const std::string name = utf8_truncate( cur_item->display_name(),
                                                 static_cast<size_t>( w_info_w - 4 ) );
-        mvwprintw( w_item_info, point( 1, 0 ), "<%s>", name );
+        mvwprintw( w_item_info, point_east, "<%s>", name );
         wrefresh( w_item_info );
 
         const std::string &action = ctxt.handle_input();
@@ -1272,9 +1272,8 @@ void iexamine::locked_object( player &p, const tripoint &examp )
         return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
     } );
 
-    p.add_msg_if_player( string_format( _( "You attempt to pry open the %s using your %s..." ),
-                                        g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ),
-                                        prying_items[0]->tname() ) );
+    p.add_msg_if_player( _( "You attempt to pry open the %s using your %s..." ),
+                         g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ), prying_items[0]->tname() );
 
     // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
     // changes to the original item.
@@ -1705,6 +1704,8 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         p.add_msg_if_player( m_bad, _( "You couldn't harvest anything." ) );
     }
 
+    iexamine::practice_survival_while_foraging( &p );
+
     p.mod_moves( -to_moves<int>( rng( 5_seconds, 15_seconds ) ) );
     return true;
 }
@@ -1911,15 +1912,21 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
     } else {
         used_seed = p.use_amount( seed_id, 1 );
     }
-    used_seed.front().set_age( 0_turns );
-    g->m.add_item_or_charges( examp, used_seed.front() );
-    if( g->m.has_flag_furn( "PLANTABLE", examp ) ) {
-        g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
-    } else {
-        g->m.set( examp, t_dirt, f_plant_seed );
+    if( !used_seed.empty() ) {
+        used_seed.front().set_age( 0_turns );
+        if( used_seed.front().has_var( "activity_var" ) ) {
+            used_seed.front().erase_var( "activity_var" );
+        }
+        g->m.add_item_or_charges( examp, used_seed.front() );
+        if( g->m.has_flag_furn( "PLANTABLE", examp ) ) {
+            g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
+        } else {
+            g->m.set( examp, t_dirt, f_plant_seed );
+        }
+        p.moves -= to_moves<int>( 30_seconds );
+        p.add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
+                                 item::nname( seed_id ) );
     }
-    p.moves -= to_moves<int>( 30_seconds );
-    add_msg( _( "Planted %s." ), item::nname( seed_id ) );
 }
 
 /**
@@ -2016,7 +2023,7 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
 /**
  * Actual harvesting of selected plant
  */
-void iexamine::harvest_plant( player &p, const tripoint &examp )
+void iexamine::harvest_plant( player &p, const tripoint &examp, bool from_activity )
 {
     // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = g->m.i_at( examp );
@@ -2070,6 +2077,9 @@ void iexamine::harvest_plant( player &p, const tripoint &examp )
         }
         const int seedCount = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
         for( auto &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
+            if( from_activity ) {
+                i.set_var( "activity_var", p.name );
+            }
             g->m.add_item_or_charges( examp, i );
         }
         g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
@@ -2619,8 +2629,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
         selection_menu.addentry( 4, false, 'e', _( "Extinguish fire (bashing item required)" ) );
     }
     if( furn_is_deployed ) {
-        selection_menu.addentry( 3, true, 't', string_format( _( "Take down the %s" ),
-                                 g->m.furnname( examp ) ) );
+        selection_menu.addentry( 3, true, 't', _( "Take down the %s" ), g->m.furnname( examp ) );
     }
     selection_menu.query();
 
@@ -2634,8 +2643,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
                 item *it = firestarter.second;
                 const auto usef = it->type->get_use( "firestarter" );
                 const auto actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-                p.add_msg_if_player( string_format( _( "You attempt to start a fire with your %s..." ),
-                                                    it->tname() ) );
+                p.add_msg_if_player( _( "You attempt to start a fire with your %s..." ), it->tname() );
                 const ret_val<bool> can_use = actor->can_use( p, *it, false, examp );
                 if( can_use.success() ) {
                     const int charges = actor->use( p, *it, false, examp );
@@ -2752,9 +2760,9 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
         uilist selectmenu;
         selectmenu.text = _( "Select an action" );
         selectmenu.addentry( ADD_BREW, ( p.charges_of( brew_type ) > 0 ), MENU_AUTOASSIGN,
-                             string_format( _( "Add more %s to the vat" ), brew_nname ) );
+                             _( "Add more %s to the vat" ), brew_nname );
         selectmenu.addentry( REMOVE_BREW, brew.made_of( LIQUID ), MENU_AUTOASSIGN,
-                             string_format( _( "Remove %s from the vat" ), brew.tname() ) );
+                             _( "Remove %s from the vat" ), brew.tname() );
         selectmenu.addentry( START_FERMENT, true, MENU_AUTOASSIGN, _( "Start fermenting cycle" ) );
         selectmenu.query();
         switch( selectmenu.ret ) {
@@ -4282,9 +4290,9 @@ static player &best_installer( player &p, player &null_player, int difficulty )
             int ally_cos = bionic_manip_cos( ally_skills[ i ].first, true, difficulty );
             if( e->has_effect( effect_sleep ) ) {
                 //~ %1$s is the name of the ally
-                if( !g->u.query_yn( string_format(
-                                        _( "<color_white>%1$s is asleep, but has a <color_green>%2$d<color_white> chance of success compared to your <color_red>%3$d<color_white> chance of success.  Continue with a higher risk of failure?</color>" ),
-                                        ally.disp_name(), ally_cos, player_cos ) ) ) {
+                if( !g->u.query_yn(
+                        _( "<color_white>%1$s is asleep, but has a <color_green>%2$d<color_white> chance of success compared to your <color_red>%3$d<color_white> chance of success.  Continue with a higher risk of failure?</color>" ),
+                        ally.disp_name(), ally_cos, player_cos ) ) {
                     return null_player;
                 } else {
                     continue;
@@ -4345,9 +4353,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
                 case 2: {
                     std::vector<std::string> choice_names;
-                    choice_names.push_back( "Personality_Override" );
+                    choice_names.push_back( _( "Personality_Override" ) );
                     for( size_t i = 0; i < 6; i++ ) {
-                        choice_names.push_back( "C0RR#PTED?D#TA" );
+                        choice_names.push_back( _( "C0RR#PTED?D#TA" ) );
                     }
                     int choice_index = uilist( _( "Choose bionic to uninstall" ), choice_names );
                     if( choice_index == 0 ) {
@@ -5568,18 +5576,15 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
             const recipe &rec = selected_craft->get_making();
             if( p.has_recipe( &rec, p.crafting_inventory(), p.get_crafting_helpers() ) == -1 ) {
                 p.add_msg_player_or_npc(
-                    string_format( _( "You don't know the recipe for the %s and can't continue crafting." ),
-                                   rec.result_name() ),
-                    string_format( _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
-                                   rec.result_name() )
-                );
+                    _( "You don't know the recipe for the %s and can't continue crafting." ),
+                    _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
+                    rec.result_name() );
                 break;
             }
             p.add_msg_player_or_npc(
-                string_format( pgettext( "in progress craft", "You start working on the %s." ),
-                               selected_craft->tname() ),
-                string_format( pgettext( "in progress craft", "<npcname> starts working on the %s." ),
-                               selected_craft->tname() ) );
+                pgettext( "in progress craft", "You start working on the %s." ),
+                pgettext( "in progress craft", "<npcname> starts working on the %s." ),
+                selected_craft->tname() );
             p.assign_activity( activity_id( "ACT_CRAFT" ) );
             p.activity.targets.push_back( crafts[amenu2.ret] );
             p.activity.values.push_back( 0 ); // Not a long craft
@@ -5747,4 +5752,14 @@ hack_result iexamine::hack_attempt( player &p )
     } else {
         return HACK_SUCCESS;
     }
+}
+
+void iexamine::practice_survival_while_foraging( player *p )
+{
+    ///\EFFECT_INT Intelligence caps survival skill gains from foraging
+    const int max_forage_skill = p->int_cur / 3 + 1;
+    ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
+    const int max_exp = 2 * ( max_forage_skill - p->get_skill_level( skill_survival ) );
+    // Award experience for foraging attempt regardless of success
+    p->practice( skill_survival, rng( 1, max_exp ), max_forage_skill );
 }

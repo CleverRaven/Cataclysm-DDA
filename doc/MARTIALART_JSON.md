@@ -45,11 +45,14 @@
 "req_buffs": [ "eskrima_hit_buff" ],    // This technique requires a named buff to be active
 "crit_tec" : true,          // This technique only works on a critical hit
 "crit_ok" : true,           // This technique works on both normal and critical hits
+"downed_target": true,      // Technique only works on a downed target
+"stunned_target": true,     // Technique only works on a stunned target
 "knockback_dist": 1,        // Distance target is knocked back
 "knockback_spread": 1,      // The knockback may not send the target straight back
 "knockback_follow": 1,      // Attacker will follow target if they are knocked back
 "stun_dur": 2,              // Duration that target is stunned for
 "down_dur": 2,              // Duration that target is downed for
+"side_switch": true,        // Technique moves the target behind user
 "disarms": true,            // This technique can disarm the opponent
 "grab_break": true,         // This technique may break a grab against the user
 "aoe": "spin",              // This technique has an area-of-effect; doesn't work against solo targets

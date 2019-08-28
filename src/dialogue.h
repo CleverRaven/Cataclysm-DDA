@@ -14,6 +14,7 @@
 #include "npc.h"
 #include "json.h"
 #include "string_id.h"
+#include "translations.h"
 #include "material.h"
 #include "type_id.h"
 
@@ -88,9 +89,9 @@ struct talk_effect_fun_t {
 
     public:
         talk_effect_fun_t() = default;
-        talk_effect_fun_t( talkfunction_ptr effect );
-        talk_effect_fun_t( const std::function<void( npc & )> effect );
-        talk_effect_fun_t( std::function<void( const dialogue &d )> fun );
+        talk_effect_fun_t( talkfunction_ptr );
+        talk_effect_fun_t( std::function<void( npc & )> );
+        talk_effect_fun_t( std::function<void( const dialogue &d )> );
         void set_companion_mission( const std::string &role_id );
         void set_add_effect( JsonObject jo, const std::string &member, bool is_npc = false );
         void set_remove_effect( JsonObject jo, const std::string &member, bool is_npc = false );
@@ -98,16 +99,16 @@ struct talk_effect_fun_t {
         void set_remove_trait( JsonObject jo, const std::string &member, bool is_npc = false );
         void set_add_var( JsonObject jo, const std::string &member, bool is_npc = false );
         void set_remove_var( JsonObject jo, const std::string &member, bool is_npc = false );
-        void set_u_buy_item( const std::string &new_trait, int cost, int count,
+        void set_u_buy_item( const std::string &item_name, int cost, int count,
                              const std::string &container_name );
         void set_u_spend_cash( int amount );
-        void set_u_sell_item( const std::string &new_trait, int cost, int count );
+        void set_u_sell_item( const std::string &item_name, int cost, int count );
         void set_consume_item( JsonObject jo, const std::string &member, int count,
                                bool is_npc = false );
         void set_remove_item_with( JsonObject jo, const std::string &member, bool is_npc = false );
         void set_npc_change_faction( const std::string &faction_name );
-        void set_npc_change_class( const std::string &faction_class );
-        void set_change_faction_rep( int amount );
+        void set_npc_change_class( const std::string &class_name );
+        void set_change_faction_rep( int rep_change );
         void set_add_debt( const std::vector<trial_mod> &debt_modifiers );
         void set_toggle_npc_rule( const std::string &rule );
         void set_set_npc_rule( const std::string &rule );
@@ -119,7 +120,10 @@ struct talk_effect_fun_t {
         void set_mapgen_update( JsonObject jo, const std::string &member );
         void set_bulk_trade_accept( bool is_trade, bool is_npc = false );
         void set_npc_gets_item( bool to_use );
-        void set_add_mission( const std::string mission_id );
+        void set_add_mission( std::string mission_id );
+        void set_u_buy_monster( const std::string &monster_type_id, int cost, int count, bool pacified,
+                                const translation &name );
+        void set_u_learn_recipe( const std::string &learned_recipe_id );
 
         void operator()( const dialogue &d ) const {
             if( !function ) {
@@ -155,12 +159,12 @@ struct talk_effect_t {
         /**
           * Sets an effect and consequence based on function pointer.
           */
-        void set_effect( talkfunction_ptr effect );
-        void set_effect( const talk_effect_fun_t &effect );
+        void set_effect( talkfunction_ptr );
+        void set_effect( const talk_effect_fun_t & );
         /**
           * Sets an effect to a function object and consequence to explicitly given one.
           */
-        void set_effect_consequence( const talk_effect_fun_t &eff, dialogue_consequence con );
+        void set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con );
         void set_effect_consequence( std::function<void( npc &p )> ptr, dialogue_consequence con );
 
         void load_effect( JsonObject &jo );
@@ -190,8 +194,8 @@ struct talk_response {
     /*
      * Optional responses from a true/false test that defaults to true.
      */
-    std::string truetext;
-    std::string falsetext;
+    translation truetext;
+    translation falsetext;
     std::function<bool( const dialogue & )> truefalse_condition;
 
     talk_trial trial;
@@ -259,7 +263,7 @@ struct dialogue {
          * this topic to the front of the responses.
          */
         talk_response &add_response( const std::string &text, const std::string &r,
-                                     const bool first = false );
+                                     bool first = false );
         /**
          * Add a response with the result TALK_DONE.
          */
@@ -273,7 +277,7 @@ struct dialogue {
          * action. The response always succeeds. Consequence is based on function used.
          */
         talk_response &add_response( const std::string &text, const std::string &r,
-                                     dialogue_fun_ptr effect_success, const bool first = false );
+                                     dialogue_fun_ptr effect_success, bool first = false );
 
         /**
          * Add a simple response that switches the topic to the new one and executes the given
@@ -281,31 +285,31 @@ struct dialogue {
          */
         talk_response &add_response( const std::string &text, const std::string &r,
                                      std::function<void( npc & )> effect_success,
-                                     dialogue_consequence consequence, const bool first = false );
+                                     dialogue_consequence consequence, bool first = false );
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
          * talked about mission to the given one. The mission pointer must be valid.
          */
         talk_response &add_response( const std::string &text, const std::string &r, mission *miss,
-                                     const bool first = false );
+                                     bool first = false );
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
          * talked about skill to the given one.
          */
         talk_response &add_response( const std::string &text, const std::string &r, const skill_id &skill,
-                                     const bool first = false );
+                                     bool first = false );
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
          * talked about martial art style to the given one.
          */
         talk_response &add_response( const std::string &text, const std::string &r,
-                                     const martialart &style, const bool first = false );
+                                     const martialart &style, bool first = false );
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
          * talked about item type to the given one.
          */
         talk_response &add_response( const std::string &text, const std::string &r,
-                                     const itype_id &item_type, const bool first = false );
+                                     const itype_id &item_type, bool first = false );
 };
 
 /**

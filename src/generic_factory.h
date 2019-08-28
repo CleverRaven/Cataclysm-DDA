@@ -19,6 +19,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "wcwidth.h"
 
 /**
 A generic class to store objects identified by a `string_id`.
@@ -541,21 +542,6 @@ inline void optional( JsonObject &jo, const bool was_loaded, const std::string &
     }
 }
 /**@}*/
-
-/**
- * Reads a string from JSON and (if not empty) applies the translation function to it.
- */
-inline bool translated_string_reader( JsonObject &jo, const std::string &member_name,
-                                      std::string &member, bool )
-{
-    if( !jo.read( member_name, member ) ) {
-        return false;
-    }
-    if( !member.empty() ) {
-        member = _( member );
-    }
-    return true;
-}
 
 /**
  * Reads a string and stores the first byte of it in `sym`. Throws if the input contains more

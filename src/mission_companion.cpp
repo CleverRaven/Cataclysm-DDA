@@ -446,7 +446,8 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         if( redraw ) {
             werase( w_list );
             draw_border( w_list );
-            mvwprintz( w_list, 1, 1, c_white, name_mission_tabs( omt_pos, role_id, title,
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            mvwprintz( w_list, point( 1, 1 ), c_white, name_mission_tabs( omt_pos, role_id, title,
                        tab_mode ) );
 
             calcStartPos( offset, sel, info_height, cur_key_list.size() );
@@ -466,10 +467,10 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
                         col = ( current == sel ? h_white : c_dark_gray );
                     }
                 }
-                mvwprintz( w_list, i + 2, 1, col, "  %s", cur_key_list[current].name_display );
+                mvwprintz( w_list, point( 1, i + 2 ), col, "  %s", cur_key_list[current].name_display );
             }
 
-            draw_scrollbar( w_list, sel, info_height + 1, cur_key_list.size(), 1 );
+            draw_scrollbar( w_list, sel, info_height + 1, cur_key_list.size(), point_south );
             wrefresh( w_list );
             werase( w_info );
 
@@ -492,7 +493,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
 
             // Display the current subset of the mission text.
             for( size_t start_line = 0; start_line < end_line; start_line++ ) {
-                print_colored_text( w_info, start_line, 0, col, col,
+                print_colored_text( w_info, point( 0, start_line ), col, col,
                                     mission_text[start_line + info_offset] );
             }
 
@@ -507,7 +508,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         }
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
-            mvwprintz( w_list, sel + 2, 1, c_white, "-%s", mission_key.cur_key.id );
+            mvwprintz( w_list, point( 1, sel + 2 ), c_white, "-%s", mission_key.cur_key.id );
             if( sel == cur_key_list.size() - 1 ) {
                 sel = 0;    // Wrap around
             } else {
@@ -516,7 +517,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             info_offset = 0;
             redraw = true;
         } else if( action == "UP" ) {
-            mvwprintz( w_list, sel + 2, 1, c_white, "-%s", mission_key.cur_key.id );
+            mvwprintz( w_list, point( 1, sel + 2 ), c_white, "-%s", mission_key.cur_key.id );
             if( sel == 0 ) {
                 sel = cur_key_list.size() - 1;    // Wrap around
             } else {
@@ -896,12 +897,12 @@ void talk_function::field_build_1( npc &p )
                           false );
     tinymap bay;
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
-    bay.draw_square_ter( t_dirt, 5, 4, 15, 14 );
-    bay.draw_square_ter( t_dirtmound, 6, 5, 6, 13 );
-    bay.draw_square_ter( t_dirtmound, 8, 5, 8, 13 );
-    bay.draw_square_ter( t_dirtmound, 10, 5, 10, 13 );
-    bay.draw_square_ter( t_dirtmound, 12, 5, 12, 13 );
-    bay.draw_square_ter( t_dirtmound, 14, 5, 14, 13 );
+    bay.draw_square_ter( t_dirt, point( 5, 4 ), point( 15, 14 ) );
+    bay.draw_square_ter( t_dirtmound, point( 6, 5 ), point( 6, 13 ) );
+    bay.draw_square_ter( t_dirtmound, point( 8, 5 ), point( 8, 13 ) );
+    bay.draw_square_ter( t_dirtmound, point( 10, 5 ), point( 10, 13 ) );
+    bay.draw_square_ter( t_dirtmound, point( 12, 5 ), point( 12, 13 ) );
+    bay.draw_square_ter( t_dirtmound, point( 14, 5 ), point( 14, 13 ) );
     bay.save();
     popup( _( "%s jots your name down on a ledger and yells out to nearby laborers to begin "
               "plowing your new field." ), p.name );
@@ -920,13 +921,13 @@ void talk_function::field_build_2( npc &p )
                           20, false );
     tinymap bay;
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
-    bay.draw_square_ter( t_fence, 4, 3, 16, 3 );
-    bay.draw_square_ter( t_fence, 4, 15, 16, 15 );
-    bay.draw_square_ter( t_fence, 4, 3, 4, 15 );
-    bay.draw_square_ter( t_fence, 16, 3, 16, 15 );
-    bay.draw_square_ter( t_fencegate_c, 10, 3, 10, 3 );
-    bay.draw_square_ter( t_fencegate_c, 10, 15, 10, 15 );
-    bay.draw_square_ter( t_fencegate_c, 4, 9, 4, 9 );
+    bay.draw_square_ter( t_fence, point( 4, 3 ), point( 16, 3 ) );
+    bay.draw_square_ter( t_fence, point( 4, 15 ), point( 16, 15 ) );
+    bay.draw_square_ter( t_fence, point( 4, 3 ), point( 4, 15 ) );
+    bay.draw_square_ter( t_fence, point( 16, 3 ), point( 16, 15 ) );
+    bay.draw_square_ter( t_fencegate_c, point( 10, 3 ), point( 10, 3 ) );
+    bay.draw_square_ter( t_fencegate_c, point( 10, 15 ), point( 10, 15 ) );
+    bay.draw_square_ter( t_fencegate_c, point( 4, 9 ), point( 4, 9 ) );
     bay.save();
     popup( _( "After counting your money %s directs a nearby laborer to begin constructing a "
               "fence around your plot..." ), p.name );
@@ -979,7 +980,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     for( int x = 0; x < SEEX * 2 - 1; x++ ) {
         for( int y = 0; y < SEEY * 2 - 1; y++ ) {
-            if( bay.ter( x, y ) == t_dirtmound ) {
+            if( bay.ter( point( x, y ) ) == t_dirtmound ) {
                 empty_plots++;
             }
         }
@@ -1008,7 +1009,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
     //Plant the actual seeds
     for( int x = 0; x < SEEX * 2 - 1; x++ ) {
         for( int y = 0; y < SEEY * 2 - 1; y++ ) {
-            if( bay.ter( x, y ) == t_dirtmound && limiting_number > 0 ) {
+            if( bay.ter( point( x, y ) ) == t_dirtmound && limiting_number > 0 ) {
                 std::list<item> used_seed;
                 if( item::count_by_charges( seed_id ) ) {
                     used_seed = g->u.use_charges( seed_id, 1 );
@@ -1016,13 +1017,13 @@ void talk_function::field_plant( npc &p, const std::string &place )
                     used_seed = g->u.use_amount( seed_id, 1 );
                 }
                 used_seed.front().set_age( 0_turns );
-                bay.add_item_or_charges( x, y, used_seed.front() );
+                bay.add_item_or_charges( point( x, y ), used_seed.front() );
                 bay.set( point( x, y ), t_dirt, f_plant_seed );
                 limiting_number--;
             }
         }
     }
-    bay.draw_square_ter( t_fence, 4, 3, 16, 3 );
+    bay.draw_square_ter( t_fence, point( 4, 3 ), point( 16, 3 ) );
     bay.save();
     popup( _( "After counting your money and collecting your seeds, %s calls forth a labor party "
               "to plant your field." ), p.name );
@@ -1041,9 +1042,10 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     for( int x = 0; x < SEEX * 2 - 1; x++ ) {
         for( int y = 0; y < SEEY * 2 - 1; y++ ) {
-            if( bay.furn( x, y ) == furn_str_id( "f_plant_harvest" ) && !bay.i_at( x, y ).empty() ) {
+            if( bay.furn( point( x, y ) ) == furn_str_id( "f_plant_harvest" ) &&
+                !bay.i_at( point( x, y ) ).empty() ) {
                 // Can't use item_stack::only_item() since there might be fertilizer
-                map_stack items = bay.i_at( x, y );
+                map_stack items = bay.i_at( point( x, y ) );
                 map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
                     return it.is_seed();
                 } );
@@ -1089,9 +1091,9 @@ void talk_function::field_harvest( npc &p, const std::string &place )
 
     for( int x = 0; x < SEEX * 2 - 1; x++ ) {
         for( int y = 0; y < SEEY * 2 - 1; y++ ) {
-            if( bay.furn( x, y ) == furn_str_id( "f_plant_harvest" ) ) {
+            if( bay.furn( point( x, y ) ) == furn_str_id( "f_plant_harvest" ) ) {
                 // Can't use item_stack::only_item() since there might be fertilizer
-                map_stack items = bay.i_at( x, y );
+                map_stack items = bay.i_at( point( x, y ) );
                 map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
                     return it.is_seed();
                 } );
@@ -1101,7 +1103,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
                     tmp = item( seed_data.fruit_id, calendar::turn );
                     if( tmp.typeId() == plant_types[plant_index] ) {
                         number_plots++;
-                        bay.i_clear( x, y );
+                        bay.i_clear( point( x, y ) );
                         bay.furn_set( point( x, y ), f_null );
                         bay.ter_set( point( x, y ), t_dirtmound );
                         int plantCount = rng( skillLevel / 2, skillLevel );
@@ -1443,6 +1445,8 @@ bool talk_function::forage_return( npc &p )
                 case WINTER:
                     itemlist = "forage_winter";
                     break;
+                default:
+                    debugmsg( "Invalid season" );
             }
         }
         auto result = item_group::item_from( itemlist );
@@ -1485,7 +1489,8 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
             const point omp = sm_to_om_remain( sm );
             overmap &omi = overmap_buffer.get( omp );
 
-            const tripoint current_submap_loc( om_tgt.x * 2 + x, om_tgt.y * 2 + y, om_tgt.z );
+            const tripoint current_submap_loc( tripoint( 2 * om_tgt.x, 2 * om_tgt.y, om_tgt.z ) + point( x,
+                                               y ) );
             auto monster_bucket = omi.monster_map.equal_range( current_submap_loc );
             std::for_each( monster_bucket.first,
             monster_bucket.second, [&]( std::pair<const tripoint, monster> &monster_entry ) {
@@ -2027,7 +2032,7 @@ void talk_function::loot_building( const tripoint &site )
             p.x = x;
             p.y = y;
             p.z = site.z;
-            ter_id t = bay.ter( x, y );
+            ter_id t = bay.ter( point( x, y ) );
             //Open all the doors, doesn't need to be exhaustive
             if( t == t_door_c || t == t_door_c_peep || t == t_door_b
                 || t == t_door_boarded || t == t_door_boarded_damaged
@@ -2036,7 +2041,7 @@ void talk_function::loot_building( const tripoint &site )
                 bay.ter_set( point( x, y ), t_door_o );
             } else if( t == t_door_locked || t == t_door_locked_peep
                        || t == t_door_locked_alarm ) {
-                const map_bash_info &bash = bay.ter( x, y ).obj().bash;
+                const map_bash_info &bash = bay.ter( point( x, y ) ).obj().bash;
                 bay.ter_set( point( x, y ), bash.ter_set );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             } else if( t == t_door_metal_c || t == t_door_metal_locked
@@ -2045,7 +2050,7 @@ void talk_function::loot_building( const tripoint &site )
             } else if( t == t_door_glass_c ) {
                 bay.ter_set( point( x, y ), t_door_glass_o );
             } else if( t == t_wall && one_in( 25 ) ) {
-                const map_bash_info &bash = bay.ter( x, y ).obj().bash;
+                const map_bash_info &bash = bay.ter( point( x, y ) ).obj().bash;
                 bay.ter_set( point( x, y ), bash.ter_set );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
                 bay.collapse_at( p, false );
@@ -2057,16 +2062,16 @@ void talk_function::loot_building( const tripoint &site )
                        t == t_curtains || t == t_window_alarm ||
                        t == t_window_no_curtains || t == t_window_no_curtains_taped )
                      && one_in( 4 ) ) {
-                const map_bash_info &bash = bay.ter( x, y ).obj().bash;
+                const map_bash_info &bash = bay.ter( point( x, y ) ).obj().bash;
                 bay.ter_set( point( x, y ), bash.ter_set );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             } else if( ( t == t_wall_glass || t == t_wall_glass_alarm ) && one_in( 3 ) ) {
-                const map_bash_info &bash = bay.ter( x, y ).obj().bash;
+                const map_bash_info &bash = bay.ter( point( x, y ) ).obj().bash;
                 bay.ter_set( point( x, y ), bash.ter_set );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-            } else if( bay.has_furn( x, y ) && bay.furn( x, y ).obj().bash.str_max != -1 &&
+            } else if( bay.has_furn( point( x, y ) ) && bay.furn( point( x, y ) ).obj().bash.str_max != -1 &&
                        one_in( 10 ) ) {
-                const map_bash_info &bash = bay.furn( x, y ).obj().bash;
+                const map_bash_info &bash = bay.furn( point( x, y ) ).obj().bash;
                 bay.furn_set( point( x, y ), bash.furn_set );
                 bay.delete_signage( p );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );

@@ -83,25 +83,6 @@
     "flags": [ "BELT_CLIP" ]
   },
   {
-    "id": "alchemy_basic",
-    "type": "BOOK",
-    "name": "A Beginner's Guide to Alchemy",
-    "description": "A paperback tome for the art of liquid magic, alcohol not included.",
-    "weight": 1000,
-    "volume": 3,
-    "price": 7900,
-    "bashing": 5,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "white",
-    "skill": "cooking",
-    "required_level": 3,
-    "max_level": 5,
-    "intelligence": 9,
-    "time": "20 m",
-    "fun": 1
-  },
-  {
     "id": "potion_starter",
     "copy-from": "mixed_alcohol_strong",
     "type": "COMESTIBLE",

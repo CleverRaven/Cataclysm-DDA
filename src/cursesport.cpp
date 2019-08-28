@@ -9,6 +9,7 @@
 #include "cursesdef.h"
 #include "game_ui.h"
 #include "output.h"
+#include "wcwidth.h"
 
 /**
  * Whoever cares, btw. not my base design, but this is how it works:
@@ -171,9 +172,9 @@ void catacurses::wborder( const window &win_, chtype ls, chtype rs, chtype ts, c
     }
 
     if( tl ) {
-        mvwaddch( win_, point( 0, 0 ), tl );
+        mvwaddch( win_, point_zero, tl );
     } else {
-        mvwaddch( win_, point( 0, 0 ), LINE_OXXO );
+        mvwaddch( win_, point_zero, LINE_OXXO );
     }
 
     if( tr ) {
@@ -389,23 +390,23 @@ inline void printstring( cata_cursesport::WINDOW *win, const std::string &text )
 }
 
 //Prints a formatted string to a window at the current cursor, base function
-void catacurses::wprintw( const window &win, const std::string &printbuf )
+void catacurses::wprintw( const window &win, const std::string &text )
 {
     if( !win ) {
         // TODO: log this
         return;
     }
 
-    return printstring( win.get<cata_cursesport::WINDOW>(), printbuf );
+    return printstring( win.get<cata_cursesport::WINDOW>(), text );
 }
 
 //Prints a formatted string to a window, moves the cursor
-void catacurses::mvwprintw( const window &win, const point &p, const std::string &printbuf )
+void catacurses::mvwprintw( const window &win, const point &p, const std::string &text )
 {
     if( !wmove_internal( win, p ) ) {
         return;
     }
-    return printstring( win.get<cata_cursesport::WINDOW>(), printbuf );
+    return printstring( win.get<cata_cursesport::WINDOW>(), text );
 }
 
 //Resizes the underlying terminal after a Window's console resize(maybe?) Not used in TILES
@@ -428,7 +429,7 @@ void catacurses::werase( const window &win_ )
         win->line[j].touched = true;
     }
     win->draw = true;
-    wmove( win_, point( 0, 0 ) );
+    wmove( win_, point_zero );
     //    wrefresh(win);
     handle_additional_window_clear( win );
 }
