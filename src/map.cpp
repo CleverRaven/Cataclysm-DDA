@@ -1809,6 +1809,15 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
         return false;
     }
 
+    if( ( up_ter.has_flag( TFLAG_GOES_DOWN ) && !down_ter.has_flag( TFLAG_GOES_UP ) ) ||
+        ( down_ter.has_flag( TFLAG_GOES_UP ) && !up_ter.has_flag( TFLAG_GOES_DOWN ) ) ) {
+        // Fix for mis-aligned stairs. TODO: Remove this when stairs are re-aligned.
+        // Issues:
+        //  * Prevents zombies descending down stairs with no matching up stairs
+        //      (sometimes occurs in terrain generation)
+        return false;
+    }
+
     if( !up_ter.has_flag( TFLAG_NO_FLOOR ) && !up_ter.has_flag( TFLAG_GOES_DOWN ) && !up_is_ledge ) {
         // Can't move from up to down
         if( abs( from.x - to.x ) == 1 || abs( from.y - to.y ) == 1 ) {
