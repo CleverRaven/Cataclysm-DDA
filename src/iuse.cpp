@@ -2930,29 +2930,33 @@ int iuse::clear_rubble( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Clear rubble where?" ) );
+    const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
+        return g->m.has_flag( "RUBBLE", pnt );
+    };
+
+    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+            _( "Clear rubble where?" ), f, false, true );
     if( !pnt_ ) {
         return 0;
     }
-    const tripoint pnt = *pnt_;
-
-    if( g->m.has_flag( "RUBBLE", pnt ) ) {
-        int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
-        const std::vector<npc *> helpers = g->u.get_crafting_helpers();
-        for( const npc *np : helpers ) {
-            add_msg( m_info, _( "%s helps with this task..." ), np->name );
-            break;
-        }
-        const int helpersize = g->u.get_num_crafting_helpers( 3 );
-        const int moves = to_moves<int>( 30_seconds ) * ( 1 - ( helpersize / 10 ) );
-        player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), moves / bonus, bonus );
-        p->assign_activity( act );
-        p->activity.placement = pnt;
-        return it->type->charges_to_use();
-    } else {
+    const tripoint &pnt = *pnt_;
+    if( !f( pnt ) ) {
         p->add_msg_if_player( m_bad, _( "There's no rubble to clear." ) );
         return 0;
     }
+
+    int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    for( const npc *np : helpers ) {
+        add_msg( m_info, _( "%s helps with this task..." ), np->name );
+        break;
+    }
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    const int moves = to_moves<int>( 30_seconds ) * ( 1 - ( helpersize / 10 ) );
+    player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), moves / bonus, bonus );
+    p->assign_activity( act );
+    p->activity.placement = pnt;
+    return it->type->charges_to_use();
 }
 
 void act_vehicle_siphon( vehicle * ); // veh_interact.cpp
@@ -5006,15 +5010,67 @@ int iuse::mop( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Mop where?" ) );
+    const std::vector<field_type_id> to_check = {
+        fd_blood,
+        fd_blood_veggy,
+        fd_blood_insect,
+        fd_blood_invertebrate,
+        fd_gibs_flesh,
+        fd_gibs_veggy,
+        fd_gibs_insect,
+        fd_gibs_invertebrate,
+        fd_bile,
+        fd_slime,
+        fd_sludge
+    };
+    const std::function<bool( const tripoint & )> f = [&to_check]( const tripoint & pnt ) {
+        if( !g->m.has_flag( "LIQUIDCONT", pnt ) ) {
+            map_stack items = g->m.i_at( pnt );
+            auto found = std::find_if( items.begin(), items.end(), []( const item & it ) {
+                return it.made_of( LIQUID );
+            } );
+            if( found != items.end() ) {
+                return true;
+            }
+        }
+        field &fld = g->m.field_at( pnt );
+        for( field_type_id fid : to_check ) {
+            if( fld.find_field_c( fid ) ) {
+                return true;
+            }
+        }
+        if( const optional_vpart_position vp = g->m.veh_at( pnt ) ) {
+            vehicle *const veh = &vp->vehicle();
+            std::vector<int> parts_here = veh->parts_at_relative( vp->mount(), true );
+            for( int elem : parts_here ) {
+                if( veh->parts[elem].blood > 0 ) {
+                    return true;
+                }
+                vehicle_stack items = veh->get_items( elem );
+                auto found = std::find_if( items.begin(), items.end(), []( const item & it ) {
+                    return it.made_of( LIQUID );
+                } );
+                if( found != items.end() ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+
+    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+            _( "Mop where?" ), f, false, true );
     if( !pnt_ ) {
         return 0;
     }
-    const tripoint pnt = *pnt_;
-
-    if( pnt == p->pos() ) {
-        p->add_msg_if_player( _( "You mop yourself up." ) );
-        p->add_msg_if_player( _( "The universe implodes and reforms around you." ) );
+    const tripoint &pnt = *pnt_;
+    if( !f( pnt ) ) {
+        if( pnt == p->pos() ) {
+            p->add_msg_if_player( m_info, _( "You mop yourself up." ) );
+            p->add_msg_if_player( m_info, _( "The universe implodes and reforms around you." ) );
+        } else {
+            p->add_msg_if_player( m_bad, _( "There's nothing to mop there." ) );
+        }
         return 0;
     }
     if( p->is_blind() ) {
@@ -5027,7 +5083,6 @@ int iuse::mop( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You mop up the spill." ) );
         p->moves -= 15;
     } else {
-        p->add_msg_if_player( m_info, _( "There's nothing to mop there." ) );
         return 0;
     }
     return it->type->charges_to_use();
