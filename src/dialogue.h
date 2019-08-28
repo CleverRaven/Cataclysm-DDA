@@ -123,8 +123,9 @@ struct talk_effect_fun_t {
         void set_npc_gets_item( bool to_use );
         void set_add_mission( std::string mission_id );
         const std::vector<std::pair<int, std::string>> &get_likely_rewards() const;
-        void set_u_buy_monster( const std::string &monster_id, int cost, int count, bool pacified,
+        void set_u_buy_monster( const std::string &monster_type_id, int cost, int count, bool pacified,
                                 const translation &name );
+        void set_u_learn_recipe( const std::string &learned_recipe_id );
 
         void operator()( const dialogue &d ) const {
             if( !function ) {

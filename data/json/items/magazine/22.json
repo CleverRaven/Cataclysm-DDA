@@ -130,23 +130,6 @@
     "flags": [ "MAG_COMPACT" ]
   },
   {
-    "id": "smg_22_mag",
-    "type": "MAGAZINE",
-    "name": "makeshift .22 30-round magazine",
-    "description": "A makeshift 30-round single-column steel magazine which fits Ruger 10/22 rifle, but may fit some makeshift magazine-fed weapons as well.  Don't expect much reliability.",
-    "weight": 300,
-    "volume": "750 ml",
-    "price": 4000,
-    "material": "steel",
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": "22",
-    "capacity": 30,
-    "reliability": 1,
-    "reload_time": 160,
-    "flags": [ "MAG_COMPACT" ]
-  },
-  {
     "id": "sw22mag",
     "type": "MAGAZINE",
     "name": "S&W 22A magazine",

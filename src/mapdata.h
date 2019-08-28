@@ -42,8 +42,8 @@ struct map_bash_info {
     bool destroy_only;      // Only used for destroying, not normally bashable
     bool bash_below;        // This terrain is the roof of the tile below it, try to destroy that too
     std::string drop_group; // item group of items that are dropped when the object is bashed
-    std::string sound;      // sound made on success ('You hear a "smash!"')
-    std::string sound_fail; // sound  made on fail
+    translation sound;      // sound made on success ('You hear a "smash!"')
+    translation sound_fail; // sound  made on fail
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     ter_str_id ter_set_bashed_from_above; // terrain to set if bashed from above (defaults to ter_set)
     furn_str_id furn_set;   // furniture to set (only used by furniture, not terrain)

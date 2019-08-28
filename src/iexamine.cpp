@@ -1704,6 +1704,8 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         p.add_msg_if_player( m_bad, _( "You couldn't harvest anything." ) );
     }
 
+    iexamine::practice_survival_while_foraging( &p );
+
     p.mod_moves( -to_moves<int>( rng( 5_seconds, 15_seconds ) ) );
     return true;
 }
@@ -1910,15 +1912,21 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
     } else {
         used_seed = p.use_amount( seed_id, 1 );
     }
-    used_seed.front().set_age( 0_turns );
-    g->m.add_item_or_charges( examp, used_seed.front() );
-    if( g->m.has_flag_furn( "PLANTABLE", examp ) ) {
-        g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
-    } else {
-        g->m.set( examp, t_dirt, f_plant_seed );
+    if( !used_seed.empty() ) {
+        used_seed.front().set_age( 0_turns );
+        if( used_seed.front().has_var( "activity_var" ) ) {
+            used_seed.front().erase_var( "activity_var" );
+        }
+        g->m.add_item_or_charges( examp, used_seed.front() );
+        if( g->m.has_flag_furn( "PLANTABLE", examp ) ) {
+            g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
+        } else {
+            g->m.set( examp, t_dirt, f_plant_seed );
+        }
+        p.moves -= to_moves<int>( 30_seconds );
+        p.add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
+                                 item::nname( seed_id ) );
     }
-    p.moves -= to_moves<int>( 30_seconds );
-    add_msg( _( "Planted %s." ), item::nname( seed_id ) );
 }
 
 /**
@@ -2015,7 +2023,7 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
 /**
  * Actual harvesting of selected plant
  */
-void iexamine::harvest_plant( player &p, const tripoint &examp )
+void iexamine::harvest_plant( player &p, const tripoint &examp, bool from_activity )
 {
     // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = g->m.i_at( examp );
@@ -2069,6 +2077,9 @@ void iexamine::harvest_plant( player &p, const tripoint &examp )
         }
         const int seedCount = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
         for( auto &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
+            if( from_activity ) {
+                i.set_var( "activity_var", p.name );
+            }
             g->m.add_item_or_charges( examp, i );
         }
         g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
@@ -5741,4 +5752,14 @@ hack_result iexamine::hack_attempt( player &p )
     } else {
         return HACK_SUCCESS;
     }
+}
+
+void iexamine::practice_survival_while_foraging( player *p )
+{
+    ///\EFFECT_INT Intelligence caps survival skill gains from foraging
+    const int max_forage_skill = p->int_cur / 3 + 1;
+    ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
+    const int max_exp = 2 * ( max_forage_skill - p->get_skill_level( skill_survival ) );
+    // Award experience for foraging attempt regardless of success
+    p->practice( skill_survival, rng( 1, max_exp ), max_forage_skill );
 }

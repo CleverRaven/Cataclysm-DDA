@@ -266,7 +266,7 @@
     "material": "paper",
     "symbol": ")",
     "color": "white",
-    "contains": 1
+    "contains": "250 ml"
   },
   {
     "id": "box_small",
@@ -281,7 +281,7 @@
     "material": "paper",
     "symbol": ")",
     "color": "brown",
-    "contains": 4
+    "contains": "1 L"
   },
   {
     "id": "box_medium",
@@ -297,7 +297,7 @@
     "material": "paper",
     "symbol": ")",
     "color": "brown",
-    "contains": 12
+    "contains": "3 L"
   },
   {
     "id": "box_large",
@@ -350,7 +350,7 @@
     "contains": "2 L",
     "seals": true,
     "watertight": true,
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "storage": 4, "material_thickness": 1 },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "storage": "1 L", "material_thickness": 1 },
     "flags": [ "BELTED" ]
   },
   {
