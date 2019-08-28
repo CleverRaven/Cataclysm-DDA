@@ -323,5 +323,28 @@
     "description": "While sleeping or staying still, it is less likely that monsters will wander close to you.",
     "social_modifiers": { "lie": 2 },
     "valid": false
+  },
+  {
+    "id": "metal_wheel",
+    "type": "vehicle_part",
+    "name": "metal wheel",
+    "item": "wheel_metal",
+    "location": "under",
+    "symbol": "|",
+    "broken_symbol": "x",
+    "durability": 180,
+    "description": "A strong metal wheel.",
+    "damage_modifier": 70,
+    "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] }, { "item": "steel_chunk", "count": [ 2, 3 ] } ],
+    "rolling_resistance": 0.375,
+    "wheel_type": "rigid",
+    "contact_area": 80,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
+    "damage_reduction": { "all": 66 }
   }
 ]
