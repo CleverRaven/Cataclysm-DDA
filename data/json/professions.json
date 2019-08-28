@@ -3954,14 +3954,14 @@
     "items": {
       "both": {
         "items": [
-	  "under_armor",
-	  "under_armor_shorts",
-	  "cowboy_hat",
-	  "socks",
-	  "pants",
-	  "gloves_leather",
-       "boots_western",
-        "duster",
+          "under_armor",
+          "under_armor_shorts",
+          "cowboy_hat",
+          "socks",
+          "pants",
+          "gloves_leather",
+          "boots_western",
+          "duster",
           "badge_deputy"
         ],
         "entries": [
@@ -3969,9 +3969,9 @@
           { "item": "44magnum", "charges": 18, "container-item": "bandolier_pistol" },
           { "item": "whiskey", "container-item": "bottle_glass" },
           { "item": "lemat_revolver", "ammo-item": "44magnum", "charges": 9, "container-item": "holster" },
-	  { "item": "shot_00", "charges": 6 }
+          { "item": "shot_00", "charges": 6 }
         ]
       }
     }
-  } 
+  }
 ]
