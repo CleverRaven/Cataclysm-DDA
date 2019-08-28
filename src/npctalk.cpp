@@ -367,9 +367,10 @@ void game::chat()
     }
     std::vector<vehicle *> animal_vehicles;
     std::vector<vehicle *> following_vehicles;
+    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
     for( auto &veh : g->m.get_vehicles() ) {
         auto &v = veh.v;
-        if( v->has_engine_type( fuel_type_animal, false ) ) {
+        if( v->has_engine_type( fuel_type_animal, false ) && v->get_owner() == yours ) {
             animal_vehicles.push_back( v );
             if( v->is_following ) {
                 following_vehicles.push_back( v );
