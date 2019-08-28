@@ -199,41 +199,5 @@
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
-  },
-  {
-    "id": "v29_cheap",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "name": "homemade laser pistol",
-    "description": "This laser pistol was based on the V29 laser pistol designed in the mid-21st century.  While little more than duct tape and electronics, it runs on a standard UPS.",
-    "weight": 540,
-    "volume": "2 L",
-    "price": 500000,
-    "to_hit": -2,
-    "bashing": 5,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "magenta",
-    "skill": "pistol",
-    "range": 30,
-    "ranged_damage": 10,
-    "pierce": 6,
-    "dispersion": 180,
-    "durability": 4,
-    "loudness": 7,
-    "ups_charges": 20,
-    "reload": 300,
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "emitter", 1 ],
-      [ "grip", 1 ],
-      [ "lens", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NO_UNLOAD" ]
   }
 ]
