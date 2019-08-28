@@ -105,6 +105,7 @@ void consume_drink_menu_do_turn( player_activity *act, player *p );
 void consume_meds_menu_do_turn( player_activity *act, player *p );
 void move_items_do_turn( player_activity *act, player *p );
 void multiple_farm_do_turn( player_activity *act, player *p );
+void vehicle_deconstruction_do_turn( player_activity *act, player *p );
 void multiple_fish_do_turn( player_activity *act, player *p );
 void multiple_construction_do_turn( player_activity *act, player *p );
 void multiple_butcher_do_turn( player_activity *act, player *p );

@@ -17,6 +17,15 @@
     "refuel_fires": true
   },
   {
+    "id": "ACT_VEHICLE_DECONSTRUCTION",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "deconstructing a vehicle",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_MULTIPLE_CONSTRUCTION",
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
