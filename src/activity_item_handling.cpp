@@ -56,6 +56,7 @@ void cancel_aim_processing();
 const efftype_id effect_controlled( "controlled" );
 const efftype_id effect_pet( "pet" );
 
+const zone_type_id zone_source_firewood( "SOURCE_FIREWOOD" );
 const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
 
 const trap_str_id tr_firewood_source( "tr_firewood_source" );
@@ -2060,6 +2061,49 @@ static cata::optional<tripoint> find_best_fire(
     return best_fire;
 }
 
+static inline bool has_clear_path_to_pickup_items( const tripoint &from, const tripoint &to )
+{
+    return g->m.has_items( to ) &&
+           g->m.accessible_items( to ) &&
+           g->m.clear_path( from, to, PICKUP_RANGE, 1, 100 );
+}
+
+static cata::optional<tripoint> find_refuel_spot_zone( const tripoint &center )
+{
+    const zone_manager &mgr = zone_manager::get_manager();
+    const tripoint center_abs = g->m.getabs( center );
+
+    const std::unordered_set<tripoint> &tiles_abs_unordered =
+        mgr.get_near( zone_source_firewood, center_abs, PICKUP_RANGE );
+    const std::vector<tripoint> &tiles_abs =
+        get_sorted_tiles_by_distance( center_abs, tiles_abs_unordered );
+
+    for( const tripoint &tile_abs : tiles_abs ) {
+        const tripoint tile = g->m.getlocal( tile_abs );
+        if( has_clear_path_to_pickup_items( center, tile ) ) {
+            return tile;
+        }
+    }
+
+    return {};
+}
+
+static cata::optional<tripoint> find_refuel_spot_trap( const std::vector<tripoint> &from,
+        const tripoint &center )
+{
+    const auto tile = std::find_if( from.begin(), from.end(), [center]( const tripoint & pt ) {
+        // Hacky - firewood spot is a trap and it's ID-checked
+        return g->m.tr_at( pt ).id == tr_firewood_source
+               && has_clear_path_to_pickup_items( center, pt );
+    } );
+
+    if( tile != from.end() ) {
+        return *tile;
+    }
+
+    return {};
+}
+
 void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 {
     const tripoint pos = p.pos();
@@ -2073,15 +2117,12 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
         return;
     }
 
-    const auto refuel_spot = std::find_if( adjacent.begin(), adjacent.end(),
-    [pos]( const tripoint & pt ) {
-        // Hacky - firewood spot is a trap and it's ID-checked
-        // TODO: Something cleaner than ID-checking a trap
-        return g->m.tr_at( pt ).id == tr_firewood_source && g->m.has_items( pt ) &&
-               g->m.accessible_items( pt ) && g->m.clear_path( pos, pt, PICKUP_RANGE, 1, 100 );
-    } );
-    if( refuel_spot == adjacent.end() ) {
-        return;
+    cata::optional<tripoint> refuel_spot = find_refuel_spot_zone( pos );
+    if( !refuel_spot ) {
+        refuel_spot = find_refuel_spot_trap( adjacent, pos );
+        if( !refuel_spot ) {
+            return;
+        }
     }
 
     // Special case: fire containers allow burning logs, so use them as fuel iif fire is contained
