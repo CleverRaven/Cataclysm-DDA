@@ -100,6 +100,8 @@ class spell_type
         translation name;
         // spell description
         translation description;
+        // spell message when cast
+        translation message;
         // spell effect string. used to look up spell function
         std::string effect_name;
         std::function<void( const spell &, Creature &, const tripoint & )> effect;
@@ -304,6 +306,8 @@ class spell
         std::string name() const;
         // description of spell (translated)
         std::string description() const;
+        // spell message when cast (translated)
+        std::string message() const;
         // energy source as a string (translated)
         std::string energy_string() const;
         // energy cost returned as a string
