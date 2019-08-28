@@ -300,6 +300,7 @@
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "I could use some seeds from the forest.",
       "offer": "We could use some seeds for the next planting season.  Can you bring me 20 bee balm seeds?",
@@ -320,6 +321,7 @@
     "difficulty": 4,
     "value": 100000,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "start": {
       "assign_mission_target": { "om_terrain": "cabin_isherwood", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 8 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_cat", "pack_size": [ 3, 6 ], "x": 20, "y": 22, "target": true } ] },

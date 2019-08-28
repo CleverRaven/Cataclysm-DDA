@@ -167,16 +167,13 @@
       "rejected": "Thanks anyway, we'll find the time to make it ourselves.",
       "advice": "If you can't find one, maybe you can make one for me.",
       "inquire": "Do you have the anvil?",
-      "success": "I appreciate it, this will really make a difference, here's some horse armor I've been working on, eventually I'll have the whole herd outfitted.",
+      "success": "I appreciate it, this will really make a difference, here's some horse armor I've been working on.  Eventually I'll have the whole herd outfitted.",
       "success_lie": "What good does this do me?",
       "failure": "It was a lost cause anyways..."
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "effect": [
-        { "u_buy_item": "chainmail_armor_horse", "count": 1 },
-        { "u_add_var": "u_did_carlos_missions", "type": "general", "context": "recruit", "value": "yes" }
-      ],
+      "effect": [ { "u_buy_item": "leather_armor_horse", "count": 1 } ],
       "update_mapgen": [
         {
           "om_terrain": "horse_farm_isherwood_4",
@@ -197,7 +194,15 @@
       "assign_mission_target": { "om_terrain": "cabin_isherwood", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 8 },
       "update_mapgen": { "place_npcs": [ { "class": "isherwood_chris", "x": 8, "y": 17, "target": true } ] }
     },
+    "end": {
+      "opinion": { "trust": 1, "value": 1 },
+      "effect": [
+        { "u_buy_item": "chainmail_armor_horse", "count": 1 },
+        { "u_add_var": "u_did_carlos_missions", "type": "general", "context": "recruit", "value": "yes" }
+      ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "Our son still isn't back, I'm getting concerned.",
       "offer": "Can you go find my son and tell him to check in with us.",
@@ -205,7 +210,7 @@
       "rejected": "Oh well.  I hope he turns up soon.",
       "advice": "He should be on the property somewhere, maybe by that old cabin near the entrance, sometimes he camps there.",
       "inquire": "How is the search going?",
-      "success": "Thanks, I was getting ready to go look myself.",
+      "success": "Thanks, I was getting ready to go look myself.  Now that I have the anvil, I've been working on new armor for the horses, take this prototype I made.",
       "success_lie": "What good does this do us?",
       "failure": "I hope he didn't meet Barry's fate..."
     }
