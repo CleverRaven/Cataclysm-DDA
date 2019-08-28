@@ -530,7 +530,7 @@ dynamic_line_string_keys = {
     "u_male", "u_female", "npc_male", "npc_female",
     "has_no_assigned_mission", "has_assigned_mission", "has_many_assigned_missions",
     "has_no_available_mission", "has_available_mission", "has_many_available_missions",
-    "mission_complete", "mission_incomplete",
+    "mission_complete", "mission_incomplete", "mission_has_generic_rewards",
     "npc_available", "npc_following", "npc_friend", "npc_hostile",
     "npc_train_skills", "npc_train_styles",
     "at_safe_space", "is_day", "npc_has_activity", "is_outside", "u_has_camp",

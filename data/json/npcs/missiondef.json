@@ -787,6 +787,7 @@
     },
     "difficulty": 1,
     "value": 0,
+    "has_generic_rewards": false,
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "start": {
       "effect": [ { "u_buy_item": "duffelbag" } ],

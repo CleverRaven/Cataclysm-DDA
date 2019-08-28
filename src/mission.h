@@ -212,6 +212,8 @@ struct mission_type {
         time_duration deadline_high = 0_turns;
         // If true, the NPC will press this mission!
         bool urgent = false;
+        // If the mission has generic rewards, so that the completion dialogue knows whether to offer them.
+        bool has_generic_rewards = true;
 
         // A limited subset of the talk_effects on the mission
         std::vector<std::pair<int, std::string>> likely_rewards;

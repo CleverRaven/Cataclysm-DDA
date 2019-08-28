@@ -273,6 +273,7 @@
       {
         "text": "Glad to help.  I need no payment.",
         "topic": "TALK_NONE",
+        "condition": "mission_has_generic_rewards",
         "effect": "clear_mission",
         "mission_opinion": { "trust": 4, "value": 3 },
         "opinion": { "fear": -1, "anger": -1 }
@@ -280,17 +281,34 @@
       {
         "text": "How about some items as payment?",
         "topic": "TALK_MISSION_REWARD",
-        "condition": { "not": "npc_friend" },
+        "condition": { "and": [ "mission_has_generic_rewards", { "not": "npc_friend" } ] },
         "effect": "mission_reward"
       },
       {
         "text": "Maybe you can teach me something as payment?",
         "topic": "TALK_TRAIN",
-        "condition": { "or": [ "npc_train_skills", "npc_train_styles" ] }
+        "condition": { "and": [ "mission_has_generic_rewards", { "or": [ "npc_train_skills", "npc_train_styles" ] } ] }
       },
       {
         "text": "Glad to help.  I need no payment.  Bye!",
         "topic": "TALK_DONE",
+        "condition": "mission_has_generic_rewards",
+        "effect": "clear_mission",
+        "mission_opinion": { "trust": 4, "value": 3 },
+        "opinion": { "fear": -1, "anger": -1 }
+      },
+      {
+        "text": "Glad to help.",
+        "topic": "TALK_NONE",
+        "condition": { "not": "mission_has_generic_rewards" },
+        "effect": "clear_mission",
+        "mission_opinion": { "trust": 4, "value": 3 },
+        "opinion": { "fear": -1, "anger": -1 }
+      },
+      {
+        "text": "Glad to help.  Bye!",
+        "topic": "TALK_DONE",
+        "condition": { "not": "mission_has_generic_rewards" },
         "effect": "clear_mission",
         "mission_opinion": { "trust": 4, "value": 3 },
         "opinion": { "fear": -1, "anger": -1 }

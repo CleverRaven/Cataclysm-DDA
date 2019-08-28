@@ -813,6 +813,19 @@ void conditional_t<T>::set_u_know_recipe( JsonObject &jo, const std::string &mem
 }
 
 template<class T>
+void conditional_t<T>::set_mission_has_generic_rewards()
+{
+    condition = []( const T & d ) {
+        mission *miss = d.beta->chatbin.mission_selected;
+        if( miss == nullptr ) {
+            debugmsg( "mission_has_generic_rewards: mission_selected == nullptr" );
+            return true;
+        }
+        return miss->has_generic_rewards();
+    };
+}
+
+template<class T>
 conditional_t<T>::conditional_t( JsonObject jo )
 {
     // improve the clarity of NPC setter functions
@@ -1068,6 +1081,8 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_is_by_radio();
     } else if( type == "has_reason" ) {
         set_has_reason();
+    } else if( type == "mission_has_generic_rewards" ) {
+        set_mission_has_generic_rewards();
     } else {
         condition = []( const T & ) {
             return false;
