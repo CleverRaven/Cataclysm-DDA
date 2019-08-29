@@ -3984,12 +3984,10 @@
       { "point": [ 1, 1, -7 ], "overmap": "robofachq_aiutl_b1_north" },
       { "point": [ 2, 1, -7 ], "overmap": "robofachq_aiutl_b2_north" },
       { "point": [ 3, 1, -7 ], "overmap": "robofachq_aiutl_b3_north" }
-
-
     ],
     "connections": [
-        { "point": [ 2, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, 0, 0 ] },
-        { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] }
+      { "point": [ 2, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, 0, 0 ] },
+      { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 3, -1 ],
