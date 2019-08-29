@@ -188,7 +188,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         return false;
     }
 
-    std::string target_name = "";
+    std::string target_name;
     const monster *target_monster = g->critter_at<monster>( target );
     if( target_monster ) {
         target_name = target_monster->disp_name();
