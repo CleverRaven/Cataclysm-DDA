@@ -12,7 +12,7 @@
   {
     "type": "effect_type",
     "id": "night_vision",
-    "name": [ "Nightvision" ],
+    "name": [ "Dark Sight" ],
     "desc": [ "You can see in the dark." ],
     "apply_message": "Your sight adjust to the darkness.",
     "remove_message": "The darkness looses it's shape.",
