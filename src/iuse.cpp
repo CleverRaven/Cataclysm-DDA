@@ -2984,7 +2984,7 @@ int iuse::siphon( player *p, item *it, bool, const tripoint & )
             v = vfound;
         } else {
             //found more than one vehicle?
-            if( *v != *vfound ) {
+            if( v != vfound ) {
                 v = nullptr;
                 found_more_than_one = true;
                 break;
