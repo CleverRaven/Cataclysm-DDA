@@ -1515,6 +1515,7 @@ class player : public Character
         // Auto move methods
         void set_destination( const std::vector<tripoint> &route,
                               const player_activity &destination_activity = player_activity() );
+        void destination_activity_value( const int value );
         void clear_destination();
         bool has_distant_destination() const;
 
@@ -1588,7 +1589,7 @@ class player : public Character
         start_location_id start_location;
 
         std::map<std::string, int> mutation_category_level;
-
+        std::vector<int> destination_activity_values;
         time_point next_climate_control_check;
         bool last_climate_control_ret;
         int tank_plut;

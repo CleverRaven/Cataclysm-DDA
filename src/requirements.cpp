@@ -6,6 +6,7 @@
 #include <limits>
 #include <sstream>
 #include <iterator>
+#include <iostream>
 #include <list>
 #include <memory>
 #include <set>

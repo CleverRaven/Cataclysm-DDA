@@ -1973,7 +1973,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
     //Grab this now, in case the vehicle gets shifted
     const optional_vpart_position vp = g->m.veh_at( tripoint( act->values[0], act->values[1],
                                        p->posz() ) );
-    veh_interact::complete_vehicle();
+    veh_interact::complete_vehicle( *p );
     // complete_vehicle set activity type to NULL if the vehicle
     // was completely dismantled, otherwise the vehicle still exist and
     // is to be examined again.
@@ -1981,22 +1981,24 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
         return;
     }
     act->set_to_null();
-    if( act->values.size() < 7 ) {
-        dbg( D_ERROR ) << "game:process_activity: invalid ACT_VEHICLE values: "
-                       << act->values.size();
-        debugmsg( "process_activity invalid ACT_VEHICLE values:%d",
-                  act->values.size() );
-    } else {
-        if( vp ) {
-            g->m.invalidate_map_cache( g->get_levz() );
-            g->refresh_all();
-            // TODO: Z (and also where the activity is queued)
-            // Or not, because the vehicle coordinates are dropped anyway
-            g->exam_vehicle( vp->vehicle(), point( act->values[ 2 ], act->values[ 3 ] ) );
-            return;
+    if( !p->is_npc() ){
+        if( act->values.size() < 7 ) {
+            dbg( D_ERROR ) << "game:process_activity: invalid ACT_VEHICLE values: "
+                           << act->values.size();
+            debugmsg( "process_activity invalid ACT_VEHICLE values:%d",
+                      act->values.size() );
         } else {
-            dbg( D_ERROR ) << "game:process_activity: ACT_VEHICLE: vehicle not found";
-            debugmsg( "process_activity ACT_VEHICLE: vehicle not found" );
+            if( vp ) {
+                g->m.invalidate_map_cache( g->get_levz() );
+                g->refresh_all();
+                // TODO: Z (and also where the activity is queued)
+                // Or not, because the vehicle coordinates are dropped anyway
+                g->exam_vehicle( vp->vehicle(), point( act->values[ 2 ], act->values[ 3 ] ) );
+                return;
+            } else {
+                dbg( D_ERROR ) << "game:process_activity: ACT_VEHICLE: vehicle not found";
+                debugmsg( "process_activity ACT_VEHICLE: vehicle not found" );
+            }
         }
     }
 }

@@ -670,6 +670,8 @@ void player::store( JsonOut &json ) const
     }
     json.end_array();
 
+    // values of destination activity
+    json.member( "destination_activity_values", destination_activity_values );
     json.member( "ammo_location", ammo_location );
 
     json.member( "camps" );
@@ -735,6 +737,7 @@ void player::load( JsonObject &data )
     }
     data.read( "addictions", addictions );
     data.read( "followers", follower_ids );
+    data.read( "destination_activity_values", destination_activity_values );
     JsonArray traps = data.get_array( "known_traps" );
     known_traps.clear();
     while( traps.has_more() ) {

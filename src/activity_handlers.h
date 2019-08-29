@@ -50,7 +50,8 @@ enum do_activity_reason : int {
     NEEDS_BUTCHERING,       // THere is at least one corpse there to butcher, and theres no need for additional tools
     NEEDS_FISHING,          // This spot can be fished, if the right tool is present.
     BLOCKING_TILE,          // Something has made it's way onto the tile, so the activity cannot proceed
-    ALREADY_WORKING         // Somebody is already working on that tile/item.
+    ALREADY_WORKING,        // Somebody is already working on that tile/item.
+    NEEDS_VEH_DECONST       // There is a vehicle part there that we can deconstruct, given the right tools.
 };
 
 int butcher_time_to_cut( const player &u, const item &corpse_item, butcher_type action );
