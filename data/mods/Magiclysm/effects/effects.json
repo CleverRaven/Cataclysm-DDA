@@ -14,8 +14,8 @@
     "id": "night_vision",
     "name": [ "Dark Sight" ],
     "desc": [ "You can see in the dark." ],
-    "apply_message": "Your sight adjust to the darkness.",
-    "remove_message": "The darkness looses it's shape.",
+    "apply_message": "Your sight adjusts to the darkness.",
+    "remove_message": "The darkness loses its shape.",
     "rating": "good"
   },
   {
