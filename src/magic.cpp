@@ -1680,6 +1680,18 @@ void fake_spell::load( JsonObject &jo )
     optional( jo, false, "level", level, 0 );
 }
 
+void fake_spell::serialize( JsonOut &json ) const
+{
+    json.member( "id", id );
+    json.member( "hit_self", self );
+    if( !max_level ) {
+        json.member( "max_level", -1 );
+    } else {
+        json.member( "max_level", *max_level );
+    }
+    json.member( "level", level );
+}
+
 spell fake_spell::get_spell( const int level_override ) const
 {
     spell sp( id );

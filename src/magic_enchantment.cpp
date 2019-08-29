@@ -77,6 +77,96 @@ static const std::map<std::string, enchantment::mod> mod_map{
 
 namespace io
 {
+    // *INDENT-OFF*
+    template<>
+    std::string enum_to_string<enchantment::has>( enchantment::has data )
+    {
+        switch ( data ) {
+        case enchantment::has::HELD: return "HELD";
+        case enchantment::has::WIELD: return "WIELD";
+        case enchantment::has::WORN: return "HELD";
+        case enchantment::has::NUM_HAS: break;
+        }
+        debugmsg( "Invalid enchantment::has" );
+        abort();
+    }
+
+    template<>
+    std::string enum_to_string<enchantment::condition>( enchantment::condition data )
+    {
+        switch ( data ) {
+        case enchantment::condition::ALWAYS: return "ALWAYS";
+        case enchantment::condition::UNDERGROUND: return "UNDERGROUND";
+        case enchantment::condition::UNDERWATER: return "UNDERWATER";
+        case enchantment::condition::NUM_CONDITION: break;
+        }
+        debugmsg( "Invalid enchantment::condition" );
+        abort();
+    }
+
+    template<>
+    std::string enum_to_string<enchantment::mod>( enchantment::mod data )
+    {
+        switch ( data ) {
+            case enchantment::mod::STRENGTH: return "STRENGTH";
+            case enchantment::mod::DEXTERITY: return "DEXTERITY";
+            case enchantment::mod::PERCEPTION: return "PERCEPTION";
+            case enchantment::mod::INTELLIGENCE: return "INTELLIGENCE";
+            case enchantment::mod::SPEED: return "SPEED";
+            case enchantment::mod::ATTACK_COST: return "ATTACK_COST";
+            case enchantment::mod::MOVE_COST: return "MOVE_COST";
+            case enchantment::mod::METABOLISM: return "METABOLISM";
+            case enchantment::mod::MAX_MANA: return "MAX_MANA";
+            case enchantment::mod::REGEN_MANA: return "REGEN_MANA";
+            case enchantment::mod::BIONIC_POWER: return "BIONIC_POWER";
+            case enchantment::mod::MAX_STAMINA: return "MAX_STAMINA";
+            case enchantment::mod::REGEN_STAMINA: return "REGEN_STAMINA";
+            case enchantment::mod::MAX_HP: return "MAX_HP";
+            case enchantment::mod::REGEN_HP: return "REGEN_HP";
+            case enchantment::mod::THIRST: return "THIRST";
+            case enchantment::mod::FATIGUE: return "FATIGUE";
+            case enchantment::mod::PAIN: return "PAIN";
+            case enchantment::mod::BONUS_DAMAGE: return "BONUS_DAMAGE";
+            case enchantment::mod::BONUS_BLOCK: return "BONUS_BLOCK";
+            case enchantment::mod::BONUS_DODGE: return "BONUS_DODGE";
+            case enchantment::mod::ATTACK_NOISE: return "ATTACK_NOISE";
+            case enchantment::mod::SPELL_NOISE: return "SPELL_NOISE";
+            case enchantment::mod::SHOUT_NOISE: return "SHOUT_NOISE";
+            case enchantment::mod::FOOTSTEP_NOISE: return "FOOTSTEP_NOISE";
+            case enchantment::mod::SIGHT_RANGE: return "SIGHT_RANGE";
+            case enchantment::mod::CARRY_WEIGHT: return "CARRY_WEIGHT";
+            case enchantment::mod::CARRY_VOLUME: return "CARRY_VOLUME";
+            case enchantment::mod::SOCIAL_LIE: return "SOCIAL_LIE";
+            case enchantment::mod::SOCIAL_PERSUADE: return "SOCIAL_PERSUADE";
+            case enchantment::mod::SOCIAL_INTIMIDATE: return "SOCIAL_INTIMIDATE";
+            case enchantment::mod::ITEM_DAMAGE_BASH: return "ITEM_DAMAGE_BASH";
+            case enchantment::mod::ITEM_DAMAGE_CUT: return "ITEM_DAMAGE_CUT";
+            case enchantment::mod::ITEM_DAMAGE_STAB: return "ITEM_DAMAGE_STAB";
+            case enchantment::mod::ITEM_DAMAGE_HEAT: return "ITEM_DAMAGE_HEAT";
+            case enchantment::mod::ITEM_DAMAGE_COLD: return "ITEM_DAMAGE_COLD";
+            case enchantment::mod::ITEM_DAMAGE_ELEC: return "ITEM_DAMAGE_ELEC";
+            case enchantment::mod::ITEM_DAMAGE_ACID: return "ITEM_DAMAGE_ACID";
+            case enchantment::mod::ITEM_DAMAGE_BIO: return "ITEM_DAMAGE_BIO";
+            case enchantment::mod::ITEM_DAMAGE_AP: return "ITEM_DAMAGE_AP";
+            case enchantment::mod::ITEM_ARMOR_BASH: return "ITEM_ARMOR_BASH";
+            case enchantment::mod::ITEM_ARMOR_CUT: return "ITEM_ARMOR_CUT";
+            case enchantment::mod::ITEM_ARMOR_STAB: return "ITEM_ARMOR_STAB";
+            case enchantment::mod::ITEM_ARMOR_HEAT: return "ITEM_ARMOR_HEAT";
+            case enchantment::mod::ITEM_ARMOR_COLD: return "ITEM_ARMOR_COLD";
+            case enchantment::mod::ITEM_ARMOR_ELEC: return "ITEM_ARMOR_ELEC";
+            case enchantment::mod::ITEM_ARMOR_ACID: return "ITEM_ARMOR_ACID";
+            case enchantment::mod::ITEM_ARMOR_BIO: return "ITEM_ARMOR_BIO";
+            case enchantment::mod::ITEM_WEIGHT: return "ITEM_WEIGHT";
+            case enchantment::mod::ITEM_ENCUMBRANCE: return "ITEM_ENCUMBRANCE";
+            case enchantment::mod::ITEM_VOLUME: return "ITEM_VOLUME";
+            case enchantment::mod::ITEM_COVERAGE: return "ITEM_COVERAGE";
+            case enchantment::mod::NUM_MOD: break;
+        }
+        debugmsg( "Invalid enchantment::mod" );
+        abort();
+    }
+    // *INDENT-ON*
+
 template<>
 enchantment::has string_to_enum<enchantment::has>( const std::string &trigger )
 {
@@ -226,6 +316,47 @@ void enchantment::load( JsonObject &jo, const std::string & )
             }
         }
     }
+}
+
+void enchantment::serialize( JsonOut &json ) const
+{
+    json.member( "has", io::enum_to_string<has>( active_conditions.first ) );
+    json.member( "condition", io::enum_to_string<condition>( active_conditions.second ) );
+
+    json.member( "id", id );
+
+    json.start_array( "hit_you_effect" );
+    for( const fake_spell &sp : hit_you_effect ) {
+        sp.serialize( json );
+    }
+    json.end_array();
+
+    json.start_array( "hit_me_effect" );
+    for( const fake_spell &sp : hit_me_effect ) {
+        sp.serialize( json );
+    }
+    json.end_array();
+
+    json.start_object( "intermittent_activation" );
+    for( const std::pair<time_duration, std::vector<fake_spell>> pair : intermittent_activation ) {
+        json.member( "duration", pair.first );
+        json.start_array( "effects" );
+        for( const fake_spell &sp : pair.second ) {
+            sp.serialize( json );
+        }
+        json.end_array();
+    }
+    json.end_object();
+
+    json.start_array( "values " );
+    for( int value = 0; value < mod::NUM_MOD; value++ ) {
+        json.start_object();
+        json.member( "value", io::enum_to_string<mod>( static_cast<mod>( value ) ) );
+        json.member( "add", get_value_add( static_cast<mod>( value ) ) );
+        json.member( "multiply", get_value_multiply( static_cast<mod>( value ) ) );
+        json.end_object();
+    }
+    json.end_array();
 }
 
 bool enchantment::stacks_with( const enchantment &rhs ) const

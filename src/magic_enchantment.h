@@ -11,6 +11,7 @@
 
 class Character;
 class item;
+class JsonOut;
 class time_duration;
 
 // an "enchantment" is what passive artifact effects used to be:
@@ -56,6 +57,7 @@ class enchantment
             PAIN,          // cost or regen over time
             BONUS_DODGE,
             BONUS_BLOCK,
+            BONUS_DAMAGE,
             ATTACK_NOISE,
             SPELL_NOISE,
             SHOUT_NOISE,
@@ -112,6 +114,8 @@ class enchantment
         enchantment_id id;
 
         bool was_loaded;
+
+        void serialize( JsonOut &jo ) const;
     private:
         // values that add to the base value
         std::map<mod, int> values_add;

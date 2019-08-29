@@ -94,6 +94,7 @@ struct fake_spell {
     spell get_spell( const int max_override = INT_MAX ) const;
 
     void load( JsonObject &jo );
+    void serialize( JsonOut &json ) const;
 };
 
 class spell_type

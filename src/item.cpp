@@ -5570,7 +5570,7 @@ bool item::is_relic() const
 std::vector<enchantment> item::get_enchantments() const
 {
     if( !is_relic() ) {
-        return std::vector<enchantment>{};
+        return std::vector<enchantment> {};
     }
     return relic_data->get_enchantments();
 }
