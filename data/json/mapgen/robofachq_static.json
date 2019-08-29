@@ -197,9 +197,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [
-      [ "robofachq_sub_a0", "robofachq_sub_a1", "robofachq_sub_a2", "robofachq_sub_a3" ]
-    ],
+    "om_terrain": [ [ "robofachq_sub_a0", "robofachq_sub_a1", "robofachq_sub_a2", "robofachq_sub_a3" ] ],
     "method": "json",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -228,16 +226,9 @@
         "#####################################|Eeeeee5    YY ^|##########################################",
         "#####################################|eeeeee5       ^|##########################################",
         "#####################################|||||||||||||||||##########################################"
-
       ],
       "palettes": [ "robofachq" ],
-      "terrain": {
-        "-": "t_wall_metal",
-        "e": "t_elevator",
-        "E": "t_elevator_control",
-        "Y": "t_utility_light",
-        "I": "t_intercom"
-      },
+      "terrain": { "-": "t_wall_metal", "e": "t_elevator", "E": "t_elevator_control", "Y": "t_utility_light", "I": "t_intercom" },
       "items": {
         "l": [ { "item": "NC_ROBOFAC_FIELD_RESEARCHER_worn", "chance": 50 }, { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 50 } ],
         "i": { "item": "cleaning", "chance": 50 },
