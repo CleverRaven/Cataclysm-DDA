@@ -11,13 +11,20 @@ class time_duration;
 class time_point;
 class JsonOut;
 class JsonIn;
+template<typename T> struct enum_traits;
 
 /** Real world seasons */
 enum season_type {
     SPRING = 0,
     SUMMER = 1,
     AUTUMN = 2,
-    WINTER = 3
+    WINTER = 3,
+    NUM_SEASONS
+};
+
+template<>
+struct enum_traits<season_type> {
+    static constexpr season_type last = season_type::NUM_SEASONS;
 };
 
 /** Phases of the moon */

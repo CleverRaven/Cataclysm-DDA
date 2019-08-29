@@ -32,12 +32,12 @@
         "  Wyyy______________+,,,, ,,,     UUU ,pwN....Lw F                    F ",
         "  #_________________W     ,,     --w--+-|Y.....| F  DDDDDDDDDDDDDDDD  F ",
         "  #33332_______23333W      ,,    -u5e4.u.......- F                    F ",
-        "  #____2_______2____#     ,,,,   -o............- F  DDDDDDDDDDDDDDDD  F ",
-        "  #____2_______2____#   ###++### -u.....hLLh..H- F          Q         F ",
-        "  W____g_______g____W   #EE__@V# -e.....hLLh..Lw F  DDDDDDDDDDDDDDDD  F ",
-        "  W____g_______g____W   #E__J_0# -z.....hLLh..H- F                    F ",
-        "  #____2_______2____#   ###___^#,+............*- F  DDDDDDDDDDDDDDDD  F ",
-        "  #____2_______2____#   #>Z____+,-*..Y----+----- F                    F ",
+        "  #____2_______2____#     ,,,,   -o......hLLh..- F  DDDDDDDDDDDDDDDD  F ",
+        "  #____2_______2____#   ###++### -u......hLLh.H- F          Q         F ",
+        "  W____g_______g____W   #EE__@V# -e......hLLh.Lw F  DDDDDDDDDDDDDDDD  F ",
+        "  W____g_______g____W   #E__J_0# -z......hLLh.H- F                    F ",
+        "  #____2_______2____#   ###___^#,+....vv......*- F  DDDDDDDDDDDDDDDD  F ",
+        "  #____2_______2____#   #>Z____+,-Y.vv----+----- F                    F ",
         "  #33332_______23333#   ###___V# --+---|kk..LH*- F  DDDDDDDDDDDDDDDD  F ",
         "  #______________yyy#   #s___JV# -*.S|d|kh.....w F                    F ",
         "  W_______________yyW   #s____A# wb..+.+....BB.- F  DDDDDDDDDDDDDDDD  F ",
@@ -127,9 +127,13 @@
         "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
         "0": "f_drill_press",
         "@": "f_tablesaw",
-        "^": [ "f_mitresaw", "f_bandsaw" ]
+        "^": [ "f_mitresaw", "f_bandsaw" ],
+        "v": "f_glass_cabinet"
       },
-      "items": { "s": { "item": "preserved_food", "chance": 100, "repeat": [ 8, 20 ] } },
+      "items": {
+        "s": { "item": "preserved_food", "chance": 100, "repeat": [ 8, 20 ] },
+        "v": { "item": "NC_ISHERWOOD_CLAIRE_misc", "chance": 100, "repeat": [ 4, 8 ] }
+      },
       "place_item": [
         { "item": "straw_pile", "x": [ 3, 5 ], "y": [ 5, 7 ], "amount": [ 0, 8 ] },
         { "item": "cattlefodder", "x": [ 3, 5 ], "y": [ 5, 7 ], "amount": [ 0, 4 ] },

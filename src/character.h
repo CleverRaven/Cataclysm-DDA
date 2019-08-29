@@ -49,6 +49,7 @@ class vehicle;
 struct mutation_branch;
 class bionic_collection;
 struct points_left;
+class faction;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -280,6 +281,12 @@ class Character : public Creature, public visitable<Character>
         /** Returns the name of the player's outer layer, e.g. "armor plates" */
         std::string skin_name() const override;
 
+        /* returns the character's faction */
+        virtual faction *get_faction() const {
+            return nullptr;
+        }
+        void set_fac_id( const std::string &my_fac_id );
+
         /* Adjusts provided sight dispersion to account for player stats */
         int effective_dispersion( int dispersion ) const;
 
@@ -383,11 +390,11 @@ class Character : public Creature, public visitable<Character>
 
         // In mutation.cpp
         /** Returns true if the player has the entered trait */
-        bool has_trait( const trait_id &flag ) const override;
+        bool has_trait( const trait_id &b ) const override;
         /** Returns true if the player has the entered starting trait */
-        bool has_base_trait( const trait_id &flag ) const;
+        bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */
-        bool has_trait_flag( const std::string &flag ) const;
+        bool has_trait_flag( const std::string &b ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         trait_id trait_by_invlet( int ch ) const;
 
@@ -898,7 +905,7 @@ class Character : public Creature, public visitable<Character>
         // how loud a character can shout. based on mutations and clothing
         int get_shout_volume() const;
         // shouts a message
-        void shout( std::string text = "", bool order = false );
+        void shout( std::string msg = "", bool order = false );
         /** Handles Character vomiting effects */
         void vomit();
         // adds total healing to the bodypart. this is only a counter.
@@ -960,8 +967,8 @@ class Character : public Creature, public visitable<Character>
          */
         std::vector<const mutation_branch *> cached_mutations;
 
-        void store( JsonOut &jsout ) const;
-        void load( JsonObject &jsin );
+        void store( JsonOut &json ) const;
+        void load( JsonObject &data );
 
         // --------------- Values ---------------
         pimpl<SkillLevelMap> _skills;
@@ -979,6 +986,13 @@ class Character : public Creature, public visitable<Character>
          * Most of it isn't changed too often, hence mutable.
          */
         mutable pimpl<pathfinding_settings> path_settings;
+
+        // faction API versions
+        // 2 - allies are in your_followers faction; NPCATT_FOLLOW is follower but not an ally
+        // 0 - allies may be in your_followers faction; NPCATT_FOLLOW is an ally (legacy)
+        int faction_api_version = 2;  // faction API versioning
+        string_id<faction> fac_id; // A temp variable used to inform the game which faction to link
+        faction *my_fac = nullptr;
 
     private:
         // A unique ID number, assigned by the game class. Values should never be reused.

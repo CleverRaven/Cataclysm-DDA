@@ -4195,7 +4195,8 @@
       [ "adv_chemistry", 6 ],
       [ "atomic_survival", 4 ],
       [ "survival_book", 5 ],
-      [ "recipe_labchem", 5 ]
+      [ "recipe_labchem", 5 ],
+      [ "isherwood_herbal_remedies", 4 ]
     ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [  ],

@@ -550,7 +550,7 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_synaptic_stimulation",
-    "name": "Scroll of Laze",
+    "name": "Scroll of Synaptic Stimulation",
     "description": "This spell stimulates the synapses in your brain beyond normal processing speeds, giving you a large boost in mental processing capability, including enhancing your reflexes, speed, and raw intellectual power.  Use responsibly!",
     "use_action": { "type": "learn_spell", "spells": [ "synaptic_stimulation" ] }
   },

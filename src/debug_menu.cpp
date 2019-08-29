@@ -389,8 +389,8 @@ void character_edit_menu()
         data << np->name << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
         data << np->myclass.obj().get_name() << "; " <<
              npc_attitude_name( np->get_attitude() ) << "; " <<
-             ( np->my_fac ? np->my_fac->name : _( "no faction" ) ) << "; " <<
-             ( np->my_fac ? np->my_fac->currency : _( "no currency" ) ) << "; " <<
+             ( np->get_faction() ? np->get_faction()->name : _( "no faction" ) ) << "; " <<
+             ( np->get_faction() ? np->get_faction()->currency : _( "no currency" ) ) << "; " <<
              "api: " << np->get_faction_ver() << std::endl;
         if( np->has_destination() ) {
             data << string_format( _( "Destination: %d:%d:%d (%s)" ),
@@ -1529,7 +1529,7 @@ void debug()
 
                 // Take a screenshot of the viewport.
                 if ( g->take_screenshot( current_file_path ) ) {
-                    popup( string_format( _( "Successfully saved your screenshot to: %s" ), map_directory.str() ) );
+                    popup( _( "Successfully saved your screenshot to: %s" ), map_directory.str() );
                 }
                 else {
                     popup( _( "An error occurred while trying to save the screenshot." ) );
