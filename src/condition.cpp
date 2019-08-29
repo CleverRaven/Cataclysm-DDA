@@ -379,6 +379,48 @@ void conditional_t<T>::set_has_var( JsonObject &jo, const std::string &member, b
     };
 }
 
+
+template<class T>
+void conditional_t<T>::set_compare_var( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const std::string var_name = get_talk_varname( jo, member, false );
+    const std::string &op = jo.get_string( "op" );
+    const int value = jo.get_int( "value" );
+    condition = [var_name, op, value, is_npc]( const T & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+
+        int stored_value = 0;
+        const std::string &var = actor->get_value( var_name );
+        if( !var.empty() ) {
+            stored_value = std::stoi( var );
+        }
+
+        if( op == "==" ) {
+            return stored_value == value;
+
+        } else if( op == "!=" ) {
+            return stored_value != value;
+
+        } else if( op == "<=" ) {
+            return stored_value <= value;
+
+        } else if( op == ">=" ) {
+            return stored_value >= value;
+
+        } else if( op == "<" ) {
+            return stored_value < value;
+
+        } else if( op == ">" ) {
+            return stored_value > value;
+        }
+
+        return false;
+    };
+}
+
 template<class T>
 void conditional_t<T>::set_npc_role_nearby( JsonObject &jo )
 {
@@ -960,6 +1002,10 @@ conditional_t<T>::conditional_t( JsonObject jo )
         set_has_var( jo, "u_has_var" );
     } else if( jo.has_string( "npc_has_var" ) ) {
         set_has_var( jo, "npc_has_var", is_npc );
+    } else if( jo.has_string( "u_compare_var" ) ) {
+        set_compare_var( jo, "u_compare_var" );
+    } else if( jo.has_string( "npc_compare_var" ) ) {
+        set_compare_var( jo, "npc_compare_var", is_npc );
     } else if( jo.has_string( "npc_role_nearby" ) ) {
         set_npc_role_nearby( jo );
     } else if( jo.has_int( "npc_allies" ) ) {
