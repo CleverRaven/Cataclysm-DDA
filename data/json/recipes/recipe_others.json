@@ -1808,6 +1808,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "2 m",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "sheet_metal", 1 ] ] ]
