@@ -964,9 +964,7 @@
           "light_minus_battery_cell",
           "light_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+          "light_minus_atomic_battery_cell"
         ]
       ]
     ],
@@ -1393,7 +1391,7 @@
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ]
       ]
     ],
     "magazine_well": 2
@@ -1926,9 +1924,7 @@
           "light_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+          "light_minus_atomic_battery_cell"
         ]
       ]
     ],
@@ -4000,9 +3996,7 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+          "light_minus_atomic_battery_cell"
         ]
       ]
     ],
@@ -4670,13 +4664,13 @@
       [
         "battery",
         [
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+          "light_minus_atomic_battery_cell"
         ]
       ]
     ],
@@ -4892,13 +4886,13 @@
       [
         "battery",
         [
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+          "light_minus_atomic_battery_cell"
         ]
       ]
     ],
@@ -6984,9 +6978,7 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+          "light_minus_atomic_battery_cell"
         ]
       ]
     ],
