@@ -606,7 +606,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     }
 
     if( sees( g->u ) ) {
-        mvwprintz( w, point( column, vStart++ ), c_yellow, _( "Aware of your presence!" ) );
+        mvwprintz( w, point( column, ++vStart ), c_yellow, _( "Aware of your presence!" ) );
     }
 
     std::string effects = get_effect_status();
