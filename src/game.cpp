@@ -11184,7 +11184,7 @@ void game::process_artifact( item &it, player &p )
     }
     std::vector<enchantment> active_enchantments;
     if( it.is_relic() ) {
-        for( const enchantment &ench : it.get_enchantments() )             {
+        for( const enchantment &ench : it.get_enchantments() ) {
             if( ench.is_active( p, it ) ) {
                 active_enchantments.emplace_back( ench );
             }

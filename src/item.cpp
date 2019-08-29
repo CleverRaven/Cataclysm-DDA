@@ -7955,7 +7955,7 @@ void item::reset_temp_check()
 
 void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
 {
-    if( !is_artifact() ) {
+    if( !is_artifact() && !is_relic() ) {
         return;
     }
     // Artifacts are currently only useful for the player character, the messages
