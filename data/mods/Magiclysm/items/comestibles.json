@@ -79,7 +79,17 @@
     "material": "flesh",
     "volume": "1 ml",
     "phase": "liquid",
-    "fun": -50
+    "fun": -50,
+    "category": "fuel",
+    "ammo_type": "dragon_blood",
+    "damage": 5,
+    "range": 4,
+    "pierce": 5,
+    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
+    "fuel": {
+      "energy": 50,
+      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -99,6 +109,32 @@
     "material": "flesh",
     "volume": "1 ml",
     "phase": "liquid",
-    "fun": -60
+    "fun": -60,
+    "category": "fuel",
+    "ammo_type": "tainted_blood",
+    "fuel": { "energy": 5 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "blood",
+    "name": "blood",
+    "name_plural": "blood",
+    "weight": 265,
+    "color": "red",
+    "container": "flask_glass",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 5,
+    "healthy": -8,
+    "calories": 43,
+    "description": "Blood, possibly that of a human.  Disgusting!",
+    "price": 0,
+    "material": "hflesh",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "fun": -50,
+    "category": "fuel",
+    "ammo_type": "blood",
+    "fuel": { "energy": 1 }
   }
 ]
