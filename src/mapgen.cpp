@@ -6653,6 +6653,11 @@ character_id map::place_npc( const point &p, const string_id<npc_template> &type
 void map::apply_faction_ownership( const point &p1, const point &p2,
                                    const faction_id id )
 {
+    // No static NPCs means there are no NPCs that are part of the faction
+    if( !get_option<bool>( "STATIC_NPC" ) ) {
+        return;
+    }
+
     faction *fac = g->faction_manager_ptr->get( id );
     for( const tripoint &p : points_in_rectangle( tripoint( p1, abs_sub.z ), tripoint( p2,
             abs_sub.z ) ) ) {
