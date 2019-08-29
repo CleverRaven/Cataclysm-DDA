@@ -672,12 +672,17 @@ void activity_on_turn_pickup()
     const bool keep_going = Pickup::do_pickup( g->u.activity.targets, g->u.activity.values,
                             autopickup );
 
-    // If there are items left we ran out of moves, so continue the activity
-    // Otherwise, we are done.
-    if( !keep_going || g->u.activity.targets.empty() ) {
+    if( !keep_going ) {
+        // The user canceled the activity, so we're done
         g->u.cancel_activity();
+        // AIM might have more pickup activities pending, also cancel them.
         // TODO: Move this to advanced inventory instead of hacking it in here
         cancel_aim_processing();
+    } else if( g->u.activity.targets.empty() ) {
+        // The user did not cancel, but there's no item left
+        g->u.cancel_activity();
+        // But do not cancel AIM processing as it might have more pickup activities
+        // pending for other locations.
     }
 }
 
