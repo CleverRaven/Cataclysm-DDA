@@ -204,7 +204,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         }
     }
     if( g->u.sees( target ) ) {
-        add_msg( spell_data.message(), mon.disp_name(), spell_data.name(), _( target_name ) );
+        add_msg( spell_data.message(), mon.disp_name(), spell_data.name(), target_name );
     }
 
     spell_data.cast_all_effects( mon, target );
