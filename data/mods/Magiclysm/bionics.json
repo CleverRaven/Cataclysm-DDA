@@ -7,8 +7,8 @@
     "occupied_bodyparts": [ [ "TORSO", 8 ] ],
     "fuel_options": [ "blood", "dragon_blood", "tainted_blood" ],
     "fuel_capacity": 100,
-    "fuel_efficiency": 0.67,
-    "time": 1,
+    "fuel_efficiency": 0.6,
+    "time": 6,
     "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE" ]
   }
 ]
