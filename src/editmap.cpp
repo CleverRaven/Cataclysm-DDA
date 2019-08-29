@@ -509,10 +509,14 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     // updating info
     werase( w_info );
 
-    int veh_in = -1;
     const optional_vpart_position vp = g->m.veh_at( target );
-    if( vp ) {
-        veh_in = vp->is_inside();
+    std::string veh_msg;
+    if( !vp ) {
+        veh_msg = pgettext( "vehicle", "no" );
+    } else if( vp->is_inside() ) {
+        veh_msg = pgettext( "vehicle", "in" );
+    } else {
+        veh_msg = pgettext( "vehicle", "out" );
     }
 
     const ter_t &terrain_type = g->m.ter( target ).obj();
@@ -541,9 +545,9 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     }
     const auto &map_cache = g->m.get_cache( target.z );
 
-    mvwprintw( w_info, point( 1, off++ ), _( "dist: %d u_see: %d v_in: %d scent: %d" ),
-               rl_dist( g->u.pos(), target ), static_cast<int>( g->u.sees( target ) ),
-               veh_in, g->scent.get( target ) );
+    const std::string u_see_msg = g->u.sees( target ) ? _( "yes" ) : _( "no" );
+    mvwprintw( w_info, point( 1, off++ ), _( "dist: %d u_see: %s veh: %s scent: %d" ),
+               rl_dist( g->u.pos(), target ), u_see_msg, veh_msg, g->scent.get( target ) );
     mvwprintw( w_info, point( 1, off++ ), _( "sight_range: %d, daylight_sight_range: %d," ),
                g->u.sight_range( g->light_level( g->u.posz() ) ),
                g->u.sight_range( current_daylight_level( calendar::turn ) ) );
@@ -561,7 +565,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     mvwprintw( w_info, point( 1, off++ ), _( "apparent light: %.5f (%d)" ),
                al.apparent_light, apparent_light );
     std::string extras;
-    if( veh_in >= 0 ) {
+    if( vp ) {
         extras += _( " [vehicle]" );
     }
     if( g->m.has_flag( TFLAG_INDOORS, target ) ) {
@@ -571,14 +575,14 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
         extras += _( " [roof]" );
     }
 
-    mvwprintw( w_info, point( 1, off ), "%s %s", g->m.features( target ).c_str(), extras );
+    mvwprintw( w_info, point( 1, off ), "%s %s", g->m.features( target ), extras );
     // 9
     off++;
     for( auto &fld : g->m.get_field( target ) ) {
         const field_entry &cur = fld.second;
         mvwprintz( w_info, point( 1, off ), cur.color(),
                    _( "field: %s L:%d[%s] A:%d" ),
-                   cur.get_field_type().id().c_str(),
+                   cur.get_field_type().id().str(),
                    cur.get_field_intensity(),
                    cur.name(),
                    to_turns<int>( cur.get_field_age() )
@@ -1595,8 +1599,8 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
             } else if( gpmenu.ret == 3 ) {
                 popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
-                       orig_oters->get_name(), orig_oters.id().c_str(),
-                       omt_ref->get_name(), omt_ref.id().c_str() );
+                       orig_oters->get_name(), orig_oters.id().str(),
+                       omt_ref->get_name(), omt_ref.id().str() );
             }
         } else if( gpmenu.ret == UILIST_ADDITIONAL ) {
             if( gpmenu.ret_act == "LEFT" ) {
@@ -1746,7 +1750,7 @@ void editmap::edit_mapgen()
     for( size_t i = 0; i < overmap_terrains::get_all().size(); i++ ) {
         const oter_id id( i );
 
-        gmenu.addentry( -1, !id.id().is_null(), 0, "[%3d] %s", static_cast<int>( id ), id.id().c_str() );
+        gmenu.addentry( -1, !id.id().is_null(), 0, "[%3d] %s", static_cast<int>( id ), id.id().str() );
         gmenu.entries[i].extratxt.left = 1;
         gmenu.entries[i].extratxt.color = id->get_color();
         gmenu.entries[i].extratxt.txt = id->get_symbol();
