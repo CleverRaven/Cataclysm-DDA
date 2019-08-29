@@ -8,7 +8,7 @@
     "//": "Can be vaguely either an original or a reproduction, price based off of MSRP of Uberti Single-Action Cattleman.",
     "description": "Also known as the Singe Action Army and M1873, the Colt Peacemaker is one of the first revolvers to use a modern self-contained cartridge.  Made famous by westerns, modern reproductions are still made for Cowboy Action Shooting, and some deem them the greatest gun ever made.",
     "weight": 1050,
-    "volume": 3,
+    "volume": "750 ml",
     "price": 47900,
     "to_hit": -1,
     "bashing": 8,
