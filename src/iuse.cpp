@@ -2494,9 +2494,10 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint & )
     }
 
     if( g->m.has_flag( "PLOWABLE", pnt ) && !g->m.has_flag( "PLANT", pnt ) ) {
-        p->add_msg_if_player( _( "You churn up the earth here." ) );
-        p->mod_moves( -300 );
-        g->m.ter_set( pnt, t_dirtmound );
+        p->add_msg_if_player( _( "You start churning up the earth here." ) );
+        p->assign_activity( activity_id( "ACT_CHURN" ), to_turns<int>( 3_minutes ),
+                            -1, p->get_item_position( it ) );
+        p->activity.placement = pnt;
         return it->type->charges_to_use();
     } else {
         p->add_msg_if_player( _( "You can't churn up this ground." ) );
@@ -3397,14 +3398,16 @@ int iuse::throwable_extinguisher_act( player *, item *it, bool, const tripoint &
         return 0;
     }
     if( g->m.get_field( pos, fd_fire ) != nullptr ) {
+        sounds::sound( pos, 50, sounds::sound_t::combat, _( "Bang!" ), false, "explosion", "small" );
         // Reduce the strength of fire (if any) in the target tile.
-        g->m.mod_field_intensity( pos, fd_fire, 0 - 1 );
+        g->m.mod_field_intensity( pos, fd_fire, 0 - 2 );
         // Slightly reduce the strength of fire around and in the target tile.
         for( const tripoint &dest : g->m.points_in_radius( pos, 1 ) ) {
             if( g->m.passable( dest ) && dest != pos ) {
-                g->m.mod_field_intensity( dest, fd_fire, 0 - rng( 0, 1 ) );
+                g->m.mod_field_intensity( dest, fd_fire, 0 - rng( 0, 2 ) );
             }
         }
+        it->charges = -1;
         return 1;
     }
     it->active = false;
@@ -5424,7 +5427,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
                g->m.veh_at( pp ) || g->m.impassable( pp );
     };
     for( const vpart_reference &vp : veh->get_all_parts() ) {
-        if( vp.info().location != "STRUCTURE" ) {
+        if( vp.info().location != "structure" ) {
             continue;
         }
         const tripoint pp = vp.pos();
@@ -5443,8 +5446,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
     } else {
         unfold_msg = _( unfold_msg );
     }
-    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
-    veh->set_owner( yours );
+    veh->set_owner( g->u.get_faction() );
     p->add_msg_if_player( m_neutral, unfold_msg, veh->name );
 
     p->moves -= it->get_var( "moves", to_turns<int>( 5_seconds ) );

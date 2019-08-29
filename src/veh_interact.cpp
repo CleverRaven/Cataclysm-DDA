@@ -2420,13 +2420,12 @@ void veh_interact::display_name()
     werase( w_name );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w_name, point( 1, 0 ), c_light_gray, _( "Name: " ) );
-    std::string fac_name = veh->get_owner() &&
-                           veh->get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ?
+    std::string fac_name = veh->get_owner() && veh->get_owner() != g->u.get_faction() ?
                            _( veh->get_owner()->name ) : _( "Yours" );
     mvwprintz( w_name, point( 1 + utf8_width( _( "Name: " ) ), 0 ),
-               veh->get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ? c_light_red :
-               c_light_green, string_format( _( "%s (%s)" ), veh->name,
-                       veh->get_owner() == nullptr ? _( "not owned" ) : fac_name ) );
+               veh->get_owner() != g->u.get_faction() ? c_light_red : c_light_green,
+               string_format( _( "%s (%s)" ), veh->name,
+                              veh->get_owner() == nullptr ? _( "not owned" ) : fac_name ) );
     wrefresh( w_name );
 }
 

@@ -427,5 +427,47 @@
       ],
       "palettes": [ "mi-go_palette" ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_scout_tower_cells",
+    "//": "Mi-go surgical suite and prisoner cells for upper z levels",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 18, 18 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "vvvvvvvv||vvvvvvvv",
+        "vvvvvv||||||vvvvvv",
+        "vvvv|||PPPP|||vvvv",
+        "vv|||PP    #1|||vv",
+        "|||PP  i   ### ||v",
+        "|<       }   #2 |v",
+        "|>  VnV    i ###||",
+        "@|i nnn        #3|",
+        "@|i nnn  i     # |",
+        "@+  VnV      ###||",
+        "||        i  #4 |v",
+        "|P    } ###  ###|v",
+        "|  i    # ####5||v",
+        "|||PPPP #7#6 |||vv",
+        "@@||||||||# ||vvvv",
+        "@||vvvvvv||||vvvvv",
+        "@vvv@@@@@@@@@@@@@@",
+        "@@@@@@@@@@@@@@@@@@"
+      ],
+      "palettes": [ "mi-go_palette" ],
+      "npcs": {
+        "1": { "class": "mi-go_prisoner", "chance": 20 },
+        "2": { "class": "mi-go_prisoner", "chance": 20 },
+        "3": { "class": "mi-go_prisoner", "chance": 20 },
+        "4": { "class": "mi-go_prisoner", "chance": 20 },
+        "5": { "class": "mi-go_prisoner", "chance": 20 },
+        "6": { "class": "mi-go_prisoner", "chance": 20 },
+        "7": { "class": "mi-go_prisoner", "chance": 20 }
+      }
+    }
   }
 ]

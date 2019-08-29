@@ -595,6 +595,11 @@ character_id mission::get_npc_id() const
     return npc_id;
 }
 
+bool mission::has_generic_rewards() const
+{
+    return type->has_generic_rewards;
+}
+
 void mission::set_target( const tripoint &p )
 {
     target = p;

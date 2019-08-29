@@ -205,7 +205,7 @@
     "material": [ "nomex" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": 42,
-    "volume": 1
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -696,7 +696,7 @@
     "price_postapoc": 100,
     "material": "iron",
     "weight": 3220,
-    "volume": 3
+    "volume": "750 ml"
   },
   {
     "type": "GENERIC",
@@ -710,7 +710,7 @@
     "price_postapoc": 500,
     "material": "steel",
     "weight": 8440,
-    "volume": 20
+    "volume": "5 L"
   },
   {
     "type": "GENERIC",
@@ -770,7 +770,7 @@
     "price_postapoc": 100,
     "material": "iron",
     "weight": 226,
-    "volume": 1
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -784,7 +784,7 @@
     "price_postapoc": 100,
     "material": "iron",
     "weight": 226,
-    "volume": 1
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -824,7 +824,7 @@
     "price": 1000,
     "material": [ "aluminum", "plastic" ],
     "weight": 725,
-    "volume": 3
+    "volume": "750 ml"
   },
   {
     "type": "GENERIC",
@@ -836,7 +836,7 @@
     "price": 1000,
     "material": [ "steel", "plastic" ],
     "weight": 11339,
-    "volume": 12
+    "volume": "3 L"
   },
   {
     "type": "GENERIC",
@@ -1450,7 +1450,7 @@
     "price": 1000,
     "material": [ "steel", "plastic" ],
     "weight": 110,
-    "volume": 1
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1506,7 +1506,7 @@
     "price_postapoc": 100,
     "material": [ "aluminum", "plastic" ],
     "weight": 2857,
-    "volume": 4
+    "volume": "1 L"
   },
   {
     "type": "GENERIC",
@@ -1547,7 +1547,7 @@
     "material": "cotton",
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
     "weight": 80,
-    "volume": 1
+    "volume": "250 ml"
   },
   {
     "id": "pipe_cleaner",
@@ -1589,7 +1589,7 @@
     "price_postapoc": 0,
     "material": "steel",
     "weight": 50,
-    "volume": 1
+    "volume": "250 ml"
   },
   {
     "id": "l_HFPack",
@@ -2372,7 +2372,7 @@
     "price": 100,
     "material": [ "paper" ],
     "weight": 80,
-    "volume": 2
+    "volume": "500 ml"
   },
   {
     "type": "GENERIC",
@@ -2564,7 +2564,7 @@
     "price": 2000,
     "material": "veggy",
     "weight": 420,
-    "volume": 4
+    "volume": "1 L"
   },
   {
     "type": "GENERIC",
@@ -2578,7 +2578,7 @@
     "price": 300,
     "material": "veggy",
     "weight": 100,
-    "volume": 1
+    "volume": "250 ml"
   },
   {
     "id": "cash_card",
@@ -2985,7 +2985,7 @@
     "price_postapoc": 2000,
     "material": [ "steel", "plastic", "wood" ],
     "weight": 11339,
-    "volume": 12
+    "volume": "3 L"
   },
   {
     "type": "GENERIC",
