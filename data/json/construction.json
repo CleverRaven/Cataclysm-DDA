@@ -2955,30 +2955,6 @@
   },
   {
     "type": "construction",
-    "skill": "survival",
-    "description": "Dig a Shallow Pit",
-    "category": "CONSTRUCT",
-    "difficulty": 1,
-    "time": "30m",
-    "on_display": false,
-    "qualities": [ { "id": "DIG", "level": 1 } ],
-    "pre_flags": [ "DIGGABLE", "FLAT" ],
-    "post_terrain": "t_pit_shallow"
-  },
-  {
-    "type": "construction",
-    "skill": "survival",
-    "description": "Dig a Deep Pit",
-    "category": "CONSTRUCT",
-    "difficulty": 1,
-    "time": "150m",
-    "on_display": false,
-    "qualities": [ { "id": "DIG", "level": 2 } ],
-    "pre_flags": [ "DIGGABLE", "FLAT" ],
-    "post_terrain": "t_pit"
-  },
-  {
-    "type": "construction",
     "description": "Build Arc Furnace",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ] ],
