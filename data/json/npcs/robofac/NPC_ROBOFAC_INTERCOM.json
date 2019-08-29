@@ -90,6 +90,7 @@
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_ROBOFAC_INTERCOM_2",
     "dialogue": {
       "describe": "No, I said ... [*You hear a short, muffled conversation from across the intercom*]/nWell, it seems we do have a use for you.  It's dangerous and you are likely to die, but if you complete it we will allow you limited access to our resources.",
@@ -128,6 +129,7 @@
       "effect": [ { "u_buy_item": "RobofacCoin", "count": 2 } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_ROBOFAC_INTERCOM_3",
     "dialogue": {
       "describe": "...",
@@ -163,6 +165,7 @@
     },
     "end": { "effect": [ { "u_buy_item": "RobofacCoin", "count": 4 } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "...",
       "offer": "Our facility once sourced advanced photonic circuitry from a nearby robotics manufacturer.  Their building suffered major damage during the portal storms, and collapsed almost entirely.  However, preliminary scouting reveals that the basement prototyping lab likely remains intact.\n\nthe intercom: We ask you to investigate the ruins, and if possible, retrieve a template for the fabrication of said photonic circuitry.",
