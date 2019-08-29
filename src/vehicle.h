@@ -1721,14 +1721,6 @@ class vehicle
 
         // current noise of vehicle (engine working, etc.)
         unsigned char vehicle_noise = 0;
-
-    public:
-        bool operator==( const vehicle &rhs ) const {
-            return om_id == rhs.om_id;
-        }
-        bool operator!=( const vehicle &rhs ) const {
-            return om_id != rhs.om_id;
-        }
 };
 
 #endif
