@@ -288,14 +288,14 @@
       "you'll taste my <mywp>",
       "you're <swear> dead",
       "<name_b>, <ill_kill_you>",
-      "Only one of us is leaving here alive.",
-      "Prepare thyself for punishment, foul knave!",
-      "Make peace with your gods.",
-      "If you worship any gods, now is a good time to start praying.",
-      "Your life is now forfeit",
-      "When I'm through with you, there won't be enough left to identify.",
-      "I'm gonna beat you so bad even the people who look like you will hurt.",
-      "Come closer. I can't beat the shit out of you from a distance."
+      "Only one of us is leaving here alive,",
+      "Prepare thyself for punishment,",
+      "Make peace with your gods,",
+      "If you worship any gods, now is a good time to start praying",
+      "Your life is now forfeit,",
+      "When I'm through with you, there won't be enough left to identify",
+      "I'm gonna beat you so bad even the people who look like you will hurt",
+      "Come closer. I can't beat the shit out of you from a distance"
     ]
   },
   {
@@ -728,8 +728,8 @@
       "I can't fit in your tiny human vehicle.",
       "This sucks.  I'm too big.",
       "I don't like being a mutant crammed into your tiny little vehicle.",
-      "Getting awfully claustrophobic in here.",
-      "I don't think this many people works for this vehicle."
+      "Getting awfully cramped in here.",
+      "I don't think this vehicle was designed for someone like me."
     ]
   },
   {
@@ -958,7 +958,8 @@
       "These bandages ain't much, but they will do for now.",
       "Hold up, gotta plug this hole in me.",
       "Watch my back while I stitch my arm back on <name_g>.",
-      "Gotta bandage this or I'll bleed out. Give me a sec."
+      "Gotta bandage this or I'll bleed out. Give me a sec.",
+      "I ain't got time to ble-wait, that's a lot of blood. Give me a second while I patch this."
     ]
   },
   {
@@ -1057,8 +1058,9 @@
       "I need some batteries to power my CBMs.",
       "I can't recharge my CBMs without some batteries.",
       "Hey, <name_g>, can I get some batteries here?  I need to recharge.",
-      "Internal batteries running low. Recharge needed.",
-      "Power going low, my internal system will malfunction without a recharge"
+      "Internal batteries running low. How many batteries can you spare right now?",
+      "I can do a lot more for you if you pass me a couple batteries to recharge.",
+      "All these implants I got are going to turn to useless scrap real soon if I don't get some batteries to recharge."
     ]
   },
   {
@@ -1068,8 +1070,9 @@
       "Pass me a beer, I need to power my ethanol burner.",
       "Ethanol burners!  The power source that's fun to recharge.  Get me a drink, please!",
       "Waiter!  I need a refill, my ethanol burner is running out of charge!",
-      "I require ethanol-based drinks for my internal power supply.",
-      "Got any alcohol to spare? Need to recharge my drives. Mead, if you have any."
+      "I require ethanol-based drinks for my internal power supply. Anything on you?",
+      "Got any alcohol to spare? Need to recharge my drives. Mead, if you have any.",
+      "This ethanol-burning power supply is the best implant I ever got. Speaking of which, got some booze to top me off?"
     ]
   },
   {
