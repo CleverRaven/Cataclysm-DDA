@@ -1867,6 +1867,11 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // because it's a border as well; so we have lines 6 through 11.
     // w is also 48 characters wide - 2 characters for border = 46 characters for us
     mvwprintz( w, point( column, line++ ), c_white, _( "NPC: %s" ), name );
+
+    if( sees( g->u ) ) {
+        mvwprintz( w, point( column, line++ ), c_yellow, _( "Aware of your presence!" ) );
+    }
+
     if( is_armed() ) {
         trim_and_print( w, point( column, line++ ), iWidth, c_red, _( "Wielding a %s" ), weapon.tname() );
     }
