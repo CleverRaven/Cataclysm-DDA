@@ -605,6 +605,10 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         wprintz( w, c_light_gray, _( " Difficulty " ) + to_string( type->difficulty ) );
     }
 
+    if( sees( g->u ) ) {
+        mvwprintz( w, point( column, ++vStart ), c_yellow, _( "Aware of your presence!" ) );
+    }
+
     std::string effects = get_effect_status();
     size_t used_space = att.first.length() + name().length() + 3;
     trim_and_print( w, point( used_space, vStart++ ), getmaxx( w ) - used_space - 2,
