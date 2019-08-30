@@ -132,8 +132,11 @@ player_activity veh_interact::serialize_activity()
     // if we're working on an existing part, use that part as the reference point
     // otherwise (e.g. installing a new frame), just use part 0
     point q = veh->coord_translate( pt ? pt->mount : veh->parts[0].mount );
-    res.values.push_back( veh->global_pos3().x + q.x );    // values[0]
-    res.values.push_back( veh->global_pos3().y + q.y );    // values[1]
+    for( const auto pt : veh->get_points( true ) ){
+        res.coord_set.insert( g->m.getabs( pt ) );
+    }
+    res.values.push_back( g->m.getabs( veh->global_pos3() ).x + q.x );    // values[0]
+    res.values.push_back( g->m.getabs( veh->global_pos3() ).y + q.y );    // values[1]
     res.values.push_back( dd.x );   // values[2]
     res.values.push_back( dd.y );   // values[3]
     res.values.push_back( -dd.x );   // values[4]
@@ -2890,11 +2893,24 @@ void veh_interact::complete_vehicle( player &p )
         debugmsg( "Invalid activity ACT_VEHICLE values:%d for %s ", p.activity.values.size(), p.disp_name() );
         return;
     }
-    const optional_vpart_position vp = g->m.veh_at( tripoint( p.activity.values[0],
-                                       p.activity.values[1], p.posz() ) );
+    optional_vpart_position vp = g->m.veh_at( g->m.getlocal( tripoint( p.activity.values[0],
+                                       p.activity.values[1], p.posz() ) ) );
     if( !vp ) {
-        debugmsg( "Activity ACT_VEHICLE: vehicle not found" );
-        return;
+        // so the vehicle could have lost some of its parts from other NPCS works during this player/NPCs activity.
+        // check the vehicle points that were stored at beginning of activity.
+        if( !p.activity.coord_set.empty() ){
+            for( const auto pt : p.activity.coord_set ){
+                vp = g->m.veh_at( g->m.getlocal( pt ) );
+                if( vp ){
+                    break;
+                }
+            }
+        }
+        // check again, to see if it really is a case of vehicle gone missing.
+        if( !vp ){
+            debugmsg( "Activity ACT_VEHICLE: vehicle not found" );
+            return;
+        }
     }
     vehicle *const veh = &vp->vehicle();
 
@@ -3055,7 +3071,13 @@ void veh_interact::complete_vehicle( player &p )
 
         case 'o': {
             const inventory &inv = p.crafting_inventory();
-
+            if( vehicle_part >= static_cast<int>( veh->parts.size() ) ) {
+                vehicle_part = veh->get_next_shifted_index( vehicle_part, p );
+                if( vehicle_part == -1 ){
+                    p.add_msg_if_player( m_info, _( "The %s has already been removed by someone else." ), vpinfo.name() );
+                    return;
+                }
+            }
             const auto reqs = vpinfo.removal_requirements();
             if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
                 p.add_msg_if_player( m_info, _( "You don't meet the requirements to remove the %s." ), vpinfo.name() );
@@ -3106,11 +3128,6 @@ void veh_interact::complete_vehicle( player &p )
 
             if( veh->parts.size() < 2 ) {
                 p.add_msg_if_player( _( "You completely dismantle the %s." ), veh->name );
-                if( p.is_npc() ){
-                    npc *guy = dynamic_cast<npc *>( &p );
-                    guy->revert_after_activity();
-                    guy->current_activity_id = activity_id::NULL_ID();
-                }
                 p.activity.set_to_null();
                 g->m.destroy_vehicle( veh );
             } else {

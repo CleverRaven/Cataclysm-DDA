@@ -1584,7 +1584,6 @@ class player : public Character
         std::list<player_activity> backlog;
         cata::optional<tripoint> destination_point;
         int activity_vehicle_part_index = -1;
-        std::weak_ptr<vehicle> activity_vehicle;
         int volume;
         const profession *prof;
 
