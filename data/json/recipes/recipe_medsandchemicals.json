@@ -1074,5 +1074,29 @@
       [ [ "chem_ethanol", 250 ] ],
       [ [ "chem_acetic_acid", 1 ], [ "chem_nitric_acid", 1 ], [ "chem_sulphuric_acid", 1 ], [ "acid", 1 ] ]
     ]
+  },
+  {
+    "result": "zinc_metal",
+    "type": "recipe",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "120 m",
+    "byproducts": [ [ "material_zinc", 5 ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 2 } ],
+    "components": [ [ [ "material_zincite", 1 ] ], [ [ "coal_lump", 1 ] ] ]
+  },
+  {
+    "result": "chem_manganese_dioxide",
+    "type": "recipe",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "fabricating",
+    "difficulty": 4,
+    "time": "60 m",
+    "byproducts": [ [ "chem_manganese_dioxide", 50 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "material_rhodonite", 1 ] ] ]
   }
 ]

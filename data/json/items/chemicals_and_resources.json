@@ -168,6 +168,36 @@
     "bashing": 1
   },
   {
+    "type": "GENERIC",
+    "id": "material_rhodonite",
+    "category": "spare_parts",
+    "price": 250,
+    "name": "rhodonite",
+    "name_plural": "rhodonite",
+    "symbol": "*",
+    "color": "red",
+    "description": "A chunk of rhodonite. Could be refined into manganese silicate.",
+    "material": "stone",
+    "volume": "2500 ml",
+    "weight": 500,
+    "bashing": 1
+  },
+  {
+    "type": "GENERIC",
+    "id": "material_zincite",
+    "category": "spare_parts",
+    "price": 250,
+    "name": "zincite",
+    "name_plural": "zincite",
+    "symbol": "*",
+    "color": "red",
+    "description": "A chunk of zincite. Could be refined into zinc oxide, then into zinc by reduction with a source of carbon.",
+    "material": "stone",
+    "volume": "2500 ml",
+    "weight": 500,
+    "bashing": 1
+  },
+  {
     "type": "COMESTIBLE",
     "id": "bleach",
     "name": "bleach",
