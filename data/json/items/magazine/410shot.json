@@ -31,20 +31,5 @@
     "reliability": 8,
     "reload_time": 130,
     "flags": [ "MAG_BULKY" ]
-  },
-  {
-    "id": "410_speedloader5",
-    "type": "MAGAZINE",
-    "name": ".410 5-round speedloader",
-    "description": "This speedloader can hold 5 rounds of .410 and quickly reload a compatible revolver.",
-    "weight": 108,
-    "volume": 1,
-    "price": 2295,
-    "material": "steel",
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": "410shot",
-    "capacity": 5,
-    "flags": [ "SPEEDLOADER" ]
   }
 ]
