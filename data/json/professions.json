@@ -3938,5 +3938,40 @@
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
     }
+  },
+  {
+    "type": "profession",
+    "ident": "gunslinger",
+    "name": "Wild West Performer",
+    "description": "You made your living on Wild West exhibitions, impressing onlookers with your displays of marksmanship. With the world at an end, your targets are looking far more dangerous than bottles and straw bull's-eyes. ",
+    "points": 4,
+    "skills": [
+      { "level": 4, "name": "gun" },
+      { "level": 3, "name": "pistol" },
+      { "level": 2, "name": "shotgun" },
+      { "level": 1, "name": "survival" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "under_armor",
+          "under_armor_shorts",
+          "cowboy_hat",
+          "socks",
+          "chaps_leather",
+          "gloves_leather",
+          "boots_western",
+          "duster",
+          "badge_deputy",
+          "sheriffshirt"
+        ],
+        "entries": [
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "45colt", "charges": 18, "container-item": "bandolier_pistol" },
+          { "item": "whiskey", "container-item": "bottle_glass" },
+          { "item": "colt_saa", "ammo-item": "45colt", "charges": 6, "container-item": "holster" }
+        ]
+      }
+    }
   }
 ]
