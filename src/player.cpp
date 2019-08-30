@@ -8,7 +8,6 @@
 #include <map>
 #include <string>
 #include <sstream>
-#include <iostream>
 #include <limits>
 #include <bitset>
 #include <exception>
@@ -10794,17 +10793,7 @@ void player::set_destination( const std::vector<tripoint> &route,
 {
     auto_move_route = route;
     this->destination_activity = destination_activity;
-    destination_activity_values.clear();
     destination_point.emplace( g->m.getabs( route.back() ) );
-}
-
-void player::destination_activity_value( const int value )
-{
-    if( destination_activity.is_null() ){
-        return;
-    }
-    std::cout << "added value to destination activity values in player.cpp " << std::to_string( value ) << std::endl;
-    destination_activity_values.push_back( value );
 }
 
 void player::clear_destination()
@@ -10813,7 +10802,6 @@ void player::clear_destination()
     destination_activity = player_activity();
     destination_point = cata::nullopt;
     next_expected_position = cata::nullopt;
-    destination_activity_values.clear();
 }
 
 bool player::has_distant_destination() const
@@ -10840,12 +10828,7 @@ void player::start_destination_activity()
         return;
     }
     assign_activity( destination_activity );
-    for( const auto value : destination_activity_values ){
-        std::cout << "arrived at destinaton, started activity, added destination_activity_values " << std::to_string( value ) << std::endl;
-        activity.values.push_back( value );
-    }
     clear_destination();
-    destination_activity_values.clear();
 }
 
 std::vector<tripoint> &player::get_auto_move_route()

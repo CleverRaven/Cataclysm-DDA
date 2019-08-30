@@ -1583,13 +1583,14 @@ class player : public Character
         player_activity activity;
         std::list<player_activity> backlog;
         cata::optional<tripoint> destination_point;
+        int activity_vehicle_part_index = -1;
+        std::weak_ptr<vehicle> activity_vehicle;
         int volume;
         const profession *prof;
 
         start_location_id start_location;
 
         std::map<std::string, int> mutation_category_level;
-        std::vector<int> destination_activity_values;
         time_point next_climate_control_check;
         bool last_climate_control_ret;
         int tank_plut;

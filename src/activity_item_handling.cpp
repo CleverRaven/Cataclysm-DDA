@@ -1022,8 +1022,8 @@ static std::string random_string( size_t length )
     return str;
 }
 
-static std::tuple<bool, do_activity_reason, int> can_do_activity_there( const activity_id &act, player &p,
-        const tripoint &src_loc, const int required_index )
+static std::pair<bool, do_activity_reason> can_do_activity_there( const activity_id &act, player &p,
+        const tripoint &src_loc )
 {
     // see activity_handlers.h cant_do_activity_reason enums
     zone_manager &mgr = zone_manager::get_manager();
@@ -1033,24 +1033,24 @@ static std::tuple<bool, do_activity_reason, int> can_do_activity_there( const ac
         return std::make_pair( false, ALREADY_WORKING );
     }
     for( const npc &guy : g->all_npcs() ) {
-        if( g->m.getlocal( guy.activity.placement ) == src_loc ) {
+        if( act == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) && guy.activity_vehicle_part_index != -1 && guy.activity_vehicle_part_index == p.activity_vehicle_part_index ){
+            return std::make_pair( false, ALREADY_WORKING );
+        }
+        if( g->m.getlocal( guy.activity.placement ) == src_loc || guy.pos() == src_loc ) {
             return std::make_pair( false, ALREADY_WORKING );
         }
     }
     if( act == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) ){
         vehicle *veh = veh_pointer_or_null( g->m.veh_at( src_loc ) );
         if( !veh ){
-            return std::make_tuple( false, NO_ZONE, -1 );
+            return std::make_pair( false, NO_ZONE );
         } else {
-            std::cout << "required index in can_do = " << std::to_string( required_index ) << std::endl;
+            std::cout << "for required index in can_do = " << " " << p.disp_name() << std::endl;
             // find out if there is a vehicle part here we can remove.
             std::vector<vehicle_part *> parts = veh->get_parts_at( src_loc, "", part_status_flag::any );
             for( vehicle_part *part_elem : parts ){
                 const vpart_info &vpinfo = part_elem->info();
                 int vpindex = veh->index_of_part( part_elem, true );
-                if( required_index != -1 && vpindex != required_index ){
-                    continue;
-                }
                 // if part is not on this vehicle, or if its attached to another part that needs to be removed first.
                 if( vpindex == -1 || !veh->can_unmount( vpindex ) ){
                     continue;
@@ -1080,25 +1080,25 @@ static std::tuple<bool, do_activity_reason, int> can_do_activity_there( const ac
                 if( !( use_aid || use_str ) ) {
                     continue;
                 }
-                std::cout << " can_do_act_there reqs" << std::endl;
-                std::cout << "vpart info in can_do " << vpinfo.name() << std::endl;
+                std::cout << " can_do_act_there reqs" << " " << p.disp_name() << std::endl;
+                std::cout << "vpart info in can_do " << vpinfo.name() << " " << p.disp_name() << std::endl;
                 const auto &reqs = vpinfo.removal_requirements();
                 const std::string ran_str = random_string( 10 );
                 const requirement_id req_id( ran_str );
                 requirement_data::save_requirement( reqs, req_id );
                 for( const auto qual : reqs.get_qualities() ){
                     for( const auto comp : qual ){
-                        std::cout << "qality comp = " << comp.to_string() << std::endl;
+                        std::cout << "qality comp = " << comp.to_string() << " " << p.disp_name() << std::endl;
                     }
                 }
                 for( const auto qual : reqs.get_components() ){
                     for( const auto comp : qual ){
-                        std::cout << "component comp = " << comp.to_string() << std::endl;
+                        std::cout << "component comp = " << comp.to_string() << " " << p.disp_name() << std::endl;
                     }
                 }
                 for( const auto qual : reqs.get_tools() ){
                     for( const auto comp : qual ){
-                        std::cout << "tool comp = " << comp.to_string() << std::endl;
+                        std::cout << "tool comp = " << comp.to_string() << " " << p.disp_name() << std::endl;
                     }
                 }
                 std::vector<tripoint> points_to_check;
@@ -1106,47 +1106,49 @@ static std::tuple<bool, do_activity_reason, int> can_do_activity_there( const ac
                     points_to_check.push_back( elem );
                 }
                 bool can_make = are_requirements_nearby( points_to_check, req_id, p, act, false );
+                // temporarily store the intended index, we do this so two NPCs dont try and work on the same part at same time.
+                p.activity_vehicle_part_index = vpindex;
                 if( !can_make ) {
-                    std::cout << "can_do_act? return false - need fetch" << std::endl;
-                    return std::make_tuple( false, NEEDS_VEH_DECONST, vpindex );
+                    std::cout << "can_do_act? return false - need fetch" << " " << p.disp_name() << std::endl;
+                    return std::make_pair( false, NEEDS_VEH_DECONST );
                 } else {
-                    std::cout << "can_do_act? return true - no need to fetch" << std::endl;
-                    return std::make_tuple( true, NEEDS_VEH_DECONST, vpindex );
+                    std::cout << "can_do_act? return true - no need to fetch" << " " << p.disp_name() << std::endl;
+                    return std::make_pair( true, NEEDS_VEH_DECONST );
                 }
             }
-            return std::make_tuple( false, NO_ZONE, -1 );
+            return std::make_pair( false, NO_ZONE );
         }
     }
 
     if( act == activity_id( "ACT_MULTIPLE_FISH" ) ) {
         if( !g->m.has_flag( "FISHABLE", src_loc ) ) {
-            return std::make_tuple( false, NO_ZONE, -1 );
+            return std::make_pair( false, NO_ZONE );
         }
         std::vector<item *> rod_inv = p.items_with( []( const item & itm ) {
             return itm.has_flag( "FISH_POOR" ) || itm.has_flag( "FISH_GOOD" );
         } );
         if( rod_inv.empty() ) {
-            return std::make_tuple( false, NEEDS_FISHING, -1 );
+            return std::make_pair( false, NEEDS_FISHING );
         } else {
-            return std::make_tuple( true, NEEDS_FISHING, -1 );
+            return std::make_pair( true, NEEDS_FISHING );
         }
     }
     if( act == activity_id( "ACT_TIDY_UP" ) ) {
         if( mgr.has_near( z_loot_unsorted, g->m.getabs( src_loc ), 60 ) ) {
-            return std::make_tuple( true, CAN_DO_FETCH, -1 );
+            return std::make_pair( true, CAN_DO_FETCH );
         }
-        return std::make_tuple( false, NO_ZONE, -1 );
+        return std::make_pair( false, NO_ZONE );
     }
     if( act == activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ) {
         if( g->m.has_flag( "TREE", src_loc ) || g->m.ter( src_loc ) == t_trunk ||
             g->m.ter( src_loc ) == t_stump ) {
             if( p.has_quality( quality_id( "AXE" ) ) ) {
-                return std::make_tuple( true, NEEDS_TREE_CHOPPING, -1 );
+                return std::make_pair( true, NEEDS_TREE_CHOPPING );
             } else {
-                return std::make_tuple( false, NEEDS_TREE_CHOPPING,0  );
+                return std::make_pair( false, NEEDS_TREE_CHOPPING );
             }
         } else {
-            return std::make_tuple( false, NO_ZONE, -1 );
+            return std::make_pair( false, NO_ZONE );
         }
     }
     if( act == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
@@ -1182,25 +1184,25 @@ static std::tuple<bool, do_activity_reason, int> can_do_activity_there( const ac
         if( !corpses.empty() ) {
             if( big_count > 0 && small_count == 0 ) {
                 if( !has_table_nearby || !b_rack_present ) {
-                    return std::make_tuple( false, NO_ZONE, -1 );
+                    return std::make_pair( false, NO_ZONE );
                 }
                 if( p.has_quality( quality_id( "BUTCHER" ), 1 ) && ( p.has_quality( quality_id( "SAW_W" ) ) ||
                         p.has_quality( quality_id( "SAW_M" ) ) ) ) {
-                    return std::make_tuple( true, NEEDS_BIG_BUTCHERING, -1 );
+                    return std::make_pair( true, NEEDS_BIG_BUTCHERING );
                 } else {
-                    return std::make_tuple( false, NEEDS_BIG_BUTCHERING, -1 );
+                    return std::make_pair( false, NEEDS_BIG_BUTCHERING );
                 }
             }
             if( ( big_count > 0 && small_count > 0 ) || ( big_count == 0 ) ) {
                 // there are small corpses here, so we can ignore any big corpses here for the moment.
                 if( p.has_quality( quality_id( "BUTCHER" ), 1 ) ) {
-                    return std::make_tuple( true, NEEDS_BUTCHERING, -1 );
+                    return std::make_pair( true, NEEDS_BUTCHERING );
                 } else {
-                    return std::make_tuple( false, NEEDS_BUTCHERING, -1 );
+                    return std::make_pair( false, NEEDS_BUTCHERING );
                 }
             }
         }
-        return std::make_tuple( false, NO_ZONE, -1 );
+        return std::make_pair( false, NO_ZONE );
 
     }
     if( act == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ) {
@@ -1209,13 +1211,13 @@ static std::tuple<bool, do_activity_reason, int> can_do_activity_there( const ac
             if( i.typeId() == "log" ) {
                 // do we have an axe?
                 if( p.has_quality( quality_id( "AXE" ), 1 ) ) {
-                    return std::make_tuple( true, NEEDS_CHOPPING, -1 );
+                    return std::make_pair( true, NEEDS_CHOPPING );
                 } else {
-                    return std::make_tuple( false, NEEDS_CHOPPING, -1 );
+                    return std::make_pair( false, NEEDS_CHOPPING );
                 }
             }
         }
-        return std::make_tuple( false, NO_ZONE, -1 );
+        return std::make_pair( false, NO_ZONE );
     }
     if( act == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ) {
         const std::vector<construction> &list_constructions = get_constructions();
@@ -1226,9 +1228,9 @@ static std::tuple<bool, do_activity_reason, int> can_do_activity_there( const ac
         if( nc ) {
             const construction &built = list_constructions[nc->id];
             if( !character_has_skill_for( p, built ) ) {
-                return std::make_tuple( false, DONT_HAVE_SKILL, -1 );
+                return std::make_pair( false, DONT_HAVE_SKILL );
             }
-            return std::make_tuple( true, CAN_DO_CONSTRUCTION, -1 );
+            return std::make_pair( true, CAN_DO_CONSTRUCTION );
         }
         construction built_pre;
         // PICKUP_RANGE -1 because we will be adjacent to the spot when arriving.
@@ -1241,32 +1243,32 @@ static std::tuple<bool, do_activity_reason, int> can_do_activity_there( const ac
             if( !built.post_terrain.empty() ) {
                 if( built.post_is_furniture ) {
                     if( furn_id( built.post_terrain ) == g->m.furn( src_loc ) ) {
-                        return std::make_tuple( false, ALREADY_DONE, -1 );
+                        return std::make_pair( false, ALREADY_DONE );
                     }
                 } else {
                     if( ter_id( built.post_terrain ) == g->m.ter( src_loc ) ) {
-                        return std::make_tuple( false, ALREADY_DONE, -1 );
+                        return std::make_pair( false, ALREADY_DONE );
                     }
                 }
             }
 
             if( can_construct( built, src_loc ) && player_can_build( p, pre_inv, built ) ) {
-                return std::make_tuple( true, CAN_DO_CONSTRUCTION, -1 );
+                return std::make_pair( true, CAN_DO_CONSTRUCTION );
             } else {
                 // if both return false, then there is a pre_special requirement that failed.
                 if( !player_can_build( p, pre_inv, built ) && !can_construct( built, src_loc ) ) {
-                    return std::make_tuple( false, NO_ZONE, -1 );
+                    return std::make_pair( false, NO_ZONE );
                 }
                 auto stuff_there = g->m.i_at( src_loc );
                 if( !stuff_there.empty() ) {
-                    return std::make_tuple( false, BLOCKING_TILE, -1 );
+                    return std::make_pair( false, BLOCKING_TILE );
                 }
                 // there are no pre-requisites.
                 // so we need to potentially fetch components
                 if( built.pre_terrain.empty() && built.pre_special( src_loc ) ) {
-                    return std::make_tuple( false, NO_COMPONENTS, -1 );
+                    return std::make_pair( false, NO_COMPONENTS );
                 } else if( !built.pre_special( src_loc ) ) {
-                    return std::make_tuple( false, BLOCKING_TILE, -1 );
+                    return std::make_pair( false, BLOCKING_TILE );
                 }
                 // cant build it
                 // maybe we can build the pre-requisite instead
@@ -1275,27 +1277,27 @@ static std::tuple<bool, do_activity_reason, int> can_do_activity_there( const ac
                                                       furn_id( built.pre_terrain ) == g->m.furn( src_loc ) ) || ( !built.pre_is_furniture &&
                                                               ter_id( built.pre_terrain ) == g->m.ter( src_loc ) ) ) ) {
                     // the pre-req is already built, so the reason is due to lack of tools/components
-                    return std::make_tuple( false, NO_COMPONENTS, -1 );
+                    return std::make_pair( false, NO_COMPONENTS );
                 }
                 built_pre = check_build_pre( built );
                 // the pre-terrain requirement is not a possible construction.
                 if( built_pre.id == built.id ) {
-                    return std::make_tuple( false, NO_ZONE, -1 );
+                    return std::make_pair( false, NO_ZONE );
                 }
                 // so lets check if we can build the pre-req
                 if( can_construct( built_pre, src_loc ) && player_can_build( p, pre_inv, built_pre ) ) {
-                    return std::make_tuple( true, CAN_DO_PREREQ, -1 );
+                    return std::make_pair( true, CAN_DO_PREREQ );
                 } else {
                     // Ok we'll go one more pre-req deep - for things like doors and walls that have 3 steps.
                     construction built_pre_2 = check_build_pre( built_pre );
                     if( built_pre.id == built_pre_2.id ) {
                         //the 2nd pre-req down is not possible to build
-                        return std::make_tuple( false, NO_ZONE, -1 );
+                        return std::make_pair( false, NO_ZONE );
                     }
                     if( can_construct( built_pre, src_loc ) && player_can_build( p, pre_inv, built_pre ) ) {
-                        return std::make_tuple( true, CAN_DO_PREREQ_2, -1 );
+                        return std::make_pair( true, CAN_DO_PREREQ_2 );
                     }
-                    return std::make_tuple( false, NO_COMPONENTS_PREREQ_2, -1 );
+                    return std::make_pair( false, NO_COMPONENTS_PREREQ_2 );
                 }
             }
         }
@@ -1305,18 +1307,18 @@ static std::tuple<bool, do_activity_reason, int> can_do_activity_there( const ac
         for( const zone_data &zone : zones ) {
             if( g->m.has_flag_furn( "GROWTH_HARVEST", src_loc ) ) {
                 // simple work, pulling up plants, nothing else required.
-                return std::make_tuple( true, NEEDS_HARVESTING, -1 );
+                return std::make_pair( true, NEEDS_HARVESTING );
             } else if( g->m.has_flag( "PLOWABLE", src_loc ) && !g->m.has_furn( src_loc ) ) {
                 if( p.has_quality( quality_id( "DIG" ), 1 ) ) {
                     // we have a shovel/hoe already, great
-                    return std::make_tuple( true, NEEDS_TILLING, -1 );
+                    return std::make_pair( true, NEEDS_TILLING );
                 } else {
                     // we need a shovel/hoe
-                    return std::make_tuple( false, NEEDS_TILLING, -1 );
+                    return std::make_pair( false, NEEDS_TILLING );
                 }
             } else if( g->m.has_flag_ter_or_furn( "PLANTABLE", src_loc ) && warm_enough_to_plant( src_loc ) ) {
                 if( g->m.has_items( src_loc ) ) {
-                    return std::make_tuple( false, BLOCKING_TILE, -1 );
+                    return std::make_pair( false, BLOCKING_TILE );
                 } else {
                     // do we have the required seed on our person?
                     const auto options = dynamic_cast<const plot_options &>( zone.get_options() );
@@ -1326,7 +1328,7 @@ static std::tuple<bool, do_activity_reason, int> can_do_activity_there( const ac
                     } );
                     for( const auto elem : seed_inv ) {
                         if( elem->typeId() == itype_id( seed ) ) {
-                            return std::make_tuple( true, NEEDS_PLANTING, -1 );
+                            return std::make_pair( true, NEEDS_PLANTING );
                         }
                     }
                     // didnt find the seed, but maybe there are overlapping farm zones
@@ -1336,20 +1338,20 @@ static std::tuple<bool, do_activity_reason, int> can_do_activity_there( const ac
 
             } else {
                 // cant plant, till or harvest
-                return std::make_tuple( false, ALREADY_DONE, -1 );
+                return std::make_pair( false, ALREADY_DONE );
             }
 
         }
         // looped through all zones, and only got here if its plantable, but have no seeds.
-        return std::make_tuple( false, NEEDS_PLANTING, -1 );
+        return std::make_pair( false, NEEDS_PLANTING );
     } else if( act == activity_id( "ACT_FETCH_REQUIRED" ) ) {
         // we check if its possible to get all the requirements for fetching at two other places.
         // 1. before we even assign the fetch activity and;
         // 2. when we form the src_set to loop through at the beginning of the fetch activity.
-        return std::make_tuple( true, CAN_DO_FETCH, -1 );
+        return std::make_pair( true, CAN_DO_FETCH );
     }
     // Shouldnt get here because the zones were checked previously. if it does, set enum reason as "no zone"
-    return std::make_tuple( false, NO_ZONE, -1 );
+    return std::make_pair( false, NO_ZONE );
 }
 
 static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player &p )
@@ -1357,7 +1359,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     const requirement_data things_to_fetch = requirement_id( p.backlog.front().str_values[0] ).obj();
     for( const auto req : things_to_fetch.get_qualities() ){
         for( const auto comp : req ){
-            std::cout << "requirements_map unpack req " << comp.to_string() << std::endl;
+            std::cout << "requirements_map unpack req " << comp.to_string() << " " << p.disp_name() << std::endl;
         }
     }
     const activity_id activity_to_restore = p.backlog.front().id();
@@ -1406,14 +1408,14 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     // if the requirements arent available, then stop.
     if( !are_requirements_nearby( pickup_task ? loot_spots : combined_spots, things_to_fetch_id, p,
                                   activity_to_restore, pickup_task ) ) {
-        std::cout << "requirements not nearby in requirement_map check " << std::endl;
+        std::cout << "requirements not nearby in requirement_map check " << " " << p.disp_name() << std::endl;
         return requirement_map;
     }
     // if the requirements are already near the work spot and its a construction/crafting task, then no need to fetch anything more.
     if( !pickup_task &&
         are_requirements_nearby( already_there_spots, things_to_fetch_id, p, activity_to_restore,
                                  false ) ) {
-        std::cout << "requirements are nearby in mental_map" << std::endl;
+        std::cout << "requirements are nearby in mental_map" << " " << p.disp_name() << std::endl;
         return requirement_map;
     }
     // a vector of every item in every tile that matches any part of the requirements.
@@ -2137,15 +2139,9 @@ void generic_multi_activity_handler( player_activity &act, player &p )
     std::unordered_set<tripoint> src_set;
     // we may need a list of all constructions later.
     const std::vector<construction> &list_constructions = get_constructions();
-    // If the required part index has been saved before moving nearby...
-    int required_index = -1;
-    if( activity_to_restore == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) && !p.activity.values.empty() ){
-        required_index = p.activity.values[0];
-        std::cout << "added required index :" << std::to_string( required_index );
-    }
     // Nuke the current activity, leaving the backlog alone
     p.activity = player_activity();
-    std::cout << "activity to restore is " << activity_to_restore.str() << std::endl;
+    std::cout << "activity to restore is " << activity_to_restore.str() << " " << p.disp_name() << std::endl;
     // now we setup the target spots based on whch activity is occuring
     if( activity_to_restore == activity_id( "ACT_TIDY_UP" ) ) {
         dark_capable = true;
@@ -2161,6 +2157,7 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             for( const auto &stack_elem : g->m.i_at( elem ) ) {
                 if( stack_elem.has_var( "activity_var" ) && stack_elem.get_var( "activity_var", "" ) == p.name ) {
                     const furn_t &f = g->m.furn( elem ).obj();
+                    // plants are actually hidden items, we dont want to try and pick those
                     if( !f.has_flag( "PLANT" ) ) {
                         src_set.insert( g->m.getabs( elem ) );
                         break;
@@ -2264,11 +2261,10 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             p.set_destination( route, player_activity( activity_to_restore ) );
             return;
         }
-        std::tuple<bool, do_activity_reason, int> check_can_do = can_do_activity_there( activity_to_restore, p,
-                src_loc, required_index );
-        const bool can_do_it = std::get<0>( check_can_do );
-        const do_activity_reason reason = std::get<1>(check_can_do);
-        const int result_index = std::get<2>(check_can_do);
+        std::pair<bool, do_activity_reason> check_can_do = can_do_activity_there( activity_to_restore, p,
+                src_loc );
+        const bool can_do_it = check_can_do.first;
+        const do_activity_reason reason = check_can_do.second;
         if( !can_do_it && reason == ALREADY_WORKING ) {
             continue;
         }
@@ -2331,9 +2327,9 @@ void generic_multi_activity_handler( player_activity &act, player &p )
                 if( !veh ){
                     continue;
                 }
-                std::cout << " req_data cant do it - building req what we need" << std::endl;
-                const vpart_info &vpinfo = veh->part_info( result_index );
-                std::cout << "cant do it - building req what we need part name " << vpinfo.name() << std::endl;
+                std::cout << " req_data cant do it - building req what we need" << " " << p.disp_name() << std::endl;
+                const vpart_info &vpinfo = veh->part_info( p.activity_vehicle_part_index );
+                std::cout << "cant do it - building req what we need part name " << vpinfo.name() << " " << p.disp_name() << std::endl;
                 const auto &reqs = vpinfo.removal_requirements();
                 const std::string ran_str = random_string( 10 );
                 const requirement_id req_id( ran_str );
@@ -2377,8 +2373,11 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             // is it even worth fetching anything if there isnt enough nearby?
             if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, p,
                                           activity_to_restore, tool_pickup ) ) {
-                std::cout << "requirements not nearby " << std::endl;
+                std::cout << "requirements not nearby " << " " << p.disp_name() << std::endl;
                 p.add_msg_if_player( m_info, _( "The required items are not available to complete this task." ) );
+                if( reason == NEEDS_VEH_DECONST ){
+                    p.activity_vehicle_part_index = -1;
+                }
                 continue;
             } else {
                 p.backlog.push_front( activity_to_restore );
@@ -2387,7 +2386,7 @@ void generic_multi_activity_handler( player_activity &act, player &p )
                 const requirement_data things_to_fetch = requirement_id( p.backlog.front().str_values[0] ).obj();
                 for( const auto req : things_to_fetch.get_qualities() ){
                     for( const auto comp : req ){
-                        std::cout << "unpacked comp " << comp.to_string() << std::endl;
+                        std::cout << "unpacked comp " << comp.to_string() << " " << p.disp_name() << std::endl;
                     }
                 }
                 p.backlog.front().values.push_back( reason );
@@ -2430,9 +2429,6 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             if( p.moves <= 0 ) {
                 // Restart activity and break from cycle.
                 p.assign_activity( activity_to_restore );
-                if( activity_to_restore == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) ){
-                    p.activity.values[0] = result_index;
-                }
                 return;
             }
             // set the destination and restart activity after player arrives there
@@ -2440,8 +2436,7 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             // activity will be restarted only if
             // player arrives on destination tile
             p.set_destination( route, player_activity( activity_to_restore ) );
-            p.destination_activity_value( result_index );
-            std::cout << "WALKING TO ACTIVITY SPOT result index = " << std::to_string( result_index ) << std::endl;
+            std::cout << "WALKING TO ACTIVITY SPOT result index = " << " " << p.disp_name() << std::endl;
             return;
         }
         // something needs to be done, now we are there.
@@ -2499,9 +2494,8 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             return;
         } else if( reason == NEEDS_VEH_DECONST ){
             p.backlog.push_front( activity_to_restore );
-            p.backlog.front().values.clear();
-            vehicle_deconstruct_activity( p, src_loc, result_index );
-            std::cout << "did vehicle decontruct activity" << std::endl;
+            vehicle_deconstruct_activity( p, src_loc, p.activity_vehicle_part_index );
+            std::cout << "did vehicle decontruct activity" << " " << p.disp_name() << std::endl;
             return;
         }
     }

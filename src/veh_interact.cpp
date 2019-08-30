@@ -2887,7 +2887,7 @@ void act_vehicle_unload_fuel( vehicle *veh )
 void veh_interact::complete_vehicle( player &p )
 {
     if( p.activity.values.size() < 7 ) {
-        debugmsg( "Invalid activity ACT_VEHICLE values:%d", p.activity.values.size() );
+        debugmsg( "Invalid activity ACT_VEHICLE values:%d for %s ", p.activity.values.size(), p.disp_name() );
         return;
     }
     const optional_vpart_position vp = g->m.veh_at( tripoint( p.activity.values[0],
