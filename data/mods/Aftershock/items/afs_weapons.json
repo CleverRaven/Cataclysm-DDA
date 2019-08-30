@@ -114,7 +114,7 @@
   {
     "id": "afs_rolling_pin_barbed_wire",
     "type": "GENERIC",
-    "copy-from": "afs_rolling_pin",
+    "copy-from": "rolling_pin",
     "name": "barbed-wire rolling pin",
     "description": "Typically used to flatten dough, this rolling pin has been repurposed as a weapon, with barbed wire adding some extra power and weight to its swing.  It has some real heft to it; perfect for the bakers of the apocalypse.",
     "weight": 923,
