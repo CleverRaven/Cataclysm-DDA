@@ -928,29 +928,131 @@ std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest )
     return std::vector<tripoint>();
 }
 
-static construction check_build_pre( const construction &con )
+static activity_reason_info find_base_construction(
+    const std::vector<construction> &list_constructions,
+    player &p,
+    const inventory &inv,
+    const tripoint &loc,
+    const cata::optional<size_t> part_con_idx,
+    const size_t idx,
+    std::set<size_t> &used )
 {
-    const std::string pre_con_str = con.pre_terrain;
-    construction pre_con = con;
-    const std::vector<construction> &list_constructions = get_constructions();
-    for( const construction elem : list_constructions ) {
-        if( !elem.post_terrain.empty() && elem.post_terrain == pre_con_str &&
-            elem.category != string_id<construction_category>( "REPAIR" ) &&
-            elem.category != string_id<construction_category>( "REINFORCE" ) ) {
-            //we found the construction that could build the required terrain
-            pre_con = elem;
-            break;
+    const construction &build = list_constructions[idx];
+    //already done?
+    const furn_id furn = g->m.furn( loc );
+    const ter_id ter = g->m.ter( loc );
+    if( !build.post_terrain.empty() ) {
+        if( build.post_is_furniture ) {
+            if( furn_id( build.post_terrain ) == furn ) {
+                return activity_reason_info::build( ALREADY_DONE, false, idx );
+            }
+        } else {
+            if( ter_id( build.post_terrain ) == ter ) {
+                return activity_reason_info::build( ALREADY_DONE, false, idx );
+            }
         }
     }
-    return pre_con;
-}
+    //if theres an apropriate partial construction on the tile, then we can work on it, no need to check inventories.
+    const bool has_skill = p.meets_skill_requirements( build );
+    if( part_con_idx && *part_con_idx == idx ) {
+        if( !has_skill ) {
+            return activity_reason_info::build( DONT_HAVE_SKILL, false, idx );
+        }
+        return activity_reason_info::build( CAN_DO_CONSTRUCTION, true, idx );
+    }
+    //can build?
+    const bool cc = can_construct( build, loc );
+    const bool pcb = player_can_build( p, inv, build );
+    if( !has_skill ) {
+        return activity_reason_info::build( DONT_HAVE_SKILL, false, idx );
+    }
+    if( cc ) {
+        if( pcb ) {
+            return activity_reason_info::build( CAN_DO_CONSTRUCTION, true, idx );
+        }
+        //can't build with current inventory, do not look for pre-req
+        return activity_reason_info::build( NO_COMPONENTS, false, idx );
+    }
 
-static bool character_has_skill_for( const player &p, const construction &con )
-{
-    return std::all_of( con.required_skills.begin(), con.required_skills.end(),
-    [&]( const std::pair<skill_id, int> &pr ) {
-        return p.get_skill_level( pr.first ) >= pr.second;
-    } );
+    // there are no pre-requisites.
+    // so we need to potentially fetch components
+    if( build.pre_terrain.empty() && build.pre_special( loc ) ) {
+        return activity_reason_info::build( NO_COMPONENTS, false, idx );
+    } else if( !build.pre_special( loc ) ) {
+        return activity_reason_info::build( BLOCKING_TILE, false, idx );
+    }
+
+    // cant build it
+    // maybe we can build the pre-requisite instead
+    // see if the reason is because of pre-terrain requirement
+    if( !build.pre_terrain.empty() &&
+        ( ( build.pre_is_furniture &&
+            furn_id( build.pre_terrain ) == furn ) ||
+          ( !build.pre_is_furniture &&
+            ter_id( build.pre_terrain ) == ter ) ) ) {
+        // the pre-req is already built, so the reason is due to lack of tools/components
+        return activity_reason_info::build( NO_COMPONENTS, false, idx );
+    }
+
+    //we can't immediately build it, looking for pre-req
+    used.insert( idx );
+    cata::optional<do_activity_reason> reason;
+    size_t pre_req_idx = 0;
+    //first step: try only constructions with the same description
+    //second step: try all constructions
+    for( int try_num = 0; try_num < 2; ++try_num ) {
+        for( const construction &pre_build : list_constructions ) {
+            //skip if already checked this one
+            if( pre_build.id == idx || used.find( pre_build.id ) != used.end() ) {
+                continue;
+            }
+            //skip unknown
+            if( pre_build.post_terrain.empty() ) {
+                continue;
+            }
+            //skip if it is not a pre-build required or gives the same result
+            if( pre_build.post_terrain != build.pre_terrain &&
+                pre_build.post_terrain != build.post_terrain ) {
+                continue;
+            }
+            //at first step, try to get building with the same description
+            if( try_num == 0 &&
+                pre_build.description != build.description ) {
+                continue;
+            }
+            activity_reason_info act_info_pre = find_base_construction( list_constructions,
+                                                p, inv, loc, part_con_idx, pre_build.id, used );
+            if( act_info_pre.can_do ) {
+                return activity_reason_info::build( CAN_DO_PREREQ, true, *act_info_pre.con_idx );
+            }
+            //find first pre-req failed reason
+            if( !reason ) {
+                reason = act_info_pre.reason;
+                pre_req_idx = *act_info_pre.con_idx;
+            }
+            if( act_info_pre.reason == ALREADY_DONE ) {
+                //pre-req is already here, but we still can't build over it
+                reason.reset();
+                break;
+            }
+        }
+    }
+    //have a partial construction which is not leading to the required construction
+    if( part_con_idx ) {
+        return activity_reason_info::build( BLOCKING_TILE, false, idx );
+    }
+    //pre-req failed?
+    if( reason ) {
+        if( *reason == NO_COMPONENTS ) {
+            return activity_reason_info::build( NO_COMPONENTS_PREREQ, false, pre_req_idx );
+        }
+        return activity_reason_info::build( *reason, false, pre_req_idx );
+    }
+    if( !pcb ) {
+        return activity_reason_info::build( NO_COMPONENTS, false, idx );
+    }
+    //only cc failed, no pre-req
+    return activity_reason_info::build( BLOCKING_TILE, false, idx );
 }
 
 static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
@@ -1003,7 +1105,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
     return needed_things.obj().can_make_with_inventory( temp_inv, is_crafting_component );
 }
 
-static std::pair<bool, do_activity_reason> can_do_activity_there( const activity_id &act, player &p,
+static activity_reason_info can_do_activity_there( const activity_id &act, player &p,
         const tripoint &src_loc )
 {
     // see activity_handlers.h cant_do_activity_reason enums
@@ -1016,98 +1118,40 @@ static std::pair<bool, do_activity_reason> can_do_activity_there( const activity
         if( mgr.has( zone_type_id( "LOOT_IGNORE" ), g->m.getabs( src_loc ) ) ||
             g->m.get_field( src_loc, fd_fire ) != nullptr ||
             !g->m.can_put_items_ter_furn( src_loc ) ) {
-            return std::make_pair( false, BLOCKING_TILE );
+            return activity_reason_info::fail( BLOCKING_TILE );
         } else {
-            return std::make_pair( true, CAN_DO_FETCH );
+            return activity_reason_info::ok( CAN_DO_FETCH );
         }
     }
     if( act == activity_id( "ACT_TIDY_UP" ) ) {
         if( mgr.has_near( z_loot_unsorted, g->m.getabs( src_loc ), 60 ) ) {
-            return std::make_pair( true, CAN_DO_FETCH );
+            return activity_reason_info::ok( CAN_DO_FETCH );
         }
-        return std::make_pair( false, NO_ZONE );
+        return activity_reason_info::fail( NO_ZONE );
     }
     if( act == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ) {
         const std::vector<construction> &list_constructions = get_constructions();
         zones = mgr.get_zones( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
                                g->m.getabs( src_loc ) );
-        partial_con *nc = g->m.partial_con_at( src_loc );
-        // if theres a partial construction on the tile, then we can work on it, no need to check inventories.
-        if( nc ) {
-            const construction &built = list_constructions[nc->id];
-            if( !character_has_skill_for( p, built ) ) {
-                return std::make_pair( false, DONT_HAVE_SKILL );
-            }
-            return std::make_pair( true, CAN_DO_CONSTRUCTION );
+        const partial_con *part_con = g->m.partial_con_at( src_loc );
+        cata::optional<size_t> part_con_idx;
+        if( part_con ) {
+            part_con_idx = part_con->id;
         }
-        construction built_pre;
+        const map_stack stuff_there = g->m.i_at( src_loc );
+
         // PICKUP_RANGE -1 because we will be adjacent to the spot when arriving.
         const inventory pre_inv = p.crafting_inventory( src_loc, PICKUP_RANGE - 1 );
         for( const zone_data &zone : zones ) {
             const blueprint_options options = dynamic_cast<const blueprint_options &>( zone.get_options() );
             const int index = options.get_index();
-            const construction &built = list_constructions[index];
-            // maybe it's already built?
-            if( !built.post_terrain.empty() ) {
-                if( built.post_is_furniture ) {
-                    if( furn_id( built.post_terrain ) == g->m.furn( src_loc ) ) {
-                        return std::make_pair( false, ALREADY_DONE );
-                    }
-                } else {
-                    if( ter_id( built.post_terrain ) == g->m.ter( src_loc ) ) {
-                        return std::make_pair( false, ALREADY_DONE );
-                    }
-                }
+            if( !stuff_there.empty() ) {
+                return activity_reason_info::build( BLOCKING_TILE, false, static_cast<size_t>( index ) );
             }
-
-            if( can_construct( built, src_loc ) && player_can_build( p, pre_inv, built ) ) {
-                return std::make_pair( true, CAN_DO_CONSTRUCTION );
-            } else {
-                // if both return false, then there is a pre_special requirement that failed.
-                if( !player_can_build( p, pre_inv, built ) && !can_construct( built, src_loc ) ) {
-                    return std::make_pair( false, NO_ZONE );
-                }
-                auto stuff_there = g->m.i_at( src_loc );
-                if( !stuff_there.empty() ) {
-                    return std::make_pair( false, BLOCKING_TILE );
-                }
-                // there are no pre-requisites.
-                // so we need to potentially fetch components
-                if( built.pre_terrain.empty() && built.pre_special( src_loc ) ) {
-                    return std::make_pair( false, NO_COMPONENTS );
-                } else if( !built.pre_special( src_loc ) ) {
-                    return std::make_pair( false, BLOCKING_TILE );
-                }
-                // cant build it
-                // maybe we can build the pre-requisite instead
-                // see if the reason is because of pre-terrain requirement
-                if( !built.pre_terrain.empty() && ( ( built.pre_is_furniture &&
-                                                      furn_id( built.pre_terrain ) == g->m.furn( src_loc ) ) || ( !built.pre_is_furniture &&
-                                                              ter_id( built.pre_terrain ) == g->m.ter( src_loc ) ) ) ) {
-                    // the pre-req is already built, so the reason is due to lack of tools/components
-                    return std::make_pair( false, NO_COMPONENTS );
-                }
-                built_pre = check_build_pre( built );
-                // the pre-terrain requirement is not a possible construction.
-                if( built_pre.id == built.id ) {
-                    return std::make_pair( false, NO_ZONE );
-                }
-                // so lets check if we can build the pre-req
-                if( can_construct( built_pre, src_loc ) && player_can_build( p, pre_inv, built_pre ) ) {
-                    return std::make_pair( true, CAN_DO_PREREQ );
-                } else {
-                    // Ok we'll go one more pre-req deep - for things like doors and walls that have 3 steps.
-                    construction built_pre_2 = check_build_pre( built_pre );
-                    if( built_pre.id == built_pre_2.id ) {
-                        //the 2nd pre-req down is not possible to build
-                        return std::make_pair( false, NO_ZONE );
-                    }
-                    if( can_construct( built_pre, src_loc ) && player_can_build( p, pre_inv, built_pre ) ) {
-                        return std::make_pair( true, CAN_DO_PREREQ_2 );
-                    }
-                    return std::make_pair( false, NO_COMPONENTS_PREREQ_2 );
-                }
-            }
+            std::set<size_t> used_idx;
+            const activity_reason_info act_info = find_base_construction( list_constructions, p, pre_inv,
+                                                  src_loc, part_con_idx, static_cast<size_t>( index ), used_idx );
+            return act_info;
         }
     } else if( act == activity_id( "ACT_MULTIPLE_FARM" ) ) {
         zones = mgr.get_zones( zone_type_id( "FARM_PLOT" ),
@@ -1115,18 +1159,18 @@ static std::pair<bool, do_activity_reason> can_do_activity_there( const activity
         for( const zone_data &zone : zones ) {
             if( g->m.has_flag_furn( "GROWTH_HARVEST", src_loc ) ) {
                 // simple work, pulling up plants, nothing else required.
-                return std::make_pair( true, NEEDS_HARVESTING );
+                return activity_reason_info::ok( NEEDS_HARVESTING );
             } else if( g->m.has_flag( "PLOWABLE", src_loc ) && !g->m.has_furn( src_loc ) ) {
                 if( p.has_quality( quality_id( "DIG" ), 1 ) ) {
                     // we have a shovel/hoe already, great
-                    return std::make_pair( true, NEEDS_TILLING );
+                    return activity_reason_info::ok( NEEDS_TILLING );
                 } else {
                     // we need a shovel/hoe
-                    return std::make_pair( false, NEEDS_TILLING );
+                    return activity_reason_info::fail( NEEDS_TILLING );
                 }
             } else if( g->m.has_flag_ter_or_furn( "PLANTABLE", src_loc ) && warm_enough_to_plant( src_loc ) ) {
                 if( g->m.has_items( src_loc ) ) {
-                    return std::make_pair( false, BLOCKING_TILE );
+                    return activity_reason_info::fail( BLOCKING_TILE );
                 } else {
                     // do we have the required seed on our person?
                     const auto options = dynamic_cast<const plot_options &>( zone.get_options() );
@@ -1136,7 +1180,7 @@ static std::pair<bool, do_activity_reason> can_do_activity_there( const activity
                     } );
                     for( const auto elem : seed_inv ) {
                         if( elem->typeId() == itype_id( seed ) ) {
-                            return std::make_pair( true, NEEDS_PLANTING );
+                            return activity_reason_info::ok( NEEDS_PLANTING );
                         }
                     }
                     // didnt find the seed, but maybe there are overlapping farm zones
@@ -1146,20 +1190,20 @@ static std::pair<bool, do_activity_reason> can_do_activity_there( const activity
 
             } else {
                 // cant plant, till or harvest
-                return std::make_pair( false, ALREADY_DONE );
+                return activity_reason_info::fail( ALREADY_DONE );
             }
 
         }
         // looped through all zones, and only got here if its plantable, but have no seeds.
-        return std::make_pair( false, NEEDS_PLANTING );
+        return activity_reason_info::fail( NEEDS_PLANTING );
     } else if( act == activity_id( "ACT_FETCH_REQUIRED" ) ) {
         // we check if its possible to get all the requirements for fetching at two other places.
         // 1. before we even assign the fetch activity and;
         // 2. when we form the src_set to loop through at the beginning of the fetch activity.
-        return std::make_pair( true, CAN_DO_FETCH );
+        return activity_reason_info::ok( CAN_DO_FETCH );
     }
     // Shouldnt get here because the zones were checked previously. if it does, set enum reason as "no zone"
-    return std::make_pair( false, NO_ZONE );
+    return activity_reason_info::fail( NO_ZONE );
 }
 
 static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player &p )
@@ -1445,19 +1489,16 @@ static bool plant_activity( player &p, const zone_data *zone, const tripoint src
 }
 
 static void construction_activity( player &p, const zone_data *zone, const tripoint src_loc,
-                                   do_activity_reason reason, const std::vector<construction> &list_constructions,
+                                   const activity_reason_info &act_info, const std::vector<construction> &list_constructions,
                                    activity_id activity_to_restore )
 {
     const blueprint_options options = dynamic_cast<const blueprint_options &>( zone->get_options() );
     // the actual desired construction
-    construction built_chosen;
-    if( reason == CAN_DO_CONSTRUCTION ) {
-        built_chosen = list_constructions[options.get_index()];
-    } else if( reason == CAN_DO_PREREQ ) {
-        built_chosen = check_build_pre( list_constructions[options.get_index()] );
-    } else {
-        built_chosen = check_build_pre( check_build_pre( list_constructions[options.get_index()] ) );
+    if( !act_info.con_idx ) {
+        debugmsg( "no construction selected" );
+        return;
     }
+    const construction &built_chosen = list_constructions[*act_info.con_idx];
     std::list<item> used;
     // create the partial construction struct
     partial_con pc;
@@ -1845,10 +1886,10 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             p.set_destination( route, player_activity( activity_to_restore ) );
             return;
         }
-        std::pair<bool, do_activity_reason> check_can_do = can_do_activity_there( activity_to_restore, p,
-                src_loc );
-        const bool can_do_it = check_can_do.first;
-        const do_activity_reason reason = check_can_do.second;
+        activity_reason_info act_info = can_do_activity_there( activity_to_restore, p,
+                                        src_loc );
+        const bool &can_do_it = act_info.can_do;
+        const do_activity_reason &reason = act_info.reason;
         const zone_data *zone = mgr.get_zone_at( src );
         const bool needs_to_be_in_zone = activity_to_restore == activity_id( "ACT_FETCH_REQUIRED" ) ||
                                          activity_to_restore == activity_id( "ACT_MULTIPLE_FARM" ) ||
@@ -1866,7 +1907,7 @@ void generic_multi_activity_handler( player_activity &act, player &p )
                 p.add_msg_if_player( m_info, _( "You don't have the skill for this task." ) );
             } else if( reason == BLOCKING_TILE ) {
                 p.add_msg_if_player( m_info, _( "There is something blocking the location for this task." ) );
-            } else {
+            } else if( reason != ALREADY_DONE ) {
                 p.add_msg_if_player( m_info, _( "You cannot do this task there." ) );
             }
             continue;
@@ -1884,19 +1925,14 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             for( const tripoint elem : g->m.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
                 combined_spots.push_back( elem );
             }
-            if( ( reason == NO_COMPONENTS || reason == NO_COMPONENTS_PREREQ ||
-                  reason == NO_COMPONENTS_PREREQ_2 ) &&
+            if( ( reason == NO_COMPONENTS || reason == NO_COMPONENTS_PREREQ ) &&
                 activity_to_restore == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ) {
-                // its a construction and we need the components.
-                const blueprint_options options = dynamic_cast<const blueprint_options &>( zone->get_options() );
-                construction built_chosen;
-                if( reason == NO_COMPONENTS ) {
-                    built_chosen = list_constructions[options.get_index()];
-                } else if( reason == NO_COMPONENTS_PREREQ ) {
-                    built_chosen = check_build_pre( list_constructions[options.get_index()] );
-                } else {
-                    built_chosen = check_build_pre( check_build_pre( list_constructions[options.get_index()] ) );
+                if( !act_info.con_idx ) {
+                    debugmsg( "no construction selected" );
+                    continue;
                 }
+                // its a construction and we need the components.
+                const construction &built_chosen = list_constructions[ *act_info.con_idx ];
                 what_we_need = built_chosen.requirements;
             } else if( reason == NEEDS_TILLING || reason == NEEDS_PLANTING ) {
                 std::vector<std::vector<item_comp>> requirement_comp_vector;
@@ -1999,8 +2035,14 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             p.assign_activity( activity_id( "ACT_BUILD" ) );
             p.activity.placement = src;
             return;
-        } else if( reason == CAN_DO_CONSTRUCTION || reason == CAN_DO_PREREQ || reason == CAN_DO_PREREQ_2 ) {
-            construction_activity( p, zone, src_loc, reason, list_constructions, activity_to_restore );
+        } else if( reason == CAN_DO_CONSTRUCTION || reason == CAN_DO_PREREQ ) {
+            if( g->m.partial_con_at( src_loc ) ) {
+                p.backlog.push_front( activity_to_restore );
+                p.assign_activity( activity_id( "ACT_BUILD" ) );
+                p.activity.placement = src;
+                return;
+            }
+            construction_activity( p, zone, src_loc, act_info, list_constructions, activity_to_restore );
             return;
         } else if( reason == CAN_DO_FETCH && activity_to_restore == activity_id( "ACT_TIDY_UP" ) ) {
             if( !tidy_activity( p, src_loc, activity_to_restore ) ) {
