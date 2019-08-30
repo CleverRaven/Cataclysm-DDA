@@ -175,7 +175,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         check_item( item_location( seller, &seller.weapon ), 1 );
     }
 
-    for( map_cursor &cursor : map_selector( seller.pos(), 1 ) ) {
+    for( map_cursor &cursor : map_selector( seller.pos(), PICKUP_RANGE ) ) {
         buy_helper( cursor, check_item );
     }
     for( vehicle_cursor &cursor : vehicle_selector( seller.pos(), 1 ) ) {
