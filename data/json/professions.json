@@ -3967,9 +3967,9 @@
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "45colt", "charges": 18, "container-item": "bandolier_pistol" },
+          { "item": "45colt_jhp", "charges": 18, "container-item": "bandolier_pistol" },
           { "item": "whiskey", "container-item": "bottle_glass" },
-          { "item": "colt_saa", "ammo-item": "45colt", "charges": 6, "container-item": "holster" }
+          { "item": "colt_saa", "ammo-item": "45colt_jhp", "charges": 6, "container-item": "holster" }
         ]
       }
     }
