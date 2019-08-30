@@ -81,6 +81,8 @@ class effect_type
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
 
+        std::vector<std::string> flags;
+
     protected:
         int max_intensity;
         int max_effective_intensity;
@@ -93,7 +95,6 @@ class effect_type
         int int_decay_tick;
         time_duration int_dur_factor;
 
-        std::vector<std::string> flags;
 
         bool main_parts_only;
 

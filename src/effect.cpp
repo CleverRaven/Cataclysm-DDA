@@ -1306,11 +1306,12 @@ void load_effect_type( JsonObject &jo )
     }
 }
 
-bool has_flag( const std::string &flag ) const
+bool effect::has_flag( const std::string &flag ) const
 {
+    std::vector<std::string> flags = effect_type->flags;
     for (std::vector<std::string>::iterator i = flags.begin(); i != flags.end(); ++i)
     {
-        if( flag == i ) {
+        if( flag == *i ) {
             return true;
         }
     }
