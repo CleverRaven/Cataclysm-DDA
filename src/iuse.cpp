@@ -2492,7 +2492,7 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint & )
         p->add_msg_if_player( _( "You start churning up the earth here." ) );
         p->assign_activity( activity_id( "ACT_CHURN" ), to_turns<int>( 3_minutes ),
                             -1, p->get_item_position( it ) );
-        p->activity.placement = pnt;
+        p->activity.placement = g->m.getabs( pnt );
         return it->type->charges_to_use();
     } else {
         p->add_msg_if_player( _( "You can't churn up this ground." ) );
