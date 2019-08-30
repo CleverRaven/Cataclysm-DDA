@@ -52,7 +52,7 @@
     "//": "Imported or otherwise very obscure pistol ammo.",
     "items": [
       [ "454_Casull", 100 ],
-      [ "45colt", 50 ],
+      [ "45colt_jhp", 50 ],
       [ "500_Magnum", 100 ],
       [ "762_25", 50 ],
       [ "762_25hot", 50 ],
