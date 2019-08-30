@@ -55,9 +55,6 @@ class avatar : public player
             return this;
         }
 
-        /** Prints out the player's memorial file */
-        void memorial( std::ostream &memorial_file, const std::string &epitaph );
-
         void toggle_map_memory();
         bool should_show_map_memory();
         /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */

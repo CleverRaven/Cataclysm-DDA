@@ -169,6 +169,13 @@ class Character : public Creature, public visitable<Character>
         Character &operator=( const Character & ) = delete;
         ~Character() override;
 
+        Character *as_character() override {
+            return this;
+        }
+        const Character *as_character() const override {
+            return this;
+        }
+
         character_id getID() const;
         // sets the ID, will *only* succeed when the current id is not valid
         void setID( character_id i );
@@ -480,6 +487,7 @@ class Character : public Creature, public visitable<Character>
         float mutation_armor( body_part bp, const damage_unit &du ) const;
 
         // --------------- Bionic Stuff ---------------
+        std::vector<bionic_id> get_bionics() const;
         /** Returns true if the player has the entered bionic id */
         bool has_bionic( const bionic_id &b ) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
