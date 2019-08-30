@@ -61,6 +61,80 @@
     "magazine_well": 1
   },
   {
+    "id": "welding_mask",
+    "type": "ARMOR",
+    "name": "welding mask",
+    "description": "A plastic mask with a very dark visor, meant to protect the entire face while welding.  It also serves as somewhat good armor, but makes it hard to see.  Activate it to push it up your head.",
+    "weight": 4000,
+    "volume": "4 L",
+    "price": 1400,
+    "to_hit": -3,
+    "use_action": { "type": "transform", "msg": "You push your %s up your head.", "target": "welding_mask_raised", "menu_text": "Raise" },
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": [ "HEAD", "MOUTH", "EYES" ],
+    "coverage": 90,
+    "warmth": 5,
+    "encumbrance": 60,
+    "material_thickness": 3,
+    "qualities": [ [ "GLARE", 3 ] ],
+    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION", "BLIND" ]
+  },
+  {
+    "id": "welding_mask_crude",
+    "copy-from": "welding_mask",
+    "type": "ARMOR",
+    "name": "crude welding mask",
+    "description": "A crude welding mask made from shaped steel.  It's less dark than a proper welding mask, and therefore less difficult to see in, but also less protective when welding.  Activate it to push it up your head.",
+    "price": 1000,
+    "use_action": {
+      "type": "transform",
+      "msg": "You push your %s up your head.",
+      "target": "welding_mask_crude_raised",
+      "menu_text": "Raise"
+    },
+    "material": [ "steel" ],
+    "material_thickness": 2,
+    "delete": { "qualities": [ [ "GLARE", 3 ] ], "flags": [ "BLIND" ] },
+    "extend": { "qualities": [ [ "GLARE", 2 ] ] }
+  },
+  {
+    "id": "welding_mask_crude_raised",
+    "copy-from": "welding_mask",
+    "type": "ARMOR",
+    "name": "crude welding mask (raised)",
+    "name_plural": "crude welding masks (raised)",
+    "description": "A crude welding mask made from shaped steel.  It's less dark than a proper welding mask, and therefore less difficult to see in, but also less protective when welding.  Activate it to lower it over your face.",
+    "price": 1000,
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower your crude welding mask over your face.",
+      "target": "welding_mask",
+      "menu_text": "Lower"
+    },
+    "covers": [ "HEAD" ],
+    "delete": { "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ] },
+    "coverage": 30
+  },
+  {
+    "id": "welding_mask_raised",
+    "copy-from": "welding_mask",
+    "type": "ARMOR",
+    "name": "welding mask (raised)",
+    "name_plural": "welding masks (raised)",
+    "description": "A plastic mask with a very dark visor, meant to protect the entire face while welding.  It also serves as somewhat good armor, but makes it hard to see.  Activate it to lower it over your face.",
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower your welding mask over your face.",
+      "target": "welding_mask",
+      "menu_text": "Lower"
+    },
+    "covers": [ "HEAD" ],
+    "delete": { "flags": [ "SUN_GLASSES", "FLASH_PROTECTION", "BLIND" ] },
+    "coverage": 30
+  },
+  {
     "type": "TOOL_ARMOR",
     "id": "game_watch",
     "name": "game watch",

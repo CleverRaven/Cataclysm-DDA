@@ -1334,6 +1334,20 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
+    "result": "welding_mask_crude",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "540 m",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 16 ], [ "steel_standard", 4 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "goggles_welding", 1 ] ] ]
+  },
+  {
     "result": "wetsuit_hood",
     "type": "recipe",
     "category": "CC_ARMOR",

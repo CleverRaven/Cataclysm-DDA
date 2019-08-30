@@ -49,6 +49,26 @@
   },
   {
     "type": "recipe",
+    "result": "reading_light",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "electronics",
+    "difficulty": 2,
+    "time": "20 m",
+    "reversible": true,
+    "decomp_learn": 2,
+    "book_learn": [ [ "manual_electronics", 3 ], [ "advanced_electronics", 3 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 1 ] ],
+      [ [ "superglue", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 1 ] ],
+      [ [ "light_bulb", 1 ], [ "e_scrap", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "trimmer_off",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -1820,6 +1840,7 @@
       [ [ "superglue", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 1 ] ],
+      [ [ "light_bulb", 1 ], [ "e_scrap", 1 ] ],
       [ [ "betavoltaic", 1 ] ]
     ]
   },

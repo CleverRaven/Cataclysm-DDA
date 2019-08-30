@@ -423,6 +423,7 @@
       [ "aluminum_foil", 25 ],
       [ "chips", 65 ],
       [ "fried_seeds", 15 ],
+      [ "rolling_pin", 25 ],
       [ "cereal", 50 ],
       [ "cereal2", 60 ],
       [ "cereal3", 45 ],
@@ -830,6 +831,7 @@
     "id": "oven",
     "items": [
       [ "pan", 80 ],
+      [ "rolling_pin", 25 ],
       [ "waffleiron", 25 ],
       [ "teapot", 25 ],
       [ "pot", 80 ],
@@ -2135,6 +2137,7 @@
     "ammo": 75,
     "magazine": 100,
     "items": [
+      [ "daypack", 20 ],
       [ "rope_30", 35 ],
       [ "hatchet", 10 ],
       [ "misc_repairkit", 5 ],
@@ -2301,6 +2304,8 @@
     "magazine": 100,
     "items": [
       [ "aspirin", 85 ],
+      [ "daypack", 30 ],
+      [ "ski_jacket", 5 ],
       [ "sports_drink", 20 ],
       [ "bat", 60 ],
       [ "bat_metal", 60 ],
@@ -2840,6 +2845,7 @@
     "items": [
       [ "coat_winter", 50 ],
       [ "peacoat", 30 ],
+      [ "ski_jacket", 40 ],
       [ "greatcoat", 15 ],
       [ "gloves_light", 35 ],
       [ "mittens", 30 ],
@@ -3027,6 +3033,7 @@
       [ "pants_checkered", 5 ],
       [ "shorts", 70 ],
       [ "shorts_denim", 35 ],
+      [ "ski_jacket", 40 ],
       [ "pants", 75 ],
       [ "breeches", 10 ],
       [ "leather_belt", 30 ],
@@ -3186,6 +3193,7 @@
     "type": "item_group",
     "id": "traveler",
     "items": [
+      [ "daypack", 20 ],
       [ "roadmap", 6 ],
       [ "trailmap", 6 ],
       [ "touristmap", 4 ],
@@ -4752,6 +4760,8 @@
     "type": "item_group",
     "id": "shelter",
     "items": [
+      [ "daypack", 10 ],
+      [ "ski_jacket", 40 ],
       [ "water_clean", 90 ],
       [ "water_mineral", 5 ],
       [ "soup_veggy", 15 ],
@@ -5188,8 +5198,9 @@
       [ "wrapped_rad_badge", 15 ],
       [ "glasses_safety", 40 ],
       [ "goggles_welding", 70 ],
+      [ "textbook_atomic_lab", 7 ],
       [ "recipe_lab_elec", 15 ],
-      [ "recipe_lab_cvd", 15 ],
+      [ "recipe_lab_cvd", 8 ],
       [ "recipe_mininuke_launch", 5 ],
       [ "teleporter", 10 ],
       [ "antiparasitic", 5 ],
@@ -7490,6 +7501,7 @@
     "magazine": 100,
     "ammo": 50,
     "items": [
+      [ "daypack", 20 ],
       [ "energy_drink", 55 ],
       [ "energy_drink_atomic", 8 ],
       [ "knuckle_brass", 30 ],
@@ -8148,6 +8160,7 @@
     "type": "item_group",
     "id": "survivorzed_extra",
     "items": [
+      [ "daypack", 4 ],
       [ "mask_lsurvivor", 10 ],
       [ "mask_survivor", 8 ],
       [ "mask_hsurvivor", 6 ],
@@ -9195,6 +9208,7 @@
     "ammo": 50,
     "magazine": 100,
     "items": [
+      [ "daypack", 75 ],
       [ "rope_30", 10 ],
       [ "hatchet", 50 ],
       [ "iceaxe", 20 ],
@@ -9788,6 +9802,7 @@
     "type": "item_group",
     "items": [
       [ "cup_plastic", 20 ],
+      [ "rolling_pin", 20 ],
       [ "bowl_plastic", 20 ],
       [ "canteen", 10 ],
       [ "flask_hip", 15 ],

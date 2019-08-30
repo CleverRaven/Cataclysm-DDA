@@ -44,6 +44,20 @@
     "//": "~2.4Ah @ 12VDC. Could supply ~140 watts 10 minutes or so"
   },
   {
+    "id": "large_storage_battery",
+    "copy-from": "storage_battery",
+    "type": "MAGAZINE",
+    "name": "large storage battery",
+    "name_plural": "large storage batteries",
+    "description": "A huge storage battery containing many lithium ion cells.  Holds a tremendous amount of energy.  Could be installed into a storage battery case for easy removal from a vehicle, or just welded straight in.",
+    "weight": 400000,
+    "volume": "50 L",
+    "price": 400000,
+    "price_postapoc": 50000,
+    "bashing": 40,
+    "capacity": 80000
+  },
+  {
     "id": "medium_storage_battery",
     "copy-from": "storage_battery",
     "type": "MAGAZINE",
