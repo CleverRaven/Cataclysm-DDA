@@ -33,10 +33,8 @@ enum do_activity_reason : int {
     CAN_DO_CONSTRUCTION,    // Can do construction.
     CAN_DO_FETCH,           // Can do fetch - this is usually the default result for fetch task
     CAN_DO_PREREQ,          // for constructions - cant build the main construction, but can build the pre-req
-    CAN_DO_PREREQ_2,        // Can do the second pre-req deep below the desired one.
     NO_COMPONENTS,          // can't do the activity there due to lack of components /tools
     NO_COMPONENTS_PREREQ,   // need components to build the pre-requisite for the actual desired construction
-    NO_COMPONENTS_PREREQ_2, // need components to the second pre-req deep.
     DONT_HAVE_SKILL,        // don't have the required skill
     NO_ZONE,                // There is no required zone anymore
     ALREADY_DONE,           // the activity is done already ( maybe by someone else )
@@ -45,6 +43,32 @@ enum do_activity_reason : int {
     NEEDS_PLANTING,         // For farming - tile can be planted
     NEEDS_TILLING,          // For farming - tile can be tilled
     BLOCKING_TILE           // Something has made it's way onto the tile, so the activity cannot proceed
+};
+
+struct activity_reason_info {
+    do_activity_reason reason;          //reason for success or fail
+    bool can_do;                        //is it possible to do this
+    cata::optional<size_t> con_idx;     //construction index
+
+    activity_reason_info( do_activity_reason reason_, bool can_do_,
+                          cata::optional<size_t> con_idx_ = cata::optional<size_t>() ) :
+        reason( reason_ ),
+        can_do( can_do_ ),
+        con_idx( con_idx_ )
+    { }
+
+    static activity_reason_info ok( const do_activity_reason &reason_ ) {
+        return activity_reason_info( reason_, true );
+    }
+
+    static activity_reason_info build( const do_activity_reason &reason_, bool can_do_,
+                                       size_t con_idx_ ) {
+        return activity_reason_info( reason_, can_do_, con_idx_ );
+    }
+
+    static activity_reason_info fail( const do_activity_reason &reason_ ) {
+        return activity_reason_info( reason_, false );
+    }
 };
 
 int butcher_time_to_cut( const player &u, const item &corpse_item, butcher_type action );

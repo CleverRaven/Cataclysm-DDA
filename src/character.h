@@ -50,6 +50,7 @@ struct mutation_branch;
 class bionic_collection;
 struct points_left;
 class faction;
+struct construction;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -744,6 +745,8 @@ class Character : public Creature, public visitable<Character>
         /** Checks whether the character's skills meet the required */
         bool meets_skill_requirements( const std::map<skill_id, int> &req,
                                        const item &context = item() ) const;
+        /** Checks whether the character's skills meet the required */
+        bool meets_skill_requirements( const construction &con ) const;
         /** Checks whether the character's stats meets the stats required by the item */
         bool meets_stat_requirements( const item &it ) const;
         /** Checks whether the character meets overall requirements to be able to use the item */

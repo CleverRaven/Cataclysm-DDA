@@ -3099,14 +3099,6 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-static bool character_has_skill_for( const player *p, const construction &con )
-{
-    return std::all_of( con.required_skills.begin(), con.required_skills.end(),
-    [&]( const std::pair<skill_id, int> &pr ) {
-        return p->get_skill_level( pr.first ) >= pr.second;
-    } );
-}
-
 void activity_handlers::churn_do_turn( player_activity *act, player *p )
 {
     ( void )act;
@@ -3146,7 +3138,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     }
     // if you ( or NPC ) are finishing someone elses started construction...
     const construction &built = list_constructions[pc->id];
-    if( !character_has_skill_for( p, built ) ) {
+    if( !p->meets_skill_requirements( built ) ) {
         add_msg( m_info, _( "%s can't work on this construction anymore." ), p->disp_name() );
         p->cancel_activity();
         if( p->is_npc() ) {
