@@ -329,6 +329,6 @@
     "dispersion": 480,
     "durability": 7,
     "magazine_well": 1,
-    "magzines": [ [ "45", [ "hptjhpmag" ] ] ]
+    "magazines": [ [ "45", [ "hptjhpmag" ] ] ]
   }
 ]

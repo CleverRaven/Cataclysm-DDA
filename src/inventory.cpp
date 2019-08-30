@@ -181,6 +181,16 @@ inventory &inventory::operator+= ( const item &rhs )
     return *this;
 }
 
+inventory &inventory::operator+= ( const item_stack &rhs )
+{
+    for( const auto &p : rhs ) {
+        if( !p.made_of( LIQUID ) ) {
+            add_item( p, true );
+        }
+    }
+    return *this;
+}
+
 inventory inventory::operator+ ( const inventory &rhs )
 {
     return inventory( *this ) += rhs;
