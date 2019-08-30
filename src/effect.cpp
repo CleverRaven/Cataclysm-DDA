@@ -1307,7 +1307,7 @@ void load_effect_type( JsonObject &jo )
 bool effect::has_flag( const std::string &flag ) const
 {
     std::vector<std::string> flags = eff_type->flags;
-    for( const std::string &i: eff_type->flags ) {
+    for( const std::string &i : eff_type->flags ) {
         if( i == flag ) {
             return true;
         }
