@@ -126,10 +126,10 @@ void game::list_missions()
             auto format_tokenized_description = []( const std::string description,
             const std::vector<std::pair<int, std::string>> rewards ) {
                 std::string formatted_description = description;
-                for( size_t i = 0; i < rewards.size(); i++ ) {
-                    std::string token = "<reward_count:" + rewards[i].second + ">";
+                for( const auto &reward : rewards ) {
+                    std::string token = "<reward_count:" + reward.second + ">";
                     formatted_description = string_replace( formatted_description, token, string_format( "%d",
-                                                            rewards[i].first ) );
+                                                            reward.first ) );
                 }
                 return formatted_description;
             };
