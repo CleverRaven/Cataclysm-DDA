@@ -19,7 +19,7 @@
     "wheel_type": "treads",
     "contact_area": 2500,
     "rolling_resistance": 6,
-    "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED", "NO_JACK", "FOLDABLE" ]
+    "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED", "FOLDABLE" ]
   },
   {
     "id": "oozletread",
@@ -176,7 +176,7 @@
     "rolling_resistance": 1.5,
     "wheel_type": "standard",
     "contact_area": 153,
-    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG", "SHARP", "TRACKED", "NO_JACK" ]
+    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG", "SHARP", "TRACKED" ]
   },
   {
     "id": "frostie_wheel_sea",
@@ -195,7 +195,7 @@
     "breaks_into": [ { "item": "frostiegrow" } ],
     "description": "A living blob, existing in a super-cooled state.  It acts as a boat hull.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "FLOATS", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG", "SHARP", "TRACKED", "NO_JACK" ]
+    "flags": [ "FLOATS", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG", "SHARP", "TRACKED" ]
   },
   {
     "id": "fuzzle",
@@ -486,7 +486,7 @@
     "rolling_resistance": 1.75,
     "wheel_type": "standard",
     "contact_area": 153,
-    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED", "NO_JACK" ]
+    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED" ]
   },
   {
     "id": "gloopleaisle_horizontal",
@@ -892,7 +892,7 @@
     "rolling_resistance": 1.25,
     "wheel_type": "standard",
     "contact_area": 153,
-    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED", "NO_JACK" ]
+    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED" ]
   },
   {
     "id": "grayaisle_horizontal",
@@ -1025,7 +1025,7 @@
     "rolling_resistance": 6,
     "wheel_type": "rigid",
     "contact_area": 500,
-    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "PROTRUSION", "STABLE", "TRACKED", "NO_JACK" ]
+    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "PROTRUSION", "STABLE", "TRACKED" ]
   },
   {
     "id": "halfgloopleboard_horizontal",
@@ -1508,7 +1508,7 @@
     "rolling_resistance": 1.5,
     "wheel_type": "standard",
     "contact_area": 153,
-    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED", "NO_JACK" ]
+    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED" ]
   },
   {
     "id": "oozleaisle_horizontal",

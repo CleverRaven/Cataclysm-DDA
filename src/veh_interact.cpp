@@ -565,13 +565,6 @@ task_reason veh_interact::cant_do( char mode )
                 }
             }
             break;
-        case 'c': // change tire
-            valid_target = wheel != nullptr;
-            ///\EFFECT_STR allows changing tires on heavier vehicles without a jack
-            has_tools = has_wrench && has_wheel && ( g->u.can_lift( *veh ) || has_jack );
-            enough_light = g->u.fine_detail_vision_mod() <= 4;
-            break;
-
         case 'w': // assign crew
             if( g->allies().empty() ) {
                 return INVALID_TARGET;
@@ -742,7 +735,7 @@ bool veh_interact::can_install_part()
     bool use_aid = false;
     bool use_str = false;
     item base( sel_vpart_info->item );
-    if( base.is_wheel() ) {
+    if( sel_vpart_info->has_flag( "NEEDS_JACKING" ) ) {
         qual = JACK;
         lvl = jack_quality( *veh );
         str = veh->lift_strength();
@@ -1655,7 +1648,7 @@ bool veh_interact::can_remove_part( int idx )
     bool use_aid = false;
     bool use_str = false;
     item base( sel_vpart_info->item );
-    if( base.is_wheel() ) {
+    if( sel_vpart_info->has_flag( "NEEDS_JACKING" ) ) {
         qual = JACK;
         lvl = jack_quality( *veh );
         str = veh->lift_strength();
@@ -2447,7 +2440,6 @@ void veh_interact::display_mode()
             { _( "rem<o>ve" ) },
             { _( "<s>iphon" ) },
             { _( "unloa<d>" ) },
-            { _( "<c>hange tire" ) },
             { _( "cre<w>" ) },
             { _( "r<e>name" ) },
             { _( "l<a>bel" ) },
@@ -2724,74 +2716,6 @@ void veh_interact::count_durability()
         total_durability_text = _( "destroyed" );
         total_durability_color = c_dark_gray;
     }
-}
-
-/**
- * Given a vpart id, gives the choice of inventory and nearby items to consume
- * for install/repair/etc. Doesn't use consume_items in crafting.cpp, as it got
- * into weird cases and doesn't consider properties like HP. The
- * item will be removed by this function.
- * @param vpid The id of the vpart type to look for.
- * @return The item that was consumed.
- */
-static item consume_vpart_item( const vpart_id &vpid )
-{
-    std::vector<bool> candidates;
-    const itype_id itid = vpid.obj().item;
-
-    if( g->u.has_trait( trait_DEBUG_HS ) ) {
-        return item( itid, calendar::turn );
-    }
-
-    inventory map_inv;
-    map_inv.form_from_map( g->u.pos(), PICKUP_RANGE );
-
-    if( g->u.has_amount( itid, 1 ) ) {
-        candidates.push_back( true );
-    }
-    if( map_inv.has_components( itid, 1 ) ) {
-        candidates.push_back( false );
-    }
-
-    // bug?
-    if( candidates.empty() ) {
-        debugmsg( "Part not found!" );
-        return item();
-    }
-
-    int selection;
-    // no choice?
-    if( candidates.size() == 1 ) {
-        selection = 0;
-    } else {
-        // popup menu!?
-        uilist menu;
-        menu.text = _( "Use which gizmo?" );
-        menu.allow_cancel = false;
-        for( const auto candidate : candidates ) {
-            const vpart_info &info = vpid.obj();
-            if( candidate ) {
-                // In inventory.
-                menu.entries.emplace_back( info.name() );
-            } else {
-                // Nearby.
-                menu.entries.emplace_back( info.name() + _( " (nearby)" ) );
-            }
-        }
-        menu.query();
-        selection = menu.ret;
-    }
-    std::list<item> item_used;
-    //remove item from inventory. or map.
-    if( candidates[selection] ) {
-        item_used = g->u.use_amount( itid, 1 );
-    } else {
-        int quantity = 1;
-        item_used = g->m.use_amount( g->u.pos(), PICKUP_RANGE, itid, quantity );
-    }
-    remove_ammo( item_used, g->u );
-
-    return item_used.front();
 }
 
 void act_vehicle_siphon( vehicle *veh )
@@ -3120,31 +3044,6 @@ void veh_interact::complete_vehicle()
             put_into_vehicle_or_drop( g->u, item_drop_reason::deliberate, resulting_items );
             break;
         }
-
-        case 'c':
-            std::vector<int> parts = veh->parts_at_relative( point( dx, dy ), true );
-            if( !parts.empty() ) {
-                int replaced_wheel = veh->part_with_feature( parts[0], "WHEEL", false );
-                if( replaced_wheel == -1 ) {
-                    debugmsg( "no wheel to remove when changing wheels." );
-                    return;
-                }
-                bool broken = veh->parts[ replaced_wheel ].is_broken();
-                item removed_wheel = veh->parts[replaced_wheel].properties_to_item();
-                veh->remove_part( replaced_wheel );
-                veh->part_removal_cleanup();
-                int partnum = veh->install_part( point( dx, dy ), part_id, consume_vpart_item( part_id ) );
-                if( partnum < 0 ) {
-                    debugmsg( "complete_vehicle tire change fails dx=%d dy=%d id=%s", dx, dy, part_id.c_str() );
-                }
-                // Place the removed wheel on the map last so consume_vpart_item() doesn't pick it.
-                if( !broken ) {
-                    g->m.add_item_or_charges( point( g->u.posx(), g->u.posy() ), removed_wheel );
-                }
-                add_msg( _( "You replace one of the %1$s's tires with a %2$s." ),
-                         veh->name, veh->parts[ partnum ].name() );
-            }
-            break;
     }
     g->u.invalidate_crafting_inventory();
 }
