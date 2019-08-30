@@ -156,7 +156,6 @@ automatically_convertible = {
     "TOOLMOD",
     "TOOL_ARMOR",
     "tool_quality",
-    "trap",
     "tutorial_messages",
     "VAR_VEH_PART",
     "vehicle",
@@ -531,7 +530,7 @@ dynamic_line_string_keys = {
     "u_male", "u_female", "npc_male", "npc_female",
     "has_no_assigned_mission", "has_assigned_mission", "has_many_assigned_missions",
     "has_no_available_mission", "has_available_mission", "has_many_available_missions",
-    "mission_complete", "mission_incomplete",
+    "mission_complete", "mission_incomplete", "mission_has_generic_rewards",
     "npc_available", "npc_following", "npc_friend", "npc_hostile",
     "npc_train_skills", "npc_train_styles",
     "at_safe_space", "is_day", "npc_has_activity", "is_outside", "u_has_camp",
@@ -569,6 +568,11 @@ def extract_talk_topic(item):
         for r in item["responses"]:
             extract_talk_response(r, outfile)
 
+def extract_trap(item):
+    outfile = get_outfile("trap")
+    writestr(outfile, item["name"])
+    if "vehicle_data" in item and "sound" in item["vehicle_data"]:
+        writestr(outfile, item["vehicle_data"]["sound"], comment="Trap-vehicle collision message for trap '{}'".format(item["name"]))
 
 def extract_missiondef(item):
     outfile = get_outfile("mission_def")
@@ -731,6 +735,7 @@ extract_specials = {
     "recipe_group": extract_recipe_group,
     "scenario": extract_scenarios,
     "talk_topic": extract_talk_topic,
+    "trap": extract_trap,
     "gate": extract_gate,
     "vehicle_spawn": extract_vehspawn,
     "field_type": extract_field_type,
@@ -804,7 +809,7 @@ def writestr(filename, string, plural=None, context=None, format_strings=False, 
     # don't write empty strings
     if not string: return
 
-    with open(filename, 'a', encoding="utf-8") as fs:
+    with open(filename, 'a', encoding="utf-8", newline='\n') as fs:
         # Append developers comment
         if comment:
             tlcomment(fs, comment)
@@ -978,7 +983,7 @@ def extract(item, infilename):
     if "footsteps" in item:
        writestr(outfile, item["footsteps"], **kwargs)
        wrote = True
-    if not wrote:
+    if not wrote and not "copy-from" in item:
         if not warning_supressed(infilename):
             print("WARNING: {}: nothing translatable found in item: {}".format(infilename, item))
 

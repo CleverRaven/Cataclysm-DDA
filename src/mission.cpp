@@ -600,6 +600,11 @@ const std::vector<std::pair<int, std::string>> &mission::get_likely_rewards() co
     return type->likely_rewards;
 }
 
+bool mission::has_generic_rewards() const
+{
+    return type->has_generic_rewards;
+}
+
 void mission::set_target( const tripoint &p )
 {
     target = p;

@@ -173,7 +173,7 @@
       "effect": "follow",
       "assign_mission_target": { "om_terrain": "mi-go_camp2", "om_special": "Mi-Go Encampment", "reveal_radius": 3 }
     },
-    "origins": [ "ORIGIN_ANY_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "destination": "mi-go_camp2",
     "dialogue": {
       "describe": "We need to investigate the alien encampment.",

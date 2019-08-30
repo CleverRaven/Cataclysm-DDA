@@ -199,6 +199,8 @@ void spell_type::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
+    translation default_msg = translation( "You cast %s!" );
+    optional( jo, was_loaded, "message", message, default_msg );
     mandatory( jo, was_loaded, "effect", effect_name );
     const auto found_effect = effect_map.find( effect_name );
     if( found_effect == effect_map.cend() ) {
@@ -560,6 +562,11 @@ int spell::casting_time( const player &p ) const
 std::string spell::name() const
 {
     return type->name.translated();
+}
+
+std::string spell::message() const
+{
+    return type->message.translated();
 }
 
 float spell::spell_fail( const player &p ) const
@@ -1581,7 +1588,7 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     print_colored_text( w, point( menu->pad_left - spell_class.length() - 1, line++ ), yellow, yellow,
                         spell_class );
     line++;
-    line += fold_and_print( w, point( start_x, line ), width, gray, sp.description.translated() );
+    line += fold_and_print( w, point( start_x, line ), width, gray, "%s", sp.description );
     line++;
 
     mvwprintz( w, point( start_x, line ), c_light_gray, string_format( "%s: %d", _( "Difficulty" ),

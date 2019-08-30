@@ -430,6 +430,7 @@ Effect | Description
 `u_lose_var`, `npc_lose_var`: `var_name`, `type: type_str`, `context: context_str` | Your character or the NPC will clear any stored variable that has the same `var_name`, `type_str`, and `context_str`.
 `barber_hair` | Opens a menu allowing the player to choose a new hair style.
 `barber_beard` | Opens a menu allowing the player to choose a new beard style.
+`u_learn_recipe: recipe_string`  | Your character will learn and memorize the recipe `recipe_string`.
 
 #### Trade / Items
 
@@ -564,6 +565,7 @@ Condition | Type | Description
 `"u_has_weapon"`<br/>`"npc_has_weapon"` | simple string | `true` if the player character or NPC is wielding a weapon.
 `"u_driving"`<br/>`"npc_driving"` | simple string | `true` if the player character or NPC is operating a vehicle.  <b>Note</b> NPCs cannot currently operate vehicles.
 `"u_has_skill"`<br/>`"npc_has_skill"` | dictionary | `u_has_skill` or `npc_has_skill` must be a dictionary with a `skill` string and a `level` int.<br/>`true` if the player character or NPC has at least the value of `level` in `skill`.
+`"u_know_recipe"` | string | `true` if the player character knows the recipe specified in `u_know_recipe`.  It only counts as known if it is actually memorized--holding a book with the recipe in it will not count.
 
 #### Player Only conditions
 
@@ -585,6 +587,7 @@ Condition | Type | Description
 `"mission_goal"` | string | `true` if the NPC's current mission has the same goal as `mission_goal`.
 `"mission_complete"` | simple string | `true` if the player has completed the NPC's current mission.
 `"mission_incomplete"` | simple string | `true` if the player hasn't completed the NPC's current mission.
+`"mission_has_generic_rewards"` | simple string | `true` if the NPC's current mission is flagged as having generic rewards.
 `"npc_service"` | int | `true` if the NPC does not have the `"currently_busy"` effect and the player character has at least `npc_service` cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `"and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]`
 `"npc_allies"` | int | `true` if the player character has at least `npc_allies` number of NPC allies.
 `"npc_following"` | simple string | `true` if the NPC is following the player character.
