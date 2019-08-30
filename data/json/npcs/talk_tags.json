@@ -37,7 +37,7 @@
       "I'm not interested.",
       "How about no?",
       "I'm sorry <name_g>. I'm afraid I can't do that.",
-      "Wish I could <name_g>."
+      "Wish I could, <name_g>."
     ]
   },
   {
@@ -106,7 +106,6 @@
       "motherfucker",
       "shithead",
       "fuck-trumpet",
-      "<swear> <swear> foot-fungus-eating <name_b>",
       "pillock",
       "bellend",
       "<name_b>-looking <name_b>",
@@ -288,14 +287,14 @@
       "you'll taste my <mywp>",
       "you're <swear> dead",
       "<name_b>, <ill_kill_you>",
-      "Only one of us is leaving here alive,",
-      "Prepare thyself for punishment,",
-      "Make peace with your gods,",
-      "If you worship any gods, now is a good time to start praying",
-      "Your life is now forfeit,",
-      "When I'm through with you, there won't be enough left to identify",
-      "I'm gonna beat you so bad even the people who look like you will hurt",
-      "Come closer. I can't beat the shit out of you from a distance"
+      "only one of us is leaving here alive,",
+      "prepare thyself for punishment,",
+      "make peace with your gods,",
+      "if you worship any gods, now is a good time to start praying",
+      "your life is now forfeit,",
+      "when I'm through with you, there won't be enough left to identify",
+      "I'm gonna beat you so bad, even the people who look like you will hurt",
+      "come closer, I can't beat the shit out of you from a distance"
     ]
   },
   {
@@ -313,11 +312,10 @@
       "I won't last much longer",
       "my days are <really> numbered",
       "<name_g>, I'm sorry",
-      "Didn't think it would end like this.",
-      "So, this is how it ends, huh?",
-      "...I'll be with you soon Mary...I'm coming...",
-      "I don't wanna go.",
-      "Bury me somewhere nice, if I don't make it."
+      "didn't think it would end like this.",
+      "so, this is how it ends, huh?",
+      "I don't wanna go",
+      "bury me somewhere nice, if I don't make it"
     ]
   },
   {
@@ -459,7 +457,7 @@
       "<very> <very>",
       "severely",
       "extraordinarily",
-      "unusualy",
+      "unusually",
       "tremendously",
       "vastly",
       "palpably",
@@ -547,8 +545,8 @@
       "Bye bye, <name_b>!",
       "Thanks, <name_g>!",
       "Pleasure doing business with you.",
-      "Now beat it, you <name_b>",
-      "Good haul. See you around."
+      "Now beat it, you <name_b>.",
+      "Good haul. See you around<punc>"
     ]
   },
   {
@@ -564,9 +562,8 @@
       "Thieves will not last long around me <name_g>, please drop that.",
       "Consider this a warning <name_b>, thieves will not be tolerated, drop it.",
       "You think I'm <swear> blind <name_b>? Don't touch our stuff.",
-      "Stop right there, criminal scum! You haved violated the law. Forfeit your ill-gotten gains or face punishment.",
       "You have one chance to put it back.",
-      "Return the stolen goods. You have 20 seconds to comply.",
+      "Return the stolen goods. You have to the count of three to comply.",
       "You're not leaving here with stolen goods, <name_g>."
     ]
   },
@@ -604,7 +601,7 @@
       "Drop your <swear> weapon, <name_b>!",
       "Put down your <yrwp>!",
       "Alright, drop the <yrwp>!",
-      "Please put down your weapon. You have 20 seconds to comply.",
+      "Please put down your weapon. I'll give you to the count of three. One...",
       "Let's take it easy now, okay? Put the weapon down."
     ]
   },
@@ -657,7 +654,7 @@
       "Okay <name_b>, hands up!",
       "Okay <name_b><punc> hands up!",
       "Hands in the air, <name_b>!",
-      "Hands up, no sudden movememnts and we're gravy, okay?",
+      "Hands up, no sudden movements and we're gravy, okay?",
       "Take it easy and put your hands up now, <name_g>.",
       "Why don't you put your hands up for me <name_g>."
     ]
@@ -676,7 +673,7 @@
       "Get out of my way, <name_b>,",
       "Move to the side",
       "Get out of my line of fire",
-      "Move, move, move!"
+      "Move, move, move"
     ]
   },
   {
@@ -695,7 +692,7 @@
       "<ill_die> if I don't get some food.",
       "Consider this idea: you give me food and I eat it.",
       "Did you know that lack of food kills faster than chain smoking?",
-      "Can't remember last time I got a proper meal.",
+      "Can't remember the last time I got a proper meal.",
       "I could eat a horse."
     ]
   },
@@ -710,11 +707,11 @@
       "<fuck_you>, <swear> <name_b>",
       "<name_b>",
       "<swear> <name_b>",
-      "You can fuck right off you <name_b>",
-      "I've had enough of you. Begone.",
-      "You're a poster child for abortions.",
-      "How the fuck you've survived this far is beyond me, you <swear> <swear> <name_b>.",
-      "You're the reason the gene pool needs a lifeguard."
+      "you can fuck right off, you <name_b>",
+      "I've had enough of you, begone.",
+      "you're a poster child for abortions",
+      "how the fuck you've survived this far is beyond me, you <swear> <swear> <name_b>",
+      "you're the reason the gene pool needs a lifeguard"
     ]
   },
   {
@@ -746,9 +743,7 @@
       "<swear!> I'm getting my ass out of here!",
       "Fire in the <swear> hole, motherfuckers!",
       "Heads up, <name_b>.",
-      "Making some noise!",
-      "Watch out for shrapnel!",
-      "Watch out, I'm gonna make it rain men!"
+      "Watch out for shrapnel!"
     ]
   },
   {
@@ -819,8 +814,7 @@
       "Fight or flight?",
       "Weapons hot!",
       "Lock and load!",
-      "They're gonna have to glue you back together IN HELL!",
-      "You're dead, you're all <swear> dead!"
+      "We've got incoming!"
     ]
   },
   {
@@ -868,7 +862,7 @@
       "Is that the last of them?",
       "I'd kill for a coke.",
       "Weapons check everyone. There may be more.",
-      "That's that then.",
+      "That's that, then.",
       "That's the last of them for now.",
       "Clearing the world, one <name_b> at a time",
       "Well, that got the blood pumping.",
@@ -908,10 +902,10 @@
       "Hey, <name_g>!  I've got",
       "<name_g>!  Watch my back while I kill",
       "I'm your huckleberry,",
-      "Sorry, but you have to do down,",
+      "Sorry, but you have to go down,",
       "End of the line,",
       "You have it coming",
-      "Let's dance",
+      "Let's dance,",
       "You and me,",
       "I will kill you to death"
     ]
@@ -1171,7 +1165,7 @@
       "walking corpse",
       "<swear> <zombie>",
       "undead",
-      "living dead",
+      "a living corpse",
       "zed"
     ]
   },
@@ -1195,7 +1189,8 @@
       "walking nightmare",
       "thing right out of a scary movie",
       "<swear> thing",
-      "whatever-the-fuck that is"
+      "whatever-the-fuck that is",
+      "eldritch horror"
     ]
   },
   {
@@ -1223,7 +1218,7 @@
       "Retreat! Retreat!",
       "Book it!",
       "Leg it!",
-      "Thank fuck for all the cardio."
+      "Thank fuck for all the cardio!d"
     ]
   },
   {
@@ -1232,7 +1227,7 @@
     "text": [
       "I can't outrun it!  I'm going to kill it!",
       "<swear>!  Die, you <name_b>!  I want to live!",
-      "My feet failed me!  Arms don't fail me!",
+      "My feet failed me!  Arms, don't fail me!",
       "If I die, I'm taking you all with me!"
     ]
   },
