@@ -821,14 +821,14 @@ static void wait()
         };
 
         add_menu_item( 7,  'd',
-                       setting_alarm ? _( "Set alarm for dawn" ) : _( "Wait till dawn" ),
-                       diurnal_time_before( to_turns<int>( sunrise( calendar::turn ) - calendar::turn_zero ) ) );
+                       setting_alarm ? _( "Set alarm for dawn" ) : _( "Wait till daylight" ),
+                       diurnal_time_before( to_turns<int>( daylight_time( calendar::turn ) - calendar::turn_zero ) ) );
         add_menu_item( 8,  'n',
                        setting_alarm ? _( "Set alarm for noon" ) : _( "Wait till noon" ),
                        diurnal_time_before( last_midnight + 12_hours ) );
         add_menu_item( 9,  'k',
-                       setting_alarm ? _( "Set alarm for dusk" ) : _( "Wait till dusk" ),
-                       diurnal_time_before( to_turns<int>( sunset( calendar::turn ) - calendar::turn_zero ) ) );
+                       setting_alarm ? _( "Set alarm for dusk" ) : _( "Wait till night" ),
+                       diurnal_time_before( to_turns<int>( night_time( calendar::turn ) - calendar::turn_zero ) ) );
         add_menu_item( 10, 'm',
                        setting_alarm ? _( "Set alarm for midnight" ) : _( "Wait till midnight" ),
                        diurnal_time_before( last_midnight + 0_hours ) );
