@@ -1294,23 +1294,21 @@ void load_effect_type( JsonObject &jo )
 
     new_etype.impairs_movement = hardcoded_movement_impairing.count( new_etype.id ) > 0;
 
-    effect_types[new_etype.id] = new_etype;
-
     if( jo.has_member( "flags" ) ) {
-
         JsonArray joFlags = jo.get_array( "flags" );
-
         while( joFlags.has_more() ) {
             new_etype.flags.push_back( joFlags.next_string() );
         }
     }
+
+    effect_types[new_etype.id] = new_etype;
 }
 
 bool effect::has_flag( const std::string &flag ) const
 {
     std::vector<std::string> flags = eff_type->flags;
-    for( std::vector<std::string>::iterator i = flags.begin(); i != flags.end(); ++i ) {
-        if( flag == *i ) {
+    for( const std::string &i: eff_type->flags ) {
+        if( i == flag ) {
             return true;
         }
     }
