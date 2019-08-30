@@ -887,7 +887,6 @@ static void mx_portal( map &m, const tripoint &abs_sub )
         }
     }
 
-    // Set the portal at our chosen location.
     m.trap_set( *portal_pos, tr_portal );
 
     // We'll make between 0 and 4 attempts to spawn monsters here.
