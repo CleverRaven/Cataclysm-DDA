@@ -1294,7 +1294,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "lighter", 5 ], [ "ref_lighter", 5 ], [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "wax", 2 ], [ "tallow", 4 ], [ "tallow_tainted", 4 ] ], [ [ "string_6", 1 ] ] ]
+    "components": [ [ [ "wax", 1 ], [ "tallow", 4 ], [ "tallow_tainted", 4 ] ], [ [ "string_6", 1 ] ] ]
   },
   {
     "type": "recipe",
