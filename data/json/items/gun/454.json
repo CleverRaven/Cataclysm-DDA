@@ -14,7 +14,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": [ "454", "45colt" ],
+    "ammo": [ "454", "410shot", "45colt" ],
     "dispersion": 280,
     "durability": 8,
     "clip_size": 5,
