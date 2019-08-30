@@ -95,7 +95,7 @@
     "min_melee": 2,
     "melee_allowed": true,
     "crit_ok": true,
-    "down_dur": 1
+    "down_dur": 2
   },
   {
     "type": "technique",
@@ -131,7 +131,7 @@
     "melee_allowed": true,
     "crit_tec": true,
     "downed_target": true,
-    "stun_dur": 2,
-    "mult_bonuses": [ [ "movecost", 1.5 ], [ "damage", "stab", 2.0 ], [ "damage", "cut", 2.0 ] ]
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "movecost", 1.5 ], [ "damage", "stab", 2.0 ], [ "damage", "cut", 1.75 ] ]
   }
 ]
