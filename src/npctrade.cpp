@@ -144,13 +144,19 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
 
     double adjust = net_price_adjustment( buyer, seller );
 
-    const auto check_item = [fac, adjust, is_npc, &np, &result]( item_location && loc, int count = 1 ) {
+    const auto check_item = [fac, adjust, is_npc, &np, &result, &seller]( item_location &&
+    loc, int count = 1 ) {
         item *it_ptr = loc.get_item();
         if( it_ptr == nullptr || it_ptr->is_null() ) {
             return;
         }
-
         item &it = *it_ptr;
+
+        // Don't sell items we don't own.
+        if( it.has_owner() && it.get_owner() != seller.get_faction() ) {
+            return;
+        }
+
         const int market_price = it.price( true );
         int val = np.value( it, market_price );
         if( ( is_npc && np.wants_to_sell( it, val, market_price ) ) ||
