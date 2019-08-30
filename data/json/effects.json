@@ -12,6 +12,13 @@
   },
   {
     "type": "effect_type",
+    "id": "night_vision",
+    "name": [ "Night vision" ],
+    "desc": [ "You can see in the dark." ],
+    "flags": [ "EFFECT_NIGHT_VISION" ]
+  },
+  {
+    "type": "effect_type",
     "id": "ridden",
     "name": [ "Ridden" ],
     "desc": [ "AI tag for when critter is being ridden. This is a bug if you have it." ]

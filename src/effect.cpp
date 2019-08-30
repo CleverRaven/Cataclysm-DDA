@@ -1296,6 +1296,20 @@ void load_effect_type( JsonObject &jo )
 
     effect_types[new_etype.id] = new_etype;
 
+    if( jo.has_member( "flags" ) ) {
+        new_etype.flags = jo.get_array( "falgs" );
+    }
+}
+
+bool has_flag( const std::string &flag ) const
+{
+    for (std::vector<std::string>::iterator i = flags.begin(); i != flags.end(); ++i)
+    {
+        if( flag == i ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void reset_effect_types()

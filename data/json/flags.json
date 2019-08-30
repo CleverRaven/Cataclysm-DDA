@@ -65,6 +65,15 @@
     "info": "This gear <bad>prevents</bad> you from <info>seeing</info> anything."
   },
   {
+    "id": "EFFECT_NIGHT_VISION",
+    "type": "json_flag",
+    "context": [ "EFFECT" ],
+    "conflicts": [ "BLIND" ],
+    "description": "Allows normal sight without external light source.",
+    "//": "Supported by color in propeties",
+    "properties": { "color": "green" },
+  },
+  {
     "id": "BLOCK_WHILE_WORN",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],

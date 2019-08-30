@@ -93,6 +93,8 @@ class effect_type
         int int_decay_tick;
         time_duration int_dur_factor;
 
+        std::vector<std::string> flags;
+
         bool main_parts_only;
 
         // Determines if effect should be shown in description.
@@ -248,6 +250,9 @@ class effect
          *  multiplier on the overall chance of a modifier type activating. */
         bool activated( const time_point &when, std::string arg, int val,
                         bool reduced = false, double mod = 1 ) const;
+
+        /** Check if the effect has the specified flag */
+        bool has_flag( const std::string &flag ) const;
 
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */
         double get_addict_mod( const std::string &arg, int addict_level ) const;
