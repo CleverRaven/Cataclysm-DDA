@@ -3942,8 +3942,8 @@
   {
     "type": "profession",
     "ident": "gunslinger",
-    "name": "Wild West Performer",
-    "description": "You made your living on Wild West exhibitions, impressing onlookers with your displays of marksmanship. With the world at an end, your targets are looking far more dangerous than bottles and straw bull's-eyes. ",
+    "name": "Wild West Gunslinger",
+    "description": "You made your living on Wild West exhibitions and shows, impressing tourists with your displays of marksmanship. But that world has ended, so you took your trusty 6-shooter and wandered into a world where it's always high noon.",
     "points": 4,
     "skills": [
       { "level": 4, "name": "gun" },
