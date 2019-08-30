@@ -15,7 +15,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_dark_sight",
     "name": "Scroll of Dark Sight",
-    "description": "The darknes holds no secrets for the arcane. Adjust your sight to see in perfect darkness!",
+    "description": "The darkness holds no secrets for the arcane.  Adjust your sight to see in perfect darkness!",
     "use_action": { "type": "learn_spell", "spells": [ "dark_sight" ] }
   },
   {
