@@ -1297,7 +1297,12 @@ void load_effect_type( JsonObject &jo )
     effect_types[new_etype.id] = new_etype;
 
     if( jo.has_member( "flags" ) ) {
-        new_etype.flags = jo.get_array( "falgs" );
+
+        JsonArray joFlags = jo.get_array( "flags" );
+
+        while( joFlags.has_more() ) {
+            new_etype.flags.push_back( joFlags.next_string() );
+        }
     }
 }
 
