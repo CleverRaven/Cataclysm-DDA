@@ -106,7 +106,7 @@
     "difficulty": 1,
     "time": "10 m",
     "autolearn": true,
-    "components": [ [ [ "afs_rolling_pin", 1 ] ], [ [ "wire_barbed", 1 ] ], [ [ "adhesive", 1, "LIST" ] ] ]
+    "components": [ [ [ "rolling_pin", 1 ] ], [ [ "wire_barbed", 1 ] ], [ [ "adhesive", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
