@@ -101,7 +101,7 @@
   },
   {
     "id": "welding_mask_crude_raised",
-    "copy-from": "welding_mask",
+    "copy-from": "welding_mask_crude",
     "type": "ARMOR",
     "name": "crude welding mask (raised)",
     "name_plural": "crude welding masks (raised)",
@@ -110,7 +110,7 @@
     "use_action": {
       "type": "transform",
       "msg": "You lower your crude welding mask over your face.",
-      "target": "welding_mask",
+      "target": "welding_mask_crude",
       "menu_text": "Lower"
     },
     "covers": [ "HEAD" ],
