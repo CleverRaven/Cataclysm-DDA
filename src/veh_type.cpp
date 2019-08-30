@@ -175,7 +175,12 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
         skills.emplace( skill_id( cur.get_string( 0 ) ), cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
     }
 
-    assign( src, "time", moves );
+    if( src.has_int( "time" ) ) {
+        moves = src.get_int( "time" );
+    } else if( src.has_string( "time" ) ) {
+        moves = to_moves<int>( read_from_json_string<time_duration>( *src.get_raw( "time" ),
+                               time_duration::units ) );
+    }
 
     if( src.has_string( "using" ) ) {
         reqs = { { requirement_id( src.get_string( "using" ) ), 1 } };
@@ -436,12 +441,6 @@ void vpart_info::finalize()
     DynamicDataLoader::get_instance().load_deferred( deferred );
 
     for( auto &e : vpart_info_all ) {
-        // if part name specified ensure it is translated
-        // otherwise the name of the base item will be used
-        if( !e.second.name_.empty() ) {
-            e.second.name_ = _( e.second.name_ );
-        }
-
         if( e.second.folded_volume > 0_ml ) {
             e.second.set_flag( "FOLDABLE" );
         }
@@ -707,9 +706,10 @@ const std::map<vpart_id, vpart_info> &vpart_info::all()
 std::string vpart_info::name() const
 {
     if( name_.empty() ) {
-        name_ = item::nname( item ); // cache on first request
+        return item::nname( item );
+    } else {
+        return name_.translated();
     }
-    return name_;
 }
 
 int vpart_info::format_description( std::ostringstream &msg, const std::string &format_color,
@@ -721,7 +721,7 @@ int vpart_info::format_description( std::ostringstream &msg, const std::string &
 
     std::ostringstream long_descrip;
     if( ! description.empty() ) {
-        long_descrip << _( description );
+        long_descrip << description;
     }
     for( const auto &flagid : flags ) {
         if( flagid == "ALARMCLOCK" || flagid == "WATCH" ) {

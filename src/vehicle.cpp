@@ -22,6 +22,7 @@
 #include "colony.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
+#include "event_bus.h"
 #include "explosion.h"
 #include "game.h"
 #include "item.h"
@@ -1173,6 +1174,44 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
         }
     }
 
+    // Wheels that need axles must be installed on a wheel mount
+    if( part.has_flag( "NEEDS_WHEEL_MOUNT_LIGHT" ) ) {
+        bool anchor_found = false;
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "WHEEL_MOUNT_LIGHT" ) ) {
+                anchor_found = true;
+                break;
+            }
+        }
+        if( !anchor_found ) {
+            return false;
+        }
+    }
+    if( part.has_flag( "NEEDS_WHEEL_MOUNT_MEDIUM" ) ) {
+        bool anchor_found = false;
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "WHEEL_MOUNT_MEDIUM" ) ) {
+                anchor_found = true;
+                break;
+            }
+        }
+        if( !anchor_found ) {
+            return false;
+        }
+    }
+    if( part.has_flag( "NEEDS_WHEEL_MOUNT_HEAVY" ) ) {
+        bool anchor_found = false;
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "WHEEL_MOUNT_HEAVY" ) ) {
+                anchor_found = true;
+                break;
+            }
+        }
+        if( !anchor_found ) {
+            return false;
+        }
+    }
+
     //Anything not explicitly denied is permitted
     return true;
 }
@@ -1189,40 +1228,26 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
         return false;
     }
 
-    // Can't remove an engine if there's still an alternator there
-    if( part_flag( p, VPFLAG_ENGINE ) && part_with_feature( p, VPFLAG_ALTERNATOR, true ) >= 0 ) {
-        reason = _( "Remove attached alternator first." );
-        return false;
-    }
-
-    //Can't remove a seat if there's still a seatbelt there
-    if( part_flag( p, "BELTABLE" ) && part_with_feature( p, "SEATBELT", true ) >= 0 ) {
-        reason = _( "Remove attached seatbelt first." );
-        return false;
-    }
-
-    // Can't remove a window with curtains still on it
-    if( part_flag( p, "WINDOW" ) && part_with_feature( p, "CURTAIN", true ) >= 0 ) {
-        reason = _( "Remove attached curtains first." );
-        return false;
-    }
-
-    //Can't remove controls if there's something attached
-    if( part_flag( p, "CONTROLS" ) && part_with_feature( p, "ON_CONTROLS", true ) >= 0 ) {
-        reason = _( "Remove attached part first." );
-        return false;
-    }
-
-    //Can't remove a battery mount if there's still a battery there
-    if( part_flag( p, "BATTERY_MOUNT" ) && part_with_feature( p, "NEEDS_BATTERY_MOUNT", true ) >= 0 ) {
-        reason = _( "Remove battery from mount first." );
-        return false;
-    }
-
-    //Can't remove a turret mount if there's still a turret there
-    if( part_flag( p, "TURRET_MOUNT" ) && part_with_feature( p, "TURRET", true ) >= 0 ) {
-        reason = _( "Remove attached mounted weapon first." );
-        return false;
+    // Check if the part is required by another part. Do not allow removing those.
+    // { "FLAG THAT IS REQUIRED", "FLAG THAT REQUIRES", "Reason why can't remove." }
+    static const std::array<std::tuple<std::string, std::string, std::string>, 9> blocking_flags = {{
+            std::make_tuple( "ENGINE", "ALTERNATOR", "Remove attached alternator first." ),
+            std::make_tuple( "BELTABLE", "SEATBELT", "Remove attached seatbelt first." ),
+            std::make_tuple( "WINDOW", "CURTAIN", "Remove attached curtains first." ),
+            std::make_tuple( "CONTROLS", "ON_CONTROLS", "Remove attached part first." ),
+            std::make_tuple( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT", "Remove battery from mount first." ),
+            std::make_tuple( "TURRET_MOUNT", "TURRET", "Remove attached mounted weapon first." ),
+            std::make_tuple( "WHEEL_MOUNT_LIGHT", "NEEDS_WHEEL_MOUNT_LIGHT", "Remove attached wheel first." ),
+            std::make_tuple( "WHEEL_MOUNT_MEDIUM", "NEEDS_WHEEL_MOUNT_MEDIUM", "Remove attached wheel first." ),
+            std::make_tuple( "WHEEL_MOUNT_HEAVY", "NEEDS_WHEEL_MOUNT_HEAVY", "Remove attached wheel first." )
+        }
+    };
+    for( auto &flag_check : blocking_flags ) {
+        if( part_flag( p, std::get<0>( flag_check ) ) &&
+            part_with_feature( p, std::get<1>( flag_check ), false ) >= 0 ) {
+            reason = _( std::get<2>( flag_check ) );
+            return false;
+        }
     }
 
     //Can't remove an animal part if the animal is still contained
@@ -3802,18 +3827,11 @@ bool vehicle::sufficient_wheel_config() const
 
 bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
 {
-    faction *yours;
-    if( p.is_player() ) {
-        yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
-    } else {
-        npc *guy = dynamic_cast<npc *>( &p );
-        yours = guy->my_fac;
-    }
+    faction *yours = p.get_faction();
     std::vector<npc *> witnesses;
     for( npc &elem : g->all_npcs() ) {
         if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && has_owner() &&
-            elem.my_fac == get_owner() &&
-            elem.sees( p.pos() ) ) {
+            elem.get_faction() == get_owner() && elem.sees( p.pos() ) ) {
             witnesses.push_back( &elem );
         }
     }
@@ -4941,7 +4959,8 @@ void vehicle::refresh()
             railwheel_xmax = std::max( railwheel_xmax, pt.x );
             railwheel_ymax = std::max( railwheel_ymax, pt.y );
         }
-        if( vpi.has_flag( "STEERABLE" ) || vpi.has_flag( "TRACKED" ) ) {
+        if( ( vpi.has_flag( "STEERABLE" ) && part_with_feature( pt, "STEERABLE", true ) != -1 ) ||
+            vpi.has_flag( "TRACKED" ) ) {
             // TRACKED contributes to steering effectiveness but
             //  (a) doesn't count as a steering axle for install difficulty
             //  (b) still contributes to drag for the center of steering calculation
@@ -5057,7 +5076,7 @@ void vehicle::refresh_pivot() const
             // broken wheels don't roll on either axis
             weight_i = contact_area * 2.0;
             weight_p = contact_area * 2.0;
-        } else if( wheel.info().has_flag( "STEERABLE" ) ) {
+        } else if( part_with_feature( wheel.mount, "STEERABLE", true ) != -1 ) {
             // Unbroken steerable wheels can handle motion on both axes
             // (but roll a little more easily inline)
             weight_i = contact_area * 0.1;
@@ -5432,9 +5451,7 @@ bool vehicle::explode_fuel( int p, damage_type type )
 
     int explosion_chance = type == DT_HEAT ? data.explosion_chance_hot : data.explosion_chance_cold;
     if( one_in( explosion_chance ) ) {
-        g->u.add_memorial_log( pgettext( "memorial_male", "The fuel tank of the %s exploded!" ),
-                               pgettext( "memorial_female", "The fuel tank of the %s exploded!" ),
-                               name );
+        g->events().send<event_type::fuel_tank_explodes>( name );
         const int pow = 120 * ( 1 - exp( data.explosion_factor / -5000 *
                                          ( parts[p].ammo_remaining() * data.fuel_size_factor ) ) );
         //debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );

@@ -49,6 +49,7 @@ class vehicle;
 struct mutation_branch;
 class bionic_collection;
 struct points_left;
+class faction;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -168,6 +169,13 @@ class Character : public Creature, public visitable<Character>
         Character &operator=( const Character & ) = delete;
         ~Character() override;
 
+        Character *as_character() override {
+            return this;
+        }
+        const Character *as_character() const override {
+            return this;
+        }
+
         character_id getID() const;
         // sets the ID, will *only* succeed when the current id is not valid
         void setID( character_id i );
@@ -279,6 +287,12 @@ class Character : public Creature, public visitable<Character>
         std::string disp_name( bool possessive = false ) const override;
         /** Returns the name of the player's outer layer, e.g. "armor plates" */
         std::string skin_name() const override;
+
+        /* returns the character's faction */
+        virtual faction *get_faction() const {
+            return nullptr;
+        }
+        void set_fac_id( const std::string &my_fac_id );
 
         /* Adjusts provided sight dispersion to account for player stats */
         int effective_dispersion( int dispersion ) const;
@@ -473,6 +487,7 @@ class Character : public Creature, public visitable<Character>
         float mutation_armor( body_part bp, const damage_unit &du ) const;
 
         // --------------- Bionic Stuff ---------------
+        std::vector<bionic_id> get_bionics() const;
         /** Returns true if the player has the entered bionic id */
         bool has_bionic( const bionic_id &b ) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
@@ -979,6 +994,13 @@ class Character : public Creature, public visitable<Character>
          * Most of it isn't changed too often, hence mutable.
          */
         mutable pimpl<pathfinding_settings> path_settings;
+
+        // faction API versions
+        // 2 - allies are in your_followers faction; NPCATT_FOLLOW is follower but not an ally
+        // 0 - allies may be in your_followers faction; NPCATT_FOLLOW is an ally (legacy)
+        int faction_api_version = 2;  // faction API versioning
+        string_id<faction> fac_id; // A temp variable used to inform the game which faction to link
+        faction *my_fac = nullptr;
 
     private:
         // A unique ID number, assigned by the game class. Values should never be reused.

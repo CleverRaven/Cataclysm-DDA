@@ -1395,15 +1395,16 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
         //Hallucinations don't do any of the stuff after this point
         return true;
     }
-    // TODO: Make tanks stop taking damage from rubble, because it's just silly
-    if( type->size != MS_TINY && on_ground ) {
-        if( g->m.has_flag( "SHARP", pos() ) && !one_in( 4 ) ) {
-            apply_damage( nullptr, bp_torso, rng( 1, 10 ) );
-        }
-        if( g->m.has_flag( "ROUGH", pos() ) && one_in( 6 ) ) {
-            apply_damage( nullptr, bp_torso, rng( 1, 2 ) );
-        }
 
+    if( type->size != MS_TINY && on_ground ) {
+        const int sharp_damage = rng( 1, 10 );
+        const int rough_damage = rng( 1, 2 );
+        if( g->m.has_flag( "SHARP", pos() ) && !one_in( 4 ) && get_armor_cut( bp_torso ) < sharp_damage ) {
+            apply_damage( nullptr, bp_torso, sharp_damage );
+        }
+        if( g->m.has_flag( "ROUGH", pos() ) && one_in( 6 ) && get_armor_cut( bp_torso ) < rough_damage ) {
+            apply_damage( nullptr, bp_torso, rough_damage );
+        }
     }
 
     if( g->m.has_flag( "UNSTABLE", p ) && on_ground ) {
@@ -1876,6 +1877,9 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                 veh.skidding = true;
                 veh.velocity = shove_velocity;
                 if( shove_destination != tripoint_zero ) {
+                    if( shove_destination.z != 0 ) {
+                        veh.vertical_velocity = shove_destination.z < 0 ? -shove_velocity : +shove_velocity;
+                    }
                     g->m.move_vehicle( veh, shove_destination, veh.face );
                 }
                 veh.move = tileray( destination_delta_x, destination_delta_y );

@@ -47,6 +47,7 @@
 #include "point.h"
 #include "string_formatter.h"
 #include "weighted_list.h"
+#include "rng.h"
 
 class npc_template;
 
@@ -865,18 +866,49 @@ static void mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
 
 static void mx_portal( map &m, const tripoint &abs_sub )
 {
-    int x = rng( 1, SEEX * 2 - 2 ), y = rng( 1, SEEY * 2 - 2 );
-    for( int i = x - 1; i <= x + 1; i++ ) {
-        for( int j = y - 1; j <= y + 1; j++ ) {
-            m.make_rubble( tripoint( i,  j, abs_sub.z ), f_rubble_rock, true );
+    // All points except the borders are valid--we need the 1 square buffer so that we can do a 1 unit radius
+    // around our chosen portal point without clipping against the edge of the map.
+    const tripoint_range points = m.points_in_rectangle( { 1, 1, abs_sub.z }, { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z } );
+
+    // Get a random point in our collection that does not have a trap and does not have the NO_FLOOR flag.
+    const cata::optional<tripoint> portal_pos = random_point( points, [&]( const tripoint & p ) {
+        return !m.has_flag_ter( TFLAG_NO_FLOOR, p ) && m.tr_at( p ).is_null();
+    } );
+
+    // If we can't get a point to spawn the portal (e.g. we're triggered in entirely open air) we're done here.
+    if( !portal_pos ) {
+        return;
+    }
+
+    // For our portal point and every adjacent location, make rubble if it doesn't have the NO_FLOOR flag.
+    for( const tripoint &p : m.points_in_radius( *portal_pos, 1 ) ) {
+        if( !m.has_flag_ter( TFLAG_NO_FLOOR, p ) ) {
+            m.make_rubble( p, f_rubble_rock, true );
         }
     }
-    mtrap_set( &m, x, y, tr_portal );
+
+    m.trap_set( *portal_pos, tr_portal );
+
+    // We'll make between 0 and 4 attempts to spawn monsters here.
     int num_monsters = rng( 0, 4 );
     for( int i = 0; i < num_monsters; i++ ) {
-        int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
-        m.make_rubble( tripoint( mx,  my, abs_sub.z ), f_rubble_rock, true );
-        m.place_spawns( GROUP_NETHER_PORTAL, 1, point( mx, my ), point( mx, my ), 1, true );
+        // Get a random location from our points that is not the portal location, does not have the
+        // NO_FLOOR flag, and isn't currently occupied by a creature.
+        const cata::optional<tripoint> mon_pos = random_point( points, [&]( const tripoint & p ) {
+            return !m.has_flag_ter( TFLAG_NO_FLOOR, p ) && *portal_pos != p && !g->critter_at( p );
+        } );
+
+        // If we couldn't get a random location, we can't place a monster and we know that there are no
+        // more possible valid locations, so just bail.
+        if( !mon_pos ) {
+            break;
+        }
+
+        // Make rubble here--it's not necessarily a location that is directly adjacent to the portal.
+        m.make_rubble( *mon_pos, f_rubble_rock, true );
+
+        // Spawn a single monster from our group here.
+        m.place_spawns( GROUP_NETHER_PORTAL, 1, mon_pos->xy(), mon_pos->xy(), 1, true );
     }
 }
 
