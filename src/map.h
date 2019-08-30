@@ -23,6 +23,7 @@
 #include "item.h"
 #include "item_stack.h"
 #include "lightmap.h"
+#include "lru_cache.h"
 #include "shadowcasting.h"
 #include "type_id.h"
 #include "units.h"
@@ -1652,6 +1653,11 @@ class map
          * Set of submaps that contain active items in absolute coordinates.
          */
         std::set<tripoint> submaps_with_active_items;
+
+        /**
+         * Cache of coordinate pairs recently checked for visibility.
+         */
+        mutable lru_cache<point, char> skew_vision_cache;
 
         // Note: no bounds check
         level_cache &get_cache( int zlev ) const {
