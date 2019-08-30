@@ -8,7 +8,7 @@
     "difficulty": 4,
     "time": 3000,
     "reversible": true,
-    "book_learn": [ [ "recipe_caseless", 8 ], [ "recipe_lab_cvd", 3 ] ],
+    "book_learn": [ [ "recipe_caseless", 8 ], [ "textbook_atomic_lab", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 5 ] ],
@@ -28,7 +28,7 @@
     "difficulty": 3,
     "time": 20000,
     "reversible": true,
-    "book_learn": [ [ "recipe_caseless", 6 ], [ "recipe_lab_cvd", 3 ] ],
+    "book_learn": [ [ "recipe_caseless", 6 ], [ "textbook_atomic_lab", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 1 ] ],
@@ -47,7 +47,7 @@
     "difficulty": 3,
     "time": 30000,
     "reversible": true,
-    "book_learn": [ [ "recipe_caseless", 6 ], [ "recipe_lab_cvd", 3 ] ],
+    "book_learn": [ [ "recipe_caseless", 6 ], [ "textbook_atomic_lab", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 2 ] ],

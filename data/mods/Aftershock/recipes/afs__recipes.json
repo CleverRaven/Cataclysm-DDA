@@ -27,7 +27,7 @@
     "time": 360000,
     "reversible": true,
     "decomp_learn": 10,
-    "book_learn": [ [ "recipe_lab_cvd", 5 ] ],
+    "book_learn": [ [ "textbook_atomic_lab", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "canister_empty", 1 ] ],
@@ -48,7 +48,7 @@
     "skills_required": [ "electronics", 4 ],
     "difficulty": 8,
     "time": 30000,
-    "book_learn": [ [ "recipe_lab_cvd", 5 ] ],
+    "book_learn": [ [ "textbook_atomic_lab", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "canister_empty", 1 ] ], [ [ "plut_slurry", 10 ], [ "plut_slurry_dense", 5 ] ], [ [ "power_supply", 2 ] ] ]
   },
@@ -61,7 +61,7 @@
     "skill_used": "electronics",
     "difficulty": 6,
     "time": 30000,
-    "book_learn": [ [ "recipe_lab_cvd", 3 ] ],
+    "book_learn": [ [ "textbook_atomic_lab", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "steel_chunk", 1 ], [ "scrap", 1 ] ],
@@ -84,7 +84,7 @@
     "byproducts": [ [ "plastic_chunk" ], [ "plastic_chunk" ] ]
   },
   {
-    "result": "afs_rolling_pin",
+    "result": "rolling_pin",
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
@@ -104,7 +104,7 @@
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": 10000,
+    "time": "10 m",
     "autolearn": true,
     "components": [ [ [ "afs_rolling_pin", 1 ] ], [ [ "wire_barbed", 1 ] ], [ [ "adhesive", 1, "LIST" ] ] ]
   },
@@ -161,21 +161,35 @@
   },
   {
     "type": "recipe",
-    "result": "afs_welding_mask_makeshift",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "mechanics",
-    "difficulty": 2,
-    "skills_required": [ "fabrication", 3 ],
-    "time": 10000,
-    "autolearn": true,
-    "byproducts": [ [ "sheet_metal_small" ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 } ],
+    "result": "turret_mount",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "electronics",
+    "skills_required": [ [ "mechanics", 7 ], [ "computer", 6 ], [ "fabrication", 6 ] ],
+    "difficulty": 9,
+    "time": "8 h",
+    "reversible": true,
+    "decomp_learn": 9,
+    "book_learn": [ [ "recipe_lab_elec", 8 ], [ "textbook_robots", 10 ] ],
+    "using": [ [ "soldering_standard", 14 ], [ "welding_standard", 5 ], [ "forging_standard", 4 ], [ "steel_standard", 4 ] ],
+    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "DRILL", "level": 1 }
+    ],
     "components": [
-      [ [ "sheet_metal", 1 ] ],
-      [ [ "leather", 6 ], [ "rag", 6 ], [ "string_36", 1 ] ],
-      [ [ "blindfold", 1 ] ],
-      [ [ "glass_tinted", 3 ] ]
+      [ [ "ai_module", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "pipe", 2 ] ],
+      [ [ "spring", 2 ] ]
     ]
   },
   {
@@ -196,54 +210,6 @@
       [ [ "circuit", 1 ] ],
       [ [ "scrap", 1 ] ]
     ]
-  },
-  {
-    "type": "recipe",
-    "result": "reading_light",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "electronics",
-    "time": 45000,
-    "difficulty": 4,
-    "book_learn": [ [ "manual_electronics", 2 ] ],
-    "using": [ [ "soldering_standard", 15 ] ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [
-      [ [ "plastic_chunk", 1 ] ],
-      [ [ "scrap", 4 ] ],
-      [ [ "cable", 4 ] ],
-      [ [ "circuit", 1 ] ],
-      [ [ "lens", 1 ], [ "lens_small", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "turret_mount",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": 20000,
-    "autolearn": true,
-    "using": [ [ "soldering_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "steel_lump", 4 ] ], [ [ "wire", 2 ] ], [ [ "pipe", 4 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "motor_micro",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_PARTS",
-    "skill_used": "electronics",
-    "difficulty": 1,
-    "time": 5000,
-    "reversible": true,
-    "decomp_learn": 1,
-    "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 1 ] ],
-    "using": [ [ "soldering_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 1 ] ], [ [ "cable", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -349,49 +315,10 @@
     "skill_used": "electronics",
     "difficulty": 5,
     "time": 30000,
-    "book_learn": [ [ "recipe_caseless", 5 ], [ "recipe_lab_cvd", 4 ] ],
+    "book_learn": [ [ "recipe_caseless", 5 ], [ "textbook_atomic_lab", 4 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "//": "Conversion of a normal smartphone into an atomic one by replacing the power supply.",
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "smart_phone", 1 ] ], [ [ "plut_cell", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "afs_atomic_reading_light",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "electronics",
-    "time": 45000,
-    "difficulty": 4,
-    "reversible": true,
-    "decomp_learn": 3,
-    "book_learn": [ [ "recipe_caseless", 4 ], [ "recipe_lab_cvd", 3 ] ],
-    "using": [ [ "soldering_standard", 15 ] ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [
-      [ [ "plastic_chunk", 1 ] ],
-      [ [ "scrap", 4 ] ],
-      [ [ "cable", 4 ] ],
-      [ [ "circuit", 1 ] ],
-      [ [ "lens", 1 ], [ "lens_small", 1 ] ],
-      [ [ "plut_cell", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "afs_large_storage_battery",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_PARTS",
-    "skill_used": "electronics",
-    "skills_required": [ "fabrication", 1 ],
-    "difficulty": 4,
-    "time": 20000,
-    "reversible": true,
-    "decomp_learn": 3,
-    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "storage_battery", 2 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
