@@ -27,7 +27,6 @@
     "//": "Less common pistol ammo including that only used by police/paramilitary forces.",
     "items": [
       [ "10mm_fmj", 15 ],
-      [ "45colt_jhp", 10 ],
       [ "38_super", 20 ],
       [ "38super_fmj", 20 ],
       [ "44fmj", 15 ],
@@ -53,6 +52,7 @@
     "//": "Imported or otherwise very obscure pistol ammo.",
     "items": [
       [ "454_Casull", 100 ],
+      [ "45colt_jhp", 50 ],
       [ "500_Magnum", 100 ],
       [ "762_25", 50 ],
       [ "762_25hot", 50 ],
