@@ -71,7 +71,7 @@
     "conflicts": [ "BLIND" ],
     "description": "Allows normal sight without external light source.",
     "//": "Supported by color in propeties",
-    "properties": { "color": "green" },
+    "properties": { "color": "green" }
   },
   {
     "id": "BLOCK_WHILE_WORN",
