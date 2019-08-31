@@ -1842,10 +1842,8 @@ bool mattack::fungus_sprout( monster *z )
         if( g->u.pos() == dest ) {
             push_player = true;
         }
-        if( g->is_empty( dest ) ) {
-            if( monster *const wall = g->summon_mon( mon_fungal_wall, dest ) ) {
-                wall->make_ally( *z );
-            }
+        if( monster *const wall = g->place_critter_at( mon_fungal_wall, dest ) ) {
+            wall->make_ally( *z );
         }
     }
 
@@ -1910,10 +1908,8 @@ bool mattack::fungus_fortify( monster *z )
         if( g->u.pos() == dest ) {
             push_player = true;
         }
-        if( g->is_empty( dest ) ) {
-            if( monster *const wall = g->summon_mon( mon_fungal_hedgerow, dest ) ) {
-                wall->make_ally( *z );
-            }
+        if( monster *const wall = g->place_critter_at( mon_fungal_hedgerow, dest ) ) {
+            wall->make_ally( *z );
             fortified = true;
         }
     }
