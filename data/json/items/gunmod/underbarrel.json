@@ -158,7 +158,6 @@
     "type": "GUNMOD",
     "name": "LeMat revolver shotgun",
     "description": "The Lemat revolver is unique in that its cylinder axis pin is also a fully functional 20ga percussion-primed smoothbore barrel.  It's irremovable.",
-    "weight": 500,
     "volume": "250 ml",
     "integral_volume": 0,
     "material": [ "steel" ],
@@ -173,9 +172,10 @@
       "ranged_damage": -12,
       "dispersion": 600,
       "durability": 10,
+      "reload": 310,
       "clip_size": 1
     },
-    "flags": [ "RELOAD_ONE", "NO_UNLOAD", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "NO_UNLOAD", "STR_RELOAD", "IRREMOVABLE" ]
   },
   {
     "id": "m203",
