@@ -1561,6 +1561,9 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                     } else {
                         g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0, false );
                     }
+                    g->draw_below_override( map_p, g->m.has_zlevels() &&
+                                            tmpmap.ter( tmp_p ).obj().has_flag( TFLAG_NO_FLOOR ) );
+                    // creatures are tracked in `game` instead of `map`, so no creature to draw from tmpmap
                 }
             }
         }

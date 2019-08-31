@@ -870,3 +870,16 @@ void game::draw_vpart_override( const tripoint &p, const vpart_id &id, const int
 {
 }
 #endif
+
+#if defined(TILES)
+void game::draw_below_override( const tripoint &p, const bool draw )
+{
+    if( use_tiles ) {
+        tilecontext->init_draw_below_override( p, draw );
+    }
+}
+#else
+void game::draw_below_override( const tripoint &p, const bool draw )
+{
+}
+#endif

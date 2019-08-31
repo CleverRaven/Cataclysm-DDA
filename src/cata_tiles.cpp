@@ -1241,6 +1241,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     void_field_override();
     void_item_override();
     void_vpart_override();
+    void_draw_below_override();
 
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
@@ -1917,9 +1918,11 @@ bool cata_tiles::apply_vision_effects( const tripoint &pos,
     return true;
 }
 
-bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/*height_3d*/ )
+bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level /*ll*/, int &/*height_3d*/ )
 {
-    if( !g->m.need_draw_lower_floor( p ) ) {
+    const auto low_override = draw_below_override.find( p );
+    const bool low_overridden = low_override != draw_below_override.end();
+    if( low_overridden ? !low_override->second : !g->m.need_draw_lower_floor( p ) ) {
         return false;
     }
 
@@ -2210,9 +2213,11 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
     return ret_draw_field && ret_draw_items;
 }
 
-bool cata_tiles::draw_vpart_below( const tripoint &p, lit_level /*ll*/, int &/*height_3d*/ )
+bool cata_tiles::draw_vpart_below( const tripoint &p, const lit_level /*ll*/, int &/*height_3d*/ )
 {
-    if( !g->m.need_draw_lower_floor( p ) ) {
+    const auto low_override = draw_below_override.find( p );
+    const bool low_overridden = low_override != draw_below_override.end();
+    if( low_overridden ? !low_override->second : !g->m.need_draw_lower_floor( p ) ) {
         return false;
     }
     tripoint pbelow( p.xy(), p.z - 1 );
@@ -2287,10 +2292,12 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
     return ret;
 }
 
-bool cata_tiles::draw_critter_at_below( const tripoint &p, lit_level, int & )
+bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int & )
 {
     // Check if we even need to draw below. If not, bail.
-    if( !g->m.need_draw_lower_floor( p ) ) {
+    const auto low_override = draw_below_override.find( p );
+    const bool low_overridden = low_override != draw_below_override.end();
+    if( low_overridden ? !low_override->second : !g->m.need_draw_lower_floor( p ) ) {
         return false;
     }
 
@@ -2594,6 +2601,10 @@ void cata_tiles::init_draw_vpart_override( const tripoint &p, const vpart_id &id
 {
     vpart_override.emplace( p, std::make_tuple( id, subtile, rota, hilite ) );
 }
+void cata_tiles::init_draw_below_override( const tripoint &p, const bool draw )
+{
+    draw_below_override.emplace( p, draw );
+}
 /* -- Void Animators */
 void cata_tiles::void_explosion()
 {
@@ -2677,6 +2688,10 @@ void cata_tiles::void_item_override()
 void cata_tiles::void_vpart_override()
 {
     vpart_override.clear();
+}
+void cata_tiles::void_draw_below_override()
+{
+    draw_below_override.clear();
 }
 /* -- Animation Renders */
 void cata_tiles::draw_explosion_frame()

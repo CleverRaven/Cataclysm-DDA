@@ -632,6 +632,7 @@ class game
         void draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid, bool hilite );
         void draw_vpart_override( const tripoint &p, const vpart_id &id, int subtile, int rota,
                                   bool hilite );
+        void draw_below_override( const tripoint &p, bool draw );
 
         bool is_in_viewport( const tripoint &p, int margin = 0 ) const;
         /**
