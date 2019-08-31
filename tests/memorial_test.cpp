@@ -14,7 +14,7 @@ void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, A
     CAPTURE( io::enum_to_string( Type ) );
     CAPTURE( ref );
     m.clear();
-    b.send( event::make<Type>( args... ) );
+    b.send( cata::event::make<Type>( args... ) );
 
     std::string result = m.dump();
     CAPTURE( result );

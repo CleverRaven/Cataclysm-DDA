@@ -1,6 +1,6 @@
 #pragma once
-#ifndef EVENT_H
-#define EVENT_H
+#ifndef CATA_EVENT_H
+#define CATA_EVENT_H
 
 #include <map>
 #include <utility>
@@ -90,6 +90,9 @@ template<>
 std::string enum_to_string<event_type>( event_type data );
 
 } // namespace io
+
+namespace cata
+{
 
 class event;
 
@@ -551,4 +554,6 @@ struct make_event_helper<Type, std::index_sequence<I...>> {
 
 } // namespace event_detail
 
-#endif // EVENT_H
+} // namespace cata
+
+#endif // CATA_EVENT_H

@@ -13,7 +13,7 @@ class event_subscriber
         event_subscriber( const event_subscriber & ) = delete;
         event_subscriber &operator=( const event_subscriber & ) = delete;
         virtual ~event_subscriber();
-        virtual void notify( const event & ) = 0;
+        virtual void notify( const cata::event & ) = 0;
     private:
         friend class event_bus;
         void on_subscribe( event_bus * );
@@ -31,10 +31,10 @@ class event_bus
         void subscribe( event_subscriber * );
         void unsubscribe( event_subscriber * );
 
-        void send( const event & ) const;
+        void send( const cata::event & ) const;
         template<event_type Type, typename... Args>
         void send( Args &&... args ) const {
-            send( event::make<Type>( std::forward<Args>( args )... ) );
+            send( cata::event::make<Type>( std::forward<Args>( args )... ) );
         }
     private:
         std::vector<event_subscriber *> subscribers;

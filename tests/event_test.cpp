@@ -8,8 +8,8 @@ using itype_id = std::string;
 
 TEST_CASE( "construct_event", "[event]" )
 {
-    event e = event::make<event_type::character_kills_monster>(
-                  character_id( 7 ), mtype_id( "zombie" ) );
+    cata::event e = cata::event::make<event_type::character_kills_monster>(
+                        character_id( 7 ), mtype_id( "zombie" ) );
     CHECK( e.type() == event_type::character_kills_monster );
     CHECK( e.time() == calendar::turn );
     CHECK( e.get<cata_variant_type::character_id>( "killer" ) == character_id( 7 ) );
@@ -19,11 +19,11 @@ TEST_CASE( "construct_event", "[event]" )
 }
 
 struct test_subscriber : public event_subscriber {
-    void notify( const event &e ) override {
+    void notify( const cata::event &e ) override {
         events.push_back( e );
     }
 
-    std::vector<event> events;
+    std::vector<cata::event> events;
 };
 
 TEST_CASE( "send_event_through_bus", "[event]" )
@@ -32,10 +32,10 @@ TEST_CASE( "send_event_through_bus", "[event]" )
     test_subscriber sub;
     bus.subscribe( &sub );
 
-    bus.send( event::make<event_type::character_kills_monster>(
+    bus.send( cata::event::make<event_type::character_kills_monster>(
                   character_id( 5 ), mtype_id( "zombie" ) ) );
     REQUIRE( sub.events.size() == 1 );
-    const event &e = sub.events[0];
+    const cata::event &e = sub.events[0];
     CHECK( e.type() == event_type::character_kills_monster );
     CHECK( e.time() == calendar::turn );
     CHECK( e.get<character_id>( "killer" ) == character_id( 5 ) );
@@ -48,7 +48,7 @@ TEST_CASE( "destroy_bus_before_subscriber", "[event]" )
     event_bus bus;
     bus.subscribe( &sub );
 
-    bus.send( event::make<event_type::character_kills_monster>(
+    bus.send( cata::event::make<event_type::character_kills_monster>(
                   character_id( 5 ), mtype_id( "zombie" ) ) );
     CHECK( sub.events.size() == 1 );
 }
