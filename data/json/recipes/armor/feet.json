@@ -400,7 +400,7 @@
     "time": "480 m",
     "autolearn": true,
     "byproducts": [ [ "scrap_cotton", 22 ], [ "leather", 2 ], [ "scrap_leather", 60 ] ],
-    "using": [ [ "fastener_small", 2 ], [ "tailoring_leather", 1 ], [ "tailoring_cotton", 2 ] ],
+    "using": [ [ "fastener_small", 2 ], [ "tailoring_leather", 1 ], [ "tailoring_cotton_patchwork", 2 ] ],
     "components": [ [ [ "sole_rubber", 2 ] ], [ [ "superglue", 1 ] ] ]
   },
   {

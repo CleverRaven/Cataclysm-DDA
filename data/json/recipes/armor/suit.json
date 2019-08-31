@@ -386,7 +386,7 @@
     "autolearn": true,
     "byproducts": [ [ "rag", 1 ], [ "scrap_cotton", 17 ] ],
     "tools": [ [ [ "tailoring_pattern_set", -1 ] ] ],
-    "using": [ [ "tailoring_cotton", 7 ], [ "dye_cloth", 7 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 7 ], [ "dye_cloth", 7 ] ]
   },
   {
     "result": "entry_suit",
@@ -774,7 +774,7 @@
     "autolearn": true,
     "byproducts": [ [ "scrap_cotton", 41 ], [ "faux_fur", 5 ], [ "scrap_faux_fur", 23 ] ],
     "tools": [ [ [ "tailoring_pattern_set", -1 ] ] ],
-    "using": [ [ "plastic_molding", 4 ], [ "tailoring_faux_fur", 63 ], [ "tailoring_cotton", 4 ] ],
+    "using": [ [ "plastic_molding", 4 ], [ "tailoring_faux_fur", 63 ], [ "tailoring_cotton_patchwork", 4 ] ],
     "components": [ [ [ "superglue", 2 ] ], [ [ "duct_tape", 50 ] ] ]
   },
   {

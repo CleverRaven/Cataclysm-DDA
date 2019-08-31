@@ -100,6 +100,18 @@
     "ammo_type": "components"
   },
   {
+    "id": "sheet_cotton_patchwork",
+    "copy-from": "sheet_cotton",
+    "type": "AMMO",
+    "name": "patchwork cotton clothing parts",
+    "name_plural": "patchwork cotton clothing parts",
+    "description": "A selection of various clothing parts, sewn together from some cotton rags in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
+    "weight": 100,
+    "volume": "60 ml",
+    "price": 200,
+    "count": 1
+  },
+  {
     "id": "sheet_faux_fur",
     "type": "AMMO",
     "category": "spare_parts",

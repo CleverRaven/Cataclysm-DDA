@@ -121,9 +121,9 @@
   {
     "id": "tailoring_cotton_patchwork",
     "type": "requirement",
-    "//": "Crafting patchwork cotton items, per 84 g of cotton; 10 g + excessive weight of material is wasted, producing rags and cotton scraps as byproducts.  Time needed is usually 360 minutes per unit if hand-stitching.",
+    "//": "Crafting possibly-patchwork cotton items, per 101 g of cotton; 10 g + excessive weight of material is wasted, producing rags and cotton scraps as byproducts.  Time needed is usually 90 minutes per unit if hand-stitching (most of the time actually needed goes into making a patchwork sheet)",
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 1 ] ], [ [ "filament", 4, "LIST" ] ] ]
+    "components": [ [ [ "sheet_cotton", 22 ], [ "sheet_cotton_patchwork", 1 ] ], [ [ "filament", 1, "LIST" ] ] ]
   },
   {
     "id": "tailoring_faux_fur",

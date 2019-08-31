@@ -382,20 +382,7 @@
     "time": "12 h",
     "autolearn": true,
     "byproducts": [ [ "rag", 1 ], [ "scrap_cotton", 8 ] ],
-    "using": [ [ "fastener_large", 1 ], [ "tailoring_cotton", 8 ] ]
-  },
-  {
-    "result": "jacket_jean",
-    "type": "recipe",
-    "id_suffix": "patchwork",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "time": "2880 m",
-    "autolearn": true,
-    "byproducts": [ [ "scrap_cotton", 32 ] ],
-    "using": [ [ "fastener_large", 1 ], [ "tailoring_cotton_patchwork", 10 ] ]
+    "using": [ [ "fastener_large", 1 ], [ "tailoring_cotton_patchwork", 8 ] ]
   },
   {
     "result": "jacket_leather",
