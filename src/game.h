@@ -298,10 +298,6 @@ class game
         monster *place_critter_within( const mtype_id &id, const tripoint_range &range );
         monster *place_critter_within( std::shared_ptr<monster> mon, const tripoint_range &range );
         /** @} */
-
-        /** Calls the creature_tracker add function. Returns true if successful. */
-        bool add_zombie( std::shared_ptr<monster> critter_ptr );
-        bool add_zombie( std::shared_ptr<monster> critter_ptr, bool pin_upgrade );
         /**
          * Returns the approximate number of creatures in the reality bubble.
          * Because of performance restrictions it may return a slightly incorrect

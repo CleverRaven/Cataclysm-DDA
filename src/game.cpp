@@ -4719,34 +4719,6 @@ monster *game::place_critter_within( const std::shared_ptr<monster> mon,
     return critter_tracker->add( mon ) ? mon.get() : nullptr;
 }
 
-// By default don't pin upgrades to current day
-bool game::add_zombie( const std::shared_ptr<monster> critter_ptr )
-{
-    return add_zombie( critter_ptr, false );
-}
-
-bool game::add_zombie( const std::shared_ptr<monster> critter_ptr, const bool pin_upgrade )
-{
-    assert( critter_ptr );
-    monster &critter = *critter_ptr;
-
-    if( !m.inbounds( critter.pos() ) ) {
-        dbg( D_ERROR ) << "added a critter with out-of-bounds position: "
-                       << critter.posx() << "," << critter.posy() << ","  << critter.posz()
-                       << " - " << critter.disp_name();
-    }
-
-    critter.try_upgrade( pin_upgrade );
-    critter.try_reproduce();
-    critter.try_biosignature();
-    if( !pin_upgrade ) {
-        critter.on_load();
-    }
-
-    critter.last_updated = calendar::turn;
-    return critter_tracker->add( critter_ptr );
-}
-
 size_t game::num_creatures() const
 {
     return critter_tracker->size() + active_npc.size() + 1; // 1 == g->u

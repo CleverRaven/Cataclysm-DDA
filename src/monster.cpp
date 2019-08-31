@@ -2752,13 +2752,15 @@ void monster::on_unload()
 
 void monster::on_load()
 {
-    // Possible TODO: Integrate monster upgrade
+    try_upgrade( false );
+    try_reproduce();
+    try_biosignature();
+
     const time_duration dt = calendar::turn - last_updated;
     last_updated = calendar::turn;
     if( dt <= 0_turns ) {
         return;
     }
-
     float regen = 0.0f;
     if( has_flag( MF_REGENERATES_50 ) ) {
         regen = 50.0f;
