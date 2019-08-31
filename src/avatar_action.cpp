@@ -677,11 +677,22 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
             }
         }
 
-        if( gun->has_flag( "MOUNTED_GUN" ) ) {
-            const bool v_mountable = static_cast<bool>( m.veh_at( you.pos() ).part_with_feature( "MOUNTABLE",
-                                     true ) );
-            bool t_mountable = m.has_flag_ter_or_furn( "MOUNTABLE", you.pos() );
-            if( !t_mountable && !v_mountable ) {
+        bool bipod = false;
+        for( const item *mod : gun->gunmods() ) {
+            if( mod->has_flag( "BIPOD" ) ) {
+                bipod = true;
+            }
+        }
+
+        if( gun->has_flag( "MOUNTED_GUN" ) || bipod ) {
+            bool mountable = false;
+            for( const tripoint &pt : m.points_in_radius( you.pos(), 1 ) ) {
+                if( m.has_flag( "MOUNTABLE", pt ) ||
+                    static_cast<bool>( m.veh_at( pt ).part_with_feature( "MOUNTABLE", true ) ) ) {
+                    mountable = true;
+                }
+            }
+            if( !mountable ) {
                 add_msg( m_info,
                          _( "You must stand near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc." ) );
                 return false;
