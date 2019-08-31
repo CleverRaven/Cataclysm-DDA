@@ -2598,6 +2598,33 @@ static void mx_casings( map &m, const tripoint &abs_sub )
     }
 }
 
+static void mx_looters( map &m, const tripoint &abs_sub )
+{
+    const tripoint center( rng( 5, ( SEEX * 2 ) - 5 ), rng( 5, ( SEEY * 2 ) - 5 ), abs_sub.z );
+    //25% chance to spawn a corpse with some blood around it
+    if( one_in( 4 ) && g->is_empty( center ) ) {
+        const auto &loc = m.points_in_radius( center, 1 );
+        m.add_corpse( center );
+        for( int i = 0; i < rng( 1, 3 ); i++ ) {
+            const tripoint where = random_entry( loc );
+            m.add_field( where, fd_blood, rng( 1, 3 ) );
+        }
+    }
+
+    //Spawn up to 5 hostile bandits with equal chance to be ranged or melee type
+    const int num_looters = rng( 1, 5 );
+    for( int i = 0; i < num_looters; i++ ) {
+        const tripoint pos = random_entry( m.points_in_radius( center, rng( 1, 4 ) ) );
+        if( g->is_empty( pos ) ) {
+            if( one_in( 2 ) ) {
+                m.place_npc( pos.xy(), string_id<npc_template>( "bandit" ) );
+            } else {
+                m.place_npc( pos.xy(), string_id<npc_template>( "thug" ) );
+            }
+        }
+    }
+}
+
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
     { "mx_crater", mx_crater },
@@ -2631,7 +2658,8 @@ FunctionMap builtin_functions = {
     { "mx_burned_ground", mx_burned_ground },
     { "mx_point_burned_ground", mx_point_burned_ground },
     { "mx_marloss_pilgrimage", mx_marloss_pilgrimage },
-    { "mx_casings", mx_casings }
+    { "mx_casings", mx_casings },
+    { "mx_looters", mx_looters }
 };
 
 map_extra_pointer get_function( const std::string &name )

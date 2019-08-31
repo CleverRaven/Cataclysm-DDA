@@ -325,5 +325,12 @@
     "sym": "x",
     "color": "yellow",
     "autonote": true
+  },
+  {
+    "id": "mx_looters",
+    "type": "map_extra",
+    "name": "Looters",
+    "description": "Some looters gathering everything not nailed down.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_looters" }
   }
 ]
