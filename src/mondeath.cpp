@@ -195,8 +195,8 @@ void mdeath::splatter( monster &z )
         }
     }
     // 1% of the weight of the monster is the base, with overflow damage as a multiplier
-    std::int64_t gibbed_weight = rng( 0, round( to_gram( z.get_weight() ) / 100.0 *
-                                      ( overflow_damage / max_hp + 1 ) ) );
+    int gibbed_weight = rng( 0, round( to_gram( z.get_weight() ) / 100.0 *
+                                       ( overflow_damage / max_hp + 1 ) ) );
     // limit gibbing to 15%
     gibbed_weight = std::min<std::int64_t>( gibbed_weight, to_gram( z.get_weight() ) * 15 / 100 );
 
@@ -214,8 +214,7 @@ void mdeath::splatter( monster &z )
             }
         }
         if( gibbed_weight > 0 ) {
-            const std::int64_t chunk_amount = gibbed_weight / to_gram( (
-                                                  item::find_type( "ruined_chunks" ) )->weight );
+            const int chunk_amount = gibbed_weight / to_gram( ( item::find_type( "ruined_chunks" ) )->weight );
             scatter_chunks( "ruined_chunks", chunk_amount, z, gib_distance,
                             chunk_amount / ( gib_distance + 1 ) );
         }
