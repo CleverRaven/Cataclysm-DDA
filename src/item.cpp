@@ -805,7 +805,7 @@ void item::set_var( const std::string &name, const int value )
     item_vars[name] = tmpstream.str();
 }
 
-void item::set_var( const std::string &name, const std::int_fast64_t value )
+void item::set_var( const std::string &name, const long long value )
 {
     std::ostringstream tmpstream;
     tmpstream.imbue( std::locale::classic() );
@@ -3914,7 +3914,7 @@ units::volume item::volume( bool integral ) const
 
 int item::lift_strength() const
 {
-    return std::max( weight() / 10000_gram, 1 );
+    return std::max<std::int64_t>( weight() / 10000_gram, 1 );
 }
 
 int item::attack_time() const

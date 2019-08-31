@@ -313,7 +313,7 @@ class mass_in_milligram_tag
 {
 };
 
-using mass = quantity<std::int_fast64_t, mass_in_milligram_tag>;
+using mass = quantity<std::int64_t, mass_in_milligram_tag>;
 
 const mass mass_min = units::mass( std::numeric_limits<units::mass::value_type>::min(),
                                    units::mass::unit_type{} );
