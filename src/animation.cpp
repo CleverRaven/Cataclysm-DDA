@@ -814,3 +814,16 @@ void game::draw_graffiti_override( const tripoint &p, const bool has )
 {
 }
 #endif
+
+#if defined(TILES)
+void game::draw_trap_override( const tripoint &p, const trap_id &id )
+{
+    if( use_tiles ) {
+        tilecontext->init_draw_trap_override( p, id );
+    }
+}
+#else
+void game::draw_trap_override( const tripoint &p, const trap_id &id )
+{
+}
+#endif

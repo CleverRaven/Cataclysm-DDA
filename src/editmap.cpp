@@ -1535,6 +1535,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                     g->draw_terrain_override( map_p, tmpmap.ter( tmp_p ) );
                     g->draw_furniture_override( map_p, tmpmap.furn( tmp_p ) );
                     g->draw_graffiti_override( map_p, tmpmap.has_graffiti_at( tmp_p ) );
+                    g->draw_trap_override( map_p, tmpmap.tr_at( tmp_p ).loadid );
                 }
             }
         }

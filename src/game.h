@@ -627,6 +627,7 @@ class game
         void draw_terrain_override( const tripoint &p, const ter_id &id );
         void draw_furniture_override( const tripoint &p, const furn_id &id );
         void draw_graffiti_override( const tripoint &p, bool has );
+        void draw_trap_override( const tripoint &p, const trap_id &id );
 
         bool is_in_viewport( const tripoint &p, int margin = 0 ) const;
         /**
