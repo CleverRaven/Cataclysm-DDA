@@ -282,11 +282,58 @@ inline bool assign( JsonObject &jo, const std::string &name, units::mass &val,
                     const units::mass lo = units::mass_min,
                     const units::mass hi = units::mass_max )
 {
-    auto tmp = val.value();
-    if( !assign( jo, name, tmp, strict, lo.value(), hi.value() ) ) {
+    const auto parse = [&name]( JsonObject & obj, units::mass & out ) {
+        if( obj.has_int( name ) ) {
+            out = units::from_gram( obj.get_int( name ) );
+            return true;
+        }
+        if( obj.has_string( name ) ) {
+
+            out = read_from_json_string<units::mass> ( *obj.get_raw( name ), units::mass_units );
+            return true;
+        }
+        return false;
+    };
+
+    units::mass out;
+
+    // Object via which to report errors which differs for proportional/relative values
+    JsonObject err = jo;
+
+    // Do not require strict parsing for relative and proportional values as rules
+    // such as +10% are well-formed independent of whether they affect base value
+    if( jo.get_object( "relative" ).has_member( name ) ) {
+        units::mass tmp;
+        err = jo.get_object( "relative" );
+        if( !parse( err, tmp ) ) {
+            err.throw_error( "invalid relative value specified", name );
+        }
+        strict = false;
+        out = val + tmp;
+
+    } else if( jo.get_object( "proportional" ).has_member( name ) ) {
+        double scalar;
+        err = jo.get_object( "proportional" );
+        if( !err.read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
+            err.throw_error( "invalid proportional scalar", name );
+        }
+        strict = false;
+        out = val * scalar;
+
+    } else if( !parse( jo, out ) ) {
         return false;
     }
-    val = units::mass{ tmp, units::mass::unit_type{} };
+
+    if( out < lo || out > hi ) {
+        err.throw_error( "value outside supported range", name );
+    }
+
+    if( strict && out == val ) {
+        report_strict_violation( err, "assignment does not update value", name );
+    }
+
+    val = out;
+
     return true;
 }
 

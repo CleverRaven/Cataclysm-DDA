@@ -5,7 +5,7 @@
     "name": "anesthetic",
     "category": "chems",
     "description": "A variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.  You can reload an anesthesia kit with it.",
-    "weight": "714 mg",
+    "weight": "1 g",
     "volume": "540 ml",
     "price": 8333,
     "ammo_type": "anesthetic",
