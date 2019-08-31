@@ -1103,18 +1103,14 @@ bool Creature::has_effect( const efftype_id &eff_id, body_part bp ) const
 
 bool Creature::has_effect_with_flag( const std::string &flag, body_part bp ) const
 {
-    if( bp != num_bp ) {
-        return false; // only support general effects for now
-    }
+    // auto: const std::pair<efftype_id, std::unordered_map<body_part, effect>>
     for( auto &elem : *effects ) {
-        for( auto &_it : elem.second ) {
-            effect e = _it.second;
-            if( e.has_flag( flag ) ) {
+        for( const std::pair<body_part, effect> &_it : elem.second ) {
+            if( bp == _it.first && _it.second.has_flag( flag ) ) {
                 return true;
             }
         }
     }
-    return false;
 }
 
 effect &Creature::get_effect( const efftype_id &eff_id, body_part bp )

@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include <utility>
+#include <set>
 
 #include "bodypart.h"
 #include "calendar.h"
@@ -93,7 +94,7 @@ class effect_type
         int int_decay_tick;
         time_duration int_dur_factor;
 
-        std::vector<std::string> flags;
+        std::set<std::string> flags;
 
         bool main_parts_only;
 
