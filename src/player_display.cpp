@@ -509,7 +509,7 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
     std::map<std::string, int> bionic_counts;
     for( size_t i = 0; i < bionicslist.size(); i++ ) {
         if( bionic_counts.find( bionicslist[i].info().name ) == bionic_counts.end() ) {
-            bionic_counts[ bionicslist[i].info().name ] = 0;
+            bionic_counts[ bionicslist[i].info().name ] = 1;
         } else {
             bionic_counts[ bionicslist[i].info().name ] += 1;
         }
