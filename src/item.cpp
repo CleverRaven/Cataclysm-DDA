@@ -3914,7 +3914,8 @@ units::volume item::volume( bool integral ) const
 
 std::int64_t item::lift_strength() const
 {
-    return std::max<std::int64_t>( weight() / 10000_gram, 1 );
+    const std::int64_t mass = units::to_gram( weight() );
+    return std::max<std::int64_t>( mass / 10000, 1 );
 }
 
 int item::attack_time() const

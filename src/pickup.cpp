@@ -1077,9 +1077,9 @@ int Pickup::cost_to_move_item( const Character &who, const item &it )
         // No free hand? That will cost you extra
         ret += 20;
     }
-
+    const std::int64_t delta_weight = units::to_gram( it.weight() - who.weight_capacity() );
     // Is it too heavy? It'll take 10 moves per kg over limit
-    ret += std::max<std::int64_t>( 0, ( it.weight() - who.weight_capacity() ) / 100_gram );
+    ret += std::max<std::int64_t>( 0, delta_weight / 100 );
 
     // Keep it sane - it's not a long activity
     return std::min( 400, ret );
