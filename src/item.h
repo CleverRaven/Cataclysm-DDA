@@ -482,7 +482,7 @@ class item : public visitable<item>
         units::volume corpse_volume( const mtype *corpse ) const;
 
         /** Required strength to be able to successfully lift the item unaided by equipment */
-        std::int64_t lift_strength() const;
+        int lift_strength() const;
 
         /**
          * @name Melee

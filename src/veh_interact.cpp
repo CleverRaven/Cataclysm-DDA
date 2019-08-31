@@ -730,7 +730,7 @@ bool veh_interact::can_install_part()
     }
 
     int lvl = 0;
-    std::int64_t  str = 0;
+    int str = 0;
     quality_id qual;
     bool use_aid = false;
     bool use_str = false;
@@ -1643,7 +1643,7 @@ bool veh_interact::can_remove_part( int idx )
     msg << _( "<color_white>Additional requirements:</color>\n" );
 
     int lvl = 0;
-    std::int64_t str = 0;
+    int str = 0;
     quality_id qual;
     bool use_aid = false;
     bool use_str = false;
