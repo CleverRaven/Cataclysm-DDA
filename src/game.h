@@ -624,6 +624,7 @@ class game
         // Draw a highlight graphic at p, for example when examining something.
         // TILES only, in curses this does nothing
         void draw_highlight( const tripoint &p );
+        void draw_terrain_override( const tripoint &p, const ter_id &id );
 
         bool is_in_viewport( const tripoint &p, int margin = 0 ) const;
         /**

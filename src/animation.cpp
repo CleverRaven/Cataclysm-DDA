@@ -775,3 +775,16 @@ void game::draw_zones( const tripoint &start, const tripoint &end, const tripoin
     draw_zones_curses( w_terrain, start, end, offset );
 }
 #endif
+
+#if defined(TILES)
+void game::draw_terrain_override( const tripoint &p, const ter_id &id )
+{
+    if( use_tiles ) {
+        tilecontext->init_draw_terrain_override( p, id );
+    }
+}
+#else
+void game::draw_terrain_override( const tripoint &p, const ter_id &id )
+{
+}
+#endif

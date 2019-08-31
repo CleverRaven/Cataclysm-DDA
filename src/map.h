@@ -628,8 +628,11 @@ class map
         // connect_group.  From least-significant bit the order is south, east,
         // west, north (because that's what cata_tiles expects).
         // Based on a combination of visibility and memory, not simply the true
-        // terrain.
-        uint8_t get_known_connections( const tripoint &p, int connect_group ) const;
+        // terrain. Additional overrides can be passed in to override terrain
+        // at specific positions. This is used to display terrain overview in
+        // the map editor.
+        uint8_t get_known_connections( const tripoint &p, int connect_group,
+                                       const std::map<tripoint, ter_id> &override = {} ) const;
         /**
          * Returns the full harvest list, for spawning.
          */

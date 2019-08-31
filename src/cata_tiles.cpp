@@ -1169,10 +1169,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             int height_3d = 0;
 
             // light level is now used for choosing between grayscale filter and normal lit tiles.
-            // Draw Terrain if possible. If not possible then we need to continue on to the next part of loop
-            if( !draw_terrain( tripoint( x, y, center.z ), ch.visibility_cache[x][y], height_3d ) ) {
-                continue;
-            }
+            draw_terrain( tripoint( x, y, center.z ), ch.visibility_cache[x][y], height_3d );
 
             draw_points.push_back( tile_render_info( tripoint( x, y, center.z ), height_3d ) );
         }
@@ -1230,6 +1227,8 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             draw_vpart( p, lighting, height_3d );
         }
     }
+    // tile overrides are already drawn in the previous code
+    void_terrain_override();
 
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
@@ -1972,33 +1971,35 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
     return true;
 }
 
-bool cata_tiles::draw_terrain( const tripoint &p, lit_level ll, int &height_3d )
+bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &height_3d )
 {
-    const ter_id t = g->m.ter( p ); // get the ter_id value at this point
-    // check for null, if null return false
+    const auto override = terrain_override.find( p );
+    const bool overridden = override != terrain_override.end();
+    const ter_id &t = overridden ? override->second : g->m.ter( p );
     if( t == t_null ) {
         return false;
     }
+    const lit_level lit = overridden ? LL_LIT : ll;
+    const bool nv = overridden ? false : nv_goggles_activated;
 
-    //char alteration = 0;
     int subtile = 0;
     int rotation = 0;
 
     int connect_group;
-    if( g->m.ter( p ).obj().connects( connect_group ) ) {
+    if( t.obj().connects( connect_group ) ) {
         get_connect_values( p, subtile, rotation, connect_group );
     } else {
         get_terrain_orientation( p, rotation, subtile );
         // do something to get other terrain orientation values
     }
 
-    const std::string &tname = t.obj().id.str();
+    const std::string &tname = t.id().str();
     if( !g->m.check_and_set_seen_cache( p ) ) {
         g->u.memorize_tile( g->m.getabs( p ), tname, subtile, rotation );
     }
 
-    return draw_from_id_string( tname, C_TERRAIN, empty_string, p, subtile, rotation, ll,
-                                nv_goggles_activated, height_3d );
+    return draw_from_id_string( tname, C_TERRAIN, empty_string, p, subtile, rotation, lit,
+                                nv, height_3d );
 }
 
 bool cata_tiles::draw_terrain_from_memory( const tripoint &p, int &height_3d )
@@ -2477,6 +2478,10 @@ void cata_tiles::init_draw_zones( const tripoint &_start, const tripoint &_end,
     zone_end = _end;
     zone_offset = _offset;
 }
+void cata_tiles::init_draw_terrain_override( const tripoint &p, const ter_id &id )
+{
+    terrain_override.emplace( p, id );
+}
 /* -- Void Animators */
 void cata_tiles::void_explosion()
 {
@@ -2532,6 +2537,10 @@ void cata_tiles::void_sct()
 void cata_tiles::void_zones()
 {
     do_draw_zones = false;
+}
+void cata_tiles::void_terrain_override()
+{
+    terrain_override.clear();
 }
 /* -- Animation Renders */
 void cata_tiles::draw_explosion_frame()
@@ -2766,8 +2775,13 @@ void cata_tiles::init_light()
 
 void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &subtile )
 {
+    const auto ter = [this]( const tripoint & q ) -> ter_id {
+        const auto override = terrain_override.find( q );
+        return override != terrain_override.end() ? override->second : g->m.ter( q );
+    };
+
     // get terrain at x,y
-    ter_id tid = g->m.ter( p );
+    const ter_id tid = ter( p );
     if( tid == t_null ) {
         subtile = 0;
         rota = 0;
@@ -2776,20 +2790,17 @@ void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &sub
 
     // get terrain neighborhood
     const ter_id neighborhood[4] = {
-        g->m.ter( p + point_south ),
-        g->m.ter( p + point_east ),
-        g->m.ter( p + point_west ),
-        g->m.ter( p + point_north )
+        ter( p + point_south ),
+        ter( p + point_east ),
+        ter( p + point_west ),
+        ter( p + point_north )
     };
 
-    bool connects[4];
     char val = 0;
 
     // populate connection information
     for( int i = 0; i < 4; ++i ) {
-        connects[i] = ( neighborhood[i] == tid );
-
-        if( connects[i] ) {
+        if( neighborhood[i] == tid ) {
             val += 1 << i;
         }
     }
@@ -2876,7 +2887,7 @@ void cata_tiles::get_rotation_and_subtile( const char val, int &rotation, int &s
 void cata_tiles::get_connect_values( const tripoint &p, int &subtile, int &rotation,
                                      int connect_group )
 {
-    uint8_t connections = g->m.get_known_connections( p, connect_group );
+    uint8_t connections = g->m.get_known_connections( p, connect_group, terrain_override );
     get_rotation_and_subtile( connections, rotation, subtile );
 }
 

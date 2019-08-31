@@ -1407,15 +1407,17 @@ ter_id map::ter( const tripoint &p ) const
     return current_submap->get_ter( l );
 }
 
-uint8_t map::get_known_connections( const tripoint &p, int connect_group ) const
+uint8_t map::get_known_connections( const tripoint &p, int connect_group,
+                                    const std::map<tripoint, ter_id> &override ) const
 {
     constexpr std::array<point, 4> offsets = {{
             point_south, point_east, point_west, point_north
         }
     };
     auto &ch = access_cache( p.z );
-    bool is_transparent =
-        ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
+    // override is always transparent
+    const bool is_transparent = override.find( p ) != override.end() ||
+                                ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
     uint8_t val = 0;
     std::function<bool( const tripoint & )> is_memorized;
 #ifdef TILES
@@ -1440,10 +1442,17 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group ) const
         if( !inbounds( neighbour ) ) {
             continue;
         }
-        if( is_transparent ||
-            ch.visibility_cache[neighbour.x][neighbour.y] <= LL_BRIGHT ||
-            is_memorized( neighbour ) ) {
-            const ter_t &neighbour_terrain = ter( neighbour ).obj();
+        const auto neighbour_override = override.find( neighbour );
+        const bool neighbour_overridden = neighbour_override != override.end();
+        const bool may_connect = is_transparent ||
+                                 // override is always visible
+                                 neighbour_overridden ||
+                                 // visible or memorized
+                                 ch.visibility_cache[neighbour.x][neighbour.y] <= LL_BRIGHT ||
+                                 is_memorized( neighbour );
+        if( may_connect ) {
+            const ter_t &neighbour_terrain = neighbour_overridden ?
+                                             neighbour_override->second.obj() : ter( neighbour ).obj();
             if( neighbour_terrain.connects_to( connect_group ) ) {
                 val += 1 << i;
             }
