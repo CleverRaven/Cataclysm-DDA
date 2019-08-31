@@ -401,6 +401,9 @@ class cata_tiles
         void init_draw_vpart_override( const tripoint &p, const vpart_id &id, int subtile,
                                        int rota, bool hilite );
         void void_vpart_override();
+
+        void init_draw_below_override( const tripoint &p, bool draw );
+        void void_draw_below_override();
     public:
         /**
          * Initialize the current tileset (load tile images, load mapping), using the current
@@ -517,6 +520,7 @@ class cata_tiles
         std::map<tripoint, std::tuple<itype_id, mtype_id, bool>> item_override;
         // int, int, bool represents subtile, direction, and highlight respectively
         std::map<tripoint, std::tuple<vpart_id, int, int, bool>> vpart_override;
+        std::map<tripoint, bool> draw_below_override;
 
     private:
         /**
