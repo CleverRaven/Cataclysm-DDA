@@ -1079,7 +1079,10 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                 x = col + o.x;
                 y = row + o.y;
             }
-            if( y < min_visible_y || y > max_visible_y || x < min_visible_x || x > max_visible_x ) {
+            if( ( y < min_visible_y || y > max_visible_y || x < min_visible_x || x > max_visible_x ) &&
+                // tile overrides are visible even outside vision range
+                terrain_override.find( tripoint( x, y, center.z ) ) != terrain_override.end() ) {
+
                 int height_3d = 0;
                 if( !draw_terrain_from_memory( tripoint( x, y, center.z ), height_3d ) ) {
                     apply_vision_effects( temp, offscreen_type );
@@ -1154,7 +1157,10 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                                          formatted_text( visibility_str, catacurses::black, NORTH ) );
             }
 
-            if( apply_vision_effects( temp, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
+            // if we find any tile override, skip drawing vision effects
+            if( terrain_override.find( tripoint( x, y, center.z ) ) == terrain_override.end() &&
+                apply_vision_effects( temp, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
+
                 int height_3d = 0;
                 draw_terrain_from_memory( tripoint( x, y, center.z ), height_3d );
                 const auto critter = g->critter_at( tripoint( x, y, center.z ), true );
