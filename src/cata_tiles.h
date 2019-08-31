@@ -25,6 +25,8 @@ class player;
 class pixel_minimap;
 class JsonObject;
 
+using itype_id = std::string;
+
 extern void set_displaybuffer_rendertarget();
 
 /** Structures */
@@ -391,6 +393,10 @@ class cata_tiles
 
         void init_draw_field_override( const tripoint &p, const field_type_id &id );
         void void_field_override();
+
+        void init_draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid,
+                                      bool hilite );
+        void void_item_override();
     public:
         /**
          * Initialize the current tileset (load tile images, load mapping), using the current
@@ -503,6 +509,8 @@ class cata_tiles
         std::map<tripoint, bool> graffiti_override;
         std::map<tripoint, trap_id> trap_override;
         std::map<tripoint, field_type_id> field_override;
+        // bool represents item highlight
+        std::map<tripoint, std::tuple<itype_id, mtype_id, bool>> item_override;
 
     private:
         /**

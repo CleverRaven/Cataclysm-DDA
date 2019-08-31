@@ -1537,6 +1537,15 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                     g->draw_graffiti_override( map_p, tmpmap.has_graffiti_at( tmp_p ) );
                     g->draw_trap_override( map_p, tmpmap.tr_at( tmp_p ).loadid );
                     g->draw_field_override( map_p, tmpmap.field_at( tmp_p ).displayed_field_type() );
+                    const maptile &tile = tmpmap.maptile_at( tmp_p );
+                    if( tmpmap.sees_some_items( tmp_p, g->u.pos() - origin_p ) ) {
+                        const item &itm = tile.get_uppermost_item();
+                        const mtype *const mon = itm.get_mtype();
+                        g->draw_item_override( map_p, itm.typeId(), mon ? mon->id : mtype_id::NULL_ID(),
+                                               tile.get_item_count() > 1 );
+                    } else {
+                        g->draw_item_override( map_p, "null", mtype_id::NULL_ID(), false );
+                    }
                 }
             }
         }

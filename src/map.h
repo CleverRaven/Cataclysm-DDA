@@ -660,12 +660,14 @@ class map
          * the creature is at p or at an adjacent square).
          */
         bool sees_some_items( const tripoint &p, const Creature &who ) const;
+        bool sees_some_items( const tripoint &p, const tripoint &from ) const;
         /**
          * Check if the creature could see items at p if there were
          * any items. This is similar to @ref sees_some_items, but it
          * does not check that there are actually any items.
          */
         bool could_see_items( const tripoint &p, const Creature &who ) const;
+        bool could_see_items( const tripoint &p, const tripoint &from ) const;
         /**
          * Checks for existence of items. Faster than i_at(p).empty
          */
