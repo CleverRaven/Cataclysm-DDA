@@ -857,11 +857,11 @@ void game::draw_item_override( const tripoint &, const itype_id &, const mtype_i
 #endif
 
 #if defined(TILES)
-void game::draw_vpart_override( const tripoint &p, const vpart_id &id, const int subtile,
-                                const int rota, const bool hilite )
+void game::draw_vpart_override( const tripoint &p, const vpart_id &id, const int part_mod,
+                                const int veh_dir, const bool hilite )
 {
     if( use_tiles ) {
-        tilecontext->init_draw_vpart_override( p, id, subtile, rota, hilite );
+        tilecontext->init_draw_vpart_override( p, id, part_mod, veh_dir, hilite );
     }
 }
 #else

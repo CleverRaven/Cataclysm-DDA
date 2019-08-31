@@ -630,7 +630,7 @@ class game
         void draw_trap_override( const tripoint &p, const trap_id &id );
         void draw_field_override( const tripoint &p, const field_type_id &id );
         void draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid, bool hilite );
-        void draw_vpart_override( const tripoint &p, const vpart_id &id, int subtile, int rota,
+        void draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod, int veh_dir,
                                   bool hilite );
         void draw_below_override( const tripoint &p, bool draw );
 
