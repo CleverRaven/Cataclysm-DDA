@@ -67,11 +67,7 @@
   {
     "id": "EFFECT_NIGHT_VISION",
     "type": "json_flag",
-    "context": [ "EFFECT" ],
-    "conflicts": [ "BLIND" ],
-    "description": "Allows normal sight without external light source.",
-    "//": "Supported by color in propeties",
-    "properties": { "color": "green" }
+    "context": [ "EFFECT" ]
   },
   {
     "id": "BLOCK_WHILE_WORN",
