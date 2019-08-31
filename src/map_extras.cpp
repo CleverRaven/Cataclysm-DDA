@@ -2600,7 +2600,7 @@ static void mx_casings( map &m, const tripoint &abs_sub )
 
 static void mx_looters( map &m, const tripoint &abs_sub )
 {
-    const tripoint center( rng( 5, ( SEEX * 2 ) - 5 ), rng( 5, ( SEEY * 2 ) - 5 ), abs_sub.z );
+    const tripoint center( rng( 5, SEEX * 2 - 5 ), rng( 5, SEEY * 2 - 5 ), abs_sub.z );
     //25% chance to spawn a corpse with some blood around it
     if( one_in( 4 ) && g->is_empty( center ) ) {
         const auto &loc = m.points_in_radius( center, 1 );
