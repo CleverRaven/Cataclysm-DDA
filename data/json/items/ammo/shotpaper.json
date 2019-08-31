@@ -6,7 +6,7 @@
     "name": "birdshot paper cartridge",
     "description": "A paper cartridge containing a premeasured amount of black powder and an equal volume of birdshot.  Used mostly for hunting small game or fowl.",
     "proportional": { "damage": 0.3, "recoil": 0.6, "loudness": 0.8 },
-    "extend": { "effects": [ "NOGIB", "MUZZLE_SMOKE" ] }
+    "extend": { "effects": [ "NOGIB" ] }
   },
   {
     "id": "shot_paper_dragon",
@@ -15,7 +15,7 @@
     "name": "pyrotechnic paper cartridge",
     "description": "A paper cartridge containing a premeasured amount of black powder and an equal volume of flammable metals.  When fired, burning chunks of metal and sparks will shoot out of the barrel, igniting everything in their path.",
     "proportional": { "damage": 0.2, "recoil": 0.6, "loudness": 0.8, "dispersion": 1.2, "range": 0.5 },
-    "extend": { "effects": [ "INCENDIARY", "MUZZLE_SMOKE", "STREAM", "NOGIB" ] }
+    "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }
   },
   {
     "id": "shot_paper_00",
@@ -29,8 +29,7 @@
     "color": "white",
     "ammo_type": "shotpaper",
     "proportional": { "damage": 0.8, "recoil": 0.8, "loudness": 0.8 },
-    "extend": { "effects": [ "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "RECYCLED" ] }
+    "delete": { "effects": [ "RECYCLED" ], "casing": "shot_hull" }
   },
   {
     "id": "shot_paper_slug",
@@ -40,7 +39,6 @@
     "description": "A paper cartridge containing a premeasured amount of black powder and a .605 inch lead ball.",
     "relative": { "range": 12, "pierce": 4 },
     "delete": { "effects": [ "SHOT" ] },
-    "dispersion": 100,
-    "extend": { "effects": [ "MUZZLE_SMOKE" ] },
+    "dispersion": 100
   }
 ]

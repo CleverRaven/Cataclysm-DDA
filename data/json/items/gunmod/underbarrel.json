@@ -157,9 +157,10 @@
     "id": "lemat_revolver_shotgun",
     "type": "GUNMOD",
     "name": "LeMat revolver shotgun",
-    "description": "The integrated underbarrel shotgun of a modified LeMat revolver which holds a single shot.  It's irremovable.",
+    "description": "The Lemat revolver is unique in that its cylinder axis pin is also a fully functional 20ga percussion-primed smoothbore barrel.  It's irremovable.",
     "weight": 500,
-    "volume": 0,
+    "volume": "250 ml",
+    "integral_volume": 0,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_red",
@@ -174,7 +175,7 @@
       "durability": 10,
       "clip_size": 1
     },
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "NO_UNLOAD", "IRREMOVABLE" ]
   },
   {
     "id": "m203",
