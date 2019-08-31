@@ -1,7 +1,6 @@
 #include "game.h" // IWYU pragma: associated
 
 #include <cstdlib>
-#include <cstdint>
 #include <chrono>
 #include <set>
 #include <sstream>

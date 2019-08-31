@@ -3,7 +3,6 @@
 #define UNITS_H
 
 #include <cstddef>
-#include <cstdint>
 #include <limits>
 #include <ostream>
 #include <utility>

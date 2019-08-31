@@ -1,7 +1,6 @@
 #include "monexamine.h"
 
 #include <climits>
-#include <cstdint>
 #include <string>
 #include <utility>
 #include <list>

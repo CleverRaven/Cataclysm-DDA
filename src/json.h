@@ -3,7 +3,6 @@
 #define JSON_H
 
 #include <cstddef>
-#include <cstdint>
 #include <type_traits>
 #include <iostream>
 #include <string>

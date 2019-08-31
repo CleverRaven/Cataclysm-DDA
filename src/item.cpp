@@ -2,7 +2,6 @@
 
 #include <cctype>
 #include <cstdlib>
-#include <cstdint>
 #include <algorithm>
 #include <array>
 #include <cassert>

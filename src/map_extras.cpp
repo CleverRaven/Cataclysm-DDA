@@ -1,7 +1,6 @@
 #include "map_extras.h"
 
 #include <cstdlib>
-#include <cstdint>
 #include <memory>
 #include <set>
 #include <unordered_map>

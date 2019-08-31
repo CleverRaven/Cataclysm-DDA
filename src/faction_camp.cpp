@@ -1,7 +1,6 @@
 #include "faction_camp.h" // IWYU pragma: associated
 
 #include <cstddef>
-#include <cstdint>
 #include <algorithm>
 #include <string>
 #include <vector>

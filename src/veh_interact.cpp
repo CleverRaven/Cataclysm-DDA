@@ -1,7 +1,6 @@
 #include "veh_interact.h"
 
 #include <cstdlib>
-#include <cstdint>
 #include <algorithm>
 #include <cmath>
 #include <functional>

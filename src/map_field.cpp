@@ -1,7 +1,6 @@
 #include <array>
 #include <cmath>
 #include <cstddef>
-#include <cstdint>
 #include <algorithm>
 #include <queue>
 #include <tuple>

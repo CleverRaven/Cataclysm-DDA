@@ -52,7 +52,6 @@
 #include <algorithm>
 #include <cassert>
 #include <cstring>
-#include <cstdint>
 #include <map>
 #include <set>
 #include <string>
