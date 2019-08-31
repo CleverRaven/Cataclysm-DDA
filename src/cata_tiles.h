@@ -377,6 +377,9 @@ class cata_tiles
         void draw_zones_frame();
         void void_zones();
 
+        void init_draw_terrain_override( const tripoint &p, const ter_id &id );
+        void void_terrain_override();
+
     public:
         /**
          * Initialize the current tileset (load tile images, load mapping), using the current
@@ -483,6 +486,8 @@ class cata_tiles
         point o;
         // offset for drawing, in pixels.
         point op;
+
+        std::map<tripoint, ter_id> terrain_override;
 
     private:
         /**
