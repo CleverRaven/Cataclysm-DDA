@@ -1,5 +1,6 @@
 #include "json.h"
 
+#include <cstdint>
 #include <cstdio>
 #include <cmath> // pow
 #include <cstdlib> // strtoul
