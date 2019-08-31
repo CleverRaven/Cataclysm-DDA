@@ -265,6 +265,27 @@
   },
   {
     "type": "keybinding",
+    "id": "ENABLE_MAPEXTRA_NOTE",
+    "category": "AUTO_NOTES",
+    "name": "Enable auto note for map extra",
+    "bindings": [ { "input_method": "keyboard", "key": "e" }, { "input_method": "keyboard", "key": "E" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SWITCH_AUTO_NOTE_OPTION",
+    "category": "AUTO_NOTES",
+    "name": "Toggle auto notes option",
+    "bindings": [ { "input_method": "keyboard", "key": "s" }, { "input_method": "keyboard", "key": "S" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DISABLE_MAPEXTRA_NOTE",
+    "category": "AUTO_NOTES",
+    "name": "Disable auto note for map extra",
+    "bindings": [ { "input_method": "keyboard", "key": "d" }, { "input_method": "keyboard", "key": "D" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ADD_RULE",
     "category": "AUTO_PICKUP",
     "name": "Add rule",
@@ -2077,6 +2098,12 @@
     "name": "Autopickup manager",
     "category": "DEFAULTMODE",
     "id": "open_autopickup"
+  },
+  {
+    "type": "keybinding",
+    "name": "Autonotes manager",
+    "category": "DEFAULTMODE",
+    "id": "open_autonotes"
   },
   {
     "type": "keybinding",
