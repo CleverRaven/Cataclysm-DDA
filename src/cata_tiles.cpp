@@ -1237,6 +1237,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     void_terrain_override();
     void_furniture_override();
     void_graffiti_override();
+    void_trap_override();
 
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
@@ -2081,30 +2082,42 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
                                 nv, height_3d );
 }
 
-bool cata_tiles::draw_trap( const tripoint &p, lit_level ll, int &height_3d )
+bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3d )
 {
-    const trap &tr = g->m.tr_at( p );
-    if( !tr.can_see( p, g->u ) ) {
+    const auto override = trap_override.find( p );
+    const bool overridden = override != trap_override.end();
+    const trap_id &tr = overridden ? override->second : g->m.tr_at( p ).loadid;
+    if( tr == tr_null ||
+        // trap overrides are always visible
+        ( !overridden && !tr.obj().can_see( p, g->u ) ) ) {
+
         return false;
     }
+    const lit_level lit = overridden ? LL_LIT : ll;
+    const bool nv = overridden ? false : nv_goggles_activated;
 
+    auto tr_at = [this]( const tripoint & q ) -> trap_id {
+        const auto override = trap_override.find( q );
+        return override != trap_override.end() ? override->second : g->m.tr_at( q ).loadid;
+    };
     const int neighborhood[4] = {
-        static_cast<int>( g->m.tr_at( p + point_south ).loadid ),
-        static_cast<int>( g->m.tr_at( p + point_east ).loadid ),
-        static_cast<int>( g->m.tr_at( p + point_west ).loadid ),
-        static_cast<int>( g->m.tr_at( p + point_north ).loadid )
+        static_cast<int>( tr_at( p + point_south ) ),
+        static_cast<int>( tr_at( p + point_east ) ),
+        static_cast<int>( tr_at( p + point_west ) ),
+        static_cast<int>( tr_at( p + point_north ) )
     };
 
     int subtile = 0;
     int rotation = 0;
-    get_tile_values( tr.loadid, neighborhood, subtile, rotation );
+    get_tile_values( tr, neighborhood, subtile, rotation );
 
-    if( !g->m.check_and_set_seen_cache( p ) ) {
-        g->u.memorize_tile( g->m.getabs( p ), tr.id.str(), subtile, rotation );
+    // do not memorize trap override
+    if( !overridden && !g->m.check_and_set_seen_cache( p ) ) {
+        g->u.memorize_tile( g->m.getabs( p ), tr.id().str(), subtile, rotation );
     }
 
-    return draw_from_id_string( tr.id.str(), C_TRAP, empty_string, p, subtile, rotation, ll,
-                                nv_goggles_activated, height_3d );
+    return draw_from_id_string( tr.id().str(), C_TRAP, empty_string, p, subtile, rotation, lit,
+                                nv, height_3d );
 }
 
 bool cata_tiles::draw_graffiti( const tripoint &p, const lit_level ll, int &height_3d )
@@ -2509,6 +2522,10 @@ void cata_tiles::init_draw_graffiti_override( const tripoint &p, const bool has 
 {
     graffiti_override.emplace( p, has );
 }
+void cata_tiles::init_draw_trap_override( const tripoint &p, const trap_id &id )
+{
+    trap_override.emplace( p, id );
+}
 /* -- Void Animators */
 void cata_tiles::void_explosion()
 {
@@ -2576,6 +2593,10 @@ void cata_tiles::void_furniture_override()
 void cata_tiles::void_graffiti_override()
 {
     graffiti_override.clear();
+}
+void cata_tiles::void_trap_override()
+{
+    trap_override.clear();
 }
 /* -- Animation Renders */
 void cata_tiles::draw_explosion_frame()
