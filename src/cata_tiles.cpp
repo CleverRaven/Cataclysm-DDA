@@ -1240,6 +1240,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     void_trap_override();
     void_field_override();
     void_item_override();
+    void_vpart_override();
 
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
@@ -2221,45 +2222,65 @@ bool cata_tiles::draw_vpart_below( const tripoint &p, lit_level /*ll*/, int &/*h
 
 bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
 {
-    const optional_vpart_position vp = g->m.veh_at( p );
+    vpart_id vp_id;
+    int subtile;
+    int veh_dir;
+    bool draw_highlight;
+    std::string disp_id;
 
-    if( !vp ) {
-        return false;
-    }
-    vehicle *const veh = &vp->vehicle();
-    // veh_part is the index of the part
-    const int veh_part = vp->part_index();
+    const auto override = vpart_override.find( p );
+    const bool overridden = override != vpart_override.end();
+    if( overridden ) {
+        vp_id = std::get<0>( override->second );
+        if( !vp_id ) {
+            return false;
+        }
+        subtile = std::get<1>( override->second );
+        veh_dir = std::get<2>( override->second );
+        draw_highlight = std::get<3>( override->second );
+        disp_id = "vp_" + vp_id.str();
+        // do not memorize vpart override
+    } else {
+        const optional_vpart_position vp = g->m.veh_at( p );
+        if( !vp ) {
+            return false;
+        }
+        const vehicle &veh = vp->vehicle();
+        // veh_part is the index of the part
+        const int veh_part = vp->part_index();
 
-    // Gets the visible part, should work fine once tileset vp_ids are updated to work with the vehicle part json ids
-    // get the vpart_id
-    char part_mod = 0;
-    const vpart_id &vp_id = veh->part_id_string( veh_part, part_mod );
+        // Gets the visible part, should work fine once tileset vp_ids are updated to work with the vehicle part json ids
+        // get the vpart_id
+        char part_mod = 0;
+        vp_id = veh.part_id_string( veh_part, part_mod );
 
-    // prefix with vp_ ident
-    const std::string vpid = "vp_" + vp_id.str();
-    int subtile = 0;
-    if( part_mod > 0 ) {
-        switch( part_mod ) {
-            case 1:
-                subtile = open_;
-                break;
-            case 2:
-                subtile = broken;
-                break;
+        disp_id = "vp_" + vp_id.str();
+        subtile = 0;
+        if( part_mod > 0 ) {
+            switch( part_mod ) {
+                case 1:
+                    subtile = open_;
+                    break;
+                case 2:
+                    subtile = broken;
+                    break;
+            }
+        }
+        const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
+        draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
+
+        veh_dir = veh.face.dir();
+        if( !veh.forward_velocity() && !veh.player_in_control( g->u ) ) {
+            if( !g->m.check_and_set_seen_cache( p ) ) {
+                g->u.memorize_tile( g->m.getabs( p ), disp_id, subtile, veh_dir );
+            }
         }
     }
-    const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
-    bool draw_highlight = cargopart && !veh->get_items( cargopart->part_index() ).empty();
+    const lit_level lit = overridden ? LL_LIT : ll;
+    const bool nv = overridden ? false : nv_goggles_activated;
 
-    int veh_dir = veh->face.dir();
-    if( !veh->forward_velocity() && !veh->player_in_control( g->u ) ) {
-        if( !g->m.check_and_set_seen_cache( p ) ) {
-            g->u.memorize_tile( g->m.getabs( p ), vpid, subtile, veh_dir );
-        }
-    }
-
-    bool ret = draw_from_id_string( vpid, C_VEHICLE_PART, empty_string, p, subtile, veh_dir,
-                                    ll, nv_goggles_activated, height_3d );
+    bool ret = draw_from_id_string( disp_id, C_VEHICLE_PART, empty_string, p, subtile, veh_dir,
+                                    lit, nv, height_3d );
     if( ret && draw_highlight ) {
         draw_item_highlight( p );
     }
@@ -2568,6 +2589,11 @@ void cata_tiles::init_draw_item_override( const tripoint &p, const itype_id &id,
 {
     item_override.emplace( p, std::make_tuple( id, mid, hilite ) );
 }
+void cata_tiles::init_draw_vpart_override( const tripoint &p, const vpart_id &id,
+        const int subtile, const int rota, const bool hilite )
+{
+    vpart_override.emplace( p, std::make_tuple( id, subtile, rota, hilite ) );
+}
 /* -- Void Animators */
 void cata_tiles::void_explosion()
 {
@@ -2647,6 +2673,10 @@ void cata_tiles::void_field_override()
 void cata_tiles::void_item_override()
 {
     item_override.clear();
+}
+void cata_tiles::void_vpart_override()
+{
+    vpart_override.clear();
 }
 /* -- Animation Renders */
 void cata_tiles::draw_explosion_frame()
