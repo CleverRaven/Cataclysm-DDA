@@ -774,7 +774,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         point marker = clamp_half_open( target.xy(), screen_bounds ) - corner.xy();
         std::string marker_sym = " ";
 
-        switch( direction_from( center, target ) ) {
+        switch( direction_from( center.xy(), target.xy() ) ) {
             case NORTH:
                 marker_sym = "^";
                 break;
