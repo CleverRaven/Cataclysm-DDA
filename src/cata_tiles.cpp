@@ -1671,9 +1671,19 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
             // TODO: also use some vehicle id, for less predictability
         {
             // new scope for variable declarations
-            const optional_vpart_position vp = g->m.veh_at( pos );
-            if( vp ) {
-                seed = vp->mount().x + vp->mount().y * 65536;
+            const auto vp_override = vpart_override.find( pos );
+            const bool vp_overridden = vp_override != vpart_override.end();
+            if( vp_overridden ) {
+                const vpart_id &vp_id = std::get<0>( vp_override->second );
+                if( vp_id ) {
+                    const point &mount = std::get<4>( vp_override->second );
+                    seed = mount.x + mount.y * 65536;
+                }
+            } else {
+                const optional_vpart_position vp = g->m.veh_at( pos );
+                if( vp ) {
+                    seed = vp->mount().x + vp->mount().y * 65536;
+                }
             }
 
             //convert vehicle 360-degree direction (0=E,45=SE, etc) to 4-way tile rotation (0=N,1=W,etc)
@@ -2588,9 +2598,9 @@ void cata_tiles::init_draw_item_override( const tripoint &p, const itype_id &id,
     item_override.emplace( p, std::make_tuple( id, mid, hilite ) );
 }
 void cata_tiles::init_draw_vpart_override( const tripoint &p, const vpart_id &id,
-        const int part_mod, const int veh_dir, const bool hilite )
+        const int part_mod, const int veh_dir, const bool hilite, const point &mount )
 {
-    vpart_override.emplace( p, std::make_tuple( id, part_mod, veh_dir, hilite ) );
+    vpart_override.emplace( p, std::make_tuple( id, part_mod, veh_dir, hilite, mount ) );
 }
 void cata_tiles::init_draw_below_override( const tripoint &p, const bool draw )
 {
