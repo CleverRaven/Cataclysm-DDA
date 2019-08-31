@@ -283,7 +283,7 @@ class cata_variant
             return value_;
         }
 
-        const std::pair<cata_variant_type, std::string> as_pair() const {
+        std::pair<cata_variant_type, std::string> as_pair() const {
             return std::make_pair( type_, value_ );
         }
 
@@ -328,6 +328,6 @@ struct hash<cata_variant> {
     }
 };
 
-}
+} // namespace std
 
 #endif // CATA_VARIANT_H

@@ -67,7 +67,7 @@ TEST_CASE( "variant_default_constructor", "[variant]" )
 {
     cata_variant v;
     CHECK( v.type() == cata_variant_type::void_ );
-    CHECK( v.get_string() == "" );
+    CHECK( v.get_string().empty() );
 }
 
 TEST_CASE( "variant_serialization", "[variant]" )

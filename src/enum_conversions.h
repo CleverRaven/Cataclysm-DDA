@@ -36,7 +36,7 @@ class InvalidEnumString : public std::runtime_error
 };
 
 template<typename E>
-std::string enum_to_string( E data );
+std::string enum_to_string( E );
 
 template<typename E>
 std::unordered_map<std::string, E> build_enum_lookup_map()
