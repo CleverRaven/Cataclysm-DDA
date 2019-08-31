@@ -236,9 +236,13 @@ class spell
         // returns damage type for the spell
         damage_type dmg_type() const;
 
+        // alternative cast message
+        translation alt_message;
+
     public:
         spell() = default;
         spell( spell_id sp, int xp = 0 );
+        spell( spell_id sp, translation alt_msg );
 
         // how much exp you need for the spell to gain a level
         int exp_to_next_level() const;
