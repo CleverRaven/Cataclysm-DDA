@@ -104,30 +104,26 @@ void timed_event::actualize()
                 }
             }
             for( int i = 0; fault_point && i < num_horrors; i++ ) {
-                int tries = 0;
-                int monx = -1;
-                int mony = -1;
-                do {
+                for( int tries = 0; tries < 10; ++tries ) {
+                    tripoint monp = g->u.pos();
                     if( horizontal ) {
-                        monx = rng( fault_point->x, fault_point->x + 2 * SEEX - 8 );
+                        monp.x = rng( fault_point->x, fault_point->x + 2 * SEEX - 8 );
                         for( int n = -1; n <= 1; n++ ) {
-                            if( g->m.ter( point( monx, fault_point->y + n ) ) == t_rock_floor ) {
-                                mony = fault_point->y + n;
+                            if( g->m.ter( point( monp.x, fault_point->y + n ) ) == t_rock_floor ) {
+                                monp.y = fault_point->y + n;
                             }
                         }
                     } else { // Vertical fault
-                        mony = rng( fault_point->y, fault_point->y + 2 * SEEY - 8 );
+                        monp.y = rng( fault_point->y, fault_point->y + 2 * SEEY - 8 );
                         for( int n = -1; n <= 1; n++ ) {
-                            if( g->m.ter( point( fault_point->x + n, mony ) ) == t_rock_floor ) {
-                                monx = fault_point->x + n;
+                            if( g->m.ter( point( fault_point->x + n, monp.y ) ) == t_rock_floor ) {
+                                monp.x = fault_point->x + n;
                             }
                         }
                     }
-                    tries++;
-                } while( ( monx == -1 || mony == -1 || !g->is_empty( {monx, mony, g->u.posz()} ) ) &&
-                         tries < 10 );
-                if( tries < 10 ) {
-                    g->summon_mon( mon_amigara_horror, tripoint( monx, mony, g->u.posz() ) );
+                    if( g->place_critter_at( mon_amigara_horror, monp ) ) {
+                        break;
+                    }
                 }
             }
         }

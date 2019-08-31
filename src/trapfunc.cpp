@@ -1336,25 +1336,24 @@ bool trapfunc::shadow( const tripoint &p, Creature *c, item * )
         return false;
     }
     // Monsters and npcs are completely ignored here, should they?
-    int tries = 0;
-    tripoint monp = p;
-    do {
+    for( int tries = 0; tries < 10; tries++ ) {
+        tripoint monp = p;
         if( one_in( 2 ) ) {
-            monp.x = rng( g->u.posx() - 5, g->u.posx() + 5 );
-            monp.y = ( one_in( 2 ) ? g->u.posy() - 5 : g->u.posy() + 5 );
+            monp.x = p.x + rng( -5, +5 );
+            monp.y = p.y + ( one_in( 2 ) ? -5 : +5 );
         } else {
-            monp.x = ( one_in( 2 ) ? g->u.posx() - 5 : g->u.posx() + 5 );
-            monp.y = rng( g->u.posy() - 5, g->u.posy() + 5 );
+            monp.x = p.x + ( one_in( 2 ) ? -5 : +5 );
+            monp.y = p.y + rng( -5, +5 );
         }
-    } while( tries < 5 && !g->is_empty( monp ) &&
-             !g->m.sees( monp, g->u.pos(), 10 ) );
-
-    if( tries < 5 ) { // TODO: tries increment is missing, so this expression is always true
-        if( monster *const spawned = g->summon_mon( mon_shadow, monp ) ) {
-            add_msg( m_warning, _( "A shadow forms nearby." ) );
+        if( !g->m.sees( monp, p, 10 ) ) {
+            continue;
+        }
+        if( monster *const spawned = g->place_critter_at( mon_shadow, monp ) ) {
+            spawned->add_msg_if_npc( m_warning, _( "A shadow forms nearby." ) );
             spawned->reset_special_rng( "DISAPPEAR" );
+            g->m.remove_trap( p );
+            break;
         }
-        g->m.remove_trap( p );
     }
     return true;
 }
@@ -1403,26 +1402,23 @@ bool trapfunc::snake( const tripoint &p, Creature *, item * )
         g->m.remove_trap( p );
     }
     if( one_in( 3 ) ) {
-        int tries = 0;
-        tripoint monp = p;
-        // This spawns snakes only when the player can see them, why?
-        do {
-            tries++;
+        for( int tries = 0; tries < 10; tries++ ) {
+            tripoint monp = p;
             if( one_in( 2 ) ) {
-                monp.x = rng( g->u.posx() - 5, g->u.posx() + 5 );
-                monp.y = ( one_in( 2 ) ? g->u.posy() - 5 : g->u.posy() + 5 );
+                monp.x = p.x + rng( -5, +5 );
+                monp.y = p.y + ( one_in( 2 ) ? -5 : +5 );
             } else {
-                monp.x = ( one_in( 2 ) ? g->u.posx() - 5 : g->u.posx() + 5 );
-                monp.y = rng( g->u.posy() - 5, g->u.posy() + 5 );
+                monp.x = p.x + ( one_in( 2 ) ? -5 : +5 );
+                monp.y = p.y + rng( -5, +5 );
             }
-        } while( tries < 5 && !g->is_empty( monp ) &&
-                 !g->m.sees( monp, g->u.pos(), 10 ) );
-
-        if( tries < 5 ) { // TODO: tries increment is missing, so this expression is always true
-            if( monster *const spawned = g->summon_mon( mon_shadow_snake, p ) ) {
-                add_msg( m_warning, _( "A shadowy snake forms nearby." ) );
+            if( !g->m.sees( monp, p, 10 ) ) {
+                continue;
+            }
+            if( monster *const spawned = g->place_critter_at( mon_shadow_snake, monp ) ) {
+                spawned->add_msg_if_npc( m_warning, _( "A shadowy snake forms nearby." ) );
                 spawned->reset_special_rng( "DISAPPEAR" );
                 g->m.remove_trap( p );
+                break;
             }
         }
     }
