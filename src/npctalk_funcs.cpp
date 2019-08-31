@@ -182,17 +182,11 @@ void talk_function::buy_cow( npc &p )
 
 void spawn_animal( npc &p, const mtype_id &mon )
 {
-    std::vector<tripoint> valid;
-    for( const tripoint &candidate : g->m.points_in_radius( p.pos(), 1 ) ) {
-        if( g->is_empty( candidate ) ) {
-            valid.push_back( candidate );
-        }
-    }
-    if( !valid.empty() ) {
-        monster *mon_ptr = g->summon_mon( mon, random_entry( valid ) );
+    if( monster *const mon_ptr = g->place_critter_around( mon, p.pos(), 1 ) ) {
         mon_ptr->friendly = -1;
         mon_ptr->add_effect( effect_pet, 1_turns, num_bp, true );
     } else {
+        // @todo handle this gracefully (return the money, proper in-character message from npc)
         add_msg( m_debug, "No space to spawn purchased pet" );
     }
 }

@@ -71,17 +71,8 @@ void timed_event::actualize()
                 pgettext( "memorial_female", "Drew the attention of more dark wyrms!" ) );
             int num_wyrms = rng( 1, 4 );
             for( int i = 0; i < num_wyrms; i++ ) {
-                int tries = 0;
-                tripoint monp = g->u.pos();
-                do {
-                    monp.x = rng( 0, MAPSIZE_X );
-                    monp.y = rng( 0, MAPSIZE_Y );
-                    tries++;
-                } while( tries < 10 && !g->is_empty( monp ) &&
-                         rl_dist( g->u.pos(), monp ) <= 2 );
-                if( tries < 10 ) {
-                    g->m.ter_set( monp, t_rock_floor );
-                    g->summon_mon( mon_dark_wyrm, monp );
+                if( monster *const mon = g->place_critter_around( mon_dark_wyrm, g->u.pos(), 2 ) ) {
+                    g->m.ter_set( mon->pos(), t_rock_floor );
                 }
             }
             // You could drop the flag, you know.
@@ -235,18 +226,7 @@ void timed_event::actualize()
                 }
             };
             const mtype_id &montype = random_entry( temple_monsters );
-            int tries = 0;
-            int x = 0;
-            int y = 0;
-            do {
-                x = rng( g->u.posx() - 5, g->u.posx() + 5 );
-                y = rng( g->u.posy() - 5, g->u.posy() + 5 );
-                tries++;
-            } while( tries < 20 && !g->is_empty( {x, y, g->u.posz()} ) &&
-                     rl_dist( point( x, y ), point( g->u.posx(), g->u.posy() ) ) <= 2 );
-            if( tries < 20 ) {
-                g->summon_mon( montype, tripoint( x, y, g->u.posz() ) );
-            }
+            g->place_critter_around( montype, g->u.pos(), 2 );
         }
         break;
 

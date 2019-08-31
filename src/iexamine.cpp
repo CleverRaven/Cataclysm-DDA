@@ -1304,17 +1304,8 @@ void iexamine::pedestal_wyrm( player &p, const tripoint &examp )
     g->events().send<event_type::awakes_dark_wyrms>();
     int num_wyrms = rng( 1, 4 );
     for( int i = 0; i < num_wyrms; i++ ) {
-        int tries = 0;
-        tripoint monp = examp;
-        do {
-            monp.x = rng( 0, MAPSIZE_X );
-            monp.y = rng( 0, MAPSIZE_Y );
-            tries++;
-        } while( tries < 10 && !g->is_empty( monp ) &&
-                 rl_dist( p.pos(), monp ) <= 2 );
-        if( tries < 10 ) {
-            g->m.ter_set( monp, t_rock_floor );
-            g->summon_mon( mon_dark_wyrm, monp );
+        if( monster *const mon = g->place_critter_around( mon_dark_wyrm, p.pos(), 2 ) ) {
+            g->m.ter_set( mon->pos(), t_rock_floor );
         }
     }
     add_msg( _( "The pedestal sinks into the ground..." ) );

@@ -5242,13 +5242,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 int roll = rng( 1, 10 );
                 mtype_id bug = mtype_id::NULL_ID();
                 int num = 0;
-                std::vector<tripoint> empty;
-                for( const tripoint &dest : g->m.points_in_radius( p->pos(), 1 ) ) {
-                    if( g->is_empty( dest ) ) {
-                        empty.push_back( dest );
-                    }
-                }
-                if( empty.empty() || roll <= 4 ) {
+                if( roll <= 4 ) {
                     p->add_msg_if_player( m_warning, _( "Flies buzz around you." ) );
                 } else if( roll <= 7 ) {
                     p->add_msg_if_player( m_warning, _( "Giant flies appear!" ) );
@@ -5264,9 +5258,8 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                     num = rng( 1, 2 );
                 }
                 if( bug ) {
-                    for( int j = 0; j < num && !empty.empty(); j++ ) {
-                        const tripoint spawnp = random_entry_removed( empty );
-                        if( monster *const b = g->summon_mon( bug, spawnp ) ) {
+                    for( int j = 0; j < num; j++ ) {
+                        if( monster *const b = g->place_critter_around( bug, p->pos(), 1 ) ) {
                             b->friendly = -1;
                             b->add_effect( effect_pet, 1_turns, num_bp, true );
                         }
@@ -8397,8 +8390,7 @@ static bool multicooker_hallu( player &p )
 
             if( !one_in( 5 ) ) {
                 add_msg( m_warning, _( "The multi-cooker runs away!" ) );
-                const tripoint random_point = random_entry( points );
-                if( monster *const m = g->summon_mon( mon_hallu_multicooker, random_point ) ) {
+                if( monster *const m = g->place_critter_around( mon_hallu_multicooker, p.pos(), 1 ) ) {
                     m->hallucination = true;
                     m->add_effect( effect_run, 1_turns, num_bp, true );
                 }

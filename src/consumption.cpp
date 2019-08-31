@@ -1101,16 +1101,9 @@ bool player::consume_effects( item &food )
         add_msg_if_player( m_mixed,
                            _( "You feel as though you're going to split open!  In a good way?" ) );
         mod_pain( 5 );
-        std::vector<tripoint> valid;
-        for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
-            if( g->is_empty( dest ) ) {
-                valid.push_back( dest );
-            }
-        }
         int numslime = 1;
-        for( int i = 0; i < numslime && !valid.empty(); i++ ) {
-            const tripoint target = random_entry_removed( valid );
-            if( monster *const slime = g->summon_mon( mon_player_blob, target ) ) {
+        for( int i = 0; i < numslime; i++ ) {
+            if( monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 ) ) {
                 slime->friendly = -1;
             }
         }
