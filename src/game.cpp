@@ -4696,7 +4696,7 @@ monster *game::place_critter_around( const std::shared_ptr<monster> mon, const t
         return nullptr;
     }
     mon->spawn( *where );
-    return add_zombie( mon, true ) ? critter_at<monster>( *where ) : nullptr;
+    return critter_tracker->add( mon ) ? mon.get() : nullptr;
 }
 
 monster *game::place_critter_within( const mtype_id &id, const tripoint_range &range )
@@ -4716,7 +4716,7 @@ monster *game::place_critter_within( const std::shared_ptr<monster> mon,
         return nullptr;
     }
     mon->spawn( *where );
-    return add_zombie( mon, true ) ? critter_at<monster>( *where ) : nullptr;
+    return critter_tracker->add( mon ) ? mon.get() : nullptr;
 }
 
 // By default don't pin upgrades to current day
@@ -10896,7 +10896,7 @@ void game::update_stair_monsters()
         if( is_empty( dest ) ) {
             critter.spawn( dest );
             critter.staircount = 0;
-            add_zombie( std::make_shared<monster>( critter ) );
+            place_critter_at( std::make_shared<monster>( critter ), dest );
             if( u.sees( dest ) ) {
                 if( !from_below ) {
                     add_msg( m_warning, _( "The %1$s comes down the %2$s!" ),
