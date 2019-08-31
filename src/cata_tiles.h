@@ -399,7 +399,7 @@ class cata_tiles
         void void_item_override();
 
         void init_draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod,
-                                       int veh_dir, bool hilite );
+                                       int veh_dir, bool hilite, const point &mount );
         void void_vpart_override();
 
         void init_draw_below_override( const tripoint &p, bool draw );
@@ -519,7 +519,8 @@ class cata_tiles
         // bool represents item highlight
         std::map<tripoint, std::tuple<itype_id, mtype_id, bool>> item_override;
         // int, int, bool represents part_mod, veh_dir, and highlight respectively
-        std::map<tripoint, std::tuple<vpart_id, int, int, bool>> vpart_override;
+        // point represents the mount direction
+        std::map<tripoint, std::tuple<vpart_id, int, int, bool, point>> vpart_override;
         std::map<tripoint, bool> draw_below_override;
 
     private:

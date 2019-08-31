@@ -1556,9 +1556,9 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                         const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
                         bool draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
                         int veh_dir = veh.face.dir();
-                        g->draw_vpart_override( map_p, vp_id, part_mod, veh_dir, draw_highlight );
+                        g->draw_vpart_override( map_p, vp_id, part_mod, veh_dir, draw_highlight, vp->mount() );
                     } else {
-                        g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0, false );
+                        g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0, false, point_zero );
                     }
                     g->draw_below_override( map_p, g->m.has_zlevels() &&
                                             tmpmap.ter( tmp_p ).obj().has_flag( TFLAG_NO_FLOOR ) );
