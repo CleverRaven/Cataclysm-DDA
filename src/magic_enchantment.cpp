@@ -160,6 +160,8 @@ namespace io
             case enchantment::mod::ITEM_ENCUMBRANCE: return "ITEM_ENCUMBRANCE";
             case enchantment::mod::ITEM_VOLUME: return "ITEM_VOLUME";
             case enchantment::mod::ITEM_COVERAGE: return "ITEM_COVERAGE";
+            case enchantment::mod::ITEM_ATTACK_SPEED: return "ITEM_ATTACK_SPEED";
+            case enchantment::mod::ITEM_WET_PROTECTION: return "ITEM_WET_PROTECTION";
             case enchantment::mod::NUM_MOD: break;
         }
         debugmsg( "Invalid enchantment::mod" );
@@ -320,43 +322,63 @@ void enchantment::load( JsonObject &jo, const std::string & )
 
 void enchantment::serialize( JsonOut &json ) const
 {
+    json.start_object();
+
     json.member( "has", io::enum_to_string<has>( active_conditions.first ) );
     json.member( "condition", io::enum_to_string<condition>( active_conditions.second ) );
 
-    json.member( "id", id );
-
-    json.start_array( "hit_you_effect" );
-    for( const fake_spell &sp : hit_you_effect ) {
-        sp.serialize( json );
-    }
-    json.end_array();
-
-    json.start_array( "hit_me_effect" );
-    for( const fake_spell &sp : hit_me_effect ) {
-        sp.serialize( json );
-    }
-    json.end_array();
-
-    json.start_object( "intermittent_activation" );
-    for( const std::pair<time_duration, std::vector<fake_spell>> pair : intermittent_activation ) {
-        json.member( "duration", pair.first );
-        json.start_array( "effects" );
-        for( const fake_spell &sp : pair.second ) {
+    if( !hit_you_effect.empty() ) {
+        json.member( "hit_you_effect" );
+        json.start_array();
+        for( const fake_spell &sp : hit_you_effect ) {
             sp.serialize( json );
         }
         json.end_array();
     }
-    json.end_object();
 
-    json.start_array( "values " );
-    for( int value = 0; value < mod::NUM_MOD; value++ ) {
+    if( !hit_me_effect.empty() ) {
+        json.member( "hit_me_effect" );
+        json.start_array();
+        for( const fake_spell &sp : hit_me_effect ) {
+            sp.serialize( json );
+        }
+        json.end_array();
+    }
+
+    if( !intermittent_activation.empty() ) {
+        json.member( "intermittent_activation" );
         json.start_object();
-        json.member( "value", io::enum_to_string<mod>( static_cast<mod>( value ) ) );
-        json.member( "add", get_value_add( static_cast<mod>( value ) ) );
-        json.member( "multiply", get_value_multiply( static_cast<mod>( value ) ) );
+        for( const std::pair<time_duration, std::vector<fake_spell>> pair : intermittent_activation ) {
+            json.member( "duration", pair.first );
+            json.start_array( "effects" );
+            for( const fake_spell &sp : pair.second ) {
+                sp.serialize( json );
+            }
+            json.end_array();
+        }
+        json.end_object();
+    }
+
+    json.member( "values" );
+    json.start_array();
+    for( int value = 0; value < mod::NUM_MOD; value++ ) {
+        mod enum_value = static_cast<mod>( value );
+        if( get_value_add( enum_value ) == 0 && get_value_multiply( enum_value ) == 0.0 ) {
+            continue;
+        }
+        json.start_object();
+        json.member( "value", io::enum_to_string<mod>( enum_value ) );
+        if( get_value_add( enum_value ) != 0 ) {
+            json.member( "add", get_value_add( enum_value ) );
+        }
+        if( get_value_multiply( enum_value ) != 0 ) {
+            json.member( "multiply", get_value_multiply( enum_value ) );
+        }
         json.end_object();
     }
     json.end_array();
+
+    json.end_object();
 }
 
 bool enchantment::stacks_with( const enchantment &rhs ) const

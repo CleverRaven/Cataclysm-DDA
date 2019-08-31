@@ -63,17 +63,23 @@ void relic::serialize( JsonOut &json ) const
     json.member( "charges_per_activation", charges_per_activation );
     json.member( "name", item_name_override );
 
-    json.start_array( "passive_effects" );
-    for( const enchantment &ench : passive_effects ) {
-        ench.serialize( json );
+    if( !passive_effects.empty() ) {
+        json.member( "passive_effects" );
+        json.start_array();
+        for( const enchantment &ench : passive_effects ) {
+            ench.serialize( json );
+        }
+        json.end_array();
     }
-    json.end_array();
 
-    json.start_array( "active_effects" );
-    for( const fake_spell &sp : active_effects ) {
-        sp.serialize( json );
+    if( !active_effects.empty() ) {
+        json.member( "active_effects" );
+        json.start_array();
+        for( const fake_spell &sp : active_effects ) {
+            sp.serialize( json );
+        }
+        json.end_array();
     }
-    json.end_array();
 
     json.end_object();
 }
