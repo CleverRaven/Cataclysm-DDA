@@ -2000,7 +2000,8 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
     }
 
     const std::string &tname = t.id().str();
-    if( !g->m.check_and_set_seen_cache( p ) ) {
+    // do not memorize terrain override
+    if( !overridden && !g->m.check_and_set_seen_cache( p ) ) {
         g->u.memorize_tile( g->m.getabs( p ), tname, subtile, rotation );
     }
 
