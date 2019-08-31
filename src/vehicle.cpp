@@ -575,7 +575,7 @@ void vehicle::drive_to_local_target( const tripoint &autodrive_local_target, boo
     double dotx = ( facevec.x * targetvec.x ) + ( facevec.y * targetvec.y );
 
     double angle = ( atan2( crossy, dotx ) ) * 180 / M_PI;
-    // now we got the angle to the target, we can work out when we are heading towards disaster
+    // now we got the angle to the target, we can work out when we are heading towards disaster.
     // Check the tileray in the direction we need to head towards.
     std::set<point> points_to_check = immediate_path( angle );
     for( const auto &elem : points_to_check ) {
