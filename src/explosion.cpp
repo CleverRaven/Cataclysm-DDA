@@ -736,7 +736,6 @@ void resonance_cascade( const tripoint &p )
 {
     const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p, g->u.pos() ) );
     MonsterGroupResult spawn_details;
-    monster invader;
     if( maxglow > 0_turns ) {
         const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p,
                                                 g->u.pos() ) ) );
@@ -798,8 +797,7 @@ void resonance_cascade( const tripoint &p )
                 case 14:
                 case 15:
                     spawn_details = MonsterGroupManager::GetResultFromGroup( mongroup_id( "GROUP_NETHER" ) );
-                    invader = monster( spawn_details.name, dest );
-                    g->add_zombie( invader );
+                    g->place_critter_at( spawn_details.name, dest );
                     break;
                 case 16:
                 case 17:

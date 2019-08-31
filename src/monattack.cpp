@@ -370,11 +370,12 @@ bool mattack::antqueen( monster *z )
                     ++it;
                     continue;
                 }
-                it = items.erase( it );
-                monster tmp( z->type->id == mon_ant_acid_queen ? mon_ant_acid_larva : mon_ant_larva, egg_pos );
-                tmp.make_ally( *z );
-                g->add_zombie( tmp );
-                break; // Max one hatch per tile
+                const mtype_id &mt = z->type->id == mon_ant_acid_queen ? mon_ant_acid_larva : mon_ant_larva;
+                if( monster *const mon = g->place_critter_at( mt, egg_pos ) ) {
+                    mon->make_ally( *z );
+                    it = items.erase( it );
+                    break; // Max one hatch per tile
+                }
             }
         }
     }
