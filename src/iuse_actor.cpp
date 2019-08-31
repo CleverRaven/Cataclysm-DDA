@@ -858,7 +858,8 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
     if( newmon.type->id == mtype_id( "mon_laserturret" ) && !g->is_in_sunlight( newmon.pos() ) ) {
         p.add_msg_if_player( _( "A flashing LED on the laser turret appears to indicate low light." ) );
     }
-    g->add_zombie( newmon, true );
+    // @todo create a shared_ptr right at the start where newmon is created.
+    g->place_critter_at( std::make_shared<monster>( newmon ), newmon.pos() );
     return 1;
 }
 

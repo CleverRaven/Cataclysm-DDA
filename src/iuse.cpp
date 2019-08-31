@@ -9172,16 +9172,16 @@ int iuse::capture_monster_veh( player *p, item *it, bool, const tripoint &pos )
 
 int item::release_monster( const tripoint &target, bool spawn )
 {
-    monster new_monster;
+    std::shared_ptr<monster> new_monster = std::make_shared<monster>();
     try {
-        ::deserialize( new_monster, get_var( "contained_json", "" ) );
+        ::deserialize( *new_monster, get_var( "contained_json", "" ) );
     } catch( const std::exception &e ) {
         debugmsg( _( "Error restoring monster: %s" ), e.what() );
         return 0;
     }
     if( spawn ) {
-        new_monster.spawn( target );
-        g->add_zombie( new_monster );
+        // @todo handle case when placing it fails!
+        g->place_critter_at( new_monster, target );
     }
     erase_var( "contained_name" );
     erase_var( "contained_json" );

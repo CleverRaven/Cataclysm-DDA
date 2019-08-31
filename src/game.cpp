@@ -4898,11 +4898,8 @@ bool game::revive_corpse( const tripoint &p, item &it )
         debugmsg( "Tried to revive a non-corpse." );
         return false;
     }
-    if( critter_at( p ) != nullptr ) {
-        // Someone is in the way, try again later
-        return false;
-    }
-    monster critter( it.get_mtype()->id, p );
+    std::shared_ptr<monster> newmon_ptr = std::make_shared<monster>( it.get_mtype()->id );
+    monster &critter = *newmon_ptr;
     critter.init_from_item( it );
     if( critter.get_hp() < 1 ) {
         // Failed reanimation due to corpse being too burned
@@ -4928,14 +4925,7 @@ bool game::revive_corpse( const tripoint &p, item &it )
         }
     }
 
-    const bool ret = add_zombie( critter );
-    if( !ret ) {
-        debugmsg( "Couldn't add a revived monster" );
-    }
-    if( ret && !critter_at<monster>( p ) ) {
-        debugmsg( "Revived monster is not where it's supposed to be. Prepare for crash." );
-    }
-    return ret;
+    return place_critter_at( newmon_ptr, p );
 }
 
 void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer )
@@ -10795,19 +10785,8 @@ void game::replace_stair_monsters()
 {
     for( auto &elem : coming_to_stairs ) {
         elem.staircount = 0;
-        tripoint spawn_point( elem.posx(), elem.posy(), get_levz() );
-        // Find some better spots if current is occupied
-        // If we can't, just destroy the poor monster
-        for( size_t i = 0; i < 10; i++ ) {
-            if( is_empty( spawn_point ) && elem.can_move_to( spawn_point ) ) {
-                elem.spawn( spawn_point );
-                add_zombie( elem );
-                break;
-            }
-
-            spawn_point.x = elem.posx() + rng( -10, 10 );
-            spawn_point.y = elem.posy() + rng( -10, 10 );
-        }
+        const tripoint pnt( elem.pos().xy(), get_levz() );
+        place_critter_around( std::make_shared<monster>( elem ), pnt, 10 );
     }
 
     coming_to_stairs.clear();
