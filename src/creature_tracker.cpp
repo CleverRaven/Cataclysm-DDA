@@ -70,8 +70,8 @@ bool Creature_tracker::add( monster &critter )
         } else if( critter.is_hallucination() ) {
             return false;
         } else {
-            debugmsg( "add_zombie: there's already a monster at %d,%d,%d",
-                      critter.posx(), critter.posy(), critter.posz() );
+            debugmsg( "there's already a monster at %d,%d,%d", critter.pos().x, critter.pos().y,
+                      critter.pos().z );
             return false;
         }
     }
@@ -138,7 +138,7 @@ bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_p
     } else {
         const tripoint &old_pos = critter.pos();
         // We're changing the x/y/z coordinates of a zombie that hasn't been added
-        // to the game yet. add_zombie() will update monsters_by_location for us.
+        // to the game yet. `add` will update monsters_by_location for us.
         debugmsg( "update_zombie_pos: no %s at %d,%d,%d (moving to %d,%d,%d)",
                   critter.disp_name(),
                   old_pos.x, old_pos.y, old_pos.z, new_pos.x, new_pos.y, new_pos.z );
