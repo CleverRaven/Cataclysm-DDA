@@ -315,6 +315,13 @@ namespace std
 {
 
 template<>
+struct hash<cata_variant_type> {
+    size_t operator()( const cata_variant_type v ) const noexcept {
+        return static_cast<size_t>( v );
+    }
+};
+
+template<>
 struct hash<cata_variant> {
     size_t operator()( const cata_variant &v ) const noexcept {
         return cata::tuple_hash()( v.as_pair() );
