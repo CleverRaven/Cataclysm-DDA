@@ -210,6 +210,7 @@ enum combat_engagement {
     ENGAGE_WEAK,
     ENGAGE_HIT,
     ENGAGE_ALL,
+    ENGAGE_FREE_FIRE,
     ENGAGE_NO_MOVE
 };
 const std::unordered_map<std::string, combat_engagement> combat_engagement_strs = { {
@@ -218,6 +219,7 @@ const std::unordered_map<std::string, combat_engagement> combat_engagement_strs 
         { "ENGAGE_WEAK", ENGAGE_WEAK },
         { "ENGAGE_HIT", ENGAGE_HIT },
         { "ENGAGE_ALL", ENGAGE_ALL },
+        { "ENGAGE_FREE_FIRE", ENGAGE_FREE_FIRE },
         { "ENGAGE_NO_MOVE", ENGAGE_NO_MOVE }
     }
 };
