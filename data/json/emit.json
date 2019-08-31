@@ -44,7 +44,6 @@
     "type": "emit",
     "//": "Small plume of thick smoke (example: smallarms muzzle smoke)",
     "field": "fd_smoke",
-    "intensity": 1,
     "qty": 1,
     "chance": 30
   },
