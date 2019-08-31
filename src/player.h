@@ -1515,7 +1515,6 @@ class player : public Character
         // Auto move methods
         void set_destination( const std::vector<tripoint> &route,
                               const player_activity &destination_activity = player_activity() );
-        void destination_activity_value( const int value );
         void clear_destination();
         bool has_distant_destination() const;
 
