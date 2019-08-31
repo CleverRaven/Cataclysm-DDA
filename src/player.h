@@ -1583,6 +1583,7 @@ class player : public Character
         player_activity activity;
         std::list<player_activity> backlog;
         cata::optional<tripoint> destination_point;
+        int activity_vehicle_part_index = -1;
         int volume;
         const profession *prof;
 

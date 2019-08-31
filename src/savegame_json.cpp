@@ -637,7 +637,7 @@ void player::store( JsonOut &json ) const
     json.end_array();
 
     json.member( "worn", worn ); // also saves contents
-
+    json.member( "activity_vehicle_part_index", activity_vehicle_part_index ); // NPC activity
     json.member( "inv" );
     inv.json_save_items( json );
 
@@ -781,6 +781,8 @@ void player::load( JsonObject &data )
 
     on_stat_change( "pkill", pkill );
     on_stat_change( "perceived_pain", get_perceived_pain() );
+
+    data.read( "activity_vehicle_part_index", activity_vehicle_part_index );
 
     int tmptar;
     int tmptartyp = 0;
