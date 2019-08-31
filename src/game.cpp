@@ -4646,6 +4646,92 @@ template player *game::critter_by_id<player>( character_id );
 template npc *game::critter_by_id<npc>( character_id );
 template Creature *game::critter_by_id<Creature>( character_id );
 
+static bool can_place_monster( game &g, const monster &mon, const tripoint &p )
+{
+    if( const monster *const critter = g.critter_at<monster>( p ) ) {
+        // Creature_tracker handles this. The hallucination monster will simply vanish
+        if( !critter->is_hallucination() ) {
+            return false;
+        }
+    }
+    // Although monsters can sometimes exist on the same place as a Character (e.g. ridden horse),
+    // it is usually wrong. So don't allow it.
+    if( g.critter_at<Character>( p ) ) {
+        return false;
+    }
+    return mon.can_move_to( p );
+}
+
+static cata::optional<tripoint> choose_where_to_place_monster( game &g, const monster &mon,
+        const tripoint_range &range )
+{
+    return random_point( range, [&]( const tripoint & p ) {
+        return can_place_monster( g, mon, p );
+    } );
+}
+
+monster *game::place_critter_at( const mtype_id &id, const tripoint &p )
+{
+    return place_critter_around( id, p, 0 );
+}
+
+monster *game::place_critter_at( const std::shared_ptr<monster> mon, const tripoint &p )
+{
+    return place_critter_around( mon, p, 0 );
+}
+
+monster *game::place_critter_around( const mtype_id &id, const tripoint &center, const int radius )
+{
+    // @todo change this into an assert, it must never happen.
+    if( id.is_null() ) {
+        return nullptr;
+    }
+    return place_critter_around( std::make_shared<monster>( id ), center, radius );
+}
+
+monster *game::place_critter_around( const std::shared_ptr<monster> mon, const tripoint &center,
+                                     const int radius )
+{
+    cata::optional<tripoint> where;
+    if( can_place_monster( *this, *mon, center ) ) {
+        where = center;
+    }
+
+    // This loop ensures the monster is placed as close to the center as possible,
+    // but all places that equally far from the center have the same probability.
+    for( int r = 1; r <= radius && !where; ++r ) {
+        where = choose_where_to_place_monster( *this, *mon, m.points_in_radius( center, r ) );
+    }
+
+    if( !where ) {
+        return nullptr;
+    }
+    mon->spawn( *where );
+    // @todo change add_zombie to take shared_ptr
+    return add_zombie( *mon, true ) ? critter_at<monster>( *where ) : nullptr;
+}
+
+monster *game::place_critter_within( const mtype_id &id, const tripoint_range &range )
+{
+    // @todo change this into an assert, it must never happen.
+    if( id.is_null() ) {
+        return nullptr;
+    }
+    return place_critter_within( std::make_shared<monster>( id ), range );
+}
+
+monster *game::place_critter_within( const std::shared_ptr<monster> mon,
+                                     const tripoint_range &range )
+{
+    const cata::optional<tripoint> where = choose_where_to_place_monster( *this, *mon, range );
+    if( !where ) {
+        return nullptr;
+    }
+    mon->spawn( *where );
+    // @todo change add_zombie to take shared_ptr
+    return add_zombie( *mon, true ) ? critter_at<monster>( *where ) : nullptr;
+}
+
 monster *game::summon_mon( const mtype_id &id, const tripoint &p )
 {
     monster mon( id );
