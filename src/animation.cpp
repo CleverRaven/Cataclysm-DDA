@@ -788,3 +788,16 @@ void game::draw_terrain_override( const tripoint &p, const ter_id &id )
 {
 }
 #endif
+
+#if defined(TILES)
+void game::draw_furniture_override( const tripoint &p, const furn_id &id )
+{
+    if( use_tiles ) {
+        tilecontext->init_draw_furniture_override( p, id );
+    }
+}
+#else
+void game::draw_furniture_override( const tripoint &p, const furn_id &id )
+{
+}
+#endif

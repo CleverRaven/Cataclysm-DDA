@@ -1235,6 +1235,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     }
     // tile overrides are already drawn in the previous code
     void_terrain_override();
+    void_furniture_override();
 
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
@@ -2040,22 +2041,28 @@ bool cata_tiles::draw_terrain_from_memory( const tripoint &p, int &height_3d )
                                 LL_MEMORIZED, nv_goggles_activated, height_3d );
 }
 
-bool cata_tiles::draw_furniture( const tripoint &p, lit_level ll, int &height_3d )
+bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &height_3d )
 {
-    // get furniture ID at x,y
-    bool has_furn = g->m.has_furn( p );
-    if( !has_furn ) {
+    const auto override = furniture_override.find( p );
+    const bool overridden = override != furniture_override.end();
+    const furn_id f_id = overridden ? override->second : g->m.furn( p );
+    if( f_id == f_null ) {
         return false;
     }
 
-    const furn_id f_id = g->m.furn( p );
+    const lit_level lit = overridden ? LL_LIT : ll;
+    const bool nv = overridden ? false : nv_goggles_activated;
 
+    const auto furn = [this]( const tripoint & q ) -> furn_id {
+        const auto override = furniture_override.find( q );
+        return override != furniture_override.end() ? override->second : g->m.furn( q );
+    };
     // for rotation information
     const int neighborhood[4] = {
-        static_cast<int>( g->m.furn( p + point_south ) ),
-        static_cast<int>( g->m.furn( p + point_east ) ),
-        static_cast<int>( g->m.furn( p + point_west ) ),
-        static_cast<int>( g->m.furn( p + point_north ) )
+        static_cast<int>( furn( p + point_south ) ),
+        static_cast<int>( furn( p + point_east ) ),
+        static_cast<int>( furn( p + point_west ) ),
+        static_cast<int>( furn( p + point_north ) )
     };
 
     int subtile = 0;
@@ -2064,13 +2071,13 @@ bool cata_tiles::draw_furniture( const tripoint &p, lit_level ll, int &height_3d
 
     // get the name of this furniture piece
     const std::string &f_name = f_id.obj().id.str();
-    if( !g->m.check_and_set_seen_cache( p ) ) {
+    // do not memorize furniture override
+    if( !overridden && !g->m.check_and_set_seen_cache( p ) ) {
         g->u.memorize_tile( g->m.getabs( p ), f_name, subtile, rotation );
     }
 
-    bool ret = draw_from_id_string( f_name, C_FURNITURE, empty_string, p, subtile, rotation, ll,
-                                    nv_goggles_activated, height_3d );
-    return ret;
+    return draw_from_id_string( f_name, C_FURNITURE, empty_string, p, subtile, rotation, lit,
+                                nv, height_3d );
 }
 
 bool cata_tiles::draw_trap( const tripoint &p, lit_level ll, int &height_3d )
@@ -2489,6 +2496,10 @@ void cata_tiles::init_draw_terrain_override( const tripoint &p, const ter_id &id
 {
     terrain_override.emplace( p, id );
 }
+void cata_tiles::init_draw_furniture_override( const tripoint &p, const furn_id &id )
+{
+    furniture_override.emplace( p, id );
+}
 /* -- Void Animators */
 void cata_tiles::void_explosion()
 {
@@ -2548,6 +2559,10 @@ void cata_tiles::void_zones()
 void cata_tiles::void_terrain_override()
 {
     terrain_override.clear();
+}
+void cata_tiles::void_furniture_override()
+{
+    furniture_override.clear();
 }
 /* -- Animation Renders */
 void cata_tiles::draw_explosion_frame()

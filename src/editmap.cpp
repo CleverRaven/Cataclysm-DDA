@@ -1527,11 +1527,13 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
         }
         input_context ctxt( gpmenu.input_category );
         if( use_tiles && showpreview ) {
-            const point map_p = target.xy() + point( 1 - SEEX, 1 - SEEY );
+            const point origin_p = target.xy() + point( 1 - SEEX, 1 - SEEY );
             for( int x = 0; x < SEEX * 2; x++ ) {
                 for( int y = 0; y < SEEY * 2; y++ ) {
                     const tripoint tmp_p( x, y, target.z );
-                    g->draw_terrain_override( map_p + tmp_p, tmpmap.ter( tmp_p ) );
+                    const tripoint map_p = origin_p + tmp_p;
+                    g->draw_terrain_override( map_p, tmpmap.ter( tmp_p ) );
+                    g->draw_furniture_override( map_p, tmpmap.furn( tmp_p ) );
                 }
             }
         }
