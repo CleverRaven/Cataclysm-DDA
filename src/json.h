@@ -259,6 +259,16 @@ class JsonIn
             }
         }
 
+        template<typename T, std::enable_if_t<std::is_enum<T>::value, int> = 0>
+        bool read( T &val ) {
+            std::string s;
+            if( !read( s ) ) {
+                return false;
+            }
+            val = io::string_to_enum<T>( s );
+            return true;
+        }
+
         // array ~> vector, deque, list
         template < typename T, typename std::enable_if <
                        !std::is_same<void, typename T::value_type>::value >::type * = nullptr
