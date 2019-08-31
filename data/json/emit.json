@@ -40,6 +40,15 @@
     "qty": 3
   },
   {
+    "id": "emit_smaller_smoke_plume",
+    "type": "emit",
+    "//": "Small plume of thick smoke (example: smallarms muzzle smoke)",
+    "field": "fd_smoke",
+    "intensity": 1,
+    "qty": 1,
+    "chance": 30
+  },
+  {
     "id": "emit_smoke_stream",
     "type": "emit",
     "//": "Steady stream of thick smoke (example: smoke bomb)",
