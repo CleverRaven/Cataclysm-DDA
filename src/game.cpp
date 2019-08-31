@@ -4675,8 +4675,6 @@ bool game::add_zombie( monster &critter, bool pin_upgrade )
     }
 
     critter.last_updated = calendar::turn;
-    // @todo change last_biosig to time_point
-    critter.last_biosig = to_turn<int>( calendar::turn );
     return critter_tracker->add( critter );
 }
 

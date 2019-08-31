@@ -1832,7 +1832,6 @@ void monster::load( JsonObject &data )
     if( !data.read( "last_updated", last_updated ) ) {
         last_updated = calendar::turn;
     }
-    last_biosig = data.get_int( "last_biosig", to_turn<int>( calendar::turn ) );
     data.read( "mounted_player_id", mounted_player_id );
     data.read( "path", path );
 }
@@ -1886,7 +1885,6 @@ void monster::store( JsonOut &json ) const
     json.member( "baby_timer", baby_timer );
     json.member( "biosignatures", biosignatures );
     json.member( "biosig_timer", biosig_timer );
-    json.member( "last_biosig", last_biosig );
 
     json.member( "summon_time_limit", summon_time_limit );
 
