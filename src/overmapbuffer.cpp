@@ -709,7 +709,7 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
         } else if( is_ot_match( "road", oter, ot_match_type::type ) ||
                    is_ot_match( "bridge", oter, ot_match_type::type ) ) {
             travel_cost = 1;
-        } else if( is_ot_match( "river", oter, ot_match_type::type ) ) {
+        } else if( is_ot_match( "river", oter, ot_match_type::prefix ) ) {
             travel_cost = 20;
         }
         res += travel_cost;
