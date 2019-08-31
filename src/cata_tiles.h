@@ -388,6 +388,9 @@ class cata_tiles
 
         void init_draw_trap_override( const tripoint &p, const trap_id &id );
         void void_trap_override();
+
+        void init_draw_field_override( const tripoint &p, const field_type_id &id );
+        void void_field_override();
     public:
         /**
          * Initialize the current tileset (load tile images, load mapping), using the current
@@ -499,6 +502,7 @@ class cata_tiles
         std::map<tripoint, furn_id> furniture_override;
         std::map<tripoint, bool> graffiti_override;
         std::map<tripoint, trap_id> trap_override;
+        std::map<tripoint, field_type_id> field_override;
 
     private:
         /**

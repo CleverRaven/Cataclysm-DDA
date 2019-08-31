@@ -827,3 +827,16 @@ void game::draw_trap_override( const tripoint &p, const trap_id &id )
 {
 }
 #endif
+
+#if defined(TILES)
+void game::draw_field_override( const tripoint &p, const field_type_id &id )
+{
+    if( use_tiles ) {
+        tilecontext->init_draw_field_override( p, id );
+    }
+}
+#else
+void game::draw_field_override( const tripoint &p, const field_type_id &id )
+{
+}
+#endif

@@ -1238,6 +1238,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     void_furniture_override();
     void_graffiti_override();
     void_trap_override();
+    void_field_override();
 
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
@@ -2133,29 +2134,39 @@ bool cata_tiles::draw_graffiti( const tripoint &p, const lit_level ll, int &heig
     return draw_from_id_string( "graffiti", C_NONE, empty_string, p, 0, 0, lit, false, height_3d );
 }
 
-bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d )
+bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int &height_3d )
 {
-    const field &f = g->m.field_at( p );
-    const field_type &fld_type = g->m.field_at( p ).displayed_field_type().obj();
+    const auto fld_override = field_override.find( p );
+    const bool fld_overridden = fld_override != field_override.end();
+    const field_type_id &fld = fld_overridden ?
+                               fld_override->second : g->m.field_at( p ).displayed_field_type();
     bool ret_draw_field = true;
     bool ret_draw_items = true;
-    if( fld_type.display_field ) {
+    if( fld.obj().display_field ) {
+        const lit_level lit = fld_overridden ? LL_LIT : ll;
+        const bool nv = fld_overridden ? false : nv_goggles_activated;
+
+        auto field_at = [this]( const tripoint & q ) -> field_type_id {
+            const auto fld_override = field_override.find( q );
+            return fld_override != field_override.end() ?
+            fld_override->second : g->m.field_at( q ).displayed_field_type();
+        };
         // for rotation information
         const int neighborhood[4] = {
-            static_cast<int>( g->m.field_at( p + point_south ).displayed_field_type() ),
-            static_cast<int>( g->m.field_at( p + point_east ).displayed_field_type() ),
-            static_cast<int>( g->m.field_at( p + point_west ).displayed_field_type() ),
-            static_cast<int>( g->m.field_at( p + point_north ).displayed_field_type() )
+            static_cast<int>( field_at( p + point_south ) ),
+            static_cast<int>( field_at( p + point_east ) ),
+            static_cast<int>( field_at( p + point_west ) ),
+            static_cast<int>( field_at( p + point_north ) )
         };
 
         int subtile = 0;
         int rotation = 0;
-        get_tile_values( f.displayed_field_type(), neighborhood, subtile, rotation );
+        get_tile_values( fld, neighborhood, subtile, rotation );
 
-        ret_draw_field = draw_from_id_string( fld_type.id.c_str(), C_FIELD, empty_string, p, subtile,
-                                              rotation, ll, nv_goggles_activated );
+        ret_draw_field = draw_from_id_string( fld.id().str(), C_FIELD, empty_string, p, subtile,
+                                              rotation, lit, nv );
     }
-    if( fld_type.display_items ) {
+    if( fld.obj().display_items ) {
         if( !g->m.sees_some_items( p, g->u ) ) {
             return false;
         }
@@ -2526,6 +2537,10 @@ void cata_tiles::init_draw_trap_override( const tripoint &p, const trap_id &id )
 {
     trap_override.emplace( p, id );
 }
+void cata_tiles::init_draw_field_override( const tripoint &p, const field_type_id &id )
+{
+    field_override.emplace( p, id );
+}
 /* -- Void Animators */
 void cata_tiles::void_explosion()
 {
@@ -2597,6 +2612,10 @@ void cata_tiles::void_graffiti_override()
 void cata_tiles::void_trap_override()
 {
     trap_override.clear();
+}
+void cata_tiles::void_field_override()
+{
+    field_override.clear();
 }
 /* -- Animation Renders */
 void cata_tiles::draw_explosion_frame()
