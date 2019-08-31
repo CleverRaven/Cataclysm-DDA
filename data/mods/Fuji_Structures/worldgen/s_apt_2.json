@@ -32,9 +32,7 @@
         ".--w---ww--ss--ww---w--."
       ],
       "palettes": [ "apartment_palette" ],
-      "terrain": {
-        "^": "t_linoleum_gray"
-      }
+      "terrain": { "^": "t_linoleum_gray" }
     }
   },
   {
@@ -70,9 +68,7 @@
         "*--w---ww--**--ww---w--*"
       ],
       "palettes": [ "apartment_palette" ],
-      "terrain": {
-        "^": "t_linoleum_gray"
-      }
+      "terrain": { "^": "t_linoleum_gray" }
     }
   },
   {
@@ -108,11 +104,7 @@
         " |--------3  |--------.3"
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": {
-        "$": "t_wall",
-        "+": "t_door_c",
-        ">": "t_stairs_down"
-      }
+      "terrain": { "$": "t_wall", "+": "t_door_c", ">": "t_stairs_down" }
     }
   }
 ]
