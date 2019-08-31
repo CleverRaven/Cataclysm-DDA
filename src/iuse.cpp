@@ -4463,31 +4463,30 @@ int iuse::vibe( player *p, item *it, bool, const tripoint & )
 
 int iuse::vortex( player *p, item *it, bool, const tripoint & )
 {
-    std::vector<tripoint> spawn;
-    auto empty_add = [&]( int x, int y ) {
-        tripoint pt( x, y, p->posz() );
-        if( g->is_empty( pt ) ) {
-            spawn.push_back( pt );
-        }
-    };
+    std::vector<point> spawn;
     for( int i = -3; i <= 3; i++ ) {
-        empty_add( p->posx() - 3, p->posy() + i );
-        empty_add( p->posx() + 3, p->posy() + i );
-        empty_add( p->posx() + i, p->posy() - 3 );
-        empty_add( p->posx() + i, p->posy() + 3 );
-    }
-    if( spawn.empty() ) {
-        p->add_msg_if_player( m_warning, _( "Air swirls around you for a moment." ) );
-        return it->convert( "spiral_stone" ).type->charges_to_use();
+        spawn.emplace_back( -3, i );
+        spawn.emplace_back( +3, i );
+        spawn.emplace_back( i, -3 );
+        spawn.emplace_back( i, +3 );
     }
 
-    p->add_msg_if_player( m_warning, _( "Air swirls all over..." ) );
-    p->moves -= to_moves<int>( 1_seconds );
-    it->convert( "spiral_stone" );
-    monster mvortex( mon_vortex, random_entry( spawn ) );
-    mvortex.friendly = -1;
-    g->add_zombie( mvortex );
-    return it->type->charges_to_use();
+    while( !spawn.empty() ) {
+        const tripoint offset( random_entry_removed( spawn ), 0 );
+        monster *const mon = g->place_critter_at( mon_vortex, offset + p->pos() );
+        if( !mon ) {
+            continue;
+        }
+        p->add_msg_if_player( m_warning, _( "Air swirls all over..." ) );
+        p->moves -= to_moves<int>( 1_seconds );
+        it->convert( "spiral_stone" );
+        mon->friendly = -1;
+        return it->type->charges_to_use();
+    }
+
+    // Only reachable when no monster has been spawned.
+    p->add_msg_if_player( m_warning, _( "Air swirls around you for a moment." ) );
+    return it->convert( "spiral_stone" ).type->charges_to_use();
 }
 
 int iuse::dog_whistle( player *p, item *it, bool, const tripoint & )
