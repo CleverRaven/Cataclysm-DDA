@@ -1236,6 +1236,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     // tile overrides are already drawn in the previous code
     void_terrain_override();
     void_furniture_override();
+    void_graffiti_override();
 
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
@@ -2106,13 +2107,17 @@ bool cata_tiles::draw_trap( const tripoint &p, lit_level ll, int &height_3d )
                                 nv_goggles_activated, height_3d );
 }
 
-bool cata_tiles::draw_graffiti( const tripoint &p, lit_level ll, int &height_3d )
+bool cata_tiles::draw_graffiti( const tripoint &p, const lit_level ll, int &height_3d )
 {
-    if( !g->m.has_graffiti_at( p ) ) {
+    const auto override = graffiti_override.find( p );
+    const bool overridden = override != graffiti_override.end();
+    const bool graffiti = overridden ? override->second : g->m.has_graffiti_at( p );
+    if( !graffiti ) {
         return false;
     }
+    const lit_level lit = overridden ? LL_LIT : ll;
 
-    return draw_from_id_string( "graffiti", C_NONE, empty_string, p, 0, 0, ll, false, height_3d );
+    return draw_from_id_string( "graffiti", C_NONE, empty_string, p, 0, 0, lit, false, height_3d );
 }
 
 bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d )
@@ -2500,6 +2505,10 @@ void cata_tiles::init_draw_furniture_override( const tripoint &p, const furn_id 
 {
     furniture_override.emplace( p, id );
 }
+void cata_tiles::init_draw_graffiti_override( const tripoint &p, const bool has )
+{
+    graffiti_override.emplace( p, has );
+}
 /* -- Void Animators */
 void cata_tiles::void_explosion()
 {
@@ -2563,6 +2572,10 @@ void cata_tiles::void_terrain_override()
 void cata_tiles::void_furniture_override()
 {
     furniture_override.clear();
+}
+void cata_tiles::void_graffiti_override()
+{
+    graffiti_override.clear();
 }
 /* -- Animation Renders */
 void cata_tiles::draw_explosion_frame()
