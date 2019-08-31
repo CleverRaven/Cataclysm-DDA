@@ -3101,10 +3101,6 @@ void activity_handlers::churn_finish( player_activity *act, player *p )
     // Go back to what we were doing before
     // could be player zone activity, or could be NPC multi-farming
     act->set_to_null();
-    if( !p->backlog.empty() ) {
-        p->activity = p->backlog.front();
-        p->backlog.pop_front();
-    }
 }
 
 void activity_handlers::build_do_turn( player_activity *act, player *p )
