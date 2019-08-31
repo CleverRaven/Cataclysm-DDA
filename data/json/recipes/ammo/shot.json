@@ -263,7 +263,12 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 1 ], [ "ammo_bullet", 16 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "chem_black_powder", 4 ] ], [ [ "magnesium", 4 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
+    "components": [
+      [ [ "chem_black_powder", 4 ] ],
+      [ [ "magnesium", 4 ] ],
+      [ [ "shotgun_primer", 1 ] ],
+      [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
+    ]
   },
   {
     "result": "shot_paper_bird",
