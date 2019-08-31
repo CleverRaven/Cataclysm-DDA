@@ -784,7 +784,7 @@ void game::draw_terrain_override( const tripoint &p, const ter_id &id )
     }
 }
 #else
-void game::draw_terrain_override( const tripoint &p, const ter_id &id )
+void game::draw_terrain_override( const tripoint &, const ter_id & )
 {
 }
 #endif
@@ -797,7 +797,7 @@ void game::draw_furniture_override( const tripoint &p, const furn_id &id )
     }
 }
 #else
-void game::draw_furniture_override( const tripoint &p, const furn_id &id )
+void game::draw_furniture_override( const tripoint &, const furn_id & )
 {
 }
 #endif
@@ -810,7 +810,7 @@ void game::draw_graffiti_override( const tripoint &p, const bool has )
     }
 }
 #else
-void game::draw_graffiti_override( const tripoint &p, const bool has )
+void game::draw_graffiti_override( const tripoint &, const bool )
 {
 }
 #endif
@@ -823,7 +823,7 @@ void game::draw_trap_override( const tripoint &p, const trap_id &id )
     }
 }
 #else
-void game::draw_trap_override( const tripoint &p, const trap_id &id )
+void game::draw_trap_override( const tripoint &, const trap_id & )
 {
 }
 #endif
@@ -836,7 +836,7 @@ void game::draw_field_override( const tripoint &p, const field_type_id &id )
     }
 }
 #else
-void game::draw_field_override( const tripoint &p, const field_type_id &id )
+void game::draw_field_override( const tripoint &, const field_type_id & )
 {
 }
 #endif
@@ -850,8 +850,8 @@ void game::draw_item_override( const tripoint &p, const itype_id &id, const mtyp
     }
 }
 #else
-void game::draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid,
-                               const bool hilite )
+void game::draw_item_override( const tripoint &, const itype_id &, const mtype_id &,
+                               const bool )
 {
 }
 #endif
@@ -865,8 +865,8 @@ void game::draw_vpart_override( const tripoint &p, const vpart_id &id, const int
     }
 }
 #else
-void game::draw_vpart_override( const tripoint &p, const vpart_id &id, const int subtile,
-                                const int rota, const bool hilite )
+void game::draw_vpart_override( const tripoint &, const vpart_id &, const int,
+                                const int, const bool )
 {
 }
 #endif
@@ -879,7 +879,7 @@ void game::draw_below_override( const tripoint &p, const bool draw )
     }
 }
 #else
-void game::draw_below_override( const tripoint &p, const bool draw )
+void game::draw_below_override( const tripoint &, const bool )
 {
 }
 #endif
