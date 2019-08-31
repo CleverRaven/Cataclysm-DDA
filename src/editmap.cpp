@@ -1526,6 +1526,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             showpreview = true;
         }
         input_context ctxt( gpmenu.input_category );
+#ifdef TILES
         if( use_tiles && showpreview ) {
             const point origin_p = target.xy() + point( 1 - SEEX, 1 - SEEY );
             for( int x = 0; x < SEEX * 2; x++ ) {
@@ -1565,6 +1566,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                 }
             }
         }
+#endif
         // \u00A0 is the non-breaking space
         update_view_with_help( string_format( pgettext( "keybinding descriptions",
                                               "[%s,%s]\u00A0prev/next oter type, [%s,%s]\u00A0select, %s, %s" ),
@@ -1574,7 +1576,12 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                                               ctxt.describe_key_and_name( "QUIT" ) ),
                                string_format( pgettext( "map editor state", "Mapgen: %s" ),
                                               oter_id( gmenu.selected ).id().str() ) );
-        if( !use_tiles && showpreview ) {
+#ifdef TILES
+        const bool drawsq_preview = !use_tiles && showpreview;
+#else
+        const bool drawsq_preview = showpreview;
+#endif
+        if( drawsq_preview ) {
             hilights["mapgentgt"].draw( *this, true );
             g->draw_panels();
             tmpmap.reset_vehicle_cache( target.z );
