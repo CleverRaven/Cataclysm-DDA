@@ -274,6 +274,8 @@ std::string action_ident( action_id act )
             return "safemode";
         case ACTION_TOGGLE_AUTOSAFE:
             return "autosafe";
+        case ACTION_TOGGLE_THIEF_MODE:
+            return "toggle_thief_mode";
         case ACTION_IGNORE_ENEMY:
             return "ignore_enemy";
         case ACTION_WHITELIST_ENEMY:
@@ -874,6 +876,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_MUTATIONS );
             REGISTER_ACTION( ACTION_CONTROL_VEHICLE );
             REGISTER_ACTION( ACTION_ITEMACTION );
+            REGISTER_ACTION( ACTION_TOGGLE_THIEF_MODE );
 #if defined(TILES)
             if( use_tiles ) {
                 REGISTER_ACTION( ACTION_ZOOM_OUT );

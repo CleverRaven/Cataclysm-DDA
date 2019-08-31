@@ -52,6 +52,7 @@
 #include "map_selector.h"
 #include "pimpl.h"
 #include "point.h"
+#include "popup.h"
 
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
@@ -189,9 +190,47 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     item leftovers = newit;
 
     const auto wield_check = u.can_wield( newit );
-    if( newit.has_owner() && newit.get_owner() != g->u.get_faction() ) {
-        if( !query_yn( "Picking up this item will be considered stealing, continue?" ) ) {
-            return false;
+
+    if( newit.has_owner() &&
+        newit.get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
+        // Has the player given input on if stealing is ok?
+        if( u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+            bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
+            const auto allow_key = [force_uc]( const input_event & evt ) {
+                return !force_uc || evt.type != CATA_INPUT_KEYBOARD ||
+                       // std::lower is undefined outside unsigned char range
+                       evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
+            };
+            std::string answer = query_popup()
+                                 .context( "YES_NO_ALWAYS_NEVER" )
+                                 .message( "%s",
+                                           _( "Picking up this item will be considered stealing, continue?" ) )
+                                 .option( "YES", allow_key ) // yes, steal all items in this location that is selected
+                                 .option( "NO", allow_key ) // no, pick up only what is free
+                                 .option( "ALWAYS", allow_key ) // Yes, steal all items and stop asking me this question
+                                 .option( "NEVER", allow_key ) // no, only grab free item and never ask me again
+                                 .cursor( 1 ) // default to the third option `QUIT`
+                                 .query()
+                                 .action; // retrieve the input action
+            if( answer == "YES" ) {
+                u.set_value( "THIEF_MODE", "THIEF_STEAL" );
+                u.set_value( "THIEF_MODE_KEEP", "NO" );
+            } else if( answer == "NO" ) {
+                u.set_value( "THIEF_MODE", "THIEF_HONEST" );
+                u.set_value( "THIEF_MODE_KEEP", "NO" );
+            } else if( answer == "ALWAYS" ) {
+                u.set_value( "THIEF_MODE", "THIEF_STEAL" );
+                u.set_value( "THIEF_MODE_KEEP", "YES" );
+            } else if( answer == "NEVER" ) {
+                u.set_value( "THIEF_MODE", "THIEF_HONEST" );
+                u.set_value( "THIEF_MODE_KEEP", "YES" );
+            } else {
+                // error
+                debugmsg( "Not a valid option [ %s ]", answer );
+            }
+        }
+        if( u.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+            return true; // Since we are honest, return no problem before picking up
         }
     }
     if( newit.invlet != '\0' &&

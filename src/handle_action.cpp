@@ -2276,6 +2276,26 @@ bool game::handle_action()
                          get_option<bool>( "AUTO_MINING" ) ? _( "ON" ) : _( "OFF" ) );
                 break;
 
+            case ACTION_TOGGLE_THIEF_MODE:
+                //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
+                if( g->u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+                    u.set_value( "THIEF_MODE", "THIEF_HONEST" );
+                    u.set_value( "THIEF_MODE_KEEP", "YES" );
+                    add_msg( _( "You will not pick up other peoples belongings." ) );
+                } else if( g->u.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+                    u.set_value( "THIEF_MODE", "THIEF_STEAL" );
+                    u.set_value( "THIEF_MODE_KEEP", "YES" );
+                    add_msg( _( "You will pick up also those things that belong to others!" ) );
+                } else if( g->u.get_value( "THIEF_MODE" ) == "THIEF_STEAL" ) {
+                    u.set_value( "THIEF_MODE", "THIEF_ASK" );
+                    u.set_value( "THIEF_MODE_KEEP", "NO" );
+                    add_msg( _( "You will be reminded not to steal." ) );
+                } else {
+                    // ERROR
+                    add_msg( _( "THIEF_MODE CONTAINED BAD VALUE [ %s ]!" ), g->u.get_value( "THIEF_MODE" ) );
+                }
+                break;
+
             case ACTION_TOGGLE_AUTO_FORAGING:
                 get_options().get_option( "AUTO_FORAGING" ).setNext();
                 get_options().save();
