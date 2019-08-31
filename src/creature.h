@@ -345,7 +345,7 @@ class Creature
         /** Check if creature has the matching effect. bp = num_bp means to check if the Creature has any effect
          *  of the matching type, targeted or untargeted. */
         bool has_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
-        /** Check if createure has the effect by effect flag */
+        /** Check if creature has any effect with the given flag. */
         bool has_effect_with_flag( const std::string &flag, body_part bp ) const;
         /** Return the effect that matches the given arguments exactly. */
         const effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
