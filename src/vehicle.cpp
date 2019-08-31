@@ -2546,7 +2546,7 @@ int vehicle::get_next_shifted_index( int original_index, player &p )
     bool found_shifted_index = false;
     for(std::vector<vehicle_part>::reverse_iterator it = parts.rbegin(); it != parts.rend(); ++it) {
         if( p.get_value( "veh_index_type" ) == it->info().name() ){
-            ret_index = index_of_part( &(*it) );
+            ret_index = index_of_part( &*it );
             found_shifted_index = true;
             break;
         }
