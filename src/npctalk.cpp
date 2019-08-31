@@ -2231,11 +2231,14 @@ void talk_effect_fun_t::set_u_buy_monster( const std::string &monster_type_id, i
         const mtype_id mtype( monster_type_id );
         const efftype_id effect_pet( "pet" );
         const efftype_id effect_pacified( "pacified" );
-        const tripoint_range points = g->m.points_in_radius( u.pos(), 3 );
 
         for( int i = 0; i < count; i++ ) {
-            monster tmp( mtype );
-
+            monster *const mon_ptr = g->place_critter_around( mtype, u.pos(), 3 );
+            if( !mon_ptr ) {
+                add_msg( m_debug, "Cannot place u_buy_monster, no valid placement locations." );
+                break;
+            }
+            monster &tmp = *mon_ptr;
             // Our monster is always a pet.
             tmp.friendly = -1;
             tmp.add_effect( effect_pet, 1_turns, num_bp, true );
@@ -2248,14 +2251,6 @@ void talk_effect_fun_t::set_u_buy_monster( const std::string &monster_type_id, i
                 tmp.unique_name = name.translated();
             }
 
-            if( const cata::optional<tripoint> pos = random_point( points, [&]( const tripoint & p ) {
-            return g->is_empty( p ) && tmp.can_move_to( p );
-            } ) ) {
-                tmp.spawn( *pos );
-                g->add_zombie( tmp );
-            } else {
-                add_msg( m_debug, "Cannot place u_buy_monster, no valid placement locations." );
-            }
         }
 
         if( name.empty() ) {

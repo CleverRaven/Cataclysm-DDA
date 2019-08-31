@@ -322,20 +322,9 @@ void defense_game::init_map()
     g->u.sety( SEEY );
 
     g->update_map( g-> u );
-    monster generator( mtype_id( "mon_generator" ),
-                       tripoint( g->u.posx() + 1, g->u.posy() + 1, g->u.posz() ) );
-    // Find a valid spot to spawn the generator
-    std::vector<tripoint> valid;
-    for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-        if( generator.can_move_to( dest ) && g->is_empty( dest ) ) {
-            valid.push_back( dest );
-        }
-    }
-    if( !valid.empty() ) {
-        generator.spawn( random_entry( valid ) );
-    }
-    generator.friendly = -1;
-    g->add_zombie( generator );
+    monster *const generator = g->place_critter_around( mtype_id( "mon_generator" ), g->u.pos(), 2 );
+    assert( generator );
+    generator->friendly = -1;
 }
 
 void defense_game::init_to_style( defense_style new_style )

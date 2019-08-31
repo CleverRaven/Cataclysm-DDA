@@ -402,26 +402,25 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
     do {
         wmenu.query();
         if( wmenu.ret >= 0 ) {
-            monster mon = monster( mtypes[ wmenu.ret ]->id );
-            if( cb.friendly ) {
-                mon.friendly = -1;
-            }
-            if( cb.hallucination ) {
-                mon.hallucination = true;
-            }
+            const mtype_id &mon_type = mtypes[ wmenu.ret ]->id;
             if( cata::optional<tripoint> spawn = p ? p : g->look_around() ) {
-                const std::vector<tripoint> spawn_points = closest_tripoints_first( cb.group, *spawn );
                 int num_spawned = 0;
-                for( const tripoint &spawn_point : spawn_points ) {
-                    if( g->critter_at( spawn_point ) == nullptr ) {
-                        ++num_spawned;
-                        mon.spawn( spawn_point );
-                        g->add_zombie( mon, true );
+                for( const tripoint &p : closest_tripoints_first( cb.group, *spawn ) ) {
+                    monster *const mon = g->place_critter_at( mon_type, p );
+                    if( !mon ) {
+                        continue;
                     }
+                    if( cb.friendly ) {
+                        mon->friendly = -1;
+                    }
+                    if( cb.hallucination ) {
+                        mon->hallucination = true;
+                    }
+                    ++num_spawned;
                 }
                 input_context ctxt( wmenu.input_category );
-                cb.msg = string_format( _( "Spawned %d/%d monsters, choose another or [%s] to quit." ),
-                                        num_spawned, static_cast<int>( spawn_points.size() ), ctxt.get_desc( "QUIT" ) );
+                cb.msg = string_format( _( "Spawned %d monsters, choose another or [%s] to quit." ),
+                                        num_spawned, ctxt.get_desc( "QUIT" ) );
                 uistate.wishmonster_selected = wmenu.selected;
                 wmenu.redraw();
             }
