@@ -3430,17 +3430,17 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
 
 void activity_handlers::chop_tree_do_turn( player_activity *act, player *p )
 {
-    sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( act->placement ) );
+    sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( g->m.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
-        sounds::sound( act->placement, 15, sounds::sound_t::activity, _( "CHK!" ) );
+        sounds::sound( g->m.getlocal( act->placement ), 15, sounds::sound_t::activity, _( "CHK!" ) );
         messages_in_process( *act, *p );
     }
 }
 
 void activity_handlers::chop_tree_finish( player_activity *act, player *p )
 {
-    const tripoint &pos = act->placement;
+    const tripoint &pos = g->m.getlocal( act->placement );
 
     tripoint direction;
     if( p->is_player() ) {
@@ -3484,13 +3484,14 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
-    sfx::play_variant_sound( "misc", "timber", sfx::get_heard_volume( act->placement ) );
+    sfx::play_variant_sound( "misc", "timber",
+                             sfx::get_heard_volume( g->m.getlocal( act->placement ) ) );
     act->set_to_null();
 }
 
 void activity_handlers::chop_logs_finish( player_activity *act, player *p )
 {
-    const tripoint &pos = act->placement;
+    const tripoint &pos = g->m.getlocal( act->placement );
     int log_quan;
     int stick_quan;
     int splint_quan;
@@ -3542,11 +3543,11 @@ void activity_handlers::chop_planks_finish( player_activity *act, player *p )
     planks = std::min( planks, max_planks );
 
     if( planks > 0 ) {
-        g->m.spawn_item( act->placement, "2x4", planks, 0, calendar::turn );
+        g->m.spawn_item( g->m.getlocal( act->placement ), "2x4", planks, 0, calendar::turn );
         p->add_msg_if_player( m_good, _( "You produce %d planks." ), planks );
     }
     if( scraps > 0 ) {
-        g->m.spawn_item( act->placement, "splinter", scraps, 0, calendar::turn );
+        g->m.spawn_item( g->m.getlocal( act->placement ), "splinter", scraps, 0, calendar::turn );
         p->add_msg_if_player( m_good, _( "You produce %d splinters." ), scraps );
     }
     if( planks < max_planks / 2 ) {

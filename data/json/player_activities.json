@@ -550,14 +550,14 @@
     "id": "ACT_CHOP_TREE",
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
-    "verb": "chopping down",
+    "verb": "chopping down a tree",
     "based_on": "speed"
   },
   {
     "id": "ACT_CHOP_LOGS",
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
-    "verb": "chopping down",
+    "verb": "chopping a log",
     "based_on": "speed"
   },
   {
