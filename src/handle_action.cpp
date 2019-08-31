@@ -9,6 +9,7 @@
 #include "action.h"
 #include "advanced_inv.h"
 #include "auto_pickup.h"
+#include "auto_note.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
@@ -2208,6 +2209,11 @@ bool game::handle_action()
 
             case ACTION_AUTOPICKUP:
                 get_auto_pickup().show();
+                refresh_all();
+                break;
+
+            case ACTION_AUTONOTES:
+                get_auto_notes_settings().show_gui();
                 refresh_all();
                 break;
 

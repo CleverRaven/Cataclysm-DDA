@@ -8,6 +8,7 @@
 #include <vector>
 #include <map>
 
+#include "auto_note.h"
 #include "cellular_automata.h"
 #include "debug.h"
 #include "field.h"
@@ -118,6 +119,11 @@ static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_wasp( "mon_wasp" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
 static const mtype_id mon_wolf( "mon_wolf" );
+
+const generic_factory<map_extra> &mapExtraFactory()
+{
+    return extras;
+}
 
 static void mx_null( map &, const tripoint & )
 {
@@ -2679,15 +2685,25 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
             break;
     }
     overmap_buffer.add_extra( sm_to_omt_copy( abs_sub ), id );
+
+    auto_notes::auto_note_settings &autoNoteSettings = get_auto_notes_settings();
+
+    // The player has discovered a map extra of this type.
+    autoNoteSettings.set_discovered( id );
+
     if( get_option<bool>( "AUTO_NOTES" ) && get_option<bool>( "AUTO_NOTES_MAP_EXTRAS" ) ) {
-        const std::string mx_note =
-            string_format( "%s:%s;<color_yellow>%s</color>: <color_white>%s</color>",
-                           extra.get_symbol(),
-                           get_note_string_from_color( extra.color ),
-                           extra.name,
-                           extra.description );
-        if( !mx_note.empty() ) {
-            overmap_buffer.add_note( sm_to_omt_copy( abs_sub ), mx_note );
+
+        // Only place note if the user has not disabled it via the auto note manager
+        if( autoNoteSettings.has_auto_note_enabled( id ) ) {
+            const std::string mx_note =
+                string_format( "%s:%s;<color_yellow>%s</color>: <color_white>%s</color>",
+                               extra.get_symbol(),
+                               get_note_string_from_color( extra.color ),
+                               extra.name,
+                               extra.description );
+            if( !mx_note.empty() ) {
+                overmap_buffer.add_note( sm_to_omt_copy( abs_sub ), mx_note );
+            }
         }
     }
 }
