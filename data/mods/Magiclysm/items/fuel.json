@@ -38,7 +38,6 @@
     "material": "flesh",
     "volume": "1 ml",
     "phase": "liquid",
-    "fun": -60,
     "category": "fuel",
     "ammo_type": "tainted_blood",
     "fuel": { "energy": 5 }
@@ -53,15 +52,11 @@
     "container": "flask_glass",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 5,
-    "healthy": -8,
-    "calories": 43,
     "description": "Blood, possibly that of a human.  Disgusting!",
     "price": 0,
     "material": "hflesh",
     "volume": "250 ml",
     "phase": "liquid",
-    "fun": -50,
     "category": "fuel",
     "ammo_type": "blood",
     "fuel": { "energy": 1 }
