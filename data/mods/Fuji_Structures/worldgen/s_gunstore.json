@@ -249,12 +249,8 @@
         "*455555555555556********"
       ],
       "palettes": [ "apartment_palette" ],
-      "terrain": {
-        "9": "t_gutter_downspout"
-      },
-      "furniture": {
-        ";": "f_gunsafe_ml"
-      },
+      "terrain": { "9": "t_gutter_downspout" },
+      "furniture": { ";": "f_gunsafe_ml" },
       "items": {
         ";": [
           { "item": "guns_obscure", "chance": 30, "repeat": [ 1, 3 ] },
