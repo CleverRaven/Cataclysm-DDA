@@ -2018,7 +2018,7 @@ void iexamine::harvest_plant( player &p, const tripoint &examp, bool from_activi
         } else if( ( p.has_trait( trait_M_DEFENDER ) ) || ( ( p.has_trait( trait_M_SPORES ) ||
                    p.has_trait( trait_M_FERTILE ) ) &&
                    one_in( 2 ) ) ) {
-            g->summon_mon( mon_fungal_blossom, examp );
+            g->place_critter_at( mon_fungal_blossom, examp );
             add_msg( m_info, _( "The seed blooms forth!  We have brought true beauty to this world." ) );
         } else if( ( p.has_trait( trait_THRESH_MYCUS ) ) || one_in( 4 ) ) {
             g->m.furn_set( examp, f_flower_marloss );

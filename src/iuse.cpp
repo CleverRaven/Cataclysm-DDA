@@ -620,7 +620,7 @@ int iuse::fungicide( player *p, item *it, bool, const tripoint & )
                         critter.die( p ); // counts as kill by player
                     }
                 } else {
-                    g->summon_mon( mon_spore, dest );
+                    g->place_critter_at( mon_spore, dest );
                 }
                 spore_count--;
             }
@@ -1172,7 +1172,7 @@ static void spawn_spores( const player &p )
             continue;
         }
         if( one_in( 10 + 5 * dist ) && one_in( spores_spawned * 2 ) ) {
-            if( monster *const spore = g->summon_mon( mon_spore, dest ) ) {
+            if( monster *const spore = g->place_critter_at( mon_spore, dest ) ) {
                 spore->friendly = -1;
                 spores_spawned++;
             }
@@ -3464,7 +3464,7 @@ int iuse::can_goo( player *p, item *it, bool, const tripoint & )
         if( g->u.sees( goop ) ) {
             add_msg( _( "Living black goo emerges from the canister!" ) );
         }
-        if( monster *const goo = g->summon_mon( mon_blob, goop ) ) {
+        if( monster *const goo = g->place_critter_at( mon_blob, goop ) ) {
             goo->friendly = -1;
         }
     }
@@ -5383,7 +5383,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                     } while( tries < 5 && !g->is_empty( monp ) &&
                              !g->m.sees( monp, p->pos(), 10 ) );
                     if( tries < 5 ) { // TODO: tries increment is missing, so this expression is always true
-                        if( monster *const  spawned = g->summon_mon( mon_shadow, monp ) ) {
+                        if( monster *const  spawned = g->place_critter_at( mon_shadow, monp ) ) {
                             num_spawned++;
                             spawned->reset_special_rng( "DISAPPEAR" );
                         }

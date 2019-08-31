@@ -1251,7 +1251,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
             }
 
             const tripoint where = empty_neighbors.first[get_random_index( empty_neighbor_count )];
-            if( monster *const manhack = g->summon_mon( mon_manhack, where ) ) {
+            if( monster *const manhack = g->place_critter_at( mon_manhack, where ) ) {
                 manhack->make_ally( *z );
             }
         }
@@ -1554,7 +1554,7 @@ bool mattack::triffid_heartbeat( monster *z )
                 } else if( one_in( 3 ) ) {
                     montype = mon_biollante;
                 }
-                if( monster *const plant = g->summon_mon( montype, dest ) ) {
+                if( monster *const plant = g->place_critter_at( montype, dest ) ) {
                     plant->make_ally( *z );
                 }
             }
@@ -2237,7 +2237,7 @@ bool mattack::formblob( monster *z )
                 // If we're big enough, spawn a baby blob.
                 didit = true;
                 z->set_speed_base( z->get_speed_base() - 15 );
-                if( monster *const blob = g->summon_mon( mon_blob_small, dest ) ) {
+                if( monster *const blob = g->place_critter_at( mon_blob_small, dest ) ) {
                     blob->make_ally( *z );
                 }
 
@@ -5120,7 +5120,7 @@ static int grenade_helper( monster *const z, Creature *const target, const int d
 
     const tripoint where = empty_neighbors.first[get_random_index( empty_neighbor_count )];
 
-    if( monster *const hack = g->summon_mon( actor->mtypeid, where ) ) {
+    if( monster *const hack = g->place_critter_at( actor->mtypeid, where ) ) {
         hack->make_ally( *z );
     }
     return 1;
@@ -5276,7 +5276,7 @@ bool mattack::doot( monster *z )
             if( g->u.sees( *z ) ) {
                 add_msg( _( "A spooky skeleton rises from the ground!" ) );
             }
-            g->summon_mon( mon_zombie_skeltal_minion, spookyscary );
+            g->place_critter_at( mon_zombie_skeltal_minion, spookyscary );
             spooks++;
             continue;
         }

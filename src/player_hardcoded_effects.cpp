@@ -562,7 +562,7 @@ void player::hardcoded_effects( effect &it )
                 }
                 MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
                                                        mongroup_id( "GROUP_NETHER" ) );
-                g->summon_mon( spawn_details.name, dest );
+                g->place_critter_at( spawn_details.name, dest );
                 if( g->u.sees( dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
                                                         _( "A monster appears nearby!" ) );
@@ -662,7 +662,7 @@ void player::hardcoded_effects( effect &it )
                     }
                     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
                                                            mongroup_id( "GROUP_NETHER" ) );
-                    g->summon_mon( spawn_details.name, dest );
+                    g->place_critter_at( spawn_details.name, dest );
                     if( g->u.sees( dest ) ) {
                         g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
                                                             _( "A monster appears nearby!" ) );

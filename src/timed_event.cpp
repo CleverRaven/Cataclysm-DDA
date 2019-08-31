@@ -57,7 +57,7 @@ void timed_event::actualize()
                 g->events().send<event_type::becomes_wanted>( g->u.getID() );
                 int robx = u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4;
                 int roby = u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4;
-                g->summon_mon( robot_type, tripoint( robx, roby, g->u.posz() ) );
+                g->place_critter_at( robot_type, tripoint( robx, roby, g->u.posz() ) );
             }
         }
         break;
@@ -241,7 +241,7 @@ void timed_event::per_turn()
                 if( place.x == -1 && place.y == -1 ) {
                     return; // We're safely indoors!
                 }
-                g->summon_mon( mon_eyebot, tripoint( place, g->u.posz() ) );
+                g->place_critter_at( mon_eyebot, tripoint( place, g->u.posz() ) );
                 if( g->u.sees( tripoint( place, g->u.posz() ) ) ) {
                     add_msg( m_warning, _( "An eyebot swoops down nearby!" ) );
                 }

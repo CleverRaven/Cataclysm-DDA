@@ -172,9 +172,9 @@ void tutorial_game::post_action( action_id act )
     switch( act ) {
         case ACTION_RELOAD_WEAPON:
             if( g->u.weapon.is_gun() && !tutorials_seen[LESSON_GUN_FIRE] ) {
-                g->summon_mon( mon_zombie, tripoint( g->u.posx(), g->u.posy() - 6, g->u.posz() ) );
-                g->summon_mon( mon_zombie, tripoint( g->u.posx() + 2, g->u.posy() - 5, g->u.posz() ) );
-                g->summon_mon( mon_zombie, tripoint( g->u.posx() - 2, g->u.posy() - 5, g->u.posz() ) );
+                g->place_critter_at( mon_zombie, tripoint( g->u.posx(), g->u.posy() - 6, g->u.posz() ) );
+                g->place_critter_at( mon_zombie, tripoint( g->u.posx() + 2, g->u.posy() - 5, g->u.posz() ) );
+                g->place_critter_at( mon_zombie, tripoint( g->u.posx() - 2, g->u.posy() - 5, g->u.posz() ) );
                 add_message( LESSON_GUN_FIRE );
             }
             break;

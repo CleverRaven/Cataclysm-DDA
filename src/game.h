@@ -299,11 +299,6 @@ class game
         monster *place_critter_within( std::shared_ptr<monster> mon, const tripoint_range &range );
         /** @} */
 
-        /**
-         * Summons a brand new monster at the current time. Returns the summoned monster.
-         * Returns a `nullptr` if the monster could not be created.
-         */
-        monster *summon_mon( const mtype_id &id, const tripoint &p );
         /** Calls the creature_tracker add function. Returns true if successful. */
         bool add_zombie( monster &critter );
         bool add_zombie( monster &critter, bool pin_upgrade );

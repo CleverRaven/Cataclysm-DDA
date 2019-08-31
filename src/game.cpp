@@ -4721,13 +4721,6 @@ monster *game::place_critter_within( const std::shared_ptr<monster> mon,
     return add_zombie( *mon, true ) ? critter_at<monster>( *where ) : nullptr;
 }
 
-monster *game::summon_mon( const mtype_id &id, const tripoint &p )
-{
-    monster mon( id );
-    mon.spawn( p );
-    return add_zombie( mon, true ) ? critter_at<monster>( p ) : nullptr;
-}
-
 // By default don't pin upgrades to current day
 bool game::add_zombie( monster &critter )
 {

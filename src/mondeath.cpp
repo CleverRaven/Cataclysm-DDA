@@ -551,7 +551,7 @@ void mdeath::amigara( monster &z )
 
 void mdeath::thing( monster &z )
 {
-    g->summon_mon( mon_thing, z.pos() );
+    g->place_critter_at( mon_thing, z.pos() );
 }
 
 void mdeath::explode( monster &z )
