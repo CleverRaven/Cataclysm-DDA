@@ -1111,6 +1111,7 @@ bool Creature::has_effect_with_flag( const std::string &flag, body_part bp ) con
             }
         }
     }
+    return false;
 }
 
 effect &Creature::get_effect( const efftype_id &eff_id, body_part bp )
