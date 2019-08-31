@@ -695,16 +695,19 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
         int res = 0;
         const oter_id oter = get_ter_at( cur.pos );
         int travel_cost = static_cast<int>( oter->get_travel_cost() );
-        if( road_only && ( !is_ot_match( "road", oter, ot_match_type::type ) && !is_ot_match( "bridge", oter, ot_match_type::type ) ) ){
+        if( road_only && ( !is_ot_match( "road", oter, ot_match_type::type ) &&
+                           !is_ot_match( "bridge", oter, ot_match_type::type ) ) ) {
             return pf::rejected;
         }
-        if( is_ot_match( "empty_rock", oter, ot_match_type::type ) || is_ot_match( "open_air", oter, ot_match_type::type ) ){
+        if( is_ot_match( "empty_rock", oter, ot_match_type::type ) ||
+            is_ot_match( "open_air", oter, ot_match_type::type ) ) {
             return pf::rejected;
         } else if( is_ot_match( "forest", oter, ot_match_type::type ) ) {
             travel_cost = 10;
         } else if( is_ot_match( "swamp", oter, ot_match_type::type ) ) {
             travel_cost = 15;
-        } else if( is_ot_match( "road", oter, ot_match_type::type ) || is_ot_match( "bridge", oter, ot_match_type::type ) ) {
+        } else if( is_ot_match( "road", oter, ot_match_type::type ) ||
+                   is_ot_match( "bridge", oter, ot_match_type::type ) ) {
             travel_cost = 1;
         } else if( is_ot_match( "river", oter, ot_match_type::type ) ) {
             travel_cost = 20;
