@@ -6,7 +6,7 @@
     "description": "The General Atomics TX-1 Guardian, a small, pill-shaped automated gun turret using state of the art ATR systems to dynamically reorient itself to new friends and enemies alike.  The two SMG barrels can swivel a full 360 degrees.",
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
-    "diff": 10,
+    "diff": 20,
     "volume": "30000 ml",
     "weight": 40750,
     "hp": 30,
