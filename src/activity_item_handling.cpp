@@ -672,6 +672,17 @@ void activity_on_turn_pickup()
     const bool keep_going = Pickup::do_pickup( g->u.activity.targets, g->u.activity.values,
                             autopickup );
 
+    // If there are items left we ran out of moves, so continue the activity
+    // Otherwise, we are done.
+    if( !keep_going || g->u.activity.targets.empty() ) {
+        g->u.cancel_activity();
+        if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+            g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
+        }
+    }
+
+    // TODO: Move this to advanced inventory instead of hacking it in here
+
     if( !keep_going ) {
         // The user canceled the activity, so we're done
         g->u.cancel_activity();
@@ -1871,7 +1882,6 @@ void activity_on_turn_move_loot( player_activity &, player &p )
         }
 
         bool is_adjacent_or_closer = square_dist( p.pos(), src_loc ) <= 1;
-
         // skip tiles in IGNORE zone and tiles on fire
         // (to prevent taking out wood off the lit brazier)
         // and inaccessible furniture, like filled charcoal kiln
