@@ -2240,7 +2240,8 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
         if( !vp_id ) {
             return false;
         }
-        subtile = std::get<1>( override->second );
+        const char part_mod = std::get<1>( override->second );
+        subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
         veh_dir = std::get<2>( override->second );
         draw_highlight = std::get<3>( override->second );
         disp_id = "vp_" + vp_id.str();
@@ -2260,17 +2261,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
         vp_id = veh.part_id_string( veh_part, part_mod );
 
         disp_id = "vp_" + vp_id.str();
-        subtile = 0;
-        if( part_mod > 0 ) {
-            switch( part_mod ) {
-                case 1:
-                    subtile = open_;
-                    break;
-                case 2:
-                    subtile = broken;
-                    break;
-            }
-        }
+        subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
         const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
         draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
 
@@ -2597,9 +2588,9 @@ void cata_tiles::init_draw_item_override( const tripoint &p, const itype_id &id,
     item_override.emplace( p, std::make_tuple( id, mid, hilite ) );
 }
 void cata_tiles::init_draw_vpart_override( const tripoint &p, const vpart_id &id,
-        const int subtile, const int rota, const bool hilite )
+        const int part_mod, const int veh_dir, const bool hilite )
 {
-    vpart_override.emplace( p, std::make_tuple( id, subtile, rota, hilite ) );
+    vpart_override.emplace( p, std::make_tuple( id, part_mod, veh_dir, hilite ) );
 }
 void cata_tiles::init_draw_below_override( const tripoint &p, const bool draw )
 {
