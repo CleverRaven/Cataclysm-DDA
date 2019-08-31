@@ -160,8 +160,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             if( m.get_field_intensity( p, fd_fungal_haze ) != 0 ) {
                 if( x_in_y( growth * 10, 800 ) ) { // young trees are vulnerable
                     m.ter_set( p, t_fungus );
-                    gm.summon_mon( mon_fungal_blossom, p );
-                    if( gm.u.sees( p ) ) {
+                    if( gm.place_critter_at( mon_fungal_blossom, p ) && gm.u.sees( p ) ) {
                         add_msg( m_warning, _( "The young tree blooms forth into a fungal blossom!" ) );
                     }
                 } else if( x_in_y( growth * 10, 400 ) ) {
@@ -177,8 +176,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             if( m.get_field_intensity( p, fd_fungal_haze ) != 0 ) {
                 if( x_in_y( growth * 10, 100 ) ) {
                     m.ter_set( p, t_fungus );
-                    gm.summon_mon( mon_fungal_blossom, p );
-                    if( gm.u.sees( p ) ) {
+                    if( gm.place_critter_at( mon_fungal_blossom, p ) && gm.u.sees( p ) ) {
                         add_msg( m_warning, _( "The tree blooms forth into a fungal blossom!" ) );
                     }
                 } else if( x_in_y( growth * 10, 600 ) ) {
