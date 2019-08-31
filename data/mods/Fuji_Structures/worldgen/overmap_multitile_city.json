@@ -1,0 +1,63 @@
+[
+  {
+    "type": "city_building",
+    "id": "s_gunstore",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_gunstore_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_gunstore_2ndfloor_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_gunstore_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_camping",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_camping_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_camping_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_cardealer",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_cardealer_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_cardealer_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_diner",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_diner_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_diner_2ndfloor_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_diner_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_games",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_games_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_games_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_apt",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_apt_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_apt_2ndfloor_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_apt_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_apt_2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_apt_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_apt_2_2ndfloor_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_apt_2_roof_north" }
+    ]
+  }
+]
