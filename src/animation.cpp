@@ -840,3 +840,18 @@ void game::draw_field_override( const tripoint &p, const field_type_id &id )
 {
 }
 #endif
+
+#if defined(TILES)
+void game::draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid,
+                               const bool hilite )
+{
+    if( use_tiles ) {
+        tilecontext->init_draw_item_override( p, id, mid, hilite );
+    }
+}
+#else
+void game::draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid,
+                               const bool hilite )
+{
+}
+#endif

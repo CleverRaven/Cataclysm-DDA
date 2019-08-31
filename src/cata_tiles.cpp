@@ -1239,6 +1239,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     void_graffiti_override();
     void_trap_override();
     void_field_override();
+    void_item_override();
 
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
@@ -2167,20 +2168,41 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                                               rotation, lit, nv );
     }
     if( fld.obj().display_items ) {
-        if( !g->m.sees_some_items( p, g->u ) ) {
+        const auto it_override = item_override.find( p );
+        const bool it_overridden = it_override != item_override.end();
+
+        itype_id it_id;
+        mtype_id mon_id;
+        bool hilite;
+        const itype *it_type;
+        if( it_overridden ) {
+            it_id = std::get<0>( it_override->second );
+            mon_id = std::get<1>( it_override->second );
+            hilite = std::get<2>( it_override->second );
+            it_type = item::find_type( it_id );
+        } else if( g->m.sees_some_items( p, g->u ) ) {
+            const maptile &tile = g->m.maptile_at( p );
+            const item &itm = tile.get_uppermost_item();
+            const mtype *const mon = itm.get_mtype();
+            it_id = itm.typeId();
+            mon_id = mon ? mon->id : mtype_id::NULL_ID();
+            hilite = tile.get_item_count() > 1;
+            it_type = itm.type;
+        } else {
             return false;
         }
-        const maptile &cur_maptile = g->m.maptile_at( p );
-        // get the last item in the stack, it will be used for display
-        const item &displayed_item = cur_maptile.get_uppermost_item();
-        // get the item's name, as that is the key used to find it in the map
-        const std::string it_name = displayed_item.is_corpse() ? "corpse_" +
-                                    displayed_item.get_mtype()->id.str() : displayed_item.typeId();
+        if( !it_type || it_id == "null" ) {
+            return false;
+        }
+        const std::string disp_id = it_id == "corpse" && mon_id ?
+                                    "corpse_" + mon_id.str() : it_id;
+        const std::string it_category = it_type->get_item_type_string();
+        const lit_level lit = it_overridden ? LL_LIT : ll;
+        const bool nv = it_overridden ? false : nv_goggles_activated;
 
-        const std::string it_category = displayed_item.type->get_item_type_string();
-        ret_draw_items = draw_from_id_string( it_name, C_ITEM, it_category, p, 0, 0, ll,
-                                              nv_goggles_activated, height_3d );
-        if( ret_draw_items && cur_maptile.get_item_count() > 1 ) {
+        ret_draw_items = draw_from_id_string( disp_id, C_ITEM, it_category, p, 0, 0, lit,
+                                              nv, height_3d );
+        if( ret_draw_items && hilite ) {
             draw_item_highlight( p );
         }
     }
@@ -2541,6 +2563,11 @@ void cata_tiles::init_draw_field_override( const tripoint &p, const field_type_i
 {
     field_override.emplace( p, id );
 }
+void cata_tiles::init_draw_item_override( const tripoint &p, const itype_id &id,
+        const mtype_id &mid, const bool hilite )
+{
+    item_override.emplace( p, std::make_tuple( id, mid, hilite ) );
+}
 /* -- Void Animators */
 void cata_tiles::void_explosion()
 {
@@ -2616,6 +2643,10 @@ void cata_tiles::void_trap_override()
 void cata_tiles::void_field_override()
 {
     field_override.clear();
+}
+void cata_tiles::void_item_override()
+{
+    item_override.clear();
 }
 /* -- Animation Renders */
 void cata_tiles::draw_explosion_frame()

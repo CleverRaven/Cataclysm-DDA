@@ -4740,10 +4740,20 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
 bool map::sees_some_items( const tripoint &p, const Creature &who ) const
 {
     // Can only see items if there are any items.
-    return has_items( p ) && could_see_items( p, who );
+    return has_items( p ) && could_see_items( p, who.pos() );
+}
+
+bool map::sees_some_items( const tripoint &p, const tripoint &from ) const
+{
+    return has_items( p ) && could_see_items( p, from );
 }
 
 bool map::could_see_items( const tripoint &p, const Creature &who ) const
+{
+    return could_see_items( p, who.pos() );
+}
+
+bool map::could_see_items( const tripoint &p, const tripoint &from ) const
 {
     static const std::string container_string( "CONTAINER" );
     const bool container = has_flag_ter_or_furn( container_string, p );
@@ -4755,9 +4765,9 @@ bool map::could_see_items( const tripoint &p, const Creature &who ) const
     if( container ) {
         // can see inside of containers if adjacent or
         // on top of the container
-        return ( abs( p.x - who.posx() ) <= 1 &&
-                 abs( p.y - who.posy() ) <= 1 &&
-                 abs( p.z - who.posz() ) <= 1 );
+        return ( abs( p.x - from.x ) <= 1 &&
+                 abs( p.y - from.y ) <= 1 &&
+                 abs( p.z - from.z ) <= 1 );
     }
     return true;
 }
