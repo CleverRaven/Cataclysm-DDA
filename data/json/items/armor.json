@@ -4595,9 +4595,9 @@
       "coverage": 5,
       "encumbrance": 100,
       "storage": "15 L",
-      "material_thickness": 1,
-      "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
-    }
+      "material_thickness": 1
+    },
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
     "id": "hide_tainted_bag",
@@ -4613,9 +4613,9 @@
       "coverage": 5,
       "encumbrance": 100,
       "storage": "15 L",
-      "material_thickness": 1,
-      "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
-    }
+      "material_thickness": 1
+    },
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
     "id": "hood_fsurvivor",
