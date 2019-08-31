@@ -407,7 +407,7 @@ inline constexpr value_type to_kilojoule( const quantity<value_type, energy_in_m
 // chosen units)
 inline std::ostream &operator<<( std::ostream &o, mass_in_milligram_tag )
 {
-    return o << "g";
+    return o << "mg";
 }
 
 inline std::ostream &operator<<( std::ostream &o, volume_in_milliliter_tag )
