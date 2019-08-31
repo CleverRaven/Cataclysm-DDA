@@ -383,6 +383,9 @@ class cata_tiles
         void init_draw_furniture_override( const tripoint &p, const furn_id &id );
         void void_furniture_override();
 
+        void init_draw_graffiti_override( const tripoint &p, bool has );
+        void void_graffiti_override();
+
     public:
         /**
          * Initialize the current tileset (load tile images, load mapping), using the current
@@ -492,6 +495,7 @@ class cata_tiles
 
         std::map<tripoint, ter_id> terrain_override;
         std::map<tripoint, furn_id> furniture_override;
+        std::map<tripoint, bool> graffiti_override;
 
     private:
         /**

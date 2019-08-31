@@ -801,3 +801,16 @@ void game::draw_furniture_override( const tripoint &p, const furn_id &id )
 {
 }
 #endif
+
+#if defined(TILES)
+void game::draw_graffiti_override( const tripoint &p, const bool has )
+{
+    if( use_tiles ) {
+        tilecontext->init_draw_graffiti_override( p, has );
+    }
+}
+#else
+void game::draw_graffiti_override( const tripoint &p, const bool has )
+{
+}
+#endif
