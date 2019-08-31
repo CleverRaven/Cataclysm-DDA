@@ -91,9 +91,10 @@ void clear_map_and_put_player_underground()
 
 monster &spawn_test_monster( const std::string &monster_type, const tripoint &start )
 {
-    monster temp_monster( mtype_id( monster_type ), start );
+    std::shared_ptr<monster> temp = std::make_shared<monster>( mtype_id( monster_type ), start );
     // Bypassing game::add_zombie() since it sometimes upgrades the monster instantly.
-    g->critter_tracker->add( temp_monster );
-    return *g->critter_tracker->find( temp_monster.pos() );
+    const bool was_added = g->critter_tracker->add( temp );
+    assert( was_added );
+    return *temp;
 }
 

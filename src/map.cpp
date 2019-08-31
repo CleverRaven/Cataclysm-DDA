@@ -7486,7 +7486,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                          tmp.wander_pos.x, tmp.wander_pos.y, tmp.wander_pos.z );
             }
 
-            g->add_zombie( tmp );
+            g->add_zombie( std::make_shared<monster>( tmp ) );
             break;
         }
     }
@@ -7528,7 +7528,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
 
             const auto place_it = [&]( const tripoint & p ) {
                 tmp.spawn( p );
-                g->add_zombie( tmp );
+                g->add_zombie( std::make_shared<monster>( tmp( );
             };
 
             // First check out defined spawn location for a valid placement, and if that doesn't work

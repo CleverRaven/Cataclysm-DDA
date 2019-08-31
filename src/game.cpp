@@ -4696,8 +4696,7 @@ monster *game::place_critter_around( const std::shared_ptr<monster> mon, const t
         return nullptr;
     }
     mon->spawn( *where );
-    // @todo change add_zombie to take shared_ptr
-    return add_zombie( *mon, true ) ? critter_at<monster>( *where ) : nullptr;
+    return add_zombie( mon, true ) ? critter_at<monster>( *where ) : nullptr;
 }
 
 monster *game::place_critter_within( const mtype_id &id, const tripoint_range &range )
@@ -4717,18 +4716,20 @@ monster *game::place_critter_within( const std::shared_ptr<monster> mon,
         return nullptr;
     }
     mon->spawn( *where );
-    // @todo change add_zombie to take shared_ptr
-    return add_zombie( *mon, true ) ? critter_at<monster>( *where ) : nullptr;
+    return add_zombie( mon, true ) ? critter_at<monster>( *where ) : nullptr;
 }
 
 // By default don't pin upgrades to current day
-bool game::add_zombie( monster &critter )
+bool game::add_zombie( const std::shared_ptr<monster> critter_ptr )
 {
-    return add_zombie( critter, false );
+    return add_zombie( critter_ptr, false );
 }
 
-bool game::add_zombie( monster &critter, bool pin_upgrade )
+bool game::add_zombie( const std::shared_ptr<monster> critter_ptr, const bool pin_upgrade )
 {
+    assert( critter_ptr );
+    monster &critter = *critter_ptr;
+
     if( !m.inbounds( critter.pos() ) ) {
         dbg( D_ERROR ) << "added a critter with out-of-bounds position: "
                        << critter.posx() << "," << critter.posy() << ","  << critter.posz()
@@ -4743,7 +4744,7 @@ bool game::add_zombie( monster &critter, bool pin_upgrade )
     }
 
     critter.last_updated = calendar::turn;
-    return critter_tracker->add( critter );
+    return critter_tracker->add( critter_ptr );
 }
 
 size_t game::num_creatures() const
@@ -4788,12 +4789,13 @@ bool game::spawn_hallucination( const tripoint &p )
         }
     }
 
-    monster phantasm( MonsterGenerator::generator().get_valid_hallucination() );
-    phantasm.hallucination = true;
-    phantasm.spawn( p );
+    const mtype_id &mt = MonsterGenerator::generator().get_valid_hallucination();
+    const std::shared_ptr<monster> phantasm = std::make_shared<monster>( mt );
+    phantasm->hallucination = true;
+    phantasm->spawn( p );
 
     //Don't attempt to place phantasms inside of other creatures
-    if( !critter_at( phantasm.pos(), true ) ) {
+    if( !critter_at( phantasm->pos(), true ) ) {
         return critter_tracker->add( phantasm );
     } else {
         return false;
@@ -10302,9 +10304,13 @@ void game::vertical_move( int movez, bool force )
     // Save all monsters that can reach the stairs, remove them from the tracker,
     // then despawn the remaining monsters. Because it's a vertical shift, all
     // monsters are out of the bounds of the map and will despawn.
-    monster stored_mount;
-    if( u.is_mounted() ) {
-        stored_mount = *u.mounted_creature.get();
+    std::shared_ptr<monster> stored_mount;
+    if( u.is_mounted() && !m.has_zlevels() ) {
+        // Store a *copy* of the mount, so we can remove the original monster instance
+        // from the tracker before the map shifts.
+        // Map shifting would otherwise just despawn the mount and would later respawn it.
+        stored_mount = std::make_shared<monster>( *u.mounted_creature );
+        critter_tracker->remove( *u.mounted_creature );
     }
     if( !m.has_zlevels() ) {
         const tripoint to = u.pos();
@@ -10368,14 +10374,11 @@ void game::vertical_move( int movez, bool force )
         submap_shift = update_map( stairs.x, stairs.y );
     }
     if( u.is_mounted() ) {
-        if( !m.has_zlevels() ) {
-            stored_mount.spawn( g->u.pos() );
-            if( add_zombie( stored_mount ) ) {
-                auto mons = critter_tracker->find( g->u.pos() );
-                if( mons ) {
-                    u.mounted_creature = mons;
-                }
-                stored_mount.setpos( g->u.pos() );
+        if( stored_mount ) {
+            assert( !m.has_zlevels() );
+            stored_mount->spawn( g->u.pos() );
+            if( critter_tracker->add( stored_mount ) ) {
+                u.mounted_creature = stored_mount;
             }
         } else {
             u.mounted_creature->setpos( g->u.pos() );
@@ -10893,7 +10896,7 @@ void game::update_stair_monsters()
         if( is_empty( dest ) ) {
             critter.spawn( dest );
             critter.staircount = 0;
-            add_zombie( critter );
+            add_zombie( std::make_shared<monster>( critter ) );
             if( u.sees( dest ) ) {
                 if( !from_below ) {
                     add_msg( m_warning, _( "The %1$s comes down the %2$s!" ),

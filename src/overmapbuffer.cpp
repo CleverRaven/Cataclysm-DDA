@@ -1310,7 +1310,7 @@ void overmapbuffer::spawn_monster( const tripoint &p )
         const tripoint local = tripoint( g->m.getlocal( ms ), p.z );
         assert( g->m.inbounds( local ) );
         this_monster.spawn( local );
-        g->add_zombie( this_monster );
+        g->add_zombie( std::make_shared<monster>( this_monster ) );
     } );
     om.monster_map.erase( current_submap_loc );
 }

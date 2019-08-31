@@ -51,8 +51,11 @@ std::shared_ptr<monster> Creature_tracker::from_temporary_id( const int id )
     }
 }
 
-bool Creature_tracker::add( monster &critter )
+bool Creature_tracker::add( std::shared_ptr<monster> critter_ptr )
 {
+    assert( critter_ptr );
+    monster &critter = *critter_ptr;
+
     if( critter.type->id.is_null() ) { // Don't want to spawn null monsters o.O
         return false;
     }
@@ -80,9 +83,9 @@ bool Creature_tracker::add( monster &critter )
         return false;
     }
 
-    monsters_list.emplace_back( std::make_shared<monster>( critter ) );
-    monsters_by_location[critter.pos()] = monsters_list.back();
-    add_to_faction_map( monsters_list.back() );
+    monsters_list.emplace_back( critter_ptr );
+    monsters_by_location[critter.pos()] = critter_ptr;
+    add_to_faction_map( critter_ptr );
     return true;
 }
 
