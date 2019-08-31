@@ -5,7 +5,8 @@
     "type": "AMMO",
     "name": "birdshot paper cartridge",
     "description": "A paper cartridge containing a premeasured amount of black powder and an equal volume of birdshot.  Used mostly for hunting small game or fowl.",
-    "proportional": { "damage": 0.3, "recoil": 0.6, "loudness": 0.8 },
+    "damage": 10,
+    "proportional": { "recoil": 0.6, "loudness": 0.8 },
     "extend": { "effects": [ "NOGIB" ] }
   },
   {
