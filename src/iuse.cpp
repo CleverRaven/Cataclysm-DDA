@@ -9170,24 +9170,23 @@ int iuse::capture_monster_veh( player *p, item *it, bool, const tripoint &pos )
     return 0;
 }
 
-int item::release_monster( const tripoint &target, bool spawn )
+bool item::release_monster( const tripoint &target, const int radius )
 {
     std::shared_ptr<monster> new_monster = std::make_shared<monster>();
     try {
         ::deserialize( *new_monster, get_var( "contained_json", "" ) );
     } catch( const std::exception &e ) {
         debugmsg( _( "Error restoring monster: %s" ), e.what() );
-        return 0;
+        return false;
     }
-    if( spawn ) {
-        // @todo handle case when placing it fails!
-        g->place_critter_at( new_monster, target );
+    if( !g->place_critter_around( new_monster, target, radius ) ) {
+        return false;
     }
     erase_var( "contained_name" );
     erase_var( "contained_json" );
     erase_var( "name" );
     erase_var( "weight" );
-    return 0;
+    return true;
 }
 
 // didn't want to drag the monster:: definition into item.h, so just reacquire the monster
@@ -9235,40 +9234,31 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
     if( it->has_var( "contained_name" ) ) {
-        tripoint target;
-        if( g->is_empty( pos ) ) {
+        if( it->release_monster( pos ) ) {
             // It's been activated somewhere where there isn't a player or monster, good.
-            target = pos;
-        } else {
-            if( it->has_flag( "PLACE_RANDOMLY" ) ) {
-                std::vector<tripoint> valid;
-                for( const tripoint &dest : g->m.points_in_radius( p->pos(), 1 ) ) {
-                    if( g->is_empty( dest ) ) {
-                        valid.push_back( dest );
-                    }
-                }
-                if( valid.empty() ) {
-                    p->add_msg_if_player( _( "There is no place to put the %s." ),
-                                          it->get_var( "contained_name", "" ) );
-                    return 0;
-                }
-                target = random_entry( valid );
-            } else {
-                const std::string query = string_format( _( "Place the %s where?" ),
-                                          it->get_var( "contained_name", "" ) );
-                if( const cata::optional<tripoint> pos_ = choose_adjacent( query ) ) {
-                    target = *pos_;
-                } else {
-                    return 0;
-                }
-                if( !g->is_empty( target ) ) {
-                    p->add_msg_if_player( m_info, _( "You cannot place the %s there!" ),
-                                          it->get_var( "contained_name", "" ) );
-                    return 0;
-                }
-            }
+            return 1;
         }
-        return it->release_monster( target );
+        if( it->has_flag( "PLACE_RANDOMLY" ) ) {
+            if( it->release_monster( p->pos(), 1 ) ) {
+                return 1;
+            }
+            p->add_msg_if_player( _( "There is no place to put the %s." ),
+                                  it->get_var( "contained_name", "" ) );
+            return 0;
+        } else {
+            const std::string query = string_format( _( "Place the %s where?" ),
+                                      it->get_var( "contained_name", "" ) );
+            const cata::optional<tripoint> pos_ = choose_adjacent( query );
+            if( !pos_ ) {
+                return 0;
+            }
+            if( it->release_monster( *pos_ ) ) {
+                return 1;
+            }
+            p->add_msg_if_player( m_info, _( "You cannot place the %s there!" ),
+                                  it->get_var( "contained_name", "" ) );
+            return 0;
+        }
     } else {
         const std::string query = string_format( _( "Capture what with the %s?" ), it->tname() );
         const cata::optional<tripoint> target_ = choose_adjacent( query );

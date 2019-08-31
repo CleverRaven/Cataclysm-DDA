@@ -141,22 +141,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
             g->m.dirty_vehicle_list.insert( &veh );
         }
         void spawn_animal_from_part( item &base, const tripoint &loc ) override {
-            tripoint target = loc;
-            bool spawn = true;
-            if( !g->is_empty( target ) ) {
-                std::vector<tripoint> valid;
-                for( const tripoint &dest : g->m.points_in_radius( target, 1 ) ) {
-                    if( g->is_empty( dest ) ) {
-                        valid.push_back( dest );
-                    }
-                }
-                if( valid.empty() ) {
-                    spawn = false;
-                } else {
-                    target = random_entry( valid );
-                }
-            }
-            base.release_monster( target, spawn );
+            base.release_monster( loc, 1 );
         }
 };
 
