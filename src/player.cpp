@@ -4176,14 +4176,18 @@ void player::update_needs( int rate_multiplier )
 
     // Huge folks take penalties for cramming themselves in vehicles
     if( in_vehicle && ( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) ) {
-        add_msg_if_player( m_bad,
-                           _( "You're cramping up from stuffing yourself in this vehicle." ) );
-        if( is_npc() ) {
-            npc &as_npc = dynamic_cast<npc &>( *this );
-            as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
+        vehicle *veh = veh_pointer_or_null( g->m.veh_at( pos() ) );
+        // it's painful to work the controls, but passengers in open topped vehicles are fine
+        if( veh && ( veh->enclosed_at( pos() ) || veh->player_in_control( *this ) ) ) {
+            add_msg_if_player( m_bad,
+                               _( "You're cramping up from stuffing yourself in this vehicle." ) );
+            if( is_npc() ) {
+                npc &as_npc = dynamic_cast<npc &>( *this );
+                as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
+            }
+            mod_pain_noresist( 2 * rng( 2, 3 ) );
+            focus_pool -= 1;
         }
-        mod_pain_noresist( 2 * rng( 2, 3 ) );
-        focus_pool -= 1;
     }
 }
 

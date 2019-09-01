@@ -1009,6 +1009,7 @@ class vehicle
         // get monster on a boardable part at p
         monster *get_pet( int p ) const;
 
+        bool enclosed_at( const tripoint &pos ); // not const because it calls refresh_insides
         /**
          * Get the coordinates (in map squares) of this vehicle, it's the same
          * coordinate system that player::posx uses.
