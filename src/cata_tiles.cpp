@@ -1077,9 +1077,10 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             const tripoint pos( temp_x, temp_y, center.z );
             const int &x = pos.x;
             const int &y = pos.y;
+            const bool has_terrain_override = terrain_override.find( pos ) != terrain_override.end();
             if( ( y < min_visible_y || y > max_visible_y || x < min_visible_x || x > max_visible_x ) &&
                 // tile overrides are visible even outside vision range
-                terrain_override.find( pos ) == terrain_override.end() ) {
+                !has_terrain_override ) {
 
                 int height_3d = 0;
                 if( !draw_terrain_from_memory( pos, height_3d ) ) {
@@ -1099,7 +1100,9 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             }
 
             if( g->displaying_radiation ) {
-                const int rad_value = g->m.get_radiation( pos );
+                const auto rad_override = radiation_override.find( pos );
+                const int rad_value = rad_override != radiation_override.end() ?
+                                      rad_override->second : g->m.get_radiation( pos );
                 catacurses::base_color col;
                 if( rad_value > 0 ) {
                     col = catacurses::green;
@@ -1156,7 +1159,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             }
 
             // if we find any tile override, skip drawing vision effects
-            if( terrain_override.find( pos ) == terrain_override.end() &&
+            if( !has_terrain_override &&
                 apply_vision_effects( pos, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
 
                 int height_3d = 0;
@@ -1232,6 +1235,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         }
     }
     // tile overrides are already drawn in the previous code
+    void_radiation_override();
     void_terrain_override();
     void_furniture_override();
     void_graffiti_override();
@@ -2570,6 +2574,10 @@ void cata_tiles::init_draw_zones( const tripoint &_start, const tripoint &_end,
     zone_end = _end;
     zone_offset = _offset;
 }
+void cata_tiles::init_draw_radiation_override( const tripoint &p, const int rad )
+{
+    radiation_override.emplace( p, rad );
+}
 void cata_tiles::init_draw_terrain_override( const tripoint &p, const ter_id &id )
 {
     terrain_override.emplace( p, id );
@@ -2659,6 +2667,10 @@ void cata_tiles::void_sct()
 void cata_tiles::void_zones()
 {
     do_draw_zones = false;
+}
+void cata_tiles::void_radiation_override()
+{
+    radiation_override.clear();
 }
 void cata_tiles::void_terrain_override()
 {

@@ -1584,6 +1584,11 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                 for( int y = 0; y < SEEY * 2; y++ ) {
                     const tripoint tmp_p( x, y, target.z );
                     const tripoint map_p = origin_p + tmp_p;
+                    g->draw_radiation_override( map_p, tmpmap.get_radiation( tmp_p ) );
+                    // scent is managed in `game` instead of `map`, so there's no override for it
+                    // temperature is managed in `game` instead of `map`, so there's no override for it
+                    // TODO: visibility could be affected by both the actual map and the preview map,
+                    // which complicates calculation, so there's no override for it (yet)
                     g->draw_terrain_override( map_p, tmpmap.ter( tmp_p ) );
                     g->draw_furniture_override( map_p, tmpmap.furn( tmp_p ) );
                     g->draw_graffiti_override( map_p, tmpmap.has_graffiti_at( tmp_p ) );
