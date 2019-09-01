@@ -3251,7 +3251,7 @@ void item::on_wield( player &p, int mv )
     }
 
     // Update encumbrance in case we were wearing it
-    p.reset_encumbrance();
+    p.flag_encumbrance();
 }
 
 void item::handle_pickup_ownership( Character &c )
@@ -3312,6 +3312,8 @@ void item::on_pickup( Character &p )
 
         contents.clear();
     }
+
+    p.flag_encumbrance();
 }
 
 void item::on_contents_changed()
@@ -4438,10 +4440,31 @@ bool item::is_power_armor() const
 
 int item::get_encumber( const Character &p ) const
 {
+
     units::volume contents_volume( 0_ml );
+
     for( const item &e : contents ) {
         contents_volume += e.volume();
     }
+
+    if( p.is_worn( *this ) ) {
+        const islot_armor *t = find_armor_data();
+
+        if( t != nullptr && t->max_encumber != 0 ) {
+            units::volume char_storage( 0_ml );
+
+            for( const item &e : p.worn ) {
+                char_storage += e.get_storage();
+            }
+
+            if( char_storage != 0_ml ) {
+                // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
+                contents_volume += units::from_milliliter( static_cast<int64_t>( t->storage.value() ) *
+                                   p.inv.volume().value() / char_storage.value() );
+            }
+        }
+    }
+
     return get_encumber_when_containing( p, contents_volume );
 }
 
@@ -4457,7 +4480,13 @@ int item::get_encumber_when_containing(
 
     // Non-rigid items add additional encumbrance proportional to their volume
     if( !type->rigid ) {
-        encumber += contents_volume / 250_ml;
+        if( t->max_encumber != 0 ) {
+            // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
+            encumber += static_cast<int64_t>( t->max_encumber - t->encumber ) * contents_volume.value() /
+                        get_total_capacity().value();
+        } else {
+            encumber += contents_volume / 250_ml;
+        }
     }
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
@@ -6933,7 +6962,7 @@ units::volume item::get_container_capacity() const
 
 units::volume item::get_total_capacity() const
 {
-    units::volume result = get_container_capacity();
+    units::volume result = get_storage() + get_container_capacity();
 
     // Consider various iuse_actors which add containing capability
     // Treating these two as special cases for now; if more appear in the
@@ -8701,6 +8730,8 @@ bool item::on_drop( const tripoint &pos, map &m )
         !item_tags.count( "DIRTY" ) ) {
         item_tags.insert( "DIRTY" );
     }
+
+    g->u.flag_encumbrance();
     return type->drop_action && type->drop_action.call( g->u, *this, false, pos );
 }
 
