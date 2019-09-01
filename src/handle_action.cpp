@@ -1887,10 +1887,16 @@ bool game::handle_action()
 
             case ACTION_EAT:
                 eat();
+                if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+                    g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
+                }
                 break;
 
             case ACTION_OPEN_CONSUME:
                 open_consume_item_menu();
+                if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+                    g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
+                }
                 break;
 
             case ACTION_READ:

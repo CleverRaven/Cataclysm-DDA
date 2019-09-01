@@ -539,7 +539,7 @@ const inventory &player::crafting_inventory( const tripoint &src_pos, int radius
         && cached_position == inv_pos ) {
         return cached_crafting_inventory;
     }
-    cached_crafting_inventory.form_from_map( inv_pos, radius, this, false );
+    cached_crafting_inventory.form_from_map( inv_pos, radius, this, false, true );
     cached_crafting_inventory += inv;
     cached_crafting_inventory += weapon;
     cached_crafting_inventory += worn;
