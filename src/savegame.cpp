@@ -29,7 +29,7 @@
 #include "overmap.h"
 #include "scent_map.h"
 #include "translations.h"
-#include "tuple_hash.h"
+#include "hash_utils.h"
 #include "basecamp.h"
 #include "json.h"
 #include "omdata.h"
