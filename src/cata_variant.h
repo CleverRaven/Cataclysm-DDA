@@ -9,6 +9,8 @@
 #include "character_id.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "enum_traits.h"
+#include "hash_utils.h"
 #include "type_id.h"
 
 enum add_type : int;
@@ -21,6 +23,7 @@ using itype_id = std::string;
 // types.  All types are stored by converting them to a string.
 
 enum class cata_variant_type : int {
+    void_, // Special type for empty variants
     add_type,
     bionic_id,
     body_part,
@@ -41,16 +44,16 @@ enum class cata_variant_type : int {
     num_types, // last
 };
 
+template<>
+struct enum_traits<cata_variant_type> {
+    static constexpr cata_variant_type last = cata_variant_type::num_types;
+};
+
 // Here follows various implementation details.  Skip to the bottom of the file
 // to see cata_variant itself.
 
 namespace cata_variant_detail
 {
-
-// Converting cata_variant_type enum values to and from string for serialization and error
-// reporting.
-std::string to_string( cata_variant_type );
-cata_variant_type from_string( const std::string & );
 
 // The convert struct is specialized for each cata_variant_type to provide the
 // code for converting that type to or from a string.
@@ -81,7 +84,7 @@ template<typename T>
 constexpr cata_variant_type type_for()
 {
     constexpr size_t num_types = static_cast<size_t>( cata_variant_type::num_types );
-    using SimpleT = std::remove_reference_t<T>;
+    using SimpleT = std::remove_cv_t<std::remove_reference_t<T>>;
     return type_for_impl<SimpleT>( std::make_index_sequence<num_types> {} );
 }
 
@@ -140,9 +143,14 @@ struct convert_enum {
 };
 
 // These are the specializations of convert for each value type.
-static_assert( static_cast<int>( cata_variant_type::num_types ) == 17,
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 18,
                "This assert is a reminder to add conversion support for any new types to the "
                "below specializations" );
+
+template<>
+struct convert<cata_variant_type::void_> {
+    using type = void;
+};
 
 template<>
 struct convert<cata_variant_type::add_type> : convert_enum<add_type> {};
@@ -224,6 +232,10 @@ struct convert<cata_variant_type::trap_str_id> : convert_string_id<trap_str_id> 
 class cata_variant
 {
     public:
+        // Default constructor for an 'empty' variant (you can't get a value
+        // from it).
+        cata_variant() : type_( cata_variant_type::void_ ) {}
+
         // Constructor that attempts to infer the type from the type of the
         // value passed.
         template < typename Value,
@@ -255,8 +267,8 @@ class cata_variant
         auto get() const -> typename cata_variant_detail::convert<Type>::type {
             if( type_ != Type ) {
                 debugmsg( "Tried to extract type %s from cata_variant which contained %s",
-                          cata_variant_detail::to_string( Type ),
-                          cata_variant_detail::to_string( type_ ) );
+                          io::enum_to_string( Type ),
+                          io::enum_to_string( type_ ) );
                 return {};
             }
             return cata_variant_detail::convert<Type>::from_string( value_ );
@@ -271,6 +283,24 @@ class cata_variant
             return value_;
         }
 
+        std::pair<cata_variant_type, std::string> as_pair() const {
+            return std::make_pair( type_, value_ );
+        }
+
+        void serialize( JsonOut & ) const;
+        void deserialize( JsonIn & );
+
+#define CATA_VARIANT_OPERATOR(op) \
+    friend bool operator op( const cata_variant &l, const cata_variant &r ) { \
+        return l.as_pair() op r.as_pair(); \
+    }
+        CATA_VARIANT_OPERATOR( == );
+        CATA_VARIANT_OPERATOR( != );
+        CATA_VARIANT_OPERATOR( < );
+        CATA_VARIANT_OPERATOR( <= );
+        CATA_VARIANT_OPERATOR( > );
+        CATA_VARIANT_OPERATOR( >= );
+#undef CATA_VARIANT_OPERATOR
     private:
         explicit cata_variant( cata_variant_type t, std::string &&v )
             : type_( t )
@@ -280,5 +310,24 @@ class cata_variant
         cata_variant_type type_;
         std::string value_;
 };
+
+namespace std
+{
+
+template<>
+struct hash<cata_variant_type> {
+    size_t operator()( const cata_variant_type v ) const noexcept {
+        return static_cast<size_t>( v );
+    }
+};
+
+template<>
+struct hash<cata_variant> {
+    size_t operator()( const cata_variant &v ) const noexcept {
+        return cata::tuple_hash()( v.as_pair() );
+    }
+};
+
+} // namespace std
 
 #endif // CATA_VARIANT_H
