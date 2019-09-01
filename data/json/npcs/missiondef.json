@@ -698,7 +698,7 @@
     "difficulty": 2,
     "value": 800,
     "item": "family_photo",
-    "origins": [ "ORIGIN_ANY_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I need you to get my family photo from the armory safe.",
       "offer": "I left the only photo I have from my family in the armory. I don't have the code, can you get in?",
