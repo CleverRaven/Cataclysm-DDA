@@ -1789,7 +1789,7 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
                     iter.advanceStepOffset();
                 }
             }
-            vSCT.insert( vSCT.begin(), cSCT( pos.x, pos.y, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2,
+            vSCT.insert( vSCT.begin(), cSCT( pos, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2,
                                              p_sType ) );
 
         } else {
@@ -1800,7 +1800,7 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
                     iter->advanceStepOffset();
                 }
             }
-            vSCT.push_back( cSCT( pos.x, pos.y, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2, p_sType ) );
+            vSCT.push_back( cSCT( pos, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2, p_sType ) );
         }
 
     }
