@@ -421,7 +421,7 @@
         "     |c   |  |    |     "
       ],
       "palettes": [ "microlab" ],
-      "monster": { "T": { "monster": "mon_turret" }, "M": { "monster": "mon_zombie_bio_op" } }
+      "monster": { "T": { "monster": "mon_turret_rifle" }, "M": { "monster": "mon_zombie_bio_op" } }
     }
   },
   {
