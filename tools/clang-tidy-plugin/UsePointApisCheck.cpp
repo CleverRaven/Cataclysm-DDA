@@ -62,15 +62,21 @@ static bool doFunctionsMatch( const FunctionDecl *Callee, const FunctionDecl *Ot
         const ParmVarDecl *OtherCalleeParam =
             OtherCallee->getParamDecl( OtherCalleeParamI );
 
-        std::string ExpectedTypeName = CalleeParam->getType().getAsString();
         if( CalleeParamI == MinArg - SkipArgs ) {
             std::string ShortTypeName = IsTripoint ? "tripoint" : "point";
-            ExpectedTypeName = "const struct " + ShortTypeName + " &";
+            std::string ExpectedTypeName = "const struct " + ShortTypeName + " &";
+            if( OtherCalleeParam->getType().getAsString() != ExpectedTypeName ) {
+                return false;
+            }
             CalleeParamI += NumCoordParams - 1;
-        }
-
-        if( OtherCalleeParam->getType().getAsString() != ExpectedTypeName ) {
-            return false;
+        } else {
+            // Compare the types as strings because if e.g. the two overloads
+            // are function templates then the tmplate parameters will be
+            // different types.
+            if( CalleeParam->getType().getLocalUnqualifiedType().getAsString() !=
+                OtherCalleeParam->getType().getLocalUnqualifiedType().getAsString() ) {
+                return false;
+            }
         }
     }
 
