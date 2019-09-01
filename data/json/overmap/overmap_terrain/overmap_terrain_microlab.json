@@ -48,5 +48,18 @@
     "name": "science lab",
     "sym": "L",
     "copy-from": "microlab_sub_connector"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_surface",
+    "name": "lab",
+    "sym": "L",
+    "color": "blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_surface_roof",
+    "copy-from": "microlab_generic_surface"
   }
 ]

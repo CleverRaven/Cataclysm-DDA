@@ -190,8 +190,85 @@
       "items": {
         "l": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
         "t": { "item": "magazines", "chance": 90 }
-      },
-      "vendingmachines": { "V": {  } }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic_surface" ] ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_concrete",
+      "rows": [
+        " yyyyyyyyyyyyyyyyyyyyyy ",
+        " yyyyyyyyyyyyyyyyyyyyyy ",
+        " y____________________y ",
+        " y____________________y ",
+        " y____________________y ",
+        " ||||||||||22|yyyyyyyyy ",
+        " |         SS|________y ",
+        " |         SS|________y ",
+        " |         SS|________y ",
+        " |         SS|________y ",
+        " |   |((((|22||555555|y ",
+        " |   |........|yyyyyy|. ",
+        " |   |..dddd..|......|. ",
+        " |   |^.d.hd..5yyyyyy|  ",
+        " |   |||||||..5......|  ",
+        " |   (V.??....Gyyyyyy|  ",
+        " |   (t.......|......|  ",
+        " |   (^???....|yyyyyy|  ",
+        " |   ||||||..^|yyyyyy|  ",
+        " |   |.hd^=..^|eeeeee|  ",
+        " |   |.dd.=..^|eeeeee|  ",
+        " |   |B...=..^|EeeeeE|  ",
+        " |   |B...[..^|eeeeee|  ",
+        " |||||||||||||||||||||  "
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": {
+        "e": "t_elevator",
+        "E": "t_elevator_control",
+        " ": "t_grass",
+        "_": "t_pavement",
+        ".": "t_thconc_floor",
+        "G": "t_card_science"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic_surface_roof" ] ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_concrete",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     .................  ",
+        "     .................  ",
+        "     .................  ",
+        "     .................  ",
+        "     .................  ",
+        "     .................  ",
+        "     .................  ",
+        "     .................  ",
+        "     .................  ",
+        "     .................  ",
+        "     .................  ",
+        "     .................  ",
+        "     .................  ",
+        "     .................  "
+      ],
+      "terrain": { " ": "t_open_air", ".": "t_concrete" }
     }
   }
 ]
