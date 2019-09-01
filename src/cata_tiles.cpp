@@ -1081,7 +1081,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             }
             if( ( y < min_visible_y || y > max_visible_y || x < min_visible_x || x > max_visible_x ) &&
                 // tile overrides are visible even outside vision range
-                terrain_override.find( tripoint( x, y, center.z ) ) != terrain_override.end() ) {
+                terrain_override.find( tripoint( x, y, center.z ) ) == terrain_override.end() ) {
 
                 int height_3d = 0;
                 if( !draw_terrain_from_memory( tripoint( x, y, center.z ), height_3d ) ) {
