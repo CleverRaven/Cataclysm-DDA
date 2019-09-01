@@ -12,6 +12,7 @@
 
 #include "sdl_wrappers.h"
 #include "animation.h"
+#include "creature.h"
 #include "lightmap.h"
 #include "line.h"
 #include "options.h"
@@ -328,7 +329,6 @@ class cata_tiles
         bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_critter_at_below( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d );
-        bool draw_entity( const Creature &critter, const tripoint &p, lit_level ll, int &height_3d );
         void draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll, int &height_3d );
 
         bool draw_item_highlight( const tripoint &pos );
@@ -407,6 +407,10 @@ class cata_tiles
 
         void init_draw_below_override( const tripoint &p, bool draw );
         void void_draw_below_override();
+
+        void init_draw_monster_override( const tripoint &p, const mtype_id &id, int count,
+                                         bool more, Creature::Attitude att );
+        void void_monster_override();
 
         bool has_draw_override( const tripoint &p ) const;
     public:
@@ -528,6 +532,8 @@ class cata_tiles
         // point represents the mount direction
         std::map<tripoint, std::tuple<vpart_id, int, int, bool, point>> vpart_override;
         std::map<tripoint, bool> draw_below_override;
+        // int represents spawn count
+        std::map<tripoint, std::tuple<mtype_id, int, bool, Creature::Attitude>> monster_override;
 
     private:
         /**

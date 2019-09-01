@@ -53,7 +53,6 @@
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
-#include "creature.h"
 #include "cursesdef.h"
 #include "int_id.h"
 #include "map_memory.h"
@@ -1197,6 +1196,22 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                 ( this->*f )( p.pos, ch.visibility_cache[p.pos.x][p.pos.y], p.height_3d );
             }
         }
+        // display number of monsters to spawn in mapgen preview
+        for( const auto &p : draw_points ) {
+            const auto mon_override = monster_override.find( p.pos );
+            if( mon_override != monster_override.end() ) {
+                const int count = std::get<1>( mon_override->second );
+                const bool more = std::get<2>( mon_override->second );
+                if( count > 1 || more ) {
+                    std::string text = "x" + std::to_string( count );
+                    if( more ) {
+                        text += "+";
+                    }
+                    overlay_strings.emplace( player_to_screen( p.pos.x, p.pos.y ) + point( tile_width / 2, 0 ),
+                                             formatted_text( text, catacurses::red, NORTH ) );
+                }
+            }
+        }
     }
 
     //Memorize everything the character just saw even if it wasn't displayed.
@@ -1246,6 +1261,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     void_item_override();
     void_vpart_override();
     void_draw_below_override();
+    void_monster_override();
 
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
@@ -2351,11 +2367,102 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int 
 
 bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3d )
 {
-    const auto critter = g->critter_at( p, true );
-    if( critter != nullptr ) {
-        return draw_entity( *critter, p, ll, height_3d );
+    bool result;
+    bool is_player;
+    bool sees_player;
+    Creature::Attitude attitude;
+    const auto override = monster_override.find( p );
+    if( override != monster_override.end() ) {
+        const mtype_id id = std::get<0>( override->second );
+        if( !id ) {
+            return false;
+        }
+        is_player = false;
+        sees_player = false;
+        attitude = std::get<3>( override->second );
+        const std::string &chosen_id = id.str();
+        const std::string &ent_subcategory = id.obj().species.empty() ?
+                                             empty_string : id.obj().species.begin()->str();
+        result = draw_from_id_string( chosen_id, C_MONSTER, ent_subcategory, p, corner, 0, LL_LIT, false,
+                                      height_3d );
+    } else {
+        const Creature *pcritter = g->critter_at( p, true );
+        if( pcritter == nullptr ) {
+            return false;
+        }
+        const Creature &critter = *pcritter;
+
+        if( !g->u.sees( critter ) ) {
+            if( g->u.sees_with_infrared( critter ) ) {
+                return draw_from_id_string( "infrared_creature", C_NONE, empty_string, p, 0, 0,
+                                            LL_LIT, false, height_3d );
+            }
+            return false;
+        }
+        result = false;
+        sees_player = false;
+        is_player = false;
+        attitude = Creature::A_ANY;
+        const monster *m = dynamic_cast<const monster *>( &critter );
+        if( m != nullptr ) {
+            const auto ent_category = C_MONSTER;
+            std::string ent_subcategory = empty_string;
+            if( !m->type->species.empty() ) {
+                ent_subcategory = m->type->species.begin()->str();
+            }
+            const int subtile = corner;
+            // depending on the toggle flip sprite left or right
+            int rot_facing = -1;
+            if( m->facing == FD_RIGHT ) {
+                rot_facing = 0;
+            } else if( m->facing == FD_LEFT ) {
+                rot_facing = 4;
+            }
+            if( rot_facing >= 0 ) {
+                const auto ent_name = m->type->id;
+                std::string chosen_id = ent_name.str();
+                if( m->has_effect( effect_ridden ) ) {
+                    int pl_under_height = 6;
+                    draw_entity_with_overlays( g->u, p, ll, pl_under_height );
+                    const std::string prefix = "rid_";
+                    std::string copy_id = chosen_id;
+                    const std::string ridden_id = copy_id.insert( 0, prefix );
+                    const tile_type *tt = tileset_ptr->find_tile_type( ridden_id );
+                    if( tt ) {
+                        chosen_id = ridden_id;
+                    }
+                }
+                result = draw_from_id_string( chosen_id, ent_category, ent_subcategory, p, subtile, rot_facing,
+                                              ll, false, height_3d );
+                sees_player = m->sees( g->u );
+                attitude = m->attitude_to( g-> u );
+            }
+        }
+        const player *pl = dynamic_cast<const player *>( &critter );
+        if( pl != nullptr ) {
+            draw_entity_with_overlays( *pl, p, ll, height_3d );
+            result = true;
+            if( pl->is_player() ) {
+                is_player = true;
+            } else {
+                sees_player = pl->sees( g-> u );
+                attitude = pl->attitude_to( g-> u );
+            }
+        }
     }
-    return false;
+
+    if( result && !is_player ) {
+        std::ostringstream tmp_id;
+        tmp_id << "overlay_" << Creature::attitude_raw_string( attitude );
+        if( sees_player ) {
+            tmp_id << "_sees_player";
+        }
+        const std::string draw_id = tmp_id.str();
+        if( tileset_ptr->find_tile_type( draw_id ) ) {
+            draw_from_id_string( draw_id, C_NONE, empty_string, p, 0, 0, LL_LIT, false, height_3d );
+        }
+    }
+    return result;
 }
 
 bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d )
@@ -2378,81 +2485,6 @@ bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d
     }
 
     return false;
-}
-
-bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_level ll,
-                              int &height_3d )
-{
-    if( !g->u.sees( critter ) ) {
-        if( g->u.sees_with_infrared( critter ) ) {
-            return draw_from_id_string( "infrared_creature", C_NONE, empty_string, p, 0, 0,
-                                        LL_LIT, false, height_3d );
-        }
-        return false;
-    }
-    bool result = false;
-    bool sees_player = false;
-    bool is_player = false;
-    Creature::Attitude attitude = Creature::A_ANY;
-    const monster *m = dynamic_cast<const monster *>( &critter );
-    if( m != nullptr ) {
-        const auto ent_category = C_MONSTER;
-        std::string ent_subcategory = empty_string;
-        if( !m->type->species.empty() ) {
-            ent_subcategory = m->type->species.begin()->str();
-        }
-        const int subtile = corner;
-        // depending on the toggle flip sprite left or right
-        int rot_facing = -1;
-        if( m->facing == FD_RIGHT ) {
-            rot_facing = 0;
-        } else if( m->facing == FD_LEFT ) {
-            rot_facing = 4;
-        }
-        if( rot_facing >= 0 ) {
-            const auto ent_name = m->type->id;
-            std::string chosen_id = ent_name.str();
-            if( m->has_effect( effect_ridden ) ) {
-                int pl_under_height = 6;
-                draw_entity_with_overlays( g->u, p, ll, pl_under_height );
-                const std::string prefix = "rid_";
-                std::string copy_id = chosen_id;
-                const std::string ridden_id = copy_id.insert( 0, prefix );
-                const tile_type *tt = tileset_ptr->find_tile_type( ridden_id );
-                if( tt ) {
-                    chosen_id = ridden_id;
-                }
-            }
-            result = draw_from_id_string( chosen_id, ent_category, ent_subcategory, p, subtile, rot_facing,
-                                          ll, false, height_3d );
-            sees_player = m->sees( g->u );
-            attitude = m->attitude_to( g-> u );
-        }
-    }
-    const player *pl = dynamic_cast<const player *>( &critter );
-    if( pl != nullptr ) {
-        draw_entity_with_overlays( *pl, p, ll, height_3d );
-        result = true;
-        if( pl->is_player() ) {
-            is_player = true;
-        } else {
-            sees_player = pl->sees( g-> u );
-            attitude = pl->attitude_to( g-> u );
-        }
-    }
-
-    if( result && !is_player ) {
-        std::ostringstream tmp_id;
-        tmp_id << "overlay_" << Creature::attitude_raw_string( attitude );
-        if( sees_player ) {
-            tmp_id << "_sees_player";
-        }
-        const std::string draw_id = tmp_id.str();
-        if( tileset_ptr->find_tile_type( draw_id ) ) {
-            draw_from_id_string( draw_id, C_NONE, empty_string, p, 0, 0, LL_LIT, false, height_3d );
-        }
-    }
-    return result;
 }
 
 void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll,
@@ -2615,6 +2647,11 @@ void cata_tiles::init_draw_below_override( const tripoint &p, const bool draw )
 {
     draw_below_override.emplace( p, draw );
 }
+void cata_tiles::init_draw_monster_override( const tripoint &p, const mtype_id &id, const int count,
+        const bool more, const Creature::Attitude att )
+{
+    monster_override.emplace( p, std::make_tuple( id, count, more, att ) );
+}
 /* -- Void Animators */
 void cata_tiles::void_explosion()
 {
@@ -2707,6 +2744,10 @@ void cata_tiles::void_draw_below_override()
 {
     draw_below_override.clear();
 }
+void cata_tiles::void_monster_override()
+{
+    monster_override.clear();
+}
 bool cata_tiles::has_draw_override( const tripoint &p ) const
 {
     return radiation_override.find( p ) != radiation_override.end() ||
@@ -2717,7 +2758,8 @@ bool cata_tiles::has_draw_override( const tripoint &p ) const
            field_override.find( p ) != field_override.end() ||
            item_override.find( p ) != item_override.end() ||
            vpart_override.find( p ) != vpart_override.end() ||
-           draw_below_override.find( p ) != draw_below_override.end();
+           draw_below_override.find( p ) != draw_below_override.end() ||
+           monster_override.find( p ) != monster_override.end();
 }
 /* -- Animation Renders */
 void cata_tiles::draw_explosion_frame()

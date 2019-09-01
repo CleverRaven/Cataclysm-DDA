@@ -896,3 +896,18 @@ void game::draw_below_override( const tripoint &, const bool )
 {
 }
 #endif
+
+#if defined(TILES)
+void game::draw_monster_override( const tripoint &p, const mtype_id &id, const int count,
+                                  const bool more, const Creature::Attitude att )
+{
+    if( use_tiles ) {
+        tilecontext->init_draw_monster_override( p, id, count, more, att );
+    }
+}
+#else
+void game::draw_monster_override( const tripoint &, const mtype_id &, const int,
+                                  const bool, const Creature::Attitude )
+{
+}
+#endif

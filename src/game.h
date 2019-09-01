@@ -634,6 +634,8 @@ class game
         void draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod, int veh_dir,
                                   bool hilite, const point &mount );
         void draw_below_override( const tripoint &p, bool draw );
+        void draw_monster_override( const tripoint &p, const mtype_id &id, int count,
+                                    bool more, Creature::Attitude att );
 
         bool is_in_viewport( const tripoint &p, int margin = 0 ) const;
         /**
