@@ -1006,8 +1006,6 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         render_fill_rect( renderer, clipRect, 0, 0, 0 );
     }
 
-    const point pos = center.xy();
-
     int sx = 0;
     int sy = 0;
     get_window_tile_counts( width, height, sx, sy );
@@ -1018,7 +1016,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
     const bool iso_mode = tile_iso;
 
-    o = iso_mode ? pos : pos - point( POSX, POSY );
+    o = iso_mode ? center.xy() : center.xy() - point( POSX, POSY );
 
     op = point( destx, desty );
     // Rounding up to include incomplete tiles at the bottom/right edges
@@ -1036,11 +1034,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     const int max_visible_x = ( g->u.posx() % SEEX ) + ( MAPSIZE - 1 ) * SEEX;
     const int max_visible_y = ( g->u.posy() % SEEY ) + ( MAPSIZE - 1 ) * SEEY;
 
-    tripoint temp;
-    temp.z = center.z;
-    int &x = temp.x;
-    int &y = temp.y;
-    auto &ch = g->m.access_cache( temp.z );
+    const auto &ch = g->m.access_cache( center.z );
 
     //set up a default tile for the edges outside the render area
     visibility_type offscreen_type = VIS_DARK;
@@ -1067,32 +1061,36 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         std::vector<tile_render_info> draw_points;
         draw_points.reserve( max_col );
         for( int col = min_col; col < max_col; col ++ ) {
+            int temp_x, temp_y;
             if( iso_mode ) {
                 //in isometric, rows and columns represent a checkerboard screen space, and we place
                 //the appropriate tile in valid squares by getting position relative to the screen center.
                 if( modulo( row + o.y, 2 ) != modulo( col + o.x, 2 ) ) {
                     continue;
                 }
-                x = ( col - row - sx / 2 + sy / 2 ) / 2 + o.x;
-                y = ( row + col - sy / 2 - sx / 2 ) / 2 + o.y;
+                temp_x = ( col - row - sx / 2 + sy / 2 ) / 2 + o.x;
+                temp_y = ( row + col - sy / 2 - sx / 2 ) / 2 + o.y;
             } else {
-                x = col + o.x;
-                y = row + o.y;
+                temp_x = col + o.x;
+                temp_y = row + o.y;
             }
+            const tripoint pos( temp_x, temp_y, center.z );
+            const int &x = pos.x;
+            const int &y = pos.y;
             if( ( y < min_visible_y || y > max_visible_y || x < min_visible_x || x > max_visible_x ) &&
                 // tile overrides are visible even outside vision range
-                terrain_override.find( tripoint( x, y, center.z ) ) == terrain_override.end() ) {
+                terrain_override.find( pos ) == terrain_override.end() ) {
 
                 int height_3d = 0;
-                if( !draw_terrain_from_memory( tripoint( x, y, center.z ), height_3d ) ) {
-                    apply_vision_effects( temp, offscreen_type );
+                if( !draw_terrain_from_memory( pos, height_3d ) ) {
+                    apply_vision_effects( pos, offscreen_type );
                 }
                 continue;
             }
 
             // Add scent value to the overlay_strings list for every visible tile when displaying scent
             if( g->displaying_scent ) {
-                const int scent_value = g->scent.get( {x, y, center.z} );
+                const int scent_value = g->scent.get( pos );
                 if( scent_value > 0 ) {
                     overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, 0 ),
                                              formatted_text( std::to_string( scent_value ), 8 + catacurses::yellow,
@@ -1101,7 +1099,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             }
 
             if( g->displaying_radiation ) {
-                const int rad_value = g->m.get_radiation( {x, y, center.z} );
+                const int rad_value = g->m.get_radiation( pos );
                 catacurses::base_color col;
                 if( rad_value > 0 ) {
                     col = catacurses::green;
@@ -1114,7 +1112,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
             // Add temperature value to the overlay_strings list for every visible tile when displaying temperature
             if( g->displaying_temperature ) {
-                int temp_value = g->weather.get_temperature( {x, y, center.z} );
+                int temp_value = g->weather.get_temperature( pos );
                 int ctemp = temp_to_celsius( temp_value );
                 short color;
                 const short bold = 8;
@@ -1143,7 +1141,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             }
 
             if( g->displaying_visibility && ( g->displaying_visibility_creature != nullptr ) ) {
-                const bool visibility = g->displaying_visibility_creature->sees( { x, y, center.z } );
+                const bool visibility = g->displaying_visibility_creature->sees( pos );
 
                 // color overlay.
                 auto block_color = visibility ? windowsPalette[catacurses::green] : SDL_Color{ 192, 192, 192, 255 };
@@ -1158,16 +1156,16 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             }
 
             // if we find any tile override, skip drawing vision effects
-            if( terrain_override.find( tripoint( x, y, center.z ) ) == terrain_override.end() &&
-                apply_vision_effects( temp, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
+            if( terrain_override.find( pos ) == terrain_override.end() &&
+                apply_vision_effects( pos, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
 
                 int height_3d = 0;
-                draw_terrain_from_memory( tripoint( x, y, center.z ), height_3d );
-                const auto critter = g->critter_at( tripoint( x, y, center.z ), true );
+                draw_terrain_from_memory( pos, height_3d );
+                const auto critter = g->critter_at( pos, true );
                 if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
                     // TODO: defer drawing this until later when we know how tall
                     //     the terrain/furniture under the creature is.
-                    draw_from_id_string( "infrared_creature", C_NONE, empty_string, temp, 0, 0, LL_LIT, false );
+                    draw_from_id_string( "infrared_creature", C_NONE, empty_string, pos, 0, 0, LL_LIT, false );
                 }
                 continue;
             }
@@ -1175,9 +1173,9 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             int height_3d = 0;
 
             // light level is now used for choosing between grayscale filter and normal lit tiles.
-            draw_terrain( tripoint( x, y, center.z ), ch.visibility_cache[x][y], height_3d );
+            draw_terrain( pos, ch.visibility_cache[x][y], height_3d );
 
-            draw_points.push_back( tile_render_info( tripoint( x, y, center.z ), height_3d ) );
+            draw_points.push_back( tile_render_info( pos, height_3d ) );
         }
         const std::array<decltype( &cata_tiles::draw_furniture ), 10> drawing_layers = {{
                 &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap,
