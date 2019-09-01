@@ -111,7 +111,7 @@
       ],
       "palettes": [ "microlab" ],
       "terrain": { "0": "t_vat", "G": "t_card_science" },
-      "monster": { "T": { "monster": "mon_turret" } },
+      "monster": { "T": { "monster": "mon_turret_rifle" } },
       "place_monsters": [ { "monster": "GROUP_LAB", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ]
     }
   },
