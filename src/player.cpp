@@ -7021,14 +7021,14 @@ static bool query_consume_ownership( item &target, player &p )
             if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && elem.sees( p.pos() ) ) {
                 witnesses.push_back( &elem );
             }
-            for( npc *elem : witnesses ) {
-                elem->say( "<witnessed_thievery>", 7 );
-            }
-            if( !witnesses.empty() ) {
-                if( g->u.add_faction_warning( target.get_owner()->id ) ) {
-                    for( npc *elem : witnesses ) {
-                        elem->make_angry();
-                    }
+        }
+        for( npc *elem : witnesses ) {
+            elem->say( "<witnessed_thievery>", 7 );
+        }
+        if( !witnesses.empty() ) {
+            if( g->u.add_faction_warning( target.get_owner()->id ) ) {
+                for( npc *elem : witnesses ) {
+                    elem->make_angry();
                 }
             }
         }
