@@ -571,7 +571,7 @@ std::string spell::name() const
 
 std::string spell::message() const
 {
-    if( alt_message.empty() == false ) {
+    if( !alt_message.empty() ) {
         return alt_message.translated();
     }
     return type->message.translated();
