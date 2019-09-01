@@ -311,6 +311,7 @@ cata::optional<tripoint> editmap::edit()
 
     uberdraw = uistate.editmap_nsa_viewmode;
     infoHeight = 20;
+    blink = true;
 
     w_info = catacurses::newwin( infoHeight, width, point( offsetX, TERMY - infoHeight ) );
     do {
@@ -361,13 +362,10 @@ cata::optional<tripoint> editmap::edit()
             target_list.push_back( target );
         } else if( move_target( action, 1 ) ) {
             recalc_target( editshape );         // target_list must follow movement
-            if( target_list.size() > 1 ) {
-                blink = true;                       // display entire list if it's more than just target point
-            }
-        } else {
-            blink = !blink;
         }
+        blink = action == "TIMEOUT" ? !blink : true;
     } while( action != "QUIT" );
+    blink = false;
 
     uistate.editmap_nsa_viewmode = uberdraw;
 
@@ -455,34 +453,45 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     }
     g->draw_cursor( target );
 
-    // hilight target_list points if blink=true (and if it's more than a point )
-    if( blink && target_list.size() > 1 ) {
-        for( auto &elem : target_list ) {
-            const tripoint &p = elem;
-            // but only if there's no vehicles/mobs/npcs on a point
-            if( !g->m.veh_at( p ) && !g->critter_at( p ) ) {
-                const ter_t &terrain = g->m.ter( p ).obj();
-                char t_sym = terrain.symbol();
-                nc_color t_col = terrain.color();
+    // hilight target_list points if blink=true
+    if( blink ) {
+        for( const auto &p : target_list ) {
+#ifdef TILES
+            if( use_tiles ) {
+                if( draw_target_override ) {
+                    draw_target_override.value()( p );
+                } else {
+                    g->draw_highlight( p );
+                }
+            } else {
+#endif
+                // but only if there's no vehicles/mobs/npcs on a point
+                if( !g->m.veh_at( p ) && !g->critter_at( p ) ) {
+                    const ter_t &terrain = g->m.ter( p ).obj();
+                    char t_sym = terrain.symbol();
+                    nc_color t_col = terrain.color();
 
-                if( g->m.has_furn( p ) ) {
-                    const furn_t &furniture_type = g->m.furn( p ).obj();
-                    t_sym = furniture_type.symbol();
-                    t_col = furniture_type.color();
-                }
-                const field &t_field = g->m.field_at( p );
-                if( t_field.field_count() > 0 ) {
-                    field_type_id t_ftype = t_field.displayed_field_type();
-                    const field_entry *t_fld = t_field.find_field( t_ftype );
-                    if( t_fld != nullptr ) {
-                        t_col = t_fld->color();
-                        t_sym = t_fld->symbol()[0];
+                    if( g->m.has_furn( p ) ) {
+                        const furn_t &furniture_type = g->m.furn( p ).obj();
+                        t_sym = furniture_type.symbol();
+                        t_col = furniture_type.color();
                     }
+                    const field &t_field = g->m.field_at( p );
+                    if( t_field.field_count() > 0 ) {
+                        field_type_id t_ftype = t_field.displayed_field_type();
+                        const field_entry *t_fld = t_field.find_field( t_ftype );
+                        if( t_fld != nullptr ) {
+                            t_col = t_fld->color();
+                            t_sym = t_fld->symbol()[0];
+                        }
+                    }
+                    t_col = altblink ? green_background( t_col ) : cyan_background( t_col );
+                    tripoint scrpos = pos2screen( p );
+                    mvwputch( g->w_terrain, scrpos.xy(), t_col, t_sym );
                 }
-                t_col = altblink ? green_background( t_col ) : cyan_background( t_col );
-                tripoint scrpos = pos2screen( p );
-                mvwputch( g->w_terrain, scrpos.xy(), t_col, t_sym );
+#ifdef TILES
             }
+#endif
         }
     }
 
@@ -778,6 +787,27 @@ std::string describe( const trap &type )
                           type.is_benign() ? _( "Yes" ) : _( "No" ) );
 }
 
+template<typename T_id>
+static void draw_override( const tripoint &p, const T_id &id );
+
+template<>
+void draw_override<ter_id>( const tripoint &p, const ter_id &id )
+{
+    g->draw_terrain_override( p, id );
+}
+
+template<>
+void draw_override<furn_id>( const tripoint &p, const furn_id &id )
+{
+    g->draw_furniture_override( p, id );
+}
+
+template<>
+void draw_override<trap_id>( const tripoint &p, const trap_id &id )
+{
+    g->draw_trap_override( p, id );
+}
+
 template<typename T_t>
 static void apply( const T_t &t, const shapetype editshape, const tripoint &target,
                    const tripoint &origin, const std::vector<tripoint> &target_list );
@@ -894,8 +924,17 @@ void editmap::edit_feature()
     int current_feature = emenu.selected = feature<T_id>( target ).to_i();
     emenu.entries[current_feature].text_color = c_green;
 
+    blink = true;
     bool quit = false;
     do {
+        const T_id override( emenu.selected );
+        if( override ) {
+            draw_target_override = [override]( const tripoint & p ) {
+                draw_override( p, override );
+            };
+        } else {
+            draw_target_override = cata::nullopt;
+        }
         input_context ctxt( emenu.input_category );
         update_view_with_help( string_format( pgettext( "keybinding descriptions", "%s, %s, %s, %s, %s" ),
                                               ctxt.describe_key_and_name( "CONFIRM" ),
@@ -904,7 +943,7 @@ void editmap::edit_feature()
                                               ctxt.describe_key_and_name( "EDITMAP_TAB" ),
                                               ctxt.describe_key_and_name( "EDITMAP_MOVE" ) ),
                                info_title<T_t>() );
-        emenu.query();
+        emenu.query( false, BLINK_SPEED );
         if( emenu.ret == UILIST_CANCEL ) {
             quit = true;
         } else if( ( emenu.ret >= 0 && static_cast<size_t>( emenu.ret ) < T_t::count() ) ||
@@ -929,7 +968,10 @@ void editmap::edit_feature()
                 uberdraw = !uberdraw;
             }
         }
+        blink = emenu.ret == UILIST_TIMEOUT ? !blink : true;
     } while( !quit );
+    blink = false;
+    draw_target_override = cata::nullopt;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -985,7 +1027,16 @@ void editmap::edit_fld()
     };
     fmenu.allow_additional = true;
 
+    blink = true;
     do {
+        const field_type_id override( fmenu.selected );
+        if( override ) {
+            draw_target_override = [override]( const tripoint & p ) {
+                g->draw_field_override( p, override );
+            };
+        } else {
+            draw_target_override = cata::nullopt;
+        }
         input_context ctxt( fmenu.input_category );
         // \u00A0 is the non-breaking space
         update_view_with_help( string_format( pgettext( "keybinding descriptions",
@@ -997,7 +1048,7 @@ void editmap::edit_fld()
                                               ctxt.describe_key_and_name( "QUIT" ),
                                               ctxt.describe_key_and_name( "EDITMAP_SHOW_ALL" ) ),
                                pgettext( "Map editor: Editing field effects", "Field effects" ) );
-        fmenu.query();
+        fmenu.query( false, BLINK_SPEED );
         if( ( fmenu.ret > 0 && static_cast<size_t>( fmenu.ret ) < field_type::count() ) ||
             ( fmenu.ret == UILIST_ADDITIONAL && ( fmenu.ret_act == "LEFT" || fmenu.ret_act == "RIGHT" ) ) ) {
 
@@ -1095,7 +1146,10 @@ void editmap::edit_fld()
                 uberdraw = !uberdraw;
             }
         }
+        blink = fmenu.ret == UILIST_TIMEOUT ? !blink : true;
     } while( fmenu.ret != UILIST_CANCEL );
+    blink = false;
+    draw_target_override = cata::nullopt;
 }
 
 /*
@@ -1441,17 +1495,15 @@ int editmap::select_shape( shapetype shape, int mode )
             }
         } else if( move_target( action ) ) {
             update = true;
-        } else {
-            blink = !blink;
         }
         if( update ) {
-            blink = true;
             update = false;
             recalc_target( shape );
         }
+        blink = action == "TIMEOUT" ? !blink : true;
         altblink = moveall;
     } while( action != "CONFIRM" && action != "QUIT" );
-    blink = true;
+    blink = false;
     altblink = false;
     if( action == "CONFIRM" ) {
         editshape = shape;
@@ -1461,7 +1513,6 @@ int editmap::select_shape( shapetype shape, int mode )
         target = orig;
         origin = origor;
         target_list.push_back( target );
-        blink = false;
         return -1;
     }
 }
@@ -1744,13 +1795,13 @@ void editmap::mapgen_retarget()
     std::string action;
     tripoint origm = target;
 
+    blink = true;
     do {
         update_view_with_help( string_format( pgettext( "keybinding descriptions", "%s, %s" ),
                                               ctxt.describe_key_and_name( "CONFIRM" ),
                                               ctxt.describe_key_and_name( "QUIT" ) ),
                                pgettext( "map generator", "Mapgen: Moving target" ) );
         action = ctxt.handle_input( BLINK_SPEED );
-        blink = !blink;
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             point vec_ms = omt_to_ms_copy( vec->xy() );
             tripoint ptarget = target + vec_ms;
@@ -1764,16 +1815,14 @@ void editmap::mapgen_retarget()
                         target_list.push_back( tripoint( x, y, target.z ) );
                     }
                 }
-                blink = true;
             }
-        } else {
-            blink = !blink;
         }
+        blink = action == "TIMEOUT" ? !blink : true;
     } while( action != "QUIT" && action != "CONFIRM" );
     if( action != "CONFIRM" ) {
         target = origm;
     }
-    blink = true;
+    blink = false;
 }
 
 /*
@@ -1832,13 +1881,16 @@ void editmap::edit_mapgen()
         gmenu.query();
 
         if( gmenu.ret > 0 ) {
+            blink = false;
             mapgen_preview( tc, gmenu );
+            blink = true;
         } else if( gmenu.ret == UILIST_ADDITIONAL ) {
             if( gmenu.ret_act == "EDITMAP_MOVE" ) {
                 mapgen_retarget();
             }
         }
     } while( gmenu.ret != UILIST_CANCEL );
+    blink = false;
 }
 
 /*
