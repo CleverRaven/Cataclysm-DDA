@@ -720,7 +720,10 @@ void player::load( JsonObject &data )
     data.read( "recoil", recoil );
     data.read( "in_vehicle", in_vehicle );
     data.read( "last_sleep_check", last_sleep_check );
-    if( data.read( "id", tmpid ) ) {
+    if( data.read( "id", tmpid ) && tmpid.is_valid() ) {
+        // Templates have invalid ids, so we only assign here when valid.
+        // When the game starts, a new valid id will be assigned if not already
+        // present.
         setID( tmpid );
     }
 
@@ -2502,6 +2505,29 @@ void vehicle::deserialize( JsonIn &jsin )
 
     for( const vpart_reference &vp : get_any_parts( "TURRET" ) ) {
         install_part( vp.mount(), vpart_id( "turret_mount" ), false );
+    }
+
+    // Add vehicle mounts to cars that are missing them.
+    for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_LIGHT" ) ) {
+        if( vp.info().has_flag( "STEERABLE" ) ) {
+            install_part( vp.mount(), vpart_id( "wheel_mount_light_steerable" ), false );
+        } else {
+            install_part( vp.mount(), vpart_id( "wheel_mount_light" ), false );
+        }
+    }
+    for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_MEDIUM" ) ) {
+        if( vp.info().has_flag( "STEERABLE" ) ) {
+            install_part( vp.mount(), vpart_id( "wheel_mount_medium_steerable" ), false );
+        } else {
+            install_part( vp.mount(), vpart_id( "wheel_mount_medium" ), false );
+        }
+    }
+    for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_HEAVY" ) ) {
+        if( vp.info().has_flag( "STEERABLE" ) ) {
+            install_part( vp.mount(), vpart_id( "wheel_mount_heavy_steerable" ), false );
+        } else {
+            install_part( vp.mount(), vpart_id( "wheel_mount_heavy" ), false );
+        }
     }
 
     /* After loading, check if the vehicle is from the old rules and is missing

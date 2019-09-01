@@ -1066,7 +1066,7 @@ class jmapgen_item_group : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mon_density*/, mission * ) const override {
             dat.m.place_items( group_id, chance.get(), point( x.val, y.val ), point( x.valmax, y.valmax ), true,
-                               0 );
+                               calendar::start_of_cataclysm );
         }
 };
 
@@ -2828,9 +2828,9 @@ void map::draw_office_tower( const oter_id &terrain_type, mapgendata &dat,
                                     "ss    __,,__  _,,,,_    \n"
                                     "ssssss__,,__ss__,,__ssss\n"
                                     "ssssss______ss______ssss\n", ter_key, fur_key );
-        place_items( "office", 75, point( 4, 2 ), point( 6, 2 ), false, 0 );
-        place_items( "office", 75, point( 19, 6 ), point( 19, 6 ), false, 0 );
-        place_items( "office", 75, point( 12, 8 ), point( 14, 8 ), false, 0 );
+        place_items( "office", 75, point( 4, 2 ), point( 6, 2 ), false, calendar::start_of_cataclysm );
+        place_items( "office", 75, point( 19, 6 ), point( 19, 6 ), false, calendar::start_of_cataclysm );
+        place_items( "office", 75, point( 12, 8 ), point( 14, 8 ), false, calendar::start_of_cataclysm );
         if( density > 1 ) {
             place_spawns( GROUP_ZOMBIE, 2, point_zero, point( 12, 3 ), density );
         } else {
@@ -2886,18 +2886,25 @@ void map::draw_office_tower( const oter_id &terrain_type, mapgendata &dat,
             } else {
                 place_spawns( GROUP_PLAIN, 1, point( 5, 7 ), point( 15, 20 ), 0.1 );
             }
-            place_items( "office", 75, point( 4, 23 ), point( 7, 23 ), false, 0 );
-            place_items( "office", 75, point( 4, 19 ), point( 7, 19 ), false, 0 );
-            place_items( "office", 75, point( 4, 14 ), point( 7, 14 ), false, 0 );
-            place_items( "office", 75, point( 5, 16 ), point( 7, 16 ), false, 0 );
-            place_items( "fridge", 80, point( 14, 17 ), point( 14, 17 ), false, 0 );
-            place_items( "cleaning", 75, point( 19, 17 ), point( 20, 17 ), false, 0 );
-            place_items( "cubical_office", 75, point( 6, 12 ), point( 7, 12 ), false, 0 );
-            place_items( "cubical_office", 75, point( 12, 11 ), point( 12, 12 ), false, 0 );
-            place_items( "cubical_office", 75, point( 16, 11 ), point( 17, 12 ), false, 0 );
-            place_items( "cubical_office", 75, point( 4, 5 ), point( 5, 5 ), false, 0 );
-            place_items( "cubical_office", 75, point( 11, 5 ), point( 12, 5 ), false, 0 );
-            place_items( "cubical_office", 75, point( 14, 5 ), point( 16, 5 ), false, 0 );
+            place_items( "office", 75, point( 4, 23 ), point( 7, 23 ), false, calendar::start_of_cataclysm );
+            place_items( "office", 75, point( 4, 19 ), point( 7, 19 ), false, calendar::start_of_cataclysm );
+            place_items( "office", 75, point( 4, 14 ), point( 7, 14 ), false, calendar::start_of_cataclysm );
+            place_items( "office", 75, point( 5, 16 ), point( 7, 16 ), false, calendar::start_of_cataclysm );
+            place_items( "fridge", 80, point( 14, 17 ), point( 14, 17 ), false, calendar::start_of_cataclysm );
+            place_items( "cleaning", 75, point( 19, 17 ), point( 20, 17 ), false,
+                         calendar::start_of_cataclysm );
+            place_items( "cubical_office", 75, point( 6, 12 ), point( 7, 12 ), false,
+                         calendar::start_of_cataclysm );
+            place_items( "cubical_office", 75, point( 12, 11 ), point( 12, 12 ), false,
+                         calendar::start_of_cataclysm );
+            place_items( "cubical_office", 75, point( 16, 11 ), point( 17, 12 ), false,
+                         calendar::start_of_cataclysm );
+            place_items( "cubical_office", 75, point( 4, 5 ), point( 5, 5 ), false,
+                         calendar::start_of_cataclysm );
+            place_items( "cubical_office", 75, point( 11, 5 ), point( 12, 5 ), false,
+                         calendar::start_of_cataclysm );
+            place_items( "cubical_office", 75, point( 14, 5 ), point( 16, 5 ), false,
+                         calendar::start_of_cataclysm );
             place_office_chairs();
 
             if( dat.west() == "office_tower_1_entrance" ) {
@@ -2938,11 +2945,12 @@ void map::draw_office_tower( const oter_id &terrain_type, mapgendata &dat,
                                         "      ssssssss        ss\n"
                                         "ssssssssssssssssssssssss\n"
                                         "ssssssssssssssssssssssss\n", ter_key, fur_key );
-            place_items( "office", 75, point( 19, 1 ), point( 19, 3 ), false, 0 );
-            place_items( "office", 75, point( 17, 3 ), point( 18, 3 ), false, 0 );
-            place_items( "office", 90, point( 8, 7 ), point( 9, 7 ), false, 0 );
-            place_items( "cubical_office", 75, point( 19, 5 ), point( 19, 7 ), false, 0 );
-            place_items( "cleaning", 80, point( 1, 7 ), point( 2, 7 ), false, 0 );
+            place_items( "office", 75, point( 19, 1 ), point( 19, 3 ), false, calendar::start_of_cataclysm );
+            place_items( "office", 75, point( 17, 3 ), point( 18, 3 ), false, calendar::start_of_cataclysm );
+            place_items( "office", 90, point( 8, 7 ), point( 9, 7 ), false, calendar::start_of_cataclysm );
+            place_items( "cubical_office", 75, point( 19, 5 ), point( 19, 7 ), false,
+                         calendar::start_of_cataclysm );
+            place_items( "cleaning", 80, point( 1, 7 ), point( 2, 7 ), false, calendar::start_of_cataclysm );
             if( density > 1 ) {
                 place_spawns( GROUP_ZOMBIE, 2, point_zero, point( 14, 10 ), density );
             } else {
@@ -2987,14 +2995,17 @@ void map::draw_office_tower( const oter_id &terrain_type, mapgendata &dat,
                                         "...|xEE|.R>|......hdV%ss\n"
                                         "...DEEE|.R.|..|.....V%ss\n", ter_key, fur_key );
             spawn_item( point( 18, 15 ), "record_accounting" );
-            place_items( "cleaning", 75, point( 3, 5 ), point( 5, 5 ), false, 0 );
-            place_items( "office", 75, point( 10, 7 ), point( 16, 8 ), false, 0 );
-            place_items( "cubical_office", 75, point( 15, 15 ), point( 19, 15 ), false, 0 );
-            place_items( "cubical_office", 75, point( 16, 12 ), point( 16, 13 ), false, 0 );
-            place_items( "cubical_office", 75, point( 17, 19 ), point( 19, 19 ), false, 0 );
-            place_items( "office", 75, point( 17, 21 ), point( 19, 21 ), false, 0 );
-            place_items( "office", 75, point( 16, 11 ), point( 17, 12 ), false, 0 );
-            place_items( "cleaning", 75, point( 8, 20 ), point( 10, 20 ), false, 0 );
+            place_items( "cleaning", 75, point( 3, 5 ), point( 5, 5 ), false, calendar::start_of_cataclysm );
+            place_items( "office", 75, point( 10, 7 ), point( 16, 8 ), false, calendar::start_of_cataclysm );
+            place_items( "cubical_office", 75, point( 15, 15 ), point( 19, 15 ), false,
+                         calendar::start_of_cataclysm );
+            place_items( "cubical_office", 75, point( 16, 12 ), point( 16, 13 ), false,
+                         calendar::start_of_cataclysm );
+            place_items( "cubical_office", 75, point( 17, 19 ), point( 19, 19 ), false,
+                         calendar::start_of_cataclysm );
+            place_items( "office", 75, point( 17, 21 ), point( 19, 21 ), false, calendar::start_of_cataclysm );
+            place_items( "office", 75, point( 16, 11 ), point( 17, 12 ), false, calendar::start_of_cataclysm );
+            place_items( "cleaning", 75, point( 8, 20 ), point( 10, 20 ), false, calendar::start_of_cataclysm );
             if( density > 1 ) {
                 place_spawns( GROUP_ZOMBIE, 2, point_zero, point( 9, 15 ), density );
             } else {
@@ -4210,8 +4221,9 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                         line( this, t_reinforced_glass, SEEX - 3, SEEY - 2, SEEX - 3, SEEY + 1 );
                         line( this, t_reinforced_glass, SEEX + 2, SEEY - 2, SEEX + 2, SEEY + 1 );
                         place_items( "ammo_rare", 96, point( SEEX - 2, SEEY - 1 ),
-                                     point( SEEX + 1, SEEY - 1 ), false, 0 );
-                        place_items( "guns_rare", 96, point( SEEX - 2, SEEY ), point( SEEX + 1, SEEY ), false, 0 );
+                                     point( SEEX + 1, SEEY - 1 ), false, calendar::start_of_cataclysm );
+                        place_items( "guns_rare", 96, point( SEEX - 2, SEEY ), point( SEEX + 1, SEEY ), false,
+                                     calendar::start_of_cataclysm );
                         spawn_item( point( SEEX + 1, SEEY ), "solar_panel_v3" );
                     }
                     break;
@@ -4278,7 +4290,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                     int item_count = 0;
                     while( item_count < 5 ) {
                         item_count += place_items( "bionics", 75, point( SEEX - 1, SEEY - 1 ),
-                                                   point( SEEX, SEEY ), false, 0 ).size();
+                                                   point( SEEX, SEEY ), false, calendar::start_of_cataclysm ).size();
                     }
                     line( this, t_reinforced_glass, SEEX - 2, SEEY - 2, SEEX + 1, SEEY - 2 );
                     line( this, t_reinforced_glass, SEEX - 2, SEEY + 1, SEEX + 1, SEEY + 1 );
@@ -4770,7 +4782,8 @@ void map::draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_po
             ter_set( point( 11, 10 ), t_elevator );
             ter_set( point( 10, 12 ), t_ladder_up );
             line_furn( this, f_counter, 10, 15, 15, 15 );
-            place_items( "mine_equipment", 86, point( 10, 15 ), point( 15, 15 ), false, 0 );
+            place_items( "mine_equipment", 86, point( 10, 15 ), point( 15, 15 ), false,
+                         calendar::start_of_cataclysm );
             if( one_in( 2 ) ) {
                 ter_set( point( 9, 12 ), t_door_c );
             } else {
@@ -4814,7 +4827,8 @@ void map::draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_po
                             }
                         }
                     }
-                    place_items( "wreckage", 70, point( x - 3, y - 3 ), point( x + 2, y + 2 ), false, 0 );
+                    place_items( "wreckage", 70, point( x - 3, y - 3 ), point( x + 2, y + 2 ), false,
+                                 calendar::start_of_cataclysm );
                 }
                 break;
 
@@ -4826,7 +4840,7 @@ void map::draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_po
                         } ) ) {
                             add_item( *body, item::make_corpse() );
                             place_items( "mine_equipment", 60, *body, *body,
-                                         false, 0 );
+                                         false, calendar::start_of_cataclysm );
                         }
                     }
                 }
@@ -4886,7 +4900,7 @@ void map::draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_po
                     ter_set( point( orx + 3, ory + 3 ), t_rock );
                     add_item( point( orx + 2, ory + 3 ), item::make_corpse() );
                     place_items( "mine_equipment", 60, point( orx + 2, ory + 3 ), point( orx + 2, ory + 3 ),
-                                 false, 0 );
+                                 false, calendar::start_of_cataclysm );
                 }
                 break;
             }
@@ -5072,7 +5086,8 @@ void map::draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_po
                     int x = rng( 4, SEEX * 2 - 5 );
                     int y = rng( 4, SEEX * 2 - 5 );
                     add_item( point( x, y ), item::make_corpse() );
-                    place_items( "mine_equipment", 60, point( x, y ), point( x, y ), false, 0 );
+                    place_items( "mine_equipment", 60, point( x, y ), point( x, y ), false,
+                                 calendar::start_of_cataclysm );
                 }
                 place_spawns( GROUP_DOG_THING, 1, point( SEEX, SEEX ), point( SEEX + 1, SEEX + 1 ), 1, true, true );
                 spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ), abs_sub.z ) );
@@ -5261,10 +5276,12 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                                     "        _______         \n"
                                     "        _______         \n", ter_key, fur_key );
         spawn_item( point( 19, 3 ), "cleansuit" );
-        place_items( "office", 80,  point( 4, 19 ), point( 6, 19 ), false, 0 );
-        place_items( "cleaning", 90,  point( 7, 3 ), point( 7, 5 ), false, 0 );
-        place_items( "toxic_dump_equipment", 85,  point( 19, 1 ), point( 19, 3 ), false, 0 );
-        place_items( "toxic_dump_equipment", 85,  point( 19, 5 ), point( 19, 7 ), false, 0 );
+        place_items( "office", 80,  point( 4, 19 ), point( 6, 19 ), false, calendar::start_of_cataclysm );
+        place_items( "cleaning", 90,  point( 7, 3 ), point( 7, 5 ), false, calendar::start_of_cataclysm );
+        place_items( "toxic_dump_equipment", 85,  point( 19, 1 ), point( 19, 3 ), false,
+                     calendar::start_of_cataclysm );
+        place_items( "toxic_dump_equipment", 85,  point( 19, 5 ), point( 19, 7 ), false,
+                     calendar::start_of_cataclysm );
         place_spawns( GROUP_HAZMATBOT, 2, point( 10, 5 ), point( 10, 5 ), 1, true );
         //lazy radiation mapping
         for( int x = 0; x < SEEX * 2; x++ ) {
@@ -5313,9 +5330,11 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                                         " f    |!!!!!!!!!%..r| |-\n"
                                         " f    |!!!!!!!!!%..r| |^\n", ter_key, fur_key );
             spawn_item( point( 19, 22 ), "cleansuit" );
-            place_items( "cleaning", 85,  point( 6, 11 ), point( 6, 14 ), false, 0 );
-            place_items( "tools_common", 85,  point( 10, 6 ), point( 13, 6 ), false, 0 );
-            place_items( "toxic_dump_equipment", 85,  point( 22, 14 ), point( 23, 15 ), false, 0 );
+            place_items( "cleaning", 85,  point( 6, 11 ), point( 6, 14 ), false, calendar::start_of_cataclysm );
+            place_items( "tools_common", 85,  point( 10, 6 ), point( 13, 6 ), false,
+                         calendar::start_of_cataclysm );
+            place_items( "toxic_dump_equipment", 85,  point( 22, 14 ), point( 23, 15 ), false,
+                         calendar::start_of_cataclysm );
             place_spawns( GROUP_HAZMATBOT, 2, point( 22, 12 ), point( 22, 12 ), 1, true );
             place_spawns( GROUP_HAZMATBOT, 2, point( 23, 18 ), point( 23, 18 ), 1, true );
             //lazy radiation mapping
@@ -5373,9 +5392,9 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                                         "                        \n"
                                         "                        \n", ter_key, fur_key );
             spawn_item( point( 1, 2 ), "id_military" );
-            place_items( "office", 85,  point_south_east, point( 1, 3 ), false, 0 );
-            place_items( "office", 85,  point( 11, 3 ), point( 13, 3 ), false, 0 );
-            place_items( "office", 85,  point( 17, 3 ), point( 19, 3 ), false, 0 );
+            place_items( "office", 85,  point_south_east, point( 1, 3 ), false, calendar::start_of_cataclysm );
+            place_items( "office", 85,  point( 11, 3 ), point( 13, 3 ), false, calendar::start_of_cataclysm );
+            place_items( "office", 85,  point( 17, 3 ), point( 19, 3 ), false, calendar::start_of_cataclysm );
             //lazy radiation mapping
             for( int x = 0; x < SEEX * 2; x++ ) {
                 for( int y = 0; y < SEEY * 2; y++ ) {
@@ -5417,9 +5436,10 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                                         "                      f \n"
                                         "------|---|--|---www| f \n"
                                         ".x6x..|S.T|l.|^.ddd.| f \n", ter_key, fur_key );
-            place_items( "office", 85,  point( 16, 23 ), point( 18, 23 ), false, 0 );
-            place_items( "cleaning", 85,  point( 11, 23 ), point( 12, 23 ), false, 0 );
-            place_items( "robots", 90,  point( 2, 11 ), point( 3, 11 ), false, 0 );
+            place_items( "office", 85,  point( 16, 23 ), point( 18, 23 ), false, calendar::start_of_cataclysm );
+            place_items( "cleaning", 85,  point( 11, 23 ), point( 12, 23 ), false,
+                         calendar::start_of_cataclysm );
+            place_items( "robots", 90,  point( 2, 11 ), point( 3, 11 ), false, calendar::start_of_cataclysm );
             // TODO: change to monster group
             place_spawns( GROUP_HAZMATBOT, 2, point( 7, 10 ), point( 7, 10 ), 1, true );
             place_spawns( GROUP_HAZMATBOT, 2, point( 11, 16 ), point( 11, 16 ), 1, true );
@@ -5485,7 +5505,7 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                 if( this->ter( point( i, j ) ) == t_rock_floor ) {
                     if( one_in( 250 ) ) {
                         add_item( point( i, j ), item::make_corpse() );
-                        place_items( "science",  70, point( i, j ), point( i, j ), true, 0 );
+                        place_items( "science",  70, point( i, j ), point( i, j ), true, calendar::start_of_cataclysm );
                     }
                     place_spawns( GROUP_PLAIN, 80, point( i, j ), point( i, j ), 1, true );
                 }
@@ -5502,8 +5522,8 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                     if( one_in( 2 ) ) {
                         make_rubble( tripoint( i,  j, abs_sub.z ), f_wreckage, true );
                     }
-                    place_items( "trash", 50,  point( i, j ), point( i, j ), false, 0 );
-                    place_items( "sewer", 50,  point( i, j ), point( i, j ), false, 0 );
+                    place_items( "trash", 50,  point( i, j ), point( i, j ), false, calendar::start_of_cataclysm );
+                    place_items( "sewer", 50,  point( i, j ), point( i, j ), false, calendar::start_of_cataclysm );
                     if( one_in( 40 ) ) {
                         spawn_item( point( i, j ), "nanomaterial", 1, 5 );
                     }
@@ -5554,12 +5574,12 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
                     if( this->furn( point( i, j ) ) == f_rack ) {
-                        place_items( "mechanics", 60,  point( i, j ), point( i, j ), false, 0 );
+                        place_items( "mechanics", 60,  point( i, j ), point( i, j ), false, calendar::start_of_cataclysm );
                     }
                     if( this->ter( point( i, j ) ) == t_rock_floor ) {
                         if( one_in( 250 ) ) {
                             add_item( point( i, j ), item::make_corpse() );
-                            place_items( "science",  70, point( i, j ), point( i, j ), true, 0 );
+                            place_items( "science",  70, point( i, j ), point( i, j ), true, calendar::start_of_cataclysm );
                         } else {
                             place_spawns( GROUP_PLAIN, 1, point( i, j ), point( i, j ), 1, true );
                         }
@@ -5577,8 +5597,8 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                         if( one_in( 2 ) ) {
                             make_rubble( tripoint( i,  j, abs_sub.z ), f_wreckage, true );
                         }
-                        place_items( "trash", 50,  point( i, j ), point( i, j ), false, 0 );
-                        place_items( "sewer", 50,  point( i, j ), point( i, j ), false, 0 );
+                        place_items( "trash", 50,  point( i, j ), point( i, j ), false, calendar::start_of_cataclysm );
+                        place_items( "sewer", 50,  point( i, j ), point( i, j ), false, calendar::start_of_cataclysm );
                         if( one_in( 40 ) ) {
                             spawn_item( point( i, j ), "nanomaterial", 1, 5 );
                         }
@@ -5627,7 +5647,7 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                     if( this->ter( point( i, j ) ) == t_rock_floor ) {
                         if( one_in( 250 ) ) {
                             add_item( point( i, j ), item::make_corpse() );
-                            place_items( "science",  70, point( i, j ), point( i, j ), true, 0 );
+                            place_items( "science",  70, point( i, j ), point( i, j ), true, calendar::start_of_cataclysm );
                         }
                         place_spawns( GROUP_PLAIN, 80, point( i, j ), point( i, j ), 1, true );
                     }
@@ -5644,8 +5664,8 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                         if( one_in( 2 ) ) {
                             make_rubble( tripoint( i,  j, abs_sub.z ), f_wreckage, true );
                         }
-                        place_items( "trash", 50,  point( i, j ), point( i, j ), false, 0 );
-                        place_items( "sewer", 50,  point( i, j ), point( i, j ), false, 0 );
+                        place_items( "trash", 50,  point( i, j ), point( i, j ), false, calendar::start_of_cataclysm );
+                        place_items( "sewer", 50,  point( i, j ), point( i, j ), false, calendar::start_of_cataclysm );
                         if( one_in( 20 ) ) {
                             spawn_item( point( i, j ), "nanomaterial", 1, 5 );
                         }
@@ -5692,18 +5712,20 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
                     if( this->furn( point( i, j ) ) == f_locker ) {
-                        place_items( "cleaning", 60,  point( i, j ), point( i, j ), false, 0 );
+                        place_items( "cleaning", 60,  point( i, j ), point( i, j ), false, calendar::start_of_cataclysm );
                     }
                     if( this->furn( point( i, j ) ) == f_desk ) {
-                        place_items( "cubical_office", 60,  point( i, j ), point( i, j ), false, 0 );
+                        place_items( "cubical_office", 60,  point( i, j ), point( i, j ), false,
+                                     calendar::start_of_cataclysm );
                     }
                     if( this->furn( point( i, j ) ) == f_rack ) {
-                        place_items( "sewage_plant", 60,  point( i, j ), point( i, j ), false, 0 );
+                        place_items( "sewage_plant", 60,  point( i, j ), point( i, j ), false,
+                                     calendar::start_of_cataclysm );
                     }
                     if( this->ter( point( i, j ) ) == t_rock_floor ) {
                         if( one_in( 250 ) ) {
                             add_item( point( i, j ), item::make_corpse() );
-                            place_items( "science",  70, point( i, j ), point( i, j ), true, 0 );
+                            place_items( "science",  70, point( i, j ), point( i, j ), true, calendar::start_of_cataclysm );
                         }
                         place_spawns( GROUP_PLAIN, 80, point( i, j ), point( i, j ), 1, true );
                     }
@@ -5720,8 +5742,8 @@ void map::draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat,
                         if( one_in( 2 ) ) {
                             make_rubble( tripoint( i,  j, abs_sub.z ), f_wreckage, true );
                         }
-                        place_items( "trash", 50,  point( i, j ), point( i, j ), false, 0 );
-                        place_items( "sewer", 50,  point( i, j ), point( i, j ), false, 0 );
+                        place_items( "trash", 50,  point( i, j ), point( i, j ), false, calendar::start_of_cataclysm );
+                        place_items( "sewer", 50,  point( i, j ), point( i, j ), false, calendar::start_of_cataclysm );
                         if( one_in( 40 ) ) {
                             spawn_item( point( i, j ), "nanomaterial", 1, 5 );
                         }
@@ -5794,8 +5816,10 @@ void map::draw_megastore( const oter_id &terrain_type, mapgendata &dat, const ti
         for( int x = 2; x <= 18; x += 4 ) {
             line_furn( this, f_counter, x, 4, x, 14 );
             line_furn( this, f_rack, x + 3, 4, x + 3, 14 );
-            place_items( "snacks",    80, point( x + 3, 4 ), point( x + 3, 14 ), false, 0 );
-            place_items( "magazines", 70, point( x + 3, 4 ), point( x + 3, 14 ), false, 0 );
+            place_items( "snacks",    80, point( x + 3, 4 ), point( x + 3, 14 ), false,
+                         calendar::start_of_cataclysm );
+            place_items( "magazines", 70, point( x + 3, 4 ), point( x + 3, 14 ), false,
+                         calendar::start_of_cataclysm );
         }
         if( const auto p = random_point( *this, [this]( const tripoint & n ) {
         return ter( n ) == t_floor;
@@ -5830,20 +5854,26 @@ void map::draw_megastore( const oter_id &terrain_type, mapgendata &dat, const ti
                         if( fridge ) {
                             line_furn( this, f_glass_fridge, x, y, x, y + SEEY - 4 );
                             if( one_in( 3 ) ) {
-                                place_items( "fridgesnacks", 80, point( x, y ), point( x, y + SEEY - 4 ), false, 0 );
+                                place_items( "fridgesnacks", 80, point( x, y ), point( x, y + SEEY - 4 ), false,
+                                             calendar::start_of_cataclysm );
                             } else {
-                                place_items( "fridge",       70, point( x, y ), point( x, y + SEEY - 4 ), false, 0 );
+                                place_items( "fridge",       70, point( x, y ), point( x, y + SEEY - 4 ), false,
+                                             calendar::start_of_cataclysm );
                             }
                         } else {
                             line_furn( this, f_rack, x, y, x, y + SEEY - 4 );
                             if( one_in( 3 ) ) {
-                                place_items( "cannedfood", 78, point( x, y ), point( x, y + SEEY - 4 ), false, 0 );
+                                place_items( "cannedfood", 78, point( x, y ), point( x, y + SEEY - 4 ), false,
+                                             calendar::start_of_cataclysm );
                             } else if( one_in( 2 ) ) {
-                                place_items( "pasta",      82, point( x, y ), point( x, y + SEEY - 4 ), false, 0 );
+                                place_items( "pasta",      82, point( x, y ), point( x, y + SEEY - 4 ), false,
+                                             calendar::start_of_cataclysm );
                             } else if( one_in( 2 ) ) {
-                                place_items( "produce",    65, point( x, y ), point( x, y + SEEY - 4 ), false, 0 );
+                                place_items( "produce",    65, point( x, y ), point( x, y + SEEY - 4 ), false,
+                                             calendar::start_of_cataclysm );
                             } else {
-                                place_items( "snacks",     72, point( x, y ), point( x, y + SEEY - 4 ), false, 0 );
+                                place_items( "snacks",     72, point( x, y ), point( x, y + SEEY - 4 ), false,
+                                             calendar::start_of_cataclysm );
                             }
                         }
                     }
@@ -5854,13 +5884,17 @@ void map::draw_megastore( const oter_id &terrain_type, mapgendata &dat, const ti
                 for( int x = 2; x <= 22; x += 4 ) {
                     line_furn( this, f_rack, x, 4, x, SEEY * 2 - 5 );
                     if( one_in( 3 ) ) {
-                        place_items( "tools_carpentry", 70, point( x, 4 ), point( x, SEEY * 2 - 5 ), false, 0 );
+                        place_items( "tools_carpentry", 70, point( x, 4 ), point( x, SEEY * 2 - 5 ), false,
+                                     calendar::start_of_cataclysm );
                     } else if( one_in( 2 ) ) {
-                        place_items( "tools_construction", 70, point( x, 4 ), point( x, SEEY * 2 - 5 ), false, 0 );
+                        place_items( "tools_construction", 70, point( x, 4 ), point( x, SEEY * 2 - 5 ), false,
+                                     calendar::start_of_cataclysm );
                     } else if( one_in( 3 ) ) {
-                        place_items( "hardware", 70, point( x, 4 ), point( x, SEEY * 2 - 5 ), false, 0 );
+                        place_items( "hardware", 70, point( x, 4 ), point( x, SEEY * 2 - 5 ), false,
+                                     calendar::start_of_cataclysm );
                     } else {
-                        place_items( "mischw",   70, point( x, 4 ), point( x, SEEY * 2 - 5 ), false, 0 );
+                        place_items( "mischw",   70, point( x, 4 ), point( x, SEEY * 2 - 5 ), false,
+                                     calendar::start_of_cataclysm );
                     }
                 }
                 break;
@@ -5869,26 +5903,34 @@ void map::draw_megastore( const oter_id &terrain_type, mapgendata &dat, const ti
                     for( int y = 3; y <= 9; y += 6 ) {
                         square_furn( this, f_rack, x, y, x + 1, y + 1 );
                         if( one_in( 2 ) ) {
-                            place_items( "shirts",  75, point( x, y ), point( x + 1, y + 1 ), false, 0 );
+                            place_items( "shirts",  75, point( x, y ), point( x + 1, y + 1 ), false,
+                                         calendar::start_of_cataclysm );
                         } else if( one_in( 2 ) ) {
-                            place_items( "pants",   72, point( x, y ), point( x + 1, y + 1 ), false, 0 );
+                            place_items( "pants",   72, point( x, y ), point( x + 1, y + 1 ), false,
+                                         calendar::start_of_cataclysm );
                         } else if( one_in( 2 ) ) {
-                            place_items( "jackets", 65, point( x, y ), point( x + 1, y + 1 ), false, 0 );
+                            place_items( "jackets", 65, point( x, y ), point( x + 1, y + 1 ), false,
+                                         calendar::start_of_cataclysm );
                         } else {
-                            place_items( "winter",  62, point( x, y ), point( x + 1, y + 1 ), false, 0 );
+                            place_items( "winter",  62, point( x, y ), point( x + 1, y + 1 ), false,
+                                         calendar::start_of_cataclysm );
                         }
                     }
                 }
                 for( int y = 13; y <= SEEY * 2 - 2; y += 3 ) {
                     line_furn( this, f_rack, 2, y, SEEX * 2 - 3, y );
                     if( one_in( 3 ) ) {
-                        place_items( "shirts",     75, point( 2, y ), point( SEEX * 2 - 3, y ), false, 0 );
+                        place_items( "shirts",     75, point( 2, y ), point( SEEX * 2 - 3, y ), false,
+                                     calendar::start_of_cataclysm );
                     } else if( one_in( 2 ) ) {
-                        place_items( "shoes",      75, point( 2, y ), point( SEEX * 2 - 3, y ), false, 0 );
+                        place_items( "shoes",      75, point( 2, y ), point( SEEX * 2 - 3, y ), false,
+                                     calendar::start_of_cataclysm );
                     } else if( one_in( 2 ) ) {
-                        place_items( "bags",       75, point( 2, y ), point( SEEX * 2 - 3, y ), false, 0 );
+                        place_items( "bags",       75, point( 2, y ), point( SEEX * 2 - 3, y ), false,
+                                     calendar::start_of_cataclysm );
                     } else {
-                        place_items( "allclothes", 75, point( 2, y ), point( SEEX * 2 - 3, y ), false, 0 );
+                        place_items( "allclothes", 75, point( 2, y ), point( SEEX * 2 - 3, y ), false,
+                                     calendar::start_of_cataclysm );
                     }
                 }
                 break;
@@ -5897,11 +5939,14 @@ void map::draw_megastore( const oter_id &terrain_type, mapgendata &dat, const ti
                     for( int y = 2; y <= SEEY; y += SEEY - 2 ) {
                         line_furn( this, f_rack, x, y, x, y + SEEY - 4 );
                         if( one_in( 3 ) ) {
-                            place_items( "cleaning",  78, point( x, y ), point( x, y + SEEY - 4 ), false, 0 );
+                            place_items( "cleaning",  78, point( x, y ), point( x, y + SEEY - 4 ), false,
+                                         calendar::start_of_cataclysm );
                         } else if( one_in( 2 ) ) {
-                            place_items( "softdrugs", 72, point( x, y ), point( x, y + SEEY - 4 ), false, 0 );
+                            place_items( "softdrugs", 72, point( x, y ), point( x, y + SEEY - 4 ), false,
+                                         calendar::start_of_cataclysm );
                         } else {
-                            place_items( "novels",    84, point( x, y ), point( x, y + SEEY - 4 ), false, 0 );
+                            place_items( "novels",    84, point( x, y ), point( x, y + SEEY - 4 ), false,
+                                         calendar::start_of_cataclysm );
                         }
                     }
                 }
@@ -5911,11 +5956,14 @@ void map::draw_megastore( const oter_id &terrain_type, mapgendata &dat, const ti
                     for( int y = 2; y <= SEEY; y += SEEY - 2 ) {
                         line_furn( this, f_rack, x, y, x, y + SEEY - 4 );
                         if( one_in( 2 ) ) {
-                            place_items( "sports",  72, point( x, y ), point( x, y + SEEY - 4 ), false, 0 );
+                            place_items( "sports",  72, point( x, y ), point( x, y + SEEY - 4 ), false,
+                                         calendar::start_of_cataclysm );
                         } else if( one_in( 10 ) ) {
-                            place_items( "guns_rifle_common",  20, point( x, y ), point( x, y + SEEY - 4 ), false, 0 );
+                            place_items( "guns_rifle_common",  20, point( x, y ), point( x, y + SEEY - 4 ), false,
+                                         calendar::start_of_cataclysm );
                         } else {
-                            place_items( "camping", 68, point( x, y ), point( x, y + SEEY - 4 ), false, 0 );
+                            place_items( "camping", 68, point( x, y ), point( x, y + SEEY - 4 ), false,
+                                         calendar::start_of_cataclysm );
                         }
                     }
                 }
@@ -5971,8 +6019,8 @@ void map::draw_fema( const oter_id &terrain_type, mapgendata &dat, const time_po
         line_furn( this, f_chair, 5, 16, 5, 18 );
         line_furn( this, f_desk, 6, 16, 6, 18 );
         line_furn( this, f_chair, 7, 16, 7, 18 );
-        place_items( "office", 80, point( 3, 16 ), point( 3, 18 ), false, 0 );
-        place_items( "office", 80, point( 6, 16 ), point( 6, 18 ), false, 0 );
+        place_items( "office", 80, point( 3, 16 ), point( 3, 18 ), false, calendar::start_of_cataclysm );
+        place_items( "office", 80, point( 6, 16 ), point( 6, 18 ), false, calendar::start_of_cataclysm );
         place_spawns( GROUP_MIL_WEAK, 1, point( 3, 15 ), point( 4, 17 ), 0.2 );
 
         // Rotate to face the road
@@ -6029,12 +6077,16 @@ void map::draw_fema( const oter_id &terrain_type, mapgendata &dat, const time_po
             line( this, t_reinforced_glass, 13, 14, 18, 14 );
             line( this, t_reinforced_glass, 13, 14, 13, 18 );
             ter_set( point( 15, 14 ), t_door_metal_locked );
-            place_items( "dissection", 90, point( 10, 8 ), point( 10, 17 ), false, 0 );
-            place_items( "hospital_lab", 70, point( 5, 5 ), point( 18, 18 ), false, 0 );
-            place_items( "harddrugs", 50, point( 6, 5 ), point( 9, 5 ), false, 0 );
-            place_items( "harddrugs", 50, point( 14, 5 ), point( 17, 5 ), false, 0 );
-            place_items( "hospital_samples", 50, point( 6, 5 ), point( 9, 5 ), false, 0 );
-            place_items( "hospital_samples", 50, point( 14, 5 ), point( 17, 5 ), false, 0 );
+            place_items( "dissection", 90, point( 10, 8 ), point( 10, 17 ), false,
+                         calendar::start_of_cataclysm );
+            place_items( "hospital_lab", 70, point( 5, 5 ), point( 18, 18 ), false,
+                         calendar::start_of_cataclysm );
+            place_items( "harddrugs", 50, point( 6, 5 ), point( 9, 5 ), false, calendar::start_of_cataclysm );
+            place_items( "harddrugs", 50, point( 14, 5 ), point( 17, 5 ), false, calendar::start_of_cataclysm );
+            place_items( "hospital_samples", 50, point( 6, 5 ), point( 9, 5 ), false,
+                         calendar::start_of_cataclysm );
+            place_items( "hospital_samples", 50, point( 14, 5 ), point( 17, 5 ), false,
+                         calendar::start_of_cataclysm );
             place_spawns( GROUP_LAB_FEMA, 1, point( 11, 12 ), point( 16, 17 ), 0.1 );
         } else if( dat.west() == "fema_entrance" ) {
             square( this, t_dirt, 1, 1, 22, 22 ); //Supply tent
@@ -6070,13 +6122,14 @@ void map::draw_fema( const oter_id &terrain_type, mapgendata &dat, const time_po
             line( this, t_chainfence, 15, 9, 15, 14 );
             line( this, t_chaingate_c, 15, 11, 15, 12 );
             line_furn( this, f_locker, 18, 9, 18, 14 );
-            place_items( "allclothes", 90, point( 5, 6 ), point( 7, 7 ), false, 0 );
-            place_items( "softdrugs", 90, point( 5, 11 ), point( 7, 12 ), false, 0 );
-            place_items( "hardware", 90, point( 5, 16 ), point( 7, 17 ), false, 0 );
+            place_items( "allclothes", 90, point( 5, 6 ), point( 7, 7 ), false, calendar::start_of_cataclysm );
+            place_items( "softdrugs", 90, point( 5, 11 ), point( 7, 12 ), false, calendar::start_of_cataclysm );
+            place_items( "hardware", 90, point( 5, 16 ), point( 7, 17 ), false, calendar::start_of_cataclysm );
             if( one_in( 3 ) ) {
-                place_items( "guns_rifle_milspec", 90, point( 18, 9 ), point( 18, 14 ), false, 0, 100, 100 );
+                place_items( "guns_rifle_milspec", 90, point( 18, 9 ), point( 18, 14 ), false,
+                             calendar::start_of_cataclysm, 100, 100 );
             }
-            place_items( "office", 80, point( 10, 11 ), point( 13, 12 ), false, 0 );
+            place_items( "office", 80, point( 10, 11 ), point( 13, 12 ), false, calendar::start_of_cataclysm );
             place_spawns( GROUP_MIL_WEAK, 1, point( 3, 15 ), point( 4, 17 ), 0.2 );
         } else {
             switch( rng( 1, 5 ) ) {
@@ -6107,7 +6160,8 @@ void map::draw_fema( const oter_id &terrain_type, mapgendata &dat, const time_po
                     square_furn( this, f_fema_groundsheet, 11, 5, 12, 18 );
                     line_furn( this, f_fema_groundsheet, 14, 5, 14, 18 );
                     line_furn( this, f_fema_groundsheet, 16, 5, 16, 18 );
-                    place_items( "livingroom", 80, point( 5, 5 ), point( 18, 18 ), false, 0 );
+                    place_items( "livingroom", 80, point( 5, 5 ), point( 18, 18 ), false,
+                                 calendar::start_of_cataclysm );
                     place_spawns( GROUP_PLAIN, 1, point( 11, 12 ), point( 13, 14 ), 0.1 );
                     break;
                 case 4:
@@ -6140,14 +6194,15 @@ void map::draw_fema( const oter_id &terrain_type, mapgendata &dat, const time_po
                     line_furn( this, f_table, 6, 16, 10, 16 );
                     line_furn( this, f_bench, 6, 17, 10, 17 );
 
-                    place_items( "mil_food_nodrugs", 80, point( 5, 5 ), point( 5, 6 ), false, 0 );
-                    place_items( "snacks", 80, point( 5, 5 ), point( 18, 18 ), false, 0 );
-                    place_items( "kitchen", 70, point( 6, 5 ), point( 10, 8 ), false, 0 );
-                    place_items( "dining", 80, point( 13, 7 ), point( 17, 7 ), false, 0 );
-                    place_items( "dining", 80, point( 13, 12 ), point( 17, 12 ), false, 0 );
-                    place_items( "dining", 80, point( 13, 16 ), point( 17, 16 ), false, 0 );
-                    place_items( "dining", 80, point( 6, 12 ), point( 10, 12 ), false, 0 );
-                    place_items( "dining", 80, point( 6, 16 ), point( 10, 16 ), false, 0 );
+                    place_items( "mil_food_nodrugs", 80, point( 5, 5 ), point( 5, 6 ), false,
+                                 calendar::start_of_cataclysm );
+                    place_items( "snacks", 80, point( 5, 5 ), point( 18, 18 ), false, calendar::start_of_cataclysm );
+                    place_items( "kitchen", 70, point( 6, 5 ), point( 10, 8 ), false, calendar::start_of_cataclysm );
+                    place_items( "dining", 80, point( 13, 7 ), point( 17, 7 ), false, calendar::start_of_cataclysm );
+                    place_items( "dining", 80, point( 13, 12 ), point( 17, 12 ), false, calendar::start_of_cataclysm );
+                    place_items( "dining", 80, point( 13, 16 ), point( 17, 16 ), false, calendar::start_of_cataclysm );
+                    place_items( "dining", 80, point( 6, 12 ), point( 10, 12 ), false, calendar::start_of_cataclysm );
+                    place_items( "dining", 80, point( 6, 16 ), point( 10, 16 ), false, calendar::start_of_cataclysm );
                     place_spawns( GROUP_PLAIN, 1, point( 11, 12 ), point( 13, 14 ), 0.1 );
                     break;
                 case 5:
@@ -6180,7 +6235,8 @@ void map::draw_spider_pit( const oter_id &terrain_type, mapgendata &/*dat*/,
             }
         }
         ter_set( point( rng( 3, SEEX * 2 - 4 ), rng( 3, SEEY * 2 - 4 ) ), t_slope_up );
-        place_items( "spider", 85, point_zero, point( EAST_EDGE, SOUTH_EDGE ), false, 0 );
+        place_items( "spider", 85, point_zero, point( EAST_EDGE, SOUTH_EDGE ), false,
+                     calendar::start_of_cataclysm );
     }
 }
 
@@ -6241,7 +6297,8 @@ void map::draw_slimepit( const oter_id &terrain_type, mapgendata &dat, const tim
             }
         }
         place_spawns( GROUP_BLOB, 1, point( SEEX, SEEY ), point( SEEX, SEEY ), 0.15 );
-        place_items( "sewer", 40, point_zero, point( EAST_EDGE, SOUTH_EDGE ), true, 0 );
+        place_items( "sewer", 40, point_zero, point( EAST_EDGE, SOUTH_EDGE ), true,
+                     calendar::start_of_cataclysm );
     }
 }
 
@@ -6624,14 +6681,14 @@ void map::place_vending( const point &p, const std::string &type, bool reinforce
 {
     if( reinforced ) {
         furn_set( p, f_vending_reinforced );
-        place_items( type, 100, p, p, false, 0 );
+        place_items( type, 100, p, p, false, calendar::start_of_cataclysm );
     } else {
         const bool broken = one_in( 5 );
         if( broken ) {
             furn_set( p, f_vending_o );
         } else {
             furn_set( p, f_vending_c );
-            place_items( type, 100, p, p, false, 0 );
+            place_items( type, 100, p, p, false, calendar::start_of_cataclysm );
         }
     }
 }
@@ -7140,7 +7197,8 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
     int trapy = rng( y1 + 1, y2 - 1 );
     switch( random_entry( valid_rooms ) ) {
         case room_closet:
-            m->place_items( "cleaning", 80, point( x1, y1 ), point( x2, y2 ), false, 0 );
+            m->place_items( "cleaning", 80, point( x1, y1 ), point( x2, y2 ), false,
+                            calendar::start_of_cataclysm );
             break;
         case room_lobby:
             if( rotate % 2 == 0 ) { // Vertical
@@ -7185,9 +7243,11 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                             m->furn_set( point( x, y ), f_counter );
                         }
                         if( one_in( 3 ) ) {
-                            m->place_items( "mut_lab", 35, point( x, y1 + 1 ), point( x, y2 - 1 ), false, 0 );
+                            m->place_items( "mut_lab", 35, point( x, y1 + 1 ), point( x, y2 - 1 ), false,
+                                            calendar::start_of_cataclysm );
                         } else {
-                            m->place_items( "chem_lab", 70, point( x, y1 + 1 ), point( x, y2 - 1 ), false, 0 );
+                            m->place_items( "chem_lab", 70, point( x, y1 + 1 ), point( x, y2 - 1 ), false,
+                                            calendar::start_of_cataclysm );
                         }
                     }
                 }
@@ -7198,9 +7258,11 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                             m->furn_set( point( x, y ), f_counter );
                         }
                         if( one_in( 3 ) ) {
-                            m->place_items( "mut_lab", 35, point( x1 + 1, y ), point( x2 - 1, y ), false, 0 );
+                            m->place_items( "mut_lab", 35, point( x1 + 1, y ), point( x2 - 1, y ), false,
+                                            calendar::start_of_cataclysm );
                         } else {
-                            m->place_items( "chem_lab", 70, point( x1 + 1, y ), point( x2 - 1, y ), false, 0 );
+                            m->place_items( "chem_lab", 70, point( x1 + 1, y ), point( x2 - 1, y ), false,
+                                            calendar::start_of_cataclysm );
                         }
                     }
                 }
@@ -7218,7 +7280,7 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
             mtrap_set( m, trapx, trapy, tr_telepad );
             m->place_items( "teleport", 70, point( ( x1 + x2 ) / 2, static_cast<int>( ( y1 + y2 ) / 2 ) ),
                             point( static_cast<int>( ( x1 + x2 ) / 2 ) + 1, static_cast<int>( ( y1 + y2 ) / 2 ) + 1 ), false,
-                            0 );
+                            calendar::start_of_cataclysm );
             break;
         case room_goo:
             do {
@@ -7229,19 +7291,19 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
             if( rotate == 0 ) {
                 mremove_trap( m, x1, y2 );
                 m->furn_set( point( x1, y2 ), f_fridge );
-                m->place_items( "goo", 60, point( x1, y2 ), point( x1, y2 ), false, 0 );
+                m->place_items( "goo", 60, point( x1, y2 ), point( x1, y2 ), false, calendar::start_of_cataclysm );
             } else if( rotate == 1 ) {
                 mremove_trap( m, x1, y1 );
                 m->furn_set( point( x1, y1 ), f_fridge );
-                m->place_items( "goo", 60, point( x1, y1 ), point( x1, y1 ), false, 0 );
+                m->place_items( "goo", 60, point( x1, y1 ), point( x1, y1 ), false, calendar::start_of_cataclysm );
             } else if( rotate == 2 ) {
                 mremove_trap( m, x2, y1 );
                 m->furn_set( point( x2, y1 ), f_fridge );
-                m->place_items( "goo", 60, point( x2, y1 ), point( x2, y1 ), false, 0 );
+                m->place_items( "goo", 60, point( x2, y1 ), point( x2, y1 ), false, calendar::start_of_cataclysm );
             } else {
                 mremove_trap( m, x2, y2 );
                 m->furn_set( point( x2, y2 ), f_fridge );
-                m->place_items( "goo", 60, point( x2, y2 ), point( x2, y2 ), false, 0 );
+                m->place_items( "goo", 60, point( x2, y2 ), point( x2, y2 ), false, calendar::start_of_cataclysm );
             }
             break;
         case room_cloning:
@@ -7249,7 +7311,8 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 for( int y = y1 + 1; y <= y2 - 1; y++ ) {
                     if( x % 3 == 0 && y % 3 == 0 ) {
                         m->ter_set( point( x, y ), t_vat );
-                        m->place_items( "cloning_vat", 20, point( x, y ), point( x, y ), false, 0 );
+                        m->place_items( "cloning_vat", 20, point( x, y ), point( x, y ), false,
+                                        calendar::start_of_cataclysm );
                     }
                 }
             }
@@ -7259,22 +7322,26 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 for( int x = x1; x <= x2; x++ ) {
                     m->furn_set( point( x, y2 - 1 ), f_counter );
                 }
-                m->place_items( "dissection", 80, point( x1, y2 - 1 ), point( x2, y2 - 1 ), false, 0 );
+                m->place_items( "dissection", 80, point( x1, y2 - 1 ), point( x2, y2 - 1 ), false,
+                                calendar::start_of_cataclysm );
             } else if( rotate == 1 ) {
                 for( int y = y1; y <= y2; y++ ) {
                     m->furn_set( point( x1 + 1, y ), f_counter );
                 }
-                m->place_items( "dissection", 80, point( x1 + 1, y1 ), point( x1 + 1, y2 ), false, 0 );
+                m->place_items( "dissection", 80, point( x1 + 1, y1 ), point( x1 + 1, y2 ), false,
+                                calendar::start_of_cataclysm );
             } else if( rotate == 2 ) {
                 for( int x = x1; x <= x2; x++ ) {
                     m->furn_set( point( x, y1 + 1 ), f_counter );
                 }
-                m->place_items( "dissection", 80, point( x1, y1 + 1 ), point( x2, y1 + 1 ), false, 0 );
+                m->place_items( "dissection", 80, point( x1, y1 + 1 ), point( x2, y1 + 1 ), false,
+                                calendar::start_of_cataclysm );
             } else if( rotate == 3 ) {
                 for( int y = y1; y <= y2; y++ ) {
                     m->furn_set( point( x2 - 1, y ), f_counter );
                 }
-                m->place_items( "dissection", 80, point( x2 - 1, y1 ), point( x2 - 1, y2 ), false, 0 );
+                m->place_items( "dissection", 80, point( x2 - 1, y1 ), point( x2 - 1, y2 ), false,
+                                calendar::start_of_cataclysm );
             }
             mtrap_set( m, static_cast<int>( ( x1 + x2 ) / 2 ), static_cast<int>( ( y1 + y2 ) / 2 ),
                        tr_dissector );
@@ -7296,7 +7363,8 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
 -=-\n",
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
-                m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false, 0 );
+                m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false,
+                                calendar::start_of_cataclysm );
 
                 m->ter_set( point( biox, bioy + 2 ), t_console );
                 computer *tmpcomp = m->add_computer( tripoint( biox,  bioy + 2, z ), _( "Bionic access" ), 2 );
@@ -7313,7 +7381,8 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
 ---\n",
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
-                m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false, 0 );
+                m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false,
+                                calendar::start_of_cataclysm );
 
                 m->ter_set( point( biox, bioy - 2 ), t_console );
                 computer *tmpcomp2 = m->add_computer( tripoint( biox,  bioy - 2, z ), _( "Bionic access" ), 2 );
@@ -7331,7 +7400,8 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
 |-|\n",
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
-                m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false, 0 );
+                m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false,
+                                calendar::start_of_cataclysm );
 
                 m->ter_set( point( biox + 2, bioy ), t_console );
                 computer *tmpcomp = m->add_computer( tripoint( biox + 2,  bioy, z ), _( "Bionic access" ), 2 );
@@ -7362,35 +7432,44 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
             if( rotate % 2 == 0 ) {
                 for( int y = y1 + 1; y <= y2 - 1; y += 3 ) {
                     m->furn_set( point( x1, y ), f_bed );
-                    m->place_items( "bed", 60, point( x1, y ), point( x1, y ), false, 0 );
+                    m->place_items( "bed", 60, point( x1, y ), point( x1, y ), false, calendar::start_of_cataclysm );
                     m->furn_set( point( x1 + 1, y ), f_bed );
-                    m->place_items( "bed", 60, point( x1 + 1, y ), point( x1 + 1, y ), false, 0 );
+                    m->place_items( "bed", 60, point( x1 + 1, y ), point( x1 + 1, y ), false,
+                                    calendar::start_of_cataclysm );
                     m->furn_set( point( x2, y ), f_bed );
-                    m->place_items( "bed", 60, point( x2, y ), point( x2, y ), false, 0 );
+                    m->place_items( "bed", 60, point( x2, y ), point( x2, y ), false, calendar::start_of_cataclysm );
                     m->furn_set( point( x2 - 1, y ), f_bed );
-                    m->place_items( "bed", 60, point( x2 - 1, y ), point( x2 - 1, y ), false, 0 );
+                    m->place_items( "bed", 60, point( x2 - 1, y ), point( x2 - 1, y ), false,
+                                    calendar::start_of_cataclysm );
                     m->furn_set( point( x1, y + 1 ), f_dresser );
                     m->furn_set( point( x2, y + 1 ), f_dresser );
-                    m->place_items( "dresser", 70, point( x1, y + 1 ), point( x1, y + 1 ), false, 0 );
-                    m->place_items( "dresser", 70, point( x2, y + 1 ), point( x2, y + 1 ), false, 0 );
+                    m->place_items( "dresser", 70, point( x1, y + 1 ), point( x1, y + 1 ), false,
+                                    calendar::start_of_cataclysm );
+                    m->place_items( "dresser", 70, point( x2, y + 1 ), point( x2, y + 1 ), false,
+                                    calendar::start_of_cataclysm );
                 }
             } else if( rotate % 2 == 1 ) {
                 for( int x = x1 + 1; x <= x2 - 1; x += 3 ) {
                     m->furn_set( point( x, y1 ), f_bed );
-                    m->place_items( "bed", 60, point( x, y1 ), point( x, y1 ), false, 0 );
+                    m->place_items( "bed", 60, point( x, y1 ), point( x, y1 ), false, calendar::start_of_cataclysm );
                     m->furn_set( point( x, y1 + 1 ), f_bed );
-                    m->place_items( "bed", 60, point( x, y1 + 1 ), point( x, y1 + 1 ), false, 0 );
+                    m->place_items( "bed", 60, point( x, y1 + 1 ), point( x, y1 + 1 ), false,
+                                    calendar::start_of_cataclysm );
                     m->furn_set( point( x, y2 ), f_bed );
-                    m->place_items( "bed", 60, point( x, y2 ), point( x, y2 ), false, 0 );
+                    m->place_items( "bed", 60, point( x, y2 ), point( x, y2 ), false, calendar::start_of_cataclysm );
                     m->furn_set( point( x, y2 - 1 ), f_bed );
-                    m->place_items( "bed", 60, point( x, y2 - 1 ), point( x, y2 - 1 ), false, 0 );
+                    m->place_items( "bed", 60, point( x, y2 - 1 ), point( x, y2 - 1 ), false,
+                                    calendar::start_of_cataclysm );
                     m->furn_set( point( x + 1, y1 ), f_dresser );
                     m->furn_set( point( x + 1, y2 ), f_dresser );
-                    m->place_items( "dresser", 70, point( x + 1, y1 ), point( x + 1, y1 ), false, 0 );
-                    m->place_items( "dresser", 70, point( x + 1, y2 ), point( x + 1, y2 ), false, 0 );
+                    m->place_items( "dresser", 70, point( x + 1, y1 ), point( x + 1, y1 ), false,
+                                    calendar::start_of_cataclysm );
+                    m->place_items( "dresser", 70, point( x + 1, y2 ), point( x + 1, y2 ), false,
+                                    calendar::start_of_cataclysm );
                 }
             }
-            m->place_items( "lab_dorm", 84, point( x1, y1 ), point( x2, y2 ), false, 0 );
+            m->place_items( "lab_dorm", 84, point( x1, y1 ), point( x2, y2 ), false,
+                            calendar::start_of_cataclysm );
             break;
         case room_split:
             if( rotate % 2 == 0 ) {
@@ -7444,9 +7523,12 @@ void set_science_room( map *m, int x1, int y1, bool faces_right, const time_poin
                     }
                 }
             }
-            m->place_items( "chem_lab", 85, point( x1 + 1, y1 ), point( x2 - 1, y1 ), false, 0 );
-            m->place_items( "chem_lab", 85, point( x1 + 1, y2 ), point( x2 - 1, y2 ), false, 0 );
-            m->place_items( "chem_lab", 85, point( x1, y1 + 1 ), point( x1, y2 - 1 ), false, 0 );
+            m->place_items( "chem_lab", 85, point( x1 + 1, y1 ), point( x2 - 1, y1 ), false,
+                            calendar::start_of_cataclysm );
+            m->place_items( "chem_lab", 85, point( x1 + 1, y2 ), point( x2 - 1, y2 ), false,
+                            calendar::start_of_cataclysm );
+            m->place_items( "chem_lab", 85, point( x1, y1 + 1 ), point( x1, y2 - 1 ), false,
+                            calendar::start_of_cataclysm );
             break;
 
         case 2: // Hydroponics.
@@ -7615,10 +7697,12 @@ void silo_rooms( map *m )
                     break;
             }
             if( used1 != "none" ) {
-                m->place_items( used1, 78, point( x, y ), point( x + width, y + height ), false, 0 );
+                m->place_items( used1, 78, point( x, y ), point( x + width, y + height ), false,
+                                calendar::start_of_cataclysm );
             }
             if( used2 != "none" ) {
-                m->place_items( used2, 64, point( x, y ), point( x + width, y + height ), false, 0 );
+                m->place_items( used2, 64, point( x, y ), point( x + width, y + height ), false,
+                                calendar::start_of_cataclysm );
             }
         }
     } while( okay );
@@ -7746,11 +7830,13 @@ void build_mine_room( map *m, room_type type, int x1, int y1, int x2, int y2, ma
             line( m, t_window, midx - 1, y2, midx + 1, y2 );
             line( m, t_window, x1, midy - 1, x1, midy + 1 );
             line( m, t_window, x2, midy - 1, x2, midy + 1 );
-            m->place_items( "office", 80, point( x1 + 1, y1 + 1 ), point( x2 - 1, y2 - 1 ), false, 0 );
+            m->place_items( "office", 80, point( x1 + 1, y1 + 1 ), point( x2 - 1, y2 - 1 ), false,
+                            calendar::start_of_cataclysm );
             break;
 
         case room_mine_storage:
-            m->place_items( "mine_storage", 85, point( x1 + 2, y1 + 2 ), point( x2 - 2, y2 - 2 ), false, 0 );
+            m->place_items( "mine_storage", 85, point( x1 + 2, y1 + 2 ), point( x2 - 2, y2 - 2 ), false,
+                            calendar::start_of_cataclysm );
             break;
 
         case room_mine_fuel: {
@@ -7774,38 +7860,51 @@ void build_mine_room( map *m, room_type type, int x1, int y1, int x2, int y2, ma
                 for( int y = y1 + 2; y <= y2 - 2; y += 2 ) {
                     m->ter_set( point( x1, y ), t_window );
                     m->furn_set( point( x1 + 1, y ), f_bed );
-                    m->place_items( "bed", 60, point( x1 + 1, y ), point( x1 + 1, y ), false, 0 );
+                    m->place_items( "bed", 60, point( x1 + 1, y ), point( x1 + 1, y ), false,
+                                    calendar::start_of_cataclysm );
                     m->furn_set( point( x1 + 2, y ), f_bed );
-                    m->place_items( "bed", 60, point( x1 + 2, y ), point( x1 + 2, y ), false, 0 );
+                    m->place_items( "bed", 60, point( x1 + 2, y ), point( x1 + 2, y ), false,
+                                    calendar::start_of_cataclysm );
                     m->ter_set( point( x2, y ), t_window );
                     m->furn_set( point( x2 - 1, y ), f_bed );
-                    m->place_items( "bed", 60, point( x2 - 1, y ), point( x2 - 1, y ), false, 0 );
+                    m->place_items( "bed", 60, point( x2 - 1, y ), point( x2 - 1, y ), false,
+                                    calendar::start_of_cataclysm );
                     m->furn_set( point( x2 - 2, y ), f_bed );
-                    m->place_items( "bed", 60, point( x2 - 2, y ), point( x2 - 2, y ), false, 0 );
+                    m->place_items( "bed", 60, point( x2 - 2, y ), point( x2 - 2, y ), false,
+                                    calendar::start_of_cataclysm );
                     m->furn_set( point( x1 + 1, y + 1 ), f_dresser );
-                    m->place_items( "dresser", 78, point( x1 + 1, y + 1 ), point( x1 + 1, y + 1 ), false, 0 );
+                    m->place_items( "dresser", 78, point( x1 + 1, y + 1 ), point( x1 + 1, y + 1 ), false,
+                                    calendar::start_of_cataclysm );
                     m->furn_set( point( x2 - 1, y + 1 ), f_dresser );
-                    m->place_items( "dresser", 78, point( x2 - 1, y + 1 ), point( x2 - 1, y + 1 ), false, 0 );
+                    m->place_items( "dresser", 78, point( x2 - 1, y + 1 ), point( x2 - 1, y + 1 ), false,
+                                    calendar::start_of_cataclysm );
                 }
             } else {
                 for( int x = x1 + 2; x <= x2 - 2; x += 2 ) {
                     m->ter_set( point( x, y1 ), t_window );
                     m->furn_set( point( x, y1 + 1 ), f_bed );
-                    m->place_items( "bed", 60, point( x, y1 + 1 ), point( x, y1 + 1 ), false, 0 );
+                    m->place_items( "bed", 60, point( x, y1 + 1 ), point( x, y1 + 1 ), false,
+                                    calendar::start_of_cataclysm );
                     m->furn_set( point( x, y1 + 2 ), f_bed );
-                    m->place_items( "bed", 60, point( x, y1 + 2 ), point( x, y1 + 2 ), false, 0 );
+                    m->place_items( "bed", 60, point( x, y1 + 2 ), point( x, y1 + 2 ), false,
+                                    calendar::start_of_cataclysm );
                     m->ter_set( point( x, y2 ), t_window );
                     m->furn_set( point( x, y2 - 1 ), f_bed );
-                    m->place_items( "bed", 60, point( x, y2 - 1 ), point( x, y2 - 1 ), false, 0 );
+                    m->place_items( "bed", 60, point( x, y2 - 1 ), point( x, y2 - 1 ), false,
+                                    calendar::start_of_cataclysm );
                     m->furn_set( point( x, y2 - 2 ), f_bed );
-                    m->place_items( "bed", 60, point( x, y2 - 2 ), point( x, y2 - 2 ), false, 0 );
+                    m->place_items( "bed", 60, point( x, y2 - 2 ), point( x, y2 - 2 ), false,
+                                    calendar::start_of_cataclysm );
                     m->furn_set( point( x + 1, y1 + 1 ), f_dresser );
-                    m->place_items( "dresser", 78, point( x + 1, y1 + 1 ), point( x + 1, y1 + 1 ), false, 0 );
+                    m->place_items( "dresser", 78, point( x + 1, y1 + 1 ), point( x + 1, y1 + 1 ), false,
+                                    calendar::start_of_cataclysm );
                     m->furn_set( point( x + 1, y2 - 1 ), f_dresser );
-                    m->place_items( "dresser", 78, point( x + 1, y2 - 1 ), point( x + 1, y2 - 1 ), false, 0 );
+                    m->place_items( "dresser", 78, point( x + 1, y2 - 1 ), point( x + 1, y2 - 1 ), false,
+                                    calendar::start_of_cataclysm );
                 }
             }
-            m->place_items( "bedroom", 65, point( x1 + 1, y1 + 1 ), point( x2 - 1, y2 - 1 ), false, 0 );
+            m->place_items( "bedroom", 65, point( x1 + 1, y1 + 1 ), point( x2 - 1, y2 - 1 ), false,
+                            calendar::start_of_cataclysm );
             break;
         default:
             //Suppress warnings

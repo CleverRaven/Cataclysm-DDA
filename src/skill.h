@@ -10,6 +10,7 @@
 
 #include "calendar.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -23,9 +24,10 @@ class Skill
         friend class string_id<Skill>;
         skill_id _ident;
 
-        std::string _name;
-        std::string _description;
+        translation _name;
+        translation _description;
         std::set<std::string> _tags;
+        skill_displayType_id _display_type;
         // these are not real skills, they depend on context
         static std::map<skill_id, Skill> contextual_skills;
     public:
@@ -42,17 +44,20 @@ class Skill
             std::function<bool ( const Skill &, const Skill & )> pred );
 
         Skill();
-        Skill( skill_id ident, std::string name, std::string description,
-               std::set<std::string> tags );
+        Skill( const skill_id &ident, const translation &name, const translation &description,
+               const std::set<std::string> &tags, skill_displayType_id display_type );
 
         const skill_id &ident() const {
             return _ident;
         }
-        const std::string &name() const {
-            return _name;
+        std::string name() const {
+            return _name.translated();
         }
-        const std::string &description() const {
-            return _description;
+        std::string description() const {
+            return _description.translated();
+        }
+        skill_displayType_id display_category() const {
+            return _display_type;
         }
 
         bool operator==( const Skill &b ) const {
@@ -187,6 +192,28 @@ class SkillLevelMap : public std::map<skill_id, SkillLevel>
             const std::map<skill_id, int> &req, const item &context ) const;
         int exceeds_recipe_requirements( const recipe &rec ) const;
         bool has_recipe_requirements( const recipe &rec ) const;
+};
+
+class SkillDisplayType
+{
+        friend class string_id<SkillDisplayType>;
+        skill_displayType_id _ident;
+        translation _display_string;
+    public:
+        static std::vector<SkillDisplayType> skillTypes;
+        static void load( JsonObject &jsobj );
+
+        static const SkillDisplayType &get_skill_type( skill_displayType_id );
+
+        SkillDisplayType();
+        SkillDisplayType( const skill_displayType_id &ident, const translation &display_string );
+
+        const skill_displayType_id &ident() const {
+            return _ident;
+        }
+        std::string display_string() const {
+            return _display_string.translated();
+        }
 };
 
 double price_adjustment( int );

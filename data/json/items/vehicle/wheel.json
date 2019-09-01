@@ -1,5 +1,48 @@
 [
   {
+    "id": "wheel_mount_light",
+    "type": "GENERIC",
+    "category": "veh_parts",
+    "name": "light wheel mount",
+    "description": "A piece of metal with holes suitable for a bike or motorbike wheel.",
+    "weight": 150,
+    "volume": "250 ml",
+    "price": 10,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "dark_gray"
+  },
+  {
+    "id": "wheel_mount_medium",
+    "type": "GENERIC",
+    "category": "veh_parts",
+    "name": "medium hub assembly",
+    "description": "A metal assembly that allows bolting a wheel on a car. Fit for a car wheel.",
+    "weight": 5000,
+    "volume": "6 L",
+    "price": 3000,
+    "bashing": 14,
+    "to_hit": -2,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "dark_gray"
+  },
+  {
+    "id": "wheel_mount_heavy",
+    "type": "GENERIC",
+    "category": "veh_parts",
+    "name": "heavy hub assembly",
+    "description": "A heavy metal assembly that allows bolting a wheel on a car. Fit for a large car wheel.",
+    "weight": 6000,
+    "volume": "7 L",
+    "price": 5000,
+    "bashing": 14,
+    "to_hit": -2,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "dark_gray"
+  },
+  {
     "id": "wheel",
     "type": "WHEEL",
     "category": "veh_parts",

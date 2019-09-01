@@ -1,5 +1,26 @@
 [
   {
+    "id": "donut_holes",
+    "type": "COMESTIBLE",
+    "name": "donut holes",
+    "name_plural": "donut holes",
+    "weight": 226,
+    "color": "yellow",
+    "spoils_in": "10 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 60,
+    "quench": -1,
+    "healthy": -1,
+    "description": "These balls of dough have been cut into shape, covered with sugar, and cooked to a crisp.  A staple of fairgrounds everywhere.",
+    "price": 100,
+    "volume": "250 ml",
+    "charges": 4,
+    "flags": [ "EATEN_HOT" ],
+    "looks_like": "bread",
+    "fun": 4
+  },
+  {
     "id": "sourdough_young",
     "type": "GENERIC",
     "category": "food",

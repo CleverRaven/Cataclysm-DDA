@@ -839,7 +839,7 @@
     "initial_charges": 100,
     "max_charges": 100,
     "charges_per_use": 1,
-    "turns_per_charge": 50,
+    "turns_per_charge": 1350,
     "use_action": { "target": "candle", "msg": "The candle winks out.", "menu_text": "Extinguish", "type": "transform" },
     "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH" ]
   },
@@ -860,6 +860,20 @@
     "max_charges": 1,
     "charges_per_use": 1,
     "use_action": "CAN_GOO"
+  },
+  {
+    "id": "sieve_steel",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "sieve",
+    "description": "This is no mere strainer for noodles; it's a sieve used to separate particles of certain sizes.  You could use this to do a really good job sifting flour, remove dust and soil from grain, or perhaps conduct gradiation tests for any civil engineers you might know.  This one has been constructed from steel mesh.",
+    "weight": 318,
+    "volume": 2,
+    "price": 700,
+    "bashing": 2,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "dark_gray"
   },
   {
     "id": "carding_paddles",
@@ -1291,7 +1305,7 @@
     "material": "clay",
     "symbol": ")",
     "color": "brown",
-    "container_data": { "contains": 8, "watertight": true },
+    "container_data": { "contains": "2 L", "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
@@ -1323,7 +1337,7 @@
     "material": "clay",
     "symbol": ")",
     "color": "brown",
-    "container_data": { "contains": 3, "watertight": true },
+    "container_data": { "contains": "750 ml", "watertight": true },
     "qualities": [ [ "BOIL", 1 ] ]
   },
   {
@@ -2705,7 +2719,7 @@
     "name": "gasoline lantern (on)",
     "name_plural": "gasoline lanterns (on)",
     "description": "This is a small gasoline powered lantern.  It does not provide much light, but it lasts a long time.  It is turned on.  Use it to turn it off.",
-    "turns_per_charge": 20,
+    "turns_per_charge": 60,
     "revert_to": "gasoline_lantern",
     "use_action": { "target": "gasoline_lantern", "msg": "The lantern is extinguished.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
@@ -2817,7 +2831,7 @@
     "color": "light_blue",
     "initial_charges": 1400,
     "max_charges": 1400,
-    "turns_per_charge": 2,
+    "turns_per_charge": 30,
     "revert_to": "glowstick_dead",
     "revert_msg": "The glowstick fades out.",
     "flags": [ "LIGHT_8", "TRADER_AVOID" ]
@@ -3579,7 +3593,7 @@
     "color": "light_gray",
     "techniques": "WBLOCK_1",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -42 ] ],
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE" ]
   },
   {
     "id": "makeshift_hammer",
@@ -4225,8 +4239,8 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "lamp_oil",
-    "initial_charges": 800,
-    "max_charges": 800,
+    "initial_charges": 750,
+    "max_charges": 750,
     "charges_per_use": 1,
     "use_action": {
       "target": "oil_lamp_on",
@@ -4246,7 +4260,7 @@
     "name": "oil lamp",
     "name_plural": "oil lamps",
     "description": "This is an oil fueled lamp.  It does not provide much light, but it lasts a long time.  It is turned on.  Use it to turn it off.",
-    "turns_per_charge": 20,
+    "turns_per_charge": 240,
     "revert_to": "oil_lamp",
     "use_action": { "target": "oil_lamp", "msg": "The lantern is extinguished.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "LIGHT_10", "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH" ]
@@ -4989,7 +5003,7 @@
     "material": "stone",
     "symbol": ";",
     "color": "dark_gray",
-    "container_data": { "contains": 6, "watertight": true },
+    "container_data": { "contains": "1500 ml", "watertight": true },
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
@@ -5630,7 +5644,7 @@
     "price": 162654,
     "to_hit": -6,
     "bashing": 10,
-    "contains": 11,
+    "contains": "2750 ml",
     "material": "steel",
     "symbol": "A",
     "color": "yellow",
@@ -5857,7 +5871,7 @@
     "material": "steel",
     "symbol": ")",
     "color": "dark_gray",
-    "container_data": { "contains": 2, "watertight": true },
+    "container_data": { "contains": "500 ml", "watertight": true },
     "qualities": [ [ "BOIL", 1 ] ]
   },
   {
@@ -6224,7 +6238,7 @@
     "symbol": "*",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": { "power": 250, "shrapnel": { "casing_mass": 2500, "fragment_mass": 2.0, "drop": "scrap", "recovery": 20 } },
+    "explosion": { "power": 250, "shrapnel": { "casing_mass": 2500, "fragment_mass": 2, "drop": "scrap", "recovery": 20 } },
     "use_action": {
       "target": "tool_black_powder_charge_act",
       "msg": "You light the fuse on the black gunpowder charge.  Get rid of it quickly!",
@@ -6252,13 +6266,13 @@
     "max_charges": 20,
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": { "power": 250, "shrapnel": { "casing_mass": 2500, "fragment_mass": 2.0, "drop": "scrap", "recovery": 20 } },
+    "explosion": { "power": 250, "shrapnel": { "casing_mass": 2500, "fragment_mass": 2, "drop": "scrap", "recovery": 20 } },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "Kshhh.",
       "no_deactivate_msg": "You've already lit the fuse - run!",
-      "explosion": { "power": 500, "shrapnel": { "casing_mass": 2500, "fragment_mass": 2.0, "drop": "scrap", "recovery": 20 } }
+      "explosion": { "power": 500, "shrapnel": { "casing_mass": 2500, "fragment_mass": 2, "drop": "scrap", "recovery": 20 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
@@ -6749,7 +6763,7 @@
     "material": "plastic",
     "symbol": ";",
     "color": "light_cyan",
-    "contains": 1,
+    "contains": "250 ml",
     "seals": true,
     "watertight": true,
     "use_action": "BLOOD_DRAW",
@@ -7249,7 +7263,7 @@
     "symbol": ")",
     "color": "light_gray",
     "looks_like": "pot_canning",
-    "container_data": { "contains": 8, "seals": true, "watertight": true },
+    "container_data": { "contains": "2 L", "seals": true, "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]

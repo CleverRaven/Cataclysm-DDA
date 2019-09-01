@@ -12,7 +12,7 @@
     "calories": 1000,
     "description": "Not very nutritious.  Warning: contains calories, unsuitable for breatharians.",
     "price": 100,
-    "volume": 1
+    "volume": "250 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -640,7 +640,7 @@
     "price": 0,
     "material": "veggy",
     "flags": "TRADER_AVOID",
-    "volume": 1
+    "volume": "250 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -657,7 +657,7 @@
     "price": 0,
     "material": "veggy",
     "flags": "TRADER_AVOID",
-    "volume": 1
+    "volume": "250 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -673,6 +673,6 @@
     "description": "Some nectar.  Seeing this item is a bug.",
     "price": 0,
     "flags": "TRADER_AVOID",
-    "volume": 1
+    "volume": "250 ml"
   }
 ]

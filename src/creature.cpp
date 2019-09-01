@@ -10,6 +10,7 @@
 #include "avatar.h"
 #include "debug.h"
 #include "effect.h"
+#include "event_bus.h"
 #include "field.h"
 #include "game.h"
 #include "map.h"
@@ -147,7 +148,9 @@ void Creature::process_turn()
     reset_stats();
 
     // add an appropriate number of moves
-    moves += get_speed();
+    if( !has_effect( effect_ridden ) ) {
+        moves += get_speed();
+    }
 }
 
 // MF_DIGS or MF_CAN_DIG and diggable terrain
@@ -1008,13 +1011,10 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
             e.set_intensity( e.get_max_intensity() );
         }
         ( *effects )[eff_id][bp] = e;
-        if( is_player() ) {
-            if( !type.get_apply_message().empty() ) {
+        if( Character *ch = as_character() ) {
+            g->events().send<event_type::character_gains_effect>( ch->getID(), eff_id );
+            if( is_player() && !type.get_apply_message().empty() ) {
                 add_msg( type.gain_game_message_type(), _( type.get_apply_message() ) );
-            }
-            if( !type.get_apply_memorial_log().empty() ) {
-                add_memorial_log( pgettext( "memorial_male", type.get_apply_memorial_log().c_str() ),
-                                  pgettext( "memorial_female", type.get_apply_memorial_log().c_str() ) );
             }
         }
         on_effect_int_change( eff_id, e.get_intensity(), bp );
@@ -1059,14 +1059,13 @@ bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
     }
     const effect_type &type = eff_id.obj();
 
-    if( is_player() ) {
-        if( !type.get_remove_message().empty() ) {
-            add_msg( type.lose_game_message_type(), _( type.get_remove_message() ) );
+    if( Character *ch = as_character() ) {
+        if( is_player() ) {
+            if( !type.get_remove_message().empty() ) {
+                add_msg( type.lose_game_message_type(), _( type.get_remove_message() ) );
+            }
         }
-        if( !type.get_remove_memorial_log().empty() ) {
-            add_memorial_log( pgettext( "memorial_male", type.get_remove_memorial_log().c_str() ),
-                              pgettext( "memorial_female", type.get_remove_memorial_log().c_str() ) );
-        }
+        g->events().send<event_type::character_loses_effect>( ch->getID(), eff_id );
     }
 
     // num_bp means remove all of a given effect id
@@ -1236,28 +1235,32 @@ int Creature::get_perceived_pain() const
     return get_pain();
 }
 
-std::string Creature::get_pain_description() const
+std::pair<std::string, nc_color> Creature::get_pain_description() const
 {
     float scale = get_perceived_pain() / 10.f;
+    std::string pain_string;
+    nc_color pain_color = c_yellow;
     if( scale > 7 ) {
-        return _( "Severe pain" );
+        pain_string = _( "Severe pain" );
     } else if( scale > 6 ) {
-        return _( "Intense pain" );
+        pain_string = _( "Intense pain" );
     } else if( scale > 5 ) {
-        return _( "Unmanageable pain" );
+        pain_string = _( "Unmanageable pain" );
     } else if( scale > 4 ) {
-        return _( "Distressing pain" );
+        pain_string = _( "Distressing pain" );
     } else if( scale > 3 ) {
-        return _( "Distracting pain" );
+        pain_string = _( "Distracting pain" );
     } else if( scale > 2 ) {
-        return _( "Moderate pain" );
+        pain_string = _( "Moderate pain" );
     } else if( scale > 1 ) {
-        return _( "Mild pain" );
+        pain_string = _( "Mild pain" );
     } else if( scale > 0 ) {
-        return _( "Minimal pain" );
+        pain_string = _( "Minimal pain" );
     } else {
-        return _( "No pain" );
+        pain_string = _( "No pain" );
+        pain_color = c_white;
     }
+    return std::make_pair( pain_string, pain_color );
 }
 
 int Creature::get_moves() const
