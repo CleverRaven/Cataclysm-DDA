@@ -539,7 +539,7 @@ const inventory &player::crafting_inventory( const tripoint &src_pos, int radius
         && cached_position == inv_pos ) {
         return cached_crafting_inventory;
     }
-    cached_crafting_inventory.form_from_map( inv_pos, radius, false );
+    cached_crafting_inventory.form_from_map( inv_pos, radius, this, false );
     cached_crafting_inventory += inv;
     cached_crafting_inventory += weapon;
     cached_crafting_inventory += worn;
@@ -1235,7 +1235,7 @@ bool player::can_continue_craft( item &craft )
         }
 
         inventory map_inv;
-        map_inv.form_from_map( pos(), PICKUP_RANGE );
+        map_inv.form_from_map( pos(), PICKUP_RANGE, this );
 
         std::vector<comp_selection<item_comp>> item_selections;
         for( const auto &it : continue_reqs.get_components() ) {
@@ -1285,7 +1285,7 @@ bool player::can_continue_craft( item &craft )
         }
 
         inventory map_inv;
-        map_inv.form_from_map( pos(), PICKUP_RANGE );
+        map_inv.form_from_map( pos(), PICKUP_RANGE, this );
 
         std::vector<comp_selection<tool_comp>> new_tool_selections;
         for( const std::vector<tool_comp> &alternatives : tool_reqs ) {
@@ -1548,7 +1548,7 @@ std::list<item> player::consume_items( const std::vector<item_comp> &components,
                                        const std::function<bool( const item & )> &filter )
 {
     inventory map_inv;
-    map_inv.form_from_map( pos(), PICKUP_RANGE );
+    map_inv.form_from_map( pos(), PICKUP_RANGE, this );
     return consume_items( select_item_component( components, batch, map_inv, false, filter ), batch,
                           filter );
 }
@@ -1690,7 +1690,7 @@ bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft 
                 craft.get_cached_tool_selections();
 
     inventory map_inv;
-    map_inv.form_from_map( pos(), PICKUP_RANGE );
+    map_inv.form_from_map( pos(), PICKUP_RANGE, this );
 
     for( const comp_selection<tool_comp> &tool_sel : cached_tool_selections ) {
         itype_id type = tool_sel.comp.type;
@@ -1774,7 +1774,7 @@ void player::consume_tools( const std::vector<tool_comp> &tools, int batch,
                             const std::string &hotkeys )
 {
     inventory map_inv;
-    map_inv.form_from_map( pos(), PICKUP_RANGE );
+    map_inv.form_from_map( pos(), PICKUP_RANGE, this );
     consume_tools( select_tool_component( tools, batch, map_inv, hotkeys ), batch );
 }
 

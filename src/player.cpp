@@ -5313,7 +5313,7 @@ void player::suffer()
 
         if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
             inventory map_inv;
-            map_inv.form_from_map( g->u.pos(), 2 );
+            map_inv.form_from_map( g->u.pos(), 2, dynamic_cast<player *>( &g->u ) );
             // check if character has an oxygenator first
             if( oxygenator ) {
                 add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
