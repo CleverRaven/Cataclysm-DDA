@@ -571,7 +571,7 @@ void vehicle::drive_to_local_target( const tripoint &autodrive_local_target, boo
     // cross product
     double crossy = ( facevec.x * targetvec.y ) - ( targetvec.x * facevec.y );
 
-    // dot product
+    // dot product.
     double dotx = ( facevec.x * targetvec.x ) + ( facevec.y * targetvec.y );
 
     double angle = ( atan2( crossy, dotx ) ) * 180 / M_PI;
