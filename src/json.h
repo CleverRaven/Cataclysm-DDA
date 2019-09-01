@@ -288,11 +288,19 @@ class JsonIn
 
         template<typename T, std::enable_if_t<std::is_enum<T>::value, int> = 0>
         bool read( T &val ) {
-            std::string s;
-            if( !read( s ) ) {
+            if( test_string() ) {
+                std::string s;
+                if( !read( s ) ) {
+                    return false;
+                }
+                val = io::string_to_enum<T>( s );
+                return true;
+            }
+            int i;
+            if( !read( i ) ) {
                 return false;
             }
-            val = io::string_to_enum<T>( s );
+            val = static_cast<T>( i );
             return true;
         }
 
