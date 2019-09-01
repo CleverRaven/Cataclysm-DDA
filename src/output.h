@@ -743,10 +743,6 @@ class scrollingcombattext
                 bool iso_mode;
 
             public:
-                cSCT( int p_iPosX, int p_iPosY, direction p_oDir,
-                      const std::string &p_sText, game_message_type p_gmt,
-                      const std::string &p_sText2 = "", game_message_type p_gmt2 = m_neutral,
-                      const std::string &p_sType = "" );
                 cSCT( const point &pos, direction p_oDir,
                       const std::string &p_sText, game_message_type p_gmt,
                       const std::string &p_sText2 = "", game_message_type p_gmt2 = m_neutral,

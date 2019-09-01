@@ -1695,13 +1695,13 @@ void display_table( const catacurses::window &w, const std::string &title, int c
     }
 }
 
-scrollingcombattext::cSCT::cSCT( const int p_iPosX, const int p_iPosY, const direction p_oDir,
+scrollingcombattext::cSCT::cSCT( const point &pos, const direction p_oDir,
                                  const std::string &p_sText, const game_message_type p_gmt,
                                  const std::string &p_sText2, const game_message_type p_gmt2,
                                  const std::string &p_sType )
 {
-    iPosX = p_iPosX;
-    iPosY = p_iPosY;
+    iPosX = pos.x;
+    iPosY = pos.y;
     sType = p_sType;
     oDir = p_oDir;
 
