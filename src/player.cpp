@@ -11197,9 +11197,13 @@ bool player::sees( const tripoint &t, bool, int ) const
 
 bool player::sees( const Creature &critter ) const
 {
-    // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
+    // This handles only the player/npc specific stuff (monsters don't have traits, stats or bionics).
     const int dist = rl_dist( pos(), critter.pos() );
     if( dist <= 3 && has_active_mutation( trait_ANTENNAE ) ) {
+        return true;
+    }
+    if( dist <= ( ( get_per() - ( encumb( bp_eyes ) / 5.0f ) ) / 3.0f ) &&
+        critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= LL_LOW ) {
         return true;
     }
     if( critter.digging() && has_active_bionic( bio_ground_sonar ) ) {
