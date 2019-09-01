@@ -1810,9 +1810,12 @@ void editmap::mapgen_retarget()
                 target = ptarget;
 
                 target_list.clear();
-                for( int x = target.x - SEEX - 1; x < target.x + SEEX + 1; x++ ) {
-                    for( int y = target.y - SEEY - 1; y < target.y + SEEY + 1; y++ ) {
-                        target_list.push_back( tripoint( x, y, target.z ) );
+                for( int x = target.x - SEEX + 1; x < target.x + SEEX + 1; x++ ) {
+                    for( int y = target.y - SEEY + 1; y < target.y + SEEY + 1; y++ ) {
+                        if( x == target.x - SEEX + 1 || x == target.x + SEEX ||
+                            y == target.y - SEEY + 1 || y == target.y + SEEY ) {
+                            target_list.push_back( tripoint( x, y, target.z ) );
+                        }
                     }
                 }
             }
