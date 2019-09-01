@@ -12,7 +12,7 @@
     "type": "AMMO",
     "name": ".45 ACP JHP",
     "description": ".45 ACP ammunition with 185gr JHP bullets.  The .45 ACP round was developed to replace the .38 Long Colt cartridge in the early 20th century.  It has good stopping power but above average recoil.",
-    "weight": 10,
+    "weight": "10 g",
     "volume": "250 ml",
     "price": 2000,
     "material": [ "brass", "powder" ],

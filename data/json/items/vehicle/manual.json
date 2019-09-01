@@ -5,7 +5,7 @@
     "name": "set of hand rims",
     "name_plural": "sets of hand rims",
     "description": "Hand rims for use on a wheelchair.",
-    "weight": 816,
+    "weight": "816 g",
     "to_hit": -1,
     "color": "light_gray",
     "symbol": ":",

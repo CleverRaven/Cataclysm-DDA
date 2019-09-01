@@ -4,7 +4,7 @@
     "type": "AMMO",
     "name": "7.62x39mm 57-N-231",
     "description": "7.62x39mm 57-N-231 ammunition with 121.9gr steel core FMJ bullets.  Developed in WW2 by the Soviet Union the 7.62x39mm round rapidly became extremely popular all over the world.  The bullet has poor wounding potential due to its stability, only beginning to yaw after 26cm.",
-    "weight": 16,
+    "weight": "16 g",
     "volume": "250 ml",
     "price": 5200,
     "material": [ "steel", "powder" ],

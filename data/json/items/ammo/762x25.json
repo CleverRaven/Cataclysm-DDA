@@ -4,7 +4,7 @@
     "type": "AMMO",
     "name": "7.62x25mm JHP",
     "description": "A commercial version of the 7.62x25mm cartridge created for the armed forces of Soviet Russia.  It was derived from the 7.63x25mm cartridge used by the C96 pistol.",
-    "weight": 10,
+    "weight": "10 g",
     "volume": "250 ml",
     "price": 3000,
     "material": [ "brass", "powder" ],
@@ -37,7 +37,7 @@
     "name": "7.62x25mm Type P",
     "//": "Stopgap price of $1 per.  Anti-China prejudice in the pre-Cataclysm US may have made this ammo tougher to come by.",
     "description": "A subsonic cartridge derived from the 7.62x25mm, designed for silenced firearms.  It offers good armor penetration at the cost of slightly less damage.",
-    "weight": 12,
+    "weight": "12 g",
     "count": 50,
     "relative": { "price": 2000, "range": -1, "damage": -9, "pierce": 2, "recoil": -270 }
   },
