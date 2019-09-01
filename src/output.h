@@ -747,6 +747,10 @@ class scrollingcombattext
                       const std::string &p_sText, game_message_type p_gmt,
                       const std::string &p_sText2 = "", game_message_type p_gmt2 = m_neutral,
                       const std::string &p_sType = "" );
+                cSCT( const point &pos, direction p_oDir,
+                      const std::string &p_sText, game_message_type p_gmt,
+                      const std::string &p_sText2 = "", game_message_type p_gmt2 = m_neutral,
+                      const std::string &p_sType = "" );
 
                 int getStep() const {
                     return iStep;
