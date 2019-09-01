@@ -379,6 +379,9 @@ class cata_tiles
         void draw_zones_frame();
         void void_zones();
 
+        void init_draw_radiation_override( const tripoint &p, int rad );
+        void void_radiation_override();
+
         void init_draw_terrain_override( const tripoint &p, const ter_id &id );
         void void_terrain_override();
 
@@ -511,6 +514,7 @@ class cata_tiles
         // offset for drawing, in pixels.
         point op;
 
+        std::map<tripoint, int> radiation_override;
         std::map<tripoint, ter_id> terrain_override;
         std::map<tripoint, furn_id> furniture_override;
         std::map<tripoint, bool> graffiti_override;

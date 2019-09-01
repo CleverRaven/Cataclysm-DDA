@@ -777,6 +777,19 @@ void game::draw_zones( const tripoint &start, const tripoint &end, const tripoin
 #endif
 
 #if defined(TILES)
+void game::draw_radiation_override( const tripoint &p, const int rad )
+{
+    if( use_tiles ) {
+        tilecontext->init_draw_radiation_override( p, rad );
+    }
+}
+#else
+void game::draw_radiation_override( const tripoint &, const int )
+{
+}
+#endif
+
+#if defined(TILES)
 void game::draw_terrain_override( const tripoint &p, const ter_id &id )
 {
     if( use_tiles ) {
