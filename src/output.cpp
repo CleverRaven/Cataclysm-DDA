@@ -1695,13 +1695,12 @@ void display_table( const catacurses::window &w, const std::string &title, int c
     }
 }
 
-scrollingcombattext::cSCT::cSCT( const point &pos, const direction p_oDir,
+scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
                                  const std::string &p_sText, const game_message_type p_gmt,
                                  const std::string &p_sText2, const game_message_type p_gmt2,
                                  const std::string &p_sType )
 {
-    iPosX = pos.x;
-    iPosY = pos.y;
+    pos = p_pos;
     sType = p_sType;
     oDir = p_oDir;
 
@@ -1721,13 +1720,12 @@ scrollingcombattext::cSCT::cSCT( const point &pos, const direction p_oDir,
 
     point pairDirXY = direction_XY( oDir );
 
-    iDirX = pairDirXY.x;
-    iDirY = pairDirXY.y;
+    dir = pairDirXY;
 
-    if( iDirX == 0 && iDirY == 0 ) {
+    if( dir == point_zero ) {
         // This would cause infinite loop otherwise
         oDir = WEST;
-        iDirX = -1;
+        dir.x = -1;
     }
 
     iStep = 0;
@@ -1866,7 +1864,7 @@ int scrollingcombattext::cSCT::getPosX() const
             iDirOffset -= getText().length() - 1;
         }
 
-        return iPosX + iDirOffset + ( iDirX * ( ( sType == "hp" ) ? ( getStepOffset() + 1 ) :
+        return pos.x + iDirOffset + ( dir.x * ( ( sType == "hp" ) ? ( getStepOffset() + 1 ) :
                                                 ( getStepOffset() * ( iso_mode ? 2 : 1 ) + getStep() ) ) );
     }
 
@@ -1894,7 +1892,7 @@ int scrollingcombattext::cSCT::getPosY() const
 
         }
 
-        return iPosY + iDirOffset + ( iDirY * ( ( iso_mode && sType == "hp" ) ? ( getStepOffset() + 1 ) :
+        return pos.y + iDirOffset + ( dir.y * ( ( iso_mode && sType == "hp" ) ? ( getStepOffset() + 1 ) :
                                                 ( getStepOffset() * ( iso_mode ? 2 : 1 ) + getStep() ) ) );
     }
 

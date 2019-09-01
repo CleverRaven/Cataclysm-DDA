@@ -727,12 +727,10 @@ class scrollingcombattext
         class cSCT
         {
             private:
-                int iPosX;
-                int iPosY;
+                point pos;
                 direction oDir;
                 direction oUp, oUpRight, oRight, oDownRight, oDown, oDownLeft, oLeft, oUpLeft;
-                int iDirX;
-                int iDirY;
+                point dir;
                 int iStep;
                 int iStepOffset;
                 std::string sText;
@@ -766,10 +764,10 @@ class scrollingcombattext
                     return oDir;
                 }
                 int getInitPosX() const {
-                    return iPosX;
+                    return pos.x;
                 }
                 int getInitPosY() const {
-                    return iPosY;
+                    return pos.y;
                 }
                 std::string getType() const {
                     return sType;
