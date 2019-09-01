@@ -1209,17 +1209,12 @@ void npc::execute_action( npc_action action )
 
 void npc::witness_thievery( item *it )
 {
+    known_stolen_item = it;
     // Shopkeep is behind glass
     if( myclass == npc_class_id( "NC_EVAC_SHOPKEEP" ) ) {
-        known_stolen_item = it;
         return;
     }
     set_attitude( NPCATT_RECOVER_GOODS );
-    known_stolen_item = it;
-    for( auto &elem : g->u.inv_dump() ) {
-        if( elem->get_old_owner() ) {
-        }
-    }
 }
 
 npc_action npc::method_of_fleeing()

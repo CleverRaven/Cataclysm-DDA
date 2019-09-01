@@ -7004,11 +7004,49 @@ bool player::consume_med( item &target )
     return target.charges <= 0;
 }
 
+static bool query_consume_ownership( item &target, player &p )
+{
+    if( target.has_owner() && target.get_owner() != p.get_faction() ) {
+        if( p.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+            Pickup::query_thief();
+            if( p.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+                if( p.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+                    p.set_value( "THIEF_MODE", "THIEF_ASK" );
+                }
+                return false;
+            }
+        }
+        std::vector<npc *> witnesses;
+        for( npc &elem : g->all_npcs() ) {
+            if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && elem.sees( p.pos() ) ) {
+                witnesses.push_back( &elem );
+            }
+            for( npc *elem : witnesses ) {
+                elem->say( "<witnessed_thievery>", 7 );
+            }
+            if( !witnesses.empty() ) {
+                if( g->u.add_faction_warning( target.get_owner()->id ) ) {
+                    for( npc *elem : witnesses ) {
+                        elem->make_angry();
+                    }
+                }
+            }
+        }
+    }
+    return true;
+}
+
 bool player::consume_item( item &target )
 {
     if( target.is_null() ) {
         add_msg_if_player( m_info, _( "You do not have that item." ) );
         return false;
+    }
+    if( !query_consume_ownership( target, *this ) ) {
+        return false;
+    }
+    if( get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        set_value( "THIEF_MODE", "THIEF_ASK" );
     }
     if( is_underwater() && !has_trait( trait_WATERSLEEP ) ) {
         add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
@@ -7044,8 +7082,14 @@ bool player::consume_item( item &target )
 bool player::consume( int target_position )
 {
     auto &target = i_at( target_position );
-
+    if( !query_consume_ownership( target, *this ) ) {
+        return false;
+    }
+    if( get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        set_value( "THIEF_MODE", "THIEF_ASK" );
+    }
     if( consume_item( target ) ) {
+
         const bool was_in_container = !can_consume_as_is( target );
 
         if( was_in_container ) {
