@@ -86,7 +86,6 @@
     "loudness": 1,
     "ups_charges": 180,
     "reload": 0,
-    "default_mods": [ "inter_bayonet" ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NO_UNLOAD", "NEVER_JAMS", "MECH_WEAPON", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE" ]
   },
