@@ -8,7 +8,7 @@
     "category": "other",
     "description": "A broken shard of glass covered in sharp edges.  You could use it as a weapon, but you might want to wear gloves.",
     "material": "glass",
-    "weight": 75,
+    "weight": "75 g",
     "volume": "30 ml",
     "cutting": 6,
     "use_action": {
@@ -32,7 +32,7 @@
     "category": "spare_parts",
     "price": 5000,
     "material": "glass",
-    "weight": 24176,
+    "weight": "24176 g",
     "volume": "12500 ml",
     "bashing": 4,
     "to_hit": -5,
@@ -55,7 +55,7 @@
     "category": "spare_parts",
     "price": 10000,
     "material": [ "glass", "steel" ],
-    "weight": 40123,
+    "weight": "40123 g",
     "volume": "12500 ml",
     "bashing": 6,
     "to_hit": -6
@@ -71,7 +71,7 @@
     "category": "spare_parts",
     "price": 5000,
     "material": [ "glass", "steel" ],
-    "weight": 10040,
+    "weight": "10040 g",
     "volume": "3 L",
     "bashing": 4,
     "to_hit": -2
