@@ -363,7 +363,7 @@
         "-----------MM----------|"
       ],
       "palettes": [ "lab_palette" ],
-      "monster": { "7": { "monster": "mon_turret" } },
+      "monster": { "7": { "monster": "mon_turret_rifle" } },
       "place_monster": [
         { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 75, "repeat": 2 },
         { "monster": "mon_mech_combat", "x": 2, "y": 2, "chance": 33 }

@@ -105,7 +105,6 @@ static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
 static const mtype_id mon_chickenbot( "mon_chickenbot" );
 static const mtype_id mon_dispatch( "mon_dispatch" );
 static const mtype_id mon_tankbot( "mon_tankbot" );
-static const mtype_id mon_turret( "mon_turret" );
 static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
 static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 static const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
@@ -610,22 +609,22 @@ static void mx_roadblock( map &m, const tripoint &abs_sub )
         if( road_at_north ) {
             line_furn( &m, f_barricade_road, 4, 3, 10, 3 );
             line_furn( &m, f_barricade_road, 13, 3, 19, 3 );
-            m.add_spawn( mon_turret, 1, point( 12, 1 ) );
+            m.add_spawn( mon_turret_rifle, 1, point( 12, 1 ) );
         }
         if( road_at_east ) {
             line_furn( &m, f_barricade_road, SEEX * 2 - 3, 4, SEEX * 2 - 3, 10 );
             line_furn( &m, f_barricade_road, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19 );
-            m.add_spawn( mon_turret, 1, point( SEEX * 2 - 1, 12 ) );
+            m.add_spawn( mon_turret_rifle, 1, point( SEEX * 2 - 1, 12 ) );
         }
         if( road_at_south ) {
             line_furn( &m, f_barricade_road, 4, SEEY * 2 - 3, 10, SEEY * 2 - 3 );
             line_furn( &m, f_barricade_road, 13, SEEY * 2 - 3, 19, SEEY * 2 - 3 );
-            m.add_spawn( mon_turret, 1, point( 12, SEEY * 2 - 1 ) );
+            m.add_spawn( mon_turret_rifle, 1, point( 12, SEEY * 2 - 1 ) );
         }
         if( road_at_west ) {
             line_furn( &m, f_barricade_road, 3, 4, 3, 10 );
             line_furn( &m, f_barricade_road, 3, 13, 3, 19 );
-            m.add_spawn( mon_turret, 1, point( 1, 12 ) );
+            m.add_spawn( mon_turret_rifle, 1, point( 1, 12 ) );
         }
 
         m.add_vehicle( vproto_id( "policecar" ), point( 8, 6 ), 20 );
