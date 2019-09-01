@@ -171,7 +171,7 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
     return static_cast<pickup_answer>( choice );
 }
 
-void Pickup::query_thief()
+bool Pickup::query_thief()
 {
     player &u = g->u;
     bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
@@ -188,25 +188,31 @@ void Pickup::query_thief()
                          .option( "NO", allow_key ) // no, pick up only what is free
                          .option( "ALWAYS", allow_key ) // Yes, steal all items and stop asking me this question
                          .option( "NEVER", allow_key ) // no, only grab free item and never ask me again
-                         .cursor( 1 ) // default to the third option `QUIT`
+                         .cursor( 1 ) // default to the second option `NO`
                          .query()
                          .action; // retrieve the input action
     if( answer == "YES" ) {
         u.set_value( "THIEF_MODE", "THIEF_STEAL" );
         u.set_value( "THIEF_MODE_KEEP", "NO" );
+        return true;
     } else if( answer == "NO" ) {
         u.set_value( "THIEF_MODE", "THIEF_HONEST" );
         u.set_value( "THIEF_MODE_KEEP", "NO" );
+        return false;
     } else if( answer == "ALWAYS" ) {
         u.set_value( "THIEF_MODE", "THIEF_STEAL" );
         u.set_value( "THIEF_MODE_KEEP", "YES" );
+        return true;
     } else if( answer == "NEVER" ) {
         u.set_value( "THIEF_MODE", "THIEF_HONEST" );
         u.set_value( "THIEF_MODE_KEEP", "YES" );
+        return false;
     } else {
         // error
         debugmsg( "Not a valid option [ %s ]", answer );
+        return false;
     }
+    return false;
 }
 
 // Returns false if pickup caused a prompt and the player selected to cancel pickup
@@ -234,9 +240,9 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         // Has the player given input on if stealing is ok?
         if( u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
             Pickup::query_thief();
-            if( u.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
-                return true; // Since we are honest, return no problem before picking up
-            }
+        }
+        if( u.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+            return true; // Since we are honest, return no problem before picking up
         }
     }
     if( newit.invlet != '\0' &&

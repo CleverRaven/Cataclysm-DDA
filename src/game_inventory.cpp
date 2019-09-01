@@ -684,7 +684,6 @@ item_location game_menus::inv::consume( player &p )
     if( !g->u.has_activity( activity_id( "ACT_EAT_MENU" ) ) ) {
         g->u.assign_activity( activity_id( "ACT_EAT_MENU" ) );
     }
-
     return inv_internal( p, comestible_inventory_preset( p ),
                          _( "Consume item" ), 1,
                          _( "You have nothing to consume." ),
