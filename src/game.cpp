@@ -2784,7 +2784,7 @@ void game::reset_npc_dispositions()
         npc_to_add->op_of_u.trust = 0;
         npc_to_add->op_of_u.value = 0;
         npc_to_add->op_of_u.owed = 0;
-        npc_to_add->set_fac( faction_id( "wasteland_scavengers" ) );
+        npc_to_add->set_fac( faction_id( "no_faction" ) );
         npc_to_add->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC,
                                      npc_to_add->global_omt_location(),
                                      npc_to_add->getID() ) );

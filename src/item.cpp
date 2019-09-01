@@ -3264,7 +3264,8 @@ void item::handle_pickup_ownership( Character &c )
         if( get_owner() != yours && &c == &g->u ) {
             std::vector<npc *> witnesses;
             for( npc &elem : g->all_npcs() ) {
-                if( rl_dist( elem.pos(), g->u.pos() ) < MAX_VIEW_DISTANCE &&
+                if( rl_dist( elem.pos(), g->u.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
+                    elem.get_faction()->id != faction_id( "no_faction" ) &&
                     elem.get_faction() == get_owner() && elem.sees( g->u.pos() ) ) {
                     elem.say( "<witnessed_thievery>", 7 );
                     npc *npc_to_add = &elem;
