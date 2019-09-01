@@ -1866,16 +1866,15 @@ void game::validate_mounted_npcs()
     for( monster &m : all_monsters() ) {
         if( m.has_effect( effect_ridden ) && m.mounted_player_id.is_valid() ) {
             player *mounted_pl = g->critter_by_id<player>( m.mounted_player_id );
-            if( mounted_pl == nullptr ) {
+            if( !mounted_pl ) {
                 // Target no longer valid.
                 m.mounted_player_id = character_id();
                 m.remove_effect( effect_ridden );
                 continue;
             }
-            if( !mounted_pl->is_mounted() && mounted_pl->is_npc() ) {
-                mounted_pl->mounted_creature = shared_from( m );
-                mounted_pl->setpos( m.pos() );
-            }
+            mounted_pl->mounted_creature = shared_from( m );
+            mounted_pl->setpos( m.pos() );
+            mounted_pl->add_effect( effect_riding, 1_turns, num_bp, true );
             m.mounted_player = mounted_pl;
         }
     }
@@ -10166,6 +10165,9 @@ void game::vertical_move( int movez, bool force )
     if( !m.has_zlevels() ) {
         const tripoint to = u.pos();
         for( monster &critter : all_monsters() ) {
+            if( critter.has_effect( effect_ridden ) ) {
+                continue;
+            }
             int turns = critter.turns_to_reach( to.xy() );
             if( turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach( to.xy() )
                 && !slippedpast ) {
@@ -10187,14 +10189,13 @@ void game::vertical_move( int movez, bool force )
     if( !m.has_zlevels() && abs( movez ) == 1 ) {
         std::copy_if( active_npc.begin(), active_npc.end(), back_inserter( npcs_to_bring ),
         [this]( const std::shared_ptr<npc> &np ) {
-            return np->is_walking_with() && rl_dist( np->pos(), u.pos() ) < 2;
+            return np->is_walking_with() && !np->is_mounted() && rl_dist( np->pos(), u.pos() ) < 2;
         } );
     }
 
     if( m.has_zlevels() && abs( movez ) == 1 ) {
         for( monster &critter : all_monsters() ) {
-            if( critter.attack_target() == &g->u || ( critter.has_effect( effect_pet ) &&
-                    critter.friendly == -1 ) ) {
+            if( critter.attack_target() == &g->u || ( !critter.has_effect( effect_ridden ) && critter.has_effect( effect_pet ) && critter.friendly == -1 ) ) {
                 monsters_following.push_back( &critter );
             }
         }
@@ -10467,7 +10468,9 @@ void game::vertical_shift( const int z_after )
     }
 
     m.spawn_monsters( true );
-
+    // this may be required after a vertical shift if z-levels are not enabled
+    // the critter is unloaded/loaded, and it needs to reconstruct its rider data after being reloaded.
+    validate_mounted_npcs();
     vertical_notes( z_before, z_after );
 }
 

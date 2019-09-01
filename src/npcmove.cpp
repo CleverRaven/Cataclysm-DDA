@@ -2201,6 +2201,10 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         // Z-level move
         // For now just teleport to the destination
         // TODO: Make it properly find the tile to move to
+        if( is_mounted() ) {
+            move_pause();
+            return;
+        }
         moves -= 100;
         moved = true;
     } else if( g->m.passable( p ) ) {
