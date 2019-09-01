@@ -124,9 +124,16 @@ class inventory : public visitable<inventory>
          * the player's worn items / weapon
          */
         void restack( player &p );
+        void form_from_map( const tripoint &origin, int range, player *pl, bool assign_invlet = true,
+                            bool clear_path = true );
         void form_from_map( const tripoint &origin, int range, bool assign_invlet = true,
                             bool clear_path = true );
+        void form_from_map( const tripoint &origin, int range, const player *pl, bool assign_invlet = true,
+                            bool clear_path = true );
         void form_from_map( map &m, const tripoint &origin, int range, bool assign_invlet = true,
+                            bool clear_path = true );
+        void form_from_map( map &m, const tripoint &origin, int range, const player *pl,
+                            bool assign_invlet = true,
                             bool clear_path = true );
 
         /**
