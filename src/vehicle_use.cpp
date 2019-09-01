@@ -1634,7 +1634,8 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
 
     auto turret = turret_query( pos );
 
-    const bool has_curtain = avail_part_with_feature( interact_part, "CURTAIN", true ) >= 0;
+    const int curtain_part = avail_part_with_feature( interact_part, "CURTAIN", true );
+    const bool curtain_closed = ( curtain_part == -1 ) ? false : !parts[curtain_part].open;
     const bool has_kitchen = avail_part_with_feature( interact_part, "KITCHEN", true ) >= 0;
     const bool has_faucet = avail_part_with_feature( interact_part, "FAUCET", true ) >= 0;
     const bool has_towel = avail_part_with_feature( interact_part, "TOWEL", true ) >= 0;
@@ -1718,7 +1719,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( turret.can_reload() ) {
         selectmenu.addentry( RELOAD_TURRET, true, 'r', _( "Reload %s" ), turret.name() );
     }
-    if( has_curtain ) {
+    if( curtain_part >= 0 && curtain_closed ) {
         selectmenu.addentry( PEEK_CURTAIN, true, 'p', _( "Peek through the closed curtains" ) );
     }
     if( ( has_kitchen || has_chemlab ) && fuel_left( "battery" ) > 0 ) {
