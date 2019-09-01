@@ -75,6 +75,9 @@ std::string enum_to_string<event_type>( event_type data )
 
 } // namespace io
 
+namespace cata
+{
+
 namespace event_detail
 {
 
@@ -125,3 +128,5 @@ DEFINE_EVENT_FIELDS( telefrags_creature )
 DEFINE_EVENT_FIELDS( teleports_into_wall )
 
 } // namespace event_detail
+
+} // namespace cata
