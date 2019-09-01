@@ -37,7 +37,7 @@ class memorial_logger : public event_subscriber
         // Prints out the final memorial file
         void write( std::ostream &memorial_file, const std::string &epitaph ) const;
 
-        void notify( const event & ) override;
+        void notify( const cata::event & ) override;
     private:
         std::vector<std::string> log;
 };

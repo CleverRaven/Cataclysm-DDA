@@ -14,6 +14,7 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
+#include "construction.h"
 #include "debug.h"
 #include "effect.h"
 #include "event_bus.h"
@@ -1688,6 +1689,14 @@ bool Character::meets_skill_requirements( const std::map<skill_id, int> &req,
         const item &context ) const
 {
     return _skills->meets_skill_requirements( req, context );
+}
+
+bool Character::meets_skill_requirements( const construction &con ) const
+{
+    return std::all_of( con.required_skills.begin(), con.required_skills.end(),
+    [&]( const std::pair<skill_id, int> &pr ) {
+        return get_skill_level( pr.first ) >= pr.second;
+    } );
 }
 
 bool Character::meets_stat_requirements( const item &it ) const

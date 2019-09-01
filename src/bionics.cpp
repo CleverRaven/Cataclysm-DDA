@@ -13,6 +13,7 @@
 #include "action.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "assign.h"
 #include "ballistics.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -2045,11 +2046,7 @@ void load_bionic( JsonObject &jsobj )
 
     new_bionic.weight_capacity_modifier = jsobj.get_float( "weight_capacity_modifier", 1.0 );
 
-    if( jsobj.has_string( "weight_capacity_bonus" ) ) {
-        new_bionic.weight_capacity_bonus = read_from_json_string<units::mass>
-                                           ( *jsobj.get_raw( "weight_capacity_bonus" ), units::mass_units );
-    }
-
+    assign( jsobj, "weight_capacity_bonus", new_bionic.weight_capacity_bonus, false, 0_gram );
 
     jsobj.read( "canceled_mutations", new_bionic.canceled_mutations );
     jsobj.read( "included_bionics", new_bionic.included_bionics );

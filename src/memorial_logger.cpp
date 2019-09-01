@@ -343,7 +343,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     file << dump();
 }
 
-void memorial_logger::notify( const event &e )
+void memorial_logger::notify( const cata::event &e )
 {
     switch( e.type() ) {
         case event_type::activates_artifact: {

@@ -709,21 +709,13 @@ bool player_can_build( player &p, const inventory &inv, const std::string &desc 
     return false;
 }
 
-static bool character_has_skill_for( const Character &c, const construction &con )
-{
-    return std::all_of( con.required_skills.begin(), con.required_skills.end(),
-    [&]( const std::pair<skill_id, int> &pr ) {
-        return c.get_skill_level( pr.first ) >= pr.second;
-    } );
-}
-
 bool player_can_build( player &p, const inventory &inv, const construction &con )
 {
     if( p.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 
-    if( !character_has_skill_for( p, con ) ) {
+    if( !p.meets_skill_requirements( con ) ) {
         return false;
     }
     return con.requirements->can_make_with_inventory( inv, is_crafting_component );
@@ -881,7 +873,7 @@ void complete_construction( player *p )
     // TODO NPCs watching other NPCs do stuff and learning from it
     if( p->is_player() ) {
         for( auto &elem : g->u.get_crafting_helpers() ) {
-            if( character_has_skill_for( *elem, built ) ) {
+            if( elem->meets_skill_requirements( built ) ) {
                 add_msg( m_info, _( "%s assists you with the work..." ), elem->name );
             } else {
                 //NPC near you isn't skilled enough to help
@@ -1507,7 +1499,7 @@ int construction::adjusted_time() const
     int assistants = 0;
 
     for( auto &elem : g->u.get_crafting_helpers() ) {
-        if( character_has_skill_for( *elem, *this ) ) {
+        if( elem->meets_skill_requirements( *this ) ) {
             assistants++;
         }
     }
