@@ -10,6 +10,7 @@
 #include <exception>
 #include <memory>
 #include <set>
+#include <tuple>
 #include <utility>
 #include <typeinfo>
 
@@ -1618,8 +1619,31 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                     }
                     g->draw_below_override( map_p, g->m.has_zlevels() &&
                                             tmpmap.ter( tmp_p ).obj().has_flag( TFLAG_NO_FLOOR ) );
-                    // creatures are tracked in `game` instead of `map`, so no creature to draw from tmpmap
                 }
+            }
+            // int: count, bool: more than 1 spawn data
+            std::map<tripoint, std::tuple<mtype_id, int, bool, Creature::Attitude>> spawns;
+            for( int x = 0; x < 2; x++ ) {
+                for( int y = 0; y < 2; y++ ) {
+                    submap *sm = tmpmap.get_submap_at_grid( { x, y, target.z } );
+                    if( sm ) {
+                        const tripoint sm_origin = origin_p + tripoint( x * SEEX, y * SEEY, target.z );
+                        for( const auto &sp : sm->spawns ) {
+                            const tripoint spawn_p = sm_origin + sp.pos;
+                            const auto spawn_it = spawns.find( spawn_p );
+                            if( spawn_it == spawns.end() ) {
+                                const Creature::Attitude att = sp.friendly ? Creature::A_FRIENDLY : Creature::A_ANY;
+                                spawns.emplace( spawn_p, std::make_tuple( sp.type, sp.count, false, att ) );
+                            } else {
+                                std::get<2>( spawn_it->second ) = true;
+                            }
+                        }
+                    }
+                }
+            }
+            for( const auto &it : spawns ) {
+                g->draw_monster_override( it.first, std::get<0>( it.second ), std::get<1>( it.second ),
+                                          std::get<2>( it.second ), std::get<3>( it.second ) );
             }
         }
 #endif
