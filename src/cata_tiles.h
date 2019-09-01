@@ -407,6 +407,8 @@ class cata_tiles
 
         void init_draw_below_override( const tripoint &p, bool draw );
         void void_draw_below_override();
+
+        bool has_draw_override( const tripoint &p ) const;
     public:
         /**
          * Initialize the current tileset (load tile images, load mapping), using the current

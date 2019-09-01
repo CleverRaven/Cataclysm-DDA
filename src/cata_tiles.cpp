@@ -1077,10 +1077,12 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             const tripoint pos( temp_x, temp_y, center.z );
             const int &x = pos.x;
             const int &y = pos.y;
-            const bool has_terrain_override = terrain_override.find( pos ) != terrain_override.end();
+
+            const bool has_override = has_draw_override( pos );
+
             if( ( y < min_visible_y || y > max_visible_y || x < min_visible_x || x > max_visible_x ) &&
                 // tile overrides are visible even outside vision range
-                !has_terrain_override ) {
+                !has_override ) {
 
                 int height_3d = 0;
                 if( !draw_terrain_from_memory( pos, height_3d ) ) {
@@ -1159,7 +1161,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             }
 
             // if we find any tile override, skip drawing vision effects
-            if( !has_terrain_override &&
+            if( !has_override &&
                 apply_vision_effects( pos, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
 
                 int height_3d = 0;
@@ -1178,7 +1180,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             // light level is now used for choosing between grayscale filter and normal lit tiles.
             draw_terrain( pos, ch.visibility_cache[x][y], height_3d );
 
-            draw_points.push_back( tile_render_info( pos, height_3d ) );
+            draw_points.emplace_back( pos, height_3d );
         }
         const std::array<decltype( &cata_tiles::draw_furniture ), 10> drawing_layers = {{
                 &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap,
@@ -2021,8 +2023,8 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
     }
 
     const std::string &tname = t.id().str();
-    // do not memorize terrain override
-    if( !overridden && !g->m.check_and_set_seen_cache( p ) ) {
+    // do not memorize overridden tiles
+    if( !has_draw_override( p ) && !g->m.check_and_set_seen_cache( p ) ) {
         g->u.memorize_tile( g->m.getabs( p ), tname, subtile, rotation );
     }
 
@@ -2091,8 +2093,8 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
 
     // get the name of this furniture piece
     const std::string &f_name = f_id.obj().id.str();
-    // do not memorize furniture override
-    if( !overridden && !g->m.check_and_set_seen_cache( p ) ) {
+    // do not memorize overridden tiles
+    if( !has_draw_override( p ) && !g->m.check_and_set_seen_cache( p ) ) {
         g->u.memorize_tile( g->m.getabs( p ), f_name, subtile, rotation );
     }
 
@@ -2129,8 +2131,8 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
     int rotation = 0;
     get_tile_values( tr, neighborhood, subtile, rotation );
 
-    // do not memorize trap override
-    if( !overridden && !g->m.check_and_set_seen_cache( p ) ) {
+    // do not memorize overridden tiles
+    if( !has_draw_override( p ) && !g->m.check_and_set_seen_cache( p ) ) {
         g->u.memorize_tile( g->m.getabs( p ), tr.id().str(), subtile, rotation );
     }
 
@@ -2278,7 +2280,8 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
         draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
 
         veh_dir = veh.face.dir();
-        if( !veh.forward_velocity() && !veh.player_in_control( g->u ) ) {
+        // do not memorize overridden tiles
+        if( !has_draw_override( p ) && !veh.forward_velocity() && !veh.player_in_control( g->u ) ) {
             if( !g->m.check_and_set_seen_cache( p ) ) {
                 g->u.memorize_tile( g->m.getabs( p ), disp_id, subtile, veh_dir );
             }
@@ -2703,6 +2706,18 @@ void cata_tiles::void_vpart_override()
 void cata_tiles::void_draw_below_override()
 {
     draw_below_override.clear();
+}
+bool cata_tiles::has_draw_override( const tripoint &p ) const
+{
+    return radiation_override.find( p ) != radiation_override.end() ||
+           terrain_override.find( p ) != terrain_override.end() ||
+           furniture_override.find( p ) != furniture_override.end() ||
+           graffiti_override.find( p ) != graffiti_override.end() ||
+           trap_override.find( p ) != trap_override.end() ||
+           field_override.find( p ) != field_override.end() ||
+           item_override.find( p ) != item_override.end() ||
+           vpart_override.find( p ) != vpart_override.end() ||
+           draw_below_override.find( p ) != draw_below_override.end();
 }
 /* -- Animation Renders */
 void cata_tiles::draw_explosion_frame()
