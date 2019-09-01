@@ -90,7 +90,7 @@ const mongroup_id GROUP_SPIDER( "GROUP_SPIDER" );
 const mongroup_id GROUP_TRIFFID_HEART( "GROUP_TRIFFID_HEART" );
 const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
 const mongroup_id GROUP_TRIFFID_OUTER( "GROUP_TRIFFID_OUTER" );
-const mongroup_id GROUP_TURRET_SMG( "GROUP_TURRET_SMG" );
+const mongroup_id GROUP_TURRET( "GROUP_TURRET" );
 const mongroup_id GROUP_VANILLA( "GROUP_VANILLA" );
 const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 const mongroup_id GROUP_ZOMBIE_COP( "GROUP_ZOMBIE_COP" );
@@ -3405,7 +3405,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
             science_room( this, 2, 2, SEEX - 3, SEEY * 2 - 3, dat.zlevel, 1 );
             science_room( this, SEEX + 2, 2, SEEX * 2 - 3, SEEY * 2 - 3, dat.zlevel, 3 );
 
-            place_spawns( GROUP_TURRET_SMG, 1, point( SEEX, 5 ), point( SEEX, 5 ), 1, true );
+            place_spawns( GROUP_TURRET, 1, point( SEEX, 5 ), point( SEEX, 5 ), 1, true );
 
             if( is_ot_match( "road", dat.east(), ot_match_type::type ) ) {
                 rotate( 1 );
@@ -7214,7 +7214,7 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 tmpcomp->add_failure( COMPFAIL_SHUTDOWN );
                 tmpcomp->add_failure( COMPFAIL_ALARM );
                 tmpcomp->add_failure( COMPFAIL_DAMAGE );
-                m->place_spawns( GROUP_TURRET_SMG, 1,
+                m->place_spawns( GROUP_TURRET, 1,
                                  point( static_cast<int>( ( x1 + x2 ) / 2 ), desk ),
                                  point( static_cast<int>( ( x1 + x2 ) / 2 ), desk ), 1, true );
             } else {
@@ -7230,7 +7230,7 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 tmpcomp->add_failure( COMPFAIL_SHUTDOWN );
                 tmpcomp->add_failure( COMPFAIL_ALARM );
                 tmpcomp->add_failure( COMPFAIL_DAMAGE );
-                m->place_spawns( GROUP_TURRET_SMG, 1,
+                m->place_spawns( GROUP_TURRET, 1,
                                  point( desk, static_cast<int>( ( y1 + y2 ) / 2 ) ),
                                  point( desk, static_cast<int>( ( y1 + y2 ) / 2 ) ), 1, true );
             }

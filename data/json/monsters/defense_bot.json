@@ -27,36 +27,6 @@
     "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "DROPS_AMMO" ]
   },
   {
-    "id": "mon_turret",
-    "type": "MONSTER",
-    "name": "turret",
-    "description": "The General Atomics TX-1 Guardian, a small, pill-shaped automated gun turret using state of the art ATR systems to dynamically reorient itself to new friends and enemies alike.  The two SMG barrels can swivel a full 360 degrees.",
-    "default_faction": "defense_bot",
-    "species": [ "ROBOT" ],
-    "diff": 10,
-    "volume": "30000 ml",
-    "weight": 40750,
-    "hp": 30,
-    "speed": 100,
-    "material": [ "steel" ],
-    "symbol": "2",
-    "color": "light_gray",
-    "aggression": 100,
-    "morale": 100,
-    "armor_bash": 14,
-    "armor_cut": 16,
-    "vision_night": 3,
-    "revert_to_itype": "bot_turret",
-    "starting_ammo": { "9mm": 100 },
-    "special_attacks": [
-      { "type": "gun", "cooldown": 1, "gun_type": "hk_mp5", "ranges": [ [ 0, 6, "AUTO" ], [ 7, 14, "DEFAULT" ] ] },
-      [ "PARROT", 40 ]
-    ],
-    "death_drops": {  },
-    "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
-  },
-  {
     "id": "mon_skitterbot",
     "type": "MONSTER",
     "name": "skitterbot",
