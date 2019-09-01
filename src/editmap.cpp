@@ -1883,7 +1883,7 @@ void editmap::edit_mapgen()
                                pgettext( "map generator", "Mapgen stamp" ) );
         gmenu.query();
 
-        if( gmenu.ret > 0 ) {
+        if( gmenu.ret >= 0 ) {
             blink = false;
             mapgen_preview( tc, gmenu );
             blink = true;
