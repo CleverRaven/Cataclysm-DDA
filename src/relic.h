@@ -5,6 +5,7 @@
 #include "magic.h"
 #include "magic_enchantment.h"
 
+#include <string>
 #include <vector>
 
 class Creature;
@@ -21,7 +22,7 @@ class relic
         std::vector<enchantment> passive_effects;
 
         // the item's name will be replaced with this if the string is not empty
-        std::string item_name_override;
+        translation item_name_override;
 
         int charges_per_activation;
         // activating an artifact overrides all spell casting costs

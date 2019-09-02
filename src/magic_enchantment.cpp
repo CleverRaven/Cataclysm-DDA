@@ -1,6 +1,7 @@
 #include "magic_enchantment.h"
 
 #include "character.h"
+#include "enum_conversions.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "item.h"
@@ -8,71 +9,19 @@
 #include "map.h"
 #include "units.h"
 
-static const std::map<std::string, enchantment::has> has_map{
-    { "WIELD", enchantment::has::WIELD },
-    { "WORN", enchantment::has::WORN },
-    { "HELD", enchantment::has::HELD }
+template<>
+struct enum_traits<enchantment::has> {
+    static constexpr enchantment::has last = enchantment::has::NUM_HAS;
+}; 
+
+template<>
+struct enum_traits<enchantment::condition> {
+    static constexpr enchantment::condition last = enchantment::condition::NUM_CONDITION;
 };
 
-static const std::map<std::string, enchantment::condition> condition_map{
-    { "ALWAYS", enchantment::condition::ALWAYS },
-    { "UNDERGROUND", enchantment::condition::UNDERGROUND },
-    { "UNDERWATER", enchantment::condition::UNDERWATER }
-};
-
-static const std::map<std::string, enchantment::mod> mod_map{
-    { "STRENGTH", enchantment::mod::STRENGTH },
-    { "DEXTERITY", enchantment::mod::DEXTERITY },
-    { "PERCEPTION", enchantment::mod::PERCEPTION },
-    { "INTELLIGENCE", enchantment::mod::INTELLIGENCE },
-    { "SPEED", enchantment::mod::SPEED },
-    { "ATTACK_COST", enchantment::mod::ATTACK_COST },
-    { "MOVE_COST", enchantment::mod::MOVE_COST },
-    { "METABOLISM", enchantment::mod::METABOLISM },
-    { "MAX_MANA", enchantment::mod::MAX_MANA },
-    { "REGEN_MANA", enchantment::mod::REGEN_MANA },
-    { "BIONIC_POWER", enchantment::mod::BIONIC_POWER },
-    { "MAX_STAMINA", enchantment::mod::MAX_STAMINA },
-    { "REGEN_STAMINA", enchantment::mod::REGEN_STAMINA },
-    { "MAX_HP", enchantment::mod::MAX_HP },
-    { "REGEN_HP", enchantment::mod::REGEN_HP },
-    { "THIRST", enchantment::mod::THIRST },
-    { "FATIGUE", enchantment::mod::FATIGUE },
-    { "PAIN", enchantment::mod::PAIN },
-    { "BONUS_DAMAGE", enchantment::mod::BONUS_DODGE },
-    { "BONUS_BLOCK", enchantment::mod::BONUS_BLOCK },
-    { "BONUS_DODGE", enchantment::mod::BONUS_DODGE },
-    { "ATTACK_NOISE", enchantment::mod::ATTACK_NOISE },
-    { "SPELL_NOISE", enchantment::mod::SPELL_NOISE },
-    { "SHOUT_NOISE", enchantment::mod::SHOUT_NOISE },
-    { "FOOTSTEP_NOISE", enchantment::mod::FOOTSTEP_NOISE },
-    { "SIGHT_RANGE", enchantment::mod::SIGHT_RANGE },
-    { "CARRY_WEIGHT", enchantment::mod::CARRY_WEIGHT },
-    { "CARRY_VOLUME", enchantment::mod::CARRY_VOLUME },
-    { "SOCIAL_LIE", enchantment::mod::SOCIAL_LIE },
-    { "SOCIAL_PERSUADE", enchantment::mod::SOCIAL_PERSUADE },
-    { "SOCIAL_INTIMIDATE", enchantment::mod::SOCIAL_INTIMIDATE },
-    { "ITEM_DAMAGE_BASH", enchantment::mod::ITEM_DAMAGE_BASH },
-    { "ITEM_DAMAGE_CUT", enchantment::mod::ITEM_DAMAGE_CUT },
-    { "ITEM_DAMAGE_STAB", enchantment::mod::ITEM_DAMAGE_STAB },
-    { "ITEM_DAMAGE_HEAT", enchantment::mod::ITEM_DAMAGE_HEAT },
-    { "ITEM_DAMAGE_COLD", enchantment::mod::ITEM_DAMAGE_COLD },
-    { "ITEM_DAMAGE_ELEC", enchantment::mod::ITEM_DAMAGE_ELEC },
-    { "ITEM_DAMAGE_ACID", enchantment::mod::ITEM_DAMAGE_ACID },
-    { "ITEM_DAMAGE_BIO", enchantment::mod::ITEM_DAMAGE_BIO },
-    { "ITEM_DAMAGE_AP", enchantment::mod::ITEM_DAMAGE_AP },
-    { "ITEM_ARMOR_BASH", enchantment::mod::ITEM_ARMOR_BASH },
-    { "ITEM_ARMOR_CUT", enchantment::mod::ITEM_ARMOR_CUT },
-    { "ITEM_ARMOR_STAB", enchantment::mod::ITEM_ARMOR_STAB },
-    { "ITEM_ARMOR_HEAT", enchantment::mod::ITEM_ARMOR_HEAT },
-    { "ITEM_ARMOR_COLD", enchantment::mod::ITEM_ARMOR_COLD },
-    { "ITEM_ARMOR_ELEC", enchantment::mod::ITEM_ARMOR_ELEC },
-    { "ITEM_ARMOR_ACID", enchantment::mod::ITEM_ARMOR_ACID },
-    { "ITEM_ARMOR_BIO", enchantment::mod::ITEM_ARMOR_BIO },
-    { "ITEM_WEIGHT", enchantment::mod::ITEM_WEIGHT },
-    { "ITEM_ENCUMBRANCE", enchantment::mod::ITEM_ENCUMBRANCE },
-    { "ITEM_VOLUME", enchantment::mod::ITEM_VOLUME },
-    { "ITEM_COVERAGE", enchantment::mod::ITEM_COVERAGE },
+template<>
+struct enum_traits<enchantment::mod> {
+    static constexpr enchantment::mod last = enchantment::mod::NUM_MOD;
 };
 
 namespace io
@@ -84,7 +33,7 @@ namespace io
         switch ( data ) {
         case enchantment::has::HELD: return "HELD";
         case enchantment::has::WIELD: return "WIELD";
-        case enchantment::has::WORN: return "HELD";
+        case enchantment::has::WORN: return "WORN";
         case enchantment::has::NUM_HAS: break;
         }
         debugmsg( "Invalid enchantment::has" );
@@ -168,22 +117,6 @@ namespace io
         abort();
     }
     // *INDENT-ON*
-
-template<>
-enchantment::has string_to_enum<enchantment::has>( const std::string &trigger )
-{
-    return string_to_enum_look_up( has_map, trigger );
-}
-template<>
-enchantment::condition string_to_enum<enchantment::condition>( const std::string &trigger )
-{
-    return string_to_enum_look_up( condition_map, trigger );
-}
-template<>
-enchantment::mod string_to_enum<enchantment::mod>( const std::string &trigger )
-{
-    return string_to_enum_look_up( mod_map, trigger );
-}
 } // namespace io
 
 namespace
@@ -230,19 +163,11 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
     }
 
     if( active_conditions.second == condition::UNDERGROUND ) {
-        if( guy.pos().z < 0 ) {
-            return true;
-        } else {
-            return false;
-        }
+        return guy.pos().z < 0;
     }
 
     if( active_conditions.second == condition::UNDERWATER ) {
-        if( g->m.is_divable( guy.pos() ) ) {
-            return true;
-        } else {
-            return false;
-        }
+        return g->m.is_divable( guy.pos() );
     }
     return false;
 }
@@ -399,12 +324,11 @@ bool enchantment::add( const enchantment &rhs )
         // so +10% and -10% will add to 0%
         values_multiply[pair_values.first] += pair_values.second;
     }
-    for( const fake_spell &fake : rhs.hit_me_effect ) {
-        hit_me_effect.emplace_back( fake );
-    }
-    for( const fake_spell &fake : rhs.hit_you_effect ) {
-        hit_you_effect.emplace_back( fake );
-    }
+
+    hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );
+
+    hit_you_effect.insert( hit_you_effect.end(), rhs.hit_you_effect.begin(), rhs.hit_you_effect.end() );
+
     for( const std::pair<time_duration, std::vector<fake_spell>> &act_pair :
          rhs.intermittent_activation ) {
         for( const fake_spell &fake : act_pair.second ) {

@@ -114,9 +114,9 @@ int relic::modify_value( const enchantment::mod value_type, const int value ) co
 std::string relic::name() const
 {
     if( item_name_override.empty() ) {
-        return item_name_override;
+        return "";
     }
-    return _( item_name_override );
+    return item_name_override.translated();
 }
 
 std::vector<enchantment> relic::get_enchantments() const
