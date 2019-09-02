@@ -44,7 +44,7 @@ void relic::load( JsonObject &jo )
             add_passive_effect( ench );
         }
     }
-    item_name_override = jo.get_string( "name", "" );
+    item_name_override = translation( jo.get_string( "name", "" ) );
     charges_per_activation = jo.get_int( "charges_per_activation", 1 );
     moves = jo.get_int( "moves", 100 );
 }
@@ -61,7 +61,7 @@ void relic::serialize( JsonOut &json ) const
 
     json.member( "moves", moves );
     json.member( "charges_per_activation", charges_per_activation );
-    json.member( "name", item_name_override );
+    json.member( "name", item_name_override.untranslated() );
 
     if( !passive_effects.empty() ) {
         json.member( "passive_effects" );

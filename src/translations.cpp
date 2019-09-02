@@ -400,6 +400,11 @@ std::string translation::translated() const
     }
 }
 
+std::string translation::untranslated() const
+{
+    return raw;
+}
+
 bool translation::empty() const
 {
     return raw.empty();
