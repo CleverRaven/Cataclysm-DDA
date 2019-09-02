@@ -89,7 +89,7 @@ struct bionic_data {
     /**If true this bionic emits heat when producing power*/
     bool exothermic_power_gen = false;
     /**If true this bionic emits smoke when producing power*/
-    bool smoky_power_gen = false;
+    emit_id power_gen_emission = emit_id::NULL_ID();
     /**Amount of environemental protection offered by this bionic*/
     std::map<body_part, size_t> env_protec;
     /**

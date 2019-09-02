@@ -835,6 +835,14 @@ bool player::burn_fuel( int b, bool start )
                     charge_power( tmp_fuel.fuel_energy() *bio.info().fuel_efficiency );
                     set_value( fuel, std::to_string( temp ) );
                     update_fuel_storage( fuel );
+                    if( bio.info().exothermic_power_gen ) {
+                        const int heat_prod = tmp_fuel.fuel_energy() * ( 1 - bio.info().fuel_efficiency );
+                        const int heat_level = std::min( heat_prod / 10, 4 );
+                        const int heat_spread = std::max( heat_prod / 10 - heat_level, 1 );
+                        const emit_id hotness = emit_id( "emit_hot_air" + to_string( heat_level ) + "_cbm" );
+                        g->m.emit_field( pos(), hotness, heat_spread );
+                    }
+                    g->m.emit_field( pos(), bio.info().power_gen_emission );
                 } else {
                     remove_value( fuel );
                     add_msg_player_or_npc( m_info, _( "Your %s runs out of fuel and turn off." ),
@@ -2048,7 +2056,7 @@ void load_bionic( JsonObject &jsobj )
 
     assign( jsobj, "weight_capacity_bonus", new_bionic.weight_capacity_bonus, false, 0_gram );
     assign( jsobj, "exothermic_power_gen", new_bionic.exothermic_power_gen );
-    assign( jsobj, "smoky_power_gen", new_bionic.smoky_power_gen );
+    assign( jsobj, "power_gen_emission", new_bionic.power_gen_emission );
 
     jsobj.read( "canceled_mutations", new_bionic.canceled_mutations );
     jsobj.read( "included_bionics", new_bionic.included_bionics );
