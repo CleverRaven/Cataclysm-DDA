@@ -197,8 +197,9 @@ void mdeath::splatter( monster &z )
     // 1% of the weight of the monster is the base, with overflow damage as a multiplier
     int gibbed_weight = rng( 0, round( to_gram( z.get_weight() ) / 100.0 *
                                        ( overflow_damage / max_hp + 1 ) ) );
+    const int z_weight = to_gram( z.get_weight() );
     // limit gibbing to 15%
-    gibbed_weight = std::min( gibbed_weight, to_gram( z.get_weight() ) * 15 / 100 );
+    gibbed_weight = std::min( gibbed_weight, z_weight * 15 / 100 );
 
     if( pulverized && gibbable ) {
         float overflow_ratio = overflow_damage / max_hp + 1;

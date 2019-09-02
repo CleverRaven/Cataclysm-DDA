@@ -1268,6 +1268,7 @@ class item : public visitable<item>
          */
         /*@{*/
         void set_var( const std::string &name, int value );
+        void set_var( const std::string &name, long long value );
         // Acceptable to use long as part of overload set
         // NOLINTNEXTLINE(cata-no-long)
         void set_var( const std::string &name, long value );

@@ -1154,7 +1154,7 @@ void it_artifact_tool::deserialize( JsonObject &jo )
         }
     }
     volume = jo.get_int( "volume" ) * units::legacy_volume_factor;
-    weight = units::from_gram( jo.get_int( "weight" ) );
+    weight = units::from_gram<std::int64_t>( jo.get_int( "weight" ) );
     melee[DT_BASH] = jo.get_int( "melee_dam" );
     melee[DT_CUT] = jo.get_int( "melee_cut" );
     m_to_hit = jo.get_int( "m_to_hit" );
@@ -1269,7 +1269,7 @@ void it_artifact_armor::deserialize( JsonObject &jo )
         }
     }
     volume = jo.get_int( "volume" ) * units::legacy_volume_factor;
-    weight = units::from_gram( jo.get_int( "weight" ) );
+    weight = units::from_gram<std::int64_t>( jo.get_int( "weight" ) );
     melee[DT_BASH] = jo.get_int( "melee_dam" );
     melee[DT_CUT] = jo.get_int( "melee_cut" );
     m_to_hit = jo.get_int( "m_to_hit" );

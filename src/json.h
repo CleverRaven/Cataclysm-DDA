@@ -198,6 +198,7 @@ class JsonIn
         // data parsing
         std::string get_string(); // get the next value as a string
         int get_int(); // get the next value as an int
+        std::int64_t get_int64(); // get the next value as an int64
         bool get_bool(); // get the next value as a bool
         double get_float(); // get the next value as a double
         std::string get_member_name(); // also strips the ':'
@@ -246,6 +247,7 @@ class JsonIn
         bool read( short unsigned int &s );
         bool read( short int &s );
         bool read( int &i );
+        bool read( std::int64_t &i );
         bool read( unsigned int &u );
         bool read( float &f );
         bool read( double &d );

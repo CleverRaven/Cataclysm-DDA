@@ -542,7 +542,8 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
     throw_difficulty += std::max<int>( 0, units::to_milliliter( volume - 1000_ml ) );
     // 1 penalty for gram above str*100 grams (at 0 skill)
     ///\EFFECT_STR decreases throwing dispersion when throwing heavy objects
-    throw_difficulty += std::max( 0, weight / 1_gram - get_str() * 100 );
+    const int weight_in_gram = units::to_gram( weight );
+    throw_difficulty += std::max( 0, weight_in_gram - get_str() * 100 );
 
     // Dispersion from difficult throws goes from 100% at lvl 0 to 25% at lvl 10
     ///\EFFECT_THROW increases throwing accuracy
