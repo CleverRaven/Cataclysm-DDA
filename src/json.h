@@ -288,20 +288,17 @@ class JsonIn
 
         template<typename T, std::enable_if_t<std::is_enum<T>::value, int> = 0>
         bool read( T &val ) {
-            if( test_string() ) {
-                std::string s;
-                if( !read( s ) ) {
-                    return false;
-                }
+            int i;
+            if( read( i ) ) {
+                val = static_cast<T>( i );
+                return true;
+            }
+            std::string s;
+            if( read( s ) ) {
                 val = io::string_to_enum<T>( s );
                 return true;
             }
-            int i;
-            if( !read( i ) ) {
-                return false;
-            }
-            val = static_cast<T>( i );
-            return true;
+            return false;
         }
 
         /// Overload for std::pair
