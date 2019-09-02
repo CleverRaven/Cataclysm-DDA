@@ -899,8 +899,6 @@ void avatar::store( JsonOut &json ) const
     json.member( "completed_missions", mission::to_uid_vector( completed_missions ) );
     json.member( "failed_missions", mission::to_uid_vector( failed_missions ) );
 
-    json.member( "player_stats", lifetime_stats );
-
     json.member( "show_map_memory", show_map_memory );
 
     json.member( "assigned_invlet" );
@@ -1088,8 +1086,6 @@ void avatar::load( JsonObject &data )
             miss->set_player_id_legacy_0c( getID() );
         }
     }
-
-    data.read( "player_stats", lifetime_stats );
 
     //Load from legacy map_memory save location (now in its own file <playername>.mm)
     if( data.has_member( "map_memory_tiles" ) || data.has_member( "map_memory_curses" ) ) {
@@ -3103,25 +3099,6 @@ void addiction::deserialize( JsonIn &jsin )
     type = static_cast<add_type>( jo.get_int( "type_enum" ) );
     intensity = jo.get_int( "intensity" );
     jo.read( "sated", sated );
-}
-
-void stats::serialize( JsonOut &json ) const
-{
-    json.start_object();
-    json.member( "squares_walked", squares_walked );
-    json.member( "damage_taken", damage_taken );
-    json.member( "damage_healed", damage_healed );
-    json.member( "headshots", headshots );
-    json.end_object();
-}
-
-void stats::deserialize( JsonIn &jsin )
-{
-    JsonObject jo = jsin.get_object();
-    jo.read( "squares_walked", squares_walked );
-    jo.read( "damage_taken", damage_taken );
-    jo.read( "damage_healed", damage_healed );
-    jo.read( "headshots", headshots );
 }
 
 void serialize( const recipe_subset &value, JsonOut &jsout )

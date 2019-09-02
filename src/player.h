@@ -140,18 +140,6 @@ class player_morale;
 // This corresponds to the level of accuracy of a "snap" or "hip" shot.
 extern const double MAX_RECOIL;
 
-//Don't forget to add new stats counters
-//to the save and load functions in savegame_json.cpp
-struct stats {
-    int squares_walked = 0;
-    int damage_taken = 0;
-    int damage_healed = 0;
-    int headshots = 0;
-
-    void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
-};
-
 struct stat_mod {
     int strength = 0;
     int dexterity = 0;
@@ -1647,8 +1635,6 @@ class player : public Character
         std::map<body_part, int> bionic_installation_issues( const bionic_id &bioid );
 
         std::set<character_id> follower_ids;
-        //Record of player stats, for posterity only
-        stats lifetime_stats;
         void mod_stat( const std::string &stat, float modifier ) override;
 
         bool is_underwater() const override;

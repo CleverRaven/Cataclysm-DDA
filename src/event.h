@@ -22,12 +22,15 @@ enum class event_type {
     activates_mininuke,
     administers_mutagen,
     angers_amigara_horrors,
+    avatar_moves,
     awakes_dark_wyrms,
     becomes_wanted,
     broken_bone_mends,
     buries_corpse,
     causes_resonance_cascade,
     character_gains_effect,
+    character_gets_headshot,
+    character_heals_damage,
     character_kills_character,
     character_kills_monster,
     character_loses_effect,
@@ -118,7 +121,7 @@ struct event_spec_character {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 58,
+static_assert( static_cast<int>( event_type::num_event_types ) == 61,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -145,6 +148,14 @@ struct event_spec<event_type::administers_mutagen> {
 
 template<>
 struct event_spec<event_type::angers_amigara_horrors> : event_spec_empty {};
+
+template<>
+struct event_spec<event_type::avatar_moves> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+            { "mount", cata_variant_type::mtype_id },
+        }
+    };
+};
 
 template<>
 struct event_spec<event_type::awakes_dark_wyrms> : event_spec_empty {};
@@ -179,6 +190,18 @@ struct event_spec<event_type::character_gains_effect> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
             { "character", cata_variant_type::character_id },
             { "effect", cata_variant_type::efftype_id },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_gets_headshot> : event_spec_character {};
+
+template<>
+struct event_spec<event_type::character_heals_damage> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "character", cata_variant_type::character_id },
+            { "damage", cata_variant_type::int_ },
         }
     };
 };

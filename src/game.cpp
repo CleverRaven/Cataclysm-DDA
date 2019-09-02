@@ -9078,8 +9078,12 @@ bool game::walk_move( const tripoint &dest_loc )
         add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ) );
     }
 
-    if( dest_loc != u.pos() && !u.is_mounted() ) {
-        u.lifetime_stats.squares_walked++;
+    if( dest_loc != u.pos() ) {
+        mtype_id mount_type;
+        if( u.is_mounted() ) {
+            mount_type = u.mounted_creature->type->id;
+        }
+        g->events().send<event_type::avatar_moves>( mount_type );
     }
 
     tripoint oldpos = u.pos();
@@ -9730,7 +9734,7 @@ void game::on_move_effects()
     // TODO: Move this to a character method
     if( !u.is_mounted() ) {
         const item muscle( "muscle" );
-        if( u.lifetime_stats.squares_walked % 8 == 0 ) {// active power gen
+        if( one_in( 8 ) ) {// active power gen
             if( u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
                 u.charge_power( 1 );
             }
@@ -9740,7 +9744,7 @@ void game::on_move_effects()
                 }
             }
         }
-        if( u.lifetime_stats.squares_walked % 160 == 0 ) { //  passive power gen
+        if( one_in( 160 ) ) {//  passive power gen
             if( u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
                 u.charge_power( 1 );
             }
