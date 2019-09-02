@@ -5,7 +5,7 @@
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
-    "spawns": { "group": "GROUP_LAB", "population": [ 20, 35 ], "chance": 80 },
+    "spawns": { "group": "GROUP_MICROLAB", "population": [ 40, 45 ], "chance": 80 },
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
   },
