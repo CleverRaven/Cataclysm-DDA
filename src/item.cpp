@@ -1193,6 +1193,10 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 std::copy( item_tags.begin(), item_tags.end(), std::ostream_iterator<std::string>( stream, "," ) );
                 std::string tags_listed = stream.str();
                 info.push_back( iteminfo( "BASE", string_format( _( "tags: %s" ), tags_listed ) ) );
+                for( auto const &imap : item_vars ) {
+                    info.push_back( iteminfo( "BASE", string_format( _( "item var: %s, %s" ), imap.first,
+                                              imap.second ) ) );
+                }
 
                 const item *food = is_food_container() ? &contents.front() : this;
                 if( food->goes_bad() ) {
