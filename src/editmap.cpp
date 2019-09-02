@@ -1575,7 +1575,6 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             omt_ref = oter_id( gmenu.selected );
             cleartmpmap( tmpmap );
             tmpmap.generate( tripoint( omt_pos.x * 2, omt_pos.y * 2, target.z ), calendar::turn );
-            showpreview = true;
         }
         input_context ctxt( gpmenu.input_category );
 #ifdef TILES
@@ -1674,67 +1673,60 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             wrefresh( w_preview );
         }
         gmenu.show();
-        gpmenu.query( true, BLINK_SPEED * 3 );
+        gpmenu.query( false, BLINK_SPEED * 3 );
 
-        if( gpmenu.ret == UILIST_TIMEOUT ) {
-            showpreview = !showpreview;
-        } else if( gpmenu.ret != UILIST_ADDITIONAL ) {
-            if( gpmenu.ret == 0 ) {
-                cleartmpmap( tmpmap );
-                tmpmap.generate( tripoint( omt_pos.x * 2, omt_pos.y * 2, target.z ), calendar::turn );
-                showpreview = true;
-            } else if( gpmenu.ret == 1 ) {
-                tmpmap.rotate( 1 );
-                showpreview = true;
-            } else if( gpmenu.ret == 2 ) {
+        if( gpmenu.ret == 0 ) {
+            cleartmpmap( tmpmap );
+            tmpmap.generate( tripoint( omt_pos.x * 2, omt_pos.y * 2, target.z ), calendar::turn );
+        } else if( gpmenu.ret == 1 ) {
+            tmpmap.rotate( 1 );
+        } else if( gpmenu.ret == 2 ) {
+            const point target_sub( target.x / SEEX, target.y / SEEY );
 
-                point target_sub( target.x / SEEX, target.y / SEEY );
+            g->m.set_transparency_cache_dirty( target.z );
+            g->m.set_outside_cache_dirty( target.z );
+            g->m.set_floor_cache_dirty( target.z );
+            g->m.set_pathfinding_cache_dirty( target.z );
 
-                g->m.set_transparency_cache_dirty( target.z );
-                g->m.set_outside_cache_dirty( target.z );
-                g->m.set_floor_cache_dirty( target.z );
-                g->m.set_pathfinding_cache_dirty( target.z );
+            g->m.clear_vehicle_cache( target.z );
+            g->m.clear_vehicle_list( target.z );
 
-                g->m.clear_vehicle_cache( target.z );
-                g->m.clear_vehicle_list( target.z );
+            for( int x = 0; x < 2; x++ ) {
+                for( int y = 0; y < 2; y++ ) {
+                    // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
+                    // functions that would alter the results
+                    const auto dest_pos = target_sub + tripoint( x, y, target.z );
+                    const auto src_pos = tripoint{ x, y, target.z };
 
-                for( int x = 0; x < 2; x++ ) {
-                    for( int y = 0; y < 2; y++ ) {
-                        // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
-                        // functions that would alter the results
-                        const auto dest_pos = target_sub + tripoint( x, y, target.z );
-                        const auto src_pos = tripoint{ x, y, target.z };
+                    submap *destsm = g->m.get_submap_at_grid( dest_pos );
+                    submap *srcsm = tmpmap.get_submap_at_grid( src_pos );
 
-                        submap *destsm = g->m.get_submap_at_grid( dest_pos );
-                        submap *srcsm = tmpmap.get_submap_at_grid( src_pos );
+                    std::swap( *destsm, *srcsm );
 
-                        std::swap( *destsm, *srcsm );
+                    for( auto &veh : destsm->vehicles ) {
+                        veh->sm_pos = dest_pos;
+                    }
 
-                        for( auto &veh : destsm->vehicles ) {
-                            veh->sm_pos = dest_pos;
-                        }
-
-                        if( !destsm->spawns.empty() ) {                              // trigger spawnpoints
-                            g->m.spawn_monsters( true );
-                        }
+                    if( !destsm->spawns.empty() ) {                              // trigger spawnpoints
+                        g->m.spawn_monsters( true );
                     }
                 }
-
-                // Since we cleared the vehicle cache of the whole z-level (not just the generate map), we add it back here
-                for( int x = 0; x < g->m.getmapsize(); x++ ) {
-                    for( int y = 0; y < g->m.getmapsize(); y++ ) {
-                        const tripoint dest_pos = tripoint( x, y, target.z );
-                        const submap *destsm = g->m.get_submap_at_grid( dest_pos );
-                        g->m.update_vehicle_list( destsm, target.z ); // update real map's vcaches
-                    }
-                }
-
-                g->m.reset_vehicle_cache( target.z );
-            } else if( gpmenu.ret == 3 ) {
-                popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
-                       orig_oters->get_name(), orig_oters.id().str(),
-                       omt_ref->get_name(), omt_ref.id().str() );
             }
+
+            // Since we cleared the vehicle cache of the whole z-level (not just the generate map), we add it back here
+            for( int x = 0; x < g->m.getmapsize(); x++ ) {
+                for( int y = 0; y < g->m.getmapsize(); y++ ) {
+                    const tripoint dest_pos = tripoint( x, y, target.z );
+                    const submap *destsm = g->m.get_submap_at_grid( dest_pos );
+                    g->m.update_vehicle_list( destsm, target.z ); // update real map's vcaches
+                }
+            }
+
+            g->m.reset_vehicle_cache( target.z );
+        } else if( gpmenu.ret == 3 ) {
+            popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
+                   orig_oters->get_name(), orig_oters.id().str(),
+                   omt_ref->get_name(), omt_ref.id().str() );
         } else if( gpmenu.ret == UILIST_ADDITIONAL ) {
             if( gpmenu.ret_act == "LEFT" ) {
                 gmenu.scrollby( -1 );
@@ -1746,6 +1738,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                 gmenu.refresh();
             }
         }
+        showpreview = gpmenu.ret == UILIST_TIMEOUT ? !showpreview : true;
     } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != UILIST_CANCEL );
 
     if( gpmenu.ret != 2 &&  // we didn't apply, so restore the original om_ter
