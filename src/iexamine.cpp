@@ -4927,7 +4927,7 @@ static void smoker_load_food( player &p, const tripoint &examp,
     comps.push_back( item_comp( what->typeId(), amount ) );
 
     // select from where to get the items from and place them
-    inv.form_from_map( g->u.pos(), PICKUP_RANGE, dynamic_cast<player *>( &g->u ) );
+    inv.form_from_map( g->u.pos(), PICKUP_RANGE, &g->u );
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );
@@ -5035,7 +5035,7 @@ static void mill_load_food( player &p, const tripoint &examp,
     comps.push_back( item_comp( what->typeId(), amount ) );
 
     // select from where to get the items from and place them
-    inv.form_from_map( g->u.pos(), PICKUP_RANGE, dynamic_cast<player *>( &g->u ) );
+    inv.form_from_map( g->u.pos(), PICKUP_RANGE, &g->u );
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );
