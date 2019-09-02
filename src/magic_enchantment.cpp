@@ -12,7 +12,7 @@
 template<>
 struct enum_traits<enchantment::has> {
     static constexpr enchantment::has last = enchantment::has::NUM_HAS;
-}; 
+};
 
 template<>
 struct enum_traits<enchantment::condition> {
@@ -180,25 +180,9 @@ void enchantment::add_activation( const time_duration &dur, const fake_spell &fa
 void enchantment::load( JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "id", id, enchantment_id( "" ) );
-    if( jo.has_array( "hit_you_effect" ) ) {
-        JsonArray jarray = jo.get_array( "hit_you_effect" );
-        while( jarray.has_more() ) {
-            fake_spell fake;
-            JsonObject fake_spell_obj = jarray.next_object();
-            fake.load( fake_spell_obj );
-            hit_you_effect.emplace_back( fake );
-        }
-    }
 
-    if( jo.has_array( "hit_me_effect" ) ) {
-        JsonArray jarray = jo.get_array( "hit_me_effect" );
-        while( jarray.has_more() ) {
-            fake_spell fake;
-            JsonObject fake_spell_obj = jarray.next_object();
-            fake.load( fake_spell_obj );
-            hit_me_effect.emplace_back( fake );
-        }
-    }
+    jo.read( "hit_you_effect", hit_you_effect );
+    jo.read( "hit_me_effect", hit_me_effect );
 
     if( jo.has_object( "intermittent_activation" ) ) {
         JsonObject jobj = jo.get_object( "intermittent_activation" );
