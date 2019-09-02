@@ -536,6 +536,10 @@ moon_phase get_moon_phase( const time_point &p );
 time_point sunrise( const time_point &p );
 /** Returns the current sunset time based on the time of year. */
 time_point sunset( const time_point &p );
+/** Returns the time it gets light based on sunrise */
+time_point daylight_time( const time_point &p );
+/** Returns the time it gets dark based on sunset */
+time_point night_time( const time_point &p );
 /** Returns whether it's currently after sunset + TWILIGHT_SECONDS or before sunrise - TWILIGHT_SECONDS. */
 bool is_night( const time_point &p );
 /** Returns true if it's currently after sunset and before sunset + TWILIGHT_SECONDS. */

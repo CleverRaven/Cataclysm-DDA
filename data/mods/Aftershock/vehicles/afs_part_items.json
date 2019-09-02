@@ -15,26 +15,6 @@
     "price": 50000
   },
   {
-    "id": "afs_large_storage_battery",
-    "type": "MAGAZINE",
-    "category": "veh_parts",
-    "name": "large storage battery",
-    "name_plural": "large storage batteries",
-    "description": "A huge lithium ion storage battery, weighing easily 600 pounds.  Holds a tremendous amount of energy.",
-    "weight": 300000,
-    "volume": 80,
-    "price": 400000,
-    "price_postapoc": 50000,
-    "to_hit": -2,
-    "bashing": 40,
-    "material": [ "plastic", "steel" ],
-    "symbol": ":",
-    "color": "light_cyan",
-    "ammo_type": "battery",
-    "capacity": 100000,
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ]
-  },
-  {
     "type": "GENERIC",
     "id": "afs_titanium_frame",
     "name": "ultralight frame",

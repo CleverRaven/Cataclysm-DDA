@@ -21,8 +21,8 @@
 #include "debug.h"
 #include "drawing_primitives.h"
 #include "emit.h"
+#include "event_bus.h"
 #include "explosion.h"
-#include "timed_event.h"
 #include "fragment_cloud.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -54,6 +54,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "submap.h"
+#include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
 #include "veh_type.h"
@@ -3103,8 +3104,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
                        false, "environment", "alarm" );
         // Blame nearby player
         if( rl_dist( g->u.pos(), p ) <= 3 ) {
-            g->u.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
-                                   pgettext( "memorial_female", "Set off an alarm." ) );
+            g->events().send<event_type::triggers_alarm>( g->u.getID() );
             const point abs = ms_to_sm_copy( getabs( p.xy() ) );
             g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
                                  tripoint( abs, p.z ) );
@@ -5405,6 +5405,17 @@ field_entry *map::get_field( const tripoint &p, const field_type_id type )
     submap *const current_submap = get_submap_at( p, l );
 
     return current_submap->fld[l.x][l.y].find_field( type );
+}
+
+bool map::dangerous_field_at( const tripoint &p )
+{
+    for( auto &pr : field_at( p ) ) {
+        auto &fd = pr.second;
+        if( fd.is_dangerous() ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool map::add_field( const tripoint &p, const field_type_id type, int intensity,

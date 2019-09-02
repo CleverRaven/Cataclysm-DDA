@@ -14,6 +14,7 @@
 #include "mapgen_functions.h"
 #include "messages.h"
 #include "npc.h"
+#include "npctalk.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "rng.h"
@@ -527,5 +528,13 @@ bool mission_type::parse_funcs( JsonObject &jo, std::function<void( mission * )>
             mission_function( miss );
         }
     };
+
+    for( talk_effect_fun_t &effect : talk_effects.effects ) {
+        auto rewards = effect.get_likely_rewards();
+        if( !rewards.empty() ) {
+            likely_rewards.insert( likely_rewards.end(), rewards.begin(), rewards.end() );
+        }
+    }
+
     return true;
 }

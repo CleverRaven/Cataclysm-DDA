@@ -5,7 +5,7 @@
     "category": "maps",
     "name": "abstract map",
     "description": "seeing this is a bug",
-    "weight": 30,
+    "weight": "30 g",
     "volume": "250 ml",
     "price": 1000,
     "to_hit": -1,

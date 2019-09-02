@@ -698,7 +698,7 @@
     "difficulty": 2,
     "value": 800,
     "item": "family_photo",
-    "origins": [ "ORIGIN_ANY_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I need you to get my family photo from the armory safe.",
       "offer": "I left the only photo I have from my family in the armory. I don't have the code, can you get in?",
@@ -770,6 +770,48 @@
       "success": "I'll be honest, I wasn't really expecting to see you again. A promise is a promise, I'll follow you now!",
       "success_lie": "I know time is relative and all that.",
       "failure": "I'm not quite sure how you failed to survive AND are talking to me."
+    }
+  },
+  {
+    "id": "MISSION_LEARN_ABOUT_CATTAIL_JELLY",
+    "type": "mission_definition",
+    "name": "Gather cattail stalks to create cattail jelly",
+    "description": "Gather <color_light_blue>80 cattail stalks</color> from the swamp and bring them back to <color_light_red>learn how to craft cattail jelly</color>.  Raise your <color_light_blue>survival skill to at least 1</color> by harvesting cattail stalks.  <color_light_blue>Bring back the provided bag</color> as well.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "and": [
+        { "u_has_item": "duffelbag" },
+        { "u_has_items": { "item": "cattail_stalk", "count": 80 } },
+        { "u_has_skill": { "skill": "survival", "level": 1 } }
+      ]
+    },
+    "difficulty": 1,
+    "value": 0,
+    "has_generic_rewards": false,
+    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
+    "start": {
+      "effect": [ { "u_buy_item": "duffelbag" } ],
+      "assign_mission_target": { "om_terrain": "forest_water", "reveal_radius": 3 }
+    },
+    "end": {
+      "effect": [
+        { "u_sell_item": "duffelbag" },
+        { "u_sell_item": "cattail_stalk", "count": 80 },
+        { "npc_consume_item": "cattail_stalk", "count": 80 },
+        { "u_learn_recipe": "cattail_jelly" },
+        { "u_buy_item": "cattail_jelly", "container": "bag_zipper", "count": 7 }
+      ]
+    },
+    "dialogue": {
+      "describe": "Medical services are a little sparse following <the_cataclysm>, but people have been surviving using their wits and the bounty of Mother Nature for a long time.  Care to learn a little?",
+      "offer": "Did you know that cattails are a source of a jelly that works as an antiseptic and analgesic?  Something like that is likely to be mighty helpful out here.  I want you to take this bag, head to the nearest swamp, collect 80 cattail stalks, and bring them back here.  In exchange, I'll show you how to harvest the jelly.",
+      "accepted": "Great!  This bag should be big enough to hold all of the stalks we'll need.  Don't forget to bring it back.",
+      "rejected": "Your loss.",
+      "advice": "The cattails grow in the fresh water in swamps.  You can't miss them.",
+      "inquire": "Got those cattail stalks yet?  Don't forget to bring back my bag and improve your survival skill to at least 1 as well.",
+      "success": "Great!  Hand them over and I'll show you how this works.",
+      "success_lie": "OK, then hand them over.",
+      "failure": "Well, that's a shame."
     }
   }
 ]

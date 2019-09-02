@@ -34,7 +34,7 @@
         "......|..........|5....."
       ],
       "palettes": [ "factory" ],
-      "monster": { "t": { "monster": "mon_turret" } }
+      "monster": { "t": { "monster": "mon_turret_rifle" } }
     }
   }
 ]

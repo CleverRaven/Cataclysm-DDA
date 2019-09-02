@@ -982,8 +982,9 @@ struct tile_render_info {
     }
 };
 
-void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, int height,
-                       std::multimap<point, formatted_text> &overlay_strings, color_block_overlay_container &color_blocks )
+void cata_tiles::draw( const point &dest, const tripoint &center, int width, int height,
+                       std::multimap<point, formatted_text> &overlay_strings,
+                       color_block_overlay_container &color_blocks )
 {
     if( !g ) {
         return;
@@ -998,7 +999,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
     {
         //set clipping to prevent drawing over stuff we shouldn't
-        SDL_Rect clipRect = {destx, desty, width, height};
+        SDL_Rect clipRect = {dest.x, dest.y, width, height};
         printErrorIf( SDL_RenderSetClipRect( renderer.get(), &clipRect ) != 0,
                       "SDL_RenderSetClipRect failed" );
 
@@ -1020,7 +1021,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
     o = iso_mode ? pos : pos - point( POSX, POSY );
 
-    op = point( destx, desty );
+    op = dest;
     // Rounding up to include incomplete tiles at the bottom/right edges
     screentile_width = divide_round_up( width, tile_width );
     screentile_height = divide_round_up( height, tile_height );
@@ -1091,7 +1092,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             if( g->displaying_scent ) {
                 const int scent_value = g->scent.get( {x, y, center.z} );
                 if( scent_value > 0 ) {
-                    overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, 0 ),
+                    overlay_strings.emplace( player_to_screen( point( x, y ) ) + point( tile_width / 2, 0 ),
                                              formatted_text( std::to_string( scent_value ), 8 + catacurses::yellow,
                                                      NORTH ) );
                 }
@@ -1105,7 +1106,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                 } else {
                     col = catacurses::cyan;
                 }
-                overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, 0 ),
+                overlay_strings.emplace( player_to_screen( point( x, y ) ) + point( tile_width / 2, 0 ),
                                          formatted_text( std::to_string( rad_value ), 8 + col, NORTH ) );
             }
 
@@ -1134,7 +1135,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                     temp_value = temp_to_kelvin( temp_value );
 
                 }
-                overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, 0 ),
+                overlay_strings.emplace( player_to_screen( point( x, y ) ) + point( tile_width / 2, 0 ),
                                          formatted_text( std::to_string( temp_value ), color,
                                                  NORTH ) );
             }
@@ -1146,12 +1147,13 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                 auto block_color = visibility ? windowsPalette[catacurses::green] : SDL_Color{ 192, 192, 192, 255 };
                 block_color.a = 100;
                 color_blocks.first = SDL_BLENDMODE_BLEND;
-                color_blocks.second.emplace( player_to_screen( x, y ), block_color );
+                color_blocks.second.emplace( player_to_screen( point( x, y ) ), block_color );
 
                 // overlay string
                 std::string visibility_str = visibility ? "+" : "-";
-                overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 4, tile_height / 4 ),
-                                         formatted_text( visibility_str, catacurses::black, NORTH ) );
+                overlay_strings.emplace(
+                    player_to_screen( point( x, y ) ) + point( tile_width / 4, tile_height / 4 ),
+                    formatted_text( visibility_str, catacurses::black, NORTH ) );
             }
 
             if( apply_vision_effects( temp, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
@@ -1293,9 +1295,9 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                   "SDL_RenderSetClipRect failed" );
 }
 
-void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int width, int height )
+void cata_tiles::draw_minimap( const point &dest, const tripoint &center, int width, int height )
 {
-    minimap->draw( SDL_Rect{ destx, desty, width, height }, center );
+    minimap->draw( SDL_Rect{ dest.x, dest.y, width, height }, center );
 }
 
 void cata_tiles::get_window_tile_counts( const int width, const int height, int &columns,
@@ -1641,7 +1643,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
     }
 
     // translate from player-relative to screen relative tile position
-    const point screen_pos = player_to_screen( pos.x, pos.y );
+    const point screen_pos = player_to_screen( pos.xy() );
 
     // seed the PRNG to get a reproducible random int
     // TODO: faster solution here
@@ -1730,26 +1732,26 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
     }
 
     //draw it!
-    draw_tile_at( display_tile, screen_pos.x, screen_pos.y, loc_rand, rota, ll,
+    draw_tile_at( display_tile, screen_pos, loc_rand, rota, ll,
                   apply_night_vision_goggles, height_3d );
 
     return true;
 }
 
-bool cata_tiles::draw_sprite_at( const tile_type &tile,
-                                 const weighted_int_list<std::vector<int>> &svlist,
-                                 int x, int y, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-                                 bool apply_night_vision_goggles )
+bool cata_tiles::draw_sprite_at(
+    const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
+    const point &p, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
+    bool apply_night_vision_goggles )
 {
     int nullint = 0;
-    return cata_tiles::draw_sprite_at( tile, svlist, x, y, loc_rand, rota_fg, rota, ll,
+    return cata_tiles::draw_sprite_at( tile, svlist, p, loc_rand, rota_fg, rota, ll,
                                        apply_night_vision_goggles, nullint );
 }
 
-bool cata_tiles::draw_sprite_at( const tile_type &tile,
-                                 const weighted_int_list<std::vector<int>> &svlist,
-                                 int x, int y, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-                                 bool apply_night_vision_goggles, int &height_3d )
+bool cata_tiles::draw_sprite_at(
+    const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
+    const point &p, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
+    bool apply_night_vision_goggles, int &height_3d )
 {
     auto picked = svlist.pick( loc_rand );
     if( !picked ) {
@@ -1810,8 +1812,8 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile,
     std::tie( width, height ) = sprite_tex->dimension();
 
     SDL_Rect destination;
-    destination.x = x + tile.offset.x * tile_width / tileset_ptr->get_tile_width();
-    destination.y = y + ( tile.offset.y - height_3d ) * tile_width / tileset_ptr->get_tile_width();
+    destination.x = p.x + tile.offset.x * tile_width / tileset_ptr->get_tile_width();
+    destination.y = p.y + ( tile.offset.y - height_3d ) * tile_width / tileset_ptr->get_tile_width();
     destination.w = width * tile_width / tileset_ptr->get_tile_width();
     destination.h = height * tile_height / tileset_ptr->get_tile_height();
 
@@ -1865,14 +1867,14 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile,
     return true;
 }
 
-bool cata_tiles::draw_tile_at( const tile_type &tile, int x, int y, unsigned int loc_rand,
-                               int rota,
-                               lit_level ll, bool apply_night_vision_goggles, int &height_3d )
+bool cata_tiles::draw_tile_at(
+    const tile_type &tile, const point &p, unsigned int loc_rand, int rota,
+    lit_level ll, bool apply_night_vision_goggles, int &height_3d )
 {
-    draw_sprite_at( tile, tile.bg, x, y, loc_rand, /*fg:*/ false, rota, ll,
+    draw_sprite_at( tile, tile.bg, p, loc_rand, /*fg:*/ false, rota, ll,
                     apply_night_vision_goggles );
-    draw_sprite_at( tile, tile.fg, x, y, loc_rand, /*fg:*/ true, rota, ll, apply_night_vision_goggles,
-                    height_3d );
+    draw_sprite_at( tile, tile.fg, p, loc_rand, /*fg:*/ true, rota, ll,
+                    apply_night_vision_goggles, height_3d );
     return true;
 }
 
@@ -2223,7 +2225,7 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, lit_level, int & )
         return false;
     }
 
-    const point screen_point = player_to_screen( pbelow.x, pbelow.y );
+    const point screen_point = player_to_screen( pbelow.xy() );
 
     SDL_Color tercol = curses_color_to_SDL( c_red );
     const int sizefactor = 2;
@@ -2718,7 +2720,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
                 const int direction_offset = ( -direction_XY( direction ).x + 1 ) * full_text_length / 2;
 
                 overlay_strings.emplace(
-                    player_to_screen( iDX + direction_offset, iDY ),
+                    player_to_screen( point( iDX + direction_offset, iDY ) ),
                     formatted_text( sText, FG, direction ) );
             } else {
                 for( auto &it : sText ) {
@@ -2922,21 +2924,21 @@ void cata_tiles::do_tile_loading_report()
     DebugLog( D_INFO, DC_ALL );
 }
 
-point cata_tiles::player_to_screen( const int x, const int y ) const
+point cata_tiles::player_to_screen( const point &p ) const
 {
     int screen_x = 0;
     int screen_y = 0;
     if( tile_iso ) {
-        screen_x = ( ( x - o.x ) - ( o.y - y ) + screentile_width - 2 ) * tile_width / 2 +
+        screen_x = ( ( p.x - o.x ) - ( o.y - p.y ) + screentile_width - 2 ) * tile_width / 2 +
                    op.x;
         // y uses tile_width because width is definitive for iso tiles
         // tile footprints are half as tall as wide, arbitrarily tall
-        screen_y = ( ( y - o.y ) - ( x - o.x ) - 4 ) * tile_width / 4 +
+        screen_y = ( ( p.y - o.y ) - ( p.x - o.x ) - 4 ) * tile_width / 4 +
                    screentile_height * tile_height / 2 + // TODO: more obvious centering math
                    op.y;
     } else {
-        screen_x = ( x - o.x ) * tile_width + op.x;
-        screen_y = ( y - o.y ) * tile_height + op.y;
+        screen_x = ( p.x - o.x ) * tile_width + op.x;
+        screen_y = ( p.y - o.y ) * tile_height + op.y;
     }
     return {screen_x, screen_y};
 }

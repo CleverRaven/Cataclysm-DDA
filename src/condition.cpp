@@ -21,6 +21,7 @@
 #include "mission.h"
 #include "npc.h"
 #include "overmapbuffer.h"
+#include "recipe.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "vehicle.h"
@@ -378,6 +379,48 @@ void conditional_t<T>::set_has_var( JsonObject &jo, const std::string &member, b
     };
 }
 
+
+template<class T>
+void conditional_t<T>::set_compare_var( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const std::string var_name = get_talk_varname( jo, member, false );
+    const std::string &op = jo.get_string( "op" );
+    const int value = jo.get_int( "value" );
+    condition = [var_name, op, value, is_npc]( const T & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+
+        int stored_value = 0;
+        const std::string &var = actor->get_value( var_name );
+        if( !var.empty() ) {
+            stored_value = std::stoi( var );
+        }
+
+        if( op == "==" ) {
+            return stored_value == value;
+
+        } else if( op == "!=" ) {
+            return stored_value != value;
+
+        } else if( op == "<=" ) {
+            return stored_value <= value;
+
+        } else if( op == ">=" ) {
+            return stored_value >= value;
+
+        } else if( op == "<" ) {
+            return stored_value < value;
+
+        } else if( op == ">" ) {
+            return stored_value > value;
+        }
+
+        return false;
+    };
+}
+
 template<class T>
 void conditional_t<T>::set_npc_role_nearby( JsonObject &jo )
 {
@@ -721,7 +764,7 @@ void conditional_t<T>::set_has_stolen_item( bool is_npc )
         bool found_in_inv = false;
         for( auto &elem : actor->inv_dump() ) {
             if( elem->get_old_owner() ) {
-                if( elem->get_old_owner()->id.str() == p.my_fac->id.str() ) {
+                if( elem->get_old_owner() == p.get_faction() ) {
                     found_in_inv = true;
                 }
             }
@@ -798,6 +841,30 @@ void conditional_t<T>::set_has_skill( JsonObject &jo, const std::string &member,
             return actor->get_skill_level( skill ) >= level;
         };
     }
+}
+
+template<class T>
+void conditional_t<T>::set_u_know_recipe( JsonObject &jo, const std::string &member )
+{
+    const std::string &known_recipe_id = jo.get_string( member );
+    condition = [known_recipe_id]( const T & d ) {
+        player *actor = d.alpha;
+        const recipe &r = recipe_id( known_recipe_id ).obj();
+        return actor->knows_recipe( &r );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_mission_has_generic_rewards()
+{
+    condition = []( const T & d ) {
+        mission *miss = d.beta->chatbin.mission_selected;
+        if( miss == nullptr ) {
+            debugmsg( "mission_has_generic_rewards: mission_selected == nullptr" );
+            return true;
+        }
+        return miss->has_generic_rewards();
+    };
 }
 
 template<class T>
@@ -935,6 +1002,10 @@ conditional_t<T>::conditional_t( JsonObject jo )
         set_has_var( jo, "u_has_var" );
     } else if( jo.has_string( "npc_has_var" ) ) {
         set_has_var( jo, "npc_has_var", is_npc );
+    } else if( jo.has_string( "u_compare_var" ) ) {
+        set_compare_var( jo, "u_compare_var" );
+    } else if( jo.has_string( "npc_compare_var" ) ) {
+        set_compare_var( jo, "npc_compare_var", is_npc );
     } else if( jo.has_string( "npc_role_nearby" ) ) {
         set_npc_role_nearby( jo );
     } else if( jo.has_int( "npc_allies" ) ) {
@@ -967,6 +1038,8 @@ conditional_t<T>::conditional_t( JsonObject jo )
         set_has_skill( jo, "u_has_skill" );
     } else if( jo.has_member( "npc_has_skill" ) ) {
         set_has_skill( jo, "npc_has_skill", is_npc );
+    } else if( jo.has_member( "u_know_recipe" ) ) {
+        set_u_know_recipe( jo, "u_know_recipe" );
     } else {
         for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
             if( jo.has_string( sub_member ) ) {
@@ -1054,6 +1127,8 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_is_by_radio();
     } else if( type == "has_reason" ) {
         set_has_reason();
+    } else if( type == "mission_has_generic_rewards" ) {
+        set_mission_has_generic_rewards();
     } else {
         condition = []( const T & ) {
             return false;
