@@ -427,12 +427,12 @@ static void mx_military( map &m, const tripoint & )
         return m.passable( n );
         } ) ) {
             if( one_in( 10 ) ) {
-                m.add_spawn( mon_zombie_soldier, 1, point( p->x, p->y ) );
+                m.add_spawn( mon_zombie_soldier, 1, p->xy() );
             } else if( one_in( 25 ) ) {
                 if( one_in( 2 ) ) {
-                    m.add_spawn( mon_zombie_bio_op, 1, point( p->x, p->y ) );
+                    m.add_spawn( mon_zombie_bio_op, 1, p->xy() );
                 } else {
-                    m.add_spawn( mon_dispatch, 1, point( p->x, p->y ) );
+                    m.add_spawn( mon_dispatch, 1, p->xy() );
                 }
             } else {
                 m.place_items( "map_extra_military", 100, *p, *p, true, calendar::start_of_cataclysm );
@@ -459,7 +459,7 @@ static void mx_science( map &m, const tripoint & )
         return m.passable( n );
         } ) ) {
             if( one_in( 10 ) ) {
-                m.add_spawn( mon_zombie_scientist, 1, point( p->x, p->y ) );
+                m.add_spawn( mon_zombie_scientist, 1, p->xy() );
             } else {
                 m.place_items( "map_extra_science", 100, *p, *p, true, calendar::start_of_cataclysm );
             }
@@ -485,7 +485,7 @@ static void mx_collegekids( map &m, const tripoint & )
         return m.passable( n );
         } ) ) {
             if( one_in( 10 ) ) {
-                m.add_spawn( mon_zombie_tough, 1, point( p->x, p->y ) );
+                m.add_spawn( mon_zombie_tough, 1, p->xy() );
             } else {
                 if( type < 6 ) { // kids going to a cabin in the woods
                     m.place_items( "map_extra_college_camping", 100, *p, *p, true, calendar::start_of_cataclysm );
@@ -843,7 +843,7 @@ static void mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
         if( !p ) {
             break;
         }
-        m.furn_set( point( p->x, p->y ), f_crate_c );
+        m.furn_set( p->xy(), f_crate_c );
         std::string item_group;
         switch( rng( 1, 10 ) ) {
             case 1:
