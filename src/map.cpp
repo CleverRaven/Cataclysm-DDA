@@ -284,7 +284,7 @@ void map::clear_vehicle_list( const int zlev )
     ch.zone_vehicles.clear();
 }
 
-void map::update_vehicle_list( submap *const to, const int zlev )
+void map::update_vehicle_list( const submap *const to, const int zlev )
 {
     // Update vehicle data
     auto &ch = get_cache( zlev );

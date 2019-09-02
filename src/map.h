@@ -528,7 +528,7 @@ class map
         void reset_vehicle_cache( int zlev );
         void clear_vehicle_cache( int zlev );
         void clear_vehicle_list( int zlev );
-        void update_vehicle_list( submap *to, int zlev );
+        void update_vehicle_list( const submap *to, int zlev );
         //Returns true if vehicle zones are dirty and need to be recached
         bool check_vehicle_zones( int zlev );
         std::vector<zone_data *> get_vehicle_zones( int zlev );
