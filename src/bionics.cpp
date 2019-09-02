@@ -841,6 +841,9 @@ bool player::burn_fuel( int b, bool start )
                         const int heat_spread = std::max( heat_prod / 10 - heat_level, 1 );
                         const emit_id hotness = emit_id( "emit_hot_air" + to_string( heat_level ) + "_cbm" );
                         g->m.emit_field( pos(), hotness, heat_spread );
+                        for( const auto bp : bio.info().occupied_bodyparts ) {
+                            add_effect( efftype_id( "heating_bionic" ), 2_seconds, bp.first, false, heat_prod );
+                        }
                     }
                     g->m.emit_field( pos(), bio.info().power_gen_emission );
                 } else {
