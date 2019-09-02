@@ -1714,15 +1714,22 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                             veh->sm_pos = dest_pos;
                         }
 
-                        g->m.update_vehicle_list( destsm, target.z ); // update real map's vcaches
-
                         if( !destsm->spawns.empty() ) {                              // trigger spawnpoints
                             g->m.spawn_monsters( true );
                         }
                     }
                 }
-                g->m.reset_vehicle_cache( target.z );
 
+                // Since we cleared the vehicle cache of the whole z-level (not just the generate map), we add it back here
+                for( int x = 0; x < g->m.getmapsize(); x++ ) {
+                    for( int y = 0; y < g->m.getmapsize(); y++ ) {
+                        const tripoint dest_pos = tripoint( x, y, target.z );
+                        const submap *destsm = g->m.get_submap_at_grid( dest_pos );
+                        g->m.update_vehicle_list( destsm, target.z ); // update real map's vcaches
+                    }
+                }
+
+                g->m.reset_vehicle_cache( target.z );
             } else if( gpmenu.ret == 3 ) {
                 popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
                        orig_oters->get_name(), orig_oters.id().str(),
