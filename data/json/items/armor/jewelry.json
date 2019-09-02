@@ -923,32 +923,6 @@
     "color": "pink"
   },
   {
-    "id": "leather_belt",
-    "type": "ARMOR",
-    "name": "leather belt",
-    "description": "A leather belt.  Useful for making your pair of pants fit.",
-    "weight": "102 g",
-    "volume": "250 ml",
-    "price": 9000,
-    "bashing": 5,
-    "material": [ "leather" ],
-    "symbol": "[",
-    "color": "brown",
-    "covers": [ "TORSO" ],
-    "coverage": 5,
-    "material_thickness": 1,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stick what into your belt",
-      "holster_msg": "You tuck your %s into your %s",
-      "max_volume": "500 ml",
-      "max_weight": 400,
-      "draw_cost": 60,
-      "flags": [ "BELT_CLIP" ]
-    },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
-  },
-  {
     "id": "leather_cat_ears",
     "type": "ARMOR",
     "name": "pair of leather cat ears",
