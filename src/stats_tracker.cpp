@@ -23,6 +23,21 @@ int event_tracker::count( const cata::event::data_type &criteria ) const
     return total;
 }
 
+int event_tracker::total( const std::string &field, const cata::event::data_type &criteria ) const
+{
+    int total = 0;
+    for( const auto &pair : event_counts ) {
+        auto it = pair.first.find( field );
+        if( it == pair.first.end() ) {
+            continue;
+        }
+        if( event_data_matches( pair.first, criteria ) ) {
+            total += pair.second * it->second.get<cata_variant_type::int_>();
+        }
+    }
+    return total;
+}
+
 void event_tracker::add( const cata::event &e )
 {
     event_counts[e.data()]++;
@@ -40,6 +55,16 @@ int stats_tracker::count( event_type type, const cata::event::data_type &criteri
         return 0;
     }
     return it->second.count( criteria );
+}
+
+int stats_tracker::total( event_type type, const std::string &field,
+                          const cata::event::data_type &criteria ) const
+{
+    auto it = data.find( type );
+    if( it == data.end() ) {
+        return 0;
+    }
+    return it->second.total( field, criteria );
 }
 
 void stats_tracker::clear()

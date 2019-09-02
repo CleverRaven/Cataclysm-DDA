@@ -30,6 +30,34 @@ TEST_CASE( "stats_tracker_count_events", "[stats]" )
     CHECK( s.count( event_type::character_kills_monster, char_is_player ) == 2 );
 }
 
+TEST_CASE( "stats_tracker_total_events", "[stats]" )
+{
+    stats_tracker s;
+    event_bus b;
+    b.subscribe( &s );
+
+    const character_id u_id = g->u.getID();
+    character_id other_id = u_id;
+    ++other_id;
+    const cata::event::data_type damage_to_any{};
+    const cata::event::data_type damage_to_u{ { "character", cata_variant( u_id ) } };
+
+    CHECK( s.total( event_type::character_takes_damage, "damage", damage_to_u ) == 0 );
+    CHECK( s.total( event_type::character_takes_damage, "damage", damage_to_any ) == 0 );
+    b.send<event_type::character_takes_damage>( u_id, 10 );
+    CHECK( s.total( event_type::character_takes_damage, "damage", damage_to_u ) == 10 );
+    CHECK( s.total( event_type::character_takes_damage, "damage", damage_to_any ) == 10 );
+    b.send<event_type::character_takes_damage>( other_id, 10 );
+    CHECK( s.total( event_type::character_takes_damage, "damage", damage_to_u ) == 10 );
+    CHECK( s.total( event_type::character_takes_damage, "damage", damage_to_any ) == 20 );
+    b.send<event_type::character_takes_damage>( u_id, 10 );
+    CHECK( s.total( event_type::character_takes_damage, "damage", damage_to_u ) == 20 );
+    CHECK( s.total( event_type::character_takes_damage, "damage", damage_to_any ) == 30 );
+    b.send<event_type::character_takes_damage>( u_id, 5 );
+    CHECK( s.total( event_type::character_takes_damage, "damage", damage_to_u ) == 25 );
+    CHECK( s.total( event_type::character_takes_damage, "damage", damage_to_any ) == 35 );
+}
+
 TEST_CASE( "stats_tracker_in_game", "[stats]" )
 {
     g->stats().clear();

@@ -8,6 +8,7 @@ class event_tracker
 {
     public:
         int count( const cata::event::data_type &criteria ) const;
+        int total( const std::string &field, const cata::event::data_type &criteria ) const;
 
         void add( const cata::event & );
 
@@ -22,6 +23,8 @@ class stats_tracker : public event_subscriber
     public:
         int count( const cata::event & ) const;
         int count( event_type, const cata::event::data_type &criteria ) const;
+        int total( event_type, const std::string &field,
+                   const cata::event::data_type &criteria ) const;
 
         void clear();
         void notify( const cata::event & ) override;
