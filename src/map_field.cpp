@@ -1082,7 +1082,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         cur.monster_spawn_radius() ), [this]( const tripoint & n ) {
                         return passable( n );
                         } ) ) {
-                            add_spawn( spawn_details.name, spawn_details.pack_size, point( spawn_point->x, spawn_point->y ) );
+                            add_spawn( spawn_details.name, spawn_details.pack_size, spawn_point->xy() );
                         }
                     }
                 }
