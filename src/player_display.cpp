@@ -35,6 +35,8 @@ static const std::string title_SKILLS = translate_marker( "SKILLS" );
 static const std::string title_BIONICS = translate_marker( "BIONICS" );
 static const std::string title_TRAITS = translate_marker( "TRAITS" );
 
+static const efftype_id effect_hypovitB( "hypovitB" );
+
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 
 // use this instead of having to type out 26 spaces like before
@@ -696,7 +698,7 @@ static const Skill *draw_skills_list( const catacurses::window &w_skills,
         } else {
             const bool can_train = level.can_train();
             const bool training = level.isTraining();
-            const bool rusting = level.isRusting();
+            const bool rusting = level.isRusting( g->u.has_effect( effect_hypovitB ) );
             int exercise = level.exercise();
             int level_num = level.level();
             bool locked = false;

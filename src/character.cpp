@@ -67,6 +67,7 @@ const efftype_id effect_drunk( "drunk" );
 const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_heavysnare( "heavysnare" );
+const efftype_id effect_hypovitA( "hypovitA" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
@@ -746,6 +747,18 @@ void Character::recalc_sight_limits()
     if( has_trait( trait_BIRD_EYE ) ) {
         vision_mode_cache.set( BIRD_EYE );
     }
+    switch ( get_effect_int( effect_hypovitA ) )
+    {
+    case 1:
+        vision_mode_cache.set( NIGHTBLINDNESS_1 );
+        break;
+    case 2:
+        vision_mode_cache.set( NIGHTBLINDNESS_2 );
+        break;
+    case 3:
+        vision_mode_cache.set( NIGHTBLINDNESS_3 );
+        break;
+    }
 
     // Not exactly a sight limit thing, but related enough
     if( has_active_bionic( bionic_id( "bio_infrared" ) ) ||
@@ -784,26 +797,41 @@ float Character::get_vision_threshold( float light_level ) const
 
     // As light_level goes from LIGHT_AMBIENT_MINIMAL to LIGHT_AMBIENT_LIT,
     // dimming goes from 1.0 to 2.0.
-    const float dimming_from_light = 1.0 + ( ( static_cast<float>( light_level ) -
+    float dimming_from_light = 1.0 + ( ( static_cast<float>( light_level ) -
                                      LIGHT_AMBIENT_MINIMAL ) /
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
     float range = get_per() / 3.0f - encumb( bp_eyes ) / 10.0f;
     if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] ||
         vision_mode_cache[FULL_ELFA_VISION] || vision_mode_cache[CEPH_VISION] ) {
-        range += 10;
+        range += 10.0f;
     } else if( vision_mode_cache[NIGHTVISION_2] || vision_mode_cache[FELINE_VISION] ||
                vision_mode_cache[URSINE_VISION] || vision_mode_cache[ELFA_VISION] ) {
-        range += 4.5;
+        range += 4.5f;
     } else if( vision_mode_cache[NIGHTVISION_1] ) {
-        range += 2;
+        range += 2.0f;
     }
 
     if( vision_mode_cache[BIRD_EYE] ) {
         range++;
     }
-
-    return std::min( static_cast<float>( LIGHT_AMBIENT_LOW ),
+    // night blindness effects: sight range reduction at night and increased light level needed to see a tile
+    // both governed by nightblindness modificator 'nb'; this effect does not affect vision in full light
+    float nb = 0.0f;
+    if( vision_mode_cache[NIGHTBLINDNESS_1] ) {
+        nb = 3.0f;
+    } else if( vision_mode_cache[NIGHTBLINDNESS_2] ) {
+        nb = 6.0f;
+    } else if( vision_mode_cache[NIGHTBLINDNESS_3] ) {
+        nb = 9.0f;
+    }
+    // googles provide electronic light, so no nightblindness modification for them
+    if( !vision_mode_cache[NV_GOGGLES] ) {
+        nb = 0.0f;
+    }
+    range -= nb;
+    range = std::max( 0.0f , range );
+    return std::min( static_cast<float>( LIGHT_AMBIENT_LOW ) + nb,
                      threshold_for_range( range ) * dimming_from_light );
 }
 

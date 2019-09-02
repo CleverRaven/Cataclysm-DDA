@@ -217,13 +217,13 @@ time_duration rustRate( int level )
 }
 } //namespace
 
-bool SkillLevel::isRusting() const
+bool SkillLevel::isRusting( bool forced ) const
 {
-    return get_option<std::string>( "SKILL_RUST" ) != "off" && ( _level > 0 ) &&
+    return ( get_option<std::string>( "SKILL_RUST" ) != "off" || forced ) && ( _level > 0 ) &&
            calendar::turn - _lastPracticed > rustRate( _level );
 }
 
-bool SkillLevel::rust( bool charged_bio_mem )
+bool SkillLevel::rust( bool charged_bio_mem, bool forced )
 {
     const time_duration delta = calendar::turn - _lastPracticed;
     if( _level <= 0 || delta <= 0_turns || delta % rustRate( _level ) != 0_turns ) {
@@ -235,7 +235,10 @@ bool SkillLevel::rust( bool charged_bio_mem )
     }
 
     _exercise -= _level;
-    const auto &rust_type = get_option<std::string>( "SKILL_RUST" );
+    std::string rust_type = get_option<std::string>( "SKILL_RUST" );
+    if( forced ) {
+        rust_type = "vanilla";
+    }
     if( _exercise < 0 ) {
         if( rust_type == "vanilla" || rust_type == "int" ) {
             _exercise = ( 100 * _level * _level ) - 1;

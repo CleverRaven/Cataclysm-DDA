@@ -70,6 +70,7 @@ class JsonOut;
 const efftype_id effect_contacts( "contacts" );
 const efftype_id effect_depressants( "depressants" );
 const efftype_id effect_happy( "happy" );
+const efftype_id effect_hypovitB( "hypovitB" );
 const efftype_id effect_irradiated( "irradiated" );
 const efftype_id effect_pkill( "pkill" );
 const efftype_id effect_riding( "riding" );
@@ -163,6 +164,7 @@ size_t avatar::max_memorized_tiles() const
             map_memory_capacity_multiplier = 50;
         }
         current_map_memory_capacity = 2 * SEEX * 2 * SEEY * 100 * map_memory_capacity_multiplier;
+        current_map_memory_capacity /= std::max( 1, get_effect_int( effect_hypovitB ) * 2 );
     }
     return current_map_memory_capacity;
 }

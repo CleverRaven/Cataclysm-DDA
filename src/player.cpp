@@ -153,6 +153,8 @@ const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_happy( "happy" );
 const efftype_id effect_hot( "hot" );
+const efftype_id effect_hypervitaminosis( "hypervitaminosis" );
+const efftype_id effect_hypovitB( "hypovitB" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_iodine( "iodine" );
 const efftype_id effect_irradiated( "irradiated" );
@@ -2650,17 +2652,24 @@ int player::read_speed( bool return_stat_effect ) const
 
 int player::rust_rate( bool return_stat_effect ) const
 {
-    if( get_option<std::string>( "SKILL_RUST" ) == "off" ) {
+    std::string option = get_option<std::string>( "SKILL_RUST" );
+    bool dementia = get_effect_int( effect_hypovitB ) == 3;
+    if( option == "off" && !dementia ) {
         return 0;
     }
 
     // Stat window shows stat effects on based on current stat
     int intel = get_int();
     /** @EFFECT_INT reduces skill rust */
-    int ret = ( ( get_option<std::string>( "SKILL_RUST" ) == "vanilla" ||
-                  get_option<std::string>( "SKILL_RUST" ) == "capped" ) ? 500 : 500 - 35 * ( intel - 8 ) );
-
+    int ret = 0;
+    if( dementia ) {
+        option = "vanilla";
+    } 
+    ret = ( ( option == "vanilla" || option == "capped" ) ? 500 : 500 - 35 * ( intel - 8 ) );
     ret *= mutation_value( "skill_rust_multiplier" );
+    if( dementia ) {
+        ret += 100;
+    }
 
     if( ret < 0 ) {
         ret = 0;
@@ -4942,7 +4951,7 @@ void player::suffer()
                 }
             }
         }
-        if( has_trait( trait_CHEMIMBALANCE ) ) {
+        if( has_trait( trait_CHEMIMBALANCE ) || has_effect( effect_hypervitaminosis ) ) {
             if( one_turn_in( 6_hours ) && !has_trait( trait_NOPAIN ) ) {
                 add_msg_if_player( m_bad, _( "You suddenly feel sharp pain for no reason." ) );
                 mod_pain( 3 * rng( 1, 3 ) );
@@ -11751,7 +11760,8 @@ void player::do_skill_rust()
 
         const bool charged_bio_mem = power_level > 25 && has_active_bionic( bio_memory );
         const int oldSkillLevel = skill_level_obj.level();
-        if( skill_level_obj.rust( charged_bio_mem ) ) {
+        const bool forced = has_effect( effect_hypovitB );
+        if( skill_level_obj.rust( charged_bio_mem, forced ) ) {
             add_msg_if_player( m_warning,
                                _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
             charge_power( -25 );

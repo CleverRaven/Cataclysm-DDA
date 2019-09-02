@@ -42,6 +42,7 @@ const skill_id skill_survival( "survival" );
 const skill_id skill_cooking( "cooking" );
 
 const efftype_id effect_foodpoison( "foodpoison" );
+const efftype_id effect_hypovitB( "hypovitB" );
 const efftype_id effect_poison( "poison" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_bloodworms( "bloodworms" );
@@ -187,6 +188,9 @@ std::pair<int, int> player::fun_for( const item &comest ) const
     }
     if( ( has_effect( effect_common_cold ) || has_effect( effect_flu ) ) && fun > 0 ) {
         fun /= 3; // food doesn't taste as good when you're sick
+    }
+    if( has_effect( effect_hypovitB ) ) {
+        fun /= get_effect_int( effect_hypovitB ); //B12 deficiency symptom is loss of taste
     }
     // Rotten food should be pretty disgusting
     const float relative_rot = comest.get_relative_rot();

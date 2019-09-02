@@ -23,6 +23,7 @@
 #include "enums.h"
 #include "mtype.h"
 #include "stomach.h"
+#include "morale_types.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -39,6 +40,7 @@ const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
+const efftype_id effect_anemia( "effect_anemia" );
 const efftype_id effect_antibiotic( "antibiotic" );
 const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_attention( "attention" );
@@ -50,6 +52,7 @@ const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_brainworms( "brainworms" );
 const efftype_id effect_cold( "cold" );
 const efftype_id effect_cough_suppress( "cough_suppress" );
+const efftype_id effect_darkness( "darkness" );
 const efftype_id effect_datura( "datura" );
 const efftype_id effect_dermatik( "dermatik" );
 const efftype_id effect_disabled( "disabled" );
@@ -61,6 +64,9 @@ const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_hot( "hot" );
+const efftype_id effect_hypocalcemia( "effect_hypocalcemia" );
+const efftype_id effect_hypovitA( "hypovitA" );
+const efftype_id effect_hypovitB( "hypovitB" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_mending( "mending" );
@@ -71,6 +77,7 @@ const efftype_id effect_paincysts( "paincysts" );
 const efftype_id effect_panacea( "panacea" );
 const efftype_id effect_rat( "rat" );
 const efftype_id effect_recover( "recover" );
+const efftype_id effect_scurvy( "scurvy" );
 const efftype_id effect_shakes( "shakes" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
@@ -83,6 +90,7 @@ const efftype_id effect_tetanus( "tetanus" );
 const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
+const efftype_id effect_winded( "winded" );
 
 const vitamin_id vitamin_iron( "iron" );
 
@@ -1293,5 +1301,483 @@ void player::hardcoded_effects( effect &it )
             hp_cur[i] += 10;
         }
         mod_pain( -10 );
+    } else if( id == effect_anemia ) {
+        if( one_in( 900 / intense ) && !in_sleep_state() ) {
+            // Lack of iron impairs production of hemoglobin and therefore ability to carry 
+            // oxygen by red blood cells. This triggers veriety of symptoms, focusing on weakness, 
+            // fatigue, cold limbs, later in dizzyness, soreness, breathlessness,
+            // and severe maiaise and lethargy.
+            // Base anemia symptoms: fatigue, loss of stamina, loss of strength, impact on health 
+            // are placed in effect JSON
+
+            // level 1 symptoms are cold limbs, pale skin, and weakness
+            switch( dice( 1, 9 ) ) {
+                case 1:
+                    add_msg_if_player( m_bad, _( "Your hands feel unusually cold." ) );
+                    temp_conv[bp_hand_l] -= 2000;
+                    temp_conv[bp_hand_r] -= 2000;
+                    break;
+                case 2:
+                    add_msg_if_player( m_bad, _( "Your feet feel unusualy cold." ) );
+                    temp_conv[bp_foot_l] -= 2000;
+                    temp_conv[bp_foot_r] -= 2000;
+                    break;
+                case 3:
+                    add_msg_if_player( m_bad, _( "Your skin looks very pale." ) );
+                    break;
+                case 4:
+                    add_msg_if_player( m_bad, _( "You feel weak.  Where has your strength gone?" ) );
+                    break;
+                case 5:
+                    add_msg_if_player( m_bad, _( "You feel feeble.  A gust of wind could make you stumble." ) );
+                    break;
+                case 6:
+                    add_msg_if_player( m_bad, _( "There is an overwhelming aura of tiredness inside of you." ) );
+                    mod_fatigue( intense * 3 );
+                    break;
+                case 7: // 7-9 empty for variability, as messages stack on higher intensity
+                    break;
+                case 8:
+                    break;
+                case 9:
+                    break;
+            }
+            // level 2 anemia introduces dizzynes, shakes, headaches, cravings for non-comestibles,
+            // mouth and tongue soreness
+            if( intense > 1 ) {
+                switch( dice( 1, 9 ) ) {
+                    case 1:
+                        add_msg_if_player( m_bad, _( "Rest is what you want. Rest is what you need." ) );
+                        break;
+                    case 2:
+                        add_msg_if_player( m_bad, _( "You feel dizzy and can't grip your own feet movement." ) );
+                        add_effect( effect_stunned, rng( 1_minutes, 2_minutes ) );
+                        break;
+                    case 3:
+                        add_msg_if_player( m_bad, _( "Your muscles quivering." ) );
+                        add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
+                        break;
+                    case 4:
+                        add_msg_if_player( m_bad, _( "You crave for ice.  Dirt under your feet looks tasty too." ) );
+                        break;
+                    case 5:
+                        add_msg_if_player( m_bad, _( "Your whole mouth is sore, and your tongue is swollen." ) );
+                        break;
+                    case 6:
+                        add_msg_if_player( m_bad, _( "You feel lightheaded.  And a headache follows." ) );
+                        mod_pain( intense * 9 );
+                        break;
+                    case 7: // 7-9 empty for variability, as messages stack on higher intensity
+                        break;
+                    case 8:
+                        break;
+                    case 9:
+                        break;
+                }
+            }
+            // level 3 anemia introduces restless legs, severe tiredness, breathlessness
+            if( intense > 2 ) {
+                switch( dice( 1, 9 ) ) {
+                    case 1:
+                        add_msg_if_player( m_bad, _( "Your legs are restless.  Urge to move them is so strong." ) );
+                        break;
+                    case 2:
+                        add_msg_if_player( m_bad, _( "You feel like you'd sleep on a rock." ) );
+                        mod_fatigue( intense * 3 );
+                        break;
+                    case 3:
+                        add_msg_if_player( m_bad, _( "You gasp for air!" ) );
+                        stamina = 0;
+                        add_effect( effect_winded, rng( 30_seconds, 3_minutes ) );
+                        break;
+                    case 4:
+                        add_msg_if_player( m_bad, _( "Can't breathe.  Must rest." ) );
+                        stamina = 0;
+                        break;
+                    case 5:
+                        add_msg_if_player( m_bad, _( "You can't take it any more.  Rest first, everything else later." ) );
+                        add_effect( effect_lying_down, rng( 2_minutes, 5_minutes ) );
+                        break;
+                    case 6:
+                        add_msg_if_player( m_bad, _( "You must sit down for a moment.  Just a moment." ) );
+                        add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
+                        break;
+                    case 7: // 7-9 empty for variability, as messages stack on higher intensity
+                        break;
+                    case 8:
+                        break;
+                    case 9:
+                        break;
+                }
+            }
+        }
+    } else if( id == effect_hypocalcemia ) {
+        // Calcium regulates electric conductance in human body, and lack of ionized calcium
+        // in blood serum results in a variety of neuromuscular symptoms: numbness, twitches,
+        // contractions, cramps, at later stages becoming very violent and severe variations.
+        // Main symptoms: loss of dexterity and loss of speed are placed effect's JSON
+
+        if( in_sleep_state() ) {
+            return;
+        }
+
+        if( one_in( 900 / intense ) ) {
+            // level 1 symptoms are mostly numbness 
+            switch( dice( 1, 9 ) ) {
+                case 1:
+                    add_msg_if_player( m_bad, _( "Your hands are unusually numb." ) );
+                    break;
+                case 2:
+                    add_msg_if_player( m_bad, _( "Your feet feel numb." ) );
+                    break;
+                case 3:
+                    add_msg_if_player( m_bad, _( "You feel pins and needles in your hands and feet." ) );
+                    mod_pain( intense * 3 );
+                    break;
+                case 4:
+                    add_msg_if_player( m_bad, _( "You have an odd tingling sensation in and around the mouth and lips." ) );
+                    break;
+                case 5:
+                    add_msg_if_player( m_bad, _( "Your muscles are more stiff then usual." ) );
+                    break;
+                case 6:
+                    add_msg_if_player( m_bad, _( "You observe your limbs developing conractures." ) );
+                    break;
+                case 7: // 7-9 empty for variability, as messages stack on higher intensity
+                    break;
+                case 8:
+                    break;
+                case 9:
+                    break;
+            }
+            // level 2 calcium deficiency introduces more neuromuscular symptoms
+            if( intense > 1 ) {
+                switch( dice( 1, 9 ) ) {
+                    case 1:
+                        add_msg_if_player( m_bad, _( "The red dots thay you noticed recently on your skin has developed into a ill looking set of large purple spots." ) );
+                        break;
+                    case 2:
+                        add_msg_if_player( m_bad, _( "Sudden contraction of your leg muscles sends you to the ground." ) );
+                        add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
+                        break;
+                    case 3:
+                        add_msg_if_player( m_bad, _( "Your muscles twitch." ) );
+                        add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
+                        break;
+                    case 4:
+                        add_msg_if_player( m_bad, _( "Your hands cramp and contract to an odd position." ) );
+                        break;
+                    case 5:
+                        add_msg_if_player( m_bad, _( "Your eyelids twitch violently." ) );
+                        break;
+                    case 6:
+                        add_msg_if_player( m_bad, _( "Violent cramp of one of your muscles sends you to a world of pain." ) );
+                        mod_pain( intense * 9 );
+                        break;
+                    case 7: // 7-9 empty for variability, as messages stack on higher intensity
+                        break;
+                    case 8:
+                        break;
+                    case 9:
+                        break;
+                }
+            }
+            // level 3 calcium deficiency introduces severe neuromuscular symptoms
+            if( intense > 2 ) {
+                switch( dice( 1, 9 ) ) {
+                    case 1:
+                        add_msg_if_player( m_bad, _( "Your heart beats irregularly." ) );
+                        break;
+                    case 2:
+                        add_msg_if_player( m_bad, _( "You feel sudden pain in your chest." ) );
+                        mod_pain( intense * 3 );
+                        break;
+                    case 3:
+                        add_msg_if_player( m_bad, _( "Muscles in your throat contract violently. You gasp for air." ) );
+                        stamina = 0;
+                        add_effect( effect_winded, rng( 30_seconds, 3_minutes ) );
+                        break;
+                    case 4:
+                        add_msg_if_player( m_bad, _( "You have a seizure." ) );
+                        add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
+                        add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
+                        break;
+                    case 5:
+                        add_msg_if_player( m_bad, _( "You are stumbling around, suffering heavy cramps throughout your body." ) );
+                        add_effect( effect_stunned, rng( 2_minutes, 5_minutes ) );
+                        break;
+                    case 6:
+                        add_msg_if_player( m_bad, _( "A sudden contracture tumbles your stomach upside down." ) );
+                        vomit();
+                        break;
+                    case 7: // 7-9 empty for variability, as messages stack on higher intensity
+                        break;
+                    case 8:
+                        break;
+                    case 9:
+                        break;
+                }
+            }
+        }
+    } else if( id == effect_hypovitB ) {
+        if( one_in( 900 / intense ) ) {
+            // Vit B12 deficiency causes B12-specific anemia, gastric symptoms (including loss of taste)
+            // and progressive neurodegeneration, starting from minor neurological symptoms, memory loss,
+            // ending (in more severe stages) in dementia, here represented by forced skill rust
+            // symptoms of anemia and health cap are placed in effect's JSON
+
+            // brain fog
+            focus_pool -= intense * 3;
+            // depression
+            add_morale( MORALE_FEELING_BAD, -intense, -50 );
+
+            if( in_sleep_state() ) {
+                return;
+            }
+            // level 1 symptoms are mostly anemia related, plus loss of focus
+            switch( dice( 1, 9 ) ) {
+                case 1:
+                    add_msg_if_player( m_bad, _( "You have trouble concentrating.  You cannot focus on the problem at hand." ) );
+                    focus_pool -= intense * 3;
+                    break;
+                case 2:
+                    add_msg_if_player( m_bad, _( "Your skin looks pale and yellowish." ) );
+                    break;
+                case 3:
+                    add_msg_if_player( m_bad, _( "You have a headache and you don't feel well." ) );
+                    mod_pain( intense * 3 );
+                    break;
+                case 4:
+                    add_msg_if_player( m_bad, _( "You feel fatigue creeping over you." ) );
+                    break;
+                case 5:
+                    add_msg_if_player( m_bad, _( "You feel waves of weakness periodicaly owerwhelming your body." ) );
+                    break;
+                case 6:
+                    add_msg_if_player( m_bad, _( "You feel exhauseted to the core.  You daydream of a good rest." ) );
+                    break;
+                case 7: // 7-9 empty for variability, as messages stack on higher intensity
+                    break;
+                case 8:
+                    break;
+                case 9:
+                    break;
+            }
+            // level 2 B12 deficiency introduces more gastric and memory problems
+            // at this stage loss of taste activates and map memory is impaired (elsewhere)
+            if( intense == 2 ) {
+                switch( dice( 1, 9 ) ) {
+                    case 1:
+                        add_msg_if_player( m_bad, _( "You have sudden emptiness in your thoughts." ) );
+                        focus_pool -= intense * 3;
+                        break;
+                    case 2:
+                        add_msg_if_player( m_bad, _( "You have problems walking.  You stagger and fall." ) );
+                        add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, false, 0, true );
+                        break;
+                    case 3:
+                        add_msg_if_player( m_bad, _( "This area looks familliar.  Have you been here, or is it your memory playing tricks on you?" ) );
+                        break;
+                    case 4:
+                        add_msg_if_player( m_bad, _( "Your heart is pounding in your chest in a worringly fast pace." ) );
+                        break;
+                    case 5:
+                        add_msg_if_player( m_bad, _( "Your tongue feels sore and your taste is impaired." ) );
+                        break;
+                    case 6:
+                        add_msg_if_player( m_bad, _( "Your tongue feels odd and your bowels ache." ) );
+                        vomit();
+                        break;
+                    case 7: // 7-9 empty for variability, as messages stack on higher intensity
+                        break;
+                    case 8:
+                        break;
+                    case 9:
+                        break;
+                }
+            }
+            // level 3 B12 defficiency introduces dementia and force activates skill rust.
+            if( intense == 3 ) {
+                switch( dice( 1, 9 ) ) {
+                    case 1:
+                        add_msg_if_player( m_bad, _( "You have sudden emptiness in your thoughts.  What was my name again?" ) );
+                        break;
+                    case 2:
+                        add_msg_if_player( m_bad, _( "You stare blindly before you.  What am I doing here?" ) );
+                        break;
+                    case 3:
+                        add_msg_if_player( m_bad, _( "You forgot...  something.  You don't remember what you forgot." ) );
+                        break;
+                    case 4:
+                        add_msg_if_player( m_bad, _( "You don't recognize your surroundings.  Is this the road home?." ) );
+                        break;
+                    case 5:
+                        add_msg_if_player( m_bad, _( "Where did you put your red scarf?  Oh... you never had one." ) );
+                        break;
+                    case 6:
+                        add_msg_if_player( m_bad, _( "Your memory is playing tricks on you.  What day is it?" ) );
+                        break;
+                    case 7: // 7-9 empty for variability, as messages stack on higher intensity
+                        break;
+                    case 8:
+                        break;
+                    case 9:
+                        break;
+                }
+            }
+        }
+    } else if( id == effect_hypovitA ) {
+        //more often at higher levels of severity
+        if( one_in( 900 / intense ) ) {
+            // Vitamin A deficiency has two main symptoms/results: night blindness and xerophthalmia (dry eye syndrome).
+            // Night blindness is affecting sight elsewhere; here are mostly symptoms of xerophthalmia.
+            // Adding intensity to dice roll unlocks severe effects at higher levels of deficiency,
+            // while simultaneously locking cosmetic effects, shifting balance of overall severity:
+            // lvl 1 = 1d6 + 1 = trigger 2-7; lvl 2 = 1d6 + 2 = 3-8, lvl 3 = 1d6 + 3 = 4-9
+            // Perception drop is placed in effect's JSON
+
+            if( in_sleep_state() ) {
+                return;
+            }
+            
+            switch( dice( 1, 6 ) + intense ) {
+                case 2:
+                    add_msg_if_player( m_bad, _( "You blink wildly.  Something odd is going on with your eyes." ) );
+                    break;
+                case 3:
+                    add_msg_if_player( m_bad, _( "Your eyes feel dry.  You blink more often but it doesn't help." ) );
+                    break;
+                case 4: 
+                    add_msg_if_player( m_bad, _( "Shadows look more deep and darkness more encompassing.  Your eyes start to fail in the dark." ) );
+                    break;
+                case 5: 
+                    add_msg_if_player( m_bad, _( "Wherever it's dark you can't see the details.  It wasn't always like that." ) );
+                    break;
+                case 6:
+                    add_msg_if_player( m_bad, _( "Your eyes hurt.  Rubbing makes it even worse." ) );
+                    mod_pain( intense * 2 );
+                    break;
+                case 7:
+                    add_msg_if_player( m_bad, _( "You feel like there is sand in your eyes, but you cannot shed any tears." ) );
+                    mod_pain( intense * 3 );
+                    break;
+                case 8:
+                    add_msg_if_player( m_bad, _( "You feel like you're might go blind any minute." ) );
+                    add_effect( effect_darkness, rng( 1_minutes, intense * 3_minutes ) );
+                    break;
+                case 9:
+                    add_msg_if_player( m_bad, _( "You eyes fail you." ) );
+                    add_effect( effect_blind, rng( 1_seconds , intense * 3_minutes ) );
+                    break;
+            }
+        }
+    } else if( id == effect_scurvy ) {
+        if( one_in( 900 / intense ) ) {
+            // Vit C deficiency initial symptoms are malaise and lethargy, then progress into
+            // various health problems: moving teath, spontaneous bleeding, jaundice, gastric problems,
+            // swollen limbs, muscle twitches, etc.
+            // fatigue & poor wound healing are placedin effect's JSON
+
+            // scurvy also causes mood changes and depresion
+            add_morale( MORALE_FEELING_BAD, -intense * 3, -50 );
+
+            if( in_sleep_state() ) {
+                return;
+            }
+            // level one scurvy focuses on malaise and lethargy symptoms
+            // (fatigue in game terms)
+            switch( dice( 1, 9 ) ) {
+                case 1:
+                    add_msg_if_player( m_bad,
+                                        _( "Your arms feel so heavy today.  Moving a finger feels like weightlifting." ) );
+                    break;
+                case 2:
+                    add_msg_if_player( m_bad,
+                                        _( "Your legs feel so heavy today.  You don't feel like walking anymore today." ) );
+                    break;
+                case 3:
+                    add_msg_if_player( m_bad,
+                                        _( "Your head feels heavy today.  You think about a bed and a soft pillow." ) );
+                    break;
+                case 4:
+                    add_msg_if_player( m_bad, _( "You feel tired.  A day off perhaps?" ) );
+                    break;
+                case 5:
+                    add_msg_if_player( m_bad,
+                                        _( "You feel apathetic.  A short break wouldn't be bad. Or even a long one." ) );
+                    break;
+                case 6:
+                    add_msg_if_player( m_bad, _( "You wish you stayed in bad today." ) );
+                    break;
+                case 7: // 7-9 empty for variability, as messages stack on higher intensity
+                    break;
+                case 8:
+                    break;
+                case 9:
+                    break;
+            }
+            // level two scurvy introduces petechiae, teeth and gum symptoms, dry mouth and eyes
+            if( intense > 1 ) {
+                switch( dice( 1, 9 ) ) {
+                    case 1:
+                        add_msg_if_player( m_bad, _( "Your teeth feel loose.  Scurvy?" ) );
+                        break;
+                    case 2:
+                        add_msg_if_player( m_bad, _( "Your notice some blotchy rash on your skin." ) );
+                        break;
+                    case 3:
+                        add_msg_if_player( m_bad, _( "Your gums start to bleed." ) );
+                        add_effect( effect_bleed, 10_seconds, bp_head, false, 1 );
+                        break;
+                    case 4:
+                        add_msg_if_player( m_bad, _( "Your mouth is dry like a desert." ) );
+                        break;
+                    case 5:
+                        add_msg_if_player( m_bad, _( "Your eyes are dry.  You try blink to keep them moistured." ) );
+                        break;
+                    case 6:
+                        add_msg_if_player( m_bad, _( "Your bones hurt.  Odd and unpleasant feeling." ) );
+                        break;
+                    case 7: // 7-9 empty for variability, as messages stack on higher intensity
+                        break;
+                    case 8:
+                        break;
+                    case 9:
+                        break;
+                }
+            }
+            // level three scurvy introduces jaundice, edema, neuropathy & nausea, spontaneous bleeding
+            if( intense > 2 ) {
+                switch( dice( 1, 9 ) ) {
+                    case 1:
+                        add_msg_if_player( m_bad, _( "Your skin looks yellowish.  Jaundice?" ) );
+                        break;
+                    case 2:
+                        add_msg_if_player( m_bad, _( "You notice that your limbs are unnaturaly swollen." ) );
+                        break;
+                    case 3:
+                        add_msg_if_player( m_bad, _( "Your muscles twitch." ) );
+                        add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
+                        break;
+                    case 4:
+                        add_msg_if_player( m_bad, _( "You stomach turns upside down." ) );
+                        vomit();
+                        break;
+                    case 5:
+                        add_msg_if_player( m_bad, _( "You notice vast red blotches on your skin." ) );
+                        break;
+                    case 6:
+                        add_msg_if_player( m_bad, _( "You start bleeding from your nose." ) );
+                        add_effect( effect_bleed, 10_seconds, bp_head, false, 1 );
+                        break;
+                    case 7: // 7-9 empty for variability, as messages stack on higher intensity
+                        break;
+                    case 8:
+                        break;
+                    case 9:
+                        break;
+                }
+            }
+        }
     }
 }

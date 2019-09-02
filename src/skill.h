@@ -118,8 +118,8 @@ class SkillLevel
         }
 
         void train( int amount, bool skip_scaling = false );
-        bool isRusting() const;
-        bool rust( bool charged_bio_mem );
+        bool isRusting( bool forced ) const;
+        bool rust( bool charged_bio_mem, bool forced );
         void practice();
         bool can_train() const;
 
