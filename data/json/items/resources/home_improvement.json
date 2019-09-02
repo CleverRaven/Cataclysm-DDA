@@ -11,7 +11,7 @@
     "description": "A can of red paint.",
     "material": "steel",
     "volume": "1250 ml",
-    "weight": 10,
+    "weight": "10 g",
     "ammo_type": "NULL",
     "count": 100
   },
@@ -27,7 +27,7 @@
     "description": "A can of blue paint.",
     "material": "steel",
     "volume": "1250 ml",
-    "weight": 10,
+    "weight": "10 g",
     "ammo_type": "NULL",
     "count": 100
   },
@@ -43,7 +43,7 @@
     "description": "A can of white paint.",
     "material": "steel",
     "volume": "1250 ml",
-    "weight": 10,
+    "weight": "10 g",
     "ammo_type": "NULL",
     "count": 100
   },
@@ -59,7 +59,7 @@
     "description": "A can of green paint.",
     "material": "steel",
     "volume": "1250 ml",
-    "weight": 10,
+    "weight": "10 g",
     "ammo_type": "NULL",
     "count": 100
   },
@@ -75,7 +75,7 @@
     "description": "A can of purple paint.",
     "material": "steel",
     "volume": "1250 ml",
-    "weight": 10,
+    "weight": "10 g",
     "ammo_type": "NULL",
     "count": 100
   },
@@ -91,7 +91,7 @@
     "description": "A can of yellow paint.",
     "material": "steel",
     "volume": "1250 ml",
-    "weight": 10,
+    "weight": "10 g",
     "ammo_type": "NULL",
     "count": 100
   },
@@ -106,7 +106,7 @@
     "description": "A roll of red carpet.",
     "material": "cotton",
     "volume": "1750 ml",
-    "weight": 45,
+    "weight": "45 g",
     "ammo_type": "NULL",
     "count": 5
   },
@@ -121,7 +121,7 @@
     "description": "A roll of green carpet.",
     "material": "cotton",
     "volume": "1750 ml",
-    "weight": 45,
+    "weight": "45 g",
     "ammo_type": "NULL",
     "count": 5
   },
@@ -136,7 +136,7 @@
     "description": "A roll of yellow carpet.",
     "material": "cotton",
     "volume": "1750 ml",
-    "weight": 45,
+    "weight": "45 g",
     "ammo_type": "NULL",
     "count": 5
   },
@@ -151,7 +151,7 @@
     "description": "A roll of purple carpet.",
     "material": "cotton",
     "volume": "1750 ml",
-    "weight": 45,
+    "weight": "45 g",
     "ammo_type": "NULL",
     "count": 5
   },
@@ -165,7 +165,7 @@
     "description": "A metal cylinder with a small lens inside intended to be installed on a door.",
     "price": 12000,
     "material": [ "aluminum", "glass" ],
-    "weight": 5,
+    "weight": "5 g",
     "volume": "250 ml",
     "to_hit": -3
   }

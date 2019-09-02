@@ -55,11 +55,19 @@
       { "x": 1, "y": 0, "parts": [ "xlframe_horizontal", "windshield" ] },
       { "x": 1, "y": 1, "parts": [ "xlframe_horizontal", "windshield" ] },
       { "x": 1, "y": 2, "parts": [ "xlframe_horizontal", "windshield" ] },
-      { "x": 2, "y": -1, "parts": [ "xlframe_nw", "halfboard_nw", "wheel_steerable", "headlight" ] },
+      {
+        "x": 2,
+        "y": -1,
+        "parts": [ "xlframe_nw", "halfboard_nw", "wheel_mount_medium_steerable", "wheel", "headlight" ]
+      },
       { "x": 2, "y": 0, "parts": [ "xlframe_horizontal", "halfboard_nw" ] },
       { "x": 2, "y": 0, "part": "engine_electric_large" },
       { "x": 2, "y": 1, "parts": [ "xlframe_horizontal", "halfboard_ne" ] },
-      { "x": 2, "y": 2, "parts": [ "xlframe_ne", "halfboard_ne", "wheel_steerable", "headlight" ] },
+      {
+        "x": 2,
+        "y": 2,
+        "parts": [ "xlframe_ne", "halfboard_ne", "wheel_mount_medium_steerable", "wheel", "headlight" ]
+      },
       { "x": -1, "y": -1, "parts": [ "xlframe_vertical", "door" ] },
       { "x": -1, "y": 0, "parts": [ "xlframe_vertical_2", "roof" ] },
       { "x": -1, "y": 0, "parts": [ "seat", "seatbelt" ] },
@@ -71,11 +79,11 @@
       { "x": -2, "y": 1, "parts": [ "xlframe_vertical", "trunk", "roof", "solar_panel" ] },
       { "x": -2, "y": 2, "parts": [ "xlframe_vertical", "halfboard_vertical" ] },
       { "x": -3, "y": -1, "parts": [ "xlframe_vertical", "halfboard_vertical" ] },
-      { "x": -3, "y": -1, "part": "wheel" },
+      { "x": -3, "y": -1, "parts": [ "wheel_mount_medium", "wheel" ] },
       { "x": -3, "y": 0, "parts": [ "xlframe_vertical", "trunk", "roof", "solar_panel" ] },
       { "x": -3, "y": 1, "parts": [ "xlframe_vertical", "trunk", "roof", "solar_panel" ] },
       { "x": -3, "y": 2, "parts": [ "xlframe_vertical", "halfboard_vertical" ] },
-      { "x": -3, "y": 2, "part": "wheel" },
+      { "x": -3, "y": 2, "parts": [ "wheel_mount_medium", "wheel" ] },
       { "x": -4, "y": -1, "parts": [ "xlframe_horizontal", "trunk" ] },
       { "x": -4, "y": 0, "parts": [ "xlframe_horizontal", "trunk" ] },
       { "x": -4, "y": 1, "parts": [ "xlframe_horizontal", "trunk" ] },
@@ -91,10 +99,10 @@
       { "x": -7, "y": 0, "parts": [ "reclining_seat", "seatbelt", "storage_battery" ] },
       { "x": -7, "y": 0, "parts": [ "controls", "dashboard", "vehicle_clock", "vehicle_alarm" ] },
       { "x": -7, "y": -1, "parts": [ "xlframe_horizontal", "halfboard_se", "engine_electric_large" ] },
-      { "x": -6, "y": 1, "part": "wheel_steerable" },
-      { "x": -6, "y": 0, "part": "wheel_steerable" },
-      { "x": -7, "y": 1, "part": "wheel_steerable" },
-      { "x": -7, "y": 0, "part": "wheel_steerable" }
+      { "x": -6, "y": 1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": -6, "y": 0, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": -7, "y": 1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": -7, "y": 0, "parts": [ "wheel_mount_medium_steerable", "wheel" ] }
     ]
   },
   {
@@ -106,12 +114,12 @@
       { "x": 0, "y": 0, "parts": [ "seat", "foot_pedals" ] },
       { "x": 0, "y": 1, "parts": [ "frame_vertical", "bed" ] },
       { "x": 0, "y": 2, "parts": [ "frame_vertical", "bed" ] },
-      { "x": 1, "y": 2, "parts": [ "frame_vertical", "bed", "wheel_steerable" ] },
-      { "x": -1, "y": 2, "parts": [ "frame_vertical", "bed", "wheel_steerable" ] },
+      { "x": 1, "y": 2, "parts": [ "frame_vertical", "bed", "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": -1, "y": 2, "parts": [ "frame_vertical", "bed", "wheel_mount_medium_steerable", "wheel" ] },
       { "x": 0, "y": -1, "parts": [ "frame_vertical", "seat" ] },
       { "x": 0, "y": -2, "parts": [ "frame_vertical", "seat" ] },
-      { "x": 1, "y": -2, "parts": [ "frame_vertical", "seat", "wheel_steerable" ] },
-      { "x": -1, "y": -2, "parts": [ "frame_vertical", "seat", "wheel_steerable" ] },
+      { "x": 1, "y": -2, "parts": [ "frame_vertical", "seat", "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": -1, "y": -2, "parts": [ "frame_vertical", "seat", "wheel_mount_medium_steerable", "wheel" ] },
       { "x": 1, "y": 0, "parts": [ "frame_vertical", "door" ] },
       { "x": -1, "y": 0, "parts": [ "frame_vertical", "engine_electric", "storage_battery" ] }
     ]

@@ -4,7 +4,7 @@
     "id": "feces_bird",
     "name": "bird litter",
     "category": "chems",
-    "weight": 40,
+    "weight": "40 g",
     "color": "brown",
     "spoils_in": "4 days 16 hours",
     "comestible_type": "FOOD",
@@ -25,7 +25,7 @@
     "id": "feces_cow",
     "name": "cow pie",
     "copy-from": "feces_bird",
-    "weight": 750,
+    "weight": "750 g",
     "volume": "1 L",
     "description": "A fresh cow pie, could probably be used to make some great fertilizer."
   },
@@ -41,7 +41,7 @@
     "id": "feces_manure",
     "name": "manure",
     "copy-from": "feces_bird",
-    "weight": 250,
+    "weight": "250 g",
     "volume": "500 ml",
     "description": "Common manure, could probably be used to make some great fertilizer."
   },

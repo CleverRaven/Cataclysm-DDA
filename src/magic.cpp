@@ -391,6 +391,11 @@ spell::spell( spell_id sp, int xp ) :
     experience( xp )
 {}
 
+spell::spell( spell_id sp, translation alt_msg ) :
+    type( sp ),
+    alt_message( alt_msg )
+{}
+
 spell_id spell::id() const
 {
     return type;
@@ -565,6 +570,9 @@ std::string spell::name() const
 
 std::string spell::message() const
 {
+    if( !alt_message.empty() ) {
+        return alt_message.translated();
+    }
     return type->message.translated();
 }
 

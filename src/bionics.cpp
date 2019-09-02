@@ -13,10 +13,12 @@
 #include "action.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "assign.h"
 #include "ballistics.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "effect.h"
+#include "event_bus.h"
 #include "explosion.h"
 #include "field.h"
 #include "game.h"
@@ -32,6 +34,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "memorial_logger.h"
 #include "npc.h"
 #include "player.h"
 #include "projectile.h"
@@ -1395,12 +1398,7 @@ void player::perform_uninstall( bionic_id bid, int difficulty, int success, int 
                                 int pl_skill )
 {
     if( success > 0 ) {
-
-        if( is_player() ) {
-            add_memorial_log( pgettext( "memorial_male", "Removed bionic: %s." ),
-                              pgettext( "memorial_female", "Removed bionic: %s." ),
-                              bid.obj().name );
-        }
+        g->events().send<event_type::removes_cbm>( getID(), bid );
 
         // until bionics can be flagged as non-removable
         add_msg_player_or_npc( m_neutral, _( "Your parts are jiggled back into their familiar places." ),
@@ -1421,12 +1419,7 @@ void player::perform_uninstall( bionic_id bid, int difficulty, int success, int 
         cbm.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
         g->m.add_item( pos(), cbm );
     } else {
-        if( is_player() ) {
-            add_memorial_log( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
-                              pgettext( "memorial_female", "Failed to remove bionic: %s." ),
-                              bid.obj().name );
-        }
-
+        g->events().send<event_type::fails_to_remove_cbm>( getID(), bid );
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
         float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
                                static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>
@@ -1665,12 +1658,7 @@ void player::perform_install( bionic_id bid, bionic_id upbid, int difficulty, in
                               std::vector<trait_id> trait_to_rem, tripoint patient_pos )
 {
     if( success > 0 ) {
-
-        if( is_player() ) {
-            add_memorial_log( pgettext( "memorial_male", "Installed bionic: %s." ),
-                              pgettext( "memorial_female", "Installed bionic: %s." ),
-                              bid.obj().name );
-        }
+        g->events().send<event_type::installs_cbm>( getID(), bid );
         if( upbid != bionic_id( "" ) ) {
             remove_bionic( upbid );
             //~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
@@ -1690,11 +1678,7 @@ void player::perform_install( bionic_id bid, bionic_id upbid, int difficulty, in
         }
 
     } else {
-        if( is_player() ) {
-            add_memorial_log( pgettext( "memorial_male", "Failed install of bionic: %s." ),
-                              pgettext( "memorial_female", "Failed install of bionic: %s." ),
-                              bid.obj().name );
-        }
+        g->events().send<event_type::fails_to_install_cbm>( getID(), bid );
 
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
         float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
@@ -1775,20 +1759,17 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
                         add_msg( m_bad, _( "%s lose power capacity!" ), disp_name() );
                         max_power_level = rng( 0, max_power_level - 25 );
                         if( is_player() ) {
-                            add_memorial_log( pgettext( "memorial_male", "Lost %d units of power capacity." ),
-                                              pgettext( "memorial_female", "Lost %d units of power capacity." ),
-                                              old_power - max_power_level );
+                            g->memorial().add(
+                                pgettext( "memorial_male", "Lost %d units of power capacity." ),
+                                pgettext( "memorial_female", "Lost %d units of power capacity." ),
+                                old_power - max_power_level );
                         }
                     }
                     // TODO: What if we can't lose power capacity?  No penalty?
                 } else {
                     const bionic_id &id = random_entry( valid );
                     add_bionic( id );
-                    if( is_player() ) {
-                        add_memorial_log( pgettext( "memorial_male", "Installed bad bionic: %s." ),
-                                          pgettext( "memorial_female", "Installed bad bionic: %s." ),
-                                          bionics[ id ].name );
-                    }
+                    g->events().send<event_type::installs_faulty_cbm>( getID(), id );
                 }
             }
             break;
@@ -2065,11 +2046,7 @@ void load_bionic( JsonObject &jsobj )
 
     new_bionic.weight_capacity_modifier = jsobj.get_float( "weight_capacity_modifier", 1.0 );
 
-    if( jsobj.has_string( "weight_capacity_bonus" ) ) {
-        new_bionic.weight_capacity_bonus = read_from_json_string<units::mass>
-                                           ( *jsobj.get_raw( "weight_capacity_bonus" ), units::mass_units );
-    }
-
+    assign( jsobj, "weight_capacity_bonus", new_bionic.weight_capacity_bonus, false, 0_gram );
 
     jsobj.read( "canceled_mutations", new_bionic.canceled_mutations );
     jsobj.read( "included_bionics", new_bionic.included_bionics );

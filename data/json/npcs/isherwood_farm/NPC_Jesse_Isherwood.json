@@ -193,7 +193,34 @@
       "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 8 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_wolf", "pack_size": [ 4, 8 ], "x": 3, "y": 9, "target": true } ] }
     },
-    "origins": [ "ORIGIN_ANY_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "We could use some help killing some wolves.",
+      "offer": "There's been some wolves that keep scaring our chickens and horses, I'd be grateful if you can kill them.",
+      "accepted": "Wonderful, let me know when it is done.",
+      "rejected": "Thanks anyway, we will try some traps.",
+      "advice": "A gun will probably help.",
+      "inquire": "Did you kill it?",
+      "success": "I appreciate it, I've got this old saddle I want you to have. I'll be happy to put a horse under it if you want to do some more heroics.",
+      "success_lie": "Show me the bodies.",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": { "opinion": { "trust": 1, "value": 1 }, "effect": [ { "u_buy_item": "riding_saddle", "count": 1 } ] }
+  },
+  {
+    "id": "MISSION_ISHERWOOD_JESSE_2",
+    "type": "mission_definition",
+    "name": "Kill monster",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 8,
+    "value": 80000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 15 },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_flying_polyp", "pack_size": [ 3, 6 ], "x": 11, "y": 11, "target": true } ] }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "We could use some help killing some wolves.",
       "offer": "There's been some wolves that keep scaring our chickens and horses, I'd be grateful if you can kill them.",

@@ -804,6 +804,14 @@ void item::set_var( const std::string &name, const int value )
     item_vars[name] = tmpstream.str();
 }
 
+void item::set_var( const std::string &name, const long long value )
+{
+    std::ostringstream tmpstream;
+    tmpstream.imbue( std::locale::classic() );
+    tmpstream << value;
+    item_vars[name] = tmpstream.str();
+}
+
 // NOLINTNEXTLINE(cata-no-long)
 void item::set_var( const std::string &name, const long value )
 {
@@ -3905,7 +3913,8 @@ units::volume item::volume( bool integral ) const
 
 int item::lift_strength() const
 {
-    return std::max( weight() / 10000_gram, 1 );
+    const int mass = units::to_gram( weight() );
+    return std::max( mass / 10000, 1 );
 }
 
 int item::attack_time() const
@@ -7962,10 +7971,6 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
                 }
             }
         } else {
-            //~ %s is corpse name
-            carrier->add_memorial_log( pgettext( "memorial_male", "Had a %s revive while carrying it." ),
-                                       pgettext( "memorial_female", "Had a %s revive while carrying it." ),
-                                       tname() );
             if( corpse->in_species( ROBOT ) ) {
                 carrier->add_msg_if_player( m_warning,
                                             _( "Oh dear god, a robot you're carrying has started moving!" ) );
