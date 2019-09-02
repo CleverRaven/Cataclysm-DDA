@@ -1,6 +1,15 @@
 [
   {
     "type": "city_building",
+    "id": "s_electronicstore",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_electronicstore_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_electronicstore_2ndfloor_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "s_gunstore",
     "locations": [ "land" ],
     "overmaps": [

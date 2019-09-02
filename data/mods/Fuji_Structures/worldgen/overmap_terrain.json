@@ -1,6 +1,20 @@
 [
   {
     "type": "overmap_terrain",
+    "id": "s_electronicstore",
+    "name": "electronics store",
+    "copy-from": "generic_city_building",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_electronicstore_2ndfloor",
+    "name": "electronics store",
+    "copy-from": "s_electronicstore",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_gunstore",
     "name": "gun store",
     "copy-from": "generic_city_building",
