@@ -1189,6 +1189,22 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( g != nullptr ) {
                 info.push_back( iteminfo( "BASE", _( "age (hours): " ), "", iteminfo::lower_is_better,
                                           to_hours<int>( age() ) ) );
+                info.push_back( iteminfo( "BASE", _( "charges: " ), "", iteminfo::lower_is_better,
+                                          charges ) );
+                info.push_back( iteminfo( "BASE", _( "damage: " ), "", iteminfo::lower_is_better,
+                                          damage_ ) );
+                info.push_back( iteminfo( "BASE", _( "active: " ), "", iteminfo::lower_is_better,
+                                          active ) );
+                info.push_back( iteminfo( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
+                                          burnt ) );
+                std::ostringstream stream;
+                std::copy( item_tags.begin(), item_tags.end(), std::ostream_iterator<std::string>( stream, "," ) );
+                std::string tags_listed = stream.str();
+                info.push_back( iteminfo( "BASE", string_format( _( "tags: %s" ), tags_listed ) ) );
+                for( auto const &imap : item_vars ) {
+                    info.push_back( iteminfo( "BASE", string_format( _( "item var: %s, %s" ), imap.first,
+                                              imap.second ) ) );
+                }
 
                 const item *food = is_food_container() ? &contents.front() : this;
                 if( food->goes_bad() ) {
@@ -1198,15 +1214,15 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                     info.push_back( iteminfo( "BASE", _( "rot (turns): " ),
                                               "", iteminfo::lower_is_better,
                                               to_turns<int>( food->rot ) ) );
+                    info.push_back( iteminfo( "BASE", space + _( "max rot (turns): " ),
+                                              "", iteminfo::lower_is_better,
+                                              to_turns<int>( food->get_shelf_life() ) ) );
                     info.push_back( iteminfo( "BASE", _( "last rot: " ),
                                               "", iteminfo::lower_is_better,
                                               to_turn<int>( food->last_rot_check ) ) );
                     info.push_back( iteminfo( "BASE", _( "last temp: " ),
                                               "", iteminfo::lower_is_better,
                                               to_turn<int>( food->last_temp_check ) ) );
-                    info.push_back( iteminfo( "BASE", space + _( "max rot (turns): " ),
-                                              "", iteminfo::lower_is_better,
-                                              to_turns<int>( food->get_shelf_life() ) ) );
                 }
                 if( food->has_temperature() ) {
                     info.push_back( iteminfo( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better,
@@ -1223,8 +1239,6 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                               food->get_freeze_point() ) );
                 }
             }
-            info.push_back( iteminfo( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
-                                      burnt ) );
         }
     }
 
