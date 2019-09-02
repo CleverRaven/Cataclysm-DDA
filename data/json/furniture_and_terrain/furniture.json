@@ -410,7 +410,7 @@
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 4 },
-        { "item": "rag", "count": 4 },
+        { "item": "felt_patch", "count": 4 },
         { "item": "wood_panel", "count": 1 },
         { "item": "nail", "charges": [ 6, 10 ] }
       ]
@@ -424,7 +424,7 @@
         { "item": "2x4", "count": [ 2, 6 ] },
         { "item": "nail", "charges": [ 4, 12 ] },
         { "item": "splinter", "count": 1 },
-        { "item": "rag", "count": [ 0, 2 ] }
+        { "item": "felt_patch", "count": [ 0, 2 ] }
       ]
     }
   },
