@@ -727,12 +727,10 @@ class scrollingcombattext
         class cSCT
         {
             private:
-                int iPosX;
-                int iPosY;
+                point pos;
                 direction oDir;
                 direction oUp, oUpRight, oRight, oDownRight, oDown, oDownLeft, oLeft, oUpLeft;
-                int iDirX;
-                int iDirY;
+                point dir;
                 int iStep;
                 int iStepOffset;
                 std::string sText;
@@ -743,7 +741,7 @@ class scrollingcombattext
                 bool iso_mode;
 
             public:
-                cSCT( int p_iPosX, int p_iPosY, direction p_oDir,
+                cSCT( const point &pos, direction p_oDir,
                       const std::string &p_sText, game_message_type p_gmt,
                       const std::string &p_sText2 = "", game_message_type p_gmt2 = m_neutral,
                       const std::string &p_sType = "" );
@@ -766,10 +764,10 @@ class scrollingcombattext
                     return oDir;
                 }
                 int getInitPosX() const {
-                    return iPosX;
+                    return pos.x;
                 }
                 int getInitPosY() const {
-                    return iPosY;
+                    return pos.y;
                 }
                 std::string getType() const {
                     return sType;
