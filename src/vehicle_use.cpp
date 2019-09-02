@@ -1634,6 +1634,8 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
 
     auto turret = turret_query( pos );
 
+    const int curtain_part = avail_part_with_feature( interact_part, "CURTAIN", true );
+    const bool curtain_closed = ( curtain_part == -1 ) ? false : !parts[curtain_part].open;
     const bool has_kitchen = avail_part_with_feature( interact_part, "KITCHEN", true ) >= 0;
     const bool has_faucet = avail_part_with_feature( interact_part, "FAUCET", true ) >= 0;
     const bool has_towel = avail_part_with_feature( interact_part, "TOWEL", true ) >= 0;
@@ -1674,7 +1676,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     enum {
         EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_AUTOCLAVE, USE_WASHMACHINE, USE_DISHWASHER,
-        USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH, USE_TOWEL,
+        USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH, USE_TOWEL, PEEK_CURTAIN,
     };
     uilist selectmenu;
 
@@ -1716,6 +1718,9 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     }
     if( turret.can_reload() ) {
         selectmenu.addentry( RELOAD_TURRET, true, 'r', _( "Reload %s" ), turret.name() );
+    }
+    if( curtain_part >= 0 && curtain_closed ) {
+        selectmenu.addentry( PEEK_CURTAIN, true, 'p', _( "Peek through the closed curtains" ) );
     }
     if( ( has_kitchen || has_chemlab ) && fuel_left( "battery" ) > 0 ) {
         selectmenu.addentry( USE_HOTPLATE, true, 'h', _( "Use the hotplate" ) );
@@ -1791,6 +1796,11 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case USE_MONSTER_CAPTURE: {
             use_monster_capture( monster_capture_part, pos );
+            return;
+        }
+        case PEEK_CURTAIN: {
+            add_msg( _( "You carefully peek through the curtains." ) );
+            g->peek( pos );
             return;
         }
         case USE_HOTPLATE: {
