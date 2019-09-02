@@ -21,6 +21,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::character_kills_character: return "character_kills_character";
         case event_type::character_kills_monster: return "character_kills_monster";
         case event_type::character_loses_effect: return "character_loses_effect";
+        case event_type::character_takes_damage: return "character_takes_damage";
         case event_type::character_triggers_trap: return "character_triggers_trap";
         case event_type::consumes_marloss_item: return "consumes_marloss_item";
         case event_type::crosses_marloss_threshold: return "crosses_marloss_threshold";
@@ -87,7 +88,7 @@ constexpr std::array<std::pair<const char *, cata_variant_type>,
 constexpr std::array<std::pair<const char *, cata_variant_type>,
           event_spec_character::fields.size()> event_spec_character::fields;
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 57,
+static_assert( static_cast<int>( event_type::num_event_types ) == 58,
                "This static_assert is a reminder to add a definition below when you add a new "
                "event_type.  If your event_spec specialization inherits from another struct for "
                "its fields definition then you probably don't need a definition here." );
@@ -105,6 +106,7 @@ DEFINE_EVENT_FIELDS( character_gains_effect )
 DEFINE_EVENT_FIELDS( character_kills_character )
 DEFINE_EVENT_FIELDS( character_kills_monster )
 DEFINE_EVENT_FIELDS( character_loses_effect )
+DEFINE_EVENT_FIELDS( character_takes_damage )
 DEFINE_EVENT_FIELDS( character_triggers_trap )
 DEFINE_EVENT_FIELDS( consumes_marloss_item )
 DEFINE_EVENT_FIELDS( crosses_mutation_threshold )

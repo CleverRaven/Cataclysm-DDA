@@ -996,6 +996,8 @@ void memorial_logger::notify( const cata::event &e )
                  pgettext( "memorial_female", "Set off an alarm." ) );
             break;
         }
+        case event_type::character_takes_damage:
+            break;
         case event_type::num_event_types: {
             debugmsg( "Invalid event type" );
             break;

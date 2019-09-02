@@ -3225,11 +3225,11 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
 
     mod_pain( dam / 2 );
 
-    hp_cur[hurtpart] -= dam;
-    if( hp_cur[hurtpart] < 0 ) {
-        lifetime_stats.damage_taken += hp_cur[hurtpart];
-        hp_cur[hurtpart] = 0;
-    }
+    const int dam_to_bodypart = std::min( dam, hp_cur[hurtpart] );
+
+    hp_cur[hurtpart] -= dam_to_bodypart;
+    lifetime_stats.damage_taken += dam_to_bodypart;
+    g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
 
     if( hp_cur[hurtpart] <= 0 && ( source == nullptr || !source->is_hallucination() ) ) {
         if( has_effect( effect_mending, hurt ) ) {
@@ -3239,7 +3239,6 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
         }
     }
 
-    lifetime_stats.damage_taken += dam;
     if( dam > get_painkiller() ) {
         on_hurt( source );
     }
