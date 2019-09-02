@@ -15,7 +15,7 @@
     "name": "Barrett magazine",
     "//": "Fully loaded 10 magazine, presumably loaded with the 114.7 gram M33 Ball cartridge, weighs 1868.801 grams. Source inetres.com",
     "description": "Standard 10-round box magazine for a Barrett M107A1 anti-materiel rifle.",
-    "weight": 727,
+    "weight": "727 g",
     "volume": "500 ml",
     "price": 10000,
     "material": "steel",

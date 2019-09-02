@@ -44,6 +44,7 @@
 #include "npctrade.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "recipe.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
@@ -1118,14 +1119,18 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         }
         for( auto &trained : trainable ) {
             const int cost = calc_skill_training_cost( *p, trained );
-            const SkillLevel skill_level_obj = g->u.get_skill_level_object( trained );
+            SkillLevel skill_level_obj = g->u.get_skill_level_object( trained );
             const int cur_level = skill_level_obj.level();
             const int cur_level_exercise = skill_level_obj.exercise();
-            //~Skill name: current level (exercise) -> next level (cost in dollars)
-            std::string text = string_format( cost > 0 ? _( "%s: %d (%d%%) -> %d (cost $%d)" ) :
+            skill_level_obj.train( 100 );
+            const int next_level = skill_level_obj.level();
+            const int next_level_exercise = skill_level_obj.exercise();
+
+            //~Skill name: current level (exercise) -> next level (exercise) (cost in dollars)
+            std::string text = string_format( cost > 0 ? _( "%s: %d (%d%%) -> %d (%d%%) (cost $%d)" ) :
                                               _( "%s: %d (%d%%) -> %d" ),
-                                              trained.obj().name(), cur_level, cur_level_exercise, cur_level + 1,
-                                              cost / 100 );
+                                              trained.obj().name(), cur_level, cur_level_exercise,
+                                              next_level, next_level_exercise, cost / 100 );
             add_response( text, "TALK_TRAIN_START", trained );
         }
         add_response_none( _( "Eh, never mind." ) );
@@ -1773,6 +1778,27 @@ void talk_effect_fun_t::set_remove_var( JsonObject jo, const std::string &member
     };
 }
 
+void talk_effect_fun_t::set_adjust_var( JsonObject jo, const std::string &member, bool is_npc )
+{
+    const std::string var_name = get_talk_varname( jo, member, false );
+    const int value = jo.get_int( "adjustment" );
+    function = [is_npc, var_name, value]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+
+        int adjusted_value = value;
+
+        const std::string &var = actor->get_value( var_name );
+        if( !var.empty() ) {
+            adjusted_value += std::stoi( var );
+        }
+
+        actor->set_value( var_name, std::to_string( adjusted_value ) );
+    };
+}
+
 void talk_effect_fun_t::set_u_buy_item( const std::string &item_name, int cost, int count,
                                         const std::string &container_name )
 {
@@ -1808,6 +1834,11 @@ void talk_effect_fun_t::set_u_buy_item( const std::string &item_name, int cost, 
             popup( _( "%1$s gives you a %2$s." ), p.name, container.tname() );
         }
     };
+
+    // Update structure used by mission descriptions.
+    if( cost <= 0 ) {
+        likely_rewards.push_back( std::pair<int, std::string>( count, item_name ) );
+    }
 }
 
 void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost, int count )
@@ -1898,7 +1929,7 @@ void talk_effect_fun_t::set_npc_change_faction( const std::string &faction_name 
 {
     function = [faction_name]( const dialogue & d ) {
         npc &p = *d.beta;
-        p.my_fac = g->faction_manager_ptr->get( faction_id( faction_name ) );
+        p.set_fac( faction_id( faction_name ) );
     };
 }
 
@@ -1914,8 +1945,8 @@ void talk_effect_fun_t::set_change_faction_rep( int rep_change )
 {
     function = [rep_change]( const dialogue & d ) {
         npc &p = *d.beta;
-        p.my_fac->likes_u += rep_change;
-        p.my_fac->respects_u += rep_change;
+        p.get_faction()->likes_u += rep_change;
+        p.get_faction()->respects_u += rep_change;
     };
 }
 
@@ -2048,8 +2079,8 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
         tmp.charges = seller_has;
         if( is_trade ) {
             int price = tmp.price( true ) * ( is_npc ? -1 : 1 ) + d.beta->op_of_u.owed;
-            if( d.beta->my_fac && !d.beta->my_fac->currency.empty() ) {
-                const itype_id &pay_in = d.beta->my_fac->currency;
+            if( d.beta->get_faction() && !d.beta->get_faction()->currency.empty() ) {
+                const itype_id &pay_in = d.beta->get_faction()->currency;
                 item pay( pay_in );
                 if( d.beta->value( pay ) > 0 ) {
                     int required = price / d.beta->value( pay );
@@ -2098,6 +2129,11 @@ void talk_effect_fun_t::set_add_mission( const std::string mission_id )
     };
 }
 
+const std::vector<std::pair<int, std::string>> &talk_effect_fun_t::get_likely_rewards() const
+{
+    return likely_rewards;
+}
+
 void talk_effect_fun_t::set_u_buy_monster( const std::string &monster_type_id, int cost, int count,
         bool pacified, const translation &name )
 {
@@ -2144,6 +2180,15 @@ void talk_effect_fun_t::set_u_buy_monster( const std::string &monster_type_id, i
         } else {
             popup( _( "%1$s gives you %2$s." ), p.name, name );
         }
+    };
+}
+
+void talk_effect_fun_t::set_u_learn_recipe( const std::string &learned_recipe_id )
+{
+    function = [learned_recipe_id]( const dialogue & d ) {
+        const recipe &r = recipe_id( learned_recipe_id ).obj();
+        d.alpha->learn_recipe( &r );
+        popup( _( "You learn how to craft %s." ), r.result_name() );
     };
 }
 
@@ -2256,6 +2301,10 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
         subeffect_fun.set_remove_var( jo, "u_lose_var" );
     } else if( jo.has_string( "npc_lose_var" ) ) {
         subeffect_fun.set_remove_var( jo, "npc_lose_var", is_npc );
+    } else if( jo.has_string( "u_adjust_var" ) ) {
+        subeffect_fun.set_adjust_var( jo, "u_adjust_var" );
+    } else if( jo.has_string( "npc_adjust_var" ) ) {
+        subeffect_fun.set_adjust_var( jo, "npc_adjust_var", is_npc );
     } else if( jo.has_string( "u_add_trait" ) ) {
         subeffect_fun.set_add_trait( jo, "u_add_trait" );
     } else if( jo.has_string( "npc_add_trait" ) ) {
@@ -2351,6 +2400,9 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
         translation name;
         jo.read( "name", name );
         subeffect_fun.set_u_buy_monster( monster_type_id, cost, count, pacified, name );
+    } else if( jo.has_string( "u_learn_recipe" ) ) {
+        const std::string recipe_id = jo.get_string( "u_learn_recipe" );
+        subeffect_fun.set_u_learn_recipe( recipe_id );
     } else {
         jo.throw_error( "invalid sub effect syntax :" + jo.str() );
     }
@@ -2370,7 +2422,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObjec
             WRAP( start_trade ),
             WRAP( sort_loot ),
             WRAP( do_construction ),
-            WRAP( do_blueprint_construction ),
+            WRAP( do_farming ),
             WRAP( assign_guard ),
             WRAP( stop_guard ),
             WRAP( start_camp ),

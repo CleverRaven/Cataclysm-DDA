@@ -11,7 +11,7 @@
       [ [ "incendiary", 20 ] ],
       [ [ "50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 30 ] ],
+      [ [ "gunpowder_large_rifle", 30 ] ],
       [ [ "copper", 6 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
@@ -27,7 +27,7 @@
       [ [ "lead", 12 ] ],
       [ [ "50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 30 ] ],
+      [ [ "gunpowder_large_rifle", 30 ] ],
       [ [ "copper", 6 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
@@ -42,7 +42,7 @@
     "components": [
       [ [ "50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 30 ] ],
+      [ [ "gunpowder_large_rifle", 30 ] ],
       [ [ "copper", 6 ] ],
       [ [ "scrap", 1 ] ]
     ],

@@ -117,7 +117,7 @@
     "spawns": { "group": "GROUP_RAZORCLAW", "population": [ 30, 60 ], "radius": [ 2, 10 ] }
   },
   {
-    "//": "This special is required for robofac mission 3, and this is a fallback for when the tower doesn’t spawn inside city.  Should be removed once we can guarantee the spawning of mid-city specials",
+    "//": "This special is required for robofac mission 3, and this is a fallback for when the tower doesn’t spawn inside a city.  Should be removed once we can guarantee the spawning of mid-city specials",
     "type": "overmap_special",
     "id": "office_tower_collapsed",
     "overmaps": [
@@ -582,7 +582,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 6 ],
-    "occurrences": [ 15, 100 ],
+    "occurrences": [ 1, 1 ],
     "flags": [ "UNIQUE" ],
     "rotate": false
   },
@@ -3964,6 +3964,10 @@
       { "point": [ 1, 1, -2 ], "overmap": "robofachq_hab_b1_north" },
       { "point": [ 2, 1, -2 ], "overmap": "robofachq_hab_b2_north" },
       { "point": [ 3, 1, -2 ], "overmap": "robofachq_hab_b3_north" },
+      { "point": [ 0, 0, -4 ], "overmap": "robofachq_sub_a0_north" },
+      { "point": [ 1, 0, -4 ], "overmap": "robofachq_sub_a1_north" },
+      { "point": [ 2, 0, -4 ], "overmap": "robofachq_sub_a2_north" },
+      { "point": [ 3, 0, -4 ], "overmap": "robofachq_sub_a3_north" },
       { "point": [ 0, 0, -6 ], "overmap": "robofachq_ai_a0_north" },
       { "point": [ 1, 0, -6 ], "overmap": "robofachq_ai_a1_north" },
       { "point": [ 2, 0, -6 ], "overmap": "robofachq_ai_a2_north" },
@@ -3981,7 +3985,10 @@
       { "point": [ 2, 1, -7 ], "overmap": "robofachq_aiutl_b2_north" },
       { "point": [ 3, 1, -7 ], "overmap": "robofachq_aiutl_b3_north" }
     ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "connections": [
+      { "point": [ 2, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, 0, 0 ] },
+      { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] }
+    ],
     "locations": [ "wilderness" ],
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
@@ -4510,6 +4517,22 @@
     "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC" ],
     "spawns": { "group": "GROUP_MI-GO_CAMP_OM", "population": [ 20, 50 ], "radius": [ 2, 30 ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "Mi-Go Scout Tower",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "mi-go_scout_tower_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "mi-go_scout_tower_2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "mi-go_scout_tower_3_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "mi-go_scout_tower_4_north" }
+    ],
+    "locations": [ "wilderness", "forest", "land" ],
+    "city_distance": [ 1, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 3 ],
+    "flags": [ "CLASSIC" ],
+    "spawns": { "group": "GROUP_MI-GO_CAMP_OM", "population": [ 2, 5 ], "radius": [ 2, 30 ] }
   },
   {
     "type": "overmap_special",

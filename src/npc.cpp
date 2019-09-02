@@ -21,6 +21,7 @@
 #include "map.h"
 #include "mapdata.h"
 #include "map_iterator.h"
+#include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
 #include "morale_types.h"
@@ -107,7 +108,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male );
 void starting_inv( npc &who, const npc_class_id &type );
 
 npc::npc()
-    : restock( calendar::before_time_starts )
+    : restock( calendar::turn_zero )
     , companion_mission_time( calendar::before_time_starts )
     , companion_mission_time_ret( calendar::before_time_starts )
     , last_updated( calendar::turn )
@@ -128,7 +129,6 @@ npc::npc()
     dex_max = 0;
     int_max = 0;
     per_max = 0;
-    my_fac = nullptr;
     marked_for_death = false;
     death_drops = true;
     dead = false;
@@ -204,7 +204,7 @@ void npc_template::load( JsonObject &jsobj )
         }
     }
     if( jsobj.has_string( "faction" ) ) {
-        guy.fac_id = faction_id( jsobj.get_string( "faction" ) );
+        guy.set_fac_id( jsobj.get_string( "faction" ) );
     }
 
     if( jsobj.has_int( "class" ) ) {
@@ -324,11 +324,6 @@ void npc::randomize( const npc_class_id &type )
     int_max = the_class.roll_intelligence();
     per_max = the_class.roll_perception();
 
-    if( myclass->get_shopkeeper_items() != "EMPTY_GROUP" ) {
-        restock = calendar::turn + 3_days;
-        cash += 100000;
-    }
-
     for( auto &skill : Skill::skills ) {
         int level = myclass->roll_skill( skill.ident() );
 
@@ -433,8 +428,7 @@ void npc::randomize( const npc_class_id &type )
 void npc::randomize_from_faction( faction *fac )
 {
     // Personality = aggression, bravery, altruism, collector
-    my_fac = fac;
-    fac_id = fac->id;
+    set_fac( fac->id );
     randomize( npc_class_id::NULL_ID() );
 }
 
@@ -445,6 +439,16 @@ void npc::set_fac( const string_id<faction> &id )
     for( auto &e : inv_dump() ) {
         e->set_owner( my_fac );
     }
+}
+
+string_id<faction> npc::get_fac_id() const
+{
+    return fac_id;
+}
+
+faction *npc::get_faction() const
+{
+    return my_fac;
 }
 
 void npc::clear_fac()
@@ -525,6 +529,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         it.on_takeoff( who );
     }
     who.worn.clear();
+    faction *my_fac = who.get_faction();
     for( item &it : ret ) {
         if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
@@ -532,7 +537,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         if( who.can_wear( it ).success() ) {
             it.on_wear( who );
             who.worn.push_back( it );
-            it.set_owner( who.my_fac );
+            it.set_owner( my_fac );
         }
     }
 }
@@ -592,8 +597,9 @@ void starting_inv( npc &who, const npc_class_id &type )
     res.erase( std::remove_if( res.begin(), res.end(), [&]( const item & e ) {
         return e.has_flag( "TRADER_AVOID" );
     } ), res.end() );
+    faction *my_fac = who.get_faction();
     for( auto &it : res ) {
-        it.set_owner( who.my_fac );
+        it.set_owner( my_fac );
     }
     who.inv += res;
 }
@@ -1339,7 +1345,7 @@ int npc::max_willing_to_owe() const
 
 void npc::shop_restock()
 {
-    if( calendar::turn - restock < 3_days ) {
+    if( ( restock != calendar::turn_zero ) && ( ( calendar::turn - restock ) < 3_days ) ) {
         return;
     }
 
@@ -1596,22 +1602,12 @@ void npc::set_faction_ver( int new_version )
 
 bool npc::has_faction_relationship( const player &p, const npc_factions::relationship flag ) const
 {
-    if( !my_fac ) {
+    faction *p_fac = p.get_faction();
+    if( !my_fac || !p_fac ) {
         return false;
     }
 
-    faction_id your_fac_id;
-    if( p.is_player() ) {
-        your_fac_id = faction_id( "your_followers" );
-    } else {
-        const npc &guy = dynamic_cast<const npc &>( p );
-        if( guy.my_fac ) {
-            your_fac_id = guy.my_fac->id;
-        } else {
-            return false;
-        }
-    }
-    return my_fac->has_relationship( your_fac_id, flag );
+    return my_fac->has_relationship( p_fac->id, flag );
 }
 
 bool npc::is_ally( const player &p ) const
@@ -1634,7 +1630,7 @@ bool npc::is_ally( const player &p ) const
         }
     } else {
         const npc &guy = dynamic_cast<const npc &>( p );
-        if( my_fac && guy.my_fac && my_fac->id == guy.my_fac->id ) {
+        if( my_fac && guy.get_faction() && my_fac->id == guy.get_faction()->id ) {
             return true;
         }
         if( faction_api_version < 2 ) {
@@ -1871,6 +1867,11 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // because it's a border as well; so we have lines 6 through 11.
     // w is also 48 characters wide - 2 characters for border = 46 characters for us
     mvwprintz( w, point( column, line++ ), c_white, _( "NPC: %s" ), name );
+
+    if( sees( g->u ) ) {
+        mvwprintz( w, point( column, line++ ), c_yellow, _( "Aware of your presence!" ) );
+    }
+
     if( is_armed() ) {
         trim_and_print( w, point( column, line++ ), iWidth, c_red, _( "Wielding a %s" ), weapon.tname() );
     }
@@ -2064,38 +2065,17 @@ void npc::die( Creature *nkiller )
     }
 
     if( Character *ch = dynamic_cast<Character *>( killer ) ) {
-        g->events().send( event::make<event_type::character_kills_character>(
-                              calendar::turn, ch->getID(), getID(), get_name() ) );
+        g->events().send<event_type::character_kills_character>( ch->getID(), getID(), get_name() );
     }
 
     if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
         bool cannibal = g->u.has_trait( trait_CANNIBAL );
         bool psycho = g->u.has_trait( trait_PSYCHOPATH );
-        if( g->u.has_trait( trait_SAPIOVORE ) ) {
-            g->u.add_memorial_log( pgettext( "memorial_male",
-                                             "Caught and killed an ape.  Prey doesn't have a name." ),
-                                   pgettext( "memorial_female", "Caught and killed an ape.  Prey doesn't have a name." ) );
-        } else if( psycho && cannibal ) {
-            g->u.add_memorial_log( pgettext( "memorial_male",
-                                             "Killed a delicious-looking innocent, %s, in cold blood." ),
-                                   pgettext( "memorial_female", "Killed a delicious-looking innocent, %s, in cold blood." ),
-                                   name );
-        } else if( psycho ) {
-            g->u.add_memorial_log( pgettext( "memorial_male",
-                                             "Killed an innocent, %s, in cold blood.  They were weak." ),
-                                   pgettext( "memorial_female", "Killed an innocent, %s, in cold blood.  They were weak." ),
-                                   name );
+        if( g->u.has_trait( trait_SAPIOVORE ) || psycho ) {
+            // No morale effect
         } else if( cannibal ) {
-            g->u.add_memorial_log( pgettext( "memorial_male", "Killed an innocent, %s." ),
-                                   pgettext( "memorial_female", "Killed an innocent, %s." ),
-                                   name );
             g->u.add_morale( MORALE_KILLED_INNOCENT, -5, 0, 2_days, 3_hours );
         } else {
-            g->u.add_memorial_log( pgettext( "memorial_male",
-                                             "Killed an innocent person, %s, in cold blood and felt terrible afterwards." ),
-                                   pgettext( "memorial_female",
-                                             "Killed an innocent person, %s, in cold blood and felt terrible afterwards." ),
-                                   name );
             g->u.add_morale( MORALE_KILLED_INNOCENT, -100, 0, 2_days, 3_hours );
         }
     }

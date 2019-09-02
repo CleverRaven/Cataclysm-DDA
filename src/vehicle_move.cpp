@@ -80,7 +80,7 @@ int vehicle::slowdown( int at_velocity ) const
 
     // slowdown due to air resistance is proportional to square of speed
     double f_total_drag = coeff_air_drag() * mps * mps;
-    if( is_floating ) {
+    if( is_watercraft() ) {
         // same with water resistance
         f_total_drag += coeff_water_drag() * mps * mps;
     } else if( !is_falling ) {
@@ -118,20 +118,18 @@ void vehicle::thrust( int thd )
     bool pl_ctrl = player_in_control( g->u );
 
     // No need to change velocity if there are no wheels
-    if( is_floating ) {
-        if( !can_float() ) {
-            if( pl_ctrl ) {
-                add_msg( _( "The %s is too leaky!" ), name );
-            }
-            return;
+    if( in_water && can_float() ) {
+        // we're good
+    } else if( is_floating && !can_float() ) {
+        if( pl_ctrl ) {
+            add_msg( _( "The %s is too leaky!" ), name );
         }
-    } else {
-        if( !valid_wheel_config() ) {
-            if( pl_ctrl ) {
-                add_msg( _( "The %s doesn't have enough wheels to move!" ), name );
-            }
-            return;
+        return;
+    } else if( !valid_wheel_config() ) {
+        if( pl_ctrl ) {
+            add_msg( _( "The %s doesn't have enough wheels to move!" ), name );
         }
+        return;
     }
     // Accelerate (true) or brake (false)
     bool thrusting = true;
@@ -201,8 +199,6 @@ void vehicle::thrust( int thd )
 
         //make noise and consume fuel
         noise_and_smoke( load );
-        // HACK - vehicles don't move as far as they should in 6 seconds, so for movement ONLY
-        // consume fuel as though a turn were 1 second
         consume_fuel( load, 1 );
 
         //break the engines a bit, if going too fast.
@@ -1358,11 +1354,13 @@ void vehicle::check_falling_or_floating()
         // Dirty vehicle with no parts
         is_falling = false;
         is_floating = false;
+        in_water = false;
         return;
     }
 
     is_falling = g->m.has_zlevels();
 
+    size_t deep_water_tiles = 0;
     size_t water_tiles = 0;
     for( const tripoint &p : pts ) {
         if( is_falling ) {
@@ -1370,16 +1368,22 @@ void vehicle::check_falling_or_floating()
             is_falling &= g->m.has_flag_ter_or_furn( TFLAG_NO_FLOOR, p ) && ( p.z > -OVERMAP_DEPTH ) &&
                           !g->m.supports_above( below );
         }
-        water_tiles += g->m.has_flag( TFLAG_DEEP_WATER, p ) ? 1 : 0;
+        deep_water_tiles += g->m.has_flag( TFLAG_DEEP_WATER, p ) ? 1 : 0;
+        water_tiles += g->m.has_flag( TFLAG_SWIMMABLE, p ) ? 1 : 0;
     }
-    // floating if 2/3rds of the vehicle is in water
-    is_floating = 3 * water_tiles >= 2 * pts.size();
+    // floating if 2/3rds of the vehicle is in deep water
+    is_floating = 3 * deep_water_tiles >= 2 * pts.size();
+    // in_water if 1/2 of the vehicle is in water at all
+    in_water =  2 * water_tiles >= pts.size();
 }
 
 float map::vehicle_wheel_traction( const vehicle &veh ) const
 {
-    if( veh.is_in_water() ) {
+    if( veh.is_in_water( true ) ) {
         return veh.can_float() ? 1.0f : -1.0f;
+    }
+    if( veh.is_in_water() && veh.is_watercraft() && veh.can_float() ) {
+        return 1.0f;
     }
 
     const auto &wheel_indices = veh.wheelcache;
