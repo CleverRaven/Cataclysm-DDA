@@ -250,7 +250,7 @@
     "description": "Highly radioactive slurry.  It is probably best to get far away from this.",
     "flags": [ "LEAK_ALWAYS", "RADIOACTIVE" ],
     "volume": "250 ml",
-    "weight": "26 g",
+    "weight": "255 mg",
     "ammo_type": "reactor_slurry",
     "phase": "liquid",
     "container": "metal_tank_little",
