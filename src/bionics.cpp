@@ -2047,6 +2047,8 @@ void load_bionic( JsonObject &jsobj )
     new_bionic.weight_capacity_modifier = jsobj.get_float( "weight_capacity_modifier", 1.0 );
 
     assign( jsobj, "weight_capacity_bonus", new_bionic.weight_capacity_bonus, false, 0_gram );
+    assign( jsobj, "exothermic_power_gen", new_bionic.exothermic_power_gen );
+    assign( jsobj, "smoky_power_gen", new_bionic.smoky_power_gen );
 
     jsobj.read( "canceled_mutations", new_bionic.canceled_mutations );
     jsobj.read( "included_bionics", new_bionic.included_bionics );
