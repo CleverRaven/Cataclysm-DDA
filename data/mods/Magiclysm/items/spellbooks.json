@@ -253,7 +253,7 @@
     "weight": 258,
     "volume": 3,
     "symbol": "?",
-    "color": "light_grey",
+    "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "synaptic_stimulation", "animated_blade", "mirror_image" ] }
   },
   {
@@ -264,7 +264,7 @@
     "weight": 211,
     "volume": 2,
     "symbol": "?",
-    "color": "light_grey",
+    "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "taze", "quantum_tunnel_lesser" ] }
   },
   {
@@ -275,7 +275,7 @@
     "weight": 284,
     "volume": 4,
     "symbol": "?",
-    "color": "light_grey",
+    "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "taze", "laze" ] }
   },
   {
