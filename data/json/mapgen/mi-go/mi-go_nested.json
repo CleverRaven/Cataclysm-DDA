@@ -464,7 +464,6 @@
         "2": { "class": "mi-go_prisoner", "chance": 20 },
         "3": { "class": "mi-go_prisoner", "chance": 20 },
         "4": { "class": "mi-go_prisoner", "chance": 20 },
-        "5": { "class": "mi-go_prisoner", "chance": 20 },
         "6": { "class": "mi-go_prisoner", "chance": 20 },
         "7": { "class": "mi-go_prisoner", "chance": 20 }
       }

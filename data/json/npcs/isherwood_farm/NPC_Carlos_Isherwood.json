@@ -92,7 +92,7 @@
     "responses": [
       { "text": "What do you need?", "topic": "TALK_MISSION_LIST" },
       {
-        "text": "I heard about Barry, can you tell me what killed him?",
+        "text": "I heard about Barry, can you tell me what captured him?",
         "topic": "TALK_CARLOS_BARRY",
         "condition": {
           "and": [
@@ -108,7 +108,17 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARLOS_BARRY",
-    "dynamic_line": "It was pink and really fast, it had lots of limbs, definitly not human. It easily kept up with us when we tried to escape, horrifying stuff.  We burned the corpse to be safe.",
+    "dynamic_line": "It was pink and really fast, it had lots of limbs, definitly not human. It easily kept up with us when we tried to escape, horrifying stuff.  Barry just dropped to the ground, and the thing swept him away.",
+    "responses": [
+      { "text": "You all just gonna leave him out there to his fate?", "topic": "TALK_CARLOS_BARRY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARLOS_BARRY2",
+    "dynamic_line": "We tracked it for a while, but lost the trail.  Right now we don't have the resources to try to rescue him.  Chris has been trying to pick up the trail again and figure out a rescue plan.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -143,6 +153,16 @@
     "id": "TALK_ISHERWOOD_CARLOS_TOPICS",
     "dynamic_line": "Go on...",
     "responses": [
+      {
+        "text": "I heard about Barry, can you tell me what captured him?",
+        "topic": "TALK_CARLOS_BARRY",
+        "condition": {
+          "and": [
+            { "u_has_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_is_wearing": "badge_marshal" } }
+          ]
+        }
+      },
       { "text": "Is your forge operational?", "topic": "TALK_CARLOS_FORGE" },
       { "text": "Where can I find Chris?", "topic": "TALK_CARLOS_CHRIS" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
@@ -204,11 +224,11 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
-      "describe": "Our son still isn't back, I'm getting concerned.",
+      "describe": "Chris hasn't come back from his latest search for Barry, I'm getting concerned.",
       "offer": "Can you go find my son and tell him to check in with us.",
       "accepted": "Thank you.",
       "rejected": "Oh well.  I hope he turns up soon.",
-      "advice": "He should be on the property somewhere, maybe by that old cabin near the entrance, sometimes he camps there.",
+      "advice": "He might be on the property somewhere, maybe by that old cabin near the entrance, sometimes he camps there.",
       "inquire": "How is the search going?",
       "success": "Thanks, I was getting ready to go look myself.  Now that I have the anvil, I've been working on new armor for the horses, take this prototype I made.",
       "success_lie": "What good does this do us?",

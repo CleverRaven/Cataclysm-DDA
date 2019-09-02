@@ -52,12 +52,12 @@
         "condition": { "u_is_wearing": "badge_marshal" }
       },
       {
-        "text": "Hi, Your dad asked me to come find you.",
+        "text": "Hi, Your dad asked me to come find you, said you've been looking for your Uncle.",
         "topic": "TALK_ISHERWOOD_CHRIS_TALK1",
         "effect": { "u_add_var": "u_met_chris_isherwood", "type": "general", "context": "meeting", "value": "yes" }
       },
       {
-        "text": "I was talking to Luke earlier, said you had some interesting ideas about the world ending.",
+        "text": "I was talking to Luke earlier, said you had some interesting ideas about the world ending.  Is it tied to Barry's abduction?",
         "topic": "TALK_CHRIS_THEORIES",
         "condition": {
           "and": [
@@ -106,7 +106,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CHRIS_THEORIES",
-    "dynamic_line": "In one of my longer trips I saw something out in a field, I didn't get close but I swear unbelievable monsters were coming out of it.  It kinda shimmered, almost like it wasn't quite there.  I followed the monsters for a while...",
+    "dynamic_line": "In one of my longer trips looking for Barry, I saw something out in a field. I didn't get close but I swear unbelievable monsters were coming out of it.  It kinda shimmered, almost like it wasn't quite there.  I've been tracking those monsters for a while...",
     "responses": [
       { "text": "What did you find?", "topic": "TALK_ISHERWOOD_CHRIS_MIGO_BASE" },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
@@ -116,19 +116,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_MIGO_BASE",
-    "dynamic_line": "They made their way to this weird structure, I've never seen anything like it, it glistened in the sun like something organic...",
+    "dynamic_line": "They made their way to this weird spire like structure, I've never seen anything like it, it glistened in the sun like something organic. I think they could be holding Barry there, I've seen them arrive and leave with other humans.",
     "responses": [
-      { "text": "If you join up with me, we can go check it out.", "topic": "TALK_SUGGEST_GO_CHRIS" },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_SUGGEST_GO_CHRIS",
-    "dynamic_line": "Yeah, I'll join with you, I hope we can come back and check on my family some occasionally.  Getting some information is more important now though.",
-    "responses": [
-      { "text": "What is this place we are going to?", "topic": "TALK_MISSION_LIST" },
+      {
+        "text": "If you join up with me, we can go check it out, I want to see what they are doing.",
+        "topic": "TALK_MISSION_OFFER",
+        "assign_mission": "MISSION_ISHERWOOD_CHRIS_1"
+      },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -153,7 +147,10 @@
     "id": "TALK_ISHERWOOD_CHRIS_TOPICS",
     "dynamic_line": "Go on...",
     "responses": [
-      { "text": "Your dad asked me to come find you.", "topic": "TALK_ISHERWOOD_CHRIS_TALK1" },
+      {
+        "text": "Your dad asked me to come find you, said you've been looking for your Uncle.",
+        "topic": "TALK_ISHERWOOD_CHRIS_TALK1"
+      },
       {
         "text": "I was talking to Luke earlier, he said you had some interesting ideas about the world ending.",
         "topic": "TALK_CHRIS_THEORIES"
@@ -165,24 +162,25 @@
   {
     "id": "MISSION_ISHERWOOD_CHRIS_1",
     "type": "mission_definition",
-    "name": "Find mysterious structure",
-    "goal": "MGOAL_GO_TO_TYPE",
+    "name": "Free Barry from the mysterious structure",
+    "goal": "MGOAL_TALK_TO_NPC",
     "difficulty": 5,
     "value": 50000,
     "start": {
       "effect": "follow",
-      "assign_mission_target": { "om_terrain": "mi-go_camp2", "om_special": "Mi-Go Encampment", "reveal_radius": 3 }
+      "assign_mission_target": { "om_terrain": "mi-go_scout_tower_3", "om_special": "Mi-Go Scout Tower", "reveal_radius": 3 },
+      "update_mapgen": { "place_npcs": [ { "class": "isherwood_barry", "x": 18, "y": 15, "target": true } ] }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "destination": "mi-go_camp2",
     "dialogue": {
-      "describe": "We need to investigate the alien encampment.",
-      "offer": "I can take you to the structure those things were building.",
+      "describe": "We need to investigate the alien encampment and try to find out what happened to Barry.",
+      "offer": "I can take you to the structure, I tracked them to it.",
       "accepted": "Awesome, I want some answers!",
-      "rejected": "Thanks anyway, I'll keep my eye on it.",
+      "rejected": "Thanks anyway, I'll keep my eye on it, maybe I'll find a way one day.",
       "advice": "I feel like we are underprepared if they see us, I marked the location for you.",
       "inquire": "You ready?",
-      "success": "It's even bigger then I remember, we should explore some.  I left a note for my family before we left. If we survive, the cabin should be fixed up and ready for you to move in if you want to stay.",
+      "success": "It's taller then I remember, we should look for prisoners.  I left a note for my family before we left. If we survive, the cabin should be fixed up and ready for you to move in if you want to stay.",
       "success_lie": "Well it was here...",
       "failure": "It was a lost cause anyways..."
     },
