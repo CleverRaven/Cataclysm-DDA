@@ -645,18 +645,18 @@ std::string enumerate_as_string( const _Container &values,
  * @return String containing enumerated elements in format: "a, b, c, ..., and z". Uses the Oxford comma.
  * @param first Iterator pointing to the first element.
  * @param last Iterator pointing to the last element.
- * @param pred Predicate that accepts an element and returns a representing string.
+ * @param string_for Function that accepts an element and returns a representing string.
  * May return an empty string to omit the element.
  * @param conj Choose how to separate the last elements.
  */
-template<typename _FIter, typename _Predicate>
-std::string enumerate_as_string( _FIter first, _FIter last, _Predicate pred,
+template<typename _FIter, typename F>
+std::string enumerate_as_string( _FIter first, _FIter last, F string_for,
                                  enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
     std::vector<std::string> values;
     values.reserve( static_cast<size_t>( std::distance( first, last ) ) );
     for( _FIter iter = first; iter != last; ++iter ) {
-        const std::string str( pred( *iter ) );
+        const std::string str( string_for( *iter ) );
         if( !str.empty() ) {
             values.push_back( str );
         }
@@ -841,11 +841,11 @@ void refresh_display();
  * Assigns a custom color to each symbol.
  *
  * @param str String to colorize symbols in
- * @param func Function that accepts symbols (std::string::value_type) and returns colors.
+ * @param color_of Function that accepts symbols (std::string::value_type) and returns colors.
  * @return Colorized string.
  */
-template<typename Pred>
-std::string colorize_symbols( const std::string &str, Pred func )
+template<typename F>
+std::string colorize_symbols( const std::string &str, F color_of )
 {
     std::ostringstream res;
     nc_color prev_color = c_unset;
@@ -857,7 +857,7 @@ std::string colorize_symbols( const std::string &str, Pred func )
     };
 
     for( const auto &elem : str ) {
-        const nc_color new_color = func( elem );
+        const nc_color new_color = color_of( elem );
 
         if( prev_color != new_color ) {
             closing_tag();
