@@ -172,10 +172,10 @@
       "ranged_damage": -12,
       "dispersion": 600,
       "durability": 10,
-      "reload": 310,
+      "reload": 150,
       "clip_size": 1
     },
-    "flags": [ "RELOAD_ONE", "NO_UNLOAD", "STR_RELOAD", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "NO_UNLOAD", "IRREMOVABLE" ]
   },
   {
     "id": "m203",
