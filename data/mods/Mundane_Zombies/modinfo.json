@@ -68,7 +68,14 @@
       "mon_skeleton_hulk_fungus",
       "mon_skeleton_electric",
       "mon_zombie_kevlar_1",
-      "mon_zombie_kevlar_2"
+      "mon_zombie_kevlar_2",
+      "mon_skeleton_brute",
+      "mon_zombie_gasbag_immobile",
+      "mon_zombie_gasbag_crawler",
+      "mon_zombie_gasbag_impaler",
+      "mon_zombie_crushed_giant",
+      "mon_zombie_living_wall",
+      "mon_zombie_thorny"
     ]
   }
 ]
