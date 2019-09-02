@@ -1030,8 +1030,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         // game::w_terrain can be drawn by the tilecontext.
         // skip the normal drawing code for it.
         tilecontext->draw(
-            win->pos.x * fontwidth,
-            win->pos.y * fontheight,
+            point( win->pos.x * fontwidth, win->pos.y * fontheight ),
             g->ter_view_p,
             TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
             TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight,
@@ -1159,7 +1158,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         // Make sure the entire minimap window is black before drawing.
         clear_window_area( w );
         tilecontext->draw_minimap(
-            win->pos.x * fontwidth, win->pos.y * fontheight,
+            point( win->pos.x * fontwidth, win->pos.y * fontheight ),
             tripoint( g->u.pos().xy(), g->ter_view_p.z ),
             win->width * font->fontwidth, win->height * font->fontheight );
         update = true;
