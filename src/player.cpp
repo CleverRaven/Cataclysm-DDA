@@ -7006,7 +7006,7 @@ bool player::consume_med( item &target )
 
 static bool query_consume_ownership( item &target, player &p )
 {
-    if( target.has_owner() && target.get_owner() != p.get_faction() ){
+    if( target.has_owner() && target.get_owner() != p.get_faction() ) {
         bool choice = true;
         if( p.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
             choice = Pickup::query_thief();
@@ -7040,7 +7040,7 @@ bool player::consume_item( item &target )
         add_msg_if_player( m_info, _( "You do not have that item." ) );
         return false;
     }
-    if( !query_consume_ownership( target, *this ) ){
+    if( !query_consume_ownership( target, *this ) ) {
         return false;
     }
     if( is_underwater() && !has_trait( trait_WATERSLEEP ) ) {
