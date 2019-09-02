@@ -702,7 +702,7 @@ void vehicle::smash( float hp_percent_loss_min, float hp_percent_loss_max,
 int vehicle::lift_strength() const
 {
     units::mass mass = total_mass();
-    return std::max( mass / 10000_gram, 1 );
+    return std::max<std::int64_t>( mass / 10000_gram, 1 );
 }
 
 void vehicle::toggle_specific_engine( int e, bool on )
@@ -5882,7 +5882,7 @@ void vehicle::calc_mass_center( bool use_precalc ) const
         }
 
         if( vp.part().has_flag( vehicle_part::animal_flag ) ) {
-            int animal_mass = vp.part().base.get_var( "weight", 0 );
+            std::int64_t animal_mass = vp.part().base.get_var( "weight", 0 );
             m_part += units::from_gram( animal_mass );
         }
 
