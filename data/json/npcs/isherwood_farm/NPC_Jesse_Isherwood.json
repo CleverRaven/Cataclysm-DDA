@@ -246,6 +246,7 @@
       "update_mapgen": { "place_monster": [ { "monster": "mon_flying_polyp", "pack_size": [ 3, 6 ], "x": 11, "y": 11, "target": true } ] }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "We could use some help killing some monsters.",
       "offer": "We could use some help killing a pack of monsters.  I don't know what they are, but they're very fast, I'm willing to outfit you with a horse if you succeed.",
