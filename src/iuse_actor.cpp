@@ -538,8 +538,7 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool /*t*/, const tripoint &/
         p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
         return 0;
     }
-    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
-    veh->set_owner( yours );
+    veh->set_owner( g->u.get_faction() );
 
     // Mark the vehicle as foldable.
     veh->tags.insert( "convertible" );
@@ -4182,9 +4181,8 @@ void mutagen_actor::load( JsonObject &obj )
 
 int mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    mutagen_attempt checks = mutagen_common_checks( p, it, false,
-                             pgettext( "memorial_male", "Consumed mutagen." ),
-                             pgettext( "memorial_female", "Consumed mutagen." ) );
+    mutagen_attempt checks =
+        mutagen_common_checks( p, it, false, mutagen_technique::consumed_mutagen );
 
     if( !checks.allowed ) {
         return checks.charges_used;
@@ -4238,9 +4236,8 @@ void mutagen_iv_actor::load( JsonObject &obj )
 
 int mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    mutagen_attempt checks = mutagen_common_checks( p, it, false,
-                             pgettext( "memorial_male", "Injected mutagen." ),
-                             pgettext( "memorial_female", "Injected mutagen." ) );
+    mutagen_attempt checks =
+        mutagen_common_checks( p, it, false, mutagen_technique::injected_mutagen );
 
     if( !checks.allowed ) {
         return checks.charges_used;

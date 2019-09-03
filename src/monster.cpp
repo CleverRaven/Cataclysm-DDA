@@ -346,7 +346,7 @@ void monster::try_upgrade( bool pin_time )
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - time_point( calendar::start_of_cataclysm ) );
+    const int current_day = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
     //This should only occur when a monster is created or upgraded to a new form
     if( upgrade_time < 0 ) {
         upgrade_time = next_upgrade_time();
@@ -359,7 +359,7 @@ void monster::try_upgrade( bool pin_time )
         } else {
             // offset by starting season
             // @todo revisit this and make it simpler
-            upgrade_time += to_turn<int>( calendar::start_of_cataclysm );
+            upgrade_time += to_days<int>( calendar::start_of_cataclysm - calendar::turn_zero );
         }
     }
 
@@ -603,6 +603,10 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 
     if( debug_mode ) {
         wprintz( w, c_light_gray, _( " Difficulty " ) + to_string( type->difficulty ) );
+    }
+
+    if( sees( g->u ) ) {
+        mvwprintz( w, point( column, ++vStart ), c_yellow, _( "Aware of your presence!" ) );
     }
 
     std::string effects = get_effect_status();
@@ -2056,13 +2060,7 @@ void monster::die( Creature *nkiller )
             // has guilt flag or player is pacifist && monster is humanoid
             mdeath::guilt( *this );
         }
-        g->events().send( event::make<event_type::character_kills_monster>(
-                              calendar::turn, ch->getID(), type->id ) );
-        if( type->difficulty >= 30 ) {
-            ch->add_memorial_log( pgettext( "memorial_male", "Killed a %s." ),
-                                  pgettext( "memorial_female", "Killed a %s." ),
-                                  name() );
-        }
+        g->events().send<event_type::character_kills_monster>( ch->getID(), type->id );
         if( ch->is_player() && ch->has_trait( trait_KILLER ) ) {
             if( one_in( 4 ) ) {
                 std::string snip = SNIPPET.random_from_category( "killer_on_kill" );

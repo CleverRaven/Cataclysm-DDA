@@ -1840,5 +1840,25 @@
     "type": "recipe",
     "result": "plut_slurry",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "smg_22",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "smg_38",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "smg_22_mag",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "smg_38_mag",
+    "obsolete": true
   }
 ]

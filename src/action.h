@@ -211,6 +211,8 @@ enum action_id : int {
     ACTION_TOGGLE_SAFEMODE,
     /** Turn automatic triggering of safemode on/off */
     ACTION_TOGGLE_AUTOSAFE,
+    /** Toggle permanent attitude to stealing */
+    ACTION_TOGGLE_THIEF_MODE,
     /** Ignore the enemy that triggered safemode */
     ACTION_IGNORE_ENEMY,
     /** Whitelist the enemy that triggered safemode */
@@ -253,6 +255,8 @@ enum action_id : int {
     ACTION_OPTIONS,
     /** Open autopickup manager */
     ACTION_AUTOPICKUP,
+    /** Open autonotes manager */
+    ACTION_AUTONOTES,
     /** Open safemode manager */
     ACTION_SAFEMODE,
     /** Open color manager */

@@ -35,6 +35,7 @@
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
+#include "auto_note.h"
 #include "catacharset.h"
 #include "clzones.h"
 #include "computer.h"
@@ -74,6 +75,7 @@
 #include "mapbuffer.h"
 #include "mapdata.h"
 #include "mapsharing.h"
+#include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
 #include "mod_manager.h"
@@ -278,6 +280,7 @@ game::game() :
     player_was_sleeping = false;
     reset_light_level();
     events().subscribe( &*kill_tracker_ptr );
+    events().subscribe( &*memorial_logger_ptr );
     world_generator = std::make_unique<worldfactory>();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
@@ -749,6 +752,8 @@ bool game::start_game()
     //Reset character safe mode/pickup rules
     get_auto_pickup().clear_character_rules();
     get_safemode().clear_character_rules();
+    get_auto_notes_settings().clear();
+    get_auto_notes_settings().default_initialize();
 
     //Put some NPCs in there!
     if( get_option<std::string>( "STARTING_NPC" ) == "always" ||
@@ -830,7 +835,7 @@ bool game::start_game()
         }
     }
     for( auto &e : u.inv_dump() ) {
-        e->set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
+        e->set_owner( g->u.get_faction() );
     }
     // Now that we're done handling coordinates, ensure the player's submap is in the center of the map
     update_map( u );
@@ -860,10 +865,7 @@ bool game::start_game()
         mission->assign( u );
     }
 
-    //~ %s is player name
-    u.add_memorial_log( pgettext( "memorial_male", "%s began their journey into the Cataclysm." ),
-                        pgettext( "memorial_female", "%s began their journey into the Cataclysm." ),
-                        u.name );
+    g->events().send<event_type::game_start>();
     return true;
 }
 
@@ -902,8 +904,8 @@ void game::load_npcs()
         if( temp->marked_for_death ) {
             temp->die( nullptr );
         } else {
-            if( temp->my_fac != nullptr ) {
-                temp->my_fac->known_by_u = true;
+            if( temp->get_faction() != nullptr ) {
+                temp->get_faction()->known_by_u = true;
             }
             active_npc.push_back( temp );
             just_added.push_back( temp );
@@ -1163,24 +1165,12 @@ bool game::cleanup_at_end()
                                  .max_length( iMaxWidth - 4 - 1 )
                                  .query_string();
         death_screen();
-        if( uquit == QUIT_SUICIDE ) {
-            u.add_memorial_log( pgettext( "memorial_male", "%s committed suicide." ),
-                                pgettext( "memorial_female", "%s committed suicide." ),
-                                u.name );
-        } else {
-            u.add_memorial_log( pgettext( "memorial_male", "%s was killed." ),
-                                pgettext( "memorial_female", "%s was killed." ),
-                                u.name );
-        }
-        if( !sLastWords.empty() ) {
-            u.add_memorial_log( pgettext( "memorial_male", "Last words: %s" ),
-                                pgettext( "memorial_female", "Last words: %s" ),
-                                sLastWords );
-        }
+        const bool is_suicide = uquit == QUIT_SUICIDE;
+        events().send<event_type::game_over>( is_suicide, sLastWords );
         // Struck the save_player_data here to forestall Weirdness
         move_save_to_graveyard();
         write_memorial_file( sLastWords );
-        u.memorial_log.clear();
+        memorial().clear();
         std::vector<std::string> characters = list_active_characters();
         // remove current player from the active characters list, as they are dead
         std::vector<std::string>::iterator curchar = std::find( characters.begin(),
@@ -2338,6 +2328,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "open_keybindings" );
     ctxt.register_action( "open_options" );
     ctxt.register_action( "open_autopickup" );
+    ctxt.register_action( "open_autonotes" );
     ctxt.register_action( "open_safemode" );
     ctxt.register_action( "open_color" );
     ctxt.register_action( "open_world_mods" );
@@ -2360,6 +2351,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "toggle_auto_mining" );
     ctxt.register_action( "toggle_auto_foraging" );
     ctxt.register_action( "toggle_auto_pickup" );
+    ctxt.register_action( "toggle_thief_mode" );
     ctxt.register_action( "action_menu" );
     ctxt.register_action( "main_menu" );
     ctxt.register_action( "item_action_menu" );
@@ -2635,7 +2627,7 @@ void game::load( const save_t &name )
     weather.nextweather = calendar::turn;
 
     read_from_file_optional( worldpath + name.base_path() + ".log",
-                             std::bind( &player::load_memorial_file, &u, _1 ) );
+                             std::bind( &memorial_logger::load, &memorial(), _1 ) );
 
 #if defined(__ANDROID__)
     read_from_file_optional( worldpath + name.base_path() + ".shortcuts",
@@ -2655,6 +2647,7 @@ void game::load( const save_t &name )
 
     init_autosave();
     get_auto_pickup().load_character(); // Load character auto pickup rules
+    get_auto_notes_settings().load();   // Load character auto notes settings
     get_safemode().load_character(); // Load character safemode rules
     zone_manager::get_manager().load_zones(); // Load character world zones
     read_from_file_optional( get_world_base_save_path() + "/uistate.json", []( std::istream & stream ) {
@@ -2667,7 +2660,7 @@ void game::load( const save_t &name )
     validate_camps();
     update_map( u );
     for( auto &e : u.inv_dump() ) {
-        e->set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
+        e->set_owner( g->u.get_faction() );
     }
     // legacy, needs to be here as we access the map.
     if( !u.getID().is_valid() ) {
@@ -2843,7 +2836,7 @@ bool game::save_player_data()
         save_weather( fout );
     }, _( "weather state" ) );
     const bool saved_log = write_to_file( playerfile + ".log", [&]( std::ostream & fout ) {
-        fout << u.dump_memorial();
+        fout << memorial().dump();
     }, _( "player memorial" ) );
 #if defined(__ANDROID__)
     const bool saved_shortcuts = write_to_file( playerfile + ".shortcuts", [&]( std::ostream & fout ) {
@@ -2863,6 +2856,11 @@ event_bus &game::events()
     return *event_bus_ptr;
 }
 
+memorial_logger &game::memorial()
+{
+    return *memorial_logger_ptr;
+}
+
 bool game::save()
 {
     try {
@@ -2871,6 +2869,7 @@ bool game::save()
             !save_artifacts() ||
             !save_maps() ||
             !get_auto_pickup().save_character() ||
+            !get_auto_notes_settings().save() ||
             !get_safemode().save_character() ||
         !write_to_file( get_world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
@@ -2959,7 +2958,7 @@ void game::write_memorial_file( std::string sLastWords )
 
     const std::string path_string = memorial_file_path.str();
     write_to_file( memorial_file_path.str(), [&]( std::ostream & fout ) {
-        u.memorial( fout, sLastWords );
+        memorial().write( fout, sLastWords );
     }, _( "player memorial" ) );
 }
 
@@ -4285,7 +4284,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
             add_msg( _( "%s was stunned!" ), targ->name() );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
-            if( m.impassable( point( traj[i].x, traj[i].y ) ) ) {
+            if( m.impassable( traj[i].xy() ) ) {
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -4343,7 +4342,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
             add_msg( _( "%s was stunned!" ), targ->name );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
-            if( m.impassable( point( traj[i].x, traj[i].y ) ) ) { // oops, we hit a wall!
+            if( m.impassable( traj[i].xy() ) ) { // oops, we hit a wall!
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -6190,8 +6189,8 @@ void game::zones_manager()
                     break;
                 }
 
-                mgr.add( name, id, your_followers, false, true, position->first, position->second,
-                         options );
+                mgr.add( name, id, g->u.get_faction()->id, false, true, position->first,
+                         position->second, options );
 
                 zones = get_zones();
                 active_index = zone_cnt - 1;
@@ -10976,13 +10975,12 @@ void game::teleport( player *p, bool add_teleglow )
     p->setx( new_pos.x );
     p->sety( new_pos.y );
     if( m.impassable( new_pos ) ) { //Teleported into a wall
+        const std::string obstacle_name = m.obstacle_name( new_pos );
+        g->events().send<event_type::teleports_into_wall>( p->getID(), obstacle_name );
         if( can_see ) {
             if( is_u ) {
                 add_msg( _( "You teleport into the middle of a %s!" ),
                          m.obstacle_name( new_pos ) );
-                p->add_memorial_log( pgettext( "memorial_male", "Teleported into a %s." ),
-                                     pgettext( "memorial_female", "Teleported into a %s." ),
-                                     m.obstacle_name( new_pos ) );
             } else {
                 add_msg( _( "%1$s teleports into the middle of a %2$s!" ),
                          p->name, m.obstacle_name( new_pos ) );
@@ -10990,20 +10988,17 @@ void game::teleport( player *p, bool add_teleglow )
         }
         p->apply_damage( nullptr, bp_torso, 500 );
         p->check_dead_state();
-    } else if( can_see ) {
-        if( monster *const mon_ptr = critter_at<monster>( new_pos ) ) {
-            monster &critter = *mon_ptr;
+    } else if( monster *const mon_ptr = critter_at<monster>( new_pos ) ) {
+        g->events().send<event_type::telefrags_creature>( p->getID(), mon_ptr->name() );
+        if( can_see ) {
             if( is_u ) {
                 add_msg( _( "You teleport into the middle of a %s!" ),
-                         critter.name() );
-                u.add_memorial_log( pgettext( "memorial_male", "Telefragged a %s." ),
-                                    pgettext( "memorial_female", "Telefragged a %s." ),
-                                    critter.name() );
+                         mon_ptr->name() );
             } else {
                 add_msg( _( "%1$s teleports into the middle of a %2$s!" ),
-                         p->name, critter.name() );
+                         p->name, mon_ptr->name() );
             }
-            critter.die_in_explosion( p );
+            mon_ptr->die_in_explosion( p );
         }
     }
     if( is_u ) {

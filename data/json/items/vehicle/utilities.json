@@ -4,7 +4,7 @@
     "id": "washing_machine",
     "name": "washing machine",
     "description": "A very small washing machine designed for use in vehicles.",
-    "weight": 31752,
+    "weight": "31752 g",
     "to_hit": -8,
     "color": "light_blue",
     "symbol": "]",
@@ -22,7 +22,7 @@
     "price": 162654,
     "symbol": "A",
     "color": "yellow",
-    "weight": 34500,
+    "weight": "34500 g",
     "volume": "76 L",
     "copy-from": "washing_machine"
   },

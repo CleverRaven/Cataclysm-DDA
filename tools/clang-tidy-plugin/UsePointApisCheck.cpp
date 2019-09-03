@@ -29,6 +29,19 @@ void UsePointApisCheck::registerMatchers( MatchFinder *Finder )
         ).bind( "call" ),
         this
     );
+    Finder->addMatcher(
+        cxxConstructExpr(
+            forEachArgumentWithParam(
+                expr().bind( "xarg" ),
+                parmVarDecl(
+                    anyOf( hasType( asString( "int" ) ), hasType( asString( "const int" ) ) ),
+                    isXParam()
+                ).bind( "xparam" )
+            ),
+            hasDeclaration( cxxMethodDecl( unless( ofClass( isPointType() ) ) ).bind( "callee" ) )
+        ).bind( "constructorCall" ),
+        this
+    );
 }
 
 static bool doFunctionsMatch( const FunctionDecl *Callee, const FunctionDecl *OtherCallee,
@@ -49,15 +62,21 @@ static bool doFunctionsMatch( const FunctionDecl *Callee, const FunctionDecl *Ot
         const ParmVarDecl *OtherCalleeParam =
             OtherCallee->getParamDecl( OtherCalleeParamI );
 
-        std::string ExpectedTypeName = CalleeParam->getType().getAsString();
         if( CalleeParamI == MinArg - SkipArgs ) {
             std::string ShortTypeName = IsTripoint ? "tripoint" : "point";
-            ExpectedTypeName = "const struct " + ShortTypeName + " &";
+            std::string ExpectedTypeName = "const struct " + ShortTypeName + " &";
+            if( OtherCalleeParam->getType().getAsString() != ExpectedTypeName ) {
+                return false;
+            }
             CalleeParamI += NumCoordParams - 1;
-        }
-
-        if( OtherCalleeParam->getType().getAsString() != ExpectedTypeName ) {
-            return false;
+        } else {
+            // Compare the types as strings because if e.g. the two overloads
+            // are function templates then the tmplate parameters will be
+            // different types.
+            if( CalleeParam->getType().getLocalUnqualifiedType().getAsString() !=
+                OtherCalleeParam->getType().getLocalUnqualifiedType().getAsString() ) {
+                return false;
+            }
         }
     }
 
@@ -69,8 +88,10 @@ static void CheckCall( UsePointApisCheck &Check, const MatchFinder::MatchResult 
     const ParmVarDecl *XParam = Result.Nodes.getNodeAs<ParmVarDecl>( "xparam" );
     const Expr *XArg = Result.Nodes.getNodeAs<Expr>( "xarg" );
     const CallExpr *Call = Result.Nodes.getNodeAs<CallExpr>( "call" );
+    const CXXConstructExpr *ConstructorCall =
+        Result.Nodes.getNodeAs<CXXConstructExpr>( "constructorCall" );
     const FunctionDecl *Callee = Result.Nodes.getNodeAs<FunctionDecl>( "callee" );
-    if( !XParam || !XArg || !Call || !Callee ) {
+    if( !XParam || !XArg || !( Call || ConstructorCall ) || !Callee ) {
         return;
     }
 
@@ -79,6 +100,12 @@ static void CheckCall( UsePointApisCheck &Check, const MatchFinder::MatchResult 
     unsigned int MinArg = UINT_MAX;
     unsigned int MaxArg = 0;
 
+    unsigned int NumCallArgs = Call ? Call->getNumArgs() : ConstructorCall->getNumArgs();
+    SourceLocation CallBeginLoc = Call ? Call->getBeginLoc() : ConstructorCall->getBeginLoc();
+    auto GetCallArg = [&]( unsigned int Arg ) {
+        return Call ? Call->getArg( Arg ) : ConstructorCall->getArg( Arg );
+    };
+
     // For operator() calls there is an extra 'this' argument that doesn't
     // correspond to any parameter, so we need to skip over it.
     unsigned int SkipArgs = 0;
@@ -86,9 +113,9 @@ static void CheckCall( UsePointApisCheck &Check, const MatchFinder::MatchResult 
         SkipArgs = 1;
     }
 
-    if( Call->getNumArgs() - SkipArgs > Callee->getNumParams() ) {
+    if( NumCallArgs - SkipArgs > Callee->getNumParams() ) {
         Check.diag(
-            Call->getBeginLoc(),
+            CallBeginLoc,
             "Internal check error: call has more arguments (%0) than function has parameters (%1)"
         ) << Call->getNumArgs() << Callee->getNumParams();
         Check.diag( Callee->getLocation(), "called function %0", DiagnosticIDs::Note ) << Callee;
@@ -101,17 +128,17 @@ static void CheckCall( UsePointApisCheck &Check, const MatchFinder::MatchResult 
         return;
     }
 
-    for( unsigned int i = SkipArgs; i < Call->getNumArgs(); ++i ) {
+    for( unsigned int i = SkipArgs; i < NumCallArgs; ++i ) {
         const ParmVarDecl *Param = Callee->getParamDecl( i - SkipArgs );
         bool Matched = true;
         switch( NameMatcher.Match( Param->getName() ) ) {
             case NameConvention::XName:
                 break;
             case NameConvention::YName:
-                YArg = Call->getArg( i );
+                YArg = GetCallArg( i );
                 break;
             case NameConvention::ZName:
-                ZArg = Call->getArg( i );
+                ZArg = GetCallArg( i );
                 break;
             default:
                 Matched = false;
@@ -135,7 +162,8 @@ static void CheckCall( UsePointApisCheck &Check, const MatchFinder::MatchResult 
         return;
     }
 
-    const FunctionDecl *ContainingFunction = getContainingFunction( Result, Call );
+    const FunctionDecl *ContainingFunction = getContainingFunction(
+                Result, Call ? static_cast<const Expr *>( Call ) : ConstructorCall );
 
     // Look for another overload of the called function with a point parameter
     // in the right spot.
@@ -184,7 +212,7 @@ static void CheckCall( UsePointApisCheck &Check, const MatchFinder::MatchResult 
     Replacement += " )";
 
     // Construct range to be replaced
-    while( isa<CXXDefaultArgExpr>( Call->getArg( MaxArg ) ) ) {
+    while( isa<CXXDefaultArgExpr>( GetCallArg( MaxArg ) ) ) {
         --MaxArg;
         if( MaxArg == UINT_MAX ) {
             // We underflowed; that means every argument was defaulted.  In
@@ -192,8 +220,8 @@ static void CheckCall( UsePointApisCheck &Check, const MatchFinder::MatchResult 
             return;
         }
     }
-    SourceRange SourceRangeToReplace( Call->getArg( MinArg )->getBeginLoc(),
-                                      Call->getArg( MaxArg )->getEndLoc() );
+    SourceRange SourceRangeToReplace( GetCallArg( MinArg )->getBeginLoc(),
+                                      GetCallArg( MaxArg )->getEndLoc() );
     CharSourceRange CharRangeToReplace = Lexer::makeFileCharRange(
             CharSourceRange::getTokenRange( SourceRangeToReplace ), *Result.SourceManager,
             Check.getLangOpts() );
@@ -202,8 +230,8 @@ static void CheckCall( UsePointApisCheck &Check, const MatchFinder::MatchResult 
         ZArg ? "Call to %0 could instead call overload using a tripoint parameter."
         : "Call to %0 could instead call overload using a point parameter.";
 
-    Check.diag( Call->getBeginLoc(), message ) << Callee <<
-            FixItHint::CreateReplacement( CharRangeToReplace, Replacement );
+    Check.diag( CallBeginLoc, message )
+            << Callee << FixItHint::CreateReplacement( CharRangeToReplace, Replacement );
     Check.diag( Callee->getLocation(), "current overload", DiagnosticIDs::Note );
     Check.diag( NewCallee->getLocation(), "alternate overload", DiagnosticIDs::Note );
 }

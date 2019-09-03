@@ -8,6 +8,7 @@
 #include <array>
 #include <iterator>
 #include <memory>
+
 #include <ostream>
 #include <set>
 #include <stdexcept>
@@ -23,6 +24,7 @@
 #include "coordinate_conversions.h"
 #include "craft_command.h"
 #include "debug.h"
+#include "event_bus.h"
 #include "fault.h"
 #include "field.h"
 #include "game.h"
@@ -130,7 +132,8 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_PICKUP" ), pickup_do_turn },
     { activity_id( "ACT_WEAR" ), wear_do_turn },
     { activity_id( "ACT_MULTIPLE_CONSTRUCTION" ), multiple_construction_do_turn },
-    { activity_id( "ACT_BLUEPRINT_CONSTRUCTION" ), blueprint_construction_do_turn },
+    { activity_id( "ACT_MULTIPLE_FARM" ), multiple_farm_do_turn },
+    { activity_id( "ACT_FETCH_REQUIRED" ), fetch_do_turn },
     { activity_id( "ACT_BUILD" ), build_do_turn },
     { activity_id( "ACT_EAT_MENU" ), eat_menu_do_turn },
     { activity_id( "ACT_CONSUME_FOOD_MENU" ), consume_food_menu_do_turn },
@@ -148,6 +151,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_BUTCHER_FULL" ), butcher_do_turn },
     { activity_id( "ACT_TRAVELLING" ), travel_do_turn },
     { activity_id( "ACT_AUTODRIVE" ), drive_do_turn },
+    { activity_id( "ACT_CHURN" ), churn_do_turn },
     { activity_id( "ACT_FIELD_DRESS" ), butcher_do_turn },
     { activity_id( "ACT_SKIN" ), butcher_do_turn },
     { activity_id( "ACT_QUARTER" ), butcher_do_turn },
@@ -157,6 +161,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_do_turn },
     { activity_id( "ACT_CHOP_LOGS" ), chop_tree_do_turn },
     { activity_id( "ACT_CHOP_PLANKS" ), chop_tree_do_turn },
+    { activity_id( "ACT_TIDY_UP" ), tidy_up_do_turn },
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_do_turn },
     { activity_id( "ACT_DIG" ), dig_do_turn },
     { activity_id( "ACT_DIG_CHANNEL" ), dig_channel_do_turn },
@@ -194,9 +199,11 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_RELOAD" ), reload_finish },
     { activity_id( "ACT_START_FIRE" ), start_fire_finish },
     { activity_id( "ACT_TRAIN" ), train_finish },
+    { activity_id( "ACT_CHURN" ), churn_finish },
     { activity_id( "ACT_VEHICLE" ), vehicle_finish },
     { activity_id( "ACT_START_ENGINES" ), start_engines_finish },
     { activity_id( "ACT_OXYTORCH" ), oxytorch_finish },
+    { activity_id( "ACT_PULP" ), pulp_finish },
     { activity_id( "ACT_CRACKING" ), cracking_finish },
     { activity_id( "ACT_OPEN_GATE" ), open_gate_finish },
     { activity_id( "ACT_REPAIR_ITEM" ), repair_item_finish },
@@ -1497,12 +1504,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         add_msg( _( "You didn't find anything." ) );
     }
 
-    ///\EFFECT_INT Intelligence caps survival skill gains from foraging
-    const int max_forage_skill = p->int_cur / 3 + 1;
-    ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
-    const int max_exp = 2 * ( max_forage_skill - p->get_skill_level( skill_survival ) );
-    // Award experience for foraging attempt regardless of success
-    p->practice( skill_survival, rng( 1, max_exp ), max_forage_skill );
+    iexamine::practice_survival_while_foraging( p );
 
     act->set_to_null();
 }
@@ -1756,7 +1758,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
 
             float stamina_ratio = static_cast<float>( p->stamina ) / p->get_stamina_max();
             moves += 100 / std::max( 0.25f, stamina_ratio );
-            if( stamina_ratio < 0.33 ) {
+            if( stamina_ratio < 0.33 || p->is_npc() ) {
                 p->moves = std::min( 0, p->moves - moves );
                 return;
             }
@@ -1767,7 +1769,6 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
             }
         }
     }
-
     // If we reach this, all corpses have been pulped, finish the activity
     act->moves_left = 0;
     if( num_corpses == 0 ) {
@@ -1779,6 +1780,16 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                                         "The corpses are thoroughly pulped.", num_corpses ),
                               ngettext( "<npcname> finished pulping the corpse.",
                                         "<npcname> finished pulping the corpses.", num_corpses ) );
+}
+
+void activity_handlers::pulp_finish( player_activity *act, player *p )
+{
+    if( p->is_npc() ) {
+        npc *guy = dynamic_cast<npc *>( p );
+        guy->revert_after_activity();
+    } else {
+        act->set_to_null();
+    }
 }
 
 void activity_handlers::reload_finish( player_activity *act, player *p )
@@ -1907,21 +1918,14 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         const Skill &skill = sk.obj();
         std::string skill_name = skill.name();
         int old_skill_level = p->get_skill_level( sk );
-        p->practice( sk, 100, old_skill_level );
+        p->practice( sk, 100, old_skill_level + 2 );
         int new_skill_level = p->get_skill_level( sk );
         if( old_skill_level != new_skill_level ) {
             add_msg( m_good, _( "You finish training %s to level %d." ),
                      skill_name, new_skill_level );
-            if( new_skill_level % 4 == 0 ) {
-                //~ %d is skill level %s is skill name
-                p->add_memorial_log( pgettext( "memorial_male",
-                                               "Reached skill level %1$d in %2$s." ),
-                                     pgettext( "memorial_female",
-                                               "Reached skill level %1$d in %2$s." ),
-                                     new_skill_level, skill_name );
-            }
+            g->events().send<event_type::gains_skill_level>( p->getID(), sk, new_skill_level );
         } else {
-            add_msg( m_good, _( "You finish training %s." ), skill_name );
+            add_msg( m_good, _( "You get some training in %s." ), skill_name );
         }
         act->set_to_null();
         return;
@@ -1932,10 +1936,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         const auto &mastyle = ma_id.obj();
         // Trained martial arts,
         add_msg( m_good, _( "You learn %s." ), mastyle.name );
-        //~ %s is martial art
-        p->add_memorial_log( pgettext( "memorial_male", "Learned %s." ),
-                             pgettext( "memorial_female", "Learned %s." ),
-                             mastyle.name );
+        g->events().send<event_type::learns_martial_art>( p->getID(), ma_id );
         p->add_martialart( mastyle.id );
     } else {
         debugmsg( "train_finish without a valid skill or style name" );
@@ -3086,12 +3087,24 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-static bool character_has_skill_for( const player *p, const construction &con )
+void activity_handlers::churn_do_turn( player_activity *act, player *p )
 {
-    return std::all_of( con.required_skills.begin(), con.required_skills.end(),
-    [&]( const std::pair<skill_id, int> &pr ) {
-        return p->get_skill_level( pr.first ) >= pr.second;
-    } );
+    ( void )act;
+    ( void )p;
+    p->set_moves( 0 );
+}
+
+void activity_handlers::churn_finish( player_activity *act, player *p )
+{
+    p->add_msg_if_player( _( "You finish churning up the earth here." ) );
+    g->m.ter_set( g->m.getlocal( act->placement ), t_dirtmound );
+    // Go back to what we were doing before
+    // could be player zone activity, or could be NPC multi-farming
+    act->set_to_null();
+    if( !p->backlog.empty() ) {
+        p->activity = p->backlog.front();
+        p->backlog.pop_front();
+    }
 }
 
 void activity_handlers::build_do_turn( player_activity *act, player *p )
@@ -3113,7 +3126,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     }
     // if you ( or NPC ) are finishing someone elses started construction...
     const construction &built = list_constructions[pc->id];
-    if( !character_has_skill_for( p, built ) ) {
+    if( !p->meets_skill_requirements( built ) ) {
         add_msg( m_info, _( "%s can't work on this construction anymore." ), p->disp_name() );
         p->cancel_activity();
         if( p->is_npc() ) {
@@ -3149,100 +3162,24 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::multiple_construction_do_turn( player_activity *act, player *p )
+void activity_handlers::tidy_up_do_turn( player_activity *act, player *p )
 {
-    ( void )act;
-    const activity_id act_multiple_construction = activity_id( "ACT_MULTIPLE_CONSTRUCTION" );
-    tripoint src_loc_start = p->pos();
-    // search in a radius around unsorted zone to find corpse spots
-    std::vector<tripoint> build_spots;
-    for( tripoint p : g->m.points_in_radius( src_loc_start, 20 ) ) {
-        partial_con *pc = g->m.partial_con_at( p );
-        if( pc ) {
-            build_spots.push_back( p );
-        }
-    }
-    // Nuke the current activity, leaving the backlog alone.
-    p->activity = player_activity();
-
-    // sort source tiles by distance
-    for( auto &src_loc : build_spots ) {
-        if( !g->m.inbounds( src_loc ) ) {
-            if( !g->m.inbounds( p->pos() ) ) {
-                // p is implicitly an NPC that has been moved off the map, so reset the activity
-                // and unload them
-                p->assign_activity( act_multiple_construction );
-                p->set_moves( 0 );
-                g->reload_npcs();
-                return;
-            }
-            std::vector<tripoint> route = route_adjacent( *p, src_loc );
-            if( route.empty() ) {
-                // can't get there, can't do anything, skip it
-                continue;
-            }
-            p->set_destination( route, player_activity( act_multiple_construction ) );
-            return;
-        }
-
-        // skip tiles on fire so as not to try and butcher corpses on fire
-        // and inaccessible furniture, like filled charcoal kiln
-        if( g->m.get_field( src_loc, fd_fire ) != nullptr ) {
-            continue;
-        }
-        bool adjacent = false;
-        for( auto elem : g->m.points_in_radius( src_loc, 1 ) ) {
-            if( p->pos() == elem ) {
-                adjacent = true;
-                break;
-            }
-        }
-        if( !adjacent ) {
-            std::vector<tripoint> route = route_adjacent( *p, src_loc );
-
-            // check if we found path to source / adjacent tile
-            if( route.empty() ) {
-                add_msg( m_info, _( "%s can't reach the source tile to construct" ),
-                         p->disp_name() );
-                return;
-            }
-
-            // set the destination and restart activity after player arrives there
-            // we don't need to check for safe mode,
-            // activity will be restarted only if
-            // player arrives on destination tile
-            p->set_destination( route, player_activity( act_multiple_construction ) );
-            return;
-        }
-        // maybe the construction dissappeared, double check before starting work
-        partial_con *nc = g->m.partial_con_at( src_loc );
-        if( !nc ) {
-            p->assign_activity( act_multiple_construction );
-            return;
-        }
-        p->backlog.push_front( act_multiple_construction );
-        p->assign_activity( activity_id( "ACT_BUILD" ) );
-        p->activity.placement = g->m.getabs( src_loc );
-        return;
-
-    }
-    if( p->moves <= 0 ) {
-        // Restart activity and break from cycle.
-        p->assign_activity( act_multiple_construction );
-        return;
-    }
-
-    // If we got here without restarting the activity, it means we're done.
-    if( p->is_npc() ) {
-        npc *guy = dynamic_cast<npc *>( p );
-        guy->current_activity_id = activity_id::NULL_ID();
-        guy->revert_after_activity();
-    }
+    generic_multi_activity_handler( *act, *p );
 }
 
-void activity_handlers::blueprint_construction_do_turn( player_activity *act, player *p )
+void activity_handlers::multiple_construction_do_turn( player_activity *act, player *p )
 {
-    activity_on_turn_blueprint_move( *act, *p );
+    generic_multi_activity_handler( *act, *p );
+}
+
+void activity_handlers::multiple_farm_do_turn( player_activity *act, player *p )
+{
+    generic_multi_activity_handler( *act, *p );
+}
+
+void activity_handlers::fetch_do_turn( player_activity *act, player *p )
+{
+    generic_multi_activity_handler( *act, *p );
 }
 
 void activity_handlers::craft_do_turn( player_activity *act, player *p )
@@ -3606,8 +3543,7 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
                 it->set_damage( rng( 1, it->max_damage() - 1 ) );
             }
         }
-        g->u.add_memorial_log( pgettext( "memorial_male", "Exhumed a grave." ),
-                               pgettext( "memorial_female", "Exhumed a grave." ) );
+        g->events().send<event_type::exhumes_grave>( p->getID() );
     }
 
     g->m.ter_set( pos, result_terrain );
@@ -3797,42 +3733,41 @@ static void perform_zone_activity_turn( player *p,
         } else { // we are at destination already
             /* Perform action */
             tile_action( *p, tile_loc );
-
             if( p->moves <= 0 ) {
                 return;
             }
         }
     }
-
     add_msg( m_info, finished_msg );
     p->activity.set_to_null();
 }
 
 void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
 {
-    const auto reject_tile = [p]( const tripoint & tile ) {
-        return !p->sees( tile ) || !g->m.has_flag_furn( "GROWTH_HARVEST", tile );
+    const auto reject_tile = []( const tripoint & tile ) {
+        return !g->m.has_flag_furn( "GROWTH_HARVEST", tile );
+    };
+    const auto harvest = [&]( player & p, const tripoint & tile ) {
+        iexamine::harvest_plant( p, tile, false );
     };
     perform_zone_activity_turn( p,
                                 zone_type_id( "FARM_PLOT" ),
                                 reject_tile,
-                                iexamine::harvest_plant,
+                                harvest,
                                 _( "You harvested all the plots you could." ) );
 
 }
 
 void activity_handlers::till_plot_do_turn( player_activity *, player *p )
 {
-    const auto reject_tile = [p]( const tripoint & tile ) {
-        return !p->sees( tile ) || !g->m.has_flag( "PLOWABLE", tile ) || g->m.has_furn( tile );
+    const auto reject_tile = []( const tripoint & tile ) {
+        return !g->m.has_flag( "PLOWABLE", tile ) || g->m.has_furn( tile );
     };
 
     const auto dig = []( player & p, const tripoint & tile_loc ) {
-        p.add_msg_if_player( _( "You churn up the earth here." ) );
-        p.mod_moves( -300 );
-        g->m.ter_set( tile_loc, t_dirtmound );
+        p.assign_activity( activity_id( "ACT_CHURN" ), 18000, -1 );
+        p.activity.placement = g->m.getabs( tile_loc );
     };
-
     perform_zone_activity_turn( p,
                                 zone_type_id( "FARM_PLOT" ),
                                 reject_tile,
@@ -3866,7 +3801,7 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p 
     const auto reject_tile = [&]( const tripoint & tile ) {
         check_fertilizer();
         ret_val<bool> can_fert = iexamine::can_fertilize( *p, tile, fertilizer );
-        return !p->sees( tile ) || !can_fert.success();
+        return !can_fert.success();
     };
 
     const auto fertilize = [&]( player & p, const tripoint & tile ) {
@@ -3917,7 +3852,7 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
 
     // cleanup unwanted tiles (local coords)
     const auto reject_tiles = [&]( const tripoint & tile ) {
-        if( !p->sees( tile ) || !g->m.has_flag_ter_or_furn( "PLANTABLE", tile ) ||
+        if( !g->m.has_flag_ter_or_furn( "PLANTABLE", tile ) ||
             g->m.has_items( tile ) ) {
             return true;
         }
@@ -4172,8 +4107,7 @@ void activity_handlers::hack_safe_finish( player_activity *act, player *p )
     } else if( result == HACK_FAIL ) {
         act->set_to_null();
 
-        p->add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
-                             pgettext( "memorial_female", "Set off an alarm." ) );
+        g->events().send<event_type::triggers_alarm>( p->getID() );
         sounds::sound( p->pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
         if( act->placement.z > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
@@ -4280,7 +4214,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                        false );
     }
 
-    p->add_msg_if_player( _( "You cast %s!" ), casting.name() );
+    p->add_msg_if_player( casting.message(), casting.name() );
 
     casting.cast_all_effects( *p, target );
 

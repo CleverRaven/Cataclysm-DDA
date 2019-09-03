@@ -53,24 +53,6 @@
     "color": "light_blue"
   },
   {
-    "id": "afs_rolling_pin",
-    "type": "GENERIC",
-    "name": "rolling pin",
-    "description": "A light wooden rolling pin used to flatten dough.",
-    "symbol": "[",
-    "color": "brown",
-    "weight": 472,
-    "volume": 4,
-    "price": 1500,
-    "price_postapoc": 500,
-    "material": [ "wood" ],
-    "to_hit": -1,
-    "bashing": 6,
-    "flags": [ "DURABLE_MELEE", "FIREWOOD" ],
-    "techniques": [ "RAPID" ],
-    "looks_like": "bat"
-  },
-  {
     "type": "GENERIC",
     "id": "afs_scrap_titanium",
     "symbol": ",",
@@ -125,26 +107,6 @@
     "name": "cooking rig",
     "name_plural": "cooking rigs",
     "description": "Skillet, pot, hotplate, and chemistry set; everything you need to cook food and chemicals.  Includes proper fume vents and a separator, so you don't contaminate your food with toxic chemicals."
-  },
-  {
-    "id": "afs_large_storage_battery",
-    "type": "MAGAZINE",
-    "category": "veh_parts",
-    "name": "large storage battery",
-    "name_plural": "large storage batteries",
-    "description": "A huge lithium ion storage battery, weighing easily 600 pounds.  Holds a tremendous amount of energy.",
-    "weight": 300000,
-    "volume": 80,
-    "price": 400000,
-    "price_postapoc": 50000,
-    "to_hit": -2,
-    "bashing": 40,
-    "material": [ "plastic", "steel" ],
-    "symbol": ":",
-    "color": "light_cyan",
-    "ammo_type": "battery",
-    "capacity": 100000,
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ]
   },
   {
     "id": "nuclear_waste",

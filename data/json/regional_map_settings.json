@@ -527,7 +527,8 @@
           "mx_crater": 60,
           "mx_portal_in": 3,
           "mx_point_burned_ground": 5,
-          "mx_casings": 30
+          "mx_casings": 30,
+          "mx_looters": 10
         }
       },
       "marloss": { "chance": 20, "extras": { "mx_marloss_pilgrimage": 100 } },
@@ -663,7 +664,7 @@
         "s_restaurant_1": 400,
         "s_restaurant_2": 400,
         "s_restaurant_3": 400,
-        "sub_station": 500,
+        "sub_station": 1600,
         "bank": 300,
         "bank_1": 300,
         "s_pizza_parlor": 400,
