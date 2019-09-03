@@ -9722,7 +9722,7 @@ void game::on_move_effects()
     // TODO: Move this to a character method
     if( !u.is_mounted() ) {
         const item muscle( "muscle" );
-        if( u.lifetime_stats.squares_walked % 8 == 0 ) {
+        if( u.lifetime_stats.squares_walked % 8 == 0 ) {// active power gen
             if( u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
                 u.charge_power( 1 );
             }
@@ -9732,12 +9732,12 @@ void game::on_move_effects()
                 }
             }
         }
-        if( u.lifetime_stats.squares_walked % 160 == 0 ) {
+        if( u.lifetime_stats.squares_walked % 160 == 0 ) { //  passive power gen
             if( u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
                 u.charge_power( 1 );
             }
             for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
-                if( u.has_active_bionic( bid ) ) {
+                if( u.has_bionic( bid ) ) {
                     u.charge_power( muscle.fuel_energy() * bid->fuel_efficiency );
                 }
             }
