@@ -106,7 +106,7 @@ void Skill::load_skill( JsonObject &jsobj )
 }
 
 SkillDisplayType::SkillDisplayType() : SkillDisplayType( skill_displayType_id::NULL_ID(),
-            translation( "invalid" ) )
+            to_translation( "invalid" ) )
 {
 }
 

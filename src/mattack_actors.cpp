@@ -156,7 +156,7 @@ void mon_spellcasting_actor::load_internal( JsonObject &obj, const std::string &
     translation monster_message;
     //~ translator "<Monster Display name> cast <Spell Name> on <target name>!"
     optional( obj, was_loaded, "monster_message", monster_message,
-              translation( "%s casts %s at %s!" ) );
+              to_translation( "%s casts %s at %s!" ) );
     spell_data = spell( spell_id( sp_id ), monster_message );
     for( int i = 0; i <= spell_level; i++ ) {
         spell_data.gain_level();
