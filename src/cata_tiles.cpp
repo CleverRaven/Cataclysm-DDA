@@ -1214,6 +1214,17 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             }
         }
     }
+    // tile overrides are already drawn in the previous code
+    void_radiation_override();
+    void_terrain_override();
+    void_furniture_override();
+    void_graffiti_override();
+    void_trap_override();
+    void_field_override();
+    void_item_override();
+    void_vpart_override();
+    void_draw_below_override();
+    void_monster_override();
 
     //Memorize everything the character just saw even if it wasn't displayed.
     for( int mem_y = 0; mem_y < MAPSIZE_Y; mem_y++ ) {
@@ -1257,17 +1268,6 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             draw_vpart( p, lighting, height_3d, false );
         }
     }
-    // tile overrides are already drawn in the previous code
-    void_radiation_override();
-    void_terrain_override();
-    void_furniture_override();
-    void_graffiti_override();
-    void_trap_override();
-    void_field_override();
-    void_item_override();
-    void_vpart_override();
-    void_draw_below_override();
-    void_monster_override();
 
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
