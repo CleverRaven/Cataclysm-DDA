@@ -8303,6 +8303,9 @@ void game::eat( item_location( *menu )( player &p ), int pos )
             item_loc.remove_item();
         }
     }
+    if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
+    }
 }
 
 void game::change_side( int pos )
