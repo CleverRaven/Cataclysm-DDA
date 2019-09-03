@@ -251,7 +251,7 @@
     "id": "bot_turret",
     "type": "TOOL",
     "name": "inactive turret",
-    "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded 9x19mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 9x19mm you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will then identify you as a friendly, and attack all enemies with a built-in SMG.",
+    "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded 9x19mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 9x19mm you do NOT want to give the turret) turning it on, and placing it on the ground.  If reprogrammed and rewired successfully the turret will then identify you as a friendly, and attack all enemies with its SMG.",
     "weight": "1507 g",
     "volume": "3 L",
     "price": 400000,
