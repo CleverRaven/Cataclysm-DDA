@@ -415,17 +415,6 @@ bool can_action_change_worldstate( action_id act );
 action_id action_from_key( char ch );
 
 /**
- * Request player input of adjacent tile on current z-level
- *
- * Asks the player to input desired direction of an adjacent tile, for example when executing
- * an examine or directional item drop.  This version of the function assumes that the requested
- * tile will be on the player's current z-level.
- *
- * @param[in] message Message used in assembling the prompt to the player
- */
-cata::optional<tripoint> choose_adjacent( const std::string &message );
-
-/**
  * Request player input of adjacent tile, possibly including vertical tiles
  *
  * Asks the player to input desired direction of an adjacent tile, for example when executing
@@ -435,35 +424,7 @@ cata::optional<tripoint> choose_adjacent( const std::string &message );
  * @param[in] message Message used in assembling the prompt to the player
  * @param[in] allow_vertical Allows player to select tiles above/below them if true
  */
-cata::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical );
-
-/**
- * Request player input of a direction on current z-level
- *
- * Asks the player to input a desired direction.  This differs from @ref choose_adjacent in that
- * the selected direction is returned as an offset to the player's current position rather than
- * coordinate of a tile. This version of the function assumes the requested z-level is the same
- * as the player's current z-level.
- *
- * @param[in] message Message used in assembling the prompt to the player
- */
-cata::optional<tripoint> choose_direction( const std::string &message );
-
-/**
- * Request player input of adjacent tile on current z-level with highlighting
- *
- * Asks the player to input desired direction of an adjacent tile, for example when executing
- * an examine or directional item drop.  This version of the function assumes that the requested
- * tile will be on the player's current z-level.
- *
- * This function is identical to @ref choose_adjacent except that squares are highlighted for
- * the player to indicate valid squares for a given @ref action_id
- *
- * @param[in] message Message used in assembling the prompt to the player
- * @param[in] action_to_highlight An action ID to drive the highlighting output
- */
-cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        action_id action_to_highlight );
+cata::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical = false );
 
 /**
  * Request player input of a direction, possibly including vertical component
@@ -476,7 +437,8 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
  * @param[in] message Message used in assembling the prompt to the player
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
-cata::optional<tripoint> choose_direction( const std::string &message, bool allow_vertical );
+cata::optional<tripoint> choose_direction( const std::string &message,
+        bool allow_vertical = false );
 
 /**
  * Request player input of adjacent tile with highlighting, possibly on different z-level
@@ -489,10 +451,11 @@ cata::optional<tripoint> choose_direction( const std::string &message, bool allo
  * the player to indicate valid squares for a given @ref action_id
  *
  * @param[in] message Message used in assembling the prompt to the player
- * @param[in] action_to_highlight An action ID to drive the highlighting output
+ * @param[in] action An action ID to drive the highlighting output
+ * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        action_id action_to_highlight, bool allow_vertical );
+        action_id action, bool allow_vertical = false );
 
 /**
  * Request player input of adjacent tile with highlighting, possibly on different z-level
@@ -506,11 +469,13 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
  * function.
  *
  * @param[in] message Message used in assembling the prompt to the player
- * @param[in] should_highlight A function that will be called to determine if a given location should be highlighted
+ * @param[in] allowed A function that will be called to determine if a given location is allowed for selection
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::function<bool( tripoint )> &should_highlight, bool allow_vertical );
+        const std::function<bool( const tripoint & )> &allowed,
+        bool allow_vertical = false,
+        bool auto_select_if_single = false );
 
 // (Press X (or Y)|Try) to Z
 std::string press_x( action_id act );
