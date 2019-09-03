@@ -272,8 +272,8 @@
   {
     "id": "bot_secubot",
     "type": "TOOL",
-    "name": "inactive security bot",
-    "description": "This is an inactive security bot. Using this item involves loading the unit with the factory-loaded 9x19mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 9x19mm you do NOT want to give the robot) turning it on, and placing it on the ground.  If reprogrammed and rewired successfully the security bot will then identify you as a friendly, roam around or follow you, and attack all enemies with a built-in SMG.",
+    "name": "inactive TALON UGV",
+    "description": "This is an inactive TALON UGV equipped with an M16A4. Using this item involves loading the unit with the factory-loaded 5.56x45mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 5.56x45mm you do NOT want to give the robot) turning it on, and placing it on the ground.  If reprogrammed and rewired successfully the security bot will then identify you as a friendly, roam around or follow you, and attack all enemies with its rifle.",
     "weight": "40750 g",
     "volume": "30 L",
     "price": 750000,
