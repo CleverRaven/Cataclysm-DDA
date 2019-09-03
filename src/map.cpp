@@ -8270,7 +8270,9 @@ void map::add_corpse( const tripoint &p )
     }
 
     put_items_from_loc( "default_zombie_clothes", p, 0 );
-    put_items_from_loc( "default_zombie_items", p, 0 );
+    if( one_in( 3 ) ) {
+        put_items_from_loc( "default_zombie_items", p, 0 );
+    }
 
     add_item_or_charges( p, body );
 }

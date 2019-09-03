@@ -427,7 +427,8 @@
           "mx_clay_deposit": 125,
           "mx_point_dead_vegetation": 500,
           "mx_point_burned_ground": 500,
-          "mx_casings": 30
+          "mx_casings": 30,
+          "mx_corpses": 30
         }
       },
       "forest_thick": {
@@ -452,7 +453,8 @@
           "mx_clay_deposit": 125,
           "mx_point_dead_vegetation": 500,
           "mx_point_burned_ground": 500,
-          "mx_casings": 30
+          "mx_casings": 30,
+          "mx_corpses": 30
         }
       },
       "forest_water": {
@@ -475,7 +477,8 @@
           "mx_clay_deposit": 125,
           "mx_point_dead_vegetation": 500,
           "mx_point_burned_ground": 500,
-          "mx_casings": 30
+          "mx_casings": 30,
+          "mx_corpses": 30
         }
       },
       "field": {
@@ -492,7 +495,8 @@
           "mx_portal_in": 3,
           "mx_point_dead_vegetation": 50,
           "mx_point_burned_ground": 50,
-          "mx_casings": 50
+          "mx_casings": 50,
+          "mx_corpses": 30
         }
       },
       "road": {
@@ -512,7 +516,8 @@
           "mx_portal_in": 4,
           "mx_roadworks": 100,
           "mx_mayhem": 50,
-          "mx_casings": 100
+          "mx_casings": 100,
+          "mx_corpses": 30
         }
       },
       "build": {
@@ -528,7 +533,8 @@
           "mx_portal_in": 3,
           "mx_point_burned_ground": 5,
           "mx_casings": 30,
-          "mx_looters": 10
+          "mx_looters": 10,
+          "mx_corpses": 30
         }
       },
       "marloss": { "chance": 20, "extras": { "mx_marloss_pilgrimage": 100 } },
