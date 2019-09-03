@@ -6870,11 +6870,6 @@
   },
   {
     "type": "item_group",
-    "id": "secubot",
-    "items": [ [ "9mm", 8 ], [ "steel_plate", 30 ] ]
-  },
-  {
-    "type": "item_group",
     "id": "copbot",
     "items": [
       [ "baton", 8 ],
