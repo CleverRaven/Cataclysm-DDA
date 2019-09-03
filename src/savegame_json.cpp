@@ -3298,6 +3298,23 @@ void kill_tracker::deserialize( JsonIn &jsin )
     }
 }
 
+void cata_variant::serialize( JsonOut &jsout ) const
+{
+    jsout.start_array();
+    jsout.write_as_string( type_ );
+    jsout.write( value_ );
+    jsout.end_array();
+}
+
+void cata_variant::deserialize( JsonIn &jsin )
+{
+    jsin.start_array();
+    if( !( jsin.read( type_ ) && jsin.read( value_ ) ) ) {
+        jsin.error( "Failed to read cata_variant" );
+    }
+    jsin.end_array();
+}
+
 void submap::store( JsonOut &jsout ) const
 {
     jsout.member( "turn_last_touched", last_touched );

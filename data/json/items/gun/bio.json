@@ -24,7 +24,7 @@
     "type": "GUN",
     "name": "EMP Projector",
     "description": "this a pseudo item",
-    "weight": 2950,
+    "weight": "2950 g",
     "volume": "2 L",
     "price": 1600000,
     "to_hit": -1,

@@ -90,7 +90,7 @@ const mongroup_id GROUP_SPIDER( "GROUP_SPIDER" );
 const mongroup_id GROUP_TRIFFID_HEART( "GROUP_TRIFFID_HEART" );
 const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
 const mongroup_id GROUP_TRIFFID_OUTER( "GROUP_TRIFFID_OUTER" );
-const mongroup_id GROUP_TURRET_SMG( "GROUP_TURRET_SMG" );
+const mongroup_id GROUP_TURRET( "GROUP_TURRET" );
 const mongroup_id GROUP_VANILLA( "GROUP_VANILLA" );
 const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 const mongroup_id GROUP_ZOMBIE_COP( "GROUP_ZOMBIE_COP" );
@@ -189,7 +189,7 @@ void map::generate( const tripoint &p, const time_point &when )
             if( const auto p = random_point( *this, [this]( const tripoint & n ) {
             return passable( n );
             } ) ) {
-                add_spawn( spawn_details.name, spawn_details.pack_size, point( p->x, p->y ) );
+                add_spawn( spawn_details.name, spawn_details.pack_size, p->xy() );
             }
         }
     }
@@ -3405,7 +3405,7 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
             science_room( this, 2, 2, SEEX - 3, SEEY * 2 - 3, dat.zlevel, 1 );
             science_room( this, SEEX + 2, 2, SEEX * 2 - 3, SEEY * 2 - 3, dat.zlevel, 3 );
 
-            place_spawns( GROUP_TURRET_SMG, 1, point( SEEX, 5 ), point( SEEX, 5 ), 1, true );
+            place_spawns( GROUP_TURRET, 1, point( SEEX, 5 ), point( SEEX, 5 ), 1, true );
 
             if( is_ot_match( "road", dat.east(), ot_match_type::type ) ) {
                 rotate( 1 );
@@ -4640,20 +4640,20 @@ void map::draw_temple( const oter_id &terrain_type, mapgendata &dat, const time_
                     bool toggle_green = false;
                     bool toggle_blue = false;
                     for( int i = path.size() - 1; i >= 0; i-- ) {
-                        if( ter( point( path[i].x, path[i].y ) ) == t_floor_red ) {
+                        if( ter( path[i] ) == t_floor_red ) {
                             toggle_green = !toggle_green;
                             if( toggle_red ) {
-                                ter_set( point( path[i].x, path[i].y ), t_rock_red );
+                                ter_set( path[i], t_rock_red );
                             }
-                        } else if( ter( point( path[i].x, path[i].y ) ) == t_floor_green ) {
+                        } else if( ter( path[i] ) == t_floor_green ) {
                             toggle_blue = !toggle_blue;
                             if( toggle_green ) {
-                                ter_set( point( path[i].x, path[i].y ), t_rock_green );
+                                ter_set( path[i], t_rock_green );
                             }
-                        } else if( ter( point( path[i].x, path[i].y ) ) == t_floor_blue ) {
+                        } else if( ter( path[i] ) == t_floor_blue ) {
                             toggle_red = !toggle_red;
                             if( toggle_blue ) {
-                                ter_set( point( path[i].x, path[i].y ), t_rock_blue );
+                                ter_set( path[i], t_rock_blue );
                             }
                         }
                     }
@@ -5824,7 +5824,7 @@ void map::draw_megastore( const oter_id &terrain_type, mapgendata &dat, const ti
         if( const auto p = random_point( *this, [this]( const tripoint & n ) {
         return ter( n ) == t_floor;
         } ) ) {
-            place_spawns( GROUP_PLAIN, 1, point( p->x, p->y ), point( p->x, p->y ), 1, true );
+            place_spawns( GROUP_PLAIN, 1, p->xy(), p->xy(), 1, true );
         }
         // Finally, figure out where the road is; construct our entrance facing that.
         std::vector<direction> faces_road;
@@ -7214,7 +7214,7 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 tmpcomp->add_failure( COMPFAIL_SHUTDOWN );
                 tmpcomp->add_failure( COMPFAIL_ALARM );
                 tmpcomp->add_failure( COMPFAIL_DAMAGE );
-                m->place_spawns( GROUP_TURRET_SMG, 1,
+                m->place_spawns( GROUP_TURRET, 1,
                                  point( static_cast<int>( ( x1 + x2 ) / 2 ), desk ),
                                  point( static_cast<int>( ( x1 + x2 ) / 2 ), desk ), 1, true );
             } else {
@@ -7230,7 +7230,7 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 tmpcomp->add_failure( COMPFAIL_SHUTDOWN );
                 tmpcomp->add_failure( COMPFAIL_ALARM );
                 tmpcomp->add_failure( COMPFAIL_DAMAGE );
-                m->place_spawns( GROUP_TURRET_SMG, 1,
+                m->place_spawns( GROUP_TURRET, 1,
                                  point( desk, static_cast<int>( ( y1 + y2 ) / 2 ) ),
                                  point( desk, static_cast<int>( ( y1 + y2 ) / 2 ) ), 1, true );
             }

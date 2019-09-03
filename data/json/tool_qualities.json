@@ -23,6 +23,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "FISHING",
+    "name": "fishing"
+  },
+  {
+    "type": "tool_quality",
     "id": "SMOOTH",
     "name": "smoothing"
   },

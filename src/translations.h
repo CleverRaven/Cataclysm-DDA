@@ -118,16 +118,12 @@ class translation
 {
     public:
         translation();
-        /**
-         * Create a deferred translation with context
-         **/
-        translation( const std::string &ctxt, const std::string &raw );
 
         /**
-         * Create a deferred translation without context
+         * Store a string and an optional context for translation
          **/
-        explicit translation( const std::string &raw );
-
+        static translation to_translation( const std::string &raw );
+        static translation to_translation( const std::string &ctxt, const std::string &raw );
         /**
          * Store a string that needs no translation.
          **/
@@ -169,6 +165,8 @@ class translation
         bool operator==( const translation &that ) const;
         bool operator!=( const translation &that ) const;
     private:
+        translation( const std::string &ctxt, const std::string &raw );
+        translation( const std::string &raw );
         struct no_translation_tag {};
         translation( const std::string &str, no_translation_tag );
 
@@ -177,6 +175,11 @@ class translation
         bool needs_translation = false;
 };
 
+/**
+ * Shorthands for translation::to_translation
+ **/
+translation to_translation( const std::string &raw );
+translation to_translation( const std::string &ctxt, const std::string &raw );
 /**
  * Shorthand for translation::no_translation
  **/
