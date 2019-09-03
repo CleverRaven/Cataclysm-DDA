@@ -1222,33 +1222,38 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     //Memorize everything the character just saw even if it wasn't displayed.
     for( int mem_y = 0; mem_y < MAPSIZE_Y; mem_y++ ) {
         for( int mem_x = 0; mem_x < MAPSIZE_X; mem_x++ ) {
-            tripoint p( mem_x, mem_y, center.z );
-            //just finished o through s+o so skip them
-            rectangle skip_region( o, o + point( sx, sy ) );
-            if( skip_region.contains_half_open( p.xy() ) ) {
-                continue;
-            }
-            int height_3d = 0;
+            rectangle already_drawn( point( min_col, min_row ), point( max_col, max_row ) );
             if( iso_mode ) {
-                //Iso_mode skips in a checkerboard
-                if( modulo( mem_y, 2 ) != modulo( mem_x, 2 ) ) {
+                // calculate the screen position according to the drawing code above:
+
+                // mem_x = ( col - row - sx / 2 + sy / 2 ) / 2 + o.x;
+                // mem_y = ( row + col - sy / 2 - sx / 2 ) / 2 + o.y;
+                // ||
+                // \/
+                const int col = mem_y + mem_x + sx / 2 - o.y - o.x;
+                const int row = mem_y - mem_x + sy / 2 - o.y + o.x;
+                if( already_drawn.contains_half_open( point( col, row ) ) ) {
                     continue;
                 }
-                //in isometric, rows and columns represent a checkerboard screen space, and we place
-                //the appropriate tile in valid squares by getting position relative to the screen center.
-                //The MAPSIZE_X/2 offset is to keep the rectangle in the upper right quadrant.
-                p.x = ( mem_x - mem_y - MAPSIZE_X / 2 + MAPSIZE_Y / 2 ) / 2 + MAPSIZE_X / 2;
-                p.y = ( mem_y + mem_x - MAPSIZE_Y / 2 - MAPSIZE_X / 2 ) / 2 + MAPSIZE_Y / 2;
-                //Check if we're in previously done iso_mode space
-                if( p.x >= ( 0 - sy - sx / 2 + sy / 2 ) / 2 + o.x && p.x < ( sx - 0 - sx / 2 + sy / 2 ) / 2 + o.x &&
-                    p.y >= ( 0 + 0 - sy / 2 - sx / 2 ) / 2 + o.y && p.y < ( sy + sx - sy / 2 - sx / 2 ) / 2 + o.y ) {
+            } else {
+                // calculate the screen position according to the drawing code above:
+
+                // mem_x = col + o.x
+                // mem_y = row + o.y
+                // ||
+                // \/
+                // col = mem_x - o.x
+                // row = mem_y - o.y
+                if( already_drawn.contains_half_open( point( mem_x, mem_y ) - o ) ) {
                     continue;
                 }
             }
+            const tripoint p( mem_x, mem_y, center.z );
             lit_level lighting = ch.visibility_cache[p.x][p.y];
             if( apply_vision_effects( p, g->m.get_visibility( lighting, cache ) ) ) {
                 continue;
             }
+            int height_3d = 0;
             //calling draw to memorize everything.
             draw_terrain( p, lighting, height_3d, false );
             draw_furniture( p, lighting, height_3d, false );
