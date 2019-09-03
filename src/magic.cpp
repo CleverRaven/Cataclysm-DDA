@@ -1692,6 +1692,12 @@ void fake_spell::serialize( JsonOut &json ) const
     json.member( "level", level );
 }
 
+void fake_spell::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    load( data );
+}
+
 spell fake_spell::get_spell( const int level_override ) const
 {
     spell sp( id );

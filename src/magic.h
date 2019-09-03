@@ -95,6 +95,7 @@ struct fake_spell {
 
     void load( JsonObject &jo );
     void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 class spell_type
