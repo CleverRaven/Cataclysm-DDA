@@ -1778,6 +1778,27 @@ void talk_effect_fun_t::set_remove_var( JsonObject jo, const std::string &member
     };
 }
 
+void talk_effect_fun_t::set_adjust_var( JsonObject jo, const std::string &member, bool is_npc )
+{
+    const std::string var_name = get_talk_varname( jo, member, false );
+    const int value = jo.get_int( "adjustment" );
+    function = [is_npc, var_name, value]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+
+        int adjusted_value = value;
+
+        const std::string &var = actor->get_value( var_name );
+        if( !var.empty() ) {
+            adjusted_value += std::stoi( var );
+        }
+
+        actor->set_value( var_name, std::to_string( adjusted_value ) );
+    };
+}
+
 void talk_effect_fun_t::set_u_buy_item( const std::string &item_name, int cost, int count,
                                         const std::string &container_name )
 {
@@ -1813,6 +1834,11 @@ void talk_effect_fun_t::set_u_buy_item( const std::string &item_name, int cost, 
             popup( _( "%1$s gives you a %2$s." ), p.name, container.tname() );
         }
     };
+
+    // Update structure used by mission descriptions.
+    if( cost <= 0 ) {
+        likely_rewards.push_back( std::pair<int, std::string>( count, item_name ) );
+    }
 }
 
 void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost, int count )
@@ -2103,6 +2129,11 @@ void talk_effect_fun_t::set_add_mission( const std::string mission_id )
     };
 }
 
+const std::vector<std::pair<int, std::string>> &talk_effect_fun_t::get_likely_rewards() const
+{
+    return likely_rewards;
+}
+
 void talk_effect_fun_t::set_u_buy_monster( const std::string &monster_type_id, int cost, int count,
         bool pacified, const translation &name )
 {
@@ -2270,6 +2301,10 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
         subeffect_fun.set_remove_var( jo, "u_lose_var" );
     } else if( jo.has_string( "npc_lose_var" ) ) {
         subeffect_fun.set_remove_var( jo, "npc_lose_var", is_npc );
+    } else if( jo.has_string( "u_adjust_var" ) ) {
+        subeffect_fun.set_adjust_var( jo, "u_adjust_var" );
+    } else if( jo.has_string( "npc_adjust_var" ) ) {
+        subeffect_fun.set_adjust_var( jo, "npc_adjust_var", is_npc );
     } else if( jo.has_string( "u_add_trait" ) ) {
         subeffect_fun.set_add_trait( jo, "u_add_trait" );
     } else if( jo.has_string( "npc_add_trait" ) ) {

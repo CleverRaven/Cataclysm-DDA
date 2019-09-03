@@ -12,7 +12,7 @@
     "flags": "NEVER_JAMS",
     "skill": "smg",
     "ammo": "paintball",
-    "weight": 1600,
+    "weight": "1600 g",
     "volume": "1250 ml",
     "bashing": 5,
     "to_hit": -1,

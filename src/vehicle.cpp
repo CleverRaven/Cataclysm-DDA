@@ -665,8 +665,7 @@ void vehicle::smash( float hp_percent_loss_min, float hp_percent_loss_max,
         int roll = dice( 1, 1000 );
         int pct_af = ( percent_of_parts_to_affect * 1000.0f );
         if( roll < pct_af ) {
-            float dist = 1.0f - trig_dist( damage_origin, point( part.precalc[0].x,
-                                           part.precalc[0].y ) ) / damage_size;
+            float dist = 1.0f - trig_dist( damage_origin, part.precalc[0] ) / damage_size;
             dist = clamp( dist, 0.0f, 1.0f );
             if( damage_size == 0 ) {
                 dist = 1.0f;
@@ -702,7 +701,7 @@ void vehicle::smash( float hp_percent_loss_min, float hp_percent_loss_max,
 int vehicle::lift_strength() const
 {
     units::mass mass = total_mass();
-    return std::max( mass / 10000_gram, 1 );
+    return std::max<std::int64_t>( mass / 10000_gram, 1 );
 }
 
 void vehicle::toggle_specific_engine( int e, bool on )
@@ -3265,7 +3264,7 @@ static double simple_cubic_solution( double a, double b, double c, double d )
 
 int vehicle::acceleration( const bool fueled, int at_vel_in_vmi ) const
 {
-    if( is_floating ) {
+    if( is_watercraft() ) {
         return water_acceleration( fueled, at_vel_in_vmi );
     }
     return ground_acceleration( fueled, at_vel_in_vmi );
@@ -3335,7 +3334,7 @@ int vehicle::max_water_velocity( const bool fueled ) const
 
 int vehicle::max_velocity( const bool fueled ) const
 {
-    return is_floating ? max_water_velocity( fueled ) : max_ground_velocity( fueled );
+    return is_watercraft() ? max_water_velocity( fueled ) : max_ground_velocity( fueled );
 }
 
 // the same physics as max_ground_velocity, but with a smaller engine power
@@ -3360,7 +3359,7 @@ int vehicle::safe_water_velocity( const bool fueled ) const
 
 int vehicle::safe_velocity( const bool fueled ) const
 {
-    return is_floating ? safe_water_velocity( fueled ) : safe_ground_velocity( fueled );
+    return is_watercraft() ? safe_water_velocity( fueled ) : safe_ground_velocity( fueled );
 }
 
 bool vehicle::do_environmental_effects()
@@ -3720,9 +3719,14 @@ bool vehicle::can_float() const
     return draft_m < hull_height;
 }
 
-bool vehicle::is_in_water() const
+bool vehicle::is_watercraft() const
 {
-    return is_floating;
+    return is_floating || ( in_water && wheelcache.empty() );
+}
+
+bool vehicle::is_in_water( bool deep_water ) const
+{
+    return deep_water ? is_floating : in_water;
 }
 
 double vehicle::coeff_water_drag() const
@@ -3779,6 +3783,9 @@ float vehicle::k_traction( float wheel_traction_area ) const
 {
     if( is_floating ) {
         return can_float() ? 1.0f : -1.0f;
+    }
+    if( is_watercraft() && can_float() ) {
+        return 1.0f;
     }
 
     const float mass_penalty = ( 1.0f - wheel_traction_area / wheel_area() ) *
@@ -3916,11 +3923,15 @@ float vehicle::steering_effectiveness() const
 {
     if( is_floating ) {
         // I'M ON A BOAT
-        return can_float() ? 1.0 : 0.0;
+        return can_float() ? 1.0f : 0.0f;
+    }
+    // irksome special case for boats in shallow water
+    if( is_watercraft() && can_float() ) {
+        return 1.0f;
     }
 
     if( steering.empty() ) {
-        return -1.0; // No steering installed
+        return -1.0f; // No steering installed
     }
     // If the only steering part is an animal harness, with no animal in, it
     // is not steerable.
@@ -3928,7 +3939,7 @@ float vehicle::steering_effectiveness() const
     if( steering.size() == 1 && vp.info().fuel_type == fuel_type_animal ) {
         monster *mon = get_pet( steering[0] );
         if( mon == nullptr || !mon->has_effect( effect_harnessed ) ) {
-            return -2.0;
+            return -2.0f;
         }
     }
     // For now, you just need one wheel working for 100% effective steering.
@@ -3937,12 +3948,12 @@ float vehicle::steering_effectiveness() const
     // etc)
     for( int p : steering ) {
         if( parts[ p ].is_available() ) {
-            return 1.0;
+            return 1.0f;
         }
     }
 
     // We have steering, but it's all broken.
-    return 0.0;
+    return 0.0f;
 }
 
 float vehicle::handling_difficulty() const
@@ -4037,43 +4048,43 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
     // we want this to update the activity level whenever the engine is running
     if( load > 0 && fuel_left( fuel_type_muscle ) > 0 ) {
         g->u.increase_activity_level( ACTIVE_EXERCISE );
-    }
-    //do this as a function of current load
-    // But only if the player is actually there!
-    if( load > 0 && fuel_left( fuel_type_muscle ) > 0 ) {
-        int mod = 0 + 4 * st; // strain
-        int base_burn = -3 + static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) );
-        base_burn = ( load / 3 ) > base_burn ? ( load / 3 ) : base_burn;
+        //do this as a function of current load
+        // But only if the player is actually there!
+        int eff_load = load / 10;
+        int mod = 4 * st; // strain
+        int base_burn = static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) -
+                        3;
+        base_burn = std::max( eff_load / 3, base_burn );
         //charge bionics when using muscle engine
         const item muscle( "muscle" );
         if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             if( one_in( 1000 / load ) ) { // more pedaling = more power
                 g->u.charge_power( 1 );
             }
-            mod += load / 5;
+            mod += eff_load / 5;
         }
         if( g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             if( one_in( 1000 / load ) && one_in( 20 ) ) { // intentional double chance check
                 g->u.charge_power( 1 );
             }
-            mod += load / 10;
+            mod += eff_load / 10;
         }
         for( const bionic_id &bid : g->u.get_bionic_fueled_with( muscle ) ) {
             if( g->u.has_active_bionic( bid ) ) {
                 if( one_in( 1000 / load ) ) { // more pedaling = more power
                     g->u.charge_power( muscle.fuel_energy() * bid->fuel_efficiency );
                 }
-                mod += load / 5;
+                mod += eff_load / 5;
             }
             if( one_in( 1000 / load ) && one_in( 20 ) ) { // intentional double chance check
                 g->u.charge_power( muscle.fuel_energy() * bid->fuel_efficiency );
             }
-            mod += load / 10;
+            mod += eff_load / 10;
         }
         // decreased stamina burn scalable with load
         if( g->u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
-            g->u.charge_power( ( load / 20 ) > 1 ? -( load / 20 ) : -1 );
-            mod -= ( load / 5 ) > 5 ? ( load / 5 ) : 5;
+            g->u.charge_power( -std::max( eff_load / 20, 1 ) );
+            mod -= std::max( eff_load / 5, 5 );
         }
         if( one_in( 1000 / load ) && one_in( 10 ) ) {
             g->u.mod_thirst( 1 );
@@ -5870,7 +5881,7 @@ void vehicle::calc_mass_center( bool use_precalc ) const
         }
 
         if( vp.part().has_flag( vehicle_part::animal_flag ) ) {
-            int animal_mass = vp.part().base.get_var( "weight", 0 );
+            std::int64_t animal_mass = vp.part().base.get_var( "weight", 0 );
             m_part += units::from_gram( animal_mass );
         }
 

@@ -123,10 +123,21 @@ void game::list_missions()
             y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, col,
                                  miss->name() + for_npc );
 
+            auto format_tokenized_description = []( const std::string description,
+            const std::vector<std::pair<int, std::string>> rewards ) {
+                std::string formatted_description = description;
+                for( const auto &reward : rewards ) {
+                    std::string token = "<reward_count:" + reward.second + ">";
+                    formatted_description = string_replace( formatted_description, token, string_format( "%d",
+                                                            reward.first ) );
+                }
+                return formatted_description;
+            };
+
             y++;
             if( !miss->get_description().empty() ) {
                 y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, c_white,
-                                     miss->get_description() );
+                                     format_tokenized_description( miss->get_description(), miss->get_likely_rewards() ) );
             }
             if( miss->has_deadline() ) {
                 const time_point deadline = miss->get_deadline();
