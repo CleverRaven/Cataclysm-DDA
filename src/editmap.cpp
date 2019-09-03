@@ -1508,14 +1508,12 @@ int editmap::select_shape( shapetype shape, int mode )
     altblink = false;
     if( action == "CONFIRM" ) {
         editshape = shape;
-        return target_list.size();
     } else {
-        target_list.clear();
         target = orig;
         origin = origor;
-        target_list.push_back( target );
-        return -1;
+        recalc_target( editshape );
     }
+    return target_list.size();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
