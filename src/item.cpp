@@ -324,7 +324,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
     }
 
     std::string corpse_type;
-    
+
     if( mt == mtype_id::NULL_ID() ) {
         //TODO: Jsonify this set.
         static const std::set<std::string> corpse_types = {
