@@ -66,8 +66,7 @@
   },
   {
     "id": "EFFECT_NIGHT_VISION",
-    "type": "json_flag",
-    "context": [ "EFFECT" ]
+    "type": "json_flag"
   },
   {
     "id": "BLOCK_WHILE_WORN",
