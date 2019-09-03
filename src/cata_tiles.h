@@ -15,6 +15,7 @@
 #include "creature.h"
 #include "lightmap.h"
 #include "line.h"
+#include "map_memory.h"
 #include "options.h"
 #include "weather.h"
 #include "enums.h"
@@ -319,10 +320,20 @@ class cata_tiles
                                       const std::map<tripoint, ter_id> &ter_override );
         void get_rotation_and_subtile( char val, int &rota, int &subtile );
 
+        /** Map memory */
+        bool has_memory_at( const tripoint &p ) const;
+        bool has_terrain_memory_at( const tripoint &p ) const;
+        bool has_furniture_memory_at( const tripoint &p ) const;
+        bool has_trap_memory_at( const tripoint &p ) const;
+        bool has_vpart_memory_at( const tripoint &p ) const;
+        memorized_terrain_tile get_terrain_memory_at( const tripoint &p ) const;
+        memorized_terrain_tile get_furniture_memory_at( const tripoint &p ) const;
+        memorized_terrain_tile get_trap_memory_at( const tripoint &p ) const;
+        memorized_terrain_tile get_vpart_memory_at( const tripoint &p ) const;
+
         /** Drawing Layers */
         bool apply_vision_effects( const tripoint &pos, visibility_type visibility );
         bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d, bool override_only );
-        bool draw_terrain_from_memory( const tripoint &p, int &height_3d );
         bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d, bool override_only );
         bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d, bool override_only );
         bool draw_graffiti( const tripoint &p, lit_level ll, int &height_3d, bool override_only );

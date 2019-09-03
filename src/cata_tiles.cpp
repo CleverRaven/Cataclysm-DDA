@@ -1080,17 +1080,13 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             const int &x = pos.x;
             const int &y = pos.y;
 
-            const bool has_override = has_draw_override( pos );
             bool override_only = false;
 
             if( y < min_visible_y || y > max_visible_y || x < min_visible_x || x > max_visible_x ) {
-                int height_3d = 0;
-                if( !draw_terrain_from_memory( pos, height_3d ) ) {
-                    apply_vision_effects( pos, offscreen_type );
-                }
-                if( has_override ) {
+                if( has_draw_override( pos ) || has_memory_at( pos ) ) {
                     override_only = true;
                 } else {
+                    apply_vision_effects( pos, offscreen_type );
                     continue;
                 }
             }
@@ -1173,15 +1169,10 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             if( !override_only &&
                 apply_vision_effects( pos, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
 
-                int height_3d = 0;
-                draw_terrain_from_memory( pos, height_3d );
-                const auto critter = g->critter_at( pos, true );
-                if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
-                    // TODO: defer drawing this until later when we know how tall
-                    //     the terrain/furniture under the creature is.
-                    draw_from_id_string( "infrared_creature", C_NONE, empty_string, pos, 0, 0, LL_LIT, false );
-                }
-                if( has_override ) {
+                const Creature *critter = g->critter_at( pos, true );
+                if( has_draw_override( pos ) || has_memory_at( pos ) ||
+                    ( critter && g->u.sees_with_infrared( *critter ) ) ) {
+
                     override_only = true;
                 } else {
                     continue;
@@ -2094,43 +2085,111 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
             return draw_from_id_string( tname, C_TERRAIN, empty_string, p, subtile, rotation, lit, nv,
                                         height_3d );
         }
+    } else if( override_only && has_terrain_memory_at( p ) ) {
+        // try drawing memory if invisible and not overridden
+        const auto &t = get_terrain_memory_at( p );
+        return draw_from_id_string( t.tile, C_TERRAIN, empty_string, p, t.subtile, t.rotation,
+                                    LL_MEMORIZED, nv_goggles_activated, height_3d );
     }
     return false;
 }
 
-bool cata_tiles::draw_terrain_from_memory( const tripoint &p, int &height_3d )
+
+bool cata_tiles::has_memory_at( const tripoint &p ) const
 {
-    if( !g->u.should_show_map_memory() ) {
-        return false;
+    if( g->u.should_show_map_memory() ) {
+        const memorized_terrain_tile t = g->u.get_memorized_tile( g->m.getabs( p ) );
+        return !t.tile.empty();
     }
-    const memorized_terrain_tile t = g->u.get_memorized_tile( g->m.getabs( p ) );
-    if( t.tile.empty() ) {
-        return false;
+    return false;
+}
+
+bool cata_tiles::has_terrain_memory_at( const tripoint &p ) const
+{
+    if( g->u.should_show_map_memory() ) {
+        const memorized_terrain_tile t = g->u.get_memorized_tile( g->m.getabs( p ) );
+        if( t.tile.substr( 0, 2 ) == "t_" ) {
+            return true;
+        }
     }
+    return false;
+}
 
-    TILE_CATEGORY category = C_NONE;
-
-    switch( t.tile[0] ) {
-        case 't':
-            if( t.tile.size() >= 2 && t.tile[1] == 'r' ) {
-                category = C_TRAP;
-            } else {
-                category = C_TERRAIN;
-            }
-            break;
-        case 'f':
-            category = C_FURNITURE;
-            break;
-        case 'v':
-            category = C_VEHICLE_PART;
-            break;
-        default:
-            debugmsg( "Could not infer category for memorized tile %s", t.tile );
-            break;
+bool cata_tiles::has_furniture_memory_at( const tripoint &p ) const
+{
+    if( g->u.should_show_map_memory() ) {
+        const memorized_terrain_tile t = g->u.get_memorized_tile( g->m.getabs( p ) );
+        if( t.tile.substr( 0, 2 ) == "f_" ) {
+            return true;
+        }
     }
+    return false;
+}
 
-    return draw_from_id_string( t.tile, category, empty_string, p, t.subtile, t.rotation,
-                                LL_MEMORIZED, nv_goggles_activated, height_3d );
+bool cata_tiles::has_trap_memory_at( const tripoint &p ) const
+{
+    if( g->u.should_show_map_memory() ) {
+        const memorized_terrain_tile t = g->u.get_memorized_tile( g->m.getabs( p ) );
+        if( t.tile.substr( 0, 3 ) == "tr_" ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool cata_tiles::has_vpart_memory_at( const tripoint &p ) const
+{
+    if( g->u.should_show_map_memory() ) {
+        const memorized_terrain_tile t = g->u.get_memorized_tile( g->m.getabs( p ) );
+        if( t.tile.substr( 0, 3 ) == "vp_" ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+memorized_terrain_tile cata_tiles::get_terrain_memory_at( const tripoint &p ) const
+{
+    if( g->u.should_show_map_memory() ) {
+        const memorized_terrain_tile t = g->u.get_memorized_tile( g->m.getabs( p ) );
+        if( t.tile.substr( 0, 2 ) == "t_" ) {
+            return t;
+        }
+    }
+    return {};
+}
+
+memorized_terrain_tile cata_tiles::get_furniture_memory_at( const tripoint &p ) const
+{
+    if( g->u.should_show_map_memory() ) {
+        const memorized_terrain_tile t = g->u.get_memorized_tile( g->m.getabs( p ) );
+        if( t.tile.substr( 0, 2 ) == "f_" ) {
+            return t;
+        }
+    }
+    return {};
+}
+
+memorized_terrain_tile cata_tiles::get_trap_memory_at( const tripoint &p ) const
+{
+    if( g->u.should_show_map_memory() ) {
+        const memorized_terrain_tile t = g->u.get_memorized_tile( g->m.getabs( p ) );
+        if( t.tile.substr( 0, 3 ) == "tr_" ) {
+            return t;
+        }
+    }
+    return {};
+}
+
+memorized_terrain_tile cata_tiles::get_vpart_memory_at( const tripoint &p ) const
+{
+    if( g->u.should_show_map_memory() ) {
+        const memorized_terrain_tile t = g->u.get_memorized_tile( g->m.getabs( p ) );
+        if( t.tile.substr( 0, 3 ) == "vp_" ) {
+            return t;
+        }
+    }
+    return {};
 }
 
 bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &height_3d,
@@ -2198,6 +2257,11 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
             return draw_from_id_string( fname, C_FURNITURE, empty_string, p, subtile, rotation, lit, nv,
                                         height_3d );
         }
+    } else if( override_only && has_furniture_memory_at( p ) ) {
+        // try drawing memory if invisible and not overridden
+        const auto &t = get_furniture_memory_at( p );
+        return draw_from_id_string( t.tile, C_FURNITURE, empty_string, p, t.subtile, t.rotation,
+                                    LL_MEMORIZED, nv_goggles_activated, height_3d );
     }
     return false;
 }
@@ -2268,6 +2332,11 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
             return draw_from_id_string( trname, C_TRAP, empty_string, p, subtile, rotation, lit, nv,
                                         height_3d );
         }
+    } else if( override_only && has_trap_memory_at( p ) ) {
+        // try drawing memory if invisible and not overridden
+        const auto &t = get_trap_memory_at( p );
+        return draw_from_id_string( t.tile, C_TRAP, empty_string, p, t.subtile, t.rotation,
+                                    LL_MEMORIZED, nv_goggles_activated, height_3d );
     }
     return false;
 }
@@ -2422,6 +2491,11 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             }
             return ret;
         }
+    } else if( override_only && has_vpart_memory_at( p ) ) {
+        // try drawing memory if invisible and not overridden
+        const auto &t = get_vpart_memory_at( p );
+        return draw_from_id_string( t.tile, C_VEHICLE_PART, empty_string, p, t.subtile, t.rotation,
+                                    LL_MEMORIZED, nv_goggles_activated, height_3d );
     }
     return false;
 }
@@ -2564,8 +2638,16 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
                 attitude = pl->attitude_to( g-> u );
             }
         }
-    } else {
-        return false;
+    } else { // override_only
+        const Creature *critter = g->critter_at( p, true );
+        if( critter && g->u.sees_with_infrared( *critter ) ) {
+            // try drawing infrared creature if invisible and not overridden
+            // return directly without drawing overlay
+            return draw_from_id_string( "infrared_creature", C_NONE, empty_string, p, 0, 0, LL_LIT, false,
+                                        height_3d );
+        } else {
+            return false;
+        }
     }
 
     if( result && !is_player ) {
