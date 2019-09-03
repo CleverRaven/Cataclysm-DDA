@@ -156,7 +156,7 @@ void mon_spellcasting_actor::load_internal( JsonObject &obj, const std::string &
     translation monster_message;
     //~ translator "<Monster Display name> cast <Spell Name> on <target name>!"
     optional( obj, was_loaded, "monster_message", monster_message,
-              translation( "%s casts %s at %s!" ) );
+              to_translation( "%s casts %s at %s!" ) );
     spell_data = spell( spell_id( sp_id ), monster_message );
     for( int i = 0; i <= spell_level; i++ ) {
         spell_data.gain_level();
@@ -226,17 +226,17 @@ void melee_actor::load_internal( JsonObject &obj, const std::string & )
     accuracy = obj.get_int( "accuracy", INT_MIN );
 
     optional( obj, was_loaded, "miss_msg_u", miss_msg_u,
-              translation( "The %s lunges at you, but you dodge!" ) );
+              to_translation( "The %s lunges at you, but you dodge!" ) );
     optional( obj, was_loaded, "no_dmg_msg_u", no_dmg_msg_u,
-              translation( "The %1$s bites your %2$s, but fails to penetrate armor!" ) );
+              to_translation( "The %1$s bites your %2$s, but fails to penetrate armor!" ) );
     optional( obj, was_loaded, "hit_dmg_u", hit_dmg_u,
-              translation( "The %1$s bites your %2$s!" ) );
+              to_translation( "The %1$s bites your %2$s!" ) );
     optional( obj, was_loaded, "miss_msg_npc", miss_msg_npc,
-              translation( "The %s lunges at <npcname>, but they dodge!" ) );
+              to_translation( "The %s lunges at <npcname>, but they dodge!" ) );
     optional( obj, was_loaded, "no_dmg_msg_npc", no_dmg_msg_npc,
-              translation( "The %1$s bites <npcname>'s %2$s, but fails to penetrate armor!" ) );
+              to_translation( "The %1$s bites <npcname>'s %2$s, but fails to penetrate armor!" ) );
     optional( obj, was_loaded, "hit_dmg_npc", hit_dmg_npc,
-              translation( "The %1$s bites <npcname>'s %2$s!" ) );
+              to_translation( "The %1$s bites <npcname>'s %2$s!" ) );
 
     if( obj.has_array( "body_parts" ) ) {
         JsonArray jarr = obj.get_array( "body_parts" );

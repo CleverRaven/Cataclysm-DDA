@@ -366,6 +366,16 @@ translation::translation( const std::string &str, const no_translation_tag )
 {
 }
 
+translation translation::to_translation( const std::string &raw )
+{
+    return { raw };
+}
+
+translation translation::to_translation( const std::string &ctxt, const std::string &raw )
+{
+    return { ctxt, raw };
+}
+
 translation translation::no_translation( const std::string &str )
 {
     return { str, no_translation_tag() };
@@ -428,6 +438,16 @@ bool translation::operator==( const translation &that ) const
 bool translation::operator!=( const translation &that ) const
 {
     return !operator==( that );
+}
+
+translation to_translation( const std::string &raw )
+{
+    return translation::to_translation( raw );
+}
+
+translation to_translation( const std::string &ctxt, const std::string &raw )
+{
+    return translation::to_translation( ctxt, raw );
 }
 
 translation no_translation( const std::string &str )

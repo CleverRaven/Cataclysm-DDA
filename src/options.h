@@ -22,7 +22,7 @@ class options_manager
         {
             public:
                 id_and_option( const std::string &first, const std::string &second )
-                    : std::pair<std::string, translation>( first, translation( second ) ) {
+                    : std::pair<std::string, translation>( first, to_translation( second ) ) {
                 }
                 id_and_option( const std::string &first, const translation &second )
                     : std::pair<std::string, translation>( first, second ) {
