@@ -7040,9 +7040,6 @@ bool player::consume_item( item &target )
         add_msg_if_player( m_info, _( "You do not have that item." ) );
         return false;
     }
-    if( !query_consume_ownership( target, *this ) ) {
-        return false;
-    }
     if( is_underwater() && !has_trait( trait_WATERSLEEP ) ) {
         add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return false;
@@ -7057,7 +7054,9 @@ bool player::consume_item( item &target )
         }
         return false;
     }
-
+    if( is_player() && !query_consume_ownership( target, *this ) ) {
+        return false;
+    }
     if( consume_med( comest ) ||
         eat( comest ) ||
         feed_battery_with( comest ) ||

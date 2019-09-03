@@ -181,6 +181,7 @@ bool Pickup::query_thief()
                evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
     };
     std::string answer = query_popup()
+                         .allow_cancel( false )
                          .context( "YES_NO_ALWAYS_NEVER" )
                          .message( "%s",
                                    _( "Picking up this item will be considered stealing, continue?" ) )
