@@ -1292,6 +1292,7 @@
       [ [ "power_supply", 1 ] ],
       [ [ "motor_tiny", 3 ] ],
       [ [ "hk_mp5", 1 ] ],
+      [ [ "mp5mag", 1 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "pipe", 4 ] ],
       [ [ "spring", 2 ] ]
