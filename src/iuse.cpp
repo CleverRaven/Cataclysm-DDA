@@ -4633,7 +4633,7 @@ void iuse::cut_log_into_planks( player &p )
     p.add_msg_if_player( _( "You cut the log into planks." ) );
 
     p.assign_activity( activity_id( "ACT_CHOP_PLANKS" ), moves, -1 );
-    p.activity.placement = p.pos();
+    p.activity.placement = g->m.getabs( p.pos() );
 }
 
 int iuse::lumber( player *p, item *it, bool t, const tripoint & )
@@ -4719,7 +4719,7 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )
         break;
     }
     p->assign_activity( activity_id( "ACT_CHOP_TREE" ), moves, -1, p->get_item_position( it ) );
-    p->activity.placement = pnt;
+    p->activity.placement = g->m.getabs( pnt );
 
     return it->type->charges_to_use();
 }
@@ -4762,7 +4762,7 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint & )
         break;
     }
     p->assign_activity( activity_id( "ACT_CHOP_LOGS" ), moves, -1, p->get_item_position( it ) );
-    p->activity.placement = pnt;
+    p->activity.placement = g->m.getabs( pnt );
 
     return it->type->charges_to_use();
 }
