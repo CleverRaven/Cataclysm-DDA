@@ -1867,7 +1867,8 @@ bool Character::has_nv()
     if( !nv_cached ) {
         nv_cached = true;
         nv = ( worn_with_flag( "GNV_EFFECT" ) ||
-               has_active_bionic( bionic_id( "bio_night_vision" ) ) );
+               has_active_bionic( bionic_id( "bio_night_vision" ) ) ||
+               has_effect( efftype_id( "night_vision" ) ) );
     }
 
     return nv;
