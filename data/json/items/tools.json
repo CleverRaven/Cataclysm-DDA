@@ -2327,6 +2327,7 @@
     "symbol": "/",
     "color": "brown",
     "use_action": "FISH_ROD",
+    "qualities": [ [ "FISHING", 1 ] ],
     "flags": [ "FISH_POOR" ]
   },
   {
@@ -2343,6 +2344,7 @@
     "symbol": "/",
     "color": "brown",
     "use_action": "FISH_ROD",
+    "qualities": [ [ "FISHING", 1 ] ],
     "flags": [ "FISH_GOOD" ]
   },
   {

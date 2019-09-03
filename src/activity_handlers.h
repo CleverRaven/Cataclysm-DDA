@@ -33,8 +33,10 @@ enum do_activity_reason : int {
     CAN_DO_CONSTRUCTION,    // Can do construction.
     CAN_DO_FETCH,           // Can do fetch - this is usually the default result for fetch task
     CAN_DO_PREREQ,          // for constructions - cant build the main construction, but can build the pre-req
+    CAN_DO_PREREQ_2,        // Can do the second pre-req deep below the desired one.
     NO_COMPONENTS,          // can't do the activity there due to lack of components /tools
     NO_COMPONENTS_PREREQ,   // need components to build the pre-requisite for the actual desired construction
+    NO_COMPONENTS_PREREQ_2, // need components to the second pre-req deep.
     DONT_HAVE_SKILL,        // don't have the required skill
     NO_ZONE,                // There is no required zone anymore
     ALREADY_DONE,           // the activity is done already ( maybe by someone else )
@@ -42,7 +44,13 @@ enum do_activity_reason : int {
     NEEDS_HARVESTING,       // For farming - tile is harvestable now.
     NEEDS_PLANTING,         // For farming - tile can be planted
     NEEDS_TILLING,          // For farming - tile can be tilled
-    BLOCKING_TILE           // Something has made it's way onto the tile, so the activity cannot proceed
+    BLOCKING_TILE,           // Something has made it's way onto the tile, so the activity cannot proceed
+    NEEDS_CHOPPING,         // There is wood there to be chopped
+    NEEDS_TREE_CHOPPING,    // There is a tree there that needs to be chopped
+    NEEDS_BIG_BUTCHERING,   // There is at least one corpse there to butcher, and it's a big one
+    NEEDS_BUTCHERING,       // THere is at least one corpse there to butcher, and theres no need for additional tools
+    ALREADY_WORKING,        // somebody is already working there
+    NEEDS_FISHING           // This spot can be fished, if the right tool is present.
 };
 
 struct activity_reason_info {
@@ -112,6 +120,7 @@ void churn_do_turn( player_activity *act, player *p );
 void start_fire_do_turn( player_activity *act, player *p );
 void vibe_do_turn( player_activity *act, player *p );
 void hand_crank_do_turn( player_activity *act, player *p );
+void multiple_chop_planks_do_turn( player_activity *act, player *p );
 void oxytorch_do_turn( player_activity *act, player *p );
 void aim_do_turn( player_activity *act, player *p );
 void pickup_do_turn( player_activity *act, player *p );
@@ -122,7 +131,10 @@ void consume_drink_menu_do_turn( player_activity *act, player *p );
 void consume_meds_menu_do_turn( player_activity *act, player *p );
 void move_items_do_turn( player_activity *act, player *p );
 void multiple_farm_do_turn( player_activity *act, player *p );
+void multiple_fish_do_turn( player_activity *act, player *p );
 void multiple_construction_do_turn( player_activity *act, player *p );
+void multiple_butcher_do_turn( player_activity *act, player *p );
+void chop_trees_do_turn( player_activity *act, player *p );
 void fetch_do_turn( player_activity *act, player *p );
 void move_loot_do_turn( player_activity *act, player *p );
 void travel_do_turn( player_activity *act, player *p );
