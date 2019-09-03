@@ -4480,14 +4480,22 @@ int item::get_encumber_when_containing(
 
     // Non-rigid items add additional encumbrance proportional to their volume
     if( !type->rigid ) {
+        const int capacity = get_total_capacity().value();
+
         if( t->max_encumber != 0 ) {
-            // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
-            encumber += static_cast<int64_t>( t->max_encumber - t->encumber ) * contents_volume.value() /
-                        get_total_capacity().value();
+
+            if( capacity > 0 ) {
+                // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
+                encumber += static_cast<int64_t>( t->max_encumber - t->encumber ) * contents_volume.value() /
+                            capacity;
+            } else {
+                debugmsg( "Non-rigid item (%s) without storage capacity.", tname() );
+            }
         } else {
             encumber += contents_volume / 250_ml;
         }
     }
+
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
     if( has_flag( "FIT" ) && has_flag( "VARSIZE" ) ) {
