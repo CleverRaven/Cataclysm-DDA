@@ -313,24 +313,26 @@ class cata_tiles
 
         /* Tile Picking */
         void get_tile_values( int t, const int *tn, int &subtile, int &rotation );
-        void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group );
-        void get_terrain_orientation( const tripoint &p, int &rota, int &subtile );
+        void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group,
+                                 const std::map<tripoint, ter_id> &ter_override );
+        void get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
+                                      const std::map<tripoint, ter_id> &ter_override );
         void get_rotation_and_subtile( char val, int &rota, int &subtile );
 
         /** Drawing Layers */
         bool apply_vision_effects( const tripoint &pos, visibility_type visibility );
-        bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d, bool override_only );
         bool draw_terrain_from_memory( const tripoint &p, int &height_3d );
-        bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d );
-        bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d );
-        bool draw_graffiti( const tripoint &p, lit_level ll, int &height_3d );
-        bool draw_trap( const tripoint &p, lit_level ll, int &height_3d );
-        bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d );
-        bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d );
-        bool draw_vpart_below( const tripoint &p, lit_level ll, int &height_3d );
-        bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d );
-        bool draw_critter_at_below( const tripoint &p, lit_level ll, int &height_3d );
-        bool draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d, bool override_only );
+        bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d, bool override_only );
+        bool draw_graffiti( const tripoint &p, lit_level ll, int &height_3d, bool override_only );
+        bool draw_trap( const tripoint &p, lit_level ll, int &height_3d, bool override_only );
+        bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d, bool override_only );
+        bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d, bool override_only );
+        bool draw_vpart_below( const tripoint &p, lit_level ll, int &height_3d, bool override_only );
+        bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d, bool override_only );
+        bool draw_critter_at_below( const tripoint &p, lit_level ll, int &height_3d, bool override_only );
+        bool draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d, bool override_only );
         void draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll, int &height_3d );
 
         bool draw_item_highlight( const tripoint &pos );

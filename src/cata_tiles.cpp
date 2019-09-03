@@ -977,7 +977,9 @@ void tileset_loader::load_tile_spritelists( JsonObject &entry,
 struct tile_render_info {
     const tripoint pos;
     int height_3d = 0; // accumulator for 3d tallness of sprites rendered here so far
-    tile_render_info( const tripoint &pos, int height_3d ) : pos( pos ), height_3d( height_3d ) {
+    const bool override_only;
+    tile_render_info( const tripoint &pos, const int height_3d, const bool override_only )
+        : pos( pos ), height_3d( height_3d ), override_only( override_only ) {
     }
 };
 
@@ -1079,20 +1081,22 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             const int &y = pos.y;
 
             const bool has_override = has_draw_override( pos );
+            bool override_only = false;
 
-            if( ( y < min_visible_y || y > max_visible_y || x < min_visible_x || x > max_visible_x ) &&
-                // tile overrides are visible even outside vision range
-                !has_override ) {
-
+            if( y < min_visible_y || y > max_visible_y || x < min_visible_x || x > max_visible_x ) {
                 int height_3d = 0;
                 if( !draw_terrain_from_memory( pos, height_3d ) ) {
                     apply_vision_effects( pos, offscreen_type );
                 }
-                continue;
+                if( has_override ) {
+                    override_only = true;
+                } else {
+                    continue;
+                }
             }
 
             // Add scent value to the overlay_strings list for every visible tile when displaying scent
-            if( g->displaying_scent ) {
+            if( g->displaying_scent && !override_only ) {
                 const int scent_value = g->scent.get( pos );
                 if( scent_value > 0 ) {
                     overlay_strings.emplace( player_to_screen( point( x, y ) ) + point( tile_width / 2, 0 ),
@@ -1103,20 +1107,24 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             if( g->displaying_radiation ) {
                 const auto rad_override = radiation_override.find( pos );
-                const int rad_value = rad_override != radiation_override.end() ?
-                                      rad_override->second : g->m.get_radiation( pos );
-                catacurses::base_color col;
-                if( rad_value > 0 ) {
-                    col = catacurses::green;
-                } else {
-                    col = catacurses::cyan;
+                const bool rad_overridden = rad_override != radiation_override.end();
+                if( rad_overridden || !override_only ) {
+                    const int rad_value = rad_overridden ? rad_override->second : g->m.get_radiation( pos );
+                    catacurses::base_color col;
+                    if( rad_value > 0 ) {
+                        col = catacurses::green;
+                    } else {
+                        col = catacurses::cyan;
+                    }
+                    overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, 0 ),
+                                             formatted_text( std::to_string( rad_value ), 8 + col, NORTH ) );
                 }
                 overlay_strings.emplace( player_to_screen( point( x, y ) ) + point( tile_width / 2, 0 ),
                                          formatted_text( std::to_string( rad_value ), 8 + col, NORTH ) );
             }
 
             // Add temperature value to the overlay_strings list for every visible tile when displaying temperature
-            if( g->displaying_temperature ) {
+            if( g->displaying_temperature && !override_only ) {
                 int temp_value = g->weather.get_temperature( pos );
                 int ctemp = temp_to_celsius( temp_value );
                 short color;
@@ -1145,7 +1153,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                                  NORTH ) );
             }
 
-            if( g->displaying_visibility && ( g->displaying_visibility_creature != nullptr ) ) {
+            if( g->displaying_visibility && g->displaying_visibility_creature &&
+                !override_only ) {
                 const bool visibility = g->displaying_visibility_creature->sees( pos );
 
                 // color overlay.
@@ -1161,8 +1170,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     formatted_text( visibility_str, catacurses::black, NORTH ) );
             }
 
-            // if we find any tile override, skip drawing vision effects
-            if( !has_override &&
+            if( !override_only &&
                 apply_vision_effects( pos, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
 
                 int height_3d = 0;
@@ -1173,15 +1181,19 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     //     the terrain/furniture under the creature is.
                     draw_from_id_string( "infrared_creature", C_NONE, empty_string, pos, 0, 0, LL_LIT, false );
                 }
-                continue;
+                if( has_override ) {
+                    override_only = true;
+                } else {
+                    continue;
+                }
             }
 
             int height_3d = 0;
 
             // light level is now used for choosing between grayscale filter and normal lit tiles.
-            draw_terrain( pos, ch.visibility_cache[x][y], height_3d );
+            draw_terrain( pos, ch.visibility_cache[x][y], height_3d, override_only );
 
-            draw_points.emplace_back( pos, height_3d );
+            draw_points.emplace_back( pos, height_3d, override_only );
         }
         const std::array<decltype( &cata_tiles::draw_furniture ), 10> drawing_layers = {{
                 &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap,
@@ -1195,7 +1207,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         for( auto f : drawing_layers ) {
             // ... draw all the points we drew terrain for, in the same order
             for( auto &p : draw_points ) {
-                ( this->*f )( p.pos, ch.visibility_cache[p.pos.x][p.pos.y], p.height_3d );
+                ( this->*f )( p.pos, ch.visibility_cache[p.pos.x][p.pos.y], p.height_3d, p.override_only );
             }
         }
         // display number of monsters to spawn in mapgen preview
@@ -1247,10 +1259,10 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 continue;
             }
             //calling draw to memorize everything.
-            draw_terrain( p, lighting, height_3d );
-            draw_furniture( p, lighting, height_3d );
-            draw_trap( p, lighting, height_3d );
-            draw_vpart( p, lighting, height_3d );
+            draw_terrain( p, lighting, height_3d, false );
+            draw_furniture( p, lighting, height_3d, false );
+            draw_trap( p, lighting, height_3d, false );
+            draw_vpart( p, lighting, height_3d, false );
         }
     }
     // tile overrides are already drawn in the previous code
@@ -1952,11 +1964,13 @@ bool cata_tiles::apply_vision_effects( const tripoint &pos,
     return true;
 }
 
-bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level /*ll*/, int &/*height_3d*/ )
+bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
+                                     const bool override_only )
 {
     const auto low_override = draw_below_override.find( p );
     const bool low_overridden = low_override != draw_below_override.end();
-    if( low_overridden ? !low_override->second : !g->m.need_draw_lower_floor( p ) ) {
+    if( low_overridden ? !low_override->second : ( override_only ||
+            !g->m.need_draw_lower_floor( p ) ) ) {
         return false;
     }
 
@@ -2020,36 +2034,68 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level /*ll*/, 
     return true;
 }
 
-bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &height_3d )
+bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &height_3d,
+                               const bool override_only )
 {
     const auto override = terrain_override.find( p );
     const bool overridden = override != terrain_override.end();
-    const ter_id &t = overridden ? override->second : g->m.ter( p );
-    if( t == t_null ) {
-        return false;
+    bool neighborhood_overridden = overridden;
+    if( !neighborhood_overridden ) {
+        for( const point &dir : {
+                 point_south, point_east, point_west, point_north
+             } ) {
+            if( terrain_override.find( p + dir ) != terrain_override.end() ) {
+                neighborhood_overridden = true;
+                break;
+            }
+        }
     }
-    const lit_level lit = overridden ? LL_LIT : ll;
-    const bool nv = overridden ? false : nv_goggles_activated;
-
-    int subtile = 0;
-    int rotation = 0;
-
-    int connect_group;
-    if( t.obj().connects( connect_group ) ) {
-        get_connect_values( p, subtile, rotation, connect_group );
-    } else {
-        get_terrain_orientation( p, rotation, subtile );
-        // do something to get other terrain orientation values
+    // first memorize the actual terrain
+    const ter_id &t = g->m.ter( p );
+    if( t && !override_only ) {
+        int subtile = 0;
+        int rotation = 0;
+        int connect_group = 0;
+        if( t.obj().connects( connect_group ) ) {
+            get_connect_values( p, subtile, rotation, connect_group, {} );
+        } else {
+            get_terrain_orientation( p, rotation, subtile, {} );
+            // do something to get other terrain orientation values
+        }
+        const std::string &tname = t.id().str();
+        if( !g->m.check_and_set_seen_cache( p ) ) {
+            g->u.memorize_tile( g->m.getabs( p ), tname, subtile, rotation );
+        }
+        // draw the actual terrain if there's no override
+        if( !neighborhood_overridden ) {
+            return draw_from_id_string( tname, C_TERRAIN, empty_string, p, subtile, rotation, ll,
+                                        nv_goggles_activated, height_3d );
+        }
     }
-
-    const std::string &tname = t.id().str();
-    // do not memorize overridden tiles
-    if( !has_draw_override( p ) && !g->m.check_and_set_seen_cache( p ) ) {
-        g->u.memorize_tile( g->m.getabs( p ), tname, subtile, rotation );
+    if( override_only ? overridden : neighborhood_overridden ) {
+        // and then draw the override terrain
+        const ter_id &t2 = overridden ? override->second : t;
+        if( t2 ) {
+            // both the current and neighbouring overrides may change the appearance
+            // of the tile, so always re-calculate it.
+            int subtile = 0;
+            int rotation = 0;
+            int connect_group = 0;
+            if( t2.obj().connects( connect_group ) ) {
+                get_connect_values( p, subtile, rotation, connect_group, terrain_override );
+            } else {
+                get_terrain_orientation( p, rotation, subtile, terrain_override );
+            }
+            const std::string &tname = t2.id().str();
+            // tile overrides are never memorized
+            // tile overrides are always shown with full visibility
+            const lit_level lit = overridden ? LL_LIT : ll;
+            const bool nv = overridden ? false : nv_goggles_activated;
+            return draw_from_id_string( tname, C_TERRAIN, empty_string, p, subtile, rotation, lit, nv,
+                                        height_3d );
+        }
     }
-
-    return draw_from_id_string( tname, C_TERRAIN, empty_string, p, subtile, rotation, lit,
-                                nv, height_3d );
+    return false;
 }
 
 bool cata_tiles::draw_terrain_from_memory( const tripoint &p, int &height_3d )
@@ -2066,7 +2112,11 @@ bool cata_tiles::draw_terrain_from_memory( const tripoint &p, int &height_3d )
 
     switch( t.tile[0] ) {
         case 't':
-            category = C_TERRAIN;
+            if( t.tile.size() >= 2 && t.tile[1] == 'r' ) {
+                category = C_TRAP;
+            } else {
+                category = C_TERRAIN;
+            }
             break;
         case 'f':
             category = C_FURNITURE;
@@ -2083,105 +2133,167 @@ bool cata_tiles::draw_terrain_from_memory( const tripoint &p, int &height_3d )
                                 LL_MEMORIZED, nv_goggles_activated, height_3d );
 }
 
-bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &height_3d )
+bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &height_3d,
+                                 const bool override_only )
 {
     const auto override = furniture_override.find( p );
     const bool overridden = override != furniture_override.end();
-    const furn_id f_id = overridden ? override->second : g->m.furn( p );
-    if( f_id == f_null ) {
-        return false;
+    bool neighborhood_overridden = overridden;
+    if( !neighborhood_overridden ) {
+        for( const point &dir : {
+                 point_south, point_east, point_west, point_north
+             } ) {
+            if( furniture_override.find( p + dir ) != furniture_override.end() ) {
+                neighborhood_overridden = true;
+                break;
+            }
+        }
     }
-
-    const lit_level lit = overridden ? LL_LIT : ll;
-    const bool nv = overridden ? false : nv_goggles_activated;
-
-    const auto furn = [this]( const tripoint & q ) -> furn_id {
-        const auto override = furniture_override.find( q );
-        return override != furniture_override.end() ? override->second : g->m.furn( q );
-    };
-    // for rotation information
-    const int neighborhood[4] = {
-        static_cast<int>( furn( p + point_south ) ),
-        static_cast<int>( furn( p + point_east ) ),
-        static_cast<int>( furn( p + point_west ) ),
-        static_cast<int>( furn( p + point_north ) )
-    };
-
-    int subtile = 0;
-    int rotation = 0;
-    get_tile_values( f_id, neighborhood, subtile, rotation );
-
-    // get the name of this furniture piece
-    const std::string &f_name = f_id.obj().id.str();
-    // do not memorize overridden tiles
-    if( !has_draw_override( p ) && !g->m.check_and_set_seen_cache( p ) ) {
-        g->u.memorize_tile( g->m.getabs( p ), f_name, subtile, rotation );
+    // first memorize the actual furniture
+    const furn_id &f = g->m.furn( p );
+    if( f && !override_only ) {
+        const int neighborhood[4] = {
+            static_cast<int>( g->m.furn( p + point_south ) ),
+            static_cast<int>( g->m.furn( p + point_east ) ),
+            static_cast<int>( g->m.furn( p + point_west ) ),
+            static_cast<int>( g->m.furn( p + point_north ) )
+        };
+        int subtile = 0;
+        int rotation = 0;
+        get_tile_values( f, neighborhood, subtile, rotation );
+        const std::string &fname = f.id().str();
+        if( !g->m.check_and_set_seen_cache( p ) ) {
+            g->u.memorize_tile( g->m.getabs( p ), fname, subtile, rotation );
+        }
+        // draw the actual furniture if there's no override
+        if( !neighborhood_overridden ) {
+            return draw_from_id_string( fname, C_FURNITURE, empty_string, p, subtile, rotation, ll,
+                                        nv_goggles_activated, height_3d );
+        }
     }
-
-    return draw_from_id_string( f_name, C_FURNITURE, empty_string, p, subtile, rotation, lit,
-                                nv, height_3d );
+    if( override_only ? overridden : neighborhood_overridden ) {
+        // and then draw the override furniture
+        const furn_id &f2 = overridden ? override->second : f;
+        if( f2 ) {
+            // both the current and neighbouring overrides may change the appearance
+            // of the tile, so always re-calculate it.
+            const auto furn = [this]( const tripoint & q ) -> furn_id {
+                const auto it = furniture_override.find( q );
+                return it != furniture_override.end() ? it->second : g->m.furn( q );
+            };
+            const int neighborhood[4] = {
+                static_cast<int>( furn( p + point_south ) ),
+                static_cast<int>( furn( p + point_east ) ),
+                static_cast<int>( furn( p + point_west ) ),
+                static_cast<int>( furn( p + point_north ) )
+            };
+            int subtile = 0;
+            int rotation = 0;
+            get_tile_values( f2, neighborhood, subtile, rotation );
+            const std::string &fname = f2.id().str();
+            // tile overrides are never memorized
+            // tile overrides are always shown with full visibility
+            const lit_level lit = overridden ? LL_LIT : ll;
+            const bool nv = overridden ? false : nv_goggles_activated;
+            return draw_from_id_string( fname, C_FURNITURE, empty_string, p, subtile, rotation, lit, nv,
+                                        height_3d );
+        }
+    }
+    return false;
 }
 
-bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3d )
+bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3d,
+                            const bool override_only )
 {
     const auto override = trap_override.find( p );
     const bool overridden = override != trap_override.end();
-    const trap_id &tr = overridden ? override->second : g->m.tr_at( p ).loadid;
-    if( tr == tr_null ||
-        // trap overrides are always visible
-        ( !overridden && !tr.obj().can_see( p, g->u ) ) ) {
-
-        return false;
-    }
-    const lit_level lit = overridden ? LL_LIT : ll;
-    const bool nv = overridden ? false : nv_goggles_activated;
-
-    auto tr_at = [this]( const tripoint & q ) -> trap_id {
-        const auto override = trap_override.find( q );
-        return override != trap_override.end() ? override->second : g->m.tr_at( q ).loadid;
-    };
-    const int neighborhood[4] = {
-        static_cast<int>( tr_at( p + point_south ) ),
-        static_cast<int>( tr_at( p + point_east ) ),
-        static_cast<int>( tr_at( p + point_west ) ),
-        static_cast<int>( tr_at( p + point_north ) )
-    };
-
-    int subtile = 0;
-    int rotation = 0;
-    get_tile_values( tr, neighborhood, subtile, rotation );
-
-    // do not memorize overridden tiles
-    if( !has_draw_override( p ) && !g->m.check_and_set_seen_cache( p ) ) {
-        g->u.memorize_tile( g->m.getabs( p ), tr.id().str(), subtile, rotation );
+    bool neighborhood_overridden = overridden;
+    if( !neighborhood_overridden ) {
+        for( const point &dir : {
+                 point_south, point_east, point_west, point_north
+             } ) {
+            if( trap_override.find( p + dir ) != trap_override.end() ) {
+                neighborhood_overridden = true;
+                break;
+            }
+        }
     }
 
-    return draw_from_id_string( tr.id().str(), C_TRAP, empty_string, p, subtile, rotation, lit,
-                                nv, height_3d );
+    // first memorize the actual trap
+    const trap_id &tr = g->m.tr_at( p ).loadid;
+    if( tr && !override_only && tr.obj().can_see( p, g->u ) ) {
+        const int neighborhood[4] = {
+            static_cast<int>( g->m.tr_at( p + point_south ).loadid ),
+            static_cast<int>( g->m.tr_at( p + point_east ).loadid ),
+            static_cast<int>( g->m.tr_at( p + point_west ).loadid ),
+            static_cast<int>( g->m.tr_at( p + point_north ).loadid )
+        };
+        int subtile = 0;
+        int rotation = 0;
+        get_tile_values( tr, neighborhood, subtile, rotation );
+        const std::string trname = tr.id().str();
+        if( !g->m.check_and_set_seen_cache( p ) ) {
+            g->u.memorize_tile( g->m.getabs( p ), trname, subtile, rotation );
+        }
+        // draw the actual trap if there's no override
+        if( !neighborhood_overridden ) {
+            return draw_from_id_string( trname, C_TRAP, empty_string, p, subtile, rotation, ll,
+                                        nv_goggles_activated, height_3d );
+        }
+    }
+    if( overridden || ( !override_only && neighborhood_overridden && tr.obj().can_see( p, g->u ) ) ) {
+        // and then draw the override trap
+        const trap_id &tr2 = overridden ? override->second : tr;
+        if( tr2 ) {
+            // both the current and neighbouring overrides may change the appearance
+            // of the tile, so always re-calculate it.
+            const auto tr_at = [this]( const tripoint & q ) -> trap_id {
+                const auto it = trap_override.find( q );
+                return it != trap_override.end() ? it->second : g->m.tr_at( q ).loadid;
+            };
+            const int neighborhood[4] = {
+                static_cast<int>( tr_at( p + point_south ) ),
+                static_cast<int>( tr_at( p + point_east ) ),
+                static_cast<int>( tr_at( p + point_west ) ),
+                static_cast<int>( tr_at( p + point_north ) )
+            };
+            int subtile = 0;
+            int rotation = 0;
+            get_tile_values( tr2, neighborhood, subtile, rotation );
+            const std::string &trname = tr2.id().str();
+            // tile overrides are never memorized
+            // tile overrides are always shown with full visibility
+            const lit_level lit = overridden ? LL_LIT : ll;
+            const bool nv = overridden ? false : nv_goggles_activated;
+            return draw_from_id_string( trname, C_TRAP, empty_string, p, subtile, rotation, lit, nv,
+                                        height_3d );
+        }
+    }
+    return false;
 }
 
-bool cata_tiles::draw_graffiti( const tripoint &p, const lit_level ll, int &height_3d )
+bool cata_tiles::draw_graffiti( const tripoint &p, const lit_level ll, int &height_3d,
+                                const bool override_only )
 {
     const auto override = graffiti_override.find( p );
     const bool overridden = override != graffiti_override.end();
-    const bool graffiti = overridden ? override->second : g->m.has_graffiti_at( p );
-    if( !graffiti ) {
+    if( overridden ? !override->second : ( override_only || !g->m.has_graffiti_at( p ) ) ) {
         return false;
     }
     const lit_level lit = overridden ? LL_LIT : ll;
-
     return draw_from_id_string( "graffiti", C_NONE, empty_string, p, 0, 0, lit, false, height_3d );
 }
 
-bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int &height_3d )
+bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int &height_3d,
+                                     const bool override_only )
 {
     const auto fld_override = field_override.find( p );
     const bool fld_overridden = fld_override != field_override.end();
     const field_type_id &fld = fld_overridden ?
                                fld_override->second : g->m.field_at( p ).displayed_field_type();
-    bool ret_draw_field = true;
-    bool ret_draw_items = true;
-    if( fld.obj().display_field ) {
+    bool ret_draw_field = false;
+    bool ret_draw_items = false;
+    if( ( fld_overridden || !override_only ) && fld.obj().display_field ) {
         const lit_level lit = fld_overridden ? LL_LIT : ll;
         const bool nv = fld_overridden ? false : nv_goggles_activated;
 
@@ -2218,7 +2330,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
             mon_id = std::get<1>( it_override->second );
             hilite = std::get<2>( it_override->second );
             it_type = item::find_type( it_id );
-        } else if( g->m.sees_some_items( p, g->u ) ) {
+        } else if( !override_only && g->m.sees_some_items( p, g->u ) ) {
             const maptile &tile = g->m.maptile_at( p );
             const item &itm = tile.get_uppermost_item();
             const mtype *const mon = itm.get_mtype();
@@ -2227,103 +2339,101 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
             hilite = tile.get_item_count() > 1;
             it_type = itm.type;
         } else {
-            return false;
+            it_type = nullptr;
         }
-        if( !it_type || it_id == "null" ) {
-            return false;
-        }
-        const std::string disp_id = it_id == "corpse" && mon_id ?
-                                    "corpse_" + mon_id.str() : it_id;
-        const std::string it_category = it_type->get_item_type_string();
-        const lit_level lit = it_overridden ? LL_LIT : ll;
-        const bool nv = it_overridden ? false : nv_goggles_activated;
+        if( it_type && it_id != "null" ) {
+            const std::string disp_id = it_id == "corpse" && mon_id ?
+                                        "corpse_" + mon_id.str() : it_id;
+            const std::string it_category = it_type->get_item_type_string();
+            const lit_level lit = it_overridden ? LL_LIT : ll;
+            const bool nv = it_overridden ? false : nv_goggles_activated;
 
-        ret_draw_items = draw_from_id_string( disp_id, C_ITEM, it_category, p, 0, 0, lit,
-                                              nv, height_3d );
-        if( ret_draw_items && hilite ) {
-            draw_item_highlight( p );
+            ret_draw_items = draw_from_id_string( disp_id, C_ITEM, it_category, p, 0, 0, lit,
+                                                  nv, height_3d );
+            if( ret_draw_items && hilite ) {
+                draw_item_highlight( p );
+            }
         }
     }
     return ret_draw_field && ret_draw_items;
 }
 
-bool cata_tiles::draw_vpart_below( const tripoint &p, const lit_level /*ll*/, int &/*height_3d*/ )
+bool cata_tiles::draw_vpart_below( const tripoint &p, const lit_level /*ll*/, int &/*height_3d*/,
+                                   const bool override_only )
 {
     const auto low_override = draw_below_override.find( p );
     const bool low_overridden = low_override != draw_below_override.end();
-    if( low_overridden ? !low_override->second : !g->m.need_draw_lower_floor( p ) ) {
+    if( low_overridden ? !low_override->second : ( override_only ||
+            !g->m.need_draw_lower_floor( p ) ) ) {
         return false;
     }
     tripoint pbelow( p.xy(), p.z - 1 );
     int height_3d_below = 0;
-    return draw_vpart( pbelow, LL_LOW, height_3d_below );
+    return draw_vpart( pbelow, LL_LOW, height_3d_below, false );
 }
 
-bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
+bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
+                             const bool override_only )
 {
-    vpart_id vp_id;
-    int subtile;
-    int veh_dir;
-    bool draw_highlight;
-    std::string disp_id;
-
     const auto override = vpart_override.find( p );
     const bool overridden = override != vpart_override.end();
-    if( overridden ) {
-        vp_id = std::get<0>( override->second );
-        if( !vp_id ) {
-            return false;
-        }
-        const char part_mod = std::get<1>( override->second );
-        subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
-        veh_dir = std::get<2>( override->second );
-        draw_highlight = std::get<3>( override->second );
-        disp_id = "vp_" + vp_id.str();
-        // do not memorize vpart override
-    } else {
-        const optional_vpart_position vp = g->m.veh_at( p );
-        if( !vp ) {
-            return false;
-        }
+    // first memorize the actual vpart
+    const optional_vpart_position vp = g->m.veh_at( p );
+    if( vp && !override_only ) {
         const vehicle &veh = vp->vehicle();
-        // veh_part is the index of the part
         const int veh_part = vp->part_index();
-
         // Gets the visible part, should work fine once tileset vp_ids are updated to work with the vehicle part json ids
         // get the vpart_id
         char part_mod = 0;
-        vp_id = veh.part_id_string( veh_part, part_mod );
-
-        disp_id = "vp_" + vp_id.str();
-        subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
-        const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
-        draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
-
-        veh_dir = veh.face.dir();
-        // do not memorize overridden tiles
-        if( !has_draw_override( p ) && !veh.forward_velocity() && !veh.player_in_control( g->u ) ) {
-            if( !g->m.check_and_set_seen_cache( p ) ) {
-                g->u.memorize_tile( g->m.getabs( p ), disp_id, subtile, veh_dir );
+        const vpart_id &vp_id = veh.part_id_string( veh_part, part_mod );
+        const int subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
+        const int rotation = veh.face.dir();
+        const std::string vpname = "vp_" + vp_id.str();
+        if( !veh.forward_velocity() && !veh.player_in_control( g->u ) &&
+            !g->m.check_and_set_seen_cache( p ) ) {
+            g->u.memorize_tile( g->m.getabs( p ), vpname, subtile, rotation );
+        }
+        if( !overridden ) {
+            const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
+            const bool draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
+            const bool ret = draw_from_id_string( vpname, C_VEHICLE_PART, empty_string, p, subtile, rotation,
+                                                  ll, nv_goggles_activated, height_3d );
+            if( ret && draw_highlight ) {
+                draw_item_highlight( p );
             }
+            return ret;
         }
     }
-    const lit_level lit = overridden ? LL_LIT : ll;
-    const bool nv = overridden ? false : nv_goggles_activated;
-
-    bool ret = draw_from_id_string( disp_id, C_VEHICLE_PART, empty_string, p, subtile, veh_dir,
-                                    lit, nv, height_3d );
-    if( ret && draw_highlight ) {
-        draw_item_highlight( p );
+    if( overridden ) {
+        // and then draw the override vpart
+        const vpart_id &vp2 = std::get<0>( override->second );
+        if( vp2 ) {
+            const char part_mod = std::get<1>( override->second );
+            const int subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
+            const int rotation = std::get<2>( override->second );
+            const int draw_highlight = std::get<3>( override->second );
+            const std::string vpname = "vp_" + vp2.str();
+            // tile overrides are never memorized
+            // tile overrides are always shown with full visibility
+            const bool ret = draw_from_id_string( vpname, C_VEHICLE_PART, empty_string, p, subtile, rotation,
+                                                  LL_LIT, false, height_3d );
+            if( ret && draw_highlight ) {
+                draw_item_highlight( p );
+            }
+            return ret;
+        }
     }
-    return ret;
+    return false;
 }
 
-bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int & )
+bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int &,
+                                        const bool override_only )
 {
     // Check if we even need to draw below. If not, bail.
     const auto low_override = draw_below_override.find( p );
     const bool low_overridden = low_override != draw_below_override.end();
-    if( low_overridden ? !low_override->second : !g->m.need_draw_lower_floor( p ) ) {
+    if( low_overridden ? !low_override->second : ( override_only ||
+            !g->m.need_draw_lower_floor( p ) ) ) {
         return false;
     }
 
@@ -2369,7 +2479,8 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int 
     return true;
 }
 
-bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3d )
+bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3d,
+                                  const bool override_only )
 {
     bool result;
     bool is_player;
@@ -2389,7 +2500,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
                                              empty_string : id.obj().species.begin()->str();
         result = draw_from_id_string( chosen_id, C_MONSTER, ent_subcategory, p, corner, 0, LL_LIT, false,
                                       height_3d );
-    } else {
+    } else if( !override_only ) {
         const Creature *pcritter = g->critter_at( p, true );
         if( pcritter == nullptr ) {
             return false;
@@ -2453,6 +2564,8 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
                 attitude = pl->attitude_to( g-> u );
             }
         }
+    } else {
+        return false;
     }
 
     if( result && !is_player ) {
@@ -2469,8 +2582,13 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
     return result;
 }
 
-bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d )
+bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d,
+                                 const bool override_only )
 {
+    if( override_only ) {
+        return false;
+    }
+
     if( !g->is_zones_manager_open() ) {
         return false;
     }
@@ -2996,11 +3114,12 @@ void cata_tiles::init_light()
     g->reset_light_level();
 }
 
-void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &subtile )
+void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
+        const std::map<tripoint, ter_id> &ter_override )
 {
-    const auto ter = [this]( const tripoint & q ) -> ter_id {
-        const auto override = terrain_override.find( q );
-        return override != terrain_override.end() ? override->second : g->m.ter( q );
+    const auto ter = [&ter_override]( const tripoint & q ) -> ter_id {
+        const auto override = ter_override.find( q );
+        return override != ter_override.end() ? override->second : g->m.ter( q );
     };
 
     // get terrain at x,y
@@ -3108,9 +3227,9 @@ void cata_tiles::get_rotation_and_subtile( const char val, int &rotation, int &s
 }
 
 void cata_tiles::get_connect_values( const tripoint &p, int &subtile, int &rotation,
-                                     int connect_group )
+                                     const int connect_group, const std::map<tripoint, ter_id> &ter_override )
 {
-    uint8_t connections = g->m.get_known_connections( p, connect_group, terrain_override );
+    uint8_t connections = g->m.get_known_connections( p, connect_group, ter_override );
     get_rotation_and_subtile( connections, rotation, subtile );
 }
 
