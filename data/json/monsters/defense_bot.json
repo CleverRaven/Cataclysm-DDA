@@ -10,7 +10,7 @@
     "volume": "150000 ml",
     "weight": 40750,
     "hp": 80,
-    "speed": 70,
+    "speed": 40,
     "material": [ "steel" ],
     "symbol": "R",
     "color": "dark_gray",
