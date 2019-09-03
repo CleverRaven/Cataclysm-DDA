@@ -4284,7 +4284,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
             add_msg( _( "%s was stunned!" ), targ->name() );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
-            if( m.impassable( point( traj[i].x, traj[i].y ) ) ) {
+            if( m.impassable( traj[i].xy() ) ) {
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -4342,7 +4342,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
             add_msg( _( "%s was stunned!" ), targ->name );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
-            if( m.impassable( point( traj[i].x, traj[i].y ) ) ) { // oops, we hit a wall!
+            if( m.impassable( traj[i].xy() ) ) { // oops, we hit a wall!
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -9722,7 +9722,7 @@ void game::on_move_effects()
     // TODO: Move this to a character method
     if( !u.is_mounted() ) {
         const item muscle( "muscle" );
-        if( u.lifetime_stats.squares_walked % 8 == 0 ) {
+        if( u.lifetime_stats.squares_walked % 8 == 0 ) {// active power gen
             if( u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
                 u.charge_power( 1 );
             }
@@ -9732,12 +9732,12 @@ void game::on_move_effects()
                 }
             }
         }
-        if( u.lifetime_stats.squares_walked % 160 == 0 ) {
+        if( u.lifetime_stats.squares_walked % 160 == 0 ) { //  passive power gen
             if( u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
                 u.charge_power( 1 );
             }
             for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
-                if( u.has_active_bionic( bid ) ) {
+                if( u.has_bionic( bid ) ) {
                     u.charge_power( muscle.fuel_energy() * bid->fuel_efficiency );
                 }
             }

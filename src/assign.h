@@ -284,7 +284,7 @@ inline bool assign( JsonObject &jo, const std::string &name, units::mass &val,
 {
     const auto parse = [&name]( JsonObject & obj, units::mass & out ) {
         if( obj.has_int( name ) ) {
-            out = units::from_gram( obj.get_int( name ) );
+            out = units::from_gram<std::int64_t>( obj.get_int( name ) );
             return true;
         }
         if( obj.has_string( name ) ) {

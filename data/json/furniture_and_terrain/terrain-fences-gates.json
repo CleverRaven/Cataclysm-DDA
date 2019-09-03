@@ -551,6 +551,119 @@
   },
   {
     "type": "terrain",
+    "id": "t_fence_metal",
+    "name": "metal fence",
+    "description": "A simple metal fence.",
+    "symbol": "LINE_OXOX",
+    "color": "light_gray",
+    "looks_like": "t_metal_railing",
+    "move_cost": 0,
+    "coverage": 60,
+    "examine_action": "chainfence",
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
+    "connects_to": "WOODFENCE",
+    "deconstruct": {
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "pipe", "count": 8 },
+        { "item": "sheet_metal_small", "count": [ 16, 20 ] },
+        { "item": "sheet_metal", "count": 2 }
+      ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 18,
+      "sound": "clang!",
+      "sound_fail": "smash!",
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "pipe", "count": [ 4, 8 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 20 ] },
+        { "item": "sheet_metal", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_gate_metal_c",
+    "name": "closed metal gate",
+    "description": "A closed metal gate.",
+    "symbol": "+",
+    "color": "light_gray",
+    "looks_like": "t_fencegate_c",
+    "move_cost": 0,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "DOOR", "BURROWABLE" ],
+    "connects_to": "WOODFENCE",
+    "open": "t_gate_metal_o",
+    "deconstruct": {
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "pipe", "count": 8 },
+        { "item": "sheet_metal_small", "count": [ 16, 20 ] },
+        { "item": "sheet_metal", "count": 2 },
+        { "item": "hinge", "count": 2 }
+      ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "str_min_blocked": 12,
+      "str_max_blocked": 30,
+      "sound": "crack.",
+      "sound_fail": "wham.",
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "pipe", "count": [ 4, 8 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 20 ] },
+        { "item": "sheet_metal", "count": [ 0, 2 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_gate_metal_o",
+    "name": "closed metal gate",
+    "description": "A closed metal gate.",
+    "symbol": ",",
+    "color": "light_gray",
+    "looks_like": "t_fencegate_o",
+    "move_cost": 1,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "DOOR", "BURROWABLE", "FLAT", "ROAD" ],
+    "connects_to": "WOODFENCE",
+    "close": "t_gate_metal_c",
+    "deconstruct": {
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "pipe", "count": 8 },
+        { "item": "sheet_metal_small", "count": [ 16, 20 ] },
+        { "item": "sheet_metal", "count": 2 },
+        { "item": "hinge", "count": 2 }
+      ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "str_min_blocked": 12,
+      "str_max_blocked": 30,
+      "sound": "crack.",
+      "sound_fail": "wham.",
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "pipe", "count": [ 4, 8 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 20 ] },
+        { "item": "sheet_metal", "count": [ 0, 2 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_privacy_fence",
     "aliases": [ "t_privacy_fence_h", "t_privacy_fence_v" ],
     "name": "wooden privacy fence",

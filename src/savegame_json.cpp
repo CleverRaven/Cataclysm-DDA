@@ -722,7 +722,10 @@ void player::load( JsonObject &data )
     data.read( "recoil", recoil );
     data.read( "in_vehicle", in_vehicle );
     data.read( "last_sleep_check", last_sleep_check );
-    if( data.read( "id", tmpid ) ) {
+    if( data.read( "id", tmpid ) && tmpid.is_valid() ) {
+        // Templates have invalid ids, so we only assign here when valid.
+        // When the game starts, a new valid id will be assigned if not already
+        // present.
         setID( tmpid );
     }
 
@@ -3297,6 +3300,23 @@ void kill_tracker::deserialize( JsonIn &jsin )
         npc_kills_array.read_next( npc_name );
         npc_kills.push_back( npc_name );
     }
+}
+
+void cata_variant::serialize( JsonOut &jsout ) const
+{
+    jsout.start_array();
+    jsout.write_as_string( type_ );
+    jsout.write( value_ );
+    jsout.end_array();
+}
+
+void cata_variant::deserialize( JsonIn &jsin )
+{
+    jsin.start_array();
+    if( !( jsin.read( type_ ) && jsin.read( value_ ) ) ) {
+        jsin.error( "Failed to read cata_variant" );
+    }
+    jsin.end_array();
 }
 
 void submap::store( JsonOut &jsout ) const

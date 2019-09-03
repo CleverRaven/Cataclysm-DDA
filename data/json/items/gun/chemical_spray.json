@@ -6,7 +6,7 @@
     "reload_noise": "slosh.",
     "name": "makeshift chemical thrower",
     "description": "A bulky, self-made chemical sprayer with an internal conversion mechanism that allows all sorts of chemicals to be dispersed to your surroundings.",
-    "weight": 4588,
+    "weight": "4588 g",
     "volume": "4250 ml",
     "price": 10000,
     "to_hit": -1,
