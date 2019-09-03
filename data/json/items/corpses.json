@@ -1,0 +1,125 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "corpse",
+    "symbol": "%",
+    "color": "white",
+    "name": "corpse",
+    "description": "A dead body.",
+    "//": "most of the properties depend on the monster type and are created at runtime!",
+    "price": 0,
+    "volume": 0,
+    "flags": [ "NO_UNLOAD", "TRADER_AVOID", "CORPSE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "rmi2_corpse",
+    "symbol": "%",
+    "color": "white",
+    "name": "desiccated corpse",
+    "description": "A badly mangled and desiccated partial corpse.  It seems whatever thing killed him did so with a single swipe of a gigantic claw.",
+    "category": "other",
+    "material": "hflesh",
+    "price": 0,
+    "volume": "7500 ml",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
+    "id": "corpse_bloody",
+    "copy-from": "corpse",
+    "name": "corpse",
+    "description": "A dead body lying in the puddle of its own blood.",
+    "looks_like": "corpse",
+    "material": "hflesh"
+  },
+  {
+    "type": "GENERIC",
+    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
+    "id": "corpse_painful",
+    "copy-from": "corpse",
+    "name": "corpse",
+    "description": "It's hard to tell how exactly did this person die, but judging from his twisted body and frightful grimace, it was a really painful death.",
+    "looks_like": "corpse",
+    "material": "hflesh"
+  },
+  {
+    "type": "GENERIC",
+    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
+    "id": "corpse_scorched",
+    "copy-from": "corpse",
+    "name": "corpse",
+    "description": "An awful mass of charred flesh.  You're not even sure if it's a man or a woman.  Judging by the stain of vaporized blood next to the body, he probably was shot prior to the burning.",
+    "looks_like": "corpse",
+    "material": "hflesh"
+  },
+  {
+    "type": "GENERIC",
+    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
+    "id": "corpse_stabbed",
+    "copy-from": "corpse",
+    "name": "corpse",
+    "description": "A dead body with a big hole in the back of its neck.  Looks like someone backstabbed this fellow.  You can only guess whether he deserved it.",
+    "looks_like": "corpse",
+    "material": "hflesh"
+  },
+  {
+    "type": "GENERIC",
+    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
+    "id": "corpse_gunned",
+    "copy-from": "corpse",
+    "name": "corpse",
+    "description": "One might say that face of this woman is devoid of flaws. That could be true if there wasn't this big ugly hole right in the center of her forehead, and even bigger hole in her hindhead.",
+    "looks_like": "corpse",
+    "material": "hflesh"
+  },
+  {
+    "type": "GENERIC",
+    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
+    "id": "corpse_halved_upper",
+    "copy-from": "corpse",
+    "name": "corpse",
+    "description": "An upper half of someone's body.  Looks like its lower half has been brutally torn away by someone or something with enormous force.  Some remnants of its wrecked bowels are still attached to the body.  Everything else below the waistline is missing.",
+    "looks_like": "corpse",
+    "volume": "30000 ml",
+    "weight": "40000 g",
+    "material": "hflesh"
+  },
+  {
+    "type": "GENERIC",
+    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
+    "id": "corpse_half_beheaded",
+    "copy-from": "corpse",
+    "name": "corpse",
+    "description": "The remains of lower jaw and cheeks are still visible on this half-decapitated body.  Looks like half of its head has been torn off after hit of a high-caliber bullet.  Or maybe it was bit off by some huge beast?",
+    "looks_like": "corpse",
+    "volume": "57000 ml",
+    "weight": "78000 g",
+    "material": "hflesh"
+  },
+  {
+    "type": "GENERIC",
+    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
+    "id": "corpse_child",
+    "copy-from": "corpse",
+    "name": "corpse",
+    "description": "Facial expression of this child is surprisingly calm.  It seems that he died instantly and most probably didn't even know that he is dying.  You could even say he's a lucky to die this way in this crazy world.",
+    "looks_like": "corpse",
+    "volume": "30000 ml",
+    "weight": "40750 g",
+    "material": "hflesh"
+  },
+  {
+    "type": "GENERIC",
+    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
+    "id": "corpse_child_bullets",
+    "copy-from": "corpse",
+    "name": "corpse",
+    "description": "You can't even say for sure if it's a boy or a girl because the body of this poor little creature has been literally riddled by bullets.  It's beyond your understanding what kind of a monster could have done this to a child.",
+    "looks_like": "corpse",
+    "volume": "30000 ml",
+    "weight": "40750 g",
+    "material": "hflesh"
+  }
+]
