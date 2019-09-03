@@ -12,31 +12,6 @@
   },
   {
     "type": "effect_type",
-    "id": "night_vision",
-    "name": [ "Night vision" ],
-    "desc": [ "You can see in the dark." ],
-    "flags": [ "EFFECT_NIGHT_VISION" ]
-  },
-  {
-    "id": "dark_sight",
-    "type": "SPELL",
-    "name": "Dark Sight",
-    "description": "Gives you the power to see in the dark",
-    "message": "Your eyes glow green for a moment.  Now your sight can pierce the darkest shadows.",
-    "valid_targets": [ "self" ],
-    "effect": "target_attack",
-    "effect_str": "night_vision",
-    "min_range": 1,
-    "max_range": 1,
-    "base_casting_time": 100,
-    "base_energy_cost": 400,
-    "energy_source": "MANA",
-    "min_duration": 100000,
-    "max_duration": 1000000,
-    "duration_increment": 2000
-  },
-  {
-    "type": "effect_type",
     "id": "ridden",
     "name": [ "Ridden" ],
     "desc": [ "AI tag for when critter is being ridden. This is a bug if you have it." ]
