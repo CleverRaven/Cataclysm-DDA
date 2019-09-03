@@ -9,7 +9,7 @@
     "broken_symbol": "X",
     "broken_color": "light_gray",
     "damage_modifier": 80,
-    "folded_volume": 2,
+    "folded_volume": 1,
     "durability": 120,
     "description": "A piece of metal with holes suitable for a bike or motorbike wheel.",
     "item": "wheel_mount_light",
