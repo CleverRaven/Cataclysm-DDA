@@ -195,7 +195,7 @@ item::item() : bday( calendar::start_of_cataclysm )
 
 item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
 {
-    corpse = typeId() == "corpse" ? &mtype_id::NULL_ID().obj() : nullptr;
+    corpse = has_flag( "CORPSE" ) ? &mtype_id::NULL_ID().obj() : nullptr;
     item_counter = type->countdown_interval;
 
     if( qty >= 0 ) {
@@ -323,7 +323,29 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
         debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
 
-    item result( "corpse", turn );
+    std::string corpse_type;
+    
+    if( mt == mtype_id::NULL_ID() ) {
+        //TODO: Jsonify this set.
+        static const std::set<std::string> corpse_types = {
+            "corpse",
+            "corpse_bloody",
+            "corpse_painful",
+            "corpse_scorched",
+            "corpse_stabbed",
+            "corpse_gunned",
+            "corpse_halved_upper",
+            "corpse_half_beheaded",
+            "corpse_child",
+            "corpse_child_bullets"
+        };
+        //TODO: Replace random entry with weighted list
+        corpse_type = random_entry( corpse_types );
+    } else {
+        corpse_type = "corpse";
+    }
+
+    item result( corpse_type, turn );
     result.corpse = &mt.obj();
 
     if( result.corpse->has_flag( MF_REVIVES ) && one_in( 20 ) ) {
@@ -4937,7 +4959,7 @@ std::string item::durability_indicator( bool include_intact ) const
         } else {
             outputstring = pgettext( "damage adjective", "reinforced " );
         }
-    } else if( typeId() == "corpse" ) {
+    } else if( has_flag( "CORPSE" ) ) {
         if( damage() > 0 ) {
             switch( damage_level( 4 ) ) {
                 case 1:
@@ -5242,7 +5264,7 @@ bool item::is_med_container() const
 
 bool item::is_corpse() const
 {
-    return corpse != nullptr && typeId() == "corpse";
+    return corpse != nullptr && has_flag( "CORPSE" );
 }
 
 const mtype *item::get_mtype() const
@@ -8572,7 +8594,7 @@ std::string item::type_name( unsigned int quantity ) const
     bool f_dressed = has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" );
     bool quartered = has_flag( "QUARTERED" );
     bool skinned = has_flag( "SKINNED" );
-    if( corpse != nullptr && typeId() == "corpse" ) {
+    if( corpse != nullptr && has_flag( "CORPSE" ) ) {
         if( corpse_name.empty() ) {
             if( skinned && !f_dressed && !quartered ) {
                 return string_format( npgettext( "item name", "skinned %s corpse", "skinned %s corpses", quantity ),
