@@ -49,8 +49,8 @@ bool string_id<Skill>::is_valid() const
     return &obj() != &invalid_skill;
 }
 
-Skill::Skill() : Skill( skill_id::NULL_ID(), translation( "nothing" ),
-                            translation( "The zen-most skill there is." ),
+Skill::Skill() : Skill( skill_id::NULL_ID(), to_translation( "nothing" ),
+                            to_translation( "The zen-most skill there is." ),
                             std::set<std::string> {}, skill_displayType_id::NULL_ID() )
 {
 }
@@ -106,7 +106,7 @@ void Skill::load_skill( JsonObject &jsobj )
 }
 
 SkillDisplayType::SkillDisplayType() : SkillDisplayType( skill_displayType_id::NULL_ID(),
-            translation( "invalid" ) )
+            to_translation( "invalid" ) )
 {
 }
 
