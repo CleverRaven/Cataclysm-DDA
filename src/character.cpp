@@ -14,8 +14,10 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
+#include "construction.h"
 #include "debug.h"
 #include "effect.h"
+#include "event_bus.h"
 #include "field.h"
 #include "game.h"
 #include "game_constants.h"
@@ -820,6 +822,15 @@ void Character::check_item_encumbrance_flag()
     }
 }
 
+std::vector<bionic_id> Character::get_bionics() const
+{
+    std::vector<bionic_id> result;
+    for( const bionic &b : *my_bionics ) {
+        result.push_back( b.id );
+    }
+    return result;
+}
+
 bool Character::has_bionic( const bionic_id &b ) const
 {
     for( auto &i : *my_bionics ) {
@@ -1397,28 +1408,48 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     const std::map<const item *, int> &without = tweaks.without_items ? tweaks.without_items->get() :
             empty;
 
+    // Worn items
     units::mass ret = 0_gram;
     for( auto &i : worn ) {
         if( !without.count( &i ) ) {
             ret += i.weight();
         }
     }
+
+    // Items in inventory
     const inventory &i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
     ret += i.weight_without( without );
 
-    if( !without.count( &weapon ) ) {
-
-        const units::mass thisweight = weapon.weight();
-        if( thisweight + ret > weight_capacity() ) {
-            const float liftrequirement = ceil( units::to_gram<float>( thisweight ) / units::to_gram<float>
-                                                ( TOOL_LIFT_FACTOR ) );
-            if( g->new_game || best_nearby_lifting_assist() < liftrequirement ) {
-                ret += thisweight;
+    // Wielded item
+    units::mass weaponweight = 0_gram;
+    auto weapon_it = without.find( &weapon );
+    if( weapon_it == without.end() ) {
+        weaponweight = weapon.weight();
+    } else {
+        int subtract_count = ( *weapon_it ).second;
+        if( weapon.count_by_charges() ) {
+            item copy = weapon;
+            copy.charges -= subtract_count;
+            if( copy.charges < 0 ) {
+                debugmsg( "Trying to remove more charges than the wielded item has" );
+                copy.charges = 0;
             }
-        } else {
-            ret += thisweight;
+            weaponweight = copy.weight();
+        } else if( subtract_count > 1 ) {
+            debugmsg( "Trying to remove more than one wielded item" );
         }
     }
+    // Exclude wielded item if using lifting tool
+    if( weaponweight + ret > weight_capacity() ) {
+        const float liftrequirement = ceil( units::to_gram<float>( weaponweight ) / units::to_gram<float>
+                                            ( TOOL_LIFT_FACTOR ) );
+        if( g->new_game || best_nearby_lifting_assist() < liftrequirement ) {
+            ret += weaponweight;
+        }
+    } else {
+        ret += weaponweight;
+    }
+
     return ret;
 }
 
@@ -1680,6 +1711,14 @@ bool Character::meets_skill_requirements( const std::map<skill_id, int> &req,
     return _skills->meets_skill_requirements( req, context );
 }
 
+bool Character::meets_skill_requirements( const construction &con ) const
+{
+    return std::all_of( con.required_skills.begin(), con.required_skills.end(),
+    [&]( const std::pair<skill_id, int> &pr ) {
+        return get_skill_level( pr.first ) >= pr.second;
+    } );
+}
+
 bool Character::meets_stat_requirements( const item &it ) const
 {
     return get_str() >= it.get_min_str() &&
@@ -1828,7 +1867,8 @@ bool Character::has_nv()
     if( !nv_cached ) {
         nv_cached = true;
         nv = ( worn_with_flag( "GNV_EFFECT" ) ||
-               has_active_bionic( bionic_id( "bio_night_vision" ) ) );
+               has_active_bionic( bionic_id( "bio_night_vision" ) ) ||
+               has_effect( efftype_id( "night_vision" ) ) );
     }
 
     return nv;
@@ -3787,8 +3827,7 @@ void Character::shout( std::string msg, bool order )
 
 void Character::vomit()
 {
-    add_memorial_log( pgettext( "memorial_male", "Threw up." ),
-                      pgettext( "memorial_female", "Threw up." ) );
+    g->events().send<event_type::throws_up>( getID() );
 
     if( stomach.contains() != 0_ml ) {
         // empty stomach contents
@@ -3858,4 +3897,9 @@ tripoint Character::adjacent_tile() const
 void Character::healed_bp( int bp, int amount )
 {
     healed_total[bp] += amount;
+}
+
+void Character::set_fac_id( const std::string &my_fac_id )
+{
+    fac_id = string_id<faction>( my_fac_id );
 }

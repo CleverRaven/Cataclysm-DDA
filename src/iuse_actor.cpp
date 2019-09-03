@@ -538,8 +538,7 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool /*t*/, const tripoint &/
         p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
         return 0;
     }
-    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
-    veh->set_owner( yours );
+    veh->set_owner( g->u.get_faction() );
 
     // Mark the vehicle as foldable.
     veh->tags.insert( "convertible" );
@@ -938,7 +937,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         return 0;
     }
 
-    std::set<ter_id> allowed_ter_id {
+    const std::set<ter_id> allowed_ter_id {
         t_chaingate_l,
         t_door_locked,
         t_door_locked_alarm,
@@ -947,50 +946,36 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         t_door_metal_pickable,
         t_door_bar_locked
     };
-
-    cata::optional<tripoint> pnt_;
-    //select adjacent point with locked door, but only if it is the only one
-    bool found = false;
-    for( const tripoint &pos : g->m.points_in_radius( p.pos(), 1 ) ) {
-        if( pos == g->u.pos() ) {
-            continue;
+    const std::function<bool( const tripoint & )> f = [&allowed_ter_id]( const tripoint & pnt ) {
+        if( pnt == g->u.pos() ) {
+            return false;
         }
-        const ter_id type = g->m.ter( pos );
-        //is allowed?
-        if( allowed_ter_id.find( type ) != allowed_ter_id.end() ) {
-            if( pnt_ ) {
-                //found more that one
-                pnt_.reset();
-                break;
-            }
-            pnt_ = pos;
-            found = true;
-        }
-    }
-    if( !found ) {
-        p.add_msg_if_player( m_info, _( "No lock to pick." ) );
-        return 0;
-    }
-    if( !pnt_ ) {
-        pnt_ = choose_adjacent( _( "Use your lockpick where?" ) );
-    }
+        const ter_id type = g->m.ter( pnt );
+        const bool is_allowed_terrain = allowed_ter_id.find( type ) != allowed_ter_id.end();
+        return is_allowed_terrain;
+    };
 
+    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+            _( "Use your lockpick where?" ), f, false, true );
     if( !pnt_ ) {
         return 0;
     }
-    const tripoint pnt = *pnt_;
-
-    if( pnt == p.pos() ) {
-        p.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
-        return 0;
-    }
-    if( g->critter_at<npc>( pnt ) ) {
-        p.add_msg_if_player( m_info,
-                             _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose" ) );
-        return 0;
-    }
-
+    const tripoint &pnt = *pnt_;
     const ter_id type = g->m.ter( pnt );
+    if( !f( pnt ) ) {
+        if( pnt == p.pos() ) {
+            p.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
+        } else if( g->critter_at<npc>( pnt ) ) {
+            p.add_msg_if_player( m_info,
+                                 _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose" ) );
+        } else if( type == t_door_c ) {
+            p.add_msg_if_player( m_info, _( "That door isn't locked." ) );
+        } else {
+            p.add_msg_if_player( m_info, _( "That cannot be picked." ) );
+        }
+        return 0;
+    }
+
     ter_id new_type;
     std::string open_message;
     if( type == t_chaingate_l ) {
@@ -1010,14 +995,9 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         new_type = t_door_bar_o;
         //Bar doors auto-open (and lock if closed again) so show a different message)
         open_message = _( "The door swings open..." );
-    } else if( type == t_door_c ) {
-        add_msg( m_info, _( "That door isn't locked." ) );
-        return 0;
     } else {
-        add_msg( m_info, _( "That cannot be picked." ) );
         return 0;
     }
-
     p.practice( skill_mechanics, 1 );
 
     /** @EFFECT_DEX speeds up door lock picking */
@@ -4182,9 +4162,8 @@ void mutagen_actor::load( JsonObject &obj )
 
 int mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    mutagen_attempt checks = mutagen_common_checks( p, it, false,
-                             pgettext( "memorial_male", "Consumed mutagen." ),
-                             pgettext( "memorial_female", "Consumed mutagen." ) );
+    mutagen_attempt checks =
+        mutagen_common_checks( p, it, false, mutagen_technique::consumed_mutagen );
 
     if( !checks.allowed ) {
         return checks.charges_used;
@@ -4238,9 +4217,8 @@ void mutagen_iv_actor::load( JsonObject &obj )
 
 int mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    mutagen_attempt checks = mutagen_common_checks( p, it, false,
-                             pgettext( "memorial_male", "Injected mutagen." ),
-                             pgettext( "memorial_female", "Injected mutagen." ) );
+    mutagen_attempt checks =
+        mutagen_common_checks( p, it, false, mutagen_technique::injected_mutagen );
 
     if( !checks.allowed ) {
         return checks.charges_used;

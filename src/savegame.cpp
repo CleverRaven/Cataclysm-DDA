@@ -29,7 +29,7 @@
 #include "overmap.h"
 #include "scent_map.h"
 #include "translations.h"
-#include "tuple_hash.h"
+#include "hash_utils.h"
 #include "basecamp.h"
 #include "json.h"
 #include "omdata.h"
@@ -1010,8 +1010,8 @@ void overmap::unserialize( std::istream &fin )
             while( !jsin.end_array() ) {
                 std::shared_ptr<npc> new_npc = std::make_shared<npc>();
                 new_npc->deserialize( jsin );
-                if( !new_npc->fac_id.str().empty() ) {
-                    new_npc->set_fac( new_npc->fac_id );
+                if( !new_npc->get_fac_id().str().empty() ) {
+                    new_npc->set_fac( new_npc->get_fac_id() );
                 }
                 npcs.push_back( new_npc );
             }

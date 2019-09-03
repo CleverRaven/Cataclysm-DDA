@@ -39,10 +39,10 @@
 #include "monster.h"
 #include "craft_command.h"
 #include "point.h"
-#include "faction.h"
 
 class basecamp;
 class effect;
+class faction;
 class map;
 class npc;
 struct pathfinding_settings;
@@ -64,6 +64,7 @@ struct dealt_projectile_attack;
 class dispersion_sources;
 
 using itype_id = std::string;
+using faction_id = string_id<faction>;
 struct trap;
 class profession;
 
@@ -139,7 +140,7 @@ class player_morale;
 // This corresponds to the level of accuracy of a "snap" or "hip" shot.
 extern const double MAX_RECOIL;
 
-//Don't forget to add new memorial counters
+//Don't forget to add new stats counters
 //to the save and load functions in savegame_json.cpp
 struct stats {
     int squares_walked = 0;
@@ -1647,15 +1648,6 @@ class player : public Character
         int get_free_bionics_slots( body_part bp ) const;
         std::map<body_part, int> bionic_installation_issues( const bionic_id &bioid );
 
-        //Dumps all memorial events into a single newline-delimited string
-        std::string dump_memorial() const;
-        //Log an event, to be later written to the memorial file
-        using Character::add_memorial_log;
-        void add_memorial_log( const std::string &male_msg, const std::string &female_msg ) override;
-        //Loads the memorial log from a file
-        void load_memorial_file( std::istream &fin );
-        //Notable events, to be printed in memorial
-        std::vector <std::string> memorial_log;
         std::set<character_id> follower_ids;
         //Record of player stats, for posterity only
         stats lifetime_stats;

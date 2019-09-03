@@ -25,6 +25,7 @@
 #include "craft_command.h"
 #include "debug.h"
 #include "effect.h"
+#include "event_bus.h"
 #include "timed_event.h"
 #include "field.h"
 #include "fungal_effects.h"
@@ -92,7 +93,6 @@ const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_spider_web_s( "mon_spider_web_s" );
 const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
-const mtype_id mon_turret( "mon_turret" );
 const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 
 const skill_id skill_computer( "computer" );
@@ -775,8 +775,7 @@ void iexamine::cardreader( player &p, const tripoint &examp )
         for( monster &critter : g->all_monsters() ) {
             // Check 1) same overmap coords, 2) turret, 3) hostile
             if( ms_to_omt_copy( g->m.getabs( critter.pos() ) ) == ms_to_omt_copy( g->m.getabs( examp ) ) &&
-                ( critter.type->id == mon_turret ||
-                  critter.type->id == mon_turret_rifle ) &&
+                ( critter.type->id == mon_turret_rifle ) &&
                 critter.attitude_to( p ) == Creature::Attitude::A_HOSTILE ) {
                 g->remove_zombie( critter );
             }
@@ -1325,8 +1324,7 @@ void iexamine::pedestal_wyrm( player &p, const tripoint &examp )
         return;
     }
     // Send in a few wyrms to start things off.
-    g->u.add_memorial_log( pgettext( "memorial_male", "Awoke a group of dark wyrms!" ),
-                           pgettext( "memorial_female", "Awoke a group of dark wyrms!" ) );
+    g->events().send<event_type::awakes_dark_wyrms>();
     int num_wyrms = rng( 1, 4 );
     for( int i = 0; i < num_wyrms; i++ ) {
         int tries = 0;
@@ -4074,8 +4072,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
             case HACK_UNABLE:
                 break;
             case HACK_FAIL:
-                p.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
-                                    pgettext( "memorial_female", "Set off an alarm." ) );
+                g->events().send<event_type::triggers_alarm>( p.getID() );
                 sounds::sound( p.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
                                "alarm" );
                 if( examp.z > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {

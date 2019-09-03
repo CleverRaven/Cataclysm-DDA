@@ -13,7 +13,7 @@
 #include "calendar.h"
 #include "string_id.h"
 #include "translations.h"
-#include "tuple_hash.h"
+#include "hash_utils.h"
 #include "type_id.h"
 
 class player;

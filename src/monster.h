@@ -67,6 +67,7 @@ enum monster_attitude {
 enum monster_effect_cache_fields {
     MOVEMENT_IMPAIRED = 0,
     FLEEING,
+    VISION_IMPAIRED,
     NUM_MEFF
 };
 

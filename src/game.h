@@ -87,6 +87,7 @@ class avatar;
 class event_bus;
 class kill_tracker;
 class map;
+class memorial_logger;
 class faction_manager;
 class new_faction_manager;
 class player;
@@ -876,6 +877,7 @@ class game
         pimpl<timed_event_manager> timed_event_manager_ptr;
         pimpl<event_bus> event_bus_ptr;
         pimpl<kill_tracker> kill_tracker_ptr;
+        pimpl<memorial_logger> memorial_logger_ptr;
 
     public:
         /** Make map a reference here, to avoid map.h in game.h */
@@ -885,6 +887,7 @@ class game
         timed_event_manager &timed_events;
 
         event_bus &events();
+        memorial_logger &memorial();
 
         pimpl<Creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr;

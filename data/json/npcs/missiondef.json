@@ -698,7 +698,7 @@
     "difficulty": 2,
     "value": 800,
     "item": "family_photo",
-    "origins": [ "ORIGIN_ANY_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I need you to get my family photo from the armory safe.",
       "offer": "I left the only photo I have from my family in the armory. I don't have the code, can you get in?",
@@ -787,6 +787,7 @@
     },
     "difficulty": 1,
     "value": 0,
+    "has_generic_rewards": false,
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "start": {
       "effect": [ { "u_buy_item": "duffelbag" } ],
