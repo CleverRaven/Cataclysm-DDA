@@ -353,7 +353,6 @@
     "difficulty": 2,
     "skills_required": [ "survival", 1 ],
     "time": "8 h",
-    "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ], [ "survival_book", 1 ] ],
     "byproducts": [ [ "fur", 14 ], [ "scrap_fur", 109 ] ],
@@ -367,7 +366,6 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "8 h",
-    "reversible": true,
     "autolearn": true,
     "byproducts": [ [ "leather", 15 ], [ "scrap_leather", 64 ] ],
     "using": [ [ "tailoring_leather", 6 ] ]
@@ -611,7 +609,6 @@
         [ "ragpouch", 1 ],
         [ "leather_pouch", 1 ],
         [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
         [ "fanny", 1 ]
       ],
       [ [ "duct_tape", 200 ] ],
