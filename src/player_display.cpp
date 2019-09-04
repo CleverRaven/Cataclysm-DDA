@@ -497,6 +497,19 @@ static void draw_traits_tab( const catacurses::window &w_traits, const catacurse
 static void draw_bionics_list( const catacurses::window &w_bionics, unsigned int &line,
                                std::vector<bionic> &bionicslist, const size_t bionics_win_size_y )
 {
+    // std::map<std::string, int> bionic_counts;
+    // for( size_t i = 0; i < bionicslist.size(); i++ ) {
+    //     if( bionic_counts.find( bionicslist[i].info().name ) == bionic_counts.end() ) {
+    //         bionic_counts[ bionicslist[i].info().name ] = 1;
+    //     } else {
+    //         bionic_counts[ bionicslist[i].info().name ] += 1;
+    //     }
+    // }
+    // std::vector<std::string> bionics_unique;
+    // for( std::pair<std::string, int> entry : bionic_counts ) {
+    //     bionics_unique.push_back( entry.first );
+    // }
+
     const size_t useful_y = bionics_win_size_y - 1;
     const size_t half_y = useful_y / 2;
 
@@ -505,18 +518,19 @@ static void draw_bionics_list( const catacurses::window &w_bionics, unsigned int
 
     if( line <= half_y ) { // near the top
         min = 0;
-        max = std::min( bionicslist.size(), useful_y );
-    } else if( line >= bionicslist.size() - half_y ) { // near the bottom
-        min = ( bionicslist.size() <= useful_y ? 0 : bionicslist.size() - useful_y );
-        max = bionicslist.size();
+        max = std::min( bionics_unique.size(), useful_y );
+    } else if( line >= bionics_unique.size() - half_y ) { // near the bottom
+        min = ( bionics_unique.size() <= useful_y ? 0 : bionics_unique.size() - useful_y );
+        max = bionics_unique.size();
     } else { // scrolling
         min = line - half_y;
-        max = std::min( bionicslist.size(), line + useful_y - half_y );
+        max = std::min( bionics_unique.size(), line + useful_y - half_y );
     }
 
     for( size_t i = min; i < max; i++ ) {
         trim_and_print( w_bionics, point( 1, static_cast<int>( 2 + i - min ) ), getmaxx( w_bionics ) - 1,
-                        i == line ? hilite( c_white ) : c_white, bionicslist[i].info().name );
+                        i == line ? hilite( c_white ) : c_white, string_format( "%d %s",
+                                bionic_counts[ bionics_unique[ i ] ], bionics_unique[ i ] ) );
     }
 }
 
@@ -536,14 +550,14 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
     if( line < bionicslist.size() ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_white,
-                        bionicslist[line].info().description );
+                        "testing" ); // bionicslist[line].info().description
     }
     wrefresh( w_bionics );
     wrefresh( w_info );
 
     action = ctxt.handle_input();
     if( action == "DOWN" ) {
-        if( line < bionicslist.size() - 1 ) {
+        if( line < bionics_unique.size() - 1 ) {
             line++;
         }
         return;
