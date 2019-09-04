@@ -494,21 +494,21 @@ static void draw_traits_tab( const catacurses::window &w_traits, const catacurse
     }
 }
 
-static void draw_bionics_list( const catacurses::window &w_bionics, unsigned int &line,
-                               std::vector<bionic> &bionicslist, const size_t bionics_win_size_y )
+static size_t draw_bionics_list( const catacurses::window &w_bionics, unsigned int &line,
+                                 std::vector<bionic> &bionicslist, const size_t bionics_win_size_y )
 {
-    // std::map<std::string, int> bionic_counts;
-    // for( size_t i = 0; i < bionicslist.size(); i++ ) {
-    //     if( bionic_counts.find( bionicslist[i].info().name ) == bionic_counts.end() ) {
-    //         bionic_counts[ bionicslist[i].info().name ] = 1;
-    //     } else {
-    //         bionic_counts[ bionicslist[i].info().name ] += 1;
-    //     }
-    // }
-    // std::vector<std::string> bionics_unique;
-    // for( std::pair<std::string, int> entry : bionic_counts ) {
-    //     bionics_unique.push_back( entry.first );
-    // }
+    std::map<std::string, int> bionic_counts;
+    for( size_t i = 0; i < bionicslist.size(); i++ ) {
+        if( bionic_counts.find( bionicslist[i].info().name ) == bionic_counts.end() ) {
+            bionic_counts[ bionicslist[i].info().name ] = 1;
+        } else {
+            bionic_counts[ bionicslist[i].info().name ] += 1;
+        }
+    }
+    std::vector<std::string> bionics_unique;
+    for( std::pair<std::string, int> entry : bionic_counts ) {
+        bionics_unique.push_back( entry.first );
+    }
 
     const size_t useful_y = bionics_win_size_y - 1;
     const size_t half_y = useful_y / 2;
@@ -528,10 +528,18 @@ static void draw_bionics_list( const catacurses::window &w_bionics, unsigned int
     }
 
     for( size_t i = min; i < max; i++ ) {
+        int bionic_count = bionic_counts[ bionics_unique[ i ] ];
+        std::string bionic_string;
+        if( bionic_count > 1 ) {
+            bionic_string = string_format( "%d %s", bionic_count, bionics_unique[ i ] );
+        } else {
+            bionic_string = bionics_unique[ i ];
+        }
         trim_and_print( w_bionics, point( 1, static_cast<int>( 2 + i - min ) ), getmaxx( w_bionics ) - 1,
-                        i == line ? hilite( c_white ) : c_white, string_format( "%d %s",
-                                bionic_counts[ bionics_unique[ i ] ], bionics_unique[ i ] ) );
+                        i == line ? hilite( c_white ) : c_white, bionic_string );
     }
+
+    return bionics_unique.size();
 }
 
 static void draw_bionics_tab( const catacurses::window &w_bionics, const catacurses::window &w_info,
@@ -546,7 +554,7 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
     trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
                     string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), you.max_power_level ) );
 
-    draw_bionics_list( w_bionics, line, bionicslist, bionics_win_size_y );
+    size_t num_unique_bionics = draw_bionics_list( w_bionics, line, bionicslist, bionics_win_size_y );
     if( line < bionicslist.size() ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_white,
@@ -557,7 +565,7 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
 
     action = ctxt.handle_input();
     if( action == "DOWN" ) {
-        if( line < bionics_unique.size() - 1 ) {
+        if( line < num_unique_bionics - 1 ) {
             line++;
         }
         return;
