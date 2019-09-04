@@ -374,6 +374,24 @@
     "fun": -4
   },
   {
+    "id": "reference_cooking",
+    "type": "BOOK",
+    "name": "CRC-Merck handbook, 4th edition",
+    "name_plural": "copies of the CRC-Merck handbook, 4th edition",
+    "description": "This huge hardbound book is a collection of reference data and formulae pertinent to many technical disciplines.  If poring over tables of chemical and physical data is your thing, this is the book for you.",
+    "weight": 5790,
+    "volume": "1750 ml",
+    "price": 9000,
+    "price_postapoc": 30000,
+    "bashing": 7,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_green",
+    "intelligence": 4,
+    "time": "30 m",
+    "fun": -2
+  },
+  {
     "id": "scots_cookbook",
     "type": "BOOK",
     "name": "Ye Scots Beuk o Cuikery",

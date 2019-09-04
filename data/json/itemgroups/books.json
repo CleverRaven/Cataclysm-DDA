@@ -307,6 +307,11 @@
     ]
   },
   {
+    "id": "ranch_homebooks",
+    "type": "item_group",
+    "items": [ [ "reference_firstaid2", 2 ], { "group": "homebooks", "prob": 98 } ]
+  },
+  {
     "type": "item_group",
     "id": "manuals",
     "items": [
@@ -371,6 +376,10 @@
       [ "manual_driving", 15 ],
       [ "manual_survival", 20 ],
       [ "dnd_handbook", 2 ],
+      [ "reference_cooking", 1 ],
+      [ "reference_fabrication1", 1 ],
+      [ "reference_firstaid1", 1 ],
+      [ "reference_firstaid2", 1 ],
       [ "survnote", 3 ]
     ]
   },
@@ -422,6 +431,10 @@
       [ "textbook_weapeast", 3 ],
       [ "textbook_armwest", 3 ],
       [ "textbook_armeast", 3 ],
+      [ "reference_cooking", 2 ],
+      [ "reference_fabrication1", 6 ],
+      [ "reference_firstaid1", 2 ],
+      [ "reference_firstaid2", 1 ],
       [ "survnote", 2 ]
     ]
   },
@@ -493,6 +506,10 @@
       [ "textbook_gaswarfare", 2 ],
       [ "manual_electronics", 5 ],
       [ "advanced_electronics", 6 ],
+      [ "reference_cooking", 2 ],
+      [ "reference_fabrication1", 2 ],
+      [ "reference_firstaid1", 2 ],
+      [ "reference_firstaid2", 2 ],
       [ "dnd_handbook", 15 ],
       [ "novel_romance", 30 ],
       [ "novel_spy", 32 ],
@@ -655,7 +672,8 @@
       [ "recipe_medicalmut", 50 ],
       [ "recipe_serum", 10 ],
       [ "recipe_labchem", 100 ],
-      [ "recipe_augs", 100 ]
+      [ "recipe_augs", 100 ],
+      [ "reference_firstaid1", 15 ]
     ]
   },
   {

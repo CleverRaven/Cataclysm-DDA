@@ -106,5 +106,39 @@
     "max_level": 1,
     "time": "8 m",
     "fun": 1
+  },
+  {
+    "id": "reference_firstaid1",
+    "type": "BOOK",
+    "name": "Physicians' Desk Reference",
+    "name_plural": "copies of the Physicians' Desk Reference",
+    "description": "This hefty volume contains all the legally mandated information relevant to physicians for writing prescriptions, generously supported by the efforts and contributions of major pharmaceutical companies.  For the most part, it provides information identical to what is available on that of medication packaging inserts, and cannot match the completeness of digital pharmaceutical references like Medisoft.  At least it doesn't need power to be used.",
+    "weight": 2268,
+    "volume": "500 ml",
+    "price": 10000,
+    "bashing": 7,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+    "intelligence": 4,
+    "time": "30 m",
+    "fun": -2
+  },
+  {
+    "id": "reference_firstaid2",
+    "type": "BOOK",
+    "name": "Merck Veterinary Manual",
+    "name_plural": "copies of The Merck Veterinary Manual",
+    "description": "This expansive text covers 'all domestic species and diseases in veterinary medicine worldwide'.  Should you need information regarding zoonotic diseases, off-label use of medication for animals, common dysfunctions and diseases of animals, or any other veterinary reference info, this is your book.  There are some interesting new chapters on animal cloning in this edition.",
+    "weight": 5790,
+    "volume": "500 ml",
+    "price": 8000,
+    "price_postapoc": 50000,
+    "bashing": 7,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+    "intelligence": 4,
+    "time": "30 m"
   }
 ]

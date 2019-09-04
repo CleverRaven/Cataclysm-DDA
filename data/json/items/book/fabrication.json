@@ -458,5 +458,23 @@
     "intelligence": 8,
     "time": "30 m",
     "fun": -1
+  },
+  {
+    "id": "reference_fabrication1",
+    "type": "BOOK",
+    "name": "Machinery's Handbook",
+    "name_plural": "copies of Machinery's Handbook",
+    "description": "This classic reference work contains extensive, dense chapters and tables on materials, metrology, toolmaking, gears, threading and more.  This recent edition includes extensive data on what was the latest techniques in additive manufacturing.  If you need to know how best complete a certain machining operation, the answer lies somewhere in these pages.",
+    "weight": 454,
+    "volume": "500 ml",
+    "price": 8000,
+    "price_postapoc": 50000,
+    "bashing": 7,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+    "intelligence": 4,
+    "time": "30 m",
+    "fun": -2
   }
 ]
