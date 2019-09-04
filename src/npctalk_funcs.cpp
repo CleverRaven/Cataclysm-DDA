@@ -239,6 +239,7 @@ void talk_function::find_mount( npc &p )
     if( p.has_player_activity() ) {
         p.revert_after_activity();
     }
+}
 
 void talk_function::do_butcher( npc &p )
 {
