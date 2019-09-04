@@ -452,7 +452,34 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     } else {
         g->m.drawsq( g->w_terrain, g->u, target, true, true, target );
     }
-    g->draw_cursor( target );
+#ifdef TILES
+    // give some visual indication of different cursor moving modes
+    if( use_tiles && altblink ) {
+        point p[2] = { origin.xy(), target.xy() };
+        if( editshape == editmap_rect || editshape == editmap_rect_filled || p[0] == p[1] ) {
+            if( p[0] == p[1] ) {
+                // ensure more than one cursor is drawn to differ from resizing mode
+                p[0] += point_north_west;
+                p[1] += point_south_east;
+            }
+            for( int i = 0; i < 2; i++ ) {
+                for( int j = 0; j < 2; j++ ) {
+                    g->draw_cursor( tripoint( p[i].x, p[j].y, target.z ) );
+                }
+            }
+        } else if( editshape == editmap_circle ) {
+            g->draw_cursor( target );
+            g->draw_cursor( origin * 2 - target );
+        } else if( editshape == editmap_line ) {
+            g->draw_cursor( origin );
+            g->draw_cursor( target );
+        }
+    } else {
+#endif
+        g->draw_cursor( target );
+#ifdef TILES
+    }
+#endif
 
     // hilight target_list points if blink=true
     if( blink ) {
@@ -1391,6 +1418,8 @@ int editmap::select_shape( shapetype shape, int mode )
 {
     tripoint orig = target;
     tripoint origor = origin;
+    shapetype origshape = editshape;
+    editshape = shape;
     input_context ctxt( "EDITMAP_SHAPE" );
     ctxt.set_iso( true );
     ctxt.register_directions();
@@ -1451,7 +1480,7 @@ int editmap::select_shape( shapetype shape, int mode )
                 smenu.addentry( editmap_line, true, 'l', pgettext( "shape", "Line" ) );
                 smenu.addentry( editmap_circle, true, 'c', pgettext( "shape", "Filled Circle" ) );
                 smenu.addentry( -2, true, 'p', pgettext( "shape", "Point" ) );
-                smenu.selected = static_cast<int>( shape );
+                smenu.selected = static_cast<int>( editshape );
                 smenu.additional_actions = {
                     { "HELP_KEYBINDINGS", "" } // to refresh the view after exiting from keybindings
                 };
@@ -1462,7 +1491,7 @@ int editmap::select_shape( shapetype shape, int mode )
                     if( smenu.ret == UILIST_CANCEL ) {
                         // canceled
                     } else if( smenu.ret != -2 ) {
-                        shape = static_cast<shapetype>( smenu.ret );
+                        editshape = static_cast<shapetype>( smenu.ret );
                         update = true;
                     } else if( smenu.ret != UILIST_ADDITIONAL ) {
                         target_list.clear();
@@ -1499,18 +1528,17 @@ int editmap::select_shape( shapetype shape, int mode )
         }
         if( update ) {
             update = false;
-            recalc_target( shape );
+            recalc_target( editshape );
         }
         blink = action == "TIMEOUT" ? !blink : true;
         altblink = moveall;
     } while( action != "CONFIRM" && action != "QUIT" );
     blink = false;
     altblink = false;
-    if( action == "CONFIRM" ) {
-        editshape = shape;
-    } else {
+    if( action != "CONFIRM" ) {
         target = orig;
         origin = origor;
+        editshape = origshape;
         recalc_target( editshape );
     }
     return target_list.size();
