@@ -95,6 +95,18 @@ std::string enum_to_string<event_type>( event_type data );
 
 } // namespace io
 
+namespace std
+{
+
+template<>
+struct hash<event_type> {
+    size_t operator()( const event_type v ) const noexcept {
+        return static_cast<size_t>( v );
+    }
+};
+
+} // namespace std
+
 namespace cata
 {
 
