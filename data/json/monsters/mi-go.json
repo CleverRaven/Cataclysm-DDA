@@ -77,7 +77,7 @@
     "special_attacks": [
       [ "PARROT", 0 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] },
-      { "type": "spell", "spell_id": "mi-go_slaver_beam", "spell_level": 3, "cooldown": 10 }
+      { "type": "spell", "spell_id": "mi-go_slaver_beam", "spell_level": 3, "cooldown": 100 }
     ],
     "death_function": [ "NORMAL" ],
     "flags": [
@@ -175,7 +175,7 @@
       [ "SHRIEK_STUN", 4 ],
       [ "TAZER", 5 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 35, "armor_multiplier": 0.7 } ] },
-      { "type": "spell", "spell_id": "mi-go_slaver_beam", "spell_level": 1, "cooldown": 20 }
+      { "type": "spell", "spell_id": "mi-go_slaver_beam", "spell_level": 1, "cooldown": 100 }
     ],
     "death_function": [ "NORMAL" ],
     "flags": [
@@ -225,7 +225,7 @@
       [ "LONGSWIPE", 12 ],
       [ "STRETCH_ATTACK", 20 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 30, "armor_multiplier": 0.7 } ] },
-      { "type": "spell", "spell_id": "mi-go_slaver_beam", "spell_level": 2, "cooldown": 20 }
+      { "type": "spell", "spell_id": "mi-go_slaver_beam", "spell_level": 2, "cooldown": 100 }
     ],
     "death_function": [ "NORMAL" ],
     "flags": [

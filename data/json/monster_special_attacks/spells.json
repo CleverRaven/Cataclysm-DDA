@@ -37,15 +37,15 @@
     "valid_targets": [ "hostile" ],
     "effect": "projectile_attack",
     "effect_str": "dazed",
-    "extra_effects": [ { "id": "pain_damage" }, { "id": "stamina_damage" } ],
+    "extra_effects": [ { "id": "pain_damage", "max_level": 1 }, { "id": "stamina_damage", "max_level": 1 } ],
     "base_casting_time": 100,
     "max_level": 5,
     "min_range": 1,
     "max_range": 25,
     "range_increment": 5,
-    "min_duration": 1000,
-    "max_duration": 10000,
-    "duration_increment": 2000
+    "min_duration": 100,
+    "max_duration": 1000,
+    "duration_increment": 200
   },
   {
     "type": "SPELL",
