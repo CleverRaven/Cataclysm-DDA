@@ -681,28 +681,49 @@ bool player::activate_bionic( int b, bool eff_only )
             reactor_plut = 0;
         }
     } else if( bio.id == "bio_cable" ) {
-        bool has_cable = has_item_with( []( const item & it ) {
-            return it.active && it.has_flag( "CABLE_SPOOL" );
+        std::vector<item *> cables = items_with( []( const item & it ) {
+            return it.has_flag( "CABLE_SPOOL" );
         } );
-        bool has_connected_cable = has_item_with( []( const item & it ) {
-            return it.active && it.has_flag( "CABLE_SPOOL" ) && it.get_var( "state" ) == "solar_pack_link";
-        } );
-
+        bool has_cable = !cables.empty();
+        bool free_cable = false;
         if( !has_cable ) {
             add_msg_if_player( m_info,
-                               _( "You need a jumper cable connected to a vehicle to drain power from it." ) );
-        }
-        if( is_wearing( "solarpack_on" ) || is_wearing( "q_solarpack_on" ) ) {
-            if( has_connected_cable ) {
-                add_msg_if_player( m_info, _( "Your plugged-in solar pack is now able to charge"
-                                              " your system." ) );
-            } else {
-                add_msg_if_player( m_info, _( "You need to connect the cable to yourself and the solar pack"
-                                              " before your solar pack can charge your system." ) );
+                               _( "You need a jumper cable connected to a power source to drain power from it." ) );
+        } else {
+            for( item *cable : cables ) {
+                const std::string state = cable->get_var( "state" );
+                if( state == "cable_charger" ) {
+                    add_msg_if_player( m_info,
+                                       _( "Cable is plugged-in to the CBM but it has to be also connected to the power source." ) );
+                }
+                if( state == "cable_charger_link" ) {
+                    add_msg_if_player( m_info,
+                                       _( "You are plugged to the vehicle.  It will charge you if it has some juice in it." ) );
+                }
+                if( state == "solar_pack_link" ) {
+                    add_msg_if_player( m_info,
+                                       _( "You are plugged to a solar pack.  It will charge you if it's unfolded and in sunlight." ) );
+                }
+                if( state == "UPS_link" ) {
+                    add_msg_if_player( m_info,
+                                       _( "You are plugged to a UPS.  It will charge you if it has some juice in it." ) );
+                }
+                if( state == "solar_pack" || state == "UPS" ) {
+                    add_msg_if_player( m_info,
+                                       _( "You have a cable plugged to a portable power source, but you need to plug it in to the CBM." ) );
+                }
+                if( state == "pay_oyt_cable" ) {
+                    add_msg_if_player( m_info,
+                                       _( "You have a cable plugged to a vehicle, but you need to plug it in to the CBM." ) );
+                }
+                if( state == "attach_first" ) {
+                    free_cable = true;
+                }
             }
-        } else if( is_wearing( "solarpack" ) || is_wearing( "q_solarpack" ) ) {
-            add_msg_if_player( m_info, _( "You might plug in your solar pack to the cable charging"
-                                          " system, if you unfold it." ) );
+        }
+        if( free_cable ) {
+            add_msg_if_player( m_info,
+                               _( "You have at least one free cable in your inventory that you could use to plug yourself in." ) );
         }
     }
 
@@ -984,6 +1005,30 @@ void player::process_bionic( int b )
         for( const item *cable : cables ) {
             const cata::optional<tripoint> target = cable->get_cable_target( this, pos() );
             if( !target ) {
+                if( g->m.is_outside( pos() ) && !is_night( calendar::turn ) &&
+                    cable->get_var( "state" ) == "solar_pack_link" ) {
+                    double modifier =  g->natural_light_level( pos().z ) / default_daylight_level();
+                    // basic solar panel produces 50W = 1 charge/20_seconds = 180 charges/hour(3600)
+                    if( is_wearing( "solarpack_on" ) && x_in_y( 180 * modifier, 3600 ) ) {
+                        charge_power( 1 );
+                    }
+                    // quantum solar backpack = solar panel x6
+                    if( is_wearing( "q_solarpack_on" ) && x_in_y( 6 * 180 * modifier, 3600 ) ) {
+                        charge_power( 1 );
+                    }
+                }
+                if( cable->get_var( "state" ) == "UPS_link" ) {
+                    static const item_filter used_ups = [&]( const item & itm ) {
+                        return itm.get_var( "cable" ) == "plugged_in";
+                    };
+                    if( has_charges( "UPS_off", 1, used_ups ) ) {
+                        use_charges( "UPS_off", 1, used_ups );
+                        charge_power( 1 );
+                    } else if( has_charges( "adv_UPS_off", 1, used_ups ) ) {
+                        use_charges( "adv_UPS_off", roll_remainder( 0.6 ), used_ups );
+                        charge_power( 1 );
+                    }
+                }
                 continue;
             }
             const optional_vpart_position vp = g->m.veh_at( *target );

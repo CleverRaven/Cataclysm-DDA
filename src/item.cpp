@@ -3561,6 +3561,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
     if( active && ( has_flag( "WATER_EXTINGUISH" ) || has_flag( "LITCIG" ) ) ) {
         ret << _( " (lit)" );
+    } else if( has_flag( "IS_UPS" ) && get_var( "cable" ) == "plugged_in" ) {
+        ret << _( " (plugged in)" );
     } else if( active && !is_food() && !is_corpse() && ( typeId().length() < 3 ||
                typeId().compare( typeId().length() - 3, 3, "_on" ) != 0 ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
@@ -8238,18 +8240,46 @@ cata::optional<tripoint> item::get_cable_target( player *p, const tripoint &pos 
     return g->m.getlocal( source );
 }
 
-bool item::process_cable( player *p, const tripoint &pos )
+bool item::process_cable( player *carrier, const tripoint &pos )
 {
-    const cata::optional<tripoint> source = get_cable_target( p, pos );
+    if( carrier == nullptr ) {
+        reset_cable( carrier );
+        return false;
+    }
+    std::string state = get_var( "state" );
+    if( state == "solar_pack_link" || state == "solar_pack" ) {
+        if( !carrier->has_item( *this ) || ( !carrier->is_wearing( "solarpack_on" ) ||
+                                             !carrier->is_wearing( "q_solarpack_on" ) ) ) {
+            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+            reset_cable( carrier );
+            return false;
+        }
+    }
+
+    static const item_filter used_ups = [&]( const item & itm ) {
+        return itm.get_var( "cable" ) == "plugged_in";
+    };
+
+    if( state == "UPS" ) {
+        if( !carrier->has_item( *this ) || !carrier->has_item_with( used_ups ) ) {
+            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+            for( item *used : carrier->items_with( used_ups ) ) {
+                used->erase_var( "cable" );
+            }
+            reset_cable( carrier );
+            return false;
+        }
+    }
+    const cata::optional<tripoint> source = get_cable_target( carrier, pos );
     if( !source ) {
         return false;
     }
 
     if( !g->m.veh_at( *source ) || ( source->z != g->get_levz() && !g->m.has_zlevels() ) ) {
-        if( p != nullptr && p->has_item( *this ) ) {
-            p->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+        if( carrier != nullptr && carrier->has_item( *this ) ) {
+            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
         }
-        reset_cable( p );
+        reset_cable( carrier );
         return false;
     }
 
@@ -8258,10 +8288,10 @@ bool item::process_cable( player *p, const tripoint &pos )
     charges = max_charges - distance;
 
     if( charges < 1 ) {
-        if( p != nullptr && p->has_item( *this ) ) {
-            p->add_msg_if_player( m_bad, _( "The over-extended cable breaks loose!" ) );
+        if( carrier != nullptr && carrier->has_item( *this ) ) {
+            carrier->add_msg_if_player( m_bad, _( "The over-extended cable breaks loose!" ) );
         }
-        reset_cable( p );
+        reset_cable( carrier );
     }
 
     return false;
@@ -8282,6 +8312,24 @@ void item::reset_cable( player *p )
         p->add_msg_if_player( m_info, _( "You reel in the cable." ) );
         p->moves -= charges * 10;
     }
+}
+
+bool item::process_UPS( player *carrier, const tripoint & /*pos*/ )
+{
+    if( carrier == nullptr ) {
+        erase_var( "cable" );
+        active = false;
+        return false;
+    }
+    bool has_connected_cable = carrier->has_item_with( []( const item & it ) {
+        return it.active && it.has_flag( "CABLE_SPOOL" ) && ( it.get_var( "state" ) == "UPS_link" ||
+                it.get_var( "state" ) == "UPS" );
+    } );
+    if( !has_connected_cable ) {
+        erase_var( "cable" );
+        active = false;
+    }
+    return false;
 }
 
 bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
@@ -8451,6 +8499,10 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
     if( has_flag( "CABLE_SPOOL" ) ) {
         // DO NOT process this as a tool! It really isn't!
         return process_cable( carrier, pos );
+    }
+    if( has_flag( "IS_UPS" ) ) {
+        // DO NOT process this as a tool! It really isn't!
+        return process_UPS( carrier, pos );
     }
     if( is_tool() ) {
         return process_tool( carrier, pos );

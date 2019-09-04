@@ -2021,7 +2021,8 @@ class item : public visitable<item>
         // Place conditions that should remove fake smoke item in this sub-function
         bool process_fake_smoke( player *carrier, const tripoint &pos );
         bool process_fake_mill( player *carrier, const tripoint &pos );
-        bool process_cable( player *p, const tripoint &pos );
+        bool process_cable( player *carrier, const tripoint &pos );
+        bool process_UPS( player *carrier, const tripoint &pos );
         bool process_blackpowder_fouling( player *carrier );
         bool process_tool( player *carrier, const tripoint &pos );
 

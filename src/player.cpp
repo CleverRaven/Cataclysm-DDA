@@ -4168,14 +4168,6 @@ void player::update_needs( int rate_multiplier )
         if( has_bionic( bn_bio_solar ) ) {
             charge_power( rate_multiplier * 25 );
         }
-        if( has_active_bionic( bionic_id( "bio_cable" ) ) ) {
-            if( is_wearing( "solarpack_on" ) ) {
-                charge_power( rate_multiplier * 25 );
-            }
-            if( is_wearing( "q_solarpack_on" ) ) {
-                charge_power( rate_multiplier * 50 );
-            }
-        }
     }
 
     // Huge folks take penalties for cramming themselves in vehicles
