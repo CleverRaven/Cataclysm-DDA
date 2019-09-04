@@ -644,6 +644,13 @@ class vehicle
                                    const itype_id &fuel_type,
                                    std::map<itype_id, int> fuel_usages,
                                    bool verbose = false, bool desc = false );
+        void print_fuel_indicator( const catacurses::window &w, const point &p,
+                                   const itype_id &fuel_type,
+                                   bool verbose = false, bool desc = false );
+        void print_fuel_indicator( const catacurses::window &w, const point &p,
+                                   const itype_id &fuel_type,
+                                   std::map<itype_id, int> fuel_usages,
+                                   bool verbose = false, bool desc = false );
 
         // Calculate how long it takes to attempt to start an engine
         int engine_start_time( int e ) const;
@@ -1282,10 +1289,10 @@ class vehicle
 
         /**
          * Player is driving the vehicle
-         * @param x direction player is steering
-         * @param y direction player is steering
+         * @param p direction player is steering
          */
         void pldrive( int x, int y );
+        void pldrive( const point &p );
 
         // stub for per-vpart limit
         units::volume max_volume( int part ) const;
@@ -1522,6 +1529,7 @@ class vehicle
          * the map is just shifted (in the later case simply set smx/smy directly).
          */
         void set_submap_moved( int x, int y );
+        void set_submap_moved( const point &p );
         void use_autoclave( int p );
         void use_washing_machine( int p );
         void use_dishwasher( int p );
