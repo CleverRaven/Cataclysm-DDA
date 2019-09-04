@@ -20,7 +20,20 @@
       { "item": "kp32", "prob": 10, "charges-min": 0, "charges-max": 7 },
       { "item": "kp3at", "prob": 35, "charges-min": 0, "charges-max": 6 },
       { "item": "rugerlcp", "prob": 35, "charges-min": 0, "charges-max": 6 },
-      { "item": "kpf9", "prob": 35, "charges-min": 0, "charges-max": 7 }
+      { "item": "kpf9", "prob": 35, "charges-min": 0, "charges-max": 7 },
+      { "item": "hi_power_9mm", "prob": 5, "charges-min": 0, "charges-max": 15 },
+      { "item": "hi_power_40", "prob": 3, "charges-min": 0, "charges-max": 10 },
+      { "item": "walther_p38", "prob": 2, "charges-min": 0, "charges-max": 8 },
+      { "item": "walther_ppq_9mm", "prob": 9, "charges-min": 0, "charges-max": 17 },
+      { "item": "walther_ppq_40", "prob": 5, "charges-min": 0, "charges-max": 14 },
+      { "item": "walther_ppq_45", "prob": 3, "charges-min": 0, "charges-max": 12 },
+      { "item": "hptc9", "prob": 3, "charges-min": 0, "charges-max": 15 },
+      { "item": "hptcf380", "prob": 2, "charges-min": 0, "charges-max": 10 },
+      { "item": "hptjcp", "prob": 1, "charges-min": 0, "charges-max": 10 },
+      { "item": "hptjhp", "prob": 1, "charges-min": 0, "charges-max": 9 },
+      { "item": "cz75", "prob": 18, "charges-min": 0, "charges-max": 26 },
+      { "item": "walther_ccp", "prob": 8, "charges-min": 0, "charges-max": 8 },
+      { "item": "walther_p22", "prob": 13, "charges-min": 0, "charges-max": 10 }
     ]
   },
   {
@@ -55,6 +68,10 @@
     "items": [
       { "item": "m17", "prob": 100, "charges-min": 0, "charges-max": 17 },
       { "item": "glock_18c", "prob": 70, "charges-min": 0, "charges-max": 17 },
+      { "item": "mk23", "prob": 10, "charges-min": 0, "charges-max": 12 },
+      { "item": "usp_45", "prob": 15, "charges-min": 0, "charges-max": 12 },
+      { "item": "m1911_MEU", "prob": 5, "charges-min": 0, "charges-max": 7 },
+      { "item": "glock_19", "prob": 20, "charges-min": 0, "charges-max": 15 },
       { "item": "needlepistol", "prob": 45, "charges-min": 0, "charges-max": 50 },
       { "item": "rm103a_pistol", "prob": 35, "charges-min": 0, "charges-max": 10 }
     ]
@@ -140,7 +157,7 @@
     "type": "item_group",
     "id": "guns_smg_improvised",
     "//": "Makeshift or otherwise poor quality SMGs.",
-    "items": [ [ "smg_22", 50 ], [ "smg_38", 30 ], [ "smg_40", 40 ], [ "smg_45", 40 ], [ "smg_9mm", 100 ] ]
+    "items": [ [ "smg_40", 40 ], [ "smg_45", 40 ], [ "smg_9mm", 100 ] ]
   },
   {
     "type": "item_group",
@@ -192,7 +209,9 @@
       { "item": "savage_111f", "prob": 15, "charges-min": 0, "charges-max": 3 },
       { "item": "sharps", "prob": 15, "charges-min": 0, "charges-max": 1 },
       { "item": "weatherby_5", "prob": 15, "charges-min": 0, "charges-max": 3 },
-      { "item": "hk417_13", "prob": 40, "charges-min": 0, "charges-max": 20 }
+      { "item": "hk417_13", "prob": 40, "charges-min": 0, "charges-max": 20 },
+      { "item": "ar15_retool_300blk", "prob": 15, "charges-min": 0, "charges-max": 30 },
+      { "item": "iwi_tavor_x95_300blk", "prob": 10, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
@@ -217,7 +236,8 @@
       { "item": "sig552", "prob": 100, "charges-min": 0, "charges-max": 30 },
       { "item": "scar_l", "prob": 50, "charges-min": 0, "charges-max": 30 },
       { "item": "scar_h", "prob": 50, "charges-min": 0, "charges-max": 20 },
-      { "item": "m110a1", "prob": 50, "charges-min": 0, "charges-max": 20 }
+      { "item": "m110a1", "prob": 50, "charges-min": 0, "charges-max": 20 },
+      { "item": "acr_300blk", "prob": 15, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
@@ -244,7 +264,9 @@
       { "item": "rifle_flintlock", "prob": 180 },
       { "item": "steyr_aug", "prob": 40, "charges-min": 0, "charges-max": 30 },
       { "item": "trex_gun", "prob": 60 },
-      { "item": "arx160", "prob": 40, "charges-min": 0, "charges-max": 30 }
+      { "item": "arx160", "prob": 40, "charges-min": 0, "charges-max": 30 },
+      { "item": "iwi_tavor_x95_300blk", "prob": 10, "charges-min": 0, "charges-max": 30 },
+      { "item": "acr_300blk", "prob": 15, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {

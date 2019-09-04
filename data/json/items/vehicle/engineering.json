@@ -6,8 +6,8 @@
     "name": "steel boom",
     "description": "A large rigid steel boom.  If attached to a frame it could be used to lift up to 20 metric tonnes.",
     "price": 23400,
-    "weight": 31600,
-    "volume": 50,
+    "weight": "31600 g",
+    "volume": "12500 ml",
     "material": "steel",
     "symbol": "&",
     "color": "dark_gray"
@@ -19,8 +19,8 @@
     "name": "telescopic cantilever",
     "description": "A small steel telescoping cantilever.  If attached to a frame it could be used to lift up to 3.5 metric tonnes.",
     "price": 7900,
-    "weight": 12000,
-    "volume": 12,
+    "weight": "12000 g",
+    "volume": "3 L",
     "material": "steel",
     "symbol": "&",
     "color": "dark_gray"
@@ -32,8 +32,8 @@
     "name": "pallet lifter",
     "description": "A makeshift pallet lifter.  If attached to a frame it could be used to lift up to 0.5 metric tonnes.",
     "price": 7900,
-    "weight": 12000,
-    "volume": 12,
+    "weight": "12000 g",
+    "volume": "3 L",
     "material": "steel",
     "symbol": "&",
     "color": "dark_gray"
@@ -45,11 +45,11 @@
     "name": "rockwheel",
     "color": "dark_gray",
     "description": "A large and heavy jagged metal disc to dig trenches.",
-    "weight": 62000,
+    "weight": "62000 g",
     "material": "steel",
     "category": "veh_parts",
     "price": 8500,
-    "volume": 29
+    "volume": "7250 ml"
   },
   {
     "type": "GENERIC",
@@ -58,11 +58,11 @@
     "name": "airjack",
     "color": "dark_gray",
     "description": "An extendable metal pylon used to replace a portable jack.  If mounted to a vehicle, it could be used to lift it up.",
-    "weight": 21000,
+    "weight": "21000 g",
     "material": "steel",
     "category": "veh_parts",
     "price": 8500,
-    "volume": 35,
+    "volume": "8750 ml",
     "qualities": [ [ "SELF_JACK", 17 ] ]
   },
   {
@@ -72,11 +72,11 @@
     "name": "motorcycle kickstand",
     "color": "dark_gray",
     "description": "A kickstand to keep the bike from falling over.  You could use this to lean it forward or backward to change a tire.",
-    "weight": 500,
+    "weight": "500 g",
     "material": "steel",
     "category": "veh_parts",
     "price": 500,
-    "volume": 2,
+    "volume": "500 ml",
     "qualities": [ [ "SELF_JACK", 1 ] ]
   }
 ]

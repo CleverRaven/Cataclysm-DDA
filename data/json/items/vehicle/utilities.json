@@ -4,7 +4,7 @@
     "id": "washing_machine",
     "name": "washing machine",
     "description": "A very small washing machine designed for use in vehicles.",
-    "weight": 31752,
+    "weight": "31752 g",
     "to_hit": -8,
     "color": "light_blue",
     "symbol": "]",
@@ -13,6 +13,18 @@
     "bashing": 8,
     "category": "veh_parts",
     "price": 60000
+  },
+  {
+    "type": "GENERIC",
+    "id": "vh_autoclave",
+    "name": "mountable autoclave",
+    "description": "This autoclave has been rigged to run off a vehicle power grid.",
+    "price": 162654,
+    "symbol": "A",
+    "color": "yellow",
+    "weight": "34500 g",
+    "volume": "76 L",
+    "copy-from": "washing_machine"
   },
   {
     "type": "GENERIC",
@@ -30,5 +42,13 @@
     "price": 70000,
     "insulation": 4,
     "copy-from": "minifridge"
+  },
+  {
+    "type": "GENERIC",
+    "id": "dishwasher",
+    "name": "dishwasher",
+    "description": "A very small dishwasher designed for use in vehicles.",
+    "looks_like": "washing_machine",
+    "copy-from": "washing_machine"
   }
 ]

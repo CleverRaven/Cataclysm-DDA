@@ -34,17 +34,17 @@
 #include "flat_set.h"
 #include "line.h"
 
-const std::string base_camps::faction_encode_short( const std::string &type )
+std::string base_camps::faction_encode_short( const std::string &type )
 {
     return prefix + type + "_";
 }
 
-const std::string base_camps::faction_encode_abs( const expansion_data &e, int number )
+std::string base_camps::faction_encode_abs( const expansion_data &e, int number )
 {
     return faction_encode_short( e.type ) + to_string( number );
 }
 
-const std::string base_camps::faction_decode( const std::string &full_type )
+std::string base_camps::faction_decode( const std::string &full_type )
 {
     if( full_type.size() < ( prefix_len + 2 ) ) {
         return "camp";
@@ -54,7 +54,7 @@ const std::string base_camps::faction_decode( const std::string &full_type )
     return full_type.substr( prefix_len, last_bar - prefix_len );
 }
 
-const time_duration base_camps::to_workdays( const time_duration &work_time )
+time_duration base_camps::to_workdays( const time_duration &work_time )
 {
     if( work_time < 11_hours ) {
         return work_time;
@@ -79,9 +79,7 @@ int base_camps::max_upgrade_by_type( const std::string &type )
     return max_upgrade_cache[type];
 }
 
-basecamp::basecamp()
-{
-}
+basecamp::basecamp() = default;
 
 basecamp::basecamp( const std::string &name_, const tripoint &omt_pos_ ): name( name_ ),
     omt_pos( omt_pos_ )
@@ -197,7 +195,7 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
 
 // upgrade levels
 // legacy next upgrade
-const std::string basecamp::next_upgrade( const std::string &dir, const int offset ) const
+std::string basecamp::next_upgrade( const std::string &dir, const int offset ) const
 {
     const auto &e = expansions.find( dir );
     if( e == expansions.end() ) {
@@ -252,7 +250,7 @@ bool basecamp::can_expand()
     return has_provides( "bed", base_camps::base_dir, directions.size() * 2 );
 }
 
-const std::vector<basecamp_upgrade> basecamp::available_upgrades( const std::string &dir )
+std::vector<basecamp_upgrade> basecamp::available_upgrades( const std::string &dir )
 {
     std::vector<basecamp_upgrade> ret_data;
     auto e = expansions.find( dir );
@@ -331,7 +329,7 @@ std::map<std::string, std::string> basecamp::recipe_deck( const std::string &dir
     return recipes;
 }
 
-const std::string basecamp::get_gatherlist() const
+std::string basecamp::get_gatherlist() const
 {
     const auto &e = expansions.find( base_camps::base_dir );
     if( e != expansions.end() ) {
@@ -447,7 +445,7 @@ void basecamp::validate_assignees()
             ++it2;
         }
     }
-    for( auto elem : g->get_follower_list() ) {
+    for( character_id elem : g->get_follower_list() ) {
         npc_ptr npc_to_add = overmap_buffer.find_npc( elem );
         if( !npc_to_add ) {
             continue;
@@ -484,7 +482,7 @@ void basecamp::query_new_name()
 {
     std::string camp_name;
     string_input_popup popup;
-    popup.title( string_format( _( "Name this camp" ) ) )
+    popup.title( _( "Name this camp" ) )
     .width( 40 )
     .text( "" )
     .max_length( 25 )
@@ -556,7 +554,7 @@ void basecamp::consume_components( const recipe &making, int batch_size, bool by
 {
     if( by_radio ) {
         tinymap target_map;
-        target_map.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
+        target_map.load( tripoint( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z ), false );
         consume_components( target_map, making, batch_size, by_radio );
         target_map.save();
     } else {
@@ -620,7 +618,7 @@ void basecamp::form_crafting_inventory( const bool by_radio )
 {
     if( by_radio ) {
         tinymap target_map;
-        target_map.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
+        target_map.load( tripoint( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z ), false );
         form_crafting_inventory( target_map );
     } else {
         form_crafting_inventory( g->m );

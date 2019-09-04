@@ -5,7 +5,7 @@
     "category": "spare_parts",
     "name": "small string",
     "description": "A 6-inch long piece of cotton string.",
-    "weight": 6,
+    "weight": "6 g",
     "volume": "10ml",
     "price": 10,
     "material": "cotton",
@@ -76,8 +76,8 @@
     "description": "A rather green stick.  Very fibrous.",
     "fun": -100,
     "health": -20,
-    "volume": 4,
+    "volume": "1 L",
     "stack_size": 10,
-    "weight": 80
+    "weight": "80 g"
   }
 ]

@@ -1,0 +1,199 @@
+[
+  {
+    "type": "npc",
+    "id": "isherwood_chris",
+    "//": "Part of Isherwood family.",
+    "name_unique": "Chris Isherwood",
+    "gender": "male",
+    "class": "NC_ISHERWOOD_CHRIS",
+    "worn_override": "NC_Isherwood_worn",
+    "carry_override": "NC_ISHERWOOD_rifle",
+    "weapon_override": "NC_ISHERWOOD_archery",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ISHERWOOD_CHRIS",
+    "mission_offered": "MISSION_ISHERWOOD_CHRIS_1",
+    "faction": "isherwood_family"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ISHERWOOD_CHRIS",
+    "name": "Chris Isherwood",
+    "job_description": "I'm Jesse and Carlos' son, part of the Isherwood family",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "common": false,
+    "bonus_per": { "one_in": 4 },
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 7, 10 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 7, 10 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 8, 10 ] } }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "I see that badge, You need to leave our land, my relatives have no fondess for Marshals.",
+      "no": "Hi, what's up?"
+    },
+    "responses": [
+      {
+        "text": "...",
+        "topic": "TALK_LEAVE_NOW",
+        "opinion": { "trust": -20, "value": -20 },
+        "condition": { "u_is_wearing": "badge_marshal" }
+      },
+      {
+        "text": "Hi, Your dad asked me to come find you, said you've been looking for your Uncle.",
+        "topic": "TALK_ISHERWOOD_CHRIS_TALK1",
+        "effect": { "u_add_var": "u_met_chris_isherwood", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "I was talking to Luke earlier, said you had some interesting ideas about the world ending.  Is it tied to Barry's abduction?",
+        "topic": "TALK_CHRIS_THEORIES",
+        "condition": {
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "u_has_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "I'd better get going.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_TALK1",
+    "dynamic_line": "Yeah, they are always worried about us, I prefer to survey the land and try to track the changes.  I'm thinking about fixing up this cabin for some peace and quiet...",
+    "responses": [
+      { "text": "Sounds like you are restless, why not leave?", "topic": "TALK_ISHERWOOD_CHRIS_WANTS" },
+      { "text": "What sort of changes have you seen?", "topic": "TALK_ISHERWOOD_CHRIS_LAND" },
+      {
+        "text": "I was talking to Luke earlier, said you had some interesting ideas about the world ending.",
+        "topic": "TALK_CHRIS_THEORIES",
+        "condition": {
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "u_has_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        }
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_WANTS",
+    "dynamic_line": "My family is convinced that if we stay here, we'll be able to weather this catastrophe.  Since technology has failed, they've doubled down on older traditions.  I think we need to get out there and find some answers before settling on a path.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CHRIS_THEORIES",
+    "dynamic_line": "In one of my longer trips looking for Barry, I saw something out in a field. I didn't get close but I swear unbelievable monsters were coming out of it.  It kinda shimmered, almost like it wasn't quite there.  I've been tracking those monsters for a while...",
+    "responses": [
+      { "text": "What did you find?", "topic": "TALK_ISHERWOOD_CHRIS_MIGO_BASE" },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_MIGO_BASE",
+    "dynamic_line": "They made their way to this weird spire like structure, I've never seen anything like it, it glistened in the sun like something organic. I think they could be holding Barry there, I've seen them arrive and leave with other humans.",
+    "responses": [
+      {
+        "text": "If you join up with me, we can go check it out, I want to see what they are doing.",
+        "topic": "TALK_MISSION_OFFER",
+        "assign_mission": "MISSION_ISHERWOOD_CHRIS_1"
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_LAND",
+    "dynamic_line": "Well, wildlife is more hostile and I've seen gigantic insects around, never mind all these monsters.  I've also found mysterious dead spots and mutated vegetation.  I don't think staying on a farm is sustainable forever, there are big planet wide changes occurring.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LEAVE_NOW",
+    "dynamic_line": "You should leave before my family sees you.",
+    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_TOPICS",
+    "dynamic_line": "Go on...",
+    "responses": [
+      {
+        "text": "Your dad asked me to come find you, said you've been looking for your Uncle.",
+        "topic": "TALK_ISHERWOOD_CHRIS_TALK1"
+      },
+      {
+        "text": "I was talking to Luke earlier, he said you had some interesting ideas about the world ending.",
+        "topic": "TALK_CHRIS_THEORIES"
+      },
+      { "text": "What sort of changes have you seen?", "topic": "TALK_ISHERWOOD_CHRIS_LAND" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_ISHERWOOD_CHRIS_1",
+    "type": "mission_definition",
+    "name": "Free Barry from the mysterious structure",
+    "goal": "MGOAL_TALK_TO_NPC",
+    "difficulty": 5,
+    "value": 50000,
+    "start": {
+      "effect": "follow",
+      "assign_mission_target": { "om_terrain": "mi-go_scout_tower_3", "om_special": "Mi-Go Scout Tower", "reveal_radius": 3 },
+      "update_mapgen": { "place_npcs": [ { "class": "isherwood_barry", "x": 18, "y": 15, "target": true } ] }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "destination": "mi-go_scout_tower_3",
+    "dialogue": {
+      "describe": "We need to investigate the alien encampment and try to find out what happened to Barry.",
+      "offer": "I can take you to the structure, I tracked them to it.",
+      "accepted": "Awesome, I want some answers!",
+      "rejected": "Thanks anyway, I'll keep my eye on it, maybe I'll find a way one day.",
+      "advice": "I feel like we are underprepared if they see us, I marked the location for you.",
+      "inquire": "You ready?",
+      "success": "It's taller then I remember, we should look for prisoners.  I left a note for my family before we left. If we survive, the cabin should be fixed up and ready for you to move in if you want to stay.",
+      "success_lie": "Well it was here...",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "opinion": { "trust": 5, "value": 5 },
+      "update_mapgen": [
+        {
+          "om_terrain": "cabin_isherwood",
+          "om_special": "Isherwood Farms",
+          "place_nested": [ { "chunks": [ "cabin_isherwood_update" ], "x": 3, "y": 1 } ]
+        }
+      ]
+    }
+  }
+]

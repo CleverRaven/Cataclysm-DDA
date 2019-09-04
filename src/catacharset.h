@@ -21,13 +21,11 @@ inline uint32_t UTF8_getch( const std::string &str )
     int len = str.length();
     return UTF8_getch( &utf8str, &len );
 }
-// from wcwidth.c, return "cell" width of a Unicode char
-int mk_wcwidth( uint32_t ucs );
 // convert cursorx value to byte position
 int cursorx_to_position( const char *line, int cursorx, int *prevpos = nullptr, int maxlen = -1 );
-int utf8_width( const char *s, const bool ignore_tags = false );
-int utf8_width( const std::string &str, const bool ignore_tags = false );
-int utf8_width( const utf8_wrapper &str, const bool ignore_tags = false );
+int utf8_width( const char *s, bool ignore_tags = false );
+int utf8_width( const std::string &str, bool ignore_tags = false );
+int utf8_width( const utf8_wrapper &str, bool ignore_tags = false );
 
 /**
  * Center text inside whole line.
@@ -113,7 +111,8 @@ class utf8_wrapper
         }
 
         utf8_wrapper &operator=( const std::string &d ) {
-            return *this = utf8_wrapper( d );
+            *this = utf8_wrapper( d );
+            return *this;
         }
         const std::string &str() const {
             return _data;

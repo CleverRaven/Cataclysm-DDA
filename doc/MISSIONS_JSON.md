@@ -7,6 +7,7 @@ NPCs can assign missions to the player.  There is a fairly regular structure for
     "id": "MISSION_GET_BLACK_BOX_TRANSCRIPT",
     "type": "mission_definition",
     "name": "Retrieve Black Box Transcript",
+    "description": "Decrypt the contents of the black box using a terminal from a nearby lab.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 150000,
@@ -36,11 +37,28 @@ Must always be there and must always be "mission_definition".
 
 ### id
 The mission id is required, but for new missions, it can be arbitrary.  Convention is to start
-it with "MISSION" and to use a fairly desriptive name.
+it with "MISSION" and to use a fairly descriptive name.
 
 ### name
-The name is also required, and the name is what is displayed in the 'm'issions menu, so please
-make it descriptive.
+The name is also required, and is displayed to the user in the 'm'issions menu.
+
+### description
+Not required, but it's strongly recommended that you summarize all relevant info for the mission.
+You may refer to mission end effects of the "u_buy_item" type, as long as they do not come at a 
+cost to the player. See the example below:
+```JSON
+    "id": "MISSION_EXAMPLE_TOKENS",
+    "type": "mission_definition",
+    "name": "Murder Money",
+    "description": "Whack the target in exchange for <reward_item:FMCNote> c-notes and <reward_item:cig> cigarettes.",
+    "goal": "MGOAL_ASSASSINATE",
+    "end": {
+      "effect": [
+        { "u_buy_item": "FMCNote", "count": 999 },
+        { "u_buy_item": "cig", "count": 666 } ]
+    }
+```
+This system may be expanded in the future to allow referring to other mission parameters and effects.
 
 ### goal
 Must be included, and must be one of these strings:
@@ -58,6 +76,7 @@ Must be included, and must be one of these strings:
 "MGOAL_KILL_MONSTER"      - Kill a specific hostile monster
 "MGOAL_KILL_MONSTER_TYPE" - Kill some number of a specific monster type
 "MGOAL_KILL_MONSTER_SPEC" -  Kill some number of monsters from a specific species
+"MGOAL_CONDITION"         - Satisfy the dynamically created condition and talk to the mission giver
 
 ### monster_species
 For "MGOAL_KILL_MONSTER_SPEC", sets the target monster species.
@@ -68,6 +87,10 @@ For "MGOAL_KILL_MONSTER_TYPE", sets the target monster type.
 ### monster_kill_goal
 For "MGOAL_KILL_MONSTER_SPEC" and "MGOAL_KILL_MONSTER_TYPE", sets the number of monsters above
 the player's current kill count that must be killed to complete the mission.
+
+### goal_condition
+For "MGOAL_CONDITION", defines the condition that must be satisified for the mission to be considered complete.
+Conditions are explained in more detail in [NPCs.md](./NPCs.md), and are used here in exactly the same way.
 
 ### dialogue
 This is a dictionary of strings.  The NPC says these exact strings in response to the player

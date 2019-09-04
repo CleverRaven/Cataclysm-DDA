@@ -60,7 +60,7 @@
     "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic",
-    "flags": [ "FREEZERBURN" ]
+    "flags": [ "FREEZERBURN", "SMOKABLE" ]
   },
   {
     "type": "COMESTIBLE",
@@ -108,7 +108,7 @@
     "type": "COMESTIBLE",
     "id": "irradiated_cucumber",
     "name": "irradiated cucumber",
-    "weight": 150,
+    "weight": "150 g",
     "color": "green",
     "container": "bag_plastic",
     "comestible_type": "FOOD",
@@ -119,14 +119,14 @@
     "description": "An irradiated cucumber will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
     "price": 320,
     "material": "veggy",
-    "flags": [ "FREEZERBURN" ],
-    "volume": 1
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "volume": "250 ml"
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_celery",
     "name": "irradiated celery",
-    "weight": 80,
+    "weight": "80 g",
     "color": "light_green",
     "container": "bag_plastic",
     "comestible_type": "FOOD",
@@ -136,7 +136,7 @@
     "description": "An irradiated cluster of celery will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
     "price": 220,
     "material": "veggy",
-    "volume": 1
+    "volume": "250 ml"
   },
   {
     "type": "COMESTIBLE",

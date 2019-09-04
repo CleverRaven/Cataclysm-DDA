@@ -56,7 +56,7 @@
         "topic": "TALK_ISHERWOOD_LUKE_TALK1",
         "condition": { "u_has_var": "u_met_Eddie_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
       },
-      { "text": "Hey, What are you doing out here?", "topic": "TALK_ISHERWOOD_LUKE2`" },
+      { "text": "Hey, What are you doing out here?", "topic": "TALK_ISHERWOOD_LUKE2" },
       {
         "text": "Can I do anything for you?",
         "topic": "TALK_MISSION_LIST",
@@ -108,7 +108,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LUKE_EDDIE",
-    "dynamic_line": "Things have been tough for my dad since the hunting incident.  He works till he falls asleep most nights..",
+    "dynamic_line": "Things have been tough for my dad since Barry was captured.  He works till he falls asleep most nights..",
     "condition": {
       "and": [
         { "not": { "u_is_wearing": "badge_marshal" } },
@@ -167,7 +167,7 @@
     "value": 50000,
     "item": "glassblowing_book",
     "count": 1,
-    "origins": [ "ORIGIN_ANY_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_ISHERWOOD_LUKE_2",
     "dialogue": {
       "describe": "I need more knowledge to get the glass blowing started.",
@@ -184,14 +184,14 @@
   {
     "id": "MISSION_ISHERWOOD_LUKE_2",
     "type": "mission_definition",
-    "name": "Find a cooy of DIY Compendium",
+    "name": "Find a copy of DIY Compendium",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
     "item": "textbook_fabrication",
     "count": 1,
     "end": { "opinion": { "trust": 2, "value": 2 } },
-    "effect": { "u_add_var": "u_did_luke_missions", "type": "general", "context": "mission", "value": "yes" },
+    "effect": { "u_add_var": "u_did_luke_missions", "type": "general", "context": "recruit", "value": "yes" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I need more knowledge to get better pottery.",

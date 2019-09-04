@@ -10,9 +10,25 @@
 #include "color.h"
 #include "string_id.h"
 
+
 class JsonObject;
 class map;
 struct tripoint;
+template<typename T> struct enum_traits;
+template<typename T> class generic_factory;
+
+enum class map_extra_method : int {
+    null = 0,
+    map_extra_function,
+    mapgen,
+    update_mapgen,
+    num_map_extra_methods
+};
+
+template<>
+struct enum_traits<map_extra_method> {
+    static constexpr map_extra_method last = map_extra_method::num_map_extra_methods;
+};
 
 using map_extra_pointer = void( * )( map &, const tripoint & );
 
@@ -22,8 +38,8 @@ class map_extra
         string_id<map_extra> id = string_id<map_extra>::NULL_ID();
         std::string name;
         std::string description;
-        std::string function;
-        map_extra_pointer function_pointer;
+        std::string generator_id;
+        map_extra_method generator_method;
         bool autonote = false;
         uint32_t symbol = UTF8_getch( "X" );
         nc_color color = c_red;
@@ -35,6 +51,7 @@ class map_extra
         // Used by generic_factory
         bool was_loaded = false;
         void load( JsonObject &jo, const std::string &src );
+        void check() const;
 };
 
 namespace MapExtras
@@ -48,6 +65,10 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
 void apply_function( const std::string &id, map &m, const tripoint &abs_sub );
 
 void load( JsonObject &jo, const std::string &src );
+void check_consistency();
+
+/// This function provides access to all loaded map extras.
+const generic_factory<map_extra> &mapExtraFactory();
 
 } // namespace MapExtras
 

@@ -4,6 +4,8 @@
 #include <set>
 
 #include "debug.h"
+#include "event_bus.h"
+#include "game.h"
 #include "generic_factory.h"
 #include "int_id.h"
 #include "json.h"
@@ -145,9 +147,25 @@ void trap::load( JsonObject &jo, const std::string & )
         vehicle_data.damage = jv.get_int( "damage", 0 );
         vehicle_data.shrapnel = jv.get_int( "shrapnel", 0 );
         vehicle_data.sound_volume = jv.get_int( "sound_volume", 0 );
-        vehicle_data.sound = jv.get_string( "sound", "" );
+        jv.read( "sound", vehicle_data.sound );
         vehicle_data.sound_type = jv.get_string( "sound_type", "" );
         vehicle_data.sound_variant = jv.get_string( "sound_variant", "" );
+        vehicle_data.spawn_items.clear();
+        if( jv.has_array( "spawn_items" ) ) {
+            JsonArray ja = jv.get_array( "spawn_items" );
+            while( ja.has_more() ) {
+                if( ja.test_object() ) {
+                    JsonObject joitm = ja.next_object();
+                    vehicle_data.spawn_items.emplace_back( joitm.get_string( "id" ), joitm.get_float( "chance" ) );
+                } else {
+                    vehicle_data.spawn_items.emplace_back( ja.next_string(), 1.0 );
+                }
+            }
+        }
+        vehicle_data.set_trap = trap_str_id::NULL_ID();
+        if( jv.read( "set_trap", vehicle_data.set_trap ) ) {
+            vehicle_data.remove_trap = false;
+        }
     }
 }
 
@@ -172,12 +190,12 @@ bool trap::detect_trap( const tripoint &pos, const player &p ) const
     //   noticing a buried landmine if standing right next to it.
     // Effective Perception...
     ///\EFFECT_PER increases chance of detecting a trap
-    return ( p.per_cur - ( p.encumb( bp_eyes ) / 10 ) ) +
+    return p.per_cur - p.encumb( bp_eyes ) / 10 +
            // ...small bonus from stimulants...
            ( p.stim > 10 ? rng( 1, 2 ) : 0 ) +
            // ...bonus from trap skill...
            ///\EFFECT_TRAPS increases chance of detecting a trap
-           ( p.get_skill_level( skill_traps ) * 2 ) +
+           p.get_skill_level( skill_traps ) * 2 +
            // ...luck, might be good, might be bad...
            rng( -4, 4 ) -
            // ...malus if we are tired...
@@ -203,8 +221,14 @@ bool trap::can_see( const tripoint &pos, const player &p ) const
 
 void trap::trigger( const tripoint &pos, Creature *creature, item *item ) const
 {
-    if( ( creature != nullptr && !creature->is_hallucination() ) || item != nullptr ) {
-        act( pos, creature, item );
+    const bool is_real_creature = creature != nullptr && !creature->is_hallucination();
+    if( is_real_creature || item != nullptr ) {
+        bool triggered = act( pos, creature, item );
+        if( triggered && is_real_creature ) {
+            if( Character *ch = creature->as_character() ) {
+                g->events().send<event_type::character_triggers_trap>( ch->getID(), id );
+            }
+        }
     }
 }
 
@@ -229,7 +253,7 @@ void trap::on_disarmed( map &m, const tripoint &p ) const
         const std::string &item_type = std::get<0>( i );
         const int quantity = std::get<1>( i );
         const int charges = std::get<2>( i );
-        m.spawn_item( p.x, p.y, item_type, quantity, charges );
+        m.spawn_item( p.xy(), item_type, quantity, charges );
     }
     for( const tripoint &dest : m.points_in_radius( p, trap_radius ) ) {
         m.remove_trap( dest );
@@ -257,6 +281,7 @@ tr_caltrops_glass,
 tr_tripwire,
 tr_crossbow,
 tr_shotgun_2,
+tr_shotgun_2_1,
 tr_shotgun_1,
 tr_engine,
 tr_blade,
@@ -324,6 +349,7 @@ void trap::finalize()
     tr_tripwire = trapfind( "tr_tripwire" );
     tr_crossbow = trapfind( "tr_crossbow" );
     tr_shotgun_2 = trapfind( "tr_shotgun_2" );
+    tr_shotgun_2_1 = trapfind( "tr_shotgun_2_1" );
     tr_shotgun_1 = trapfind( "tr_shotgun_1" );
     tr_engine = trapfind( "tr_engine" );
     tr_blade = trapfind( "tr_blade" );

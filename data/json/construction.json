@@ -354,6 +354,7 @@
     "category": "REPAIR",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
+    "byproducts": [ { "item": "glass_shard", "count": [ 8, 16 ] } ],
     "pre_terrain": "t_window_frame",
     "post_terrain": "t_window_empty"
   },
@@ -847,7 +848,6 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": 40,
     "components": [ [ [ "splinter", 50 ] ] ],
-    "pre_special": "check_empty",
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_woodchips"
   },
@@ -1401,6 +1401,17 @@
     "components": [ [ [ "sheet_metal", 2 ] ], [ [ "pipe", 8 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_locker"
+  },
+  {
+    "type": "construction",
+    "description": "Build Wooden Rack",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "80 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 6 ] ], [ [ "wood_sheet", 2 ], [ "wood_panel", 4 ] ], [ [ "nail", 40 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_rack_wood"
   },
   {
     "type": "construction",
@@ -2364,7 +2375,7 @@
     "byproducts": [ { "item": "straw_pile" } ],
     "pre_terrain": "t_grass_long",
     "post_terrain": "t_grass",
-    "tools": [ [ [ "scythe", -1 ], [ "sickle", -1 ] ] ]
+    "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ]
   },
   {
     "type": "construction",
@@ -2375,7 +2386,7 @@
     "byproducts": [ { "item": "straw_pile", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_grass_tall",
     "post_terrain": "t_grass",
-    "tools": [ [ [ "scythe", -1 ], [ "sickle", -1 ] ] ]
+    "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ]
   },
   {
     "type": "construction",
@@ -2720,7 +2731,10 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "15 m",
     "pre_special": "check_empty",
-    "components": [ [ [ "pillow", 19 ], [ "down_pillow", 19 ] ], [ [ "down_blanket", 3 ], [ "blanket", 3 ], [ "fur_blanket", 3 ] ] ],
+    "components": [
+      [ [ "pillow", 19 ], [ "down_pillow", 19 ], [ "mattress", 4 ] ],
+      [ [ "down_blanket", 3 ], [ "blanket", 3 ], [ "fur_blanket", 3 ] ]
+    ],
     "pre_terrain": "t_floor",
     "post_terrain": "f_pillow_fort"
   },
@@ -2866,6 +2880,53 @@
     ],
     "pre_terrain": "t_adobe_brick_wall_halfway",
     "post_terrain": "t_adobe_brick_wall"
+  },
+  {
+    "type": "construction",
+    "description": "Extrude Resin Lattice",
+    "category": "CONSTRUCT",
+    "skill": "fabrication",
+    "difficulty": 1,
+    "time": "120 m",
+    "//": "Fairly time consuming as you have to extrude the resin slowly and wait for it to dry, then layer it on itself",
+    "components": [ [ [ "alien_pod_resin", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_wall_resin_cage"
+  },
+  {
+    "type": "construction",
+    "description": "Extrude Resin Wall",
+    "category": "CONSTRUCT",
+    "skill": "fabrication",
+    "difficulty": 0,
+    "time": "30 m",
+    "components": [ [ [ "alien_pod_resin", 2 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_wall_resin"
+  },
+  {
+    "type": "construction",
+    "description": "Extrude Resin Floor and Roof",
+    "category": "CONSTRUCT",
+    "skill": "fabrication",
+    "difficulty": 2,
+    "time": "90 m",
+    "qualities": [ { "id": "SMOOTH", "level": 1 } ],
+    "components": [ [ [ "alien_pod_resin", 2 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_floor_resin"
+  },
+  {
+    "type": "construction",
+    "description": "Extrude Resin Floor (no roof)",
+    "category": "CONSTRUCT",
+    "skill": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "qualities": [ { "id": "SMOOTH", "level": 1 } ],
+    "components": [ [ [ "alien_pod_resin", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_platform_resin"
   },
   {
     "type": "construction",

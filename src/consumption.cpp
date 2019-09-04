@@ -10,6 +10,7 @@
 
 #include "addiction.h"
 #include "avatar.h"
+#include "bionics.h"
 #include "calendar.h" // ticks_between
 #include "cata_utility.h"
 #include "debug.h"
@@ -634,12 +635,14 @@ bool player::eat( item &food, bool force )
         return false;
     }
 
+    int charges_used = 0;
     if( food.type->has_use() ) {
         if( !food.type->can_use( "DOGFOOD" ) &&
             !food.type->can_use( "CATFOOD" ) &&
             !food.type->can_use( "BIRDFOOD" ) &&
             !food.type->can_use( "CATTLEFODDER" ) ) {
-            if( food.type->invoke( *this, food, pos() ) <= 0 ) {
+            charges_used = food.type->invoke( *this, food, pos() );
+            if( charges_used <= 0 ) {
                 return false;
             }
         }
@@ -662,8 +665,6 @@ bool player::eat( item &food, bool force )
     if( hibernate &&
         ( get_hunger() > -60 && get_thirst() > -60 ) &&
         ( get_hunger() - nutr < -60 || get_thirst() - quench < -60 ) ) {
-        add_memorial_log( pgettext( "memorial_male", "Began preparing for hibernation." ),
-                          pgettext( "memorial_female", "Began preparing for hibernation." ) );
         add_msg_if_player(
             _( "You've begun stockpiling calories and liquid for hibernation.  You get the feeling that you should prepare for bed, just in case, but...you're hungry again, and you could eat a whole week's worth of food RIGHT NOW." ) );
     }
@@ -683,6 +684,10 @@ bool player::eat( item &food, bool force )
         add_msg_if_player( m_good, _( "Mmm, this %s tastes delicious..." ), food.tname() );
     }
     if( !consume_effects( food ) ) {
+        //Already consumed by using `food.type->invoke`?
+        if( charges_used > 0 ) {
+            food.mod_charges( -charges_used );
+        }
         return false;
     }
     food.mod_charges( -1 );
@@ -1310,6 +1315,30 @@ bool player::feed_furnace_with( item &it )
     return true;
 }
 
+bool player::fuel_bionic_with( item &it )
+{
+    if( !can_fuel_bionic_with( it ) ) {
+        return false;
+    }
+
+    const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
+
+    const int loadable = std::min( it.charges, get_fuel_capacity( it.typeId() ) );
+
+    const std::string loaded_charge = std::to_string( loadable );
+
+    it.charges -= loadable;
+    set_value( it.typeId(), loaded_charge );// type and amount of fuel
+    update_fuel_storage( it.typeId() );
+    add_msg_player_or_npc( m_info,
+                           ngettext( "You load %i charge of %s in your %s.",
+                                     "You load %i charges of %s in your %s.", loadable ),
+                           ngettext( "<npcname> load %i charge of %s in their %s.",
+                                     "<npcname> load %i charges of %s in their %s.", loadable ), loadable, it.tname(), bio->name );
+    mod_moves( -250 );
+    return true;
+}
+
 rechargeable_cbm player::get_cbm_rechargeable_with( const item &it ) const
 {
     if( can_feed_reactor_with( it ) ) {
@@ -1323,6 +1352,10 @@ rechargeable_cbm player::get_cbm_rechargeable_with( const item &it ) const
         return rechargeable_cbm::battery;
     } else if( can_feed_furnace_with( it ) ) {
         return rechargeable_cbm::furnace;
+    }
+
+    if( can_fuel_bionic_with( it ) ) {
+        return rechargeable_cbm::other;
     }
 
     return rechargeable_cbm::none;
@@ -1366,6 +1399,12 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
 
             return amount;
         }
+        case rechargeable_cbm::other:
+            const int to_consume = std::min( it.charges, std::numeric_limits<int>::max() );
+            const int to_charge = std::min( static_cast<int>( it.fuel_energy() * to_consume ),
+                                            max_power_level - power_level );
+            return to_charge;
+            break;
     }
 
     return 0;

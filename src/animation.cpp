@@ -103,9 +103,7 @@ bool is_layer_visible( const std::map<tripoint, explosion_tile> &layer )
 //! Get (x, y) relative to u's current position and view
 tripoint relative_view_pos( const player &u, const int x, const int y, const int z ) noexcept
 {
-    return tripoint { POSX + x - u.posx() - u.view_offset.x,
-                      POSY + y - u.posy() - u.view_offset.y,
-                      z - u.posz() - u.view_offset.z };
+    return -u.view_offset + tripoint( POSX + x - u.posx(), POSY + y - u.posy(), z - u.posz() );
 }
 
 tripoint relative_view_pos( const player &u, const tripoint &p ) noexcept
@@ -128,21 +126,21 @@ void draw_explosion_curses( game &g, const tripoint &center, const int r, const 
     const tripoint p = relative_view_pos( g.u, center );
 
     if( r == 0 ) { // TODO: why not always print '*'?
-        mvwputch( g.w_terrain, p.x, p.y, col, '*' );
+        mvwputch( g.w_terrain, point( p.y, p.x ), col, '*' );
     }
 
     explosion_animation anim;
 
     for( int i = 1; i <= r; ++i ) {
-        mvwputch( g.w_terrain, p.y - i, p.x - i, col, '/' ); // corner: top left
-        mvwputch( g.w_terrain, p.y - i, p.x + i, col, '\\' ); // corner: top right
-        mvwputch( g.w_terrain, p.y + i, p.x - i, col, '\\' ); // corner: bottom left
-        mvwputch( g.w_terrain, p.y + i, p.x + i, col, '/' ); // corner: bottom right
+        mvwputch( g.w_terrain, p.xy() + point( -i, -i ), col, '/' ); // corner: top left
+        mvwputch( g.w_terrain, p.xy() + point( i, -i ), col, '\\' ); // corner: top right
+        mvwputch( g.w_terrain, p.xy() + point( -i, i ), col, '\\' ); // corner: bottom left
+        mvwputch( g.w_terrain, p.xy() + point( i, i ), col, '/' ); // corner: bottom right
         for( int j = 1 - i; j < 0 + i; j++ ) {
-            mvwputch( g.w_terrain, p.y - i, p.x + j, col, '-' ); // edge: top
-            mvwputch( g.w_terrain, p.y + i, p.x + j, col, '-' ); // edge: bottom
-            mvwputch( g.w_terrain, p.y + j, p.x - i, col, '|' ); // edge: left
-            mvwputch( g.w_terrain, p.y + j, p.x + i, col, '|' ); // edge: right
+            mvwputch( g.w_terrain, p.xy() + point( j, -i ), col, '-' ); // edge: top
+            mvwputch( g.w_terrain, p.xy() + point( j, i ), col, '-' ); // edge: bottom
+            mvwputch( g.w_terrain, p.xy() + point( -i, j ), col, '|' ); // edge: left
+            mvwputch( g.w_terrain, p.xy() + point( i, j ), col, '|' ); // edge: right
         }
 
         anim.progress();
@@ -180,39 +178,39 @@ void draw_custom_explosion_curses( game &g,
             switch( ngh ) {
                 // '^', 'v', '<', '>'
                 case N_NORTH:
-                    mvwputch( g.w_terrain, p.y, p.x, col, '^' );
+                    mvwputch( g.w_terrain, p.xy(), col, '^' );
                     break;
                 case N_SOUTH:
-                    mvwputch( g.w_terrain, p.y, p.x, col, 'v' );
+                    mvwputch( g.w_terrain, p.xy(), col, 'v' );
                     break;
                 case N_WEST:
-                    mvwputch( g.w_terrain, p.y, p.x, col, '<' );
+                    mvwputch( g.w_terrain, p.xy(), col, '<' );
                     break;
                 case N_EAST:
-                    mvwputch( g.w_terrain, p.y, p.x, col, '>' );
+                    mvwputch( g.w_terrain, p.xy(), col, '>' );
                     break;
                 // '|' and '-'
                 case N_NORTH | N_SOUTH:
                 case N_NORTH | N_SOUTH | N_WEST:
                 case N_NORTH | N_SOUTH | N_EAST:
-                    mvwputch( g.w_terrain, p.y, p.x, col, '|' );
+                    mvwputch( g.w_terrain, p.xy(), col, '|' );
                     break;
                 case N_WEST | N_EAST:
                 case N_WEST | N_EAST | N_NORTH:
                 case N_WEST | N_EAST | N_SOUTH:
-                    mvwputch( g.w_terrain, p.y, p.x, col, '-' );
+                    mvwputch( g.w_terrain, p.xy(), col, '-' );
                     break;
                 // '/' and '\'
                 case N_NORTH | N_WEST:
                 case N_SOUTH | N_EAST:
-                    mvwputch( g.w_terrain, p.y, p.x, col, '/' );
+                    mvwputch( g.w_terrain, p.xy(), col, '/' );
                     break;
                 case N_SOUTH | N_WEST:
                 case N_NORTH | N_EAST:
-                    mvwputch( g.w_terrain, p.y, p.x, col, '\\' );
+                    mvwputch( g.w_terrain, p.xy(), col, '\\' );
                     break;
                 case N_NO_NEIGHBORS:
-                    mvwputch( g.w_terrain, p.y, p.x, col, '*' );
+                    mvwputch( g.w_terrain, p.xy(), col, '*' );
                     break;
                 case N_WEST | N_EAST | N_NORTH | N_SOUTH:
                     break;
@@ -339,10 +337,10 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
         const tripoint &pt = pr.first;
         explosion_neighbors &ngh = pr.second.neighborhood;
 
-        set_neighbors( tripoint( pt.x - 1, pt.y, pt.z ), ngh, N_WEST, N_EAST );
-        set_neighbors( tripoint( pt.x + 1, pt.y, pt.z ), ngh, N_EAST, N_WEST );
-        set_neighbors( tripoint( pt.x, pt.y - 1, pt.z ), ngh, N_NORTH, N_SOUTH );
-        set_neighbors( tripoint( pt.x, pt.y + 1, pt.z ), ngh, N_SOUTH, N_NORTH );
+        set_neighbors( pt + point_west, ngh, N_WEST, N_EAST );
+        set_neighbors( pt + point_east, ngh, N_EAST, N_WEST );
+        set_neighbors( pt + point_north, ngh, N_NORTH, N_SOUTH );
+        set_neighbors( pt + point_south, ngh, N_SOUTH, N_NORTH );
     }
 
     // We need to save the layers because we will draw them in reverse order
@@ -366,10 +364,10 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
             const tripoint &pt = pr.first;
             const explosion_neighbors ngh = pr.second.neighborhood;
 
-            unset_neighbor( tripoint( pt.x - 1, pt.y, pt.z ), ngh, N_WEST, N_EAST );
-            unset_neighbor( tripoint( pt.x + 1, pt.y, pt.z ), ngh, N_EAST, N_WEST );
-            unset_neighbor( tripoint( pt.x, pt.y - 1, pt.z ), ngh, N_NORTH, N_SOUTH );
-            unset_neighbor( tripoint( pt.x, pt.y + 1, pt.z ), ngh, N_SOUTH, N_NORTH );
+            unset_neighbor( pt + point_west, ngh, N_WEST, N_EAST );
+            unset_neighbor( pt + point_east, ngh, N_EAST, N_WEST );
+            unset_neighbor( pt + point_north, ngh, N_NORTH, N_SOUTH );
+            unset_neighbor( pt + point_south, ngh, N_SOUTH, N_NORTH );
             neighbors.erase( pr.first );
         }
 
@@ -418,7 +416,7 @@ void draw_bullet_curses( map &m, const tripoint &t, const char bullet, const tri
         return;
     }
 
-    mvwputch( g->w_terrain, POSY + ( t.y - vp.y ), POSX + ( t.x - vp.x ), c_red, bullet );
+    mvwputch( g->w_terrain, t.xy() - vp.xy() + point( POSX, POSY ), c_red, bullet );
     bullet_animation().progress();
 }
 
@@ -473,7 +471,7 @@ void draw_hit_mon_curses( const tripoint &center, const monster &m, const player
                           const bool dead )
 {
     const tripoint p = relative_view_pos( u, center );
-    hit_animation( p.x, p.y, red_background( m.type->color ), dead ? "%" : m.symbol() );
+    hit_animation( p.xy(), red_background( m.type->color ), dead ? "%" : m.symbol() );
 }
 
 } // namespace
@@ -509,7 +507,7 @@ void draw_hit_player_curses( const game &g, const player &p, const int dam )
     if( q.z == 0 ) {
         nc_color const col = !dam ? yellow_background( p.symbol_color() ) : red_background(
                                  p.symbol_color() );
-        hit_animation( q.x, q.y, col, p.symbol() );
+        hit_animation( q.xy(), col, p.symbol() );
     }
 }
 } //namespace
@@ -565,27 +563,29 @@ void draw_line_curses( game &g, const tripoint &pos, const tripoint &center,
 } //namespace
 
 #if defined(TILES)
-void game::draw_line( const tripoint &p, const tripoint &center, const std::vector<tripoint> &ret )
+void game::draw_line( const tripoint &p, const tripoint &center,
+                      const std::vector<tripoint> &points )
 {
     if( !u.sees( p ) ) {
         return;
     }
 
     if( !use_tiles ) {
-        draw_line_curses( *this, p, center, ret ); // TODO: needed for tiles ver too??
+        draw_line_curses( *this, p, center, points ); // TODO: needed for tiles ver too??
         return;
     }
 
-    tilecontext->init_draw_line( p, ret, "line_target", true );
+    tilecontext->init_draw_line( p, points, "line_target", true );
 }
 #else
-void game::draw_line( const tripoint &p, const tripoint &center, const std::vector<tripoint> &ret )
+void game::draw_line( const tripoint &p, const tripoint &center,
+                      const std::vector<tripoint> &points )
 {
     if( !u.sees( p ) ) {
         return;
     }
 
-    draw_line_curses( *this, p, center, ret );
+    draw_line_curses( *this, p, center, points );
 }
 #endif
 
@@ -599,22 +599,22 @@ void draw_line_curses( game &g, const std::vector<tripoint> &points )
 
     const tripoint p = points.empty() ? tripoint {POSX, POSY, 0} :
                        relative_view_pos( g.u, points.back() );
-    mvwputch( g.w_terrain, p.y, p.x, c_white, 'X' );
+    mvwputch( g.w_terrain, p.xy(), c_white, 'X' );
 }
 } //namespace
 
 #if defined(TILES)
-void game::draw_line( const tripoint &p, const std::vector<tripoint> &vPoint )
+void game::draw_line( const tripoint &p, const std::vector<tripoint> &points )
 {
-    draw_line_curses( *this, vPoint );
-    tilecontext->init_draw_line( p, vPoint, "line_trail", false );
+    draw_line_curses( *this, points );
+    tilecontext->init_draw_line( p, points, "line_trail", false );
 }
 #else
-void game::draw_line( const tripoint &p, const std::vector<tripoint> &vPoint )
+void game::draw_line( const tripoint &p, const std::vector<tripoint> &points )
 {
     ( void )p; //unused
 
-    draw_line_curses( *this, vPoint );
+    draw_line_curses( *this, points );
 }
 #endif
 
@@ -622,14 +622,14 @@ void game::draw_line( const tripoint &p, const std::vector<tripoint> &vPoint )
 void game::draw_cursor( const tripoint &p )
 {
     const tripoint rp = relative_view_pos( *this, p );
-    mvwputch_inv( w_terrain, rp.y, rp.x, c_light_green, 'X' );
+    mvwputch_inv( w_terrain, rp.xy(), c_light_green, 'X' );
     tilecontext->init_draw_cursor( p );
 }
 #else
 void game::draw_cursor( const tripoint &p )
 {
     const tripoint rp = relative_view_pos( *this, p );
-    mvwputch_inv( w_terrain, rp.y, rp.x, c_light_green, 'X' );
+    mvwputch_inv( w_terrain, rp.xy(), c_light_green, 'X' );
 }
 #endif
 
@@ -650,7 +650,7 @@ namespace
 void draw_weather_curses( const catacurses::window &win, const weather_printable &w )
 {
     for( const auto &drop : w.vdrops ) {
-        mvwputch( win, drop.second, drop.first, w.colGlyph, w.cGlyph );
+        mvwputch( win, point( drop.first, drop.second ), w.colGlyph, w.cGlyph );
     }
 }
 } //namespace
@@ -704,13 +704,13 @@ namespace
 {
 void draw_sct_curses( game &g )
 {
-    const tripoint off = relative_view_pos( g.u, 0, 0, 0 );
+    const tripoint off = relative_view_pos( g.u, tripoint_zero );
 
     for( const auto &text : SCT.vSCT ) {
         const int dy = off.y + text.getPosY();
         const int dx = off.x + text.getPosX();
 
-        if( !is_valid_in_w_terrain( dx, dy ) ) {
+        if( !is_valid_in_w_terrain( point( dx, dy ) ) ) {
             continue;
         }
 
@@ -719,7 +719,7 @@ void draw_sct_curses( game &g )
         nc_color const col1 = msgtype_to_color( text.getMsgType( "first" ),  is_old );
         nc_color const col2 = msgtype_to_color( text.getMsgType( "second" ), is_old );
 
-        mvwprintz( g.w_terrain, dy, dx, col1, text.getText( "first" ) );
+        mvwprintz( g.w_terrain, point( dx, dy ), col1, text.getText( "first" ) );
         wprintz( g.w_terrain, col2, text.getText( "second" ) );
     }
 }
@@ -755,7 +755,7 @@ void draw_zones_curses( const catacurses::window &w, const tripoint &start, cons
     int         const x = start.x - offset.x;
 
     for( int y = start.y; y <= end.y; ++y ) {
-        mvwprintz( w, y - offset.y, x, col, line );
+        mvwprintz( w, point( x, y - offset.y ), col, line );
     }
 }
 } //namespace

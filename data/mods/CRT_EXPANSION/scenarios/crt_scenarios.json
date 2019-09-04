@@ -1,33 +1,8 @@
 [
   {
     "type": "scenario",
-    "ident": "heli_crash",
-    "copy-from": "heli_crash",
-    "extend": {
-      "professions": [
-        "crt_rotc",
-        "crt_rifleman",
-        "crt_medic",
-        "crt_saw",
-        "crt_nco",
-        "crt_officer",
-        "crt_normie",
-        "crt_employee",
-        "crt_vamp",
-        "crt"
-      ]
-    }
-  },
-  {
-    "type": "scenario",
     "ident": "lab_chal",
     "copy-from": "lab_chal",
     "extend": { "professions": [ "crt", "crt_engineer", "crt_employee", "crt_vamp" ] }
-  },
-  {
-    "type": "scenario",
-    "ident": "wilderness",
-    "copy-from": "wilderness",
-    "extend": { "professions": [ "crt_normie", "crt_vamp", "crt", "crt_exile" ] }
   }
 ]

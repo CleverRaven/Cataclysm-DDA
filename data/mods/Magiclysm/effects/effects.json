@@ -11,6 +11,15 @@
   },
   {
     "type": "effect_type",
+    "id": "night_vision",
+    "name": [ "Dark Sight" ],
+    "desc": [ "You can see in the dark." ],
+    "apply_message": "Your sight adjusts to the darkness.",
+    "remove_message": "The darkness loses its shape.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_ethereal_grasp",
     "name": [ "Ethereal Hold" ],
     "desc": [ "Ghostly arms are trying to hold you in place!" ],

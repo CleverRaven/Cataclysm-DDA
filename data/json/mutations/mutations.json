@@ -479,15 +479,6 @@
   },
   {
     "type": "mutation",
-    "id": "INCONSPICUOUS",
-    "name": "Inconspicuous",
-    "points": 1,
-    "description": "While sleeping or staying still, it is less likely that monsters will wander close to you.",
-    "social_modifiers": { "lie": 2 },
-    "valid": false
-  },
-  {
-    "type": "mutation",
     "id": "MASOCHIST",
     "name": "Masochist",
     "points": 1,
@@ -697,6 +688,28 @@
     "purifiable": false,
     "starting_trait": true,
     "cancels": [ "DEBT", "SAVINGS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "XS",
+    "name": "Weight: XS",
+    "points": -1,
+    "description": "You lost an awful lot of weight before Cataclysm.  Whatever the reason, your skeletal figure is now an extra burden, when food is not at hand's reach.  You need to gain weight or die trying.",
+    "starting_trait": true,
+    "purifiable": false,
+    "valid": false,
+    "cancels": [ "XXXL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "XXXL",
+    "name": "Weight: XXXL",
+    "points": -1,
+    "description": "You gained an awful lot of weight before Cataclysm.  Whatever the reason, your bloated figure is now an extra burden, when mobility is a key to survival.  You need to go on a diet or die trying.",
+    "starting_trait": true,
+    "purifiable": false,
+    "valid": false,
+    "cancels": [ "XS" ]
   },
   {
     "type": "mutation",
@@ -991,6 +1004,7 @@
     "name": "Sweet Tooth",
     "points": 1,
     "description": "You have a soft spot for processed foods, and gain a morale bonus from eating them.",
+    "starting_trait": true,
     "cancels": [ "ANTIJUNK" ],
     "changes_to": [ "PROJUNK2" ],
     "category": [ "MOUSE", "INSECT" ]

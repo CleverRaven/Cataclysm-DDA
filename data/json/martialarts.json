@@ -111,13 +111,408 @@
     "type": "martial_art",
     "id": "style_brawling",
     "name": "Brawling",
-    "description": "You're used to hand-to-creature fighting.  Not stylish or sporting, but it gets the job done.",
+    "description": "You're used to hand-to-creature fighting.  You know how to fight when unarmed or with any weapon to a certain extent.  It's not stylish or sporting, but it gets the job done.",
     "initiate": [ "You grit your teeth and prepare for a good fight.", "%s gets ready to brawl." ],
-    "autolearn": [ [ "unarmed", "2" ] ],
-    "arm_block": -1,
+    "autolearn": [ [ "melee", "1" ] ],
+    "arm_block": 1,
     "leg_block": 7,
     "allow_melee": true,
-    "techniques": [ "tec_brawl_feint", "tec_brawl_power", "tec_brawl_trip", "tec_brawl_counter" ]
+    "techniques": [
+      "tec_brawl_disarm_unarmed",
+      "tec_brawl_feint_unarmed",
+      "tec_brawl_counter_unarmed",
+      "tec_brawl_break_unarmed",
+      "tec_brawl_power",
+      "tec_brawl_trip",
+      "tec_brawl_disarm_melee",
+      "tec_brawl_counter_melee",
+      "tec_brawl_feint_melee",
+      "tec_brawl_break_melee"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_capoeira",
+    "name": "Capoeira",
+    "description": "A dance-like style with its roots in Brazilian slavery, Capoeira is focused on fluid movement and sweeping kicks.  Moving briefly enables stronger techniques.  Missing an attack grants bonus damage for a short time.",
+    "initiate": [ "You begin performing the ginga.", "%s begins to rhythmically rock back and forth." ],
+    "learn_difficulty": 4,
+    "static_buffs": [
+      {
+        "id": "buff_capoeira_static",
+        "name": "Capoeira Stance",
+        "description": "You never stop moving while performing the ginga.  This makes you very mobile while fighting.\n\n+1.0 Dodge skill, +1 Dodge attempts.",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "bonus_dodges": 1,
+        "flat_bonuses": [ [ "dodge", 1.0 ] ]
+      }
+    ],
+    "onmiss_buffs": [
+      {
+        "id": "buff_capoeira_onmiss",
+        "name": "Capoeira Tempo",
+        "description": "You didn't miss, it's just part of the dance and the best part is about to start!\n\n+15%% Bash damage.\nLasts 2 turns.  Stacks 3 times.",
+        "unarmed_allowed": true,
+        "min_unarmed": 1,
+        "buff_duration": 2,
+        "max_stacks": 3,
+        "mult_bonuses": [ [ "damage", "bash", 1.15 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_capoeira_onmove",
+        "name": "Capoeira Momentum",
+        "description": "You can feel the rhythm as you move.  Not only are you harder to hit, but your kicks are even more amazing!\n\n+1.0 Dodge skill.\nEnables \"Spin Kick\" and \"Sweep Kick\" techniques.\nLasts 3 turns.",
+        "unarmed_allowed": true,
+        "min_unarmed": 2,
+        "buff_duration": 3,
+        "flat_bonuses": [ [ "dodge", 1.0 ] ]
+      }
+    ],
+    "techniques": [
+      "tec_capoeira_feint",
+      "tec_capoeira_pushkick",
+      "tec_capoeira_sweepkick",
+      "tec_capoeira_circlekick",
+      "tec_capoeira_spinkick"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_crane",
+    "name": "Crane Kung Fu",
+    "description": "One of the five Shaolin animal styles.  The Crane uses intricate hand techniques and jumping dodges.  Dexterity determines your damage, rather than Strength; you also receive a dodge bonus move or dodge an attack.",
+    "initiate": [ "You raise your leg slightly and balance like a crane.", "%s assumes a crane-like stance." ],
+    "learn_difficulty": 10,
+    "arm_block": 3,
+    "static_buffs": [
+      {
+        "id": "buff_crane_static",
+        "name": "Crane's Precision",
+        "description": "Your attacks strike at your opponents weakness with speed and percision instead of brute force.\nDexterity increases melee damage instead of Strength.\n\nBash damage increased by 75%% of Dexterity but decreased by 75%% of Strength.",
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "damage", "bash", "dex", 0.75 ], [ "damage", "bash", "str", -0.75 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_crane_onmove",
+        "name": "Crane's Flight",
+        "description": "Just like a bird, you take to the air to avoid danger.\n\n+1.0 Dodge skill.\nLasts 2 turns.",
+        "unarmed_allowed": true,
+        "min_unarmed": 2,
+        "buff_duration": 2,
+        "flat_bonuses": [ [ "dodge", 1.0 ] ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "buff_crane_ondodge",
+        "name": "Crane's Grace",
+        "description": "Much like the crane, you a quick to avoid danger.\n\n+1 Dodge attempts, +1.0 Dodge skill.\nLasts 2 turns.",
+        "unarmed_allowed": true,
+        "min_unarmed": 2,
+        "buff_duration": 2,
+        "bonus_dodges": 1,
+        "flat_bonuses": [ [ "dodge", 1.0 ] ]
+      }
+    ],
+    "techniques": [ "tec_crane_feint", "tec_crane_break", "tec_crane_counter", "tec_crane_precise" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_dragon",
+    "name": "Dragon Kung Fu",
+    "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Intelligence improves your accuracy instead of Dexterity.  Your attacks lead to counterattacks which disable your opponents and set them up for a powerful finishing move.",
+    "initiate": [ "You relax and patiently await conflict like the great dragon.", "%s assumes a dragon-like stance." ],
+    "learn_difficulty": 10,
+    "arm_block": 2,
+    "static_buffs": [
+      {
+        "id": "buff_dragon_static",
+        "name": "Dragon's Knowledge",
+        "description": "You plan your attack far in advance relying on your intution instead of your speed to strike true. Intelligence increases Accuracy instead of Dexterity.\n\nAccuracy increased by 25%% of Intelligence but decreased by 25%% of Dexterity.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "hit", "int", 0.25 ], [ "hit", "dex", -0.25 ] ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "buff_dragon_onhit",
+        "name": "Dragon's Flight",
+        "description": "Life and combat are a circle.  An attack leads to a counter and to an attack once again.  Seek to complete this loop.\n\n+1 Accuracy, +2 bash Damage.\nEnables \"Dragon Vortex Block\" and \"Dragon Wing Dodge\"\nLasts 1 turn.",
+        "unarmed_allowed": true,
+        "min_unarmed": 1,
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "hit", 1.0 ], [ "damage", "bash", 2 ] ]
+      }
+    ],
+    "techniques": [ "tec_dragon_claw", "tec_dragon_blockcounter", "tec_dragon_dodgecounter", "tec_dragon_tail", "tec_dragon_strike" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_eskrima",
+    "name": "Eskrima",
+    "description": "Eskrima, also known as Kali, is a Filipino martial art.  It emphasizes rapid strikes with knife and baton weapons, along with a variety of improvised substitutes.",
+    "initiate": [ "You enter an open guard stance and prepare to strike.", "%s enters an open stance." ],
+    "learn_difficulty": 8,
+    "primary_skill": "bashing",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "buff_eskrima_static",
+        "name": "Eskrima Stance",
+        "description": "You are skilled at getting the most out of your weapons.  The term 'weapon' might be very subjective,\n\n+2 Accuracy.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "mult_bonuses": [ [ "hit", 2.0 ] ]
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "buff_eskrima_oncrit",
+        "name": "Eskrima Combination",
+        "description": "You can follow up a critical hit with a stronger attack if the opportunity presents itself.\n\n+15%% bonus to all damage.\nEnables \"Combination Strike\" technique.\nLasts 3 turns.  Stacks 3 times.",
+        "min_melee": 2,
+        "melee_allowed": true,
+        "buff_duration": 3,
+        "max_stacks": 3,
+        "mult_bonuses": [ [ "damage", "bash", 1.15 ], [ "damage", "cut", 1.15 ], [ "damage", "stab", 1.15 ] ]
+      }
+    ],
+    "techniques": [
+      "tec_eskrima_round",
+      "tec_eskrima_fan",
+      "tec_eskrima_snap",
+      "tec_eskrima_puno",
+      "tec_eskrima_low",
+      "tec_eskrima_combination"
+    ],
+    "weapons": [
+      "2x4",
+      "bagh_nakha",
+      "baton-extended",
+      "bee_sting",
+      "bowling_pin",
+      "cane",
+      "copper_knife",
+      "cudgel",
+      "cu_pipe",
+      "diveknife",
+      "fighter_sting",
+      "firemachete_off",
+      "firemachete_on",
+      "glass_shiv",
+      "hammer",
+      "knife_combat",
+      "knife_hunting",
+      "knife_trench",
+      "kukri",
+      "knife_rambo",
+      "knife_rm42",
+      "machete",
+      "makeshift_knife",
+      "makeshift_machete",
+      "pipe",
+      "pockknife",
+      "pool_cue",
+      "PR24-extended",
+      "primitive_knife",
+      "primitive_hammer",
+      "punch_dagger",
+      "scissors",
+      "screwdriver",
+      "sharp_toothbrush",
+      "shishkebab_off",
+      "shishkebab_on",
+      "shocktonfa_off",
+      "shocktonfa_on",
+      "stick",
+      "survivor_machete",
+      "switchblade",
+      "tanto",
+      "tanto_inferior",
+      "tanto_fake",
+      "tonfa",
+      "tonfa_wood",
+      "umbrella",
+      "wasp_sting",
+      "wrench"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_fencing",
+    "name": "Fencing",
+    "description": "The noble art of fencing is taught with flexible competition blades, but the techniques are derived from (and applicable to) more functional examples.  Skilled fencers can take advantage of blocks and feints to deliver accurate strikes.",
+    "initiate": [ "You move into the en-garde stance.", "%s moves into a fencing stance." ],
+    "learn_difficulty": 5,
+    "primary_skill": "stabbing",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "buff_fencing_static",
+        "name": "Fencing Stance",
+        "description": "Your side stance minimizes the chances you will be harmed in a combat.\n\nBlocked damage reduced by 50%% of Dexterity.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "flat_bonuses": [ [ "block", "dex", 0.5 ] ]
+      }
+    ],
+    "onblock_buffs": [
+      {
+        "id": "buff_fencing_onblock",
+        "name": "Parry",
+        "description": "Your next strike will find it's mark much easier from your parry.\n\n+1 Accuracy.\nLasts 1 turn.",
+        "min_melee": 1,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "hit", 1.0 ] ]
+      }
+    ],
+    "onmiss_buffs": [
+      {
+        "id": "buff_fencing_onmiss",
+        "name": "Remise",
+        "description": "Your feint is the perfect setup for a devistating followup attack!\n\n+1 Accuracy.\nEnables \"Compound Attack\" technique.\nLasts 1 turn.",
+        "min_melee": 3,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "hit", 1.0 ] ]
+      }
+    ],
+    "techniques": [ "tec_fencing_feint", "tec_fencing_lunge", "tec_fencing_riposte", "tec_fencing_compound" ],
+    "weapons": [
+      "baton-extended",
+      "broadsword",
+      "broadsword_inferior",
+      "broadsword_fake",
+      "broadfire_off",
+      "broadfire_on",
+      "cane",
+      "cavalry_sabre",
+      "cavalry_sabre_fake",
+      "cudgel",
+      "hollow_cane",
+      "fencing_foil",
+      "fencing_sabre",
+      "fencing_epee",
+      "pointy_stick",
+      "pipe",
+      "PR24-extended",
+      "rapier",
+      "rapier_fake",
+      "sword_cane",
+      "umbrella"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_medievalpole",
+    "name": "Fior Di Battaglia",
+    "description": "Medieval Europe's martial techniques for fighting with polearms.  The \"Flower of Battle\" places great focus on countering one's opponent and knocking them down before landing a killing blow",
+    "initiate": [ "You hold your weapon in a firm grip, ready to block any attack.", "%s grips their weapon tightly." ],
+    "learn_difficulty": 6,
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "buff_medievalpole_static",
+        "name": "Stand Your Ground",
+        "description": "You stalwart and will not budge against any threat.\n\n+2 Block attempts, -1.0 Dodge skill, blocked damage reduced by 50%% of Strength.",
+        "melee_allowed": true,
+        "min_melee": 0,
+        "bonus_blocks": 2,
+        "flat_bonuses": [ [ "block", "str", 0.5 ], [ "dodge", -1.0 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_medievalpole_onmove",
+        "name": "Tactical Retreat",
+        "description": "You moved and nullified the effects of Stand Your Ground!\n\n-2 Block attempts, +1.0 Dodge skill, blocked damaged increased by 50%% of Strength.\nLasts 1 turn.",
+        "melee_allowed": true,
+        "min_melee": 0,
+        "buff_duration": 1,
+        "bonus_blocks": -2,
+        "flat_bonuses": [ [ "block", "str", -0.5 ], [ "dodge", 1.0 ] ]
+      }
+    ],
+    "onmiss_buffs": [
+      {
+        "id": "buff_medievalpole_onmiss",
+        "name": "Tactical Feinting",
+        "description": "They fell for your feint!\n\nEnables \"Hook and Drag\" technique.\nLasts 1 turn.",
+        "melee_allowed": true,
+        "min_melee": 3,
+        "buff_duration": 1
+      }
+    ],
+    "onblock_buffs": [
+      {
+        "id": "buff_medievalpole_onblock",
+        "name": "Defense Break",
+        "description": "Each successful block reveals an opening in your opponent's guard.\n\n+1 Accuracy.\nLasts 1 turn.  Stacks 3 times.",
+        "melee_allowed": true,
+        "min_melee": 1,
+        "buff_duration": 1,
+        "max_stacks": 3,
+        "flat_bonuses": [ [ "hit", 1.0 ] ]
+      }
+    ],
+    "techniques": [
+      "tec_medievalpole_counter",
+      "tec_medievalpole_highround",
+      "tec_medievalpole_feint",
+      "tec_medievalpole_hook",
+      "tec_medievalpole_execute",
+      "tec_medievalpole_break"
+    ],
+    "weapons": [
+      "ax",
+      "battleaxe",
+      "battleaxe_fake",
+      "battleaxe_inferior",
+      "copper_ax",
+      "fire_ax",
+      "glaive",
+      "halberd",
+      "halberd_fake",
+      "hammer_sledge",
+      "hockey_stick",
+      "hoe",
+      "ji",
+      "lobotomizer",
+      "lucern_hammer",
+      "lucern_hammerfake",
+      "makeshift_halberd",
+      "pickaxe",
+      "primitive_axe"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_judo",
+    "name": "Judo",
+    "description": "Judo is a martial art that focuses on grabs and throws, both defensive and offensive.  You are resistant to most effects that can knock you down and can counter grab and takedown attacks with strong judo throw.",
+    "initiate": [ "You prepare yourself for a grapple.", "%s prepares for a grapple." ],
+    "learn_difficulty": 4,
+    "static_buffs": [
+      {
+        "id": "buff_judo_static",
+        "name": "Judo Stance",
+        "description": "Your knowledge of grappling allows you to recover from knock down effects instantly.\nIn addition, you can counter grabs and takedown attacks with a judo throw.",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "unarmed_weapons_allowed": false,
+        "min_unarmed": 0,
+        "throw_immune": true
+      }
+    ],
+    "techniques": [ "tec_judo_backthrow", "tec_judo_counter", "tec_judo_disarm", "tec_judo_break", "tec_judo_throw" ],
+    "weapons": [ "bagh_nakha", "bio_claws_weapon", "cestus", "knuckle_brass", "knuckle_nail", "knuckle_steel" ]
   },
   {
     "type": "martial_art",
@@ -127,42 +522,30 @@
     "initiate": [ "You adopt a classic karate stance.", "%s adopts a classic karate stance." ],
     "learn_difficulty": 5,
     "arm_block": 2,
-    "leg_block": 99,
-    "onhit_buffs": [
-      {
-        "id": "karate_hit_buff",
-        "name": "Karate Hit",
-        "unarmed_allowed": true,
-        "min_unarmed": 0,
-        "buff_duration": 3,
-        "description": "+1 Dodges, +2 Blocks",
-        "bonus_dodges": 1,
-        "bonus_blocks": 2
-      }
-    ],
-    "techniques": [ "tec_karate_rapid", "tec_karate_precise" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_judo",
-    "name": "Judo",
-    "description": "Judo is a martial art that focuses on grabs and throws, both defensive and offensive.  It also focuses on recovering from throws; while using judo, you will not lose any turns to being thrown or knocked down.",
-    "initiate": [ "You prepare yourself for a grapple.", "%s prepares for a grapple." ],
-    "learn_difficulty": 4,
-    "arm_block": 99,
-    "leg_block": 99,
     "static_buffs": [
       {
-        "id": "judo_recovery",
-        "name": "Judo",
+        "id": "buff_karate_static",
+        "name": "Karate Stance",
+        "description": "Your no nonsense stance allows you hit more accurately.\n\n+2 Accuracy.",
         "unarmed_allowed": true,
         "min_unarmed": 0,
-        "buff_duration": 2,
-        "throw_immune": true,
-        "description": "Immune to throws and knockdowns."
+        "flat_bonuses": [ [ "hit", 2.0 ] ]
       }
     ],
-    "techniques": [ "tec_judo_grab", "tec_judo_throw" ]
+    "onhit_buffs": [
+      {
+        "id": "buff_karate_onhit",
+        "name": "Karate Strike",
+        "description": "Landing a hit allows you to perfectly position yourself for maximum defense against multiple opponents.\n\n+2 Block attempts, +1 Dodges attempts, blocked damge reduced by 50%% of Strength.\nLasts 2 turns.",
+        "min_unarmed": 3,
+        "unarmed_allowed": true,
+        "buff_duration": 2,
+        "bonus_blocks": 2,
+        "bonus_dodges": 1,
+        "flat_bonuses": [ [ "block", "str", 0.5 ] ]
+      }
+    ],
+    "techniques": [ "tec_karate_rapid", "tec_karate_precise", "tec_karate_roundhouse", "tec_karate_counter" ]
   },
   {
     "type": "martial_art",
@@ -186,42 +569,6 @@
       }
     ],
     "techniques": [ "tec_taichi_disarm", "tec_taichi_precise" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_capoeira",
-    "name": "Capoeira",
-    "description": "A dance-like style with its roots in Brazilian slavery, Capoeira is focused on fluid movement and sweeping kicks.  Moving a tile will boost attack and damage and attacking boosts dodge.  These bonuses stack up to three times each.",
-    "initiate": [ "You begin performing the ginga.", "%s begins to rhymically rock back and forth." ],
-    "learn_difficulty": 4,
-    "arm_block": 99,
-    "leg_block": 99,
-    "onhit_buffs": [
-      {
-        "id": "capoeira_hit_buff",
-        "name": "Capoeira Tempo",
-        "description": "+1 dodge and +1 blocks per stack",
-        "unarmed_allowed": true,
-        "min_unarmed": 3,
-        "buff_duration": 5,
-        "max_stacks": 3,
-        "bonus_blocks": 1,
-        "flat_bonuses": [ [ "dodge", 1.0 ] ]
-      }
-    ],
-    "onmove_buffs": [
-      {
-        "id": "capoeira_move_buff",
-        "name": "Capoeira Momentum",
-        "description": "+2 bash and +1 acc per stack",
-        "unarmed_allowed": true,
-        "min_unarmed": 2,
-        "buff_duration": 3,
-        "max_stacks": 3,
-        "flat_bonuses": [ [ "damage", "bash", 2.0 ], [ "hit", 1.0 ] ]
-      }
-    ],
-    "techniques": [ "tec_capoeira_feint" ]
   },
   {
     "type": "martial_art",
@@ -525,47 +872,6 @@
   },
   {
     "type": "martial_art",
-    "id": "style_fencing",
-    "name": "Fencing",
-    "description": "The noble art of fencing is taught with flexible competition blades, but the techniques are derived from (and applicable to) more functional examples.  Skilled fencers can take advantage of advances and retreats to deliver accurate strikes.",
-    "initiate": [ "You move into the en-garde stance.", "%s moves into a fencing stance." ],
-    "learn_difficulty": 5,
-    "primary_skill": "stabbing",
-    "arm_block": 99,
-    "leg_block": 99,
-    "strictly_melee": true,
-    "onmove_buffs": [
-      {
-        "id": "fencing_move_buff",
-        "name": "Fencing Footwork",
-        "description": "+2 stab and +1 acc per stack",
-        "min_melee": 2,
-        "buff_duration": 2,
-        "max_stacks": 2,
-        "flat_bonuses": [ [ "damage", "stab", 2.0 ], [ "hit", 1.0 ] ]
-      }
-    ],
-    "techniques": [ "tec_feint", "tec_fencing_lunge", "tec_fencing_stop_thrust", "tec_fencing_thrust" ],
-    "weapons": [
-      "broadsword",
-      "broadsword_inferior",
-      "broadsword_fake",
-      "broadfire_off",
-      "broadfire_on",
-      "rapier",
-      "rapier_fake",
-      "cavalry_sabre",
-      "cavalry_sabre_fake",
-      "fencing_foil",
-      "fencing_sabre",
-      "fencing_epee",
-      "umbrella",
-      "cane",
-      "cudgel"
-    ]
-  },
-  {
-    "type": "martial_art",
     "id": "style_niten",
     "name": "Niten Ichi-Ryu",
     "description": "Niten Ichi-Ryu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.",
@@ -637,163 +943,6 @@
       "nodachi_inferior",
       "nodachi_fake"
     ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_eskrima",
-    "name": "Eskrima",
-    "description": "Eskrima, also known as Kali, is a Filipino martial art.  It emphasizes rapid strikes with knife and baton weapons, along with a variety of improvised substitutes.",
-    "initiate": [ "You enter an open guard stance and prepare to strike.", "%s enters an open stance." ],
-    "learn_difficulty": 8,
-    "primary_skill": "bashing",
-    "arm_block": 99,
-    "leg_block": 99,
-    "strictly_melee": true,
-    "static_buffs": [
-      {
-        "id": "eskrima_bash",
-        "name": "Eskrima Bashing",
-        "melee_allowed": true,
-        "min_melee": 1,
-        "mult_bonuses": [ [ "damage", "bash", 1.2 ] ],
-        "description": "Increased bashing damage."
-      }
-    ],
-    "onhit_buffs": [
-      {
-        "id": "eskrima_hit_buff",
-        "name": "Eskrima Combination",
-        "description": "Combination",
-        "melee_allowed": true,
-        "min_melee": 2,
-        "buff_duration": 3,
-        "max_stacks": 1,
-        "mult_bonuses": [ [ "damage", "bash", 1.1 ], [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.1 ] ]
-      }
-    ],
-    "techniques": [
-      "tec_eskrima_round",
-      "tec_eskrima_fan",
-      "tec_eskrima_snap",
-      "tec_eskrima_puno",
-      "tec_eskrima_kick",
-      "tec_eskrima_combination"
-    ],
-    "weapons": [
-      "2x4",
-      "baton-extended",
-      "bee_sting",
-      "bio_blade_weapon",
-      "bowling_pin",
-      "cane",
-      "cudgel",
-      "cu_pipe",
-      "diveknife",
-      "fighter_sting",
-      "firemachete_off",
-      "firemachete_on",
-      "glass_shiv",
-      "hammer",
-      "knife_combat",
-      "knife_hunting",
-      "knife_trench",
-      "copper_knife",
-      "machete",
-      "survivor_machete",
-      "makeshift_knife",
-      "makeshift_machete",
-      "pipe",
-      "pockknife",
-      "pool_cue",
-      "PR24-extended",
-      "primitive_knife",
-      "primitive_hammer",
-      "punch_dagger",
-      "scissors",
-      "screwdriver",
-      "sharp_toothbrush",
-      "shishkebab_off",
-      "shishkebab_on",
-      "shocktonfa_off",
-      "shocktonfa_on",
-      "stick",
-      "switchblade",
-      "tanto",
-      "tanto_inferior",
-      "tanto_fake",
-      "tonfa",
-      "tonfa_wood",
-      "umbrella",
-      "wasp_sting",
-      "wrench",
-      "kukri",
-      "knife_rambo",
-      "knife_rm42",
-      "l-stick",
-      "l-stick_on"
-    ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_crane",
-    "name": "Crane Kung Fu",
-    "description": "One of the five Shaolin animal styles.  The Crane uses intricate hand techniques and jumping dodges.  Dexterity determines the majority of your damage, rather than Strength; you also receive a dodge bonus the turn after moving a tile.",
-    "initiate": [ "You raise your leg slightly and balance like a crane.", "%s assumes a crane-like stance." ],
-    "learn_difficulty": 10,
-    "arm_block": 3,
-    "leg_block": 99,
-    "static_buffs": [
-      {
-        "id": "crane_static",
-        "name": "Crane's Precision",
-        "description": "Damage bonus from dexterity at the cost of damage from strength.",
-        "unarmed_allowed": true,
-        "flat_bonuses": [ [ "damage", "bash", "dex", 0.8 ], [ "damage", "bash", "str", -0.2 ] ]
-      }
-    ],
-    "onmove_buffs": [
-      {
-        "id": "crane_move_buff",
-        "name": "Crane's Flight",
-        "description": "+2 Dodge",
-        "unarmed_allowed": true,
-        "min_unarmed": 2,
-        "buff_duration": 2,
-        "flat_bonuses": [ [ "dodge", 2.0 ] ]
-      }
-    ],
-    "techniques": [ "tec_crane_feint", "tec_crane_break", "tec_crane_precise" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_dragon",
-    "name": "Dragon Kung Fu",
-    "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Intelligence improves your accuracy and damage dealt, as does moving.",
-    "initiate": [ "You relax and patiently await conflict like the great dragon.", "%s assumes a dragon-like stance." ],
-    "learn_difficulty": 10,
-    "arm_block": 2,
-    "leg_block": 99,
-    "static_buffs": [
-      {
-        "id": "dragon_static",
-        "name": "Dragon Style",
-        "description": "Bonus damage from intelligence.",
-        "unarmed_allowed": true,
-        "flat_bonuses": [ [ "damage", "bash", "int", 0.8 ] ]
-      }
-    ],
-    "onmove_buffs": [
-      {
-        "id": "dragon_move_buff",
-        "name": "Dragon's Flight",
-        "description": "+2 Accuracy & Damage",
-        "unarmed_allowed": true,
-        "min_unarmed": 2,
-        "buff_duration": 2,
-        "flat_bonuses": [ [ "hit", 2.0 ], [ "damage", "bash", 2 ] ]
-      }
-    ],
-    "techniques": [ "tec_dragon_grab", "tec_dragon_counterb", "tec_dragon_counterd", "tec_dragon_sweep", "tec_dragon_brutal" ]
   },
   {
     "type": "martial_art",
@@ -1030,80 +1179,6 @@
       "tec_wingchun_disarm"
     ],
     "weapons": [ "butterfly_swords", "long_pole" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_medievalpole",
-    "name": "Fior Di Battaglia",
-    "description": "Medieval Europe's martial techniques for fighting with polearms, great focus is given in countering one's opponent and knocking them down before landing a killing blow",
-    "initiate": [ "You set your feet apart and turn your torso slightly.", "%s sets their feet apart and turns their torso slightly." ],
-    "learn_difficulty": 6,
-    "arm_block": 99,
-    "leg_block": 99,
-    "strictly_melee": true,
-    "static_buffs": [
-      {
-        "id": "medievalpole_static",
-        "name": "Stand Your Ground",
-        "description": "+2 blocks -1 dodge, halves your dodge and damage is reduced by your strength when blocking",
-        "strictly_melee": true,
-        "flat_bonuses": [ [ "block", "str", 1.0 ] ],
-        "mult_bonuses": [ [ "dodge", 0.5 ] ],
-        "bonus_dodges": -1,
-        "bonus_blocks": 2
-      }
-    ],
-    "onmove_buffs": [
-      {
-        "id": "medievalpole_move",
-        "name": "You moved",
-        "description": "Nullifies Stand Your Ground, don't move, stand there and counter!",
-        "melee_allowed": true,
-        "flat_bonuses": [ [ "block", "str", -1.0 ] ],
-        "mult_bonuses": [ [ "dodge", 1.0 ] ],
-        "buff_duration": 2,
-        "max_stacks": 1,
-        "bonus_dodges": 1,
-        "bonus_blocks": -2
-      }
-    ],
-    "onmiss_buffs": [
-      {
-        "id": "medievalpole_setup",
-        "name": "Setup",
-        "description": "They fell for your feint!",
-        "melee_allowed": true,
-        "min_melee": 0,
-        "buff_duration": 2,
-        "max_stacks": 1
-      }
-    ],
-    "techniques": [
-      "tec_medievalpole_counter",
-      "tec_medievalpole_highround",
-      "tec_medievalpole_feint",
-      "tec_medievalpole_highstab",
-      "tec_medievalpole_break"
-    ],
-    "weapons": [
-      "halberd",
-      "halberd_fake",
-      "lucern_hammer",
-      "lucern_hammerfake",
-      "glaive",
-      "makeshift_halberd",
-      "battleaxe_fake",
-      "battleaxe_inferior",
-      "battleaxe",
-      "fire_ax",
-      "pickaxe",
-      "ax",
-      "lobotomizer",
-      "primitive_axe",
-      "copper_ax",
-      "ji",
-      "hoe"
-    ]
   },
   {
     "type": "martial_art",

@@ -10,7 +10,7 @@
 #include "rng.h"
 #include "translations.h"
 
-#define EMPTY -1
+#define EMPTY (-1)
 #define ROBOT 0
 #define KITTEN 1
 std::string robot_finds_kitten::getmessage( int idx )
@@ -239,6 +239,7 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
 
     const int numbogus = 20;
     nummessages = 201;
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     empty.pos = point( -1, -1 );
     empty.color = nc_color();
     empty.character = ' ';
@@ -308,18 +309,18 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
     instructions( w );
 
     werase( w );
-    mvwprintz( w, 0, 0, c_white, _( "robotfindskitten v22July2008 - press q to quit." ) );
+    mvwprintz( w, point_zero, c_white, _( "robotfindskitten v22July2008 - press q to quit." ) );
     for( int c = 0; c < rfkCOLS; c++ ) {
-        mvwputch( w, 2, c, BORDER_COLOR, '_' );
+        mvwputch( w, point( c, 2 ), BORDER_COLOR, '_' );
     }
-    wmove( w, kitten.pos.y, kitten.pos.x );
+    wmove( w, kitten.pos );
     draw_kitten( w );
 
     for( int c = 0; c < numbogus; c++ ) {
-        mvwputch( w, bogus[c].pos.y, bogus[c].pos.x, bogus[c].color, bogus[c].character );
+        mvwputch( w, bogus[c].pos, bogus[c].color, bogus[c].character );
     }
 
-    wmove( w, robot.pos.y, robot.pos.x );
+    wmove( w, robot.pos );
     draw_robot( w );
     point old_pos = robot.pos;
 
@@ -334,9 +335,9 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
         }
         /* Redraw robot, where available */
         if( old_pos != robot.pos ) {
-            wmove( w, old_pos.y, old_pos.x );
+            wmove( w, old_pos );
             wputch( w, c_white, ' ' );
-            wmove( w, robot.pos.y, robot.pos.x );
+            wmove( w, robot.pos );
             draw_robot( w );
             rfkscreen[old_pos.x][old_pos.y] = EMPTY;
             rfkscreen[robot.pos.x][robot.pos.y] = ROBOT;
@@ -351,23 +352,25 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
 void robot_finds_kitten::instructions( const catacurses::window &w )
 {
     int pos = 1;
-    pos += fold_and_print( w, 0, 1, getmaxx( w ) - 4, c_light_gray,
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    pos += fold_and_print( w, point( 1, 0 ), getmaxx( w ) - 4, c_light_gray,
                            _( "robotfindskitten v22July2008" ) );
-    pos += 1 + fold_and_print( w, pos, 1, getmaxx( w ) - 4, c_light_gray, _( "\
+    pos += 1 + fold_and_print( w, point( 1, pos ), getmaxx( w ) - 4, c_light_gray, _( "\
 Originally by the illustrious Leonard Richardson, \
 rewritten in PDCurses by Joseph Larson, \
 ported to CDDA gaming system by a nutcase." ) );
 
-    pos += 1 + fold_and_print( w, pos, 1, getmaxx( w ) - 4, c_light_gray,
+    pos += 1 + fold_and_print( w, point( 1, pos ), getmaxx( w ) - 4, c_light_gray,
                                _( "In this game, you are robot (" ) );
     draw_robot( w );
     wprintz( w, c_light_gray, _( ")." ) );
-    pos += 1 + fold_and_print( w, pos, 1, getmaxx( w ) - 4, c_light_gray, _( "\
+    pos += 1 + fold_and_print( w, point( 1, pos ), getmaxx( w ) - 4, c_light_gray, _( "\
 Your job is to find kitten. This task is complicated by the existence of various things \
 which are not kitten. Robot must touch items to determine if they are kitten or not. \
 The game ends when robot finds kitten. Alternatively, you may end the game by hitting \
 'q', 'Q' or the Escape key." ) );
-    fold_and_print( w, pos, 1, getmaxx( w ) - 4, c_light_gray, _( "Press any key to start." ) );
+    fold_and_print( w, point( 1, pos ), getmaxx( w ) - 4, c_light_gray,
+                    _( "Press any key to start." ) );
     wrefresh( w );
     inp_mngr.wait_for_any_key();
 }
@@ -397,10 +400,10 @@ void robot_finds_kitten::process_input( int input, const catacurses::window &w )
             break;
         default: { /* invalid command */
             for( int c = 0; c < rfkCOLS; c++ ) {
-                mvwputch( w, 0, c, c_white, ' ' );
-                mvwputch( w, 1, c, c_white, ' ' );
+                mvwputch( w, point( c, 0 ), c_white, ' ' );
+                mvwputch( w, point( c, 1 ), c_white, ' ' );
             }
-            mvwprintz( w, 0, 0, c_white, _( "Invalid command: Use direction keys or press 'q'." ) );
+            mvwprintz( w, point_zero, c_white, _( "Invalid command: Use direction keys or press 'q'." ) );
             return;
         }
     }
@@ -417,23 +420,23 @@ void robot_finds_kitten::process_input( int input, const catacurses::window &w )
                 break;
             case KITTEN: {/* Found it! */
                 for( int c = 0; c < rfkCOLS; c++ ) {
-                    mvwputch( w, 0, c, c_white, ' ' );
+                    mvwputch( w, point( c, 0 ), c_white, ' ' );
                 }
 
                 /* The grand cinema scene. */
                 for( int c = 0; c <= 3; c++ ) {
 
-                    wmove( w, 1, ( rfkCOLS / 2 ) - 5 + c );
+                    wmove( w, point( rfkCOLS / 2 - 5 + c, 1 ) );
                     wputch( w, c_white, ' ' );
-                    wmove( w, 1, ( rfkCOLS / 2 ) + 4 - c );
+                    wmove( w, point( rfkCOLS / 2 + 4 - c, 1 ) );
                     wputch( w, c_white, ' ' );
-                    wmove( w, 1, ( rfkCOLS / 2 ) - 4 + c );
+                    wmove( w, point( rfkCOLS / 2 - 4 + c, 1 ) );
                     if( input == KEY_LEFT || input == KEY_UP ) {
                         draw_kitten( w );
                     } else {
                         draw_robot( w );
                     }
-                    wmove( w, 1, ( rfkCOLS / 2 ) + 3 - c );
+                    wmove( w, point( rfkCOLS / 2 + 3 - c, 1 ) );
                     if( input == KEY_LEFT || input == KEY_UP ) {
                         draw_robot( w );
                     } else {
@@ -445,15 +448,15 @@ void robot_finds_kitten::process_input( int input, const catacurses::window &w )
                 }
 
                 /* They're in love! */
-                mvwprintz( w, 0, ( ( rfkCOLS - 6 ) / 2 ) - 1, c_light_red, "<3<3<3" );
+                mvwprintz( w, point( ( rfkCOLS - 6 ) / 2 - 1, 0 ), c_light_red, "<3<3<3" );
                 wrefresh( w );
                 refresh_display();
                 nanosleep( &ts, nullptr );
                 for( int c = 0; c < rfkCOLS; c++ ) {
-                    mvwputch( w, 0, c, c_white, ' ' );
-                    mvwputch( w, 1, c, c_white, ' ' );
+                    mvwputch( w, point( c, 0 ), c_white, ' ' );
+                    mvwputch( w, point( c, 1 ), c_white, ' ' );
                 }
-                mvwprintz( w, 0, 0, c_white, _( "You found kitten! Way to go, robot!" ) );
+                mvwprintz( w, point_zero, c_white, _( "You found kitten! Way to go, robot!" ) );
                 wrefresh( w );
                 refresh_display();
                 ret = true;
@@ -463,19 +466,19 @@ void robot_finds_kitten::process_input( int input, const catacurses::window &w )
 
             default: {
                 for( int c = 0; c < rfkCOLS; c++ ) {
-                    mvwputch( w, 0, c, c_white, ' ' );
-                    mvwputch( w, 1, c, c_white, ' ' );
+                    mvwputch( w, point( c, 0 ), c_white, ' ' );
+                    mvwputch( w, point( c, 1 ), c_white, ' ' );
                 }
                 std::vector<std::string> bogusvstr = foldstring( getmessage(
                         bogus_messages[rfkscreen[check.x][check.y] - 2] ), rfkCOLS );
                 for( size_t c = 0; c < bogusvstr.size(); c++ ) {
-                    mvwprintw( w, c, 0, bogusvstr[c] );
+                    mvwprintw( w, point( 0, c ), bogusvstr[c] );
                 }
                 wrefresh( w );
             }
             break;
         }
-        wmove( w, 2, 0 );
+        wmove( w, point( 0, 2 ) );
         return;
     }
     /* Otherwise, move the robot. */

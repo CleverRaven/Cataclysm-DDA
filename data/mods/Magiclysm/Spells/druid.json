@@ -188,6 +188,24 @@
     "effect_str": "mon_bear"
   },
   {
+    "id": "fungicide",
+    "type": "SPELL",
+    "name": "Kill Fungus",
+    "description": "Kills fungus affected areas",
+    "valid_targets": [ "ground", "hostile" ],
+    "effect": "ter_transform",
+    "effect_str": "fungicide",
+    "min_aoe": 5,
+    "max_aoe": 25,
+    "aoe_increment": 1,
+    "max_level": 20,
+    "difficulty": 4,
+    "energy_source": "MANA",
+    "base_energy_cost": 175,
+    "base_casting_time": 550,
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS", "NO_HANDS" ]
+  },
+  {
     "id": "create_rune_druid",
     "type": "SPELL",
     "name": "Druid Rune",

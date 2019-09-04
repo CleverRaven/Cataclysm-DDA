@@ -40,6 +40,14 @@
     "qty": 3
   },
   {
+    "id": "emit_smaller_smoke_plume",
+    "type": "emit",
+    "//": "Small plume of thick smoke (example: smallarms muzzle smoke)",
+    "field": "fd_smoke",
+    "qty": 1,
+    "chance": 30
+  },
+  {
     "id": "emit_smoke_stream",
     "type": "emit",
     "//": "Steady stream of thick smoke (example: smoke bomb)",
@@ -187,6 +195,34 @@
     "field": "fd_dazzling",
     "qty": 2,
     "chance": 75
+  },
+  {
+    "id": "emit_fungicidal_stream",
+    "type": "emit",
+    "field": "fd_fungicidal_gas",
+    "intensity": 3,
+    "qty": 18
+  },
+  {
+    "id": "emit_insecticidal_stream",
+    "type": "emit",
+    "field": "fd_insecticidal_gas",
+    "intensity": 3,
+    "qty": 18
+  },
+  {
+    "id": "emit_small_fungicidal_stream",
+    "type": "emit",
+    "field": "fd_fungicidal_gas",
+    "intensity": 2,
+    "qty": 10
+  },
+  {
+    "id": "emit_small_insecticidal_stream",
+    "type": "emit",
+    "field": "fd_insecticidal_gas",
+    "intensity": 2,
+    "qty": 10
   },
   {
     "id": "emit_fungal_haze_plume",

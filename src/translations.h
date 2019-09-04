@@ -3,6 +3,7 @@
 #define TRANSLATIONS_H
 
 #include <map>
+#include <ostream>
 #include <string>
 #include <vector>
 #include <type_traits>
@@ -117,16 +118,12 @@ class translation
 {
     public:
         translation();
-        /**
-         * Create a deferred translation with context
-         **/
-        translation( const std::string &ctxt, const std::string &raw );
 
         /**
-         * Create a deferred translation without context
+         * Store a string and an optional context for translation
          **/
-        translation( const std::string &raw );
-
+        static translation to_translation( const std::string &raw );
+        static translation to_translation( const std::string &ctxt, const std::string &raw );
         /**
          * Store a string that needs no translation.
          **/
@@ -158,12 +155,20 @@ class translation
          * Be especially careful when using these to sort translations, as the
          * translated result will change when switching the language.
          **/
-        bool operator<( const translation &that ) const;
+        bool translated_lt( const translation &that ) const;
+        bool translated_eq( const translation &that ) const;
+        bool translated_ne( const translation &that ) const;
+
+        /**
+         * Compare translations by their context, raw string, and no-translation flag
+         */
         bool operator==( const translation &that ) const;
         bool operator!=( const translation &that ) const;
     private:
+        translation( const std::string &ctxt, const std::string &raw );
+        translation( const std::string &raw );
         struct no_translation_tag {};
-        translation( const std::string &str, const no_translation_tag );
+        translation( const std::string &str, no_translation_tag );
 
         cata::optional<std::string> ctxt;
         std::string raw;
@@ -171,8 +176,18 @@ class translation
 };
 
 /**
+ * Shorthands for translation::to_translation
+ **/
+translation to_translation( const std::string &raw );
+translation to_translation( const std::string &ctxt, const std::string &raw );
+/**
  * Shorthand for translation::no_translation
  **/
 translation no_translation( const std::string &str );
+
+std::ostream &operator<<( std::ostream &out, const translation &t );
+std::string operator+( const translation &lhs, const std::string &rhs );
+std::string operator+( const std::string &lhs, const translation &rhs );
+std::string operator+( const translation &lhs, const translation &rhs );
 
 #endif // _TRANSLATIONS_H_

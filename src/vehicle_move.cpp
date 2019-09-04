@@ -80,7 +80,7 @@ int vehicle::slowdown( int at_velocity ) const
 
     // slowdown due to air resistance is proportional to square of speed
     double f_total_drag = coeff_air_drag() * mps * mps;
-    if( is_floating ) {
+    if( is_watercraft() ) {
         // same with water resistance
         f_total_drag += coeff_water_drag() * mps * mps;
     } else if( !is_falling ) {
@@ -118,20 +118,18 @@ void vehicle::thrust( int thd )
     bool pl_ctrl = player_in_control( g->u );
 
     // No need to change velocity if there are no wheels
-    if( is_floating ) {
-        if( !can_float() ) {
-            if( pl_ctrl ) {
-                add_msg( _( "The %s is too leaky!" ), name );
-            }
-            return;
+    if( in_water && can_float() ) {
+        // we're good
+    } else if( is_floating && !can_float() ) {
+        if( pl_ctrl ) {
+            add_msg( _( "The %s is too leaky!" ), name );
         }
-    } else {
-        if( !valid_wheel_config() ) {
-            if( pl_ctrl ) {
-                add_msg( _( "The %s doesn't have enough wheels to move!" ), name );
-            }
-            return;
+        return;
+    } else if( !valid_wheel_config() ) {
+        if( pl_ctrl ) {
+            add_msg( _( "The %s doesn't have enough wheels to move!" ), name );
         }
+        return;
     }
     // Accelerate (true) or brake (false)
     bool thrusting = true;
@@ -201,8 +199,6 @@ void vehicle::thrust( int thd )
 
         //make noise and consume fuel
         noise_and_smoke( load );
-        // HACK - vehicles don't move as far as they should in 6 seconds, so for movement ONLY
-        // consume fuel as though a turn were 1 second
         consume_fuel( load, 1 );
 
         //break the engines a bit, if going too fast.
@@ -344,7 +340,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
 
     if( dp.z != 0 && ( dp.x != 0 || dp.y != 0 ) ) {
         // Split into horizontal + vertical
-        return collision( colls, tripoint( dp.x, dp.y, 0 ), just_detect, bash_floor ) ||
+        return collision( colls, tripoint( dp.xy(), 0 ), just_detect, bash_floor ) ||
                collision( colls, tripoint( 0,    0,    dp.z ), just_detect, bash_floor );
     }
 
@@ -419,7 +415,7 @@ static void terrain_collision_data( const tripoint &p, bool bash_floor,
     // Just a rough rescale for now to obtain approximately equal numbers
     const int bash_min = g->m.bash_resistance( p, bash_floor );
     const int bash_max = g->m.bash_strength( p, bash_floor );
-    mass = ( bash_min + bash_max ) / 2;
+    mass = ( bash_min + bash_max ) / 2.0;
     density = bash_min;
 }
 
@@ -511,24 +507,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         ret.target = critter;
         e = 0.30;
         part_dens = 15;
-        switch( critter->get_size() ) {
-            case MS_TINY:    // Rodent
-                mass2 = 1;
-                break;
-            case MS_SMALL:   // Half human
-                mass2 = 41;
-                break;
-            default:
-            case MS_MEDIUM:  // Human
-                mass2 = 82;
-                break;
-            case MS_LARGE:   // Cow
-                mass2 = 400;
-                break;
-            case MS_HUGE:     // TAAAANK
-                mass2 = 1000;
-                break;
-        }
+        mass2 = units::to_kilogram( critter->get_weight() );
         ret.target_name = critter->disp_name();
     } else if( ( bash_floor && g->m.is_bashable_ter_furn( p, true ) ) ||
                ( g->m.is_bashable_ter_furn( p, false ) && g->m.move_cost_ter_furn( p ) != 2 &&
@@ -816,28 +795,15 @@ void vehicle::handle_trap( const tripoint &p, int part )
         return;
     }
 
-    if( g->u.sees( p ) ) {
-        if( g->u.knows_trap( p ) ) {
+    const bool seen = g->u.sees( p );
+    const bool known = g->u.knows_trap( p );
+    if( seen ) {
+        if( known ) {
             //~ %1$s: name of the vehicle; %2$s: name of the related vehicle part; %3$s: trap name
             add_msg( m_bad, _( "The %1$s's %2$s runs over %3$s." ), name, parts[ part ].name(), tr.name() );
         } else {
             add_msg( m_bad, _( "The %1$s's %2$s runs over something." ), name, parts[ part ].name() );
         }
-    }
-
-    if( t == tr_beartrap || t == tr_beartrap_buried ) {
-        g->m.spawn_item( p, "beartrap" );
-    } else if( t == tr_crossbow ) {
-        g->m.spawn_item( p, "crossbow" );
-        g->m.spawn_item( p, "string_6" );
-        if( !one_in( 10 ) ) {
-            g->m.spawn_item( p, "bolt_steel" );
-        }
-    } else if( t == tr_shotgun_2 ) {
-        g->m.trap_set( p, tr_shotgun_1 );
-    } else if( t == tr_shotgun_1 ) {
-        g->m.spawn_item( p, "shotgun_s" );
-        g->m.spawn_item( p, "string_6" );
     }
 
     if( veh_data.chance >= rng( 1, 100 ) ) {
@@ -851,8 +817,32 @@ void vehicle::handle_trap( const tripoint &p, int part )
             // Hit the wheel directly since it ran right over the trap.
             damage_direct( pwh, veh_data.damage );
         }
+        bool still_has_trap = true;
         if( veh_data.remove_trap || veh_data.do_explosion ) {
             g->m.remove_trap( p );
+            still_has_trap = false;
+        }
+        for( const auto &it : veh_data.spawn_items ) {
+            int cnt = roll_remainder( it.second );
+            if( cnt > 0 ) {
+                g->m.spawn_item( p, it.first, cnt );
+            }
+        }
+        if( veh_data.set_trap ) {
+            g->m.trap_set( p, veh_data.set_trap.id() );
+            still_has_trap = true;
+        }
+        if( still_has_trap ) {
+            const trap &tr = g->m.tr_at( p );
+            if( seen || known ) {
+                // known status has been reset by map::trap_set()
+                g->u.add_known_trap( p, tr );
+            }
+            if( seen && !known ) {
+                // hard to miss!
+                const std::string direction = direction_name( direction_from( g->u.pos(), p ) );
+                add_msg( _( "You've spotted a %1$s to the %2$s!" ), tr.name(), direction );
+            }
         }
     }
 }
@@ -1352,18 +1342,7 @@ vehicle *vehicle::act_on_map()
         dp.z = -1;
     }
 
-    vehicle *new_pointer = this;
-    // Split the movement into horizontal and vertical for easier processing
-    if( dp.x != 0 || dp.y != 0 ) {
-        new_pointer = g->m.move_vehicle( *new_pointer, tripoint( dp.x, dp.y, 0 ), mdir );
-    }
-
-    if( new_pointer != nullptr && dp.z != 0 ) {
-        new_pointer = g->m.move_vehicle( *new_pointer, tripoint( 0, 0, dp.z ), mdir );
-        is_falling = false;
-    }
-
-    return new_pointer;
+    return g->m.move_vehicle( *this, dp, mdir );
 }
 
 void vehicle::check_falling_or_floating()
@@ -1375,28 +1354,36 @@ void vehicle::check_falling_or_floating()
         // Dirty vehicle with no parts
         is_falling = false;
         is_floating = false;
+        in_water = false;
         return;
     }
 
     is_falling = g->m.has_zlevels();
 
+    size_t deep_water_tiles = 0;
     size_t water_tiles = 0;
     for( const tripoint &p : pts ) {
         if( is_falling ) {
-            tripoint below( p.x, p.y, p.z - 1 );
+            tripoint below( p.xy(), p.z - 1 );
             is_falling &= g->m.has_flag_ter_or_furn( TFLAG_NO_FLOOR, p ) && ( p.z > -OVERMAP_DEPTH ) &&
                           !g->m.supports_above( below );
         }
-        water_tiles += g->m.has_flag( TFLAG_DEEP_WATER, p ) ? 1 : 0;
+        deep_water_tiles += g->m.has_flag( TFLAG_DEEP_WATER, p ) ? 1 : 0;
+        water_tiles += g->m.has_flag( TFLAG_SWIMMABLE, p ) ? 1 : 0;
     }
-    // floating if 2/3rds of the vehicle is in water
-    is_floating = 3 * water_tiles >= 2 * pts.size();
+    // floating if 2/3rds of the vehicle is in deep water
+    is_floating = 3 * deep_water_tiles >= 2 * pts.size();
+    // in_water if 1/2 of the vehicle is in water at all
+    in_water =  2 * water_tiles >= pts.size();
 }
 
 float map::vehicle_wheel_traction( const vehicle &veh ) const
 {
-    if( veh.is_in_water() ) {
+    if( veh.is_in_water( true ) ) {
         return veh.can_float() ? 1.0f : -1.0f;
+    }
+    if( veh.is_in_water() && veh.is_watercraft() && veh.can_float() ) {
+        return 1.0f;
     }
 
     const auto &wheel_indices = veh.wheelcache;
@@ -1427,7 +1414,7 @@ float map::vehicle_wheel_traction( const vehicle &veh ) const
         }
 
         for( const auto &terrain_mod : veh.part_info( p ).wheel_terrain_mod() ) {
-            if( terrain_mod.second.movecost && terrain_mod.second.movecost > 0 &&
+            if( terrain_mod.second.movecost > 0 &&
                 tr.has_flag( terrain_mod.first ) ) {
                 move_mod = terrain_mod.second.movecost;
                 break;

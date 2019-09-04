@@ -2,6 +2,8 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
+template<typename T> struct enum_traits;
+
 template<typename T>
 constexpr inline int sgn( const T x )
 {
@@ -50,6 +52,12 @@ enum ot_match_type {
     // occur at the beginning, end, or middle and does not have any rules about
     // underscore delimiting.
     contains,
+    num_ot_match_type
+};
+
+template<>
+struct enum_traits<ot_match_type> {
+    static constexpr ot_match_type last = ot_match_type::num_ot_match_type;
 };
 
 enum special_game_id : int {
@@ -107,6 +115,11 @@ enum art_effect_passive : int {
     NUM_AEPS
 };
 
+template<>
+struct enum_traits<art_effect_passive> {
+    static constexpr art_effect_passive last = art_effect_passive::NUM_AEPS;
+};
+
 enum artifact_natural_property {
     ARTPROP_NULL,
     ARTPROP_WRIGGLING, //
@@ -130,7 +143,12 @@ enum artifact_natural_property {
 };
 
 enum phase_id : int {
-    PNULL, SOLID, LIQUID, GAS, PLASMA
+    PNULL, SOLID, LIQUID, GAS, PLASMA, num_phases
+};
+
+template<>
+struct enum_traits<phase_id> {
+    static constexpr phase_id last = phase_id::num_phases;
 };
 
 // Return the class an in-world object uses to interact with the world.
@@ -165,8 +183,10 @@ enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, LTT_M
  *  when starting the game.
  */
 enum layer_level {
+    /* "Personal effects" layer, corresponds to PERSONAL flag */
+    PERSONAL_LAYER = 0,
     /* "Close to skin" layer, corresponds to SKINTIGHT flag. */
-    UNDERWEAR = 0,
+    UNDERWEAR_LAYER,
     /* "Normal" layer, default if no flags set */
     REGULAR_LAYER,
     /* "Waist" layer, corresponds to WAIST flag. */
@@ -175,6 +195,8 @@ enum layer_level {
     OUTER_LAYER,
     /* "Strapped" layer, corresponds to BELTED flag */
     BELTED_LAYER,
+    /* "Aura" layer, corresponds to AURA flag */
+    AURA_LAYER,
     /* Not a valid layer; used for C-style iteration through this enum */
     MAX_CLOTHING_LAYER
 };

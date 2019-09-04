@@ -22,12 +22,14 @@ enum game_message_type : int;
 class nc_color;
 class effect;
 class effects_map;
+class translation;
 
 namespace catacurses
 {
 class window;
 } // namespace catacurses
 class avatar;
+class Character;
 class field;
 class field_entry;
 class JsonObject;
@@ -35,6 +37,7 @@ class JsonOut;
 struct tripoint;
 class time_duration;
 class player;
+struct point;
 
 enum damage_type : int;
 enum m_flag : int;
@@ -77,11 +80,20 @@ class Creature
         virtual bool is_player() const {
             return false;
         }
+        virtual bool is_avatar() const {
+            return false;
+        }
         virtual bool is_npc() const {
             return false;
         }
         virtual bool is_monster() const {
             return false;
+        }
+        virtual Character *as_character() {
+            return nullptr;
+        }
+        virtual const Character *as_character() const {
+            return nullptr;
         }
         virtual player *as_player() {
             return nullptr;
@@ -100,7 +112,7 @@ class Creature
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
-        virtual void set_fake( const bool fake_value );
+        virtual void set_fake( bool fake_value );
 
         /** Recreates the Creature from scratch. */
         virtual void normalize();
@@ -139,7 +151,7 @@ class Creature
         /**
          * Simplified attitude string for unlocalized needs.
          */
-        static const std::string attitude_raw_string( Attitude att );
+        static std::string attitude_raw_string( Attitude att );
 
         /**
          * Creature Attitude as String and color
@@ -248,7 +260,7 @@ class Creature
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
         virtual void apply_damage( Creature *source, body_part bp, int amount,
-                                   const bool bypass_med = false ) = 0;
+                                   bool bypass_med = false ) = 0;
 
         /**
          * This creature just dodged an attack - possibly special/ranged attack - from source.
@@ -260,7 +272,7 @@ class Creature
          * Players should train dodge, possibly counter-attack somehow.
          */
         virtual void on_hit( Creature *source, body_part bp_hit = num_bp,
-                             float difficulty = INT_MIN, dealt_projectile_attack const *const proj = nullptr ) = 0;
+                             float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) = 0;
 
         virtual bool digging() const;      // MF_DIGS or MF_CAN_DIG and diggable terrain
         virtual bool is_on_ground() const = 0;
@@ -274,7 +286,7 @@ class Creature
         // Resistances
         virtual bool is_elec_immune() const = 0;
         virtual bool is_immune_effect( const efftype_id &type ) const = 0;
-        virtual bool is_immune_damage( const damage_type type ) const = 0;
+        virtual bool is_immune_damage( damage_type type ) const = 0;
 
         // Field dangers
         /** Returns true if there is a field in the field set that is dangerous to us. */
@@ -324,8 +336,9 @@ class Creature
                              const time_duration &dur,
                              body_part bp = num_bp, bool permanent = false, int intensity = 1,
                              bool force = false );
-        /** Removes a listed effect, adding the removal memorial log if needed. bp = num_bp means to remove
-         *  all effects of a given type, targeted or untargeted. Returns true if anything was removed. */
+        /** Removes a listed effect. bp = num_bp means to remove all effects of
+         * a given type, targeted or untargeted. Returns true if anything was
+         * removed. */
         bool remove_effect( const efftype_id &eff_id, body_part bp = num_bp );
         /** Remove all effects. */
         void clear_effects();
@@ -347,6 +360,8 @@ class Creature
         void remove_value( const std::string &key );
         std::string get_value( const std::string &key ) const;
 
+        virtual units::mass get_weight() const = 0;
+
         /** Processes through all the effects on the Creature. */
         virtual void process_effects();
 
@@ -359,7 +374,7 @@ class Creature
         virtual void set_pain( int npain );
         virtual int get_pain() const;
         virtual int get_perceived_pain() const;
-        virtual std::string get_pain_description() const;
+        virtual std::pair<std::string, nc_color> get_pain_description() const;
 
         int get_moves() const;
         void mod_moves( int nmoves );
@@ -491,7 +506,7 @@ class Creature
 
         int moves;
         bool underwater;
-        void draw( const catacurses::window &w, int origin_x, int origin_y, bool inverted ) const;
+        void draw( const catacurses::window &w, const point &origin, bool inverted ) const;
         void draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const;
         /**
          * Write information about this creature.
@@ -508,6 +523,9 @@ class Creature
 
         // Message related stuff
         virtual void add_msg_if_player( const std::string &/*msg*/ ) const {}
+        virtual void add_msg_if_player( game_message_type /*type*/, const std::string &/*msg*/ ) const {}
+        void add_msg_if_player( const translation &/*msg*/ ) const;
+        void add_msg_if_player( game_message_type /*type*/, const translation &/*msg*/ ) const;
         template<typename ...Args>
         void add_msg_if_player( const char *const msg, Args &&... args ) const {
             return add_msg_if_player( string_format( msg, std::forward<Args>( args )... ) );
@@ -516,8 +534,10 @@ class Creature
         void add_msg_if_player( const std::string &msg, Args &&... args ) const {
             return add_msg_if_player( string_format( msg, std::forward<Args>( args )... ) );
         }
-
-        virtual void add_msg_if_player( game_message_type /*type*/, const std::string &/*msg*/ ) const {}
+        template<typename ...Args>
+        void add_msg_if_player( const translation &msg, Args &&... args ) const {
+            return add_msg_if_player( string_format( msg, std::forward<Args>( args )... ) );
+        }
         template<typename ...Args>
         void add_msg_if_player( const game_message_type type, const char *const msg,
                                 Args &&... args ) const {
@@ -527,7 +547,15 @@ class Creature
             return add_msg_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
-        void add_msg_if_player( const game_message_type type, const std::string &msg,
+        void add_msg_if_player( game_message_type type, const std::string &msg,
+                                Args &&... args ) const {
+            if( type == m_debug && !debug_mode ) {
+                return;
+            }
+            return add_msg_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
+        }
+        template<typename ...Args>
+        void add_msg_if_player( game_message_type type, const translation &msg,
                                 Args &&... args ) const {
             if( type == m_debug && !debug_mode ) {
                 return;
@@ -536,6 +564,9 @@ class Creature
         }
 
         virtual void add_msg_if_npc( const std::string &/*msg*/ ) const {}
+        virtual void add_msg_if_npc( game_message_type /*type*/, const std::string &/*msg*/ ) const {}
+        void add_msg_if_npc( const translation &/*msg*/ ) const;
+        void add_msg_if_npc( game_message_type /*type*/, const translation &/*msg*/ ) const;
         template<typename ...Args>
         void add_msg_if_npc( const char *const msg, Args &&... args ) const {
             return add_msg_if_npc( string_format( msg, std::forward<Args>( args )... ) );
@@ -544,8 +575,10 @@ class Creature
         void add_msg_if_npc( const std::string &msg, Args &&... args ) const {
             return add_msg_if_npc( string_format( msg, std::forward<Args>( args )... ) );
         }
-
-        virtual void add_msg_if_npc( game_message_type /*type*/, const std::string &/*msg*/ ) const {}
+        template<typename ...Args>
+        void add_msg_if_npc( const translation &msg, Args &&... args ) const {
+            return add_msg_if_npc( string_format( msg, std::forward<Args>( args )... ) );
+        }
         template<typename ...Args>
         void add_msg_if_npc( const game_message_type type, const char *const msg, Args &&... args ) const {
             if( type == m_debug && !debug_mode ) {
@@ -554,7 +587,14 @@ class Creature
             return add_msg_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
-        void add_msg_if_npc( const game_message_type type, const std::string &msg, Args &&... args ) const {
+        void add_msg_if_npc( game_message_type type, const std::string &msg, Args &&... args ) const {
+            if( type == m_debug && !debug_mode ) {
+                return;
+            }
+            return add_msg_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
+        }
+        template<typename ...Args>
+        void add_msg_if_npc( game_message_type type, const translation &msg, Args &&... args ) const {
             if( type == m_debug && !debug_mode ) {
                 return;
             }
@@ -563,6 +603,12 @@ class Creature
 
         virtual void add_msg_player_or_npc( const std::string &/*player_msg*/,
                                             const std::string &/*npc_msg*/ ) const {}
+        virtual void add_msg_player_or_npc( game_message_type /*type*/, const std::string &/*player_msg*/,
+                                            const std::string &/*npc_msg*/ ) const {}
+        void add_msg_player_or_npc( const translation &/*player_msg*/,
+                                    const translation &/*npc_msg*/ ) const;
+        void add_msg_player_or_npc( game_message_type /*type*/, const translation &/*player_msg*/,
+                                    const translation &/*npc_msg*/ ) const;
         template<typename ...Args>
         void add_msg_player_or_npc( const char *const player_msg, const char *const npc_msg,
                                     Args &&... args ) const {
@@ -575,9 +621,12 @@ class Creature
             return add_msg_player_or_npc( string_format( player_msg, std::forward<Args>( args )... ),
                                           string_format( npc_msg, std::forward<Args>( args )... ) );
         }
-
-        virtual void add_msg_player_or_npc( game_message_type /*type*/, const std::string &/*player_msg*/,
-                                            const std::string &/*npc_msg*/ ) const {}
+        template<typename ...Args>
+        void add_msg_player_or_npc( const translation &player_msg, const translation &npc_msg,
+                                    Args &&... args ) const {
+            return add_msg_player_or_npc( string_format( player_msg, std::forward<Args>( args )... ),
+                                          string_format( npc_msg, std::forward<Args>( args )... ) );
+        }
         template<typename ...Args>
         void add_msg_player_or_npc( const game_message_type type, const char *const player_msg,
                                     const char *const npc_msg, Args &&... args ) const {
@@ -588,8 +637,17 @@ class Creature
                                           string_format( npc_msg, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
-        void add_msg_player_or_npc( const game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_npc( game_message_type type, const std::string &player_msg,
                                     const std::string &npc_msg, Args &&... args ) const {
+            if( type == m_debug && !debug_mode ) {
+                return;
+            }
+            return add_msg_player_or_npc( type, string_format( player_msg, std::forward<Args>( args )... ),
+                                          string_format( npc_msg, std::forward<Args>( args )... ) );
+        }
+        template<typename ...Args>
+        void add_msg_player_or_npc( game_message_type type, const translation &player_msg,
+                                    const translation &npc_msg, Args &&... args ) const {
             if( type == m_debug && !debug_mode ) {
                 return;
             }
@@ -599,6 +657,12 @@ class Creature
 
         virtual void add_msg_player_or_say( const std::string &/*player_msg*/,
                                             const std::string &/*npc_speech*/ ) const {}
+        virtual void add_msg_player_or_say( game_message_type /*type*/, const std::string &/*player_msg*/,
+                                            const std::string &/*npc_speech*/ ) const {}
+        void add_msg_player_or_say( const translation &/*player_msg*/,
+                                    const translation &/*npc_speech*/ ) const;
+        void add_msg_player_or_say( game_message_type /*type*/, const translation &/*player_msg*/,
+                                    const translation &/*npc_speech*/ ) const;
         template<typename ...Args>
         void add_msg_player_or_say( const char *const player_msg, const char *const npc_speech,
                                     Args &&... args ) const {
@@ -611,9 +675,12 @@ class Creature
             return add_msg_player_or_say( string_format( player_msg, std::forward<Args>( args )... ),
                                           string_format( npc_speech, std::forward<Args>( args )... ) );
         }
-
-        virtual void add_msg_player_or_say( game_message_type /*type*/, const std::string &/*player_msg*/,
-                                            const std::string &/*npc_speech*/ ) const {}
+        template<typename ...Args>
+        void add_msg_player_or_say( const translation &player_msg, const translation &npc_speech,
+                                    Args &&... args ) const {
+            return add_msg_player_or_say( string_format( player_msg, std::forward<Args>( args )... ),
+                                          string_format( npc_speech, std::forward<Args>( args )... ) );
+        }
         template<typename ...Args>
         void add_msg_player_or_say( const game_message_type type, const char *const player_msg,
                                     const char *const npc_speech, Args &&... args ) const {
@@ -624,7 +691,7 @@ class Creature
                                           string_format( npc_speech, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
-        void add_msg_player_or_say( const game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_say( game_message_type type, const std::string &player_msg,
                                     const std::string &npc_speech, Args &&... args ) const {
             if( type == m_debug && !debug_mode ) {
                 return;
@@ -632,19 +699,14 @@ class Creature
             return add_msg_player_or_say( type, string_format( player_msg, std::forward<Args>( args )... ),
                                           string_format( npc_speech, std::forward<Args>( args )... ) );
         }
-
-        virtual void add_memorial_log( const std::string &/*male_msg*/,
-                                       const std::string &/*female_msg*/ ) {}
         template<typename ...Args>
-        void add_memorial_log( const char *const male_msg, const char *const female_msg, Args &&... args ) {
-            return add_memorial_log( string_format( male_msg, std::forward<Args>( args )... ),
-                                     string_format( female_msg, std::forward<Args>( args )... ) );
-        }
-        template<typename ...Args>
-        void add_memorial_log( const std::string &male_msg, const std::string &female_msg,
-                               Args &&... args ) {
-            return add_memorial_log( string_format( male_msg, std::forward<Args>( args )... ),
-                                     string_format( female_msg, std::forward<Args>( args )... ) );
+        void add_msg_player_or_say( game_message_type type, const translation &player_msg,
+                                    const translation &npc_speech, Args &&... args ) const {
+            if( type == m_debug && !debug_mode ) {
+                return;
+            }
+            return add_msg_player_or_say( type, string_format( player_msg, std::forward<Args>( args )... ),
+                                          string_format( npc_speech, std::forward<Args>( args )... ) );
         }
 
         virtual std::string extended_description() const = 0;

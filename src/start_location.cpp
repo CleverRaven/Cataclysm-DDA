@@ -130,7 +130,7 @@ static void board_up( map &m, const tripoint &start, const tripoint &end )
     for( x = start.x; x < end.x; x++ ) {
         for( y = start.y; y < end.y; y++ ) {
             bool must_board_around = false;
-            const ter_id t = m.ter( x, y );
+            const ter_id t = m.ter( point( x, y ) );
             if( t == t_window_domestic || t == t_window || t == t_window_no_curtains ) {
                 // Windows are always to the outside and must be boarded
                 must_board_around = true;
@@ -228,9 +228,9 @@ tripoint start_location::find_player_initial_location() const
 void start_location::prepare_map( const tripoint &omtstart ) const
 {
     // Now prepare the initial map (change terrain etc.)
-    const point player_location = omt_to_sm_copy( omtstart.x, omtstart.y );
+    const point player_location = omt_to_sm_copy( omtstart.xy() );
     tinymap player_start;
-    player_start.load( player_location.x, player_location.y, omtstart.z, false );
+    player_start.load( tripoint( player_location, omtstart.z ), false );
     prepare_map( player_start );
     player_start.save();
 }
@@ -367,7 +367,7 @@ void start_location::burn( const tripoint &omtstart,
 {
     const tripoint player_location = omt_to_sm_copy( omtstart );
     tinymap m;
-    m.load( player_location.x, player_location.y, player_location.z, false );
+    m.load( player_location, false );
     m.build_outside_cache( m.get_abs_sub().z );
     const int ux = g->u.posx() % HALF_MAPSIZE_X;
     const int uy = g->u.posy() % HALF_MAPSIZE_Y;
@@ -399,7 +399,7 @@ void start_location::add_map_extra( const tripoint &omtstart,
 {
     const tripoint player_location = omt_to_sm_copy( omtstart );
     tinymap m;
-    m.load( player_location.x, player_location.y, player_location.z, false );
+    m.load( player_location, false );
 
     MapExtras::apply_function( map_extra, m, player_location );
 
@@ -439,10 +439,10 @@ static void add_monsters( const tripoint &omtstart, const mongroup_id &type, flo
 {
     const tripoint spawn_location = omt_to_sm_copy( omtstart );
     tinymap m;
-    m.load( spawn_location.x, spawn_location.y, spawn_location.z, false );
+    m.load( spawn_location, false );
     // map::place_spawns internally multiplies density by rng(10, 50)
-    const float density = expected_points / ( ( 10 + 50 ) / 2 );
-    m.place_spawns( type, 1, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, density );
+    const float density = expected_points / ( ( 10 + 50 ) / 2.0 );
+    m.place_spawns( type, 1, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), density );
     m.save();
 }
 

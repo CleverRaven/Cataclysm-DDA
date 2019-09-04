@@ -12,6 +12,7 @@
 #include "bionics.h"
 #include "debug.h"
 #include "game.h"
+#include "event_bus.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -99,11 +100,12 @@ void talk_function::mission_success( npc &p )
     int miss_val = npc_trading::cash_to_favor( p, miss->get_value() );
     npc_opinion tmp( 0, 0, 1 + miss_val / 5, -1, 0 );
     p.op_of_u += tmp;
-    if( p.my_fac != nullptr ) {
+    faction *p_fac = p.get_faction();
+    if( p_fac != nullptr ) {
         int fac_val = std::min( 1 + miss_val / 10, 10 );
-        p.my_fac->likes_u += fac_val;
-        p.my_fac->respects_u += fac_val;
-        p.my_fac->power += fac_val;
+        p_fac->likes_u += fac_val;
+        p_fac->respects_u += fac_val;
+        p_fac->power += fac_val;
     }
     miss->wrap_up();
 }
@@ -207,10 +209,38 @@ void talk_function::do_construction( npc &p )
     p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
-void talk_function::do_blueprint_construction( npc &p )
+void talk_function::do_butcher( npc &p )
 {
     p.set_attitude( NPCATT_ACTIVITY );
-    p.assign_activity( activity_id( "ACT_BLUEPRINT_CONSTRUCTION" ) );
+    p.assign_activity( activity_id( "ACT_MULTIPLE_BUTCHER" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
+void talk_function::do_chop_plank( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
+void talk_function::do_chop_trees( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_TREES" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
+void talk_function::do_farming( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_MULTIPLE_FARM" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
+void talk_function::do_fishing( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_MULTIPLE_FISH" ) );
     p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
@@ -223,7 +253,7 @@ void talk_function::goto_location( npc &p )
 {
     int i = 0;
     uilist selection_menu;
-    selection_menu.text = string_format( _( "Select a destination" ) );
+    selection_menu.text = _( "Select a destination" );
     std::vector<basecamp *> camps;
     tripoint destination;
     for( auto elem : g->u.camps ) {
@@ -272,6 +302,10 @@ void talk_function::assign_guard( npc &p )
         p.set_mission( NPC_MISSION_GUARD );
         p.set_omt_destination();
         return;
+    }
+
+    if( p.has_player_activity() ) {
+        p.revert_after_activity();
     }
 
     if( p.is_travelling() ) {
@@ -450,7 +484,7 @@ void talk_function::give_equipment( npc &p )
     item it = *giving[chosen].loc.get_item();
     giving[chosen].loc.remove_item();
     popup( _( "%1$s gives you a %2$s" ), p.name, it.tname() );
-    it.set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
+    it.set_owner( g->u.get_faction() );
     g->u.i_add( it );
     p.op_of_u.owed -= giving[chosen].price;
     p.add_effect( effect_asked_for_item, 3_hours );
@@ -472,7 +506,8 @@ void talk_function::give_aid( npc &p )
             g->u.remove_effect( effect_infected, bp_healed );
         }
     }
-    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 10000 );
+    const int moves = to_moves<int>( 100_minutes );
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), moves );
     g->u.activity.str_values.push_back( p.name );
 }
 
@@ -546,7 +581,8 @@ void talk_function::barber_hair( npc &p )
 void talk_function::buy_haircut( npc &p )
 {
     g->u.add_morale( MORALE_HAIRCUT, 5, 5, 720_minutes, 3_minutes );
-    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 300 );
+    const int moves = to_moves<int>( 20_minutes );
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), moves );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "%s gives you a decent haircut..." ), p.name );
 }
@@ -554,7 +590,8 @@ void talk_function::buy_haircut( npc &p )
 void talk_function::buy_shave( npc &p )
 {
     g->u.add_morale( MORALE_SHAVE, 10, 10, 360_minutes, 3_minutes );
-    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 100 );
+    const int moves = to_moves<int>( 5_minutes );
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), moves );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "%s gives you a decent shave..." ), p.name );
 }
@@ -567,7 +604,8 @@ void talk_function::morale_chat( npc &p )
 
 void talk_function::morale_chat_activity( npc &p )
 {
-    g->u.assign_activity( activity_id( "ACT_SOCIALIZE" ), 10000 );
+    const int moves = to_moves<int>( 10_minutes );
+    g->u.assign_activity( activity_id( "ACT_SOCIALIZE" ), moves );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "That was a pleasant conversation with %s." ), p.disp_name() );
     g->u.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
@@ -591,8 +629,8 @@ void talk_function::buy_10_logs( npc &p )
 
     const tripoint site = random_entry( places_om );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
-    bay.spawn_item( 7, 15, "log", 10 );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
+    bay.spawn_item( point( 7, 15 ), "log", 10 );
     bay.save();
 
     p.add_effect( effect_currently_busy, 1_days );
@@ -617,8 +655,8 @@ void talk_function::buy_100_logs( npc &p )
 
     const tripoint site = random_entry( places_om );
     tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
-    bay.spawn_item( 7, 15, "log", 100 );
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
+    bay.spawn_item( point( 7, 15 ), "log", 100 );
     bay.save();
 
     p.add_effect( effect_currently_busy, 7_days );
@@ -674,9 +712,7 @@ void talk_function::hostile( npc &p )
         add_msg( _( "%s turns hostile!" ), p.name );
     }
 
-    g->u.add_memorial_log( pgettext( "memorial_male", "%s became hostile." ),
-                           pgettext( "memorial_female", "%s became hostile." ),
-                           p.name );
+    g->events().send<event_type::npc_becomes_hostile>( p.getID(), p.name );
     p.set_attitude( NPCATT_KILL );
 }
 
@@ -711,10 +747,10 @@ void talk_function::drop_stolen_item( npc &p )
 {
     for( auto &elem : g->u.inv_dump() ) {
         if( elem->get_old_owner() ) {
-            if( elem->get_old_owner()->id.str() == p.my_fac->id.str() ) {
+            if( elem->get_old_owner() == p.get_faction() ) {
                 item to_drop = g->u.i_rem( elem );
                 to_drop.remove_old_owner();
-                to_drop.set_owner( p.my_fac );
+                to_drop.set_owner( p.get_faction() );
                 g->m.add_item_or_charges( g->u.pos(), to_drop );
             }
         }
@@ -770,7 +806,8 @@ void talk_function::player_weapon_drop( npc &p )
 
 void talk_function::lead_to_safety( npc &p )
 {
-    const auto mission = mission::reserve_new( mission_type_id( "MISSION_REACH_SAFETY" ), -1 );
+    const auto mission = mission::reserve_new( mission_type_id( "MISSION_REACH_SAFETY" ),
+                         character_id() );
     mission->assign( g->u );
     p.goal = mission->get_target();
     p.set_attitude( NPCATT_LEAD );
@@ -812,7 +849,8 @@ void talk_function::start_training( npc &p )
     } else if( !npc_trading::pay_npc( p, cost ) ) {
         return;
     }
-    g->u.assign_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ), p.getID(), 0, name );
+    g->u.assign_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ),
+                          p.getID().get_value(), 0, name );
     p.add_effect( effect_asked_to_train, 6_hours );
 }
 
@@ -857,8 +895,7 @@ void talk_function::copy_npc_rules( npc &p )
 
 void talk_function::set_npc_pickup( npc &p )
 {
-    const std::string title = string_format( _( "Pickup rules for %s" ), p.name );
-    p.rules.pickup_whitelist->show( title, false );
+    p.rules.pickup_whitelist->show( p.name );
 }
 
 void talk_function::npc_die( npc &p )

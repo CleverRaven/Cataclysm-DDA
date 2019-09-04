@@ -274,6 +274,8 @@ std::string action_ident( action_id act )
             return "safemode";
         case ACTION_TOGGLE_AUTOSAFE:
             return "autosafe";
+        case ACTION_TOGGLE_THIEF_MODE:
+            return "toggle_thief_mode";
         case ACTION_IGNORE_ENEMY:
             return "ignore_enemy";
         case ACTION_WHITELIST_ENEMY:
@@ -312,6 +314,8 @@ std::string action_ident( action_id act )
             return "debug_temp";
         case ACTION_DISPLAY_VISIBILITY:
             return "debug_visibility";
+        case ACTION_DISPLAY_RADIATION:
+            return "debug_radiation";
         case ACTION_TOGGLE_DEBUG_MODE:
             return "debug_mode";
         case ACTION_ZOOM_OUT:
@@ -356,6 +360,8 @@ std::string action_ident( action_id act )
             return "open_options";
         case ACTION_AUTOPICKUP:
             return "open_autopickup";
+        case ACTION_AUTONOTES:
+            return "open_autonotes";
         case ACTION_SAFEMODE:
             return "open_safemode";
         case ACTION_COLOR:
@@ -406,6 +412,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_KEYBINDINGS:
         case ACTION_OPTIONS:
         case ACTION_AUTOPICKUP:
+        case ACTION_AUTONOTES:
         case ACTION_SAFEMODE:
         case ACTION_COLOR:
         case ACTION_WORLD_MODS:
@@ -415,6 +422,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_DISPLAY_SCENT:
         case ACTION_DISPLAY_TEMPERATURE:
         case ACTION_DISPLAY_VISIBILITY:
+        case ACTION_DISPLAY_RADIATION:
         case ACTION_ZOOM_OUT:
         case ACTION_ZOOM_IN:
         case ACTION_TOGGLE_PIXEL_MINIMAP:
@@ -813,6 +821,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );
             REGISTER_ACTION( ACTION_DISPLAY_TEMPERATURE );
             REGISTER_ACTION( ACTION_DISPLAY_VISIBILITY );
+            REGISTER_ACTION( ACTION_DISPLAY_RADIATION );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
         } else if( category == _( "Interact" ) ) {
             REGISTER_ACTION( ACTION_EXAMINE );
@@ -870,6 +879,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_MUTATIONS );
             REGISTER_ACTION( ACTION_CONTROL_VEHICLE );
             REGISTER_ACTION( ACTION_ITEMACTION );
+            REGISTER_ACTION( ACTION_TOGGLE_THIEF_MODE );
 #if defined(TILES)
             if( use_tiles ) {
                 REGISTER_ACTION( ACTION_ZOOM_OUT );
@@ -903,8 +913,8 @@ action_id handle_action_menu()
         int ix = TERMX > width ? ( TERMX - width ) / 2 - 1 : 0;
         int iy = TERMY > static_cast<int>( entries.size() ) + 2 ? ( TERMY - static_cast<int>
                  ( entries.size() ) - 2 ) / 2 - 1 : 0;
-        int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
-                                std::max( iy, 0 ), title, entries );
+        int selection = uilist( point( std::max( ix, 0 ), std::max( iy, 0 ) ),
+                                std::min( width, TERMX - 2 ), title, entries );
 
         g->draw();
 
@@ -941,6 +951,7 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_KEYBINDINGS );
     REGISTER_ACTION( ACTION_OPTIONS );
     REGISTER_ACTION( ACTION_AUTOPICKUP );
+    REGISTER_ACTION( ACTION_AUTONOTES );
     REGISTER_ACTION( ACTION_SAFEMODE );
     REGISTER_ACTION( ACTION_COLOR );
     REGISTER_ACTION( ACTION_WORLD_MODS );
@@ -960,8 +971,8 @@ action_id handle_main_menu()
     const int ix = TERMX > width ? ( TERMX - width ) / 2 - 1 : 0;
     const int iy = TERMY > static_cast<int>( entries.size() ) + 2 ? ( TERMY - static_cast<int>
                    ( entries.size() ) - 2 ) / 2 - 1 : 0;
-    int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
-                            std::max( iy, 0 ), _( "MAIN MENU" ), entries );
+    int selection = uilist( point( std::max( ix, 0 ), std::max( iy, 0 ) ),
+                            std::min( width, TERMX - 2 ), _( "MAIN MENU" ), entries );
 
     g->draw();
 
@@ -970,11 +981,6 @@ action_id handle_main_menu()
     } else {
         return static_cast<action_id>( selection );
     }
-}
-
-cata::optional<tripoint> choose_direction( const std::string &message )
-{
-    return choose_direction( message, false );
 }
 
 cata::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
@@ -1006,18 +1012,13 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
     } else if( action == "pause" ) {
         return tripoint_zero;
     } else if( action == "LEVEL_UP" ) {
-        return tripoint( 0, 0, 1 );
+        return tripoint_above;
     } else if( action == "LEVEL_DOWN" ) {
-        return tripoint( 0, 0, -1 );
+        return tripoint_below;
     }
 
     add_msg( _( "Invalid direction." ) );
     return cata::nullopt;
-}
-
-cata::optional<tripoint> choose_adjacent( const std::string &message )
-{
-    return choose_adjacent( message, false );
 }
 
 cata::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
@@ -1027,35 +1028,40 @@ cata::optional<tripoint> choose_adjacent( const std::string &message, const bool
 }
 
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const action_id action_to_highlight )
+        const action_id action, const bool allow_vertical )
 {
-    return choose_adjacent_highlight( message, action_to_highlight, false );
-}
-
-cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const action_id action_to_highlight, const bool allow_vertical )
-{
-    const std::function<bool( tripoint )> f = [&action_to_highlight]( tripoint p ) {
-        return can_interact_at( action_to_highlight, p );
+    const std::function<bool( const tripoint & )> f = [&action]( const tripoint & p ) {
+        return can_interact_at( action, p );
     };
     return choose_adjacent_highlight( message, f, allow_vertical );
 }
 
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::function<bool ( tripoint )> &should_highlight, const bool allow_vertical )
+        const std::function<bool ( const tripoint & )> &allowed,
+        const bool allow_vertical, const bool auto_select_if_single )
 {
     // Highlight nearby terrain according to the highlight function
-    bool highlighted = false;
-    for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-        if( should_highlight( pos ) ) {
-            highlighted = true;
-            g->m.drawsq( g->w_terrain, g->u, pos,
-                         true, true, g->u.pos() + g->u.view_offset );
+    if( allowed != nullptr ) {
+        cata::optional<tripoint> single;
+        bool highlighted = false;
+        for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+            if( allowed( pos ) ) {
+                if( !highlighted ) {
+                    single = pos;
+                    highlighted = true;
+                } else {
+                    single = cata::nullopt;
+                }
+                g->m.drawsq( g->w_terrain, g->u, pos,
+                             true, true, g->u.pos() + g->u.view_offset );
+            }
+        }
+        if( highlighted ) {
+            wrefresh( g->w_terrain );
+        }
+        if( auto_select_if_single && single ) {
+            return single;
         }
     }
-    if( highlighted ) {
-        wrefresh( g->w_terrain );
-    }
-
     return choose_adjacent( message, allow_vertical );
 }

@@ -1,17 +1,7 @@
-// RUN: %check_clang_tidy %s cata-point-initialization %t -- -plugins=%cata_plugin -- -isystem %src_dir
+// RUN: %check_clang_tidy %s cata-point-initialization %t -- -plugins=%cata_plugin -- -isystem %cata_include
 
-// Can't include the real point header because this is compiled with
-// -nostdinc++ and I couldn't see an easy way to change that.
-struct point {
-    constexpr point() = default;
-    constexpr point( int x, int y );
-};
-struct tripoint {
-    constexpr tripoint() = default;
-    constexpr tripoint( int x, int y, int z );
-};
-static constexpr point point_zero;
-static constexpr tripoint tripoint_zero;
+#define CATA_NO_STL
+#include "point.h"
 
 struct non_point {
     constexpr non_point() = default;

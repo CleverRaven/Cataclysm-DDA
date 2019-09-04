@@ -12,8 +12,8 @@
 
 #include "enums.h"
 #include "item_location.h"
-#include "string_id.h"
 #include "point.h"
+#include "string_id.h"
 
 class player;
 class Character;
@@ -21,6 +21,7 @@ class JsonIn;
 class JsonOut;
 class activity_type;
 class monster;
+class translation;
 
 using activity_id = string_id<activity_type>;
 
@@ -78,7 +79,7 @@ class player_activity
         // e.g. "Stop doing something?", already translated.
         std::string get_stop_phrase() const;
 
-        std::string get_verb() const;
+        const translation &get_verb() const;
 
         int get_value( size_t index, int def = 0 ) const;
         std::string get_str_value( size_t index, const std::string &def = "" ) const;
@@ -90,7 +91,7 @@ class player_activity
          */
         bool is_suspendable() const;
 
-        void serialize( JsonOut &jsout ) const;
+        void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
         /** Convert from the old enumeration to the new string_id */
         void deserialize_legacy_type( int legacy_type, activity_id &dest );

@@ -14,6 +14,7 @@
 #include "mapgen_functions.h"
 #include "messages.h"
 #include "npc.h"
+#include "npctalk.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "rng.h"
@@ -25,7 +26,7 @@
 #include "type_id.h"
 #include "point.h"
 
-static const tripoint reveal_destination( const std::string &type )
+static tripoint reveal_destination( const std::string &type )
 {
     const tripoint your_pos = g->u.global_omt_location();
     const tripoint center_pos = overmap_buffer.find_random( your_pos, type, rng( 40, 80 ), false );
@@ -155,8 +156,7 @@ tripoint mission_util::target_closest_lab_entrance( const tripoint &origin, int 
     underground.z = 0;
 
     tripoint closest;
-    if( square_dist( surface.x, surface.y, origin.x, origin.y ) <= square_dist( underground.x,
-            underground.y, origin.x, origin.y ) ) {
+    if( square_dist( surface.xy(), origin.xy() ) <= square_dist( underground.xy(), origin.xy() ) ) {
         closest = surface;
     } else {
         closest = underground;
@@ -387,7 +387,7 @@ mission_target_params mission_util::parse_mission_om_target( JsonObject &jo )
         p.min_distance = std::max( 1, jo.get_int( "min_distance" ) );
     }
     if( jo.has_int( "offset_x" ) || jo.has_int( "offset_y" ) || jo.has_int( "offset_z" ) ) {
-        tripoint offset = tripoint( 0, 0, 0 );
+        tripoint offset;
         if( jo.has_int( "offset_x" ) ) {
             offset.x = jo.get_int( "offset_x" );
         }
@@ -528,5 +528,13 @@ bool mission_type::parse_funcs( JsonObject &jo, std::function<void( mission * )>
             mission_function( miss );
         }
     };
+
+    for( talk_effect_fun_t &effect : talk_effects.effects ) {
+        auto rewards = effect.get_likely_rewards();
+        if( !rewards.empty() ) {
+            likely_rewards.insert( likely_rewards.end(), rewards.begin(), rewards.end() );
+        }
+    }
+
     return true;
 }

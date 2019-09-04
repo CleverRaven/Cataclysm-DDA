@@ -22,39 +22,9 @@
     "revert_to_itype": "bot_secubot",
     "starting_ammo": { "9mm": 100 },
     "special_attacks": [ { "type": "gun", "cooldown": 2, "gun_type": "hk_mp5", "ranges": [ [ 0, 6, "AUTO" ], [ 7, 12, "DEFAULT" ] ] } ],
-    "death_drops": { "groups": [ [ "robots", 4 ], [ "secubot", 1 ] ] },
-    "death_function": [ "EXPLODE" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES" ]
-  },
-  {
-    "id": "mon_turret",
-    "type": "MONSTER",
-    "name": "turret",
-    "description": "The General Atomics TX-1 Guardian, a small, pill-shaped automated gun turret using state of the art ATR systems to dynamically reorient itself to new friends and enemies alike.  The two SMG barrels can swivel a full 360 degrees.",
-    "default_faction": "defense_bot",
-    "species": [ "ROBOT" ],
-    "diff": 10,
-    "volume": "30000 ml",
-    "weight": 40750,
-    "hp": 30,
-    "speed": 100,
-    "material": [ "steel" ],
-    "symbol": "2",
-    "color": "light_gray",
-    "aggression": 100,
-    "morale": 100,
-    "armor_bash": 14,
-    "armor_cut": 16,
-    "luminance": 200,
-    "revert_to_itype": "bot_turret",
-    "starting_ammo": { "9mm": 100 },
-    "special_attacks": [
-      { "type": "gun", "cooldown": 1, "gun_type": "hk_mp5", "ranges": [ [ 0, 6, "AUTO" ], [ 7, 12, "DEFAULT" ] ] },
-      [ "PARROT", 40 ]
-    ],
-    "death_drops": { "groups": [ [ "robots", 10 ], [ "turret", 1 ] ] },
-    "death_function": [ "EXPLODE" ],
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
+    "death_drops": {  },
+    "death_function": [ "BROKEN" ],
+    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "DROPS_AMMO" ]
   },
   {
     "id": "mon_skitterbot",
@@ -90,7 +60,7 @@
     "name": "experimental lab bot",
     "description": "This robot looks like a large metal spider, a bit bigger than a person, with its thorax covered in tiny holes.  An ominous buzzing emanates from it.",
     "default_faction": "defense_bot",
-    "looks-like": "mon_skitterbot",
+    "looks_like": "mon_skitterbot",
     "species": [ "ROBOT" ],
     "volume": "65000 ml",
     "weight": 100000,
@@ -116,7 +86,17 @@
     "special_attacks": [ [ "SCIENCE", 16 ], [ "TAZER", 10 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "skitterbot", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "GOODHEARING", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_2" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "BASHES",
+      "GOODHEARING",
+      "ELECTRONIC",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "PATH_AVOID_DANGER_2",
+      "DROPS_AMMO"
+    ]
   },
   {
     "id": "mon_robofac_prototype",
@@ -189,7 +169,7 @@
     "special_attacks": [ [ "GRENADIER", 10 ] ],
     "death_drops": { "groups": [ [ "robots", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_2", "LOUDMOVES" ]
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_2", "LOUDMOVES", "DROPS_AMMO" ]
   },
   {
     "id": "mon_dispatch_military",
@@ -222,6 +202,6 @@
     "special_attacks": [ [ "GRENADIER_ELITE", 10 ] ],
     "death_drops": { "groups": [ [ "robots", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_2", "LOUDMOVES" ]
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_2", "LOUDMOVES", "DROPS_AMMO" ]
   }
 ]

@@ -30,18 +30,6 @@
 #   include "platform_win.h"
 #endif
 
-//--------------------------------------------------------------------------------------------------
-// HACK: mingw only issue as of 14/01/2015
-// TODO: move elsewhere
-//--------------------------------------------------------------------------------------------------
-#if defined(__MINGW32__) || defined(__CYGWIN__)
-size_t strnlen( const char *const start, const size_t maxlen )
-{
-    const auto end = reinterpret_cast<const char *>( memchr( start, '\0', maxlen ) );
-    return ( end ) ? static_cast<size_t>( end - start ) : maxlen;
-}
-#endif
-
 namespace
 {
 
@@ -261,14 +249,14 @@ bool is_special_dir( const dirent &entry )
 //--------------------------------------------------------------------------------------------------
 bool name_contains( const dirent &entry, const std::string &match, const bool at_end )
 {
-    const auto len_fname = strnlen( entry.d_name, sizeof_array( entry.d_name ) );
-    const auto len_match = match.length();
+    const size_t len_fname = strlen( entry.d_name );
+    const size_t len_match = match.length();
 
     if( len_match > len_fname ) {
         return false;
     }
 
-    const auto offset = at_end ? ( len_fname - len_match ) : 0;
+    const size_t offset = at_end ? ( len_fname - len_match ) : 0;
     return strstr( entry.d_name + offset, match.c_str() ) != nullptr;
 }
 

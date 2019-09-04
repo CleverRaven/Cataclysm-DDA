@@ -89,8 +89,14 @@ struct weather_printable {
  */
 namespace weather_effect
 {
+
+enum sun_intensity : int {
+    normal = 1,
+    high
+};
+
 void none();        //!< Fallback weather.
-void glare( bool );
+void glare( sun_intensity );
 void wet();
 void very_wet();
 void thunder();
@@ -100,7 +106,6 @@ void acid();
 void flurry();      //!< Currently flurries have no additional effects.
 void snow();
 void sunny();
-void snow_glare();
 void snowstorm();
 } //namespace weather_effect
 
@@ -126,19 +131,19 @@ struct weather_sum {
     int wind_amount = 0;
 };
 
-weather_datum const weather_data( weather_type const type );
+weather_datum weather_data( weather_type type );
 namespace weather
 {
-std::string name( weather_type const type );
-nc_color color( weather_type const type );
-nc_color map_color( weather_type const type );
-char glyph( weather_type const type );
-int ranged_penalty( weather_type const type );
-float sight_penalty( weather_type const type );
-int light_modifier( weather_type const type );
-int sound_attn( weather_type const type );
-bool dangerous( weather_type const type );
-weather_effect_fn effect( weather_type const type );
+std::string name( weather_type type );
+nc_color color( weather_type type );
+nc_color map_color( weather_type type );
+char glyph( weather_type type );
+int ranged_penalty( weather_type type );
+float sight_penalty( weather_type type );
+int light_modifier( weather_type type );
+int sound_attn( weather_type type );
+bool dangerous( weather_type type );
+weather_effect_fn effect( weather_type type );
 } // namespace weather
 
 std::string get_shortdirstring( int angle );
@@ -177,7 +182,7 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point 
 
 double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_per_hour );
 
-rl_vec2d convert_wind_to_coord( const int angle );
+rl_vec2d convert_wind_to_coord( int angle );
 
 std::string get_wind_arrow( int );
 
@@ -187,7 +192,7 @@ nc_color get_wind_color( double );
 /**
 * Calculates rot per hour at given temperature. Reference in weather_data.cpp
 */
-int get_hourly_rotpoints_at_temp( const int temp );
+int get_hourly_rotpoints_at_temp( int temp );
 
 /**
  * Is it warm enough to plant seeds?

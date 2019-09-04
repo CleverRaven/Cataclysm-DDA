@@ -103,16 +103,7 @@ JsonObject::JsonObject( const JsonObject &jo )
     final_separator = jo.final_separator;
 }
 
-JsonObject &JsonObject::operator=( const JsonObject &jo )
-{
-    jsin = jo.jsin;
-    start = jo.start;
-    positions = jo.positions;
-    end = jo.end;
-    final_separator = jo.final_separator;
-
-    return *this;
-}
+JsonObject &JsonObject::operator=( const JsonObject &jo ) = default;
 
 void JsonObject::finish()
 {
@@ -855,7 +846,7 @@ void JsonIn::skip_true()
     stream->get( text, 5 );
     if( strcmp( text, "true" ) != 0 ) {
         std::stringstream err;
-        err << "expected \"true\", but found \"" << text << "\"";
+        err << R"(expected "true", but found ")" << text << "\"";
         error( err.str(), -4 );
     }
     end_value();
@@ -868,7 +859,7 @@ void JsonIn::skip_false()
     stream->get( text, 6 );
     if( strcmp( text, "false" ) != 0 ) {
         std::stringstream err;
-        err << "expected \"false\", but found \"" << text << "\"";
+        err << R"(expected "false", but found ")" << text << "\"";
         error( err.str(), -5 );
     }
     end_value();
@@ -881,7 +872,7 @@ void JsonIn::skip_null()
     stream->get( text, 5 );
     if( strcmp( text, "null" ) != 0 ) {
         std::stringstream err;
-        err << "expected \"null\", but found \"" << text << "\"";
+        err << R"(expected "null", but found ")" << text << "\"";
         error( err.str(), -4 );
     }
     end_value();
@@ -999,6 +990,13 @@ int JsonIn::get_int()
     return static_cast<int>( get_float() );
 }
 
+std::int64_t JsonIn::get_int64()
+{
+    // get float value and then convert to int,
+    // because "1.359e3" is technically a valid integer.
+    return static_cast<int64_t>( get_float() );
+}
+
 double JsonIn::get_float()
 {
     // this could maybe be prettier?
@@ -1080,7 +1078,7 @@ bool JsonIn::get_bool()
             end_value();
             return true;
         } else {
-            err << "not a boolean. expected \"true\", but got \"";
+            err << R"(not a boolean. expected "true", but got ")";
             err << ch << text << "\"";
             error( err.str(), -4 );
         }
@@ -1090,7 +1088,7 @@ bool JsonIn::get_bool()
             end_value();
             return false;
         } else {
-            err << "not a boolean. expected \"false\", but got \"";
+            err << R"(not a boolean. expected "false", but got ")";
             err << ch << text << "\"";
             error( err.str(), -5 );
         }
@@ -1285,6 +1283,15 @@ bool JsonIn::read( int &i )
         return false;
     }
     i = get_int();
+    return true;
+}
+
+bool JsonIn::read( std::int64_t &i )
+{
+    if( !test_number() ) {
+        return false;
+    }
+    i = get_int64();
     return true;
 }
 

@@ -12,6 +12,7 @@
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
+#include "event_bus.h"
 #include "game.h"
 #include "input.h"
 #include "item_group.h"
@@ -159,15 +160,15 @@ static void load_available_constructions( std::vector<std::string> &available,
 static void draw_grid( const catacurses::window &w, const int list_width )
 {
     draw_border( w );
-    mvwprintz( w, 0, 2, c_light_red, _( " Construction " ) );
+    mvwprintz( w, point( 2, 0 ), c_light_red, _( " Construction " ) );
     // draw internal lines
-    mvwvline( w, 1, list_width, LINE_XOXO, getmaxy( w ) - 2 );
-    mvwhline( w, 2, 1, LINE_OXOX, list_width );
+    mvwvline( w, point( list_width, 1 ), LINE_XOXO, getmaxy( w ) - 2 );
+    mvwhline( w, point( 1, 2 ), LINE_OXOX, list_width );
     // draw intersections
-    mvwputch( w, 0, list_width, c_light_gray, LINE_OXXX );
-    mvwputch( w, getmaxy( w ) - 1, list_width, c_light_gray, LINE_XXOX );
-    mvwputch( w, 2, 0, c_light_gray, LINE_XXXO );
-    mvwputch( w, 2, list_width, c_light_gray, LINE_XOXX );
+    mvwputch( w, point( list_width, 0 ), c_light_gray, LINE_OXXX );
+    mvwputch( w, point( list_width, getmaxy( w ) - 1 ), c_light_gray, LINE_XXOX );
+    mvwputch( w, point( 0, 2 ), c_light_gray, LINE_XXXO );
+    mvwputch( w, point( list_width, 2 ), c_light_gray, LINE_XOXX );
 
     wrefresh( w );
 }
@@ -231,13 +232,13 @@ int construction_menu( bool blueprint )
     const int w_width = std::max( FULL_SCREEN_WIDTH, TERMX * 2 / 3 );
     const int w_y0 = ( TERMY > w_height ) ? ( TERMY - w_height ) / 2 : 0;
     const int w_x0 = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
-    catacurses::window w_con = catacurses::newwin( w_height, w_width, w_y0, w_x0 );
+    catacurses::window w_con = catacurses::newwin( w_height, w_width, point( w_x0, w_y0 ) );
 
     const int w_list_width = static_cast<int>( .375 * w_width );
     const int w_list_height = w_height - 4;
     const int w_list_x0 = 1;
     catacurses::window w_list = catacurses::newwin( w_list_height, w_list_width,
-                                w_y0 + 3, w_x0 + w_list_x0 );
+                                point( w_x0 + w_list_x0, w_y0 + 3 ) );
 
     draw_grid( w_con, w_list_width + w_list_x0 );
 
@@ -315,10 +316,11 @@ int construction_menu( bool blueprint )
         }
         isnew = false;
         // Erase existing tab selection & list of constructions
-        mvwhline( w_con, 1, 1, ' ', w_list_width );
+        mvwhline( w_con, point_south_east, ' ', w_list_width );
         werase( w_list );
         // Print new tab listing
-        mvwprintz( w_con, 1, 1, c_yellow, "<< %s >>", _( construct_cat[tabindex].name ) );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( w_con, point( 1, 1 ), c_yellow, "<< %s >>", _( construct_cat[tabindex].name ) );
         // Determine where in the master list to start printing
         calcStartPos( offset, select, w_list_height, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
@@ -328,7 +330,7 @@ int construction_menu( bool blueprint )
             std::string con_name = constructs[current];
             bool highlight = ( current == select );
 
-            trim_and_print( w_list, i, 0, w_list_width,
+            trim_and_print( w_list, point( 0, i ), w_list_width,
                             construction_color( con_name, highlight ), _( con_name ) );
         }
 
@@ -338,7 +340,7 @@ int construction_menu( bool blueprint )
             const int pos_x = w_list_width + w_list_x0 + 2;
             const int available_window_width = w_width - pos_x - 1;
             for( int i = 1; i < w_height - 1; i++ ) {
-                mvwhline( w_con, i, pos_x, ' ', available_window_width );
+                mvwhline( w_con, point( pos_x, i ), ' ', available_window_width );
             }
 
             std::vector<std::string> notes;
@@ -355,8 +357,8 @@ int construction_menu( bool blueprint )
 
             // print the hotkeys regardless of if there are constructions
             for( size_t i = 0; i < notes.size(); ++i ) {
-                trim_and_print( w_con, w_height - 1 - static_cast<int>( notes.size() ) + static_cast<int>( i ),
-                                pos_x,
+                trim_and_print( w_con, point( pos_x,
+                                              w_height - 1 - static_cast<int>( notes.size() ) + static_cast<int>( i ) ),
                                 available_window_width, c_white, notes[i] );
             }
 
@@ -367,7 +369,7 @@ int construction_menu( bool blueprint )
                 }
                 std::string current_desc = constructs[select];
                 // Print construction name
-                trim_and_print( w_con, 1, pos_x, available_window_width, c_white, _( current_desc ) );
+                trim_and_print( w_con, point( pos_x, 1 ), available_window_width, c_white, _( current_desc ) );
 
                 //only reconstruct the project list when moving away from the current item, or when changing the display mode
                 if( previous_select != select || previous_tabindex != tabindex ||
@@ -551,14 +553,14 @@ int construction_menu( bool blueprint )
                 }
                 if( current_construct_breakpoint > 0 ) {
                     // Print previous stage indicator if breakpoint is past the beginning
-                    trim_and_print( w_con, 2, pos_x, available_window_width, c_white,
+                    trim_and_print( w_con, point( pos_x, 2 ), available_window_width, c_white,
                                     _( "Press %s to show previous stage(s)." ),
                                     ctxt.get_desc( "PAGE_UP" ) );
                 }
                 if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] +
                                          available_buffer_height ) < full_construct_buffer.size() ) {
                     // Print next stage indicator if more breakpoints are remaining after screen height
-                    trim_and_print( w_con, w_height - 2 - static_cast<int>( notes.size() ), pos_x,
+                    trim_and_print( w_con, point( pos_x, w_height - 2 - static_cast<int>( notes.size() ) ),
                                     available_window_width,
                                     c_white, _( "Press %s to show next stage(s)." ),
                                     ctxt.get_desc( "PAGE_DOWN" ) );
@@ -572,13 +574,13 @@ int construction_menu( bool blueprint )
                     if( ypos > available_buffer_height + 3 ) {
                         break;
                     }
-                    print_colored_text( w_con, ypos++, ( w_list_width + w_list_x0 + 2 ), stored_color, color_stage,
+                    print_colored_text( w_con, point( w_list_width + w_list_x0 + 2, ypos++ ), stored_color, color_stage,
                                         full_construct_buffer[i] );
                 }
             }
         } // Finished updating
 
-        draw_scrollbar( w_con, select, w_list_height, constructs.size(), 3 );
+        draw_scrollbar( w_con, select, w_list_height, constructs.size(), point( 0, 3 ) );
         wrefresh( w_con );
         wrefresh( w_list );
 
@@ -707,21 +709,13 @@ bool player_can_build( player &p, const inventory &inv, const std::string &desc 
     return false;
 }
 
-static bool character_has_skill_for( const Character &c, const construction &con )
-{
-    return std::all_of( con.required_skills.begin(), con.required_skills.end(),
-    [&]( const std::pair<skill_id, int> &pr ) {
-        return c.get_skill_level( pr.first ) >= pr.second;
-    } );
-}
-
 bool player_can_build( player &p, const inventory &inv, const construction &con )
 {
     if( p.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 
-    if( !character_has_skill_for( p, con ) ) {
+    if( !p.meets_skill_requirements( con ) ) {
         return false;
     }
     return con.requirements->can_make_with_inventory( inv, is_crafting_component );
@@ -758,7 +752,6 @@ bool can_construct( const construction &con, const tripoint &p )
     [&p]( const std::string & flag ) {
         return g->m.has_flag( flag, p );
     } );
-
     // make sure the construction would actually do something
     if( !con.post_terrain.empty() ) {
         if( con.post_is_furniture ) {
@@ -861,7 +854,7 @@ void complete_construction( player *p )
         }
         if( p->is_npc() ) {
             npc *guy = dynamic_cast<npc *>( p );
-            guy->current_activity.clear();
+            guy->current_activity_id = activity_id::NULL_ID();
             guy->revert_after_activity();
             guy->set_moves( 0 );
         }
@@ -880,7 +873,7 @@ void complete_construction( player *p )
     // TODO NPCs watching other NPCs do stuff and learning from it
     if( p->is_player() ) {
         for( auto &elem : g->u.get_crafting_helpers() ) {
-            if( character_has_skill_for( *elem, built ) ) {
+            if( elem->meets_skill_requirements( built ) ) {
                 add_msg( m_info, _( "%s assists you with the work..." ), elem->name );
             } else {
                 //NPC near you isn't skilled enough to help
@@ -935,6 +928,12 @@ void complete_construction( player *p )
     // This comes after clearing the activity, in case the function interrupts
     // activities
     built.post_special( terp );
+    // npcs will automatically resume backlog, players wont.
+    if( p->is_player() && !p->backlog.empty() &&
+        p->backlog.front().id() == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ) {
+        p->backlog.clear();
+        p->assign_activity( activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) );
+    }
 }
 
 bool construct::check_empty( const tripoint &p )
@@ -947,10 +946,10 @@ bool construct::check_empty( const tripoint &p )
 inline std::array<tripoint, 4> get_orthogonal_neighbors( const tripoint &p )
 {
     return {{
-            tripoint( p.x, p.y - 1, p.z ),
-            tripoint( p.x, p.y + 1, p.z ),
-            tripoint( p.x - 1, p.y, p.z ),
-            tripoint( p.x + 1, p.y, p.z )
+            p + point_north,
+            p + point_south,
+            p + point_west,
+            p + point_east
         }};
 }
 
@@ -971,11 +970,11 @@ bool construct::check_support( const tripoint &p )
 
 bool construct::check_deconstruct( const tripoint &p )
 {
-    if( g->m.has_furn( p.x, p.y ) ) {
-        return g->m.furn( p.x, p.y ).obj().deconstruct.can_do;
+    if( g->m.has_furn( p.xy() ) ) {
+        return g->m.furn( p.xy() ).obj().deconstruct.can_do;
     }
     // terrain can only be deconstructed when there is no furniture in the way
-    return g->m.ter( p.x, p.y ).obj().deconstruct.can_do;
+    return g->m.ter( p.xy() ).obj().deconstruct.can_do;
 }
 
 bool construct::check_empty_up_OK( const tripoint &p )
@@ -1023,10 +1022,6 @@ void construct::done_grave( const tripoint &p )
                     } else {
                         add_msg( m_neutral, _( "You bury remains of a human, whose name is lost in the Cataclysm." ) );
                     }
-                    g->u.add_memorial_log( pgettext( "memorial_male",
-                                                     string_format( "You buried unknown victim of the Cataclysm.", it.type_name() ).c_str() ),
-                                           pgettext( "memorial_female", string_format( "You buried unknown victim of The Cataclysm.",
-                                                     it.type_name() ).c_str() ) );
                 }
             } else {
                 if( g->u.has_trait( trait_SPIRITUAL ) ) {
@@ -1039,10 +1034,9 @@ void construct::done_grave( const tripoint &p )
                              _( "You bury remains of %s, who joined uncounted masses perished in the Cataclysm." ),
                              it.get_corpse_name() );
                 }
-                g->u.add_memorial_log( pgettext( "memorial_male", string_format( "You buried %s.",
-                                                 it.get_corpse_name() ).c_str() ),
-                                       pgettext( "memorial_female", string_format( "You buried %s.", it.get_corpse_name() ).c_str() ) );
             }
+            g->events().send<event_type::buries_corpse>(
+                g->u.getID(), it.get_mtype()->id, it.get_corpse_name() );
         }
     }
     if( g->u.has_quality( quality_id( "CUT" ) ) ) {
@@ -1130,7 +1124,7 @@ void construct::done_deconstruct( const tripoint &p )
             return;
         }
         if( t.deconstruct.deconstruct_above ) {
-            const tripoint top = p + tripoint( 0, 0, 1 );
+            const tripoint top = p + tripoint_above;
             if( g->m.has_furn( top ) ) {
                 add_msg( _( "That %s can not be dissasembled, since there is furniture above it." ), t.name() );
                 return;
@@ -1167,7 +1161,7 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
     const tripoint abs_pos = g->m.getabs( p );
     const tripoint pos_sm = ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
-    tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
+    tmpmap.load( tripoint( pos_sm.xy(), pos_sm.z - 1 ), false );
     const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
     bool dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) || g->u.has_trait( trait_STOCKY_TROGLO );
@@ -1184,8 +1178,7 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
             unroll_digging( dig ? 8 : 12 );
         } else {
             add_msg( m_warning, _( "You just tunneled into lava!" ) );
-            g->u.add_memorial_log( pgettext( "memorial_male", "Dug a shaft into lava." ),
-                                   pgettext( "memorial_female", "Dug a shaft into lava." ) );
+            g->events().send<event_type::digs_into_lava>();
             g->m.ter_set( p, t_hole );
         }
 
@@ -1222,11 +1215,11 @@ void construct::done_mine_upstair( const tripoint &p )
     const tripoint abs_pos = g->m.getabs( p );
     const tripoint pos_sm = ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
-    tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z + 1, false );
+    tmpmap.load( tripoint( pos_sm.xy(), pos_sm.z + 1 ), false );
     const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
     if( tmpmap.ter( local_tmp ) == t_lava ) {
-        g->m.ter_set( p.x, p.y, t_rock_floor ); // You dug a bit before discovering the problem
+        g->m.ter_set( p.xy(), t_rock_floor ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock overhead feels hot.  You decide *not* to mine magma." ) );
         unroll_digging( 12 );
         return;
@@ -1238,7 +1231,7 @@ void construct::done_mine_upstair( const tripoint &p )
     };
 
     if( liquids.count( tmpmap.ter( local_tmp ) ) > 0 ) {
-        g->m.ter_set( p.x, p.y, t_rock_floor ); // You dug a bit before discovering the problem
+        g->m.ter_set( p.xy(), t_rock_floor ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock above is rather damp.  You decide *not* to mine water." ) );
         unroll_digging( 12 );
         return;
@@ -1252,7 +1245,7 @@ void construct::done_mine_upstair( const tripoint &p )
     g->u.mod_fatigue( 25 + no_mut_penalty );
 
     add_msg( _( "You drill out a passage, heading for the surface." ) );
-    g->m.ter_set( p.x, p.y, t_stairs_up ); // There's the bottom half
+    g->m.ter_set( p.xy(), t_stairs_up ); // There's the bottom half
     // We need to write to submap-local coordinates.
     tmpmap.ter_set( local_tmp, t_stairs_down ); // and there's the top half.
     tmpmap.save();
@@ -1260,7 +1253,7 @@ void construct::done_mine_upstair( const tripoint &p )
 
 void construct::done_wood_stairs( const tripoint &p )
 {
-    const tripoint top = p + tripoint( 0, 0, 1 );
+    const tripoint top = p + tripoint_above;
     g->m.ter_set( top, ter_id( "t_wood_stairs_down" ) );
 }
 
@@ -1487,7 +1480,7 @@ int construction::print_time( const catacurses::window &w, int ypos, int xpos, i
                               nc_color col ) const
 {
     std::string text = get_time_string();
-    return fold_and_print( w, ypos, xpos, width, col, text );
+    return fold_and_print( w, point( xpos, ypos ), width, col, text );
 }
 
 float construction::time_scale() const
@@ -1506,7 +1499,7 @@ int construction::adjusted_time() const
     int assistants = 0;
 
     for( auto &elem : g->u.get_crafting_helpers() ) {
-        if( character_has_skill_for( *elem, *this ) ) {
+        if( elem->meets_skill_requirements( *this ) ) {
             assistants++;
         }
     }
