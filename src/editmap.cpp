@@ -462,9 +462,9 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
                 p[0] += point_north_west;
                 p[1] += point_south_east;
             }
-            for( int i = 0; i < 2; i++ ) {
-                for( int j = 0; j < 2; j++ ) {
-                    g->draw_cursor( tripoint( p[i].x, p[j].y, target.z ) );
+            for( const auto &pi : p ) {
+                for( const auto &pj : p ) {
+                    g->draw_cursor( tripoint( pi.x, pj.y, target.z ) );
                 }
             }
         } else if( editshape == editmap_circle ) {
@@ -837,7 +837,7 @@ void draw_override<trap_id>( const tripoint &p, const trap_id &id )
 }
 
 template<typename T_t>
-static void apply( const T_t &t, const shapetype editshape, const tripoint &target,
+static void apply( const T_t &t, shapetype editshape, const tripoint &target,
                    const tripoint &origin, const std::vector<tripoint> &target_list );
 
 template<>
@@ -912,7 +912,7 @@ void editmap::edit_feature()
         return;
     }
 
-    typedef decltype( T_t().id.id() ) T_id;
+    using T_id = decltype( T_t().id.id() );
 
     uilist emenu;
     emenu.w_width = width;
