@@ -174,6 +174,15 @@
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
+    "id": "shot_scrap",
+    "copy-from": "shot_scrap",
+    "type": "AMMO",
+    "name": "makeshift shotgun shot (black powder)",
+    "proportional": { "price": 0.6, "damage": 0.8 },
+    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
     "id": "shot_slug",
     "copy-from": "shot_00",
     "type": "AMMO",

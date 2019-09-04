@@ -6,6 +6,16 @@
     "tools": [ [ [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
   },
   {
+    "id": "shot_forming",
+    "type": "requirement",
+    "//": "Forming of shot from raw materials",
+    "tools": [  
+		[ [ "crucible", -1 ], [ "crucible_clay", -1 ], [ "iron_pot", -1 ], [ "pan", -1 ], [ "pot_makeshift", -1 ] ],
+		[ [ "water", 1 ] ], 
+		[ [ "ladle", -1 ], [ "ceramic_mug", -1 ], [ "ceramic_cup", -1 ], [ "teapot", -1 ],  [ "clay_teapot", -1 ], [ "can_food_unsealed", -1 ] ] ]
+		[ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
+  },
+  {
     "id": "earthenware_firing",
     "type": "requirement",
     "//": "Firing various clay shapes to make earthenware",

@@ -378,6 +378,23 @@
   },
   {
     "type": "recipe",
+    "result": "press_dowel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "stick", 1 ], [ "mop", 1 ], [ "broom", 1 ], [ "hoe", 1 ] ],
+      [ [ "2x4", 1 ], [ "puck", 1 ] ],
+      [ [ "nail", 1, ], [ "antenna", 1 ], [ "knitting_needles", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "tailors_kit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",

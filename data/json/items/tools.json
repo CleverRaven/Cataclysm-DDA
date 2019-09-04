@@ -2944,7 +2944,7 @@
     "material": [ "wood", "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "DRILL", 1 ] ]
+    "qualities": [ [ "DRILL", 2 ] ]
   },
   {
     "id": "heatpack",
