@@ -10,7 +10,7 @@
       [ [ "lead", 24 ] ],
       [ [ "500_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
-      [ [ "gunpowder", 24 ] ],
+      [ [ "gunpowder_magnum_pistol", 24 ] ],
       [ [ "copper", 24 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]

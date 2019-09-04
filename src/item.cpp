@@ -804,6 +804,14 @@ void item::set_var( const std::string &name, const int value )
     item_vars[name] = tmpstream.str();
 }
 
+void item::set_var( const std::string &name, const long long value )
+{
+    std::ostringstream tmpstream;
+    tmpstream.imbue( std::locale::classic() );
+    tmpstream << value;
+    item_vars[name] = tmpstream.str();
+}
+
 // NOLINTNEXTLINE(cata-no-long)
 void item::set_var( const std::string &name, const long value )
 {
@@ -1181,6 +1189,22 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( g != nullptr ) {
                 info.push_back( iteminfo( "BASE", _( "age (hours): " ), "", iteminfo::lower_is_better,
                                           to_hours<int>( age() ) ) );
+                info.push_back( iteminfo( "BASE", _( "charges: " ), "", iteminfo::lower_is_better,
+                                          charges ) );
+                info.push_back( iteminfo( "BASE", _( "damage: " ), "", iteminfo::lower_is_better,
+                                          damage_ ) );
+                info.push_back( iteminfo( "BASE", _( "active: " ), "", iteminfo::lower_is_better,
+                                          active ) );
+                info.push_back( iteminfo( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
+                                          burnt ) );
+                std::ostringstream stream;
+                std::copy( item_tags.begin(), item_tags.end(), std::ostream_iterator<std::string>( stream, "," ) );
+                std::string tags_listed = stream.str();
+                info.push_back( iteminfo( "BASE", string_format( _( "tags: %s" ), tags_listed ) ) );
+                for( auto const &imap : item_vars ) {
+                    info.push_back( iteminfo( "BASE", string_format( _( "item var: %s, %s" ), imap.first,
+                                              imap.second ) ) );
+                }
 
                 const item *food = is_food_container() ? &contents.front() : this;
                 if( food->goes_bad() ) {
@@ -1190,15 +1214,15 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                     info.push_back( iteminfo( "BASE", _( "rot (turns): " ),
                                               "", iteminfo::lower_is_better,
                                               to_turns<int>( food->rot ) ) );
+                    info.push_back( iteminfo( "BASE", space + _( "max rot (turns): " ),
+                                              "", iteminfo::lower_is_better,
+                                              to_turns<int>( food->get_shelf_life() ) ) );
                     info.push_back( iteminfo( "BASE", _( "last rot: " ),
                                               "", iteminfo::lower_is_better,
                                               to_turn<int>( food->last_rot_check ) ) );
                     info.push_back( iteminfo( "BASE", _( "last temp: " ),
                                               "", iteminfo::lower_is_better,
                                               to_turn<int>( food->last_temp_check ) ) );
-                    info.push_back( iteminfo( "BASE", space + _( "max rot (turns): " ),
-                                              "", iteminfo::lower_is_better,
-                                              to_turns<int>( food->get_shelf_life() ) ) );
                 }
                 if( food->has_temperature() ) {
                     info.push_back( iteminfo( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better,
@@ -1215,8 +1239,6 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                               food->get_freeze_point() ) );
                 }
             }
-            info.push_back( iteminfo( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
-                                      burnt ) );
         }
     }
 
@@ -3256,13 +3278,7 @@ void item::on_wield( player &p, int mv )
 
 void item::handle_pickup_ownership( Character &c )
 {
-    faction *yours;
-    if( &c == &g->u ) {
-        yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
-    } else {
-        npc *guy = dynamic_cast<npc *>( &c );
-        yours = guy->my_fac;
-    }
+    faction *yours = c.get_faction();
     // Add ownership to item if unowned
     if( !has_owner() ) {
         set_owner( yours );
@@ -3270,8 +3286,8 @@ void item::handle_pickup_ownership( Character &c )
         if( get_owner() != yours && &c == &g->u ) {
             std::vector<npc *> witnesses;
             for( npc &elem : g->all_npcs() ) {
-                if( rl_dist( elem.pos(), g->u.pos() ) < MAX_VIEW_DISTANCE && elem.my_fac == get_owner() &&
-                    elem.sees( g->u.pos() ) ) {
+                if( rl_dist( elem.pos(), g->u.pos() ) < MAX_VIEW_DISTANCE &&
+                    elem.get_faction() == get_owner() && elem.sees( g->u.pos() ) ) {
                     elem.say( "<witnessed_thievery>", 7 );
                     npc *npc_to_add = &elem;
                     witnesses.push_back( npc_to_add );
@@ -3520,6 +3536,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
     if( active && ( has_flag( "WATER_EXTINGUISH" ) || has_flag( "LITCIG" ) ) ) {
         ret << _( " (lit)" );
+    } else if( has_flag( "IS_UPS" ) && get_var( "cable" ) == "plugged_in" ) {
+        ret << _( " (plugged in)" );
     } else if( active && !is_food() && !is_corpse() && ( typeId().length() < 3 ||
                typeId().compare( typeId().length() - 3, 3, "_on" ) != 0 ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
@@ -3911,7 +3929,8 @@ units::volume item::volume( bool integral ) const
 
 int item::lift_strength() const
 {
-    return std::max( weight() / 10000_gram, 1 );
+    const int mass = units::to_gram( weight() );
+    return std::max( mass / 10000, 1 );
 }
 
 int item::attack_time() const
@@ -7968,10 +7987,6 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
                 }
             }
         } else {
-            //~ %s is corpse name
-            carrier->add_memorial_log( pgettext( "memorial_male", "Had a %s revive while carrying it." ),
-                                       pgettext( "memorial_female", "Had a %s revive while carrying it." ),
-                                       tname() );
             if( corpse->in_species( ROBOT ) ) {
                 carrier->add_msg_if_player( m_warning,
                                             _( "Oh dear god, a robot you're carrying has started moving!" ) );
@@ -8201,18 +8216,46 @@ cata::optional<tripoint> item::get_cable_target( player *p, const tripoint &pos 
     return g->m.getlocal( source );
 }
 
-bool item::process_cable( player *p, const tripoint &pos )
+bool item::process_cable( player *carrier, const tripoint &pos )
 {
-    const cata::optional<tripoint> source = get_cable_target( p, pos );
+    if( carrier == nullptr ) {
+        reset_cable( carrier );
+        return false;
+    }
+    std::string state = get_var( "state" );
+    if( state == "solar_pack_link" || state == "solar_pack" ) {
+        if( !carrier->has_item( *this ) || ( !carrier->is_wearing( "solarpack_on" ) ||
+                                             !carrier->is_wearing( "q_solarpack_on" ) ) ) {
+            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+            reset_cable( carrier );
+            return false;
+        }
+    }
+
+    static const item_filter used_ups = [&]( const item & itm ) {
+        return itm.get_var( "cable" ) == "plugged_in";
+    };
+
+    if( state == "UPS" ) {
+        if( !carrier->has_item( *this ) || !carrier->has_item_with( used_ups ) ) {
+            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+            for( item *used : carrier->items_with( used_ups ) ) {
+                used->erase_var( "cable" );
+            }
+            reset_cable( carrier );
+            return false;
+        }
+    }
+    const cata::optional<tripoint> source = get_cable_target( carrier, pos );
     if( !source ) {
         return false;
     }
 
     if( !g->m.veh_at( *source ) || ( source->z != g->get_levz() && !g->m.has_zlevels() ) ) {
-        if( p != nullptr && p->has_item( *this ) ) {
-            p->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+        if( carrier != nullptr && carrier->has_item( *this ) ) {
+            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
         }
-        reset_cable( p );
+        reset_cable( carrier );
         return false;
     }
 
@@ -8221,10 +8264,10 @@ bool item::process_cable( player *p, const tripoint &pos )
     charges = max_charges - distance;
 
     if( charges < 1 ) {
-        if( p != nullptr && p->has_item( *this ) ) {
-            p->add_msg_if_player( m_bad, _( "The over-extended cable breaks loose!" ) );
+        if( carrier != nullptr && carrier->has_item( *this ) ) {
+            carrier->add_msg_if_player( m_bad, _( "The over-extended cable breaks loose!" ) );
         }
-        reset_cable( p );
+        reset_cable( carrier );
     }
 
     return false;
@@ -8245,6 +8288,24 @@ void item::reset_cable( player *p )
         p->add_msg_if_player( m_info, _( "You reel in the cable." ) );
         p->moves -= charges * 10;
     }
+}
+
+bool item::process_UPS( player *carrier, const tripoint & /*pos*/ )
+{
+    if( carrier == nullptr ) {
+        erase_var( "cable" );
+        active = false;
+        return false;
+    }
+    bool has_connected_cable = carrier->has_item_with( []( const item & it ) {
+        return it.active && it.has_flag( "CABLE_SPOOL" ) && ( it.get_var( "state" ) == "UPS_link" ||
+                it.get_var( "state" ) == "UPS" );
+    } );
+    if( !has_connected_cable ) {
+        erase_var( "cable" );
+        active = false;
+    }
+    return false;
 }
 
 bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
@@ -8414,6 +8475,10 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
     if( has_flag( "CABLE_SPOOL" ) ) {
         // DO NOT process this as a tool! It really isn't!
         return process_cable( carrier, pos );
+    }
+    if( has_flag( "IS_UPS" ) ) {
+        // DO NOT process this as a tool! It really isn't!
+        return process_UPS( carrier, pos );
     }
     if( is_tool() ) {
         return process_tool( carrier, pos );

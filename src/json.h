@@ -36,6 +36,9 @@ class JsonArray;
 class JsonSerializer;
 class JsonDeserializer;
 
+template<typename T>
+class string_id;
+
 class JsonError : public std::runtime_error
 {
     public:
@@ -43,6 +46,30 @@ class JsonError : public std::runtime_error
         const char *c_str() const noexcept {
             return what();
         }
+};
+
+template<typename T, typename Enable = void>
+struct key_from_json_string;
+
+template<>
+struct key_from_json_string<std::string, void> {
+    std::string operator()( const std::string &s ) {
+        return s;
+    }
+};
+
+template<typename T>
+struct key_from_json_string<string_id<T>, void> {
+    string_id<T> operator()( const std::string &s ) {
+        return string_id<T>( s );
+    }
+};
+
+template<typename Enum>
+struct key_from_json_string<Enum, std::enable_if_t<std::is_enum<Enum>::value>> {
+    Enum operator()( const std::string &s ) {
+        return io::string_to_enum<Enum>( s );
+    }
 };
 
 /* JsonIn
@@ -171,6 +198,7 @@ class JsonIn
         // data parsing
         std::string get_string(); // get the next value as a string
         int get_int(); // get the next value as an int
+        std::int64_t get_int64(); // get the next value as an int64
         bool get_bool(); // get the next value as a bool
         double get_float(); // get the next value as a double
         std::string get_member_name(); // also strips the ':'
@@ -219,6 +247,7 @@ class JsonIn
         bool read( short unsigned int &s );
         bool read( short int &s );
         bool read( int &i );
+        bool read( std::int64_t &i );
         bool read( unsigned int &u );
         bool read( float &f );
         bool read( double &d );
@@ -254,6 +283,39 @@ class JsonIn
             try {
                 v.deserialize( *this );
                 return true;
+            } catch( const JsonError & ) {
+                return false;
+            }
+        }
+
+        template<typename T, std::enable_if_t<std::is_enum<T>::value, int> = 0>
+        bool read( T &val ) {
+            int i;
+            if( read( i ) ) {
+                val = static_cast<T>( i );
+                return true;
+            }
+            std::string s;
+            if( read( s ) ) {
+                val = io::string_to_enum<T>( s );
+                return true;
+            }
+            return false;
+        }
+
+        /// Overload for std::pair
+        template<typename T, typename U>
+        bool read( std::pair<T, U> &p ) {
+            if( !test_array() ) {
+                return false;
+            }
+            try {
+                start_array();
+                return !end_array() &&
+                       read( p.first ) &&
+                       !end_array() &&
+                       read( p.second ) &&
+                       end_array();
             } catch( const JsonError & ) {
                 return false;
             }
@@ -371,10 +433,11 @@ class JsonIn
                 start_object();
                 m.clear();
                 while( !end_object() ) {
-                    typename T::key_type name( get_member_name() );
+                    using key_type = typename T::key_type;
+                    key_type key = key_from_json_string<key_type>()( get_member_name() );
                     typename T::mapped_type element;
                     if( read( element ) ) {
-                        m[std::move( name )] = std::move( element );
+                        m[std::move( key )] = std::move( element );
                     } else {
                         skip_value();
                     }
@@ -521,6 +584,23 @@ class JsonOut
             write( io::enum_to_string<E>( value ) );
         }
 
+        void write_as_string( const std::string &s ) {
+            write( s );
+        }
+
+        template<typename T>
+        void write_as_string( const string_id<T> &s ) {
+            write( s );
+        }
+
+        template<typename T, typename U>
+        void write( const std::pair<T, U> &p ) {
+            start_array();
+            write( p.first );
+            write( p.second );
+            end_array();
+        }
+
         template <typename T>
         void write_as_array( const T &container ) {
             start_array();
@@ -562,7 +642,7 @@ class JsonOut
         void write( const T &map ) {
             start_object();
             for( const auto &it : map ) {
-                write( it.first );
+                write_as_string( it.first );
                 write_member_separator();
                 write( it.second );
             }

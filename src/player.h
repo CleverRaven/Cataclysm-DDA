@@ -39,10 +39,10 @@
 #include "monster.h"
 #include "craft_command.h"
 #include "point.h"
-#include "faction.h"
 
 class basecamp;
 class effect;
+class faction;
 class map;
 class npc;
 struct pathfinding_settings;
@@ -64,6 +64,7 @@ struct dealt_projectile_attack;
 class dispersion_sources;
 
 using itype_id = std::string;
+using faction_id = string_id<faction>;
 struct trap;
 class profession;
 
@@ -138,18 +139,6 @@ class player_morale;
 // The maximum level recoil will ever reach.
 // This corresponds to the level of accuracy of a "snap" or "hip" shot.
 extern const double MAX_RECOIL;
-
-//Don't forget to add new memorial counters
-//to the save and load functions in savegame_json.cpp
-struct stats {
-    int squares_walked = 0;
-    int damage_taken = 0;
-    int damage_healed = 0;
-    int headshots = 0;
-
-    void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
-};
 
 struct stat_mod {
     int strength = 0;
@@ -1181,8 +1170,10 @@ class player : public Character
     public:
         /** Returns a value from 1.0 to 5.0 that acts as a multiplier
          * for the time taken to perform tasks that require detail vision,
-         * above 4.0 means these activities cannot be performed. */
-        float fine_detail_vision_mod() const;
+         * above 4.0 means these activities cannot be performed.
+         * takes pos as a parameter so that remote spots can be judged
+         * if they will potentially have enough light when player gets there */
+        float fine_detail_vision_mod( const tripoint &p = tripoint_zero ) const;
 
         /** Used to determine player feedback on item use for the inventory code.
          *  rates usability lower for non-tools (books, etc.) */
@@ -1579,8 +1570,8 @@ class player : public Character
         bool hauling;
         player_activity activity;
         std::list<player_activity> backlog;
-        int volume;
         cata::optional<tripoint> destination_point;
+        int volume;
         const profession *prof;
 
         start_location_id start_location;
@@ -1643,18 +1634,7 @@ class player : public Character
         int get_free_bionics_slots( body_part bp ) const;
         std::map<body_part, int> bionic_installation_issues( const bionic_id &bioid );
 
-        //Dumps all memorial events into a single newline-delimited string
-        std::string dump_memorial() const;
-        //Log an event, to be later written to the memorial file
-        using Character::add_memorial_log;
-        void add_memorial_log( const std::string &male_msg, const std::string &female_msg ) override;
-        //Loads the memorial log from a file
-        void load_memorial_file( std::istream &fin );
-        //Notable events, to be printed in memorial
-        std::vector <std::string> memorial_log;
         std::set<character_id> follower_ids;
-        //Record of player stats, for posterity only
-        stats lifetime_stats;
         void mod_stat( const std::string &stat, float modifier ) override;
 
         bool is_underwater() const override;

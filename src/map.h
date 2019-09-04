@@ -23,6 +23,7 @@
 #include "item.h"
 #include "item_stack.h"
 #include "lightmap.h"
+#include "lru_cache.h"
 #include "shadowcasting.h"
 #include "type_id.h"
 #include "units.h"
@@ -1127,6 +1128,7 @@ class map
          * @return NULL if there is no such field entry at that place.
          */
         field_entry *get_field( const tripoint &p, field_type_id type );
+        bool dangerous_field_at( const tripoint &p );
         /**
          * Add field entry at point, or set intensity if present
          * @return false if the field could not be created (out of bounds), otherwise true.
@@ -1656,6 +1658,11 @@ class map
          * Set of submaps that contain active items in absolute coordinates.
          */
         std::set<tripoint> submaps_with_active_items;
+
+        /**
+         * Cache of coordinate pairs recently checked for visibility.
+         */
+        mutable lru_cache<point, char> skew_vision_cache;
 
         // Note: no bounds check
         level_cache &get_cache( int zlev ) const {

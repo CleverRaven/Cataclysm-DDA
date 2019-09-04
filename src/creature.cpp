@@ -10,6 +10,7 @@
 #include "avatar.h"
 #include "debug.h"
 #include "effect.h"
+#include "event_bus.h"
 #include "field.h"
 #include "game.h"
 #include "map.h"
@@ -178,8 +179,9 @@ bool Creature::is_dangerous_field( const field_entry &entry ) const
 
 bool Creature::sees( const Creature &critter ) const
 {
+    // Creatures always see themselves (simplifies drawing).
     if( &critter == this ) {
-        return true;    // Can always see ourselves.
+        return true;
     }
 
     if( critter.is_hallucination() ) {
@@ -193,10 +195,6 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
 
-    // Creatures always see themselves (simplifies drawing).
-    if( this == &critter ) {
-        return true;
-    }
     // This check is ridiculously expensive so defer it to after everything else.
     auto visible = []( const player * p ) {
         return p == nullptr || !p->is_invisible();
@@ -255,7 +253,7 @@ bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
     }
 
     const int range_cur = sight_range( g->m.ambient_light_at( t ) );
-    const int range_day = sight_range( current_daylight_level( calendar::turn ) );
+    const int range_day = sight_range( default_daylight_level() );
     const int range_night = sight_range( 0 );
     const int range_max = std::max( range_day, range_night );
     const int range_min = std::min( range_cur, range_max );
@@ -1010,13 +1008,10 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
             e.set_intensity( e.get_max_intensity() );
         }
         ( *effects )[eff_id][bp] = e;
-        if( is_player() ) {
-            if( !type.get_apply_message().empty() ) {
+        if( Character *ch = as_character() ) {
+            g->events().send<event_type::character_gains_effect>( ch->getID(), eff_id );
+            if( is_player() && !type.get_apply_message().empty() ) {
                 add_msg( type.gain_game_message_type(), _( type.get_apply_message() ) );
-            }
-            if( !type.get_apply_memorial_log().empty() ) {
-                add_memorial_log( pgettext( "memorial_male", type.get_apply_memorial_log().c_str() ),
-                                  pgettext( "memorial_female", type.get_apply_memorial_log().c_str() ) );
             }
         }
         on_effect_int_change( eff_id, e.get_intensity(), bp );
@@ -1061,14 +1056,13 @@ bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
     }
     const effect_type &type = eff_id.obj();
 
-    if( is_player() ) {
-        if( !type.get_remove_message().empty() ) {
-            add_msg( type.lose_game_message_type(), _( type.get_remove_message() ) );
+    if( Character *ch = as_character() ) {
+        if( is_player() ) {
+            if( !type.get_remove_message().empty() ) {
+                add_msg( type.lose_game_message_type(), _( type.get_remove_message() ) );
+            }
         }
-        if( !type.get_remove_memorial_log().empty() ) {
-            add_memorial_log( pgettext( "memorial_male", type.get_remove_memorial_log().c_str() ),
-                              pgettext( "memorial_female", type.get_remove_memorial_log().c_str() ) );
-        }
+        g->events().send<event_type::character_loses_effect>( ch->getID(), eff_id );
     }
 
     // num_bp means remove all of a given effect id

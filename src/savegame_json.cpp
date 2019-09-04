@@ -89,6 +89,7 @@
 #include "magic_teleporter_list.h"
 #include "point.h"
 #include "requirements.h"
+#include "stats_tracker.h"
 #include "vpart_position.h"
 
 struct oter_type_t;
@@ -720,7 +721,10 @@ void player::load( JsonObject &data )
     data.read( "recoil", recoil );
     data.read( "in_vehicle", in_vehicle );
     data.read( "last_sleep_check", last_sleep_check );
-    if( data.read( "id", tmpid ) ) {
+    if( data.read( "id", tmpid ) && tmpid.is_valid() ) {
+        // Templates have invalid ids, so we only assign here when valid.
+        // When the game starts, a new valid id will be assigned if not already
+        // present.
         setID( tmpid );
     }
 
@@ -894,8 +898,6 @@ void avatar::store( JsonOut &json ) const
     json.member( "active_missions", mission::to_uid_vector( active_missions ) );
     json.member( "completed_missions", mission::to_uid_vector( completed_missions ) );
     json.member( "failed_missions", mission::to_uid_vector( failed_missions ) );
-
-    json.member( "player_stats", lifetime_stats );
 
     json.member( "show_map_memory", show_map_memory );
 
@@ -1084,8 +1086,6 @@ void avatar::load( JsonObject &data )
             miss->set_player_id_legacy_0c( getID() );
         }
     }
-
-    data.read( "player_stats", lifetime_stats );
 
     //Load from legacy map_memory save location (now in its own file <playername>.mm)
     if( data.has_member( "map_memory_tiles" ) || data.has_member( "map_memory_curses" ) ) {
@@ -2504,6 +2504,29 @@ void vehicle::deserialize( JsonIn &jsin )
         install_part( vp.mount(), vpart_id( "turret_mount" ), false );
     }
 
+    // Add vehicle mounts to cars that are missing them.
+    for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_LIGHT" ) ) {
+        if( vp.info().has_flag( "STEERABLE" ) ) {
+            install_part( vp.mount(), vpart_id( "wheel_mount_light_steerable" ), false );
+        } else {
+            install_part( vp.mount(), vpart_id( "wheel_mount_light" ), false );
+        }
+    }
+    for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_MEDIUM" ) ) {
+        if( vp.info().has_flag( "STEERABLE" ) ) {
+            install_part( vp.mount(), vpart_id( "wheel_mount_medium_steerable" ), false );
+        } else {
+            install_part( vp.mount(), vpart_id( "wheel_mount_medium" ), false );
+        }
+    }
+    for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_HEAVY" ) ) {
+        if( vp.info().has_flag( "STEERABLE" ) ) {
+            install_part( vp.mount(), vpart_id( "wheel_mount_heavy_steerable" ), false );
+        } else {
+            install_part( vp.mount(), vpart_id( "wheel_mount_heavy" ), false );
+        }
+    }
+
     /* After loading, check if the vehicle is from the old rules and is missing
      * frames. */
     if( savegame_loading_version < 11 ) {
@@ -3078,25 +3101,6 @@ void addiction::deserialize( JsonIn &jsin )
     jo.read( "sated", sated );
 }
 
-void stats::serialize( JsonOut &json ) const
-{
-    json.start_object();
-    json.member( "squares_walked", squares_walked );
-    json.member( "damage_taken", damage_taken );
-    json.member( "damage_healed", damage_healed );
-    json.member( "headshots", headshots );
-    json.end_object();
-}
-
-void stats::deserialize( JsonIn &jsin )
-{
-    JsonObject jo = jsin.get_object();
-    jo.read( "squares_walked", squares_walked );
-    jo.read( "damage_taken", damage_taken );
-    jo.read( "damage_healed", damage_healed );
-    jo.read( "headshots", headshots );
-}
-
 void serialize( const recipe_subset &value, JsonOut &jsout )
 {
     jsout.start_array();
@@ -3270,6 +3274,62 @@ void kill_tracker::deserialize( JsonIn &jsin )
         npc_kills_array.read_next( npc_name );
         npc_kills.push_back( npc_name );
     }
+}
+
+void cata_variant::serialize( JsonOut &jsout ) const
+{
+    jsout.start_array();
+    jsout.write_as_string( type_ );
+    jsout.write( value_ );
+    jsout.end_array();
+}
+
+void cata_variant::deserialize( JsonIn &jsin )
+{
+    jsin.start_array();
+    if( !( jsin.read( type_ ) && jsin.read( value_ ) ) ) {
+        jsin.error( "Failed to read cata_variant" );
+    }
+    jsin.end_array();
+}
+
+void event_tracker::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    using value_type = decltype( event_counts )::value_type;
+    std::vector<value_type> copy( event_counts.begin(), event_counts.end() );
+    jsout.member( "event_counts", copy );
+    jsout.end_object();
+}
+
+void event_tracker::deserialize( JsonIn &jsin )
+{
+    jsin.start_object();
+    while( !jsin.end_object() ) {
+        std::string name = jsin.get_member_name();
+        if( name == "event_counts" ) {
+            std::vector<std::pair<cata::event::data_type, int>> copy;
+            if( !jsin.read( copy ) ) {
+                jsin.error( "Failed to read event_counts" );
+            }
+            event_counts = { copy.begin(), copy.end() };
+        } else {
+            jsin.skip_value();
+        }
+    }
+}
+
+void stats_tracker::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "data", data );
+    jsout.end_object();
+}
+
+void stats_tracker::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "data", data );
 }
 
 void submap::store( JsonOut &jsout ) const

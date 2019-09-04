@@ -21,8 +21,8 @@
 #include "debug.h"
 #include "drawing_primitives.h"
 #include "emit.h"
+#include "event_bus.h"
 #include "explosion.h"
-#include "timed_event.h"
 #include "fragment_cloud.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -54,6 +54,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "submap.h"
+#include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
 #include "veh_type.h"
@@ -3112,8 +3113,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
                        false, "environment", "alarm" );
         // Blame nearby player
         if( rl_dist( g->u.pos(), p ) <= 3 ) {
-            g->u.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
-                                   pgettext( "memorial_female", "Set off an alarm." ) );
+            g->events().send<event_type::triggers_alarm>( g->u.getID() );
             const point abs = ms_to_sm_copy( getabs( p.xy() ) );
             g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
                                  tripoint( abs, p.z ) );
@@ -5426,6 +5426,17 @@ field_entry *map::get_field( const tripoint &p, const field_type_id type )
     return current_submap->fld[l.x][l.y].find_field( type );
 }
 
+bool map::dangerous_field_at( const tripoint &p )
+{
+    for( auto &pr : field_at( p ) ) {
+        auto &fd = pr.second;
+        if( fd.is_dangerous() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool map::add_field( const tripoint &p, const field_type_id type, int intensity,
                      const time_duration &age )
 {
@@ -6129,6 +6140,15 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
         bresenham_slope = 0;
         return false; // Out of range!
     }
+    // Cannonicalize the order of the tripoints so the cache is reflexive.
+    const tripoint &min = F < T ? F : T;
+    const tripoint &max = !( F < T ) ? F : T;
+    // A little gross, just pack the values into a point.
+    const point key( min.x << 16 | min.y << 8 | min.z, max.x << 16 | max.y << 8 | max.z );
+    char cached = skew_vision_cache.get( key, -1 );
+    if( cached >= 0 ) {
+        return cached > 0;
+    }
     bool visible = true;
 
     // Ugly `if` for now
@@ -6145,6 +6165,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
             }
             return true;
         } );
+        skew_vision_cache.insert( 100000, key, visible ? 1 : 0 );
         return visible;
     }
 
@@ -6176,6 +6197,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
         last_point = new_point;
         return true;
     } );
+    skew_vision_cache.insert( 100000, key, visible ? 1 : 0 );
     return visible;
 }
 
@@ -7941,6 +7963,9 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         get_cache( p.z ).transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_CLEAR;
     }
 
+    if( seen_cache_dirty ) {
+        skew_vision_cache.clear();
+    }
     // Initial value is illegal player position.
     static tripoint player_prev_pos;
     if( seen_cache_dirty || player_prev_pos != p ) {
@@ -8245,7 +8270,9 @@ void map::add_corpse( const tripoint &p )
     }
 
     put_items_from_loc( "default_zombie_clothes", p, 0 );
-    put_items_from_loc( "default_zombie_items", p, 0 );
+    if( one_in( 3 ) ) {
+        put_items_from_loc( "default_zombie_items", p, 0 );
+    }
 
     add_item_or_charges( p, body );
 }
