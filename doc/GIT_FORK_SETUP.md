@@ -91,11 +91,19 @@ To do this, call this command:
  - `git checkout -b master upstream/master` (create a local master branch that tracks the upstream master)
  - `git branch -d placeholder` (removes the placeholder locally since you need never check it out or worry about it again)
 
+If you do `git branch --all` you should now see this:
+```
+* master
+  remotes/origin/HEAD -> origin/placeholder
+  remotes/origin/placeholder
+  remotes/upstream/master
+```
+
 ## Viola!
 
 So now you are well set up. Your fork is clean and you have a master locally that you can keep up to date with the games main repo:
 
- - `git checkout master` (Make sure you are "in" the local master, for example after having worked on a feature)
+ - `git checkout master` (Makes sure you are "in" the local master, for example after having worked on a feature)
  - `git pull origin master` (Downloads changes in the main repo and merges it into your local master).
 
 ## How to make a Pull Request
@@ -108,8 +116,8 @@ So you have seen an [issue with the "Good First Issue" tag](https://github.com/C
  - Edit files and have fun.
  - Compile and test. Look at [how to compile](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING.md) for help on that.
  - `git add -p` (asks you for each change it discovers in your local files if it should be included)
- - `git commit -m "<a description of this changeset>"` (Make the commit message describing the issue)
- - `git push origin <branch-name>` (Push your commits to Github, to your fork. replace `<branch-name>` ofc.)
+ - `git commit -m "<a description of this changeset>"` (Makse the commit message describing the issue)
+ - `git push origin <branch-name>` (Pushes your commits to Github, to your fork. replace `<branch-name>` ofc.)
 
 Now you can go to [https://github.com/CleverRaven/Cataclysm-DDA](https://github.com/CleverRaven/Cataclysm-DDA) and it 
 should detect your new branch in a yellow notice there and ask you if you want to create a PR. There is also a a "new pull
