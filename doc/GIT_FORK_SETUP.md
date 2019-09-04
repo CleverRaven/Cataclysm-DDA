@@ -54,8 +54,8 @@ and branches that exist in the original game repo.
  - `git tag -l | xargs git tag -d` (Removes all tags locally)
  - Call to `git tag` should no display nothing.
 
-If there is a problem with these scripts that does all in one go, the commands to delete tags manaully is: `git push origin :tag-name` and
-`git tag -d tagname`.
+If there is a problem with these scripts that does all in one go, the commands to delete tags manaully is:
+`git push origin :tag-name` and `git tag -d tagname`.
 
 ### [Optional] More cleanup branches
 
@@ -79,7 +79,6 @@ If this command throws and error or doesnt produce the result above when you rep
  - `git branch -r | grep -v placeholder | cut -d/ -f2-` (Lists all the names of branches we dont need)
  - You can delete the branches manually with `git push origin -d <branch-name>`, for example `git push origin -d gh-pages`. 
 
-
 ## Add the "UPSTREAM"
 
 So the word "origin" you see all over these commands refers to your copy (the fork). This is where you will upload (push) changes. But to get changes
@@ -90,6 +89,7 @@ To do this, call this command:
  - `git remote add upstream -t master --no-tags  git@github.com:CleverRaven/Cataclysm-DDA.git` (Adds the upstream remote)
  - `git fetch upstream` (download any changes in remote)
  - `git checkout -b master upstream/master` (create a local master branch that tracks the upstream master)
+ - `git branch -d placeholder` (removes the placeholder locally since you need never check it out or worry about it again)
 
 ## Viola!
 
