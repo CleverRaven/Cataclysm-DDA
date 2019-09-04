@@ -142,29 +142,43 @@ enum sort_armor_columns : int {
     column_num_entries
 };
 struct sort_armor_col_data {
-    int width;
-    std::string name;
-    std::string description;
+    private:
+        int width;
+        int cut_off;
+        std::string name;
+        std::string description;
+    public:
+        sort_armor_col_data( int width, int cut_off, std::string name, std::string description ):
+            width( width ), cut_off( cut_off ), name( name ), description( description ) {
+        }
+        int get_width() {
+            return width;
+        }
+        std::string get_name() {
+            return ( _( name ) ).substr( 0, cut_off );
+        }
+        std::string get_description() {
+            return _( description );
+        }
 };
 sort_armor_col_data get_col_data( int col_idx )
 {
     static std::array< sort_armor_col_data, column_num_entries> col_data = { {
             {
-                3, _( "cond" ), _(
-                    string_format( "clothing conditions:\n\t<color_%s>x</color> - poor fit\n\t<color_%s>f</color> - filthy",
-                                   string_from_color( c_red ), string_from_color( c_cyan ) )
-                )
+                3, 4,  "condition",
+                string_format( "clothing conditions:\n\t<color_%s>x</color> - poor fit\n\t<color_%s>f</color> - filthy",
+                               string_from_color( c_red ), string_from_color( c_cyan ) )
             },
-            {8, _( "encum " ), ( "encumberance." )},
-            {7, _( "strge" ), _( "storage." )},
-            {4, _( "wrm" ), _( "warmth." )},
-            {3, "", ""},
-            {3, _( "cvr" ), _( "coverage" )},
-            {4, _( "bsh" ), _( "bash protection." )},
-            {4, _( "cut" ), _( "cut protection." )},
-            {4, _( "acd" ), _( "acid protection." )},
-            {4, _( "fre" ), _( "fire protection." )},
-            {4, _( "env" ), _( "environmental protection." )},
+            {8, 5, "encumberance", "encumberance."},
+            {7, 5, "storage",  "storage." },
+            {4, 3, "warmth",  "warmth." },
+            {3, 3, "", ""},
+            {3, 3, "coverage",  "coverage" },
+            {4, 3, "bash",  "bash protection." },
+            {4, 3, "cut",  "cut protection." },
+            {4, 3, "acid",  "acid protection." },
+            {4, 3, "fire",  "fire protection." },
+            {4, 3, "environmental",  "environmental protection." }
         }
     };
     return col_data[col_idx];
@@ -229,7 +243,7 @@ class layering_item_info
             item itm = *itm_iter;
             nc_color print_col = is_selected ? hilite( c_white ) : c_light_gray;
             for( size_t col_idx = column_num_entries; col_idx-- > 0; ) {
-                int col_w = get_col_data( col_idx ).width;
+                int col_w = get_col_data( col_idx ).get_width();
                 right_bound -= col_w;
                 switch( col_idx ) {
                     case column_cond: {
@@ -315,7 +329,7 @@ class layering_group_info
         int divider_posn;
 
         //printing constatnts
-        int max_x;
+        int x_bound;
         int max_y;
         //printing vars
         int list_min_line;
@@ -334,7 +348,7 @@ class layering_group_info
         }
         // same for the duration of the menu
         void set_print_constats( int right_bound, int max_y ) {
-            this->max_x = right_bound;
+            this->x_bound = right_bound;
             this->max_y = max_y;
         }
         // depend on user input
@@ -396,10 +410,10 @@ class layering_group_info
         }
 
         void print_header( bool is_selected, const catacurses::window &w, int cur_print_y ) {
-            int right_bound = max_x;
+            int right_bound = x_bound;
             nc_color print_col = is_selected ? hilite( c_white ) : c_light_gray;
             for( size_t col_idx = column_num_entries; col_idx-- > 0; ) {
-                int col_w = get_col_data( col_idx ).width;
+                int col_w = get_col_data( col_idx ).get_width();
                 right_bound -= col_w;
                 switch( col_idx ) {
                     //case column_fits:
@@ -475,7 +489,7 @@ class layering_group_info
                     is_selected = true;
                 }
                 if( cur_print_line >= list_min_line && print_y < max_y ) {
-                    elem.print_columnns( ( list_selected_line == cur_print_line ), w, max_x, print_y );
+                    elem.print_columnns( ( list_selected_line == cur_print_line ), w, x_bound, print_y );
                     print_y++;
                 }
                 cur_print_line++;
@@ -488,7 +502,7 @@ class layering_group_info
             }
 
             if( cur_print_line >= list_min_line && print_y < max_y ) {
-                mvwhline( w, point( 1, print_y ), 0, max_x - 1 );
+                mvwhline( w, point( 1, print_y ), 0, x_bound - 1 );
                 mvwputch( w, point( divider_posn, print_y ), c_light_gray, LINE_XXXX );
                 print_y++;
             }
@@ -547,7 +561,7 @@ void player::sort_armor()
             }
 
             //something wrong with using tname, results are too long
-            int elem_w = utf8_width( elem.nname( elem.typeId() ) );
+            int elem_w = utf8_width( item::nname( elem.typeId() ) );
             if( elem_w > max_name_w ) {
                 max_name_w = elem_w;
             }
@@ -558,14 +572,18 @@ void player::sort_armor()
     }
     int columns_w = 0;
     for( size_t i = 0; i < column_num_entries; i++ ) {
-        columns_w += get_col_data( i ).width;
+        columns_w += get_col_data( i ).get_width();
     }
-
-    const int win_h = std::min( TERMY, header_h + req_data_h + footer_h );
+    const int requested_h = header_h + req_data_h + footer_h;
+    const int win_h = std::min( TERMY, requested_h );
     const int win_w = std::min( name_start_idx + max_name_w + columns_w + 1, TERMX );
     const int win_x = TERMX / 2 - win_w / 2;
     const int win_y = TERMY / 2 - win_h / 2;
     catacurses::window w_sort_armor = catacurses::newwin( win_h, win_w, point( win_x, win_y ) );
+
+    scrollbar s;
+    s.viewport_size( win_h - header_h - footer_h );
+    s.offset_y( header_h );
 
     int data_max_y = win_h - footer_h;
 
@@ -617,7 +635,7 @@ void player::sort_armor()
         //window border
         werase( w_sort_armor );
         draw_border( w_sort_armor );
-        mvwprintz( w_sort_armor, point( 1, 0 ), c_white, _( "Sort Armor" ) );
+        mvwprintz( w_sort_armor, point_east, c_white, _( "Sort Armor" ) );
         int print_x = win_w;
         std::string msg = string_format( _( "<[%s] Columns Info>" ), ctxt.get_desc( "USAGE_HELP" ) );
         print_x -= utf8_width( msg ) + 1;
@@ -628,13 +646,14 @@ void player::sort_armor()
         int divider_posn = 0;
         for( size_t col_idx = column_num_entries, right_bound = win_w - 1; col_idx-- > 0; ) {
             sort_armor_col_data col_data = get_col_data( col_idx );
-            int col_w = col_data.width;
+            int col_w = col_data.get_width();
             right_bound -= col_w;
             if( col_idx == column_divider ) {
                 divider_posn = right_bound + col_w - 1;
                 mvwputch( w_sort_armor, point( divider_posn, print_y ), c_light_gray, LINE_XOXO );
             } else {
-                mvwprintz( w_sort_armor, point( right_bound, print_y ), c_light_gray, "%*s", col_w, col_data.name );
+                mvwprintz( w_sort_armor, point( right_bound, print_y ), c_light_gray, "%*s", col_w,
+                           col_data.get_name() );
             }
         }
         print_y += 1;
@@ -666,18 +685,20 @@ void player::sort_armor()
         }
 
         // data bottom
-        const int footer_y = std::min( print_y - 1, data_max_y );
+        int footer_y = data_max_y;
+        if( requested_h > win_h ) {
+            s.content_size( cur_print_line - 1 );
+            s.viewport_pos( min_print_line );
+            s.apply( w_sort_armor );
+        } else {
+            footer_y = print_y - 1;
+        }
         mvwhline( w_sort_armor, point( 1, footer_y ), 0, win_w - 2 ); //middle
         mvwputch( w_sort_armor, point( 0, footer_y ), c_light_gray, LINE_XXXO ); //left
         mvwputch( w_sort_armor, point( win_w - 1, footer_y ), c_light_gray, LINE_XOXX ); //right
         mvwputch( w_sort_armor, point( divider_posn, footer_y ), c_light_gray, LINE_XXOX ); //divider
 
         mvwprintz( w_sort_armor, point( 1, footer_y ), c_light_gray, _( "(Outermost)" ) );
-        if( cur_print_line >= footer_y ) {
-            // TODO: replace it by right_print()
-            mvwprintz( w_sort_armor, point( 17, footer_y ), c_light_blue, _( "<more>" ) );
-        }
-
         // footer
         const std::string s = get_encumbrance_description( cur_grp->get_bp(), false );
         fold_and_print( w_sort_armor, point( 1, footer_y + 1 ), win_w - 2, c_magenta, s );
@@ -837,7 +858,7 @@ void player::sort_armor()
         }
 
         else if( action == "USAGE_HELP" ) {
-            std::string help_str = "";
+            std::string help_str;
             std::string head_color = string_from_color( c_white );
             std::string desc_color = string_from_color( c_light_gray );
 
@@ -847,7 +868,7 @@ void player::sort_armor()
                     help_str += "\n";
                 } else {
                     help_str += string_format( "<color_%s>%s</color> - <color_%s>%s</color>\n",
-                                               head_color, col_data.name, desc_color, col_data.description );
+                                               head_color, col_data.get_name(), desc_color, col_data.get_description() );
                 }
 
             }
