@@ -31,7 +31,7 @@ branch, but we have no need of it, so lets create a placeholder branch to be you
 4. Then select the `Branches` pane on the `Settings` tab and on the dropdown that says `master \/`, choose `placeholder`
 5. Accept the warning
 
-This placeholder branch will grow out of data quickly, but it doesn't matter. Basically never think about it again.
+This placeholder branch will grow out of date quickly, but it doesn't matter. Basically never think about it again.
 
 ## Downloading the code
 
