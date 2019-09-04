@@ -1,5 +1,10 @@
 import org.gradle.internal.os.OperatingSystem;
 
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    //options.compilerArgs << "-Xlint:deprecation"
+}
+
 def buildAsLibrary = project.hasProperty('BUILD_AS_LIBRARY');
 def buildAsApplication = !buildAsLibrary
 if (buildAsApplication) {
@@ -64,7 +69,7 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode Integer.valueOf(System.env.UPSTREAM_BUILD_NUMBER ?: 1 )
         versionName new File('app/jni/src/version.h').text.split("\"")[1]
@@ -82,6 +87,7 @@ android {
             reset()
             // Specifies a list of ABIs that Gradle should create APKs for.
             include "armeabi-v7a"
+            include "arm64-v8a"
             // Specifies that we do not want to also generate a universal APK that includes all ABIs.
             universalApk false
         }
@@ -89,7 +95,7 @@ android {
 
     externalNativeBuild {
         ndkBuild {
-            arguments "APP_PLATFORM=android-16", "-j$njobs"
+            arguments "APP_PLATFORM=android-21", "-j$njobs"
         }
     }
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
