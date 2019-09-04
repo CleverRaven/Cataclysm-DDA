@@ -1493,6 +1493,12 @@ bool overmap::generate_sub( const int z )
             //oter_id oter_sewer = ter(i, j, -1);
             //oter_id oter_underground = ter(i, j, -2);
 
+            if( is_ot_match( "microlab_sub_connector", ter( p ), ot_match_type::type ) ) {
+                om_direction::type rotation = ter( p )->get_dir();
+                ter( p ) = oter_id( "subway_end_north" )->get_rotated( rotation );;
+                subway_points.emplace_back( p.xy() );
+            }
+
             // implicitly skip skip_above oter_ids
             bool skipme = false;
             for( auto &elem : skip_above ) {
