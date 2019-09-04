@@ -3,7 +3,7 @@
 
 This guide is intended for beginner and intermediate git users on how to set up git locally to make submitting or testing
 pull requests easily with less clutter and minimizing issues (like having an outdated local copy). It may also have a tip
-or to for advanced suers.
+or two for advanced suers.
 
 ## Installing the requirments
 
@@ -16,8 +16,7 @@ already have it, but for windows users I suggest grabbing a "Git Bash" rather th
 
 ## Github.com
 
-You will need a Github account. Go to github.com and sign up / log in. Use github tutorial on how to set up an "ssh key", this
-will authenticate you.
+You will need a Github account. Use [Github tutorial](https://help.github.com/en/articles/connecting-to-github-with-ssh)  on how to set up an "ssh key", this will authenticate you.
 
 ### Prep your fork
 
@@ -103,7 +102,7 @@ So now you are well set up. Your fork is clean and you have a master locally tha
 
 So you have seen an [issue with the "Good First Issue" tag](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22Good+First+Issue%22) and now you want to make a go at it. Here is what you do:
 
- - `git checkout master` (Make sure you are "in" the local master, for example after having worked on a feature)
+ - `git checkout master` (Makes sure you are "in" the local master, for example after having worked on a feature)
  - `git pull origin master` (Downloads changes in the main repo and merges it into your local master).
  - `git checkout -b <branch-name>` (with `<branch-name>` being replaced with something describing your change, short and with letters and `-`, for example `git checkout -b feature-flight`)
  - Edit files and have fun.
