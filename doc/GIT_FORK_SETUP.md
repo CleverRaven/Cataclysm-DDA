@@ -111,7 +111,22 @@ So you have seen an [issue with the "Good First Issue" tag](https://github.com/C
  - `git commit -m "<a description of this changeset>"` (Make the commit message describing the issue)
  - `git push origin <branch-name>` (Push your commits to Github, to your fork. replace `<branch-name>` ofc.)
 
-Now you can go to [https://github.com/CleverRaven/Cataclysm-DDA](https://github.com/CleverRaven/Cataclysm-DDA) and it should detect your new branch 
-in a yellow notice there and ask you if you want to create a PR. There is also a a "new pull request" button on your github fork page.
+Now you can go to [https://github.com/CleverRaven/Cataclysm-DDA](https://github.com/CleverRaven/Cataclysm-DDA) and it 
+should detect your new branch in a yellow notice there and ask you if you want to create a PR. There is also a a "new pull
+request" button on your github fork page.
 
-Hope this wass helpful.
+You will probably get some feedback on your Pull request. The first thing to remember is that this is not critisism, this is 
+people helping you out, making sure that your PR will work well and be of good quality. They are your ad hoc team! Sometimes
+you can accept changes they suggest directly in the web interface, but other times you want to go back to your local files.
+This is no problem, you can make more edits and more commits and push again (last 3 steps above). Until your PR is accepted.
+
+After your PR is accepted, you can delete this branch and get ready for more. If you delete the branch using the button on the PR, skip the 3rd step.
+
+ - `git checkout master`
+ - `git branch -d <branch-name>`
+ - `git push origin -d <branc-name>`
+ - `git pull origin master`
+
+Now you are ready to start from the step above where you create your next feature branch.
+
+Hope this was helpful. Good luck!
