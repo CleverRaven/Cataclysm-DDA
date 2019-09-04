@@ -43,6 +43,11 @@ enum hp_part : int {
     num_hp_parts
 };
 
+template<>
+struct enum_traits<hp_part> {
+    static constexpr hp_part last = num_hp_parts;
+};
+
 class addiction
 {
     public:

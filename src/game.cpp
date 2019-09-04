@@ -48,7 +48,6 @@
 #include "dependency_tree.h"
 #include "editmap.h"
 #include "enums.h"
-#include "timed_event.h"
 #include "faction.h"
 #include "filesystem.h"
 #include "game_constants.h"
@@ -104,9 +103,11 @@
 #include "sdltiles.h"
 #include "sounds.h"
 #include "start_location.h"
+#include "stats_tracker.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "submap.h"
+#include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
 #include "uistate.h"
@@ -279,6 +280,7 @@ game::game() :
 {
     player_was_sleeping = false;
     reset_light_level();
+    events().subscribe( &*stats_tracker_ptr );
     events().subscribe( &*kill_tracker_ptr );
     events().subscribe( &*memorial_logger_ptr );
     world_generator = std::make_unique<worldfactory>();
@@ -662,6 +664,7 @@ void game::setup()
 
     SCT.vSCT.clear(); //Delete pending messages
 
+    stats().clear();
     // reset kill counts
     kill_tracker_ptr->clear();
     // reset follower list
@@ -2854,6 +2857,11 @@ bool game::save_player_data()
 event_bus &game::events()
 {
     return *event_bus_ptr;
+}
+
+stats_tracker &game::stats()
+{
+    return *stats_tracker_ptr;
 }
 
 memorial_logger &game::memorial()
@@ -9073,8 +9081,12 @@ bool game::walk_move( const tripoint &dest_loc )
         add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ) );
     }
 
-    if( dest_loc != u.pos() && !u.is_mounted() ) {
-        u.lifetime_stats.squares_walked++;
+    if( dest_loc != u.pos() ) {
+        mtype_id mount_type;
+        if( u.is_mounted() ) {
+            mount_type = u.mounted_creature->type->id;
+        }
+        g->events().send<event_type::avatar_moves>( mount_type );
     }
 
     tripoint oldpos = u.pos();
@@ -9725,7 +9737,7 @@ void game::on_move_effects()
     // TODO: Move this to a character method
     if( !u.is_mounted() ) {
         const item muscle( "muscle" );
-        if( u.lifetime_stats.squares_walked % 8 == 0 ) {// active power gen
+        if( one_in( 8 ) ) {// active power gen
             if( u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
                 u.charge_power( 1 );
             }
@@ -9735,7 +9747,7 @@ void game::on_move_effects()
                 }
             }
         }
-        if( u.lifetime_stats.squares_walked % 160 == 0 ) { //  passive power gen
+        if( one_in( 160 ) ) {//  passive power gen
             if( u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
                 u.charge_power( 1 );
             }

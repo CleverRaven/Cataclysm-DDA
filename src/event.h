@@ -22,15 +22,19 @@ enum class event_type {
     activates_mininuke,
     administers_mutagen,
     angers_amigara_horrors,
+    avatar_moves,
     awakes_dark_wyrms,
     becomes_wanted,
     broken_bone_mends,
     buries_corpse,
     causes_resonance_cascade,
     character_gains_effect,
+    character_gets_headshot,
+    character_heals_damage,
     character_kills_character,
     character_kills_monster,
     character_loses_effect,
+    character_takes_damage,
     character_triggers_trap,
     consumes_marloss_item,
     crosses_marloss_threshold,
@@ -91,6 +95,18 @@ std::string enum_to_string<event_type>( event_type data );
 
 } // namespace io
 
+namespace std
+{
+
+template<>
+struct hash<event_type> {
+    size_t operator()( const event_type v ) const noexcept {
+        return static_cast<size_t>( v );
+    }
+};
+
+} // namespace std
+
 namespace cata
 {
 
@@ -117,7 +133,7 @@ struct event_spec_character {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 57,
+static_assert( static_cast<int>( event_type::num_event_types ) == 61,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -144,6 +160,14 @@ struct event_spec<event_type::administers_mutagen> {
 
 template<>
 struct event_spec<event_type::angers_amigara_horrors> : event_spec_empty {};
+
+template<>
+struct event_spec<event_type::avatar_moves> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+            { "mount", cata_variant_type::mtype_id },
+        }
+    };
+};
 
 template<>
 struct event_spec<event_type::awakes_dark_wyrms> : event_spec_empty {};
@@ -183,6 +207,18 @@ struct event_spec<event_type::character_gains_effect> {
 };
 
 template<>
+struct event_spec<event_type::character_gets_headshot> : event_spec_character {};
+
+template<>
+struct event_spec<event_type::character_heals_damage> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "character", cata_variant_type::character_id },
+            { "damage", cata_variant_type::int_ },
+        }
+    };
+};
+
+template<>
 struct event_spec<event_type::character_kills_monster> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
             { "killer", cata_variant_type::character_id },
@@ -206,6 +242,15 @@ struct event_spec<event_type::character_loses_effect> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
             { "character", cata_variant_type::character_id },
             { "effect", cata_variant_type::efftype_id },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_takes_damage> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "character", cata_variant_type::character_id },
+            { "damage", cata_variant_type::int_ },
         }
     };
 };
@@ -476,7 +521,9 @@ struct make_event_helper;
 class event
 {
     public:
-        event( event_type type, time_point time, std::map<std::string, cata_variant> &&data )
+        using data_type = std::map<std::string, cata_variant>;
+
+        event( event_type type, time_point time, data_type &&data )
             : type_( type )
             , time_( time )
             , data_( std::move( data ) )
@@ -526,10 +573,14 @@ class event
         auto get( const std::string &key ) const {
             return get_variant( key ).get<T>();
         }
+
+        const data_type &data() const {
+            return data_;
+        }
     private:
         event_type type_;
         time_point time_;
-        std::map<std::string, cata_variant> data_;
+        data_type data_;
 };
 
 namespace event_detail

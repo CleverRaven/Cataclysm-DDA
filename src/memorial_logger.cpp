@@ -19,6 +19,7 @@
 #include "overmapbuffer.h"
 #include "profession.h"
 #include "skill.h"
+#include "stats_tracker.h"
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_datura( "datura" );
@@ -328,14 +329,17 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
 
     //Lifetime stats
     file << _( "Lifetime Stats" ) << eol;
-    file << indent << string_format( _( "Distance walked: %d squares" ),
-                                     u.lifetime_stats.squares_walked ) << eol;
-    file << indent << string_format( _( "Damage taken: %d damage" ),
-                                     u.lifetime_stats.damage_taken ) << eol;
-    file << indent << string_format( _( "Damage healed: %d damage" ),
-                                     u.lifetime_stats.damage_healed ) << eol;
-    file << indent << string_format( _( "Headshots: %d" ),
-                                     u.lifetime_stats.headshots ) << eol;
+    cata::event::data_type not_mounted = { { "mount", cata_variant( mtype_id() ) } };
+    int moves = g->stats().count( event_type::avatar_moves, not_mounted );
+    cata::event::data_type is_u = { { "character", cata_variant( u.getID() ) } };
+    int damage_taken = g->stats().total( event_type::character_takes_damage, "damage", is_u );
+    int damage_healed = g->stats().total( event_type::character_heals_damage, "damage", is_u );
+    int headshots = g->stats().count( event_type::character_gets_headshot, is_u );
+
+    file << indent << string_format( _( "Distance walked: %d squares" ), moves ) << eol;
+    file << indent << string_format( _( "Damage taken: %d damage" ), damage_taken ) << eol;
+    file << indent << string_format( _( "Damage healed: %d damage" ), damage_healed ) << eol;
+    file << indent << string_format( _( "Headshots: %d" ), headshots ) << eol;
     file << eol;
 
     //History
@@ -996,6 +1000,12 @@ void memorial_logger::notify( const cata::event &e )
                  pgettext( "memorial_female", "Set off an alarm." ) );
             break;
         }
+        // All the events for which we have no memorial log are here
+        case event_type::avatar_moves:
+        case event_type::character_gets_headshot:
+        case event_type::character_heals_damage:
+        case event_type::character_takes_damage:
+            break;
         case event_type::num_event_types: {
             debugmsg( "Invalid event type" );
             break;

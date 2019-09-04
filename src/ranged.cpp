@@ -20,6 +20,7 @@
 #include "cata_utility.h"
 #include "debug.h"
 #include "dispersion.h"
+#include "event_bus.h"
 #include "game.h"
 #include "gun_mode.h"
 #include "input.h"
@@ -442,7 +443,8 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         }
 
         if( shot.missed_by <= .1 ) {
-            lifetime_stats.headshots++; // TODO: check head existence for headshot
+            // TODO: check head existence for headshot
+            g->events().send<event_type::character_gets_headshot>( getID() );
         }
 
         if( shot.hit_critter ) {
@@ -715,7 +717,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     if( missed_by <= 0.1 && dealt_attack.hit_critter != nullptr ) {
         practice( skill_used, final_xp_mult, MAX_SKILL );
         // TODO: Check target for existence of head
-        lifetime_stats.headshots++;
+        g->events().send<event_type::character_gets_headshot>( getID() );
     } else if( dealt_attack.hit_critter != nullptr && missed_by > 0.0f ) {
         practice( skill_used, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
     } else {
