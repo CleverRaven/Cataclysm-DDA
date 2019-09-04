@@ -240,6 +240,7 @@ class player : public Character
 
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info();
+        std::string get_encumbrance_description( body_part bp, bool combine );
 
         /**Estimate effect duration based on player relevant skill*/
         time_duration estimate_effect_dur( const skill_id &relevant_skill, const efftype_id &effect,

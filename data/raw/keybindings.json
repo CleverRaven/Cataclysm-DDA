@@ -421,20 +421,6 @@
   },
   {
     "type": "keybinding",
-    "id": "USAGE_HELP",
-    "category": "SORT_ARMOR",
-    "name": "Display Usage Help",
-    "bindings": [ { "input_method": "keyboard", "key": "F1" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "MOVE_ARMOR",
-    "category": "SORT_ARMOR",
-    "name": "Select armor for moving",
-    "bindings": [ { "input_method": "keyboard", "key": "s" }, { "input_method": "keyboard", "key": "RETURN" } ]
-  },
-  {
-    "type": "keybinding",
     "id": "MOVE_PANEL",
     "category": "PANEL_MGMT",
     "name": "Select panel for moving",
@@ -449,6 +435,20 @@
   },
   {
     "type": "keybinding",
+    "id": "USAGE_HELP",
+    "category": "SORT_ARMOR",
+    "name": "Display Usage Help",
+    "bindings": [ { "input_method": "keyboard", "key": "F1" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MOVE_ARMOR",
+    "category": "SORT_ARMOR",
+    "name": "Select armor for moving",
+    "bindings": [ { "input_method": "keyboard", "key": "RETURN" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "CHANGE_SIDE",
     "category": "SORT_ARMOR",
     "name": "Change side armor is worn on",
@@ -456,38 +456,52 @@
   },
   {
     "type": "keybinding",
-    "id": "ASSIGN_INVLETS",
-    "category": "SORT_ARMOR",
-    "name": "Assign invlets to armor",
-    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
-  },
-  {
-    "type": "keybinding",
     "id": "SORT_ARMOR",
     "category": "SORT_ARMOR",
     "name": "Sort armor into natural layer order",
-    "bindings": [ { "input_method": "keyboard", "key": "S" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "s" }, { "input_method": "keyboard", "key": "S" } ]
   },
   {
     "type": "keybinding",
     "id": "EQUIP_ARMOR",
     "category": "SORT_ARMOR",
     "name": "Equip armor from inventory",
-    "bindings": [ { "input_method": "keyboard", "key": "e" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "w" }, { "input_method": "keyboard", "key": "W" } ]
   },
   {
     "type": "keybinding",
     "id": "EQUIP_ARMOR_HERE",
     "category": "SORT_ARMOR",
     "name": "Equip armor from inventory at this position",
-    "bindings": [ { "input_method": "keyboard", "key": "E" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "e" }, { "input_method": "keyboard", "key": "E" } ]
   },
   {
     "type": "keybinding",
-    "id": "REMOVE_ARMOR",
+    "id": "TAKE_OFF",
     "category": "SORT_ARMOR",
-    "name": "Unequip selected armor",
-    "bindings": [ { "input_method": "keyboard", "key": "u" } ]
+    "name": "Take off selected armor",
+    "bindings": [ { "input_method": "keyboard", "key": "t" }, { "input_method": "keyboard", "key": "T" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DROP",
+    "category": "SORT_ARMOR",
+    "name": "Drop selected armor",
+    "bindings": [ { "input_method": "keyboard", "key": "d" }, { "input_method": "keyboard", "key": "D" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "PAGE_UP",
+    "category": "SORT_ARMOR",
+    "name": "Select previous category",
+    "bindings": [ { "input_method": "keyboard", "key": "PPAGE" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "PAGE_DOWN",
+    "category": "SORT_ARMOR",
+    "name": "Select next category",
+    "bindings": [ { "input_method": "keyboard", "key": "NPAGE" } ]
   },
   {
     "type": "keybinding",
