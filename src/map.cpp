@@ -1415,9 +1415,6 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
         }
     };
     auto &ch = access_cache( p.z );
-    // override is always transparent
-    const bool is_transparent = override.find( p ) != override.end() ||
-                                ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
     uint8_t val = 0;
     std::function<bool( const tripoint & )> is_memorized;
 #ifdef TILES
@@ -1436,6 +1433,9 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
     }
 #endif
 
+    const bool overridden = override.find( p ) != override.end();
+    const bool is_transparent = ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
+
     // populate connection information
     for( int i = 0; i < 4; ++i ) {
         tripoint neighbour = p + offsets[i];
@@ -1444,12 +1444,12 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
         }
         const auto neighbour_override = override.find( neighbour );
         const bool neighbour_overridden = neighbour_override != override.end();
-        const bool may_connect = is_transparent ||
-                                 // override is always visible
-                                 neighbour_overridden ||
-                                 // visible or memorized
-                                 ch.visibility_cache[neighbour.x][neighbour.y] <= LL_BRIGHT ||
-                                 is_memorized( neighbour );
+        // if there's some non-memory terrain to show at the neighboring tile
+        const bool may_connect = neighbour_overridden ||
+                                 get_visibility( ch.visibility_cache[neighbour.x][neighbour.y],
+                                         get_visibility_variables_cache() ) == VIS_CLEAR ||
+                                 // or if an actual center tile is transparent or next to a memorized tile
+                                 ( !overridden && ( is_transparent || is_memorized( neighbour ) ) );
         if( may_connect ) {
             const ter_t &neighbour_terrain = neighbour_overridden ?
                                              neighbour_override->second.obj() : ter( neighbour ).obj();

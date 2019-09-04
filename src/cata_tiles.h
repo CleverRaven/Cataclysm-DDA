@@ -317,7 +317,8 @@ class cata_tiles
         void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group,
                                  const std::map<tripoint, ter_id> &ter_override );
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
-                                      const std::map<tripoint, ter_id> &ter_override );
+                                      const std::map<tripoint, ter_id> &ter_override,
+                                      const bool ( &invisible )[5] );
         void get_rotation_and_subtile( char val, int &rota, int &subtile );
 
         /** Map memory */

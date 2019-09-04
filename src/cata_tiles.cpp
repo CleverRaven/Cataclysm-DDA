@@ -2084,7 +2084,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
         if( t.obj().connects( connect_group ) ) {
             get_connect_values( p, subtile, rotation, connect_group, {} );
         } else {
-            get_terrain_orientation( p, rotation, subtile, {} );
+            get_terrain_orientation( p, rotation, subtile, {}, invisible );
             // do something to get other terrain orientation values
         }
         const std::string &tname = t.id().str();
@@ -2109,7 +2109,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
             if( t2.obj().connects( connect_group ) ) {
                 get_connect_values( p, subtile, rotation, connect_group, terrain_override );
             } else {
-                get_terrain_orientation( p, rotation, subtile, terrain_override );
+                get_terrain_orientation( p, rotation, subtile, terrain_override, invisible );
             }
             const std::string &tname = t2.id().str();
             // tile overrides are never memorized
@@ -3235,15 +3235,17 @@ void cata_tiles::init_light()
 }
 
 void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
-        const std::map<tripoint, ter_id> &ter_override )
+        const std::map<tripoint, ter_id> &ter_override, const bool ( &invisible )[5] )
 {
-    const auto ter = [&ter_override]( const tripoint & q ) -> ter_id {
+    const bool overridden = ter_override.find( p ) != ter_override.end();
+    const auto ter = [&]( const tripoint & q, const bool invis ) -> ter_id {
         const auto override = ter_override.find( q );
-        return override != ter_override.end() ? override->second : g->m.ter( q );
+        return override != ter_override.end() ? override->second :
+        ( !overridden || !invis ) ? g->m.ter( q ) : t_null;
     };
 
     // get terrain at x,y
-    const ter_id tid = ter( p );
+    const ter_id tid = ter( p, invisible[0] );
     if( tid == t_null ) {
         subtile = 0;
         rota = 0;
@@ -3252,10 +3254,10 @@ void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &sub
 
     // get terrain neighborhood
     const ter_id neighborhood[4] = {
-        ter( p + point_south ),
-        ter( p + point_east ),
-        ter( p + point_west ),
-        ter( p + point_north )
+        ter( p + point_south, invisible[1] ),
+        ter( p + point_east, invisible[2] ),
+        ter( p + point_west, invisible[3] ),
+        ter( p + point_north, invisible[4] )
     };
 
     char val = 0;
