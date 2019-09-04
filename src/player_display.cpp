@@ -494,9 +494,16 @@ static void draw_traits_tab( const catacurses::window &w_traits, const catacurse
     }
 }
 
-static size_t draw_bionics_list( const catacurses::window &w_bionics, unsigned int &line,
+static size_t draw_bionics_list( const catacurses::window &w_bionics, player &you,
+                                 unsigned int &line,
                                  std::vector<bionic> &bionicslist, const size_t bionics_win_size_y )
 {
+    center_print( w_bionics, 0, c_light_gray, _( title_BIONICS ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
+                    string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
+                                   you.power_level, you.max_power_level ) );
+
     std::map<std::string, int> bionic_counts;
     for( size_t i = 0; i < bionicslist.size(); i++ ) {
         if( bionic_counts.find( bionicslist[i].info().name ) == bionic_counts.end() ) {
@@ -549,12 +556,8 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
 {
     werase( w_bionics );
     mvwprintz( w_bionics, point_zero, h_light_gray, header_spaces );
-    center_print( w_bionics, 0, h_light_gray, _( title_BIONICS ) );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
-                    string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), you.max_power_level ) );
-
-    size_t num_unique_bionics = draw_bionics_list( w_bionics, line, bionicslist, bionics_win_size_y );
+    size_t num_unique_bionics = draw_bionics_list( w_bionics, you, line, bionicslist,
+                                bionics_win_size_y );
     if( line < bionicslist.size() ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_white,
@@ -575,15 +578,7 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
         }
     } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
         mvwprintz( w_bionics, point_zero, c_light_gray, header_spaces );
-        center_print( w_bionics, 0, c_light_gray, _( title_BIONICS ) );
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
-                        string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), you.max_power_level ) );
-        for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y - 1; i++ ) {
-            mvwprintz( w_bionics, point( 1, static_cast<int>( i + 2 ) ), c_black, "                         " );
-            trim_and_print( w_bionics, point( 1, static_cast<int>( i + 2 ) ), getmaxx( w_bionics ) - 1,
-                            c_white, bionicslist[i].info().name );
-        }
+        draw_bionics_list( w_bionics, you, line, bionicslist, bionics_win_size_y );
         wrefresh( w_bionics );
         line = 0;
         curtab = action == "NEXT_TAB" ? curtab + 1 : curtab - 1;
@@ -991,12 +986,7 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     wrefresh( w_traits );
 
     // Next, draw bionics
-    center_print( w_bionics, 0, c_light_gray, _( title_BIONICS ) );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
-                    string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
-                                   you.power_level, you.max_power_level ) );
-    draw_bionics_list( w_bionics, line, bionicslist, bionics_win_size_y );
+    draw_bionics_list( w_bionics, you, line, bionicslist, bionics_win_size_y );
     wrefresh( w_bionics );
 
     // Next, draw effects.
