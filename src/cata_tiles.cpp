@@ -1067,11 +1067,11 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             if( iso_mode ) {
                 //in isometric, rows and columns represent a checkerboard screen space, and we place
                 //the appropriate tile in valid squares by getting position relative to the screen center.
-                if( modulo( row + o.y, 2 ) != modulo( col + o.x, 2 ) ) {
+                if( modulo( row - sy / 2, 2 ) != modulo( col - sx / 2, 2 ) ) {
                     continue;
                 }
-                temp_x = ( col - row - sx / 2 + sy / 2 ) / 2 + o.x;
-                temp_y = ( row + col - sy / 2 - sx / 2 ) / 2 + o.y;
+                temp_x = divide_round_down( col - row - sx / 2 + sy / 2, 2 ) + o.x;
+                temp_y = divide_round_down( row + col - sy / 2 - sx / 2, 2 ) + o.y;
             } else {
                 temp_x = col + o.x;
                 temp_y = row + o.y;
@@ -1235,10 +1235,11 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         for( int mem_x = 0; mem_x < MAPSIZE_X; mem_x++ ) {
             rectangle already_drawn( point( min_col, min_row ), point( max_col, max_row ) );
             if( iso_mode ) {
-                // calculate the screen position according to the drawing code above:
+                // calculate the screen position according to the drawing code above (division rounded down):
 
                 // mem_x = ( col - row - sx / 2 + sy / 2 ) / 2 + o.x;
                 // mem_y = ( row + col - sy / 2 - sx / 2 ) / 2 + o.y;
+                // ( col - sx / 2 ) % 2 = ( row - sy / 2 ) % 2
                 // ||
                 // \/
                 const int col = mem_y + mem_x + sx / 2 - o.y - o.x;
