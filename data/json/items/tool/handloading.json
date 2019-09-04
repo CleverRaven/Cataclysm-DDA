@@ -1,0 +1,30 @@
+[
+  {
+    "id": "press",
+    "type": "TOOL",
+    "name": "hand press & die set",
+    "description": "This is a small hand press for hand loading firearm ammunition.  It comes with everything you need to start hand loading your own munitions.",
+    "weight": 6350,
+    "volume": "500 ml",
+    "price": 10000,
+    "to_hit": -2,
+    "bashing": 6,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "dark_gray"
+  },
+  {
+    "id": "puller",
+    "type": "TOOL",
+    "name": "kinetic bullet puller",
+    "description": "This is a tool used for properly disassembling firearm ammunition.",
+    "weight": 489,
+    "volume": "250 ml",
+    "price": 1000,
+    "bashing": 5,
+    "material": "plastic",
+    "symbol": ";",
+    "color": "green",
+    "qualities": [ [ "PULL", 1 ] ]
+  }
+]
