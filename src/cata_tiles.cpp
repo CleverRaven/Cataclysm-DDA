@@ -1231,8 +1231,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     void_monster_override();
 
     //Memorize everything the character just saw even if it wasn't displayed.
-    for( int mem_y = 0; mem_y < MAPSIZE_Y; mem_y++ ) {
-        for( int mem_x = 0; mem_x < MAPSIZE_X; mem_x++ ) {
+    for( int mem_y = min_visible_y; mem_y <= max_visible_y; mem_y++ ) {
+        for( int mem_x = min_visible_x; mem_x <= max_visible_x; mem_x++ ) {
             rectangle already_drawn( point( min_col, min_row ), point( max_col, max_row ) );
             if( iso_mode ) {
                 // calculate the screen position according to the drawing code above (division rounded down):
