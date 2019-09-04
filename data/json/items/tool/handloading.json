@@ -2,7 +2,7 @@
   {
     "id": "press",
     "type": "TOOL",
-    "name": "hand press & die set",
+    "name": "hand press",
     "description": "This is a small hand press for hand loading firearm ammunition.  It comes with everything you need to start hand loading your own munitions.",
     "weight": 6350,
     "volume": "500 ml",
@@ -12,6 +12,21 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray"
+  },
+  {
+    "id": "press_dowel",
+    "type": "TOOL",
+    "name": "makeshift shotshell 'press'",
+    "description": "This is a collection of items improvised for field reloading of shotshells.  A plank with a hole cut in the center, a medium sized nail, and a whittled dowel are used to seat wads, decap primers, and reprime (carefully!) hulls.  Powder and shot are measured with a cut down fired shotshell.  The opposite side of the plank has been shaped to allow for roll crimping of the plastic hulls.  There's no provision for resizing, so reloaded hulls will best in the firearm they were fired from.",
+    "weight": 348,
+    "volume": "250 ml",
+    "price": 600,
+    "to_hit": -2,
+    "bashing": 2,
+    "material": [ "wood", "plastic", "brass" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "puller",
@@ -25,6 +40,6 @@
     "material": "plastic",
     "symbol": ";",
     "color": "green",
-    "qualities": [ [ "PULL", 1 ] ]
+    "qualities": [ [ "PULL", 2 ] ]
   }
 ]
