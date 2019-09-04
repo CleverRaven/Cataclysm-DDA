@@ -3225,11 +3225,10 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
 
     mod_pain( dam / 2 );
 
-    hp_cur[hurtpart] -= dam;
-    if( hp_cur[hurtpart] < 0 ) {
-        lifetime_stats.damage_taken += hp_cur[hurtpart];
-        hp_cur[hurtpart] = 0;
-    }
+    const int dam_to_bodypart = std::min( dam, hp_cur[hurtpart] );
+
+    hp_cur[hurtpart] -= dam_to_bodypart;
+    g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
 
     if( hp_cur[hurtpart] <= 0 && ( source == nullptr || !source->is_hallucination() ) ) {
         if( has_effect( effect_mending, hurt ) ) {
@@ -3239,7 +3238,6 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
         }
     }
 
-    lifetime_stats.damage_taken += dam;
     if( dam > get_painkiller() ) {
         on_hurt( source );
     }
@@ -3307,12 +3305,9 @@ void player::heal( body_part healed, int dam )
 void player::heal( hp_part healed, int dam )
 {
     if( hp_cur[healed] > 0 ) {
-        hp_cur[healed] += dam;
-        if( hp_cur[healed] > hp_max[healed] ) {
-            lifetime_stats.damage_healed -= hp_cur[healed] - hp_max[healed];
-            hp_cur[healed] = hp_max[healed];
-        }
-        lifetime_stats.damage_healed += dam;
+        int effective_heal = std::min( dam, hp_max[healed] - hp_cur[healed] );
+        hp_cur[healed] += effective_heal;
+        g->events().send<event_type::character_heals_damage>( getID(), effective_heal );
     }
 }
 
@@ -3333,12 +3328,9 @@ void player::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
     for( int i = 0; i < num_hp_parts; i++ ) {
         const hp_part bp = static_cast<hp_part>( i );
         // Don't use apply_damage here or it will annoy the player with 6 queries
-        hp_cur[bp] -= dam;
-        lifetime_stats.damage_taken += dam;
-        if( hp_cur[bp] < 0 ) {
-            lifetime_stats.damage_taken += hp_cur[bp];
-            hp_cur[bp] = 0;
-        }
+        const int dam_to_bodypart = std::min( dam, hp_cur[bp] );
+        hp_cur[bp] -= dam_to_bodypart;
+        g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
     }
 
     // Low pain: damage is spread all over the body, so not as painful as 6 hits in one part
