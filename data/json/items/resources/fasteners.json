@@ -71,7 +71,6 @@
     "id": "zipper_long_plastic",
     "copy-from": "zipper_short_plastic",
     "type": "AMMO",
-    "category": "spare_parts",
     "name": "long plastic zipper",
     "description": "A long zipper made from plastic, usually found on clothing.",
     "proportional": { "weight": 2, "volume": 2, "price": 2 }
