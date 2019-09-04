@@ -1,0 +1,10 @@
+[
+  {
+    "result": "jacket_jean",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "13 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 9 ] ], [ [ "button_steel", 8 ] ], [ [ "scrap_cotton", 16 ] ] ]
+  }
+]

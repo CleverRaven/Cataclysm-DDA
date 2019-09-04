@@ -1151,7 +1151,9 @@
     "subtype": "distribution",
     "items": [
       { "group": "suits", "prob": 50, "damage": [ 0, 2 ] },
+      { "group": "tailoring_extra", "prob": 30 },
       [ "scissors", 50 ],
+      [ "tailoring_pattern_set", 20 ],
       [ "thread", 50 ],
       { "group": "pants", "prob": 40, "damage": [ 0, 2 ] },
       { "group": "shirts", "prob": 40, "damage": [ 0, 2 ] },

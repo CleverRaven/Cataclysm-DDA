@@ -21,6 +21,42 @@
     "components": [ [ [ "incendiary", 75 ] ] ]
   },
   {
+    "result": "scrap_cotton",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "thread", 1 ] ] ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
+    "result": "scrap_felt",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "yarn", 1 ] ] ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
+    "result": "scrap_kevlar",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "thread_kevlar", 1 ] ] ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
+    "result": "scrap_nomex",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "thread_nomex", 1 ] ] ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
     "result": "sheet_metal",
     "type": "uncraft",
     "skill_used": "fabrication",
@@ -37,6 +73,22 @@
     "time": "12 s",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "scrap", 5 ] ] ]
+  },
+  {
+    "result": "tanned_hide",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "6 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 6 ] ] ]
+  },
+  {
+    "result": "tanned_pelt",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "6 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "fur", 6 ] ] ]
   },
   {
     "result": "atgm_spent",

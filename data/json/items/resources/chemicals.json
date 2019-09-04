@@ -1,0 +1,34 @@
+[
+  {
+    "id": "chem_potassium_alum",
+    "type": "AMMO",
+    "category": "chems",
+    "name": "potassium alum",
+    "description": "Small water-soluble white crystals with watery metallic odor, historically used for many different purposes.  Also known as potash alum and potassium aluminum sulfate; often called simply alum, as it's the most important member of the generic class of compounds called alums.",
+    "container": "bottle_plastic_small",
+    "weight": "1725 mg",
+    "volume": "250 ml",
+    "price": 2500,
+    "material": "powder_nonflam",
+    "symbol": "=",
+    "color": "dark_gray",
+    "count": 250,
+    "ammo_type": "components"
+  },
+  {
+    "id": "dye_powder",
+    "type": "AMMO",
+    "category": "chems",
+    "name": "cloth dye powder",
+    "description": "This is a powdered colorful cloth dye, which can be used to dye many fabrics if combined with water and some mordant.",
+    "container": "bottle_plastic_small",
+    "weight": "1540 mg",
+    "volume": "250 ml",
+    "price": 2500,
+    "material": "powder_nonflam",
+    "symbol": "=",
+    "color": "dark_gray",
+    "count": 250,
+    "ammo_type": "components"
+  }
+]

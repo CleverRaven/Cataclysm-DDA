@@ -392,7 +392,8 @@
       [ [ "sewing_kit", 1 ] ],
       [ [ "scissors", 1 ] ],
       [ [ "knitting_needles", 1 ] ],
-      [ [ "lighter", 1 ] ],
+      [ [ "awl_steel", 1 ] ],
+      [ [ "needle_curved", 1 ] ],
       [ [ "plastic_chunk", 3 ] ]
     ]
   },

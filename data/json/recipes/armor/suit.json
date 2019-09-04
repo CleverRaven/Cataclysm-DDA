@@ -352,12 +352,12 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "skills_required": [ "survival", 1 ],
-    "time": "25 m",
+    "time": "8 h",
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ], [ "survival_book", 1 ] ],
-    "using": [ [ "sewing_standard", 18 ] ],
-    "components": [ [ [ "fur", 15 ], [ "tanned_pelt", 3 ] ] ]
+    "byproducts": [ [ "fur", 14 ], [ "scrap_fur", 109 ] ],
+    "using": [ [ "tailoring_fur", 5 ] ]
   },
   {
     "result": "cloak_leather",
@@ -366,11 +366,11 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "25 m",
+    "time": "8 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 18 ] ],
-    "components": [ [ [ "leather", 20 ], [ "tanned_hide", 3 ] ] ]
+    "byproducts": [ [ "leather", 15 ], [ "scrap_leather", 64 ] ],
+    "using": [ [ "tailoring_leather", 6 ] ]
   },
   {
     "result": "cloak_wool",
@@ -384,6 +384,19 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 18 ] ],
     "components": [ [ [ "felt_patch", 18 ] ] ]
+  },
+  {
+    "result": "dress",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": "1350 m",
+    "autolearn": true,
+    "byproducts": [ [ "rag", 1 ], [ "scrap_cotton", 17 ] ],
+    "tools": [ [ [ "tailoring_pattern_set", -1 ] ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 7 ], [ "dye_cloth", 7 ] ]
   },
   {
     "result": "entry_suit",
@@ -568,25 +581,41 @@
     "skill_used": "tailor",
     "difficulty": 5,
     "skills_required": [ "fabrication", 6 ],
-    "time": "180 m",
+    "time": "3080 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 100 ] ],
-    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
+    "using": [
+      [ "sewing_standard", 50 ],
+      [ "waterproofing_cloth", 2 ],
+      [ "tailoring_kevlar", 4 ],
+      [ "tailoring_cotton_patchwork", 6 ],
+      [ "tailoring_leather_small", 4 ],
+      [ "fastener_small", 4 ]
+    ],
     "components": [
-      [ [ "rag", 30 ] ],
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
+      [ [ "jumpsuit", 1 ] ],
+      [
+        [ "coat_rain", 1 ],
+        [ "jacket_windbreaker", 1 ],
+        [ "jacket_evac", 1 ],
+        [ "coat_gut", 1 ],
+        [ "tarp", 1 ],
+        [ "folding_poncho", 1 ],
+        [ "folding_poncho_on", 1 ]
+      ],
       [
         [ "chestrig", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
-        [ "ragpouch", 6 ],
-        [ "leather_pouch", 4 ],
+        [ "police_belt", 1 ],
+        [ "ragpouch", 1 ],
+        [ "leather_pouch", 1 ],
         [ "dump_pouch", 1 ],
         [ "purse", 2 ],
-        [ "fanny", 2 ]
+        [ "fanny", 1 ]
       ],
       [ [ "duct_tape", 200 ] ],
+      [ [ "superglue", 4 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ]
     ]
   },
@@ -725,11 +754,12 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 4,
-    "time": "600 m",
+    "time": "75 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 50 ] ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "welder", 20 ], [ "hotplate", 20 ], [ "toolset", 20 ] ] ],
-    "components": [ [ [ "neoprene", 12 ] ], [ [ "rag", 12 ] ] ]
+    "byproducts": [ [ "neoprene", 5 ], [ "scrap_neoprene", 63 ] ],
+    "tools": [ [ [ "tailoring_pattern_set", -1 ] ] ],
+    "using": [ [ "tailoring_neoprene", 45 ] ],
+    "components": [ [ [ "superglue", 9 ] ], [ [ "duct_tape", 90 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
   },
   {
     "result": "wetsuit_spring",
@@ -743,6 +773,20 @@
     "using": [ [ "sewing_standard", 40 ] ],
     "tools": [ [ [ "soldering_iron", 15 ], [ "welder", 15 ], [ "hotplate", 15 ], [ "toolset", 15 ] ] ],
     "components": [ [ [ "neoprene", 8 ] ], [ [ "rag", 8 ] ] ]
+  },
+  {
+    "result": "wolfsuit",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": "6150 m",
+    "autolearn": true,
+    "byproducts": [ [ "scrap_cotton", 41 ], [ "faux_fur", 5 ], [ "scrap_faux_fur", 23 ] ],
+    "tools": [ [ [ "tailoring_pattern_set", -1 ] ] ],
+    "using": [ [ "plastic_molding", 4 ], [ "tailoring_faux_fur", 63 ], [ "tailoring_cotton_patchwork", 4 ] ],
+    "components": [ [ [ "superglue", 2 ] ], [ [ "duct_tape", 50 ] ] ]
   },
   {
     "result": "wool_suit",

@@ -9,6 +9,14 @@
     "components": [ [ [ "leather", 5 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
+    "result": "leather_belt",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "scrap_leather", 84 ] ], [ [ "buckle_steel", 1 ] ] ]
+  },
+  {
     "result": "police_belt",
     "type": "uncraft",
     "skill_used": "tailor",

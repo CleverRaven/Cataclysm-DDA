@@ -1,5 +1,59 @@
 [
   {
+    "result": "cloak_fur",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "16 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "fur", 15 ] ], [ [ "scrap_fur", 25 ] ] ]
+  },
+  {
+    "result": "cloak_leather",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "14 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "fur", 20 ] ], [ [ "scrap_leather", 60 ] ] ]
+  },
+  {
+    "result": "dress",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "14 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 8 ] ], [ [ "scrap_cotton", 40 ] ] ]
+  },
+  {
+    "result": "lsurvivor_suit",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "42 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "rag", 19 ] ],
+      [ [ "kevlar_plate", 6 ] ],
+      [ [ "zipper_short_plastic", 6 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "scrap_kevlar", 1388 ] ]
+    ]
+  },
+  {
+    "result": "wetsuit",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "20 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "neoprene", 63 ] ], [ [ "scrap_neoprene", 62 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
+  },
+  {
+    "result": "wolfsuit",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "48 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 5 ] ], [ [ "plastic_chunk", 4 ] ], [ [ "faux_fur", 55 ] ], [ [ "scrap_faux_fur", 83 ] ] ]
+  },
+  {
     "result": "xlhsurvivor_suit",
     "type": "uncraft",
     "skill_used": "tailor",
