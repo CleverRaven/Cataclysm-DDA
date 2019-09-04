@@ -1223,7 +1223,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     if( more ) {
                         text += "+";
                     }
-                    overlay_strings.emplace( player_to_screen( p.pos.x, p.pos.y ) + point( tile_width / 2, 0 ),
+                    overlay_strings.emplace( player_to_screen( p.pos.xy() ) + point( tile_width / 2, 0 ),
                                              formatted_text( text, catacurses::red, NORTH ) );
                 }
             }
