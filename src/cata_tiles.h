@@ -332,18 +332,30 @@ class cata_tiles
         memorized_terrain_tile get_vpart_memory_at( const tripoint &p ) const;
 
         /** Drawing Layers */
+        bool would_apply_vision_effects( visibility_type visibility ) const;
         bool apply_vision_effects( const tripoint &pos, visibility_type visibility );
-        bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d, bool invisible );
-        bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d, bool invisible );
-        bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d, bool invisible );
-        bool draw_graffiti( const tripoint &p, lit_level ll, int &height_3d, bool invisible );
-        bool draw_trap( const tripoint &p, lit_level ll, int &height_3d, bool invisible );
-        bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d, bool invisible );
-        bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d, bool invisible );
-        bool draw_vpart_below( const tripoint &p, lit_level ll, int &height_3d, bool invisible );
-        bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d, bool invisible );
-        bool draw_critter_at_below( const tripoint &p, lit_level ll, int &height_3d, bool invisible );
-        bool draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d, bool invisible );
+        bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d,
+                           const bool ( &invisible )[5] );
+        bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d,
+                                 const bool ( &invisible )[5] );
+        bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d,
+                             const bool ( &invisible )[5] );
+        bool draw_graffiti( const tripoint &p, lit_level ll, int &height_3d,
+                            const bool ( &invisible )[5] );
+        bool draw_trap( const tripoint &p, lit_level ll, int &height_3d,
+                        const bool ( &invisible )[5] );
+        bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d,
+                                 const bool ( &invisible )[5] );
+        bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
+                         const bool ( &invisible )[5] );
+        bool draw_vpart_below( const tripoint &p, lit_level ll, int &height_3d,
+                               const bool ( &invisible )[5] );
+        bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d,
+                              const bool ( &invisible )[5] );
+        bool draw_critter_at_below( const tripoint &p, lit_level ll, int &height_3d,
+                                    const bool ( &invisible )[5] );
+        bool draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d,
+                             const bool ( &invisible )[5] );
         void draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll, int &height_3d );
 
         bool draw_item_highlight( const tripoint &pos );
