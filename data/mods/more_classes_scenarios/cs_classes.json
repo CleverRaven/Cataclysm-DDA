@@ -307,43 +307,6 @@
   },
   {
     "type": "profession",
-    "ident": "bio_gangster",
-    "name": "Bionic Gangster",
-    "description": "You were the boss' favorite, their protege; they always counted on you to get the toughest jobs done. Seeing your potential, they invested in \"basic\" augments and the best gear on the market to better aid you in your job. After enjoying some period of freedom to do as you wanted, now you find yourself needing those skills to survive. ",
-    "points": 8,
-    "CBMs": [
-      "bio_targeting",
-      "bio_shock",
-      "bio_carbon",
-      "bio_adrenaline",
-      "bio_night_vision",
-      "bio_face_mask",
-      "bio_metabolics",
-      "bio_power_storage_mkII"
-    ],
-    "skills": [
-      { "level": 1, "name": "melee" },
-      { "level": 1, "name": "unarmed" },
-      { "level": 1, "name": "stabbing" },
-      { "level": 1, "name": "gun" },
-      { "level": 1, "name": "pistol" },
-      { "level": 1, "name": "driving" }
-    ],
-    "items": {
-      "both": {
-        "items": [ "suit", "bowhat", "socks", "dress_shoes", "knit_scarf", "cig", "switchblade", "mag_porn", "sunglasses" ],
-        "entries": [
-          { "item": "glock_19", "ammo-item": "9mm", "container-item": "sholster", "charges": 15 },
-          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
-          { "item": "ref_lighter", "charges": 100 }
-        ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
-    }
-  },
-  {
-    "type": "profession",
     "ident": "waken",
     "name": "Awakened",
     "description": "You were awoken in the middle of the night by a noise. Armed only with a flashlight you went to investigate, now you face the cataclysm.",
