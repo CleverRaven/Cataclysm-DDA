@@ -8136,7 +8136,7 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "yellow",
-    "covers": [ "LEGS", "TORSO" ],
+    "covers": [ "TORSO" ],
     "coverage": 65,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "FANCY" ]
