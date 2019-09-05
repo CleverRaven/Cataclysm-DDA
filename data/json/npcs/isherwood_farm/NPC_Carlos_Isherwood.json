@@ -101,7 +101,7 @@
           ]
         }
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_carlos_TOPICS" },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
