@@ -30,7 +30,7 @@
     "remove_message": "The ghostly arms fade away.",
     "base_mods": { "speed_mod": [ -40 ] },
     "scaling_mods": { "speed_mod": [ -10 ] }
-  }
+  },
   {
     "type": "effect_type",
     "id": "invisibility",
