@@ -4,7 +4,7 @@
     "type": "AMMO",
     "name": ".45-70 SP",
     "description": ".45-70 Government ammunition loaded with a 305 grain soft point round.  One of the oldest cartridges still in use, it is still a favorite for large game hunting at short ranges.",
-    "weight": 35,
+    "weight": "35 g",
     "volume": "250 ml",
     "price": 4000,
     "material": [ "brass", "powder" ],

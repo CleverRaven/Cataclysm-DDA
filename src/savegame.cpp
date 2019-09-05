@@ -16,6 +16,7 @@
 #include "creature_tracker.h"
 #include "debug.h"
 #include "faction.h"
+#include "int_id.h"
 #include "io.h"
 #include "kill_tracker.h"
 #include "map.h"
@@ -29,13 +30,13 @@
 #include "overmap.h"
 #include "scent_map.h"
 #include "translations.h"
-#include "tuple_hash.h"
+#include "hash_utils.h"
 #include "basecamp.h"
 #include "json.h"
 #include "omdata.h"
 #include "overmap_types.h"
 #include "regional_settings.h"
-#include "int_id.h"
+#include "stats_tracker.h"
 #include "string_id.h"
 
 #if defined(__ANDROID__)
@@ -94,8 +95,9 @@ void game::serialize( std::ostream &fout )
     json.member( "active_monsters", *critter_tracker );
     json.member( "stair_monsters", coming_to_stairs );
 
-    // save killcounts.
+    // save stats.
     json.member( "kill_tracker", *kill_tracker_ptr );
+    json.member( "stats_tracker", *stats_tracker_ptr );
 
     json.member( "player", u );
     Messages::serialize( json );
@@ -236,6 +238,7 @@ void game::unserialize( std::istream &fin )
         }
 
         data.read( "player", u );
+        data.read( "stats_tracker", *stats_tracker_ptr );
         Messages::deserialize( data );
 
     } catch( const JsonError &jsonerr ) {
@@ -1010,8 +1013,8 @@ void overmap::unserialize( std::istream &fin )
             while( !jsin.end_array() ) {
                 std::shared_ptr<npc> new_npc = std::make_shared<npc>();
                 new_npc->deserialize( jsin );
-                if( !new_npc->fac_id.str().empty() ) {
-                    new_npc->set_fac( new_npc->fac_id );
+                if( !new_npc->get_fac_id().str().empty() ) {
+                    new_npc->set_fac( new_npc->get_fac_id() );
                 }
                 npcs.push_back( new_npc );
             }

@@ -1981,7 +1981,8 @@
           "wristwatch",
           "tobacco",
           "rolling_paper",
-          "matches"
+          "matches",
+          "backpack"
         ],
         "entries": [ { "group": "charged_cell_phone" }, { "item": "knife_hunting", "container-item": "sheath" } ]
       },

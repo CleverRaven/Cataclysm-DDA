@@ -77,7 +77,8 @@
       [ "months_old_newspaper", 1 ],
       [ "weeks_old_newspaper", 2 ],
       [ "newest_newspaper", 3 ],
-      { "group": "ammo_casings", "prob": 10 }
+      { "group": "ammo_casings", "prob": 10 },
+      { "group": "everyday_corpse", "prob": 10 }
     ]
   },
   {
@@ -117,7 +118,8 @@
       [ "bottle_glass", 1 ],
       [ "syringe", 1 ],
       [ "cig_butt", 1 ],
-      { "group": "ammo_casings", "prob": 20 }
+      { "group": "ammo_casings", "prob": 20 },
+      { "group": "everyday_corpse", "prob": 10 }
     ]
   },
   {
@@ -146,6 +148,7 @@
     "id": "road",
     "items": [
       { "group": "ammo_casings", "prob": 20 },
+      { "group": "everyday_corpse", "prob": 10 },
       [ "jumper_cable", 5 ],
       [ "muffler", 5 ],
       [ "pipe", 20 ],
@@ -423,6 +426,7 @@
       [ "aluminum_foil", 25 ],
       [ "chips", 65 ],
       [ "fried_seeds", 15 ],
+      [ "rolling_pin", 25 ],
       [ "cereal", 50 ],
       [ "cereal2", 60 ],
       [ "cereal3", 45 ],
@@ -830,6 +834,7 @@
     "id": "oven",
     "items": [
       [ "pan", 80 ],
+      [ "rolling_pin", 25 ],
       [ "waffleiron", 25 ],
       [ "teapot", 25 ],
       [ "pot", 80 ],
@@ -2135,6 +2140,7 @@
     "ammo": 75,
     "magazine": 100,
     "items": [
+      [ "daypack", 20 ],
       [ "rope_30", 35 ],
       [ "hatchet", 10 ],
       [ "misc_repairkit", 5 ],
@@ -2290,7 +2296,8 @@
       [ "whistle_multitool", 5 ],
       [ "esbit_stove", 10 ],
       [ "bottle_folding", 10 ],
-      [ "mess_tin", 10 ]
+      [ "mess_tin", 10 ],
+      [ "survival_kit", 30 ]
     ]
   },
   {
@@ -2300,6 +2307,8 @@
     "magazine": 100,
     "items": [
       [ "aspirin", 85 ],
+      [ "daypack", 30 ],
+      [ "ski_jacket", 5 ],
       [ "sports_drink", 20 ],
       [ "bat", 60 ],
       [ "bat_metal", 60 ],
@@ -2839,6 +2848,7 @@
     "items": [
       [ "coat_winter", 50 ],
       [ "peacoat", 30 ],
+      [ "ski_jacket", 40 ],
       [ "greatcoat", 15 ],
       [ "gloves_light", 35 ],
       [ "mittens", 30 ],
@@ -3026,6 +3036,7 @@
       [ "pants_checkered", 5 ],
       [ "shorts", 70 ],
       [ "shorts_denim", 35 ],
+      [ "ski_jacket", 40 ],
       [ "pants", 75 ],
       [ "breeches", 10 ],
       [ "leather_belt", 30 ],
@@ -3185,6 +3196,7 @@
     "type": "item_group",
     "id": "traveler",
     "items": [
+      [ "daypack", 20 ],
       [ "roadmap", 6 ],
       [ "trailmap", 6 ],
       [ "touristmap", 4 ],
@@ -3226,6 +3238,7 @@
       [ "knife_folding", 6 ],
       [ "knife_swissarmy", 6 ],
       [ "multitool", 8 ],
+      [ "survival_kit", 3 ],
       [ "touring_suit", 20 ],
       [ "helmet_motor", 14 ],
       [ "motorbike_armor", 10 ],
@@ -3708,6 +3721,7 @@
       [ "coffee_raw", 15 ],
       [ "usb_drive", 5 ],
       [ "software_useless", 10 ],
+      [ "software_electronics_reference", 2 ],
       [ "umbrella", 5 ],
       [ "teleumbrella", 2 ],
       [ "gum", 10 ],
@@ -4706,6 +4720,7 @@
       [ "recipe_arrows", 7 ],
       [ "flashlight", 40 ],
       [ "heavy_flashlight", 30 ],
+      [ "survival_kit", 35 ],
       [ "mess_kit", 9 ],
       [ "popcan_stove", 2 ],
       [ "denat_alcohol", 2 ],
@@ -4749,6 +4764,8 @@
     "type": "item_group",
     "id": "shelter",
     "items": [
+      [ "daypack", 10 ],
+      [ "ski_jacket", 40 ],
       [ "water_clean", 90 ],
       [ "water_mineral", 5 ],
       [ "soup_veggy", 15 ],
@@ -4782,6 +4799,7 @@
       [ "bandages", 50 ],
       [ "cotton_ball", 50 ],
       [ "1st_aid", 35 ],
+      [ "survival_kit", 35 ],
       [ "saline", 10 ],
       [ "vitamins", 75 ],
       [ "gummy_vitamins", 25 ],
@@ -4857,6 +4875,7 @@
       [ "rollmat", 40 ],
       [ "tent_kit", 17 ],
       [ "large_tent_kit", 17 ],
+      [ "survival_kit", 10 ],
       [ "canteen", 15 ],
       [ "2lcanteen", 10 ],
       [ "camelbak", 5 ],
@@ -5150,6 +5169,47 @@
   },
   {
     "type": "item_group",
+    "id": "mutagens",
+    "items": [
+      [ "mutagen", 8 ],
+      [ "mutagen_plant", 2 ],
+      [ "mutagen_insect", 2 ],
+      [ "mutagen_spider", 2 ],
+      [ "mutagen_fish", 2 ],
+      [ "mutagen_slime", 2 ],
+      [ "mutagen_rat", 2 ],
+      [ "mutagen_beast", 2 ],
+      [ "mutagen_cattle", 2 ],
+      [ "mutagen_cephalopod", 2 ],
+      [ "mutagen_bird", 2 ],
+      [ "mutagen_lizard", 2 ],
+      [ "mutagen_troglobite", 2 ],
+      [ "mutagen_ursine", 2 ],
+      [ "mutagen_feline", 2 ],
+      [ "mutagen_lupine", 2 ],
+      [ "iv_mutagen", 6 ],
+      [ "iv_mutagen_plant", 2 ],
+      [ "iv_mutagen_insect", 2 ],
+      [ "iv_mutagen_spider", 2 ],
+      [ "iv_mutagen_fish", 2 ],
+      [ "iv_mutagen_slime", 2 ],
+      [ "iv_mutagen_rat", 2 ],
+      [ "iv_mutagen_beast", 2 ],
+      [ "iv_mutagen_cattle", 2 ],
+      [ "iv_mutagen_cephalopod", 2 ],
+      [ "iv_mutagen_bird", 2 ],
+      [ "iv_mutagen_lizard", 2 ],
+      [ "iv_mutagen_troglobite", 2 ],
+      [ "iv_mutagen_ursine", 2 ],
+      [ "iv_mutagen_feline", 2 ],
+      [ "iv_mutagen_lupine", 2 ],
+      [ "purifier", 10 ],
+      [ "iv_purifier", 8 ],
+      [ "syringe", 8 ]
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "mut_iv",
     "items": [
       [ "iv_mutagen", 10 ],
@@ -5186,8 +5246,10 @@
       [ "wrapped_rad_badge", 15 ],
       [ "glasses_safety", 40 ],
       [ "goggles_welding", 70 ],
+      [ "textbook_atomic_lab", 7 ],
       [ "recipe_lab_elec", 15 ],
-      [ "recipe_lab_cvd", 15 ],
+      [ "software_electronics_reference", 2 ],
+      [ "recipe_lab_cvd", 8 ],
       [ "recipe_mininuke_launch", 5 ],
       [ "teleporter", 10 ],
       [ "antiparasitic", 5 ],
@@ -5840,7 +5902,8 @@
       [ "solarpack", 5 ],
       [ "chem_hexamine", 3 ],
       [ "esbit_stove", 6 ],
-      [ "mess_tin", 4 ]
+      [ "mess_tin", 4 ],
+      [ "survival_kit", 4 ]
     ]
   },
   {
@@ -6996,6 +7059,7 @@
       [ "legrig", 10 ],
       [ "rucksack", 20 ],
       [ "gobag", 2 ],
+      [ "survival_kit", 3 ],
       [ "recipe_raptor", 2 ],
       [ "tac_helmet", 5 ],
       [ "tac_fullhelmet", 2 ],
@@ -7344,6 +7408,10 @@
       [ "pocket_firearms", 2 ],
       [ "SICP", 3 ],
       [ "textbook_robots", 1 ],
+      [ "reference_cooking", 1 ],
+      [ "reference_fabrication1", 1 ],
+      [ "reference_firstaid1", 1 ],
+      [ "reference_firstaid2", 1 ],
       [ "recipe_elfa", 1 ],
       [ "recipe_maiar", 1 ],
       [ "recipe_caseless", 1 ],
@@ -7378,6 +7446,7 @@
       [ "bio_soporific", 5 ],
       [ "bio_surgical_razor", 5 ],
       [ "bio_syringe", 8 ],
+      [ "software_electronics_reference", 10 ],
       [ "software_useless", 10 ],
       [ "canteen", 15 ],
       [ "2lcanteen", 10 ],
@@ -7486,6 +7555,7 @@
     "magazine": 100,
     "ammo": 50,
     "items": [
+      [ "daypack", 20 ],
       [ "energy_drink", 55 ],
       [ "energy_drink_atomic", 8 ],
       [ "knuckle_brass", 30 ],
@@ -7691,6 +7761,7 @@
       [ "sm_extinguisher", 7 ],
       [ "extinguisher", 2 ],
       [ "1st_aid", 5 ],
+      [ "survival_kit", 3 ],
       { "item": "duct_tape", "prob": 13, "charges-min": 20, "charges-max": 200 },
       [ "screwdriver", 8 ],
       [ "screwdriver_set", 2 ],
@@ -8143,6 +8214,7 @@
     "type": "item_group",
     "id": "survivorzed_extra",
     "items": [
+      [ "daypack", 4 ],
       [ "mask_lsurvivor", 10 ],
       [ "mask_survivor", 8 ],
       [ "mask_hsurvivor", 6 ],
@@ -8217,6 +8289,7 @@
       [ "small_repairkit", 14 ],
       [ "grapnel", 6 ],
       [ "misc_repairkit", 8 ],
+      [ "survival_kit", 3 ],
       [ "toolbox", 1 ],
       [ "survivor_belt", 2 ],
       [ "survivor_machete", 2 ],
@@ -9189,6 +9262,7 @@
     "ammo": 50,
     "magazine": 100,
     "items": [
+      [ "daypack", 75 ],
       [ "rope_30", 10 ],
       [ "hatchet", 50 ],
       [ "iceaxe", 20 ],
@@ -9208,6 +9282,7 @@
       [ "rollmat", 60 ],
       [ "tent_kit", 10 ],
       [ "large_tent_kit", 5 ],
+      [ "survival_kit", 5 ],
       [ "canteen", 100 ],
       [ "2lcanteen", 50 ],
       [ "camelbak", 25 ],
@@ -9501,7 +9576,6 @@
       [ "alarmclock", 25 ],
       [ "circuit", 25 ],
       { "item": "cell_phone", "prob": 35, "charges-min": 0, "charges-max": 15 },
-      { "item": "cell_phone_flashlight", "prob": 25, "charges-min": 0, "charges-max": 15 },
       [ "e_scrap", 55 ],
       [ "amplifier", 25 ],
       [ "reading_light", 10 ]
@@ -9773,7 +9847,8 @@
       [ "lighter", 25 ],
       [ "pockknife", 15 ],
       [ "metal_file", 15 ],
-      [ "pin_reamer", 10 ]
+      [ "pin_reamer", 10 ],
+      [ "survival_kit", 5 ]
     ]
   },
   {
@@ -9781,6 +9856,7 @@
     "type": "item_group",
     "items": [
       [ "cup_plastic", 20 ],
+      [ "rolling_pin", 20 ],
       [ "bowl_plastic", 20 ],
       [ "canteen", 10 ],
       [ "flask_hip", 15 ],

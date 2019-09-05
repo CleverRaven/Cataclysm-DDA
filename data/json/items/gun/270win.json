@@ -5,7 +5,7 @@
     "type": "GUN",
     "name": "Remington 700",
     "description": "A classic bolt action rifle chambered for .270 Winchester, very polular among hunters.  This is a CDL SF model with a forged, fluted, 416 stainless steel barrel threaded into the receiver and a recessed bolt face.  It has checkered walnut furniture and a recoil pad to reduce perceived recoil.",
-    "weight": 4080,
+    "weight": "4080 g",
     "volume": "3 L",
     "price": 112600,
     "to_hit": -1,
