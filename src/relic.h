@@ -42,7 +42,7 @@ class relic
 
         std::vector<enchantment> get_enchantments() const;
 
-        int modify_value( const enchantment::mod value_type, const int value ) const;
+        int modify_value( enchantment::mod value_type, const int value ) const;
 };
 
 #endif // !RELIC_H
