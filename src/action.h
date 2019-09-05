@@ -494,20 +494,18 @@ std::string press_x( action_id act, const std::string &act_desc );
  * that would generated that delta.  See @ref action_id for the list of available movement
  * commands that may be generated.
  *
- * The only valid values for the parameters of this function are -1, 0 and 1
+ * The only valid values for the coordinates of \p d are -1, 0 and 1
  *
  * @note: This function does not sanitize its inputs, which can result in some strange behavior:
- * 1. If dz is valid and non-zero, then dx and dy are ignored.
- * 2. If dz is invalid, it is treated as if it were zero.
- * 3. If dz is 0 or invalid, then any invalid dx or dy results in @ref ACTION_MOVE_NW
- * 4. If dz is 0 or invalid, then a dx == dy == 0 results in @ref ACTION_MOVE_NW
+ * 1. If d.z is valid and non-zero, then d.x and d.y are ignored.
+ * 2. If d.z is invalid, it is treated as if it were zero.
+ * 3. If d.z is 0 or invalid, then any invalid d.x or d.y results in @ref ACTION_MOVE_NW
+ * 4. If d.z is 0 or invalid, then a d.x == d.y == 0 results in @ref ACTION_MOVE_NW
  *
- * @param[in] dx X component of direction, should be -1, 0, or 1
- * @param[in] dy Y component of direction, should be -1, 0, or 1
- * @param[in] dz Z component of direction, should be -1, 0, or 1
+ * @param[in] d direction, each coordinate should be -1, 0, or 1
  * @returns ID of corresponding move action (usually... see note above)
  */
-action_id get_movement_direction_from_delta( int dx, int dy, int dz = 0 );
+action_id get_movement_direction_from_delta( const tripoint &d );
 
 // Helper function to convert movement direction to coordinate delta point
 point get_delta_from_movement_direction( action_id act );
