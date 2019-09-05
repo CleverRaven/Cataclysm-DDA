@@ -22,7 +22,7 @@
     "type": "SPELL",
     "name": "Invisibility",
     "description": "Allow light to pass through your body, rendering you invisible.",
-    "message": "Your body loses it's ability to reflect light, you are invisible!",
+    "message": "Your body loses its ability to reflect light, you are invisible!",
     "valid_targets": [ "self" ],
     "effect": "target_attack",
     "effect_str": "invisibility",
