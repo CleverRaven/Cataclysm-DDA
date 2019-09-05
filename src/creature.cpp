@@ -1203,6 +1203,13 @@ void Creature::set_value( const std::string &key, const std::string &value )
 {
     values[ key ] = value;
 }
+void Creature::set_value( const std::string &key, const int &value )
+{
+    std::ostringstream tmpstream;
+    tmpstream.imbue( std::locale::classic() );
+    tmpstream << value;
+    values[name] = tmpstream.str();
+}
 
 void Creature::remove_value( const std::string &key )
 {
@@ -1214,6 +1221,20 @@ std::string Creature::get_value( const std::string &key ) const
     auto it = values.find( key );
     return ( it == values.end() ) ? "" : it->second;
 }
+int Creature::get_value( const std::string &key ) const
+{
+    auto it = values.find( key );
+    return ( it == values.end() ) ? "" : it->second;
+}
+int Creature::get_value( const std::string &name, const int default_value ) const
+{
+    const auto it = values.find( name );
+    if( it == values.end() ) {
+        return default_value;
+    }
+    return atof( it->second.c_str() );
+}
+
 
 void Creature::mod_pain( int npain )
 {

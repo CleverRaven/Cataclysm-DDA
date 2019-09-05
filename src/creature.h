@@ -358,9 +358,11 @@ class Creature
         bool resists_effect( const effect &e );
 
         // Methods for setting/getting misc key/value pairs.
+        void set_value( const std::string &key, const int &value );
         void set_value( const std::string &key, const std::string &value );
         void remove_value( const std::string &key );
         std::string get_value( const std::string &key ) const;
+        int get_value( const std::string &key ) const;
 
         virtual units::mass get_weight() const = 0;
 

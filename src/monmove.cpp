@@ -1474,12 +1474,19 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     }
 
     if( has_flag( MF_DRIPS_NAPALM ) ) {
-        if( one_in( 10 ) ) {
-            g->m.add_item_or_charges( pos(), item( "napalm" ) );
+        if( true ) { // one_in( 10 ) // removed randomness to test
+            int store = get_value( "napalm_store", 5 ); // TODO set a good default value/range
+            if( store > 0 ) {
+                g->m.add_item_or_charges( pos(), item( "napalm" ) );
+                set_value( "napalm_store", store - 1 );
+            } else {
+                // TODO remove MF_DRIPS_NAPALM flag
+            }
         }
     }
     if( has_flag( MF_DRIPS_GASOLINE ) ) {
         if( one_in( 5 ) ) {
+            // TODO use same idea that limits napalm dripping
             g->m.add_item_or_charges( pos(), item( "gasoline" ) );
         }
     }
