@@ -189,19 +189,19 @@ static std::string dodge_skill_text( double mod )
     return string_format( _( "Dodge skill %+.1f. " ), mod );
 }
 
-static int get_player_encumbrance( const player *p, body_part bp, bool combine )
+static int get_player_encumbrance( const player &p, body_part bp, bool combine )
 {
     // Body parts that can't combine with anything shouldn't print double values on combine
     // This shouldn't happen, but handle this, just in case
     const bool combines_with_other = static_cast<int>( bp_aiOther[bp] ) != bp;
-    return p->encumb( bp ) * ( ( combine && combines_with_other ) ? 2 : 1 );
+    return p.encumb( bp ) * ( ( combine && combines_with_other ) ? 2 : 1 );
 }
 
 std::string player::get_encumbrance_description( body_part bp, bool combine )
 {
     std::string s;
 
-    const int eff_encumbrance = get_player_encumbrance( this, bp, combine );
+    const int eff_encumbrance = get_player_encumbrance( *this, bp, combine );
 
     switch( bp ) {
         case bp_torso: {

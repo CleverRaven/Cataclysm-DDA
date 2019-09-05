@@ -144,18 +144,17 @@ enum sort_armor_columns : int {
 struct sort_armor_col_data {
     private:
         int width;
-        int cut_off;
         std::string name;
         std::string description;
     public:
-        sort_armor_col_data( int width, int cut_off, std::string name, std::string description ):
-            width( width ), cut_off( cut_off ), name( name ), description( description ) {
+        sort_armor_col_data( int width, std::string name, std::string description ):
+            width( width ), name( name ), description( description ) {
         }
         int get_width() {
-            return width;
+            return std::max( utf8_width( _( name ) ) + 1, width );
         }
         std::string get_name() {
-            return ( _( name ) ).substr( 0, cut_off );
+            return _( name );
         }
         std::string get_description() {
             return _( description );
@@ -165,20 +164,20 @@ sort_armor_col_data get_col_data( int col_idx )
 {
     static std::array< sort_armor_col_data, column_num_entries> col_data = { {
             {
-                3, 4,  "condition",
-                string_format( "clothing conditions:\n\t<color_%s>x</color> - poor fit\n\t<color_%s>f</color> - filthy",
+                3, translate_marker( "condition" ),
+                string_format( translate_marker( "clothing conditions:\n\t<color_%s>x</color> - poor fit\n\t<color_%s>f</color> - filthy" ),
                                string_from_color( c_red ), string_from_color( c_cyan ) )
             },
-            {8, 5, "encumberance", "encumberance."},
-            {7, 5, "storage",  "storage." },
-            {4, 3, "warmth",  "warmth." },
-            {3, 3, "", ""},
-            {3, 3, "coverage",  "coverage" },
-            {4, 3, "bash",  "bash protection." },
-            {4, 3, "cut",  "cut protection." },
-            {4, 3, "acid",  "acid protection." },
-            {4, 3, "fire",  "fire protection." },
-            {4, 3, "environmental",  "environmental protection." }
+            {8, translate_marker( "encumberance" ), translate_marker( "encumberance." )},
+            {7, translate_marker( "storage" ), translate_marker( "storage." ) },
+            {4, translate_marker( "warmth" ), translate_marker( "warmth." ) },
+            {3, translate_marker( "  " ), translate_marker( "" )},
+            {3, translate_marker( "coverage" ), translate_marker( "coverage." ) },
+            {4, translate_marker( "bash" ), translate_marker( "bash protection." ) },
+            {4, translate_marker( "cut" ), translate_marker( "cut protection." ) },
+            {4, translate_marker( "acid" ), translate_marker( "acid protection." ) },
+            {4, translate_marker( "fire" ), translate_marker( "fire protection." ) },
+            {4, translate_marker( "environmental" ), translate_marker( "environmental protection." ) }
         }
     };
     return col_data[col_idx];
@@ -208,41 +207,41 @@ class layering_item_info
         }
 
         int get_col_value( sort_armor_columns col ) {
-            item itm = *itm_iter;
-            int ret_val;
+            const item &itm = *itm_iter;
             switch( col ) {
                 case column_warmth:
-                    ret_val = itm.get_warmth();
-                    break;
+                    return itm.get_warmth();
                 case column_coverage:
-                    ret_val = itm.get_coverage();
-                    break;
+                    return itm.get_coverage();
                 case column_bash:
-                    ret_val = itm.bash_resist();
-                    break;
+                    return itm.bash_resist();
                 case column_cut:
-                    ret_val = itm.cut_resist();
-                    break;
+                    return itm.cut_resist();
                 case column_acid:
-                    ret_val = itm.acid_resist();
-                    break;
+                    return itm.acid_resist();
                 case column_fire:
-                    ret_val = itm.fire_resist();
-                    break;
+                    return itm.fire_resist();
                 case column_env:
-                    ret_val = itm.get_env_resist();
-                    break;
+                    return itm.get_env_resist();
                 default:
-                    ret_val = 0;
-                    break;
+                    return 0;
             }
-            return ret_val;
         }
         void print_columnns( bool is_selected, const catacurses::window &w, int right_bound,
-                             int cur_print_y ) {
+                             int cur_print_y, bool is_compact, int compact_display_tab ) {
             item itm = *itm_iter;
             nc_color print_col = is_selected ? hilite( c_white ) : c_light_gray;
+            int cur_tab = 1;
             for( size_t col_idx = column_num_entries; col_idx-- > 0; ) {
+                if( is_compact ) {
+                    if( col_idx == column_divider ) {
+                        cur_tab--;
+                        continue;
+                    }
+                    if( cur_tab != compact_display_tab ) {
+                        continue;
+                    }
+                }
                 int col_w = get_col_data( col_idx ).get_width();
                 right_bound -= col_w;
                 switch( col_idx ) {
@@ -277,7 +276,7 @@ class layering_item_info
                     case column_storage: {
                         units::volume storage = itm.get_storage();
                         mvwprintz( w, point( right_bound, cur_print_y ), print_col, "%*s", col_w,
-                                   ( storage > 0_ml ? format_volume( itm.get_storage() ) : "" ) );
+                                   storage > 0_ml ? format_volume( itm.get_storage() ) : "" );
                     }
                     break;
                     case column_divider: {
@@ -286,6 +285,12 @@ class layering_item_info
                         }
                         nc_color print_col2 = is_selected ? hilite( c_light_gray ) : c_light_gray;
                         mvwputch( w, point( right_bound + col_w - 1, cur_print_y ), print_col2, LINE_XOXO );
+                    }
+                    break;
+                    case column_env: {
+                        int val = get_col_value( static_cast<sort_armor_columns>( col_idx ) );
+                        mvwprintz( w, point( right_bound, cur_print_y ), print_col, "%*s", col_w, "" );
+                        mvwprintz( w, point( right_bound, cur_print_y ), print_col, "%*d", 5, val );
                     }
                     break;
                     default: {
@@ -331,35 +336,39 @@ class layering_group_info
         //printing constatnts
         int x_bound;
         int max_y;
+        bool is_compact;
+
         //printing vars
         int list_min_line;
         int list_selected_line;
         bool is_moving;
+        int compact_display_tab;
 
     public:
         bool is_skipped = false;
 
-        layering_group_info( body_part bp, player *p ) {
-            this->bp = bp;
-            this->p = p;
-        }
+        layering_group_info( body_part bp, player *p ) : bp( bp ), p( p ) { }
+
         void add_item( std::list<item>::iterator itm_i ) {
-            items.push_back( layering_item_info( itm_i, *p, bp ) );
+            items.emplace_back( itm_i, *p, bp );
         }
         // same for the duration of the menu
-        void set_print_constats( int right_bound, int max_y ) {
+        void set_print_constats( int right_bound, int max_y, bool is_compact ) {
             this->x_bound = right_bound;
             this->max_y = max_y;
+            this->is_compact = is_compact;
         }
         // depend on user input
-        void set_print_vars( int list_selected_line, bool is_moving, int list_min_line ) {
+        void set_print_vars( int list_selected_line, bool is_moving, int list_min_line,
+                             int compact_display_tab ) {
             this->list_selected_line = list_selected_line;
             this->is_moving = is_moving;
             this->list_min_line = list_min_line;
+            this->compact_display_tab = compact_display_tab;
         }
 
         void set_combined( bool combined ) {
-            this->name = body_part_name_as_heading( all_body_parts[bp], combined ? 2 : 1 );
+            name = body_part_name_as_heading( all_body_parts[bp], combined ? 2 : 1 );
             is_skipped = false;
         }
 
@@ -412,12 +421,20 @@ class layering_group_info
         void print_header( bool is_selected, const catacurses::window &w, int cur_print_y ) {
             int right_bound = x_bound;
             nc_color print_col = is_selected ? hilite( c_white ) : c_light_gray;
+            int cur_tab = 1;
             for( size_t col_idx = column_num_entries; col_idx-- > 0; ) {
+                if( is_compact ) {
+                    if( col_idx == column_divider ) {
+                        cur_tab--;
+                        continue;
+                    }
+                    if( cur_tab != compact_display_tab ) {
+                        continue;
+                    }
+                }
                 int col_w = get_col_data( col_idx ).get_width();
                 right_bound -= col_w;
                 switch( col_idx ) {
-                    //case column_fits:
-                    //case column_filthy:
                     case column_cond:
                     case column_storage:
                     case column_coverage:
@@ -448,13 +465,19 @@ class layering_group_info
                         mvwputch( w, point( divider_posn, cur_print_y ), print_col2, LINE_XOXO );
                     }
                     break;
+                    case column_env: {
+                        double val = static_cast<double>( header_data[col_idx] ) / 100;
+                        int val_i = static_cast<int>( std::round( val ) );
+                        mvwprintz( w, point( right_bound, cur_print_y ), print_col, "%*s", col_w, "" );
+                        mvwprintz( w, point( right_bound, cur_print_y ), print_col, "%*d", 5, val_i );
+                    }
+                    break;
                     case column_warmth:
                         mvwprintz( w, point( right_bound, cur_print_y ), print_col, "%*d", col_w, header_data[col_idx] );
                         break;
                     default: {
                         double val = static_cast<double>( header_data[col_idx] ) / 100;
                         int val_i = static_cast<int>( std::round( val ) );
-                        //std::string s = string_format("~%d", val_i);
                         mvwprintz( w, point( right_bound, cur_print_y ), print_col, "%*d", col_w, val_i );
                     }
                     break;
@@ -489,7 +512,8 @@ class layering_group_info
                     is_selected = true;
                 }
                 if( cur_print_line >= list_min_line && print_y < max_y ) {
-                    elem.print_columnns( ( list_selected_line == cur_print_line ), w, x_bound, print_y );
+                    elem.print_columnns( ( list_selected_line == cur_print_line ), w, x_bound, print_y, is_compact,
+                                         compact_display_tab );
                     print_y++;
                 }
                 cur_print_line++;
@@ -518,6 +542,7 @@ void player::sort_armor()
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "NEXT_TAB" );
 
     ctxt.register_action( "MOVE_ARMOR" );
     ctxt.register_action( "CHANGE_SIDE" );
@@ -576,10 +601,14 @@ void player::sort_armor()
     }
     const int requested_h = header_h + req_data_h + footer_h;
     const int win_h = std::min( TERMY, requested_h );
-    const int win_w = std::min( name_start_idx + max_name_w + columns_w + 1, TERMX );
+    const int requested_w = name_start_idx + max_name_w + columns_w + 1;
+    const int win_w = std::min( requested_w, TERMX );
     const int win_x = TERMX / 2 - win_w / 2;
     const int win_y = TERMY / 2 - win_h / 2;
     catacurses::window w_sort_armor = catacurses::newwin( win_h, win_w, point( win_x, win_y ) );
+
+    bool is_compact = requested_w > win_w;
+    int compact_display_tab = 0;
 
     scrollbar s;
     s.viewport_size( win_h - header_h - footer_h );
@@ -589,9 +618,9 @@ void player::sort_armor()
 
     std::vector <layering_group_info> items_by_category;
     items_by_category.reserve( num_bp );
-    for( size_t bp = 0; bp < num_bp; bp++ ) {
-        items_by_category.push_back( layering_group_info( static_cast<body_part>( bp ), this ) );
-        items_by_category[bp].set_print_constats( win_w - 1, data_max_y );
+    for( const body_part bp : all_body_parts ) {
+        items_by_category.push_back( layering_group_info( bp, this ) );
+        items_by_category[bp].set_print_constats( win_w - 1, data_max_y, is_compact );
     }
 
     layering_group_info *cur_grp = &items_by_category[0];
@@ -620,12 +649,12 @@ void player::sort_armor()
         }
 
         // set up data
-        for( size_t bp = 0; bp < num_bp; bp++ ) {
+        for( const body_part bp : all_body_parts ) {
             items_by_category[bp].clear();
         }
         for( auto elem_it = worn.begin(); elem_it != worn.end(); ++elem_it ) {
-            for( size_t bp = 0; bp < num_bp; bp++ ) {
-                if( !elem_it->covers( static_cast<body_part>( bp ) ) ) {
+            for( const body_part bp : all_body_parts ) {
+                if( !elem_it->covers( bp ) ) {
                     continue;
                 }
                 items_by_category[bp].add_item( elem_it );
@@ -644,7 +673,18 @@ void player::sort_armor()
         //column names
         int print_y = 1;
         int divider_posn = 0;
+        int cur_tab = 1;
         for( size_t col_idx = column_num_entries, right_bound = win_w - 1; col_idx-- > 0; ) {
+            if( is_compact ) {
+                if( col_idx == column_divider ) {
+                    cur_tab--;
+                    continue;
+                }
+                if( cur_tab != compact_display_tab ) {
+                    continue;
+                }
+            }
+
             sort_armor_col_data col_data = get_col_data( col_idx );
             int col_w = col_data.get_width();
             right_bound -= col_w;
@@ -655,6 +695,17 @@ void player::sort_armor()
                 mvwprintz( w_sort_armor, point( right_bound, print_y ), c_light_gray, "%*s", col_w,
                            col_data.get_name() );
             }
+        }
+
+        //compact tab name
+        if( is_compact ) {
+            std::string tab_name;
+            if( compact_display_tab == 0 ) {
+                tab_name = _( "Info" );
+            } else {
+                tab_name = _( "Protection" );
+            }
+            mvwprintz( w_sort_armor, point( 3, print_y ), c_yellow, "<< %s >>", tab_name );
         }
         print_y += 1;
 
@@ -671,17 +722,17 @@ void player::sort_armor()
         const int data_start_y = print_y;
 
         for( int bp_idx = 0; bp_idx < num_bp; bp_idx++ ) {
-            layering_group_info *l = &items_by_category[bp_idx];
+            layering_group_info &l = items_by_category[bp_idx];
 
             bool combined = false;
-            if( bp_idx > 3 && bp_idx % 2 == 0 && *l == items_by_category[bp_idx + 1] ) {
+            if( bp_idx > 3 && bp_idx % 2 == 0 && l == items_by_category[bp_idx + 1] ) {
                 combined = true;
                 bp_idx++;
                 items_by_category[bp_idx].is_skipped = true;
             }
-            l->set_combined( combined );
-            l->set_print_vars( selected_line, is_moving, min_print_line );
-            l->print_data( cur_print_line, print_y, w_sort_armor );
+            l.set_combined( combined );
+            l.set_print_vars( selected_line, is_moving, min_print_line, compact_display_tab );
+            l.print_data( cur_print_line, print_y, w_sort_armor );
         }
 
         // data bottom
@@ -776,6 +827,8 @@ void player::sort_armor()
         } else if( action == "PAGE_DOWN" ) {
             cur_grp = get_neighbour_grp( cur_grp, 1 );
             selected_line = cur_grp->min_selectable();
+        } else if( action == "NEXT_TAB" ) {
+            compact_display_tab = ( compact_display_tab + 1 ) % 2;
         } else if( action == "MOVE_ARMOR" ) {
             is_moving = !is_moving;
         } else if( action == "SORT_ARMOR" ) {
@@ -805,7 +858,7 @@ void player::sort_armor()
             if( loc ) {
                 // wear the item
                 cata::optional<std::list<item>::iterator> new_equip_it =
-                    wear( this->i_at( loc.obtain( *this ) ) );
+                    wear( i_at( loc.obtain( *this ) ) );
                 if( new_equip_it ) {
                     //Do nothing
                 } else if( is_npc() ) {
@@ -821,7 +874,7 @@ void player::sort_armor()
             if( loc ) {
                 // wear the item
                 cata::optional<std::list<item>::iterator> new_equip_it =
-                    wear( this->i_at( loc.obtain( *this ) ) );
+                    wear( i_at( loc.obtain( *this ) ) );
                 if( new_equip_it ) {
                     // save iterator to cursor's position
                     auto cur_item_iter = cur_grp->get_cur_item_info().get_iter();
@@ -859,29 +912,30 @@ void player::sort_armor()
 
         else if( action == "USAGE_HELP" ) {
             std::string help_str;
-            std::string head_color = string_from_color( c_white );
-            std::string desc_color = string_from_color( c_light_gray );
-
             for( size_t i = 0; i < column_num_entries; i++ ) {
                 sort_armor_col_data col_data = get_col_data( i );
                 if( static_cast<sort_armor_columns>( i ) == column_divider ) {
                     help_str += "\n";
                 } else {
-                    help_str += string_format( "<color_%s>%s</color> - <color_%s>%s</color>\n",
-                                               head_color, col_data.get_name(), desc_color, col_data.get_description() );
+                    help_str += colorize( col_data.get_name(), c_white );
+                    help_str += " - ";
+                    help_str += colorize( col_data.get_description(), c_light_gray );
+                    help_str += "\n";
                 }
 
             }
-            help_str += _( string_format(
-                               "\n\
-<color_%s>Encumbrance explanation:</color>\n\
- <color_%s>total encumbrance = clothing encumbrance + additional penalty\n\
-Penalty is caused by wearing multiple items on the same layer or \n\
-wearing inner items over outer ones(e.g.a shirt over a backpack).</color>\n\
-\n\
-<color_%s>Layers order</color>: <color_%s>(skin) -> (normal) -> (waist) -> (outer) -> (strap)</color>",
-                               head_color, desc_color, head_color, desc_color
-                           ) );
+            help_str += "\n";
+            help_str += colorize( _( "Encumbrance explanation:\n" ), c_white );
+            help_str += colorize( _( "\ttotal encumbrance = clothing encumbrance + additional penalty\n" ),
+                                  c_light_gray );
+            help_str += colorize( _( "Penalty is caused by wearing multiple items on the same layer or\n" ),
+                                  c_light_gray );
+            help_str += colorize( _( "wearing inner items over outer ones(e.g.a shirt over a backpack).\n" ),
+                                  c_light_gray );
+            help_str += "\n";
+            help_str += colorize( _( "Layers order" ), c_white );
+            help_str += colorize( _( ": (skin) -> (normal) -> (waist) -> (outer) -> (strap)" ), c_light_gray );
+
             popup( help_str );
         } else if( action == "QUIT" ) {
             exit = true;
