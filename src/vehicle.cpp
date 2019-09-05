@@ -598,7 +598,7 @@ void vehicle::do_autodrive()
         if( g->m.impassable_ter_furn( tripoint( elem, sm_pos.z ) ) || ( ovp &&
                 &ovp->vehicle() != this ) ) {
             if( velocity > 0 ) {
-                pldrive( 0, 10 );
+                pldrive( point( 0, 10 ) );
             }
             is_autodriving = false;
             return;
@@ -627,7 +627,7 @@ void vehicle::do_autodrive()
     if( ( velocity < std::min( safe_velocity(), 32 * 100 ) && turn_x == 0 ) || velocity < 500 ) {
         accel_y = -1;
     }
-    pldrive( turn_x, accel_y );
+    pldrive( point( turn_x, accel_y ) );
 }
 
 /**

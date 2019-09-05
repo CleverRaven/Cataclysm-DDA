@@ -343,13 +343,13 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
             // if only one display, print the first engine that's on and consumes power
             if( is_engine_on( e ) &&
                 !( is_perpetual_type( e ) || is_engine_type( e, fuel_type_muscle ) ) ) {
-                print_fuel_indicator( win, y, x, parts[ engines [ e ] ].fuel_current(), verbose,
+                print_fuel_indicator( win, point( x, y ), parts[ engines [ e ] ].fuel_current(), verbose,
                                       desc );
                 return;
             }
         }
         // or print the first fuel if no engines
-        print_fuel_indicator( win, y, x, fuels.front(), verbose, desc );
+        print_fuel_indicator( win, point( x, y ), fuels.front(), verbose, desc );
         return;
     }
 
@@ -360,7 +360,7 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
 
     for( int i = start_index; i < max_size; i++ ) {
         const itype_id &f = fuels[i];
-        print_fuel_indicator( win, y + yofs, x, f, fuel_usages, verbose, desc );
+        print_fuel_indicator( win, point( x, y + yofs ), f, fuel_usages, verbose, desc );
         yofs++;
     }
 
@@ -385,7 +385,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x,
                                     const itype_id &fuel_type, bool verbose, bool desc )
 {
     std::map<itype_id, int> fuel_usages;
-    print_fuel_indicator( win, y, x, fuel_type, fuel_usages, verbose, desc );
+    print_fuel_indicator( win, point( x, y ), fuel_type, fuel_usages, verbose, desc );
 }
 
 void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x,
