@@ -102,8 +102,8 @@ class enchantment
         // if their conditions don't match, return false. else true.
         bool add( const enchantment &rhs );
 
-        int get_value_add( const mod value ) const;
-        double get_value_multiply( const mod value ) const;
+        int get_value_add( mod value ) const;
+        double get_value_multiply( mod value ) const;
 
         // this enchantment has a valid condition and is in the right location
         bool is_active( const Character &guy, const item &parent ) const;
