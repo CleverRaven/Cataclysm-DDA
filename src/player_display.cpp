@@ -505,9 +505,9 @@ static void draw_traits_tab( const catacurses::window &w_traits, const catacurse
     }
 }
 
-static size_t draw_bionics_list( const catacurses::window &w_bionics, player &you,
-                                 unsigned int &line,
-                                 std::vector<bionic> &bionicslist, const size_t bionics_win_size_y, bool highlight )
+static std::vector<bionic> draw_bionics_list( const catacurses::window &w_bionics, player &you,
+        unsigned int &line,
+        std::vector<bionic> &bionicslist, const size_t bionics_win_size_y, bool highlight )
 {
     center_print( w_bionics, 0, highlight ? h_light_gray : c_light_gray, _( title_BIONICS ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -516,16 +516,14 @@ static size_t draw_bionics_list( const catacurses::window &w_bionics, player &yo
                                    you.power_level, you.max_power_level ) );
 
     std::map<std::string, int> bionic_counts;
+    std::vector<bionic> bionics_unique;
     for( size_t i = 0; i < bionicslist.size(); i++ ) {
         if( bionic_counts.count( bionicslist[i].info().name.translated() ) == 0 ) {
             bionic_counts[ bionicslist[i].info().name.translated() ] = 1;
+            bionics_unique.push_back( bionicslist[i] );
         } else {
             bionic_counts[ bionicslist[i].info().name.translated() ] += 1;
         }
-    }
-    std::vector<std::string> bionics_unique;
-    for( std::pair<std::string, int> entry : bionic_counts ) {
-        bionics_unique.push_back( entry.first );
     }
 
     const size_t useful_y = bionics_win_size_y - 1;
@@ -546,19 +544,20 @@ static size_t draw_bionics_list( const catacurses::window &w_bionics, player &yo
     }
 
     for( size_t i = min; i < max; i++ ) {
-        int bionic_count = bionic_counts[ bionics_unique[ i ] ];
+        int bionic_count = bionic_counts[ bionics_unique[ i ].info().name.translated() ];
         std::string bionic_string;
         if( bionic_count > 1 ) {
-            bionic_string = string_format( "%d %s", bionic_count, bionics_unique[ i ] );
+            bionic_string = string_format( "%d %s", bionic_count,
+                                           bionics_unique[ i ].info().name.translated() );
         } else {
-            bionic_string = bionics_unique[ i ];
+            bionic_string = bionics_unique[ i ].info().name.translated();
         }
         trim_and_print( w_bionics, point( 1, static_cast<int>( 2 + i - min ) ), getmaxx( w_bionics ) - 1,
                         i == line && highlight ? hilite( c_white ) : c_white, bionic_string );
     }
 
-    // used to tell draw_bionics_tab how long the list is after removing duplicates
-    return bionics_unique.size();
+    // used to make sure draw_bionics_tab highlights the unique list properly
+    return bionics_unique;
 }
 
 static void draw_bionics_tab( const catacurses::window &w_bionics, const catacurses::window &w_info,
@@ -568,19 +567,19 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
 {
     werase( w_bionics );
     mvwprintz( w_bionics, point_zero, h_light_gray, header_spaces );
-    size_t num_unique_bionics = draw_bionics_list( w_bionics, you, line, bionicslist,
-                                bionics_win_size_y, true );
-    if( line < num_unique_bionics ) {
+    std::vector<bionic> unique_bionics = draw_bionics_list( w_bionics, you, line, bionicslist,
+                                         bionics_win_size_y, true );
+    if( line < unique_bionics.size() ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_white,
-                        "testing" ); // bionicslist[line].info().description
+                        unique_bionics[line].info().description.translated() );
     }
     wrefresh( w_bionics );
     wrefresh( w_info );
 
     action = ctxt.handle_input();
     if( action == "DOWN" ) {
-        if( line < num_unique_bionics - 1 ) {
+        if( line < unique_bionics.size() - 1 ) {
             line++;
         }
         return;
