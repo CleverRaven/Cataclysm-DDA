@@ -2892,11 +2892,11 @@ tripoint vehicle::global_part_pos3( const vehicle_part &pt ) const
     return global_pos3() + pt.precalc[ 0 ];
 }
 
-void vehicle::set_submap_moved( int x, int y )
+void vehicle::set_submap_moved( const point &p )
 {
     const point old_msp = g->m.getabs( global_pos3().xy() );
-    sm_pos.x = x;
-    sm_pos.y = y;
+    sm_pos.x = p.x;
+    sm_pos.y = p.y;
     if( !tracking_on ) {
         return;
     }
