@@ -43,7 +43,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
     item tmp;
     if( type == S_ITEM ) {
         //Several types of corpses' IDs following the "corpse_xxx" template, so we check for the first 6 symbols
-        if( id.substr( 0, 6 ) == "corpse") {
+        if( id.substr( 0, 6 ) == "corpse" ) {
             tmp = item::make_corpse( mtype_id::NULL_ID(), birthday );
         } else {
             tmp = item( id, birthday );
