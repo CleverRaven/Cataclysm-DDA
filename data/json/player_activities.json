@@ -31,6 +31,13 @@
     "based_on": "neither"
   },
   {
+    "id": "ACT_VEHICLE_DECONSTRUCTION",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "deconstructing a vehicle",
+    "based_on": "neither"
+  },
+  {
     "id": "ACT_MULTIPLE_CHOP_PLANKS",
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",
