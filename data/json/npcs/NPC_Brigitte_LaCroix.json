@@ -10,7 +10,7 @@
         { "trait": "GOODCARDIO" },
         { "trait": "LIGHTSTEP" },
         { "trait": "ROBUST" },
-		{ "trait": "seer_mark" },
+	 	{ "trait": "seer_mark" },
         { "group": "Appearance_African" },
 		{ "trait": "hair_black_mohawk" }
       ],
