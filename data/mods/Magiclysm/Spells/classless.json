@@ -7,7 +7,7 @@
     "message": "Your eyes glow green for a moment.  Now your sight can pierce the darkest shadows.",
     "valid_targets": [ "self" ],
     "effect": "target_attack",
-    "effect_str": "night_vision",
+    "effect_str": "dark_sight",
     "min_range": 1,
     "max_range": 1,
     "base_casting_time": 100,

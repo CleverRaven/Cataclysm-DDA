@@ -60,6 +60,32 @@ struct tuple_hash {
     }
 };
 
+// auto_hash will use std::hash for most types but tuple_hash for pair or
+// tuple.
+template<typename T>
+struct auto_hash : std::hash<T> {};
+
+template<typename T, typename U>
+struct auto_hash<std::pair<T, U>> : tuple_hash {};
+
+template<typename... T>
+struct auto_hash<std::tuple<T...>> : tuple_hash {};
+
+struct range_hash {
+    template<typename Range>
+    std::size_t operator()( const Range &range ) const noexcept {
+        using value_type = typename Range::value_type;
+        using hash_type = auto_hash<value_type>;
+        hash_type hash;
+
+        std::size_t seed = range.size();
+        for( const auto &value : range ) {
+            hash_combine( seed, value, hash );
+        }
+        return seed;
+    }
+};
+
 } // namespace cata
 
 #endif // CATA_TUPLE_HASH_H

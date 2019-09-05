@@ -108,7 +108,7 @@
     "type": "TOOL",
     "name": "UPS",
     "name_plural": "UPS's",
-    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.",
+    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power bionics, armor and some guns, but drains batteries quickly.",
     "weight": "680 g",
     "volume": "2500 ml",
     "price": 280000,
@@ -121,7 +121,8 @@
     "magazines": [
       [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ],
-    "magazine_well": 4
+    "magazine_well": 4,
+    "flags": [ "IS_UPS" ]
   },
   {
     "id": "acidbomb",
@@ -155,7 +156,8 @@
     "symbol": ";",
     "color": "light_green",
     "ammo": "plutonium",
-    "max_charges": 2500
+    "max_charges": 2500,
+    "flags": [ "IS_UPS" ]
   },
   {
     "id": "advanced_ecig",

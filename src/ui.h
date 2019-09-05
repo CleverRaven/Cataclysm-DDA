@@ -22,6 +22,7 @@ const int UILIST_WAIT_INPUT = -1025;
 const int UILIST_UNBOUND = -1026;
 const int UILIST_CANCEL = -1027;
 const int UILIST_TIMEOUT = -1028;
+const int UILIST_ADDITIONAL = -1029;
 const int MENU_ALIGN_LEFT = -1;
 const int MENU_ALIGN_CENTER = 0;
 const int MENU_ALIGN_RIGHT = 1;
@@ -161,6 +162,7 @@ class uilist: public ui_container
 {
     public:
         int ret;
+        std::string ret_act;
         int selected;
         int keypress;
         std::string text;
@@ -191,6 +193,9 @@ class uilist: public ui_container
         bool allow_disabled; // return on selecting disabled entry, default false
         bool allow_anykey; // return UILIST_UNBOUND on keys unbound & unhandled by callback, default false
         bool allow_cancel; // return UILIST_CANCEL on "QUIT" action, default true
+        // return UILIST_ADDITIONAL if the input action is inside `additional_actions`
+        // and unhandled by callback, default false.
+        bool allow_additional;
         bool hilight_disabled;
         bool hilight_full;
         int vshift;

@@ -137,7 +137,7 @@
     "type": "bionic",
     "name": "Cable Charger System",
     "capacity": 10,
-    "description": "You have a complex port surgically mounted above your hip.  While active, it will recharge bionic power when connected to a battery via jumper cable.",
+    "description": "You have a complex port surgically mounted above your hip.  While active, it will recharge bionic power when connected to a power source via jumper cable.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ]
   },
