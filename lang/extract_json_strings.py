@@ -991,6 +991,10 @@ def extract(item, infilename):
     if "text" in item:
         writestr(outfile, item["text"], **kwargs)
         wrote = True
+    if "message" in item:
+        writestr(outfile, item["message"], format_strings=True,
+                 comment="Message for {} '{}'".format(object_type, name), **kwargs )
+        wrote = True
     if "messages" in item:
         for message in item["messages"]:
             writestr(outfile, message, **kwargs)
