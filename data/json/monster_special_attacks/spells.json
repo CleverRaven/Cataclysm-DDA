@@ -29,7 +29,7 @@
     "effect": "recover_energy",
     "effect_str": "STAMINA"
   },
-   {
+  {
     "id": "stamina_damage_mi-go_slaver_beam",
     "type": "SPELL",
     "name": "Tired",
