@@ -1208,7 +1208,7 @@ void Creature::set_value( const std::string &key, const int &value )
     std::ostringstream tmpstream;
     tmpstream.imbue( std::locale::classic() );
     tmpstream << value;
-    values[name] = tmpstream.str();
+    values[key] = tmpstream.str();
 }
 
 void Creature::remove_value( const std::string &key )
