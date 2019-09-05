@@ -27,6 +27,72 @@
   {
     "type": "GENERIC",
     "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
+    "id": "corpse_generic_male",
+    "copy-from": "corpse",
+    "name": "corpse",
+    "description": "A dead body of a middle-aged man.",
+    "looks_like": "corpse",
+    "material": "hflesh"
+  },
+  {
+    "type": "GENERIC",
+    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
+    "id": "corpse_generic_female",
+    "copy-from": "corpse",
+    "name": "corpse",
+    "description": "A dead body of a young woman.",
+    "looks_like": "corpse",
+    "volume": "40000 ml",
+    "weight": "52000 g",
+    "material": "hflesh"
+  },
+  {
+    "type": "GENERIC",
+    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
+    "id": "corpse_generic_boy",
+    "copy-from": "corpse",
+    "name": "corpse",
+    "description": "A dead body of a little boy.",
+    "looks_like": "corpse",
+    "material": "hflesh"
+  },
+  {
+    "type": "GENERIC",
+    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
+    "id": "corpse_generic_girl",
+    "copy-from": "corpse",
+    "name": "corpse",
+    "description": "A dead body of a little girl.",
+    "looks_like": "corpse",
+    "material": "hflesh"
+  },
+  {
+    "type": "GENERIC",
+    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
+    "id": "corpse_child_calm",
+    "copy-from": "corpse",
+    "name": "corpse",
+    "description": "Facial expression of this child is surprisingly calm.  It seems that he died instantly and most probably didn't even know that he is dying.  You could even say he's a lucky to die this way in this crazy world.",
+    "looks_like": "corpse",
+    "volume": "30000 ml",
+    "weight": "40750 g",
+    "material": "hflesh"
+  },
+  {
+    "type": "GENERIC",
+    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
+    "id": "corpse_child_gunned",
+    "copy-from": "corpse",
+    "name": "corpse",
+    "description": "You can't even say for sure if it's a boy or a girl because the body of this poor little creature has been literally riddled by bullets.  It's beyond your understanding what kind of a monster could have done this to a child.",
+    "looks_like": "corpse",
+    "volume": "30000 ml",
+    "weight": "40750 g",
+    "material": "hflesh"
+  },
+  {
+    "type": "GENERIC",
+    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
     "id": "corpse_bloody",
     "copy-from": "corpse",
     "name": "corpse",
@@ -72,6 +138,8 @@
     "name": "corpse",
     "description": "One might say that face of this woman is devoid of flaws. That could be true if there wasn't this big ugly hole right in the center of her forehead, and even bigger hole in her hindhead.",
     "looks_like": "corpse",
+    "volume": "40000 ml",
+    "weight": "52000 g",
     "material": "hflesh"
   },
   {
@@ -96,30 +164,6 @@
     "looks_like": "corpse",
     "volume": "57000 ml",
     "weight": "78000 g",
-    "material": "hflesh"
-  },
-  {
-    "type": "GENERIC",
-    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
-    "id": "corpse_child",
-    "copy-from": "corpse",
-    "name": "corpse",
-    "description": "Facial expression of this child is surprisingly calm.  It seems that he died instantly and most probably didn't even know that he is dying.  You could even say he's a lucky to die this way in this crazy world.",
-    "looks_like": "corpse",
-    "volume": "30000 ml",
-    "weight": "40750 g",
-    "material": "hflesh"
-  },
-  {
-    "type": "GENERIC",
-    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
-    "id": "corpse_child_bullets",
-    "copy-from": "corpse",
-    "name": "corpse",
-    "description": "You can't even say for sure if it's a boy or a girl because the body of this poor little creature has been literally riddled by bullets.  It's beyond your understanding what kind of a monster could have done this to a child.",
-    "looks_like": "corpse",
-    "volume": "30000 ml",
-    "weight": "40750 g",
     "material": "hflesh"
   }
 ]
