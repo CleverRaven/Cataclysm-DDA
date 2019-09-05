@@ -231,7 +231,7 @@ class vpart_info
         int install_moves = to_moves<int>( 1_hours );
 
         /** Installation time (in moves) for this component accounting for player skills */
-        int install_time( const Character &ch ) const;
+        int install_time( const player &p ) const;
 
         /** Requirements for removal of this component */
         requirement_data removal_requirements() const;
@@ -243,7 +243,7 @@ class vpart_info
         int removal_moves = -1;
 
         /** Removal time (in moves) for this component accounting for player skills */
-        int removal_time( const Character &ch ) const;
+        int removal_time( const player &p ) const;
 
         /** Requirements for repair of this component (per level of damage) */
         requirement_data repair_requirements() const;
@@ -258,7 +258,7 @@ class vpart_info
         int repair_moves = to_moves<int>( 1_hours );
 
         /** Repair time (in moves) to fully repair this component, accounting for player skills */
-        int repair_time( const Character &ch ) const;
+        int repair_time( const player &p ) const;
 
         /** @ref item_group this part breaks into when destroyed */
         std::string breaks_into_group = "EMPTY_GROUP";

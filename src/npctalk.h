@@ -37,6 +37,7 @@ void start_trade( npc & );
 void sort_loot( npc & );
 void do_construction( npc & );
 void do_chop_plank( npc & );
+void do_vehicle_deconstruct( npc & );
 void do_chop_trees( npc & );
 void do_fishing( npc & );
 void do_farming( npc & );

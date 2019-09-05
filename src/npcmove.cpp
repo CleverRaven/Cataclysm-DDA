@@ -2165,6 +2165,19 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             realnomove->insert( pos() );
             say( "<let_me_pass>" );
             np->move_away_from( pos(), true, realnomove );
+            // if we moved NPC, readjust their path, so NPCs dont jostle each other out of their activity paths.
+            if( np->attitude == NPCATT_ACTIVITY ) {
+                std::vector<tripoint> activity_route = np->get_auto_move_route();
+                if( !activity_route.empty() && !np->has_destination_activity() ) {
+                    tripoint final_destination;
+                    if( destination_point ) {
+                        final_destination = g->m.getlocal( *destination_point );
+                    } else {
+                        final_destination = activity_route.back();
+                    }
+                    np->update_path( final_destination );
+                }
+            }
         }
 
         if( critter->pos() == p ) {

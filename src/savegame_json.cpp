@@ -246,6 +246,7 @@ void player_activity::serialize( JsonOut &json ) const
         json.member( "index", index );
         json.member( "position", position );
         json.member( "coords", coords );
+        json.member( "coord_set", coord_set );
         json.member( "name", name );
         json.member( "targets", targets );
         json.member( "placement", placement );
@@ -282,6 +283,7 @@ void player_activity::deserialize( JsonIn &jsin )
     data.read( "index", index );
     position = tmppos;
     data.read( "coords", coords );
+    data.read( "coord_set", coord_set );
     data.read( "name", name );
     data.read( "targets", targets );
     data.read( "placement", placement );
@@ -638,7 +640,7 @@ void player::store( JsonOut &json ) const
     json.end_array();
 
     json.member( "worn", worn ); // also saves contents
-
+    json.member( "activity_vehicle_part_index", activity_vehicle_part_index ); // NPC activity
     json.member( "inv" );
     inv.json_save_items( json );
 
@@ -785,6 +787,8 @@ void player::load( JsonObject &data )
 
     on_stat_change( "pkill", pkill );
     on_stat_change( "perceived_pain", get_perceived_pain() );
+
+    data.read( "activity_vehicle_part_index", activity_vehicle_part_index );
 
     int tmptar;
     int tmptartyp = 0;

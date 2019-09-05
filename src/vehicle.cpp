@@ -2561,6 +2561,31 @@ std::vector<int> vehicle::all_parts_at_location( const std::string &location ) c
     return parts_found;
 }
 
+// another NPC probably removed a part in the time it took to walk here and start the activity.
+// as the part index was first "chosen" before the NPC started travelling here.
+// therefore the part index is now invalid shifted by one or two ( depending on how many other NPCs working on this vehicle )
+// so loop over the part indexes in reverse order to get the next one down that matches the part type we wanted to remove
+int vehicle::get_next_shifted_index( int original_index, player &p )
+{
+    int ret_index = original_index;
+    bool found_shifted_index = false;
+    for( std::vector<vehicle_part>::reverse_iterator it = parts.rbegin(); it != parts.rend(); ++it ) {
+        if( p.get_value( "veh_index_type" ) == it->info().name() ) {
+            ret_index = index_of_part( &*it );
+            found_shifted_index = true;
+            break;
+        }
+    }
+    if( !found_shifted_index ) {
+        // we are probably down to a few parts left, and things get messy here, so an alternative index maybe cant be found
+        // if loads of npcs are all removign parts at the same time.
+        // if thats the case, just bail out and give up, somebody else is probably doing the job right now anyway.
+        return -1;
+    } else {
+        return ret_index;
+    }
+}
+
 /**
  * Returns all parts in the vehicle that have the specified flag in their vpinfo and
  * are on the same X-axis or Y-axis as the input part and are contiguous with each other.
