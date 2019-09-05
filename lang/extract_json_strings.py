@@ -552,6 +552,14 @@ def extract_dynamic_line(line, outfile):
     elif type(line) == str:
         writestr(outfile, line)
 
+def extract_talk_effects(effects, outfile):
+    if type(effects) != list:
+        effects = [effects]
+    for eff in effects:
+        if type(eff) == dict:
+            if "u_buy_monster" in eff and "name" in eff:
+                writestr(outfile, eff["name"], comment="Nickname for creature '{}'".format(eff["u_buy_monster"]))
+
 def extract_talk_response(response, outfile):
     if "text" in response:
         writestr(outfile, response["text"])
@@ -559,6 +567,15 @@ def extract_talk_response(response, outfile):
         extract_talk_response(response["success"], outfile)
     if "failure" in response:
         extract_talk_response(response["failure"], outfile)
+    if "speaker_effect" in response:
+        speaker_effects = response["speaker_effect"]
+        if type(speaker_effects) != list:
+            speaker_effects = [speaker_effects]
+        for eff in speaker_effects:
+            if "effect" in eff:
+                extract_talk_effects(eff["effect"], outfile)
+    if "effect" in response:
+        extract_talk_effects(response["effect"], outfile)
 
 def extract_talk_topic(item):
     outfile = get_outfile("talk_topic")
@@ -567,6 +584,8 @@ def extract_talk_topic(item):
     if "responses" in item:
         for r in item["responses"]:
             extract_talk_response(r, outfile)
+    if "effect" in item:
+        extract_talk_effects(item["effect"], outfile)
 
 def extract_trap(item):
     outfile = get_outfile("trap")
@@ -600,6 +619,12 @@ def extract_missiondef(item):
             writestr(outfile, dialogue.get("success_lie"))
         if "failure" in dialogue:
             writestr(outfile, dialogue.get("failure"))
+    if "start" in item and "effect" in item["start"]:
+        extract_talk_effects(item["start"]["effect"], outfile)
+    if "end" in item and "effect" in item["end"]:
+        extract_talk_effects(item["end"]["effect"], outfile)
+    if "fail" in item and "effect" in item["fail"]:
+        extract_talk_effects(item["fail"]["effect"], outfile)
 
 def extract_mutation(item):
     outfile = get_outfile("mutation")
