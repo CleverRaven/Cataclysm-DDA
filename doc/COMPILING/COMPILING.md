@@ -258,7 +258,7 @@ Your directory tree should look like:
 Populated with respective frameworks, dylibs and headers.
 Tested lib versions are libintl.8.dylib for gettext, libncurses.5.4.dylib for ncurses.
 These libs were obtained from `homebrew` binary distribution at OS X 10.11
-Frameworks were obtained from SDL official website as described in the next [section](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING.md#sdl)
+Frameworks were obtained from SDL official website as described in the next [section](#sdl)
 
 ### Building (SDL)
 
@@ -574,19 +574,19 @@ Open Terminal's preferences, turn on "Use bright colors for bold text" in "Prefe
 
 ## Building with Visual Studio
 
-See [COMPILING-VS-VCPKG.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING-VS-VCPKG.md) for instructions on how to set up and use a build environment using Visual Studio on windows.
+See [COMPILING-VS-VCPKG.md](COMPILING-VS-VCPKG.md) for instructions on how to set up and use a build environment using Visual Studio on windows.
 
 This is probably the easiest solution for someone used to working with Visual Studio and similar IDEs.
 
 ## Building with MSYS2
 
-See [COMPILING-MSYS.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING-MSYS.md) for instructions on how to set up and use a build environment using MSYS2 on windows.
+See [COMPILING-MSYS.md](COMPILING-MSYS.md) for instructions on how to set up and use a build environment using MSYS2 on windows.
 
 MSYS2 strikes a balance between a native Windows application and a UNIX-like environment. There's some command-line tools that our project uses (notably our JSON linter) that are harder to use without a command-line environment such as what MSYS2 or CYGWIN provide.
 
 ## Building with CYGWIN
 
-See [COMPILING-CYGWIN.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING-CYGWIN.md) for instructions on how to set up and use a build environment using CYGWIN on windows.
+See [COMPILING-CYGWIN.md](COMPILING-CYGWIN.md) for instructions on how to set up and use a build environment using CYGWIN on windows.
 
 CYGWIN attempts to more fully emulate a POSIX environment, to be "more unix" than MSYS2. It is a little less modern in some respects, and lacks the convenience of the MSYS2 package manager.
 
