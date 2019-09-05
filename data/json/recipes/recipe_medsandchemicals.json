@@ -1172,7 +1172,7 @@
     "type": "recipe",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
-    "skill_used": "fabricating",
+    "skill_used": "fabrication",
     "difficulty": 4,
     "time": "60 m",
     "byproducts": [ [ "chem_manganese_dioxide", 50 ] ],
