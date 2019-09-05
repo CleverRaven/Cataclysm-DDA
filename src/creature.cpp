@@ -1098,6 +1098,18 @@ bool Creature::has_effect( const efftype_id &eff_id, body_part bp ) const
     }
 }
 
+bool Creature::has_effect_with_flag( const std::string &flag, body_part bp ) const
+{
+    for( auto &elem : *effects ) {
+        for( const std::pair<body_part, effect> &_it : elem.second ) {
+            if( bp == _it.first && _it.second.has_flag( flag ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 effect &Creature::get_effect( const efftype_id &eff_id, body_part bp )
 {
     return const_cast<effect &>( const_cast<const Creature *>( this )->get_effect( eff_id, bp ) );
