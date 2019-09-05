@@ -44,7 +44,7 @@ void relic::load( JsonObject &jo )
             add_passive_effect( ench );
         }
     }
-    item_name_override = translation( jo.get_string( "name", "" ) );
+    item_name_override = to_translation( jo.get_string( "name", "" ) );
     charges_per_activation = jo.get_int( "charges_per_activation", 1 );
     moves = jo.get_int( "moves", 100 );
 }
