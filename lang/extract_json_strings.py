@@ -1012,6 +1012,11 @@ def extract(item, infilename):
             if "description" in special_attack:
                 writestr(outfile, special_attack["description"], **kwargs)
                 wrote = True
+            if "monster_message" in special_attack:
+                writestr(outfile, special_attack["monster_message"], format_strings=True,
+                         comment="Attack message of monster \"{}\"'s spell \"{}\""
+                         .format(name, special_attack.get("spell_id")), **kwargs)
+                wrote = True
     if "footsteps" in item:
        writestr(outfile, item["footsteps"], **kwargs)
        wrote = True
