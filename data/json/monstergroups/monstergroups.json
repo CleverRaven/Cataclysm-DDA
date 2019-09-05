@@ -5292,5 +5292,36 @@
     "type": "monstergroup",
     "default": "mon_hazmatbot",
     "monsters": [ { "monster": "mon_hazmatbot", "freq": 40, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_STRAY_DOGS",
+    "type": "monstergroup",
+    "default": "mon_dog",
+    "monsters": [
+      { "monster": "mon_dog", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_dog_pup", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_dog_bull", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_dog_bull_pup", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_dog_pitbullmix", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_dog_pitbullmix_pup", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_dog_beagle", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_dog_beagle_pup", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_dog_bcollie", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_dog_bcollie_pup", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_dog_boxer", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_dog_boxer_pup", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_dog_chihuahua", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_dog_chihuahua_pup", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_dog_dachshund", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_dog_dachshund_pup", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_dog_gshepherd", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_dog_gshepherd_pup", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_dog_gpyrenees", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_dog_gpyrenees_pup", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_dog_rottweiler", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_dog_rottweiler_pup", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_dog_auscattle", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_dog_auscattle_pup", "freq": 5, "cost_multiplier": 0 }
+    ]
   }
 ]

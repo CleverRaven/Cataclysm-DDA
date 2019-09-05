@@ -492,27 +492,27 @@ std::string press_x( action_id act, const std::string &key_bound_pre,
     return ctxt.press_x( action_ident( act ), key_bound_pre, key_bound_suf, key_unbound );
 }
 
-action_id get_movement_direction_from_delta( const int dx, const int dy, const int dz )
+action_id get_movement_direction_from_delta( const tripoint &d )
 {
-    if( dz == -1 ) {
+    if( d.z == -1 ) {
         return ACTION_MOVE_DOWN;
-    } else if( dz == 1 ) {
+    } else if( d.z == 1 ) {
         return ACTION_MOVE_UP;
     }
 
-    if( dx == 0 && dy == -1 ) {
+    if( d.xy() == point_north ) {
         return ACTION_MOVE_N;
-    } else if( dx == 1 && dy == -1 ) {
+    } else if( d.xy() == point_north_east ) {
         return ACTION_MOVE_NE;
-    } else if( dx == 1 && dy == 0 ) {
+    } else if( d.xy() == point_east ) {
         return ACTION_MOVE_E;
-    } else if( dx == 1 && dy == 1 ) {
+    } else if( d.xy() == point_south_east ) {
         return ACTION_MOVE_SE;
-    } else if( dx == 0 && dy == 1 ) {
+    } else if( d.xy() == point_south ) {
         return ACTION_MOVE_S;
-    } else if( dx == -1 && dy == 1 ) {
+    } else if( d.xy() == point_south_west ) {
         return ACTION_MOVE_SW;
-    } else if( dx == -1 && dy == 0 ) {
+    } else if( d.xy() == point_west ) {
         return ACTION_MOVE_W;
     } else {
         return ACTION_MOVE_NW;
@@ -983,11 +983,6 @@ action_id handle_main_menu()
     }
 }
 
-cata::optional<tripoint> choose_direction( const std::string &message )
-{
-    return choose_direction( message, false );
-}
-
 cata::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
 {
     input_context ctxt( "DEFAULTMODE" );
@@ -1026,11 +1021,6 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
     return cata::nullopt;
 }
 
-cata::optional<tripoint> choose_adjacent( const std::string &message )
-{
-    return choose_adjacent( message, false );
-}
-
 cata::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
 {
     const cata::optional<tripoint> dir = choose_direction( message, allow_vertical );
@@ -1038,35 +1028,40 @@ cata::optional<tripoint> choose_adjacent( const std::string &message, const bool
 }
 
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const action_id action_to_highlight )
+        const action_id action, const bool allow_vertical )
 {
-    return choose_adjacent_highlight( message, action_to_highlight, false );
-}
-
-cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const action_id action_to_highlight, const bool allow_vertical )
-{
-    const std::function<bool( tripoint )> f = [&action_to_highlight]( tripoint p ) {
-        return can_interact_at( action_to_highlight, p );
+    const std::function<bool( const tripoint & )> f = [&action]( const tripoint & p ) {
+        return can_interact_at( action, p );
     };
     return choose_adjacent_highlight( message, f, allow_vertical );
 }
 
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::function<bool ( tripoint )> &should_highlight, const bool allow_vertical )
+        const std::function<bool ( const tripoint & )> &allowed,
+        const bool allow_vertical, const bool auto_select_if_single )
 {
     // Highlight nearby terrain according to the highlight function
-    bool highlighted = false;
-    for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-        if( should_highlight( pos ) ) {
-            highlighted = true;
-            g->m.drawsq( g->w_terrain, g->u, pos,
-                         true, true, g->u.pos() + g->u.view_offset );
+    if( allowed != nullptr ) {
+        cata::optional<tripoint> single;
+        bool highlighted = false;
+        for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+            if( allowed( pos ) ) {
+                if( !highlighted ) {
+                    single = pos;
+                    highlighted = true;
+                } else {
+                    single = cata::nullopt;
+                }
+                g->m.drawsq( g->w_terrain, g->u, pos,
+                             true, true, g->u.pos() + g->u.view_offset );
+            }
+        }
+        if( highlighted ) {
+            wrefresh( g->w_terrain );
+        }
+        if( auto_select_if_single && single ) {
+            return single;
         }
     }
-    if( highlighted ) {
-        wrefresh( g->w_terrain );
-    }
-
     return choose_adjacent( message, allow_vertical );
 }

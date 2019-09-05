@@ -9,6 +9,7 @@
     "broken_symbol": "X",
     "broken_color": "light_gray",
     "damage_modifier": 80,
+    "folded_volume": 1,
     "durability": 120,
     "description": "A piece of metal with holes suitable for a bike or motorbike wheel.",
     "item": "wheel_mount_light",
@@ -17,7 +18,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "SAW_M", "level": 2 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "WHEEL_MOUNT_LIGHT", "NEEDS_JACKING" ],
+    "flags": [ "WHEEL_MOUNT_LIGHT", "NEEDS_JACKING", "FOLDABLE" ],
     "breaks_into": [ { "item": "scrap", "count": [ 0, 1 ] } ],
     "damage_reduction": { "all": 10 }
   },

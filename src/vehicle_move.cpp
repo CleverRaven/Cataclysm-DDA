@@ -847,10 +847,10 @@ void vehicle::handle_trap( const tripoint &p, int part )
     }
 }
 
-void vehicle::pldrive( int x, int y )
+void vehicle::pldrive( const point &p )
 {
     player &u = g->u;
-    int turn_delta = 15 * x;
+    int turn_delta = 15 * p.x;
     const float handling_diff = handling_difficulty();
     if( turn_delta != 0 ) {
         float eff = steering_effectiveness();
@@ -911,12 +911,12 @@ void vehicle::pldrive( int x, int y )
         u.moves -= std::max( cost, u.get_speed() / 3 + 1 );
     }
 
-    if( y != 0 ) {
+    if( p.y != 0 ) {
         int thr_amount = 100 * ( abs( velocity ) < 2000 ? 4 : 5 );
         if( cruise_on ) {
-            cruise_thrust( -y * thr_amount );
+            cruise_thrust( -p.y * thr_amount );
         } else {
-            thrust( -y );
+            thrust( -p.y );
             u.moves = std::min( u.moves, 0 );
         }
     }

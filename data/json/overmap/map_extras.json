@@ -332,5 +332,12 @@
     "name": "Looters",
     "description": "Some looters gathering everything not nailed down.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_looters" }
+  },
+  {
+    "id": "mx_corpses",
+    "type": "map_extra",
+    "name": "Corpses",
+    "description": "Some unfortunates from the billions lost in the cataclysm.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_corpses" }
   }
 ]

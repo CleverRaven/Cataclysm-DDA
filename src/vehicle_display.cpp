@@ -343,13 +343,13 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
             // if only one display, print the first engine that's on and consumes power
             if( is_engine_on( e ) &&
                 !( is_perpetual_type( e ) || is_engine_type( e, fuel_type_muscle ) ) ) {
-                print_fuel_indicator( win, y, x, parts[ engines [ e ] ].fuel_current(), verbose,
+                print_fuel_indicator( win, point( x, y ), parts[ engines [ e ] ].fuel_current(), verbose,
                                       desc );
                 return;
             }
         }
         // or print the first fuel if no engines
-        print_fuel_indicator( win, y, x, fuels.front(), verbose, desc );
+        print_fuel_indicator( win, point( x, y ), fuels.front(), verbose, desc );
         return;
     }
 
@@ -360,7 +360,7 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
 
     for( int i = start_index; i < max_size; i++ ) {
         const itype_id &f = fuels[i];
-        print_fuel_indicator( win, y + yofs, x, f, fuel_usages, verbose, desc );
+        print_fuel_indicator( win, point( x, y + yofs ), f, fuel_usages, verbose, desc );
         yofs++;
     }
 
@@ -374,21 +374,20 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
 /**
  * Prints a fuel gauge for a vehicle
  * @param win Pointer to the window to draw in.
- * @param y Y location to draw at.
- * @param x X location to draw at.
+ * @param p location to draw at.
  * @param fuel_type ID of the fuel type to draw
  * @param verbose true if there should be anything after the gauge (either the %, or number)
  * @param desc true if the name of the fuel should be at the end
  * @param fuel_usages map of fuel types to consumption for verbose
  */
-void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x,
+void vehicle::print_fuel_indicator( const catacurses::window &win, const point &p,
                                     const itype_id &fuel_type, bool verbose, bool desc )
 {
     std::map<itype_id, int> fuel_usages;
-    print_fuel_indicator( win, y, x, fuel_type, fuel_usages, verbose, desc );
+    print_fuel_indicator( win, p, fuel_type, fuel_usages, verbose, desc );
 }
 
-void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x,
+void vehicle::print_fuel_indicator( const catacurses::window &win, const point &p,
                                     const itype_id &fuel_type,
                                     std::map<itype_id, int> fuel_usages,
                                     bool verbose, bool desc )
@@ -398,15 +397,15 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x,
     int cap = fuel_capacity( fuel_type );
     int f_left = fuel_left( fuel_type );
     nc_color f_color = item::find_type( fuel_type )->color;
-    mvwprintz( win, point( x, y ), col_indf1, "E...F" );
+    mvwprintz( win, p, col_indf1, "E...F" );
     int amnt = cap > 0 ? f_left * 99 / cap : 0;
     int indf = ( amnt / 20 ) % 5;
-    mvwprintz( win, point( x + indf, y ), f_color, "%c", fsyms[indf] );
+    mvwprintz( win, p + point( indf, 0 ), f_color, "%c", fsyms[indf] );
     if( verbose ) {
         if( debug_mode ) {
-            mvwprintz( win, point( x + 6, y ), f_color, "%d/%d", f_left, cap );
+            mvwprintz( win, p + point( 6, 0 ), f_color, "%d/%d", f_left, cap );
         } else {
-            mvwprintz( win, point( x + 6, y ), f_color, "%d", f_left * 100 / cap );
+            mvwprintz( win, p + point( 6, 0 ), f_color, "%d", f_left * 100 / cap );
             wprintz( win, c_light_gray, "%c", 045 );
         }
     }

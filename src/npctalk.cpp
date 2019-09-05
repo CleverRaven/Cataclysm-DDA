@@ -1945,8 +1945,10 @@ void talk_effect_fun_t::set_change_faction_rep( int rep_change )
 {
     function = [rep_change]( const dialogue & d ) {
         npc &p = *d.beta;
-        p.get_faction()->likes_u += rep_change;
-        p.get_faction()->respects_u += rep_change;
+        if( p.get_faction()->id != faction_id( "no_faction" ) ) {
+            p.get_faction()->likes_u += rep_change;
+            p.get_faction()->respects_u += rep_change;
+        }
     };
 }
 
@@ -2421,7 +2423,12 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObjec
             WRAP( mission_reward ),
             WRAP( start_trade ),
             WRAP( sort_loot ),
+            WRAP( do_chop_plank ),
+            WRAP( do_vehicle_deconstruct ),
+            WRAP( do_chop_trees ),
+            WRAP( do_fishing ),
             WRAP( do_construction ),
+            WRAP( do_butcher ),
             WRAP( do_farming ),
             WRAP( assign_guard ),
             WRAP( stop_guard ),
@@ -2561,10 +2568,10 @@ talk_response::talk_response( JsonObject jo )
     if( jo.has_member( "truefalsetext" ) ) {
         JsonObject truefalse_jo = jo.get_object( "truefalsetext" );
         read_condition<dialogue>( truefalse_jo, "condition", truefalse_condition, true );
-        truetext = translation( truefalse_jo.get_string( "true" ) );
-        falsetext = translation( truefalse_jo.get_string( "false" ) );
+        truetext = to_translation( truefalse_jo.get_string( "true" ) );
+        falsetext = to_translation( truefalse_jo.get_string( "false" ) );
     } else {
-        truetext = translation( jo.get_string( "text" ) );
+        truetext = to_translation( jo.get_string( "text" ) );
         truefalse_condition = []( const dialogue & ) {
             return true;
         };
