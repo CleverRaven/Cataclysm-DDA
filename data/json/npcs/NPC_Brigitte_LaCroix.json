@@ -147,7 +147,7 @@
       "dynamic_line": "Listen carefully. The bones... they sing. Can you hear it? The song they weave? The stories they hold?",
       "responses": [
         { "text": "What? Singing bones? What are you talking about?", "topic": "TALK_BONE_SEER_SONG2" },
-        { "text": "Uh...yeah, sure. I think I'll just be on my way.", "topic": "TALK_DONE" }
+        { "text": "Uh... yeah, sure. I think I'll just be on my way.", "topic": "TALK_DONE" }
       ]
     },
     {
