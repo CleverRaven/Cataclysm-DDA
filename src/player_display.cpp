@@ -517,10 +517,10 @@ static size_t draw_bionics_list( const catacurses::window &w_bionics, player &yo
 
     std::map<std::string, int> bionic_counts;
     for( size_t i = 0; i < bionicslist.size(); i++ ) {
-        if( bionic_counts.find( bionicslist[i].info().name ) == bionic_counts.end() ) {
-            bionic_counts[ bionicslist[i].info().name ] = 1;
+        if( bionic_counts.count( bionicslist[i].info().name.translated() ) == 0 ) {
+            bionic_counts[ bionicslist[i].info().name.translated() ] = 1;
         } else {
-            bionic_counts[ bionicslist[i].info().name ] += 1;
+            bionic_counts[ bionicslist[i].info().name.translated() ] += 1;
         }
     }
     std::vector<std::string> bionics_unique;
@@ -570,7 +570,7 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
     mvwprintz( w_bionics, point_zero, h_light_gray, header_spaces );
     size_t num_unique_bionics = draw_bionics_list( w_bionics, you, line, bionicslist,
                                 bionics_win_size_y, true );
-    if( line < bionicslist.size() ) {
+    if( line < num_unique_bionics ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_white,
                         "testing" ); // bionicslist[line].info().description
