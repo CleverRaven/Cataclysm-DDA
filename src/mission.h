@@ -212,6 +212,11 @@ struct mission_type {
         time_duration deadline_high = 0_turns;
         // If true, the NPC will press this mission!
         bool urgent = false;
+        // If the mission has generic rewards, so that the completion dialogue knows whether to offer them.
+        bool has_generic_rewards = true;
+
+        // A limited subset of the talk_effects on the mission
+        std::vector<std::pair<int, std::string>> likely_rewards;
 
         // Points of origin
         std::vector<mission_origin> origins;
@@ -363,6 +368,8 @@ class mission
         int get_id() const;
         const std::string &get_item_id() const;
         character_id get_npc_id() const;
+        const std::vector<std::pair<int, std::string>> &get_likely_rewards() const;
+        bool has_generic_rewards() const;
         /**
          * Whether the mission is assigned to a player character. If not, the mission is free and
          * can be assigned.

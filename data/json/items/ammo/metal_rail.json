@@ -4,7 +4,7 @@
     "type": "AMMO",
     "name": "rebar rail",
     "description": "A short piece of ferromagnetic rebar which has been straightened and sharpened on one end.  Could be used as a projectile by a sufficiently powerful electromagnetic weapon.",
-    "weight": 160,
+    "weight": "160 g",
     "volume": "25ml",
     "price": 1000,
     "to_hit": -1,

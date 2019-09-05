@@ -222,8 +222,10 @@ bool map_bash_info::load( JsonObject &jsobj, const std::string &member, bool is_
 
     bash_below = j.get_bool( "bash_below", false );
 
-    sound = _( j.get_string( "sound", "smash!" ) );
-    sound_fail = _( j.get_string( "sound_fail", "thump!" ) );
+    sound = to_translation( "smash!" );
+    sound_fail = to_translation( "thump!" );
+    j.read( "sound", sound );
+    j.read( "sound_fail", sound_fail );
 
     if( is_furniture ) {
         furn_set = furn_str_id( j.get_string( "furn_set", "f_null" ) );

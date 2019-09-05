@@ -28,7 +28,7 @@ class kill_tracker : public event_subscriber
 
         void clear();
 
-        void notify( const event & ) override;
+        void notify( const cata::event & ) override;
 
         void serialize( JsonOut & ) const;
         void deserialize( JsonIn & );

@@ -990,6 +990,13 @@ int JsonIn::get_int()
     return static_cast<int>( get_float() );
 }
 
+std::int64_t JsonIn::get_int64()
+{
+    // get float value and then convert to int,
+    // because "1.359e3" is technically a valid integer.
+    return static_cast<int64_t>( get_float() );
+}
+
 double JsonIn::get_float()
 {
     // this could maybe be prettier?
@@ -1276,6 +1283,15 @@ bool JsonIn::read( int &i )
         return false;
     }
     i = get_int();
+    return true;
+}
+
+bool JsonIn::read( std::int64_t &i )
+{
+    if( !test_number() ) {
+        return false;
+    }
+    i = get_int64();
     return true;
 }
 

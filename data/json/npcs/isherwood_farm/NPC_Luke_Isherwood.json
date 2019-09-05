@@ -108,7 +108,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LUKE_EDDIE",
-    "dynamic_line": "Things have been tough for my dad since the hunting incident.  He works till he falls asleep most nights..",
+    "dynamic_line": "Things have been tough for my dad since Barry was captured.  He works till he falls asleep most nights..",
     "condition": {
       "and": [
         { "not": { "u_is_wearing": "badge_marshal" } },
@@ -167,7 +167,7 @@
     "value": 50000,
     "item": "glassblowing_book",
     "count": 1,
-    "origins": [ "ORIGIN_ANY_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_ISHERWOOD_LUKE_2",
     "dialogue": {
       "describe": "I need more knowledge to get the glass blowing started.",
@@ -184,7 +184,7 @@
   {
     "id": "MISSION_ISHERWOOD_LUKE_2",
     "type": "mission_definition",
-    "name": "Find a cooy of DIY Compendium",
+    "name": "Find a copy of DIY Compendium",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,

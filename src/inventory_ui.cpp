@@ -1000,14 +1000,14 @@ void selection_column::on_change( const inventory_entry &entry )
         }
         add_entry( my_entry );
         last_changed = my_entry;
-    } else {
+    } else if( iter->chosen_count != my_entry.chosen_count ) {
         if( my_entry.chosen_count > 0 ) {
             iter->chosen_count = my_entry.chosen_count;
             expand_to_fit( my_entry );
         } else {
             iter = entries.erase( iter );
-            paging_is_valid = false;
         }
+        paging_is_valid = false;
 
         if( iter != entries.end() ) {
             last_changed = *iter;
@@ -1149,8 +1149,9 @@ void inventory_selector::add_items( inventory_column &target_column,
 
 void inventory_selector::add_character_items( Character &character )
 {
-    static const item_category items_worn_category( "ITEMS_WORN", translation( "ITEMS WORN" ), -100 );
-    static const item_category weapon_held_category( "WEAPON_HELD", translation( "WEAPON HELD" ),
+    static const item_category items_worn_category( "ITEMS_WORN", to_translation( "ITEMS WORN" ),
+            -100 );
+    static const item_category weapon_held_category( "WEAPON_HELD", to_translation( "WEAPON HELD" ),
             -200 );
     character.visit_items( [ this, &character ]( item * it ) {
         if( it == &character.weapon ) {

@@ -389,8 +389,8 @@ void character_edit_menu()
         data << np->name << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
         data << np->myclass.obj().get_name() << "; " <<
              npc_attitude_name( np->get_attitude() ) << "; " <<
-             ( np->my_fac ? np->my_fac->name : _( "no faction" ) ) << "; " <<
-             ( np->my_fac ? np->my_fac->currency : _( "no currency" ) ) << "; " <<
+             ( np->get_faction() ? np->get_faction()->name : _( "no faction" ) ) << "; " <<
+             ( np->get_faction() ? np->get_faction()->currency : _( "no currency" ) ) << "; " <<
              "api: " << np->get_faction_ver() << std::endl;
         if( np->has_destination() ) {
             data << string_format( _( "Destination: %d:%d:%d (%s)" ),
@@ -1063,7 +1063,7 @@ void debug()
             temp->mission = NPC_MISSION_NULL;
             temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->global_omt_location(),
                                    temp->getID() ) );
-            temp->set_fac( faction_id( "wasteland_scavengers" ) );
+            temp->set_fac( faction_id( "no_faction" ) );
             g->load_npcs();
         }
         break;

@@ -4,7 +4,7 @@
     "type": "GUNMOD",
     "name": ".300 AAC Blackout AR-15 conversion kit",
     "description": "A complete AR-15 upper assembly with a .300 AAC Blackout barrel.",
-    "weight": 1000,
+    "weight": "1000 g",
     "volume": "500 ml",
     "integral_volume": 0,
     "integral_weight": 0,

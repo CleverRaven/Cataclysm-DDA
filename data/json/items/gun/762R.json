@@ -40,7 +40,7 @@
     "name": "Mosin-Nagant 1891/30",
     "name_plural": "Mosin-Nagant 1891/30",
     "description": "The Mosin-Nagant 1891/30 is a bolt action, internal magazine-fed, military rifle, developed by the Russian Empire, and later used and perfected by the Soviet Union.",
-    "weight": 4000,
+    "weight": "4000 g",
     "volume": "3 L",
     "price": 19000,
     "to_hit": -1,
