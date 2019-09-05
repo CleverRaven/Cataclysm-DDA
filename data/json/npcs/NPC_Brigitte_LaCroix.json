@@ -163,7 +163,7 @@
     {
       "type": "talk_topic",
       "id": "TALK_BONE_SEER_SONG3",
-      "dynamic_line": "Only when you crush the bones of a body does it cease to rise. Only if you examine the bones can you see what was. Thus is the story. Whatever causes this change is alive, moving within us all, an inevitable part of this new world. It holds the power of change. When we hold the bones, we hold the power. Thus the strength. Together...they form a beautiful song.",
+      "dynamic_line": "Only when you crush the bones of a body does it cease to rise. Only if you examine the bones can you see what was. Thus is the story. Whatever causes this change is alive, moving within us all, an inevitable part of this new world. It holds the power of change. When we hold the bones, we hold the power. Thus the strength. Together... they form a beautiful song.",
       "responses": [ { "text": "I think I understand what you mean, though I am not sure if I agree.", "topic": "TALK_NONE" } ]
     },
     {
@@ -187,7 +187,7 @@
       "dynamic_line": "We believe that enough power in one song could revert the Cataclysm - or accelerate it to a time beyond all, ending it all the same. But with the world looking as is, both options are preferable.",
       "responses": [
         {
-          "text": "Sounds somewhat...doomsday-ish, but I suppose it's a belief like any other. Still, at least you have a goal to help the world, one way or another.",
+          "text": "Sounds somewhat... doomsday-ish, but I suppose it's a belief like any other. Still, at least you have a goal to help the world, one way or another.",
           "topic": "TALK_BONE_SEER_ACOLYTE"
         },
         { "text": "You're nuts.", "topic": "TALK_BONE_SEER_INSULT" }
@@ -197,18 +197,18 @@
       "type": "talk_topic",
       "id": "TALK_BONE_SEER_ACOLYTE",
       "dynamic_line": "Your mind is open. More than most. Perhaps one day, you too will feel the power of the song and become Kindred. For now, Acolyte, listen, listen and feel the song.",
-      "responses": [ { "text": "I...thank you.", "topic": "TALK_BONE_SEER" } ]
+      "responses": [ { "text": "I... thank you.", "topic": "TALK_BONE_SEER" } ]
     },
     {
       "type": "talk_topic",
       "id": "TALK_BONE_SEER_INSULT",
-      "dynamic_line": "Your skepticism does not surprise me. Perhaps one day, you too will hear the inevitability of the song, feel it's power. But until then, you will remain an Acolyte, path to the Kindred closed.",
+      "dynamic_line": "Your skepticism does not surprise me. Perhaps one day, you too will hear the inevitability of the song, feel its power. But until then, you will remain an Acolyte, path to the Kindred closed.",
       "responses": [ { "text": "Yeah, alright.", "topic": "TALK_BONE_SEER" } ]
     },
     {
       "id": "MISSION_SEER_GATHER_BONE",
       "type": "mission_definition",
-      "name": "Gather bone for the Brigitte. About 8 should do it.",
+      "name": "Gather bones for the Brigitte. About 8 should do it.",
       "difficulty": 1,
       "value": 10000,
       "goal": "MGOAL_FIND_ITEM",
@@ -218,7 +218,7 @@
       "end": { "effect":[ { "u_add_var": "NC_SEER_MISSION_1", "type": "general", "context": "mission", "value": "yes", "u_add_trait": "seer_mark" } ] },
       "dialogue": {
         "describe": "There is always work to be done, song to be woven.",
-        "offer": "If you wish to be set on the path to enlightenment, first you must learn to listen and hear the song. Go out, butcher a creature and feel the power between your fingertips. Then bring me the bones and I shall carve them for you. ",
+        "offer": "If you wish to be set on the path to enlightenment, first you must learn to listen and hear the song. Go out, butcher a creature and feel the power between your fingertips. Then bring me the bones and I shall carve them for you.",
         "accepted": "Excellent. Now be on your way.",
         "rejected": "I understand your reluctancy. Feel free to return when you see the way.",
         "advice": "The shambling corpses we see all around move in discord. Their song can be used, but for an Acolyte, this would be needlessly hard. Be sure to carve an unspoiled living creature.",
@@ -234,7 +234,7 @@
     "category": "CATEGORY_MISSION_SEER",
     "dynamic_line": {
       "has_no_available_mission": {
-        "has_no_assigned_mission": "The song is...quiet for now. Perhaps with time, more notes will be etched in the bones of this world.",
+        "has_no_assigned_mission": "The song is... quiet for now. Perhaps with time, more notes will be etched in the bones of this world.",
         "no": { "has_many_assigned_missions": "An acolyte should not take on too many songs at once.", "no": "That is all for now." }
       },
       "no": {
@@ -313,7 +313,7 @@
      "context": "mark_of_the_seer",
      "value": "yes",
      "no": "Only those who bear my mark will prove themselves worthy of my skills.",
-	 "yes": "You bear my mark, meaning I believe you have potentional to learn to truly listen to the Song. Yes, I will lend my skills to you, for now."
+	 "yes": "You bear my mark, meaning I believe you have potential to learn to truly listen to the Song. Yes, I will lend my skills to you, for now."
 	 },
 	 "responses": [ 
 	 { "text": "I see. Very well then.", "topic": "TALK_NONE", "condition": { "not": { "u_has_trait": "seer_mark" } } },
@@ -333,9 +333,9 @@
 	 {
 	  "type": "talk_topic",
       "id": "TALK_BONE_SEER_CYCLE",
-      "dynamic_line": "It's not just walking horrors and monsters that have changed with the Cataclysm. It started a...cycled, of sorts. Everything repeats. We can only see it in others, but it happens to us, even you and I. How many times have you fallen? Your flesh rent from your body, devoured. Or perhaps it was the quiet whimper of death to exposure. But your bones rose again. Different flesh, different name, sometimes even different knowledge, but the bones, the same. We are all trapped in the same cycle. We just keep forgetting. That's why we need to amass the Song. That's why it has to end, even if it means the destruction, not restoration.",
+      "dynamic_line": "It's not just walking horrors and monsters that have changed with the Cataclysm. It started a... cycle, of sorts. Everything repeats. We can only see it in others, but it happens to us, even you and I. How many times have you fallen? Your flesh rent from your body, devoured. Or perhaps it was the quiet whimper of death to exposure. But your bones rose again. Different flesh, different name, sometimes even different knowledge, but the bones, the same. We are all trapped in the same cycle. We just keep forgetting. That's why we need to amass the Song. That's why it has to end, even if it means the destruction, not restoration.",
       "responses": [
-        { "text": "That is...that's really one hell of a belief. Well, if it helps you deadl with the world, who am I to argue.", "topic": "TALK_NONE" },
+        { "text": "That is... that's really one hell of a belief. Well, if it helps you deal with the world, who am I to argue.", "topic": "TALK_NONE" },
         { "text": "And here I thought you were nuts before. I'm out of here.", "topic": "TALK_DONE" }
 		]
 		}
