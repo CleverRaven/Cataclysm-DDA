@@ -420,7 +420,7 @@ static void pldrive( int x, int y )
         }
     }
 
-    veh->pldrive( x, y );
+    veh->pldrive( point( x, y ) );
 }
 
 inline static void pldrive( point d )
