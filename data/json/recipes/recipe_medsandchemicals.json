@@ -752,6 +752,19 @@
   },
   {
     "type": "recipe",
+    "result": "chem_muriatic_acid",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "15 m",
+    "book_learn": [ [ "recipe_labchem", 3 ], [ "textbook_chemistry", 3 ] ],
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "salt", 210 ] ], [ [ "chem_sulphuric_acid", 1 ] ], [ [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "chem_sulphuric_acid",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -793,6 +806,20 @@
   },
   {
     "type": "recipe",
+    "result": "chem_nitric_acid",
+    "byproducts": [ [ "chem_potassium_chloride" ] ],
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
+    "components": [ [ [ "chem_muriatic_acid", 1 ] ], [ [ "chem_saltpetre", 25 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "chem_aluminium_sulphate",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -817,6 +844,25 @@
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "chem_nitric_acid", 5 ] ], [ [ "ammonia", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chem_potassium_hydroxide",
+    "byproducts": [ [ "water" ] ],
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "45 m",
+    "book_learn": [ [ "textbook_chemistry", 4 ], [ "adv_chemistry", 5 ] ],
+    "tools": [
+      [ [ "electrolysis_kit", 100 ] ],
+      [ [ "chemistry_set_basic", -1 ], [ "chemistry_set", -1 ] ],
+      [ [ "platinum_small", -1 ] ],
+      [ [ "silver_small", -1 ] ],
+      [ [ "salt", -1 ] ]
+    ],
+    "components": [ [ [ "water_clean", 3 ] ], [ [ "chem_potassium_chloride", 25 ] ] ]
   },
   {
     "type": "recipe",
