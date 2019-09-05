@@ -31,7 +31,7 @@ currently used both in the tests and for the Windows release binaries.
 
 ## MSYS2
 
-MSYS2 is [a way to build the project](../COMPILING-MSYS.md) on Windows. It
+MSYS2 is [a way to build the project](COMPILING-MSYS.md) on Windows. It
 currently offers gcc at versions 7 or higher.
 
 MSYS also provides clang.  We don't currently support using clang here, but
@@ -39,4 +39,4 @@ work to that end is welcome.
 
 ## Visual Studio
 
-We also support [Visual Studio](../COMPILING-VS-VCPKG.md) 2015 Update 3 and above.
+We also support [Visual Studio](COMPILING-VS-VCPKG.md) 2015 Update 3 and above.
