@@ -4626,7 +4626,6 @@
     "city_distance": [ 1, -1 ],
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 0, 3 ],
-    "flags": [ "CLASSIC" ],
     "spawns": { "group": "GROUP_MI-GO_CAMP_OM", "population": [ 2, 5 ], "radius": [ 2, 30 ] }
   },
   {
