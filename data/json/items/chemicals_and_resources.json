@@ -565,7 +565,7 @@
     "symbol": "=",
     "color": "white",
     "flags": [ "DROP_ACTION_ONLY_IF_LIQUID" ],
-    "description": "",
+    "description": "Hydrochloric acid, also known as muriatic acid. It is a strong acid that has a distinctive smell, important and frequently used ever since its discovery. It still has a vast multitude of uses.",
     "volume": "250 ml",
     "weight": 460,
     "bashing": 1,
