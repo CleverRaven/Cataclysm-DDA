@@ -747,6 +747,12 @@
         "effect": "do_construction"
       },
       {
+        "text": "Please start deconstructing any vehicles in a deconstruction zone.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_vehicle_deconstruct"
+      },
+      {
         "text": "Please chop logs into planks.",
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },

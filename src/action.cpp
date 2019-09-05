@@ -492,27 +492,27 @@ std::string press_x( action_id act, const std::string &key_bound_pre,
     return ctxt.press_x( action_ident( act ), key_bound_pre, key_bound_suf, key_unbound );
 }
 
-action_id get_movement_direction_from_delta( const int dx, const int dy, const int dz )
+action_id get_movement_direction_from_delta( const tripoint &d )
 {
-    if( dz == -1 ) {
+    if( d.z == -1 ) {
         return ACTION_MOVE_DOWN;
-    } else if( dz == 1 ) {
+    } else if( d.z == 1 ) {
         return ACTION_MOVE_UP;
     }
 
-    if( dx == 0 && dy == -1 ) {
+    if( d.xy() == point_north ) {
         return ACTION_MOVE_N;
-    } else if( dx == 1 && dy == -1 ) {
+    } else if( d.xy() == point_north_east ) {
         return ACTION_MOVE_NE;
-    } else if( dx == 1 && dy == 0 ) {
+    } else if( d.xy() == point_east ) {
         return ACTION_MOVE_E;
-    } else if( dx == 1 && dy == 1 ) {
+    } else if( d.xy() == point_south_east ) {
         return ACTION_MOVE_SE;
-    } else if( dx == 0 && dy == 1 ) {
+    } else if( d.xy() == point_south ) {
         return ACTION_MOVE_S;
-    } else if( dx == -1 && dy == 1 ) {
+    } else if( d.xy() == point_south_west ) {
         return ACTION_MOVE_SW;
-    } else if( dx == -1 && dy == 0 ) {
+    } else if( d.xy() == point_west ) {
         return ACTION_MOVE_W;
     } else {
         return ACTION_MOVE_NW;

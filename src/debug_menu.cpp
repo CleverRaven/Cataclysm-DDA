@@ -1063,7 +1063,7 @@ void debug()
             temp->mission = NPC_MISSION_NULL;
             temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->global_omt_location(),
                                    temp->getID() ) );
-            temp->set_fac( faction_id( "wasteland_scavengers" ) );
+            temp->set_fac( faction_id( "no_faction" ) );
             g->load_npcs();
         }
         break;

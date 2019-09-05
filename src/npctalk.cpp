@@ -1945,8 +1945,10 @@ void talk_effect_fun_t::set_change_faction_rep( int rep_change )
 {
     function = [rep_change]( const dialogue & d ) {
         npc &p = *d.beta;
-        p.get_faction()->likes_u += rep_change;
-        p.get_faction()->respects_u += rep_change;
+        if( p.get_faction()->id != faction_id( "no_faction" ) ) {
+            p.get_faction()->likes_u += rep_change;
+            p.get_faction()->respects_u += rep_change;
+        }
     };
 }
 
@@ -2422,6 +2424,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObjec
             WRAP( start_trade ),
             WRAP( sort_loot ),
             WRAP( do_chop_plank ),
+            WRAP( do_vehicle_deconstruct ),
             WRAP( do_chop_trees ),
             WRAP( do_fishing ),
             WRAP( do_construction ),

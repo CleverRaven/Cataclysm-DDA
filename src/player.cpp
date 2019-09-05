@@ -7120,7 +7120,7 @@ bool player::add_faction_warning( const faction_id &id )
         warning_record[id] = std::make_pair( 1, calendar::turn );
     }
     faction *fac = g->faction_manager_ptr->get( id );
-    if( fac != nullptr && is_player() ) {
+    if( fac != nullptr && is_player() && fac->id != faction_id( "no_faction" ) ) {
         fac->likes_u -= 1;
         fac->respects_u -= 1;
     }
@@ -10776,7 +10776,7 @@ action_id player::get_next_auto_move_direction()
         // Should never happen, but check just in case
         return ACTION_NULL;
     }
-    return get_movement_direction_from_delta( dp.x, dp.y, dp.z );
+    return get_movement_direction_from_delta( dp );
 }
 
 bool player::defer_move( const tripoint &next )
