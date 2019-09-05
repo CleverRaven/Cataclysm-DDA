@@ -323,26 +323,10 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
         debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
 
-    std::string corpse_type;
+    std::string corpse_type = "corpse";
 
     if( mt == mtype_id::NULL_ID() ) {
-        //TODO: Jsonify this set.
-        static const std::set<std::string> corpse_types = {
-            "corpse",
-            "corpse_bloody",
-            "corpse_painful",
-            "corpse_scorched",
-            "corpse_stabbed",
-            "corpse_gunned",
-            "corpse_halved_upper",
-            "corpse_half_beheaded",
-            "corpse_child",
-            "corpse_child_bullets"
-        };
-        //TODO: Replace random entry with weighted list
-        corpse_type = random_entry( corpse_types );
-    } else {
-        corpse_type = "corpse";
+        corpse_type = item_group::item_from( "corpses" ).typeId();
     }
 
     item result( corpse_type, turn );
