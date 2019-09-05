@@ -175,7 +175,7 @@
       [ "SHRIEK_STUN", 4 ],
       [ "TAZER", 5 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 35, "armor_multiplier": 0.7 } ] },
-      { "type": "spell", "spell_id": "mi-go_slaver_beam", "spell_level": 2, "cooldown": 100 }
+      { "type": "spell", "spell_id": "mi-go_slaver_beam", "spell_level": 1, "cooldown": 100 }
     ],
     "death_function": [ "NORMAL" ],
     "flags": [
