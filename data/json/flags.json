@@ -6,6 +6,10 @@
     "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."
   },
   {
+    "id": "EFFECT_INVISIBLE",
+    "type": "json_flag"
+  },
+  {
     "id": "ALARMCLOCK",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],

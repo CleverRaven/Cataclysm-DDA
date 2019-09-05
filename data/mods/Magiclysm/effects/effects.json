@@ -30,6 +30,15 @@
     "remove_message": "The ghostly arms fade away.",
     "base_mods": { "speed_mod": [ -40 ] },
     "scaling_mods": { "speed_mod": [ -10 ] }
+  }
+  {
+    "type": "effect_type",
+    "id": "invisibility",
+    "name": [ "Invisibility" ],
+    "desc": [ "Nothing can see you." ],
+    "apply_message": "You fade away.",
+    "remove_message": "You can see your hands again.",
+    "flags": [ "EFFECT_INVISIBLE" ]
   },
   {
     "type": "effect_type",
