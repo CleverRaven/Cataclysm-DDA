@@ -500,19 +500,19 @@ action_id get_movement_direction_from_delta( const tripoint &d )
         return ACTION_MOVE_UP;
     }
 
-    if( d.x == 0 && d.y == -1 ) {
+    if( d.xy() == point_north ) {
         return ACTION_MOVE_N;
-    } else if( d.x == 1 && d.y == -1 ) {
+    } else if( d.xy() == point_north_east ) {
         return ACTION_MOVE_NE;
-    } else if( d.x == 1 && d.y == 0 ) {
+    } else if( d.xy() == point_east ) {
         return ACTION_MOVE_E;
-    } else if( d.x == 1 && d.y == 1 ) {
+    } else if( d.xy() == point_south_east ) {
         return ACTION_MOVE_SE;
-    } else if( d.x == 0 && d.y == 1 ) {
+    } else if( d.xy() == point_south ) {
         return ACTION_MOVE_S;
-    } else if( d.x == -1 && d.y == 1 ) {
+    } else if( d.xy() == point_south_west ) {
         return ACTION_MOVE_SW;
-    } else if( d.x == -1 && d.y == 0 ) {
+    } else if( d.xy() == point_west ) {
         return ACTION_MOVE_W;
     } else {
         return ACTION_MOVE_NW;
