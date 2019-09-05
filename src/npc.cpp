@@ -1117,7 +1117,7 @@ void npc::make_angry()
     }
 
     // Make associated faction, if any, angry at the player too.
-    if( my_fac != nullptr ) {
+    if( my_fac != nullptr && my_fac->id != faction_id( "no_faction" ) ) {
         my_fac->likes_u = std::max( -50, my_fac->likes_u - 50 );
         my_fac->respects_u = std::max( -50, my_fac->respects_u - 50 );
     }

@@ -8,7 +8,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_MI-GO_PRISONER1",
-    "faction": "wasteland_scavengers"
+    "faction": "no_faction"
   },
   {
     "type": "npc_class",
