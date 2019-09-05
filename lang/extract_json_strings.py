@@ -713,6 +713,10 @@ def extract_ter_furn_transform_messages(item):
 	for terrain in item.get("terrain"):
 		writestr(outfile,terrain.get("message"))
 
+def extract_skill_display_type(item):
+    outfile = get_outfile("skill_display_type")
+    writestr(outfile, item["display_string"], comment="display string for skill display type '{}'".format(item["ident"]))
+
 # these objects need to have their strings specially extracted
 extract_specials = {
     "harvest" : extract_harvest,
@@ -739,7 +743,8 @@ extract_specials = {
     "gate": extract_gate,
     "vehicle_spawn": extract_vehspawn,
     "field_type": extract_field_type,
-    "ter_furn_transform": extract_ter_furn_transform_messages
+    "ter_furn_transform": extract_ter_furn_transform_messages,
+    "skill_display_type": extract_skill_display_type
 
 }
 
@@ -876,6 +881,8 @@ def extract_use_action_msgs(outfile, use_action, it_name, kwargs):
 def extract(item, infilename):
     """Find any extractable strings in the given json object,
     and write them to the appropriate file."""
+    if not "type" in item:
+        raise WrongJSONItem("ERROR: Object doesn't have a type: {}".format(infilename), item)
     object_type = item["type"]
     outfile = get_outfile(object_type)
     kwargs = {}
