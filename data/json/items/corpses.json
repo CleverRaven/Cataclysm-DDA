@@ -26,7 +26,6 @@
   },
   {
     "type": "GENERIC",
-    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
     "id": "corpse_generic_male",
     "copy-from": "corpse",
     "name": "corpse",
@@ -36,7 +35,6 @@
   },
   {
     "type": "GENERIC",
-    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
     "id": "corpse_generic_female",
     "copy-from": "corpse",
     "name": "corpse",
@@ -48,7 +46,6 @@
   },
   {
     "type": "GENERIC",
-    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
     "id": "corpse_generic_boy",
     "copy-from": "corpse",
     "name": "corpse",
@@ -58,7 +55,6 @@
   },
   {
     "type": "GENERIC",
-    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
     "id": "corpse_generic_girl",
     "copy-from": "corpse",
     "name": "corpse",
@@ -68,7 +64,6 @@
   },
   {
     "type": "GENERIC",
-    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
     "id": "corpse_child_calm",
     "copy-from": "corpse",
     "name": "corpse",
@@ -80,7 +75,6 @@
   },
   {
     "type": "GENERIC",
-    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
     "id": "corpse_child_gunned",
     "copy-from": "corpse",
     "name": "corpse",
@@ -92,7 +86,6 @@
   },
   {
     "type": "GENERIC",
-    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
     "id": "corpse_bloody",
     "copy-from": "corpse",
     "name": "corpse",
@@ -102,7 +95,6 @@
   },
   {
     "type": "GENERIC",
-    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
     "id": "corpse_painful",
     "copy-from": "corpse",
     "name": "corpse",
@@ -112,7 +104,6 @@
   },
   {
     "type": "GENERIC",
-    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
     "id": "corpse_scorched",
     "copy-from": "corpse",
     "name": "corpse",
@@ -122,7 +113,6 @@
   },
   {
     "type": "GENERIC",
-    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
     "id": "corpse_stabbed",
     "copy-from": "corpse",
     "name": "corpse",
@@ -132,7 +122,6 @@
   },
   {
     "type": "GENERIC",
-    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
     "id": "corpse_gunned",
     "copy-from": "corpse",
     "name": "corpse",
@@ -144,7 +133,6 @@
   },
   {
     "type": "GENERIC",
-    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
     "id": "corpse_halved_upper",
     "copy-from": "corpse",
     "name": "corpse",
@@ -156,7 +144,6 @@
   },
   {
     "type": "GENERIC",
-    "//": "All variants of corpses' IDs should follow the 'corpse_xxx' template!",
     "id": "corpse_half_beheaded",
     "copy-from": "corpse",
     "name": "corpse",
