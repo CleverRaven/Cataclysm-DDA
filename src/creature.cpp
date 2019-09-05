@@ -1221,11 +1221,7 @@ std::string Creature::get_value( const std::string &key ) const
     auto it = values.find( key );
     return ( it == values.end() ) ? "" : it->second;
 }
-int Creature::get_value( const std::string &key ) const
-{
-    auto it = values.find( key );
-    return ( it == values.end() ) ? "" : it->second;
-}
+
 int Creature::get_value( const std::string &name, const int default_value ) const
 {
     const auto it = values.find( name );
