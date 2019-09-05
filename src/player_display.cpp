@@ -496,9 +496,9 @@ static void draw_traits_tab( const catacurses::window &w_traits, const catacurse
 
 static size_t draw_bionics_list( const catacurses::window &w_bionics, player &you,
                                  unsigned int &line,
-                                 std::vector<bionic> &bionicslist, const size_t bionics_win_size_y )
+                                 std::vector<bionic> &bionicslist, const size_t bionics_win_size_y, bool highlight )
 {
-    center_print( w_bionics, 0, c_light_gray, _( title_BIONICS ) );
+    center_print( w_bionics, 0, highlight ? h_light_gray : c_light_gray, _( title_BIONICS ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
                     string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
@@ -543,9 +543,10 @@ static size_t draw_bionics_list( const catacurses::window &w_bionics, player &yo
             bionic_string = bionics_unique[ i ];
         }
         trim_and_print( w_bionics, point( 1, static_cast<int>( 2 + i - min ) ), getmaxx( w_bionics ) - 1,
-                        i == line ? hilite( c_white ) : c_white, bionic_string );
+                        i == line && highlight ? hilite( c_white ) : c_white, bionic_string );
     }
 
+    // used to tell draw_bionics_tab how long the list is after removing duplicates
     return bionics_unique.size();
 }
 
@@ -557,7 +558,7 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
     werase( w_bionics );
     mvwprintz( w_bionics, point_zero, h_light_gray, header_spaces );
     size_t num_unique_bionics = draw_bionics_list( w_bionics, you, line, bionicslist,
-                                bionics_win_size_y );
+                                bionics_win_size_y, true );
     if( line < bionicslist.size() ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_white,
@@ -578,7 +579,7 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
         }
     } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
         mvwprintz( w_bionics, point_zero, c_light_gray, header_spaces );
-        draw_bionics_list( w_bionics, you, line, bionicslist, bionics_win_size_y );
+        draw_bionics_list( w_bionics, you, line, bionicslist, bionics_win_size_y, false );
         wrefresh( w_bionics );
         line = 0;
         curtab = action == "NEXT_TAB" ? curtab + 1 : curtab - 1;
@@ -986,7 +987,7 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     wrefresh( w_traits );
 
     // Next, draw bionics
-    draw_bionics_list( w_bionics, you, line, bionicslist, bionics_win_size_y );
+    draw_bionics_list( w_bionics, you, line, bionicslist, bionics_win_size_y, false );
     wrefresh( w_bionics );
 
     // Next, draw effects.
