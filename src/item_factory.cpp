@@ -1454,7 +1454,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     assign( jo, "default_mods", slot.default_mods, strict );
     assign( jo, "ups_charges", slot.ups_charges, strict, 0 );
     assign( jo, "blackpowder_tolerance", slot.blackpowder_tolerance, strict, 0 );
-    assign( jo, "min_cycle_recoil", slot.blackpowder_tolerance, strict, 0 );
+    assign( jo, "min_cycle_recoil", slot.min_cycle_recoil, strict, 0 );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
 
     if( jo.has_array( "valid_mod_locations" ) ) {

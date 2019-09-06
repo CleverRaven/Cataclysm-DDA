@@ -596,7 +596,7 @@ class player : public Character
         dispersion_sources get_weapon_dispersion( const item &obj ) const;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
-        bool handle_gun_damage( item &it, int shots_fired );
+        bool handle_gun_damage( item &it );
 
         /** Get maximum recoil penalty due to vehicle motion */
         double recoil_vehicle() const;

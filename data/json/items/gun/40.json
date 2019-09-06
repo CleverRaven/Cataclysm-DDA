@@ -19,6 +19,8 @@
     "ranged_damage": 1,
     "dispersion": 480,
     "durability": 6,
+    "blackpowder_tolerance": 48,
+    "min_cycle_recoil": 425,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -32,6 +34,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "40", [ "glock40mag", "glock40bigmag" ] ] ]
   },
@@ -54,6 +57,7 @@
     "ranged_damage": 1,
     "dispersion": 550,
     "durability": 6,
+    "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
@@ -68,6 +72,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "flags": [ "RELOAD_EJECT" ]
   },
   {
@@ -89,6 +94,7 @@
     "skill": "pistol",
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 504,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -102,6 +108,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "40", [ "sig40mag" ] ] ]
   },
@@ -124,6 +131,8 @@
     "ranged_damage": -4,
     "dispersion": 590,
     "durability": 4,
+    "blackpowder_tolerance": 24,
+    "min_cycle_recoil": 425,
     "modes": [ [ "DEFAULT", "auto", 10 ] ],
     "loudness": 25,
     "barrel_length": 1,
@@ -161,6 +170,7 @@
     "ranged_damage": -1,
     "dispersion": 620,
     "durability": 6,
+    "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 6,
     "reload": 200,
@@ -195,6 +205,7 @@
     "ranged_damage": 1,
     "dispersion": 320,
     "durability": 8,
+    "blackpowder_tolerance": 56,
     "clip_size": 6,
     "magazines": [ [ "40", [ "40_speedloader6" ] ] ],
     "valid_mod_locations": [

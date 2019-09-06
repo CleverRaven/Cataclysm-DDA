@@ -6,7 +6,7 @@
     "name": "base gun",
     "symbol": "(",
     "color": "light_gray",
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ]
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ]
   },
   {
     "abstract": "flamethrower_base",
@@ -29,7 +29,8 @@
     "skill": "launcher",
     "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ] ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ]
   },
   {
     "abstract": "pistol_base",
@@ -80,6 +81,7 @@
     "proportional": { "reload": 0.7 },
     "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS", "MANUAL_ACTION" ] },
     "//": "Revolvers exclude the muzzle location preventing installation of suppressors",
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -122,6 +124,7 @@
     "name_plural": "rifles with manual actions",
     "extend": { "flags": [ "MANUAL_ACTION" ] },
     "//": "Manual actions exclude the magazine location preventing installation of belt-feed adaptors",
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -177,7 +180,8 @@
     "type": "GUN",
     "name": "pump action shotgun",
     "reload_noise": "chuk chuk.",
-    "flags": [ "RELOAD_ONE", "PUMP_ACTION" ]
+    "flags": [ "RELOAD_ONE", "PUMP_ACTION" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ]
   },
   {
     "abstract": "smg_base",

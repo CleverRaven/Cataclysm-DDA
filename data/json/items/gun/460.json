@@ -8,6 +8,7 @@
     "price": 90000,
     "ammo": [ "460", "45" ],
     "magazines": [ [ "460", [ "lw12mag" ] ], [ "45", [ "lw12mag" ] ] ],
+    "min_cycle_recoil": 540,
     "relative": { "durability": -1 },
     "built_in_mods": [ "lead_holo_sight", "muzzle_brake", "lead_laser_sight" ]
   },
@@ -19,6 +20,7 @@
     "description": "After the success of their 9x19mm machine pistol, Leadworks LLC developed the L39B-45 from their .460 Rowland semi-autos, intending them to be used with .45ACP.  Because it shares most of its parts with the L39-460, this variant retains the ability to fire fearsome .460 Rowland, though users are strongly advised not to do so during automatic fire.  Comes with built in red dot, recoil compensator and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "ammo": [ "460", "45" ],
     "magazines": [ [ "460", [ "lw12mag" ] ], [ "45", [ "lw12mag" ] ] ],
+    "min_cycle_recoil": 540,
     "relative": { "durability": -1 },
     "built_in_mods": [ "lead_holo_sight", "muzzle_brake", "lead_laser_sight" ]
   },
@@ -42,6 +44,7 @@
     "ranged_damage": 1,
     "dispersion": 360,
     "durability": 8,
+    "blackpowder_tolerance": 56,
     "clip_size": 6,
     "magazines": [ [ "460", [ "460_speedloader6" ] ], [ "45", [ "460_speedloader6" ] ] ],
     "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
@@ -76,6 +79,7 @@
     "ranged_damage": 4,
     "dispersion": 180,
     "durability": 9,
+    "blackpowder_tolerance": 32,
     "clip_size": 12,
     "barrel_length": 2,
     "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
@@ -90,6 +94,7 @@
       [ "rail mount", 1 ],
       [ "stock mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "flags": [ "RELOAD_ONE" ]
   }
 ]

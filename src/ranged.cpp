@@ -79,6 +79,7 @@ const trap_str_id tr_practice_target( "tr_practice_target" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_clogged( "fault_gun_clogged" );
+static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire( const Character &p, const itype &firing );

@@ -40,6 +40,24 @@
     "relative": { "damage": 4, "pierce": 4, "dispersion": -10, "recoil": 60 }
   },
   {
+    "id": "bp_45_acp",
+    "copy-from": "45_acp",
+    "type": "AMMO",
+    "name": ".45 ACP FMJ blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_45_jhp",
+    "copy-from": "45_jhp",
+    "type": "AMMO",
+    "name": ".45 ACP JHP blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
     "id": "reloaded_45_acp",
     "copy-from": "45_acp",
     "type": "AMMO",
