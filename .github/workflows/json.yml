@@ -3,7 +3,7 @@ name: JSON Validation
 on:
   push:
     paths:
-    - "*.json"
+    - '*.json'
 
 jobs:
   style-json:
