@@ -390,7 +390,7 @@
     "components": [
       [ [ "stick", 1 ], [ "mop", 1 ], [ "broom", 1 ], [ "hoe", 1 ] ],
       [ [ "2x4", 1 ], [ "puck", 1 ] ],
-      [ [ "nail", 1, ], [ "antenna", 1 ], [ "knitting_needles", 1 ] ]
+      [ [ "nail", 1 ], [ "antenna", 1 ] ]
     ]
   },
   {

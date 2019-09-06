@@ -174,7 +174,7 @@
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
-    "id": "shot_scrap",
+    "id": "bp_shot_scrap",
     "copy-from": "shot_scrap",
     "type": "AMMO",
     "name": "makeshift shotgun shot (black powder)",
