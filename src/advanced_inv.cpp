@@ -131,6 +131,7 @@ advanced_inventory::~advanced_inventory()
         werase( left_window );
         werase( right_window );
         g->refresh_all();
+        g->u.check_item_encumbrance_flag();
     }
 }
 

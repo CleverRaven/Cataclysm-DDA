@@ -223,6 +223,10 @@ struct islot_armor {
      */
     int encumber = 0;
     /**
+    * When storage is full, how much it encumbers the player.
+    */
+    int max_encumber = 0;
+    /**
      * Percentage of the body part area that this item covers.
      * This determines how likely it is to hit the item instead of the player.
      */
