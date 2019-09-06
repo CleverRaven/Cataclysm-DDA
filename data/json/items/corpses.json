@@ -107,7 +107,7 @@
     "id": "corpse_scorched",
     "copy-from": "corpse",
     "name": "corpse",
-    "description": "An awful mass of charred flesh.  You're not even sure if it's a man or a woman.  Judging by the stain of vaporized blood next to the body, he probably was shot prior to the burning.",
+    "description": "An awful mass of charred flesh.  You're not even sure if it's a man or a woman.  Judging by the stain of vaporized blood next to the body, they probably were shot prior to the burning.",
     "looks_like": "corpse",
     "material": "hflesh"
   },
@@ -125,7 +125,7 @@
     "id": "corpse_gunned",
     "copy-from": "corpse",
     "name": "corpse",
-    "description": "One might say that face of this woman is devoid of flaws. That could be true if there wasn't this big ugly hole right in the center of her forehead, and even bigger hole in her hindhead.",
+    "description": "One might say that face of this woman is devoid of flaws. That could be true if there wasn't this big ugly hole right in the center of her forehead, and even bigger hole in the back of her head.",
     "looks_like": "corpse",
     "volume": "40000 ml",
     "weight": "52000 g",
