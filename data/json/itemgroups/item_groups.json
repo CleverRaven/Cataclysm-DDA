@@ -5753,10 +5753,8 @@
       [ "bot_grenade_hack", 2 ],
       [ "bot_flashbang_hack", 2 ],
       [ "bot_gasbomb_hack", 2 ],
-      [ "bot_turret", 2 ],
       [ "bot_rifleturret", 2 ],
-      [ "556", 2 ],
-      [ "9mm", 2 ]
+      [ "bot_antimateriel", 2 ]
     ]
   },
   {
