@@ -1,9 +1,7 @@
 name: JSON Validation
 
 on:
-  pull_request:
-    paths:
-    - '*.json'
+  pull_request
 
 jobs:
   style-json:
