@@ -22,6 +22,7 @@
 #include "flat_set.h"
 #include "io_tags.h"
 #include "item_location.h"
+#include "relic.h"
 #include "requirements.h"
 #include "safe_reference.h"
 #include "string_id.h"
@@ -1069,6 +1070,7 @@ class item : public visitable<item>
         bool is_tool() const;
         bool is_transformable() const;
         bool is_artifact() const;
+        bool is_relic() const;
         bool is_bucket() const;
         bool is_bucket_nonempty() const;
 
@@ -1974,6 +1976,8 @@ class item : public visitable<item>
         void set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections );
         const std::vector<comp_selection<tool_comp>> &get_cached_tool_selections() const;
 
+        std::vector<enchantment> get_enchantments() const;
+
     private:
         /**
          * Calculate the thermal energy and temperature change of the item
@@ -2051,7 +2055,8 @@ class item : public visitable<item>
         // If the crafter has insufficient tools to continue to the next 5% progress step
         bool tools_to_continue = false;
         std::vector<comp_selection<tool_comp>> cached_tool_selections;
-
+        // any relic data specific to this item
+        cata::optional<relic> relic_data;
     public:
         int charges;
         units::energy energy;      // Amount of energy currently stored in a battery

@@ -18,6 +18,7 @@
 #include "iuse.h" // use_function
 #include "optional.h"
 #include "pldata.h" // add_type
+#include "relic.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -784,6 +785,7 @@ struct itype {
         cata::optional<islot_ammo> ammo;
         cata::optional<islot_seed> seed;
         cata::optional<islot_artifact> artifact;
+        cata::optional<relic> relic_data;
         /*@}*/
 
     private:

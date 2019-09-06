@@ -2042,6 +2042,8 @@ void item::io( Archive &archive )
     archive.io( "tools_to_continue", tools_to_continue, false );
     archive.io( "cached_tool_selections", cached_tool_selections, io::empty_default_tag() );
 
+    archive.io( "relic_data", relic_data );
+
     item_controller->migrate_item( orig, *this );
 
     if( !Archive::is_input::value ) {
