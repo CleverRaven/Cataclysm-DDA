@@ -59,6 +59,7 @@ const efftype_id effect_formication( "formication" );
 const efftype_id effect_frostbite( "frostbite" );
 const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_grabbing( "grabbing" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_hot( "hot" );
 const efftype_id effect_infected( "infected" );
@@ -847,14 +848,13 @@ void player::hardcoded_effects( effect &it )
         int zed_number = 0;
         for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
             const monster *const mon = g->critter_at<monster>( dest );
-            if( mon && ( mon->has_flag( MF_GRABS ) ||
-                         mon->type->has_special_attack( "GRAB" ) ) ) {
+            if( mon && mon->has_effect( effect_grabbing ) ) {
                 zed_number += mon->get_grab_strength();
             }
         }
         if( zed_number > 0 ) {
-            add_effect( effect_grabbed, 2_turns, bp_torso, false,
-                        ( intense + zed_number ) / 2 ); //If intensity isn't pass the cap, average it with # of zeds
+            //If intensity isn't pass the cap, average it with # of zeds
+            add_effect( effect_grabbed, 2_turns, bp_torso, false, ( intense + zed_number ) / 2 );
         }
     } else if( id == effect_bite ) {
         bool recovered = false;
