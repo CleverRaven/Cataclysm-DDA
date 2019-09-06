@@ -134,6 +134,7 @@ const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_got_checked( "got_checked" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_grabbing( "grabbing" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
 const efftype_id effect_onfire( "onfire" );
@@ -2501,7 +2502,8 @@ bool mattack::ranged_pull( monster *z )
 {
     Creature *target = z->attack_target();
     if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 ||
-        rl_dist( z->pos(), target->pos() ) <= 1 || !z->sees( *target ) ) {
+        rl_dist( z->pos(), target->pos() ) <= 1 || !z->sees( *target ) ||
+        z->has_effect( effect_grabbing ) ) {
         return false;
     }
 
@@ -2579,9 +2581,9 @@ bool mattack::ranged_pull( monster *z )
     }
 
     const int prev_effect = target->get_effect_int( effect_grabbed );
-    target->add_effect( effect_grabbed, 2_turns, bp_torso, false,
-                        prev_effect + 4 ); //Duration needs to be at least 2, or grab will immediately be removed
-
+    //Duration needs to be at least 2, or grab will immediately be removed
+    target->add_effect( effect_grabbed, 2_turns, bp_torso, false, prev_effect + 4 );
+    z->add_effect( effect_grabbing, 2_turns );
     return true;
 }
 
@@ -2640,6 +2642,7 @@ bool mattack::grab( monster *z )
     }
 
     const int prev_effect = target->get_effect_int( effect_grabbed );
+    z->add_effect( effect_grabbing, 2_turns );
     target->add_effect( effect_grabbed, 2_turns, bp_torso, false,
                         prev_effect + z->get_grab_strength() );
     target->add_msg_player_or_npc( m_bad, _( "The %s grabs you!" ), _( "The %s grabs <npcname>!" ),
@@ -2701,6 +2704,7 @@ bool mattack::grab_drag( monster *z )
                                        _( "<npcname> resist the %s as it tries to drag them!" ), z->name() );
     }
     int prev_effect = target->get_effect_int( effect_grabbed );
+    z->add_effect( effect_grabbing, 2_turns );
     target->add_effect( effect_grabbed, 2_turns, bp_torso, false, prev_effect + 3 );
 
     return true; // cooldown was not reset prior to refactor here

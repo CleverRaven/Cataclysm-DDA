@@ -66,6 +66,7 @@ const efftype_id effect_downed( "downed" );
 const efftype_id effect_drunk( "drunk" );
 const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_grabbing( "grabbing" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_in_pit( "in_pit" );
@@ -584,8 +585,7 @@ bool Character::move_effects( bool attacking )
         } else {
             for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
                 const monster *const mon = g->critter_at<monster>( dest );
-                if( mon && ( mon->has_flag( MF_GRABS ) ||
-                             mon->type->has_special_attack( "GRAB" ) ) ) {
+                if( mon && mon->has_effect( effect_grabbing ) ) {
                     zed_number += mon->get_grab_strength();
                 }
             }
@@ -606,6 +606,12 @@ bool Character::move_effects( bool attacking )
                 add_msg_player_or_npc( m_good, _( "You break out of the grab!" ),
                                        _( "<npcname> breaks out of the grab!" ) );
                 remove_effect( effect_grabbed );
+                for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
+                    monster *mon = g->critter_at<monster>( dest );
+                    if( mon && mon->has_effect( effect_grabbing ) ) {
+                        mon->remove_effect( effect_grabbing );
+                    }
+                }
             }
         }
     }
