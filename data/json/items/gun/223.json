@@ -304,7 +304,6 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
-    "ranged_damage": 0,
     "dispersion": 150,
     "durability": 7,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3rd burst", 3 ] ],
