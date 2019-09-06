@@ -20,6 +20,7 @@
 struct tripoint;
 class Creature;
 class player;
+class spell;
 class JsonObject;
 class JsonOut;
 class JsonIn;
@@ -80,11 +81,21 @@ struct fake_spell {
     // max level this spell can be
     // if null pointer, spell can be up to its own max level
     cata::optional<int> max_level;
+    // level for things that need it
+    int level;
     // target tripoint is source (true) or target (false)
     bool self;
+
+    fake_spell() = default;
     fake_spell( const spell_id &sp_id, bool hit_self = false,
                 const cata::optional<int> &max_level = cata::nullopt ) : id( sp_id ),
         max_level( max_level ), self( hit_self ) {}
+
+    spell get_spell( int level_override = INT_MAX ) const;
+
+    void load( JsonObject &jo );
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 class spell_type

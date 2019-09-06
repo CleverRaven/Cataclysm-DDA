@@ -68,6 +68,7 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
@@ -11189,12 +11190,20 @@ void game::process_artifact( item &it, player &p )
     const bool wielded = ( &it == &p.weapon );
     std::vector<art_effect_passive> effects = it.type->artifact->effects_carried;
     if( worn ) {
-        auto &ew = it.type->artifact->effects_worn;
+        const std::vector<art_effect_passive> &ew = it.type->artifact->effects_worn;
         effects.insert( effects.end(), ew.begin(), ew.end() );
     }
     if( wielded ) {
-        auto &ew = it.type->artifact->effects_wielded;
+        const std::vector<art_effect_passive> &ew = it.type->artifact->effects_wielded;
         effects.insert( effects.end(), ew.begin(), ew.end() );
+    }
+    std::vector<enchantment> active_enchantments;
+    if( it.is_relic() ) {
+        for( const enchantment &ench : it.get_enchantments() ) {
+            if( ench.is_active( p, it ) ) {
+                active_enchantments.emplace_back( ench );
+            }
+        }
     }
     if( it.is_tool() ) {
         // Recharge it if necessary
@@ -11260,7 +11269,11 @@ void game::process_artifact( item &it, player &p )
         }
     }
 
-    for( auto &i : effects ) {
+    for( const enchantment &ench : active_enchantments ) {
+        ench.activate_passive( p );
+    }
+
+    for( const art_effect_passive &i : effects ) {
         switch( i ) {
             case AEP_STR_UP:
                 p.mod_str_bonus( +4 );

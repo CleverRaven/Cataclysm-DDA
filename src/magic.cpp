@@ -218,18 +218,10 @@ void spell_type::load( JsonObject &jo, const std::string & )
     if( jo.has_array( "extra_effects" ) ) {
         JsonArray jarray = jo.get_array( "extra_effects" );
         while( jarray.has_more() ) {
+            fake_spell temp;
             JsonObject fake_spell_obj = jarray.next_object();
-            std::string temp_id;
-            bool temp_self = false;
-            int temp_max_level = -1;
-            mandatory( fake_spell_obj, was_loaded, "id", temp_id );
-            optional( fake_spell_obj, was_loaded, "hit_self", temp_self, false );
-            optional( fake_spell_obj, was_loaded, "max_level", temp_max_level, -1 );
-            cata::optional<int> max_level = cata::nullopt;
-            if( temp_max_level >= 0 ) {
-                max_level = temp_max_level;
-            }
-            additional_spells.emplace_back( fake_spell( spell_id( temp_id ), temp_self, max_level ) );
+            temp.load( fake_spell_obj );
+            additional_spells.emplace_back( temp );
         }
     }
 
@@ -985,15 +977,8 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
     // first call the effect of the main spell
     cast_spell_effect( source, target );
     for( const fake_spell &extra_spell : type->additional_spells ) {
-        spell sp( extra_spell.id );
-        int level = sp.get_max_level();
-        if( extra_spell.max_level ) {
-            level = std::min( level, *extra_spell.max_level );
-        }
-        level = std::min( get_level(), level );
-        while( sp.get_level() < level ) {
-            sp.gain_level();
-        }
+        spell sp = extra_spell.get_spell( extra_spell.level );
+
         if( extra_spell.self ) {
             sp.cast_all_effects( source, source.pos() );
         } else {
@@ -1676,4 +1661,52 @@ void spellbook_callback::select( int entnum, uilist *menu )
         mvwputch( menu->window, point( menu->pad_left, i ), c_magenta, LINE_XOXO );
     }
     draw_spellbook_info( spells[entnum], menu );
+}
+
+void fake_spell::load( JsonObject &jo )
+{
+    std::string temp_id;
+    mandatory( jo, false, "id", temp_id );
+    id = spell_id( temp_id );
+    optional( jo, false, "hit_self", self, false );
+    int max_level_int;
+    optional( jo, false, "max_level", max_level_int, -1 );
+    if( max_level_int == -1 ) {
+        max_level = cata::nullopt;
+    } else {
+        max_level = max_level_int;
+    }
+    optional( jo, false, "level", level, 0 );
+}
+
+void fake_spell::serialize( JsonOut &json ) const
+{
+    json.member( "id", id );
+    json.member( "hit_self", self );
+    if( !max_level ) {
+        json.member( "max_level", -1 );
+    } else {
+        json.member( "max_level", *max_level );
+    }
+    json.member( "level", level );
+}
+
+void fake_spell::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    load( data );
+}
+
+spell fake_spell::get_spell( const int level_override ) const
+{
+    spell sp( id );
+    int level = sp.get_max_level();
+    if( max_level ) {
+        level = std::min( level, *max_level );
+    }
+    level = std::min( level_override, level );
+    while( sp.get_level() < level ) {
+        sp.gain_level();
+    }
+    return sp;
 }

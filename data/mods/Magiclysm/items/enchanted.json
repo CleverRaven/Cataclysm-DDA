@@ -1,0 +1,10 @@
+[
+  {
+    "id": "belt_str",
+    "copy-from": "leather_belt",
+    "type": "ARMOR",
+    "name": "belt of strength +2",
+    "name_plural": "belts of strength +2",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] } ] }
+  }
+]

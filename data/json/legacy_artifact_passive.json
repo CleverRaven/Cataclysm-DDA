@@ -1,0 +1,37 @@
+[
+  {
+    "type": "enchantment",
+    "id": "AEP_STR_UP",
+    "values": [ { "value": "STRENGTH", "add": 4 } ],
+    "has": "WIELD"
+  },
+  {
+    "type": "enchantment",
+    "id": "AEP_DEX_UP",
+    "values": [ { "value": "DEXTERITY", "add": 4 } ],
+    "has": "WIELD"
+  },
+  {
+    "type": "enchantment",
+    "id": "AEP_PER_UP",
+    "values": [ { "value": "PERCEPTION", "add": 4 } ],
+    "has": "WIELD"
+  },
+  {
+    "type": "enchantment",
+    "id": "AEP_INT_UP",
+    "values": [ { "value": "INTELLIGENCE", "add": 4 } ],
+    "has": "WIELD"
+  },
+  {
+    "type": "enchantment",
+    "id": "AEP_ALL_UP",
+    "values": [
+      { "value": "STRENGTH", "add": 2 },
+      { "value": "DEXTERITY", "add": 2 },
+      { "value": "PERCEPTION", "add": 2 },
+      { "value": "INTELLIGENCE", "add": 2 }
+    ],
+    "has": "WIELD"
+  }
+]

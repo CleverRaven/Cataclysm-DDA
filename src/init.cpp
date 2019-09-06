@@ -209,6 +209,7 @@ void DynamicDataLoader::initialize()
     add( "scenario", &scenario::load_scenario );
     add( "start_location", &start_location::load_location );
     add( "skill_boost", &skill_boost::load_boost );
+    add( "enchantment", &enchantment::load_enchantment );
 
     // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
