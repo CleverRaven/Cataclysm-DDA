@@ -2776,10 +2776,7 @@
     "id": "YES",
     "category": "YES_NO_ALWAYS_NEVER",
     "name": "Yes",
-    "bindings": [
-      { "input_method": "keyboard", "key": [ "Y" ] },
-      { "input_method": "keyboard", "key": [ "y" ] }
-    ]
+    "bindings": [ { "input_method": "keyboard", "key": [ "Y" ] }, { "input_method": "keyboard", "key": [ "y" ] } ]
   },
   {
     "type": "keybinding",
@@ -2797,20 +2794,14 @@
     "id": "ALWAYS",
     "category": "YES_NO_ALWAYS_NEVER",
     "name": "Always",
-    "bindings": [
-      { "input_method": "keyboard", "key": [ "A" ] },
-      { "input_method": "keyboard", "key": [ "a" ] }
-    ]
+    "bindings": [ { "input_method": "keyboard", "key": [ "A" ] }, { "input_method": "keyboard", "key": [ "a" ] } ]
   },
   {
     "type": "keybinding",
     "id": "NEVER",
     "category": "YES_NO_ALWAYS_NEVER",
     "name": "Never",
-    "bindings": [
-      { "input_method": "keyboard", "key": [ "E" ] },
-      { "input_method": "keyboard", "key": [ "e" ] }
-    ]
+    "bindings": [ { "input_method": "keyboard", "key": [ "E" ] }, { "input_method": "keyboard", "key": [ "e" ] } ]
   },
   {
     "type": "keybinding",
