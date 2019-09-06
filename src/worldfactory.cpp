@@ -857,12 +857,12 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         if( redraw_headers ) {
             for( size_t i = 0; i < headers.size(); ++i ) {
                 werase( header_windows[i] );
-                const int header_x = static_cast<int>( ( getmaxx( header_windows[i] ) - headers[i].size() ) / 2 );
+                const int header_x = ( getmaxx( header_windows[i] ) - utf8_width( headers[i] ) ) / 2;
                 mvwprintz( header_windows[i], point( header_x, 0 ), c_cyan, headers[i] );
 
                 if( active_header == i ) {
                     mvwputch( header_windows[i], point( header_x - 3, 0 ), c_red, '<' );
-                    mvwputch( header_windows[i], point( header_x + static_cast<int>( headers[i].size() ) + 2, 0 ),
+                    mvwputch( header_windows[i], point( header_x + utf8_width( headers[i] ) + 2, 0 ),
                               c_red, '>' );
                 }
                 wrefresh( header_windows[i] );
@@ -921,8 +921,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
                     std::string message = string_format( _( "... %s = View full description " ),
                                                          ctxt.get_desc( "VIEW_MOD_DESCRIPTION" ) );
                     nc_color color = c_green;
-                    print_colored_text( w_description, point( window_width - message.size(), window_height - 1 ), color,
-                                        color, message );
+                    print_colored_text( w_description, point( window_width - utf8_width( message ), window_height - 1 ),
+                                        color, color, message );
                 }
             }
 
