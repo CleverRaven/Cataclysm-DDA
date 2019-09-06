@@ -153,7 +153,7 @@
     "symbol": "[",
     "ammo": "battery",
     "use_action": "PORTABLE_GAME",
-    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ]
+    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
   },
   {
     "id": "holo_cloak",
@@ -1384,7 +1384,7 @@
     "coverage": 5,
     "material_thickness": 1,
     "flags": [ "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
-    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ]
+    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
   },
   {
     "type": "ARMOR",

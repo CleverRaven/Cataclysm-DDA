@@ -4989,9 +4989,12 @@
       [ "magnesium", 10 ],
       [ "tin", 10 ],
       [ "chem_hydrogen_peroxide", 10 ],
+      [ "chem_muriatic_acid", 5 ],
       [ "chem_sulphur", 10 ],
       [ "chem_aluminium_powder", 5 ],
       [ "chem_zinc_powder", 10 ],
+      [ "chem_zinc", 5 ],
+      [ "chem_manganese_dioxide", 10 ],
       [ "chem_saltpetre", 10 ],
       [ "chem_carbide", 10 ],
       [ "denat_alcohol", 10 ]
@@ -5036,6 +5039,9 @@
       [ "chem_hydrogen_peroxide", 15 ],
       [ "chem_carbide", 10 ],
       [ "chem_zinc_powder", 10 ],
+      [ "chem_manganese_dioxide", 5 ],
+      [ "chem_potassium_chloride", 5 ],
+      [ "chem_muriatic_acid", 15 ],
       [ "denat_alcohol", 10 ]
     ]
   },
@@ -5094,8 +5100,13 @@
       [ "chem_hexamine", 10 ],
       [ "chem_saltpetre", 15 ],
       [ "chem_nitric_acid", 15 ],
+      [ "chem_muriatic_acid", 20 ],
+      [ "chem_potassium_chloride", 5 ],
+      [ "chem_potassium_hydroxide", 10 ],
+      [ "chem_zinc", 10 ],
       [ "chem_chromium_oxide", 10 ],
       [ "chem_zinc_powder", 10 ],
+      [ "chem_manganese_dioxide", 5 ],
       [ "denat_alcohol", 10 ]
     ]
   },
@@ -7465,6 +7476,7 @@
       [ "tin", 5 ],
       [ "chem_nitric_acid", 1 ],
       [ "chem_sulphuric_acid", 1 ],
+      [ "chem_muriatic_acid", 2 ],
       [ "chem_hexamine", 2 ],
       [ "denat_alcohol", 1 ],
       [ "remotevehcontrol", 5 ]

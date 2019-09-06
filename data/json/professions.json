@@ -3141,7 +3141,7 @@
           "jacket_light",
           "baton",
           "tazer",
-          "medium_battery_cell",
+          "medium_disposable_cell",
           "pockknife",
           "wristwatch"
         ],
@@ -3641,8 +3641,8 @@
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "light_battery_cell", "charges": 100 },
-          { "item": "light_battery_cell", "charges": 100 }
+          { "item": "light_disposable_cell", "charges": 100 },
+          { "item": "light_disposable_cell", "charges": 100 }
         ]
       },
       "male": [ "boxer_shorts" ],
