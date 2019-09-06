@@ -453,7 +453,8 @@ class game
         void validate_mounted_npcs();
         /** validate camps to ensure they are on the overmap list */
         void validate_camps();
-
+        /** process vehicles that are following the player */
+        void following_vehicles();
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport( player *p = nullptr, bool add_teleglow = true );
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
