@@ -32,6 +32,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
+#include "memorial_logger.h"
 #include "messages.h"
 #include "mondefense.h"
 #include "monfaction.h"
@@ -133,6 +134,7 @@ const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_got_checked( "got_checked" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_grabbing( "grabbing" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
 const efftype_id effect_onfire( "onfire" );
@@ -1901,8 +1903,9 @@ bool mattack::fungus_fortify( monster *z )
                 g->u.set_mutation( trait_THRESH_MARLOSS );
                 g->m.ter_set( g->u.pos(),
                               t_marloss ); // We only show you the door.  You walk through it on your own.
-                g->u.add_memorial_log( pgettext( "memorial_male", "Was shown to the Marloss Gateway." ),
-                                       pgettext( "memorial_female", "Was shown to the Marloss Gateway." ) );
+                g->memorial().add(
+                    pgettext( "memorial_male", "Was shown to the Marloss Gateway." ),
+                    pgettext( "memorial_female", "Was shown to the Marloss Gateway." ) );
                 g->u.add_msg_if_player( m_good,
                                         _( "You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
                 //~ Beginning to hear the Mycus while conscious: this is it speaking
@@ -2133,8 +2136,7 @@ bool mattack::dermatik( monster *z )
                                body_part_name_accusative( targeted ) );
     if( !foe->has_trait( trait_PARAIMMUNE ) || !foe->has_trait( trait_ACIDBLOOD ) ) {
         foe->add_effect( effect_dermatik, 1_turns, targeted, true );
-        foe->add_memorial_log( pgettext( "memorial_male", "Injected with dermatik eggs." ),
-                               pgettext( "memorial_female", "Injected with dermatik eggs." ) );
+        g->events().send<event_type::dermatik_eggs_injected>( foe->getID() );
     }
 
     return true;
@@ -2500,7 +2502,8 @@ bool mattack::ranged_pull( monster *z )
 {
     Creature *target = z->attack_target();
     if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 ||
-        rl_dist( z->pos(), target->pos() ) <= 1 || !z->sees( *target ) ) {
+        rl_dist( z->pos(), target->pos() ) <= 1 || !z->sees( *target ) ||
+        z->has_effect( effect_grabbing ) ) {
         return false;
     }
 
@@ -2578,9 +2581,9 @@ bool mattack::ranged_pull( monster *z )
     }
 
     const int prev_effect = target->get_effect_int( effect_grabbed );
-    target->add_effect( effect_grabbed, 2_turns, bp_torso, false,
-                        prev_effect + 4 ); //Duration needs to be at least 2, or grab will immediately be removed
-
+    //Duration needs to be at least 2, or grab will immediately be removed
+    target->add_effect( effect_grabbed, 2_turns, bp_torso, false, prev_effect + 4 );
+    z->add_effect( effect_grabbing, 2_turns );
     return true;
 }
 
@@ -2639,6 +2642,7 @@ bool mattack::grab( monster *z )
     }
 
     const int prev_effect = target->get_effect_int( effect_grabbed );
+    z->add_effect( effect_grabbing, 2_turns );
     target->add_effect( effect_grabbed, 2_turns, bp_torso, false,
                         prev_effect + z->get_grab_strength() );
     target->add_msg_player_or_npc( m_bad, _( "The %s grabs you!" ), _( "The %s grabs <npcname>!" ),
@@ -2700,6 +2704,7 @@ bool mattack::grab_drag( monster *z )
                                        _( "<npcname> resist the %s as it tries to drag them!" ), z->name() );
     }
     int prev_effect = target->get_effect_int( effect_grabbed );
+    z->add_effect( effect_grabbing, 2_turns );
     target->add_effect( effect_grabbed, 2_turns, bp_torso, false, prev_effect + 3 );
 
     return true; // cooldown was not reset prior to refactor here

@@ -6,7 +6,7 @@
     "name": "Glock 22",
     "name_plural": "Glock 22",
     "description": "A .40 S&W variant of the popular Glock 17 pistol.  The standard-issue firearm of the FBI and of countless other law enforcement agencies worldwide.",
-    "weight": 440,
+    "weight": "440 g",
     "volume": "500 ml",
     "price": 69000,
     "to_hit": -2,
@@ -19,6 +19,8 @@
     "ranged_damage": 1,
     "dispersion": 480,
     "durability": 6,
+    "blackpowder_tolerance": 48,
+    "min_cycle_recoil": 425,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -32,6 +34,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "40", [ "glock40mag", "glock40bigmag" ] ] ]
   },
@@ -42,7 +45,7 @@
     "name": "pipe rifle: .40 S&W",
     "name_plural": "pipe rifles: .40 S&W",
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
-    "weight": 2114,
+    "weight": "2114 g",
     "volume": "2 L",
     "price": 10000,
     "to_hit": -1,
@@ -54,6 +57,7 @@
     "ranged_damage": 1,
     "dispersion": 550,
     "durability": 6,
+    "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
@@ -68,6 +72,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "flags": [ "RELOAD_EJECT" ]
   },
   {
@@ -77,7 +82,7 @@
     "name": "SIG Pro .40",
     "name_plural": "SIG Pro .40",
     "description": "Originally marketed as a lightweight and compact alternative to older SIG handguns, the Pro .40 is popular among European police forces.",
-    "weight": 680,
+    "weight": "680 g",
     "volume": "500 ml",
     "price": 75000,
     "to_hit": -2,
@@ -89,6 +94,7 @@
     "skill": "pistol",
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 504,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -102,6 +108,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "40", [ "sig40mag" ] ] ]
   },
@@ -112,8 +119,8 @@
     "name": "Luty SMG: .40 S&W",
     "name_plural": "Luty SMGs: .40 S&W",
     "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using some of the more advanced powered hand tools; likely one of the most complex guns that are feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .40 S&W cartridges and accepts Glock 22 magazines, or alternatively custom-made makeshift ones.",
-    "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game.",
-    "weight": 3274,
+    "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game. No factory mags until UMP40, mp5/40, or other straight .40 mags are implemented.",
+    "weight": "3274 g",
     "volume": "1750 ml",
     "price": 20000,
     "to_hit": -1,
@@ -124,6 +131,8 @@
     "ranged_damage": -4,
     "dispersion": 590,
     "durability": 4,
+    "blackpowder_tolerance": 24,
+    "min_cycle_recoil": 425,
     "modes": [ [ "DEFAULT", "auto", 10 ] ],
     "loudness": 25,
     "barrel_length": 1,
@@ -140,7 +149,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "40", [ "glock40mag", "glock40bigmag", "smg_40_mag" ] ] ]
+    "magazines": [ [ "40", [ "smg_40_mag" ] ] ]
   },
   {
     "id": "surv_six_shooter",
@@ -148,7 +157,7 @@
     "reload_noise_volume": 10,
     "name": "handmade six-shooter",
     "description": "A homemade 6-shot revolver.  While it's not as good as the pre-Cataclysm manufactured weapons, it's a decent piece of work, all things considered.",
-    "weight": 1333,
+    "weight": "1333 g",
     "volume": "750 ml",
     "price": 15000,
     "to_hit": -2,
@@ -161,6 +170,7 @@
     "ranged_damage": -1,
     "dispersion": 620,
     "durability": 6,
+    "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 6,
     "reload": 200,
@@ -174,6 +184,7 @@
       [ "underbarrel", 1 ],
       [ "rail mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -183,7 +194,7 @@
     "name": "S&W 610",
     "name_plural": "S&W 610",
     "description": "The Smith and Wesson 610 is a classic six-shooter revolver chambered for 10mm rounds, or for S&W's own .40 round.",
-    "weight": 1133,
+    "weight": "1133 g",
     "volume": "500 ml",
     "price": 74000,
     "to_hit": -2,
@@ -195,6 +206,7 @@
     "ranged_damage": 1,
     "dispersion": 320,
     "durability": 8,
+    "blackpowder_tolerance": 56,
     "clip_size": 6,
     "magazines": [ [ "40", [ "40_speedloader6" ] ] ],
     "valid_mod_locations": [
@@ -214,7 +226,7 @@
     "type": "GUN",
     "name": "Browning Hi-Power .40 S&W",
     "description": "The Browning Hi-Power is a semi-automatic handgun developed shortly before the second world war. Widely issued since then, it remains in use by India, Canada and Australia. This is a commercial variant produced by Browning Arms in .40 S&W.",
-    "weight": 900,
+    "weight": "900 g",
     "volume": "418 ml",
     "price": 54000,
     "to_hit": -2,
@@ -233,7 +245,7 @@
     "type": "GUN",
     "name": "Walther PPQ .40 S&W",
     "description": "The Walther PPQ is a semi-automatic pistol originating from the Walther P99QA, and maintains compatibility with some of its predecessor's accessories.  This model is chambered in .40 S&W.",
-    "weight": 625,
+    "weight": "625 g",
     "volume": "422 ml",
     "price": 72500,
     "bashing": 8,
@@ -251,7 +263,7 @@
     "type": "GUN",
     "name": "Hi-Point Model JCP",
     "description": "The Hi-Point Model JCP is a blowback operated semi automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable. Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides.",
-    "weight": 800,
+    "weight": "800 g",
     "volume": "703 ml",
     "price": 7500,
     "to_hit": -2,

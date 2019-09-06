@@ -138,5 +138,11 @@
     "type": "requirement",
     "//": "Materials used for adding weight to weapons and to other items. The materials should be malleable, ductile and dense.",
     "components": [ [ [ "lead", 5 ], [ "silver_small", 5 ], [ "gold_small", 3 ], [ "platinum_small", 3 ] ] ]
+  },
+  {
+    "id": "plastics",
+    "type": "requirement",
+    "//": "Materials used for plastic and rubber things.",
+    "components": [ [ [ "plastic_chunk", 1 ] ] ]
   }
 ]

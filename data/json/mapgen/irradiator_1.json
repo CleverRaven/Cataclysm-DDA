@@ -327,7 +327,7 @@
       ],
       "liquids": { "T": { "liquid": "water_clean", "amount": [ 200, 600 ] } },
       "fields": { "U": { "field": "fd_nuke_gas", "intensity": 3, "age": 990, "chance": 100 }, "/": { "field": "fd_shock_vent" } },
-      "monster": { "(": { "monster": "mon_turret" }, "!": { "monster": "mon_hazmatbot", "chance": 5 } },
+      "monster": { "(": { "monster": "mon_turret_rifle" }, "!": { "monster": "mon_hazmatbot", "chance": 5 } },
       "monsters": {
         "h": { "monster": "GROUP_ZOMBIE", "chance": 50 },
         "o": { "monster": "GROUP_ZOMBIE", "chance": 50 },

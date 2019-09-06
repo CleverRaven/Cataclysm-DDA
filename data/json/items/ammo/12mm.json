@@ -4,7 +4,7 @@
     "type": "AMMO",
     "name": "H&K 12mm",
     "description": "The Heckler & Koch 12mm projectiles are used in H&K railguns.  It's made of a ferromagnetic metal, probably cobalt.",
-    "weight": 11,
+    "weight": "11 g",
     "volume": "250 ml",
     "price": 50000,
     "material": [ "steel" ],

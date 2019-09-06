@@ -194,6 +194,7 @@ void DynamicDataLoader::initialize()
     add( "profession", &profession::load_profession );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "skill", &Skill::load_skill );
+    add( "skill_display_type", &SkillDisplayType::load );
     add( "dream", &dream::load );
     add( "mutation_category", &mutation_category_trait::load );
     add( "mutation_type", &load_mutation_type );
@@ -208,6 +209,7 @@ void DynamicDataLoader::initialize()
     add( "scenario", &scenario::load_scenario );
     add( "start_location", &start_location::load_location );
     add( "skill_boost", &skill_boost::load_boost );
+    add( "enchantment", &enchantment::load_enchantment );
 
     // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
