@@ -927,7 +927,8 @@ int iuse::flusleep( player *p, item *it, bool, const tripoint & )
 
 int iuse::inhaler( player *p, item *it, bool, const tripoint & )
 {
-    p->add_msg_if_player( m_neutral, _( "You take a puff from your inhaler." ) );
+    p->add_msg_player_or_npc( m_neutral, _( "You take a puff from your inhaler." ),
+                              _( "<npcname> takes a puff from their inhaler." ) );
     if( !p->remove_effect( effect_asthma ) ) {
         p->mod_fatigue( -3 ); // if we don't have asthma can be used as stimulant
         if( one_in( 20 ) ) {   // with a small but significant risk of adverse reaction
@@ -941,7 +942,10 @@ int iuse::inhaler( player *p, item *it, bool, const tripoint & )
 int iuse::oxygen_bottle( player *p, item *it, bool, const tripoint & )
 {
     p->moves -= to_moves<int>( 10_seconds );
-    p->add_msg_if_player( m_neutral, _( "You breathe deeply from the %s" ), it->tname() );
+    p->add_msg_player_or_npc( m_neutral, string_format( _( "You breathe deeply from the %s" ),
+                              it->tname() ),
+                              string_format( _( "<npcname> breathes from the %s" ),
+                                      it->tname() ) );
     if( p->has_effect( effect_smoke ) ) {
         p->remove_effect( effect_smoke );
     } else if( p->has_effect( effect_teargas ) ) {

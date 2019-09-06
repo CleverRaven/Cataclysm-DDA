@@ -70,6 +70,7 @@ const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_gun( "gun" );
 const skill_id skill_throw( "throw" );
 
+const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
@@ -752,6 +753,10 @@ void npc::move()
         action = method_of_fleeing();
     } else if( has_effect( effect_npc_run_away ) ) {
         action = method_of_fleeing();
+    } else if( has_effect( effect_asthma ) && ( has_charges( "inhaler", 1 ) ||
+               has_charges( "oxygen_tank", 1 ) ||
+               has_charges( "smoxygen_tank", 1 ) ) ) {
+        action = npc_heal;
     } else if( target != nullptr && ai_cache.danger > 0 ) {
         action = method_of_attack();
     } else if( !ai_cache.sound_alerts.empty() && !is_walking_with() ) {
@@ -3414,6 +3419,24 @@ void npc:: pretend_heal( player &patient, item used )
 
 void npc::heal_self()
 {
+    if( has_effect( effect_asthma ) ) {
+        item &treatment = null_item_reference();
+        std::string iusage = "OXYGEN_BOTTLE";
+        if( has_charges( "inhaler", 1 ) ) {
+            treatment = inv.find_item( inv.position_by_type( "inhaler" ) );
+            iusage = "INHALER";
+        } else if( has_charges( "oxygen_tank", 1 ) ) {
+            treatment = inv.find_item( inv.position_by_type( "oxygen_tank" ) );
+        } else if( has_charges( "smoxygen_tank", 1 ) ) {
+            treatment = inv.find_item( inv.position_by_type( "smoxygen_tank" ) );
+        }
+        if( !treatment.is_null() ) {
+            treatment.type->invoke( *this, treatment, pos(), iusage );
+            consume_charges( treatment, 1 );
+            return;
+        }
+    }
+
     item &used = get_healing_item( ai_cache.can_heal );
     if( used.is_null() ) {
         debugmsg( "%s tried to heal self but has no healing item", disp_name() );
