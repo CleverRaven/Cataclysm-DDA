@@ -807,9 +807,14 @@ float Character::get_vision_threshold( float light_level ) const
                      threshold_for_range( range ) * dimming_from_light );
 }
 
+void Character::flag_encumbrance()
+{
+    check_encumbrance = true;
+}
+
 void Character::check_item_encumbrance_flag()
 {
-    bool update_required = false;
+    bool update_required = check_encumbrance;
     for( auto &i : worn ) {
         if( !update_required && i.has_flag( "ENCUMBRANCE_UPDATE" ) ) {
             update_required = true;

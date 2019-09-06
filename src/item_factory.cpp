@@ -1501,6 +1501,7 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &s
     bool strict = src == "dda";
 
     assign( jo, "encumbrance", slot.encumber, strict, 0 );
+    assign( jo, "max_encumbrance", slot.max_encumber, strict, slot.encumber );
     assign( jo, "coverage", slot.coverage, strict, 0, 100 );
     assign( jo, "material_thickness", slot.thickness, strict, 0 );
     assign( jo, "environmental_protection", slot.env_resist, strict, 0 );

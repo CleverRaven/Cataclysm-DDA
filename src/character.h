@@ -385,6 +385,10 @@ class Character : public Creature, public visitable<Character>
          */
         float get_vision_threshold( float light_level ) const;
         /**
+         * Flag encumbrance for updating.
+        */
+        void flag_encumbrance();
+        /**
          * Checks worn items for the "RESET_ENCUMBRANCE" flag, which indicates
          * that encumbrance may have changed and require recalculating.
          */
@@ -1018,6 +1022,7 @@ class Character : public Creature, public visitable<Character>
 
         int fatigue;
         int sleep_deprivation;
+        bool check_encumbrance;
 };
 
 #endif
