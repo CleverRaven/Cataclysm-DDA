@@ -5301,7 +5301,7 @@ void player::suffer()
 
         if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
             inventory map_inv;
-            map_inv.form_from_map( g->u.pos(), 2 );
+            map_inv.form_from_map( g->u.pos(), 2, &g->u );
             // check if character has an oxygenator first
             if( oxygenator ) {
                 add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
@@ -6992,6 +6992,36 @@ bool player::consume_med( item &target )
     return target.charges <= 0;
 }
 
+static bool query_consume_ownership( item &target, player &p )
+{
+    if( target.has_owner() && target.get_owner() != p.get_faction() ) {
+        bool choice = true;
+        if( p.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+            choice = Pickup::query_thief();
+        }
+        if( p.get_value( "THIEF_MODE" ) == "THIEF_HONEST" || !choice ) {
+            return false;
+        }
+        std::vector<npc *> witnesses;
+        for( npc &elem : g->all_npcs() ) {
+            if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && elem.sees( p.pos() ) ) {
+                witnesses.push_back( &elem );
+            }
+        }
+        for( npc *elem : witnesses ) {
+            elem->say( "<witnessed_thievery>", 7 );
+        }
+        if( !witnesses.empty() ) {
+            if( g->u.add_faction_warning( target.get_owner()->id ) ) {
+                for( npc *elem : witnesses ) {
+                    elem->make_angry();
+                }
+            }
+        }
+    }
+    return true;
+}
+
 bool player::consume_item( item &target )
 {
     if( target.is_null() ) {
@@ -7012,7 +7042,9 @@ bool player::consume_item( item &target )
         }
         return false;
     }
-
+    if( is_player() && !query_consume_ownership( target, *this ) ) {
+        return false;
+    }
     if( consume_med( comest ) ||
         eat( comest ) ||
         feed_battery_with( comest ) ||
@@ -7032,8 +7064,8 @@ bool player::consume_item( item &target )
 bool player::consume( int target_position )
 {
     auto &target = i_at( target_position );
-
     if( consume_item( target ) ) {
+
         const bool was_in_container = !can_consume_as_is( target );
 
         if( was_in_container ) {
