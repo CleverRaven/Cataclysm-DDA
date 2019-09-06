@@ -921,6 +921,79 @@
     ]
   },
   {
+    "id": "car_atomic",
+    "type": "vehicle",
+    "name": "Atomic Car",
+    "blueprint": [
+      [ "o-++-o" ],
+      [ "+=##'|" ],
+      [ "+=##'|" ],
+      [ "o-++-o" ]
+    ],
+    "parts": [
+      { "x": -3, "y": -1, "parts": [ "frame_horizontal", "halfboard_sw", "wheel_mount_medium", "wheel" ] },
+      { "x": -3, "y": 0, "parts": [ "frame_horizontal", "door_trunk" ] },
+      { "x": -3, "y": 1, "parts": [ "frame_horizontal", "door_trunk" ] },
+      { "x": -3, "y": 2, "parts": [ "frame_horizontal", "halfboard_se", "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": -1, "parts": [ "frame_vertical", "halfboard_vertical" ] },
+      { "x": -2, "y": 0, "parts": [ "frame_vertical", "roof", "trunk" ] },
+      { "x": -2, "y": 1, "parts": [ "frame_vertical", "roof", "trunk" ] },
+      { "x": -2, "y": 2, "parts": [ "frame_vertical", "halfboard_vertical" ] },
+      { "x": -1, "y": -1, "parts": [ "frame_vertical", "door" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_vertical_2", "roof", "seat", "seatbelt" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_vertical_2", "roof", "seat", "seatbelt" ] },
+      { "x": -1, "y": 2, "parts": [ "frame_vertical", "door" ] },
+      { "x": 0, "y": -1, "parts": [ "frame_vertical", "door" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "frame_vertical_2",
+          "roof",
+          "reclining_seat",
+          "seatbelt",
+          "controls",
+          "dashboard",
+          "vehicle_alarm",
+          "vehicle_clock",
+          "stereo",
+          "horn_car"
+        ]
+      },
+      { "x": 0, "y": 1, "parts": [ "frame_vertical_2", "roof", "reclining_seat", "seatbelt" ] },
+      { "x": 0, "y": 2, "parts": [ "frame_vertical", "door" ] },
+      { "x": 1, "y": -1, "parts": [ "frame_vertical", "windshield" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_horizontal", "windshield" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_horizontal", "windshield" ] },
+      { "x": 1, "y": 2, "parts": [ "frame_vertical", "windshield" ] },
+      {
+        "x": 2,
+        "y": -1,
+        "parts": [ "frame_nw", "halfboard_nw", "wheel_mount_medium_steerable", "wheel", "headlight" ]
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "parts": [ "frame_horizontal", "halfboard_horizontal", "storage_battery", "engine_electric_large", "plating_steel" ]
+      },
+      { "x": 2, "y": 1, "parts": [ "hdframe_horizontal", "halfboard_horizontal", "minireactor", "plating_steel" ] },
+      {
+        "x": 2,
+        "y": 2,
+        "parts": [ "frame_ne", "halfboard_ne", "wheel_mount_medium_steerable", "wheel", "headlight" ]
+      }
+    ],
+    "items": [
+      { "x": -2, "y": 0, "chance": 11, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 15, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel" ] },
+      { "x": 0, "y": 0, "chance": 14, "item_groups": [ "car_misc" ] },
+      { "x": 0, "y": 0, "chance": 5, "item_groups": [ "snacks" ] },
+      { "x": 0, "y": 1, "chance": 8, "item_groups": [ "car_misc" ] },
+      { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] }
+    ]
+  },
+  {
     "id": "rara_x",
     "type": "vehicle",
     "name": "Solar Car",
@@ -1272,6 +1345,141 @@
       { "x": -2, "y": 1, "chance": 5, "items": [ "crowbar" ] },
       { "x": -2, "y": 1, "chance": 5, "items": [ "jumper_cable" ] },
       { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel" ] }
+    ]
+  },
+  {
+    "id": "suv_atomic",
+    "type": "vehicle",
+    "name": "Atomic SUV",
+    "blueprint": [
+      [ "o-++-o" ],
+      [ "+=##'|" ],
+      [ "=Koo'|" ],
+      [ "+=##'|" ],
+      [ "o-++-o" ]
+    ],
+    "parts": [
+      { "x": -3, "y": -1, "parts": [ "frame_horizontal", "halfboard_sw", "wheel_mount_medium", "wheel" ] },
+      { "x": -3, "y": 0, "parts": [ "frame_horizontal", "door_trunk" ] },
+      {
+        "x": -3,
+        "y": 1,
+        "parts": [ "frame_horizontal_2", "halfboard_vertical_2", "storage_battery", "engine_electric_large", "plating_steel" ]
+      },
+      { "x": -3, "y": 2, "parts": [ "frame_horizontal", "door_trunk" ] },
+      { "x": -3, "y": 3, "parts": [ "frame_horizontal", "halfboard_se", "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": -1, "parts": [ "frame_vertical", "halfboard_vertical" ] },
+      { "x": -2, "y": 0, "parts": [ "frame_vertical", "roof", "trunk" ] },
+      { "x": -2, "y": 1, "parts": [ "hdframe_vertical", "halfboard_cover", "minireactor", "plating_steel" ] },
+      { "x": -2, "y": 2, "parts": [ "frame_vertical", "roof", "trunk" ] },
+      { "x": -2, "y": 3, "parts": [ "frame_vertical", "halfboard_vertical" ] },
+      { "x": -1, "y": -1, "parts": [ "frame_vertical", "door" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_vertical_2", "roof", "seat", "seatbelt" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_vertical_2", "roof", "seat", "seatbelt" ] },
+      { "x": -1, "y": 2, "parts": [ "frame_vertical_2", "roof", "seat", "seatbelt" ] },
+      { "x": -1, "y": 3, "parts": [ "frame_vertical", "door" ] },
+      { "x": 0, "y": -1, "parts": [ "frame_vertical", "door" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "frame_vertical_2",
+          "roof",
+          "reclining_seat",
+          "seatbelt",
+          "controls",
+          "dashboard",
+          "vehicle_alarm",
+          "vehicle_clock",
+          "stereo",
+          "horn_car"
+        ]
+      },
+      { "x": 0, "y": 1, "parts": [ "frame_vertical_2", "roof", "box" ] },
+      { "x": 0, "y": 2, "parts": [ "frame_vertical_2", "roof", "reclining_seat", "seatbelt" ] },
+      { "x": 0, "y": 3, "parts": [ "frame_vertical", "door" ] },
+      { "x": 1, "y": -1, "parts": [ "frame_vertical", "windshield" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_horizontal", "windshield" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_horizontal", "windshield" ] },
+      { "x": 1, "y": 2, "parts": [ "frame_horizontal", "windshield" ] },
+      { "x": 1, "y": 3, "parts": [ "frame_vertical", "windshield" ] },
+      {
+        "x": 2,
+        "y": -1,
+        "parts": [ "frame_nw", "halfboard_nw", "wheel_mount_medium_steerable", "wheel", "headlight" ]
+      },
+      { "x": 2, "y": 0, "parts": [ "frame_horizontal", "halfboard_horizontal" ] },
+      { "x": 2, "y": 1, "parts": [ "frame_horizontal", "halfboard_horizontal" ] },
+      { "x": 2, "y": 2, "parts": [ "frame_horizontal", "halfboard_horizontal" ] },
+      {
+        "x": 2,
+        "y": 3,
+        "parts": [ "frame_ne", "halfboard_ne", "wheel_mount_medium_steerable", "wheel", "headlight" ]
+      }
+    ],
+    "items": [
+      { "x": -2, "y": 0, "chance": 11, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 2, "chance": 15, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 2, "chance": 15, "items": [ "jack_small", "wheel" ] },
+      { "x": 0, "y": 0, "chance": 14, "item_groups": [ "car_misc" ] },
+      { "x": 0, "y": 0, "chance": 5, "item_groups": [ "snacks" ] },
+      { "x": 0, "y": 2, "chance": 8, "item_groups": [ "car_misc" ] },
+      { "x": 0, "y": 2, "chance": 2, "item_groups": [ "fast_food" ] }
+    ]
+  },
+  {
+    "id": "compact_atomic",
+    "type": "vehicle",
+    "name": "Atomic Microcar",
+    "blueprint": [
+      [ "o-+-" ],
+      [ "=##o" ],
+      [ "o>+-" ]
+    ],
+    "parts": [
+      { "x": -2, "y": -1, "parts": [ "xlframe_horizontal", "xlhalfboard_sw", "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": 0, "parts": [ "xlframe_horizontal", "windshield" ] },
+      {
+        "x": -2,
+        "y": 1,
+        "parts": [ "xlframe_horizontal", "halfboard_se", "engine_electric", "plating_steel", "wheel_mount_medium", "wheel" ]
+      },
+      { "x": -1, "y": -1, "parts": [ "xlframe_horizontal", "xlhalfboard_vertical" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe_ne", "roof", "seat", "seatbelt", "small_storage_battery" ] },
+      {
+        "x": -1,
+        "y": 1,
+        "parts": [ "hdframe_nw", "halfboard_vertical", "engine_electric", "minireactor", "plating_steel" ]
+      },
+      { "x": 0, "y": -1, "parts": [ "xlframe_vertical", "door" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "xlframe_vertical_2",
+          "roof",
+          "seat",
+          "seatbelt",
+          "controls",
+          "dashboard",
+          "vehicle_alarm",
+          "vehicle_clock",
+          "stereo",
+          "horn_car"
+        ]
+      },
+      { "x": 0, "y": 1, "parts": [ "xlframe_vertical_2", "door" ] },
+      { "x": 1, "y": -1, "parts": [ "xlframe_vertical", "xlhalfboard_nw" ] },
+      {
+        "x": 1,
+        "y": 0,
+        "parts": [ "xlframe_horizontal", "windshield", "headlight", "wheel_mount_medium_steerable", "wheel" ]
+      },
+      { "x": 1, "y": 1, "parts": [ "xlframe_horizontal", "xlhalfboard_ne" ] }
+    ],
+    "items": [
+      { "x": -1, "y": 0, "chance": 8, "item_groups": [ "car_kit" ] },
+      { "x": 0, "y": 0, "chance": 8, "item_groups": [ "car_misc" ] }
     ]
   }
 ]
