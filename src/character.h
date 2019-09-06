@@ -870,6 +870,8 @@ class Character : public Creature, public visitable<Character>
         int radiation;
 
         std::shared_ptr<monster> mounted_creature;
+        // for loading NPC mounts
+        int mounted_creature_id;
 
         void initialize_stomach_contents();
 

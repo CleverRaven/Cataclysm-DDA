@@ -7,6 +7,7 @@
 #include <memory>
 #include <set>
 
+#include "activity_handlers.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
@@ -52,6 +53,8 @@ struct itype;
 
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 
+const skill_id skill_survival( "survival" );
+
 const efftype_id effect_allow_sleep( "allow_sleep" );
 const efftype_id effect_asked_for_item( "asked_for_item" );
 const efftype_id effect_asked_personal_info( "asked_personal_info" );
@@ -65,6 +68,10 @@ const efftype_id effect_infected( "infected" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_pet( "pet" );
+const efftype_id effect_controlled( "controlled" );
+const efftype_id effect_riding( "riding" );
+const efftype_id effect_ridden( "ridden" );
+const efftype_id effect_saddled( "monster_saddled" );
 
 const mtype_id mon_horse( "mon_horse" );
 const mtype_id mon_cow( "mon_cow" );
@@ -207,6 +214,31 @@ void talk_function::do_construction( npc &p )
     p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) );
     p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
+void talk_function::dismount( npc &p )
+{
+    p.npc_dismount();
+}
+
+void talk_function::find_mount( npc &p )
+{
+    // first find one nearby
+    for( monster &critter : g->all_monsters() ) {
+        if( p.can_mount( critter ) ) {
+            p.set_attitude( NPCATT_ACTIVITY );
+            // keep the horse still for some time, so that NPC can catch up to it nad mount it.
+            p.set_mission( NPC_MISSION_ACTIVITY );
+            p.assign_activity( activity_id( "ACT_FIND_MOUNT" ) );
+            p.chosen_mount = g->shared_from( critter );
+            // we found one, thats all we need.
+            return;
+        }
+    }
+    // if we got here and this was prompted by a renewal of the activity, and there are no valid monsters nearby, then cancel whole thing.
+    if( p.has_player_activity() ) {
+        p.revert_after_activity();
+    }
 }
 
 void talk_function::do_butcher( npc &p )

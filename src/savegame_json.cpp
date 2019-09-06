@@ -100,6 +100,7 @@ struct mutation_branch;
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 const efftype_id effect_riding( "riding" );
+const efftype_id effect_ridden( "ridden" );
 
 static const matype_id style_kicks( "style_kicks" );
 
@@ -472,6 +473,7 @@ void Character::load( JsonObject &data )
     if( has_effect( effect_riding ) ) {
         int temp_id;
         if( data.read( "mounted_creature", temp_id ) ) {
+            mounted_creature_id = temp_id;
             mounted_creature = g->critter_tracker->from_temporary_id( temp_id );
         } else {
             mounted_creature = nullptr;
@@ -1831,7 +1833,7 @@ void monster::load( JsonObject &data )
     }
     last_baby = data.get_int( "last_baby", to_turn<int>( calendar::turn ) );
     last_biosig = data.get_int( "last_biosig", to_turn<int>( calendar::turn ) );
-
+    data.read( "mounted_player_id", mounted_player_id );
     data.read( "path", path );
 }
 
@@ -1895,6 +1897,8 @@ void monster::store( JsonOut &json ) const
     json.member( "inv", inv );
 
     json.member( "dragged_foe_id", dragged_foe_id );
+    // storing the rider
+    json.member( "mounted_player_id", mounted_player_id );
     json.member( "path", path );
 }
 
