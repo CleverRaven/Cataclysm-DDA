@@ -99,6 +99,8 @@ const efftype_id effect_riding( "riding" );
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 
+static const itype_id fuel_type_animal( "animal" );
+
 const zone_type_id zone_no_investigate( "NPC_NO_INVESTIGATE" );
 const zone_type_id zone_investigate_only( "NPC_INVESTIGATE_ONLY" );
 
@@ -189,7 +191,9 @@ enum npc_chat_menu {
     NPC_CHAT_MOVE_FREELY,
     NPC_CHAT_SLEEP,
     NPC_CHAT_FORBID_ENGAGE,
-    NPC_CHAT_CLEAR_OVERRIDES
+    NPC_CHAT_CLEAR_OVERRIDES,
+    NPC_CHAT_ANIMAL_VEHICLE_FOLLOW,
+    NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW
 };
 
 // given a vector of NPCs, presents a menu to allow a player to pick one.
@@ -316,6 +320,29 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 
 }
 
+static void tell_veh_stop_following()
+{
+    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
+    for( auto &veh : g->m.get_vehicles() ) {
+        auto &v = veh.v;
+        if( v->has_engine_type( fuel_type_animal, false ) && v->get_owner() == yours ) {
+            v->is_following = false;
+            v->engine_on = false;
+        }
+    }
+}
+
+static void assign_veh_to_follow()
+{
+    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
+    for( auto &veh : g->m.get_vehicles() ) {
+        auto &v = veh.v;
+        if( v->has_engine_type( fuel_type_animal, false ) && v->get_owner() == yours ) {
+            v->activate_animal_follow();
+        }
+    }
+}
+
 void game::chat()
 {
     int volume = g->u.get_shout_volume();
@@ -342,6 +369,18 @@ void game::chat()
         g->u.add_msg_if_player( m_warning, _( "You can't speak without your face!" ) );
         return;
     }
+    std::vector<vehicle *> animal_vehicles;
+    std::vector<vehicle *> following_vehicles;
+    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
+    for( auto &veh : g->m.get_vehicles() ) {
+        auto &v = veh.v;
+        if( v->has_engine_type( fuel_type_animal, false ) && v->get_owner() == yours ) {
+            animal_vehicles.push_back( v );
+            if( v->is_following ) {
+                following_vehicles.push_back( v );
+            }
+        }
+    }
 
     uilist nmenu;
     nmenu.text = std::string( _( "What do you want to do?" ) );
@@ -354,6 +393,14 @@ void game::chat()
     }
     nmenu.addentry( NPC_CHAT_YELL, true, 'a', _( "Yell" ) );
     nmenu.addentry( NPC_CHAT_SENTENCE, true, 'b', _( "Yell a sentence" ) );
+    if( !animal_vehicles.empty() ) {
+        nmenu.addentry( NPC_CHAT_ANIMAL_VEHICLE_FOLLOW, true, 'F',
+                        _( "Whistle at your animals pulling vehicles to follow you." ) );
+    }
+    if( !following_vehicles.empty() ) {
+        nmenu.addentry( NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW, true, 'S',
+                        _( "Whistle at your animals pulling vehicles to stop following you." ) );
+    }
     if( !guards.empty() ) {
         nmenu.addentry( NPC_CHAT_FOLLOW, true, 'f', guard_count == 1 ?
                         string_format( _( "Tell %s to follow" ), guards.front()->name ) :
@@ -479,6 +526,12 @@ void game::chat()
             break;
         case NPC_CHAT_ORDERS:
             npc_temp_orders_menu( followers );
+            break;
+        case NPC_CHAT_ANIMAL_VEHICLE_FOLLOW:
+            assign_veh_to_follow();
+            break;
+        case NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW:
+            tell_veh_stop_following();
             break;
         default:
             return;
