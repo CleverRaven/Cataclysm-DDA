@@ -1474,14 +1474,11 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     }
 
     if( has_flag( MF_DRIPS_NAPALM ) ) {
-        if( true ) { // one_in( 10 ) // removed randomness to test
-            // grab the pressurized tank from the monster
-            // find out how much is in it,
-            int store = ammo["pressurized_tank"];
+        if( one_in( 10 ) ) {
             // if it has more napalm, drop some and reduce ammo in tank
-            if( store > 0 ) {
-                g->m.add_item_or_charges( pos(), item( "napalm" ) ); // TODO how to set amount leaked
-                ammo["pressurized_tank"] -= 100; // it starts with 1000 so this means 10 leaks
+            if( ammo["pressurized_tank"] > 0 ) {
+                g->m.add_item_or_charges( pos(), item( "napalm", calendar::turn, 50 ) );
+                ammo["pressurized_tank"] -= 50;
             } else {
                 // TODO remove MF_DRIPS_NAPALM flag since no more napalm in tank
                 // Not possible for now since flag check is done on type, not individual monster
