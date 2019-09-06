@@ -86,6 +86,17 @@
   },
   {
     "type": "GENERIC",
+    "id": "corpse_oldwoman_jewelry",
+    "copy-from": "corpse",
+    "name": "corpse",
+    "description": "A dead body of a old woman.  You notice that both of her earlobes are torn, and several fingers on both of her hands are chopped off, and she is missing many teeth in her mouth, and her bloodied lips are smashed.  It seems that someone naive is thinking that jewelry still worth something even after the Cataclysm.",
+    "looks_like": "corpse",
+    "volume": "40000 ml",
+    "weight": "52000 g",
+    "material": "hflesh"
+  },
+  {
+    "type": "GENERIC",
     "id": "corpse_bloody",
     "copy-from": "corpse",
     "name": "corpse",
