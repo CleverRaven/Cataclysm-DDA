@@ -739,9 +739,9 @@ float player::get_dodge() const
             if( mon && mon->has_effect( effect_grabbing ) ) {
                 zed_number++;
             }
-            if( zed_number > 0 ) {
-                ret /= zed_number + 1;
-            }
+        }
+        if( zed_number > 0 ) {
+            ret /= zed_number + 1;
         }
     }
 
