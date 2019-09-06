@@ -585,8 +585,7 @@ void player::sort_armor()
                 same = false;
             }
 
-            //something wrong with using tname, results are too long
-            int elem_w = utf8_width( item::nname( elem.typeId() ) );
+            int elem_w = utf8_width( elem.tname(), true );
             if( elem_w > max_name_w ) {
                 max_name_w = elem_w;
             }
