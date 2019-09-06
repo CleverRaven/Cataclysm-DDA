@@ -42,6 +42,6 @@
   {
     "type": "enchantment",
     "id": "AEP_SPEED_DOWN",
-    "values": [ { "vlaue": "SPEED", "add": -20 } ]
+    "values": [ { "value": "SPEED", "add": -20 } ]
   }
 ]
