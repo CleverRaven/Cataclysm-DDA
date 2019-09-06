@@ -229,65 +229,65 @@ void enchantment::load( JsonObject &jo, const std::string & )
     }
 }
 
-void enchantment::serialize( JsonOut &json ) const
+void enchantment::serialize( JsonOut &jsout ) const
 {
-    json.start_object();
+    jsout.start_object();
 
-    json.member( "has", io::enum_to_string<has>( active_conditions.first ) );
-    json.member( "condition", io::enum_to_string<condition>( active_conditions.second ) );
+    jsout.member( "has", io::enum_to_string<has>( active_conditions.first ) );
+    jsout.member( "condition", io::enum_to_string<condition>( active_conditions.second ) );
 
     if( !hit_you_effect.empty() ) {
-        json.member( "hit_you_effect" );
-        json.start_array();
+        jsout.member( "hit_you_effect" );
+        jsout.start_array();
         for( const fake_spell &sp : hit_you_effect ) {
-            sp.serialize( json );
+            sp.serialize( jsout );
         }
-        json.end_array();
+        jsout.end_array();
     }
 
     if( !hit_me_effect.empty() ) {
-        json.member( "hit_me_effect" );
-        json.start_array();
+        jsout.member( "hit_me_effect" );
+        jsout.start_array();
         for( const fake_spell &sp : hit_me_effect ) {
-            sp.serialize( json );
+            sp.serialize( jsout );
         }
-        json.end_array();
+        jsout.end_array();
     }
 
     if( !intermittent_activation.empty() ) {
-        json.member( "intermittent_activation" );
-        json.start_object();
+        jsout.member( "intermittent_activation" );
+        jsout.start_object();
         for( const std::pair<time_duration, std::vector<fake_spell>> pair : intermittent_activation ) {
-            json.member( "duration", pair.first );
-            json.start_array( "effects" );
+            jsout.member( "duration", pair.first );
+            jsout.start_array( "effects" );
             for( const fake_spell &sp : pair.second ) {
-                sp.serialize( json );
+                sp.serialize( jsout );
             }
-            json.end_array();
+            jsout.end_array();
         }
-        json.end_object();
+        jsout.end_object();
     }
 
-    json.member( "values" );
-    json.start_array();
+    jsout.member( "values" );
+    jsout.start_array();
     for( int value = 0; value < mod::NUM_MOD; value++ ) {
         mod enum_value = static_cast<mod>( value );
         if( get_value_add( enum_value ) == 0 && get_value_multiply( enum_value ) == 0.0 ) {
             continue;
         }
-        json.start_object();
-        json.member( "value", io::enum_to_string<mod>( enum_value ) );
+        jsout.start_object();
+        jsout.member( "value", io::enum_to_string<mod>( enum_value ) );
         if( get_value_add( enum_value ) != 0 ) {
-            json.member( "add", get_value_add( enum_value ) );
+            jsout.member( "add", get_value_add( enum_value ) );
         }
         if( get_value_multiply( enum_value ) != 0 ) {
-            json.member( "multiply", get_value_multiply( enum_value ) );
+            jsout.member( "multiply", get_value_multiply( enum_value ) );
         }
-        json.end_object();
+        jsout.end_object();
     }
-    json.end_array();
+    jsout.end_array();
 
-    json.end_object();
+    jsout.end_object();
 }
 
 bool enchantment::stacks_with( const enchantment &rhs ) const

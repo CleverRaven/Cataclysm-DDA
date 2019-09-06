@@ -115,7 +115,7 @@ class enchantment
 
         bool was_loaded;
 
-        void serialize( JsonOut &jo ) const;
+        void serialize( JsonOut &jsout ) const;
     private:
         // values that add to the base value
         std::map<mod, int> values_add;

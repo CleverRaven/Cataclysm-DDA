@@ -55,33 +55,33 @@ void relic::deserialize( JsonIn &jsin )
     load( jobj );
 }
 
-void relic::serialize( JsonOut &json ) const
+void relic::serialize( JsonOut &jsout ) const
 {
-    json.start_object();
+    jsout.start_object();
 
-    json.member( "moves", moves );
-    json.member( "charges_per_activation", charges_per_activation );
-    json.member( "name", item_name_override.untranslated() );
+    jsout.member( "moves", moves );
+    jsout.member( "charges_per_activation", charges_per_activation );
+    jsout.member( "name", item_name_override.untranslated() );
 
     if( !passive_effects.empty() ) {
-        json.member( "passive_effects" );
-        json.start_array();
+        jsout.member( "passive_effects" );
+        jsout.start_array();
         for( const enchantment &ench : passive_effects ) {
-            ench.serialize( json );
+            ench.serialize( jsout );
         }
-        json.end_array();
+        jsout.end_array();
     }
 
     if( !active_effects.empty() ) {
-        json.member( "active_effects" );
-        json.start_array();
+        jsout.member( "active_effects" );
+        jsout.start_array();
         for( const fake_spell &sp : active_effects ) {
-            sp.serialize( json );
+            sp.serialize( jsout );
         }
-        json.end_array();
+        jsout.end_array();
     }
 
-    json.end_object();
+    jsout.end_object();
 }
 
 int relic::activate( Creature &caster, const tripoint &target ) const
