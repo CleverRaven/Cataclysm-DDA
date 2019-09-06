@@ -552,6 +552,14 @@ def extract_dynamic_line(line, outfile):
     elif type(line) == str:
         writestr(outfile, line)
 
+def extract_talk_effects(effects, outfile):
+    if type(effects) != list:
+        effects = [effects]
+    for eff in effects:
+        if type(eff) == dict:
+            if "u_buy_monster" in eff and "name" in eff:
+                writestr(outfile, eff["name"], comment="Nickname for creature '{}'".format(eff["u_buy_monster"]))
+
 def extract_talk_response(response, outfile):
     if "text" in response:
         writestr(outfile, response["text"])
@@ -559,6 +567,15 @@ def extract_talk_response(response, outfile):
         extract_talk_response(response["success"], outfile)
     if "failure" in response:
         extract_talk_response(response["failure"], outfile)
+    if "speaker_effect" in response:
+        speaker_effects = response["speaker_effect"]
+        if type(speaker_effects) != list:
+            speaker_effects = [speaker_effects]
+        for eff in speaker_effects:
+            if "effect" in eff:
+                extract_talk_effects(eff["effect"], outfile)
+    if "effect" in response:
+        extract_talk_effects(response["effect"], outfile)
 
 def extract_talk_topic(item):
     outfile = get_outfile("talk_topic")
@@ -567,6 +584,8 @@ def extract_talk_topic(item):
     if "responses" in item:
         for r in item["responses"]:
             extract_talk_response(r, outfile)
+    if "effect" in item:
+        extract_talk_effects(item["effect"], outfile)
 
 def extract_trap(item):
     outfile = get_outfile("trap")
@@ -600,6 +619,12 @@ def extract_missiondef(item):
             writestr(outfile, dialogue.get("success_lie"))
         if "failure" in dialogue:
             writestr(outfile, dialogue.get("failure"))
+    if "start" in item and "effect" in item["start"]:
+        extract_talk_effects(item["start"]["effect"], outfile)
+    if "end" in item and "effect" in item["end"]:
+        extract_talk_effects(item["end"]["effect"], outfile)
+    if "fail" in item and "effect" in item["fail"]:
+        extract_talk_effects(item["fail"]["effect"], outfile)
 
 def extract_mutation(item):
     outfile = get_outfile("mutation")
@@ -713,6 +738,10 @@ def extract_ter_furn_transform_messages(item):
 	for terrain in item.get("terrain"):
 		writestr(outfile,terrain.get("message"))
 
+def extract_skill_display_type(item):
+    outfile = get_outfile("skill_display_type")
+    writestr(outfile, item["display_string"], comment="display string for skill display type '{}'".format(item["ident"]))
+
 # these objects need to have their strings specially extracted
 extract_specials = {
     "harvest" : extract_harvest,
@@ -739,7 +768,8 @@ extract_specials = {
     "gate": extract_gate,
     "vehicle_spawn": extract_vehspawn,
     "field_type": extract_field_type,
-    "ter_furn_transform": extract_ter_furn_transform_messages
+    "ter_furn_transform": extract_ter_furn_transform_messages,
+    "skill_display_type": extract_skill_display_type
 
 }
 
@@ -876,6 +906,8 @@ def extract_use_action_msgs(outfile, use_action, it_name, kwargs):
 def extract(item, infilename):
     """Find any extractable strings in the given json object,
     and write them to the appropriate file."""
+    if not "type" in item:
+        raise WrongJSONItem("ERROR: Object doesn't have a type: {}".format(infilename), item)
     object_type = item["type"]
     outfile = get_outfile(object_type)
     kwargs = {}
@@ -959,6 +991,10 @@ def extract(item, infilename):
     if "text" in item:
         writestr(outfile, item["text"], **kwargs)
         wrote = True
+    if "message" in item:
+        writestr(outfile, item["message"], format_strings=True,
+                 comment="Message for {} '{}'".format(object_type, name), **kwargs )
+        wrote = True
     if "messages" in item:
         for message in item["messages"]:
             writestr(outfile, message, **kwargs)
@@ -979,6 +1015,11 @@ def extract(item, infilename):
         for special_attack in special_attacks:
             if "description" in special_attack:
                 writestr(outfile, special_attack["description"], **kwargs)
+                wrote = True
+            if "monster_message" in special_attack:
+                writestr(outfile, special_attack["monster_message"], format_strings=True,
+                         comment="Attack message of monster \"{}\"'s spell \"{}\""
+                         .format(name, special_attack.get("spell_id")), **kwargs)
                 wrote = True
     if "footsteps" in item:
        writestr(outfile, item["footsteps"], **kwargs)
