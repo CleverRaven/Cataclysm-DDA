@@ -24,6 +24,7 @@
 #include "catacharset.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
@@ -173,6 +174,7 @@ const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_recover( "recover" );
 const efftype_id effect_riding( "riding" );
+const efftype_id effect_ridden( "ridden" );
 const efftype_id effect_sad( "sad" );
 const efftype_id effect_shakes( "shakes" );
 const efftype_id effect_sleep( "sleep" );
@@ -189,7 +191,9 @@ const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_magnesium_supplements( "magnesium" );
-const efftype_id effect_ridden( "ridden" );
+const efftype_id effect_harnessed( "harnessed" );
+const efftype_id effect_pet( "pet" );
+const efftype_id effect_tied( "tied" );
 
 const matype_id style_none( "style_none" );
 const matype_id style_kicks( "style_kicks" );
@@ -10955,6 +10959,57 @@ void player::burn_move_stamina( int moves )
     }
 }
 
+void player::mount_creature( monster &z )
+{
+    tripoint pnt = z.pos();
+    std::shared_ptr<monster> mons = g->shared_from( z );
+    if( mons == nullptr ) {
+        add_msg( m_debug, "mount_creature() : monster not found in critter_tracker" );
+        return;
+    }
+    add_effect( effect_riding, 1_turns, num_bp, true );
+    z.add_effect( effect_ridden, 1_turns, num_bp, true );
+    if( z.has_effect( effect_tied ) ) {
+        z.remove_effect( effect_tied );
+        if( z.tied_item ) {
+            i_add( *z.tied_item );
+            z.tied_item = cata::nullopt;
+        }
+    }
+    z.mounted_player_id = getID();
+    if( z.has_effect( effect_harnessed ) ) {
+        z.remove_effect( effect_harnessed );
+        add_msg_if_player( m_info, _( "You remove the %s's harness." ), z.get_name() );
+    }
+    mounted_creature = mons;
+    mons->mounted_player = this;
+    if( is_hauling() ) {
+        stop_hauling();
+    }
+    if( is_player() ) {
+        if( g->u.get_grab_type() != OBJECT_NONE ) {
+            add_msg( m_warning, _( "You let go of the grabbed object." ) );
+            g->u.grab( OBJECT_NONE );
+        }
+        g->place_player( pnt );
+    } else {
+        npc &guy = dynamic_cast<npc &>( *this );
+        guy.setpos( pnt );
+    }
+    z.facing = facing;
+    add_msg_if_player( m_good, _( "You climb on the %s." ), z.get_name() );
+    if( z.has_flag( MF_RIDEABLE_MECH ) ) {
+        if( !z.type->mech_weapon.empty() ) {
+            item mechwep = item( z.type->mech_weapon );
+            wield( mechwep );
+        }
+        add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
+    }
+    // some rideable mechs have night-vision
+    recalc_sight_limits();
+    mod_moves( -100 );
+}
+
 void player::forced_dismount()
 {
     remove_effect( effect_riding );
@@ -10963,10 +11018,13 @@ void player::forced_dismount()
         auto mon = mounted_creature.get();
         if( mon->has_flag( MF_RIDEABLE_MECH ) && !mon->type->mech_weapon.empty() ) {
             mech = true;
-            remove_item( g->u.weapon );
+            remove_item( weapon );
         }
+        mon->mounted_player_id = character_id();
         mon->remove_effect( effect_ridden );
+        mon->add_effect( effect_controlled, 5_turns );
         mounted_creature = nullptr;
+        mon->mounted_player = nullptr;
     }
     std::vector<tripoint> valid;
     for( const tripoint &jk : g->m.points_in_radius( pos(), 1 ) ) {
@@ -10977,9 +11035,11 @@ void player::forced_dismount()
     if( !valid.empty() ) {
         setpos( random_entry( valid ) );
         if( mech ) {
-            add_msg( m_bad, _( "You are ejected from your mech!" ) );
+            add_msg_player_or_npc( m_bad, _( "You are ejected from your mech!" ),
+                                   _( "<npcname> is ejected from their mech!" ) );
         } else {
-            add_msg( m_bad, _( "You fall off your mount!" ) );
+            add_msg_player_or_npc( m_bad, _( "You fall off your mount!" ),
+                                   _( "<npcname> falls off their mount!" ) );
         }
         const int dodge = get_dodge();
         const int damage = std::max( 0, rng( 1, 20 ) - rng( dodge, dodge * 2 ) );
@@ -11019,7 +11079,7 @@ void player::forced_dismount()
                 break;
         }
         if( damage > 0 ) {
-            add_msg( m_bad, _( "You hurt yourself!" ) );
+            add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
             deal_damage( nullptr, hit, damage_instance( DT_BASH, damage ) );
             if( is_avatar() ) {
                 g->memorial().add(
@@ -11032,49 +11092,46 @@ void player::forced_dismount()
     } else {
         add_msg( m_debug, "Forced_dismount could not find a square to deposit player" );
     }
-    if( g->u.get_grab_type() != OBJECT_NONE ) {
-        add_msg( m_warning, _( "You let go of the grabbed object." ) );
-        g->u.grab( OBJECT_NONE );
+    if( is_player() ) {
+        if( g->u.get_grab_type() != OBJECT_NONE ) {
+            add_msg( m_warning, _( "You let go of the grabbed object." ) );
+            g->u.grab( OBJECT_NONE );
+        }
+        set_movement_mode( PMM_WALK );
+        g->update_map( g->u );
     }
     moves -= 150;
-    set_movement_mode( PMM_WALK );
-    g->update_map( g->u );
 }
 
 void player::dismount()
 {
-    if( is_mounted() ) {
-        if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Dismount where?" ) ) ) {
-            if( g->is_empty( *pnt ) ) {
-                tripoint temp_pt = *pnt;
-                int xdiff = pos().x - temp_pt.x;
-                int ydiff = pos().y - temp_pt.y;
-                remove_effect( effect_riding );
-                monster *critter = mounted_creature.get();
-                if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.empty() ) {
-                    remove_item( g->u.weapon );
-                }
-                if( g->u.get_grab_type() != OBJECT_NONE ) {
-                    add_msg( m_warning, _( "You let go of the grabbed object." ) );
-                    g->u.grab( OBJECT_NONE );
-                }
-                critter->remove_effect( effect_ridden );
-                mounted_creature = nullptr;
-                setpos( *pnt );
-                g->refresh_all();
-                critter->setpos( pos() + point( xdiff, ydiff ) );
-                critter->add_effect( effect_controlled, 5_turns );
-                mod_moves( -100 );
-                set_movement_mode( PMM_WALK );
-                return;
-            } else {
-                add_msg( m_warning, _( "You cannot dismount there!" ) );
-                return;
-            }
-        }
-    } else {
+    if( !is_mounted() ) {
         add_msg( m_debug, "dismount called when not riding" );
         return;
+    }
+    if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Dismount where?" ) ) ) {
+        if( !g->is_empty( *pnt ) ) {
+            add_msg( m_warning, _( "You cannot dismount there!" ) );
+            return;
+        }
+        remove_effect( effect_riding );
+        monster *critter = mounted_creature.get();
+        critter->mounted_player_id = character_id();
+        if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.empty() ) {
+            remove_item( g->u.weapon );
+        }
+        if( g->u.get_grab_type() != OBJECT_NONE ) {
+            add_msg( m_warning, _( "You let go of the grabbed object." ) );
+            g->u.grab( OBJECT_NONE );
+        }
+        critter->remove_effect( effect_ridden );
+        critter->add_effect( effect_controlled, 5_turns );
+        mounted_creature = nullptr;
+        critter->mounted_player = nullptr;
+        setpos( *pnt );
+        g->refresh_all();
+        mod_moves( -100 );
+        set_movement_mode( PMM_WALK );
     }
 }
 

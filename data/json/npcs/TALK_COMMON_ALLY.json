@@ -92,6 +92,8 @@
         "effect": "npc_gets_item"
       },
       { "text": "Miscellaneous rules...", "topic": "TALK_MISC_RULES" },
+      { "text": "Mount up!.", "topic": "TALK_DONE", "condition": { "not": "npc_is_riding" }, "effect": "find_mount" },
+      { "text": "Dismount, please.", "topic": "TALK_DONE", "condition": "npc_is_riding", "effect": "find_mount" },
       { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
       { "text": "Let's go.", "topic": "TALK_DONE" },
       {

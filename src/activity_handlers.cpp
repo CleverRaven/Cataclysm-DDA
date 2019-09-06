@@ -45,6 +45,7 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
+#include "npctalk.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "player.h"
@@ -113,6 +114,8 @@ const efftype_id effect_milked( "milked" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_under_op( "under_operation" );
 const efftype_id effect_pet( "pet" );
+const efftype_id effect_controlled( "controlled" );
+const efftype_id effect_saddled( "saddled" );
 
 using namespace activity_handlers;
 
@@ -170,6 +173,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_CHOP_PLANKS" ), chop_tree_do_turn },
     { activity_id( "ACT_TIDY_UP" ), tidy_up_do_turn },
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_do_turn },
+    { activity_id( "ACT_FIND_MOUNT" ), find_mount_do_turn },
     { activity_id( "ACT_DIG" ), dig_do_turn },
     { activity_id( "ACT_DIG_CHANNEL" ), dig_channel_do_turn },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn },
@@ -2873,6 +2877,49 @@ void activity_handlers::wait_weather_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "You finish waiting." ) );
     act->set_to_null();
+}
+
+void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
+{
+    //npc only activity
+    if( p->is_player() ) {
+        act->set_to_null();
+        return;
+    }
+    npc &guy = dynamic_cast<npc &>( *p );
+    monster *mon = guy.chosen_mount.lock().get();
+    if( !mon ) {
+        act->set_to_null();
+        guy.revert_after_activity();
+        return;
+    }
+    if( rl_dist( guy.pos(), mon->pos() ) <= 1 ) {
+        if( mon->has_effect( effect_controlled ) ) {
+            mon->remove_effect( effect_controlled );
+        }
+        if( p->can_mount( *mon ) ) {
+            act->set_to_null();
+            guy.revert_after_activity();
+            guy.chosen_mount = std::weak_ptr<monster>();
+            p->mount_creature( *mon );
+        } else {
+            act->set_to_null();
+            guy.revert_after_activity();
+            return;
+        }
+    } else {
+        const std::vector<tripoint> route = route_adjacent( *p, guy.chosen_mount.lock().get()->pos() );
+        if( route.empty() ) {
+            act->set_to_null();
+            guy.revert_after_activity();
+            mon->remove_effect( effect_controlled );
+            return;
+        } else {
+            p->activity = player_activity();
+            mon->add_effect( effect_controlled, 40_turns );
+            p->set_destination( route, player_activity( activity_id( "ACT_FIND_MOUNT" ) ) );
+        }
+    }
 }
 
 void activity_handlers::wait_npc_finish( player_activity *act, player *p )

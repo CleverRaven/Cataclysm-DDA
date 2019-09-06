@@ -94,6 +94,7 @@ const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_under_op( "under_operation" );
+const efftype_id effect_riding( "riding" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
@@ -178,6 +179,8 @@ enum npc_chat_menu {
     NPC_CHAT_GUARD,
     NPC_CHAT_FOLLOW,
     NPC_CHAT_AWAKE,
+    NPC_CHAT_MOUNT,
+    NPC_CHAT_DISMOUNT,
     NPC_CHAT_DANGER,
     NPC_CHAT_ORDERS,
     NPC_CHAT_NO_GUNS,
@@ -363,6 +366,8 @@ void game::chat()
                         _( "Tell someone to guard..." )
                       );
         nmenu.addentry( NPC_CHAT_AWAKE, true, 'w', _( "Tell everyone on your team to wake up" ) );
+        nmenu.addentry( NPC_CHAT_MOUNT, true, 'M', _( "Tell everyone on your team to mount up" ) );
+        nmenu.addentry( NPC_CHAT_DISMOUNT, true, 'm', _( "Tell everyone on your team to dismount" ) );
         nmenu.addentry( NPC_CHAT_DANGER, true, 'D',
                         _( "Tell everyone on your team to prepare for danger" ) );
         nmenu.addentry( NPC_CHAT_CLEAR_OVERRIDES, true, 'r',
@@ -441,6 +446,23 @@ void game::chat()
                 talk_function::wake_up( *them );
             }
             yell_msg = _( "Stay awake!" );
+            break;
+        case NPC_CHAT_MOUNT:
+            for( npc *them : followers ) {
+                if( them->has_effect( effect_riding ) ) {
+                    continue;
+                }
+                talk_function::find_mount( *them );
+            }
+            yell_msg = _( "Mount up!" );
+            break;
+        case NPC_CHAT_DISMOUNT:
+            for( npc *them : followers ) {
+                if( them->has_effect( effect_riding ) ) {
+                    them->npc_dismount();
+                }
+            }
+            yell_msg = _( "Dismount!" );
             break;
         case NPC_CHAT_DANGER:
             for( npc *them : followers ) {
@@ -2374,6 +2396,8 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObjec
             WRAP( mission_reward ),
             WRAP( start_trade ),
             WRAP( sort_loot ),
+            WRAP( find_mount ),
+            WRAP( dismount ),
             WRAP( do_chop_plank ),
             WRAP( do_vehicle_deconstruct ),
             WRAP( do_chop_trees ),

@@ -136,6 +136,14 @@ void conditional_t<T>::set_has_activity( bool is_npc )
 }
 
 template<class T>
+void conditional_t<T>::set_is_riding( bool is_npc )
+{
+    condition = [is_npc]( const T & d ) {
+        return ( is_npc ? d.alpha : d.beta )->is_mounted();
+    };
+}
+
+template<class T>
 void conditional_t<T>::set_npc_has_class( JsonObject &jo )
 {
     const std::string &class_to_check = jo.get_string( "npc_has_class" );
@@ -948,6 +956,8 @@ conditional_t<T>::conditional_t( JsonObject jo )
         set_npc_has_class( jo );
     } else if( jo.has_string( "npc_has_activity" ) ) {
         set_has_activity( is_npc );
+    } else if( jo.has_string( "npc_is_riding" ) ) {
+        set_is_riding( is_npc );
     } else if( jo.has_string( "u_has_mission" ) ) {
         set_u_has_mission( jo );
     } else if( jo.has_int( "u_has_strength" ) ) {
@@ -1113,6 +1123,8 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_is_driving( is_npc );
     } else if( type == "npc_has_activity" ) {
         set_has_activity( is_npc );
+    } else if( type == "npc_is_riding" ) {
+        set_is_riding( is_npc );
     } else if( type == "is_day" ) {
         set_is_day();
     } else if( type == "u_has_stolen_item" ) {

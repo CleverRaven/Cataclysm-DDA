@@ -98,6 +98,9 @@ const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_infection( "infection" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_npc_flee_player( "npc_flee_player" );
+const efftype_id effect_riding( "riding" );
+const efftype_id effect_ridden( "ridden" );
+const efftype_id effect_controlled( "controlled" );
 
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
@@ -698,7 +701,7 @@ void npc::place_on_map()
     // value of "submap_coords.x * SEEX + posx()" is unchanged
     setpos( tripoint( offset_x + dmx * SEEX, offset_y + dmy * SEEY, posz() ) );
 
-    if( g->is_empty( pos() ) ) {
+    if( g->is_empty( pos() ) || is_mounted() ) {
         return;
     }
 
@@ -1779,6 +1782,34 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
+void npc::npc_dismount()
+{
+    if( !mounted_creature ) {
+        add_msg( m_debug, "NPC %s tried to dismount, but they have no mount", disp_name() );
+    }
+    cata::optional<tripoint> pnt;
+    for( const auto &elem : g->m.points_in_radius( pos(), 1 ) ) {
+        if( g->is_empty( elem ) ) {
+            pnt = elem;
+            break;
+        }
+    }
+    if( !pnt ) {
+        add_msg( m_debug, "NPC %s could not find a place to dismount.", disp_name() );
+        return;
+    }
+    remove_effect( effect_riding );
+    if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) &&
+        !mounted_creature->type->mech_weapon.empty() ) {
+        remove_item( weapon );
+    }
+    mounted_creature->remove_effect( effect_ridden );
+    mounted_creature->add_effect( effect_controlled, 5_turns );
+    mounted_creature = nullptr;
+    setpos( *pnt );
+    mod_moves( -100 );
+}
+
 int npc::smash_ability() const
 {
     if( !is_hallucination() && ( !is_player_ally() || rules.has_flag( ally_rule::allow_bash ) ) ) {
@@ -2049,7 +2080,12 @@ void npc::die( Creature *nkiller )
     if( in_vehicle ) {
         g->m.unboard_vehicle( pos(), true );
     }
-
+    if( is_mounted() ) {
+        monster *critter = mounted_creature.get();
+        critter->remove_effect( effect_ridden );
+        critter->mounted_player = nullptr;
+        critter->mounted_player_id = character_id();
+    }
     dead = true;
     Character::die( nkiller );
 
@@ -2285,6 +2321,14 @@ void npc::on_load()
     }
     if( g->m.veh_at( pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
         g->m.board_vehicle( pos(), this );
+    }
+    if( has_effect( effect_riding ) && !mounted_creature ) {
+        if( const monster *const mon = g->critter_at<monster>( pos() ) ) {
+            mounted_creature = g->shared_from( *mon );
+        } else {
+            add_msg( m_debug, "NPC is meant to be riding, though the mount is not found when %s is loaded",
+                     disp_name() );
+        }
     }
     if( has_trait( trait_id( "HALLUCINATION" ) ) ) {
         hallucination = true;

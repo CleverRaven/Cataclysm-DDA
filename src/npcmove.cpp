@@ -88,6 +88,7 @@ const efftype_id effect_npc_run_away( "npc_run_away" );
 const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
 const efftype_id effect_npc_flee_player( "npc_flee_player" );
 const efftype_id effect_npc_player_looking( "npc_player_still_looking" );
+const efftype_id effect_ridden( "ridden" );
 
 // power source CBMs
 const bionic_id bio_advreactor( "bio_advreactor" );
@@ -469,11 +470,17 @@ void npc::assess_danger()
         if( is_player_ally() && !ok_by_rules( critter, dist, scaled_distance ) ) {
             continue;
         }
-
-        // don't ignore monsters that are too close or too close to an ally
+        // don't ignore monsters that are too close or too close to an ally.
         bool is_too_close = dist <= def_radius;
         const auto test_too_close = [critter, &is_too_close]( const std::weak_ptr<Creature> &guy ) {
-            is_too_close |= too_close( critter.pos(), guy.lock().get()->pos() );
+            // Bit of a dirty hack - sometimes shared_from, returns nullptr or bad weak_ptr for friendly NPC when
+            // NPC is riding a creature - I dont know why.
+            // so this skips the bad weak_ptrs, but this doesnt functionally change the AI Priority
+            // because the horse the NPC is riding is still in the ai_cache.friends vector,
+            // so either one would count as a friendly for this purpose.
+            if( guy.lock() ) {
+                is_too_close |= too_close( critter.pos(), guy.lock().get()->pos() );
+            }
             return is_too_close;
         };
         std::any_of( ai_cache.friends.begin(), ai_cache.friends.end(), test_too_close );
@@ -2202,11 +2209,25 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         // Z-level move
         // For now just teleport to the destination
         // TODO: Make it properly find the tile to move to
+        if( is_mounted() ) {
+            move_pause();
+            return;
+        }
         moves -= 100;
         moved = true;
     } else if( g->m.passable( p ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
-        moves -= run_cost( g->m.combined_movecost( pos(), p ), diag );
+        if( is_mounted() ) {
+            const double base_moves = run_cost( g->m.combined_movecost( pos(), p ),
+                                                diag ) * 100.0 / mounted_creature->get_speed();
+            const double encumb_moves = get_weight() / 4800.0_gram;
+            moves -= static_cast<int>( ceil( base_moves + encumb_moves ) );
+            if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+                mounted_creature->use_mech_power( -1 );
+            }
+        } else {
+            moves -= run_cost( g->m.combined_movecost( pos(), p ), diag );
+        }
         moved = true;
     } else if( g->m.open_door( p, !g->m.is_outside( pos() ), true ) ) {
         if( !is_hallucination() ) { // hallucinations don't open doors
@@ -2245,7 +2266,19 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     if( moved ) {
         const tripoint old_pos = pos();
         setpos( p );
-
+        if( old_pos.x - p.x < 0 ) {
+            facing = FD_RIGHT;
+        } else {
+            facing = FD_LEFT;
+        }
+        if( is_mounted() ) {
+            if( mounted_creature->pos() != pos() ) {
+                mounted_creature->setpos( pos() );
+                mounted_creature->facing = facing;
+                mounted_creature->process_triggers();
+                g->m.creature_in_field( *mounted_creature );
+            }
+        }
         if( g->m.has_flag( "UNSTABLE", pos() ) ) {
             add_effect( effect_bouldering, 1_turns, num_bp, true );
         } else if( has_effect( effect_bouldering ) ) {

@@ -265,9 +265,9 @@ void monster::setpos( const tripoint &p )
     bool wandering = wander();
     g->update_zombie_pos( *this, p );
     position = p;
-    if( has_effect( effect_ridden ) && position != g->u.pos() ) {
+    if( has_effect( effect_ridden ) && mounted_player && mounted_player->pos() != pos() ) {
         add_msg( m_debug, "Ridden monster %s moved independently and dumped player", get_name() );
-        g->u.forced_dismount();
+        mounted_player->forced_dismount();
     }
     if( wandering ) {
         unset_dest();
@@ -616,6 +616,9 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 
     const auto hp_desc = hp_description( hp, type->hp );
     mvwprintz( w, point( column, vStart++ ), hp_desc.second, hp_desc.first );
+    if( has_effect( effect_ridden ) && mounted_player ) {
+        mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
+    }
 
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
     int numlines = lines.size();
@@ -2046,7 +2049,9 @@ void monster::die( Creature *nkiller )
             item riding_saddle( "riding_saddle", 0 );
             g->m.add_item_or_charges( pos(), riding_saddle );
         }
-        g->u.forced_dismount();
+        if( mounted_player ) {
+            mounted_player->forced_dismount();
+        }
     }
     g->set_critter_died();
     dead = true;
