@@ -196,7 +196,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             mvwprintz( w, point( 15, 10 ), c_white, _( "Press ~ to add a default ruleset to get started." ) );
         }
 
-        draw_scrollbar( w_border, line, content_height, current_tab.size(), 5 );
+        draw_scrollbar( w_border, line, content_height, current_tab.size(), point( 0, 5 ) );
         wrefresh( w_border );
 
         calcStartPos( start_pos, line, content_height, current_tab.size() );

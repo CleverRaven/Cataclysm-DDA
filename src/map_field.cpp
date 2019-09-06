@@ -970,7 +970,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     curtype.obj().npc_complain_data;
                 const int chance = std::get<0>( npc_complain_data );
                 if( chance > 0 && one_in( chance ) ) {
-                    if( npc *const np = g->critter_at<npc>( p ) ) {
+                    if( npc *const np = g->critter_at<npc>( p, false ) ) {
                         np->complain_about( std::get<1>( npc_complain_data ),
                                             std::get<2>( npc_complain_data ),
                                             std::get<3>( npc_complain_data ) );
@@ -1082,7 +1082,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         cur.monster_spawn_radius() ), [this]( const tripoint & n ) {
                         return passable( n );
                         } ) ) {
-                            add_spawn( spawn_details.name, spawn_details.pack_size, point( spawn_point->x, spawn_point->y ) );
+                            add_spawn( spawn_details.name, spawn_details.pack_size, spawn_point->xy() );
                         }
                     }
                 }

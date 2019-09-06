@@ -18,23 +18,12 @@
     "fun": 6
   },
   {
-    "id": "recipe_lab_cvd",
-    "type": "BOOK",
-    "copy-from": "recipe_lab_cvd",
-    "name": "lab journal-Curie",
-    "name_plural": "lab journals-Curie",
-    "description": "This lab notebook is filled with the collective discoveries and refinements of a research team dedicated to nuclear energy.  It mostly pertains to fission power, but there's also blueprints for recycling plutonium, adaptation of nuclear power into everyday batteries, early specs for several Rivtech products, and... schematics for a nuclear warhead.  You don't think you're ready to start a second Cataclysm, but the details about the miniaturized handheld version on the next page might be useful...",
-    "skill": "mechanics",
-    "required_level": 6,
-    "max_level": 10
-  },
-  {
     "id": "afs_textbook_shotguns",
     "type": "BOOK",
     "name": "USMC M1014 technical manual",
     "description": "A pocket-sized book printed in 2000 by the United States Marine Corps for official use.  It describes the operation, repair, and cleaning of the Benilli M1014 shotgun.  Though specific to the M4, it can provide a wealth of information to the trained eye.",
     "weight": 600,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 3000,
     "material": [ "paper" ],
     "symbol": "?",
@@ -43,7 +32,7 @@
     "required_level": 2,
     "max_level": 6,
     "intelligence": 8,
-    "time": 15
+    "time": "15 m"
   },
   {
     "id": "afs_textbook_handguns",
@@ -52,7 +41,7 @@
     "name_plural": "copies of Black Powder to Berettas",
     "description": "This hardcover book, aimed at the gun nut, provides an illustrated, concise history of the handgun throughout history, including technical specifications and use techniques.  It's difficult to follow without a passing knowledge in pistols, but an experienced handgun user could glean much from it.",
     "weight": 732,
-    "volume": 3,
+    "volume": "750 ml",
     "price": 3000,
     "material": [ "paper" ],
     "symbol": "?",
@@ -61,7 +50,7 @@
     "required_level": 2,
     "max_level": 6,
     "intelligence": 6,
-    "time": 20
+    "time": "20 m"
   },
   {
     "id": "afs_textbook_rifles",
@@ -70,7 +59,7 @@
     "name_plural": "copies of America's Rifle",
     "description": "A history book penned by an anonymous author.  Starting from its design by John Garand and ending with the Vietnam War, it provides a detailed run-down of the M1 Garand rifle's use throughout history as well as its design and quirks with the weapon.",
     "weight": 600,
-    "volume": 2,
+    "volume": "500 ml",
     "price": 3000,
     "material": [ "paper" ],
     "symbol": "?",
@@ -79,7 +68,7 @@
     "required_level": 2,
     "max_level": 6,
     "intelligence": 6,
-    "time": 20
+    "time": "20 m"
   },
   {
     "id": "afs_textbook_launchers",
@@ -88,7 +77,7 @@
     "name_plural": "copies of Jane's Flamethrowers and Firestarters",
     "description": "A detailed, full-colored guide to flamethrowers, incendiary weapons, and napalm.  It builds off of information provided in its sister book, Jane's Mortars and Rocket Launchers, and so it's mostly incomprehensible to anyone without prior knowledge.",
     "weight": 734,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 2000,
     "material": [ "paper" ],
     "symbol": "?",
@@ -97,16 +86,16 @@
     "required_level": 2,
     "max_level": 6,
     "intelligence": 5,
-    "time": 18
+    "time": "18 m"
   },
   {
     "id": "textbook_atomic",
     "type": "BOOK",
     "name": "Nuclear Physics Made Easy",
     "name_plural": "Nuclear Physics Made Easy",
-    "description": "A book detailing the workings of state of the art atomic technology, and the physics behind it",
+    "description": "A book detailing the workings of state of the art atomic technology, and the physics behind it.",
     "weight": 2063,
-    "volume": 8,
+    "volume": "2 L",
     "price": 9200,
     "bashing": 8,
     "material": [ "paper" ],
@@ -116,7 +105,7 @@
     "required_level": 5,
     "max_level": 7,
     "intelligence": 13,
-    "time": 50,
-    "fun": -1
+    "fun": -1,
+    "time": "50 m"
   }
 ]

@@ -428,6 +428,25 @@
   },
   {
     "type": "recipe",
+    "result": "analytical_set_basic",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "ph_meter", 1 ] ],
+      [ [ "spectrophotometer", 1 ] ],
+      [ [ "paper", 1 ] ],
+      [ [ "balance_small", 1 ] ],
+      [ [ "melting_point", 1 ] ],
+      [ [ "box_medium", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "survivor_light",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1275,7 +1294,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "lighter", 5 ], [ "ref_lighter", 5 ], [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "wax", 2 ], [ "tallow", 4 ], [ "tallow_tainted", 4 ] ], [ [ "string_6", 1 ] ] ]
+    "components": [ [ [ "wax", 1 ], [ "tallow", 4 ], [ "tallow_tainted", 4 ] ], [ [ "string_6", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1789,6 +1808,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "2 m",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "sheet_metal", 1 ] ] ]

@@ -38,7 +38,7 @@ class leap_actor : public mattack_actor
         leap_actor() = default;
         ~leap_actor() override = default;
 
-        void load_internal( JsonObject &jo, const std::string &src ) override;
+        void load_internal( JsonObject &obj, const std::string &src ) override;
         bool call( monster & ) const override;
         mattack_actor *clone() const override;
 };
@@ -54,7 +54,7 @@ class mon_spellcasting_actor : public mattack_actor
         mon_spellcasting_actor() = default;
         ~mon_spellcasting_actor() override = default;
 
-        void load_internal( JsonObject &jo, const std::string &src ) override;
+        void load_internal( JsonObject &obj, const std::string &src ) override;
         bool call( monster & ) const override;
         mattack_actor *clone() const override;
 };
@@ -104,7 +104,7 @@ class melee_actor : public mattack_actor
         virtual Creature *find_target( monster &z ) const;
         virtual void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const;
 
-        void load_internal( JsonObject &jo, const std::string &src ) override;
+        void load_internal( JsonObject &obj, const std::string &src ) override;
         bool call( monster & ) const override;
         mattack_actor *clone() const override;
 };
@@ -121,7 +121,7 @@ class bite_actor : public melee_actor
 
         void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const override;
 
-        void load_internal( JsonObject &jo, const std::string &src ) override;
+        void load_internal( JsonObject &obj, const std::string &src ) override;
         mattack_actor *clone() const override;
 };
 
@@ -186,7 +186,7 @@ class gun_actor : public mattack_actor
         gun_actor();
         ~gun_actor() override = default;
 
-        void load_internal( JsonObject &jo, const std::string &src ) override;
+        void load_internal( JsonObject &obj, const std::string &src ) override;
         bool call( monster & ) const override;
         mattack_actor *clone() const override;
 };

@@ -2,19 +2,13 @@ name: JSON Validation
 
 on:
   push:
-    branches:
-    - master
-    paths:
-    - "*.json"
-  pull_request:
-    branches:
-    - master
     paths:
     - "*.json"
 
 jobs:
-  build:
-
+  style-json:
+    name: JSON style check
+ 
     runs-on: ubuntu-latest
     
     steps:

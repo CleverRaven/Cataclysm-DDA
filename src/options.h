@@ -22,7 +22,7 @@ class options_manager
         {
             public:
                 id_and_option( const std::string &first, const std::string &second )
-                    : std::pair<std::string, translation>( first, translation( second ) ) {
+                    : std::pair<std::string, translation>( first, to_translation( second ) ) {
                 }
                 id_and_option( const std::string &first, const translation &second )
                     : std::pair<std::string, translation>( first, second ) {
@@ -200,8 +200,8 @@ class options_manager
         bool save();
         std::string show( bool ingame = false, bool world_options_only = false );
 
-        void add_value( const std::string &myoption, const std::string &myval,
-                        const translation &myvaltxt );
+        void add_value( const std::string &lvar, const std::string &lval,
+                        const translation &lvalname );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );

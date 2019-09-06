@@ -5,6 +5,7 @@
 #include <limits>
 #include <algorithm>
 
+#include "debug.h"
 #include "options.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -108,6 +109,17 @@ time_point sunset( const time_point &p )
     return midnight + time_duration::from_minutes( static_cast<int>( time * 60 ) );
 }
 
+time_point night_time( const time_point &p )
+{
+    return sunset( p ) + twilight_duration;
+}
+
+time_point daylight_time( const time_point &p )
+{
+    // @TODO Actual dailight should start 18 degrees before sunrise
+    return sunrise( p ) + 15_minutes;
+}
+
 bool is_night( const time_point &p )
 {
     const time_duration now = time_past_midnight( p );
@@ -154,6 +166,8 @@ double current_daylight_level( const time_point &p )
         case WINTER:
             modifier = ( 1. - deviation ) + ( percent * deviation );
             break;
+        default:
+            debugmsg( "Invalid season" );
     }
 
     return modifier * default_daylight_level();

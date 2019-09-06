@@ -182,7 +182,7 @@ class tileset_loader
 
         void process_variations_after_loading( weighted_int_list<std::vector<int>> &v );
 
-        void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int fg,
+        void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int sprite_id,
                                 const std::string &s_id );
         void load_ascii_set( JsonObject &entry );
         /**
@@ -272,12 +272,12 @@ class cata_tiles
         void on_options_changed();
 
         /** Draw to screen */
-        void draw( int destx, int desty, const tripoint &center, int width, int height,
+        void draw( const point &dest, const tripoint &center, int width, int height,
                    std::multimap<point, formatted_text> &overlay_strings,
                    color_block_overlay_container &color_blocks );
 
         /** Minimap functionality */
-        void draw_minimap( int destx, int desty, const tripoint &center, int width, int height );
+        void draw_minimap( const point &dest, const tripoint &center, int width, int height );
 
     protected:
         /** How many rows and columns of tiles fit into given dimensions **/
@@ -297,20 +297,22 @@ class cata_tiles
         bool draw_from_id_string( std::string id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int &height_3d );
-        bool draw_sprite_at( const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-                             int x, int y, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-                             bool apply_night_vision_goggles );
-        bool draw_sprite_at( const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-                             int x, int y, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-                             bool apply_night_vision_goggles, int &height_3d );
-        bool draw_tile_at( const tile_type &tile, int x, int y, unsigned int loc_rand, int rota,
+        bool draw_sprite_at(
+            const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
+            const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
+            bool apply_night_vision_goggles );
+        bool draw_sprite_at(
+            const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
+            const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
+            bool apply_night_vision_goggles, int &height_3d );
+        bool draw_tile_at( const tile_type &tile, const point &, unsigned int loc_rand, int rota,
                            lit_level ll, bool apply_night_vision_goggles, int &height_3d );
 
         /* Tile Picking */
         void get_tile_values( int t, const int *tn, int &subtile, int &rotation );
         void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group );
-        void get_terrain_orientation( const tripoint &p, int &rota, int &subtype );
-        void get_rotation_and_subtile( char val, int &rota, int &subtype );
+        void get_terrain_orientation( const tripoint &p, int &rota, int &subtile );
+        void get_rotation_and_subtile( char val, int &rota, int &subtile );
 
         /** Drawing Layers */
         bool apply_vision_effects( const tripoint &pos, visibility_type visibility );
@@ -406,7 +408,7 @@ class cata_tiles
             return tile_ratioy;
         }
         void do_tile_loading_report();
-        point player_to_screen( int x, int y ) const;
+        point player_to_screen( const point & ) const;
         static std::vector<options_manager::id_and_option> build_renderer_list();
     protected:
         template <typename maptype>

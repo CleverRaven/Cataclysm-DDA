@@ -19,16 +19,6 @@
     "time": 1
   },
   {
-    "id": "bio_advreactor",
-    "type": "bionic",
-    "name": "Advanced Microreactor System",
-    "description": "This stripped down mini-reactor is more efficient and safer than the base model due to integrated radiation cleansers.  There is no way to shut it down once active, but you can toggle additional fuel intake.",
-    "occupied_bodyparts": [ [ "TORSO", 55 ] ],
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "included_bionics": [ "bio_plutdump" ],
-    "upgraded_bionic": "bio_reactor"
-  },
-  {
     "id": "bio_alarm",
     "type": "bionic",
     "name": "Alarm System",
@@ -147,7 +137,7 @@
     "type": "bionic",
     "name": "Cable Charger System",
     "capacity": 10,
-    "description": "You have a complex port surgically mounted above your hip.  While active, it will recharge bionic power when connected to a battery via jumper cable.",
+    "description": "You have a complex port surgically mounted above your hip.  While active, it will recharge bionic power when connected to a power source via jumper cable.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ]
   },
@@ -694,25 +684,6 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
-    "id": "bio_plut_filter",
-    "type": "bionic",
-    "name": "Plutonium Filter",
-    "description": "This set of tanks and filters allows you to extract plutonium from radioactive slurry.",
-    "occupied_bodyparts": [ [ "TORSO", 10 ] ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "act_cost": 1,
-    "react_cost": 1,
-    "time": 12
-  },
-  {
-    "id": "bio_plutdump",
-    "type": "bionic",
-    "name": "Plutonium Purger",
-    "included": true,
-    "description": "Triggers an emergency reactor fuel purge that ejects all fuel from your reactor.",
-    "act_cost": 1
-  },
-  {
     "id": "bio_pokedeye",
     "type": "bionic",
     "name": "Bionic Visual Impairment",
@@ -813,15 +784,6 @@
     "occupied_bodyparts": [ [ "HAND_L", 2 ], [ "HAND_R", 2 ] ],
     "fake_item": "fake_razor",
     "flags": [ "BIONIC_NPC_USABLE" ]
-  },
-  {
-    "id": "bio_reactor",
-    "type": "bionic",
-    "name": "Microreactor System",
-    "description": "This stripped down mini-reactor generates impressive amounts of bionic power.  There is no way to shut it down, but you can toggle additional fuel intake.  Irradiates your body when active.",
-    "occupied_bodyparts": [ [ "TORSO", 55 ] ],
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "included_bionics": [ "bio_plutdump" ]
   },
   {
     "id": "bio_recycler",
@@ -1123,6 +1085,7 @@
     "name": "Titanium Skeletal Bracing",
     "description": "Titanium bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds.",
     "occupied_bodyparts": [ [ "TORSO", 8 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
+    "weight_capacity_bonus": "20 kg",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {

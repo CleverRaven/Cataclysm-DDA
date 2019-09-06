@@ -18,6 +18,7 @@
 #include "iuse.h" // use_function
 #include "optional.h"
 #include "pldata.h" // add_type
+#include "relic.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -223,6 +224,10 @@ struct islot_armor {
      */
     int encumber = 0;
     /**
+    * When storage is full, how much it encumbers the player.
+    */
+    int max_encumber = 0;
+    /**
      * Percentage of the body part area that this item covers.
      * This determines how likely it is to hit the item instead of the player.
      */
@@ -247,6 +252,14 @@ struct islot_armor {
      * How much storage this items provides when worn.
      */
     units::volume storage = 0_ml;
+    /**
+    * Factor modifiying weight capacity
+    */
+    float weight_capacity_modifier = 1.0;
+    /**
+    * Bonus to weight capacity
+    */
+    units::mass weight_capacity_bonus = 0_gram;
     /**
      * Whether this is a power armor item.
      */
@@ -772,6 +785,7 @@ struct itype {
         cata::optional<islot_ammo> ammo;
         cata::optional<islot_seed> seed;
         cata::optional<islot_artifact> artifact;
+        cata::optional<relic> relic_data;
         /*@}*/
 
     private:

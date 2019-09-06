@@ -12,7 +12,9 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
+#include "units.h"
 
 class player;
 class JsonObject;
@@ -23,8 +25,8 @@ using itype_id = std::string;
 struct bionic_data {
     bionic_data();
 
-    std::string name;
-    std::string description;
+    translation name;
+    translation description;
     /** Power cost on activation */
     int power_activate = 0;
     /** Power cost on deactivation */
@@ -74,6 +76,10 @@ struct bionic_data {
     * If true, this bionic is included with another.
     */
     bool included = false;
+    /**Factor modifiying weight capacity*/
+    float weight_capacity_modifier;
+    /**Bonus to weight capacity*/
+    units::mass weight_capacity_bonus;
     /**Fuel types that can be used by this bionic*/
     std::vector<itype_id> fuel_opts;
     /**How much fuel this bionic can hold*/

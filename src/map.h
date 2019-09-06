@@ -23,6 +23,7 @@
 #include "item.h"
 #include "item_stack.h"
 #include "lightmap.h"
+#include "lru_cache.h"
 #include "shadowcasting.h"
 #include "type_id.h"
 #include "units.h"
@@ -265,7 +266,7 @@ class map
         /**
          * Callback invoked when a vehicle has moved.
          */
-        void on_vehicle_moved( int zlev );
+        void on_vehicle_moved( int smz );
 
         struct apparent_light_info {
             bool obstructed;
@@ -317,7 +318,7 @@ class map
         void drawsq( const catacurses::window &w, player &u, const tripoint &p,
                      bool invert, bool show_items,
                      const tripoint &view_center,
-                     bool low_light = false, bool bright_level = false,
+                     bool low_light = false, bool bright_light = false,
                      bool inorder = false ) const;
 
         /**
@@ -342,7 +343,7 @@ class map
          * is in submap coordinates.
          * @param update_vehicles If true, add vehicles to the vehicle cache.
          */
-        void load( const tripoint &p, bool update_vehicles );
+        void load( const tripoint &w, bool update_vehicles );
         /**
          * Shift the map along the vector s.
          * This is like loading the map with coordinates derived from the current
@@ -540,7 +541,7 @@ class map
         // Vehicle movement
         void vehmove();
         // Selects a vehicle to move, returns false if no moving vehicles
-        bool vehproceed( VehicleList &vehs );
+        bool vehproceed( VehicleList &vehicle_list );
 
         // 3D vehicles
         VehicleList get_vehicles( const tripoint &start, const tripoint &end );
@@ -985,9 +986,9 @@ class map
         std::list<item> use_amount_square( const tripoint &p, const itype_id &type,
                                            int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
         std::list<item> use_amount( const tripoint &origin, int range, const itype_id &type,
-                                    int &amount, const std::function<bool( const item & )> &filter = return_true<item> );
+                                    int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
         std::list<item> use_charges( const tripoint &origin, int range, itype_id type,
-                                     int &amount, const std::function<bool( const item & )> &filter = return_true<item>,
+                                     int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
                                      basecamp *bcp = nullptr );
         /*@}*/
         std::list<std::pair<tripoint, item *> > get_rc_items( const tripoint &p = { -1, -1, -1 } );
@@ -1122,6 +1123,7 @@ class map
          * @return NULL if there is no such field entry at that place.
          */
         field_entry *get_field( const tripoint &p, field_type_id type );
+        bool dangerous_field_at( const tripoint &p );
         /**
          * Add field entry at point, or set intensity if present
          * @return false if the field could not be created (out of bounds), otherwise true.
@@ -1216,7 +1218,7 @@ class map
         // mapgen.cpp functions
         void generate( const tripoint &p, const time_point &when );
         void place_spawns( const mongroup_id &group, int chance,
-                           const point &p1, const point &p2, float intensity,
+                           const point &p1, const point &p2, float density,
                            bool individual = false, bool friendly = false, const std::string &name = "NONE",
                            int mission_id = -1 );
         void place_gas_pump( const point &p, int charges );
@@ -1652,6 +1654,11 @@ class map
          */
         std::set<tripoint> submaps_with_active_items;
 
+        /**
+         * Cache of coordinate pairs recently checked for visibility.
+         */
+        mutable lru_cache<point, char> skew_vision_cache;
+
         // Note: no bounds check
         level_cache &get_cache( int zlev ) const {
             return *caches[zlev + OVERMAP_DEPTH];
@@ -1701,7 +1708,7 @@ void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point &s );
 
 std::vector<point> closest_points_first( int radius, const point &center );
 // Does not build "piles" - does the same as above functions, except in tripoints
-std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
+std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &center );
 bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, ter_bitflags flag );
 class tinymap : public map
 {

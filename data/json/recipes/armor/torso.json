@@ -414,6 +414,18 @@
   {
     "result": "long_undertop_sleeveless",
     "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 13 ] ],
+    "components": [ [ [ "rag", 8 ] ] ]
+  },
+  {
+    "result": "long_undertop_sleeveless",
+    "type": "recipe",
     "id_suffix": "cutting",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",

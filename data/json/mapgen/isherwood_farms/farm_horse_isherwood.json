@@ -149,7 +149,7 @@
         "k": { "item": "office", "chance": 30 },
         "f": { "item": "fridge", "chance": 30 },
         "o": { "item": "oven", "chance": 30 },
-        "8": { "item": "homebooks", "chance": 30 },
+        "8": { "item": "ranch_homebooks", "chance": 30 },
         "r": { "item": "restaur_kitchen", "chance": 30 },
         "c": { "item": "kitchen_counters", "chance": 30 },
         "D": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },

@@ -10,15 +10,24 @@
 #include "color.h"
 #include "string_id.h"
 
+
 class JsonObject;
 class map;
 struct tripoint;
+template<typename T> struct enum_traits;
+template<typename T> class generic_factory;
 
 enum class map_extra_method : int {
     null = 0,
     map_extra_function,
     mapgen,
     update_mapgen,
+    num_map_extra_methods
+};
+
+template<>
+struct enum_traits<map_extra_method> {
+    static constexpr map_extra_method last = map_extra_method::num_map_extra_methods;
 };
 
 using map_extra_pointer = void( * )( map &, const tripoint & );
@@ -57,6 +66,9 @@ void apply_function( const std::string &id, map &m, const tripoint &abs_sub );
 
 void load( JsonObject &jo, const std::string &src );
 void check_consistency();
+
+/// This function provides access to all loaded map extras.
+const generic_factory<map_extra> &mapExtraFactory();
 
 } // namespace MapExtras
 

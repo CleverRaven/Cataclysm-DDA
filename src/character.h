@@ -49,6 +49,8 @@ class vehicle;
 struct mutation_branch;
 class bionic_collection;
 struct points_left;
+class faction;
+struct construction;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -168,6 +170,13 @@ class Character : public Creature, public visitable<Character>
         Character &operator=( const Character & ) = delete;
         ~Character() override;
 
+        Character *as_character() override {
+            return this;
+        }
+        const Character *as_character() const override {
+            return this;
+        }
+
         character_id getID() const;
         // sets the ID, will *only* succeed when the current id is not valid
         void setID( character_id i );
@@ -280,6 +289,12 @@ class Character : public Creature, public visitable<Character>
         /** Returns the name of the player's outer layer, e.g. "armor plates" */
         std::string skin_name() const override;
 
+        /* returns the character's faction */
+        virtual faction *get_faction() const {
+            return nullptr;
+        }
+        void set_fac_id( const std::string &my_fac_id );
+
         /* Adjusts provided sight dispersion to account for player stats */
         int effective_dispersion( int dispersion ) const;
 
@@ -370,6 +385,10 @@ class Character : public Creature, public visitable<Character>
          */
         float get_vision_threshold( float light_level ) const;
         /**
+         * Flag encumbrance for updating.
+        */
+        void flag_encumbrance();
+        /**
          * Checks worn items for the "RESET_ENCUMBRANCE" flag, which indicates
          * that encumbrance may have changed and require recalculating.
          */
@@ -383,11 +402,11 @@ class Character : public Creature, public visitable<Character>
 
         // In mutation.cpp
         /** Returns true if the player has the entered trait */
-        bool has_trait( const trait_id &flag ) const override;
+        bool has_trait( const trait_id &b ) const override;
         /** Returns true if the player has the entered starting trait */
-        bool has_base_trait( const trait_id &flag ) const;
+        bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */
-        bool has_trait_flag( const std::string &flag ) const;
+        bool has_trait_flag( const std::string &b ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         trait_id trait_by_invlet( int ch ) const;
 
@@ -473,6 +492,7 @@ class Character : public Creature, public visitable<Character>
         float mutation_armor( body_part bp, const damage_unit &du ) const;
 
         // --------------- Bionic Stuff ---------------
+        std::vector<bionic_id> get_bionics() const;
         /** Returns true if the player has the entered bionic id */
         bool has_bionic( const bionic_id &b ) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
@@ -729,6 +749,8 @@ class Character : public Creature, public visitable<Character>
         /** Checks whether the character's skills meet the required */
         bool meets_skill_requirements( const std::map<skill_id, int> &req,
                                        const item &context = item() ) const;
+        /** Checks whether the character's skills meet the required */
+        bool meets_skill_requirements( const construction &con ) const;
         /** Checks whether the character's stats meets the stats required by the item */
         bool meets_stat_requirements( const item &it ) const;
         /** Checks whether the character meets overall requirements to be able to use the item */
@@ -848,6 +870,8 @@ class Character : public Creature, public visitable<Character>
         int radiation;
 
         std::shared_ptr<monster> mounted_creature;
+        // for loading NPC mounts
+        int mounted_creature_id;
 
         void initialize_stomach_contents();
 
@@ -898,7 +922,7 @@ class Character : public Creature, public visitable<Character>
         // how loud a character can shout. based on mutations and clothing
         int get_shout_volume() const;
         // shouts a message
-        void shout( std::string text = "", bool order = false );
+        void shout( std::string msg = "", bool order = false );
         /** Handles Character vomiting effects */
         void vomit();
         // adds total healing to the bodypart. this is only a counter.
@@ -960,8 +984,8 @@ class Character : public Creature, public visitable<Character>
          */
         std::vector<const mutation_branch *> cached_mutations;
 
-        void store( JsonOut &jsout ) const;
-        void load( JsonObject &jsin );
+        void store( JsonOut &json ) const;
+        void load( JsonObject &data );
 
         // --------------- Values ---------------
         pimpl<SkillLevelMap> _skills;
@@ -980,6 +1004,13 @@ class Character : public Creature, public visitable<Character>
          */
         mutable pimpl<pathfinding_settings> path_settings;
 
+        // faction API versions
+        // 2 - allies are in your_followers faction; NPCATT_FOLLOW is follower but not an ally
+        // 0 - allies may be in your_followers faction; NPCATT_FOLLOW is an ally (legacy)
+        int faction_api_version = 2;  // faction API versioning
+        string_id<faction> fac_id; // A temp variable used to inform the game which faction to link
+        faction *my_fac = nullptr;
+
     private:
         // A unique ID number, assigned by the game class. Values should never be reused.
         character_id id;
@@ -993,6 +1024,7 @@ class Character : public Creature, public visitable<Character>
 
         int fatigue;
         int sleep_deprivation;
+        bool check_encumbrance;
 };
 
 #endif

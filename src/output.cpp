@@ -394,14 +394,15 @@ void center_print( const catacurses::window &w, const int y, const nc_color &FG,
                    const std::string &text )
 {
     int window_width = getmaxx( w );
-    int string_width = utf8_width( text );
+    int string_width = utf8_width( text, true );
     int x;
     if( string_width >= window_width ) {
         x = 0;
     } else {
         x = ( window_width - string_width ) / 2;
     }
-    mvwprintz( w, point( x, y ), FG, text );
+    const int available_width = std::max( 1, window_width - x );
+    trim_and_print( w, point( x, y ), available_width, FG, text );
 }
 
 int right_print( const catacurses::window &w, const int line, const int right_indent,
@@ -615,7 +616,7 @@ int popup( const std::string &text, PopupFlags flags )
     }
 }
 
-void popup_status( const char *const title, const std::string &fmt )
+void popup_status( const char *const title, const std::string &mes )
 {
     std::string text;
     if( !test_mode && title != nullptr ) {
@@ -623,7 +624,7 @@ void popup_status( const char *const title, const std::string &fmt )
         text += "\n";
     }
 
-    popup( text + fmt, PF_NO_WAIT );
+    popup( text + mes, PF_NO_WAIT );
 }
 
 //note that passing in iteminfo instances with sType == "DESCRIPTION" does special things
@@ -854,8 +855,8 @@ input_event draw_item_info( const catacurses::window &win, const std::string &sI
 
             fold_and_print_from( win, point( b, line_num ), width - 1, selected, c_light_gray, buffer.str() );
 
-            draw_scrollbar( win, selected, height, iLines, ( without_border && use_full_win ? 0 : 1 ),
-                            scrollbar_left ? 0 : getmaxx( win ) - 1, BORDER_COLOR, true );
+            draw_scrollbar( win, selected, height, iLines, point( scrollbar_left ? 0 : getmaxx( win ) - 1,
+                            ( without_border && use_full_win ? 0 : 1 ) ), BORDER_COLOR, true );
         }
 
         if( !without_border ) {
@@ -1148,12 +1149,12 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &
  *   If true, iCurrentLine can be at most iNumLines - iContentHeight.
  **/
 void draw_scrollbar( const catacurses::window &window, const int iCurrentLine,
-                     const int iContentHeight, const int iNumLines, const int iOffsetY, const int iOffsetX,
+                     const int iContentHeight, const int iNumLines, const point &offset,
                      nc_color bar_color, const bool bDoNotScrollToEnd )
 {
     scrollbar()
-    .offset_x( iOffsetX )
-    .offset_y( iOffsetY )
+    .offset_x( offset.x )
+    .offset_y( offset.y )
     .content_size( iNumLines )
     .viewport_pos( iCurrentLine )
     .viewport_size( iContentHeight )
@@ -1287,7 +1288,7 @@ void calcStartPos( int &iStartPos, const int iCurrentLine, const int iContentHei
 }
 
 catacurses::window w_hit_animation;
-void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
+void hit_animation( const point &p, nc_color cColor, const std::string &cTile )
 {
     /*
     chtype chtOld = mvwinch(w, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X);
@@ -1295,7 +1296,7 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
     */
 
     catacurses::window w_hit =
-        catacurses::newwin( 1, 1, point( iX + VIEW_OFFSET_X, iY + VIEW_OFFSET_Y ) );
+        catacurses::newwin( 1, 1, p + point( VIEW_OFFSET_X, VIEW_OFFSET_Y ) );
     if( !w_hit ) {
         return; //we passed in negative values (semi-expected), so let's not segfault
     }
@@ -1681,7 +1682,7 @@ void display_table( const catacurses::window &w, const std::string &title, int c
             const int y = ( i / columns ) + 2;
             fold_and_print_from( w, point( x, y ), col_width, 0, c_white, data[i + offset * columns] );
         }
-        draw_scrollbar( w, offset, rows, ( data.size() + columns - 1 ) / columns, 2, 0 );
+        draw_scrollbar( w, offset, rows, ( data.size() + columns - 1 ) / columns, point( 0, 2 ) );
         wrefresh( w );
         // TODO: use input context
         int ch = inp_mngr.get_input_event().get_first_input();
@@ -1695,13 +1696,12 @@ void display_table( const catacurses::window &w, const std::string &title, int c
     }
 }
 
-scrollingcombattext::cSCT::cSCT( const int p_iPosX, const int p_iPosY, const direction p_oDir,
+scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
                                  const std::string &p_sText, const game_message_type p_gmt,
                                  const std::string &p_sText2, const game_message_type p_gmt2,
                                  const std::string &p_sType )
 {
-    iPosX = p_iPosX;
-    iPosY = p_iPosY;
+    pos = p_pos;
     sType = p_sType;
     oDir = p_oDir;
 
@@ -1721,13 +1721,12 @@ scrollingcombattext::cSCT::cSCT( const int p_iPosX, const int p_iPosY, const dir
 
     point pairDirXY = direction_XY( oDir );
 
-    iDirX = pairDirXY.x;
-    iDirY = pairDirXY.y;
+    dir = pairDirXY;
 
-    if( iDirX == 0 && iDirY == 0 ) {
+    if( dir == point_zero ) {
         // This would cause infinite loop otherwise
         oDir = WEST;
-        iDirX = -1;
+        dir.x = -1;
     }
 
     iStep = 0;
@@ -1741,7 +1740,7 @@ scrollingcombattext::cSCT::cSCT( const int p_iPosX, const int p_iPosY, const dir
 
 }
 
-void scrollingcombattext::add( const int p_iPosX, const int p_iPosY, direction p_oDir,
+void scrollingcombattext::add( const point &pos, direction p_oDir,
                                const std::string &p_sText, const game_message_type p_gmt,
                                const std::string &p_sText2, const game_message_type p_gmt2,
                                const std::string &p_sType )
@@ -1789,7 +1788,7 @@ void scrollingcombattext::add( const int p_iPosX, const int p_iPosY, direction p
                     iter.advanceStepOffset();
                 }
             }
-            vSCT.insert( vSCT.begin(), cSCT( p_iPosX, p_iPosY, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2,
+            vSCT.insert( vSCT.begin(), cSCT( pos, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2,
                                              p_sType ) );
 
         } else {
@@ -1800,7 +1799,7 @@ void scrollingcombattext::add( const int p_iPosX, const int p_iPosY, direction p
                     iter->advanceStepOffset();
                 }
             }
-            vSCT.push_back( cSCT( p_iPosX, p_iPosY, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2, p_sType ) );
+            vSCT.push_back( cSCT( pos, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2, p_sType ) );
         }
 
     }
@@ -1866,7 +1865,7 @@ int scrollingcombattext::cSCT::getPosX() const
             iDirOffset -= getText().length() - 1;
         }
 
-        return iPosX + iDirOffset + ( iDirX * ( ( sType == "hp" ) ? ( getStepOffset() + 1 ) :
+        return pos.x + iDirOffset + ( dir.x * ( ( sType == "hp" ) ? ( getStepOffset() + 1 ) :
                                                 ( getStepOffset() * ( iso_mode ? 2 : 1 ) + getStep() ) ) );
     }
 
@@ -1894,7 +1893,7 @@ int scrollingcombattext::cSCT::getPosY() const
 
         }
 
-        return iPosY + iDirOffset + ( iDirY * ( ( iso_mode && sType == "hp" ) ? ( getStepOffset() + 1 ) :
+        return pos.y + iDirOffset + ( dir.y * ( ( iso_mode && sType == "hp" ) ? ( getStepOffset() + 1 ) :
                                                 ( getStepOffset() * ( iso_mode ? 2 : 1 ) + getStep() ) ) );
     }
 
