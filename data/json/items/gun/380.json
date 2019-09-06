@@ -10,6 +10,7 @@
     "price": 160000,
     "bashing": 5,
     "ammo": "380",
+    "min_cycle_recoil": 270,
     "burst": 23,
     "magazines": [ [ "380", [ "mac11mag" ] ] ]
   },
@@ -23,6 +24,7 @@
     "volume": "231ml",
     "price": 25000,
     "ammo": "380",
+    "min_cycle_recoil": 270,
     "magazines": [ [ "380", [ "kp3atmag" ] ] ]
   },
   {
@@ -41,6 +43,7 @@
     "ammo": "380",
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 270,
     "magazines": [ [ "380", [ "fn1910mag" ] ] ]
   },
   {
@@ -59,6 +62,7 @@
     "ammo": "380",
     "dispersion": 480,
     "durability": 8,
+    "min_cycle_recoil": 270,
     "magazines": [ [ "380", [ "rugerlcpmag" ] ] ]
   },
   {

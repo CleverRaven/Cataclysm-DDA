@@ -19,6 +19,7 @@
     "ranged_damage": -1,
     "dispersion": 620,
     "durability": 3,
+    "blackpowder_tolerance": 60,
     "clip_size": 2,
     "reload": 200,
     "valid_mod_locations": [
@@ -29,6 +30,7 @@
       [ "rail mount", 1 ],
       [ "stock mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
   },
   {
@@ -48,6 +50,7 @@
     "range": 3,
     "dispersion": 520,
     "durability": 6,
+    "blackpowder_tolerance": 96,
     "clip_size": 4,
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -59,6 +62,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -80,6 +84,7 @@
     "ranged_damage": 1,
     "dispersion": 550,
     "durability": 6,
+    "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
@@ -94,6 +99,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "flags": [ "RELOAD_EJECT" ]
   },
   {
@@ -115,6 +121,7 @@
     "ranged_damage": -2,
     "dispersion": 480,
     "durability": 10,
+    "blackpowder_tolerance": 56,
     "clip_size": 5,
     "magazines": [ [ "38", [ "38_speedloader5" ] ] ],
     "valid_mod_locations": [
@@ -128,6 +135,45 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ]
+  },
+  {
+    "id": "smg_38",
+    "copy-from": "smg_base",
+    "type": "GUN",
+    "name": "Luty SMG: .38 Special",
+    "name_plural": "Luty SMGs: .38 Special",
+    "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using some of the more advanced powered hand tools; likely one of the most complex guns that are feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .38 Special cartridges and accepts Taurus Pro .38 pistol magazines, or alternatively custom-made makeshift ones.",
+    "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game.",
+    "weight": 3274,
+    "volume": "1750 ml",
+    "price": 20000,
+    "to_hit": -1,
+    "bashing": 10,
+    "material": "steel",
+    "color": "dark_gray",
+    "ammo": "38",
+    "ranged_damage": -3,
+    "dispersion": 590,
+    "blackpowder_tolerance": 24,
+    "min_cycle_recoil": 190,
+    "durability": 4,
+    "modes": [ [ "DEFAULT", "auto", 10 ] ],
+    "loudness": 25,
+    "barrel_length": 1,
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "magazine", 1 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "magazines": [ [ "38", [ "taurus38mag", "smg_38_mag" ] ] ]
   },
   {
     "id": "sw_619",
@@ -147,6 +193,7 @@
     "ammo": [ "357mag", "38" ],
     "dispersion": 320,
     "durability": 10,
+    "blackpowder_tolerance": 56,
     "clip_size": 7,
     "magazines": [ [ "38", [ "38_speedloader" ] ] ],
     "valid_mod_locations": [
@@ -180,6 +227,7 @@
     "skill": "pistol",
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 225,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -193,6 +241,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "38", [ "taurus38mag" ] ] ]
   }
