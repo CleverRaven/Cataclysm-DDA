@@ -9,6 +9,7 @@
 #include "action.h"
 #include "advanced_inv.h"
 #include "auto_pickup.h"
+#include "auto_note.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
@@ -419,7 +420,7 @@ static void pldrive( int x, int y )
         }
     }
 
-    veh->pldrive( x, y );
+    veh->pldrive( point( x, y ) );
 }
 
 inline static void pldrive( point d )
@@ -2211,6 +2212,11 @@ bool game::handle_action()
                 refresh_all();
                 break;
 
+            case ACTION_AUTONOTES:
+                get_auto_notes_settings().show_gui();
+                refresh_all();
+                break;
+
             case ACTION_SAFEMODE:
                 get_safemode().show();
                 refresh_all();
@@ -2274,6 +2280,26 @@ bool game::handle_action()
                 add_msg( _( "%s is now %s." ),
                          get_options().get_option( "AUTO_MINING" ).getMenuText(),
                          get_option<bool>( "AUTO_MINING" ) ? _( "ON" ) : _( "OFF" ) );
+                break;
+
+            case ACTION_TOGGLE_THIEF_MODE:
+                //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
+                if( g->u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+                    u.set_value( "THIEF_MODE", "THIEF_HONEST" );
+                    u.set_value( "THIEF_MODE_KEEP", "YES" );
+                    add_msg( _( "You will not pick up other peoples belongings." ) );
+                } else if( g->u.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+                    u.set_value( "THIEF_MODE", "THIEF_STEAL" );
+                    u.set_value( "THIEF_MODE_KEEP", "YES" );
+                    add_msg( _( "You will pick up also those things that belong to others!" ) );
+                } else if( g->u.get_value( "THIEF_MODE" ) == "THIEF_STEAL" ) {
+                    u.set_value( "THIEF_MODE", "THIEF_ASK" );
+                    u.set_value( "THIEF_MODE_KEEP", "NO" );
+                    add_msg( _( "You will be reminded not to steal." ) );
+                } else {
+                    // ERROR
+                    add_msg( _( "THIEF_MODE CONTAINED BAD VALUE [ %s ]!" ), g->u.get_value( "THIEF_MODE" ) );
+                }
                 break;
 
             case ACTION_TOGGLE_AUTO_FORAGING:

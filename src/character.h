@@ -50,6 +50,7 @@ struct mutation_branch;
 class bionic_collection;
 struct points_left;
 class faction;
+struct construction;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -383,6 +384,10 @@ class Character : public Creature, public visitable<Character>
          * to simulate glare, etc, night vision only works if you are in the dark.
          */
         float get_vision_threshold( float light_level ) const;
+        /**
+         * Flag encumbrance for updating.
+        */
+        void flag_encumbrance();
         /**
          * Checks worn items for the "RESET_ENCUMBRANCE" flag, which indicates
          * that encumbrance may have changed and require recalculating.
@@ -744,6 +749,8 @@ class Character : public Creature, public visitable<Character>
         /** Checks whether the character's skills meet the required */
         bool meets_skill_requirements( const std::map<skill_id, int> &req,
                                        const item &context = item() ) const;
+        /** Checks whether the character's skills meet the required */
+        bool meets_skill_requirements( const construction &con ) const;
         /** Checks whether the character's stats meets the stats required by the item */
         bool meets_stat_requirements( const item &it ) const;
         /** Checks whether the character meets overall requirements to be able to use the item */
@@ -863,6 +870,8 @@ class Character : public Creature, public visitable<Character>
         int radiation;
 
         std::shared_ptr<monster> mounted_creature;
+        // for loading NPC mounts
+        int mounted_creature_id;
 
         void initialize_stomach_contents();
 
@@ -1015,6 +1024,7 @@ class Character : public Creature, public visitable<Character>
 
         int fatigue;
         int sleep_deprivation;
+        bool check_encumbrance;
 };
 
 #endif

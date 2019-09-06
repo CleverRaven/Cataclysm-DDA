@@ -20,6 +20,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "15 s",
+    "charges": 1,
     "book_learn": [ [ "pocket_firearms", 3 ], [ "manual_gun", 2 ], [ "recipe_bullets", 1 ], [ "textbook_anarch", 0 ] ],
     "tools": [ [ [ "mortar_pestle", -1 ] ], [ [ "sieve_steel", -1 ] ] ],
     "components": [

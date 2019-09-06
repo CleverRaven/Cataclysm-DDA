@@ -806,38 +806,38 @@ bool vpart_info::is_repairable() const
     return !repair_requirements().is_empty();
 }
 
-static int scale_time( const std::map<skill_id, int> &sk, int mv, const Character &ch )
+static int scale_time( const std::map<skill_id, int> &sk, int mv, const player &p )
 {
     if( sk.empty() ) {
         return mv;
     }
 
-    const int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&ch]( int lhs,
+    const int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&p]( int lhs,
     const std::pair<skill_id, int> &rhs ) {
-        return lhs + std::max( std::min( ch.get_skill_level( rhs.first ), MAX_SKILL ) - rhs.second,
+        return lhs + std::max( std::min( p.get_skill_level( rhs.first ), MAX_SKILL ) - rhs.second,
                                0 );
     } );
     // 10% per excess level (reduced proportionally if >1 skill required) with max 50% reduction
     // 10% reduction per assisting NPC
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = p.get_crafting_helpers();
+    const int helpersize = p.get_num_crafting_helpers( 3 );
     return mv * ( 1.0 - std::min( static_cast<double>( lvl ) / sk.size() / 10.0,
                                   0.5 ) ) * ( 1 - ( helpersize / 10.0 ) );
 }
 
-int vpart_info::install_time( const Character &ch ) const
+int vpart_info::install_time( const player &p ) const
 {
-    return scale_time( install_skills, install_moves, ch );
+    return scale_time( install_skills, install_moves, p );
 }
 
-int vpart_info::removal_time( const Character &ch ) const
+int vpart_info::removal_time( const player &p ) const
 {
-    return scale_time( removal_skills, removal_moves, ch );
+    return scale_time( removal_skills, removal_moves, p );
 }
 
-int vpart_info::repair_time( const Character &ch ) const
+int vpart_info::repair_time( const player &p ) const
 {
-    return scale_time( repair_skills, repair_moves, ch );
+    return scale_time( repair_skills, repair_moves, p );
 }
 
 /**

@@ -92,6 +92,8 @@
         "effect": "npc_gets_item"
       },
       { "text": "Miscellaneous rules...", "topic": "TALK_MISC_RULES" },
+      { "text": "Mount up!.", "topic": "TALK_DONE", "condition": { "not": "npc_is_riding" }, "effect": "find_mount" },
+      { "text": "Dismount, please.", "topic": "TALK_DONE", "condition": "npc_is_riding", "effect": "find_mount" },
       { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
       { "text": "Let's go.", "topic": "TALK_DONE" },
       {
@@ -745,6 +747,36 @@
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },
         "effect": "do_construction"
+      },
+      {
+        "text": "Please start deconstructing any vehicles in a deconstruction zone.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_vehicle_deconstruct"
+      },
+      {
+        "text": "Please chop logs into planks.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_chop_plank"
+      },
+      {
+        "text": "Please butcher any corpses that you can.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_butcher"
+      },
+      {
+        "text": "Please chop any trees in the designated areas.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_chop_trees"
+      },
+      {
+        "text": "Please go catch some fish.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_fishing"
       },
       {
         "text": "Please do some farming work.",

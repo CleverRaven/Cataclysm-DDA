@@ -77,7 +77,8 @@
       [ "months_old_newspaper", 1 ],
       [ "weeks_old_newspaper", 2 ],
       [ "newest_newspaper", 3 ],
-      { "group": "ammo_casings", "prob": 10 }
+      { "group": "ammo_casings", "prob": 10 },
+      { "group": "everyday_corpse", "prob": 10 }
     ]
   },
   {
@@ -117,7 +118,8 @@
       [ "bottle_glass", 1 ],
       [ "syringe", 1 ],
       [ "cig_butt", 1 ],
-      { "group": "ammo_casings", "prob": 20 }
+      { "group": "ammo_casings", "prob": 20 },
+      { "group": "everyday_corpse", "prob": 10 }
     ]
   },
   {
@@ -146,6 +148,7 @@
     "id": "road",
     "items": [
       { "group": "ammo_casings", "prob": 20 },
+      { "group": "everyday_corpse", "prob": 10 },
       [ "jumper_cable", 5 ],
       [ "muffler", 5 ],
       [ "pipe", 20 ],
@@ -3718,6 +3721,7 @@
       [ "coffee_raw", 15 ],
       [ "usb_drive", 5 ],
       [ "software_useless", 10 ],
+      [ "software_electronics_reference", 2 ],
       [ "umbrella", 5 ],
       [ "teleumbrella", 2 ],
       [ "gum", 10 ],
@@ -4985,9 +4989,12 @@
       [ "magnesium", 10 ],
       [ "tin", 10 ],
       [ "chem_hydrogen_peroxide", 10 ],
+      [ "chem_muriatic_acid", 5 ],
       [ "chem_sulphur", 10 ],
       [ "chem_aluminium_powder", 5 ],
       [ "chem_zinc_powder", 10 ],
+      [ "chem_zinc", 5 ],
+      [ "chem_manganese_dioxide", 10 ],
       [ "chem_saltpetre", 10 ],
       [ "chem_carbide", 10 ],
       [ "denat_alcohol", 10 ]
@@ -5032,6 +5039,9 @@
       [ "chem_hydrogen_peroxide", 15 ],
       [ "chem_carbide", 10 ],
       [ "chem_zinc_powder", 10 ],
+      [ "chem_manganese_dioxide", 5 ],
+      [ "chem_potassium_chloride", 5 ],
+      [ "chem_muriatic_acid", 15 ],
       [ "denat_alcohol", 10 ]
     ]
   },
@@ -5090,8 +5100,13 @@
       [ "chem_hexamine", 10 ],
       [ "chem_saltpetre", 15 ],
       [ "chem_nitric_acid", 15 ],
+      [ "chem_muriatic_acid", 20 ],
+      [ "chem_potassium_chloride", 5 ],
+      [ "chem_potassium_hydroxide", 10 ],
+      [ "chem_zinc", 10 ],
       [ "chem_chromium_oxide", 10 ],
       [ "chem_zinc_powder", 10 ],
+      [ "chem_manganese_dioxide", 5 ],
       [ "denat_alcohol", 10 ]
     ]
   },
@@ -5162,6 +5177,47 @@
   },
   {
     "type": "item_group",
+    "id": "mutagens",
+    "items": [
+      [ "mutagen", 8 ],
+      [ "mutagen_plant", 2 ],
+      [ "mutagen_insect", 2 ],
+      [ "mutagen_spider", 2 ],
+      [ "mutagen_fish", 2 ],
+      [ "mutagen_slime", 2 ],
+      [ "mutagen_rat", 2 ],
+      [ "mutagen_beast", 2 ],
+      [ "mutagen_cattle", 2 ],
+      [ "mutagen_cephalopod", 2 ],
+      [ "mutagen_bird", 2 ],
+      [ "mutagen_lizard", 2 ],
+      [ "mutagen_troglobite", 2 ],
+      [ "mutagen_ursine", 2 ],
+      [ "mutagen_feline", 2 ],
+      [ "mutagen_lupine", 2 ],
+      [ "iv_mutagen", 6 ],
+      [ "iv_mutagen_plant", 2 ],
+      [ "iv_mutagen_insect", 2 ],
+      [ "iv_mutagen_spider", 2 ],
+      [ "iv_mutagen_fish", 2 ],
+      [ "iv_mutagen_slime", 2 ],
+      [ "iv_mutagen_rat", 2 ],
+      [ "iv_mutagen_beast", 2 ],
+      [ "iv_mutagen_cattle", 2 ],
+      [ "iv_mutagen_cephalopod", 2 ],
+      [ "iv_mutagen_bird", 2 ],
+      [ "iv_mutagen_lizard", 2 ],
+      [ "iv_mutagen_troglobite", 2 ],
+      [ "iv_mutagen_ursine", 2 ],
+      [ "iv_mutagen_feline", 2 ],
+      [ "iv_mutagen_lupine", 2 ],
+      [ "purifier", 10 ],
+      [ "iv_purifier", 8 ],
+      [ "syringe", 8 ]
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "mut_iv",
     "items": [
       [ "iv_mutagen", 10 ],
@@ -5200,6 +5256,7 @@
       [ "goggles_welding", 70 ],
       [ "textbook_atomic_lab", 7 ],
       [ "recipe_lab_elec", 15 ],
+      [ "software_electronics_reference", 2 ],
       [ "recipe_lab_cvd", 8 ],
       [ "recipe_mininuke_launch", 5 ],
       [ "teleporter", 10 ],
@@ -5696,10 +5753,8 @@
       [ "bot_grenade_hack", 2 ],
       [ "bot_flashbang_hack", 2 ],
       [ "bot_gasbomb_hack", 2 ],
-      [ "bot_turret", 2 ],
       [ "bot_rifleturret", 2 ],
-      [ "556", 2 ],
-      [ "9mm", 2 ]
+      [ "bot_antimateriel", 2 ]
     ]
   },
   {
@@ -7359,6 +7414,10 @@
       [ "pocket_firearms", 2 ],
       [ "SICP", 3 ],
       [ "textbook_robots", 1 ],
+      [ "reference_cooking", 1 ],
+      [ "reference_fabrication1", 1 ],
+      [ "reference_firstaid1", 1 ],
+      [ "reference_firstaid2", 1 ],
       [ "recipe_elfa", 1 ],
       [ "recipe_maiar", 1 ],
       [ "recipe_caseless", 1 ],
@@ -7393,6 +7452,7 @@
       [ "bio_soporific", 5 ],
       [ "bio_surgical_razor", 5 ],
       [ "bio_syringe", 8 ],
+      [ "software_electronics_reference", 10 ],
       [ "software_useless", 10 ],
       [ "canteen", 15 ],
       [ "2lcanteen", 10 ],
@@ -7414,6 +7474,7 @@
       [ "tin", 5 ],
       [ "chem_nitric_acid", 1 ],
       [ "chem_sulphuric_acid", 1 ],
+      [ "chem_muriatic_acid", 2 ],
       [ "chem_hexamine", 2 ],
       [ "denat_alcohol", 1 ],
       [ "remotevehcontrol", 5 ]

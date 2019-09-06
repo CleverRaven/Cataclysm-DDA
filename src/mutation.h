@@ -15,7 +15,7 @@
 #include "character.h"
 #include "damage.h"
 #include "string_id.h"
-#include "tuple_hash.h"
+#include "hash_utils.h"
 #include "translations.h"
 #include "type_id.h"
 #include "point.h"

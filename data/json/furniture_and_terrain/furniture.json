@@ -410,7 +410,7 @@
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 4 },
-        { "item": "rag", "count": 4 },
+        { "item": "felt_patch", "count": 4 },
         { "item": "wood_panel", "count": 1 },
         { "item": "nail", "charges": [ 6, 10 ] }
       ]
@@ -424,7 +424,7 @@
         { "item": "2x4", "count": [ 2, 6 ] },
         { "item": "nail", "charges": [ 4, 12 ] },
         { "item": "splinter", "count": 1 },
-        { "item": "rag", "count": [ 0, 2 ] }
+        { "item": "felt_patch", "count": [ 0, 2 ] }
       ]
     }
   },
@@ -2334,7 +2334,9 @@
         { "item": "rock", "count": [ 10, 22 ] },
         { "item": "sharp_rock", "count": [ 3, 7 ] },
         { "item": "material_limestone", "charges": [ 2, 5 ], "prob": 30 },
-        { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 }
+        { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 },
+        { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 1 },
+        { "item": "material_zincite", "count": [ 0, 5 ], "prob": 2 }
       ]
     }
   },

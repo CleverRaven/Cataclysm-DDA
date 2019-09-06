@@ -265,9 +265,9 @@ void monster::setpos( const tripoint &p )
     bool wandering = wander();
     g->update_zombie_pos( *this, p );
     position = p;
-    if( has_effect( effect_ridden ) && position != g->u.pos() ) {
+    if( has_effect( effect_ridden ) && mounted_player && mounted_player->pos() != pos() ) {
         add_msg( m_debug, "Ridden monster %s moved independently and dumped player", get_name() );
-        g->u.forced_dismount();
+        mounted_player->forced_dismount();
     }
     if( wandering ) {
         unset_dest();
@@ -616,6 +616,9 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 
     const auto hp_desc = hp_description( hp, type->hp );
     mvwprintz( w, point( column, vStart++ ), hp_desc.second, hp_desc.first );
+    if( has_effect( effect_ridden ) && mounted_player ) {
+        mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
+    }
 
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
     int numlines = lines.size();
@@ -786,7 +789,7 @@ bool monster::has_flag( const m_flag f ) const
 
 bool monster::can_see() const
 {
-    return has_flag( MF_SEES ) && !has_effect( effect_blind );
+    return has_flag( MF_SEES ) && !effect_cache[VISION_IMPAIRED];
 }
 
 bool monster::can_hear() const
@@ -821,14 +824,19 @@ bool monster::can_act() const
 int monster::sight_range( const int light_level ) const
 {
     // Non-aquatic monsters can't see much when submerged
-    if( !can_see() || has_effect( effect_no_sight ) ||
+    if( !can_see() || effect_cache[VISION_IMPAIRED] ||
         ( underwater && !has_flag( MF_SWIMS ) && !has_flag( MF_AQUATIC ) && !digging() ) ) {
         return 1;
     }
-
-    int range = light_level * type->vision_day + ( default_daylight_level() - light_level ) *
+    static const int default_daylight = default_daylight_level();
+    if( light_level == 0 ) {
+        return type->vision_night;
+    } else if( light_level == default_daylight ) {
+        return type->vision_day;
+    }
+    int range = light_level * type->vision_day + ( default_daylight - light_level ) *
                 type->vision_night;
-    range /= default_daylight_level();
+    range /= default_daylight;
 
     return range;
 }
@@ -2041,7 +2049,9 @@ void monster::die( Creature *nkiller )
             item riding_saddle( "riding_saddle", 0 );
             g->m.add_item_or_charges( pos(), riding_saddle );
         }
-        g->u.forced_dismount();
+        if( mounted_player ) {
+            mounted_player->forced_dismount();
+        }
     }
     g->set_critter_died();
     dead = true;
@@ -2247,6 +2257,8 @@ void monster::process_one_effect( effect &it, bool is_new )
         }
     } else if( id == effect_run ) {
         effect_cache[FLEEING] = true;
+    } else if( id == effect_no_sight || id == effect_blind ) {
+        effect_cache[VISION_IMPAIRED] = true;
     }
 }
 

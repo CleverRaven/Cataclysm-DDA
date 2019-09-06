@@ -857,6 +857,77 @@
   },
   {
     "type": "technique",
+    "id": "tec_krav_maga_rapid",
+    "messages": [ "You jab at %s", "<npcname> jabs at %s" ],
+    "name": "Jab",
+    "min_unarmed": 1,
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_krav_maga_crit",
+    "name": "Cheapshot",
+    "messages": [ "You hit %s where it hurts", "<npcname> hits %s with a cheapshot" ],
+    "min_unarmed": 2,
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_krav_maga_takedown",
+    "name": "Takedown",
+    "messages": [ "You force %s to the ground", "<npcname> forces %s to the ground" ],
+    "min_unarmed": 3,
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "down_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_krav_maga_disarm",
+    "name": "Bone Breaker",
+    "messages": [ "*CRACK!* You brutally maim %s's arm", "*CRACK!* <npcname> brutally maims %s's arm" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "weighting": 3,
+    "crit_ok": true,
+    "downed_target": true,
+    "stunned_target": true,
+    "disarms": true,
+    "stun_dur": 3,
+    "flat_bonuses": [ [ "arpen", "bash", "str", 1.0 ] ],
+    "mult_bonuses": [ [ "damage", "bash", 3.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_krav_maga_break",
+    "name": "Grab Break",
+    "messages": [ "The %s tries to grab you, but you wrestle free!", "The %s tries to grab <npcname>, but they wrestle free!" ],
+    "min_unarmed": 3,
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_krav_maga_counter",
+    "name": "Counter",
+    "messages": [ "You block and counter %s", "<npcname> blocks and counters %s" ],
+    "min_unarmed": 4,
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "block_counter": true,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
     "id": "tec_pankration_kick",
     "name": "kick",
     "min_unarmed": 3,
@@ -972,64 +1043,6 @@
     "crit_tec": true,
     "messages": [ "You flying knee %s", "<npcname> flying knees %s" ],
     "stun_dur": 2
-  },
-  {
-    "type": "technique",
-    "id": "tec_krav_maga_rapid",
-    "name": "quick punch",
-    "min_unarmed": 2,
-    "unarmed_allowed": true,
-    "messages": [ "You quickly punch %s", "<npcname> quickly punches %s" ],
-    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_krav_maga_feint",
-    "name": "feint at",
-    "min_unarmed": 2,
-    "unarmed_allowed": true,
-    "defensive": true,
-    "miss_recovery": true,
-    "messages": [ "You feint at %s", "<npcname> feints at %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_krav_maga_precise",
-    "name": "precise strike",
-    "min_unarmed": 3,
-    "unarmed_allowed": true,
-    "crit_tec": true,
-    "messages": [ "You jab %s", "<npcname> jabs %s" ],
-    "stun_dur": 2
-  },
-  {
-    "type": "technique",
-    "id": "tec_krav_maga_disarm",
-    "name": "disarm",
-    "min_unarmed": 3,
-    "unarmed_allowed": true,
-    "disarms": true,
-    "messages": [ "You disarm %s", "<npcname> disarms %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_krav_maga_grab",
-    "name": "grab",
-    "min_unarmed": 4,
-    "unarmed_allowed": true,
-    "down_dur": 1,
-    "messages": [ "You grab %s", "<npcname> grabs %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_krav_maga_break",
-    "name": "grab break",
-    "min_unarmed": 4,
-    "unarmed_allowed": true,
-    "melee_allowed": true,
-    "defensive": true,
-    "grab_break": true,
-    "messages": [ "The %s tries to grab you, but you break its grab!", "The %s tries to grab <npcname>, but they break its grab!" ]
   },
   {
     "type": "technique",
