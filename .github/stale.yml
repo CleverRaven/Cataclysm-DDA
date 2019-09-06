@@ -54,7 +54,7 @@ closeComment: >
   re-opened if you are going to actively work on it
 
 # Limit the number of actions per hour, from 1-30. Default is 30
-limitPerRun: 1
+limitPerRun: 2
 
 # Limit to only `issues` or `pulls`
 # only: issues
