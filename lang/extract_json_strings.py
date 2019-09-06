@@ -67,6 +67,7 @@ ignorable = {
     "city_building",
     "colordef",
     "emit",
+    "enchantment",
     "EXTERNAL_OPTION",
     "GAME_OPTION",
     "ITEM_BLACKLIST",
