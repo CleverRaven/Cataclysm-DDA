@@ -5556,7 +5556,7 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper" ],
+        "materials": [ "plastic", "lead", "tin" ],
         "skill": "mechanics",
         "cost_scaling": 0.1,
         "move_cost": 1500
