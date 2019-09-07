@@ -669,7 +669,8 @@ npc_ptr talk_function::individual_mission( const tripoint &omt_pos,
     if( comp == nullptr ) {
         return comp;
     }
-
+    // make sure, for now, that NPCs dismount their horse before going on a mission.
+    comp->npc_dismount();
     //Ensure we have someone to give equipment to before we lose it
     for( auto i : equipment ) {
         comp->companion_mission_inv.add_item( *i );

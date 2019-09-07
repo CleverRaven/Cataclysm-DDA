@@ -4989,9 +4989,12 @@
       [ "magnesium", 10 ],
       [ "tin", 10 ],
       [ "chem_hydrogen_peroxide", 10 ],
+      [ "chem_muriatic_acid", 5 ],
       [ "chem_sulphur", 10 ],
       [ "chem_aluminium_powder", 5 ],
       [ "chem_zinc_powder", 10 ],
+      [ "chem_zinc", 5 ],
+      [ "chem_manganese_dioxide", 10 ],
       [ "chem_saltpetre", 10 ],
       [ "chem_carbide", 10 ],
       [ "denat_alcohol", 10 ]
@@ -5036,6 +5039,9 @@
       [ "chem_hydrogen_peroxide", 15 ],
       [ "chem_carbide", 10 ],
       [ "chem_zinc_powder", 10 ],
+      [ "chem_manganese_dioxide", 5 ],
+      [ "chem_potassium_chloride", 5 ],
+      [ "chem_muriatic_acid", 15 ],
       [ "denat_alcohol", 10 ]
     ]
   },
@@ -5094,8 +5100,13 @@
       [ "chem_hexamine", 10 ],
       [ "chem_saltpetre", 15 ],
       [ "chem_nitric_acid", 15 ],
+      [ "chem_muriatic_acid", 20 ],
+      [ "chem_potassium_chloride", 5 ],
+      [ "chem_potassium_hydroxide", 10 ],
+      [ "chem_zinc", 10 ],
       [ "chem_chromium_oxide", 10 ],
       [ "chem_zinc_powder", 10 ],
+      [ "chem_manganese_dioxide", 5 ],
       [ "denat_alcohol", 10 ]
     ]
   },
@@ -5628,6 +5639,7 @@
       [ "bio_metabolics", 10 ],
       [ "bio_ethanol", 10 ],
       [ "bio_torsionratchet", 10 ],
+      [ "bio_fuel_cell_gasoline", 10 ],
       [ "bio_tools", 10 ],
       [ "bio_ups", 10 ],
       [ "bio_flashlight", 10 ],
@@ -5722,6 +5734,7 @@
       [ "bio_power_storage", 10 ],
       [ "bio_tools", 10 ],
       [ "bio_flashlight", 10 ],
+      [ "bio_fuel_cell_gasoline", 10 ],
       [ "bio_tattoo_led", 10 ],
       [ "bio_lighter", 10 ],
       [ "bio_magnet", 10 ],
@@ -5742,10 +5755,8 @@
       [ "bot_grenade_hack", 2 ],
       [ "bot_flashbang_hack", 2 ],
       [ "bot_gasbomb_hack", 2 ],
-      [ "bot_turret", 2 ],
       [ "bot_rifleturret", 2 ],
-      [ "556", 2 ],
-      [ "9mm", 2 ]
+      [ "bot_antimateriel", 2 ]
     ]
   },
   {
@@ -6742,6 +6753,7 @@
       [ "ak74", 4 ],
       [ "an94", 1 ],
       [ "m4a1", 7 ],
+      [ "m16a4", 6 ],
       [ "h&k416a5", 3 ],
       [ "m1014", 1 ],
       [ "steyr_aug", 6 ],
@@ -6909,11 +6921,6 @@
     "type": "item_group",
     "id": "skitterbot",
     "items": [ [ "tazer", 3 ], [ "scrap", 9 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "secubot",
-    "items": [ [ "9mm", 8 ], [ "steel_plate", 30 ] ]
   },
   {
     "type": "item_group",
@@ -7211,6 +7218,7 @@
       [ "m9", 6 ],
       [ "usp_45", 6 ],
       [ "m4a1", 7 ],
+      [ "m16a4", 5 ],
       [ "h&k416a5", 7 ],
       [ "m1014", 2 ],
       [ "scar_l", 6 ],
@@ -7465,6 +7473,7 @@
       [ "tin", 5 ],
       [ "chem_nitric_acid", 1 ],
       [ "chem_sulphuric_acid", 1 ],
+      [ "chem_muriatic_acid", 2 ],
       [ "chem_hexamine", 2 ],
       [ "denat_alcohol", 1 ],
       [ "remotevehcontrol", 5 ]
@@ -9065,6 +9074,7 @@
     "//": "Bionics used by technicians.",
     "items": [
       [ "bio_torsionratchet", 20 ],
+      [ "bio_fuel_cell_gasoline", 10 ],
       [ "bio_memory", 20 ],
       [ "bio_sunglasses", 20 ],
       [ "bio_heatsink", 20 ],

@@ -249,6 +249,8 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     if( current_phase == PNULL ) {
         current_phase = type->phase;
     }
+    // item always has any relic properties from itype.
+    relic_data = type->relic_data;
 }
 
 item::item( const itype_id &id, time_point turn, int qty )
@@ -3273,7 +3275,7 @@ void item::on_wield( player &p, int mv )
     }
 
     // Update encumbrance in case we were wearing it
-    p.reset_encumbrance();
+    p.flag_encumbrance();
 }
 
 void item::handle_pickup_ownership( Character &c )
@@ -3335,6 +3337,8 @@ void item::on_pickup( Character &p )
 
         contents.clear();
     }
+
+    p.flag_encumbrance();
 }
 
 void item::on_contents_changed()
@@ -4464,10 +4468,31 @@ bool item::is_power_armor() const
 
 int item::get_encumber( const Character &p ) const
 {
+
     units::volume contents_volume( 0_ml );
+
     for( const item &e : contents ) {
         contents_volume += e.volume();
     }
+
+    if( p.is_worn( *this ) ) {
+        const islot_armor *t = find_armor_data();
+
+        if( t != nullptr && t->max_encumber != 0 ) {
+            units::volume char_storage( 0_ml );
+
+            for( const item &e : p.worn ) {
+                char_storage += e.get_storage();
+            }
+
+            if( char_storage != 0_ml ) {
+                // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
+                contents_volume += units::from_milliliter( static_cast<int64_t>( t->storage.value() ) *
+                                   p.inv.volume().value() / char_storage.value() );
+            }
+        }
+    }
+
     return get_encumber_when_containing( p, contents_volume );
 }
 
@@ -4483,8 +4508,22 @@ int item::get_encumber_when_containing(
 
     // Non-rigid items add additional encumbrance proportional to their volume
     if( !type->rigid ) {
-        encumber += contents_volume / 250_ml;
+        const int capacity = get_total_capacity().value();
+
+        if( t->max_encumber != 0 ) {
+
+            if( capacity > 0 ) {
+                // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
+                encumber += static_cast<int64_t>( t->max_encumber - t->encumber ) * contents_volume.value() /
+                            capacity;
+            } else {
+                debugmsg( "Non-rigid item (%s) without storage capacity.", tname() );
+            }
+        } else {
+            encumber += contents_volume / 250_ml;
+        }
     }
+
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
     if( has_flag( "FIT" ) && has_flag( "VARSIZE" ) ) {
@@ -5575,6 +5614,19 @@ bool item::is_transformable() const
 bool item::is_artifact() const
 {
     return type->artifact.has_value();
+}
+
+bool item::is_relic() const
+{
+    return relic_data.has_value();
+}
+
+std::vector<enchantment> item::get_enchantments() const
+{
+    if( !is_relic() ) {
+        return std::vector<enchantment> {};
+    }
+    return relic_data->get_enchantments();
 }
 
 bool item::can_contain( const item &it ) const
@@ -6959,7 +7011,7 @@ units::volume item::get_container_capacity() const
 
 units::volume item::get_total_capacity() const
 {
-    units::volume result = get_container_capacity();
+    units::volume result = get_storage() + get_container_capacity();
 
     // Consider various iuse_actors which add containing capability
     // Treating these two as special cases for now; if more appear in the
@@ -7957,7 +8009,7 @@ void item::reset_temp_check()
 
 void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
 {
-    if( !is_artifact() ) {
+    if( !is_artifact() && !is_relic() ) {
         return;
     }
     // Artifacts are currently only useful for the player character, the messages
@@ -8777,6 +8829,8 @@ bool item::on_drop( const tripoint &pos, map &m )
         !item_tags.count( "DIRTY" ) ) {
         item_tags.insert( "DIRTY" );
     }
+
+    g->u.flag_encumbrance();
     return type->drop_action && type->drop_action.call( g->u, *this, false, pos );
 }
 

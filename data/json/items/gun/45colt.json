@@ -1,0 +1,21 @@
+[
+  {
+    "id": "colt_saa",
+    "copy-from": "pistol_revolver",
+    "type": "GUN",
+    "name": "Uberti Cattleman",
+    "name_plural": "Uberti Cattleman",
+    "description": "This 7.5\" barreled Uberti Cattleman is a modern reproduction of the legendary Colt Single Action Army, or Colt Peacemaker, one of the first revolvers to use a modern self-contained cartridge.  Made famous by westerns, it is still in demand for Cowboy Action Shooting, reenactors and collectors.  Unlike modern revolvers, the cylinder cannot swing out for loading, and spent brass must be ejected one at a time.",
+    "weight": 1048,
+    "volume": "500 ml",
+    "price": 47900,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "steel", "wood" ],
+    "ammo": "45colt",
+    "dispersion": 360,
+    "durability": 8,
+    "clip_size": 6,
+    "proportional": { "reload": 1.5 }
+  }
+]

@@ -78,6 +78,7 @@ struct conditional_t {
         void set_has_var( JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_compare_var( JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_activity( bool is_npc = false );
+        void set_is_riding( bool is_npc = false );
         void set_npc_has_class( JsonObject &jo );
         void set_u_has_mission( JsonObject &jo );
         void set_has_strength( JsonObject &jo, const std::string &member, bool is_npc = false );
