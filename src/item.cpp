@@ -8120,12 +8120,6 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
     if( !active ) {
         return false;
     }
-    field_type_id smoke_type;
-    if( has_flag( "TOBACCO" ) ) {
-        smoke_type = fd_cigsmoke;
-    } else {
-        smoke_type = fd_weedsmoke;
-    }
     // if carried by someone:
     if( carrier != nullptr ) {
         time_duration duration = 15_seconds;
@@ -8158,9 +8152,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         }
     } else {
         // If not carried by someone, but laying on the ground:
-        // release some smoke every five ticks
         if( item_counter % 5 == 0 ) {
-            g->m.add_field( pos + point( rng( -2, 2 ), rng( -2, 2 ) ), smoke_type, 1 );
             // lit cigarette can start fires
             if( g->m.flammable_items_at( pos ) ||
                 g->m.has_flag( "FLAMMABLE", pos ) ||
