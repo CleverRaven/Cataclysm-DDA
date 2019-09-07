@@ -3602,8 +3602,7 @@ bool mattack::copbot( monster *z )
                                    _( "a robotic voice boom, \"Citizen, Halt!\"" ), false, "speech", z->type->id.str() );
                 } else if( !cuffed ) {
                     sounds::sound( z->pos(), 18, sounds::sound_t::alert,
-                                   _( "a robotic voice boom, \"\
-Please put down your weapon.\"" ), false, "speech", z->type->id.str() );
+                                   _( "a robotic voice boom, \"Please put down your weapon.\"" ), false, "speech", z->type->id.str() );
                 }
             } else {
                 sounds::sound( z->pos(), 18, sounds::sound_t::alert,

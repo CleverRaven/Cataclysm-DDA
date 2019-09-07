@@ -70,9 +70,8 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
         } else if( id[0] != '#' ) {
             const action_id act = look_up_action( id );
             if( act == ACTION_NULL ) {
-                debugmsg( "\
-Warning! keymap.txt contains an unknown action, \"%s\"\n\
-Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
+                debugmsg( "Warning! keymap.txt contains an unknown action, \"%s\"\n"
+                          "Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
             } else {
                 while( !keymap_txt.eof() ) {
                     char ch;
@@ -81,10 +80,9 @@ Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
                         break;
                     } else if( ch != ' ' || keymap_txt.peek() == '\n' ) {
                         if( kmap.find( ch ) != kmap.end() ) {
-                            debugmsg( "\
-Warning!  '%c' assigned twice in the keymap!\n\
-%s is being ignored.\n\
-Fix \"%s\" at your next chance!", ch, id, FILENAMES["keymap"] );
+                            debugmsg( "Warning!  '%c' assigned twice in the keymap!\n"
+                                      "%s is being ignored.\n"
+                                      "Fix \"%s\" at your next chance!", ch, id, FILENAMES["keymap"] );
                         } else {
                             kmap[ ch ] = act;
                         }

@@ -771,9 +771,9 @@ tab_direction set_points( const catacurses::window &w, avatar &, points_left &po
 
     const point_limit_tuple multi_pool = std::make_tuple( points_left::MULTI_POOL,
                                          _( "Multiple pools" ),
-                                         _( "Stats, traits and skills have separate point pools.\n\
-Putting stat points into traits and skills is allowed and putting trait points into skills is allowed.\n\
-Scenarios and professions affect skill point pool" ) );
+                                         _( "Stats, traits and skills have separate point pools.\n"
+                                            "Putting stat points into traits and skills is allowed and putting trait points into skills is allowed.\n"
+                                            "Scenarios and professions affect skill point pool" ) );
 
     const point_limit_tuple one_pool = std::make_tuple( points_left::ONE_POOL, _( "Single pool" ),
                                        _( "Stats, traits and skills share a single point pool." ) );
@@ -867,10 +867,10 @@ tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &po
     do {
         werase( w );
         draw_tabs( w, _( "STATS" ) );
-        fold_and_print( w, point( 2, 16 ), getmaxx( w ) - 4, COL_NOTE_MINOR, _( "\
-    <color_light_green>%s</color> / <color_light_green>%s</color> to select a statistic.\n\
-    <color_light_green>%s</color> to increase the statistic.\n\
-    <color_light_green>%s</color> to decrease the statistic." ),
+        fold_and_print( w, point( 2, 16 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
+                        _( "    <color_light_green>%s</color> / <color_light_green>%s</color> to select a statistic.\n"
+                           "    <color_light_green>%s</color> to increase the statistic.\n"
+                           "    <color_light_green>%s</color> to decrease the statistic." ),
                         ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
                         ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" )
                       );
@@ -1469,8 +1469,8 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
                                           profs_length : iContentHeight );
         int i;
         for( i = iStartPos; i < end_pos; i++ ) {
-            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray, "\
-                                             " ); // Clear the line
+            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
+                       "                                             " ); // Clear the line
             nc_color col;
             if( u.prof != &sorted_profs[i].obj() ) {
                 col = ( sorted_profs[i] == sorted_profs[cur_id] ? h_light_gray : c_light_gray );
@@ -1482,8 +1482,8 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
         }
         //Clear rest of space in case stuff got filtered out
         for( ; i < iStartPos + iContentHeight; ++i ) {
-            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray, "\
-                                             " ); // Clear the line
+            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
+                       "                                             " ); // Clear the line
         }
 
         std::ostringstream buffer;
@@ -2037,8 +2037,8 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
                                           scens_length : iContentHeight );
         int i;
         for( i = iStartPos; i < end_pos; i++ ) {
-            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray, "\
-                                             " );
+            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
+                       "                                             " );
             nc_color col;
             if( g->scen != sorted_scens[i] ) {
                 if( sorted_scens[i] == sorted_scens[cur_id] && ( sorted_scens[i]->has_flag( "CITY_START" ) &&
@@ -2059,8 +2059,8 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
         }
         //Clear rest of space in case stuff got filtered out
         for( ; i < iStartPos + iContentHeight; ++i ) {
-            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray, "\
-                                             " ); // Clear the line
+            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
+                       "                                             " ); // Clear the line
         }
 
         werase( w_sorting );
