@@ -2506,6 +2506,8 @@ void generic_multi_activity_handler( player_activity &act, player &p )
         for( const tripoint &src : coords ) {
             //remember current destination point
             act.placement = src;
+            act.coord_set.erase( src );
+
             const tripoint &src_loc = g->m.getlocal( src );
             if( !g->m.inbounds( src_loc ) ) {
                 if( !g->m.inbounds( p.pos() ) ) {
@@ -2519,7 +2521,6 @@ void generic_multi_activity_handler( player_activity &act, player &p )
                 const std::vector<tripoint> route = route_adjacent( p, src_loc );
                 if( route.empty() ) {
                     // can't get there, can't do anything, skip it
-                    act.coord_set.erase( src );
                     continue;
                 }
                 //have to think first after we have arrived to distant location
@@ -2561,7 +2562,6 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             if( route.empty() ) {
                 //can't find a path, bad point, skip it and think again
                 stage = THINK;
-                act.coord_set.erase( src );
                 return;
             }
             p.set_destination( route, act );
@@ -2585,7 +2585,6 @@ void generic_multi_activity_handler( player_activity &act, player &p )
         if( !can_do_it ) {
             //can't work here, bad point, skip it and think again
             stage = THINK;
-            act.coord_set.erase( src );
             return;
         }
 
