@@ -2982,6 +2982,16 @@ bool mattack::nurse_operate( monster *z )
     z->anger = 0;
     return false;
 }
+bool mattack::check_money_left( monster *z )
+{
+    if( !z->has_effect( efftype_id( "pet" ) ) ) {
+        if( z->friendly == -1 ) { // if the pet effect runs out we're no longer need to be friends
+            z->friendly = 0;
+            return true;
+        }
+    }
+    return false;
+}
 bool mattack::photograph( monster *z )
 {
     if( !within_visual_range( z, 6 ) ) {
