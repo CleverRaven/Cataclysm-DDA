@@ -79,5 +79,12 @@ TEST_CASE( "vehicle_power" )
         int approx_battery2 = veh_ptr->fuel_left( fuel_type_battery ) / 100;
         CHECK( approx_battery2 >= approx_battery1 + exp_min );
         CHECK( approx_battery2 <= approx_battery1 + exp_max );
+        const time_point at_night = sunset( calendar::turn ) + 3_hours;
+        g->weather.weather_override = WEATHER_CLEAR;
+        veh_ptr->update_time( at_night );
+        veh_ptr->discharge_battery( veh_ptr->fuel_left( fuel_type_battery ) );
+        REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 0 );
+        veh_ptr->update_time( at_night + 30_minutes );
+        CHECK( veh_ptr->fuel_left( fuel_type_battery ) == 0 );
     }
 }
