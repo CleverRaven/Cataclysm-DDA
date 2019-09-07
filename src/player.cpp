@@ -11204,7 +11204,7 @@ bool player::sees( const Creature &critter ) const
     }
     const float actual_per = get_per() - encumb( bp_eyes ) / 5.0f;
     if( dist <= actual_per / 3 && critter.has_flag( MF_NIGHT_INVISIBILITY ) &&
-        g->m.light_at( critter.pos() ) <= LL_LOW ) {
+        g->m.light_at( critter.pos() ) <= LL_LOW && g->m.pl_sees( critter.pos(), dist ) ) {
         return true;
     }
     if( critter.digging() && has_active_bionic( bio_ground_sonar ) ) {
