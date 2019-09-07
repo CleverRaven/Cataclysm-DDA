@@ -2589,10 +2589,6 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             return;
         }
 
-
-
-
-
         // something needs to be done, now we are there.
         // it was here earlier, in the space of one turn, maybe it got harvested by someone else.
         if( reason == NEEDS_HARVESTING && g->m.has_flag_furn( "GROWTH_HARVEST", src_loc ) ) {
