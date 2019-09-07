@@ -1622,7 +1622,14 @@ bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 
 bool npc::wants_to_recharge_cbm()
 {
-    return power_level < ( max_power_level * static_cast<int>( rules.cbm_recharge ) / 100 );
+
+    for( const bionic_id bid : get_fueled_bionics() ) {
+        for( const itype_id fid : bid->fuel_opts ) {
+            return get_fuel_available( bid ).empty() || ( !get_fuel_available( bid ).empty() &&
+                    power_level < ( max_power_level * static_cast<int>( rules.cbm_recharge ) / 100 ) &&
+                    !use_bionic_by_id( bid ) );
+        }
+    }
 }
 
 bool npc::can_use_offensive_cbm() const
@@ -1659,6 +1666,26 @@ bool npc::recharge_cbm()
 
     use_bionic_by_id( bio_torsionratchet );
     use_bionic_by_id( bio_metabolics );
+
+    for( bionic_id bid : get_fueled_bionics() ) {
+        if( !get_fuel_available( bid ).empty() ) {
+            use_bionic_by_id( bid );
+            return true;
+        } else {
+            const std::function<bool( const item & )> fuel_filter = [bid]( const item & it ) {
+                for( const itype_id fid : bid->fuel_opts ) {
+                    return it.typeId() == fid;
+                }
+            };
+
+            if( consume_cbm_items( fuel_filter ) ) {
+                use_bionic_by_id( bid );
+                return true;
+            } else {
+                complain_about( "need_fuel", 3_hours, "<need_fuel>", false );
+            }
+        }
+    }
 
     if( use_bionic_by_id( bio_furnace ) ) {
         const std::function<bool( const item & )> furnace_filter = []( const item & it ) {
