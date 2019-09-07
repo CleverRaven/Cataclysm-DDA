@@ -1014,6 +1014,7 @@ matec_id player::pick_technique( Creature &t, const item &weap,
 
     bool downed = t.has_effect( effect_downed );
     bool stunned = t.has_effect( effect_stunned );
+    bool wall_adjacent = is_wall_adjacent();
 
     // first add non-aoe tecs
     for( auto &tec_id : all ) {
@@ -1026,6 +1027,12 @@ matec_id player::pick_technique( Creature &t, const item &weap,
 
         // skip defensive techniques
         if( tec.defensive ) {
+            continue;
+        }
+
+
+        // skip wall adjacent techniques if not next to a wall
+        if( tec.wall_adjacent && !wall_adjacent ) {
             continue;
         }
 

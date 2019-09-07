@@ -12,6 +12,8 @@
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
+#include "game.h"
+#include "map.h"
 #include "generic_factory.h"
 #include "input.h"
 #include "itype.h"
@@ -77,6 +79,7 @@ void ma_requirements::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
     optional( jo, was_loaded, "unarmed_weapons_allowed", unarmed_weapons_allowed, true );
+    optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
 
     optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
     optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<> {} );
@@ -108,6 +111,7 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
     optional( jo, was_loaded, "downed_target", downed_target, false );
     optional( jo, was_loaded, "stunned_target", stunned_target, false );
+    optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
 
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
@@ -408,6 +412,10 @@ bool ma_requirements::is_valid_player( const player &u ) const
     if( !valid_weapon ) {
         return false;
     }
+    
+    if( wall_adjacent && !u.is_wall_adjacent() ) {
+        return false;
+    }
 
     for( const auto &pr : min_skill ) {
         if( ( cqb ? 5 : u.get_skill_level( pr.first ) ) < pr.second ) {
@@ -471,6 +479,11 @@ std::string ma_requirements::get_description( bool buff ) const
                                type ) << std::endl;
     }
 
+    if( wall_adjacent ) {
+        dump << string_format( _( "* Can %s while <info>near</info> to a <info>wall</info>" ),
+                               type ) << std::endl;
+    }
+
     return dump.str();
 }
 
@@ -496,6 +509,7 @@ ma_technique::ma_technique()
     // conditional
     downed_target = false;    // only works on downed enemies
     stunned_target = false;   // only works on stunned enemies
+    wall_adjacent = false;    // only works near a wall
 
     miss_recovery = false; // allows free recovery from misses, like tec_feint
     grab_break = false; // allows grab_breaks, like tec_break
@@ -863,6 +877,24 @@ bool player::can_miss_recovery( const item &weap ) const
     return true;
 }
 
+bool player::is_wall_adjacent() const
+{
+    for( int i = -1; i < 2; i++ ) {
+        for( int j = -1; j < 2; j++ ) {
+            if( i == 0 && j == 0 ) {
+                continue;
+            }
+            
+            if( g->m.impassable( tripoint( posx() + i, posy() + j, posz() ) ) ) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+
 bool player::can_leg_block() const
 {
     const martialart &ma = style_selected.obj();
@@ -1179,6 +1211,10 @@ std::string ma_technique::get_description() const
 
     if( side_switch ) {
         dump << _( "* Moves target <info>behind</info> you" ) << std::endl;
+    }
+
+    if( wall_adjacent ) {
+        dump << _( "* Will only activate while <info>near</info> to a <info>wall</info>" ) << std::endl;
     }
 
     if( downed_target ) {

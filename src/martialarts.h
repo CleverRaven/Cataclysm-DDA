@@ -30,6 +30,7 @@ struct ma_requirements {
     bool unarmed_allowed; // does this bonus work when unarmed?
     bool melee_allowed; // what about with a melee weapon?
     bool unarmed_weapons_allowed; // If unarmed, what about unarmed weapons?
+    bool wall_adjacent; // Does it only work near a wall?
 
     /** Minimum amount of given skill to trigger this bonus */
     std::map<skill_id, int> min_skill;
@@ -46,6 +47,7 @@ struct ma_requirements {
         unarmed_allowed = false;
         melee_allowed = false;
         unarmed_weapons_allowed = true;
+        wall_adjacent = false;
     }
 
     std::string get_description( bool buff = false ) const;
@@ -109,6 +111,7 @@ class ma_technique
         // conditional
         bool downed_target; // only works on downed enemies
         bool stunned_target; // only works on stunned enemies
+        bool wall_adjacent; // only works near a wall
 
         /** All kinds of bonuses by types to damage, hit etc. */
         bonus_container bonuses;
