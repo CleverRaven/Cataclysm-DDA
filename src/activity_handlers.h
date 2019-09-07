@@ -44,14 +44,15 @@ enum do_activity_reason : int {
     NEEDS_HARVESTING,       // For farming - tile is harvestable now.
     NEEDS_PLANTING,         // For farming - tile can be planted
     NEEDS_TILLING,          // For farming - tile can be tilled
-    BLOCKING_TILE,           // Something has made it's way onto the tile, so the activity cannot proceed
+    BLOCKING_TILE,          // Something has made it's way onto the tile, so the activity cannot proceed
     NEEDS_CHOPPING,         // There is wood there to be chopped
     NEEDS_TREE_CHOPPING,    // There is a tree there that needs to be chopped
     NEEDS_BIG_BUTCHERING,   // There is at least one corpse there to butcher, and it's a big one
     NEEDS_BUTCHERING,       // THere is at least one corpse there to butcher, and theres no need for additional tools
     ALREADY_WORKING,        // somebody is already working there
-    NEEDS_VEH_DECONST,       // There is a vehicle part there that we can deconstruct, given the right tools.
-    NEEDS_FISHING           // This spot can be fished, if the right tool is present.
+    NEEDS_VEH_DECONST,      // There is a vehicle part there that we can deconstruct, given the right tools.
+    NEEDS_FISHING,          // This spot can be fished, if the right tool is present.
+    NEEDS_FETCHING          // Generic fetching required
 };
 
 struct activity_reason_info {

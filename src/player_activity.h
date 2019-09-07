@@ -52,6 +52,8 @@ class player_activity
          *  an identical activity. This value is set dynamically.
          */
         bool auto_resume;
+        /** Activity mental map. Save/load is not required.  */
+        std::vector<std::tuple<tripoint, std::string, int>> mental_map;
 
         player_activity();
         player_activity( activity_id, int turns = 0, int Index = -1, int pos = INT_MIN,

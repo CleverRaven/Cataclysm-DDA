@@ -928,12 +928,6 @@ void complete_construction( player *p )
     // This comes after clearing the activity, in case the function interrupts
     // activities
     built.post_special( terp );
-    // npcs will automatically resume backlog, players wont.
-    if( p->is_player() && !p->backlog.empty() &&
-        p->backlog.front().id() == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ) {
-        p->backlog.clear();
-        p->assign_activity( activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) );
-    }
 }
 
 bool construct::check_empty( const tripoint &p )
