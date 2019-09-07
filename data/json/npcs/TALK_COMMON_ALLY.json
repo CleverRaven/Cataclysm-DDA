@@ -143,9 +143,13 @@
               "no": {
                 "npc_engagement_rule": "ENGAGE_HIT",
                 "no": {
-                  "npc_engagement_rule": "ENGAGE_NO_MOVE",
-                  "no": "*will engage all enemies.",
-                  "yes": "*will engage enemies close enough to attack without moving."
+                  "npc_engagement_rule": "ENGAGE_FREE_FIRE",
+                  "no": {
+                    "npc_engagement_rule": "ENGAGE_NO_MOVE",
+                    "no": "*will engage all enemies.",
+                    "yes": "*will engage enemies close enough to attack without moving."
+                  },
+                  "yes": "*will engage distant enemies without moving."
                 },
                 "yes": "*will engage enemies you attack."
               },
@@ -312,9 +316,13 @@
               "no": {
                 "npc_engagement_rule": "ENGAGE_HIT",
                 "no": {
-                  "npc_engagement_rule": "ENGAGE_NO_MOVE",
-                  "no": "*will engage all enemies.",
-                  "yes": "*will engage enemies close enough to attack without moving."
+                  "npc_engagement_rule": "ENGAGE_FREE_FIRE",
+                  "no": {
+                    "npc_engagement_rule": "ENGAGE_NO_MOVE",
+                    "no": "*will engage all enemies.",
+                    "yes": "*will engage enemies close enough to attack without moving."
+                  },
+                  "yes": "*will engage distant enemies without moving."
                 },
                 "yes": "*will engage enemies you attack."
               },
@@ -357,6 +365,12 @@
         "topic": "TALK_NONE",
         "condition": { "not": { "npc_engagement_rule": "ENGAGE_NO_MOVE" } },
         "effect": { "set_npc_engagement_rule": "ENGAGE_NO_MOVE" }
+      },
+      {
+        "text": "Attack any enemy within range of your ranged weapon, but don't move.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_engagement_rule": "ENGAGE_FREE_FIRE" } },
+        "effect": { "set_npc_engagement_rule": "ENGAGE_FREE_FIRE" }
       },
       {
         "text": "Attack anything you want.",
