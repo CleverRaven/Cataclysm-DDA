@@ -569,11 +569,11 @@ bool trapfunc::snare_heavy( const tripoint &p, Creature *c, item * )
     }
     // Determine what got hit
     const body_part hit = one_in( 2 ) ? bp_leg_l : bp_leg_r;
-    //~ %s is bodypart name in accusative.
     if( c->has_effect( effect_ridden ) ) {
         add_msg( m_bad, _( "A snare closes on your %s's leg" ), c->get_name() );
         g->u.add_effect( effect_heavysnare, 1_turns, hit, true );
     }
+    //~ %s is bodypart name in accusative.
     c->add_msg_player_or_npc( m_bad, _( "A snare closes on your %s." ),
                               _( "A snare closes on <npcname>s %s." ), body_part_name_accusative( hit ) );
 

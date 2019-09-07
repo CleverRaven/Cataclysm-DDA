@@ -287,8 +287,8 @@ void activity_handlers::burrow_do_turn( player_activity *act, player *p )
 {
     sfx::play_activity_sound( "activity", "burrow", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
-        //~ Sound of a Rat mutant burrowing!
         sounds::sound( act->placement, 10, sounds::sound_t::movement,
+                       //~ Sound of a Rat mutant burrowing!
                        _( "ScratchCrunchScrabbleScurry." ) );
         messages_in_process( *act, *p );
     }

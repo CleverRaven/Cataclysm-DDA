@@ -716,22 +716,22 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
 
     starty += fold_and_print( win, point( 1, starty ), len, c_white,
                               _( "Separate multiple items with ," ) );
-    //~ An example of how to separate multiple items with a comma when filtering items.
     starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
+                                  //~ An example of how to separate multiple items with a comma when filtering items.
                                   _( "Example: back,flash,aid, ,band" ) );
 
     if( type == item_filter_type::FILTER ) {
         starty += fold_and_print( win, point( 1, starty ), len, c_white,
                                   _( "To exclude items, place - in front." ) );
-        //~ An example of how to exclude items with - when filtering items.
         starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
+                                      //~ An example of how to exclude items with - when filtering items.
                                       _( "Example: -pipe,-chunk,-steel" ) );
     }
 
     starty += fold_and_print( win, point( 1, starty ), len, c_white,
                               _( "Search [c]ategory, [m]aterial, [q]uality or [d]isassembled components:" ) );
-    //~ An example of how to filter items based on category or material.
     fold_and_print( win, point( 1, starty ), len, c_white,
+                    //~ An example of how to filter items based on category or material.
                     _( "Examples: c:food,m:iron,q:hammering,d:pipe" ) );
     wrefresh( win );
 }

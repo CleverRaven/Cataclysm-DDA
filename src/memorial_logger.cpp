@@ -149,7 +149,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
 
     const std::string locdesc = overmap_buffer.get_description_at( u.global_sm_location() );
     //~ First parameter is a pronoun ("He"/"She"), second parameter is a description
-    // that designates the location relative to its surroundings.
+    //~ that designates the location relative to its surroundings.
     const std::string kill_place = string_format( _( "%1$s was killed in a %2$s." ),
                                    pronoun, locdesc );
 

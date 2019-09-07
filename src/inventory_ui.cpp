@@ -99,8 +99,8 @@ class selection_column_preset : public inventory_selector_preset
             if( item->is_money() ) {
                 assert( available_count == entry.get_stack_size() );
                 if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-                    //~ In the following string, the %s is the amount of money on the selected cards as passed by the display money function, out of the total amount of money on the cards, which is specified by the format_money function")
                     res << string_format(
+                            //~ In the following string, the %s is the amount of money on the selected cards as passed by the display money function, out of the total amount of money on the cards, which is specified by the format_money function")
                             _( "%s of %s" ),
                             item->display_money( available_count, entry.get_selected_charges() ),
                             format_money( entry.get_total_charges() ) );

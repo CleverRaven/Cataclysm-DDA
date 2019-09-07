@@ -3609,7 +3609,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 std::string item::display_money( unsigned int quantity, unsigned int amount ) const
 {
     //~ This is a string to display the total amount of money in a stack of cash cards. The strings are: %s is the display name of cash cards. The following bracketed $%.2f is the amount of money on the stack of cards in dollars, to two decimal points. (e.g. "cash cards ($15.35)")
-    return string_format( "%s %s", tname( quantity ), format_money( amount ) );
+    return string_format( pgettext( "cash card and total money", "%s %s" ), tname( quantity ),
+                          format_money( amount ) );
 }
 
 std::string item::display_name( unsigned int quantity ) const

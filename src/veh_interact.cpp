@@ -760,7 +760,6 @@ bool veh_interact::can_install_part()
     nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
     nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
 
-    //~ %1$s is quality name, %2$d is quality level
     const auto helpers = g->u.get_crafting_helpers();
     std::string str_string;
     if( !helpers.empty() ) {
@@ -768,6 +767,7 @@ bool veh_interact::can_install_part()
     } else {
         str_string = string_format( _( "strength %d" ), str );
     }
+    //~ %1$s is quality name, %2$d is quality level
     std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
                                             qual.obj().name, lvl );
     msg << string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
@@ -1669,14 +1669,15 @@ bool veh_interact::can_remove_part( int idx, const player &p )
         ok = false;
     }
     const auto helpers = g->u.get_crafting_helpers();
-    //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the tool quality, %3$i is tool level, %4$s is the internal color name which shouldn't be translated and %5$i is the character's strength
     if( !helpers.empty() ) {
         msg << string_format(
+                //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the tool quality, %3$i is tool level, %4$s is the internal color name which shouldn't be translated and %5$i is the character's strength
                 _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength ( assisted ) %5$i</color>" ),
                 status_color( use_aid ), qual.obj().name, lvl,
                 status_color( use_str ), str ) << "\n";
     } else {
         msg << string_format(
+                //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the tool quality, %3$i is tool level, %4$s is the internal color name which shouldn't be translated and %5$i is the character's strength
                 _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength %5$i</color>" ),
                 status_color( use_aid ), qual.obj().name, lvl,
                 status_color( use_str ), str ) << "\n";
@@ -1837,15 +1838,16 @@ bool veh_interact::do_tirechange( std::string &msg )
             return false;
 
         case LACK_TOOLS:
-            //~ %1$s represents the internal color name which shouldn't be translated, %2$s is an internal color name, %3$s is an internal color name, %4$s is an internal color name, and %5$d is the required lift strength
             if( !helpers.empty() ) {
                 msg = string_format(
+                          //~ %1$s represents the internal color name which shouldn't be translated, %2$s is an internal color name, %3$s is an internal color name, %4$s is an internal color name, and %5$d is the required lift strength
                           _( "To change a wheel you need a %1$swrench</color>, a %2$swheel</color>, and either "
                              "%3$slifting equipment</color> or %4$s%5$d</color> strength ( assisted )." ),
                           status_color( has_wrench ), status_color( has_wheel ), status_color( has_jack ),
                           status_color( g->u.can_lift( *veh ) ), veh->lift_strength() );
             } else {
                 msg = string_format(
+                          //~ %1$s represents the internal color name which shouldn't be translated, %2$s is an internal color name, %3$s is an internal color name, %4$s is an internal color name, and %5$d is the required lift strength
                           _( "To change a wheel you need a %1$swrench</color>, a %2$swheel</color>, and either "
                              "%3$slifting equipment</color> or %4$s%5$d</color> strength." ),
                           status_color( has_wrench ), status_color( has_wheel ), status_color( has_jack ),
