@@ -1677,6 +1677,7 @@ bool npc::recharge_cbm()
                 for( const itype_id fid : bid->fuel_opts ) {
                     return it.typeId() == fid;
                 }
+                return false;
             };
 
             if( consume_cbm_items( fuel_filter ) ) {
