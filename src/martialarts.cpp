@@ -412,7 +412,7 @@ bool ma_requirements::is_valid_player( const player &u ) const
     if( !valid_weapon ) {
         return false;
     }
-    
+
     if( wall_adjacent && !u.is_wall_adjacent() ) {
         return false;
     }
@@ -884,7 +884,7 @@ bool player::is_wall_adjacent() const
             if( i == 0 && j == 0 ) {
                 continue;
             }
-            
+
             if( g->m.impassable( tripoint( posx() + i, posy() + j, posz() ) ) ) {
                 return true;
             }
