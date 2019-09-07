@@ -4415,7 +4415,7 @@ void player::cough( bool harmful, int loudness )
         const int stam = stamina;
         const int malus = get_stamina_max() * 0.05; // 5% max stamina
         mod_stat( "stamina", -malus );
-        if( stam < malus && x_in_y( malus - stam, malus ) ) {
+        if( stam < malus && x_in_y( malus - stam, malus ) && one_in( 6 ) ) {
             apply_damage( nullptr, bp_torso, 1 );
         }
     }
