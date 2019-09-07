@@ -867,8 +867,8 @@ void vehicle::backfire( const int e ) const
 {
     const int power = part_vpower_w( engines[e], true );
     const tripoint pos = global_part_pos3( engines[e] );
-    //~ backfire sound
     sounds::sound( pos, 40 + power / 10000, sounds::sound_t::movement,
+                   //~ backfire sound
                    string_format( _( "a loud BANG! from the %s" ),
                                   parts[ engines[ e ] ].name() ), true, "vehicle", "engine_backfire" );
 }

@@ -1861,8 +1861,8 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                     break;
             }
             if( shove_velocity > 0 ) {
-                //~ %1$s - monster name, %2$s - vehicle name
                 if( g->u.sees( this->pos() ) ) {
+                    //~ %1$s - monster name, %2$s - vehicle name
                     g->u.add_msg_if_player( m_bad, _( "%1$s shoves %2$s out of their way!" ), this->disp_name(),
                                             veh.disp_name() );
                 }
