@@ -677,7 +677,7 @@
       [ [ "android_arms", 1 ] ],
       [ [ "power_supply", 4 ] ],
       [ [ "solar_cell", 2 ] ],
-      [ [ "hk_mp5", 1 ] ],
+      [ [ "m16a4", 1 ] ],
       [ [ "canister_empty", 1 ] ]
     ]
   },

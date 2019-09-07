@@ -290,6 +290,26 @@
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
+    "id": "m16a4",
+    "copy-from": "rifle_semi",
+    "type": "GUN",
+    "name": "M16A4",
+    "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.",
+    "weight": "2890 g",
+    "volume": "1750 ml",
+    "price": 240000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "223",
+    "dispersion": 150,
+    "durability": 7,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3rd burst", 3 ] ],
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+  },
+  {
     "id": "rifle_223",
     "copy-from": "gun_base",
     "type": "GUN",
