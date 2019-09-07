@@ -91,7 +91,8 @@
       { "item": "l_bak_223", "prob": 80, "charges-min": 0, "charges-max": 5 },
       { "item": "rm99_pistol", "prob": 150, "charges-min": 0, "charges-max": 5 },
       { "item": "tokarev", "prob": 100, "charges-min": 0, "charges-max": 8 },
-      { "item": "walther_ppk", "prob": 100, "charges-min": 0, "charges-max": 8 }
+      { "item": "walther_ppk", "prob": 100, "charges-min": 0, "charges-max": 8 },
+      { "item": "colt_saa", "prob": 150, "charges-min": 0, "charges-max": 6 }
     ]
   },
   {
