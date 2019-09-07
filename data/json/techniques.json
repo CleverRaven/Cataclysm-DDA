@@ -928,6 +928,49 @@
   },
   {
     "type": "technique",
+    "id": "tec_leopard_feint",
+    "name": "Leopard Paw",
+    "messages": [ "You paw aggressively at %s", "<npcname> paws aggressively at %s" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "miss_recovery": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_leopard_precise",
+    "name": "Leopard Fist",
+    "messages": [ "You strike out at %s with your Leopard Fist", "<npcname> strikes out at %s with a Leopard Fist" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_leopard_rapid",
+    "name": "Leopard Swipe",
+    "messages": [ "You quickly swipe at %s", "<npcname> quickly swipes at %s" ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_leopard_counter",
+    "name": "Leopard Foresight",
+    "messages": [ "You dodge the attack and swipe at %s's exposed flank", "<npcname> dodges and catches %s exposed" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "dodge_counter": true,
+    "knockback_dist": 1,
+    "knockback_spread": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
     "id": "tec_pankration_kick",
     "name": "kick",
     "min_unarmed": 3,
@@ -1157,36 +1200,6 @@
     "unarmed_allowed": true,
     "down_dur": 1,
     "messages": [ "You grab and ground %s", "<npcname> grabs and grounds %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_leopard_precise",
-    "name": "Leopard Fist",
-    "min_unarmed": 5,
-    "unarmed_allowed": true,
-    "crit_tec": true,
-    "messages": [ "You strike out at %s with your Leopard Fist", "<npcname> strikes out at %s with a Leopard Fist" ],
-    "stun_dur": 2
-  },
-  {
-    "type": "technique",
-    "id": "tec_leopard_rapid",
-    "name": "Leopard Swipe",
-    "min_unarmed": 2,
-    "unarmed_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
-    "messages": [ "You quickly swipe at %s", "<npcname> quickly swipes at %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_leopard_counter",
-    "name": "Leopard Foresight",
-    "min_unarmed": 4,
-    "unarmed_allowed": true,
-    "dodge_counter": true,
-    "crit_ok": true,
-    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 1.5 ] ],
-    "messages": [ "You dodge the attack and swipe at %s's exposed flank", "<npcname> dodges and catches %s exposed" ]
   },
   {
     "type": "technique",

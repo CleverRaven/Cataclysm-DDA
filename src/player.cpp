@@ -151,6 +151,7 @@ const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_glowy_led( "glowy_led" );
 const efftype_id effect_got_checked( "got_checked" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_grabbing( "grabbing" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_happy( "happy" );
 const efftype_id effect_hot( "hot" );
@@ -3033,7 +3034,8 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
     //looks like this should be based off of dealt damages, not d as d has no damage reduction applied.
     // Skip all this if the damage isn't from a creature. e.g. an explosion.
     if( source != nullptr ) {
-        if( source->has_flag( MF_GRABS ) && !source->is_hallucination() ) {
+        if( source->has_flag( MF_GRABS ) && !source->is_hallucination() &&
+            !source->has_effect( effect_grabbing ) ) {
             /** @EFFECT_DEX increases chance to avoid being grabbed, if DEX>STR */
 
             /** @EFFECT_STR increases chance to avoid being grabbed, if STR>DEX */
@@ -3051,6 +3053,7 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
             } else {
                 int prev_effect = get_effect_int( effect_grabbed );
                 add_effect( effect_grabbed, 2_turns, bp_torso, false, prev_effect + 2 );
+                source->add_effect( effect_grabbing, 2_turns );
                 add_msg_player_or_npc( m_bad, _( "You are grabbed by %s!" ), _( "<npcname> is grabbed by %s!" ),
                                        source->disp_name() );
             }
@@ -4176,14 +4179,18 @@ void player::update_needs( int rate_multiplier )
 
     // Huge folks take penalties for cramming themselves in vehicles
     if( in_vehicle && ( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) ) {
-        add_msg_if_player( m_bad,
-                           _( "You're cramping up from stuffing yourself in this vehicle." ) );
-        if( is_npc() ) {
-            npc &as_npc = dynamic_cast<npc &>( *this );
-            as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
+        vehicle *veh = veh_pointer_or_null( g->m.veh_at( pos() ) );
+        // it's painful to work the controls, but passengers in open topped vehicles are fine
+        if( veh && ( veh->enclosed_at( pos() ) || veh->player_in_control( *this ) ) ) {
+            add_msg_if_player( m_bad,
+                               _( "You're cramping up from stuffing yourself in this vehicle." ) );
+            if( is_npc() ) {
+                npc &as_npc = dynamic_cast<npc &>( *this );
+                as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
+            }
+            mod_pain_noresist( 2 * rng( 2, 3 ) );
+            focus_pool -= 1;
         }
-        mod_pain_noresist( 2 * rng( 2, 3 ) );
-        focus_pool -= 1;
     }
 }
 
@@ -5288,9 +5295,10 @@ void player::suffer()
         }
     } // Done with while-awake-only effects
 
-    if( has_trait( trait_ASTHMA ) &&
-        one_in( ( to_turns<int>( 6_hours ) - stim * 300 ) * ( has_effect( effect_sleep ) ? 10 : 1 ) ) &&
-        !has_effect( effect_adrenaline ) & !has_effect( effect_datura ) ) {
+    if( has_trait( trait_ASTHMA ) && !has_effect( effect_adrenaline ) &&
+        !has_effect( effect_datura ) &&
+        one_in( ( to_turns<int>( 6_hours ) - stim * 300 ) *
+                ( has_effect( effect_sleep ) ? 10 : 1 ) ) ) {
         bool auto_use = has_charges( "inhaler", 1 ) || has_charges( "oxygen_tank", 1 ) ||
                         has_charges( "smoxygen_tank", 1 );
         bool oxygenator = has_bionic( bio_gills ) && power_level >= 3;
@@ -5299,42 +5307,48 @@ void player::suffer()
             auto_use = false;
         }
 
+        add_msg_player_or_npc( m_bad, _( "You have an asthma attack!" ),
+                               "<npcname> starts wheezing and coughing." );
+
         if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
             inventory map_inv;
             map_inv.form_from_map( g->u.pos(), 2, &g->u );
+            // check if an inhaler is somewhere near
+            bool nearby_use = auto_use || oxygenator || map_inv.has_charges( "inhaler", 1 ) ||
+                              map_inv.has_charges( "oxygen_tank", 1 ) ||
+                              map_inv.has_charges( "smoxygen_tank", 1 );
             // check if character has an oxygenator first
             if( oxygenator ) {
-                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
                 charge_power( -3 );
-                add_msg_if_player( m_info, _( "You use your Oxygenator to clear it up, then go back to sleep." ) );
+                add_msg_if_player( m_info, _( "You use your Oxygenator to clear it up, "
+                                              "then go back to sleep." ) );
             } else if( auto_use ) {
-                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
                 if( use_charges_if_avail( "inhaler", 1 ) ) {
                     add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
                 } else if( use_charges_if_avail( "oxygen_tank", 1 ) ||
                            use_charges_if_avail( "smoxygen_tank", 1 ) ) {
-                    add_msg_if_player( m_info,
-                                       _( "You take a deep breath from your oxygen tank and go back to sleep." ) );
+                    add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
+                                                  "and go back to sleep." ) );
                 }
-                // check if an inhaler is somewhere near
-            } else if( map_inv.has_charges( "inhaler", 1 ) || map_inv.has_charges( "oxygen_tank", 1 ) ||
-                       map_inv.has_charges( "smoxygen_tank", 1 ) ) {
-                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
+            } else if( nearby_use ) {
                 // create new variable to resolve a reference issue
                 int amount = 1;
                 if( !g->m.use_charges( g->u.pos(), 2, "inhaler", amount ).empty() ) {
                     add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
                 } else if( !g->m.use_charges( g->u.pos(), 2, "oxygen_tank", amount ).empty() ||
                            !g->m.use_charges( g->u.pos(), 2, "smoxygen_tank", amount ).empty() ) {
-                    add_msg_if_player( m_info,
-                                       _( "You take a deep breath from your oxygen tank and go back to sleep." ) );
+                    add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
+                                                  "and go back to sleep." ) );
                 }
             } else {
                 add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
                 if( has_effect( effect_sleep ) ) {
                     wake_up();
                 } else {
-                    g->cancel_activity_or_ignore_query( distraction_type::asthma,  _( "You have an asthma attack!" ) );
+                    if( !is_npc() ) {
+                        g->cancel_activity_or_ignore_query( distraction_type::asthma,
+                                                            _( "You can't focus while choking!" ) );
+                    }
                 }
             }
         } else if( auto_use ) {
@@ -5342,32 +5356,35 @@ void player::suffer()
             if( use_charges_if_avail( "inhaler", 1 ) ) {
                 moves -= 40;
                 charges = charges_of( "inhaler" );
-                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
                 if( charges == 0 ) {
                     add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
                 } else {
-                    add_msg_if_player( m_info, ngettext( "You use your inhaler, only %d charge left.",
-                                                         "You use your inhaler, only %d charges left.", charges ),
+                    add_msg_if_player( m_info, ngettext( "You use your inhaler, "
+                                                         "only %d charge left.",
+                                                         "You use your inhaler, "
+                                                         "only %d charges left.", charges ),
                                        charges );
                 }
             } else if( use_charges_if_avail( "oxygen_tank", 1 ) ||
                        use_charges_if_avail( "smoxygen_tank", 1 ) ) {
                 moves -= 500; // synched with use action
                 charges = charges_of( "oxygen_tank" ) + charges_of( "smoxygen_tank" );
-                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
                 if( charges == 0 ) {
-                    add_msg_if_player( m_bad, _( "You breathe in last bit of oxygen from the tank." ) );
+                    add_msg_if_player( m_bad, _( "You breathe in last bit of oxygen "
+                                                 "from the tank." ) );
                 } else {
-                    add_msg_if_player( m_info,
-                                       ngettext( "You take a deep breath from your oxygen tank, only %d charge left.",
-                                                 "You take a deep breath from your oxygen tank, only %d charges left.", charges ),
+                    add_msg_if_player( m_info, ngettext( "You take a deep breath from your oxygen "
+                                                         "tank, only %d charge left.",
+                                                         "You take a deep breath from your oxygen "
+                                                         "tank, only %d charges left.", charges ),
                                        charges );
                 }
             }
         } else {
             add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
             if( !is_npc() ) {
-                g->cancel_activity_or_ignore_query( distraction_type::asthma,  _( "You have an asthma attack!" ) );
+                g->cancel_activity_or_ignore_query( distraction_type::asthma,
+                                                    _( "You can't focus while choking!" ) );
             }
         }
     }

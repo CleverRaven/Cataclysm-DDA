@@ -137,6 +137,7 @@ const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_emp( "emp" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_grabbing( "grabbing" );
 const efftype_id effect_harnessed( "harnessed" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
@@ -1976,7 +1977,15 @@ void monster::process_turn()
             local_attack_data.cooldown--;
         }
     }
-
+    // Persist grabs as long as there's an adjacent target.
+    if( has_effect( effect_grabbing ) ) {
+        for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
+            const player *const p = g->critter_at<player>( dest );
+            if( p && p->has_effect( effect_grabbed ) ) {
+                add_effect( effect_grabbing, 2_turns );
+            }
+        }
+    }
     // We update electrical fields here since they act every turn.
     if( has_flag( MF_ELECTRIC_FIELD ) ) {
         if( has_effect( effect_emp ) ) {
@@ -2098,7 +2107,28 @@ void monster::die( Creature *nkiller )
     if( has_effect( effect_beartrap ) ) {
         add_item( item( "beartrap", 0 ) );
     }
-
+    if( has_effect( effect_grabbing ) ) {
+        remove_effect( effect_grabbing );
+        for( auto &player_pos : g->m.points_in_radius( pos(), 1, 0 ) ) {
+            player *p = g->critter_at<player>( player_pos );
+            if( !p || !p->has_effect( effect_grabbed ) ) {
+                continue;
+            }
+            bool grabbed = false;
+            for( auto &mon_pos : g->m.points_in_radius( player_pos, 1, 0 ) ) {
+                const monster *const mon = g->critter_at<monster>( mon_pos );
+                if( mon && mon->has_effect( effect_grabbing ) ) {
+                    grabbed = true;
+                    break;
+                }
+            }
+            if( !grabbed ) {
+                p->add_msg_player_or_npc( m_good, _( "The last enemy holding you collapses!" ),
+                                          _( "The last enemy holding <npcname> collapses!" ) );
+                p->remove_effect( effect_grabbed );
+            }
+        }
+    }
     if( !is_hallucination() ) {
         for( const auto &it : inv ) {
             g->m.add_item_or_charges( pos(), it );
