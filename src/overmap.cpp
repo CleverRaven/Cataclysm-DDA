@@ -4181,8 +4181,8 @@ void overmap::place_radios()
                 int choice = rng( 0, 2 );
                 switch( choice ) {
                     case 0:
-                        message = string_format( _( "This is emergency broadcast station %d%d.\
-  Please proceed quickly and calmly to your designated evacuation point." ), i, j );
+                        message = string_format( _( "This is emergency broadcast station %d%d."
+                                                    "  Please proceed quickly and calmly to your designated evacuation point." ), i, j );
                         radios.push_back( radio_tower( pos_sm, strength(), message ) );
                         break;
                     case 1:
@@ -4194,13 +4194,13 @@ void overmap::place_radios()
                         break;
                 }
             } else if( ter( pos_omt ) == "lmoe" ) {
-                message = string_format( _( "This is automated emergency shelter beacon %d%d.\
-  Supplies, amenities and shelter are stocked." ), i, j );
+                message = string_format( _( "This is automated emergency shelter beacon %d%d."
+                                            "  Supplies, amenities and shelter are stocked." ), i, j );
                 radios.push_back( radio_tower( pos_sm, strength() / 2, message ) );
             } else if( ter( pos_omt ) == "fema_entrance" ) {
-                message = string_format( _( "This is FEMA camp %d%d.\
-  Supplies are limited, please bring supplemental food, water, and bedding.\
-  This is FEMA camp %d%d.  A designated long-term emergency shelter." ), i, j, i, j );
+                message = string_format( _( "This is FEMA camp %d%d."
+                                            "  Supplies are limited, please bring supplemental food, water, and bedding."
+                                            "  This is FEMA camp %d%d.  A designated long-term emergency shelter." ), i, j, i, j );
                 radios.push_back( radio_tower( pos_sm, strength(), message ) );
             }
         }

@@ -1125,9 +1125,9 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
         fold_and_print( w_confirmation, point( 2, 3 ), 76, c_light_gray,
                         _( "Press <color_yellow>%s</color> to pick a random name for your world." ),
                         ctxt.get_desc( "PICK_RANDOM_WORLDNAME" ) );
-        fold_and_print( w_confirmation, point( 2, FULL_SCREEN_HEIGHT / 2 - 2 ), 76, c_light_gray, _( "\
-Press <color_yellow>%s</color> when you are satisfied with the world as it is and are ready \
-to continue, or <color_yellow>%s</color> to go back and review your world." ),
+        fold_and_print( w_confirmation, point( 2, FULL_SCREEN_HEIGHT / 2 - 2 ), 76, c_light_gray,
+                        _( "Press <color_yellow>%s</color> when you are satisfied with the world as it is and are ready "
+                           "to continue, or <color_yellow>%s</color> to go back and review your world." ),
                         ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
         if( !noname ) {
             mvwprintz( w_confirmation, point( namebar_x, namebar_y ), c_light_gray, worldname );
