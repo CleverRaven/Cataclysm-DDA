@@ -17,7 +17,7 @@
     "id": "press_dowel",
     "type": "TOOL",
     "name": "makeshift shotshell 'press'",
-    "description": "This is a collection of items improvised for field reloading of shotshells.  A plank with a hole cut in the center, a medium sized nail, and a whittled dowel are used to seat wads, decap primers, and reprime (carefully!) hulls.  Powder and shot are measured with a cut down fired shotshell.  The opposite side of the plank has been shaped to allow for roll crimping of the plastic hulls.  There's no provision for resizing, so reloaded hulls will best in the firearm they were fired from.",
+    "description": "This is a collection of items improvised for field reloading of shotshells.  A plank with a hole cut in the center, a medium sized nail, and a whittled dowel are used to seat wads, decap primers, and reprime (carefully!) hulls.  Powder and shot are measured with a cut down fired shotshell.  The opposite side of the plank has been shaped to allow for roll crimping of the plastic hulls.  There's no provision for resizing, so reloaded hulls will fire best in the firearm they were fired from.",
     "weight": 348,
     "volume": "250 ml",
     "price": 600,
