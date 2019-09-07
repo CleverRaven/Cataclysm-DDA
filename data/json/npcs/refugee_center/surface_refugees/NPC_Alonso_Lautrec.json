@@ -186,6 +186,12 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_REFUGEE_Alonso_CalledOut3",
+    "dynamic_line": "Fine.  As a favor to you, I'll be a guy from Brooklyn.",
+    "responses": [ { "text": "Thanks.  I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_Background",
     "dynamic_line": {
       "npc_has_var": "Alonso_accent",

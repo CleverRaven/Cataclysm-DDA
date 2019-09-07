@@ -16,6 +16,7 @@
     "ammo": "38",
     "dispersion": 360,
     "durability": 8,
+    "blackpowder_tolerance": 56,
     "clip_size": 6,
     "magazines": [ [ "38", [ "38_speedloader" ] ] ]
   },
@@ -46,26 +47,6 @@
     "built_in_mods": [ "M6_shotgun" ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ]
-  },
-  {
-    "id": "colt_saa",
-    "copy-from": "pistol_revolver",
-    "type": "GUN",
-    "name": "Colt Single Action Army",
-    "name_plural": "Colt Single Action Army",
-    "//": "Can be vaguely either an original or a reproduction, price based off of MSRP of Uberti Single-Action Cattleman.",
-    "description": "Also known as the Peacemaker and M1873, the Colt Single Action Army is one of the first revolvers to use a modern self-contained cartridge.  Made famous by westerns, modern reproductions are still made for Cowboy Action Shooting, and some deem them the greatest gun ever made.",
-    "weight": 1050,
-    "volume": 3,
-    "price": 47900,
-    "to_hit": -1,
-    "bashing": 8,
-    "material": [ "steel", "wood" ],
-    "ammo": "45colt",
-    "dispersion": 360,
-    "durability": 8,
-    "clip_size": 6,
-    "proportional": { "reload": 1.5 }
   },
   {
     "id": "colt_lightning",

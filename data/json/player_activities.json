@@ -8,6 +8,15 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_FIND_MOUNT",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "finding a mount",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_READ",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",

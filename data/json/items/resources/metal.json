@@ -142,6 +142,24 @@
     "ammo_type": "components"
   },
   {
+    "id": "zinc_metal",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": "zinc",
+    "name_plural": "zinc",
+    "description": "A slightly brittle metal.  Apart from being an essential mineral that the body needs, it reacts readily with acids, alkalis and other non-metals. It can be crushed to make zinc powder, used in the production of batteries, among other things.",
+    "weight": 7,
+    "volume": "50ml",
+    "price": 3000,
+    "price_postapoc": 75,
+    "count": 100,
+    "stack_size": 200,
+    "material": [ "zinc" ],
+    "symbol": "/",
+    "color": "blue",
+    "ammo_type": "components"
+  },
+  {
     "id": "lead",
     "type": "AMMO",
     "category": "spare_parts",

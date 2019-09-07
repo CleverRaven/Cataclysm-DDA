@@ -144,6 +144,11 @@ class translation
         std::string translated() const;
 
         /**
+         * Returns the raw string, untranslated.
+         **/
+        std::string untranslated() const;
+
+        /**
          * Whether the underlying string is empty, not matter what the context
          * is or whether translation is needed.
          **/

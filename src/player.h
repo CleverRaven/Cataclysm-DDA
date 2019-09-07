@@ -211,6 +211,8 @@ class player : public Character
         bool is_npc() const override {
             return false;    // Overloaded for NPCs in npc.h
         }
+        bool can_mount( const monster &critter ) const;
+        void mount_creature( monster &z );
         /** Returns what color the player should be drawn as */
         nc_color basic_symbol_color() const override;
 
@@ -596,7 +598,7 @@ class player : public Character
         dispersion_sources get_weapon_dispersion( const item &obj ) const;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
-        bool handle_gun_damage( item &it, int shots_fired );
+        bool handle_gun_damage( item &it );
 
         /** Get maximum recoil penalty due to vehicle motion */
         double recoil_vehicle() const;

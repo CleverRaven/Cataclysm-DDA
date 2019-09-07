@@ -100,6 +100,7 @@ struct mutation_branch;
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 const efftype_id effect_riding( "riding" );
+const efftype_id effect_ridden( "ridden" );
 
 static const matype_id style_kicks( "style_kicks" );
 
@@ -472,6 +473,7 @@ void Character::load( JsonObject &data )
     if( has_effect( effect_riding ) ) {
         int temp_id;
         if( data.read( "mounted_creature", temp_id ) ) {
+            mounted_creature_id = temp_id;
             mounted_creature = g->critter_tracker->from_temporary_id( temp_id );
         } else {
             mounted_creature = nullptr;
@@ -1831,7 +1833,7 @@ void monster::load( JsonObject &data )
     }
     last_baby = data.get_int( "last_baby", to_turn<int>( calendar::turn ) );
     last_biosig = data.get_int( "last_biosig", to_turn<int>( calendar::turn ) );
-
+    data.read( "mounted_player_id", mounted_player_id );
     data.read( "path", path );
 }
 
@@ -1895,6 +1897,8 @@ void monster::store( JsonOut &json ) const
     json.member( "inv", inv );
 
     json.member( "dragged_foe_id", dragged_foe_id );
+    // storing the rider
+    json.member( "mounted_player_id", mounted_player_id );
     json.member( "path", path );
 }
 
@@ -2041,6 +2045,8 @@ void item::io( Archive &archive )
     archive.io( "next_failure_point", next_failure_point, -1 );
     archive.io( "tools_to_continue", tools_to_continue, false );
     archive.io( "cached_tool_selections", cached_tool_selections, io::empty_default_tag() );
+
+    archive.io( "relic_data", relic_data );
 
     item_controller->migrate_item( orig, *this );
 
@@ -2492,7 +2498,7 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "pivot", pivot_anchor[0] );
     pivot_anchor[1] = pivot_anchor[0];
     pivot_rotation[1] = pivot_rotation[0] = fdir;
-
+    data.read( "is_following", is_following );
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
     for( const vpart_reference &vp : get_any_parts( VPFLAG_CARGO ) ) {
         auto it = vp.part().items.begin();
@@ -2632,6 +2638,7 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "camera_on", camera_on );
     json.member( "last_update_turn", last_update );
     json.member( "pivot", pivot_anchor[0] );
+    json.member( "is_following", is_following );
     json.end_object();
 }
 

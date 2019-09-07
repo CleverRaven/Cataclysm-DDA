@@ -70,6 +70,7 @@ const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_gun( "gun" );
 const skill_id skill_throw( "throw" );
 
+const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
@@ -88,6 +89,7 @@ const efftype_id effect_npc_run_away( "npc_run_away" );
 const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
 const efftype_id effect_npc_flee_player( "npc_flee_player" );
 const efftype_id effect_npc_player_looking( "npc_player_still_looking" );
+const efftype_id effect_ridden( "ridden" );
 
 // power source CBMs
 const bionic_id bio_advreactor( "bio_advreactor" );
@@ -213,13 +215,13 @@ bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound 
     return sound_a.volume < sound_b.volume;
 }
 
-static bool clear_shot_reach( const tripoint &from, const tripoint &to )
+static bool clear_shot_reach( const tripoint &from, const tripoint &to, bool check_ally = true )
 {
     std::vector<tripoint> path = line_to( from, to );
     path.pop_back();
     for( const tripoint &p : path ) {
         Creature *inter = g->critter_at( p );
-        if( inter != nullptr ) {
+        if( check_ally && inter != nullptr ) {
             return false;
         } else if( g->m.impassable( p ) ) {
             return false;
@@ -357,8 +359,7 @@ float npc::evaluate_enemy( const Creature &target ) const
     }
 }
 
-static constexpr int def_radius = 6;
-static bool too_close( const tripoint &critter_pos, const tripoint &ally_pos )
+static bool too_close( const tripoint &critter_pos, const tripoint &ally_pos, const int def_radius )
 {
     return rl_dist( critter_pos, ally_pos ) <= def_radius;
 }
@@ -367,13 +368,15 @@ void npc::assess_danger()
 {
     float assessment = 0.0f;
     float highest_priority = 1.0f;
+    int def_radius = 6;
 
     // Radius we can attack without moving
     const int max_range = std::max( weapon.reach_range( *this ),
                                     confident_shoot_range( weapon,
                                             get_most_accurate_sight( weapon ) ) );
 
-    const auto ok_by_rules = [max_range, this]( const Creature & c, int dist, int scaled_dist ) {
+    const auto ok_by_rules = [max_range, def_radius, this]( const Creature & c, int dist,
+    int scaled_dist ) {
         // If we're forbidden to attack, no need to check engagement rules
         if( rules.has_flag( ally_rule::forbid_engage ) ) {
             return false;
@@ -384,12 +387,14 @@ void npc::assess_danger()
             case ENGAGE_CLOSE:
                 // Either close to player or close enough that we can reach it and close to us
                 return ( dist <= max_range && scaled_dist <= def_radius * 0.5 ) ||
-                       too_close( c.pos(), g->u.pos() );
+                       too_close( c.pos(), g->u.pos(), def_radius );
             case ENGAGE_WEAK:
                 return c.get_hp() <= average_damage_dealt();
             case ENGAGE_HIT:
                 return c.has_effect( effect_hit_by_player );
             case ENGAGE_NO_MOVE:
+                return dist <= max_range;
+            case ENGAGE_FREE_FIRE:
                 return dist <= max_range;
             case ENGAGE_ALL:
                 return true;
@@ -417,6 +422,9 @@ void npc::assess_danger()
                 path.clear();
             }
         }
+    }
+    if( is_player_ally() && rules.engagement == ENGAGE_FREE_FIRE ) {
+        def_radius = std::max( 6, max_range );
     }
     // find our Character friends and enemies
     std::vector<std::weak_ptr<Creature>> hostile_guys;
@@ -459,6 +467,10 @@ void npc::assess_danger()
                 warn_about( "monster", 10_minutes, critter.type->nname() );
             }
         }
+        // ignore targets behind glass even if we can see them
+        if( !clear_shot_reach( pos(), critter.pos(), false ) ) {
+            continue;
+        }
 
         int dist = rl_dist( pos(), critter.pos() );
         float scaled_distance = std::max( 1.0f, dist / critter.speed_rating() );
@@ -466,19 +478,31 @@ void npc::assess_danger()
         float critter_danger = std::max( critter_threat * ( hp_percent * 0.5f + 0.5f ),
                                          NPC_DANGER_VERY_LOW );
         ai_cache.total_danger += critter_danger / scaled_distance;
-        if( is_player_ally() && !ok_by_rules( critter, dist, scaled_distance ) ) {
-            continue;
-        }
 
         // don't ignore monsters that are too close or too close to an ally
         bool is_too_close = dist <= def_radius;
-        const auto test_too_close = [critter, &is_too_close]( const std::weak_ptr<Creature> &guy ) {
-            is_too_close |= too_close( critter.pos(), guy.lock().get()->pos() );
+        const auto test_too_close = [critter, def_radius,
+                 &is_too_close]( const std::weak_ptr<Creature> &guy ) {
+            // Bit of a dirty hack - sometimes shared_from, returns nullptr or bad weak_ptr for
+            // friendly NPC when the NPC is riding a creature - I dont know why.
+            // so this skips the bad weak_ptrs, but this doesnt functionally change the AI Priority
+            // because the horse the NPC is riding is still in the ai_cache.friends vector,
+            // so either one would count as a friendly for this purpose.
+            if( guy.lock() ) {
+                is_too_close |= too_close( critter.pos(), guy.lock().get()->pos(), def_radius );
+            }
             return is_too_close;
         };
         std::any_of( ai_cache.friends.begin(), ai_cache.friends.end(), test_too_close );
+        // ignore distant monsters that our rules prevent us from attacking
+        if( !is_too_close && is_player_ally() && !ok_by_rules( critter, dist, scaled_distance ) ) {
+            continue;
+        }
+        // prioritize the biggest, nearest threats, or the biggest threats that are threatening
+        // us or an ally
+        // critter danger is always at least NPC_DANGER_VERY_LOW
         float priority = std::max( critter_danger - 2.0f * ( scaled_distance - 1.0f ),
-                                   is_too_close ?  NPC_DANGER_VERY_LOW : 0.0f );
+                                   is_too_close ? critter_danger : 0.0f );
         cur_threat_map[direction_from( pos(), critter.pos() )] += priority;
         if( priority > highest_priority ) {
             highest_priority = priority;
@@ -500,16 +524,22 @@ void npc::assess_danger()
         int dist = rl_dist( pos(), foe.pos() );
         int scaled_distance = std::max( 1, ( 100 * dist ) / foe.get_speed() );
         ai_cache.total_danger += foe_threat / scaled_distance;
-        if( !is_player_ally() || ok_by_rules( foe, dist, scaled_distance ) ) {
-            bool is_too_close = dist <= def_radius;
-            for( const std::weak_ptr<Creature> guy : ai_cache.friends ) {
-                is_too_close |= too_close( foe.pos(), guy.lock().get()->pos() );
-                if( is_too_close ) {
-                    break;
-                }
+        // ignore targets behind glass even if we can see them
+        if( !clear_shot_reach( pos(), foe.pos(), false ) ) {
+            return 0.0f;
+        }
+        bool is_too_close = dist <= def_radius;
+        for( const std::weak_ptr<Creature> guy : ai_cache.friends ) {
+            is_too_close |= too_close( foe.pos(), guy.lock().get()->pos(), def_radius );
+            if( is_too_close ) {
+                break;
             }
+        }
+
+        if( !is_player_ally() || is_too_close || ok_by_rules( foe, dist, scaled_distance ) ) {
             float priority = std::max( foe_threat - 2.0f * ( scaled_distance - 1 ),
-                                       is_too_close ?  NPC_DANGER_VERY_LOW : 0.0f );
+                                       is_too_close ? std::max( foe_threat, NPC_DANGER_VERY_LOW ) :
+                                       0.0f );
             cur_threat_map[direction_from( pos(), foe.pos() )] += priority;
             if( priority > highest_priority ) {
                 warn_about( warning, 1_minutes );
@@ -723,6 +753,10 @@ void npc::move()
         action = method_of_fleeing();
     } else if( has_effect( effect_npc_run_away ) ) {
         action = method_of_fleeing();
+    } else if( has_effect( effect_asthma ) && ( has_charges( "inhaler", 1 ) ||
+               has_charges( "oxygen_tank", 1 ) ||
+               has_charges( "smoxygen_tank", 1 ) ) ) {
+        action = npc_heal;
     } else if( target != nullptr && ai_cache.danger > 0 ) {
         action = method_of_attack();
     } else if( !ai_cache.sound_alerts.empty() && !is_walking_with() ) {
@@ -975,15 +1009,11 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_reach_attack:
-            if( weapon.reach_range( *this ) >= rl_dist( pos(), tar ) &&
-                clear_shot_reach( pos(), tar ) ) {
-                if( can_use_offensive_cbm() ) {
-                    activate_bionic_by_id( bio_hydraulics );
-                }
-                reach_attack( tar );
-                break;
+            if( can_use_offensive_cbm() ) {
+                activate_bionic_by_id( bio_hydraulics );
             }
-        /* fallthrough */
+            reach_attack( tar );
+            break;
         case npc_melee:
             update_path( tar );
             if( path.size() > 1 ) {
@@ -1209,17 +1239,12 @@ void npc::execute_action( npc_action action )
 
 void npc::witness_thievery( item *it )
 {
+    known_stolen_item = it;
     // Shopkeep is behind glass
     if( myclass == npc_class_id( "NC_EVAC_SHOPKEEP" ) ) {
-        known_stolen_item = it;
         return;
     }
     set_attitude( NPCATT_RECOVER_GOODS );
-    known_stolen_item = it;
-    for( auto &elem : g->u.inv_dump() ) {
-        if( elem->get_old_owner() ) {
-        }
-    }
 }
 
 npc_action npc::method_of_fleeing()
@@ -1242,9 +1267,14 @@ npc_action npc::method_of_attack()
     tripoint tar = critter->pos();
     int dist = rl_dist( pos(), tar );
     double danger = evaluate_enemy( *critter );
+    const bool has_los = clear_shot_reach( pos(), tar, false );
+    const bool same_z = tar.z == pos().z;
 
     // TODO: Change the in_vehicle check to actual "are we driving" check
-    const bool dont_move = in_vehicle || rules.engagement == ENGAGE_NO_MOVE;
+    const bool dont_move = in_vehicle || rules.engagement == ENGAGE_NO_MOVE ||
+                           rules.engagement == ENGAGE_FREE_FIRE;
+    // NPCs engage in free fire can move to avoid allies, but not if they're in a vehicle
+    const bool dont_move_ff = in_vehicle || rules.engagement == ENGAGE_NO_MOVE;
 
     // if there's enough of a threat to be here, power up the combat CBMs
     activate_combat_cbms();
@@ -1304,10 +1334,12 @@ npc_action npc::method_of_attack()
     }
 
     // if the best mode is within the confident range try for a shot
-    if( !modes.empty() && sees( *critter ) &&
+    if( !modes.empty() && sees( *critter ) && has_los &&
         confident_gun_mode_range( modes[ 0 ].second, cur_recoil ) >= dist ) {
-
-        // TODO: Make NPCs understand reinforced glass and vehicles blocking line of fire
+        if( cbm_weapon_index > 0 && !weapon.ammo_sufficient() && can_reload_current() ) {
+            add_msg( m_debug, "%s is reloading", disp_name() );
+            return npc_reload;
+        }
 
         if( wont_hit_friend( tar, weapon, false ) ) {
             weapon.gun_set_mode( modes[ 0 ].first );
@@ -1315,14 +1347,14 @@ npc_action npc::method_of_attack()
             return npc_shoot;
 
         } else {
-            if( !dont_move ) {
+            if( !dont_move_ff ) {
                 add_msg( m_debug, "%s is trying to avoid friendly fire", disp_name() );
                 return npc_avoid_friendly_fire;
             }
         }
     }
 
-    if( dist == 1 ) {
+    if( dist == 1 && same_z ) {
         add_msg( m_debug, "%s is trying a melle attack", disp_name() );
         return npc_melee;
     }
@@ -1342,14 +1374,13 @@ npc_action npc::method_of_attack()
     }
 
     // TODO: Needs a check for transparent but non-passable tiles on the way
-    if( !modes.empty() && sees( *critter ) &&
-        aim_per_move( weapon, recoil ) > 0 &&
+    if( !modes.empty() && sees( *critter ) && aim_per_move( weapon, recoil ) > 0 &&
         confident_shoot_range( weapon, get_most_accurate_sight( weapon ) ) >= dist ) {
         add_msg( m_debug, "%s is aiming" );
         return npc_aim;
     }
     add_msg( m_debug, "%s can't figure out what to do", disp_name() );
-    return dont_move ? npc_undecided : npc_melee;
+    return ( dont_move || !same_z ) ? npc_undecided : npc_melee;
 }
 
 bool npc::need_heal( const player &n )
@@ -2207,11 +2238,25 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         // Z-level move
         // For now just teleport to the destination
         // TODO: Make it properly find the tile to move to
+        if( is_mounted() ) {
+            move_pause();
+            return;
+        }
         moves -= 100;
         moved = true;
     } else if( g->m.passable( p ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
-        moves -= run_cost( g->m.combined_movecost( pos(), p ), diag );
+        if( is_mounted() ) {
+            const double base_moves = run_cost( g->m.combined_movecost( pos(), p ),
+                                                diag ) * 100.0 / mounted_creature->get_speed();
+            const double encumb_moves = get_weight() / 4800.0_gram;
+            moves -= static_cast<int>( ceil( base_moves + encumb_moves ) );
+            if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+                mounted_creature->use_mech_power( -1 );
+            }
+        } else {
+            moves -= run_cost( g->m.combined_movecost( pos(), p ), diag );
+        }
         moved = true;
     } else if( g->m.open_door( p, !g->m.is_outside( pos() ), true ) ) {
         if( !is_hallucination() ) { // hallucinations don't open doors
@@ -2250,7 +2295,19 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     if( moved ) {
         const tripoint old_pos = pos();
         setpos( p );
-
+        if( old_pos.x - p.x < 0 ) {
+            facing = FD_RIGHT;
+        } else {
+            facing = FD_LEFT;
+        }
+        if( is_mounted() ) {
+            if( mounted_creature->pos() != pos() ) {
+                mounted_creature->setpos( pos() );
+                mounted_creature->facing = facing;
+                mounted_creature->process_triggers();
+                g->m.creature_in_field( *mounted_creature );
+            }
+        }
         if( g->m.has_flag( "UNSTABLE", pos() ) ) {
             add_effect( effect_bouldering, 1_turns, num_bp, true );
         } else if( has_effect( effect_bouldering ) ) {
@@ -3362,6 +3419,24 @@ void npc:: pretend_heal( player &patient, item used )
 
 void npc::heal_self()
 {
+    if( has_effect( effect_asthma ) ) {
+        item &treatment = null_item_reference();
+        std::string iusage = "OXYGEN_BOTTLE";
+        if( has_charges( "inhaler", 1 ) ) {
+            treatment = inv.find_item( inv.position_by_type( "inhaler" ) );
+            iusage = "INHALER";
+        } else if( has_charges( "oxygen_tank", 1 ) ) {
+            treatment = inv.find_item( inv.position_by_type( "oxygen_tank" ) );
+        } else if( has_charges( "smoxygen_tank", 1 ) ) {
+            treatment = inv.find_item( inv.position_by_type( "smoxygen_tank" ) );
+        }
+        if( !treatment.is_null() ) {
+            treatment.type->invoke( *this, treatment, pos(), iusage );
+            consume_charges( treatment, 1 );
+            return;
+        }
+    }
+
     item &used = get_healing_item( ai_cache.can_heal );
     if( used.is_null() ) {
         debugmsg( "%s tried to heal self but has no healing item", disp_name() );
