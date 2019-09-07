@@ -4551,7 +4551,7 @@
     "color": "dark_gray",
     "covers": [ "HEAD" ],
     "coverage": 100,
-    "encumbrance": 40,
+    "encumbrance": 25,
     "warmth": 15,
     "material_thickness": 5,
     "environmental_protection": 3,
