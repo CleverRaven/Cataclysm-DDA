@@ -2581,6 +2581,11 @@ void npc::find_item()
         // Grabbing stuff not allowed by our "owner"
         return;
     }
+    // This throttles NPC searching activity, but they still occasionally re-check.
+    int num_times_searched = ai_cache.searched_tiles.get( global_square_location(), 1 );
+    if( !one_in( num_times_searched ) ) {
+        return;
+    }
 
     fetching_item = false;
     int best_value = minimum_item_value();
@@ -2702,9 +2707,16 @@ void npc::find_item()
 
     if( wanted != nullptr ) {
         wanted_name = wanted->tname();
+        ai_cache.searched_tiles.remove( global_square_location() );
     }
 
     if( wanted_name.empty() ) {
+        // Double the gap between searches until we saturate.
+        if( num_times_searched < 1024 ) {
+            num_times_searched <<= 1;
+        }
+        // Cache that we didn't find anything at this location to suppress future lookups.
+        ai_cache.searched_tiles.insert( 100, global_square_location(), num_times_searched );
         return;
     }
 
