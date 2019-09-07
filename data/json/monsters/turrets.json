@@ -2,8 +2,8 @@
   {
     "id": "mon_turret",
     "type": "MONSTER",
-    "name": "turret",
-    "description": "The General Atomics TX-1 Guardian, a small, pill-shaped automated gun turret using state of the art ATR systems to dynamically reorient itself to new friends and enemies alike.  The two SMG barrels can swivel a full 360 degrees.",
+    "name": "improvised MP5 turret",
+    "description": "An MP5 attached to a motorized chassis with basic autonomous software control.  There is no mechanism to reload the weapon when its magazine is empty and the fire control system is only designed for semi automatic fire.",
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
     "diff": 20,
@@ -20,10 +20,26 @@
     "armor_cut": 16,
     "vision_night": 3,
     "revert_to_itype": "bot_turret",
-    "starting_ammo": { "9mm": 100 },
+    "starting_ammo": { "9mm": 30 },
     "special_attacks": [
-      { "type": "gun", "cooldown": 1, "gun_type": "hk_mp5", "ranges": [ [ 0, 6, "AUTO" ], [ 7, 14, "DEFAULT" ] ] },
-      [ "PARROT", 40 ]
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "move_cost": 150,
+        "gun_type": "hk_mp5",
+        "ammo_type": "9mm",
+        "fake_skills": [ [ "gun", 5 ], [ "smg", 5 ] ],
+        "fake_dex": 12,
+        "ranges": [ [ 0, 14, "DEFAULT" ] ],
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "laser_lock": false,
+        "targeting_cost": 400,
+        "targeting_timeout_extend": -10,
+        "targeting_sound": "\"Hostile detected.\"",
+        "targeting_volume": 20,
+        "no_ammo_sound": "a chk!"
+      }
     ],
     "death_drops": {  },
     "death_function": [ "BROKEN" ],

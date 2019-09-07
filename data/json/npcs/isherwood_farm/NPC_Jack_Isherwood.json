@@ -240,7 +240,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_JACK_BROTHER",
-    "dynamic_line": "Eddie's dairy is at the end of the road.  It's just him and his son since Barry died to that thing in the woods, we tracked it down and burned the corpse.",
+    "dynamic_line": "Eddie's dairy is at the end of the road.  It's just him and his son since Barry was taken by that thing in the woods.",
     "effect": { "u_add_var": "u_learned_about_eddie", "type": "general", "context": "meeting", "value": "yes" },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },

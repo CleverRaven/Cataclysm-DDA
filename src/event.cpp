@@ -12,15 +12,19 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::activates_mininuke: return "activates_mininuke";
         case event_type::administers_mutagen: return "administers_mutagen";
         case event_type::angers_amigara_horrors: return "angers_amigara_horrors";
+        case event_type::avatar_moves: return "avatar_moves";
         case event_type::awakes_dark_wyrms: return "awakes_dark_wyrms";
         case event_type::becomes_wanted: return "becomes_wanted";
         case event_type::broken_bone_mends: return "broken_bone_mends";
         case event_type::buries_corpse: return "buries_corpse";
         case event_type::causes_resonance_cascade: return "causes_resonance_cascade";
         case event_type::character_gains_effect: return "character_gains_effect";
+        case event_type::character_gets_headshot: return "character_gets_headshot";
+        case event_type::character_heals_damage: return "character_heals_damage";
         case event_type::character_kills_character: return "character_kills_character";
         case event_type::character_kills_monster: return "character_kills_monster";
         case event_type::character_loses_effect: return "character_loses_effect";
+        case event_type::character_takes_damage: return "character_takes_damage";
         case event_type::character_triggers_trap: return "character_triggers_trap";
         case event_type::consumes_marloss_item: return "consumes_marloss_item";
         case event_type::crosses_marloss_threshold: return "crosses_marloss_threshold";
@@ -87,7 +91,7 @@ constexpr std::array<std::pair<const char *, cata_variant_type>,
 constexpr std::array<std::pair<const char *, cata_variant_type>,
           event_spec_character::fields.size()> event_spec_character::fields;
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 57,
+static_assert( static_cast<int>( event_type::num_event_types ) == 61,
                "This static_assert is a reminder to add a definition below when you add a new "
                "event_type.  If your event_spec specialization inherits from another struct for "
                "its fields definition then you probably don't need a definition here." );
@@ -99,12 +103,15 @@ static_assert( static_cast<int>( event_type::num_event_types ) == 57,
 
 DEFINE_EVENT_FIELDS( activates_artifact )
 DEFINE_EVENT_FIELDS( administers_mutagen )
+DEFINE_EVENT_FIELDS( avatar_moves )
 DEFINE_EVENT_FIELDS( broken_bone_mends )
 DEFINE_EVENT_FIELDS( buries_corpse )
 DEFINE_EVENT_FIELDS( character_gains_effect )
+DEFINE_EVENT_FIELDS( character_heals_damage )
 DEFINE_EVENT_FIELDS( character_kills_character )
 DEFINE_EVENT_FIELDS( character_kills_monster )
 DEFINE_EVENT_FIELDS( character_loses_effect )
+DEFINE_EVENT_FIELDS( character_takes_damage )
 DEFINE_EVENT_FIELDS( character_triggers_trap )
 DEFINE_EVENT_FIELDS( consumes_marloss_item )
 DEFINE_EVENT_FIELDS( crosses_mutation_threshold )

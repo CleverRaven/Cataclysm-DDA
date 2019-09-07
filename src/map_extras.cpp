@@ -2633,6 +2633,39 @@ static void mx_looters( map &m, const tripoint &abs_sub )
     }
 }
 
+static void mx_corpses( map &m, const tripoint &abs_sub )
+{
+    const int num_corpses = rng( 1, 5 );
+    const auto gibs = item_group::items_from( "remains_human_generic", calendar::start_of_cataclysm );
+    //Spawn up to 5 human corpses in random places
+    for( int i = 0; i < num_corpses; i++ ) {
+        const tripoint corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 1 ), abs_sub.z };
+        if( g->is_empty( corpse_location ) ) {
+            m.add_field( corpse_location, fd_blood, rng( 1, 3 ) );
+            m.add_corpse( corpse_location );
+            //50% chance to spawn blood in every tile around every corpse in 1-tile radius
+            for( const auto &loc : m.points_in_radius( corpse_location, 1 ) ) {
+                if( one_in( 2 ) ) {
+                    m.add_field( loc, fd_blood, rng( 1, 3 ) );
+                }
+            }
+        }
+    }
+    //10% chance to spawn a flock of stray dogs feeding on human flesh
+    if( one_in( 10 ) && num_corpses <= 4 ) {
+        const tripoint corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 1 ), abs_sub.z };
+        m.spawn_items( corpse_location, gibs );
+        m.add_field( corpse_location, fd_gibs_flesh, rng( 1, 3 ) );
+        //50% chance to spawn gibs and dogs in every tile around what's left of human corpse in 1-tile radius
+        for( const auto &loc : m.points_in_radius( corpse_location, 1 ) ) {
+            if( one_in( 2 ) ) {
+                m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
+                m.place_spawns( mongroup_id( "GROUP_STRAY_DOGS" ), 1, loc.xy(), loc.xy(), 1, true );
+            }
+        }
+    }
+}
+
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
     { "mx_crater", mx_crater },
@@ -2667,7 +2700,8 @@ FunctionMap builtin_functions = {
     { "mx_point_burned_ground", mx_point_burned_ground },
     { "mx_marloss_pilgrimage", mx_marloss_pilgrimage },
     { "mx_casings", mx_casings },
-    { "mx_looters", mx_looters }
+    { "mx_looters", mx_looters },
+    { "mx_corpses", mx_corpses }
 };
 
 map_extra_pointer get_function( const std::string &name )

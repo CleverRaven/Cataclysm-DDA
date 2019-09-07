@@ -6,5 +6,9 @@
   {
     "type": "MONSTER_FACTION",
     "name": "dragon_black"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "ooze"
   }
 ]
