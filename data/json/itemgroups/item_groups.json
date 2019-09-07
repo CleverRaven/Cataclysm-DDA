@@ -5639,6 +5639,7 @@
       [ "bio_metabolics", 10 ],
       [ "bio_ethanol", 10 ],
       [ "bio_torsionratchet", 10 ],
+      [ "bio_fuel_cell_gasoline", 10 ],
       [ "bio_tools", 10 ],
       [ "bio_ups", 10 ],
       [ "bio_flashlight", 10 ],
@@ -5733,6 +5734,7 @@
       [ "bio_power_storage", 10 ],
       [ "bio_tools", 10 ],
       [ "bio_flashlight", 10 ],
+      [ "bio_fuel_cell_gasoline", 10 ],
       [ "bio_tattoo_led", 10 ],
       [ "bio_lighter", 10 ],
       [ "bio_magnet", 10 ],
@@ -9075,6 +9077,7 @@
     "//": "Bionics used by technicians.",
     "items": [
       [ "bio_torsionratchet", 20 ],
+      [ "bio_fuel_cell_gasoline", 10 ],
       [ "bio_memory", 20 ],
       [ "bio_sunglasses", 20 ],
       [ "bio_heatsink", 20 ],
@@ -9583,6 +9586,7 @@
       [ "alarmclock", 25 ],
       [ "circuit", 25 ],
       { "item": "cell_phone", "prob": 35, "charges-min": 0, "charges-max": 15 },
+      { "item": "cell_phone_flashlight", "prob": 25, "charges-min": 0, "charges-max": 15 },
       [ "e_scrap", 55 ],
       [ "amplifier", 25 ],
       [ "reading_light", 10 ]

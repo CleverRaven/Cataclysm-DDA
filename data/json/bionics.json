@@ -1073,6 +1073,19 @@
     "act_cost": 50
   },
   {
+    "id": "bio_fuel_cell_gasoline",
+    "type": "bionic",
+    "name": "Gasoline Fuel Cell CBM",
+    "description": "A small gasoline fuel cell fixed to your scapula. Despite its limited energy output compared to other fuel cells, this device still produces a significant amount of heat dissipated through a heat exhaust protruding from your back.  A diffuse network of bio-plastic bladders has been meshed with your circulatory system and serves as a fuel tank.",
+    "occupied_bodyparts": [ [ "TORSO", 8 ] ],
+    "encumbrance": [ [ "TORSO", 5 ] ],
+    "fuel_options": [ "gasoline" ],
+    "fuel_capacity": 500,
+    "fuel_efficiency": 0.25,
+    "time": 1,
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE" ]
+  },
+  {
     "id": "bio_syringe",
     "type": "bionic",
     "name": "Intravenous Needletip",
