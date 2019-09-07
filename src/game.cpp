@@ -5475,6 +5475,10 @@ void game::examine( const tripoint &examp )
             if( monexamine::mech_hack( *mon ) ) {
                 return;
             }
+        } else if( mon && mon->has_flag( MF_PAY_BOT ) ) {
+            if( monexamine::pay_bot( *mon ) ) {
+                return;
+            }
         } else if( u.is_mounted() ) {
             add_msg( m_warning, _( "You cannot do that while mounted." ) );
         }
