@@ -115,6 +115,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_MECH_DEFENSIVE: return "MECH_DEFENSIVE";
         case MF_HIT_AND_RUN: return "HIT_AND_RUN";
         case MF_GUILT: return "GUILT";
+        case MF_PAY_BOT: return "PAY_BOT";
         case MF_HUMAN: return "HUMAN";
         case MF_NO_BREATHE: return "NO_BREATHE";
         case MF_REGENERATES_50: return "REGENERATES_50";

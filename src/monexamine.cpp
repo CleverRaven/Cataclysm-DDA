@@ -313,6 +313,55 @@ bool monexamine::mech_hack( monster &z )
     return false;
 }
 
+static int prompt_for_amount( const char *const msg, const int max )
+{
+    const std::string formatted = string_format( msg, max );
+    const int amount = string_input_popup()
+                       .title( formatted )
+                       .width( 20 )
+                       .text( to_string( max ) )
+                       .only_digits( true )
+                       .query_int();
+
+    return ( amount > max ) ? max : ( amount <= 0 ) ? 0 : amount;
+}
+
+bool monexamine::pay_bot( monster &z )
+{
+    time_duration friend_time = z.get_effect_dur( effect_pet );
+    int amount = 0;
+    uilist bot_menu;
+    bot_menu.text = string_format(
+                        _( "Welcome to the Grocery Bot Friendship Interface. What would you like to do?\n"
+                           "Your current friendship will last: %s" ), to_string( friend_time ) );
+    if( g->u.cash > 1 ) {
+        bot_menu.addentry( 1, true, 'b', _( "Get more friendship. 1 cent/s" ) );
+    } else {
+        bot_menu.addentry( 2, true, 'q',
+                           _( "Sadly you're not currently able to extend your friendship. - Quit menu" ) );
+    }
+    bot_menu.query();
+    switch( bot_menu.ret ) {
+        case 1:
+            amount = prompt_for_amount( ngettext(
+                                            "How much friendship do you get? Max: %d second. (0 to cancel) ",
+                                            "How much friendship do you get? Max: %d seconds. ", g->u.cash ), g->u.cash );
+            if( amount > 0 ) {
+                time_duration time_bought = time_duration::from_seconds( amount );
+                z.add_effect( effect_pet, time_bought );
+                z.friendly = -1;
+                popup( string_format( _( "Your friendship grows stronger!\n This %s will follow you for %s" ),
+                                      z.get_name(), to_string( z.get_effect_dur( effect_pet ) ) ) );
+                return true;
+            }
+            break;
+        case 2:
+            break;
+    }
+
+    return false;
+}
+
 void monexamine::attach_or_remove_saddle( monster &z )
 {
     if( z.has_effect( effect_saddled ) ) {
