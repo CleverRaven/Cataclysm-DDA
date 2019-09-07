@@ -1630,6 +1630,7 @@ bool npc::wants_to_recharge_cbm()
                     !use_bionic_by_id( bid ) );
         }
     }
+    return power_level < ( max_power_level * static_cast<int>( rules.cbm_recharge ) / 100 );
 }
 
 bool npc::can_use_offensive_cbm() const
