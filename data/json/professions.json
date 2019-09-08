@@ -38,6 +38,14 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "charged_two_way_radio",
+    "ammo": 100,
+    "magazine": 100,
+    "entries": [ { "item": "two_way_radio" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "army_mags_m2010",
     "entries": [
       { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 },
@@ -374,12 +382,10 @@
           "socks",
           "dress_shoes",
           "knit_scarf",
-          "tailors_kit",
-          "thread",
           "scissors",
           "wristwatch"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "tailors_kit", "ammo-item": "thread", "charges": 100 } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -580,7 +586,7 @@
           "chestguard_hard",
           "boots_rubber"
         ],
-        "entries": [ { { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "foodperson_mask" }, { "group": "snacks_fancy" }, { "group": "snacks" }, { "item": "bat" } ]
+        "entries": [ { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "foodperson_mask" }, { "group": "snacks_fancy" }, { "group": "snacks" }, { "item": "bat" } ]
       },
       "male": [ "briefs" ],
       "female": [ "panties" ]
@@ -959,11 +965,11 @@
           "police_belt",
           "boots",
           "dog_whistle",
-          "two_way_radio",
           "wristwatch"
         ],
         "entries": [
           { "group": "charged_cell_phone" },
+          { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
@@ -1018,11 +1024,11 @@
           "police_belt",
           "boots",
           "whistle",
-          "two_way_radio",
           "wristwatch"
         ],
         "entries": [
           { "group": "charged_cell_phone" },
+          { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
@@ -1055,12 +1061,12 @@
           "wristwatch",
           "socks",
           "dress_shoes",
-          "two_way_radio",
           "cig",
           "ref_lighter"
         ],
         "entries": [
           { "group": "charged_cell_phone" },
+          { "group": "charged_two_way_radio" },
           { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 6, "container-item": "sholster" },
           { "item": "357mag_fmj", "charges": 24 }
         ]
@@ -1089,10 +1095,10 @@
           "boots_combat",
           "gloves_tactical",
           "badge_swat",
-          "two_way_radio",
           "wristwatch"
         ],
         "entries": [
+          { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "chestrig", "contents-group": [ "army_mags_mp5", "army_mags_usp9" ] },
           { "item": "grenadebandolier", "contents-item": [ "flashbang", "flashbang" ] },
@@ -1132,10 +1138,10 @@
           "boots_combat",
           "gloves_tactical",
           "badge_swat",
-          "two_way_radio",
           "wristwatch"
         ],
         "entries": [
+          { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
           { "item": "shot_slug", "charges": 12, "container-item": "bandolier_shotgun" },
@@ -1159,7 +1165,6 @@
     "traits": [ "PROF_POLICE" ],
     "items": {
       "both": {
-        "ammo": 100,
         "items": [
           "socks",
           "pants_army",
@@ -1172,10 +1177,10 @@
           "hat_ball",
           "badge_deputy",
           "wristwatch",
-          "two_way_radio",
           "powered_earmuffs"
         ],
         "entries": [
+          { "group": "charged_two_way_radio" },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
           { "item": "m14mag", "ammo-item": "762_51", "charges": 20, "container-item": "chestrig" },
@@ -1213,15 +1218,15 @@
           "armguard_hard",
           "legguard_hard",
           "badge_deputy",
-          "two_way_radio",
           "wristwatch",
           "gasbomb"
         ],
         "entries": [
+          { "group": "charged_two_way_radio" },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
           { "item": "tonfa", "container-item": "police_belt" },
-          { "item": "tazer", "charges": 100 }
+          { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "tazer" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1412,18 +1417,14 @@
     "skills": [ { "level": 3, "name": "electronics" } ],
     "items": {
       "both": {
-        "ammo": 100,
-        "magazine": 100,
         "items": [
           "jumpsuit",
           "socks",
           "boots",
           "tool_belt",
-          "flashlight",
-          "wristwatch",
-          { "item": "light_battery_cell", "charges": 100 }
+          "wristwatch"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_flashlight" } ]
       },
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
@@ -1437,17 +1438,19 @@
     "points": 1,
     "skills": [ { "level": 4, "name": "computer" } ],
     "items": {
-      "both": [
-        "pants",
-        [ "tshirt_text", "allyourbase" ],
-        "socks",
-        "sneakers",
-        "portable_game",
-        "mbag",
-        "laptop",
-        "smart_phone",
-        "caffeine"
-      ],
+      "both": {
+        "items": [
+          "pants",
+          "tshirt_text",
+          "socks",
+          "sneakers",
+          "mbag",
+          "laptop",
+          "smart_phone",
+          "caffeine"
+        ],
+        "entries": [ { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "portable_game" } ]
+      },
       "male": [ "briefs" ],
       "female": [ "panties" ]
     }
@@ -1720,7 +1723,6 @@
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "pistol" } ],
     "items": {
       "both": {
-        "ammo": 100,
         "items": [
           "tac_fullhelmet",
           "pants_cargo",
@@ -1729,10 +1731,10 @@
           "boots",
           "badge_cybercop",
           "smart_phone",
-          "wristwatch",
-          "two_way_radio"
+          "wristwatch"
         ],
         "entries": [
+          { "group": "charged_two_way_radio" },
           { "item": "glock_18c", "ammo-item": "9mmP", "container-item": "holster" },
           { "item": "magbandolier", "contents-group": "army_mags_glock17" }
         ]
@@ -3587,8 +3589,8 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [ "pants", "dress_shirt", "blazer", "socks", "dress_shoes", "camera_pro", "wristwatch" ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "items": [ "pants", "dress_shirt", "blazer", "socks", "dress_shoes", "wristwatch" ],
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "boy_shorts", "bra" ]
