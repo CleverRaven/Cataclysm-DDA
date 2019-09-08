@@ -2774,7 +2774,7 @@
         ],
         "entries": [
           { "group": "charged_cell_phone" },
-          { "item": "sw_619", "ammo-item": "38_special", "container-item": "holster" },
+          { "item": "sw_619", "ammo-item": "38_special", "charges": 7, "container-item": "holster" },
           { "item": "38_special", "charges": 33 }
         ]
       },
