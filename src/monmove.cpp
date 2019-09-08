@@ -1475,11 +1475,19 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
 
     if( has_flag( MF_DRIPS_NAPALM ) ) {
         if( one_in( 10 ) ) {
-            g->m.add_item_or_charges( pos(), item( "napalm" ) );
+            // if it has more napalm, drop some and reduce ammo in tank
+            if( ammo["pressurized_tank"] > 0 ) {
+                g->m.add_item_or_charges( pos(), item( "napalm", calendar::turn, 50 ) );
+                ammo["pressurized_tank"] -= 50;
+            } else {
+                // TODO remove MF_DRIPS_NAPALM flag since no more napalm in tank
+                // Not possible for now since flag check is done on type, not individual monster
+            }
         }
     }
     if( has_flag( MF_DRIPS_GASOLINE ) ) {
         if( one_in( 5 ) ) {
+            // TODO use same idea that limits napalm dripping
             g->m.add_item_or_charges( pos(), item( "gasoline" ) );
         }
     }
