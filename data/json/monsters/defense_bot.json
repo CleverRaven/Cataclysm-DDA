@@ -43,7 +43,7 @@
     ],
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "DROPS_AMMO" ]
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "DROPS_AMMO" ]
   },
   {
     "id": "mon_skitterbot",
