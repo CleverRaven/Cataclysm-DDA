@@ -4,26 +4,45 @@
 #include "event_bus.h"
 #include "hash_utils.h"
 
+class event_statistic;
+class event_transformation;
+
 // The stats_tracker is intended to keep a summary of events that have occured.
-// For each event_type it stores an event_tracker.
+// For each event_type it stores an event_multiset.
 // Within the event_tracker, counts are kept.  The events are partitioned
 // according to their data (an event::data_type object, which is a map of keys
 // to values).
 // The stats_tracker can be queried in various ways to get summary statistics
 // about events that have occured.
 
-class event_tracker
+class event_multiset
 {
     public:
+        using counts_type = std::unordered_map<cata::event::data_type, int, cata::range_hash>;
+
+        // Default constructor for deserialization deliberately uses invalid
+        // type
+        event_multiset() : type_( event_type::num_event_types ) {}
+        event_multiset( event_type type ) : type_( type ) {}
+
+        void set_type( event_type );
+
+        const counts_type &counts() const {
+            return counts_;
+        }
+
+        int count() const;
         int count( const cata::event::data_type &criteria ) const;
         int total( const std::string &field, const cata::event::data_type &criteria ) const;
 
         void add( const cata::event & );
+        void add( const counts_type::value_type & );
 
         void serialize( JsonOut & ) const;
         void deserialize( JsonIn & );
     private:
-        std::unordered_map<cata::event::data_type, int, cata::range_hash> event_counts;
+        event_type type_;
+        counts_type counts_;
 };
 
 class stats_tracker : public event_subscriber
@@ -47,6 +66,10 @@ class stats_tracker : public event_subscriber
         int count( event_type, const cata::event::data_type &criteria ) const;
         int total( event_type, const std::string &field,
                    const cata::event::data_type &criteria ) const;
+        event_multiset &get_events( event_type );
+        event_multiset get_events( const string_id<event_transformation> & );
+
+        cata_variant value_of( const string_id<event_statistic> & );
 
         void clear();
         void notify( const cata::event & ) override;
@@ -54,7 +77,7 @@ class stats_tracker : public event_subscriber
         void serialize( JsonOut & ) const;
         void deserialize( JsonIn & );
     private:
-        std::unordered_map<event_type, event_tracker> data;
+        std::unordered_map<event_type, event_multiset> data;
 };
 
 #endif // CATA_STATS_TRACKER_H
