@@ -242,5 +242,18 @@
     "type": "emit",
     "field": "fd_fungal_haze",
     "qty": 200
+  },
+  {
+    "id": "emit_swamp_gas_leak",
+    "type": "emit",
+    "field": "fd_swamp_gas",
+    "intensity": 1,
+    "chance": 15
+  },
+  {
+    "id": "emit_fog_plume",
+    "type": "emit",
+    "field": "fd_fog",
+    "qty": 200
   }
 ]
