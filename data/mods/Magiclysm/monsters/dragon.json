@@ -67,8 +67,7 @@
     "armor_pierce": 6,
     "special_attacks": [
       { "type": "bite", "cooldown": 10 },
-      [ "scratch", 6 ],
-      [ "scratch", 6 ],
+      [ "scratch", 3 ],
       { "type": "spell", "spell_id": "dragon_breath_black", "spell_level": 12, "cooldown": 20 }
     ]
   }
