@@ -206,7 +206,7 @@
     "weight": 483,
     "volume": 3.3,
     "symbol": "?",
-    "color": "light_brown",
+    "color": "brown",
     "use_action": {
       "type": "learn_spell",
       "spells": [ "eshaper_rockbolt", "eshaper_shardspray", "eshaper_piercing_bolt", "eshaper_shardstorm" ]
