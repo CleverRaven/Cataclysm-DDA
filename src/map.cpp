@@ -4545,7 +4545,9 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             const time_duration time_left = cycle_time - n.age();
             static const std::string no_sterile( "NO_STERILE" );
             if( time_left <= 0_turns ) {
-                n.item_tags.erase( no_sterile );
+                if( !n.has_flag( "NO_PACKED" ) ) {
+                    n.item_tags.erase( no_sterile );
+                }
                 autoclave_finished = true;
                 cur_veh.parts[part].enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {

@@ -2572,9 +2572,11 @@ void iexamine::autoclave_full( player &, const tripoint &examp )
     }
 
     g->m.furn_set( examp, next_autoclave_type );
-    for( auto &it : items ) {
-        it.unset_flag( "NO_STERILE" );
-        it.set_var( "sterile", 1 ); // sterile for 1s if not (packed)
+    for( item &it : items ) {
+        if( !it.has_flag( "NO_PACKED" ) ) {
+            it.unset_flag( "NO_STERILE" );
+        }
+
     }
     add_msg( m_good, _( "The cycle is complete, the CBMs are now sterile." ) );
 

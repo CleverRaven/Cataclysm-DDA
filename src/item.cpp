@@ -7638,7 +7638,6 @@ std::string item::components_to_string() const
 bool item::needs_processing() const
 {
     return active || has_flag( "RADIO_ACTIVATION" ) || has_flag( "ETHEREAL_ITEM" ) ||
-           ( is_bionic() && !has_flag( "NO_STERILE" ) ) ||
            ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
            is_artifact() || is_food();
 }

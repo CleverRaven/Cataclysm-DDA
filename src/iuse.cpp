@@ -8421,9 +8421,8 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
             it->active = false;
             it->erase_var( "CYCLETIME" );
             for( item &bio : it->contents ) {
-                if( bio.is_bionic() ) {
+                if( bio.is_bionic() && !bio.has_flag( "NO_PACKED" ) ) {
                     bio.unset_flag( "NO_STERILE" );
-                    bio.set_var( "sterile", 1 ); // sterile for 1s if not (packed);
                 }
             }
         } else {
