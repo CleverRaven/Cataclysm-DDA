@@ -433,18 +433,20 @@
       { "level": 2, "name": "mechanics" }
     ],
     "items": {
-      "both": [
-        "dress_shirt",
-        "pants",
-        "socks",
-        "boots",
-        "coat_lab",
-        "gloves_rubber",
-        "glasses_safety",
-        "chemistry_set",
-        "smart_phone",
-        "wristwatch"
-      ],
+      "both": {
+        "items": [
+          "dress_shirt",
+          "pants",
+          "socks",
+          "boots",
+          "coat_lab",
+          "gloves_rubber",
+          "glasses_safety",
+          "smart_phone",
+          "wristwatch"
+        ],
+        "entries": [ { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "chemistry_set" } ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -458,23 +460,18 @@
     "skills": [ { "level": 3, "name": "mechanics" } ],
     "items": {
       "both": {
-        "ammo": 100,
-        "magazine": 100,
         "items": [
           "slingpack",
           "tank_top",
           "jeans",
           "socks",
           "boots_steel",
-          "tool_belt",
-          "wrench",
           "duct_tape",
           "screwdriver",
           "wristwatch",
-          "mag_cars",
-          "welder"
+          "mag_cars"
         ],
-        "entries": [ { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] }, { "group": "charged_cell_phone" } ]
+        "entries": [ { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] }, { "group": "charged_cell_phone" }, { "item": "wrench", "container-item": "tool_belt" }, { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "welder" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
@@ -3241,8 +3238,6 @@
           "fishing_waders",
           "knit_scarf",
           "fishing_rod_professional",
-          "fish_bait",
-          "fish_trap",
           "vest",
           "hat_boonie",
           "wristwatch",
@@ -3250,6 +3245,8 @@
         ],
         "entries": [
           { "group": "charged_cell_phone" },
+          { "item": "fish_trap", "ammo-item": "fish_bait", "charges": 5 },
+          { "item": "fish_bait", "charges": 15 },
           { "item": "lighter", "charges": 100 },
           { "item": "knife_hunting", "container-item": "sheath" }
         ]
@@ -3657,7 +3654,6 @@
           "boots_steel",
           "gloves_work",
           "knee_pads",
-          "miner_hat",
           "jumpsuit",
           "mask_gas",
           "jackhammer",
@@ -3670,8 +3666,8 @@
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "light_disposable_cell", "charges": 100 },
-          { "item": "light_disposable_cell", "charges": 100 }
+          { "item": "light_minus_disposable_cell", "charges": 100 },
+          { "item": "light_minus_disposable_cell", "charges": 100, "container-item": "miner_hat" }
         ]
       },
       "male": [ "boxer_shorts" ],
