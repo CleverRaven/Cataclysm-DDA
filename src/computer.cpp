@@ -407,8 +407,8 @@ void computer::activate_function( computer_action action )
 
         //Toll is required for the church computer/mechanism to function
         case COMPACT_TOLL:
-            //~ the sound of a church bell ringing
             sounds::sound( g->u.pos(), 120, sounds::sound_t::music,
+                           //~ the sound of a church bell ringing
                            _( "Bohm... Bohm... Bohm..." ), true, "environment", "church_bells" );
             break;
 
