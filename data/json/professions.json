@@ -562,9 +562,7 @@
     "items": {
       "both": {
         "items": [
-          "foodperson_mask",
           "pants_cargo",
-          "briefs",
           "cape_fp",
           "dress_shirt",
           "armguard_hard",
@@ -574,8 +572,10 @@
           "chestguard_hard",
           "boots_rubber"
         ],
-        "entries": [ { "item": "medium_disposable_cell" }, { "group": "snacks_fancy" }, { "group": "snacks" }, { "item": "bat" } ]
-      }
+        "entries": [ { { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "foodperson_mask" }, { "group": "snacks_fancy" }, { "group": "snacks" }, { "item": "bat" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "panties" ]
     }
   },
   {
@@ -3171,12 +3171,10 @@
           "longshirt",
           "jacket_light",
           "baton",
-          "tazer",
-          "medium_disposable_cell",
           "pockknife",
           "wristwatch"
         ],
-        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_flashlight" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_flashlight" }, { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "tazer" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
