@@ -1250,6 +1250,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```AISLE``` Player can move over this part with less speed penalty than normal.
 - ```ALTERNATOR``` Recharges batteries installed on the vehicle.
 - ```ANCHOR_POINT``` Allows secure seatbelt attachment.
+- ```ANIMAL_CTRL```. Can harness an animal, need HARNESS_bodytype flag to specify bodytype of animal.
 - ```ARMOR``` Protects the other vehicle parts it's installed over during collisions.
 - ```ATOMIC_LIGHT```
 - ```BATTERY_MOUNT```
@@ -1294,6 +1295,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```FRIDGE``` Can refrigerate items.
 - ```FUNNEL```
 - ```HALF_CIRCLE_LIGHT``` Projects a directed half-circular radius of light when turned on.
+- ```HARNESS_bodytype``` Replace bodytype with `any` to accept any type, or with the targeted type.
 - ```HORN``` Generates noise when used.
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part). The items of parts with this flag are automatically added as component to the vehicle start construction.
 - ```INTERNAL``` Must be mounted inside a cargo area.
