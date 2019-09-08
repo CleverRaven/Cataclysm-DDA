@@ -52,6 +52,32 @@
   },
   {
     "type": "faction",
+    "id": "robofac_auxiliaries",
+    "name": "Hub 01 Ancillia",
+    "likes_u": 15,
+    "respects_u": 15,
+    "known_by_u": false,
+    "size": 70,
+    "power": 100,
+    "food_supply": 115200,
+    "wealth": 75000,
+    "currency": "RobofacCoin",
+    "relations": {
+      "robofac": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "marloss": { "kill on sight": true }
+    },
+    "description": "A loose association of skilled wastelanders, traders, mercenaries and scouts.  All working on behalf of Hub 01, for their own reasons."
+  },
+  {
+    "type": "faction",
     "id": "old_guard",
     "name": "The Old Guard",
     "likes_u": 15,
