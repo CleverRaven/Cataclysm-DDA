@@ -2918,5 +2918,61 @@
     "time": "5 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "steel_chunk", 2 ] ] ]
+  },
+  {
+    "result": "platinum_hairpin",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 3 ] ] ]
+  },
+  {
+    "result": "platinum_locket",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 4 ] ] ]
+  },
+  {
+    "result": "platinum_necklace",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 3 ] ] ]
+  },
+  {
+    "result": "platinum_bracelet",
+    "type": "uncraft",
+    "time": "36 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 8 ] ] ]
+  },
+  {
+    "result": "platinum_dental_grill",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 2 ] ] ]
+  },
+  {
+    "result": "platinum_ear",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 2 ] ] ]
+  },
+  {
+    "result": "platinum_watch",
+    "type": "uncraft",
+    "time": "36 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 12 ] ], [ [ "clockworks", 1 ] ] ]
+  },
+  {
+    "result": "platinum_ring",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 2 ] ] ]
   }
 ]
