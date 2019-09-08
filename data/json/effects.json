@@ -179,7 +179,7 @@
   },
   {
     "type": "effect_type",
-    "id": "got_paid",
+    "id": "paid",
     "name": [ "Paid" ],
     "desc": [ "AI tag used for paid critters.  This is a bug if you have it." ]
   },
