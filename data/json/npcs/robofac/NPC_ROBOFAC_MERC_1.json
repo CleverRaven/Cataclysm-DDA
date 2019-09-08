@@ -3,7 +3,7 @@
     "type": "npc",
     "id": "robofac_merc_1",
     "//": "Appears in the the surface of Hub 01, an external mercenary.",
-    "name_suffix": "Merc",
+    "name_suffix": "Hub Mercenary",
     "class": "NC_ROBOFAC_MERC_1",
     "attitude": 0,
     "mission": 7,
@@ -13,7 +13,7 @@
   {
     "type": "npc_class",
     "id": "NC_ROBOFAC_MERC_1",
-    "name": "Mercenary",
+    "name": "Hub Mercenary",
     "job_description": "Fighting for the all-mighty dollar.",
     "common": false,
     "traits": [ { "trait": "TOUGH" }, { "trait": "QUICK" }, { "group": "Appearance_demographics" } ],
