@@ -4175,16 +4175,16 @@ void game::monmove()
 
         m.creature_in_field( critter );
 
+        int number_of_actions_allowed = 10;
         while( critter.moves > 0 && !critter.is_dead() && !critter.has_effect( effect_ridden ) ) {
             critter.made_footstep = false;
             // Controlled critters don't make their own plans
-            if( !critter.has_effect( effect_controlled ) ) {
-                // Formulate a path to follow
-                critter.plan();
-            } else {
+            if( critter.has_effect( effect_controlled ) || --number_of_actions_allowed <= 0 ) {
                 critter.moves = 0;
                 break;
             }
+            // Formulate a path to follow
+            critter.plan();
             critter.move(); // Move one square, possibly hit u
             critter.process_triggers();
             m.creature_in_field( critter );
