@@ -38,6 +38,7 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
     private static final String TAG = "SDL";
 
     public static boolean mIsResumedCalled, mHasFocus;
+    public static boolean mAllowSDLOrientationChanges = false;
     public static final boolean mHasMultiWindow = (Build.VERSION.SDK_INT >= 24);
 
     // Cursor types
@@ -137,12 +138,14 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
      */
     protected String[] getLibraries() {
         return new String[] {
+            "c++_shared",
             "hidapi",
             "SDL2",
-            // "SDL2_image",
-            // "SDL2_mixer",
+            "SDL2_image",
+            "SDL2_mixer",
             // "SDL2_net",
-            // "SDL2_ttf",
+            "SDL2_ttf",
+            "intl-lite",
             "main"
         };
     }
@@ -252,6 +255,8 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
 
         mLayout = new RelativeLayout(this);
         mLayout.addView(mSurface);
+        mLayout.setVisibility(View.INVISIBLE); // we will make this visible later through C++ call -> Java
+        setContentView(mLayout);
 
         // Get our current screen orientation and pass it down.
         mCurrentOrientation = SDLActivity.getCurrentOrientation();
@@ -261,6 +266,17 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
         setContentView(mLayout);
 
         setWindowStyle(false);
+
+        mLayout.getViewTreeObserver().addOnGlobalLayoutListener(
+            new ViewTreeObserver.OnGlobalLayoutListener() {
+            public void onGlobalLayout(){
+                Rect r = new Rect();
+                View view = getWindow().getDecorView();
+                view.getWindowVisibleDisplayFrame(r);
+                //Log.v(TAG, "getWindowVisibleDisplayFrame(r): r.left " + r.left + " r.top " + r.top + " r.right " + r.right + " r.bottom " + r.bottom);
+                SDLActivity.onNativeVisibleDisplayFrameChanged(r.left, r.top, r.right, r.bottom);
+            }
+            });
 
         getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(this);
 
@@ -312,6 +328,7 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
         super.onPause();
         if (!mHasMultiWindow) {
             pauseNativeThread();
+            mSurface.setVisibility(View.GONE);
         }
     }
 
@@ -320,6 +337,7 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
         Log.v(TAG, "onResume()");
         super.onResume();
         if (!mHasMultiWindow) {
+            mSurface.setVisibility(View.VISIBLE);
             resumeNativeThread();
         }
     }
@@ -758,6 +776,7 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
     public static native void nativeResume();
     public static native void nativeFocusChanged(boolean hasFocus);
     public static native void onNativeDropFile(String filename);
+    public static native void onNativeVisibleDisplayFrameChanged(int left, int top, int right, int bottom);
     public static native void nativeSetScreenResolution(int surfaceWidth, int surfaceHeight, int deviceWidth, int deviceHeight, int format, float rate);
     public static native void onNativeResize();
     public static native void onNativeKeyDown(int keycode);
@@ -841,7 +860,7 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
         }
 
         Log.v("SDL", "setOrientation() orientation=" + orientation + " width=" + w +" height="+ h +" resizable=" + resizable + " hint=" + hint);
-        if (orientation != -1) {
+        if (mAllowSDLOrientationChanges && orientation != -1) {
             mSingleton.setRequestedOrientation(orientation);
         }
     }
@@ -1742,7 +1761,7 @@ class SDLSurface extends SurfaceView implements SurfaceHolder.Callback,
         // Prevent a screen distortion glitch,
         // for instance when the device is in Landscape and a Portrait App is resumed.
         boolean skip = false;
-        int requestedOrientation = SDLActivity.mSingleton.getRequestedOrientation();
+        int requestedOrientation = SDLActivity.mAllowSDLOrientationChanges ? SDLActivity.mSingleton.getRequestedOrientation() : ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
 
         if (requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
         {
@@ -2100,17 +2119,24 @@ class DummyEdit extends View implements View.OnKeyListener {
     //
     @Override
     public boolean onKeyPreIme (int keyCode, KeyEvent event) {
+        // HACK: Make sure the SDL activity receives native events for back button, even if DummyEdit is in focus
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (event.getAction()==KeyEvent.ACTION_DOWN)
+                SDLActivity.onNativeKeyDown(keyCode);
+            else if (event.getAction()==KeyEvent.ACTION_UP)
+                SDLActivity.onNativeKeyUp(keyCode);
+        }
         // As seen on StackOverflow: http://stackoverflow.com/questions/7634346/keyboard-hide-event
         // FIXME: Discussion at http://bugzilla.libsdl.org/show_bug.cgi?id=1639
         // FIXME: This is not a 100% effective solution to the problem of detecting if the keyboard is showing or not
         // FIXME: A more effective solution would be to assume our Layout to be RelativeLayout or LinearLayout
         // FIXME: And determine the keyboard presence doing this: http://stackoverflow.com/questions/2150078/how-to-check-visibility-of-software-keyboard-in-android
         // FIXME: An even more effective way would be if Android provided this out of the box, but where would the fun be in that :)
-        if (event.getAction()==KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-            if (SDLActivity.mTextEdit != null && SDLActivity.mTextEdit.getVisibility() == View.VISIBLE) {
-                SDLActivity.onNativeKeyboardFocusLost();
-            }
-        }
+        //if (event.getAction()==KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+        //    if (SDLActivity.mTextEdit != null && SDLActivity.mTextEdit.getVisibility() == View.VISIBLE) {
+        //        SDLActivity.onNativeKeyboardFocusLost();
+        //    }
+        //}
         return super.onKeyPreIme(keyCode, event);
     }
 
