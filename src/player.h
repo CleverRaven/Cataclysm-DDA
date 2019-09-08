@@ -509,8 +509,6 @@ class player : public Character
         bool can_autolearn( const matype_id &ma_id ) const;
         /** Displays a message if the player can or cannot use the martial art */
         void martialart_use_message() const;
-        /** Returns true if the player is next to a wall */
-        bool is_wall_adjacent() const;
 
         /** Returns the to hit bonus from martial arts buffs */
         float mabuff_tohit_bonus() const;
