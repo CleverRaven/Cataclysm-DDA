@@ -1726,7 +1726,7 @@
         ],
         "entries": [
           { "item": "glock_18c", "ammo-item": "9mmP", "container-item": "holster" },
-          { "item": "chestrig", "container-group": "army_mags_glock17" }
+          { "item": "magbandolier", "contents-group": "army_mags_glock17" }
         ]
       },
       "male": [ "boxer_shorts" ],
