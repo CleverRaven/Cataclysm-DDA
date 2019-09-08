@@ -849,6 +849,7 @@ void monster::move()
             // Bail out if we can't move there and we can't bash.
             if( !pathed && !can_move_to( candidate ) ) {
                 if( !can_bash ) {
+                    moves -= 100;
                     continue;
                 }
 
