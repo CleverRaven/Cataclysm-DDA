@@ -674,7 +674,7 @@
       [ [ "identification_module", 1 ] ],
       [ [ "omni_wheel", 1 ] ],
       [ [ "copbot_chassis", 1 ] ],
-      [ [ "android_arms", 1 ] ],
+      [ [ "gun_module", 1 ] ],
       [ [ "power_supply", 4 ] ],
       [ [ "solar_cell", 2 ] ],
       [ [ "m16a4", 1 ] ],
