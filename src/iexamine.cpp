@@ -1308,10 +1308,9 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
  */
 void iexamine::fault( player &, const tripoint & )
 {
-    popup( _( "\
-This wall is perfectly vertical.  Odd, twisted holes are set in it, leading\n\
-as far back into the solid rock as you can see.  The holes are humanoid in\n\
-shape, but with long, twisted, distended limbs." ) );
+    popup( _( "This wall is perfectly vertical.  Odd, twisted holes are set in it, leading\n"
+              "as far back into the solid rock as you can see.  The holes are humanoid in\n"
+              "shape, but with long, twisted, distended limbs." ) );
 }
 
 /**
@@ -1365,8 +1364,8 @@ void iexamine::pedestal_temple( player &p, const tripoint &examp )
         g->m.ter_set( examp, t_dirt );
         g->timed_events.add( TIMED_EVENT_TEMPLE_OPEN, calendar::turn + 10_seconds );
     } else {
-        add_msg( _( "This pedestal is engraved in eye-shaped diagrams, and has a \
-large semi-spherical indentation at the top." ) );
+        add_msg( _( "This pedestal is engraved in eye-shaped diagrams, and has a "
+                    "large semi-spherical indentation at the top." ) );
     }
 }
 
