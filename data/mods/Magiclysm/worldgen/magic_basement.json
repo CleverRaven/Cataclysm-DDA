@@ -61,7 +61,10 @@
           { "item": "basement_utility_closet", "chance": 55, "repeat": [ 1, 2 ] },
           { "item": "magic_shop_potions", "chance": 15, "repeat": [ 1, 2 ] }
         ],
-        "D": { "item": "magic_shop_potions", "chance": 35, "repeat": [ 3, 4 ] }
+        "D": [
+          { "item": "magic_shop_potions", "chance": 35, "repeat": [ 3, 4 ] },
+          { "item": "magic_CBM", "chance": 30, "repeat": [ 1, 2 ] }
+        ]
       },
       "vehicles": { "c": { "vehicle": "swivel_chair", "chance": 100, "status": 0 } }
     }
