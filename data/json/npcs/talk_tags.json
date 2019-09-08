@@ -1107,6 +1107,16 @@
   },
   {
     "type": "snippet",
+    "category": "<need_fuel>",
+    "//": "NPC complaint when they are low on CBM power and have a fueled bionic.  Additional versions should continue to specify that the NPC needs fuel and they need it to recharge their power CBMs.",
+    "text": [
+      "I need some fuel to power my bionics.",
+      "I can't recharge my CBMs without some fuel.",
+      "Hey, <name_g>, can I get some fuel?  I need to recharge."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<need_radioactives>",
     "//": "NPC complaint when they are low on CBM power and have an internal reactor.  Additional versions should continue to specify that the NPC needs radioactive slurry and they need it to recharge their power CBMs.  Also, mostly obsolete since internal reactors got removed.",
     "text": [

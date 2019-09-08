@@ -898,6 +898,17 @@ std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
     return bionics;
 }
 
+std::vector<bionic_id> Character::get_fueled_bionics() const
+{
+    std::vector<bionic_id> bionics;
+    for( const bionic bio : *my_bionics ) {
+        if( !bio.info().fuel_opts.empty() ) {
+            bionics.emplace_back( bio.id );
+        }
+    }
+    return bionics;
+}
+
 bionic_id Character::get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const
 {
     float temp_eff = 0;

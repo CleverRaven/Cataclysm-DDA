@@ -501,8 +501,10 @@ class Character : public Creature, public visitable<Character>
         bool has_any_bionic() const;
         /**Returns true if the character can fuel a bionic with the item*/
         bool can_fuel_bionic_with( const item &it ) const;
-        /**Return bionic_id of bionics able to use fuel*/
+        /**Return bionic_id of bionics able to use it as fuel*/
         std::vector<bionic_id> get_bionic_fueled_with( const item &it ) const;
+        /**Return bionic_id of fueled bionics*/
+        std::vector<bionic_id> get_fueled_bionics() const;
         /**Return bionic_id of bionic of most fuel efficient bionic*/
         bionic_id get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const;
         /**Return list of available fuel for this bionic*/
