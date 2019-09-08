@@ -4176,6 +4176,7 @@ void game::monmove()
         m.creature_in_field( critter );
 
         int number_of_actions_allowed = 10;
+        critter.places_this_turn.clear();
         while( critter.moves > 0 && !critter.is_dead() && !critter.has_effect( effect_ridden ) ) {
             critter.made_footstep = false;
             // Controlled critters don't make their own plans

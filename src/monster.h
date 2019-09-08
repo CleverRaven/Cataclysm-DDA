@@ -444,6 +444,8 @@ class monster : public Creature
         // abstract for a fish monster representing a hidden stock of population in that area.
         int fish_population = 1;
 
+        std::set<tripoint> places_this_turn;
+
         void setpos( const tripoint &p ) override;
         const tripoint &pos() const override;
         inline int posx() const override {

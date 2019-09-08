@@ -1389,8 +1389,17 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
                  g->m.tername( p ) );
     }
 
-    setpos( p );
-    footsteps( p );
+
+    if( pos() != p) {
+        if( places_this_turn.count( p ) > 0 ) {
+            moves = 0;
+            return true;
+        }
+
+        places_this_turn.insert( p );
+        setpos( p );
+        footsteps( p );
+    }
     underwater = will_be_water;
     if( is_hallucination() ) {
         //Hallucinations don't do any of the stuff after this point
