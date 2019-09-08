@@ -29,8 +29,6 @@ static void set_map_temperature( int new_temperature )
 
 TEST_CASE( "Rate of rotting" )
 {
-
-
     SECTION( "65 F" ) {
         // Item rot is a time duration.
         // At 65 F (18,3 C) item rots at rate of 1h/1h
