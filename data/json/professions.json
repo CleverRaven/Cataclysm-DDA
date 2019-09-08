@@ -1309,7 +1309,7 @@
     "skills": [ { "level": 2, "name": "fabrication" } ],
     "items": {
       "both": {
-        "items": [ "tank_top", "socks", "boots_steel", "jeans", "multitool", "wristwatch" ],
+        "items": [ "tank_top", "socks", "boots_steel", "pants", "multitool", "wristwatch" ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "item": "nailgun", "ammo-item": "nail", "charges": 20 },
