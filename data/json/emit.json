@@ -247,7 +247,7 @@
     "id": "emit_swamp_gas_leak",
     "type": "emit",
     "field": "fd_swamp_gas",
-    "intensity": 3,
+    "intensity": 1,
     "chance": 15
   },
   {

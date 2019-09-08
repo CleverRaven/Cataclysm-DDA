@@ -240,6 +240,7 @@
   {
     "type": "terrain",
     "id": "t_water_cube",
+    "//": "for eventual use with water z levels.  Currently non-functional.",
     "name": "submersed water",
     "description": "You are submerged below the surface of the water, your feet can't touch the ground.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
     "symbol": "~",
@@ -252,6 +253,7 @@
   {
     "type": "terrain",
     "id": "t_lake_bed",
+    "//": "for eventual use with water z levels.  Currently non-functional.",
     "name": "lake bed",
     "description": "You are standing at the bottom of a body of fresh water.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
     "symbol": "~",
@@ -264,6 +266,7 @@
   {
     "type": "terrain",
     "id": "t_ocean_bed",
+    "//": "for eventual use with water z levels.  Currently non-functional.",
     "name": "ocean bed",
     "description": "You are standing at the bottom of a body of salt water.  With a watertight container, you could gather salt water from here.  Not safe to drink as is.",
     "symbol": "~",
