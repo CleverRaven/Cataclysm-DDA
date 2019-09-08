@@ -3306,30 +3306,20 @@ void cata_variant::deserialize( JsonIn &jsin )
     jsin.end_array();
 }
 
-void event_tracker::serialize( JsonOut &jsout ) const
+void event_multiset::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
-    using value_type = decltype( event_counts )::value_type;
-    std::vector<value_type> copy( event_counts.begin(), event_counts.end() );
+    std::vector<counts_type::value_type> copy( counts_.begin(), counts_.end() );
     jsout.member( "event_counts", copy );
     jsout.end_object();
 }
 
-void event_tracker::deserialize( JsonIn &jsin )
+void event_multiset::deserialize( JsonIn &jsin )
 {
-    jsin.start_object();
-    while( !jsin.end_object() ) {
-        std::string name = jsin.get_member_name();
-        if( name == "event_counts" ) {
-            std::vector<std::pair<cata::event::data_type, int>> copy;
-            if( !jsin.read( copy ) ) {
-                jsin.error( "Failed to read event_counts" );
-            }
-            event_counts = { copy.begin(), copy.end() };
-        } else {
-            jsin.skip_value();
-        }
-    }
+    JsonObject jo = jsin.get_object();
+    std::vector<std::pair<cata::event::data_type, int>> copy;
+    jo.read( "event_counts", copy );
+    counts_ = { copy.begin(), copy.end() };
 }
 
 void stats_tracker::serialize( JsonOut &jsout ) const
@@ -3343,6 +3333,9 @@ void stats_tracker::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
     jo.read( "data", data );
+    for( std::pair<const event_type, event_multiset> &d : data ) {
+        d.second.set_type( d.first );
+    }
 }
 
 void submap::store( JsonOut &jsout ) const
