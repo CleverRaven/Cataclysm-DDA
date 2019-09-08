@@ -46,7 +46,7 @@
     "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "DROPS_AMMO" ]
   },
   {
-    "id": "talon_m202a1",
+    "id": "mon_talon_m202a1",
     "type": "MONSTER",
     "name": "M202A1 autonomous TALON UGV",
     "description": "A TALON unmanned ground vehicle equipped with an M202A1 FLASH.  It is a small tracked UGV with an array of motors and sensors covering its weapon mount.",
