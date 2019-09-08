@@ -66,6 +66,7 @@ bool monexamine::pet_menu( monster &z )
         play_with_pet,
         pheromone,
         milk,
+        pay,
         attach_saddle,
         remove_saddle,
         mount,
@@ -134,6 +135,9 @@ bool monexamine::pet_menu( monster &z )
     } else if( z.has_flag( MF_PET_MOUNTABLE ) && !z.has_effect( effect_saddled ) &&
                g->u.has_amount( "riding_saddle", 1 ) && g->u.get_skill_level( skill_survival ) < 1 ) {
         amenu.addentry( remove_saddle, false, 'h', _( "You don't know how to saddle %s" ), pet_name );
+    }
+    if( z.has_flag( MF_PAY_BOT ) ) {
+        amenu.addentry( pay, true, 'f', _( "Manage your friendship with %s" ), pet_name );
     }
     if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
         if( z.has_flag( MF_PET_MOUNTABLE ) && g->u.can_mount( z ) ) {
@@ -229,6 +233,9 @@ bool monexamine::pet_menu( monster &z )
             break;
         case milk:
             milk_source( z );
+            break;
+        case pay:
+            pay_bot( z );
             break;
         case remove_bat:
             remove_battery( z );
@@ -329,12 +336,15 @@ static int prompt_for_amount( const char *const msg, const int max )
 bool monexamine::pay_bot( monster &z )
 {
     time_duration friend_time = z.get_effect_dur( effect_pet );
+    const int card_count = g->u.amount_of( "cash_card" );
+    const int charge_count = card_count ? g->u.charges_of( "cash_card" ) : 0;
+
     int amount = 0;
     uilist bot_menu;
     bot_menu.text = string_format(
-                        _( "Welcome to the Grocery Bot Friendship Interface. What would you like to do?\n"
-                           "Your current friendship will last: %s" ), to_string( friend_time ) );
-    if( g->u.cash > 1 ) {
+                        _( "Welcome to the %s Friendship Interface. What would you like to do?\n"
+                           "Your current friendship will last: %s" ), z.get_name(), to_string( friend_time ) );
+    if( charge_count > 0 ) {
         bot_menu.addentry( 1, true, 'b', _( "Get more friendship. 1 cent/s" ) );
     } else {
         bot_menu.addentry( 2, true, 'q',
@@ -345,9 +355,10 @@ bool monexamine::pay_bot( monster &z )
         case 1:
             amount = prompt_for_amount( ngettext(
                                             "How much friendship do you get? Max: %d second. (0 to cancel) ",
-                                            "How much friendship do you get? Max: %d seconds. ", g->u.cash ), g->u.cash );
+                                            "How much friendship do you get? Max: %d seconds. ", charge_count ), charge_count );
             if( amount > 0 ) {
                 time_duration time_bought = time_duration::from_seconds( amount );
+                g->u.use_charges( "cash_card", amount );
                 z.add_effect( effect_pet, time_bought );
                 z.friendly = -1;
                 popup( string_format( _( "Your friendship grows stronger!\n This %s will follow you for %s" ),

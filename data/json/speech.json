@@ -1759,6 +1759,54 @@
   },
   {
     "type": "speech",
+    "speaker": "mon_grocerybot_running_out_of_friendship",
+    "sound": "a distressed robotic voice say, \"Customer!  Our friendship is running out!  Quick do something!\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_grocerybot_running_out_of_friendship",
+    "sound": "a worried robotic voice say, \"I don't want to go but our time together is drawing to an end.  Please do something.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_grocerybot_running_out_of_friendship",
+    "sound": "a worried robotic voice say, \"Customer?  We'll be friend forever, right?\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_grocerybot_running_out_of_friendship",
+    "sound": "a worried robotic voice say, \"Customer could you please get more friendship?  I don't want to go...\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_grocerybot_friendship_done",
+    "sound": "a sad robotic voice say, \"Oh no!  You ran out of friendship!\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_grocerybot_friendship_done",
+    "sound": "a cheery robotic voice say, \"Well I'm done here.  Have a nice day.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_grocerybot_friendship_done",
+    "sound": "a cheery robotic voice say, \"Here are your groceries.  Thank you for shopping with me today, have a nice day.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_grocerybot_friendship_done",
+    "sound": "a neutral robotic voice say, \"If that's how you feel...  Have a nice day.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
     "speaker": "mon_eyebot",
     "sound": "\"Stop where you are!\"",
     "volume": 15
