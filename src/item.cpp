@@ -4394,7 +4394,7 @@ void item::calc_rot( time_point time, int temp )
     }
 
     time_duration time_delta = time - last_rot_check;
-    rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temp ) * 1_turns;
+    rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temp ) * 6_turns;
     last_rot_check = time;
 }
 
