@@ -1681,7 +1681,8 @@ bool map::passable( const point &p ) const
     return passable( tripoint( p, abs_sub.z ) );
 }
 
-bool map::is_wall_adjacent( const tripoint &center ) const {
+bool map::is_wall_adjacent( const tripoint &center ) const
+{
     for( const tripoint &p : points_in_radius( center, 1 ) ) {
         if( p != center && impassable( p ) ) {
             return true;
