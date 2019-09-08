@@ -182,5 +182,10 @@
       [ "broom", 100 ],
       [ "battery_car", 35 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_CBM",
+    "items": [ [ "bio_fuel_cell_blood", 10 ] ]
   }
 ]
