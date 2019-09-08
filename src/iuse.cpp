@@ -1954,7 +1954,7 @@ int iuse::unpack_item( player *p, item *it, bool, const tripoint & )
 int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
 {
     item_location bionic = g->inv_map_splice( []( const item & e ) {
-        return e.is_bionic();
+        return ( e.is_bionic() && e.has_flag( "NO_PACKED" ) );
     }, _( "Choose CBM to pack" ), PICKUP_RANGE, _( "You don't have any CBMs." ) );
 
     if( !bionic ) {
@@ -1967,25 +1967,12 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    if( !bionic.get_item()->has_flag( "NO_PACKED" ) ||
-        bionic.get_item()->has_flag( "PACKED_FAULTY" ) ) {
-        if( !p->query_yn( _( "This CBM is already packed.  Do you want to put it in a new pouch?" ) ) ) {
-            return 0;
-        }
-    }
-
-    bionic.get_item()->unset_flag( "NO_PACKED" );
-    bionic.get_item()->unset_flag( "PACKED_FAULTY" );
-
     const int success = p->get_skill_level( skill_firstaid ) - rng( 0, 6 );
     if( success > 0 ) {
         p->add_msg_if_player( m_info, _( "You carefully prepare the CBM for sterilization." ) );
+        bionic.get_item()->unset_flag( "NO_PACKED" );
     } else {
-        bionic.get_item()->set_flag( "PACKED_FAULTY" );
-        p->add_msg_if_player( m_info, _( "You put the CBM in the pouch and close it." ) );
-        if( success == 0 ) {
-            p->add_msg_if_player( m_info, _( "You're not sure about the quality of your work." ) );
-        }
+        p->add_msg_if_player( m_bad, _( "You fail to properly prepare the CBM." ) );
     }
 
     std::vector<item_comp> comps;
