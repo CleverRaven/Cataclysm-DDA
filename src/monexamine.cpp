@@ -346,7 +346,7 @@ bool monexamine::pay_bot( monster &z )
                         _( "Welcome to the %s Friendship Interface. What would you like to do?\n"
                            "Your current friendship will last: %s" ), z.get_name(), to_string( friend_time ) );
     if( charge_count > 0 ) {
-        bot_menu.addentry( 1, true, 'b', _( "Get more friendship. 1 cent/s" ) );
+        bot_menu.addentry( 1, true, 'b', _( "Get more friendship. 10 cent/min" ) );
     } else {
         bot_menu.addentry( 2, true, 'q',
                            _( "Sadly you're not currently able to extend your friendship. - Quit menu" ) );
@@ -355,11 +355,11 @@ bool monexamine::pay_bot( monster &z )
     switch( bot_menu.ret ) {
         case 1:
             amount = prompt_for_amount( ngettext(
-                                            "How much friendship do you get? Max: %d second. (0 to cancel) ",
-                                            "How much friendship do you get? Max: %d seconds. ", charge_count ), charge_count );
+                                            "How much friendship do you get? Max: %d minute. (0 to cancel) ",
+                                            "How much friendship do you get? Max: %d minutes. ", charge_count / 10 ), charge_count / 10 );
             if( amount > 0 ) {
-                time_duration time_bought = time_duration::from_seconds( amount );
-                g->u.use_charges( "cash_card", amount );
+                time_duration time_bought = time_duration::from_minutes( amount );
+                g->u.use_charges( "cash_card", amount * 10 );
                 z.add_effect( effect_pet, time_bought );
                 z.add_effect( effect_paid, time_bought, num_bp, true );
                 z.friendly = -1;

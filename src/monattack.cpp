@@ -2992,7 +2992,7 @@ bool mattack::check_money_left( monster *z )
             z->has_effect( effect_paid ) ) { // if the pet effect runs out we're no longer friends
             z->friendly = 0;
             bool had_inventory = !z->inv.empty();
-            for( auto &it : z->inv ) {
+            for( const item &it : z->inv ) {
                 g->m.add_item_or_charges( z->pos(), it );
             }
             z->inv.clear();
@@ -3028,7 +3028,8 @@ bool mattack::check_money_left( monster *z )
     if( z->has_effect( effect_countdown ) ) {
         if( z->get_effect_dur( effect_countdown ) == 2_seconds ) {
             const SpeechBubble &speech_override_done = get_speech( "mon_grocerybot_override_done" );
-            sounds::sound( z->pos(), speech_override_done.volume, sounds::sound_t::speech, speech_override_done.text );
+            sounds::sound( z->pos(), speech_override_done.volume, sounds::sound_t::speech,
+                           speech_override_done.text );
         } else if( z->get_effect_dur( effect_countdown ) == 1_seconds ) {
             z->die( nullptr );
             return false;
