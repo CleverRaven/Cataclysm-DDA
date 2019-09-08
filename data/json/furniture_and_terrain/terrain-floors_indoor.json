@@ -668,5 +668,94 @@
         { "item": "lead", "count": [ 12, 18 ] }
       ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_dirt_underground",
+    "//": "for caverns and other natural underground formations.",
+    "name": "dirt",
+    "description": "It's dirt.  Looks like some fine soil for tillage.  Could also be dug out for construction projects.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "looks_like": "t_dirt",
+    "roof": "t_rock_roof",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "PLOWABLE", "DIGGABLE" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sand_underground",
+    "name": "sand",
+    "//": "for caverns and other natural underground formations.",
+    "description": "A large area of fine sand that could be useful in a number of ways, if it was extracted properly.",
+    "symbol": ".",
+    "color": "yellow",
+    "looks_like": "t_sand",
+    "move_cost": 3,
+    "roof": "t_rock_roof",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "DIGGABLE" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_mud_underground",
+    "//": "for caverns and other natural underground formations.",
+    "name": "mud",
+    "looks_like": "t_dirt",
+    "description": "An area of wet, slick mud.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 3,
+    "roof": "t_rock_roof",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "DIGGABLE" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_moss_underground",
+    "name": "moss",
+    "//": "for caverns and other natural underground formations.",
+    "looks_like": "t_grass",
+    "roof": "t_rock_roof",
+    "description": "Moist spongy moss.",
+    "symbol": ".",
+    "color": "light_green",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "SUPPORTS_ROOF", "INDOORS" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_clay_underground",
+    "name": "clay",
+    "//": "for caverns and other natural underground formations.",
+    "description": "A field full of malleable clay, suitable for kiln firing if it was extracted properly.",
+    "symbol": ".",
+    "color": "light_red",
+    "move_cost": 2,
+    "roof": "t_rock_roof",
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "SUPPORTS_ROOF", "INDOORS" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_claymound_underground",
+    "name": "mound of clay",
+    "description": "A mound of clay soil.",
+    "//": "for caverns and other natural underground formations.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 5,
+    "roof": "t_rock_roof",
+    "flags": [ "TRANSPARENT", "BURROWABLE", "SUPPORTS_ROOF", "INDOORS" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 4,
+      "sound": "splosh!",
+      "sound_fail": "splosh!",
+      "ter_set": "t_water_dp",
+      "items": [ { "item": "clay_lump", "count": [ 6, 12 ] } ]
+    }
   }
 ]

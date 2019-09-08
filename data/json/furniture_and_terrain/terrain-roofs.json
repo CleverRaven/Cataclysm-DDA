@@ -306,5 +306,24 @@
       "ter_set": "t_open_air",
       "bash_below": true
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_roof",
+    "name": "rock roof",
+    "description": "A secton of flat natural rock.",
+    "looks_like": "t_flat_roof",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ],
+    "bash": {
+      "str_min": 100,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_open_air",
+      "bash_below": true
+    }
   }
 ]
