@@ -2576,7 +2576,6 @@ void iexamine::autoclave_full( player &, const tripoint &examp )
         if( !it.has_flag( "NO_PACKED" ) ) {
             it.unset_flag( "NO_STERILE" );
         }
-
     }
     add_msg( m_good, _( "The cycle is complete, the CBMs are now sterile." ) );
 
