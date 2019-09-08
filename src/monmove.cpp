@@ -875,6 +875,7 @@ void monster::move()
                 // Except if the direct path is bad, then check others
                 // Or if the path is given by pathfinder
                 if( !staggers && ( !bad_choice || pathed ) ) {
+                    moves -= 100;
                     break;
                 }
             }
