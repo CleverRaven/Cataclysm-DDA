@@ -30,6 +30,14 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "charged_mp3",
+    "ammo": 100,
+    "magazine": 100,
+    "entries": [ { "item": "mp3" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "army_mags_m2010",
     "entries": [
       { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 },
@@ -2163,11 +2171,10 @@
           "weed",
           "tobacco",
           "rolling_paper",
-          "mp3",
           "ref_lighter",
           "wristwatch"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_mp3" } ]
       },
       "male": [ "pants_cargo", "tank_top", "boxer_shorts" ],
       "female": [ "skirt", "corset", "boxer_shorts" ]
@@ -2219,10 +2226,9 @@
           "rolling_paper",
           "tobacco",
           "wristwatch",
-          "mp3",
           "ref_lighter"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_mp3" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
