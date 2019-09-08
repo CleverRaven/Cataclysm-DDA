@@ -44,6 +44,7 @@ const efftype_id effect_harnessed( "harnessed" );
 const efftype_id effect_has_bag( "has_bag" );
 const efftype_id effect_milked( "milked" );
 const efftype_id effect_monster_armor( "monster_armor" );
+const efftype_id effect_paid( "paid" );
 const efftype_id effect_pet( "pet" );
 const efftype_id effect_tied( "tied" );
 const efftype_id effect_riding( "riding" );
@@ -360,6 +361,7 @@ bool monexamine::pay_bot( monster &z )
                 time_duration time_bought = time_duration::from_seconds( amount );
                 g->u.use_charges( "cash_card", amount );
                 z.add_effect( effect_pet, time_bought );
+                z.add_effect( effect_paid, time_bought, num_bp, true );
                 z.friendly = -1;
                 popup( string_format( _( "Your friendship grows stronger!\n This %s will follow you for %s" ),
                                       z.get_name(), to_string( z.get_effect_dur( effect_pet ) ) ) );

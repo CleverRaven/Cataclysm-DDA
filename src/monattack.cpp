@@ -141,6 +141,7 @@ const efftype_id effect_laserlocked( "laserlocked" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_operating( "operating" );
 const efftype_id effect_paralyzepoison( "paralyzepoison" );
+const efftype_id effect_paid( "paid" );
 const efftype_id effect_pet( "pet" );
 const efftype_id effect_raising( "raising" );
 const efftype_id effect_rat( "rat" );
@@ -2987,7 +2988,8 @@ bool mattack::nurse_operate( monster *z )
 bool mattack::check_money_left( monster *z )
 {
     if( !z->has_effect( effect_pet ) ) {
-        if( z->friendly == -1 ) { // if the pet effect runs out we're no longer friends
+        if( z->friendly == -1 &&
+            z->has_effect( effect_paid ) ) { // if the pet effect runs out we're no longer friends
             z->friendly = 0;
             bool had_inventory = !z->inv.empty();
             for( auto &it : z->inv ) {
@@ -3003,6 +3005,7 @@ bool mattack::check_money_left( monster *z )
 
             const SpeechBubble &speech_no_time = get_speech( "mon_grocerybot_friendship_done" );
             sounds::sound( z->pos(), speech_no_time.volume, sounds::sound_t::speech, speech_no_time.text );
+            z->remove_effect( effect_paid );
             return true;
         }
     } else {
@@ -3012,6 +3015,27 @@ bool mattack::check_money_left( monster *z )
                 const SpeechBubble &speech_time_low = get_speech( "mon_grocerybot_running_out_of_friendship" );
                 sounds::sound( z->pos(), speech_time_low.volume, sounds::sound_t::speech, speech_time_low.text );
             }
+        }
+    }
+    if( z->friendly == -1 && !z->has_effect( effect_paid ) ) {
+        if( one_in( 200 ) && !z->has_effect( effect_countdown ) ) {
+            const SpeechBubble &speech_override_start = get_speech( "mon_grocerybot_override_start" );
+            sounds::sound( z->pos(), speech_override_start.volume, sounds::sound_t::speech,
+                           speech_override_start.text );
+            z->add_effect( effect_countdown, 301_seconds );
+        }
+    }
+    if( z->has_effect( effect_countdown ) ) {
+        if( z->get_effect_dur( effect_countdown ) == 2_seconds ) {
+            const SpeechBubble &speech_override_done = get_speech( "mon_grocerybot_override_done" );
+            sounds::sound( z->pos(), speech_override_done.volume, sounds::sound_t::speech, speech_override_done.text );
+        } else if( z->get_effect_dur( effect_countdown ) == 1_seconds ) {
+            z->die( nullptr );
+            return false;
+        }
+        if( calendar::once_every( 1_minutes ) ) {
+            const SpeechBubble &speech_hacked = get_speech( "mon_grocerybot_hacked" );
+            sounds::sound( z->pos(), speech_hacked.volume, sounds::sound_t::speech, speech_hacked.text );
         }
     }
     return false;
