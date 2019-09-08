@@ -413,7 +413,7 @@ bool ma_requirements::is_valid_player( const player &u ) const
         return false;
     }
 
-    if( wall_adjacent && !u.is_wall_adjacent() ) {
+    if( wall_adjacent && !g->m.is_wall_adjacent( u.pos() ) ) {
         return false;
     }
 
@@ -876,24 +876,6 @@ bool player::can_miss_recovery( const item &weap ) const
     // otherwise, can miss recovery
     return true;
 }
-
-bool player::is_wall_adjacent() const
-{
-    for( int i = -1; i < 2; i++ ) {
-        for( int j = -1; j < 2; j++ ) {
-            if( i == 0 && j == 0 ) {
-                continue;
-            }
-
-            if( g->m.impassable( tripoint( posx() + i, posy() + j, posz() ) ) ) {
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
-
 
 bool player::can_leg_block() const
 {

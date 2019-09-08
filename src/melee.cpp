@@ -1014,7 +1014,7 @@ matec_id player::pick_technique( Creature &t, const item &weap,
 
     bool downed = t.has_effect( effect_downed );
     bool stunned = t.has_effect( effect_stunned );
-    bool wall_adjacent = is_wall_adjacent();
+    bool wall_adjacent = g->m.is_wall_adjacent( pos() );
 
     // first add non-aoe tecs
     for( auto &tec_id : all ) {
