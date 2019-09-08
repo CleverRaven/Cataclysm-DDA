@@ -75,6 +75,8 @@ static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
 static const fault_id fault_filter_air( "fault_engine_filter_air" );
 static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
 
+static bool is_sm_tile_outside( const tripoint &real_global_pos );
+
 const skill_id skill_mechanics( "mechanics" );
 const efftype_id effect_harnessed( "harnessed" );
 const efftype_id effect_winded( "winded" );
@@ -4109,70 +4111,68 @@ std::vector<vehicle_part *> vehicle::lights( bool active )
     return res;
 }
 
-int vehicle::total_epower_w()
-{
-    int engine_epower = 0;
-    return total_epower_w( engine_epower, false );
-}
-
-int vehicle::total_epower_w( int &engine_epower, bool skip_solar )
+int vehicle::total_accessory_epower_w() const
 {
     int epower = 0;
-
     for( const vpart_reference &vp : get_enabled_parts( VPFLAG_ENABLED_DRAINS_EPOWER ) ) {
         epower += vp.info().epower;
     }
+    return epower;
+}
 
-    // Engines: can both produce (plasma) or consume (gas, diesel)
+int vehicle::total_engine_epower_w() const
+{
+    int epower = 0;
+
+    // Engines: can both produce (plasma) or consume (gas, diesel) epower.
     // Gas engines require epower to run for ignition system, ECU, etc.
     // Electric motor consumption not included, see @ref vpart_info::energy_consumption
     if( engine_on ) {
-        int engine_vpower = 0;
         for( size_t e = 0; e < engines.size(); ++e ) {
             if( is_engine_on( e ) ) {
-                engine_epower += part_epower_w( engines[e] );
-                engine_vpower += part_vpower_w( engines[e] );
+                epower += part_epower_w( engines[e] );
             }
         }
-
-        epower += engine_epower;
-
-        // Producers of epower
 
         // If the engine is on, the alternators are working.
         int alternators_epower = 0;
-        int alternators_power = 0;
         for( size_t p = 0; p < alternators.size(); ++p ) {
             if( is_alternator_on( p ) ) {
                 alternators_epower += part_epower_w( alternators[p] );
-                alternators_power += part_vpower_w( alternators[p] );
             }
         }
-        if( engine_vpower ) {
-            alternator_load = 1000 * ( abs( alternators_power ) + abs( extra_drag ) ) / engine_vpower;
-        } else {
-            alternator_load = 0;
-        }
-        // could check if alternator_load > 1000 and then reduce alternator epower,
-        // but that's a lot of work for a corner case.
+
         if( alternators_epower > 0 ) {
             epower += alternators_epower;
         }
     }
 
-    if( skip_solar ) {
-        return epower;
-    }
+    return epower;
+}
+
+int vehicle::total_solar_epower_w() const
+{
+    int epower_w = 0;
     for( int part : solar_panels ) {
         if( parts[ part ].is_unavailable() ) {
             continue;
         }
-        epower += part_epower_w( part );
+
+        if( !is_sm_tile_outside( g->m.getabs( global_part_pos3( part ) ) ) ) {
+            continue;
+        }
+
+        epower_w += part_epower_w( part );
     }
-    return epower;
+    // Weather doesn't change much across the area of the vehicle, so just
+    // sample it once.
+    weather_type wtype = current_weather( global_pos3() );
+    const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
+    double intensity = tick_sunlight / default_daylight_level();
+    return epower_w * intensity;
 }
 
-int vehicle::total_reactor_epower_w() const
+int vehicle::max_reactor_epower_w() const
 {
     int epower_w = 0;
     for( int elem : reactors ) {
@@ -4183,17 +4183,20 @@ int vehicle::total_reactor_epower_w() const
 
 void vehicle::power_parts()
 {
-    int engine_epower = 0;
-    int epower = total_epower_w( engine_epower );
+    // Things that drain energy: engines and accessories.
+    int engine_epower = total_engine_epower_w();
+    int epower = engine_epower + total_accessory_epower_w();
 
-    bool reactor_online = false;
     int delta_energy_bat = power_to_energy_bat( epower, 1_turns );
     int storage_deficit_bat = std::max( 0, fuel_capacity( fuel_type_battery ) -
                                         fuel_left( fuel_type_battery ) - delta_energy_bat );
+    // Reactors trigger only on demand. If we'd otherwise run out of power, see
+    // if we can spin up the reactors.
     if( !reactors.empty() && storage_deficit_bat > 0 ) {
         // Still not enough surplus epower to fully charge battery
         // Produce additional epower from any reactors
         bool reactor_working = false;
+        bool reactor_online = false;
         for( auto &elem : reactors ) {
             // Check whether the reactor is on. If not, move on.
             if( !is_part_on( elem ) ) {
