@@ -9740,23 +9740,6 @@ int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
-use_function::use_function( const use_function &other )
-    : actor( other.actor ? other.actor->clone() : nullptr )
-{
-}
-
-use_function &use_function::operator=( iuse_actor *const f )
-{
-    *this = use_function( f );
-    return *this;
-}
-
-use_function &use_function::operator=( const use_function &other )
-{
-    actor.reset( other.actor ? other.actor->clone() : nullptr );
-    return *this;
-}
-
 void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) const
 {
     if( actor != nullptr ) {

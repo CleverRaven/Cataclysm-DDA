@@ -524,8 +524,8 @@ class iuse_function_wrapper : public iuse_actor
             iuse tmp;
             return ( tmp.*cpp_function )( &p, &it, a, pos );
         }
-        iuse_actor *clone() const override {
-            return new iuse_function_wrapper( *this );
+        std::unique_ptr<iuse_actor> clone() const override {
+            return std::make_unique<iuse_function_wrapper>( *this );
         }
 
         void load( JsonObject & ) override {}
@@ -543,13 +543,13 @@ class iuse_function_wrapper_with_info : public iuse_function_wrapper
         void info( const item &, std::vector<iteminfo> &info ) const override {
             info.emplace_back( "DESCRIPTION", _( info_string ) );
         }
-        iuse_actor *clone() const override {
-            return new iuse_function_wrapper_with_info( *this );
+        std::unique_ptr<iuse_actor> clone() const override {
+            return std::make_unique<iuse_function_wrapper_with_info>( *this );
         }
 };
 
 use_function::use_function( const std::string &type, const use_function_pointer f )
-    : use_function( new iuse_function_wrapper( type, f ) ) {}
+    : use_function( std::make_unique<iuse_function_wrapper>( type, f ) ) {}
 
 void Item_factory::add_iuse( const std::string &type, const use_function_pointer f )
 {
@@ -560,12 +560,13 @@ void Item_factory::add_iuse( const std::string &type, const use_function_pointer
                              const std::string &info )
 {
     iuse_function_list[ type ] =
-        use_function( new iuse_function_wrapper_with_info( type, f, info ) );
+        use_function( std::make_unique<iuse_function_wrapper_with_info>( type, f, info ) );
 }
 
-void Item_factory::add_actor( iuse_actor *ptr )
+void Item_factory::add_actor( std::unique_ptr<iuse_actor> ptr )
 {
-    iuse_function_list[ ptr->type ] = use_function( ptr );
+    std::string type = ptr->type;
+    iuse_function_list[ type ] = use_function( std::move( ptr ) );
 }
 
 void Item_factory::add_item_type( const itype &def )
@@ -778,42 +779,42 @@ void Item_factory::init()
     add_iuse( "BREAK_STICK", &iuse::break_stick );
     add_iuse( "MAGNESIUM_TABLET", &iuse::magnesium_tablet );
 
-    add_actor( new ammobelt_actor() );
-    add_actor( new bandolier_actor() );
-    add_actor( new cauterize_actor() );
-    add_actor( new consume_drug_iuse() );
-    add_actor( new delayed_transform_iuse() );
-    add_actor( new enzlave_actor() );
-    add_actor( new explosion_iuse() );
-    add_actor( new firestarter_actor() );
-    add_actor( new fireweapon_off_actor() );
-    add_actor( new fireweapon_on_actor() );
-    add_actor( new heal_actor() );
-    add_actor( new holster_actor() );
-    add_actor( new inscribe_actor() );
-    add_actor( new iuse_transform() );
-    add_actor( new countdown_actor() );
-    add_actor( new manualnoise_actor() );
-    add_actor( new musical_instrument_actor() );
-    add_actor( new pick_lock_actor() );
-    add_actor( new deploy_furn_actor() );
-    add_actor( new place_monster_iuse() );
-    add_actor( new reveal_map_actor() );
-    add_actor( new salvage_actor() );
-    add_actor( new unfold_vehicle_iuse() );
-    add_actor( new ups_based_armor_actor() );
-    add_actor( new place_trap_actor() );
-    add_actor( new emit_actor() );
-    add_actor( new saw_barrel_actor() );
-    add_actor( new install_bionic_actor() );
-    add_actor( new detach_gunmods_actor() );
-    add_actor( new mutagen_actor() );
-    add_actor( new mutagen_iv_actor() );
-    add_actor( new deploy_tent_actor() );
-    add_actor( new learn_spell_actor() );
-    add_actor( new cast_spell_actor() );
-    add_actor( new weigh_self_actor() );
-    add_actor( new sew_advanced_actor() );
+    add_actor( std::make_unique<ammobelt_actor>() );
+    add_actor( std::make_unique<bandolier_actor>() );
+    add_actor( std::make_unique<cauterize_actor>() );
+    add_actor( std::make_unique<consume_drug_iuse>() );
+    add_actor( std::make_unique<delayed_transform_iuse>() );
+    add_actor( std::make_unique<enzlave_actor>() );
+    add_actor( std::make_unique<explosion_iuse>() );
+    add_actor( std::make_unique<firestarter_actor>() );
+    add_actor( std::make_unique<fireweapon_off_actor>() );
+    add_actor( std::make_unique<fireweapon_on_actor>() );
+    add_actor( std::make_unique<heal_actor>() );
+    add_actor( std::make_unique<holster_actor>() );
+    add_actor( std::make_unique<inscribe_actor>() );
+    add_actor( std::make_unique<iuse_transform>() );
+    add_actor( std::make_unique<countdown_actor>() );
+    add_actor( std::make_unique<manualnoise_actor>() );
+    add_actor( std::make_unique<musical_instrument_actor>() );
+    add_actor( std::make_unique<pick_lock_actor>() );
+    add_actor( std::make_unique<deploy_furn_actor>() );
+    add_actor( std::make_unique<place_monster_iuse>() );
+    add_actor( std::make_unique<reveal_map_actor>() );
+    add_actor( std::make_unique<salvage_actor>() );
+    add_actor( std::make_unique<unfold_vehicle_iuse>() );
+    add_actor( std::make_unique<ups_based_armor_actor>() );
+    add_actor( std::make_unique<place_trap_actor>() );
+    add_actor( std::make_unique<emit_actor>() );
+    add_actor( std::make_unique<saw_barrel_actor>() );
+    add_actor( std::make_unique<install_bionic_actor>() );
+    add_actor( std::make_unique<detach_gunmods_actor>() );
+    add_actor( std::make_unique<mutagen_actor>() );
+    add_actor( std::make_unique<mutagen_iv_actor>() );
+    add_actor( std::make_unique<deploy_tent_actor>() );
+    add_actor( std::make_unique<learn_spell_actor>() );
+    add_actor( std::make_unique<cast_spell_actor>() );
+    add_actor( std::make_unique<weigh_self_actor>() );
+    add_actor( std::make_unique<sew_advanced_actor>() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"] = std::make_unique<Item_group>( Item_group::G_COLLECTION, 100, 0,
@@ -2649,7 +2650,7 @@ std::pair<std::string, use_function> Item_factory::usage_from_object( JsonObject
     if( type == "repair_item" ) {
         type = obj.get_string( "item_action_type" );
         if( !has_iuse( type ) ) {
-            add_actor( new repair_item_actor( type ) );
+            add_actor( std::make_unique<repair_item_actor>( type ) );
             repair_actions.insert( type );
         }
     }
