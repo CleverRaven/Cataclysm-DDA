@@ -1558,11 +1558,15 @@ void vehicle::use_harness( int part, const tripoint &pos )
         return;
     }
     monster &m = *mon_ptr;
+    std::string Harness_Bodytype = "HARNESS_" + m.type->bodytype;
     if( m.friendly == 0 ) {
         add_msg( m_info, _( "This creature is not friendly!" ) );
         return;
     } else if( !m.has_flag( MF_PET_MOUNTABLE ) && !m.has_flag( MF_PET_HARNESSABLE ) ) {
         add_msg( m_info, _( "This creature cannot be harnessed." ) );
+        return;
+    } else if( !part_flag( part, Harness_Bodytype ) && !part_flag( part, "HARNESS_any" ) ) {
+        add_msg( m_info, _( "The harness is not adapted for this creature morphology." ) );
         return;
     }
 
