@@ -95,6 +95,24 @@
     ]
   },
   {
+    "abstract": "pistol_revolver_cap_ball",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "cap & ball revolver",
+    "reload": 150,
+    "extend": { "flags": [ "RELOAD_ONE", "NO_UNLOAD" ] },
+    "//": "Slower reloads, no unloading.  Base, unskilled person should take 1.5 seconds per chamber.  No underbarrel mods, that's where the ram goes.",
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "grip", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ]
+    ]
+  },
+  {
     "abstract": "rifle_base",
     "copy-from": "gun_base",
     "type": "GUN",
