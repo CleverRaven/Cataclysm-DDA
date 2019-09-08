@@ -4905,7 +4905,7 @@
     "description": "This is a misty cloud of fog.",
     "looks_like": "t_moss",
     "symbol": "^",
-    "color": "gray",
+    "color": "light_gray",
     "move_cost_mod": 2,
     "coverage": 0,
     "required_str": -1,
