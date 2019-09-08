@@ -4551,7 +4551,7 @@
     "color": "dark_gray",
     "covers": [ "HEAD" ],
     "coverage": 100,
-    "encumbrance": 40,
+    "encumbrance": 25,
     "warmth": 15,
     "material_thickness": 5,
     "environmental_protection": 3,
@@ -6243,7 +6243,7 @@
     "coverage": 95,
     "encumbrance": 16,
     "storage": "2500 ml",
-    "warmth": 15,
+    "warmth": 12,
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY" ]
@@ -6834,7 +6834,7 @@
     "coverage": 100,
     "encumbrance": 20,
     "storage": "3500 ml",
-    "warmth": 10,
+    "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
