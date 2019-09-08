@@ -1120,7 +1120,7 @@
     "id": "mon_grocerybot",
     "type": "MONSTER",
     "name": "grocery bot",
-    "description": "",
+    "description": "A popular product from Uncanny, this friendly android can carry your bag or push your Grocery Cart for you.  You know it's friendly because its human face is constantly smiling at you.  Examine to befriend.",
     "default_faction": "mech_bot",
     "species": [ "ROBOT" ],
     "volume": "62500 ml",
@@ -1138,11 +1138,22 @@
     "melee_skill": 4,
     "melee_dice": 3,
     "melee_dice_sides": 2,
-    "revert_to_itype": "bot_nursebot",
+    "revert_to_itype": "bot_grocerybot",
     "special_attacks": [ [ "PAID_BOT", 1 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "ELECTRONIC", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS", "PACIFIST", "PAY_BOT","PET_MOUNTABLE", "PATH_AVOID_DANGER_2" ]
+    "flags": [
+      "SEES",
+      "ELECTRONIC",
+      "NO_BREATHE",
+      "FIREPROOF",
+      "PUSH_MON",
+      "HEARS",
+      "PACIFIST",
+      "PAY_BOT",
+      "PET_HARNESSABLE",
+      "PATH_AVOID_DANGER_2"
+    ]
   },
   {
     "id": "mon_flaming_eye",
