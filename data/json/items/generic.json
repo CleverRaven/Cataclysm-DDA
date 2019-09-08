@@ -1,18 +1,6 @@
 [
   {
     "type": "GENERIC",
-    "id": "corpse",
-    "symbol": "%",
-    "color": "white",
-    "name": "corpse",
-    "description": "A dead body.",
-    "//": "most of the properties depend on the monster type and are created at runtime!",
-    "price": 0,
-    "volume": 0,
-    "flags": [ "NO_UNLOAD", "TRADER_AVOID" ]
-  },
-  {
-    "type": "GENERIC",
     "//": "pseudo item, used as fuel type for engines that are animal-powered",
     "id": "animal",
     "symbol": "?",
@@ -2650,19 +2638,6 @@
     "weight": "6 g",
     "volume": 0,
     "to_hit": -3
-  },
-  {
-    "type": "GENERIC",
-    "id": "rmi2_corpse",
-    "symbol": "%",
-    "color": "white",
-    "name": "desiccated corpse",
-    "description": "A badly mangled and desiccated partial corpse.  It seems whatever thing killed him did so with a single swipe of a gigantic claw.",
-    "category": "other",
-    "material": "hflesh",
-    "price": 0,
-    "volume": "7500 ml",
-    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "gasdiscount_silver",
