@@ -258,11 +258,11 @@ class game
         template<typename T = Creature>
         const T * critter_at( const tripoint &p, bool allow_hallucination = false ) const;
         /**
-         * Returns a shared pointer to the given critter (which can be of any of the subclasses of
-         * @ref Creature). The function may return an empty pointer if the given critter
-         * is not stored anywhere (e.g. it was allocated on the stack, not stored in
-         * the @ref critter_tracker nor in @ref active_npc nor is it @ref u).
-         */
+        * Returns a shared pointer to the given critter (which can be of any of the subclasses of
+        * @ref Creature). The function may return an empty pointer if the given critter
+        * is not stored anywhere (e.g. it was allocated on the stack, not stored in
+        * the @ref critter_tracker nor in @ref active_npc nor is it @ref u).
+        */
         template<typename T = Creature>
         std::shared_ptr<T> shared_from( const T &critter );
 
@@ -450,9 +450,11 @@ class game
         std::set<character_id> get_follower_list();
         /** validate list of followers to account for overmap buffers */
         void validate_npc_followers();
+        void validate_mounted_npcs();
         /** validate camps to ensure they are on the overmap list */
         void validate_camps();
-
+        /** process vehicles that are following the player */
+        void following_vehicles();
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport( player *p = nullptr, bool add_teleglow = true );
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
@@ -958,7 +960,6 @@ class game
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:
         std::shared_ptr<player> u_shared_ptr;
-        std::vector<std::shared_ptr<npc>> active_npc;
 
         catacurses::window w_terrain_ptr;
         catacurses::window w_minimap_ptr;
@@ -971,6 +972,7 @@ class game
         bool safe_mode_warning_logged;
         bool bVMonsterLookFire;
         character_id next_npc_id;
+        std::vector<std::shared_ptr<npc>> active_npc;
         int next_mission_id;
         std::set<character_id> follower_ids; // Keep track of follower NPC IDs
         int moves_since_last_save;

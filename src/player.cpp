@@ -24,6 +24,7 @@
 #include "catacharset.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
@@ -150,6 +151,7 @@ const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_glowy_led( "glowy_led" );
 const efftype_id effect_got_checked( "got_checked" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_grabbing( "grabbing" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_happy( "happy" );
 const efftype_id effect_hot( "hot" );
@@ -173,6 +175,7 @@ const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_recover( "recover" );
 const efftype_id effect_riding( "riding" );
+const efftype_id effect_ridden( "ridden" );
 const efftype_id effect_sad( "sad" );
 const efftype_id effect_shakes( "shakes" );
 const efftype_id effect_sleep( "sleep" );
@@ -189,7 +192,9 @@ const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_magnesium_supplements( "magnesium" );
-const efftype_id effect_ridden( "ridden" );
+const efftype_id effect_harnessed( "harnessed" );
+const efftype_id effect_pet( "pet" );
+const efftype_id effect_tied( "tied" );
 
 const matype_id style_none( "style_none" );
 const matype_id style_kicks( "style_kicks" );
@@ -3029,7 +3034,8 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
     //looks like this should be based off of dealt damages, not d as d has no damage reduction applied.
     // Skip all this if the damage isn't from a creature. e.g. an explosion.
     if( source != nullptr ) {
-        if( source->has_flag( MF_GRABS ) && !source->is_hallucination() ) {
+        if( source->has_flag( MF_GRABS ) && !source->is_hallucination() &&
+            !source->has_effect( effect_grabbing ) ) {
             /** @EFFECT_DEX increases chance to avoid being grabbed, if DEX>STR */
 
             /** @EFFECT_STR increases chance to avoid being grabbed, if STR>DEX */
@@ -3047,6 +3053,7 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
             } else {
                 int prev_effect = get_effect_int( effect_grabbed );
                 add_effect( effect_grabbed, 2_turns, bp_torso, false, prev_effect + 2 );
+                source->add_effect( effect_grabbing, 2_turns );
                 add_msg_player_or_npc( m_bad, _( "You are grabbed by %s!" ), _( "<npcname> is grabbed by %s!" ),
                                        source->disp_name() );
             }
@@ -4172,14 +4179,18 @@ void player::update_needs( int rate_multiplier )
 
     // Huge folks take penalties for cramming themselves in vehicles
     if( in_vehicle && ( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) ) {
-        add_msg_if_player( m_bad,
-                           _( "You're cramping up from stuffing yourself in this vehicle." ) );
-        if( is_npc() ) {
-            npc &as_npc = dynamic_cast<npc &>( *this );
-            as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
+        vehicle *veh = veh_pointer_or_null( g->m.veh_at( pos() ) );
+        // it's painful to work the controls, but passengers in open topped vehicles are fine
+        if( veh && ( veh->enclosed_at( pos() ) || veh->player_in_control( *this ) ) ) {
+            add_msg_if_player( m_bad,
+                               _( "You're cramping up from stuffing yourself in this vehicle." ) );
+            if( is_npc() ) {
+                npc &as_npc = dynamic_cast<npc &>( *this );
+                as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
+            }
+            mod_pain_noresist( 2 * rng( 2, 3 ) );
+            focus_pool -= 1;
         }
-        mod_pain_noresist( 2 * rng( 2, 3 ) );
-        focus_pool -= 1;
     }
 }
 
@@ -5284,9 +5295,10 @@ void player::suffer()
         }
     } // Done with while-awake-only effects
 
-    if( has_trait( trait_ASTHMA ) &&
-        one_in( ( to_turns<int>( 6_hours ) - stim * 300 ) * ( has_effect( effect_sleep ) ? 10 : 1 ) ) &&
-        !has_effect( effect_adrenaline ) & !has_effect( effect_datura ) ) {
+    if( has_trait( trait_ASTHMA ) && !has_effect( effect_adrenaline ) &&
+        !has_effect( effect_datura ) &&
+        one_in( ( to_turns<int>( 6_hours ) - stim * 300 ) *
+                ( has_effect( effect_sleep ) ? 10 : 1 ) ) ) {
         bool auto_use = has_charges( "inhaler", 1 ) || has_charges( "oxygen_tank", 1 ) ||
                         has_charges( "smoxygen_tank", 1 );
         bool oxygenator = has_bionic( bio_gills ) && power_level >= 3;
@@ -5295,42 +5307,48 @@ void player::suffer()
             auto_use = false;
         }
 
+        add_msg_player_or_npc( m_bad, _( "You have an asthma attack!" ),
+                               "<npcname> starts wheezing and coughing." );
+
         if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
             inventory map_inv;
-            map_inv.form_from_map( g->u.pos(), 2 );
+            map_inv.form_from_map( g->u.pos(), 2, &g->u );
+            // check if an inhaler is somewhere near
+            bool nearby_use = auto_use || oxygenator || map_inv.has_charges( "inhaler", 1 ) ||
+                              map_inv.has_charges( "oxygen_tank", 1 ) ||
+                              map_inv.has_charges( "smoxygen_tank", 1 );
             // check if character has an oxygenator first
             if( oxygenator ) {
-                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
                 charge_power( -3 );
-                add_msg_if_player( m_info, _( "You use your Oxygenator to clear it up, then go back to sleep." ) );
+                add_msg_if_player( m_info, _( "You use your Oxygenator to clear it up, "
+                                              "then go back to sleep." ) );
             } else if( auto_use ) {
-                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
                 if( use_charges_if_avail( "inhaler", 1 ) ) {
                     add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
                 } else if( use_charges_if_avail( "oxygen_tank", 1 ) ||
                            use_charges_if_avail( "smoxygen_tank", 1 ) ) {
-                    add_msg_if_player( m_info,
-                                       _( "You take a deep breath from your oxygen tank and go back to sleep." ) );
+                    add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
+                                                  "and go back to sleep." ) );
                 }
-                // check if an inhaler is somewhere near
-            } else if( map_inv.has_charges( "inhaler", 1 ) || map_inv.has_charges( "oxygen_tank", 1 ) ||
-                       map_inv.has_charges( "smoxygen_tank", 1 ) ) {
-                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
+            } else if( nearby_use ) {
                 // create new variable to resolve a reference issue
                 int amount = 1;
                 if( !g->m.use_charges( g->u.pos(), 2, "inhaler", amount ).empty() ) {
                     add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
                 } else if( !g->m.use_charges( g->u.pos(), 2, "oxygen_tank", amount ).empty() ||
                            !g->m.use_charges( g->u.pos(), 2, "smoxygen_tank", amount ).empty() ) {
-                    add_msg_if_player( m_info,
-                                       _( "You take a deep breath from your oxygen tank and go back to sleep." ) );
+                    add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
+                                                  "and go back to sleep." ) );
                 }
             } else {
                 add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
                 if( has_effect( effect_sleep ) ) {
                     wake_up();
                 } else {
-                    g->cancel_activity_or_ignore_query( distraction_type::asthma,  _( "You have an asthma attack!" ) );
+                    if( !is_npc() ) {
+                        g->cancel_activity_or_ignore_query( distraction_type::asthma,
+                                                            _( "You can't focus while choking!" ) );
+                    }
                 }
             }
         } else if( auto_use ) {
@@ -5338,32 +5356,35 @@ void player::suffer()
             if( use_charges_if_avail( "inhaler", 1 ) ) {
                 moves -= 40;
                 charges = charges_of( "inhaler" );
-                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
                 if( charges == 0 ) {
                     add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
                 } else {
-                    add_msg_if_player( m_info, ngettext( "You use your inhaler, only %d charge left.",
-                                                         "You use your inhaler, only %d charges left.", charges ),
+                    add_msg_if_player( m_info, ngettext( "You use your inhaler, "
+                                                         "only %d charge left.",
+                                                         "You use your inhaler, "
+                                                         "only %d charges left.", charges ),
                                        charges );
                 }
             } else if( use_charges_if_avail( "oxygen_tank", 1 ) ||
                        use_charges_if_avail( "smoxygen_tank", 1 ) ) {
                 moves -= 500; // synched with use action
                 charges = charges_of( "oxygen_tank" ) + charges_of( "smoxygen_tank" );
-                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
                 if( charges == 0 ) {
-                    add_msg_if_player( m_bad, _( "You breathe in last bit of oxygen from the tank." ) );
+                    add_msg_if_player( m_bad, _( "You breathe in last bit of oxygen "
+                                                 "from the tank." ) );
                 } else {
-                    add_msg_if_player( m_info,
-                                       ngettext( "You take a deep breath from your oxygen tank, only %d charge left.",
-                                                 "You take a deep breath from your oxygen tank, only %d charges left.", charges ),
+                    add_msg_if_player( m_info, ngettext( "You take a deep breath from your oxygen "
+                                                         "tank, only %d charge left.",
+                                                         "You take a deep breath from your oxygen "
+                                                         "tank, only %d charges left.", charges ),
                                        charges );
                 }
             }
         } else {
             add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
             if( !is_npc() ) {
-                g->cancel_activity_or_ignore_query( distraction_type::asthma,  _( "You have an asthma attack!" ) );
+                g->cancel_activity_or_ignore_query( distraction_type::asthma,
+                                                    _( "You can't focus while choking!" ) );
             }
         }
     }
@@ -6988,6 +7009,36 @@ bool player::consume_med( item &target )
     return target.charges <= 0;
 }
 
+static bool query_consume_ownership( item &target, player &p )
+{
+    if( target.has_owner() && target.get_owner() != p.get_faction() ) {
+        bool choice = true;
+        if( p.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+            choice = Pickup::query_thief();
+        }
+        if( p.get_value( "THIEF_MODE" ) == "THIEF_HONEST" || !choice ) {
+            return false;
+        }
+        std::vector<npc *> witnesses;
+        for( npc &elem : g->all_npcs() ) {
+            if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && elem.sees( p.pos() ) ) {
+                witnesses.push_back( &elem );
+            }
+        }
+        for( npc *elem : witnesses ) {
+            elem->say( "<witnessed_thievery>", 7 );
+        }
+        if( !witnesses.empty() ) {
+            if( g->u.add_faction_warning( target.get_owner()->id ) ) {
+                for( npc *elem : witnesses ) {
+                    elem->make_angry();
+                }
+            }
+        }
+    }
+    return true;
+}
+
 bool player::consume_item( item &target )
 {
     if( target.is_null() ) {
@@ -7008,7 +7059,9 @@ bool player::consume_item( item &target )
         }
         return false;
     }
-
+    if( is_player() && !query_consume_ownership( target, *this ) ) {
+        return false;
+    }
     if( consume_med( comest ) ||
         eat( comest ) ||
         feed_battery_with( comest ) ||
@@ -7028,8 +7081,8 @@ bool player::consume_item( item &target )
 bool player::consume( int target_position )
 {
     auto &target = i_at( target_position );
-
     if( consume_item( target ) ) {
+
         const bool was_in_container = !can_consume_as_is( target );
 
         if( was_in_container ) {
@@ -10923,6 +10976,57 @@ void player::burn_move_stamina( int moves )
     }
 }
 
+void player::mount_creature( monster &z )
+{
+    tripoint pnt = z.pos();
+    std::shared_ptr<monster> mons = g->shared_from( z );
+    if( mons == nullptr ) {
+        add_msg( m_debug, "mount_creature() : monster not found in critter_tracker" );
+        return;
+    }
+    add_effect( effect_riding, 1_turns, num_bp, true );
+    z.add_effect( effect_ridden, 1_turns, num_bp, true );
+    if( z.has_effect( effect_tied ) ) {
+        z.remove_effect( effect_tied );
+        if( z.tied_item ) {
+            i_add( *z.tied_item );
+            z.tied_item = cata::nullopt;
+        }
+    }
+    z.mounted_player_id = getID();
+    if( z.has_effect( effect_harnessed ) ) {
+        z.remove_effect( effect_harnessed );
+        add_msg_if_player( m_info, _( "You remove the %s's harness." ), z.get_name() );
+    }
+    mounted_creature = mons;
+    mons->mounted_player = this;
+    if( is_hauling() ) {
+        stop_hauling();
+    }
+    if( is_player() ) {
+        if( g->u.get_grab_type() != OBJECT_NONE ) {
+            add_msg( m_warning, _( "You let go of the grabbed object." ) );
+            g->u.grab( OBJECT_NONE );
+        }
+        g->place_player( pnt );
+    } else {
+        npc &guy = dynamic_cast<npc &>( *this );
+        guy.setpos( pnt );
+    }
+    z.facing = facing;
+    add_msg_if_player( m_good, _( "You climb on the %s." ), z.get_name() );
+    if( z.has_flag( MF_RIDEABLE_MECH ) ) {
+        if( !z.type->mech_weapon.empty() ) {
+            item mechwep = item( z.type->mech_weapon );
+            wield( mechwep );
+        }
+        add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
+    }
+    // some rideable mechs have night-vision
+    recalc_sight_limits();
+    mod_moves( -100 );
+}
+
 void player::forced_dismount()
 {
     remove_effect( effect_riding );
@@ -10931,10 +11035,13 @@ void player::forced_dismount()
         auto mon = mounted_creature.get();
         if( mon->has_flag( MF_RIDEABLE_MECH ) && !mon->type->mech_weapon.empty() ) {
             mech = true;
-            remove_item( g->u.weapon );
+            remove_item( weapon );
         }
+        mon->mounted_player_id = character_id();
         mon->remove_effect( effect_ridden );
+        mon->add_effect( effect_controlled, 5_turns );
         mounted_creature = nullptr;
+        mon->mounted_player = nullptr;
     }
     std::vector<tripoint> valid;
     for( const tripoint &jk : g->m.points_in_radius( pos(), 1 ) ) {
@@ -10945,9 +11052,11 @@ void player::forced_dismount()
     if( !valid.empty() ) {
         setpos( random_entry( valid ) );
         if( mech ) {
-            add_msg( m_bad, _( "You are ejected from your mech!" ) );
+            add_msg_player_or_npc( m_bad, _( "You are ejected from your mech!" ),
+                                   _( "<npcname> is ejected from their mech!" ) );
         } else {
-            add_msg( m_bad, _( "You fall off your mount!" ) );
+            add_msg_player_or_npc( m_bad, _( "You fall off your mount!" ),
+                                   _( "<npcname> falls off their mount!" ) );
         }
         const int dodge = get_dodge();
         const int damage = std::max( 0, rng( 1, 20 ) - rng( dodge, dodge * 2 ) );
@@ -10987,7 +11096,7 @@ void player::forced_dismount()
                 break;
         }
         if( damage > 0 ) {
-            add_msg( m_bad, _( "You hurt yourself!" ) );
+            add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
             deal_damage( nullptr, hit, damage_instance( DT_BASH, damage ) );
             if( is_avatar() ) {
                 g->memorial().add(
@@ -11000,49 +11109,46 @@ void player::forced_dismount()
     } else {
         add_msg( m_debug, "Forced_dismount could not find a square to deposit player" );
     }
-    if( g->u.get_grab_type() != OBJECT_NONE ) {
-        add_msg( m_warning, _( "You let go of the grabbed object." ) );
-        g->u.grab( OBJECT_NONE );
+    if( is_player() ) {
+        if( g->u.get_grab_type() != OBJECT_NONE ) {
+            add_msg( m_warning, _( "You let go of the grabbed object." ) );
+            g->u.grab( OBJECT_NONE );
+        }
+        set_movement_mode( PMM_WALK );
+        g->update_map( g->u );
     }
     moves -= 150;
-    set_movement_mode( PMM_WALK );
-    g->update_map( g->u );
 }
 
 void player::dismount()
 {
-    if( is_mounted() ) {
-        if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Dismount where?" ) ) ) {
-            if( g->is_empty( *pnt ) ) {
-                tripoint temp_pt = *pnt;
-                int xdiff = pos().x - temp_pt.x;
-                int ydiff = pos().y - temp_pt.y;
-                remove_effect( effect_riding );
-                monster *critter = mounted_creature.get();
-                if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.empty() ) {
-                    remove_item( g->u.weapon );
-                }
-                if( g->u.get_grab_type() != OBJECT_NONE ) {
-                    add_msg( m_warning, _( "You let go of the grabbed object." ) );
-                    g->u.grab( OBJECT_NONE );
-                }
-                critter->remove_effect( effect_ridden );
-                mounted_creature = nullptr;
-                setpos( *pnt );
-                g->refresh_all();
-                critter->setpos( pos() + point( xdiff, ydiff ) );
-                critter->add_effect( effect_controlled, 5_turns );
-                mod_moves( -100 );
-                set_movement_mode( PMM_WALK );
-                return;
-            } else {
-                add_msg( m_warning, _( "You cannot dismount there!" ) );
-                return;
-            }
-        }
-    } else {
+    if( !is_mounted() ) {
         add_msg( m_debug, "dismount called when not riding" );
         return;
+    }
+    if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Dismount where?" ) ) ) {
+        if( !g->is_empty( *pnt ) ) {
+            add_msg( m_warning, _( "You cannot dismount there!" ) );
+            return;
+        }
+        remove_effect( effect_riding );
+        monster *critter = mounted_creature.get();
+        critter->mounted_player_id = character_id();
+        if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.empty() ) {
+            remove_item( g->u.weapon );
+        }
+        if( g->u.get_grab_type() != OBJECT_NONE ) {
+            add_msg( m_warning, _( "You let go of the grabbed object." ) );
+            g->u.grab( OBJECT_NONE );
+        }
+        critter->remove_effect( effect_ridden );
+        critter->add_effect( effect_controlled, 5_turns );
+        mounted_creature = nullptr;
+        critter->mounted_player = nullptr;
+        setpos( *pnt );
+        g->refresh_all();
+        mod_moves( -100 );
+        set_movement_mode( PMM_WALK );
     }
 }
 

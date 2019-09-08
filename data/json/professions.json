@@ -943,7 +943,17 @@
     "pets": [ { "name": "mon_dog_gshepherd", "amount": 1 } ],
     "items": {
       "both": {
-        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "boots", "dog_whistle", "two_way_radio", "wristwatch" ],
+        "items": [
+          "pants_army",
+          "socks",
+          "badge_deputy",
+          "sheriffshirt",
+          "police_belt",
+          "boots",
+          "dog_whistle",
+          "two_way_radio",
+          "wristwatch"
+        ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -992,7 +1002,17 @@
     "traits": [ "PROF_POLICE" ],
     "items": {
       "both": {
-        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "boots", "whistle", "two_way_radio", "wristwatch" ],
+        "items": [
+          "pants_army",
+          "socks",
+          "badge_deputy",
+          "sheriffshirt",
+          "police_belt",
+          "boots",
+          "whistle",
+          "two_way_radio",
+          "wristwatch"
+        ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -1019,6 +1039,7 @@
           "tie_skinny",
           "waistcoat",
           "trenchcoat",
+          "police_belt",
           "badge_detective",
           "gloves_leather",
           "knit_scarf",
@@ -1052,7 +1073,17 @@
     "traits": [ "PROF_SWAT" ],
     "items": {
       "both": {
-        "items": [ "socks", "swat_armor", "tac_helmet", "boots_combat", "gloves_tactical", "badge_swat", "two_way_radio", "wristwatch" ],
+        "items": [
+          "socks",
+          "swat_armor",
+          "police_belt",
+          "tac_helmet",
+          "boots_combat",
+          "gloves_tactical",
+          "badge_swat",
+          "two_way_radio",
+          "wristwatch"
+        ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "chestrig", "contents-group": [ "army_mags_mp5", "army_mags_usp9" ] },
@@ -1093,7 +1124,6 @@
           "boots_combat",
           "gloves_tactical",
           "badge_swat",
-          "baton",
           "two_way_radio",
           "wristwatch"
         ],
@@ -1103,6 +1133,7 @@
           { "item": "shot_slug", "charges": 12, "container-item": "bandolier_shotgun" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp9" },
           { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "sholster" },
+          { "item": "baton-extended", "container-item": "police_belt" },
           { "item": "ksg", "ammo-item": "shot_00", "charges": 7, "contents-item": "shoulder_strap" }
         ]
       },
@@ -1124,6 +1155,7 @@
         "items": [
           "socks",
           "pants_army",
+          "police_belt",
           "sheriffshirt",
           "sweatshirt",
           "sneakers",
@@ -1172,16 +1204,15 @@
           "helmet_riot",
           "armguard_hard",
           "legguard_hard",
-          "police_belt",
           "badge_deputy",
           "two_way_radio",
           "wristwatch",
-          "tonfa",
           "gasbomb"
         ],
         "entries": [
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
+          { "item": "tonfa", "container-item": "police_belt" },
           { "item": "tazer", "charges": 100 }
         ]
       },
@@ -1303,13 +1334,13 @@
   {
     "type": "profession",
     "ident": "construction_worker",
-    "name": "Handy Man",
+    "name": { "male": "Handy Man", "female": "Handy Woman" },
     "description": "You used to work at a local hardware store, and you did a lot of home renovations yourself.  Now you look out at the horizon of a ruined world, and wonder - are your meager skills, and the few supplies you grabbed on the way out, sufficient to help it rebuild?",
     "points": 1,
     "skills": [ { "level": 2, "name": "fabrication" } ],
     "items": {
       "both": {
-        "items": [ "tank_top", "socks", "boots_steel", "jeans", "multitool", "wristwatch" ],
+        "items": [ "tank_top", "socks", "boots_steel", "pants", "multitool", "wristwatch" ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "item": "nailgun", "ammo-item": "nail", "charges": 20 },
@@ -1318,7 +1349,7 @@
         ]
       },
       "male": [ "boxer_shorts" ],
-      "female": [ "bra", "boxer_shorts" ]
+      "female": [ "bra", "panties" ]
     }
   },
   {
@@ -1585,13 +1616,13 @@
     "name": "Industrial Cyborg",
     "description": "For better or for worse, bionic augmentation has turned you into a walking power tool.  Upgraded with a standard industrial-grade manual labor surgery and training package, you are augmented with bionic muscles and an integrated toolset, both powered by standard batteries.",
     "points": 6,
-    "skills": [ { "level": 3, "name": "fabrication" }, { "level": 3, "name": "mechanics" } ],
+    "skills": [ { "level": 4, "name": "fabrication" }, { "level": 2, "name": "mechanics" } ],
     "CBMs": [
       "bio_tools",
       "bio_sunglasses",
       "bio_flashlight",
       "bio_hydraulics",
-      "bio_batteries",
+      "bio_cable",
       "bio_power_storage_mkII",
       "bio_power_storage_mkII"
     ],
@@ -1695,7 +1726,7 @@
         ],
         "entries": [
           { "item": "glock_18c", "ammo-item": "9mmP", "container-item": "holster" },
-          { "item": "chestrig", "container-group": "army_mags_glock17" }
+          { "item": "magbandolier", "contents-group": "army_mags_glock17" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1895,7 +1926,6 @@
     "CBMs": [
       "bio_cqb",
       "bio_blade",
-      "bio_shotgun",
       "bio_shock",
       "bio_carbon",
       "bio_adrenaline",
@@ -1909,6 +1939,44 @@
       "both": [ "dress_shoes", "dress_shirt", "knit_scarf", "wristwatch", "blazer", "wristwatch", "smart_phone" ],
       "male": [ "briefs", "socks", "pants" ],
       "female": [ "bra", "panties", "stockings", "skirt" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "bio_gangster",
+    "name": "Bionic Gangster",
+    "description": "You were the boss' favorite, their protege; they always counted on you to get the toughest jobs done. Seeing your potential, they invested in \"basic\" augments and the best gear on the market to better aid you in your job. After enjoying some period of freedom to do as you wanted, now you find yourself needing those skills to survive. ",
+    "points": 8,
+    "CBMs": [
+      "bio_targeting",
+      "bio_shotgun",
+      "bio_carbon",
+      "bio_adrenaline",
+      "bio_night_vision",
+      "bio_face_mask",
+      "bio_metabolics",
+      "bio_power_storage_mkII"
+    ],
+    "skills": [
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "unarmed" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "pistol" },
+      { "level": 1, "name": "shotgun" },
+      { "level": 1, "name": "driving" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "suit", "bowhat", "socks", "dress_shoes", "knit_scarf", "cig", "switchblade", "mag_porn", "sunglasses", "shot_00" ],
+        "entries": [
+          { "item": "glock_19", "ammo-item": "9mm", "container-item": "sholster", "charges": 15 },
+          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
+          { "item": "ref_lighter", "charges": 100 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
     }
   },
   {
@@ -1940,7 +2008,7 @@
     "ident": "bionic_customer",
     "name": "Commercial Cyborg",
     "description": "You always had to have the latest and best gadgets and gizmos, so is it any wonder that you upgraded your flesh along with your smart phone?  Only time will tell if your passion for electronics and your status as a marvel of bionic technology will be enough to ensure your survival after the apocalypse.",
-    "points": 8,
+    "points": 6,
     "CBMs": [ "bio_flashlight", "bio_tools", "bio_ups", "bio_watch", "bio_batteries", "bio_power_storage_mkII" ],
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "fabrication" } ],
     "items": {
@@ -3104,7 +3172,7 @@
           "jacket_light",
           "baton",
           "tazer",
-          "medium_battery_cell",
+          "medium_disposable_cell",
           "pockknife",
           "wristwatch"
         ],
@@ -3604,8 +3672,8 @@
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "light_battery_cell", "charges": 100 },
-          { "item": "light_battery_cell", "charges": 100 }
+          { "item": "light_disposable_cell", "charges": 100 },
+          { "item": "light_disposable_cell", "charges": 100 }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -3938,6 +4006,42 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "gunslinger",
+    "name": "Wild West Gunslinger",
+    "description": "You made your living on Wild West exhibitions and shows, impressing tourists with your displays of marksmanship. But that world has ended, so you took your trusty 6-shooter and wandered into a world where it's always high noon.",
+    "points": 4,
+    "skills": [
+      { "level": 4, "name": "gun" },
+      { "level": 3, "name": "pistol" },
+      { "level": 2, "name": "shotgun" },
+      { "level": 1, "name": "survival" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "under_armor",
+          "under_armor_shorts",
+          "cowboy_hat",
+          "socks",
+          "jeans",
+          "chaps_leather",
+          "gloves_leather",
+          "boots_western",
+          "duster",
+          "badge_deputy",
+          "sheriffshirt"
+        ],
+        "entries": [
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "45colt_jhp", "charges": 18, "container-item": "bandolier_pistol" },
+          { "item": "whiskey", "container-item": "bottle_glass" },
+          { "item": "colt_saa", "ammo-item": "45colt_jhp", "charges": 6, "container-item": "sholster" }
+        ]
+      }
     }
   }
 ]

@@ -1454,7 +1454,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     assign( jo, "default_mods", slot.default_mods, strict );
     assign( jo, "ups_charges", slot.ups_charges, strict, 0 );
     assign( jo, "blackpowder_tolerance", slot.blackpowder_tolerance, strict, 0 );
-    assign( jo, "min_cycle_recoil", slot.blackpowder_tolerance, strict, 0 );
+    assign( jo, "min_cycle_recoil", slot.min_cycle_recoil, strict, 0 );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
@@ -1501,6 +1501,7 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &s
     bool strict = src == "dda";
 
     assign( jo, "encumbrance", slot.encumber, strict, 0 );
+    assign( jo, "max_encumbrance", slot.max_encumber, strict, slot.encumber );
     assign( jo, "coverage", slot.coverage, strict, 0, 100 );
     assign( jo, "material_thickness", slot.thickness, strict, 0 );
     assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
@@ -1572,6 +1573,11 @@ void Item_factory::load_tool( JsonObject &jo, const std::string &src )
         load_slot( def.tool, jo, src );
         load_basic_info( jo, def, src );
     }
+}
+
+void Item_factory::load( relic &slot, JsonObject &jo, const std::string & )
+{
+    slot.load( jo );
 }
 
 void Item_factory::load( islot_mod &slot, JsonObject &jo, const std::string &src )
@@ -2185,6 +2191,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     load_slot_optional( def.artifact, jo, "artifact_data", src );
     load_slot_optional( def.brewable, jo, "brewable", src );
     load_slot_optional( def.fuel, jo, "fuel", src );
+    load_slot_optional( def.relic_data, jo, "relic_data", src );
 
     // optional gunmod slot may also specify mod data
     load_slot_optional( def.gunmod, jo, "gunmod_data", src );

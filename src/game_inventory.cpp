@@ -179,7 +179,7 @@ void game_menus::inv::common( avatar &you )
     inv_s.set_title( _( "Inventory" ) );
     inv_s.set_hint( string_format(
                         _( "Item hotkeys assigned: <color_light_gray>%d</color>/<color_light_gray>%d</color>" ),
-                        you.allocated_invlets().size(), inv_chars.size() ) );
+                        you.allocated_invlets().count(), inv_chars.size() ) );
 
     int res = 0;
 

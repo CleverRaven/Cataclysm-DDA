@@ -380,7 +380,7 @@ void character_edit_menu()
     }
     const size_t index = charmenu.ret;
     // The NPC is also required for "Add mission", so has to be in this scope
-    npc *np = g->critter_at<npc>( locations[index] );
+    npc *np = g->critter_at<npc>( locations[index], false );
     player &p = np ? static_cast<player &>( *np ) : static_cast<player &>( g->u );
     uilist nmenu;
 

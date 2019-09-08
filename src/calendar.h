@@ -550,8 +550,11 @@ bool is_sunrise_now( const time_point &p );
 double current_daylight_level( const time_point &p );
 /** How much light is provided in full daylight */
 double default_daylight_level();
-/** Returns the current sunlight or moonlight level through the preceding functions. */
-float sunlight( const time_point &p );
+/** Returns the current sunlight or moonlight level through the preceding functions.
+ *  By default, returns sunlight level for vision, with moonlight providing a measurable amount
+ *  of light.  with vision == false, returns sunlight for solar panel purposes, and moonlight
+ *  provides 0 light */
+float sunlight( const time_point &p, bool vision = true );
 
 enum class weekdays : int {
     SUNDAY = 0,

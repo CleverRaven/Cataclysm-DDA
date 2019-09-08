@@ -79,6 +79,7 @@ const trap_str_id tr_practice_target( "tr_practice_target" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_clogged( "fault_gun_clogged" );
+static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire( const Character &p, const itype &firing );
@@ -159,10 +160,14 @@ int player::gun_engagement_moves( const item &gun, int target, int start ) const
     return mv;
 }
 
-bool player::handle_gun_damage( item &it, int shots_fired )
+bool player::handle_gun_damage( item &it )
 {
     if( !it.is_gun() ) {
         debugmsg( "Tried to handle_gun_damage of a non-gun %s", it.tname() );
+        return false;
+    }
+
+    if( it.faults.count( fault_gun_chamber_spent ) || it.faults.count( fault_gun_clogged ) ) {
         return false;
     }
 
@@ -265,19 +270,21 @@ bool player::handle_gun_damage( item &it, int shots_fired )
             it.faults_potential().count( fault_gun_blackpowder ) ) {
             it.faults.insert( fault_gun_blackpowder );
         }
+        if( ( it.ammo_data()->ammo->recoil < firing->min_cycle_recoil ) &&
+            it.faults_potential().count( fault_gun_chamber_spent ) ) {
+            add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
+                                   _( "<npcname>'s %s fails to cycle!" ),
+                                   it.tname() );
+            it.faults.insert( fault_gun_chamber_spent );
+            // Don't return false in this case; this shot happens, follow-up ones won't.
+        }
         if( one_in( firing->blackpowder_tolerance ) &&
             it.faults_potential().count( fault_gun_clogged ) ) {
             add_msg_player_or_npc( m_bad, _( "Your %s is clogged up with blackpowder fouling!" ),
                                    _( "<npcname>'s %s is clogged up with blackpowder fouling!" ),
                                    it.tname() );
             it.faults.insert( fault_gun_clogged );
-            return false;
-        }
-        if( it.ammo_data()->ammo->recoil < firing->min_cycle_recoil && shots_fired > 0 ) {
-            add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
-                                   _( "<npcname>'s %s fails to cycle!" ),
-                                   it.tname() );
-            return false;
+            // Don't return false in this case; this shot happens, follow-up ones won't.
         }
     }
     return true;
@@ -356,7 +363,13 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     int hits = 0; // total shots on target
     int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
-        if( !handle_gun_damage( gun, curshot ) ) {
+        if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
+            moves -= 50;
+            gun.faults.erase( fault_gun_chamber_spent );
+            add_msg_if_player( _( "You cycle your %s manually." ), gun.tname() );
+        }
+
+        if( !handle_gun_damage( gun ) ) {
             break;
         }
 
@@ -1298,7 +1311,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         if( dst == pc.pos() ) {
             return true;
         }
-        if( npc *const who_ = g->critter_at<npc>( dst ) ) {
+        if( npc *const who_ = g->critter_at<npc>( dst, false ) ) {
             const npc &who = *who_;
             if( who.guaranteed_hostile() ) {
                 return true;
@@ -1807,7 +1820,7 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
         if( dst == pc.pos() ) {
             return true;
         }
-        if( npc *const who_ = g->critter_at<npc>( dst ) ) {
+        if( npc *const who_ = g->critter_at<npc>( dst, false ) ) {
             const npc &who = *who_;
             if( who.guaranteed_hostile() ) {
                 return true;

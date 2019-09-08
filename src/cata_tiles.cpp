@@ -2661,7 +2661,9 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
                 std::string chosen_id = ent_name.str();
                 if( m->has_effect( effect_ridden ) ) {
                     int pl_under_height = 6;
-                    draw_entity_with_overlays( g->u, p, ll, pl_under_height );
+                    if( m->mounted_player ) {
+                        draw_entity_with_overlays( *m->mounted_player, p, ll, pl_under_height );
+                    }
                     const std::string prefix = "rid_";
                     std::string copy_id = chosen_id;
                     const std::string ridden_id = copy_id.insert( 0, prefix );

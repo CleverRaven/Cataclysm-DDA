@@ -19,7 +19,7 @@
     "min_cycle_recoil": 450,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 5 ] ],
     "armor_data": { "covers": [ "ARM_EITHER", "HAND_EITHER" ], "coverage": 10, "encumbrance": 30, "material_thickness": 1 },
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazines": [ [ "9mm", [ "stenmag", "survivor9mm_mag" ] ] ],
     "valid_mod_locations": [ [ "rail mount", 1 ] ],
     "flags": [ "OVERSIZE", "BELTED", "FANCY", "RESTRICT_HANDS" ]
@@ -61,7 +61,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "calicomag" ] ] ]
   },
@@ -85,6 +85,7 @@
     "ranged_damage": 2,
     "dispersion": 180,
     "durability": 10,
+    "min_cycle_recoil": 450,
     "barrel_length": 1,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -100,7 +101,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "m9bigmag", "m9mag" ] ] ]
   },
@@ -123,6 +124,7 @@
     "dispersion": 480,
     "durability": 6,
     "blackpowder_tolerance": 48,
+    "min_cycle_recoil": 380,
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
   },
@@ -162,7 +164,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazines": [ [ "9mm", [ "mp5mag", "mp5bigmag" ] ] ]
   },
   {
@@ -185,7 +187,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 12 ] ],
     "built_in_mods": [ "mp5sd_suppressor" ]
   },
@@ -210,6 +211,7 @@
     "ranged_damage": 3,
     "dispersion": 180,
     "durability": 7,
+    "min_cycle_recoil": 450,
     "barrel_length": 1,
     "built_in_mods": [ "folding_stock" ],
     "valid_mod_locations": [
@@ -224,7 +226,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
   },
@@ -248,7 +250,6 @@
     "description": "A selective-firing 9x19mm handgun introduced by Leadworks LLC's, L39B provides accurate single-shot placement as well as controllable short-range firepower with its three-round burst mode.  Users praised its accuracy and fearsome appearance.  Comes with built in red dot and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "price": 95000,
     "burst": 3,
-    "min_cycle_recoil": 450,
     "relative": { "weight": 130, "durability": -1 }
   },
   {
@@ -270,6 +271,7 @@
     "range": 1,
     "dispersion": 340,
     "durability": 9,
+    "min_cycle_recoil": 450,
     "built_in_mods": [ "lead_red_dot_sight", "lead_laser_sight" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -303,6 +305,7 @@
     "range": 1,
     "dispersion": 480,
     "durability": 6,
+    "min_cycle_recoil": 450,
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "m9mag", "m9bigmag" ] ] ]
   },
@@ -365,7 +368,7 @@
     "dispersion": 590,
     "durability": 4,
     "blackpowder_tolerance": 24,
-    "min_cycle_recoil": 325,
+    "min_cycle_recoil": 380,
     "modes": [ [ "DEFAULT", "auto", 10 ] ],
     "loudness": 25,
     "barrel_length": 1,
@@ -415,7 +418,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazines": [ [ "9mm", [ "stenmag", "survivor9mm_mag" ] ] ]
   },
   {
@@ -453,7 +456,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "tec9mag" ] ] ]
   },
@@ -477,6 +480,7 @@
     "dispersion": 400,
     "durability": 9,
     "blackpowder_tolerance": 48,
+    "min_cycle_recoil": 450,
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "usp9mag" ] ] ]
   },
@@ -537,6 +541,7 @@
     "dispersion": 480,
     "durability": 6,
     "blackpowder_tolerance": 48,
+    "min_cycle_recoil": 380,
     "magazine_well": 1,
     "//": "Glock 17s cannot load a 15 round magazine. See http://guns-of-fun.com/portals/0/LiveContent/Mounts/Glock-Mags-Comp.jpg and #33038",
     "magazines": [ [ "9mm", [ "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
@@ -549,8 +554,7 @@
     "description": "A selective fire variation on the Glock 17, originally designed for Austria's EKO Cobra unit.  It has compensator cuts along its barrel to make recoil more manageable.",
     "price": 100000,
     "burst": 20,
-    "built_in_mods": [ "barrel_ported" ],
-    "min_cycle_recoil": 325
+    "built_in_mods": [ "barrel_ported" ]
   },
   {
     "id": "kpf9",
@@ -564,6 +568,7 @@
     "price": 18000,
     "bashing": 2,
     "ammo": "9mm",
+    "min_cycle_recoil": 450,
     "magazines": [ [ "9mm", [ "kpf9mag" ] ] ]
   },
   {
@@ -582,6 +587,7 @@
     "ammo": "9mm",
     "dispersion": 480,
     "durability": 6,
+    "min_cycle_recoil": 450,
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "p320mag_17rd_9x19mm" ] ] ]
   },

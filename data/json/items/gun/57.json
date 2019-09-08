@@ -18,6 +18,7 @@
     "ranged_damage": -2,
     "dispersion": 440,
     "durability": 8,
+    "min_cycle_recoil": 81,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -31,6 +32,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 1,
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazines": [ [ "57", [ "fn57mag" ] ] ]
   },
   {
@@ -51,6 +53,7 @@
     "skill": "smg",
     "dispersion": 260,
     "durability": 8,
+    "min_cycle_recoil": 81,
     "burst": 15,
     "valid_mod_locations": [
       [ "accessories", 3 ],
@@ -66,6 +69,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 2,
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazines": [ [ "57", [ "fnp90mag" ] ] ]
   }
 ]

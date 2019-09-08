@@ -980,9 +980,7 @@
           "light_minus_battery_cell",
           "light_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+          "light_minus_atomic_battery_cell"
         ]
       ]
     ],
@@ -1406,12 +1404,7 @@
     "ammo": "battery",
     "charges_per_use": 2,
     "use_action": "ROBOTCONTROL",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ],
     "magazine_well": 2
   },
   {
@@ -1942,9 +1935,7 @@
           "light_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+          "light_minus_atomic_battery_cell"
         ]
       ]
     ],
@@ -2944,7 +2935,7 @@
     "material": [ "wood", "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "DRILL", 1 ] ]
+    "qualities": [ [ "DRILL", 2 ] ]
   },
   {
     "id": "heatpack",
@@ -4018,9 +4009,7 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+          "light_minus_atomic_battery_cell"
         ]
       ]
     ],
@@ -4688,13 +4677,13 @@
       [
         "battery",
         [
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+          "light_minus_atomic_battery_cell"
         ]
       ]
     ],
@@ -4717,20 +4706,6 @@
     "max_charges": 10,
     "charges_per_use": 5,
     "use_action": "PORTAL"
-  },
-  {
-    "id": "press",
-    "type": "TOOL",
-    "name": "hand press & die set",
-    "description": "This is a small hand press for hand loading firearm ammunition.  It comes with everything you need to start hand loading your own munitions.",
-    "weight": "6350 g",
-    "volume": "500 ml",
-    "price": 10000,
-    "to_hit": -2,
-    "bashing": 6,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "dark_gray"
   },
   {
     "id": "primitive_adze",
@@ -4828,20 +4803,6 @@
     "use_action": { "type": "picklock", "pick_quality": 40 }
   },
   {
-    "id": "puller",
-    "type": "TOOL",
-    "name": "kinetic bullet puller",
-    "description": "This is a tool used for properly disassembling firearm ammunition.",
-    "weight": "489 g",
-    "volume": "250 ml",
-    "price": 1000,
-    "bashing": 5,
-    "material": "plastic",
-    "symbol": ";",
-    "color": "green",
-    "qualities": [ [ "PULL", 1 ] ]
-  },
-  {
     "id": "rag",
     "type": "TOOL",
     "category": "spare_parts",
@@ -4910,13 +4871,13 @@
       [
         "battery",
         [
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+          "light_minus_atomic_battery_cell"
         ]
       ]
     ],
@@ -5567,7 +5528,7 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper" ],
+        "materials": [ "plastic", "lead", "tin" ],
         "skill": "mechanics",
         "cost_scaling": 0.1,
         "move_cost": 1500
@@ -7002,9 +6963,7 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+          "light_minus_atomic_battery_cell"
         ]
       ]
     ],

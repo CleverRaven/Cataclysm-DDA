@@ -925,7 +925,7 @@ bool vehicle::start_engine( const int e )
     return true;
 }
 
-void vehicle::start_engines( const bool take_control )
+void vehicle::start_engines( const bool take_control, const bool autodrive )
 {
     bool has_engine = std::any_of( engines.begin(), engines.end(), [&]( int idx ) {
         return parts[ idx ].enabled && !parts[ idx ].is_broken();
@@ -967,10 +967,11 @@ void vehicle::start_engines( const bool take_control )
         g->u.controlling_vehicle = true;
         add_msg( _( "You take control of the %s." ), name );
     }
-
-    g->u.assign_activity( activity_id( "ACT_START_ENGINES" ), start_time );
-    g->u.activity.placement = starting_engine_position - g->u.pos();
-    g->u.activity.values.push_back( take_control );
+    if( !autodrive ) {
+        g->u.assign_activity( activity_id( "ACT_START_ENGINES" ), start_time );
+        g->u.activity.placement = starting_engine_position - g->u.pos();
+        g->u.activity.values.push_back( take_control );
+    }
 }
 
 void vehicle::honk_horn()
@@ -1528,7 +1529,6 @@ void vehicle::use_monster_capture( int part, const tripoint &pos )
 void vehicle::use_harness( int part, const tripoint &pos )
 {
     if( parts[part].is_unavailable() || parts[part].removed ) {
-        add_msg( "is unavailable" );
         return;
     }
     if( !g->is_empty( pos ) ) {

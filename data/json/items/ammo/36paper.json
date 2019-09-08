@@ -16,6 +16,6 @@
     "damage": 19,
     "dispersion": 80,
     "recoil": 210,
-    "effects": [ "COOKOFF", "MUZZLE_SMOKE" ]
+    "effects": [ "COOKOFF", "MUZZLE_SMOKE", "BLACKPOWDER" ]
   }
 ]
