@@ -919,6 +919,9 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```NOHEAD``` Headshots not allowed!
 - ```NO_BREATHE``` Creature can't drown and is unharmed by gas, smoke or poison.
 - ```NO_BREED``` Creature doesn't reproduce even though it has reproduction data - useful when using copy-from to make child versions of adult creatures
+- ```PAY_BOT``` Creature can be turn into a pet for a limited time in exchange of e-money.
+- ```PET_MOUNTABLE``` Creature can be ridden or attached to an harness.
+- ```PET_HARNESSABLE```Creature can be attached to an harness.
 - ```NULL``` Source use only.
 - ```PACIFIST``` That monster will never do melee attacks.
 - ```PARALYZE``` Attack may paralyze the player with venom.
@@ -1018,6 +1021,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```PARA_STING``` Shoot a paralyzing dart at the player.
 - ```PARROT``` Parrots the speech defined in `speech.json`, picks one of the lines randomly. "speaker" points to a monster id.
 - ```PARROT_AT_DANGER``` Performs the same function as PARROT, but only if the creature sees an angry monster from a hostile faction.
+- ```PAID_BOT```  For creature with PAY_BOT flag, removes the ally status when the pet effect runs out.
 - ```PHOTOGRAPH``` Photograph the player. Causes a robot attack?
 - ```PLANT``` Fungal spores take seed and grow into a fungaloid.
 - ```PULL_METAL_WEAPON``` Pull weapon that's made of iron or steel from the player's hand.
