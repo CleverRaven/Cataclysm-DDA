@@ -346,7 +346,7 @@ bool monexamine::pay_bot( monster &z )
                         _( "Welcome to the %s Friendship Interface. What would you like to do?\n"
                            "Your current friendship will last: %s" ), z.get_name(), to_string( friend_time ) );
     if( charge_count > 0 ) {
-        bot_menu.addentry( 1, true, 'b', _( "Get more friendship. 10 cent/min" ) );
+        bot_menu.addentry( 1, true, 'b', _( "Get more friendship. 10 cents/min" ) );
     } else {
         bot_menu.addentry( 2, true, 'q',
                            _( "Sadly you're not currently able to extend your friendship. - Quit menu" ) );
