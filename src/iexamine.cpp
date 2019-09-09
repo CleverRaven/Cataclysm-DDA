@@ -802,30 +802,8 @@ void iexamine::cardreader_robofac( player &p, const tripoint &examp )
         add_msg( m_bad, _( "The card reader short circuits!" ) );
         g->m.ter_set( examp, t_card_reader_broken );
         intercom( p, examp );
-
     } else {
-        switch( hack_attempt( p ) ) {
-            case HACK_FAIL:
-            case HACK_NOTHING:
-                add_msg( _( "Nothing happens." ) );
-                break;
-            case HACK_SUCCESS: {
-                add_msg( _( "You activate the panel!" ) );
-                add_msg( m_bad, _( "The card reader short circuits!" ) );
-                g->m.ter_set( examp, t_card_reader_broken );
-                intercom( p, examp );
-            }
-            break;
-            case HACK_UNABLE:
-                add_msg(
-                    m_info,
-                    p.get_skill_level( skill_computer ) > 0 ?
-                    _( "Looks like you need a %s, or a tool to hack it with." ) :
-                    _( "Looks like you need a %s." ),
-                    item::nname( card_type )
-                );
-                break;
-        }
+        add_msg( _( "You have never seen this card reader model before.  Hacking it seems impossible." ) );
     }
 }
 
