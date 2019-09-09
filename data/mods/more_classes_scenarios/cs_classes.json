@@ -147,14 +147,13 @@
           "roadmap",
           "restaurantmap",
           "shavingkit",
-          "mess_kit",
           "aluminum_foil",
           "can_chowder",
           "apple_cider",
           "fruit_leather",
           "suitcase_m"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "mess_kit" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -312,7 +311,7 @@
     "description": "You were awoken in the middle of the night by a noise. Armed only with a flashlight you went to investigate, now you face the cataclysm.",
     "points": 0,
     "items": {
-      "both": [ "slippers", "flashlight" ],
+      "both": { "items": [ "slippers" ], "entries": [ { "group": "charged_flashlight" } ] },
       "male": [ "boxer_shorts", "socks", "house_coat" ],
       "female": [ "bra", "panties", "stockings", "gown" ]
     }
@@ -349,18 +348,21 @@
     "points": 4,
     "skills": [ { "level": 1, "name": "mechanics" } ],
     "items": {
-      "both": [
-        "socks",
-        "wearable_light",
-        "goggles_welding",
-        "jumpsuit",
-        "gloves_work",
-        "boots_steel",
-        "tool_belt",
-        "apron_leather",
-        "oxy_torch",
-        "tinyweldtank"
-      ],
+      "both": {
+        "items": [
+          "socks",
+          "goggles_welding",
+          "jumpsuit",
+          "gloves_work",
+          "boots_steel",
+          "tool_belt",
+          "apron_leather"
+        ],
+        "entries": [
+          { "item": "tinyweldtank", "ammo-item": "oxyacetylene", "charges": 60, "container-item": "oxy_torch" },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "wearable_light" }
+        ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boxer_shorts" ]
     }
