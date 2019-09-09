@@ -104,7 +104,7 @@
     "name": "ossified voodoo doll",
     "description": "A remarkably accurate effigy of an undead human covered with bone, including pieces of organs. Necromantic magic delays immediate rot, but it won't last forever. Piercing it with the attached needle could compel it to serve you.",
     "use_action": { "type": "cast_spell", "spell_id": "summon_skeleton", "no_fail": true, "level": 10 },
-    "type": "TOOL",
+    "type": "COMESTIBLE",
     "category": "weapons",
     "copy-from": "animist_doll_zombie"
   },
@@ -113,7 +113,7 @@
     "name": "cougar voodoo doll",
     "description": "A remarkably accurate effigy of an undead cougar, complete with fur, bones, and organs. Necromantic magic delays immediate rot, but it won't last forever. Piercing it with the attached needle could compel it to serve you.",
     "use_action": { "type": "cast_spell", "spell_id": "summon_decayed_pouncer", "no_fail": true, "level": 13 },
-    "type": "TOOL",
+    "type": "COMESTIBLE",
     "category": "weapons",
     "material": [ "fur", "flesh", "bone" ],
     "copy-from": "animist_doll_skeleton"
