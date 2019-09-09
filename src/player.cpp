@@ -6395,10 +6395,6 @@ void player::update_body_wetness( const w_point &weather )
     // Now per-body-part stuff
     // To make drying uniform, make just one roll and reuse it
     const int drying_roll = rng( 1, 100 );
-    if( drying_roll > 40 ) {
-        // Wouldn't affect anything
-        return;
-    }
 
     for( const body_part bp : all_body_parts ) {
         if( body_wetness[bp] == 0 ) {
