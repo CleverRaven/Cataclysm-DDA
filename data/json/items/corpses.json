@@ -67,7 +67,7 @@
     "id": "corpse_child_calm",
     "copy-from": "corpse",
     "name": "corpse",
-    "description": "A dead body of a little boy. The corpse bears a calm facial expression, as if it died instantly.",
+    "description": "The dead body of a small child.  Their corpse bears a calm facial expression, as if they died instantly.",
     "looks_like": "corpse",
     "volume": "30000 ml",
     "weight": "40750 g",
