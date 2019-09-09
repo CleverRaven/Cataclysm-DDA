@@ -4033,6 +4033,8 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
 
         double amnt_precise_j = static_cast<double>( fuel_pr.second ) * t_seconds;
         amnt_precise_j *= load / 1000.0 * ( 1.0 + st * st * 100.0 );
+        auto inserted = fuel_used_last_turn.insert( { ft, 0 } );
+        inserted.first->second += amnt_precise_j;
         double remainder = fuel_remainder[ ft ];
         amnt_precise_j -= remainder;
 
@@ -4769,6 +4771,7 @@ void vehicle::place_spawn_items()
 
 void vehicle::gain_moves()
 {
+    fuel_used_last_turn.clear();
     check_falling_or_floating();
     if( is_moving() || is_falling ) {
         if( !loose_parts.empty() ) {

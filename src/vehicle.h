@@ -642,7 +642,7 @@ class vehicle
                                    bool verbose = false, bool desc = false );
         void print_fuel_indicator( const catacurses::window &w, int y, int x,
                                    const itype_id &fuel_type,
-                                   std::map<itype_id, int> fuel_usages,
+                                   std::map<itype_id, float> fuel_usages,
                                    bool verbose = false, bool desc = false );
 
         // Calculate how long it takes to attempt to start an engine
@@ -1594,6 +1594,7 @@ class vehicle
         std::set<std::string> tags;        // Properties of the vehicle
         // After fuel consumption, this tracks the remainder of fuel < 1, and applies it the next time.
         std::map<itype_id, float> fuel_remainder;
+        std::map<itype_id, float> fuel_used_last_turn;
         std::unordered_multimap<point, zone_data> loot_zones;
         active_item_cache active_items;
 
