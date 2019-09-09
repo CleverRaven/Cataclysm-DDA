@@ -1834,7 +1834,18 @@
     "emit_fields": [ "emit_tindalos_gas_leak" ],
     "path_settings": { "max_dist": 10 },
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "SMELLS", "GOODHEARING", "PRIORITIZE_TARGETS", "KEENNOSE", "WARM", "BASHES", "ARTHROPOD_BLOOD", "NO_BREATHE", "HARDTOSHOOT" ]
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "GOODHEARING",
+      "PRIORITIZE_TARGETS",
+      "KEENNOSE",
+      "WARM",
+      "BASHES",
+      "ARTHROPOD_BLOOD",
+      "NO_BREATHE",
+      "HARDTOSHOOT"
+    ]
   },
   {
     "id": "mon_hound_tindalos_afterimage",
@@ -1862,11 +1873,22 @@
     "vision_day": 50,
     "vision_night": 50,
     "harvest": "exempt",
-    "special_attacks": [ [ "TINDALOS_TELEPORT", 5 ],  [ "DISAPPEAR", 25 ] ],
+    "special_attacks": [ [ "TINDALOS_TELEPORT", 5 ], [ "DISAPPEAR", 25 ] ],
     "emit_fields": [ "emit_tindalos_gas_leak" ],
     "path_settings": { "max_dist": 10 },
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "SMELLS", "GOODHEARING", "PRIORITIZE_TARGETS", "KEENNOSE", "WARM", "BASHES", "ARTHROPOD_BLOOD", "NO_BREATHE", "HARDTOSHOOT" ]
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "GOODHEARING",
+      "PRIORITIZE_TARGETS",
+      "KEENNOSE",
+      "WARM",
+      "BASHES",
+      "ARTHROPOD_BLOOD",
+      "NO_BREATHE",
+      "HARDTOSHOOT"
+    ]
   },
   {
     "id": "mon_human_snail",
