@@ -21,6 +21,16 @@
   },
   {
     "type": "effect_type",
+    "id": "debug_ground_protection",
+    "name": [ "Debug Lighting Protection" ],
+    "desc": [ "You can not be harmed by electricity." ],
+    "apply_message": "Your skin tingle with static electricity.",
+    "remove_message": "Your skin stops tingling.",
+    "rating": "good",
+    "flags": [ "EFFECT_ELECTRIC_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_ethereal_grasp",
     "name": [ "Ethereal Hold" ],
     "desc": [ "Ghostly arms are trying to hold you in place!" ],

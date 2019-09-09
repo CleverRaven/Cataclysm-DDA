@@ -38,6 +38,23 @@
     "pierce_increment": 0.1
   },
   {
+    "id": "debug_ground_protection",
+    "type": "SPELL",
+    "name": "Debug Lighting Protection",
+    "description": "You can not be harmed by electricity.",
+    "message": "You are electric, it can't harm you!",
+    "valid_targets": [ "self" ],
+    "effect": "target_attack",
+    "effect_str": "debug_ground_protection",
+    "min_range": 1,
+    "max_range": 1,
+    "base_casting_time": 100,
+    "base_energy_cost": 100,
+    "energy_source": "MANA",
+    "min_duration": 100000,
+    "max_duration": 100000
+  },
+  {
     "id": "spawn_debug_monster",
     "type": "SPELL",
     "name": "Spawn Debug Monsters",
