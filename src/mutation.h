@@ -137,7 +137,9 @@ struct mutation_branch {
         float hearing_modifier = 1.0f;
         float noise_modifier = 1.0f;
 
-        int weakness_to_water = 0;// maximum damage dealt by water every minute when wet.
+        int weakness_to_water =
+            0;// maximum damage dealt by water every minute when wet. Can be negative and regen health.
+
         // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
         float stealth_modifier = 0.0f;
 
@@ -171,6 +173,9 @@ struct mutation_branch {
 
         /** The item, if any, spawned by the mutation */
         itype_id spawn_item;
+
+        /**Species ignoring character with the mutation*/
+        std::vector<species_id> ignored_by;
 
         // amount of mana added or subtracted from max
         float mana_modifier;

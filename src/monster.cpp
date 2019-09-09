@@ -30,6 +30,7 @@
 #include "monfaction.h"
 #include "mongroup.h"
 #include "morale_types.h"
+#include "mutation.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
@@ -1030,6 +1031,14 @@ monster_attitude monster::attitude( const Character *u ) const
                 }
                 if( effective_anger < 20 ) {
                     effective_morale -= 5;
+                }
+            }
+        }
+
+        for( trait_id mut : u->get_mutations() ) {
+            for( const species_id spe : mut.obj().ignored_by ) {
+                if( type->in_species( spe ) ) {
+                    return MATT_IGNORE;
                 }
             }
         }
