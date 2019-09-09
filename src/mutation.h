@@ -136,9 +136,10 @@ struct mutation_branch {
         float weight_capacity_modifier = 1.0f;
         float hearing_modifier = 1.0f;
         float noise_modifier = 1.0f;
+        float scent_modifier = 1.0f;
 
-        int weakness_to_water =
-            0;// maximum damage dealt by water every minute when wet. Can be negative and regen health.
+        /**maximum damage dealt by water every minute when wet. Can be negative and regen health.*/
+        int weakness_to_water = 0;
 
         // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
         float stealth_modifier = 0.0f;

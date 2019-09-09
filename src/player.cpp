@@ -634,6 +634,10 @@ void player::process_turn()
         scent--;
     }
 
+    for( const trait_id &mut : get_mutations() ) {
+        scent *= mut.obj().scent_modifier;
+    }
+
     // We can dodge again! Assuming we can actually move...
     if( !in_sleep_state() ) {
         blocks_left = get_num_blocks();
