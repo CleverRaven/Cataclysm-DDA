@@ -31,10 +31,10 @@
     "base_casting_time": 100,
     "base_energy_cost": 400,
     "energy_source": "MANA",
-    "min_duration": 1500,
-    "max_duration": 6500,
-    "duration_increment": 1000,
-    "max_level": 5
+    "min_duration": 1250,
+    "max_duration": 6000,
+    "duration_increment": 250,
+    "max_level": 20
   },
   {
     "id": "megablast",
