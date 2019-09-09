@@ -333,7 +333,7 @@ void field_types::set_field_type_ids()
     fd_fungicidal_gas = field_type_id( "fd_fungicidal_gas" );
     fd_insecticidal_gas = field_type_id( "fd_insecticidal_gas" );
     fd_smoke_vent = field_type_id( "fd_smoke_vent" );
-    fd_tindalos_rift = field_type_id("fd_tindalos_rift");
+    fd_tindalos_rift = field_type_id( "fd_tindalos_rift" );
 
 }
 

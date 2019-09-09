@@ -4699,52 +4699,53 @@ bool mattack::riotbot( monster *z )
     return true;
 }
 
-bool mattack::tindalos_teleport(monster *z)
+bool mattack::tindalos_teleport( monster *z )
 {
     Creature *target = z->attack_target();
-    if (target == nullptr) {
+    if( target == nullptr ) {
         return false;
     }
-    if (one_in(15)) {
+    if( one_in( 15 ) ) {
         std::vector<tripoint> free;
-        for (const tripoint &dest : g->m.points_in_radius(z->pos(), 1)) {
-            if (g->is_empty(dest)) {
-                free.push_back(dest);
+        for( const tripoint &dest : g->m.points_in_radius( z->pos(), 1 ) ) {
+            if( g->is_empty( dest ) ) {
+                free.push_back( dest );
             }
         }
-        if (!free.empty()) {
+        if( !free.empty() ) {
             z->moves -= 140;
-            const tripoint target = random_entry(free);
-            if (monster *const afterimage = g->summon_mon( mon_hound_tindalos_afterimage, target)) {
-                afterimage->make_ally(*z);
+            const tripoint target = random_entry( free );
+            if( monster *const afterimage = g->summon_mon( mon_hound_tindalos_afterimage, target ) ) {
+                afterimage->make_ally( *z );
             }
-            if (g->u.sees(*z)) {
-                add_msg(m_warning, _("The hound movements chaotically rewind as a living afterimage splits from it!") );
+            if( g->u.sees( *z ) ) {
+                add_msg( m_warning,
+                         _( "The hound movements chaotically rewind as a living afterimage splits from it!" ) );
             }
         }
     }
-    const int distance_to_target = rl_dist(z->pos(), target->pos());
+    const int distance_to_target = rl_dist( z->pos(), target->pos() );
     const tripoint &oldpos = z->pos();
-    if (distance_to_target > 5 ) {
-        for (const tripoint &dest : g->m.points_in_radius(target->pos(), 4)) {
-            if (g->m.is_cornerfloor(dest)) {
-                if (g->is_empty(dest)) {
-                    g->m.add_field(oldpos, fd_tindalos_rift, 2);
-                    z->setpos(dest);
+    if( distance_to_target > 5 ) {
+        for( const tripoint &dest : g->m.points_in_radius( target->pos(), 4 ) ) {
+            if( g->m.is_cornerfloor( dest ) ) {
+                if( g->is_empty( dest ) ) {
+                    g->m.add_field( oldpos, fd_tindalos_rift, 2 );
+                    z->setpos( dest );
                     // Not teleporting if it means losing sight of our current target
-                    if (z->sees(*target)) {
-                        g->m.add_field(dest, fd_tindalos_rift, 2);
-                        if (g->u.sees(*z)) {
-                            add_msg(m_bad, _("The %s dissipates and reforms close by."), z->name());
+                    if( z->sees( *target ) ) {
+                        g->m.add_field( dest, fd_tindalos_rift, 2 );
+                        if( g->u.sees( *z ) ) {
+                            add_msg( m_bad, _( "The %s dissipates and reforms close by." ), z->name() );
                         }
                         return true;
                     }
                 }
 
             }
-        } 
+        }
         // couldnt teleport without losing sight of target
-        z->setpos(oldpos);
+        z->setpos( oldpos );
         return true;
     }
     return true;

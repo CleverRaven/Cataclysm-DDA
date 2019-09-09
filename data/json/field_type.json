@@ -286,12 +286,7 @@
     "id": "fd_tindalos_rift",
     "type": "field_type",
     "intensity_levels": [
-      {
-        "name": "angular ripple",
-        "color": "light_gray",
-        "sym": "*",
-        "light_emitted": 160
-      },
+      { "name": "angular ripple", "color": "light_gray", "sym": "*", "light_emitted": 160 },
       { "name": "angular rift", "color": "dark_gray" },
       {
         "name": "fractal fissure",
