@@ -89,7 +89,7 @@
     "id": "corpse_oldwoman_jewelry",
     "copy-from": "corpse",
     "name": "corpse",
-    "description": "A dead body of a old woman.  Both of her earlobes are torn, several fingers on her hands have been chopped off, and several teeth have been knocked out.",
+    "description": "A dead body of an old woman.  Both of her earlobes are torn, several fingers on her hands have been chopped off, and several teeth have been knocked out.",
     "//": "Implied that someone hacked off her body parts for jewelry.",
     "looks_like": "corpse",
     "volume": "40000 ml",
