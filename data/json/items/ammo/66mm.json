@@ -18,6 +18,6 @@
     "dispersion": 150,
     "recoil": 150,
     "count": 4,
-    "effects": [ "COOKOFF", "NAPALM_BIG", "TRAIL", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "PYROPHORIC", "TRAIL", "NEVER_MISFIRES" ]
   }
 ]
