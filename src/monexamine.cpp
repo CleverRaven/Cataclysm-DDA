@@ -337,7 +337,6 @@ static int prompt_for_amount( const char *const msg, const int max )
 bool monexamine::pay_bot( monster &z )
 {
     time_duration friend_time = z.get_effect_dur( effect_pet );
-    const int card_count = g->u.amount_of( "cash_card" );
     const int charge_count = g->u.charges_of( "cash_card" );
 
     int amount = 0;
@@ -363,8 +362,8 @@ bool monexamine::pay_bot( monster &z )
                 z.add_effect( effect_pet, time_bought );
                 z.add_effect( effect_paid, time_bought, num_bp, true );
                 z.friendly = -1;
-                popup( _( "Your friendship grows stronger!\n This %s will follow you for %s." ),
-                                      z.get_name(), to_string( z.get_effect_dur( effect_pet ) ) ) );
+                popup( _( "Your friendship grows stronger!\n This %s will follow you for %s." ), z.get_name(),
+                       to_string( z.get_effect_dur( effect_pet ) ) );
                 return true;
             }
             break;
