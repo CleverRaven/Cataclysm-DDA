@@ -331,7 +331,7 @@ static int prompt_for_amount( const char *const msg, const int max )
                        .only_digits( true )
                        .query_int();
 
-    return ( amount > max ) ? max : ( amount <= 0 ) ? 0 : amount;
+    return clamp( amount, 0, max );
 }
 
 bool monexamine::pay_bot( monster &z )
@@ -354,9 +354,9 @@ bool monexamine::pay_bot( monster &z )
     bot_menu.query();
     switch( bot_menu.ret ) {
         case 1:
-            amount = prompt_for_amount( ngettext(
-                                            "How much friendship do you get? Max: %d minute. (0 to cancel) ",
-                                            "How much friendship do you get? Max: %d minutes. ", charge_count / 10 ), charge_count / 10 );
+            amount = prompt_for_amount(
+                         ngettext( "How much friendship do you get? Max: %d minute. (0 to cancel) ",
+                                   "How much friendship do you get? Max: %d minutes. ", charge_count / 10 ), charge_count / 10 );
             if( amount > 0 ) {
                 time_duration time_bought = time_duration::from_minutes( amount );
                 g->u.use_charges( "cash_card", amount * 10 );

@@ -417,7 +417,7 @@ class atm_menu
                                .only_digits( true )
                                .query_int();
 
-            return ( amount > max ) ? max : ( amount <= 0 ) ? 0 : amount;
+            return clamp( amount, 0, max );
         }
 
         //!Get a new cash card. $1.00 fine.
