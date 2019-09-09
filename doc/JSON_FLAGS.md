@@ -919,7 +919,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```NOHEAD``` Headshots not allowed!
 - ```NO_BREATHE``` Creature can't drown and is unharmed by gas, smoke or poison.
 - ```NO_BREED``` Creature doesn't reproduce even though it has reproduction data - useful when using copy-from to make child versions of adult creatures
-- ```PAY_BOT``` Creature can be turn into a pet for a limited time in exchange of e-money.
+- ```PAY_BOT``` Creature can be turned into a pet for a limited time in exchange of e-money.
 - ```PET_MOUNTABLE``` Creature can be ridden or attached to an harness.
 - ```PET_HARNESSABLE```Creature can be attached to an harness.
 - ```NULL``` Source use only.
@@ -1250,7 +1250,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```AISLE``` Player can move over this part with less speed penalty than normal.
 - ```ALTERNATOR``` Recharges batteries installed on the vehicle.
 - ```ANCHOR_POINT``` Allows secure seatbelt attachment.
-- ```ANIMAL_CTRL```. Can harness an animal, need HARNESS_bodytype flag to specify bodytype of animal.
+- ```ANIMAL_CTRL``` Can harness an animal, need HARNESS_bodytype flag to specify bodytype of animal.
 - ```ARMOR``` Protects the other vehicle parts it's installed over during collisions.
 - ```ATOMIC_LIGHT```
 - ```BATTERY_MOUNT```

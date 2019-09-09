@@ -964,7 +964,7 @@
     "color": "dark_gray",
     "name": "broken grocery bot",
     "category": "other",
-    "description": "The body of a busted grocery bot.  Its tarnished face still smiling.  Could be gutted for parts.",
+    "description": "The body of a busted grocery bot.  Its tarnished face is still smiling.  Could be gutted for parts.",
     "price": 30000,
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],

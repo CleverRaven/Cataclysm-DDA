@@ -363,7 +363,7 @@ bool monexamine::pay_bot( monster &z )
                 z.add_effect( effect_pet, time_bought );
                 z.add_effect( effect_paid, time_bought, num_bp, true );
                 z.friendly = -1;
-                popup( string_format( _( "Your friendship grows stronger!\n This %s will follow you for %s" ),
+                popup( string_format( _( "Your friendship grows stronger!\n This %s will follow you for %s." ),
                                       z.get_name(), to_string( z.get_effect_dur( effect_pet ) ) ) );
                 return true;
             }

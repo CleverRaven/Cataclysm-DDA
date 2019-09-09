@@ -2991,7 +2991,7 @@ bool mattack::check_money_left( monster *z )
         if( z->friendly == -1 &&
             z->has_effect( effect_paid ) ) { // if the pet effect runs out we're no longer friends
             z->friendly = 0;
-            bool had_inventory = !z->inv.empty();
+            const bool had_inventory = !z->inv.empty();
             for( const item &it : z->inv ) {
                 g->m.add_item_or_charges( z->pos(), it );
             }
@@ -2999,7 +2999,7 @@ bool mattack::check_money_left( monster *z )
             z->remove_effect( effect_has_bag );
             if( had_inventory ) {
                 add_msg( m_info,
-                         _( "The %s dumps the contents of its bag on the ground and drop the bag on top of it." ),
+                         _( "The %s dumps the contents of its bag on the ground and drops the bag on top of it." ),
                          z->get_name() );
             }
 
