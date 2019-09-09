@@ -628,7 +628,7 @@ void player::hardcoded_effects( effect &it )
                 for( const tripoint &dest : g->m.points_in_radius( pos(), 6 ) ) {
                     if( g->m.is_cornerfloor( dest ) ) {
                         g->m.add_field( dest, fd_tindalos_rift, 3 );
-                        add_msg( m_info, _( "Your surroundings are permeated with a foul scent." ) );
+                        add_msg_if_player( m_info, _( "Your surroundings are permeated with a foul scent." ) );
                         break;
                     }
                 }
