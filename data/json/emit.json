@@ -80,6 +80,15 @@
     "chance": 15
   },
   {
+    "id": "emit_tindalos_gas_leak",
+    "type": "emit",
+    "//": "Slow infrequent leak of tindalos gas (example: hound of tindalos movement)",
+    "field": "fd_tindalos_gas",
+    "intensity": 3,
+    "qty": 10,
+    "chance": 15
+  },
+  {
     "id": "emit_toxic_cloud",
     "type": "emit",
     "//": "Small cloud of toxic gas emitted infrequently",

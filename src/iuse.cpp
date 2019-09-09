@@ -4513,6 +4513,17 @@ int iuse::dog_whistle( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
+int iuse::call_of_tindalos(player *p, item *it, bool, const tripoint &)
+{
+    for (const tripoint &dest : g->m.points_in_radius(p->pos(), 12)) {
+        if (g->m.is_cornerfloor( dest) ) {
+            g->m.add_field( dest, fd_tindalos_rift, 3);
+            add_msg(m_info, _("You hear a low-pitched echoing howl."));
+        }
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ) {
