@@ -340,10 +340,10 @@
           "knife_folding",
           "water_clean",
           "matches",
-          "two_way_radio",
           "wristwatch"
         ],
         "entries": [
+          { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "m1911", "ammo-item": "45_acp", "charges": 7, "container-item": "holster" },
           { "item": "45_acp", "charges": 23 },
@@ -633,11 +633,11 @@
           "gloves_tactical",
           "socks",
           "boots_combat",
-          "two_way_radio",
           "wristwatch",
           "molle_pack"
         ],
         "entries": [
+          { "group": "charged_two_way_radio" },
           { "item": "modularvest", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
@@ -1714,6 +1714,7 @@
       "both": {
         "items": [
           "tac_fullhelmet",
+          "police_belt",
           "pants_cargo",
           "under_armor",
           "socks",
@@ -1805,7 +1806,6 @@
     ],
     "items": {
       "both": {
-        "ammo": 100,
         "items": [
           "winter_pants_army",
           "winter_jacket_army",
@@ -1815,9 +1815,9 @@
           "socks",
           "boots_combat",
           "wristwatch",
-          "two_way_radio"
         ],
         "entries": [
+          { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sheath", "contents-item": "knife_combat" },
           { "item": "h&k416a5", "ammo-item": "556", "contents-item": [ "shoulder_strap", "acog_scope" ] },
@@ -1854,8 +1854,6 @@
     ],
     "items": {
       "both": {
-        "ammo": 100,
-        "magazine": 100,
         "items": [
           "winter_pants_army",
           "army_top",
@@ -1867,16 +1865,16 @@
           "socks",
           "boots_combat",
           "canteen",
-          "two_way_radio",
           "wristwatch",
           "tent_kit",
           "rollmat",
-          "mil_mess_kit",
           "e_tool",
           "binoculars",
           "knife_hunting"
         ],
         "entries": [
+          { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "mil_mess_kit" },
+          { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "hat_boonie", "custom-flags": [ "no_auto_equip" ] },
           {
@@ -2907,7 +2905,6 @@
     ],
     "items": {
       "both": {
-        "ammo": 100,
         "items": [
           "survivor_vest",
           "wsurvivor_suit",
@@ -2915,10 +2912,10 @@
           "boots_wsurvivor",
           "hood_wsurvivor",
           "gloves_wsurvivor",
-          "mess_kit",
           "wristwatch"
         ],
         "entries": [
+          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "mess_kit" },
           { "item": "kukri", "container-item": "sheath" },
           { "item": "crossbow", "ammo-item": "bolt_wood", "contents-item": "shoulder_strap" },
           { "item": "bolt_wood", "charges": 29, "container-item": "quiver_large" }
@@ -2989,19 +2986,18 @@
           "balclava",
           "boots_combat",
           "gloves_tactical",
-          "chestrig",
           "tac_helmet",
           "canteen",
-          "mil_mess_kit",
           "wristwatch",
-          "two_way_radio",
           "quikclot"
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
-          { "item": "stanag30", "ammo-item": "556", "count": 2 }
+          { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "mil_mess_kit" },
+          { "group": "charged_two_way_radio" },
+          { "item": "chestrig", "contents-group": "army_mags_m4" },
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -3027,7 +3023,6 @@
     ],
     "items": {
       "both": {
-        "ammo": 100,
         "items": [
           "tank_top",
           "pants_leather",
@@ -3042,16 +3037,16 @@
           "canteen",
           "whistle",
           "binoculars",
-          "wearable_light",
           "duct_tape",
           "ref_lighter",
-          "wristwatch",
-          "gasoline_cooker"
+          "wristwatch"
         ],
         "entries": [
           { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "gasoline_cooker", "ammo_item": "gasoline", "charges": 500 },
           { "item": "XL_holster", "contents-group": "shotgun_d_roadwarrior" },
           { "item": "reloaded_shot_00", "charges": 18, "container-item": "bandolier_shotgun" }
+          { "item": "light_battery_cell", "charges": 100, "container-item": "wearable_light" }
         ]
       },
       "male": [ "boxer_shorts" ],
