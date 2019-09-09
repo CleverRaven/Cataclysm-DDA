@@ -78,7 +78,7 @@
     "id": "corpse_child_gunned",
     "copy-from": "corpse",
     "name": "corpse",
-    "description": "A dead body of a child, riddled by bullets, to the extent that you cannot tell its gender.",
+    "description": "The dead body of a child, riddled by bullets to the extent that you can no longer tell their gender.",
     "looks_like": "corpse",
     "volume": "30000 ml",
     "weight": "40750 g",
