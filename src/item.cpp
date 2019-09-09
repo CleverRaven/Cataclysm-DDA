@@ -4329,10 +4329,10 @@ static int calc_hourly_rotpoints_at_temp( const int temp )
     // default temp = 65, so generic->rotten() assumes 600 decay points per hour
     const int dropoff = 38;     // ditch our fancy equation and do a linear approach to 0 rot at 31f
     const int cutoff = 105;     // stop torturing the player at this temperature, which is
-    const int cutoffrot = 3540; // ..almost 6 times the base rate. bacteria hate the heat too
+    const int cutoffrot = 21240; // ..almost 6 times the base rate. bacteria hate the heat too
 
     const int dsteps = dropoff - temperatures::freezing;
-    const int dstep = ( 35.91 * std::pow( 2.0, static_cast<float>( dropoff ) / 16.0 ) / dsteps );
+    const int dstep = ( 215.46 * std::pow( 2.0, static_cast<float>( dropoff ) / 16.0 ) / dsteps );
 
     if( temp < temperatures::freezing ) {
         return 0;
@@ -4341,7 +4341,7 @@ static int calc_hourly_rotpoints_at_temp( const int temp )
     } else if( temp < dropoff ) {
         return ( temp - temperatures::freezing ) * dstep;
     } else {
-        return lround( 35.91 * std::pow( 2.0, static_cast<float>( temp ) / 16.0 ) );
+        return lround( 215.46 * std::pow( 2.0, static_cast<float>( temp ) / 16.0 ) );
     }
 }
 
@@ -4374,7 +4374,7 @@ int get_hourly_rotpoints_at_temp( const int temp )
         return 0;
     }
     if( temp > 150 ) {
-        return 3540;
+        return 21240;
     }
     return rot_chart[temp];
 }
