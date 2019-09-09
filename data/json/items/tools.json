@@ -1767,6 +1767,19 @@
     "use_action": "DOG_WHISTLE"
   },
   {
+    "id": "tindalos_whistle",
+    "type": "TOOL",
+    "name": "Whistle of Tindalos",
+    "description": "Who is this Tindalos guy?",
+    "weight": "22 g",
+    "volume": 0,
+    "price": 10000,
+    "material": "superalloy",
+    "symbol": ";",
+    "color": "yellow",
+    "use_action": "CALL_OF_TINDALOS"
+  },
+  {
     "id": "whistle_multitool",
     "type": "TOOL",
     "category": "tools",

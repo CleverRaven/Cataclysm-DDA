@@ -7,6 +7,7 @@
 #include "effect.h"
 #include "event_bus.h"
 #include "fungal_effects.h"
+#include "field_type.h"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -620,6 +621,20 @@ void player::hardcoded_effects( effect &it )
                 if( one_in( 10 ) ) {
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
+                }
+            }
+            if (one_in( 7200 - (dur - 360_minutes) / 4_turns)) {
+                add_msg_if_player(m_bad, _("You are beset with a vision of a prowling beast."));
+                for (const tripoint &dest : g->m.points_in_radius(pos(), 6)) {
+                    if (g->m.is_cornerfloor(dest)) {
+                        g->m.add_field(dest, fd_tindalos_rift, 3);
+                        add_msg(m_info, _("Your surroundings are permeated with a foul scent."));
+                        break;
+                    }
+                }
+                if (one_in( 2 )) {
+                    // Set ourselves up for removal
+                    it.set_duration(0_turns);
                 }
             }
             if( one_in( 7200 - ( ( dur - 600_minutes ) / 30_seconds ) ) && one_in( 20 ) ) {

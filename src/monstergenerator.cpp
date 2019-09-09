@@ -529,6 +529,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "PARROT_AT_DANGER", mattack::parrot_at_danger );
     add_hardcoded_attack( "DARKMAN", mattack::darkman );
     add_hardcoded_attack( "SLIMESPRING", mattack::slimespring );
+    add_hardcoded_attack("TINDALOS_TELEPORT", mattack::tindalos_teleport);
     add_hardcoded_attack( "FLESH_TENDRIL", mattack::flesh_tendril );
     add_hardcoded_attack( "BIO_OP_TAKEDOWN", mattack::bio_op_takedown );
     add_hardcoded_attack( "SUICIDE", mattack::suicide );
