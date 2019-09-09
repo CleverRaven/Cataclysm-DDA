@@ -398,7 +398,7 @@ struct event_spec<event_type::gains_skill_level> {
 };
 
 template<>
-struct event_spec<event_type::game_over> : event_spec_empty {
+struct event_spec<event_type::game_over> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
             { "is_suicide", cata_variant_type::bool_ },
             { "last_words", cata_variant_type::string },
@@ -407,7 +407,12 @@ struct event_spec<event_type::game_over> : event_spec_empty {
 };
 
 template<>
-struct event_spec<event_type::game_start> : event_spec_empty {};
+struct event_spec<event_type::game_start> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+            { "avatar_id", cata_variant_type::character_id },
+        }
+    };
+};
 
 template<>
 struct event_spec<event_type::installs_cbm> {
