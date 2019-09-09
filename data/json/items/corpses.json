@@ -159,7 +159,7 @@
     "id": "corpse_half_beheaded",
     "copy-from": "corpse",
     "name": "corpse",
-    "description": "A half-decapitated dead body. It is unclear what could have caused such a wound.",
+    "description": "A half-decapitated dead body.  It is unclear what could have caused such a wound.",
     "looks_like": "corpse",
     "volume": "57000 ml",
     "weight": "78000 g",
