@@ -3371,6 +3371,10 @@ int player::hitall( int dam, int vary, Creature *source )
 
 float player::fall_damage_mod() const
 {
+    if( has_effect_with_flag( "EFFECT_FEATHER_FALL" ) ) {
+        return 0.0f;
+    }
+
     float ret = 1.0f;
 
     // Ability to land properly is 2x as important as dexterity itself

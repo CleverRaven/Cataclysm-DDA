@@ -69,6 +69,10 @@
     "type": "json_flag"
   },
   {
+    "id": "EFFECT_FEATHER_FALL",
+    "type": "json_flag"
+  },
+  {
     "id": "EFFECT_BIO_IMMUNE",
     "type": "json_flag"
   },

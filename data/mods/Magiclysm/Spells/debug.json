@@ -55,6 +55,23 @@
     "max_duration": 100000
   },
   {
+    "id": "debug_ground_protection",
+    "type": "SPELL",
+    "name": "Debug Feather Falln",
+    "description": "You  are light as a feather and fall like.",
+    "message": "You eat a feather !",
+    "valid_targets": [ "self" ],
+    "effect": "target_attack",
+    "effect_str": "debug_feather_fall",
+    "min_range": 1,
+    "max_range": 1,
+    "base_casting_time": 100,
+    "base_energy_cost": 100,
+    "energy_source": "MANA",
+    "min_duration": 400,
+    "max_duration": 400
+  },
+  {
     "id": "spawn_debug_monster",
     "type": "SPELL",
     "name": "Spawn Debug Monsters",

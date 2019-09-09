@@ -31,6 +31,16 @@
   },
   {
     "type": "effect_type",
+    "id": "debug_feather_fall",
+    "name": [ "Debug Feather Fall" ],
+    "desc": [ "You  are light as a feather and fall like ." ],
+    "apply_message": "Your body feels light as a feather.",
+    "remove_message": "The earth pulls you down hard.",
+    "rating": "good",
+    "flags": [ "EFFECT_FEATHER_FALL" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_ethereal_grasp",
     "name": [ "Ethereal Hold" ],
     "desc": [ "Ghostly arms are trying to hold you in place!" ],
