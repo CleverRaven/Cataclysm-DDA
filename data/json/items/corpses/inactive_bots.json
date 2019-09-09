@@ -248,6 +248,28 @@
     }
   },
   {
+    "id": "bot_crows_m240",
+    "type": "TOOL",
+    "name": "inactive autonomous M240 CROWS II",
+    "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded 7.62x51mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 7.62x51mm rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its M240.",
+    "weight": "1507 g",
+    "volume": "3500 ml",
+    "price": 500000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_crows_m240",
+      "difficulty": 6,
+      "moves": 100,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
     "id": "bot_turret",
     "type": "TOOL",
     "name": "inactive turret",

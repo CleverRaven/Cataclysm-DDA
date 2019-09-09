@@ -2990,6 +2990,15 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_crows_m240",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken M240 autonomous CROWS II",
+    "weight": "70000 g",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_turret_bmg",
     "symbol": ",",
     "color": "green",
