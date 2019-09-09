@@ -45,7 +45,7 @@
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Active Defense System CBM",
-    "description": "This bionic projects a thin forcefield around the user's body.  Anything attempting to penetrate this field has a chance of being deflected at the cost of energy, reducing their ability to deal damage.  Bullets will be deflected more than swords and those in turn more often than massive objects.",
+    "description": "This bionic projects a thin forcefield around the user's body.  Anything attempting to penetrate this field has a chance of being deflected at the cost of energy, reducing their ability to deal damage.  Bullets will be deflected more than swords and those in turn more than massive objects.",
     "price": 950000,
     "weight": "1000 g",
     "difficulty": 7
