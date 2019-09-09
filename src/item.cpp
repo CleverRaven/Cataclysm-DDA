@@ -3529,7 +3529,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( is_filthy() ) {
         ret << _( " (filthy)" );
     }
-    if( is_bionic() && ( !has_flag( "NO_PACKED" ) ) ) {
+    if( is_bionic() && !has_flag( "NO_PACKED" ) ) {
         if( !has_flag( "NO_STERILE" ) ) {
             ret << _( " (sterile)" );
         } else {
