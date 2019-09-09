@@ -1814,7 +1814,7 @@
           "tac_helmet",
           "socks",
           "boots_combat",
-          "wristwatch",
+          "wristwatch"
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
@@ -2997,7 +2997,7 @@
           { "item": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
           { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "mil_mess_kit" },
           { "group": "charged_two_way_radio" },
-          { "item": "chestrig", "contents-group": "army_mags_m4" },
+          { "item": "chestrig", "contents-group": "army_mags_m4" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -3045,7 +3045,7 @@
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "gasoline_cooker", "ammo_item": "gasoline", "charges": 500 },
           { "item": "XL_holster", "contents-group": "shotgun_d_roadwarrior" },
-          { "item": "reloaded_shot_00", "charges": 18, "container-item": "bandolier_shotgun" }
+          { "item": "reloaded_shot_00", "charges": 18, "container-item": "bandolier_shotgun" },
           { "item": "light_battery_cell", "charges": 100, "container-item": "wearable_light" }
         ]
       },
@@ -3267,7 +3267,8 @@
         "items": [ "stockings", "pockknife", "matches", "pipe_tobacco", "tobacco" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
-      "male": [
+      "male": {
+        "items": [
         "knee_high_boots",
         "breeches",
         "waistcoat",
@@ -3275,13 +3276,11 @@
         "leather_belt",
         "knit_scarf",
         "tricorne",
-        "shoulder_strap",
-        "flintlock_pouch",
-        "rifle_flintlock",
-        "flintlock_ammo",
         "hatchet",
         "hardtack"
-      ],
+        ],
+        "entries": [ { "item": "rifle_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "contents-item": "shoulder_strap" }, { "item": "flintlock_ammo", "charges": 14, "container-item": "flintlock_pouch" }, { "item": "flintlock_ammo", "charges": 15 } ]
+        },
       "female": [
         "dress",
         "apron_leather",
@@ -3329,7 +3328,8 @@
         "cornmeal",
         "salt"
       ],
-      "female": [
+      "female": {
+        "items": [
         "knee_high_boots",
         "breeches",
         "waistcoat",
@@ -3337,13 +3337,11 @@
         "leather_belt",
         "knit_scarf",
         "tricorne",
-        "shoulder_strap",
-        "flintlock_pouch",
-        "rifle_flintlock",
-        "flintlock_ammo",
         "hatchet",
         "hardtack"
-      ]
+        ],
+        "entries": [ { "item": "rifle_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "contents-item": "shoulder_strap" }, { "item": "flintlock_ammo", "charges": 14, "container-item": "flintlock_pouch" }, { "item": "flintlock_ammo", "charges": 15 } ]
+        }
     }
   },
   {
