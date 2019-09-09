@@ -671,7 +671,7 @@ npc_ptr talk_function::individual_mission( const tripoint &omt_pos,
         return comp;
     }
     // make sure, for now, that NPCs dismount their horse before going on a mission.
-    if( comp->has_effect( effect_riding ) ){
+    if( comp->has_effect( effect_riding ) ) {
         comp->npc_dismount();
     }
     //Ensure we have someone to give equipment to before we lose it
