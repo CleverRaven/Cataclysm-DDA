@@ -83,7 +83,7 @@ bool parrot( monster *z );
 bool parrot_at_danger( monster *parrot );
 bool darkman( monster *z );
 bool slimespring( monster *z );
-bool tindalos_teleport( monster *z);
+bool tindalos_teleport( monster *z );
 bool flesh_tendril( monster *z );
 bool bio_op_takedown( monster *z );
 bool ranged_pull( monster *z );
