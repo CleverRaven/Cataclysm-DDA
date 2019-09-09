@@ -5676,6 +5676,17 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
     return &iexamine::none;
 }
 
+static int hack_level( const player &p )
+{
+    ///\EFFECT_COMPUTER increases success chance of hacking card readers
+    int target = p.get_skill_level( skill_computer );
+    // odds go up with int>8, down with int<8
+    // 4 int stat is worth 1 computer skill here
+    ///\EFFECT_INT increases success chance of hacking card readers
+    target += static_cast<int>( p.int_cur / 2 - 8 );
+    return target;
+}
+
 hack_result iexamine::hack_attempt( player &p )
 {
     if( p.has_trait( trait_ILLITERATE ) ) {
@@ -5692,33 +5703,31 @@ hack_result iexamine::hack_attempt( player &p )
 
     p.moves -= to_moves<int>( 5_minutes );
     p.practice( skill_computer, 20 );
-    ///\EFFECT_COMPUTER increases success chance of hacking card readers
-    int player_computer_skill_level = p.get_skill_level( skill_computer );
-    int success = rng( player_computer_skill_level / 4 - 2, player_computer_skill_level * 2 );
-    success += rng( -3, 3 );
     if( using_fingerhack ) {
         p.charge_power( -25 );
-        success++;
-    }
-    if( using_electrohack ) {
+    } else {
         p.use_charges( "electrohack", 25 );
-        success++;
     }
 
-    // odds go up with int>8, down with int<8
-    // 4 int stat is worth 1 computer skill here
-    ///\EFFECT_INT increases success chance of hacking card readers
-    success += rng( 0, static_cast<int>( ( p.int_cur - 8 ) / 2 ) );
-
+    // only skilled supergenius never cause short circuits, but the odds are low for people
+    // with moderate skills
+    const int hack_stddev = 5;
+    int success = std::ceil( normal_roll( hack_level( p ), hack_stddev ) );
     if( success < 0 ) {
         add_msg( _( "You cause a short circuit!" ) );
+        if( using_fingerhack ) {
+            p.charge_power( -25 );
+        } else {
+            p.use_charges( "electrohack", 25 );
+        }
+
         if( success <= -5 ) {
             if( using_electrohack ) {
                 add_msg( m_bad, _( "Your electrohack is ruined!" ) );
                 p.use_amount( "electrohack", 1 );
             } else {
                 add_msg( m_bad, _( "Your power is drained!" ) );
-                p.charge_power( -rng( 0, p.power_level ) );
+                p.charge_power( -rng( 25, p.power_level ) );
             }
         }
         return HACK_FAIL;
