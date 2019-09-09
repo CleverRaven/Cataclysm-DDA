@@ -5458,14 +5458,18 @@ void player::suffer()
     }
     for( const auto &m : my_mutations ) {
         const mutation_branch &mdata = m.first.obj();
-        const float water_weakness = mdata.weakness_to_water;
         for( const body_part bp : all_body_parts ) {
-            bool did_dmg = water_weakness * body_wetness[bp] > 0;
             if( calendar::once_every( 1_minutes ) ) {
-                apply_damage( nullptr, bp, water_weakness * body_wetness[bp] );
-                if( did_dmg ) {
+                const float wetness_percentage =  body_wetness[bp] / drench_capacity[bp]; // 0.0 - 1.0
+                const int dmg = mdata.weakness_to_water * wetness_percentage;
+                if( dmg > 0 ) {
+                    apply_damage( nullptr, bp, dmg );
                     add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the water." ),
                                            _( "<npc_name>'s %$2s is damaged by the water." ), body_part_name( bp ) );
+                } else if( dmg < 0 && hp_cur[bp_to_hp( bp )] != hp_max[bp_to_hp( bp )] ) {
+                    heal( bp, abs( dmg ) );
+                    add_msg_player_or_npc( m_good, _( "Your %s is healed by the water." ),
+                                           _( "<npc_name>'s %$2s is healed by the water." ), body_part_name( bp ) );
                 }
             }
         }
@@ -6264,6 +6268,10 @@ void player::drench( int saturation, const body_part_set &flags, bool ignore_wat
         if( body_wetness[bp] < wetness_max ) {
             body_wetness[bp] = std::min( wetness_max, body_wetness[bp] + wetness_increment );
         }
+    }
+
+    if( is_weak_to_water() ) {
+        add_msg_if_player( m_bad, _( "You feel the water burning your skin." ) );
     }
 
     // Remove onfire effect

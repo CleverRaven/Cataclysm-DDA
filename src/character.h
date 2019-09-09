@@ -483,6 +483,8 @@ class Character : public Creature, public visitable<Character>
 
         bool has_active_mutation( const trait_id &b ) const;
 
+        bool is_weak_to_water() const;
+
         /**
          * Returns resistances on a body part provided by mutations
          */

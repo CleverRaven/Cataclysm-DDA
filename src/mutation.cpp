@@ -318,6 +318,16 @@ bool Character::has_active_mutation( const trait_id &b ) const
     return iter != my_mutations.end() && iter->second.powered;
 }
 
+bool Character::is_weak_to_water() const
+{
+    for( const auto &mut : my_mutations ) {
+        if( mut.first.obj().weakness_to_water > 0 ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void player::activate_mutation( const trait_id &mut )
 {
     const mutation_branch &mdata = mut.obj();
