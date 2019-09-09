@@ -61,6 +61,17 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
     "components": [ [ [ "rag", 6 ] ], [ [ "down_feather", 40 ] ] ]
+  {
+    "type": "recipe",
+    "result": "down_mattress",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor 6",
+    "time": "240 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "rag", 60 ] ], [ [ "down_feather", 1160 ] ] ]
   },
   {
     "type": "recipe",
