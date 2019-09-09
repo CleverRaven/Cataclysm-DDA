@@ -566,6 +566,7 @@
       "both": {
         "items": [
           "pants_cargo",
+          "briefs",
           "cape_fp",
           "dress_shirt",
           "armguard_hard",
@@ -576,9 +577,7 @@
           "boots_rubber"
         ],
         "entries": [ { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "foodperson_mask" }, { "group": "snacks_fancy" }, { "group": "snacks" }, { "item": "bat" } ]
-      },
-      "male": [ "briefs" ],
-      "female": [ "panties" ]
+      }
     }
   },
   {
