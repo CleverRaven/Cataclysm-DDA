@@ -1223,7 +1223,6 @@ class map
 
         bool is_cornerfloor( const tripoint &p ) const;
 
-
         // mapgen.cpp functions
         void generate( const tripoint &p, const time_point &when );
         void place_spawns( const mongroup_id &group, int chance,
