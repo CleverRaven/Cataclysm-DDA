@@ -1760,7 +1760,7 @@
   {
     "type": "speech",
     "speaker": "mon_grocerybot_running_out_of_friendship",
-    "sound": "a distressed voice say, \"Customer!  Our friendship is running out!  Quick do something!\"",
+    "sound": "a distressed voice say, \"Customer!  Our friendship is running out!  Quick, do something!\"",
     "volume": 8
   },
   {
