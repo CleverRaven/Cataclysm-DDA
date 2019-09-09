@@ -202,7 +202,7 @@
     "subtype": "collection",
     "id": "mon_zombie_grenadier",
     "entries": [
-      { "item": "chestrig", "damage": [ 1, 4 ] },
+      { "item": "tacvest", "damage": [ 1, 4 ] },
       { "item": "bot_grenade_hack", "count": [ 0, 3 ] },
       { "item": "bot_flashbang_hack", "prob": 50 },
       { "item": "bot_gasbomb_hack", "prob": 50 }
@@ -213,7 +213,7 @@
     "subtype": "collection",
     "id": "mon_zombie_grenadier_elite",
     "entries": [
-      { "item": "chestrig", "damage": [ 1, 4 ] },
+      { "item": "tacvest", "damage": [ 1, 4 ] },
       { "item": "molle_pack", "damage": [ 1, 4 ] },
       { "item": "bot_grenade_hack", "count": [ 0, 4 ] },
       { "item": "bot_flashbang_hack", "count": [ 1, 2 ], "prob": 50 },
