@@ -880,7 +880,7 @@ void monster::move()
             // since the chance of switching is 1/1, 1/4, 1/6, 1/8
             switch_chance += progress * 2;
             // Randomly pick one of the viable squares to move to weighted by distance.
-            if( !moved || x_in_y( progress, switch_chance ) ) {
+            if( progress > 0 && ( !moved || x_in_y( progress, switch_chance ) ) ) {
                 moved = true;
                 next_step = candidate;
                 // If we stumble, pick a random square, otherwise take the first one,
