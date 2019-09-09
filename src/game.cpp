@@ -869,7 +869,7 @@ bool game::start_game()
         mission->assign( u );
     }
 
-    g->events().send<event_type::game_start>();
+    g->events().send<event_type::game_start>( u.getID() );
     return true;
 }
 
