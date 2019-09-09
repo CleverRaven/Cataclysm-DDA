@@ -680,7 +680,7 @@
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "kukri", "container-item": "sheath" },
-          { "item": "tacvest", "contents-group": "army_mags_mp5" },
+          { "item": "chestrig", "contents-group": "army_mags_mp5" },
           {
             "item": "hk_mp5",
             "ammo-item": "9mm",
