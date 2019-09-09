@@ -739,8 +739,8 @@ void mdeath::jabberwock( monster &z )
 
     if( vorpal && !ch->weapon.has_technique( matec_id( "VORPAL" ) ) ) {
         if( ch->sees( z ) ) {
-            //~ %s is the possessive form of the monster's name
             ch->add_msg_if_player( m_info,
+                                   //~ %s is the possessive form of the monster's name
                                    _( "As the flames in %s eyes die out, your weapon seems to shine slightly brighter." ),
                                    z.disp_name( true ) );
         }
@@ -815,8 +815,8 @@ void mdeath::detonate( monster &z )
 
     if( g->u.sees( z ) ) {
         if( dets.empty() ) {
-            //~ %s is the possessive form of the monster's name
             add_msg( m_info,
+                     //~ %s is the possessive form of the monster's name
                      _( "The %s's hands fly to its pockets, but there's nothing left in them." ),
                      z.name() );
         } else {

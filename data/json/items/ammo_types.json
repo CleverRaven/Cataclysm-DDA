@@ -73,6 +73,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "shotpaper",
+    "name": "20ga percussion",
+    "default": "shot_paper_00"
+  },
+  {
+    "type": "ammunition_type",
     "id": "410shot",
     "name": ".410 shot",
     "default": "410shot_000"
@@ -484,6 +490,12 @@
     "id": "flintlock",
     "name": "paper cartridge",
     "default": "flintlock_ammo"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "papershot",
+    "name": "20ga percussion",
+    "default": "nail"
   },
   {
     "type": "ammunition_type",

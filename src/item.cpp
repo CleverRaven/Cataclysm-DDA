@@ -195,7 +195,7 @@ item::item() : bday( calendar::start_of_cataclysm )
 
 item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
 {
-    corpse = typeId() == "corpse" ? &mtype_id::NULL_ID().obj() : nullptr;
+    corpse = has_flag( "CORPSE" ) ? &mtype_id::NULL_ID().obj() : nullptr;
     item_counter = type->countdown_interval;
 
     if( qty >= 0 ) {
@@ -325,7 +325,13 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
         debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
 
-    item result( "corpse", turn );
+    std::string corpse_type = "corpse";
+
+    if( mt == mtype_id::NULL_ID() ) {
+        corpse_type = item_group::item_from( "corpses" ).typeId();
+    }
+
+    item result( corpse_type, turn );
     result.corpse = &mt.obj();
 
     if( result.corpse->has_flag( MF_REVIVES ) && one_in( 20 ) ) {
@@ -3585,7 +3591,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 std::string item::display_money( unsigned int quantity, unsigned int amount ) const
 {
     //~ This is a string to display the total amount of money in a stack of cash cards. The strings are: %s is the display name of cash cards. The following bracketed $%.2f is the amount of money on the stack of cards in dollars, to two decimal points. (e.g. "cash cards ($15.35)")
-    return string_format( "%s %s", tname( quantity ), format_money( amount ) );
+    return string_format( pgettext( "cash card and total money", "%s %s" ), tname( quantity ),
+                          format_money( amount ) );
 }
 
 std::string item::display_name( unsigned int quantity ) const
@@ -4299,10 +4306,10 @@ static int calc_hourly_rotpoints_at_temp( const int temp )
     // default temp = 65, so generic->rotten() assumes 600 decay points per hour
     const int dropoff = 38;     // ditch our fancy equation and do a linear approach to 0 rot at 31f
     const int cutoff = 105;     // stop torturing the player at this temperature, which is
-    const int cutoffrot = 3540; // ..almost 6 times the base rate. bacteria hate the heat too
+    const int cutoffrot = 21240; // ..almost 6 times the base rate. bacteria hate the heat too
 
     const int dsteps = dropoff - temperatures::freezing;
-    const int dstep = ( 35.91 * std::pow( 2.0, static_cast<float>( dropoff ) / 16.0 ) / dsteps );
+    const int dstep = ( 215.46 * std::pow( 2.0, static_cast<float>( dropoff ) / 16.0 ) / dsteps );
 
     if( temp < temperatures::freezing ) {
         return 0;
@@ -4311,7 +4318,7 @@ static int calc_hourly_rotpoints_at_temp( const int temp )
     } else if( temp < dropoff ) {
         return ( temp - temperatures::freezing ) * dstep;
     } else {
-        return lround( 35.91 * std::pow( 2.0, static_cast<float>( temp ) / 16.0 ) );
+        return lround( 215.46 * std::pow( 2.0, static_cast<float>( temp ) / 16.0 ) );
     }
 }
 
@@ -4344,7 +4351,7 @@ int get_hourly_rotpoints_at_temp( const int temp )
         return 0;
     }
     if( temp > 150 ) {
-        return 3540;
+        return 21240;
     }
     return rot_chart[temp];
 }
@@ -4979,7 +4986,7 @@ std::string item::durability_indicator( bool include_intact ) const
         } else {
             outputstring = pgettext( "damage adjective", "reinforced " );
         }
-    } else if( typeId() == "corpse" ) {
+    } else if( has_flag( "CORPSE" ) ) {
         if( damage() > 0 ) {
             switch( damage_level( 4 ) ) {
                 case 1:
@@ -5284,7 +5291,7 @@ bool item::is_med_container() const
 
 bool item::is_corpse() const
 {
-    return corpse != nullptr && typeId() == "corpse";
+    return corpse != nullptr && has_flag( "CORPSE" );
 }
 
 const mtype *item::get_mtype() const
@@ -8096,12 +8103,6 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
     if( !active ) {
         return false;
     }
-    field_type_id smoke_type;
-    if( has_flag( "TOBACCO" ) ) {
-        smoke_type = fd_cigsmoke;
-    } else {
-        smoke_type = fd_weedsmoke;
-    }
     // if carried by someone:
     if( carrier != nullptr ) {
         time_duration duration = 15_seconds;
@@ -8134,9 +8135,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         }
     } else {
         // If not carried by someone, but laying on the ground:
-        // release some smoke every five ticks
         if( item_counter % 5 == 0 ) {
-            g->m.add_field( pos + point( rng( -2, 2 ), rng( -2, 2 ) ), smoke_type, 1 );
             // lit cigarette can start fires
             if( g->m.flammable_items_at( pos ) ||
                 g->m.has_flag( "FLAMMABLE", pos ) ||
@@ -8677,7 +8676,7 @@ std::string item::type_name( unsigned int quantity ) const
     bool f_dressed = has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" );
     bool quartered = has_flag( "QUARTERED" );
     bool skinned = has_flag( "SKINNED" );
-    if( corpse != nullptr && typeId() == "corpse" ) {
+    if( corpse != nullptr && has_flag( "CORPSE" ) ) {
         if( corpse_name.empty() ) {
             if( skinned && !f_dressed && !quartered ) {
                 return string_format( npgettext( "item name", "skinned %s corpse", "skinned %s corpses", quantity ),

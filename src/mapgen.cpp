@@ -7357,10 +7357,9 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 int biox = x1 + 2;
                 int bioy = static_cast<int>( ( y1 + y2 ) / 2 );
                 mapf::formatted_set_simple( m, biox - 1, bioy - 1,
-                                            "\
----\n\
-|c|\n\
--=-\n",
+                                            "---\n"
+                                            "|c|\n"
+                                            "-=-\n",
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
                 m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false,
@@ -7375,10 +7374,9 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
 
                 biox = x2 - 2;
                 mapf::formatted_set_simple( m, biox - 1, bioy - 1,
-                                            "\
--=-\n\
-|c|\n\
----\n",
+                                            "-=-\n"
+                                            "|c|\n"
+                                            "---\n",
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
                 m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false,
@@ -7394,10 +7392,9 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 int bioy = y1 + 2;
                 int biox = static_cast<int>( ( x1 + x2 ) / 2 );
                 mapf::formatted_set_simple( m, biox - 1, bioy - 1,
-                                            "\
-|-|\n\
-|c=\n\
-|-|\n",
+                                            "|-|\n"
+                                            "|c=\n"
+                                            "|-|\n",
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
                 m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false,
@@ -7412,10 +7409,9 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
 
                 bioy = y2 - 2;
                 mapf::formatted_set_simple( m, biox - 1, bioy - 1,
-                                            "\
-|-|\n\
-=c|\n\
-|-|\n",
+                                            "|-|\n"
+                                            "=c|\n"
+                                            "|-|\n",
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
                 m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false, 0 );

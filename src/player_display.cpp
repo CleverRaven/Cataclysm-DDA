@@ -1155,16 +1155,16 @@ void player::disp_info()
         ( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) &&
           g->weather.weather != WEATHER_SUNNY ) ) {
         effect_name.push_back( _( "In Sunlight" ) );
-        effect_text.push_back( _( "The sunlight irritates you.\n\
-Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" ) );
+        effect_text.push_back( _( "The sunlight irritates you.\n"
+                                  "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" ) );
     } else if( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) ) {
         effect_name.push_back( _( "In Sunlight" ) );
-        effect_text.push_back( _( "The sunlight irritates you badly.\n\
-Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" ) );
+        effect_text.push_back( _( "The sunlight irritates you badly.\n"
+                                  "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" ) );
     } else if( has_trait( trait_id( "TROGLO3" ) ) && g->is_in_sunlight( pos() ) ) {
         effect_name.push_back( _( "In Sunlight" ) );
-        effect_text.push_back( _( "The sunlight irritates you terribly.\n\
-Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
+        effect_text.push_back( _( "The sunlight irritates you terribly.\n"
+                                  "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     }
 
     for( auto &elem : addictions ) {

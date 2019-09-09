@@ -402,7 +402,7 @@
     "id": "mon_zombie_flamer",
     "ammo": 50,
     "magazine": 100,
-    "entries": [ { "item": "flamethrower", "charges-min": 100, "charges-max": 1500 } ]
+    "entries": [ { "item": "flamethrower", "charges-min": 0, "charges-max": 500 } ]
   },
   {
     "type": "item_group",

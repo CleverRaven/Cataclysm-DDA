@@ -802,30 +802,8 @@ void iexamine::cardreader_robofac( player &p, const tripoint &examp )
         add_msg( m_bad, _( "The card reader short circuits!" ) );
         g->m.ter_set( examp, t_card_reader_broken );
         intercom( p, examp );
-
     } else {
-        switch( hack_attempt( p ) ) {
-            case HACK_FAIL:
-            case HACK_NOTHING:
-                add_msg( _( "Nothing happens." ) );
-                break;
-            case HACK_SUCCESS: {
-                add_msg( _( "You activate the panel!" ) );
-                add_msg( m_bad, _( "The card reader short circuits!" ) );
-                g->m.ter_set( examp, t_card_reader_broken );
-                intercom( p, examp );
-            }
-            break;
-            case HACK_UNABLE:
-                add_msg(
-                    m_info,
-                    p.get_skill_level( skill_computer ) > 0 ?
-                    _( "Looks like you need a %s, or a tool to hack it with." ) :
-                    _( "Looks like you need a %s." ),
-                    item::nname( card_type )
-                );
-                break;
-        }
+        add_msg( _( "You have never seen this card reader model before.  Hacking it seems impossible." ) );
     }
 }
 
@@ -1308,10 +1286,9 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
  */
 void iexamine::fault( player &, const tripoint & )
 {
-    popup( _( "\
-This wall is perfectly vertical.  Odd, twisted holes are set in it, leading\n\
-as far back into the solid rock as you can see.  The holes are humanoid in\n\
-shape, but with long, twisted, distended limbs." ) );
+    popup( _( "This wall is perfectly vertical.  Odd, twisted holes are set in it, leading\n"
+              "as far back into the solid rock as you can see.  The holes are humanoid in\n"
+              "shape, but with long, twisted, distended limbs." ) );
 }
 
 /**
@@ -1365,8 +1342,8 @@ void iexamine::pedestal_temple( player &p, const tripoint &examp )
         g->m.ter_set( examp, t_dirt );
         g->timed_events.add( TIMED_EVENT_TEMPLE_OPEN, calendar::turn + 10_seconds );
     } else {
-        add_msg( _( "This pedestal is engraved in eye-shaped diagrams, and has a \
-large semi-spherical indentation at the top." ) );
+        add_msg( _( "This pedestal is engraved in eye-shaped diagrams, and has a "
+                    "large semi-spherical indentation at the top." ) );
     }
 }
 
@@ -4286,8 +4263,8 @@ static player &best_installer( player &p, player &null_player, int difficulty )
             player &ally = *g->critter_by_id<player>( e->getID() );
             int ally_cos = bionic_manip_cos( ally_skills[ i ].first, true, difficulty );
             if( e->has_effect( effect_sleep ) ) {
-                //~ %1$s is the name of the ally
                 if( !g->u.query_yn(
+                        //~ %1$s is the name of the ally
                         _( "<color_white>%1$s is asleep, but has a <color_green>%2$d<color_white> chance of success compared to your <color_red>%3$d<color_white> chance of success.  Continue with a higher risk of failure?</color>" ),
                         ally.disp_name(), ally_cos, player_cos ) ) {
                     return null_player;

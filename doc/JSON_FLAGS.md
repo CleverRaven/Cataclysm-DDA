@@ -631,7 +631,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 ### Flags
 
 - ```ANESTHESIA``` ... Item is considered anesthesia for the purpose of installing or uninstalling bionics.
-- ```BIONIC_NPC_USABLE``` Safe CBMs that NPCs can use without extensive NPC rewrites to utilize toggle CBMs.
+- ```BIONIC_NPC_USABLE``` ... Safe CBMs that NPCs can use without extensive NPC rewrites to utilize toggle CBMs.
+- ```CORPSE``` ... Flag used to spawn various human corpses during the mapgen.
 - ```DANGEROUS``` ... NPCs will not accept this item. Explosion iuse actor implies this flag. Implies "NPC_THROW_NOW".
 - ```DURABLE_MELEE``` ... Item is made to hit stuff and it does it well, so it's considered to be a lot tougher than other weapons made of the same materials.
 - ```FAKE_MILL``` ... Item is a fake item, to denote a partially milled product by @ref Item::process_fake_mill, where conditions for its removal are set.
@@ -646,7 +647,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```NO_PACKED``` ... This item is not protected against contamination and won't stay sterile.  Only applies to CBMs.
 - ```NO_PICKUP``` ... Character can not pickup anything while wielding this item (e.g. bionic claws).
 - ```NO_REPAIR``` ... Prevents repairing of this item even if otherwise suitable tools exist.
-- ```NO_SALVAGE``` Item cannot be broken down through a salvage process. Best used when something should not be able to be broken down (i.e. base components like leather patches).
+- ```NO_SALVAGE``` ... Item cannot be broken down through a salvage process. Best used when something should not be able to be broken down (i.e. base components like leather patches).
 - ```NO_STERILE``` ... This item is not sterile.  Only applies to CBMs.
 - ```NPC_ACTIVATE``` ... NPCs can activate this item as an alternative attack. Currently by throwing it right after activation. Implied by "BOMB".
 - ```NPC_ALT_ATTACK``` ... Shouldn't be set directly. Implied by "NPC_ACTIVATE" and "NPC_THROWN".
@@ -664,7 +665,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```TINDER``` ... This item can be used as tinder for lighting a fire with a REQUIRES_TINDER flagged firestarter.
 - ```TRADER_AVOID``` ... NPCs will not start with this item. Use this for active items (e.g. flashlight (on)), dangerous items (e.g. active bomb), fake item or unusual items (e.g. unique quest item).
 - ```UNBREAKABLE_MELEE``` ... Does never get damaged when used as melee weapon.
-- ```UNRECOVERABLE``` Cannot be recovered from a disassembly.
+- ```UNRECOVERABLE``` ... Cannot be recovered from a disassembly.
 
 
 ## Guns

@@ -1287,8 +1287,8 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         g->events().send<event_type::crosses_marloss_threshold>( p.getID() );
         p.add_msg_if_player( m_good,
                              _( "You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
-        //~ Beginning to hear the Mycus while conscious: that's it speaking
         p.add_msg_if_player( m_good,
+                             //~ Beginning to hear the Mycus while conscious: that's it speaking
                              _( "unity.  together we have reached the door.  we provide the final key.  now to pass through..." ) );
     } else {
         p.add_msg_if_player( _( "You feel a strange warmth spreading throughout your body..." ) );
@@ -1310,8 +1310,8 @@ static bool marloss_prevented( const player &p )
         return true;
     }
     if( p.has_trait( trait_MARLOSS_AVOID ) ) {
-        //~"Uh-uh" is a sound used for "nope", "no", etc.
         p.add_msg_if_player( m_warning,
+                             //~ "Uh-uh" is a sound used for "nope", "no", etc.
                              _( "After what happened that last time?  uh-uh.  You're not eating that alien poison." ) );
         return true;
     }
@@ -1389,10 +1389,10 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
         p->fall_asleep( 5_hours - p->int_cur * 1_minutes );
         p->unset_mutation( trait_THRESH_MARLOSS );
         p->set_mutation( trait_THRESH_MYCUS );
+        g->refresh_all();
         //~ The Mycus does not use the term (or encourage the concept of) "you".  The PC is a local/native organism, but is now the Mycus.
         //~ It still understands the concept, but uninitelligent fungaloids and mind-bent symbiotes should not need it.
         //~ We are the Mycus.
-        g->refresh_all();
         popup( _( "We welcome into us. We have endured long in this forbidding world." ) );
         p->add_msg_if_player( " " );
         p->add_msg_if_player( m_good,

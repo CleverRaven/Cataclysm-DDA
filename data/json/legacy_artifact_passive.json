@@ -33,5 +33,15 @@
       { "value": "INTELLIGENCE", "add": 2 }
     ],
     "has": "WIELD"
+  },
+  {
+    "type": "enchantment",
+    "id": "AEP_SPEED_UP",
+    "values": [ { "value": "SPEED", "add": 20 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "AEP_SPEED_DOWN",
+    "values": [ { "value": "SPEED", "add": -20 } ]
   }
 ]
