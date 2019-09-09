@@ -5456,6 +5456,20 @@ void player::suffer()
             }
         }
     }
+    for( const auto &m : my_mutations ) {
+        const mutation_branch &mdata = m.first.obj();
+        const float water_weakness = mdata.weakness_to_water;
+        for( const body_part bp : all_body_parts ) {
+            bool did_dmg = water_weakness * body_wetness[bp] > 0;
+            if( calendar::once_every( 1_minutes ) ) {
+                apply_damage( nullptr, bp, water_weakness * body_wetness[bp] );
+                if( did_dmg ) {
+                    add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the water." ),
+                                           _( "<npc_name>'s %$2s is damaged by the water." ), body_part_name( bp ) );
+                }
+            }
+        }
+    }
 
     if( has_trait( trait_SUNBURN ) && g->is_in_sunlight( pos() ) && one_in( 10 ) ) {
         if( !( weapon.has_flag( "RAIN_PROTECT" ) ) ) {
