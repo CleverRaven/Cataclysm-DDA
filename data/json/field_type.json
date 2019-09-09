@@ -283,6 +283,38 @@
     "display_field": true
   },
   {
+    "id": "fd_tindalos_rift",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "angular ripple",
+        "color": "light_gray",
+        "sym": "*",
+        "light_emitted": 160
+      },
+      { "name": "angular rift", "color": "dark_gray" },
+      {
+        "name": "fractal fissure",
+        "color": "magenta",
+        "transparent": false,
+        "monster_spawn_chance": 15,
+        "monster_spawn_count": 1,
+        "monster_spawn_radius": 1,
+        "monster_spawn_group": "GROUP_TINDALOS",
+        "light_emitted": 160
+      }
+    ],
+    "priority": 9,
+    "half_life": "10 seconds",
+    "accelerated_decay": true,
+    "wandering_field": "fd_tindalos_gas",
+    "gas_absorption_factor": 15,
+    "dirty_transparency_cache": true,
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true
+  },
+  {
     "id": "fd_fire_vent",
     "type": "field_type",
     "legacy_enum_id": 17,
@@ -588,6 +620,23 @@
     "half_life": "275 turns",
     "phase": "gas",
     "accelerated_decay": true,
+    "display_field": true
+  },
+  {
+    "id": "fd_tindalos_gas",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "swirl of fog", "translucency": 5, "light_emitted": 20 },
+      { "name": "foul fog", "color": "cyan" },
+      { "name": "thick foul fog", "color": "pink" }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 150,
+    "outdoor_age_speedup": "6 minutes",
+    "dirty_transparency_cache": true,
+    "priority": 8,
+    "half_life": "35 minutes",
+    "phase": "gas",
     "display_field": true
   },
   {

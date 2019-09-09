@@ -275,7 +275,8 @@ field_type_id fd_null,
               fd_hot_air4,
               fd_fungicidal_gas,
               fd_insecticidal_gas,
-              fd_smoke_vent
+              fd_smoke_vent,
+              fd_tindalos_rift
               ;
 
 void field_types::set_field_type_ids()
@@ -332,6 +333,8 @@ void field_types::set_field_type_ids()
     fd_fungicidal_gas = field_type_id( "fd_fungicidal_gas" );
     fd_insecticidal_gas = field_type_id( "fd_insecticidal_gas" );
     fd_smoke_vent = field_type_id( "fd_smoke_vent" );
+    fd_tindalos_rift = field_type_id("fd_tindalos_rift");
+
 }
 
 field_type field_types::get_field_type_by_legacy_enum( int legacy_enum_id )
