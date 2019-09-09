@@ -779,7 +779,7 @@ std::string describe( const trap &type )
 }
 
 template<typename T_t>
-static void apply( const T_t &t, const shapetype editshape, const tripoint &target,
+static void apply( const T_t &t, shapetype editshape, const tripoint &target,
                    const tripoint &origin, const std::vector<tripoint> &target_list );
 
 template<>
@@ -854,7 +854,7 @@ void editmap::edit_feature()
         return;
     }
 
-    typedef decltype( T_t().id.id() ) T_id;
+    using T_id = decltype( T_t().id.id() );
 
     uilist emenu;
     emenu.w_width = width;
