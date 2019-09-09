@@ -69,6 +69,38 @@
     "type": "json_flag"
   },
   {
+    "id": "EFFECT_BIO_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_BASH_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_CUT_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_ACID_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_STAB_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_HEAT_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_COLD_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "ELECTRIC_IMMUNE",
+    "type": "json_flag"
+  },
+  {
     "id": "BLOCK_WHILE_WORN",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
