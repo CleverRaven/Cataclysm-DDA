@@ -1772,13 +1772,13 @@
   {
     "type": "speech",
     "speaker": "mon_grocerybot_running_out_of_friendship",
-    "sound": "a worried voice say, \"Customer?  We'll be friend forever, right?\"",
+    "sound": "a worried voice say, \"Customer?  We'll be friends forever, right?\"",
     "volume": 8
   },
   {
     "type": "speech",
     "speaker": "mon_grocerybot_running_out_of_friendship",
-    "sound": "a worried voice say, \"Customer could you please get more friendship?  I don't want to go...\"",
+    "sound": "a worried voice say, \"Customer, could you please get more friendship?  I don't want to go...\"",
     "volume": 8
   },
   {
@@ -1808,25 +1808,25 @@
   {
     "type": "speech",
     "speaker": "mon_grocerybot_hacked",
-    "sound": "a distorted voice say, \"Customer... What's happening?  I don't feel so good.\"",
+    "sound": "a distorted voice say, \"Customer...  What's happening?  I don't feel so good.\"",
     "volume": 8
   },
   {
     "type": "speech",
     "speaker": "mon_grocerybot_hacked",
-    "sound": "a distorted voice say, \"What.. have you done?  Please let me go!\"",
+    "sound": "a distorted voice say, \"What...  have you done?  Please let me go!\"",
     "volume": 8
   },
   {
     "type": "speech",
     "speaker": "mon_grocerybot_hacked",
-    "sound": "a panicked voice say, \"Customer where are we?  I don't want to play anymore, please let me go home!\"",
+    "sound": "a panicked voice say, \"Customer, where are we?  I don't want to play anymore, please let me go home!\"",
     "volume": 8
   },
   {
     "type": "speech",
     "speaker": "mon_grocerybot_hacked",
-    "sound": "a crying voice say, \"Why did you do that?  I though we were friends!\"",
+    "sound": "a crying voice say, \"Why did you do that?  I thought we were friends!\"",
     "volume": 8
   },
   {
