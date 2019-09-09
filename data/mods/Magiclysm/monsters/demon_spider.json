@@ -224,9 +224,6 @@
     "vision_night": 18,
     "harvest": "demon_spider_queen",
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON", "STUN_IMMUNE" ],
-    "special_attacks": [
-      { "type": "spell", "spell_id": "mon_summon_demon_spiderlings", "cooldown": 35 },
-      { "type": "spell", "spell_id": "mon_demon_fireball", "cooldown": 10 }
-    ]
+    "special_attacks": [ { "type": "spell", "spell_id": "mon_summon_demon_spiderlings", "cooldown": 14 } ]
   }
 ]

@@ -122,7 +122,7 @@ void kill_tracker::clear()
     npc_kills.clear();
 }
 
-void kill_tracker::notify( const event &e )
+void kill_tracker::notify( const cata::event &e )
 {
     switch( e.type() ) {
         case event_type::character_kills_monster: {

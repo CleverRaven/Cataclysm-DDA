@@ -488,7 +488,7 @@
         "r": { "items": [ { "item": "mine_equipment", "chance": 30 } ] },
         "c": { "items": [ { "item": "chem_lab", "chance": 30 } ] }
       },
-      "place_monster": [ { "monster": "mon_turret", "x": 11, "y": 9, "chance": 20 } ],
+      "place_monster": [ { "monster": "mon_turret_rifle", "x": 11, "y": 9, "chance": 20 } ],
       "place_nested": [
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 6, "y": 11 },
         { "chunks": [ "lab_spawn_7x7_wall_nw" ], "x": 12, "y": 2 },

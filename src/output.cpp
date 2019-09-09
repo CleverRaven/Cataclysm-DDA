@@ -394,14 +394,15 @@ void center_print( const catacurses::window &w, const int y, const nc_color &FG,
                    const std::string &text )
 {
     int window_width = getmaxx( w );
-    int string_width = utf8_width( text );
+    int string_width = utf8_width( text, true );
     int x;
     if( string_width >= window_width ) {
         x = 0;
     } else {
         x = ( window_width - string_width ) / 2;
     }
-    mvwprintz( w, point( x, y ), FG, text );
+    const int available_width = std::max( 1, window_width - x );
+    trim_and_print( w, point( x, y ), available_width, FG, text );
 }
 
 int right_print( const catacurses::window &w, const int line, const int right_indent,
@@ -715,22 +716,22 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
 
     starty += fold_and_print( win, point( 1, starty ), len, c_white,
                               _( "Separate multiple items with ," ) );
-    //~ An example of how to separate multiple items with a comma when filtering items.
     starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
+                                  //~ An example of how to separate multiple items with a comma when filtering items.
                                   _( "Example: back,flash,aid, ,band" ) );
 
     if( type == item_filter_type::FILTER ) {
         starty += fold_and_print( win, point( 1, starty ), len, c_white,
                                   _( "To exclude items, place - in front." ) );
-        //~ An example of how to exclude items with - when filtering items.
         starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
+                                      //~ An example of how to exclude items with - when filtering items.
                                       _( "Example: -pipe,-chunk,-steel" ) );
     }
 
     starty += fold_and_print( win, point( 1, starty ), len, c_white,
                               _( "Search [c]ategory, [m]aterial, [q]uality or [d]isassembled components:" ) );
-    //~ An example of how to filter items based on category or material.
     fold_and_print( win, point( 1, starty ), len, c_white,
+                    //~ An example of how to filter items based on category or material.
                     _( "Examples: c:food,m:iron,q:hammering,d:pipe" ) );
     wrefresh( win );
 }
@@ -1695,13 +1696,12 @@ void display_table( const catacurses::window &w, const std::string &title, int c
     }
 }
 
-scrollingcombattext::cSCT::cSCT( const int p_iPosX, const int p_iPosY, const direction p_oDir,
+scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
                                  const std::string &p_sText, const game_message_type p_gmt,
                                  const std::string &p_sText2, const game_message_type p_gmt2,
                                  const std::string &p_sType )
 {
-    iPosX = p_iPosX;
-    iPosY = p_iPosY;
+    pos = p_pos;
     sType = p_sType;
     oDir = p_oDir;
 
@@ -1721,13 +1721,12 @@ scrollingcombattext::cSCT::cSCT( const int p_iPosX, const int p_iPosY, const dir
 
     point pairDirXY = direction_XY( oDir );
 
-    iDirX = pairDirXY.x;
-    iDirY = pairDirXY.y;
+    dir = pairDirXY;
 
-    if( iDirX == 0 && iDirY == 0 ) {
+    if( dir == point_zero ) {
         // This would cause infinite loop otherwise
         oDir = WEST;
-        iDirX = -1;
+        dir.x = -1;
     }
 
     iStep = 0;
@@ -1789,7 +1788,7 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
                     iter.advanceStepOffset();
                 }
             }
-            vSCT.insert( vSCT.begin(), cSCT( pos.x, pos.y, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2,
+            vSCT.insert( vSCT.begin(), cSCT( pos, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2,
                                              p_sType ) );
 
         } else {
@@ -1800,7 +1799,7 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
                     iter->advanceStepOffset();
                 }
             }
-            vSCT.push_back( cSCT( pos.x, pos.y, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2, p_sType ) );
+            vSCT.push_back( cSCT( pos, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2, p_sType ) );
         }
 
     }
@@ -1866,7 +1865,7 @@ int scrollingcombattext::cSCT::getPosX() const
             iDirOffset -= getText().length() - 1;
         }
 
-        return iPosX + iDirOffset + ( iDirX * ( ( sType == "hp" ) ? ( getStepOffset() + 1 ) :
+        return pos.x + iDirOffset + ( dir.x * ( ( sType == "hp" ) ? ( getStepOffset() + 1 ) :
                                                 ( getStepOffset() * ( iso_mode ? 2 : 1 ) + getStep() ) ) );
     }
 
@@ -1894,7 +1893,7 @@ int scrollingcombattext::cSCT::getPosY() const
 
         }
 
-        return iPosY + iDirOffset + ( iDirY * ( ( iso_mode && sType == "hp" ) ? ( getStepOffset() + 1 ) :
+        return pos.y + iDirOffset + ( dir.y * ( ( iso_mode && sType == "hp" ) ? ( getStepOffset() + 1 ) :
                                                 ( getStepOffset() * ( iso_mode ? 2 : 1 ) + getStep() ) ) );
     }
 

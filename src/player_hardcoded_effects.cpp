@@ -59,6 +59,7 @@ const efftype_id effect_formication( "formication" );
 const efftype_id effect_frostbite( "frostbite" );
 const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_grabbing( "grabbing" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_hot( "hot" );
 const efftype_id effect_infected( "infected" );
@@ -508,7 +509,7 @@ void player::hardcoded_effects( effect &it )
         }
     } else if( id == effect_formication ) {
         ///\EFFECT_INT decreases occurrence of itching from formication effect
-        if( x_in_y( intense, 600 + 300 * get_int() ) ) {
+        if( x_in_y( intense, 600 + 300 * get_int() ) && !has_effect( effect_narcosis ) ) {
             if( !is_npc() ) {
                 //~ %s is bodypart in accusative.
                 add_msg( m_warning, _( "You start scratching your %s!" ), body_part_name_accusative( bp ) );
@@ -847,14 +848,13 @@ void player::hardcoded_effects( effect &it )
         int zed_number = 0;
         for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
             const monster *const mon = g->critter_at<monster>( dest );
-            if( mon && ( mon->has_flag( MF_GRABS ) ||
-                         mon->type->has_special_attack( "GRAB" ) ) ) {
+            if( mon && mon->has_effect( effect_grabbing ) ) {
                 zed_number += mon->get_grab_strength();
             }
         }
         if( zed_number > 0 ) {
-            add_effect( effect_grabbed, 2_turns, bp_torso, false,
-                        ( intense + zed_number ) / 2 ); //If intensity isn't pass the cap, average it with # of zeds
+            //If intensity isn't pass the cap, average it with # of zeds
+            add_effect( effect_grabbed, 2_turns, bp_torso, false, ( intense + zed_number ) / 2 );
         }
     } else if( id == effect_bite ) {
         bool recovered = false;

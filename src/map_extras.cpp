@@ -105,7 +105,6 @@ static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
 static const mtype_id mon_chickenbot( "mon_chickenbot" );
 static const mtype_id mon_dispatch( "mon_dispatch" );
 static const mtype_id mon_tankbot( "mon_tankbot" );
-static const mtype_id mon_turret( "mon_turret" );
 static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
 static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 static const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
@@ -428,12 +427,12 @@ static void mx_military( map &m, const tripoint & )
         return m.passable( n );
         } ) ) {
             if( one_in( 10 ) ) {
-                m.add_spawn( mon_zombie_soldier, 1, point( p->x, p->y ) );
+                m.add_spawn( mon_zombie_soldier, 1, p->xy() );
             } else if( one_in( 25 ) ) {
                 if( one_in( 2 ) ) {
-                    m.add_spawn( mon_zombie_bio_op, 1, point( p->x, p->y ) );
+                    m.add_spawn( mon_zombie_bio_op, 1, p->xy() );
                 } else {
-                    m.add_spawn( mon_dispatch, 1, point( p->x, p->y ) );
+                    m.add_spawn( mon_dispatch, 1, p->xy() );
                 }
             } else {
                 m.place_items( "map_extra_military", 100, *p, *p, true, calendar::start_of_cataclysm );
@@ -460,7 +459,7 @@ static void mx_science( map &m, const tripoint & )
         return m.passable( n );
         } ) ) {
             if( one_in( 10 ) ) {
-                m.add_spawn( mon_zombie_scientist, 1, point( p->x, p->y ) );
+                m.add_spawn( mon_zombie_scientist, 1, p->xy() );
             } else {
                 m.place_items( "map_extra_science", 100, *p, *p, true, calendar::start_of_cataclysm );
             }
@@ -486,7 +485,7 @@ static void mx_collegekids( map &m, const tripoint & )
         return m.passable( n );
         } ) ) {
             if( one_in( 10 ) ) {
-                m.add_spawn( mon_zombie_tough, 1, point( p->x, p->y ) );
+                m.add_spawn( mon_zombie_tough, 1, p->xy() );
             } else {
                 if( type < 6 ) { // kids going to a cabin in the woods
                     m.place_items( "map_extra_college_camping", 100, *p, *p, true, calendar::start_of_cataclysm );
@@ -610,22 +609,22 @@ static void mx_roadblock( map &m, const tripoint &abs_sub )
         if( road_at_north ) {
             line_furn( &m, f_barricade_road, 4, 3, 10, 3 );
             line_furn( &m, f_barricade_road, 13, 3, 19, 3 );
-            m.add_spawn( mon_turret, 1, point( 12, 1 ) );
+            m.add_spawn( mon_turret_rifle, 1, point( 12, 1 ) );
         }
         if( road_at_east ) {
             line_furn( &m, f_barricade_road, SEEX * 2 - 3, 4, SEEX * 2 - 3, 10 );
             line_furn( &m, f_barricade_road, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19 );
-            m.add_spawn( mon_turret, 1, point( SEEX * 2 - 1, 12 ) );
+            m.add_spawn( mon_turret_rifle, 1, point( SEEX * 2 - 1, 12 ) );
         }
         if( road_at_south ) {
             line_furn( &m, f_barricade_road, 4, SEEY * 2 - 3, 10, SEEY * 2 - 3 );
             line_furn( &m, f_barricade_road, 13, SEEY * 2 - 3, 19, SEEY * 2 - 3 );
-            m.add_spawn( mon_turret, 1, point( 12, SEEY * 2 - 1 ) );
+            m.add_spawn( mon_turret_rifle, 1, point( 12, SEEY * 2 - 1 ) );
         }
         if( road_at_west ) {
             line_furn( &m, f_barricade_road, 3, 4, 3, 10 );
             line_furn( &m, f_barricade_road, 3, 13, 3, 19 );
-            m.add_spawn( mon_turret, 1, point( 1, 12 ) );
+            m.add_spawn( mon_turret_rifle, 1, point( 1, 12 ) );
         }
 
         m.add_vehicle( vproto_id( "policecar" ), point( 8, 6 ), 20 );
@@ -844,7 +843,7 @@ static void mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
         if( !p ) {
             break;
         }
-        m.furn_set( point( p->x, p->y ), f_crate_c );
+        m.furn_set( p->xy(), f_crate_c );
         std::string item_group;
         switch( rng( 1, 10 ) ) {
             case 1:
@@ -2634,6 +2633,39 @@ static void mx_looters( map &m, const tripoint &abs_sub )
     }
 }
 
+static void mx_corpses( map &m, const tripoint &abs_sub )
+{
+    const int num_corpses = rng( 1, 5 );
+    const auto gibs = item_group::items_from( "remains_human_generic", calendar::start_of_cataclysm );
+    //Spawn up to 5 human corpses in random places
+    for( int i = 0; i < num_corpses; i++ ) {
+        const tripoint corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 1 ), abs_sub.z };
+        if( g->is_empty( corpse_location ) ) {
+            m.add_field( corpse_location, fd_blood, rng( 1, 3 ) );
+            m.add_corpse( corpse_location );
+            //50% chance to spawn blood in every tile around every corpse in 1-tile radius
+            for( const auto &loc : m.points_in_radius( corpse_location, 1 ) ) {
+                if( one_in( 2 ) ) {
+                    m.add_field( loc, fd_blood, rng( 1, 3 ) );
+                }
+            }
+        }
+    }
+    //10% chance to spawn a flock of stray dogs feeding on human flesh
+    if( one_in( 10 ) && num_corpses <= 4 ) {
+        const tripoint corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 1 ), abs_sub.z };
+        m.spawn_items( corpse_location, gibs );
+        m.add_field( corpse_location, fd_gibs_flesh, rng( 1, 3 ) );
+        //50% chance to spawn gibs and dogs in every tile around what's left of human corpse in 1-tile radius
+        for( const auto &loc : m.points_in_radius( corpse_location, 1 ) ) {
+            if( one_in( 2 ) ) {
+                m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
+                m.place_spawns( mongroup_id( "GROUP_STRAY_DOGS" ), 1, loc.xy(), loc.xy(), 1, true );
+            }
+        }
+    }
+}
+
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
     { "mx_crater", mx_crater },
@@ -2668,7 +2700,8 @@ FunctionMap builtin_functions = {
     { "mx_point_burned_ground", mx_point_burned_ground },
     { "mx_marloss_pilgrimage", mx_marloss_pilgrimage },
     { "mx_casings", mx_casings },
-    { "mx_looters", mx_looters }
+    { "mx_looters", mx_looters },
+    { "mx_corpses", mx_corpses }
 };
 
 map_extra_pointer get_function( const std::string &name )

@@ -637,10 +637,10 @@ class vehicle
         units::volume total_folded_volume() const;
 
         // Vehicle fuel indicator (by fuel)
-        void print_fuel_indicator( const catacurses::window &w, int y, int x,
+        void print_fuel_indicator( const catacurses::window &w, const point &p,
                                    const itype_id &fuel_type,
                                    bool verbose = false, bool desc = false );
-        void print_fuel_indicator( const catacurses::window &w, int y, int x,
+        void print_fuel_indicator( const catacurses::window &w, const point &p,
                                    const itype_id &fuel_type,
                                    std::map<itype_id, float> fuel_usages,
                                    bool verbose = false, bool desc = false );
@@ -760,6 +760,7 @@ class vehicle
         bool handle_potential_theft( player &p, bool check_only = false, bool prompt = true );
         // project a tileray forward to predict obstacles
         std::set<point> immediate_path( int rotate = 0 );
+        void drive_to_local_target( const tripoint &autodrive_local_target, bool follow_protocol );
         void do_autodrive();
         /**
          *  Operate vehicle controls
@@ -774,7 +775,7 @@ class vehicle
         bool start_engine( int e );
 
         // Attempt to start the vehicle's active engines
-        void start_engines( bool take_control = false );
+        void start_engines( bool take_control = false, bool autodrive = false );
 
         // Engine backfire, making a loud noise
         void backfire( int e ) const;
@@ -947,7 +948,8 @@ class vehicle
 
         // returns indices of all parts in the given location slot
         std::vector<int> all_parts_at_location( const std::string &location ) const;
-
+        // shifts an index to next available of that type for NPC activities
+        int get_next_shifted_index( int original_index, player &p );
         // Given a part and a flag, returns the indices of all contiguously adjacent parts
         // with the same flag on the X and Y Axis
         std::vector<std::vector<int>> find_lines_of_parts( int part, const std::string &flag );
@@ -1007,6 +1009,7 @@ class vehicle
         // get monster on a boardable part at p
         monster *get_pet( int p ) const;
 
+        bool enclosed_at( const tripoint &pos ); // not const because it calls refresh_insides
         /**
          * Get the coordinates (in map squares) of this vehicle, it's the same
          * coordinate system that player::posx uses.
@@ -1281,12 +1284,16 @@ class vehicle
         // Process the trap beneath
         void handle_trap( const tripoint &p, int part );
 
+        void activate_animal_follow();
+        /**
+         * vehicle is driving itself
+         */
+        void autodrive( int x, int y );
         /**
          * Player is driving the vehicle
-         * @param x direction player is steering
-         * @param y direction player is steering
+         * @param p direction player is steering
          */
-        void pldrive( int x, int y );
+        void pldrive( const point &p );
 
         // stub for per-vpart limit
         units::volume max_volume( int part ) const;
@@ -1517,12 +1524,12 @@ class vehicle
         bool is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int wheel_count,
                 int turning_wheels_that_are_one_axis ) const;
         /**
-         * Update the submap coordinates smx, smy, and update the tracker info in the overmap
+         * Update the submap coordinates and update the tracker info in the overmap
          * (if enabled).
          * This should be called only when the vehicle has actually been moved, not when
          * the map is just shifted (in the later case simply set smx/smy directly).
          */
-        void set_submap_moved( int x, int y );
+        void set_submap_moved( const point &p );
         void use_autoclave( int p );
         void use_washing_machine( int p );
         void use_dishwasher( int p );
@@ -1700,6 +1707,7 @@ class vehicle
 
     public:
         bool is_autodriving = false;
+        bool is_following = false;
         bool all_wheels_on_one_axis;
         // TODO: change these to a bitset + enum?
         // cruise control on/off

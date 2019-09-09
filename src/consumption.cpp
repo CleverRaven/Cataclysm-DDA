@@ -1255,7 +1255,7 @@ bool player::can_feed_furnace_with( const item &it ) const
         return false;
     }
 
-    return it.typeId() != "corpse"; // TODO: Eliminate the hard-coded special case.
+    return !it.has_flag( "CORPSE" );
 }
 
 bool player::feed_furnace_with( item &it )

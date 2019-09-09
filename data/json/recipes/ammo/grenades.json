@@ -29,7 +29,7 @@
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 4 ], [ "manual_shotgun", 6 ] ],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_40mm", 1 ], [ "ammo_bullet", 12 ] ],
+    "using": [ [ "shot_forming", 2 ], [ "ammo_40mm", 1 ], [ "ammo_bullet", 12 ] ],
     "components": [ [ [ "gunpowder", 30 ], [ "gunpowder_pistol", 30 ], [ "gunpowder_shotgun", 30 ] ] ]
   },
   {

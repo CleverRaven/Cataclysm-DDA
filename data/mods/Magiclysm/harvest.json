@@ -165,10 +165,74 @@
     "type": "harvest",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "dragon_blood", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "meat_dragon", "type": "flesh", "mass_ratio": 0.18 },
       { "drop": "dragon_black_scale", "type": "skin", "mass_ratio": 0.05 },
       { "drop": "black_dragon_hide_raw", "type": "skin", "mass_ratio": 0.1 },
       { "drop": "bone", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "zombie",
+    "//": "your bog standard zombie",
+    "type": "harvest",
+    "entries": [
+      { "drop": "tainted_blood", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "pheromone", "type": "bionic", "max": 1 }
+    ]
+  },
+  {
+    "id": "zombie_leather",
+    "//": "any zombie that might drop leather. mostly animals.",
+    "type": "harvest",
+    "entries": [
+      { "drop": "tainted_blood", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "pheromone", "type": "bionic", "max": 1 }
+    ]
+  },
+  {
+    "id": "zombie_fur",
+    "//": "any zombie that might drop leather. mostly animals.",
+    "type": "harvest",
+    "entries": [
+      { "drop": "tainted_blood", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "raw_tainted_fur", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "pheromone", "type": "bionic", "max": 1 }
+    ]
+  },
+  {
+    "id": "zombie_meatslug",
+    "//": "no bones or organs",
+    "type": "harvest",
+    "entries": [
+      { "drop": "tainted_blood", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.4 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "fat_tainted", "type": "offal", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "human",
+    "//": "a monstrous horror, probably the most destructive entity you will ever see",
+    "type": "harvest",
+    "entries": [
+      { "drop": "blood", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "bone_human", "type": "bone", "mass_ratio": 0.12 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
+      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.01 }
     ]
   }
 ]

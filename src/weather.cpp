@@ -99,7 +99,7 @@ void weather_effect::glare( sun_intensity intensity )
 
 int incident_sunlight( weather_type wtype, const time_point &t )
 {
-    return std::max<float>( 0.0f, sunlight( t ) + weather::light_modifier( wtype ) );
+    return std::max<float>( 0.0f, sunlight( t, false ) + weather::light_modifier( wtype ) );
 }
 
 inline void proc_weather_sum( const weather_type wtype, weather_sum &data,

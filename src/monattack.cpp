@@ -134,6 +134,7 @@ const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_got_checked( "got_checked" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_grabbing( "grabbing" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
 const efftype_id effect_onfire( "onfire" );
@@ -596,9 +597,10 @@ bool mattack::acid_barf( monster *z )
 
     if( dam > 0 ) {
         auto msg_type = target == &g->u ? m_bad : m_info;
-        //~ 1$s is monster name, 2$s bodypart in accusative
         target->add_msg_player_or_npc( msg_type,
+                                       //~ 1$s is monster name, 2$s bodypart in accusative
                                        _( "The %1$s barfs acid on your %2$s for %3$d damage!" ),
+                                       //~ 1$s is monster name, 2$s bodypart in accusative
                                        _( "The %1$s barfs acid on <npcname>'s %2$s for %3$d damage!" ),
                                        z->name(),
                                        body_part_name_accusative( hit ),
@@ -1366,9 +1368,10 @@ bool mattack::growplants( monster *z )
         }
 
         const body_part hit = body_part_hit_by_plant();
-        //~ %s is bodypart name in accusative.
         critter->add_msg_player_or_npc( m_bad,
+                                        //~ %s is bodypart name in accusative.
                                         _( "A tree bursts forth from the earth and pierces your %s!" ),
+                                        //~ %s is bodypart name in accusative.
                                         _( "A tree bursts forth from the earth and pierces <npcname>'s %s!" ),
                                         body_part_name_accusative( hit ) );
         critter->deal_damage( z, hit, damage_instance( DT_STAB, rng( 10, 30 ) ) );
@@ -1400,9 +1403,10 @@ bool mattack::growplants( monster *z )
             g->m.ter_set( p, t_tree_young );
             if( critter != nullptr && !critter->uncanny_dodge() ) {
                 const body_part hit = body_part_hit_by_plant();
-                //~ %s is bodypart name in accusative.
                 critter->add_msg_player_or_npc( m_bad,
+                                                //~ %s is bodypart name in accusative.
                                                 _( "The underbrush beneath your feet grows and pierces your %s!" ),
+                                                //~ %s is bodypart name in accusative.
                                                 _( "Underbrush grows into a tree, and it pierces <npcname>'s %s!" ),
                                                 body_part_name_accusative( hit ) );
                 critter->deal_damage( z, hit, damage_instance( DT_STAB, rng( 10, 30 ) ) );
@@ -1907,8 +1911,8 @@ bool mattack::fungus_fortify( monster *z )
                     pgettext( "memorial_female", "Was shown to the Marloss Gateway." ) );
                 g->u.add_msg_if_player( m_good,
                                         _( "You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
-                //~ Beginning to hear the Mycus while conscious: this is it speaking
                 g->u.add_msg_if_player( m_good,
+                                        //~ Beginning to hear the Mycus while conscious: this is it speaking
                                         _( "assistance, on an arduous quest. unity. together we have reached the door. now to pass through..." ) );
                 return true;
             } else {
@@ -2033,9 +2037,10 @@ bool mattack::impale( monster *z )
                                    .5 ) ).total_damage();
     if( dam > 0 ) {
         auto msg_type = target == &g->u ? m_bad : m_info;
-        //~ 1$s is monster name, 2$s bodypart in accusative
         target->add_msg_player_or_npc( msg_type,
+                                       //~ 1$s is monster name, 2$s bodypart in accusative
                                        _( "The %1$s impales your torso!" ),
+                                       //~ 1$s is monster name, 2$s bodypart in accusative
                                        _( "The %1$s impales <npcname>'s torso!" ),
                                        z->name() );
 
@@ -2501,7 +2506,8 @@ bool mattack::ranged_pull( monster *z )
 {
     Creature *target = z->attack_target();
     if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 ||
-        rl_dist( z->pos(), target->pos() ) <= 1 || !z->sees( *target ) ) {
+        rl_dist( z->pos(), target->pos() ) <= 1 || !z->sees( *target ) ||
+        z->has_effect( effect_grabbing ) ) {
         return false;
     }
 
@@ -2579,9 +2585,9 @@ bool mattack::ranged_pull( monster *z )
     }
 
     const int prev_effect = target->get_effect_int( effect_grabbed );
-    target->add_effect( effect_grabbed, 2_turns, bp_torso, false,
-                        prev_effect + 4 ); //Duration needs to be at least 2, or grab will immediately be removed
-
+    //Duration needs to be at least 2, or grab will immediately be removed
+    target->add_effect( effect_grabbed, 2_turns, bp_torso, false, prev_effect + 4 );
+    z->add_effect( effect_grabbing, 2_turns );
     return true;
 }
 
@@ -2640,6 +2646,7 @@ bool mattack::grab( monster *z )
     }
 
     const int prev_effect = target->get_effect_int( effect_grabbed );
+    z->add_effect( effect_grabbing, 2_turns );
     target->add_effect( effect_grabbed, 2_turns, bp_torso, false,
                         prev_effect + z->get_grab_strength() );
     target->add_msg_player_or_npc( m_bad, _( "The %s grabs you!" ), _( "The %s grabs <npcname>!" ),
@@ -2701,6 +2708,7 @@ bool mattack::grab_drag( monster *z )
                                        _( "<npcname> resist the %s as it tries to drag them!" ), z->name() );
     }
     int prev_effect = target->get_effect_int( effect_grabbed );
+    z->add_effect( effect_grabbing, 2_turns );
     target->add_effect( effect_grabbed, 2_turns, bp_torso, false, prev_effect + 3 );
 
     return true; // cooldown was not reset prior to refactor here
@@ -3203,10 +3211,11 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
 
     if( target == &g->u ) {
         if( !z->has_effect( effect_targeted ) ) {
-            //~Potential grenading detected.
             if( g->u.has_trait( trait_id( "PROF_CHURL" ) ) ) {
+                //~ Potential grenading detected.
                 add_msg( m_warning, _( "Thee eye o dat divil be upon me!" ) );
             } else {
+                //~ Potential grenading detected.
                 add_msg( m_warning, _( "Those laser dots don't seem very friendly..." ) );
             }
             g->u.add_effect( effect_laserlocked,
@@ -3598,8 +3607,7 @@ bool mattack::copbot( monster *z )
                                    _( "a robotic voice boom, \"Citizen, Halt!\"" ), false, "speech", z->type->id.str() );
                 } else if( !cuffed ) {
                     sounds::sound( z->pos(), 18, sounds::sound_t::alert,
-                                   _( "a robotic voice boom, \"\
-Please put down your weapon.\"" ), false, "speech", z->type->id.str() );
+                                   _( "a robotic voice boom, \"Please put down your weapon.\"" ), false, "speech", z->type->id.str() );
                 }
             } else {
                 sounds::sound( z->pos(), 18, sounds::sound_t::alert,
@@ -3959,9 +3967,10 @@ bool mattack::stretch_bite( monster *z )
 
     if( dam > 0 ) {
         auto msg_type = target == &g->u ? m_bad : m_info;
-        //~ 1$s is monster name, 2$s bodypart in accusative
         target->add_msg_player_or_npc( msg_type,
+                                       //~ 1$s is monster name, 2$s bodypart in accusative
                                        _( "The %1$s's teeth sink into your %2$s!" ),
+                                       //~ 1$s is monster name, 2$s bodypart in accusative
                                        _( "The %1$s's teeth sink into <npcname>'s %2$s!" ),
                                        z->name(),
                                        body_part_name_accusative( hit ) );
@@ -4052,12 +4061,12 @@ bool mattack::flesh_golem( monster *z )
     body_part hit = target->get_random_body_part();
     // TODO: 10 bashing damage doesn't sound like a "massive claw" but a mediocre punch
     int dam = rng( 5, 10 );
-    //~ 1$s is bodypart name, 2$d is damage value.
     target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
     if( one_in( 6 ) ) {
         target->add_effect( effect_downed, 3_minutes );
     }
 
+    //~ 1$s is bodypart name, 2$d is damage value.
     target->add_msg_if_player( m_bad, _( "Your %1$s is battered for %2$d damage!" ),
                                body_part_name( hit ), dam );
     target->on_hit( z, hit,  z->type->melee_skill );
@@ -4239,9 +4248,10 @@ bool mattack::longswipe( monster *z )
             dam = target->deal_damage( z, hit, damage_instance( DT_CUT, dam ) ).total_damage();
             if( dam > 0 ) {
                 auto msg_type = target == &g->u ? m_bad : m_warning;
-                //~ 1$s is bodypart name, 2$d is damage value.
                 target->add_msg_player_or_npc( msg_type,
+                                               //~ 1$s is bodypart name, 2$d is damage value.
                                                _( "The %1$s thrusts a claw at your %2$s, slashing it for %3$d damage!" ),
+                                               //~ 1$s is bodypart name, 2$d is damage value.
                                                _( "The %1$s thrusts a claw at <npcname>'s %2$s, slashing it for %3$d damage!" ),
                                                z->name(), body_part_name( hit ), dam );
             } else {
@@ -4392,18 +4402,21 @@ bool mattack::slimespring( monster *z )
 
     // This morale buff effect could get spammy
     if( g->u.get_morale_level() <= 1 ) {
-        switch( rng( 1, 3 ) ) { //~ Your slimes try to cheer you up!
+        switch( rng( 1, 3 ) ) {
             case 1:
+                //~ Your slimes try to cheer you up!
                 //~ Lowercase is intended: they're small voices.
                 add_msg( m_good, _( "\"hey, it's gonna be all right!\"" ) );
                 g->u.add_morale( MORALE_SUPPORT, 10, 50 );
                 break;
             case 2:
+                //~ Your slimes try to cheer you up!
                 //~ Lowercase is intended: they're small voices.
                 add_msg( m_good, _( "\"we'll get through this!\"" ) );
                 g->u.add_morale( MORALE_SUPPORT, 10, 50 );
                 break;
             case 3:
+                //~ Your slimes try to cheer you up!
                 //~ Lowercase is intended: they're small voices.
                 add_msg( m_good, _( "\"i'm here for you!\"" ) );
                 g->u.add_morale( MORALE_SUPPORT, 10, 50 );
@@ -5197,9 +5210,10 @@ bool mattack::stretch_attack( monster *z )
 
     if( dam > 0 ) {
         auto msg_type = target == &g->u ? m_bad : m_info;
-        //~ 1$s is monster name, 2$s bodypart in accusative
         target->add_msg_player_or_npc( msg_type,
+                                       //~ 1$s is monster name, 2$s bodypart in accusative
                                        _( "The %1$s's arm pierces your %2$s!" ),
+                                       //~ 1$s is monster name, 2$s bodypart in accusative
                                        _( "The %1$s arm pierces <npcname>'s %2$s!" ),
                                        z->name(),
                                        body_part_name_accusative( hit ) );

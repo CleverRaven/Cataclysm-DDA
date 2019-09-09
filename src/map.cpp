@@ -1111,7 +1111,7 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
     // Invalidate vehicle's point cache
     veh->occupied_cache_time = calendar::before_time_starts;
     if( src_submap != dst_submap ) {
-        veh->set_submap_moved( int( p2.x / SEEX ), int( p2.y / SEEY ) );
+        veh->set_submap_moved( point( p2.x / SEEX, p2.y / SEEY ) );
         auto src_submap_veh_it = src_submap->vehicles.begin() + our_i;
         dst_submap->vehicles.push_back( std::move( *src_submap_veh_it ) );
         src_submap->vehicles.erase( src_submap_veh_it );
@@ -6121,6 +6121,15 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
         bresenham_slope = 0;
         return false; // Out of range!
     }
+    // Cannonicalize the order of the tripoints so the cache is reflexive.
+    const tripoint &min = F < T ? F : T;
+    const tripoint &max = !( F < T ) ? F : T;
+    // A little gross, just pack the values into a point.
+    const point key( min.x << 16 | min.y << 8 | min.z, max.x << 16 | max.y << 8 | max.z );
+    char cached = skew_vision_cache.get( key, -1 );
+    if( cached >= 0 ) {
+        return cached > 0;
+    }
     bool visible = true;
 
     // Ugly `if` for now
@@ -6137,6 +6146,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
             }
             return true;
         } );
+        skew_vision_cache.insert( 100000, key, visible ? 1 : 0 );
         return visible;
     }
 
@@ -6168,6 +6178,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
         last_point = new_point;
         return true;
     } );
+    skew_vision_cache.insert( 100000, key, visible ? 1 : 0 );
     return visible;
 }
 
@@ -7933,6 +7944,9 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         get_cache( p.z ).transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_CLEAR;
     }
 
+    if( seen_cache_dirty ) {
+        skew_vision_cache.clear();
+    }
     // Initial value is illegal player position.
     static tripoint player_prev_pos;
     if( seen_cache_dirty || player_prev_pos != p ) {
@@ -8237,7 +8251,9 @@ void map::add_corpse( const tripoint &p )
     }
 
     put_items_from_loc( "default_zombie_clothes", p, 0 );
-    put_items_from_loc( "default_zombie_items", p, 0 );
+    if( one_in( 3 ) ) {
+        put_items_from_loc( "default_zombie_items", p, 0 );
+    }
 
     add_item_or_charges( p, body );
 }

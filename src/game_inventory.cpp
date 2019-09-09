@@ -179,7 +179,7 @@ void game_menus::inv::common( avatar &you )
     inv_s.set_title( _( "Inventory" ) );
     inv_s.set_hint( string_format(
                         _( "Item hotkeys assigned: <color_light_gray>%d</color>/<color_light_gray>%d</color>" ),
-                        you.allocated_invlets().size(), inv_chars.size() ) );
+                        you.allocated_invlets().count(), inv_chars.size() ) );
 
     int res = 0;
 
@@ -667,17 +667,15 @@ class comestible_inventory_preset : public inventory_selector_preset
 
 static std::string get_consume_needs_hint( player &p )
 {
-    const auto &cmgr = get_all_colors();
     auto hint = std::string();
     auto desc = p.get_hunger_description();
-    hint.append( string_format( "[%s <color_%s>%s</color>] ", _( "Food :" ),
-                                cmgr.get_name( desc.second ), desc.first ) );
+    hint.append( string_format( "%s %s", _( "Food :" ), colorize( desc.first, desc.second ) ) );
+    hint.append( string_format( " %s ", LINE_XOXO_S ) );
     desc = p.get_thirst_description();
-    hint.append( string_format( "[%s <color_%s>%s</color>] ", _( "Drink:" ),
-                                cmgr.get_name( desc.second ), desc.first ) );
+    hint.append( string_format( "%s %s", _( "Drink:" ), colorize( desc.first, desc.second ) ) );
+    hint.append( string_format( " %s ", LINE_XOXO_S ) );
     desc = p.get_pain_description();
-    hint.append( string_format( "[%s <color_%s>%s</color>] ", _( "Pain :" ),
-                                cmgr.get_name( desc.second ), desc.first ) );
+    hint.append( string_format( "%s %s", _( "Pain :" ), colorize( desc.first, desc.second ) ) );
     return hint;
 }
 

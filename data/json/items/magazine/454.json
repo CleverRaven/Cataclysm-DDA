@@ -4,7 +4,7 @@
     "type": "MAGAZINE",
     "name": ".454 5-round speedloader",
     "description": "This speedloader can hold 5 rounds of .454 or .45 Colt and quickly reload a compatible revolver.",
-    "weight": 108,
+    "weight": "108 g",
     "volume": "250 ml",
     "price": 2200,
     "material": "steel",

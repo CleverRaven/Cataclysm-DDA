@@ -93,7 +93,6 @@ const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_spider_web_s( "mon_spider_web_s" );
 const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
-const mtype_id mon_turret( "mon_turret" );
 const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 
 const skill_id skill_computer( "computer" );
@@ -776,8 +775,7 @@ void iexamine::cardreader( player &p, const tripoint &examp )
         for( monster &critter : g->all_monsters() ) {
             // Check 1) same overmap coords, 2) turret, 3) hostile
             if( ms_to_omt_copy( g->m.getabs( critter.pos() ) ) == ms_to_omt_copy( g->m.getabs( examp ) ) &&
-                ( critter.type->id == mon_turret ||
-                  critter.type->id == mon_turret_rifle ) &&
+                ( critter.type->id == mon_turret_rifle ) &&
                 critter.attitude_to( p ) == Creature::Attitude::A_HOSTILE ) {
                 g->remove_zombie( critter );
             }
@@ -1310,10 +1308,9 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
  */
 void iexamine::fault( player &, const tripoint & )
 {
-    popup( _( "\
-This wall is perfectly vertical.  Odd, twisted holes are set in it, leading\n\
-as far back into the solid rock as you can see.  The holes are humanoid in\n\
-shape, but with long, twisted, distended limbs." ) );
+    popup( _( "This wall is perfectly vertical.  Odd, twisted holes are set in it, leading\n"
+              "as far back into the solid rock as you can see.  The holes are humanoid in\n"
+              "shape, but with long, twisted, distended limbs." ) );
 }
 
 /**
@@ -1367,8 +1364,8 @@ void iexamine::pedestal_temple( player &p, const tripoint &examp )
         g->m.ter_set( examp, t_dirt );
         g->timed_events.add( TIMED_EVENT_TEMPLE_OPEN, calendar::turn + 10_seconds );
     } else {
-        add_msg( _( "This pedestal is engraved in eye-shaped diagrams, and has a \
-large semi-spherical indentation at the top." ) );
+        add_msg( _( "This pedestal is engraved in eye-shaped diagrams, and has a "
+                    "large semi-spherical indentation at the top." ) );
     }
 }
 
@@ -4288,8 +4285,8 @@ static player &best_installer( player &p, player &null_player, int difficulty )
             player &ally = *g->critter_by_id<player>( e->getID() );
             int ally_cos = bionic_manip_cos( ally_skills[ i ].first, true, difficulty );
             if( e->has_effect( effect_sleep ) ) {
-                //~ %1$s is the name of the ally
                 if( !g->u.query_yn(
+                        //~ %1$s is the name of the ally
                         _( "<color_white>%1$s is asleep, but has a <color_green>%2$d<color_white> chance of success compared to your <color_red>%3$d<color_white> chance of success.  Continue with a higher risk of failure?</color>" ),
                         ally.disp_name(), ally_cos, player_cos ) ) {
                     return null_player;
@@ -4929,7 +4926,7 @@ static void smoker_load_food( player &p, const tripoint &examp,
     comps.push_back( item_comp( what->typeId(), amount ) );
 
     // select from where to get the items from and place them
-    inv.form_from_map( g->u.pos(), PICKUP_RANGE );
+    inv.form_from_map( g->u.pos(), PICKUP_RANGE, &g->u );
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );
@@ -5037,7 +5034,7 @@ static void mill_load_food( player &p, const tripoint &examp,
     comps.push_back( item_comp( what->typeId(), amount ) );
 
     // select from where to get the items from and place them
-    inv.form_from_map( g->u.pos(), PICKUP_RANGE );
+    inv.form_from_map( g->u.pos(), PICKUP_RANGE, &g->u );
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );

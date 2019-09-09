@@ -521,6 +521,24 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     invalidate_mass();
 }
 
+void vehicle::activate_animal_follow()
+{
+    for( size_t e = 0; e < parts.size(); e++ ) {
+        const vehicle_part &vp = parts[ e ];
+        if( vp.info().fuel_type == fuel_type_animal ) {
+            monster *mon = get_pet( e );
+            if( mon && mon->has_effect( effect_harnessed ) ) {
+                parts[ e ].enabled = true;
+                is_following = true;
+                engine_on = true;
+            }
+        } else {
+            parts[ e ].enabled = false;
+        }
+    }
+    refresh();
+}
+
 std::set<point> vehicle::immediate_path( int rotate )
 {
     int distance_to_check = 10 + ( velocity / 800 );
@@ -540,6 +558,89 @@ std::set<point> vehicle::immediate_path( int rotate )
     }
     return points_to_check;
 
+}
+
+void vehicle::drive_to_local_target( const tripoint &autodrive_local_target, bool follow_protocol )
+{
+    if( follow_protocol && g->u.in_vehicle ) {
+        is_following = false;
+        return;
+    }
+    tripoint vehpos = global_pos3();
+    rl_vec2d facevec = face_vec();
+    point rel_pos_target = autodrive_local_target.xy() - vehpos.xy();
+
+    rl_vec2d targetvec = rl_vec2d( rel_pos_target.x, rel_pos_target.y );
+    // cross product
+    double crossy = ( facevec.x * targetvec.y ) - ( targetvec.x * facevec.y );
+
+    // dot product.
+    double dotx = ( facevec.x * targetvec.x ) + ( facevec.y * targetvec.y );
+
+    double angle = ( atan2( crossy, dotx ) ) * 180 / M_PI;
+    // now we got the angle to the target, we can work out when we are heading towards disaster.
+    // Check the tileray in the direction we need to head towards.
+    std::set<point> points_to_check = immediate_path( angle );
+    for( const auto &elem : points_to_check ) {
+        const optional_vpart_position ovp = g->m.veh_at( tripoint( elem, sm_pos.z ) );
+        if( g->m.impassable_ter_furn( tripoint( elem, sm_pos.z ) ) || ( ovp &&
+                &ovp->vehicle() != this ) ) {
+            if( follow_protocol && elem == g->u.pos().xy() ) {
+                continue;
+            }
+            if( velocity > 0 ) {
+                pldrive( point( 0, 10 ) );
+            }
+            is_autodriving = false;
+            if( follow_protocol ) {
+                is_following = false;
+            }
+            return;
+        }
+    }
+    int turn_x = 0;
+    if( angle > 10.0 && angle <= 45.0 ) {
+        turn_x = 1;
+    } else if( angle > 45.0 && angle <= 90.0 ) {
+        turn_x = 3;
+    } else if( angle > 90.0 && angle <= 180.0 ) {
+        turn_x = 4;
+    } else if( angle < -10.0 && angle >= -45.0 ) {
+        turn_x = -1;
+    } else if( angle < -45.0 && angle >= -90.0 ) {
+        turn_x = -3;
+    } else if( angle < -90.0 && angle >= -180.0 ) {
+        turn_x = -4;
+    }
+    int accel_y = 0;
+    // best to cruise around at a safe velocity or 40mph, whichever is lowest
+    // accelerate when it dosnt need to turn.
+    // when following player, take distance to player into account.
+    // we really want to avoid running the player over.
+    int safe_player_follow_speed = 400;
+    if( g->u.movement_mode_is( PMM_RUN ) ) {
+        safe_player_follow_speed = 800;
+    } else if( g->u.movement_mode_is( PMM_CROUCH ) ) {
+        safe_player_follow_speed = 200;
+    }
+    if( follow_protocol ) {
+        if( ( ( turn_x > 0 || turn_x < 0 ) && velocity > safe_player_follow_speed ) ||
+            rl_dist( vehpos, g->u.pos() ) < 7 + ( ( mount_max.y * 3 ) + 4 ) ) {
+            accel_y = 1;
+        }
+        if( ( velocity < std::min( safe_velocity(), safe_player_follow_speed ) && turn_x == 0 &&
+              rl_dist( vehpos, g->u.pos() ) > 10 + ( ( mount_max.y * 3 ) + 4 ) ) || velocity < 100 ) {
+            accel_y = -1;
+        }
+    } else {
+        if( ( turn_x > 0 || turn_x < 0 ) && velocity > 1000 ) {
+            accel_y = 1;
+        }
+        if( ( velocity < std::min( safe_velocity(), 32 * 100 ) && turn_x == 0 ) || velocity < 500 ) {
+            accel_y = -1;
+        }
+    }
+    follow_protocol ? autodrive( turn_x, accel_y ) : pldrive( point( turn_x, accel_y ) );
 }
 
 void vehicle::do_autodrive()
@@ -582,54 +683,7 @@ void vehicle::do_autodrive()
                                   veh_omt_pos.z );
     tripoint autodrive_local_target = ( global_a + tripoint( x_side, y_side,
                                         sm_pos.z ) - g->m.getabs( vehpos ) ) + global_pos3();
-    rl_vec2d facevec = face_vec();
-    point rel_pos_target = autodrive_local_target.xy() - vehpos.xy();
-    rl_vec2d targetvec = rl_vec2d( rel_pos_target.x, rel_pos_target.y );
-    // cross product
-    double crossy = ( facevec.x * targetvec.y ) - ( targetvec.x * facevec.y );
-
-    // dot product
-    double dotx = ( facevec.x * targetvec.x ) + ( facevec.y * targetvec.y );
-
-    double angle = ( atan2( crossy, dotx ) ) * 180 / M_PI;
-    // now we got the angle to the target, we can work out when we are heading towards disaster
-    // Check the tileray in the direction we need to head towards.
-    std::set<point> points_to_check = immediate_path( angle );
-    for( const auto &elem : points_to_check ) {
-        const optional_vpart_position ovp = g->m.veh_at( tripoint( elem, sm_pos.z ) );
-        if( g->m.impassable_ter_furn( tripoint( elem, sm_pos.z ) ) || ( ovp &&
-                &ovp->vehicle() != this ) ) {
-            if( velocity > 0 ) {
-                pldrive( 0, 10 );
-            }
-            is_autodriving = false;
-            return;
-        }
-    }
-    int turn_x = 0;
-    if( angle > 10.0 && angle <= 45.0 ) {
-        turn_x = 1;
-    } else if( angle > 45.0 && angle <= 90.0 ) {
-        turn_x = 3;
-    } else if( angle > 90.0 && angle <= 180.0 ) {
-        turn_x = 4;
-    } else if( angle < -10.0 && angle >= -45.0 ) {
-        turn_x = -1;
-    } else if( angle < -45.0 && angle >= -90.0 ) {
-        turn_x = -3;
-    } else if( angle < -90.0 && angle >= -180.0 ) {
-        turn_x = -4;
-    }
-    int accel_y = 0;
-    // best to cruise around at a safe velocity or 40mph, whichever is lowest
-    // accelerate when it dosnt need to turn.
-    if( ( turn_x > 0 || turn_x < 0 ) && velocity > 1000 ) {
-        accel_y = 1;
-    }
-    if( ( velocity < std::min( safe_velocity(), 32 * 100 ) && turn_x == 0 ) || velocity < 500 ) {
-        accel_y = -1;
-    }
-    pldrive( turn_x, accel_y );
+    drive_to_local_target( autodrive_local_target, false );
 }
 
 /**
@@ -667,8 +721,7 @@ void vehicle::smash( float hp_percent_loss_min, float hp_percent_loss_max,
         int roll = dice( 1, 1000 );
         int pct_af = ( percent_of_parts_to_affect * 1000.0f );
         if( roll < pct_af ) {
-            float dist = 1.0f - trig_dist( damage_origin, point( part.precalc[0].x,
-                                           part.precalc[0].y ) ) / damage_size;
+            float dist = 1.0f - trig_dist( damage_origin, part.precalc[0] ) / damage_size;
             dist = clamp( dist, 0.0f, 1.0f );
             if( damage_size == 0 ) {
                 dist = 1.0f;
@@ -704,7 +757,7 @@ void vehicle::smash( float hp_percent_loss_min, float hp_percent_loss_max,
 int vehicle::lift_strength() const
 {
     units::mass mass = total_mass();
-    return std::max( mass / 10000_gram, 1 );
+    return std::max<std::int64_t>( mass / 10000_gram, 1 );
 }
 
 void vehicle::toggle_specific_engine( int e, bool on )
@@ -816,8 +869,8 @@ void vehicle::backfire( const int e ) const
 {
     const int power = part_vpower_w( engines[e], true );
     const tripoint pos = global_part_pos3( engines[e] );
-    //~ backfire sound
     sounds::sound( pos, 40 + power / 10000, sounds::sound_t::movement,
+                   //~ backfire sound
                    string_format( _( "a loud BANG! from the %s" ),
                                   parts[ engines[ e ] ].name() ), true, "vehicle", "engine_backfire" );
 }
@@ -2564,6 +2617,31 @@ std::vector<int> vehicle::all_parts_at_location( const std::string &location ) c
     return parts_found;
 }
 
+// another NPC probably removed a part in the time it took to walk here and start the activity.
+// as the part index was first "chosen" before the NPC started travelling here.
+// therefore the part index is now invalid shifted by one or two ( depending on how many other NPCs working on this vehicle )
+// so loop over the part indexes in reverse order to get the next one down that matches the part type we wanted to remove
+int vehicle::get_next_shifted_index( int original_index, player &p )
+{
+    int ret_index = original_index;
+    bool found_shifted_index = false;
+    for( std::vector<vehicle_part>::reverse_iterator it = parts.rbegin(); it != parts.rend(); ++it ) {
+        if( p.get_value( "veh_index_type" ) == it->info().name() ) {
+            ret_index = index_of_part( &*it );
+            found_shifted_index = true;
+            break;
+        }
+    }
+    if( !found_shifted_index ) {
+        // we are probably down to a few parts left, and things get messy here, so an alternative index maybe cant be found
+        // if loads of npcs are all removign parts at the same time.
+        // if thats the case, just bail out and give up, somebody else is probably doing the job right now anyway.
+        return -1;
+    } else {
+        return ret_index;
+    }
+}
+
 /**
  * Returns all parts in the vehicle that have the specified flag in their vpinfo and
  * are on the same X-axis or Y-axis as the input part and are contiguous with each other.
@@ -2895,11 +2973,11 @@ tripoint vehicle::global_part_pos3( const vehicle_part &pt ) const
     return global_pos3() + pt.precalc[ 0 ];
 }
 
-void vehicle::set_submap_moved( int x, int y )
+void vehicle::set_submap_moved( const point &p )
 {
     const point old_msp = g->m.getabs( global_pos3().xy() );
-    sm_pos.x = x;
-    sm_pos.y = y;
+    sm_pos.x = p.x;
+    sm_pos.y = p.y;
     if( !tracking_on ) {
         return;
     }
@@ -4796,7 +4874,7 @@ void vehicle::gain_moves()
     of_turn_carry = 0;
 
     // cruise control TODO: enable for NPC?
-    if( player_in_control( g->u ) && cruise_on && cruise_velocity != velocity ) {
+    if( ( player_in_control( g->u ) || is_following ) && cruise_on && cruise_velocity != velocity ) {
         thrust( ( cruise_velocity ) > velocity ? 1 : -1 );
     }
 
@@ -5157,6 +5235,17 @@ void vehicle::shed_loose_parts()
 
         remove_part( elem );
     }
+}
+
+bool vehicle::enclosed_at( const tripoint &pos )
+{
+    refresh_insides();
+    std::vector<vehicle_part *> parts_here = get_parts_at( pos, "BOARDABLE",
+            part_status_flag::working );
+    if( !parts_here.empty() ) {
+        return parts_here.front()->inside;
+    }
+    return false;
 }
 
 void vehicle::refresh_insides()
@@ -5888,7 +5977,7 @@ void vehicle::calc_mass_center( bool use_precalc ) const
         }
 
         if( vp.part().has_flag( vehicle_part::animal_flag ) ) {
-            int animal_mass = vp.part().base.get_var( "weight", 0 );
+            std::int64_t animal_mass = vp.part().base.get_var( "weight", 0 );
             m_part += units::from_gram( animal_mass );
         }
 
