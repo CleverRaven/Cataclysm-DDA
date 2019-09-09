@@ -1840,17 +1840,17 @@ bool player::is_immune_damage( const damage_type dt ) const
                    worn_with_flag( "STAB_IMMUNE" );
         case DT_HEAT:
             return has_trait( trait_M_SKIN2 ) ||
-                   has_trait( trait_M_SKIN3 ); ||
+                   has_trait( trait_M_SKIN3 ) ||
                    has_effect_with_flag( "EFFECT_HEAT_IMMUNE" ) ||
                    worn_with_flag( "HEAT_IMMUNE" );
         case DT_COLD:
-                   has_effect_with_flag( "EFFECT_COLD_IMMUNE" ) ||
+            return has_effect_with_flag( "EFFECT_COLD_IMMUNE" ) ||
                    worn_with_flag( "COLD_IMMUNE" );
         case DT_ELECTRIC:
             return has_active_bionic( bio_faraday ) ||
                    worn_with_flag( "ELECTRIC_IMMUNE" ) ||
                    has_artifact_with( AEP_RESIST_ELECTRICITY ) ||
-                   has_effect_with_flag( "EFFECT_COLD_IMMUNE" );
+                   has_effect_with_flag( "EFFECT_ELECTRIC_IMMUNE" );
         default:
             return true;
     }
