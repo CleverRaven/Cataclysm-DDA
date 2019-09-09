@@ -4720,7 +4720,7 @@ bool mattack::tindalos_teleport( monster *z )
             }
             if( g->u.sees( *z ) ) {
                 add_msg( m_warning,
-                         _( "The hound movements chaotically rewind as a living afterimage splits from it!" ) );
+                         _( "The hound's movements chaotically rewind as a living afterimage splits from it!" ) );
             }
         }
     }
@@ -4741,7 +4741,6 @@ bool mattack::tindalos_teleport( monster *z )
                         return true;
                     }
                 }
-
             }
         }
         // couldnt teleport without losing sight of target
