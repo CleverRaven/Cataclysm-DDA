@@ -16,7 +16,9 @@
 #include "creature_tracker.h"
 #include "debug.h"
 #include "faction.h"
+#include "int_id.h"
 #include "io.h"
+#include "kill_tracker.h"
 #include "map.h"
 #include "messages.h"
 #include "mission.h"
@@ -28,13 +30,13 @@
 #include "overmap.h"
 #include "scent_map.h"
 #include "translations.h"
-#include "tuple_hash.h"
+#include "hash_utils.h"
 #include "basecamp.h"
 #include "json.h"
 #include "omdata.h"
 #include "overmap_types.h"
 #include "regional_settings.h"
-#include "int_id.h"
+#include "stats_tracker.h"
 #include "string_id.h"
 
 #if defined(__ANDROID__)
@@ -93,20 +95,9 @@ void game::serialize( std::ostream &fout )
     json.member( "active_monsters", *critter_tracker );
     json.member( "stair_monsters", coming_to_stairs );
 
-    // save killcounts.
-    json.member( "kills" );
-    json.start_object();
-    for( auto &elem : kills ) {
-        json.member( elem.first.str(), elem.second );
-    }
-    json.end_object();
-
-    json.member( "npc_kills" );
-    json.start_array();
-    for( auto &elem : npc_kills ) {
-        json.write( elem );
-    }
-    json.end_array();
+    // save stats.
+    json.member( "kill_tracker", *kill_tracker_ptr );
+    json.member( "stats_tracker", *stats_tracker_ptr );
 
     json.member( "player", u );
     Messages::serialize( json );
@@ -224,20 +215,30 @@ void game::unserialize( std::istream &fin )
             coming_to_stairs.push_back( stairtmp );
         }
 
-        JsonObject odata = data.get_object( "kills" );
-        std::set<std::string> members = odata.get_member_names();
-        for( const auto &member : members ) {
-            kills[mtype_id( member )] = odata.get_int( member );
-        }
+        if( data.has_object( "kill_tracker" ) ) {
+            data.read( "kill_tracker", *kill_tracker_ptr );
+        } else {
+            // Legacy support for when kills were stored directly in game
+            std::map<mtype_id, int> kills;
+            std::vector<std::string> npc_kills;
+            JsonObject odata = data.get_object( "kills" );
+            std::set<std::string> members = odata.get_member_names();
+            for( const auto &member : members ) {
+                kills[mtype_id( member )] = odata.get_int( member );
+            }
 
-        vdata = data.get_array( "npc_kills" );
-        while( vdata.has_more() ) {
-            std::string npc_name;
-            vdata.read_next( npc_name );
-            npc_kills.push_back( npc_name );
+            vdata = data.get_array( "npc_kills" );
+            while( vdata.has_more() ) {
+                std::string npc_name;
+                vdata.read_next( npc_name );
+                npc_kills.push_back( npc_name );
+            }
+
+            kill_tracker_ptr->reset( kills, npc_kills );
         }
 
         data.read( "player", u );
+        data.read( "stats_tracker", *stats_tracker_ptr );
         Messages::deserialize( data );
 
     } catch( const JsonError &jsonerr ) {
@@ -1012,8 +1013,8 @@ void overmap::unserialize( std::istream &fin )
             while( !jsin.end_array() ) {
                 std::shared_ptr<npc> new_npc = std::make_shared<npc>();
                 new_npc->deserialize( jsin );
-                if( !new_npc->fac_id.str().empty() ) {
-                    new_npc->set_fac( new_npc->fac_id );
+                if( !new_npc->get_fac_id().str().empty() ) {
+                    new_npc->set_fac( new_npc->get_fac_id() );
                 }
                 npcs.push_back( new_npc );
             }

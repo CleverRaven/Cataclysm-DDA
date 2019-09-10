@@ -250,6 +250,14 @@ new syntax "name" would be a `dict`, which may break unmigrated script.
 | Mutation names/descriptions
 | NPC class names/descriptions
 | Tool quality names
+| Skill names/descriptions
+| Bionic names/descriptions
+| Terrain bash sound descriptions
+| Trap-vehicle collision sound descriptions
+| Vehicle part names/descriptions
+| Skill display type names
+| NPC dialogue u_buy_monster unique names
+| Spell messages and monster spell messages
 
 ### Recommendations
 

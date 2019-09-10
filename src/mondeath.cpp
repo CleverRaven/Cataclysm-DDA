@@ -20,6 +20,7 @@
 #include "harvest.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "kill_tracker.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -196,8 +197,9 @@ void mdeath::splatter( monster &z )
     // 1% of the weight of the monster is the base, with overflow damage as a multiplier
     int gibbed_weight = rng( 0, round( to_gram( z.get_weight() ) / 100.0 *
                                        ( overflow_damage / max_hp + 1 ) ) );
+    const int z_weight = to_gram( z.get_weight() );
     // limit gibbing to 15%
-    gibbed_weight = std::min( gibbed_weight, to_gram( z.get_weight() ) * 15 / 100 );
+    gibbed_weight = std::min( gibbed_weight, z_weight * 15 / 100 );
 
     if( pulverized && gibbable ) {
         float overflow_ratio = overflow_damage / max_hp + 1;
@@ -416,7 +418,7 @@ void mdeath::disappear( monster &z )
 void mdeath::guilt( monster &z )
 {
     const int MAX_GUILT_DISTANCE = 5;
-    int kill_count = g->kill_count( z.type->id );
+    int kill_count = g->get_kill_tracker().kill_count( z.type->id );
     int maxKills = 100; // this is when the player stop caring altogether.
 
     // different message as we kill more of the same monster
@@ -737,8 +739,8 @@ void mdeath::jabberwock( monster &z )
 
     if( vorpal && !ch->weapon.has_technique( matec_id( "VORPAL" ) ) ) {
         if( ch->sees( z ) ) {
-            //~ %s is the possessive form of the monster's name
             ch->add_msg_if_player( m_info,
+                                   //~ %s is the possessive form of the monster's name
                                    _( "As the flames in %s eyes die out, your weapon seems to shine slightly brighter." ),
                                    z.disp_name( true ) );
         }
@@ -813,8 +815,8 @@ void mdeath::detonate( monster &z )
 
     if( g->u.sees( z ) ) {
         if( dets.empty() ) {
-            //~ %s is the possessive form of the monster's name
             add_msg( m_info,
+                     //~ %s is the possessive form of the monster's name
                      _( "The %s's hands fly to its pockets, but there's nothing left in them." ),
                      z.name() );
         } else {

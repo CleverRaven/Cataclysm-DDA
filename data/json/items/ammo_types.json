@@ -31,6 +31,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "barb",
+    "name": "barb",
+    "default": "barb_paralysis"
+  },
+  {
+    "type": "ammunition_type",
     "id": "BB",
     "name": "BBs",
     "default": "bb"
@@ -64,6 +70,12 @@
     "id": "shot",
     "name": "shot",
     "default": "shot_00"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "shotpaper",
+    "name": "20ga percussion",
+    "default": "shot_paper_00"
   },
   {
     "type": "ammunition_type",
@@ -478,6 +490,12 @@
     "id": "flintlock",
     "name": "paper cartridge",
     "default": "flintlock_ammo"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "papershot",
+    "name": "20ga percussion",
+    "default": "nail"
   },
   {
     "type": "ammunition_type",

@@ -47,8 +47,8 @@ void game::extended_description( const tripoint &p )
     catacurses::window w_head = catacurses::newwin( top, TERMX, point_zero );
     catacurses::window w_main = catacurses::newwin( height, width, point( left, top ) );
     // TODO: De-hardcode
-    std::string header_message = _( "\
-c to describe creatures, f to describe furniture, t to describe terrain, Esc/Enter to close." );
+    std::string header_message =
+        _( "c to describe creatures, f to describe furniture, t to describe terrain, Esc/Enter to close." );
     mvwprintz( w_head, point_zero, c_white, header_message );
 
     // Set up line drawings
@@ -98,8 +98,8 @@ c to describe creatures, f to describe furniture, t to describe terrain, Esc/Ent
 
         std::string signage = m.get_signage( p );
         if( !signage.empty() ) {
-            desc += u.has_trait( trait_ILLITERATE ) ? string_format( _( "\nSign: ???" ) ) : string_format(
-                        _( "\nSign: %s" ), signage );
+            desc += u.has_trait( trait_ILLITERATE ) ? _( "\nSign: ???" ) : string_format( _( "\nSign: %s" ),
+                    signage );
         }
 
         werase( w_main );

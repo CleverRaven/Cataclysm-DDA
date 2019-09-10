@@ -97,7 +97,7 @@ void game::list_missions()
                   tab == tab_mode::TAB_COMPLETED ? LINE_XOXX : LINE_XXXX ); // + || -|
         mvwputch( w_missions, point( 30, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
 
-        draw_scrollbar( w_missions, selection, entries_per_page, umissions.size(), 3, 0 );
+        draw_scrollbar( w_missions, selection, entries_per_page, umissions.size(), point( 0, 3 ) );
 
         for( int i = top_of_page; i <= bottom_of_page; i++ ) {
             const auto miss = umissions[i];
@@ -123,10 +123,21 @@ void game::list_missions()
             y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, col,
                                  miss->name() + for_npc );
 
+            auto format_tokenized_description = []( const std::string description,
+            const std::vector<std::pair<int, std::string>> rewards ) {
+                std::string formatted_description = description;
+                for( const auto &reward : rewards ) {
+                    std::string token = "<reward_count:" + reward.second + ">";
+                    formatted_description = string_replace( formatted_description, token, string_format( "%d",
+                                                            reward.first ) );
+                }
+                return formatted_description;
+            };
+
             y++;
             if( !miss->get_description().empty() ) {
                 y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, c_white,
-                                     miss->get_description() );
+                                     format_tokenized_description( miss->get_description(), miss->get_likely_rewards() ) );
             }
             if( miss->has_deadline() ) {
                 const time_point deadline = miss->get_deadline();

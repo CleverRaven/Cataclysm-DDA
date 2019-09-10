@@ -474,9 +474,9 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     auto nameExists = [&]( const std::string & name ) {
         return world_generator->active_world->save_exists( save_t::from_player_name( name ) ) &&
-               !query_yn( string_format( _( "A character with the name '%s' already exists in this world.\n"
-                                            "Saving will override the already existing character.\n\n"
-                                            "Continue anyways?" ), name ) );
+               !query_yn( _( "A character with the name '%s' already exists in this world.\n"
+                             "Saving will override the already existing character.\n\n"
+                             "Continue anyways?" ), name );
     };
 
     const bool allow_reroll = type == PLTYPE_RANDOM;
@@ -771,9 +771,9 @@ tab_direction set_points( const catacurses::window &w, avatar &, points_left &po
 
     const point_limit_tuple multi_pool = std::make_tuple( points_left::MULTI_POOL,
                                          _( "Multiple pools" ),
-                                         _( "Stats, traits and skills have separate point pools.\n\
-Putting stat points into traits and skills is allowed and putting trait points into skills is allowed.\n\
-Scenarios and professions affect skill point pool" ) );
+                                         _( "Stats, traits and skills have separate point pools.\n"
+                                            "Putting stat points into traits and skills is allowed and putting trait points into skills is allowed.\n"
+                                            "Scenarios and professions affect skill point pool" ) );
 
     const point_limit_tuple one_pool = std::make_tuple( points_left::ONE_POOL, _( "Single pool" ),
                                        _( "Stats, traits and skills share a single point pool." ) );
@@ -867,10 +867,10 @@ tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &po
     do {
         werase( w );
         draw_tabs( w, _( "STATS" ) );
-        fold_and_print( w, point( 2, 16 ), getmaxx( w ) - 4, COL_NOTE_MINOR, _( "\
-    <color_light_green>%s</color> / <color_light_green>%s</color> to select a statistic.\n\
-    <color_light_green>%s</color> to increase the statistic.\n\
-    <color_light_green>%s</color> to decrease the statistic." ),
+        fold_and_print( w, point( 2, 16 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
+                        _( "    <color_light_green>%s</color> / <color_light_green>%s</color> to select a statistic.\n"
+                           "    <color_light_green>%s</color> to increase the statistic.\n"
+                           "    <color_light_green>%s</color> to decrease the statistic." ),
                         ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
                         ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" )
                       );
@@ -1233,7 +1233,7 @@ tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &p
             }
 
             for( int i = 0; i < used_pages; i++ ) {
-                draw_scrollbar( w, iCurrentLine[i], iContentHeight, traits_size[i], 5, page_width * i );
+                draw_scrollbar( w, iCurrentLine[i], iContentHeight, traits_size[i], point( page_width * i, 5 ) );
             }
         }
 
@@ -1469,8 +1469,8 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
                                           profs_length : iContentHeight );
         int i;
         for( i = iStartPos; i < end_pos; i++ ) {
-            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray, "\
-                                             " ); // Clear the line
+            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
+                       "                                             " ); // Clear the line
             nc_color col;
             if( u.prof != &sorted_profs[i].obj() ) {
                 col = ( sorted_profs[i] == sorted_profs[cur_id] ? h_light_gray : c_light_gray );
@@ -1482,8 +1482,8 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
         }
         //Clear rest of space in case stuff got filtered out
         for( ; i < iStartPos + iContentHeight; ++i ) {
-            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray, "\
-                                             " ); // Clear the line
+            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
+                       "                                             " ); // Clear the line
         }
 
         std::ostringstream buffer;
@@ -1591,7 +1591,7 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
                    ctxt.get_desc( "CHANGE_GENDER" ),
                    sorted_profs[cur_id]->gender_appropriate_name( !u.male ) );
 
-        draw_scrollbar( w, cur_id, iContentHeight, profs_length, 5 );
+        draw_scrollbar( w, cur_id, iContentHeight, profs_length, point( 0, 5 ) );
 
         wrefresh( w );
         wrefresh( w_description );
@@ -1782,7 +1782,7 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
                              selected, COL_SKILL_USED, rec_disp );
 
         draw_scrollbar( w, selected, iContentHeight, iLines,
-                        5, getmaxx( w ) - 1, BORDER_COLOR, true );
+                        point( getmaxx( w ) - 1, 5 ), BORDER_COLOR, true );
 
         calcStartPos( cur_offset, cur_pos, iContentHeight, num_skills );
         for( int i = cur_offset; i < num_skills && i - cur_offset < iContentHeight; ++i ) {
@@ -1809,7 +1809,7 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
             }
         }
 
-        draw_scrollbar( w, cur_pos, iContentHeight, num_skills, 5 );
+        draw_scrollbar( w, cur_pos, iContentHeight, num_skills, point( 0, 5 ) );
 
         wrefresh( w );
         wrefresh( w_description );
@@ -2037,8 +2037,8 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
                                           scens_length : iContentHeight );
         int i;
         for( i = iStartPos; i < end_pos; i++ ) {
-            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray, "\
-                                             " );
+            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
+                       "                                             " );
             nc_color col;
             if( g->scen != sorted_scens[i] ) {
                 if( sorted_scens[i] == sorted_scens[cur_id] && ( sorted_scens[i]->has_flag( "CITY_START" ) &&
@@ -2059,8 +2059,8 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
         }
         //Clear rest of space in case stuff got filtered out
         for( ; i < iStartPos + iContentHeight; ++i ) {
-            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray, "\
-                                             " ); // Clear the line
+            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
+                       "                                             " ); // Clear the line
         }
 
         werase( w_sorting );
@@ -2138,7 +2138,7 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
             wprintz( w_flags, c_light_gray, ( "\n" ) );
         }
 
-        draw_scrollbar( w, cur_id, iContentHeight, scens_length, 5 );
+        draw_scrollbar( w, cur_id, iContentHeight, scens_length, point( 0, 5 ) );
         wrefresh( w );
         wrefresh( w_description );
         wrefresh( w_sorting );

@@ -5,6 +5,7 @@
 
 #include "avatar.h"
 #include "effect.h"
+#include "event_bus.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "map.h"
@@ -58,6 +59,7 @@ const efftype_id effect_formication( "formication" );
 const efftype_id effect_frostbite( "frostbite" );
 const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_grabbing( "grabbing" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_hot( "hot" );
 const efftype_id effect_infected( "infected" );
@@ -493,8 +495,7 @@ void player::hardcoded_effects( effect &it )
                     num_insects--;
                 }
             }
-            add_memorial_log( pgettext( "memorial_male", "Dermatik eggs hatched." ),
-                              pgettext( "memorial_female", "Dermatik eggs hatched." ) );
+            g->events().send<event_type::dermatik_eggs_hatch>( getID() );
             remove_effect( effect_formication, bp );
             moves -= 600;
             triggered = true;
@@ -508,7 +509,7 @@ void player::hardcoded_effects( effect &it )
         }
     } else if( id == effect_formication ) {
         ///\EFFECT_INT decreases occurrence of itching from formication effect
-        if( x_in_y( intense, 600 + 300 * get_int() ) ) {
+        if( x_in_y( intense, 600 + 300 * get_int() ) && !has_effect( effect_narcosis ) ) {
             if( !is_npc() ) {
                 //~ %s is bodypart in accusative.
                 add_msg( m_warning, _( "You start scratching your %s!" ), body_part_name_accusative( bp ) );
@@ -613,10 +614,9 @@ void player::hardcoded_effects( effect &it )
             if( one_in( 6000 - ( ( dur - 600_minutes ) / 1_minutes ) ) ) {
                 if( !is_npc() ) {
                     add_msg( _( "Glowing lights surround you, and you teleport." ) );
-                    add_memorial_log( pgettext( "memorial_male", "Spontaneous teleport." ),
-                                      pgettext( "memorial_female", "Spontaneous teleport." ) );
                 }
                 g->teleport();
+                g->events().send<event_type::teleglow_teleports>( getID() );
                 if( one_in( 10 ) ) {
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
@@ -719,10 +719,7 @@ void player::hardcoded_effects( effect &it )
             it.set_duration( 0_turns );
         } else if( dur > 2_hours ) {
             add_msg_if_player( m_bad, _( "Your asthma overcomes you.\nYou asphyxiate." ) );
-            if( is_player() ) {
-                add_memorial_log( pgettext( "memorial_male", "Succumbed to an asthma attack." ),
-                                  pgettext( "memorial_female", "Succumbed to an asthma attack." ) );
-            }
+            g->events().send<event_type::dies_from_asthma_attack>( getID() );
             hurtall( 500, nullptr );
         } else if( dur > 70_minutes ) {
             if( one_in( 120 ) ) {
@@ -843,8 +840,7 @@ void player::hardcoded_effects( effect &it )
                 add_msg_if_player(
                     _( "You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more." ) );
             }
-            add_memorial_log( pgettext( "memorial_male", "Died of datura overdose." ),
-                              pgettext( "memorial_female", "Died of datura overdose." ) );
+            g->events().send<event_type::dies_from_drug_overdose>( getID(), id );
             hp_cur[hp_torso] = 0;
         }
     } else if( id == effect_grabbed ) {
@@ -852,14 +848,13 @@ void player::hardcoded_effects( effect &it )
         int zed_number = 0;
         for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
             const monster *const mon = g->critter_at<monster>( dest );
-            if( mon && ( mon->has_flag( MF_GRABS ) ||
-                         mon->type->has_special_attack( "GRAB" ) ) ) {
+            if( mon && mon->has_effect( effect_grabbing ) ) {
                 zed_number += mon->get_grab_strength();
             }
         }
         if( zed_number > 0 ) {
-            add_effect( effect_grabbed, 2_turns, bp_torso, false,
-                        ( intense + zed_number ) / 2 ); //If intensity isn't pass the cap, average it with # of zeds
+            //If intensity isn't pass the cap, average it with # of zeds
+            add_effect( effect_grabbed, 2_turns, bp_torso, false, ( intense + zed_number ) / 2 );
         }
     } else if( id == effect_bite ) {
         bool recovered = false;
@@ -971,8 +966,7 @@ void player::hardcoded_effects( effect &it )
             // Death happens
             if( dur > 1_days ) {
                 add_msg_if_player( m_bad, _( "You succumb to the infection." ) );
-                add_memorial_log( pgettext( "memorial_male", "Succumbed to the infection." ),
-                                  pgettext( "memorial_female", "Succumbed to the infection." ) );
+                g->events().send<event_type::dies_of_infection>( getID() );
                 hurtall( 500, nullptr );
             } else if( has_effect( effect_strong_antibiotic ) ) {
                 it.mod_duration( -1_turns );

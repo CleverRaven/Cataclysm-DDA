@@ -92,7 +92,7 @@
     "responses": [
       { "text": "What do you need?", "topic": "TALK_MISSION_LIST" },
       {
-        "text": "I heard about Barry, can you tell me what killed him?",
+        "text": "I heard about Barry, can you tell me what captured him?",
         "topic": "TALK_CARLOS_BARRY",
         "condition": {
           "and": [
@@ -101,14 +101,24 @@
           ]
         }
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_carlos_TOPICS" },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_CARLOS_BARRY",
-    "dynamic_line": "It was pink and really fast, it had lots of limbs, definitly not human. It easily kept up with us when we tried to escape, horrifying stuff.  We burned the corpse to be safe.",
+    "dynamic_line": "It was pink and really fast, it had lots of limbs, definitly not human. It easily kept up with us when we tried to escape, horrifying stuff.  Barry just dropped to the ground, and the thing swept him away.",
+    "responses": [
+      { "text": "You all just gonna leave him out there to his fate?", "topic": "TALK_CARLOS_BARRY2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARLOS_BARRY2",
+    "dynamic_line": "We tracked it for a while, but lost the trail.  Right now we don't have the resources to try to rescue him.  Chris has been trying to pick up the trail again and figure out a rescue plan.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -143,6 +153,16 @@
     "id": "TALK_ISHERWOOD_CARLOS_TOPICS",
     "dynamic_line": "Go on...",
     "responses": [
+      {
+        "text": "I heard about Barry, can you tell me what captured him?",
+        "topic": "TALK_CARLOS_BARRY",
+        "condition": {
+          "and": [
+            { "u_has_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_is_wearing": "badge_marshal" } }
+          ]
+        }
+      },
       { "text": "Is your forge operational?", "topic": "TALK_CARLOS_FORGE" },
       { "text": "Where can I find Chris?", "topic": "TALK_CARLOS_CHRIS" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
@@ -158,7 +178,8 @@
     "value": 50000,
     "item": "anvil",
     "count": 1,
-    "origins": [ "ORIGIN_ANY_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_ISHERWOOD_CARLOS_2",
     "dialogue": {
       "describe": "I need an anvil to do advanced metal work.",
@@ -167,16 +188,13 @@
       "rejected": "Thanks anyway, we'll find the time to make it ourselves.",
       "advice": "If you can't find one, maybe you can make one for me.",
       "inquire": "Do you have the anvil?",
-      "success": "I appreciate it, this will really make a difference, here's some horse armor I've been working on, eventually I'll have the whole herd outfitted.",
+      "success": "I appreciate it, this will really make a difference, here's some horse armor I've been working on.  Eventually I'll have the whole herd outfitted.",
       "success_lie": "What good does this do me?",
       "failure": "It was a lost cause anyways..."
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "effect": [
-        { "u_buy_item": "chainmail_armor_horse", "count": 1 },
-        { "u_add_var": "u_did_carlos_missions", "type": "general", "context": "recruit", "value": "yes" }
-      ],
+      "effect": [ { "u_buy_item": "leather_armor_horse", "count": 1 } ],
       "update_mapgen": [
         {
           "om_terrain": "horse_farm_isherwood_4",
@@ -197,15 +215,23 @@
       "assign_mission_target": { "om_terrain": "cabin_isherwood", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 8 },
       "update_mapgen": { "place_npcs": [ { "class": "isherwood_chris", "x": 8, "y": 17, "target": true } ] }
     },
+    "end": {
+      "opinion": { "trust": 1, "value": 1 },
+      "effect": [
+        { "u_buy_item": "chainmail_armor_horse", "count": 1 },
+        { "u_add_var": "u_did_carlos_missions", "type": "general", "context": "recruit", "value": "yes" }
+      ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
-      "describe": "Our son still isn't back, I'm getting concerned.",
+      "describe": "Chris hasn't come back from his latest search for Barry, I'm getting concerned.",
       "offer": "Can you go find my son and tell him to check in with us.",
       "accepted": "Thank you.",
       "rejected": "Oh well.  I hope he turns up soon.",
-      "advice": "He should be on the property somewhere, maybe by that old cabin near the entrance, sometimes he camps there.",
+      "advice": "He might be on the property somewhere, maybe by that old cabin near the entrance, sometimes he camps there.",
       "inquire": "How is the search going?",
-      "success": "Thanks, I was getting ready to go look myself.",
+      "success": "Thanks, I was getting ready to go look myself.  Now that I have the anvil, I've been working on new armor for the horses, take this prototype I made.",
       "success_lie": "What good does this do us?",
       "failure": "I hope he didn't meet Barry's fate..."
     }

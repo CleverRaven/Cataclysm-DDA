@@ -25,6 +25,7 @@
 #include "craft_command.h"
 #include "debug.h"
 #include "effect.h"
+#include "event_bus.h"
 #include "timed_event.h"
 #include "field.h"
 #include "fungal_effects.h"
@@ -92,7 +93,6 @@ const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_spider_web_s( "mon_spider_web_s" );
 const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
-const mtype_id mon_turret( "mon_turret" );
 const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 
 const skill_id skill_computer( "computer" );
@@ -643,7 +643,7 @@ void iexamine::vending( player &p, const tripoint &examp )
                             elem->first.c_str() );
         }
 
-        draw_scrollbar( w, cur_pos, list_lines, num_items, first_item_offset );
+        draw_scrollbar( w, cur_pos, list_lines, num_items, point( 0, first_item_offset ) );
         wrefresh( w );
 
         // Item info
@@ -775,8 +775,7 @@ void iexamine::cardreader( player &p, const tripoint &examp )
         for( monster &critter : g->all_monsters() ) {
             // Check 1) same overmap coords, 2) turret, 3) hostile
             if( ms_to_omt_copy( g->m.getabs( critter.pos() ) ) == ms_to_omt_copy( g->m.getabs( examp ) ) &&
-                ( critter.type->id == mon_turret ||
-                  critter.type->id == mon_turret_rifle ) &&
+                ( critter.type->id == mon_turret_rifle ) &&
                 critter.attitude_to( p ) == Creature::Attitude::A_HOSTILE ) {
                 g->remove_zombie( critter );
             }
@@ -803,30 +802,8 @@ void iexamine::cardreader_robofac( player &p, const tripoint &examp )
         add_msg( m_bad, _( "The card reader short circuits!" ) );
         g->m.ter_set( examp, t_card_reader_broken );
         intercom( p, examp );
-
     } else {
-        switch( hack_attempt( p ) ) {
-            case HACK_FAIL:
-            case HACK_NOTHING:
-                add_msg( _( "Nothing happens." ) );
-                break;
-            case HACK_SUCCESS: {
-                add_msg( _( "You activate the panel!" ) );
-                add_msg( m_bad, _( "The card reader short circuits!" ) );
-                g->m.ter_set( examp, t_card_reader_broken );
-                intercom( p, examp );
-            }
-            break;
-            case HACK_UNABLE:
-                add_msg(
-                    m_info,
-                    p.get_skill_level( skill_computer ) > 0 ?
-                    _( "Looks like you need a %s, or a tool to hack it with." ) :
-                    _( "Looks like you need a %s." ),
-                    item::nname( card_type )
-                );
-                break;
-        }
+        add_msg( _( "You have never seen this card reader model before.  Hacking it seems impossible." ) );
     }
 }
 
@@ -1272,9 +1249,8 @@ void iexamine::locked_object( player &p, const tripoint &examp )
         return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
     } );
 
-    p.add_msg_if_player( string_format( _( "You attempt to pry open the %s using your %s..." ),
-                                        g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ),
-                                        prying_items[0]->tname() ) );
+    p.add_msg_if_player( _( "You attempt to pry open the %s using your %s..." ),
+                         g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ), prying_items[0]->tname() );
 
     // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
     // changes to the original item.
@@ -1310,10 +1286,9 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
  */
 void iexamine::fault( player &, const tripoint & )
 {
-    popup( _( "\
-This wall is perfectly vertical.  Odd, twisted holes are set in it, leading\n\
-as far back into the solid rock as you can see.  The holes are humanoid in\n\
-shape, but with long, twisted, distended limbs." ) );
+    popup( _( "This wall is perfectly vertical.  Odd, twisted holes are set in it, leading\n"
+              "as far back into the solid rock as you can see.  The holes are humanoid in\n"
+              "shape, but with long, twisted, distended limbs." ) );
 }
 
 /**
@@ -1326,8 +1301,7 @@ void iexamine::pedestal_wyrm( player &p, const tripoint &examp )
         return;
     }
     // Send in a few wyrms to start things off.
-    g->u.add_memorial_log( pgettext( "memorial_male", "Awoke a group of dark wyrms!" ),
-                           pgettext( "memorial_female", "Awoke a group of dark wyrms!" ) );
+    g->events().send<event_type::awakes_dark_wyrms>();
     int num_wyrms = rng( 1, 4 );
     for( int i = 0; i < num_wyrms; i++ ) {
         int tries = 0;
@@ -1368,8 +1342,8 @@ void iexamine::pedestal_temple( player &p, const tripoint &examp )
         g->m.ter_set( examp, t_dirt );
         g->timed_events.add( TIMED_EVENT_TEMPLE_OPEN, calendar::turn + 10_seconds );
     } else {
-        add_msg( _( "This pedestal is engraved in eye-shaped diagrams, and has a \
-large semi-spherical indentation at the top." ) );
+        add_msg( _( "This pedestal is engraved in eye-shaped diagrams, and has a "
+                    "large semi-spherical indentation at the top." ) );
     }
 }
 
@@ -1705,6 +1679,8 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         p.add_msg_if_player( m_bad, _( "You couldn't harvest anything." ) );
     }
 
+    iexamine::practice_survival_while_foraging( &p );
+
     p.mod_moves( -to_moves<int>( rng( 5_seconds, 15_seconds ) ) );
     return true;
 }
@@ -1911,15 +1887,21 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
     } else {
         used_seed = p.use_amount( seed_id, 1 );
     }
-    used_seed.front().set_age( 0_turns );
-    g->m.add_item_or_charges( examp, used_seed.front() );
-    if( g->m.has_flag_furn( "PLANTABLE", examp ) ) {
-        g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
-    } else {
-        g->m.set( examp, t_dirt, f_plant_seed );
+    if( !used_seed.empty() ) {
+        used_seed.front().set_age( 0_turns );
+        if( used_seed.front().has_var( "activity_var" ) ) {
+            used_seed.front().erase_var( "activity_var" );
+        }
+        g->m.add_item_or_charges( examp, used_seed.front() );
+        if( g->m.has_flag_furn( "PLANTABLE", examp ) ) {
+            g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
+        } else {
+            g->m.set( examp, t_dirt, f_plant_seed );
+        }
+        p.moves -= to_moves<int>( 30_seconds );
+        p.add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
+                                 item::nname( seed_id ) );
     }
-    p.moves -= to_moves<int>( 30_seconds );
-    add_msg( _( "Planted %s." ), item::nname( seed_id ) );
 }
 
 /**
@@ -2016,7 +1998,7 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
 /**
  * Actual harvesting of selected plant
  */
-void iexamine::harvest_plant( player &p, const tripoint &examp )
+void iexamine::harvest_plant( player &p, const tripoint &examp, bool from_activity )
 {
     // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = g->m.i_at( examp );
@@ -2070,6 +2052,9 @@ void iexamine::harvest_plant( player &p, const tripoint &examp )
         }
         const int seedCount = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
         for( auto &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
+            if( from_activity ) {
+                i.set_var( "activity_var", p.name );
+            }
             g->m.add_item_or_charges( examp, i );
         }
         g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
@@ -2565,9 +2550,10 @@ void iexamine::autoclave_full( player &, const tripoint &examp )
     }
 
     g->m.furn_set( examp, next_autoclave_type );
-    for( auto &it : items ) {
-        it.unset_flag( "NO_STERILE" );
-        it.set_var( "sterile", 1 ); // sterile for 1s if not (packed)
+    for( item &it : items ) {
+        if( !it.has_flag( "NO_PACKED" ) ) {
+            it.unset_flag( "NO_STERILE" );
+        }
     }
     add_msg( m_good, _( "The cycle is complete, the CBMs are now sterile." ) );
 
@@ -2619,8 +2605,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
         selection_menu.addentry( 4, false, 'e', _( "Extinguish fire (bashing item required)" ) );
     }
     if( furn_is_deployed ) {
-        selection_menu.addentry( 3, true, 't', string_format( _( "Take down the %s" ),
-                                 g->m.furnname( examp ) ) );
+        selection_menu.addentry( 3, true, 't', _( "Take down the %s" ), g->m.furnname( examp ) );
     }
     selection_menu.query();
 
@@ -2634,8 +2619,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
                 item *it = firestarter.second;
                 const auto usef = it->type->get_use( "firestarter" );
                 const auto actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-                p.add_msg_if_player( string_format( _( "You attempt to start a fire with your %s..." ),
-                                                    it->tname() ) );
+                p.add_msg_if_player( _( "You attempt to start a fire with your %s..." ), it->tname() );
                 const ret_val<bool> can_use = actor->can_use( p, *it, false, examp );
                 if( can_use.success() ) {
                     const int charges = actor->use( p, *it, false, examp );
@@ -2752,9 +2736,9 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
         uilist selectmenu;
         selectmenu.text = _( "Select an action" );
         selectmenu.addentry( ADD_BREW, ( p.charges_of( brew_type ) > 0 ), MENU_AUTOASSIGN,
-                             string_format( _( "Add more %s to the vat" ), brew_nname ) );
+                             _( "Add more %s to the vat" ), brew_nname );
         selectmenu.addentry( REMOVE_BREW, brew.made_of( LIQUID ), MENU_AUTOASSIGN,
-                             string_format( _( "Remove %s from the vat" ), brew.tname() ) );
+                             _( "Remove %s from the vat" ), brew.tname() );
         selectmenu.addentry( START_FERMENT, true, MENU_AUTOASSIGN, _( "Start fermenting cycle" ) );
         selectmenu.query();
         switch( selectmenu.ret ) {
@@ -4066,8 +4050,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
             case HACK_UNABLE:
                 break;
             case HACK_FAIL:
-                p.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
-                                    pgettext( "memorial_female", "Set off an alarm." ) );
+                g->events().send<event_type::triggers_alarm>( p.getID() );
                 sounds::sound( p.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
                                "alarm" );
                 if( examp.z > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
@@ -4281,10 +4264,10 @@ static player &best_installer( player &p, player &null_player, int difficulty )
             player &ally = *g->critter_by_id<player>( e->getID() );
             int ally_cos = bionic_manip_cos( ally_skills[ i ].first, true, difficulty );
             if( e->has_effect( effect_sleep ) ) {
-                //~ %1$s is the name of the ally
-                if( !g->u.query_yn( string_format(
-                                        _( "<color_white>%1$s is asleep, but has a <color_green>%2$d<color_white> chance of success compared to your <color_red>%3$d<color_white> chance of success.  Continue with a higher risk of failure?</color>" ),
-                                        ally.disp_name(), ally_cos, player_cos ) ) ) {
+                if( !g->u.query_yn(
+                        //~ %1$s is the name of the ally
+                        _( "<color_white>%1$s is asleep, but has a <color_green>%2$d<color_white> chance of success compared to your <color_red>%3$d<color_white> chance of success.  Continue with a higher risk of failure?</color>" ),
+                        ally.disp_name(), ally_cos, player_cos ) ) {
                     return null_player;
                 } else {
                     continue;
@@ -4922,7 +4905,7 @@ static void smoker_load_food( player &p, const tripoint &examp,
     comps.push_back( item_comp( what->typeId(), amount ) );
 
     // select from where to get the items from and place them
-    inv.form_from_map( g->u.pos(), PICKUP_RANGE );
+    inv.form_from_map( g->u.pos(), PICKUP_RANGE, &g->u );
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );
@@ -5030,7 +5013,7 @@ static void mill_load_food( player &p, const tripoint &examp,
     comps.push_back( item_comp( what->typeId(), amount ) );
 
     // select from where to get the items from and place them
-    inv.form_from_map( g->u.pos(), PICKUP_RANGE );
+    inv.form_from_map( g->u.pos(), PICKUP_RANGE, &g->u );
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );
@@ -5568,18 +5551,15 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
             const recipe &rec = selected_craft->get_making();
             if( p.has_recipe( &rec, p.crafting_inventory(), p.get_crafting_helpers() ) == -1 ) {
                 p.add_msg_player_or_npc(
-                    string_format( _( "You don't know the recipe for the %s and can't continue crafting." ),
-                                   rec.result_name() ),
-                    string_format( _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
-                                   rec.result_name() )
-                );
+                    _( "You don't know the recipe for the %s and can't continue crafting." ),
+                    _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
+                    rec.result_name() );
                 break;
             }
             p.add_msg_player_or_npc(
-                string_format( pgettext( "in progress craft", "You start working on the %s." ),
-                               selected_craft->tname() ),
-                string_format( pgettext( "in progress craft", "<npcname> starts working on the %s." ),
-                               selected_craft->tname() ) );
+                pgettext( "in progress craft", "You start working on the %s." ),
+                pgettext( "in progress craft", "<npcname> starts working on the %s." ),
+                selected_craft->tname() );
             p.assign_activity( activity_id( "ACT_CRAFT" ) );
             p.activity.targets.push_back( crafts[amenu2.ret] );
             p.activity.values.push_back( 0 ); // Not a long craft
@@ -5696,6 +5676,17 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
     return &iexamine::none;
 }
 
+static int hack_level( const player &p )
+{
+    ///\EFFECT_COMPUTER increases success chance of hacking card readers
+    int target = p.get_skill_level( skill_computer );
+    // odds go up with int>8, down with int<8
+    // 4 int stat is worth 1 computer skill here
+    ///\EFFECT_INT increases success chance of hacking card readers
+    target += static_cast<int>( p.int_cur / 2 - 8 );
+    return target;
+}
+
 hack_result iexamine::hack_attempt( player &p )
 {
     if( p.has_trait( trait_ILLITERATE ) ) {
@@ -5712,33 +5703,31 @@ hack_result iexamine::hack_attempt( player &p )
 
     p.moves -= to_moves<int>( 5_minutes );
     p.practice( skill_computer, 20 );
-    ///\EFFECT_COMPUTER increases success chance of hacking card readers
-    int player_computer_skill_level = p.get_skill_level( skill_computer );
-    int success = rng( player_computer_skill_level / 4 - 2, player_computer_skill_level * 2 );
-    success += rng( -3, 3 );
     if( using_fingerhack ) {
         p.charge_power( -25 );
-        success++;
-    }
-    if( using_electrohack ) {
+    } else {
         p.use_charges( "electrohack", 25 );
-        success++;
     }
 
-    // odds go up with int>8, down with int<8
-    // 4 int stat is worth 1 computer skill here
-    ///\EFFECT_INT increases success chance of hacking card readers
-    success += rng( 0, static_cast<int>( ( p.int_cur - 8 ) / 2 ) );
-
+    // only skilled supergenius never cause short circuits, but the odds are low for people
+    // with moderate skills
+    const int hack_stddev = 5;
+    int success = std::ceil( normal_roll( hack_level( p ), hack_stddev ) );
     if( success < 0 ) {
         add_msg( _( "You cause a short circuit!" ) );
+        if( using_fingerhack ) {
+            p.charge_power( -25 );
+        } else {
+            p.use_charges( "electrohack", 25 );
+        }
+
         if( success <= -5 ) {
             if( using_electrohack ) {
                 add_msg( m_bad, _( "Your electrohack is ruined!" ) );
                 p.use_amount( "electrohack", 1 );
             } else {
                 add_msg( m_bad, _( "Your power is drained!" ) );
-                p.charge_power( -rng( 0, p.power_level ) );
+                p.charge_power( -rng( 25, p.power_level ) );
             }
         }
         return HACK_FAIL;
@@ -5747,4 +5736,14 @@ hack_result iexamine::hack_attempt( player &p )
     } else {
         return HACK_SUCCESS;
     }
+}
+
+void iexamine::practice_survival_while_foraging( player *p )
+{
+    ///\EFFECT_INT Intelligence caps survival skill gains from foraging
+    const int max_forage_skill = p->int_cur / 3 + 1;
+    ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
+    const int max_exp = 2 * ( max_forage_skill - p->get_skill_level( skill_survival ) );
+    // Award experience for foraging attempt regardless of success
+    p->practice( skill_survival, rng( 1, max_exp ), max_forage_skill );
 }

@@ -970,7 +970,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     curtype.obj().npc_complain_data;
                 const int chance = std::get<0>( npc_complain_data );
                 if( chance > 0 && one_in( chance ) ) {
-                    if( npc *const np = g->critter_at<npc>( p ) ) {
+                    if( npc *const np = g->critter_at<npc>( p, false ) ) {
                         np->complain_about( std::get<1>( npc_complain_data ),
                                             std::get<2>( npc_complain_data ),
                                             std::get<3>( npc_complain_data ) );
@@ -1082,7 +1082,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         cur.monster_spawn_radius() ), [this]( const tripoint & n ) {
                         return passable( n );
                         } ) ) {
-                            add_spawn( spawn_details.name, spawn_details.pack_size, point( spawn_point->x, spawn_point->y ) );
+                            add_spawn( spawn_details.name, spawn_details.pack_size, spawn_point->xy() );
                         }
                     }
                 }
@@ -1531,10 +1531,10 @@ void map::player_in_field( player &u )
         if( ft == fd_tear_gas ) {
             // Tear gas will both give you teargas disease and/or blind you.
             if( ( cur.get_field_intensity() > 1 || !one_in( 3 ) ) && ( !inside || one_in( 3 ) ) ) {
-                u.add_env_effect( effect_teargas, bp_mouth, 5, 2_minutes );
+                u.add_env_effect( effect_teargas, bp_mouth, 5, 20_seconds );
             }
             if( cur.get_field_intensity() > 1 && ( !inside || one_in( 3 ) ) ) {
-                u.add_env_effect( effect_blind, bp_eyes, cur.get_field_intensity() * 2, 1_minutes );
+                u.add_env_effect( effect_blind, bp_eyes, cur.get_field_intensity() * 2, 10_seconds );
             }
         }
         if( ft == fd_relax_gas ) {

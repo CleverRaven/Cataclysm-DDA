@@ -482,7 +482,7 @@ void basecamp::query_new_name()
 {
     std::string camp_name;
     string_input_popup popup;
-    popup.title( string_format( _( "Name this camp" ) ) )
+    popup.title( _( "Name this camp" ) )
     .width( 40 )
     .text( "" )
     .max_length( 25 )
@@ -566,7 +566,7 @@ void basecamp::form_crafting_inventory( map &target_map )
 {
     _inv.clear();
     const tripoint &origin = target_map.getlocal( get_dumping_spot() );
-    _inv.form_from_map( target_map, origin, range, false, false );
+    _inv.form_from_map( target_map, origin, range, nullptr, false, false );
     /*
      * something of a hack: add the resources we know the camp has
      * the hacky part is that we're adding resources based on the camp's flags, which were

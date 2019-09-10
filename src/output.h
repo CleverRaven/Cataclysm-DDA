@@ -199,7 +199,7 @@ nc_color msgtype_to_color( game_message_type type, bool bOldMsg = false );
  * Removes the color tags from the input string. This might be required when the string is to
  * be used for functions that don't handle color tags.
  */
-std::string remove_color_tags( const std::string &text );
+std::string remove_color_tags( const std::string &s );
 /*@}*/
 
 /**
@@ -257,7 +257,7 @@ int print_scrollable( const catacurses::window &w, int begin_line, const std::st
  * the height of the window.
  */
 int fold_and_print( const catacurses::window &w, const point &begin, int width,
-                    const nc_color &base_color, const std::string &mes, char split = ' ' );
+                    const nc_color &base_color, const std::string &text, char split = ' ' );
 /**
  * Same as other @ref fold_and_print, but does string formatting via @ref string_format.
  */
@@ -287,7 +287,7 @@ inline int fold_and_print( const catacurses::window &w, const point &begin,
  * value for `begin_line`.
  */
 int fold_and_print_from( const catacurses::window &w, const point &begin, int width,
-                         int begin_line, const nc_color &base_color, const std::string &mes );
+                         int begin_line, const nc_color &base_color, const std::string &text );
 /**
  * Same as other @ref fold_and_print_from, but does formatting via @ref string_format.
  */
@@ -310,7 +310,7 @@ inline int fold_and_print_from( const catacurses::window &w, const point &begin,
  * @param mes Actual message to print
  */
 void trim_and_print( const catacurses::window &w, const point &begin, int width,
-                     nc_color base_color, const std::string &mes );
+                     nc_color base_color, const std::string &text );
 template<typename ...Args>
 inline void trim_and_print( const catacurses::window &w, const point &begin,
                             const int width, const nc_color base_color, const char *const mes, Args &&... args )
@@ -318,9 +318,10 @@ inline void trim_and_print( const catacurses::window &w, const point &begin,
     return trim_and_print( w, begin, width, base_color, string_format( mes,
                            std::forward<Args>( args )... ) );
 }
-void center_print( const catacurses::window &w, int y, const nc_color &FG, const std::string &mes );
+void center_print( const catacurses::window &w, int y, const nc_color &FG,
+                   const std::string &text );
 int right_print( const catacurses::window &w, int line, int right_indent,
-                 const nc_color &FG, const std::string &mes );
+                 const nc_color &FG, const std::string &text );
 void display_table( const catacurses::window &w, const std::string &title, int columns,
                     const std::vector<std::string> &data );
 void multipage( const catacurses::window &w, const std::vector<std::string> &text,
@@ -369,14 +370,14 @@ std::string word_rewrap( const std::string &ins, int width, uint32_t split = ' '
 std::vector<size_t> get_tag_positions( const std::string &s );
 std::vector<std::string> split_by_color( const std::string &s );
 
-bool query_yn( const std::string &msg );
+bool query_yn( const std::string &text );
 template<typename ...Args>
 inline bool query_yn( const char *const msg, Args &&... args )
 {
     return query_yn( string_format( msg, std::forward<Args>( args )... ) );
 }
 
-bool query_int( int &result, const std::string &msg );
+bool query_int( int &result, const std::string &text );
 template<typename ...Args>
 inline bool query_int( int &result, const char *const msg, Args &&... args )
 {
@@ -438,9 +439,9 @@ inline void popup_nowait( const char *mes, Args &&... args )
 }
 void popup_status( const char *title, const std::string &mes );
 template<typename ...Args>
-inline void popup_status( const char *const title, const char *const mes, Args &&... args )
+inline void popup_status( const char *const title, const char *const fmt, Args &&... args )
 {
-    return popup_status( title, string_format( mes, std::forward<Args>( args )... ) );
+    return popup_status( title, string_format( fmt, std::forward<Args>( args )... ) );
 }
 template<typename ...Args>
 inline void popup( const char *mes, Args &&... args )
@@ -521,7 +522,7 @@ void replace_substring( std::string &input, const std::string &substring,
 
 std::string string_replace( std::string text, const std::string &before, const std::string &after );
 std::string replace_colors( std::string text );
-std::string &capitalize_letter( std::string &pattern, size_t n = 0 );
+std::string &capitalize_letter( std::string &str, size_t n = 0 );
 size_t shortcut_print( const catacurses::window &w, const point &p, nc_color text_color,
                        nc_color shortcut_color, const std::string &fmt );
 size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
@@ -530,7 +531,7 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt );
 
 // short visual animation (player, monster, ...) (hit, dodge, ...)
 // cTile is a UTF-8 strings, and must be a single cell wide!
-void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile );
+void hit_animation( const point &p, nc_color cColor, const std::string &cTile );
 
 /**
  * @return Pair of a string containing the bar, and its color
@@ -644,18 +645,18 @@ std::string enumerate_as_string( const _Container &values,
  * @return String containing enumerated elements in format: "a, b, c, ..., and z". Uses the Oxford comma.
  * @param first Iterator pointing to the first element.
  * @param last Iterator pointing to the last element.
- * @param pred Predicate that accepts an element and returns a representing string.
+ * @param string_for Function that accepts an element and returns a representing string.
  * May return an empty string to omit the element.
  * @param conj Choose how to separate the last elements.
  */
-template<typename _FIter, typename _Predicate>
-std::string enumerate_as_string( _FIter first, _FIter last, _Predicate pred,
+template<typename _FIter, typename F>
+std::string enumerate_as_string( _FIter first, _FIter last, F string_for,
                                  enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
     std::vector<std::string> values;
     values.reserve( static_cast<size_t>( std::distance( first, last ) ) );
     for( _FIter iter = first; iter != last; ++iter ) {
-        const std::string str( pred( *iter ) );
+        const std::string str( string_for( *iter ) );
         if( !str.empty() ) {
             values.push_back( str );
         }
@@ -679,7 +680,7 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &
                   bool bDecorate = true, bool bDisabled = false );
 // Legacy function, use class scrollbar instead!
 void draw_scrollbar( const catacurses::window &window, int iCurrentLine,
-                     int iContentHeight, int iNumLines, int iOffsetY = 0, int iOffsetX = 0,
+                     int iContentHeight, int iNumLines, const point &offset = point_zero,
                      nc_color bar_color = c_white, bool bDoNotScrollToEnd = false );
 void calcStartPos( int &iStartPos, int iCurrentLine, int iContentHeight,
                    int iNumEntries );
@@ -726,12 +727,10 @@ class scrollingcombattext
         class cSCT
         {
             private:
-                int iPosX;
-                int iPosY;
+                point pos;
                 direction oDir;
                 direction oUp, oUpRight, oRight, oDownRight, oDown, oDownLeft, oLeft, oUpLeft;
-                int iDirX;
-                int iDirY;
+                point dir;
                 int iStep;
                 int iStepOffset;
                 std::string sText;
@@ -742,7 +741,7 @@ class scrollingcombattext
                 bool iso_mode;
 
             public:
-                cSCT( int p_iPosX, int p_iPosY, direction p_oDir,
+                cSCT( const point &pos, direction p_oDir,
                       const std::string &p_sText, game_message_type p_gmt,
                       const std::string &p_sText2 = "", game_message_type p_gmt2 = m_neutral,
                       const std::string &p_sType = "" );
@@ -765,10 +764,10 @@ class scrollingcombattext
                     return oDir;
                 }
                 int getInitPosX() const {
-                    return iPosX;
+                    return pos.x;
                 }
                 int getInitPosY() const {
-                    return iPosY;
+                    return pos.y;
                 }
                 std::string getType() const {
                     return sType;
@@ -779,7 +778,7 @@ class scrollingcombattext
 
         std::vector<cSCT> vSCT;
 
-        void add( int p_iPosX, int p_iPosY, direction p_oDir,
+        void add( const point &pos, direction p_oDir,
                   const std::string &p_sText, game_message_type p_gmt,
                   const std::string &p_sText2 = "", game_message_type p_gmt2 = m_neutral,
                   const std::string &p_sType = "" );
@@ -789,9 +788,9 @@ class scrollingcombattext
 
 extern scrollingcombattext SCT;
 
-std::string wildcard_trim_rule( const std::string &sPatternIn );
-bool wildcard_match( const std::string &sTextIn, const std::string &sPatternIn );
-std::vector<std::string> string_split( const std::string &s, char delim );
+std::string wildcard_trim_rule( const std::string &pattern_in );
+bool wildcard_match( const std::string &text_in, const std::string &pattern_in );
+std::vector<std::string> string_split( const std::string &text_in, char delim );
 int ci_find_substr( const std::string &str1, const std::string &str2,
                     const std::locale &loc = std::locale() );
 
@@ -842,11 +841,11 @@ void refresh_display();
  * Assigns a custom color to each symbol.
  *
  * @param str String to colorize symbols in
- * @param func Function that accepts symbols (std::string::value_type) and returns colors.
+ * @param color_of Function that accepts symbols (std::string::value_type) and returns colors.
  * @return Colorized string.
  */
-template<typename Pred>
-std::string colorize_symbols( const std::string &str, Pred func )
+template<typename F>
+std::string colorize_symbols( const std::string &str, F color_of )
 {
     std::ostringstream res;
     nc_color prev_color = c_unset;
@@ -858,7 +857,7 @@ std::string colorize_symbols( const std::string &str, Pred func )
     };
 
     for( const auto &elem : str ) {
-        const nc_color new_color = func( elem );
+        const nc_color new_color = color_of( elem );
 
         if( prev_color != new_color ) {
             closing_tag();

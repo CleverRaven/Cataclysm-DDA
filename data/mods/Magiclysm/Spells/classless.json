@@ -1,5 +1,23 @@
 [
   {
+    "id": "dark_sight",
+    "type": "SPELL",
+    "name": "Dark Sight",
+    "description": "Gives you the power to see in the dark",
+    "message": "Your eyes glow green for a moment.  Now your sight can pierce the darkest shadows.",
+    "valid_targets": [ "self" ],
+    "effect": "target_attack",
+    "effect_str": "dark_sight",
+    "min_range": 1,
+    "max_range": 1,
+    "base_casting_time": 100,
+    "base_energy_cost": 400,
+    "energy_source": "MANA",
+    "min_duration": 100000,
+    "max_duration": 1000000,
+    "duration_increment": 2000
+  },
+  {
     "id": "megablast",
     "type": "SPELL",
     "name": "Megablast",

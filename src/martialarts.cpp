@@ -111,6 +111,7 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
+    optional( jo, was_loaded, "side_switch", side_switch, false );
     optional( jo, was_loaded, "dummy", dummy, false );
     optional( jo, was_loaded, "dodge_counter", dodge_counter, false );
     optional( jo, was_loaded, "block_counter", block_counter, false );
@@ -340,7 +341,7 @@ class ma_buff_effect_type : public effect_type
             int_decay_step = -1;
             int_decay_tick = 1;
             int_dur_factor = 0_turns;
-            name.push_back( translation( buff.name ) );
+            name.push_back( to_translation( buff.name ) );
             desc.push_back( buff.description );
             rating = e_good;
         }
@@ -450,7 +451,7 @@ std::string ma_requirements::get_description( bool buff ) const
     }
 
     if( !req_buffs.empty() ) {
-        dump << string_format( _( "<bold>Requires:</bold> " ) );
+        dump << _( "<bold>Requires:</bold> " );
 
         dump << enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id & bid ) {
             return _( bid->name );
@@ -478,6 +479,7 @@ ma_technique::ma_technique()
     crit_tec = false;
     crit_ok = false;
     defensive = false;
+    side_switch = false; // moves the target behind user
     dummy = false;
 
     down_dur = 0;
@@ -1175,6 +1177,10 @@ std::string ma_technique::get_description() const
         dump << _( "* Will only activate on a <info>crit</info>" ) << std::endl;
     }
 
+    if( side_switch ) {
+        dump << _( "* Moves target <info>behind</info> you" ) << std::endl;
+    }
+
     if( downed_target ) {
         dump << _( "* Only works on a <info>downed</info> target" ) << std::endl;
     }
@@ -1343,7 +1349,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             werase( w );
             fold_and_print_from( w, point( 2, 1 ), width, selected, c_light_gray, text );
             draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), _( ma.name ) ) );
-            draw_scrollbar( w, selected, height, iLines, 1, 0, BORDER_COLOR, true );
+            draw_scrollbar( w, selected, height, iLines, point_south, BORDER_COLOR, true );
             wrefresh( w );
             catacurses::refresh();
 

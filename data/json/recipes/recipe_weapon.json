@@ -1131,25 +1131,6 @@
   },
   {
     "type": "recipe",
-    "result": "flamethrower_simple",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 3 ],
-    "difficulty": 6,
-    "time": "30 m",
-    "reversible": true,
-    "autolearn": true,
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [
-      [ [ "pilot_light", 2 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "hose", 2 ] ],
-      [ [ "bottle_glass", 4 ], [ "bottle_plastic", 6 ], [ "bottle_plastic_small", 12 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "launcher_simple",
     "note": "standalone_weapon",
     "category": "CC_WEAPON",
@@ -1638,7 +1619,7 @@
     "book_learn": [ [ "manual_rifle", 5 ], [ "textbook_anarch", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "tools": [
-      [ [ "ar15", -1 ], [ "h&k416a5", -1 ], [ "m27iar", -1 ], [ "m4a1", -1 ] ],
+      [ [ "ar15", -1 ], [ "h&k416a5", -1 ], [ "m27iar", -1 ], [ "m4a1", -1 ], [ "m16a4", -1 ] ],
       [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 40 ], [ "toolset", 40 ] ],
       [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
     ],

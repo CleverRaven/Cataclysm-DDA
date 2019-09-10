@@ -635,12 +635,14 @@ bool player::eat( item &food, bool force )
         return false;
     }
 
+    int charges_used = 0;
     if( food.type->has_use() ) {
         if( !food.type->can_use( "DOGFOOD" ) &&
             !food.type->can_use( "CATFOOD" ) &&
             !food.type->can_use( "BIRDFOOD" ) &&
             !food.type->can_use( "CATTLEFODDER" ) ) {
-            if( food.type->invoke( *this, food, pos() ) <= 0 ) {
+            charges_used = food.type->invoke( *this, food, pos() );
+            if( charges_used <= 0 ) {
                 return false;
             }
         }
@@ -663,8 +665,6 @@ bool player::eat( item &food, bool force )
     if( hibernate &&
         ( get_hunger() > -60 && get_thirst() > -60 ) &&
         ( get_hunger() - nutr < -60 || get_thirst() - quench < -60 ) ) {
-        add_memorial_log( pgettext( "memorial_male", "Began preparing for hibernation." ),
-                          pgettext( "memorial_female", "Began preparing for hibernation." ) );
         add_msg_if_player(
             _( "You've begun stockpiling calories and liquid for hibernation.  You get the feeling that you should prepare for bed, just in case, but...you're hungry again, and you could eat a whole week's worth of food RIGHT NOW." ) );
     }
@@ -684,6 +684,10 @@ bool player::eat( item &food, bool force )
         add_msg_if_player( m_good, _( "Mmm, this %s tastes delicious..." ), food.tname() );
     }
     if( !consume_effects( food ) ) {
+        //Already consumed by using `food.type->invoke`?
+        if( charges_used > 0 ) {
+            food.mod_charges( -charges_used );
+        }
         return false;
     }
     food.mod_charges( -1 );
@@ -1251,7 +1255,7 @@ bool player::can_feed_furnace_with( const item &it ) const
         return false;
     }
 
-    return it.typeId() != "corpse"; // TODO: Eliminate the hard-coded special case.
+    return !it.has_flag( "CORPSE" );
 }
 
 bool player::feed_furnace_with( item &it )

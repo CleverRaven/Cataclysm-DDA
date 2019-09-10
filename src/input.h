@@ -39,9 +39,20 @@ static constexpr int KEY_HOME       =
 static constexpr int KEY_BACKSPACE  =
     0x107;    /* Backspace */                  //<---------not used
 static constexpr int KEY_DC         = 0x151;    /* Delete Character */
+static constexpr int KEY_F0         = 0x108;
 inline constexpr int KEY_F( const int n )
 {
-    return 0x108 + n;    /* F1, F2, etc*/
+    return KEY_F0 + n;    /* F1, F2, etc*/
+}
+static constexpr int F_KEY_NUM_BEG  = 0;
+static constexpr int F_KEY_NUM_END  = 63;
+inline constexpr int F_KEY_NUM( const int key )
+{
+    return key - KEY_F0;
+}
+inline constexpr bool IS_F_KEY( const int key )
+{
+    return key >= KEY_F( F_KEY_NUM_BEG ) && key <= KEY_F( F_KEY_NUM_END );
 }
 inline constexpr int KEY_NUM( const int n )
 {
@@ -252,7 +263,7 @@ class input_manager
          * of the key. This acts as the inverse to get_keyname:
          * <code>get_keyname(get_keycode(a), , true) == a</code>
          */
-        std::string get_keyname( int ch, input_event_t input_type, bool portable = false ) const;
+        std::string get_keyname( int ch, input_event_t inp_type, bool portable = false ) const;
 
         /**
          * curses getch() replacement.
@@ -272,7 +283,7 @@ class input_manager
          * Use `input_context::(re)set_timeout()` when possible so timeout will be properly
          * reset when entering a new input context.
          */
-        void set_timeout( int delay );
+        void set_timeout( int t );
         void reset_timeout() {
             set_timeout( -1 );
         }
@@ -563,6 +574,15 @@ class input_context
         } ) const;
 
         /**
+         * Equivalent to get_desc( act, get_action_name( act ), filter )
+         **/
+        std::string describe_key_and_name( const std::string &action_descriptor,
+                                           std::function<bool( const input_event & )> evt_filter =
+        []( const input_event & ) {
+            return true;
+        } ) const;
+
+        /**
          * Handles input and returns the next action in the queue.
          *
          * This internally calls getch() or whatever other input method
@@ -593,7 +613,7 @@ class input_context
          *       and returns the absolute map coordinate.
          *       Eventually this should be made more flexible.
          */
-        cata::optional<tripoint> get_coordinates( const catacurses::window &window );
+        cata::optional<tripoint> get_coordinates( const catacurses::window &capture_win_ );
 
         // Below here are shortcuts for registering common key combinations.
         void register_directions();
@@ -658,7 +678,7 @@ class input_context
          * this method will cause CATA_INPUT_TIMEOUT events to be generated correctly,
          * and will reset timeout correctly when a new input context is entered.
          */
-        void set_timeout( int timeout );
+        void set_timeout( int val );
         void reset_timeout();
     private:
 

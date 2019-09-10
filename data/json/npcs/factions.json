@@ -52,6 +52,32 @@
   },
   {
     "type": "faction",
+    "id": "robofac_auxiliaries",
+    "name": "Hub 01 Ancillia",
+    "likes_u": 15,
+    "respects_u": 15,
+    "known_by_u": false,
+    "size": 70,
+    "power": 100,
+    "food_supply": 115200,
+    "wealth": 75000,
+    "currency": "RobofacCoin",
+    "relations": {
+      "robofac": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "marloss": { "kill on sight": true }
+    },
+    "description": "A loose association of skilled wastelanders, traders, mercenaries and scouts.  All working on behalf of Hub 01, for their own reasons."
+  },
+  {
+    "type": "faction",
     "id": "old_guard",
     "name": "The Old Guard",
     "likes_u": 15,
@@ -142,6 +168,15 @@
         "defends your space": false,
         "knows your voice": true
       },
+      "no_faction": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
       "hells_raiders": { "kill on sight": true }
     },
     "description": "A conglomeration of entrepreneurs and businessmen that stand together to hammer-out an existence through trade and industry."
@@ -177,6 +212,15 @@
         "knows your voice": true
       },
       "old_guard": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "no_faction": {
         "kill on sight": false,
         "watch your back": false,
         "share my stuff": false,
@@ -248,6 +292,26 @@
   },
   {
     "type": "faction",
+    "id": "no_faction",
+    "name": "No Faction",
+    "likes_u": 0,
+    "respects_u": 0,
+    "known_by_u": false,
+    "size": 100,
+    "power": 100,
+    "food_supply": 172800,
+    "wealth": 2500000,
+    "relations": {
+      "lobby_beggars": { "knows your voice": true },
+      "free_merchants": { "knows your voice": true },
+      "old_guard": { "knows your voice": true },
+      "wasteland_scavengers": { "knows your voice": true },
+      "no_faction": { "knows your voice": true }
+    },
+    "description": "A lone wolf, not aligned with any faction."
+  },
+  {
+    "type": "faction",
     "id": "wasteland_scavengers",
     "name": "The Wasteland Scavengers",
     "likes_u": 0,
@@ -261,7 +325,8 @@
       "lobby_beggars": { "knows your voice": true },
       "free_merchants": { "knows your voice": true },
       "old_guard": { "knows your voice": true },
-      "wasteland_scavengers": { "share my stuff": true, "guard your stuff": true, "knows your voice": true }
+      "wasteland_scavengers": { "share my stuff": true, "guard your stuff": true, "knows your voice": true },
+      "no_faction": { "knows your voice": true }
     },
     "description": "Autonomous bands or individuals who make their living raiding the ruins of the old-world for gear and provisions."
   },
@@ -365,6 +430,15 @@
         "guard your stuff": true,
         "lets you in": false,
         "defends your space": false
+      },
+      "no_faction": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
       },
       "wasteland_scavengers": {
         "kill on sight": false,

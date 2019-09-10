@@ -53,8 +53,6 @@ struct tripoint;
 using t_string_set = std::set<std::string>;
 static t_string_set item_blacklist;
 
-static std::set<std::string> repair_actions;
-
 static DynamicDataLoader::deferred_json deferred;
 
 std::unique_ptr<Item_factory> item_controller = std::make_unique<Item_factory>();
@@ -526,8 +524,8 @@ class iuse_function_wrapper : public iuse_actor
             iuse tmp;
             return ( tmp.*cpp_function )( &p, &it, a, pos );
         }
-        iuse_actor *clone() const override {
-            return new iuse_function_wrapper( *this );
+        std::unique_ptr<iuse_actor> clone() const override {
+            return std::make_unique<iuse_function_wrapper>( *this );
         }
 
         void load( JsonObject & ) override {}
@@ -545,13 +543,13 @@ class iuse_function_wrapper_with_info : public iuse_function_wrapper
         void info( const item &, std::vector<iteminfo> &info ) const override {
             info.emplace_back( "DESCRIPTION", _( info_string ) );
         }
-        iuse_actor *clone() const override {
-            return new iuse_function_wrapper_with_info( *this );
+        std::unique_ptr<iuse_actor> clone() const override {
+            return std::make_unique<iuse_function_wrapper_with_info>( *this );
         }
 };
 
 use_function::use_function( const std::string &type, const use_function_pointer f )
-    : use_function( new iuse_function_wrapper( type, f ) ) {}
+    : use_function( std::make_unique<iuse_function_wrapper>( type, f ) ) {}
 
 void Item_factory::add_iuse( const std::string &type, const use_function_pointer f )
 {
@@ -562,12 +560,13 @@ void Item_factory::add_iuse( const std::string &type, const use_function_pointer
                              const std::string &info )
 {
     iuse_function_list[ type ] =
-        use_function( new iuse_function_wrapper_with_info( type, f, info ) );
+        use_function( std::make_unique<iuse_function_wrapper_with_info>( type, f, info ) );
 }
 
-void Item_factory::add_actor( iuse_actor *ptr )
+void Item_factory::add_actor( std::unique_ptr<iuse_actor> ptr )
 {
-    iuse_function_list[ ptr->type ] = use_function( ptr );
+    std::string type = ptr->type;
+    iuse_function_list[ type ] = use_function( std::move( ptr ) );
 }
 
 void Item_factory::add_item_type( const itype &def )
@@ -780,42 +779,42 @@ void Item_factory::init()
     add_iuse( "BREAK_STICK", &iuse::break_stick );
     add_iuse( "MAGNESIUM_TABLET", &iuse::magnesium_tablet );
 
-    add_actor( new ammobelt_actor() );
-    add_actor( new bandolier_actor() );
-    add_actor( new cauterize_actor() );
-    add_actor( new consume_drug_iuse() );
-    add_actor( new delayed_transform_iuse() );
-    add_actor( new enzlave_actor() );
-    add_actor( new explosion_iuse() );
-    add_actor( new firestarter_actor() );
-    add_actor( new fireweapon_off_actor() );
-    add_actor( new fireweapon_on_actor() );
-    add_actor( new heal_actor() );
-    add_actor( new holster_actor() );
-    add_actor( new inscribe_actor() );
-    add_actor( new iuse_transform() );
-    add_actor( new countdown_actor() );
-    add_actor( new manualnoise_actor() );
-    add_actor( new musical_instrument_actor() );
-    add_actor( new pick_lock_actor() );
-    add_actor( new deploy_furn_actor() );
-    add_actor( new place_monster_iuse() );
-    add_actor( new reveal_map_actor() );
-    add_actor( new salvage_actor() );
-    add_actor( new unfold_vehicle_iuse() );
-    add_actor( new ups_based_armor_actor() );
-    add_actor( new place_trap_actor() );
-    add_actor( new emit_actor() );
-    add_actor( new saw_barrel_actor() );
-    add_actor( new install_bionic_actor() );
-    add_actor( new detach_gunmods_actor() );
-    add_actor( new mutagen_actor() );
-    add_actor( new mutagen_iv_actor() );
-    add_actor( new deploy_tent_actor() );
-    add_actor( new learn_spell_actor() );
-    add_actor( new cast_spell_actor() );
-    add_actor( new weigh_self_actor() );
-    add_actor( new sew_advanced_actor() );
+    add_actor( std::make_unique<ammobelt_actor>() );
+    add_actor( std::make_unique<bandolier_actor>() );
+    add_actor( std::make_unique<cauterize_actor>() );
+    add_actor( std::make_unique<consume_drug_iuse>() );
+    add_actor( std::make_unique<delayed_transform_iuse>() );
+    add_actor( std::make_unique<enzlave_actor>() );
+    add_actor( std::make_unique<explosion_iuse>() );
+    add_actor( std::make_unique<firestarter_actor>() );
+    add_actor( std::make_unique<fireweapon_off_actor>() );
+    add_actor( std::make_unique<fireweapon_on_actor>() );
+    add_actor( std::make_unique<heal_actor>() );
+    add_actor( std::make_unique<holster_actor>() );
+    add_actor( std::make_unique<inscribe_actor>() );
+    add_actor( std::make_unique<iuse_transform>() );
+    add_actor( std::make_unique<countdown_actor>() );
+    add_actor( std::make_unique<manualnoise_actor>() );
+    add_actor( std::make_unique<musical_instrument_actor>() );
+    add_actor( std::make_unique<pick_lock_actor>() );
+    add_actor( std::make_unique<deploy_furn_actor>() );
+    add_actor( std::make_unique<place_monster_iuse>() );
+    add_actor( std::make_unique<reveal_map_actor>() );
+    add_actor( std::make_unique<salvage_actor>() );
+    add_actor( std::make_unique<unfold_vehicle_iuse>() );
+    add_actor( std::make_unique<ups_based_armor_actor>() );
+    add_actor( std::make_unique<place_trap_actor>() );
+    add_actor( std::make_unique<emit_actor>() );
+    add_actor( std::make_unique<saw_barrel_actor>() );
+    add_actor( std::make_unique<install_bionic_actor>() );
+    add_actor( std::make_unique<detach_gunmods_actor>() );
+    add_actor( std::make_unique<mutagen_actor>() );
+    add_actor( std::make_unique<mutagen_iv_actor>() );
+    add_actor( std::make_unique<deploy_tent_actor>() );
+    add_actor( std::make_unique<learn_spell_actor>() );
+    add_actor( std::make_unique<cast_spell_actor>() );
+    add_actor( std::make_unique<weigh_self_actor>() );
+    add_actor( std::make_unique<sew_advanced_actor>() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"] = std::make_unique<Item_group>( Item_group::G_COLLECTION, 100, 0,
@@ -933,7 +932,7 @@ void Item_factory::check_definitions() const
             }
 
             if( type->brewable->results.empty() ) {
-                msg << string_format( "empty product list" ) << "\n";
+                msg << "empty product list" << "\n";
             }
 
             for( auto &b : type->brewable->results ) {
@@ -957,7 +956,7 @@ void Item_factory::check_definitions() const
         }
         if( type->book ) {
             if( type->book->skill && !type->book->skill.is_valid() ) {
-                msg << string_format( "uses invalid book skill." ) << "\n";
+                msg << "uses invalid book skill." << "\n";
             }
             if( type->book->martial_art && !type->book->martial_art.is_valid() ) {
                 msg << string_format( "trains invalid martial art '%s'.",
@@ -1017,18 +1016,18 @@ void Item_factory::check_definitions() const
             }
 
             if( !type->gun->skill_used ) {
-                msg << string_format( "uses no skill" ) << "\n";
+                msg << "uses no skill" << "\n";
             } else if( !type->gun->skill_used.is_valid() ) {
                 msg << "uses an invalid skill " << type->gun->skill_used.str() << "\n";
             }
             for( auto &gm : type->gun->default_mods ) {
                 if( !has_template( gm ) ) {
-                    msg << string_format( "invalid default mod." ) << "\n";
+                    msg << "invalid default mod." << "\n";
                 }
             }
             for( auto &gm : type->gun->built_in_mods ) {
                 if( !has_template( gm ) ) {
-                    msg << string_format( "invalid built-in mod." ) << "\n";
+                    msg << "invalid built-in mod." << "\n";
                 }
             }
         }
@@ -1203,9 +1202,8 @@ const itype *Item_factory::find_template( const itype_id &id ) const
         ( making_id.is_valid() && making_id.obj().is_blueprint() ) ) {
         itype *def = new itype();
         def->id = id;
-        def->name = string_format( "DEBUG: %s", id.c_str() );
-        def->name_plural = string_format( "%s", id.c_str() );
-        def->description = string_format( making_id.obj().description );
+        def->name = def->name_plural = string_format( "DEBUG: %s", id.c_str() );
+        def->description = making_id.obj().description;
         m_runtimes[ id ].reset( def );
         return def;
     }
@@ -1434,7 +1432,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
         slot.ammo.insert( ammotype( jo.get_string( "ammo" ) ) );
     }
     assign( jo, "range", slot.range, strict );
-    if( jo.has_object( "ranged_damage" ) ) {
+    if( jo.has_object( "ranged_damage" ) || jo.has_array( "ranged_damage" ) ) {
         assign( jo, "ranged_damage", slot.damage, strict );
     } else {
         assign( jo, "ranged_damage", slot.legacy_damage, strict );
@@ -1457,7 +1455,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     assign( jo, "default_mods", slot.default_mods, strict );
     assign( jo, "ups_charges", slot.ups_charges, strict, 0 );
     assign( jo, "blackpowder_tolerance", slot.blackpowder_tolerance, strict, 0 );
-    assign( jo, "min_cycle_recoil", slot.blackpowder_tolerance, strict, 0 );
+    assign( jo, "min_cycle_recoil", slot.min_cycle_recoil, strict, 0 );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
@@ -1504,12 +1502,15 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &s
     bool strict = src == "dda";
 
     assign( jo, "encumbrance", slot.encumber, strict, 0 );
+    assign( jo, "max_encumbrance", slot.max_encumber, strict, slot.encumber );
     assign( jo, "coverage", slot.coverage, strict, 0, 100 );
     assign( jo, "material_thickness", slot.thickness, strict, 0 );
     assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
     assign( jo, "environmental_protection_with_filter", slot.env_resist_w_filter, strict, 0 );
     assign( jo, "warmth", slot.warmth, strict, 0 );
     assign( jo, "storage", slot.storage, strict, 0_ml );
+    assign( jo, "weight_capacity_modifier", slot.weight_capacity_modifier );
+    assign( jo, "weight_capacity_bonus", slot.weight_capacity_bonus, strict, 0_gram );
     assign( jo, "power_armor", slot.power_armor, strict );
 
     assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
@@ -1573,6 +1574,11 @@ void Item_factory::load_tool( JsonObject &jo, const std::string &src )
         load_slot( def.tool, jo, src );
         load_basic_info( jo, def, src );
     }
+}
+
+void Item_factory::load( relic &slot, JsonObject &jo, const std::string & )
+{
+    slot.load( jo );
 }
 
 void Item_factory::load( islot_mod &slot, JsonObject &jo, const std::string &src )
@@ -2186,6 +2192,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     load_slot_optional( def.artifact, jo, "artifact_data", src );
     load_slot_optional( def.brewable, jo, "brewable", src );
     load_slot_optional( def.fuel, jo, "fuel", src );
+    load_slot_optional( def.relic_data, jo, "relic_data", src );
 
     // optional gunmod slot may also specify mod data
     load_slot_optional( def.gunmod, jo, "gunmod_data", src );
@@ -2329,6 +2336,8 @@ void Item_factory::clear()
 
     repair_tools.clear();
     gun_tools.clear();
+    misc_tools.clear();
+    repair_actions.clear();
 
     frozen = false;
 }
@@ -2641,7 +2650,7 @@ std::pair<std::string, use_function> Item_factory::usage_from_object( JsonObject
     if( type == "repair_item" ) {
         type = obj.get_string( "item_action_type" );
         if( !has_iuse( type ) ) {
-            add_actor( new repair_item_actor( type ) );
+            add_actor( std::make_unique<repair_item_actor>( type ) );
             repair_actions.insert( type );
         }
     }
@@ -2670,17 +2679,22 @@ use_function Item_factory::usage_from_string( const std::string &type ) const
 
 namespace io
 {
-static const std::unordered_map<std::string, phase_id> phase_id_values = { {
-        { "liquid", LIQUID },
-        { "solid", SOLID },
-        { "gas", GAS },
-        { "plasma", PLASMA },
-    }
-};
 template<>
-phase_id string_to_enum<phase_id>( const std::string &data )
+std::string enum_to_string<phase_id>( phase_id data )
 {
-    return string_to_enum_look_up( phase_id_values, data );
+    switch( data ) {
+        // *INDENT-OFF*
+        case PNULL: return "null";
+        case LIQUID: return "liquid";
+        case SOLID: return "solid";
+        case GAS: return "gas";
+        case PLASMA: return "plasma";
+        // *INDENT-ON*
+        case num_phases:
+            break;
+    }
+    debugmsg( "Invalid phase" );
+    abort();
 }
 } // namespace io
 

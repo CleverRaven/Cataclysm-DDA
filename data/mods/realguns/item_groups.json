@@ -17,7 +17,7 @@
   {
     "id": "guns_pistol_rare",
     "type": "item_group",
-    "items": [ [ "colt_saa", 30 ], [ "bond_410", 20 ] ]
+    "items": [ [ "bond_410", 20 ] ]
   },
   {
     "id": "guns_pistol_obscure",

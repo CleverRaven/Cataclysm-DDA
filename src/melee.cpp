@@ -75,6 +75,7 @@ const efftype_id effect_contacts( "contacts" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_drunk( "drunk" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_grabbing( "grabbing" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_lightsnare( "lightsnare" );
@@ -731,17 +732,17 @@ float player::get_dodge() const
         ret /= 2;
     }
 
-    int zed_number = 0;
-    for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
-        const monster *const mon = g->critter_at<monster>( dest );
-        if( mon && ( mon->has_flag( MF_GRABS ) ||
-                     mon->type->has_special_attack( "GRAB" ) ) ) {
-            zed_number++;
+    if( has_effect( effect_grabbed ) ) {
+        int zed_number = 0;
+        for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
+            const monster *const mon = g->critter_at<monster>( dest );
+            if( mon && mon->has_effect( effect_grabbing ) ) {
+                zed_number++;
+            }
         }
-    }
-
-    if( has_effect( effect_grabbed ) && zed_number > 0 ) {
-        ret /= zed_number + 1;
+        if( zed_number > 0 ) {
+            ret /= zed_number + 1;
+        }
     }
 
     if( worn_with_flag( "ROLLER_INLINE" ) ||
@@ -1270,6 +1271,33 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
             if( bash.amount > 0 ) {
                 bash.amount += 3;
             }
+        }
+    }
+
+    if( technique.side_switch ) {
+        const tripoint b = t.pos();
+        int newx;
+        int newy;
+
+        if( b.x > posx() ) {
+            newx = posx() - 1;
+        } else if( b.x < posx() ) {
+            newx = posx() + 1;
+        } else {
+            newx = b.x;
+        }
+
+        if( b.y > posy() ) {
+            newy = posy() - 1;
+        } else if( b.y < posy() ) {
+            newy = posy() + 1;
+        } else {
+            newy = b.y;
+        }
+
+        const tripoint &dest = tripoint( newx, newy, b.z );
+        if( g->is_empty( dest ) ) {
+            t.setpos( dest );
         }
     }
 
@@ -1958,15 +1986,13 @@ void player_hit_message( player *attacker, const std::string &message,
 
     if( dam > 0 && attacker->is_player() ) {
         //player hits monster melee
-        SCT.add( t.posx(),
-                 t.posy(),
+        SCT.add( point( t.posx(), t.posy() ),
                  direction_from( point_zero, point( t.posx() - attacker->posx(), t.posy() - attacker->posy() ) ),
                  get_hp_bar( dam, t.get_hp_max(), true ).first, m_good,
                  sSCTmod, gmtSCTcolor );
 
         if( t.get_hp() > 0 ) {
-            SCT.add( t.posx(),
-                     t.posy(),
+            SCT.add( point( t.posx(), t.posy() ),
                      direction_from( point_zero, point( t.posx() - attacker->posx(), t.posy() - attacker->posy() ) ),
                      get_hp_bar( t.get_hp(), t.get_hp_max(), true ).first, m_good,
                      //~ "hit points", used in scrolling combat text

@@ -93,7 +93,7 @@
     "type": "AMMO",
     "name": "00 shot",
     "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces.",
-    "weight": 32,
+    "weight": "32 g",
     "volume": "250 ml",
     "price": 500,
     "price_postapoc": 3500,
@@ -177,6 +177,15 @@
     "description": "A shotgun shell filled with whatever was lying around.  They are more damaging than birdshot, but fairly inaccurate.",
     "proportional": { "price": 0.4, "damage": 0.6, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_shot_scrap",
+    "copy-from": "shot_scrap",
+    "type": "AMMO",
+    "name": "makeshift shotgun shot (black powder)",
+    "proportional": { "price": 0.6, "damage": 0.8 },
+    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {

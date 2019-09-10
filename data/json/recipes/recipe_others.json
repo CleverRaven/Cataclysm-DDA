@@ -378,6 +378,24 @@
   },
   {
     "type": "recipe",
+    "result": "press_dowel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "stick", 1 ], [ "mop", 1 ], [ "broom", 1 ], [ "hoe", 1 ] ],
+      [ [ "2x4", 1 ], [ "puck", 1 ] ],
+      [ [ "nail", 1 ], [ "antenna", 1 ] ],
+      [ [ "shot_hull", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "tailors_kit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -424,6 +442,25 @@
     "components": [
       [ [ "flashlight", 1 ] ],
       [ [ "rag", 2 ], [ "leather", 2 ], [ "cordage", 1, "LIST" ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "analytical_set_basic",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "ph_meter", 1 ] ],
+      [ [ "spectrophotometer", 1 ] ],
+      [ [ "paper", 1 ] ],
+      [ [ "balance_small", 1 ] ],
+      [ [ "melting_point", 1 ] ],
+      [ [ "box_medium", 1 ] ]
     ]
   },
   {
@@ -1275,7 +1312,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "lighter", 5 ], [ "ref_lighter", 5 ], [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "wax", 2 ], [ "tallow", 4 ], [ "tallow_tainted", 4 ] ], [ [ "string_6", 1 ] ] ]
+    "components": [ [ [ "wax", 1 ], [ "tallow", 4 ], [ "tallow_tainted", 4 ] ], [ [ "string_6", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1789,6 +1826,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "2 m",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "sheet_metal", 1 ] ] ]

@@ -20,6 +20,7 @@
 struct tripoint;
 class Creature;
 class player;
+class spell;
 class JsonObject;
 class JsonOut;
 class JsonIn;
@@ -80,11 +81,21 @@ struct fake_spell {
     // max level this spell can be
     // if null pointer, spell can be up to its own max level
     cata::optional<int> max_level;
+    // level for things that need it
+    int level;
     // target tripoint is source (true) or target (false)
     bool self;
+
+    fake_spell() = default;
     fake_spell( const spell_id &sp_id, bool hit_self = false,
                 const cata::optional<int> &max_level = cata::nullopt ) : id( sp_id ),
         max_level( max_level ), self( hit_self ) {}
+
+    spell get_spell( int level_override = INT_MAX ) const;
+
+    void load( JsonObject &jo );
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 class spell_type
@@ -100,6 +111,8 @@ class spell_type
         translation name;
         // spell description
         translation description;
+        // spell message when cast
+        translation message;
         // spell effect string. used to look up spell function
         std::string effect_name;
         std::function<void( const spell &, Creature &, const tripoint & )> effect;
@@ -227,17 +240,20 @@ class spell
 {
     private:
         // basic spell data
-        const spell_type *type;
+        spell_id type;
 
         // once you accumulate enough exp you level the spell
         int experience;
         // returns damage type for the spell
         damage_type dmg_type() const;
 
+        // alternative cast message
+        translation alt_message;
+
     public:
         spell() = default;
-        spell( const spell_type *sp, int xp = 0 );
         spell( spell_id sp, int xp = 0 );
+        spell( spell_id sp, translation alt_msg );
 
         // how much exp you need for the spell to gain a level
         int exp_to_next_level() const;
@@ -305,6 +321,8 @@ class spell
         std::string name() const;
         // description of spell (translated)
         std::string description() const;
+        // spell message when cast (translated)
+        std::string message() const;
         // energy source as a string (translated)
         std::string energy_string() const;
         // energy cost returned as a string
@@ -410,7 +428,7 @@ namespace spell_effect
 void teleport_random( const spell &sp, Creature &caster, const tripoint & );
 void pain_split( const spell &, Creature &, const tripoint & );
 void target_attack( const spell &sp, Creature &caster,
-                    const tripoint &target );
+                    const tripoint &epicenter );
 void projectile_attack( const spell &sp, Creature &caster,
                         const tripoint &target );
 void cone_attack( const spell &sp, Creature &caster,
@@ -418,8 +436,8 @@ void cone_attack( const spell &sp, Creature &caster,
 void line_attack( const spell &sp, Creature &caster,
                   const tripoint &target );
 
-void area_pull( const spell &sp, Creature &caster, const tripoint &target );
-void area_push( const spell &sp, Creature &caster, const tripoint &target );
+void area_pull( const spell &sp, Creature &caster, const tripoint &center );
+void area_push( const spell &sp, Creature &caster, const tripoint &center );
 
 std::set<tripoint> spell_effect_blast( const spell &, const tripoint &, const tripoint &target,
                                        int aoe_radius, bool ignore_walls );
