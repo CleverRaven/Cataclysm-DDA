@@ -61,6 +61,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
     "components": [ [ [ "rag", 6 ] ], [ [ "down_feather", 40 ] ] ]
+  },
   {
     "type": "recipe",
     "result": "down_mattress",
