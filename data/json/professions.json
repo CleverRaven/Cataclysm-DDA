@@ -38,6 +38,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "charged_tazer",
+    "entries": [ { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "tazer" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "army_mags_m2010",
     "entries": [
       { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 },
@@ -1160,7 +1166,7 @@
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
           { "item": "tonfa", "container-item": "police_belt" },
-          { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "tazer" }
+          { "group": "charged_tazer" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -3084,11 +3090,7 @@
     "items": {
       "both": {
         "items": [ "pants", "socks", "boots", "longshirt", "jacket_light", "baton", "pockknife", "wristwatch" ],
-        "entries": [
-          { "group": "charged_cell_phone" },
-          { "group": "charged_flashlight" },
-          { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "tazer" }
-        ]
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_flashlight" }, { "group": "charged_tazer" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
