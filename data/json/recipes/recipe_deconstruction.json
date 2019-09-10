@@ -682,6 +682,29 @@
     ]
   },
   {
+    "result": "broken_talon_m202a1",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "120 m",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "omni_wheel", 1 ] ],
+      [ [ "copbot_chassis", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "power_supply", 4 ] ],
+      [ [ "solar_cell", 2 ] ],
+      [ [ "m202_flash", 1 ] ],
+      [ [ "canister_empty", 1 ] ]
+    ]
+  },
+  {
     "result": "broken_skitterbot",
     "type": "uncraft",
     "skill_used": "electronics",
