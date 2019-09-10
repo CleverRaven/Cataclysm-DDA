@@ -1070,6 +1070,8 @@ class vehicle
          */
         std::vector<vehicle_part *> lights( bool active = false );
 
+        void update_alternator_load();
+
         // Total drain or production of electrical power from engines.
         int total_engine_epower_w() const;
         // Total production of electrical power from alternators.

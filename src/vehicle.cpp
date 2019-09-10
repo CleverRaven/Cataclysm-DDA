@@ -4263,8 +4263,32 @@ int vehicle::max_reactor_epower_w() const
     return epower_w;
 }
 
+void vehicle::update_alternator_load()
+{
+    // Update alternator load
+    if( engine_on ) {
+        int engine_vpower = 0;
+        for( size_t e = 0; e < engines.size(); ++e ) {
+            if( is_engine_on( e ) ) {
+                engine_vpower += part_vpower_w( engines[e] );
+            }
+        }
+        int alternators_power = 0;
+        for( size_t p = 0; p < alternators.size(); ++p ) {
+            if( is_alternator_on( p ) ) {
+                alternators_power += part_vpower_w( alternators[p] );
+            }
+        }
+        alternator_load = engine_vpower ? 1000 * ( abs( alternators_power ) + abs( extra_drag ) ) / engine_vpower : 0;
+    } else {
+        alternator_load = 0;
+    }
+}
+
 void vehicle::power_parts()
 {
+    update_alternator_load();
+
     // Things that drain energy: engines and accessories.
     int engine_epower = total_engine_epower_w();
     int epower = engine_epower + total_accessory_epower_w() + total_alternator_epower_w();
