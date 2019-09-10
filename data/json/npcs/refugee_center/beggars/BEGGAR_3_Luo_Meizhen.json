@@ -162,14 +162,8 @@
     "id": "TALK_REFUGEE_BEGGAR_3_GIVE_FOOD",
     "dynamic_line": "Actually yeah, I'm always hungry these days.  I don't like taking handouts, but I wouldn't say no.",
     "responses": [
-      {
-        "text": "Actually can I ask you something else?",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "I'm sorry, I was wrong.  I can't help you.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "Actually can I ask you something else?", "topic": "TALK_NONE" },
+      { "text": "I'm sorry, I was wrong.  I can't help you.", "topic": "TALK_DONE" }
     ],
     "repeat_responses": [
       {
