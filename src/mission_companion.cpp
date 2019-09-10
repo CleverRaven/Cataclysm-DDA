@@ -81,6 +81,7 @@ const skill_id skill_swimming( "swimming" );
 static const trait_id trait_NPC_CONSTRUCTION_LEV_1( "NPC_CONSTRUCTION_LEV_1" );
 static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
 static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
+const efftype_id effect_riding( "riding" );
 
 struct comp_rank {
     int industry;
@@ -670,7 +671,9 @@ npc_ptr talk_function::individual_mission( const tripoint &omt_pos,
         return comp;
     }
     // make sure, for now, that NPCs dismount their horse before going on a mission.
-    comp->npc_dismount();
+    if( comp->has_effect( effect_riding ) ) {
+        comp->npc_dismount();
+    }
     //Ensure we have someone to give equipment to before we lose it
     for( auto i : equipment ) {
         comp->companion_mission_inv.add_item( *i );
