@@ -8906,9 +8906,10 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
         uilist kmenu;
         kmenu.text = _( "Using cable:" );
         kmenu.addentry( 0, true, -1, _( "Detach and re-spool the cable" ) );
+        kmenu.addentry( 1, ( paying_out || cable_cbm ) && !solar_pack &&
+                        !UPS, -1, _( "Attach loose end to vehicle" ) );
+
         if( has_bio_cable && loose_ends ) {
-            kmenu.addentry( 1, ( paying_out || cable_cbm ) && !solar_pack &&
-                            !UPS, -1, _( "Attach loose end to vehicle" ) );
             kmenu.addentry( 2, !cable_cbm, -1, _( "Attach loose end to self" ) );
             if( wearing_solar_pack ) {
                 kmenu.addentry( 3, !solar_pack && !paying_out && !UPS, -1, _( "Attach loose end to solar pack" ) );
