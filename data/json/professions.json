@@ -367,16 +367,7 @@
     "skills": [ { "level": 4, "name": "tailor" } ],
     "items": {
       "both": {
-        "items": [
-          "polo_shirt",
-          "blazer",
-          "pants",
-          "socks",
-          "dress_shoes",
-          "knit_scarf",
-          "scissors",
-          "wristwatch"
-        ],
+        "items": [ "polo_shirt", "blazer", "pants", "socks", "dress_shoes", "knit_scarf", "scissors", "wristwatch" ],
         "entries": [ { "group": "charged_cell_phone" }, { "item": "tailors_kit", "ammo-item": "thread", "charges": 100 } ]
       },
       "male": [ "briefs" ],
@@ -434,17 +425,7 @@
     ],
     "items": {
       "both": {
-        "items": [
-          "dress_shirt",
-          "pants",
-          "socks",
-          "boots",
-          "coat_lab",
-          "gloves_rubber",
-          "glasses_safety",
-          "smart_phone",
-          "wristwatch"
-        ],
+        "items": [ "dress_shirt", "pants", "socks", "boots", "coat_lab", "gloves_rubber", "glasses_safety", "smart_phone", "wristwatch" ],
         "entries": [ { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "chemistry_set" } ]
       },
       "male": [ "briefs" ],
@@ -460,18 +441,13 @@
     "skills": [ { "level": 3, "name": "mechanics" } ],
     "items": {
       "both": {
-        "items": [
-          "slingpack",
-          "tank_top",
-          "jeans",
-          "socks",
-          "boots_steel",
-          "duct_tape",
-          "screwdriver",
-          "wristwatch",
-          "mag_cars"
-        ],
-        "entries": [ { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] }, { "group": "charged_cell_phone" }, { "item": "wrench", "container-item": "tool_belt" }, { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "welder" } ]
+        "items": [ "slingpack", "tank_top", "jeans", "socks", "boots_steel", "duct_tape", "screwdriver", "wristwatch", "mag_cars" ],
+        "entries": [
+          { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] },
+          { "group": "charged_cell_phone" },
+          { "item": "wrench", "container-item": "tool_belt" },
+          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "welder" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
@@ -576,7 +552,12 @@
           "chestguard_hard",
           "boots_rubber"
         ],
-        "entries": [ { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "foodperson_mask" }, { "group": "snacks_fancy" }, { "group": "snacks" }, { "item": "bat" } ]
+        "entries": [
+          { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "foodperson_mask" },
+          { "group": "snacks_fancy" },
+          { "group": "snacks" },
+          { "item": "bat" }
+        ]
       }
     }
   },
@@ -945,16 +926,7 @@
     "pets": [ { "name": "mon_dog_gshepherd", "amount": 1 } ],
     "items": {
       "both": {
-        "items": [
-          "pants_army",
-          "socks",
-          "badge_deputy",
-          "sheriffshirt",
-          "police_belt",
-          "boots",
-          "dog_whistle",
-          "wristwatch"
-        ],
+        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "police_belt", "boots", "dog_whistle", "wristwatch" ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "group": "charged_two_way_radio" },
@@ -1004,16 +976,7 @@
     "traits": [ "PROF_POLICE" ],
     "items": {
       "both": {
-        "items": [
-          "pants_army",
-          "socks",
-          "badge_deputy",
-          "sheriffshirt",
-          "police_belt",
-          "boots",
-          "whistle",
-          "wristwatch"
-        ],
+        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "police_belt", "boots", "whistle", "wristwatch" ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "group": "charged_two_way_radio" },
@@ -1075,16 +1038,7 @@
     "traits": [ "PROF_SWAT" ],
     "items": {
       "both": {
-        "items": [
-          "socks",
-          "swat_armor",
-          "police_belt",
-          "tac_helmet",
-          "boots_combat",
-          "gloves_tactical",
-          "badge_swat",
-          "wristwatch"
-        ],
+        "items": [ "socks", "swat_armor", "police_belt", "tac_helmet", "boots_combat", "gloves_tactical", "badge_swat", "wristwatch" ],
         "entries": [
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -1119,15 +1073,7 @@
     "traits": [ "PROF_SWAT" ],
     "items": {
       "both": {
-        "items": [
-          "socks",
-          "swat_armor",
-          "tac_fullhelmet",
-          "boots_combat",
-          "gloves_tactical",
-          "badge_swat",
-          "wristwatch"
-        ],
+        "items": [ "socks", "swat_armor", "tac_fullhelmet", "boots_combat", "gloves_tactical", "badge_swat", "wristwatch" ],
         "entries": [
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -1405,13 +1351,7 @@
     "skills": [ { "level": 3, "name": "electronics" } ],
     "items": {
       "both": {
-        "items": [
-          "jumpsuit",
-          "socks",
-          "boots",
-          "tool_belt",
-          "wristwatch"
-        ],
+        "items": [ "jumpsuit", "socks", "boots", "tool_belt", "wristwatch" ],
         "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_flashlight" } ]
       },
       "male": [ "boxer_briefs" ],
@@ -1427,16 +1367,7 @@
     "skills": [ { "level": 4, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "tshirt_text",
-          "socks",
-          "sneakers",
-          "mbag",
-          "laptop",
-          "smart_phone",
-          "caffeine"
-        ],
+        "items": [ "pants", "tshirt_text", "socks", "sneakers", "mbag", "laptop", "smart_phone", "caffeine" ],
         "entries": [ { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "portable_game" } ]
       },
       "male": [ "briefs" ],
@@ -2904,15 +2835,7 @@
     ],
     "items": {
       "both": {
-        "items": [
-          "survivor_vest",
-          "wsurvivor_suit",
-          "socks",
-          "boots_wsurvivor",
-          "hood_wsurvivor",
-          "gloves_wsurvivor",
-          "wristwatch"
-        ],
+        "items": [ "survivor_vest", "wsurvivor_suit", "socks", "boots_wsurvivor", "hood_wsurvivor", "gloves_wsurvivor", "wristwatch" ],
         "entries": [
           { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "mess_kit" },
           { "item": "kukri", "container-item": "sheath" },
@@ -2994,7 +2917,12 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
-          { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "mil_mess_kit" },
+          {
+            "item": "medium_plus_battery_cell",
+            "ammo-item": "battery",
+            "charges": 600,
+            "container-item": "mil_mess_kit"
+          },
           { "group": "charged_two_way_radio" },
           { "item": "chestrig", "contents-group": "army_mags_m4" }
         ]
@@ -3155,17 +3083,12 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "socks",
-          "boots",
-          "longshirt",
-          "jacket_light",
-          "baton",
-          "pockknife",
-          "wristwatch"
-        ],
-        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_flashlight" }, { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "tazer" } ]
+        "items": [ "pants", "socks", "boots", "longshirt", "jacket_light", "baton", "pockknife", "wristwatch" ],
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "group": "charged_flashlight" },
+          { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "tazer" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
@@ -3268,18 +3191,22 @@
       },
       "male": {
         "items": [
-        "knee_high_boots",
-        "breeches",
-        "waistcoat",
-        "peacoat",
-        "leather_belt",
-        "knit_scarf",
-        "tricorne",
-        "hatchet",
-        "hardtack"
+          "knee_high_boots",
+          "breeches",
+          "waistcoat",
+          "peacoat",
+          "leather_belt",
+          "knit_scarf",
+          "tricorne",
+          "hatchet",
+          "hardtack"
         ],
-        "entries": [ { "item": "rifle_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "contents-item": "shoulder_strap" }, { "item": "flintlock_ammo", "charges": 14, "container-item": "flintlock_pouch" }, { "item": "flintlock_ammo", "charges": 15 } ]
-        },
+        "entries": [
+          { "item": "rifle_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "contents-item": "shoulder_strap" },
+          { "item": "flintlock_ammo", "charges": 14, "container-item": "flintlock_pouch" },
+          { "item": "flintlock_ammo", "charges": 15 }
+        ]
+      },
       "female": [
         "dress",
         "apron_leather",
@@ -3329,18 +3256,22 @@
       ],
       "female": {
         "items": [
-        "knee_high_boots",
-        "breeches",
-        "waistcoat",
-        "peacoat",
-        "leather_belt",
-        "knit_scarf",
-        "tricorne",
-        "hatchet",
-        "hardtack"
+          "knee_high_boots",
+          "breeches",
+          "waistcoat",
+          "peacoat",
+          "leather_belt",
+          "knit_scarf",
+          "tricorne",
+          "hatchet",
+          "hardtack"
         ],
-        "entries": [ { "item": "rifle_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "contents-item": "shoulder_strap" }, { "item": "flintlock_ammo", "charges": 14, "container-item": "flintlock_pouch" }, { "item": "flintlock_ammo", "charges": 15 } ]
-        }
+        "entries": [
+          { "item": "rifle_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "contents-item": "shoulder_strap" },
+          { "item": "flintlock_ammo", "charges": 14, "container-item": "flintlock_pouch" },
+          { "item": "flintlock_ammo", "charges": 15 }
+        ]
+      }
     }
   },
   {
@@ -3571,7 +3502,10 @@
     "items": {
       "both": {
         "items": [ "pants", "dress_shirt", "blazer", "socks", "dress_shoes", "wristwatch" ],
-        "entries": [ { "group": "charged_cell_phone" }, { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" } ]
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "boy_shorts", "bra" ]

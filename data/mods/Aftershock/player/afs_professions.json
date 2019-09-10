@@ -43,7 +43,7 @@
         "sneakers",
         "smart_phone"
       ],
-      "entries": [ { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "eink_tablet_pc"} ],
+      "entries": [ { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "eink_tablet_pc" } ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
