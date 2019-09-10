@@ -330,8 +330,11 @@ bool Character::is_weak_to_water() const
 
 bool Character::can_use_heal_item( itype_id heal_id ) const
 {
+    const item med( heal_id );
+
     bool can_use = false;
     bool got_restriction = false;
+
     for( const trait_id &mut : get_mutations() ) {
         for( const itype_id it : mut.obj().can_only_heal_with ) {
             got_restriction = true;
@@ -342,8 +345,20 @@ bool Character::can_use_heal_item( itype_id heal_id ) const
         }
     }
     if( !got_restriction ) {
-        can_use = true;
+        can_use = med.get_comestible()->can_heal_anyone;
     }
+
+    if( !can_use ) {
+        for( const trait_id &mut : get_mutations() ) {
+            for( const itype_id it : mut.obj().can_heal_with ) {
+                if( it == heal_id ) {
+                    can_use = true;
+                    break;
+                }
+            }
+        }
+    }
+
     return can_use;
 }
 
