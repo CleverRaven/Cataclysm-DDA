@@ -33,6 +33,7 @@
     "flags": [ "NONCONDUCTIVE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_floor_mattress" }
   }
+  },
   {
     "id": "down_mattress",
     "type": "GENERIC",
