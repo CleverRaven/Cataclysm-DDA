@@ -136,14 +136,8 @@
     "id": "TALK_REFUGEE_BEGGAR_1_GIVE_FOOD",
     "dynamic_line": "Thank you so much.",
     "responses": [
-      {
-        "text": "Can I ask you something else first?",
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "I'm sorry, I was wrong.  I can't help you.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "Can I ask you something else first?", "topic": "TALK_NONE" },
+      { "text": "I'm sorry, I was wrong.  I can't help you.", "topic": "TALK_DONE" }
     ],
     "repeat_responses": [
       {
