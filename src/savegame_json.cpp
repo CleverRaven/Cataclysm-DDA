@@ -1364,9 +1364,11 @@ void npc::load( JsonObject &data )
     data.read( "name", name );
     data.read( "marked_for_death", marked_for_death );
     data.read( "dead", dead );
-    if( data.read( "myclass", classtmp ) ) {
+    if( data.has_number( "myclass" ) ) {
+        data.read( "myclass", classtmp );
         myclass = npc_class::from_legacy_int( classtmp );
-    } else if( data.read( "myclass", classid ) ) {
+    } else if( data.has_string( "myclass" ) ) {
+        data.read( "myclass", classid );
         myclass = npc_class_id( classid );
     }
 
