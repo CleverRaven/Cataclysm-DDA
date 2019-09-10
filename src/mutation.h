@@ -178,6 +178,9 @@ struct mutation_branch {
         /**Species ignoring character with the mutation*/
         std::vector<species_id> ignored_by;
 
+        /**List of material required for food to be be edible*/
+        std::set<material_id> can_only_eat;
+
         // amount of mana added or subtracted from max
         float mana_modifier;
         float mana_multiplier;
