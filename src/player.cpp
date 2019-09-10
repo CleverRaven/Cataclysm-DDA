@@ -1823,23 +1823,34 @@ bool player::is_immune_damage( const damage_type dt ) const
         case DT_TRUE:
             return false;
         case DT_BIOLOGICAL:
-            return false;
+            return has_effect_with_flag( "EFFECT_BIO_IMMUNE" ) ||
+                   worn_with_flag( "BIO_IMMUNE" );
         case DT_BASH:
-            return false;
+            return has_effect_with_flag( "EFFECT_BASH_IMMUNE" ) ||
+                   worn_with_flag( "BASH_IMMUNE" );
         case DT_CUT:
-            return false;
+            return has_effect_with_flag( "EFFECT_CUT_IMMUNE" ) ||
+                   worn_with_flag( "CUT_IMMUNE" );
         case DT_ACID:
-            return has_trait( trait_ACIDPROOF );
+            return has_trait( trait_ACIDPROOF ) ||
+                   has_effect_with_flag( "EFFECT_ACID_IMMUNE" ) ||
+                   worn_with_flag( "ACID_IMMUNE" );
         case DT_STAB:
-            return false;
+            return has_effect_with_flag( "EFFECT_STAB_IMMUNE" ) ||
+                   worn_with_flag( "STAB_IMMUNE" );
         case DT_HEAT:
-            return has_trait( trait_M_SKIN2 ) || has_trait( trait_M_SKIN3 );
+            return has_trait( trait_M_SKIN2 ) ||
+                   has_trait( trait_M_SKIN3 ) ||
+                   has_effect_with_flag( "EFFECT_HEAT_IMMUNE" ) ||
+                   worn_with_flag( "HEAT_IMMUNE" );
         case DT_COLD:
-            return false;
+            return has_effect_with_flag( "EFFECT_COLD_IMMUNE" ) ||
+                   worn_with_flag( "COLD_IMMUNE" );
         case DT_ELECTRIC:
             return has_active_bionic( bio_faraday ) ||
                    worn_with_flag( "ELECTRIC_IMMUNE" ) ||
-                   has_artifact_with( AEP_RESIST_ELECTRICITY );
+                   has_artifact_with( AEP_RESIST_ELECTRICITY ) ||
+                   has_effect_with_flag( "EFFECT_ELECTRIC_IMMUNE" );
         default:
             return true;
     }
@@ -3360,6 +3371,9 @@ int player::hitall( int dam, int vary, Creature *source )
 
 float player::fall_damage_mod() const
 {
+    if( has_effect_with_flag( "EFFECT_FEATHER_FALL" ) ) {
+        return 0.0f;
+    }
     float ret = 1.0f;
 
     // Ability to land properly is 2x as important as dexterity itself
