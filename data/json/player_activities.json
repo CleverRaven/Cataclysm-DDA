@@ -179,7 +179,7 @@
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
     "based_on": "neither",
-    "refuel_fires": "true",
+    "refuel_fires": true,
     "verb": "constructing"
   },
   {
