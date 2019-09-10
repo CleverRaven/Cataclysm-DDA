@@ -7,6 +7,7 @@
     "weight": "8 g",
     "volume": "250 ml",
     "price": 1125,
+    "price_postapoc": 7625,
     "material": [ "plastic", "powder", "steel" ],
     "symbol": "=",
     "color": "green",
@@ -29,6 +30,7 @@
     "description": "Designed to defeat modern body armor, the Rivtech 5x50mm RA119 penetrator round features a biodegradable sabot and a single, fin-stabilized tungsten alloy projectile.",
     "weight": "9 g",
     "price": 1688,
+    "price_postapoc": 8188,
     "relative": { "range": -10, "damage": 5, "pierce": 20, "dispersion": 20 },
     "proportional": { "recoil": 1.1 }
   },

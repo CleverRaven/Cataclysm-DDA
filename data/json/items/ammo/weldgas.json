@@ -7,6 +7,7 @@
     "weight": "40 g",
     "volume": "250 ml",
     "price": 2400,
+    "price_postapoc": 2400,
     "material": [ "hydrocarbons" ],
     "symbol": "=",
     "color": "red",
