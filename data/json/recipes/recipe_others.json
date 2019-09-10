@@ -1071,11 +1071,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
-    "components": [
-      [ [ "pipe", 4 ] ],
-      [ [ "spring", 2 ] ],
-      [ [ "rag", 20 ], [ "sheet", 1 ] ]
-    ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "rag", 20 ], [ "sheet", 1 ] ] ]
   },
   {
     "type": "recipe",
