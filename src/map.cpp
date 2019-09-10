@@ -284,7 +284,7 @@ void map::clear_vehicle_list( const int zlev )
     ch.zone_vehicles.clear();
 }
 
-void map::update_vehicle_list( submap *const to, const int zlev )
+void map::update_vehicle_list( const submap *const to, const int zlev )
 {
     // Update vehicle data
     auto &ch = get_cache( zlev );
@@ -1407,15 +1407,14 @@ ter_id map::ter( const tripoint &p ) const
     return current_submap->get_ter( l );
 }
 
-uint8_t map::get_known_connections( const tripoint &p, int connect_group ) const
+uint8_t map::get_known_connections( const tripoint &p, int connect_group,
+                                    const std::map<tripoint, ter_id> &override ) const
 {
     constexpr std::array<point, 4> offsets = {{
             point_south, point_east, point_west, point_north
         }
     };
     auto &ch = access_cache( p.z );
-    bool is_transparent =
-        ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
     uint8_t val = 0;
     std::function<bool( const tripoint & )> is_memorized;
 #ifdef TILES
@@ -1434,16 +1433,26 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group ) const
     }
 #endif
 
+    const bool overridden = override.find( p ) != override.end();
+    const bool is_transparent = ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
+
     // populate connection information
     for( int i = 0; i < 4; ++i ) {
         tripoint neighbour = p + offsets[i];
         if( !inbounds( neighbour ) ) {
             continue;
         }
-        if( is_transparent ||
-            ch.visibility_cache[neighbour.x][neighbour.y] <= LL_BRIGHT ||
-            is_memorized( neighbour ) ) {
-            const ter_t &neighbour_terrain = ter( neighbour ).obj();
+        const auto neighbour_override = override.find( neighbour );
+        const bool neighbour_overridden = neighbour_override != override.end();
+        // if there's some non-memory terrain to show at the neighboring tile
+        const bool may_connect = neighbour_overridden ||
+                                 get_visibility( ch.visibility_cache[neighbour.x][neighbour.y],
+                                         get_visibility_variables_cache() ) == VIS_CLEAR ||
+                                 // or if an actual center tile is transparent or next to a memorized tile
+                                 ( !overridden && ( is_transparent || is_memorized( neighbour ) ) );
+        if( may_connect ) {
+            const ter_t &neighbour_terrain = neighbour_overridden ?
+                                             neighbour_override->second.obj() : ter( neighbour ).obj();
             if( neighbour_terrain.connects_to( connect_group ) ) {
                 val += 1 << i;
             }
@@ -4733,10 +4742,20 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
 bool map::sees_some_items( const tripoint &p, const Creature &who ) const
 {
     // Can only see items if there are any items.
-    return has_items( p ) && could_see_items( p, who );
+    return has_items( p ) && could_see_items( p, who.pos() );
+}
+
+bool map::sees_some_items( const tripoint &p, const tripoint &from ) const
+{
+    return has_items( p ) && could_see_items( p, from );
 }
 
 bool map::could_see_items( const tripoint &p, const Creature &who ) const
+{
+    return could_see_items( p, who.pos() );
+}
+
+bool map::could_see_items( const tripoint &p, const tripoint &from ) const
 {
     static const std::string container_string( "CONTAINER" );
     const bool container = has_flag_ter_or_furn( container_string, p );
@@ -4748,9 +4767,9 @@ bool map::could_see_items( const tripoint &p, const Creature &who ) const
     if( container ) {
         // can see inside of containers if adjacent or
         // on top of the container
-        return ( abs( p.x - who.posx() ) <= 1 &&
-                 abs( p.y - who.posy() ) <= 1 &&
-                 abs( p.z - who.posz() ) <= 1 );
+        return ( abs( p.x - from.x ) <= 1 &&
+                 abs( p.y - from.y ) <= 1 &&
+                 abs( p.z - from.z ) <= 1 );
     }
     return true;
 }

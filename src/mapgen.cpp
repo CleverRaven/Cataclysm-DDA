@@ -7067,6 +7067,9 @@ void map::rotate( int turns )
         overmap_buffer.insert_npc( npc_ptr );
     }
 
+    clear_vehicle_cache( abs_sub.z );
+    clear_vehicle_list( abs_sub.z );
+
     // Move the submaps around.
     if( turns == 2 ) {
         std::swap( *get_submap_at_grid( point_zero ), *get_submap_at_grid( point_south_east ) );
@@ -7092,10 +7095,13 @@ void map::rotate( int turns )
             sm->rotate( turns );
 
             for( auto &veh : sm->vehicles ) {
-                veh->sm_pos = abs_sub + p;
+                veh->sm_pos = tripoint( p, abs_sub.z );
             }
+
+            update_vehicle_list( sm, abs_sub.z );
         }
     }
+    reset_vehicle_cache( abs_sub.z );
 
     // rotate zones
     zone_manager &mgr = zone_manager::get_manager();
