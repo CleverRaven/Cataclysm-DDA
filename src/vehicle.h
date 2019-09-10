@@ -1072,6 +1072,8 @@ class vehicle
 
         // Total drain or production of electrical power from engines.
         int total_engine_epower_w() const;
+        // Total production of electrical power from alternators.
+        int total_alternator_epower_w() const;
         // Total power currently being produced by all solar panels.
         int total_solar_epower_w() const;
         // Total power drain accross all vehicle accessories.

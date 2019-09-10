@@ -4200,6 +4200,20 @@ int vehicle::total_accessory_epower_w() const
     return epower;
 }
 
+int vehicle::total_alternator_epower_w() const
+{
+    int epower = 0;
+    if( engine_on ) {
+        // If the engine is on, the alternators are working.
+        for( size_t p = 0; p < alternators.size(); ++p ) {
+            if( is_alternator_on( p ) ) {
+                epower += part_epower_w( alternators[p] );
+            }
+        }
+    }
+    return epower;
+}
+
 int vehicle::total_engine_epower_w() const
 {
     int epower = 0;
@@ -4212,18 +4226,6 @@ int vehicle::total_engine_epower_w() const
             if( is_engine_on( e ) ) {
                 epower += part_epower_w( engines[e] );
             }
-        }
-
-        // If the engine is on, the alternators are working.
-        int alternators_epower = 0;
-        for( size_t p = 0; p < alternators.size(); ++p ) {
-            if( is_alternator_on( p ) ) {
-                alternators_epower += part_epower_w( alternators[p] );
-            }
-        }
-
-        if( alternators_epower > 0 ) {
-            epower += alternators_epower;
         }
     }
 
@@ -4265,7 +4267,7 @@ void vehicle::power_parts()
 {
     // Things that drain energy: engines and accessories.
     int engine_epower = total_engine_epower_w();
-    int epower = engine_epower + total_accessory_epower_w();
+    int epower = engine_epower + total_accessory_epower_w() + total_alternator_epower_w();
 
     int delta_energy_bat = power_to_energy_bat( epower, 1_turns );
     int storage_deficit_bat = std::max( 0, fuel_capacity( fuel_type_battery ) -
