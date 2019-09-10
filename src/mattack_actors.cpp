@@ -448,6 +448,8 @@ void gun_actor::load_internal( JsonObject &obj, const std::string & )
     obj.get_bool( "laser_lock", laser_lock );
 
     obj.read( "require_sunlight", require_sunlight );
+
+    obj.read( "allow_headshot", allow_headshot );
 }
 
 std::unique_ptr<mattack_actor> gun_actor::clone() const
@@ -551,6 +553,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
     tmp.setpos( z.pos() );
     tmp.set_attitude( z.friendly ? NPCATT_FOLLOW : NPCATT_KILL );
     tmp.recoil = 0; // no need to aim
+    tmp.set_can_headshot( allow_headshot );
 
     for( const auto &pr : fake_skills ) {
         tmp.set_skill_level( pr.first, pr.second );

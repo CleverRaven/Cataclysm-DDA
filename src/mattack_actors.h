@@ -181,6 +181,9 @@ class gun_actor : public mattack_actor
         /** If true then disable this attack completely if not brightly lit */
         bool require_sunlight = false;
 
+        /** Allow to get headshots */
+        bool allow_headshot = false;
+
         void shoot( monster &z, Creature &target, const gun_mode_id &mode ) const;
 
         gun_actor();

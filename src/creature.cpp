@@ -85,6 +85,7 @@ Creature::Creature()
     Creature::reset_bonuses();
 
     fake = false;
+    can_headshot = true;
 }
 
 Creature::~Creature() = default;
@@ -623,12 +624,12 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
 
     double damage_mult = 1.0;
-
+    bool can_do_headshot = source->is_can_headshot();
     std::string message;
     game_message_type gmtSCTcolor = m_neutral;
     if( magic ) {
         damage_mult *= rng_float( 0.9, 1.1 );
-    } else if( goodhit < accuracy_headshot ) {
+    } else if( can_do_headshot && goodhit < accuracy_headshot ) {
         message = _( "Headshot!" );
         gmtSCTcolor = m_headshot;
         damage_mult *= rng_float( 1.95, 2.05 );
@@ -905,6 +906,16 @@ bool Creature::is_fake() const
 void Creature::set_fake( const bool fake_value )
 {
     fake = fake_value;
+}
+
+bool Creature::is_can_headshot() const
+{
+    return can_headshot;
+}
+
+void Creature::set_can_headshot(const bool can_headshot_value)
+{
+    can_headshot = can_headshot_value;
 }
 
 void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,

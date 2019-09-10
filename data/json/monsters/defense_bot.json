@@ -20,7 +20,7 @@
     "armor_cut": 14,
     "vision_day": 50,
     "revert_to_itype": "bot_secubot",
-    "starting_ammo": { "223": 30 },
+    "starting_ammo": { "556": 30 },
     "special_attacks": [
       {
         "type": "gun",
@@ -38,7 +38,8 @@
         "targeting_timeout_extend": -10,
         "targeting_sound": "\"Hostile detected.\"",
         "targeting_volume": 50,
-        "no_ammo_sound": "a chk!"
+        "no_ammo_sound": "a chk!",
+		"allow_headshot": true
       }
     ],
     "death_drops": {  },

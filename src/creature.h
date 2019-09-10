@@ -114,6 +114,11 @@ class Creature
         /** Sets a Creature's fake boolean. */
         virtual void set_fake( bool fake_value );
 
+        /** Returns true if creature can aim for headshot */
+        virtual bool is_can_headshot() const;
+        /** Sets if a Creature's can aim for headshot. */
+        virtual void set_can_headshot( bool can_headshot );
+
         /** Recreates the Creature from scratch. */
         virtual void normalize();
         /** Processes effects and bonuses and allocates move points based on speed. */
@@ -760,6 +765,7 @@ class Creature
         int throw_resist;
 
         bool fake;
+        bool can_headshot;
         Creature();
         Creature( const Creature & ) = default;
         Creature( Creature && ) = default;
