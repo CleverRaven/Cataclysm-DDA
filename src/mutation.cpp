@@ -328,6 +328,25 @@ bool Character::is_weak_to_water() const
     return false;
 }
 
+bool Character::can_use_heal_item( itype_id heal_id ) const
+{
+    bool can_use = false;
+    bool got_restriction = false;
+    for( const trait_id &mut : get_mutations() ) {
+        for( const itype_id it : mut.obj().can_only_heal_with ) {
+            got_restriction = true;
+            if( it == heal_id ) {
+                can_use = true;
+                break;
+            }
+        }
+    }
+    if( !got_restriction ) {
+        can_use = true;
+    }
+    return can_use;
+}
+
 void player::activate_mutation( const trait_id &mut )
 {
     const mutation_branch &mdata = mut.obj();

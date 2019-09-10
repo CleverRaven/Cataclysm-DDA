@@ -485,6 +485,9 @@ class Character : public Creature, public visitable<Character>
 
         bool is_weak_to_water() const;
 
+        /**Check for mutation disallowing the use of an healing item*/
+        bool can_use_heal_item( itype_id heal_id ) const;
+
         /**
          * Returns resistances on a body part provided by mutations
          */

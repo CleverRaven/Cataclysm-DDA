@@ -181,6 +181,9 @@ struct mutation_branch {
         /**List of material required for food to be be edible*/
         std::set<material_id> can_only_eat;
 
+        /**List of healing items allowed*/
+        std::vector<itype_id> can_only_heal_with;
+
         // amount of mana added or subtracted from max
         float mana_modifier;
         float mana_multiplier;

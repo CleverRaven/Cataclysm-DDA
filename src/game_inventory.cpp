@@ -550,6 +550,10 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return _( "Can't drink spilt liquids" );
             }
 
+            if( ( *loc ).is_medication() && !p.can_use_heal_item( ( *loc ).typeId() ) ) {
+                return _( "Your biology is not compatible with that healing item." );
+            }
+
             const auto &it = get_consumable_item( loc );
             const auto res = p.can_eat( it );
             const auto cbm = p.get_cbm_rechargeable_with( it );
@@ -781,6 +785,10 @@ class activatable_inventory_preset : public pickup_inventory_preset
                 if( !ret.success() ) {
                     return trim_punctuation_marks( ret.str() );
                 }
+            }
+
+            if( ( *loc ).is_medication() && !p.can_use_heal_item( ( *loc ).typeId() ) ) {
+                return _( "Your biology is not compatible with that healing item." );
             }
 
             if( !p.has_enough_charges( it, false ) ) {

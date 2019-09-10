@@ -3668,6 +3668,29 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     const int limb_power = get_heal_value( healer, hp_arm_l );
     const int torso_bonus = get_heal_value( healer, hp_torso );
 
+    for( const trait_id &mut : patient.get_mutations() ) {
+        bool found_match = false;
+        if( !mut.obj().can_only_heal_with.empty() ) {
+            for( const itype_id &id : mut.obj().can_only_heal_with ) {
+                if( it.typeId() == id ) {
+                    found_match = true;
+                    break;
+                }
+            }
+            if( !found_match ) {
+                if( patient.is_player() ) {
+                    add_msg( m_bad, _( "Your physiology does not allow the use of %s to heal your wounds." ),
+                             it.tname() );
+                } else {
+                    add_msg( m_bad, _( "%s's physiology does not allow the use of %s to heal their wounds." ),
+                             patient.name, it.tname() );
+                }
+
+                return num_hp_parts; // canceled
+            }
+        }
+    }
+
     if( healer.is_npc() ) {
         // NPCs heal whatever has sustained the most damaged that they can heal but never
         // rebandage parts
