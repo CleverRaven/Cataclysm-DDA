@@ -182,7 +182,16 @@
     "apply_message": "Your skin tingle with the power of the Devs!",
     "remove_message": "Your skin stops tingling, your life is empty and meaningless again.",
     "rating": "good",
-    "flags": [ "EFFECT_ELECTRIC_IMMUNE", "EFFECT_BIO_IMMUNE", "EFFECT_BASH_IMMUNE", "EFFECT_CUT_IMMUNE", "EFFECT_ACID_IMMUNE", "EFFECT_STAB_IMMUNE", "EFFECT_HEAT_IMMUNE", "EFFECT_COLD_IMMUNE" ]
+    "flags": [
+      "EFFECT_ELECTRIC_IMMUNE",
+      "EFFECT_BIO_IMMUNE",
+      "EFFECT_BASH_IMMUNE",
+      "EFFECT_CUT_IMMUNE",
+      "EFFECT_ACID_IMMUNE",
+      "EFFECT_STAB_IMMUNE",
+      "EFFECT_HEAT_IMMUNE",
+      "EFFECT_COLD_IMMUNE"
+    ]
   },
   {
     "type": "effect_type",
