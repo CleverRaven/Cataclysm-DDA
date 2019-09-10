@@ -2869,6 +2869,13 @@
   },
   {
     "type": "keybinding",
+    "id": "SHOW_HELP",
+    "category": "COMESTIBLE_INVENTORY",
+    "name": "Start crafting with selected",
+    "bindings": [ { "input_method": "keyboard", "key": "F1" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SCROLL_UP",
     "category": "ITEM_ACTIONS",
     "name": "Scroll up",

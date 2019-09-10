@@ -264,6 +264,7 @@ class Character : public Creature, public visitable<Character>
         virtual std::pair<std::string, nc_color> get_thirst_description() const;
         virtual std::pair<std::string, nc_color> get_hunger_description() const;
         virtual std::pair<std::string, nc_color> get_fatigue_description() const;
+        virtual std::pair<std::string, nc_color> get_power_description() const;
         virtual int get_fatigue() const;
         virtual int get_sleep_deprivation() const;
 

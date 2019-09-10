@@ -777,22 +777,8 @@ static std::string morale_emotion( const int morale_cur, const face_type face,
 
 static std::pair<nc_color, std::string> power_stat( const avatar &u )
 {
-    nc_color c_pwr = c_red;
-    std::string s_pwr;
-    if( u.max_power_level == 0 ) {
-        s_pwr = "--";
-        c_pwr = c_light_gray;
-    } else {
-        if( u.power_level >= u.max_power_level / 2 ) {
-            c_pwr = c_light_blue;
-        } else if( u.power_level >= u.max_power_level / 3 ) {
-            c_pwr = c_yellow;
-        } else if( u.power_level >= u.max_power_level / 4 ) {
-            c_pwr = c_red;
-        }
-        s_pwr = to_string( u.power_level );
-    }
-    return std::make_pair( c_pwr, s_pwr );
+    auto desc = u.get_power_description();
+    return std::make_pair( desc.second, desc.first );
 }
 
 static std::pair<nc_color, std::string> mana_stat( const player &u )

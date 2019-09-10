@@ -42,6 +42,7 @@
 #include "pimpl.h"
 #include "bionics.h"
 #include "comestible_inv.h"
+#include "recipe_dictionary.h"
 
 #include <algorithm>
 #include <cassert>
@@ -139,19 +140,13 @@ void comestible_inventory::save_settings()
     }
 }
 
-comestible_inv_area *comestible_inventory::get_square( const std::string &action )
+comestible_inv_area *comestible_inventory::get_area( const std::string &action )
 {
     for( auto &i : squares ) {
         if( action == i.info.actionname ) {
             return &i;
         }
     }
-
-    //for( size_t i = 0; i < squares.size(); i++ ) {
-    //    if( action == squares[i].info.actionname ) {
-    //        return &squares[i];
-    //    }
-    //}
     return nullptr;
 }
 
@@ -175,8 +170,6 @@ void comestible_inventory::init()
                                   point( colstart + ( w_width - ( minimap_width + 1 ) ), headstart + 1 ) );
     window = catacurses::newwin( w_height, w_width, point( colstart, headstart + head_height ) );
 
-
-
     uistate.comestible_save.exit_code = exit_none;
 
     std::vector<comestible_inv_columns> columns;
@@ -192,7 +185,6 @@ void comestible_inventory::init()
     }
     int itemsPerPage = w_height - 2 - 5; // 2 for the borders, 5 for the header stuff
     pane.init( columns, itemsPerPage, window, &squares );
-    set_pane_legend();
     if( uistate.comestible_save.bio == -1 ) {
         pane.special_filter = []( const item & it ) {
             const std::string n = it.get_category().name();
@@ -219,15 +211,22 @@ void comestible_inventory::init()
     }
 }
 
-void comestible_inventory::set_pane_legend()
+void comestible_inventory::set_additional_info()
 {
     std::vector<legend_data> data;
+    std::pair<std::string, nc_color> desc;
     if( uistate.comestible_save.bio == -1 ) {
-        data.push_back( { 'z', c_light_gray, "Switch Food/Drugs" } );
-        data.push_back( { 'h', c_light_red, "Warm up food" } );
-        data.push_back( { '&', c_cyan, "Craft with" } );
+        desc = g->u.get_hunger_description();
+        data.push_back( { string_format( "%s %s", _( "Food :" ), colorize( desc.first, desc.second ) ), point_zero, c_dark_gray } );
+        desc = g->u.get_thirst_description();
+        data.push_back( { string_format( "%s %s", _( "Drink:" ), colorize( desc.first, desc.second ) ), point_south, c_dark_gray } );
+        desc = g->u.get_pain_description();
+        data.push_back( { string_format( "%s %s", _( "Pain :" ), colorize( desc.first, desc.second ) ), point( 0, 2 ), c_dark_gray } );
+    } else {
+        desc = g->u.get_power_description();
+        data.push_back( { string_format( "%s %s", _( "Power :" ), colorize( desc.first, desc.second ) ), point_zero, c_dark_gray } );
     }
-    pane.legend = data;
+    pane.additional_info = data;
     pane.needs_redraw = true;
 }
 
@@ -243,7 +242,7 @@ bool comestible_inventory::show_sort_menu( )
 {
     uilist sm;
     sm.text = _( "Sort by... " );
-    pane.add_sort_enries( sm );
+    pane.add_sort_entries( sm );
     sm.query();
 
     if( sm.ret < 0 ) {
@@ -297,15 +296,16 @@ void comestible_inventory::display( int bio )
     ctxt.register_action( "ITEMS_AROUND_I_W" );
     ctxt.register_action( "ITEMS_DRAGGED_CONTAINER" );
 
+    ctxt.register_action( "CONSUME_FOOD" );
     if( uistate.comestible_save.bio == -1 ) {
-        ctxt.register_action( "CONSUME_FOOD" );
         ctxt.register_action( "SWITCH_FOOD" );
         ctxt.register_action( "HEAT_UP" );
         ctxt.register_action( "CRAFT_WITH" );
+        ctxt.register_action( "SHOW_HELP" );
     }
 
     exit = false;
-    redo( true, true );
+    refresh( true, true );
 
     using ai = comestible_inv_area_info;
     while( !exit ) {
@@ -314,6 +314,9 @@ void comestible_inventory::display( int bio )
             return;
         }
 
+        if( recalc ) {
+            set_additional_info();
+        }
         pane.redraw();
 
         if( redraw ) {
@@ -324,9 +327,12 @@ void comestible_inventory::display( int bio )
             Messages::display_messages( head, 2, 1, w_width - 1, head_height - 2 );
             draw_minimap();
 
-            const std::string msg = _( "< [?] show help >" );
-            mvwprintz( head, point( w_width - ( minimap_width + 2 ) - utf8_width( msg ) - 1, 0 ),
-                       c_white, msg );
+            if( uistate.comestible_save.bio == -1 ) {
+                const std::string msg = string_format( _( "< [%s] Statuses info >" ),
+                                                       ctxt.get_desc( "SHOW_HELP" ) );
+                mvwprintz( head, point( w_width - ( minimap_width + 2 ) - utf8_width( msg ) - 1, 0 ),
+                           c_white, msg );
+            }
             if( g->u.has_watch() ) {
                 const std::string time = to_string_time_of_day( calendar::turn );
                 mvwprintz( head, point( 2, 0 ), c_white, time );
@@ -334,7 +340,7 @@ void comestible_inventory::display( int bio )
             wrefresh( head );
             refresh_minimap();
         }
-        redo( false, false );
+        refresh( false, false );
 
         // current item in source pane, might be null
         comestible_inv_listitem *sitem = pane.get_cur_item_ptr();
@@ -347,17 +353,17 @@ void comestible_inventory::display( int bio )
             pane.needs_redraw =
                 true; // We redraw to force the color change of the highlighted line and header text.
         } else if( action == "HELP_KEYBINDINGS" ) {
-            redo( recalc, true );
-        }   else if( ( new_square = get_square( action ) ) != nullptr ) {
+            refresh( recalc, true );
+        }   else if( ( new_square = get_area( action ) ) != nullptr ) {
             if( pane.get_area()->info.id == new_square->get_relative_location() ) {
                 //DO NOTHING
             } else if( new_square->is_valid() ) {
                 pane.set_area( new_square, new_square->is_vehicle_default() );
                 pane.index = 0;
-                redo( true, true );
+                refresh( true, true );
             } else {
                 popup( _( "You can't put items there!" ) );
-                redo( recalc, true ); // to clear the popup
+                refresh( recalc, true ); // to clear the popup
             }
         } else if( action == "TOGGLE_FAVORITE" ) {
             if( sitem == nullptr || !sitem->is_item_entry() ) {
@@ -367,12 +373,12 @@ void comestible_inventory::display( int bio )
                 it->set_favorite( !it->is_favorite );
             }
             // recalc = true; In case we've merged faved and unfaved items
-            redo( true, true );
+            refresh( true, true );
         } else if( action == "SORT" ) {
             if( show_sort_menu( ) ) {
-                redo( true, redraw );
+                refresh( true, redraw );
             }
-            redo( recalc, true );
+            refresh( recalc, true );
         } else if( action == "FILTER" ) {
             draw_item_filter_rules( pane.window, 1, 11, item_filter_type::FILTER );
             pane.start_user_filtering( w_height - 1, w_width / 2 - 4 );
@@ -390,7 +396,7 @@ void comestible_inventory::display( int bio )
                 sitem->autopickup = true;
             }
 
-            redo( true, redraw );
+            refresh( true, redraw );
         } else if( action == "EXAMINE" ) {
             if( sitem == nullptr || !sitem->is_item_entry() ) {
                 continue;
@@ -408,10 +414,10 @@ void comestible_inventory::display( int bio )
                 // If examining the item did not create a new activity, we have to remove
                 // "return to AIM".
                 do_return_entry();
-                assert( g->u.has_activity( activity_id( "ACT_ADV_INVENTORY" ) ) );
+                assert( g->u.has_activity( activity_id( "ACT_COMESTIBLE_INVENTORY" ) ) );
                 ret = g->inventory_item_menu( idx, info_startx, info_width, game::RIGHT_OF_INFO );
                 //src == comestible_inventory::side::left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO);
-                if( !g->u.has_activity( activity_id( "ACT_ADV_INVENTORY" ) ) ) {
+                if( !g->u.has_activity( activity_id( "ACT_COMESTIBLE_INVENTORY" ) ) ) {
                     exit = true;
                 } else {
                     g->u.cancel_activity();
@@ -420,7 +426,7 @@ void comestible_inventory::display( int bio )
                 if( pane.get_area()->info.id == ai::AIM_INVENTORY ) {
                     g->u.inv.restack( g->u );
                 }
-                redo( true, redraw );
+                refresh( true, redraw );
             } else {
                 item &it = *sitem->items.front();
                 std::vector<iteminfo> vThisItem;
@@ -436,7 +442,7 @@ void comestible_inventory::display( int bio )
             } else if( ret == KEY_PPAGE || ret == KEY_UP ) {
                 pane.scroll_by( -1 );
             }
-            redo( recalc, true ); // item info window overwrote the other pane and the header
+            refresh( recalc, true ); // item info window overwrote the other pane and the header
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "PAGE_DOWN" ) {
@@ -454,38 +460,69 @@ void comestible_inventory::display( int bio )
                     pane.set_area( pane.get_area(), !pane.is_in_vehicle() );
                     pane.index = 0;
                     // make sure to update the minimap as well!
-                    redo( recalc, true );
+                    refresh( recalc, true );
                     pane.needs_recalc = true;
                 }
             } else {
                 popup( _( "No vehicle there!" ) );
-                redo( recalc, true );
+                refresh( recalc, true );
             }
         } else if( action == "SWITCH_FOOD" ) {
             uistate.comestible_save.show_food = !uistate.comestible_save.show_food;
             pane.title = uistate.comestible_save.show_food ? "FOOD" : "DRUGS";
-            redo( true, redraw );
+            refresh( true, redraw );
         } else if( action == "HEAT_UP" ) {
             heat_up( sitem->items.front() );
-        } else if( action == "CRAFT_WITH" ) {
+        }  else if( action == "CRAFT_WITH" ) {
+            do_return_entry();
+
+            assert( g->u.has_activity( activity_id( "ACT_COMESTIBLE_INVENTORY" ) ) );
+
             item *it = sitem->items.front();
             if( it->is_food_container() ) {
                 it = &it->contents.front();
             }
             std::string food_name = item::nname( it->typeId() );
             g->u.craft( tripoint_zero, string_format( "c:%s,", food_name ) );
-            //TODO: next 2 lines seem hacky - refreshing twice?
-            //without 1st line we can see craft menu after it closes
-            //without 2nd line we can't see comestible menu after crafting closes
-            g->refresh_all();
-            redo( recalc, true );
+
+            if( !g->u.has_activity( activity_id( "ACT_COMESTIBLE_INVENTORY" ) ) ) {
+                exit = true;
+            } else {
+                //TODO: next 2 lines seem hacky - refreshing twice?
+                //without 1st line we can see craft menu after it closes
+                //without 2nd line we can't see comestible menu after crafting closes
+
+                g->u.cancel_activity();
+                g->refresh_all();
+                refresh( recalc, true );
+            }
+        } else if( action == "SHOW_HELP" ) {
+            std::string desc;
+            std::string status;
+            status = ctxt.get_desc( "HEAT_UP" );
+            desc += colorize( string_format( "%c", status[0] ), c_red );
+            desc += colorize( string_format(
+                                  _( ": this food is frozen and cannot be consumed. Press %s to attempt reheating it.\n" ), status ),
+                              c_light_gray );
+
+            status = ctxt.get_desc( "CRAFT_WITH" );
+            desc += colorize( string_format( "%c", status[0] ), c_cyan );
+            desc += colorize( string_format(
+                                  _( ": this item cannot be eaten in its current form. Press %s to attempt cooking with it.\n" ),
+                                  status ), c_light_gray );
+
+            desc += colorize( "!", c_light_red );
+            desc += colorize( string_format( _( ": eating this will be considered stealing." ), status ),
+                              c_light_gray );
+
+            popup( desc );
+            refresh( recalc, true );
         } else if( action == "CONSUME_FOOD" ) {
             player &p = g->u;
             item *it = sitem->items.front();
             int pos = p.get_item_position( it );
             if( pos != INT_MIN ) {
                 p.consume( pos );
-
             } else if( p.consume_item( *it ) ) {
                 if( it->is_food_container() ) {
                     it->contents.erase( it->contents.begin() );
@@ -510,7 +547,6 @@ void comestible_inventory::display( int bio )
                             loc = item_location( map_cursor( target ), it );
                         }
                     }
-
                     loc.remove_item();
                 }
             }
@@ -518,10 +554,11 @@ void comestible_inventory::display( int bio )
     }
 }
 
-static const trait_id trait_GRAZER( "GRAZER" );
-static const trait_id trait_RUMINANT( "RUMINANT" );
 void comestible_inv( int b )
 {
+    static const trait_id trait_GRAZER( "GRAZER" );
+    static const trait_id trait_RUMINANT( "RUMINANT" );
+
     player &p = g->u;
     map &m = g->m;
 
@@ -637,7 +674,7 @@ void comestible_inventory::do_return_entry()
     save_settings();
 }
 
-void comestible_inventory::redo( bool needs_recalc, bool needs_redraw )
+void comestible_inventory::refresh( bool needs_recalc, bool needs_redraw )
 {
     recalc = needs_recalc;
     pane.needs_recalc = needs_recalc;
@@ -648,128 +685,62 @@ void comestible_inventory::redo( bool needs_recalc, bool needs_redraw )
 
 void comestible_inventory::heat_up( item *it_to_heat )
 {
+    //in case we want to warm up a certail quantity later on
+    int batch_size = 1;
+
     player &p = g->u;
-    inventory map_inv = inventory();
-    map_inv.form_from_map( p.pos(), 1 );
 
-    bool has_heat_item = false;
-    bool is_near_fire = false;
-    bool can_use_bio = false;
-    bool can_use_hotplate = false;
+    // basically we want a recipe that satisfies all the requirements for warming food up
+    // water seems exactly what we need, so find it and use it.
+    //might be good idea to create a dummy recipe
+    item water = item( "water_clean", 0 );
+    recipe_subset lr = p.get_learned_recipes();
+    std::vector < const recipe * > water_recipes = lr.search_result( water.typeId() );
+    requirement_data req = water_recipes[0]->requirements();
 
-    //TODO: I think can use crafting.cpp -
-    //  comp_selection<item_comp> player::select_item_component(){}
-    //or
-    //  comp_selection<tool_comp> player::select_tool_component(){}
-    //to search and select items
+    const std::vector<std::vector<tool_comp>> req_tools = req.get_tools();
+    const std::vector<std::vector<quality_requirement>> req_qual = req.get_qualities();
 
-    //first find tools we can use
-    const std::function<bool( const item & )> &heat_filter =
-    []( const item & it ) {
-
-        bool can_heat = ( it.get_use( "HEAT_FOOD" ) != nullptr );
-        return can_heat;
-    };
-
-    has_heat_item = p.has_item_with( heat_filter );
-    if( !has_heat_item ) {
-        has_heat_item = map_inv.has_item_with( heat_filter );
-    }
-
-    if( has_heat_item ) {
-        if( g->m.has_nearby_fire( p.pos() ) ) {
-            is_near_fire = true;
-        } else if( p.has_active_bionic( bionic_id( "bio_tools" ) ) && p.power_level > 10 ) {
-            can_use_bio = true;
+    // see if we have required tools (e.g. BOIL 1)
+    bool has_qual = true;
+    for( const auto &i : req_qual ) {
+        for( auto &rq : i ) {
+            if( !p.crafting_inventory().has_quality( rq.type, rq.level, batch_size ) ) {
+                has_qual = false;
+                break;
+            }
         }
     }
-
-    const std::function<bool( const item & )> &filter =
-    []( const item & it ) {
-
-        if( !it.is_tool() ) {
-            return false;
-        }
-        bool is_hotplate = ( it.get_use( "HOTPLATE" ) != nullptr );
-        if( !is_hotplate ) {
-            return false;
-        }
-
-        return it.units_remaining( g->u ) >= it.type->charges_to_use();
-    };
-
-    std::vector<item *> hotplates = p.items_with( filter );
-    std::vector<item *> hotplates_map = map_inv.items_with( filter );
-    //hotplates.insert(hotplates.end(), hotplates_map.begin(), hotplates_map.end());
-
-    can_use_hotplate = ( !hotplates.empty() ) || ( !hotplates_map.empty() );
-
-    //check we can actually heat up
-    if( !has_heat_item && !can_use_hotplate ) {
-        popup( _( "You don't have a suitable container or hotplate with enough charges." ) );
-        redo( recalc, true );
+    if( !has_qual ) {
+        popup( "You don't have necessary tools to heat up your food." );
         return;
     }
 
-    if( has_heat_item && !can_use_hotplate ) {
-        if( !is_near_fire && !can_use_bio ) {
-            popup( _( "You need to be near fire to heat an item in a container." ) );
-            redo( recalc, true );
+    // see if we have enough charges or fire
+    inventory crafting_inv;
+    crafting_inv.form_from_map( p.pos(), PICKUP_RANGE, &p );
+    std::vector<comp_selection<tool_comp>> tool_selections;
+    for( const auto &it : req_tools ) {
+        comp_selection<tool_comp> ts = p.select_tool_component(
+        it, batch_size, crafting_inv, DEFAULT_HOTKEYS, true, true, []( int charges ) {
+            return charges / 20 + charges % 20;
+        } );
+        if( ts.use_from == cancel ) {
+            refresh( recalc, true );
+            return; //Never mind.
+        }
+
+        //no item found
+        if( ts.comp.type == itype_id( "null" ) ) {
+            popup( "You don't have a neraby fire or tool with enough charges to heat up your food." );
             return;
         }
+
+        tool_selections.push_back( ts );
     }
 
-    //give user options to chose from
-    int choice = -1;
-    if( !( has_heat_item && is_near_fire ) ) {
-        uilist sm;
-        sm.text = _( "Choose a way to heat an item..." );
-        int counter = 0;
-        if( can_use_bio ) {
-            sm.addentry( counter, true, 'a' + counter, _( "use bio tools" ) );
-            counter++;
-        }
-
-        for( auto &i : hotplates ) {
-            sm.addentry( counter, true, 'a' + counter, string_format( _( "%s in inventory" ),
-                         i->display_name() ) );
-            counter++;
-        }
-        for( auto &i : hotplates_map ) {
-            sm.addentry( counter, true, 'a' + counter, string_format( _( "%s nearby" ),
-                         i->display_name() ) );
-            counter++;
-        }
-        sm.query();
-
-        if( sm.ret < 0 ) {
-            //'Never mind'
-            redo( recalc, true );
-            return;
-        }
-        choice = sm.ret;
-    }
-
-    //use charges as needed; choice == -1 if we can use fire
-    if( choice != -1 ) {
-        if( can_use_bio && choice == 0 ) {
-            p.charge_power( -10 );
-        } else {
-            if( can_use_bio ) {
-                choice--;
-            }
-            item *it_choice;
-            if( static_cast<size_t>( choice ) < hotplates.size() ) {
-                it_choice = hotplates[choice];
-            } else {
-                choice -= hotplates.size();
-                it_choice = hotplates_map[choice];
-            }
-            int charges_to_use = it_choice->type->charges_to_use();
-            std::list<item> used = {};
-            tripoint pos = tripoint();
-            it_choice->use_charges( it_choice->typeId(), charges_to_use, used, pos );
-        }
+    for( auto &tool : tool_selections ) {
+        p.consume_tools( tool, batch_size );
     }
 
     //actually heat up the item

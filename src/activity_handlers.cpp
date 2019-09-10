@@ -3383,7 +3383,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     if( craft->item_counter >= 10'000'000 ) {
         item craft_copy = *craft;
         act->targets.front().remove_item();
-        p->cancel_activity();
+        act->set_to_null();
         p->complete_craft( craft_copy, loc );
         if( is_long ) {
             if( p->making_would_work( p->lastrecipe, craft_copy.charges ) ) {

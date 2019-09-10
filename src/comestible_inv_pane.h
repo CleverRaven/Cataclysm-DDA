@@ -8,6 +8,7 @@
 #include "ui.h"
 #include "itype.h"
 #include "comestible_inv_area.h"
+#include "color.h"
 
 #include <cctype>
 #include <cstddef>
@@ -17,7 +18,7 @@
 #include <map>
 #include <string>
 #include <vector>
-
+#include <utility>
 
 class item_category;
 
@@ -49,20 +50,15 @@ enum comestible_select_state {
 };
 
 struct legend_data {
-    char shortcut;
-    nc_color color;
+    point position;
     std::string message;
-    legend_data( char shortcut, nc_color color, std::string message ): shortcut( shortcut ),
-        color( color ), message( message ) {
-
+    nc_color color;
+    legend_data( std::string message, point position, nc_color color ): message( message ),
+        color( color ) {
+        this->position = point( 25, 1 ) + position;
     }
 };
 
-/**
- * Entry that is displayed in a adv. inv. pane. It can either contain a
- * single item or a category header or nothing (empty entry).
- * Most members are used only for sorting.
- */
 class comestible_inv_listitem
 {
     public:
@@ -72,11 +68,10 @@ class comestible_inv_listitem
          */
         int idx;
         /**
-         * The location of the item, never AIM_ALL.
+         * The location of the item, should nevere be AREA_TYPE_MULTI
          */
-        //comestible_inv_area_info::aim_location area;
         comestible_inv_area *area;
-        // the id of the item
+
         itype_id id;
         // The list of items, and empty when a header
         std::list<item *> items;
@@ -97,39 +92,37 @@ class comestible_inv_listitem
          * for anything counted by charges.
          */
         int stacks;
-        /**
-         * The volume of all the items in this stack, used for sorting.
-         */
+
+        // from all the items in a stack
         units::volume volume;
-        /**
-         * The weight of all the items in this stack, used for sorting.
-         */
         units::mass weight;
 
-        /**
-         * TODO:docs
-         */
         std::string shelf_life;
         std::string exipres_in;
         int calories;
         int quench;
         int joy;
         bool is_mushy;
+        // when eating with CBMs
         int energy;
+
+        // item conditions, shown before name. Just for display.
+        int cond_size = 3;
+        std::vector<std::pair<char, nc_color >> cond;
 
         comestible_select_state is_selected;
         nc_color menu_color;
         nc_color menu_color_dark;
 
         void print_columns( std::vector<comestible_inv_columns> columns,
-                            comestible_select_state selected_state, bool is_compact, catacurses::window window, int right_bound,
+                            comestible_select_state selected_state, catacurses::window window, int right_bound,
                             int cur_print_y );
     private:
         bool print_string_column( comestible_inv_columns col, catacurses::window window, int cur_print_x,
                                   int cur_print_y );
         bool print_int_column( comestible_inv_columns col, catacurses::window window, int cur_print_x,
                                int cur_print_y );
-        void print_name( bool is_compact, catacurses::window window, int right_bound, int cur_print_y );
+        void print_name( catacurses::window window, int right_bound, int cur_print_y );
         bool print_default_columns( comestible_inv_columns col, catacurses::window window, int cur_print_x,
                                     int cur_print_y );
         void set_print_color( nc_color &retval, nc_color default_col );
@@ -148,7 +141,6 @@ class comestible_inv_listitem
         bool from_vehicle;
 
 
-        //TODO
         const islot_comestible &get_edible_comestible( player &p, const item &it ) const;
 
         std::string get_time_left_rounded( player &p, const item &it ) const;
@@ -191,6 +183,7 @@ class comestible_inv_listitem
          */
         comestible_inv_listitem( const std::list<item *> &list, int index,
                                  comestible_inv_area *area, bool from_vehicle );
+        void init( const item &an_item );
 };
 
 /**
@@ -255,8 +248,8 @@ class comestible_inventory_pane
         //this filter is supplied by parent, applied before user input filtering
         std::function<bool( const item & )> special_filter;
         //list of shortcut reminders (created manually by parent)
-        std::vector<legend_data> legend;
         std::string title;
+        std::vector<legend_data> additional_info;
 
         int itemsPerPage;
 
@@ -283,6 +276,7 @@ class comestible_inventory_pane
         void fix_index();
         void recalc();
         void redraw();
+
         /**
          * Scroll @ref index, by given offset, set redraw to true,
          * @param offset Must not be 0.
@@ -300,14 +294,14 @@ class comestible_inventory_pane
         void start_user_filtering( int h, int w );
 
         //adds things this can sort on. List is provided by parent
-        void add_sort_enries( uilist &sm );
+        void add_sort_entries( uilist &sm );
 
-        std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> *squares;
+        std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> *all_areas;
         comestible_inv_area *get_square( comestible_inv_area_info::aim_location loc ) {
-            return  &( ( *squares )[loc] );
+            return  &( ( *all_areas )[loc] );
         }
         comestible_inv_area *get_square( size_t loc ) {
-            return &( ( *squares )[loc] );
+            return &( ( *all_areas )[loc] );
         }
         // set the pane's area via its square, and whether it is viewing a vehicle's cargo
         void set_area( comestible_inv_area *square, bool show_vehicle ) {

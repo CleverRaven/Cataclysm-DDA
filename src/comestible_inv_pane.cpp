@@ -42,6 +42,7 @@
 #include "pimpl.h"
 #include "bionics.h"
 #include "comestible_inv_pane.h"
+#include "material.h"
 
 #include <algorithm>
 #include <cassert>
@@ -56,47 +57,58 @@
 #include <unordered_map>
 #include <utility>
 #include <numeric>
-
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>
 #endif
 
 struct col_data {
-    comestible_inv_columns id;
-    std::string col_name;
-    int width;
 
-    char hotkey;
-    std::string sort_name;
+    public:
+        comestible_inv_columns id;
+    private:
+        std::string col_name;
+    public:
+        int width;
+        char hotkey;
+    private:
+        std::string sort_name;
 
-    col_data( comestible_inv_columns id, std::string col_name, int width, char hotkey,
-              std::string sort_name ) :
-        id( id ),
-        col_name( col_name ), width( width ), hotkey( hotkey ), sort_name( sort_name ) {
+    public:
+        std::string get_col_name() const {
+            return _( col_name );
+        }
+        std::string get_sort_name() const {
+            return _( sort_name );
+        }
 
-    }
+        col_data( comestible_inv_columns id, std::string col_name, int width, char hotkey,
+                  std::string sort_name ) :
+            id( id ),
+            col_name( col_name ), width( width ), hotkey( hotkey ), sort_name( sort_name ) {
+
+        }
 };
 
 // *INDENT-OFF*
 static col_data get_col_data(comestible_inv_columns col) {
     static std::array<col_data, COLUMN_NUM_ENTRIES> col_data = { {
-        {COLUMN_NAME,       _("Name (charges)"),0, 'n', _("name")},
+        {COLUMN_NAME,       translate_marker("Name (charges)"),0, 'n', translate_marker("name")},
 
-        {COLUMN_SRC,        _("src"),         4, ';', _("")},
-        {COLUMN_AMOUNT,     _("amt"),         5, ';', _("")},
+        {COLUMN_SRC,        translate_marker("src"),         4, ';', ""},
+        {COLUMN_AMOUNT,     translate_marker("amt"),         5, ';', ""},
 
-        {COLUMN_WEIGHT,     _("weight"),      7, 'w', _("weight")},
-        {COLUMN_VOLUME,     _("vol"),         8, 'v', _("volume")},
+        {COLUMN_WEIGHT,     translate_marker("weight"),      7, 'w', translate_marker("weight")},
+        {COLUMN_VOLUME,     translate_marker("volume"),      7, 'v', translate_marker("volume")},
 
-        {COLUMN_CALORIES,   _("calories"),    9, 'c', _("calories")},
-        {COLUMN_QUENCH,     _("quench"),      7, 'q', _("quench")},
-        {COLUMN_JOY,        _("joy"),         4, 'j', _("joy")},
-        {COLUMN_EXPIRES,    _("expires in"),  12,'s', _("spoilage")},
-        {COLUMN_SHELF_LIFE, _("shelf life"),  12,'s', _("shelf life")},
+        {COLUMN_CALORIES,   translate_marker("calories"),    9, 'c', translate_marker("calories")},
+        {COLUMN_QUENCH,     translate_marker("quench"),      7, 'q', translate_marker("quench")},
+        {COLUMN_JOY,        translate_marker("joy"),         4, 'j', translate_marker("joy")},
+        {COLUMN_EXPIRES,    translate_marker("expires in"),  11,'s', translate_marker("spoilage")},
+        {COLUMN_SHELF_LIFE, translate_marker("shelf life"),  11,'s', translate_marker("shelf life")},
 
-        {COLUMN_ENERGY,     _("energy"),      12,'e', _("energy")},
+        {COLUMN_ENERGY,     translate_marker("energy"),      11,'e', translate_marker("energy")},
 
-        {COLUMN_SORTBY_CATEGORY,_("fake"),    0,'c', _("category")}
+        {COLUMN_SORTBY_CATEGORY,translate_marker("fake"),    0,'c', translate_marker("category")}
     } };
     return col_data[col];
 }
@@ -104,19 +116,19 @@ static col_data get_col_data(comestible_inv_columns col) {
 
 void comestible_inventory_pane::init( std::vector<comestible_inv_columns> c, int items_per_page,
                                       catacurses::window w, std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS>
-                                      *s )
+                                      *a )
 {
     columns = c;
     itemsPerPage = items_per_page;
     window = w;
-    squares = s;
+    all_areas = a;
     is_compact = TERMX <= 100;
 
     inCategoryMode = false;
 
     comestible_inv_area_info::aim_location location =
         static_cast<comestible_inv_area_info::aim_location>( uistate.comestible_save.area_idx );
-    set_area( &( *squares )[location], uistate.comestible_save.in_vehicle );
+    set_area( &( *all_areas )[location], uistate.comestible_save.in_vehicle );
 
     index = uistate.comestible_save.selected_idx;
     filter = uistate.comestible_save.filter;
@@ -156,21 +168,21 @@ void comestible_inventory_pane::save_settings( bool reset )
     uistate.comestible_save.sort_idx = sortby;
 }
 
-void comestible_inventory_pane::add_sort_enries( uilist &sm )
+void comestible_inventory_pane::add_sort_entries( uilist &sm )
 {
     col_data c = get_col_data( COLUMN_NAME );
-    sm.addentry( c.id, true, c.hotkey, c.sort_name );
+    sm.addentry( c.id, true, c.hotkey, c.get_sort_name() );
     if( sortby == COLUMN_NAME ) {
         sm.selected = 0;
     }
 
     for( size_t i = 0; i < columns.size(); i++ ) {
         c = get_col_data( columns[i] );
-        if( c.id == COLUMN_SRC || c.id == COLUMN_AMOUNT ) {
+        if( c.get_sort_name() == "" ) {
             continue;
         }
 
-        sm.addentry( c.id, true, c.hotkey, c.sort_name );
+        sm.addentry( c.id, true, c.hotkey, c.get_sort_name() );
         if( sortby == c.id ) {
             sm.selected = i;
         }
@@ -254,9 +266,10 @@ void comestible_inventory_pane::print_items()
         mvwprintz( window, point( max_width - formatted_head.length(), 4 ), norm, formatted_head );
     }
 
-    const size_t name_startpos = is_compact ? 1 : 4;
+    const size_t name_startpos = 3;//is_compact ? 1 : 4;
 
-    mvwprintz( window, point( name_startpos, 5 ), c_light_gray, get_col_data( COLUMN_NAME ).col_name );
+    mvwprintz( window, point( name_startpos, 5 ), c_light_gray,
+               get_col_data( COLUMN_NAME ).get_col_name() );
     int cur_x = max_width;
     for( size_t i = columns.size(); i -- > 0; ) {
         const col_data d = get_col_data( columns[i] );
@@ -264,7 +277,7 @@ void comestible_inventory_pane::print_items()
             continue;
         }
         cur_x -= d.width;
-        mvwprintz( window, point( cur_x, 5 ), c_light_gray, "%*s", d.width, d.col_name );
+        mvwprintz( window, point( cur_x, 5 ), c_light_gray, "%*s", d.width, d.get_col_name() );
     }
 
     for( int i = page * itemsPerPage, cur_print_y = 6; i < static_cast<int>( items.size() ) &&
@@ -290,7 +303,7 @@ void comestible_inventory_pane::print_items()
         } else {
             selected_state = SELECTSTATE_NONE;
         }
-        sitem.print_columns( columns, selected_state, is_compact, window, max_width, cur_print_y );
+        sitem.print_columns( columns, selected_state, window, max_width, cur_print_y );
     }
 }
 
@@ -550,7 +563,7 @@ void comestible_inventory_pane::recalc()
         weight = 0_gram;
         std::vector<comestible_inv_area_info::aim_location> loc = cur_area->info.multi_locations;
         for( auto &i : loc ) {
-            comestible_inv_area *s = &( ( *squares )[i] );
+            comestible_inv_area *s = &( ( *all_areas )[i] );
             // Deal with squares with ground + vehicle storage
             // Also handle the case when the other tile covers vehicle
             // or the ground below the vehicle.
@@ -680,7 +693,6 @@ void comestible_inventory_pane::redraw()
     const comestible_inv_area *sq = same_as_dragged ? get_square(
                                         comestible_inv_area_info::AIM_DRAGGED ) : cur_area;
 
-
     bool car = cur_area->has_vehicle() && viewing_cargo &&
                sq->info.id != comestible_inv_area_info::AIM_DRAGGED;
     auto name = utf8_truncate( sq->get_name( viewing_cargo ), width );
@@ -690,12 +702,8 @@ void comestible_inventory_pane::redraw()
     mvwprintz( w, point( 2, 2 ), c_light_blue, desc );
     trim_and_print( w, point( 2, 3 ), width, c_cyan, cur_area->flags );
 
-    if( !is_compact ) {
-        for( size_t i = 0; i < legend.size(); i++ ) {
-            legend_data l = legend[i];
-            mvwprintz( window, point( 25, i + 1 ), c_light_gray, "[%c] ", l.shortcut );
-            wprintz( window, l.color, "%s", l.message );
-        }
+    for( auto &i : additional_info ) {
+        print_colored_text( window, i.position, i.color, i.color, i.message );
     }
 
     const int max_page = ( items.size() + itemsPerPage - 1 ) / itemsPerPage;
@@ -707,7 +715,7 @@ void comestible_inventory_pane::redraw()
     wattron( w, c_cyan );
     // draw a darker border around the inactive pane
     draw_border( w, BORDER_COLOR );
-    mvwprintw( w, point( 3, 0 ), _( "< [s]ort: %s >" ), get_col_data( sortby ).sort_name );
+    mvwprintw( w, point( 3, 0 ), _( "< [s]ort: %s >" ), get_col_data( sortby ).get_sort_name() );
 
     if( !title.empty() ) {
         std::string title_string = string_format( "<< %s >>", title );
@@ -736,13 +744,11 @@ void comestible_inventory_pane::redraw()
     wrefresh( w );
 }
 
-
-
 int comestible_inventory_pane::print_header( comestible_inv_area *sel_area )
 {
     int wwidth = getmaxx( window );
     int ofs = wwidth - 25 - 2 - 14;
-    for( size_t i = 0; i < squares->size(); ++i ) {
+    for( size_t i = 0; i < all_areas->size(); ++i ) {
         std::string key = comestible_inv_area::get_info(
                               static_cast<comestible_inv_area_info::aim_location>( i ) ).minimapname;
 
@@ -803,7 +809,7 @@ int comestible_inventory_pane::print_header( comestible_inv_area *sel_area )
 }
 
 void comestible_inv_listitem::print_columns( std::vector<comestible_inv_columns> columns,
-        comestible_select_state selected_state, bool is_compact, catacurses::window window, int right_bound,
+        comestible_select_state selected_state, catacurses::window window, int right_bound,
         int cur_print_y )
 {
 
@@ -831,7 +837,7 @@ void comestible_inv_listitem::print_columns( std::vector<comestible_inv_columns>
         //we encountered a column that had no printing code
         assert( false );
     }
-    print_name( is_compact, window, right_bound, cur_print_y );
+    print_name( window, right_bound, cur_print_y );
 }
 
 bool comestible_inv_listitem::print_string_column( comestible_inv_columns col,
@@ -975,7 +981,7 @@ bool comestible_inv_listitem::print_default_columns( comestible_inv_columns col,
         }
         case COLUMN_SRC:
             print_color = menu_color;
-            s = area->info.shortname;
+            s = area->info.get_shortname();
             break;
 
         default:
@@ -988,7 +994,7 @@ bool comestible_inv_listitem::print_default_columns( comestible_inv_columns col,
     return true;
 }
 
-void comestible_inv_listitem::print_name( bool is_compact, catacurses::window window,
+void comestible_inv_listitem::print_name( catacurses::window window,
         int right_bound, int cur_print_y )
 {
     std::string item_name;
@@ -1005,35 +1011,25 @@ void comestible_inv_listitem::print_name( bool is_compact, catacurses::window wi
         item_name = it->display_name();
     }
 
-    //check stolen
-    if( it->has_owner() ) {
-        const faction *item_fac = it->get_owner();
-        if( item_fac != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
-            item_name = string_format( "%s %s", "<color_light_red>!</color>", item_name );
-        }
-    }
     if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
         item_name = string_format( "%s %s", it->symbol(), item_name );
     }
 
-    int name_startpos = is_compact ? 1 : 4;
-    int max_name_length = right_bound - name_startpos - 1;
+    int name_startpos = cond_size;
     nc_color print_color;
+    for( size_t i = 0; i < cond.size(); i++ ) {
+        auto c = cond[i];
+        set_print_color( print_color, c.second );
+        mvwprintz( window, point( i + 1, cur_print_y ), print_color, "%c", c.first );
+    }
     set_print_color( print_color, menu_color );
-
     if( is_selected ) { //fill whole line with color
-        mvwprintz( window, point( 0, cur_print_y ), print_color, "%*s", right_bound, "" );
+        mvwprintz( window, point( cond.size() + 1, cur_print_y ), print_color, "%*s", right_bound, "" );
     }
-    trim_and_print( window, point( name_startpos, cur_print_y ), max_name_length, print_color,
+    int max_name_length = right_bound - name_startpos - 1;
+    trim_and_print( window, point( name_startpos, cur_print_y ), max_name_length, print_color, "%s",
                     item_name );
-
-    if( autopickup ) {
-        mvwprintz( window, point( name_startpos, cur_print_y ), magenta_background( print_color ),
-                   is_compact ? item_name.substr( 0, 1 ) : ">" );
-    }
 }
-
-
 
 const islot_comestible &comestible_inv_listitem::get_edible_comestible( player &p,
         const item &it ) const
@@ -1066,6 +1062,7 @@ std::string comestible_inv_listitem::get_time_left_rounded( player &p, const ite
         }
     }
 
+    //commneted code will give approximate times instead of exact ones, in case we want that
     //const auto make_result = [this](const time_duration& d, const char* verbose_str,
     //  const char* short_str) {
     //      return string_format(false ? verbose_str : short_str, time_to_comestible_str(d));
@@ -1137,33 +1134,9 @@ comestible_inv_listitem::comestible_inv_listitem( item *an_item, int index, int 
     , cat( &an_item->get_category() )
     , from_vehicle( from_vehicle )
 {
-    player &p = g->u;
-    item it = p.get_consumable_from( *an_item );
-    islot_comestible it_c = get_edible_comestible( p, it );
-
-
-    menu_color = it.color_in_inventory();
-
-    exipres_in = "";
-    shelf_life = "";
-    if( it_c.spoils > 0_turns ) {
-        if( !it.rotten() ) {
-            exipres_in = get_time_left_rounded( p, it );
-        }
-        shelf_life = to_string_clipped( it_c.spoils );
-    }
-
-    calories = p.kcal_for( it );
-    quench = it_c.quench;
-    joy = p.fun_for( it ).first;
-    is_mushy = it.has_flag( "MUSHY" );
-
-    energy = p.get_acquirable_energy( it );
-
     items.push_back( an_item );
-
-    menu_color_dark = c_dark_gray;
-    assert( stacks >= 1 );
+    init( g->u.get_consumable_from( *an_item ) );
+    energy = g->u.get_acquirable_energy( *an_item );
 }
 
 comestible_inv_listitem::comestible_inv_listitem( const std::list<item *> &list, int index,
@@ -1181,33 +1154,73 @@ comestible_inv_listitem::comestible_inv_listitem( const std::list<item *> &list,
     cat( &list.front()->get_category() ),
     from_vehicle( from_vehicle )
 {
+    init( g->u.get_consumable_from( *list.front() ) );
+    energy = g->u.get_acquirable_energy( *list.front() );
+}
+
+void comestible_inv_listitem::init( const item &it )
+{
     player &p = g->u;
-    item it = p.get_consumable_from( *list.front() );
-    islot_comestible it_c = get_edible_comestible( p, it );
-
-
+    islot_comestible edible = get_edible_comestible( p, it );
 
     menu_color = it.color_in_inventory();
 
+    // statuses
+    const auto &comest = it.get_comestible();
+    cond.reserve( cond_size );
+    const bool eat_verb = it.has_flag( "USE_EAT_VERB" );
+    const bool is_food = eat_verb || comest->comesttype == "FOOD";
+    const bool is_drink = !eat_verb && comest->comesttype == "DRINK";
+
+    bool craft_only = false;
+    bool warm_only = false;
+
+    if( it.is_craft() ) {
+        craft_only = true;
+    } else if( is_food || is_drink ) {
+        for( const auto &elem : it.type->materials ) {
+            if( !elem->edible() ) {
+                craft_only = true;
+                break;
+            }
+        }
+    }
+    if( !craft_only && it.item_tags.count( "FROZEN" ) && !it.has_flag( "EDIBLE_FROZEN" ) &&
+        !it.has_flag( "MELTS" ) ) {
+        warm_only = true;
+    }
+    input_context ctxt( "COMESTIBLE_INVENTORY" );
+    if( craft_only ) {
+        cond.emplace_back( ctxt.get_desc( "CRAFT_WITH" )[0], c_cyan );
+    } else if( warm_only ) {
+        cond.emplace_back( ctxt.get_desc( "HEAT_UP" )[0], c_red );
+    }
+    //check stolen
+    if( it.has_owner() ) {
+        const faction *item_fac = it.get_owner();
+        if( item_fac != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
+            cond.emplace_back( '!', c_light_red );
+        }
+    }
+
     exipres_in = "";
     shelf_life = "";
-    if( it_c.spoils > 0_turns ) {
+    if( edible.spoils > 0_turns ) {
         if( !it.rotten() ) {
             exipres_in = get_time_left_rounded( p, it );
         }
-        shelf_life = to_string_clipped( it_c.spoils );
+        shelf_life = to_string_clipped( edible.spoils );
     }
 
     calories = p.kcal_for( it );
-    quench = it_c.quench;
+    quench = edible.quench;
     joy = p.fun_for( it ).first;
     is_mushy = it.has_flag( "MUSHY" );
-
-    energy = p.get_acquirable_energy( it );
 
     menu_color_dark = c_dark_gray;
     assert( stacks >= 1 );
 }
+
 
 comestible_inv_listitem::comestible_inv_listitem()
     : idx()

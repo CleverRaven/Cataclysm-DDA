@@ -93,7 +93,6 @@ void comestible_inv_area::init()
             if( veh_part >= 0 ) {
                 desc[0] = veh->name;
                 is_valid_location = true;
-                //max_size = MAX_ITEM_IN_VEHICLE_STORAGE;
             } else {
                 veh = nullptr;
                 is_valid_location = false;
@@ -126,7 +125,6 @@ void comestible_inv_area::init()
                 veh_part = -1;
             }
             is_valid_location = has_vehicle() || g->m.can_put_items_ter_furn( pos );
-            //max_size = MAX_ITEM_IN_SQUARE;
             if( has_vehicle() ) {
                 desc[1] = vpart_position( *veh, veh_part ).get_label().value_or( "" );
             }
@@ -254,7 +252,7 @@ std::string comestible_inv_area::get_name( bool use_vehicle ) const
         assert( has_vehicle() );
         return veh->name;
     } else {
-        return info.name;
+        return info.get_name();
     }
 }
 

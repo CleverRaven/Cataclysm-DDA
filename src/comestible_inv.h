@@ -66,24 +66,19 @@ class comestible_inventory
 
         bool exit;
 
-        // store/load settings (such as index, filter, etc)
+        void init();
+        //sets recalculate and redraw for this and pane
+        void refresh( bool needs_recalc, bool needs_redraw );
         void save_settings();
-        //void load_settings();
         // used to return back to AIM when other activities queued are finished
         void do_return_entry();
-        //sets recalculate and redraw for this and pane
-        void redo( bool needs_recalc, bool needs_redraw );
-        void init();
-        void set_pane_legend();
+        // any additional info, relevant for menu, but not part of main data
+        void set_additional_info();
         /**
-         * Translate an action ident from the input context to an aim_location.
-         * @param action Action ident to translate
-         * @param ret If the action ident referred to a location, its id is stored
-         * here. Only valid when the function returns true.
-         * @return true if the action did refer to an location (which has been
-         * stored in ret), false otherwise.
+         * Translate an action ident from the input context to an comestible_inv_area.
+         * @param action one of ctxt.register_action
          */
-        comestible_inv_area *get_square( const std::string &action );
+        comestible_inv_area *get_area( const std::string &action );
         /**
          * Show the sort-by menu and change the sorting of this pane accordingly.
          * @return whether the sort order was actually changed.

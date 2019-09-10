@@ -2511,6 +2511,26 @@ std::pair<std::string, nc_color> Character::get_fatigue_description() const
     return std::make_pair( fatigue_string, fatigue_color );
 }
 
+std::pair<std::string, nc_color> Character::get_power_description() const
+{
+    nc_color c_pwr = c_red;
+    std::string s_pwr;
+    if( max_power_level == 0 ) {
+        s_pwr = "--";
+        c_pwr = c_light_gray;
+    } else {
+        if( power_level >= max_power_level / 2 ) {
+            c_pwr = c_light_blue;
+        } else if( power_level >= max_power_level / 3 ) {
+            c_pwr = c_yellow;
+        } else if( power_level >= max_power_level / 4 ) {
+            c_pwr = c_red;
+        }
+        s_pwr = to_string( power_level );
+    }
+    return std::make_pair( s_pwr, c_pwr );
+}
+
 void Character::mod_thirst( int nthirst )
 {
     set_thirst( thirst + nthirst );
