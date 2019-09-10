@@ -1432,7 +1432,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
         slot.ammo.insert( ammotype( jo.get_string( "ammo" ) ) );
     }
     assign( jo, "range", slot.range, strict );
-    if( jo.has_object( "ranged_damage" ) ) {
+    if( jo.has_object( "ranged_damage" ) || jo.has_array( "ranged_damage" ) ) {
         assign( jo, "ranged_damage", slot.damage, strict );
     } else {
         assign( jo, "ranged_damage", slot.legacy_damage, strict );

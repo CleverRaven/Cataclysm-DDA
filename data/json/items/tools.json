@@ -7525,7 +7525,7 @@
     "description": "This is a small bathroom scale, meant to weigh a person while naked.",
     "weight": "1200 g",
     "volume": "1 L",
-    "price": "500",
+    "price": 500,
     "to_hit": -2,
     "bashing": 6,
     "material": "steel",
@@ -7540,7 +7540,7 @@
     "description": "This bulky device takes water and calcium carbide and yields unpressurised acetylene.",
     "weight": "8000 g",
     "volume": "3 L",
-    "price": "3200",
+    "price": 3200,
     "to_hit": -4,
     "bashing": 12,
     "material": "steel"
