@@ -150,7 +150,7 @@
     "type": "AMMO",
     "name": "flechette shell",
     "description": "A shotgun shell filled with tiny steel darts.  Extremely damaging, plus the spread makes it very accurate at short range.  Slices through most forms of armor with ease.",
-    "price":  2000,
+    "price": 2000,
     "price_postapoc": 10000,
     "count": 10,
     "relative": { "damage": -6, "pierce": 12 }
