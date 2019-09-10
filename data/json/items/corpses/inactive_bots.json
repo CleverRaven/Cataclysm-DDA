@@ -294,6 +294,30 @@
     }
   },
   {
+    "id": "bot_talon_m202a1",
+    "type": "TOOL",
+    "name": "inactive M202A1 TALON UGV",
+    "description": "This is an inactive TALON UGV equipped with an M202A1. Using this item involves loading the unit with the M235 rockets in your inventory (if you wish to divide your ammunition, set aside whatever M235 rockets you do NOT want to give the robot) turning it on, and placing it on the ground.  If reprogrammed and rewired successfully the security bot will then identify you as a friendly, roam around or follow you, and attack all enemies with its M202A1.",
+    "weight": "40750 g",
+    "volume": "30 L",
+    "price": 750000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_talon_m202a1",
+      "friendly_msg": "The security bot beeps affirmatively and begins scanning for hostiles.",
+      "hostile_msg": "You misprogram the security bot and it trains its gun on you. RUN!",
+      "difficulty": 6,
+      "moves": 150,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
     "id": "bot_nursebot",
     "type": "TOOL",
     "name": "inactive nurse bot",

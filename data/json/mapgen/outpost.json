@@ -113,6 +113,7 @@
           { "monster": "mon_zombie_bio_op", "chance": 1 },
           { "monster": "mon_dispatch", "chance": 1 },
           { "monster": "mon_dispatch_military", "chance": 1 },
+          { "monster": "mon_talon_m202a1", "chance": 1 },
           { "monster": "mon_zombie_flamer", "chance": 1 }
         ]
       }
@@ -238,6 +239,7 @@
           { "monster": "mon_zombie_bio_op", "chance": 1 },
           { "monster": "mon_dispatch", "chance": 1 },
           { "monster": "mon_dispatch_military", "chance": 1 },
+          { "monster": "mon_talon_m202a1", "chance": 1 },
           { "monster": "mon_zombie_flamer", "chance": 1 }
         ]
       }
