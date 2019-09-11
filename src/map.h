@@ -1431,8 +1431,6 @@ class map
                                 float density );
         void draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
                        float density );
-        void draw_silo( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                        float density );
         void draw_temple( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
                           float density );
         void draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
