@@ -7,32 +7,29 @@ Adds USABLE_FIRE tag for terrain or furniture to make it usable as a nearby fire
 Allow partial consumption of large item stacks with Internal Furnace CBM.
 Let ursine mutants gain PRED mutations without becoming carnivores.
 Adds ranged attacks mutations (using fake guns).
-finish UI panel features and fix some visual problems
 Added ability to write messages on signs with markers too.
-Allow starting at a non-default date without advancing rot and monster scaling
-NPCs will move to investigate sounds
-Update digging to leave excavated materials adjacent to dig location
-faction camp: menial labor uses the zone autosort feature
-Wind will now affect the spread of smoke/gas/fire/hot air
-Auto-use oxygen tanks in asthma attack
+Allow starting at a non-default date without advancing rot and monster scaling.
+NPCs will move to investigate sounds.
+Update digging to leave excavated materials adjacent to dig location.
+Faction camp: menial labor uses the zone autosort feature.
+Wind will now affect the spread of smoke/gas/fire/hot air.
+Auto-use oxygen tanks in asthma attack.
 Reload all guns and magazines in inventory if reload command is repeatedly triggered.
-Joint Servo CBM - movement enhancer CBM
-npcmove: improve NPC pathfinding when running from fire or threats
-Add support for NPCs fleeing and following a player who is fleeing
-Allow to set NPC's attitude via debug menu
-monsters: allow pets to wear armor
+Npcmove: improve NPC pathfinding when running from fire or threats.
+Add support for NPCs fleeing and following a player who is fleeing.
+Allow to set NPC's attitude via debug menu.
+Monsters: allow pets to wear armor.
 Bulletin board to control faction camps, camp overseer resigns.
-Guarding NPCs are now available for camp missions and doctoring
-Dig a channel to divert a river
-Follower / Faction camp summary menu and migrate to overmap
-Selfie description includes one of the items nearby
-NPCs can assist with player activities
-Land Use Codes infrastructure
-Added Debug wind menu, refactored wind functions
-Differentiate river from puddles, add water wheels
-Ability to view weather around player position
-Refactor map notes editing
-NPC followers on guard and in vicinity can read with/assist with crafting
+Guarding NPCs are now available for camp missions and doctoring.
+Dig a channel to divert a river.
+Follower / Faction camp summary menu and migrate to overmap.
+Selfie description includes one of the items nearby.
+NPCs can assist with player activities.
+Land Use Codes infrastructure.
+Added Debug wind menu, refactored wind functions.
+Differentiate river from puddles, add water wheels.
+Ability to view weather around player position.
+NPC followers on guard and in vicinity can read with/assist with crafting.
 
 ## Content:
 Moves allergen handling vitamin absorption to JSON.
@@ -40,289 +37,81 @@ Alternative night vision intensity.
 Adds the possiblitiy to find an evil moose in the kitten finding game.
 Add "classic literature" and "collector's edition" books.
 Adds Free Merchant currency.
-Added new z levels to apartments
-Adds basement with a hidden methlab
-Add missing items to some professions
-Adds roof to bakery
-Makes 4" Casters craftable
-Mainline snow goggles from More Survival Tools mod
-You can now find a new basement type.
+Joint Servo CBM - movement enhancer CBM.
+Added new z levels to apartments.
+Adds basement with a hidden methlab.
+Add missing items to some professions.
+Massive roof addition project.
+Makes 4" Casters craftable.
 Adds new item groups for labs (especially surface labs) and a lot of equipment and chemical reagents for them.
 Adds a children's tricycle with appropriate wheels and spawn locations.
-Adds art gallery roof, featuring a statue exhibit and outdoor event space/dessert cafe.
-Adds roofs for fast food restaurants.
-Adds roofs to 4 restaurants.
-Corpses (not underwear) will be shown on top at the places of death in map extras.
-Updated two-tile motel mapgen
-Adds new roofs for grocery stores, and 2 nested chunks.
-Update ASCIITiles - remove most non-ascii tiles, fix unknowns
-Adds roof to arcade and gives grass added variety.
-Adds roofs for coffee shops
 Add sheet metal forging and welding recipes
-Update RetroDays - Hulks
 Replace copper cable recipe with a more sensible one
-Mainline clay pellets from More Survival Tools mod
-Mainline lamellar armor from Medieval Stuff mod
-Adds roof to 3 dispensary shops, adds 2 new nested maps
-Adds roof to antique store and updates back of antique store.  Includes one new nested map
+Mainline many items from More Survival Tools mod.
+Mainline many items from Medieval Stuff mod.
 Adds facial hair that can be chosen at chargen.
-Make the craftable wooden table placeable
-Deprecate fictional martial arts
-Updated and Added a roof to home improvement superstore
-Alternative recipe for war scythe
-Mainline wattle-and-daub walls from More Survival Tools mod
-Mainline lorica segmentata from Medieval Stuff mod
-Adds json roof for animal shelter and  a new nested map.
-Adds roof to animal pound and 2 nested chunks
-Mainline conical helmet from Medieval Stuff mod
+Make the craftable wooden table placeable.
+Deprecate fictional martial arts.
 Split "accessory" gunmod slot into separate slots
 Adds a new large facility to be the surface entrance for secret Labs.
 Adds a new two-tile motel.
-Adds inactive lab bot item
-Added a heater item and a vehicle heater part
 Add almond milk, soy milk, and a method to produce almond milk using shelled almonds and water.
-Adds a beaded curtain doorway, beaded bracelet, beaded necklace & wooden beads
-Added a bandits' forest roadblock made of tree trunks
-Mainline galea helmet from Medieval Stuff mod
-Mainline nasal helmet from Medieval Stuff mod
-Adds lentils
-XL Water wheel
-Add constructions for columns and waxed floors
-XL Wind Turbine and static_drag bugfix
-Gives descriptions to faulty CBM item
-Adds roofs to Evac Shelters.
-Adds Abandoned Warehouse Roofs
-Makes crafted hard cheese have the same kcals as spawned hard cheese
-Adds optional parts for noise emitter
-Adds a large amount of furniture for labs and hospitals, and other places
-Addressed some grammar issues in the Evac Shelter computer terminal.
-Allow more clothing to be worn with helmets
-Adds 'headless' zombie + upgrades
-Adds new evolutionary lines for zombie soldiers
-Adds new furnitures, nested mapgen, palettes, and more content to abandoned barns
+Added a bandits' forest roadblock made of tree trunks.
+Adds 'headless' zombie + upgrades.
+Adds new evolutionary lines for zombie soldiers.
+Adds new furnitures, nested mapgen, palettes, and more content to abandoned barns.
 Made many multitile-buildings exclusively spawn inside cities.
 Allows the spawning of certain multitile buildings inside cities as well as outside.
 Jsonified outpost and added two new variants of outpost.
-Add 3 new buildings for cities.  Metalworkshop, Pottery/Sewing Shop and Glassworkshop
-Roof additions, phase 1
-Mainline furniture from More Locations mod, expand with more home furnishings, and implement in some demo maps
-Adds new CBM : LED Tattoo
-Adds NO_SIGHT flag to appropriate furnitures
+Add 3 new buildings for cities.  Metalworkshop, Pottery/Sewing Shop and Glassworkshop.
 Adds some less dangerous but still thematic zombies for labs.
 
 ## Interface:
-Render critters below current z-level in Tiles mode
-Adds ability to mark favorite items in inventory
-Preselect last played world and character in the load menu
-Additional mode to allow diagonal movement with cursor keys using CTRL and SHIFT modifiers
-Multiple Sidebar Panel Layouts
+Corpses (not underwear) will be shown on top at the places of death in map extras.
+Update ASCIITiles - remove most non-ascii tiles, fix unknowns
+Update RetroDays - Hulks
+Render critters below current z-level in Tiles mode.
+Adds ability to mark favorite items in inventory.
+Preselect last played world and character in the load menu.
+Additional mode to allow diagonal movement with cursor keys using CTRL and SHIFT modifiers.
+Multiple Sidebar Panel Layouts.
 Allow sorting items by ammo/charge type in Advanced Inventory Management.
-Examine fireplaces, braziers, etc to start fires
-Adds display scent map to tiles version
+Examine fireplaces, braziers, etc to start fires.
+Adds display scent map to tiles version.
 Add option for emulating the numpad using Ctrl and arrow keys.
 There's now an option in Graphics to enable or disable projectile animations.
-Rename RetroASCII to ASCIITiles
-help file: update the vehicle help
+Help file: update the vehicle help.
 Monsters now have different footstep sounds, depending on species.
-Assortment of UI improvements
 Mutated poppies and some fungal things have descriptions now.
-Clarified description of what Metabolic Interchange does
-Updated monster resilence and speed options descriptions so now they mention resetting the world to take effect.
 
 ## Mods:
-Re-adds fictional martial arts as a mod
-A core content pack called Aftershock is now available in the mods list, focusing around reintroducing old content and adding science fiction stuff.
-Removed obsolete More Buldings mod
-Mainlined content from Oa's Additional Buildings mod and obsoleted this mod
-Removed obsolete Z-Level_Buildings mod
+Re-adds fictional martial arts as a mod.
+Added Aftershock sci-fi mod.
 
 ## Balance:
-Remove reinforcement of non-cloth items
-The Elf-A mutation line now has some new mutations.
-Adjust cooked acorn mass and calorie again
-Changes the amount of plastic required for crafting a plastic boat hull
-Makes it so you can not drag around chimney crowns, vent pipes, roof turbine vents, and mounted solar panels.
-Changes various Professions and Scenarios to reflect recent changes.
-Set saline eyedrop volume and weight to more reasonable values.
-adjust soup_fish jarred_3l recipe
-Cooked Acorns get same calorie value as Acorns instead of 8 times more
-Broom material changed from plastic to wood.
-Restrict Ruger Mini-14 to using Ruger magazines
-The smartphone, cellphone, mp3 player, and poppy bud take up less space.
-Changes brain, liver, kidney, lung, and sweetbread recipes to require the same heat and cooking time as 'cooked meat' and be eligible for similar batch options
-Removed nested chunks from 3 warehouses, added ladder access for 1 and other remained unchanged.
-Adjusts type of roof access to match nested map chunks
-Adjusts roof access to match nested chunks to complement nested chunks
-Failure of removal of a CBM uses same logic for damage as failure of install
-The Spiritual trait has received a significant buff.
-Make wild animal spawn unaffected by main spawn setting
-Item temperatures are now based on their thermal energy
-Balanced overmap
-Made first aid kits values more in line with its contents
-Sets difficulty for each faulty bionic
+Remove reinforcement of non-cloth items.
 
 ## Bugfixes:
 Fixed long overmap location name being overwritten by "Distance to target:" string.
 Silence error message when monster AI traverses an off-map vehicle.
 Fixed NPC dialog around lying and succeeding at missions.
-Remove Deadly Venoms manuals from loot table
-Dive watch now has alarm clock feature
-Fixed outside terrain in Metalworker.json
-Fix #29043'
-Clamp aiming Z-level
-Allow unloading charcoal from forges
-monster: make pet worn armor actually apply protection
-Remove fire amplifying due to wind - caused everlasting fires
-While sleeping you won't be blinded by brainworms and wake up because of that.
-Improve target viewing across z-levels when shooting/throwing
-Fixes NPCs being hostile and un-chattable
-NPCs: fix NPC fleeing and allow NPCs to stop fleeing the player
-Fix for #28829
-Fix shoggoth split conditions
-Fixed the names of nuts to be multiple units
-Fix haggis calcium typo
-Improve old savegame compatibility
-Fixed issue where auto-pickup would cancel hauling
-Fixes #28953
-fixes a bad link in backstory hospital_2
-Disable diagonal movement key modifiers on Android
-Various deconstructed and bashed furniture will yield handfuls of nails, cables and solder instead of thousands.
-Fixed .22 FMJ disassembly yield
-Camp serialization via overmap, rename a camp.
-Faction Camp Bugfixes - expansions and farm ops
-Stop player from getting frozen water from map sources
-Correctly set liquids as solid when they freeze
 NPC AI: Increase minimum priority for close monsters
-Fixes for burrowing and mining
-Fix rotation of fallback end-pieces for multitile objects
-Connect sewage treatment plant to sewers
-Stopped kegs and steel drums from spawning in trashcans.
-Added z-level and dist check for companion_choose()
-Fixes all items being kegs
-Companion_choose() camp mission guard fix
-Fix infinitely wet starting items
-Fix examining of items with a capitalized access key when trading
-Adds missing examine action to hot water tanks
-Removed SUPPORTS_ROOF flag from chainlink fence and chickenwire fence.
-fixes crash in debug editmap
-Fix cash card sorting changing as you drop them
-Fix boiling quality on items with toolmod
-Fix installing irremovable toolmods on other tools exploit
-Fix copper pot burning in normal fire
-Make player spriteflip happen on player move, instead of directly on left/right keypress
-Removal of camp overseer from new camps
-Fixed is_floating check
-Fixed two bugs with faction camps
-fix pixel minimap height with toggle
-Sapiovores receive cannibalism benefits if they are spiritual
-Fix temperature for liquids that come from the map
-Fixes game crash on jarring/canning/vacuum sealing
-Fix height of mouse view for NPCs
-vehicles: calculate static drag for parked vehicles correctly
-Added sidewalks to multitile city buildings
-fix NPC opinion changes not applying in simple topic responses
-Fix adding lots of non-drink liquid in a container
-Allow 'repeat' for character-map placement of items
-Hide never_learn recipes from starting skill recipes
-Bonesetting correctly checks healing effect duration
-Fix crash when handling non-food liquids
-Fixes the recraft last option
-assignment does not update value cheese_hard
-npctalk: NPCs with urgent missions can be mugged but won't give the mission twice
-stats through skills: stop killing unskilled characters
-Fix NPC mutations visibility threshold
-Fix json errors created by recent changes
-Improvements to fumarole lava spawning
-vehicles: don't rev the engine to slowdown when going off-road
-Fixes infinite water supply bug #28625 #28650
-Update description of 40mm shells.
-Updates the Alternative Map Key mod to fix override issues.
-Player does not need to stand on butchering rack for full butchery
-vehicles: better solid fuel burning rates
-Fixed all tools showing time.
-Fix tiles with nothing in mapgen files
-Fixed treadmills spawn on a closed metal door.
-Fixed revert_to_itype for mon_tripod
-Fixed furniture id in More Locations mod palette
-Allows dragon kung fu to counterattack
-Chitin plating now requires rope to install instead of a welder.
-Make pumpkins & dandelion greens rack-smokable
-Fix cooked/fried morel mushrooms being poisonous.
-Fix a missed quote in deconstruction recipes
-Allow item repair activities to pull from firewood sources.
-Fixed electronic devices with 0 charge still showing time.
 
 ## Performance:
-Remove unnecessary entries from guns
-Limit start location search radius
-Code optimizations reported by static code analysis
-Code optimizations reported by static code analysis
-Code optimizations reported by static code analysis
-Code optimizations reported by static code analysis
-vehicles: don't refresh while creating a prototype
+Limit start location search radius.
+Vehicles: don't refresh while creating a prototype.
 
 ## Infrastructure:
-npctalk: add effects and conditions that deal with arbitrary strings
-Adding COMPILING-VS-VCPKG to readme.md
-Added more detail to Visual Studio compile markdown files
-change vitamins to use percentage RDA values instead of 1 per hour
-Draw graffiti indicator in Tiles mode
-npctalk: finish unifying dynamic line and response conditions
-Linted tools.json
-Linted supplies.json
-Linted monster_drops.json
-Linted misc.json
-Linted map_extras.json
-Linted main.json
-Linted magazines.json
-Linted locations.json
-Linted item_groups.json
-Linted guns.json
-Linted gunmod.json
-Linted gear.json
-Linted drugs.json
-Linted clothing.json
-Linted books.json
-npctalk: unify conditions for dynamic lines and responses
-Jsonized keg capacity
-Toggle city labels revert key name
-Allow specifying graffiti in JSON mapgen
-Add doc/OVERMAP.md
-Add 'from' hint to overmap special connections
-vehicles JSON: convert military vehicles to parts format
-Guide for adding json roofs.
-Adds "primary_material" to foods that need it.
-npctalk: add npc_class change, remove_effect/trait, and consume_item
-Use ret_val<bool> for fertilizer checks
-Removed outdated tilesets
-Get rid of Lua modding
-Allow a player_activity to refer to specific monster(s)
-Update basecamp infrastructure to not require a camp overseer
-JSONize STS
-Allow placing liquids by symbol in mapgen
-Enable concise mapgen entries for terrain, furniture and trap variations
-Minor vehicle code refinements
-internally store kcal instead of nutr values
-Removed obsolete mushrooms (separate poisonous and hallucinogenic variants) and their seeds.
-Move some mutation modifiers to jsons.
-Adds byproduct calculation to recipe permutation tests and adjusts kcal in failed tests
+Npctalk: Complete overhaul of NPC conversation infrastructure.
+Get rid of Lua modding.
+Allow a player_activity to refer to specific monster(s).
+Update basecamp infrastructure to not require a camp overseer.
+Internally store kcal instead of nutr values.
 Achieved universal code styling.
-Replace LUA mods
-adjust spawn values of mainlined mods to be compatible.
-Raise weighting of city buildings
 
 ## Build:
-Updated prebuild script and events for VS project files
-Fix C4267 and C4244 warnings in Visual Studio 2017 compile
-Allow compilation with BACKTRACE set and MS Visual studio
-Update gcc install for Mac OS X instructions
-Removed Lua references from Android build files
 
 ## I18N and A11Y:
-Routine i18n updates on Mar 29, 2019
-Updated nuts description with a "handful(s) of..."
-Routine i18n updates on March 22, 2019
-Updated translation template for master branch on Mar 15, 2019
 
 # 0.D (Danny)
 
