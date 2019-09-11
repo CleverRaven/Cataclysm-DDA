@@ -7810,12 +7810,12 @@ bool player::pick_style() // Style selection menu
         auto &style = selectable_styles[i].obj();
         //Check if this style is currently selected
         const bool selected = selectable_styles[i] == style_selected;
-        std::string entry_text = _( style.name );
+        std::string entry_text = style.name.translated();
         if( selected ) {
             kmenu.selected = i + STYLE_OFFSET;
             entry_text = colorize( entry_text, c_pink );
         }
-        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text, _( style.description ) );
+        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text, style.description.translated() );
     }
 
     kmenu.query();

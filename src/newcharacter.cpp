@@ -228,7 +228,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
 
     for( auto &s : styles ) {
         auto &style = s.obj();
-        menu.addentry_desc( _( style.name ), _( style.description ) );
+        menu.addentry_desc( style.name.translated(), style.description.translated() );
     }
     while( true ) {
         menu.query( true );
