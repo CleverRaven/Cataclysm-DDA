@@ -2067,8 +2067,8 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
     bool neighborhood_overridden = overridden;
     if( !neighborhood_overridden ) {
         for( const point &dir : {
-                 point_south, point_east, point_west, point_north
-             } ) {
+        point_south, point_east, point_west, point_north
+    } ) {
             if( terrain_override.find( p + dir ) != terrain_override.end() ) {
                 neighborhood_overridden = true;
                 break;
@@ -2234,8 +2234,8 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
     bool neighborhood_overridden = overridden;
     if( !neighborhood_overridden ) {
         for( const point &dir : {
-                 point_south, point_east, point_west, point_north
-             } ) {
+        point_south, point_east, point_west, point_north
+    } ) {
             if( furniture_override.find( p + dir ) != furniture_override.end() ) {
                 neighborhood_overridden = true;
                 break;
@@ -2309,8 +2309,8 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
     bool neighborhood_overridden = overridden;
     if( !neighborhood_overridden ) {
         for( const point &dir : {
-                 point_south, point_east, point_west, point_north
-             } ) {
+        point_south, point_east, point_west, point_north
+    } ) {
             if( trap_override.find( p + dir ) != trap_override.end() ) {
                 neighborhood_overridden = true;
                 break;
