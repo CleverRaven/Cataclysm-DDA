@@ -226,7 +226,7 @@ comestible_inv_area::area_items comestible_inv_area::get_items( bool from_cargo 
 
         retval.reserve( u.worn.size() );
         for( size_t i = 0; i < u.worn.size(); ++i, ++iter ) {
-            std::list<item *> item_pointers = { {& *iter} };
+            std::list<item *> item_pointers = { & *iter };
             retval.push_back( item_pointers );
         }
     } else {
