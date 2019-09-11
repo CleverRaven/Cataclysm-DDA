@@ -5,10 +5,12 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "dragon_black"
+    "name": "dragon_black",
+    "friendly": [ "ooze" ]
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "ooze"
+    "name": "ooze",
+    "friendly": [ "dragon_black" ]
   }
 ]
