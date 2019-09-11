@@ -473,7 +473,11 @@ inline void mandatory( JsonObject &jo, const bool was_loaded, const std::string 
 {
     if( !jo.read( name, member ) ) {
         if( !was_loaded ) {
-            jo.throw_error( "missing mandatory member \"" + name + "\"" );
+            if( jo.has_member( name ) ) {
+                jo.throw_error( "failed to read mandatory member \"" + name + "\"" );
+            } else {
+                jo.throw_error( "missing mandatory member \"" + name + "\"" );
+            }
         }
     }
 }
@@ -483,7 +487,11 @@ inline void mandatory( JsonObject &jo, const bool was_loaded, const std::string 
 {
     if( !reader( jo, name, member, was_loaded ) ) {
         if( !was_loaded ) {
-            jo.throw_error( "missing mandatory member \"" + name + "\"" );
+            if( jo.has_member( name ) ) {
+                jo.throw_error( "failed to read mandatory member \"" + name + "\"" );
+            } else {
+                jo.throw_error( "missing mandatory member \"" + name + "\"" );
+            }
         }
     }
 }
@@ -570,7 +578,7 @@ inline bool unicode_codepoint_from_symbol_reader( JsonObject &jo, const std::str
 {
     int sym_as_int;
     std::string sym_as_string;
-    if( !jo.read( member_name, sym_as_string ) ) {
+    if( !jo.read( member_name, sym_as_string, false ) ) {
         // Legacy fallback to integer `sym`.
         if( !jo.read( member_name, sym_as_int ) ) {
             return false;

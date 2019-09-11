@@ -3027,7 +3027,8 @@ nc_color item::color_in_inventory() const
     nc_color ret = is_favorite ? c_white : c_light_gray;
     if( type->can_use( "learn_spell" ) ) {
         const use_function *iuse = get_use( "learn_spell" );
-        const learn_spell_actor *actor_ptr = static_cast<learn_spell_actor *>( iuse->get_actor_ptr() );
+        const learn_spell_actor *actor_ptr =
+            static_cast<const learn_spell_actor *>( iuse->get_actor_ptr() );
         for( const std::string spell_id_str : actor_ptr->spells ) {
             const spell_id sp_id( spell_id_str );
             if( u.magic.knows_spell( sp_id ) && !u.magic.get_spell( sp_id ).is_max_level() ) {
@@ -3047,7 +3048,7 @@ nc_color item::color_in_inventory() const
     } else if( is_filthy() || item_tags.count( "DIRTY" ) ) {
         ret = c_brown;
     } else if( is_bionic() && !has_flag( "NO_STERILE" ) ) {
-        if( !has_flag( "NO_PACKED" ) || has_flag( "PACKED_FAULTY" ) ) {
+        if( !has_flag( "NO_PACKED" ) ) {
             ret = c_dark_gray;
         } else {
             ret = c_cyan;
@@ -3505,15 +3506,14 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( is_filthy() ) {
         ret << _( " (filthy)" );
     }
-    if( is_bionic() && ( !has_flag( "NO_PACKED" ) || has_flag( "PACKED_FAULTY" ) ) ) {
+    if( is_bionic() && !has_flag( "NO_PACKED" ) ) {
         if( !has_flag( "NO_STERILE" ) ) {
             ret << _( " (sterile)" );
         } else {
             ret << _( " (packed)" );
         }
     }
-    if( is_bionic() && !has_flag( "NO_STERILE" ) && !( !has_flag( "NO_PACKED" ) ||
-            has_flag( "PACKED_FAULTY" ) ) ) {
+    if( is_bionic() && !has_flag( "NO_STERILE" ) && !has_flag( "NO_PACKED" ) ) {
         ret << _( " (sterile)" );
     }
 
@@ -7616,7 +7616,6 @@ std::string item::components_to_string() const
 bool item::needs_processing() const
 {
     return active || has_flag( "RADIO_ACTIVATION" ) || has_flag( "ETHEREAL_ITEM" ) ||
-           ( is_bionic() && !has_flag( "NO_STERILE" ) ) ||
            ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
            is_artifact() || is_food();
 }
@@ -8452,21 +8451,6 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
             carrier->add_msg_if_player( _( "%s %s disappears!" ), carrier->disp_name( true ), tname() );
         }
         return processed;
-    }
-
-    if( is_bionic() && !has_flag( "NO_STERILE" ) && ( has_flag( "NO_PACKED" ) ||
-            has_flag( "PACKED_FAULTY" ) ) ) {
-        if( !has_var( "sterile" ) ) {
-            set_flag( "NO_STERILE" );
-            return false;
-        }
-        set_var( "sterile", std::stoi( get_var( "sterile" ) ) - 1 );
-        const bool sterile_no_more = std::stoi( get_var( "sterile" ) ) <= 0;
-        if( sterile_no_more ) {
-            set_flag( "NO_STERILE" );
-            erase_var( "sterile" );
-        }
-        return false;
     }
 
     if( faults.count( fault_gun_blackpowder ) ) {

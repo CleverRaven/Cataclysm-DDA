@@ -238,28 +238,29 @@ class JsonIn
         bool test_array();
         bool test_object();
 
-        // non-fatal reading into values by reference
+        // optionally-fatal reading into values by reference
         // returns true if the data was read successfully, false otherwise
-        bool read( bool &b );
-        bool read( char &c );
-        bool read( signed char &c );
-        bool read( unsigned char &c );
-        bool read( short unsigned int &s );
-        bool read( short int &s );
-        bool read( int &i );
-        bool read( std::int64_t &i );
-        bool read( unsigned int &u );
-        bool read( float &f );
-        bool read( double &d );
-        bool read( std::string &s );
+        // if throw_on_error then throws JsonError rather than returning false.
+        bool read( bool &b, bool throw_on_error = false );
+        bool read( char &c, bool throw_on_error = false );
+        bool read( signed char &c, bool throw_on_error = false );
+        bool read( unsigned char &c, bool throw_on_error = false );
+        bool read( short unsigned int &s, bool throw_on_error = false );
+        bool read( short int &s, bool throw_on_error = false );
+        bool read( int &i, bool throw_on_error = false );
+        bool read( std::int64_t &i, bool throw_on_error = false );
+        bool read( unsigned int &u, bool throw_on_error = false );
+        bool read( float &f, bool throw_on_error = false );
+        bool read( double &d, bool throw_on_error = false );
+        bool read( std::string &s, bool throw_on_error = false );
         template<size_t N>
-        bool read( std::bitset<N> &b );
-        bool read( JsonDeserializer &j );
+        bool read( std::bitset<N> &b, bool throw_on_error = false );
+        bool read( JsonDeserializer &j, bool throw_on_error = false );
         // This is for the string_id type
         template <typename T>
-        auto read( T &thing ) -> decltype( thing.str(), true ) {
+        auto read( T &thing, bool throw_on_error = false ) -> decltype( thing.str(), true ) {
             std::string tmp;
-            if( !read( tmp ) ) {
+            if( !read( tmp, throw_on_error ) ) {
                 return false;
             }
             thing = T( tmp );
@@ -268,35 +269,42 @@ class JsonIn
 
         /// Overload that calls a global function `deserialize(T&,JsonIn&)`, if available.
         template<typename T>
-        auto read( T &v ) -> decltype( deserialize( v, *this ), true ) {
+        auto read( T &v, bool throw_on_error = false ) ->
+        decltype( deserialize( v, *this ), true ) {
             try {
                 deserialize( v, *this );
                 return true;
             } catch( const JsonError & ) {
+                if( throw_on_error ) {
+                    throw;
+                }
                 return false;
             }
         }
 
         /// Overload that calls a member function `T::deserialize(JsonIn&)`, if available.
         template<typename T>
-        auto read( T &v ) -> decltype( v.deserialize( *this ), true ) {
+        auto read( T &v, bool throw_on_error = false ) -> decltype( v.deserialize( *this ), true ) {
             try {
                 v.deserialize( *this );
                 return true;
             } catch( const JsonError & ) {
+                if( throw_on_error ) {
+                    throw;
+                }
                 return false;
             }
         }
 
         template<typename T, std::enable_if_t<std::is_enum<T>::value, int> = 0>
-        bool read( T &val ) {
+        bool read( T &val, bool throw_on_error = false ) {
             int i;
-            if( read( i ) ) {
+            if( read( i, false ) ) {
                 val = static_cast<T>( i );
                 return true;
             }
             std::string s;
-            if( read( s ) ) {
+            if( read( s, throw_on_error ) ) {
                 val = io::string_to_enum<T>( s );
                 return true;
             }
@@ -305,18 +313,25 @@ class JsonIn
 
         /// Overload for std::pair
         template<typename T, typename U>
-        bool read( std::pair<T, U> &p ) {
+        bool read( std::pair<T, U> &p, bool throw_on_error = false ) {
             if( !test_array() ) {
-                return false;
+                return error_or_false( throw_on_error, "Expected json array encoding pair" );
             }
             try {
                 start_array();
-                return !end_array() &&
-                       read( p.first ) &&
-                       !end_array() &&
-                       read( p.second ) &&
-                       end_array();
+                bool result = !end_array() &&
+                              read( p.first, throw_on_error ) &&
+                              !end_array() &&
+                              read( p.second, throw_on_error ) &&
+                              end_array();
+                if( !result && throw_on_error ) {
+                    error( "Array had wrong number of elements for pair" );
+                }
+                return result;
             } catch( const JsonError & ) {
+                if( throw_on_error ) {
+                    throw;
+                }
                 return false;
             }
         }
@@ -325,22 +340,25 @@ class JsonIn
         template < typename T, typename std::enable_if <
                        !std::is_same<void, typename T::value_type>::value >::type * = nullptr
                    >
-        auto read( T &v ) -> decltype( v.front(), true ) {
+        auto read( T &v, bool throw_on_error = false ) -> decltype( v.front(), true ) {
             if( !test_array() ) {
-                return false;
+                return error_or_false( throw_on_error, "Expected json array" );
             }
             try {
                 start_array();
                 v.clear();
                 while( !end_array() ) {
                     typename T::value_type element;
-                    if( read( element ) ) {
+                    if( read( element, throw_on_error ) ) {
                         v.push_back( std::move( element ) );
                     } else {
                         skip_value();
                     }
                 }
             } catch( const JsonError & ) {
+                if( throw_on_error ) {
+                    throw;
+                }
                 return false;
             }
 
@@ -348,22 +366,33 @@ class JsonIn
         }
 
         // array ~> array
-        template <typename T, size_t N> bool read( std::array<T, N> &v ) {
+        template <typename T, size_t N>
+        bool read( std::array<T, N> &v, bool throw_on_error = false ) {
             if( !test_array() ) {
-                return false;
+                return error_or_false( throw_on_error, "Expected json array" );
             }
             try {
                 start_array();
                 for( size_t i = 0; i < N; ++i ) {
                     if( end_array() ) {
+                        if( throw_on_error ) {
+                            error( "Json array is too short" );
+                        }
                         return false; // json array is too small
                     }
-                    if( !read( v[i] ) ) {
+                    if( !read( v[i], throw_on_error ) ) {
                         return false; // invalid entry
                     }
                 }
-                return end_array(); // false if json array is too big
+                bool result = end_array();
+                if( !result && throw_on_error ) {
+                    error( "Array had too many elements" );
+                }
+                return result;
             } catch( const JsonError & ) {
+                if( throw_on_error ) {
+                    throw;
+                }
                 return false;
             }
         }
@@ -373,22 +402,25 @@ class JsonIn
         template <typename T, typename std::enable_if<
                       std::is_same<typename T::key_type, typename T::value_type>::value>::type * = nullptr
                   >
-        bool read( T &v ) {
+        bool read( T &v, bool throw_on_error = false ) {
             if( !test_array() ) {
-                return false;
+                return error_or_false( throw_on_error, "Expected json array" );
             }
             try {
                 start_array();
                 v.clear();
                 while( !end_array() ) {
                     typename T::value_type element;
-                    if( read( element ) ) {
+                    if( read( element, throw_on_error ) ) {
                         v.insert( std::move( element ) );
                     } else {
                         skip_value();
                     }
                 }
             } catch( const JsonError & ) {
+                if( throw_on_error ) {
+                    throw;
+                }
                 return false;
             }
 
@@ -398,22 +430,25 @@ class JsonIn
         // special case for colony as it uses `insert()` instead of `push_back()`
         // and therefore doesn't fit with vector/deque/list
         template <typename T>
-        bool read( cata::colony<T> &v ) {
+        bool read( cata::colony<T> &v, bool throw_on_error = false ) {
             if( !test_array() ) {
-                return false;
+                return error_or_false( throw_on_error, "Expected json array" );
             }
             try {
                 start_array();
                 v.clear();
                 while( !end_array() ) {
                     T element;
-                    if( read( element ) ) {
+                    if( read( element, throw_on_error ) ) {
                         v.insert( std::move( element ) );
                     } else {
                         skip_value();
                     }
                 }
             } catch( const JsonError & ) {
+                if( throw_on_error ) {
+                    throw;
+                }
                 return false;
             }
 
@@ -425,9 +460,9 @@ class JsonIn
         template < typename T, typename std::enable_if <
                        !std::is_same<typename T::key_type, typename T::value_type>::value >::type * = nullptr
                    >
-        bool read( T &m ) {
+        bool read( T &m, bool throw_on_error = true ) {
             if( !test_object() ) {
-                return false;
+                return error_or_false( throw_on_error, "Expected json object" );
             }
             try {
                 start_object();
@@ -436,13 +471,16 @@ class JsonIn
                     using key_type = typename T::key_type;
                     key_type key = key_from_json_string<key_type>()( get_member_name() );
                     typename T::mapped_type element;
-                    if( read( element ) ) {
+                    if( read( element, throw_on_error ) ) {
                         m[std::move( key )] = std::move( element );
                     } else {
                         skip_value();
                     }
                 }
             } catch( const JsonError & ) {
+                if( throw_on_error ) {
+                    throw;
+                }
                 return false;
             }
 
@@ -452,6 +490,10 @@ class JsonIn
         // error messages
         std::string line_number( int offset_modifier = 0 ); // for occasional use only
         [[noreturn]] void error( const std::string &message, int offset = 0 ); // ditto
+
+        // If throw_, then call error( message, offset ), otherwise return
+        // false
+        bool error_or_false( bool throw_, const std::string &message, int offset = 0 );
         void rewind( int max_lines = -1, int max_chars = -1 );
         std::string substr( size_t pos, size_t len = std::string::npos );
 };
@@ -804,15 +846,18 @@ class JsonObject
         bool has_object( const std::string &name );
 
         // non-fatally read values by reference
-        // return true if the value was set, false otherwise.
+        // return true if the value was set.
         // return false if the member is not found.
-        template <typename T> bool read( const std::string &name, T &t ) {
+        // throw_on_error dictates the behaviour when the member was present
+        // but the read fails.
+        template <typename T>
+        bool read( const std::string &name, T &t, bool throw_on_error = true ) {
             int pos = positions[name];
             if( pos <= start ) {
                 return false;
             }
             jsin->seek( pos );
-            return jsin->read( t );
+            return jsin->read( t, throw_on_error );
         }
 
         // useful debug info

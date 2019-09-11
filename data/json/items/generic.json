@@ -3025,6 +3025,23 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_talon_m202a1",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken M202A1 TALON",
+    "category": "other",
+    "description": "A broken TALON UGV, with its casing broken and fluid drained.  Could be gutted for parts.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "100000 g",
+    "volume": "65000 ml",
+    "bashing": 4,
+    "cutting": 4,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "fire_brick",
     "symbol": ",",
     "color": "brown",
