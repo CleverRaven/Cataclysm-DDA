@@ -3646,13 +3646,15 @@ const std::string &om_direction::id( type dir )
     return ids[static_cast<size_t>( dir ) + 1];
 }
 
-const std::string &om_direction::name( type dir )
+std::string om_direction::name( type dir )
 {
     static const std::array < std::string, size + 1 > names = {{
-            _( "invalid" ), _( "north" ), _( "east" ), _( "south" ), _( "west" )
+            translate_marker( "invalid" ), translate_marker( "north" ),
+            translate_marker( "east" ), translate_marker( "south" ),
+            translate_marker( "west" )
         }
     };
-    return names[static_cast<size_t>( dir ) + 1];
+    return _( names[static_cast<size_t>( dir ) + 1] );
 }
 
 // new x = (x-c.x)*cos() - (y-c.y)*sin() + c.x

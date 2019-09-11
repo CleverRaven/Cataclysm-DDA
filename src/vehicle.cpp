@@ -1284,15 +1284,15 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
     // Check if the part is required by another part. Do not allow removing those.
     // { "FLAG THAT IS REQUIRED", "FLAG THAT REQUIRES", "Reason why can't remove." }
     static const std::array<std::tuple<std::string, std::string, std::string>, 9> blocking_flags = {{
-            std::make_tuple( "ENGINE", "ALTERNATOR", "Remove attached alternator first." ),
-            std::make_tuple( "BELTABLE", "SEATBELT", "Remove attached seatbelt first." ),
-            std::make_tuple( "WINDOW", "CURTAIN", "Remove attached curtains first." ),
-            std::make_tuple( "CONTROLS", "ON_CONTROLS", "Remove attached part first." ),
-            std::make_tuple( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT", "Remove battery from mount first." ),
-            std::make_tuple( "TURRET_MOUNT", "TURRET", "Remove attached mounted weapon first." ),
-            std::make_tuple( "WHEEL_MOUNT_LIGHT", "NEEDS_WHEEL_MOUNT_LIGHT", "Remove attached wheel first." ),
-            std::make_tuple( "WHEEL_MOUNT_MEDIUM", "NEEDS_WHEEL_MOUNT_MEDIUM", "Remove attached wheel first." ),
-            std::make_tuple( "WHEEL_MOUNT_HEAVY", "NEEDS_WHEEL_MOUNT_HEAVY", "Remove attached wheel first." )
+            std::make_tuple( "ENGINE", "ALTERNATOR", translate_marker( "Remove attached alternator first." ) ),
+            std::make_tuple( "BELTABLE", "SEATBELT", translate_marker( "Remove attached seatbelt first." ) ),
+            std::make_tuple( "WINDOW", "CURTAIN", translate_marker( "Remove attached curtains first." ) ),
+            std::make_tuple( "CONTROLS", "ON_CONTROLS", translate_marker( "Remove attached part first." ) ),
+            std::make_tuple( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT", translate_marker( "Remove battery from mount first." ) ),
+            std::make_tuple( "TURRET_MOUNT", "TURRET", translate_marker( "Remove attached mounted weapon first." ) ),
+            std::make_tuple( "WHEEL_MOUNT_LIGHT", "NEEDS_WHEEL_MOUNT_LIGHT", translate_marker( "Remove attached wheel first." ) ),
+            std::make_tuple( "WHEEL_MOUNT_MEDIUM", "NEEDS_WHEEL_MOUNT_MEDIUM", translate_marker( "Remove attached wheel first." ) ),
+            std::make_tuple( "WHEEL_MOUNT_HEAVY", "NEEDS_WHEEL_MOUNT_HEAVY", translate_marker( "Remove attached wheel first." ) )
         }
     };
     for( auto &flag_check : blocking_flags ) {

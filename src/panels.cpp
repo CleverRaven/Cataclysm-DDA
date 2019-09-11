@@ -2241,8 +2241,7 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
         if( redraw ) {
             redraw = false;
             werase( w );
-            static const std::string title = _( "SIDEBAR OPTIONS" );
-            decorate_panel( title, w );
+            decorate_panel( _( "SIDEBAR OPTIONS" ), w );
             // clear the panel list
             for( int i = 1; i <= 18; i++ ) {
                 for( int j = 1; j <= column_widths[0]; j++ ) {

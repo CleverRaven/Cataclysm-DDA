@@ -6649,7 +6649,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 draw_border( w_info );
 
                 static const std::string title_prefix = "< ";
-                static const char *title = _( "Look Around" );
+                const std::string title = _( "Look Around" );
                 static const std::string title_suffix = " >";
                 static const std::string full_title = title_prefix + title + title_suffix;
                 const int start_pos = center_text_pos( full_title, 0, getmaxx( w_info ) - 1 );
@@ -7661,7 +7661,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     const int iCurPos = iStartPos + y;
                     const int iCatPos = CatSortIter->first;
                     if( iCurPos == iCatPos ) {
-                        const std::string &cat_name = Creature::get_attitude_ui_data( CatSortIter->second ).first;
+                        const std::string cat_name = Creature::get_attitude_ui_data(
+                                                         CatSortIter->second ).first.translated();
                         mvwprintz( w_monsters, point( 1, y ), c_magenta, cat_name );
                         ++CatSortIter;
                         continue;
@@ -8019,8 +8020,8 @@ void game::butcher()
 
     const int factor = u.max_quality( quality_id( "BUTCHER" ) );
     const int factorD = u.max_quality( quality_id( "CUT_FINE" ) );
-    static const char *no_knife_msg = _( "You don't have a butchering tool." );
-    static const char *no_corpse_msg = _( "There are no corpses here to butcher." );
+    const std::string no_knife_msg = _( "You don't have a butchering tool." );
+    const std::string no_corpse_msg = _( "There are no corpses here to butcher." );
 
     //You can't butcher on sealed terrain- you have to smash/shovel/etc it open first
     if( m.has_flag( "SEALED", u.pos() ) ) {
