@@ -3537,9 +3537,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             ret << _( " (packed)" );
         }
     }
-    if( is_bionic() && !has_flag( "NO_STERILE" ) && !has_flag( "NO_PACKED" ) ) {
-        ret << _( " (sterile)" );
-    }
 
     if( is_tool() && has_flag( "USE_UPS" ) ) {
         ret << _( " (UPS)" );
