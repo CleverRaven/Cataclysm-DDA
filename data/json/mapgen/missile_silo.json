@@ -425,17 +425,19 @@
         "b": { "item": "army_bed", "chance": 60 },
         "t": { "item": "trash_cart", "chance": 60 },
         "l": { "item": "bunker_basement_clothing", "chance": 50 },
-        "L": [ { "item": "guns_rifle_milspec", "chance": 40, "repeat": [ 1, 2 ] }, { "item": "mags_milspec", "chance": 40, "repeat": [ 1, 2 ] }, { "item": "ammo_milspec", "chance": 40, "repeat": [ 1, 2 ] } ],
-        "r": [ { "item": "grenades", "chance": 65, "repeat": [ 1, 2 ] }, { "item": "mil_armor", "chance": 65, "repeat": [ 1, 2 ] }, { "item": "gear_soldier_sidearm", "chance": 70, "repeat": [ 1, 2 ] } ]
+        "L": [
+          { "item": "guns_rifle_milspec", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "mags_milspec", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "ammo_milspec", "chance": 40, "repeat": [ 1, 2 ] }
+        ],
+        "r": [
+          { "item": "grenades", "chance": 65, "repeat": [ 1, 2 ] },
+          { "item": "mil_armor", "chance": 65, "repeat": [ 1, 2 ] },
+          { "item": "gear_soldier_sidearm", "chance": 70, "repeat": [ 1, 2 ] }
+        ]
       }
     },
-    "place_graffiti": [
-        {
-          "text": "Warning!  Automatic security measures engaged due to the lockdown order!",
-          "x": 17,
-          "y": 20
-        }
-      ]
+    "place_graffiti": [ { "text": "Warning!  Automatic security measures engaged due to the lockdown order!", "x": 17, "y": 20 } ]
   },
   {
     "type": "mapgen",
@@ -488,21 +490,13 @@
         "x": "t_console_broken",
         "%": "t_machinery_electronic"
       },
-      "furniture": {
-        "1": "f_speaker_cabinet",
-        "4": "f_speaker_cabinet",
-        "a": "f_air_conditioner",
-        "c": "f_chair"
-      },
+      "furniture": { "1": "f_speaker_cabinet", "4": "f_speaker_cabinet", "a": "f_air_conditioner", "c": "f_chair" },
       "computers": {
         "6": {
           "name": "Missile Controls",
           "security": 10,
           "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ],
-          "options": [
-            { "name": "Launch Missile", "action": "miss_launch" },
-            { "name": "Disarm Missile", "action": "miss_disarm" }
-          ]
+          "options": [ { "name": "Launch Missile", "action": "miss_launch" }, { "name": "Disarm Missile", "action": "miss_disarm" } ]
         }
       },
       "place_monster": [ { "monster": "mon_zombie_hazmat", "x": 8, "y": 15 } ]
