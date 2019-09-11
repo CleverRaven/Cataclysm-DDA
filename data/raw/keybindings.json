@@ -2871,7 +2871,7 @@
     "type": "keybinding",
     "id": "SHOW_HELP",
     "category": "COMESTIBLE_INVENTORY",
-    "name": "Start crafting with selected",
+    "name": "Food conditions help",
     "bindings": [ { "input_method": "keyboard", "key": "F1" } ]
   },
   {

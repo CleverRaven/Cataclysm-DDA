@@ -8,10 +8,7 @@
 #include "game.h"
 #include "itype.h"
 
-#include <cctype>
-#include <cstddef>
 #include <array>
-#include <functional>
 #include <list>
 #include <map>
 #include <string>
@@ -184,7 +181,7 @@ class comestible_inv_area
         bool is_valid();
 
         std::string get_name( bool use_vehicle ) const;
-        area_items get_items( bool use_vehicle );
+        area_items get_items( bool from_cargo );
         units::volume get_max_volume( bool use_vehicle );
 
         // whether to show vehicle when we open location for the first time

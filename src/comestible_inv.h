@@ -2,18 +2,9 @@
 #ifndef comestible_inv_H
 #define comestible_inv_H
 #include "cursesdef.h"
-#include "point.h"
-#include "units.h"
-#include "game.h"
-#include "itype.h"
 #include "comestible_inv_pane.h"
 
-#include <cctype>
-#include <cstddef>
 #include <array>
-#include <functional>
-#include <list>
-#include <map>
 #include <string>
 #include <vector>
 
@@ -32,8 +23,11 @@ class comestible_inventory
         comestible_inventory();
         ~comestible_inventory();
 
-        void display( int bio );
-    private:
+        virtual void display();
+    protected:
+        virtual input_context register_actions();
+        virtual const std::string process_actions( input_context ctxt );
+
         const int head_height;
         const int min_w_height;
         const int min_w_width;
@@ -44,8 +38,7 @@ class comestible_inventory
         catacurses::window mm_border;
         const int minimap_width = 3;
         const int minimap_height = 3;
-        void draw_minimap();
-        void refresh_minimap();
+        void redraw_minimap();
         char minimap_get_sym() const;
 
         int w_height;
@@ -57,7 +50,7 @@ class comestible_inventory
         bool recalc;
         bool redraw;
 
-        comestible_inventory_pane pane;
+        comestible_inventory_pane *pane;
         //static const comestible_inventory_pane null_pane;
         std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> squares;
 
@@ -66,14 +59,14 @@ class comestible_inventory
 
         bool exit;
 
-        void init();
+        virtual void init();
         //sets recalculate and redraw for this and pane
         void refresh( bool needs_recalc, bool needs_redraw );
         void save_settings();
         // used to return back to AIM when other activities queued are finished
         void do_return_entry();
         // any additional info, relevant for menu, but not part of main data
-        void set_additional_info();
+        virtual void set_additional_info( std::vector<legend_data> data = {} );
         /**
          * Translate an action ident from the input context to an comestible_inv_area.
          * @param action one of ctxt.register_action
@@ -84,9 +77,27 @@ class comestible_inventory
          * @return whether the sort order was actually changed.
          */
         bool show_sort_menu();
+};
 
+class comestible_inventory_food : public comestible_inventory
+{
+    public:
+    protected:
+        void init() override;
+        input_context register_actions() override;
+        const std::string process_actions( input_context ctxt ) override;
+        void set_additional_info( std::vector<legend_data> data ) override;
+    private:
         //try to find a way to warm up/defrost an item, and do it
         void heat_up( item *it );
+};
+
+class comestible_inventory_bio : public comestible_inventory
+{
+    public:
+    protected:
+        void init() override;
+        void set_additional_info( std::vector<legend_data> data ) override;
 };
 
 #endif

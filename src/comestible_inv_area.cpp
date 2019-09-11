@@ -2,17 +2,12 @@
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "debug.h"
-#include "field.h"
-#include "input.h"
 #include "item_category.h"
 #include "item_search.h"
 #include "item_stack.h"
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "options.h"
-#include "output.h"
 #include "player.h"
 #include "player_activity.h"
 #include "string_formatter.h"
@@ -20,40 +15,25 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
-#include "uistate.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
-#include "calendar.h"
-#include "color.h"
-#include "game_constants.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "optional.h"
-#include "ret_val.h"
-#include "type_id.h"
-#include "clzones.h"
-#include "colony.h"
 #include "enums.h"
-#include "faction.h"
 #include "item_location.h"
 #include "map_selector.h"
 #include "pimpl.h"
-
+#include "field.h"
 #include "comestible_inv_area.h"
 
 #include <algorithm>
 #include <cassert>
 #include <cstring>
-#include <map>
-#include <set>
 #include <string>
 #include <vector>
 #include <initializer_list>
 #include <iterator>
-#include <memory>
-#include <unordered_map>
 #include <utility>
 #include <numeric>
 
@@ -224,15 +204,41 @@ static comestible_inv_area::area_items mi_stacked( T items )
     return stacks;
 }
 
-comestible_inv_area::area_items comestible_inv_area::get_items( bool use_vehicle )
+comestible_inv_area::area_items comestible_inv_area::get_items( bool from_cargo )
 {
-    if( use_vehicle ) {
-        assert( has_vehicle() );
-        return mi_stacked( veh->get_items( veh_part ) );
+    player &u = g->u;
+    comestible_inv_area::area_items retval;
+
+    if( info.id == comestible_inv_area_info::AIM_INVENTORY ) {
+        const invslice &stacks = u.inv.slice();
+
+        retval.reserve( stacks.size() );
+        for( size_t x = 0; x < stacks.size(); ++x ) {
+            std::list<item *> item_pointers;
+            for( item &i : *stacks[x] ) {
+                item_pointers.push_back( &i );
+            }
+
+            retval.push_back( item_pointers );
+        }
+    } else if( info.id == comestible_inv_area_info::AIM_WORN ) {
+        auto iter = u.worn.begin();
+
+        retval.reserve( u.worn.size() );
+        for( size_t i = 0; i < u.worn.size(); ++i, ++iter ) {
+            std::list<item *> item_pointers = { {& *iter} };
+            retval.push_back( item_pointers );
+        }
     } else {
-        map &m = g->m;
-        return mi_stacked( m.i_at( g->u.pos() + offset ) );
+        if( from_cargo ) {
+            assert( has_vehicle() );
+            retval = mi_stacked( veh->get_items( veh_part ) );
+        } else {
+            retval = mi_stacked( g->m.i_at( g->u.pos() + offset ) );
+        }
     }
+
+    return retval;
 }
 
 units::volume comestible_inv_area::get_max_volume( bool use_vehicle )

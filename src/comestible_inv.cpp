@@ -2,43 +2,25 @@
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "debug.h"
-#include "field.h"
 #include "input.h"
-#include "item_category.h"
-#include "item_search.h"
-#include "item_stack.h"
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "options.h"
 #include "output.h"
 #include "player.h"
 #include "player_activity.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
-#include "translations.h"
-#include "trap.h"
-#include "ui.h"
 #include "uistate.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
-#include "calendar.h"
 #include "color.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "optional.h"
-#include "ret_val.h"
-#include "type_id.h"
-#include "clzones.h"
-#include "colony.h"
 #include "enums.h"
-#include "faction.h"
-#include "item_location.h"
-#include "map_selector.h"
 #include "pimpl.h"
 #include "bionics.h"
 #include "comestible_inv.h"
@@ -47,14 +29,10 @@
 #include <algorithm>
 #include <cassert>
 #include <cstring>
-#include <map>
-#include <set>
 #include <string>
 #include <vector>
 #include <initializer_list>
 #include <iterator>
-#include <memory>
-#include <unordered_map>
 #include <utility>
 #include <numeric>
 
@@ -126,12 +104,13 @@ comestible_inventory::~comestible_inventory()
         werase( window );
         g->refresh_all();
     }
+    delete pane;
 }
 
 void comestible_inventory::save_settings()
 {
     bool is_reset = uistate.comestible_save.exit_code != exit_re_entry;
-    pane.save_settings( is_reset );
+    pane->save_settings( is_reset );
     if( is_reset ) {
         if( uistate.comestible_save.bio != -1 ) {
             g->u.deactivate_bionic( uistate.comestible_save.bio );
@@ -160,7 +139,7 @@ void comestible_inventory::init()
     w_width = TERMX < min_w_width ? min_w_width : TERMX > max_w_width ? max_w_width :
               static_cast<int>( TERMX );
 
-    headstart = 0; //(TERMY>w_height)?(TERMY-w_height)/2:0;
+    headstart = 0;
     colstart = TERMX > w_width ? ( TERMX - w_width ) / 2 : 0;
 
     head = catacurses::newwin( head_height, w_width - minimap_width, point( colstart, headstart ) );
@@ -172,62 +151,15 @@ void comestible_inventory::init()
 
     uistate.comestible_save.exit_code = exit_none;
 
-    std::vector<comestible_inv_columns> columns;
-    if( uistate.comestible_save.bio == -1 ) {
-        columns = { COLUMN_CALORIES, COLUMN_QUENCH, COLUMN_JOY };
-        if( g->u.can_estimate_rot() ) {
-            columns.emplace_back( COLUMN_EXPIRES );
-        } else {
-            columns.emplace_back( COLUMN_SHELF_LIFE );
-        }
-    } else {
-        columns = { COLUMN_ENERGY, COLUMN_SORTBY_CATEGORY };
-    }
+    //pane is set by child
     int itemsPerPage = w_height - 2 - 5; // 2 for the borders, 5 for the header stuff
-    pane.init( columns, itemsPerPage, window, &squares );
-    if( uistate.comestible_save.bio == -1 ) {
-        pane.special_filter = []( const item & it ) {
-            const std::string n = it.get_category().name();
-            if( uistate.comestible_save.show_food && n != "FOOD" ) {
-                return true;
-            }
-            if( !uistate.comestible_save.show_food && n != "DRUGS" ) {
-                return true;
-            }
-
-            if( !g->u.can_consume( it ) ) {
-                return true;
-            }
-            return false;
-        };
-        pane.title = uistate.comestible_save.show_food ? "FOOD" : "DRUGS";
-        pane.default_sortby = COLUMN_EXPIRES;
-    } else {
-        pane.special_filter = []( const item & it ) {
-            return !g->u.can_consume( it ) || g->u.get_acquirable_energy( it ) <= 0;
-        };
-        pane.title = g->u.bionic_at_index( uistate.comestible_save.bio ).id.obj().name.translated();
-        pane.default_sortby = COLUMN_ENERGY;
-    }
+    pane->init( itemsPerPage, window, &squares );
 }
 
-void comestible_inventory::set_additional_info()
+void comestible_inventory::set_additional_info( std::vector<legend_data> data )
 {
-    std::vector<legend_data> data;
-    std::pair<std::string, nc_color> desc;
-    if( uistate.comestible_save.bio == -1 ) {
-        desc = g->u.get_hunger_description();
-        data.push_back( { string_format( "%s %s", _( "Food :" ), colorize( desc.first, desc.second ) ), point_zero, c_dark_gray } );
-        desc = g->u.get_thirst_description();
-        data.push_back( { string_format( "%s %s", _( "Drink:" ), colorize( desc.first, desc.second ) ), point_south, c_dark_gray } );
-        desc = g->u.get_pain_description();
-        data.push_back( { string_format( "%s %s", _( "Pain :" ), colorize( desc.first, desc.second ) ), point( 0, 2 ), c_dark_gray } );
-    } else {
-        desc = g->u.get_power_description();
-        data.push_back( { string_format( "%s %s", _( "Power :" ), colorize( desc.first, desc.second ) ), point_zero, c_dark_gray } );
-    }
-    pane.additional_info = data;
-    pane.needs_redraw = true;
+    pane->additional_info = data;
+    pane->needs_redraw = true;
 }
 
 // be explicit with the values
@@ -242,25 +174,18 @@ bool comestible_inventory::show_sort_menu( )
 {
     uilist sm;
     sm.text = _( "Sort by... " );
-    pane.add_sort_entries( sm );
+    pane->add_sort_entries( sm );
     sm.query();
 
     if( sm.ret < 0 ) {
         return false;
     }
 
-    pane.sortby = static_cast<comestible_inv_columns>( sm.ret );
+    pane->sortby = static_cast<comestible_inv_columns>( sm.ret );
     return true;
 }
-
-void comestible_inventory::display( int bio )
+input_context comestible_inventory::register_actions()
 {
-    if( uistate.comestible_save.exit_code != exit_re_entry ) {
-        uistate.comestible_save.bio = bio;
-    }
-    init();
-    g->u.inv.restack( g->u );
-
     input_context ctxt( "COMESTIBLE_INVENTORY" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
@@ -296,18 +221,186 @@ void comestible_inventory::display( int bio )
     ctxt.register_action( "ITEMS_AROUND_I_W" );
     ctxt.register_action( "ITEMS_DRAGGED_CONTAINER" );
 
+    //todo
     ctxt.register_action( "CONSUME_FOOD" );
-    if( uistate.comestible_save.bio == -1 ) {
-        ctxt.register_action( "SWITCH_FOOD" );
-        ctxt.register_action( "HEAT_UP" );
-        ctxt.register_action( "CRAFT_WITH" );
-        ctxt.register_action( "SHOW_HELP" );
+    return ctxt;
+}
+
+const std::string comestible_inventory::process_actions( input_context ctxt )
+{
+    using ai = comestible_inv_area_info;
+    // current item in source pane, might be null
+    comestible_inv_listitem *sitem = pane->get_cur_item_ptr();
+    comestible_inv_area *new_square;
+
+    const std::string action = ctxt.handle_input();
+
+    if( action == "CATEGORY_SELECTION" ) {
+        pane->inCategoryMode = !pane->inCategoryMode;
+        pane->needs_redraw =
+            true; // We redraw to force the color change of the highlighted line and header text.
+    } else if( action == "HELP_KEYBINDINGS" ) {
+        refresh( recalc, true );
+    } else if( ( new_square = get_area( action ) ) != nullptr ) {
+        if( pane->get_area()->info.id == new_square->get_relative_location() ) {
+            //DO NOTHING
+        } else if( new_square->is_valid() ) {
+            pane->set_area( new_square, new_square->is_vehicle_default() );
+            pane->index = 0;
+            refresh( true, true );
+        } else {
+            popup( _( "You can't put items there!" ) );
+            refresh( recalc, true ); // to clear the popup
+        }
+    } else if( action == "TOGGLE_FAVORITE" ) {
+        if( sitem == nullptr || !sitem->is_item_entry() ) {
+            return action;
+        }
+        for( auto *it : sitem->items ) {
+            it->set_favorite( !it->is_favorite );
+        }
+        // recalc = true; In case we've merged faved and unfaved items
+        refresh( true, true );
+    } else if( action == "SORT" ) {
+        if( show_sort_menu() ) {
+            refresh( true, redraw );
+        }
+        refresh( recalc, true );
+    } else if( action == "FILTER" ) {
+        draw_item_filter_rules( pane->window, 1, 11, item_filter_type::FILTER );
+        pane->start_user_filtering( w_height - 1, w_width / 2 - 4 );
+    } else if( action == "RESET_FILTER" ) {
+        pane->set_filter( "" );
+    } else if( action == "TOGGLE_AUTO_PICKUP" ) {
+        if( sitem == nullptr || !sitem->is_item_entry() ) {
+            return action;
+        }
+        if( sitem->autopickup ) {
+            get_auto_pickup().remove_rule( sitem->items.front() );
+            sitem->autopickup = false;
+        } else {
+            get_auto_pickup().add_rule( sitem->items.front() );
+            sitem->autopickup = true;
+        }
+
+        refresh( true, redraw );
+    } else if( action == "EXAMINE" ) {
+        if( sitem == nullptr || !sitem->is_item_entry() ) {
+            return action;
+        }
+        int ret = 0;
+        const int info_width = w_width / 2;
+        const int info_startx = colstart + info_width;
+        if( pane->get_area()->info.id == ai::AIM_INVENTORY || pane->get_area()->info.id == ai::AIM_WORN ) {
+            int idx = pane->get_area()->info.id == ai::AIM_INVENTORY ? sitem->idx :
+                      player::worn_position_to_index( sitem->idx );
+            // Setup a "return to AIM" activity. If examining the item creates a new activity
+            // (e.g. reading, reloading, activating), the new activity will be put on top of
+            // "return to AIM". Once the new activity is finished, "return to AIM" comes back
+            // (automatically, see player activity handling) and it re-opens the AIM.
+            // If examining the item did not create a new activity, we have to remove
+            // "return to AIM".
+            do_return_entry();
+            assert( g->u.has_activity( activity_id( "ACT_COMESTIBLE_INVENTORY" ) ) );
+            ret = g->inventory_item_menu( idx, info_startx, info_width, game::RIGHT_OF_INFO );
+            //src == comestible_inventory::side::left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO);
+            if( !g->u.has_activity( activity_id( "ACT_COMESTIBLE_INVENTORY" ) ) ) {
+                exit = true;
+            } else {
+                g->u.cancel_activity();
+            }
+            // Might have changed a stack (activated an item, repaired an item, etc.)
+            if( pane->get_area()->info.id == ai::AIM_INVENTORY ) {
+                g->u.inv.restack( g->u );
+            }
+            refresh( true, redraw );
+        } else {
+            item &it = *sitem->items.front();
+            std::vector<iteminfo> vThisItem;
+            std::vector<iteminfo> vDummy;
+            it.info( true, vThisItem );
+            int iDummySelect = 0;
+            ret = draw_item_info( info_startx,
+                                  info_width, 0, 0, it.tname(), it.type_name(), vThisItem, vDummy, iDummySelect,
+                                  false, false, true ).get_first_input();
+        }
+        if( ret == KEY_NPAGE || ret == KEY_DOWN ) {
+            pane->scroll_by( +1 );
+        } else if( ret == KEY_PPAGE || ret == KEY_UP ) {
+            pane->scroll_by( -1 );
+        }
+        refresh( recalc, true ); // item info window overwrote the other pane and the header
+    } else if( action == "QUIT" ) {
+        exit = true;
+    } else if( action == "PAGE_DOWN" ) {
+        pane->scroll_by( +pane->itemsPerPage );
+    } else if( action == "PAGE_UP" ) {
+        pane->scroll_by( -pane->itemsPerPage );
+    } else if( action == "DOWN" ) {
+        pane->scroll_by( +1 );
+    } else if( action == "UP" ) {
+        pane->scroll_by( -1 );
+    } else if( action == "TOGGLE_VEH" ) {
+        if( pane->get_area()->has_vehicle() ) {
+            if( pane->get_area()->info.id != ai::AIM_DRAGGED ) {
+                // Toggle between vehicle and ground
+                pane->set_area( pane->get_area(), !pane->is_in_vehicle() );
+                pane->index = 0;
+                // make sure to update the minimap as well!
+                refresh( recalc, true );
+                pane->needs_recalc = true;
+            }
+        } else {
+            popup( _( "No vehicle there!" ) );
+            refresh( recalc, true );
+        }
+    } else if( action == "CONSUME_FOOD" ) {
+        player &p = g->u;
+        item *it = sitem->items.front();
+        int pos = p.get_item_position( it );
+        if( pos != INT_MIN ) {
+            p.consume( pos );
+        } else if( p.consume_item( *it ) ) {
+            if( it->is_food_container() ) {
+                it->contents.erase( it->contents.begin() );
+                add_msg( _( "You leave the empty %s." ), it->tname() );
+            } else {
+                tripoint target = p.pos() + sitem->area->offset;
+                item_location loc;
+                if( sitem->from_vehicle ) {
+                    const cata::optional<vpart_reference> vp = g->m.veh_at( target ).part_with_feature( "CARGO", true );
+                    if( !vp ) {
+                        add_msg( _( "~~~~~~~~~ not vehicle?" ) );
+                        return action;
+                    }
+                    vehicle *const veh = &vp->vehicle();
+                    const int part = vp->part_index();
+
+                    loc = item_location( vehicle_cursor( *veh, part ), it );
+                } else {
+                    if( sitem->area->info.type == ai::AREA_TYPE_PLAYER ) {
+                        loc = item_location( p, it );
+                    } else {
+                        loc = item_location( map_cursor( target ), it );
+                    }
+                }
+                loc.remove_item();
+            }
+        }
     }
+    return action;
+}
+
+void comestible_inventory::display()
+{
+    init();
+    g->u.inv.restack( g->u );
+
+    input_context ctxt = register_actions();
 
     exit = false;
     refresh( true, true );
 
-    using ai = comestible_inv_area_info;
     while( !exit ) {
         if( g->u.moves < 0 ) {
             do_return_entry();
@@ -317,16 +410,12 @@ void comestible_inventory::display( int bio )
         if( recalc ) {
             set_additional_info();
         }
-        pane.redraw();
+        pane->redraw();
 
         if( redraw ) {
             werase( head );
-            werase( minimap );
-            werase( mm_border );
             draw_border( head );
             Messages::display_messages( head, 2, 1, w_width - 1, head_height - 2 );
-            draw_minimap();
-
             if( uistate.comestible_save.bio == -1 ) {
                 const std::string msg = string_format( _( "< [%s] Statuses info >" ),
                                                        ctxt.get_desc( "SHOW_HELP" ) );
@@ -338,310 +427,40 @@ void comestible_inventory::display( int bio )
                 mvwprintz( head, point( 2, 0 ), c_white, time );
             }
             wrefresh( head );
-            refresh_minimap();
+
+            redraw_minimap();
         }
         refresh( false, false );
 
-        // current item in source pane, might be null
-        comestible_inv_listitem *sitem = pane.get_cur_item_ptr();
-        comestible_inv_area *new_square;
-
-        const std::string action = ctxt.handle_input();
-
-        if( action == "CATEGORY_SELECTION" ) {
-            pane.inCategoryMode = !pane.inCategoryMode;
-            pane.needs_redraw =
-                true; // We redraw to force the color change of the highlighted line and header text.
-        } else if( action == "HELP_KEYBINDINGS" ) {
-            refresh( recalc, true );
-        }   else if( ( new_square = get_area( action ) ) != nullptr ) {
-            if( pane.get_area()->info.id == new_square->get_relative_location() ) {
-                //DO NOTHING
-            } else if( new_square->is_valid() ) {
-                pane.set_area( new_square, new_square->is_vehicle_default() );
-                pane.index = 0;
-                refresh( true, true );
-            } else {
-                popup( _( "You can't put items there!" ) );
-                refresh( recalc, true ); // to clear the popup
-            }
-        } else if( action == "TOGGLE_FAVORITE" ) {
-            if( sitem == nullptr || !sitem->is_item_entry() ) {
-                continue;
-            }
-            for( auto *it : sitem->items ) {
-                it->set_favorite( !it->is_favorite );
-            }
-            // recalc = true; In case we've merged faved and unfaved items
-            refresh( true, true );
-        } else if( action == "SORT" ) {
-            if( show_sort_menu( ) ) {
-                refresh( true, redraw );
-            }
-            refresh( recalc, true );
-        } else if( action == "FILTER" ) {
-            draw_item_filter_rules( pane.window, 1, 11, item_filter_type::FILTER );
-            pane.start_user_filtering( w_height - 1, w_width / 2 - 4 );
-        } else if( action == "RESET_FILTER" ) {
-            pane.set_filter( "" );
-        } else if( action == "TOGGLE_AUTO_PICKUP" ) {
-            if( sitem == nullptr || !sitem->is_item_entry() ) {
-                continue;
-            }
-            if( sitem->autopickup ) {
-                get_auto_pickup().remove_rule( sitem->items.front() );
-                sitem->autopickup = false;
-            } else {
-                get_auto_pickup().add_rule( sitem->items.front() );
-                sitem->autopickup = true;
-            }
-
-            refresh( true, redraw );
-        } else if( action == "EXAMINE" ) {
-            if( sitem == nullptr || !sitem->is_item_entry() ) {
-                continue;
-            }
-            int ret = 0;
-            const int info_width = w_width / 2;
-            const int info_startx = colstart + info_width;
-            if( pane.get_area()->info.id == ai::AIM_INVENTORY || pane.get_area()->info.id == ai::AIM_WORN ) {
-                int idx = pane.get_area()->info.id == ai::AIM_INVENTORY ? sitem->idx :
-                          player::worn_position_to_index( sitem->idx );
-                // Setup a "return to AIM" activity. If examining the item creates a new activity
-                // (e.g. reading, reloading, activating), the new activity will be put on top of
-                // "return to AIM". Once the new activity is finished, "return to AIM" comes back
-                // (automatically, see player activity handling) and it re-opens the AIM.
-                // If examining the item did not create a new activity, we have to remove
-                // "return to AIM".
-                do_return_entry();
-                assert( g->u.has_activity( activity_id( "ACT_COMESTIBLE_INVENTORY" ) ) );
-                ret = g->inventory_item_menu( idx, info_startx, info_width, game::RIGHT_OF_INFO );
-                //src == comestible_inventory::side::left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO);
-                if( !g->u.has_activity( activity_id( "ACT_COMESTIBLE_INVENTORY" ) ) ) {
-                    exit = true;
-                } else {
-                    g->u.cancel_activity();
-                }
-                // Might have changed a stack (activated an item, repaired an item, etc.)
-                if( pane.get_area()->info.id == ai::AIM_INVENTORY ) {
-                    g->u.inv.restack( g->u );
-                }
-                refresh( true, redraw );
-            } else {
-                item &it = *sitem->items.front();
-                std::vector<iteminfo> vThisItem;
-                std::vector<iteminfo> vDummy;
-                it.info( true, vThisItem );
-                int iDummySelect = 0;
-                ret = draw_item_info( info_startx,
-                                      info_width, 0, 0, it.tname(), it.type_name(), vThisItem, vDummy, iDummySelect,
-                                      false, false, true ).get_first_input();
-            }
-            if( ret == KEY_NPAGE || ret == KEY_DOWN ) {
-                pane.scroll_by( +1 );
-            } else if( ret == KEY_PPAGE || ret == KEY_UP ) {
-                pane.scroll_by( -1 );
-            }
-            refresh( recalc, true ); // item info window overwrote the other pane and the header
-        } else if( action == "QUIT" ) {
-            exit = true;
-        } else if( action == "PAGE_DOWN" ) {
-            pane.scroll_by( +pane.itemsPerPage );
-        } else if( action == "PAGE_UP" ) {
-            pane.scroll_by( -pane.itemsPerPage );
-        } else if( action == "DOWN" ) {
-            pane.scroll_by( +1 );
-        } else if( action == "UP" ) {
-            pane.scroll_by( -1 );
-        } else if( action == "TOGGLE_VEH" ) {
-            if( pane.get_area()->has_vehicle() ) {
-                if( pane.get_area()->info.id != ai::AIM_DRAGGED ) {
-                    // Toggle between vehicle and ground
-                    pane.set_area( pane.get_area(), !pane.is_in_vehicle() );
-                    pane.index = 0;
-                    // make sure to update the minimap as well!
-                    refresh( recalc, true );
-                    pane.needs_recalc = true;
-                }
-            } else {
-                popup( _( "No vehicle there!" ) );
-                refresh( recalc, true );
-            }
-        } else if( action == "SWITCH_FOOD" ) {
-            uistate.comestible_save.show_food = !uistate.comestible_save.show_food;
-            pane.title = uistate.comestible_save.show_food ? "FOOD" : "DRUGS";
-            refresh( true, redraw );
-        } else if( action == "HEAT_UP" ) {
-            heat_up( sitem->items.front() );
-        }  else if( action == "CRAFT_WITH" ) {
-            do_return_entry();
-
-            assert( g->u.has_activity( activity_id( "ACT_COMESTIBLE_INVENTORY" ) ) );
-
-            item *it = sitem->items.front();
-            if( it->is_food_container() ) {
-                it = &it->contents.front();
-            }
-            std::string food_name = item::nname( it->typeId() );
-            g->u.craft( tripoint_zero, string_format( "c:%s,", food_name ) );
-
-            if( !g->u.has_activity( activity_id( "ACT_COMESTIBLE_INVENTORY" ) ) ) {
-                exit = true;
-            } else {
-                //TODO: next 2 lines seem hacky - refreshing twice?
-                //without 1st line we can see craft menu after it closes
-                //without 2nd line we can't see comestible menu after crafting closes
-
-                g->u.cancel_activity();
-                g->refresh_all();
-                refresh( recalc, true );
-            }
-        } else if( action == "SHOW_HELP" ) {
-            std::string desc;
-            std::string status;
-            status = ctxt.get_desc( "HEAT_UP" );
-            desc += colorize( string_format( "%c", status[0] ), c_red );
-            desc += colorize( string_format(
-                                  _( ": this food is frozen and cannot be consumed. Press %s to attempt reheating it.\n" ), status ),
-                              c_light_gray );
-
-            status = ctxt.get_desc( "CRAFT_WITH" );
-            desc += colorize( string_format( "%c", status[0] ), c_cyan );
-            desc += colorize( string_format(
-                                  _( ": this item cannot be eaten in its current form. Press %s to attempt cooking with it.\n" ),
-                                  status ), c_light_gray );
-
-            desc += colorize( "!", c_light_red );
-            desc += colorize( string_format( _( ": eating this will be considered stealing." ), status ),
-                              c_light_gray );
-
-            popup( desc );
-            refresh( recalc, true );
-        } else if( action == "CONSUME_FOOD" ) {
-            player &p = g->u;
-            item *it = sitem->items.front();
-            int pos = p.get_item_position( it );
-            if( pos != INT_MIN ) {
-                p.consume( pos );
-            } else if( p.consume_item( *it ) ) {
-                if( it->is_food_container() ) {
-                    it->contents.erase( it->contents.begin() );
-                    add_msg( _( "You leave the empty %s." ), it->tname() );
-                } else {
-                    tripoint target = p.pos() + sitem->area->offset;
-                    item_location loc;
-                    if( sitem->from_vehicle ) {
-                        const cata::optional<vpart_reference> vp = g->m.veh_at( target ).part_with_feature( "CARGO", true );
-                        if( !vp ) {
-                            add_msg( _( "~~~~~~~~~ not vehicle?" ) );
-                            return;
-                        }
-                        vehicle *const veh = &vp->vehicle();
-                        const int part = vp->part_index();
-
-                        loc = item_location( vehicle_cursor( *veh, part ), it );
-                    } else {
-                        if( sitem->area->info.type == ai::AREA_TYPE_PLAYER ) {
-                            loc = item_location( p, it );
-                        } else {
-                            loc = item_location( map_cursor( target ), it );
-                        }
-                    }
-                    loc.remove_item();
-                }
-            }
-        }
+        process_actions( ctxt );
     }
 }
 
-void comestible_inv( int b )
+void comestible_inventory::redraw_minimap()
 {
-    static const trait_id trait_GRAZER( "GRAZER" );
-    static const trait_id trait_RUMINANT( "RUMINANT" );
-
-    player &p = g->u;
-    map &m = g->m;
-
-    //lifted from handle_action.cpp - void game::eat(item_location(*menu)(player & p), int pos)
-    if( ( p.has_active_mutation( trait_RUMINANT ) || p.has_active_mutation( trait_GRAZER ) ) &&
-        ( m.ter( p.pos() ) == t_underbrush || m.ter( p.pos() ) == t_shrub ) ) {
-        if( p.get_hunger() < 20 ) {
-            add_msg( _( "You're too full to eat the leaves from the %s." ), m.ter( p.pos() )->name() );
-            return;
-        } else {
-            p.moves -= 400;
-            m.ter_set( p.pos(), t_grass );
-            add_msg( _( "You eat the underbrush." ) );
-            item food( "underbrush", calendar::turn, 1 );
-            p.eat( food );
-            return;
-        }
-    }
-    if( p.has_active_mutation( trait_GRAZER ) && ( m.ter( p.pos() ) == t_grass ||
-            m.ter( p.pos() ) == t_grass_long || m.ter( p.pos() ) == t_grass_tall ) ) {
-        if( p.get_hunger() < 8 ) {
-            add_msg( _( "You're too full to graze." ) );
-            return;
-        } else {
-            p.moves -= 400;
-            add_msg( _( "You eat the grass." ) );
-            item food( item( "grass", calendar::turn, 1 ) );
-            p.eat( food );
-            m.ter_set( p.pos(), t_dirt );
-            if( m.ter( p.pos() ) == t_grass_tall ) {
-                m.ter_set( p.pos(), t_grass_long );
-            } else if( m.ter( p.pos() ) == t_grass_long ) {
-                m.ter_set( p.pos(), t_grass );
-            } else {
-                m.ter_set( p.pos(), t_dirt );
-            }
-            return;
-        }
-    }
-    if( p.has_active_mutation( trait_GRAZER ) ) {
-        if( m.ter( p.pos() ) == t_grass_golf ) {
-            add_msg( _( "This grass is too short to graze." ) );
-            return;
-        } else if( m.ter( p.pos() ) == t_grass_dead ) {
-            add_msg( _( "This grass is dead and too mangled for you to graze." ) );
-            return;
-        } else if( m.ter( p.pos() ) == t_grass_white ) {
-            add_msg( _( "This grass is tainted with paint and thus inedible." ) );
-            return;
-        }
-    }
-    comestible_inventory new_inv;
-    new_inv.display( b );
-}
-
-void comestible_inventory::refresh_minimap()
-{
+    werase( mm_border );
     // redraw border around minimap
     draw_border( mm_border );
     // minor addition to border for AIM_ALL, sorta hacky
-    if( pane.get_area()->info.type == comestible_inv_area_info::AREA_TYPE_MULTI ) {
+    if( pane->get_area()->info.type == comestible_inv_area_info::AREA_TYPE_MULTI ) {
         //point(1,0) - point_east so travis is happy
         mvwprintz( mm_border, point_east, c_light_gray, utf8_truncate( _( "Mul" ), minimap_width ) );
     }
-    // refresh border, then minimap
     wrefresh( mm_border );
-    wrefresh( minimap );
-}
 
-void comestible_inventory::draw_minimap()
-{
+    werase( minimap );
     // get the center of the window
     tripoint pc = { getmaxx( minimap ) / 2, getmaxy( minimap ) / 2, 0 };
     // draw the 3x3 tiles centered around player
     g->m.draw( minimap, g->u.pos() );
 
-    if( pane.get_area()->info.type == comestible_inv_area_info::AREA_TYPE_MULTI ) {
+    if( pane->get_area()->info.type == comestible_inv_area_info::AREA_TYPE_MULTI ) {
         return;
     }
 
     char sym = minimap_get_sym();
     if( sym != '\0' ) {
-        auto sq = pane.get_area();
+        auto sq = pane->get_area();
         auto pt = pc + sq->offset;
         // invert the color if pointing to the player's position
         auto cl = sq->info.type == comestible_inv_area_info::AREA_TYPE_PLAYER ?
@@ -650,15 +469,16 @@ void comestible_inventory::draw_minimap()
     }
 
     // Invert player's tile color if exactly one pane points to player's tile
-    bool player_selected = pane.get_area()->info.type == comestible_inv_area_info::AREA_TYPE_PLAYER;
+    bool player_selected = pane->get_area()->info.type == comestible_inv_area_info::AREA_TYPE_PLAYER;
     g->u.draw( minimap, g->u.pos(), player_selected );
+    wrefresh( minimap );
 }
 
 char comestible_inventory::minimap_get_sym() const
 {
-    if( pane.get_area()->info.type == comestible_inv_area_info::AREA_TYPE_PLAYER ) {
+    if( pane->get_area()->info.type == comestible_inv_area_info::AREA_TYPE_PLAYER ) {
         return '^';
-    } else if( pane.is_in_vehicle() ) {
+    } else if( pane->is_in_vehicle() ) {
         return 'V';
     } else {
         return ' ';
@@ -677,13 +497,122 @@ void comestible_inventory::do_return_entry()
 void comestible_inventory::refresh( bool needs_recalc, bool needs_redraw )
 {
     recalc = needs_recalc;
-    pane.needs_recalc = needs_recalc;
+    pane->needs_recalc = needs_recalc;
 
     redraw = needs_redraw;
-    pane.needs_redraw = needs_redraw;
+    pane->needs_redraw = needs_redraw;
 }
 
-void comestible_inventory::heat_up( item *it_to_heat )
+void comestible_inventory_food::init()
+{
+    pane = new comestible_inventory_pane_food();
+    comestible_inventory::init();
+}
+
+input_context comestible_inventory_food::register_actions()
+{
+    input_context ctxt = comestible_inventory::register_actions();
+    ctxt.register_action( "SWITCH_FOOD" );
+    ctxt.register_action( "HEAT_UP" );
+    ctxt.register_action( "CRAFT_WITH" );
+    ctxt.register_action( "SHOW_HELP" );
+    return ctxt;
+}
+
+void comestible_inventory_food::set_additional_info( std::vector<legend_data> data )
+{
+    std::pair<std::string, nc_color> desc;
+    desc = g->u.get_hunger_description();
+    data.emplace_back( string_format( "%s %s", _( "Food :" ), colorize( desc.first, desc.second ) ),
+                       point_zero, c_dark_gray );
+    desc = g->u.get_thirst_description();
+    data.emplace_back( string_format( "%s %s", _( "Drink:" ), colorize( desc.first, desc.second ) ),
+                       point_south, c_dark_gray );
+    desc = g->u.get_pain_description();
+    data.emplace_back( string_format( "%s %s", _( "Pain :" ), colorize( desc.first, desc.second ) ),
+                       point( 0, 2 ), c_dark_gray );
+    comestible_inventory::set_additional_info( data );
+}
+
+const std::string comestible_inventory_food::process_actions( input_context ctxt )
+{
+    const std::string action = comestible_inventory::process_actions( ctxt );
+
+    //using ai = comestible_inv_area_info;
+    // current item in source pane, might be null
+    comestible_inv_listitem *sitem = pane->get_cur_item_ptr();
+    if( action == "SWITCH_FOOD" ) {
+        uistate.comestible_save.show_food = !uistate.comestible_save.show_food;
+        pane->title = uistate.comestible_save.show_food ? "FOOD" : "DRUGS";
+        refresh( true, redraw );
+    } else if( action == "HEAT_UP" ) {
+        heat_up( sitem->items.front() );
+    } else if( action == "CRAFT_WITH" ) {
+        do_return_entry();
+
+        assert( g->u.has_activity( activity_id( "ACT_COMESTIBLE_INVENTORY" ) ) );
+
+        item *it = sitem->items.front();
+        if( it->is_food_container() ) {
+            it = &it->contents.front();
+        }
+        std::string food_name = item::nname( it->typeId() );
+        g->u.craft( tripoint_zero, string_format( "c:%s,", food_name ) );
+
+        if( !g->u.has_activity( activity_id( "ACT_COMESTIBLE_INVENTORY" ) ) ) {
+            exit = true;
+        } else {
+            //TODO: next 2 lines seem hacky - refreshing twice?
+            //without 1st line we can see craft menu after it closes
+            //without 2nd line we can't see comestible menu after crafting closes
+
+            g->u.cancel_activity();
+            g->refresh_all();
+            refresh( recalc, true );
+        }
+    } else if( action == "SHOW_HELP" ) {
+        std::string desc;
+        std::string status;
+        status = ctxt.get_desc( "HEAT_UP" );
+        desc += colorize( string_format( "%c", status[0] ), c_cyan );
+        desc += colorize( string_format(
+                              _( ": this food is frozen and cannot be consumed. Press %s to attempt reheating it.\n" ), status ),
+                          c_light_gray );
+
+        status = ctxt.get_desc( "CRAFT_WITH" );
+        desc += colorize( string_format( "%c", status[0] ), c_cyan );
+        desc += colorize( string_format(
+                              _( ": this item cannot be eaten in its current form. Press %s to attempt cooking with it.\n" ),
+                              status ), c_light_gray );
+        desc += "\n";
+
+        desc += colorize( string_format( "%c", 'm' ), c_yellow );
+        desc += colorize( _( ": this food is mushy and has reduced joy.\n" ), c_light_gray );
+
+        desc += colorize( string_format( "%c", 's' ), c_yellow );
+        desc += colorize( _( ": this is stimulant (e.g. coffe, pop).\n" ), c_light_gray );
+
+        desc += colorize( string_format( "%c", 'd' ), c_yellow );
+        desc += colorize( _( ": this is depressant (e.g. alcohol).\n" ), c_light_gray );
+        desc += "\n";
+
+        desc += colorize( string_format( "%c", 'a' ), c_yellow );
+        desc += colorize( _( ": this item is mildly addictive.\n" ), c_light_gray );
+
+        desc += colorize( string_format( "%c", 'a' ), c_red );
+        desc += colorize( _( ": this item is strongly addictive.\n" ), c_light_gray );
+
+        desc += colorize( "!", c_light_red );
+        desc += colorize( string_format( _( ": eating this will be considered stealing." ), status ),
+                          c_light_gray );
+
+        popup( desc );
+        refresh( recalc, true );
+    }
+    return action;
+}
+
+void comestible_inventory_food::heat_up( item *it_to_heat )
 {
     //in case we want to warm up a certail quantity later on
     int batch_size = 1;
@@ -768,4 +697,87 @@ void comestible_inventory::heat_up( item *it_to_heat )
         target.heat_up();
     }
     p.mod_moves( -move_mod ); // time needed to actually heat up
+}
+
+void comestible_inventory_bio::set_additional_info( std::vector<legend_data> data )
+{
+    std::pair<std::string, nc_color> desc;
+    desc = g->u.get_power_description();
+    data.push_back( { string_format( "%s %s", _( "Power :" ), colorize( desc.first, desc.second ) ), point_zero, c_dark_gray } );
+    comestible_inventory::set_additional_info( data );
+}
+
+void comestible_inventory_bio::init()
+{
+    pane = new comestible_inventory_pane_bio();
+    comestible_inventory::init();
+}
+
+void comestible_inv( int b )
+{
+    static const trait_id trait_GRAZER( "GRAZER" );
+    static const trait_id trait_RUMINANT( "RUMINANT" );
+
+    player &p = g->u;
+    map &m = g->m;
+
+    //lifted from handle_action.cpp - void game::eat(item_location(*menu)(player & p), int pos)
+    if( ( p.has_active_mutation( trait_RUMINANT ) || p.has_active_mutation( trait_GRAZER ) ) &&
+        ( m.ter( p.pos() ) == t_underbrush || m.ter( p.pos() ) == t_shrub ) ) {
+        if( p.get_hunger() < 20 ) {
+            add_msg( _( "You're too full to eat the leaves from the %s." ), m.ter( p.pos() )->name() );
+            return;
+        } else {
+            p.moves -= 400;
+            m.ter_set( p.pos(), t_grass );
+            add_msg( _( "You eat the underbrush." ) );
+            item food( "underbrush", calendar::turn, 1 );
+            p.eat( food );
+            return;
+        }
+    }
+    if( p.has_active_mutation( trait_GRAZER ) && ( m.ter( p.pos() ) == t_grass ||
+            m.ter( p.pos() ) == t_grass_long || m.ter( p.pos() ) == t_grass_tall ) ) {
+        if( p.get_hunger() < 8 ) {
+            add_msg( _( "You're too full to graze." ) );
+            return;
+        } else {
+            p.moves -= 400;
+            add_msg( _( "You eat the grass." ) );
+            item food( item( "grass", calendar::turn, 1 ) );
+            p.eat( food );
+            m.ter_set( p.pos(), t_dirt );
+            if( m.ter( p.pos() ) == t_grass_tall ) {
+                m.ter_set( p.pos(), t_grass_long );
+            } else if( m.ter( p.pos() ) == t_grass_long ) {
+                m.ter_set( p.pos(), t_grass );
+            } else {
+                m.ter_set( p.pos(), t_dirt );
+            }
+            return;
+        }
+    }
+    if( p.has_active_mutation( trait_GRAZER ) ) {
+        if( m.ter( p.pos() ) == t_grass_golf ) {
+            add_msg( _( "This grass is too short to graze." ) );
+            return;
+        } else if( m.ter( p.pos() ) == t_grass_dead ) {
+            add_msg( _( "This grass is dead and too mangled for you to graze." ) );
+            return;
+        } else if( m.ter( p.pos() ) == t_grass_white ) {
+            add_msg( _( "This grass is tainted with paint and thus inedible." ) );
+            return;
+        }
+    }
+
+    if( uistate.comestible_save.exit_code != exit_re_entry ) {
+        uistate.comestible_save.bio = b;
+    }
+    if( uistate.comestible_save.bio == -1 ) {
+        comestible_inventory_food new_inv;
+        new_inv.display();
+    } else {
+        comestible_inventory_bio new_inv;
+        new_inv.display();
+    }
 }
