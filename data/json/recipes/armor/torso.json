@@ -298,7 +298,7 @@
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 16 ] ],
       [ [ "rag", 19 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -464,7 +464,7 @@
       [ [ "rag", 15 ] ],
       [ [ "coat_rain", 1 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -749,7 +749,7 @@
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 13 ] ],
       [ [ "rag", 14 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -890,7 +890,7 @@
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 10 ] ],
       [ [ "rag", 11 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -1046,7 +1046,7 @@
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 12 ] ],
       [ [ "rag", 14 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],

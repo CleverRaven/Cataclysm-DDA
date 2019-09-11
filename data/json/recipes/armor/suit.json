@@ -170,7 +170,7 @@
     "using": [ [ "sewing_standard", 90 ] ],
     "components": [
       [ [ "duster", 1 ] ],
-      [ [ "vest", 1 ], [ "chestrig", 1 ] ],
+      [ [ "vest", 1 ], [ "tacvest", 1 ] ],
       [ [ "ragpouch", 1 ], [ "leather_pouch", 1 ], [ "dump_pouch", 1 ], [ "fanny", 1 ] ],
       [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
       [ [ "pants_cargo", 1 ], [ "pants_army", 1 ] ],
@@ -190,7 +190,7 @@
     "components": [
       [ [ "tunic", 1 ] ],
       [ [ "shorts_cargo", 1 ], [ "shorts_denim", 1 ] ],
-      [ [ "vest", 1 ], [ "chestrig", 1 ] ],
+      [ [ "vest", 1 ], [ "tacvest", 1 ] ],
       [ [ "ragpouch", 2 ], [ "dump_pouch", 2 ], [ "fanny", 2 ] ],
       [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
       [ [ "rag", 20 ] ]
@@ -252,7 +252,7 @@
     "using": [ [ "sewing_standard", 90 ], [ "soldering_standard", 18 ] ],
     "components": [
       [ [ "jacket_army", 1 ] ],
-      [ [ "vest", 1 ], [ "chestrig", 1 ], [ "mbag", 1 ], [ "runner_bag", 1 ] ],
+      [ [ "vest", 1 ], [ "tacvest", 1 ], [ "mbag", 1 ], [ "runner_bag", 1 ] ],
       [ [ "fanny", 2 ], [ "dump_pouch", 1 ] ],
       [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
       [ [ "pants_army", 1 ] ],
@@ -422,7 +422,7 @@
       [ [ "nomex_suit", 1 ], [ "entry_suit", 1 ], [ "nomex", 20 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -465,7 +465,7 @@
       [ [ "rag", 10 ] ],
       [ [ "wetsuit", 1 ], [ "wetsuit_spring", 1 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -497,7 +497,7 @@
       [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -576,7 +576,7 @@
       [ [ "rag", 30 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -631,7 +631,7 @@
       [ [ "leather", 20 ], [ "tanned_hide", 4 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -774,7 +774,7 @@
       [ [ "fur", 20 ], [ "tanned_pelt", 3 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -806,7 +806,7 @@
       [ [ "steel_chunk", 8 ], [ "scrap", 24 ] ],
       [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -838,7 +838,7 @@
       [ [ "scrap", 8 ] ],
       [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],

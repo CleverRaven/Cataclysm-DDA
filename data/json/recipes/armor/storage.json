@@ -30,7 +30,7 @@
     "components": [ [ [ "leather", 8 ], [ "rag", 8 ] ], [ [ "filament", 20, "LIST" ], [ "cordage", 1, "LIST" ] ] ]
   },
   {
-    "result": "magbandolier",
+    "result": "chestrig",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
@@ -249,7 +249,7 @@
     "components": [ [ [ "leather", 4 ], [ "rag", 4 ] ], [ [ "filament", 10, "LIST" ], [ "cordage_short", 1, "LIST" ] ] ]
   },
   {
-    "result": "chestrig",
+    "result": "tacvest",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
@@ -263,7 +263,7 @@
     "components": [
       [ [ "rag", 20 ] ],
       [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ] ],
-      [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ], [ "magbandolier", 1 ] ],
+      [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ], [ "chestrig", 1 ] ],
       [ [ "plastic_chunk", 2 ] ]
     ]
   },
@@ -647,7 +647,7 @@
       [ [ "leather", 20 ], [ "tanned_hide", 4 ] ],
       [ [ "molle_pack", 4 ], [ "duffelbag", 2 ], [ "rucksack", 4 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -676,7 +676,7 @@
       [ [ "leather", 10 ], [ "tanned_hide", 2 ] ],
       [ [ "runner_bag", 4 ], [ "backpack", 2 ], [ "backpack_leather", 2 ], [ "mbag", 4 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -705,7 +705,7 @@
       [ [ "leather", 16 ], [ "tanned_hide", 3 ] ],
       [ [ "backpack", 4 ], [ "backpack_leather", 4 ], [ "molle_pack", 2 ], [ "duffelbag", 1 ], [ "rucksack", 2 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -734,7 +734,7 @@
       [ [ "leather", 8 ], [ "tanned_hide", 2 ] ],
       [ [ "runner_bag", 2 ], [ "backpack", 1 ], [ "backpack_leather", 1 ], [ "mbag", 2 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -763,7 +763,7 @@
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
       [ [ "holster", 1 ], [ "sholster", 1 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
