@@ -1048,7 +1048,7 @@
         "entries": [
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "chestrig", "contents-group": [ "army_mags_mp5", "army_mags_usp9" ] },
+          { "item": "tacvest", "contents-group": [ "army_mags_mp5", "army_mags_usp9" ] },
           { "item": "grenadebandolier", "contents-item": [ "flashbang", "flashbang" ] },
           { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "sholster" },
           {
@@ -1123,7 +1123,7 @@
           { "group": "charged_two_way_radio" },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
-          { "item": "m14mag", "ammo-item": "762_51", "charges": 20, "container-item": "chestrig" },
+          { "item": "m14mag", "ammo-item": "762_51", "charges": 20, "container-item": "tacvest" },
           { "item": "M24", "ammo-item": "762_51", "charges": 20, "container-item": "back_holster" }
         ]
       },
@@ -1662,7 +1662,7 @@
         "entries": [
           { "group": "charged_two_way_radio" },
           { "item": "glock_18c", "ammo-item": "9mmP", "container-item": "holster" },
-          { "item": "magbandolier", "contents-group": "army_mags_glock17" }
+          { "item": "tacvest", "contents-group": "army_mags_glock17" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1821,7 +1821,7 @@
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
           { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
-          { "item": "chestrig", "contents-group": [ "army_mags_m2010" ] }
+          { "item": "tacvest", "contents-group": [ "army_mags_m2010" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
