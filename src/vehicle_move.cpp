@@ -103,7 +103,7 @@ int vehicle::slowdown( int at_velocity ) const
         slowdown -= static_drag();
     }
 
-    return slowdown;
+    return std::max( 1, slowdown );
 }
 
 void vehicle::thrust( int thd )

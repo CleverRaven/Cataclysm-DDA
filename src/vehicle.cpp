@@ -4845,6 +4845,7 @@ void vehicle::place_spawn_items()
 void vehicle::gain_moves()
 {
     check_falling_or_floating();
+    const bool pl_control = player_in_control( g->u );
     if( is_moving() || is_falling ) {
         if( !loose_parts.empty() ) {
             shed_loose_parts();
@@ -4852,7 +4853,7 @@ void vehicle::gain_moves()
         of_turn = 1 + of_turn_carry;
         const int vslowdown = slowdown( velocity );
         if( vslowdown > abs( velocity ) ) {
-            if( cruise_on && cruise_velocity ) {
+            if( cruise_on && cruise_velocity && pl_control ) {
                 velocity = velocity > 0 ? 1 : -1;
             } else {
                 stop();
@@ -4868,7 +4869,7 @@ void vehicle::gain_moves()
     of_turn_carry = 0;
 
     // cruise control TODO: enable for NPC?
-    if( ( player_in_control( g->u ) || is_following ) && cruise_on && cruise_velocity != velocity ) {
+    if( ( pl_control || is_following ) && cruise_on && cruise_velocity != velocity ) {
         thrust( ( cruise_velocity ) > velocity ? 1 : -1 );
     }
 
