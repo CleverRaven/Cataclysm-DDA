@@ -4279,7 +4279,10 @@ void vehicle::update_alternator_load()
                 alternators_power += part_vpower_w( alternators[p] );
             }
         }
-        alternator_load = engine_vpower ? 1000 * ( abs( alternators_power ) + abs( extra_drag ) ) / engine_vpower : 0;
+        alternator_load =
+            engine_vpower
+            ? 1000 * ( abs( alternators_power ) + abs( extra_drag ) ) / engine_vpower
+            : 0;
     } else {
         alternator_load = 0;
     }
