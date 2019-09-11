@@ -7661,7 +7661,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     const int iCurPos = iStartPos + y;
                     const int iCatPos = CatSortIter->first;
                     if( iCurPos == iCatPos ) {
-                        const std::string &cat_name = Creature::get_attitude_ui_data( CatSortIter->second ).first;
+                        const std::string cat_name = Creature::get_attitude_ui_data(
+                                                         CatSortIter->second ).first.translated();
                         mvwprintz( w_monsters, point( 1, y ), c_magenta, cat_name );
                         ++CatSortIter;
                         continue;

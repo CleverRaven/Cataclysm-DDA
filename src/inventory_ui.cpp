@@ -66,7 +66,7 @@ static const std::set<std::string> ordered_categories = {{ "ITEMS_WORN" }};
 
 struct navigation_mode_data {
     navigation_mode next_mode;
-    std::string name;
+    translation name;
     nc_color color;
 };
 
@@ -1581,7 +1581,7 @@ void inventory_selector::draw_frame( const catacurses::window &w ) const
 std::pair<std::string, nc_color> inventory_selector::get_footer( navigation_mode m ) const
 {
     if( has_available_choices() ) {
-        return std::make_pair( get_navigation_data( m ).name,
+        return std::make_pair( get_navigation_data( m ).name.translated(),
                                get_navigation_data( m ).color );
     }
     return std::make_pair( _( "There are no available choices" ), i_red );
@@ -1802,8 +1802,8 @@ void inventory_selector::append_column( inventory_column &column )
 const navigation_mode_data &inventory_selector::get_navigation_data( navigation_mode m ) const
 {
     static const std::map<navigation_mode, navigation_mode_data> mode_data = {
-        { navigation_mode::ITEM,     { navigation_mode::CATEGORY, std::string(),                  c_light_gray } },
-        { navigation_mode::CATEGORY, { navigation_mode::ITEM,     _( "Category selection mode" ), h_white  } }
+        { navigation_mode::ITEM,     { navigation_mode::CATEGORY, translation(),                               c_light_gray } },
+        { navigation_mode::CATEGORY, { navigation_mode::ITEM,     to_translation( "Category selection mode" ), h_white  } }
     };
 
     return mode_data.at( m );

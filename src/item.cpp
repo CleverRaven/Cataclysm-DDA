@@ -122,27 +122,27 @@ const trait_id trait_huge( "HUGE" );
 const trait_id trait_huge_ok( "HUGE_OK" );
 using npc_class_id = string_id<npc_class>;
 
-const std::string &rad_badge_color( const int rad )
+std::string rad_badge_color( const int rad )
 {
-    using pair_t = std::pair<const int, const std::string>;
+    using pair_t = std::pair<const int, const translation>;
 
     static const std::array<pair_t, 6> values = {{
-            pair_t {  0, _( "green" ) },
-            pair_t { 30, _( "blue" )  },
-            pair_t { 60, _( "yellow" )},
-            pair_t {120, pgettext( "color", "orange" )},
-            pair_t {240, _( "red" )   },
-            pair_t {500, _( "black" ) },
+            pair_t {  0, to_translation( "color", "green" ) },
+            pair_t { 30, to_translation( "color", "blue" )  },
+            pair_t { 60, to_translation( "color", "yellow" )},
+            pair_t {120, to_translation( "color", "orange" )},
+            pair_t {240, to_translation( "color", "red" )   },
+            pair_t {500, to_translation( "color", "black" ) },
         }
     };
 
-    for( const std::pair<const int, const std::string> &i : values ) {
+    for( const auto &i : values ) {
         if( rad <= i.first ) {
-            return i.second;
+            return i.second.translated();
         }
     }
 
-    return values.back().second;
+    return values.back().second.translated();
 }
 
 light_emission nolight = {0, 0, 0};

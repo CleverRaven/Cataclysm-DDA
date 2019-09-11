@@ -59,7 +59,7 @@ struct talk_trial {
     /**
      * Returns a user-friendly representation of @ref type
      */
-    const std::string &name() const;
+    std::string name() const;
     std::vector<trial_mod> modifiers;
     operator bool() const {
         return type != TALK_TRIAL_NONE;

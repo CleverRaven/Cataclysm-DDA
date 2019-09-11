@@ -1337,11 +1337,9 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
     const int moves = std::max<int>( min_moves, moves_base * moves_modifier ) / light;
     if( moves > to_moves<int>( 1_minutes ) ) {
         // If more than 1 minute, inform the player
-        static const std::string sun_msg =
-            _( "If the current weather holds, it will take around %d minutes to light a fire." );
-        static const std::string normal_msg =
-            _( "At your skill level, it will take around %d minutes to light a fire." );
-        p.add_msg_if_player( m_info, ( need_sunlight ? sun_msg : normal_msg ),
+        p.add_msg_if_player( m_info, need_sunlight ?
+                             _( "If the current weather holds, it will take around %d minutes to light a fire." ) :
+                             _( "At your skill level, it will take around %d minutes to light a fire." ),
                              moves / to_moves<int>( 1_minutes ) );
     } else if( moves < to_moves<int>( 2_turns ) && g->m.is_flammable( pos ) ) {
         // If less than 2 turns, don't start a long action
@@ -3321,20 +3319,20 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     return AS_CANT;
 }
 
-const std::string &repair_item_actor::action_description( repair_item_actor::repair_type rt )
+std::string repair_item_actor::action_description( repair_item_actor::repair_type rt )
 {
     static const std::array<std::string, NUM_REPAIR_TYPES> arr = {{
-            _( "Nothing" ),
-            _( "Repairing" ),
-            _( "Refitting" ),
-            _( "Downsizing" ),
-            _( "Upsizing" ),
-            _( "Reinforcing" ),
-            _( "Practicing" )
+            translate_marker( "Nothing" ),
+            translate_marker( "Repairing" ),
+            translate_marker( "Refitting" ),
+            translate_marker( "Downsizing" ),
+            translate_marker( "Upsizing" ),
+            translate_marker( "Reinforcing" ),
+            translate_marker( "Practicing" )
         }
     };
 
-    return arr[rt];
+    return _( arr[rt] );
 }
 
 std::string repair_item_actor::get_name() const
