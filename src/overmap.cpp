@@ -1434,6 +1434,8 @@ void overmap::generate( const overmap *north, const overmap *east,
 {
     dbg( D_INFO ) << "overmap::generate start...";
 
+    populate_connections_out_from_neighbors( north, east, south, west );
+
     place_rivers( north, east, south, west );
     place_lakes();
     place_forests();
@@ -2024,6 +2026,52 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power )
     }
 }
 
+void overmap::populate_connections_out_from_neighbors( const overmap *north, const overmap *east,
+        const overmap *south, const overmap *west )
+{
+    const auto populate_for_side = [&]( const overmap * adjacent,
+                                        const std::function<bool( const tripoint & )> &should_include,
+    const std::function<tripoint( const tripoint & )> &build_point ) {
+        if( adjacent == nullptr ) {
+            return;
+        }
+
+        for( const std::pair<string_id<overmap_connection>, std::vector<tripoint>> &kv :
+             adjacent->connections_out ) {
+            std::vector<tripoint> &out = connections_out[kv.first];
+            const auto adjacent_out = adjacent->connections_out.find( kv.first );
+            if( adjacent_out != adjacent->connections_out.end() ) {
+                for( const tripoint &p : adjacent_out->second ) {
+                    if( should_include( p ) ) {
+                        out.push_back( build_point( p ) );
+                    }
+                }
+            }
+        }
+    };
+
+    populate_for_side( north, []( const tripoint & p ) {
+        return p.y == OMAPY - 1;
+    }, []( const tripoint & p ) {
+        return tripoint( p.x, 0, p.z );
+    } );
+    populate_for_side( west, []( const tripoint & p ) {
+        return p.x == OMAPX - 1;
+    }, []( const tripoint & p ) {
+        return tripoint( 0, p.y, p.z );
+    } );
+    populate_for_side( south, []( const tripoint & p ) {
+        return p.y == 0;
+    }, []( const tripoint & p ) {
+        return tripoint( p.x, OMAPY - 1, p.z );
+    } );
+    populate_for_side( east, []( const tripoint & p ) {
+        return p.x == 0;
+    }, []( const tripoint & p ) {
+        return tripoint( OMAPX - 1, p.y, p.z );
+    } );
+}
+
 void overmap::place_forest_trails()
 {
     std::unordered_set<point> visited;
@@ -2156,10 +2204,11 @@ void overmap::place_forest_trailheads()
 
     // Add the roads out of the overmap and cities to our collection, which
     // we'll then use to connect our trailheads to the rest of the road network.
+    std::vector<tripoint> &roads_out = connections_out[string_id<overmap_connection>( "local_road" )];
     std::vector<point> road_points;
     road_points.reserve( roads_out.size() + cities.size() );
     for( const auto &elem : roads_out ) {
-        road_points.emplace_back( elem.pos );
+        road_points.emplace_back( elem.xy() );
     }
     for( const auto &elem : cities ) {
         road_points.emplace_back( elem.pos.x, elem.pos.y );
@@ -2590,38 +2639,12 @@ void overmap::place_swamps()
 void overmap::place_roads( const overmap *north, const overmap *east, const overmap *south,
                            const overmap *west )
 {
-    if( north != nullptr ) {
-        for( auto &i : north->roads_out ) {
-            if( i.pos.y == OMAPY - 1 ) {
-                roads_out.push_back( city( { i.pos.x, 0 }, 0 ) );
-            }
-        }
-    }
-    if( west != nullptr ) {
-        for( auto &i : west->roads_out ) {
-            if( i.pos.x == OMAPX - 1 ) {
-                roads_out.push_back( city( { 0, i.pos.y }, 0 ) );
-            }
-        }
-    }
-    if( south != nullptr ) {
-        for( auto &i : south->roads_out ) {
-            if( i.pos.y == 0 ) {
-                roads_out.push_back( city( { i.pos.x, OMAPY - 1 }, 0 ) );
-            }
-        }
-    }
-    if( east != nullptr ) {
-        for( auto &i : east->roads_out ) {
-            if( i.pos.x == 0 ) {
-                roads_out.push_back( city( { OMAPX - 1, i.pos.y }, 0 ) );
-            }
-        }
-    }
+    const string_id<overmap_connection> local_road( "local_road" );
+    std::vector<tripoint> &roads_out = connections_out[local_road];
 
     // Ideally we should have at least two exit points for roads, on different sides
     if( roads_out.size() < 2 ) {
-        std::vector<city> viable_roads;
+        std::vector<tripoint> viable_roads;
         tripoint tmp;
         // Populate viable_roads with one point for each neighborless side.
         // Make sure these points don't conflict with rivers.
@@ -2631,28 +2654,28 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
                 tmp = tripoint( rng( 10, OMAPX - 11 ), 0, 0 );
             } while( is_river( ter( tmp ) ) || is_river( ter( tmp + point_east ) ) ||
                      is_river( ter( tmp + point_west ) ) );
-            viable_roads.push_back( city( tmp.xy(), 0 ) );
+            viable_roads.push_back( tmp );
         }
         if( east == nullptr ) {
             do {
                 tmp = tripoint( OMAPX - 1, rng( 10, OMAPY - 11 ), 0 );
             } while( is_river( ter( tmp ) ) || is_river( ter( tmp + point_north ) ) ||
                      is_river( ter( tmp + point_south ) ) );
-            viable_roads.push_back( city( tmp.xy(), 0 ) );
+            viable_roads.push_back( tmp );
         }
         if( south == nullptr ) {
             do {
                 tmp = tripoint( rng( 10, OMAPX - 11 ), OMAPY - 1, 0 );
             } while( is_river( ter( tmp ) ) || is_river( ter( tmp + point_east ) ) ||
                      is_river( ter( tmp + point_west ) ) );
-            viable_roads.push_back( city( tmp.xy(), 0 ) );
+            viable_roads.push_back( tmp );
         }
         if( west == nullptr ) {
             do {
                 tmp = tripoint( 0, rng( 10, OMAPY - 11 ), 0 );
             } while( is_river( ter( tmp ) ) || is_river( ter( tmp + point_north ) ) ||
                      is_river( ter( tmp + point_south ) ) );
-            viable_roads.push_back( city( tmp.xy(), 0 ) );
+            viable_roads.push_back( tmp );
         }
         while( roads_out.size() < 2 && !viable_roads.empty() ) {
             roads_out.push_back( random_entry_removed( viable_roads ) );
@@ -2663,14 +2686,13 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
     // Compile our master list of roads; it's less messy if roads_out is first
     road_points.reserve( roads_out.size() + cities.size() );
     for( const auto &elem : roads_out ) {
-        road_points.emplace_back( elem.pos );
+        road_points.emplace_back( elem.xy() );
     }
     for( const auto &elem : cities ) {
-        road_points.emplace_back( elem.pos.x, elem.pos.y );
+        road_points.emplace_back( elem.pos );
     }
 
     // And finally connect them via roads.
-    const string_id<overmap_connection> local_road( "local_road" );
     connect_closest_points( road_points, 0, *local_road );
 }
 
@@ -3434,18 +3456,14 @@ void overmap::build_connection( const overmap_connection &connection, const pf::
                     // Only automatically connect to out of bounds locations if we're the start or end of this path.
                     new_line = om_lines::set_segment( new_line, dir );
 
-                    // Special handling for the "local_roads" connection type for now--they get added to the collection of
-                    // roads out of this overmap. A future enhancement is to make that a bit more generic and maintain a
-                    // set of out connections for all connection types.
-                    if( connection.id == string_id<overmap_connection>( "local_road" ) ) {
-                        const auto existing_out = std::find_if( roads_out.begin(),
-                        roads_out.end(), [pos]( const city & c ) {
-                            return c.pos == pos.xy();
-                        } );
-
-                        if( existing_out == roads_out.end() ) {
-                            roads_out.emplace_back( city( pos.xy() ) );
-                        }
+                    // Add this connection point to our connections out.
+                    std::vector<tripoint> &outs = connections_out[connection.id];
+                    const auto existing_out = std::find_if( outs.begin(),
+                    outs.end(), [pos]( const tripoint & c ) {
+                        return c == pos;
+                    } );
+                    if( existing_out == outs.end() ) {
+                        outs.emplace_back( pos );
                     }
                 }
             }
