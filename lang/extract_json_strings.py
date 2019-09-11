@@ -601,6 +601,8 @@ def extract_missiondef(item):
     if item_name is None:
         raise WrongJSONItem("JSON item don't contain 'name' field", item)
     writestr(outfile, item_name)
+    if "description" in item:
+        writestr(outfile, item["description"], comment="Description for mission '{}'".format(item_name))
     if "dialogue" in item:
         dialogue = item.get("dialogue")
         if "describe" in dialogue:

@@ -1384,7 +1384,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         if( one_in( ( 1400 - ( get_int() * 50 ) ) / bionic_boost ) ) {
             ma_styles.push_back( style_selected );
             add_msg_if_player( m_good, _( "You have learned %s from extensive practice with the CQB Bionic." ),
-                               _( style_selected.obj().name ) );
+                               style_selected.obj().name );
         }
     }
 }

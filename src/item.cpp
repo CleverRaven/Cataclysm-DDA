@@ -2463,7 +2463,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             const std::vector<matype_id> &styles = g->u.ma_styles;
             const std::string valid_styles = enumerate_as_string( styles.begin(), styles.end(),
             [this]( const matype_id & mid ) {
-                return mid.obj().has_weapon( typeId() ) ? _( mid.obj().name ) : std::string();
+                return mid.obj().has_weapon( typeId() ) ? mid.obj().name.translated() : std::string();
             } );
             if( !valid_styles.empty() ) {
                 insert_separation_line();

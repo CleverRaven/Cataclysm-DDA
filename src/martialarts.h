@@ -11,6 +11,7 @@
 #include "bonuses.h"
 #include "calendar.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 #include "ui.h"
 #include "input.h"
@@ -233,8 +234,8 @@ class martialart
 
         matype_id id;
         bool was_loaded = false;
-        std::string name;
-        std::string description;
+        translation name;
+        translation description;
         std::vector<std::string> initiate;
         std::vector<std::pair<std::string, int>> autolearn_skills;
         skill_id primary_skill;

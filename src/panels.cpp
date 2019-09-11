@@ -1400,7 +1400,7 @@ static void draw_weapon_labels( const avatar &u, const catacurses::window &w )
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Style:" ) );
     print_colored_text( w, point( 8, 0 ), color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
-    mvwprintz( w, point( 8, 1 ), c_light_gray, u.get_combat_style().name );
+    mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.get_combat_style().name.translated() );
     wrefresh( w );
 }
 
@@ -1460,7 +1460,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     nc_color color = c_light_gray;
     print_colored_text( w, point( 8, 0 ), color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
     // style
-    mvwprintz( w, point( 8, 1 ), c_light_gray, u.get_combat_style().name );
+    mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.get_combat_style().name.translated() );
     // location
     mvwprintz( w, point( 8, 2 ), c_white, utf8_truncate( overmap_buffer.ter(
                    u.global_omt_location() )->get_name(), getmaxx( w ) - 8 ) );
@@ -1843,7 +1843,7 @@ static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
     const auto &cur_style = u.style_selected.obj();
     if( !u.weapon.is_gun() ) {
         if( cur_style.force_unarmed || cur_style.weapon_valid( u.weapon ) ) {
-            style = _( cur_style.name );
+            style = cur_style.name.translated();
         } else if( u.is_armed() ) {
             style = _( "Normal" );
         } else {
