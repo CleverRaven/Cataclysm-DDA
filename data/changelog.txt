@@ -3,23 +3,46 @@
 ## Features:
 
 ## Content:
+Adds ability to flag gunmods as 'CONSUMABLE'
+Moves allergen handling vitamin absorption to JSON
+Alternative night vision intensity
 
 ## Interface:
+Adds new flag : NO_SIGHT
+Reworded mammal and dissecting descriptions
+Adds the possiblitiy to find an evil moose in the kitten finding game.
+Add "classic literature" and "collector's edition" books, move choice book spawns to library, and adjust library/mansion book spawns overall
+Hoder gfx update
+Moved steel toed boots from clothing category to armor category
+Adds Free Merchant currency'
 
 ## Mods:
+Fixed long overmap location name being overwritten by "Distance to target:" string.
 
 ## Balance:
+Modders can now apply the USABLE_FIRE tag to terrain or furniture to make it usable as a nearby fire for crafting.
 
 ## Bugfixes:
 
 ## Performance:
+Allow partial consumption of large item stacks with Internal Furnace CBM
+Let ursine mutants gain PRED mutations without becoming carnivores
+Silence error message when monster AI traverses an off-map vehicle.
+Fixed heavy stick description mentioning that it can be cut into two by fours.
+fixes a few minor background story errors
+Stop people from randomly mutating new hair styles
+More mall background tiles will match floor
+Adds spoilage times to fried brain and deviled kidney.
+Fixed NPC dialog around lying and succeeding at missions
 
 ## Infrastructure:
 
 ## Build:
+Adds ranged attacks mutations (using fake guns)
 
 ## I18N and A11Y:
 
+Routine i18n updates as of Feb 22, 2019
 
 # 0.D (Danny)
 
