@@ -8707,7 +8707,7 @@ bool map::is_cornerfloor( const tripoint &p ) const
     }
     if( !impassable_adjacent.empty() ) {
         //to check if a floor is a corner we first search if any of its diagonal adjacent points is impassable
-        std::set< tripoint> diagonals = { tripoint( p.x - 1, p.y + 1, p.z ), tripoint( p.x + 1, p.y + 1, p.z ), tripoint( p.x - 1, p.y - 1, p.z ), tripoint( p.x + 1, p.y - 1, p.z ) };
+        std::set< tripoint> diagonals = { p + tripoint_north_east, p + tripoint_north_west, p + tripoint_south_east, p + tripoint_south_west };
         for( const tripoint &impassable_diagonal : diagonals ) {
             if( impassable_adjacent.count( impassable_diagonal ) != 0 ) {
                 //for every impassable diagonal found, we check if that diagonal terrain has at least two impassable neighbors that also neighbor point p
