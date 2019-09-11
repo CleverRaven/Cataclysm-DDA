@@ -4705,7 +4705,7 @@ bool mattack::tindalos_teleport( monster *z )
     if( target == nullptr ) {
         return false;
     }
-    if( one_in( 15 ) ) {
+    if( one_in( 7 ) ) {
         std::vector<tripoint> free;
         for( const tripoint &dest : g->m.points_in_radius( z->pos(), 1 ) ) {
             if( g->is_empty( dest ) ) {
