@@ -16,7 +16,8 @@
   {
     "id": "bead_ear",
     "type": "ARMOR",
-    "name": "beaded earrings",
+    "name": "pair of beaded earrings",
+    "name_plural": "pairs of beaded earrings",
     "description": "A simple pair of earrings made of string and wooden beads.  You can wear it if you like, but it won't provide any effects.",
     "weight": "7 g",
     "volume": 0,
@@ -147,7 +148,8 @@
   {
     "id": "copper_ear",
     "type": "ARMOR",
-    "name": "copper earrings",
+    "name": "pair of copper earrings",
+    "name_plural": "pairs of copper earrings",
     "description": "A pair of copper earrings.  It's pretty heavy.  You can wear it if you like, but it won't provide any effects.",
     "weight": "50 g",
     "volume": 0,
@@ -277,7 +279,8 @@
   {
     "id": "gold_ear",
     "type": "ARMOR",
-    "name": "gold earrings",
+    "name": "pair of gold earrings",
+    "name_plural": "pairs of gold earrings",
     "description": "A pair of shiny gold earrings.  You can wear it if you like, but it won't provide any effects.",
     "weight": "10 g",
     "volume": 0,
@@ -417,7 +420,8 @@
   {
     "id": "silver_ear",
     "type": "ARMOR",
-    "name": "silver earrings",
+    "name": "pair of silver earrings",
+    "name_plural": "pairs of silver earrings",
     "description": "A pair of beautiful silver earrings.  You can wear it if you like, but it won't provide any effects.",
     "weight": "9 g",
     "volume": 0,
@@ -553,7 +557,8 @@
   {
     "id": "platinum_ear",
     "type": "ARMOR",
-    "name": "platinum earrings",
+    "name": "pair of platinum earrings",
+    "name_plural": "pairs of platinum earrings",
     "description": "A pair of plain platinum earrings - if gold is getting boring, just use another rare metal.  You can wear it if you like, but it won't provide any effects.",
     "weight": "15 g",
     "volume": 0,
