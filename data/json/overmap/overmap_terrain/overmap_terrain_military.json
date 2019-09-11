@@ -153,6 +153,42 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "silo_1",
+    "name": "missile silo",
+    "sym": "0",
+    "color": "light_gray",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "silo_2",
+    "name": "missile silo",
+    "sym": "0",
+    "color": "light_gray",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "silo_3",
+    "name": "missile silo",
+    "sym": "0",
+    "color": "light_gray",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "silo_4",
+    "name": "missile silo",
+    "sym": "0",
+    "color": "light_gray",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "silo_finale",
     "name": "missile silo",
     "sym": "0",
