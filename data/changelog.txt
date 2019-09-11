@@ -1,3 +1,26 @@
+# 0.E (2019-03-10)
+
+## Features:
+
+## Content:
+
+## Interface:
+
+## Mods:
+
+## Balance:
+
+## Bugfixes:
+
+## Performance:
+
+## Infrastructure:
+
+## Build:
+
+## I18N and A11Y:
+
+
 # 0.D (Danny)
 
 ## Highlights:
