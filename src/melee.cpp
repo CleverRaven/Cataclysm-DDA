@@ -1869,38 +1869,66 @@ std::string melee_message( const ma_technique &tec, player &p, const dealt_damag
 
     // Three last values are for low damage
     static const std::array<std::string, 6> player_stab = {{
-            _( "You impale %s" ), _( "You gouge %s" ), _( "You run %s through" ),
-            _( "You puncture %s" ), _( "You pierce %s" ), _( "You poke %s" )
+            translate_marker( "You impale %s" ),
+            translate_marker( "You gouge %s" ),
+            translate_marker( "You run %s through" ),
+            translate_marker( "You puncture %s" ),
+            translate_marker( "You pierce %s" ),
+            translate_marker( "You poke %s" )
         }
     };
     static const std::array<std::string, 6> npc_stab = {{
-            _( "<npcname> impales %s" ), _( "<npcname> gouges %s" ), _( "<npcname> runs %s through" ),
-            _( "<npcname> punctures %s" ), _( "<npcname> pierces %s" ), _( "<npcname> pokes %s" )
+            translate_marker( "<npcname> impales %s" ),
+            translate_marker( "<npcname> gouges %s" ),
+            translate_marker( "<npcname> runs %s through" ),
+            translate_marker( "<npcname> punctures %s" ),
+            translate_marker( "<npcname> pierces %s" ),
+            translate_marker( "<npcname> pokes %s" )
         }
     };
     // First 5 are for high damage, next 2 for medium, then for low and then for v. low
     static const std::array<std::string, 9> player_cut = {{
-            _( "You gut %s" ), _( "You chop %s" ), _( "You slash %s" ),
-            _( "You mutilate %s" ), _( "You maim %s" ), _( "You stab %s" ),
-            _( "You slice %s" ), _( "You cut %s" ), _( "You nick %s" )
+            translate_marker( "You gut %s" ),
+            translate_marker( "You chop %s" ),
+            translate_marker( "You slash %s" ),
+            translate_marker( "You mutilate %s" ),
+            translate_marker( "You maim %s" ),
+            translate_marker( "You stab %s" ),
+            translate_marker( "You slice %s" ),
+            translate_marker( "You cut %s" ),
+            translate_marker( "You nick %s" )
         }
     };
     static const std::array<std::string, 9> npc_cut = {{
-            _( "<npcname> guts %s" ), _( "<npcname> chops %s" ), _( "<npcname> slashes %s" ),
-            _( "<npcname> mutilates %s" ), _( "<npcname> maims %s" ), _( "<npcname> stabs %s" ),
-            _( "<npcname> slices %s" ), _( "<npcname> cuts %s" ), _( "<npcname> nicks %s" )
+            translate_marker( "<npcname> guts %s" ),
+            translate_marker( "<npcname> chops %s" ),
+            translate_marker( "<npcname> slashes %s" ),
+            translate_marker( "<npcname> mutilates %s" ),
+            translate_marker( "<npcname> maims %s" ),
+            translate_marker( "<npcname> stabs %s" ),
+            translate_marker( "<npcname> slices %s" ),
+            translate_marker( "<npcname> cuts %s" ),
+            translate_marker( "<npcname> nicks %s" )
         }
     };
 
     // Three last values are for low damage
     static const std::array<std::string, 6> player_bash = {{
-            _( "You clobber %s" ), _( "You smash %s" ), _( "You thrash %s" ),
-            _( "You batter %s" ), _( "You whack %s" ), _( "You hit %s" )
+            translate_marker( "You clobber %s" ),
+            translate_marker( "You smash %s" ),
+            translate_marker( "You thrash %s" ),
+            translate_marker( "You batter %s" ),
+            translate_marker( "You whack %s" ),
+            translate_marker( "You hit %s" )
         }
     };
     static const std::array<std::string, 6> npc_bash = {{
-            _( "<npcname> clobbers %s" ), _( "<npcname> smashes %s" ), _( "<npcname> thrashes %s" ),
-            _( "<npcname> batters %s" ), _( "<npcname> whacks %s" ), _( "<npcname> hits %s" )
+            translate_marker( "<npcname> clobbers %s" ),
+            translate_marker( "<npcname> smashes %s" ),
+            translate_marker( "<npcname> thrashes %s" ),
+            translate_marker( "<npcname> batters %s" ),
+            translate_marker( "<npcname> whacks %s" ),
+            translate_marker( "<npcname> hits %s" )
         }
     };
 
@@ -1942,11 +1970,11 @@ std::string melee_message( const ma_technique &tec, player &p, const dealt_damag
     }
 
     if( dominant_type == DT_STAB ) {
-        return ( npc ? npc_stab[index] : player_stab[index] );
+        return npc ? _( npc_stab[index] ) : _( player_stab[index] );
     } else if( dominant_type == DT_CUT ) {
-        return ( npc ? npc_cut[index] : player_cut[index] );
+        return npc ? _( npc_cut[index] ) : _( player_cut[index] );
     } else if( dominant_type == DT_BASH ) {
-        return ( npc ? npc_bash[index] : player_bash[index] );
+        return npc ? _( npc_bash[index] ) : _( player_bash[index] );
     }
 
     return _( "The bugs attack %s" );

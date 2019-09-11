@@ -2066,14 +2066,16 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
     const bool overridden = override != terrain_override.end();
     bool neighborhood_overridden = overridden;
     if( !neighborhood_overridden ) {
+        // *INDENT-OFF*
         for( const point &dir : {
-        point_south, point_east, point_west, point_north
-    } ) {
+                 point_south, point_east, point_west, point_north
+             } ) {
             if( terrain_override.find( p + dir ) != terrain_override.end() ) {
                 neighborhood_overridden = true;
                 break;
             }
         }
+        // *INDENT-ON*
     }
     // first memorize the actual terrain
     const ter_id &t = g->m.ter( p );
@@ -2233,14 +2235,16 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
     const bool overridden = override != furniture_override.end();
     bool neighborhood_overridden = overridden;
     if( !neighborhood_overridden ) {
+        // *INDENT-OFF*
         for( const point &dir : {
-        point_south, point_east, point_west, point_north
-    } ) {
+                 point_south, point_east, point_west, point_north
+             } ) {
             if( furniture_override.find( p + dir ) != furniture_override.end() ) {
                 neighborhood_overridden = true;
                 break;
             }
         }
+        // *INDENT-ON*
     }
     // first memorize the actual furniture
     const furn_id &f = g->m.furn( p );
@@ -2308,14 +2312,16 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
     const bool overridden = override != trap_override.end();
     bool neighborhood_overridden = overridden;
     if( !neighborhood_overridden ) {
+        // *INDENT-OFF*
         for( const point &dir : {
-        point_south, point_east, point_west, point_north
-    } ) {
+                 point_south, point_east, point_west, point_north
+             } ) {
             if( trap_override.find( p + dir ) != trap_override.end() ) {
                 neighborhood_overridden = true;
                 break;
             }
         }
+        // *INDENT-ON*
     }
 
     // first memorize the actual trap

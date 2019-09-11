@@ -650,11 +650,10 @@ void new_faction_manager::display() const
                   tab == tab_mode::TAB_FOLLOWERS ? LINE_XOXX : LINE_XXXX ); // + || -|
         mvwputch( w_missions, point( 30, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
         const nc_color col = c_white;
-        static const std::string no_camp = _( "You have no camps" );
-        static const std::string no_ally = _( "You have no followers" );
 
         switch( tab ) {
-            case tab_mode::TAB_MYFACTION:
+            case tab_mode::TAB_MYFACTION: {
+                const std::string no_camp = _( "You have no camps" );
                 if( active_vec_size > 0 ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
                                     point( 0, 3 ) );
@@ -673,8 +672,10 @@ void new_faction_manager::display() const
                 } else {
                     mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_camp );
                 }
-                break;
-            case tab_mode::TAB_FOLLOWERS:
+            }
+            break;
+            case tab_mode::TAB_FOLLOWERS: {
+                const std::string no_ally = _( "You have no followers" );
                 if( !followers.empty() ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
                                     point( 0, 3 ) );
@@ -698,7 +699,8 @@ void new_faction_manager::display() const
                 } else {
                     mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_ally );
                 }
-                break;
+            }
+            break;
             case tab_mode::TAB_OTHERFACTIONS:
                 // Currently the info on factions is incomplete.
                 break;

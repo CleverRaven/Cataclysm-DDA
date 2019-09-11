@@ -1140,16 +1140,6 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
     // acid attack behavior
     constexpr int att_acid_intensity = 3;
 
-    // flavor messages
-    static const std::array<const char *, 4> m_flavor = {{
-            _( "The %s shudders, letting out an eery metallic whining noise!" ),
-            _( "The %s scratches its long legs along the floor, shooting sparks." ),
-            _( "The %s bleeps inquiringly and focuses a red camera-eye on you." ),
-            _( "The %s's combat arms crackle with electricity." ),
-            //special case; leave the electricity last
-        }
-    };
-
     if( !z->can_act() ) {
         return false;
     }
@@ -1289,6 +1279,16 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
 
             break;
         case att_flavor : {
+            // flavor messages
+            static const std::array<std::string, 4> m_flavor = {{
+                    translate_marker( "The %s shudders, letting out an eery metallic whining noise!" ),
+                    translate_marker( "The %s scratches its long legs along the floor, shooting sparks." ),
+                    translate_marker( "The %s bleeps inquiringly and focuses a red camera-eye on you." ),
+                    translate_marker( "The %s's combat arms crackle with electricity." ),
+                    //special case; leave the electricity last
+                }
+            };
+
             const size_t i = get_random_index( m_flavor );
 
             // the special case; see above
@@ -1298,7 +1298,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
 
             // if the player can see it, else forget about it
             if( g->u.sees( *z ) ) {
-                add_msg( m_warning, m_flavor[i], z->name() );
+                add_msg( m_warning, _( m_flavor[i] ), z->name() );
             }
         }
         break;

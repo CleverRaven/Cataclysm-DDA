@@ -77,7 +77,7 @@ class map;
 enum damage_type : int;
 enum clothing_mod_type : int;
 
-const std::string &rad_badge_color( int rad );
+std::string rad_badge_color( int rad );
 
 struct light_emission {
     unsigned short luminance;

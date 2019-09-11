@@ -13,6 +13,7 @@
 #include "bodypart.h"
 #include "pimpl.h"
 #include "string_formatter.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "debug.h"
@@ -22,7 +23,6 @@ enum game_message_type : int;
 class nc_color;
 class effect;
 class effects_map;
-class translation;
 
 namespace catacurses
 {
@@ -156,7 +156,7 @@ class Creature
         /**
          * Creature Attitude as String and color
          */
-        static const std::pair<std::string, nc_color> &get_attitude_ui_data( Attitude att );
+        static const std::pair<translation, nc_color> &get_attitude_ui_data( Attitude att );
 
         /**
          * Attitude (of this creature) towards another creature. This might not be symmetric.

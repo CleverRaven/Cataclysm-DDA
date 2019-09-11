@@ -895,7 +895,7 @@ action_id handle_action_menu()
 
         std::string title = _( "Actions" );
         if( category != "back" ) {
-            catgname = _( category );
+            catgname = category;
             capitalize_letter( catgname, 0 );
             title += ": " + catgname;
         }
