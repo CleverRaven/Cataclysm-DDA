@@ -495,7 +495,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         can_see = _( "Within interaction range" );
         see_color = c_light_green;
     }
-    mvwprintz( fac_w, point( width, ++y ), see_color, can_see );
+    mvwprintz( fac_w, point( width, ++y ), see_color, "%s", can_see );
     nc_color status_col = col;
     std::string current_status = _( "Status : " );
     if( current_target() != nullptr ) {
