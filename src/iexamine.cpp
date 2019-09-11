@@ -856,7 +856,7 @@ void iexamine::cardreader_foodplace( player &p, const tripoint &examp )
 void iexamine::intercom( player &p, const tripoint &examp )
 {
     const std::vector<npc *> intercom_npcs = g->get_npcs_if( [examp]( const npc & guy ) {
-        return guy.name == "the intercom" && rl_dist( guy.pos(), examp ) < 10;
+        return guy.myclass == npc_class_id( "NC_ROBOFAC_INTERCOM" ) && rl_dist( guy.pos(), examp ) < 10;
     } );
     if( intercom_npcs.empty() ) {
         p.add_msg_if_player( m_info, _( "No one responds." ) );
