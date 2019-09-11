@@ -45,6 +45,7 @@ faction_template::faction_template()
     wealth = 0;
     size = 0;
     power = 0;
+    lone_wolf_faction = false;
     currency = "null";
 }
 
@@ -96,6 +97,7 @@ faction_template::faction_template( JsonObject &jsobj )
     } else {
         currency = "null";
     }
+    lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
     load_relations( jsobj );
     mon_faction = jsobj.get_string( "mon_faction", "human" );
 }
@@ -316,6 +318,21 @@ void faction_manager::clear()
     factions.clear();
 }
 
+void faction_manager::remove_faction( const faction_id &id )
+{
+    if( id.str().empty() || id == faction_id( "no_faction" ) ) {
+        return;
+    }
+    int index = 0;
+    for( faction &elem : factions ) {
+        if( id == elem.id ) {
+            factions.erase( factions.begin() + index );
+            return;
+        }
+        index++;
+    }
+}
+
 void faction_manager::create_if_needed()
 {
     if( !factions.empty() ) {
@@ -326,6 +343,21 @@ void faction_manager::create_if_needed()
     }
 }
 
+faction *faction_manager::add_new_faction( const std::string &name_new, const faction_id &id_new,
+        const faction_id &template_id )
+{
+    for( const faction_template &fac_temp : npc_factions::all_templates ) {
+        if( template_id == fac_temp.id ) {
+            faction fac( fac_temp );
+            fac.name = name_new;
+            fac.id = id_new;
+            factions.emplace_back( fac );
+        }
+    }
+    faction *ret = get( id_new );
+    return ret ? ret : nullptr;
+}
+
 faction *faction_manager::get( const faction_id &id )
 {
     for( faction &elem : factions ) {
@@ -334,6 +366,7 @@ faction *faction_manager::get( const faction_id &id )
                 for( const faction_template &fac_temp : npc_factions::all_templates ) {
                     if( fac_temp.id == id ) {
                         elem.currency = fac_temp.currency;
+                        elem.lone_wolf_faction = fac_temp.lone_wolf_faction;
                         elem.name = fac_temp.name;
                         elem.desc = fac_temp.desc;
                         elem.mon_faction = fac_temp.mon_faction;

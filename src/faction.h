@@ -78,6 +78,7 @@ class faction_template
         int power; // General measure of our power
         int food_supply;  //Total nutritional value held
         int wealth;  //Total trade currency
+        bool lone_wolf_faction; // is this a faction for just one person?
         std::string currency; // itype_id of the faction currency
         std::map<std::string, std::bitset<npc_factions::rel_types>> relations;
         std::string mon_faction; // mon_faction_id of the monster faction; defaults to human
@@ -114,7 +115,9 @@ class faction_manager
 
         void clear();
         void create_if_needed();
-
+        faction *add_new_faction( const std::string &name_new, const faction_id &id_new,
+                                  const faction_id &template_id );
+        void remove_faction( const faction_id &id );
         const std::vector<faction> &all() const {
             return factions;
         }
