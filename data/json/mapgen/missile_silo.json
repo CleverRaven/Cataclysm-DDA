@@ -438,9 +438,9 @@
           { "item": "mil_armor", "chance": 65, "repeat": [ 1, 2 ] },
           { "item": "gear_soldier_sidearm", "chance": 70, "repeat": [ 1, 2 ] }
         ]
-      }
-    },
-    "place_graffiti": [ { "text": "Warning!  Automatic security measures engaged due to the lockdown order!", "x": 17, "y": 20 } ]
+      },
+      "place_graffiti": [ { "text": "Warning!  Automatic security measures engaged due to the lockdown order!", "x": 17, "y": 20 } ]
+    }
   },
   {
     "type": "mapgen",
@@ -502,6 +502,7 @@
           "options": [ { "name": "Launch Missile", "action": "miss_launch" }, { "name": "Disarm Missile", "action": "miss_disarm" } ]
         }
       },
+      "place_graffiti": [ { "text": "Warning!  Automatic security measures engaged due to the lockdown order!", "x": 17, "y": 20 } ],
       "place_monster": [ { "monster": "mon_zombie_hazmat", "x": 8, "y": 15 } ]
     }
   }
