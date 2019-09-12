@@ -657,8 +657,11 @@
   {
     "id": "fd_swamp_gas",
     "type": "field_type",
-    "legacy_enum_id": 13,
-    "intensity_levels": [ { "name": "swamp gas", "sym": ".", "dangerous": true, "translucency": 5 } ],
+    "intensity_levels": [
+      { "name": "swamp gas", "sym": ".", "dangerous": true, "translucency": 5 },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 15,
     "percent_spread": 25,
@@ -667,7 +670,7 @@
     "has_fume": true,
     "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
     "priority": 8,
-    "half_life": "25 minutes",
+    "half_life": "15 minutes",
     "phase": "gas",
     "display_items": false,
     "display_field": true
@@ -675,7 +678,11 @@
   {
     "id": "fd_fog",
     "type": "field_type",
-    "intensity_levels": [ { "name": "fog", "sym": "~", "dangerous": false, "transparent": false, "translucency": 2 } ],
+    "intensity_levels": [
+      { "name": "mist", "sym": "~", "dangerous": false, "transparent": false, "translucency": 5 },
+      { "name": "fog", "translucency": 3 },
+      { "name": "dense fog", "translucency": 1 }
+    ],
     "decay_amount_factor": 15,
     "gas_absorption_factor": 5,
     "percent_spread": 55,
