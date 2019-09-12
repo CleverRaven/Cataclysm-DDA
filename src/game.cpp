@@ -907,9 +907,6 @@ void game::load_npcs()
         if( temp->marked_for_death ) {
             temp->die( nullptr );
         } else {
-            if( temp->get_faction() != nullptr ) {
-                temp->get_faction()->known_by_u = true;
-            }
             active_npc.push_back( temp );
             just_added.push_back( temp );
         }

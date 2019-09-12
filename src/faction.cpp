@@ -387,6 +387,14 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
     fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, requirements );
 }
 
+void faction::faction_display( const catacurses::window &fac_w, const int width ) const
+{
+    int y = 2;
+    mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Attitude to you:           %s" ),
+               fac_ranking_text( likes_u ) );
+    fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_light_gray, desc );
+}
+
 int npc::faction_display( const catacurses::window &fac_w, const int width ) const
 {
     int retval = 0;
@@ -596,7 +604,14 @@ void new_faction_manager::display() const
             npc *npc_to_add = npc_to_get.get();
             followers.push_back( npc_to_add );
         }
+        std::vector<const faction *> valfac; // Factions that we know of.
+        for( const faction &elem : g->faction_manager_ptr->all() ) {
+            if( elem.known_by_u && elem.id != faction_id( "your_followers" ) ) {
+                valfac.push_back( &elem );
+            }
+        }
         npc *guy = nullptr;
+        const faction *cur_fac = nullptr;
         bool interactable = false;
         bool radio_interactable = false;
         basecamp *camp = nullptr;
@@ -625,6 +640,11 @@ void new_faction_manager::display() const
         } else if( tab == tab_mode::TAB_MYFACTION ) {
             if( !camps.empty() ) {
                 camp = camps[selection];
+            }
+        } else if( tab == tab_mode::TAB_OTHERFACTIONS ) {
+            if( !valfac.empty() ) {
+                cur_fac = valfac[selection];
+                active_vec_size = valfac.size();
             }
         }
         for( int i = 1; i < FULL_SCREEN_WIDTH - 1; i++ ) {
@@ -701,9 +721,28 @@ void new_faction_manager::display() const
                 }
             }
             break;
-            case tab_mode::TAB_OTHERFACTIONS:
-                // Currently the info on factions is incomplete.
-                break;
+            case tab_mode::TAB_OTHERFACTIONS: {
+                const std::string no_fac = _( "You don't know of any factions." );
+                if( active_vec_size > 0 ) {
+                    draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
+                                    point( 0, 3 ) );
+                    for( size_t i = top_of_page; i < active_vec_size; i++ ) {
+                        const int y = i - top_of_page + 3;
+                        trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
+                                        valfac[i]->name );
+                    }
+                    if( selection < valfac.size() ) {
+                        assert( cur_fac ); // To appease static analysis
+                        cur_fac->faction_display( w_missions, 31 );
+                    } else {
+                        mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_fac );
+                    }
+                    break;
+                } else {
+                    mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_fac );
+                }
+            }
+            break;
             default:
                 break;
         }
