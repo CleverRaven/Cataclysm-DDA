@@ -209,7 +209,6 @@ veh_interact::veh_interact( vehicle &veh, const point &p )
     main_context.register_action( "RENAME" );
     main_context.register_action( "SIPHON" );
     main_context.register_action( "UNLOAD" );
-    main_context.register_action( "TIRE_CHANGE" );
     main_context.register_action( "ASSIGN_CREW" );
     main_context.register_action( "RELABEL" );
     main_context.register_action( "PREV_TAB" );
@@ -391,12 +390,6 @@ void veh_interact::do_main_loop()
             if( veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
                 redraw = do_unload( msg );
                 finish = redraw;
-            } else {
-                redraw = true;
-            }
-        } else if( action == "TIRE_CHANGE" ) {
-            if( veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
-                redraw = do_tirechange( msg );
             } else {
                 redraw = true;
             }
@@ -1837,74 +1830,6 @@ bool veh_interact::do_unload( std::string &msg )
 
     act_vehicle_unload_fuel( veh );
     return true; // force redraw
-}
-
-bool veh_interact::do_tirechange( std::string &msg )
-{
-    const auto helpers = g->u.get_crafting_helpers();
-    switch( cant_do( 'c' ) ) {
-        case INVALID_TARGET:
-            msg = _( "There is no wheel to change here." );
-            return false;
-
-        case LACK_TOOLS:
-            if( !helpers.empty() ) {
-                msg = string_format(
-                          //~ %1$s represents the internal color name which shouldn't be translated, %2$s is an internal color name, %3$s is an internal color name, %4$s is an internal color name, and %5$d is the required lift strength
-                          _( "To change a wheel you need a %1$swrench</color>, a %2$swheel</color>, and either "
-                             "%3$slifting equipment</color> or %4$s%5$d</color> strength ( assisted )." ),
-                          status_color( has_wrench ), status_color( has_wheel ), status_color( has_jack ),
-                          status_color( g->u.can_lift( *veh ) ), veh->lift_strength() );
-            } else {
-                msg = string_format(
-                          //~ %1$s represents the internal color name which shouldn't be translated, %2$s is an internal color name, %3$s is an internal color name, %4$s is an internal color name, and %5$d is the required lift strength
-                          _( "To change a wheel you need a %1$swrench</color>, a %2$swheel</color>, and either "
-                             "%3$slifting equipment</color> or %4$s%5$d</color> strength." ),
-                          status_color( has_wrench ), status_color( has_wheel ), status_color( has_jack ),
-                          status_color( g->u.can_lift( *veh ) ), veh->lift_strength() );
-            }
-            return false;
-
-        case MOVING_VEHICLE:
-            msg = _( "Who is driving while you work?" );
-            return false;
-
-        default:
-            break;
-    }
-
-    set_title( _( "Choose wheel to use as replacement:" ) );
-
-    int pos = 0;
-    while( true ) {
-        sel_vpart_info = wheel_types[pos];
-        bool is_wheel = sel_vpart_info->has_flag( "WHEEL" );
-        display_list( pos, wheel_types );
-        bool has_comps = crafting_inv.has_components( sel_vpart_info->item, 1 );
-        werase( w_msg );
-        wrefresh( w_msg );
-
-        const std::string action = main_context.handle_input();
-        if( ( action == "TIRE_CHANGE" || action == "CONFIRM" ) &&
-            is_wheel && has_comps && has_wrench && ( g->u.can_lift( *veh ) || has_jack ) ) {
-            for( const npc *np : helpers ) {
-                add_msg( m_info, _( "%s helps with this task..." ), np->name );
-            }
-            sel_cmd = 'c';
-            break;
-
-        } else if( action == "QUIT" ) {
-            werase( w_list );
-            wrefresh( w_list );
-            werase( w_msg );
-            break;
-
-        } else {
-            move_in_list( pos, action, wheel_types.size() );
-        }
-    }
-
-    return false;
 }
 
 bool veh_interact::do_assign_crew( std::string &msg )
