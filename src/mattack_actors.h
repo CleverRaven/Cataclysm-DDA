@@ -182,7 +182,7 @@ class gun_actor : public mattack_actor
         bool require_sunlight = false;
 
         /** Allow to get headshots */
-        bool allow_headshot = false;
+        bool allow_critical_hits = false;
 
         void shoot( monster &z, Creature &target, const gun_mode_id &mode ) const;
 

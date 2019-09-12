@@ -85,7 +85,7 @@ Creature::Creature()
     Creature::reset_bonuses();
 
     fake = false;
-    can_headshot = true;
+    allow_critical_hits = true;
 }
 
 Creature::~Creature() = default;
@@ -606,10 +606,13 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     body_part bp_hit;
     double hit_value = missed_by + rng_float( -0.5, 0.5 );
-    // Headshots considered elsewhere
     if( hit_value <= 0.4 || magic ) {
         bp_hit = bp_torso;
-    } else if( one_in( 4 ) ) {
+    }
+    else if ( one_in( 5 ) ) { // Player can randomly get hit in the head even with innacurate shot
+        bp_hit = bp_head;
+    }
+    else if( one_in( 4 ) ) {
         if( one_in( 2 ) ) {
             bp_hit = bp_leg_l;
         } else {
@@ -624,23 +627,23 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
 
     double damage_mult = 1.0;
-    bool can_do_headshot = source->is_can_headshot();
+    bool allow_critical_hits = source->is_allow_critical_hits();
     std::string message;
     game_message_type gmtSCTcolor = m_neutral;
     if( magic ) {
         damage_mult *= rng_float( 0.9, 1.1 );
-    } else if( can_do_headshot && goodhit < accuracy_headshot ) {
+    } else if( allow_critical_hits && goodhit < accuracy_headshot ) {
         message = _( "Headshot!" );
         gmtSCTcolor = m_headshot;
         damage_mult *= rng_float( 1.95, 2.05 );
         bp_hit = bp_head; // headshot hits the head, of course
 
-    } else if( goodhit < accuracy_critical ) {
+    } else if( allow_critical_hits && goodhit < accuracy_critical ) {
         message = _( "Critical!" );
         gmtSCTcolor = m_critical;
         damage_mult *= rng_float( 1.5, 2.0 );
 
-    } else if( goodhit < accuracy_goodhit ) {
+    } else if( allow_critical_hits && goodhit < accuracy_goodhit ) {
         message = _( "Good hit!" );
         gmtSCTcolor = m_good;
         damage_mult *= rng_float( 1, 1.5 );
@@ -908,14 +911,14 @@ void Creature::set_fake( const bool fake_value )
     fake = fake_value;
 }
 
-bool Creature::is_can_headshot() const
+bool Creature::is_allow_critical_hits() const
 {
-    return can_headshot;
+    return allow_critical_hits;
 }
 
-void Creature::set_can_headshot(const bool can_headshot_value)
+void Creature::set_allow_critical_hits( const bool allow_critical_hits_value )
 {
-    can_headshot = can_headshot_value;
+    allow_critical_hits = allow_critical_hits_value;
 }
 
 void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
