@@ -4,6 +4,7 @@
 
 #include <map>
 #include <memory>
+#include <vector>
 
 #include "clone_ptr.h"
 #include "string_id.h"
@@ -70,6 +71,7 @@ class score
         void check() const;
         static void load_score( JsonObject &, const std::string & );
         static void check_consistency();
+        static const std::vector<score> &get_all();
         static void reset();
 
         string_id<score> id;
