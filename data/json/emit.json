@@ -254,6 +254,7 @@
     "id": "emit_fog_plume",
     "type": "emit",
     "field": "fd_fog",
+    "intensity": 2,
     "qty": 200
   }
 ]
