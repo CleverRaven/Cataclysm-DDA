@@ -4725,15 +4725,15 @@ bool mattack::tindalos_teleport( monster *z )
         }
     }
     const int distance_to_target = rl_dist( z->pos(), target->pos() );
-    const tripoint &oldpos = z->pos();
+    const tripoint oldpos = z->pos();
     if( distance_to_target > 5 ) {
         for( const tripoint &dest : g->m.points_in_radius( target->pos(), 4 ) ) {
             if( g->m.is_cornerfloor( dest ) ) {
                 if( g->is_empty( dest ) ) {
-                    g->m.add_field( oldpos, fd_tindalos_rift, 2 );
                     z->setpos( dest );
                     // Not teleporting if it means losing sight of our current target
                     if( z->sees( *target ) ) {
+                        g->m.add_field( oldpos, fd_tindalos_rift, 2 );
                         g->m.add_field( dest, fd_tindalos_rift, 2 );
                         if( g->u.sees( *z ) ) {
                             add_msg( m_bad, _( "The %s dissipates and reforms close by." ), z->name() );
