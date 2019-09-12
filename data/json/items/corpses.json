@@ -30,7 +30,6 @@
     "copy-from": "corpse",
     "name": "human corpse",
     "description": "A dead human body.",
-    "looks_like": "corpse",
     "material": "hflesh"
   },
   {
