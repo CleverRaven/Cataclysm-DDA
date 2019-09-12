@@ -41,6 +41,11 @@ int event_multiset::count( const cata::event::data_type &criteria ) const
     return total;
 }
 
+int event_multiset::total( const std::string &field ) const
+{
+    return total( field, {} );
+}
+
 int event_multiset::total( const std::string &field, const cata::event::data_type &criteria ) const
 {
     int total = 0;

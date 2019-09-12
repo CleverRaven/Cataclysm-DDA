@@ -225,35 +225,54 @@ void event_transformation::check() const
     impl_->check( id.str() );
 }
 
-struct event_statistic_count_type : event_statistic::impl {
-    event_statistic_count_type( event_type t ) : type( t ) {}
+// Helper struct to abstract the two possible sources of event_multisets:
+// event_types and event_transformations
+struct event_source {
+    event_source( event_type t ) : type( t ) {}
+    event_source( const string_id<event_transformation> &t ) : transformation( t ) {}
 
-    event_type type;
+    event_type type = event_type::num_event_types;
+    string_id<event_transformation> transformation;
 
-    cata_variant value( stats_tracker &stats ) const override {
-        int count = stats.get_events( type ).count();
-        return cata_variant::make<cata_variant_type::int_>( count );
-    }
-
-    std::unique_ptr<impl> clone() const override {
-        return std::make_unique<event_statistic_count_type>( *this );
+    event_multiset get( stats_tracker &stats ) const {
+        if( transformation.is_empty() ) {
+            return stats.get_events( type );
+        } else {
+            return stats.get_events( transformation );
+        }
     }
 };
 
-struct event_statistic_count_transformation : event_statistic::impl {
-    event_statistic_count_transformation( const string_id<event_transformation> &transformation ) :
-        transformation_( transformation )
-    {}
+struct event_statistic_count : event_statistic::impl {
+    event_statistic_count( const event_source &s ) : source( s ) {}
 
-    string_id<event_transformation> transformation_;
+    event_source source;
 
     cata_variant value( stats_tracker &stats ) const override {
-        int count = stats.get_events( transformation_ ).count();
+        int count = source.get( stats ).count();
         return cata_variant::make<cata_variant_type::int_>( count );
     }
 
     std::unique_ptr<impl> clone() const override {
-        return std::make_unique<event_statistic_count_transformation>( *this );
+        return std::make_unique<event_statistic_count>( *this );
+    }
+};
+
+struct event_statistic_total : event_statistic::impl {
+    event_statistic_total( const event_source &s, const std::string &f ) :
+        source( s ), field( f )
+    {}
+
+    event_source source;
+    std::string field;
+
+    cata_variant value( stats_tracker &stats ) const override {
+        int total = source.get( stats ).total( field );
+        return cata_variant::make<cata_variant_type::int_>( total );
+    }
+
+    std::unique_ptr<impl> clone() const override {
+        return std::make_unique<event_statistic_total>( *this );
     }
 };
 
@@ -303,22 +322,30 @@ void event_statistic::load( JsonObject &jo, const std::string & )
     std::string type;
     mandatory( jo, was_loaded, "stat_type", type );
 
-    if( type == "count" ) {
+    auto get_event_source = [&]() {
         event_type event_t = event_type::num_event_types;
         optional( jo, was_loaded, "event_type", event_t, event_type::num_event_types );
-        string_id<event_transformation> event_sub;
-        optional( jo, was_loaded, "event_transformation", event_sub );
+        string_id<event_transformation> event_transformation;
+        optional( jo, was_loaded, "event_transformation", event_transformation );
 
-        if( ( event_t == event_type::num_event_types ) == event_sub.is_empty() ) {
+        if( ( event_t == event_type::num_event_types ) == event_transformation.is_empty() ) {
             jo.throw_error( "Must specify exactly one of 'event_type' or 'event_transformation' in "
                             "event_statistic of type 'count'" );
         }
 
-        if( event_sub.is_empty() ) {
-            impl_ = std::make_unique<event_statistic_count_type>( event_t );
+        if( event_transformation.is_empty() ) {
+            return event_source( event_t );
         } else {
-            impl_ = std::make_unique<event_statistic_count_transformation>( event_sub );
+            return event_source( event_transformation );
         }
+    };
+
+    if( type == "count" ) {
+        impl_ = std::make_unique<event_statistic_count>( get_event_source() );
+    } else if( type == "total" ) {
+        std::string field;
+        mandatory( jo, was_loaded, "field", field );
+        impl_ = std::make_unique<event_statistic_total>( get_event_source(), field );
     } else if( type == "unique_value" ) {
         event_type event_t = event_type::num_event_types;
         mandatory( jo, was_loaded, "event_type", event_t );
