@@ -33,6 +33,7 @@ class event_multiset
 
         int count() const;
         int count( const cata::event::data_type &criteria ) const;
+        int total( const std::string &field ) const;
         int total( const std::string &field, const cata::event::data_type &criteria ) const;
 
         void add( const cata::event & );
