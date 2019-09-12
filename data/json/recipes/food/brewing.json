@@ -27,7 +27,7 @@
     "autolearn": true,
     "book_learn": [ [ "survival_book", 3 ], [ "textbook_survival", 3 ], [ "manual_survival", 3 ] ],
     "components": [
-      [ [ "milk", 15 ] ],
+      [ [ "milk", 15 ], [ "milk_reconstituted", 15 ] ],
       [ [ "vinegar", 3 ] ],
       [ [ "wild_herbs", 40 ], [ "stomach_large", 1 ], [ "hstomach_large", 1 ], [ "stomach", 2 ], [ "hstomach", 2 ] ]
     ]
