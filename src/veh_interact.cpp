@@ -537,7 +537,9 @@ task_reason veh_interact::cant_do( char mode )
         break;
 
         case 'f':
-            return std::any_of( veh->parts.begin(), veh->parts.end(), can_refill ) ? CAN_DO : INVALID_TARGET;
+            valid_target = std::any_of( veh->parts.begin(), veh->parts.end(), can_refill );
+            has_tools = true;
+            break;
 
         case 'o': // remove mode
             enough_morale = g->u.has_morale_to_craft();
@@ -1212,9 +1214,17 @@ bool veh_interact::do_mend( std::string &msg )
 
 bool veh_interact::do_refill( std::string &msg )
 {
-    if( cant_do( 'f' ) ) {
-        msg = _( "No parts can currently be refilled" );
-        return false;
+    switch( cant_do( 'f' ) ) {
+        case MOVING_VEHICLE:
+            msg = _( "You can't refill a moving vehicle." );
+            return false;
+
+        case INVALID_TARGET:
+            msg = _( "No parts can currently be refilled." );
+            return false;
+
+        default:
+            break;
     }
 
     set_title( _( "Select part to refill:" ) );
