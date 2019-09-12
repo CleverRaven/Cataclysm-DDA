@@ -931,7 +931,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
                 }
-                if( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
+                if( !p.backlog.empty() && p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
                     obj.set_var( "activity_var", p.name );
                 }
                 g->m.add_item_or_charges( p.pos(), obj );
@@ -950,7 +950,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
                 }
-                if( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
+                if( !p.backlog.empty() && p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
                     obj.set_var( "activity_var", p.name );
                 }
                 for( int i = 0; i != roll; ++i ) {
@@ -989,7 +989,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             ruined_parts.set_mtype( &mt );
             ruined_parts.set_item_temperature( 0.00001 * corpse_item->temperature );
             ruined_parts.set_rot( corpse_item->get_rot() );
-            if( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
+            if( !p.backlog.empty() && p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
                 ruined_parts.set_var( "activity_var", p.name );
             }
             g->m.add_item_or_charges( p.pos(), ruined_parts );
@@ -1278,7 +1278,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // Ready to move on to the next item, if there is one (for example if multibutchering)
     act->index = true;
     // if its mutli-tile butchering,then restart the backlog.
-    if( p->backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
+    if( !p->backlog.empty() && p->backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
         p->activity = player_activity();
     }
 }
@@ -2803,7 +2803,7 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
     ( void )p;
     act->set_to_null();
     p->add_msg_if_player( m_info, _( "You finish fishing" ) );
-    if( p->backlog.front().id() == activity_id( "ACT_MULTIPLE_FISH" ) ) {
+    if( !p->backlog.empty() && p->backlog.front().id() == activity_id( "ACT_MULTIPLE_FISH" ) ) {
         p->backlog.clear();
         p->assign_activity( activity_id( "ACT_TIDY_UP" ) );
     }
