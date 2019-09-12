@@ -89,6 +89,11 @@ void score::check_consistency()
     score_factory.check();
 }
 
+const std::vector<score> &score::get_all()
+{
+    return score_factory.get_all();
+}
+
 void score::reset()
 {
     score_factory.reset();
