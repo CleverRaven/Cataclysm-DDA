@@ -24,6 +24,7 @@
 #include "bionics.h"
 #include "comestible_inv_pane.h"
 #include "material.h"
+#include "ime.h"
 
 #include <algorithm>
 #include <cassert>
@@ -135,11 +136,8 @@ void comestible_inventory_pane::start_user_filtering( int h, int w )
     .max_length( 256 )
     .text( filter );
 
-#if defined(__ANDROID__)
-    if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-        SDL_StartTextInput();
-    }
-#endif
+
+    ime_sentry sentry;
 
     do {
         mvwprintz( window, point( 2, getmaxy( window ) - 1 ), c_cyan, "< " );

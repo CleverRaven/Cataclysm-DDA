@@ -30,9 +30,6 @@
 #include <iterator>
 #include <utility>
 #include <numeric>
-#if defined(__ANDROID__)
-#   include <SDL_keyboard.h>
-#endif
 
 void comestible_inv_listitem::print_columns( std::vector<comestible_inv_columns> columns,
         comestible_select_state selected_state, catacurses::window window, int right_bound,
@@ -330,7 +327,7 @@ comestible_inv_listitem::get_sort_function( comestible_inv_columns sortby,
         auto f1 = compare_function( sortby );
         auto f2 = compare_function( default_sortby );
 
-        bool retval;
+        bool retval = false;
         if( !f1( d1, d2, retval ) ) {
             f2( d1, d2, retval );
         }
@@ -349,6 +346,7 @@ comestible_inv_listitem::compare_function( comestible_inv_columns sortby )
                 const std::string *n2;
                 if( d1->name_without_prefix == d2->name_without_prefix ) {
                     if( d1->name == d2->name ) {
+                        retval = false;
                         return false;
                     } else {
                         //if names without prefix equal, compare full name

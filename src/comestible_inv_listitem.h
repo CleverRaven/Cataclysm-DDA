@@ -185,7 +185,7 @@ class comestible_inv_listitem
         comestible_inv_listitem( const std::list<item *> &list, int index,
                                  comestible_inv_area *area, bool from_vehicle );
 
-        virtual ~comestible_inv_listitem() {}
+        virtual ~comestible_inv_listitem() = default;
 
     private:
         void init( const item &it );

@@ -36,10 +36,6 @@
 #include <utility>
 #include <numeric>
 
-#if defined(__ANDROID__)
-#   include <SDL_keyboard.h>
-#endif
-
 enum aim_exit {
     exit_none = 0,
     exit_okay,
@@ -103,6 +99,7 @@ comestible_inventory::~comestible_inventory()
         werase( mm_border );
         werase( window );
         g->refresh_all();
+        g->u.check_item_encumbrance_flag();
     }
     delete pane;
 }
@@ -226,7 +223,7 @@ input_context comestible_inventory::register_actions()
     return ctxt;
 }
 
-const std::string comestible_inventory::process_actions( input_context ctxt )
+std::string comestible_inventory::process_actions( input_context ctxt )
 {
     using ai = comestible_inv_area_info;
     // current item in source pane, might be null
@@ -534,7 +531,7 @@ void comestible_inventory_food::set_additional_info( std::vector<legend_data> da
     comestible_inventory::set_additional_info( data );
 }
 
-const std::string comestible_inventory_food::process_actions( input_context ctxt )
+std::string comestible_inventory_food::process_actions( input_context ctxt )
 {
     const std::string action = comestible_inventory::process_actions( ctxt );
 

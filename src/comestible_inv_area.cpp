@@ -37,10 +37,6 @@
 #include <utility>
 #include <numeric>
 
-#if defined(__ANDROID__)
-#   include <SDL_keyboard.h>
-#endif
-
 void comestible_inv_area::init()
 {
     offset = info.default_offset;

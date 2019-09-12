@@ -26,7 +26,7 @@ class comestible_inventory
         virtual void display();
     protected:
         virtual input_context register_actions();
-        virtual const std::string process_actions( input_context ctxt );
+        virtual std::string process_actions( input_context ctxt );
 
         const int head_height;
         const int min_w_height;
@@ -85,7 +85,7 @@ class comestible_inventory_food : public comestible_inventory
     protected:
         void init() override;
         input_context register_actions() override;
-        const std::string process_actions( input_context ctxt ) override;
+        std::string process_actions( input_context ctxt ) override;
         void set_additional_info( std::vector<legend_data> data ) override;
     private:
         //try to find a way to warm up/defrost an item, and do it

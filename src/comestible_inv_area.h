@@ -61,10 +61,10 @@ struct comestible_inv_area_info {
 
         area_type type;
 
-        const std::string get_name() const {
+        std::string get_name() const {
             return _( name );
         }
-        const std::string get_shortname() const {
+        std::string get_shortname() const {
             return _( shortname );
         }
 
