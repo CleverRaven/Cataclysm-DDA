@@ -1220,7 +1220,7 @@ bool veh_interact::do_refill( std::string &msg )
             return false;
 
         case INVALID_TARGET:
-            msg = _( "No parts can currently be refilled" );
+            msg = _( "No parts can currently be refilled." );
             return false;
 
         default:
