@@ -9575,7 +9575,7 @@
       "ammo": [ "javelin", "fishspear" ],
       "draw_cost": 30
     },
-    "flags": [ "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ]
   },
   {
     "id": "pot_xlhelmet",
