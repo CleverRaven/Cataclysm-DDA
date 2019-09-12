@@ -23,7 +23,7 @@
   {
     "id": "score_kills",
     "type": "score",
-    "name": "Number of monsters killed",
+    "description": "Number of monsters killed: %s",
     "statistic": "num_avatar_kills"
   },
   {
@@ -49,13 +49,13 @@
   {
     "id": "score_moves",
     "type": "score",
-    "name": "Distance moved",
+    "description": "Distance moved: %s squares",
     "statistic": "num_moves"
   },
   {
     "id": "score_walked",
     "type": "score",
-    "name": "Distance walked",
+    "description": "Distance walked: %s squares",
     "statistic": "num_moves_not_mounted"
   }
 ]

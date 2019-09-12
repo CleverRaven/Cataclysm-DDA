@@ -62,8 +62,9 @@ class score
 {
     public:
         score() = default;
-        std::string tname() const;
-        cata_variant value( stats_tracker &stats ) const;
+        // Returns translated description including value
+        std::string description( stats_tracker & ) const;
+        cata_variant value( stats_tracker & ) const;
 
         void load( JsonObject &, const std::string & );
         void check() const;
@@ -74,8 +75,8 @@ class score
         string_id<score> id;
         bool was_loaded = false;
     private:
-        std::string name;
-        string_id<event_statistic> stat;
+        std::string description_;
+        string_id<event_statistic> stat_;
 };
 
 #endif // CATA_EVENT_STATISTICS_H
