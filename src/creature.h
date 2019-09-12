@@ -117,7 +117,7 @@ class Creature
         /** Returns true if creature can aim for headshot */
         virtual bool is_allow_critical_hits() const;
         /** Sets if a Creature's can aim for headshot. */
-        virtual void set_allow_critical_hits( bool allow_critical_hits);
+        virtual void set_allow_critical_hits( bool allow_critical_hits );
 
         /** Recreates the Creature from scratch. */
         virtual void normalize();
