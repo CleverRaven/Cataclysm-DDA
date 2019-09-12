@@ -38,7 +38,7 @@
         "targeting_timeout_extend": -10,
         "targeting_sound": "\"Hostile detected.\"",
         "targeting_volume": 50,
-        "no_ammo_sound": "a chk!",
+        "no_ammo_sound": "a chk!" ,
         "allow_critical_hits": false
       }
     ],
