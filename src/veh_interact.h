@@ -139,7 +139,6 @@ class veh_interact
         bool do_rename( std::string &msg );
         bool do_siphon( std::string &msg );
         bool do_unload( std::string &msg );
-        bool do_tirechange( std::string &msg );
         bool do_assign_crew( std::string &msg );
         bool do_relabel( std::string &msg );
         /*@}*/
