@@ -627,7 +627,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
 
     double damage_mult = 1.0;
-    bool allow_critical_hits = source->is_allow_critical_hits();
+    bool allow_critical_hits = ( source != nullptr ) ? source -> is_allow_critical_hits() : true;
     std::string message;
     game_message_type gmtSCTcolor = m_neutral;
     if( magic ) {
