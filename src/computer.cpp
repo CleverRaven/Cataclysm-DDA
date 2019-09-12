@@ -651,7 +651,7 @@ void computer::activate_function( computer_action action )
             }
 
             //Only explode once. But make it large.
-            explosion_handler::explosion( nuke_location, 200, 0.7, true ); 
+            explosion_handler::explosion( nuke_location, 200, 0.7, true );
 
             //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
             // For each level between here and the surface, remove the missile
