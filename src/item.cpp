@@ -319,7 +319,8 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
 
 }
 
-item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name, const bool random_corpse_type )
+item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name,
+                        const bool random_corpse_type )
 {
     if( !mt.is_valid() ) {
         debugmsg( "tried to make a corpse with an invalid mtype id" );
