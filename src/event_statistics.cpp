@@ -336,20 +336,25 @@ void event_statistic::check() const
     impl_->check( id.str() );
 }
 
+std::string score::description( stats_tracker &stats ) const
+{
+    return string_format( _( description_ ), value( stats ).get_string() );
+}
+
 cata_variant score::value( stats_tracker &stats ) const
 {
-    return stats.value_of( stat );
+    return stats.value_of( stat_ );
 }
 
 void score::load( JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "name", name );
-    mandatory( jo, was_loaded, "statistic", stat );
+    mandatory( jo, was_loaded, "description", description_ );
+    mandatory( jo, was_loaded, "statistic", stat_ );
 }
 
 void score::check() const
 {
-    if( !stat.is_valid() ) {
-        debugmsg( "score %s refers to invalid statistic %s", id.str(), stat.str() );
+    if( !stat_.is_valid() ) {
+        debugmsg( "score %s refers to invalid statistic %s", id.str(), stat_.str() );
     }
 }
