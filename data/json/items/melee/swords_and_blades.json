@@ -1719,7 +1719,7 @@
     "symbol": "/",
     "color": "light_gray",
     "ammo": "gasoline",
-    "max_charges": 1000,
+    "max_charges": 450,
     "use_action": "COMBATSAW_OFF",
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "ALWAYS_TWOHAND" ]
@@ -1733,7 +1733,7 @@
     "description": "This combat chainsaw is on, and is continuously draining gasoline.  Use it to turn it off.",
     "to_hit": -4,
     "cutting": 82,
-    "turns_per_charge": 1,
+    "turns_per_charge": 4,
     "revert_to": "combatsaw_off",
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -120 ] ],
     "use_action": "COMBATSAW_ON",

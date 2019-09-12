@@ -992,7 +992,7 @@
     "type": "TOOL",
     "name": "cellphone - Flashlight",
     "name_plural": "cellphones - Flashlight",
-    "turns_per_charge": 30,
+    "power_draw": 500,
     "revert_to": "cell_phone",
     "use_action": { "target": "cell_phone", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "LIGHT_15", "CHARGEDIM", "TRADER_AVOID" ]
@@ -1036,7 +1036,7 @@
     "name": "smartphone - music",
     "name_plural": "smartphones - music",
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
-    "turns_per_charge": 150,
+    "power_draw": 300,
     "revert_to": "smart_phone",
     "use_action": "MP3_ON",
     "flags": [ "TRADER_AVOID" ],
@@ -1048,8 +1048,7 @@
     "type": "TOOL",
     "name": "smartphone - Flashlight",
     "name_plural": "smartphones - Flashlight",
-    "power_draw": 3000,
-    "turns_per_charge": 50,
+    "power_draw": 500,
     "revert_to": "smart_phone",
     "use_action": {
       "target": "smart_phone",
@@ -1074,7 +1073,7 @@
     "symbol": "/",
     "color": "red",
     "ammo": "gasoline",
-    "max_charges": 400,
+    "max_charges": 450,
     "techniques": "SWEEP",
     "use_action": "CHAINSAW_OFF",
     "flags": [ "NONCONDUCTIVE" ]
@@ -1089,7 +1088,7 @@
     "to_hit": -5,
     "bashing": 4,
     "cutting": 70,
-    "power_draw": 150000,
+    "turns_per_charge": 4,
     "revert_to": "chainsaw_off",
     "techniques": "SWEEP",
     "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
@@ -2758,7 +2757,7 @@
     "name": "geiger counter (on)",
     "name_plural": "geiger counters (on)",
     "description": "This is a tool for measuring radiation.  It is in continuous scan mode, and will produce quiet clicking sounds in the presence of ambient radiation.  Using it allows you to turn it off, or scan yourself or the ground.  It is currently on.",
-    "turns_per_charge": 10,
+    "power_draw": 200,
     "revert_to": "geiger_off",
     "use_action": "GEIGER",
     "flags": [ "TRADER_AVOID" ],
@@ -4192,7 +4191,7 @@
     "name": "noise emitter (on)",
     "name_plural": "noise emitters (on)",
     "description": "This device has been turned on and is emitting horrible crackles, pops and other static sounds.  Quick, get away from it before it draws zombies to you!",
-    "turns_per_charge": 5,
+    "power_draw": 10000,
     "revert_to": "noise_emitter",
     "use_action": "NOISE_EMITTER_ON",
     "flags": [ "RADIO_MODABLE", "TRADER_AVOID" ]
@@ -4940,7 +4939,7 @@
     "initial_charges": 25,
     "max_charges": 50,
     "charges_per_use": 1,
-    "turns_per_charge": 10,
+    "turns_per_charge": 20,
     "revert_to": "ref_lighter",
     "use_action": [
       { "type": "firestarter", "moves": 40, "moves_slow": 500 },
@@ -6541,7 +6540,7 @@
     "color": "brown",
     "initial_charges": 75,
     "max_charges": 75,
-    "turns_per_charge": 20,
+    "turns_per_charge": 40,
     "revert_to": "torch_done",
     "use_action": [
       { "type": "firestarter", "moves": 30 },
@@ -7471,7 +7470,7 @@
     "qualities": [ [ "GRIND", 2 ] ],
     "ammo": "battery",
     "charges_per_use": 1,
-    "turns_per_charge": 20,
+    "power_draw": 800000,
     "flags": [ "NONCONDUCTIVE" ],
     "magazines": [
       [
