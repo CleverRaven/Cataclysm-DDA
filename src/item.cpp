@@ -330,7 +330,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
 
     if( mt == mtype_id::NULL_ID() ) {
         corpse_type = random_corpse_type ? item_group::item_from( "corpses" ).typeId() :
-                                           "corpse_generic_human";
+                      "corpse_generic_human";
     }
 
     item result( corpse_type, turn );
