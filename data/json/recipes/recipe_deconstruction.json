@@ -767,6 +767,26 @@
     ]
   },
   {
+    "result": "broken_crows_m240",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "60 m",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "m240", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
+    ]
+  },
+  {
     "result": "broken_turret_bmg",
     "type": "uncraft",
     "skill_used": "electronics",
