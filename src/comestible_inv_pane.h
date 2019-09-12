@@ -107,7 +107,7 @@ class comestible_inventory_pane
         bool needs_redraw;
 
         virtual void init( int items_per_page, catacurses::window w,
-                           std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> *s );
+                           std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> *a );
         void save_settings( bool reset );
 
         /**
@@ -160,18 +160,18 @@ class comestible_inventory_pane_food : public comestible_inventory_pane
 {
         using comestible_inventory_pane::comestible_inventory_pane;
         void init( int items_per_page, catacurses::window w,
-                   std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> *s );
+                   std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> *s ) override;
         comestible_inv_listitem *create_listitem( std::list<item *> list, int index,
-                comestible_inv_area *area, bool from_vehicle );
-        comestible_inv_listitem *create_listitem( const item_category *cat = nullptr );
+                comestible_inv_area *area, bool from_vehicle ) override;
+        comestible_inv_listitem *create_listitem( const item_category *cat = nullptr ) override;
 };
 class comestible_inventory_pane_bio: public comestible_inventory_pane
 {
         using comestible_inventory_pane::comestible_inventory_pane;
         void init( int items_per_page, catacurses::window w,
-                   std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> *s );
+                   std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> *s ) override;
         comestible_inv_listitem *create_listitem( std::list<item *> list, int index,
-                comestible_inv_area *area, bool from_vehicle );
-        comestible_inv_listitem *create_listitem( const item_category *cat = nullptr );
+                comestible_inv_area *area, bool from_vehicle ) override;
+        comestible_inv_listitem *create_listitem( const item_category *cat = nullptr ) override;
 };
 #endif

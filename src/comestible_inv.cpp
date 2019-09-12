@@ -624,8 +624,8 @@ void comestible_inventory_food::heat_up( item *it_to_heat )
     std::vector < const recipe * > water_recipes = lr.search_result( water.typeId() );
     requirement_data req = water_recipes[0]->requirements();
 
-    const std::vector<std::vector<tool_comp>> req_tools = req.get_tools();
-    const std::vector<std::vector<quality_requirement>> req_qual = req.get_qualities();
+    const std::vector<std::vector<tool_comp>> &req_tools = req.get_tools();
+    const std::vector<std::vector<quality_requirement>> &req_qual = req.get_qualities();
 
     // see if we have required tools (e.g. BOIL 1)
     bool has_qual = true;

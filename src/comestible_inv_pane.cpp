@@ -116,7 +116,7 @@ void comestible_inventory_pane::add_sort_entries( uilist &sm )
 
     for( size_t i = 0; i < columns.size(); i++ ) {
         c = comestible_inv_listitem::get_col_data( columns[i] );
-        if( c.get_sort_name() == "" ) {
+        if( c.get_sort_name().empty() ) {
             continue;
         }
 

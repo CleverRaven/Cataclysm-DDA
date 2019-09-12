@@ -209,9 +209,9 @@ comestible_inv_area::area_items comestible_inv_area::get_items( bool from_cargo 
         const invslice &stacks = u.inv.slice();
 
         retval.reserve( stacks.size() );
-        for( size_t x = 0; x < stacks.size(); ++x ) {
+        for( auto stack : stacks ) {
             std::list<item *> item_pointers;
-            for( item &i : *stacks[x] ) {
+            for( item &i : *stack ) {
                 item_pointers.push_back( &i );
             }
 
