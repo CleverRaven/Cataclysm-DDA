@@ -631,5 +631,12 @@
     "type": "snippet",
     "category": "headshop_graffiti",
     "text": [ "(~);}", "<given_name> + <given_name> forever", "Be Kind", "Save the whales!" ]
+  },
+  {
+    "type": "snippet",
+    "category": "death_note",
+    "text": [
+      "This is General Baker.  Today I received a top-secret letter with new orders from high command.  These orders described a new set of coordinates for our ICBM.  My men deciphered it, and it became crystal-clear that coordinates are pointing to a certain place inside our country.  I requested re-confirmation, and after a short while I received it with the same coordinates, so it wasn't an weird error as I originally thought.  I don't know what's on the minds of these guys in the government, but I'm not gonna bomb innocent people of my country.  We're just one step away from starting a war, so failure to comply with an order will obviously result in a execution.  And it's just a matter of time when they come for me.  So actually I'm already a dead man.  Whomever may find this.  Please tell my wife Jane I love her and Michael Jr.  And tell her I'm sorry.  General Michael Baker"
+    ]
   }
 ]

@@ -97,7 +97,6 @@ const mongroup_id GROUP_ZOMBIE_COP( "GROUP_ZOMBIE_COP" );
 
 void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate );
 void set_science_room( map *m, int x1, int y1, bool faces_right, const time_point &when );
-void silo_rooms( map *m );
 void build_mine_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata &dat );
 
 // (x,y,z) are absolute coordinates of a submap
@@ -2729,8 +2728,6 @@ void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const o
             draw_fema( terrain_type, dat, when, density );
         } else if( is_ot_match( "mine", terrain_type, ot_match_type::prefix ) ) {
             draw_mine( terrain_type, dat, when, density );
-        } else if( is_ot_match( "silo", terrain_type, ot_match_type::prefix ) ) {
-            draw_silo( terrain_type, dat, when, density );
         } else if( is_ot_match( "anthill", terrain_type, ot_match_type::contains ) ) {
             draw_anthill( terrain_type, dat, when, density );
         } else if( is_ot_match( "lab", terrain_type, ot_match_type::contains ) ) {
@@ -4362,101 +4359,6 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                 }
             }
         }
-    }
-}
-
-void map::draw_silo( const oter_id &terrain_type, mapgendata &dat, const time_point &/*when*/,
-                     const float /*density*/ )
-{
-    int lw = 0;
-    int mw = 0;
-    int tw = 0;
-    computer *tmpcomp = nullptr;
-
-    if( terrain_type == "silo" ) {
-        if( dat.zlevel == 0 ) { // We're on ground level
-            for( int i = 0; i < SEEX * 2; i++ ) {
-                for( int j = 0; j < SEEY * 2; j++ ) {
-                    if( trig_dist( point( i, j ), point( SEEX, SEEY ) ) <= 6 ) {
-                        ter_set( point( i, j ), t_metal_floor );
-                    } else {
-                        ter_set( point( i, j ), dat.groundcover() );
-                    }
-                }
-            }
-            switch( rng( 1, 4 ) ) { // Placement of stairs
-                case 1:
-                    lw = 3;
-                    mw = 5;
-                    tw = 3;
-                    break;
-                case 2:
-                    lw = 3;
-                    mw = 5;
-                    tw = SEEY * 2 - 4;
-                    break;
-                case 3:
-                    lw = SEEX * 2 - 7;
-                    mw = lw;
-                    tw = 3;
-                    break;
-                case 4:
-                    lw = SEEX * 2 - 7;
-                    mw = lw;
-                    tw = SEEY * 2 - 4;
-                    break;
-            }
-            for( int i = lw; i <= lw + 2; i++ ) {
-                ter_set( point( i, tw ), t_wall_metal );
-                ter_set( point( i, tw + 2 ), t_wall_metal );
-            }
-            ter_set( point( lw, tw + 1 ), t_wall_metal );
-            ter_set( point( lw + 1, tw + 1 ), t_stairs_down );
-            ter_set( point( lw + 2, tw + 1 ), t_wall_metal );
-            ter_set( point( mw, tw + 1 ), t_door_metal_locked );
-            ter_set( point( mw, tw + 2 ), t_card_military );
-        } else { // We are NOT above ground.
-            for( int i = 0; i < SEEX * 2; i++ ) {
-                for( int j = 0; j < SEEY * 2; j++ ) {
-                    if( trig_dist( point( i, j ), point( SEEX, SEEY ) ) > 7 ) {
-                        ter_set( point( i, j ), t_rock );
-                    } else if( trig_dist( point( i, j ), point( SEEX, SEEY ) ) > 5 ) {
-                        ter_set( point( i, j ), t_metal_floor );
-                        if( one_in( 30 ) ) {
-                            add_field( {i, j, abs_sub.z}, fd_nuke_gas, 2 );
-                        }
-                    } else if( trig_dist( point( i, j ), point( SEEX, SEEY ) ) == 5 ) {
-                        ter_set( point( i, j ), t_hole );
-                    } else {
-                        ter_set( point( i, j ), t_missile );
-                    }
-                }
-            }
-            silo_rooms( this );
-        }
-    } else if( terrain_type == "silo_finale" ) {
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEY * 2; j++ ) {
-                if( i == 5 ) {
-                    if( j > 4 && j < SEEY ) {
-                        ter_set( point( i, j ), t_reinforced_glass );
-                    } else if( j == SEEY * 2 - 4 ) {
-                        ter_set( point( i, j ), t_door_metal_c );
-                    } else {
-                        ter_set( point( i, j ), t_rock );
-                    }
-                } else {
-                    ter_set( point( i, j ), t_rock_floor );
-                }
-            }
-        }
-        ter_set( point_zero, t_stairs_up );
-        tmpcomp = add_computer( tripoint( 4,  5, abs_sub.z ), _( "Missile Controls" ), 8 );
-        tmpcomp->add_option( _( "Launch Missile" ), COMPACT_MISS_LAUNCH, 10 );
-        tmpcomp->add_option( _( "Disarm Missile" ), COMPACT_MISS_DISARM,  8 );
-        tmpcomp->add_failure( COMPFAIL_SECUBOTS );
-        tmpcomp->add_failure( COMPFAIL_DAMAGE );
-
     }
 }
 
@@ -7615,142 +7517,6 @@ void set_science_room( map *m, int x1, int y1, bool faces_right, const time_poin
                 m->spawn_items( point( i, j ), itrot[x2 - ( i - x1 )][j] );
             }
         }
-    }
-}
-
-void silo_rooms( map *m )
-{
-    // first is room position, second is its size
-    std::vector<std::pair<point, point>> rooms;
-    bool okay = true;
-    int x = 0;
-    int y = 0;
-    int width = 0;
-    int height = 0;
-    do {
-        if( one_in( 2 ) ) { // True = top/bottom, False = left/right
-            x = rng( 0, SEEX * 2 - 6 );
-            y = rng( 0, 4 );
-            if( one_in( 2 ) ) {
-                y = SEEY * 2 - 2 - y;    // Bottom of the screen, not the top
-            }
-            width  = rng( 2, 5 );
-            height = 2;
-            if( x + width >= SEEX * 2 - 1 ) {
-                width = SEEX * 2 - 2 - x;    // Make sure our room isn't too wide
-            }
-        } else {
-            x = rng( 0, 4 );
-            y = rng( 0, SEEY * 2 - 6 );
-            if( one_in( 2 ) ) {
-                x = SEEX * 2 - 3 - x;    // Right side of the screen, not the left
-            }
-            width  = 2;
-            height = rng( 2, 5 );
-            if( y + height >= SEEY * 2 - 1 ) {
-                height = SEEY * 2 - 2 - y;    // Make sure our room isn't too tall
-            }
-        }
-        if( !rooms.empty() && // We need at least one room!
-            ( m->ter( point( x, y ) ) != t_rock || m->ter( point( x + width, y + height ) ) != t_rock ) ) {
-            okay = false;
-        } else {
-            rooms.emplace_back( point( x, y ), point( width, height ) );
-            for( int i = x; i <= x + width; i++ ) {
-                for( int j = y; j <= y + height; j++ ) {
-                    if( m->ter( point( i, j ) ) == t_rock ) {
-                        m->ter_set( point( i, j ), t_floor );
-                    }
-                }
-            }
-            items_location used1 = "none", used2 = "none";
-            switch( rng( 1, 14 ) ) { // What type of items go here?
-                case  1:
-                case  2:
-                    used1 = "cannedfood";
-                    used2 = "fridge";
-                    break;
-                case  3:
-                case  4:
-                    used1 = "tools_lighting";
-                    break;
-                case  5:
-                case  6:
-                    used1 = "guns_common";
-                    used2 = "ammo";
-                    break;
-                case  7:
-                    used1 = "allclothes";
-                    break;
-                case  8:
-                    used1 = "manuals";
-                    break;
-                case  9:
-                case 10:
-                case 11:
-                    used1 = "electronics";
-                    break;
-                case 12:
-                    used1 = "gear_survival";
-                    break;
-                case 13:
-                case 14:
-                    used1 = "radio";
-                    break;
-            }
-            if( used1 != "none" ) {
-                m->place_items( used1, 78, point( x, y ), point( x + width, y + height ), false,
-                                calendar::start_of_cataclysm );
-            }
-            if( used2 != "none" ) {
-                m->place_items( used2, 64, point( x, y ), point( x + width, y + height ), false,
-                                calendar::start_of_cataclysm );
-            }
-        }
-    } while( okay );
-
-    const point &first_room_position = rooms[0].first;
-    m->ter_set( first_room_position, t_stairs_up );
-    const auto &room = random_entry( rooms );
-    m->ter_set( room.first + room.second, t_stairs_down );
-    rooms.emplace_back( point( SEEX, SEEY ), point( 5, 5 ) ); // So the center circle gets connected
-
-    while( rooms.size() > 1 ) {
-        int best_dist = 999;
-        int closest = 0;
-        for( size_t i = 1; i < rooms.size(); i++ ) {
-            int dist = trig_dist( first_room_position, rooms[i].first );
-            if( dist < best_dist ) {
-                best_dist = dist;
-                closest = i;
-            }
-        }
-        // We chose the closest room; now draw a corridor there
-        point origin = first_room_position;
-        point origsize = rooms[0].second;
-        point dest = rooms[closest].first;
-        int x = origin.x + origsize.x;
-        int y = origin.y + origsize.y;
-        bool x_first = ( abs( origin.x - dest.x ) > abs( origin.y - dest.y ) );
-        while( x != dest.x || y != dest.y ) {
-            if( m->ter( point( x, y ) ) == t_rock ) {
-                m->ter_set( point( x, y ), t_floor );
-            }
-            if( ( x_first && x != dest.x ) || ( !x_first && y == dest.y ) ) {
-                if( dest.x < x ) {
-                    x--;
-                } else {
-                    x++;
-                }
-            } else {
-                if( dest.y < y ) {
-                    y--;
-                } else {
-                    y++;
-                }
-            }
-        }
-        rooms.erase( rooms.begin() );
     }
 }
 
