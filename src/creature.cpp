@@ -620,7 +620,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         }
     } else {
         if( one_in( 2 ) ) {
-            bp_hit = bp_arm_l;
+            bp_hit = bp_arm_l ;
         } else {
             bp_hit = bp_arm_r;
         }
