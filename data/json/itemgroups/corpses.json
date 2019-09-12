@@ -80,5 +80,25 @@
       { "item": "human_flesh", "count": [ 5, 8 ], "prob": 100 },
       { "item": "hstomach", "prob": 100 }
     ]
+  },
+  {
+    "id": "corpses",
+    "type": "item_group",
+    "items": [
+      [ "corpse_generic_male", 80 ],
+      [ "corpse_generic_female", 80 ],
+      [ "corpse_generic_boy", 15 ],
+      [ "corpse_generic_girl", 15 ],
+      [ "corpse_bloody", 10 ],
+      [ "corpse_painful", 10 ],
+      [ "corpse_scorched", 10 ],
+      [ "corpse_stabbed", 10 ],
+      [ "corpse_gunned", 10 ],
+      [ "corpse_halved_upper", 10 ],
+      [ "corpse_half_beheaded", 10 ],
+      [ "corpse_child_calm", 10 ],
+      [ "corpse_child_gunned", 10 ],
+      [ "corpse_oldwoman_jewelry", 10 ]
+    ]
   }
 ]

@@ -251,21 +251,21 @@ static void eff_fun_hallu( player &u, effect &it )
         }
         if( u.is_npc() && one_in( 1200 ) ) {
             static const std::array<std::string, 4> npc_hallu = {{
-                    _( "\"I think it's starting to kick in.\"" ),
-                    _( "\"Oh God, what's happening?\"" ),
-                    _( "\"Of course... it's all fractals!\"" ),
-                    _( "\"Huh?  What was that?\"" )
+                    translate_marker( "\"I think it's starting to kick in.\"" ),
+                    translate_marker( "\"Oh God, what's happening?\"" ),
+                    translate_marker( "\"Of course... it's all fractals!\"" ),
+                    translate_marker( "\"Huh?  What was that?\"" )
                 }
             };
 
-            const std::string &npc_text = random_entry_ref( npc_hallu );
             ///\EFFECT_STR_NPC increases volume of hallucination sounds (NEGATIVE)
 
             ///\EFFECT_INT_NPC decreases volume of hallucination sounds
             int loudness = 20 + u.str_cur - u.int_cur;
             loudness = ( loudness > 5 ? loudness : 5 );
             loudness = ( loudness < 30 ? loudness : 30 );
-            sounds::sound( u.pos(), loudness, sounds::sound_t::speech, npc_text, false, "speech",
+            sounds::sound( u.pos(), loudness, sounds::sound_t::speech, _( random_entry_ref( npc_hallu ) ),
+                           false, "speech",
                            loudness < 15 ? ( u.male ? "NPC_m" : "NPC_f" ) : ( u.male ? "NPC_m_loud" : "NPC_f_loud" ) );
         }
     } else if( dur == peakTime ) {

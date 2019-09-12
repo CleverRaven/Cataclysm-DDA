@@ -45,7 +45,7 @@
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Active Defense System CBM",
-    "description": "This bionic projects a thin forcefield around the user's body.  Anything attempting to penetrate this field has a chance of being deflected at the cost of energy.  Bullets will be stopped more often than swords and those in turn more often than massive objects.",
+    "description": "This bionic projects a thin forcefield around the user's body.  Anything attempting to penetrate this field has a chance of being deflected at the cost of energy, reducing their ability to deal damage.  Bullets will be deflected more than swords and those in turn more than massive objects.",
     "price": 950000,
     "weight": "1000 g",
     "difficulty": 7
@@ -674,6 +674,16 @@
     "price": 450000,
     "weight": "5 g",
     "difficulty": 4
+  },
+  {
+    "id": "bio_fuel_cell_gasoline",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Gasoline Fuel Cell CBM",
+    "description": "A small gasoline fuel cell able to convert gasoline to bionic power.  It's connected to a diffuse network of bio-plastic bladders able to hold up to 500 ml of gasoline.",
+    "price": 450000,
+    "weight": 600,
+    "difficulty": 7
   },
   {
     "id": "bio_recycler",

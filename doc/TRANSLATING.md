@@ -258,6 +258,8 @@ new syntax "name" would be a `dict`, which may break unmigrated script.
 | Skill display type names
 | NPC dialogue u_buy_monster unique names
 | Spell messages and monster spell messages
+| Martial art names and descriptions
+| Mission names and descriptions
 
 ### Recommendations
 

@@ -7067,6 +7067,9 @@ void map::rotate( int turns )
         overmap_buffer.insert_npc( npc_ptr );
     }
 
+    clear_vehicle_cache( abs_sub.z );
+    clear_vehicle_list( abs_sub.z );
+
     // Move the submaps around.
     if( turns == 2 ) {
         std::swap( *get_submap_at_grid( point_zero ), *get_submap_at_grid( point_south_east ) );
@@ -7092,10 +7095,13 @@ void map::rotate( int turns )
             sm->rotate( turns );
 
             for( auto &veh : sm->vehicles ) {
-                veh->sm_pos = abs_sub + p;
+                veh->sm_pos = tripoint( p, abs_sub.z );
             }
+
+            update_vehicle_list( sm, abs_sub.z );
         }
     }
+    reset_vehicle_cache( abs_sub.z );
 
     // rotate zones
     zone_manager &mgr = zone_manager::get_manager();
@@ -7357,10 +7363,9 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 int biox = x1 + 2;
                 int bioy = static_cast<int>( ( y1 + y2 ) / 2 );
                 mapf::formatted_set_simple( m, biox - 1, bioy - 1,
-                                            "\
----\n\
-|c|\n\
--=-\n",
+                                            "---\n"
+                                            "|c|\n"
+                                            "-=-\n",
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
                 m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false,
@@ -7375,10 +7380,9 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
 
                 biox = x2 - 2;
                 mapf::formatted_set_simple( m, biox - 1, bioy - 1,
-                                            "\
--=-\n\
-|c|\n\
----\n",
+                                            "-=-\n"
+                                            "|c|\n"
+                                            "---\n",
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
                 m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false,
@@ -7394,10 +7398,9 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 int bioy = y1 + 2;
                 int biox = static_cast<int>( ( x1 + x2 ) / 2 );
                 mapf::formatted_set_simple( m, biox - 1, bioy - 1,
-                                            "\
-|-|\n\
-|c=\n\
-|-|\n",
+                                            "|-|\n"
+                                            "|c=\n"
+                                            "|-|\n",
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
                 m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false,
@@ -7412,10 +7415,9 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
 
                 bioy = y2 - 2;
                 mapf::formatted_set_simple( m, biox - 1, bioy - 1,
-                                            "\
-|-|\n\
-=c|\n\
-|-|\n",
+                                            "|-|\n"
+                                            "=c|\n"
+                                            "|-|\n",
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
                 m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false, 0 );

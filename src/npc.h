@@ -17,6 +17,7 @@
 #include "calendar.h"
 #include "faction.h"
 #include "line.h"
+#include "lru_cache.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player.h"
@@ -210,6 +211,7 @@ enum combat_engagement {
     ENGAGE_WEAK,
     ENGAGE_HIT,
     ENGAGE_ALL,
+    ENGAGE_FREE_FIRE,
     ENGAGE_NO_MOVE
 };
 const std::unordered_map<std::string, combat_engagement> combat_engagement_strs = { {
@@ -218,6 +220,7 @@ const std::unordered_map<std::string, combat_engagement> combat_engagement_strs 
         { "ENGAGE_WEAK", ENGAGE_WEAK },
         { "ENGAGE_HIT", ENGAGE_HIT },
         { "ENGAGE_ALL", ENGAGE_ALL },
+        { "ENGAGE_FREE_FIRE", ENGAGE_FREE_FIRE },
         { "ENGAGE_NO_MOVE", ENGAGE_NO_MOVE }
     }
 };
@@ -493,6 +496,8 @@ struct npc_short_term_cache {
     std::vector<sphere> dangerous_explosives;
 
     std::map<direction, float> threat_map;
+    // Cache of locations the NPC has searched recently in npc::find_item()
+    lru_cache<tripoint, int> searched_tiles;
 };
 
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of

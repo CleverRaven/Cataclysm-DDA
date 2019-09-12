@@ -6,5 +6,15 @@
     "name": "belt of strength +2",
     "name_plural": "belts of strength +2",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] } ] }
+  },
+  {
+    "id": "belt_haste",
+    "copy-from": "leather_belt",
+    "type": "ARMOR",
+    "name": "belt of haste",
+    "name_plural": "belts of haste",
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.15, "add": 5 } ] } ]
+    }
   }
 ]

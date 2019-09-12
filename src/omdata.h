@@ -65,7 +65,7 @@ const size_t bits = static_cast<size_t>( -1 ) >> ( CHAR_BIT *sizeof( size_t ) - 
 const std::string &id( type dir );
 
 /** Get Human readable name of a direction */
-const std::string &name( type dir );
+std::string name( type dir );
 
 /** Various rotations. */
 point rotate( const point &p, type dir );

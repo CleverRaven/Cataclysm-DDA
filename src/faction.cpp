@@ -446,7 +446,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     bool guy_has_radio = has_item_with_flag( "TWO_WAY_RADIO", true );
     // TODO NPCS on mission contactable same as travelling
     if( has_companion_mission() && mission != NPC_MISSION_TRAVELLING ) {
-        can_see = "Not interactable while on a mission";
+        can_see = _( "Not interactable while on a mission" );
         see_color = c_light_red;
         // is the NPC even in the same area as the player?
     } else if( rl_dist( player_abspos, global_omt_location() ) > 3 ||
@@ -474,28 +474,28 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
             if( ( ( g->u.pos().z >= 0 && pos().z >= 0 ) || ( g->u.pos().z == pos().z ) ) &&
                 square_dist( g->u.global_sm_location(), global_sm_location() ) <= max_range ) {
                 retval = 2;
-                can_see = "Within radio range";
+                can_see = _( "Within radio range" );
                 see_color = c_light_green;
             } else {
-                can_see = "Not within radio range";
+                can_see = _( "Not within radio range" );
                 see_color = c_light_red;
             }
         } else if( guy_has_radio && !u_has_radio ) {
-            can_see = "You do not have a radio";
+            can_see = _( "You do not have a radio" );
             see_color = c_light_red;
         } else if( !guy_has_radio && u_has_radio ) {
-            can_see = "Follower does not have a radio";
+            can_see = _( "Follower does not have a radio" );
             see_color = c_light_red;
         } else {
-            can_see = "Both you and follower need a radio";
+            can_see = _( "Both you and follower need a radio" );
             see_color = c_light_red;
         }
     } else {
         retval = 1;
-        can_see = "Within interaction range";
+        can_see = _( "Within interaction range" );
         see_color = c_light_green;
     }
-    mvwprintz( fac_w, point( width, ++y ), see_color, can_see );
+    mvwprintz( fac_w, point( width, ++y ), see_color, "%s", can_see );
     nc_color status_col = col;
     std::string current_status = _( "Status : " );
     if( current_target() != nullptr ) {
@@ -519,13 +519,13 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     const std::pair <std::string, nc_color> hunger_pair = get_hunger_description();
     const std::pair <std::string, nc_color> thirst_pair = get_thirst_description();
     const std::pair <std::string, nc_color> fatigue_pair = get_fatigue_description();
+    const std::string nominal = pgettext( "needs", "Nominal" );
     mvwprintz( fac_w, point( width, ++y ), hunger_pair.second,
-               _( "Hunger : " ) + ( hunger_pair.first.empty() ? "Nominal" : hunger_pair.first ) );
+               _( "Hunger : " ) + ( hunger_pair.first.empty() ? nominal : hunger_pair.first ) );
     mvwprintz( fac_w, point( width, ++y ), thirst_pair.second,
-               _( "Thirst : " ) + ( thirst_pair.first.empty() ? "Nominal" : thirst_pair.first ) );
+               _( "Thirst : " ) + ( thirst_pair.first.empty() ? nominal : thirst_pair.first ) );
     mvwprintz( fac_w, point( width, ++y ), fatigue_pair.second,
-               _( "Fatigue : " ) + ( fatigue_pair.first.empty() ?
-                                     "Nominal" : fatigue_pair.first ) );
+               _( "Fatigue : " ) + ( fatigue_pair.first.empty() ? nominal : fatigue_pair.first ) );
     int lines = fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_white,
                                 _( "Wielding : " ) + weapon.tname() );
     y += lines;
@@ -650,11 +650,10 @@ void new_faction_manager::display() const
                   tab == tab_mode::TAB_FOLLOWERS ? LINE_XOXX : LINE_XXXX ); // + || -|
         mvwputch( w_missions, point( 30, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
         const nc_color col = c_white;
-        static const std::string no_camp = _( "You have no camps" );
-        static const std::string no_ally = _( "You have no followers" );
 
         switch( tab ) {
-            case tab_mode::TAB_MYFACTION:
+            case tab_mode::TAB_MYFACTION: {
+                const std::string no_camp = _( "You have no camps" );
                 if( active_vec_size > 0 ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
                                     point( 0, 3 ) );
@@ -673,8 +672,10 @@ void new_faction_manager::display() const
                 } else {
                     mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_camp );
                 }
-                break;
-            case tab_mode::TAB_FOLLOWERS:
+            }
+            break;
+            case tab_mode::TAB_FOLLOWERS: {
+                const std::string no_ally = _( "You have no followers" );
                 if( !followers.empty() ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
                                     point( 0, 3 ) );
@@ -698,7 +699,8 @@ void new_faction_manager::display() const
                 } else {
                     mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_ally );
                 }
-                break;
+            }
+            break;
             case tab_mode::TAB_OTHERFACTIONS:
                 // Currently the info on factions is incomplete.
                 break;

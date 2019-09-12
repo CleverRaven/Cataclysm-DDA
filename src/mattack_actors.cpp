@@ -56,9 +56,9 @@ void leap_actor::load_internal( JsonObject &obj, const std::string & )
     max_consider_range = obj.get_float( "max_consider_range", 200.0f );
 }
 
-mattack_actor *leap_actor::clone() const
+std::unique_ptr<mattack_actor> leap_actor::clone() const
 {
-    return new leap_actor( *this );
+    return std::make_unique<leap_actor>( *this );
 }
 
 bool leap_actor::call( monster &z ) const
@@ -141,9 +141,9 @@ bool leap_actor::call( monster &z ) const
     return true;
 }
 
-mattack_actor *mon_spellcasting_actor::clone() const
+std::unique_ptr<mattack_actor> mon_spellcasting_actor::clone() const
 {
-    return new mon_spellcasting_actor( *this );
+    return std::make_unique<mon_spellcasting_actor>( *this );
 }
 
 void mon_spellcasting_actor::load_internal( JsonObject &obj, const std::string & )
@@ -154,8 +154,8 @@ void mon_spellcasting_actor::load_internal( JsonObject &obj, const std::string &
     optional( obj, was_loaded, "self", self, false );
     optional( obj, was_loaded, "spell_level", spell_level, 0 );
     translation monster_message;
-    //~ translator "<Monster Display name> cast <Spell Name> on <target name>!"
     optional( obj, was_loaded, "monster_message", monster_message,
+              //~ translator "<Monster Display name> cast <Spell Name> on <target name>!"
               to_translation( "%s casts %s at %s!" ) );
     spell_data = spell( spell_id( sp_id ), monster_message );
     for( int i = 0; i <= spell_level; i++ ) {
@@ -341,9 +341,9 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
     }
 }
 
-mattack_actor *melee_actor::clone() const
+std::unique_ptr<mattack_actor> melee_actor::clone() const
 {
-    return new melee_actor( *this );
+    return std::make_unique<melee_actor>( *this );
 }
 
 bite_actor::bite_actor() = default;
@@ -373,9 +373,9 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
     }
 }
 
-mattack_actor *bite_actor::clone() const
+std::unique_ptr<mattack_actor> bite_actor::clone() const
 {
-    return new bite_actor( *this );
+    return std::make_unique<bite_actor>( *this );
 }
 
 gun_actor::gun_actor() : description( _( "The %1$s fires its %2$s!" ) ),
@@ -450,9 +450,9 @@ void gun_actor::load_internal( JsonObject &obj, const std::string & )
     obj.read( "require_sunlight", require_sunlight );
 }
 
-mattack_actor *gun_actor::clone() const
+std::unique_ptr<mattack_actor> gun_actor::clone() const
 {
-    return new gun_actor( *this );
+    return std::make_unique<gun_actor>( *this );
 }
 
 bool gun_actor::call( monster &z ) const

@@ -387,47 +387,47 @@ bool player::activate_bionic( int b, bool eff_only )
         mod_moves( -100 );
     } else if( bio.id == "bio_blood_anal" ) {
         static const std::map<efftype_id, std::string> bad_effects = {{
-                { effect_fungus, _( "Fungal Infection" ) },
-                { effect_dermatik, _( "Insect Parasite" ) },
-                { effect_stung, _( "Stung" ) },
-                { effect_poison, _( "Poison" ) },
+                { effect_fungus, translate_marker( "Fungal Infection" ) },
+                { effect_dermatik, translate_marker( "Insect Parasite" ) },
+                { effect_stung, translate_marker( "Stung" ) },
+                { effect_poison, translate_marker( "Poison" ) },
                 // Those may be good for the player, but the scanner doesn't like them
-                { effect_drunk, _( "Alcohol" ) },
-                { effect_cig, _( "Nicotine" ) },
-                { effect_meth, _( "Methamphetamines" ) },
-                { effect_high, _( "Intoxicant: Other" ) },
-                { effect_weed_high, _( "THC Intoxication" ) },
+                { effect_drunk, translate_marker( "Alcohol" ) },
+                { effect_cig, translate_marker( "Nicotine" ) },
+                { effect_meth, translate_marker( "Methamphetamines" ) },
+                { effect_high, translate_marker( "Intoxicant: Other" ) },
+                { effect_weed_high, translate_marker( "THC Intoxication" ) },
                 // This little guy is immune to the blood filter though, as he lives in your bowels.
-                { effect_tapeworm, _( "Intestinal Parasite" ) },
-                { effect_bloodworms, _( "Hemolytic Parasites" ) },
+                { effect_tapeworm, translate_marker( "Intestinal Parasite" ) },
+                { effect_bloodworms, translate_marker( "Hemolytic Parasites" ) },
                 // These little guys are immune to the blood filter too, as they live in your brain.
-                { effect_brainworms, _( "Intracranial Parasites" ) },
+                { effect_brainworms, translate_marker( "Intracranial Parasites" ) },
                 // These little guys are immune to the blood filter too, as they live in your muscles.
-                { effect_paincysts, _( "Intramuscular Parasites" ) },
+                { effect_paincysts, translate_marker( "Intramuscular Parasites" ) },
                 // Tetanus infection.
-                { effect_tetanus, _( "Clostridium Tetani Infection" ) },
-                { effect_datura, _( "Anticholinergic Tropane Alkaloids" ) },
+                { effect_tetanus, translate_marker( "Clostridium Tetani Infection" ) },
+                { effect_datura, translate_marker( "Anticholinergic Tropane Alkaloids" ) },
                 // TODO: Hallucinations not inducted by chemistry
-                { effect_hallu, _( "Hallucinations" ) },
-                { effect_visuals, _( "Hallucinations" ) },
+                { effect_hallu, translate_marker( "Hallucinations" ) },
+                { effect_visuals, translate_marker( "Hallucinations" ) },
             }
         };
 
         static const std::map<efftype_id, std::string> good_effects = {{
-                { effect_pkill1, _( "Minor Painkiller" ) },
-                { effect_pkill2, _( "Moderate Painkiller" ) },
-                { effect_pkill3, _( "Heavy Painkiller" ) },
-                { effect_pkill_l, _( "Slow-Release Painkiller" ) },
+                { effect_pkill1, translate_marker( "Minor Painkiller" ) },
+                { effect_pkill2, translate_marker( "Moderate Painkiller" ) },
+                { effect_pkill3, translate_marker( "Heavy Painkiller" ) },
+                { effect_pkill_l, translate_marker( "Slow-Release Painkiller" ) },
 
-                { effect_pblue, _( "Prussian Blue" ) },
-                { effect_iodine, _( "Potassium Iodide" ) },
+                { effect_pblue, translate_marker( "Prussian Blue" ) },
+                { effect_iodine, translate_marker( "Potassium Iodide" ) },
 
-                { effect_took_xanax, _( "Xanax" ) },
-                { effect_took_prozac, _( "Prozac" ) },
-                { effect_took_flumed, _( "Antihistamines" ) },
-                { effect_adrenaline, _( "Adrenaline Spike" ) },
+                { effect_took_xanax, translate_marker( "Xanax" ) },
+                { effect_took_prozac, translate_marker( "Prozac" ) },
+                { effect_took_flumed, translate_marker( "Antihistamines" ) },
+                { effect_adrenaline, translate_marker( "Adrenaline Spike" ) },
                 // Should this be described like that? Does the bionic know what is this?
-                { effect_adrenaline_mycus, _( "Mycal Spike" ) },
+                { effect_adrenaline_mycus, translate_marker( "Mycal Spike" ) },
             }
         };
 
@@ -441,13 +441,13 @@ bool player::activate_bionic( int b, bool eff_only )
         // TODO: Expose the player's effects to check it in a cleaner way
         for( const auto &pr : bad_effects ) {
             if( has_effect( pr.first ) ) {
-                bad.push_back( pr.second );
+                bad.push_back( _( pr.second ) );
             }
         }
 
         for( const auto &pr : good_effects ) {
             if( has_effect( pr.first ) ) {
-                good.push_back( pr.second );
+                good.push_back( _( pr.second ) );
             }
         }
 

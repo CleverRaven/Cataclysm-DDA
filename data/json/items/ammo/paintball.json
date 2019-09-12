@@ -2,7 +2,8 @@
   {
     "type": "AMMO",
     "id": "paintball",
-    "price": 500,
+    "price": 1000,
+    "price_postapoc": 500,
     "name": "paintball",
     "symbol": "=",
     "color": "red",

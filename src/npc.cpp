@@ -1784,8 +1784,10 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 
 void npc::npc_dismount()
 {
-    if( !mounted_creature ) {
-        add_msg( m_debug, "NPC %s tried to dismount, but they have no mount", disp_name() );
+    if( !mounted_creature || !has_effect( effect_riding ) ) {
+        add_msg( m_debug, "NPC %s tried to dismount, but they have no mount, or they are not riding",
+                 disp_name() );
+        return;
     }
     cata::optional<tripoint> pnt;
     for( const auto &elem : g->m.points_in_radius( pos(), 1 ) ) {

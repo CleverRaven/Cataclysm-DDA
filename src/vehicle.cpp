@@ -867,8 +867,8 @@ void vehicle::backfire( const int e ) const
 {
     const int power = part_vpower_w( engines[e], true );
     const tripoint pos = global_part_pos3( engines[e] );
-    //~ backfire sound
     sounds::sound( pos, 40 + power / 10000, sounds::sound_t::movement,
+                   //~ backfire sound
                    string_format( _( "a loud BANG! from the %s" ),
                                   parts[ engines[ e ] ].name() ), true, "vehicle", "engine_backfire" );
 }
@@ -1284,15 +1284,15 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
     // Check if the part is required by another part. Do not allow removing those.
     // { "FLAG THAT IS REQUIRED", "FLAG THAT REQUIRES", "Reason why can't remove." }
     static const std::array<std::tuple<std::string, std::string, std::string>, 9> blocking_flags = {{
-            std::make_tuple( "ENGINE", "ALTERNATOR", "Remove attached alternator first." ),
-            std::make_tuple( "BELTABLE", "SEATBELT", "Remove attached seatbelt first." ),
-            std::make_tuple( "WINDOW", "CURTAIN", "Remove attached curtains first." ),
-            std::make_tuple( "CONTROLS", "ON_CONTROLS", "Remove attached part first." ),
-            std::make_tuple( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT", "Remove battery from mount first." ),
-            std::make_tuple( "TURRET_MOUNT", "TURRET", "Remove attached mounted weapon first." ),
-            std::make_tuple( "WHEEL_MOUNT_LIGHT", "NEEDS_WHEEL_MOUNT_LIGHT", "Remove attached wheel first." ),
-            std::make_tuple( "WHEEL_MOUNT_MEDIUM", "NEEDS_WHEEL_MOUNT_MEDIUM", "Remove attached wheel first." ),
-            std::make_tuple( "WHEEL_MOUNT_HEAVY", "NEEDS_WHEEL_MOUNT_HEAVY", "Remove attached wheel first." )
+            std::make_tuple( "ENGINE", "ALTERNATOR", translate_marker( "Remove attached alternator first." ) ),
+            std::make_tuple( "BELTABLE", "SEATBELT", translate_marker( "Remove attached seatbelt first." ) ),
+            std::make_tuple( "WINDOW", "CURTAIN", translate_marker( "Remove attached curtains first." ) ),
+            std::make_tuple( "CONTROLS", "ON_CONTROLS", translate_marker( "Remove attached part first." ) ),
+            std::make_tuple( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT", translate_marker( "Remove battery from mount first." ) ),
+            std::make_tuple( "TURRET_MOUNT", "TURRET", translate_marker( "Remove attached mounted weapon first." ) ),
+            std::make_tuple( "WHEEL_MOUNT_LIGHT", "NEEDS_WHEEL_MOUNT_LIGHT", translate_marker( "Remove attached wheel first." ) ),
+            std::make_tuple( "WHEEL_MOUNT_MEDIUM", "NEEDS_WHEEL_MOUNT_MEDIUM", translate_marker( "Remove attached wheel first." ) ),
+            std::make_tuple( "WHEEL_MOUNT_HEAVY", "NEEDS_WHEEL_MOUNT_HEAVY", translate_marker( "Remove attached wheel first." ) )
         }
     };
     for( auto &flag_check : blocking_flags ) {
@@ -4845,6 +4845,7 @@ void vehicle::place_spawn_items()
 void vehicle::gain_moves()
 {
     check_falling_or_floating();
+    const bool pl_control = player_in_control( g->u );
     if( is_moving() || is_falling ) {
         if( !loose_parts.empty() ) {
             shed_loose_parts();
@@ -4852,7 +4853,7 @@ void vehicle::gain_moves()
         of_turn = 1 + of_turn_carry;
         const int vslowdown = slowdown( velocity );
         if( vslowdown > abs( velocity ) ) {
-            if( cruise_on && cruise_velocity ) {
+            if( cruise_on && cruise_velocity && pl_control ) {
                 velocity = velocity > 0 ? 1 : -1;
             } else {
                 stop();
@@ -4868,7 +4869,7 @@ void vehicle::gain_moves()
     of_turn_carry = 0;
 
     // cruise control TODO: enable for NPC?
-    if( ( player_in_control( g->u ) || is_following ) && cruise_on && cruise_velocity != velocity ) {
+    if( ( pl_control || is_following ) && cruise_on && cruise_velocity != velocity ) {
         thrust( ( cruise_velocity ) > velocity ? 1 : -1 );
     }
 
@@ -5229,6 +5230,17 @@ void vehicle::shed_loose_parts()
 
         remove_part( elem );
     }
+}
+
+bool vehicle::enclosed_at( const tripoint &pos )
+{
+    refresh_insides();
+    std::vector<vehicle_part *> parts_here = get_parts_at( pos, "BOARDABLE",
+            part_status_flag::working );
+    if( !parts_here.empty() ) {
+        return parts_here.front()->inside;
+    }
+    return false;
 }
 
 void vehicle::refresh_insides()

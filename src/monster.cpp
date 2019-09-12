@@ -1294,10 +1294,10 @@ void monster::melee_attack( Creature &target, float accuracy )
         // Hallucinations always produce messages but never actually deal damage
         if( u_see_me ) {
             if( target.is_player() ) {
-                //~ 1$s is attacker name, 2$s is bodypart name in accusative.
                 sfx::play_variant_sound( "melee_attack", "monster_melee_hit",
                                          sfx::get_heard_volume( target.pos() ) );
                 sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
+                //~ 1$s is attacker name, 2$s is bodypart name in accusative.
                 add_msg( m_bad, _( "The %1$s hits your %2$s." ), name(),
                          body_part_name_accusative( bp_hit ) );
             } else if( target.is_npc() ) {

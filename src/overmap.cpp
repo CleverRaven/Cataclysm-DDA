@@ -3379,7 +3379,14 @@ pf::path overmap::lay_out_street( const overmap_connection &connection, const po
 void overmap::build_connection( const overmap_connection &connection, const pf::path &path, int z,
                                 const om_direction::type &initial_dir )
 {
+    if( path.nodes.empty() ) {
+        return;
+    }
+
     om_direction::type prev_dir = initial_dir;
+
+    const pf::node start = path.nodes.front();
+    const pf::node end = path.nodes.back();
 
     for( const auto &node : path.nodes ) {
         const tripoint pos( node.pos, z );
@@ -3425,9 +3432,23 @@ void overmap::build_connection( const overmap_connection &connection, const pf::
                             new_line = om_lines::set_segment( new_line, dir );
                         }
                     }
-                } else {
-                    // Always connect to outbound tiles.
+                } else if( pos.xy() == start.pos || pos.xy() == end.pos ) {
+                    // Only automatically connect to out of bounds locations if we're the start or end of this path.
                     new_line = om_lines::set_segment( new_line, dir );
+
+                    // Special handling for the "local_roads" connection type for now--they get added to the collection of
+                    // roads out of this overmap. A future enhancement is to make that a bit more generic and maintain a
+                    // set of out connections for all connection types.
+                    if( connection.id == string_id<overmap_connection>( "local_road" ) ) {
+                        const auto existing_out = std::find_if( roads_out.begin(),
+                        roads_out.end(), [pos]( const city & c ) {
+                            return c.pos == pos.xy();
+                        } );
+
+                        if( existing_out == roads_out.end() ) {
+                            roads_out.emplace_back( city( pos.xy() ) );
+                        }
+                    }
                 }
             }
 
@@ -3625,13 +3646,15 @@ const std::string &om_direction::id( type dir )
     return ids[static_cast<size_t>( dir ) + 1];
 }
 
-const std::string &om_direction::name( type dir )
+std::string om_direction::name( type dir )
 {
     static const std::array < std::string, size + 1 > names = {{
-            _( "invalid" ), _( "north" ), _( "east" ), _( "south" ), _( "west" )
+            translate_marker( "invalid" ), translate_marker( "north" ),
+            translate_marker( "east" ), translate_marker( "south" ),
+            translate_marker( "west" )
         }
     };
-    return names[static_cast<size_t>( dir ) + 1];
+    return _( names[static_cast<size_t>( dir ) + 1] );
 }
 
 // new x = (x-c.x)*cos() - (y-c.y)*sin() + c.x
@@ -4181,8 +4204,8 @@ void overmap::place_radios()
                 int choice = rng( 0, 2 );
                 switch( choice ) {
                     case 0:
-                        message = string_format( _( "This is emergency broadcast station %d%d.\
-  Please proceed quickly and calmly to your designated evacuation point." ), i, j );
+                        message = string_format( _( "This is emergency broadcast station %d%d."
+                                                    "  Please proceed quickly and calmly to your designated evacuation point." ), i, j );
                         radios.push_back( radio_tower( pos_sm, strength(), message ) );
                         break;
                     case 1:
@@ -4194,13 +4217,13 @@ void overmap::place_radios()
                         break;
                 }
             } else if( ter( pos_omt ) == "lmoe" ) {
-                message = string_format( _( "This is automated emergency shelter beacon %d%d.\
-  Supplies, amenities and shelter are stocked." ), i, j );
+                message = string_format( _( "This is automated emergency shelter beacon %d%d."
+                                            "  Supplies, amenities and shelter are stocked." ), i, j );
                 radios.push_back( radio_tower( pos_sm, strength() / 2, message ) );
             } else if( ter( pos_omt ) == "fema_entrance" ) {
-                message = string_format( _( "This is FEMA camp %d%d.\
-  Supplies are limited, please bring supplemental food, water, and bedding.\
-  This is FEMA camp %d%d.  A designated long-term emergency shelter." ), i, j, i, j );
+                message = string_format( _( "This is FEMA camp %d%d."
+                                            "  Supplies are limited, please bring supplemental food, water, and bedding."
+                                            "  This is FEMA camp %d%d.  A designated long-term emergency shelter." ), i, j, i, j );
                 radios.push_back( radio_tower( pos_sm, strength(), message ) );
             }
         }
