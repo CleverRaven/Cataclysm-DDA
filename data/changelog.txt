@@ -1,6 +1,7 @@
 # 0.E (2019-03-31)
 
 ## Features:
+Correctly set liquids as solid when they freeze.
 Adds ability to flag gunmods as 'CONSUMABLE'.
 Adds new flag: NO_SIGHT.
 Adds USABLE_FIRE tag for terrain or furniture to make it usable as a nearby fire for crafting.
@@ -32,6 +33,7 @@ Ability to view weather around player position.
 NPC followers on guard and in vicinity can read with/assist with crafting.
 
 ## Content:
+Adds refluffed and modified plasma gun.
 Moves allergen handling vitamin absorption to JSON.
 Alternative night vision intensity.
 Adds the possiblitiy to find an evil moose in the kitten finding game.
