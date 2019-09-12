@@ -842,6 +842,7 @@
     "subtype": "distribution",
     "items": [
       { "group": "softdrugs", "prob": 90 },
+      [ "bathroom_scale", 10 ],
       [ "string_6", 50 ],
       [ "wrapper", 50 ],
       [ "paper", 50 ],

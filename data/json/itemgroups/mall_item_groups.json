@@ -90,7 +90,8 @@
       [ "vaccine_shot", 10 ],
       [ "protein_powder", 85 ],
       [ "caff_gum", 30 ],
-      [ "nic_gum", 25 ]
+      [ "nic_gum", 25 ],
+      [ "bathroom_scale", 20 ]
     ]
   },
   {

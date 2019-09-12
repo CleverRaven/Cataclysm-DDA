@@ -4,7 +4,7 @@
     "//": "Mundane household items that might be found in or around a shower or bath.",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "rag", 40 ], [ "towel", 30 ], [ "soap", 10 ] ]
+    "items": [ [ "rag", 40 ], [ "towel", 30 ], [ "soap", 10 ], [ "bathroom_scale", 20 ] ]
   },
   {
     "id": "kitchen_counters",
