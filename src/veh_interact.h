@@ -89,9 +89,6 @@ class veh_interact
         catacurses::window w_owner;
 
         vehicle *veh;
-        bool has_wrench;
-        bool has_jack;
-        bool has_wheel;
         inventory crafting_inv;
         input_context main_context;
 

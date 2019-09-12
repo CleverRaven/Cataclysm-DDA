@@ -444,12 +444,6 @@ void veh_interact::cache_tool_availability()
 {
     crafting_inv = g->u.crafting_inventory();
 
-    has_wrench = crafting_inv.has_quality( quality_id( "WRENCH" ) );
-
-    has_wheel = crafting_inv.has_components( "any", 1, []( const item & it ) {
-        return !!item::find_type( it.typeId() )->wheel;
-    } );
-
     cache_tool_availability_update_lifting( g->u.pos() );
     int mech_jack = 0;
     if( g->u.is_mounted() ) {
@@ -459,12 +453,6 @@ void veh_interact::cache_tool_availability()
                            map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( JACK ),
                            vehicle_selector( g->u.pos(), 2, true, *veh ).max_quality( JACK )
                          } );
-
-    const double qual = jack_quality( *veh );
-
-    has_jack = g->u.has_quality( JACK, qual ) ||
-               map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( JACK, qual ) ||
-               vehicle_selector( g->u.pos(), 2, true, *veh ).has_quality( JACK,  qual ) || mech_jack >= qual;
 }
 
 void veh_interact::cache_tool_availability_update_lifting( const tripoint &world_cursor_pos )
