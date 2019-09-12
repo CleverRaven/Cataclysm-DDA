@@ -1363,6 +1363,37 @@
   },
   {
     "type": "recipe",
+    "result": "bot_crows_m240",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "skill_used": "electronics",
+    "skills_required": [ [ "mechanics", 6 ], [ "computer", 5 ] ],
+    "difficulty": 8,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 8,
+    "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 9 ] ],
+    "using": [ [ "soldering_standard", 14 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "m240", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "bot_nursebot",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",

@@ -171,5 +171,51 @@
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
+  },
+  {
+    "id": "mon_crows_m240",
+    "type": "MONSTER",
+    "name": "M240 autonomous CROWS II",
+    "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  Thousands of these were deployed by the US military before the cataclysm and they were valued for their use in engaging infantry without exposing the operator.  This one is fitted with a M240.",
+    "default_faction": "military",
+    "species": [ "ROBOT" ],
+    "diff": 35,
+    "volume": "60000 ml",
+    "weight": 172000,
+    "hp": 40,
+    "speed": 100,
+    "material": [ "steel" ],
+    "symbol": "2",
+    "color": "green",
+    "aggression": 100,
+    "morale": 100,
+    "armor_bash": 14,
+    "armor_cut": 16,
+    "vision_night": 3,
+    "revert_to_itype": "bot_crows_m240",
+    "starting_ammo": { "762_51": 1000 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "move_cost": 150,
+        "gun_type": "m240",
+        "ammo_type": "762_51",
+        "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
+        "fake_dex": 12,
+        "ranges": [ [ 0, 30, "DEFAULT" ] ],
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "laser_lock": false,
+        "targeting_cost": 200,
+        "targeting_timeout_extend": -10,
+        "targeting_sound": "\"Hostile detected.\"",
+        "targeting_volume": 50,
+        "no_ammo_sound": "a chk!"
+      }
+    ],
+    "death_drops": {  },
+    "death_function": [ "BROKEN" ],
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
   }
 ]

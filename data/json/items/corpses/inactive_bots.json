@@ -154,8 +154,8 @@
   {
     "id": "bot_antimateriel",
     "type": "TOOL",
-    "name": "inactive anti-materiel turret",
-    "description": "This is an inactive anti-materiel turret.  Using this item involves loading the unit with the factory-loaded .50 BMG Ball rounds in your inventory (if you wish to divide your ammunition, set aside whatever .50 BMG Ball you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with a built-in rifle.",
+    "name": "inactive M2HB autonomous CROWS II",
+    "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded .50 BMG rounds in your inventory (if you wish to divide your ammunition, set aside whatever .50 BMG rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its M2HB.",
     "weight": "1550 g",
     "volume": "3500 ml",
     "price": 500500,
@@ -228,8 +228,8 @@
   {
     "id": "bot_rifleturret",
     "type": "TOOL",
-    "name": "inactive rifle turret",
-    "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded 5.56 NATO rounds in your inventory (if you wish to divide your ammunition, set aside whatever 5.56 you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will then identify you as a friendly, and attack all enemies with a built-in rifle.",
+    "name": "inactive autonomous M249 CROWS II",
+    "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded 5.56x45mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 5.56x45mm rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its M249.",
     "weight": "1507 g",
     "volume": "3500 ml",
     "price": 500000,
@@ -241,6 +241,28 @@
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_turret_rifle",
+      "difficulty": 6,
+      "moves": 100,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
+    "id": "bot_crows_m240",
+    "type": "TOOL",
+    "name": "inactive autonomous M240 CROWS II",
+    "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded 7.62x51mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 7.62x51mm rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its M240.",
+    "weight": "1507 g",
+    "volume": "3500 ml",
+    "price": 500000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_crows_m240",
       "difficulty": 6,
       "moves": 100,
       "skill1": "electronics",
