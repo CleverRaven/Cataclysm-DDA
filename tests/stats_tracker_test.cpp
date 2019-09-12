@@ -65,42 +65,58 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
     event_bus b;
     b.subscribe( &s );
 
-    const mtype_id no_monster;
-    const mtype_id horse( "mon_horse" );
-    const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster );
-    const cata::event ride = cata::event::make<event_type::avatar_moves>( horse );
-    const string_id<score> score_moves( "score_moves" );
-    const string_id<score> score_walked( "score_walked" );
+    SECTION( "movement" ) {
+        const mtype_id no_monster;
+        const mtype_id horse( "mon_horse" );
+        const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster );
+        const cata::event ride = cata::event::make<event_type::avatar_moves>( horse );
+        const string_id<score> score_moves( "score_moves" );
+        const string_id<score> score_walked( "score_walked" );
 
-    CHECK( score_walked->value( s ) == cata_variant( 0 ) );
-    CHECK( score_moves->value( s ) == cata_variant( 0 ) );
-    b.send( walk );
-    CHECK( score_walked->value( s ) == cata_variant( 1 ) );
-    CHECK( score_moves->value( s ) == cata_variant( 1 ) );
-    b.send( ride );
-    CHECK( score_walked->value( s ) == cata_variant( 1 ) );
-    CHECK( score_moves->value( s ) == cata_variant( 2 ) );
+        CHECK( score_walked->value( s ) == cata_variant( 0 ) );
+        CHECK( score_moves->value( s ) == cata_variant( 0 ) );
+        b.send( walk );
+        CHECK( score_walked->value( s ) == cata_variant( 1 ) );
+        CHECK( score_moves->value( s ) == cata_variant( 1 ) );
+        b.send( ride );
+        CHECK( score_walked->value( s ) == cata_variant( 1 ) );
+        CHECK( score_moves->value( s ) == cata_variant( 2 ) );
+    }
 
-    const character_id u_id = g->u.getID();
-    character_id other_id = u_id;
-    ++other_id;
-    const mtype_id mon( "mon_zombie" );
-    const cata::event avatar_kill =
-        cata::event::make<event_type::character_kills_monster>( u_id, mon );
-    const cata::event other_kill =
-        cata::event::make<event_type::character_kills_monster>( other_id, mon );
-    const string_id<event_statistic> avatar_id( "avatar_id" );
-    const string_id<event_statistic> num_avatar_kills( "num_avatar_kills" );
-    const string_id<score> score_kills( "score_kills" );
+    SECTION( "kills" ) {
+        const character_id u_id = g->u.getID();
+        character_id other_id = u_id;
+        ++other_id;
+        const mtype_id mon( "mon_zombie" );
+        const cata::event avatar_kill =
+            cata::event::make<event_type::character_kills_monster>( u_id, mon );
+        const cata::event other_kill =
+            cata::event::make<event_type::character_kills_monster>( other_id, mon );
+        const string_id<event_statistic> avatar_id( "avatar_id" );
+        const string_id<event_statistic> num_avatar_kills( "num_avatar_kills" );
+        const string_id<score> score_kills( "score_kills" );
 
-    b.send<event_type::game_start>( u_id );
-    CHECK( avatar_id->value( s ) == cata_variant( u_id ) );
-    CHECK( score_kills->value( s ).get<int>() == 0 );
-    b.send( avatar_kill );
-    CHECK( num_avatar_kills->value( s ).get<int>() == 1 );
-    CHECK( score_kills->value( s ).get<int>() == 1 );
-    b.send( other_kill );
-    CHECK( score_kills->value( s ).get<int>() == 1 );
+        b.send<event_type::game_start>( u_id );
+        CHECK( avatar_id->value( s ) == cata_variant( u_id ) );
+        CHECK( score_kills->value( s ).get<int>() == 0 );
+        b.send( avatar_kill );
+        CHECK( num_avatar_kills->value( s ).get<int>() == 1 );
+        CHECK( score_kills->value( s ).get<int>() == 1 );
+        b.send( other_kill );
+        CHECK( score_kills->value( s ).get<int>() == 1 );
+    }
+
+    SECTION( "damage" ) {
+        const character_id u_id = g->u.getID();
+        const cata::event avatar_2_damage =
+            cata::event::make<event_type::character_takes_damage>( u_id, 2 );
+        const string_id<score> damage_taken( "score_damage_taken" );
+
+        b.send<event_type::game_start>( u_id );
+        CHECK( damage_taken->value( s ).get<int>() == 0 );
+        b.send( avatar_2_damage );
+        CHECK( damage_taken->value( s ).get<int>() == 2 );
+    }
 }
 
 TEST_CASE( "stats_tracker_in_game", "[stats]" )
