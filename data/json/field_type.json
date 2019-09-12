@@ -680,8 +680,8 @@
     "type": "field_type",
     "intensity_levels": [
       { "name": "mist", "sym": "~", "dangerous": false, "transparent": false, "translucency": 5 },
-      { "name": "fog", "sym": "~", "dangerous": false, "transparent": false, "translucency": 3 },
-      { "name": "dense fog", "sym": "~", "dangerous": false, "transparent": false, "translucency": 1 }
+      { "name": "fog", "translucency": 3 },
+      { "name": "dense fog", "translucency": 1 }
     ],
     "decay_amount_factor": 15,
     "gas_absorption_factor": 5,
