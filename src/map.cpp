@@ -1681,6 +1681,16 @@ bool map::passable( const point &p ) const
     return passable( tripoint( p, abs_sub.z ) );
 }
 
+bool map::is_wall_adjacent( const tripoint &center ) const
+{
+    for( const tripoint &p : points_in_radius( center, 1 ) ) {
+        if( p != center && impassable( p ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 int map::move_cost_ter_furn( const point &p ) const
 {
     if( !inbounds( p ) ) {
@@ -8258,14 +8268,14 @@ void map::draw_circle_furn( const furn_id type, const point &p, int rad )
     }, p, rad );
 }
 
-void map::add_corpse( const tripoint &p )
+void map::add_corpse( const tripoint &p, const bool random_corpse_type )
 {
     item body;
 
     const bool isReviveSpecial = one_in( 10 );
 
     if( !isReviveSpecial ) {
-        body = item::make_corpse();
+        body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, "", random_corpse_type );
     } else {
         body = item::make_corpse( mon_zombie );
         body.item_tags.insert( "REVIVE_SPECIAL" );
@@ -8682,4 +8692,36 @@ void map::clip_to_bounds( int &x, int &y, int &z ) const
     } else if( z > OVERMAP_HEIGHT ) {
         z = OVERMAP_HEIGHT;
     }
+}
+
+bool map::is_cornerfloor( const tripoint &p ) const
+{
+    if( impassable( p ) ) {
+        return false;
+    }
+    std::set<tripoint> impassable_adjacent;
+    for( const tripoint &pt : points_in_radius( p, 1 ) ) {
+        if( impassable( pt ) ) {
+            impassable_adjacent.insert( pt );
+        }
+    }
+    if( !impassable_adjacent.empty() ) {
+        //to check if a floor is a corner we first search if any of its diagonal adjacent points is impassable
+        std::set< tripoint> diagonals = { p + tripoint_north_east, p + tripoint_north_west, p + tripoint_south_east, p + tripoint_south_west };
+        for( const tripoint &impassable_diagonal : diagonals ) {
+            if( impassable_adjacent.count( impassable_diagonal ) != 0 ) {
+                //for every impassable diagonal found, we check if that diagonal terrain has at least two impassable neighbors that also neighbor point p
+                int f = 0;
+                for( const tripoint &l : points_in_radius( impassable_diagonal, 1 ) ) {
+                    if( impassable_adjacent.count( l ) != 0 ) {
+                        f++;
+                    }
+                    if( f > 2 ) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }

@@ -198,9 +198,9 @@ struct mission_type {
         bool was_loaded = false;
     private:
         // The untranslated name of the mission
-        std::string name = translate_marker( "Bugged mission type" );
+        translation name = to_translation( "Bugged mission type" );
     public:
-        std::string description = "";
+        translation description;
         // The basic goal type
         mission_goal goal;
         // Difficulty; TODO: come up with a scale
@@ -245,12 +245,6 @@ struct mission_type {
         std::function<bool( const mission_goal_condition_context & )> goal_condition;
 
         mission_type() = default;
-        mission_type( mission_type_id ID, const std::string &NAME, mission_goal GOAL, int DIF, int VAL,
-                      bool URGENT,
-                      std::function<bool( const tripoint & )> PLACE,
-                      std::function<void( mission * )> START,
-                      std::function<void( mission * )> END,
-                      std::function<void( mission * )> FAIL );
 
         mission create( character_id npc_id ) const;
 

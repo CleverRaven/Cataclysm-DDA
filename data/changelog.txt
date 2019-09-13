@@ -114,6 +114,7 @@ Add speedloaders for many guns, mainly revolvers.
 Sitting on chair near table gives mood bonus for eating, new trait for increased bonuses/penalties.
 The Northrop Dispatch robot now replaces zombie grenadiers.
 
+
 ## Interface:
 Corpses (not underwear) will be shown on top at the places of death in map extras.
 Update ASCIITiles - remove most non-ascii tiles, fix unknowns
@@ -185,7 +186,7 @@ Disallow rotten components in non-perishable crafts.
 ## Performance:
 Limit start location search radius.
 Vehicles: don't refresh while creating a prototype.
-Faster tileset loading due to optimized color manipulation routines
+Faster tileset loading due to optimized color manipulation routines.
 
 ## Infrastructure:
 Npctalk: Complete overhaul of NPC conversation infrastructure.

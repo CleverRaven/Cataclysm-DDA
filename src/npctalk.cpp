@@ -673,6 +673,9 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
         add_msg( _( "%s is hostile!" ), name );
         return;
     }
+    if( get_faction() ) {
+        get_faction()->known_by_u = true;
+    }
     dialogue d;
     d.alpha = &g->u;
     d.beta = this;
@@ -1189,7 +1192,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             const int cost = calc_ma_style_training_cost( *p, style.id );
             //~Martial art style (cost in dollars)
             const std::string text = string_format( cost > 0 ? _( "%s ( cost $%d )" ) : "%s",
-                                                    _( style.name ), cost / 100 );
+                                                    style.name, cost / 100 );
             add_response( text, "TALK_TRAIN_START", style );
         }
         for( auto &trained : trainable ) {

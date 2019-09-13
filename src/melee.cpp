@@ -1014,6 +1014,7 @@ matec_id player::pick_technique( Creature &t, const item &weap,
 
     bool downed = t.has_effect( effect_downed );
     bool stunned = t.has_effect( effect_stunned );
+    bool wall_adjacent = g->m.is_wall_adjacent( pos() );
 
     // first add non-aoe tecs
     for( auto &tec_id : all ) {
@@ -1026,6 +1027,12 @@ matec_id player::pick_technique( Creature &t, const item &weap,
 
         // skip defensive techniques
         if( tec.defensive ) {
+            continue;
+        }
+
+
+        // skip wall adjacent techniques if not next to a wall
+        if( tec.wall_adjacent && !wall_adjacent ) {
             continue;
         }
 
@@ -1377,7 +1384,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         if( one_in( ( 1400 - ( get_int() * 50 ) ) / bionic_boost ) ) {
             ma_styles.push_back( style_selected );
             add_msg_if_player( m_good, _( "You have learned %s from extensive practice with the CQB Bionic." ),
-                               _( style_selected.obj().name ) );
+                               style_selected.obj().name );
         }
     }
 }

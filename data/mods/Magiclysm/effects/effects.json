@@ -33,6 +33,15 @@
   },
   {
     "type": "effect_type",
+    "id": "invisibility",
+    "name": [ "Invisibility" ],
+    "desc": [ "Nothing can see you." ],
+    "apply_message": "You fade away.",
+    "remove_message": "You can see your hands again.",
+    "flags": [ "EFFECT_INVISIBLE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "bless",
     "name": [ "Blessed" ],
     "desc": [ "You are filled with energy that improves everything you do." ],

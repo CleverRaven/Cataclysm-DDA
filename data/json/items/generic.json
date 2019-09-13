@@ -2984,7 +2984,16 @@
     "id": "broken_turret_rifle",
     "symbol": ",",
     "color": "green",
-    "name": "broken milspec turret",
+    "name": "broken M249 autonomous CROWS II",
+    "weight": "70000 g",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_crows_m240",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken M240 autonomous CROWS II",
     "weight": "70000 g",
     "copy-from": "broken_turret"
   },
@@ -2993,7 +3002,7 @@
     "id": "broken_turret_bmg",
     "symbol": ",",
     "color": "green",
-    "name": "broken antimateriel turret",
+    "name": "broken M2 autonomous CROWS II",
     "weight": "100000 g",
     "copy-from": "broken_turret"
   },

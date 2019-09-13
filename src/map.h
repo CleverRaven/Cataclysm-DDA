@@ -405,6 +405,7 @@ class map
         int move_cost( const tripoint &p, const vehicle *ignored_vehicle = nullptr ) const;
         bool impassable( const tripoint &p ) const;
         bool passable( const tripoint &p ) const;
+        bool is_wall_adjacent( const tripoint &center ) const;
 
         /**
         * Similar behavior to `move_cost()`, but ignores vehicles.
@@ -814,7 +815,7 @@ class map
         void draw_circle_ter( ter_id type, const point &p, int rad );
         void draw_circle_furn( furn_id type, const point &p, int rad );
 
-        void add_corpse( const tripoint &p );
+        void add_corpse( const tripoint &p, bool random_corpse_type = false );
 
         // Terrain changing functions
         // Change all instances of $from->$to
@@ -1220,6 +1221,8 @@ class map
          */
         void process_falling();
 
+        bool is_cornerfloor( const tripoint &p ) const;
+
         // mapgen.cpp functions
         void generate( const tripoint &p, const time_point &when );
         void place_spawns( const mongroup_id &group, int chance,
@@ -1430,8 +1433,6 @@ class map
                                 float density );
         void draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
                        float density );
-        void draw_silo( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                        float density );
         void draw_temple( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
                           float density );
         void draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_point &when,

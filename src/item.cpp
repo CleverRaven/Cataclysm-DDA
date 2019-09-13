@@ -319,7 +319,8 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
 
 }
 
-item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name )
+item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name,
+                        const bool random_corpse_type )
 {
     if( !mt.is_valid() ) {
         debugmsg( "tried to make a corpse with an invalid mtype id" );
@@ -328,7 +329,8 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
     std::string corpse_type = "corpse";
 
     if( mt == mtype_id::NULL_ID() ) {
-        corpse_type = item_group::item_from( "corpses" ).typeId();
+        corpse_type = random_corpse_type ? item_group::item_from( "corpses" ).typeId() :
+                      "corpse_generic_human";
     }
 
     item result( corpse_type, turn );
@@ -2463,7 +2465,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             const std::vector<matype_id> &styles = g->u.ma_styles;
             const std::string valid_styles = enumerate_as_string( styles.begin(), styles.end(),
             [this]( const matype_id & mid ) {
-                return mid.obj().has_weapon( typeId() ) ? _( mid.obj().name ) : std::string();
+                return mid.obj().has_weapon( typeId() ) ? mid.obj().name.translated() : std::string();
             } );
             if( !valid_styles.empty() ) {
                 insert_separation_line();
@@ -3512,9 +3514,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         } else {
             ret << _( " (packed)" );
         }
-    }
-    if( is_bionic() && !has_flag( "NO_STERILE" ) && !has_flag( "NO_PACKED" ) ) {
-        ret << _( " (sterile)" );
     }
 
     if( is_tool() && has_flag( "USE_UPS" ) ) {

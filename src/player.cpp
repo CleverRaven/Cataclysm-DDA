@@ -7810,12 +7810,12 @@ bool player::pick_style() // Style selection menu
         auto &style = selectable_styles[i].obj();
         //Check if this style is currently selected
         const bool selected = selectable_styles[i] == style_selected;
-        std::string entry_text = _( style.name );
+        std::string entry_text = style.name.translated();
         if( selected ) {
             kmenu.selected = i + STYLE_OFFSET;
             entry_text = colorize( entry_text, c_pink );
         }
-        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text, _( style.description ) );
+        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text, style.description.translated() );
     }
 
     kmenu.query();
@@ -10745,6 +10745,7 @@ bool player::is_invisible() const
     static const bionic_id str_bio_cloak( "bio_cloak" ); // This function used in monster::plan_moves
     static const bionic_id str_bio_night( "bio_night" );
     return (
+               has_effect_with_flag( "EFFECT_INVISIBLE" ) ||
                has_active_bionic( str_bio_cloak ) ||
                has_active_bionic( str_bio_night ) ||
                has_active_optcloak() ||

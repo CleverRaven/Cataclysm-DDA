@@ -2221,7 +2221,7 @@ int iuse::ma_manual( player *p, item *it, bool, const tripoint & )
     p->ma_styles.push_back( style_to_learn );
 
     p->add_msg_if_player( m_good, _( "You learn the essential elements of %s." ),
-                          _( ma.name ) );
+                          ma.name );
     p->add_msg_if_player( m_info, _( "%s to select martial arts style." ),
                           press_x( ACTION_PICK_STYLE ) );
 
@@ -4508,6 +4508,17 @@ int iuse::dog_whistle( player *p, item *it, bool, const tripoint & )
                 }
                 critter.add_effect( effect_docile, 1_turns, num_bp, true );
             }
+        }
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::call_of_tindalos( player *p, item *it, bool, const tripoint & )
+{
+    for( const tripoint &dest : g->m.points_in_radius( p->pos(), 12 ) ) {
+        if( g->m.is_cornerfloor( dest ) ) {
+            g->m.add_field( dest, fd_tindalos_rift, 3 );
+            add_msg( m_info, _( "You hear a low-pitched echoing howl." ) );
         }
     }
     return it->type->charges_to_use();
