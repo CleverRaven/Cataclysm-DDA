@@ -117,7 +117,7 @@
   {
     "id": "score_headshots",
     "type": "score",
-    "description": "Headshots: %s",
+    "description": { "ctxt": "score description", "str": "Headshots: %s" },
     "statistic": "avatar_num_headshots"
   }
 ]
