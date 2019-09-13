@@ -1303,6 +1303,22 @@
   },
   {
     "type": "recipe",
+    "result": "wire_mesh",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [
+      { "id": "ANVIL", "level": 1 },
+      { "id": "HAMMER", "level": 2 }
+    ],
+    "tools": [ [ [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ] ],
+    "components": [ [ [ "wire", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "candle",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",

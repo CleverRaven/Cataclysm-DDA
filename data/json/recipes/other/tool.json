@@ -372,6 +372,6 @@
     "skill_used": "fabrication",
     "time": "2 m",
     "autolearn": true,
-    "components": [ [ [ "colander_steel", 1 ], [ "splatter_guard", 1 ] ] ]
+    "components": [ [ [ "colander_steel", 1 ], [ "wire_mesh", 1 ], [ "splatter_guard", 1 ] ] ]
   }
 ]
