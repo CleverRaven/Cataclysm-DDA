@@ -20,7 +20,7 @@
     "armor_cut": 14,
     "vision_day": 50,
     "revert_to_itype": "bot_secubot",
-    "starting_ammo": { "223": 30 },
+    "starting_ammo": { "556": 30 },
     "special_attacks": [
       {
         "type": "gun",
