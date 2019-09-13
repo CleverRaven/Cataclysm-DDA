@@ -31,6 +31,40 @@ Added Debug wind menu, refactored wind functions.
 Differentiate river from puddles, add water wheels.
 Ability to view weather around player position.
 NPC followers on guard and in vicinity can read with/assist with crafting.
+Make skill gain during crafting incremental throughout the activity.
+Wind mills and water mills to process grain into flour.
+Add NPC retreat, no investigate, and investigate limit zones.
+Draw highlights in tiles (e.g. when examining).
+Allow specifying starting missions in scenarios.
+Make lifting tools (cranes, etc) assist with "wielding" very heavy items.
+NPCs: shout commands at NPCs you can't see.
+Corpses rot and show their rot status.
+Implementation of a new json flag 'CAN_OPEN_DOORS'.
+Enable alarm clock functionality access from the 'wait' command.
+Add ability to crouch and hide behind furniture, terrain, vehicles.
+NPC AI: Move toward the player if he has a completed mission.
+Expanded ledge examine action with jump over command.
+Adds max radio range and camp radio tower mission.
+Add an in-dialogue help tutorial for NPC allies.
+Companions provide general advice (hints).
+Add the ability to turn prototype cyborg into NPC via Autodoc surgery.
+Npcs: improve NPC bandaging.
+Any NPC at camp can start missions etc, even by radio contact.
+NPC shouts: add danger zone override shout.
+Adds a fully functional item favoriting system.
+Hunger becomes based on stomach volume instead of kCal.
+Represent in progress crafts as an item.
+Scuba tanks for diving underwater.
+Adds ability to exhume graves, adds graves, adds body bag.
+Adds wind-powered sailboats.
+Allow monsters to shove vehicles on their way to player.
+Added nickname to random name generator.
+Radio contact with followers, NPC overmap movement.
+Use fuel from firewood source when starting fires.
+The Integrated Toolset now includes an auxiliary Extended Toolset bionic.
+Eyebots speak to suspects, doing police activity.
+NPCs: Allow NPCs to use holsters.
+Npctalk: add JSON support for bulk trade/donate.
 
 ## Content:
 Adds refluffed and modified plasma gun.
@@ -67,6 +101,19 @@ Allows the spawning of certain multitile buildings inside cities as well as outs
 Jsonified outpost and added two new variants of outpost.
 Add 3 new buildings for cities.  Metalworkshop, Pottery/Sewing Shop and Glassworkshop.
 Adds some less dangerous but still thematic zombies for labs.
+Adds food irradiator computer console and location.
+Improved punctuation in NPC dialogue.
+Add new negative trait: Nomad.
+Killer Drive starting trait, Death Row Convict profession.
+Adds new monster - Thorny Shamblers.
+Add Plant trait that lets you commune with trees.
+Add workbench functionality.
+Adds new zombie - Gasoline Zombie.
+Add `skeletal brute` zombies.
+Add speedloaders for many guns, mainly revolvers.
+Sitting on chair near table gives mood bonus for eating, new trait for increased bonuses/penalties.
+The Northrop Dispatch robot now replaces zombie grenadiers.
+
 
 ## Interface:
 Corpses (not underwear) will be shown on top at the places of death in map extras.
@@ -85,23 +132,61 @@ There's now an option in Graphics to enable or disable projectile animations.
 Help file: update the vehicle help.
 Monsters now have different footstep sounds, depending on species.
 Mutated poppies and some fungal things have descriptions now.
+Add a slew of movement mode keybindings. Make move_mode properly private.
+Add 'weapon' panel to labels layout, move wield and style to it.
+Add scrollbar to the base mission info pane.
+Add durability symbols to all vehicle parts. Add leak indicators in vehicle interface.
+Allow picking up nearby items with the `g` hotkey.
+Randomize scenaro in New Game -> Random Character.
+Allow switching firing mode and reload from [f]ire menu.
+Automatically craft on best adjacent workbench.
+Game window now resizes based on sidebar size.
+Y/N on furnace burning favorited item.
+Coverage value for tiles description.
+[E]ating menu now stays open on the last consume item.
+Allow repairing items outside of the player's inventory.
+Adds new command in drop menu to mark all non-favorite and non-worn items.
+Fix vehicle zones not updating when trying to sort loot after moving vehicle
+Turns static/scenario NPCs and 'experimental' z-levels on by default.
+Added possibility to change font size settings in game options.
+Adds estimated nutrition disclaimer to crafting screen.
+Add guidelines to vehicle interface for easier cursor location.
 
 ## Mods:
 Re-adds fictional martial arts as a mod.
 Added Aftershock sci-fi mod.
+Adds Mod: Buildable Hydroponics bays as furniture and adds Hydroponics in Labs.
 
 ## Balance:
 Remove reinforcement of non-cloth items.
+Allowed moving furniture over spilled liquids.
+Anesthetic kit is now a tool, it uses anesthesia as charges.
+Overhauls how the game handles batteries.
+Zombie pheromones makes zombies ignore player rather then go friendly.
+Toaster pastries and other sweets are now less fun than cocaine.
+Use sqrt of sum of squares to calculate total morale.
+Food isn't as enjoyable when you're sick.
+The higher your z-level, the farther you can see on the overmap
 
 ## Bugfixes:
 Fixed long overmap location name being overwritten by "Distance to target:" string.
 Silence error message when monster AI traverses an off-map vehicle.
 Fixed NPC dialog around lying and succeeding at missions.
-NPC AI: Increase minimum priority for close monsters
+NPC AI: Increase minimum priority for close monsters.
+Adjust view offsets and re-enable sidebars for look, aim, etc.
+Correct mouse input location in sdltiles build when scaling is enabled.
+NPC AI: patrolling guards are still guards.
+Fix corpses multiplying on revive.
+Player now can see adjacent opaque tiles while standing on another opaque tile.
+NPC AI: stop attacking non-hostiles.
+Ambient sound won't be heard by players wearing earplugs or otherwise deafened.
+Don't bash items inside sealed terrain or furniture.
+Disallow rotten components in non-perishable crafts.
 
 ## Performance:
 Limit start location search radius.
 Vehicles: don't refresh while creating a prototype.
+Faster tileset loading due to optimized color manipulation routines.
 
 ## Infrastructure:
 Npctalk: Complete overhaul of NPC conversation infrastructure.
@@ -110,8 +195,13 @@ Allow a player_activity to refer to specific monster(s).
 Update basecamp infrastructure to not require a camp overseer.
 Internally store kcal instead of nutr values.
 Achieved universal code styling.
+Combines rotting with item temperature.
+Trigger test failures when tests cause error logs.
+Npctalk: make mapgen_update into a dialogue effect.
+abort() on crashes so core dumps will be produced.
 
 ## Build:
+Npctalk: add a python dialogue validator.
 
 ## I18N and A11Y:
 
