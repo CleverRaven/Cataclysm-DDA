@@ -405,6 +405,7 @@ class map
         int move_cost( const tripoint &p, const vehicle *ignored_vehicle = nullptr ) const;
         bool impassable( const tripoint &p ) const;
         bool passable( const tripoint &p ) const;
+        bool is_wall_adjacent( const tripoint &center ) const;
 
         /**
         * Similar behavior to `move_cost()`, but ignores vehicles.
