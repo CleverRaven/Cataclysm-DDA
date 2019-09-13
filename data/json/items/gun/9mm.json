@@ -170,20 +170,20 @@
     "type": "GUN",
     "copy-from": "hk_mp5",
     "name": "H&K MP5K-PDW",
-    "description": "The Heckler & Koch MP5 is one of the most widely-used submachine guns in the world, and has been adopted by special police forces and militaries alike.  Its high degree of accuracy and low recoil are universally praised.  The MP5K-PDW model features a shorter barrel and a side folding stock for vehicle or aircraft crew use.",
+    "description": "The Heckler & Koch MP5 is one of the most widely-used submachine guns in the world, and has been adopted by special police forces and militaries alike.  Its high degree of accuracy and low recoil are universally praised.  The MP5K-PDW model features a shorter barrel, a built in foregrip, and a side folding stock for vehicle or aircraft crew use.",
     "volume": "1753 ml",
     "bashing": 8,
     "dispersion": 270,
     "ranged_damage": 0,
-    "built_in_mods": [ "grip" ],
-    "default_mods": [ "folding_stock" ]
+    "handling_modifier": 6,
+    "flags": [ "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ]
   },
   {
     "id": "briefcase_smg",
-    "copy-from": "mp5k",
+    "copy-from": "hk_mp5k",
     "type": "GUN",
     "name": "H&K operational briefcase",
-    "description": "This is a hard-sided briefcase with a trigger in the handle and a concealed hole in the side.  To fire the internally mounted MP5k-PDW, one braces the briefcase at the waist, ensures the briefcase is pointed at the enemy, and squeezes the trigger.  Precision and handling are severely hampered all around, however if you need to 'hand over the goods' or look low profile whilst bodyguarding, this is your gun.  When the briefcase is open the MP5 may be reloaded or dismounted.",
+    "description": "This is a hard-sided briefcase with a trigger in the handle and a concealed hole in the side.  To fire the internally mounted MP5K-PDW, one braces the briefcase at the waist, ensures the briefcase is pointed at the enemy, and squeezes the trigger.  Precision and handling are severely hampered all around, however if you need to 'hand over the goods' or look low profile whilst bodyguarding, this is your gun.  When the briefcase is open the MP5 may be reloaded or dismounted.",
     "weight": "3500 g",
     "volume": "15 L",
     "price": 480000,
@@ -191,7 +191,9 @@
     "dispersion": 520,
     "sight_dispersion": 520,
     "armor_data": { "covers": [ "ARM_EITHER", "HAND_EITHER" ], "coverage": 10, "encumbrance": 30, "material_thickness": 2 },
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS" ],
+    "flags": [ "OVERSIZE", "RELOAD_EJECT", "BELTED", "RESTRICT_HANDS" ],
+    "valid_mod_locations": [  ],
+    "delete": { "handling_modifier": 6 },
     "magazines": [ [ "9mm", [ "mp5mag" ] ] ]
   },
   {
