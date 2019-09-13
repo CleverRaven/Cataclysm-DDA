@@ -1185,7 +1185,7 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": 12000,
+    "time": "12 m",
     "autolearn": true,
     "book_learn": [
       [ "pocket_survival", 1 ],
@@ -1516,7 +1516,7 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": 12000,
+    "time": "12 m",
     "batch_time_factors": [ 80, 4 ],
     "autolearn": true,
     "book_learn": [

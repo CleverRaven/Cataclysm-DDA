@@ -2906,7 +2906,7 @@
     "result": "adobe_pallet_done",
     "type": "uncraft",
     "skill_used": "fabrication",
-    "time": 1000,
+    "time": "1 m",
     "difficulty": 1,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "adobe_brick", 20 ] ], [ [ "frame_wood_light", 1 ] ] ]

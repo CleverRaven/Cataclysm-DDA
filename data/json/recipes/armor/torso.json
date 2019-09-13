@@ -564,7 +564,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 5,
-    "time": 480000,
+    "time": "8 h",
     "reversible": true,
     "decomp_learn": 4,
     "autolearn": true,
@@ -1193,7 +1193,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "time": 280000,
+    "time": "4 h 40 m",
     "book_learn": [ [ "textbook_armwest", 8 ] ],
     "using": [ [ "forging_standard", 14 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "scrap_bronze", 28 ] ] ]
