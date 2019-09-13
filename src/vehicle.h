@@ -1078,8 +1078,14 @@ class vehicle
         int total_alternator_epower_w() const;
         // Total power currently being produced by all solar panels.
         int total_solar_epower_w() const;
+        // Total power currently being produced by all wind turbines.
+        int total_wind_epower_w() const;
+        // Total power currently being produced by all water wheels.
+        int total_water_wheel_epower_w() const;
         // Total power drain accross all vehicle accessories.
         int total_accessory_epower_w() const;
+        // Net power draw or drain on batteries.
+        int net_battery_charge_rate_w() const;
         // Maximum available power available from all reactors. Power from
         // reactors is only drawn when batteries are empty.
         int max_reactor_epower_w() const;
