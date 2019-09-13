@@ -2642,7 +2642,7 @@ static void mx_corpses( map &m, const tripoint &abs_sub )
         const tripoint corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 1 ), abs_sub.z };
         if( g->is_empty( corpse_location ) ) {
             m.add_field( corpse_location, fd_blood, rng( 1, 3 ) );
-            m.add_corpse( corpse_location );
+            m.add_corpse( corpse_location, true );
             //50% chance to spawn blood in every tile around every corpse in 1-tile radius
             for( const auto &loc : m.points_in_radius( corpse_location, 1 ) ) {
                 if( one_in( 2 ) ) {
