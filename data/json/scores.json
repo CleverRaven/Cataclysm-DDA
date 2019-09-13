@@ -10,9 +10,7 @@
     "id": "avatar_kills",
     "type": "event_transformation",
     "event_type": "character_kills_monster",
-    "value_constraints": {
-      "killer": { "equals_statistic": "avatar_id" }
-    }
+    "value_constraints": { "killer": { "equals_statistic": "avatar_id" } }
   },
   {
     "id": "num_avatar_kills",
@@ -30,9 +28,7 @@
     "id": "moves_not_mounted",
     "type": "event_transformation",
     "event_type": "avatar_moves",
-    "value_constraints": {
-      "mount": { "equals": "" }
-    }
+    "value_constraints": { "mount": { "equals": "" } }
   },
   {
     "id": "num_moves",
@@ -62,9 +58,7 @@
     "id": "avatar_takes_damage",
     "type": "event_transformation",
     "event_type": "character_takes_damage",
-    "value_constraints": {
-      "character": { "equals_statistic": "avatar_id" }
-    }
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } }
   },
   {
     "id": "avatar_damage_taken",
@@ -83,9 +77,7 @@
     "id": "avatar_heals_damage",
     "type": "event_transformation",
     "event_type": "character_heals_damage",
-    "value_constraints": {
-      "character": { "equals_statistic": "avatar_id" }
-    }
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } }
   },
   {
     "id": "avatar_damage_healed",
@@ -104,9 +96,7 @@
     "id": "avatar_headshots",
     "type": "event_transformation",
     "event_type": "character_gets_headshot",
-    "value_constraints": {
-      "character": { "equals_statistic": "avatar_id" }
-    }
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } }
   },
   {
     "id": "avatar_num_headshots",
