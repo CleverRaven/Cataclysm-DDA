@@ -688,6 +688,76 @@
   },
   {
     "type": "martial_art",
+    "id": "style_swordsmanship",
+    "name": "Medieval Swordsmanship",
+    "description": "The art of the longsword and sword & shield, preceding the later development of fencing.  Designed for combat both unarmored and in armor, it includes grappling as well as defensive and offensive sword techniques.  This treatise compares the Italian and German traditions of medieval combat with detailed step-by-step pictures.",
+    "initiate": [ "You take on a knightly stance.", "%s takes on a knightly stance." ],
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "buff_swordsmanship_static",
+        "name": "Swordsman's Stance",
+        "description": "Through chivalry and vigilance, your defense with a blade has increased.\n\n+1 Dodge attempts, blocked damage decreased by 50%% of Strength.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "bonus_dodges": 1,
+        "flat_bonuses": [ [ "block", "str", 0.5 ] ]
+      }
+    ],
+    "onblock_buffs": [
+      {
+        "id": "buff_swordsmanship_onblock",
+        "name": "Deflection",
+        "description": "You deflected your enemy's attack and now they are open to a counterattack!\nEnables \"Sweeping Strike\" and \"Deathblow\" techniques.\nLasts 1 turn.",
+        "min_melee": 1,
+        "melee_allowed": true,
+        "buff_duration": 1
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "buff_swordsmanship_oncrit",
+        "name": "Manslayer",
+        "description": "Your powerful attack has given you the chance to end this fight right now!\nEnables \"Vicious Strike\" techniques.\nLasts 1 turn.",
+        "min_melee": 5,
+        "melee_allowed": true,
+        "buff_duration": 1
+      }
+    ],
+    "techniques": [
+      "tec_swordsmanship_grab",
+      "tec_swordsmanship_break",
+      "tec_swordsmanship_zornhau",
+      "tec_swordsmanship_unterhau",
+      "tec_swordsmanship_mordhau"
+    ],
+    "weapons": [
+      "arming_sword",
+      "arming_sword_inferior",
+      "arming_sword_fake",
+      "broadsword",
+      "broadsword_inferior",
+      "broadsword_fake",
+      "broadfire_off",
+      "broadfire_on",
+      "estoc",
+      "estoc_inferior",
+      "estoc_fake",
+      "longsword",
+      "longsword_inferior",
+      "longsword_fake",
+      "sword_crude",
+      "sword_nail",
+      "sword_wood",
+      "zweifire_off",
+      "zweifire_on",
+      "zweihander",
+      "zweihander_inferior",
+      "zweihander_fake"
+    ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_tai_chi",
     "name": "Tai Chi",
     "description": "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
@@ -1250,67 +1320,5 @@
       "tec_wingchun_disarm"
     ],
     "weapons": [ "butterfly_swords", "long_pole" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_swordsmanship",
-    "name": "Medieval Swordsmanship",
-    "description": "The art of the sword & shield, preceding the later development of fencing.  Designed for combat in and out of armor, it includes grappling as well as defensive and offensive sword techniques.",
-    "initiate": [ "You stand tall and become vigilant against attacks.", "%s stands tall and becomes vigilant." ],
-    "learn_difficulty": 6,
-    "arm_block": 99,
-    "leg_block": 99,
-    "strictly_melee": true,
-    "onattack_buffs": [
-      {
-        "id": "swordsmanship_attack_buff",
-        "name": "Perfect Defense",
-        "description": "Bonus dodges after an attack.",
-        "buff_duration": 3,
-        "melee_allowed": true,
-        "bonus_dodges": 2
-      }
-    ],
-    "ondodge_buffs": [
-      {
-        "id": "swordsmanship_counter",
-        "name": "Displacement",
-        "description": "The enemy has presented an opening in their defense.",
-        "min_melee": 2,
-        "melee_allowed": true,
-        "max_stacks": 1,
-        "buff_duration": 2
-      }
-    ],
-    "techniques": [
-      "tec_swordsmanship_counter",
-      "tec_swordsmanship_grab",
-      "tec_swordsmanship_break",
-      "tec_swordsmanship_zornhau",
-      "tec_swordsmanship_unterhau",
-      "tec_swordsmanship_mordhau"
-    ],
-    "weapons": [
-      "sword_wood",
-      "sword_nail",
-      "sword_crude",
-      "zweihander",
-      "zweihander_inferior",
-      "zweihander_fake",
-      "zweifire_off",
-      "zweifire_on",
-      "arming_sword",
-      "arming_sword_inferior",
-      "arming_sword_fake",
-      "longsword",
-      "longsword_inferior",
-      "longsword_fake",
-      "estoc",
-      "estoc_inferior",
-      "estoc_fake",
-      "jian",
-      "jian_inferior",
-      "jian_fake"
-    ]
   }
 ]
