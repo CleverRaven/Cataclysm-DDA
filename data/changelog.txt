@@ -1,3 +1,120 @@
+# 0.E (2019-03-31)
+
+## Features:
+Correctly set liquids as solid when they freeze.
+Adds ability to flag gunmods as 'CONSUMABLE'.
+Adds new flag: NO_SIGHT.
+Adds USABLE_FIRE tag for terrain or furniture to make it usable as a nearby fire for crafting.
+Allow partial consumption of large item stacks with Internal Furnace CBM.
+Let ursine mutants gain PRED mutations without becoming carnivores.
+Adds ranged attacks mutations (using fake guns).
+Added ability to write messages on signs with markers too.
+Allow starting at a non-default date without advancing rot and monster scaling.
+NPCs will move to investigate sounds.
+Update digging to leave excavated materials adjacent to dig location.
+Faction camp: menial labor uses the zone autosort feature.
+Wind will now affect the spread of smoke/gas/fire/hot air.
+Auto-use oxygen tanks in asthma attack.
+Reload all guns and magazines in inventory if reload command is repeatedly triggered.
+Npcmove: improve NPC pathfinding when running from fire or threats.
+Add support for NPCs fleeing and following a player who is fleeing.
+Allow to set NPC's attitude via debug menu.
+Monsters: allow pets to wear armor.
+Bulletin board to control faction camps, camp overseer resigns.
+Guarding NPCs are now available for camp missions and doctoring.
+Dig a channel to divert a river.
+Follower / Faction camp summary menu and migrate to overmap.
+Selfie description includes one of the items nearby.
+NPCs can assist with player activities.
+Land Use Codes infrastructure.
+Added Debug wind menu, refactored wind functions.
+Differentiate river from puddles, add water wheels.
+Ability to view weather around player position.
+NPC followers on guard and in vicinity can read with/assist with crafting.
+
+## Content:
+Adds refluffed and modified plasma gun.
+Moves allergen handling vitamin absorption to JSON.
+Alternative night vision intensity.
+Adds the possiblitiy to find an evil moose in the kitten finding game.
+Add "classic literature" and "collector's edition" books.
+Adds Free Merchant currency.
+Joint Servo CBM - movement enhancer CBM.
+Added new z levels to apartments.
+Adds basement with a hidden methlab.
+Add missing items to some professions.
+Massive roof addition project.
+Makes 4" Casters craftable.
+Adds new item groups for labs (especially surface labs) and a lot of equipment and chemical reagents for them.
+Adds a children's tricycle with appropriate wheels and spawn locations.
+Add sheet metal forging and welding recipes
+Replace copper cable recipe with a more sensible one
+Mainline many items from More Survival Tools mod.
+Mainline many items from Medieval Stuff mod.
+Adds facial hair that can be chosen at chargen.
+Make the craftable wooden table placeable.
+Deprecate fictional martial arts.
+Split "accessory" gunmod slot into separate slots
+Adds a new large facility to be the surface entrance for secret Labs.
+Adds a new two-tile motel.
+Add almond milk, soy milk, and a method to produce almond milk using shelled almonds and water.
+Added a bandits' forest roadblock made of tree trunks.
+Adds 'headless' zombie + upgrades.
+Adds new evolutionary lines for zombie soldiers.
+Adds new furnitures, nested mapgen, palettes, and more content to abandoned barns.
+Made many multitile-buildings exclusively spawn inside cities.
+Allows the spawning of certain multitile buildings inside cities as well as outside.
+Jsonified outpost and added two new variants of outpost.
+Add 3 new buildings for cities.  Metalworkshop, Pottery/Sewing Shop and Glassworkshop.
+Adds some less dangerous but still thematic zombies for labs.
+
+## Interface:
+Corpses (not underwear) will be shown on top at the places of death in map extras.
+Update ASCIITiles - remove most non-ascii tiles, fix unknowns
+Update RetroDays - Hulks
+Render critters below current z-level in Tiles mode.
+Adds ability to mark favorite items in inventory.
+Preselect last played world and character in the load menu.
+Additional mode to allow diagonal movement with cursor keys using CTRL and SHIFT modifiers.
+Multiple Sidebar Panel Layouts.
+Allow sorting items by ammo/charge type in Advanced Inventory Management.
+Examine fireplaces, braziers, etc to start fires.
+Adds display scent map to tiles version.
+Add option for emulating the numpad using Ctrl and arrow keys.
+There's now an option in Graphics to enable or disable projectile animations.
+Help file: update the vehicle help.
+Monsters now have different footstep sounds, depending on species.
+Mutated poppies and some fungal things have descriptions now.
+
+## Mods:
+Re-adds fictional martial arts as a mod.
+Added Aftershock sci-fi mod.
+
+## Balance:
+Remove reinforcement of non-cloth items.
+
+## Bugfixes:
+Fixed long overmap location name being overwritten by "Distance to target:" string.
+Silence error message when monster AI traverses an off-map vehicle.
+Fixed NPC dialog around lying and succeeding at missions.
+NPC AI: Increase minimum priority for close monsters
+
+## Performance:
+Limit start location search radius.
+Vehicles: don't refresh while creating a prototype.
+
+## Infrastructure:
+Npctalk: Complete overhaul of NPC conversation infrastructure.
+Get rid of Lua modding.
+Allow a player_activity to refer to specific monster(s).
+Update basecamp infrastructure to not require a camp overseer.
+Internally store kcal instead of nutr values.
+Achieved universal code styling.
+
+## Build:
+
+## I18N and A11Y:
+
 # 0.D (Danny)
 
 ## Highlights:
