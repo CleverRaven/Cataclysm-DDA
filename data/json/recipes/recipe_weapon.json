@@ -1,6 +1,16 @@
 [
   {
     "type": "recipe",
+    "result": "briefcase_smg",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "time": "20 s",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "hk_mp5k", 1 ] ], [ [ "hk_briefcase", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "makeshift_machete",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
