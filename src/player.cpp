@@ -10745,6 +10745,7 @@ bool player::is_invisible() const
     static const bionic_id str_bio_cloak( "bio_cloak" ); // This function used in monster::plan_moves
     static const bionic_id str_bio_night( "bio_night" );
     return (
+               has_effect_with_flag( "EFFECT_INVISIBLE" ) ||
                has_active_bionic( str_bio_cloak ) ||
                has_active_bionic( str_bio_night ) ||
                has_active_optcloak() ||
