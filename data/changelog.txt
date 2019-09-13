@@ -31,54 +31,40 @@ Added Debug wind menu, refactored wind functions.
 Differentiate river from puddles, add water wheels.
 Ability to view weather around player position.
 NPC followers on guard and in vicinity can read with/assist with crafting.
-Updated the fireman belt to allow attachment from lobotomizer.
 Make skill gain during crafting incremental throughout the activity.
 Wind mills and water mills to process grain into flour.
-Add NPC retreat, no investigate, and investigate limit zones
-Allowed moving furniture over spilled liquids. Spilled liquids in destination tile are destroyed after furniture has moved.
-Make the antennae mutation toggleable
+Add NPC retreat, no investigate, and investigate limit zones.
 Draw highlights in tiles (e.g. when examining).
-Allow specifying starting missions in scenarios
-Make lifting tools (cranes, etc) assist with "wielding" very heavy items
-Add piles of straw as a byproduct from cutting grass.
-NPCs: shout commands at NPCs you can't see
-Adds food irradiator computer console and location
-Corpses rot and show their rot status
-Implementation of a new json flag 'CAN_OPEN_DOORS'
-Enable alarm clock functionality access from the 'wait' command
+Allow specifying starting missions in scenarios.
+Make lifting tools (cranes, etc) assist with "wielding" very heavy items.
+NPCs: shout commands at NPCs you can't see.
+Corpses rot and show their rot status.
+Implementation of a new json flag 'CAN_OPEN_DOORS'.
+Enable alarm clock functionality access from the 'wait' command.
 Add ability to crouch and hide behind furniture, terrain, vehicles.
-NPC AI: Move toward the player if he has a completed mission
-Expanded ledge examine action with jump over command
-Adds max radio range and camp radio tower mission
-Add an in-dialogue help tutorial for NPC allies
-Terranian Sonar CBM now detects buried traps and hidden sinkholes
-Companions provide general advice (hints)
-Add the ability to turn prototype cyborg into NPC via Autodoc surgery
-npcs: improve NPC bandaging
-Added movement sound to worms.
+NPC AI: Move toward the player if he has a completed mission.
+Expanded ledge examine action with jump over command.
+Adds max radio range and camp radio tower mission.
+Add an in-dialogue help tutorial for NPC allies.
+Companions provide general advice (hints).
+Add the ability to turn prototype cyborg into NPC via Autodoc surgery.
+Npcs: improve NPC bandaging.
 Any NPC at camp can start missions etc, even by radio contact.
-Add PREV_TAB action to player display
-NPC AI: Improve noise handling, retreating, and general QoL fixes
-NPC shouts: add danger zone override shout
-Adds a fully functional item favoriting system
-Hunger becomes based on stomach volume instead of kCal
+NPC shouts: add danger zone override shout.
+Adds a fully functional item favoriting system.
+Hunger becomes based on stomach volume instead of kCal.
 Represent in progress crafts as an item.
-NPCs: Add 3 new NPC AI rules
-Land Use Codes infrastructure
-Make pry-on-examine use best tool
 Scuba tanks for diving underwater.
-Adds ability to exhume graves, adds graves, adds body bag
-Adds wind-powered sailboats
-Allow monsters to shove vehicles on their way to player
-Added nickname to random name generator
-Radio contact with followers, NPC overmap movement
-Use fuel from firewood source when starting fires
-Auto-forage now will also affect cattails, berry bushes, and fruit trees.
-The Integrated Toolset now includes an auxiliary Extended Toolset bionic, which lets you use item actions such as sawing metal.
-Added kevlar drops to kevlar zombie butchering.
-Make lit cigarettes slow firestarters and extinguishable
-Eyebots speak to suspects, doing police activity
-NPCs: Allow NPCs to use holsters
+Adds ability to exhume graves, adds graves, adds body bag.
+Adds wind-powered sailboats.
+Allow monsters to shove vehicles on their way to player.
+Added nickname to random name generator.
+Radio contact with followers, NPC overmap movement.
+Use fuel from firewood source when starting fires.
+The Integrated Toolset now includes an auxiliary Extended Toolset bionic.
+Eyebots speak to suspects, doing police activity.
+NPCs: Allow NPCs to use holsters.
+Npctalk: add JSON support for bulk trade/donate.
 
 ## Content:
 Adds refluffed and modified plasma gun.
@@ -115,78 +101,18 @@ Allows the spawning of certain multitile buildings inside cities as well as outs
 Jsonified outpost and added two new variants of outpost.
 Add 3 new buildings for cities.  Metalworkshop, Pottery/Sewing Shop and Glassworkshop.
 Adds some less dangerous but still thematic zombies for labs.
-Adds roofs, minor adjustments.  Removed duplicate pharmacy entry.
-Adds new Threshold and non-Threshold Traits to 'Elf-a'
-Adds roof and 2nd floor to car showroom
-Adds doctor office roofs.
-Update retrodays tileset - mutants
-Add gardening allotment roof
-Adds roofs to butcher shops.
-Adds car dealership roof, moves item_groups, vehicle_group.
-Added ALLOWS_REMOTE_USE to acetylene torch
+Adds food irradiator computer console and location.
 Improved punctuation in NPC dialogue.
-Fixed cyborg initial recruitment dialogue
-Add survivor chef dialogue and fix a bug
-Added 4x4 Car
-Added external spare tire carrier
-Adds new dialogue for city cop, so they don't repeat their joke forever.
-Add new negative trait: Nomad
-Killer Drive starting trait, Death Row Convict profession
-Adds NPC with mission.  Adds nested spawn for police_station_1, adjustments to stations spawn.
-Everyday tools quality of life improvement
-Changing monstergroup to remove very advanced zombie monsters from the beginings ot the game
-Modified cosmetic engine displacements to make them more realistic
-Knife spears can be made out of pool cues
-Adds new monster - Thorny Shamblers
-Made tonfa-like weapons belt clippable
-Quick revision of hints and new hints (NPC speech)
-Adds seven more refugees to the center with stub dialogue, and some necessary items for them
-Add makeshift grenade and fix related recipe
-Add Plant trait that lets you commune with trees
+Add new negative trait: Nomad.
+Killer Drive starting trait, Death Row Convict profession.
+Adds new monster - Thorny Shamblers.
+Add Plant trait that lets you commune with trees.
 Add workbench functionality.
-Even more nicknames
-Police gear additions
-Adds police station roofs & a new station. Also includes some small fill_ter changes & increased spawns in general.
-Cigarette fetch quest for evac guard
-Change heavy automatic shotgun to use ammo belt
-ASCIITiles - replace colors to match curses
-Adds a static npc that spawns in a restaurant.  Adjusts the back room they spawn in with extra loot and slight fortifications.
-Make sheets disassemble-able
-Adds more mapgen variation to new surface lab
-Moved Entry Suit to outer layer
-Adds new zombie - Gasoline Zombie
-Adds a crafting recipe for stepladders
-Add `skeletal brute` zombies
-You can find or craft battery-powered heated blankets.
-Adds blanket to makeshift sling recipe
-Adds roofs to bike shops.  Minor adjustments to ground floors.
-Mainline .45 pipe rifle from Craftable Gunpowder mod
-Added MEAT subcategory to offal dishes recipes
-Adds 2 roofs, does some terrain cleanup.
-Add speedloaders for many guns, mainly revolvers
-Mainline fire ring and add to campsites.  Also add tourist tables & camp chairs to campsites.
-Adds 2 roofs. Minor adjustments to terrains.
-Update Retrodays Tileset - Dinos
-Mainline thatched roof from More Survival Tools
-Adds roof to liquor store and expands back of ground floor.
-Adds new pet armors for canines with crafting recipes.
-More nicknames
-Being under anesthesia prevents you from feeling several faulty bionics' effects.
-Added 30gal_drum and 50gal_drum recipes that use welding
-Adds a bionic that lets you fall asleep instantly
+Adds new zombie - Gasoline Zombie.
+Add `skeletal brute` zombies.
+Add speedloaders for many guns, mainly revolvers.
 Sitting on chair near table gives mood bonus for eating, new trait for increased bonuses/penalties.
-Adds new evac merchant mission 'canned food'
-Adds 2 bar roofs, 1 nested map
 The Northrop Dispatch robot now replaces zombie grenadiers.
-Add animal cooking oil, add recipe for canning beans, and rebalance various foods and recipes
-Adds new occupations 'Landscaper' and 'Nursing Assistant'; adds item substitutions for Graham Crackers
-Mainline chainmail hauberk from Medieval Stuff mod
-Adds basic roof to mall.
-adds barricaded s_gun layout
-Adds new bionic Taste Modifier
-Adds a torso shotgun bandolier, updates the waist bandolier.
-Adds new Trait 'Deaf'
-Ice cream shops now have a roof.
 
 ## Interface:
 Corpses (not underwear) will be shown on top at the places of death in map extras.
@@ -205,244 +131,56 @@ There's now an option in Graphics to enable or disable projectile animations.
 Help file: update the vehicle help.
 Monsters now have different footstep sounds, depending on species.
 Mutated poppies and some fungal things have descriptions now.
-Display inventory quantity of components even if it is not enough
-Display inventory quantity of components even if it is not enough
-Add a slew of movement mode keybindings. Make move_mode properly private
-Add 'weapon' panel to labels layout, move wield and style to it
+Add a slew of movement mode keybindings. Make move_mode properly private.
+Add 'weapon' panel to labels layout, move wield and style to it.
 Add scrollbar to the base mission info pane.
 Add durability symbols to all vehicle parts. Add leak indicators in vehicle interface.
-Display inventory quantity of components in crafting menu
 Allow picking up nearby items with the `g` hotkey.
-Tweak hunger (and thirst) descriptions in HUD to be more useful
-Randomize scenaro in New Game -> Random Character
-More visible naming of off-road bicycle and motorbike wheels
+Randomize scenaro in New Game -> Random Character.
 Allow switching firing mode and reload from [f]ire menu.
 Automatically craft on best adjacent workbench.
-game window now resizes based on sidebar size. no more manual offsets.
-Y/N on furnace burning favorited item
-Avoid unusable shortcuts in main menu
-Coverage value for tiles description
-Correct mouse input location in sdltiles build when scaling is enabled
-Crouching log messages fix
-[E]ating menu now stays open on the last consume item
-restore cursor to the debug map editor in tiles mode
-Allow repairing items outside of the player's inventory
-Add 'reset all basic needs' option to edit character debug menu
-Adds new command in drop menu to mark all non-favorite and non-worn items
+Game window now resizes based on sidebar size.
+Y/N on furnace burning favorited item.
+Coverage value for tiles description.
+[E]ating menu now stays open on the last consume item.
+Allow repairing items outside of the player's inventory.
+Adds new command in drop menu to mark all non-favorite and non-worn items.
 Fix vehicle zones not updating when trying to sort loot after moving vehicle
-Adds new menu option for ambient sound volume.
-Adjust view offsets and re-enable sidebars for look, aim, etc
-Show "This is xxx." message when examining harvestable furniture even when auto-forage is on.
-Increase size of compass in 'Classic' sidebar to match other layouts
-Adds alternate unbound keybinding for reloading without trying weapons first.
-Adds a config option to disable edge scrolling/panning with mouse.
-Turns static/scenario NPCs and 'experimental' z-levels on by default
-Unseen monsters no longer be reported whilst shoving vehicles.
-Enable mouse panning while looking around or peeking
-Allow zooming when looking around or peeking
+Turns static/scenario NPCs and 'experimental' z-levels on by default.
 Added possibility to change font size settings in game options.
 Adds estimated nutrition disclaimer to crafting screen.
-Add guidelines to vehicle interface for easier cursor location
+Add guidelines to vehicle interface for easier cursor location.
 
 ## Mods:
 Re-adds fictional martial arts as a mod.
 Added Aftershock sci-fi mod.
-Correct some battery usages in mainlined mods
-Correct battery cell recipe error in mainlined Aftershock mod
-The SCAR-H rifles dropped by Wraiths at the National Guard camp now contain magazines
 Adds Mod: Buildable Hydroponics bays as furniture and adds Hydroponics in Labs.
-Gasoline zombies are blacklisted in the No Explosive Zombies mod.
-Added the control station and hauling space to various vehicles in Aftershock, as well as the new tanker trucks and mounted tank parts.
-Fix GF recipes mod recipes overriding vanilla, plus other fixes
-The Urban Development mod now has a large public library.
-Add missing winches to urban development garages
-Some of Aftershock's endgame weapons have been nerfed, but you can get a fancy new toolmod to make up for it.
-Mainline Filthy Clothes mod.
-Aftershock now has new content, including bionics, vehicle parts, and tools.
 
 ## Balance:
 Remove reinforcement of non-cloth items.
-Scorecards can be deconstructed into paper and now appear in the OTHER category
-Add batch crafting time to cooked cattail stalks
-Anesthetic kit is now a tool, it uses anesthesia as charges, you need one charge for surgery
-Overhauls how the game handles batteries
-Lowered the number of feathers gained from butchering birds to more realistic values
-Evolution hotfix
-Zombie pheromones makes zombies ignore player rather then go friendly, you can dissect pheromones from zombie corpses
-Allow batching of milk into plastic
-Allow rendering of lamp oil from (rotten) fat and tainted fat
-Vehicle hatches now require welding tools to install
-Make arrows/bolts more reasonable
-Revise small/medium/full size storage battery stats to be more internally consistent
-Adjusted metal crossbow bolt recipes to match weight
-Toaster pastries and other sweets are now less fun than cocaine
-Rearranges and rebalances item groups governing hardware spawning.
-Add thermometers to some item groups
-Bones (and thus wastebread) now contain calcium
-Foie gras can use either salt or seasoned salt
-Remove smells sense from smoker zombie
-Broth needs only one seasoned salt, not fourteen
-Adds item version of glowy thing, to set difficulty of removal to 3
+Allowed moving furniture over spilled liquids.
+Anesthetic kit is now a tool, it uses anesthesia as charges.
+Overhauls how the game handles batteries.
+Zombie pheromones makes zombies ignore player rather then go friendly.
+Toaster pastries and other sweets are now less fun than cocaine.
 Use sqrt of sum of squares to calculate total morale.
-Adds bimetal thermostats + spawns
-Prison Break scenario no longer begins with an NPC
-Tweaked Headless Zombies
-Make pointy sticks craftable from two by fours.
-Consolidate overmap vision bonuses
-Food isn't as enjoyable when you're sick
-All types of power armor have equal environment protection value of 16.
-Give the Bow Hunter a slightly worse bow and arrows
-Nerfed Leaky bionic to be survivable
+Food isn't as enjoyable when you're sick.
 The higher your z-level, the farther you can see on the overmap
-Adjusting compound bow requires fine screw driving
 
 ## Bugfixes:
 Fixed long overmap location name being overwritten by "Distance to target:" string.
 Silence error message when monster AI traverses an off-map vehicle.
 Fixed NPC dialog around lying and succeeding at missions.
-NPC AI: Increase minimum priority for close monsters
-Fixed width calculation of translatable strings in the sidebar
-Correct the display of skinned human corpses.
-Fix camp radio tower to use new update_mapgen
-Fix segfault on scenarios that start near toilets/vending machines
-drinking water and eating a small amount will no longer cause hunger
-basecamp: make camp crafting actually produce items
-NPCs: advance effect durations during on_load()
-Fixes teleporters not working
-Reduce crafting skill gain related message spam.
-Fix #28679 - Monsters falling - a z-level down - on a trap are deleted and then reused in monster factions.
-Add intermediate component to vehicle welding rig recipe to workaround crafting bug
-Sweet Tooth trait will no longer protect you from health penalties of drugs.
-Fix pickup with `g` from vehicles and refactor.
-Disallow milk crafted from condensed milk or powdered milk being used to make condensed milk or powdered milk
-Fixed miner profession and mine equpment item group
-NPC AI: patrolling guards are still guards
-NPCs: fix some incorrect dialogue topics
-Use a getter instead of a private member. Fix Android builds.
-Adjusted battery charge desc & reload time. Adjusted med cell plural text.
-Add magazine support to fake-tools mounted onto a vehicle
-Only flammable walls will be converted to fungal walls on fungal growth.
-Fix logic in activating in progress crafts.
-Adds a damage value to repeating crossbows.
-Corrected lighter volume
-Psychopaths no longer get morale debuffs from digging up graves
-Fixed eating items sometimes dividing by zero
-Applying external medications no longer acts as though the medication were eaten.
-Require player to have the recipe at all stages in crafting.
-Corrected refillable lighter volume
-Fix undefined temperature for disassembled items
-fungi.json: fixed group name
-Fix corpses multiplying on revive
+NPC AI: Increase minimum priority for close monsters.
+Adjust view offsets and re-enable sidebars for look, aim, etc.
+Correct mouse input location in sdltiles build when scaling is enabled.
+NPC AI: patrolling guards are still guards.
+Fix corpses multiplying on revive.
 Player now can see adjacent opaque tiles while standing on another opaque tile.
-Charcoal smoker can be used for 3l jar crafts
-correct prop_damage and pierce value display on items
-Fix undefined water temperature for Aero-Evaporator and Water Extraction Unit
-Made diesel and soap being able to be made from rotten fats
-NPC AI: stop attacking non-hostiles
-Fixed several vehicle parts' volume.
-fixes missing, outdated, and excessively costly meat recipes (mostly offal dishes)
-Stops error messages related to obsolete item groups showing up in mods
-Fix inventory selector to strip vehicle color codes for column headers
-Replace spawning of active lightstrip with its inactive version
+NPC AI: stop attacking non-hostiles.
 Ambient sound won't be heard by players wearing earplugs or otherwise deafened.
-Fixed gravedigger morale typo
-Fix off-by-one for debug menu needs editor re: vitamins
-Don't highlight single items on furniture
-Mixing a fancy hobo no longer breaks the laws of physics
-fix overflow in map::points_in_radius
-Delete "take over the camp" from NPC.
-Fix in progress crafts containing infinite water from map sources.
-Fix improper wood ash mass/volume.
-Fix crash in character creation from crane wield changes
-Reduced the weight of ash from 1 to 0.175
-Fix crouching after running
-Fix crash in advanced inventory when sorting by rot with corpses
-NPC: minor dialogue fixes
-Correct in progress craft stacking.
-Add guardrails for regular pavement
 Don't bash items inside sealed terrain or furniture.
-Replace all instances of plumber_gear with hardware_plumbing
-Allow crafting with EDIBLE_FROZEN components even without heat.
-Fixed a typo in the radio tutorial.
-Forbid placing items due to overflow to sealed terrain or furniture such as cloning vats.
-Lowered contained volume of basin to 2.5 liters
-Disallow crafting non-heated recipes with frozen components.
-Electric blankets are no longer UPS rechargable
-Handle liquids on completion of craft.
-Fix continously stacking morale types.
-Applies bonus blocks and dodges from martial arts and removed block for being grabbed
-Added gas discount cards to vehicle item group
-Increase precision of craft progress to better support long/slow crafts
-Correct display of status effects in status screen when cycling tabs.
-NPC AI: Fix recently introduced bugs
-Fix text color for non reviving corpses
-Fix player spending 2 dodges on successful dodge
-Show "That is a xxx." message only on manual examine even when passing by harvestable furniture with auto-forage on
-Closed pickable metal door is no longer pryable.
-Corpses and butchery results have temperatures
-Fix selection of unfit components while crafting.
-Updated vehicle id in the BrightNights Mod
-Fix map memory for vehicle fallback tiles
-fix for negative noise with plows or rockwheels
-Fix offset in fire UI in ascii
-Make CTRL-U work in item filter input box in tiled mode
-Fuel indicator shows correct usage rate for battery-powered vehicles
-Fix poisonous/psychoactive shroom spawn.
-Fix liquid consumption in crafting.
-Disallow rotten components in non-perishable crafts
-Set water from vehicle kitchen to same temperature as it was in tank
-Fix #29472 - nullptr while trying to find a NCP in the overmap
-Make water heaters act more like standing tanks
-Prevent player waking up by the sound of the instrument they are playing.
-Fix crafting 0 time recipes.
-Fixed camp chop shop mission
-Milk from cows no longer has undefined temperature
-Public works item spawns fix
-Fix craft progress calculation (batch savings and assistants).
-In-game font settings not working
-Fix crash on crafting persihable from non-perishables
-Fix Realguns mod being broken
-Vehicle tables and seats now work with Rigid Table Manners.
-Fix crafting time of batches.
-pony wall now deconstructs correct number of nails
-Add sleep deprivation messages for NPCs
-Fixes offset issues in ascii caused by the sidebar
-Fix erroneous wake error message
-Prevents div by 0 when examining vehicle
-Prevent players from mutating facial hair
-Fixed rotatable symbol definitions
-Fix CBMs loading
-Fix iterator invalidation in panel_manager::deserialize().
-Increased time to craft and components needed for steel frame and heavy duty frame.
-Fixed erroneous max volume of several furniture types.
-Make the inactive military dispatch item place the correct monster
-Fix NPC death crash
-Allowed saving and/or quitting in tutorial.
-Fixed wrong vitamin set in debug menu.
-Adjust pit digging mechanics
-Fix fruit jam recipe and calories
-Fix kiwi nutrition values.
-Drop dry rice from the cooked beans recipe
-Fixed npcs turning hostile
-Overmap respects circular distances
-Add seed items for lentils and raw beans
-Fixed amount of nails get from clearing the rubble.
-Tools that are already run on UPS won't accept UPS conversion mod.
-fix various ui bugs and minor tweaks to sidebar option menu design
-Fixed hospital mission to analyze zombie blood
-Fixed boardable vehicle over pit message
-Fix Military Cargo Truck's frame orientation
-Improve NPC sound ignoring logic to reduce activity interruptions.
-NPC epilogue fixes
-Fix #28712 - crash when unloading a vehicle from a bike rack.
-Allow vehicle tables to perform butchery
-Fix damaged 40mm launcher dropping grenade at your feet
-Stopped zombies reviving into vehicles
-Added randomness to wind blocking field spread
-Fix inconsistencies in Humvee design
-Reset follower NPC disposition/faction on player death
-Currently able to take both Animal Empathy and Animal Kinship
-Fixed all recipes showing on camp expansions
+Disallow rotten components in non-perishable crafts.
 
 ## Performance:
 Limit start location search radius.
@@ -456,54 +194,15 @@ Allow a player_activity to refer to specific monster(s).
 Update basecamp infrastructure to not require a camp overseer.
 Internally store kcal instead of nutr values.
 Achieved universal code styling.
-Combines rotting with item temperature
-Add developer helper script for test case reduction
-NPCs: Revamp is_follower(), is_ally(), and is_friend()
-Backer names are now picked much less frequently when generating character names
-npctalk: add JSON support for bulk trade/donate
-Trigger test failures when tests cause error logs
-Replace add_spawn() calls in mapgen.cpp with place_spawns()
-Used overmap terrain abstracts for cemeteries
-npctalk: make mapgen_update into a dialogue effect
-Use globally consistent overmap positions for forest placement
-Update header includes to include-what-you-use standards
-Simplifies getting shelf life of corpses.
-Removed redundant c_str calls
-abort() on crashes so core dumps will be produced
-Tidy up includes and declarations to appease IWYU
-Removed redundant c_str calls
-move more mission starts and ends into JSON
-npcs: define multiple missions for chatbin in npcs.json
-basecamp: upgrade with mapgen_update
-Mutation overmap sight radius changes are now tied to json.
-Tools that can crack safes are now tied to a tool flag, SAFECRACK.
-missions: move some Tacoma Commune starts into JSON
-Used overmap terrain abstracts for river tiles
-Refactor internal representation of symbols
-missions: move the free merchants start and end functions to JSON
-The ability to reinforce a material is now tied to json.
-missions: move Old Guard rep mission start functions to JSON
-factions: Refactor faction code
-Fix line endings in gradlew.bat
-Use string instead of long for rotatable symbols, land use code and overmap terrains symbols
-Updated Unifont to version 12.0
+Combines rotting with item temperature.
+Trigger test failures when tests cause error logs.
+Npctalk: make mapgen_update into a dialogue effect.
+abort() on crashes so core dumps will be produced.
 
 ## Build:
-npctalk: add a python dialogue validator
-Simplified the validate_pr_in_jenkins regexp
-Use UPSTREAM_BUILD_NUMBER as versionCode
-Add std::string versions of add_msg function family.
-Use UPSTREAM_BUILD_NUMBER as versionCode
-Allow Jenkins validation to allow both unix and windows linefeeds
-Fix warnings when building with GCC9
-Visual Studio: remove deprecated compiler switch and set multi-processor compilation
+Npctalk: add a python dialogue validator.
 
 ## I18N and A11Y:
-Routine i18n updates on Apr 26, 2019
-Routine i18n updates on Apr 19, 2019
-Translate footstep noises
-Routine i18n updates on Apr 12, 2019
-Routine i18n updates on Apr 6, 2019
 
 # 0.D (Danny)
 
