@@ -89,6 +89,7 @@
       [ "corpse_generic_female", 80 ],
       [ "corpse_generic_boy", 15 ],
       [ "corpse_generic_girl", 15 ],
+      [ "corpse_generic_human", 10 ],
       [ "corpse_bloody", 10 ],
       [ "corpse_painful", 10 ],
       [ "corpse_scorched", 10 ],

@@ -815,7 +815,7 @@ class map
         void draw_circle_ter( ter_id type, const point &p, int rad );
         void draw_circle_furn( furn_id type, const point &p, int rad );
 
-        void add_corpse( const tripoint &p );
+        void add_corpse( const tripoint &p, bool random_corpse_type = false );
 
         // Terrain changing functions
         // Change all instances of $from->$to

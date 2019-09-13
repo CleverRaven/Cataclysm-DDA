@@ -8268,14 +8268,14 @@ void map::draw_circle_furn( const furn_id type, const point &p, int rad )
     }, p, rad );
 }
 
-void map::add_corpse( const tripoint &p )
+void map::add_corpse( const tripoint &p, const bool random_corpse_type )
 {
     item body;
 
     const bool isReviveSpecial = one_in( 10 );
 
     if( !isReviveSpecial ) {
-        body = item::make_corpse();
+        body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, "", random_corpse_type );
     } else {
         body = item::make_corpse( mon_zombie );
         body.item_tags.insert( "REVIVE_SPECIAL" );
