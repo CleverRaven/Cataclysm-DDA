@@ -385,5 +385,5 @@
     "time": "45 m",
     "autolearn": true,
     "components": [ [ [ "straw_pile", 3 ], [ "birchbark", 5 ] ] ]
-  },
+  }
 ]
