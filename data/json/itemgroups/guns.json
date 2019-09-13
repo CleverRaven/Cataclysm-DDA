@@ -111,7 +111,6 @@
     "//": "SMGs commonly owned by citizens and found in many locations.",
     "items": [
       { "item": "tommygun", "prob": 70, "charges-min": 0, "charges-max": 20 },
-      { "item": "briefcase_smg", "prob": 20, "charges-min": 0, "charges-max": 32 },
       { "item": "sten", "prob": 100, "charges-min": 0, "charges-max": 32 },
       { "item": "uzi", "prob": 100, "charges-min": 0, "charges-max": 32 }
     ]
@@ -130,6 +129,7 @@
       { "item": "rm360_carbine", "prob": 30, "charges-min": 0, "charges-max": 100 },
       { "item": "TDI", "prob": 10, "charges-min": 0, "charges-max": 30 },
       { "item": "american_180", "prob": 50, "charges-min": 0, "charges-max": 100 },
+      { "item": "briefcase_smg", "prob": 5, "charges-min": 0, "charges-max": 30 },
       { "item": "tec9", "prob": 50, "charges-min": 0, "charges-max": 32 }
     ]
   },
@@ -141,7 +141,9 @@
       { "item": "hk_mp7", "prob": 100, "charges-min": 0, "charges-max": 20 },
       { "item": "needlegun", "prob": 30, "charges-min": 0, "charges-max": 50 },
       { "item": "rm2000_smg", "prob": 50, "charges-min": 0, "charges-max": 10 },
-      { "item": "hk_mp5sd", "prob": 75, "charges-min": 0, "charges-max": 30 }
+      { "item": "hk_mp5", "prob": 100, "charges-min": 0, "charges-max": 30 },
+      { "item": "hk_mp5k", "prob": 10, "charges-min": 0, "charges-max": 30 },
+      { "item": "hk_mp5sd", "prob": 5, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
