@@ -9,6 +9,7 @@
 #include <unordered_map>
 
 #include "color.h"
+#include "cursesdef.h"
 #include "string_id.h"
 
 // TODO: Redefine?
@@ -90,6 +91,7 @@ class faction : public faction_template
 
         void deserialize( JsonIn &jsin );
         void serialize( JsonOut &json ) const;
+        void faction_display( const catacurses::window &fac_w, int width ) const;
 
         std::string describe() const;
 
