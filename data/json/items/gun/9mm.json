@@ -176,7 +176,34 @@
     "dispersion": 270,
     "ranged_damage": 0,
     "handling_modifier": 6,
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ]
+    ],
     "flags": [ "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ]
+  },
+  {
+    "id": "hk_mp5k",
+    "type": "GUN",
+    "copy-from": "hk_mp5",
+    "name": "PTR 603",
+    "description": "The PTR 603 is a semi-automatic copy of the famous MP5 series, domestically produced for the US market on original Heckler and Koch tooling.  Like the MP5, its roller delayed blowback offers smooth shooting and precision, setting it apart from other submachine guns and pistol caliber carbines.  This model is configured as a pistol to avoid inconvenient and costly NFA regulations.  The welded on section of M1913 rail offers convenient mounting for aftermarket optics, but precludes the use of claw mounts.",
+    "relative": {
+    "weight": -300
+    "volume": "-500 ml",
+    "handling_modifier": -6 },
+    "//": "Attach a pistol stock and you get an semi MP5 again.",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "bashing": 7,
+    "dispersion": 270,
+    "ranged_damage": 0
   },
   {
     "id": "briefcase_smg",
