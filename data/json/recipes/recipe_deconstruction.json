@@ -330,7 +330,7 @@
   {
     "result": "binoculars",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 12 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "lens", 2 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "scrap", 1 ] ] ]
   },
@@ -414,7 +414,7 @@
   {
     "result": "blade",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ] ]
   },
@@ -1317,7 +1317,7 @@
   {
     "result": "camera_pro",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 12 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 5 ] ], [ [ "processor", 1 ] ], [ [ "plastic_chunk", 10 ] ], [ [ "e_scrap", 8 ] ], [ [ "lens", 2 ] ] ]
   },
@@ -1431,7 +1431,7 @@
   {
     "result": "cu_pipe",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "copper", 200 ] ] ]
@@ -1539,7 +1539,7 @@
   {
     "result": "foon",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
@@ -1553,7 +1553,7 @@
   {
     "result": "fork",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
@@ -1925,7 +1925,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "1 m",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "scrap", 5 ] ], [ [ "cu_pipe", 1 ] ], [ [ "pilot_light", 1 ] ], [ [ "rag", 5 ] ], [ [ "metal_tank_little", 2 ] ] ]
   },
@@ -1975,7 +1975,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "7 m",
+    "time": "7 m 30 s",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap_copper", 5 ] ], [ [ "scrap", 1 ] ] ]
   },
@@ -2172,21 +2172,21 @@
   {
     "result": "spoon",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "spork",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "spring",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 7 ] ] ]
   },
@@ -2214,14 +2214,14 @@
   {
     "result": "straw_fedora",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "straw_pile", 5 ] ] ]
   },
   {
     "result": "straw_hat",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "components": [ [ [ "straw_pile", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
@@ -2437,7 +2437,7 @@
     "skill_used": "electronics",
     "difficulty": 3,
     "skills_required": [ "fabrication", 2 ],
-    "time": "5 m",
+    "time": "5 m 24 s",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "e_scrap", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
@@ -2458,7 +2458,7 @@
   {
     "result": "wire",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
@@ -2496,7 +2496,7 @@
   {
     "result": "box_small",
     "type": "uncraft",
-    "time": "2 m",
+    "time": "2 m 3 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "paper", 35 ] ] ]
   },

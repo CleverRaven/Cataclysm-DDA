@@ -162,7 +162,7 @@
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "electronics",
     "difficulty": 1,
-    "time": "6 m",
+    "time": "6 m 30 s",
     "book_learn": [ [ "manual_electronics", 1 ], [ "textbook_electronics", 2 ], [ "advanced_electronics", 2 ] ],
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],

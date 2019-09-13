@@ -325,7 +325,7 @@
     "skill_used": "cooking",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 3,
-    "time": "7 m",
+    "time": "7 m 30 s",
     "autolearn": true,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [

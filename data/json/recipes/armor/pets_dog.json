@@ -28,7 +28,7 @@
     "copy-from": "chainmail_vest",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
-    "time": "52 m",
+    "time": "52 m 30 s",
     "using": [ [ "chainmail_standard", 5 ] ],
     "components": [
       [ [ "link_sheet", 5 ] ],
