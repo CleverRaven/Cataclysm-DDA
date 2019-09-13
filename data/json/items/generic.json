@@ -616,7 +616,7 @@
     "volume": "500 ml",
     "price": 700,
     "bashing": 2,
-    "material": "steel",
+    "material": "steel"
   },
   {
     "type": "GENERIC",
