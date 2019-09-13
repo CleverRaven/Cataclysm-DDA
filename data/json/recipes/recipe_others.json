@@ -1308,13 +1308,13 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "30 m",
+    "time": "1 h",
     "autolearn": true,
     "qualities": [
       { "id": "ANVIL", "level": 1 },
       { "id": "HAMMER", "level": 2 }
     ],
-    "tools": [ [ [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ] ],
+    "tools": [ [ [ [ "swage", -1 ] ], [ [ "surface_heat", 2, "LIST" ], [ "forge", 2 ], [ "oxy_torch", 2 ] ] ],
     "components": [ [ [ "wire", 6 ] ] ]
   },
   {
