@@ -370,7 +370,7 @@ void event_statistic::check() const
 
 std::string score::description( stats_tracker &stats ) const
 {
-    return string_format( _( description_ ), value( stats ).get_string() );
+    return string_format( description_.translated(), value( stats ).get_string() );
 }
 
 cata_variant score::value( stats_tracker &stats ) const

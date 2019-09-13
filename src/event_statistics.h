@@ -8,6 +8,7 @@
 
 #include "clone_ptr.h"
 #include "string_id.h"
+#include "translations.h"
 
 class cata_variant;
 namespace cata
@@ -77,7 +78,7 @@ class score
         string_id<score> id;
         bool was_loaded = false;
     private:
-        std::string description_;
+        translation description_;
         string_id<event_statistic> stat_;
 };
 
