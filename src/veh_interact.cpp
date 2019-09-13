@@ -120,9 +120,6 @@ player_activity veh_interact::serialize_activity()
         case 'o':
             time = vp->removal_time( g->u );
             break;
-        case 'c':
-            time = vp->removal_time( g->u ) + vp->install_time( g->u );
-            break;
     }
     if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
         time = 1;
@@ -209,7 +206,6 @@ veh_interact::veh_interact( vehicle &veh, const point &p )
     main_context.register_action( "RENAME" );
     main_context.register_action( "SIPHON" );
     main_context.register_action( "UNLOAD" );
-    main_context.register_action( "TIRE_CHANGE" );
     main_context.register_action( "ASSIGN_CREW" );
     main_context.register_action( "RELABEL" );
     main_context.register_action( "PREV_TAB" );
@@ -394,12 +390,6 @@ void veh_interact::do_main_loop()
             } else {
                 redraw = true;
             }
-        } else if( action == "TIRE_CHANGE" ) {
-            if( veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
-                redraw = do_tirechange( msg );
-            } else {
-                redraw = true;
-            }
         } else if( action == "ASSIGN_CREW" ) {
             if( owned_by_player ) {
                 redraw = do_assign_crew( msg );
@@ -454,12 +444,6 @@ void veh_interact::cache_tool_availability()
 {
     crafting_inv = g->u.crafting_inventory();
 
-    has_wrench = crafting_inv.has_quality( quality_id( "WRENCH" ) );
-
-    has_wheel = crafting_inv.has_components( "any", 1, []( const item & it ) {
-        return !!item::find_type( it.typeId() )->wheel;
-    } );
-
     cache_tool_availability_update_lifting( g->u.pos() );
     int mech_jack = 0;
     if( g->u.is_mounted() ) {
@@ -469,12 +453,6 @@ void veh_interact::cache_tool_availability()
                            map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( JACK ),
                            vehicle_selector( g->u.pos(), 2, true, *veh ).max_quality( JACK )
                          } );
-
-    const double qual = jack_quality( *veh );
-
-    has_jack = g->u.has_quality( JACK, qual ) ||
-               map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( JACK, qual ) ||
-               vehicle_selector( g->u.pos(), 2, true, *veh ).has_quality( JACK,  qual ) || mech_jack >= qual;
 }
 
 void veh_interact::cache_tool_availability_update_lifting( const tripoint &world_cursor_pos )
@@ -1839,74 +1817,6 @@ bool veh_interact::do_unload( std::string &msg )
     return true; // force redraw
 }
 
-bool veh_interact::do_tirechange( std::string &msg )
-{
-    const auto helpers = g->u.get_crafting_helpers();
-    switch( cant_do( 'c' ) ) {
-        case INVALID_TARGET:
-            msg = _( "There is no wheel to change here." );
-            return false;
-
-        case LACK_TOOLS:
-            if( !helpers.empty() ) {
-                msg = string_format(
-                          //~ %1$s represents the internal color name which shouldn't be translated, %2$s is an internal color name, %3$s is an internal color name, %4$s is an internal color name, and %5$d is the required lift strength
-                          _( "To change a wheel you need a %1$swrench</color>, a %2$swheel</color>, and either "
-                             "%3$slifting equipment</color> or %4$s%5$d</color> strength ( assisted )." ),
-                          status_color( has_wrench ), status_color( has_wheel ), status_color( has_jack ),
-                          status_color( g->u.can_lift( *veh ) ), veh->lift_strength() );
-            } else {
-                msg = string_format(
-                          //~ %1$s represents the internal color name which shouldn't be translated, %2$s is an internal color name, %3$s is an internal color name, %4$s is an internal color name, and %5$d is the required lift strength
-                          _( "To change a wheel you need a %1$swrench</color>, a %2$swheel</color>, and either "
-                             "%3$slifting equipment</color> or %4$s%5$d</color> strength." ),
-                          status_color( has_wrench ), status_color( has_wheel ), status_color( has_jack ),
-                          status_color( g->u.can_lift( *veh ) ), veh->lift_strength() );
-            }
-            return false;
-
-        case MOVING_VEHICLE:
-            msg = _( "Who is driving while you work?" );
-            return false;
-
-        default:
-            break;
-    }
-
-    set_title( _( "Choose wheel to use as replacement:" ) );
-
-    int pos = 0;
-    while( true ) {
-        sel_vpart_info = wheel_types[pos];
-        bool is_wheel = sel_vpart_info->has_flag( "WHEEL" );
-        display_list( pos, wheel_types );
-        bool has_comps = crafting_inv.has_components( sel_vpart_info->item, 1 );
-        werase( w_msg );
-        wrefresh( w_msg );
-
-        const std::string action = main_context.handle_input();
-        if( ( action == "TIRE_CHANGE" || action == "CONFIRM" ) &&
-            is_wheel && has_comps && has_wrench && ( g->u.can_lift( *veh ) || has_jack ) ) {
-            for( const npc *np : helpers ) {
-                add_msg( m_info, _( "%s helps with this task..." ), np->name );
-            }
-            sel_cmd = 'c';
-            break;
-
-        } else if( action == "QUIT" ) {
-            werase( w_list );
-            wrefresh( w_list );
-            werase( w_msg );
-            break;
-
-        } else {
-            move_in_list( pos, action, wheel_types.size() );
-        }
-    }
-
-    return false;
-}
-
 bool veh_interact::do_assign_crew( std::string &msg )
 {
     if( cant_do( 'w' ) != CAN_DO ) {
@@ -2447,7 +2357,7 @@ void veh_interact::display_mode()
     size_t esc_pos = display_esc( w_mode );
 
     // broken indentation preserved to avoid breaking git history for large number of lines
-    const std::array<std::string, 11> actions = { {
+    const std::array<std::string, 10> actions = { {
             { _( "<i>nstall" ) },
             { _( "<r>epair" ) },
             { _( "<m>end" ) },
@@ -2469,7 +2379,6 @@ void veh_interact::display_mode()
             !cant_do( 'o' ),
             !cant_do( 's' ),
             !cant_do( 'd' ),
-            !cant_do( 'c' ),
             !cant_do( 'w' ),
             true,          // 'rename' is always available
             !cant_do( 'a' ),
@@ -2504,7 +2413,7 @@ size_t veh_interact::display_esc( const catacurses::window &win )
 
 /**
  * Draws the list of parts that can be mounted in the selected square. Used
- * when installing new parts or changing tires.
+ * when installing new parts.
  * @param pos The current cursor position in the list.
  * @param list The list to display parts from.
  * @param header Number of lines occupied by the list header
@@ -2856,7 +2765,7 @@ void veh_interact::complete_vehicle( player &p )
 
     const vpart_info &vpinfo = part_id.obj();
 
-    // cmd = Install Repair reFill remOve Siphon Unload Changetire reName relAbel
+    // cmd = Install Repair reFill remOve Siphon Unload reName relAbel
     switch( static_cast<char>( p.activity.index ) ) {
         case 'i': {
             const inventory &inv = p.crafting_inventory();
