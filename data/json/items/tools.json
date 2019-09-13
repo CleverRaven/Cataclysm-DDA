@@ -889,7 +889,7 @@
     "bashing": 1,
     "material": [ "paper" ],
     "symbol": ";",
-    "color": "light_gray",
+    "color": "light_gray"
   },
   {
     "id": "carding_paddles",
