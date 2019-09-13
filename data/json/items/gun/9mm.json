@@ -199,7 +199,7 @@
     "weight": -300
     "volume": "-500 ml",
     "handling_modifier": -6 },
-    "//": "Attach a pistol stock and you get an semi MP5 again.",
+    "//": "Attach a pistol stock and you get a semi MP5 again.",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "bashing": 7,
     "dispersion": 270,
