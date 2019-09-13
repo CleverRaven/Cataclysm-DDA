@@ -2124,14 +2124,6 @@
     "components": [ [ [ "blade_scythe", 1 ] ], [ [ "stick_long", 1 ] ] ]
   },
   {
-    "result": "seat",
-    "type": "uncraft",
-    "time": "5 m",
-    "using": [ [ "welding_standard", 6 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "leather", 12 ] ] ]
-  },
-  {
     "result": "sf_watch",
     "type": "uncraft",
     "time": "36 s",

@@ -1071,10 +1071,24 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
+    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "rag", 20 ], [ "sheet", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "seat_leather",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
     "components": [
       [ [ "pipe", 4 ] ],
       [ [ "spring", 2 ] ],
-      [ [ "leather", 12 ], [ "fur", 12 ], [ "rag", 20 ], [ "tanned_hide", 3 ], [ "tanned_pelt", 3 ], [ "sheet", 1 ] ]
+      [ [ "leather", 12 ], [ "fur", 12 ], [ "tanned_hide", 3 ], [ "tanned_pelt", 3 ] ],
+      [ [ "rag", 8 ] ]
     ]
   },
   {
