@@ -1393,6 +1393,16 @@
     "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
+    "id": "hk_briefcase",
+    "type": "ARMOR",
+    "copy-from": "briefcase",
+    "name": "H&K operational briefcase (empty)",
+    "description": "This is a plain, hard-sided black briefcase with a trigger in the handle and a concealed hole in the side.  Squeezing the trigger would currently do nothing, as it is empty.  Don't forget to put a suitable MP5 back inside before you try to pay any ransom fees with lead.",
+    "storage": "14500 ml",
+    "price": 2000,
+    "weight": "950 g"
+  },
+  {
     "id": "briefs",
     "type": "ARMOR",
     "name": "briefs",
