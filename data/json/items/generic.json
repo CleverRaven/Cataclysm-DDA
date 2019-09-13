@@ -617,8 +617,6 @@
     "price": 700,
     "bashing": 2,
     "material": "steel",
-    "symbol": ";",
-    "color": "dark_gray"
   },
   {
     "type": "GENERIC",
