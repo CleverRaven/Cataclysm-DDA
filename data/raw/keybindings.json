@@ -1321,7 +1321,7 @@
     "id": "EDIT_FURNITURE",
     "category": "EDITMAP",
     "name": "Edit furniture",
-    "bindings": [ { "input_method": "keyboard", "key": "u" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
   },
   {
     "type": "keybinding",
