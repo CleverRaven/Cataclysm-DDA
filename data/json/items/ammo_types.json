@@ -60,6 +60,12 @@
     "default": "pebble"
   },
   {
+    "id": "javelin",
+    "name": "javelins",
+    "default": "javelin",
+    "type": "ammunition_type"
+  },
+  {
     "type": "ammunition_type",
     "id": "shotcanister",
     "name": "shotcanisters",
