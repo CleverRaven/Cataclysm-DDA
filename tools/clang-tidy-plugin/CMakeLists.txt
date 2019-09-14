@@ -6,6 +6,7 @@ find_package(Clang REQUIRED CONFIG)
 add_library(
     CataAnalyzerPlugin MODULE
     CataTidyModule.cpp
+    NoStaticGettextCheck.cpp
     NoLongCheck.cpp
     PointInitializationCheck.cpp
     SimplifyPointConstructorsCheck.cpp
