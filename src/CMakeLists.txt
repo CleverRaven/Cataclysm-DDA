@@ -39,7 +39,7 @@ IF(TILES)
 	target_include_directories(libcataclysm-tiles INTERFACE ${CMAKE_SOURCE_DIR}/src)
 
 	IF(WIN32)
-		ADD_EXECUTABLE(cataclysm-tiles
+		ADD_EXECUTABLE(cataclysm-tiles WIN32
 			${MAIN_CPP}
 			${RESOURCE_RC}
 		)
