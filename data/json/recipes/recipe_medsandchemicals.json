@@ -1152,6 +1152,7 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": "120 m",
+    "autolearn": true,
     "byproducts": [ [ "chem_zinc" ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 2 } ],
     "components": [ [ [ "material_zincite", 1 ] ], [ [ "coal_lump", 1 ] ] ]
@@ -1164,6 +1165,7 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": "120 m",
+    "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 2 } ],
     "components": [ [ [ "chem_zinc", 50 ] ], [ [ "coal_lump", 25 ], [ "charcoal", 50 ] ] ]
   },
@@ -1175,6 +1177,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "60 m",
+    "autolearn": true,
     "byproducts": [ [ "chem_manganese_dioxide", 50 ] ],
     "qualities": [ { "id": "CHISEL", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "material_rhodonite", 1 ] ] ]
