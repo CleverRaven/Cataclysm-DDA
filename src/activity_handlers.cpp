@@ -4405,7 +4405,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                                       casting.xp() );
             }
             if( casting.get_level() != old_level ) {
-                g->events().send<event_type::player_levels_spell>( p->getID(), casting.id(), casting.get_level() );
+                g->events().send<event_type::player_levels_spell>( casting.id(), casting.get_level() );
             }
         }
     }
