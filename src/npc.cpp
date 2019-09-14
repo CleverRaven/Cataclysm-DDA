@@ -636,7 +636,7 @@ bool npc::get_known_to_u()
 void npc::set_known_to_u( bool known )
 {
     known_to_u = known;
-    if( my_fac ){
+    if( my_fac ) {
         my_fac->add_to_membership( getID(), disp_name(), known_to_u );
     }
 }
@@ -2103,8 +2103,8 @@ void npc::die( Creature *nkiller )
         critter->mounted_player_id = character_id();
     }
     // if this NPC was the only member of a micro-faction, clean it up.
-    if( my_fac && my_fac->lone_wolf_faction ) {
-        g->faction_manager_ptr->remove_faction( fac_id );
+    if( my_fac ) {
+        my_fac->remove_member( getID() );
     }
     dead = true;
     Character::die( nkiller );

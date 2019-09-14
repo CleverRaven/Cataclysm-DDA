@@ -101,7 +101,8 @@ class faction : public faction_template
         nc_color food_supply_color();
 
         bool has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const;
-        void add_to_membership( const character_id guy_id, const std::string guy_name, bool known );
+        void add_to_membership( const character_id &guy_id, const std::string guy_name, bool known );
+        void remove_member( const character_id &guy_id );
         std::vector<int> opinion_of;
         bool validated = false;
         std::map<character_id, std::pair<std::string, bool>> members;

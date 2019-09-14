@@ -108,9 +108,24 @@ std::string faction::describe() const
     return ret;
 }
 
-void faction::add_to_membership( const character_id guy_id, const std::string guy_name, const bool known )
+void faction::add_to_membership( const character_id &guy_id, const std::string guy_name,
+                                 const bool known )
 {
     members[guy_id] = std::make_pair( guy_name, known );
+}
+
+void faction::remove_member( const character_id &guy_id )
+{
+    for( auto it = members.cbegin(), next_it = it; it != members.cend(); it = next_it ) {
+        ++next_it;
+        if( guy_id == it->first ) {
+            members.erase( it );
+            break;
+        }
+    }
+    if( members.empty() ) {
+        g->faction_manager_ptr->remove_faction( id );
+    }
 }
 
 // Used in game.cpp
@@ -328,13 +343,12 @@ void faction_manager::remove_faction( const faction_id &id )
     if( id.str().empty() || id == faction_id( "no_faction" ) ) {
         return;
     }
-    int index = 0;
-    for( auto &elem : factions ) {
-        if( id == elem.second.id ) {
-            factions.erase( factions.begin() + index );
-            return;
+    for( auto it = factions.cbegin(), next_it = it; it != factions.cend(); it = next_it ) {
+        ++next_it;
+        if( id == it->first ) {
+            factions.erase( it );
+            break;
         }
-        index++;
     }
 }
 
@@ -391,7 +405,7 @@ faction *faction_manager::get( const faction_id &id )
     for( const faction_template &elem : npc_factions::all_templates ) {
         if( elem.id == id ) {
             factions[elem.id] = elem;
-            if( !factions.empty() ){
+            if( !factions.empty() ) {
                 factions.rbegin()->second.validated = true;
             }
             return &factions.rbegin()->second;
@@ -645,9 +659,9 @@ void faction_manager::display() const
             followers.push_back( npc_to_add );
         }
         std::vector<const faction *> valfac; // Factions that we know of.
-        for( const faction &elem : g->faction_manager_ptr->all() ) {
-            if( elem.known_by_u && elem.id != faction_id( "your_followers" ) ) {
-                valfac.push_back( &elem );
+        for( const auto &elem : g->faction_manager_ptr->all() ) {
+            if( elem.second.known_by_u && elem.second.id != faction_id( "your_followers" ) ) {
+                valfac.push_back( &elem.second );
             }
         }
         npc *guy = nullptr;
