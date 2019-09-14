@@ -934,6 +934,11 @@ void memorial_logger::notify( const cata::event &e )
                  pgettext( "memorial_female", "Opened a strange temple." ) );
             break;
         }
+        case event_type::player_levels_spell: {
+            add( pgettext( "memorial_male", "Gained a spell level." ),
+                 pgettext( "memorial_female", "Gained a spell level." ) );
+            break;
+        }
         case event_type::releases_subspace_specimens: {
             add( pgettext( "memorial_male", "Released subspace specimens." ),
                  pgettext( "memorial_female", "Released subspace specimens." ) );

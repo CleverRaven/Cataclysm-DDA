@@ -202,6 +202,9 @@ TEST_CASE( "memorials" )
     check_memorial<event_type::opens_temple>(
         m, b, "Opened a strange temple." );
 
+    check_memorial<event_type::player_levels_spell>(
+        m, b, "Gained a spell level." );
+
     check_memorial<event_type::releases_subspace_specimens>(
         m, b, "Released subspace specimens." );
 

@@ -60,6 +60,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::npc_becomes_hostile: return "npc_becomes_hostile";
         case event_type::opens_portal: return "opens_portal";
         case event_type::opens_temple: return "opens_temple";
+        case event_type::player_levels_spell: return "player_levels_spell";
         case event_type::releases_subspace_specimens: return "releases_subspace_specimens";
         case event_type::removes_cbm: return "removes_cbm";
         case event_type::seals_hazardous_material_sarcophagus: return "seals_hazardous_material_sarcophagus";
@@ -91,7 +92,7 @@ constexpr std::array<std::pair<const char *, cata_variant_type>,
 constexpr std::array<std::pair<const char *, cata_variant_type>,
           event_spec_character::fields.size()> event_spec_character::fields;
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 61,
+static_assert( static_cast<int>( event_type::num_event_types ) == 62,
                "This static_assert is a reminder to add a definition below when you add a new "
                "event_type.  If your event_spec specialization inherits from another struct for "
                "its fields definition then you probably don't need a definition here." );
