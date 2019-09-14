@@ -3027,13 +3027,13 @@ void game::disp_faction_ends()
                                   std::max( 0, ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
     std::vector<std::string> data;
 
-    for( const faction &elem : faction_manager_ptr->all() ) {
-        if( elem.known_by_u ) {
-            if( elem.name == "Your Followers" ) {
+    for( const auto &elem : faction_manager_ptr->all() ) {
+        if( elem.second.known_by_u ) {
+            if( elem.second.name == "Your Followers" ) {
                 data.emplace_back( _( "       You are forgotten among the billions lost in the cataclysm..." ) );
                 display_table( w, "", 1, data );
-            } else if( elem.name == "The Old Guard" && elem.power != 100 ) {
-                if( elem.power < 150 ) {
+            } else if( elem.second.name == "The Old Guard" && elem.second.power != 100 ) {
+                if( elem.second.power < 150 ) {
                     data.emplace_back(
                         _( "    Locked in an endless battle, the Old Guard was forced to consolidate their "
                            "resources in a handful of fortified bases along the coast.  Without the men "
@@ -3047,8 +3047,8 @@ void game::disp_faction_ends()
                                           "years past, little materialized from the hopes of rebuilding civilization..." ) );
                 }
                 display_table( w, _( "The Old Guard" ), 1, data );
-            } else if( elem.name == "The Free Merchants" && elem.power != 100 ) {
-                if( elem.power < 150 ) {
+            } else if( elem.second.name == "The Free Merchants" && elem.second.power != 100 ) {
+                if( elem.second.power < 150 ) {
                     data.emplace_back( _( "    Life in the refugee shelter deteriorated as food shortages and disease "
                                           "destroyed any hope of maintaining a civilized enclave.  The merchants and "
                                           "craftsmen dispersed to found new colonies but most became victims of "
@@ -3061,8 +3061,8 @@ void game::disp_faction_ends()
                                           "the sun..." ) );
                 }
                 display_table( w, _( "The Free Merchants" ), 1, data );
-            } else if( elem.name == "The Tacoma Commune" && elem.power != 100 ) {
-                if( elem.power < 150 ) {
+            } else if( elem.second.name == "The Tacoma Commune" && elem.second.power != 100 ) {
+                if( elem.second.power < 150 ) {
                     data.emplace_back( _( "    The fledgling outpost was abandoned a few months later.  The external "
                                           "threats combined with low crop yields caused the Free Merchants to withdraw "
                                           "their support.  When the exhausted migrants returned to the refugee center "
@@ -3076,8 +3076,8 @@ void game::disp_faction_ends()
                            "paid for those who sought the safety of the community." ) );
                 }
                 display_table( w, _( "The Tacoma Commune" ), 1, data );
-            } else if( elem.name == "The Wasteland Scavengers" && elem.power != 100 ) {
-                if( elem.power < 150 ) {
+            } else if( elem.second.name == "The Wasteland Scavengers" && elem.second.power != 100 ) {
+                if( elem.second.power < 150 ) {
                     data.emplace_back(
                         _( "    The lone bands of survivors who wandered the now alien world dwindled in "
                            "number through the years.  Unable to compete with the growing number of "
@@ -3093,8 +3093,8 @@ void game::disp_faction_ends()
                            "adopt agrarian lifestyles in fortified enclaves..." ) );
                 }
                 display_table( w, _( "The Wasteland Scavengers" ), 1, data );
-            } else if( elem.name == "Hell's Raiders" && elem.power != 100 ) {
-                if( elem.power < 150 ) {
+            } else if( elem.second.name == "Hell's Raiders" && elem.second.power != 100 ) {
+                if( elem.second.power < 150 ) {
                     data.emplace_back( _( "    The raiders grew more powerful than any other faction as attrition "
                                           "destroyed the Old Guard.  The ruthless men and women who banded together to "
                                           "rob refugees and pillage settlements soon found themselves without enough "
