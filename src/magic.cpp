@@ -1723,7 +1723,6 @@ void spell_events::notify( const cata::event &e )
             spell_id sid = e.get<spell_id>( "spell" );
             int slvl = e.get<int>( "new_level" );
             spell_type spell_cast = spell_factory.obj( sid );
-            add_msg( "Leveled spell %s to %d", spell_cast.name, slvl );
             for (std::map<std::string, int>::iterator it = spell_cast.learn_spells.begin(); it != spell_cast.learn_spells.end(); ++it) {
                 std::string learn_spell_id = it->first;
                 int learn_at_level = it->second;
@@ -1731,7 +1730,7 @@ void spell_events::notify( const cata::event &e )
                     g->u.magic.learn_spell( learn_spell_id, g->u );
                     spell_type spell_learned = spell_factory.obj( spell_id( learn_spell_id ) );
                     add_msg(
-                        "Your experience and knowledge in creating and manipulating magical energies to cast %s have opened your eyes to new possibilities, you can now cast %s.",
+                        _( "Your experience and knowledge in creating and manipulating magical energies to cast %s have opened your eyes to new possibilities, you can now cast %s." ),
                         spell_cast.name,
                         spell_learned.name );
                 }
