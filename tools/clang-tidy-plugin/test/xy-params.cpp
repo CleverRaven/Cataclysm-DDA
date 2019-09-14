@@ -30,3 +30,8 @@ void i( float x, float y );
 
 void f5( int x1, int y1 );
 // CHECK-MESSAGES: warning: 'f5' has parameters 'x1' and 'y1'.  Consider combining into a single point parameter. [cata-xy]
+
+struct A6 {
+    void f( int ax, int ay );
+    // CHECK-MESSAGES: warning: 'f' has parameters 'ax' and 'ay'.  Consider combining into a single point parameter. [cata-xy]
+};
