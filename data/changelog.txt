@@ -65,6 +65,37 @@ The Integrated Toolset now includes an auxiliary Extended Toolset bionic.
 Eyebots speak to suspects, doing police activity.
 NPCs: Allow NPCs to use holsters.
 Npctalk: add JSON support for bulk trade/donate.
+Add Visibility overlay (debug menu)
+Allows professions to have multiple starting pets
+Kitchen cups & bowls now hold liquid, and tin cup typo
+Allows NPC to change your hairstyle or beard style
+basecamps: enable flexible upgrades of the primitive field camp
+Martial arts compatibility for copper/knife/forked spear and copper knife
+Soda can stove kit accepts ethanol and methanol as fuel sources
+Adds a vehicle-mounted area cooler
+Adds Faction ownership and thievery
+Add game report precise system versions.
+Crafting inventory now uses flood fill search
+Added disassembly recipes for dog harnesses and more
+basecamps: Use normal recipes and fake resources
+Allow professions to have starting pets
+Make crafting failure non-absolute.
+Player now burns calories when doing activities
+Model NPC needs as a behavior tree based on Maslow's heirarchy of needs.
+Buy livestock npc talk function
+Boats push creatures in water out of the way
+CBMs for NPCs 2: Active CBMs with AI control
+Allows trains to move and turn on railroad tiles. Adds appropriate mapgen for subway.
+Raytrace sunlight.
+NPCs: support faction tagged zones
+Size mutations affect player size
+Animal mutants can eat respective animal food
+Add game information report and SDL screenshot.
+New default-unbound menu for consuming specifically food, drink or meds.
+vehicles: allow animals to ride on BOARDABLE parts
+Adds a deployable smoking rack.
+Traps disarming gives morale effects
+Added toggleable auto travel mode
 
 ## Content:
 Adds refluffed and modified plasma gun.
@@ -113,6 +144,103 @@ Add `skeletal brute` zombies.
 Add speedloaders for many guns, mainly revolvers.
 Sitting on chair near table gives mood bonus for eating, new trait for increased bonuses/penalties.
 The Northrop Dispatch robot now replaces zombie grenadiers.
+Continues refugee center beggars storyline and feature addition
+Added Russian nicknames.
+Adds a crafting recipe for solder
+Adds new armor "heelys
+Add .45-70 Firearms and Ammunition
+Move some MST items into core
+Move some shelter types and a raincatcher from MST to core
+Adds junipers berries and a production chain for making gin.
+Added harvestable chamomile flowers and chamomile tea
+Modernized school
+Adds roofs to clothing stores
+Add some new seeds and allow harvesting flowers
+Added prisoner zombies
+Second Hub 01 mission
+Removed classic_zombies world setting. Added classic_zombies mod
+Adds music playing mode to smartphone
+Adds new horse farm
+Churls don't know lasers
+Adds more cardboard boxes, cardboard forts, sheets of plastic, and more
+Mainline Boats mod
+Re-fluff plutonium cells into plutonium fuel cells; adjust consumer atomic items
+New map extras: dead vegetation, burned grounds, road works
+Added a prison on an island.
+New monsters: Experimental mutant and its upgrade
+Adds mud bricks and the ability to make brick walls out of them
+Removed wooden barrel tank and added internal barrel tanks
+Remove freezer burn from pudding
+Snake Kung Fu techniques are no longer marked as fictional
+Added support for OnMiss, OnCrit, and OnKill martial arts buff events.
+Adds roof to tire shop
+Adds begging and begins adding a storyline to refugee center beggars
+Change handmade carbine to accept factory-made magazines as well
+Extended descriptions for terrain and furniture
+Update to DeadPeople tileset
+Adds AT4 Launcher
+Adds new 2nd floor to mall and begins to fill out roof
+Make robots salvageable
+Moved artial arts autolearn code to json
+Add fire barrels
+Moved the rock from weapons to spare parts
+Adds a new starting scenario Apartment Rooftop
+Add an AR-10, HK417 A2, and M110A1
+Updates roof gardents to use planters
+Fixed some clashing overmap symbols
+Add extra construction recipes for furniture and terrain
+Added disposable batteries and fine-tuned battery magazines
+Add constructible crafting spot, like ground crafting but with no menu.
+Add Medium and Heavy high-cap battery recipes
+Makes it possible to make a simple concrete floor.
+Fix grammar in description of military black box
+Improved laboratory train depots mapgen. Allow special vehicles to spawn there and on subway deadends.
+Basic Marloss Evangelist faction
+Minefields are more dangerous and interesting.
+Mainline Pankration martial art from Medieval Stuff mod
+Improved autodoc install bionic menu
+Adds the Robofac
+Add docks on lakes
+Bionic weapons no longer automatically drop held items
+Changes item names and descriptions of the awl pike.
+Adds a new use for soil as a historically sound method of defense
+Clarify dodge description.
+Add Flesh Monsters to Jabberwock monster track.
+Add sandbags/earthbags, earthbag walls, adjust sandbag walls
+Adds parking garages
+Re-enable Internal Furnace CBM spawn in Aftershock mod
+Enhanced Memory Banks CMB increases chance to learn martial arts through the Close Quarters Combat CBM
+Adds recipe for making .380 ACP brass from .223 brass.
+Simple glass traps
+Adds planters
+Lakes
+Changed zinc container to small plastic bottle
+Mainline most of CraftGunpowder mod content
+Made ice axe more sensibly obtainable
+Added batch cooking times to several applicable food items
+Adds new large gas turbine engines for military vehicles
+Added coffee substitute, made from the Kentucky coffeetree's pods. It won't keep you awake, but it has a mild stimulative boost.
+Construct a grave and bury your fallen companions or pets
+Add hand-powered battery charger
+Medieval martial arts now have initiate messages
+Removed mention of evacuation or leaving the shelter from description of two books.
+Condom that bursts when thrown filled
+Adds buses and bus stations
+Added a lab note with a reference to two video games.
+Chemical thrower now has a detachable tank as a magazine
+Adds new building: homeless shelter
+Replaces atomic battery toolmods with atomic battery magazines
+Adds Japanese-themed items and tweaks existing ones.
+Added the zipper bag and changed the container for crack, cocaine, meth and heroin
+Added zombified version of beaver.
+Adds ELECTRIC flag to zombie bio-operator
+Adds roof to furniture store, modifies ground floor
+Adds public pool roofs
+Update to DeadPeople tileset and for mods for said tileset
+Adds 2 new church roofs and 4 new nested chunks
+Obsolete internal furnace CBM
+Correct name/description for vehicle-mounted charging station
+Added cactus pads so that cacti can be picked
 
 
 ## Interface:
@@ -151,11 +279,55 @@ Turns static/scenario NPCs and 'experimental' z-levels on by default.
 Added possibility to change font size settings in game options.
 Adds estimated nutrition disclaimer to crafting screen.
 Add guidelines to vehicle interface for easier cursor location.
+Add extra description for items that trigger player allergies
+Make more concise descriptions for cloth items
+QoL: Remove annoying 'Heat beyond defrosting?' confirmation
+Debug tool: view temperature map
+Improve full butchery requirements feedback
+Add setting to only auto-assign invlets to favorited items.
+change zone frames from using 'highlight_item' to 'highlight'
+add tileset capability for attitude overlays, with/without seeing player
+Message cool-down - reduce similar message appearances.
+Toggling fast scroll will actually make it work with no additional keypresses.
+Mechanism to fully remove local bindings (so a global bind can be set)
+Mouse edge scrolling is much smoother and works without yanking, and its sensitivity can be set via an option; on the overmap, allow mouse edge scrolling and  selection via left click; in target (f) mode, allow mouse edge scrolling and zooming (zZ)
+Adjust info panel for overmap search UI for clarity on key inputs
+Refine the yell (C) menu for interactions with NPCs and follower orders
+Add contents detail info to vehicle part display for "fuel storage" components
+Restore old pickup at feet action as default unbound hotkey.
+Prying-on-examine gives better tool-quality feedback
+Display an estimation of how long NPC are going to be under the effect of anesthesia
+Show more mod description where possible
+Add 'current skill' information to skill book info
+Changed "Broken Cyborg" profession name to "Prototype Cyborg" in light of #29206.
+Reworded warning when player is performing a task and a monster is dangerously close.
+Revise durability messages again, showing before/after transitions
+Adjust durability indications in item/part repair messages
+Make debug menu have submenus
 
 ## Mods:
 Re-adds fictional martial arts as a mod.
 Added Aftershock sci-fi mod.
 Adds Mod: Buildable Hydroponics bays as furniture and adds Hydroponics in Labs.
+Add cast_spell use_action for items
+Add speedydex mod
+Modify how spell_effect::spell_effect_line() works, added aoe preview
+Merge Aftershock and Bright Nights mod
+Adds new core content around items, melee, mutations, and new professions
+Magiclysm: Finish ethereal item code
+Update hydroponics mod to work more like farming
+Adds the Magiclysm Mod
+Removed legacy battery mapgen from bandit_tower
+Added Panzer Kunst to fictional martial arts mod
+Add graphical mods category, put mods in it
+'MetalMaster forge buddy' uses a 'welding component kit' instead of 'welder' and 'soldering iron'
+Cleanup alt_map_key mod by utilizing copy-from
+Moved Flaming Electric Car to Bright Nights mod, renamed it to Flaming Atomic Car and made it spawn.
+Removed the Safe Autodoc dependency and Manual Bionic install switch from Bright Nights
+National Guard Camps: Use palettes
+Adds a mod to enable CBM slots
+Added missing recipe for gelacier wheel
+Fix javelin bag in More Survival Tools to work with javelin ammo
 
 ## Balance:
 Remove reinforcement of non-cloth items.
@@ -167,6 +339,31 @@ Toaster pastries and other sweets are now less fun than cocaine.
 Use sqrt of sum of squares to calculate total morale.
 Food isn't as enjoyable when you're sick.
 The higher your z-level, the farther you can see on the overmap
+Reduce tailor kit frequency in homes
+Various changes to fishing
+SpOreos now give fungal infections when eaten
+Electrical damage has a chance to temporarily incapacitate bionics
+Changes the volume and weights of the ferromagnetic rails to be more realistic.
+Being hit while on roller-blades or skates causes chance for the player to be downed
+Probability of Nursebot overcoming hacking is actually 50% and not 98%
+Adjusted survivor belt encumbrance
+Log and Sod roofs now require birch bark and soil to construct
+Removed unrealistic laser sight recipes
+Rebalance Javelins while More Survival Tools is active
+move tuba and saxophone to "strapped" clothing layer
+Fixes absurdly high power usage of the scoop vehicle part.
+Rebalance workbench stats.
+Narcosis effect doesn't stack above duration required by operation
+Revert rot to use enviroment temperature
+Made leather touring suit thicker
+Randomize amount of ammo in gun spawns.
+Numerous bows have had their range increased, especially for lower-end bows.
+Randomized amount of ammo spawned in vehicles.
+Reduce the chance of cash cards on swimmer zombies
+Floor trunks are their own separate item, and weigh more than an aisle without a trunk.
+Combine Gambeson with Chainmail suits
+Tools in labs can now spawn with batteries
+Fixes wrong alternative fuel types in engines.
 
 ## Bugfixes:
 Fixed long overmap location name being overwritten by "Distance to target:" string.
@@ -182,11 +379,143 @@ NPC AI: stop attacking non-hostiles.
 Ambient sound won't be heard by players wearing earplugs or otherwise deafened.
 Don't bash items inside sealed terrain or furniture.
 Disallow rotten components in non-perishable crafts.
+Removed inappropriate books from schools
+Firestarters won't consume charges when character is unable to light a fire on a given tile.
+Don't fall into a pit located under vehicle trunk.
+Change the code for deployable furniture to work for all item types
+Fix DISABLE_ROBOT_RESPONSE  related error
+Allow critical messages to bypass message cooldown.
+Deprecate bionic storage CBM.
+Plant mutants now absorb vitamins as well.
+Prevents occasional inappropriate vision across z-levels.
+Show recipe book in crafting menu for not memorized recipes
+Adding tests and removing the item name (too big) qualifier
+Fix list all items/monsters offsets
+Island prison won't spawn too close to land no more. Added a second floor to the island prison.
+Fires are properly contained in home furnaces
+Fix a crash when fungus tries to convert a seed that not exist
+Fixed too much cracklins yield in lard recipe
+Capitalized the name of the Engine Crane
+Adds FULL_MAGAZINE to Home Frontier Starter Pack
+fix minimap rendering through other windows
+Calculate ability to use things with two hands from a percentage of max HP
+Fix game report OS version on Windows & Android
+Fix null effect introduced by #30830.
+Changed Landscaping Supply to spawn usable fertilizer
+Prevent iterator invalidation when waking up with an alarm-clock CBM.
+Adds ownership to NPC gifts and newly crafted items
+Add missing conversion from std::string to char*.
+Fix a cast error with Windows gcc-based compilers.
+Add missing type in variable declaration for Android
+Fix save/load of avatar-specific variables.
+fixes some typos in the uninstall bionics messages
+Fixes various charge-related problems with cell phones
+Restore minimap enemy blink/fade functionality
+fix auto safe mode turning itself back on while idling
+Include origin in `map::reachable_flood_steps()`
+Add integral_weight to prevent duplicate component weights
+Consume charges of pet food on feeding.
+correct planter decon/bash output. adjust charcoal kiln decon output.
+factions: load unknown factions from templates
+revert #30131 and #30255
+Fix for vehicle part open/close sfx
+Added anvil to compound crossbow recipe
+Automatically let go of grabbed vehicle after folding it.
+Fix vehicle falling.
+Fixed deconstruction of chickenwire fence and gates resulted in null terrain.
+Fixed typo in engine sfx selector
+Fire in fire containing furniture will move with it while grabbing.
+Added leather belt to male Historical Reenactor.
+Fix risk of crash related to null pointer error in 'src/item.cpp' on on_contents_changed function
+Fixes Omnicellular splitting when too thirsty
+Mineable concrete railings
+Makes nurses less chatty
+Made hydrogen peroxide to work like disinfectant
+Fixed typos in speech.json
+Fix error in craft failure progress loss.
+mission_companion: explicitly set end_line for each loop
+Reduce lethality of 40mm beanbag
+Charges and content of a tool/gun that is also a container are linked
+specify activity level for the hand crank activity.
+Fix floor cache invalidation
+Correct powered (on) items to use copy-from where appropriate
+Fix floor cache invalidation
+fixes invalid bodypart error in #30555
+Disarmed hallucinations don't drop real weapon
+Edge scroll bugs: Fix overmap blinking, attempt to fix look around cursor placement
+Added chamomile to spawn on fields
+Replace 'lay' with 'lie' where the verb is used intransitively.
+Fix up front move cost for door and safe hacking
+Camp name on overmap UI fix
+Fixed material of replicas of rapier, wakizashi and kris.
+Make burrowing use item actions
+Fixes NPC Cyborg spawn and gear
+tools: merge_maps and palettize script fixes
+First aid kit can't be repaired to recover contents
+mapgen: use is_ot_subtype for anthills
+Add missing nullptr checks going with is_hallucination.
+Lower required numbero of ally to create faction camp back to 1
+Crossbow bolts crafting doesn't require archery skill
+Allow farmers to grow beans in mapgen
+Made clothes in national guard's go bag fitting
+Fix 'everyone' selector for telling someone to follow from C/Yell menu
+Guard from attempting to access comestible members from non-comestibles
+Fix hotkey functions not return bound keys if they are not printable.
+Fix rotting not happening
+Replaces UCP with MP7's, corrects MP7 stats
+mapgen: fix hardcoded lab generation
+Made crafting requirements of holsters more systematic
+Fixed inability to craft disinfectant soaked rags and disinfectant soaked cotton balls.
+Fix dry_mushroom_magic debug message
+Fixing sizing issues with downsizing/upsizing when you are smaller/larger size
+Matched trenchcoat encumbrances to duster counterparts
+Fix #28156 - Crash when a split vehicle is generated out of map bounds.
+Allow pets to follow across z-levels
+Fix fridge/minifreezer not working outside reality bubble
+Fix misspelled properties in nopalitos recipe.
+Shocker attack won't play its SFX if player character is deaf.
+modifies HELMET_COMPAT flag to allow use of headgear up to 40 encumbrance
+Fix extra battery mod getting stuck in tools as an undefined item
+Fixes alt map map key mod
+Improve sort loot action when sortable items are under a cargo space
+Speed up temperature calc in certain situation
+npc: improve NPC omt_destination finding
+Fix Zone Manager lag with lots of big zones
+Skinning a corpse after failed field dressing gives reduced amount of skin.
+Fix weapon scope crafting requirements
+Fix for incorrect Geiger calculation in computer variant.
+Fix savegame migration of pool overmap terrain
+Add FULL_MAGAZINE recipe flag.
+Fixed a bug where bandits roadblock spawned outside of forest roads.
+Update NPC hunger logic to work with the new hunger system
+Remove stairs in mall that lack downstairs.
+Fix text error for "reload item" in game.cpp
+Correct check for warmth from sunlight
+Fix #30061 - Reuse of a fix location object after it has been deleted.
+Camp Fortifications fix
+add elec_parts to obsolete item groups list
+Replace zombie grenadier with dispatch bot in remaining locations
+Fix boiling with military mess kits
+fix out of reality rotting and other small things
+Properly fix combat ammo stat display
+You can use anesthesia kit to pour anesthetic in after crafting it
 
 ## Performance:
 Limit start location search radius.
 Vehicles: don't refresh while creating a prototype.
 Faster tileset loading due to optimized color manipulation routines.
+Remove unnecessary `draw_panels()` calls.
+Code optimizations reported by static code analysis
+Extract pixel minimap into a separate class, clean the code and improve its performance
+Implement flat_set container to improve performance where appropriate
+Code optimizations reported by static code analysis
+Code optimizations reported by static code analysis
+Rework lifting assist check to only fire if actually necessary
+Unhardcode rotting materials list
+Code optimizations reported by static code analysis
+Do not translate debug-only message strings
+Code optimizations reported by static code analysis
+Make square roots static in simplex noise implementation
 
 ## Infrastructure:
 Npctalk: Complete overhaul of NPC conversation infrastructure.
@@ -199,11 +528,92 @@ Combines rotting with item temperature.
 Trigger test failures when tests cause error logs.
 Npctalk: make mapgen_update into a dialogue effect.
 abort() on crashes so core dumps will be produced.
+Update NPCs.md with barber info
+Adds some missing details to mission_json.md and some stuff I wish I'd known.
+Move game::plswim() to avatar_action::swim()
+Rearranges files for Tacoma Ranch NPCs into a more contributor-friendly format
+Moved plfire and friends from game into avatar_action
+Rearranges files for refugee center NPCs into a more contributor-friendly format
+JSON-ized foraging hallucinogenic or poisonous items.
+Update martialart.md
+Move items_identified and read functions to avatar.
+Move player mission members to avatar.
+Move map memory members to avatar.
+Allow time strings for gunmod install_time
+Allow using time strings in book definitions
+Allow time strings in construction definitions
+Use time strings for recipes
+organize vehicle part items and use copy-from
+Add spellcasting activity into code
+Move game::plmove(), game::ramp_move() and game::autoattack() to avatar_action namespace
+Adds magic spell effects
+Improve changelog generator (tools/generate_changelog.py)
+Move some of the functiosn in newchar.cpp to avatar::
+Verify that chkjson compiles  on Travis
+Move bmi and activity level functions and member to Character
+Adds the learn_spell iuse action
+Compile with -Wmissing-declarations by default
+Move stomach, guts, and other minor things into Character
+Add git corruption issue to debian docs
+Move hydroponics mod files out of a subfolder
+move memorial function from player to avatar
+Refresh Travis builds for newer compilers
+Remove constant factor from construction time and document constructions
+Create avatar class as a start to migrate the player class
+Updates martialarts_json.md doc
+Adds special targeting function for magic spells
+Remove unused magazine options
+Enable C++14 standard for Android build
+Make auto-mining use item actions
+Make item::charges an int.
+Added functions for known_magic class
+Treat compiler warnings consistently between release and debug builds
+Add Windows memory limiter python script tool.
+Add most function definitions for the spell class
+Made wasp and spider houses use map extras
+Even smaller national guard camp data files
+mapgen: merge and palettize some more maps
+Start encapsulating weather
+Used jsonized monster groups instead of hardcoded monster groups. Also removed some unused monster variables
+mapgen: palettize and merge the necropolis
+Enable C++14 standard in VS project files
+Switch language version from C++11 to C++14
+Updated minimum supported compiler versions to gcc 5.3, clang 3.8
+create generic_factory for spell_type
+move handling liquid functions from game into a member class
+Better encapsulate explosions
+mapgen: clean up the hard coded draw_map() mapgen
+Remakes the refugee center map in a more legible format, with some spawn changes
+Updated mapgen.md to reflect increases in json mapgen
+Run clang-tidy on Travis
+Cleanup RetroDays Tileset - sort, remove unused and obsolete tiles
+Starts encapsulating submaps and simplifies their rotation
+modify stomach tests to pass with new rng logic
+Moved LRU cache implementation to separate files
+Fix up test_weather() method in weather_gen.cpp, attach to debug menu
+Use CXX11 pseudo-random engine for all RNG
+npctalk: add dialogue effects to give items to NPCs
 
 ## Build:
 Npctalk: add a python dialogue validator.
+Update homebrew install instructions.
+Remove homebrew --HEAD installation option
+Fix compilation under MINGW
+Fix build on macOS.
+Update COMPILING.md and Makefile w/info on OS X builds and optimization
+Adds Flatpak build recipe
+MSYS2 related makefile updates
+tools: merge_map script that merges overmap tiles
+Optimized Visual Studio solution/project files
+add a python script to automatically create palettes for mapgen
 
 ## I18N and A11Y:
+Routine i18n updates on 31 May 2019
+Routine i18n updates on 18 May 2019
+Fixed panel management UI not translated
+Allow NPC dialogue to be translated in a manner that depends on gender.
+Routine i18n updates on 10 May 2019
+Routine i18n updates on May 3, 2019
 
 # 0.D (Danny)
 
