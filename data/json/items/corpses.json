@@ -137,7 +137,7 @@
     "id": "corpse_gunned",
     "copy-from": "corpse",
     "name": "corpse",
-    "description": "A dead body of a woman, with a large gunshot wound in her forehead and a corresponding hole in the back of her head.",
+    "description": "The dead body of a person.  Their forehead bears a large bullet entrance wound.  An even larger exit wound is present on the back of their head.",
     "looks_like": "corpse",
     "volume": "40000 ml",
     "weight": "52000 g",
