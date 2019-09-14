@@ -107,7 +107,6 @@ const efftype_id effect_mending( "mending" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_deaf( "deaf" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -4292,7 +4291,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         INSTALL_CBM,
         UNINSTALL_CBM,
         BONESETTING,
-        TYMPANOPLASTY,
     };
 
     bool adjacent_couch = false;
@@ -4363,7 +4361,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install" ) );
     amenu.addentry( UNINSTALL_CBM, true, 'u', _( "Choose installed bionic to uninstall" ) );
     amenu.addentry( BONESETTING, true, 's', _( "Splint broken limbs" ) );
-    amenu.addentry( TYMPANOPLASTY, true, 't', _( "Fix damaged eardrums" ) );
 
     amenu.query();
 
@@ -4546,26 +4543,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 popup_player_or_npc( patient, _( "You have no limbs that require splinting." ),
                                      _( "%1$s doesn't have limbs that require splinting." ) );
             }
-            break;
-        }
-        case TYMPANOPLASTY: {
-            if( !patient.has_effect( effect_deaf ) ) {
-                popup_player_or_npc( patient, _( "Your hearing is normal." ),
-                                     _( "%1$s has normal hearing." ) );
-                break;
-            }
-            effect &e = patient.get_effect( effect_deaf );
-            if( e.get_duration() < 2_days ) {
-                popup_player_or_npc( patient, _( "Your eardrums are intact." ),
-                                     _( "%1$s has intact eardrums." ) );
-                break;
-            }
-            patient.moves -= to_moves<int>( 10_minutes );
-            patient.add_msg_player_or_npc( m_good,
-                                           _( "The machine fixes your damaged eardrums. It will take some time to heal completely." ),
-                                           _( "The machine fixes <npcname>'s damaged eardrums. It will take some time to heal completely." ) );
-            e.set_duration( rng( 1_days, 2_days ) );
-
             break;
         }
 
