@@ -1371,7 +1371,7 @@ void npc::load( JsonObject &data )
         data.read( "myclass", classid );
         myclass = npc_class_id( classid );
     }
-
+    data.read( "known_to_u", known_to_u );
     data.read( "personality", personality );
 
     if( !data.read( "submap_coords", submap_coords ) ) {
@@ -1584,7 +1584,7 @@ void npc::store( JsonOut &json ) const
     json.member( "dead", dead );
     json.member( "patience", patience );
     json.member( "myclass", myclass.str() );
-
+    json.member( "known_to_u", known_to_u );
     json.member( "personality", personality );
 
     json.member( "submap_coords", submap_coords );

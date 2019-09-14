@@ -1159,6 +1159,7 @@ class npc : public player
     private:
         npc_attitude attitude; // What we want to do to the player
         npc_attitude previous_attitude = NPCATT_NULL;
+        bool known_to_u = false; // Does the player know this NPC?
         /**
          * Global submap coordinates of the submap containing the npc.
          * Use global_*_location to get the global position.
@@ -1249,6 +1250,10 @@ class npc : public player
          * Update body, but throttled.
          */
         void npc_update_body();
+
+        bool get_known_to_u();
+
+        void set_known_to_u( bool known );
 
         /// Set up (start) a companion mission.
         void set_companion_mission( npc &p, const std::string &mission_id );
