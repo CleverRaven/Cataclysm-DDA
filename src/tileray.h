@@ -35,6 +35,7 @@ class tileray
     public:
         tileray();
         tileray( int adx, int ady );
+        tileray( const point &ad );
         tileray( int adir );
 
         void init( int adx, int ady );  // init ray with dx,dy

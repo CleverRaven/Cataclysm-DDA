@@ -208,6 +208,7 @@ class query_popup
 
         struct button {
             button( const std::string &text, int x, int y );
+            button( const std::string &text, const point & );
 
             std::string text;
             point pos;
