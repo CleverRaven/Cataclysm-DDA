@@ -1021,7 +1021,7 @@
     "name": "Deathblow",
     "messages": [
       "You flip your weapon around and deliver a mordhau to %s",
-      "<npcname> holds his weapon funny and slams it down on %s"
+      "<npcname> flips their weapon around and smashes down on %s"
     ],
     "min_melee": 4,
     "melee_allowed": true,
