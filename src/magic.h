@@ -217,10 +217,7 @@ class spell_type
         int final_casting_time;
 
         // Does leveling this spell lead to learning another spell?
-        // Then this is the id of the new spell type
-        std::string learn_spell_id;
-        // The level of this spell at which new spell is learned
-        int learn_spell_level;
+        std::map<std::string, int> learn_spells;
 
         // what energy do you use to cast this spell
         energy_type energy_source;

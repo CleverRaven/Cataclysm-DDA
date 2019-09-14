@@ -35,7 +35,9 @@
     "duration_increment": 4,
     "min_pierce": 0,
     "max_pierce": 1,
-    "pierce_increment": 0.1
+    "pierce_increment": 0.1,
+    "//": "Learn spells by adding map of 'spell_id': 'level' ",
+    "learn_spells": { "create_atomic_light": 1, "megablast": 2 }
   },
   {
     "id": "spawn_debug_monster",
