@@ -4398,7 +4398,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 casting.gain_level();
                 p->add_msg_if_player( m_good,
                                       _( "Something about how this spell works just clicked!  You gained a level!" ) );
-                g->events().send<event_type::player_levels_spell>();
+                g->events().send<event_type::player_levels_spell>( p->getID(), casting.id() );
             } else {
                 casting.gain_exp( exp_gained );
                 p->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,

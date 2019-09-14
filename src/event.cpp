@@ -102,6 +102,7 @@ static_assert( static_cast<int>( event_type::num_event_types ) == 62,
     event_spec<event_type::type>::fields.size()> \
     event_spec<event_type::type>::fields;
 
+DEFINE_EVENT_FIELDS( player_levels_spell )
 DEFINE_EVENT_FIELDS( activates_artifact )
 DEFINE_EVENT_FIELDS( administers_mutagen )
 DEFINE_EVENT_FIELDS( avatar_moves )

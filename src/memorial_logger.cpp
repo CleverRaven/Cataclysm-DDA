@@ -935,8 +935,10 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::player_levels_spell: {
-            add( pgettext( "memorial_male", "Gained a spell level." ),
-                 pgettext( "memorial_female", "Gained a spell level." ) );
+            std::string spell_name = e.get<spell_id>( "spell" )->name.translated();
+            add( pgettext( "memorial_male", "Gained a spell level on %s." ),
+                 pgettext( "memorial_female", "Gained a spell level on %s." ),
+                 spell_name );
             break;
         }
         case event_type::releases_subspace_specimens: {
