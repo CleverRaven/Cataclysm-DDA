@@ -8,6 +8,7 @@
 #include <string>
 #include <unordered_map>
 
+#include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "string_id.h"
@@ -100,14 +101,16 @@ class faction : public faction_template
         nc_color food_supply_color();
 
         bool has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const;
+        void add_to_membership( const character_id guy_id, const std::string guy_name, bool known );
         std::vector<int> opinion_of;
         bool validated = false;
+        std::map<character_id, std::pair<std::string, bool>> members;
 };
 
 class faction_manager
 {
     private:
-        std::vector<faction> factions;
+        std::map<faction_id, faction> factions;
 
     public:
         void deserialize( JsonIn &jsin );
@@ -115,20 +118,15 @@ class faction_manager
 
         void clear();
         void create_if_needed();
+        void display() const;
         faction *add_new_faction( const std::string &name_new, const faction_id &id_new,
                                   const faction_id &template_id );
         void remove_faction( const faction_id &id );
-        const std::vector<faction> &all() const {
+        const std::map<faction_id, faction> &all() const {
             return factions;
         }
 
         faction *get( const faction_id &id );
-};
-
-class new_faction_manager
-{
-    public:
-        void display() const;
 };
 
 #endif

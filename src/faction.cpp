@@ -108,6 +108,11 @@ std::string faction::describe() const
     return ret;
 }
 
+void faction::add_to_membership( const character_id guy_id, const std::string guy_name, const bool known )
+{
+    members[guy_id] = std::make_pair( guy_name, known );
+}
+
 // Used in game.cpp
 std::string fac_ranking_text( int val )
 {
@@ -324,8 +329,8 @@ void faction_manager::remove_faction( const faction_id &id )
         return;
     }
     int index = 0;
-    for( faction &elem : factions ) {
-        if( id == elem.id ) {
+    for( auto &elem : factions ) {
+        if( id == elem.second.id ) {
             factions.erase( factions.begin() + index );
             return;
         }
@@ -339,7 +344,7 @@ void faction_manager::create_if_needed()
         return;
     }
     for( const auto &fac_temp : npc_factions::all_templates ) {
-        factions.emplace_back( fac_temp );
+        factions[fac_temp.id] = fac_temp;
     }
 }
 
@@ -351,7 +356,7 @@ faction *faction_manager::add_new_faction( const std::string &name_new, const fa
             faction fac( fac_temp );
             fac.name = name_new;
             fac.id = id_new;
-            factions.emplace_back( fac );
+            factions[fac.id] = fac;
         }
     }
     faction *ret = get( id_new );
@@ -360,34 +365,36 @@ faction *faction_manager::add_new_faction( const std::string &name_new, const fa
 
 faction *faction_manager::get( const faction_id &id )
 {
-    for( faction &elem : factions ) {
-        if( elem.id == id ) {
-            if( !elem.validated ) {
+    for( auto &elem : factions ) {
+        if( elem.first == id ) {
+            if( !elem.second.validated ) {
                 for( const faction_template &fac_temp : npc_factions::all_templates ) {
                     if( fac_temp.id == id ) {
-                        elem.currency = fac_temp.currency;
-                        elem.lone_wolf_faction = fac_temp.lone_wolf_faction;
-                        elem.name = fac_temp.name;
-                        elem.desc = fac_temp.desc;
-                        elem.mon_faction = fac_temp.mon_faction;
+                        elem.second.currency = fac_temp.currency;
+                        elem.second.lone_wolf_faction = fac_temp.lone_wolf_faction;
+                        elem.second.name = fac_temp.name;
+                        elem.second.desc = fac_temp.desc;
+                        elem.second.mon_faction = fac_temp.mon_faction;
                         for( const auto &rel_data : fac_temp.relations ) {
-                            if( elem.relations.find( rel_data.first ) == elem.relations.end() ) {
-                                elem.relations[rel_data.first] = rel_data.second;
+                            if( elem.second.relations.find( rel_data.first ) == elem.second.relations.end() ) {
+                                elem.second.relations[rel_data.first] = rel_data.second;
                             }
                         }
                         break;
                     }
                 }
-                elem.validated = true;
+                elem.second.validated = true;
             }
-            return &elem;
+            return &elem.second;
         }
     }
     for( const faction_template &elem : npc_factions::all_templates ) {
         if( elem.id == id ) {
-            factions.emplace_back( elem );
-            factions.back().validated = true;
-            return &factions.back();
+            factions[elem.id] = elem;
+            if( !factions.empty() ){
+                factions.rbegin()->second.validated = true;
+            }
+            return &factions.rbegin()->second;
         }
     }
 
@@ -596,7 +603,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     return retval;
 }
 
-void new_faction_manager::display() const
+void faction_manager::display() const
 {
     int term_x = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
     int term_y = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
