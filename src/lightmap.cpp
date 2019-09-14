@@ -1113,7 +1113,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
 
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-            seen_cache, transparency_cache, origin.x, origin.y, 0 );
+            seen_cache, transparency_cache, origin.xy(), 0 );
     } else {
         // Cache the caches (pointers to them)
         std::array<const float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> transparency_caches;
@@ -1187,7 +1187,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         // The naive solution of making the mirrors act like a second player
         // at an offset appears to give reasonable results though.
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-            camera_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
+            camera_cache, transparency_cache, mirror_pos.xy(), offsetDistance );
     }
 }
 

@@ -191,7 +191,7 @@ void query_popup::init() const
                 int button_x = std::max( 0, msg_width - button_width -
                                          horz_padding * static_cast<int>( line.size() - 1 ) );
                 for( const auto &opt : line ) {
-                    buttons.emplace_back( opt, button_x, msg_height );
+                    buttons.emplace_back( opt, point( button_x, msg_height ) );
                     button_x += utf8_width( opt, true ) + horz_padding;
                 }
                 msg_height += 1 + vert_padding;
