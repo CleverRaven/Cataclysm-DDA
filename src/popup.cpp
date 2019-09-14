@@ -369,7 +369,7 @@ query_popup::query_option::query_option(
 {
 }
 
-query_popup::button::button( const std::string &text, const int x, const int y )
-    : text( text ), pos( x, y )
+query_popup::button::button( const std::string &text, const point &p )
+    : text( text ), pos( p )
 {
 }

@@ -107,14 +107,6 @@ template<typename T, typename Out, T( *calc )( const T &, const T &, const int &
          T( *accumulate )( const T &, const T &, const int & )>
 void castLightAll( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                    const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
-                   int offsetX, int offsetY, int offsetDistance = 0,
-                   T numerator = 1.0 );
-template<typename T, typename Out, T( *calc )( const T &, const T &, const int & ),
-         bool( *check )( const T &, const T & ),
-         void( *update_output )( Out &, const T &, quadrant ),
-         T( *accumulate )( const T &, const T &, const int & )>
-void castLightAll( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
-                   const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
                    const point &offset, int offsetDistance = 0,
                    T numerator = 1.0 );
 

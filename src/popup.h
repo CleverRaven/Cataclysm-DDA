@@ -207,7 +207,6 @@ class query_popup
         bool fullscr;
 
         struct button {
-            button( const std::string &text, int x, int y );
             button( const std::string &text, const point & );
 
             std::string text;
