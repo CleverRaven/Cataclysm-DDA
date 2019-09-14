@@ -473,7 +473,7 @@ template<>
 struct event_spec<event_type::releases_subspace_specimens> : event_spec_empty {};
 
 template<>
-struct event_spec<event_type::player_levels_spell> : event_spec_empty {
+struct event_spec<event_type::player_levels_spell> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
             { "spell", cata_variant_type::spell_id },
             { "new_level", cata_variant_type::int_ },
