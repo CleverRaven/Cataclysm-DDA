@@ -25,7 +25,7 @@
     "construction_blueprint": "fbml_coop_wood_northeast",
     "blueprint_name": "northeast coop",
     "blueprint_requires": [ { "id": "fbml_0" } ],
-    "blueprint_provides": [ { "id": "fbml_northeast" } ],
+    "blueprint_provides": [ { "id": "fbml_northeast" }, { "id": "chicken_coop" } ],
     "blueprint_excludes": [ { "id": "fbml_northeast" } ],
     "blueprint_autocalc": true
   },
@@ -70,7 +70,7 @@
     "construction_blueprint": "fbml_stable0_wood_southwest",
     "blueprint_name": "southwest stable",
     "blueprint_requires": [ { "id": "faction_base_livestock_0" } ],
-    "blueprint_provides": [ { "id": "fbml_southwest" } ],
+    "blueprint_provides": [ { "id": "fbml_southwest" }, { "id": "stables" } ],
     "blueprint_excludes": [ { "id": "fbml_southwest" } ],
     "blueprint_autocalc": true
   },
