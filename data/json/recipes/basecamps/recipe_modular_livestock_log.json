@@ -47,7 +47,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_livestock_stable1_log_west",
-    "description": "We could use an expansion for the stable, so build 2 more stables on the west side of the livestock field.",
+    "description": "We could use an expansion for the stable, so build 2 more stalls on the west side of the livestock field.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
