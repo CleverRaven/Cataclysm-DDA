@@ -362,7 +362,7 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
 read_with_factor( JsonObject jo, const std::string &name, T &val, const T &factor )
 {
     int tmp;
-    if( jo.read( name, tmp ) ) {
+    if( jo.read( name, tmp, false ) ) {
         // JSON contained a raw number -> apply factor
         val = tmp * factor;
         return true;

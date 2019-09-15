@@ -1,18 +1,6 @@
 [
   {
     "type": "GENERIC",
-    "id": "corpse",
-    "symbol": "%",
-    "color": "white",
-    "name": "corpse",
-    "description": "A dead body.",
-    "//": "most of the properties depend on the monster type and are created at runtime!",
-    "price": 0,
-    "volume": 0,
-    "flags": [ "NO_UNLOAD", "TRADER_AVOID" ]
-  },
-  {
-    "type": "GENERIC",
     "//": "pseudo item, used as fuel type for engines that are animal-powered",
     "id": "animal",
     "symbol": "?",
@@ -1347,7 +1335,7 @@
     "description": "A high-quality lens, useful for focusing or diffusing light.  Might be useful for starting a fire.",
     "price": 120000,
     "material": "glass",
-    "weight": "340 g",
+    "weight": "30 g",
     "volume": 0,
     "to_hit": -3,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 30000, "need_sunlight": true },
@@ -1364,7 +1352,7 @@
     "description": "A small high-quality lens, useful for focusing or diffusing light.  Might be useful for crafting.",
     "price": 6000,
     "material": "glass",
-    "weight": "170 g",
+    "weight": "15 g",
     "volume": 0
   },
   {
@@ -1378,7 +1366,7 @@
     "description": "A pair of small darkened glass, like the one that sunglasses are made of.",
     "price": 1000,
     "material": "glass",
-    "weight": "340 g",
+    "weight": "30 g",
     "volume": 0,
     "to_hit": -3
   },
@@ -2652,19 +2640,6 @@
     "to_hit": -3
   },
   {
-    "type": "GENERIC",
-    "id": "rmi2_corpse",
-    "symbol": "%",
-    "color": "white",
-    "name": "desiccated corpse",
-    "description": "A badly mangled and desiccated partial corpse.  It seems whatever thing killed him did so with a single swipe of a gigantic claw.",
-    "category": "other",
-    "material": "hflesh",
-    "price": 0,
-    "volume": "7500 ml",
-    "flags": [ "TRADER_AVOID" ]
-  },
-  {
     "id": "gasdiscount_silver",
     "type": "TOOL",
     "symbol": ",",
@@ -3009,7 +2984,16 @@
     "id": "broken_turret_rifle",
     "symbol": ",",
     "color": "green",
-    "name": "broken milspec turret",
+    "name": "broken M249 autonomous CROWS II",
+    "weight": "70000 g",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_crows_m240",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken M240 autonomous CROWS II",
     "weight": "70000 g",
     "copy-from": "broken_turret"
   },
@@ -3018,7 +3002,7 @@
     "id": "broken_turret_bmg",
     "symbol": ",",
     "color": "green",
-    "name": "broken antimateriel turret",
+    "name": "broken M2 autonomous CROWS II",
     "weight": "100000 g",
     "copy-from": "broken_turret"
   },
@@ -3039,6 +3023,23 @@
     "name": "broken secubot",
     "category": "other",
     "description": "A broken secubot, with its casing broken and fluid drained.  Could be gutted for parts.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "100000 g",
+    "volume": "65000 ml",
+    "bashing": 4,
+    "cutting": 4,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_talon_m202a1",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken M202A1 TALON",
+    "category": "other",
+    "description": "A broken TALON UGV, with its casing broken and fluid drained.  Could be gutted for parts.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
     "weight": "100000 g",

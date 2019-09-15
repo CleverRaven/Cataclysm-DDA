@@ -358,7 +358,7 @@ class Item_factory
         void add_iuse( const std::string &type, use_function_pointer f );
         void add_iuse( const std::string &type, use_function_pointer f,
                        const std::string &info );
-        void add_actor( iuse_actor *ptr );
+        void add_actor( std::unique_ptr<iuse_actor> );
 
         std::map<itype_id, migration> migrations;
 

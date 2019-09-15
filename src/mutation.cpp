@@ -1157,8 +1157,8 @@ void player::remove_child_flag( const trait_id &flag )
 static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool strong )
 {
     if( p.has_trait( trait_MUTAGEN_AVOID ) ) {
-        //~"Uh-uh" is a sound used for "nope", "no", etc.
         p.add_msg_if_player( m_warning,
+                             //~ "Uh-uh" is a sound used for "nope", "no", etc.
                              _( "After what happened that last time?  uh-uh.  You're not drinking that chemical stuff." ) );
         return mutagen_rejection::rejected;
     }

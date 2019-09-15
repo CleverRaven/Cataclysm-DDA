@@ -117,17 +117,17 @@ const talk_topic &special_talk( char ch );
 
 std::string give_item_to( npc &p, bool allow_use, bool allow_carry );
 
-const std::string &talk_trial::name() const
+std::string talk_trial::name() const
 {
     static const std::array<std::string, NUM_TALK_TRIALS> texts = { {
-            "", _( "LIE" ), _( "PERSUADE" ), _( "INTIMIDATE" ), ""
+            "", translate_marker( "LIE" ), translate_marker( "PERSUADE" ), translate_marker( "INTIMIDATE" ), ""
         }
     };
     if( static_cast<size_t>( type ) >= texts.size() ) {
         debugmsg( "invalid trial type %d", static_cast<int>( type ) );
-        return texts[0];
+        return std::string();
     }
-    return texts[type];
+    return texts[type].empty() ? std::string() : _( texts[type] );
 }
 
 /** Time (in turns) and cost (in cent) for training: */
@@ -673,6 +673,9 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
         add_msg( _( "%s is hostile!" ), name );
         return;
     }
+    if( get_faction() ) {
+        get_faction()->known_by_u = true;
+    }
     dialogue d;
     d.alpha = &g->u;
     d.beta = this;
@@ -1189,7 +1192,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             const int cost = calc_ma_style_training_cost( *p, style.id );
             //~Martial art style (cost in dollars)
             const std::string text = string_format( cost > 0 ? _( "%s ( cost $%d )" ) : "%s",
-                                                    _( style.name ), cost / 100 );
+                                                    style.name, cost / 100 );
             add_response( text, "TALK_TRAIN_START", style );
         }
         for( auto &trained : trainable ) {

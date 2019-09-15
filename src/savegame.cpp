@@ -915,17 +915,22 @@ void overmap::unserialize( std::istream &fin )
                 }
                 cities.push_back( new_city );
             }
+        } else if( name == "connections_out" ) {
+            jsin.read( connections_out );
         } else if( name == "roads_out" ) {
+            // Legacy data, superceded by that stored in the "connections_out" member. A load and save
+            // cycle will migrate this to "connections_out".
+            std::vector<tripoint> &roads_out = connections_out[string_id<overmap_connection>( "local_road" )];
             jsin.start_array();
             while( !jsin.end_array() ) {
                 jsin.start_object();
-                city new_road;
+                tripoint new_road;
                 while( !jsin.end_object() ) {
                     std::string road_member_name = jsin.get_member_name();
                     if( road_member_name == "x" ) {
-                        jsin.read( new_road.pos.x );
+                        jsin.read( new_road.x );
                     } else if( road_member_name == "y" ) {
-                        jsin.read( new_road.pos.y );
+                        jsin.read( new_road.y );
                     }
                 }
                 roads_out.push_back( new_road );
@@ -1355,15 +1360,7 @@ void overmap::serialize( std::ostream &fout ) const
     json.end_array();
     fout << std::endl;
 
-    json.member( "roads_out" );
-    json.start_array();
-    for( auto &i : roads_out ) {
-        json.start_object();
-        json.member( "x", i.pos.x );
-        json.member( "y", i.pos.y );
-        json.end_object();
-    }
-    json.end_array();
+    json.member( "connections_out", connections_out );
     fout << std::endl;
 
     json.member( "radios" );

@@ -1626,16 +1626,16 @@ std::string Creature::attitude_raw_string( Attitude att )
     }
 }
 
-const std::pair<std::string, nc_color> &Creature::get_attitude_ui_data( Attitude att )
+const std::pair<translation, nc_color> &Creature::get_attitude_ui_data( Attitude att )
 {
-    using pair_t = std::pair<std::string, nc_color>;
+    using pair_t = std::pair<translation, nc_color>;
     static const std::array<pair_t, 5> strings {
         {
-            pair_t {_( "Hostile" ), c_red},
-            pair_t {_( "Neutral" ), h_white},
-            pair_t {_( "Friendly" ), c_green},
-            pair_t {_( "Any" ), c_yellow},
-            pair_t {_( "BUG: Behavior unnamed. (Creature::get_attitude_ui_data)" ), h_red}
+            pair_t {to_translation( "Hostile" ), c_red},
+            pair_t {to_translation( "Neutral" ), h_white},
+            pair_t {to_translation( "Friendly" ), c_green},
+            pair_t {to_translation( "Any" ), c_yellow},
+            pair_t {to_translation( "BUG: Behavior unnamed. (Creature::get_attitude_ui_data)" ), h_red}
         }
     };
 

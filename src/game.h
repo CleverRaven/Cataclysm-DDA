@@ -627,6 +627,18 @@ class game
         // Draw a highlight graphic at p, for example when examining something.
         // TILES only, in curses this does nothing
         void draw_highlight( const tripoint &p );
+        void draw_radiation_override( const tripoint &p, int rad );
+        void draw_terrain_override( const tripoint &p, const ter_id &id );
+        void draw_furniture_override( const tripoint &p, const furn_id &id );
+        void draw_graffiti_override( const tripoint &p, bool has );
+        void draw_trap_override( const tripoint &p, const trap_id &id );
+        void draw_field_override( const tripoint &p, const field_type_id &id );
+        void draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid, bool hilite );
+        void draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod, int veh_dir,
+                                  bool hilite, const point &mount );
+        void draw_below_override( const tripoint &p, bool draw );
+        void draw_monster_override( const tripoint &p, const mtype_id &id, int count,
+                                    bool more, Creature::Attitude att );
 
         bool is_in_viewport( const tripoint &p, int margin = 0 ) const;
         /**

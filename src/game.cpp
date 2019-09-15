@@ -907,9 +907,6 @@ void game::load_npcs()
         if( temp->marked_for_death ) {
             temp->die( nullptr );
         } else {
-            if( temp->get_faction() != nullptr ) {
-                temp->get_faction()->known_by_u = true;
-            }
             active_npc.push_back( temp );
             just_added.push_back( temp );
         }
@@ -3038,79 +3035,79 @@ void game::disp_faction_ends()
             } else if( elem.name == "The Old Guard" && elem.power != 100 ) {
                 if( elem.power < 150 ) {
                     data.emplace_back(
-                        _( "    Locked in an endless battle, the Old Guard was forced to consolidate their \
-resources in a handful of fortified bases along the coast.  Without the men \
-or material to rebuild, the soldiers that remained lost all hope..." ) );
+                        _( "    Locked in an endless battle, the Old Guard was forced to consolidate their "
+                           "resources in a handful of fortified bases along the coast.  Without the men "
+                           "or material to rebuild, the soldiers that remained lost all hope..." ) );
                 } else {
-                    data.emplace_back( _( "    The steadfastness of individual survivors after the cataclysm impressed \
-the tattered remains of the once glorious union.  Spurred on by small \
-successes, a number of operations to re-secure facilities met with limited \
-success.  Forced to eventually consolidate to large bases, the Old Guard left \
-these facilities in the hands of the few survivors that remained.  As the \
-years past, little materialized from the hopes of rebuilding civilization..." ) );
+                    data.emplace_back( _( "    The steadfastness of individual survivors after the cataclysm impressed "
+                                          "the tattered remains of the once glorious union.  Spurred on by small "
+                                          "successes, a number of operations to re-secure facilities met with limited "
+                                          "success.  Forced to eventually consolidate to large bases, the Old Guard left "
+                                          "these facilities in the hands of the few survivors that remained.  As the "
+                                          "years past, little materialized from the hopes of rebuilding civilization..." ) );
                 }
                 display_table( w, _( "The Old Guard" ), 1, data );
             } else if( elem.name == "The Free Merchants" && elem.power != 100 ) {
                 if( elem.power < 150 ) {
-                    data.emplace_back( _( "    Life in the refugee shelter deteriorated as food shortages and disease \
-destroyed any hope of maintaining a civilized enclave.  The merchants and \
-craftsmen dispersed to found new colonies but most became victims of \
-marauding bandits.  Those who survived never found a place to call home..." ) );
+                    data.emplace_back( _( "    Life in the refugee shelter deteriorated as food shortages and disease "
+                                          "destroyed any hope of maintaining a civilized enclave.  The merchants and "
+                                          "craftsmen dispersed to found new colonies but most became victims of "
+                                          "marauding bandits.  Those who survived never found a place to call home..." ) );
                 } else {
-                    data.emplace_back( _( "    The Free Merchants struggled for years to keep themselves fed but their \
-once profitable trade routes were plundered by bandits and thugs.  In squalor \
-and filth the first generations born after the cataclysm are told stories of \
-the old days when food was abundant and the children were allowed to play in \
-the sun..." ) );
+                    data.emplace_back( _( "    The Free Merchants struggled for years to keep themselves fed but their "
+                                          "once profitable trade routes were plundered by bandits and thugs.  In squalor "
+                                          "and filth the first generations born after the cataclysm are told stories of "
+                                          "the old days when food was abundant and the children were allowed to play in "
+                                          "the sun..." ) );
                 }
                 display_table( w, _( "The Free Merchants" ), 1, data );
             } else if( elem.name == "The Tacoma Commune" && elem.power != 100 ) {
                 if( elem.power < 150 ) {
-                    data.emplace_back( _( "    The fledgling outpost was abandoned a few months later.  The external \
-threats combined with low crop yields caused the Free Merchants to withdraw \
-their support.  When the exhausted migrants returned to the refugee center \
-they were turned away to face the world on their own." ) );
+                    data.emplace_back( _( "    The fledgling outpost was abandoned a few months later.  The external "
+                                          "threats combined with low crop yields caused the Free Merchants to withdraw "
+                                          "their support.  When the exhausted migrants returned to the refugee center "
+                                          "they were turned away to face the world on their own." ) );
                 } else {
                     data.emplace_back(
-                        _( "    The commune continued to grow rapidly through the years despite constant \
-external threat.  While maintaining a reputation as a haven for all law-\
-abiding citizens, the commune's leadership remained loyal to the interests of \
-the Free Merchants.  Hard labor for little reward remained the price to be \
-paid for those who sought the safety of the community." ) );
+                        _( "    The commune continued to grow rapidly through the years despite constant "
+                           "external threat.  While maintaining a reputation as a haven for all law-"
+                           "abiding citizens, the commune's leadership remained loyal to the interests of "
+                           "the Free Merchants.  Hard labor for little reward remained the price to be "
+                           "paid for those who sought the safety of the community." ) );
                 }
                 display_table( w, _( "The Tacoma Commune" ), 1, data );
             } else if( elem.name == "The Wasteland Scavengers" && elem.power != 100 ) {
                 if( elem.power < 150 ) {
                     data.emplace_back(
-                        _( "    The lone bands of survivors who wandered the now alien world dwindled in \
-number through the years.  Unable to compete with the growing number of \
-monstrosities that had adapted to live in their world, those who did survive \
-lived in dejected poverty and hopelessness..." ) );
+                        _( "    The lone bands of survivors who wandered the now alien world dwindled in "
+                           "number through the years.  Unable to compete with the growing number of "
+                           "monstrosities that had adapted to live in their world, those who did survive "
+                           "lived in dejected poverty and hopelessness..." ) );
                 } else {
                     data.emplace_back(
-                        _( "    The scavengers who flourished in the opening days of the cataclysm found \
-an ever increasing challenge in finding and maintaining equipment from the \
-old world.  Enormous hordes made cities impossible to enter while new \
-eldritch horrors appeared mysteriously near old research labs.  But on the \
-fringes of where civilization once ended, bands of hunter-gatherers began to \
-adopt agrarian lifestyles in fortified enclaves..." ) );
+                        _( "    The scavengers who flourished in the opening days of the cataclysm found "
+                           "an ever increasing challenge in finding and maintaining equipment from the "
+                           "old world.  Enormous hordes made cities impossible to enter while new "
+                           "eldritch horrors appeared mysteriously near old research labs.  But on the "
+                           "fringes of where civilization once ended, bands of hunter-gatherers began to "
+                           "adopt agrarian lifestyles in fortified enclaves..." ) );
                 }
                 display_table( w, _( "The Wasteland Scavengers" ), 1, data );
             } else if( elem.name == "Hell's Raiders" && elem.power != 100 ) {
                 if( elem.power < 150 ) {
-                    data.emplace_back( _( "    The raiders grew more powerful than any other faction as attrition \
-destroyed the Old Guard.  The ruthless men and women who banded together to \
-rob refugees and pillage settlements soon found themselves without enough \
-victims to survive.  The Hell's Raiders were eventually destroyed when \
-infighting erupted into civil war but there were few survivors left to \
-celebrate their destruction." ) );
+                    data.emplace_back( _( "    The raiders grew more powerful than any other faction as attrition "
+                                          "destroyed the Old Guard.  The ruthless men and women who banded together to "
+                                          "rob refugees and pillage settlements soon found themselves without enough "
+                                          "victims to survive.  The Hell's Raiders were eventually destroyed when "
+                                          "infighting erupted into civil war but there were few survivors left to "
+                                          "celebrate their destruction." ) );
                 } else {
-                    data.emplace_back( _( "    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to \
-overthrow the last strongholds of the Old Guard.  The costly victories \
-brought the warlords abundant territory and slaves but little in the way of \
-stability.  Within weeks, infighting led to civil war as tribes vied for \
-leadership of the faction.  When only one warlord finally secured control, \
-there was nothing left to fight for... just endless cities full of the dead." ) );
+                    data.emplace_back( _( "    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to "
+                                          "overthrow the last strongholds of the Old Guard.  The costly victories "
+                                          "brought the warlords abundant territory and slaves but little in the way of "
+                                          "stability.  Within weeks, infighting led to civil war as tribes vied for "
+                                          "leadership of the faction.  When only one warlord finally secured control, "
+                                          "there was nothing left to fight for... just endless cities full of the dead." ) );
                 }
                 display_table( w, _( "Hell's Raiders" ), 1, data );
             }
@@ -6649,7 +6646,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 draw_border( w_info );
 
                 static const std::string title_prefix = "< ";
-                static const char *title = _( "Look Around" );
+                const std::string title = _( "Look Around" );
                 static const std::string title_suffix = " >";
                 static const std::string full_title = title_prefix + title + title_suffix;
                 const int start_pos = center_text_pos( full_title, 0, getmaxx( w_info ) - 1 );
@@ -7661,7 +7658,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     const int iCurPos = iStartPos + y;
                     const int iCatPos = CatSortIter->first;
                     if( iCurPos == iCatPos ) {
-                        const std::string &cat_name = Creature::get_attitude_ui_data( CatSortIter->second ).first;
+                        const std::string cat_name = Creature::get_attitude_ui_data(
+                                                         CatSortIter->second ).first.translated();
                         mvwprintz( w_monsters, point( 1, y ), c_magenta, cat_name );
                         ++CatSortIter;
                         continue;
@@ -8019,8 +8017,8 @@ void game::butcher()
 
     const int factor = u.max_quality( quality_id( "BUTCHER" ) );
     const int factorD = u.max_quality( quality_id( "CUT_FINE" ) );
-    static const char *no_knife_msg = _( "You don't have a butchering tool." );
-    static const char *no_corpse_msg = _( "There are no corpses here to butcher." );
+    const std::string no_knife_msg = _( "You don't have a butchering tool." );
+    const std::string no_corpse_msg = _( "There are no corpses here to butcher." );
 
     //You can't butcher on sealed terrain- you have to smash/shovel/etc it open first
     if( m.has_flag( "SEALED", u.pos() ) ) {

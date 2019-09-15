@@ -1531,10 +1531,10 @@ void map::player_in_field( player &u )
         if( ft == fd_tear_gas ) {
             // Tear gas will both give you teargas disease and/or blind you.
             if( ( cur.get_field_intensity() > 1 || !one_in( 3 ) ) && ( !inside || one_in( 3 ) ) ) {
-                u.add_env_effect( effect_teargas, bp_mouth, 5, 2_minutes );
+                u.add_env_effect( effect_teargas, bp_mouth, 5, 20_seconds );
             }
             if( cur.get_field_intensity() > 1 && ( !inside || one_in( 3 ) ) ) {
-                u.add_env_effect( effect_blind, bp_eyes, cur.get_field_intensity() * 2, 1_minutes );
+                u.add_env_effect( effect_blind, bp_eyes, cur.get_field_intensity() * 2, 10_seconds );
             }
         }
         if( ft == fd_relax_gas ) {

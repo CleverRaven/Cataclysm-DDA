@@ -168,11 +168,11 @@ void game::list_missions()
             }
         } else {
             static const std::map< tab_mode, std::string > nope = {
-                { tab_mode::TAB_ACTIVE, _( "You have no active missions!" ) },
-                { tab_mode::TAB_COMPLETED, _( "You haven't completed any missions!" ) },
-                { tab_mode::TAB_FAILED, _( "You haven't failed any missions!" ) }
+                { tab_mode::TAB_ACTIVE, translate_marker( "You have no active missions!" ) },
+                { tab_mode::TAB_COMPLETED, translate_marker( "You haven't completed any missions!" ) },
+                { tab_mode::TAB_FAILED, translate_marker( "You haven't failed any missions!" ) }
             };
-            mvwprintz( w_missions, point( 31, 4 ), c_light_red, nope.at( tab ) );
+            mvwprintz( w_missions, point( 31, 4 ), c_light_red, _( nope.at( tab ) ) );
         }
 
         wrefresh( w_missions );

@@ -405,8 +405,9 @@ bool vehicle::interact_vehicle_locked()
                 g->u.assign_activity( activity_id( "ACT_HOTWIRE_CAR" ), moves, -1, INT_MIN, _( "Hotwire" ) );
                 // use part 0 as the reference point
                 point q = coord_translate( parts[0].mount );
-                g->u.activity.values.push_back( global_pos3().x + q.x ); //[0]
-                g->u.activity.values.push_back( global_pos3().y + q.y ); //[1]
+                const tripoint abs_veh_pos = g->m.getabs( global_pos3() );
+                g->u.activity.values.push_back( abs_veh_pos.x + q.x ); //[0]
+                g->u.activity.values.push_back( abs_veh_pos.y + q.y ); //[1]
                 g->u.activity.values.push_back( g->u.get_skill_level( skill_mechanics ) ); //[2]
             } else {
                 if( has_security_working() && query_yn( _( "Trigger the %s's Alarm?" ), name ) ) {

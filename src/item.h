@@ -77,7 +77,7 @@ class map;
 enum damage_type : int;
 enum clothing_mod_type : int;
 
-const std::string &rad_badge_color( int rad );
+std::string rad_badge_color( int rad );
 
 struct light_emission {
     unsigned short luminance;
@@ -270,7 +270,8 @@ class item : public visitable<item>
          */
         /*@{*/
         static item make_corpse( const mtype_id &mt = string_id<mtype>::NULL_ID(),
-                                 time_point turn = calendar::turn, const std::string &name = "" );
+                                 time_point turn = calendar::turn, const std::string &name = "",
+                                 bool random_corpse_type = false );
         /*@}*/
         /**
          * @return The monster type associated with this item (@ref corpse). It is usually the
