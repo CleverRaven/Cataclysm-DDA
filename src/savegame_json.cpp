@@ -3211,7 +3211,14 @@ void basecamp::deserialize( JsonIn &jsin )
     while( ja.has_more() ) {
         JsonObject edata = ja.next_object();
         expansion_data e;
-        const std::string dir = edata.get_string( "dir" );
+        point dir;
+        if( edata.has_string( "dir" ) ) {
+            // old save compatibility
+            const std::string dir_id = edata.get_string( "dir" );
+            dir = base_camps::direction_from_id( dir_id );
+        } else {
+            edata.read( "dir", dir );
+        }
         edata.read( "type", e.type );
         if( edata.has_int( "cur_level" ) ) {
             edata.read( "cur_level", e.cur_level );
@@ -3240,7 +3247,7 @@ void basecamp::deserialize( JsonIn &jsin )
         }
         edata.read( "pos", e.pos );
         expansions[ dir ] = e;
-        if( dir != "[B]" ) {
+        if( dir != base_camps::base_dir ) {
             directions.push_back( dir );
         }
     }
