@@ -1861,6 +1861,7 @@ void monster::reset_bonuses()
     effect_cache.reset();
 
     Creature::reset_bonuses();
+    size_bonus = 0;
 }
 
 void monster::reset_stats()

@@ -439,6 +439,7 @@
     "special_attacks": [ [ "scratch", 20 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "CONFLAGRATION" ],
+    "upgrades": { "half_life": 14, "into": "mon_fused" },
     "flags": [
       "SEES",
       "HEARS",
@@ -536,11 +537,11 @@
     "id": "mon_fused",
     "type": "MONSTER",
     "name": "fused",
-    "description": "",
+    "description": "Some human bodies fused together into a colossus with heads and limbs sticking out of its bloated body. You may have trouble estimating its healthiness and its capabilities might change.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 5,
+    "diff": 8,
     "volume": "92500 ml",
     "weight": 120000,
     "hp": 112,
@@ -561,12 +562,12 @@
         "subtype": "collection",
         "groups": [ "zombie", "zombie", "zombie" ]
         },
-    "special_attacks": [ [ "grown_of_fuse", 80 ], [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ], [ "ZOMBIE_FUSE", 80 ] ],
     "death_drops": {
         "subtype": "collection",
         "groups": [ "default_zombie_death_drops", "default_zombie_death_drops", "default_zombie_death_drops" ]
         },
-    "death_function": [ "SPLATTER", "BOOMER", "EXPLODE" ],
+    "death_function": [ "SPLATTER", "CONFLAGRATION" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "PUSH_MON", "PATH_AVOID_DANGER_1", "FILTHY", "REGENERATES_1" ]
   },
   {
