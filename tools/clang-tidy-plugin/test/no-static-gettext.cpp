@@ -95,3 +95,15 @@ static void local()
     static const std::string local_str_1 = _( "local_str_1" );
     // CHECK-MESSAGES: warning: Gettext calls in static variable initialization will cause text to be untranslated (global static) or not updated when switching language (local static). Consider using translation objects (to_translation()) or translate_marker(), and translate the text on demand (with translation::translated() or gettext calls outside static vars)
 }
+
+class bar
+{
+        static const std::string class_static_str0;
+        static const std::string class_static_str1;
+};
+
+// ok, no gettext call
+const std::string bar::class_static_str0 = "class_static_str0";
+
+const std::string bar::class_static_str1 = _( "class_static_str1" );
+// CHECK-MESSAGES: warning: Gettext calls in static variable initialization will cause text to be untranslated (global static) or not updated when switching language (local static). Consider using translation objects (to_translation()) or translate_marker(), and translate the text on demand (with translation::translated() or gettext calls outside static vars)
