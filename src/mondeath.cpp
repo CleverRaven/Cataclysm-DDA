@@ -676,7 +676,7 @@ void mdeath::broken( monster &z )
                             while( ammo_count > 0 ) {
                                 item mag = item( gun.type->magazine_default.find( item( ammo_entry.first ).ammo_type() )->second );
                                 mag.ammo_set( ammo_entry.first,
-                                              ammo_count < mag.type->magazine->capacity ? ammo_count : mag.type->magazine->capacity );
+                                              std::min( ammo_count, mag.type->magazine->capacity ) );
                                 mags.insert( mags.end(), mag );
                                 ammo_count -= mag.type->magazine->capacity;
                             }
