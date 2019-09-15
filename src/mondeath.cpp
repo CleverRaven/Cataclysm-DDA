@@ -669,7 +669,7 @@ void mdeath::broken( monster &z )
                                 break;
                             }
                         }
-                        bool uses_mags = gun.magazine_compatible().empty() ? false : true;
+                        const bool uses_mags = !gun.magazine_compatible().empty();
                         if( same_ammo && uses_mags ) {
                             std::vector<item> mags;
                             int ammo_count = z.ammo[ammo_entry.first];
