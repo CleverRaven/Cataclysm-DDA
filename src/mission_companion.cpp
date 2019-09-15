@@ -509,7 +509,6 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         }
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
-            mvwprintz( w_list, point( 1, sel + 2 ), c_white, "-%s", mission_key.cur_key.id );
             if( sel == cur_key_list.size() - 1 ) {
                 sel = 0;    // Wrap around
             } else {
@@ -518,7 +517,6 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             info_offset = 0;
             redraw = true;
         } else if( action == "UP" ) {
-            mvwprintz( w_list, point( 1, sel + 2 ), c_white, "-%s", mission_key.cur_key.id );
             if( sel == 0 ) {
                 sel = cur_key_list.size() - 1;    // Wrap around
             } else {

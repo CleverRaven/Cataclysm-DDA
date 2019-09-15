@@ -109,8 +109,8 @@ struct miss_data {
     translation ret_desc;
 };
 
-std::string select_camp_option( const std::map<std::string, std::string> &pos_options,
-                                const std::string &option );
+recipe_id select_camp_option( const std::map<recipe_id, translation> &pos_options,
+                              const std::string &option );
 
 // enventually this will move to JSON
 std::map<std::string, miss_data> miss_info = {{
@@ -446,14 +446,14 @@ static cata::optional<basecamp *> get_basecamp( npc &p, const std::string &camp_
     return temp_camp;
 }
 
-std::string base_camps::select_camp_option( const std::map<std::string, std::string> &pos_options,
+recipe_id base_camps::select_camp_option( const std::map<recipe_id, translation> &pos_options,
         const std::string &option )
 {
-    std::vector<std::string> pos_name_ids;
+    std::vector<recipe_id> pos_name_ids;
     std::vector<std::string> pos_names;
     for( const auto &it : pos_options ) {
-        pos_names.push_back( it.first );
-        pos_name_ids.push_back( it.second );
+        pos_names.push_back( it.second.translated() );
+        pos_name_ids.push_back( it.first );
     }
 
     if( pos_name_ids.size() == 1 ) {
@@ -463,7 +463,7 @@ std::string base_camps::select_camp_option( const std::map<std::string, std::str
     const int choice = uilist( _( option ), pos_names );
     if( choice < 0 || static_cast<size_t>( choice ) >= pos_name_ids.size() ) {
         popup( _( "You choose to wait..." ) );
-        return std::string();
+        return recipe_id::NULL_ID();
     }
     return pos_name_ids[choice];
 }
@@ -479,9 +479,9 @@ void talk_function::start_camp( npc &p )
         popup( _( "You cannot build a camp here." ) );
         return;
     }
-    const std::string &camp_type = base_camps::select_camp_option( pos_camps,
-                                   _( "Select a camp type:" ) );
-    if( camp_type.empty() ) {
+    const recipe_id camp_type = base_camps::select_camp_option( pos_camps,
+                                _( "Select a camp type:" ) );
+    if( !camp_type ) {
         return;
     }
 
@@ -539,12 +539,12 @@ void talk_function::start_camp( npc &p )
     if( display && !query_yn( _( "%s \nAre you sure you wish to continue? " ), buffer ) ) {
         return;
     }
-    const recipe &making = recipe_id( camp_type ).obj();
+    const recipe &making = camp_type.obj();
     if( !run_mapgen_update_func( making.get_blueprint(), omt_pos ) ) {
         popup( _( "%s failed to start the %s basecamp." ), p.disp_name(), making.get_blueprint() );
         return;
     }
-    get_basecamp( p, camp_type );
+    get_basecamp( p, camp_type.str() );
 }
 
 void talk_function::recover_camp( npc &p )
@@ -610,15 +610,16 @@ void talk_function::basecamp_mission( npc &p )
 }
 
 void basecamp::add_available_recipes( mission_data &mission_key, const std::string &dir,
-                                      const std::map<std::string, std::string> &craft_recipes )
+                                      const std::map<recipe_id, translation> &craft_recipes )
 {
     for( const auto &recipe_data : craft_recipes ) {
-        const std::string &title_e = dir + recipe_data.first;
-        const std::string &entry = craft_description( recipe_data.second );
-        const recipe &recp = recipe_id( recipe_data.second ).obj();
+        const std::string id = dir + recipe_data.first.str();
+        const std::string &title_e = dir + recipe_data.second;
+        const std::string &entry = craft_description( recipe_data.first );
+        const recipe &recp = recipe_data.first.obj();
         bool craftable = recp.requirements().can_make_with_inventory( _inv,
                          recp.get_component_filter() );
-        mission_key.add_start( title_e, "", dir, entry, craftable );
+        mission_key.add_start( id, title_e, dir, entry, craftable );
     }
 }
 
@@ -661,7 +662,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_crafting_" ];
         //This handles all crafting by the base, regardless of level
         if( npc_list.empty() ) {
-            std::map<std::string, std::string> craft_recipes = recipe_deck( base_dir );
+            std::map<recipe_id, translation> craft_recipes = recipe_deck( base_dir );
             add_available_recipes( mission_key, base_dir, craft_recipes );
         } else {
             entry = miss_info.action.translated();
@@ -1107,7 +1108,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             }
         }
 
-        std::map<std::string, std::string> craft_recipes = recipe_deck( dir );
+        std::map<recipe_id, translation> craft_recipes = recipe_deck( dir );
         if( has_provides( "kitchen", dir ) ) {
             comp_list npc_list = get_mission_workers( "_faction_exp_kitchen_cooking_" + dir );
             const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_exp_kitchen_cooking_" ];
@@ -1808,24 +1809,26 @@ void basecamp::start_combat_mission( const std::string &miss )
     }
 }
 
-// the structure of this function drives me insane
+// the structure of this function has driven (at least) two devs insane
 // recipe_deck returns a map of descriptions to recipe ids
-// loop through the recipe deck map, looking for direction + description, ie "[N] Cook: Meat Pie"
-// if there's a match, we know the player selected this mission
+// it first checks whether the mission id starts with the correct direction prefix,
+// and then search for the mission id without direction prefix in the recipes
+// if there's a match, the player has selected a crafting mission
 void basecamp::start_crafting( const std::string &cur_id, const std::string &cur_dir,
                                const std::string &type, const std::string &miss_id, bool by_radio )
 {
-    const std::map<std::string, std::string> &recipes = recipe_deck( type );
-    for( auto &r : recipes ) {
-        if( cur_id != cur_dir + r.first ) {
-            continue;
-        }
-        const recipe &making = recipe_id( r.second ).obj();
+    const std::map<recipe_id, translation> &recipes = recipe_deck( type );
+    if( cur_id.substr( 0, cur_dir.size() ) != cur_dir ) { // not a crafting mission or wrong direction
+        return;
+    }
+    const auto it = recipes.find( recipe_id( cur_id.substr( cur_dir.size() ) ) );
+    if( it != recipes.end() ) {
+        const recipe &making = it->first.obj();
 
         if( !making.requirements().can_make_with_inventory( _inv,
                 making.get_component_filter(), 1 ) ) {
             popup( _( "You don't have the materials to craft that" ) );
-            continue;
+            return;
         }
 
         int batch_size = 1;
@@ -1836,11 +1839,11 @@ void basecamp::start_crafting( const std::string &cur_id, const std::string &cur
         popup_input.title( title ).edit( batch_size );
 
         if( popup_input.canceled() || batch_size <= 0 ) {
-            continue;
+            return;
         }
         if( batch_size > recipe_batch_max( making ) ) {
             popup( _( "Your batch is too large!" ) );
-            continue;
+            return;
         }
         time_duration work_days = base_camps::to_workdays( making.batch_duration( batch_size ) );
         npc_ptr comp = start_mission( miss_id + cur_dir, work_days, true, _( "begins to work..." ),
@@ -2514,15 +2517,16 @@ bool basecamp::survey_return()
         return false;
     }
 
-    const std::string &expansion_type = base_camps::select_camp_option( pos_expansions,
-                                        _( "Select an expansion:" ) );
+    const recipe_id expansion_type = base_camps::select_camp_option( pos_expansions,
+                                     _( "Select an expansion:" ) );
 
-    if( !run_mapgen_update_func( expansion_type, where ) ) {
-        popup( _( "%s failed to add the %s expansion" ), comp->disp_name(), expansion_type );
+    if( !run_mapgen_update_func( expansion_type.str(), where ) ) {
+        popup( _( "%s failed to add the %s expansion" ), comp->disp_name(),
+               expansion_type->blueprint_name() );
         return false;
     }
-    omt_ref = oter_id( expansion_type );
-    add_expansion( expansion_type, where, dir );
+    omt_ref = oter_id( expansion_type.str() );
+    add_expansion( expansion_type.str(), where, dir );
     const std::string msg = _( "returns from surveying for the expansion." );
     finish_return( *comp, true, msg, "construction", 2 );
     return true;
@@ -3278,9 +3282,9 @@ std::string camp_trip_description( const time_duration &total_time,
     return entry;
 }
 
-std::string basecamp::craft_description( const std::string &itm )
+std::string basecamp::craft_description( const recipe_id &itm )
 {
-    const recipe &making = recipe_id( itm ).obj();
+    const recipe &making = itm.obj();
 
     std::vector<std::string> component_print_buffer;
     int pane = FULL_SCREEN_WIDTH;

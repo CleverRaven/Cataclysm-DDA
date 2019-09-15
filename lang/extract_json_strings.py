@@ -509,6 +509,8 @@ def extract_recipes(item):
                 writestr(outfile, arr[2])
     if "description" in item:
         writestr(outfile, item["description"])
+    if "blueprint_name" in item:
+        writestr(outfile, item["blueprint_name"])
 
 
 def extract_recipe_group(item):

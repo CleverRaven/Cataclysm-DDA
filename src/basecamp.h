@@ -12,6 +12,7 @@
 
 #include "inventory.h"
 #include "point.h"
+#include "translations.h"
 
 class JsonIn;
 class JsonOut;
@@ -72,7 +73,7 @@ struct basecamp_fuel {
 
 struct basecamp_upgrade {
     std::string bldg;
-    std::string name;
+    translation name;
     bool avail = false;
     bool in_progress = false;
 };
@@ -148,7 +149,7 @@ class basecamp
         bool distribute_food();
 
         // recipes, gathering, and craft support functions
-        std::map<std::string, std::string> recipe_deck( const std::string &dir ) const;
+        std::map<recipe_id, translation> recipe_deck( const std::string &dir ) const;
         int recipe_batch_max( const recipe &making ) const;
         void form_crafting_inventory( bool by_radio = false );
         void form_crafting_inventory( map &target_map );
@@ -189,7 +190,7 @@ class basecamp
 
         // mission description functions
         void add_available_recipes( mission_data &mission_key, const std::string &dir,
-                                    const std::map<std::string, std::string> &craft_recipes );
+                                    const std::map<recipe_id, translation> &craft_recipes );
 
         std::string recruit_description( int npc_count );
         /// Provides a "guess" for some of the things your gatherers will return with
@@ -201,7 +202,7 @@ class basecamp
                                       farm_ops operation );
         /// Returns the description of a camp crafting options. converts fire charges to charcoal,
         /// allows dark crafting
-        std::string craft_description( const std::string &itm );
+        std::string craft_description( const recipe_id &itm );
 
         // main mission description collection
         void get_available_missions( mission_data &mission_key, bool by_radio = false );

@@ -312,9 +312,9 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const std::string &d
 }
 
 // recipes and craft support functions
-std::map<std::string, std::string> basecamp::recipe_deck( const std::string &dir ) const
+std::map<recipe_id, translation> basecamp::recipe_deck( const std::string &dir ) const
 {
-    std::map<std::string, std::string> recipes = recipe_group::get_recipes_by_bldg( dir );
+    std::map<recipe_id, translation> recipes = recipe_group::get_recipes_by_bldg( dir );
     if( !recipes.empty() ) {
         return recipes;
     }
@@ -324,7 +324,7 @@ std::map<std::string, std::string> basecamp::recipe_deck( const std::string &dir
     }
     for( const auto &provides : e->second.provides ) {
         const auto &test_s = recipe_group::get_recipes_by_id( provides.first );
-        recipes.insert( test_s.begin(), test_s.end() );
+        recipes.insert( test_s.cbegin(), test_s.cend() );
     }
     return recipes;
 }
@@ -635,7 +635,8 @@ std::string basecamp::expansion_tab( const std::string &dir ) const
 
     const auto &e = expansions.find( dir );
     if( e != expansions.end() ) {
-        const auto e_type = expansion_types.find( base_camps::faction_encode_abs( e->second, 0 ) );
+        recipe_id id( base_camps::faction_encode_abs( e->second, 0 ) );
+        const auto e_type = expansion_types.find( id );
         if( e_type != expansion_types.end() ) {
             return e_type->second + _( "Expansion" );
         }
