@@ -827,7 +827,7 @@ struct itype {
         std::string looks_like;
 
         std::string snippet_category;
-        std::string description; // Flavor text
+        translation description; // Flavor text
 
         // The container it comes in
         cata::optional<itype_id> default_container;

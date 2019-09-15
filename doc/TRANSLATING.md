@@ -263,6 +263,8 @@ new syntax "name" would be a `dict`, which may break unmigrated script.
 | Mission names and descriptions
 | Recipe blueprint names
 | Recipe group recipe descriptions
+| Item descriptions
+| Recipe descriptions
 
 ### Recommendations
 
