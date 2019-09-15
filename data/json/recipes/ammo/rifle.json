@@ -132,12 +132,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ] ],
-    "components": [
-      [ [ "223_casing", 1 ] ],
-      [ [ "smrifle_primer", 1 ] ],
-      [ [ "chem_black_powder", 6 ] ],
-      [ [ "copper", 1 ] ]
-    ]
+    "components": [ [ [ "223_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 6 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_270win_jsp",
@@ -206,12 +201,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 8 ] ],
-    "components": [
-      [ [ "300_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "chem_black_powder", 24 ] ],
-      [ [ "copper", 4 ] ]
-    ]
+    "components": [ [ [ "300_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 24 ] ], [ [ "copper", 4 ] ] ]
   },
   {
     "result": "reloaded_3006",
@@ -296,12 +286,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 8 ] ],
-    "components": [
-      [ [ "3006_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "chem_black_powder", 18 ] ],
-      [ [ "copper", 4 ] ]
-    ]
+    "components": [ [ [ "3006_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 18 ] ], [ [ "copper", 4 ] ] ]
   },
   {
     "result": "bp_3006fmj",
@@ -317,12 +302,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 8 ] ],
-    "components": [
-      [ [ "3006_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "chem_black_powder", 18 ] ],
-      [ [ "copper", 4 ] ]
-    ]
+    "components": [ [ [ "3006_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 18 ] ], [ [ "copper", 4 ] ] ]
   },
   {
     "result": "bp_3006_incendiary",
@@ -693,12 +673,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ] ],
-    "components": [
-      [ [ "223_casing", 1 ] ],
-      [ [ "smrifle_primer", 1 ] ],
-      [ [ "chem_black_powder", 9 ] ],
-      [ [ "copper", 1 ] ]
-    ]
+    "components": [ [ [ "223_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 9 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "bp_556_incendiary",
