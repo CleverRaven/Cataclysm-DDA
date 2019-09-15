@@ -461,7 +461,7 @@ inline void popup_player_or_npc( player &p, const char *player_mes, const char *
     if( p.is_player() ) {
         popup( player_mes, std::forward<Args>( args )... );
     } else {
-        popup( npc_mes, p.disp_name(), std::forward<Args>( args )... );
+        popup( p.replace_with_npc_name( string_format( npc_mes, std::forward<Args>( args )... ) ) );
     }
 }
 
