@@ -662,14 +662,14 @@ void mdeath::broken( monster &z )
                 for( std::pair<std::string, mtype_special_attack> attack : z.type->special_attacks ) {
                     if( attack.second->id == "gun" ) {
                         item gun = item( dynamic_cast<const gun_actor *>( attack.second.get() )->gun_type );
-                        bool same_ammo = 0;
+                        bool same_ammo = false;
                         for( const ammotype &at : gun.ammo_types() ) {
                             if( at == item( ammo_entry.first ).ammo_type() ) {
-                                same_ammo = 1;
+                                same_ammo = true;
                                 break;
                             }
                         }
-                        bool uses_mags = gun.magazine_compatible().empty() ? 0 : 1;
+                        bool uses_mags = gun.magazine_compatible().empty() ? false : true;
                         if( same_ammo && uses_mags ) {
                             std::vector<item> mags;
                             int ammo_count = z.ammo[ammo_entry.first];
