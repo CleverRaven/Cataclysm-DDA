@@ -319,7 +319,7 @@
     "price": 6700,
     "price_postapoc": 11900,
     "rigid": false,
-    "material": [ "cotton", "kevlar" ],
+    "material": [ "cotton", "nylon" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",

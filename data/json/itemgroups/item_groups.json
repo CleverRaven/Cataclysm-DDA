@@ -425,6 +425,7 @@
       [ "clock", 10 ],
       [ "hat_chef", 2 ],
       [ "jacket_chef", 2 ],
+      [ "gloves_cut_resistant", 1 ],
       [ "kernels", 35 ],
       [ "pot", 25 ],
       [ "sponge", 30 ],
@@ -2554,7 +2555,7 @@
       [ "tinder", 1 ],
       [ "rag", 1 ],
       [ "hairpin", 1 ],
-      [ "kevlar_plate", 1 ],
+      [ "sheet_kevlar_layered", 1 ],
       [ "ceramic_armor", 1 ],
       [ "leather", 1 ],
       [ "software_hacking", 10 ],
@@ -3611,6 +3612,9 @@
       [ "sleeveless_duster", 5 ],
       [ "sleeveless_duster_leather", 5 ],
       [ "sleeveless_duster_fur", 5 ],
+      [ "apron_cut_resistant", 2 ],
+      [ "chaps_cut_resistant", 5 ],
+      [ "balaclava_cut_resistant", 5 ],
       [ "gold_watch", 15 ],
       [ "silver_watch", 20 ],
       [ "sf_watch", 7 ],
@@ -5982,7 +5986,7 @@
       [ "steel_chunk", 30 ],
       [ "spring", 50 ],
       [ "steel_lump", 30 ],
-      [ "kevlar_plate", 10 ],
+      [ "sheet_kevlar_layered", 10 ],
       [ "ceramic_armor", 15 ],
       [ "motor", 2 ],
       { "group": "ammo_heavy_batteries_full", "prob": 50 },
@@ -6010,7 +6014,7 @@
     "items": [
       [ "baton", 8 ],
       [ "tazer", 3 ],
-      [ "kevlar_plate", 10 ],
+      [ "sheet_kevlar_layered", 10 ],
       [ "ceramic_armor", 15 ],
       [ "tonfa", 10 ],
       [ "shocktonfa_off", 5 ],
@@ -6027,7 +6031,7 @@
     "id": "tripod",
     "items": [
       { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 3000 },
-      [ "kevlar_plate", 10 ],
+      [ "sheet_kevlar_layered", 10 ],
       [ "ceramic_armor", 15 ],
       [ "alloy_plate", 10 ],
       [ "robot_controls", 3 ]
@@ -6036,7 +6040,7 @@
   {
     "type": "item_group",
     "id": "chickenbot",
-    "items": [ [ "9mm", 8 ], [ "kevlar_plate", 10 ], [ "ceramic_armor", 15 ], [ "alloy_plate", 10 ], [ "robot_controls", 5 ] ]
+    "items": [ [ "9mm", 8 ], [ "rigid_kevlar_plate", 10 ], [ "ceramic_armor", 15 ], [ "alloy_plate", 10 ], [ "robot_controls", 5 ] ]
   },
   {
     "type": "item_group",
@@ -6046,7 +6050,7 @@
       { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 3000 },
       [ "556", 8 ],
       [ "alloy_plate", 10 ],
-      [ "kevlar_plate", 10 ],
+      [ "sheet_kevlar_layered", 10 ],
       [ "ceramic_armor", 10 ],
       [ "hard_plate", 30 ],
       [ "robot_controls", 5 ]
@@ -6122,7 +6126,7 @@
       [ "modularveststeel", 20 ],
       [ "modularvestsuper", 8 ],
       [ "modularvesthard", 5 ],
-      [ "kevlar_plate", 10 ],
+      [ "sheet_kevlar_layered", 10 ],
       [ "mask_gas", 10 ],
       [ "helmet_army", 40 ],
       [ "helmet_liner", 10 ],
@@ -8617,7 +8621,7 @@
       [ "sewing_kit", 1 ],
       [ "tailors_kit", 9 ],
       [ "knitting_needles", 15 ],
-      [ "kevlar_plate", 10 ],
+      [ "sheet_kevlar_layered", 10 ],
       [ "leather", 10 ],
       [ "rag", 20 ],
       [ "needle_curved", 10 ],

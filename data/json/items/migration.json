@@ -723,5 +723,10 @@
     "id": "taurus38mag",
     "type": "MIGRATION",
     "replace": "taurus_spectrum_mag"
+  },
+  {
+    "id": "kevlar_plate",
+    "type": "MIGRATION",
+    "replace": "sheet_kevlar_layered"
   }
 ]

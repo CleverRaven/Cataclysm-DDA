@@ -851,6 +851,8 @@
       [ "spork", 5 ],
       [ "foon", 5 ],
       [ "fruit_wine", 20 ],
+      [ "gloves_cut_resistant", 5 ],
+      [ "armguard_cut_resistant", 2 ],
       [ "wine_riesling", 10 ],
       [ "wine_chardonnay", 13 ],
       [ "wine_cabernet", 13 ],

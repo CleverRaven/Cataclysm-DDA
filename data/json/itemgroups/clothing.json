@@ -125,6 +125,10 @@
       { "item": "winter_jacket_army" },
       { "item": "winter_pants_army" },
       { "item": "boots_combat" },
+      {
+        "collection": [ { "distribution": [ { "item": "balclava", "prob": 90 }, { "item": "balaclava_cut_resistant", "prob": 10 } ] } ],
+        "prob": 25
+      },
       { "collection": [ { "item": "helmet_army" }, { "item": "helmet_liner" } ], "prob": 20 },
       { "collection": [ { "item": "gloves_liner" }, { "item": "winter_gloves_army" } ], "prob": 40 },
       { "item": "elbow_pads", "prob": 10 },
@@ -316,7 +320,8 @@
     "entries": [
       { "item": "gloves_leather", "prob": 30 },
       { "item": "gloves_rubber", "prob": 10 },
-      { "item": "gloves_work", "prob": 60 }
+      { "item": "gloves_work", "prob": 60 },
+      { "item": "gloves_cut_resistant", "prob": 10 }
     ]
   },
   {
@@ -394,6 +399,10 @@
       [ "mask_filter", 30 ],
       [ "glasses_safety", 30 ],
       [ "ear_plugs", 35 ],
+      [ "apron_cut_resistant", 5 ],
+      [ "gloves_cut_resistant", 10 ],
+      [ "chaps_cut_resistant", 5 ],
+      [ "armguard_cut_resistant", 5 ],
       [ "apron_leather", 10 ],
       [ "tool_belt", 30 ],
       [ "knee_pads", 20 ],
@@ -1278,6 +1287,11 @@
       [ "socks", 70 ],
       [ "sneakers", 70 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "EOD_armor",
+    "items": [ [ "armor_EOD_light", 20 ], [ "armor_EOD", 100 ], [ "boots_EOD", 30 ] ]
   },
   {
     "type": "item_group",

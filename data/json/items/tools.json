@@ -3282,20 +3282,6 @@
     }
   },
   {
-    "id": "kevlar_plate",
-    "type": "TOOL",
-    "category": "spare_parts",
-    "name": "Kevlar plate",
-    "description": "This is a plate of reinforced Kevlar.  It could be used to repair items made of Kevlar.",
-    "weight": "300 g",
-    "volume": "250 ml",
-    "price": 1000,
-    "material": "kevlar",
-    "symbol": ",",
-    "color": "green",
-    "flags": [ "NO_SALVAGE" ]
-  },
-  {
     "id": "kiln_done",
     "type": "TOOL",
     "category": "tools",
@@ -4105,7 +4091,7 @@
     "use_action": {
       "type": "repair_item",
       "item_action_type": "repair_fabric",
-      "materials": [ "cotton", "leather", "lycra", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "gutskin" ],
+      "materials": [ "cotton", "leather", "lycra", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "kevlar_layered", "gutskin" ],
       "skill": "tailor",
       "tool_quality": -1,
       "cost_scaling": 0.1,
@@ -5171,7 +5157,7 @@
     "use_action": {
       "type": "repair_item",
       "item_action_type": "repair_fabric",
-      "materials": [ "cotton", "leather", "lycra", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "gutskin" ],
+      "materials": [ "cotton", "leather", "lycra", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "kevlar_layered", "gutskin" ],
       "skill": "tailor",
       "tool_quality": 0,
       "cost_scaling": 0.1,
@@ -5727,7 +5713,20 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_fabric",
-        "materials": [ "cotton", "leather", "lycra", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin" ],
+        "materials": [
+          "cotton",
+          "leather",
+          "lycra",
+          "nylon",
+          "wool",
+          "fur",
+          "faux_fur",
+          "nomex",
+          "kevlar",
+          "kevlar_layered",
+          "neoprene",
+          "gutskin"
+        ],
         "skill": "tailor",
         "tool_quality": 1,
         "cost_scaling": 0.1,
@@ -6339,7 +6338,7 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper", "silver", "gold" ],
+        "materials": [ "kevlar", "kevlar_layered", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper", "silver", "gold" ],
         "skill": "mechanics",
         "cost_scaling": 0.1,
         "move_cost": 1000
