@@ -16,6 +16,7 @@
     "ammo": "300",
     "dispersion": 90,
     "durability": 8,
+    "min_cycle_recoil": 4770,
     "barrel_length": 2,
     "magazines": [ [ "300", [ "m2010mag" ] ] ],
     "flags": [ "NEVER_JAMS" ]
@@ -38,6 +39,7 @@
     "ammo": "300",
     "dispersion": 110,
     "durability": 8,
+    "blackpowder_tolerance": 24,
     "clip_size": 3,
     "barrel_length": 3,
     "flags": [ "RELOAD_ONE" ]
@@ -59,6 +61,7 @@
     "ammo": "300",
     "dispersion": 90,
     "durability": 8,
+    "blackpowder_tolerance": 24,
     "clip_size": 3,
     "barrel_length": 3,
     "flags": [ "RELOAD_ONE" ]

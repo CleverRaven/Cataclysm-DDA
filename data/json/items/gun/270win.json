@@ -15,6 +15,7 @@
     "ammo": "270win",
     "dispersion": 70,
     "durability": 8,
+    "blackpowder_tolerance": 24,
     "clip_size": 4,
     "barrel_length": 3,
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]

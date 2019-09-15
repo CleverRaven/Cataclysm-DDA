@@ -102,6 +102,7 @@
     "reload": 150,
     "extend": { "flags": [ "RELOAD_ONE", "NO_UNLOAD" ] },
     "//": "Slower reloads, no unloading.  Base, unskilled person should take 1.5 seconds per chamber.  No underbarrel mods, that's where the ram goes.",
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
