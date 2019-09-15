@@ -145,6 +145,7 @@
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "element", "count": [ 2, 3 ] },
+        { "item": "wire_mesh", "count": 1 },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "motor_small", "charges": 1 },
         { "item": "cu_pipe", "count": [ 1, 3 ] }

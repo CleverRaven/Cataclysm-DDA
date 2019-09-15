@@ -594,6 +594,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "wire_mesh",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "steel mesh",
+    "description": "A mat of woven fine steel wire, useful for dryer lint traps and reusable coffee filter baskets.  You could put these on a window to keep mosquitoes and other bugs out, but chainlink fencing will do these days.",
+    "category": "spare_parts",
+    "weight": "318 g",
+    "volume": "500 ml",
+    "price": 700,
+    "bashing": 2,
+    "material": "steel"
+  },
+  {
+    "type": "GENERIC",
     "id": "rebar",
     "symbol": "/",
     "color": "dark_gray",
