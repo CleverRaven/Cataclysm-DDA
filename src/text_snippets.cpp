@@ -108,7 +108,8 @@ std::string snippet_library::get( const int index ) const
     return _( chosen_snippet->second );
 }
 
-std::string snippet_library::expand( const std::string& str ) const {
+std::string snippet_library::expand( const std::string &str ) const
+{
     auto first_hash = str.find( "#" );
     if( first_hash == std::string::npos ) {
         return str;
@@ -120,7 +121,9 @@ std::string snippet_library::expand( const std::string& str ) const {
 
     auto symbol = str.substr( first_hash + 1, second_hash - first_hash - 1 );
     auto replacement = random_from_category( symbol );
-    return str.substr( 0, first_hash ) + expand( replacement ) + expand( str.substr( second_hash + 1 ) );
+    return str.substr( 0, first_hash )
+           + expand( replacement )
+           + expand( str.substr( second_hash + 1 ) );
 }
 
 std::string snippet_library::random_from_category( const std::string &cat ) const

@@ -2,10 +2,7 @@
   {
     "type": "snippet",
     "category": "music_description",
-    "text": [
-      "some #musicgenre#.",
-      "some #musicgenre#. The #musicdesc_part# is #musicdesc_evaluation#."
-    ]
+    "text": [ "some #musicgenre#.", "some #musicgenre#. The #musicdesc_part# is #musicdesc_evaluation#." ]
   },
   {
     "type": "snippet",
@@ -44,16 +41,7 @@
   {
     "type": "snippet",
     "category": "musicdesc_part",
-    "text": [
-      "bassline",
-      "melody",
-      "chorus",
-      "guitar part",
-      "drum part",
-      "violin part",
-      "horn section",
-      "intro"
-    ]
+    "text": [ "bassline", "melody", "chorus", "guitar part", "drum part", "violin part", "horn section", "intro" ]
   },
   {
     "type": "snippet",
@@ -208,17 +196,6 @@
   {
     "type": "snippet",
     "category": "musicgenre_postfix",
-    "text": [
-      "-tune",
-      "-core",
-      "-wave",
-      "-beat",
-      "-step",
-      "-pop",
-      "-hop",
-      "-drums",
-      "-style",
-      "-chant"
-    ]
+    "text": [ "-tune", "-core", "-wave", "-beat", "-step", "-pop", "-hop", "-drums", "-style", "-chant" ]
   }
 ]
