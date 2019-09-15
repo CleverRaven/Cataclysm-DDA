@@ -701,27 +701,21 @@ void faction_manager::display() const
                 active_vec_size = valfac.size();
             }
         }
-        for( int i = 1; i < FULL_SCREEN_WIDTH - 1; i++ ) {
-            mvwputch( w_missions, point( i, 2 ), BORDER_COLOR, LINE_OXOX );
-            mvwputch( w_missions, point( i, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR, LINE_OXOX );
 
-            if( i > 2 && i < FULL_SCREEN_HEIGHT - 1 ) {
-                mvwputch( w_missions, point( 30, i ), BORDER_COLOR, LINE_XOXO );
-                mvwputch( w_missions, point( FULL_SCREEN_WIDTH - 1, i ), BORDER_COLOR, LINE_XOXO );
-            }
+        for( int i = 3; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
+            mvwputch( w_missions, point( 30, i ), BORDER_COLOR, LINE_XOXO );
         }
-        draw_tab( w_missions, 7, _( "YOUR FACTION" ), tab == tab_mode::TAB_MYFACTION );
-        draw_tab( w_missions, 30, _( "YOUR FOLLOWERS" ), tab == tab_mode::TAB_FOLLOWERS );
-        draw_tab( w_missions, 56, _( "OTHER FACTIONS" ), tab == tab_mode::TAB_OTHERFACTIONS );
 
-        mvwputch( w_missions, point( 0, 2 ), BORDER_COLOR, LINE_OXXO ); // |^
-        mvwputch( w_missions, point( FULL_SCREEN_WIDTH - 1, 2 ), BORDER_COLOR, LINE_OOXX ); // ^|
+        const std::vector<std::pair<tab_mode, std::string>> tabs = {
+            { tab_mode::TAB_MYFACTION, _( "YOUR FACTION" ) },
+            { tab_mode::TAB_FOLLOWERS, _( "YOUR FOLLOWERS" ) },
+            { tab_mode::TAB_OTHERFACTIONS, _( "OTHER FACTIONS" ) },
+        };
+        draw_tabs( w_missions, tabs, tab );
+        draw_border_below_tabs( w_missions );
 
-        mvwputch( w_missions, point( 0, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR, LINE_XXOO ); // |
-        mvwputch( w_missions, point( FULL_SCREEN_WIDTH - 1, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR,
-                  LINE_XOOX ); // _|
         mvwputch( w_missions, point( 30, 2 ), BORDER_COLOR,
-                  tab == tab_mode::TAB_FOLLOWERS ? LINE_XOXX : LINE_XXXX ); // + || -|
+                  tab == tab_mode::TAB_FOLLOWERS ? ' ' : LINE_OXXX ); // ^|^
         mvwputch( w_missions, point( 30, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
         const nc_color col = c_white;
 
