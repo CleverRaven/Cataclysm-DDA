@@ -1335,7 +1335,7 @@
     "description": "A high-quality lens, useful for focusing or diffusing light.  Might be useful for starting a fire.",
     "price": 120000,
     "material": "glass",
-    "weight": "340 g",
+    "weight": "30 g",
     "volume": 0,
     "to_hit": -3,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 30000, "need_sunlight": true },
@@ -1352,7 +1352,7 @@
     "description": "A small high-quality lens, useful for focusing or diffusing light.  Might be useful for crafting.",
     "price": 6000,
     "material": "glass",
-    "weight": "170 g",
+    "weight": "15 g",
     "volume": 0
   },
   {
@@ -1366,7 +1366,7 @@
     "description": "A pair of small darkened glass, like the one that sunglasses are made of.",
     "price": 1000,
     "material": "glass",
-    "weight": "340 g",
+    "weight": "30 g",
     "volume": 0,
     "to_hit": -3
   },
