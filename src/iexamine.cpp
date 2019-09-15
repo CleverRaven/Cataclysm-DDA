@@ -894,13 +894,13 @@ void iexamine::rubble( player &p, const tripoint &examp )
  */
 void iexamine::chainfence( player &p, const tripoint &examp )
 {
-    // Skip prompt if easy to climb.
-    if( !g->m.has_flag( "CLIMB_SIMPLE", examp ) ) {
-        if( !query_yn( _( "Climb %s?" ), g->m.tername( examp ) ) ) {
-            none( p, examp );
-            return;
-        }
+    // We're not going to do anything if we're already on that point.
+    // Also prompt the player before taking an action.
+    if( p.pos() == examp || !query_yn( _( "Climb obstacle?" ) ) ) {
+        none( p, examp );
+        return;
     }
+
     if( g->m.has_flag( "CLIMB_SIMPLE", examp ) && p.has_trait( trait_PARKOUR ) ) {
         add_msg( _( "You vault over the obstacle with ease." ) );
         p.moves -= 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
