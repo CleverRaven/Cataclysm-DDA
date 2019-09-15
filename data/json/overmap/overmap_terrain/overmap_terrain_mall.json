@@ -5,7 +5,7 @@
     "name": "mall",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "RISK_HIGH", "SOURCE_OF_FOOD", "SOURCE_OF_DRINK", "SOURCE_OF_MEDICINE", "SOURCE_OF_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",
