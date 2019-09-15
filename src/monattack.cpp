@@ -5289,10 +5289,11 @@ bool mattack::zombie_fuse( monster *z )
     const mfaction_id zombo = mfaction_id( "zombie" );
     const tripoint zpos = z->pos();
     Creature *critter = nullptr;
-    for(int x = zpos.x-1; x < zpos.x+2; x++) {
-        for(int y = zpos.y-1; y < zpos.y+2; y++){
-            critter = g->critter_at( tripoint(x, y, zpos.z) );
-            if( critter != nullptr && critter->is_monster() && static_cast<monster*>( critter )->faction == zombo
+    for( int x = zpos.x - 1; x < zpos.x + 2; x++ ) {
+        for( int y = zpos.y - 1; y < zpos.y + 2; y++ ) {
+            critter = g->critter_at( tripoint( x, y, zpos.z ) );
+            if( critter != nullptr && critter->is_monster() &&
+                static_cast<monster *>( critter )->faction == zombo
                 && critter != z && critter->get_size() <= z->get_size() ) {
                 break;
             }
@@ -5300,19 +5301,20 @@ bool mattack::zombie_fuse( monster *z )
     }
 
     if( critter == nullptr ||
-        ( z->get_hp() + critter->get_hp() > z->get_hp_max() + effect_grown_of_fuse.obj().get_max_intensity()  ) )
-    {
+        ( z->get_hp() + critter->get_hp() > z->get_hp_max() +
+          effect_grown_of_fuse.obj().get_max_intensity() ) ) {
         return false;
     }
-    if( g->u.sees( *z ) ){
+    if( g->u.sees( *z ) ) {
         g->u.add_msg_if_player( _( "The %1$s fuses with the %2$s." ),
-                                       static_cast<monster*>( critter )->name(),
-                                       z->name() );
+                                static_cast<monster *>( critter )->name(),
+                                z->name() );
     }
     z->moves -= 200;
-    z->add_effect( effect_grown_of_fuse, time_duration::from_days( 10 ), num_bp, true, critter->get_hp_max() + z->get_effect( effect_grown_of_fuse ).get_intensity() );
+    z->add_effect( effect_grown_of_fuse, time_duration::from_days( 10 ), num_bp, true,
+                   critter->get_hp_max() + z->get_effect( effect_grown_of_fuse ).get_intensity() );
     z->heal( critter->get_hp(), true );
-    static_cast<monster*>( critter )->death_drops = false;
+    static_cast<monster *>( critter )->death_drops = false;
     critter->die( z );
     return true;
 }
