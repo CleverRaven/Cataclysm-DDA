@@ -11,7 +11,7 @@
     "description": "A scrap of paper.",
     "price": 0,
     "material": "paper",
-    "weight": 3,
+    "weight": "3 g",
     "volume": 0
   },
   {
@@ -27,7 +27,7 @@
     "price": 0,
     "material": "paper",
     "flags": "TRADER_AVOID",
-    "weight": 3,
+    "weight": "3 g",
     "volume": 0
   },
   {
@@ -43,7 +43,7 @@
     "price": 0,
     "material": "paper",
     "flags": "TRADER_AVOID",
-    "weight": 3,
+    "weight": "3 g",
     "volume": 0
   },
   {
@@ -59,7 +59,7 @@
     "price": 0,
     "material": "paper",
     "flags": "TRADER_AVOID",
-    "weight": 3,
+    "weight": "3 g",
     "volume": 0
   },
   {
@@ -74,7 +74,7 @@
     "description": "A single sheet of newspaper broadsheet.  It is possibly one of the last issues printed before New England was overwhelmed.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
     "price": 0,
     "material": "paper",
-    "weight": 3,
+    "weight": "3 g",
     "volume": 0
   },
   {
@@ -89,7 +89,7 @@
     "description": "A single sheet of newspaper broadsheet.  It seems to date from several years ago, and you've NO idea how it lasted this long.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
     "price": 0,
     "material": "paper",
-    "weight": 3,
+    "weight": "3 g",
     "volume": 0
   },
   {
@@ -104,7 +104,7 @@
     "description": "A single sheet of newspaper broadsheet.  It seems to date from a few years ago--amazing it has lasted this long.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
     "price": 0,
     "material": "paper",
-    "weight": 3,
+    "weight": "3 g",
     "volume": 0
   },
   {
@@ -119,7 +119,7 @@
     "description": "A single sheet of newspaper broadsheet.  It was printed more than a year ago.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
     "price": 0,
     "material": "paper",
-    "weight": 3,
+    "weight": "3 g",
     "volume": 0
   },
   {
@@ -134,7 +134,7 @@
     "description": "A single sheet of newspaper broadsheet.  It was printed in the months leading up to the Cataclysm.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
     "price": 0,
     "material": "paper",
-    "weight": 3,
+    "weight": "3 g",
     "volume": 0
   },
   {
@@ -149,7 +149,7 @@
     "description": "A single sheet of newspaper broadsheet.  It was printed in the weeks leading up to the Cataclysm.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
     "price": 0,
     "material": "paper",
-    "weight": 3,
+    "weight": "3 g",
     "volume": 0
   },
   {
@@ -164,7 +164,23 @@
     "description": "A folded glossy handout that appears to be an introduction to living in a massive underground complex.",
     "price": 0,
     "material": "paper",
-    "weight": 1,
+    "weight": "1 g",
+    "volume": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "death_note",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": "note",
+    "snippet_category": "death_note",
+    "description": "A scrap of paper.  Something's written on it, scrawled in bad handwriting.",
+    "price": 0,
+    "looks_like": "survnote",
+    "material": "paper",
+    "flags": "TRADER_AVOID",
+    "weight": "3 g",
     "volume": 0
   }
 ]

@@ -1,0 +1,224 @@
+[
+  {
+    "type": "npc",
+    "id": "robofac_merc_1",
+    "//": "Appears in the the surface of Hub 01, an external mercenary.",
+    "name_suffix": "Hub Mercenary",
+    "class": "NC_ROBOFAC_MERC_1",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ROBOFAC_MERC_1",
+    "faction": "robofac_auxiliaries"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ROBOFAC_MERC_1",
+    "name": "Hub Mercenary",
+    "job_description": "Fighting for the all-mighty dollar.",
+    "common": false,
+    "traits": [ { "trait": "TOUGH" }, { "trait": "QUICK" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 1, 3 ] },
+    "bonus_dex": { "rng": [ -1, 2 ] },
+    "bonus_int": { "rng": [ -1, 1 ] },
+    "bonus_per": { "rng": [ 0, 1 ] },
+    "worn_override": "NC_ROBOFAC_MERC_1_worn",
+    "carry_override": "NC_ROBOFAC_MERC_1_carry",
+    "weapon_override": "NC_ROBOFAC_MERC_1_wield",
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "cutting", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 3, 6 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_MERC_1_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "modularvestkevlar", "contents-group": "army_mags_m4" },
+      { "item": "chestrig", "contents-group": "army_mags_m4" },
+      { "item": "under_armor" },
+      { "item": "under_armor_shorts" },
+      { "item": "robofac_enviro_suit" },
+      { "item": "slingpack" },
+      { "item": "armguard_hard" },
+      { "item": "legguard_hard" },
+      { "item": "knife_combat", "container-item": "bootsheath" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_MERC_1_carry",
+    "subtype": "collection",
+    "items": [
+      { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+      { "item": "stanag30", "ammo-item": "556", "charges": 30 },
+      { "item": "EMPbomb" },
+      { "item": "bot_grenade_hack", "count": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_MERC_1_wield",
+    "subtype": "collection",
+    "items": [
+      { "item": "acr", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ] }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_1",
+    "type": "talk_topic",
+    "dynamic_line": [ "Something to say?", "I charge hourly, so be quick...", "Hey.", "...", "Yes?", "What's up?", "Good to see you." ],
+    "responses": [
+      {
+        "text": "Who are you?",
+        "condition": { "not": { "u_has_var": "robofac_merc_1_stay", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" } },
+        "topic": "TALK_ROBOFAC_MERC_1_WHO"
+      },
+      {
+        "text": "Good to see you around.",
+        "condition": { "u_has_var": "robofac_merc_1_stay", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+        "topic": "TALK_ROBOFAC_MERC_1_MAIN"
+      },
+      {
+        "text": "Want help with something else?",
+        "condition": { "u_has_var": "gold_mission_complete", "type": "general", "context": "robofac_merc_1", "value": "yes" },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "Never mind, I was about to leave.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_1_WHO",
+    "type": "talk_topic",
+    "dynamic_line": "Same as you.  Some nobody doing dirty work for scraps, I mean, no offense.",
+    "responses": [
+      { "text": "I guess that makes two of us.", "topic": "TALK_ROBOFAC_MERC_1_TWO_OF_US" },
+      { "text": "Well, never mind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_1_TWO_OF_US",
+    "type": "talk_topic",
+    "dynamic_line": "Good.  I could do with some company between jobs.  Feel free to stay around, if you want.",
+    "speaker_effect": {
+      "effect": { "u_add_var": "robofac_merc_1_stay", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+      "sentinel": "robofac_merc_1_stay"
+    },
+    "responses": [
+      { "text": "Alright.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" },
+      { "text": "Guess I could stay for a while", "topic": "TALK_ROBOFAC_MERC_1_MAIN" },
+      { "text": "Actually, I have some places to be right now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_1_MAIN",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Rough out there isn't it?",
+      "Well?",
+      "Good to have some company, I guess.",
+      "Have something to say?",
+      "...",
+      "Didn't you want something?",
+      "..."
+    ],
+    "responses": [
+      { "text": "Anything interesting going on?", "topic": "TALK_ROBOFAC_MERC_1_GOING_ON" },
+      {
+        "text": "Anything on your mind?",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "gold_mission_complete", "type": "general", "context": "robofac_merc_1", "value": "yes" } },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_MERC_1_GOLD" } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_MERC_1_COINS"
+      },
+      {
+        "text": "Anything on your mind?",
+        "condition": { "u_has_var": "gold_mission_complete", "type": "general", "context": "robofac_merc_1", "value": "yes" },
+        "topic": "TALK_ROBOFAC_MERC_1_RANDOM_THOUGHTS"
+      },
+      { "text": "What do you know about our employers?", "topic": "TALK_ROBOFAC_MERC_1_ASK_HUB" },
+      { "text": "Well, I should get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_1_ASK_HUB",
+    "type": "talk_topic",
+    "dynamic_line": "Not much really.  They made me track and destroy some government documents a while back, of course I gave them a read first but there wasn't much.\n\n As far as I know, this place held some experimental computer network before everything went to shit.  What's going on now is anybody's guess.",
+    "responses": [ { "text": "Well, I was hoping for more.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_1_GOING_ON",
+    "type": "talk_topic",
+    "dynamic_line": [ "Just came back from a job.  Trying to rest for a short while." ],
+    "responses": [ { "text": "...", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_1_COINS",
+    "type": "talk_topic",
+    "dynamic_line": "Have you noticed they pay us in tiny little gold coins, it's bizarre I say.  One would think they have a gold mine in there, but no, they don't, so they make me cross the damned world grabbing gold bars. ",
+    "responses": [
+      { "text": "I guess I could help with that...", "topic": "TALK_ROBOFAC_MERC_1_GOLD_MISSION" },
+      { "text": "Now that you mention it, it does seem rather strange.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_1_RANDOM_THOUGHTS",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Thinking I should go hunt something soon...",
+      "Wondering if things will get better someday...",
+      "Hmm? Nothing, I guess I just like resting in this place.",
+      "Have you ever noticed how... wait no, never mind.",
+      "I heard some strange dimensional resonance caused all this, do you think it has happened to other places?",
+      "You noticed this place has working WI-FI?  Well not the rest of the net works anyways."
+    ],
+    "responses": [ { "text": "...", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_1_GOLD_MISSION",
+    "type": "talk_topic",
+    "dynamic_line": "I can offer you the whole of my payment for every bar or equivalent you bring.  But keep silent about this, it's supposed to be my job.",
+    "responses": [
+      { "text": "We have a deal then.", "effect": { "add_mission": "MISSION_ROBOFAC_MERC_1_GOLD" }, "topic": "TALK_DONE" },
+      { "text": "Actually, I don't think I have time for that, sorry.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_MERC_1_GOLD",
+    "type": "mission_definition",
+    "name": "Retrieve chunks of gold",
+    "description": "Find 200 units of gold.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "followup": "MISSION_ROBOFAC_MERC_1_GOLD",
+    "value": 50000,
+    "item": "gold_small",
+    "count": 200,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "I could do with some help...",
+      "offer": "I'm still supposed to scavenge for gold, I can offer you the same deal as last time.",
+      "accepted": "Wonderful.",
+      "rejected": "Well I'll look for the gold myself.",
+      "advice": "Try searching banks and security vans.",
+      "inquire": "You got that gold yet?",
+      "success": "I appreciate it, here's your pay.",
+      "success_lie": "Yeah, sure.",
+      "failure": "Well I'll have to scavenge the gold myself, thanks for nothing."
+    },
+    "end": {
+      "opinion": { "trust": 1, "value": 1 },
+      "effect": [
+        { "u_buy_item": "RobofacCoin", "count": 8 },
+        { "u_add_var": "gold_mission_complete", "type": "general", "context": "robofac_merc_1", "value": "yes" }
+      ]
+    }
+  }
+]

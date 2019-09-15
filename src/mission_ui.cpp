@@ -123,10 +123,21 @@ void game::list_missions()
             y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, col,
                                  miss->name() + for_npc );
 
+            auto format_tokenized_description = []( const std::string description,
+            const std::vector<std::pair<int, std::string>> rewards ) {
+                std::string formatted_description = description;
+                for( const auto &reward : rewards ) {
+                    std::string token = "<reward_count:" + reward.second + ">";
+                    formatted_description = string_replace( formatted_description, token, string_format( "%d",
+                                                            reward.first ) );
+                }
+                return formatted_description;
+            };
+
             y++;
             if( !miss->get_description().empty() ) {
                 y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, c_white,
-                                     miss->get_description() );
+                                     format_tokenized_description( miss->get_description(), miss->get_likely_rewards() ) );
             }
             if( miss->has_deadline() ) {
                 const time_point deadline = miss->get_deadline();
@@ -157,11 +168,11 @@ void game::list_missions()
             }
         } else {
             static const std::map< tab_mode, std::string > nope = {
-                { tab_mode::TAB_ACTIVE, _( "You have no active missions!" ) },
-                { tab_mode::TAB_COMPLETED, _( "You haven't completed any missions!" ) },
-                { tab_mode::TAB_FAILED, _( "You haven't failed any missions!" ) }
+                { tab_mode::TAB_ACTIVE, translate_marker( "You have no active missions!" ) },
+                { tab_mode::TAB_COMPLETED, translate_marker( "You haven't completed any missions!" ) },
+                { tab_mode::TAB_FAILED, translate_marker( "You haven't failed any missions!" ) }
             };
-            mvwprintz( w_missions, point( 31, 4 ), c_light_red, nope.at( tab ) );
+            mvwprintz( w_missions, point( 31, 4 ), c_light_red, _( nope.at( tab ) ) );
         }
 
         wrefresh( w_missions );

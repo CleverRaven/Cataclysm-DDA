@@ -2,10 +2,10 @@
 #ifndef CATA_TUPLE_HASH_H
 #define CATA_TUPLE_HASH_H
 
-// Support for tuple and pair hashing.
+#include <functional>
+
+// Support for hashing standard types.
 // This is taken almost directly from the boost library code.
-// Function has to live in the std namespace
-// so that it is picked up by argument-dependent name lookup (ADL).
 namespace cata
 {
 
@@ -15,10 +15,10 @@ namespace cata
 // See Mike Seymour in magic-numbers-in-boosthash-combine:
 //     http://stackoverflow.com/questions/4948780
 
-template <class T>
-inline void hash_combine( std::size_t &seed, const T &v )
+template <class T, typename Hash = std::hash<T>>
+inline void hash_combine( std::size_t &seed, const T &v, const Hash &hash = std::hash<T>() )
 {
-    seed ^= std::hash<T>()( v ) + 0x9e3779b9 + ( seed << 6 ) + ( seed >> 2 );
+    seed ^= hash( v ) + 0x9e3779b9 + ( seed << 6 ) + ( seed >> 2 );
 }
 
 namespace tuple_hash_detail
@@ -56,6 +56,32 @@ struct tuple_hash {
         std::size_t seed = 0;
         hash_combine( seed, v.first );
         hash_combine( seed, v.second );
+        return seed;
+    }
+};
+
+// auto_hash will use std::hash for most types but tuple_hash for pair or
+// tuple.
+template<typename T>
+struct auto_hash : std::hash<T> {};
+
+template<typename T, typename U>
+struct auto_hash<std::pair<T, U>> : tuple_hash {};
+
+template<typename... T>
+struct auto_hash<std::tuple<T...>> : tuple_hash {};
+
+struct range_hash {
+    template<typename Range>
+    std::size_t operator()( const Range &range ) const noexcept {
+        using value_type = typename Range::value_type;
+        using hash_type = auto_hash<value_type>;
+        hash_type hash;
+
+        std::size_t seed = range.size();
+        for( const auto &value : range ) {
+            hash_combine( seed, value, hash );
+        }
         return seed;
     }
 };

@@ -68,8 +68,7 @@ class main_menu
         int sel2 = 1;
         int sel3 = 1;
         int layer = 1;
-        int LAST_TERMX = 0;
-        int LAST_TERMY = 0;
+        point LAST_TERM;
         catacurses::window w_open;
         catacurses::window w_background;
         point menu_offset;

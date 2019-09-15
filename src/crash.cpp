@@ -52,7 +52,7 @@ extern "C" {
     static struct {
         alignas( SYMBOL_INFO ) char storage[SYM_SIZE];
     } sym_storage;
-    static SYMBOL_INFO *const sym = ( SYMBOL_INFO * ) &sym_storage;
+    static SYMBOL_INFO *const sym = reinterpret_cast<SYMBOL_INFO *>( &sym_storage );
 
     // compose message ourselves to avoid potential dynamical allocation.
     static void append_str( FILE *file, char **beg, char *end, const char *from )
@@ -134,17 +134,18 @@ extern "C" {
         for( USHORT i = 0; i < num_bt; ++i ) {
             DWORD64 off;
             append_str( file, &beg, end, "    " );
-            if( SymFromAddr( proc, ( DWORD64 ) bt[i], &off, sym ) ) {
+            if( SymFromAddr( proc, reinterpret_cast<DWORD64>( bt[i] ), &off, sym ) ) {
                 append_str( file, &beg, end, sym->Name );
                 append_str( file, &beg, end, "+0x" );
                 append_uint( file, &beg, end, off );
             }
             append_str( file, &beg, end, "@0x" );
             append_ptr( file, &beg, end, bt[i] );
-            DWORD64 mod_base = SymGetModuleBase64( proc, ( DWORD64 ) bt[i] );
+            DWORD64 mod_base = SymGetModuleBase64( proc, reinterpret_cast<DWORD64>( bt[i] ) );
             if( mod_base ) {
                 append_ch( file, &beg, end, '[' );
-                DWORD mod_len = GetModuleFileName( ( HMODULE ) mod_base, mod_path, MODULE_PATH_LEN );
+                DWORD mod_len = GetModuleFileName( reinterpret_cast<HMODULE>( mod_base ), mod_path,
+                                                   MODULE_PATH_LEN );
                 // mod_len == MODULE_NAME_LEN means insufficient buffer
                 if( mod_len > 0 && mod_len < MODULE_PATH_LEN ) {
                     const char *mod_name = mod_path + mod_len;
@@ -156,7 +157,7 @@ extern "C" {
                     append_uint( file, &beg, end, mod_base );
                 }
                 append_str( file, &beg, end, "+0x" );
-                append_uint( file, &beg, end, ( uintptr_t ) bt[i] - mod_base );
+                append_uint( file, &beg, end, reinterpret_cast<uintptr_t>( bt[i] ) - mod_base );
                 append_ch( file, &beg, end, ']' );
             }
             append_ch( file, &beg, end, '\n' );

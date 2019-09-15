@@ -111,15 +111,6 @@ static bool operator>( const ExpressionComponent &l, const ExpressionComponent &
     return r < l;
 }
 
-static bool isPointType( const CXXRecordDecl *R )
-{
-    if( !R ) {
-        return false;
-    }
-    StringRef name = R->getName();
-    return name == "point" || name == "tripoint";
-}
-
 static std::vector<ExpressionComponent> handleMultiply(
     const Expr *LhsE, const Expr *RhsE,
     std::vector<ExpressionComponent> LhsC, std::vector<ExpressionComponent> RhsC )

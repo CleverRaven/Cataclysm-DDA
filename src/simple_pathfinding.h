@@ -53,7 +53,7 @@ path find_path( const point &source,
     static constexpr point d[4] = { point_north, point_east, point_south, point_west };
 
     const auto inbounds = [ max_x, max_y ]( const point & p ) {
-        return p.x >= 0 && p.x < max_x && p.y >= 0 && p.y <= max_y;
+        return p.x >= 0 && p.x < max_x && p.y >= 0 && p.y < max_y;
     };
 
     const auto map_index = [ max_x ]( const point & p ) {
@@ -119,7 +119,7 @@ path find_path( const point &source,
             // don't allow:
             // * out of bounds
             // * already traversed tiles
-            if( p.x < 1 || p.x + 1 >= max_x || p.y < 1 || p.y + 1 >= max_y || closed[n] ) {
+            if( !inbounds( p ) || closed[n] ) {
                 continue;
             }
 

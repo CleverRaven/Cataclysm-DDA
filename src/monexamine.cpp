@@ -21,6 +21,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
+#include "npc.h"
 #include "output.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -135,9 +136,7 @@ bool monexamine::pet_menu( monster &z )
         amenu.addentry( remove_saddle, false, 'h', _( "You don't know how to saddle %s" ), pet_name );
     }
     if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
-        if( z.has_flag( MF_PET_MOUNTABLE ) && ( ( z.has_effect( effect_saddled ) &&
-                                                g->u.get_skill_level( skill_survival ) >= 1 ) || g->u.get_skill_level( skill_survival ) >= 4 ) &&
-            z.get_size() >= ( g->u.get_size() + 1 ) && g->u.get_weight() <= z.get_weight() / 5 ) {
+        if( z.has_flag( MF_PET_MOUNTABLE ) && g->u.can_mount( z ) ) {
             amenu.addentry( mount, true, 'r', _( "Mount %s" ), pet_name );
         } else if( !z.has_flag( MF_PET_MOUNTABLE ) ) {
             amenu.addentry( mount, false, 'r', _( "%s cannot be mounted" ), pet_name );
@@ -326,48 +325,24 @@ void monexamine::attach_or_remove_saddle( monster &z )
     }
 }
 
+bool player::can_mount( const monster &critter ) const
+{
+    const auto &avoid = get_path_avoid();
+    auto route = g->m.route( pos(), critter.pos(), get_pathfinding_settings(), avoid );
+
+    if( route.empty() ) {
+        return false;
+    }
+    return ( critter.has_flag( MF_PET_MOUNTABLE ) && critter.friendly == -1 &&
+             !critter.has_effect( effect_controlled ) && !critter.has_effect( effect_ridden ) ) &&
+           ( ( critter.has_effect( effect_saddled ) && get_skill_level( skill_survival ) >= 1 ) ||
+             get_skill_level( skill_survival ) >= 4 ) && ( critter.get_size() >= ( get_size() + 1 ) &&
+                     get_weight() <= critter.get_weight() / 5 );
+}
+
 void monexamine::mount_pet( monster &z )
 {
-    g->u.add_effect( effect_riding, 1_turns, num_bp, true );
-    z.add_effect( effect_ridden, 1_turns, num_bp, true );
-    if( z.has_effect( effect_tied ) ) {
-        z.remove_effect( effect_tied );
-        if( z.tied_item ) {
-            g->u.i_add( *z.tied_item );
-            z.tied_item = cata::nullopt;
-        }
-    }
-    if( z.has_effect( effect_harnessed ) ) {
-        z.remove_effect( effect_harnessed );
-        add_msg( m_info, _( "You remove the %s's harness." ), z.get_name() );
-    }
-    tripoint pnt = z.pos();
-    auto mons = g->critter_tracker->find( pnt );
-    if( mons == nullptr ) {
-        add_msg( m_debug, "mount_pet() : monster not found in critter_tracker" );
-        return;
-    }
-    g->u.mounted_creature = mons;
-    if( g->u.is_hauling() ) {
-        g->u.stop_hauling();
-    }
-    if( g->u.get_grab_type() != OBJECT_NONE ) {
-        add_msg( m_warning, _( "You let go of the grabbed object." ) );
-        g->u.grab( OBJECT_NONE );
-    }
-    g->place_player( pnt );
-    z.facing = g->u.facing;
-    add_msg( m_good, _( "You climb on the %s." ), z.get_name() );
-    if( z.has_flag( MF_RIDEABLE_MECH ) ) {
-        if( !z.type->mech_weapon.empty() ) {
-            item mechwep = item( z.type->mech_weapon );
-            g->u.wield( mechwep );
-        }
-        add_msg( m_good, _( "You hear your %s whir to life." ), z.get_name() );
-    }
-    // some rideable mechs have night-vision
-    g->u.recalc_sight_limits();
-    g->u.mod_moves( -100 );
+    g->u.mount_creature( z );
 }
 
 void monexamine::swap( monster &z )

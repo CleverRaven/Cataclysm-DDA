@@ -141,9 +141,16 @@ bool damage_instance::operator==( const damage_instance &other ) const
 
 void damage_instance::deserialize( JsonIn &jsin )
 {
-    JsonObject jo( jsin );
     // TODO: Clean up
-    damage_units = load_damage_instance( jo ).damage_units;
+    if( jsin.test_object() ) {
+        JsonObject jo = jsin.get_object();
+        damage_units = load_damage_instance( jo ).damage_units;
+    } else if( jsin.test_array() ) {
+        JsonArray ja = jsin.get_array();
+        damage_units = load_damage_instance( ja ).damage_units;
+    } else {
+        jsin.error( "Expected object or array for damage_instance" );
+    }
 }
 
 dealt_damage_instance::dealt_damage_instance()

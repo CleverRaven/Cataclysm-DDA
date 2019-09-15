@@ -380,7 +380,7 @@ void character_edit_menu()
     }
     const size_t index = charmenu.ret;
     // The NPC is also required for "Add mission", so has to be in this scope
-    npc *np = g->critter_at<npc>( locations[index] );
+    npc *np = g->critter_at<npc>( locations[index], false );
     player &p = np ? static_cast<player &>( *np ) : static_cast<player &>( g->u );
     uilist nmenu;
 
@@ -389,8 +389,8 @@ void character_edit_menu()
         data << np->name << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
         data << np->myclass.obj().get_name() << "; " <<
              npc_attitude_name( np->get_attitude() ) << "; " <<
-             ( np->my_fac ? np->my_fac->name : _( "no faction" ) ) << "; " <<
-             ( np->my_fac ? np->my_fac->currency : _( "no currency" ) ) << "; " <<
+             ( np->get_faction() ? np->get_faction()->name : _( "no faction" ) ) << "; " <<
+             ( np->get_faction() ? np->get_faction()->currency : _( "no currency" ) ) << "; " <<
              "api: " << np->get_faction_ver() << std::endl;
         if( np->has_destination() ) {
             data << string_format( _( "Destination: %d:%d:%d (%s)" ),
@@ -811,23 +811,22 @@ void character_edit_menu()
     }
 }
 
-static const std::string &mission_status_string( mission::mission_status status )
+static std::string mission_status_string( mission::mission_status status )
 {
     static const std::map<mission::mission_status, std::string> desc{ {
-            { mission::mission_status::yet_to_start, _( "Yet to start" ) },
-            { mission::mission_status::in_progress, _( "In progress" ) },
-            { mission::mission_status::success, _( "Success" ) },
-            { mission::mission_status::failure, _( "Failure" ) }
+            { mission::mission_status::yet_to_start, translate_marker( "Yet to start" ) },
+            { mission::mission_status::in_progress, translate_marker( "In progress" ) },
+            { mission::mission_status::success, translate_marker( "Success" ) },
+            { mission::mission_status::failure, translate_marker( "Failure" ) }
         }
     };
 
     const auto &iter = desc.find( status );
     if( iter != desc.end() ) {
-        return iter->second;
+        return _( iter->second );
     }
 
-    static const std::string errmsg = _( "Bugged" );
-    return errmsg;
+    return _( "Bugged" );
 }
 
 std::string mission_debug::describe( const mission &m )
@@ -1063,7 +1062,7 @@ void debug()
             temp->mission = NPC_MISSION_NULL;
             temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->global_omt_location(),
                                    temp->getID() ) );
-            temp->set_fac( faction_id( "wasteland_scavengers" ) );
+            temp->set_fac( faction_id( "no_faction" ) );
             g->load_npcs();
         }
         break;

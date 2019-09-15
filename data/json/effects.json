@@ -1372,6 +1372,15 @@
   },
   {
     "type": "effect_type",
+    "id": "grabbing",
+    "name": [ "Grabbing" ],
+    "desc": [ "Grabbing another creature and holding them in place." ],
+    "max_duration": "2 s",
+    "max_intensity": 15,
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "lack_sleep",
     "name": [ "Lacking Sleep" ],
     "desc": [ "You haven't slept in a while, and it shows." ],

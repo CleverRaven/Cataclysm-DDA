@@ -91,7 +91,8 @@
       { "item": "l_bak_223", "prob": 80, "charges-min": 0, "charges-max": 5 },
       { "item": "rm99_pistol", "prob": 150, "charges-min": 0, "charges-max": 5 },
       { "item": "tokarev", "prob": 100, "charges-min": 0, "charges-max": 8 },
-      { "item": "walther_ppk", "prob": 100, "charges-min": 0, "charges-max": 8 }
+      { "item": "walther_ppk", "prob": 100, "charges-min": 0, "charges-max": 8 },
+      { "item": "colt_saa", "prob": 150, "charges-min": 0, "charges-max": 6 }
     ]
   },
   {
@@ -361,7 +362,7 @@
     "items": [
       [ "LAW_Packed", 200 ],
       [ "m202_flash", 100 ],
-      [ "m235tpa", 150 ],
+      [ "m74_clip", 150 ],
       [ "m3_carlgustav", 50 ],
       [ "AT4", 50 ],
       [ "84x246mm_he", 100 ],

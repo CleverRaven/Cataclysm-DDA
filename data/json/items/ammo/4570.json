@@ -4,9 +4,10 @@
     "type": "AMMO",
     "name": ".45-70 SP",
     "description": ".45-70 Government ammunition loaded with a 305 grain soft point round.  One of the oldest cartridges still in use, it is still a favorite for large game hunting at short ranges.",
-    "weight": 35,
+    "weight": "35 g",
     "volume": "250 ml",
-    "price": 4000,
+    "price": 125,
+    "price_postapoc": 4000,
     "material": [ "brass", "powder" ],
     "symbol": "+",
     "color": "green",
@@ -27,7 +28,8 @@
     "type": "AMMO",
     "name": ".45-70 +P penetrator",
     "description": ".45-70 Government +P ammunition loaded with a 305 grain solid copper penetrator projectile.  Designed for maximum penetration through thick hide and bone while maintaining ideal wounding characteristics.",
-    "price": 5000,
+    "price": 175,
+    "price_postapoc": 5000,
     "count": 10,
     "relative": { "range": 2, "damage": 4, "pierce": 7, "recoil": 300 }
   },
@@ -37,7 +39,8 @@
     "type": "AMMO",
     "name": ".45-70 LFN cowboy",
     "description": ".45-70 Government ammunition loaded with a 405 grain lead flat nose bullet to original specifications for safe use in antique firearms.  Quite a bit less powerful than modern ammo, but still packs a punch.",
-    "price": 3500,
+    "price": 250,
+    "price_postapoc": 3500,
     "relative": { "range": -8, "damage": -14, "pierce": -2, "recoil": -900 }
   },
   {

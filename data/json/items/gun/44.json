@@ -6,7 +6,7 @@
     "name": "Desert Eagle .44",
     "name_plural": "Desert Eagle .44",
     "description": "One of the most recognizable handguns due to its popularity in movies and video games, the Desert Eagle is better known for its menacing appearance than its performance.  It's a large pistol, but its heavy weight reduces recoil.",
-    "weight": 1800,
+    "weight": "1800 g",
     "volume": "750 ml",
     "price": 87500,
     "to_hit": -2,
@@ -19,6 +19,7 @@
     "ranged_damage": -1,
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 1413,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -32,6 +33,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "44", [ "deaglemag" ] ] ]
   },
@@ -42,7 +44,7 @@
     "name": "Henry Big Boy .44",
     "name_plural": "Henry Big Boy .44",
     "description": "This fine lever action rifle is chambered in the powerful .44 magnum cartridge and features a sleek octagonal barrel with a tube fed magazine.  Go get 'em cowboy!",
-    "weight": 3937,
+    "weight": "3937 g",
     "volume": "3 L",
     "price": 89995,
     "to_hit": -1,
@@ -53,6 +55,7 @@
     "ranged_damage": 2,
     "dispersion": 180,
     "durability": 8,
+    "blackpowder_tolerance": 32,
     "clip_size": 10,
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -70,45 +73,13 @@
     ]
   },
   {
-    "id": "lemat_revolver",
-    "copy-from": "pistol_revolver",
-    "type": "GUN",
-    "name": "LeMat revolver",
-    "//": "Could only find barrel figures for the Baby LeMat; this is a best-guess estimate.",
-    "description": "A modernized version of the original LeMat revolver, a rare and expensive firearm produced during the civil war.  With a capacity of 9 modern .44 cartridges and a single 12 gauge shell, it makes a great companion for those who wander the \"Earth-that-was\".",
-    "weight": 1295,
-    "volume": "750 ml",
-    "price": 86100,
-    "bashing": 4,
-    "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "ammo": "44",
-    "ranged_damage": -1,
-    "dispersion": 360,
-    "durability": 8,
-    "clip_size": 9,
-    "built_in_mods": [ "lemat_revolver_shotgun" ],
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ]
-  },
-  {
     "id": "rifle_44",
     "copy-from": "gun_base",
     "type": "GUN",
     "name": "pipe rifle: .44 Magnum",
     "name_plural": "pipe rifles: .44 Magnum",
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
-    "weight": 2114,
+    "weight": "2114 g",
     "volume": "2 L",
     "price": 10000,
     "to_hit": -1,
@@ -120,6 +91,7 @@
     "ranged_damage": 1,
     "dispersion": 550,
     "durability": 6,
+    "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
@@ -134,6 +106,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "flags": [ "RELOAD_EJECT" ]
   },
   {
@@ -143,7 +116,7 @@
     "name": "Ruger Redhawk",
     "name_plural": "Ruger Redhawk",
     "description": "One of the most powerful handguns in the world when it was released in 1979, the Redhawk offers very sturdy construction, with an appearance that is reminiscent of \"Wild West\" revolvers.",
-    "weight": 1386,
+    "weight": "1386 g",
     "volume": "750 ml",
     "price": 86100,
     "to_hit": -2,
@@ -154,6 +127,7 @@
     "ammo": "44",
     "dispersion": 280,
     "durability": 8,
+    "blackpowder_tolerance": 56,
     "clip_size": 6,
     "magazines": [ [ "44", [ "44_speedloader6" ] ] ],
     "valid_mod_locations": [
@@ -175,7 +149,7 @@
     "name": "S&W 629",
     "name_plural": "S&W 629",
     "description": "A stainless steel, six-shot, double-action revolver with a matte black plastic handle manufactured by Smith & Wesson.  Though hardly the most powerful handgun in the world any more, it could still blow a zombie's head clean off.",
-    "weight": 1276,
+    "weight": "1276 g",
     "volume": "750 ml",
     "price": 86100,
     "bashing": 10,
@@ -186,6 +160,7 @@
     "ranged_damage": -1,
     "dispersion": 280,
     "durability": 8,
+    "blackpowder_tolerance": 56,
     "clip_size": 6,
     "magazines": [ [ "44", [ "44_speedloader6" ] ] ],
     "valid_mod_locations": [

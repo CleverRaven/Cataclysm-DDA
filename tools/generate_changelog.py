@@ -125,7 +125,7 @@ class SummaryType:
 class CDDAPullRequest(PullRequest):
     """A Pull Request with logic specific to CDDA Repository and their "Summary" descriptions"""
 
-    SUMMARY_REGEX = r'(?i:SUMMARY):\s+(?P<pr_type>\w+)\s*(?:"(?P<pr_desc>.+)")?'
+    SUMMARY_REGEX = re.compile( r'^`*(?i:SUMMARY):\s+(?P<pr_type>\w+)\s*(?:"(?P<pr_desc>.+)")?', re.MULTILINE )
 
     VALID_SUMMARY_CATEGORIES = (
         'Content',
@@ -844,7 +844,7 @@ def validate_file_for_writing(filepath):
 
 
 def main_entry(argv):
-    parser = argparse.ArgumentParser(description='Generates Changelog from now until the specified date')
+    parser = argparse.ArgumentParser(description='''Generates Changelog from now until the specified data.\ngenerate_changelog.py -D changelog_2019_03 -t ../repo_token -f -e 2019-04-01 2019-03-01''', formatter_class=argparse.RawDescriptionHelpFormatter)
 
     parser.add_argument(
         'target_date',

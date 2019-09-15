@@ -5,6 +5,7 @@
 #include <array>
 
 #include "options.h"
+#include "output.h"
 #include "wcwidth.h"
 
 #if defined(_WIN32)
@@ -140,25 +141,16 @@ std::string utf32_to_utf8( uint32_t ch )
 //CJK characters have a width of 2, etc
 int utf8_width( const char *s, const bool ignore_tags )
 {
+    if( ignore_tags ) {
+        return utf8_width( remove_color_tags( s ) );
+    }
     int len = strlen( s );
     const char *ptr = s;
     int w = 0;
-    bool inside_tag = false;
     while( len > 0 ) {
         uint32_t ch = UTF8_getch( &ptr, &len );
         if( ch == UNKNOWN_UNICODE ) {
             continue;
-        }
-        if( ignore_tags ) {
-            if( ch == '<' ) {
-                inside_tag = true;
-            } else if( ch == '>' ) {
-                inside_tag = false;
-                continue;
-            }
-            if( inside_tag ) {
-                continue;
-            }
         }
         w += mk_wcwidth( ch );
     }

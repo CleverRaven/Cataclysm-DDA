@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+#include "clone_ptr.h"
 #include "units.h"
 
 class item;
@@ -140,6 +141,7 @@ class iuse
         int hand_crank( player *, item *, bool, const tripoint & );
         int vortex( player *, item *, bool, const tripoint & );
         int dog_whistle( player *, item *, bool, const tripoint & );
+        int call_of_tindalos( player *, item *, bool, const tripoint & );
         int blood_draw( player *, item *, bool, const tripoint & );
         int mind_splicer( player *, item *, bool, const tripoint & );
         static void cut_log_into_planks( player & );
@@ -252,7 +254,6 @@ using use_function_pointer = int ( iuse::* )( player *, item *, bool, const trip
 
 class iuse_actor
 {
-
     protected:
         iuse_actor( const std::string &type, int cost = -1 ) : type( type ), cost( cost ) {}
 
@@ -275,14 +276,14 @@ class iuse_actor
          * Returns a deep copy of this object. Example implementation:
          * \code
          * class my_iuse_actor {
-         *     iuse_actor *clone() const override {
-         *         return new my_iuse_actor( *this );
+         *     std::unique_ptr<iuse_actor> clone() const override {
+         *         return std::make_unique<my_iuse_actor>( *this );
          *     }
          * };
          * \endcode
          * The returned value should behave like the original item and must have the same type.
          */
-        virtual iuse_actor *clone() const = 0;
+        virtual std::unique_ptr<iuse_actor> clone() const = 0;
         /**
          * Returns whether the actor is valid (exists in the generator).
          */
@@ -299,21 +300,21 @@ class iuse_actor
 
 struct use_function {
     protected:
-        std::unique_ptr<iuse_actor> actor;
+        cata::clone_ptr<iuse_actor> actor;
 
     public:
         use_function() = default;
         use_function( const std::string &type, use_function_pointer f );
-        use_function( iuse_actor *f ) : actor( f ) {}
-        use_function( use_function && ) = default;
-        use_function( const use_function &other );
-
-        ~use_function() = default;
+        use_function( std::unique_ptr<iuse_actor> f ) : actor( std::move( f ) ) {}
 
         int call( player &, item &, bool, const tripoint & ) const;
-        ret_val<bool> can_call( const player &p, const item &it, bool t, const tripoint &pos ) const;
+        ret_val<bool> can_call( const player &, const item &, bool t, const tripoint &pos ) const;
 
-        iuse_actor *get_actor_ptr() const {
+        iuse_actor *get_actor_ptr() {
+            return actor.get();
+        }
+
+        const iuse_actor *get_actor_ptr() const {
             return actor.get();
         }
 
@@ -327,10 +328,6 @@ struct use_function {
         std::string get_name() const;
         /** @return Used by @ref item::info to get description of the actor */
         void dump_info( const item &, std::vector<iteminfo> & ) const;
-
-        use_function &operator=( iuse_actor *f );
-        use_function &operator=( use_function && ) = default;
-        use_function &operator=( const use_function &other );
 };
 
 #endif

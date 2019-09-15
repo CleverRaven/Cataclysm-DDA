@@ -126,7 +126,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_EDDIE2",
-    "dynamic_line": "Barry and Carlos went to hunt down something that killed our livestock, they tracked it into the forest.  It tore Barry apart, Carlos might be willing to tell you the story, he survived it.",
+    "dynamic_line": "Barry and Carlos went to hunt down something that killed our livestock, they tracked it into the forest.  It grabbed Barry and ran off, Carlos might be willing to tell you the story, he managed to allude it.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -200,6 +200,7 @@
     "item": "rock",
     "count": 120,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_ISHERWOOD_EDDIE_2",
     "dialogue": {
       "describe": "We need to build some kilns.",
@@ -247,6 +248,7 @@
       "effect": [ { "u_buy_item": "butter", "count": 6 }, { "u_buy_item": "milk", "container": "jar_3l_glass_sealed", "count": 12 } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "I do have some resource gathering I could use help with.",
       "offer": "Now that the forge is set up, we could use 2000 units of sand to get production going.",
@@ -278,6 +280,7 @@
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "I do have some resource gathering I could use help if you have time.",
       "offer": "Now that the clay kiln is set up, we could use 1000 units of clay to get production going.",

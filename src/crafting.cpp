@@ -60,7 +60,6 @@
 #include "type_id.h"
 #include "clzones.h"
 #include "colony.h"
-#include "faction.h"
 #include "flat_set.h"
 #include "iuse.h"
 #include "point.h"
@@ -540,7 +539,7 @@ const inventory &player::crafting_inventory( const tripoint &src_pos, int radius
         && cached_position == inv_pos ) {
         return cached_crafting_inventory;
     }
-    cached_crafting_inventory.form_from_map( inv_pos, radius, false );
+    cached_crafting_inventory.form_from_map( inv_pos, radius, this, false, true );
     cached_crafting_inventory += inv;
     cached_crafting_inventory += weapon;
     cached_crafting_inventory += worn;
@@ -624,14 +623,14 @@ static void set_item_food( item &newit )
     newit.set_birthday( newit.birthday() + 3600_turns - time_duration::from_turns( bday_tmp ) );
 }
 
-static void finalize_crafted_item( item &newit )
+static void finalize_crafted_item( item &newit, faction *maker_fac )
 {
     if( newit.is_food() ) {
         set_item_food( newit );
     }
     // TODO for now this assumes player is doing the crafting
     // this will need to be updated when NPCs do crafting
-    newit.set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
+    newit.set_owner( maker_fac );
 }
 
 static cata::optional<item_location> wield_craft( player &p, item &craft )
@@ -1164,7 +1163,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
             }
         }
 
-        finalize_crafted_item( newit );
+        finalize_crafted_item( newit, get_faction() );
         if( newit.made_of( LIQUID ) ) {
             liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
         } else if( loc == tripoint_zero ) {
@@ -1188,7 +1187,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
                     bp.reset_temp_check();
                 }
             }
-            finalize_crafted_item( bp );
+            finalize_crafted_item( bp, get_faction() );
             if( bp.made_of( LIQUID ) ) {
                 liquid_handler::handle_all_liquid( bp, PICKUP_RANGE );
             } else if( loc == tripoint_zero ) {
@@ -1236,7 +1235,7 @@ bool player::can_continue_craft( item &craft )
         }
 
         inventory map_inv;
-        map_inv.form_from_map( pos(), PICKUP_RANGE );
+        map_inv.form_from_map( pos(), PICKUP_RANGE, this );
 
         std::vector<comp_selection<item_comp>> item_selections;
         for( const auto &it : continue_reqs.get_components() ) {
@@ -1286,7 +1285,7 @@ bool player::can_continue_craft( item &craft )
         }
 
         inventory map_inv;
-        map_inv.form_from_map( pos(), PICKUP_RANGE );
+        map_inv.form_from_map( pos(), PICKUP_RANGE, this );
 
         std::vector<comp_selection<tool_comp>> new_tool_selections;
         for( const std::vector<tool_comp> &alternatives : tool_reqs ) {
@@ -1549,7 +1548,7 @@ std::list<item> player::consume_items( const std::vector<item_comp> &components,
                                        const std::function<bool( const item & )> &filter )
 {
     inventory map_inv;
-    map_inv.form_from_map( pos(), PICKUP_RANGE );
+    map_inv.form_from_map( pos(), PICKUP_RANGE, this );
     return consume_items( select_item_component( components, batch, map_inv, false, filter ), batch,
                           filter );
 }
@@ -1691,7 +1690,7 @@ bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft 
                 craft.get_cached_tool_selections();
 
     inventory map_inv;
-    map_inv.form_from_map( pos(), PICKUP_RANGE );
+    map_inv.form_from_map( pos(), PICKUP_RANGE, this );
 
     for( const comp_selection<tool_comp> &tool_sel : cached_tool_selections ) {
         itype_id type = tool_sel.comp.type;
@@ -1775,7 +1774,7 @@ void player::consume_tools( const std::vector<tool_comp> &tools, int batch,
                             const std::string &hotkeys )
 {
     inventory map_inv;
-    map_inv.form_from_map( pos(), PICKUP_RANGE );
+    map_inv.form_from_map( pos(), PICKUP_RANGE, this );
     consume_tools( select_tool_component( tools, batch, map_inv, hotkeys ), batch );
 }
 
