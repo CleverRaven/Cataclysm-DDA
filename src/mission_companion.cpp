@@ -389,7 +389,8 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
     catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, maxx, point( part_x, part_y ) );
 
     size_t sel = 0;
-    int offset = 0;
+    int name_offset = 0;
+    size_t folded_names_lines = 0;
     bool redraw = true;
 
     // The following are for managing the right pane scrollbar.
@@ -398,6 +399,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
     size_t info_width = maxx - 1 - MAX_FAC_NAME_SIZE;
     size_t end_line = 0;
     nc_color col = c_white;
+    std::vector<std::string> name_text;
     std::vector<std::string> mission_text;
 
     catacurses::window w_info = catacurses::newwin( info_height, info_width,
@@ -451,27 +453,42 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             mvwprintz( w_list, point( 1, 1 ), c_white, name_mission_tabs( omt_pos, role_id, title,
                        tab_mode ) );
 
-            calcStartPos( offset, sel, info_height, cur_key_list.size() );
+            std::vector<std::vector<std::string>> folded_names;
+            for( const auto &cur_key_entry : cur_key_list ) {
+                std::vector<std::string> f_name = foldstring( cur_key_entry.name_display, part_x + 5, ' ' );
+                folded_names_lines += f_name.size();
+                folded_names.emplace_back( f_name );
+            }
 
-            for( size_t i = 0; i < info_height && ( i + offset ) < cur_key_list.size(); i++ ) {
-                size_t  current = i + offset;
+            calcStartPos( name_offset, sel, info_height, folded_names_lines );
+
+            size_t list_line = 2;
+            for( size_t current = name_offset; list_line < info_height &&
+                 current < cur_key_list.size(); current++ ) {
                 nc_color col = ( current == sel ? h_white : c_white );
                 //highlight important missions
                 for( const auto &k : mission_key.entries[0] ) {
                     if( cur_key_list[current].id == k.id ) {
                         col = ( current == sel ? h_white : c_yellow );
+                        break;
                     }
                 }
                 //dull uncraftable items
                 for( const auto &k : mission_key.entries[10] ) {
                     if( cur_key_list[current].id == k.id ) {
                         col = ( current == sel ? h_white : c_dark_gray );
+                        break;
                     }
                 }
-                mvwprintz( w_list, point( 1, i + 2 ), col, "  %s", cur_key_list[current].name_display );
+                std::vector<std::string> &name_text = folded_names[current];
+                for( size_t name_line = 0; name_line < name_text.size(); name_line++ ) {
+                    print_colored_text( w_list, point( name_line ? 5 : 1, list_line ),
+                                        col, col, name_text[name_line] );
+                    list_line += 1;
+                }
             }
 
-            draw_scrollbar( w_list, sel, info_height + 1, cur_key_list.size(), point_south );
+            draw_scrollbar( w_list, sel, info_height + 1, folded_names_lines, point_south );
             wrefresh( w_list );
             werase( w_info );
 
@@ -537,7 +554,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         } else if( action == "NEXT_TAB" && role_id == "FACTION_CAMP" ) {
             redraw = true;
             sel = 0;
-            offset = 0;
+            name_offset = 0;
             info_offset = 0;
 
             do {
@@ -552,7 +569,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         } else if( action == "PREV_TAB" && role_id == "FACTION_CAMP" ) {
             redraw = true;
             sel = 0;
-            offset = 0;
+            name_offset = 0;
             info_offset = 0;
 
             do {
