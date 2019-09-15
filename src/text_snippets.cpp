@@ -101,11 +101,26 @@ int snippet_library::assign( const std::string &category, const unsigned seed ) 
 
 std::string snippet_library::get( const int index ) const
 {
-    const std::map<int, std::string>::const_iterator chosen_snippet = snippets.find( index );
+    const auto chosen_snippet = snippets.find( index );
     if( chosen_snippet == snippets.end() ) {
         return null_string;
     }
     return _( chosen_snippet->second );
+}
+
+std::string snippet_library::expand( const std::string& str ) const {
+    auto first_hash = str.find( "#" );
+    if( first_hash == std::string::npos ) {
+        return str;
+    }
+    auto second_hash = str.find( "#", first_hash + 1 );
+    if( second_hash == std::string::npos ) {
+        return str;
+    }
+
+    auto symbol = str.substr( first_hash + 1, second_hash - first_hash - 1 );
+    auto replacement = random_from_category( symbol );
+    return str.substr( 0, first_hash ) + expand( replacement ) + expand( str.substr( second_hash + 1 ) );
 }
 
 std::string snippet_library::random_from_category( const std::string &cat ) const
@@ -119,7 +134,7 @@ std::string snippet_library::random_from_category( const std::string &cat ) cons
     const int index = rng( 0, count - 1 );
     auto iter = iters.first;
     std::advance( iter, index );
-    return get( iter->second );
+    return expand( get( iter->second ) );
 }
 
 std::vector<int> snippet_library::all_ids_from_category( const std::string &cat ) const
