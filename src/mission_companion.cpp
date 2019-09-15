@@ -471,25 +471,34 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
                 mvwprintz( w_list, point( 1, i + 2 ), col, "  %s", cur_key_list[current].name_display );
             }
 
-            draw_scrollbar( w_list, sel, info_height + 1, cur_key_list.size(), point_south );
+            if( cur_key_list.size() > info_height + 1 ) {
+                scrollbar()
+                .offset_x( 0 )
+                .offset_y( 1 )
+                .content_size( cur_key_list.size() )
+                .viewport_pos( sel )
+                .viewport_size( info_height + 1 )
+                .apply( w_list );
+            }
             wrefresh( w_list );
             werase( w_info );
 
             // Fold mission text, store it for scrolling
             mission_text = foldstring( mission_key.cur_key.text, info_width - 2, ' ' );
-            if( info_offset > mission_text.size() - info_height ) {
+            if( info_height >= mission_text.size() ) {
+                info_offset = 0;
+            } else if( info_offset + info_height > mission_text.size() ) {
                 info_offset = mission_text.size() - info_height;
             }
-            if( mission_text.size() < info_height ) {
-                info_offset = 0;
+            if( mission_text.size() > info_height ) {
+                scrollbar()
+                .offset_x( info_width - 1 )
+                .offset_y( 0 )
+                .content_size( mission_text.size() )
+                .viewport_pos( info_offset )
+                .viewport_size( info_height )
+                .apply( w_info );
             }
-            scrollbar()
-            .offset_x( info_width - 1 )
-            .offset_y( 0 )
-            .content_size( mission_text.size() )
-            .viewport_pos( info_offset )
-            .viewport_size( info_height )
-            .apply( w_info );
             end_line = std::min( info_height, mission_text.size() - info_offset );
 
             // Display the current subset of the mission text.
