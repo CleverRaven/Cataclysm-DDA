@@ -878,6 +878,20 @@
     "color": "dark_gray"
   },
   {
+    "id": "sieve_primitive",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "wicker sieve",
+    "description": "This is a primitive sieve constructed from woven strips of plant material.  Early sieves like this were used to sift grain, though the openings on this one are too small for that.",
+    "weight": 50,
+    "volume": "500 ml",
+    "price": 300,
+    "bashing": 1,
+    "material": [ "paper" ],
+    "symbol": ";",
+    "color": "light_gray"
+  },
+  {
     "id": "carding_paddles",
     "type": "GENERIC",
     "category": "tools",
