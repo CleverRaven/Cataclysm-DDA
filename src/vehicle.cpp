@@ -76,6 +76,7 @@ static const fault_id fault_filter_air( "fault_engine_filter_air" );
 static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
+static bool is_sm_tile_over_water( const tripoint &real_global_pos );
 
 const skill_id skill_mechanics( "mechanics" );
 const efftype_id effect_harnessed( "harnessed" );
@@ -4254,6 +4255,54 @@ int vehicle::total_solar_epower_w() const
     return epower_w * intensity;
 }
 
+int vehicle::total_wind_epower_w() const
+{
+    const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( global_pos3() ) );
+    const w_point weatherPoint = *g->weather.weather_precise;
+    int epower_w = 0;
+    for( int part : wind_turbines ) {
+        if( parts[ part ].is_unavailable() ) {
+            continue;
+        }
+
+        if( !is_sm_tile_outside( g->m.getabs( global_part_pos3( part ) ) ) ) {
+            continue;
+        }
+
+        double windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, global_part_pos3( part ),
+                                                g->weather.winddirection, false );
+        if( windpower <= ( g->weather.windspeed / 10.0 ) ) {
+            continue;
+        }
+        epower_w += part_epower_w( part ) * windpower;
+    }
+    return epower_w;
+}
+
+int vehicle::total_water_wheel_epower_w() const
+{
+    int epower_w = 0;
+    for( int part : water_wheels ) {
+        if( parts[ part ].is_unavailable() ) {
+            continue;
+        }
+
+        if( !is_sm_tile_over_water( g->m.getabs( global_part_pos3( part ) ) ) ) {
+            continue;
+        }
+
+        epower_w += part_epower_w( part );
+    }
+    // TODO: river current intensity changes power - flat for now.
+    return epower_w;
+}
+
+int vehicle::net_battery_charge_rate_w() const
+{
+    return total_engine_epower_w() + total_alternator_epower_w() + total_accessory_epower_w() +
+           total_solar_epower_w() + total_wind_epower_w() + total_water_wheel_epower_w();
+}
+
 int vehicle::max_reactor_epower_w() const
 {
     int epower_w = 0;
@@ -5915,25 +5964,9 @@ void vehicle::update_time( const time_point &update_to )
         }
     }
     if( !wind_turbines.empty() ) {
-        const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( global_pos3() ) );
-        const w_point weatherPoint = *g->weather.weather_precise;
-        int epower_w = 0;
-        for( int part : wind_turbines ) {
-            if( parts[ part ].is_unavailable() ) {
-                continue;
-            }
-
-            if( !is_sm_tile_outside( g->m.getabs( global_part_pos3( part ) ) ) ) {
-                continue;
-            }
-
-            double windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, global_part_pos3( part ),
-                                                    g->weather.winddirection, false );
-            if( windpower <= ( g->weather.windspeed / 10.0 ) ) {
-                continue;
-            }
-            epower_w += part_epower_w( part ) * windpower;
-        }
+        // TODO: use accum_weather wind data to backfill wind turbine
+        // generation capacity.
+        int epower_w = total_wind_epower_w();
         int energy_bat = power_to_energy_bat( epower_w, elapsed );
         if( energy_bat > 0 ) {
             add_msg( m_debug, "%s got %d kJ energy from wind turbines", name, energy_bat );
@@ -5941,19 +5974,7 @@ void vehicle::update_time( const time_point &update_to )
         }
     }
     if( !water_wheels.empty() ) {
-        int epower_w = 0;
-        for( int part : water_wheels ) {
-            if( parts[ part ].is_unavailable() ) {
-                continue;
-            }
-
-            if( !is_sm_tile_over_water( g->m.getabs( global_part_pos3( part ) ) ) ) {
-                continue;
-            }
-
-            epower_w += part_epower_w( part );
-        }
-        // TODO: river current intensity changes power - flat for now.
+        int epower_w = total_water_wheel_epower_w();
         int energy_bat = power_to_energy_bat( epower_w, elapsed );
         if( energy_bat > 0 ) {
             add_msg( m_debug, "%s got %d kJ energy from water wheels", name, energy_bat );
