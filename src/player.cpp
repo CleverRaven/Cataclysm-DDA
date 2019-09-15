@@ -6573,6 +6573,15 @@ void player::process_active_items()
             active_held_items.push_back( index );
         }
     }
+    // Necessary for UPS in Aftershock - check worn items for charge
+    for( const item &it : worn ) {
+        itype_id identifier = it.type->get_id();
+        if( identifier == "UPS_off" ) {
+            ch_UPS += it.ammo_remaining();
+        } else if( identifier == "adv_UPS_off" ) {
+            ch_UPS += it.ammo_remaining() / 0.6;
+        }
+    }
     if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
         ch_UPS += power_level;
     }
