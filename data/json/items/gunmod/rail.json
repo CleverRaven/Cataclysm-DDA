@@ -34,6 +34,7 @@
     "weight": "60 g",
     "volume": "250 ml",
     "integral_volume": 0,
+    "integral_weight": 0,
     "price": 72000,
     "material": [ "steel" ],
     "symbol": ":",
