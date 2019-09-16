@@ -1032,6 +1032,37 @@
   },
   {
     "type": "technique",
+    "id": "tec_muay_thai_elbow",
+    "name": "Elbow Strike",
+    "messages": [ "You elbow %s", "<npcname> elbows %s" ],
+    "min_unarmed": 1,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "mult_bonuses": [ [ "movecost", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_muay_thai_kick",
+    "name": "Power Kick",
+    "messages": [ "You power-kick %s", "<npcname> power-kicks %s" ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.3 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_muay_thai_knee",
+    "name": "Flying Knee",
+    "messages": [ "You flying knee %s", "<npcname> flying knees %s" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.4 ] ]
+  },
+  {
+    "type": "technique",
     "id": "tec_pankration_kick",
     "name": "kick",
     "min_unarmed": 3,
@@ -1118,35 +1149,6 @@
     "crit_tec": true,
     "stun_dur": 2,
     "messages": [ "You strike %s", "<npcname> strikes %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_muay_thai_elbow",
-    "name": "elbow",
-    "min_unarmed": 2,
-    "unarmed_allowed": true,
-    "crit_tec": true,
-    "messages": [ "You elbow %s", "<npcname> elbows %s" ],
-    "mult_bonuses": [ [ "movecost", 0.5 ] ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_muay_thai_kick",
-    "name": "kick",
-    "min_unarmed": 3,
-    "unarmed_allowed": true,
-    "messages": [ "You power-kick %s", "<npcname> power-kicks %s" ],
-    "stun_dur": 1
-  },
-  {
-    "type": "technique",
-    "id": "tec_muay_thai_knee",
-    "name": "flying knee",
-    "min_unarmed": 4,
-    "unarmed_allowed": true,
-    "crit_tec": true,
-    "messages": [ "You flying knee %s", "<npcname> flying knees %s" ],
-    "stun_dur": 2
   },
   {
     "type": "technique",
