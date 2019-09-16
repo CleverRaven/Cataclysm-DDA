@@ -432,37 +432,33 @@ void computer::activate_function( computer_action action )
 
         case COMPACT_SAMPLE:
             g->u.moves -= 30;
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( point( x, y ) ) == t_sewage_pump ) {
-                        for( int x1 = x - 1; x1 <= x + 1; x1++ ) {
-                            for( int y1 = y - 1; y1 <= y + 1; y1++ ) {
-                                if( g->m.furn( point( x1, y1 ) ) == f_counter ) {
-                                    bool found_item = false;
-                                    item sewage( "sewage", calendar::turn );
-                                    auto candidates = g->m.i_at( point( x1, y1 ) );
-                                    for( auto &candidate : candidates ) {
-                                        int capa = candidate.get_remaining_capacity_for_liquid( sewage );
-                                        if( capa <= 0 ) {
-                                            continue;
-                                        }
-                                        item &elem = candidate;
-                                        capa = std::min( sewage.charges, capa );
-                                        if( elem.contents.empty() ) {
-                                            elem.put_in( sewage );
-                                            elem.contents.front().charges = capa;
-                                        } else {
-                                            elem.contents.front().charges += capa;
-                                        }
-                                        found_item = true;
-                                        break;
-                                    }
-                                    if( !found_item ) {
-                                        g->m.add_item_or_charges( point( x1, y1 ), sewage );
-                                    }
-                                }
-                            }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                if( g->m.ter( p ) != t_sewage_pump ) {
+                    continue;
+                }
+                for( const tripoint &n : g->m.points_in_radius( p, 1 ) ) {
+                    if( g->m.furn( n ) != f_counter ) {
+                        continue;
+                    }
+                    bool found_item = false;
+                    item sewage( "sewage", calendar::turn );
+                    for( item &elem : g->m.i_at( n ) ) {
+                        int capa = elem.get_remaining_capacity_for_liquid( sewage );
+                        if( capa <= 0 ) {
+                            continue;
                         }
+                        capa = std::min( sewage.charges, capa );
+                        if( elem.contents.empty() ) {
+                            elem.put_in( sewage );
+                            elem.contents.front().charges = capa;
+                        } else {
+                            elem.contents.front().charges += capa;
+                        }
+                        found_item = true;
+                        break;
+                    }
+                    if( !found_item ) {
+                        g->m.add_item_or_charges( n, sewage );
                     }
                 }
             }
@@ -489,17 +485,16 @@ void computer::activate_function( computer_action action )
 
         case COMPACT_TERMINATE:
             g->events().send<event_type::terminates_subspace_specimens>();
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    tripoint p( x, y, g->u.posz() );
-                    monster *const mon = g->critter_at<monster>( p );
-                    if( mon &&
-                        ( ( g->m.ter( point( x, y - 1 ) ) == t_reinforced_glass &&
-                            g->m.ter( point( x, y + 1 ) ) == t_concrete_wall ) ||
-                          ( g->m.ter( point( x, y + 1 ) ) == t_reinforced_glass &&
-                            g->m.ter( point( x, y - 1 ) ) == t_concrete_wall ) ) ) {
-                        mon->die( &g->u );
-                    }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                monster *const mon = g->critter_at<monster>( p );
+                if( !mon ) {
+                    continue;
+                }
+                if( ( g->m.ter( p + tripoint_north ) == t_reinforced_glass &&
+                      g->m.ter( p + tripoint_south ) == t_concrete_wall ) ||
+                    ( g->m.ter( p + tripoint_south ) == t_reinforced_glass &&
+                      g->m.ter( p + tripoint_north ) == t_concrete_wall ) ) {
+                    mon->die( &g->u );
                 }
             }
             query_any( _( "Subjects terminated.  Press any key..." ) );
@@ -507,28 +502,18 @@ void computer::activate_function( computer_action action )
 
         case COMPACT_PORTAL: {
             g->events().send<event_type::opens_portal>();
-            tripoint tmp = g->u.pos();
-            int &i = tmp.x;
-            int &j = tmp.y;
-            for( i = 0; i < MAPSIZE_X; i++ ) {
-                for( j = 0; j < MAPSIZE_Y; j++ ) {
-                    int numtowers = 0;
-                    tripoint tmp2 = tmp;
-                    int &xt = tmp2.x;
-                    int &yt = tmp2.y;
-                    for( xt = i - 2; xt <= i + 2; xt++ ) {
-                        for( yt = j - 2; yt <= j + 2; yt++ ) {
-                            if( g->m.ter( tmp2 ) == t_radio_tower ) {
-                                numtowers++;
-                            }
-                        }
+            for( const tripoint &tmp : g->m.points_on_zlevel() ) {
+                int numtowers = 0;
+                for( const tripoint &tmp2 : g->m.points_in_radius( tmp, 2 ) ) {
+                    if( g->m.ter( tmp2 ) == t_radio_tower ) {
+                        numtowers++;
                     }
-                    if( numtowers >= 4 ) {
-                        if( g->m.tr_at( tmp ).id == trap_str_id( "tr_portal" ) ) {
-                            g->m.remove_trap( tmp );
-                        } else {
-                            g->m.trap_set( tmp, tr_portal );
-                        }
+                }
+                if( numtowers >= 4 ) {
+                    if( g->m.tr_at( tmp ).id == trap_str_id( "tr_portal" ) ) {
+                        g->m.remove_trap( tmp );
+                    } else {
+                        g->m.trap_set( tmp, tr_portal );
                     }
                 }
             }
@@ -719,15 +704,13 @@ void computer::activate_function( computer_action action )
             g->u.moves -= 30;
             std::vector<std::string> names;
             int more = 0;
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    for( auto &elem : g->m.i_at( point( x, y ) ) ) {
-                        if( elem.is_bionic() ) {
-                            if( static_cast<int>( names.size() ) < TERMY - 8 ) {
-                                names.push_back( elem.tname() );
-                            } else {
-                                more++;
-                            }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                for( item &elem : g->m.i_at( p ) ) {
+                    if( elem.is_bionic() ) {
+                        if( static_cast<int>( names.size() ) < TERMY - 8 ) {
+                            names.push_back( elem.tname() );
+                        } else {
+                            more++;
                         }
                     }
                 }
@@ -752,11 +735,9 @@ void computer::activate_function( computer_action action )
         break;
 
         case COMPACT_ELEVATOR_ON:
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( point( x, y ) ) == t_elevator_control_off ) {
-                        g->m.ter_set( point( x, y ), t_elevator_control );
-                    }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                if( g->m.ter( p ) == t_elevator_control_off ) {
+                    g->m.ter_set( p, t_elevator_control );
                 }
             }
             query_any( _( "Elevator activated.  Press any key..." ) );
@@ -1055,24 +1036,20 @@ void computer::activate_function( computer_action action )
             print_line( _( "Backup Generator Power Failing" ) );
             print_line( _( "Evacuate Immediately" ) );
             add_msg( m_warning, _( "Evacuate Immediately!" ) );
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    tripoint p( x, y, g->get_levz() );
-                    if( g->m.ter( point( x, y ) ) == t_elevator || g->m.ter( point( x, y ) ) == t_vat ) {
-                        g->m.make_rubble( p, f_rubble_rock, true );
-                        explosion_handler::explosion( p, 40, 0.7, true );
-                    }
-                    if( g->m.ter( point( x, y ) ) == t_wall_glass ) {
-                        g->m.make_rubble( p, f_rubble_rock, true );
-                    }
-                    if( g->m.ter( point( x, y ) ) == t_sewage_pipe || g->m.ter( point( x, y ) ) == t_sewage ||
-                        g->m.ter( point( x, y ) ) == t_grate ) {
-                        g->m.make_rubble( p, f_rubble_rock, true );
-                    }
-                    if( g->m.ter( point( x, y ) ) == t_sewage_pump ) {
-                        g->m.make_rubble( p, f_rubble_rock, true );
-                        explosion_handler::explosion( p, 50, 0.7, true );
-                    }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                if( g->m.ter( p ) == t_elevator || g->m.ter( p ) == t_vat ) {
+                    g->m.make_rubble( p, f_rubble_rock, true );
+                    explosion_handler::explosion( p, 40, 0.7, true );
+                }
+                if( g->m.ter( p ) == t_wall_glass ) {
+                    g->m.make_rubble( p, f_rubble_rock, true );
+                }
+                if( g->m.ter( p ) == t_sewage_pipe || g->m.ter( p ) == t_sewage || g->m.ter( p ) == t_grate ) {
+                    g->m.make_rubble( p, f_rubble_rock, true );
+                }
+                if( g->m.ter( p ) == t_sewage_pump ) {
+                    g->m.make_rubble( p, f_rubble_rock, true );
+                    explosion_handler::explosion( p, 50, 0.7, true );
                 }
             }
             options.clear(); // Disable the terminal.
@@ -1087,12 +1064,9 @@ void computer::activate_function( computer_action action )
                 reset_terminal();
                 print_line(
                     _( "\nPower:         Backup Only\nRadiation Level:  Very Dangerous\nOperational:   Overridden\n\n" ) );
-                for( int x = 0; x < MAPSIZE_X; x++ ) {
-                    for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                        if( g->m.ter( point( x, y ) ) == t_elevator_control_off ) {
-                            g->m.ter_set( point( x, y ), t_elevator_control );
-
-                        }
+                for( const tripoint &p : g->m.points_on_zlevel() ) {
+                    if( g->m.ter( p ) == t_elevator_control_off ) {
+                        g->m.ter_set( p, t_elevator_control );
                     }
                 }
             }
@@ -1359,12 +1333,10 @@ void computer::activate_failure( computer_failure_type fail )
             if( found_tile ) {
                 break;
             }
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.has_flag( "CONSOLE", point( x, y ) ) ) {
-                        g->m.ter_set( point( x, y ), t_console_broken );
-                        add_msg( m_bad, _( "The console shuts down." ) );
-                    }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                if( g->m.has_flag( "CONSOLE", p ) ) {
+                    g->m.ter_set( p, t_console_broken );
+                    add_msg( m_bad, _( "The console shuts down." ) );
                 }
             }
             break;
@@ -1427,47 +1399,39 @@ void computer::activate_failure( computer_failure_type fail )
 
         case COMPFAIL_PUMP_EXPLODE:
             add_msg( m_warning, _( "The pump explodes!" ) );
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( point( x, y ) ) == t_sewage_pump ) {
-                        tripoint p( x, y, g->get_levz() );
-                        g->m.make_rubble( p );
-                        explosion_handler::explosion( p, 10 );
-                    }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                if( g->m.ter( p ) == t_sewage_pump ) {
+                    g->m.make_rubble( p );
+                    explosion_handler::explosion( p, 10 );
                 }
             }
             break;
 
         case COMPFAIL_PUMP_LEAK:
             add_msg( m_warning, _( "Sewage leaks!" ) );
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( point( x, y ) ) == t_sewage_pump ) {
-                        point p( x, y );
-                        int leak_size = rng( 4, 10 );
-                        for( int i = 0; i < leak_size; i++ ) {
-                            std::vector<point> next_move;
-                            if( g->m.passable( p + point_north ) ) {
-                                next_move.push_back( p + point_north );
-                            }
-                            if( g->m.passable( p + point_east ) ) {
-                                next_move.push_back( p + point_east );
-                            }
-                            if( g->m.passable( p + point_south ) ) {
-                                next_move.push_back( p + point_south );
-                            }
-                            if( g->m.passable( p + point_west ) ) {
-                                next_move.push_back( p + point_west );
-                            }
-
-                            if( next_move.empty() ) {
-                                i = leak_size;
-                            } else {
-                                p = random_entry( next_move );
-                                g->m.ter_set( p, t_sewage );
-                            }
-                        }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                if( g->m.ter( p ) != t_sewage_pump ) {
+                    continue;
+                }
+                const int leak_size = rng( 4, 10 );
+                for( int i = 0; i < leak_size; i++ ) {
+                    std::vector<tripoint> next_move;
+                    if( g->m.passable( p + point_north ) ) {
+                        next_move.push_back( p + point_north );
                     }
+                    if( g->m.passable( p + point_east ) ) {
+                        next_move.push_back( p + point_east );
+                    }
+                    if( g->m.passable( p + point_south ) ) {
+                        next_move.push_back( p + point_south );
+                    }
+                    if( g->m.passable( p + point_west ) ) {
+                        next_move.push_back( p + point_west );
+                    }
+                    if( next_move.empty() ) {
+                        break;
+                    }
+                    g->m.ter_set( random_entry( next_move ), t_sewage );
                 }
             }
             break;

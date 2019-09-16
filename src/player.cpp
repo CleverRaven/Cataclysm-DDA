@@ -11529,13 +11529,18 @@ void player::place_corpse( const tripoint &om_target )
     bay.load( tripoint( om_target.x * 2, om_target.y * 2, om_target.z ), false );
     int finX = rng( 1, SEEX * 2 - 2 );
     int finY = rng( 1, SEEX * 2 - 2 );
+    // This makes no sense at all. It may find a random tile without furniture, but
+    // if the first try to find one fails, it will go through all tiles of the map
+    // and essentially select the last one that has no furniture.
+    // Q: Why check for furniture? (Check for passable or can-place-items seems more useful.)
+    // Q: Why not grep a random point out of all the possible points (e.g. via random_entry)?
+    // Q: Why use furn_str_id instead of f_null?
+    // @todo fix it, see above.
     if( bay.furn( point( finX, finY ) ) != furn_str_id( "f_null" ) ) {
-        for( int x = 0; x < SEEX * 2 - 1; x++ ) {
-            for( int y = 0; y < SEEY * 2 - 1; y++ ) {
-                if( bay.furn( point( x, y ) ) == furn_str_id( "f_null" ) ) {
-                    finX = x;
-                    finY = y;
-                }
+        for( const tripoint &p : bay.points_on_zlevel() ) {
+            if( bay.furn( p ) == furn_str_id( "f_null" ) ) {
+                finX = p.x;
+                finY = p.y;
             }
         }
     }

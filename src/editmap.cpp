@@ -1685,11 +1685,8 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             hilights["mapgentgt"].draw( *this, true );
             g->draw_panels();
             tmpmap.reset_vehicle_cache( target.z );
-            for( int x = 0; x < SEEX * 2; x++ ) {
-                for( int y = 0; y < SEEY * 2; y++ ) {
-                    tmpmap.drawsq( w_preview, g->u, tripoint( x, y, target.z ),
-                                   false, true, tripoint( SEEX, SEEY, target.z ), false, true );
-                }
+            for( const tripoint &p : tmpmap.points_on_zlevel() ) {
+                tmpmap.drawsq( w_preview, g->u, p, false, true, tripoint( SEEX, SEEY, target.z ), false, true );
             }
             wrefresh( w_preview );
         }

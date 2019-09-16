@@ -10721,15 +10721,12 @@ void game::update_stair_monsters()
         coming_to_stairs.clear();
     }
 
-    for( int x = 0; x < MAPSIZE_X; x++ ) {
-        for( int y = 0; y < MAPSIZE_Y; y++ ) {
-            tripoint dest( x, y, u.posz() );
-            if( ( from_below && m.has_flag( "GOES_DOWN", dest ) ) ||
-                ( !from_below && m.has_flag( "GOES_UP", dest ) ) ) {
-                stairx.push_back( x );
-                stairy.push_back( y );
-                stairdist.push_back( rl_dist( dest, u.pos() ) );
-            }
+    for( const tripoint &dest : m.points_on_zlevel( u.posz() ) ) {
+        if( ( from_below && m.has_flag( "GOES_DOWN", dest ) ) ||
+            ( !from_below && m.has_flag( "GOES_UP", dest ) ) ) {
+            stairx.push_back( dest.x );
+            stairy.push_back( dest.y );
+            stairdist.push_back( rl_dist( dest, u.pos() ) );
         }
     }
     if( stairdist.empty() ) {
