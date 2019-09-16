@@ -70,10 +70,10 @@
     "price": 1400,
     "to_hit": -3,
     "use_action": {
-      "type": "transform", 
-      "msg": "You push your %s up your head.", 
-      "target": "welding_mask_raised", 
-      "menu_text": "Raise" 
+      "type": "transform",
+      "msg": "You push your %s up your head.",
+      "target": "welding_mask_raised",
+      "menu_text": "Raise"
     },
     "material": [ "plastic" ],
     "symbol": "[",
