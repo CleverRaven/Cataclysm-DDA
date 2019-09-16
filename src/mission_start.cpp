@@ -712,7 +712,7 @@ void mission_start::reveal_lab_train_depot( mission *miss )
 
     tinymap compmap;
     compmap.load( tripoint( place.x * 2, place.y * 2, place.z ), false );
-    tripoint comppoint;
+    cata::optional<tripoint> comppoint;
 
     for( tripoint point : compmap.points_in_rectangle(
              tripoint( 0, 0, place.z ), tripoint( SEEX * 2 - 1, SEEY * 2 - 1, place.z ) ) ) {
@@ -722,12 +722,12 @@ void mission_start::reveal_lab_train_depot( mission *miss )
         }
     }
 
-    if( comppoint == tripoint() ) {
+    if( !comppoint ) {
         debugmsg( "Could not find a computer in the lab train depot, mission will fail." );
         return;
     }
 
-    computer *tmpcomp = compmap.computer_at( comppoint );
+    computer *tmpcomp = compmap.computer_at( *comppoint );
     tmpcomp->mission_id = miss->uid;
     tmpcomp->add_option( _( "Download Routing Software" ), COMPACT_DOWNLOAD_SOFTWARE, 0 );
 
