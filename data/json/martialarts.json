@@ -758,6 +758,38 @@
   },
   {
     "type": "martial_art",
+    "id": "style_muay_thai",
+    "name": "Muay Thai",
+    "description": "Also referred to as the \"Art of 8 Limbs,\" Muay Thai is a popular fighting technique from Thailand that uses powerful strikes.  Your strength decreases blocked damage.  Blocking attacks or getting hit will increase your damage and blocked damage further.",
+    "initiate": [ "You ready yourself to trade blows with your enemies.", "%s prepares to trade blows." ],
+    "learn_difficulty": 5,
+    "arm_block": 2,
+    "leg_block": 4,
+    "static_buffs": [
+      {
+        "id": "buff_muay_thai_static",
+        "name": "Muay Thai Stance",
+        "description": "Strength is everything in Muay Thai and you know how to make the most of yours.\n\nBlocked damage decreased by 50%% of Strength.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "block", "str", 0.5 ] ]
+      }
+    ],
+    "ongethit_buffs": [
+      {
+        "id": "buff_muay_thai_ongethit",
+        "name": "Determination",
+        "description": "Taking a hit will not slow you down.  You will outlast your opponent and win this fight.\n\n+Bash damage increased by 25%% of Strength, blocked damage decreased by 50%% of Strength.\nLasts 5 turns.",
+        "min_unarmed": 3,
+        "unarmed_allowed": true,
+        "buff_duration": 5,
+        "flat_bonuses": [ [ "damage", "bash", "str", 0.25 ], [ "block", "str", 0.5 ] ]
+      }
+    ],
+    "techniques": [ "tec_muay_thai_elbow", "tec_muay_thai_kick", "tec_muay_thai_knee" ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_tai_chi",
     "name": "Tai Chi",
     "description": "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
@@ -778,27 +810,6 @@
       }
     ],
     "techniques": [ "tec_taichi_disarm", "tec_taichi_precise" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_muay_thai",
-    "name": "Muay Thai",
-    "description": "Also referred to as the \"Art of 8 Limbs,\" Muay Thai is a popular fighting technique from Thailand that uses powerful strikes.  Your strikes are more powerful with high strength and weaker with low strength, and can momentarily disorient enemies.  As this style focuses on using legs and elbow strikes rather than punches, it does not benefit from using any weapons.",
-    "initiate": [ "You ready yourself to trade blows with your enemies.", "%s prepares to trade blows." ],
-    "learn_difficulty": 5,
-    "arm_block": 3,
-    "leg_block": 4,
-    "force_unarmed": true,
-    "static_buffs": [
-      {
-        "id": "muay_thai_static",
-        "name": "Muay Thai",
-        "unarmed_allowed": true,
-        "flat_bonuses": [ [ "damage", "bash", -5.0 ], [ "damage", "bash", "str", 0.5 ] ],
-        "description": "Attacks scale better with strength."
-      }
-    ],
-    "techniques": [ "tec_muay_thai_elbow", "tec_muay_thai_kick", "tec_muay_thai_knee" ]
   },
   {
     "type": "martial_art",
