@@ -5286,17 +5286,12 @@ bool mattack::stretch_attack( monster *z )
 
 bool mattack::zombie_fuse( monster *z )
 {
-    const mfaction_id zombo = mfaction_id( "zombie" );
-    const tripoint zpos = z->pos();
-    Creature *critter = nullptr;
-    for( int x = zpos.x - 1; x < zpos.x + 2; x++ ) {
-        for( int y = zpos.y - 1; y < zpos.y + 2; y++ ) {
-            critter = g->critter_at( tripoint( x, y, zpos.z ) );
-            if( critter != nullptr && critter->is_monster() &&
-                static_cast<monster *>( critter )->faction == zombo
-                && critter != z && critter->get_size() <= z->get_size() ) {
-                break;
-            }
+    monster *critter = nullptr;
+    for( const tripoint &p : g->m.points_in_radius( z->pos(), 1 ) ) {
+        critter = g->critter_at<monster>( p );
+        if( critter != nullptr &&  critter->faction == z->faction
+            && critter != z && critter->get_size() <= z->get_size() ) {
+            break;
         }
     }
 
@@ -5311,10 +5306,10 @@ bool mattack::zombie_fuse( monster *z )
                                 z->name() );
     }
     z->moves -= 200;
-    z->add_effect( effect_grown_of_fuse, time_duration::from_days( 10 ), num_bp, true,
+    z->add_effect( effect_grown_of_fuse, 10_days, num_bp, true,
                    critter->get_hp_max() + z->get_effect( effect_grown_of_fuse ).get_intensity() );
     z->heal( critter->get_hp(), true );
-    static_cast<monster *>( critter )->death_drops = false;
+    critter->death_drops = false;
     critter->die( z );
     return true;
 }
