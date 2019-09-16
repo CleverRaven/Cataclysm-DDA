@@ -2522,15 +2522,12 @@ m_size monster::get_size() const
 
 units::mass monster::get_weight() const
 {
-    return units::from_gram( static_cast<int>( units::to_gram( type->weight ) * ( static_cast<double>
-                             ( get_size() ) / type->size ) ) );
+    return type->weight;
 }
 
 units::volume monster::get_volume() const
 {
-    return units::from_milliliter( static_cast<int>( units::to_milliliter( type->volume ) *
-                                   ( static_cast<double>
-                                     ( get_size() ) / type->size ) ) );
+    return type->volume;
 }
 
 void monster::add_msg_if_npc( const std::string &msg ) const
