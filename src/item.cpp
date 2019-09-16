@@ -2728,6 +2728,15 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
             }
 
+            if( !bid->stat_bonus.empty() ) {
+                info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Stat Bonus:</bold> " ),
+                                          iteminfo::no_newline ) );
+                for( const auto &element : bid->stat_bonus ) {
+                    info.push_back( iteminfo( "CBM", element.first, " <num> ", iteminfo::no_newline, element.second ) );
+                }
+
+            }
+
             const units::mass weight_bonus = bid->weight_capacity_bonus;
             const float weight_modif = bid->weight_capacity_modifier;
             if( weight_modif != 1 ) {
