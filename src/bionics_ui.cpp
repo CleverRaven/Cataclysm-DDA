@@ -481,7 +481,7 @@ void player::power_bionics()
 
             draw_scrollbar( wBio, cursor, LIST_HEIGHT, current_bionic_list.size(), point( 0, list_start_y ) );
 
-            if( current_bionic_list[cursor] != nullptr ) {
+            if( !current_bionic_list.empty() && current_bionic_list[cursor] != nullptr ) {
                 fold_and_print( wBio, point( 1, footer_start_y ), WIDTH - 2, c_light_blue, "%s",
                                 current_bionic_list[cursor]->id->description );
             }
