@@ -4154,18 +4154,17 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
             }
             return;
         }
-        for( int dx = -1; dx <= 1; dx++ ) {
-            for( int dy = -1; dy <= 1; dy++ ) {
-                tripoint neighbor = tpt + point( dx, dy );
-                if( seen.find( neighbor ) != seen.end() ) {
-                    continue;
-                }
-                seen.insert( neighbor );
-                if( !overmap_buffer.ter( neighbor ).obj().is_wooded() ) {
-                    continue;
-                }
-                q.push( neighbor );
+        // @todo make a function for creating this range
+        for( const tripoint &neighbor : tripoint_range( tpt - tripoint( 1, 1, 0 ), tpt + tripoint( 1, 1,
+                0 ) ) ) {
+            if( seen.find( neighbor ) != seen.end() ) {
+                continue;
             }
+            seen.insert( neighbor );
+            if( !overmap_buffer.ter( neighbor ).obj().is_wooded() ) {
+                continue;
+            }
+            q.push( neighbor );
         }
         q.pop();
     }

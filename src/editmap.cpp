@@ -401,32 +401,29 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
     if( refresh_mplans ) {
         hilights["mplan"].points.clear();
     }
-    for( int x = start.x, sx = 0; x <= end.x; x++, sx++ ) {
-        for( int y = start.y, sy = 0; y <= end.y; y++, sy++ ) {
-            tripoint p{ x, y, target.z };
-            int sym = game_map ? '%' : ' ';
-            if( x >= 0 && x < msize && y >= 0 && y < msize ) {
-                if( game_map ) {
-                    Creature *critter = g->critter_at( p );
-                    if( critter != nullptr ) {
-                        critter->draw( w, center.xy(), false );
-                    } else {
-                        m->drawsq( w, g->u, p, false, draw_itm, center, false, true );
-                    }
-                    if( refresh_mplans ) {
-                        monster *mon = dynamic_cast<monster *>( critter );
-                        if( mon != nullptr && mon->pos() != mon->move_target() ) {
-                            for( auto &location : line_to( mon->pos(), mon->move_target() ) ) {
-                                hilights["mplan"].points[location] = 1;
-                            }
-                        }
-                    }
+    for( const tripoint &p : tripoint_range( start, end ) ) {
+        int sym = game_map ? '%' : ' ';
+        if( p.x >= 0 && p.x < msize && p.y >= 0 && p.y < msize ) {
+            if( game_map ) {
+                Creature *critter = g->critter_at( p );
+                if( critter != nullptr ) {
+                    critter->draw( w, center.xy(), false );
                 } else {
                     m->drawsq( w, g->u, p, false, draw_itm, center, false, true );
                 }
+                if( refresh_mplans ) {
+                    monster *mon = dynamic_cast<monster *>( critter );
+                    if( mon != nullptr && mon->pos() != mon->move_target() ) {
+                        for( auto &location : line_to( mon->pos(), mon->move_target() ) ) {
+                            hilights["mplan"].points[location] = 1;
+                        }
+                    }
+                }
             } else {
-                mvwputch( w, point( sx, sy ), c_dark_gray, sym );
+                m->drawsq( w, g->u, p, false, draw_itm, center, false, true );
             }
+        } else {
+            mvwputch( w, p.xy() - start.xy(), c_dark_gray, sym );
         }
     }
     if( refresh_mplans ) {
