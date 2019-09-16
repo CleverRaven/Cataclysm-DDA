@@ -69,12 +69,7 @@
     "volume": "4 L",
     "price": 1400,
     "to_hit": -3,
-    "use_action": {
-      "type": "transform",
-      "msg": "You push your %s up your head.",
-      "target": "welding_mask_raised",
-      "menu_text": "Raise"
-    },
+    "use_action": { "type": "transform", "msg": "You push your %s up your head.", "target": "welding_mask_raised", "menu_text": "Raise" },
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "dark_gray",
