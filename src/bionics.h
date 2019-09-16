@@ -80,6 +80,8 @@ struct bionic_data {
     float weight_capacity_modifier;
     /**Bonus to weight capacity*/
     units::mass weight_capacity_bonus;
+    /**Stat bonus*/
+    std::map<std::string, int> stat_bonus;
     /**Fuel types that can be used by this bionic*/
     std::vector<itype_id> fuel_opts;
     /**How much fuel this bionic can hold*/

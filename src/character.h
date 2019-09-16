@@ -515,6 +515,8 @@ class Character : public Creature, public visitable<Character>
         int get_total_fuel_capacity( itype_id fuel ) const;
         /**Updates which bionic contain fuel and which is empty*/
         void update_fuel_storage( const itype_id &fuel );
+        /**Get stat bonus from bionic*/
+        int get_mod_stat_from_bionic( std::string Stat ) const;
         // route for overmap-scale travelling
         std::vector<tripoint> omt_path;
         // --------------- Generic Item Stuff ---------------

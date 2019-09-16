@@ -2100,6 +2100,14 @@ void load_bionic( JsonObject &jsobj )
     jsobj.read( "fuel_options", new_bionic.fuel_opts );
     jsobj.read( "fuel_capacity", new_bionic.fuel_capacity );
 
+    JsonArray jsr = jsobj.get_array( "stat_bonus" );
+    if( !jsr.empty() ) {
+        while( jsr.has_more() ) {
+            JsonArray ja = jsr.next_array();
+            new_bionic.stat_bonus.emplace( ja.get_string( 0 ), ja.get_int( 1 ) );
+        }
+    }
+
     JsonArray jsar = jsobj.get_array( "encumbrance" );
     if( !jsar.empty() ) {
         while( jsar.has_more() ) {
