@@ -861,7 +861,7 @@
     "harvest": "zombie_leather",
     "fear_triggers": [ "HURT", "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "upgrades": { "half_life": 45, "into": "mon_devourer" },
+    "upgrades": { "half_life": 35, "into": "mon_devourer" },
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN" ]
   },
   {
@@ -4722,7 +4722,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 30, "into": "mon_devourer" },
+    "upgrades": { "half_life": 23, "into": "mon_devourer" },
     "flags": [
       "SEES",
       "HEARS",
