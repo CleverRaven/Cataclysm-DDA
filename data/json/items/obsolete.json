@@ -487,5 +487,5 @@
     "aim_speed": 6,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
-  },
+  }
 ]
