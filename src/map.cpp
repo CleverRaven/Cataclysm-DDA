@@ -3902,23 +3902,21 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
         return;
     }
 
-    const int uX = p.x;
-    const int uY = p.y;
+    const tripoint abs_omt_p = ms_to_omt_copy( getabs( p ) );
     tripoint t( 0, 0, abs_sub.z );
     int &x = t.x;
     int &y = t.y;
     for( x = 0; x < SEEX * my_MAPSIZE; x++ ) {
         for( y = 0; y < SEEY * my_MAPSIZE; y++ ) {
-            float radiX = sqrt( static_cast<float>( ( uX - x ) * ( uX - x ) + ( uY - y ) * ( uY - y ) ) );
+            const tripoint abs_omt_t = ms_to_omt_copy( getabs( t ) );
+            const float radiX = trig_dist( p, t );
             if( ter( t ) == from ) {
                 // within distance, and either no submap limitation or same overmap coords.
-                if( radiX <= radi && ( !same_submap ||
-                                       ms_to_omt_copy( getabs( point( x, y ) ) ) == ms_to_omt_copy( getabs( point( uX, uY ) ) ) ) ) {
+                if( radiX <= radi && ( !same_submap || abs_omt_t == abs_omt_p ) ) {
                     ter_set( t, to );
                 }
             } else if( toggle_between && ter( t ) == to ) {
-                if( radiX <= radi && ( !same_submap ||
-                                       ms_to_omt_copy( getabs( point( x, y ) ) ) == ms_to_omt_copy( getabs( point( uX, uY ) ) ) ) ) {
+                if( radiX <= radi && ( !same_submap || abs_omt_t == abs_omt_p ) ) {
                     ter_set( t, from );
                 }
             }
