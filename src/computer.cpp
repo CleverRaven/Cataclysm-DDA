@@ -1513,22 +1513,20 @@ void computer::activate_failure( computer_failure_type fail )
 
         case COMPFAIL_DESTROY_DATA:
             print_error( _( "ERROR: ACCESSING DATA MALFUNCTION" ) );
-            for( int x = 0; x < SEEX * 2; x++ ) {
-                for( int y = 0; y < SEEY * 2; y++ ) {
-                    if( g->m.ter( point( x, y ) ) == t_floor_blue ) {
-                        map_stack items = g->m.i_at( point( x, y ) );
-                        if( items.empty() ) {
-                            print_error( _( "ERROR: Please place memory bank in scan area." ) );
-                        } else if( items.size() > 1 ) {
-                            print_error( _( "ERROR: Please only scan one item at a time." ) );
-                        } else if( items.only_item().typeId() != "usb_drive" ) {
-                            print_error( _( "ERROR: Memory bank destroyed or not present." ) );
-                        } else if( items.only_item().contents.empty() ) {
-                            print_error( _( "ERROR: Memory bank is empty." ) );
-                        } else {
-                            print_error( _( "ERROR: Data bank destroyed." ) );
-                            g->m.i_clear( point( x, y ) );
-                        }
+            for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 24 ) ) {
+                if( g->m.ter( p ) == t_floor_blue ) {
+                    map_stack items = g->m.i_at( p );
+                    if( items.empty() ) {
+                        print_error( _( "ERROR: Please place memory bank in scan area." ) );
+                    } else if( items.size() > 1 ) {
+                        print_error( _( "ERROR: Please only scan one item at a time." ) );
+                    } else if( items.only_item().typeId() != "usb_drive" ) {
+                        print_error( _( "ERROR: Memory bank destroyed or not present." ) );
+                    } else if( items.only_item().contents.empty() ) {
+                        print_error( _( "ERROR: Memory bank is empty." ) );
+                    } else {
+                        print_error( _( "ERROR: Data bank destroyed." ) );
+                        g->m.i_clear( p );
                     }
                 }
             }
