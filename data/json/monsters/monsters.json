@@ -439,7 +439,6 @@
     "special_attacks": [ [ "scratch", 20 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "CONFLAGRATION" ],
-    "upgrades": { "half_life": 14, "into": "mon_fused" },
     "flags": [
       "SEES",
       "HEARS",
@@ -534,9 +533,9 @@
     ]
   },
   {
-    "id": "mon_fused",
+    "id": "mon_devourer",
     "type": "MONSTER",
-    "name": "fused",
+    "name": "dissoluted devourer",
     "description": "Human bodies fused together into a colossus with heads and limbs sticking out of its bloated body. You may have trouble estimating its healthiness and its capabilities might change.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -564,7 +563,7 @@
       "subtype": "collection",
       "groups": [ "default_zombie_death_drops", "default_zombie_death_drops", "default_zombie_death_drops" ]
     },
-    "death_function": [ "SPLATTER", "GAS" ],
+    "death_function": [ "SPLATTER", "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -862,6 +861,7 @@
     "harvest": "zombie_leather",
     "fear_triggers": [ "HURT", "FIRE" ],
     "death_function": [ "NORMAL" ],
+    "upgrades": { "half_life": 30, "into": "mon_devourer" },
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN" ]
   },
   {
@@ -4722,6 +4722,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
+    "upgrades": { "half_life": 30, "into": "mon_devourer" },
     "flags": [
       "SEES",
       "HEARS",
