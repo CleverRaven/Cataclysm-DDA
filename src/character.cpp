@@ -1833,18 +1833,7 @@ void Character::reset_stats()
     if( has_active_bionic( bionic_id( "bio_hydraulics" ) ) ) {
         mod_str_bonus( 20 );
     }
-    if( has_bionic( bionic_id( "bio_eye_enhancer" ) ) ) {
-        mod_per_bonus( 2 );
-    }
-    if( has_bionic( bionic_id( "bio_str_enhancer" ) ) ) {
-        mod_str_bonus( 2 );
-    }
-    if( has_bionic( bionic_id( "bio_int_enhancer" ) ) ) {
-        mod_int_bonus( 2 );
-    }
-    if( has_bionic( bionic_id( "bio_dex_enhancer" ) ) ) {
-        mod_dex_bonus( 2 );
-    }
+
     mod_str_bonus( get_mod_stat_from_bionic( "STR" ) );
     mod_dex_bonus( get_mod_stat_from_bionic( "DEX" ) );
     mod_per_bonus( get_mod_stat_from_bionic( "PER" ) );
