@@ -71,27 +71,6 @@
     "flags": [ "DISABLE_SIGHTS" ]
   },
   {
-    "id": "improve_sights",
-    "type": "GUNMOD",
-    "name": "iron sights",
-    "name_plural": "iron sights",
-    "description": "A basic set of iron sights",
-    "weight": "60 g",
-    "volume": "250 ml",
-    "integral_volume": 0,
-    "integral_weight": 0,
-    "price": 72000,
-    "material": [ "steel" ],
-    "symbol": ":",
-    "color": "dark_gray",
-    "location": "sights",
-    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
-    "sight_dispersion": 30,
-    "aim_speed": 6,
-    "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
-    "flags": [ "DISABLE_SIGHTS" ]
-  },
-  {
     "id": "pistol_scope",
     "type": "GUNMOD",
     "name": "pistol scope",

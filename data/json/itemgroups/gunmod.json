@@ -5,7 +5,6 @@
     "//": "Common gunmods typically owned by citizens and found in many locations.",
     "items": [
       [ "brass_catcher", 100 ],
-      [ "improve_sights", 60 ],
       [ "muzzle_brake", 20 ],
       [ "pistol_grip", 30 ],
       [ "rifle_scope", 30 ],
