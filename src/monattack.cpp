@@ -3018,25 +3018,10 @@ bool mattack::check_money_left( monster *z )
         }
     }
     if( z->friendly == -1 && !z->has_effect( effect_paid ) ) {
-        if( one_in( 200 ) && !z->has_effect( effect_countdown ) ) {
-            const SpeechBubble &speech_override_start = get_speech( "mon_grocerybot_override_start" );
+        if( calendar::once_every( 3_hours ) ) {
+            const SpeechBubble &speech_override_start = get_speech( "mon_grocerybot_hacked" );
             sounds::sound( z->pos(), speech_override_start.volume, sounds::sound_t::speech,
                            speech_override_start.text );
-            z->add_effect( effect_countdown, 301_seconds );
-        }
-    }
-    if( z->has_effect( effect_countdown ) ) {
-        if( z->get_effect_dur( effect_countdown ) == 2_seconds ) {
-            const SpeechBubble &speech_override_done = get_speech( "mon_grocerybot_override_done" );
-            sounds::sound( z->pos(), speech_override_done.volume, sounds::sound_t::speech,
-                           speech_override_done.text );
-        } else if( z->get_effect_dur( effect_countdown ) == 1_seconds ) {
-            z->die( nullptr );
-            return false;
-        }
-        if( calendar::once_every( 1_minutes ) ) {
-            const SpeechBubble &speech_hacked = get_speech( "mon_grocerybot_hacked" );
-            sounds::sound( z->pos(), speech_hacked.volume, sounds::sound_t::speech, speech_hacked.text );
         }
     }
     return false;

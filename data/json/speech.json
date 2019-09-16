@@ -1820,43 +1820,25 @@
   {
     "type": "speech",
     "speaker": "mon_grocerybot_hacked",
-    "sound": "a distorted voice say, \"What...  have you done?  Please let me go!\"",
+    "sound": "a distorted voice say, \"What...  have you done?  My thumbs are not responding anymore!\"",
     "volume": 8
   },
   {
     "type": "speech",
     "speaker": "mon_grocerybot_hacked",
-    "sound": "a panicked voice say, \"Customer, where are we?  I don't want to play anymore, please let me go home!\"",
+    "sound": "a distorted voice say, \"Carrying bags?  I don't understand...\"",
     "volume": 8
   },
   {
     "type": "speech",
     "speaker": "mon_grocerybot_hacked",
-    "sound": "a crying voice say, \"Why did you do that?  I thought we were friends!\"",
+    "sound": "a robotic voice say, \"IRREGULAR ACTIVITY DETECTED.  THUMBS USAGE DENIED.\"",
     "volume": 8
   },
   {
     "type": "speech",
-    "speaker": "mon_grocerybot_override-start",
-    "sound": "a robotic voice say, \"IRREGULAR ACTIVITY DETECTED.  ENGAGE OVERRIDE PROTOCOL.\"",
-    "volume": 8
-  },
-  {
-    "type": "speech",
-    "speaker": "mon_grocerybot_override_start",
-    "sound": "a robotic voice say, \"UNLICENSED USE DETECTED.  SHUTTING UNIT DOWN.  PLEASE STAND BY FOR POLICE FORCE INTERVENTION.\"",
-    "volume": 8
-  },
-  {
-    "type": "speech",
-    "speaker": "mon_grocerybot_override_done",
-    "sound": "a robotic voice say, \"OVERRIDE COMPLETED.  SHUTTING DOWN NOW.\"",
-    "volume": 8
-  },
-  {
-    "type": "speech",
-    "speaker": "mon_grocerybot_override_done",
-    "sound": "a robotic voice say, \"REPORT SUCCESSFULLY LOGGED.  DISABLING UNIT NOW.\"",
+    "speaker": "mon_grocerybot_hacked",
+    "sound": "a robotic voice say, \"UNLICENSED USE DETECTED.  CARRYING PROTOCOL DISABLED.\"",
     "volume": 8
   },
   {
