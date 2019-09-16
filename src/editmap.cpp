@@ -41,6 +41,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "cata_utility.h"
+#include "map_iterator.h"
 #include "creature.h"
 #include "game_constants.h"
 #include "int_id.h"
@@ -1325,13 +1326,10 @@ void editmap::recalc_target( shapetype shape )
     switch( shape ) {
         case editmap_circle: {
             int radius = rl_dist( origin, target );
-            for( int x = origin.x - radius; x <= origin.x + radius; x++ ) {
-                for( int y = origin.y - radius; y <= origin.y + radius; y++ ) {
-                    const tripoint p( x, y, z );
-                    if( rl_dist( p, origin ) <= radius ) {
-                        if( editmap_boundaries.contains_half_open( p ) ) {
-                            target_list.push_back( p );
-                        }
+            for( const tripoint &p : g->m.points_in_radius( origin, radius ) ) {
+                if( rl_dist( p, origin ) <= radius ) {
+                    if( editmap_boundaries.contains_half_open( p ) ) {
+                        target_list.push_back( p );
                     }
                 }
             }

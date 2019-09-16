@@ -687,17 +687,14 @@ void computer::activate_function( computer_action action )
 
             const oter_id oter = overmap_buffer.ter( target );
             g->events().send<event_type::launches_nuke>( oter );
-            for( int x = target.x - 2; x <= target.x + 2; x++ ) {
-                for( int y = target.y - 2; y <= target.y + 2; y++ ) {
-                    // give it a nice rounded shape
-                    if( !( x == ( target.x - 2 ) && ( y == ( target.y - 2 ) ) ) &&
-                        !( x == ( target.x - 2 ) && ( y == ( target.y + 2 ) ) ) &&
-                        !( x == ( target.x + 2 ) && ( y == ( target.y - 2 ) ) ) &&
-                        !( x == ( target.x + 2 ) && ( y == ( target.y + 2 ) ) ) ) {
-                        // TODO: Z
-                        explosion_handler::nuke( tripoint( x, y, 0 ) );
-                    }
-
+            for( const tripoint &p : g->m.points_in_radius( target, 2 ) ) {
+                // give it a nice rounded shape
+                if( !( p.x == target.x - 2 && p.y == target.y - 2 ) &&
+                    !( p.x == target.x - 2 && p.y == target.y + 2 ) &&
+                    !( p.x == target.x + 2 && p.y == target.y - 2 ) &&
+                    !( p.x == target.x + 2 && p.y == target.y + 2 ) ) {
+                    // TODO: other Z-levels.
+                    explosion_handler::nuke( tripoint( p.x, p.y, 0 ) );
                 }
             }
 
