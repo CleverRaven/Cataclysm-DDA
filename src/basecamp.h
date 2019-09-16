@@ -150,7 +150,7 @@ class basecamp
 
         // upgrade levels
         bool has_provides( const std::string &req, const expansion_data &e_data, int level = 0 ) const;
-        bool has_provides( const std::string &req, const cata::optional<point> dir = cata::nullopt,
+        bool has_provides( const std::string &req, cata::optional<point> dir = cata::nullopt,
                            int level = 0 ) const;
         void update_resources( const std::string &bldg );
         void update_provides( const std::string &bldg, expansion_data &e_data );
@@ -244,7 +244,7 @@ class basecamp
         void reset_camp_workers();
         comp_list get_mission_workers( const std::string &mission_id, bool contains = false );
         // main mission start/return dispatch function
-        bool handle_mission( const std::string &miss_id, const cata::optional<point> miss_dir,
+        bool handle_mission( const std::string &miss_id, cata::optional<point> miss_dir,
                              bool by_radio = false );
 
         // mission start functions

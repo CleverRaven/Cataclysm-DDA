@@ -50,7 +50,7 @@ std::string name_mission_tabs( const tripoint &omt_pos, const std::string &role_
 /// Returns the OM tiles surrounding the camp, @ref purge removes all tiles that aren't expansions
 std::vector<std::pair<std::string, tripoint>> om_building_region( const tripoint &omt_pos,
         int range, bool purge = false );
-/// Returns the x and y coordinates ( omt_tar - omt_pos ), clamped to [-1, 1]
+/// Returns the x and y coordinates of ( omt_tar - omt_pos ), clamped to [-1, 1]
 point om_simple_dir( const tripoint &omt_pos, const tripoint &omt_tar );
 } // namespace talk_function
 #endif

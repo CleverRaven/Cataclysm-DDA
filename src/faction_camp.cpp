@@ -1837,7 +1837,7 @@ void basecamp::start_combat_mission( const std::string &miss )
 }
 
 // the structure of this function has driven (at least) two devs insane
-// recipe_deck returns a map of descriptions to recipe ids
+// recipe_deck returns a map of recipe ids to descriptions
 // it first checks whether the mission id starts with the correct direction prefix,
 // and then search for the mission id without direction prefix in the recipes
 // if there's a match, the player has selected a crafting mission

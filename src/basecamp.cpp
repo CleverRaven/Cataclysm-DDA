@@ -36,7 +36,7 @@
 
 
 const std::map<point, base_camps::direction_data> base_camps::all_directions = {
-    // direction, tab order, direction id, direction abbreviation with bracket, direction tab title
+    // direction, direction id, tab order, direction abbreviation with bracket, direction tab title
     { base_camps::base_dir, { "[B]", TAB_MAIN, to_translation( "base camp: base", "[B]" ), to_translation( "base camp: base", " MAIN " ) } },
     { point_north, { "[N]", TAB_N, to_translation( "base camp: north", "[N]" ), to_translation( "base camp: north", "  [N] " ) } },
     { point_north_east, { "[NE]", TAB_NE, to_translation( "base camp: northeast", "[NE]" ), to_translation( "base camp: northeast", " [NE] " ) } },

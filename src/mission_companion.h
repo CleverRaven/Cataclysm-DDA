@@ -50,11 +50,11 @@ class mission_data
         void add( const std::string &id, const std::string &name_display = "",
                   const std::string &text = "" );
         void add_start( const std::string &id, const std::string &name_display,
-                        const cata::optional<point> dir, const std::string &text, bool possible = true );
+                        cata::optional<point> dir, const std::string &text, bool possible = true );
         void add_return( const std::string &id, const std::string &name_display,
-                         const cata::optional<point> dir, const std::string &text, bool possible = true );
+                         cata::optional<point> dir, const std::string &text, bool possible = true );
         void add( const std::string &id, const std::string &name_display,
-                  const cata::optional<point> dir, const std::string &text,
+                  cata::optional<point> dir, const std::string &text,
                   bool priority = false, bool possible = true );
 };
 
