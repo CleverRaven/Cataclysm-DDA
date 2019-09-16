@@ -195,6 +195,7 @@ void DynamicDataLoader::initialize()
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "skill", &Skill::load_skill );
     add( "skill_display_type", &SkillDisplayType::load );
+    add( "bionics_display_type", &BionicsDisplayType::load );
     add( "dream", &dream::load );
     add( "mutation_category", &mutation_category_trait::load );
     add( "mutation_type", &load_mutation_type );

@@ -93,6 +93,9 @@ using skill_id = string_id<Skill>;
 class SkillDisplayType;
 using skill_displayType_id = string_id<SkillDisplayType>;
 
+class BionicsDisplayType;
+using bionics_displayType_id = string_id<BionicsDisplayType>;
+
 struct species_type;
 using species_id = string_id<species_type>;
 

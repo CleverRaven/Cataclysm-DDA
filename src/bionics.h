@@ -27,6 +27,8 @@ struct bionic_data {
 
     translation name;
     translation description;
+    /** Used to determine tab in the bionics menu */
+    bionics_displayType_id display_type;
     /** Power cost on activation */
     int power_activate = 0;
     /** Power cost on deactivation */
@@ -154,6 +156,29 @@ struct bionic {
 
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
+};
+
+class BionicsDisplayType
+{
+        friend class string_id<BionicsDisplayType>;
+        bionics_displayType_id _ident;
+        translation _display_string;
+    public:
+        static std::vector<BionicsDisplayType> displayTypes;
+        static void load( JsonObject &jsobj );
+        static bionics_displayType_id infer_type( const bionic_data &b );
+
+        static const BionicsDisplayType &get_display_type( bionics_displayType_id );
+
+        BionicsDisplayType();
+        BionicsDisplayType( const bionics_displayType_id &ident, const translation &display_string );
+
+        const bionics_displayType_id &ident() const {
+            return _ident;
+        }
+        std::string display_string() const {
+            return _display_string.translated();
+        }
 };
 
 // A simpler wrapper to allow forward declarations of it. std::vector can not

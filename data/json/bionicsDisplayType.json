@@ -1,0 +1,37 @@
+[
+  {
+    "type": "bionics_display_type",
+    "ident": "display_weapon",
+    "display_string": "Weapons"
+  },
+  {
+    "type": "bionics_display_type",
+    "ident": "display_power",
+    "display_string": "Power"
+  },
+  {
+    "type": "bionics_display_type",
+    "ident": "display_sensory",
+    "display_string": "Sensory"
+  },
+  {
+    "type": "bionics_display_type",
+    "ident": "display_internal",
+    "display_string": "Internal"
+  },
+  {
+    "type": "bionics_display_type",
+    "ident": "display_other",
+    "display_string": "Other"
+  },
+  {
+    "type": "bionics_display_type",
+    "ident": "display_passive",
+    "display_string": "Passive"
+  },
+  {
+    "type": "bionics_display_type",
+    "ident": "display_faulty",
+    "display_string": "Faulty"
+  }
+]

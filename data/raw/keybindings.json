@@ -1399,13 +1399,6 @@
   {
     "type": "keybinding",
     "id": "TOGGLE_EXAMINE",
-    "category": "BIONICS",
-    "name": "Toggle activate/examine",
-    "bindings": [ { "input_method": "keyboard", "key": "!" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "TOGGLE_EXAMINE",
     "category": "MUTATIONS",
     "name": "Toggle activate/examine",
     "bindings": [ { "input_method": "keyboard", "key": "!" } ]
@@ -2262,6 +2255,13 @@
       { "input_method": "keyboard", "key": "2" },
       { "input_method": "gamepad", "key": "JOY_DOWN" }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_EXAMINE",
+    "category": "BIONICS",
+    "name": "Display Columns Info",
+    "bindings": [ { "input_method": "keyboard", "key": "F1" } ]
   },
   {
     "type": "keybinding",

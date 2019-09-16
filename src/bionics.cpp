@@ -2051,7 +2051,6 @@ static bool get_bool_or_flag( JsonObject &jsobj, const std::string &name, const 
 
 void load_bionic( JsonObject &jsobj )
 {
-
     bionic_data new_bionic;
 
     const bionic_id id( jsobj.get_string( "id" ) );
@@ -2130,6 +2129,10 @@ void load_bionic( JsonObject &jsobj )
     new_bionic.activated = new_bionic.toggled ||
                            new_bionic.power_activate > 0 ||
                            new_bionic.charge_time > 0;
+
+    if( !jsobj.read( "display_type", new_bionic.display_type ) ) {
+        new_bionic.display_type = BionicsDisplayType::infer_type( new_bionic );
+    }
 
     const auto result = bionics.insert( std::make_pair( id, new_bionic ) );
 
@@ -2286,4 +2289,64 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
         add_effect( effect_narcosis, duration );
         fall_asleep( duration );
     }
+}
+
+std::vector<BionicsDisplayType> BionicsDisplayType::displayTypes;
+static const BionicsDisplayType invalid_bionics_display_type;
+
+BionicsDisplayType::BionicsDisplayType() : BionicsDisplayType( bionics_displayType_id::NULL_ID(),
+            to_translation( "invalid" ) )
+{
+}
+
+BionicsDisplayType::BionicsDisplayType( const bionics_displayType_id &ident,
+                                        const translation &display_string )
+    : _ident( ident ), _display_string( display_string )
+{
+}
+
+void BionicsDisplayType::load( JsonObject &jsobj )
+{
+    bionics_displayType_id ident = bionics_displayType_id( jsobj.get_string( "ident" ) );
+    displayTypes.erase( std::remove_if( begin( displayTypes ),
+    end( displayTypes ), [&]( const BionicsDisplayType & s ) {
+        return s._ident == ident;
+    } ), end( displayTypes ) );
+
+    translation display_string;
+    jsobj.read( "display_string", display_string );
+    const BionicsDisplayType sk( ident, display_string );
+    displayTypes.push_back( sk );
+}
+
+const BionicsDisplayType &BionicsDisplayType::get_display_type( bionics_displayType_id id )
+{
+    for( auto &i : displayTypes ) {
+        if( i._ident == id ) {
+            return i;
+        }
+    }
+    return invalid_bionics_display_type;
+}
+
+
+bionics_displayType_id BionicsDisplayType::infer_type( const bionic_data &b )
+{
+    std::string type_string;
+    if( b.activated ) { //if value is not set manually, try to infer from other parameters
+        if( b.weapon_bionic || b.gun_bionic ) {
+            type_string = "display_weapon";
+        } else if( b.power_source ) {
+            type_string = "display_power";
+        } else {
+            type_string = "display_other";
+        }
+    } else {
+        if( b.faulty ) {
+            type_string = "display_faulty";
+        } else {
+            type_string = "display_passive";
+        }
+    }
+    return bionics_displayType_id( type_string );
 }
