@@ -9573,7 +9573,7 @@
     "use_action": {
       "type": "bandolier",
       "capacity": 5,
-      "ammo": [ "javelin", "fishspear" ],
+      "ammo": [ "javelin" ],
       "draw_cost": 30
     },
     "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ]
