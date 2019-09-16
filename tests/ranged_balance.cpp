@@ -3,6 +3,7 @@
 #include <list>
 #include <ostream>
 #include <string>
+#include <fstream>
 
 #include "catch/catch.hpp"
 #include "ballistics.h"
@@ -17,6 +18,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "json.h"
 #include "player.h"
 #include "material.h"
 #include "type_id.h"
@@ -303,8 +305,9 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
     }
 }
 
-static void range_test( const std::array<double, 5> &test_thresholds )
+static void range_test( const std::array<double, 5> &test_thresholds, bool write_data = false )
 {
+    std::vector <int> data;
     int index = 0;
     for( index = 0; index < static_cast<int>( accuracy_levels.size() ); ++index ) {
         if( test_thresholds[index] >= 0 ) {
@@ -334,7 +337,18 @@ static void range_test( const std::array<double, 5> &test_thresholds )
             WARN( "No matching dispersion found" );
         } else {
             WARN( "Range: " << r << " Dispersion: " << found_dispersion );
+            data.push_back( found_dispersion );
         }
+    }
+    if( write_data )
+    {
+        std::ofstream out_file;
+        out_file.open( "hit_range.json", std::ios::trunc );
+        JsonOut j_out( out_file );
+        j_out.start_object();
+        j_out.member( "even_good", data );
+        j_out.end_object();
+        out_file.close();
     }
 }
 
@@ -349,6 +363,6 @@ TEST_CASE( "synthetic_range_test", "[.]" )
         range_test( {{ -1, -1, 0.1, -1, -1 }} );
     }
     SECTION( "good hit thresholds" ) {
-        range_test( {{ -1, -1, 0.5, -1, -1 }} );
+        range_test( {{ -1, -1, 0.5, -1, -1 }}, true );
     }
 }
