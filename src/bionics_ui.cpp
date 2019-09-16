@@ -169,7 +169,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p )
                             fuel ) << "</color>" << "/" << p->get_total_fuel_capacity( fuel ) << " ";
         }
     }
-    fold_and_print( window, point( 1, 0 ), getmaxx( window ), c_white, fuel_stream.str() );
+    fold_and_print( window, point_east, getmaxx( window ), c_white, fuel_stream.str() );
     wrefresh( window );
 }
 
@@ -409,7 +409,7 @@ void player::power_bionics()
             werase( wBio );
             draw_border( wBio, BORDER_COLOR );
             nc_color col = c_white;
-            print_colored_text( wBio, point( 1, 0 ), col, col,
+            print_colored_text( wBio, point_east, col, col,
                                 string_format( _( "< Bionic Power: <color_light_blue>%i</color>/<color_light_blue>%i</color> >" ),
                                                power_level, max_power_level ) );
             std::string help_str = string_format( _( "< [%s] Columns Info >" ), ctxt.get_desc( "USAGE_HELP" ) );
@@ -485,15 +485,6 @@ void player::power_bionics()
                 fold_and_print( wBio, point( 1, footer_start_y ), WIDTH - 2, c_light_blue, "%s",
                                 current_bionic_list[cursor]->id->description );
             }
-
-#if defined(__ANDROID__)
-            ctxt.get_registered_manual_keys().clear();
-            for( size_t i = 0; i < current_bionic_list.size(); i++ ) {
-                ctxt.register_manual_key( current_bionic_list[i]->invlet,
-                                          build_bionic_powerdesc_string( *current_bionic_list[i] ).c_str() );
-            }
-#endif
-
         }
         wrefresh( wBio );
         draw_bionics_tabs( w_tabs, bionics_by_type, cur_tab_idx );
