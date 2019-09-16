@@ -9559,6 +9559,7 @@
     "name": "javelin bag",
     "name_plural": "javelin bags",
     "description": "An open medieval-looking bag, designed to store javelins for easy reach.",
+    "rigid": false,
     "weight": 600,
     "volume": "1250 ml",
     "price": 6000,
