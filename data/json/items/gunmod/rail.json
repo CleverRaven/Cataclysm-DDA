@@ -43,7 +43,6 @@
     "location": "rail",
     "mod_targets": [ "smg", "rifle", "shotgun" ],
     "min_skills": [ [ "weapon", 3 ], [ "gun", 4 ] ],
-    "proportional": { "sight_dispersion": 1.25 },
     "delete": { "flags": [ "DISABLE_SIGHTS" ] }
   },
   {
