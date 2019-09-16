@@ -1760,19 +1760,25 @@
   {
     "type": "speech",
     "speaker": "mon_grocerybot_running_out_of_friendship",
-    "sound": "a distressed voice say, \"Customer!  Our friendship is running out!  Quick, do something!\"",
+    "sound": "a voice say, \"I don't want to go but our time together is drawing to an end.\"",
     "volume": 8
   },
   {
     "type": "speech",
     "speaker": "mon_grocerybot_running_out_of_friendship",
-    "sound": "a worried voice say, \"I don't want to go but our time together is drawing to an end.  Please do something.\"",
+    "sound": "a cheery voice say, \"Customer?  We'll be friends forever, right?\"",
     "volume": 8
   },
   {
     "type": "speech",
     "speaker": "mon_grocerybot_running_out_of_friendship",
-    "sound": "a worried voice say, \"Customer?  We'll be friends forever, right?\"",
+    "sound": "a neutral voice say, \"Customer I must inform you that my alocated time with you will soon come to its end.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_grocerybot_running_out_of_friendship",
+    "sound": "a neutral voice say, \"I'll have to leave you soon.  You can acquire more friendship through my dedicated interface if you wish for me to stay.\"",
     "volume": 8
   },
   {
@@ -1784,7 +1790,7 @@
   {
     "type": "speech",
     "speaker": "mon_grocerybot_friendship_done",
-    "sound": "a sad voice say, \"Oh no!  You ran out of friendship!\"",
+    "sound": "a voice say, \"Oh no!  You ran out of friendship!\"",
     "volume": 8
   },
   {
@@ -1802,7 +1808,7 @@
   {
     "type": "speech",
     "speaker": "mon_grocerybot_friendship_done",
-    "sound": "a neutral voice say, \"If that's how you feel...  Have a nice day.\"",
+    "sound": "a neutral voice say, \"My job here is done.  Have a nice day.\"",
     "volume": 8
   },
   {
