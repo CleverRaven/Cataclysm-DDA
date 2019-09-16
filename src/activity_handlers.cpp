@@ -4154,9 +4154,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
             }
             return;
         }
-        // @todo make a function for creating this range
-        for( const tripoint &neighbor : tripoint_range( tpt - tripoint( 1, 1, 0 ), tpt + tripoint( 1, 1,
-                0 ) ) ) {
+        for( const tripoint &neighbor : points_in_radius( tpt, 1 ) ) {
             if( seen.find( neighbor ) != seen.end() ) {
                 continue;
             }

@@ -1100,26 +1100,24 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
     std::vector<point> locations;
     std::vector<point> overmap_checked;
 
-    for( int x = curs.x - OMAPX / 2; x < curs.x + OMAPX / 2; x++ ) {
-        for( int y = curs.y - OMAPY / 2; y < curs.y + OMAPY / 2; y++ ) {
-            tripoint p( x, y, curs.z );
-            overmap_with_local_coords om_loc = overmap_buffer.get_existing_om_global( p );
+    const int radius = OMAPX / 2; // arbitrary
+    for( const tripoint &p : points_in_radius( curs, radius ) ) {
+        overmap_with_local_coords om_loc = overmap_buffer.get_existing_om_global( p );
 
-            if( om_loc ) {
-                tripoint om_relative = om_loc.local;
-                point om_cache = omt_to_om_copy( p.xy() );
+        if( om_loc ) {
+            tripoint om_relative = om_loc.local;
+            point om_cache = omt_to_om_copy( p.xy() );
 
-                if( std::find( overmap_checked.begin(), overmap_checked.end(), om_cache ) ==
-                    overmap_checked.end() ) {
-                    overmap_checked.push_back( om_cache );
-                    std::vector<point> notes = om_loc.om->find_notes( curs.z, term );
-                    locations.insert( locations.end(), notes.begin(), notes.end() );
-                }
+            if( std::find( overmap_checked.begin(), overmap_checked.end(),
+                           om_cache ) == overmap_checked.end() ) {
+                overmap_checked.push_back( om_cache );
+                std::vector<point> notes = om_loc.om->find_notes( curs.z, term );
+                locations.insert( locations.end(), notes.begin(), notes.end() );
+            }
 
-                if( om_loc.om->seen( om_relative ) &&
-                    match_include_exclude( om_loc.om->ter( om_relative )->get_name(), term ) ) {
-                    locations.push_back( om_loc.om->global_base_point() + om_relative.xy() );
-                }
+            if( om_loc.om->seen( om_relative ) &&
+                match_include_exclude( om_loc.om->ter( om_relative )->get_name(), term ) ) {
+                locations.push_back( om_loc.om->global_base_point() + om_relative.xy() );
             }
         }
     }

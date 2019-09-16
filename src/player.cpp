@@ -745,19 +745,17 @@ void player::apply_persistent_morale()
         float total_time = 0;
         // Check how long we've stayed in any overmap tile within 5 of us.
         const int max_dist = 5;
-        for( int dx = -max_dist; dx <= max_dist; dx++ ) {
-            for( int dy = -max_dist; dy <= max_dist; dy++ ) {
-                const float dist = rl_dist( point_zero, point( dx, dy ) );
-                if( dist > max_dist ) {
-                    continue;
-                }
-                const point pos = ompos.xy() + point( dx, dy );
-                if( overmap_time.find( pos ) == overmap_time.end() ) {
-                    continue;
-                }
-                // Count time in own tile fully, tiles one away as 4/5, tiles two away as 3/5, etc.
-                total_time += to_moves<float>( overmap_time[pos] ) * ( max_dist - dist ) / max_dist;
+        for( const tripoint &pos : points_in_radius( ompos, max_dist ) ) {
+            const float dist = rl_dist( ompos, pos );
+            if( dist > max_dist ) {
+                continue;
             }
+            const auto iter = overmap_time.find( pos.xy() );
+            if( iter == overmap_time.end() ) {
+                continue;
+            }
+            // Count time in own tile fully, tiles one away as 4/5, tiles two away as 3/5, etc.
+            total_time += to_moves<float>( iter->second ) * ( max_dist - dist ) / max_dist;
         }
         // Characters with higher tiers of Nomad suffer worse morale penalties, faster.
         int max_unhappiness;

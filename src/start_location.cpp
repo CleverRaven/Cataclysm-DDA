@@ -432,12 +432,9 @@ static void add_monsters( const tripoint &omtstart, const mongroup_id &type, flo
 void start_location::surround_with_monsters( const tripoint &omtstart, const mongroup_id &type,
         float expected_points ) const
 {
-    for( int x_offset = -1; x_offset <= 1; x_offset++ ) {
-        for( int y_offset = -1; y_offset <= 1; y_offset++ ) {
-            if( x_offset != 0 || y_offset != 0 ) {
-                add_monsters( omtstart + point( x_offset, y_offset ), type,
-                              roll_remainder( expected_points / 8.0f ) );
-            }
+    for( const tripoint &p : points_in_radius( omtstart, 1 ) ) {
+        if( p != omtstart ) {
+            add_monsters( p, type, roll_remainder( expected_points / 8.0f ) );
         }
     }
 }
