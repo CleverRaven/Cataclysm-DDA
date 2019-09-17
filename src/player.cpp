@@ -3869,7 +3869,7 @@ void player::check_needs_extremes()
                 } else if( get_kcal_percent() < 0.5f ) {
                     add_msg_if_player( m_warning, _( "You feel like you haven't eaten in days..." ) );
                 } else if( get_kcal_percent() < 0.8f ) {
-                    add_msg_if_player( m_warning, _( "Your stomach feels so empty..." ) );
+                    add_msg_if_player( m_warning, _( "You have a feeling that your body needs a more nutritious food." ) );
                 }
             }
         }
