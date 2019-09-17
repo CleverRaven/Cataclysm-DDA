@@ -3473,8 +3473,8 @@ int camp_food_supply( int change, bool return_days )
     faction *yours = g->u.get_faction();
     yours->food_supply += change;
     if( yours->food_supply < 0 ) {
-        yours->likes_u += yours->food_supply / 500;
-        yours->respects_u += yours->food_supply / 100;
+        yours->likes_u += yours->food_supply / 1250;
+        yours->respects_u += yours->food_supply / 625;
         yours->food_supply = 0;
     }
     if( return_days ) {

@@ -844,6 +844,8 @@ class npc : public player
         /** Is enemy or will turn into one (can't be convinced not to attack). */
         bool guaranteed_hostile() const;
         Attitude attitude_to( const Creature &other ) const override;
+        /* player allies that become guaranteed hostile should mutiny first */
+        void mutiny();
 
         /** For mutant NPCs. Returns how monsters perceive said NPC. Doesn't imply NPC sees them the same. */
         mfaction_id get_monster_faction() const;
