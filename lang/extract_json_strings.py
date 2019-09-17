@@ -568,6 +568,9 @@ def extract_talk_effects(effects, outfile):
 def extract_talk_response(response, outfile):
     if "text" in response:
         writestr(outfile, response["text"])
+    if "truefalsetext" in response:
+        writestr(outfile, response["truefalsetext"]["true"])
+        writestr(outfile, response["truefalsetext"]["false"])
     if "success" in response:
         extract_talk_response(response["success"], outfile)
     if "failure" in response:
