@@ -261,6 +261,7 @@ new syntax "name" would be a `dict`, which may break unmigrated script.
 | Spell messages and monster spell messages
 | Martial art names and descriptions
 | Mission names and descriptions
+| Fault names and descriptions
 
 ### Recommendations
 

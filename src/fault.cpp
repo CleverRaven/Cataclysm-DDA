@@ -36,8 +36,8 @@ void fault::load_fault( JsonObject &jo )
     fault f;
 
     f.id_ = fault_id( jo.get_string( "id" ) );
-    f.name_ = _( jo.get_string( "name" ) );
-    f.description_ = _( jo.get_string( "description" ) );
+    jo.read( "name", f.name_ );
+    jo.read( "description", f.description_ );
 
     if( jo.has_int( "time" ) ) {
         // TODO: better have a from_moves function
