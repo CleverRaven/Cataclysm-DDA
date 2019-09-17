@@ -213,6 +213,7 @@ monster::monster()
     last_baby = 0;
     biosig_timer = -1;
     last_biosig = 0;
+    reset_bonuses();
 }
 
 monster::monster( const mtype_id &id ) : monster()
@@ -2522,12 +2523,12 @@ m_size monster::get_size() const
 
 units::mass monster::get_weight() const
 {
-    return type->weight;
+    return type->weight * ( static_cast<float>( get_size() ) / type->size );
 }
 
 units::volume monster::get_volume() const
 {
-    return type->volume;
+    return type->volume * ( static_cast<float>( get_size() ) / type->size );
 }
 
 void monster::add_msg_if_npc( const std::string &msg ) const
