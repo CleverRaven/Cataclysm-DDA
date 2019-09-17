@@ -3862,15 +3862,28 @@ void player::check_needs_extremes()
             hp_cur[hp_torso] = 0;
         } else {
             if( calendar::once_every( 1_hours ) ) {
-                if( get_kcal_percent() < 0.1f ) {
-                    add_msg_if_player( m_warning, _( "Food..." ) );
-                } else if( get_kcal_percent() < 0.25f ) {
-                    add_msg_if_player( m_warning, _( "You are STARVING!" ) );
-                } else if( get_kcal_percent() < 0.5f ) {
-                    add_msg_if_player( m_warning, _( "You feel like you haven't eaten in days..." ) );
-                } else if( get_kcal_percent() < 0.8f ) {
-                    add_msg_if_player( m_warning,
-                                       _( "You have a feeling that your body needs a more nutritious food." ) );
+                if( stomach.contains() == 0_ml ) {
+                    if( get_kcal_percent() < 0.1f ) {
+                        add_msg_if_player( m_warning, _( "Food..." ) );
+                    } else if( get_kcal_percent() < 0.25f ) {
+                        add_msg_if_player( m_warning, _( "You are STARVING!" ) );
+                    } else if( get_kcal_percent() < 0.5f ) {
+                        add_msg_if_player( m_warning, _( "You feel like you haven't eaten in days..." ) );
+                    } else if( get_kcal_percent() < 0.8f ) {
+                        add_msg_if_player( m_warning,
+                                           _( "Your stomach feels so empty..." ) );
+                    }
+                } else {
+                    if( get_kcal_percent() < 0.1f ) {
+                        add_msg_if_player( m_warning, _( "Food..." ) );
+                    } else if( get_kcal_percent() < 0.25f ) {
+                        add_msg_if_player( m_warning, _( "You are EXHAUSTED!" ) );
+                    } else if( get_kcal_percent() < 0.5f ) {
+                        add_msg_if_player( m_warning, _( "You feel weak due to malnutrition." ) );
+                    } else if( get_kcal_percent() < 0.8f ) {
+                        add_msg_if_player( m_warning,
+                                           _( "You have a feeling that your body needs a more nutritious food." ) );
+                    }
                 }
             }
         }
