@@ -5302,8 +5302,8 @@ bool mattack::zombie_fuse( monster *z )
     }
     if( g->u.sees( *z ) ) {
         add_msg( _( "The %1$s fuses with the %2$s." ),
-                                critter->name(),
-                                z->name() );
+                 critter->name(),
+                 z->name() );
     }
     z->moves -= 200;
     z->add_effect( effect_grown_of_fuse, 10_days, num_bp, true,
