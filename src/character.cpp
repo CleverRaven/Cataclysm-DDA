@@ -2325,7 +2325,11 @@ void Character::set_healthy( int nhealthy )
 }
 void Character::mod_healthy( int nhealthy )
 {
-    healthy += nhealthy;
+    float mut_rate = 1.0f;
+    for( const trait_id &mut : get_mutations() ) {
+        mut_rate *= mut.obj().healthy_rate;
+    }
+    healthy += nhealthy * mut_rate;
 }
 void Character::set_healthy_mod( int nhealthy_mod )
 {

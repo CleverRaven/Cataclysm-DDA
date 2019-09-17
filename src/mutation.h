@@ -137,8 +137,11 @@ struct mutation_branch {
         float hearing_modifier = 1.0f;
         float noise_modifier = 1.0f;
         float scent_modifier = 1.0f;
+        /**How fast does healthy tends toward healthy_mod*/
+        float healthy_rate = 1.0f;
 
-        /**maximum damage dealt by water every minute when wet. Can be negative and regen health.*/
+
+        /**maximum damage dealt by water every minute when wet. Can be negative and regen hit points.*/
         int weakness_to_water = 0;
 
         // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
