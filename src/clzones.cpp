@@ -393,7 +393,7 @@ std::string plot_options::get_zone_name_suggestion() const
         auto type = itype_id( seed );
         item it = item( type );
         if( it.is_seed() ) {
-            return it.type->seed->plant_name;
+            return it.type->seed->plant_name.translated();
         } else {
             return item::nname( type );
         }

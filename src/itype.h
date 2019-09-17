@@ -726,9 +726,9 @@ struct islot_seed {
      */
     int fruit_div = 1;
     /**
-     * Name of the plant, already translated.
+     * Name of the plant.
      */
-    std::string plant_name;
+    translation plant_name;
     /**
      * Type id of the fruit item.
      */

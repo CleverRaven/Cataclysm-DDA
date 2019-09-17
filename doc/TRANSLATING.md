@@ -262,6 +262,7 @@ new syntax "name" would be a `dict`, which may break unmigrated script.
 | Martial art names and descriptions
 | Mission names and descriptions
 | Fault names and descriptions
+| Plant names in item seed data
 
 ### Recommendations
 
