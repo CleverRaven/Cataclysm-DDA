@@ -1,40 +1,23 @@
-// RUN: %check_clang_tidy %s cata-no-static-gettext %t -- -plugins=%cata_plugin -- -isystem %cata_include
+// RUN: %check_clang_tidy %s cata-no-static-gettext %t -- -plugins=%cata_plugin --
 
-// check_clang_tidy uses -nostdinc++, so we add dummy definition of gettext functions here instead of including translations.h
-const char *_( const char *const str )
-{
-    return str;
-}
-
-const char *gettext( const char *const str )
-{
-    return str;
-}
-
-const char *pgettext( const char *const, const char *const str )
-{
-    return str;
-}
-
-const char *ngettext( const char *const str, const char *const, int )
-{
-    return str;
-}
-
-const char *npgettext( const char *const, const char *const str, const char *const, int )
-{
-    return str;
-}
-
-// check_clang_tidy uses -nostdinc++, so we add dummy definition of std::string here
+// check_clang_tidy uses -nostdinc++, so we add dummy declaration of std::string here
 namespace std
 {
-class string
+template<class CharT, class Traits = void, class Allocator = void>
+class basic_string
 {
     public:
-        string( const char * );
+        basic_string( const CharT * );
 };
+using string = basic_string<char>;
 } // namespace std
+
+// check_clang_tidy uses -nostdinc++, so we add dummy declarations of gettext functions here instead of including translations.h
+const char *_( const char *const );
+const char *gettext( const char *const );
+const char *pgettext( const char *const, const char *const );
+const char *ngettext( const char *const, const char *const, int );
+const char *npgettext( const char *const, const char *const, const char *const, int );
 
 class foo
 {
