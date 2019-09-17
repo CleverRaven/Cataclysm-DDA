@@ -253,6 +253,13 @@ class spell
         // alternative cast message
         translation alt_message;
 
+        // minimum damage including levels
+        int min_leveled_damage() const;
+        // minimum aoe including levels
+        int min_leveled_aoe() const;
+        // minimum duration including levels (moves)
+        int min_leveled_duration() const;
+
     public:
         spell() = default;
         spell( spell_id sp, int xp = 0 );
@@ -312,6 +319,8 @@ class spell
         // check if the spell's class is the same as input
         bool is_spell_class( const trait_id &mid ) const;
 
+        bool in_aoe( const tripoint &source, const tripoint &target ) const;
+
         // get spell id (from type)
         spell_id id() const;
         // get spell class (from type)
@@ -334,6 +343,11 @@ class spell
         std::string energy_cur_string( const player &p ) const;
         // prints out a list of valid targets separated by commas
         std::string enumerate_targets() const;
+
+        std::string damage_string() const;
+        std::string aoe_string() const;
+        std::string duration_string() const;
+
         // energy source enum
         energy_type energy_source() const;
         // the color that's representative of the damage type

@@ -38,6 +38,7 @@
 #include "pldata.h"
 #include "point.h"
 #include "string_formatter.h"
+#include "line.h"
 
 namespace io
 {
@@ -95,6 +96,9 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::NO_HANDS: return "NO_HANDS";
         case spell_flag::NO_LEGS: return "NO_LEGS";
         case spell_flag::CONCENTRATE: return "CONCENTRATE";
+        case spell_flag::RANDOM_AOE: return "RANDOM_AOE";
+        case spell_flag::RANDOM_DAMAGE: return "RANDOM_DAMAGE";
+        case spell_flag::RANDOM_DURATION: return "RANDOM_DURATION";
         case spell_flag::LAST: break;
     }
     debugmsg( "Invalid spell_flag" );
@@ -172,6 +176,15 @@ static damage_type damage_type_from_string( const std::string &str )
     } else {
         debugmsg( _( "ERROR: Invalid damage type string.  Defaulting to none" ) );
         return DT_TRUE;
+    }
+}
+
+static std::string moves_to_string( const int moves )
+{
+    if( moves < to_moves<int>( 2_seconds ) ) {
+        return string_format( _( "%d moves" ), moves );
+    } else {
+        return to_string( time_duration::from_turns( moves / 100 ) );
     }
 }
 
@@ -405,9 +418,14 @@ int spell::field_intensity() const
                                        type->field_intensity_increment ) ) );
 }
 
+int spell::min_leveled_damage() const
+{
+    return type->min_damage + round( get_level() * type->damage_increment );
+}
+
 int spell::damage() const
 {
-    const int leveled_damage = type->min_damage + round( get_level() * type->damage_increment );
+    const int leveled_damage = min_leveled_damage();
 
     if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
         return rng( std::min( leveled_damage, type->max_damage ), std::max( leveled_damage,
@@ -421,9 +439,28 @@ int spell::damage() const
     }
 }
 
+std::string spell::damage_string() const
+{
+    if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
+        return string_format( "%d-%d", min_leveled_damage(), type->max_damage );
+    } else {
+        const int dmg = damage();
+        if( dmg >= 0 ) {
+            return string_format( "%d", damage() );
+        } else {
+            return string_format( "+%d", damage() );
+        }
+    }
+}
+
+int spell::min_leveled_aoe() const
+{
+    return type->min_aoe + round( get_level() * type->aoe_increment );
+}
+
 int spell::aoe() const
 {
-    const int leveled_aoe = type->min_aoe + round( get_level() * type->aoe_increment );
+    const int leveled_aoe = min_leveled_aoe();
 
     if( has_flag( spell_flag::RANDOM_AOE ) ) {
         return rng( std::min( leveled_aoe, type->max_aoe ), std::max( leveled_aoe, type->max_aoe ) );
@@ -433,6 +470,24 @@ int spell::aoe() const
         } else {
             return std::max( leveled_aoe, type->max_aoe );
         }
+    }
+}
+
+bool spell::in_aoe( const tripoint &source, const tripoint &target ) const
+{
+    if( has_flag( spell_flag::RANDOM_AOE ) ) {
+        return rl_dist( source, target ) <= type->max_aoe;
+    } else {
+        return rl_dist( source, target ) <= aoe();
+    }
+}
+
+std::string spell::aoe_string() const
+{
+    if( has_flag( spell_flag::RANDOM_AOE ) ) {
+        return string_format( "%d-%d", min_leveled_aoe(), type->max_aoe );
+    } else {
+        return string_format( "%d", aoe() );
     }
 }
 
@@ -446,12 +501,16 @@ int spell::range() const
     }
 }
 
+int spell::min_leveled_duration() const
+{
+    return type->min_duration + round( get_level() * type->duration_increment );
+}
+
 int spell::duration() const
 {
-    const int leveled_duration = type->min_duration + round( get_level() *
-                                 type->duration_increment );
+    const int leveled_duration = min_leveled_duration();
 
-    if( has_flag( RANDOM_DURATION ) ) {
+    if( has_flag( spell_flag::RANDOM_DURATION ) ) {
         return rng( std::min( leveled_duration, type->max_duration ), std::max( leveled_duration,
                     type->max_duration ) );
     } else {
@@ -460,6 +519,16 @@ int spell::duration() const
         } else {
             return std::max( leveled_duration, type->max_duration );
         }
+    }
+}
+
+std::string spell::duration_string() const
+{
+    if( has_flag( spell_flag::RANDOM_DURATION ) ) {
+        return string_format( "%s - %s", moves_to_string( min_leveled_duration() ),
+                              moves_to_string( type->max_duration ) );
+    } else {
+        return moves_to_string( duration() );
     }
 }
 
@@ -1284,15 +1353,6 @@ class spellcasting_callback : public uilist_callback
         }
 };
 
-static std::string moves_to_string( const int moves )
-{
-    if( moves < to_moves<int>( 2_seconds ) ) {
-        return string_format( _( "%d moves" ), moves );
-    } else {
-        return to_string( time_duration::from_turns( moves / 100 ) );
-    }
-}
-
 static bool casting_time_encumbered( const spell &sp, const player &p )
 {
     int encumb = 0;
@@ -1382,7 +1442,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                         string_format( "%s: %d", _( "Difficulty" ), sp.get_difficulty() ) );
 
     print_colored_text( w_menu, point( h_col1, line ), gray, gray,
-                        string_format( "%s: %s", _( "to Next Level" ), colorize( to_string( sp.xp() ), light_green ) ) );
+                        string_format( "%s: %s", _( "Current Exp" ), colorize( to_string( sp.xp() ), light_green ) ) );
     print_colored_text( w_menu, point( h_col2, line++ ), gray, gray,
                         string_format( "%s: %s", _( "to Next Level" ), colorize( to_string( sp.exp_to_next_level() ),
                                        light_green ) ) );
@@ -1421,11 +1481,11 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     if( fx == "target_attack" || fx == "projectile_attack" || fx == "cone_attack" ||
         fx == "line_attack" ) {
         if( damage > 0 ) {
-            damage_string = string_format( "%s: %s %s", _( "Damage" ), colorize( to_string( damage ),
+            damage_string = string_format( "%s: %s %s", _( "Damage" ), colorize( sp.damage_string(),
                                            sp.damage_type_color() ),
                                            colorize( sp.damage_type_string(), sp.damage_type_color() ) );
         } else if( damage < 0 ) {
-            damage_string = string_format( "%s: %s", _( "Healing" ), colorize( "+" + to_string( -damage ),
+            damage_string = string_format( "%s: %s", _( "Healing" ), colorize( sp.damage_string(),
                                            light_green ) );
         }
         if( sp.aoe() > 0 ) {
@@ -1460,8 +1520,8 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     // todo: damage over time here, when it gets implemeted
 
-    print_colored_text( w_menu, point( h_col2, line++ ), gray, gray, sp.duration() <= 0 ? "" :
-                        string_format( "%s: %s", _( "Duration" ), moves_to_string( sp.duration() ) ) );
+    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, sp.duration() <= 0 ? "" :
+                        string_format( "%s: %s", _( "Duration" ), sp.duration_string() ) );
 }
 
 int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
