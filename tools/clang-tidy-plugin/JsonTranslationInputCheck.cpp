@@ -47,8 +47,8 @@ void JsonTranslationInputCheck::check( const MatchFinder::MatchResult &Result )
         if( translationFunc ) {
             diag(
                 translationCall->getBeginLoc(),
-                "immediately translating a value read from json usually causes "
-                "premature translation."
+                "immediately translating a value read from json causes translation "
+                "updating issues. Consider reading into a translation object instead."
             );
             diag(
                 jsonInputCall->getBeginLoc(),
