@@ -2108,7 +2108,7 @@ void load_bionic( JsonObject &jsobj )
         if( num_stat != Character::stat::DUMMY_STAT ) {
             new_bionic.stat_bonus.emplace( num_stat, ja.get_int( 1 ) );
         } else {
-            jsobj.throw_error( "Invalid Stat name, valid names are: STR,DEX,INT and PER" );
+            jsobj.throw_error( "Invalid Stat name, valid names are: STR,DEX,INT,PER" );
         }
     }
 
