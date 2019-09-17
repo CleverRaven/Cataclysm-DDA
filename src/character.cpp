@@ -1011,7 +1011,7 @@ void Character::update_fuel_storage( const itype_id &fuel )
 
 }
 
-int Character::get_mod_stat_from_bionic( std::string Stat ) const
+int Character::get_mod_stat_from_bionic( const Character::stat &Stat ) const
 {
     int ret = 0;
     for( const bionic &bio : *my_bionics ) {
@@ -1834,10 +1834,10 @@ void Character::reset_stats()
         mod_str_bonus( 20 );
     }
 
-    mod_str_bonus( get_mod_stat_from_bionic( "STR" ) );
-    mod_dex_bonus( get_mod_stat_from_bionic( "DEX" ) );
-    mod_per_bonus( get_mod_stat_from_bionic( "PER" ) );
-    mod_int_bonus( get_mod_stat_from_bionic( "INT" ) );
+    mod_str_bonus( get_mod_stat_from_bionic( STRENGTH ) );
+    mod_dex_bonus( get_mod_stat_from_bionic( DEXTERITY ) );
+    mod_per_bonus( get_mod_stat_from_bionic( PERCEPTION ) );
+    mod_int_bonus( get_mod_stat_from_bionic( INTELLIGENCE ) );
 
     // Trait / mutation buffs
     mod_str_bonus( std::floor( mutation_value( "str_modifier" ) ) );
@@ -2322,6 +2322,44 @@ void Character::mod_int_bonus( int nint )
 {
     int_bonus += nint;
     int_cur = std::max( 0, int_max + int_bonus );
+}
+
+Character::stat string_to_stat( const std::string &Stat )
+{
+    Character::stat stat_enum = Character::stat::DUMMY_STAT;
+    if( Stat == "STR" ) {
+        stat_enum = Character::stat::STRENGTH;
+    } else if( Stat == "DEX" ) {
+        stat_enum = Character::stat::DEXTERITY;
+    } else if( Stat == "INT" ) {
+        stat_enum = Character::stat::INTELLIGENCE;
+    } else if( Stat == "PER" ) {
+        stat_enum = Character::stat::PERCEPTION;
+    }
+    return stat_enum;
+}
+
+std::string get_stat_name( const Character::stat &enum_stat )
+{
+    std::string stat_name;
+    switch( enum_stat ) {
+        case Character::stat::STRENGTH:
+            stat_name = pgettext( "strength stat", "STR" );
+            break;
+        case Character::stat::DEXTERITY:
+            stat_name = pgettext( "dexterity stat", "DEX" );
+            break;
+        case Character::stat::INTELLIGENCE:
+            stat_name = pgettext( "intelligence stat", "INT" );
+            break;
+        case Character::stat::PERCEPTION:
+            stat_name = pgettext( "perception stat", "PER" );
+            break;
+        case Character::stat::DUMMY_STAT:
+            stat_name = pgettext( "fake stat", "ERR" );
+            break;
+    }
+    return stat_name;
 }
 
 void Character::set_healthy( int nhealthy )

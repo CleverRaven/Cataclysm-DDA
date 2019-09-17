@@ -2732,7 +2732,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Stat Bonus:</bold> " ),
                                           iteminfo::no_newline ) );
                 for( const auto &element : bid->stat_bonus ) {
-                    info.push_back( iteminfo( "CBM", element.first, " <num> ", iteminfo::no_newline, element.second ) );
+                    info.push_back( iteminfo( "CBM", get_stat_name( element.first ), " <num> ", iteminfo::no_newline,
+                                              element.second ) );
                 }
 
             }

@@ -190,7 +190,8 @@ class Character : public Creature, public visitable<Character>
             STRENGTH,
             DEXTERITY,
             INTELLIGENCE,
-            PERCEPTION
+            PERCEPTION,
+            DUMMY_STAT
         };
 
         // Character stats
@@ -516,7 +517,7 @@ class Character : public Creature, public visitable<Character>
         /**Updates which bionic contain fuel and which is empty*/
         void update_fuel_storage( const itype_id &fuel );
         /**Get stat bonus from bionic*/
-        int get_mod_stat_from_bionic( std::string Stat ) const;
+        int get_mod_stat_from_bionic( const Character::stat &Stat ) const;
         // route for overmap-scale travelling
         std::vector<tripoint> omt_path;
         // --------------- Generic Item Stuff ---------------
@@ -1030,5 +1031,10 @@ class Character : public Creature, public visitable<Character>
         int sleep_deprivation;
         bool check_encumbrance;
 };
+
+/**Converts name of a stat to the correct enum*/
+Character::stat string_to_stat( const std::string &Stat );
+
+std::string get_stat_name( const Character::stat &enum_stat );
 
 #endif

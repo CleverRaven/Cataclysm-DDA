@@ -16,6 +16,7 @@
 #include "assign.h"
 #include "ballistics.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "debug.h"
 #include "effect.h"
 #include "event_bus.h"
@@ -2103,7 +2104,12 @@ void load_bionic( JsonObject &jsobj )
     JsonArray jsr = jsobj.get_array( "stat_bonus" );
     while( jsr.has_more() ) {
         JsonArray ja = jsr.next_array();
-        new_bionic.stat_bonus.emplace( ja.get_string( 0 ), ja.get_int( 1 ) );
+        Character::stat num_stat = string_to_stat( ja.get_string( 0 ) );
+        if( num_stat != Character::stat::DUMMY_STAT ) {
+            new_bionic.stat_bonus.emplace( num_stat, ja.get_int( 1 ) );
+        } else {
+            jsobj.throw_error( "Invalid Stat name, valid names are: STR,DEX,INT and PER" );
+        }
     }
 
 
