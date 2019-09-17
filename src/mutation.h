@@ -138,6 +138,9 @@ struct mutation_branch {
         float noise_modifier = 1.0f;
         float scent_modifier = 1.0f;
         int bleed_resist = 0;
+
+        /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
+        int fat_to_max_hp = 0;
         /**How fast does healthy tends toward healthy_mod*/
         float healthy_rate = 1.0f;
 

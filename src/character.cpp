@@ -230,6 +230,21 @@ void Character::mod_stat( const std::string &stat, float modifier )
     }
 }
 
+void Character::do_fat_to_hp()
+{
+    int mut_fat_hp = 0;
+    for( const trait_id &mut : get_mutations() ) {
+        mut_fat_hp += mut.obj().fat_to_max_hp;
+    }
+    if( mut_fat_hp == 0 ) {
+        return;
+    }
+
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        hp_max[i] += mut_fat_hp * ( get_bmi() - character_weight_category::normal );
+    }
+}
+
 std::string Character::disp_name( bool possessive ) const
 {
     if( !possessive ) {
@@ -2406,6 +2421,9 @@ void Character::set_stored_kcal( int kcal )
 {
     if( stored_calories != kcal ) {
         stored_calories = kcal;
+
+        //some mutant change their max_hp according to their bmi
+        do_fat_to_hp();
     }
 }
 
