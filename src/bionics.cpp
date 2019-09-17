@@ -16,6 +16,7 @@
 #include "assign.h"
 #include "ballistics.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "debug.h"
 #include "effect.h"
 #include "event_bus.h"
@@ -2100,32 +2101,37 @@ void load_bionic( JsonObject &jsobj )
     jsobj.read( "fuel_options", new_bionic.fuel_opts );
     jsobj.read( "fuel_capacity", new_bionic.fuel_capacity );
 
-    JsonArray jsar = jsobj.get_array( "encumbrance" );
-    if( !jsar.empty() ) {
-        while( jsar.has_more() ) {
-            JsonArray ja = jsar.next_array();
-            new_bionic.encumbrance.emplace( get_body_part_token( ja.get_string( 0 ) ),
-                                            ja.get_int( 1 ) );
-        }
+    JsonArray jsr = jsobj.get_array( "stat_bonus" );
+    while( jsr.has_more() ) {
+        JsonArray ja = jsr.next_array();
+        new_bionic.stat_bonus.emplace( io::string_to_enum<Character::stat>( ja.get_string( 0 ) ),
+                                       ja.get_int( 1 ) );
     }
+
+
+    JsonArray jsar = jsobj.get_array( "encumbrance" );
+    while( jsar.has_more() ) {
+        JsonArray ja = jsar.next_array();
+        new_bionic.encumbrance.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                        ja.get_int( 1 ) );
+    }
+
 
     JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );
-    if( !jsarr.empty() ) {
-        while( jsarr.has_more() ) {
-            JsonArray ja = jsarr.next_array();
-            new_bionic.occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
-                                                   ja.get_int( 1 ) );
-        }
+    while( jsarr.has_more() ) {
+        JsonArray ja = jsarr.next_array();
+        new_bionic.occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                               ja.get_int( 1 ) );
     }
 
+
     JsonArray json_arr = jsobj.get_array( "env_protec" );
-    if( !json_arr.empty() ) {
-        while( json_arr.has_more() ) {
-            JsonArray ja = json_arr.next_array();
-            new_bionic.env_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
-                                           ja.get_int( 1 ) );
-        }
+    while( json_arr.has_more() ) {
+        JsonArray ja = json_arr.next_array();
+        new_bionic.env_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                       ja.get_int( 1 ) );
     }
+
 
     new_bionic.activated = new_bionic.toggled ||
                            new_bionic.power_activate > 0 ||
