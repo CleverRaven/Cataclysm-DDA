@@ -1032,9 +1032,9 @@ class Character : public Creature, public visitable<Character>
         bool check_encumbrance;
 };
 
-/**Converts name of a stat to the correct enum*/
-Character::stat string_to_stat( const std::string &Stat );
-
-std::string get_stat_name( const Character::stat &enum_stat );
+template<>
+struct enum_traits<Character::stat> {
+    static constexpr Character::stat last = Character::stat::DUMMY_STAT;
+};
 
 #endif

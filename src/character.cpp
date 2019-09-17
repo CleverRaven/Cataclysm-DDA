@@ -2324,42 +2324,25 @@ void Character::mod_int_bonus( int nint )
     int_cur = std::max( 0, int_max + int_bonus );
 }
 
-Character::stat string_to_stat( const std::string &Stat )
+namespace io
 {
-    Character::stat stat_enum = Character::stat::DUMMY_STAT;
-    if( Stat == "STR" ) {
-        stat_enum = Character::stat::STRENGTH;
-    } else if( Stat == "DEX" ) {
-        stat_enum = Character::stat::DEXTERITY;
-    } else if( Stat == "INT" ) {
-        stat_enum = Character::stat::INTELLIGENCE;
-    } else if( Stat == "PER" ) {
-        stat_enum = Character::stat::PERCEPTION;
-    }
-    return stat_enum;
-}
+template<>
+std::string enum_to_string<Character::stat>( Character::stat data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+    case Character::stat::STRENGTH: return pgettext("strength stat", "STR");
+    case Character::stat::DEXTERITY: return pgettext("dexterity stat", "DEX");
+    case Character::stat::INTELLIGENCE: return pgettext("intelligence stat", "INT");
+    case Character::stat::PERCEPTION: return pgettext("perception stat", "PER");
 
-std::string get_stat_name( const Character::stat &enum_stat )
-{
-    std::string stat_name;
-    switch( enum_stat ) {
-        case Character::stat::STRENGTH:
-            stat_name = pgettext( "strength stat", "STR" );
-            break;
-        case Character::stat::DEXTERITY:
-            stat_name = pgettext( "dexterity stat", "DEX" );
-            break;
-        case Character::stat::INTELLIGENCE:
-            stat_name = pgettext( "intelligence stat", "INT" );
-            break;
-        case Character::stat::PERCEPTION:
-            stat_name = pgettext( "perception stat", "PER" );
-            break;
+        // *INDENT-ON*
         case Character::stat::DUMMY_STAT:
-            stat_name = pgettext( "fake stat", "ERR" );
             break;
     }
-    return stat_name;
+    debugmsg( "Invalid Stat" );
+    abort();
+}
 }
 
 void Character::set_healthy( int nhealthy )

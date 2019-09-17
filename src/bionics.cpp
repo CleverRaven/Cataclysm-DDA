@@ -2104,7 +2104,7 @@ void load_bionic( JsonObject &jsobj )
     JsonArray jsr = jsobj.get_array( "stat_bonus" );
     while( jsr.has_more() ) {
         JsonArray ja = jsr.next_array();
-        Character::stat num_stat = string_to_stat( ja.get_string( 0 ) );
+        Character::stat num_stat = io::string_to_enum<Character::stat>( ja.get_string( 0 ) );
         if( num_stat != Character::stat::DUMMY_STAT ) {
             new_bionic.stat_bonus.emplace( num_stat, ja.get_int( 1 ) );
         } else {
