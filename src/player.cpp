@@ -3862,7 +3862,7 @@ void player::check_needs_extremes()
             hp_cur[hp_torso] = 0;
         } else {
             if( calendar::once_every( 1_hours ) ) {
-                if( stomach.contains() == 0_ml ) {
+                if( stomach.contains() <= stomach.capacity() / 4 ) {
                     if( get_kcal_percent() < 0.1f ) {
                         add_msg_if_player( m_warning, _( "Food..." ) );
                     } else if( get_kcal_percent() < 0.25f ) {
@@ -3877,7 +3877,7 @@ void player::check_needs_extremes()
                     if( get_kcal_percent() < 0.1f ) {
                         add_msg_if_player( m_warning, _( "Food..." ) );
                     } else if( get_kcal_percent() < 0.25f ) {
-                        add_msg_if_player( m_warning, _( "You are EXHAUSTED!" ) );
+                        add_msg_if_player( m_warning, _( "You are EMACIATED!" ) );
                     } else if( get_kcal_percent() < 0.5f ) {
                         add_msg_if_player( m_warning, _( "You feel weak due to malnutrition." ) );
                     } else if( get_kcal_percent() < 0.8f ) {
