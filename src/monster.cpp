@@ -2517,7 +2517,7 @@ void monster::mod_size_bonus( int nsize )
 
 m_size monster::get_size() const
 {
-    return static_cast<m_size>( static_cast<int>( type->size ) + get_size_bonus() );
+    return m_size( type->size + get_size_bonus() );
 }
 
 units::mass monster::get_weight() const
