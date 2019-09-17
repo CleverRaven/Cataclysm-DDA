@@ -113,9 +113,9 @@ class monster : public Creature
         int get_hp_max( hp_part ) const override;
         int get_hp_max() const override;
         int hp_percentage() const override;
-        int get_size_bonus() const;
-        void set_size_bonus( int nsize );
-        void mod_size_bonus( int nsize );
+        int get_growth_bonus() const;
+        void set_growth_bonus( int nsize );
+        void mod_growth_bonus( int nsize );
 
         // Access
         std::string get_name() const override;
