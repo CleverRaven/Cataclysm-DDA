@@ -5289,7 +5289,7 @@ bool mattack::zombie_fuse( monster *z )
     monster *critter = nullptr;
     for( const tripoint &p : g->m.points_in_radius( z->pos(), 1 ) ) {
         critter = g->critter_at<monster>( p );
-        if( critter != nullptr &&  critter->faction == z->faction
+        if( critter != nullptr && critter->faction == z->faction
             && critter != z && critter->get_size() <= z->get_size() ) {
             break;
         }
