@@ -515,7 +515,7 @@ class monster : public Creature
         tripoint goal;
         tripoint position;
         bool dead;
-        int size_bonus;
+        int growth_bonus;
         /** Legacy loading logic for monsters that are packing ammo. **/
         void normalize_ammo( int old_ammo );
         /** Normal upgrades **/

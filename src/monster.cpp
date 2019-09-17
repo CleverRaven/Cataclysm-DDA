@@ -2265,7 +2265,7 @@ void monster::process_one_effect( effect &it, bool is_new )
     mod_hit_bonus( get_effect( "HIT", reduced ) );
     mod_bash_bonus( get_effect( "BASH", reduced ) );
     mod_cut_bonus( get_effect( "CUT", reduced ) );
-    mod_size_bonus( get_effect( "SIZE", reduced ) );
+    mod_growth_bonus( get_effect( "GROWTH", reduced ) );
 
 
     int val = get_effect( "HURT", reduced );
@@ -2500,24 +2500,24 @@ field_type_id monster::gibType() const
     return type->gibType();
 }
 
-int monster::get_size_bonus() const
+int monster::get_growth_bonus() const
 {
-    return size_bonus;
+    return growth_bonus;
 }
 
-void monster::set_size_bonus( int nsize )
+void monster::set_growth_bonus( int nsize )
 {
-    size_bonus = nsize;
+    growth_bonus = nsize;
 }
 
-void monster::mod_size_bonus( int nsize )
+void monster::mod_growth_bonus( int nsize )
 {
-    size_bonus += nsize;
+    growth_bonus += nsize;
 }
 
 m_size monster::get_size() const
 {
-    return m_size( type->size + get_size_bonus() );
+    return m_size( type->size + get_growth_bonus() );
 }
 
 units::mass monster::get_weight() const
