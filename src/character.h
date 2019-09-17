@@ -778,6 +778,10 @@ class Character : public Creature, public visitable<Character>
             }
         }
 
+        void make_bleed( body_part bp, time_duration duration, int intensity = 1,
+                         bool permanent = false,
+                         bool force = false, bool defferred = false );
+
         /** Calls Creature::normalize()
          *  nulls out the player's weapon
          *  Should only be called through player::normalize(), not on it's own!

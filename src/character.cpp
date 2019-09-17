@@ -1755,6 +1755,21 @@ bool Character::meets_requirements( const item &it, const item &context ) const
     return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
 }
 
+void Character::make_bleed( body_part bp, time_duration duration, int intensity,
+                            bool permanent, bool force, bool defferred )
+{
+    int b_resist = 0;
+    for( const trait_id &mut : get_mutations() ) {
+        b_resist += mut.obj().bleed_resist;
+    }
+
+    if( b_resist > intensity ) {
+        return;
+    }
+
+    add_effect( effect_bleed, duration, bp, permanent, intensity, force, defferred );
+}
+
 void Character::normalize()
 {
     Creature::normalize();

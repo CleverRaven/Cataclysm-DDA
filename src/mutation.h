@@ -137,6 +137,7 @@ struct mutation_branch {
         float hearing_modifier = 1.0f;
         float noise_modifier = 1.0f;
         float scent_modifier = 1.0f;
+        int bleed_resist = 0;
         /**How fast does healthy tends toward healthy_mod*/
         float healthy_rate = 1.0f;
 
