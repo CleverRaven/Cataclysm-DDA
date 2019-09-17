@@ -5301,7 +5301,7 @@ bool mattack::zombie_fuse( monster *z )
         return false;
     }
     if( g->u.sees( *z ) ) {
-        g->u.add_msg_if_player( _( "The %1$s fuses with the %2$s." ),
+        add_msg( _( "The %1$s fuses with the %2$s." ),
                                 critter->name(),
                                 z->name() );
     }
