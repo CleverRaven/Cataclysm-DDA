@@ -17,6 +17,7 @@
 #include "iuse.h"
 #include "ret_val.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "optional.h"
@@ -49,7 +50,7 @@ class iuse_transform : public iuse_actor
 {
     public:
         /** displayed if player sees transformation with %s replaced by item name */
-        std::string msg_transform;
+        translation msg_transform;
 
         /** type of the resulting item */
         std::string target;
@@ -82,18 +83,18 @@ class iuse_transform : public iuse_actor
         int need_fire = 0;
 
         /** displayed if item is in player possession with %s replaced by item name */
-        std::string need_fire_msg;
+        translation need_fire_msg;
 
         /** minimum charges (if any) required for transformation */
         int need_charges = 0;
 
         /** displayed if item is in player possession with %s replaced by item name */
-        std::string need_charges_msg;
+        translation need_charges_msg;
 
         /** Tool qualities needed, e.g. "fine bolt turning 1". **/
         std::map<quality_id, int> qualities_needed;
 
-        std::string menu_text;
+        translation menu_text;
 
         iuse_transform( const std::string &type = "transform" ) : iuse_actor( type ) {}
 

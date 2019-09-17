@@ -263,6 +263,7 @@ new syntax "name" would be a `dict`, which may break unmigrated script.
 | Mission names and descriptions
 | Fault names and descriptions
 | Plant names in item seed data
+| Transform use action messages and menu text
 
 ### Recommendations
 
