@@ -2340,7 +2340,6 @@ std::string enum_to_string<Character::stat>( Character::stat data )
         case Character::stat::DUMMY_STAT:
             break;
     }
-    debugmsg( "Invalid Stat" );
     abort();
 }
 }
