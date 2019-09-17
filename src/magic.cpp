@@ -408,20 +408,31 @@ int spell::field_intensity() const
 int spell::damage() const
 {
     const int leveled_damage = type->min_damage + round( get_level() * type->damage_increment );
-    if( type->min_damage >= 0 || type->max_damage >= type->min_damage ) {
-        return std::min( leveled_damage, type->max_damage );
-    } else { // if it's negative, min and max work differently
-        return std::max( leveled_damage, type->max_damage );
+
+    if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
+        return rng( std::min( leveled_damage, type->max_damage ), std::max( leveled_damage,
+                    type->max_damage ) );
+    } else {
+        if( type->min_damage >= 0 || type->max_damage >= type->min_damage ) {
+            return std::min( leveled_damage, type->max_damage );
+        } else { // if it's negative, min and max work differently
+            return std::max( leveled_damage, type->max_damage );
+        }
     }
 }
 
 int spell::aoe() const
 {
     const int leveled_aoe = type->min_aoe + round( get_level() * type->aoe_increment );
-    if( type->max_aoe >= type->min_aoe ) {
-        return std::min( leveled_aoe, type->max_aoe );
+
+    if( has_flag( spell_flag::RANDOM_AOE ) ) {
+        return rng( std::min( leveled_aoe, type->max_aoe ), std::max( leveled_aoe, type->max_aoe ) );
     } else {
-        return std::max( leveled_aoe, type->max_aoe );
+        if( type->max_aoe >= type->min_aoe ) {
+            return std::min( leveled_aoe, type->max_aoe );
+        } else {
+            return std::max( leveled_aoe, type->max_aoe );
+        }
     }
 }
 
@@ -439,10 +450,16 @@ int spell::duration() const
 {
     const int leveled_duration = type->min_duration + round( get_level() *
                                  type->duration_increment );
-    if( type->max_duration >= type->min_duration ) {
-        return std::min( leveled_duration, type->max_duration );
+
+    if( has_flag( RANDOM_DURATION ) ) {
+        return rng( std::min( leveled_duration, type->max_duration ), std::max( leveled_duration,
+                    type->max_duration ) );
     } else {
-        return std::max( leveled_duration, type->max_duration );
+        if( type->max_duration >= type->min_duration ) {
+            return std::min( leveled_duration, type->max_duration );
+        } else {
+            return std::max( leveled_duration, type->max_duration );
+        }
     }
 }
 

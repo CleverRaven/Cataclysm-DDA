@@ -42,6 +42,9 @@ enum spell_flag {
     NO_HANDS, // hands do not affect spell energy cost
     NO_LEGS, // legs do not affect casting time
     CONCENTRATE, // focus affects spell fail %
+    RANDOM_AOE, // picks random number between min+increment*level and max instead of normal behavior
+    RANDOM_DAMAGE, // picks random number between min+increment*level and max instead of normal behavior
+    RANDOM_DURATION, // picks random number between min+increment*level and max instead of normal behavior
     LAST
 };
 
