@@ -202,6 +202,7 @@ class SkillDisplayType
     public:
         static std::vector<SkillDisplayType> skillTypes;
         static void load( JsonObject &jsobj );
+        static void reset( );
 
         static const SkillDisplayType &get_skill_type( skill_displayType_id );
 

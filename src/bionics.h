@@ -166,6 +166,7 @@ class BionicsDisplayType
     public:
         static std::vector<BionicsDisplayType> displayTypes;
         static void load( JsonObject &jsobj );
+        static void reset();
         static bionics_displayType_id infer_type( const bionic_data &b );
 
         static const BionicsDisplayType &get_display_type( bionics_displayType_id );

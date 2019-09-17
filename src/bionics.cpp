@@ -2315,8 +2315,11 @@ void BionicsDisplayType::load( JsonObject &jsobj )
 
     translation display_string;
     jsobj.read( "display_string", display_string );
-    const BionicsDisplayType sk( ident, display_string );
-    displayTypes.push_back( sk );
+    displayTypes.emplace_back( ident, display_string );
+}
+void BionicsDisplayType::reset()
+{
+    displayTypes.clear();
 }
 
 const BionicsDisplayType &BionicsDisplayType::get_display_type( bionics_displayType_id id )

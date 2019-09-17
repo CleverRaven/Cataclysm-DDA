@@ -127,10 +127,13 @@ void SkillDisplayType::load( JsonObject &jsobj )
 
     translation display_string;
     jsobj.read( "display_string", display_string );
-    const SkillDisplayType sk( ident, display_string );
-    skillTypes.push_back( sk );
+    skillTypes.emplace_back( ident, display_string );
 }
 
+void SkillDisplayType::reset()
+{
+    skillTypes.clear();
+}
 
 const SkillDisplayType &SkillDisplayType::get_skill_type( skill_displayType_id id )
 {

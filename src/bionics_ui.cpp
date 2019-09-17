@@ -52,8 +52,7 @@ bionic_col_data get_col_data( int col_idx )
     static std::array< bionic_col_data, column_num_entries> col_data = { {
             {
                 3, translate_marker( "Status" ),
-                string_format( translate_marker( "CBM Status:\n\t<color_%s>+</color> - activated\n\t<color_%s>x</color> - incapacitated. This CBM cannot be used for some time." ),
-                               string_from_color( c_green ), string_from_color( c_red ) )
+                string_format( translate_marker( "CBM Status:\n\t<color_c_green>+</color> - activated\n\t<color_c_red>x</color> - incapacitated. This CBM cannot be used for some time." ) )
             },
             {8, translate_marker( "Activation" ), translate_marker( "Amount of Bionic Power required to activeate this CBM." )},
             {8, translate_marker( "Turn Cost" ), translate_marker( "Amount of Bionic Power this CBM consumes every turn while activated. Values like 1 /600 mean that 1 Power will be consumed every 600 turns." ) }
@@ -376,7 +375,7 @@ void player::power_bionics()
     for( ;; ) {
         if( recalc ) {
             bionics_by_type.clear();
-            for( auto b : *my_bionics ) {
+            for( auto &b : *my_bionics ) {
                 bionics_displayType_id dType = b.id->display_type;
                 for( size_t i = 0; i < BionicsDisplayType::displayTypes.size(); i++ ) {
                     if( BionicsDisplayType::displayTypes[i].ident() == dType ) {
@@ -467,8 +466,6 @@ void player::power_bionics()
                         draw_connectors( wBio, y_pos, col_right_bound,
                                          pos_x - 2, bio_id );
 
-                        add_msg_if_player( "++ %d %d", col_right_bound, pos_x - 2 );
-
                         // redraw highlighted (occupied) body parts
                         for( auto &elem : bio_id->occupied_bodyparts ) {
                             const int i = static_cast<int>( elem.first );
@@ -539,7 +536,11 @@ void player::power_bionics()
                     break;
                 } else if( bionic_chars.valid( invlet ) ) {
                     bionic *otmp = bionic_by_invlet( invlet );
-                    std::swap( tmp->invlet, otmp->invlet );
+                    if( otmp ) {
+                        std::swap( tmp->invlet, otmp->invlet );
+                    } else {
+                        tmp->invlet = invlet;
+                    }
                     break;
                 }
             }
@@ -623,8 +624,8 @@ void player::power_bionics()
                     deactivate_bionic( bionic_idx );
                 } else {
                     activate_bionic( bionic_idx );
-                    if( !bio_data.toggled ) {
-                        popup( "You activate your %s.", bio_data.name );
+                    if( !bio_data.toggled && !bio_data.gun_bionic ) {
+                        popup( _( "You activate your %s." ), bio_data.name );
                     }
                     // Clear the menu if we are firing a bionic gun
                     if( tmp->info().gun_bionic || tmp->ammo_count > 0 ) {

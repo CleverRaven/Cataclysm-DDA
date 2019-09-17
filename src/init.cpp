@@ -468,6 +468,8 @@ void DynamicDataLoader::unload_data()
     materials::reset();
     profession::reset();
     Skill::reset();
+    SkillDisplayType::reset();
+    BionicsDisplayType::reset();
     dreams.clear();
     // clear techniques, martial arts, and ma buffs
     clear_techniques_and_martial_arts();
