@@ -1069,13 +1069,41 @@ void npc::form_opinion( const player &u )
         set_attitude( NPCATT_TALK );
     } else if( op_of_u.fear - 2 * personality.aggression - personality.bravery < -30 ) {
         set_attitude( NPCATT_KILL );
-    } else if( my_fac != nullptr && my_fac->likes_u < -10 ) {
+    } else if( my_fac && my_fac->likes_u < -10 ) {
+        if( is_player_ally() ) {
+            mutiny();
+        }
         set_attitude( NPCATT_KILL );
     } else {
         set_attitude( NPCATT_FLEE_TEMP );
     }
 
     add_msg( m_debug, "%s formed an opinion of u: %s", name, npc_attitude_id( attitude ) );
+}
+
+void npc::mutiny()
+{
+    if( !my_fac || !is_player_ally() ) {
+        return;
+    }
+    const bool seen = g->u.sees( pos() );
+    if( seen ) {
+        add_msg( m_bad, _( "%s is tired of your incompetent leadership and abuse!" ), disp_name() );
+    }
+    // NPCs leaving your faction due to mistreatment further reduce their opinion of you
+    if( my_fac->likes_u < -10 ) {
+        op_of_u.trust += my_fac->respects_u / 10;
+        op_of_u.anger += my_fac->likes_u / 10;
+    }
+    // NPCs leaving your faction for abuse reduce the hatred your (remaining) followers
+    // feel for you, but also reduces their respect for you.
+    my_fac->likes_u = std::max( 0, my_fac->likes_u / 2 + 10 );
+    my_fac->respects_u -= 5;
+    set_fac( faction_id( "amf" ) );
+    say( _( "<follower_mutiny>  Adios, motherfucker!" ), sounds::sound_t::order );
+    if( seen ) {
+        my_fac->known_by_u = true;
+    }
 }
 
 float npc::vehicle_danger( int radius ) const
@@ -1133,10 +1161,15 @@ void npc::make_angry()
         return; // We're already angry!
     }
 
+    // player allies that become angry should stop being player allies
+    if( is_player_ally() ) {
+        mutiny();
+    }
+
     // Make associated faction, if any, angry at the player too.
-    if( my_fac != nullptr && my_fac->id != faction_id( "no_faction" ) ) {
-        my_fac->likes_u = std::max( -50, my_fac->likes_u - 50 );
-        my_fac->respects_u = std::max( -50, my_fac->respects_u - 50 );
+    if( my_fac && my_fac->id != faction_id( "no_faction" ) && my_fac->id != faction_id( "amf" ) ) {
+        my_fac->likes_u = std::min( -15, my_fac->likes_u - 5 );
+        my_fac->respects_u = std::min( -15, my_fac->respects_u - 5 );
     }
     if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
         set_attitude( NPCATT_FLEE_TEMP ); // We don't want to take u on!
