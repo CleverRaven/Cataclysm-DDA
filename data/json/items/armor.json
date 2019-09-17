@@ -9571,10 +9571,13 @@
     "encumbrance": 10,
     "material_thickness": 4,
     "use_action": {
-      "type": "bandolier",
-      "capacity": 5,
-      "ammo": [ "javelin" ],
-      "draw_cost": 30
+      "type": "holster",
+      "holster_prompt": "Stash javelins",
+      "holster_msg": "You stash your %s.",
+      "multi": 5,
+      "max_volume": "1250 ml",
+      "draw_cost": 30,
+      "flags": [ "JAVELIN" ]
     },
     "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ]
   },
