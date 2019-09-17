@@ -1305,6 +1305,14 @@ class npc_template
         npc_template() = default;
 
         npc guy;
+        translation name_unique;
+        translation name_suffix;
+        enum class gender {
+            random,
+            male,
+            female
+        };
+        gender gender_override;
 
         static void load( JsonObject &jsobj );
         static void reset();

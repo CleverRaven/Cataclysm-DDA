@@ -5,7 +5,6 @@
     "//": "Appears in the refugee center as a unique trader and potential mission provider.",
     "name_unique": "Makayla Sanchez",
     "name_suffix": "Arsonist",
-    "//": "Gender is only referenced when the npc has a complete unique name",
     "gender": "female",
     "class": "NC_ARSONIST",
     "attitude": 0,

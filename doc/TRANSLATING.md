@@ -264,6 +264,7 @@ new syntax "name" would be a `dict`, which may break unmigrated script.
 | Fault names and descriptions
 | Plant names in item seed data
 | Transform use action messages and menu text
+| Template NPC names and name suffixes
 
 ### Recommendations
 
