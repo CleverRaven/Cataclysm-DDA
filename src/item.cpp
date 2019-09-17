@@ -319,19 +319,13 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
 
 }
 
-item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name,
-                        const bool random_corpse_type )
+item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name )
 {
     if( !mt.is_valid() ) {
         debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
 
-    std::string corpse_type = "corpse";
-
-    if( mt == mtype_id::NULL_ID() ) {
-        corpse_type = random_corpse_type ? item_group::item_from( "corpses" ).typeId() :
-                      "corpse_generic_human";
-    }
+    std::string corpse_type = mt == mtype_id::NULL_ID() ? "corpse_generic_human" : "corpse";
 
     item result( corpse_type, turn );
     result.corpse = &mt.obj();
