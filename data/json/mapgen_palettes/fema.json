@@ -1,0 +1,62 @@
+[
+  {
+    "type": "palette",
+    "id": "FEMA_camp",
+    "terrain": {
+      ".": [ [ "t_grass", 11 ], [ "t_dirt", 6 ] ],
+      "#": "t_pit_corpsed",
+      "-": "t_wall",
+      "|": "t_wall",
+      "+": "t_door_c",
+      "~": "t_floor",
+      "f": "t_chainfence_v",
+      "F": "t_chaingate_c",
+      "g": "t_wall_glass",
+      "w": [ "t_window_domestic", "t_curtains", "t_curtains" ],
+      "6": "t_console_broken",
+      "7": "t_centrifuge"
+    },
+    "furniture": {
+      "=": "f_canvas_wall",
+      ",": "f_fema_groundsheet",
+      "*": "f_canvas_door",
+      "0": "f_standing_tank",
+      "a": "f_armchair",
+      "A": "f_sofa",
+      "b": "f_bookcase",
+      "B": "f_bed",
+      "c": "f_chair",
+      "C": "f_counter",
+      "d": "f_dresser",
+      "D": "f_desk",
+      "l": "f_locker",
+      "L": "f_rack",
+      "n": "f_bench",
+      "N": "f_sandbag_wall",
+      "o": "f_oven",
+      "R": "f_fridge",
+      "r": "f_glass_fridge",
+      "s": "f_sink",
+      "S": "f_shower",
+      "t": "f_trashcan",
+      "T": "f_table",
+      "U": "f_cupboard",
+      "W": "f_woodstove",
+      "x": "f_crate_o",
+      "X": "f_crate_c"
+    },
+    "toilets": { "&": { "amount": [ 0, 50 ] } },
+    "items": {
+      "b": { "item": "homebooks", "chance": 60 },
+      "B": { "item": "bed", "chance": 10, "count-min": 1, "count-max": 2 },
+      "D": { "item": "radio", "chance": 60 },
+      "l": { "item": "guns_milspec", "chance": 30 },
+      "o": { "item": "oven", "chance": 70, "count-min": 1, "count-max": 2 },
+      "R": { "item": "fridge", "chance": 80, "count-min": 1, "count-max": 3 },
+      "s": { "item": "cleaning", "chance": 15 },
+      "S": { "item": "cleaning", "chance": 25 },
+      "t": { "item": "trash_cart", "chance": 60, "count-min": 1, "count-max": 4 },
+      "U": { "item": "kitchen", "chance": 40, "count-min": 1, "count-max": 3 }
+    }
+  }
+]
