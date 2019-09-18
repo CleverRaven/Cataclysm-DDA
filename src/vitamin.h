@@ -9,6 +9,7 @@
 
 #include "calendar.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -26,8 +27,8 @@ class vitamin
             return id_ == vitamin_id( "null" );
         }
 
-        const std::string &name() const {
-            return name_;
+        std::string name() const {
+            return name_.translated();
         }
 
         /** Disease effect with increasing intensity proportional to vitamin deficiency */
@@ -75,7 +76,7 @@ class vitamin
 
     private:
         vitamin_id id_;
-        std::string name_;
+        translation name_;
         efftype_id deficiency_;
         efftype_id excess_;
         int min_;

@@ -269,6 +269,7 @@ new syntax "name" would be a `dict`, which may break unmigrated script.
 | Relic name overrides
 | Speech text
 | Tutorial messages
+| Vitamin names
 
 ### Recommendations
 
