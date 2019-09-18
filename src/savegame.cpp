@@ -1612,7 +1612,7 @@ void game::serialize_master( std::ostream &fout )
 void faction_manager::serialize( JsonOut &jsout ) const
 {
     std::vector<faction> local_facs;
-    for( auto &elem : factions ){
+    for( auto &elem : factions ) {
         local_facs.push_back( elem.second );
     }
     jsout.write( local_facs );
@@ -1620,10 +1620,10 @@ void faction_manager::serialize( JsonOut &jsout ) const
 
 void faction_manager::deserialize( JsonIn &jsin )
 {
-    if( jsin.test_object() ){
+    if( jsin.test_object() ) {
         // whoops - this recovers factions saved under the wrong format.
         jsin.start_object();
-        while( !jsin.end_object() ){
+        while( !jsin.end_object() ) {
             faction add_fac;
             jsin.read( add_fac );
             faction *old_fac = get( add_fac.id );
